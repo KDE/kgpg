@@ -79,11 +79,15 @@ class KgpgInterface : public QObject {
 	 */
 	void KgpgVerifyFile(KURL sigUrl,KURL srcUrl=NULL) ;
 	
+ 	/**Import key function
+ 	 * @param url Kurl the url of the key file. Allows public & secret key import.
+ 	 */
+void importKeyURL(KURL url, bool importSecret=false);
 	/**Import key function
-	 * @param url Kurl the url of the key file. Allows public & secret key import.
-	 */
-	void importKey(KURL url);
-	
+	 * @param keystr QString containing th key. Allows public & secret key import.
+ */
+void importKey(QString keystr, bool importSecret=false);
+		
 	/**Key signature function
 	 * @param keyID QString the ID of the key to be signed
 	 * @param signKeyID QString the ID of the signing key
@@ -165,6 +169,7 @@ class KgpgInterface : public QObject {
 	/**
          * Checks output of the import process
          */
+	void importURLover(KProcess *);
 	void importover(KProcess *);
 /**
          * Read output of the import process

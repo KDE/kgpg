@@ -52,7 +52,7 @@
 #define ID_STATUS_MSG 1
 
 KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0, name)
-{
+{  
   config=kapp->config();
   readOptions();
 commandLineMode=false;
@@ -319,6 +319,15 @@ void KgpgApp::readOptions(bool doresize)
   encryptfileto=config->readBoolEntry("encrypt files to",false);
   filekey=config->readEntry("file key");
 customDecrypt=config->readEntry("custom decrypt");
+
+if (config->readBoolEntry("selection clip",false))
+{
+// support clipboard selection (if possible)
+if (kapp->clipboard()->supportsSelection())
+kapp->clipboard()->setSelectionMode(true);
+}
+else kapp->clipboard()->setSelectionMode(false);
+
   if (doresize)
     {
       QSize size=config->readSizeEntry("Geometry");

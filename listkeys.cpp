@@ -114,7 +114,7 @@ void SmallViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, int
 KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDialogBase( parent, name, true,sigkey,Close)
 {
   QString message,fingervalue;
-  resize(400,100);
+  resize(450,100);
   QWidget *page=new QWidget(this);
   QLabel *labelname = new QLabel(page);
   QLabel *labelmail = new QLabel(page);
@@ -238,8 +238,15 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
 				labeltype->setText(i18n("Algorithm: %1").arg(algo));
         }
       if (opt.startsWith("fpr"))
-        fingervalue=opt.section(':',9,9);
-    }
+{
+fingervalue=opt.section(':',9,9);
+// format fingervalue in 4-digit groups
+uint len = fingervalue.length();
+if ((len > 0) && (len % 4 == 0))
+for (uint n = 0; 4*(n+1) < len; n++)
+fingervalue.insert(5*n+4, ' ');
+} 
+	}
   pclose(pass);
 
 
@@ -513,7 +520,7 @@ QString ask=i18n("Do you want to import file %1 into your key ring ?").arg(url.f
     return;
 
 KgpgInterface *importKeyProcess=new KgpgInterface();
-  importKeyProcess->importKey(url);
+  importKeyProcess->importKeyURL(url);
 connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(refreshkeylist()));
 }
 
@@ -733,6 +740,14 @@ void listKeys::readOptions()
   showPhoto=config->readBoolEntry("show photo",false);
   keysList2->displayMailFirst=config->readBoolEntry("display mail first",true);
   QString defaultkey=config->readEntry("default key");
+  if (config->readBoolEntry("selection clip",false))
+{
+// support clipboard selection (if possible)
+if (kapp->clipboard()->supportsSelection())
+kapp->clipboard()->setSelectionMode(true);
+}
+else kapp->clipboard()->setSelectionMode(false);
+
   if (encrypttodefault)
     keysList2->defKey=defaultkey;
   else
@@ -953,8 +968,10 @@ void listKeys::slotProcessExportMail(KProcess *)
     proc->start(KProcess::DontCare);
 }
 
-void listKeys::slotProcessExportMailClip(KProcess *)
+void listKeys::slotProcessExportClip(KProcess *)
 {
+// if (kapp->clipboard()->supportsSelection())
+//   kapp->clipboard()->setSelectionMode(true);
     kapp->clipboard()->setText(message);
 }
 
@@ -1174,6 +1191,7 @@ delete genkey;
                 proc->writeStdin(QString("Expire-Date:%1y").arg(knumb));
               proc->writeStdin("%commit");
               proc->writeStdin("EOF");
+			   proc->closeWhenDone();
             }
 
       else  ////// start expert (=konsole) mode
@@ -1259,6 +1277,38 @@ void listKeys::deletekey()
 }
 
 
+ void listKeys::slotPreImportKey()
+ {
+  popupImport *dial=new popupImport(i18n("Import key from"),this, "import_key");
+
+  if (dial->exec()==QDialog::Accepted)
+  {
+  bool importSecret = dial->importSecretKeys->isChecked();
+
+    if (dial->checkFile->isChecked())
+    {
+    QString impname=dial->newFilename->text().stripWhiteSpace();
+      if (!impname.isEmpty())
+      {
+	////////////////////////// import from file
+	KgpgInterface *importKeyProcess=new KgpgInterface();
+	importKeyProcess->importKeyURL(impname, importSecret);
+	connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(refreshkey()));
+      }
+    }
+    else
+    {
+    QString keystr = kapp->clipboard()->text();
+      if (!keystr.isEmpty())
+      {
+    KgpgInterface *importKeyProcess=new KgpgInterface();
+        importKeyProcess->importKey(keystr, importSecret);
+    connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(refreshkey()));
+      }
+    }
+  }
+ }
+/*
 void listKeys::slotPreImportKey()
 {
     KURL url=KFileDialog::getOpenURL(QString::null,i18n("*.asc|*.asc files"), this,i18n("Select key file to import"));
@@ -1269,7 +1319,7 @@ void listKeys::slotPreImportKey()
     importKeyProcess->importKey(url);
     connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(refreshkey()));
 }
-
+*/
 void listKeys::refreshkey()
 {
     keysList2->refreshkeylist();

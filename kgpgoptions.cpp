@@ -49,10 +49,13 @@ config=kapp->config();
   QString defaultkey=config->readEntry("default key");
   bool encryptfileto=config->readBoolEntry("encrypt files to",false);
   bool displaymailfirst=config->readBoolEntry("display mail first",true);
+  bool clipselection=config->readBoolEntry("selection clip",false);
   QString filekey=config->readEntry("file key");
   bool allowcustom=config->readBoolEntry("allow custom option",false);
   kLEcustom->setText(config->readEntry("custom option"));
-
+  kLEcustomdec->setText(config->readEntry("custom decrypt"));
+  
+  
 config->setGroup("Service Menus");
 QString smenu;
 smenu=config->readEntry("Decrypt");
@@ -68,6 +71,7 @@ if (encrypttodefault) defaut_2_2->setChecked(true);
 if (encryptfileto) file_2_2->setChecked(true);
 if (allowcustom) custom_2_2->setChecked(true);
 if (displaymailfirst) cbMailFirst->setChecked(true);
+if (clipselection) cbClipSelection->setChecked(true);
 
 listkey();
 if (filekey!=NULL)
@@ -176,8 +180,10 @@ void kgpgOptions::slotOk()
   config->writeEntry("encrypt files to",file_2_2->isChecked());
   config->writeEntry("file key",filekey_2_2->currentText());
   config->writeEntry("display mail first",cbMailFirst->isChecked());
+  config->writeEntry("selection clip",cbClipSelection->isChecked());
   config->writeEntry("custom option",kLEcustom->text());
   config->writeEntry("allow custom option",custom_2_2->isChecked());
+  config->writeEntry("custom decrypt",kLEcustomdec->text());
   
   config->setGroup("Service Menus");
   config->writeEntry("Decrypt",kCBdecrypt->currentText());

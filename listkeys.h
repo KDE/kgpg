@@ -54,7 +54,7 @@
 
 #include "kgpg.h"
 #include "keygener.h"
-
+#include "popupimport.h"
 //#include "popupname.h"
 
 typedef struct gpgKey{
@@ -160,7 +160,7 @@ private slots:
 void keyserver();
 void slotReadProcess(KProcIO *p);
 void slotProcessExportMail(KProcess *);
-void slotProcessExportMailClip(KProcess *);
+void slotProcessExportClip(KProcess *);
 void displayPhoto();
 void hidePhoto();
 void slotProcessPhoto(KProcess *);

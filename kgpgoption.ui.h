@@ -6,7 +6,6 @@
 ** a constructor, and a destroy() slot in place of a destructor.
 *****************************************************************************/
 #include <kcombobox.h>
-#include <kurlrequester.h>
 
 void KOptions::file_2_2_toggled( bool ison)
 {

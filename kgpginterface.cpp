@@ -993,8 +993,7 @@ int KgpgInterface::checkuid(QString KeyID)
 
 //////////////////////////////////////////////////////////////    key import
 
-
-void KgpgInterface::importKey(KURL url)
+void KgpgInterface::importKeyURL(KURL url, bool importSecret)
 {
   /////////////      import a key
 
@@ -1002,15 +1001,39 @@ void KgpgInterface::importKey(KURL url)
     {
       message=QString::null;
       KProcIO *conprocess=new KProcIO();
-      *conprocess<< "gpg";
-      *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--allow-secret-key-import"<<"--import"<<tempKeyFile;
-      QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(importover(KProcess *)));
-      QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(importprocess(KProcIO *)));
+      *conprocess<< "gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--import";
+      if (importSecret)
+        *conprocess<<"--allow-secret-key-import";
+      *conprocess<<tempKeyFile;
+      QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(importURLover(KProcess *)));
+	  QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(importprocess(KProcIO *)));
       conprocess->start(KProcess::NotifyOnExit,true);
     }
 }
 
+void KgpgInterface::importKey(QString keystr, bool importSecret)
+{
+  /////////////      import a key
+
+      message=QString::null;
+      KProcIO *conprocess=new KProcIO();
+      *conprocess<< "gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--import";
+      if (importSecret)
+        *conprocess<<"--allow-secret-key-import";
+      QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(importover(KProcess *)));
+      QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(importprocess(KProcIO *)));
+      conprocess->start(KProcess::NotifyOnExit,true);
+      conprocess->writeStdin(keystr, true);
+      conprocess->closeWhenDone();
+}
+
 void KgpgInterface::importover(KProcess *)
+{
+    KMessageBox::information(0,message);
+    emit importfinished();
+}
+
+void KgpgInterface::importURLover(KProcess *)
 {
   KIO::NetAccess::removeTempFile(tempKeyFile);
   KMessageBox::information(0,message);
