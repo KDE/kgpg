@@ -7,15 +7,6 @@
     <Action name="file_decrypt"/>
   </Menu>
 
-  <Menu name="edit" noMerge="1"><text>&amp;Edit</text>
-    <Action name="edit_undo" />
-    <Action name="edit_redo" />
-    <Separator />
-    <Action name="edit_cut" />
-    <Action name="edit_copy" />
-    <Action name="edit_paste" />
-      </Menu>
-
   <Menu name="signature"><text>Si&amp;gnature</text>
     <Action name="sign_generate"/>
     <Action name="sign_verify"/>

@@ -85,6 +85,7 @@ void KgpgApp::initActions()
         KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
         KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
         KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
+	KStdAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
         //KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
 
         fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
@@ -302,6 +303,10 @@ void KgpgApp::slotEditPaste()
         view->editor->paste();
 }
 
+void KgpgApp::slotSelectAll()
+{
+        view->editor->selectAll();
+}
 
 /*void KgpgApp::slotOptions()
 {

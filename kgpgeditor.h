@@ -97,7 +97,8 @@ private slots:
         void slotEditCut();
         void slotEditCopy();
         void slotEditPaste();
-        void slotCheckMd5();
+        void slotSelectAll();
+	void slotCheckMd5();
 
         void slotPreSignFile();
         void slotSignFile(KURL url);
