@@ -227,3 +227,4 @@ qfile.close();
 
 
 
+#include "kgpglibrary.moc"
