@@ -18,6 +18,7 @@
 #define KGPGOPTIONS_H
 
 #include <kconfigdialog.h>
+
 #define GoodColor 0
 #define BadColor 1
 #define UnknownColor 2
@@ -30,10 +31,10 @@ class UIConf;
 class GPGConf;
 class ServerConf;
 class ColorsConf;
+class MiscConf;
 class KFontChooser;
 class KConfig;
 class KSimpleConfig;
-
 
 class kgpgOptions : public KConfigDialog
 {
@@ -47,6 +48,7 @@ public:
         UIConf *page3;
         GPGConf *page4;
 	ServerConf *page6;
+	MiscConf *page7;
 	KFontChooser *kfc;
         
 private:
@@ -94,6 +96,7 @@ signals:
 	void changeFont(QFont);
 	void homeChanged();
 	void refreshTrust(int, QColor);
+	void installShredder();
 };
 
 #endif // KGPGOPTIONS_H

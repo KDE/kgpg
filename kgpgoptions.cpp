@@ -53,6 +53,7 @@
 #include <kcolorbutton.h>
 #include <stdlib.h>
 #include <kdebug.h>
+#include <kactivelabel.h>
 
 #include "kgpgoptions.h"
 #include "kgpgsettings.h"
@@ -62,6 +63,7 @@
 #include "conf_gpg.h"
 #include "conf_servers.h"
 #include "conf_ui2.h"
+#include "conf_misc.h"
 
 class QTabWidget;
 
@@ -83,13 +85,10 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 	if (!keyServer.isEmpty()) serverList.prepend(keyServer+" "+i18n("(Default)"));
 	
 	defaultHomePath=QDir::homeDirPath()+"/.gnupg/";
-	//defaultConfigPath=defaultHomePath+"options";
-        if (QFile(defaultHomePath+"options").exists()) 
-	defaultConfigPath="options";
+        if (QFile(defaultHomePath+"gpg.conf").exists()) defaultConfigPath="gpg.conf";
 	else
 	{
-                //defaultConfigPath=QDir::homeDirPath()+"/.gnupg/gpg.conf";
-                if (QFile(defaultHomePath+"gpg.conf").exists()) defaultConfigPath="gpg.conf";
+                if (QFile(defaultHomePath+"options").exists()) defaultConfigPath="options";
 		else defaultConfigPath=QString::null;
 		}
 	
@@ -99,19 +98,21 @@ kdDebug(2100)<<"Adding pages"<<endl;
         page3=new UIConf();
         page4=new GPGConf();
 	page6=new ServerConf();
-	QBoxLayout *fontLayout=new QBoxLayout(page3->tabWidget3->page(2),QBoxLayout::TopToBottom,10);
-	kfc=new KFontChooser(page3->tabWidget3->page(2),0L,false,QStringList(),false);
+	page7=new MiscConf();
+	QBoxLayout *fontLayout=new QBoxLayout(page3->tabWidget3->page(1),QBoxLayout::TopToBottom,10);
+	kfc=new KFontChooser(page3->tabWidget3->page(1),0L,false,QStringList(),false);
 	fontLayout->addWidget(kfc);
 	kfc->setFont(startFont);
-	
-	
+	page7->shredInfo->setText(i18n( "<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>"));
+	page7->groupShred->adjustSize();
 	pixkeySingle=KGlobal::iconLoader()->loadIcon("kgpg_key1",KIcon::Small,20);
 	pixkeyDouble=KGlobal::iconLoader()->loadIcon("kgpg_key2",KIcon::Small,20);
         addPage(page1, i18n("Encryption"), "encrypted");
         addPage(page2, i18n("Decryption"), "decrypted");
-        addPage(page3, i18n("User Interface"), "misc");
+        addPage(page3, i18n("Appearance"), "looknfeel");
         addPage(page4, i18n("GnuPG Settings"), "kgpg");
 	addPage(page6, i18n("Key Servers"), "network");
+	addPage(page7, i18n("Misc"), "misc");
 	
 	
 
@@ -127,8 +128,9 @@ kdDebug(2100)<<"Adding pages"<<endl;
 	connect(page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
 	connect(page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
 	connect(page6->ServerBox, SIGNAL(currentChanged ( QListBoxItem *)), this, SLOT(updateButtons()));
+	connect(page7->pushShredder, SIGNAL(clicked ()), this, SIGNAL(installShredder()));
 	connect(kfc, SIGNAL(fontSelected(const QFont &)), this, SLOT(updateButtons()));
-	
+
 	keyGood=KGpgSettings::colorGood();
 	keyUnknown=KGpgSettings::colorUnknown();
 	keyRev=KGpgSettings::colorRev();
@@ -343,13 +345,13 @@ void kgpgOptions::updateSettings()
 
         ///////////////  install service menus
 
-        if (page3->kcfg_SignMenu->currentItem()==KGpgSettings::EnumSignMenu::AllFiles)
+        if (page7->kcfg_SignMenu->currentItem()==KGpgSettings::EnumSignMenu::AllFiles)
                 slotInstallSign("all/allfiles");
         else
                 slotRemoveMenu("signfile.desktop");
-        if (page3->kcfg_DecryptMenu->currentItem()==KGpgSettings::EnumDecryptMenu::AllFiles)
+        if (page7->kcfg_DecryptMenu->currentItem()==KGpgSettings::EnumDecryptMenu::AllFiles)
                 slotInstallDecrypt("all/allfiles");
-        else if (page3->kcfg_DecryptMenu->currentItem()==KGpgSettings::EnumDecryptMenu::EncryptedFiles)
+        else if (page7->kcfg_DecryptMenu->currentItem()==KGpgSettings::EnumDecryptMenu::EncryptedFiles)
                 slotInstallDecrypt("application/pgp-encrypted,application/pgp-signature,application/pgp-keys");
         else
                 slotRemoveMenu("decryptfile.desktop");
@@ -553,3 +555,4 @@ page6->ServerBox->setSelected(curr,true);
 }
 
 #include "kgpgoptions.moc"
+
