@@ -122,6 +122,7 @@ protected slots:
 
 signals:
         void readAgain2();
+	void createNewKey();
 	void updateDefault(QString);
 };
 
@@ -168,6 +169,7 @@ private:
 
 private slots:
         void slotHandleQuit();
+	void wizardOver(QString defaultKeyId);
 };
 
 

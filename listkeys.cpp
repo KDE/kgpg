@@ -641,6 +641,8 @@ void listKeys::findFirstKey()
                 return;
         bool foundItem=true;
         QListViewItem *item=keysList2->firstChild();
+        if (!item)
+                return;
         QString searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
         //kdDebug()<<"String:"<<searchText<<"\n";
         //kdDebug()<<"Search:"<<searchString<<"\n";
@@ -677,6 +679,8 @@ void listKeys::findNextKey()
                 return;
         bool foundItem=true;
         QListViewItem *item=keysList2->currentItem();
+        if (!item)
+                return;
         while(item->depth() > 0)
                 item = item->parent();
         item=item->nextSibling();
@@ -958,18 +962,18 @@ void listKeys::readAllOptions()
 
 void listKeys::slotSetDefKey()
 {
-slotSetDefaultKey(keysList2->currentItem());
+        slotSetDefaultKey(keysList2->currentItem());
 }
 
 void listKeys::slotSetDefaultKey(QString newID)
 {
-	QListViewItem *newdef = keysList2->firstChild();
-                while (newdef->text(6)!=newID)
-                        if (newdef->nextSibling())
-                                newdef = newdef->nextSibling();
-                        else
-                                break;
-slotSetDefaultKey(newdef);
+        QListViewItem *newdef = keysList2->firstChild();
+        while (newdef->text(6)!=newID)
+                if (newdef->nextSibling())
+                        newdef = newdef->nextSibling();
+                else
+                        break;
+        slotSetDefaultKey(newdef);
 }
 
 void listKeys::slotSetDefaultKey(QListViewItem *newdef)
@@ -980,31 +984,31 @@ void listKeys::slotSetDefaultKey(QListViewItem *newdef)
                 return;
         }
 
-	QListViewItem *olddef = keysList2->firstChild();
-                while (olddef->text(6)!=keysList2->defKey)
-                        if (olddef->nextSibling())
-                                olddef = olddef->nextSibling();
-                        else
-                                break;
-                keysList2->defKey=newdef->text(6);
+        QListViewItem *olddef = keysList2->firstChild();
+        while (olddef->text(6)!=keysList2->defKey)
+                if (olddef->nextSibling())
+                        olddef = olddef->nextSibling();
+                else
+                        break;
+        keysList2->defKey=newdef->text(6);
 
-                config->setGroup("Encryption");
-                config->writeEntry("default key",newdef->text(6).right(8));
-		config->setGroup("GPG Settings");
-		KgpgInterface::setGpgSetting("default-key",newdef->text(6).right(8),config->readPathEntry("gpg_config_path"));
-                keysList2->refreshcurrentkey(olddef);
-		keysList2->refreshcurrentkey(newdef);
+        config->setGroup("Encryption");
+        config->writeEntry("default key",newdef->text(6).right(8));
+        config->setGroup("GPG Settings");
+        KgpgInterface::setGpgSetting("default-key",newdef->text(6).right(8),config->readPathEntry("gpg_config_path"));
+        keysList2->refreshcurrentkey(olddef);
+        keysList2->refreshcurrentkey(newdef);
 
-		QListViewItem *updef = keysList2->firstChild();
-                while (updef->text(6)!=newdef->text(6))
-                        if (updef->nextSibling())
-                                updef = updef->nextSibling();
-                        else
-                                break;
-		keysList2->clearSelection();
-		keysList2->setCurrentItem(updef);
-		keysList2->setSelected(updef,true);
-		keysList2->ensureItemVisible(updef);
+        QListViewItem *updef = keysList2->firstChild();
+        while (updef->text(6)!=newdef->text(6))
+                if (updef->nextSibling())
+                        updef = updef->nextSibling();
+                else
+                        break;
+        keysList2->clearSelection();
+        keysList2->setCurrentItem(updef);
+        keysList2->setSelected(updef,true);
+        keysList2->ensureItemVisible(updef);
 }
 
 
@@ -1229,19 +1233,19 @@ void listKeys::showKeyInfo(QString keyID)
         KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",keyID);
         opts->show();
         //delete opts;
-/*
-        QListViewItem *current = keysList2->firstChild();
-        if (current==NULL)
-                return;
-        while ( keyID.find(current->text(6).right(8),0,false)==-1) {
-                if (!current->nextSibling())
-                        break;
-                else
-                        current = current->nextSibling();
-        }
-        keysList2->setCurrentItem(current);
-        keysList2->refreshcurrentkey(keysList2->currentItem());
-*/
+        /*
+                QListViewItem *current = keysList2->firstChild();
+                if (current==NULL)
+                        return;
+                while ( keyID.find(current->text(6).right(8),0,false)==-1) {
+                        if (!current->nextSibling())
+                                break;
+                        else
+                                current = current->nextSibling();
+                }
+                keysList2->setCurrentItem(current);
+                keysList2->refreshcurrentkey(keysList2->currentItem());
+        */
 }
 
 
@@ -1835,13 +1839,13 @@ void listKeys::slotReadFingerProcess(KProcIO *p)
 
 void listKeys::newKeyDone(KProcess *)
 {
-//        refreshkey();
+        //        refreshkey();
         if (newkeyID.isEmpty()) {
                 KMessageBox::detailedSorry(this,i18n("Something unexpected happened during the key pair creation.\nPlease check details for full log output."),message);
-		refreshkey();
+                refreshkey();
                 return;
         }
-	keysList2->refreshcurrentkey(newkeyID);
+        keysList2->refreshcurrentkey(newkeyID);
         KDialogBase *keyCreated=new KDialogBase( this, "key_created", true,i18n("New Key Pair Created"), KDialogBase::Ok);
         newKey *page=new newKey(keyCreated);
         page->TLname->setText("<b>"+newKeyName+"</b>");
@@ -1855,19 +1859,20 @@ void listKeys::newKeyDone(KProcess *)
         delete pop;
         keyCreated->exec();
 
-	QListViewItem *newdef = keysList2->firstChild();
-                while (newdef->text(6)!="0x"+newkeyID)
-                        if (newdef->nextSibling())
-                                newdef = newdef->nextSibling();
-                        else
-                                break;
-	if (page->CBdefault->isChecked()) slotSetDefaultKey(newdef);
-	else {
-		keysList2->clearSelection();
-		keysList2->setCurrentItem(newdef);
-		keysList2->setSelected(newdef,true);
-		keysList2->ensureItemVisible(newdef);
-		}
+        QListViewItem *newdef = keysList2->firstChild();
+        while (newdef->text(6)!="0x"+newkeyID)
+                if (newdef->nextSibling())
+                        newdef = newdef->nextSibling();
+                else
+                        break;
+        if (page->CBdefault->isChecked())
+                slotSetDefaultKey(newdef);
+        else {
+                keysList2->clearSelection();
+                keysList2->setCurrentItem(newdef);
+                keysList2->setSelected(newdef,true);
+                keysList2->ensureItemVisible(newdef);
+        }
         if (page->CBsave->isChecked()) {
                 slotrevoke(newkeyID,page->kURLRequester1->url(),0,i18n("backup copy"));
                 if (page->CBprint->isChecked())
@@ -1979,7 +1984,8 @@ void listKeys::deletekey()
         for ( uint i = 0; i < exportList.count(); ++i )
                 if ( exportList.at(i) )
                         keysList2->refreshcurrentkey(exportList.at(i));
-        keysList2->currentItem()->setSelected(true);
+        if (keysList2->currentItem())
+                keysList2->currentItem()->setSelected(true);
 }
 
 
@@ -2288,12 +2294,12 @@ void KeyView::refreshgroups()
 
 void KeyView::refreshcurrentkey(QString currentID)
 {
-UpdateViewItem *item=NULL;
+        UpdateViewItem *item=NULL;
         QString issec="";
         FILE *fp,*fp2;
-	char line[300];
+        char line[300];
 
-fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp2)) {
                 QString lineRead=line;
                 if (lineRead.startsWith("sec"))
@@ -2338,7 +2344,7 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
                 return;
         QString keyUpdate=current->text(6);
         takeItem(current);
-	refreshcurrentkey(keyUpdate);
+        refreshcurrentkey(keyUpdate);
 }
 
 

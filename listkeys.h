@@ -194,6 +194,7 @@ public slots:
 	void findKey();
 	void findFirstKey();
 	void findNextKey();
+	void slotSetDefaultKey(QString newID);
 
 private slots:
 	void readgenprocess(KProcIO *p);
@@ -221,7 +222,6 @@ private slots:
         void genover(KProcess *p);
         void slotOptions();
         void slotSetDefKey();
-	void slotSetDefaultKey(QString newID);
 	void slotSetDefaultKey(QListViewItem *newdef);
         void annule();
         void confirmdeletekey();

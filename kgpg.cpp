@@ -456,7 +456,7 @@ void  MyView::dropEvent (QDropEvent *o)
 
 void  MyView::readOptions()
 {
-QString path;
+        QString path;
         //kdDebug()<<"Reading options\n";
         ksConfig->setGroup("Encryption");
         encryptfileto=ksConfig->readBoolEntry("encrypt_files_to",false);
@@ -480,16 +480,15 @@ QString path;
                 firstRun();
         else {
                 ksConfig->setGroup("GPG Settings");
-		path=ksConfig->readPathEntry("gpg_config_path");
+                path=ksConfig->readPathEntry("gpg_config_path");
                 if (path.isEmpty()) {
                         if (KMessageBox::questionYesNo(0,"<qt>You did not set a path to your GnuPG config file.<br>This may bring some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem ?</qt>")==KMessageBox::Yes)
                                 startWizard();
+                } else {
+                        QStringList groups=KgpgInterface::getGpgGroupNames(path);
+                        if (!groups.isEmpty())
+                                ksConfig->writeEntry("Groups",groups.join(","));
                 }
-		else
-		{
-		QStringList groups=KgpgInterface::getGpgGroupNames(path);
-		if (!groups.isEmpty()) ksConfig->writeEntry("Groups",groups.join(","));
-		}
         }
 
         ksConfig->setGroup("TipOfDay");
@@ -499,24 +498,10 @@ QString path;
 
 void  MyView::firstRun()
 {
-        FILE *fp;
-        QString tst;
-        char line[200];
-        bool found=false;
+        KProcIO *p=new KProcIO();
+        *p<<"gpg"<<"--no-tty"<<"--list-keys";
+        p->start(KProcess::Block);  ////  start gnupg so that it will create a config file
 
-        //kgpgOptions *opts=new kgpgOptions(this,0);
-        //opts->checkMimes();
-        //delete opts;
-
-        fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
-        while ( fgets( line, sizeof(line), fp)) {
-                tst=line;
-                if (tst.startsWith("sec")) {
-                        found=true;
-                        break;
-                }
-        }
-        pclose(fp);
         startWizard();
 }
 
@@ -530,18 +515,29 @@ void  MyView::startWizard()
         if (!QFile(confPath).exists()) {
                 confPath=QDir::homeDirPath()+"/.gnupg/gpg.conf";
                 if (!QFile(confPath).exists()) {
-                        wiz->text_optionsfound->setText(i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed and give the path to the file.</qt>"));
-                        confPath="";
+                        if (KMessageBox::questionYesNo(this,i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"))==KMessageBox::Yes) {
+                                confPath=QDir::homeDirPath()+"/.gnupg/options";
+                                QFile file(confPath);
+                                if ( file.open( IO_WriteOnly ) ) {
+                                        QTextStream stream( &file );
+                                        stream <<"# GnuPG config file created by KGpg"<< "\n";
+                                        file.close();
+                                }
+                        } else {
+                                wiz->text_optionsfound->setText(i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed and give the path to the config file.</qt>"));
+                                confPath="";
+                        }
                 }
         }
         wiz->kURLRequester1->setURL(confPath);
         wiz->kURLRequester2->setURL(QString(QDir::homeDirPath()+"/Desktop"));
         wiz->kURLRequester2->setMode(2);
 
-	FILE *fp,*fp2;
+        FILE *fp,*fp2;
         QString tst,tst2,name,trustedvals="idre-";
-	QString firstKey="";
+        QString firstKey="";
         char line[300];
+        int counter=0;
 
         fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
@@ -549,24 +545,30 @@ void  MyView::startWizard()
                 if (tst.find("sec",0,FALSE)!=-1) {
                         name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
                         if ((!name.isEmpty()) && (trustedvals.find(tst.section(':',1,1))==-1)) {
-			fp2 = popen("gpg --no-tty --with-colon --list-keys "+tst.section(':',4,4).right(8), "r");
-			while ( fgets( line, sizeof(line), fp2)) {
-                	tst2=line;
-                	if (tst2.startsWith("pub") && (trustedvals.find(tst2.section(':',1,1))==-1))
-			{
-			        wiz->CBdefault->insertItem(tst.section(':',4,4).right(8)+": "+name);
-				if (firstKey.isEmpty()) firstKey=tst.section(':',4,4).right(8)+": "+name;
-				}
-			}
-			pclose(fp2);
+                                fp2 = popen("gpg --no-tty --with-colon --list-keys "+tst.section(':',4,4).right(8), "r");
+                                while ( fgets( line, sizeof(line), fp2)) {
+                                        tst2=line;
+                                        if (tst2.startsWith("pub") && (trustedvals.find(tst2.section(':',1,1))==-1)) {
+                                                counter++;
+                                                wiz->CBdefault->insertItem(tst.section(':',4,4).right(8)+": "+name);
+                                                if (firstKey.isEmpty())
+                                                        firstKey=tst.section(':',4,4).right(8)+": "+name;
+                                        }
+                                }
+                                pclose(fp2);
                         }
                 }
         }
         pclose(fp);
-	wiz->CBdefault->setCurrentItem(firstKey);
-        connect(wiz->pushButton4,SIGNAL(clicked()),this,SLOT(slotGenKey()));
-        connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotSaveOptionsPath()));
-	connect(wiz->nextButton(),SIGNAL(clicked()),this,SLOT(slotWizardChange()));
+        wiz->CBdefault->setCurrentItem(firstKey);
+        //connect(wiz->pushButton4,SIGNAL(clicked()),this,SLOT(slotGenKey()));
+        if (counter==0)
+                connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotGenKey()));
+        else {
+                wiz->textGenerate->hide();
+                connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotSaveOptionsPath()));
+        }
+        connect(wiz->nextButton(),SIGNAL(clicked()),this,SLOT(slotWizardChange()));
         connect( wiz , SIGNAL( destroyed() ) , this, SLOT( slotWizardClose()));
 
         wiz->setFinishEnabled(wiz->page_4,true);
@@ -575,24 +577,24 @@ void  MyView::startWizard()
 
 void  MyView::slotWizardChange()
 {
-QString tst,name;
-char line[300];
-FILE *fp;
+        QString tst,name;
+        char line[300];
+        FILE *fp;
 
-if (wiz->indexOf(wiz->currentPage())==2)
-{
-QString defaultID=KgpgInterface::getGpgSetting("default-key",wiz->kURLRequester1->url());
-if (defaultID.isEmpty()) return;
-	fp = popen("gpg --no-tty --with-colon --list-secret-keys "+defaultID, "r");
-        while ( fgets( line, sizeof(line), fp)) {
-                tst=line;
-                if (tst.find("sec",0,FALSE)!=-1) {
-                        name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
-			wiz->CBdefault->setCurrentItem(tst.section(':',4,4).right(8)+": "+name);
-			}
+        if (wiz->indexOf(wiz->currentPage())==2) {
+                QString defaultID=KgpgInterface::getGpgSetting("default-key",wiz->kURLRequester1->url());
+                if (defaultID.isEmpty())
+                        return;
+                fp = popen("gpg --no-tty --with-colon --list-secret-keys "+defaultID, "r");
+                while ( fgets( line, sizeof(line), fp)) {
+                        tst=line;
+                        if (tst.find("sec",0,FALSE)!=-1) {
+                                name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
+                                wiz->CBdefault->setCurrentItem(tst.section(':',4,4).right(8)+": "+name);
+                        }
+                }
+                pclose(fp);
         }
-        pclose(fp);
-}
 }
 
 
@@ -628,16 +630,17 @@ void  MyView::slotSaveOptionsPath()
         ksConfig->setGroup("General Options");
         ksConfig->writeEntry("First run",false);
 
-                ksConfig->setGroup("Encryption");
-		QString defaultID=wiz->CBdefault->currentText().section(':',0,0);
+        ksConfig->setGroup("Encryption");
+        QString defaultID=wiz->CBdefault->currentText().section(':',0,0);
+        if (!defaultID.isEmpty()) {
                 ksConfig->writeEntry("default key",defaultID);
-		KgpgInterface::setGpgSetting("default-key",defaultID,wiz->kURLRequester1->url());
-
-		//m_keyServer->keysList2->defKey="0x"+defaultID;
-		//m_keyServer->keysList2->refreshcurrentkey(defaultID);
+                KgpgInterface::setGpgSetting("default-key",defaultID,wiz->kURLRequester1->url());
+        }
+        //m_keyServer->keysList2->defKey="0x"+defaultID;
+        //m_keyServer->keysList2->refreshcurrentkey(defaultID);
 
         ksConfig->sync();
-	emit updateDefault("0x"+defaultID);
+        emit updateDefault("0x"+defaultID);
         if (wiz)
                 delete wiz;
 }
@@ -649,9 +652,8 @@ void  MyView::slotWizardClose()
 
 void  MyView::slotGenKey()
 {
-        listKeys *creat=new listKeys(0);
-        creat->slotgenkey();
-        delete creat;
+        slotSaveOptionsPath();
+        emit createNewKey();
 }
 
 void  MyView::about()
@@ -772,6 +774,13 @@ void KgpgAppletApp::slotHandleQuit()
         quit();
 }
 
+void KgpgAppletApp::wizardOver(QString defaultKeyId)
+{
+        if (defaultKeyId.length()==10)
+                s_keyManager->slotSetDefaultKey(defaultKeyId);
+        s_keyManager->show();
+        s_keyManager->raise();
+}
 
 int KgpgAppletApp::newInstance()
 {
@@ -781,7 +790,7 @@ int KgpgAppletApp::newInstance()
                 kdDebug()<<"Already running\n";
                 kgpg_applet->show();
         } else {
-		kdDebug() << "Starting KGpg\n";
+                kdDebug() << "Starting KGpg\n";
                 running=true;
                 s_keyManager=new listKeys(0, "key_manager");
                 s_keyManager->refreshkey();
@@ -789,7 +798,8 @@ int KgpgAppletApp::newInstance()
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
                 connect(kgpg_applet,SIGNAL(readAgain4()),s_keyManager,SLOT(readOptions()));
                 connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
-		connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),s_keyManager,SLOT(slotSetDefaultKey(QString)));
+                connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));
+                connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotgenkey()));
                 kgpg_applet->show();
                 kgpg_applet->w->ksConfig->setGroup("GPG Settings");
                 QString gpgPath=kgpg_applet->w->ksConfig->readPathEntry("gpg_config_path");
