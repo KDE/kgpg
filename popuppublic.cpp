@@ -82,10 +82,7 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 	setButtonText(KDialogBase::Details,i18n("Options"));
 
         config=kapp->config();
-        config->setGroup("Encryption");
-        bool isascii=config->readBoolEntry("Ascii_armor",true);
-        bool istrust=config->readBoolEntry("Allow_untrusted_keys",false);
-        bool hideid=config->readBoolEntry("Hide_user_id",false);
+
         //pgpcomp=config->readBoolEntry("PGP compatibility",false);
         defaultKey=config->readEntry("default key");
         allowcustom=config->readBoolEntry("allow_custom_option",false);
@@ -151,13 +148,13 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
                 QObject::connect(CBsymmetric,SIGNAL(toggled(bool)),this,SLOT(isSymetric(bool)));
         }
 
-        if (isascii)
-                CBarmor->setChecked(true);
-        if (istrust)
-                CBuntrusted->setChecked(true);
-        if (hideid)
-                CBhideid->setChecked(true);
-
+        config->setGroup("Encryption");
+	
+	CBarmor->setChecked(config->readBoolEntry("Ascii_armor",true));
+	CBuntrusted->setChecked(config->readBoolEntry("Allow_untrusted_keys",false));
+	CBhideid->setChecked(config->readBoolEntry("Hide_user_id",false));
+	if (filemode) CBshred->setChecked(config->readBoolEntry("shred_source",false));
+        
         if (allowcustom) {
                 QHButtonGroup *bGroup = new QHButtonGroup(page);
                 //bGroup->setFrameStyle(QFrame::NoFrame);
@@ -182,7 +179,7 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
                 seclist+=line;
         pclose(fp2);
 
-        trusted=istrust;
+        trusted=CBuntrusted->isChecked();
         refreshkeys();
 	setMinimumSize(550,200);
 	updateGeometry();
@@ -260,7 +257,7 @@ void popupPublic::customOpts(const QString &str)
 
 void popupPublic::refresh(bool state)
 {
-        if (state==true)
+        if (state)
                 enable();
         else
                 sort();
@@ -289,26 +286,23 @@ QStringList groups=QStringList::split(",",keyGroups);
 
 void popupPublic::slotpreselect()
 {
-        if (!trusted)
-              sort();
-        if (encryptToDefault) {
-		QListViewItem *it=keysList->findItem("0x"+defaultKey,2);
-                keysList->setSelected(it,true);
-                keysList->setCurrentItem(it);
-		keysList->ensureItemVisible(it);
-        } else {
-                QListViewItem *firstvisible;
-                firstvisible=keysList->firstChild();
-                if (firstvisible==NULL)
+QListViewItem *it;
+        if (fmode) it=keysList->findItem("0x"+defaultKey,2);        
+        else {
+                it=keysList->firstChild();
+                if (it==NULL)
                         return;
-                while (!firstvisible->isVisible()) {
-                        firstvisible=firstvisible->nextSibling();
-                        if (firstvisible==NULL)
+                while (!it->isVisible()) {
+                        it=it->nextSibling();
+                        if (it==NULL)
                                 return;
                 }
-                keysList->setSelected(firstvisible,true);
-                keysList->setCurrentItem(firstvisible);
         }
+	keysList->setSelected(it,true);
+	keysList->setCurrentItem(it);
+	keysList->ensureItemVisible(it);
+        if (!trusted)
+              sort();
 }
 
 
@@ -400,7 +394,8 @@ void popupPublic::crypte()
 
         for ( uint i = 0; i < list.count(); ++i )
                 if ( list.at(i) ) {
-			selectedKeys<<list.at(i)->text(2);
+			if (!list.at(i)->text(2).isEmpty()) selectedKeys<<list.at(i)->text(2);
+			else selectedKeys<<list.at(i)->text(0);
                 }
         if (selectedKeys.isEmpty())
                 return;

@@ -28,6 +28,7 @@
 #include <qdragobject.h>
 #include <qlabel.h>
 #include <qwidgetlist.h>
+#include <qhbuttongroup.h>
 
 #include <kurl.h>
 #include <kpopupmenu.h>
@@ -75,6 +76,7 @@ private:
         class keyServer *m_keyServer;
         KPassivePopup *pop;
         KTempFile *kgpgFolderExtract;
+	int compressionScheme;
 
 public slots:
         void  encryptDroppedFile();

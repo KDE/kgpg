@@ -42,6 +42,7 @@
 #include <kurldrag.h>
 #include <kdebug.h>
 #include <ktar.h>
+#include <kzip.h>
 
 #include "kgpg.h"
 
@@ -151,11 +152,19 @@ void MyView::encryptDroppedFolder()
                 return;
 
         popupPublic *dialogue=new popupPublic(0,"Public keys",droppedUrls.first().filename(),true);
+	
+	QHButtonGroup *bGroup = new QHButtonGroup(dialogue->plainPage());
+                (void) new QLabel(i18n("Compression method for archive:"),bGroup);
+                KComboBox *optionbx=new KComboBox(bGroup);
+		optionbx->insertItem(i18n("Zip"));
+		optionbx->insertItem(i18n("Tar.gz"));
+	bGroup->show();
         connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startFolderEncode(QStringList,QStringList,bool,bool)));
         dialogue->CBshred->setEnabled(false);
         if (!dialogue->exec()==QDialog::Accepted)
                 return;
-        delete dialogue;
+        compressionScheme=optionbx->currentItem();
+	delete dialogue;
 }
 
 void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool ,bool symetric)
@@ -168,22 +177,33 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
         int iYpos=qRect.height()/2-pop->height()/2;
         pop->move(iXpos,iYpos);
         QString extension;
-        KTar arch(kgpgfoldertmp->name(), "application/x-gzip");
-        if (!arch.open( IO_WriteOnly )) {
+	KArchive *arch;
+	if (compressionScheme==0) 
+	{
+	arch=new KZip(kgpgfoldertmp->name());
+	extension=".zip";
+	}
+	else
+	{
+	arch=new KTar(kgpgfoldertmp->name(), "application/x-gzip");
+	extension=".tar.gz";
+	}
+	
+		if (!arch->open( IO_WriteOnly )) {
                 KMessageBox::sorry(0,i18n("Unable to create temporary file"));
                 return;
-        }
-        arch.addLocalDirectory (droppedUrls.first().path(),droppedUrls.first().filename());
-        arch.close();
+        	}
+        arch->addLocalDirectory (droppedUrls.first().path(),droppedUrls.first().filename());
+        arch->close();
 
         if (encryptOptions.find("armor")!=encryptOptions.end () )
-                extension=".asc";
+                extension+=".asc";
         else if (pgpExtension)
-                extension=".pgp";
+                extension+=".pgp";
         else
-                extension=".gpg";
+                extension+=".gpg";
         KgpgInterface *folderprocess=new KgpgInterface();
-        folderprocess->KgpgEncryptFile(selec,KURL(kgpgfoldertmp->name()),KURL(droppedUrls.first().path()+".tar.gz"+extension),encryptOptions,symetric);
+        folderprocess->KgpgEncryptFile(selec,KURL(kgpgfoldertmp->name()),KURL(droppedUrls.first().path()+extension),encryptOptions,symetric);
         connect(folderprocess,SIGNAL(encryptionfinished(KURL)),this,SLOT(slotFolderFinished(KURL)));
         connect(folderprocess,SIGNAL(errormessage(QString)),this,SLOT(slotFolderFinishedError(QString)));
 }
@@ -316,6 +336,7 @@ void  MyView::decryptDroppedFile()
                 oldname.truncate(oldname.length()-4);
         else
                 oldname.append(".clear");
+	/*
         if (oldname.endsWith(".tar.gz")) {
                 isFolder=true;
                 kgpgFolderExtract=new KTempFile(QString::null,".tar.gz");
@@ -323,7 +344,7 @@ void  MyView::decryptDroppedFile()
                 swapname=KURL(kgpgFolderExtract->name());
                 if (KMessageBox::warningContinueCancel(0,i18n("<qt>The file to decrypt is an archive. KGpg will create a temporary unencrypted archive file:<br><b>%1</b> before processing the archive extraction. This temporary file will be deleted after the decryption is finished.</qt>").arg(kgpgFolderExtract->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpDecFile")==KMessageBox::Cancel)
                         return;
-        } else {
+        } else*/ {
                 swapname=KURL(droppedUrl.directory(0,0)+oldname);
                 QFile fgpg(swapname.path());
                 if (fgpg.exists()) {
@@ -339,8 +360,8 @@ void  MyView::decryptDroppedFile()
         }
         KgpgLibrary *lib=new KgpgLibrary();
         lib->slotFileDec(droppedUrl,swapname,customDecrypt);
-        if (isFolder)
-                connect(lib,SIGNAL(decryptionOver()),this,SLOT(unArchive()));
+//        if (isFolder)
+  //              connect(lib,SIGNAL(decryptionOver()),this,SLOT(unArchive()));
 		connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(importedKeys(QStringList)));
 }
 

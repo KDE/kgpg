@@ -41,9 +41,10 @@ public:
 	~popupPublic();
         KListView *keysList;
         QCheckBox *CBarmor,*CBuntrusted,*CBshred,*CBsymmetric,*CBhideid;
-        bool fmode,encryptToDefault,trusted;
+        bool fmode,trusted;
         QPixmap keyPair,keySingle,keyGroup;
         QString seclist,defaultKey,keyGroups,untrustedList;
+	
 
 
 private:
