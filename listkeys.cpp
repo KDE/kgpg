@@ -634,11 +634,11 @@ listKeys::~listKeys()
 
 void listKeys::slotAddPhoto()
 {
-QString mess="The image must be a JPEG file. Remember that the image is stored within your public key."
+QString mess=i18n("The image must be a JPEG file. Remember that the image is stored within your public key."
 			"If you use a very large picture, your key will become very large as well! Keeping the image "
-			"close to 240x288 is a good size to use.";
+			"close to 240x288 is a good size to use.");
 
-if (KMessageBox::warningContinueCancel(this,i18n(mess))!=KMessageBox::Continue)
+if (KMessageBox::warningContinueCancel(this,mess)!=KMessageBox::Continue)
 return;
 
 QString imagePath=KFileDialog::getOpenFileName (QString::null,"*.jpg",this);
