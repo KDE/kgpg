@@ -1664,7 +1664,7 @@ void listKeys::listsigns()
         }
 
         if (keysList2->currentItem()->pixmap(0)->serialNumber()==keysList2->pixkeyOrphan.serialNumber()) {
-                if (KMessageBox::questionYesNo(this,i18n("This key is an orphaned secret key (secret key without public key. It is currently not usable.\n\n"
+                if (KMessageBox::questionYesNo(this,i18n("This key is an orphaned secret key (secret key without public key.) It is currently not usable.\n\n"
                                                "Would you like to regenerate the public key?"))==KMessageBox::Yes)
                         slotregenerate();
                 return;
