@@ -22,6 +22,7 @@
 #include <qlayout.h>
 #include <qregexp.h>
 #include <qstring.h>
+#include <qtextcodec.h>
 
 #include <kmessagebox.h>
 #include <kapplication.h>
@@ -464,9 +465,8 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
         int counter=0,ppass[2];
         QCString password;
 
-if (getenv("GPG_AGENT_INFO"))
-{
-        gpgcmd="echo ";
+        if (getenv("GPG_AGENT_INFO")) {
+                gpgcmd="echo ";
                 gpgcmd+=KShellProcess::quote(text);
                 gpgcmd+=" | gpg --no-secmem-warning --no-tty -d";
 
@@ -474,43 +474,41 @@ if (getenv("GPG_AGENT_INFO"))
                 while ( fgets( buffer, sizeof(buffer), fp))
                         encResult+=buffer;
                 pclose(fp);
-}
-else
-{
-        while ((counter<3) && (encResult.isEmpty())) {
-                /// pipe for passphrase
-                counter++;
-                //userID=QString::fromUtf8(userID);
-                userID.replace(QRegExp("<"),"&lt;");
-                QString passdlg=i18n("Enter passphrase for <b>%1</b>:").arg(userID);
-                if (counter>1)
-                        passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 tries left.<br>").arg(QString::number(4-counter)));
+        } else {
+                while ((counter<3) && (encResult.isEmpty())) {
+                        /// pipe for passphrase
+                        counter++;
+                        //userID=QString::fromUtf8(userID);
+                        userID.replace(QRegExp("<"),"&lt;");
+                        QString passdlg=i18n("Enter passphrase for <b>%1</b>:").arg(userID);
+                        if (counter>1)
+                                passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 tries left.<br>").arg(QString::number(4-counter)));
 
-                /// pipe for passphrase
-                int code=KPasswordDialog::getPassword(password,passdlg);
-                if (code!=QDialog::Accepted)
-                        return " ";
+                        /// pipe for passphrase
+                        int code=KPasswordDialog::getPassword(password,passdlg);
+                        if (code!=QDialog::Accepted)
+                                return " ";
 
-                pipe(ppass);
-                pass = fdopen(ppass[1], "w");
-                fwrite(password, sizeof(char), strlen(password), pass);
-                //        fwrite("\n", sizeof(char), 1, pass);
-                fclose(pass);
+                        pipe(ppass);
+                        pass = fdopen(ppass[1], "w");
+                        fwrite(password, sizeof(char), strlen(password), pass);
+                        //        fwrite("\n", sizeof(char), 1, pass);
+                        fclose(pass);
 
-                gpgcmd="echo ";
-                gpgcmd+=KShellProcess::quote(text);
-                gpgcmd+=" | gpg --no-secmem-warning --no-tty ";
-                gpgcmd+="--passphrase-fd "+QString::number(ppass[0])+" -d ";
-                //////////   encode with untrusted keys or armor if checked by user
-                fp = popen(QFile::encodeName(gpgcmd), "r");
-                while ( fgets( buffer, sizeof(buffer), fp))
-                        encResult+=buffer;
-                pclose(fp);
-        }
+                        gpgcmd="echo ";
+                        gpgcmd+=KShellProcess::quote(text);
+                        gpgcmd+=" | gpg --no-secmem-warning --no-tty ";
+                        gpgcmd+="--passphrase-fd "+QString::number(ppass[0])+" -d ";
+                        //////////   encode with untrusted keys or armor if checked by user
+                        fp = popen(QFile::encodeName(gpgcmd), "r");
+                        while ( fgets( buffer, sizeof(buffer), fp))
+                                encResult+=buffer;
+                        pclose(fp);
+                }
         }
 
 
-	if (!encResult.isEmpty())
+        if (!encResult.isEmpty())
                 return encResult;
         else
                 return "";
@@ -525,48 +523,45 @@ QString KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QString userID)
         int counter=0,ppass[2];
         QCString password;
 
-if (getenv("GPG_AGENT_INFO"))
-{
-        gpgcmd+="gpg --no-secmem-warning --no-tty -o - -d '";
+        if (getenv("GPG_AGENT_INFO")) {
+                gpgcmd+="gpg --no-secmem-warning --no-tty -o - -d '";
                 gpgcmd+=srcUrl.path()+"'";
 
                 fp = popen(QFile::encodeName(gpgcmd), "r");
                 while ( fgets( buffer, sizeof(buffer), fp))
                         encResult+=buffer;
                 pclose(fp);
-}
-else
-{
-        while ((counter<3) && (encResult.isEmpty())) {
-                /// pipe for passphrase
-                counter++;
-                //userID=QString::fromUtf8(userID);
-                userID.replace(QRegExp("<"),"&lt;");
-                QString passdlg=i18n("Enter passphrase for <b>%1</b>:").arg(userID);
-                if (counter>1)
-                        passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 tries left.<br>").arg(QString::number(4-counter)));
+        } else {
+                while ((counter<3) && (encResult.isEmpty())) {
+                        /// pipe for passphrase
+                        counter++;
+                        //userID=QString::fromUtf8(userID);
+                        userID.replace(QRegExp("<"),"&lt;");
+                        QString passdlg=i18n("Enter passphrase for <b>%1</b>:").arg(userID);
+                        if (counter>1)
+                                passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 tries left.<br>").arg(QString::number(4-counter)));
 
-                /// pipe for passphrase
-                int code=KPasswordDialog::getPassword(password,passdlg);
-                if (code!=QDialog::Accepted)
-                        return " ";
+                        /// pipe for passphrase
+                        int code=KPasswordDialog::getPassword(password,passdlg);
+                        if (code!=QDialog::Accepted)
+                                return " ";
 
-                pipe(ppass);
-                pass = fdopen(ppass[1], "w");
-                fwrite(password, sizeof(char), strlen(password), pass);
-                //        fwrite("\n", sizeof(char), 1, pass);
-                fclose(pass);
+                        pipe(ppass);
+                        pass = fdopen(ppass[1], "w");
+                        fwrite(password, sizeof(char), strlen(password), pass);
+                        //        fwrite("\n", sizeof(char), 1, pass);
+                        fclose(pass);
 
-                gpgcmd+="gpg --no-secmem-warning --no-tty ";
-                gpgcmd+="--passphrase-fd "+QString::number(ppass[0])+" -o - -d '";
-                gpgcmd+=srcUrl.path()+"'";
-                //////////   encode with untrusted keys or armor if checked by user
-                fp = popen(QFile::encodeName(gpgcmd), "r");
-                while ( fgets( buffer, sizeof(buffer), fp))
-                        encResult+=buffer;
-                pclose(fp);
+                        gpgcmd+="gpg --no-secmem-warning --no-tty ";
+                        gpgcmd+="--passphrase-fd "+QString::number(ppass[0])+" -o - -d '";
+                        gpgcmd+=srcUrl.path()+"'";
+                        //////////   encode with untrusted keys or armor if checked by user
+                        fp = popen(QFile::encodeName(gpgcmd), "r");
+                        while ( fgets( buffer, sizeof(buffer), fp))
+                                encResult+=buffer;
+                        pclose(fp);
+                }
         }
-	}
         if (!encResult.isEmpty())
                 return encResult;
         else
@@ -1285,23 +1280,30 @@ void KgpgInterface::setGpgSetting(QString name,QString value,QString url)
 
 QString KgpgInterface::checkForUtf8(QString txt)
 {
-//    code borrowed from gpa
-const char *s;
+        //    code borrowed from gpa
+        const char *s;
 
-  /* Make sure the encoding is UTF-8.
-   * Test structure suggested by Werner Koch */
-  for (s = txt.ascii(); *s && !(*s & 0x80); s++)
-  ;
-  if (*s && !strchr (txt.ascii(), 0xc3))
-    {
-      /* The string is Latin-1 */
-     return  txt;
-    }
-  else
-    {
-      /* The string is already in UTF-8 */
-      return QString::fromUtf8(txt.ascii());
-    }
+        /* Make sure the encoding is UTF-8.
+         * Test structure suggested by Werner Koch */
+        for (s = txt.ascii(); *s && !(*s & 0x80); s++)
+                ;
+        if (*s && !strchr (txt.ascii(), 0xc3)) {
+                /* The string is not in UTF-8 */
+
+                if (txt.find("\\x")==-1)
+                        txt=txt.utf8();
+                else
+                        for ( int idx = 0 ; (idx = txt.find( "\\x", idx )) >= 0 ; ++idx ) {
+                                char str[2] = "x";
+                                str[0] = (char) QString( txt.mid( idx + 2, 2 ) ).toShort( 0, 16 );
+                                txt.replace( idx, 4, str );
+                        }
+
+                return  QString::fromUtf8(txt.data());
+        } else {
+                /* The string is already in UTF-8 */
+                return QString::fromUtf8(txt.ascii());
+        }
 }
 
 
