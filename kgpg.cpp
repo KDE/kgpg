@@ -418,9 +418,8 @@ void  MyView::firstRun()
 
 void  MyView::startWizard()
 {
-        //kdDebug()<<"Starting Wizard\n";
-        if (wiz)
-                return;
+        kdDebug()<<"Starting Wizard\n";
+
         wiz=new KgpgWizard(0,"wizard");
         QString confPath=QDir::homeDirPath()+"/.gnupg/options";
         if (!QFile(confPath).exists()) {
@@ -591,7 +590,7 @@ void KgpgAppletApp::slotHandleQuit()
 
 int KgpgAppletApp::newInstance()
 {
-        //kdDebug()<<"New instance\n";
+        kdDebug()<<"New instance\n";
         args = KCmdLineArgs::parsedArgs();
         if ( kgpg_applet ) {
                 kgpg_applet->show();
