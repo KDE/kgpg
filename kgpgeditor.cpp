@@ -55,18 +55,20 @@ void KgpgApp::saveOptions()
 
 void KgpgApp::readOptions(bool doresize)
 {
-        config->setGroup("General Options");
 
-        ascii=config->readBoolEntry("Ascii armor",true);
-        untrusted=config->readBoolEntry("Allow untrusted keys",false);
-        hideid=config->readBoolEntry("Hide user ID",false);
-        pgpcomp=config->readBoolEntry("PGP compatibility",false);
-        pgpExtension=config->readBoolEntry("Pgp extension",false);
-        encryptfileto=config->readBoolEntry("encrypt files to",false);
-        filekey=config->readEntry("file key");
-        customDecrypt=config->readEntry("custom decrypt");
+	config->setGroup("Encryption");
+        ascii=config->readBoolEntry("Ascii_armor",true);
+        untrusted=config->readBoolEntry("Allow_untrusted_keys",false);
+        hideid=config->readBoolEntry("Hide_user_ID",false);
+        pgpcomp=config->readBoolEntry("PGP_compatibility",false);
+        pgpExtension=config->readBoolEntry("Pgp_extension",false);
+        encryptfileto=config->readBoolEntry("encrypt_files_to",false);
+
+	config->setGroup("Decryption");
+        customDecrypt=config->readEntry("custom_decrypt");
 
         if (doresize) {
+		config->setGroup("General Options");
                 QSize size=config->readSizeEntry("Geometry");
                 if (!size.isEmpty())
                         resize(size);
@@ -147,7 +149,8 @@ void KgpgApp::slotFilePreEnc()
                         opts+=" --throw-keyid ";
                 if (pgpcomp)
                         opts+=" --pgp6 ";
-                lib->slotFileEnc(KURL::List::List(url),opts,filekey);
+		config->setGroup("Encryption");
+                lib->slotFileEnc(KURL::List::List(url),opts,config->readEntry("file key").left(8));
         } else
                 lib->slotFileEnc(KURL::List::List(url));
 }

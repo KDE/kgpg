@@ -403,24 +403,24 @@ void keyServer::slotimportread(KProcIO *p)
 
 void keyServer::syncCombobox()
 {
-        config->setGroup("General Options");
-        QString confPath=config->readPathEntry("gpg config path");
+QString servers;
+        config->setGroup("GPG Settings");
+        QString confPath=config->readPathEntry("gpg_config_path");
 
-        config->setGroup("Keyservers");
-        QString servers=config->readEntry("servers");
-        if (servers.isEmpty())
-                servers="hkp://pgp.mit.edu,hkp://blackhole.pca.dfn.de";
         QString optionsServer=KgpgInterface::getGpgSetting("keyserver",confPath);
-        while (!servers.isEmpty()) {
-                QString server1=servers.section(',',0,0);
-                server1=server1.stripWhiteSpace();
-                kCBexportks->insertItem(server1);
-                kCBimportks->insertItem(server1);
-                servers.remove(0,server1.length()+1);
+	        if (optionsServer.isEmpty())
+		optionsServer="hkp://[wwwkeys.pgp.net,wwwkeys.eu.pgp.net,wwwkeys.us.pgp.net]";
+		kCBexportks->insertItem(optionsServer);
+                kCBimportks->insertItem(optionsServer);
+	servers=config->readEntry("key_server2");
+        if (!servers.isEmpty()) {
+                kCBexportks->insertItem(servers);
+                kCBimportks->insertItem(servers);
         }
-        if (!optionsServer.isEmpty()) {
-                kCBexportks->setCurrentItem(optionsServer);
-                kCBimportks->setCurrentItem(optionsServer);
+	servers=config->readEntry("key_server3");
+        if (!servers.isEmpty()) {
+                kCBexportks->insertItem(servers);
+                kCBimportks->insertItem(servers);
         }
 }
 

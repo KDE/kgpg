@@ -1,0 +1,80 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>Decryption</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>Decryption</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>518</width>
+            <height>313</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Decryption</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="KLineEdit" row="1" column="0">
+            <property name="name">
+                <cstring>custom_decrypt</cstring>
+            </property>
+            <property name="enabled">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="2" column="0">
+            <property name="name">
+                <cstring>use_agent</cstring>
+            </property>
+            <property name="text">
+                <string>Do not use gpg-agent (use only with GnuPG &gt; 1.06)</string>
+            </property>
+        </widget>
+        <spacer row="3" column="0">
+            <property name="name">
+                <cstring>spacer3_2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>21</width>
+                    <height>155</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>textLabel1_4_2</cstring>
+            </property>
+            <property name="text">
+                <string>Custom decryption command:</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>use_agent</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>Decryption</receiver>
+        <slot>use_agent_toggled(bool)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">conf_decryption.ui.h</include>
+</includes>
+<slots>
+    <slot>use_agent_toggled( bool isOn )</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

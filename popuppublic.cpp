@@ -376,7 +376,7 @@ void popupPublic::slotprocread(KProcIO *p)
                         tst=tst.section(':',9,9);
 
                         if ((!dead) && (!tst.isEmpty())) {
-                                if (id==defaultKey) {
+                                if (id.right(8)==defaultKey) {
                                         defaultName=extractKeyName(tst);
                                         UpdateViewItem2 *item=new UpdateViewItem2(keysList,defaultName);
                                         KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, validity: %3").arg(id).arg(tr).arg(val));

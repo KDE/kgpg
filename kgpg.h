@@ -61,7 +61,7 @@ class MyView : public QLabel
 public:
         MyView( QWidget *parent = 0, const char *name = 0);
         ~MyView();
-        int ufileDropEvent,efileDropEvent;
+
         bool	 showeclip,showdclip,showomanager,showoeditor,showserver,autostart;
         KURL droppedUrl;
         KURL::List droppedUrls;
@@ -73,8 +73,6 @@ private:
         KAboutData   *_aboutData;
         QString customDecrypt;
         KgpgWizard *wiz;
-        QString filekey;
-
         class keyServer *m_keyServer;
 
 
@@ -97,8 +95,10 @@ public slots:
 
 private slots:
 
+	void updateKeyManager1();
+	void readAgain1();
 	void  slotWizardClose();
-        void  startWizard();
+	void  startWizard();
         void  slotSaveOptionsPath();
         void  slotGenKey();
         void importSignature(QString ID);
@@ -120,6 +120,10 @@ protected:
 
 protected slots:
         void showPopupMenu( QPopupMenu * );
+
+signals:
+	void updateKeyManager2();
+	void readAgain2();
 };
 
 class kgpgapplet : public KSystemTray//KUniqueApplication
@@ -139,6 +143,11 @@ private slots:
         void slotdecryptclip();
         void sloteditor();
         void slotOptions();
+	void updateKeyManager3();
+	void readAgain3();
+signals:
+	void updateKeyManager4();
+	void readAgain4();
 };
 
 class KCmdLineArgs;

@@ -154,7 +154,8 @@ void  MyView::encryptDroppedFile()
                         opts+=" --throw-keyid ";
                 if (pgpcomp)
                         opts+=" --pgp6 ";
-                lib->slotFileEnc(droppedUrls,opts,filekey);
+                ksConfig->setGroup("Encryption");
+                lib->slotFileEnc(droppedUrls,opts,ksConfig->readEntry("file key").left(8));
         } else
                 lib->slotFileEnc(droppedUrls);
 }
@@ -288,8 +289,10 @@ void  MyView::droppedfile (KURL::List url)
                 showDroppedFile();
                 return;
         }
+        ksConfig->setGroup("User Interface");
+
         if ((droppedUrl.path().endsWith(".asc")) || (droppedUrl.path().endsWith(".pgp")) || (droppedUrl.path().endsWith(".gpg"))) {
-                switch (efileDropEvent) {
+                switch (ksConfig->readNumEntry("encrypted_drop_event",0)) {
                 case 0:
                         decryptDroppedFile();
                         break;
@@ -303,7 +306,7 @@ void  MyView::droppedfile (KURL::List url)
         } else if (droppedUrl.path().endsWith(".sig")) {
                 slotVerifyFile();
         } else
-                switch (ufileDropEvent) {
+                switch (ksConfig->readNumEntry("unencrypted_drop_event",0)) {
                 case 0:
                         encryptDroppedFile();
                         break;
@@ -360,32 +363,33 @@ void  MyView::dropEvent (QDropEvent *o)
 void  MyView::readOptions()
 {
         //kdDebug()<<"Reading options\n";
-        ksConfig->setGroup("Applet");
-        ufileDropEvent=ksConfig->readNumEntry("unencrypted drop event",0);
-        efileDropEvent=ksConfig->readNumEntry("encrypted drop event",2);
+        ksConfig->setGroup("Encryption");
+        encryptfileto=ksConfig->readBoolEntry("encrypt_files_to",false);
+        ascii=ksConfig->readBoolEntry("Ascii_armor",true);
+        untrusted=ksConfig->readBoolEntry("Allow_untrusted_keys",false);
+        hideid=ksConfig->readBoolEntry("Hide_user_ID",false);
+        pgpcomp=ksConfig->readBoolEntry("PGP_compatibility",false);
+        pgpExtension=ksConfig->readBoolEntry("Pgp_extension",false);
 
-        ksConfig->setGroup("General Options");
-        encryptfileto=ksConfig->readBoolEntry("encrypt files to",false);
-        filekey=ksConfig->readEntry("file key");
-        ascii=ksConfig->readBoolEntry("Ascii armor",true);
-        untrusted=ksConfig->readBoolEntry("Allow untrusted keys",false);
-        hideid=ksConfig->readBoolEntry("Hide user ID",false);
-        pgpcomp=ksConfig->readBoolEntry("PGP compatibility",false);
-        pgpExtension=ksConfig->readBoolEntry("Pgp extension",false);
-        customDecrypt=ksConfig->readEntry("custom decrypt");
+        ksConfig->setGroup("Decryption");
+        customDecrypt=ksConfig->readEntry("custom_decrypt");
+
+        ksConfig->setGroup("User Interface");
         if (ksConfig->readBoolEntry("selection clip",false)) {
                 if (kapp->clipboard()->supportsSelection())
                         kapp->clipboard()->setSelectionMode(true);
         } else
                 kapp->clipboard()->setSelectionMode(false);
-
+        ksConfig->setGroup("General Options");
         if (ksConfig->readBoolEntry("First run",true))
                 firstRun();
-        else
-                if (ksConfig->readPathEntry("gpg config path").isEmpty()) {
+        else {
+                ksConfig->setGroup("GPG Settings");
+                if (ksConfig->readPathEntry("gpg_config_path").isEmpty()) {
                         if (KMessageBox::questionYesNo(0,"<qt>You did not set a path to your GnuPG config file.<br>This may bring some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem ?</qt>")==KMessageBox::Yes)
                                 startWizard();
                 }
+        }
 
         ksConfig->setGroup("TipOfDay");
         tipofday=ksConfig->readBoolEntry("RunOnStart",true);
@@ -399,9 +403,9 @@ void  MyView::firstRun()
         char line[200];
         bool found=false;
 
-        kgpgOptions *opts=new kgpgOptions(this,0);
-        opts->checkMimes();
-        delete opts;
+        //kgpgOptions *opts=new kgpgOptions(this,0);
+        //opts->checkMimes();
+        //delete opts;
 
         fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
@@ -458,17 +462,18 @@ void  MyView::slotSaveOptionsPath()
                 }
         }
 
-        ksConfig->setGroup("Applet");
+        ksConfig->setGroup("User Interface");
         ksConfig->writeEntry("AutoStart", wiz->checkBox2->isChecked());
-        ksConfig->setGroup("General Options");
+        ksConfig->setGroup("GPG Settings");
 #if KDE_IS_VERSION(3,1,3)
 
-        ksConfig->writePathEntry("gpg config path",wiz->kURLRequester1->url());
+        ksConfig->writePathEntry("gpg_config_path",wiz->kURLRequester1->url());
 #else
 
-        ksConfig->writeEntry("gpg config path",wiz->kURLRequester1->url());
+        ksConfig->writeEntry("gpg_config_path",wiz->kURLRequester1->url());
 #endif
 
+        ksConfig->setGroup("General Options");
         ksConfig->writeEntry("First run",false);
         ksConfig->sync();
         if (wiz)
@@ -501,10 +506,23 @@ void  MyView::help()
 
 void  MyView::preferences()
 {
-        kgpgOptions *opts=new kgpgOptions();
-        opts->exec();
-        delete opts;
+        if (KAutoConfigDialog::showDialog("settings"))
+                return;
+        kgpgOptions *optsDialog=new kgpgOptions(this,"settings");
+        connect(optsDialog,SIGNAL(updateDisplay()),this,SLOT(updateKeyManager1()));
+        connect(optsDialog,SIGNAL(updateSettings()),this,SLOT(readAgain1()));
+        optsDialog->show();
+}
+
+void MyView::readAgain1()
+{
         readOptions();
+        emit readAgain2();
+}
+
+void MyView::updateKeyManager1()
+{
+        emit updateKeyManager2();
 }
 
 
@@ -519,6 +537,8 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
                 : KSystemTray(parent,name)
 {
         w=new MyView(this);
+        connect(w,SIGNAL(updateKeyManager2()),this,SLOT(updateKeyManager3()));
+        connect(w,SIGNAL(readAgain2()),this,SLOT(readAgain3()));
         w->show();
         KPopupMenu *conf_menu=contextMenu();
         KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0,this, SLOT(slotencryptclip()),actionCollection(),"clip_encrypt");
@@ -531,6 +551,17 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
         conf_menu->insertSeparator();
         KgpgPreferences->plug(conf_menu);
 }
+
+void kgpgapplet::readAgain3()
+{
+        emit readAgain4();
+}
+
+void kgpgapplet::updateKeyManager3()
+{
+        emit updateKeyManager4();
+}
+
 
 kgpgapplet::~kgpgapplet()
 {
@@ -575,16 +606,17 @@ KgpgAppletApp::~KgpgAppletApp()
 
 void KgpgAppletApp::slotHandleQuit()
 {
-
-        int autoStart = KMessageBox::questionYesNoCancel( 0, i18n("Should KGpg start automatically\nwhen you login?"), i18n("Automatically Start KGpg?"),KStdGuiItem::yes(),KStdGuiItem::no(),"Autostartup");
-        kgpg_applet->w->ksConfig->setGroup("Applet");
-        if ( autoStart == KMessageBox::Yes )
-                kgpg_applet->w->ksConfig->writeEntry("AutoStart", true);
-        else if ( autoStart == KMessageBox::No) {
-                kgpg_applet->w->ksConfig->writeEntry("AutoStart", false);
-        } else  // cancel chosen don't quit
-                return;
-        kgpg_applet->w->ksConfig->sync();
+        /*
+                int autoStart = KMessageBox::questionYesNoCancel( 0, i18n("Should KGpg start automatically\nwhen you login?"), i18n("Automatically Start KGpg?"),KStdGuiItem::yes(),KStdGuiItem::no(),"Autostartup");
+                kgpg_applet->w->ksConfig->setGroup("User Interface");
+                if ( autoStart == KMessageBox::Yes )
+                        kgpg_applet->w->ksConfig->writeEntry("AutoStart", true);
+                else if ( autoStart == KMessageBox::No) {
+                        kgpg_applet->w->ksConfig->writeEntry("AutoStart", false);
+                } else  // cancel chosen don't quit
+                        return;
+                kgpg_applet->w->ksConfig->sync();
+        */
         quit();
 }
 
@@ -594,18 +626,20 @@ int KgpgAppletApp::newInstance()
         kdDebug()<<"New instance\n";
         args = KCmdLineArgs::parsedArgs();
         if ( kgpg_applet ) {
-	kdDebug()<<"Already running\n";
-               kgpg_applet->show();
+                kdDebug()<<"Already running\n";
+                kgpg_applet->show();
         } else {
                 kdDebug() << "Starting KGpg\n";
                 s_keyManager=new listKeys(0, "key_manager");
-
                 s_keyManager->refreshkey();
                 kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
+                connect(kgpg_applet,SIGNAL(updateKeyManager4()),s_keyManager,SLOT(updateKeyList()));
+                connect(kgpg_applet,SIGNAL(readAgain4()),s_keyManager,SLOT(readOptions()));
+                connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
                 kgpg_applet->show();
-                kgpg_applet->w->ksConfig->setGroup("General Options");
-                QString gpgPath=kgpg_applet->w->ksConfig->readPathEntry("gpg config path");
+                kgpg_applet->w->ksConfig->setGroup("GPG Settings");
+                QString gpgPath=kgpg_applet->w->ksConfig->readPathEntry("gpg_config_path");
 
                 if (!gpgPath.isEmpty()) {
                         if ((KgpgInterface::getGpgBoolSetting("use-agent",gpgPath)) && (!getenv("GPG_AGENT_INFO")))

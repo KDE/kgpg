@@ -193,6 +193,8 @@ protected:
 public slots:
         void slotgenkey();
         void refreshkey();
+	void updateKeyList();
+	void readAllOptions();
 
 private slots:
         void checkList();
@@ -235,7 +237,7 @@ private slots:
         void slotedit();
 
 signals:
-        //void selectedKey(QString &);
+        void readAgainOptions();
 
 
 };

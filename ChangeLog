@@ -1,4 +1,6 @@
 cvs version
+-rewrote settings dialog to use kautoconfigdialog
+-key signing now lets you select how carefully you checked that the key really belongs to the person
 -improved keyserver operations
 -when verifying a text/file and signature is missing, ask user to import missing key from keyserver
 -new in keymanager: import missing signatures

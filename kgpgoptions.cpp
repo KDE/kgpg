@@ -33,15 +33,18 @@
 #include <qpushbutton.h>
 #include <qhbuttongroup.h>
 #include <qvbuttongroup.h>
+
 #include <kmessagebox.h>
 #include <klineedit.h>
 #include <ktoolbar.h>
 #include <kcombobox.h>
 #include <kurlrequester.h>
+#include <kdialogbase.h>
 
 #include <kdesktopfile.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>
+
 
 #include "kgpgoptions.h"
 #include "kgpg.h"
@@ -49,233 +52,98 @@
 
 ///////////////////////   main window
 
-kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KgpgOptionDialog( parent, name)
+kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KAutoConfigDialog( parent, name)
 {
         config=kapp->config();
 
-        config->setGroup("General Options");
-        bool ascii=config->readBoolEntry("Ascii armor",true);
-        bool untrusted=config->readBoolEntry("Allow untrusted keys",false);
-        bool hideid=config->readBoolEntry("Hide user ID",false);
-        bool pgpcomp=config->readBoolEntry("PGP compatibility",false);
-        bool encryptfileto=config->readBoolEntry("encrypt files to",false);
-        bool displaymailfirst=config->readBoolEntry("display mail first",true);
-        bool clipselection=config->readBoolEntry("selection clip",false);
-        QString filekey=config->readEntry("file key");
-        bool allowcustom=config->readBoolEntry("allow custom option",false);
-        confPath=config->readPathEntry("gpg config path");
-        if (confPath.isEmpty())
-                confPath=QDir::homeDirPath()+"/.gnupg/options";
-        defaultKeyID=KgpgInterface::getGpgSetting("encrypt-to",confPath);
-        if (!defaultKeyID.isEmpty())
-                defaut_2_2->setChecked(true);
-pgpExtension->setChecked(config->readBoolEntry("Pgp extension",false));
-	if (kLEcustomdec->text().find("--no-use-agent",0,FALSE)!=-1) cBagent->setChecked(true);
-
-        kURLconfigPath->setURL(confPath);
-        kLEcustom->setText(config->readEntry("custom option"));
-        kLEcustomdec->setText(config->readEntry("custom decrypt"));
+        config->setGroup("User Interface");
+        firstDisplay=config->readBoolEntry("display_mail_first",false);
 
 
-        reloadServer();
+        page1=new Encryption();
+        page2=new Decryption();
+        page3=new UI();
+        page4=new GPGConf();
+        addPage(page1, i18n("Encryption"), "Encryption", "encrypted");
+        addPage(page2, i18n("Decryption"), "Decryption", "decrypted");
+        addPage(page3, i18n("User Interface"), "User Interface", "misc");
+        addPage(page4, i18n("GPG Settings"), "GPG Settings", "gpg");
 
-        config->setGroup("Notification Messages");
-        if (config->readBoolEntry("RemoteFileWarning",true))
-                cbTempWarning->setChecked(true);
-
-        config->setGroup("Applet");
-        int ufileDropEvent=config->readNumEntry("unencrypted drop event",0);
-        int efileDropEvent=config->readNumEntry("encrypted drop event",2);
-        cBautolog->setChecked(config->readBoolEntry("AutoStart",false));
-
-        config->setGroup("Service Menus");
-        QString smenu;
-        smenu=config->readEntry("Decrypt");
-        if (smenu!=NULL)
-                kCBdecrypt->setCurrentItem(smenu);
-        smenu=config->readEntry("Sign");
-        if (smenu!=NULL)
-                kCBsign->setCurrentItem(smenu);
-
-        ascii_2_2->setChecked(ascii);
-        untrusted_2_2->setChecked(untrusted);
-        hide_2_2->setChecked(hideid);
-        pgp_2_2->setChecked(pgpcomp);
-
-        file_2_2->setChecked(encryptfileto);
-        custom_2_2->setChecked(allowcustom);
-        cbMailFirst->setChecked(displaymailfirst);
-        cbClipSelection->setChecked(clipselection);
-
-        kCBencrypted->setCurrentItem(efileDropEvent);
-        kCBunencrypted->setCurrentItem(ufileDropEvent);
-
-
+        config->setGroup("GPG Settings");
+        alwaysKeyID=KgpgInterface::getGpgSetting("encrypt-to",config->readEntry("gpg_config_path"));
+        config->setGroup("Encryption");
+        if (!alwaysKeyID.isEmpty())
+                config->writeEntry("encrypt_to_always",true);
+        else
+                config->writeEntry("encrypt_to_always",false);
         listkey();
-        if (filekey!=NULL)
-                kCBfilekey->setCurrentItem(filekey);
-        connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotOk()));
-        connect(bcheckMime,SIGNAL(clicked()),this,SLOT(checkMimes()));
-        connect(Buttonadd,SIGNAL(clicked()),this,SLOT(slotAddServer()));
-        connect(Buttondefault,SIGNAL(clicked()),this,SLOT(slotDefaultServer()));
-        connect(Buttonedit,SIGNAL(clicked()),this,SLOT(slotEditServer()));
-        connect(Buttonremove,SIGNAL(clicked()),this,SLOT(slotRemoveServer()));
-	connect(cBagent,SIGNAL(toggled(bool)),this,SLOT(slotAgent(bool)));
+
+
+        QString key=config->readEntry("file key");
+        if (key!=NULL) {
+                page1->file_key->setCurrentItem(key);
+                config->writeEntry("file_key",page1->file_key->currentItem());
+        }
+
+
+        if (alwaysKeyID!=NULL) {
+                page1->always_key->setCurrentItem(alwaysKeyName);
+                config->writeEntry("always_key",page1->always_key->currentItem());
+        }
+        //////////////////////  check if gpg's keyserver is the same as KGpg's first server. Otherwise, syncro
+        config->setGroup("GPG Settings");
+        QString optionsServer=KgpgInterface::getGpgSetting("keyserver",config->readEntry("gpg_config_path"));
+        if (!optionsServer.isEmpty())
+                config->writeEntry("key_server1",optionsServer);
+
+        connect(this, SIGNAL(settingsChanged()), this, SLOT(readSettings()));
 }
 
 
 kgpgOptions::~kgpgOptions()
 {}
 
-void kgpgOptions::slotAgent(bool)
+
+void kgpgOptions::readSettings()
 {
-int pos=kLEcustomdec->text().find("--no-use-agent",0,FALSE);
-if (pos==-1) kLEcustomdec->setText(kLEcustomdec->text()+" --no-use-agent");
-else kLEcustomdec->setText(kLEcustomdec->text().remove(pos,14));
-}
 
+        ////////////  save selected keys for file encryption & always encrypt with
+        config->setGroup("Encryption");
+        config->writeEntry("file key",page1->file_key->currentText());
+        if (page1->encrypt_to_always->isChecked()) {
+                config->writeEntry("always key",page1->always_key->currentText().section(':',0,0));
+                KgpgInterface::setGpgSetting("encrypt-to",page1->always_key->currentText().section(':',0,0),page4->gpg_config_path->url());
+        } else
+                KgpgInterface::setGpgSetting("encrypt-to","",page4->gpg_config_path->url());
 
+        ////////////  save the first key server into GnuPG's configuration file
+        if (!page4->key_server1->text().isEmpty())
+                KgpgInterface::setGpgSetting("keyserver",page4->key_server1->text().stripWhiteSpace(),page4->gpg_config_path->url());
 
-void kgpgOptions::slotEditServer()
-{
-        KDialogBase *serverEdit = new KDialogBase(this, "urldialog", true, i18n("Edit Keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
-        QWidget *page = new QWidget(serverEdit);
-        QHBoxLayout *vbox=new QHBoxLayout(page,3);
-        KLineEdit *lined=new KLineEdit(page);
-        vbox->addWidget(lined);
-        serverEdit->setMainWidget(page);
-        page->setMinimumSize(250,50);
-        lined->setFocus();
-        lined->setText(kLVservers->currentItem()->text(0).stripWhiteSpace().section(" ",0,0));
-        page->show();
-        if ((serverEdit->exec()==QDialog::Accepted) && (!lined->text().stripWhiteSpace().isEmpty())) {
-                bool isDefault=false;
-                //serverName+=i18n(" [default]");
-                if (kLVservers->currentItem()->text(0).find(i18n("[default]"))!=-1)
-                        isDefault=true;
-                kLVservers->currentItem()->setText(0,lined->text());
-                if (isDefault)
-                        slotDefaultServer();
-        }
-}
+        ///////////////  install service menus
 
+        if (page3->sign_menu->currentItem()==1)
+                slotInstallSign("allfiles");
+        else
+                slotRemoveMenu("signfile.desktop");
+        if (page3->decrypt_menu->currentItem()==1)
+                slotInstallDecrypt("allfiles");
+        else if (page3->decrypt_menu->currentItem()==2)
+                slotInstallDecrypt("application/pgp-encrypted,application/pgp-signature,application/pgp-keys");
+        else
+                slotRemoveMenu("decryptfile.desktop");
 
-void kgpgOptions::slotAddServer()
-{
-        KDialogBase *serverAdd = new KDialogBase(this, "urldialog", true, i18n("Add Keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
-        QWidget *page = new QWidget(serverAdd);
-        QHBoxLayout *vbox=new QHBoxLayout(page,3);
-        KComboBox *protocol=new KComboBox(page);
-        protocol->insertItem("hkp://");
-        protocol->insertItem("ldap://");
-        protocol->insertItem("wwwkeys.");
-        KLineEdit *lined=new KLineEdit(page);
-        vbox->addWidget(protocol);
-        vbox->addWidget(lined);
-        serverAdd->setMainWidget(page);
-        page->setMinimumSize(300,50);
-        lined->setFocus();
-        page->show();
-        if ((serverAdd->exec()==QDialog::Accepted) && (!lined->text().stripWhiteSpace().isEmpty())) {
-                (void) new KListViewItem(kLVservers,QString(protocol->currentText()+lined->text()));
-                slotSaveServer();
-        }
-}
-
-
-void kgpgOptions::slotRemoveServer()
-{
-        if (kLVservers->currentItem()!=NULL) {
-                kLVservers->takeItem(kLVservers->currentItem());
-                if (kLVservers->firstChild()!=NULL)
-                        kLVservers->firstChild()->setSelected(true);
-                slotSaveServer();
-        }
-}
-
-void kgpgOptions::slotDefaultServer()
-{
-        if (kLVservers->currentItem()!=NULL) {
-                KgpgInterface::setGpgSetting("keyserver",kLVservers->currentItem()->text(0).stripWhiteSpace().section(' ',0,0),confPath);
-                slotSaveServer();
-                kLVservers->clear();
-                reloadServer();
-        }
-}
-
-
-void kgpgOptions::slotSaveServer()
-{
-        QString serverslist;
-
-        QListViewItem *firstserver = kLVservers->firstChild();
-        while (firstserver!=NULL) {
-                serverslist+=firstserver->text(0).stripWhiteSpace().section(' ',0,0);
-                if (firstserver->nextSibling()) {
-                        firstserver = firstserver->nextSibling();
-                        serverslist+=",";
-                } else
-                        break;
-        }
-
-        config->setGroup("Keyservers");
-        config->writeEntry("servers",serverslist);
-}
-
-void kgpgOptions::reloadServer()
-{
-        config->setGroup("Keyservers");
-        QString servers=config->readEntry("servers");
-        if (servers.isEmpty())
-                servers="hkp://pgp.mit.edu,hkp://blackhole.pca.dfn.de";
-        QString optionsServer=KgpgInterface::getGpgSetting("keyserver",confPath);
-        if (!optionsServer.isEmpty() && (servers.find(optionsServer)==-1))
-                servers+=","+optionsServer;
-        while (!servers.isEmpty()) {
-                QString server1=servers.section(',',0,0);
-                servers.remove(0,server1.length()+1);
-                server1=server1.stripWhiteSpace();
-                if (!server1.isEmpty()) {
-                        if (server1==optionsServer)
-                                server1+=i18n(" [default]");
-                        (void) new KListViewItem(kLVservers,server1);
-                }
-        }
-}
-
-void kgpgOptions::checkMimes()
-{
-        KStandardDirs *sd=new KStandardDirs();
-        QString baseDir=sd->findResource("mime","application/pgp-encrypted.desktop");
-        QString localDir=locateLocal("mime","application/pgp-encrypted.desktop");
-
-        KDesktopFile configb(baseDir, true, "mime");
-        QString pats=configb.readEntry("Patterns");
-        if ((pats.find("gpg")==-1) || (pats.find("asc")==-1) || (pats.find("pgp")==-1)) {
-                KDesktopFile configl(localDir, false, "mime");
-                configl.writeEntry("Type", "MimeType");
-                configl.writeEntry("MimeType", "application/pgp-encrypted");
-                configl.writeEntry("Hidden", false);
-                configl.writeEntry("Patterns","*.pgp;*.gpg;*.asc");
-        }
-
-        baseDir=sd->findResource("mime","application/pgp-signature.desktop");
-        localDir=locateLocal("mime","application/pgp-signature.desktop");
-
-        KDesktopFile configb2(baseDir, true, "mime");
-        pats=configb2.readEntry("Patterns");
-        if (pats.find("sig")==-1) {
-                KDesktopFile configl2(localDir, false, "mime");
-                configl2.writeEntry("Type", "MimeType");
-                configl2.writeEntry("MimeType", "application/pgp-signature");
-                configl2.writeEntry("Hidden", false);
-                configl2.writeEntry("Patterns","*.sig");
+        emit updateSettings();
+        if (firstDisplay!=page3->display_mail_first->isChecked()) {
+                emit updateDisplay();
+                firstDisplay=page3->display_mail_first->isChecked();
         }
 }
 
 
 void kgpgOptions::slotInstallSign(QString mimetype)
 {
+
         QString path=locateLocal("data","konqueror/servicemenus/signfile.desktop");
         KDesktopFile configl2(path, false);
         if (configl2.isImmutable() ==false) {
@@ -292,6 +160,7 @@ void kgpgOptions::slotInstallSign(QString mimetype)
 
 void kgpgOptions::slotInstallDecrypt(QString mimetype)
 {
+
         QString path=locateLocal("data","konqueror/servicemenus/decryptfile.desktop");
         KDesktopFile configl2(path, false);
         if (configl2.isImmutable() ==false) {
@@ -304,12 +173,12 @@ void kgpgOptions::slotInstallDecrypt(QString mimetype)
                 configl2.writeEntry("Exec","kgpg %U");
                 //KMessageBox::information(this,i18n("Decrypt file option is now added in Konqueror's menu."));
         }
-
 }
 
 
 void kgpgOptions::slotRemoveMenu(QString menu)
 {
+
         QString path=locateLocal("data","konqueror/servicemenus/"+menu);
         QFile qfile(path);
         if (qfile.exists())
@@ -319,72 +188,14 @@ void kgpgOptions::slotRemoveMenu(QString menu)
                 //else KMessageBox::information(this,i18n("Service menu 'Decrypt File' has been removed."));
         }
         //else KMessageBox::sorry(this,i18n("No service menu found"));
-}
 
-void kgpgOptions::slotOk()
-{
-        config->setGroup("General Options");
-        config->writeEntry("Ascii armor",ascii_2_2->isChecked());
-        config->writeEntry("Allow untrusted keys",untrusted_2_2->isChecked());
-        config->writeEntry("Hide user ID",hide_2_2->isChecked());
-        config->writeEntry("PGP compatibility",pgp_2_2->isChecked());
-        config->writeEntry("encrypt files to",file_2_2->isChecked());
-        config->writeEntry("file key",kCBfilekey->currentText());
-
-        config->writeEntry("display mail first",cbMailFirst->isChecked());
-        config->writeEntry("selection clip",cbClipSelection->isChecked());
-        config->writeEntry("custom option",kLEcustom->text());
-        config->writeEntry("allow custom option",custom_2_2->isChecked());
-        config->writeEntry("custom decrypt",kLEcustomdec->text());
-#if KDE_IS_VERSION(3,1,3)
-        config->writePathEntry("gpg config path",kURLconfigPath->url());
-#else
-        config->writeEntry("gpg config path",kURLconfigPath->url());
-#endif
-
-	config->writeEntry("Pgp extension",pgpExtension->isChecked());
-
-        if (defaut_2_2->isChecked()) {
-                config->writeEntry("default key","0x"+kCBalwayskey->currentText().section(':',0,0));
-                KgpgInterface::setGpgSetting("encrypt-to",kCBalwayskey->currentText().section(':',0,0),confPath);
-        } else {
-                config->writeEntry("default key","");
-                KgpgInterface::setGpgSetting("encrypt-to","",confPath);
-        }
-
-        config->setGroup("Service Menus");
-        config->writeEntry("Decrypt",kCBdecrypt->currentText());
-        config->writeEntry("Sign",kCBsign->currentText());
-
-        config->setGroup("Applet");
-        config->writeEntry("encrypted drop event",kCBencrypted->currentItem());
-        config->writeEntry("unencrypted drop event",kCBunencrypted->currentItem());
-        config->writeEntry("AutoStart", cBautolog->isChecked());
-
-        config->setGroup("Notification Messages");
-        config->writeEntry("RemoteFileWarning",cbTempWarning->isChecked());
-        //else KMessageBox::enableAllMessages();
-
-        slotSaveServer();
-
-        config->sync();
-
-	if (kCBsign->currentItem()==1)
-                slotInstallSign("allfiles");
-        else
-                slotRemoveMenu("signfile.desktop");
-        if (kCBdecrypt->currentItem()==1)
-                slotInstallDecrypt("allfiles");
-        else if (kCBdecrypt->currentItem()==2)
-                slotInstallDecrypt("application/pgp-encrypted,application/pgp-signature,application/pgp-keys");
-        else
-                slotRemoveMenu("decryptfile.desktop");
 }
 
 QString kgpgOptions::namecode(QString kid)
 {
+
         for ( uint counter = 0; counter<names.count(); counter++ )
-                if (QString("0x"+ids[counter].right(8))==kid)
+                if (QString(ids[counter].right(8))==kid)
                         return names[counter];
 
         return QString::null;
@@ -395,17 +206,17 @@ QString kgpgOptions::idcode(QString kname)
 {
         for ( uint counter = 0; counter<names.count(); counter++ )
                 if (names[counter]==kname)
-                        return QString("0x"+ids[counter].right(8));
+                        return QString(ids[counter].right(8));
         return QString::null;
 }
 
 
-
 void kgpgOptions::listkey()
 {
+
         ////////   update display of keys in main management window
         FILE *fp;
-        QString tst,name,trustedvals="idre-",defaultKeyName;
+        QString tst,name,trustedvals="idre-";
         int counter=0;
         char line[130];
 
@@ -420,20 +231,18 @@ void kgpgOptions::listkey()
                                 //  name=name.section('>',0,0);
                                 names+=name;
                                 ids+=tst.section(':',4,4);
-                                if (tst.section(':',4,4).right(8)==defaultKeyID)
-                                        defaultKeyName=tst.section(':',4,4).right(8)+":"+name;
-                                kCBfilekey->insertItem(tst.section(':',4,4).right(8)+":"+name);
-                                kCBalwayskey->insertItem(tst.section(':',4,4).right(8)+":"+name);
+                                if (tst.section(':',4,4).right(8)==alwaysKeyID)
+                                        alwaysKeyName=tst.section(':',4,4).right(8)+":"+name;
+                                page1->file_key->insertItem(tst.section(':',4,4).right(8)+":"+name);
+                                page1->always_key->insertItem(tst.section(':',4,4).right(8)+":"+name);
                         }
                 }
         }
-        if (!defaultKeyName.isEmpty())
-                kCBalwayskey->setCurrentItem(defaultKeyName);
         pclose(fp);
         if (counter==0) {
                 ids+="0";
-                kCBfilekey->insertItem(i18n("none"));
-                kCBalwayskey->insertItem(i18n("none"));
+                page1->file_key->insertItem(i18n("none"));
+                page1->always_key->insertItem(i18n("none"));
         }
 }
 

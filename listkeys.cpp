@@ -57,7 +57,7 @@ class UpdateViewItem : public KListViewItem
 public:
         UpdateViewItem(QListView *parent, QString tst, QString tr, QString val, QString size, QString creat, QString id,bool isdefault,bool isexpired);
         virtual void paintCell(QPainter *p, const QColorGroup &cg,int col, int width, int align);
-	virtual QString key(int c,bool ) const;
+        virtual QString key(int c,bool ) const;
         bool def,exp;
 };
 
@@ -89,26 +89,27 @@ void UpdateViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, in
         KListViewItem::paintCell(p,_cg, column, width, alignment);
 }
 
-QString UpdateViewItem :: key(int c,bool ) const{
-  QString s;
-  if ((c==2) || (c==4))
-  {
-  QDate d = KGlobal::locale()->readDate(text(c));
-  if (d.isValid())
-  s.sprintf("%08d",d.toString("yyyyMMdd").toInt());
-  else s.sprintf("%08d",50000000);  // unlimited expiration dates are handeled as year 5000, so that they are correctly sorted
-  }
-  if (c==3)
-    /* sorting by int */
-    s.sprintf("%08d",text(c).toInt());
-   if (c==1)
-    /* sorting by pixmap */
-    s.sprintf("%08d",pixmap(c)->serialNumber());
-  else if ((c==0) || (c==5))
-    /* sorting alphanumeric */
-    s.sprintf("%s",text(c).ascii());
+QString UpdateViewItem :: key(int c,bool ) const
+{
+        QString s;
+        if ((c==2) || (c==4)) {
+                QDate d = KGlobal::locale()->readDate(text(c));
+                if (d.isValid())
+                        s.sprintf("%08d",d.toString("yyyyMMdd").toInt());
+                else
+                        s.sprintf("%08d",50000000);  // unlimited expiration dates are handeled as year 5000, so that they are correctly sorted
+        }
+        if (c==3)
+                /* sorting by int */
+                s.sprintf("%08d",text(c).toInt());
+        if (c==1)
+                /* sorting by pixmap */
+                s.sprintf("%08d",pixmap(c)->serialNumber());
+        else if ((c==0) || (c==5))
+                /* sorting alphanumeric */
+                s.sprintf("%s",text(c).ascii());
 
-    return s;
+        return s;
 }
 
 
@@ -359,8 +360,8 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
         keyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
 
         KConfig *config=kapp->config();
-        config->setGroup("General Options");
-        QString defaultKeyID=KgpgInterface::getGpgSetting("default-key",config->readPathEntry("gpg config path"));
+        config->setGroup("GPG Settings");
+        QString defaultKeyID=KgpgInterface::getGpgSetting("default-key",config->readPathEntry("gpg_config_path"));
 
 
         setMinimumSize(300,200);
@@ -622,7 +623,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         keysList2->photoKeysList="";
         config=kapp->config();
         setAutoSaveSettings();
-	readOptions();
+        readOptions();
 
         setCaption(i18n("Key Management"));
 
@@ -655,7 +656,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         QVBoxLayout *vbox=new QVBoxLayout(page,3);
 
         keysList2->setRootIsDecorated(true);
-        keysList2->addColumn( i18n( "Key" ) );
+        keysList2->addColumn( i18n( "Key" ));
         keysList2->addColumn( i18n( "Trust" ) );
         keysList2->addColumn( i18n( "Expiration" ) );
         keysList2->addColumn( i18n( "Size" ) );
@@ -706,6 +707,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         vbox->addWidget(keyPhoto);
         //vbox->addWidget(statusbar);
         setCentralWidget(page);
+        keysList2->restoreLayout(config,"MainWindow");
 
         QObject::connect(keysList2,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(listsigns()));
         QObject::connect(keysList2,SIGNAL(selectionChanged ()),this,SLOT(checkList()));
@@ -728,8 +730,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
 
 
 listKeys::~listKeys()
-{
-}
+{}
 
 
 void listKeys::configuretoolbars()
@@ -862,6 +863,7 @@ void listKeys::annule()
 {
         /////////  cancel & close window
         //exit(0);
+        keysList2->saveLayout(config,"MainWindow");
         config->setGroup("General Options");
         config->writeEntry("show toolbar",toolBar()->isVisible());
         config->writeEntry("show photo",showPhoto);
@@ -882,30 +884,50 @@ void listKeys::readOptions()
         config->setGroup("General Options");
         configshowToolBar=config->readBoolEntry("show toolbar",true);
         showPhoto=config->readBoolEntry("show photo",false);
-        keysList2->displayMailFirst=config->readBoolEntry("display mail first",true);
-        configUrl=config->readPathEntry("gpg config path");
-        optionsDefaultKey=KgpgInterface::getGpgSetting("default-key",configUrl);
-        QString defaultkey=optionsDefaultKey;
-        if (!optionsDefaultKey.isEmpty())
-                defaultkey.prepend("0x");
-        config->writeEntry("default key",defaultkey);
-        config->sync();
-        if (config->readBoolEntry("selection clip",false)) {
+
+        config->setGroup("User Interface");
+        keysList2->displayMailFirst=config->readBoolEntry("display_mail_first",true);
+        if (config->readBoolEntry("selection_clipboard",false)) {
                 // support clipboard selection (if possible)
                 if (kapp->clipboard()->supportsSelection())
                         kapp->clipboard()->setSelectionMode(true);
         } else
                 kapp->clipboard()->setSelectionMode(false);
+
+        config->setGroup("GPG Settings");
+        configUrl=config->readPathEntry("gpg_config_path");
+        optionsDefaultKey=KgpgInterface::getGpgSetting("default-key",configUrl);
+        QString defaultkey=optionsDefaultKey;
+        if (!optionsDefaultKey.isEmpty())
+                defaultkey.prepend("0x");
+
+        config->setGroup("Encryption");
+        config->writeEntry("default key",defaultkey.right(8));
+        config->sync();
         keysList2->defKey=defaultkey;
 }
 
 
 void listKeys::slotOptions()
 {
-        kgpgOptions *opts=new kgpgOptions(this);
-        opts->exec();
-        delete opts;
+        if (KAutoConfigDialog::showDialog("settings"))
+                return;
+        kgpgOptions *optionsDialog=new kgpgOptions(this,"settings");
+        connect(optionsDialog,SIGNAL(updateDisplay()),this,SLOT(updateKeyList()));
+        connect(optionsDialog,SIGNAL(updateSettings()),this,SLOT(readAllOptions()));
+        optionsDialog->show();
+}
+
+void listKeys::readAllOptions()
+{
         readOptions();
+        emit readAgainOptions();
+}
+
+void listKeys::updateKeyList()
+{
+        config->setGroup("User Interface");
+        keysList2->displayMailFirst=config->readBoolEntry("display_mail_first",true);
         refreshkey();
 }
 
@@ -931,8 +953,8 @@ void listKeys::slotSetDefKey()
 
         ////////////// store new default key
 
-        config->setGroup("General Options");
-        config->writeEntry("default key",keysList2->defKey);
+        config->setGroup("Encryption");
+        config->writeEntry("default key",keysList2->defKey.right(8));
         KgpgInterface::setGpgSetting("default-key",keysList2->defKey.right(keysList2->defKey.length()-2),configUrl);
 }
 
@@ -1197,7 +1219,7 @@ void listKeys::signkey()
         }
 
 
-	if (signList.count()==1) {
+        if (signList.count()==1) {
                 FILE *pass;
                 char line[200]="";
                 QString opt,fingervalue;
@@ -1233,27 +1255,27 @@ void listKeys::signkey()
 
 
         //////////////////  open a secret key selection dialog (KgpgSelKey, see begining of this file)
-	KgpgSelKey *opts=new KgpgSelKey(this);
+        KgpgSelKey *opts=new KgpgSelKey(this);
 
-	QLabel *signCheck = new QLabel(i18n("How carefully have you checked that the key(s) really\n"
-									"belongs to the person(s) you want to communicate with:"),opts->page);
+        QLabel *signCheck = new QLabel(i18n("How carefully have you checked that the key(s) really\n"
+                                            "belongs to the person(s) you want to communicate with:"),opts->page);
         opts->vbox->addWidget(signCheck);
-	QComboBox *signTrust=new QComboBox(opts->page);
-	signTrust->insertItem(i18n("I will not answer"));
-	signTrust->insertItem(i18n("I have not checked at all"));
-	signTrust->insertItem(i18n("I have done casual checking"));
-	signTrust->insertItem(i18n("I have done very careful checking"));
+        QComboBox *signTrust=new QComboBox(opts->page);
+        signTrust->insertItem(i18n("I will not answer"));
+        signTrust->insertItem(i18n("I have not checked at all"));
+        signTrust->insertItem(i18n("I have done casual checking"));
+        signTrust->insertItem(i18n("I have done very careful checking"));
         opts->vbox->addWidget(signTrust);
 
-	QCheckBox *localSign = new QCheckBox(i18n("Local signature (cannot be exported)"),opts->page);
+        QCheckBox *localSign = new QCheckBox(i18n("Local signature (cannot be exported)"),opts->page);
         opts->vbox->addWidget(localSign);
-	opts->setMinimumHeight(300);
+        opts->setMinimumHeight(300);
 
         if (opts->exec()==QDialog::Accepted) {
                 globalkeyID=QString(opts->getkeyID());
                 globalkeyMail=QString(opts->getkeyMail());
                 globalisLocal=localSign->isChecked();
-		globalChecked=signTrust->currentItem();
+                globalChecked=signTrust->currentItem();
         } else {
                 delete opts;
                 return;

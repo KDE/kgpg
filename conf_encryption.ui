@@ -1,0 +1,248 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>Encryption</class>
+<author>bj@altern.org</author>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>Encryption</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>455</width>
+            <height>316</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Encryption</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QCheckBox" row="6" column="0">
+            <property name="name">
+                <cstring>Pgp_extension</cstring>
+            </property>
+            <property name="text">
+                <string>Use *.pgp extension for encrypted files</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>&lt;b&gt;Hide user ID&lt;/b&gt; Do not put the keyid into encrypted packets. This option hides the receiver of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because all available secret keys are tried. </string>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="4" column="0">
+            <property name="name">
+                <cstring>layout8</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout7</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>encrypt_to_always</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Always encrypt with:</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>&lt;b&gt;Always encrypt with default key&lt;/b&gt; This ensures all files/messages will also be encrypted with that key. (except if special key for file encryption is enabled)</string>
+                            </property>
+                        </widget>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>encrypt_files_to</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Encrypt files with:</string>
+                            </property>
+                            <property name="whatsThis" stdset="0">
+                                <string>&lt;b&gt;Use special key for file encryption&lt;/b&gt; With this options, file encryption will automatically be made with the chosen key. Kgpg will not ask you for a recipient. The default key will not be used.</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>layout6</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="KComboBox">
+                            <property name="name">
+                                <cstring>always_key</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>7</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                        </widget>
+                        <widget class="KComboBox">
+                            <property name="name">
+                                <cstring>file_key</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>7</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QCheckBox" row="3" column="0">
+            <property name="name">
+                <cstring>Hide_user_ID</cstring>
+            </property>
+            <property name="text">
+                <string>Hide user id</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>&lt;b&gt;Hide user ID&lt;/b&gt; Do not put the keyid into encrypted packets. This option hides the receiver of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because all available secret keys are tried. </string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="1" column="0">
+            <property name="name">
+                <cstring>Allow_untrusted_keys</cstring>
+            </property>
+            <property name="text">
+                <string>Allow encryption with untrusted keys</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>&lt;b&gt;Allow encryption with untrusted keys&lt;/b&gt;: when you import a public key, it is usually marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this box enables you to use any key, even if it has not be signed.</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="2" column="0">
+            <property name="name">
+                <cstring>PGP_compatibility</cstring>
+            </property>
+            <property name="text">
+                <string>PGP 6 compatibility</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>&lt;b&gt;PGP 6 compatibility&lt;/b&gt; Set up all options to be as PGP 6 compliant as possible. (option --pgp6)</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="0" column="0">
+            <property name="name">
+                <cstring>Ascii_armor</cstring>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>0</width>
+                    <height>0</height>
+                </size>
+            </property>
+            <property name="text">
+                <string>ASCII armored encryption</string>
+            </property>
+            <property name="checked">
+                <bool>true</bool>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>&lt;b&gt;ASCII encryption&lt;/b&gt;: makes it possible to open the encrypted file/message in a text editor</string>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="5" column="0">
+            <property name="name">
+                <cstring>layout3</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>allow_custom_option</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Custom encryption command:</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>&lt;b&gt;Enable custom command line input&lt;/b&gt; When activated, an entry field will be shown in the key selection dialog, enabling you tho enter a custom command for encryption. (recommanded for experienced users only)</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit">
+                    <property name="name">
+                        <cstring>custom_option</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <spacer row="7" column="0">
+            <property name="name">
+                <cstring>spacer7</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>40</height>
+                </size>
+            </property>
+        </spacer>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>encrypt_files_to</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>Encryption</receiver>
+        <slot>encrypt_files_to_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>allow_custom_option</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>Encryption</receiver>
+        <slot>allow_custom_option_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>encrypt_to_always</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>Encryption</receiver>
+        <slot>encrypt_to_always_toggled(bool)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">conf_encryption.ui.h</include>
+</includes>
+<slots>
+    <slot>encrypt_to_always_toggled( bool isOn )</slot>
+    <slot>encrypt_files_to_toggled( bool isOn )</slot>
+    <slot>allow_custom_option_toggled( bool isOn )</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -18,44 +18,43 @@
 #define KGPGOPTIONS_H
 
 
-#include <kdialogbase.h>
+#include <kautoconfigdialog.h>
 
-#include "kgpgoption.h"
+#include "conf_encryption.h"
+#include "conf_decryption.h"
+#include "conf_ui.h"
+#include "conf_gpg.h"
+
 
 class KConfig;
 
-
-class kgpgOptions : public KgpgOptionDialog
+class kgpgOptions : public KAutoConfigDialog
 {
         Q_OBJECT
 public:
         kgpgOptions(QWidget *parent=0, const char *name=0);
         ~kgpgOptions();
         QStringList names,ids;
-
+        Encryption *page1;
+        Decryption *page2;
+        UI *page3;
+        GPGConf *page4;
 private:
         KConfig *config;
-        QString confPath,defaultKeyID;
+        QString alwaysKeyID,alwaysKeyName;
+        bool firstDisplay;
 
 private slots:
-	void slotAgent(bool);
-        void slotSaveServer();
+        void readSettings();
         void listkey();
         QString namecode(QString kid);
         QString idcode(QString kname);
-        void slotOk();
         void slotInstallDecrypt(QString mimetype);
         void slotInstallSign(QString mimetype);
         void slotRemoveMenu(QString menu);
-        void slotEditServer();
-        void slotAddServer();
-        void slotRemoveServer();
-        void reloadServer();
-        void slotDefaultServer();
-public slots:
-        void checkMimes();
 signals:
-
+        void updateDisplay();
+        void updateSettings();
 };
 
 #endif

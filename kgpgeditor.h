@@ -71,7 +71,7 @@ public:
         KURL Docname;
         int version;
         bool ascii,untrusted,hideid,pgpcomp,encryptfileto,tipofday;
-        QString messages,filekey;
+        QString messages;
         QPixmap fileEnc,fileDec;
         KgpgView *view;
 
