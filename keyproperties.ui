@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>446</width>
+            <width>405</width>
             <height>374</height>
         </rect>
     </property>
@@ -38,17 +38,6 @@
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>buttonPass</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="text">
-                        <string>Change passphrase</string>
-                    </property>
-                </widget>
                 <spacer>
                     <property name="name">
                         <cstring>spacer3</cstring>
@@ -110,31 +99,15 @@
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QLayoutWidget" row="0" column="0" rowspan="1" colspan="2">
+                <widget class="QLayoutWidget" row="1" column="0">
                     <property name="name">
-                        <cstring>layout2</cstring>
+                        <cstring>layout14</cstring>
                     </property>
-                    <grid>
+                    <vbox>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="QLabel" row="2" column="1">
-                            <property name="name">
-                                <cstring>tLComment</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>5</hsizetype>
-                                    <vsizetype>5</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="text">
-                                <string>xx</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="2" column="0">
+                        <widget class="QLabel">
                             <property name="name">
                                 <cstring>tLComment2_2</cstring>
                             </property>
@@ -142,105 +115,184 @@
                                 <string>Comment:</string>
                             </property>
                         </widget>
-                        <widget class="QLabel" row="5" column="0">
+                        <widget class="QLabel">
                             <property name="name">
-                                <cstring>tLLength2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Length:</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="1" column="1">
-                            <property name="name">
-                                <cstring>tLMail</cstring>
-                            </property>
-                            <property name="text">
-                                <string>xx</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="1">
-                            <property name="name">
-                                <cstring>tLName</cstring>
-                            </property>
-                            <property name="text">
-                                <string>xx</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="3" column="0">
-                            <property name="name">
-                                <cstring>tLID2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Key ID:</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="5" column="1">
-                            <property name="name">
-                                <cstring>tLLength</cstring>
-                            </property>
-                            <property name="text">
-                                <string>xx</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="4" column="0">
-                            <property name="name">
-                                <cstring>tLAlgo2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Algorithm:</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="0" column="0">
-                            <property name="name">
-                                <cstring>tLName2_2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Name:</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="1" column="0">
-                            <property name="name">
-                                <cstring>tLMail2_2</cstring>
-                            </property>
-                            <property name="text">
-                                <string>E-Mail:</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="6" column="1">
-                            <property name="name">
-                                <cstring>tLCreation</cstring>
-                            </property>
-                            <property name="text">
-                                <string>xx</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel" row="6" column="0">
-                            <property name="name">
-                                <cstring>tLCreation2</cstring>
+                                <cstring>labelCreation</cstring>
                             </property>
                             <property name="text">
                                 <string>Creation:</string>
                             </property>
                         </widget>
-                        <widget class="QLabel" row="3" column="1">
+                        <widget class="QLabel">
                             <property name="name">
-                                <cstring>tLID</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>5</hsizetype>
-                                    <vsizetype>5</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
+                                <cstring>labelExpiration</cstring>
                             </property>
                             <property name="text">
-                                <string>xx</string>
+                                <string>Expiration:</string>
                             </property>
                         </widget>
-                        <widget class="QLabel" row="4" column="1">
+                    </vbox>
+                </widget>
+                <widget class="KComboBox" row="3" column="1">
+                    <item>
+                        <property name="text">
+                            <string>Don't know</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Do NOT trust</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Marginally</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Fully</string>
+                        </property>
+                    </item>
+                    <item>
+                        <property name="text">
+                            <string>Ultimately</string>
+                        </property>
+                    </item>
+                    <property name="name">
+                        <cstring>kCOwnerTrust</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="3" column="0">
+                    <property name="name">
+                        <cstring>tLTrust_2</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>Owner Trust:</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="4" column="0">
+                    <property name="name">
+                        <cstring>layout76</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
                             <property name="name">
-                                <cstring>tLAlgo</cstring>
+                                <cstring>labelID</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Key ID:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>labelAlgo</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Algorithm:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>labelLength</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Length:</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>txtTrust</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>Trust:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="1">
+                    <property name="name">
+                        <cstring>kLTrust</cstring>
+                    </property>
+                    <property name="frameShape">
+                        <enum>Box</enum>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="1" column="1">
+                    <property name="name">
+                        <cstring>layout15</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>tLComment</cstring>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>tLCreation</cstring>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>tLExpiration</cstring>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLayoutWidget" row="0" column="1">
+                    <property name="name">
+                        <cstring>layout8</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>tLName</cstring>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                        </widget>
+                        <widget class="KActiveLabel">
+                            <property name="name">
+                                <cstring>tLMail</cstring>
                             </property>
                             <property name="sizePolicy">
                                 <sizepolicy>
@@ -250,217 +302,208 @@
                                     <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
-                            <property name="text">
-                                <string>xx</string>
-                            </property>
                         </widget>
-                    </grid>
+                    </vbox>
                 </widget>
-                <widget class="QLabel" row="3" column="0" rowspan="1" colspan="3">
+                <widget class="QLayoutWidget" row="0" column="0">
                     <property name="name">
-                        <cstring>tLID_2</cstring>
+                        <cstring>layout9</cstring>
                     </property>
-                    <property name="text">
-                        <string>Fingerprint:</string>
-                    </property>
-                </widget>
-                <widget class="QLineEdit" row="4" column="0" rowspan="1" colspan="3">
-                    <property name="name">
-                        <cstring>lEFinger</cstring>
-                    </property>
-                    <property name="readOnly">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QLabel" row="1" column="0">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Expiration:</string>
-                    </property>
-                </widget>
-                <widget class="KDateWidget" row="1" column="1">
-                    <property name="name">
-                        <cstring>kDateWidget</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>5</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="1" column="2">
-                    <property name="name">
-                        <cstring>cBExpiration</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>false</bool>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>5</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="text">
-                        <string>Unlimited</string>
-                    </property>
-                    <property name="checked">
-                        <bool>false</bool>
-                    </property>
-                </widget>
-                <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="2">
-                    <property name="name">
-                        <cstring>layout7</cstring>
-                    </property>
-                    <hbox>
+                    <vbox>
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="QLayoutWidget">
+                        <widget class="QLabel">
                             <property name="name">
-                                <cstring>layout6</cstring>
+                                <cstring>tLName2_2</cstring>
                             </property>
-                            <vbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>txtTrust</cstring>
-                                    </property>
-                                    <property name="sizePolicy">
-                                        <sizepolicy>
-                                            <hsizetype>5</hsizetype>
-                                            <vsizetype>5</vsizetype>
-                                            <horstretch>0</horstretch>
-                                            <verstretch>0</verstretch>
-                                        </sizepolicy>
-                                    </property>
-                                    <property name="text">
-                                        <string>Trust:</string>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel">
-                                    <property name="name">
-                                        <cstring>tLTrust_2</cstring>
-                                    </property>
-                                    <property name="sizePolicy">
-                                        <sizepolicy>
-                                            <hsizetype>5</hsizetype>
-                                            <vsizetype>5</vsizetype>
-                                            <horstretch>0</horstretch>
-                                            <verstretch>0</verstretch>
-                                        </sizepolicy>
-                                    </property>
-                                    <property name="text">
-                                        <string>Owner trust:</string>
-                                    </property>
-                                </widget>
-                            </vbox>
+                            <property name="text">
+                                <string>Name:</string>
+                            </property>
                         </widget>
-                        <widget class="QLayoutWidget">
+                        <widget class="QLabel">
                             <property name="name">
-                                <cstring>layout5</cstring>
+                                <cstring>tLMail2_2</cstring>
                             </property>
-                            <vbox>
-                                <property name="name">
-                                    <cstring>unnamed</cstring>
-                                </property>
-                                <widget class="KLineEdit">
-                                    <property name="name">
-                                        <cstring>kLTrust</cstring>
-                                    </property>
-                                    <property name="text">
-                                        <string>Trust</string>
-                                    </property>
-                                    <property name="readOnly">
-                                        <bool>true</bool>
-                                    </property>
-                                </widget>
-                                <widget class="KComboBox">
-                                    <item>
-                                        <property name="text">
-                                            <string>Don't know</string>
-                                        </property>
-                                    </item>
-                                    <item>
-                                        <property name="text">
-                                            <string>Do NOT trust</string>
-                                        </property>
-                                    </item>
-                                    <item>
-                                        <property name="text">
-                                            <string>Marginally</string>
-                                        </property>
-                                    </item>
-                                    <item>
-                                        <property name="text">
-                                            <string>Fully</string>
-                                        </property>
-                                    </item>
-                                    <item>
-                                        <property name="text">
-                                            <string>Ultimately</string>
-                                        </property>
-                                    </item>
-                                    <property name="name">
-                                        <cstring>kCOwnerTrust</cstring>
-                                    </property>
-                                </widget>
-                            </vbox>
+                            <property name="text">
+                                <string>E-Mail:</string>
+                            </property>
                         </widget>
-                    </hbox>
+                    </vbox>
                 </widget>
-                <widget class="QLabel" row="0" column="2">
+                <widget class="QLayoutWidget" row="4" column="1">
                     <property name="name">
-                        <cstring>pLPhoto</cstring>
+                        <cstring>layout10</cstring>
                     </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>5</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="KActiveLabel">
+                            <property name="name">
+                                <cstring>tLID</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>7</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>tLAlgo</cstring>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>tLLength</cstring>
+                            </property>
+                            <property name="text">
+                                <string></string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLayoutWidget" row="5" column="0" rowspan="1" colspan="3">
+                    <property name="name">
+                        <cstring>layout11</cstring>
                     </property>
-                    <property name="minimumSize">
-                        <size>
-                            <width>0</width>
-                            <height>0</height>
-                        </size>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>tLID_2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Fingerprint:</string>
+                            </property>
+                        </widget>
+                        <widget class="KLineEdit">
+                            <property name="name">
+                                <cstring>lEFinger</cstring>
+                            </property>
+                            <property name="frame">
+                                <bool>true</bool>
+                            </property>
+                            <property name="readOnly">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLayoutWidget" row="0" column="2" rowspan="5" colspan="1">
+                    <property name="name">
+                        <cstring>layout9</cstring>
                     </property>
-                    <property name="paletteBackgroundColor">
-                        <color>
-                            <red>200</red>
-                            <green>200</green>
-                            <blue>200</blue>
-                        </color>
-                    </property>
-                    <property name="frameShape">
-                        <enum>Box</enum>
-                    </property>
-                    <property name="lineWidth">
-                        <number>2</number>
-                    </property>
-                    <property name="text">
-                        <string>No Photo</string>
-                    </property>
-                    <property name="scaledContents">
-                        <bool>false</bool>
-                    </property>
-                    <property name="alignment">
-                        <set>AlignCenter</set>
-                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>pLPhoto</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="minimumSize">
+                                <size>
+                                    <width>100</width>
+                                    <height>100</height>
+                                </size>
+                            </property>
+                            <property name="paletteBackgroundColor">
+                                <color>
+                                    <red>200</red>
+                                    <green>200</green>
+                                    <blue>200</blue>
+                                </color>
+                            </property>
+                            <property name="frameShape">
+                                <enum>Box</enum>
+                            </property>
+                            <property name="lineWidth">
+                                <number>2</number>
+                            </property>
+                            <property name="text">
+                                <string>No Photo</string>
+                            </property>
+                            <property name="scaledContents">
+                                <bool>false</bool>
+                            </property>
+                            <property name="alignment">
+                                <set>AlignCenter</set>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer7_2</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Vertical</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>20</width>
+                                    <height>48</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>changeExp</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>true</bool>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>5</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="text">
+                                <string>Change Expiration</string>
+                            </property>
+                        </widget>
+                        <widget class="QPushButton">
+                            <property name="name">
+                                <cstring>changePass</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>true</bool>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>1</hsizetype>
+                                    <vsizetype>0</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="text">
+                                <string> Change Passphrase </string>
+                            </property>
+                        </widget>
+                    </vbox>
                 </widget>
             </grid>
         </widget>
@@ -473,23 +516,15 @@
         <receiver>KeyProperties</receiver>
         <slot>reject()</slot>
     </connection>
-    <connection>
-        <sender>cBExpiration</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>KeyProperties</receiver>
-        <slot>cBExpiration_toggled(bool)</slot>
-    </connection>
 </connections>
-<includes>
-    <include location="local" impldecl="in implementation">keyproperties.ui.h</include>
-</includes>
 <slots>
     <slot>cBExpiration_toggled( bool ison )</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kdatewidget.h</includehint>
-    <includehint>klineedit.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>kactivelabel.h</includehint>
+    <includehint>kactivelabel.h</includehint>
+    <includehint>klineedit.h</includehint>
 </includehints>
 </UI>
