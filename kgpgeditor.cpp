@@ -15,10 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kgpgeditor.h"
 #include <kaction.h>
 #include <kfiledialog.h>
 #include <klocale.h>
+
+#include "kgpgeditor.h"
+#include "sourceselect.h"
+#include "keyexport.h"
 
 KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent, name,f)
 {
@@ -60,7 +63,7 @@ void KgpgApp::readOptions(bool doresize)
         encryptfileto=config->readBoolEntry("encrypt_files_to",false);
 
 	config->setGroup("Decryption");
-        customDecrypt=config->readEntry("custom_decrypt");
+	customDecrypt=QStringList::split(QString(" "),config->readEntry("custom_decrypt").simplifyWhiteSpace());
 
         if (doresize) {
 		config->setGroup("General Options");
@@ -204,12 +207,22 @@ void KgpgApp::slotFilePreDec()
                 oldname.truncate(oldname.length()-4);
         else
                 oldname.append(".clear");
-        KURL swapname(url.directory(0,0)+oldname);
+        oldname.prepend(url.directory(0,0));
 
-        popupName *popn=new popupName(i18n("Decryption To"), this, "decryption to", swapname);
+	KDialogBase *popn=new KDialogBase( KDialogBase::Swallow, i18n("Decrypt File to"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "file_decrypt",true);
+	
+	SrcSelect *page=new SrcSelect();
+	popn->setMainWidget(page);
+	page->newFilename->setURL(oldname);
+	page->newFilename->setMode(KFile::File);
+	page->newFilename->setCaption(i18n("Save File"));
+
+	page->checkClipboard->setText(i18n("Editor"));
+	page->resize(page->minimumSize());
+	popn->resize(popn->minimumSize());
         if (popn->exec()==QDialog::Accepted) {
-                if (popn->checkFile->isChecked())
-                        newname=popn->newFilename->text();
+                if (page->checkFile->isChecked())
+                        newname=page->newFilename->url();
         } else {
                 delete popn;
                 return;

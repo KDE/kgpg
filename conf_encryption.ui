@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>Encryption</class>
 <author>bj@altern.org</author>
 <widget class="QWidget">
@@ -9,16 +9,19 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>455</width>
-            <height>324</height>
+            <width>421</width>
+            <height>280</height>
         </rect>
     </property>
     <property name="caption">
-        <string>Encryption</string>
+        <string></string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
         </property>
         <widget class="QCheckBox" row="1" column="0">
             <property name="name">
@@ -28,7 +31,7 @@
                 <string>Allow encryption with untrusted keys</string>
             </property>
             <property name="whatsThis" stdset="0">
-	    	<string>&lt;qt&gt;&lt;b&gt;Allow encryption with untrusted keys:&lt;/b&gt; &lt;br /&gt;
+                <string>&lt;qt&gt;&lt;b&gt;Allow encryption with untrusted keys:&lt;/b&gt; &lt;br /&gt;
 		&lt;p&gt;When importing a public key, the key is usually marked as untrusted and as such cannot be used unless it is signed by the default key (Thus, making it 'trusted'). Checking this box enables any key to be used even if it is untrusted.&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
@@ -40,7 +43,7 @@
                 <string>PGP 6 compatibility</string>
             </property>
             <property name="whatsThis" stdset="0">
-	    	<string>&lt;qt&gt;&lt;b&gt;PGP 6 compatibility:&lt;/b&gt;&lt;br /&gt; 
+                <string>&lt;qt&gt;&lt;b&gt;PGP 6 compatibility:&lt;/b&gt;&lt;br /&gt; 
 		&lt;p&gt;Checking this option forces GnuPG to output encrypted packets that are as compliant with PGP (Pretty Good Privacy) 6 standards as possible thus allowing GnuPG users to inter operate with PGP 6 users.&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
@@ -61,7 +64,7 @@
                 <bool>true</bool>
             </property>
             <property name="whatsThis" stdset="0">
-	    <string>&lt;qt&gt;&lt;b&gt;ASCII armored encryption:&lt;/b&gt; &lt;br /&gt; 
+                <string>&lt;qt&gt;&lt;b&gt;ASCII armored encryption:&lt;/b&gt; &lt;br /&gt; 
 		&lt;p&gt;Checking this option outputs all encrypted files in a format that can be opened by a text editor and as such the output is suitable for placing in the body of an e-mail message.&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
@@ -159,7 +162,7 @@
                 <string>Use *.pgp extension for encrypted files</string>
             </property>
             <property name="whatsThis" stdset="0">
-	    	<string>&lt;qt&gt;&lt;b&gt;Use *.pgp extension for encrypted files:&lt;/b&gt;&lt;br /&gt;
+                <string>&lt;qt&gt;&lt;b&gt;Use *.pgp extension for encrypted files:&lt;/b&gt;&lt;br /&gt;
 		&lt;p&gt;Checking this option will append a .pgp extension to all encrypted files instead of a .gpg extension. This option will maintain compatibility with users of PGP (Pretty Good Privacy) software.&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
@@ -179,7 +182,7 @@
                         <string>Custom encryption command:</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-		    <string>&lt;qt&gt;&lt;b&gt;Custom encryption command:&lt;/b&gt; &lt;br /&gt;
+                        <string>&lt;qt&gt;&lt;b&gt;Custom encryption command:&lt;/b&gt; &lt;br /&gt;
 			&lt;p&gt;When activated, an entry field will be shown in the key selection dialog, enabling you to enter a custom command for encryption. This option is recommended for experienced users only.&lt;/p&gt;&lt;/qt&gt;</string>
                     </property>
                 </widget>
@@ -201,7 +204,7 @@
                 <string>Hide user id</string>
             </property>
             <property name="whatsThis" stdset="0">
-	    <string>&lt;qt&gt;&lt;b&gt;Hide user ID:&lt;/b&gt;&lt;br /&gt; 
+                <string>&lt;qt&gt;&lt;b&gt;Hide user ID:&lt;/b&gt;&lt;br /&gt; 
 		&lt;p&gt;Checking this option will remove the keyid of the recipient from all encrypted packets. The advantage: traffic analysis of the encrypted packets cannot be performed as easily because the recipient is unknown. The disadvantage: the receiver of the encrypted packets is forced to try all secret keys before being able to decrypt the packets. This can be a lengthy process depending on the number of secret keys the receiver holds.&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
@@ -265,9 +268,4 @@
     <slot>allow_custom_option_toggled( bool isOn )</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>klineedit.h</includehint>
-</includehints>
 </UI>

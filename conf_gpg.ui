@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>GPGConf</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,12 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>581</width>
-            <height>309</height>
+            <width>495</width>
+            <height>243</height>
         </rect>
     </property>
     <property name="caption">
-        <string>GNUPG Settings</string>
+        <string></string>
     </property>
     <property name="whatsThis" stdset="0">
         <string>&lt;qt&gt;&lt;b&gt;Global Settings:&lt;/b&gt;&lt;br /&gt;
@@ -23,6 +23,9 @@
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
         </property>
         <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
@@ -159,10 +162,10 @@ all others will be stored for use by KGpg only.</string>
         </widget>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kurlrequester.h</includehint>
-    <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

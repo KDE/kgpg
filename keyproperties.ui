@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>566</width>
-            <height>395</height>
+            <width>410</width>
+            <height>301</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -26,6 +26,9 @@
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
         </property>
         <widget class="KLineEdit" row="2" column="0" rowspan="1" colspan="2">
             <property name="name">

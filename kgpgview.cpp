@@ -31,7 +31,6 @@
 #include <kurldrag.h>
 
 #include "kgpginterface.h"
-#include "popupname.h"
 #include "kgpgview.h"
 #include "kgpg.h"
 

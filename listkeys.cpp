@@ -53,6 +53,8 @@
 #include <kabc/addresseedialog.h>
 
 #include "listkeys.h"
+#include "keyexport.h"
+#include "sourceselect.h"
 #include "adduid.h"
 #include "keyservers.h"
 #include "kgpginterface.h"
@@ -1156,37 +1158,44 @@ void listKeys::slotSetDefKey()
 void listKeys::slotSetDefaultKey(QString newID)
 {
         QListViewItem *newdef = keysList2->firstChild();
-        while (newdef->text(6)!=newID)
-                if (newdef->nextSibling())
-                        newdef = newdef->nextSibling();
-                else
-                        break;
-        slotSetDefaultKey(newdef);
+        while (newdef)
+	{
+	if (newdef->text(6)==newID)
+	{
+	slotSetDefaultKey(newdef);
+	break;
+	}
+        newdef = newdef->nextSibling();
+        }
 }
 
 void listKeys::slotSetDefaultKey(QListViewItem *newdef)
 {
-
+if (!newdef) return;
         if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) {
                 KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted."));
                 return;
         }
 
         QListViewItem *olddef = keysList2->firstChild();
-        while (olddef->text(6)!=keysList2->defKey)
-                if (olddef->nextSibling())
-                        olddef = olddef->nextSibling();
-                else
-                        break;
+        while (olddef)
+	{
+	if (olddef->text(6)==keysList2->defKey)
+	{
+	break;
+	}
+        olddef = olddef->nextSibling();
+	}
         keysList2->defKey=newdef->text(6);
 
         config->setGroup("Encryption");
         config->writeEntry("default key",newdef->text(6).right(8));
         config->setGroup("GPG Settings");
         KgpgInterface::setGpgSetting("default-key",newdef->text(6).right(8),config->readPathEntry("gpg_config_path"));
-        keysList2->refreshcurrentkey(olddef);
+        if (olddef) keysList2->refreshcurrentkey(olddef);
         keysList2->refreshcurrentkey(newdef);
 
+	/*
         QListViewItem *updef = keysList2->firstChild();
         while (updef->text(6)!=newdef->text(6))
                 if (updef->nextSibling())
@@ -1195,8 +1204,8 @@ void listKeys::slotSetDefaultKey(QListViewItem *newdef)
                         break;
         keysList2->clearSelection();
         keysList2->setCurrentItem(updef);
-        keysList2->setSelected(updef,true);
-        keysList2->ensureItemVisible(updef);
+        keysList2->setSelected(updef,true);*/
+        keysList2->ensureItemVisible(newdef);
 }
 
 
@@ -1262,7 +1271,6 @@ void listKeys::slotrevoke(QString keyID,QString revokeUrl,int reason,QString des
 
 void listKeys::revokeWidget()
 {
-	
 KDialogBase *keyRevokeWidget=new KDialogBase(KDialogBase::Swallow, i18n("Create Revocation Certificate"),  KDialogBase::Ok | KDialogBase::Cancel,KDialogBase::Ok,this,0,true);
 
         KgpgRevokeWidget *keyRevoke=new KgpgRevokeWidget();
@@ -1355,8 +1363,6 @@ void listKeys::slotexport()
         if (exportList.count()==0)
                 return;
 
-
-        KURL u;
         QString sname;
 
         if (exportList.count()==1) {
@@ -1367,19 +1373,24 @@ void listKeys::slotexport()
                 sname="keyring";
         sname.append(".asc");
         sname.prepend(QDir::homeDirPath()+"/");
-        u.setPath(sname);
-
-        popupName *dial=new popupName(i18n("Export Public Key(s) To"),this, "export_key", u,true);
-        dial->exportAttributes->setChecked(true);
+	
+	KDialogBase *dial=new KDialogBase( KDialogBase::Swallow, i18n("Public Key Export"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "key_export",true);
+	
+	KeyExport *page=new KeyExport();
+	dial->setMainWidget(page);
+	page->newFilename->setURL(sname);
+	page->newFilename->setCaption(i18n("Save File"));
+	page->newFilename->setMode(KFile::File);
+	page->show();
 
         if (dial->exec()==QDialog::Accepted) {
                 ////////////////////////// export to file
                 QString expname;
-                bool exportAttr=dial->exportAttributes->isChecked();
+                bool exportAttr=page->exportAttributes->isChecked();
                 KProcIO *p=new KProcIO();
                 *p<<"gpg"<<"--no-tty";
-                if (dial->checkFile->isChecked()) {
-                        expname=dial->newFilename->text().stripWhiteSpace();
+                if (page->checkFile->isChecked()) {
+                        expname=page->newFilename->url().stripWhiteSpace();
                         if (!expname.isEmpty()) {
                                 QFile fgpg(expname);
                                 if (fgpg.exists())
@@ -1413,7 +1424,7 @@ void listKeys::slotexport()
                         KgpgInterface *kexp=new KgpgInterface();
 
                         QString result=kexp->getKey(klist,exportAttr);
-                        if (dial->checkClipboard->isChecked())
+                        if (page->checkClipboard->isChecked())
                                 slotProcessExportClip(result);
                         //connect(kexp,SIGNAL(publicKeyString(QString)),this,SLOT(slotProcessExportClip(QString)));
                         else
@@ -2044,7 +2055,7 @@ void listKeys::slotReadFingerProcess(KProcIO *p)
         QString outp;
         while (p->readln(outp)!=-1) {
                 if (outp.startsWith("pub") && (continueSearch)) {
-                        newkeyID=outp.section(':',4,4).right(8);
+                        newkeyID=outp.section(':',4,4).right(8).prepend("0x");
                         
                 }
                 if (outp.startsWith("fpr")) {
@@ -2069,7 +2080,7 @@ void listKeys::newKeyDone(KProcess *)
         newKey *page=new newKey(keyCreated);
         page->TLname->setText("<b>"+newKeyName+"</b>");
         page->TLemail->setText("<b>"+newKeyMail+"</b>");
-        page->TLid->setText("<b>0x"+newkeyID+"</b>");
+        page->TLid->setText("<b>"+newkeyID+"</b>");
         page->LEfinger->setText(newkeyFinger);
         page->CBdefault->setChecked(true);
         page->show();
@@ -2079,19 +2090,23 @@ void listKeys::newKeyDone(KProcess *)
         keyCreated->exec();
 
         QListViewItem *newdef = keysList2->firstChild();
-        while (newdef->text(6)!="0x"+newkeyID)
-                if (newdef->nextSibling())
-                        newdef = newdef->nextSibling();
-                else
-                        break;
-        if (page->CBdefault->isChecked())
-                slotSetDefaultKey(newdef);
-        else {
+        while (newdef)
+		{
+		if (newdef->text(6)==newkeyID) 
+		{
+		if (page->CBdefault->isChecked())
+		slotSetDefaultKey(newdef);
+		break;
+		}
+		newdef = newdef->nextSibling();
+                }
+                if ((!page->CBdefault->isChecked()) && (newdef))
+        	{
                 keysList2->clearSelection();
                 keysList2->setCurrentItem(newdef);
                 keysList2->setSelected(newdef,true);
                 keysList2->ensureItemVisible(newdef);
-        }
+        	}
         if (page->CBsave->isChecked()) {
                 slotrevoke(newkeyID,page->kURLRequester1->url(),0,i18n("backup copy"));
                 if (page->CBprint->isChecked())
@@ -2217,12 +2232,19 @@ void listKeys::deletekey()
 
 void listKeys::slotPreImportKey()
 {
-        popupImport *dial=new popupImport(i18n("Import Key From"),this, "import_key");
+	KDialogBase *dial=new KDialogBase( KDialogBase::Swallow, i18n("Key Import"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "key_import",true);
 
+	SrcSelect *page=new SrcSelect();
+	dial->setMainWidget(page);
+	page->newFilename->setCaption(i18n("Open File"));
+	page->newFilename->setMode(KFile::File);
+	page->resize(page->minimumSize());
+	dial->resize(dial->minimumSize());
+	
         if (dial->exec()==QDialog::Accepted) {
 
-                if (dial->checkFile->isChecked()) {
-                        QString impname=dial->newFilename->text().stripWhiteSpace();
+                if (page->checkFile->isChecked()) {
+                        QString impname=page->newFilename->url().stripWhiteSpace();
                         if (!impname.isEmpty()) {
                                 ////////////////////////// import from file
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
@@ -2728,4 +2750,5 @@ QStringList keyString=QStringList::split(":",keyColon,true);
 	
         return ret;
 }
+
 #include "listkeys.moc"

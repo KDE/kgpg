@@ -43,7 +43,6 @@
 
 #include "kgpginterface.h"
 #include "kgpgview.h"
-#include "popupname.h"
 #include "kgpgoptions.h"
 #include "kgpglibrary.h"
 
@@ -114,7 +113,7 @@ private slots:
 private:
 
         KPassivePopup *pop;
-        QString customDecrypt;
+        QStringList customDecrypt;
 	KSelectAction *encodingAction ;
         KURL urlselected;
         /** the configuration object of the application */

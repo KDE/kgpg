@@ -75,8 +75,6 @@
 
 #include "kgpg.h"
 #include "keygener.h"
-#include "popupimport.h"
-#include "popupname.h"
 #include "kgpgoptions.h"
 #include "keyservers.h"
 #include "keyinfowidget.h"

@@ -32,7 +32,6 @@
 #include <kprogress.h>
 
 #include "popuppublic.h"
-#include "popupname.h"
 #include "kgpginterface.h"
 
 

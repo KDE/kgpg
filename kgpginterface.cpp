@@ -649,11 +649,12 @@ void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyM
         konsSignKey=signKeyID;
         konsKeyID=keyID;
         errMessage=QString::null;
-
-        if (checkuid(keyID)>0) {
+        if (checkuid(keyID)>0) 
+	{
                 openSignConsole();
-                return;
-        }
+		return;
+	}
+	
         signSuccess=0;
         step=1;
         output=QString::null;
@@ -759,18 +760,19 @@ void KgpgInterface::signover(KProcess *)
 
 void KgpgInterface::openSignConsole()
 {
-        KProcess *conprocess=new KProcess();
+        KProcess conprocess;
 	KConfig *config = new KConfig("kdeglobals", true);
 	config->setGroup("General");
-	*conprocess<< config->readEntry("TerminalApplication","konsole");
-        *conprocess<<"-e"<<"gpg";
-        *conprocess<<"--no-secmem-warning"<<"--expert"<<"-u"<<konsSignKey;
+	conprocess<< config->readEntry("TerminalApplication","konsole");
+        conprocess<<"-e"<<"gpg";
+        conprocess<<"--no-secmem-warning"<<"--expert"<<"-u"<<konsSignKey;
         if (!konsLocal)
-                *conprocess<<"--sign-key"<<konsKeyID;
+                conprocess<<"--sign-key"<<konsKeyID;
         else
-                *conprocess<<"--lsign-key"<<konsKeyID;
-        conprocess->start(KProcess::Block);
-        emit signatureFinished(3);
+                conprocess<<"--lsign-key"<<konsKeyID;
+        conprocess.start(KProcess::Block);
+	emit signatureFinished(3);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////     delete signature

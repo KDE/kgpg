@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
 <class>UI</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,16 +8,19 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>508</width>
-            <height>346</height>
+            <width>421</width>
+            <height>326</height>
         </rect>
     </property>
     <property name="caption">
-        <string>General</string>
+        <string></string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
         </property>
         <widget class="QGroupBox" row="1" column="0">
             <property name="name">
@@ -65,7 +68,7 @@
                                         <string>&lt;qt&gt;&lt;b&gt;Sign file service menu:&lt;/b&gt;&lt;br /&gt;
 					&lt;p&gt;&lt;/p&gt;
 					&lt;/qt&gt;</string>
-					</property>
+                                    </property>
                                 </widget>
                                 <widget class="QLabel">
                                     <property name="name">
@@ -198,7 +201,7 @@
                                         <string>&lt;qt&gt;&lt;b&gt;Event on encrypted file drop:&lt;/b&gt;&lt;br /&gt;
 					&lt;p&gt;&lt;/p&gt;
 					&lt;/qt&gt;</string>
-				     </property>
+                                    </property>
                                 </widget>
                             </vbox>
                         </widget>
@@ -302,7 +305,7 @@
                         <string>Use mouse selection instead of clipboard</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-		    <string>&lt;qt&gt;&lt;b&gt;Use mouse selection instead of clipboard:&lt;/b&gt; &lt;br /&gt;
+                        <string>&lt;qt&gt;&lt;b&gt;Use mouse selection instead of clipboard:&lt;/b&gt; &lt;br /&gt;
 			&lt;p&gt;If checked, clipboard operations in KGpg will use the selection clipboard, that means highlighting a text to copy, and middle button (or right+left together) to paste. If this option is not checked, the clipboard will work with Key shortcuts (Ctrl-c, Ctrl-v).&lt;/p&gt;&lt;/qt&gt; </string>
                     </property>
                 </widget>
@@ -330,10 +333,4 @@
     </grid>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
-</includehints>
 </UI>

@@ -8,13 +8,19 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>444</width>
-            <height>276</height>
+            <width>426</width>
+            <height>229</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string></string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
         </property>
         <widget class="QTabWidget" row="0" column="0">
             <property name="name">
@@ -72,7 +78,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                             <string>Key server:</string>
                         </property>
                         <property name="whatsThis" stdset="0">
-				<string>&lt;qt&gt;&lt;b&gt;Key Server:&lt;/b&gt;&lt;br /&gt; &lt;p&gt;A Key Server is a centralized repository of PGP/GnuPG keys connected to the Internet which can be conveniently accessed in order to obtain or deposit keys. Select from the drop down list to specify which key server should be used.&lt;/p&gt; &lt;p&gt;Often these keys are held by people whom the user has never met and as such the authenticity is dubious at best. Refer to the GnuPG manual covering "Web-of-Trust" relationships to find out how GnuPG works around the problem of verifying authenticity.&lt;/p&gt; &lt;/qt&gt;</string>
+                            <string>&lt;qt&gt;&lt;b&gt;Key Server:&lt;/b&gt;&lt;br /&gt; &lt;p&gt;A Key Server is a centralized repository of PGP/GnuPG keys connected to the Internet which can be conveniently accessed in order to obtain or deposit keys. Select from the drop down list to specify which key server should be used.&lt;/p&gt; &lt;p&gt;Often these keys are held by people whom the user has never met and as such the authenticity is dubious at best. Refer to the GnuPG manual covering "Web-of-Trust" relationships to find out how GnuPG works around the problem of verifying authenticity.&lt;/p&gt; &lt;/qt&gt;</string>
                         </property>
                     </widget>
                     <widget class="QPushButton" row="6" column="0">
@@ -328,12 +334,4 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
     </grid>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kcombobox.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>klineedit.h</includehint>
-</includehints>
 </UI>
