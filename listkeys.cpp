@@ -695,36 +695,38 @@ bool listKeys::eventFilter( QObject *, QEvent *e )
 
 void listKeys::slotToggleSecret()
 {
-if (!keysList2->displayOnlySecret)
-{
-QListViewItem *item=keysList2->firstChild();
-while (item)
-{
-if (item->pixmap(0)->serialNumber()!=keysList2->pixkeyPair.serialNumber()) item->setVisible(false);
-item=item->nextSibling();
-}
-keysList2->displayOnlySecret=true;
-if (!keysList2->currentItem()->isVisible())
-{
-QListViewItem *item=keysList2->firstChild();
-while (!item->isVisible())
-item=item->nextSibling();
-keysList2->clearSelection();
-keysList2->setCurrentItem(item);
-keysList2->setSelected(item,true);
-}
-}
-else
-{
-QListViewItem *item=keysList2->firstChild();
-while (item)
-{
-item->setVisible(true);
-item=item->nextSibling();
-}
-keysList2->ensureItemVisible(keysList2->currentItem());
-keysList2->displayOnlySecret=false;
-}
+  if( !keysList2->currentItem() )
+    return;
+  if (!keysList2->displayOnlySecret)
+    {
+      QListViewItem *item=keysList2->firstChild();
+      while (item)
+	{
+	  if (item->pixmap(0)->serialNumber()!=keysList2->pixkeyPair.serialNumber()) item->setVisible(false);
+	  item=item->nextSibling();
+	}
+      keysList2->displayOnlySecret=true;
+      if (!keysList2->currentItem()->isVisible())
+	{
+	  QListViewItem *item=keysList2->firstChild();
+	  while (!item->isVisible())
+	    item=item->nextSibling();
+	  keysList2->clearSelection();
+	  keysList2->setCurrentItem(item);
+	  keysList2->setSelected(item,true);
+	}
+    }
+  else
+    {
+      QListViewItem *item=keysList2->firstChild();
+      while (item)
+	{
+	  item->setVisible(true);
+	  item=item->nextSibling();
+	}
+      keysList2->ensureItemVisible(keysList2->currentItem());
+      keysList2->displayOnlySecret=false;
+    }
 }
 
 void listKeys::slotGotoDefaultKey()
