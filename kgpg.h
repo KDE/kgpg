@@ -38,7 +38,6 @@
 #include "popupname.h"
 #include "kgpgoptions.h"
 
-
 // forward declaration of the Kgpg classes
 //class KgpgView;
 //class popupPublic;
@@ -81,6 +80,7 @@ public:
     KURL Docname;
     int version;
     bool ascii,untrusted,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday;//,edecrypt;
+	bool commandLineMode;
     QString messages,defaultkey,filekey;
     QPixmap fileEnc,fileDec;
         KgpgView *view;
@@ -108,6 +108,7 @@ protected:
     void initView();
 
 private slots:
+void killDisplayClip();
 void expressQuit();
 void encryptClipboard(QString &selec,bool utrust,bool);
 void fastencode(QString &selec,bool utrust,bool arm,bool shred,bool symetric);
@@ -119,8 +120,8 @@ void slotprocresult(KProcess *);
 void slotprocread(KProcIO *);
 void checkVersion();
 void slotprocresulted(KProcess *p);
-
-public slots:
+void slotExpressQuit();
+//public slots:
 void processenc(bool res);
 void processdec(bool res);
 void processdec2(bool res);
@@ -132,9 +133,11 @@ void slotTip();
 void firstrun();
 void saveOptions();
 void slotCheckMd5();
-void slotSignFile();
+void slotPreSignFile();
+void slotSignFile(KURL url);
 void slotClip();
-void slotVerifyFile();
+void slotVerifyFile(KURL url);
+void slotPreVerifyFile();
 void slotOptions();
     void slotundo();
     void slotredo();
@@ -170,9 +173,9 @@ void slotOptions();
      */
 
 private:
-bool commandLineMode;
 QString decpassuid;
 KURL decpasssrc,decpassdest;
+QDialog *clippop;
 
 KURL urlselected;
     /** the configuration object of the application */
