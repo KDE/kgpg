@@ -47,7 +47,7 @@ class kgpgOptions : public KOptions
   Q_OBJECT
   public:
  kgpgOptions(QWidget *parent=0, const char *name=0);
-  //~kgpgOptions();
+  ~kgpgOptions();
   QStringList names,ids;
   
   private:

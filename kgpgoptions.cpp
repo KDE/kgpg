@@ -74,6 +74,10 @@ connect(bcheckMime,SIGNAL(clicked()),this,SLOT(checkMimes()));
 }
 
 
+kgpgOptions::~kgpgOptions()
+{
+}
+
 void kgpgOptions::checkMimes()
 {
 	KStandardDirs *sd=new KStandardDirs();
