@@ -59,6 +59,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KgpgOptionDialog( pa
         kLEcustom->setText(config->readEntry("custom option"));
         kLEcustomdec->setText(config->readEntry("custom decrypt"));
 
+
         reloadServer();
 
         config->setGroup("Notification Messages");
@@ -68,6 +69,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KgpgOptionDialog( pa
         config->setGroup("Applet");
         int ufileDropEvent=config->readNumEntry("unencrypted drop event",0);
         int efileDropEvent=config->readNumEntry("encrypted drop event",2);
+        cBautolog->setChecked(config->readBoolEntry("AutoStart",false));
 
         config->setGroup("Service Menus");
         QString smenu;
@@ -325,7 +327,10 @@ void kgpgOptions::slotOk()
         config->setGroup("Applet");
         config->writeEntry("encrypted drop event",kCBencrypted->currentItem());
         config->writeEntry("unencrypted drop event",kCBunencrypted->currentItem());
-
+        if ( cBautolog->isChecked())
+                config->writeEntry("AutoStart", true);
+        else
+                config->writeEntry("AutoStart", false);
 
         config->setGroup("Notification Messages");
         config->writeEntry("RemoteFileWarning",cbTempWarning->isChecked());

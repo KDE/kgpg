@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>530</width>
-            <height>313</height>
+            <height>315</height>
         </rect>
     </property>
     <property name="caption">
@@ -526,7 +526,57 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QLayoutWidget" row="0" column="0">
+                    <spacer row="3" column="0">
+                        <property name="name">
+                            <cstring>spacer8</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>30</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="QGroupBox" row="2" column="0">
+                        <property name="name">
+                            <cstring>groupBox1</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Encrypted Mime Types</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Encrypted mime types&lt;/b&gt; You should only need this if your KDE install was updated/broken. It ensures encrypted and signed files are properly recognised and can be opened by KGpg with a left button mouse click.</string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel1_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>If your encrypted/signature files are 
+not correctly identified, reinstall.</string>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton" row="0" column="1">
+                                <property name="name">
+                                    <cstring>bcheckMime</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Reinstall Mime Types</string>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                    <widget class="QLayoutWidget" row="1" column="0">
                         <property name="name">
                             <cstring>layout15</cstring>
                         </property>
@@ -631,56 +681,14 @@
                             </widget>
                         </hbox>
                     </widget>
-                    <widget class="QGroupBox" row="1" column="0">
+                    <widget class="QCheckBox" row="0" column="0">
                         <property name="name">
-                            <cstring>groupBox1</cstring>
+                            <cstring>cBautolog</cstring>
                         </property>
-                        <property name="title">
-                            <string>Encrypted Mime Types</string>
+                        <property name="text">
+                            <string>Start KGpg automatically at login</string>
                         </property>
-                        <property name="whatsThis" stdset="0">
-                            <string>&lt;b&gt;Encrypted mime types&lt;/b&gt; You should only need this if your KDE install was updated/broken. It ensures encrypted and signed files are properly recognised and can be opened by KGpg with a left button mouse click.</string>
-                        </property>
-                        <grid>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="QLabel" row="0" column="0">
-                                <property name="name">
-                                    <cstring>textLabel1_2</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>If your encrypted/signature files are 
-not correctly identified, reinstall.</string>
-                                </property>
-                            </widget>
-                            <widget class="QPushButton" row="0" column="1">
-                                <property name="name">
-                                    <cstring>bcheckMime</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Reinstall Mime Types</string>
-                                </property>
-                            </widget>
-                        </grid>
                     </widget>
-                    <spacer row="2" column="0">
-                        <property name="name">
-                            <cstring>spacer8</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>30</height>
-                            </size>
-                        </property>
-                    </spacer>
                 </grid>
             </widget>
             <widget class="QWidget">

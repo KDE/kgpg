@@ -31,6 +31,11 @@ kgpgShredWidget::~kgpgShredWidget()
 
 void kgpgShredWidget::kgpgShredFile(KURL sfile)
 {
+if (!sfile.isLocalFile())
+{
+KMessageBox::sorry(0,i18n("<qt>File <b>%1</b> is a remote file.<br>You cannot shred it.</qt>").arg(sfile.filename()));
+return;
+}
         fileSize=QFile(sfile.path()).size();
         kProgress2->setTotalSteps(QFile(sfile.path()).size());
         shredres=new KShred(sfile.path());
