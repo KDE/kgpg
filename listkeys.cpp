@@ -1359,10 +1359,10 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
             {
                 if ((sel->text(2)=="-") || (sel->text(2)==i18n("Revoked")))
                 {
-                    if (sel->text(0).find(i18n("User id not found"))==-1)
-                        importSignatureKey->setEnabled(false);
-                    else
+                    if ((sel->text(0).startsWith("[")) && (sel->text(0).endsWith("]")))  ////// ugly hack to detect unknown keys
                         importSignatureKey->setEnabled(true);
+                    else
+                        importSignatureKey->setEnabled(false);
                     popupsig->exec(pos);
                     return;
                 }
@@ -1988,7 +1988,7 @@ void listKeys::importallsignkey()
     QListViewItem *current = keysList2->currentItem()->firstChild();
     while (current)
     {
-        if (current->text(0).find(i18n("[User id not found]"))!=-1)
+        if ((current->text(0).startsWith("[")) && (current->text(0).endsWith("]")))   ////// ugly hack to detect unknown keys
             missingKeysList+=current->text(6)+" ";
         current = current->nextSibling();
     }
