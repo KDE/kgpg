@@ -1604,7 +1604,7 @@ void KgpgInterface::setGpgBoolSetting(QString name,bool enable,QString url)
                                         result="";
                                 found=true;
                         }
-                        textToWrite+=result;
+                        textToWrite+=result+"\n";
                         result=t.readLine();
                 }
                 qfile.close();
