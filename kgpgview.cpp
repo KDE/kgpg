@@ -350,21 +350,8 @@ void KgpgView::updateDecryptedtxt(QString newtxt)
 
 bool KgpgView::checkForUtf8(QString text)
 {  //// try to guess if the decrypted text uses utf-8 encoding
-const unsigned char *s=(unsigned char *) text.ascii();
-int n=text.length();
-unsigned char c;
-for (int ct=0;ct<n;ct++)
-{
-c=s[ct];
-  //kdDebug(2100)<<"Testing --------- "<<c<<"caractere"<<n<<endl;
-if ((c>0xc2) && (c<0xdf))
-if (ct+1<n)
-{
-c=s[ct+1];
-if ((c>0x80) && (c<0xbf))
-return true;
-}
-}
+QTextCodec *codec =QTextCodec::codecForLocale ();
+		if (!codec->canEncode(text)) return true;
 return false;
 }
 
