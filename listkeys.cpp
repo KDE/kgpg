@@ -2539,6 +2539,7 @@ void KeyView::slotReloadKeys(QStringList keyIDs)
 for ( QStringList::Iterator it = keyIDs.begin(); it != keyIDs.end(); ++it ) {
        		refreshcurrentkey(*it);
 		}
+ensureItemVisible(this->findItem((*keyIDs.begin()).right(8).prepend("0x"),6));
 }
 
 void KeyView::refreshcurrentkey(QString currentID)
