@@ -96,7 +96,11 @@ void keyGenerate::slotOk()
                 return;
         }
         QString vmail=mail->text();
-        if ((vmail.find(" ")!=-1) || (vmail.find(".")==-1) || (vmail.find("@")==-1)) {
+	if (vmail.isEmpty()) 
+	{
+	if (KMessageBox::warningContinueCancel(this,i18n("You are about to create a key with no email address"))!=KMessageBox::Continue) return;
+        }
+	else if ((vmail.find(" ")!=-1) || (vmail.find(".")==-1) || (vmail.find("@")==-1)) {
                 KMessageBox::sorry(0,i18n("Email address not valid"));
                 return;
         }

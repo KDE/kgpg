@@ -1975,7 +1975,7 @@ void listKeys::slotgenkey()
                         proc->writeStdin(QString("Passphrase:%1").arg(password));
                         proc->writeStdin(QString("Key-Length:%1").arg(ksize));
                         proc->writeStdin(QString("Name-Real:%1").arg(newKeyName.utf8()));
-                        proc->writeStdin(QString("Name-Email:%1").arg(newKeyMail));
+                        if (!newKeyMail.isEmpty()) proc->writeStdin(QString("Name-Email:%1").arg(newKeyMail));
                         if (!kcomment.isEmpty())
                                 proc->writeStdin(QString("Name-Comment:%1").arg(kcomment.utf8()));
                         if (kexp==0)
