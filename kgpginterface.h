@@ -305,7 +305,7 @@ private:
         bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc;
         int signSuccess,expSuccess,trustValue;
         int step,signb,sigsearch,expirationDelay;
-        QString konsSignKey, konsKeyID;
+        QString konsSignKey, konsKeyID,errMessage;
         KURL sourceFile;
 
         /*

@@ -1232,42 +1232,36 @@ void listKeys::signkey()
 
         //for ( uint i = 0; i < signList.count(); ++i )
 
-        globalCount=1;
+        globalCount=0;
         globalkeyID=keyID;
         globalkeyMail=keyMail;
         globalisLocal=islocal;
-        if ( signList.at(0) ) {
-                KgpgInterface *signKeyProcess=new KgpgInterface();
-                signKeyProcess->KgpgSignKey(signList.at(0)->text(5),keyID,keyMail,islocal);
-                connect(signKeyProcess,SIGNAL(signatureFinished(int)),this,SLOT(signatureResult(int)));
-                while (signList.at(0)->firstChild()!=0)
-                        delete signList.at(0)->firstChild();
-                signList.at(0)->setOpen(false);
-        }
-        //signKeyProcess->KgpgSignKey(keysList2->currentItem()->text(5),keyID,keyMail,islocal);
+        signLoop();
+}
 
+void listKeys::signLoop()
+{
+        if (globalCount<=signList.count()) {
+
+                if ( signList.at(globalCount) ) {
+                        KgpgInterface *signKeyProcess=new KgpgInterface();
+                        signKeyProcess->KgpgSignKey(signList.at(globalCount)->text(5),globalkeyID,globalkeyMail,globalisLocal);
+                        connect(signKeyProcess,SIGNAL(signatureFinished(int)),this,SLOT(signatureResult(int)));
+                        while (signList.at(globalCount)->firstChild()!=0)
+                                delete signList.at(globalCount)->firstChild();
+                        signList.at(globalCount)->setOpen(false);
+                }
+                globalCount++;
+        }
 }
 
 void listKeys::signatureResult(int success)
 {
-        if (success==3) {
+        if (success==3)
                 keysList2->refreshcurrentkey(signList.at(globalCount-1));
-                if (globalCount<=signList.count()) {
-
-                        if ( signList.at(globalCount) ) {
-                                KgpgInterface *signKeyProcess=new KgpgInterface();
-                                signKeyProcess->KgpgSignKey(signList.at(globalCount)->text(5),globalkeyID,globalkeyMail,globalisLocal);
-                                connect(signKeyProcess,SIGNAL(signatureFinished(int)),this,SLOT(signatureResult(int)));
-                                while (signList.at(globalCount)->firstChild()!=0)
-                                        delete signList.at(globalCount)->firstChild();
-                                signList.at(globalCount)->setOpen(false);
-                                //keysList2->refreshcurrentkey(signList.at(globalCount));
-                        }
-                        globalCount++;
-                }
-        }
-        if (success==2)
-                KMessageBox::sorry(this,i18n("Bad passphrase, key not signed."));
+        else if (success==2)
+                KMessageBox::sorry(this,i18n("<qt>Bad passphrase, key <b>%1</b> not signed.</qt>").arg(signList.at(globalCount-1)->text(0)));
+        signLoop();
 }
 
 

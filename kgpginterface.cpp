@@ -826,10 +826,10 @@ void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyM
         konsLocal=local;
         konsSignKey=signKeyID;
         konsKeyID=keyID;
+	errMessage="";
 
         if (checkuid(keyID)>0) {
                 openSignConsole();
-                emit signatureFinished(3);
                 return;
         }
         signSuccess=0;
@@ -842,9 +842,8 @@ void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyM
         *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--command-fd=0"<<"--status-fd=2"<<"-u"<<signKeyID;
         *conprocess<<"--edit-key"<<keyID;
         QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(sigprocess(KProcIO *)));
-        QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(signover(KProcess *)));
-        conprocess->start(KProcess::NotifyOnExit,KProcess::AllOutput);
-
+       QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(signover(KProcess *)));
+        conprocess->start(KProcess::NotifyOnExit,true);
 }
 
 void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
@@ -853,7 +852,8 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
 
         while (p->readln(required,true)!=-1)
         {
-                output+=required+"\n";
+
+		output+=required+"\n";
                 if (required.find("USERID_HINT",0,false)!=-1) {
                         required=required.section("HINT",1,1);
                         required=required.stripWhiteSpace();
@@ -861,13 +861,21 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                         required.remove(0,cut);
                         if (required.find("(",0,false)!=-1)
                                 required=required.section('(',0,0)+required.section(')',-1,-1);
+				required.replace(QRegExp("<"),"&lt;");
                         if (userIDs.find(required)==-1) {
                                 if (!userIDs.isEmpty())
                                         userIDs+=i18n(" or ");
                                 userIDs+=required;
-                                userIDs.replace(QRegExp("<"),"&lt;");
                         }
                 }
+
+		if (signSuccess==4)
+		{
+		if (required.find("GET_")!=-1)
+		p->writeStdin("quit");
+                p->closeWhenDone();
+		return;
+		}
 
 
                 //if ((step==2) && (required.find("GOOD_PASSPHRASE")!=-1)) {
@@ -894,12 +902,13 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                         p->writeStdin("Y");
                         required="";
                 }
-                if (required.find("passphrase.enter")!=-1) {
+                if (required.find("passphrase.enter")!=-1){
                         QCString signpass;
-                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
+                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>%1Enter passphrase for <b>%1</b>:</qt>").arg(errMessage).arg(userIDs));
                         if (code!=QDialog::Accepted) {
-                                signSuccess=3;  /////  aborted by user mode
-                                p->writeStdin("quit");
+                                signSuccess=4;  /////  aborted by user mode
+                                required="";
+				p->writeStdin("quit");
                                 p->closeWhenDone();
                                 return;
                         }
@@ -912,13 +921,15 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                         required="";
                 }
                 if (required.find("BAD_PASSPHRASE")!=-1) {
-                        p->writeStdin("quit");
-                        p->closeWhenDone();
+		errMessage=i18n("<b>Bad passphrase</b>. Try again.</br>");
+                        //p->writeStdin("quit");
+			required="";
+                        //p->closeWhenDone();
                         signSuccess=2;  /////  bad passphrase
                 }
-                if ((required.find("GET_")!=-1) && (signSuccess!=2)) /////// gpg asks for something unusal, turn to konsole mode
+                if (required.find("GET_")!=-1) /////// gpg asks for something unusal, turn to konsole mode
                 {
-                        signSuccess=1;  /////  switching to console mode
+                        if (signSuccess!=2) signSuccess=1;  /////  switching to console mode
                         p->writeStdin("quit");
                         p->closeWhenDone();
 
@@ -938,11 +949,11 @@ void KgpgInterface::signkillDisplayClip()
 
 void KgpgInterface::signover(KProcess *)
 {
-        if ((signSuccess==3) || (signSuccess==2))
+        if (signSuccess>1)
                 emit signatureFinished(signSuccess);  ////   signature successful or bad passphrase
         else {
-                KDetailedConsole *q=new KDetailedConsole(0,"sign_error",i18n("<qt><b>Signing failed.</b><br>"
-                                    "Do you want to try signing the key in console mode?</qt>"),output);
+                KDetailedConsole *q=new KDetailedConsole(0,"sign_error",i18n("<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br>"
+                                    "Do you want to try signing the key in console mode?</qt>").arg(konsKeyID).arg(konsSignKey),output);
                 if (q->exec()==QDialog::Accepted)
                         openSignConsole();
                 else

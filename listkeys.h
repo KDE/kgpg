@@ -194,6 +194,7 @@ public slots:
 
 private slots:
         void checkList();
+	void signLoop();
         void configuretoolbars();
         void saveToolbarConfig();
         void checkPhotos();
