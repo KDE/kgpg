@@ -227,12 +227,11 @@ private slots:
         void slotedit();
 	void addToKAB();
 	void allToKAB();
-	void editGroup(QString newGroupName="");
+	void editGroup();
 	void groupAdd();
 	void groupRemove();
 	void groupInit(QStringList keysGroup);
 	void groupChange();
-	void groupNewChange();
 	void createNewGroup();
 	void deleteGroup();
 

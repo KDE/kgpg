@@ -940,29 +940,6 @@ void listKeys::slotSetDefKey()
 }
 
 
-void listKeys::createNewGroup()
-{
-kdDebug()<<"creating a new group\n";
-                if (keysList2->selectedItems().count()>0) {
-                        QPtrList<QListViewItem> groupList=keysList2->selectedItems();
-                        bool keyDepth=true;
-                        for ( uint i = 0; i < groupList.count(); ++i )
-                                if ( groupList.at(i) )
-				{
-                                        if (groupList.at(i)->depth()!=0)
-                                                keyDepth=false;
-					if (groupList.at(i)->text(6).isEmpty())
-                                                keyDepth=false;
-				}
-                        if (!keyDepth) {
-                              KMessageBox::sorry(this,i18n("<qt>You cannot create a group containing signatures, subkeys or other groups.</qt>"));
-			      return;
-                        }
-QString groupName=KLineEditDlg::getText(i18n("Enter new group name:"),0,0,this);
-if (groupName.isEmpty()) return;
-editGroup(groupName);
-                }
-}
 
 void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
 {
@@ -1221,21 +1198,20 @@ QPtrList<QListViewItem> remList=gEdit->groupKeys->selectedItems();
 void listKeys::deleteGroup()
 {
 if (!keysList2->currentItem()->text(6).isEmpty()) return;
-KgpgInterface::setGpgGroupSetting(keysList2->currentItem()->text(0),NULL,keysList2->configFilePath);
+
+int result=KMessageBox::questionYesNo(this,i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>").arg(keysList2->currentItem()->text(0)),i18n("Warning"),i18n("Delete"));
+                if (result!=KMessageBox::Yes)
+                        return;
+KgpgInterface::delGpgGroup(keysList2->currentItem()->text(0),keysList2->configFilePath);
 QListViewItem *item=keysList2->currentItem()->nextSibling();
 if (!item) item=keysList2->lastChild();
 keysList2->takeItem(keysList2->currentItem());
 keysList2->setCurrentItem(item);
 keysList2->setSelected(item,true);
-}
-
-void listKeys::groupNewChange()
-{
-groupChange();
 config->setGroup("GPG Settings");
 QStringList groups=KgpgInterface::getGpgGroupNames(keysList2->configFilePath);
 if (!groups.isEmpty()) config->writeEntry("Groups",groups.join(","));
-keysList2->refreshgroups();
+else config->writeEntry("Groups","");
 }
 
 void listKeys::groupChange()
@@ -1247,7 +1223,49 @@ while (item)
 selected+=item->text(2);
 item=item->nextSibling();
 }
-KgpgInterface::setGpgGroupSetting(gEdit->textLabel2->text(),selected,keysList2->configFilePath);
+KgpgInterface::setGpgGroupSetting(keysList2->currentItem()->text(0),selected,keysList2->configFilePath);
+}
+
+void listKeys::createNewGroup()
+{
+QStringList badkeys,keysGroup;
+kdDebug()<<"creating a new group\n";
+                if (keysList2->selectedItems().count()>0) {
+                        QPtrList<QListViewItem> groupList=keysList2->selectedItems();
+                        bool keyDepth=true;
+                        for ( uint i = 0; i < groupList.count(); ++i )
+                                if ( groupList.at(i) )
+				{
+                                        if (groupList.at(i)->depth()!=0)
+                                                keyDepth=false;
+					else if (groupList.at(i)->text(6).isEmpty())
+                                                keyDepth=false;
+					else if (groupList.at(i)->pixmap(2))
+				{
+				if (groupList.at(i)->pixmap(2)->serialNumber()==keysList2->trustgood.serialNumber())
+				keysGroup+=groupList.at(i)->text(6);
+				else badkeys+=groupList.at(i)->text(0)+" ("+groupList.at(i)->text(1)+") "+groupList.at(i)->text(6);
+					}
+
+				}
+                        if (!keyDepth) {
+                              KMessageBox::sorry(this,i18n("<qt>You cannot create a group containing signatures, subkeys or other groups.</qt>"));
+			      return;
+                        }
+QString groupName=KLineEditDlg::getText(i18n("Enter new group name:"),0,0,this);
+if (groupName.isEmpty()) return;
+if (!keysGroup.isEmpty())
+{
+if (!badkeys.isEmpty()) KMessageBox::informationList(this,i18n("Following keys are not valid or not trusted and will not be added to the group:"),badkeys);
+KgpgInterface::setGpgGroupSetting(groupName,keysGroup,keysList2->configFilePath);
+config->setGroup("GPG Settings");
+QStringList groups=KgpgInterface::getGpgGroupNames(keysList2->configFilePath);
+if (!groups.isEmpty()) config->writeEntry("Groups",groups.join(","));
+else config->writeEntry("Groups","");
+keysList2->refreshgroups();
+}
+else KMessageBox::sorry(this,i18n("<qt>No valid or trusted key was selected. The group <b>%1</b> will not be created.</qt>").arg(groupName));
+}
 }
 
 void listKeys::groupInit(QStringList keysGroup)
@@ -1281,16 +1299,16 @@ if (!foundId) lostKeys+=QString(*it);
 if (!lostKeys.isEmpty()) KMessageBox::informationList(this,i18n("Following keys are in the group but are not valid or not in your keyring:"),lostKeys);
 }
 
-void listKeys::editGroup(QString newGroupName)
+void listKeys::editGroup()
 {
 QStringList keysGroup;
 gEdit=new groupEdit(this);
 //connect(gEdit->groupKeys,SIGNAL(dropped (QDropEvent *, QListViewItem *)),this,SLOT(GroupAdd(QDropEvent *, QListViewItem *)));
 connect(gEdit->buttonAdd,SIGNAL(clicked()),this,SLOT(groupAdd()));
 connect(gEdit->buttonRemove,SIGNAL(clicked()),this,SLOT(groupRemove()));
-if (newGroupName.isEmpty()) connect(gEdit->buttonOk,SIGNAL(clicked()),this,SLOT(groupChange()));
-else connect(gEdit->buttonOk,SIGNAL(clicked()),this,SLOT(groupNewChange()));
-
+connect(gEdit->buttonOk,SIGNAL(clicked()),this,SLOT(groupChange()));
+connect(gEdit->availableKeys,SIGNAL(doubleClicked (QListViewItem *, const QPoint &, int)),this,SLOT(groupAdd()));
+connect(gEdit->groupKeys,SIGNAL(doubleClicked (QListViewItem *, const QPoint &, int)),this,SLOT(groupRemove()));
 QListViewItem *item=keysList2->firstChild();
 if (item==NULL) return;
 if (item->pixmap(2))
@@ -1307,20 +1325,7 @@ if (item->pixmap(2)->serialNumber()==keysList2->trustgood.serialNumber())
 (void) new KListViewItem(gEdit->availableKeys,item->text(0),item->text(1),item->text(6));
 }
 }
-
-if (!newGroupName.isEmpty())
-{
-QPtrList<QListViewItem> groupList=keysList2->selectedItems();
-                        for ( uint i = 0; i < groupList.count(); ++i )
-                                if ( groupList.at(i) )
-				keysGroup+=groupList.at(i)->text(6);
-}
-else   ///// editing an already existing group
-{
-newGroupName=keysList2->currentItem()->text(0);
-keysGroup=KgpgInterface::getGpgGroupSetting(newGroupName,keysList2->configFilePath);
-}
-gEdit->textLabel2->setText(newGroupName);
+keysGroup=KgpgInterface::getGpgGroupSetting(keysList2->currentItem()->text(0),keysList2->configFilePath);
 groupInit(keysGroup);
 gEdit->exec();
 delete gEdit;

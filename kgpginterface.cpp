@@ -1617,6 +1617,35 @@ QString KgpgInterface::getGpgSetting(QString name,QString configFile)
         return "";
 }
 
+void KgpgInterface::delGpgGroup(QString name, QString configFile)
+{
+       QString textToWrite;
+        QFile qfile(QFile::encodeName(configFile));
+ 	if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+                QString result;
+                QTextStream t( &qfile );
+                result=t.readLine();
+                while (result!=NULL) {
+                        if (result.stripWhiteSpace().startsWith("group "))
+			{
+			QString result2=result.stripWhiteSpace();
+			result2.remove(0,6);
+			result2=result2.stripWhiteSpace();
+                        if (result2.startsWith(name) && (result2.remove(0,name.length()).stripWhiteSpace().startsWith("=")))
+			result="";
+			}
+                        textToWrite+=result+"\n";
+                        result=t.readLine();
+		}
+                qfile.close();
+                if (qfile.open(IO_WriteOnly)) {
+                        QTextStream t( &qfile);
+                        t << textToWrite;
+                        qfile.close();
+        }
+	}
+}
+
 void KgpgInterface::setGpgGroupSetting(QString name,QStringList values, QString configFile)
 {
         QString textToWrite;
@@ -1636,12 +1665,8 @@ void KgpgInterface::setGpgGroupSetting(QString name,QStringList values, QString 
                         if (result2.startsWith(name) && (result2.remove(0,name.length()).stripWhiteSpace().startsWith("=")))
                         {
 			kdDebug()<<"Found group: "<<name<<"\n";
-			if (values.isEmpty())
-			{
 			kdDebug()<<"New values: "<<values<<"\n";
 			result=QString("group %1=%2").arg(name).arg(values.join(" "));
-			}
-			else result="";
 			found=true;
                         }
 			}
