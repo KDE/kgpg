@@ -206,6 +206,123 @@
             </widget>
             <widget class="QWidget">
                 <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Service menus</string>
+                </attribute>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel2</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>10</x>
+                            <y>13</y>
+                            <width>130</width>
+                            <height>21</height>
+                        </rect>
+                    </property>
+                    <property name="text">
+                        <string>Service menu folder:</string>
+                    </property>
+                </widget>
+                <widget class="KURLRequester">
+                    <property name="name">
+                        <cstring>kURLRequester1</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>10</x>
+                            <y>40</y>
+                            <width>260</width>
+                            <height>26</height>
+                        </rect>
+                    </property>
+                </widget>
+                <widget class="QButtonGroup">
+                    <property name="name">
+                        <cstring>buttonGroup1</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>10</x>
+                            <y>70</y>
+                            <width>260</width>
+                            <height>140</height>
+                        </rect>
+                    </property>
+                    <property name="title">
+                        <string>Decrypt file menu</string>
+                    </property>
+                    <widget class="QPushButton">
+                        <property name="name">
+                            <cstring>installDecrypt</cstring>
+                        </property>
+                        <property name="geometry">
+                            <rect>
+                                <x>70</x>
+                                <y>100</y>
+                                <width>91</width>
+                                <height>31</height>
+                            </rect>
+                        </property>
+                        <property name="text">
+                            <string>Install</string>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton">
+                        <property name="name">
+                            <cstring>removeDecrypt</cstring>
+                        </property>
+                        <property name="geometry">
+                            <rect>
+                                <x>160</x>
+                                <y>100</y>
+                                <width>91</width>
+                                <height>31</height>
+                            </rect>
+                        </property>
+                        <property name="text">
+                            <string>Remove</string>
+                        </property>
+                    </widget>
+                    <widget class="QRadioButton">
+                        <property name="name">
+                            <cstring>rbAllTypes</cstring>
+                        </property>
+                        <property name="geometry">
+                            <rect>
+                                <x>10</x>
+                                <y>20</y>
+                                <width>211</width>
+                                <height>31</height>
+                            </rect>
+                        </property>
+                        <property name="text">
+                            <string>Show on all file types</string>
+                        </property>
+                    </widget>
+                    <widget class="QRadioButton">
+                        <property name="name">
+                            <cstring>rbPgpTypes</cstring>
+                        </property>
+                        <property name="geometry">
+                            <rect>
+                                <x>10</x>
+                                <y>50</y>
+                                <width>240</width>
+                                <height>31</height>
+                            </rect>
+                        </property>
+                        <property name="text">
+                            <string>Show only on *.pgp,*.gpg,*.asc</string>
+                        </property>
+                    </widget>
+                </widget>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
                     <cstring>Widget3</cstring>
                 </property>
                 <attribute name="title">
@@ -274,5 +391,8 @@
 <includehints>
     <includehint>kcombobox.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>
