@@ -629,11 +629,11 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         ///////////////    get all keys data
         createGUI("listkeys.rc");
 	
-	if (KGpgSettings::showTrust()) sTrust->setChecked(true);
-	if (KGpgSettings::showSize()) sSize->setChecked(true);
-	if (KGpgSettings::showCreat()) sCreat->setChecked(true);
-	if (KGpgSettings::showExpi()) sExpi->setChecked(true);
-	
+	sTrust->setChecked(KGpgSettings::showTrust());
+	sSize->setChecked(KGpgSettings::showSize());
+	sCreat->setChecked(KGpgSettings::showCreat());
+	sExpi->setChecked(KGpgSettings::showExpi());
+
         if (!KGpgSettings::showToolbar())
                 toolBar()->hide();
         checkPhotos();
@@ -649,7 +649,6 @@ void KeyView::slotRemoveColumn(int d)
 hideColumn(d);
 header()->setResizeEnabled(false,d);
 header()->setStretchEnabled(true,6);
-
 }
 
 void KeyView::slotAddColumn(int c)
@@ -893,7 +892,7 @@ void listKeys::findFirstKey()
                 return;
         QString searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
 
-        //kdDebug()<<"Search:"<<searchString<<endl;
+        
         //kdDebug()<<"OPts:"<<searchOptions<<endl;
         KFind *m_find = new KFind(searchString, searchOptions,this);
         m_find->setData(searchText);
@@ -2155,6 +2154,7 @@ void listKeys::confirmdeletekey()
                         if (result!=KMessageBox::Continue)
                                 return;
                 }
+		if (keysToDelete.isEmpty()) return;
                 int result=KMessageBox::questionYesNoList(this,i18n("<qt><b>Delete the following public key(s)  ?</b></qt>"),keysToDelete,i18n("Warning"),i18n("Delete"));
                 if (result!=KMessageBox::Yes)
                         return;
