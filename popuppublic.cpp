@@ -190,6 +190,8 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
         refreshkeys();
 }
 
+popupPublic::~popupPublic()
+{}
 
 void popupPublic::toggleOptions()
 {

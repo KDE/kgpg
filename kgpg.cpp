@@ -41,9 +41,9 @@
 #include <qregexp.h>
 #include <kurldrag.h>
 #include <kdebug.h>
+#include <ktar.h>
 
 #include "kgpg.h"
-
 
 MyView::MyView( QWidget *parent, const char *name )
                 : QLabel( parent, name )
@@ -140,6 +140,56 @@ void  MyView::openEditor()
         KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WType_Dialog);
         kgpgtxtedit->show();
 }
+
+void MyView::encryptDroppedFolder()
+{
+kgpgfoldertmp=new KTempFile(QString::null,".tar.gz");
+if (KMessageBox::warningContinueCancel(0,i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>").arg(kgpgfoldertmp->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpFile")==KMessageBox::Cancel) return;
+
+ popupPublic *dialogue=new popupPublic(0,"Public keys","files",true);
+                        connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(startFolderEncode(QString &,QString,bool,bool)));
+			dialogue->CBshred->setEnabled(false);
+                        if (!dialogue->exec()==QDialog::Accepted) return;
+                        delete dialogue;
+	}
+
+void MyView::startFolderEncode(QString &selec,QString encryptOptions,bool ,bool symetric)
+{
+pop = new KPassivePopup();
+        pop->setView(i18n("Processing archiving & encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+        pop->show();
+        QRect qRect(QApplication::desktop()->screenGeometry());
+        int iXpos=qRect.width()/2-pop->width()/2;
+        int iYpos=qRect.height()/2-pop->height()/2;
+        pop->move(iXpos,iYpos);
+QString extension;
+KTar arch(kgpgfoldertmp->name(), "application/x-gzip");
+if (!arch.open( IO_WriteOnly )) KMessageBox::sorry(0,i18n("Unable to create temporary file"));
+arch.addLocalDirectory (droppedUrls.first().path(),droppedUrls.first().filename());
+arch.close();
+
+if (encryptOptions.find("armor")!=-1) extension=".asc";
+else if (pgpExtension) extension=".pgp";
+else extension=".gpg";
+KgpgInterface *folderprocess=new KgpgInterface();
+folderprocess->KgpgEncryptFile(selec,KURL(kgpgfoldertmp->name()),KURL(droppedUrls.first().path()+".tar.gz"+extension),encryptOptions,symetric);
+connect(folderprocess,SIGNAL(encryptionfinished(KURL)),this,SLOT(slotFolderFinished(KURL)));
+connect(folderprocess,SIGNAL(errormessage(QString)),this,SLOT(slotFolderFinishedError(QString)));
+}
+
+void  MyView::slotFolderFinished(KURL)
+{
+delete pop;
+kgpgfoldertmp->unlink();
+}
+
+void  MyView::slotFolderFinishedError(QString errmsge)
+{
+delete pop;
+KMessageBox::sorry(0,errmsge);
+kgpgfoldertmp->unlink();
+}
+
 
 void  MyView::encryptDroppedFile()
 {
@@ -625,7 +675,7 @@ int KgpgAppletApp::newInstance()
 {
         kdDebug()<<"New instance\n";
         args = KCmdLineArgs::parsedArgs();
-        if ( kgpg_applet ) {
+        if (( kgpg_applet ) && (s_keyManager)) {
                 kdDebug()<<"Already running\n";
                 kgpg_applet->show();
         } else {
@@ -670,22 +720,51 @@ int KgpgAppletApp::newInstance()
                                 return 0;
 
                         kgpg_applet->w->droppedUrl=urlList.first();
-                        if (KMimeType::findByURL(urlList.first())->name()=="inode/directory") {
-                                KMessageBox::sorry(0,i18n("Sorry, only file operations are currently supported."));
+
+			bool directoryInside=false;
+			QStringList lst=urlList.toStringList();
+			for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) {
+			if (KMimeType::findByURL(*it)->name()=="inode/directory")
+        		directoryInside=true;
+			}
+
+			if ((directoryInside) && (lst.count()>1)){
+                                KMessageBox::sorry(0,i18n("Sorry, cannot perform requested operation.\nPlease select only one directory, or several files, but don't mix files and directories."));
                                 return 0;
                         }
+
                         kgpg_applet->w->droppedUrls=urlList;
 
                         if (args->isSet("e")!=0)
+			{
+				if (!directoryInside)
                                 kgpg_applet->w->encryptDroppedFile();
+				else kgpg_applet->w->encryptDroppedFolder();
+				}
                         else if (args->isSet("X")!=0)
+			{
+				if (!directoryInside)
                                 kgpg_applet->w->shredDroppedFile();
+				else KMessageBox::sorry(0,i18n("Cannot shred directory"));
+				}
                         else if (args->isSet("s")!=0)
-                                kgpg_applet->w->showDroppedFile();
+			{
+                                if (!directoryInside)
+				kgpg_applet->w->showDroppedFile();
+				else KMessageBox::sorry(0,i18n("Cannot decrypt & show directory"));
+				}
                         else if (args->isSet("S")!=0)
-                                kgpg_applet->w->signDroppedFile();
+			{
+                                if (!directoryInside)
+				kgpg_applet->w->signDroppedFile();
+				else KMessageBox::sorry(0,i18n("Cannot sign directory"));
+				}
                         else if (args->isSet("V")!=0)
+			{
+				if (!directoryInside)
                                 kgpg_applet->w->slotVerifyFile();
+				else KMessageBox::sorry(0,i18n("Cannot verify directory"));
+				}
                         else if (kgpg_applet->w->droppedUrl.filename().endsWith(".sig"))
                                 kgpg_applet->w->slotVerifyFile();
                         else
@@ -726,7 +805,7 @@ void MyView::encryptClipboard(QString &selec,QString encryptOptions)
                 cryptedClipboard.replace(QRegExp("<"),"&lt;");   /////   disable html tags
                 cryptedClipboard.replace(QRegExp("\n"),"<br>");
 
-#if (KDE_VERSION >= 310)
+
 
                 pop = new KPassivePopup( this);
                 pop->setView(i18n("Encrypted following text:"),cryptedClipboard,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
@@ -736,23 +815,6 @@ void MyView::encryptClipboard(QString &selec,QString encryptOptions)
                 int iXpos=qRect.width()/2-pop->width()/2;
                 int iYpos=qRect.height()/2-pop->height()/2;
                 pop->move(iXpos,iYpos);
-#else
-
-                clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
-                QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
-                QLabel *tex=new QLabel(clippop);
-                tex->setText(i18n("<b>Encrypted following text:</b>"));
-                QLabel *tex2=new QLabel(clippop);
-                //tex2->setTextFormat(Qt::PlainText);
-                tex2->setText(cryptedClipboard);
-                vbox->addWidget(tex);
-                vbox->addWidget(tex2);
-                clippop->setMinimumWidth(250);
-                clippop->adjustSize();
-                clippop->show();
-                QTimer::singleShot( 3200, this, SLOT(killDisplayClip()));
-                //KMessageBox::information(this,i18n("<b>Encrypted following text</b>:<br>")+cryptedClipboard);
-#endif
 
         } else {
                 KMessageBox::sorry(0,i18n("Clipboard is empty."));
@@ -768,13 +830,6 @@ void MyView::slotSetClip(QString newtxt)
                 //connect(kapp->clipboard(),SIGNAL(dataChanged ()),this,SLOT(expressQuit()));
         }
         //else expressQuit();
-}
-
-void MyView::killDisplayClip()
-{
-#if (KDE_VERSION < 310)
-        delete clippop;
-#endif
 }
 
 

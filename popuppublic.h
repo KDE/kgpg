@@ -37,6 +37,7 @@ class popupPublic : public QDialog
 public:
 
         popupPublic(QWidget *parent=0, const char *name=0,QString sfile="",bool filemode=false);
+	~popupPublic();
         KListView *keysList;
         QCheckBox *CBarmor,*CBuntrusted,*CBshred,*CBsymmetric,*CBhideid;
         bool fmode,encryptToDefault,trusted;

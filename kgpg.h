@@ -37,6 +37,7 @@
 #include <kdeversion.h>
 #include <kcmdlineargs.h>
 #include <kdesktopfile.h>
+#include <kzip.h>
 
 #if (KDE_VERSION >= 310)
 #include <kpassivepopup.h>
@@ -66,7 +67,7 @@ public:
         KURL droppedUrl;
         KURL::List droppedUrls;
         KConfig *ksConfig;
-
+	KTempFile *kgpgfoldertmp;
 private:
         bool ascii,untrusted,hideid,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday,pgpExtension;
         QPopupMenu *droppopup,*udroppopup;
@@ -74,13 +75,8 @@ private:
         QString customDecrypt;
         KgpgWizard *wiz;
         class keyServer *m_keyServer;
-
-
-#if (KDE_VERSION >= 310)
         KPassivePopup *pop;
-#else
-        QDialog *clippop;
-#endif
+
 public slots:
         void  encryptDroppedFile();
         void  decryptDroppedFile();
@@ -92,6 +88,10 @@ public slots:
         void preferences();
         void  openEditor();
 	void  shredDroppedFile();
+	void encryptDroppedFolder();
+	void startFolderEncode(QString &selec,QString encryptOptions,bool ,bool symetric);
+	void  slotFolderFinished(KURL);
+	void  slotFolderFinishedError(QString errmsge);
 
 private slots:
 
@@ -103,7 +103,6 @@ private slots:
         void  slotGenKey();
         void importSignature(QString ID);
         void slotSetClip(QString newtxt);
-        void killDisplayClip();
         void encryptClipboard(QString &selec,QString encryptOptions);
         void help();
         void about();

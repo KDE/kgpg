@@ -30,7 +30,6 @@ KgpgLibrary::~KgpgLibrary()
 {}
 
 
-//void KgpgLibrary::slotFileEnc(KURL url,QString opts,QString defaultKey)
 void KgpgLibrary::slotFileEnc(KURL::List urls,QString opts,QString defaultKey)
 {
         /////////////////////////////////////////////////////////////////////////  encode file file
@@ -93,11 +92,7 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QString &selec,QString encryptOpt
 void KgpgLibrary::shredprocessenc(KURL fileToShred)
 {
         //KMessageBox::sorry(0,"123: "+fileToShred.path());
-#if (KDE_VERSION >= 310)
         delete pop;
-#else
-        delete clippop;
-#endif
         kgpgShredWidget *sh=new kgpgShredWidget(0,"shred");
         sh->setCaption(i18n("Shredding %1").arg(fileToShred.filename()));
         sh->show();
@@ -106,20 +101,12 @@ void KgpgLibrary::shredprocessenc(KURL fileToShred)
 
 void KgpgLibrary::processenc(KURL)
 {
-#if (KDE_VERSION >= 310)
         delete pop;
-#else
-        delete clippop;
-#endif
 }
 
 void KgpgLibrary::processencerror(QString mssge)
 {
-#if (KDE_VERSION >= 310)
         delete pop;
-#else
-        delete clippop;
-#endif
 
         KMessageBox::detailedSorry(0,i18n("Encryption failed."),mssge);
 }
@@ -142,7 +129,6 @@ void KgpgLibrary::slotFileDec(KURL srcUrl,KURL destUrl,QString customDecryptOpti
 void KgpgLibrary::processpopup()
 {
         popIsDisplayed=true;
-#if (KDE_VERSION >= 310)
         pop = new KPassivePopup();
         pop->setView(i18n("Processing decryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
         pop->show();
@@ -150,25 +136,10 @@ void KgpgLibrary::processpopup()
         int iXpos=qRect.width()/2-pop->width()/2;
         int iYpos=qRect.height()/2-pop->height()/2;
         pop->move(iXpos,iYpos);
-#else
-
-        clippop = new QDialog( 0,0,false,WStyle_Customize | WStyle_NormalBorder);
-        QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
-        QLabel *tex=new QLabel(clippop);
-        tex->setText(i18n("<b>Processing decryption</b>"));
-        QLabel *tex2=new QLabel(clippop);
-        tex2->setText(i18n("Please wait..."));
-        vbox->addWidget(tex);
-        vbox->addWidget(tex2);
-        clippop->setMinimumWidth(250);
-        clippop->adjustSize();
-        clippop->show();
-#endif
 }
 
 void KgpgLibrary::processpopup2()
 {
-#if (KDE_VERSION >= 310)
         pop = new KPassivePopup();
         pop->setView(i18n("Processing encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
         pop->show();
@@ -176,41 +147,19 @@ void KgpgLibrary::processpopup2()
         int iXpos=qRect.width()/2-pop->width()/2;
         int iYpos=qRect.height()/2-pop->height()/2;
         pop->move(iXpos,iYpos);
-#else
 
-        clippop = new QDialog(0,0,false,WStyle_Customize | WStyle_NormalBorder);
-        QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
-        QLabel *tex=new QLabel(clippop);
-        tex->setText(i18n("<b>Processing encryption</b>"));
-        QLabel *tex2=new QLabel(clippop);
-        tex2->setText(i18n("Please wait..."));
-        vbox->addWidget(tex);
-        vbox->addWidget(tex2);
-        clippop->setMinimumWidth(250);
-        clippop->adjustSize();
-        clippop->show();
-#endif
 }
 
 void KgpgLibrary::processdecover()
 {
-        if (popIsDisplayed) {
-#if (KDE_VERSION >= 310)
+        if (popIsDisplayed)
                 delete pop;
-#else
-                delete clippop;
-#endif
-        }
 }
 
 void KgpgLibrary::processdecerror(QString mssge)
 {
         if (popIsDisplayed) {
-#if (KDE_VERSION >= 310)
                 delete pop;
-#else
-                delete clippop;
-#endif
         }
         ///// test if file is a public key
         QFile qfile(QFile::encodeName(urlselected.path()));

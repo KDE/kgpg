@@ -33,10 +33,7 @@
 #include "popupname.h"
 #include "kgpginterface.h"
 #include "kgpgshredwidget.h"
-
-#if (KDE_VERSION >= 310)
 #include <kpassivepopup.h>
-#endif
 
 class KgpgLibrary : public QObject
 {
@@ -53,7 +50,6 @@ public:
         KURL::List urlselecteds;
 
 public slots:
-        //void slotFileEnc(KURL url=0,QString opts="",QString defaultKey="");
         void slotFileEnc(KURL::List urls=KURL(""),QString opts="",QString defaultKey="");
         void slotFileDec(KURL srcUrl=0,KURL destUrl=0,QString customDecryptOption="");
 
@@ -73,12 +69,7 @@ private:
         QString customDecrypt,tempFile,extension;
         KURL urlselected;
         bool popIsDisplayed;
-
-#if (KDE_VERSION >= 310)
         KPassivePopup *pop;
-#else
-        QDialog *clippop;
-#endif
 
 
 };
