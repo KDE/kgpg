@@ -1156,7 +1156,7 @@ QString KgpgInterface::getKey(QStringList IDs, bool attributes)
         for ( QStringList::Iterator it = IDs.begin(); it != IDs.end(); ++it )
                 *proc << *it;
         QObject::connect(proc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotReadKey(KProcIO *)));
-        proc->start(KProcess::Block,true);
+        proc->start(KProcess::Block,false);
         return keyString;
 }
 
