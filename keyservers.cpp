@@ -138,20 +138,6 @@ KMessageBox::sorry(this,i18n("You must enter a search string"));
 return;
 }
 listpop = new searchres( this,"result",true);
-              /*QVBoxLayout *vbox1=new QVBoxLayout(listpop,3);
-              QLabel *tex1=new QLabel(listpop);
-              tex1->setText(i18n("<b>Found following keys:</b>"));
-			kLVsearch=new KListView(listpop);
-			kLVsearch->addColumn("ID");
-			kLVsearch->addColumn(i18n("Keys"));
-			kLVsearch->setSorting(-1);
-			kLVsearch->setRootIsDecorated(true);
-			kLVsearch->setAllColumnsShowFocus(true);
-			kLVsearch->setFullWidth(true);
-			QPushButton *Buttonimportsearch=new QPushButton(i18n("&Import"),listpop);
-             vbox1->addWidget(tex1);
-			  vbox1->addWidget(kLVsearch);
-			  vbox1->addWidget(Buttonimportsearch);*/
               listpop->setMinimumWidth(250);
               listpop->adjustSize();
 			  listpop->show();
@@ -214,6 +200,7 @@ listpop->kLEID->setText(kid);
 
 void keyServer::slotsearchresult(KProcess *)
 {
+delete importpop;
 if (listpop->kLVsearch->firstChild()!=NULL) 
 {
 listpop->kLVsearch->setSelected(listpop->kLVsearch->firstChild(),true);
@@ -233,7 +220,6 @@ QString kid=required.stripWhiteSpace();
 kid=kid.section("key",1,1);
 kid=kid.stripWhiteSpace();
 kid=kid.left(8);
-//kitem->setText(0,kid);
 }
 cycle=false;
 if (required.find("(")!=-1)
@@ -245,14 +231,9 @@ count=0;
  if (required.find("keysearch.prompt")!=-1)
  {
  if (count<3) {p->writeStdin("N");count++;} 
- else 
- {
- delete importpop;
- p->writeStdin("Q");
- }
+ else p->writeStdin("Q");
 }
 }
-
 }
 
 
@@ -422,4 +403,5 @@ config->writeEntry("servers",serverslist);
 config->sync();
 accept();
 }
+
 #include "keyservers.moc"
