@@ -1940,22 +1940,18 @@ QString KgpgInterface::checkForUtf8(QString txt)
         //        if ((*s && !strchr (txt.ascii(), 0xc3)) || (txt.find("\\x")!=-1)){
         /* The string is not in UTF-8 */
         if (txt.isEmpty())
-                return "";
-        if (!strchr (txt.ascii(), 0xc3)) {
-
-                if ((txt.find("\\x")==-1))
-                        return txt;
+		return "";
+	if ((txt.find("\\x")==-1))
+		return txt;
+//        if (!strchr (txt.ascii(), 0xc3) || (txt.find("\\x")!=-1)) {
                 for ( int idx = 0 ; (idx = txt.find( "\\x", idx )) >= 0 ; ++idx ) {
                         char str[2] = "x";
                         str[0] = (char) QString( txt.mid( idx + 2, 2 ) ).toShort( 0, 16 );
                         txt.replace( idx, 4, str );
                 }
-
                 return QString::fromUtf8(txt.ascii());
-        } else {
                 /* The string is already in UTF-8 */
-                return QString::fromUtf8(txt.ascii());
-        }
+//                return txt;//QString::fromUtf8(txt.ascii());
 }
 
 
