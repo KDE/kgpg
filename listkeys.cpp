@@ -1846,7 +1846,7 @@ void listKeys::signkey()
                 for ( uint i = 0; i < signList.count(); ++i )
                         if ( signList.at(i) )
                                 signKeyList+=signList.at(i)->text(0)+" ("+signList.at(i)->text(1)+")"+": "+signList.at(i)->text(6);
-                if (KMessageBox::warningContinueCancelList(this,i18n("<qt>You are about to sign the following keys in one pass.<br><b>If you have not carefully checked all fingerprints, the security of your communications may be compromised !</b></qt>"),signKeyList)!=KMessageBox::Continue)
+                if (KMessageBox::warningContinueCancelList(this,i18n("<qt>You are about to sign the following keys in one pass.<br><b>If you have not carefully checked all fingerprints, the security of your communications may be compromised.</b></qt>"),signKeyList)!=KMessageBox::Continue)
                         return;
         }
 
@@ -1857,7 +1857,7 @@ void listKeys::signkey()
         QLabel *signCheck = new QLabel(i18n("How carefully have you checked that the key really\n"
                                             "belongs to the person you want to communicate with:",
 					    "How carefully have you checked that the keys really\n"
-                                            "belongs to the persons you want to communicate with:",signList.count()),opts->page);
+                                            "belong to the people you want to communicate with:",signList.count()),opts->page);
         opts->vbox->addWidget(signCheck);
         QComboBox *signTrust=new QComboBox(opts->page);
         signTrust->insertItem(i18n("I Will Not Answer"));
