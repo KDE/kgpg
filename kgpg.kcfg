@@ -4,7 +4,7 @@
   <kcfgfile name="kgpgrc"/>
   <group name="Decryption">
     <entry name="CustomDecrypt" type="String" key="custom_decrypt">
-      <label>Custom decyption command.</label>
+      <label>Custom decryption command.</label>
     </entry>
   </group>
   <group name="Encryption">
