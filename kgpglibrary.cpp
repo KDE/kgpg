@@ -204,6 +204,7 @@ void KgpgLibrary::processdecover()
 void KgpgLibrary::processdecerror(QString mssge)
 {
         ///// test if file is a public key
+	delete pop;
         QFile qfile(QFile::encodeName(urlselected.path()));
         if (qfile.open(IO_ReadOnly)) {
                 QTextStream t( &qfile );

@@ -33,6 +33,7 @@
 #include <kcharsets.h>
 #include <kpassivepopup.h>
 #include <kiconloader.h>
+#include <kstartupinfo.h>
 
 #include <qtextcodec.h>
 
@@ -102,6 +103,10 @@ void KgpgInterface::KgpgEncryptFile(QStringList encryptKeys,KURL srcUrl,KURL des
         /////////  when process ends, update dialog infos
         QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(encryptfin(KProcess *)));
         QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(readencprocess(KProcIO *)));
+        // bad hack for kde3.2 - kgpg shows windows only after returning from newInstance(),
+        // but KUniqueApplication cancels the startup notification after return from newInstance(),
+        // and focus stealing prevention in kde3.2 can't handle that
+        KStartupInfo::disableAutoAppStartedSending( true );
         proc->start(KProcess::NotifyOnExit,true);
 }
 
@@ -112,6 +117,7 @@ KgpgInterface::~KgpgInterface()
 
 void KgpgInterface::encryptfin(KProcess *)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         if (message.find("END_ENCRYPTION")!=-1)
                 emit encryptionfinished(sourceFile);
         else {
@@ -121,6 +127,7 @@ void KgpgInterface::encryptfin(KProcess *)
 
 void KgpgInterface::readencprocess(KProcIO *p)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         QString required;
         while (p->readln(required,true)!=-1) {
                 if (required.find("BEGIN_ENCRYPTION",0,false)!=-1)
@@ -170,11 +177,13 @@ void KgpgInterface::KgpgDecryptFile(KURL srcUrl,KURL destUrl,QStringList Options
         
         QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(decryptfin(KProcess *)));
         QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(readdecprocess(KProcIO *)));
+        KStartupInfo::disableAutoAppStartedSending( true );
         proc->start(KProcess::NotifyOnExit,true);
 }
 
 void KgpgInterface::decryptfin(KProcess *)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         if ((message.find("DECRYPTION_OKAY")!=-1) && (message.find("END_DECRYPTION")!=-1)) //&& (message.find("GOODMDC")!=-1)
                 emit decryptionfinished();
         else
@@ -183,6 +192,7 @@ void KgpgInterface::decryptfin(KProcess *)
 
 void KgpgInterface::readdecprocess(KProcIO *p)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         QString required;
         while (p->readln(required,true)!=-1) {
                 if (required.find("BEGIN_DECRYPTION",0,false)!=-1)
@@ -258,12 +268,14 @@ void KgpgInterface::KgpgEncryptText(QString text,QStringList userIDs, QStringLis
 
         QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtencryptfin(KProcess *)));
         QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreadencprocess(KProcIO *)));
+        KStartupInfo::disableAutoAppStartedSending( true );
         proc->start(KProcess::NotifyOnExit,true);
 }
 
 
 void KgpgInterface::txtencryptfin(KProcess *)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         if (txtsent)
                 emit txtencryptionfinished(QString::fromUtf8(message.ascii()));
         else
@@ -272,6 +284,7 @@ void KgpgInterface::txtencryptfin(KProcess *)
 
 void KgpgInterface::txtreadencprocess(KProcIO *p)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         QString required;
         while (p->readln(required,true)!=-1) {
 	if ((required.find("passphrase.enter")!=-1))
@@ -323,12 +336,14 @@ badmdc=false;
 
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtdecryptfin(KProcess *)));
   QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreaddecprocess(KProcIO *)));
+  KStartupInfo::disableAutoAppStartedSending( true );
   proc->start(KProcess::NotifyOnExit,false);
   proc->writeStdin(txtprocess,false);
 }
 
 void KgpgInterface::txtdecryptfin(KProcess *)
 {
+KStartupInfo::disableAutoAppStartedSending( false );
 if ((decok) && (!badmdc)) 
 {
 message.remove(0,message.find("BEGIN_DECRYPTION")+17);
@@ -346,6 +361,7 @@ emit txtdecryptionfailed(message);
 
 void KgpgInterface::txtreaddecprocess(KProcIO *p)
 {
+  KStartupInfo::disableAutoAppStartedSending( false );
   QString required;
   while (p->readln(required,true)!=-1)
     {
@@ -422,6 +438,7 @@ badmdc=false;
 
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtdecryptfin(KProcess *)));
   QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreaddecprocess(KProcIO *)));
+  KStartupInfo::disableAutoAppStartedSending( true );
   proc->start(KProcess::NotifyOnExit,false);
 }
 
@@ -523,6 +540,7 @@ void KgpgInterface::KgpgSignFile(QString keyID,KURL srcUrl,QStringList Options)
 
         QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(signfin(KProcess *)));
         QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(readsignprocess(KProcIO *)));
+        KStartupInfo::disableAutoAppStartedSending( true );
         proc->start(KProcess::NotifyOnExit,true);
 }
 
@@ -530,6 +548,7 @@ void KgpgInterface::KgpgSignFile(QString keyID,KURL srcUrl,QStringList Options)
 
 void KgpgInterface::signfin(KProcess *)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         if (message.find("SIG_CREATED")!=-1)
                 KMessageBox::information(0,i18n("The signature file %1 was successfully created.").arg(file.filename()));
         else if (message.find("BAD_PASSPHRASE")!=-1)
@@ -542,6 +561,7 @@ void KgpgInterface::signfin(KProcess *)
 
 void KgpgInterface::readsignprocess(KProcIO *p)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         QString required;
         while (p->readln(required,true)!=-1) {
                 if (required.find("USERID_HINT",0,false)!=-1) 
@@ -593,12 +613,14 @@ void KgpgInterface::KgpgVerifyFile(KURL sigUrl,KURL srcUrl)
 
         QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(verifyfin(KProcess *)));
         QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(readprocess(KProcIO *)));
+        KStartupInfo::disableAutoAppStartedSending( true );
         proc->start(KProcess::NotifyOnExit,true);
 }
 
 
 void KgpgInterface::readprocess(KProcIO *p)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         QString required;
         while (p->readln(required,true)!=-1) {
                 if (required.find("GET_")!=-1) {
@@ -611,6 +633,7 @@ void KgpgInterface::readprocess(KProcIO *p)
 
 void KgpgInterface::verifyfin(KProcess *)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         QString keyID,keyMail;
         if ((message.find("VALIDSIG")!=-1) && (message.find("GOODSIG")!=-1) && (message.find("BADSIG")==-1)) {
                 message.remove(0,message.find("GOODSIG")+7);
@@ -673,11 +696,13 @@ void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyM
 	else *conprocess<<"sign";
         QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(sigprocess(KProcIO *)));
         QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(signover(KProcess *)));
+        KStartupInfo::disableAutoAppStartedSending( true );
         conprocess->start(KProcess::NotifyOnExit,true);
 }
 
 void KgpgInterface::sigprocess(KProcIO *p)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         QString required=QString::null;
 
         while (p->readln(required,true)!=-1)
@@ -754,6 +779,7 @@ void KgpgInterface::sigprocess(KProcIO *p)
 
 void KgpgInterface::signover(KProcess *)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         if (signSuccess>1)
                 emit signatureFinished(signSuccess);  ////   signature successful or bad passphrase
         else {
@@ -1156,7 +1182,7 @@ QString KgpgInterface::getKey(QStringList IDs, bool attributes)
         for ( QStringList::Iterator it = IDs.begin(); it != IDs.end(); ++it )
                 *proc << *it;
         QObject::connect(proc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotReadKey(KProcIO *)));
-        proc->start(KProcess::Block,true);
+        proc->start(KProcess::Block,false);
         return keyString;
 }
 
@@ -1165,7 +1191,7 @@ void KgpgInterface::slotReadKey(KProcIO *p)
 {
         QString outp;
         while (p->readln(outp)!=-1)
-                keyString+=outp+"\n";
+		if (!outp.startsWith("gpg:")) keyString+=outp+"\n";
 }
 
 
@@ -1183,6 +1209,7 @@ void KgpgInterface::importKeyURL(KURL url)
                 *conprocess<<tempKeyFile;
                 QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(importURLover(KProcess *)));
                 QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(importprocess(KProcIO *)));
+                KStartupInfo::disableAutoAppStartedSending( true );
                 conprocess->start(KProcess::NotifyOnExit,true);
         }
 }
@@ -1196,6 +1223,7 @@ void KgpgInterface::importKey(QString keystr)
         *conprocess<<"--allow-secret-key-import";
         QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(importover(KProcess *)));
         QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(importprocess(KProcIO *)));
+        KStartupInfo::disableAutoAppStartedSending( true );
         conprocess->start(KProcess::NotifyOnExit,true);
         conprocess->writeStdin(keystr, true);
         conprocess->closeWhenDone();
@@ -1203,6 +1231,7 @@ void KgpgInterface::importKey(QString keystr)
 
 void KgpgInterface::importover(KProcess *)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
 QStringList importedKeysIds;
 QString resultMessage;
 kdDebug()<<"Importing is over"<<endl;
@@ -1255,6 +1284,7 @@ kdDebug()<<"Importing is over"<<endl;
 
 void KgpgInterface::importURLover(KProcess *p)
 {
+        KStartupInfo::disableAutoAppStartedSending( false );
         KIO::NetAccess::removeTempFile(tempKeyFile);
         importover(p);
         //KMessageBox::information(0,message);
