@@ -164,9 +164,9 @@ return 1;
 
 void KgpgInterface::decryptfin(KProcess *)
 {
-if ((message.find("DECRYPTION_OKAY")!=-1) && (message.find("GOODMDC")!=-1) && (message.find("END_DECRYPTION")!=-1))
+ if (message.find("BAD_PASSPHRASE")!=-1) emit badpassphrase(false);
+else if ((message.find("DECRYPTION_OKAY")!=-1) && (message.find("GOODMDC")!=-1) && (message.find("END_DECRYPTION")!=-1))
 emit decryptionfinished(true);
-else if (message.find("BAD_PASSPHRASE")!=-1) emit badpassphrase(false);
 else
 {
 KMessageBox::sorry(0,message);
@@ -180,9 +180,9 @@ emit decryptionfinished(false);
 QString KgpgInterface::KgpgEncryptText(QString text,QString userIDs, QString Options)
 {
   FILE *fp;
-  QString encResult,dests,gpgcmd;
+  QString dests,gpgcmd,encResult;
   char buffer[200];
-
+  
   userIDs=userIDs.stripWhiteSpace();
   userIDs=userIDs.simplifyWhiteSpace();
   Options=Options.stripWhiteSpace();
@@ -207,7 +207,7 @@ QString KgpgInterface::KgpgEncryptText(QString text,QString userIDs, QString Opt
           i+=2;
         }
     }
-  gpgcmd="echo \""+text+"\" | gpg --no-secmem-warning --no-tty "+Options+" -e "+dests;
+	gpgcmd="echo \""+text+"\" | gpg --no-secmem-warning --no-tty "+Options+" -e "+dests;
   //////////   encode with untrusted keys or armor if checked by user
   fp = popen(gpgcmd.latin1(), "r");
   while ( fgets( buffer, sizeof(buffer), fp))
@@ -216,6 +216,7 @@ QString KgpgInterface::KgpgEncryptText(QString text,QString userIDs, QString Opt
   if (encResult!="") return encResult;
   else return QString::null;
 }
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////     Text decryption
 
@@ -376,12 +377,11 @@ void KgpgInterface::KgpgSignFile(QString keyName,QString keyID,KURL srcUrl,QStri
 void KgpgInterface::signfin(KProcess *)
 {
 
-if (message.find("SIG_CREATED")!=-1) KMessageBox::information(0,i18n("The signature file %1 was successfully created").arg(file.filename()));
-else if (message.find("BAD_PASSPHRASE")!=-1) KMessageBox::sorry(0,i18n("Bad passphrase, signature was not created"));
+
+if (message.find("BAD_PASSPHRASE")!=-1) KMessageBox::sorry(0,i18n("Bad passphrase, signature was not created"));
+else if (message.find("SIG_CREATED")!=-1) KMessageBox::information(0,i18n("The signature file %1 was successfully created").arg(file.filename()));
 else KMessageBox::sorry(0,message);
 }
-
-
 
 
 void KgpgInterface::KgpgVerifyFile(KURL srcUrl,KURL sigUrl)
@@ -593,4 +593,44 @@ int  uidcnt=0;
   pclose(fp);
   return uidcnt;
 }
+
+//////////////////////////////////////////////////////////////    key import
+
+
+void KgpgInterface::importKey(KURL url)
+{
+  /////////////      import a key
+  
+  if( KIO::NetAccess::download( url, tempKeyFile ) )
+  {
+      message=QString::null;
+      KProcIO *conprocess=new KProcIO();
+      *conprocess<< "gpg";
+      *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--allow-secret-key-import"<<"--import"<<tempKeyFile;
+      QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(importover(KProcess *)));
+      QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(importprocess(KProcIO *)));
+      conprocess->start(KProcess::NotifyOnExit,true);
+    }
+}
+
+void KgpgInterface::importover(KProcess *)
+{
+    KIO::NetAccess::removeTempFile(tempKeyFile);
+    KMessageBox::information(0,message);
+emit importfinished();
+}
+
+void KgpgInterface::importprocess(KProcIO *p)
+{
+  QString outp;
+  while (p->readln(outp)!=-1)
+    {
+      if (outp.find("http-proxy")==-1)
+        message+=outp+"\n";
+    }
+}
+
+
+
+
 //#include "kgpginterface.moc"

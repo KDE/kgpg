@@ -63,7 +63,8 @@ class MyEditor : public QTextEdit
 
 public:
     MyEditor( QWidget *parent = 0, const char *name = 0);
-QString message,messages,filename;
+private:
+QString message,messages,filename,tempFile;
 public slots:
 void decodef(QString);
 void droppedfile(KURL url);   

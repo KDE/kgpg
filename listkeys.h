@@ -32,7 +32,8 @@
 #include <qvbuttongroup.h>
 #include <qcombobox.h>
 #include <qcheckbox.h>
-
+#include <qdragobject.h>
+#include <qevent.h>
 
 #include <kmainwindow.h>
 #include <kurl.h>
@@ -89,33 +90,60 @@ KTempFile *kgpginfotmp;
 QLabel *keyinfoPhoto;
 };
 
+class KeyView : public KListView
+{
+    Q_OBJECT
+friend class listKeys;
+public:
+    KeyView( QWidget *parent = 0, const char *name = 0);
+
+private:
+QString secretList,defKey;
+QString photoKeysList;
+QPixmap pixkeyPair,pixkeySingle,pixsignature,pixuserid,pixuserphoto;
+
+private slots:
+void  droppedfile (KURL);
+void refreshkeylist();
+QString trustString(const QString trust);
+protected:
+virtual void startDrag();
+virtual void contentsDragMoveEvent(QDragMoveEvent *e);
+virtual void  contentsDropEvent (QDropEvent*);
+};
+
 class listKeys : public KMainWindow//QDialog //KMainWindow
 {
+friend class KeyView;
   Q_OBJECT
+  
   public:
   listKeys(QWidget *parent=0, const char *name=0,WFlags f = 0);
   ~listKeys();
   QLabel *keyPhoto;
-  KListView *keysList2;
+  KeyView *keysList2;
   QPopupMenu *popup,*popupsec,*popupout,*popupsig;
-  QString secretList,exportresult;
-QString message,defKey,issec;
+  QString exportresult;
+QString message;
 QStringList keynames;
-QPixmap pixkeyPair,pixkeySingle,pixsignature,pixuserid,pixuserphoto;
+
 QDialog *pop;
 
   private:
 QPushButton *bouton1,*bouton2,*bouton0;
 KConfig *config;
 QString tempKeyFile;
-QString photoKeysList;
+
 KTempFile *kgpgtmp;
 bool showPhoto;
 
+
 public slots:
     void slotgenkey();
+void refreshkey();
 
 private slots:
+
 void showToolBar();
 void displayPhoto();
 void hidePhoto();
@@ -136,10 +164,7 @@ void listsigns();
 void slotexport();
 void slotexportsec();
 void slotmenu(QListViewItem *,const QPoint &,int);
-void slotprocresult(KProcess *);
-void slotprocread(KProcIO *);
-void refreshkey();
-void slotImportKey();
+void slotPreImportKey();
 void slotstatus(QListViewItem *);
 void slotedit();
 
@@ -148,5 +173,7 @@ signals:
 
 
 };
+
+
 
 #endif

@@ -64,8 +64,6 @@ KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0,
   if (opmode=="encrypt")
     commandLineMode=true;
 
-  optionsChanged=false;
-
   if ((opmode!="encrypt") && (opmode!="decrypt"))  ///  do not perform these steps if kgpg is called from konqueror or command line
     {
       KIconLoader *loader = KGlobal::iconLoader();
@@ -473,9 +471,8 @@ void KgpgApp::slotClip()
 void KgpgApp::slotManageKey()
 {
     /////////// open key management window --> listkeys.cpp
-    listKeys * keydialogue = new listKeys(this, 0, WShowModal |  WType_Dialog);
+    listKeys * keydialogue = new listKeys(this, "key_manager",WShowModal | WType_Dialog);
     keydialogue->show();
-    optionsChanged=true;
 }
 
 

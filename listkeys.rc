@@ -29,6 +29,7 @@
     <Action name="key_gener"/>
     <Action name="key_showp"/>
 	<Action name="key_refresh"/>
+	<Action name="options_configure"/>
 	<Action name="file_quit"/>
 	
 </ToolBar>

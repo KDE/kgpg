@@ -33,7 +33,7 @@
 #include <kprocio.h>
 #include <kdialogbase.h>
 #include <kurl.h>
-
+#include <kio/netaccess.h>
 
 /**
  * Encrypt a file using gpg.
@@ -80,6 +80,7 @@ class KgpgInterface : public QObject {
 	 */
 	void KgpgVerifyFile(KURL srcUrl,KURL sigUrl) ;
 	
+	void importKey(KURL url);
 	
 	void KgpgSignKey(QString keyID="",QString signKeyID="",QString signKeyMail="",bool local=false);
 	
@@ -91,7 +92,7 @@ class KgpgInterface : public QObject {
 	 * @param Options String with the wanted gpg options. ex: "--armor"
 	 * returns the encrypted text or empty string if encyption failed
 	 */
-	static QString KgpgEncryptText(QString text,QString userIDs, QString Options="");
+	 static QString KgpgEncryptText(QString text,QString userIDs, QString Options="");
 	
 	static QString KgpgDecryptText(QString text,QString userID="");
 
@@ -126,6 +127,8 @@ class KgpgInterface : public QObject {
 	int checkuid(QString KeyID);
 	void delsigprocess(KProcIO *p);
 	void delsignover(KProcess *p);
+	void importover(KProcess *);
+	void importprocess(KProcIO *p);
 	
 	void readprocess(KProcIO *p);//ess *p, char *buff, int bufflen);
 	
@@ -142,13 +145,14 @@ signals:
 	void signatureFinished(int); //// 0=successfull, 1=error, 2=bad passphrase
     void decryptionfinished(bool);
 	void badpassphrase(bool);
+	void importfinished();
 
 	        
     private:
     /**
 	 * @internal structure for communication
 	 */
-        QString message;
+        QString message,tempKeyFile;
 		QCString passphrase;
 		bool deleteSuccess;
 		int signSuccess;

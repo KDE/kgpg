@@ -80,7 +80,7 @@ public:
      */
     KURL Docname;
     int version;
-    bool ascii,untrusted,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday,optionsChanged;//,edecrypt;
+    bool ascii,untrusted,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday;//,edecrypt;
     QString messages,defaultkey,filekey;
     QPixmap fileEnc,fileDec;
         KgpgView *view;

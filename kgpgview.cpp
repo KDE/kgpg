@@ -45,7 +45,7 @@ MyEditor::MyEditor( QWidget *parent, const char *name )
 void MyEditor::contentsDragEnterEvent( QDragEnterEvent *e )
 {
   ////////////////   if a file is dragged into editor ...
-  e->accept (QUrlDrag::canDecode(e));
+  e->accept (QUrlDrag::canDecode(e) || QTextDrag::canDecode (e));
   //e->accept (QTextDrag::canDecode (e));
 }
 
@@ -56,28 +56,30 @@ void MyEditor::contentsDropEvent( QDropEvent *e )
 {
   /////////////////    decode dropped file
   QStringList list;
+  QString text;
   if ( QUrlDrag::decodeToUnicodeUris( e, list ) ) droppedfile(KURL(list.first()));
+  else if ( QTextDrag::decode(e, text) ) insert(text);
 }
 
 void MyEditor::droppedfile(KURL url)
 {
   /////////////////    decide what to do with dropped file
-  QString text,localfilename;
+  QString text;
 
   if (url.isLocalFile())
-    localfilename = url.path();
-  else if (!KIO::NetAccess::download (url, localfilename))
+    tempFile = url.path();
+  else if (!KIO::NetAccess::download (url, tempFile))
   {
     KMessageBox::sorry(this,i18n("Could not download file."));
     return;
   }
 
-  QFile qfile(localfilename);
+  QFile qfile(tempFile);
 
   if (qfile.open(IO_ReadOnly))
   {
     /////////////  if dropped filename ends with gpg, pgp or asc, try to decode it
-    if ((localfilename.endsWith(".gpg")) || (localfilename.endsWith(".asc")) || (localfilename.endsWith(".pgp"))) decodef(localfilename);
+    if ((tempFile.endsWith(".gpg")) || (tempFile.endsWith(".asc")) || (tempFile.endsWith(".pgp"))) decodef(tempFile);
     //////////   else open file
     else
     {
@@ -87,12 +89,13 @@ void MyEditor::droppedfile(KURL url)
       if (result.startsWith("-----BEGIN PGP"))
       {
         qfile.close();
-        decodef(localfilename);
+        decodef(tempFile);
       }
       else
       {
         setText(result);
         qfile.close();
+		KIO::NetAccess::removeTempFile(tempFile);
       }
     }
   }
@@ -184,8 +187,8 @@ if (qfile.open(IO_ReadOnly))
       QString result(t.read());
 
 QString resultat=KgpgInterface::KgpgDecryptText(result,enckey);
+KIO::NetAccess::removeTempFile(tempFile);
 if (resultat!="") setText(resultat);
-
 else KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, missing key or corrupted file"));
 }
  else KMessageBox::sorry(this,i18n("Unable to read file..."));
@@ -195,6 +198,7 @@ else KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, miss
 
 void MyEditor::slotprocresult(KProcess *)
 {
+KIO::NetAccess::removeTempFile(tempFile);
   KMessageBox::information(0,message);
 }
 
@@ -403,16 +407,16 @@ void KgpgView::popuppublic()
 {
   /////    popup dialog to select public key for encryption
 
-    if (editor->length()>4500)
-      KMessageBox::sorry(this,i18n("Sorry, but your text is too long for direct encryption.\nPlease save it and use file mode"));
-    else
-    {
+ //   if (editor->length()>4500)
+  //    KMessageBox::sorry(this,i18n("Sorry, but your text is too long for direct encryption.\nPlease save it and use file mode"));
+  //  else
+   // {
       ////////  open dialog --> popuppublic.cpp
       popupPublic *dialogue=new popupPublic(this, "public_keys", 0,false);
       connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool)),this,SLOT(encode(QString &,bool,bool)));
       dialogue->exec();
       delete dialogue;
-    }
+   // }
 }
 
 void KgpgView::popuppass()
@@ -536,12 +540,10 @@ void KgpgView::encode(QString &selec,bool utrust,bool arm)
     }
 
  if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not choosen an encryption key..."));return;}
-
+  
  QString resultat=KgpgInterface::KgpgEncryptText(editor->text(),selec,encryptOptions);
  if (resultat!="") editor->setText(resultat);
 }
-
-
 
 KgpgView::~KgpgView()
 {}

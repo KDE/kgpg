@@ -75,6 +75,7 @@ accept();
 
 void KgpgOverwrite::slotcheck()
 {
+if (bouton1->isEnabled()){accept();return;}
 QFile nname(direc+lineedit->text());
 if (nname.exists())
 {
@@ -89,8 +90,5 @@ QString KgpgOverwrite::getfname()
 {
 return (lineedit->text());
 }
-
-
-
 
 //#include "kgpgfast.moc"
