@@ -26,10 +26,6 @@ KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent
         config=kapp->config();
         readOptions();
 
-        KIconLoader *loader = KGlobal::iconLoader();
-        fileEnc=loader->loadIcon("kgpg",KIcon::Small);
-        fileDec=loader->loadIcon("kgpg2",KIcon::Small);
-
         // call inits to invoke all other construction parts
         initActions();
         initView();
@@ -89,8 +85,8 @@ void KgpgApp::initActions()
         //KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
 
         fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
-        (void) new KAction(i18n("&Encrypt File..."), fileEnc, 0,this, SLOT(slotFilePreEnc()), actionCollection(),"file_encrypt");
-        (void) new KAction(i18n("&Decrypt File..."), fileDec, 0,this, SLOT(slotFilePreDec()), actionCollection(),"file_decrypt");
+        (void) new KAction(i18n("&Encrypt File..."), "kgpg", 0,this, SLOT(slotFilePreEnc()), actionCollection(),"file_encrypt");
+        (void) new KAction(i18n("&Decrypt File..."), "kgpg2", 0,this, SLOT(slotFilePreDec()), actionCollection(),"file_decrypt");
         editUndo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
         editRedo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());
         //(void) new KAction(i18n("&Manage Keys"), "kgpg_manage", CTRL+Key_K,this, SLOT(slotManageKey()), actionCollection(),"keys_manage");

@@ -25,18 +25,14 @@
 #include <qevent.h>
 #include <qwidget.h>
 #include <qstring.h>
-#include <qpixmap.h>
 #include <qdragobject.h>
 #include <qwidgetlist.h>
 
 #include <kurl.h>
 #include <kpopupmenu.h>
-#include <kiconloader.h>
 #include <khelpmenu.h>
 #include <ksystemtray.h>
-#include <kfiledialog.h>
 #include <kdeversion.h>
-#include <kshred.h>
 
 #if (KDE_VERSION >= 310)
 #include <kpassivepopup.h>
@@ -72,7 +68,6 @@ public:
         int version;
         bool ascii,untrusted,hideid,pgpcomp,encryptfileto,tipofday;
         QString messages;
-        QPixmap fileEnc,fileDec;
         KgpgView *view;
 
 

@@ -62,7 +62,7 @@ MyView::MyView( QWidget *parent, const char *name )
         if (tipofday)
                 KTipDialog::showTip(this, "kgpg/tips", true);
 
-        setPixmap(KGlobal::iconLoader()->loadIcon("kgpg",KIcon::User,22));
+        setPixmap( KSystemTray::loadIcon("kgpg"));
         resize(24,24);
         setAcceptDrops(true);
 
