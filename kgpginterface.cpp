@@ -1060,6 +1060,8 @@ void KgpgInterface::delsignover(KProcess *)
         emit delsigfinished(deleteSuccess);
 }
 
+/////////////////////////////////////////////////// check if a key has more than one id
+
 int KgpgInterface::checkuid(QString KeyID)
 {
         FILE *fp;
@@ -1078,6 +1080,116 @@ int KgpgInterface::checkuid(QString KeyID)
         pclose(fp);
         return uidcnt;
 }
+
+
+///////////////////////////////////////////////////////////////    change key expiration
+
+
+void KgpgInterface::KgpgKeyExpire(QString keyID,QDate date,bool unlimited)
+{
+        expSuccess=0;
+        step=0;
+	if (unlimited) expirationDelay=0;
+	else
+	expirationDelay=QDate::currentDate().daysTo(date);
+        output="";
+        KProcIO *conprocess=new KProcIO();
+        *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--command-fd=0"<<"--status-fd=2";
+        *conprocess<<"--edit-key"<<keyID;
+        QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(expprocess(KProcIO *)));
+        QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(expover(KProcess *)));
+        conprocess->start(KProcess::NotifyOnExit,KProcess::AllOutput);
+
+}
+
+void KgpgInterface::expprocess(KProcIO *p)
+{
+        QString required="";
+
+        while (p->readln(required,true)!=-1)
+        {
+                output+=required+"\n";
+
+                if (required.find("USERID_HINT",0,false)!=-1) {
+                        required=required.section("HINT",1,1);
+                        required=required.stripWhiteSpace();
+                        int cut=required.find(' ',0,false);
+                        required.remove(0,cut);
+                        if (required.find("(",0,false)!=-1)
+                                required=required.section('(',0,0)+required.section(')',-1,-1);
+                        if (userIDs.find(required)==-1) {
+                                if (!userIDs.isEmpty())
+                                        userIDs+=i18n(" or ");
+                                userIDs+=required;
+                                userIDs.replace(QRegExp("<"),"&lt;");
+                        }
+                }
+
+                if ((required.find("GOOD_PASSPHRASE")!=-1)) {
+                        expSuccess=3;
+                        step=2;
+                }
+
+                if ((step==0) && (required.find("keyedit.prompt")!=-1)) {
+                        p->writeStdin("expire");
+                        step=1;
+                        required="";
+                }
+
+		if (required.find("keygen.valid")!=-1) {
+                        p->writeStdin(QString::number(expirationDelay));
+                        required="";
+                }
+
+                if (required.find("passphrase.enter")!=-1) {
+                        QCString signpass;
+                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
+                        if (code!=QDialog::Accepted) {
+                                expSuccess=3;  /////  aborted by user mode
+                                p->writeStdin("quit");
+                                p->closeWhenDone();
+                                return;
+                        }
+                        p->writeStdin(signpass);
+                        required="";
+                        //               step=2;
+                }
+                if ((step==2) && (required.find("keyedit.prompt")!=-1)) {
+                        p->writeStdin("save");
+                        required="";
+                }
+                if (required.find("BAD_PASSPHRASE")!=-1) {
+                        p->writeStdin("quit");
+                        p->closeWhenDone();
+                        expSuccess=2;  /////  bad passphrase
+                }
+                if ((required.find("GET_")!=-1) && (expSuccess!=2)) /////// gpg asks for something unusal, turn to konsole mode
+                {
+                        expSuccess=1;  /////  switching to console mode
+                        p->writeStdin("quit");
+                        p->closeWhenDone();
+
+                }
+        }
+}
+
+
+
+void KgpgInterface::expover(KProcess *)
+{
+        if ((expSuccess==3) || (expSuccess==2))
+                emit expirationFinished(expSuccess);  ////   signature successfull or bad passphrase
+        else {
+                KDetailedConsole *q=new KDetailedConsole(0,"sign_error",i18n("<qt><b>Changing expiration failed.</b><br>"
+                                    "Do you want to try changing the key expiration in console mode?</qt>"),output);
+                if (q->exec()==QDialog::Accepted)
+		KMessageBox::sorry(0,"work in progress...");
+                        //openSignConsole();
+                else
+                        emit expirationFinished(0);
+        }
+}
+
 
 //////////////////////////////////////////////////////////////    key import
 

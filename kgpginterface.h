@@ -25,6 +25,7 @@
 #include <unistd.h>
 #include <qstring.h>
 #include <qfile.h>
+#include <qdatetime.h>
 #include <qobject.h>
 
 #include <kled.h>
@@ -130,6 +131,9 @@ public:
         * @param text QString text to be decrypted.
         * @param userID QString the name of the decryption key (only used to prompt user for passphrase)
         */
+	void KgpgKeyExpire(QString keyID,QDate date,bool unlimited);
+
+
         static QString KgpgDecryptText(QString text,QString userID);
         static QString KgpgDecryptFileToText(KURL srcUrl,QString userID);
 
@@ -217,7 +221,12 @@ private slots:
                  */
         void verifyfin(KProcess *p);
 
-        void txtreadencprocess(KProcIO *p);
+        void expprocess(KProcIO *p);
+	void expover(KProcess*);
+
+
+	void txtreadencprocess(KProcIO *p);
+
         void txtencryptfin(KProcess *);
         void signkillDisplayClip();
         //void txtreaddecprocess(KProcIO *p);
@@ -277,6 +286,8 @@ signals:
                 */
         void signfinished();
 
+	void expirationFinished(int);
+
 
 private:
         /**
@@ -285,8 +296,8 @@ private:
         QString message,tempKeyFile,userIDs,txtprocess,output;
         QCString passphrase;
         bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc;
-        int signSuccess;
-        int step,signb,sigsearch;
+        int signSuccess,expSuccess;
+        int step,signb,sigsearch,expirationDelay;
         QString konsSignKey, konsKeyID;
         KURL sourceFile;
 

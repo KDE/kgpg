@@ -31,6 +31,8 @@
 #include <qclipboard.h>
 #include <qkeysequence.h>
 #include <qtextcodec.h>
+#include <qtimer.h>
+
 
 #include <kio/netaccess.h>
 #include <kurl.h>
@@ -44,6 +46,7 @@
 #include "listkeys.h"
 #include "keyservers.h"
 #include "kgpginterface.h"
+
 
 
 //////////////  KListviewItem special
@@ -117,29 +120,19 @@ void SmallViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, int
 
 
 ////////  window for the key info dialog
-KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDialogBase( parent, name, true,sigkey,Close)
+KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,bool editable):KeyProperties( parent, name)
 {
-        QString message,fingervalue;
-        resize(450,100);
-        QWidget *page=new QWidget(this);
-        QLabel *labelname = new QLabel(page);
-        QLabel *labelmail = new QLabel(page);
-        QLabel *labeltype = new QLabel(page);
-        QLabel *labellength = new QLabel(page);
-        QLabel *labelcreation = new QLabel(page);
-        QLabel *labelexpire = new QLabel(page);
-        QLabel *labeltrust = new QLabel(page);
-        QLabel *labelid = new QLabel(page);
-        QLabel *labelcomment = new QLabel(page);
-        QLabel *labelfinger = new QLabel(i18n("Fingerprint:"),page);
-        //QString labelname,labelmail,labeltype,labellength,labelfinger,labelcreation,labelexpire,labeltrust,labelid,fingervalue;
-        //QVBoxLayout *vbox=new QVBoxLayout(page,2);
 
-
+       QString message,fingervalue;
         FILE *pass;
         char line[200]="";
         QString opt,tid;
         bool isphoto=false;
+	if (editable)
+	{
+	kDateWidget->setEnabled(true);
+	cBExpiration->setEnabled(true);
+	}
         QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key "+KShellProcess::quote(sigkey.local8Bit());
 
         pass=popen(QFile::encodeName(gpgcmd),"r");
@@ -205,39 +198,47 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
                         }
 
                         tid=opt.section(':',4,4);
-                        QString id=QString("0x"+tid.right(8));
+                        displayedKeyID=QString("0x"+tid.right(8));
 
                         QString fullname=opt.section(':',9,9);
                         if (opt.section(':',6,6)=="")
-
-                                labelexpire->setText(i18n("Expiration: Unlimited"));
+			{
+				isUnlimited=true;
+                                cBExpiration->setChecked(true);
+				expirationDate=QDate::currentDate();
+				kDateWidget->setDate(expirationDate);
+				}
                         else {
-                                QDate date = QDate::fromString(opt.section(':',6,6), Qt::ISODate);
-                                labelexpire->setText(i18n("Expiration: ")+KGlobal::locale()->formatDate(date));
+				isUnlimited=false;
+                                expirationDate= QDate::fromString(opt.section(':',6,6), Qt::ISODate);
+				kDateWidget->setDate(expirationDate);
                         }
+
                         QDate date = QDate::fromString(opt.section(':',5,5), Qt::ISODate);
-                        labelcreation->setText(i18n("Creation: ")+KGlobal::locale()->formatDate(date));
-                        labellength->setText(i18n("Length: ")+opt.section(':',2,2));
-                        labeltrust->setText(i18n("Trust: %1").arg(tr));
-                        labelid->setText(i18n("Id: ")+tid);
+                        tLCreation->setText(KGlobal::locale()->formatDate(date));
+
+			tLLength->setText(opt.section(':',2,2));
+                        tLTrust->setText(i18n("Trust: ")+tr);
+                        tLID->setText(tid);
                         if (fullname.find("<")!=-1) {
                                 QString kmail=fullname.section('<',-1,-1);
                                 kmail.truncate(kmail.length()-1);
-                                labelmail->setText(i18n("Email: %1").arg(kmail));
+                                tLMail->setText(i18n("<qt><b>%1</b></qt>").arg(kmail));
                         } else
-                                labelmail->setText(i18n("Email: none"));
+                                tLMail->setText(i18n("none"));
 
                         QString kname=fullname.section('<',0,0);
                         if (fullname.find("(")!=-1) {
                                 kname=kname.section('(',0,0);
                                 QString comment=fullname.section('(',1,1);
                                 comment=comment.section(')',0,0);
-                                labelcomment->setText(i18n("Comment: %1").arg(KgpgInterface::checkForUtf8(comment)));
+                                tLComment->setText(KgpgInterface::checkForUtf8(comment));
                         } else
-                                labelcomment->setText(i18n("Comment: none"));
+                                tLComment->setText(i18n("none"));
 
-                        labelname->setText(i18n("Name: %1").arg(KgpgInterface::checkForUtf8(kname)));
-                        labeltype->setText(i18n("Algorithm: %1").arg(algo));
+
+                        tLName->setText(i18n("<qt><b>%1</b></qt>").arg(KgpgInterface::checkForUtf8(kname).replace(QRegExp("<"),"&lt;")));
+                        tLAlgo->setText(algo);
                 }
                 if (opt.startsWith("fpr")) {
                         fingervalue=opt.section(':',9,9);
@@ -249,42 +250,8 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
                 }
         }
         pclose(pass);
+	lEFinger->setText(fingervalue);
 
-
-        QGridLayout *Form1Layout = new QGridLayout( page, 1, 1, 11, 6, "Form1Layout");
-
-        Form1Layout->addWidget( labelid, 8, 1 );
-
-        Form1Layout->addWidget( labeltrust, 7, 1 );
-
-        Form1Layout->addWidget( labelexpire, 6, 1 );
-
-        Form1Layout->addWidget( labelcreation, 5, 1 );
-
-        Form1Layout->addWidget( labellength, 4, 1 );
-
-        Form1Layout->addWidget( labeltype, 3, 1 );
-
-        Form1Layout->addWidget( labelcomment, 2, 1 );
-
-        Form1Layout->addWidget( labelmail, 1, 1 );
-
-        Form1Layout->addWidget( labelname, 0, 1 );
-
-        Form1Layout->addWidget( labelfinger, 9, 1 );
-
-        KLineEdit *finger=new KLineEdit("",page);
-        finger->setReadOnly(true);
-        finger->setPaletteBackgroundColor(QColor(white));
-        finger->setText(fingervalue);
-        Form1Layout->addMultiCellWidget( finger, 10, 10, 0, 1 );
-
-        keyinfoPhoto=new QLabel(i18n("No photo"),page);
-        //keyinfoPhoto->setFixedSize(70,80);
-        //keyinfoPhoto->setScaledContents(true);
-        keyinfoPhoto->setAlignment(Qt::AlignTop);
-
-        keyinfoPhoto->setFrameStyle( QFrame::Box | QFrame::Raised );
 
         if (isphoto) {
                 kgpginfotmp=new KTempFile();
@@ -293,25 +260,41 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
                 KProcIO *p=new KProcIO();
                 *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(popt)<<"--list-keys"<<tid;
                 QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotinfoimgread(KProcess *)));
-                //QObject::connect(p, SIGNAL(readReady(KProcIO *)),this, SLOT(slotinfoimgread(KProcIO *)));
                 p->start(KProcess::NotifyOnExit,true);
         }
-
-        Form1Layout->addMultiCellWidget( keyinfoPhoto, 0, 9, 0, 0 );
-
-        setMainWidget(page);
-        page->show();
-
+connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotPreOk()));
 }
 
-void KgpgKeyInfo::slotinfoimgread(KProcess *)//IO *p)
+void KgpgKeyInfo::slotinfoimgread(KProcess *)
 {
         QPixmap pixmap;
         pixmap.load(kgpginfotmp->name());
-        keyinfoPhoto->setPixmap(pixmap);
+        pLPhoto->setPixmap(pixmap);
         kgpginfotmp->unlink();
 }
 
+
+void KgpgKeyInfo::slotPreOk()
+{
+if (expirationDate!=kDateWidget->date() || (isUnlimited!=cBExpiration->isChecked()))
+{
+KgpgInterface *KeyExpirationProcess=new KgpgInterface();
+        KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,kDateWidget->date(),cBExpiration->isChecked());
+        connect(KeyExpirationProcess,SIGNAL(expirationFinished(int)),this,SLOT(slotClose(int)));
+}
+else accept();
+}
+
+
+void KgpgKeyInfo::slotClose(int result)
+{
+if (result==3)
+{
+//KMessageBox::information(0,i18n("<qt>Expiration of the key <b>%1</b> was changed to the:"
+//"<br><b>%2</b></qt>").arg(displayedKeyID).arg(KGlobal::locale()->formatDate(kDateWidget->date())));
+accept();
+}
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1085,11 +1068,12 @@ void listKeys::listsigns()
         /////////////   open a key info dialog (KgpgKeyInfo, see begining of this file)
         QString key=keysList2->currentItem()->text(5);
         if (key!="") {
-                KgpgKeyInfo *opts=new KgpgKeyInfo(0,0,key);
-
+	bool isSecret=false;
+	if (keysList2->secretList.find(keysList2->currentItem()->text(5))!=-1) isSecret=true;
+                KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",key,isSecret);
                 opts->exec();
-
-                delete opts;
+		delete opts;
+		keysList2->refreshcurrentkey(keysList2->currentItem());
         }
 }
 
@@ -1623,7 +1607,6 @@ void KeyView::refreshkeylist()
                 issec+=line;
         pclose(fp2);
 
-        //fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-sigs", "r");
         fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8", "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
@@ -1641,7 +1624,6 @@ void KeyView::refreshkeylist()
                                 noID=true;
 
 
-                        //QTextCodec::codecForContent(locallyEncoded,locallyEncoded.length()); // get the codec for KOI8-R
                         item=new UpdateViewItem(this,extractKeyName(pubKey.gpgkeyname,pubKey.gpgkeymail),"",pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold,isexpired);
 
                         item->setPixmap(1,pubKey.trustpic);
@@ -1661,6 +1643,32 @@ void KeyView::refreshkeylist()
         if (columnWidth(0)>150)
                 setColumnWidth(0,150);
 }
+
+void KeyView::refreshcurrentkey(QListViewItem *current)
+{
+if (current==NULL) return;
+//KMessageBox::sorry(0,current->text(5));
+        ////////   update display of the current key
+        FILE *fp;
+        QString tst,cycle,revoked;
+        char line[300];
+	QString cmd="gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8 "+current->text(5);
+        fp = popen(QFile::encodeName(cmd), "r");
+        while ( fgets( line, sizeof(line), fp)) {
+                tst=line;
+                if (tst.startsWith("pub")) {
+                        gpgKey pubKey=extractKey(tst);
+current->setText(2,pubKey.gpgkeyexpiration);
+current->setPixmap(1,pubKey.trustpic);
+current->repaint();
+		}
+        }
+pclose(fp);
+if (current->isOpen()) current->setOpen(false);
+
+}
+
+
 
 QString KeyView::extractKeyName(QString name,QString mail)
 {

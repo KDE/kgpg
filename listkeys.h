@@ -34,8 +34,10 @@
 #include <qcheckbox.h>
 #include <qdragobject.h>
 #include <qevent.h>
+#include <qdatetime.h>
 #include <qpalette.h>
 #include <qcolor.h>
+#include <qtooltip.h>
 
 #include <kmainwindow.h>
 #include <kurl.h>
@@ -46,6 +48,8 @@
 #include <klistview.h>
 #include <kdialogbase.h>
 #include <kbuttonbox.h>
+#include <kcombobox.h>
+#include <kdatewidget.h>
 #include <kmessagebox.h>
 #include <kprocess.h>
 #include <kprocio.h>
@@ -64,6 +68,7 @@
 #include "popupname.h"
 #include "kgpgoptions.h"
 #include "keyservers.h"
+#include "keyproperties.h"
 
 
 typedef struct gpgKey
@@ -100,18 +105,26 @@ public slots:
         bool getlocal();
 };
 
-class KgpgKeyInfo : public KDialogBase
+
+class KgpgKeyInfo : public KeyProperties
 {
         Q_OBJECT
 
 public:
-        KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0);
+
+        KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0,bool editable=false);
 
 private slots:
-        void slotinfoimgread(KProcess *);//IO *);
+        void slotinfoimgread(KProcess *);
+        void slotPreOk();
+	void slotClose(int result);
+
 private:
         KTempFile *kgpginfotmp;
         QLabel *keyinfoPhoto;
+	QString displayedKeyID;
+	QDate expirationDate;
+	bool isUnlimited;
 };
 
 class KeyView : public KListView
@@ -133,6 +146,7 @@ private slots:
         gpgKey extractKey(QString keyColon);
         QString extractKeyName(QString name,QString mail);
         void expandKey(QListViewItem *item);
+	void refreshcurrentkey(QListViewItem *current);
 
 protected:
         virtual void startDrag();
