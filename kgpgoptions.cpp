@@ -77,7 +77,7 @@ config=kapp->config();
   kURLRequester1->setMode(KFile::Directory | KFile::LocalOnly); 
   kURLRequester1->setFilter( QString::null );
   kURLRequester1->setURL("~/.kde/share/apps/konqueror/servicemenus/");
-rbAllTypes->setChecked(true);
+rbPgpTypes->setChecked(true);
 if (ascii==true) ascii_2_2->setChecked(true);
 if (untrusted==true) untrusted_2_2->setChecked(true);
 if (pgpcomp==true) pgp_2_2->setChecked(true);
@@ -110,9 +110,9 @@ path+="decryptfile.desktop";
       QTextStream t( &qfile );
       t <<txt; 
 	  qfile.close();
-	  KMessageBox::information(0,i18n("Decrypt file option is now added in Konqueror's menu."));
+	  KMessageBox::information(this,i18n("Decrypt file option is now added in Konqueror's menu."));
 }
-else KMessageBox::sorry(0,i18n("Unable to create file"));
+else KMessageBox::sorry(this,i18n("Unable to create file"));
 }
 
 
@@ -123,10 +123,10 @@ path+="decryptfile.desktop";
 QFile qfile(path.local8Bit());
 if (qfile.exists())
 {
-if (!qfile.remove()) KMessageBox::sorry(0,i18n("Cannot remove service menu. Check permissions"));
-else KMessageBox::information(0,i18n("Service menu Decrypt file has been removed"));
+if (!qfile.remove()) KMessageBox::sorry(this,i18n("Cannot remove service menu. Check permissions"));
+else KMessageBox::information(this,i18n("Service menu Decrypt file has been removed"));
 }
-else KMessageBox::sorry(0,i18n("No service menu found"));
+else KMessageBox::sorry(this,i18n("No service menu found"));
 }
 
 void kgpgOptions::slotOk()
