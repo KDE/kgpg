@@ -2427,6 +2427,7 @@ QPixmap KeyView::slotGetPhoto(QString photoId,bool mini)
     else
         dup2.convertFromImage(dup.scale(22,22,QImage::ScaleMin));
     phototmp->unlink();
+    delete phototmp;
     return dup2;
 }
 
