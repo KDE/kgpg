@@ -23,7 +23,7 @@ service_DATA = encryptfile.desktop
 autostartdir = $(prefix)/share/autostart
 autostart_DATA = kgpg.desktop
 
-applnkdir = $(kde_appsdir)/Applications
+applnkdir = $(kde_appsdir)/Utilities
 applnk_DATA = kgpg.desktop
 
 METASOURCES = AUTO
