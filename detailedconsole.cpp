@@ -57,7 +57,7 @@ KDetailedInfo::KDetailedInfo(QWidget *parent, const char *name , const QString &
         QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
 	topLayout->setAutoAdd(true);
 
-        QLabel *label = new QLabel( boxLabel, page, "caption" );
+        (void) new QLabel( boxLabel, page, "caption" );
 	KListBox *list=new KListBox(page);
 	list->insertStringList(keysList);
 
