@@ -688,7 +688,11 @@ void listKeys::keyFilter( const QString &filterStr)
 
         if (filterStr.isEmpty()) {
                 while (item) {
+			if (!keysList2->displayOnlySecret)
+			{
                         item->setVisible(true);
+			}
+			else if (keysList2->secretList.find(item->text(6))!=-1) item->setVisible(true);
                         item=item->nextSibling();
                 }
         } else {
@@ -696,7 +700,13 @@ void listKeys::keyFilter( const QString &filterStr)
                         if ((item->text(0).find(filterStr,0,false)==-1) && (item->text(1).find(filterStr,0,false)==-1))
                                 item->setVisible(false);
                         else
-                                item->setVisible(true);
+                               {
+			       if (!keysList2->displayOnlySecret)
+					{
+                        		item->setVisible(true);
+					}
+			else if (keysList2->secretList.find(item->text(6))!=-1) item->setVisible(true);
+			       }
                         item=item->nextSibling();
                 }
         }
@@ -795,7 +805,7 @@ void listKeys::slotToggleSecret()
 
         if (!keysList2->displayOnlySecret) {
                 while (item) {
-                        if (item->pixmap(0)->serialNumber()!=keysList2->pixkeyPair.serialNumber())
+                        if (keysList2->secretList.find(item->text(6))==-1) //pixmap(0)->serialNumber()!=keysList2->pixkeyPair.serialNumber())
                                 item->setVisible(false);
                         item=item->nextSibling();
                 }
@@ -814,12 +824,9 @@ void listKeys::slotToggleSecret()
                         keysList2->setSelected(item,true);
                 }
         } else {
-                while (item) {
-                        item->setVisible(true);
-                        item=item->nextSibling();
-                }
-                keysList2->ensureItemVisible(keysList2->currentItem());
-                keysList2->displayOnlySecret=false;
+		QString Ltext=toolBar()->getLinedText(toolBar()->idAt(searchWidget));
+		keysList2->displayOnlySecret=false;
+		keyFilter(Ltext);
         }
 }
 
