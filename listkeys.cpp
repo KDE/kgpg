@@ -57,6 +57,7 @@ class UpdateViewItem : public KListViewItem
 public:
         UpdateViewItem(QListView *parent, QString tst, QString tr, QString val, QString size, QString creat, QString id,bool isdefault,bool isexpired);
         virtual void paintCell(QPainter *p, const QColorGroup &cg,int col, int width, int align);
+	virtual QString key(int c,bool ) const;
         bool def,exp;
 };
 
@@ -88,6 +89,21 @@ void UpdateViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, in
         KListViewItem::paintCell(p,_cg, column, width, alignment);
 }
 
+QString UpdateViewItem :: key(int c,bool ) const{
+  QString s;
+  if(c==3)
+    /* sorting by int */
+    s.sprintf("%08d",text(c).toInt());
+  else if(c==1)
+    /* sorting by pixmap */
+    s.sprintf("%08d",pixmap(c)->serialNumber());
+  else {
+    /* sorting alphanumeric */
+    s.sprintf("%s",text(c).ascii());
+  }
+
+  return s;
+}
 
 class SmallViewItem : public KListViewItem
 {
@@ -545,6 +561,7 @@ KeyView::KeyView( QWidget *parent, const char *name )
         setAcceptDrops(true);
         setDragEnabled(true);
 }
+
 
 void  KeyView::droppedfile (KURL url)
 {
@@ -1222,7 +1239,6 @@ void listKeys::signkey()
 	QCheckBox *localSign = new QCheckBox(i18n("Local signature (cannot be exported)"),opts->page);
         opts->vbox->addWidget(localSign);
 	opts->setMinimumHeight(300);
-	opts->setMaximumWidth(250);
 
         if (opts->exec()==QDialog::Accepted) {
                 globalkeyID=QString(opts->getkeyID());
