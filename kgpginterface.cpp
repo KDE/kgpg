@@ -27,6 +27,7 @@
 #include <qlayout.h>
 #include <qcolor.h>
 #include <qhbuttongroup.h>
+#include <qregexp.h>
 
 #include <kmdcodec.h>
 #include <klineedit.h>
@@ -197,7 +198,8 @@ QString KgpgInterface::KgpgEncryptText(QString text,QString userIDs, QString Opt
     }
   dests+=" --recipient "+userIDs;
 
-  int i=0;
+  text=text.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
+    /*int i=0;
   while(i!=-1)
     {
       i=text.find("$",i,FALSE);
@@ -206,7 +208,8 @@ QString KgpgInterface::KgpgEncryptText(QString text,QString userIDs, QString Opt
           text.insert(i,"\\");
           i+=2;
         }
-    }
+    }*/
+	
 	gpgcmd="echo \""+text+"\" | gpg --no-secmem-warning --no-tty "+Options+" -e "+dests;
   //////////   encode with untrusted keys or armor if checked by user
   fp = popen(gpgcmd.latin1(), "r");
