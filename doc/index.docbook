@@ -333,7 +333,7 @@ directly related to gpg and are documented in it's man page. </para>
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
 &underFDL;               <!-- FDL: do not remove -->
-&underBSDLicense;        <!-- BSD License -->
+&underGPL;
 
 </chapter>
 
