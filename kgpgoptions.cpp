@@ -49,6 +49,7 @@
 #include <kdesktopfile.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>
+#include <kcolorbutton.h>
 #include <stdlib.h>
 #include <kdebug.h>
 
@@ -170,6 +171,8 @@ if (!gpgHome.endsWith("/")) gpgHome.append("/");
 
 void kgpgOptions::updateWidgets()
 {
+
+kdDebug(2100)<<"++++++++++++ UPDATE WIDGET +++++++++++"<<endl;
         alwaysKeyID=KgpgInterface::getGpgSetting("encrypt-to", KGpgSettings::gpgConfigPath());
 
         encryptToAlways = !alwaysKeyID.isEmpty();
@@ -293,6 +296,8 @@ bool kgpgOptions::hasChanged()
 void kgpgOptions::updateSettings()
 {
         // Update config path first!
+	kdDebug(2100)<<"++++++++++++ UPDATE SETTINGS +++++++++++"<<endl;
+	
 	KGpgSettings::setGpgConfigPath( page4->gpg_home_path->text()+page4->gpg_conf_path->text() );
 	if (page4->gpg_home_path->text()!=KURL(gpgConfigPath).directory(false))
 	{
@@ -376,13 +381,14 @@ void kgpgOptions::updateSettings()
 	KgpgInterface::setGpgSetting("keyserver",keyServer, KGpgSettings::gpgConfigPath());
 	serverList.prepend(keyServer+" "+i18n("(Default)"));
 	
-	if (keyGood!=KGpgSettings::colorGood()) emit refreshTrust(GoodColor,KGpgSettings::colorGood());
-	if (keyBad!=KGpgSettings::colorBad()) emit refreshTrust(BadColor,KGpgSettings::colorBad());
-	if (keyUnknown!=KGpgSettings::colorUnknown()) emit refreshTrust(UnknownColor,KGpgSettings::colorUnknown());
-	if (keyRev!=KGpgSettings::colorRev()) emit refreshTrust(RevColor,KGpgSettings::colorRev());
+	if (keyGood!=page3->kcfg_ColorGood->color()) 
+	emit refreshTrust(GoodColor,page3->kcfg_ColorGood->color());
+	if (keyBad!=page3->kcfg_ColorBad->color()) emit refreshTrust(BadColor,page3->kcfg_ColorBad->color());
+	if (keyUnknown!=page3->kcfg_ColorUnknown->color()) emit refreshTrust(UnknownColor,page3->kcfg_ColorUnknown->color());
+	if (keyRev!=page3->kcfg_ColorRev->color()) emit refreshTrust(RevColor,page3->kcfg_ColorRev->color());
 
 	KGpgSettings::writeConfig();
-	//ks->sync();
+	ks->sync();
 	emit settingsUpdated();
 }
 

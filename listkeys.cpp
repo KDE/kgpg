@@ -1148,7 +1148,6 @@ void listKeys::findFirstKey()
                 }
         }
         delete m_find;
-        //kdDebug(2100)<<"end loop"<<endl;
 
         if (foundItem) {
                 //kdDebug(2100)<<"Found: "<<searchText<<endl;
@@ -1388,7 +1387,8 @@ void listKeys::showOptions()
         connect(optionsDialog,SIGNAL(homeChanged()),this,SLOT(refreshkey()));
 	connect(optionsDialog,SIGNAL(refreshTrust(int,QColor)),keysList2,SLOT(refreshTrust(int,QColor)));
         connect(optionsDialog,SIGNAL(changeFont(QFont)),this,SIGNAL(fontChanged(QFont)));
-        optionsDialog->show();
+        optionsDialog->exec();
+	delete optionsDialog;
 }
 
 void listKeys::readAllOptions()
@@ -3099,20 +3099,24 @@ switch (color)
 {
 case GoodColor:
 trustFinger=trustgood.serialNumber();
+trustgood=newtrust;
 break;
 case BadColor:
 trustFinger=trustbad.serialNumber();
+trustbad=newtrust;
 break;
 case UnknownColor:
 trustFinger=trustunknown.serialNumber();
+trustunknown=newtrust;
 break;
 case RevColor:
 trustFinger=trustrevoked.serialNumber();
+trustrevoked=newtrust;
 break;
 }
 QListViewItem *item=firstChild();
                 while (item) {
-			if (!item->pixmap(2)->isNull())
+			if (item->pixmap(2))
 			{
                         if (item->pixmap(2)->serialNumber()==trustFinger) item->setPixmap(2,newtrust);
 			}

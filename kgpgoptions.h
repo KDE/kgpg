@@ -34,6 +34,7 @@ class KFontChooser;
 class KConfig;
 class KSimpleConfig;
 
+
 class kgpgOptions : public KConfigDialog
 {
         Q_OBJECT
