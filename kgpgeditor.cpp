@@ -53,8 +53,9 @@
 #include "listkeys.h"
 #include "kgpglibrary.h"
 
-KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f,KShortcut goHome):KMainWindow(parent, name,f)
+KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f,KShortcut goHome,bool mainWindow):KMainWindow(parent, name,f)
 {
+	isMainWindow=mainWindow;
         readOptions();
 	goDefaultKey=goHome;
         // call inits to invoke all other construction parts
@@ -71,7 +72,9 @@ KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f,KShortcut goHome):K
 }
 
 KgpgApp::~KgpgApp()
-{}
+{
+delete view;
+}
 
 void KgpgApp::slotOptions()
 {
@@ -89,8 +92,9 @@ kdDebug(2100) <<"there was some error using DCOP."<<endl;
 
 void KgpgApp::closeEvent ( QCloseEvent * e )
 {
-        kapp->ref(); // prevent KMainWindow from closing the app
-        KMainWindow::closeEvent( e );
+        if (!isMainWindow) 
+	KMainWindow::closeEvent( e );
+	else e->accept();
 }
 
 void KgpgApp::closeWindow()

@@ -695,7 +695,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         QObject::connect(keysList2,SIGNAL(statusMessage(QString,int,bool)),this,SLOT(changeMessage(QString,int,bool)));
         QObject::connect(statusbarTimer,SIGNAL(timeout()),this,SLOT(statusBarTimeout()));
 
-	s_kgpgEditor= new KgpgApp(parent, "editor",WType_Dialog,actionCollection()->action("go_default_key")->shortcut());
+	s_kgpgEditor= new KgpgApp(parent, "editor",WType_Dialog,actionCollection()->action("go_default_key")->shortcut(),true);
         connect(s_kgpgEditor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
         connect(this,SIGNAL(fontChanged(QFont)),s_kgpgEditor,SLOT(slotSetFont(QFont)));
         connect(s_kgpgEditor->view->editor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
@@ -712,7 +712,7 @@ show();
 
 void  listKeys::slotOpenEditor()
 {
-        KgpgApp *kgpgtxtedit = new KgpgApp(this, "editor",WType_Dialog,actionCollection()->action("go_default_key")->shortcut());
+        KgpgApp *kgpgtxtedit = new KgpgApp(this, "editor",WType_Dialog | WDestructiveClose,actionCollection()->action("go_default_key")->shortcut());
         connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
 	connect(kgpgtxtedit,SIGNAL(encryptFiles(KURL::List)),this,SIGNAL(encryptFiles(KURL::List)));
         connect(this,SIGNAL(fontChanged(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
@@ -2103,7 +2103,7 @@ void listKeys::slotgenkey()
                         bool goodpass=false;
                         while (!goodpass)
                         {
-                                int code=KPasswordDialog::getNewPassword(password,i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences").arg(newKeyMail));
+                                int code=KPasswordDialog::getNewPassword(password,i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences").arg(newKeyName+" <"+newKeyMail+">"));
                                 if (code!=QDialog::Accepted)
                                         return;
                                 if (password.length()<5)

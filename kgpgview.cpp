@@ -405,7 +405,9 @@ void KgpgView::updatetxt(QString newtxt)
 
 
 KgpgView::~KgpgView()
-{}
+{
+delete editor;
+}
 
 /*
 void KgpgView::print(QPrinter *pPrinter)

@@ -42,7 +42,7 @@ class KgpgApp : public KMainWindow
 public:
         /** construtor of KgpgApp, calls all init functions to create the application.
          */
-        KgpgApp(QWidget *parent=0, const char *name=0,WFlags f = 0,KShortcut goHome=QKeySequence(CTRL+Qt::Key_Home));
+        KgpgApp(QWidget *parent=0, const char *name=0,WFlags f = 0,KShortcut goHome=QKeySequence(CTRL+Qt::Key_Home),bool mainWindow=false);
         ~KgpgApp();
         /** opens a file specified by commandline option
          */
@@ -103,12 +103,12 @@ public slots:
 
 private:
 
-        KPassivePopup *pop;
         QStringList customDecrypt;
 	KToggleAction *encodingAction ;
         KURL urlselected;
         KAction* fileSave, *editUndo, *editRedo;
 	KComboBox *fontCombo;
+	bool isMainWindow;
 
 signals:
 
