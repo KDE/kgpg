@@ -118,7 +118,6 @@ kdDebug(2100)<<"Adding pages"<<endl;
 	connect(page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
 	connect(page6->ServerBox, SIGNAL(currentChanged ( QListBoxItem *)), this, SLOT(updateButtons()));
 	connect(page7->pushShredder, SIGNAL(clicked ()), this, SIGNAL(installShredder()));
-	connect(kfc, SIGNAL(fontSelected(const QFont &)), this, SLOT(updateButtons()));
 
 	keyGood=KGpgSettings::colorGood();
 	keyUnknown=KGpgSettings::colorUnknown();
@@ -200,7 +199,6 @@ void kgpgOptions::updateWidgets()
         if (keyServer.isEmpty())
 		keyServer = defaultKeyServer;
 
-        kfc->setFont(startFont);
 	
 	page6->ServerBox->clear();
 	page6->ServerBox->insertStringList(serverList);
@@ -213,12 +211,7 @@ void kgpgOptions::updateWidgetsDefault()
 {
         page1->encrypt_to_always->setChecked( defaultEncryptToAlways );
 
- 
-
-        page4->use_agent->setChecked( defaultUseAgent );
-	
-	kfc->setFont(QFont());
-	
+        page4->use_agent->setChecked( defaultUseAgent );	
 	
 	page4->gpg_conf_path->setText(defaultConfigPath);
 	page4->gpg_home_path->setText(defaultHomePath);
@@ -241,11 +234,7 @@ bool kgpgOptions::isDefault()
 		return false;
 
 	if (page4->use_agent->isChecked() != defaultUseAgent)
-		return false;
-	   
-	if (kfc->font()!=QFont())
-		return false;
-		
+		return false;		
 
 	QString currList;
 	for (uint i=0;i<page6->ServerBox->count();i++)
@@ -282,9 +271,6 @@ bool kgpgOptions::hasChanged()
 	currList.append(page6->ServerBox->text(i));
 	
 	if (currList!=serverList) return true;
-
-	if (kfc->font()!=startFont)
-		return true;
 	return false;
 }
 
@@ -321,15 +307,8 @@ void kgpgOptions::updateSettings()
 	
 	//////////////////  save key servers
 	
-	if (kfc->font()!=startFont)
-	{
-	emit changeFont(kfc->font());
-	startFont=kfc->font();
-	ks->setGroup("Editor");
-	ks->writeEntry("Editor_Font",startFont);
-	}
-	
 
+	emit changeFont(kfc->font());
         ///////////////  install service menus
 
         if (page7->kcfg_SignMenu->currentItem()==KGpgSettings::EnumSignMenu::AllFiles)
