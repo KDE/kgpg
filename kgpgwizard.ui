@@ -288,7 +288,7 @@ Remember that if you download a file or open one in an editor, parts of the file
                     <cstring>checkBox2</cstring>
                 </property>
                 <property name="text">
-                    <string>Start KGpg automatically when you login</string>
+                    <string>Start KGpg automatically at KDE startup.</string>
                 </property>
                 <property name="checked">
                     <bool>true</bool>

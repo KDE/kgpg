@@ -98,7 +98,7 @@
       <default>false</default>
     </entry>
     <entry name="AutoStart" type="Bool">
-      <label>Start KGpg automatically at login.</label>
+      <label>Start KGpg automatically at KDE startup.</label>
       <default>false</default>
     </entry>
     <entry name="RemoteFileWarn" type="Bool" key="remote_file_warn">
