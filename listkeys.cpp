@@ -106,49 +106,44 @@ int UpdateViewItem :: compare(  QListViewItem * item, int c, bool ascending ) co
                 QDate d = KGlobal::locale()->readDate(text(c));
                 QDate itemDate = KGlobal::locale()->readDate(item->text(c));
                 bool itemDateValid = itemDate.isValid();
-                if (d.isValid())
-                {
-                        if (itemDateValid)
-                        {
+                if (d.isValid()) {
+                        if (itemDateValid) {
                                 if (d < itemDate)
-                                       rc = -1;
+                                        rc = -1;
                                 else if (d > itemDate)
-                                       rc = 1;
-                        }
-                        else
+                                        rc = 1;
+                        } else
                                 rc = -1;
-                }
-                else if (itemDateValid)
+                } else if (itemDateValid)
                         rc = 1;
-        }
-        else if (c==2)   /* sorting by pixmap */
+        } else if (c==2)   /* sorting by pixmap */
         {
                 const QPixmap* pix = pixmap(c);
                 const QPixmap* itemPix = item->pixmap(c);
                 int serial,itemSerial;
-		if (!pix) serial=0;
-		else serial=pix->serialNumber();
-		if (!itemPix) itemSerial=0;
-		else itemSerial=itemPix->serialNumber();
-		if (serial<itemSerial) rc=-1;
-		else if (serial>itemSerial) rc=1;
-        }
-        else
-        {
+                if (!pix)
+                        serial=0;
+                else
+                        serial=pix->serialNumber();
+                if (!itemPix)
+                        itemSerial=0;
+                else
+                        itemSerial=itemPix->serialNumber();
+                if (serial<itemSerial)
+                        rc=-1;
+                else if (serial>itemSerial)
+                        rc=1;
+        } else {
                 rc = item->text(c).lower().compare(text(c).lower());
         }
 
         // if we aren't comparing by name and we have an equal value,
         // in the column that we are sorting in, do a secondary sort on the name
-        if (c > 1 && rc == 0)
-        {
+        if (c > 1 && rc == 0) {
                 // trick QListView into also sorting ascending on first column
-                if (ascending)
-                {
+                if (ascending) {
                         rc = text(0).lower().compare(item->text(0).lower());
-                }
-                else
-                {
+                } else {
                         rc = item->text(0).lower().compare(text(0).lower());
                 }
         }
@@ -472,9 +467,11 @@ void  KeyView::startDrag()
 
 
 
-///////////////   main window for key management
+///////////////////////////////////////////////////////////////////////////////////////   main window for key management
+
 listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "KeyInterface" ), KMainWindow(parent, name, f)
 {
+
         QWidget *page=new QWidget(this);
         keysList2 = new KeyView(page);
         keysList2->photoKeysList="";
@@ -921,7 +918,7 @@ void listKeys::readOptions()
         showPhoto=config->readBoolEntry("show photo",false);
 
         config->setGroup("User Interface");
-        keysList2->displayMailFirst=config->readBoolEntry("display_mail_first",true);
+        //        keysList2->displayMailFirst=config->readBoolEntry("display_mail_first",true);
         if (config->readBoolEntry("selection_clipboard",false)) {
                 // support clipboard selection (if possible)
                 if (kapp->clipboard()->supportsSelection())
@@ -961,29 +958,40 @@ void listKeys::readAllOptions()
 
 void listKeys::slotSetDefKey()
 {
+slotSetDefaultKey(keysList2->currentItem());
+}
 
-        if (keysList2->currentItem()->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) {
+void listKeys::slotSetDefaultKey(QListViewItem *newdef)
+{
+
+        if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) {
                 KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted."));
                 return;
         }
 
-        /////////////// revert old default key to normal icon
-        keysList2->defKey=keysList2->currentItem()->text(6);
-        refreshkey();
+	QListViewItem *olddef = keysList2->firstChild();
+                while (olddef->text(6)!=keysList2->defKey)
+                        if (olddef->nextSibling())
+                                olddef = olddef->nextSibling();
+                        else
+                                break;
+                keysList2->defKey=newdef->text(6);
+                config->setGroup("Encryption");
+                config->writeEntry("default key",newdef->text(6).right(8));
+                KgpgInterface::setGpgSetting("default-key",newdef->text(6).right(8),configUrl);
+                keysList2->refreshcurrentkey(olddef);
+		keysList2->refreshcurrentkey(newdef);
 
-        QListViewItem *olddef = keysList2->firstChild();
-        while (olddef->text(6)!=keysList2->defKey)
-                if (olddef->nextSibling())
-                        olddef = olddef->nextSibling();
-                else
-                        break;
-        keysList2->setSelected(olddef,true);
-
-        ////////////// store new default key
-
-        config->setGroup("Encryption");
-        config->writeEntry("default key",keysList2->defKey.right(8));
-        KgpgInterface::setGpgSetting("default-key",keysList2->defKey.right(keysList2->defKey.length()-2),configUrl);
+		QListViewItem *updef = keysList2->firstChild();
+                while (updef->text(6)!=newdef->text(6))
+                        if (updef->nextSibling())
+                                updef = updef->nextSibling();
+                        else
+                                break;
+		keysList2->clearSelection();
+		keysList2->setCurrentItem(updef);
+		keysList2->setSelected(updef,true);
+		keysList2->ensureItemVisible(updef);
 }
 
 
@@ -1819,33 +1827,36 @@ void listKeys::newKeyDone(KProcess *)
                 return;
         }
         KDialogBase *keyCreated=new KDialogBase( this, "key_created", true,i18n("New Key Pair Created"), KDialogBase::Ok);
-        QWidget *page = new QWidget(keyCreated);
-        QVBoxLayout *vbox=new QVBoxLayout(page);
-        QLabel *txt=new QLabel(i18n("<qt>The key <b>%1</b>, ID: <b>%2</b> was successfully created</qt>").arg(newKeyName+" &lt;"+newKeyMail+"&gt;").arg("0x"+newkeyID),page);
-        QLabel *txt2=new QLabel(i18n("<qt>If your secret key is stolen or becomes available to the wrong people, you will need to revoke it. This is why it is recommanded to save or print a revocation certificate.<br><b>This certificate must be stored in a safe place</b>.</qt>"),page);
-        txt->setAlignment(AlignJustify);
-
-        QVButtonGroup *bgroup1=new QVButtonGroup(i18n("Revocation Certificate"),page);
-        QCheckBox *revokeCB= new QCheckBox(i18n("Save as:"),bgroup1);
-        KURLRequester *keyrev= new KURLRequester(bgroup1);
-        keyrev->setURL(QDir::homeDirPath()+"/"+newKeyMail.section('@',0,0)+".revoke");
-        keyrev->setMode(KFile::File);
-        QCheckBox *printRevoke= new QCheckBox(i18n("Print"),bgroup1);
-        connect(revokeCB,SIGNAL(toggled(bool)),keyrev,SLOT(setEnabled(bool)));
-        keyrev->setEnabled(false);
-
-        vbox->addWidget(txt);
-        vbox->addWidget(txt2);
-        vbox->addWidget(bgroup1);
+        newKey *page=new newKey(keyCreated);
+        page->TLname->setText("<b>"+newKeyName+"</b>");
+        page->TLemail->setText("<b>"+newKeyMail+"</b>");
+        page->TLid->setText("<b>0x"+newkeyID+"</b>");
+        page->LEfinger->setText(newkeyFinger);
+        page->CBdefault->setChecked(true);
+        page->show();
+        //page->resize(page->maximumSize());
         keyCreated->setMainWidget(page);
         delete pop;
-
         keyCreated->exec();
-        if (revokeCB->isChecked()) {
-                slotrevoke(newkeyID,keyrev->url(),0,i18n("backup copy"));
-                if (printRevoke->isChecked())
+
+	QListViewItem *newdef = keysList2->firstChild();
+                while (newdef->text(6)!="0x"+newkeyID)
+                        if (newdef->nextSibling())
+                                newdef = newdef->nextSibling();
+                        else
+                                break;
+	if (page->CBdefault->isChecked()) slotSetDefaultKey(newdef);
+	else {
+		keysList2->clearSelection();
+		keysList2->setCurrentItem(newdef);
+		keysList2->setSelected(newdef,true);
+		keysList2->ensureItemVisible(newdef);
+		}
+        if (page->CBsave->isChecked()) {
+                slotrevoke(newkeyID,page->kURLRequester1->url(),0,i18n("backup copy"));
+                if (page->CBprint->isChecked())
                         connect(revKeyProcess,SIGNAL(revokeurl(QString)),this,SLOT(doFilePrint(QString)));
-        } else if (printRevoke->isChecked()) {
+        } else if (page->CBprint->isChecked()) {
                 slotrevoke(newkeyID,"",0,i18n("backup copy"));
                 connect(revKeyProcess,SIGNAL(revokecertificate(QString)),this,SLOT(doPrint(QString)));
         }
@@ -1893,11 +1904,12 @@ void listKeys::deleteseckey()
 
 void listKeys::confirmdeletekey()
 {
-if (keysList2->currentItem()->depth()!=0) return;
-if (keysList2->currentItem()->text(6).isEmpty()) {
-deleteGroup();
-return;
-}
+        if (keysList2->currentItem()->depth()!=0)
+                return;
+        if (keysList2->currentItem()->text(6).isEmpty()) {
+                deleteGroup();
+                return;
+        }
         if ((keysList2->secretList.find(keysList2->currentItem()->text(6))!=-1) && (keysList2->selectedItems().count()==1))
                 deleteseckey();
         else {
@@ -2173,9 +2185,12 @@ void KeyView::refreshkeylist()
         QString issec="";
         secretList="";
         revoked="";
-        fp2 = popen("gpg --no-secmem-warning --no-tty --list-secret-keys", "r");
-        while ( fgets( line, sizeof(line), fp2))
-                issec+=line;
+        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+        while ( fgets( line, sizeof(line), fp2)) {
+                QString lineRead=line;
+                if (lineRead.startsWith("sec"))
+                        issec+=lineRead.section(':',4,4);
+        }
         pclose(fp2);
 
         fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8", "r");
@@ -2260,33 +2275,52 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
 {
         if (current==NULL)
                 return;
-        //KMessageBox::sorry(0,current->text(5));
-        ////////   update display of the current key
-        FILE *fp;
+        QString keyUpdate=current->text(6);
+        UpdateViewItem *item=NULL;
+        QString issec="";
+        FILE *fp,*fp2;
+	char line[300];
+        takeItem(current);
+
+        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+        while ( fgets( line, sizeof(line), fp2)) {
+                QString lineRead=line;
+                if (lineRead.startsWith("sec"))
+                        issec+=lineRead.section(':',4,4);
+        }
+        pclose(fp2);
+
+
         QString tst,cycle,revoked;
-        char line[300];
-        QString cmd="gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8 "+current->text(6);
+        QString cmd="gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8 "+keyUpdate;
         fp = popen(QFile::encodeName(cmd), "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
                 if (tst.startsWith("pub")) {
                         gpgKey pubKey=extractKey(tst);
-                        current->setText(3,pubKey.gpgkeyexpiration);
-                        current->setPixmap(2,pubKey.trustpic);
-                        current->repaint();
+
+                        bool isbold=false;
+                        bool isexpired=false;
+                        if (pubKey.gpgkeyid==defKey)
+                                isbold=true;
+                        if (pubKey.gpgkeytrust==i18n("Expired"))
+                                isexpired=true;
+                        item=new UpdateViewItem(this,pubKey.gpgkeyname,pubKey.gpgkeymail,"",pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold,isexpired);
+
+                        item->setPixmap(2,pubKey.trustpic);
+
+                        item->setExpandable(true);
+                        if (issec.find(pubKey.gpgkeyid.right(8),0,FALSE)!=-1) {
+                                item->setPixmap(0,pixkeyPair);
+                                secretList+=pubKey.gpgkeyid;
+                        } else {
+                                item->setPixmap(0,pixkeySingle);
+                        }
                 }
         }
         pclose(fp);
 }
 
-
-QString KeyView::extractKeyName(QString name,QString mail)
-{
-        name=KgpgInterface::checkForUtf8(name);
-        if (displayMailFirst)
-                return QString(mail+" ("+name+")");
-        return QString(name+" ("+mail+")");
-}
 
 gpgKey KeyView::extractKey(QString keyColon)
 {

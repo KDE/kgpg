@@ -1930,31 +1930,31 @@ void KgpgInterface::setGpgBoolSetting(QString name,bool enable,QString url)
 QString KgpgInterface::checkForUtf8(QString txt)
 {
         //    code borrowed from gpa
-               const char *s;
+        const char *s;
 
         /* Make sure the encoding is UTF-8.
          * Test structure suggested by Werner Koch */
-if (txt.isEmpty())
-		return "";
+        if (txt.isEmpty())
+                return "";
 
-               for (s = txt.ascii(); *s && !(*s & 0x80); s++)
-                      ;
-                if (*s && !strchr (txt.ascii(), 0xc3) && (txt.find("\\x")==-1))
-		return txt;
+        for (s = txt.ascii(); *s && !(*s & 0x80); s++)
+                ;
+        if (*s && !strchr (txt.ascii(), 0xc3) && (txt.find("\\x")==-1))
+                return txt;
 
         /* The string is not in UTF-8 */
         //if (strchr (txt.ascii(), 0xc3)) return (txt+" +++");
-	if (txt.find("\\x")==-1)
-		return QString::fromUtf8(txt.ascii());
-//        if (!strchr (txt.ascii(), 0xc3) || (txt.find("\\x")!=-1)) {
-                for ( int idx = 0 ; (idx = txt.find( "\\x", idx )) >= 0 ; ++idx ) {
-                        char str[2] = "x";
-                        str[0] = (char) QString( txt.mid( idx + 2, 2 ) ).toShort( 0, 16 );
-                        txt.replace( idx, 4, str );
-                }
-	if (!strchr (txt.ascii(), 0xc3))
-	return QString::fromUtf8(txt.ascii());  // perform Utf8 twice, or some keys display badly
-	else
+        if (txt.find("\\x")==-1)
+                return QString::fromUtf8(txt.ascii());
+        //        if (!strchr (txt.ascii(), 0xc3) || (txt.find("\\x")!=-1)) {
+        for ( int idx = 0 ; (idx = txt.find( "\\x", idx )) >= 0 ; ++idx ) {
+                char str[2] = "x";
+                str[0] = (char) QString( txt.mid( idx + 2, 2 ) ).toShort( 0, 16 );
+                txt.replace( idx, 4, str );
+        }
+        if (!strchr (txt.ascii(), 0xc3))
+                return QString::fromUtf8(txt.ascii());  // perform Utf8 twice, or some keys display badly
+        else
                 return QString::fromUtf8(QString::fromUtf8(txt.ascii()).ascii());  // perform Utf8 twice, or some keys display badly
 }
 

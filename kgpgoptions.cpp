@@ -234,8 +234,8 @@ void kgpgOptions::listkey()
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
                 if (tst.find("pub",0,FALSE)!=-1) {
-                        name=tst.section(':',9,9);
-                        if ((name!="") && (trustedvals.find(tst.section(':',1,1))==-1)) {
+                        name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
+                        if ((!name.isEmpty()) && (trustedvals.find(tst.section(':',1,1))==-1)) {
                                 counter++;
                                 //name=name.section('<',-1,-1);
                                 //  name=name.section('>',0,0);

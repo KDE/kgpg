@@ -720,7 +720,7 @@ int KgpgAppletApp::newInstance()
                 kdDebug()<<"Already running\n";
                 kgpg_applet->show();
         } else {
-                kdDebug() << "Starting KGpg\n";
+		kdDebug() << "Starting KGpg\n";
                 running=true;
                 s_keyManager=new listKeys(0, "key_manager");
                 s_keyManager->refreshkey();

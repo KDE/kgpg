@@ -130,7 +130,7 @@ void keyServer::slotprocread(KProcIO *p)
                                 dead=false;
                                 break;
                         }
-                        tst=tst.section(':',9,9);
+                        tst=KgpgInterface::checkForUtf8(tst.section(':',9,9));
                         if (tst.length()>35) {
                                 tst.remove(35,tst.length());
                                 tst+="...";

@@ -40,6 +40,7 @@
 #include <qcolor.h>
 #include <qtooltip.h>
 #include <qwizard.h>
+#include <qmovie.h>
 
 #include <kmainwindow.h>
 #include <kurl.h>
@@ -66,7 +67,6 @@
 #include <kstandarddirs.h>
 #include <kfinddialog.h>
 #include <kfind.h>
-#include <qmovie.h>
 #include <kurlrequester.h>
 
 
@@ -80,6 +80,7 @@
 #include "groupedit.h"
 #include "dcopiface.h"
 #include "kgpgrevokewidget.h"
+#include "newkey.h"
 
 
 typedef struct gpgKey
@@ -128,7 +129,7 @@ public:
         KeyView( QWidget *parent = 0, const char *name = 0);
 
 private:
-        bool displayMailFirst;
+//        bool displayMailFirst;
         QString secretList,defKey;
         QString photoKeysList,configFilePath;
         QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown, trustbad, trustgood;
@@ -137,7 +138,6 @@ private slots:
         void  droppedfile (KURL);
         void refreshkeylist();
         gpgKey extractKey(QString keyColon);
-        QString extractKeyName(QString name,QString mail);
         void expandKey(QListViewItem *item);
 	void expandGroup(QListViewItem *item);
         void refreshcurrentkey(QListViewItem *current);
@@ -220,6 +220,7 @@ private slots:
         void genover(KProcess *p);
         void slotOptions();
         void slotSetDefKey();
+	void slotSetDefaultKey(QListViewItem *newdef);
         void annule();
         void confirmdeletekey();
         void deletekey();

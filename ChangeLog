@@ -1,5 +1,8 @@
 cvs version
 
+-improved feedback on key creation
+-added select all action to kgpg editor
+-fixed utf8 problem with some key names
 -fixed problem with quotes when signing from the editor
 -revocation certificate: create & print
 -animated logo while key creation is in progress

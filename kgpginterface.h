@@ -166,9 +166,6 @@ public slots:
 	static QString checkForUtf8(QString txt);
 
 
-
-
-
 private slots:
 
         void openSignConsole();

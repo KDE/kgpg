@@ -1,0 +1,240 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>newKey</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>newKey</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>522</width>
+            <height>336</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>New Key Pair Created</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QGroupBox" row="1" column="0">
+            <property name="name">
+                <cstring>groupBox1</cstring>
+            </property>
+            <property name="title">
+                <string>Revocation Certificate</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>It is recommanded to save or print a revocation certificate in case your key is compromised.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="2" column="0">
+                    <property name="name">
+                        <cstring>CBprint</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Print</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="1" column="0">
+                    <property name="name">
+                        <cstring>layout1</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QCheckBox">
+                            <property name="name">
+                                <cstring>CBsave</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Save as</string>
+                            </property>
+                        </widget>
+                        <widget class="KURLRequester">
+                            <property name="name">
+                                <cstring>kURLRequester1</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QGroupBox" row="0" column="0">
+            <property name="name">
+                <cstring>groupBox2</cstring>
+            </property>
+            <property name="title">
+                <string>New Key Created</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>textLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>You have successfully created the following key:</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>CBdefault</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Set as your default key</string>
+                    </property>
+                </widget>
+                <widget class="KLineEdit" row="3" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>LEfinger</cstring>
+                    </property>
+                    <property name="frame">
+                        <bool>true</bool>
+                    </property>
+                    <property name="readOnly">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="1" column="0">
+                    <property name="name">
+                        <cstring>layout19</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>5</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel3</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Name:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel4</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Email:</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>textLabel5</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Key ID:</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLayoutWidget" row="1" column="1">
+                    <property name="name">
+                        <cstring>layout20</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>7</hsizetype>
+                            <vsizetype>5</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TLname</cstring>
+                            </property>
+                            <property name="sizePolicy">
+                                <sizepolicy>
+                                    <hsizetype>7</hsizetype>
+                                    <vsizetype>5</vsizetype>
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="text">
+                                <string>textLabel7</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TLemail</cstring>
+                            </property>
+                            <property name="text">
+                                <string>textLabel8</string>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>TLid</cstring>
+                            </property>
+                            <property name="text">
+                                <string>textLabel10</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>textLabel6</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Fingerprint:</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>CBsave</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>newKey</receiver>
+        <slot>CBsave_toggled(bool)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">newkey.ui.h</include>
+</includes>
+<slots>
+    <slot>CBsave_toggled( bool isOn )</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klineedit.h</includehint>
+</includehints>
+</UI>
