@@ -9,11 +9,11 @@
             <x>0</x>
             <y>0</y>
             <width>387</width>
-            <height>285</height>
+            <height>287</height>
         </rect>
     </property>
     <property name="caption">
-        <string></string>
+        <string>searchRes</string>
     </property>
     <grid>
         <property name="name">
@@ -36,6 +36,9 @@
             </column>
             <property name="name">
                 <cstring>kLVsearch</cstring>
+            </property>
+            <property name="selectionMode" stdset="0">
+                <enum>Extended</enum>
             </property>
             <property name="allColumnsShowFocus">
                 <bool>true</bool>
@@ -69,9 +72,6 @@
         <widget class="KLineEdit" row="2" column="1">
             <property name="name">
                 <cstring>kLEID</cstring>
-            </property>
-            <property name="maxLength">
-                <number>8</number>
             </property>
         </widget>
     </grid>

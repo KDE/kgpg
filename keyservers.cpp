@@ -228,15 +228,26 @@ void keyServer::transferKeyID()
 {
         if (!listpop->kLVsearch->firstChild())
                 return;
-        QString kid;
-        if (listpop->kLVsearch->currentItem()->depth()==0)
-                kid=listpop->kLVsearch->currentItem()->firstChild()->text(0).stripWhiteSpace();
-        else
-                kid=listpop->kLVsearch->currentItem()->text(0).stripWhiteSpace();
-        kid=kid.section("key",1,1);
-        kid=kid.stripWhiteSpace();
-        kid=kid.left(8);
-        listpop->kLEID->setText(kid);
+        QString kid,keysToSearch;
+	listpop->kLEID->clear();
+	QPtrList< QListViewItem >searchList=listpop->kLVsearch->selectedItems();
+	
+	for ( uint i = 0; i < searchList.count(); ++i )
+	{
+                if ( searchList.at(i) )
+		{
+                    if (searchList.at(i)->depth()==0)
+                	kid=searchList.at(i)->firstChild()->text(0).stripWhiteSpace();
+        		else
+                	kid=searchList.at(i)->text(0).stripWhiteSpace();
+		//kdDebug()<<kid<<" : "<<searchList.count()<<endl;
+        	kid=kid.section("key",1,1);
+        	kid=kid.stripWhiteSpace();
+		keysToSearch.append(" "+kid.left(8));
+		}
+	}
+	kdDebug()<<keysToSearch<<endl;
+	listpop->kLEID->setText(keysToSearch.stripWhiteSpace());
 }
 
 void keyServer::slotsearchresult(KProcess *)
