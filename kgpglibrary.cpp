@@ -98,7 +98,7 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
         cryptFileProcess->KgpgEncryptFile(selec,urlselected,dest,encryptOptions,symetric);
          if (!popIsActive) 
 	{
-	connect(cryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup2()));
+	connect(cryptFileProcess,SIGNAL(processstarted(QString)),this,SLOT(processpopup2(QString)));
 	popIsActive=true;	
 	}
         if (shred)
@@ -108,11 +108,11 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
         connect(cryptFileProcess,SIGNAL(errormessage(QString)),this,SLOT(processencerror(QString)));
 }
 
-void KgpgLibrary::processpopup2()
+void KgpgLibrary::processpopup2(QString fileName)
 {
-        
+        emit systemMessage(i18n("Encrypting %1").arg(fileName));
 	pop->setTimeout(0);
-        pop->setView(i18n("Processing encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+        pop->setView(i18n("Processing encryption (%1)").arg(fileName),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
         pop->show();
         QRect qRect(QApplication::desktop()->screenGeometry());
         int iXpos=qRect.width()/2-pop->width()/2;
@@ -136,6 +136,7 @@ void KgpgLibrary::shredprocessenc(KURL fileToShred)
 KMessageBox::sorry(0,i18n("<qt>File <b>%1</b> is a remote file.<br>You cannot shred it.</qt>").arg(fileToShred.path()));
 return;
 }
+	emit systemMessage(i18n("Shredding %1").arg(fileToShred.path()));
 	KPassivePopup *shredPopup=new KPassivePopup();
  	shredPopup->setAutoDelete(false);
 	QVBox *vbox=shredPopup->standardView(i18n("Shredding"),i18n("<qt>Shredding file <b>%1</b></qt>").arg(fileToShred.filename()),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
@@ -152,21 +153,21 @@ KShred *shredres=new KShred(fileToShred.path());
                 delete shredPopup;
         else
                 KMessageBox::sorry(0,i18n("<qt><b>ERROR</b> during file shredding.<br>File <b>%1</b> was not securely deleted. Please check your permissions.</qt>").arg(fileToShred.path()));
-
+		
+	emit systemMessage(QString::null);
 }
 
 
 void KgpgLibrary::setShredProgress(KIO::filesize_t shredSize)
 {
 shredProgressBar->setProgress((int) shredSize);
-
 }
 
 
 void KgpgLibrary::processenc(KURL)
 {
 	filesToEncode--;
-	if (filesToEncode==0) delete pop;
+	if (filesToEncode==0) {delete pop;emit systemMessage(QString::null);}
 	popIsActive=false;
 }
 
@@ -188,13 +189,14 @@ void KgpgLibrary::slotFileDec(KURL srcUrl,KURL destUrl,QStringList customDecrypt
 	urlselected=srcUrl;
         decryptFileProcess->KgpgDecryptFile(srcUrl,destUrl,customDecryptOption);
         connect(decryptFileProcess,SIGNAL(processaborted(bool)),this,SIGNAL(decryptionOver()));
-        connect(decryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup()));
+        connect(decryptFileProcess,SIGNAL(processstarted(QString)),this,SLOT(processpopup(QString)));
         connect(decryptFileProcess,SIGNAL(decryptionfinished()),this,SLOT(processdecover()));
         connect(decryptFileProcess,SIGNAL(errormessage(QString)),this,SLOT(processdecerror(QString)));
 }
 
-void KgpgLibrary::processpopup()
+void KgpgLibrary::processpopup(QString fileName)
 {
+	emit systemMessage(i18n("Decrypting %1").arg(fileName));
 	pop->setTimeout(0);
         pop->setView(i18n("Processing decryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
         pop->show();
@@ -206,6 +208,7 @@ void KgpgLibrary::processpopup()
 
 void KgpgLibrary::processdecover()
 {
+	emit systemMessage(QString::null);
 	delete pop;
         emit decryptionOver();
 }
@@ -214,6 +217,7 @@ void KgpgLibrary::processdecover()
 void KgpgLibrary::processdecerror(QString mssge)
 {
 	delete pop;
+	emit systemMessage(QString::null);
         ///// test if file is a public key
         QFile qfile(QFile::encodeName(urlselected.path()));
         if (qfile.open(IO_ReadOnly)) {

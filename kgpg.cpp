@@ -42,6 +42,7 @@
 #include <ktar.h>
 #include <kzip.h>
 #include <stdlib.h>
+#include <kiconeffect.h>
 
 #include "kgpg.h"
 #include "kgpgsettings.h"
@@ -59,9 +60,8 @@ MyView::MyView( QWidget *parent, const char *name )
         //QToolTip::add(this,i18n("KGpg drag & drop encryption applet"));
 
         readOptions();
-
-        setPixmap( KSystemTray::loadIcon("kgpg"));
-        resize(24,24);
+	resize(24,24);
+	setPixmap( KSystemTray::loadIcon("kgpg_docked"));
         setAcceptDrops(true);
 
         droppopup=new QPopupMenu();
@@ -222,11 +222,31 @@ void  MyView::slotFolderFinishedError(QString errmsge)
         KMessageBox::sorry(0,errmsge);
 }
 
+void MyView::busyMessage(QString mssge)
+{
+if (!mssge.isEmpty())
+{
+QToolTip::remove(this);
+QToolTip::add(this, mssge);
+QPixmap pm;
+KIconEffect *ki=new KIconEffect();
+pm=ki->apply(KSystemTray::loadIcon("kgpg_docked"),KIconEffect::ToGray,1,QColor(0,0,0),false);
+setPixmap(pm);
+}
+else 
+{
+setPixmap( KSystemTray::loadIcon("kgpg_docked"));
+//setBackgroundMode(  X11ParentRelative );
+QToolTip::remove(this);
+QToolTip::add(this, i18n("KGpg - encryption tool"));
+}
+}
 
 void  MyView::encryptDroppedFile()
 {
         QStringList opts;
         KgpgLibrary *lib=new KgpgLibrary(KGpgSettings::pgpExtension());
+	connect(lib,SIGNAL(systemMessage(QString)),this,SLOT(busyMessage(QString )));
         if (KGpgSettings::encryptFilesTo()) {
                 if (KGpgSettings::allowUntrustedKeys())
                         opts<<"--always-trust";
@@ -250,6 +270,7 @@ void  MyView::shredDroppedFile()
         for ( it = droppedUrls.begin(); it != droppedUrls.end(); ++it ) {
 
 	KgpgLibrary *lib=new KgpgLibrary();
+	connect(lib,SIGNAL(systemMessage(QString)),this,SLOT(busyMessage(QString )));
         lib->shredprocessenc(KURL(*it));
         }
 }
@@ -354,6 +375,7 @@ void  MyView::decryptDroppedFile()
         }
         KgpgLibrary *lib=new KgpgLibrary();
         lib->slotFileDec(droppedUrl,swapname,KGpgSettings::customDecrypt());
+	connect(lib,SIGNAL(systemMessage(QString)),this,SLOT(busyMessage(QString )));
 //        if (isFolder)
   //              connect(lib,SIGNAL(decryptionOver()),this,SLOT(unArchive()));
 	connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(importedKeys(QStringList)));
@@ -691,6 +713,7 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
         KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0,w, SLOT(clipDecrypt()),actionCollection(),"clip_decrypt");
 	KAction *KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), 0, 0,w, SLOT(clipSign()),actionCollection(),"clip_sign");
         KAction *KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,parent, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
+	
 	KAction *KgpgOpenServer = new KAction(i18n("&Key Server Dialog"), "network", 0,parent, SLOT(keyserver()),actionCollection(),"kgpg_server");
         KAction *KgpgPreferences=KStdAction::preferences(parent, SLOT(slotOptions()), actionCollection());
         KgpgEncryptClipboard->plug(conf_menu);

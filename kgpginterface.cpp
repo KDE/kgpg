@@ -124,7 +124,7 @@ void KgpgInterface::readencprocess(KProcIO *p)
         QString required;
         while (p->readln(required,true)!=-1) {
                 if (required.find("BEGIN_ENCRYPTION",0,false)!=-1)
-                        emit processstarted();
+                        emit processstarted(sourceFile.path());
                 if (required.find("GET_")!=-1) {
                         if (required.find("openfile.overwrite.okay")!=-1)
                                 p->writeStdin("Yes");
@@ -153,6 +153,7 @@ void KgpgInterface::KgpgDecryptFile(KURL srcUrl,KURL destUrl,QStringList Options
 {
         message=QString::null;
         step=3;
+	decryptUrl=srcUrl.path();
         userIDs=QString::null;
         anonymous=false;
 	kdDebug(2100)<<"Starting decrypt"<<endl;
@@ -186,7 +187,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
         QString required;
         while (p->readln(required,true)!=-1) {
                 if (required.find("BEGIN_DECRYPTION",0,false)!=-1)
-                        emit processstarted();
+                        emit processstarted(decryptUrl);
                 if (required.find("USERID_HINT",0,false)!=-1)
 			updateIDs(required);
 

@@ -312,7 +312,7 @@ signals:
         /**
                 *  emitted when the process starts
                 */
-        void processstarted();
+        void processstarted(QString);
         /**
                 *  true if decryption successful, false on error.
                 */
@@ -370,6 +370,7 @@ private:
 	QStringList photoList;
 	QString uidName, uidEmail, uidComment;
         KURL sourceFile;
+	QString decryptUrl;
 
         /**
          * @internal structure for the file information

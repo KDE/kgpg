@@ -79,6 +79,7 @@ private:
 	QClipboard::Mode clipboardMode;
 
 public slots:
+	void busyMessage(QString mssge);
         void  encryptDroppedFile();
         void  decryptDroppedFile();
         void  slotVerifyFile();

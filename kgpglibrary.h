@@ -63,8 +63,8 @@ private slots:
         void processdecover();
         void processdecerror(QString mssge);
         void processencerror(QString mssge);
-        void processpopup();
-        void processpopup2();
+        void processpopup(QString fileName);
+        void processpopup2(QString fileName);
 	void setShredProgress(KIO::filesize_t shredSize);
 
 private:
@@ -73,11 +73,12 @@ private:
         KPassivePopup *pop;
 	KProgress *shredProgressBar;
 	bool popIsActive;
-	int filesToEncode;
+	int filesToEncode;;
 
 signals:
         void decryptionOver();
 	void importOver(QStringList);
+	void systemMessage(QString);
 
 
 };
