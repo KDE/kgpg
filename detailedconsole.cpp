@@ -24,7 +24,7 @@
 #include <klocale.h>
 #include <kglobal.h>
 
-#include "kgpgoption.h"
+#include "kgpgoptions.h"
 
 
 KDetailedConsole::KDetailedConsole(QWidget *parent, const char *name,const QString &boxLabel,const QString &errormessage)
