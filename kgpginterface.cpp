@@ -30,6 +30,7 @@
 #include <kmdcodec.h>
 #include <klineedit.h>
 
+
 #include "kgpginterface.h"
 
 KgpgInterface::KgpgInterface()
@@ -130,7 +131,10 @@ void KgpgInterface::readencprocess(KProcIO *p)
               step--;
             }
           else
-            p->writeStdin("quit");
+            {
+			p->writeStdin("quit");
+			p->closeWhenDone();
+			}
         }
       message+=required+"\n";
     }
@@ -227,7 +231,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
               if ((step<3) && (!anonymous))
                 passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
               QString prettyuIDs=QString::fromUtf8(userIDs);
-              prettyuIDs.replace(QRegExp("<"),"&lt;");
+              
               passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(prettyuIDs);
               int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
               if (code!=QDialog::Accepted)
@@ -242,7 +246,10 @@ void KgpgInterface::readdecprocess(KProcIO *p)
               step--;
             }
           else
-            p->writeStdin("quit");
+            {
+			p->writeStdin("quit");
+			p->closeWhenDone();
+			}
         }
       message+=required+"\n";
     }
@@ -693,7 +700,10 @@ void KgpgInterface::readsignprocess(KProcIO *p)
               step--;
             }
           else
-            p->writeStdin("quit");
+            {
+			p->writeStdin("quit");
+			p->closeWhenDone();
+			}
         }
       message+=required+"\n";
     }
@@ -726,7 +736,10 @@ void KgpgInterface::readprocess(KProcIO *p)
   while (p->readln(required,true)!=-1)
     {
       if (required.find("GET_")!=-1)
-        p->writeStdin("quit");
+        {
+		p->writeStdin("quit");
+		p->closeWhenDone();
+		}
       message+=required+"\n";
     }
 }
@@ -780,7 +793,7 @@ void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyM
       emit signatureFinished(0);
       return;
     }
-signKeyMail=QString::fromUtf8(signKeyMail);
+signKeyMail.replace(QRegExp("<"),"&lt;");
   konsLocal=local;
   konsSignKey=signKeyID;
   konsKeyID=keyID;
@@ -789,7 +802,7 @@ signKeyMail=QString::fromUtf8(signKeyMail);
   message="sign";
   if (local==true)
     message="lsign";
-  int code=KPasswordDialog::getPassword(passphrase,i18n("Enter passphrase for %1:").arg(signKeyMail));
+  int code=KPasswordDialog::getPassword(passphrase,i18n("Enter passphrase for <b>%1</b>:").arg(signKeyMail));
   if (code!=QDialog::Accepted)
     return;
   KProcIO *conprocess=new KProcIO();
@@ -843,12 +856,40 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
         }
       if (required.find("BAD_PASSPHRASE")!=-1)
         {
-          p->writeStdin("quit");
+		  p->writeStdin("quit");
+		  p->closeWhenDone();
           signSuccess=2;
         }
       if ((required.find("GET_")!=-1) && (signSuccess!=2)) /////// gpg asks for something unusal, turn to konsole mode
         {
-          //p->writeStdin("quit");
+          p->writeStdin("quit");
+		  p->closeWhenDone();
+
+#if (KDE_VERSION >= 310)
+pop = new KPassivePopup();
+pop->setView(i18n("Unexpected gpg query"),i18n("Kgpg cannot sign this key in GUI mode... switching to konsole"),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+		pop->setTimeout(3200);
+	  	pop->show();	  
+	  	QRect qRect(QApplication::desktop()->screenGeometry());
+		int iXpos=qRect.width()/2-pop->width()/2;
+		int iYpos=qRect.height()/2-pop->height()/2;
+      	pop->move(iXpos,iYpos);
+#else
+	clippop = new QDialog( 0,0,false,WStyle_Customize | WStyle_NormalBorder);
+              QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
+              QLabel *tex=new QLabel(clippop);
+              tex->setText(i18n("<b>Unexpected gpg query</b>"));
+			  QLabel *tex2=new QLabel(clippop);
+			  //tex2->setTextFormat(Qt::PlainText);
+			  tex2->setText(i18n("Kgpg cannot sign this key in GUI mode... switching to konsole"));
+              vbox->addWidget(tex);
+			  vbox->addWidget(tex2);
+              clippop->setMinimumWidth(250);
+              clippop->adjustSize();
+			  clippop->show();
+ QTimer::singleShot( 3200, this, SLOT(signkillDisplayClip()));
+#endif
+		  		  
           signSuccess=0;
           KProcess *conprocess=new KProcess();
           *conprocess<< "konsole"<<"-e"<<"gpg";
@@ -863,6 +904,14 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
     }
   //p->ackRead();
 }
+
+void KgpgInterface::signkillDisplayClip()
+{
+#if (KDE_VERSION < 310)
+delete clippop;
+#endif
+}
+
 
 void KgpgInterface::signover(KProcess *)
 {
@@ -964,7 +1013,8 @@ void KgpgInterface::delsigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
       if (required.find("GET_LINE")!=-1)
         {
           p->writeStdin("quit");
-          deleteSuccess=false;
+          p->closeWhenDone();
+		  deleteSuccess=false;
         }
     }
   //p->ackRead();
