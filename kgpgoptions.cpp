@@ -149,13 +149,13 @@ QString path=locateLocal("data","konqueror/servicemenus/decryptfile.desktop");
 
 void kgpgOptions::slotRemoveMenu(QString menu)
 {
-QString path=locateLocal("data","konqueror/servicemenus/"+menu);
-QFile qfile(path.local8Bit());
-if (qfile.exists()) qfile.remove();
-{
+    QString path=locateLocal("data","konqueror/servicemenus/"+menu);
+    QFile qfile(path);
+    if (qfile.exists()) qfile.remove();
+    {
 //if (!qfile.remove()) KMessageBox::sorry(this,i18n("Cannot remove service menu. Check permissions"));
 //else KMessageBox::information(this,i18n("Service menu Decrypt file has been removed"));
-}
+    }
 //else KMessageBox::sorry(this,i18n("No service menu found"));
 }
 
@@ -170,15 +170,15 @@ void kgpgOptions::slotOk()
   config->writeEntry("encrypt files to",file_2_2->isChecked());
   config->writeEntry("file key",filekey_2_2->currentText());
   config->writeEntry("display mail first",cbMailFirst->isChecked());
-  config->writeEntry("gpg version",0); 
+  config->writeEntry("gpg version",0);
   config->setGroup("Service Menus");
   config->writeEntry("Decrypt",kCBdecrypt->currentText());
   config->writeEntry("Sign",kCBsign->currentText());
   config->sync();
-  
+
   if (kCBsign->currentText()==i18n("All files")) slotInstallSign("all/allfiles");
   else slotRemoveMenu("signfile.desktop");
-    
+
   if (kCBdecrypt->currentText()==i18n("All files")) slotInstallDecrypt("all/allfiles");
   else if (kCBdecrypt->currentText().startsWith(i18n("Encrypted"))) slotInstallDecrypt("all/allfiles");
   else slotRemoveMenu("decryptfile.desktop");

@@ -105,19 +105,19 @@ defaultName="";
     }
 
   KButtonBox *boutonbox=new KButtonBox(this,KButtonBox::Horizontal,15,10);
-  boutonboxoptions=new QButtonGroup(4,Qt::Vertical ,this,0);  
+  boutonboxoptions=new QButtonGroup(4,Qt::Vertical ,this,0);
 
   checkbox1=new QCheckBox(i18n("ASCII Armored encryption"),boutonboxoptions);
   checkbox2=new QCheckBox(i18n("Allow encryption with untrusted keys"),boutonboxoptions);
 
 //boutonboxoptions->insert(checkbox1);
 //boutonboxoptions->insert(checkbox2);
-   
+
    QWhatsThis::add(keysList,i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
   QWhatsThis::add(checkbox1,i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));
   QWhatsThis::add(checkbox2,i18n("<b>Allow encryption with untrusted keys</b>: when you import a public key, it is usually "
-"marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this "
-"box enables you to use any key, even if it has not be signed."));
+                                 "marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this "
+                                 "box enables you to use any key, even if it has not be signed."));
 
   if (filemode)
   {
@@ -126,7 +126,7 @@ defaultName="";
 
   checkbox4=new QCheckBox(i18n("Symmetrical encryption"),boutonboxoptions);
   QWhatsThis::add(checkbox4,i18n("<b>Symmetrical encryption</b>: encryption doesn't use keys. You just need to give a password "
-  "to encrypt/decrypt the file"));
+                                 "to encrypt/decrypt the file"));
   QObject::connect(checkbox4,SIGNAL(toggled(bool)),this,SLOT(isSymetric(bool)));
   }
 
@@ -168,12 +168,12 @@ refreshkeys();
 
 void popupPublic::toggleOptions()
 {
-if (boutonboxoptions->isVisible()) 
+if (boutonboxoptions->isVisible())
 {
 boutonboxoptions->hide();
 bouton0->setIconSet(QIconSet(KGlobal::iconLoader()->loadIcon("up",KIcon::Small)));
 }
-else 
+else
 {
 boutonboxoptions->show();
 bouton0->setIconSet(QIconSet(KGlobal::iconLoader()->loadIcon("down",KIcon::Small)));

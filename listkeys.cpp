@@ -117,16 +117,16 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
   QString message,fingervalue;
   resize(400,100);
   QWidget *page=new QWidget(this);
-QLabel *labelname = new QLabel(page);
-QLabel *labelmail = new QLabel(page);
-QLabel *labeltype = new QLabel(page);
-QLabel *labellength = new QLabel(page);
-QLabel *labelcreation = new QLabel(page);
-QLabel *labelexpire = new QLabel(page);
-QLabel *labeltrust = new QLabel(page);
-QLabel *labelid = new QLabel(page);
-QLabel *labelcomment = new QLabel(page);
-QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
+  QLabel *labelname = new QLabel(page);
+  QLabel *labelmail = new QLabel(page);
+  QLabel *labeltype = new QLabel(page);
+  QLabel *labellength = new QLabel(page);
+  QLabel *labelcreation = new QLabel(page);
+  QLabel *labelexpire = new QLabel(page);
+  QLabel *labeltrust = new QLabel(page);
+  QLabel *labelid = new QLabel(page);
+  QLabel *labelcomment = new QLabel(page);
+  QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
   //QString labelname,labelmail,labeltype,labellength,labelfinger,labelcreation,labelexpire,labeltrust,labelid,fingervalue;
   //QVBoxLayout *vbox=new QVBoxLayout(page,2);
 
@@ -136,7 +136,7 @@ QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
   QString opt,tid;
   bool isphoto=false;
   strcat(gpgcmd,"gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key ");
-  strcat(gpgcmd,sigkey.latin1());
+  strcat(gpgcmd,sigkey.local8Bit());
 
   pass=popen(gpgcmd,"r");
   while ( fgets( line, sizeof(line), pass))
@@ -170,34 +170,34 @@ QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
           switch( trust[0] )
           {
           case 'o':
-              tr= "Unknown" ;
+              tr= i18n("Unknown");
               break;
           case 'i':
-              tr= "Invalid";
+              tr= i18n("Invalid");
               break;
           case 'd':
-              tr="Disabled";
+              tr=i18n("Disabled");
               break;
           case 'r':
-              tr="Revoked";
+              tr=i18n("Revoked");
               break;
           case 'e':
-              tr="Expired";
+              tr=i18n("Expired");
               break;
           case 'q':
-              tr="Undefined";
+              tr=i18n("Undefined");
               break;
           case 'n':
-              tr="None";
+              tr=i18n("None");
               break;
           case 'm':
-              tr="Marginal";
+              tr=i18n("Marginal");
               break;
           case 'f':
-              tr="Full";
+              tr=i18n("Full");
               break;
           case 'u':
-              tr="Ultimate";
+              tr=i18n("Ultimate");
               break;
           default:
               tr="?";
@@ -216,28 +216,28 @@ QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
 				labelcreation->setText(i18n("Creation: ")+opt.section(':',5,5));
 				labelname=new QLabel(i18n("Name: ")+fullname.section('<',0,0),page);
 				labellength->setText(i18n("Length: ")+opt.section(':',2,2));
-				labeltrust->setText(i18n("Trust: ")+tr);
+				labeltrust->setText(i18n("Trust: %1").arg(tr));
 				labelid->setText(i18n("ID: ")+tid);
 				if (fullname.find("<")!=-1)
 				{
 					QString kmail=fullname.section('<',-1,-1);
 					kmail.truncate(kmail.length()-1);
-					labelmail->setText(i18n("E-Mail: ")+kmail);
+					labelmail->setText(i18n("E-Mail: %1").arg(kmail));
 				}
-				else labelmail->setText(i18n("E-Mail: ")+i18n("none"));
-				
+				else labelmail->setText(i18n("E-Mail: none"));
+
 				QString kname=fullname.section('<',0,0);
 				if (fullname.find("(")!=-1)
 				{
 				kname=kname.section('(',0,0);
 				QString comment=fullname.section('(',1,1);
 				comment=comment.section(')',0,0);
-				labelcomment->setText(i18n("Comment: ")+comment);
+				labelcomment->setText(i18n("Comment: %1").arg(comment));
 				}
-				else labelcomment->setText(i18n("Comment: ")+i18n("none"));
-				
-				labelname->setText(i18n("Name: ")+kname);
-				labeltype->setText(i18n("Algorithm: ")+algo);
+				else labelcomment->setText(i18n("Comment: none"));
+
+				labelname->setText(i18n("Name: %1").arg(kname));
+				labeltype->setText(i18n("Algorithm: %1").arg(algo));
         }
       if (opt.startsWith("fpr"))
         fingervalue=opt.section(':',9,9);
@@ -260,7 +260,7 @@ QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
   Form1Layout->addWidget( labeltype, 3, 1 );
 
   Form1Layout->addWidget( labelcomment, 2, 1 );
-  
+
   Form1Layout->addWidget( labelmail, 1, 1 );
 
   Form1Layout->addWidget( labelname, 0, 1 );
@@ -286,7 +286,7 @@ QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
 	  kgpginfotmp->setAutoDelete(true);
       QString popt="cp %i "+kgpginfotmp->name();
       KProcIO *p=new KProcIO();
-      *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<popt.local8Bit()<<"--list-keys"<<tid;
+      *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(popt)<<"--list-keys"<<tid;
       QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotinfoimgread(KProcess *)));
       //QObject::connect(p, SIGNAL(readReady(KProcIO *)),this, SLOT(slotinfoimgread(KProcIO *)));
       p->start(KProcess::NotifyOnExit,true);
@@ -334,7 +334,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
   vbox->addWidget(keysListpr);
   if (showlocal==true)
     {
-      local = new QCheckBox(QString(i18n("Local signature (cannot be exported)")),page);
+      local = new QCheckBox(i18n("Local signature (cannot be exported)"),page);
       vbox->addWidget(local);
     }
 
@@ -508,7 +508,7 @@ KIconLoader *loader = KGlobal::iconLoader();
   setDragEnabled(true);
 }
 
-void  KeyView::droppedfile (KURL url) 
+void  KeyView::droppedfile (KURL url)
 {
 QString ask=i18n("Do you want to import file %1 into your key ring ?").arg(url.filename());
   if (KMessageBox::questionYesNo(this,ask)!=KMessageBox::Yes)
@@ -524,7 +524,7 @@ void KeyView::contentsDragMoveEvent(QDragMoveEvent *e)
 e->accept (QUrlDrag::canDecode(e));
 }
 
-void  KeyView::contentsDropEvent (QDropEvent *o) 
+void  KeyView::contentsDropEvent (QDropEvent *o)
 {
   QStringList list;
   if ( QUrlDrag::decodeToUnicodeUris( o, list ) ) droppedfile(KURL(list.first()));
@@ -534,10 +534,10 @@ void  KeyView::startDrag()
 {
 FILE *fp;
 char gpgcmd[200]="",line[200]="";
-QString keyid=currentItem()->text(5).latin1();
+QString keyid=currentItem()->text(5);
 if (!keyid.startsWith("0x")) return;
 strcat(gpgcmd,"gpg --no-tty --export --armor ");
-strcat(gpgcmd,keyid);
+strcat(gpgcmd,keyid.local8Bit());
 
 QString keytxt;
 fp=popen(gpgcmd,"r");
@@ -556,7 +556,7 @@ d->dragCopy();
 listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(parent, name, f)//QDialog(parent,name,TRUE)//KMainWindow(parent, name)
 {
   QWidget *page=new QWidget(this);
-keysList2 = new KeyView(page);
+  keysList2 = new KeyView(page);
   config=kapp->config();
   readOptions();
   //if (enctodef==true) defKey=defaultKey;
@@ -569,7 +569,7 @@ keysList2 = new KeyView(page);
   KAction *infoKey = new KAction(i18n("&Key info"), "kgpg_info", 0,this, SLOT(listsigns()),actionCollection(),"key_info");
   KAction *importKey = new KAction(i18n("&Import key"), "kgpg_import", 0,this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
   KAction *setDefaultKey = new KAction(i18n("Set as De&fault key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
-  
+
   KStdAction::quit(this, SLOT(annule()), actionCollection());
   (void) new KAction(i18n("&Refresh list"), "reload", 0,this, SLOT(refreshkey()),actionCollection(),"key_refresh");
   KAction *editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
@@ -577,17 +577,17 @@ keysList2 = new KeyView(page);
   KAction *deleteKeyPair = new KAction(i18n("Delete key pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
   KAction *generateKey = new KAction(i18n("&Generate key pair"), "kgpg_gen", 0,this, SLOT(slotgenkey()),actionCollection(),"key_gener");
   KToggleAction *togglePhoto= new KToggleAction(i18n("&Show photos"), "imagegallery", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
-(void) new KAction(i18n("&Key Server dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
+  (void) new KAction(i18n("&Key Server dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
 
   KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
-if (KDE_VERSION>=310)
-(void) new KToggleToolBarAction("mainToolBar",i18n("Show toolbar"), actionCollection(),"pref_toolbar"); ///  KDE 3.1 only
+  if (KDE_VERSION>=310)
+      (void) new KToggleToolBarAction("mainToolBar",i18n("Show toolbar"), actionCollection(),"pref_toolbar"); ///  KDE 3.1 only
 
-  
+
 
   QVBoxLayout *vbox=new QVBoxLayout(page,3);
   //keysList2 = new KListView(page);
-  
+
   keysList2->setRootIsDecorated(true);
   keysList2->addColumn( i18n( "Key" ) );
   keysList2->addColumn( i18n( "Trust" ) );
@@ -624,13 +624,13 @@ if (KDE_VERSION>=310)
 
   popupsig=new QPopupMenu();
   delSignKey->plug(popupsig);
-    
-	keyPhoto=new QLabel(page);
-    keyPhoto->setText("Photo");
-    keyPhoto->setFixedSize(60,60);
-    keyPhoto->setScaledContents(true);
-    keyPhoto->setFrameStyle( QFrame::Box | QFrame::Raised );
-  
+
+  keyPhoto=new QLabel(page);
+  keyPhoto->setText(i18n("Photo"));
+  keyPhoto->setFixedSize(60,60);
+  keyPhoto->setScaledContents(true);
+  keyPhoto->setFrameStyle( QFrame::Box | QFrame::Raised );
+
   vbox->addWidget(keysList2);
   //if (showPhoto==true)
   vbox->addWidget(keyPhoto);
@@ -642,7 +642,7 @@ if (KDE_VERSION>=310)
   QObject::connect(keysList2,SIGNAL(contextMenuRequested(QListViewItem *,const QPoint &,int)),
                    this,SLOT(slotmenu(QListViewItem *,const QPoint &,int)));
   //QObject::connect(keysList2,SIGNAL(dropped(QDropEvent * , QListViewItem *)),this,SLOT(slotDroppedFile(QDropEvent * , QListViewItem *)));
-  
+
 
   ///////////////    get all keys data
   refreshkey();
@@ -694,7 +694,7 @@ void listKeys::displayPhoto()
       kgpgtmp=new KTempFile();
       QString popt="cp %i "+kgpgtmp->name();
       KProcIO *p=new KProcIO();
-      *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<popt.local8Bit()<<"--list-keys"<<CurrentID;
+      *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(popt)<<"--list-keys"<<CurrentID;
       QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotProcessPhoto(KProcess *)));
       //QObject::connect(p, SIGNAL(readReady(KProcIO *)),this, SLOT(slotinfoimgread(KProcIO *)));
       p->start(KProcess::NotifyOnExit,true);
@@ -849,8 +849,8 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
 void listKeys::slotexportsec()
 {
   //////////////////////   export secret key
-  QString warn=i18n("Secret keys SHOULD NOT be saved  in an unsafe place.\n"
-                    "If someone else can access this file, encryption with this key will be compromised !\nContinue key export ?");
+  QString warn=i18n("Secret keys SHOULD NOT be saved in an unsafe place.\n"
+                    "If someone else can access this file, encryption with this key will be compromised!\nContinue key export?");
   int result=KMessageBox::warningYesNo(this,warn,i18n("Warning"));
   if (result!=KMessageBox::Yes)
     return;
@@ -872,13 +872,13 @@ void listKeys::slotexportsec()
         fgpg.remove();
 
 	  KProcIO *p=new KProcIO();
-      *p<<"gpg"<<"--no-tty"<<"--output"<<url.path().local8Bit()<<"--armor"<<"--export-secret-keys"<<keysList2->currentItem()->text(5).latin1();
+      *p<<"gpg"<<"--no-tty"<<"--output"<<QFile::encodeName(url.path())<<"--armor"<<"--export-secret-keys"<<keysList2->currentItem()->text(5);
 	   p->start(KProcess::Block);
-	
+
       if (fgpg.exists())
-          KMessageBox::information(this,i18n("Your PRIVATE key \"%1\"  was successfully exported\nDO NOT leave it in an insecure place !").arg(url.path()));
+          KMessageBox::information(this,i18n("Your PRIVATE key \"%1\" was successfully exported.\nDO NOT leave it in an insecure place !").arg(url.path()));
       else
-        KMessageBox::sorry(this,i18n("Your secret key could not be exported\nCheck the key..."));
+        KMessageBox::sorry(this,i18n("Your secret key could not be exported.\nCheck the key..."));
     }
 
 }
@@ -892,8 +892,8 @@ void listKeys::slotexport()
   if (keysList2->currentItem()->depth()!=0)
     return;
 
-KURL u;
-QString key=keysList2->currentItem()->text(0);
+  KURL u;
+  QString key=keysList2->currentItem()->text(0);
 
   QString sname=key.section('@',0,0);
   sname=sname.section(' ',-1,-1);
@@ -902,7 +902,7 @@ QString key=keysList2->currentItem()->text(0);
   sname.append(".asc");
   sname.prepend(QDir::homeDirPath()+"/");
   u.setPath(sname);
-  
+
   popupName *dial=new popupName(i18n("Export public key to"),this, "export_key", u,true);
   dial->exportAttributes->setChecked(true);
 
@@ -913,17 +913,17 @@ QString key=keysList2->currentItem()->text(0);
 	  bool exportAttr=dial->exportAttributes->isChecked();
 	  KProcIO *p=new KProcIO();
       *p<<"gpg"<<"--no-tty";
-	  
-      if (dial->checkFile->isChecked()) 
+
+      if (dial->checkFile->isChecked())
 	  {
 	  expname=dial->newFilename->text().stripWhiteSpace();
       if (!expname.isEmpty())
         {
 		QFile fgpg(expname);
 		if (fgpg.exists())  fgpg.remove();
-		*p<<"--output"<<expname.local8Bit()<<"--export"<<"--armor";
+		*p<<"--output"<<QFile::encodeName(expname)<<"--export"<<"--armor";
 	  if (!exportAttr) *p<<"--export-options"<<"no-include-attributes";
-	  *p<<keysList2->currentItem()->text(5).latin1();
+	  *p<<keysList2->currentItem()->text(5);
 	p->start(KProcess::Block);
 	 if (fgpg.exists()) KMessageBox::information(this,i18n("Your public key \"%1\" was successfully exported\n").arg(expname));
      else KMessageBox::sorry(this,i18n("Your public key could not be exported\nCheck the key..."));
@@ -934,7 +934,7 @@ QString key=keysList2->currentItem()->text(0);
 	message="";
 	*p<<"--export"<<"--armor";
 	  if (!exportAttr) *p<<"--export-options"<<"no-include-attributes";
-	  *p<<keysList2->currentItem()->text(5).latin1();
+	  *p<<keysList2->currentItem()->text(5);
       if (dial->checkClipboard->isChecked()) QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotProcessExportClip(KProcess *)));
 	  else QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotProcessExportMail(KProcess *)));
       QObject::connect(p, SIGNAL(readReady(KProcIO *)),this, SLOT(slotReadProcess(KProcIO *)));
@@ -947,22 +947,21 @@ void listKeys::slotReadProcess(KProcIO *p)
 {
   QString outp;
   while (p->readln(outp)!=-1) message+=outp+"\n";
-}      
+}
 
 
 void listKeys::slotProcessExportMail(KProcess *)
 {
-         ///////////////////////// send key by mail
-          KProcIO *proc=new KProcIO();
-          QString subj="Public key:";
-          *proc<<"kmail"<<"--subject"<<subj<<"--body"<<message;
-          proc->start(KProcess::DontCare);
-          
-        }
+    ///////////////////////// send key by mail
+    KProcIO *proc=new KProcIO();
+    QString subj="Public key:";
+    *proc<<"kmail"<<"--subject"<<subj<<"--body"<<message;
+    proc->start(KProcess::DontCare);
+}
 
 void listKeys::slotProcessExportMailClip(KProcess *)
 {
-  kapp->clipboard()->setText(message);
+    kapp->clipboard()->setText(message);
 }
 
 
@@ -978,7 +977,7 @@ void listKeys::listsigns()
           //////////////////////////    display photo
           KProcIO *p=new KProcIO();
           QString popt="kview %i";
-          *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<popt.local8Bit()<<"--list-keys"<<keysList2->currentItem()->parent()->text(5);
+          *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(popt)<<"--list-keys"<<keysList2->currentItem()->parent()->text(5);
           p->start(KProcess::DontCare,true);
           return;
         }
@@ -1022,8 +1021,8 @@ void listKeys::signkey()
       return;
     }
   delete opts;
-  QString ask=i18n("Are you sure you want to sign key\n%1 with key %2 ?\n"
-                   "You should always check fingerprint before signing !").arg(keysList2->currentItem()->text(0)).arg(keyMail);
+  QString ask=i18n("Are you sure you want to sign key\n%1 with key %2?\n"
+                   "You should always check fingerprint before signing!").arg(keysList2->currentItem()->text(0)).arg(keyMail);
 
   if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes)
     return;
@@ -1038,9 +1037,9 @@ void listKeys::signatureResult(int success)
   if (success==0)
     refreshkey();
   if (success==2)
-    KMessageBox::sorry(this,i18n("Bad passphrase, try again"));
+    KMessageBox::sorry(this,i18n("Bad passphrase, try again."));
   if (success==1)
-    KMessageBox::sorry(this,i18n("Requested operation was unsuccessful, please edit the key manually"));
+    KMessageBox::sorry(this,i18n("Requested operation was unsuccessful, please edit the key manually."));
 }
 
 
@@ -1052,7 +1051,7 @@ void listKeys::delsignkey()
     return;
   if (keysList2->currentItem()->depth()>1)
     {
-      KMessageBox::sorry(this,i18n("Edit key manually to delete this signature"));
+      KMessageBox::sorry(this,i18n("Edit key manually to delete this signature."));
       return;
     }
 
@@ -1066,10 +1065,10 @@ void listKeys::delsignkey()
 
   if (parentKey==signID)
     {
-      KMessageBox::sorry(this,i18n("Edit key manually to delete a self-signature"));
+      KMessageBox::sorry(this,i18n("Edit key manually to delete a self-signature."));
       return;
     }
-  QString ask=i18n("Are you sure you want to delete signature\n%1 from key %2 ?").arg(signMail).arg(parentMail);
+  QString ask=i18n("Are you sure you want to delete signature\n%1 from key %2?").arg(signMail).arg(parentMail);
 
   if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes)
     return;
@@ -1083,7 +1082,7 @@ void listKeys::delsignatureResult(bool success)
   if (success==true)
     refreshkey();
   else
-    KMessageBox::sorry(this,i18n("Requested operation was unsuccessful, please edit the key manually"));
+    KMessageBox::sorry(this,i18n("Requested operation was unsuccessful, please edit the key manually."));
 }
 
 void listKeys::slotedit()
@@ -1099,7 +1098,7 @@ kp<<"konsole"
 	<<"gpg"
 	<<"--no-secmem-warning"
 	<<"--edit-key"
-	<<keysList2->currentItem()->text(5).latin1()
+	<<keysList2->currentItem()->text(5)
 	<<"help";
   kp.start(KProcess::Block);
   refreshkey();
@@ -1135,7 +1134,7 @@ delete genkey;
 		  if (password.length()<5) KMessageBox::sorry(this,i18n("This passphrase is not secure enough.\nMinimum length= 5 characters"));
 		  else goodpass=true;
           }
-		    
+
               pop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
               QVBoxLayout *vbox=new QVBoxLayout(pop,3);
               QLabel *tex=new QLabel(pop);
@@ -1227,7 +1226,7 @@ void listKeys::deleteseckey()
   QString res=keysList2->currentItem()->text(0);
 
     int result=KMessageBox::warningYesNo(this,
-                                         i18n("Delete SECRET KEY pair %1 ?\nDeleting this key pair means you will never be able to decrypt files encrypted with this key anymore!!!").arg(res),
+                                         i18n("Delete SECRET KEY pair %1?\nDeleting this key pair means you will never be able to decrypt files encrypted with this key anymore!!!").arg(res),
                                          i18n("Warning"),
                                          i18n("Delete"));
     if (result!=KMessageBox::Yes)
@@ -1244,7 +1243,7 @@ void listKeys::confirmdeletekey()
 {
   QString res=keysList2->currentItem()->text(0);
 
-  int result=KMessageBox::warningYesNo(this,i18n("Delete public key %1 ?").arg(res),i18n("Warning"),i18n("Delete"));
+  int result=KMessageBox::warningYesNo(this,i18n("Delete public key %1?").arg(res),i18n("Warning"),i18n("Delete"));
   if (result!=KMessageBox::Yes)
     return;
   else
@@ -1269,18 +1268,18 @@ void listKeys::deletekey()
 
 void listKeys::slotPreImportKey()
 {
-KURL url=KFileDialog::getOpenURL(QString::null,i18n("*.asc|*.asc files"), this,i18n("Select key file to import"));
-  if (url.isEmpty())
-      return;
+    KURL url=KFileDialog::getOpenURL(QString::null,i18n("*.asc|*.asc files"), this,i18n("Select key file to import"));
+    if (url.isEmpty())
+        return;
 
-KgpgInterface *importKeyProcess=new KgpgInterface();
-  importKeyProcess->importKey(url);
-connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(refreshkey()));
+    KgpgInterface *importKeyProcess=new KgpgInterface();
+    importKeyProcess->importKey(url);
+    connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(refreshkey()));
 }
 
 void listKeys::refreshkey()
 {
-keysList2->refreshkeylist();
+    keysList2->refreshkeylist();
 }
 
 void KeyView::refreshkeylist()
@@ -1319,7 +1318,7 @@ void KeyView::refreshkeylist()
       if (tst.startsWith("uid") || tst.startsWith("uat"))
         {
           gpgKey uidKey=extractKey(tst);
-          
+
 //          QString tr=trustString(trust).gpgkeytrust;
 		  if (tst.startsWith("uat"))
             {
@@ -1331,7 +1330,7 @@ void KeyView::refreshkeylist()
           else
               {
                 itemuid= new SmallViewItem(item,extractKeyName(uidKey.gpgkeyname,uidKey.gpgkeymail),uidKey.gpgkeytrust,"-","-","-","-");
-				if (noID==true) 
+				if (noID==true)
 				{
 				item->setText(0,extractKeyName(uidKey.gpgkeyname,uidKey.gpgkeymail));
                 noID=false;
@@ -1351,7 +1350,7 @@ void KeyView::refreshkeylist()
           if (tst.startsWith("sig"))
             {
 			gpgKey sigKey=extractKey(tst);
-            
+
                   QString fsigname=extractKeyName(sigKey.gpgkeyname,sigKey.gpgkeymail);
 				  if (tst.section(':',10,10).endsWith("l"))
                     fsigname+=i18n(" [local]");
@@ -1364,7 +1363,7 @@ void KeyView::refreshkeylist()
                     itemsig= new SmallViewItem(itemuid,fsigname,"-",sigKey.gpgkeyexpiration,"-",sigKey.gpgkeycreation,sigKey.gpgkeyid);
 
                   itemsig->setPixmap(0,pixsignature);
-            
+
             }
           else
 
@@ -1375,7 +1374,7 @@ void KeyView::refreshkeylist()
                     itemsub= new SmallViewItem(item,tst,subKey.gpgkeytrust,subKey.gpgkeyexpiration,subKey.gpgkeysize,subKey.gpgkeycreation,subKey.gpgkeyid);
                     itemsub->setPixmap(0,pixkeySingle);
                     cycle="sub";
-                
+
               }
             else
               if (tst.startsWith("pub"))
@@ -1466,7 +1465,7 @@ gpgKey pubKey=extractKey(tst);
                           item->setPixmap(0,pixkeySingle);
                         }
                     }
-                
+
     }
   pclose(fp);
 
@@ -1556,7 +1555,7 @@ ret.gpgkeycreation=keyColon.section(':',5,5);
 QString tid=keyColon.section(':',4,4);
 ret.gpgkeyid=QString("0x"+tid.right(8));
 ret.gpgkeyexpiration=keyColon.section(':',6,6);
-if (ret.gpgkeyexpiration=="") ret.gpgkeyexpiration=i18n("Unlimited");    
+if (ret.gpgkeyexpiration=="") ret.gpgkeyexpiration=i18n("Unlimited");
 QString fullname=keyColon.section(':',9,9);
 if (fullname.find("<")!=-1)
 {
@@ -1565,7 +1564,7 @@ ret.gpgkeymail.truncate(ret.gpgkeymail.length()-1);
 ret.gpgkeyname=fullname.section('<',0,0);
 if (ret.gpgkeyname.find("(")!=-1) ret.gpgkeyname=ret.gpgkeyname.section('(',0,0);
 }
-else 
+else
 {
 ret.gpgkeymail="";
 ret.gpgkeyname=fullname.section('(',0,0);
@@ -1629,7 +1628,7 @@ QString tr;
               break;
             }
 ret.gpgkeytrust=tr;
-			
+
 return ret;
 }
 #include "listkeys.moc"

@@ -36,68 +36,68 @@ KgpgInterface::KgpgInterface()
 
 void KgpgInterface::KgpgEncryptFile(QString userIDs,KURL srcUrl,KURL destUrl, QString Options, bool symetrical)
 {
-  file=destUrl;
-  QString cut;
-  encError=false;
-  message="";
-  KProcIO *proc=new KProcIO();
-  userIDs=userIDs.stripWhiteSpace();
-  userIDs=userIDs.simplifyWhiteSpace();
-  Options=Options.stripWhiteSpace();
-  Options=Options.simplifyWhiteSpace();
-  if (symetrical==false)
+    file=destUrl;
+    QString cut;
+    encError=false;
+    message="";
+    KProcIO *proc=new KProcIO();
+    userIDs=userIDs.stripWhiteSpace();
+    userIDs=userIDs.simplifyWhiteSpace();
+    Options=Options.stripWhiteSpace();
+    Options=Options.simplifyWhiteSpace();
+    if (symetrical==false)
     {
-      *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2";
-  while (!Options.isEmpty())
-  {
-  QString fOption=Options.section(' ',0,0);
-  Options.remove(0,fOption.length());
-  Options=Options.stripWhiteSpace();
-   *proc<<fOption.local8Bit();
-   }
-  *proc<<"--output"<<destUrl.path().local8Bit()<<"-e";
-      int ct=userIDs.find(" ");
-      while (ct!=-1)  // if multiple keys...
+        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2";
+        while (!Options.isEmpty())
         {
-          *proc<<"--recipient"<<userIDs.section(' ',0,0);
-          userIDs.remove(0,ct+1);
-          ct=userIDs.find(" ");
+            QString fOption=Options.section(' ',0,0);
+            Options.remove(0,fOption.length());
+            Options=Options.stripWhiteSpace();
+            *proc<<QFile::encodeName(fOption);
         }
-      *proc<<"--recipient"<<userIDs<<srcUrl.path().local8Bit();
+        *proc<<"--output"<<QFile::encodeName(destUrl.path())<<"-e";
+        int ct=userIDs.find(" ");
+        while (ct!=-1)  // if multiple keys...
+        {
+            *proc<<"--recipient"<<userIDs.section(' ',0,0);
+            userIDs.remove(0,ct+1);
+            ct=userIDs.find(" ");
+        }
+        *proc<<"--recipient"<<userIDs<<QFile::encodeName(srcUrl.path());
     }
-  else  ////////////   symetrical encryption, prompt for password
+    else  ////////////   symetrical encryption, prompt for password
     {
-      int ppass[2];
-      FILE *pass;
-      QCString password;
-      int code=KPasswordDialog::getNewPassword(password,QString(i18n("Enter passphrase for file %1(symmetrical encryption):").arg(srcUrl.filename())));
-      if (code!=QDialog::Accepted)
+        int ppass[2];
+        FILE *pass;
+        QCString password;
+        int code=KPasswordDialog::getNewPassword(password,QString(i18n("Enter passphrase for file %1(symmetrical encryption):").arg(srcUrl.filename())));
+        if (code!=QDialog::Accepted)
         {
-          emit encryptionfinished(true);
-          return;
+            emit encryptionfinished(true);
+            return;
         }
-      pipe(ppass);
-      pass = fdopen(ppass[1], "w");
-      fwrite(password, sizeof(char), strlen(password), pass);
-      fwrite("\n", sizeof(char), 1, pass);
-      fclose(pass);
-      
+        pipe(ppass);
+        pass = fdopen(ppass[1], "w");
+        fwrite(password, sizeof(char), strlen(password), pass);
+        fwrite("\n", sizeof(char), 1, pass);
+        fclose(pass);
+
         *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0";
-      while (!Options.isEmpty())
-  {
-  QString fOption=Options.section(' ',0,0);
-  Options.remove(0,fOption.length());
-  Options=Options.stripWhiteSpace();
-   *proc<<fOption.local8Bit();
-   }
-	*proc<<"--output"<<destUrl.path().local8Bit()<<"--passphrase-fd"<<QString::number(ppass[0])<<"-c"<<srcUrl.path().local8Bit();
+        while (!Options.isEmpty())
+        {
+            QString fOption=Options.section(' ',0,0);
+            Options.remove(0,fOption.length());
+            Options=Options.stripWhiteSpace();
+            *proc<<QFile::encodeName(fOption);
+        }
+        *proc<<"--output"<<QFile::encodeName(destUrl.path())<<"--passphrase-fd"<<QString::number(ppass[0])<<"-c"<<QFile::encodeName(srcUrl.path());
 	}
 
-  /////////  when process ends, update dialog infos
-  QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(encryptfin(KProcess *)));
-  QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(readprocess(KProcIO *)));
-  proc->start(KProcess::NotifyOnExit,true);
-  //encryptfin(proc);
+    /////////  when process ends, update dialog infos
+    QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(encryptfin(KProcess *)));
+    QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(readprocess(KProcIO *)));
+    proc->start(KProcess::NotifyOnExit,true);
+    //encryptfin(proc);
 }
 
 
@@ -160,10 +160,12 @@ int KgpgInterface::KgpgDecryptFile(QString userIDs,KURL srcUrl,KURL destUrl,int 
 
         KProcIO *proc=new KProcIO();
       if (destUrl.filename()!="") // a filename was entered
-	        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"--passphrase-fd"<<QString::number(ppass[0])<<"-o"<<destUrl.path().local8Bit()<<"-d"<<srcUrl.path().local8Bit();
+	        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"--passphrase-fd"<<
+                QString::number(ppass[0])<<"-o"<<QFile::encodeName(destUrl.path())<<"-d"<<QFile::encodeName(srcUrl.path());
 
       else //// no filename -> decrypt to editor
-              *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--passphrase-fd"<<QString::number(ppass[0])<<"-d"<<srcUrl.path().local8Bit();
+              *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--passphrase-fd"<<QString::number(ppass[0])
+                   <<"-d"<<QFile::encodeName(srcUrl.path());
 
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(decryptfin(KProcess *)));
   QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(readprocess(KProcIO *)));
@@ -188,34 +190,34 @@ emit decryptionfinished(false);
 
 QString KgpgInterface::KgpgEncryptText(QString text,QString userIDs, QString Options)
 {
-  FILE *fp;
-  QString dests,gpgcmd,encResult;
-  char buffer[200];
-  
-  userIDs=userIDs.stripWhiteSpace();
-  userIDs=userIDs.simplifyWhiteSpace();
-  Options=Options.stripWhiteSpace();
+    FILE *fp;
+    QString dests,gpgcmd,encResult;
+    char buffer[200];
+
+    userIDs=userIDs.stripWhiteSpace();
+    userIDs=userIDs.simplifyWhiteSpace();
+    Options=Options.stripWhiteSpace();
 
 
-  int ct=userIDs.find(" ");
-  while (ct!=-1)  // if multiple keys...
+    int ct=userIDs.find(" ");
+    while (ct!=-1)  // if multiple keys...
     {
-      dests+=" --recipient "+userIDs.section(' ',0,0);
-      userIDs.remove(0,ct+1);
-      ct=userIDs.find(" ");
+        dests+=" --recipient "+userIDs.section(' ',0,0);
+        userIDs.remove(0,ct+1);
+        ct=userIDs.find(" ");
     }
-  dests+=" --recipient "+userIDs;
-  
-text=text.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
-	
+    dests+=" --recipient "+userIDs;
+
+    text=text.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
+
 	gpgcmd="echo \""+text+"\" | gpg --no-secmem-warning --no-tty "+Options+" -e "+dests;
-  //////////   encode with untrusted keys or armor if checked by user
-  fp = popen(gpgcmd.latin1(), "r");
-  while ( fgets( buffer, sizeof(buffer), fp))
-    encResult+=buffer;
-  pclose(fp);
-  if (encResult!="") return encResult;
-  else return QString::null;
+    //////////   encode with untrusted keys or armor if checked by user
+    fp = popen(QFile::encodeName(gpgcmd), "r");
+    while ( fgets( buffer, sizeof(buffer), fp))
+        encResult+=buffer;
+    pclose(fp);
+    if (encResult!="") return encResult;
+    else return QString::null;
 }
 
 
@@ -223,38 +225,38 @@ text=text.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").re
 
 QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
 {
-  FILE *fp,*pass;
-  QString encResult,gpgcmd;
-  char buffer[200];
-  int counter=0,ppass[2];
-  QCString password;
+    FILE *fp,*pass;
+    QString encResult,gpgcmd;
+    char buffer[200];
+    int counter=0,ppass[2];
+    QCString password;
 
     while ((counter<3) && (encResult==""))
     {
-  /// pipe for passphrase
-  counter++;
-  QString passdlg=i18n("Enter passphrase for %1:").arg(userID);
-  if (counter>1) passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 trial(s) left.<br>").arg(QString::number(4-counter)));
+        /// pipe for passphrase
+        counter++;
+        QString passdlg=i18n("Enter passphrase for %1:").arg(userID);
+        if (counter>1) passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 trial(s) left.<br>").arg(QString::number(4-counter)));
 
-  /// pipe for passphrase
-  int code=KPasswordDialog::getPassword(password,passdlg);
-  if (code!=QDialog::Accepted) return "";
+        /// pipe for passphrase
+        int code=KPasswordDialog::getPassword(password,passdlg);
+        if (code!=QDialog::Accepted) return "";
 
-  pipe(ppass);
-  pass = fdopen(ppass[1], "w");
-  fwrite(password, sizeof(char), strlen(password), pass);
-  fwrite("\n", sizeof(char), 1, pass);
-  fclose(pass);
+        pipe(ppass);
+        pass = fdopen(ppass[1], "w");
+        fwrite(password, sizeof(char), strlen(password), pass);
+        fwrite("\n", sizeof(char), 1, pass);
+        fclose(pass);
 
-  gpgcmd="echo \""+text+"\" | gpg --no-tty --passphrase-fd "+QString::number(ppass[0])+" -d ";
-  //////////   encode with untrusted keys or armor if checked by user
-  fp = popen(gpgcmd.latin1(), "r");
-  while ( fgets( buffer, sizeof(buffer), fp))
-    encResult+=buffer;
-  pclose(fp);
-  }
-  if (encResult!="") return encResult;
-  else return "";
+        gpgcmd="echo \""+text+"\" | gpg --no-tty --passphrase-fd "+QString::number(ppass[0])+" -d ";
+        //////////   encode with untrusted keys or armor if checked by user
+        fp = popen(QFile::encodeName(gpgcmd), "r");
+        while ( fgets( buffer, sizeof(buffer), fp))
+            encResult+=buffer;
+        pclose(fp);
+    }
+    if (encResult!="") return encResult;
+    else return "";
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////   MD5
@@ -263,7 +265,7 @@ Md5Widget::Md5Widget(QWidget *parent, const char *name,KURL url):KDialogBase( pa
   {
 setButtonApplyText(i18n("Compare MD5 with clipboard"));
 mdSum="";
-QFile f(url.path().local8Bit());
+QFile f(url.path());
 f.open( IO_ReadOnly);
 KMD5 checkfile;
 checkfile.reset();
@@ -312,21 +314,29 @@ Md5Widget::~Md5Widget()
 {}
 
 void Md5Widget::slotApply()
- {
-     QClipboard *cb = QApplication::clipboard();
-     QString text;
-     // Copy text from the clipboard (paste)
-     text = cb->text();
-     if ( !text.isEmpty() )
-     {
-         text=text.stripWhiteSpace();
-         while (text.find(' ')!=-1) text.remove(text.find(' '),1);
-         if (text==mdSum) {TextLabel1_2->setText("<b>Correct checksum</b>, file is ok");  KLed1->setColor(QColor(0,255,0));KLed1->on();}//KMessageBox::sorry(0,"OK");
-         else if (text.length()!=mdSum.length()) KMessageBox::sorry(0,"Clipboard content is not a MD5 sum...");
-         else
-         {TextLabel1_2->setText("<b>Wrong checksum, FILE CORRUPTED</b>");  KLed1->setColor(QColor(255,0,0));KLed1->on();}
-     }
- }
+{
+    QClipboard *cb = QApplication::clipboard();
+    QString text;
+    // Copy text from the clipboard (paste)
+    text = cb->text();
+    if ( !text.isEmpty() )
+    {
+        text=text.stripWhiteSpace();
+        while (text.find(' ')!=-1) text.remove(text.find(' '),1);
+        if (text==mdSum) {
+            TextLabel1_2->setText(i18n("<b>Correct checksum</b>, file is ok"));
+            KLed1->setColor(QColor(0,255,0));
+            KLed1->on();
+        }//KMessageBox::sorry(0,"OK");
+        else if (text.length()!=mdSum.length())
+            KMessageBox::sorry(0,i18n("Clipboard content is not a MD5 sum..."));
+        else
+        {
+            TextLabel1_2->setText(i18n("<b>Wrong checksum, FILE CORRUPTED</b>"));
+            KLed1->setColor(QColor(255,0,0));KLed1->on();
+        }
+    }
+}
 
  /////////////////////////////////////////////////////////////////////////////////////////////   signatures
 
@@ -356,16 +366,16 @@ void KgpgInterface::KgpgSignFile(QString keyName,QString keyID,KURL srcUrl,QStri
   keyID=keyID.stripWhiteSpace();
   Options=Options.stripWhiteSpace();
   Options=Options.simplifyWhiteSpace();
-  
+
     *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"--passphrase-fd"<<QString::number(ppass[0])<<"-u"<<keyID.local8Bit();
 	while (!Options.isEmpty())
   {
   QString fOption=Options.section(' ',0,0);
   Options.remove(0,fOption.length());
   Options=Options.stripWhiteSpace();
-   *proc<<fOption.local8Bit();
+   *proc<<QFile::encodeName(fOption);
    }
-	 *proc<<"--detach-sig"<<srcUrl.path().local8Bit();
+	 *proc<<"--detach-sig"<<QFile::encodeName(srcUrl.path());
 
       /////////         open gpg pipe
       //file=KURL(srcUrl.path()+".sig");
@@ -382,12 +392,10 @@ void KgpgInterface::KgpgSignFile(QString keyName,QString keyID,KURL srcUrl,QStri
 
 void KgpgInterface::signfin(KProcess *)
 {
-
-
-if (message.find("BAD_PASSPHRASE")!=-1) KMessageBox::sorry(0,i18n("Bad passphrase, signature was not created"));
-else if (message.find("SIG_CREATED")!=-1) KMessageBox::information(0,i18n("The signature file %1 was successfully created").arg(file.filename()));
-else KMessageBox::sorry(0,message);
-emit signfinished();
+    if (message.find("BAD_PASSPHRASE")!=-1) KMessageBox::sorry(0,i18n("Bad passphrase, signature was not created"));
+    else if (message.find("SIG_CREATED")!=-1) KMessageBox::information(0,i18n("The signature file %1 was successfully created").arg(file.filename()));
+    else KMessageBox::sorry(0,message);
+    emit signfinished();
 }
 
 
@@ -395,21 +403,21 @@ void KgpgInterface::KgpgVerifyFile(KURL sigUrl,KURL srcUrl)
 {
   //////////////////////////////////////   verify signature for a chosen file
   message="";
-      /////////////       create gpg command
-      KProcIO *proc=new KProcIO();
-file=srcUrl;
-    *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--verify";
-    if (srcUrl.filename()!="") *proc<<srcUrl.path().local8Bit();
-*proc<<sigUrl.path().local8Bit();
+  /////////////       create gpg command
+  KProcIO *proc=new KProcIO();
+  file=srcUrl;
+  *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--verify";
+  if (srcUrl.filename()!="") *proc<<QFile::encodeName(srcUrl.path());
+  *proc<<QFile::encodeName(sigUrl.path());
 
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(verifyfin(KProcess *)));
   QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(readprocess(KProcIO *)));
   //QObject::connect(proc,SIGNAL(receivedStdout(KProcess *, char *, int)),this,SLOT(verifyprocess(KProcess *, char *, int)));
   //QObject::connect(proc,SIGNAL(receivedStderr(KProcess *, char *, int)),this,SLOT(verifyprocess(KProcess *, char *, int)));
   proc->start(KProcess::NotifyOnExit,true);
-      }
+}
 
-      
+
 void KgpgInterface::readprocess(KProcIO *p)
 {
 QString required="";
@@ -529,48 +537,50 @@ emit signatureFinished(signSuccess);
 
 void KgpgInterface::KgpgDelSignature(QString keyID,QString signKeyID)
 {
-if (checkuid(keyID)>0){KMessageBox::sorry(0,i18n("This key has more than one user id...\nEdit the key manually to delete signature."));return;}
-
-message=signKeyID.remove(0,2);
-deleteSuccess=false;
-step=0;
-/*
-int code=KPasswordDialog::getPassword(passphrase,i18n("Enter passphrase for %1:").arg(signKeyMail));
-      if (code!=QDialog::Accepted)
+    if (checkuid(keyID)>0) {
+        KMessageBox::sorry(0,i18n("This key has more than one user ID...\nEdit the key manually to delete signature."));
         return;
+    }
+
+    message=signKeyID.remove(0,2);
+    deleteSuccess=false;
+    step=0;
+/*
+  int code=KPasswordDialog::getPassword(passphrase,i18n("Enter passphrase for %1:").arg(signKeyMail));
+  if (code!=QDialog::Accepted)
+  return;
 */
-  FILE *fp;
-  QString encResult;
-  char buffer[200];
-  signb=0;
-  sigsearch=0;
-  
- QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --list-sigs "+keyID;
-  //////////   encode with untrusted keys or armor if checked by user
-  fp = popen(gpgcmd.latin1(), "r");
-  while ( fgets( buffer, sizeof(buffer), fp)) 
-  {
-  encResult=buffer;
-  if (encResult.startsWith("sig"))
-  {
-  if (encResult.find(message)!=-1) break;
-  signb++;
-  }
-  else if (encResult.startsWith("rev")) signb++;
-  }
-  pclose(fp);
+    FILE *fp;
+    QString encResult;
+    char buffer[200];
+    signb=0;
+    sigsearch=0;
+
+    QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --list-sigs "+keyID;
+    //////////   encode with untrusted keys or armor if checked by user
+    fp = popen(QFile::encodeName(gpgcmd), "r");
+    while ( fgets( buffer, sizeof(buffer), fp))
+    {
+        encResult=buffer;
+        if (encResult.startsWith("sig"))
+        {
+            if (encResult.find(message)!=-1) break;
+            signb++;
+        }
+        else if (encResult.startsWith("rev")) signb++;
+    }
+    pclose(fp);
 
 //KMessageBox::sorry(0,"Signature numero: "+QString::number(signb));
 
 
 //KMessageBox::sorry(0,keyID+"::"+signKeyID);
-  KProcIO *conprocess=new KProcIO();
-  *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--command-fd=0"<<"--status-fd=2";
-  *conprocess<<"--edit-key"<<keyID;
-  QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(delsigprocess(KProcIO *)));
-  QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(delsignover(KProcess *)));
-  conprocess->start(KProcess::NotifyOnExit,true);
-  
+    KProcIO *conprocess=new KProcIO();
+    *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--command-fd=0"<<"--status-fd=2";
+    *conprocess<<"--edit-key"<<keyID;
+    QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(delsigprocess(KProcIO *)));
+    QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(delsignover(KProcess *)));
+    conprocess->start(KProcess::NotifyOnExit,true);
 }
 
 
@@ -582,7 +592,7 @@ while (p->readln(required,true)!=-1)
 {
  if ((step==0) && (required.find("keyedit.prompt")!=-1)) {p->writeStdin("uid 1");step=1;required="";}
   if ((step==1) && (required.find("keyedit.prompt")!=-1)) {p->writeStdin("delsig");step=2;required="";}
-  if ((step==2) && (required.find("keyedit.delsig")!=-1)) 
+  if ((step==2) && (required.find("keyedit.delsig")!=-1))
   {
 
   if (sigsearch==signb) {p->writeStdin("Y");step=3;}
@@ -590,7 +600,7 @@ while (p->readln(required,true)!=-1)
   sigsearch++;
   required="";
   }
- if ((step==3) && (required.find("keyedit.prompt")!=-1)) {p->writeStdin("save");required="";deleteSuccess=true;} 
+ if ((step==3) && (required.find("keyedit.prompt")!=-1)) {p->writeStdin("save");required="";deleteSuccess=true;}
  if (required.find("GET_LINE")!=-1){p->writeStdin("quit");deleteSuccess=false;}
  }
 //p->ackRead();
@@ -603,21 +613,21 @@ emit encryptionfinished(deleteSuccess);
 
 int KgpgInterface::checkuid(QString KeyID)
 {
-  FILE *fp;
-  QString encResult;
-  char buffer[200];
-int  uidcnt=0;
-  
- QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --list-sigs "+KeyID;
-  //////////   encode with untrusted keys or armor if checked by user
-  fp = popen(gpgcmd.latin1(), "r");
-  while ( fgets( buffer, sizeof(buffer), fp))
-  {
-      encResult=buffer;
-      if (encResult.startsWith("uid")) uidcnt++;
-  }
-  pclose(fp);
-  return uidcnt;
+    FILE *fp;
+    QString encResult;
+    char buffer[200];
+    int  uidcnt=0;
+
+    QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --list-sigs "+KeyID;
+    //////////   encode with untrusted keys or armor if checked by user
+    fp = popen(QFile::encodeName(gpgcmd), "r");
+    while (fgets(buffer, sizeof(buffer), fp))
+    {
+        encResult=buffer;
+        if (encResult.startsWith("uid")) uidcnt++;
+    }
+    pclose(fp);
+    return uidcnt;
 }
 
 //////////////////////////////////////////////////////////////    key import
@@ -626,7 +636,7 @@ int  uidcnt=0;
 void KgpgInterface::importKey(KURL url)
 {
   /////////////      import a key
-  
+
   if( KIO::NetAccess::download( url, tempKeyFile ) )
   {
       message=QString::null;
@@ -643,79 +653,79 @@ void KgpgInterface::importover(KProcess *)
 {
     KIO::NetAccess::removeTempFile(tempKeyFile);
     KMessageBox::information(0,message);
-emit importfinished();
+    emit importfinished();
 }
 
 void KgpgInterface::importprocess(KProcIO *p)
 {
-  QString outp;
-  while (p->readln(outp)!=-1)
+    QString outp;
+    while (p->readln(outp)!=-1)
     {
-      if (outp.find("http-proxy")==-1)
-        message+=outp+"\n";
+        if (outp.find("http-proxy")==-1)
+            message+=outp+"\n";
     }
 }
 
 QString KgpgInterface::extractKeyName(KURL url)
 {
-  ///////////////////////////////////////////////////////////////// extract  encryption keys
-  
-FILE *fp;
-QString encResult,IDs;
-char buffer[200];
+    ///////////////////////////////////////////////////////////////// extract  encryption keys
 
-  
-QString gpgcmd="gpg --no-tty --no-secmem-warning --batch --status-fd 1 -d "+url.path().local8Bit();
-  //////////   encode with untrusted keys or armor if checked by user
-  fp = popen(gpgcmd.latin1(), "r");
-  while ( fgets( buffer, sizeof(buffer), fp))
-  {
-      encResult=buffer;	  
-      if (encResult.find("USERID_HINT",0,false)!=-1)
-	  {
-	  if (!IDs.isEmpty()) IDs+=i18n(" or ");
-	  encResult=encResult.section("HINT",1,1);
-	  encResult=encResult.stripWhiteSpace();
-	  int cut=encResult.find(' ',0,false);
-	  encResult.remove(0,cut);
-	  if (encResult.find("(",0,false)!=-1)
-	  encResult=encResult.section('(',0,0)+encResult.section(')',-1,-1);
-	  IDs+=encResult;
-	  }
-  }
-  pclose(fp);
-  return IDs;
+    FILE *fp;
+    QString encResult,IDs;
+    char buffer[200];
+
+
+    QString gpgcmd="gpg --no-tty --no-secmem-warning --batch --status-fd 1 -d "+url.path();
+    //////////   encode with untrusted keys or armor if checked by user
+    fp = popen(QFile::encodeName(gpgcmd), "r");
+    while ( fgets( buffer, sizeof(buffer), fp))
+    {
+        encResult=buffer;
+        if (encResult.find("USERID_HINT",0,false)!=-1)
+        {
+            if (!IDs.isEmpty()) IDs+=i18n(" or ");
+            encResult=encResult.section("HINT",1,1);
+            encResult=encResult.stripWhiteSpace();
+            int cut=encResult.find(' ',0,false);
+            encResult.remove(0,cut);
+            if (encResult.find("(",0,false)!=-1)
+                encResult=encResult.section('(',0,0)+encResult.section(')',-1,-1);
+            IDs+=encResult;
+        }
+    }
+    pclose(fp);
+    return IDs;
 }
 
 QString KgpgInterface::extractKeyName(QString txt)
 {
-  ///////////////////////////////////////////////////////////////// extract  encryption keys
-  
-FILE *fp;
-QString encResult,IDs;
-char buffer[200];
+    ///////////////////////////////////////////////////////////////// extract  encryption keys
 
-  
-QString gpgcmd="echo \""+txt.local8Bit()+"\" | gpg --no-tty --no-secmem-warning --batch --status-fd 1 -d ";
-  //////////   encode with untrusted keys or armor if checked by user
-  fp = popen(gpgcmd.latin1(), "r");
-  while ( fgets( buffer, sizeof(buffer), fp))
-  {
-      encResult=buffer;	  
-      if (encResult.find("USERID_HINT",0,false)!=-1)
-	  {
-	  if (!IDs.isEmpty()) IDs+=i18n(" or ");
-	  encResult=encResult.section("HINT",1,1);
-	  encResult=encResult.stripWhiteSpace();
-	  int cut=encResult.find(' ',0,false);
-	  encResult.remove(0,cut);
-	  if (encResult.find("(",0,false)!=-1)
-	  encResult=encResult.section('(',0,0)+encResult.section(')',-1,-1);
-	  IDs+=encResult;
-	  }
-  }
-  pclose(fp);
-  return IDs;
+    FILE *fp;
+    QString encResult,IDs;
+    char buffer[200];
+
+
+    QString gpgcmd="echo \""+txt+"\" | gpg --no-tty --no-secmem-warning --batch --status-fd 1 -d ";
+    //////////   encode with untrusted keys or armor if checked by user
+    fp = popen(QFile::encodeName(gpgcmd), "r");
+    while ( fgets( buffer, sizeof(buffer), fp))
+    {
+        encResult=buffer;
+        if (encResult.find("USERID_HINT",0,false)!=-1)
+        {
+            if (!IDs.isEmpty()) IDs+=i18n(" or ");
+            encResult=encResult.section("HINT",1,1);
+            encResult=encResult.stripWhiteSpace();
+            int cut=encResult.find(' ',0,false);
+            encResult.remove(0,cut);
+            if (encResult.find("(",0,false)!=-1)
+                encResult=encResult.section('(',0,0)+encResult.section(')',-1,-1);
+            IDs+=encResult;
+        }
+    }
+    pclose(fp);
+    return IDs;
 }
 
 

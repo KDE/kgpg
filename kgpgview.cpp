@@ -74,7 +74,7 @@ void MyEditor::droppedfile(KURL url)
     return;
   }
 
-  QFile qfile(tempFile.local8Bit());
+  QFile qfile(tempFile);
 
   if (qfile.open(IO_ReadOnly))
   {
@@ -171,7 +171,7 @@ void MyEditor::slotprocresultenckey(KProcess *)
        KMessageBox::information(0,i18n("This file is a private key !\nPlease use kgpg key management to import it."));
        else
        /// unknown file type
-	   if (!result.startsWith("-----BEGIN PGP MESSAGE")) 
+	   if (!result.startsWith("-----BEGIN PGP MESSAGE"))
 	   		{
       		KMessageBox::sorry(0,i18n("Sorry, no encrypted data found..."));
       		return;
@@ -294,7 +294,7 @@ void KgpgView::clearSign()
             i=mess.find("$",i,FALSE);
             if (i!=-1) {mess.insert(i,"\\");i+=2;}
         }
-        strcat(line,mess.latin1());
+        strcat(line,mess.local8Bit());
         strcat(line,"\" | gpg");
         strcat(line," --no-tty ");
         QString tst="";
@@ -342,7 +342,7 @@ void KgpgView::clearSign()
         ///// open key selection dialog
         KgpgSelKey *opts=new KgpgSelKey(this,0,false);
 
-        
+
         if (opts->exec()==QDialog::Accepted) {signKeyID=opts->getkeyID();signKeyMail=opts->getkeyMail();}
         else
         {
@@ -371,7 +371,7 @@ void KgpgView::clearSign()
             i=mess.find("$",i,FALSE);
             if (i!=-1) {mess.insert(i,"\\");i+=2;}
         }
-        strcat(line,mess.latin1());
+        strcat(line,mess.local8Bit());
         strcat(line,"\" | gpg ");
         if (pubpgp==true)
         {
@@ -383,7 +383,7 @@ void KgpgView::clearSign()
         fd.setNum(ppass[0]);
         strcat(line,fd.latin1());
         strcat(line," --no-tty --clearsign -u ");
-        strcat(line,signKeyID.latin1());
+        strcat(line,signKeyID.local8Bit());
         //KMessageBox::sorry(0,QString(line));
         QString tst="";
 
@@ -432,13 +432,13 @@ void KgpgView::slotdecode()
 
   QString dests,encUsers;
   messages="";
-  
+
   encUsers=KgpgInterface::extractKeyName(editor->text());
 
   if (encUsers.isEmpty()) encUsers=i18n("[No user ID found]");
   QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
   KgpgApp *win=(KgpgApp *) parent();
-if (resultat!="") 
+if (resultat!="")
 {
 editor->setText(resultat);
 win->editRedo->setEnabled(false);
@@ -463,7 +463,7 @@ void KgpgView::encode(QString &selec,bool utrust,bool arm)
     }
 
  if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not choosen an encryption key..."));return;}
-  
+
  QString resultat=KgpgInterface::KgpgEncryptText(editor->text(),selec,encryptOptions);
  if (resultat!="") editor->setText(resultat);
 }
@@ -482,5 +482,4 @@ void KgpgView::print(QPrinter *pPrinter)
   printpainter.end();
 }
 */
-//#include "kgpgview.moc"
 #include "kgpgview.moc"

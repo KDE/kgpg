@@ -59,7 +59,7 @@
 #define ID_STATUS_MSG 1
 
 KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0, name)
-{ 
+{
   config=kapp->config();
   readOptions();
 commandLineMode=false;
@@ -133,7 +133,7 @@ encryptOptions+=" --armor ";
       if (version<120) encryptOptions+=" --compress-algo 1 --cipher-algo cast5 ";
       else encryptOptions+=" --pgp6 ";
     }
- if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not choosen an encryption key..."));exit(0);}
+ if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not chosen an encryption key..."));exit(0);}
  QString decresultat=KgpgInterface::KgpgEncryptText(clipContent,selec,encryptOptions);
  //cryptedClipboard=decresultat;
      QWidgetList  *list = QApplication::topLevelWidgets();
@@ -151,7 +151,7 @@ else cryptedClipboard=clipContent;
 
  QClipboard *clip=QApplication::clipboard();
  clip->setText(decresultat);//,QClipboard::Clipboard);    QT 3.1 only
- 
+
 cryptedClipboard.replace(QRegExp("<"),"&lt;");   /////   disable html tags
 cryptedClipboard.replace(QRegExp("\n"),"<br>");
 if (KDE_VERSION >= 310)
@@ -170,17 +170,17 @@ else
               clippop->setMinimumWidth(250);
               clippop->adjustSize();
 			  clippop->show();
- QTimer::singleShot( 3000, this, SLOT(killDisplayClip())); 
+ QTimer::singleShot( 3000, this, SLOT(killDisplayClip()));
  }
  //KMessageBox::information(this,i18n("Encrypted following text:\n")+QString(clipContent.left(60).stripWhiteSpace())+"...");
  connect(kapp->clipboard(),SIGNAL(dataChanged ()),this,SLOT(expressQuit()));
  }
- else 
+ else
 {
 KMessageBox::sorry(0,i18n("Clipboard is empty"));
 exit(0);
 }
-}	
+}
 
 void KgpgApp::killDisplayClip()
 {
@@ -306,7 +306,7 @@ void KgpgApp::openEncryptedDocumentFile(const KURL& url,QString userIDs)
       encryptedText=t.read();
       qfile.close();
 	  QString decrypted=KgpgInterface::KgpgDecryptText(encryptedText,userIDs);
-      if (!decrypted.isEmpty()) 
+      if (!decrypted.isEmpty())
 	  {
 	  view->editor->setText(decrypted);
       fileSave->setEnabled(false);
@@ -370,11 +370,11 @@ if (version==0) checkVersion();
       config->setGroup("TipOfDay");
       tipofday=config->readBoolEntry("RunOnStart",true);
       if (frun) firstrun();
-	else 
+	else
       if (!size.isEmpty())
         resize(size);
     }
-	
+
 }
 
 /////////////////////////////////////////////////////////////////////
@@ -387,12 +387,12 @@ void KgpgApp::firstrun()
   QString tst;
   char line[200];
   bool found=false;
-  
-kgpgOptions *opts=new kgpgOptions(this,0);  
-opts->checkMimes();
-delete opts;	  
 
-  
+kgpgOptions *opts=new kgpgOptions(this,0);
+opts->checkMimes();
+delete opts;
+
+
   fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
   while ( fgets( line, sizeof(line), fp))
     {
@@ -534,7 +534,7 @@ if (!url.filename().endsWith(".sig"))
 
 void KgpgApp::slotClip()
 {
-  
+
   QString text;
 
   // Copy text from the clipboard (paste)
@@ -553,7 +553,7 @@ void KgpgApp::slotClip()
 
 void KgpgApp::slotManageKey()
 {
-    /////////// open key management window --> listkeys.cpp	
+    /////////// open key management window --> listkeys.cpp
    listKeys * keydialogue = new listKeys(this, "key_manager",WShowModal | WType_Dialog);
    keydialogue->show();
 }
@@ -626,7 +626,7 @@ void KgpgApp::slotFileSaveAs()
       QFile f(filn.local8Bit());
       if (f.exists())
         {
-          QString message=i18n("Overwrite existing file %1 ?").arg(url.filename());
+          QString message=i18n("Overwrite existing file %1?").arg(url.filename());
           int result=KMessageBox::warningContinueCancel(this,QString(message),i18n("Warning"),i18n("Overwrite"));
           if (result==KMessageBox::Cancel)
             return;
@@ -697,7 +697,7 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool shred,bool sym
   //////////////////              encode from file
   if ((selec==NULL) && (symetric==false))
     {
-      KMessageBox::sorry(0,i18n("You have not choosen an encryption key..."));
+      KMessageBox::sorry(0,i18n("You have not chosen an encryption key..."));
       return;
     }
 
@@ -743,14 +743,14 @@ void KgpgApp::shredprocessenc(bool res)
 
   if (res==false)
     {
-      KMessageBox::sorry(0,i18n("There was an error encrypting the file\nChek the key and your permissions"));
+      KMessageBox::sorry(0,i18n("There was an error encrypting the file.\nCheck the key and your permissions."));
 if (commandLineMode==true) kapp->exit(0);
     }
   else
     {
       //KMessageBox::sorry(0,"shred");
       KShred *shredres=new KShred(urlselected.path().local8Bit());
-      if (shredres->shred()==false) KMessageBox::sorry(0,i18n("The source file could not be shredded\nChek your permissions"));
+      if (shredres->shred()==false) KMessageBox::sorry(0,i18n("The source file could not be shredded.\nCheck your permissions."));
 if (commandLineMode==true) kapp->exit(0);
     }
 }
@@ -759,7 +759,7 @@ if (commandLineMode==true) kapp->exit(0);
 void KgpgApp::processenc(bool res)
 {
   if (res==false)
-    KMessageBox::sorry(0,i18n("There was an error encrypting the file\nChek the key and your permissions"));
+    KMessageBox::sorry(0,i18n("There was an error encrypting the file.\nCheck the key and your permissions."));
   if (commandLineMode==true)
     kapp->exit(0);
 }
@@ -828,7 +828,7 @@ QString enckey=KgpgInterface::extractKeyName(urlselected);
   decpassuid=enckey;
   KgpgInterface *decryptFileProcess=new KgpgInterface();
   int decresult=0;
-  if (enckey.isEmpty()) enckey=i18n("[No user ID found]"); 
+  if (enckey.isEmpty()) enckey=i18n("[No user ID found]");
   decpasssrc=urlselected;
   if (!newname.isEmpty()) ////////////////////   decrypt to file
   {
@@ -883,7 +883,7 @@ void KgpgApp::processdec2(bool res)
 void KgpgApp::processdec3(bool res)
 {
   if (res==false)
-    KMessageBox::sorry(0,i18n("There was an error decrypting the file\nChek the key and your permissions"));
+    KMessageBox::sorry(0,i18n("There was an error decrypting the file.\nCheck the key and your permissions."));
  if (fastact==true) kapp->exit(0);
 }
 
