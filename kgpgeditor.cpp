@@ -463,8 +463,8 @@ void KgpgApp::slotVerifyFile(KURL url)
 
 void KgpgApp::importSignatureKey(QString ID)
 {
-        keyServer *kser=new keyServer(0,"server_dialog",false,WDestructiveClose);
-        kser->kLEimportid->setText(ID);
+        keyServer *kser=new keyServer(0,"server_dialog",false);
+        kser->page->kLEimportid->setText(ID);
         kser->slotImport();
 }
 

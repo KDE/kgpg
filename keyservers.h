@@ -18,29 +18,22 @@
 #ifndef KEYSERVERS_H
 #define KEYSERVERS_H
 
+#include <klistview.h>
 
 #include "keyserver.h"
 #include "searchres.h"
 #include "kgpginterface.h"
 #include "detailedconsole.h"
 
-class KConfig;
-class KProcIO;
 
-class KeyServer;
-class QStatusBar;
-class QLabel;
-class KListViewItem;
-class QDialog;
-
-class keyServer : public Keyserver
+class keyServer : public KDialogBase
 {
         Q_OBJECT
 public:
-        keyServer(QWidget *parent=0, const char *name=0,bool modal=false, WFlags f = 0);
+        keyServer(QWidget *parent=0, const char *name=0,bool modal=false);
         ~keyServer();
         QDialog *importpop;
-
+	keyServerWidget *page;
 
 public slots:
         void abortImport();
@@ -62,17 +55,15 @@ public slots:
         void slotEnableProxyI(bool on);
         void slotEnableProxyE(bool on);
         void handleQuit();
-    void slotTextChanged( const QString &text);
+    	void slotTextChanged( const QString &text);
+
 private:
 
         KConfig *config;
         uint keyNumbers;
         QString readmessage;
         KProcIO *importproc,*exportproc;
-
-        KeyServer *listpop;
-        QStatusBar *sBar;
-        QLabel *statusmsg;
+        searchRes *listpop;
         int count;
         bool cycle;
         KListViewItem *kitem;

@@ -42,31 +42,33 @@
 #include <kconfig.h>
 #include <klineedit.h>
 
-keyServer::keyServer(QWidget *parent, const char *name,bool modal,WFlags f):Keyserver( parent, name,modal,f)
+keyServer::keyServer(QWidget *parent, const char *name,bool modal):KDialogBase( Swallow, i18n("Key Server"), Close, Close, parent, name,modal)
 {
         config=kapp->config();
 
+	page=new keyServerWidget();
+	setMainWidget(page);
+	
         syncCombobox();
-        kLEimportid->setFocus();
+        page->kLEimportid->setFocus();
 
+        connect(page->Buttonimport,SIGNAL(clicked()),this,SLOT(slotImport()));
+        connect(page->Buttonsearch,SIGNAL(clicked()),this,SLOT(slotSearch()));
+        connect(page->Buttonexport,SIGNAL(clicked()),this,SLOT(slotExport()));
+        connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 
-        connect(Buttonimport,SIGNAL(clicked()),this,SLOT(slotImport()));
-        connect(Buttonsearch,SIGNAL(clicked()),this,SLOT(slotSearch()));
-        connect(Buttonexport,SIGNAL(clicked()),this,SLOT(slotExport()));
-        connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotOk()));
+        connect(page->cBproxyI,SIGNAL(toggled(bool)),this,SLOT(slotEnableProxyI(bool)));
+        connect(page->cBproxyE,SIGNAL(toggled(bool)),this,SLOT(slotEnableProxyE(bool)));
 
-        connect(cBproxyI,SIGNAL(toggled(bool)),this,SLOT(slotEnableProxyI(bool)));
-        connect(cBproxyE,SIGNAL(toggled(bool)),this,SLOT(slotEnableProxyE(bool)));
-
-        connect(  kLEimportid,  SIGNAL( textChanged ( const QString & )), this,  SLOT( slotTextChanged( const QString &)));
+        connect(page->kLEimportid,  SIGNAL( textChanged ( const QString & )), this,  SLOT( slotTextChanged( const QString &)));
         const char *httpproxy = getenv("http_proxy");
         if (httpproxy) {
-                cBproxyI->setEnabled(true);
-                cBproxyE->setEnabled(true);
-                cBproxyI->setChecked(true);
-                cBproxyE->setChecked(true);
-                kLEproxyI->setText(httpproxy);
-                kLEproxyE->setText(httpproxy);
+                page->cBproxyI->setEnabled(true);
+                page->cBproxyE->setEnabled(true);
+                page->cBproxyI->setChecked(true);
+                page->cBproxyE->setChecked(true);
+                page->kLEproxyI->setText(httpproxy);
+                page->kLEproxyE->setText(httpproxy);
         }
 
 
@@ -74,9 +76,9 @@ keyServer::keyServer(QWidget *parent, const char *name,bool modal,WFlags f):Keys
         *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--with-colon"<<"--list-keys";
         QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
         encid->start(KProcess::NotifyOnExit,true);
-        Buttonimport->setEnabled( !kLEimportid->text().isEmpty());
-        Buttonsearch->setEnabled( !kLEimportid->text().isEmpty());
-
+        page->Buttonimport->setEnabled( !page->kLEimportid->text().isEmpty());
+        page->Buttonsearch->setEnabled( !page->kLEimportid->text().isEmpty());
+setMinimumSize(sizeHint());
 }
 
 
@@ -86,18 +88,18 @@ keyServer::~keyServer()
 
 void keyServer::slotTextChanged( const QString &text)
 {
-    Buttonimport->setEnabled( !text.isEmpty());
-    Buttonsearch->setEnabled( !text.isEmpty());
+    page->Buttonimport->setEnabled( !text.isEmpty());
+    page->Buttonsearch->setEnabled( !text.isEmpty());
 
 }
 void keyServer::slotEnableProxyI(bool on)
 {
-        kLEproxyI->setEnabled(on);
+        page->kLEproxyI->setEnabled(on);
 }
 
 void keyServer::slotEnableProxyE(bool on)
 {
-        kLEproxyE->setEnabled(on);
+        page->kLEproxyE->setEnabled(on);
 }
 
 
@@ -136,58 +138,60 @@ void keyServer::slotprocread(KProcIO *p)
                                 tst+="...";
                         }
                         if ((!dead) && (!tst.isEmpty()))
-                                kCBexportkey->insertItem(id+": "+tst);
+                                page->kCBexportkey->insertItem(id+": "+tst);
                 }
         }
 }
 
 void keyServer::slotSearch()
 {
-        if (kCBimportks->currentText().isEmpty())
+        if (page->kCBimportks->currentText().isEmpty())
                 return;
 
-        if (kLEimportid->text().isEmpty()) {
+        if (page->kLEimportid->text().isEmpty()) {
                 KMessageBox::sorry(this,i18n("You must enter a search string."));
                 return;
         }
 
-        listpop = new KeyServer( this,"result",WType_Dialog | WShowModal);
-        //KStatusBar *searchStatusBar=new KStatusBar(listpop);
+        //listpop = new KeyServer( this,"result",WType_Dialog | WShowModal);
+	
+	KDialogBase *dialogServer=new KDialogBase(KDialogBase::Swallow, i18n("Key Properties"),  KDialogBase::Ok | KDialogBase::Close,KDialogBase::Ok,this,0,true);
+	
+	dialogServer->setButtonText(KDialogBase::Ok,i18n("&Import"));
+	listpop=new searchRes();
         listpop->setMinimumWidth(250);
-        listpop->adjustSize();
-        sBar=listpop->statusBar();
-        sBar->setSizeGripEnabled(false);
-        statusmsg = new QLabel(sBar);
-        sBar->addWidget(statusmsg,3,true);
-        statusmsg->setText(i18n("Connecting to the server..."));
-        //sBar->message(i18n("Connecting to the server..."));
-        sBar->show();
-
-        listpop->show();
+        //§listpop->adjustSize();
+        listpop->statusText->setText(i18n("Connecting to the server..."));
+        
+        
         connect(listpop->kLVsearch,SIGNAL(selectionChanged()),this,SLOT(transferKeyID()));
-        connect(listpop->buttonOk,SIGNAL(clicked()),this,SLOT(preimport()));
+        connect(dialogServer,SIGNAL(okClicked()),this,SLOT(preimport()));
         connect(listpop->kLVsearch,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(preimport()));
         connect(listpop->kLVsearch,SIGNAL(returnPressed ( QListViewItem * )),this,SLOT(preimport()));
 
-        connect(listpop->buttonCancel,SIGNAL(clicked()),this,SLOT(handleQuit()));
+        connect(dialogServer,SIGNAL(closeClicked()),this,SLOT(handleQuit()));
         connect( listpop , SIGNAL( destroyed() ) , this, SLOT( abortSearch()));
         count=0;
         cycle=false;
         readmessage=QString::null;
         KProcIO *searchproc=new KProcIO();
-        QString keyserv=kCBimportks->currentText();
+        QString keyserv=page->kCBimportks->currentText();
         *searchproc<<"gpg";
-        if (cBproxyI->isChecked()) {
-                searchproc->setEnvironment("http_proxy",kLEproxyI->text());
+        if (page->cBproxyI->isChecked()) {
+                searchproc->setEnvironment("http_proxy",page->kLEproxyI->text());
                 *searchproc<<	"--keyserver-options"<<"honor-http-proxy";
         } else
                 *searchproc<<	"--keyserver-options"<<"no-honor-http-proxy";
-        *searchproc<<"--keyserver"<<keyserv<<"--command-fd=0"<<"--status-fd=2"<<"--search-keys"<<kLEimportid->text().stripWhiteSpace().local8Bit();
+        *searchproc<<"--keyserver"<<keyserv<<"--command-fd=0"<<"--status-fd=2"<<"--search-keys"<<page->kLEimportid->text().stripWhiteSpace().local8Bit();
 
         keyNumbers=0;
         QObject::connect(searchproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotsearchresult(KProcess *)));
         QObject::connect(searchproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotsearchread(KProcIO *)));
         searchproc->start(KProcess::NotifyOnExit,true);
+	
+	dialogServer->setMainWidget(listpop);
+	listpop->setMinimumSize(listpop->sizeHint());
+        dialogServer->exec();
 }
 
 void keyServer::handleQuit()
@@ -211,7 +215,7 @@ void keyServer::preimport()
                 KMessageBox::sorry(this,i18n("You must choose a key."));
                 return;
         }
-        kLEimportid->setText(listpop->kLEID->text());
+        page->kLEimportid->setText(listpop->kLEID->text());
         listpop->close();
         slotImport();
 }
@@ -236,7 +240,7 @@ void keyServer::slotsearchresult(KProcess *)
         QString nb;
         nb=nb.setNum(keyNumbers);
         //listpop->kLVsearch->setColumnText(0,i18n("Found %1 matching keys").arg(nb));
-        statusmsg->setText(i18n("Found %1 matching keys").arg(nb));
+        listpop->statusText->setText(i18n("Found %1 matching keys").arg(nb));
 
         if (listpop->kLVsearch->firstChild()!=NULL) {
                 listpop->kLVsearch->setSelected(listpop->kLVsearch->firstChild(),true);
@@ -289,19 +293,19 @@ void keyServer::slotsearchread(KProcIO *p)
 
 void keyServer::slotExport()
 {
-        if (kCBexportks->currentText().isEmpty())
+        if (page->kCBexportks->currentText().isEmpty())
                 return;
         readmessage=QString::null;
         exportproc=new KProcIO();
-        QString keyserv=kCBexportks->currentText();
+        QString keyserv=page->kCBexportks->currentText();
 
         *exportproc<<"gpg";
-        if (cBproxyE->isChecked()) {
-                exportproc->setEnvironment("http_proxy",kLEproxyE->text());
+        if (page->cBproxyE->isChecked()) {
+                exportproc->setEnvironment("http_proxy",page->kLEproxyE->text());
                 *exportproc<<	"--keyserver-options"<<"honor-http-proxy";
         } else
                 *exportproc<<	"--keyserver-options"<<"no-honor-http-proxy";
-        *exportproc<<"--status-fd=2"<<"--keyserver"<<keyserv<<"--send-keys"<<kCBexportkey->currentText().section(':',0,0);
+        *exportproc<<"--status-fd=2"<<"--keyserver"<<keyserv<<"--send-keys"<<page->kCBexportkey->currentText().section(':',0,0);
 
         QObject::connect(exportproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotexportresult(KProcess *)));
         QObject::connect(exportproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotimportread(KProcIO *)));
@@ -317,7 +321,7 @@ void keyServer::slotExport()
         importpop->setMinimumWidth(250);
         importpop->adjustSize();
         importpop->show();
-        connect(Buttonabort,SIGNAL(clicked()),this,SLOT(abortExport()));
+        connect(Buttonabort,SIGNAL(clicked ()),this,SLOT(abortExport()));
 }
 
 void keyServer::abortExport()
@@ -338,25 +342,25 @@ void keyServer::slotexportresult(KProcess*)
 
 void keyServer::slotImport()
 {
-        if (kCBimportks->currentText().isEmpty())
+        if (page->kCBimportks->currentText().isEmpty())
                 return;
-        if (kLEimportid->text().isEmpty()) {
+        if (page->kLEimportid->text().isEmpty()) {
                 KMessageBox::sorry(this,i18n("You must enter a search string."));
                 return;
         }
         readmessage=QString::null;
         importproc=new KProcIO();
-        QString keyserv=kCBimportks->currentText();
+        QString keyserv=page->kCBimportks->currentText();
 
         *importproc<<"gpg";
-        if (cBproxyI->isChecked()) {
-                importproc->setEnvironment("http_proxy",kLEproxyI->text());
+        if (page->cBproxyI->isChecked()) {
+                importproc->setEnvironment("http_proxy",page->kLEproxyI->text());
                 *importproc<<	"--keyserver-options"<<"honor-http-proxy";
         } else
                 *importproc<<	"--keyserver-options"<<"no-honor-http-proxy";
 
         *importproc<<"--status-fd=2"<<"--keyserver"<<keyserv<<"--recv-keys";
-        QString keyNames=kLEimportid->text();
+        QString keyNames=page->kLEimportid->text();
         keyNames=keyNames.stripWhiteSpace();
         keyNames=keyNames.simplifyWhiteSpace();
         while (!keyNames.isEmpty()) {
@@ -474,17 +478,17 @@ QString servers;
         QString optionsServer=KgpgInterface::getGpgSetting("keyserver",confPath);
 	        if (optionsServer.isEmpty())
 		optionsServer="hkp://wwwkeys.pgp.net";
-		kCBexportks->insertItem(optionsServer);
-                kCBimportks->insertItem(optionsServer);
+		page->kCBexportks->insertItem(optionsServer);
+                page->kCBimportks->insertItem(optionsServer);
 	servers=config->readEntry("key_server2","hkp://wwwkeys.eu.pgp.net");
         if (!servers.isEmpty()) {
-                kCBexportks->insertItem(servers);
-                kCBimportks->insertItem(servers);
+                page->kCBexportks->insertItem(servers);
+                page->kCBimportks->insertItem(servers);
         }
 	servers=config->readEntry("key_server3","hkp://wwwkeys.us.pgp.net");
         if (!servers.isEmpty()) {
-                kCBexportks->insertItem(servers);
-                kCBimportks->insertItem(servers);
+                page->kCBexportks->insertItem(servers);
+                page->kCBimportks->insertItem(servers);
         }
 }
 

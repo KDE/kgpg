@@ -106,7 +106,7 @@ void  MyView::openKeyServer()
 {
         if(!m_keyServer) {
                 //keyServer *ks
-                m_keyServer=new keyServer(0,"server_dialog",false,WDestructiveClose);
+                m_keyServer=new keyServer(0,"server_dialog",false);
                 connect( m_keyServer , SIGNAL( destroyed() ) , this, SLOT( slotKeyServerClosed()));
         }
         m_keyServer->show();
@@ -303,8 +303,8 @@ void  MyView::slotVerifyFile()
 
 void  MyView::importSignature(QString ID)
 {
-        keyServer *kser=new keyServer(0,"server_dialog",false,WDestructiveClose);
-        kser->kLEimportid->setText(ID);
+        keyServer *kser=new keyServer(0,"server_dialog",false);
+        kser->page->kLEimportid->setText(ID);
         kser->slotImport();
 }
 

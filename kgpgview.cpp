@@ -277,8 +277,8 @@ void KgpgView::clearSign()
 
                                 if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
                                                                       "Do you want to import this key from a keyserver?</qt>").arg(lineRead),i18n("Missing Key"))==KMessageBox::Yes) {
-                                        keyServer *kser=new keyServer(0,"server_dialog",false,WDestructiveClose);
-                                        kser->kLEimportid->setText(lineRead);
+                                        keyServer *kser=new keyServer(0,"server_dialog",false);
+                                        kser->page->kLEimportid->setText(lineRead);
                                         kser->slotImport();
                                 }
                                 return;

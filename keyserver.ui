@@ -1,28 +1,25 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
-<class>Keyserver</class>
-<widget class="QDialog">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>keyServerWidget</class>
+<widget class="QWidget">
     <property name="name">
-        <cstring>KeyServer</cstring>
+        <cstring>keyServerWidget</cstring>
     </property>
     <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>401</width>
-            <height>286</height>
+            <width>444</width>
+            <height>276</height>
         </rect>
     </property>
     <property name="caption">
-        <string>Key Server Operation</string>
-    </property>
-    <property name="sizeGripEnabled">
-        <bool>false</bool>
+        <string>Form2</string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QTabWidget" row="0" column="0" rowspan="1" colspan="2">
+        <widget class="QTabWidget" row="0" column="0">
             <property name="name">
                 <cstring>tabWidget2</cstring>
             </property>
@@ -39,7 +36,7 @@
                     </property>
                     <widget class="QLabel" row="2" column="0" rowspan="1" colspan="4">
                         <property name="name">
-                            <cstring>textLabel1_2_2</cstring>
+                            <cstring>textLabel2</cstring>
                         </property>
                         <property name="frameShape">
                             <enum>NoFrame</enum>
@@ -67,7 +64,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                     </widget>
                     <widget class="QLabel" row="0" column="0" rowspan="1" colspan="4">
                         <property name="name">
-                            <cstring>textLabel1_3</cstring>
+                            <cstring>textLabel1</cstring>
                         </property>
                         <property name="text">
                             <string>Key server:</string>
@@ -86,6 +83,9 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                         <property name="text">
                             <string>&amp;Search</string>
                         </property>
+                        <property name="accel">
+                            <string>Alt+S</string>
+                        </property>
                         <property name="default">
                             <bool>true</bool>
                         </property>
@@ -97,10 +97,13 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                         <property name="text">
                             <string>&amp;Import</string>
                         </property>
+                        <property name="accel">
+                            <string>Alt+I</string>
+                        </property>
                     </widget>
                     <spacer row="5" column="0">
                         <property name="name">
-                            <cstring>spacer2_2</cstring>
+                            <cstring>spacer2_2_3</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -117,7 +120,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                     </spacer>
                     <spacer row="5" column="3">
                         <property name="name">
-                            <cstring>spacer2_2_2</cstring>
+                            <cstring>spacer2_2_2_2</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -134,7 +137,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                     </spacer>
                     <spacer row="6" column="3">
                         <property name="name">
-                            <cstring>spacer4_2</cstring>
+                            <cstring>spacer4_2_2</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Horizontal</enum>
@@ -199,10 +202,13 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                         <property name="text">
                             <string>&amp;Export</string>
                         </property>
+                        <property name="accel">
+                            <string>Alt+E</string>
+                        </property>
                     </widget>
                     <spacer row="6" column="1" rowspan="1" colspan="2">
                         <property name="name">
-                            <cstring>spacer4</cstring>
+                            <cstring>spacer4_3</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Horizontal</enum>
@@ -229,7 +235,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                     </widget>
                     <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
                         <property name="name">
-                            <cstring>textLabel1</cstring>
+                            <cstring>textLabel3</cstring>
                         </property>
                         <property name="text">
                             <string>Key server:</string>
@@ -237,7 +243,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                     </widget>
                     <widget class="QLabel" row="2" column="0" rowspan="1" colspan="3">
                         <property name="name">
-                            <cstring>textLabel1_2</cstring>
+                            <cstring>textLabel4</cstring>
                         </property>
                         <property name="text">
                             <string>Key to be exported:</string>
@@ -275,7 +281,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                     </widget>
                     <spacer row="5" column="0">
                         <property name="name">
-                            <cstring>spacer2</cstring>
+                            <cstring>spacer2_4</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -292,7 +298,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                     </spacer>
                     <spacer row="5" column="2">
                         <property name="name">
-                            <cstring>spacer2_3</cstring>
+                            <cstring>spacer2_3_2</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -310,60 +316,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                 </grid>
             </widget>
         </widget>
-        <spacer row="1" column="0">
-            <property name="name">
-                <cstring>Horizontal Spacing2</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Horizontal</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>232</width>
-                    <height>20</height>
-                </size>
-            </property>
-        </spacer>
-        <widget class="QPushButton" row="1" column="1">
-            <property name="name">
-                <cstring>buttonOk</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Close</string>
-            </property>
-            <property name="accel">
-                <string>Alt+C</string>
-            </property>
-            <property name="autoDefault">
-                <bool>true</bool>
-            </property>
-            <property name="default">
-                <bool>false</bool>
-            </property>
-        </widget>
     </grid>
 </widget>
-<tabstops>
-    <tabstop>buttonOk</tabstop>
-    <tabstop>tabWidget2</tabstop>
-    <tabstop>kCBimportks</tabstop>
-    <tabstop>kLEimportid</tabstop>
-    <tabstop>Buttonimport</tabstop>
-    <tabstop>Buttonsearch</tabstop>
-    <tabstop>Buttonexport</tabstop>
-    <tabstop>kCBexportks</tabstop>
-    <tabstop>kCBexportkey</tabstop>
-</tabstops>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kcombobox.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>kcombobox.h</includehint>
-    <includehint>klineedit.h</includehint>
-</includehints>
 </UI>

@@ -1,72 +1,25 @@
-<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
-<class>KeyServer</class>
-<widget class="QMainWindow">
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>searchRes</class>
+<widget class="QWidget">
     <property name="name">
-        <cstring>searchres</cstring>
+        <cstring>searchRes</cstring>
     </property>
     <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>381</width>
-            <height>275</height>
+            <width>402</width>
+            <height>291</height>
         </rect>
     </property>
     <property name="caption">
-        <string>Search Result</string>
+        <string>Form3</string>
     </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLabel" row="1" column="0">
-            <property name="name">
-                <cstring>textLabel1</cstring>
-            </property>
-            <property name="text">
-                <string>Key to import:</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="1" column="2">
-            <property name="name">
-                <cstring>buttonOk</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Import</string>
-            </property>
-            <property name="accel">
-                <string>Alt+I</string>
-            </property>
-            <property name="autoDefault">
-                <bool>true</bool>
-            </property>
-            <property name="default">
-                <bool>true</bool>
-            </property>
-        </widget>
-        <widget class="QPushButton" row="1" column="3">
-            <property name="name">
-                <cstring>buttonCancel</cstring>
-            </property>
-            <property name="text">
-                <string>&amp;Cancel</string>
-            </property>
-            <property name="accel">
-                <string></string>
-            </property>
-            <property name="autoDefault">
-                <bool>false</bool>
-            </property>
-        </widget>
-        <widget class="KLineEdit" row="1" column="1">
-            <property name="name">
-                <cstring>kLEID</cstring>
-            </property>
-            <property name="maxLength">
-                <number>8</number>
-            </property>
-        </widget>
-        <widget class="KListView" row="0" column="0" rowspan="1" colspan="4">
+        <widget class="KListView" row="1" column="0" rowspan="1" colspan="2">
             <column>
                 <property name="text">
                     <string>Keys</string>
@@ -94,19 +47,35 @@
                 <bool>true</bool>
             </property>
         </widget>
+        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>statusText</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Key to import:</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="2" column="1">
+            <property name="name">
+                <cstring>kLEID</cstring>
+            </property>
+            <property name="maxLength">
+                <number>8</number>
+            </property>
+        </widget>
     </grid>
 </widget>
-<toolbars>
-</toolbars>
 <tabstops>
     <tabstop>kLVsearch</tabstop>
     <tabstop>kLEID</tabstop>
-    <tabstop>buttonOk</tabstop>
-    <tabstop>buttonCancel</tabstop>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>klineedit.h</includehint>
-    <includehint>klistview.h</includehint>
-</includehints>
 </UI>

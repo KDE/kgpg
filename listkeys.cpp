@@ -609,6 +609,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         setCentralWidget(page);
         keysList2->restoreLayout(config,"KeyView");
 
+	QObject::connect(keysList2,SIGNAL(returnPressed(QListViewItem *)),this,SLOT(listsigns()));
         QObject::connect(keysList2,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(listsigns()));
         QObject::connect(keysList2,SIGNAL(selectionChanged ()),this,SLOT(checkList()));
         QObject::connect(keysList2,SIGNAL(contextMenuRequested(QListViewItem *,const QPoint &,int)),
@@ -910,6 +911,7 @@ void listKeys::closeEvent ( QCloseEvent * e )
 
 void listKeys::keyserver()
 {
+
         keyServer *ks=new keyServer(this);
         ks->exec();
         if (ks)
@@ -1160,11 +1162,19 @@ void listKeys::slotrevoke(QString keyID,QString revokeUrl,int reason,QString des
 
 void listKeys::revokeWidget()
 {
-        KgpgRevokeWidget *keyRevoke=new KgpgRevokeWidget(this);
-        keyRevoke->keyID->setText(keysList2->currentItem()->text(0)+" ("+keysList2->currentItem()->text(1)+") "+i18n("ID: ")+keysList2->currentItem()->text(6));
+	
+KDialogBase *keyRevokeWidget=new KDialogBase(KDialogBase::Swallow, i18n("Create Revocation Certificate"),  KDialogBase::Ok | KDialogBase::Cancel,KDialogBase::Ok,this,0,true);
+
+        KgpgRevokeWidget *keyRevoke=new KgpgRevokeWidget();
+        
+	keyRevoke->keyID->setText(keysList2->currentItem()->text(0)+" ("+keysList2->currentItem()->text(1)+") "+i18n("ID: ")+keysList2->currentItem()->text(6));
         keyRevoke->kURLRequester1->setURL(QDir::homeDirPath()+"/"+keysList2->currentItem()->text(1).section('@',0,0)+".revoke");
         keyRevoke->kURLRequester1->setMode(KFile::File);
-        if (keyRevoke->exec()!=QDialog::Accepted)
+	
+	keyRevokeWidget->setMainWidget(keyRevoke);
+	keyRevoke->setMinimumSize(keyRevoke->sizeHint());
+	
+        if (keyRevokeWidget->exec()!=QDialog::Accepted)
                 return;
         if (keyRevoke->cbSave->isChecked()) {
                 slotrevoke(keysList2->currentItem()->text(6),keyRevoke->kURLRequester1->url(),keyRevoke->comboBox1->currentItem(),keyRevoke->textDescription->text());
@@ -1352,6 +1362,7 @@ void listKeys::slotShowPhoto()
 
 void listKeys::listsigns()
 {
+//kdDebug()<<"Edit -------------------------------"<<endl;
         if (keysList2->currentItem()==NULL)
                 return;
         if (keysList2->currentItem()->depth()!=0) {
@@ -1427,7 +1438,7 @@ void listKeys::groupChange()
 void listKeys::createNewGroup()
 {
         QStringList badkeys,keysGroup;
-        kdDebug()<<"creating a new group"<<endl;
+        
         if (keysList2->selectedItems().count()>0) {
                 QPtrList<QListViewItem> groupList=keysList2->selectedItems();
                 bool keyDepth=true;
@@ -1471,12 +1482,8 @@ void listKeys::createNewGroup()
 void listKeys::groupInit(QStringList keysGroup)
 {
         kdDebug()<<"preparing group"<<endl;
-        QString groupName;
-
-        QString groupKeyList=keysGroup.join(" ");
-        QString searchString;
         QStringList lostKeys;
-        bool foundId;
+	bool foundId;
 
         for ( QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it ) {
 
@@ -1501,11 +1508,17 @@ void listKeys::groupInit(QStringList keysGroup)
 void listKeys::editGroup()
 {
         QStringList keysGroup;
-        gEdit=new groupEdit(this);
+	
+	KDialogBase *dialogGroupEdit=new KDialogBase(KDialogBase::Swallow, i18n("Key Properties"), KDialogBase::Ok | KDialogBase::Cancel,KDialogBase::Ok,this,0,true);
+	
+	gEdit=new groupEdit();
+	gEdit->buttonAdd->setPixmap(KGlobal::iconLoader()->loadIcon("forward",KIcon::Small,20));
+	gEdit->buttonRemove->setPixmap(KGlobal::iconLoader()->loadIcon("back",KIcon::Small,20));
+
         //connect(gEdit->groupKeys,SIGNAL(dropped (QDropEvent *, QListViewItem *)),this,SLOT(GroupAdd(QDropEvent *, QListViewItem *)));
         connect(gEdit->buttonAdd,SIGNAL(clicked()),this,SLOT(groupAdd()));
         connect(gEdit->buttonRemove,SIGNAL(clicked()),this,SLOT(groupRemove()));
-        connect(gEdit->buttonOk,SIGNAL(clicked()),this,SLOT(groupChange()));
+//        connect(dialogGroupEdit->okClicked(),SIGNAL(clicked()),this,SLOT(groupChange()));
         connect(gEdit->availableKeys,SIGNAL(doubleClicked (QListViewItem *, const QPoint &, int)),this,SLOT(groupAdd()));
         connect(gEdit->groupKeys,SIGNAL(doubleClicked (QListViewItem *, const QPoint &, int)),this,SLOT(groupRemove()));
         QListViewItem *item=keysList2->firstChild();
@@ -1524,8 +1537,11 @@ void listKeys::editGroup()
         }
         keysGroup=KgpgInterface::getGpgGroupSetting(keysList2->currentItem()->text(0),keysList2->configFilePath);
         groupInit(keysGroup);
-        gEdit->exec();
-        delete gEdit;
+	
+	dialogGroupEdit->setMainWidget(gEdit);
+	gEdit->setMinimumSize(gEdit->sizeHint());
+        if (dialogGroupEdit->exec()==QDialog::Accepted) groupChange();
+        delete dialogGroupEdit;
 }
 
 void listKeys::signkey()
@@ -1675,8 +1691,8 @@ void listKeys::preimportsignkey()
 void listKeys::importsignkey(QString importKeyId)
 {
         ///////////////  sign a key
-        kServer=new keyServer(0,"server_dialog",false,WDestructiveClose);
-        kServer->kLEimportid->setText(importKeyId);
+        kServer=new keyServer(0,"server_dialog",false);
+        kServer->page->kLEimportid->setText(importKeyId);
         //kServer->Buttonimport->setDefault(true);
         kServer->slotImport();
         //kServer->show();
