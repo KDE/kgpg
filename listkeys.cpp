@@ -35,6 +35,7 @@
 #include <kfiledialog.h>
 #include <kprocess.h>
 #include <kshortcut.h>
+#include <kdeversion.h>
 
 #include "listkeys.h"
 #include "kgpginterface.h"
@@ -577,9 +578,10 @@ keysList2 = new KeyView(page);
   KAction *generateKey = new KAction(i18n("&Generate key pair"), "kgpg_gen", 0,this, SLOT(slotgenkey()),actionCollection(),"key_gener");
   KToggleAction *togglePhoto= new KToggleAction(i18n("&Show photos"), "imagegallery", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
 (void) new KAction(i18n("&Key Server dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
-  
+
   KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
-(void) new KToggleToolBarAction("mainToolBar",i18n("Show toolbar"), actionCollection(),"pref_toolbar");
+if (KDE_VERSION>=310)
+(void) new KToggleToolBarAction("mainToolBar",i18n("Show toolbar"), actionCollection(),"pref_toolbar"); ///  KDE 3.1 only
 
   
 

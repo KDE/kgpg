@@ -38,6 +38,13 @@
 #include <kapplication.h>
 #include <qclipboard.h>
 #include <qdialog.h>
+#include <qregexp.h>
+
+#include <kdeversion.h>
+
+#if (KDE_VERSION >= 310)
+#include <kpassivepopup.h>
+#endif
 
 
 
@@ -137,25 +144,34 @@ encryptOptions+=" --armor ";
         ++it;
     }
     delete list;
-QString cryptedClipboard=QString(clipContent.left(60).stripWhiteSpace());
- 
+
+QString cryptedClipboard;
+if (clipContent.length()>300) cryptedClipboard=QString(clipContent.left(250).stripWhiteSpace())+"...\n"+QString(clipContent.right(40).stripWhiteSpace());
+else cryptedClipboard=clipContent;
+
  QClipboard *clip=QApplication::clipboard();
  clip->setText(decresultat);//,QClipboard::Clipboard);    QT 3.1 only
  
-    clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
+cryptedClipboard.replace(QRegExp("<"),"&lt;");   /////   disable html tags
+cryptedClipboard.replace(QRegExp("\n"),"<br>");
+if (KDE_VERSION >= 310)
+KPassivePopup::message(i18n("Encrypted following text:"),cryptedClipboard,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this,0,3500);
+else
+{
+	clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
               QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
               QLabel *tex=new QLabel(clippop);
               tex->setText(i18n("<b>Encrypted following text:</b>"));
 			  QLabel *tex2=new QLabel(clippop);
-			  tex2->setTextFormat(Qt::PlainText);
-			  tex2->setText(cryptedClipboard+"...");
+			  //tex2->setTextFormat(Qt::PlainText);
+			  tex2->setText(cryptedClipboard);
               vbox->addWidget(tex);
 			  vbox->addWidget(tex2);
               clippop->setMinimumWidth(250);
               clippop->adjustSize();
 			  clippop->show();
  QTimer::singleShot( 3000, this, SLOT(killDisplayClip())); 
- 
+ }
  //KMessageBox::information(this,i18n("Encrypted following text:\n")+QString(clipContent.left(60).stripWhiteSpace())+"...");
  connect(kapp->clipboard(),SIGNAL(dataChanged ()),this,SLOT(expressQuit()));
  }
