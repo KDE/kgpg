@@ -1,5 +1,7 @@
-CVS
+Version 1.2
 
+-You can now choose encoding when saving/loading text in editor
+-New option to hide/show expired/disabled keys in key manager
 -Add color for revoked keys
 -Make colors configurable
 -Rewrote text signing and decryption processes.
@@ -12,7 +14,7 @@ CVS
 -verifying a signed text now tells if the key is trusted or not
 -multi file decryption now works
 -dropping a signed text over the applet automatically verfies it
--If there is a public key in clipboar, trying to decrypt it asks if user wants to import it
+-If there is a public key in clipboard, trying to decrypt it asks if user wants to import it
 -Can now change the editor font
 -Can now store more than 3 keyservers
 -added sign clipboard
