@@ -349,7 +349,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
 
     if (!selectedok)
         keysListpr->setSelected(keysListpr->firstChild(),true);
-	
+
     page->show();
     resize(this->minimumSize());
     setMainWidget(page);
@@ -530,7 +530,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     importAllSignKeys = new KAction(i18n("Import &Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
     refreshKey = new KAction(i18n("&Refresh Key(s) From Keyserver"),"reload", 0,this, SLOT(refreshKeyFromServer()),actionCollection(),"key_server_refresh");
 
-    (void) new KAction(i18n("&Create Group With Selected Keys"), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
+    (void) new KAction(i18n("&Create Group With Selected Keys..."), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
     KAction *delGroup= new KAction(i18n("&Delete Group"), 0, 0,this, SLOT(deleteGroup()),actionCollection(),"delete_group");
     KAction *editCurrentGroup= new KAction(i18n("&Edit Group"), 0, 0,this, SLOT(editGroup()),actionCollection(),"edit_group");
 
@@ -664,7 +664,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
     toolBar()->insertWidget( KAction::getToolButtonID(), searchLabel->sizeHint().width(), searchLabel);
     searchWidget=toolBar()->insertLined(QString::null,0, SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)),true,i18n("Filter Search"),10);
-    
+
     sTrust->setChecked(KGpgSettings::showTrust());
     sSize->setChecked(KGpgSettings::showSize());
     sCreat->setChecked(KGpgSettings::showCreat());
@@ -678,10 +678,10 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     keyStatusBar->changeItem("",1);
     QObject::connect(keysList2,SIGNAL(statusMessage(QString,int,bool)),this,SLOT(changeMessage(QString,int,bool)));
     QObject::connect(statusbarTimer,SIGNAL(timeout()),this,SLOT(statusBarTimeout()));
-    
+
     if (!KGpgSettings::showToolbar())
         toolBar()->hide();
-	
+
 	setAutoSaveSettings();
 }
 
@@ -713,7 +713,7 @@ void listKeys::keyFilter( const QString &filterStr)
         }
 	}
 	else
-	{	
+	{
         while (item)
         {
             if ((item->text(0).find(filterStr,0,false)==-1) && (item->text(1).find(filterStr,0,false)==-1))
@@ -737,7 +737,7 @@ void listKeys::keyFilter( const QString &filterStr)
             keysList2->setCurrentItem(item);
             keysList2->setSelected(item,true);
         }
-        
+
         keysList2->ensureItemVisible(keysList2->currentItem());
 }
 
@@ -898,7 +898,7 @@ void listKeys::refreshFinished()
 {
     if (kServer)
         kServer=0L;
-	
+
 	for ( uint i = 0; i < keysList.count(); ++i )
         if (keysList.at(i))
     	keysList2->refreshcurrentkey(keysList.at(i));
@@ -971,7 +971,7 @@ void listKeys::slotGpgError(QString errortxt)
 
 void listKeys::slotDeletePhoto()
 {
-    if (KMessageBox::questionYesNo(this,i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b> ?</qt>").arg(keysList2->currentItem()->text(6)).arg(keysList2->currentItem()->parent()->text(0)).arg(keysList2->currentItem()->parent()->text(1)),i18n("Warning"),i18n("Delete"))!=KMessageBox::Yes)
+    if (KMessageBox::warningContinueCancel(this,i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b> ?</qt>").arg(keysList2->currentItem()->text(6)).arg(keysList2->currentItem()->parent()->text(0)).arg(keysList2->currentItem()->parent()->text(1)),i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"))!=KMessageBox::Continue)
         return;
 
     KgpgInterface *delPhotoProcess=new KgpgInterface();
@@ -1020,7 +1020,7 @@ void listKeys::slotSetPhotoSize(int size)
 	QListViewItem *newdefChild = newdef->firstChild();
 	while (newdefChild)
 	{
-	if (newdefChild->text(0)==i18n("Photo id")) 
+	if (newdefChild->text(0)==i18n("Photo id"))
 	{
 	hasphoto=true;
 	break;
@@ -1331,14 +1331,14 @@ void listKeys::readOptions()
     clipboardMode=QClipboard::Clipboard;
     if (KGpgSettings::useMouseSelection() && (kapp->clipboard()->supportsSelection()))
         clipboardMode=QClipboard::Selection;
-	
+
     ///////  re-read groups in case the config file location was changed
     QStringList groups=KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
     KGpgSettings::setGroups(groups.join(","));
     keysList2->groupNb=groups.count();
     if (keyStatusBar)
     changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount()-keysList2->groupNb).arg(keysList2->groupNb),1);
-    
+
     showTipOfDay= KGpgSettings::showTipOfDay();
 }
 
@@ -1747,8 +1747,8 @@ void listKeys::deleteGroup()
     if (!keysList2->currentItem()->text(6).isEmpty())
         return;
 
-    int result=KMessageBox::questionYesNo(this,i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>").arg(keysList2->currentItem()->text(0)),i18n("Warning"),i18n("Delete"));
-    if (result!=KMessageBox::Yes)
+    int result=KMessageBox::warningContinueCancel(this,i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>").arg(keysList2->currentItem()->text(0)),i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"));
+    if (result!=KMessageBox::Continue)
         return;
     KgpgInterface::delGpgGroup(keysList2->currentItem()->text(0), KGpgSettings::gpgConfigPath());
     QListViewItem *item=keysList2->currentItem()->nextSibling();
@@ -1817,7 +1817,7 @@ void listKeys::createNewGroup()
             KGpgSettings::setGroups(groups.join(","));
             keysList2->refreshgroups();
 	    QListViewItem *newgrp = keysList2->findItem(groupName,0);
-	   
+
 	    keysList2->clearSelection();
             keysList2->setCurrentItem(newgrp);
             keysList2->setSelected(newgrp,true);
@@ -2231,7 +2231,7 @@ void listKeys::slotgenkey()
 
             pop->show();
 	    changeMessage(i18n("Generating New Key..."),0,true);
-	    
+
             QRect qRect(QApplication::desktop()->screenGeometry());
             int iXpos=qRect.width()/2-pop->width()/2;
             int iYpos=qRect.height()/2-pop->height()/2;
@@ -2416,11 +2416,11 @@ void listKeys::deleteseckey()
 {
     //////////////////////// delete a key
     QString res=keysList2->currentItem()->text(0)+" ("+keysList2->currentItem()->text(1)+")";
-    int result=KMessageBox::questionYesNo(this,
+    int result=KMessageBox::warningContinueCancel(this,
                                           i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.").arg(res),
                                           i18n("Warning"),
-                                          i18n("Delete"));
-    if (result!=KMessageBox::Yes)
+                                          KGuiItem(i18n("Delete"),"editdelete"));
+    if (result!=KMessageBox::Continue)
         return;
 
     KProcess *conprocess=new KProcess();
@@ -2476,8 +2476,8 @@ void listKeys::confirmdeletekey()
         }
         if (keysToDelete.isEmpty())
             return;
-        int result=KMessageBox::questionYesNoList(this,i18n("<qt><b>Delete the following public key(s)  ?</b></qt>"),keysToDelete,i18n("Warning"),i18n("Delete"));
-        if (result!=KMessageBox::Yes)
+        int result=KMessageBox::warningContinueCancelList(this,i18n("<qt><b>Delete the following public key(s)  ?</b></qt>"),keysToDelete,i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"));
+        if (result!=KMessageBox::Continue)
             return;
         else
             deletekey();
@@ -2857,7 +2857,7 @@ QListViewItem *newPos=0L;
 	else newPos = findItem(current->text(0), 0);
     	delete current;
     }
-    
+
         if (newPos != 0L)
 	 {
         setCurrentItem(newPos);
@@ -2869,7 +2869,7 @@ QListViewItem *newPos=0L;
         setCurrentItem(firstChild());
         setSelected(firstChild(),true);
     }
-    
+
     emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount()-groupNb).arg(groupNb),1);
     emit statusMessage(i18n("Ready"),0);
     kdDebug(2100)<<"Refresh Finished"<<endl;
