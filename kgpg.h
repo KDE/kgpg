@@ -31,7 +31,7 @@
 #include <kmainwindow.h>
 #include <kaction.h>
 #include <kurl.h>
-#include <kdeversion.h>
+#include <kpassivepopup.h>
 
 
 #include "listkeys.h"
@@ -123,9 +123,7 @@ void processenc(bool res);
 void processdec(bool res);
 void processdec2(bool res);
 void processdecover(bool res);
-void processdec3(bool res);
 void shredprocessenc(bool res);
-void slotTest();
 void slotTip();
 void firstrun();
 void saveOptions();
@@ -173,6 +171,7 @@ private:
 QString decpassuid;
 KURL decpasssrc,decpassdest;
 QDialog *clippop;
+KPassivePopup *pop;
 
 KURL urlselected;
     /** the configuration object of the application */
@@ -194,7 +193,7 @@ KURL urlselected;
     KAction* fileSave;
     KAction* fileEncrypt;
     KAction* fileDecrypt;
-    KAction* editUndo,*editCut,*editCopy,*editPaste;
+    KAction* editUndo;
     KAction *editRedo,*helptips,*keysManage;
     KAction *signGenerate, *signVerify, *signCheck;
 

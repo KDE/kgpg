@@ -302,7 +302,7 @@ void KgpgView::clearSign()
         pipe(ppass);
         pass = fdopen(ppass[1], "w");
         fwrite(password, sizeof(char), strlen(password), pass);
-        fwrite("\n", sizeof(char), 1, pass);
+//        fwrite("\n", sizeof(char), 1, pass);
         fclose(pass);
 
         ///////////////////  generate gpg command

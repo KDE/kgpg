@@ -79,7 +79,7 @@ void KgpgInterface::KgpgEncryptFile(QString userIDs,KURL srcUrl,KURL destUrl, QS
         pipe(ppass);
         pass = fdopen(ppass[1], "w");
         fwrite(password, sizeof(char), strlen(password), pass);
-        fwrite("\n", sizeof(char), 1, pass);
+//        fwrite("\n", sizeof(char), 1, pass);
         fclose(pass);
 
         *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0";
@@ -153,7 +153,7 @@ int KgpgInterface::KgpgDecryptFile(QString userIDs,KURL srcUrl,KURL destUrl,int 
       pipe(ppass);
       pass = fdopen(ppass[1], "w");
       fwrite(password, sizeof(char), strlen(password), pass);
-      fwrite("\n", sizeof(char), 1, pass);
+      //fwrite("\n", sizeof(char), 1, pass);
       fclose(pass);
 
       /// create gpg command
@@ -251,7 +251,7 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
         pipe(ppass);
         pass = fdopen(ppass[1], "w");
         fwrite(password, sizeof(char), strlen(password), pass);
-        fwrite("\n", sizeof(char), 1, pass);
+//        fwrite("\n", sizeof(char), 1, pass);
         fclose(pass);
 
 	    gpgcmd="echo ";
@@ -367,7 +367,7 @@ void KgpgInterface::KgpgSignFile(QString keyName,QString keyID,KURL srcUrl,QStri
       pipe(ppass);
       pass = fdopen(ppass[1], "w");
       fwrite(password, sizeof(char), strlen(password), pass);
-      fwrite("\n", sizeof(char), 1, pass);
+//      fwrite("\n", sizeof(char), 1, pass);
       fclose(pass);
 
       /////////////       create gpg command
