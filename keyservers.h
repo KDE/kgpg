@@ -73,7 +73,7 @@ private:
 	KDialogBase *dialogServer;
 	
 signals:
-	void importFinished();
+	void importFinished(QString);
 };
 
 #endif // KEYSERVERS_H

@@ -937,7 +937,7 @@ void listKeys::refreshKeyFromServer()
         kServer=new keyServer(0,"server_dialog",false);
         kServer->page->kLEimportid->setText(keyIDS);
         kServer->slotImport();
-        connect( kServer, SIGNAL( importFinished() ) , this, SLOT(refreshFinished()));
+        connect( kServer, SIGNAL( importFinished(QString) ) , this, SLOT(refreshFinished()));
 }
 
 
@@ -1307,8 +1307,9 @@ void listKeys::closeEvent ( QCloseEvent * e )
 void listKeys::showKeyServer()
 {
         keyServer *ks=new keyServer(this);
+	connect(ks,SIGNAL( importFinished(QString) ) , keysList2, SLOT(refreshcurrentkey(QString)));
         ks->exec();
-        if (ks)
+	if (ks)
                 delete ks;
         refreshkey();
 }
@@ -2083,7 +2084,7 @@ bool listKeys::importRemoteKey(QString keyID)
         kServer->page->tabWidget2->setTabEnabled(kServer->page->tabWidget2->page(1),false);
         kServer->show();
 	kServer->raise();
-        connect( kServer, SIGNAL( importFinished() ) , this, SLOT( dcopImportFinished()));
+        connect( kServer, SIGNAL( importFinished(QString) ) , this, SLOT( dcopImportFinished()));
 
 	return true;
 }
@@ -2109,9 +2110,7 @@ void listKeys::importsignkey(QString importKeyId)
         //kServer->Buttonimport->setDefault(true);
         kServer->slotImport();
         //kServer->show();
-        connect( kServer, SIGNAL( importFinished() ) , this, SLOT( importfinished()));
-        //connect( kServer->importpop, SIGNAL( destroyed() ) , this, SLOT( importfinished()));
-        //connect( kServer , SIGNAL( destroyed() ) , this, SLOT( refreshkey()));
+        connect( kServer, SIGNAL( importFinished(QString) ) , this, SLOT( importfinished()));
 }
 
 
@@ -3008,7 +3007,7 @@ void KeyView::slotReloadOrphaned()
 
 void KeyView::refreshcurrentkey(QString currentID)
 {
-
+	kdDebug(2100)<<"++++++++++Key to show: "<<currentID<<endl;
         UpdateViewItem *item=NULL;
         QString issec=QString::null;
         FILE *fp,*fp2;

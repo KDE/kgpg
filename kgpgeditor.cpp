@@ -437,16 +437,6 @@ void KgpgApp::slotSelectAll()
         view->editor->selectAll();
 }
 
-/*void KgpgApp::slotOptions()
-{
-  /////////////////////// open option dialog box --> kgpgoptions.cpp
-  kgpgOptions *opts=new kgpgOptions(this);
-  opts->exec();
-  delete opts;
-  readOptions(false);
-}
-*/
-
 void KgpgApp::slotundo()
 {
         view->editor->undo();

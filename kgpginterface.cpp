@@ -1324,7 +1324,7 @@ void KgpgInterface::importKeyURL(KURL url)
 {
         /////////////      import a key
 
-        if( KIO::NetAccess::download( url, tempKeyFile ) ) {
+        if( KIO::NetAccess::download( url, tempKeyFile,0) ) {
                 message=QString::null;
                 KProcIO *conprocess=new KProcIO();
                 *conprocess<< "gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--import";

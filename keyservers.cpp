@@ -480,6 +480,14 @@ void keyServer::slotimportresult(KProcess*)
 		resultMessage+=i18n("<qt><b>%1 key(s) imported:</b><br></qt>").arg(importedNbSucess);
         } else
                 resultMessage=i18n("No key imported... \nCheck detailed log for more infos");
+		
+	QString lastID=QString("0x"+importedKeys.last().section(" ",0,0).right(8));
+	if (!lastID.isEmpty()) 
+	{
+	kdDebug(2100)<<"++++++++++imported key"<<lastID<<endl;	
+	emit importFinished(lastID);
+	}
+	
         KDetailedInfo *m_box=new KDetailedInfo(0,"import_result",resultMessage,readmessage,importedKeys);
         if (importpop)
                 importpop->hide();
@@ -487,7 +495,6 @@ void keyServer::slotimportresult(KProcess*)
         m_box->exec();
         if (importpop)
                 delete importpop;
-	emit importFinished();
 	if (autoCloseWindow) close();
 }
 
