@@ -1,5 +1,6 @@
 [Desktop Entry]
 ServiceTypes=all/allfiles
+ExcludeServiceTypes=kdedevice/*
 Actions=encrypt
 
 [Desktop Action encrypt]
@@ -28,10 +29,12 @@ Name[sk]=Šifrovať súbor
 Name[sl]=Šifriraj datoteko
 Name[sr]=Шифруј фајл
 Name[sv]=Kryptera fil
-Name[ta]= மறைவிலக்கம் கோபு
+Name[ta]=சங்கேத கோப்பு
 Name[tr]=Dosya Şifrele
+Name[uk]=Зашифрувати файл
 Name[wa]=Ecripter fitchî
 Name[xx]=xxEncrypt Filexx
+Name[zh_CN]=加密文件
 
 Exec=kgpg -e %F
 
