@@ -25,6 +25,7 @@
 #include <kapplication.h>
 #include <kmessagebox.h>
 #include <kcombobox.h>
+#include <kwin.h>
 #include <kprocess.h>
 #include <kprocio.h>
 #include <qcursor.h>
@@ -78,6 +79,8 @@ setAcceptDrops(true);
   
     connect(m_popup, SIGNAL(activated(int)), SLOT(clickedMenu(int)));
 	connect(conf_popup, SIGNAL(activated(int)), SLOT(clickedConfMenu(int)));
+
+	m_keyManager=0L;
  
 }
 
@@ -232,8 +235,14 @@ delete ks;
 
 void  MyView::openKeyManager() 
 {
-   listKeys *keydialog = new listKeys(0, "key_manager",WDestructiveClose);
-   keydialog->show();
+	if(!m_keyManager)
+	{
+		m_keyManager = new listKeys(0, "key_manager",WDestructiveClose);
+		connect( m_keyManager , SIGNAL( destroyed() ) , this, SLOT( slotKeyManagerClosed()));
+	}
+	m_keyManager->show();
+	KWin::setOnDesktop( m_keyManager->winId() , KWin::currentDesktop() );  //set on the current desktop
+	m_keyManager->raise();  // set on top
 }
 
 void  MyView::clipEncrypt() 
@@ -520,6 +529,12 @@ readOptions();
 init();
 }
 
+void MyView::slotKeyManagerClosed()
+{
+	m_keyManager=0L;
+}
+
+
 
 kgpgapplet::kgpgapplet()
     : KSystemTray()
@@ -674,4 +689,5 @@ delete clippop;
 /////////////////////////////////////////////////////////////////////////////
 
 #include "kgpg.moc"
+
 

@@ -83,6 +83,8 @@ QString customDecrypt;
 
 QString filekey;
 
+class listKeys *m_keyManager;
+
 #if (KDE_VERSION >= 310)
 KPassivePopup *pop;
 #else
@@ -113,6 +115,7 @@ void  clipDecrypt();
 void  clipEncrypt();
 void clickedMenu(int);
 void clickedConfMenu(int);
+void slotKeyManagerClosed();
 
 protected:
 void mousePressEvent(QMouseEvent *);
