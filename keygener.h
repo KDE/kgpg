@@ -17,17 +17,14 @@
 #ifndef KEYGEN_H
 #define KEYGEN_H
 
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qbuttongroup.h>
-#include <qhbuttongroup.h>
-#include <qvbuttongroup.h>
 
 #include <kdialogbase.h>
-#include <kcombobox.h>
-#include <klineedit.h>
-#include <kmessagebox.h>
 #include <klocale.h>
+
+class QCheckBox;
+
+class KComboBox;
+class KLineEdit;
 
 
 class keyGenerate : public KDialogBase

@@ -22,8 +22,16 @@
 #include <qlistview.h>
 #include <qfile.h>
 #include <qlayout.h>
-#include <qlabel.h>
 #include <qvbox.h>
+#include <qlayout.h>
+#include <qlabel.h>
+#include <qdialog.h>
+#include <qcheckbox.h>
+#include <qradiobutton.h>
+#include <qbuttongroup.h>
+#include <qhbuttongroup.h>
+#include <qvbuttongroup.h>
+#include <klineedit.h>
 
 #include "popupimport.h"
 #include "kgpg.h"

@@ -17,21 +17,20 @@
 #ifndef POPUPPUBLIC_H
 #define POPUPPUBLIC_H
 
-#include <qpushbutton.h>
 #include <qdialog.h>
 #include <qwidget.h>
-#include <qcheckbox.h>
 
-#include <klistview.h>
-#include <kbuttonbox.h>
-#include <qlayout.h>
-#include <qlabel.h>
 #include <qstring.h>
 
 #include <kprocess.h>
 #include <kprocio.h>
 #include <kglobal.h>
 #include <kiconloader.h>
+
+class QPushButton;
+class QCheckBox;
+class KListView;
+class QButtonGroup;
 
 class popupPublic : public QDialog
 {

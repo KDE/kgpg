@@ -22,7 +22,21 @@
 #include <kdialogbase.h>
 #include <kmessagebox.h>
 #include <qtextcodec.h>
- #include "keyservers.h"
+#include "keyservers.h"
+#include <qlayout.h>
+#include <qlabel.h>
+#include <qdialog.h>
+#include <qpushbutton.h>
+#include <qbuttongroup.h>
+#include <qhbuttongroup.h>
+#include <qvbuttongroup.h>
+#include <qregexp.h>
+#include <kprocess.h>
+#include <kprocio.h>
+#include <klistview.h>
+#include <kstatusbar.h>
+#include <qcheckbox.h>
+#include <kconfig.h>
 
 keyServer::keyServer(QWidget *parent, const char *name,bool modal,WFlags f):Keyserver( parent, name,modal,f)
 {

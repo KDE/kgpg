@@ -22,6 +22,13 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qvbox.h>
+#include <kcombobox.h>
+#include <klineedit.h>
+#include <qcheckbox.h>
+#include <qbuttongroup.h>
+#include <qhbuttongroup.h>
+#include <qvbuttongroup.h>
+#include <kmessagebox.h>
 
 #include "keygener.h"
 

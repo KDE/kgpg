@@ -18,32 +18,24 @@
 #ifndef KEYSERVERS_H
 #define KEYSERVERS_H
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qdialog.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qpushbutton.h>
-#include <qbuttongroup.h>
-#include <qhbuttongroup.h>
-#include <qvbuttongroup.h>
-#include <qregexp.h>
 #include <qfile.h>
 
 #include <kdialogbase.h>
 #include <klocale.h>
-#include <kconfig.h>
-#include <klineedit.h>
-#include <kprocess.h>
-#include <kprocio.h>
-#include <klistview.h>
-#include <kstatusbar.h>
 #include <kurl.h>
 
 #include "keyserver.h"
 #include "searchres.h"
 #include "kgpginterface.h"
 #include "detailedconsole.h"
+
+class KConfig;
+class KProcIO;
+
+class KeyServer;
+class QStatusBar;
+class QLabel;
+class KListViewItem;
 
 class keyServer : public Keyserver
 {

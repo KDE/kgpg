@@ -16,12 +16,14 @@
  ***************************************************************************/
 
 ////////////////////////////////////////////////////////   code  for choosing a public key from a list for encryption
-
+#include <qpushbutton.h>
 #include <qptrlist.h>
 #include <qwhatsthis.h>
 #include <qpainter.h>
 #include <qiconset.h>
 #include <qbuttongroup.h>
+#include <qcheckbox.h>
+#include <klistview.h>
 
 #include "popuppublic.h"
 #include "kgpgview.h"

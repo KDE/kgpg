@@ -17,18 +17,17 @@
 #ifndef POPUPIMPORT_H
 #define POPUPIMPORT_H
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qdialog.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qbuttongroup.h>
-#include <qhbuttongroup.h>
-#include <qvbuttongroup.h>
 
 #include <kdialogbase.h>
-#include <klineedit.h>
 #include <kurl.h>
+
+class QRadioButton;
+class QHButtonGroup;
+class KLineEdit;
+class QButtonGroup;
+class QCheckBox;
+class QPushButton;
+class QGridLayout;
 
 class popupImport : public KDialogBase
 {

@@ -17,19 +17,16 @@
 #ifndef POPUPNAME_H
 #define POPUPNAME_H
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qdialog.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qbuttongroup.h>
-#include <qhbuttongroup.h>
-#include <qvbuttongroup.h>
-
 #include <kdialogbase.h>
-#include <klineedit.h>
 #include <kurl.h>
 
+class QRadioButton;
+class QHButtonGroup;
+class KLineEdit;
+class QCheckBox;
+class QButtonGroup;
+class QPushButton;
+class QGridLayout;
 
 class popupName : public KDialogBase
 {

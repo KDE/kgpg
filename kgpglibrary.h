@@ -22,25 +22,10 @@
 #include <qevent.h>
 #include <qwidget.h>
 #include <qstring.h>
-#include <qpixmap.h>
-#include <qclipboard.h>
-#include <qdragobject.h>
-#include <qpopupmenu.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qregexp.h>
 #include <qwidgetlist.h>
+#include <qapplication.h>
 
 #include <kurl.h>
-#include <kaction.h>
-#include <kiconloader.h>
-#include <kpopupmenu.h>
-#include <khelpmenu.h>
-#include <ksystemtray.h>
-#include <ktip.h>
-#include <ksimpleconfig.h>
-#include <kfiledialog.h>
-#include <kuniqueapplication.h>
 #include <kdeversion.h>
 #include <kshred.h>
 
