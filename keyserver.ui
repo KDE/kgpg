@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>401</width>
-            <height>271</height>
+            <height>286</height>
         </rect>
     </property>
     <property name="caption">
@@ -147,7 +147,7 @@
                             <bool>false</bool>
                         </property>
                         <property name="text">
-                            <string>Honor HTTP proxy</string>
+                            <string>Honor HTTP proxy:</string>
                         </property>
                     </widget>
                     <widget class="KLineEdit" row="4" column="2" rowspan="1" colspan="2">
@@ -260,7 +260,7 @@
                             <bool>false</bool>
                         </property>
                         <property name="text">
-                            <string>Honor HTTP proxy</string>
+                            <string>Honor HTTP proxy:</string>
                         </property>
                     </widget>
                     <spacer row="5" column="0">

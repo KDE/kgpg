@@ -28,7 +28,7 @@ KDetailedConsole::KDetailedConsole(QWidget *parent, const char *name,QString box
         QLabel *lab1=new QLabel(page);
         lab1->setText(boxLabel);
 
-        QVGroupBox *detailsGroup = new QVGroupBox( i18n("Details:"), page);
+        QVGroupBox *detailsGroup = new QVGroupBox( i18n("Details"), page);
         QLabel *labdetails = new QLabel(errormessage,detailsGroup);
         labdetails->setMinimumSize(labdetails->sizeHint());
         setDetailsWidget(detailsGroup);
@@ -50,7 +50,7 @@ KDetailedInfo::KDetailedInfo(QWidget *parent, const char *name,QString boxLabel,
         topLayout->addWidget( label );
 
 
-        QVGroupBox *detailsGroup = new QVGroupBox( i18n("Details:"), this);
+        QVGroupBox *detailsGroup = new QVGroupBox( i18n("Details"), this);
         QLabel *labdetails = new QLabel(errormessage,detailsGroup);
         labdetails->setMinimumSize(labdetails->sizeHint());
         setDetailsWidget(detailsGroup);

@@ -605,7 +605,7 @@ not correctly identified, reinstall.</string>
                                             </sizepolicy>
                                         </property>
                                         <property name="text">
-                                            <string>Sign File Service Menu:</string>
+                                            <string>Sign file service menu:</string>
                                         </property>
                                     </widget>
                                     <widget class="QLabel">
@@ -621,7 +621,7 @@ not correctly identified, reinstall.</string>
                                             </sizepolicy>
                                         </property>
                                         <property name="text">
-                                            <string>Decrypt File Service Menu:</string>
+                                            <string>Decrypt file service menu:</string>
                                         </property>
                                     </widget>
                                 </vbox>
@@ -642,7 +642,7 @@ not correctly identified, reinstall.</string>
                                         </item>
                                         <item>
                                             <property name="text">
-                                                <string>Enable with all files</string>
+                                                <string>Enable With All Files</string>
                                             </property>
                                         </item>
                                         <property name="name">
@@ -665,12 +665,12 @@ not correctly identified, reinstall.</string>
                                         </item>
                                         <item>
                                             <property name="text">
-                                                <string>Enable with all files</string>
+                                                <string>Enable With All Files</string>
                                             </property>
                                         </item>
                                         <item>
                                             <property name="text">
-                                                <string>Enable with encrypted files</string>
+                                                <string>Enable With Encrypted Files</string>
                                             </property>
                                         </item>
                                         <property name="name">

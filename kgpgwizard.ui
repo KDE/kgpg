@@ -61,7 +61,7 @@
             <cstring>page</cstring>
         </property>
         <attribute name="title">
-            <string>Configuration settings</string>
+            <string>Configuration Settings</string>
         </attribute>
         <grid>
             <property name="name">
@@ -72,7 +72,7 @@
                     <cstring>textLabel3</cstring>
                 </property>
                 <property name="text">
-                    <string>&lt;b&gt;GnuPG options file:&lt;/b&gt;</string>
+                    <string>GnuPG options file:</string>
                 </property>
                 <property name="alignment">
                     <set>AlignVCenter</set>
@@ -146,7 +146,7 @@
             <cstring>page</cstring>
         </property>
         <attribute name="title">
-            <string>Shredder install</string>
+            <string>Shredder Install</string>
         </attribute>
         <grid>
             <property name="name">
@@ -168,7 +168,7 @@
                     <cstring>checkBox1</cstring>
                 </property>
                 <property name="text">
-                    <string>Install Shredder on my Desktop</string>
+                    <string>Install shredder on my desktop</string>
                 </property>
                 <property name="checked">
                     <bool>true</bool>

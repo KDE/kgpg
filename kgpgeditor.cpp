@@ -105,7 +105,7 @@ void KgpgApp::initView()
   view = new KgpgView(this,0);
   //  doc->addView(view);
   setCentralWidget(view);
-  setCaption(i18n("untitled"),false); ///   doc->URL().fileName(),false);
+  setCaption(i18n("Untitled"),false); ///   doc->URL().fileName(),false);
 
 }
 
