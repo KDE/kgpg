@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>319</width>
-            <height>303</height>
+            <width>400</width>
+            <height>382</height>
         </rect>
     </property>
     <property name="caption">
@@ -202,79 +202,74 @@
                 <attribute name="title">
                     <string>Misc.</string>
                 </attribute>
-                <widget class="QCheckBox">
+                <vbox>
                     <property name="name">
-                        <cstring>cbMailFirst</cstring>
+                        <cstring>unnamed</cstring>
                     </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>11</x>
-                            <y>11</y>
-                            <width>271</width>
-                            <height>21</height>
-                        </rect>
-                    </property>
-                    <property name="minimumSize">
-                        <size>
-                            <width>0</width>
-                            <height>0</height>
-                        </size>
-                    </property>
-                    <property name="text">
-                        <string>Show E-Mail first in keys list</string>
-                    </property>
-                </widget>
-                <widget class="QGroupBox">
-                    <property name="name">
-                        <cstring>groupBox1</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>11</x>
-                            <y>48</y>
-                            <width>271</width>
-                            <height>162</height>
-                        </rect>
-                    </property>
-                    <property name="title">
-                        <string>Encrypted mime types</string>
-                    </property>
-                    <widget class="QPushButton">
+                    <widget class="QCheckBox">
                         <property name="name">
-                            <cstring>bcheckMime</cstring>
+                            <cstring>cbMailFirst</cstring>
                         </property>
-                        <property name="geometry">
-                            <rect>
-                                <x>50</x>
-                                <y>120</y>
-                                <width>170</width>
-                                <height>31</height>
-                            </rect>
+                        <property name="minimumSize">
+                            <size>
+                                <width>0</width>
+                                <height>0</height>
+                            </size>
                         </property>
                         <property name="text">
-                            <string>Reinstall Mime types</string>
+                            <string>Show E-Mail first in keys list</string>
                         </property>
                     </widget>
-                    <widget class="QLabel">
+                    <widget class="QGroupBox">
                         <property name="name">
-                            <cstring>textLabel1_2</cstring>
+                            <cstring>groupBox1</cstring>
                         </property>
-                        <property name="geometry">
-                            <rect>
-                                <x>10</x>
-                                <y>20</y>
-                                <width>246</width>
-                                <height>80</height>
-                            </rect>
+                        <property name="title">
+                            <string>Encrypted mime types</string>
                         </property>
-                        <property name="text">
-                            <string>Pgp-encrypted: *.pgp,*.gpg,*.asc
+                        <vbox>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel">
+                                <property name="name">
+                                    <cstring>textLabel1_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Pgp-encrypted: *.pgp,*.gpg,*.asc
 Pgp-signature: *.sig
 If your files are not correctly identified,
 just click on reinstall</string>
-                        </property>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton">
+                                <property name="name">
+                                    <cstring>bcheckMime</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Reinstall Mime types</string>
+                                </property>
+                            </widget>
+                        </vbox>
                     </widget>
-                </widget>
+                    <spacer>
+                        <property name="name">
+                            <cstring>spacer2</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>21</width>
+                                <height>91</height>
+                            </size>
+                        </property>
+                    </spacer>
+                </vbox>
             </widget>
             <widget class="QWidget">
                 <property name="name">
