@@ -154,9 +154,10 @@ signals:
 	 */
         QString message,tempKeyFile;
 		QCString passphrase;
-		bool deleteSuccess;
+		bool deleteSuccess,konsLocal;
 		int signSuccess;
 		int step,signb,sigsearch;
+		QString konsSignKey, konsKeyID;
 	/**
 	 * @internal structure for the file information
 	 */

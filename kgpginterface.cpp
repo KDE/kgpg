@@ -451,12 +451,13 @@ if (checkuid(keyID)>0)
   *conprocess<<"--no-secmem-warning"<<"-u"<<signKeyID;
   if (local==false) *conprocess<<"--sign-key"<<keyID;
   else *conprocess<<"--lsign-key"<<keyID;
-  QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(refreshkey()));
   conprocess->start(KProcess::Block);
-emit signatureFinished(true);
+emit signatureFinished(0);
 return;
 }
-
+konsLocal=local;
+konsSignKey=signKeyID;
+konsKeyID=keyID;
 signSuccess=0;
 step=0;
 message="sign";
@@ -487,8 +488,18 @@ if ((step==0) && (required.find("keyedit.prompt")!=-1)) {p->writeStdin(message);
  if (required.find("passphrase.enter")!=-1) {p->writeStdin(QString(passphrase));passphrase="xxxxxxxxxxxxxx";required="";step=2;}
  if ((step==2) && (required.find("keyedit.prompt")!=-1)) {p->writeStdin("save");required="";}
 if (required.find("BAD_PASSPHRASE")!=-1){p->writeStdin("quit");signSuccess=2;}
-if (required.find("GET_")!=-1){p->writeStdin("quit");if (signSuccess!=2) signSuccess=1;}
-
+if ((required.find("GET_")!=-1) && (signSuccess!=2)) /////// gpg asks for something unusal, turn to konsole mode
+{
+//p->writeStdin("quit");
+signSuccess=0;
+  KProcess *conprocess=new KProcess();
+  *conprocess<< "konsole"<<"-e"<<"gpg";
+  *conprocess<<"--no-secmem-warning"<<"-u"<<konsSignKey;
+  if (konsLocal==false) *conprocess<<"--sign-key"<<konsKeyID;
+  else *conprocess<<"--lsign-key"<<konsKeyID;
+  conprocess->start(KProcess::Block);
+  emit signatureFinished(0);
+}
 }
 //p->ackRead();
 }
