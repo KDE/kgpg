@@ -74,7 +74,7 @@ public:
     /** opens a file specified by commandline option
      */
     void openDocumentFile(const KURL& url=0);
-    void openEncryptedDocumentFile(const KURL& url=0,QString userIDs="");
+    void openEncryptedDocumentFile(const KURL& url=0);
     /** returns a pointer to the current document connected to the KTMainWindow instance and is used by
      * the View class to access the document object's methods
      */
@@ -120,9 +120,8 @@ void slotFileDec();
 void slotExpressQuit();
 //public slots:
 void processenc(bool res);
-void processdec(bool res);
-void processdec2(bool res);
 void processdecover(bool res);
+void processpopup(QString title,QString mssge);
 void shredprocessenc(bool res);
 void slotTip();
 void firstrun();

@@ -432,7 +432,7 @@ if ((encryptToDefault) && (res.find(defaultKey)==-1)) res+=" "+defaultKey;
 QString returnOptions;
 if (CBuntrusted->isChecked()) returnOptions=" --always-trust ";
 if (CBarmor->isChecked()) returnOptions+=" --armor ";
-if (CBhideid->isChecked()) returnOptions=" --throw-keyid ";
+if (CBhideid->isChecked()) returnOptions+=" --throw-keyid ";
 if ((allowcustom) && (!customOptions.stripWhiteSpace().isEmpty())) returnOptions+=customOptions;
 
 if (fmode)

@@ -56,7 +56,7 @@ class KgpgInterface : public QObject {
 	 * @param Options String with the wanted gpg options. ex: "--armor"
 	 * @param symetrical bool whether the encryption should be symmetrical.
 	 */
-	void KgpgEncryptFile(QString userIDs,KURL srcUrl,KURL destUrl,QString Options="",bool symetrical=false);
+	void KgpgEncryptFile(QString encuserIDs,KURL srcUrl,KURL destUrl,QString Options="",bool symetrical=false);
 	
 	/**Encrypt file function
 	 * @param userIDs the key user identification.
@@ -64,15 +64,14 @@ class KgpgInterface : public QObject {
 	 * @param destUrl Kurl for the decrypted file.
 	 * @param chances int number of trials left for decryption (used only as an info displayed in the password dialog)
 	 */
-	int KgpgDecryptFile(QString userIDs="",KURL srcUrl=0,KURL destUrl=0,int chances=0);
+	void KgpgDecryptFile(KURL srcUrl=0,KURL destUrl=0);
 	
 	/**Sign file function
-	 * @param keyName QString the signing key name.
 	 * @param keyID QString the signing key ID.
 	 * @param srcUrl Kurl of the file to sign.
 	 * @param Options String with the wanted gpg options. ex: "--armor"
 	 */
-	void KgpgSignFile(QString keyName="",QString keyID="",KURL srcUrl=0,QString Options="");
+	void KgpgSignFile(QString keyID="",KURL srcUrl=0,QString Options="");
 	
 	/**Verify file function
 	 * @param sigUrl Kurl of the signature file.
@@ -174,6 +173,18 @@ class KgpgInterface : public QObject {
          * Reads output of the current process + allow overwriting of a file
          */
 	void readprocess(KProcIO *p);
+	/**
+         * Reads output of the current encryption process + allow overwriting of a file
+         */
+	void readencprocess(KProcIO *p);
+	/**
+         * Reads output of the current signing process + allow overwriting of a file
+         */
+	void readsignprocess(KProcIO *p);
+	/**
+         * Reads output of the current decryption process + allow overwriting of a file
+         */
+	void readdecprocess(KProcIO *p);
 /**
          * Checks output of the verify process
          */
@@ -189,6 +200,14 @@ signals:
          * Signature process result: 0=successfull, 1=error, 2=bad passphrase
          */
 	void signatureFinished(int); 
+	/**
+         *  emitted when user cancels process
+         */
+    void processaborted(bool);
+	/**
+         *  emitted when the process starts
+         */
+	void processstarted();
 	/**
          *  true if decryption successfull, false on error.
          */
@@ -215,20 +234,20 @@ signals:
     /**
 	 * @internal structure for communication
 	 */
-        QString message,tempKeyFile;
+        QString message,tempKeyFile,userIDs;
 		QCString passphrase;
-		bool deleteSuccess,konsLocal;
+		bool deleteSuccess,konsLocal,anonymous;
 		int signSuccess;
 		int step,signb,sigsearch;
 		QString konsSignKey, konsKeyID;
 	/**
 	 * @internal structure for the file information
 	 */
-        KURL file,filedec;
+        KURL file;
 	/**
 	 * @internal structure to send signal only once on error.
 	 */
-	bool encError,decError;
+	bool encError;
 };
 
  class  Md5Widget :public KDialogBase

@@ -74,7 +74,7 @@ commandLineMode=false;
       editRedo->setEnabled(false);
       editUndo->setEnabled(false);
 	  
-	  if (opmode=="show") openEncryptedDocumentFile(fileToOpen,KgpgInterface::extractKeyName(fileToOpen));//checkEncryptedDocumentFile(fileToOpen);
+	  if (opmode=="show") openEncryptedDocumentFile(fileToOpen);//checkEncryptedDocumentFile(fileToOpen);
     createGUI("kgpg.rc");
 	}
   else
@@ -241,8 +241,9 @@ void KgpgApp::initView()
 }
 
 
-void KgpgApp::openEncryptedDocumentFile(const KURL& url,QString userIDs)
+void KgpgApp::openEncryptedDocumentFile(const KURL& url)
 {
+QString userIDs=KgpgInterface::extractKeyName(url);
   QFile qfile(url.path());
   QString encryptedText;
   if (qfile.open(IO_ReadOnly))
@@ -409,16 +410,12 @@ void KgpgApp::slotPreSignFile()
 void KgpgApp::slotSignFile(KURL url)
 {
   //////////////////////////////////////   create a detached signature for a chosen file
-  QString signKeyID,signKeyMail;
+  QString signKeyID;
  if (!url.isEmpty())
     {
       //////////////////   select a private key to sign file --> listkeys.cpp
 	  KgpgSelKey *opts=new KgpgSelKey(this,"select_secret",false);
-      if (opts->exec()==QDialog::Accepted)
-        {
-          signKeyID=opts->getkeyID();
-          signKeyMail=opts->getkeyMail();
-        }
+      if (opts->exec()==QDialog::Accepted) signKeyID=opts->getkeyID();
       else
         {
           delete opts;
@@ -430,7 +427,7 @@ void KgpgApp::slotSignFile(KURL url)
   if (pgpcomp) Options=" --pgp6 ";
  KgpgInterface *signFileProcess=new KgpgInterface();
  if (commandLineMode) connect (signFileProcess,SIGNAL(signfinished()),this,SLOT(slotExpressQuit()));
- signFileProcess->KgpgSignFile(signKeyMail,signKeyID,url,Options);
+ signFileProcess->KgpgSignFile(signKeyID,url,Options);
   }
   else if (commandLineMode) slotExpressQuit();
 }
@@ -660,16 +657,11 @@ void KgpgApp::fastencode(QString &selec,QString encryptOptions,bool shred,bool s
   if (pgpcomp)
     encryptOptions+=" --pgp6 ";
   KgpgInterface *cryptFileProcess=new KgpgInterface();
-      pop = new KPassivePopup( this);
-      pop->setView(i18n("Processing encryption"),i18n("<b>file</b>:%1<br><b>Key</b>:%2").arg(urlselected.filename()).arg(selec),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
-	  	pop->show();	  
-	  	QRect qRect(QApplication::desktop()->screenGeometry());
-		int iXpos=qRect.width()/2-pop->width()/2;
-		int iYpos=qRect.height()/2-pop->height()/2;
-      	pop->move(iXpos,iYpos);
-
   cryptFileProcess->KgpgEncryptFile(selec,urlselected,dest,encryptOptions,symetric);
   //KgpgEncryptFile *cryptFileProcess=new KgpgEncryptFile(selec,urlselected,dest,symetric,encryptOptions);
+  
+  connect(cryptFileProcess,SIGNAL(processaborted(bool)),this,SLOT(processenc(bool)));
+  connect(cryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup(i18n("Processing encryption"),i18n("<b>file</b>:%1<br><b>Key</b>:%2").arg(urlselected.filename()).arg(selec))));
   if (shred)
     connect(cryptFileProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(shredprocessenc(bool)));
   else
@@ -712,8 +704,6 @@ void KgpgApp::fastdecode(bool quit)
   QString oldname=urlselected.filename();
 
 QString newname;
-QCString password;
-QString enckey=KgpgInterface::extractKeyName(urlselected);
 
   if (oldname.endsWith(".gpg") || oldname.endsWith(".asc") || oldname.endsWith(".pgp"))
     oldname.truncate(oldname.length()-4);
@@ -756,31 +746,30 @@ QString enckey=KgpgInterface::extractKeyName(urlselected);
             }
         }
     }
-  decpassuid=enckey;
   KgpgInterface *decryptFileProcess=new KgpgInterface();
-  int decresult=0;
-  if (enckey.isEmpty()) enckey=i18n("[No user ID found]");
   decpasssrc=urlselected;
   if (!newname.isEmpty()) ////////////////////   decrypt to file
   {	
   decpassdest=KURL(newname);
-  decresult=decryptFileProcess->KgpgDecryptFile(enckey,decpasssrc,decpassdest);
-  if (decresult==0) {if (fastact) kapp->exit(0); else return;}
-  else 
-  {
-  pop = new KPassivePopup( this);
-      pop->setView(i18n("Processing decryption"),i18n("please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+  decryptFileProcess->KgpgDecryptFile(decpasssrc,decpassdest);
+  connect(decryptFileProcess,SIGNAL(processaborted(bool)),this,SLOT(processdecover(bool)));
+  connect(decryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup(i18n("Processing decryption"),i18n("please wait..."))));
+  connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
+  }
+  else openEncryptedDocumentFile(urlselected);
+}
+
+void KgpgApp::processpopup(QString title,QString mssge)
+{
+ pop = new KPassivePopup( this);
+      pop->setView(title,mssge,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
 	  	pop->show();	  
 	  	QRect qRect(QApplication::desktop()->screenGeometry());
 		int iXpos=qRect.width()/2-pop->width()/2;
 		int iYpos=qRect.height()/2-pop->height()/2;
       	pop->move(iXpos,iYpos);
-  }
-  connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
-  connect(decryptFileProcess,SIGNAL(badpassphrase(bool)),this,SLOT(processdec(bool)));
-  }
-  else openEncryptedDocumentFile(urlselected,enckey);
 }
+
 
 void KgpgApp::processdecover(bool res)
 {
@@ -793,56 +782,6 @@ delete pop;
   }
 }
 
-
-void KgpgApp::processdec(bool res)
-{
-  delete pop;
-  //if ((res==true) && (fastact==true)) kapp->exit(0);
-  if (!res)
-  {
-   KgpgInterface *decryptFileProcess=new KgpgInterface();
-  int decresult=0;
-  decresult=decryptFileProcess->KgpgDecryptFile(decpassuid,decpasssrc,decpassdest,2);
-  if (decresult==0) {if (fastact) kapp->exit(0); else return;}
-  else
-	{
-  		pop = new KPassivePopup( this);
-      	pop->setView(i18n("Processing decryption"),i18n("please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
-	  	pop->show();	  
-		QRect qRect(QApplication::desktop()->screenGeometry());
-		int iXpos=qRect.width()/2-pop->width()/2;
-		int iYpos=qRect.height()/2-pop->height()/2;
-      	pop->move(iXpos,iYpos);
-  }
-  connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
-  connect(decryptFileProcess,SIGNAL(badpassphrase(bool)),this,SLOT(processdec2(bool)));
- }
-}
-
-void KgpgApp::processdec2(bool res)
-{
-delete pop;
-  //if ((res==true) && (fastact==true)) kapp->exit(0);
-  if (!res)
-  {
-   KgpgInterface *decryptFileProcess=new KgpgInterface();
-  int decresult=0;
-  decresult=decryptFileProcess->KgpgDecryptFile(decpassuid,decpasssrc,decpassdest,1);
-  if (decresult==0) {if (fastact) kapp->exit(0); else return;}
-  else
-	{
-  		pop = new KPassivePopup( this);
-      	pop->setView(i18n("Processing decryption"),i18n("please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
-	  	pop->show();	
-	  	QRect qRect(QApplication::desktop()->screenGeometry());
-		int iXpos=qRect.width()/2-pop->width()/2;
-		int iYpos=qRect.height()/2-pop->height()/2;
-      	pop->move(iXpos,iYpos);
-  }
-  connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
-  connect(decryptFileProcess,SIGNAL(badpassphrase(bool)),this,SLOT(processdecover(bool)));
- }
-}
 
 void KgpgApp::slotFileEnc()
 {
