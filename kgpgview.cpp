@@ -558,4 +558,3 @@ void KgpgView::print(QPrinter *pPrinter)
 }
 */
 //#include "kgpgview.moc"
-#include "kgpgview.moc"
