@@ -51,7 +51,6 @@
 #include <kdialogbase.h>
 #include <kbuttonbox.h>
 #include <kcombobox.h>
-#include <kdatewidget.h>
 #include <kmessagebox.h>
 #include <kprocess.h>
 #include <kprocio.h>
@@ -71,7 +70,7 @@
 #include "popupname.h"
 #include "kgpgoptions.h"
 #include "keyservers.h"
-#include "keyproperties.h"
+#include "keyinfowidget.h"
 #include "dcopiface.h"
 
 typedef struct gpgKey
@@ -110,28 +109,7 @@ public slots:
 };
 
 
-class KgpgKeyInfo : public KeyProperties
-{
-        Q_OBJECT
 
-public:
-
-        //KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0,QColor pix=QColor(255,255,255),bool editable=false);
-	KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0,bool editable=false);
-
-private slots:
-        void slotinfoimgread(KProcess *);
-        void slotChangePass();
-        void slotPreOk1();
-        void slotPreOk2(int);
-
-private:
-        KTempFile *kgpginfotmp;
-        QLabel *keyinfoPhoto;
-        QString displayedKeyID,ownerTrust;
-        QDate expirationDate;
-        bool isUnlimited;
-};
 
 class KeyView : public KListView
 {
@@ -247,7 +225,6 @@ signals:
 
 
 };
-
 
 
 #endif

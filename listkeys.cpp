@@ -46,6 +46,7 @@
 #include <kurldrag.h>
 
 
+
 #include <kabc/stdaddressbook.h>
 #include <kabc/addresseedialog.h>
 
@@ -141,218 +142,6 @@ void SmallViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, int
 }
 
 
-////////  window for the key info dialog
-KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,bool editable):KeyProperties( parent, name)
-{
-	QColor pix;
-        QString message,fingervalue;
-        FILE *pass;
-        char line[200]="";
-        QString opt,tid;
-        bool isphoto=false;
-        if (editable) {
-                kDateWidget->setEnabled(true);
-                cBExpiration->setEnabled(true);
-                buttonPass->setEnabled(true);
-        }
-        QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key "+KShellProcess::quote(sigkey.local8Bit());
-
-        pass=popen(QFile::encodeName(gpgcmd),"r");
-        while ( fgets( line, sizeof(line), pass)) {
-                opt=line;
-                if (opt.startsWith("uat"))
-                        isphoto=true;
-                if (opt.startsWith("pub")) {
-                        QString algo=opt.section(':',3,3);
-
-                        switch( algo.toInt() ) {
-                        case  1:
-                                algo="RSA";
-                                break;
-                        case 16:
-                        case 20:
-                                algo="ElGamal";
-                                break;
-                        case 17:
-                                algo="DSA";
-                                break;
-                        default:
-                                algo=QString("#" + algo);
-                                break;
-                        }
-
-
-                        const QString trust=opt.section(':',1,1);
-                        QString tr;
-                        switch( trust[0] ) {
-                        case 'o':
-                                tr= i18n("Unknown");
-				pix.setRgb(255,255,255);
-                                break;
-                        case 'i':
-                                tr= i18n("Invalid");
-				pix.setRgb(172,0,0);
-                                break;
-                        case 'd':
-                                tr=i18n("Disabled");
-				pix.setRgb(172,0,0);
-                                break;
-                        case 'r':
-                                tr=i18n("Revoked");
-				pix.setRgb(172,0,0);
-                                break;
-                        case 'e':
-                                tr=i18n("Expired");
-				pix.setRgb(172,0,0);
-                                break;
-                        case 'q':
-                                tr=i18n("Undefined");
-				pix.setRgb(255,255,255);
-                                break;
-                        case 'n':
-                                tr=i18n("None");
-				pix.setRgb(255,255,255);
-                                break;
-                        case 'm':
-                                tr=i18n("Marginal");
-				pix.setRgb(172,0,0);
-                                break;
-                        case 'f':
-                                tr=i18n("Full");
-				pix.setRgb(148,255,0);
-                                break;
-                        case 'u':
-                                tr=i18n("Ultimate");
-				pix.setRgb(148,255,0);
-                                break;
-                        default:
-                                tr="?";
-				pix.setRgb(255,255,255);
-                                break;
-                        }
-
-                        tid=opt.section(':',4,4);
-                        displayedKeyID=QString("0x"+tid.right(8));
-
-                        QString fullname=opt.section(':',9,9);
-                        if (opt.section(':',6,6)=="") {
-                                isUnlimited=true;
-                                cBExpiration->setChecked(true);
-                                expirationDate=QDate::currentDate();
-                                kDateWidget->setDate(expirationDate);
-                        } else {
-                                isUnlimited=false;
-                                expirationDate= QDate::fromString(opt.section(':',6,6), Qt::ISODate);
-                                kDateWidget->setDate(expirationDate);
-                        }
-
-                        QDate date = QDate::fromString(opt.section(':',5,5), Qt::ISODate);
-                        tLCreation->setText(KGlobal::locale()->formatDate(date));
-
-                        tLLength->setText(opt.section(':',2,2));
-                        kLTrust->setText(tr);
-                        kLTrust->setPaletteBackgroundColor(pix);
-
-
-                        const QString otrust=opt.section(':',8,8);
-                        switch( otrust[0] ) {
-                        case 'f':
-                                ownerTrust=i18n("Fully");
-                                break;
-                        case 'u':
-                                ownerTrust=i18n("Ultimately");
-                                break;
-                        case 'm':
-                                ownerTrust=i18n("Marginally");
-                                break;
-                        case 'n':
-                                ownerTrust=i18n("Do NOT trust");
-                                break;
-                        default:
-                                ownerTrust=i18n("Don't know");
-                                break;
-                        }
-                        kCOwnerTrust->setCurrentItem(ownerTrust);
-                        tLID->setText(tid);
-                        if (fullname.find("<")!=-1) {
-                                QString kmail=fullname.section('<',-1,-1);
-                                kmail.truncate(kmail.length()-1);
-                                tLMail->setText(i18n("<qt><b>%1</b></qt>").arg(kmail));
-                        } else
-                                tLMail->setText(i18n("none"));
-
-                        QString kname=fullname.section('<',0,0);
-                        if (fullname.find("(")!=-1) {
-                                kname=kname.section('(',0,0);
-                                QString comment=fullname.section('(',1,1);
-                                comment=comment.section(')',0,0);
-                                tLComment->setText(KgpgInterface::checkForUtf8(comment));
-                        } else
-                                tLComment->setText(i18n("none"));
-
-
-                        tLName->setText(i18n("<qt><b>%1</b></qt>").arg(KgpgInterface::checkForUtf8(kname).replace(QRegExp("<"),"&lt;")));
-                        tLAlgo->setText(algo);
-                }
-                if (opt.startsWith("fpr")) {
-                        fingervalue=opt.section(':',9,9);
-                        // format fingervalue in 4-digit groups
-                        uint len = fingervalue.length();
-                        if ((len > 0) && (len % 4 == 0))
-                                for (uint n = 0; 4*(n+1) < len; n++)
-                                        fingervalue.insert(5*n+4, ' ');
-                }
-        }
-        pclose(pass);
-        lEFinger->setText(fingervalue);
-
-
-        if (isphoto) {
-                kgpginfotmp=new KTempFile();
-                kgpginfotmp->setAutoDelete(true);
-                QString popt="cp %i "+kgpginfotmp->name();
-                KProcIO *p=new KProcIO();
-                *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(popt)<<"--list-keys"<<tid;
-                QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotinfoimgread(KProcess *)));
-                p->start(KProcess::NotifyOnExit,true);
-        }
-        connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotPreOk1()));
-        connect(buttonPass,SIGNAL(clicked()),this,SLOT(slotChangePass()));
-}
-
-void KgpgKeyInfo::slotinfoimgread(KProcess *)
-{
-        QPixmap pixmap;
-        pixmap.load(kgpginfotmp->name());
-        pLPhoto->setPixmap(pixmap);
-        kgpginfotmp->unlink();
-}
-
-void KgpgKeyInfo::slotChangePass()
-{
-        KgpgInterface *ChangeKeyPassProcess=new KgpgInterface();
-        ChangeKeyPassProcess->KgpgChangePass(displayedKeyID);
-}
-
-void KgpgKeyInfo::slotPreOk1()
-{
-        if (expirationDate!=kDateWidget->date() || (isUnlimited!=cBExpiration->isChecked())) {
-                KgpgInterface *KeyExpirationProcess=new KgpgInterface();
-                KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,kDateWidget->date(),cBExpiration->isChecked());
-                connect(KeyExpirationProcess,SIGNAL(expirationFinished(int)),this,SLOT(slotPreOk2(int)));
-        } else
-                slotPreOk2(0);
-}
-
-void KgpgKeyInfo::slotPreOk2(int)
-{
-        if (ownerTrust!=kCOwnerTrust->currentText()) {
-                KgpgInterface *KeyTrustProcess=new KgpgInterface();
-                KeyTrustProcess->KgpgTrustExpire(displayedKeyID,kCOwnerTrust->currentText());
-                connect(KeyTrustProcess,SIGNAL(trustfinished()),this,SLOT(accept()));
-        } else
-                accept();
-}
 
 
 
@@ -445,6 +234,17 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
                                 if (tst2.startsWith("pub")) {
                                         const QString trust2=tst2.section(':',1,1);
                                         switch( trust2[0] ) {
+                                        case 'f':
+                                                dead=false;
+                                                break;
+                                        case 'u':
+                                                dead=false;
+                                                break;
+                                        default:
+                                                break;
+                                        }
+					const QString owntrust=tst2.section(':',8,8);
+                                        switch( owntrust[0] ) {
                                         case 'f':
                                                 dead=false;
                                                 break;
@@ -668,7 +468,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         QVBoxLayout *vbox=new QVBoxLayout(page,3);
 
         keysList2->setRootIsDecorated(true);
-        keysList2->addColumn( i18n( "Key" ));
+        keysList2->addColumn( i18n( "Key" ),140);
         keysList2->addColumn( i18n( "Trust" ) );
         keysList2->addColumn( i18n( "Expiration" ) );
         keysList2->addColumn( i18n( "Size" ) );
@@ -1267,8 +1067,18 @@ void listKeys::slotProcessExportClip(QString keys)
 void listKeys::showKeyInfo(QString keyID)
 {
 KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",keyID);
-                opts->exec();
-                delete opts;
+                opts->show();
+                //delete opts;
+
+QListViewItem *current = keysList2->firstChild();
+        if (current==NULL)
+                return;
+        while ( keyID.find(current->text(5).right(8),0,false)==-1) {
+	if (!current->nextSibling()) break;
+                else current = current->nextSibling();
+        }
+keysList2->setCurrentItem(current);
+keysList2->refreshcurrentkey(keysList2->currentItem());
 }
 
 
@@ -1290,22 +1100,10 @@ void listKeys::listsigns()
 
         /////////////   open a key info dialog (KgpgKeyInfo, see begining of this file)
         QString key=keysList2->currentItem()->text(5);
-        if (key!="") {
-	/*
-                QColor pix;
-                if (keysList2->currentItem()->pixmap(1)->serialNumber()==keysList2->trustgood.serialNumber())
-                        pix.setRgb(148,255,0);//;pix=keysList2->trustgood;
-                else if (keysList2->currentItem()->pixmap(1)->serialNumber()==keysList2->trustunknown.serialNumber())
-                        pix.setRgb(255,255,255); //pix=keysList2->trustunknown;
-                else
-                        pix.setRgb(172,0,0); //keysList2->trustbad;
-			*/
-                bool isSecret=false;
-                if (keysList2->secretList.find(keysList2->currentItem()->text(5))!=-1)
-                        isSecret=true;
-                KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",key, isSecret);
-                opts->exec();
-                delete opts;
+        if (!key.isEmpty()) {
+                KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",key);
+                opts->show();
+                //delete opts;
                 keysList2->refreshcurrentkey(keysList2->currentItem());
         }
 }
