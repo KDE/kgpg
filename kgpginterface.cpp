@@ -854,7 +854,6 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
         while (p->readln(required,true)!=-1)
         {
                 output+=required+"\n";
-
                 if (required.find("USERID_HINT",0,false)!=-1) {
                         required=required.section("HINT",1,1);
                         required=required.stripWhiteSpace();
@@ -904,7 +903,7 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                                 p->closeWhenDone();
                                 return;
                         }
-                        p->writeStdin(signpass);
+                        p->writeStdin(signpass,true);
                         required="";
                         //               step=2;
                 }
@@ -1150,7 +1149,7 @@ void KgpgInterface::expprocess(KProcIO *p)
                                 p->closeWhenDone();
                                 return;
                         }
-                        p->writeStdin(signpass);
+                        p->writeStdin(signpass,true);
                         required="";
                         //               step=2;
                 }
@@ -1501,7 +1500,7 @@ QString KgpgInterface::extractKeyName(QString txt)
 
 QString KgpgInterface::getGpgSetting(QString name,QString configFile)
 {
-        name=name+" ";
+        name=name.stripWhiteSpace()+" ";
         QFile qfile(QFile::encodeName(configFile));
         if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
                 QString result;
@@ -1578,25 +1577,26 @@ void KgpgInterface::setGpgSetting(QString name,QString value,QString url)
 QString KgpgInterface::checkForUtf8(QString txt)
 {
         //    code borrowed from gpa
-        const char *s;
+ //       const char *s;
 
         /* Make sure the encoding is UTF-8.
          * Test structure suggested by Werner Koch */
-        for (s = txt.ascii(); *s && !(*s & 0x80); s++)
-                ;
-        if (*s && !strchr (txt.ascii(), 0xc3)) {
+
+//       for (s = txt.ascii(); *s && !(*s & 0x80); s++)
+ //              ;
+//        if ((*s && !strchr (txt.ascii(), 0xc3)) || (txt.find("\\x")!=-1)){
                 /* The string is not in UTF-8 */
+if (!strchr (txt.ascii(), 0xc3)){
 
-                if (txt.find("\\x")==-1)
+                if ((txt.find("\\x")==-1))
                         return txt;
-
                 for ( int idx = 0 ; (idx = txt.find( "\\x", idx )) >= 0 ; ++idx ) {
                         char str[2] = "x";
                         str[0] = (char) QString( txt.mid( idx + 2, 2 ) ).toShort( 0, 16 );
                         txt.replace( idx, 4, str );
                 }
 
-                return  QString::fromUtf8(txt.ascii());
+                return QString::fromUtf8(txt.ascii());
         } else {
                 /* The string is already in UTF-8 */
                 return QString::fromUtf8(txt.ascii());
