@@ -117,7 +117,7 @@ void MyEditor::droppedfile(KURL url)
                                         }
                                 } else {
                                         if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK")) {
-                                                KMessageBox::information(0,i18n("This file is a private key !\nPlease use kgpg key management to import it."));
+                                                KMessageBox::information(0,i18n("This file is a private key!\nPlease use kgpg key management to import it."));
                                                 KIO::NetAccess::removeTempFile(tempFile);
                                                 return;
                                         }
@@ -261,14 +261,14 @@ void KgpgView::clearSign()
                         lineRead=lineRead.stripWhiteSpace();
                         QString resultKey=lineRead.section(" ",1,-1);
                         QString resultID=lineRead.section(" ",0,0);
-                        KMessageBox::information(this,i18n("<qt>Good signature from :<br><b>%1</b><br>Key ID: %2</qt>").arg(resultKey.replace(QRegExp("<"),"&lt;")).arg(resultID));
+                        KMessageBox::information(this,i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>").arg(resultKey.replace(QRegExp("<"),"&lt;")).arg(resultID));
                 } else
                         if ((verifyResult.find("NO_PUBKEY",0,FALSE)!=-1) && (verifyResult.find("BADSIG",0,FALSE)==-1)) {
                                 lineRead=lineRead.left(lineRead.find("\n",0,FALSE));
                                 lineRead=lineRead.stripWhiteSpace();
 
                                 if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
-                                                                      "Do you want to import this key from a keyserver ?</qt>").arg(lineRead),i18n("Missing Key"))==KMessageBox::Yes) {
+                                                                      "Do you want to import this key from a keyserver?</qt>").arg(lineRead),i18n("Missing Key"))==KMessageBox::Yes) {
                                         keyServer *kser=new keyServer(0,"server_dialog",false,WDestructiveClose);
                                         kser->kLEimportid->setText(lineRead);
                                         kser->slotImport();
@@ -279,7 +279,7 @@ void KgpgView::clearSign()
                                 lineRead=lineRead.stripWhiteSpace();
                                 QString resultKey=lineRead.section(" ",1,-1);
                                 QString resultID=lineRead.section(" ",0,0);
-                                KMessageBox::sorry(this,i18n("<qt><b>BAD signature</b> from :<br>%1<br>Key ID: %2<br><br><b>Text is corrupted !</b></qt>").arg(resultKey.replace(QRegExp("<"),"&lt;")).arg(resultID));
+                                KMessageBox::sorry(this,i18n("<qt><b>BAD signature</b> from:<br>%1<br>Key ID: %2<br><br><b>Text is corrupted!</b></qt>").arg(resultKey.replace(QRegExp("<"),"&lt;")).arg(resultID));
                         }
         } else {
                 /////    Sign the text in Editor

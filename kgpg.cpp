@@ -171,7 +171,7 @@ void  MyView::shredDroppedFile()
         KURL::List::iterator it;
         for ( it = droppedUrls.begin(); it != droppedUrls.end(); ++it ) {
                 if (!KURL(*it).isLocalFile())
-                        KMessageBox::sorry(0,i18n("Cannot shred remote files !"));
+                        KMessageBox::sorry(0,i18n("Cannot shred remote files!"));
                 else {
                         kgpgShredWidget *sh=new kgpgShredWidget(0,"shred");
                         sh->setCaption(i18n("Shredding %1").arg(KURL(*it).filename()));
@@ -282,7 +282,7 @@ void  MyView::droppedfile (KURL::List url)
         droppedUrls=url;
         droppedUrl=url.first();
         if (KMimeType::findByURL(droppedUrl)->name()=="inode/directory") {
-                KMessageBox::sorry(0,i18n("sorry, only file operations are currently supported"));
+                KMessageBox::sorry(0,i18n("Sorry, only file operations are currently supported."));
                 return;
         }
         if (!droppedUrl.isLocalFile()) {
@@ -635,7 +635,7 @@ kdDebug() << "Starting KGpg\n";
 
                         kgpg_applet->w->droppedUrl=urlList.first();
                         if (KMimeType::findByURL(urlList.first())->name()=="inode/directory") {
-                               KMessageBox::sorry(0,i18n("sorry, only file operations are currently supported"));
+                               KMessageBox::sorry(0,i18n("Sorry, only file operations are currently supported."));
                                 return 0;
                         }
                         kgpg_applet->w->droppedUrls=urlList;

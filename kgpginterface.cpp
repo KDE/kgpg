@@ -572,7 +572,7 @@ QString KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QString userID)
 
 Md5Widget::Md5Widget(QWidget *parent, const char *name,KURL url):KDialogBase( parent, name, true,i18n("MD5 Checksum"),Apply | Close)
 {
-        setButtonApplyText(i18n("Compare MD5 With Clipboard"));
+        setButtonApplyText(i18n("Compare MD5 with Clipboard"));
         mdSum="";
         QFile f(url.path());
         f.open( IO_ReadOnly);
@@ -789,7 +789,7 @@ void KgpgInterface::verifyfin(KProcess *)
                 keyID=message.section(' ',0,0);
                 message.remove(0,keyID.length());
                 keyMail=message;
-                KMessageBox::information(0,i18n("<qt>Good signature from :<br><b>%1</b><br>Key ID: %2</qt>").arg(keyMail.replace(QRegExp("<"),"&lt;")).arg(keyID),file.filename());
+                KMessageBox::information(0,i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>").arg(keyMail.replace(QRegExp("<"),"&lt;")).arg(keyID),file.filename());
         } else if (message.find("UNEXPECTED")!=-1)
                 KMessageBox::sorry(0,i18n("No signature found."),file.filename());
         else if (message.find("BADSIG")!=-1) {
@@ -806,7 +806,7 @@ void KgpgInterface::verifyfin(KProcess *)
                 message=message.section('\n',0,0);
                 keyID=message.stripWhiteSpace();
                 if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
-                                                      "Do you want to import this key from a keyserver ?</qt>").arg(keyID),file.filename())==KMessageBox::Yes)
+                                                      "Do you want to import this key from a keyserver?</qt>").arg(keyID),file.filename())==KMessageBox::Yes)
                         emit verifyquerykey(keyID);
                 emit verifyfinished();
                 return;

@@ -315,7 +315,7 @@ void kgpgOptions::slotRemoveMenu(QString menu)
                 qfile.remove();
         {
                 //if (!qfile.remove()) KMessageBox::sorry(this,i18n("Cannot remove service menu. Check permissions"));
-                //else KMessageBox::information(this,i18n("Service menu Decrypt file has been removed"));
+                //else KMessageBox::information(this,i18n("Service menu 'Decrypt File' has been removed."));
         }
         //else KMessageBox::sorry(this,i18n("No service menu found"));
 }
