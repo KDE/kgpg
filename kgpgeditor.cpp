@@ -159,7 +159,7 @@ void KgpgApp::slotFilePreEnc()
                                          i18n("*|All Files"), this, i18n("Open File to Encode"));
         if (url.isEmpty())
                 return;
-        KgpgLibrary *lib=new KgpgLibrary( KGpgSettings::pgpExtension() );
+        KgpgLibrary *lib=new KgpgLibrary(this,KGpgSettings::pgpExtension() );
         if ( KGpgSettings::encryptFilesTo() ) {
                 if (KGpgSettings::allowUntrustedKeys())
                         opts<<"--always-trust";
@@ -225,7 +225,7 @@ void KgpgApp::slotFilePreDec()
 	    		newname=over->newDestURL().path();
 	    		delete over;
                 }
-                KgpgLibrary *lib=new KgpgLibrary();
+                KgpgLibrary *lib=new KgpgLibrary(this);
                 lib->slotFileDec(url,KURL(newname), customDecrypt);
 		connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(refreshImported(QStringList)));
         } else

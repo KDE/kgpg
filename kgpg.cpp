@@ -22,6 +22,7 @@
 #include <qfile.h>
 #include <qpopupmenu.h>
 #include <qwidget.h>
+#include <qmovie.h>
 
 #include <kglobal.h>
 #include <kdeversion.h>
@@ -42,7 +43,7 @@
 #include <ktar.h>
 #include <kzip.h>
 #include <stdlib.h>
-#include <kiconeffect.h>
+
 
 #include "kgpg.h"
 #include "kgpgsettings.h"
@@ -51,7 +52,8 @@
 MyView::MyView( QWidget *parent, const char *name )
                 : QLabel( parent, name )
 {
-        setBackgroundMode(  X11ParentRelative );
+        setBackgroundMode( X11ParentRelative );
+	openTasks=0;
 
 	KAction *saveDecrypt=new KAction(i18n("&Decrypt && Save File"),"decrypted",0,this, SLOT(decryptDroppedFile()),this,"decrypt_file");
         KAction *showDecrypt=new KAction(i18n("&Show Decrypted File"),"edit",0,this, SLOT(showDroppedFile()),this,"show_file");
@@ -71,6 +73,7 @@ MyView::MyView( QWidget *parent, const char *name )
         udroppopup=new QPopupMenu();
         encrypt->plug(udroppopup);
         sign->plug(udroppopup);
+	QToolTip::add(this, i18n("KGpg - encryption tool"));
 }
 
 MyView::~MyView()
@@ -222,31 +225,36 @@ void  MyView::slotFolderFinishedError(QString errmsge)
         KMessageBox::sorry(0,errmsge);
 }
 
-void MyView::busyMessage(QString mssge)
+void MyView::busyMessage(QString mssge,bool reset)
 {
+if (reset) openTasks=0;
 if (!mssge.isEmpty())
 {
+openTasks++;
 QToolTip::remove(this);
 QToolTip::add(this, mssge);
-QPixmap pm;
+/*QPixmap pm;
 KIconEffect *ki=new KIconEffect();
 pm=ki->apply(KSystemTray::loadIcon("kgpg_docked"),KIconEffect::ToGray,1,QColor(0,0,0),false);
-setPixmap(pm);
+setPixmap(pm);*/
+setMovie(QMovie(locate("appdata","pics/kgpg_docked.gif")));
 }
-else 
+else openTasks--;
+if (openTasks<=0)
 {
 setPixmap( KSystemTray::loadIcon("kgpg_docked"));
 //setBackgroundMode(  X11ParentRelative );
 QToolTip::remove(this);
 QToolTip::add(this, i18n("KGpg - encryption tool"));
+openTasks=0;
 }
 }
 
 void  MyView::encryptDroppedFile()
 {
         QStringList opts;
-        KgpgLibrary *lib=new KgpgLibrary(KGpgSettings::pgpExtension());
-	connect(lib,SIGNAL(systemMessage(QString)),this,SLOT(busyMessage(QString )));
+        KgpgLibrary *lib=new KgpgLibrary(this,KGpgSettings::pgpExtension());
+	connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
         if (KGpgSettings::encryptFilesTo()) {
                 if (KGpgSettings::allowUntrustedKeys())
                         opts<<"--always-trust";
@@ -267,12 +275,9 @@ void  MyView::shredDroppedFile()
         if (KMessageBox::warningContinueCancelList(0,i18n("Do you really want to shred these files?"),droppedUrls.toStringList())!=KMessageBox::Continue)
                 return;
         KURL::List::iterator it;
-        for ( it = droppedUrls.begin(); it != droppedUrls.end(); ++it ) {
-
-	KgpgLibrary *lib=new KgpgLibrary();
-	connect(lib,SIGNAL(systemMessage(QString)),this,SLOT(busyMessage(QString )));
-        lib->shredprocessenc(KURL(*it));
-        }
+	KgpgLibrary *lib=new KgpgLibrary(this);
+	connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
+	lib->shredprocessenc(droppedUrls);
 }
 
 
@@ -339,14 +344,15 @@ void  MyView::signDroppedFile()
 
 void  MyView::decryptDroppedFile()
 {
-        //bool isFolder=false;
+        //bool isFolder=false;  // droppedUrls
         KURL swapname;
 
-        if (!droppedUrl.isLocalFile()) {
+        if (!droppedUrls.first().isLocalFile()) {
                 showDroppedFile();
-                return;
+                decryptNextFile();
         }
-        QString oldname=droppedUrl.filename();
+
+        QString oldname=droppedUrls.first().filename();
         if (oldname.endsWith(".gpg") || oldname.endsWith(".asc") || oldname.endsWith(".pgp"))
                 oldname.truncate(oldname.length()-4);
         else
@@ -360,28 +366,39 @@ void  MyView::decryptDroppedFile()
                 if (KMessageBox::warningContinueCancel(0,i18n("<qt>The file to decrypt is an archive. KGpg will create a temporary unencrypted archive file:<br><b>%1</b> before processing the archive extraction. This temporary file will be deleted after the decryption is finished.</qt>").arg(kgpgFolderExtract->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpDecFile")==KMessageBox::Cancel)
                         return;
         } else*/ {
-                swapname=KURL(droppedUrl.directory(0,0)+oldname);
+                swapname=KURL(droppedUrls.first().directory(0,0)+oldname);
                 QFile fgpg(swapname.path());
                 if (fgpg.exists()) {
 	    KIO::RenameDlg *over=new KIO::RenameDlg(0,i18n("File Already Exists"),QString::null,swapname.path(),KIO::M_OVERWRITE);
 	    if (over->exec()==QDialog::Rejected)
 	    {
                 delete over;
-                return;
+                decryptNextFile();
+		return;
             }
 	    swapname=over->newDestURL();
 	    delete over;
                 }
         }
-        KgpgLibrary *lib=new KgpgLibrary();
-        lib->slotFileDec(droppedUrl,swapname,KGpgSettings::customDecrypt());
-	connect(lib,SIGNAL(systemMessage(QString)),this,SLOT(busyMessage(QString )));
-//        if (isFolder)
-  //              connect(lib,SIGNAL(decryptionOver()),this,SLOT(unArchive()));
+	busyMessage(i18n("Decrypting file %1").arg(droppedUrls.first().path()));
+        KgpgLibrary *lib=new KgpgLibrary(this);
+        lib->slotFileDec(droppedUrls.first(),swapname,KGpgSettings::customDecrypt());
 	connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(importedKeys(QStringList)));
+	//connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
+//        if (isFolder)
+        connect(lib,SIGNAL(decryptionOver()),this,SLOT(decryptNextFile()));
+	
 }
 
-
+void  MyView::decryptNextFile()
+{
+busyMessage(QString::null);
+if (droppedUrls.count()>1)
+{
+droppedUrls.pop_front();
+decryptDroppedFile();
+}
+}
 
 void  MyView::unArchive()
 {
@@ -409,7 +426,7 @@ void  MyView::showDroppedFile()
 {
 kdDebug(2100)<<"------Show dropped file"<<endl;
         KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
-        kgpgtxtedit->view->editor->slotDroppedFile(droppedUrl);
+        kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
 	connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
 	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
 	connect(kgpgtxtedit->view->editor,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
@@ -422,7 +439,8 @@ void  MyView::droppedfile (KURL::List url)
         droppedUrls=url;
         droppedUrl=url.first();
         if (KMimeType::findByURL(droppedUrl)->name()=="inode/directory") {
-                KMessageBox::sorry(0,i18n("Sorry, only file operations are currently supported."));
+		encryptDroppedFolder();
+                //KMessageBox::sorry(0,i18n("Sorry, only file operations are currently supported."));
                 return;
         }
         if (!droppedUrl.isLocalFile()) {

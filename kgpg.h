@@ -74,12 +74,12 @@ private:
         KgpgWizard *wiz;
         KPassivePopup *pop;
         KTempFile *kgpgFolderExtract;
-	int compressionScheme;
+	int compressionScheme,openTasks;
 	popupPublic *dialogue;
 	QClipboard::Mode clipboardMode;
 
 public slots:
-	void busyMessage(QString mssge);
+	void busyMessage(QString mssge,bool reset=false);
         void  encryptDroppedFile();
         void  decryptDroppedFile();
         void  slotVerifyFile();
@@ -113,6 +113,7 @@ private slots:
         void  droppedtext (QString inputText) ;
         void  unArchive();
         void slotSetCompression(int cp);
+	void  decryptNextFile();
 
 protected:
         virtual void dragEnterEvent(QDragEnterEvent *);

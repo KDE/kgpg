@@ -16,7 +16,7 @@ Name[es]=Cifrar archivo
 Name[et]=Krüpti fail
 Name[fi]=Salaa tiedosto
 Name[fr]=Chiffrer le fichier
-Name[hi]=एनक्रिप्ट फाइल
+Name[hi]=एनक्रिप्ट फ़ाइल
 Name[hu]=Fájl titkosítása
 Name[it]=Cifratura file
 Name[nl]=Bestand versleutelen
@@ -30,11 +30,12 @@ Name[sl]=Šifriraj datoteko
 Name[sr]=Шифруј фајл
 Name[sv]=Kryptera fil
 Name[ta]=சங்கேத கோப்பு
+Name[tg]=Рамзкунонии Файл
 Name[tr]=Dosya Şifrele
 Name[uk]=Зашифрувати файл
 Name[wa]=Ecripter fitchî
 Name[xx]=xxEncrypt Filexx
 Name[zh_CN]=加密文件
-
+Icon=kgpg
 Exec=kgpg -e %F
 

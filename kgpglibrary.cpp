@@ -26,13 +26,14 @@
 
 #include "kgpglibrary.h"
 
-KgpgLibrary::KgpgLibrary(bool pgpExtension)
+KgpgLibrary::KgpgLibrary(QWidget *parent, bool pgpExtension)
 {
         if (pgpExtension)
                 extension=".pgp";
         else
                 extension=".gpg";
 	popIsActive=false;
+	panel=parent;
 }
 
 KgpgLibrary::~KgpgLibrary()
@@ -61,8 +62,14 @@ void KgpgLibrary::startencode(QStringList encryptKeys,QStringList encryptOptions
 	popIsActive=false;
         KURL::List::iterator it;
 	filesToEncode=urlselecteds.count();
-        for ( it = urlselecteds.begin(); it != urlselecteds.end(); ++it )
-                fastencode(*it,encryptKeys,encryptOptions,shred,symetric);
+	_encryptKeys=encryptKeys;
+	_encryptOptions=encryptOptions;
+	_shred=shred;
+	_symetric=symetric;
+	if (filesToEncode>1)
+	emit systemMessage(i18n("<b>%1 Files left.</b>\nEncrypting </b>%2").arg(filesToEncode).arg(urlselecteds.first().path()));
+	else emit systemMessage(i18n("Encrypting </b>%2").arg(urlselecteds.first().path()));
+		fastencode(urlselecteds.first(),encryptKeys,encryptOptions,shred,symetric);
 }
 
 
@@ -94,30 +101,30 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
         }
 
         KgpgInterface *cryptFileProcess=new KgpgInterface();
-	pop = new KPassivePopup();
+	pop = new KPassivePopup(panel);
         cryptFileProcess->KgpgEncryptFile(selec,urlselected,dest,encryptOptions,symetric);
          if (!popIsActive) 
 	{
-	connect(cryptFileProcess,SIGNAL(processstarted(QString)),this,SLOT(processpopup2(QString)));
+	//connect(cryptFileProcess,SIGNAL(processstarted(QString)),this,SLOT(processpopup2(QString)));
 	popIsActive=true;	
 	}
-        if (shred)
+        /*if (shred)
                 connect(cryptFileProcess,SIGNAL(encryptionfinished(KURL)),this,SLOT(shredpreprocessenc(KURL)));
-        else
+        else*/
                 connect(cryptFileProcess,SIGNAL(encryptionfinished(KURL)),this,SLOT(processenc(KURL)));
         connect(cryptFileProcess,SIGNAL(errormessage(QString)),this,SLOT(processencerror(QString)));
 }
 
 void KgpgLibrary::processpopup2(QString fileName)
 {
-        emit systemMessage(i18n("Encrypting %1").arg(fileName));
-	pop->setTimeout(0);
+        
+	//pop->setTimeout(0);
         pop->setView(i18n("Processing encryption (%1)").arg(fileName),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
         pop->show();
-        QRect qRect(QApplication::desktop()->screenGeometry());
+        /*QRect qRect(QApplication::desktop()->screenGeometry());
         int iXpos=qRect.width()/2-pop->width()/2;
         int iYpos=qRect.height()/2-pop->height()/2;
-        pop->move(iXpos,iYpos);
+        pop->move(iXpos,iYpos);*/
 
 }
 
@@ -126,57 +133,53 @@ void KgpgLibrary::shredpreprocessenc(KURL fileToShred)
 	filesToEncode--;
 	if (filesToEncode==0) delete pop;
 	popIsActive=false;
+	emit systemMessage(QString::null);
 	shredprocessenc(fileToShred);
 }
 
-void KgpgLibrary::shredprocessenc(KURL fileToShred)
+void KgpgLibrary::shredprocessenc(KURL::List filesToShred)
 {
-	if (!fileToShred.isLocalFile())
-{
-KMessageBox::sorry(0,i18n("<qt>File <b>%1</b> is a remote file.<br>You cannot shred it.</qt>").arg(fileToShred.path()));
-return;
-}
-	emit systemMessage(i18n("Shredding %1").arg(fileToShred.path()));
-	KPassivePopup *shredPopup=new KPassivePopup();
- 	shredPopup->setAutoDelete(false);
-	QVBox *vbox=shredPopup->standardView(i18n("Shredding"),i18n("<qt>Shredding file <b>%1</b></qt>").arg(fileToShred.filename()),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
-	   
-	   shredProgressBar= new KProgress(vbox);
-    shredPopup->setView( vbox );
-    shredPopup->show();
-    kapp->processEvents();
-        shredProgressBar->setTotalSteps(QFile(fileToShred.path()).size());
+emit systemMessage(i18n("Shredding %1 file(s)").arg(filesToShred.count()));
 
-KShred *shredres=new KShred(fileToShred.path());
-        connect(shredres,SIGNAL(processedSize(KIO::filesize_t)),this,SLOT(setShredProgress(KIO::filesize_t)));
-        if (shredres->shred())
-                delete shredPopup;
-        else
-                KMessageBox::sorry(0,i18n("<qt><b>ERROR</b> during file shredding.<br>File <b>%1</b> was not securely deleted. Please check your permissions.</qt>").arg(fileToShred.path()));
-		
-	emit systemMessage(QString::null);
+KIO::Job *job;
+job = KIO::del( filesToShred, true );
+connect( job, SIGNAL( result( KIO::Job * ) ),SLOT( slotShredResult( KIO::Job * ) ) );	
 }
 
-
-void KgpgLibrary::setShredProgress(KIO::filesize_t shredSize)
+void KgpgLibrary::slotShredResult( KIO::Job * job )
 {
-shredProgressBar->setProgress((int) shredSize);
+    emit systemMessage(QString::null);
+    if (job && job->error())
+    job->showErrorDialog( (QWidget*)parent() );
+    emit systemMessage(QString::null,true);
+    KPassivePopup::message(i18n("KGpg error"),i18n("Process halted, not all files were shredded."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),panel,"kgpg_error",0);
+    
 }
 
 
 void KgpgLibrary::processenc(KURL)
 {
-	filesToEncode--;
+	emit systemMessage(QString::null);
+	if (_shred) shredprocessenc(urlselecteds.first());
+	urlselecteds.pop_front ();
+	if (urlselecteds.count()>0)
+	{
+	fastencode(urlselecteds.first(),_encryptKeys,_encryptOptions,_shred,_symetric);
+	emit systemMessage(i18n("<b>%1 File(s) left.</b>\nEncrypting </b>%2").arg(urlselecteds.count()).arg(urlselecteds.first().path()));
+	}
+	/*filesToEncode--;
 	if (filesToEncode==0) {delete pop;emit systemMessage(QString::null);}
-	popIsActive=false;
+	popIsActive=false;*/
 }
 
 void KgpgLibrary::processencerror(QString mssge)
 {
 	filesToEncode--;
 	if (filesToEncode==0) delete pop;
-	popIsActive=false;        
-	KMessageBox::detailedSorry(0,i18n("Encryption failed."),mssge);
+	popIsActive=false;
+	emit systemMessage(QString::null,true);
+	KMessageBox::detailedSorry(panel,i18n("<b>Process halted</b>.<br>Not all files were encrypted."),mssge);
+	
 }
 
 

@@ -27,9 +27,9 @@
 
 #include <kurl.h>
 #include <kdeversion.h>
-#include <kshred.h>
 #include <kpassivepopup.h>
 #include <kprogress.h>
+#include <kio/job.h> 
 
 #include "popuppublic.h"
 #include "kgpginterface.h"
@@ -44,7 +44,7 @@ public:
         /**
          * Initialize the class
          */
-        KgpgLibrary(bool pgpExtension=false);
+        KgpgLibrary(QWidget *parent=0,bool pgpExtension=false);
         ~KgpgLibrary();
 
         KURL::List urlselecteds;
@@ -52,12 +52,13 @@ public:
 public slots:
         void slotFileEnc(KURL::List urls=KURL(""),QStringList opts=QString::null,QString defaultKey="");
         void slotFileDec(KURL srcUrl,KURL destUrl,QStringList customDecryptOption=QStringList());
-	void shredprocessenc(KURL);
+	void shredprocessenc(KURL::List filesToShred);
 
 private slots:
 	void startencode(QStringList encryptKeys,QStringList encryptOptions,bool shred,bool symetric);
         void fastencode(KURL &fileToCrypt,QStringList selec,QStringList encryptOptions,bool shred,bool symetric);
 //        void startencode(QString &selec,QString encryptOptions,bool shred,bool symetric);
+	void slotShredResult( KIO::Job * job );
 	void shredpreprocessenc(KURL fileToShred);
         void processenc(KURL);
         void processdecover();
@@ -65,7 +66,6 @@ private slots:
         void processencerror(QString mssge);
         void processpopup(QString fileName);
         void processpopup2(QString fileName);
-	void setShredProgress(KIO::filesize_t shredSize);
 
 private:
         QString customDecrypt,tempFile,extension;
@@ -73,12 +73,17 @@ private:
         KPassivePopup *pop;
 	KProgress *shredProgressBar;
 	bool popIsActive;
-	int filesToEncode;;
+	int filesToEncode;
+	QWidget *panel;
+	QStringList _encryptKeys;
+	QStringList _encryptOptions;
+	bool _shred;
+	bool _symetric;
 
 signals:
         void decryptionOver();
 	void importOver(QStringList);
-	void systemMessage(QString);
+	void systemMessage(QString,bool reset=false);
 
 
 };
