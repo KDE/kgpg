@@ -122,8 +122,8 @@ including create, import, export, delete, and sign.</para>
 <chapter id="using-kgpg">
 <title>Using &kgpg;</title>
 
-<para>&kgpg; is a <command>gpg</command> frontend. It supports many
-gpg features. For more infos on how encryption works, you can find
+<para>&kgpg; is a <command>gpg</command> front end. It supports many
+gpg features. For more information on how encryption works, you can find
 some tutorials on <ulink
 url="http://gnupg.org">http://gnupg.org</ulink>. 
 </para>
@@ -161,19 +161,19 @@ will bring up a &konsole; window with all of gpg's options.</para>
 <title>Encrypting a File From &konqueror;</title>
 
 <para><mousebutton>Right</mousebutton> click on the file you want to
-encrypt. Choose <guimenuitem>Encrypt File</guimenuitem> in the popup
+encrypt. Choose <guimenuitem>Encrypt File</guimenuitem> in the pop up
 menu. You will then be prompted with the Public key selection
 dialog. Choose your key and click <guibutton>Encrypt</guibutton>. The
 encrypted file will be saved with a <literal
 role="extension">.asc</literal> or <literal
 role="extension">.gpg</literal> extension depending on whether you
-choosed ASCII encryption or not. You can also encrypt a file from
+chose ASCII encryption or not. You can also encrypt a file from
 within &kgpg; using
 <menuchoice><guimenu>File</guimenu><guimenuitem>>Encrypt
 File</guimenuitem></menuchoice>. </para>
 
 <screenshot>
-<screeninfo>Here's a screenshot of the &konqueror; menu</screeninfo>
+<screeninfo>Here's a screen shot of the &konqueror; menu</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="menu.png" format="PNG"/></imageobject>
@@ -186,7 +186,7 @@ File</guimenuitem></menuchoice>. </para>
 <title>Encrypting a File or Text With &kgpg;'s Applet</title>
 
 <para>Simply drop your file on the &kgpg; system tray applet. If it is
-an uncrypted file, &kgpg; will pop up the key selection dialog (see
+an unencrypted file, &kgpg; will pop up the key selection dialog (see
 below). Select the encryption key, and the encrypted file will be
 saved.  If you drop text, the encrypted text will be pasted to the
 clipboard.  You can also encrypt clipboard by selecting the
@@ -194,7 +194,7 @@ clipboard.  You can also encrypt clipboard by selecting the
 menu.</para>
 
 <screenshot>
-<screeninfo>Here's a screenshot of the key selection window</screeninfo>
+<screeninfo>Here's a screen shot of the key selection window</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="keys.png" format="PNG"/></imageobject>
@@ -227,7 +227,7 @@ appear in the editor window.</para>
 <sect2 id="konq-dec">
 <title>Decrypting a File From &konqueror;</title>
 <para><mousebutton>Left</mousebutton> click on the file you want to
-decrypt. Enter your passphrase and it will be decrpyted. You can also
+decrypt. Enter your passphrase and it will be decrypted. You can also
 drag an encrypted text file and drop it into &kgpg;'s editor window. It
 will then ask the passphrase and open the decrypted text in &kgpg;'s
 editor.  You can even drop remote files ! You can also use the
@@ -241,7 +241,7 @@ File</guimenuitem></menuchoice> and choose a file to decrypt.</para>
 
 <para>You can drop an encrypted file or selected text on the &kgpg;
 system tray applet. You will then be prompted for passphrase, and the
-decrypted file/text willl be saved or opened in the &kgpg; editor
+decrypted file/text will be saved or opened in the &kgpg; editor
 depending from how you configured the applet.  You can also decrypt
 clipboard with the <guimenuitem>decrypt clipboard</guimenuitem> menu
 entry of the &kgpg; applet </para>
@@ -252,7 +252,7 @@ entry of the &kgpg; applet </para>
 <title>Decrypting a text from the editor</title>
 
 <para>Copy or Drag and Drop the text you want to decrypt, and click on
-the <guibutton>Decrypt</guibutton> button. You will be promped for the
+the <guibutton>Decrypt</guibutton> button. You will be prompted for the
 passphrase.
 </para>
 </sect2>
@@ -270,7 +270,7 @@ and key information.  To import/export public keys, you can use drag
 and drop or the Copy/Paste keyboard shortcuts.</para>
 
 <screenshot>
-<screeninfo>Here's a screenshot of key management</screeninfo>
+<screeninfo>Here's a screen shot of key management</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="keymanage.png" format="PNG"/></imageobject>
@@ -288,7 +288,7 @@ decryption, user interface and applet.  Most encryption options are
 directly related to gpg and are documented in it's man page. </para>
 
 <screenshot>
-<screeninfo>Here's a screenshot of the option dialog</screeninfo>
+<screeninfo>Here's a screen shot of the option dialog</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="options.png" format="PNG"/></imageobject>
