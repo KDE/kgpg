@@ -30,7 +30,7 @@
 
 ////////////////////   main window
 
-popupImport::popupImport(const QString& caption,QWidget *parent, const char *name,KURL oldnam):KDialogBase( parent, name, true,name,Ok | Cancel)
+popupImport::popupImport(const QString& caption,QWidget *parent, const char *name,KURL oldnam):KDialogBase( parent, name, true, caption,Ok | Cancel)
 {
         resize( 350, 140 );
 

@@ -30,7 +30,7 @@
 
 ////////////////////   main window
 
-popupName::popupName(const QString& caption,QWidget *parent, const char *name,KURL oldnam,bool email):KDialogBase( parent, name, true,name,Ok | Cancel)
+popupName::popupName(const QString& caption,QWidget *parent, const char *name,KURL oldnam,bool email):KDialogBase( parent, name, true, caption,Ok | Cancel)
 {
         resize( 350, 180 );
         setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)3, (QSizePolicy::SizeType)3, 0, 0, sizePolicy().hasHeightForWidth() ) );
