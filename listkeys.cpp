@@ -609,9 +609,10 @@ KAction *importSignKey = new KAction(i18n("Import Key from Keyserver"),0, 0,this
   KAction *generateKey = new KAction(i18n("&Generate Key Pair..."), "kgpg_gen", KStdAccel::shortcut(KStdAccel::New),this, SLOT(slotgenkey()),actionCollection(),"key_gener");
   KToggleAction *togglePhoto= new KToggleAction(i18n("&Show Photos"), "kgpg_photo", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
   (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
-  KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
+  KStdAction::preferences(this, SLOT(slotOptions()), actionCollection(),"kgpg_config");
   (void) new KAction(i18n("Tip of the &Day"), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
   (void) new KAction(i18n("View GnuPG Manual"), "contents", 0,this, SLOT(slotManpage()),actionCollection(),"gpg_man");
+  KStdAction::keyBindings( this, SLOT( slotConfigureShortcuts() ),actionCollection(), "key_bind" );
 
 
   //KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
@@ -699,6 +700,11 @@ void listKeys::slotManpage()
 void listKeys::slotTip()
 {
 KTipDialog::showTip(this, "kgpg/tips", true);
+}
+
+void listKeys::slotConfigureShortcuts()
+{
+  KKeyDialog::configureKeys( actionCollection(), xmlFile(), true, this );
 }
 
 void listKeys::closeEvent ( QCloseEvent * e )

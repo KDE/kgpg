@@ -1,12 +1,12 @@
 <!DOCTYPE kpartgui>
 <kpartgui name="kgpg" version="0.3.1">
 <MenuBar>
-  <Menu name="file"><text>&amp;File</text>
+  <Menu name="file">
     <Action name="file_new_window"/>
     <Action name="file_encrypt"/>
     <Action name="file_decrypt"/>
   </Menu>
-  
+
   <Menu name="edit" noMerge="1"><text>&amp;Edit</text>
     <Action name="edit_undo" />
     <Action name="edit_redo" />
@@ -15,7 +15,7 @@
     <Action name="edit_copy" />
     <Action name="edit_paste" />
       </Menu>
-  
+
   <Menu name="signature"><text>Si&amp;gnature</text>
     <Action name="sign_generate"/>
     <Action name="sign_verify"/>

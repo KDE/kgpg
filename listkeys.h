@@ -49,6 +49,7 @@
 #include <kprocio.h>
 #include <kglobal.h>
 #include <kiconloader.h>
+#include <kkeydialog.h>
 #include <kpassdlg.h>
 #include <kaction.h>
 #include <kapp.h>
@@ -164,6 +165,7 @@ void refreshkey();
 private slots:
 void slotManpage();
 void slotTip();
+void slotConfigureShortcuts();
 void keyserver();
 void slotReadProcess(KProcIO *p);
 void slotProcessExportMail(KProcess *);
