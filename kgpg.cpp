@@ -185,17 +185,15 @@ void MyView::clickedConfMenu(int id)
         break;
 	case QUIT_ITEM: 
 	{
-	 int autoStart = KMessageBox::questionYesNoCancel( 0L, i18n("Should KGpg start automatically\nwhen you login?"), i18n("Automatically Start KGpg?") );
-
-        KConfig *config = KGlobal::config();
-        config->setGroup("Applet");
+	 int autoStart = KMessageBox::questionYesNoCancel( 0, i18n("Should KGpg start automatically\nwhen you login?"), i18n("Automatically Start KGpg?") );
+        ksConfig->setGroup("Applet");
         if ( autoStart == KMessageBox::Yes )
-            config->writeEntry("AutoStart", true);
+            ksConfig->writeEntry("AutoStart", true);
         else if ( autoStart == KMessageBox::No) {
-            config->writeEntry("AutoStart", false);
+            ksConfig->writeEntry("AutoStart", false);
         }else  // cancel chosen don't quit
 	    break;
-		config->sync();
+		ksConfig->sync();
         kapp->exit();
         break;
 	
