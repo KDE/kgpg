@@ -312,6 +312,7 @@ QString tst;
 
   while (p->readln(tst)!=-1)
   {
+   
   tst=QString::fromUtf8(tst);
        if (tst.startsWith("pub"))
         {
@@ -363,7 +364,7 @@ QString tst;
             }
 tst=tst.section(':',9,9);
 
-if ((dead==false) && (tst!=""))
+if ((!dead) && (!tst.isEmpty()))
 	{
 	if ((id==defaultKey) && (encryptToDefault))
 	      {

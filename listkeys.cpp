@@ -517,8 +517,7 @@ KIconLoader *loader = KGlobal::iconLoader();
 
 void  KeyView::droppedfile (KURL url)
 {
-QString ask=i18n("Do you want to import file %1 into your key ring?").arg(url.filename());
-  if (KMessageBox::questionYesNo(this,ask)!=KMessageBox::Yes)
+  if (KMessageBox::questionYesNo(this,i18n("<p>Do you want to import file <b>%1</b> into your key ring ?</p>").arg(url.filename()))!=KMessageBox::Yes)
     return;
 
 KgpgInterface *importKeyProcess=new KgpgInterface();
@@ -583,7 +582,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
   KAction *deleteKeyPair = new KAction(i18n("Delete Key Pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
   KAction *generateKey = new KAction(i18n("&Generate Key Pair..."), "kgpg_gen", KStdAccel::shortcut(KStdAccel::New),this, SLOT(slotgenkey()),actionCollection(),"key_gener");
-  KToggleAction *togglePhoto= new KToggleAction(i18n("&Show Photos"), "imagegallery", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
+  KToggleAction *togglePhoto= new KToggleAction(i18n("&Show Photos"), "kgpg_photo", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
   (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
 
 
