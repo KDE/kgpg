@@ -1,0 +1,30 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="listkeys" version="0.3.1">
+
+<MenuBar>
+  <Menu name="managekeys"><text>&amp;Key</text>
+    <Action name="key_export"/>
+    <Action name="key_info"/>
+    <Action name="key_sign"/>
+    <Action name="key_edit"/>
+    <Action name="key_delete"/>
+    <Action name="key_gener"/>
+    <Separator />
+    <Action name="key_exit"/>
+    </Menu>  
+    </MenuBar>
+
+
+<ToolBar name="manageToolBar" position="top"><text>Extra Toolbar</text>
+    <Action name="key_export"/>
+    <Action name="key_info"/>
+    <Action name="key_sign"/>
+    <Action name="key_edit"/>
+    <Action name="key_import"/>
+    <Action name="key_gener"/>
+    <Action name="key_configure"/>
+    <Action name="key_exit"/>
+</ToolBar>
+
+
+</kpartgui>

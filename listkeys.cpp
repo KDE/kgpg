@@ -39,7 +39,7 @@
 class UpdateViewItem : public KListViewItem
   {
 public:
-    UpdateViewItem::UpdateViewItem(QListView *parent, QString tst, QString tr, QString val, QString size, QString creat, QString id,QString defaultkey);
+    UpdateViewItem(QListView *parent, QString tst, QString tr, QString val, QString size, QString creat, QString id,QString defaultkey);
     bool Itemdefault;
     virtual void paintCell(QPainter *p, const QColorGroup &cg,int col, int width, int align);
   };
@@ -155,7 +155,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
               opt=opt.section('>',0,0);
               if (islocalsig.endsWith("l")) islocalsig=i18n("yes");
               else islocalsig=i18n("no");
-              KListViewItem *item=new KListViewItem(keysListsig,signame,opt,islocalsig,date,id);
+              (void) new KListViewItem(keysListsig,signame,opt,islocalsig,date,id);
             }
         }
 
@@ -232,7 +232,6 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
   FILE *fp;
   QString tst;
   char line[130];
-  int pos;
 
   fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
   while ( fgets( line, sizeof(line), fp))
@@ -326,26 +325,25 @@ bool KgpgSelKey::getlocal()
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////   main window for key management
-listKeys::listKeys(QWidget *parent, const char *name,bool enctodef,QString defaultKey):QDialog(parent,name,TRUE)//KMainWindow(parent, name)
+listKeys::listKeys(QWidget *parent, const char *name,bool enctodef,QString defaultKey):KMainWindow(parent, name)//QDialog(parent,name,TRUE)//KMainWindow(parent, name)
 {
   QLabel *labeltxt;
   if (enctodef==true) defKey=defaultKey;
   else defKey="";
   setCaption(name);
-
-  
-  KAction *exportPublicKey = new KAction(i18n("E&xport public key"), "kgpg_export", 0,this, SLOT(slotexport()),0);
-  KAction *deleteKey = new KAction(i18n("&Delete key"),"editdelete", 0,this, SLOT(confirmdeletekey()),0);
-  KAction *signKey = new KAction(i18n("&Sign key"), "kgpg_sign", 0,this, SLOT(listsigns()),0);
-  KAction *infoKey = new KAction(i18n("&Key info"), "kgpg_info", 0,this, SLOT(listsigns()),0);
-  KAction *importKey = new KAction(i18n("&Import key"), "kgpg_import", 0,this, SLOT(slotImportKey()),0);
-  KAction *setDefaultKey = new KAction(i18n("Set as De&fault key"),"kgpg_dkey1", 0,this, SLOT(slotSetDefKey()),0);
-  KAction *close = new KAction(i18n("&Close window"), "exit", 0,this, SLOT(annule()),0);
-  KAction *editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),0);
-  KAction *exportSecretKey = new KAction(i18n("Export secret key"), 0, 0,this, SLOT(slotexportsec()),0);
-  KAction *deleteKeyPair = new KAction(i18n("Delete key pair"), 0, 0,this, SLOT(deleteseckey()),0);
-  KAction *generateKey = new KAction(i18n("&Generate key pair"), "kgpg_gen", 0,this, SLOT(slotgenkey()),0);
-  KAction *configure = new KAction(i18n("Default &options"), "configure", 0,this, SLOT(slotParentOptions()),0);
+//KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
+  KAction *exportPublicKey = new KAction(i18n("E&xport public key"), "kgpg_export", 0,this, SLOT(slotexport()),actionCollection(),"key_export");
+  KAction *deleteKey = new KAction(i18n("&Delete key"),"editdelete", 0,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
+  KAction *signKey = new KAction(i18n("&Sign key"), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
+  KAction *infoKey = new KAction(i18n("&Key info"), "kgpg_info", 0,this, SLOT(listsigns()),actionCollection(),"key_info");
+  KAction *importKey = new KAction(i18n("&Import key"), "kgpg_import", 0,this, SLOT(slotImportKey()),actionCollection(),"key_import");
+  KAction *setDefaultKey = new KAction(i18n("Set as De&fault key"),"kgpg_dkey1", 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
+  KAction *close = new KAction(i18n("&Close window"), "exit", 0,this, SLOT(annule()),actionCollection(),"key_exit");
+  KAction *editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
+  KAction *exportSecretKey = new KAction(i18n("Export secret key"), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
+  KAction *deleteKeyPair = new KAction(i18n("Delete key pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
+  KAction *generateKey = new KAction(i18n("&Generate key pair"), "kgpg_gen", 0,this, SLOT(slotgenkey()),actionCollection(),"key_gener");
+  KAction *configure = new KAction(i18n("Default &options"), "configure", 0,this, SLOT(slotParentOptions()),actionCollection(),"key_configure");
   
   
   
@@ -357,9 +355,9 @@ listKeys::listKeys(QWidget *parent, const char *name,bool enctodef,QString defau
   keyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
   keySingle=loader->loadIcon("kgpg_key1",KIcon::Small,20);
   
-  
-  QVBoxLayout *vbox=new QVBoxLayout(this,3);
-  keysList2 = new KListView(this);
+ QWidget *page=new QWidget(this);
+  QVBoxLayout *vbox=new QVBoxLayout(page,3);
+  keysList2 = new KListView(page);
   keysList2->setRootIsDecorated(false);
   keysList2->addColumn( i18n( "E-Mail" ) );
   keysList2->addColumn( i18n( "Trust" ) );
@@ -392,7 +390,7 @@ listKeys::listKeys(QWidget *parent, const char *name,bool enctodef,QString defau
   importKey->plug(popupout);
   generateKey->plug(popupout);
   
-  
+  /*
   toolbar=new KToolBar(this);
   vbox->addWidget(toolbar);
   
@@ -410,12 +408,14 @@ listKeys::listKeys(QWidget *parent, const char *name,bool enctodef,QString defau
     
   //toolbar->setIconText(KToolBar::IconTextBottom);
   toolbar->enableMoving(false);
-
-  statusbar=new KStatusBar(this);
+*/
+  statusbar=new KStatusBar(page);
 
   //vbox->addWidget(labeltxt);
   vbox->addWidget(keysList2);
   vbox->addWidget(statusbar);
+  setCentralWidget(page);
+  
   QObject::connect(keysList2,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(listsigns()));
   QObject::connect(keysList2,SIGNAL(contextMenuRequested(QListViewItem *,const QPoint &,int)),
                    this,SLOT(slotmenu(QListViewItem *,const QPoint &,int)));
@@ -423,16 +423,22 @@ listKeys::listKeys(QWidget *parent, const char *name,bool enctodef,QString defau
   QObject::connect(keysList2,SIGNAL(selectionChanged(QListViewItem *)),
                    this,SLOT(slotstatus(QListViewItem *)));
 
-
   ///////////////    get all keys data
-  refreshkey();
+refreshkey();
+createGUI("listkeys.rc");
+KMenuBar *menu=KMainWindow::menuBar();
+menu->hide();
 }
 
+listKeys::~listKeys()
+{}
 
 void listKeys::annule()
 {
   /////////  cancel & close window
-  reject();
+  //exit(0);
+close();
+  //reject();
 }
 
 void listKeys::slotParentOptions()
@@ -803,7 +809,6 @@ void listKeys::slotgenkey()
 
 
               QFile f;
-              char gpgcmd[1024] = "\0",line[130]="";
 
               //// put encrypted data in a tempo file
 
@@ -945,7 +950,6 @@ void listKeys::refreshkey()
   FILE *fp;
   QString tst;
   char line[130];
-  int pos;
   keynames=NULL;
   keysList2->clear();
 

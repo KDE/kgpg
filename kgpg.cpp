@@ -127,7 +127,9 @@ KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,bool encmode,
 }
 
 KgpgApp::~KgpgApp()
-{}
+{
+exit(1);
+}
 
 void KgpgApp::slotman()
 {
@@ -194,7 +196,6 @@ void KgpgApp::initActions()
   helptips = new KAction(i18n("Tip of the &Day..."), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
   manpage = new KAction(i18n("View GnuPG manual"), "contents", 0,this, SLOT(slotman()),actionCollection(),"gpg_man");
 }
-
 
 void KgpgApp::initStatusBar()
 {

@@ -102,7 +102,7 @@ METASOURCES = AUTO
 kgpg_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 rcdir = $(kde_datadir)/kgpg
-rc_DATA = kgpg.rc
+rc_DATA = kgpg.rc listkeys.rc
 
 messages: rc.cpp
 	LIST=`find . -name \*.h -o -name \*.hh -o -name \*.H -o -name \*.hxx -o -name \*.hpp -o -name \*.cpp -o -name \*.cc -o -name \*.cxx -o -name \*.ecpp -o -name \*.C`; \

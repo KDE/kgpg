@@ -48,6 +48,7 @@
 #include <kglobal.h>
 #include <kiconloader.h>
 #include <kaction.h>
+#include <kapp.h>
 
 #include "kgpg.h"
 #include "keygener.h"
@@ -78,11 +79,12 @@ public:
     KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0);
 };
 
-class listKeys : public QDialog //KMainWindow
+class listKeys : public KMainWindow//QDialog //KMainWindow
 {
   Q_OBJECT
   public:
   listKeys(QWidget *parent=0, const char *name=0,bool enctodef=false,QString defaultKey="");
+  ~listKeys();
   KListView *keysList2;
   QPopupMenu *popup,*popupsec,*popupout;
   QString secretList,exportresult;
