@@ -35,7 +35,6 @@
 #include <kaction.h>
 #include <kiconloader.h>
 #include <kpopupmenu.h>
-#include <kiconloader.h>
 #include <khelpmenu.h>
 #include <ksystemtray.h>
 #include <ktip.h>

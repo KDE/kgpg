@@ -52,7 +52,7 @@
 #include <kkeydialog.h>
 #include <kpassdlg.h>
 #include <kaction.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <kedittoolbar.h>
 
 #include "kgpg.h"

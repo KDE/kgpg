@@ -36,7 +36,6 @@
 
 #include <kurl.h>
 #include <kaction.h>
-#include <kiconloader.h>
 #include <kpopupmenu.h>
 #include <kiconloader.h>
 #include <khelpmenu.h>
@@ -52,7 +51,6 @@
 #include <kpassivepopup.h>
 #endif
 
-#include "kgpginterface.h"
 #include "kgpginterface.h"
 #include "kgpgview.h"
 #include "popupname.h"

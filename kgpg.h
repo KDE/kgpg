@@ -37,7 +37,6 @@
 
 #include <kurl.h>
 #include <kaction.h>
-#include <kiconloader.h>
 #include <kpopupmenu.h>
 #include <kiconloader.h>
 #include <khelpmenu.h>
