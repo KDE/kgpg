@@ -22,7 +22,6 @@
 #include <qregexp.h>
 #include <qstring.h>
 
-
 #include <kmessagebox.h>
 #include <kapplication.h>
 #include <klocale.h>

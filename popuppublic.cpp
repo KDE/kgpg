@@ -312,6 +312,7 @@ QString tst;
 
   while (p->readln(tst)!=-1)
   {
+  tst=QString::fromUtf8(tst);
        if (tst.startsWith("pub"))
         {
 	dead=false;
@@ -389,7 +390,6 @@ if ((dead==false) && (tst!=""))
 QString popupPublic::extractKeyName(QString fullName)
 {
 QString kMail;
-fullName=QString::fromUtf8(fullName);
 if (fullName.find("<")!=-1)
 {
 kMail=fullName.section('<',-1,-1);

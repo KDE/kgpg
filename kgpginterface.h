@@ -39,6 +39,8 @@
 #include <kdeversion.h>
 #if (KDE_VERSION >= 310)
 #include <kpassivepopup.h>
+#else
+#include <qtimer.h>
 #endif
 
 /**

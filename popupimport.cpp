@@ -53,7 +53,7 @@ popupImport::popupImport(const QString& caption,QWidget *parent, const char *nam
 
   checkClipboard->setText( i18n( "Clipboard" ) );
 
-  bGroupSourcesLayout->addMultiCellWidget( checkClipboard, 0, 0, 0, 2 );
+  bGroupSourcesLayout->addWidget( checkClipboard, 0, 0);
 
   newFilename = new KLineEdit( bGroupSources, "newFilename" );
 
@@ -61,32 +61,33 @@ popupImport::popupImport(const QString& caption,QWidget *parent, const char *nam
 
   newFilename->setText(oldnam.path());
 
-  bGroupSourcesLayout->addWidget( newFilename, 2, 1 );
-
   checkFile = new QRadioButton( bGroupSources, "checkFile" );
   checkFile->setText( i18n( "File" ) );
   checkFile->setChecked( TRUE );
-
-  bGroupSourcesLayout->addWidget( checkFile, 2, 0 );
 
   buttonToolbar = new QPushButton( bGroupSources, "buttonToolbar" );
   buttonToolbar->setMinimumSize( QSize( 0, 0 ) );
   buttonToolbar->setMaximumSize( QSize( 32, 32767 ) );
   buttonToolbar->setText( trUtf8( "..." ) );
 
-  bGroupSourcesLayout->addWidget( buttonToolbar, 2, 2 );
+  bGroupSourcesLayout->addWidget( checkFile, 1, 0 );
+  bGroupSourcesLayout->addWidget( newFilename, 1, 1 );
+  bGroupSourcesLayout->addWidget( buttonToolbar, 1, 2 );
 
   importSecretKeys = new QCheckBox(i18n("Allow import of secret keys"),page);
   // signals and slots connections
 
   connect( checkFile, SIGNAL( toggled(bool) ), this, SLOT( slotenable(bool) ) );
   connect( buttonToolbar, SIGNAL( clicked() ), this, SLOT( slotchooseurl()));
-  // tab order
-  setTabOrder( newFilename, buttonToolbar );
-  setTabOrder( buttonToolbar, checkFile );
-  setTabOrder( checkFile, checkClipboard );
+  
   vbox->add(bGroupSources);
   vbox->add(importSecretKeys);
+  
+  // tab order
+  setTabOrder( checkFile, newFilename );
+  setTabOrder( newFilename, buttonToolbar );
+  setTabOrder( buttonToolbar, importSecretKeys );
+ 
   page->show();
   page->resize(page->maximumSize());
   setMainWidget(page);

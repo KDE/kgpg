@@ -25,6 +25,7 @@
 #include <qfile.h>
 #include <qlayout.h>
 #include <qvariant.h>
+#include <qregexp.h>
 #include <qpainter.h>
 #include <qvbox.h>
 #include <qclipboard.h>
@@ -35,6 +36,7 @@
 #include <kfiledialog.h>
 #include <kprocess.h>
 #include <kshortcut.h>
+#include <kstdaccel.h>
 
 #include "listkeys.h"
 #include "kgpginterface.h"
@@ -566,12 +568,13 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   //if (enctodef==true) defKey=defaultKey;
   //else defKey="";
   setCaption(i18n("Key Management"));
-  KAction *exportPublicKey = new KAction(i18n("E&xport Public Key..."), "kgpg_export", 0,this, SLOT(slotexport()),actionCollection(),"key_export");
-  KAction *deleteKey = new KAction(i18n("&Delete Key"),"editdelete", 0,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
+//(void) new KAction(i18n("&Refresh List"), KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_copy");
+  KAction *exportPublicKey = new KAction(i18n("E&xport Public Key..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_export");
+  KAction *deleteKey = new KAction(i18n("&Delete Key"),"editdelete", Qt::Key_Delete,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
   KAction *signKey = new KAction(i18n("&Sign Key..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
   KAction *delSignKey = new KAction(i18n("Delete Sign&ature"),0, 0,this, SLOT(delsignkey()),actionCollection(),"key_delsign");
-  KAction *infoKey = new KAction(i18n("&Key Info"), "kgpg_info", 0,this, SLOT(listsigns()),actionCollection(),"key_info");
-  KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", 0,this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
+  KAction *infoKey = new KAction(i18n("&Key Info"), "kgpg_info", Qt::Key_Return,this, SLOT(listsigns()),actionCollection(),"key_info");
+  KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", KStdAccel::shortcut(KStdAccel::Paste),this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
   KAction *setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
 
   KStdAction::quit(this, SLOT(annule()), actionCollection());
@@ -579,7 +582,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   KAction *editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
   KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
   KAction *deleteKeyPair = new KAction(i18n("Delete Key Pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
-  KAction *generateKey = new KAction(i18n("&Generate Key Pair..."), "kgpg_gen", 0,this, SLOT(slotgenkey()),actionCollection(),"key_gener");
+  KAction *generateKey = new KAction(i18n("&Generate Key Pair..."), "kgpg_gen", KStdAccel::shortcut(KStdAccel::New),this, SLOT(slotgenkey()),actionCollection(),"key_gener");
   KToggleAction *togglePhoto= new KToggleAction(i18n("&Show Photos"), "imagegallery", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
   (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
 
@@ -1229,9 +1232,9 @@ void listKeys::deleteseckey()
 {
   //////////////////////// delete a key
   QString res=keysList2->currentItem()->text(0);
-
+res.replace(QRegExp("<"),"&lt;");
     int result=KMessageBox::warningYesNo(this,
-                                         i18n("Delete SECRET KEY pair %1?\nDeleting this key pair means you will never be able to decrypt files encrypted with this key anymore!").arg(res),
+                                         i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b> ?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key anymore!").arg(res),
                                          i18n("Warning"),
                                          i18n("Delete"));
     if (result!=KMessageBox::Yes)
@@ -1247,14 +1250,16 @@ void listKeys::deleteseckey()
 
 void listKeys::confirmdeletekey()
 {
+if (keysList2->secretList.find(keysList2->currentItem()->text(5))!=-1) deleteseckey();
+else{
   QString res=keysList2->currentItem()->text(0);
-
-  int result=KMessageBox::warningYesNo(this,i18n("Delete public key %1?").arg(res),i18n("Warning"),i18n("Delete"));
+res.replace(QRegExp("<"),"&lt;");
+  int result=KMessageBox::warningYesNo(this,i18n("<p>Delete public key <b>%1</b> ?</p>").arg(res),i18n("Warning"),i18n("Delete"));
   if (result!=KMessageBox::Yes)
     return;
   else
     deletekey();
-
+}
 }
 
 void listKeys::deletekey()

@@ -231,16 +231,16 @@ void KgpgApp::initActions()
   KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
   
   fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
-  fileEncrypt = new KAction(i18n("&Encrypt File..."), fileEnc, 0,this, SLOT(slotFileEnc()), actionCollection(),"file_encrypt");
-  fileDecrypt = new KAction(i18n("&Decrypt File..."), fileDec, 0,this, SLOT(slotFileDec()), actionCollection(),"file_decrypt");
+  (void) new KAction(i18n("&Encrypt File..."), fileEnc, 0,this, SLOT(slotFileEnc()), actionCollection(),"file_encrypt");
+  (void) new KAction(i18n("&Decrypt File..."), fileDec, 0,this, SLOT(slotFileDec()), actionCollection(),"file_decrypt");
   editUndo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
   editRedo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());  
-  keysManage = new KAction(i18n("&Manage Keys"), "kgpg_manage", 0,this, SLOT(slotManageKey()), actionCollection(),"keys_manage");
-  signGenerate = new KAction(i18n("&Generate Signature..."),0, this, SLOT(slotPreSignFile()), actionCollection(), "sign_generate");
-  signVerify = new KAction(i18n("&Verify Signature..."),0, this, SLOT(slotPreVerifyFile()), actionCollection(), "sign_verify");
-  signCheck = new KAction(i18n("&Check MD5 Sum..."), 0,this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
-  helptips = new KAction(i18n("Tip of the &Day"), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
-  manpage = new KAction(i18n("View GnuPG Manual"), "contents", 0,this, SLOT(slotman()),actionCollection(),"gpg_man");
+  (void) new KAction(i18n("&Manage Keys"), "kgpg_manage", CTRL+Key_K,this, SLOT(slotManageKey()), actionCollection(),"keys_manage");
+  (void) new KAction(i18n("&Generate Signature..."),0, this, SLOT(slotPreSignFile()), actionCollection(), "sign_generate");
+  (void) new KAction(i18n("&Verify Signature..."),0, this, SLOT(slotPreVerifyFile()), actionCollection(), "sign_verify");
+  (void) new KAction(i18n("&Check MD5 Sum..."), 0,this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
+  (void) new KAction(i18n("Tip of the &Day"), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
+  (void) new KAction(i18n("View GnuPG Manual"), "contents", 0,this, SLOT(slotman()),actionCollection(),"gpg_man");
 }
 
 void KgpgApp::initStatusBar()
