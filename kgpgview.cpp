@@ -164,7 +164,7 @@ void MyEditor::slotDecodeFile(QString fname)
 
 void MyEditor::slotProcessResult(QStringList iKeys)
 {
-	refreshImported(iKeys);
+	emit refreshImported(iKeys);
         KIO::NetAccess::removeTempFile(tempFile);
         tempFile="";
 }

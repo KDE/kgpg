@@ -138,7 +138,8 @@ void  MyView::clipDecrypt()
 void  MyView::openEditor()
 {
         KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WType_Dialog);
-	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),this,SLOT(slotImportedKeys(QStringList)));	
+	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
+	connect(kgpgtxtedit->view->editor,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
         kgpgtxtedit->show();
 }
 
@@ -340,13 +341,10 @@ void  MyView::decryptDroppedFile()
         lib->slotFileDec(droppedUrl,swapname,customDecrypt);
         if (isFolder)
                 connect(lib,SIGNAL(decryptionOver()),this,SLOT(unArchive()));
-		connect(lib,SIGNAL(importOver(QStringList)),this,SLOT(slotImportedKeys(QStringList)));
+		connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(importedKeys(QStringList)));
 }
 
-void  MyView::slotImportedKeys(QStringList iKeys)
-{
-emit importedKeys(iKeys);
-}
+
 
 void  MyView::unArchive()
 {
@@ -374,7 +372,8 @@ void  MyView::showDroppedFile()
 {
         KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
         kgpgtxtedit->view->editor->slotDroppedFile(droppedUrl);
-	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),this,SLOT(slotImportedKeys(QStringList)));
+	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
+	connect(kgpgtxtedit->view->editor,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
         kgpgtxtedit->show();
 }
 
@@ -465,7 +464,7 @@ void  MyView::dropEvent (QDropEvent *o)
 void  MyView::readOptions()
 {
         QString path;
-        //kdDebug()<<"Reading options\n";
+        //kdDebug()<<"Reading options"<<endl;
         ksConfig->setGroup("Encryption");
         encryptfileto=ksConfig->readBoolEntry("encrypt_files_to",false);
         ascii=ksConfig->readBoolEntry("Ascii_armor",true);
@@ -516,7 +515,7 @@ void  MyView::firstRun()
 
 void  MyView::startWizard()
 {
-        kdDebug()<<"Starting Wizard\n";
+        kdDebug()<<"Starting Wizard"<<endl;
 
         wiz=new KgpgWizard(0,"wizard");
         QString confPath=QDir::homeDirPath()+"/.gnupg/options";
@@ -703,7 +702,6 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
                 : KSystemTray(parent,name)
 {
         w=new MyView(this);
-        connect(w,SIGNAL(readAgain2()),this,SLOT(readAgain3()));
         w->show();
         KPopupMenu *conf_menu=contextMenu();
         KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0,this, SLOT(slotencryptclip()),actionCollection(),"clip_encrypt");
@@ -715,11 +713,6 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
         KgpgOpenEditor->plug(conf_menu);
         conf_menu->insertSeparator();
         KgpgPreferences->plug(conf_menu);
-}
-
-void kgpgapplet::readAgain3()
-{
-        emit readAgain4();
 }
 
 
@@ -768,17 +761,6 @@ KgpgAppletApp::~KgpgAppletApp()
 
 void KgpgAppletApp::slotHandleQuit()
 {
-        /*
-                int autoStart = KMessageBox::questionYesNoCancel( 0, i18n("Should KGpg start automatically\nwhen you login?"), i18n("Automatically Start KGpg?"),KStdGuiItem::yes(),KStdGuiItem::no(),"Autostartup");
-                kgpg_applet->w->ksConfig->setGroup("User Interface");
-                if ( autoStart == KMessageBox::Yes )
-                        kgpg_applet->w->ksConfig->writeEntry("AutoStart", true);
-                else if ( autoStart == KMessageBox::No) {
-                        kgpg_applet->w->ksConfig->writeEntry("AutoStart", false);
-                } else  // cancel chosen don't quit
-                        return;
-                kgpg_applet->w->ksConfig->sync();
-        */
         quit();
 }
 
@@ -792,19 +774,19 @@ void KgpgAppletApp::wizardOver(QString defaultKeyId)
 
 int KgpgAppletApp::newInstance()
 {
-        kdDebug()<<"New instance\n";
+        kdDebug()<<"New instance"<<endl;
         args = KCmdLineArgs::parsedArgs();
         if (running) {
-                kdDebug()<<"Already running\n";
+                kdDebug()<<"Already running"<<endl;
                 kgpg_applet->show();
         } else {
-                kdDebug() << "Starting KGpg\n";
+                kdDebug() << "Starting KGpg"<<endl;
                 running=true;
                 s_keyManager=new listKeys(0, "key_manager");
                 s_keyManager->refreshkey();
                 kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
-                connect(kgpg_applet,SIGNAL(readAgain4()),s_keyManager,SLOT(readOptions()));
+                connect(kgpg_applet->w,SIGNAL(readAgain2()),s_keyManager,SLOT(readOptions()));
                 connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
                 connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));
                 connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotgenkey()));
@@ -831,7 +813,7 @@ int KgpgAppletApp::newInstance()
                 s_keyManager->refreshkey();
         } else
                 if (args->count()>0) {
-                        kdDebug() << "KGpg: found files";
+                        kdDebug() << "KGpg: found files"<<endl;
 
                         urlList.clear();
 

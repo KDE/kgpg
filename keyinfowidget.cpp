@@ -372,14 +372,14 @@ void KgpgKeyInfo::slotPreOk2(int)
         if (ownerTrust!=prop->kCOwnerTrust->currentText()) {
                 KgpgInterface *KeyTrustProcess=new KgpgInterface();
                 KeyTrustProcess->KgpgTrustExpire(displayedKeyID,prop->kCOwnerTrust->currentText());
-                connect(KeyTrustProcess,SIGNAL(trustfinished()),this,SLOT(slotAccept()));
+                connect(KeyTrustProcess,SIGNAL(trustfinished()),this,SLOT(keyNeedsRefresh()));
         } else
                 slotAccept();
 }
 
 void KgpgKeyInfo::slotAccept()
 {
-//kdDebug()<<"Key was modified\n";
+//kdDebug()<<"Key was modified"<<endl;
 emit keyNeedsRefresh();
 accept();
 }

@@ -430,7 +430,7 @@ void  KeyView::droppedfile (KURL url)
 
         KgpgInterface *importKeyProcess=new KgpgInterface();
         importKeyProcess->importKeyURL(url);
-        connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(refreshkeylist()));
+        connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SLOT(slotReloadKeys(QStringList)));
 }
 
 void KeyView::contentsDragMoveEvent(QDragMoveEvent *e)
@@ -737,9 +737,9 @@ void listKeys::findFirstKey()
         if (!item)
                 return;
         QString searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
-        //kdDebug()<<"String:"<<searchText<<"\n";
-        //kdDebug()<<"Search:"<<searchString<<"\n";
-        //kdDebug()<<"OPts:"<<searchOptions<<"\n";
+        //kdDebug()<<"String:"<<searchText<<endl;
+        //kdDebug()<<"Search:"<<searchString<<endl;
+        //kdDebug()<<"OPts:"<<searchOptions<<endl;
         KFind *m_find = new KFind(searchString, searchOptions,this);
         m_find->setData(searchText);
         while (m_find->find()==KFind::NoMatch) {
@@ -753,10 +753,10 @@ void listKeys::findFirstKey()
                 }
         }
         delete m_find;
-        //kdDebug()<<"end loop"<<"\n";
+        //kdDebug()<<"end loop"<<endl;
 
         if (foundItem) {
-                //kdDebug()<<"Found: "<<searchText<<"\n";
+                //kdDebug()<<"Found: "<<searchText<<endl;
                 keysList2->clearSelection();
                 keysList2->setCurrentItem(item);
                 keysList2->setSelected(item,true);
@@ -767,7 +767,7 @@ void listKeys::findFirstKey()
 
 void listKeys::findNextKey()
 {
-        //kdDebug()<<"find next\n";
+        //kdDebug()<<"find next"<<endl;
         if (searchString.isEmpty())
                 return;
         bool foundItem=true;
@@ -778,9 +778,9 @@ void listKeys::findNextKey()
                 item = item->parent();
         item=item->nextSibling();
         QString searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
-        //kdDebug()<<"Next string:"<<searchText<<"\n";
-        //kdDebug()<<"Search:"<<searchString<<"\n";
-        //kdDebug()<<"OPts:"<<searchOptions<<"\n";
+        //kdDebug()<<"Next string:"<<searchText<<endl;
+        //kdDebug()<<"Search:"<<searchString<<endl;
+        //kdDebug()<<"OPts:"<<searchOptions<<endl;
         KFind *m_find = new KFind(searchString, searchOptions,this);
         m_find->setData(searchText);
         while (m_find->find()==KFind::NoMatch) {
@@ -791,7 +791,7 @@ void listKeys::findNextKey()
                         item = item->nextSibling();
                         searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
                         m_find->setData(searchText);
-                        //kdDebug()<<"Next string:"<<searchText<<"\n";
+                        //kdDebug()<<"Next string:"<<searchText<<endl;
                 }
         }
         delete m_find;
@@ -1427,7 +1427,7 @@ void listKeys::groupChange()
 void listKeys::createNewGroup()
 {
         QStringList badkeys,keysGroup;
-        kdDebug()<<"creating a new group\n";
+        kdDebug()<<"creating a new group"<<endl;
         if (keysList2->selectedItems().count()>0) {
                 QPtrList<QListViewItem> groupList=keysList2->selectedItems();
                 bool keyDepth=true;
@@ -1470,7 +1470,7 @@ void listKeys::createNewGroup()
 
 void listKeys::groupInit(QStringList keysGroup)
 {
-        kdDebug()<<"preparing group\n";
+        kdDebug()<<"preparing group"<<endl;
         QString groupName;
 
         QString groupKeyList=keysGroup.join(" ");
@@ -1483,7 +1483,7 @@ void listKeys::groupInit(QStringList keysGroup)
                 QListViewItem *item=gEdit->availableKeys->firstChild();
                 foundId=false;
                 while (item) {
-                        kdDebug()<<"Searching in key: "<<item->text(0)<<"\n";
+                        kdDebug()<<"Searching in key: "<<item->text(0)<<endl;
                         if (QString(*it).right(8).lower()==item->text(2).right(8).lower()) {
                                 gEdit->groupKeys->insertItem(item);
                                 foundId=true;
@@ -1922,12 +1922,12 @@ void listKeys::slotReadFingerProcess(KProcIO *p)
         while (p->readln(outp)!=-1) {
                 if (outp.startsWith("pub") && (continueSearch)) {
                         newkeyID=outp.section(':',4,4).right(8);
-                        //			kdDebug()<<newkeyID<<"\n";
+                        //			kdDebug()<<newkeyID<<endl;
                 }
                 if (outp.startsWith("fpr")) {
                         if (newkeyFinger.lower()==outp.section(':',9,9).lower())
                                 continueSearch=false;
-                        //			kdDebug()<<newkeyFinger<<" test:"<<outp.section(':',9,9)<<"\n";
+                        //			kdDebug()<<newkeyFinger<<" test:"<<outp.section(':',9,9)<<endl;
                 }
         }
 }
@@ -1992,7 +1992,7 @@ void listKeys::doFilePrint(QString url)
 void listKeys::doPrint(QString txt)
 {
         KPrinter prt;
-        //kdDebug()<<"Printing...\n";
+        //kdDebug()<<"Printing..."<<endl;
         if (prt.setup(this)) {
                 QPainter painter(&prt);
                 QPaintDeviceMetrics metrics(painter.device());
@@ -2098,14 +2098,14 @@ void listKeys::slotPreImportKey()
                                 ////////////////////////// import from file
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
                                 importKeyProcess->importKeyURL(impname, importSecret);
-                                connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(refreshkey()));
+                                connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SLOT(slotReloadKeys(QStringList)));
                         }
                 } else {
                         QString keystr = kapp->clipboard()->text();
                         if (!keystr.isEmpty()) {
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
                                 importKeyProcess->importKey(keystr, importSecret);
-                                connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(refreshkey()));
+                                connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SLOT(slotReloadKeys(QStringList)));
                         }
                 }
         }
@@ -2126,9 +2126,9 @@ void listKeys::slotPreImportKey()
 
 void KeyView::expandGroup(QListViewItem *item)
 {
-        kdDebug()<<"Expanding group\n";
+        kdDebug()<<"Expanding group"<<endl;
         QStringList keysGroup=KgpgInterface::getGpgGroupSetting(item->text(0),configFilePath);
-        kdDebug()<<keysGroup<<"\n";
+        kdDebug()<<keysGroup<<endl;
         for ( QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it ) {
                 SmallViewItem *item2=new SmallViewItem(item,QString(*it),"","","","","","");
                 item2->setPixmap(0,pixkeyGroup);
@@ -2159,7 +2159,7 @@ QPixmap KeyView::slotGetPhoto(QString photoId,bool mini)
 
 void KeyView::expandKey(QListViewItem *item)
 {
-        //kdDebug()<<"Expanding Key\n";
+        //kdDebug()<<"Expanding Key"<<endl;
         if (item->childCount()!=0)
                 return;   // key has already been expanded
 
@@ -2197,7 +2197,7 @@ void KeyView::expandKey2(QListViewItem *item)
 		keyPhotoId=slotGetPhoto(item->text(6));
 	}*/
 
-	kdDebug()<<"Expanding Key: "<<item->text(6)<<"\n";
+	kdDebug()<<"Expanding Key: "<<item->text(6)<<endl;
 
 	cycle="pub";
         bool noID=false;
@@ -2474,7 +2474,7 @@ void KeyView::refreshgroups()
 
 void KeyView::refreshselfkey()
 {
-kdDebug()<<"Refreshing key\n";
+kdDebug()<<"Refreshing key"<<endl;
 if (currentItem()->depth()==0)
 refreshcurrentkey(currentItem());
 else refreshcurrentkey(currentItem()->parent());

@@ -103,7 +103,6 @@ void KgpgApp::initView()
         // connect the widget to your document to display document contents.
 
         view = new KgpgView(this,0);
-	connect(view->editor,SIGNAL(refreshImported(QStringList )),this,SLOT(slotRefreshImportedKeys(QStringList)));
         //  doc->addView(view);
         setCentralWidget(view);
         setCaption(i18n("Untitled"),false); ///   doc->URL().fileName(),false);
@@ -192,14 +191,9 @@ void KgpgApp::slotFilePreDec()
                 }
                 KgpgLibrary *lib=new KgpgLibrary();
                 lib->slotFileDec(url,KURL(newname),customDecrypt) ;
-		connect(lib,SIGNAL(importOver(QStringList)),this,SLOT(slotRefreshImportedKeys(QStringList)));
+		connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(refreshImported(QStringList)));
         } else
                 openEncryptedDocumentFile(url);
-}
-
-void KgpgApp::slotRefreshImportedKeys(QStringList iKeys)
-{
-emit refreshImported(iKeys);
 }
 
 void KgpgApp::slotFileOpen()
@@ -290,7 +284,7 @@ void KgpgApp::openDocumentFile(const KURL& url)
 void KgpgApp::slotFilePrint()
 {
         KPrinter prt;
-        //kdDebug()<<"Printing...\n";
+        //kdDebug()<<"Printing..."<<endl;
         if (prt.setup(this)) {
                 QPainter painter(&prt);
                 QPaintDeviceMetrics metrics(painter.device());

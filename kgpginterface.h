@@ -31,9 +31,7 @@
 #include <kled.h>
 #include <kprocess.h>
 #include <kprocio.h>
-#include <kdialogbase.h>
 #include <kurl.h>
-#include <kiconloader.h>
 #include <kio/netaccess.h>
 #include <kdebug.h>
 #include <ktempfile.h>
@@ -43,19 +41,10 @@
 
 class QLabel;
 
-/*
-#include <kdeversion.h>
-#if (KDE_VERSION >= 310)
-#include <kpassivepopup.h>
-#else
-#include <qtimer.h>
-#endif
-*/
-
 /**
  * Encrypt a file using gpg.
  */
-//class KgpgEncryptFile : public QObject {
+
 class KgpgInterface : public QObject
 {
 
@@ -256,7 +245,6 @@ private slots:
         void txtreadencprocess(KProcIO *p);
 
         void txtencryptfin(KProcess *);
-        void signkillDisplayClip();
 
 	void delphotoover(KProcess *);
 	void delphotoprocess(KProcIO *p);

@@ -101,7 +101,6 @@ private slots:
         void slotVerifyFile(KURL url);
         void slotPreVerifyFile();
         void importSignatureKey(QString ID);
-	void slotRefreshImportedKeys(QStringList iKeys);
 
         void slotundo();
         void slotredo();

@@ -112,7 +112,6 @@ private slots:
         void  openKeyServer();
         void slotKeyServerClosed();
         void  unArchive();
-	void  slotImportedKeys(QStringList iKeys);
 
 protected:
         virtual void dragEnterEvent(QDragEnterEvent *);
@@ -145,9 +144,6 @@ private slots:
         void slotdecryptclip();
         void sloteditor();
         void slotOptions();
-        void readAgain3();
-signals:
-        void readAgain4();
 };
 
 class KCmdLineArgs;

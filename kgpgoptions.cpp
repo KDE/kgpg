@@ -58,7 +58,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KAutoConfigDialog( p
 
         config->setGroup("User Interface");
 
-kdDebug()<<"Adding pages\n";
+kdDebug()<<"Adding pages"<<endl;
         page1=new Encryption();
         page2=new Decryption();
         page3=new UI();
@@ -69,7 +69,7 @@ kdDebug()<<"Adding pages\n";
         addPage(page4, i18n("GPG Settings"), "GPG Settings", "kgpg",QString::null,true);
 
 
-kdDebug()<<"Starting options\n";
+kdDebug()<<"Starting options"<<endl;
 
         config->setGroup("GPG Settings");
         alwaysKeyID=KgpgInterface::getGpgSetting("encrypt-to",config->readPathEntry("gpg_config_path"));
@@ -101,7 +101,7 @@ kdDebug()<<"Starting options\n";
                 config->writeEntry("key_server1",optionsServer);
 
         connect(this, SIGNAL(settingsChanged()), this, SLOT(readSettings()));
-	kdDebug()<<"Finishing options\n";
+	kdDebug()<<"Finishing options"<<endl;
 }
 
 

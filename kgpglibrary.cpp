@@ -99,6 +99,7 @@ void KgpgLibrary::shredprocessenc(KURL fileToShred)
 {
         //KMessageBox::sorry(0,"123: "+fileToShred.path());
         delete pop;
+	pop=0L;
         kgpgShredWidget *sh=new kgpgShredWidget(0,"shred");
         sh->setCaption(i18n("Shredding %1").arg(fileToShred.filename()));
         sh->show();
@@ -108,12 +109,13 @@ void KgpgLibrary::shredprocessenc(KURL fileToShred)
 void KgpgLibrary::processenc(KURL)
 {
         delete pop;
+	pop=0L;
 }
 
 void KgpgLibrary::processencerror(QString mssge)
 {
         delete pop;
-
+	pop=0L;
         KMessageBox::detailedSorry(0,i18n("Encryption failed."),mssge);
 }
 
@@ -160,12 +162,8 @@ void KgpgLibrary::processdecover()
 {
         //       if (popIsDisplayed)
         delete pop;
+	pop=0L;
         emit decryptionOver();
-}
-
-void KgpgLibrary::processimportover(QStringList keyList)
-{
-        emit importOver(keyList);
 }
 
 
@@ -185,7 +183,7 @@ void KgpgLibrary::processdecerror(QString mssge)
                         else {
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
                                 importKeyProcess->importKeyURL(urlselected);
-				connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SLOT(processimportover(QStringList)));
+				connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SIGNAL(importOver(QStringList)));
 				
                                 return;
                         }
