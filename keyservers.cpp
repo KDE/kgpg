@@ -19,16 +19,13 @@
 
 #include <klocale.h>
 #include <qfile.h>
-
 #include <qcheckbox.h>
-
 #include <kapplication.h>
 #include <kiconloader.h>
 #include <kcombobox.h>
 #include <kdialogbase.h>
 #include <kmessagebox.h>
 #include <qtextcodec.h>
-#include "keyservers.h"
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qdialog.h>
@@ -46,11 +43,12 @@
 #include <ksimpleconfig.h>
 #include <kaction.h>
 #include <kdebug.h>
+
 #include "keyserver.h"
-#include "keyservers.h"
 #include "kgpgsettings.h"
 #include "searchres.h"
 #include "detailedconsole.h"
+#include "keyservers.h"
 
 keyServer::keyServer(QWidget *parent, const char *name,bool modal,bool autoClose):KDialogBase( Swallow, i18n("Key Server"), Close, Close, parent, name,modal)
 {

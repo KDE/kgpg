@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <stdlib.h>
+
 #include <kaction.h>
 #include <kfiledialog.h>
 #include <klocale.h>
@@ -24,28 +26,28 @@
 #include <qradiobutton.h>
 #include <qclipboard.h>
 #include <qtextcodec.h>
+#include <qpainter.h>
+#include <kprinter.h>
+#include <kmessagebox.h>
+#include <kdebug.h>
+#include <klineedit.h>
+#include <qcheckbox.h>
+#include <kurlrequester.h>
+#include <ktempfile.h>
+#include <kio/netaccess.h>
+#include <kio/renamedlg.h>
+
 #include "kgpgsettings.h"
 #include "kgpgeditor.h"
 #include "sourceselect.h"
 #include "keyexport.h"
 #include "keyserver.h"
 #include "keyservers.h"
-#include <qpainter.h>
-#include <kprinter.h>
-#include <kmessagebox.h>
 #include "kgpg.h"
+#include "kgpgview.h"
 #include "listkeys.h"
 #include "kgpglibrary.h"
-#include <stdlib.h>
-#include <kdebug.h>
-#include <kgpgview.h>
-#include <klineedit.h>
-#include <kaction.h>
-#include <qcheckbox.h>
-#include <kurlrequester.h>
-#include <ktempfile.h>
-#include <kio/netaccess.h>
-#include <kio/renamedlg.h>
+
 KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent, name,f)
 {
         readOptions();

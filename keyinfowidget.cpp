@@ -15,12 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "keyinfowidget.h"
 #include <klocale.h>
 #include <kprocess.h>
-#include "keyinfowidget.h"
-#include "keyproperties.h"
-#include "kgpginterface.h"
 #include <qdatetime.h>
 #include <qfile.h>
 #include <kprocio.h>
@@ -40,6 +36,10 @@
 #include <klineedit.h>
 #include <ktrader.h> 
 #include <kservice.h>
+
+#include "keyinfowidget.h"
+#include "keyproperties.h"
+#include "kgpginterface.h"
 
 KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDialogBase( Swallow, i18n("Key Properties"), Close, Close, parent, name,true)
 {

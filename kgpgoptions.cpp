@@ -35,7 +35,6 @@
 #include <qvbuttongroup.h>
 #include <qfont.h>
 #include <kaction.h>
-#include <qradiobutton.h>
 #include <qcombobox.h>
 #include <kmessagebox.h>
 #include <klineedit.h>
@@ -45,26 +44,22 @@
 #include <kdialogbase.h>
 #include <kiconloader.h>
 #include <kfiledialog.h>
-#include <klineedit.h>
 #include <kinputdialog.h>
 #include <kfontdialog.h>
-
 #include <kdesktopfile.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>
-
 #include <stdlib.h>
+#include <kdebug.h>
 
 #include "kgpgoptions.h"
 #include "kgpgsettings.h"
-//#include "kgpg.h"
 
 #include "conf_decryption.h"
 #include "conf_encryption.h"
 #include "conf_gpg.h"
 #include "conf_servers.h"
 #include "conf_ui.h"
-#include <kdebug.h>
 
 ///////////////////////   main window
 

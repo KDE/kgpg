@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <stdlib.h>
 
 #include <qlabel.h>
 #include <qclipboard.h>
@@ -39,12 +40,7 @@
 #include <kdebug.h>
 #include <kurlrequesterdlg.h> 
 #include <klineedit.h>
-#include "kgpgeditor.h"
 #include <kio/renamedlg.h>
-#include "kgpglibrary.h"
-#include "kgpgwizard.h"
-#include "popuppublic.h"
-#include "kgpgview.h"
 #include <kpassivepopup.h>
 #include <qlayout.h>
 #include <qbuttongroup.h>
@@ -58,25 +54,25 @@
 #include <kurlrequester.h>
 #include <ktip.h>
 #include <kurldrag.h>
-#include <kdebug.h>
 #include <ktar.h>
 #include <kzip.h>
-#include <stdlib.h>
 #include <dcopclient.h>
-#include <kglobal.h>
 #include <kstandarddirs.h>
 #include <kfiledialog.h>
-#include <kdebug.h>
 #include <kpopupmenu.h>
 #include <qcursor.h>
 #include <kdesktopfile.h>
 
+#include "kgpgeditor.h"
 #include "kgpg.h"
 #include "kgpgsettings.h"
 #include "listkeys.h"
-#include "popuppublic.h"
 #include "keyserver.h"
 #include "keyservers.h"
+#include "popuppublic.h"
+#include "kgpgview.h"
+#include "kgpglibrary.h"
+#include "kgpgwizard.h"
 
 MyView::MyView( QWidget *parent, const char *name )
                 : QLabel( parent, name )

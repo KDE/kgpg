@@ -30,7 +30,6 @@
 #include <klistview.h>
 #include <kprocess.h>
 #include <kprocio.h>
-#include <qhbuttongroup.h>
 #include <klocale.h>
 #include <kaccel.h>
 #include <klistviewsearchline.h>

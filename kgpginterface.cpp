@@ -43,9 +43,9 @@
 #include <kled.h>
 #include <kdebug.h>
 #include <ktempfile.h>
+
 #include "kgpginterface.h"
 #include "listkeys.h"
-#include <kprocio.h>
 #include "detailedconsole.h"
 
 KgpgInterface::KgpgInterface()
