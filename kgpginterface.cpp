@@ -176,7 +176,7 @@ return 1;
 void KgpgInterface::decryptfin(KProcess *)
 {
  if (message.find("BAD_PASSPHRASE")!=-1) emit badpassphrase(false);
-else if ((message.find("DECRYPTION_OKAY")!=-1) && (message.find("GOODMDC")!=-1) && (message.find("END_DECRYPTION")!=-1))
+else if ((message.find("DECRYPTION_OKAY")!=-1) && (message.find("END_DECRYPTION")!=-1)) //&& (message.find("GOODMDC")!=-1)
 emit decryptionfinished(true);
 else
 {
@@ -345,8 +345,7 @@ void KgpgInterface::KgpgSignFile(QString keyName,QString keyID,KURL srcUrl,QStri
        /////////////////////  get passphrase
       //int code=KPasswordDialog::getPassword(password,QString("Enter passphrase for "+signKey+":"));
       int code=KPasswordDialog::getPassword(password,i18n("Enter passphrase for %1:").arg(keyName));
-      if (code!=QDialog::Accepted)
-        return;
+      if (code!=QDialog::Accepted) {emit signfinished();return;}
 
       pipe(ppass);
       pass = fdopen(ppass[1], "w");
@@ -390,6 +389,7 @@ void KgpgInterface::signfin(KProcess *)
 if (message.find("BAD_PASSPHRASE")!=-1) KMessageBox::sorry(0,i18n("Bad passphrase, signature was not created"));
 else if (message.find("SIG_CREATED")!=-1) KMessageBox::information(0,i18n("The signature file %1 was successfully created").arg(file.filename()));
 else KMessageBox::sorry(0,message);
+emit signfinished();
 }
 
 
@@ -399,7 +399,7 @@ void KgpgInterface::KgpgVerifyFile(KURL srcUrl,KURL sigUrl)
   message="";
       /////////////       create gpg command
       KProcIO *proc=new KProcIO();
-
+file=srcUrl;
     *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--verify";
     if (sigUrl.filename()!="") *proc<<sigUrl.path().local8Bit();
 *proc<<srcUrl.path().local8Bit();
@@ -439,9 +439,9 @@ void KgpgInterface::verifyfin(KProcess *)
         keyID=message.section(' ',0,0);
         message.remove(0,keyID.length());
         keyMail=message;
-        KMessageBox::information(0,i18n("Good signature from %1\nKey ID: %2").arg(keyMail).arg(keyID));
+        KMessageBox::information(0,i18n("Good signature from %1\nKey ID: %2").arg(keyMail).arg(keyID),file.filename());
     }
-    else if (message.find("UNEXPECTED")!=-1) KMessageBox::sorry(0,i18n("No signature found..."));
+    else if (message.find("UNEXPECTED")!=-1) KMessageBox::sorry(0,i18n("No signature found..."),file.filename());
     else if (message.find("BADSIG")!=-1)
     {
         message.remove(0,message.find("BADSIG")+7);
@@ -450,9 +450,10 @@ void KgpgInterface::verifyfin(KProcess *)
         keyID=message.section(' ',0,0);
         message.remove(0,keyID.length());
         keyMail=message;
-        KMessageBox::sorry(0,i18n("BAD signature from %1\nKey ID: %2\n\nThe file is corrupted!").arg(keyMail).arg(keyID));
+        KMessageBox::sorry(0,i18n("BAD signature from %1\nKey ID: %2\n\nThe file is corrupted!").arg(keyMail).arg(keyID),file.filename());
     } else
         KMessageBox::sorry(0,message);
+		emit verifyfinished();
 }
 
 

@@ -146,6 +146,8 @@ signals:
     void decryptionfinished(bool);
 	void badpassphrase(bool);
 	void importfinished();
+	void verifyfinished();
+	void signfinished();
 
 	        
     private:
