@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.0//EN"
 "dtd/kdex.dtd" [
   <!ENTITY kgpg "<application>Kgpg</application>">
-  <!ENTITY package "kdenonbeta">
+  <!ENTITY package "kdeutils">
   <!ENTITY kappname "&kgpg;">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"> 
