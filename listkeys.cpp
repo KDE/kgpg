@@ -1854,6 +1854,11 @@ void listKeys::deleteseckey()
 
 void listKeys::confirmdeletekey()
 {
+if (keysList2->currentItem()->depth()!=0) return;
+if (keysList2->currentItem()->text(6).isEmpty()) {
+deleteGroup();
+return;
+}
         if ((keysList2->secretList.find(keysList2->currentItem()->text(6))!=-1) && (keysList2->selectedItems().count()==1))
                 deleteseckey();
         else {
