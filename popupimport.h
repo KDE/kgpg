@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- #ifndef POPUPIMPORT_H
+#ifndef POPUPIMPORT_H
 #define POPUPIMPORT_H
 
 #include <qlayout.h>
@@ -32,31 +32,31 @@
 
 class popupImport : public KDialogBase
 {
-  Q_OBJECT
-  public:
+        Q_OBJECT
+public:
 
-  popupImport(const QString& caption, QWidget *parent=0, const char *name=0, KURL oldnam=KURL());
+        popupImport(const QString& caption, QWidget *parent=0, const char *name=0, KURL oldnam=KURL());
 
-  QRadioButton *checkFile,*checkClipboard;
-//  QVButtonGroup *vgroup;
-  QHButtonGroup *hgroup;
-  KLineEdit *newFilename;
-  KURL path;
-  QButtonGroup* bGroupSources;
-  QCheckBox *importSecretKeys;
-  QPushButton* buttonToolbar;
+        QRadioButton *checkFile,*checkClipboard;
+        //  QVButtonGroup *vgroup;
+        QHButtonGroup *hgroup;
+        KLineEdit *newFilename;
+        KURL path;
+        QButtonGroup* bGroupSources;
+        QCheckBox *importSecretKeys;
+        QPushButton* buttonToolbar;
 
 protected:
-    QGridLayout* bGroupSourcesLayout;
+        QGridLayout* bGroupSourcesLayout;
 
-  private:
+private:
 protected slots:
-//virtual void slotOk();
+        //virtual void slotOk();
 private slots:
 
 public slots:
-void slotchooseurl();
-void slotenable(bool);
+        void slotchooseurl();
+        void slotenable(bool);
 };
 
 #endif

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          popupname.h  -  description
+                          kgpgshredwidget.h  -  description
                              -------------------
     begin                : Mon Jul 8 2002
     copyright            : (C) 2002 by y0k0
@@ -14,50 +14,39 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef POPUPNAME_H
-#define POPUPNAME_H
 
-#include <qlayout.h>
+#ifndef KGPGSHREDW_H
+#define KGPGSHREDW_H
+
+#include <qwidget.h>
+#include <qfile.h>
 #include <qlabel.h>
-#include <qdialog.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qbuttongroup.h>
-#include <qhbuttongroup.h>
-#include <qvbuttongroup.h>
 
-#include <kdialogbase.h>
-#include <klineedit.h>
 #include <kurl.h>
+#include <kshred.h>
+#include <kprogress.h>
+#include <kmessagebox.h>
+#include <klocale.h>
 
+#include "kgpgshred.h"
 
-class popupName : public KDialogBase
+class kgpgShredWidget : public KgpgShred
 {
         Q_OBJECT
 public:
-
-        popupName(const QString& caption, QWidget *parent=0, const char *name=0, KURL oldnam=KURL(), bool email=false);
-
-        QRadioButton *checkFile,*checkClipboard,*checkMail;
-        //  QVButtonGroup *vgroup;
-        QHButtonGroup *hgroup;
-        KLineEdit *newFilename;
-        KURL path;
-        QCheckBox *exportAttributes;
-        QButtonGroup* bGroupSources;
-        QPushButton* buttonToolbar;
-
-protected:
-        QGridLayout* bGroupSourcesLayout;
+        kgpgShredWidget(QWidget *parent=0, const char *name=0,KURL sfile=0);
+        ~kgpgShredWidget();
 
 private:
-protected slots:
-        //virtual void slotOk();
+        ulong fileSize;
+        KShred *shredres;
+
 private slots:
+        //void setValue(const QString & txt);
+        void setValue(KIO::filesize_t);
 
 public slots:
-        void slotchooseurl();
-        void slotenable(bool);
+        void kgpgShredFile(KURL);
 };
 
 #endif

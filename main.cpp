@@ -1,6 +1,19 @@
-/*
- * Copyright (C) 2003 bj <bj@altern.org>
- */
+/***************************************************************************
+                          main.cpp  -  description
+                             -------------------
+    begin                : Mon Jul 8 2002
+    copyright            : (C) 2002 by y0k0
+    email                : bj@altern.org
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #include <qstring.h>
 #include <kmessagebox.h>
@@ -14,50 +27,50 @@
 #include "kgpg.h"
 
 static const char *description =
-	I18N_NOOP("Kgpg - simple gui for gpg\n\nKgpg was designed to make gpg very easy to use.\nI tried to make it as secure as possible.\nHope you enjoy it.");
+        I18N_NOOP("Kgpg - simple gui for gpg\n\nKgpg was designed to make gpg very easy to use.\nI tried to make it as secure as possible.\nHope you enjoy it.");
 
 static const char *version = "1.0.0";
 
 static KCmdLineOptions options[] =
-{
-{ "+[File]", I18N_NOOP("File to open"), 0 },
-{ "e", I18N_NOOP("Encrypt file"), 0 },
-{ "k", I18N_NOOP("Open key manager"), 0 },
-{ "s", I18N_NOOP("Show encrypted file"), 0 },
-{ "S", I18N_NOOP("Sign file"), 0 },
-{ "V", I18N_NOOP("Verify signature"), 0 },
-    { 0, 0, 0}
-  // INSERT YOUR COMMANDLINE OPTIONS HERE
-};
+        {
+                { "+[File]", I18N_NOOP("File to open"), 0 },
+                { "e", I18N_NOOP("Encrypt file"), 0 },
+                { "k", I18N_NOOP("Open key manager"), 0 },
+                { "s", I18N_NOOP("Show encrypted file"), 0 },
+                { "S", I18N_NOOP("Sign file"), 0 },
+                { "V", I18N_NOOP("Verify signature"), 0 },
+                { 0, 0, 0}
+                // INSERT YOUR COMMANDLINE OPTIONS HERE
+        };
 
 int main(int argc, char *argv[])
 {
 
-    KAboutData about("kgpg", I18N_NOOP("kgpg"), version, description,
-                     KAboutData::License_GPL, "(C) 2003 bj", 0, 0, "bj@altern.org");
-    about.addAuthor( "bj", 0, "bj@altern.org" );
-    KCmdLineArgs::init(argc, argv, &about);
-    KCmdLineArgs::addCmdLineOptions(options);
-	KUniqueApplication::addCmdLineOptions();
+        KAboutData about("kgpg", I18N_NOOP("kgpg"), version, description,
+                         KAboutData::License_GPL, "(C) 2003 bj", 0, 0, "bj@altern.org");
+        about.addAuthor( "bj", 0, "bj@altern.org" );
+        KCmdLineArgs::init(argc, argv, &about);
+        KCmdLineArgs::addCmdLineOptions(options);
+        KUniqueApplication::addCmdLineOptions();
 
 
-//KMessageBox::sorry(0,"nombre: "+QString::number(i));
+        //KMessageBox::sorry(0,"nombre: "+QString::number(i));
 
-	 if (!KUniqueApplication::start())
-       return 0;
+        if (!KUniqueApplication::start())
+                return 0;
 
-   KgpgAppletApp app;
-   return app.exec();
-	
-	/* 
-	  
-	KUniqueApplication app;
+        KgpgAppletApp app;
+        return app.exec();
 
-    // register ourselves as a dcop client
-  //app.dcopClient()->registerAs(app.name(), false);
-    
-  
-  kgpgapplet widget;// = new kgpgapplet("kgpg");
-  widget.show();
-  return app.exec();*/
+        /*
+
+        KUniqueApplication app;
+
+           // register ourselves as a dcop client
+         //app.dcopClient()->registerAs(app.name(), false);
+
+
+         kgpgapplet widget;// = new kgpgapplet("kgpg");
+         widget.show();
+         return app.exec();*/
 }

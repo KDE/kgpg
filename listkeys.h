@@ -53,6 +53,7 @@
 #include <kpassdlg.h>
 #include <kaction.h>
 #include <kapp.h>
+#include <kedittoolbar.h>
 
 #include "kgpg.h"
 #include "keygener.h"
@@ -62,145 +63,149 @@
 #include "keyservers.h"
 
 
-typedef struct gpgKey{
-  QString gpgkeymail;
-  QString gpgkeyname;
-  QString gpgkeyid;
-  QString gpgkeytrust;
-  QString gpgkeyvalidity;
-  QString gpgkeysize;
-  QString gpgkeycreation;
-  QString gpgkeyexpiration;
-  QString gpgkeyalgo;
+typedef struct gpgKey
+{
+        QString gpgkeymail;
+        QString gpgkeyname;
+        QString gpgkeyid;
+        QString gpgkeytrust;
+        QString gpgkeyvalidity;
+        QString gpgkeysize;
+        QString gpgkeycreation;
+        QString gpgkeyexpiration;
+        QString gpgkeyalgo;
 };
 
 class KgpgSelKey : public KDialogBase
 {
-    Q_OBJECT
+        Q_OBJECT
 
 public:
-    KgpgSelKey( QWidget *parent = 0, const char *name = 0,bool showlocal=true);
-    KListView *keysListpr;
-QPixmap keyPair;
-QCheckBox *local;
+        KgpgSelKey( QWidget *parent = 0, const char *name = 0,bool showlocal=true);
+        KListView *keysListpr;
+        QPixmap keyPair;
+        QCheckBox *local;
 private slots:
-void slotOk();
-void slotpreOk();
-void slotSelect(QListViewItem *item);
-QString extractKeyName(QString fullName);
+        void slotOk();
+        void slotpreOk();
+        void slotSelect(QListViewItem *item);
+        QString extractKeyName(QString fullName);
 public slots:
-QString getkeyID();
-QString getkeyMail();
-bool getlocal();
+        QString getkeyID();
+        QString getkeyMail();
+        bool getlocal();
 };
 
 class KgpgKeyInfo : public KDialogBase
 {
-    Q_OBJECT
+        Q_OBJECT
 
 public:
-    KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0);
-	
+        KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0);
+
 private slots:
-void slotinfoimgread(KProcess *);//IO *);
+        void slotinfoimgread(KProcess *);//IO *);
 private:
-KTempFile *kgpginfotmp;
-QLabel *keyinfoPhoto;
+        KTempFile *kgpginfotmp;
+        QLabel *keyinfoPhoto;
 };
 
 class KeyView : public KListView
 {
-    Q_OBJECT
-friend class listKeys;
+        Q_OBJECT
+        friend class listKeys;
 public:
-    KeyView( QWidget *parent = 0, const char *name = 0);
+        KeyView( QWidget *parent = 0, const char *name = 0);
 
 private:
-bool displayMailFirst;
-QString secretList,defKey;
-QString photoKeysList;
-QPixmap pixkeyPair,pixkeySingle,pixsignature,pixuserid,pixuserphoto;
+        bool displayMailFirst;
+        QString secretList,defKey;
+        QString photoKeysList;
+        QPixmap pixkeyPair,pixkeySingle,pixsignature,pixuserid,pixuserphoto;
 
 private slots:
-void  droppedfile (KURL);
-void refreshkeylist();
-gpgKey extractKey(QString keyColon);
-QString extractKeyName(QString name,QString mail);
+        void  droppedfile (KURL);
+        void refreshkeylist();
+        gpgKey extractKey(QString keyColon);
+        QString extractKeyName(QString name,QString mail);
 protected:
-virtual void startDrag();
-virtual void contentsDragMoveEvent(QDragMoveEvent *e);
-virtual void  contentsDropEvent (QDropEvent*);
+        virtual void startDrag();
+        virtual void contentsDragMoveEvent(QDragMoveEvent *e);
+        virtual void  contentsDropEvent (QDropEvent*);
 };
 
 class listKeys : public KMainWindow//QDialog //KMainWindow
 {
-friend class KeyView;
-  Q_OBJECT
+        friend class KeyView;
+        Q_OBJECT
 
-  public:
-  listKeys(QWidget *parent=0, const char *name=0,WFlags f = 0);
-  ~listKeys();
-  QLabel *keyPhoto;
-  KeyView *keysList2;
-  QPopupMenu *popup,*popupsec,*popupout,*popupsig;
-QString message, optionsDefaultKey,configUrl;
-QStringList keynames;
+public:
+        listKeys(QWidget *parent=0, const char *name=0,WFlags f = 0);
+        ~listKeys();
+        QLabel *keyPhoto;
+        KeyView *keysList2;
+        QPopupMenu *popup,*popupsec,*popupout,*popupsig;
+        QString message, optionsDefaultKey,configUrl;
+        QStringList keynames;
 
-QDialog *pop;
+        QDialog *pop;
 
-  private:
-QPushButton *bouton1,*bouton2,*bouton0;
-KConfig *config;
-QString tempKeyFile;
-keyServer *kServer;
-KTempFile *kgpgtmp;
-bool showPhoto,configshowToolBar;
-KAction *importSignatureKey;
+private:
+        QPushButton *bouton1,*bouton2,*bouton0;
+        KConfig *config;
+        QString tempKeyFile;
+        keyServer *kServer;
+        KTempFile *kgpgtmp;
+        bool showPhoto,configshowToolBar;
+        KAction *importSignatureKey;
 
 protected:
-void closeEvent( QCloseEvent * e );
+        void closeEvent( QCloseEvent * e );
 
 public slots:
-    void slotgenkey();
-void refreshkey();
+        void slotgenkey();
+        void refreshkey();
 
 private slots:
-void slotManpage();
-void slotTip();
-void slotConfigureShortcuts();
-void keyserver();
-void slotReadProcess(KProcIO *p);
-void slotProcessExportMail(KProcess *);
-void slotProcessExportClip(KProcess *);
-void displayPhoto();
-void hidePhoto();
-void slotProcessPhoto(KProcess *);
-void readOptions();
-void genover(KProcess *p);
-void slotOptions();
-void slotSetDefKey();
-void annule();
-void confirmdeletekey();
-void deletekey();
-void deleteseckey();
-void signkey();
-void delsignkey();
-void preimportsignkey();
-void importsignkey(QString importKeyId);
-void importallsignkey();
-void importfinished();
-void signatureResult(int);
-void delsignatureResult(bool);
-void listsigns();
-void slotexport();
-void slotexportsec();
-void slotmenu(QListViewItem *,const QPoint &,int);
-void slotPreImportKey();
-void slotstatus(QListViewItem *);
-void slotedit();
+        void configuretoolbars();
+        void saveToolbarConfig();
+
+        void slotManpage();
+        void slotTip();
+        void slotConfigureShortcuts();
+        void keyserver();
+        void slotReadProcess(KProcIO *p);
+        void slotProcessExportMail(KProcess *);
+        void slotProcessExportClip(KProcess *);
+        void displayPhoto();
+        void hidePhoto();
+        void slotProcessPhoto(KProcess *);
+        void readOptions();
+        void genover(KProcess *p);
+        void slotOptions();
+        void slotSetDefKey();
+        void annule();
+        void confirmdeletekey();
+        void deletekey();
+        void deleteseckey();
+        void signkey();
+        void delsignkey();
+        void preimportsignkey();
+        void importsignkey(QString importKeyId);
+        void importallsignkey();
+        void importfinished();
+        void signatureResult(int);
+        void delsignatureResult(bool);
+        void listsigns();
+        void slotexport();
+        void slotexportsec();
+        void slotmenu(QListViewItem *,const QPoint &,int);
+        void slotPreImportKey();
+        void slotstatus(QListViewItem *);
+        void slotedit();
 
 signals:
-//void selectedKey(QString &);
+        //void selectedKey(QString &);
 
 
 };
@@ -208,3 +213,4 @@ signals:
 
 
 #endif
+

@@ -32,27 +32,27 @@
 
 class keyGenerate : public KDialogBase
 {
-  Q_OBJECT
-  public:
- keyGenerate(QWidget *parent=0, const char *name=0);
- QCheckBox *choix3,*choix4,*choix2,*choix1,*choix5;
+        Q_OBJECT
+public:
+        keyGenerate(QWidget *parent=0, const char *name=0);
+        QCheckBox *choix3,*choix4,*choix2,*choix1,*choix5;
 
-  KComboBox *keykind,*keysize,*keyexp;
-  KLineEdit *numb,*comment,*kname,*mail;
-  bool expert;
-  
-  public slots:
-  void slotOk();
-  void slotApply();
-  void activateexp(int state);
-  bool getmode();
-  QString getkeycomm();
-  QString getkeynumb();
-  QString getkeymail();
-  QString getkeyname();
-  QString getkeysize();
-  QString getkeytype();
-  int getkeyexp();
+        KComboBox *keykind,*keysize,*keyexp;
+        KLineEdit *numb,*comment,*kname,*mail;
+        bool expert;
+
+public slots:
+        void slotOk();
+        void slotApply();
+        void activateexp(int state);
+        bool getmode();
+        QString getkeycomm();
+        QString getkeynumb();
+        QString getkeymail();
+        QString getkeyname();
+        QString getkeysize();
+        QString getkeytype();
+        int getkeyexp();
 };
 
 #endif

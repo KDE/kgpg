@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- #ifndef KGPGOPTIONS_H
+#ifndef KGPGOPTIONS_H
 #define KGPGOPTIONS_H
 
 #include <qlayout.h>
@@ -44,31 +44,32 @@
 
 class kgpgOptions : public KgpgOptionDialog
 {
-  Q_OBJECT
-  public:
- kgpgOptions(QWidget *parent=0, const char *name=0);
-  ~kgpgOptions();
-  QStringList names,ids;
-  
-  private:
-  KConfig *config;
-  QString confPath,defaultKeyID;
+        Q_OBJECT
+public:
+        kgpgOptions(QWidget *parent=0, const char *name=0);
+        ~kgpgOptions();
+        QStringList names,ids;
+
+private:
+        KConfig *config;
+        QString confPath,defaultKeyID;
 
 private slots:
-void listkey();
-QString namecode(QString kid);
-QString idcode(QString kname);
-void slotOk();
-void slotInstallDecrypt(QString mimetype);
-void slotInstallSign(QString mimetype);
-void slotRemoveMenu(QString menu);
-void slotEditServer();
- void slotAddServer();
- void slotRemoveServer();
- void reloadServer();
- void slotDefaultServer();
+        void slotSaveServer();
+        void listkey();
+        QString namecode(QString kid);
+        QString idcode(QString kname);
+        void slotOk();
+        void slotInstallDecrypt(QString mimetype);
+        void slotInstallSign(QString mimetype);
+        void slotRemoveMenu(QString menu);
+        void slotEditServer();
+        void slotAddServer();
+        void slotRemoveServer();
+        void reloadServer();
+        void slotDefaultServer();
 public slots:
-void checkMimes();
+        void checkMimes();
 signals:
 
 };

@@ -1,0 +1,36 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>KgpgShred</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>KgpgShred</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>232</width>
+            <height>48</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Shredding</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>false</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="KProgress" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>kProgress2</cstring>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kprogress.h</includehint>
+</includehints>
+</UI>

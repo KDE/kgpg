@@ -1,8 +1,8 @@
 # KDE Config File
 [Desktop Entry]
-Encoding=UTF-8
+#Encoding=UTF-8
 Type=Application
-Exec=kgpg %U 
+Exec=kgpg
 Icon=kgpg.png
 DocPath=kgpg/index.html
 MimeType=application/pgp-encrypted;application/pgp-signature

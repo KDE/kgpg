@@ -24,71 +24,75 @@
 
 KgpgOverwrite::KgpgOverwrite( QWidget *parent, const char *name, KURL ofile):KDialogBase( parent, name, true, i18n("File Already Exists"),0)
 {
-    QWidget *page = new QWidget(this);
-    direc=ofile.directory(0,0);
-    QVBoxLayout *vbox=new QVBoxLayout(page,3);
+        QWidget *page = new QWidget(this);
+        direc=ofile.directory(0,0);
+        QVBoxLayout *vbox=new QVBoxLayout(page,3);
 
-    QLabel *label=new QLabel(i18n("File <b>%1</b> already exists").arg(ofile.filename()),page);
-    lineedit=new KLineEdit(page);
-    lineedit->setText(ofile.filename());
+        QLabel *label=new QLabel(i18n("File <b>%1</b> already exists").arg(ofile.filename()),page);
+        lineedit=new KLineEdit(page);
+        lineedit->setText(ofile.filename());
 
-    KButtonBox *boutonbox=new KButtonBox(page,KButtonBox::Horizontal,15,12);
-    boutonbox->addStretch(1);
-    bouton1=boutonbox->addButton(i18n("&Overwrite"),TRUE);
-    bouton2=boutonbox->addButton(i18n("&Rename"),TRUE);
-    bouton3=boutonbox->addButton(i18n("&Cancel"),TRUE);
+        KButtonBox *boutonbox=new KButtonBox(page,KButtonBox::Horizontal,15,12);
+        boutonbox->addStretch(1);
+        bouton1=boutonbox->addButton(i18n("&Overwrite"),TRUE);
+        bouton2=boutonbox->addButton(i18n("&Rename"),TRUE);
+        bouton3=boutonbox->addButton(i18n("&Cancel"),TRUE);
 
-    QObject::connect(lineedit,SIGNAL(textChanged(const QString &)),this,SLOT(enablerename()));
-    QObject::connect(lineedit,SIGNAL(returnPressed(const QString &)),this,SLOT(slotcheck()));
-    QObject::connect(bouton1,SIGNAL(clicked()),this,SLOT(slotok()));
-    QObject::connect(bouton2,SIGNAL(clicked()),this,SLOT(slotcheck()));
-    QObject::connect(bouton3,SIGNAL(clicked()),this,SLOT(annule()));
+        QObject::connect(lineedit,SIGNAL(textChanged(const QString &)),this,SLOT(enablerename()));
+        QObject::connect(lineedit,SIGNAL(returnPressed(const QString &)),this,SLOT(slotcheck()));
+        QObject::connect(bouton1,SIGNAL(clicked()),this,SLOT(slotok()));
+        QObject::connect(bouton2,SIGNAL(clicked()),this,SLOT(slotcheck()));
+        QObject::connect(bouton3,SIGNAL(clicked()),this,SLOT(annule()));
 
-    bouton2->setDisabled(true);
+        bouton2->setDisabled(true);
 
-    vbox->addWidget(label);
-    vbox->addWidget(lineedit);
-    vbox->addWidget(boutonbox);
-    //page->resize(page->minimumSize());
-    //resize(this->minimumSize());
-    page->show();
-    setMainWidget(page);
+        vbox->addWidget(label);
+        vbox->addWidget(lineedit);
+        vbox->addWidget(boutonbox);
+        //page->resize(page->minimumSize());
+        //resize(this->minimumSize());
+        page->show();
+        setMainWidget(page);
 }
 
 
 void KgpgOverwrite::enablerename()
 {
-bouton2->setDisabled(false);
-bouton1->setDisabled(true);
+        bouton2->setDisabled(false);
+        bouton1->setDisabled(true);
 }
 
 void KgpgOverwrite::annule()
 {
-reject();
+        reject();
 }
 
 void KgpgOverwrite::slotok()
 {
-accept();
+        accept();
 }
 
 
 void KgpgOverwrite::slotcheck()
 {
-if (bouton1->isEnabled()){accept();return;}
-QFile nname(QString(direc+lineedit->text()).local8Bit());
-if (nname.exists())
-{
-int result=KMessageBox::warningContinueCancel(this,i18n("File %1 already exists").arg(lineedit->text()),i18n("Warning"),i18n("Overwrite"));
-if (result==KMessageBox::Cancel) return;
-else accept();
-}
-else accept();
+        if (bouton1->isEnabled()) {
+                accept();
+                return;
+        }
+        QFile nname(QString(direc+lineedit->text()).local8Bit());
+        if (nname.exists()) {
+                int result=KMessageBox::warningContinueCancel(this,i18n("File %1 already exists").arg(lineedit->text()),i18n("Warning"),i18n("Overwrite"));
+                if (result==KMessageBox::Cancel)
+                        return;
+                else
+                        accept();
+        } else
+                accept();
 }
 
 QString KgpgOverwrite::getfname()
 {
-return (lineedit->text());
+        return (lineedit->text());
 }
 
 //#include "kgpgfast.moc"

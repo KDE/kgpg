@@ -1,25 +1,32 @@
 /***************************************************************************
- *   Copyright (C) 2003 by bjUTHOR$                                        *
- *   bj@altern.org                                                         *
+                          kgpgeditor.cpp  -  description
+                             -------------------
+    begin                : Mon Jul 8 2002
+    copyright            : (C) 2002 by y0k0
+    email                : bj@altern.org
+ ***************************************************************************/
+
+/***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
+ *                                                                         *
  ***************************************************************************/
- 
+
  #include "kgpgeditor.h"
- 
+
 KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent, name,f)
-{  
+{
 
 config=kapp->config();
 readOptions();
-	  
+
 	  KIconLoader *loader = KGlobal::iconLoader();
       fileEnc=loader->loadIcon("kgpg",KIcon::Small);
       fileDec=loader->loadIcon("kgpg2",KIcon::Small);
-      
+
 	  // call inits to invoke all other construction parts
       initActions();
       initView();
@@ -75,12 +82,12 @@ void KgpgApp::initActions()
   KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
   KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
   //KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
-  
+
   fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
   (void) new KAction(i18n("&Encrypt File..."), fileEnc, 0,this, SLOT(slotFilePreEnc()), actionCollection(),"file_encrypt");
   (void) new KAction(i18n("&Decrypt File..."), fileDec, 0,this, SLOT(slotFilePreDec()), actionCollection(),"file_decrypt");
   editUndo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
-  editRedo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());  
+  editRedo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());
   //(void) new KAction(i18n("&Manage Keys"), "kgpg_manage", CTRL+Key_K,this, SLOT(slotManageKey()), actionCollection(),"keys_manage");
   (void) new KAction(i18n("&Generate Signature..."),0, this, SLOT(slotPreSignFile()), actionCollection(), "sign_generate");
   (void) new KAction(i18n("&Verify Signature..."),0, this, SLOT(slotPreVerifyFile()), actionCollection(), "sign_verify");
@@ -126,7 +133,7 @@ QString opts;
 
 KURL url=KFileDialog::getOpenURL(QString::null,
                                    i18n("*|All Files"), this, i18n("Open File to Encode"));
-KgpgLibrary *lib=new KgpgLibrary();     	
+KgpgLibrary *lib=new KgpgLibrary();
 if (encryptfileto)
 {
 		  	if (untrusted) opts=" --always-trust ";
@@ -134,7 +141,7 @@ if (encryptfileto)
 			if (hideid) opts+=" --throw-keyid ";
 			if (pgpcomp) opts+=" --pgp6 ";
 lib->slotFileEnc(KURL::List::List(url),opts,filekey);
-}								   
+}
 else lib->slotFileEnc(KURL::List::List(url));
 }
 
@@ -143,7 +150,7 @@ void KgpgApp::slotFilePreDec()
 
 KURL url=KFileDialog::getOpenURL(QString::null,
                                    i18n("*|All Files"), this, i18n("Open File to Decode"));
- 
+
 
   QString oldname=url.filename();
 

@@ -14,7 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #ifndef KGPGFAST_H
 #define KGPGFAST_H
 
@@ -30,25 +30,25 @@
 #include <kbuttonbox.h>
 #include <kmessagebox.h>
 #include <klocale.h>
- 
- class KgpgOverwrite : public KDialogBase
+
+class KgpgOverwrite : public KDialogBase
 {
-    Q_OBJECT
+        Q_OBJECT
 
 public:
-    KgpgOverwrite( QWidget *parent = 0, const char *name = 0,KURL ofile=0);
-    
-    QPushButton *bouton1,*bouton2,*bouton3;
-      KLineEdit *lineedit;
-      QString direc;
-  private slots:
-  void enablerename();
-    void annule();
-    void slotok();
-    void slotcheck();
-    public slots:
-    QString getfname();
-    
+        KgpgOverwrite( QWidget *parent = 0, const char *name = 0,KURL ofile=0);
+
+        QPushButton *bouton1,*bouton2,*bouton3;
+        KLineEdit *lineedit;
+        QString direc;
+private slots:
+        void enablerename();
+        void annule();
+        void slotok();
+        void slotcheck();
+public slots:
+        QString getfname();
+
 };
 
 
