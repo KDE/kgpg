@@ -1459,7 +1459,7 @@ void listKeys::createNewGroup()
                         KMessageBox::sorry(this,i18n("<qt>You cannot create a group containing signatures, subkeys or other groups.</qt>"));
                         return;
                 }
-                QString groupName=KLineEditDlg::getText(i18n("Enter new group name:"),0,0,this);
+                QString groupName=KInputDialog::getText(i18n("Create New Group"),i18n("Enter new group name:"),QString::null,0,this);
                 if (groupName.isEmpty())
                         return;
                 if (!keysGroup.isEmpty()) {

@@ -35,7 +35,6 @@
 #include <ktexteditor/editor.h>
 
 #include <kbuttonbox.h>
-#include <klineeditdlg.h>
 #include <kpassdlg.h>
 #include <kprocess.h>
 #include <kprocio.h>

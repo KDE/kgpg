@@ -48,6 +48,7 @@
 #include <kstatusbar.h>
 #include <ktoolbar.h>
 #include <klineedit.h>
+#include <kinputdialog.h>
 #include <klistview.h>
 #include <kdialogbase.h>
 #include <kbuttonbox.h>
