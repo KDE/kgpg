@@ -41,6 +41,7 @@
 #include <kdebug.h>
 #include <ktar.h>
 #include <kzip.h>
+#include <stdlib.h>
 
 #include "kgpg.h"
 #include "kgpgsettings.h"
@@ -508,16 +509,32 @@ void  MyView::firstRun()
 }
 
 
+static QString getGpgHome()
+{
+    char    *env=getenv("GNUPGHOME");
+    QString gpgHome(env ? env : QDir::homeDirPath()+"/.gnupg/");
+
+    gpgHome.replace("//", "/");
+
+    if(!gpgHome.endsWith("/"))
+        gpgHome.append('/');
+
+    KStandardDirs::makeDir(gpgHome, 0700);
+    return gpgHome;
+}
+
+
 void  MyView::startWizard()
 {
         kdDebug(2100)<<"Starting Wizard"<<endl;
         wiz=new KgpgWizard(0,"wizard");
-        QString confPath=QDir::homeDirPath()+"/.gnupg/options";
+        QString gpgHome(getGpgHome());
+        QString confPath=gpgHome+"options";
         if (!QFile(confPath).exists()) {
-                confPath=QDir::homeDirPath()+"/.gnupg/gpg.conf";
+                confPath=gpgHome+"gpg.conf";
                 if (!QFile(confPath).exists()) {
                         if (KMessageBox::questionYesNo(this,i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"))==KMessageBox::Yes) {
-                                confPath=QDir::homeDirPath()+"/.gnupg/options";
+                                confPath=gpgHome+"options";
                                 QFile file(confPath);
                                 if ( file.open( IO_WriteOnly ) ) {
                                         QTextStream stream( &file );
@@ -742,7 +759,7 @@ int KgpgAppletApp::newInstance()
                 running=true;
                 s_keyManager=new listKeys(0, "key_manager");
 		QString gpgPath= KGpgSettings::gpgConfigPath();
-		if (KURL(gpgPath).directory(false)!=QDir::homeDirPath()+"/.gnupg/")
+		if (!gpgPath.isEmpty() && KURL(gpgPath).directory(false)!=QDir::homeDirPath()+"/.gnupg/")
 		setenv("GNUPGHOME",KURL(gpgPath).directory(false).ascii(),1);
 		
                 s_keyManager->refreshkey();
