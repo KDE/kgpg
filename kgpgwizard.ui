@@ -191,7 +191,7 @@
                     <cstring>textLabel2_2</cstring>
                 </property>
                 <property name="text">
-                    <string>This will install a Shredder icon on your Desktop. It will securely deletes files (overwriting 35 times) dropped on it. If you use a journalized file system, shredding may not be 100% secure.</string>
+                    <string>This will install a Shredder icon on your Desktop. It will securely delete files (overwriting 35 times) dropped on it. If you use a journalized file system, shredding may not be 100% secure.</string>
                 </property>
                 <property name="alignment">
                     <set>WordBreak|AlignJustify|AlignTop</set>
