@@ -18,7 +18,7 @@
 #define KGPGOPTIONS_H
 
 
-#include <kautoconfigdialog.h>
+#include <kconfigdialog.h>
 
 #include "conf_encryption.h"
 #include "conf_decryption.h"
@@ -28,7 +28,7 @@
 
 class KConfig;
 
-class kgpgOptions : public KAutoConfigDialog
+class kgpgOptions : public KConfigDialog
 {
         Q_OBJECT
 public:

@@ -54,17 +54,17 @@
 ///////////////////////   main window
 
 kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
- : KAutoConfigDialog( parent, name, KDialogBase::IconList, KGpgSettings::self())
+ : KConfigDialog( parent, name, KGpgSettings::self())
 {
 kdDebug()<<"Adding pages"<<endl;
         page1=new Encryption();
         page2=new Decryption();
         page3=new UI();
         page4=new GPGConf();
-        addPage(page1, i18n("Encryption"), "Encryption", "encrypted",QString::null,true);
-        addPage(page2, i18n("Decryption"), "Decryption", "decrypted",QString::null,true);
-        addPage(page3, i18n("User Interface"), "User Interface", "misc",QString::null,true);
-        addPage(page4, i18n("GPG Settings"), "GPG Settings", "kgpg",QString::null,true);
+        addPage(page1, i18n("Encryption"), "encrypted");
+        addPage(page2, i18n("Decryption"), "decrypted");
+        addPage(page3, i18n("User Interface"), "misc");
+        addPage(page4, i18n("GPG Settings"), "kgpg");
 
         // The following widgets are managed manually.
         connect(page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(settingModified()));

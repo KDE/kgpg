@@ -671,7 +671,7 @@ void  MyView::help()
 
 void  MyView::preferences()
 {
-        if (KAutoConfigDialog::showDialog("settings"))
+        if (KConfigDialog::showDialog("settings"))
                 return;
         kgpgOptions *optsDialog=new kgpgOptions(this,"settings");
         connect(optsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAgain1()));

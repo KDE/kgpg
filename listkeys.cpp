@@ -1120,7 +1120,7 @@ void listKeys::readOptions()
 
 void listKeys::slotOptions()
 {
-        if (KAutoConfigDialog::showDialog("settings"))
+        if (KConfigDialog::showDialog("settings"))
                 return;
         kgpgOptions *optionsDialog=new kgpgOptions(this,"settings");
         connect(optionsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAllOptions()));
