@@ -20,6 +20,8 @@
 #include <qclipboard.h>
 #include <qlayout.h>
 #include <qregexp.h>
+#include <qstring.h>
+
 
 #include <kmessagebox.h>
 #include <kapplication.h>
@@ -224,7 +226,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
                 passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys...<br>");
               if ((step<3) && (!anonymous))
                 passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 trial left.<br>").arg(step);
-              QString prettyuIDs=userIDs;
+              QString prettyuIDs=QString::fromUtf8(userIDs);
               prettyuIDs.replace(QRegExp("<"),"&lt;");
               passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(prettyuIDs);
               int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
@@ -478,6 +480,7 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
     {
       /// pipe for passphrase
       counter++;
+	  userID=QString::fromUtf8(userID);
 	  userID.replace(QRegExp("<"),"&lt;");
       QString passdlg=i18n("Enter passphrase for <b>%1</b>:").arg(userID);
       if (counter>1)
@@ -675,7 +678,7 @@ void KgpgInterface::readsignprocess(KProcIO *p)
               QString passdlgmessage;
               if (step<3)
                 passdlgmessage=i18n("<b>Bad passphrase</b>. you have %1 trial left.<br>").arg(step);
-              QString prettyuIDs=userIDs;
+              QString prettyuIDs=QString::fromUtf8(userIDs);
               prettyuIDs.replace(QRegExp("<"),"&lt;");
               passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(prettyuIDs);
               int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
@@ -777,6 +780,7 @@ void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyM
       emit signatureFinished(0);
       return;
     }
+signKeyMail=QString::fromUtf8(signKeyMail);
   konsLocal=local;
   konsSignKey=signKeyID;
   konsKeyID=keyID;

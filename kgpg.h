@@ -31,7 +31,12 @@
 #include <kmainwindow.h>
 #include <kaction.h>
 #include <kurl.h>
+
+#include <kdeversion.h>
+
+#if (KDE_VERSION >= 310)
 #include <kpassivepopup.h>
+#endif
 
 
 #include "listkeys.h"
@@ -173,8 +178,14 @@ void slotOptions();
 private:
 QString customDecrypt;
 KURL decpasssrc,decpassdest;
-QDialog *clippop;
+//QDialog *clippop;
+
+#if (KDE_VERSION >= 310)
 KPassivePopup *pop;
+#else
+QDialog *clippop;
+#endif
+
 
 KURL urlselected;
     /** the configuration object of the application */

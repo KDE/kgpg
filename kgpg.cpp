@@ -149,6 +149,8 @@ else cryptedClipboard=clipContent;
 
 cryptedClipboard.replace(QRegExp("<"),"&lt;");   /////   disable html tags
 cryptedClipboard.replace(QRegExp("\n"),"<br>");
+
+#if (KDE_VERSION >= 310)
 pop = new KPassivePopup( this);
 pop->setView(i18n("Encrypted following text:"),cryptedClipboard,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
 		pop->setTimeout(3200);
@@ -157,7 +159,22 @@ pop->setView(i18n("Encrypted following text:"),cryptedClipboard,KGlobal::iconLoa
 		int iXpos=qRect.width()/2-pop->width()/2;
 		int iYpos=qRect.height()/2-pop->height()/2;
       	pop->move(iXpos,iYpos);
- //KMessageBox::information(this,i18n("Encrypted following text:\n")+QString(clipContent.left(60).stripWhiteSpace())+"...");
+#else
+	clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
+              QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
+              QLabel *tex=new QLabel(clippop);
+              tex->setText(i18n("<b>Encrypted following text:</b>"));
+			  QLabel *tex2=new QLabel(clippop);
+			  //tex2->setTextFormat(Qt::PlainText);
+			  tex2->setText(cryptedClipboard);
+              vbox->addWidget(tex);
+			  vbox->addWidget(tex2);
+              clippop->setMinimumWidth(250);
+              clippop->adjustSize();
+			  clippop->show();
+ QTimer::singleShot( 3000, this, SLOT(killDisplayClip()));
+//KMessageBox::information(this,i18n("<b>Encrypted following text</b>:<br>")+cryptedClipboard);
+#endif
  }
  else
 {
@@ -179,7 +196,9 @@ void KgpgApp::slotSetClip(QString newtxt)
 
 void KgpgApp::killDisplayClip()
 {
+#if (KDE_VERSION < 310)
 delete clippop;
+#endif
 }
 
 
@@ -692,7 +711,11 @@ void KgpgApp::fastencode(QString &selec,QString encryptOptions,bool shred,bool s
 
 void KgpgApp::shredprocessenc()
 {
+#if (KDE_VERSION >= 310)
 delete pop;
+#else
+delete clippop;
+#endif
       //KMessageBox::sorry(0,"shred");
       KShred *shredres=new KShred(urlselected.path());
       if (shredres->shred()==false) KMessageBox::sorry(0,i18n("The source file could not be shredded.\nCheck your permissions."));
@@ -703,14 +726,22 @@ if (commandLineMode) kapp->exit(0);
 
 void KgpgApp::processenc()
 {
+#if (KDE_VERSION >= 310)
 delete pop;
+#else
+delete clippop;
+#endif
   if (commandLineMode)
     kapp->exit(0);
 }
 
 void KgpgApp::processencerror(QString mssge)
 {
-delete pop;  
+#if (KDE_VERSION >= 310)
+delete pop;
+#else
+delete clippop;
+#endif
   KMessageBox::detailedSorry(0,i18n("Encryption failed..."),mssge);
   if (commandLineMode) kapp->exit(0);
 }
@@ -781,17 +812,32 @@ QString newname;
 
 void KgpgApp::processpopup()
 {
- pop = new KPassivePopup( this);
+#if (KDE_VERSION >= 310)
+pop = new KPassivePopup( this);
       pop->setView(i18n("Processing decryption"),i18n("please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
 	  	pop->show();	  
 	  	QRect qRect(QApplication::desktop()->screenGeometry());
 		int iXpos=qRect.width()/2-pop->width()/2;
 		int iYpos=qRect.height()/2-pop->height()/2;
       	pop->move(iXpos,iYpos);
+#else
+	clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
+              QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
+              QLabel *tex=new QLabel(clippop);
+              tex->setText(i18n("<b>Processing decryption</b>"));
+			  QLabel *tex2=new QLabel(clippop);
+			  tex2->setText(i18n("please wait..."));
+              vbox->addWidget(tex);
+			  vbox->addWidget(tex2);
+              clippop->setMinimumWidth(250);
+              clippop->adjustSize();
+			  clippop->show();
+#endif
 }
 
 void KgpgApp::processpopup2()
 {
+#if (KDE_VERSION >= 310)
  pop = new KPassivePopup( this);
       pop->setView(i18n("Processing encryption"),i18n("please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
 	  	pop->show();	  
@@ -799,17 +845,39 @@ void KgpgApp::processpopup2()
 		int iXpos=qRect.width()/2-pop->width()/2;
 		int iYpos=qRect.height()/2-pop->height()/2;
       	pop->move(iXpos,iYpos);
+#else
+	clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
+              QVBoxLayout *voxLayout(clippop,3);
+              QLabel *tex=new QLabel(clippop);
+              tex->setText(i18n("<b>Processing encryption</b>"));
+			  QLabel *tex2=new QLabel(clippop);
+			  tex2->setText(i18n("please wait..."));
+              vbox->addWidget(tex);
+			  vbox->addWidget(tex2);
+              clippop->setMinimumWidth(250);
+              clippop->adjustSize();
+			  clippop->show();
+#endif
 }
 
 void KgpgApp::processdecover()
 {
+#if (KDE_VERSION >= 310)
 delete pop;
+#else
+delete clippop;
+#endif
 if (fastact) kapp->exit(0);
 }
 
 void KgpgApp::processdecerror(QString mssge)
 {
-delete pop;  
+#if (KDE_VERSION >= 310)
+delete pop;
+#else
+delete clippop;
+#endif
+
   KMessageBox::detailedSorry(0,i18n("Decryption failed..."),mssge);
   if (fastact) kapp->exit(0);
 }
