@@ -107,7 +107,7 @@ QString UpdateViewItem :: key(int c,bool ) const
         }
         if (c==1)   /* sorting by pixmap */
                 return QString::number(pixmap(c)->serialNumber());
-        return text(c);
+        return text(c).lower();
 }
 
 
