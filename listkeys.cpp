@@ -580,7 +580,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   (void) new KAction(i18n("&Key Server dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
 
   KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
-#if KDE_VERSION>=310if (KDE_VERSION>=310)
+#if KDE_VERSION>=310
       (void) new KToggleToolBarAction("mainToolBar",i18n("Show toolbar"), actionCollection(),"pref_toolbar"); ///  KDE 3.1 only
 #endif
 
