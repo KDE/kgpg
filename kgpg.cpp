@@ -64,6 +64,7 @@
 #include <kdesktopfile.h>
 
 #include "kgpgeditor.h"
+                       
 #include "kgpg.h"
 #include "kgpgsettings.h"
 #include "listkeys.h"
@@ -302,9 +303,8 @@ QWidget *page = new QWidget(shredConfirm);
 shredConfirm->setMainWidget(page);
 QBoxLayout *layout=new QBoxLayout(page,QBoxLayout::TopToBottom,0);
 layout->setAutoAdd(true);
-QString shredWhatsThis = i18n( "<qt><b>Shred source file:</b><br /><p>Checking this option will shred (overwrite several times before erasing) the files you have encrypted. This way, it is almost impossible that the source file is recovered.</p><p><b>But you must be aware that this is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>");
 
-(void) new KActiveLabel( i18n("Do you really want to <a href=\"whatsthis:%1\">shred</a> these files?").arg(shredWhatsThis),page);
+(void) new KActiveLabel( i18n("Do you really want to <a href=\"whatsthis:%1\">shred</a> these files?").arg(i18n( "<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>")),page);
 KListBox *lb=new KListBox(page);
 lb->insertStringList(droppedUrls.toStringList());
 if (shredConfirm->exec()==QDialog::Accepted)
@@ -640,8 +640,9 @@ void  MyView::startWizard()
 	else wiz->txtGpgVersion->setText(QString::null);
 
         wiz->kURLRequester1->setURL(confPath);
-        wiz->kURLRequester2->setURL(KGlobalSettings::desktopPath());
-        wiz->kURLRequester2->setMode(2);
+        /*
+	wiz->kURLRequester2->setURL(KGlobalSettings::desktopPath());
+        wiz->kURLRequester2->setMode(2);*/
 
         FILE *fp,*fp2;
         QString tst,tst2,name,trustedvals="idre-";
@@ -710,15 +711,11 @@ void  MyView::slotWizardChange()
         }
 }
 
-
-void  MyView::slotSaveOptionsPath()
+void  MyView::installShred()
 {
-qWarning("Save wizard settings...");
-        if (wiz->checkBox1->isChecked()) {
                 KURL path;
-                path.addPath(wiz->kURLRequester2->url());
-                path.adjustPath(1);
-                path.setFileName("shredder.desktop");
+		path.setPath(KGlobalSettings::desktopPath());
+		path.addPath("shredder.desktop");
                 KDesktopFile configl2(path.path(), false);
                 if (configl2.isImmutable() ==false) {
                         configl2.setGroup("Desktop Entry");
@@ -727,7 +724,12 @@ qWarning("Save wizard settings...");
                         configl2.writeEntry("Icon","shredder");
                         configl2.writeEntry("Exec","kgpg -X %U");
                 }
-        }
+}
+
+void  MyView::slotSaveOptionsPath()
+{
+qWarning("Save wizard settings...");
+        if (wiz->checkBox1->isChecked()) installShred();
 
         KGpgSettings::setAutoStart( wiz->checkBox2->isChecked() );
 
@@ -888,6 +890,7 @@ int KgpgAppletApp::newInstance()
 		kgpg_applet=new kgpgapplet(s_keyManager->s_kgpgEditor,"kgpg_systrayapplet");
 		}
 		connect(s_keyManager,SIGNAL(encryptFiles(KURL::List)),kgpg_applet->w,SLOT(encryptFiles(KURL::List)));
+		connect(s_keyManager,SIGNAL(installShredder()),kgpg_applet->w,SLOT(installShred()));
 		connect(s_keyManager->s_kgpgEditor,SIGNAL(encryptFiles(KURL::List)),kgpg_applet->w,SLOT(encryptFiles(KURL::List)));
 		
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));

@@ -30,6 +30,7 @@
 #include <qstringlist.h>
 #include <qclipboard.h>
 
+
 class QPopupMenu;
 class KTempFile;
 class KAboutData;
@@ -78,7 +79,7 @@ public slots:
         void  slotFolderFinished(KURL);
         void  slotFolderFinishedError(QString errmsge);
 	void  encryptFiles(KURL::List urls);
-
+	void installShred();
 private slots:
 
         void  slotWizardClose();
