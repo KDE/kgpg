@@ -98,6 +98,7 @@ void  decryptDroppedFile();
 void  slotVerifyFile();
 void  signDroppedFile();
 void  showDroppedFile ();
+void  openKeyManager();
 
 private slots:
 void slotSetClip(QString newtxt);
@@ -110,7 +111,6 @@ void firstRun();
 void readOptions();
 void  droppedfile (KURL);
 void  droppedtext (QString inputText) ;
-void  openKeyManager();
 void  openKeyServer();
 void  openEditor();
 void  clipDecrypt();

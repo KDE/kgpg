@@ -142,8 +142,8 @@ m_popup->insertItem( SmallIcon("network"),
                         i18n("KGpg Applet"));
 
  conf_popup->insertItem(SmallIcon("configure"), i18n("&Configure KGpg..."), CONFIG_ITEM );
- conf_popup->insertItem(SmallIcon("kgpg"), i18n("&About KGpg"), ABOUT_ITEM );
- conf_popup->insertItem(SmallIcon("help"), i18n("&Help"), HELP_ITEM );
+ //conf_popup->insertItem(SmallIcon("kgpg"), i18n("&About KGpg"), ABOUT_ITEM );
+ //conf_popup->insertItem(SmallIcon("help"), i18n("&Help"), HELP_ITEM );
 conf_popup->insertSeparator(); 
   conf_popup->insertItem(SmallIcon("exit"), i18n("&Quit"), QUIT_ITEM );
 }
@@ -615,8 +615,11 @@ args = KCmdLineArgs::parsedArgs();
 			kgpg_applet->restore(0, FALSE);
 		}*/
 	}
-	
+
 ////////////////////////   parsing of command line args
+if (args->isSet("k")!=0)
+kgpg_applet->w->openKeyManager();
+else
 if (args->count()>0)
 {
 FileToOpen=args->url(0);
@@ -624,12 +627,11 @@ if (FileToOpen.isEmpty()) return 0;
 kgpg_applet->w->droppedUrl=FileToOpen;
 if (args->isSet("e")!=0)	kgpg_applet->w->encryptDroppedFile();
 else if (args->isSet("s")!=0) kgpg_applet->w->showDroppedFile();
-else if (args->isSet("S")!=0) kgpg_applet->w->signDroppedFile();	
+else if (args->isSet("S")!=0) kgpg_applet->w->signDroppedFile();
 else if (args->isSet("V")!=0) kgpg_applet->w->slotVerifyFile();
 else if (FileToOpen.filename().endsWith(".sig")) kgpg_applet->w->slotVerifyFile();
 else kgpg_applet->w->decryptDroppedFile();
 }
-
 return 0;
 }
 
