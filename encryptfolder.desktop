@@ -4,15 +4,26 @@ Actions=encrypt
 
 [Desktop Action encrypt]
 Name=Archive && Encrypt Folder
+Name[bg]=Архивиране и шифроване на директория
 Name[ca]=Arxiva i xifra la carpeta
-Name[de]=Verzeichnis packen und verschlüsseln
+Name[cs]=Archivovat a zašifrovat adresář
+Name[da]=Arkivér && kryptér mappe
+Name[de]=Ordner packen und verschlüsseln
 Name[es]=Archivar y cifrar carpeta
-Name[fr]=Archive puis crypte le dossier
+Name[et]=Arhiveeri ja krüpti kaust
+Name[fi]=Pakkaa ja salaa kansio
+Name[fr]=Archive puis chiffre le dossier
 Name[hu]=Könyvtár titkosítása és archiválása
-Name[pt_BR]=Arquivo + Diretório criptografado
-Name[ru]=Архивный и зашифрованный каталог
-Name[sv]=Arkivera och kryptera fil
+Name[it]=Archivia e cifra cartella
+Name[nl]=Map inpakken en versleutelen
+Name[pt]=Arquivar e Cifrar a Pasta
+Name[pt_BR]=Arquivo && Diretório criptografado
+Name[ru]=Архивировать и зашифровать каталог
+Name[sl]=Arhiviranje in šifriranje imenika
+Name[sr]=Архивирај и шифруј директоријум
+Name[sv]=Arkivera och kryptera katalog
+Name[tr]=Arşiv && Klasör Şifrele
 Name[wa]=Fé ene ecriptêye årtchive d' on ridant
-Name[xx]=xxArchive + Encrypt Folderxx
+Name[xx]=xxArchive && Encrypt Folderxx
 
-Exec=kgpg -e %U
+Exec=kgpg -e %F

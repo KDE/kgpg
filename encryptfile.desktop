@@ -4,14 +4,27 @@ Actions=encrypt
 
 [Desktop Action encrypt]
 Name=Encrypt File
+Name[bg]=Шифроване на файл
 Name[ca]=Xifra fitxer
 Name[cs]=Zašifrovat soubor
 Name[da]=Indkod fil
+Name[de]=Datei verschlüsseln
 Name[es]=Cifrar archivo
+Name[et]=Krüpti fail
+Name[fi]=Salaa tiedosto
 Name[fr]=Chiffrer le fichier
+Name[hu]=Fájl titkosítása
+Name[it]=Cifratura file
+Name[nl]=Bestand versleutelen
+Name[pt]=Cifrar Ficheiro
 Name[pt_BR]=Criptografar Arquivo
+Name[ru]=Зашифровать файл
+Name[sl]=Šifriraj datoteko
+Name[sr]=Шифруј фајл
 Name[sv]=Kryptera fil
+Name[tr]=Dosya Şifrele
 Name[wa]=Ecripter fitchî
+Name[xx]=xxEncrypt Filexx
 
-Exec=kgpg -e %U
+Exec=kgpg -e %F
 
