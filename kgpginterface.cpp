@@ -1290,9 +1290,8 @@ QString KgpgInterface::checkForUtf8(QString txt)
         if (*s && !strchr (txt.ascii(), 0xc3)) {
                 /* The string is not in UTF-8 */
 
-                if (txt.find("\\x")==-1)
-                        txt=txt.utf8();
-                else
+                if (txt.find("\\x")==-1) return txt;
+
                         for ( int idx = 0 ; (idx = txt.find( "\\x", idx )) >= 0 ; ++idx ) {
                                 char str[2] = "x";
                                 str[0] = (char) QString( txt.mid( idx + 2, 2 ) ).toShort( 0, 16 );

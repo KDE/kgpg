@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+
 #include <qlabel.h>
 #include <qpixmap.h>
 #include <qclipboard.h>
@@ -46,7 +47,6 @@
 MyView::MyView( QWidget *parent, const char *name )
                 : QLabel( parent, name )
 {
-
         setBackgroundMode(  X11ParentRelative );
 
         KAction *saveDecrypt = new KAction(i18n("&Decrypt && Save File"),"decrypted",0,this, SLOT(decryptDroppedFile()),this,"decrypt_file");
@@ -281,6 +281,10 @@ void  MyView::droppedfile (KURL::List url)
 {
         droppedUrls=url;
         droppedUrl=url.first();
+        if (KMimeType::findByURL(droppedUrl)->name()=="inode/directory") {
+                KMessageBox::sorry(0,i18n("sorry, only file operations are currently supported"));
+                return;
+        }
         if (!droppedUrl.isLocalFile()) {
                 showDroppedFile();
                 return;
@@ -552,7 +556,6 @@ void kgpgapplet::slotOptions()
 KgpgAppletApp::KgpgAppletApp()
                 : KUniqueApplication()//, kgpg_applet( 0 )
 {
-
         s_keyManager=new listKeys(0, "key_manager");
 
         //s_keyManager->show();
@@ -623,6 +626,10 @@ int KgpgAppletApp::newInstance()
                                 return 0;
 
                         kgpg_applet->w->droppedUrl=urlList.first();
+                        if (KMimeType::findByURL(urlList.first())->name()=="inode/directory") {
+                                KMessageBox::sorry(0,i18n("sorry, only file operations are currently supported"));
+                                return 0;
+                        }
                         kgpg_applet->w->droppedUrls=urlList;
                         if (args->isSet("e")!=0)
                                 kgpg_applet->w->encryptDroppedFile();
