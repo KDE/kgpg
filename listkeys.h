@@ -70,6 +70,7 @@ private slots:
 void slotOk();
 void slotpreOk();
 void slotSelect(QListViewItem *item);
+QString extractKeyName(QString fullName);
 public slots:
 QString getkeyID();
 QString getkeyMail();

@@ -346,7 +346,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
   while ( fgets( line, sizeof(line), fp))
   {
       tst=line;
-      if (tst.find("sec",0,FALSE)!=-1)
+      if (tst.startsWith("sec"))
       {
           const QString trust=tst.section(':',1,1);
           QString val=tst.section(':',6,6);
@@ -393,10 +393,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
           tst=tst.section(":",9,9);
           if (!tst.isEmpty())
           {
-              keyname=tst.section('<',1,1);
-              keyname=keyname.section('>',0,0);
-              keyname+=" ("+tst.section('<',0,0)+")";
-              KListViewItem *item=new KListViewItem(keysListpr,keyname);
+              KListViewItem *item=new KListViewItem(keysListpr,extractKeyName(tst));
               KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, validity: %3").arg(id).arg(tr).arg(val));
               sub->setSelectable(false);
               item->setPixmap(0,keyPair);
@@ -414,6 +411,15 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
   page->show();
   resize(this->minimumSize());
   setMainWidget(page);
+}
+
+QString KgpgSelKey::extractKeyName(QString fullName)
+{
+QString kMail=fullName.section('<',-1,-1);
+kMail.truncate(kMail.length()-1);
+QString kName=fullName.section('<',0,0);
+if (kName.find("(")!=-1) kName=kName.section('(',0,0);
+return QString(kMail+" ("+kName+")");
 }
 
 void KgpgSelKey::slotpreOk()
