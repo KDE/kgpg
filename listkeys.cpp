@@ -1070,13 +1070,10 @@ void listKeys::readOptions()
         config->setGroup("User Interface");
         //        keysList2->displayMailFirst=config->readBoolEntry("display_mail_first",true);
 
-	if (config->readBoolEntry("selection_clipboard",false)) {
-                // support clipboard selection (if possible)
-                if (kapp->clipboard()->supportsSelection())
-                        kapp->clipboard()->setSelectionMode(true);
-        } else
-                kapp->clipboard()->setSelectionMode(false);
-
+	
+	clipboardMode=QClipboard::Clipboard;
+        if ((config->readBoolEntry("selection_clipboard",false)) && (kapp->clipboard()->supportsSelection())) clipboardMode=QClipboard::Selection;
+		
         config->setGroup("GPG Settings");
         configUrl=config->readPathEntry("gpg_config_path");
         keysList2->configFilePath=configUrl;
@@ -1397,9 +1394,7 @@ kapp->invokeMailer(QString::null, QString::null, QString::null, QString::null,
 
 void listKeys::slotProcessExportClip(QString keys)
 {
-        // if (kapp->clipboard()->supportsSelection())
-        //   kapp->clipboard()->setSelectionMode(true);
-        kapp->clipboard()->setText(keys);
+        kapp->clipboard()->setText(keys,clipboardMode);
 }
 
 
@@ -2170,7 +2165,7 @@ void listKeys::slotPreImportKey()
                                 connect(importKeyProcess,SIGNAL(importfinished(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
                         }
                 } else {
-                        QString keystr = kapp->clipboard()->text();
+                        QString keystr = kapp->clipboard()->text(clipboardMode);
                         if (!keystr.isEmpty()) {
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
                                 importKeyProcess->importKey(keystr);

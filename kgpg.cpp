@@ -107,7 +107,7 @@ void  MyView::clipEncrypt()
 
 void  MyView::clipDecrypt()
 {
-        QString clippie=kapp->clipboard()->text().stripWhiteSpace();
+        QString clippie=kapp->clipboard()->text(clipboardMode).stripWhiteSpace();
         if (clippie.startsWith("-----BEGIN PGP MESSAGE")) {
                 KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
                 kgpgtxtedit->view->editor->setText(clippie);
@@ -449,8 +449,7 @@ void  MyView::droppedfile (KURL::List url)
 void  MyView::droppedtext (QString inputText)
 {
 
-        QClipboard *cb = QApplication::clipboard();
-        cb->setText(inputText);
+        QApplication::clipboard()->setText(inputText,clipboardMode);
         if (inputText.startsWith("-----BEGIN PGP MESSAGE")) {
                 clipDecrypt();
                 return;
@@ -503,11 +502,10 @@ void  MyView::readOptions()
         customDecrypt=QStringList::split(QString(" "),ksConfig->readEntry("custom_decrypt").simplifyWhiteSpace());
 
         ksConfig->setGroup("User Interface");
-        if (ksConfig->readBoolEntry("selection clip",false)) {
-                if (kapp->clipboard()->supportsSelection())
-                        kapp->clipboard()->setSelectionMode(true);
-        } else
-                kapp->clipboard()->setSelectionMode(false);
+	
+	clipboardMode=QClipboard::Clipboard;
+        if ((ksConfig->readBoolEntry("selection_clipboard",false)) && (kapp->clipboard()->supportsSelection())) clipboardMode=QClipboard::Selection;
+	             
         ksConfig->setGroup("General Options");
         if (ksConfig->readBoolEntry("First run",true))
                 firstRun();
@@ -889,7 +887,7 @@ int KgpgAppletApp::newInstance()
 
 void MyView::encryptClipboard(QStringList selec,QStringList encryptOptions,bool,bool symmetric)
 {
-        if (kapp->clipboard()->text().isEmpty()) {
+        if (kapp->clipboard()->text(clipboardMode).isEmpty()) {
 	KPassivePopup::message(i18n("Clipboard is empty."),QString::null,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this);
 	return;
 	}
@@ -901,12 +899,12 @@ void MyView::encryptClipboard(QStringList selec,QStringList encryptOptions,bool,
                 KgpgInterface *txtEncrypt=new KgpgInterface();
                 connect (txtEncrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(slotSetClip(QString)));
 		connect (txtEncrypt,SIGNAL(txtencryptionstarted()),this,SLOT(slotPassiveClip()));
-                txtEncrypt->KgpgEncryptText(kapp->clipboard()->text(),selec,encryptOptions);
+                txtEncrypt->KgpgEncryptText(kapp->clipboard()->text(clipboardMode),selec,encryptOptions);
 }
 
 void MyView::slotPassiveClip()
 {
-QString newtxt=kapp->clipboard()->text();
+QString newtxt=kapp->clipboard()->text(clipboardMode);
 if (newtxt.length()>300)
                         newtxt=QString(newtxt.left(250).stripWhiteSpace())+"...\n"+QString(newtxt.right(40).stripWhiteSpace());
 
@@ -926,8 +924,7 @@ pop = new KPassivePopup( this);
 void MyView::slotSetClip(QString newtxt)
 {
         if (newtxt.isEmpty()) return;
-                QClipboard *clip=QApplication::clipboard();
-                clip->setText(newtxt);//,QClipboard::Clipboard);    QT 3.1 only
+                QApplication::clipboard()->setText(newtxt,clipboardMode);//,QClipboard::Clipboard);    QT 3.1 only
 }
 
 

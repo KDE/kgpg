@@ -196,6 +196,7 @@ private:
 	groupEdit *gEdit;
 	KgpgInterface *revKeyProcess;
 	KDialogBase *addUidWidget;
+	QClipboard::Mode clipboardMode;
 
 protected:
         void closeEvent( QCloseEvent * e );

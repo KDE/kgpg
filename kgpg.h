@@ -29,6 +29,7 @@
 #include <qlabel.h>
 #include <qwidgetlist.h>
 #include <qhbuttongroup.h>
+#include <qclipboard.h>
 
 #include <kurl.h>
 #include <kpopupmenu.h>
@@ -77,6 +78,7 @@ private:
         KTempFile *kgpgFolderExtract;
 	int compressionScheme;
 	popupPublic *dialogue;
+	QClipboard::Mode clipboardMode;
 
 public slots:
         void  encryptDroppedFile();

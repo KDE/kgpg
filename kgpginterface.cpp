@@ -503,7 +503,7 @@ void Md5Widget::slotApply()
         QClipboard *cb = QApplication::clipboard();
         QString text;
         // Copy text from the clipboard (paste)
-        text = cb->text();
+        text = cb->text(QClipboard::Clipboard);
         if ( !text.isEmpty() ) {
                 text=text.stripWhiteSpace();
                 while (text.find(' ')!=-1)
