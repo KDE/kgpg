@@ -167,10 +167,8 @@ KButtonBox *boutonbox=new KButtonBox(this,KButtonBox::Horizontal,15,12);
  char line[200]="\0";
  FILE *fp2;
  seclist="";
- QString gpgcmd2;
 
-              gpgcmd2="gpg --no-secmem-warning --no-tty --list-secret-keys ";
-              fp2 = popen(gpgcmd2, "r");
+              fp2 = popen("gpg --no-secmem-warning --no-tty --list-secret-keys ", "r");
               while ( fgets( line, sizeof(line), fp2))  seclist+=line;
               pclose(fp2);
 

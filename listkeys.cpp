@@ -136,7 +136,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
   char line[200]="";
   QString opt,tid;
   bool isphoto=false;
-  QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key "+sigkey.local8Bit();
+  QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key "+KProcess::quote(sigkey.local8Bit());
 
   pass=popen(gpgcmd,"r");
   while ( fgets( line, sizeof(line), pass))
@@ -398,7 +398,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
           }
           tst=tst.section(":",9,9);  
 		  
-  fp2 = popen(QString("gpg --no-tty --with-colon --list-key %1").arg(id), "r");
+  fp2 = popen(QString("gpg --no-tty --with-colon --list-key %1").arg(KProcess::quote(id)), "r");
   bool dead=true;
   while ( fgets( line, sizeof(line), fp2))
   {
@@ -563,7 +563,7 @@ FILE *fp;
 char line[200]="";
 QString keyid=currentItem()->text(5);
 if (!keyid.startsWith("0x")) return;
-QString gpgcmd="gpg --no-tty --export --armor "+keyid.local8Bit();
+QString gpgcmd="gpg --no-tty --export --armor "+KProcess::quote(keyid.local8Bit());
 
 QString keytxt;
 fp=popen(gpgcmd,"r");
@@ -1365,14 +1365,12 @@ void KeyView::refreshkeylist()
    QString issec="";
   secretList="";
   revoked="";
-  QString gpgcmd2="gpg --no-secmem-warning --no-tty --list-secret-keys ";
-  //strcat(gpgcmd2,tst);
-  fp2 = popen(gpgcmd2, "r");
+  fp2 = popen("gpg --no-secmem-warning --no-tty --list-secret-keys", "r");
   while ( fgets( line, sizeof(line), fp2))
     issec+=line;
   pclose(fp2);
 
-  fp = popen(QString("gpg --no-secmem-warning --no-tty --with-colon --list-sigs"), "r");
+  fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-sigs", "r");
   while ( fgets( line, sizeof(line), fp))
     {
       tst=line;

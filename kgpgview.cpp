@@ -229,8 +229,6 @@ void KgpgView::clearSign()
         //////////////////////   this is a signed message, verify it
 
         ///////////////////  generate gpg command
-        QString line="echo \"";
-        line+=mess.local8Bit();
 
         ///////////////// run command
         FILE *fp,*cmdstatus;
@@ -238,7 +236,8 @@ void KgpgView::clearSign()
 
         pipe(process);
         cmdstatus = fdopen(process[1], "w");
-		line+="\" | gpg --no-tty --logger-fd="+QString::number(process[1])+" --no-secmem-warning --verify";
+		QString line="echo "+KProcess::quote(mess.local8Bit());
+		line+=" | gpg --no-tty --logger-fd="+QString::number(process[1])+" --no-secmem-warning --verify";
 		fp=popen(line,"r");
         pclose(fp);
         fclose(cmdstatus);
@@ -292,19 +291,19 @@ void KgpgView::clearSign()
         fclose(pass);
 
         ///////////////////  generate gpg command
-        QString line="echo \"";
+        QString line="echo ";
 
 		mess=mess.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
 		
-        line+=mess.local8Bit();
-        line+="\" | gpg ";
+        line+=KProcess::quote(mess.local8Bit());
+        line+=" | gpg ";
         if (pubpgp) line+="--pgp6 ";
         line+="--passphrase-fd ";
         QString fd;
         fd.setNum(ppass[0]);
-        line+=fd.latin1();
+        line+=fd;
         line+=" --no-tty --clearsign -u ";
-        line+=signKeyID.local8Bit();
+        line+=KProcess::quote(signKeyID.local8Bit());
         //KMessageBox::sorry(0,QString(line));
         QString tst="";
 
