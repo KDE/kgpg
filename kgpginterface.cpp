@@ -208,7 +208,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
                                 if ((step<3) && (!anonymous))
                                         passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
 
-                                passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(userIDs);
+                                passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8(userIDs));
                                 int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
                                 if (code!=QDialog::Accepted) {
                                         delete p;
@@ -370,7 +370,7 @@ void KgpgInterface::txtreaddecprocess(KProcIO *p)
                 passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys.<br>");
               if ((step<3) && (!anonymous))
                 passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-              passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(userIDs);
+              passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8(userIDs));
               int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
               if (code!=QDialog::Accepted)
                 {
@@ -557,7 +557,7 @@ void KgpgInterface::readsignprocess(KProcIO *p)
                                 QString passdlgmessage;
                                 if (step<3)
                                         passdlgmessage=i18n("<b>Bad passphrase</b>. you have %1 tries left.<br>").arg(step);
-                                passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(userIDs);
+                                passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8(userIDs));
                                 int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
                                 if (code!=QDialog::Accepted) {
                                         delete p;
@@ -719,7 +719,7 @@ void KgpgInterface::sigprocess(KProcIO *p)
 		
                 if (required.find("passphrase.enter")!=-1) {
                         QCString signpass;
-                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>%1 Enter passphrase for <b>%2</b>:</qt>").arg(errMessage).arg(userIDs));
+                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>%1 Enter passphrase for <b>%2</b>:</qt>").arg(errMessage).arg(checkForUtf8(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 signSuccess=4;  /////  aborted by user mode
                                 required=QString::null;
@@ -923,7 +923,7 @@ void KgpgInterface::expprocess(KProcIO *p)
 
                 if (required.find("passphrase.enter")!=-1) {
                         QCString signpass;
-                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
+                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 expSuccess=3;  /////  aborted by user mode
                                 p->writeStdin("quit");
@@ -1093,7 +1093,7 @@ void KgpgInterface::passprocess(KProcIO *p)
 
                         if (step==1) {
                                 QCString passphrase;
-                                int code=KPasswordDialog::getPassword(passphrase,i18n("<qt>%1 Enter passphrase for <b>%2</b></qt>").arg(message).arg(userIDs));
+                                int code=KPasswordDialog::getPassword(passphrase,i18n("<qt>%1 Enter passphrase for <b>%2</b></qt>").arg(message).arg(checkForUtf8(userIDs)));
                                 if (code!=QDialog::Accepted) {
                                         p->writeStdin("quit");
                                         //				 p->closeWhenDone();
@@ -1322,7 +1322,7 @@ void KgpgInterface::adduidprocess(KProcIO *p)
 
                 if (required.find("passphrase.enter")!=-1) {
                         QCString delpass;
-                        int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
+                        int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 //deleteSuccess=false;
                                 p->writeStdin("quit");
@@ -1445,7 +1445,7 @@ void KgpgInterface::delphotoprocess(KProcIO *p)
 
                 if (required.find("passphrase.enter")!=-1) {
                         QCString delpass;
-                        int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
+                        int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 //deleteSuccess=false;
                                 p->writeStdin("quit");
@@ -1508,7 +1508,7 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
 
                 if (required.find("passphrase.enter")!=-1) {
                         QCString delpass;
-                        int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
+                        int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 //deleteSuccess=false;
                                 p->writeStdin("quit");
@@ -1594,7 +1594,7 @@ void KgpgInterface::revokeprocess(KProcIO *p)
 
                 if (required.find("passphrase.enter")!=-1) {
                         QCString signpass;
-                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
+                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 expSuccess=3;  /////  aborted by user mode
                                 p->writeStdin("quit");
