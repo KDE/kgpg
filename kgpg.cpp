@@ -274,7 +274,6 @@ void  MyView::shredDroppedFile()
 {
         if (KMessageBox::warningContinueCancelList(0,i18n("Do you really want to shred these files?"),droppedUrls.toStringList())!=KMessageBox::Continue)
                 return;
-        KURL::List::iterator it;
 	KgpgLibrary *lib=new KgpgLibrary(this);
 	connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
 	lib->shredprocessenc(droppedUrls);

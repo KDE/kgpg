@@ -49,6 +49,7 @@
 #include <kprinter.h>
 #include <kurldrag.h>
 #include <kwin.h>
+#include <dcopclient.h>
 
 
 #include <kabc/stdaddressbook.h>
@@ -62,6 +63,7 @@
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include <qtabwidget.h>
+
 
 //////////////  KListviewItem special
 
@@ -2007,16 +2009,32 @@ void listKeys::preimportsignkey()
                 importsignkey(keysList2->currentItem()->text(6));
 }
 
-void listKeys::importRemoteKey(const QString keyID)
+bool listKeys::importRemoteKey(QString keyID)
 {
+
         kServer=new keyServer(0,"server_dialog",false,true);
         kServer->page->kLEimportid->setText(keyID);
         kServer->page->Buttonimport->setDefault(true);
         kServer->page->tabWidget2->setTabEnabled(kServer->page->tabWidget2->page(1),false);
         kServer->show();
-        connect( kServer, SIGNAL( importFinished() ) , this, SLOT( importfinished()));
+	kServer->raise();
+        connect( kServer, SIGNAL( importFinished() ) , this, SLOT( dcopImportFinished()));
+
+	return true;
 }
 
+
+
+void listKeys::dcopImportFinished()
+{
+        if (kServer)
+                kServer=0L;
+    QByteArray params;
+    QDataStream stream(params, IO_WriteOnly);
+   stream << true;
+    kapp->dcopClient()->emitDCOPSignal("keyImported(bool)", params);
+    refreshkey();
+}
 
 void listKeys::importsignkey(QString importKeyId)
 {

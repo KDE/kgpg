@@ -73,6 +73,7 @@
 #include <kservice.h>
 
 
+
 #include "kgpg.h"
 #include "keygener.h"
 #include "kgpgoptions.h"
@@ -206,6 +207,7 @@ private:
         QClipboard::Mode clipboardMode;
         QTimer *statusbarTimer;
 
+
 protected:
         void closeEvent( QCloseEvent * e );
         bool eventFilter( QObject *, QEvent *e );
@@ -270,7 +272,7 @@ private slots:
         void signkey();
         void delsignkey();
         void preimportsignkey();
-        void importRemoteKey(const QString keyID);
+        bool importRemoteKey(QString keyID);
         void importsignkey(QString importKeyId);
         void importallsignkey();
         void importfinished();
@@ -297,6 +299,7 @@ private slots:
         void refreshFinished();
         void slotregenerate();
         void reloadSecretKeys();
+	void dcopImportFinished();
 	
 signals:
         void readAgainOptions();
