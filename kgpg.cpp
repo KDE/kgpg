@@ -298,7 +298,7 @@ void KgpgApp::slotTest()
 
 void KgpgApp::openEncryptedDocumentFile(const KURL& url,QString userIDs)
 {
-  QFile qfile(url.path().local8Bit());
+  QFile qfile(url.path());
   QString encryptedText;
   if (qfile.open(IO_ReadOnly))
     {
@@ -325,7 +325,7 @@ void KgpgApp::openDocumentFile(const KURL& url)
 
   /////////////////////////////////////////////////
 
-  QFile qfile(url.path().local8Bit());
+  QFile qfile(url.path());
 
   if (qfile.open(IO_ReadOnly))
     {
@@ -511,11 +511,11 @@ void KgpgApp::slotVerifyFile(KURL url)
 if (!url.filename().endsWith(".sig"))
 {
       sigfile=url.path()+".sig";
-      QFile fsig(sigfile.local8Bit());
+      QFile fsig(sigfile);
       if (!fsig.exists())
         {
           sigfile=url.path()+".asc";
-          QFile fsig(sigfile.local8Bit());
+          QFile fsig(sigfile);
           //////////////   if no .asc or .sig signature file included, assume the file is internally signed
           if (!fsig.exists())
             sigfile="";
@@ -600,7 +600,7 @@ void KgpgApp::slotFileSave()
       slotFileSaveAs();
       return;
     }
-  QFile f(filn.local8Bit());
+  QFile f(filn);
   if ( !f.open( IO_WriteOnly ) )
     {
       return;
@@ -623,7 +623,7 @@ void KgpgApp::slotFileSaveAs()
     {
 
       QString filn=url.path();
-      QFile f(filn.local8Bit());
+      QFile f(filn);
       if (f.exists())
         {
           QString message=i18n("Overwrite existing file %1?").arg(url.filename());
@@ -706,7 +706,7 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool shred,bool sym
   if (arm) dest.setPath(urlselected.path()+".asc");
   else dest.setPath(urlselected.path()+".gpg");
 
-  QFile fgpg(dest.path().local8Bit());
+  QFile fgpg(dest.path());
 
   if (fgpg.exists())
     {
@@ -749,7 +749,7 @@ if (commandLineMode==true) kapp->exit(0);
   else
     {
       //KMessageBox::sorry(0,"shred");
-      KShred *shredres=new KShred(urlselected.path().local8Bit());
+      KShred *shredres=new KShred(urlselected.path());
       if (shredres->shred()==false) KMessageBox::sorry(0,i18n("The source file could not be shredded.\nCheck your permissions."));
 if (commandLineMode==true) kapp->exit(0);
     }
@@ -770,7 +770,7 @@ void KgpgApp::fastdecode(bool quit)
   //////////////////////////////////////////////////////////////////    decode file from konqueror or menu
 
   fastact=quit;
-  QString oldname=urlselected.filename().local8Bit();
+  QString oldname=urlselected.filename();
 
   QString newname="";
   QCString password;
@@ -806,7 +806,7 @@ QString enckey=KgpgInterface::extractKeyName(urlselected);
     }
   if (newname!="")
     {
-      QFile fgpg(newname.local8Bit());
+      QFile fgpg(newname);
       if (fgpg.exists())
         {
           KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",KURL(newname));

@@ -127,7 +127,7 @@ void MyEditor::slotprocreadenckey(KProcIO *p)
 {
 outp=outp.section('<',-1,-1);
 outp=outp.section('>',0,0);
-if (messages!="") messages+=" or ";
+if (messages!="") messages+=i18n(" or ");
 messages+=outp;
 }
   }
@@ -158,7 +158,7 @@ void MyEditor::slotprocresultenckey(KProcess *)
 	message="";
                   KProcIO *conprocess=new KProcIO();
 	  *conprocess<< "gpg";
-	  *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--import"<<filename.local8Bit();
+	  *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--import"<<QFile::encodeName(filename);
           QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresult(KProcess *)));
           QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
         conprocess->start(KProcess::NotifyOnExit,true);
@@ -183,7 +183,7 @@ void MyEditor::slotprocresultenckey(KProcess *)
 
 
  //KMessageBox::sorry(0,text);
-   QFile qfile(filename.local8Bit());
+   QFile qfile(filename);
 
 if (qfile.open(IO_ReadOnly))
 {
@@ -462,7 +462,7 @@ void KgpgView::encode(QString &selec,bool utrust,bool arm)
       else encryptOptions+=" --pgp6 ";
     }
 
- if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not choosen an encryption key..."));return;}
+ if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not chosen an encryption key..."));return;}
 
  QString resultat=KgpgInterface::KgpgEncryptText(editor->text(),selec,encryptOptions);
  if (resultat!="") editor->setText(resultat);
