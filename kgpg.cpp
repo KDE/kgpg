@@ -369,6 +369,9 @@ kapp->clipboard()->setSelectionMode(true);
 else kapp->clipboard()->setSelectionMode(false);
 
 if (ksConfig->readBoolEntry("First run",true)) firstRun();
+if (ksConfig->readEntry("gpg config path").isEmpty()) startWizard();
+
+
 ksConfig->setGroup("TipOfDay");
 tipofday=ksConfig->readBoolEntry("RunOnStart",true);
 
@@ -390,19 +393,59 @@ delete opts;
     {
       tst=line;
       if (tst.startsWith("sec"))
-      found=true;
+      {
+	  found=true;
+	break;
+	  }
     }
   pclose(fp);
-  if (!found)
-    {
-      int result=KMessageBox::questionYesNo(0,i18n("Welcome to KGPG.\nNo secret key was found on your computer.\nWould you like to create one now?"));
-      if (result==3)
-        {
-          listKeys *creat=new listKeys(0);
+startWizard();
+}
+
+
+void  MyView::startWizard()
+{
+if (wiz) return;
+wiz=new KgpgWizard(0,"wizard");
+QString confPath=QDir::homeDirPath()+"/.gnupg/options";
+if (!QFile(confPath).exists())
+{
+confPath=QDir::homeDirPath()+"/.gnupg/gpg.conf";
+if (!QFile(confPath).exists())
+{
+wiz->text_optionsfound->setText(i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed and give the path to the file.</qt>"));
+confPath="";
+}
+}
+  wiz->kURLRequester1->setURL(confPath);
+
+connect(wiz->pushButton4,SIGNAL(clicked()),this,SLOT(slotGenKey()));
+connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotSaveOptionsPath()));
+connect( wiz , SIGNAL( destroyed() ) , this, SLOT( slotWizardClosed()));
+
+  wiz->setFinishEnabled(wiz->page_3,true);
+  wiz->show();
+}
+
+void  MyView::slotSaveOptionsPath()
+{
+ksConfig->setGroup("General Options");
+ksConfig->writeEntry("gpg config path",wiz->kURLRequester1->url());
+ksConfig->writeEntry("First run",false);
+ksConfig->sync();
+if (wiz) delete wiz;
+}
+
+void  MyView::slotWizardClose()
+{
+wiz=0L;
+}
+
+void  MyView::slotGenKey()
+{
+listKeys *creat=new listKeys(0);
           creat->slotgenkey();
           delete creat;
-        }
-    }
 }
 
 void  MyView::about()

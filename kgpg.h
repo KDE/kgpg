@@ -55,6 +55,7 @@
 #include "keyservers.h"
 #include "popuppublic.h"
 #include "listkeys.h"
+#include "kgpgwizard.h"
 
 
 class MyView : public QLabel
@@ -76,7 +77,7 @@ bool ascii,untrusted,hideid,pgpcomp,fastact,encrypttodefault,encryptfileto,tipof
 QPopupMenu *droppopup,*udroppopup;
 KAboutData   *_aboutData;
 QString customDecrypt;
-
+KgpgWizard *wiz;
 QString filekey;
 
 class keyServer *m_keyServer;
@@ -99,6 +100,10 @@ void preferences();
 void  openEditor();
 
 private slots:
+void  slotWizardClose();
+void  startWizard();
+void  slotSaveOptionsPath();
+void  slotGenKey();
 void importSignature(QString ID);
 void slotSetClip(QString newtxt);
 void killDisplayClip();
