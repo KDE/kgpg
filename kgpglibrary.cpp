@@ -15,7 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qhbox.h>
+#include <qvbox.h>
+
 #include <klocale.h>
+#include <kapplication.h>
 #include <kconfig.h>
 #include <kmessagebox.h>
 #include <krun.h>
@@ -87,21 +91,50 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
         cryptFileProcess->KgpgEncryptFile(selec,urlselected,dest,encryptOptions,symetric);
         connect(cryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup2()));
         if (shred)
-                connect(cryptFileProcess,SIGNAL(encryptionfinished(KURL)),this,SLOT(shredprocessenc(KURL)));
+                connect(cryptFileProcess,SIGNAL(encryptionfinished(KURL)),this,SLOT(shredpreprocessenc(KURL)));
         else
                 connect(cryptFileProcess,SIGNAL(encryptionfinished(KURL)),this,SLOT(processenc(KURL)));
         connect(cryptFileProcess,SIGNAL(errormessage(QString)),this,SLOT(processencerror(QString)));
 }
 
+void KgpgLibrary::shredpreprocessenc(KURL fileToShred)
+{
+	delete pop;
+	pop=0L;		
+shredprocessenc(fileToShred);
+}
+
 void KgpgLibrary::shredprocessenc(KURL fileToShred)
 {
-        //KMessageBox::sorry(0,"123: "+fileToShred.path());
-        delete pop;
-	pop=0L;
-        kgpgShredWidget *sh=new kgpgShredWidget(0,"shred");
-        sh->setCaption(i18n("Shredding %1").arg(fileToShred.filename()));
-        sh->show();
-        sh->kgpgShredFile(fileToShred);
+	if (!fileToShred.isLocalFile())
+{
+KMessageBox::sorry(0,i18n("<qt>File <b>%1</b> is a remote file.<br>You cannot shred it.</qt>").arg(fileToShred.path()));
+return;
+}
+	KPassivePopup *shredPopup=new KPassivePopup();
+ 	shredPopup->setAutoDelete(false);
+	QVBox *vbox=shredPopup->standardView(i18n("Shredding"),i18n("<qt>Shredding file <b>%1</b></qt>").arg(fileToShred.filename()),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+	   
+	   shredProgressBar= new KProgress(vbox);
+    shredPopup->setView( vbox );
+    shredPopup->show();
+    kapp->processEvents();
+        shredProgressBar->setTotalSteps(QFile(fileToShred.path()).size());
+
+KShred *shredres=new KShred(fileToShred.path());
+        connect(shredres,SIGNAL(processedSize(KIO::filesize_t)),this,SLOT(setShredProgress(KIO::filesize_t)));
+        if (shredres->shred())
+                delete shredPopup;
+        else
+                KMessageBox::sorry(0,i18n("<qt><b>ERROR</b> during file shredding.<br>File <b>%1</b> was not securely deleted. Please check your permissions.<qt>").arg(fileToShred.path()));
+
+}
+
+
+void KgpgLibrary::setShredProgress(KIO::filesize_t shredSize)
+{
+shredProgressBar->setProgress((int) shredSize);
+
 }
 
 

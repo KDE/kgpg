@@ -192,6 +192,10 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 popupPublic::~popupPublic()
 {}
 
+void popupPublic::slotAccept()
+{
+accept(); 
+}
 
 void popupPublic::enable()
 {
@@ -414,7 +418,7 @@ void popupPublic::crypte()
                 returnOptions<<"--throw-keyid";
         if ((allowcustom) && (!customOptions.stripWhiteSpace().isEmpty()))
                 returnOptions.operator+ (QStringList::split(QString(" "),customOptions.simplifyWhiteSpace()));
-	hide();
+	//hide();
         if (fmode)
                 emit selectedKey(selectedKeys,returnOptions,CBshred->isChecked(),CBsymmetric->isChecked());
         else

@@ -66,6 +66,9 @@ private slots:
         void sort();
         void enable();
 
+public slots:
+void slotAccept();
+	
 signals:
         void selectedKey(QStringList ,QStringList,bool,bool);
 

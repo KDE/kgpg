@@ -150,7 +150,7 @@ void MyView::encryptDroppedFolder()
         if (KMessageBox::warningContinueCancel(0,i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>").arg(kgpgfoldertmp->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpFile")==KMessageBox::Cancel)
                 return;
 
-        popupPublic *dialogue=new popupPublic(0,"Public keys",droppedUrls.first().filename(),true);
+	dialogue=new popupPublic(0,"Public keys",droppedUrls.first().filename(),true);
 
 	QHButtonGroup *bGroup = new QHButtonGroup(dialogue->plainPage());
                 (void) new QLabel(i18n("Compression method for archive:"),bGroup);
@@ -163,7 +163,7 @@ void MyView::encryptDroppedFolder()
         connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startFolderEncode(QStringList,QStringList,bool,bool)));
         dialogue->CBshred->setEnabled(false);
         dialogue->exec();
-	delete dialogue;
+	dialogue=0L;
 }
 
 void MyView::slotSetCompression(int cp)
@@ -171,18 +171,25 @@ void MyView::slotSetCompression(int cp)
 compressionScheme=cp;
 }
 
-
 void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool ,bool symetric)
 {
-	pop = new KPassivePopup();
-	pop->setView(i18n("Processing archiving & encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+pop = new KPassivePopup();
+	pop->setView(i18n("Processing folder compression and encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+	pop->setAutoDelete(false);
 	pop->show();
+	kapp->processEvents();
+	dialogue->slotAccept();
+	dialogue=0L;
+
+	/*
 	QRect qRect(QApplication::desktop()->screenGeometry());
         int iXpos=qRect.width()/2-pop->width()/2;
         int iYpos=qRect.height()/2-pop->height()/2;
-        pop->move(iXpos,iYpos);
+        pop->move(iXpos,iYpos);*/
 
-        QString extension;
+        
+	QString extension;
+	kdDebug()<<"Starting.........."<<endl;
 	KArchive *arch;
 	if (compressionScheme==0)
 	{
@@ -258,14 +265,9 @@ void  MyView::shredDroppedFile()
                 return;
         KURL::List::iterator it;
         for ( it = droppedUrls.begin(); it != droppedUrls.end(); ++it ) {
-                if (!KURL(*it).isLocalFile())
-                        KMessageBox::sorry(0,i18n("Cannot shred remote files!"));
-                else {
-                        kgpgShredWidget *sh=new kgpgShredWidget(0,"shred");
-                        sh->setCaption(i18n("Shredding %1").arg(KURL(*it).filename()));
-                        sh->show();
-                        sh->kgpgShredFile(KURL(*it));
-                }
+
+	KgpgLibrary *lib=new KgpgLibrary();
+        lib->shredprocessenc(KURL(*it));	
         }
 }
 

@@ -48,7 +48,6 @@
 #include "popuppublic.h"
 #include "listkeys.h"
 #include "kgpgwizard.h"
-#include "kgpgshredwidget.h"
 
 class QPopupMenu;
 
@@ -77,6 +76,7 @@ private:
         KPassivePopup *pop;
         KTempFile *kgpgFolderExtract;
 	int compressionScheme;
+	popupPublic *dialogue;
 
 public slots:
         void  encryptDroppedFile();

@@ -29,11 +29,11 @@
 #include <kdeversion.h>
 #include <kshred.h>
 #include <kpassivepopup.h>
+#include <kprogress.h>
 
 #include "popuppublic.h"
 #include "popupname.h"
 #include "kgpginterface.h"
-#include "kgpgshredwidget.h"
 
 
 class KgpgLibrary : public QObject
@@ -53,25 +53,27 @@ public:
 public slots:
         void slotFileEnc(KURL::List urls=KURL(""),QStringList opts=QString::null,QString defaultKey="");
         void slotFileDec(KURL srcUrl=0,KURL destUrl=0,QStringList customDecryptOption="");
+	void shredprocessenc(KURL);
 
 private slots:
 	void startencode(QStringList encryptKeys,QStringList encryptOptions,bool shred,bool symetric);
         void fastencode(KURL &fileToCrypt,QStringList selec,QStringList encryptOptions,bool shred,bool symetric);
 //        void startencode(QString &selec,QString encryptOptions,bool shred,bool symetric);
-
+	void shredpreprocessenc(KURL fileToShred);
         void processenc(KURL);
         void processdecover();
         void processdecerror(QString mssge);
         void processencerror(QString mssge);
         void processpopup();
         void processpopup2();
-        void shredprocessenc(KURL);
+	void setShredProgress(KIO::filesize_t shredSize);
 
 private:
         QString customDecrypt,tempFile,extension;
         KURL urlselected;
         bool popIsDisplayed;
         KPassivePopup *pop;
+	KProgress *shredProgressBar;
 
 signals:
         void decryptionOver();
