@@ -502,13 +502,14 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         KStdAction::find(this, SLOT(findKey()), actionCollection());
         KStdAction::findNext(this, SLOT(findNextKey()), actionCollection());
         (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
-        editKey = new KAction(i18n("&Edit Key In Konsole"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
+        KAction *openPhoto= new KAction(i18n("&Open Photo"), "image", 0,this, SLOT(slotShowPhoto()),actionCollection(),"key_photo");
+	editKey = new KAction(i18n("&Edit Key In Konsole"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
         KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
         KAction *revokeKey = new KAction(i18n("Revoke Key..."), 0, 0,this, SLOT(revokeWidget()),actionCollection(),"key_revoke");
 
         KAction *deleteKeyPair = new KAction(i18n("Delete Key Pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
         KAction *generateKey = new KAction(i18n("&Generate Key Pair..."), "kgpg_gen", KStdAccel::shortcut(KStdAccel::New),this, SLOT(slotgenkey()),actionCollection(),"key_gener");
-        KToggleAction *togglePhoto= new KToggleAction(i18n("&Show Photos"), "kgpg_photo", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
+
         (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
         KStdAction::preferences(this, SLOT(slotOptions()), actionCollection(),"kgpg_config");
         (void) new KAction(i18n("Tip of the &Day"), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
@@ -517,6 +518,19 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
         KStdAction::configureToolbars(this, SLOT(configuretoolbars() ), actionCollection(), "configuretoolbars");
         setStandardToolBarMenuEnabled(true);
+
+	photoProps = new KSelectAction(i18n("&Photo ID's"),"kgpg_photo", actionCollection(), "photo_settings");
+	connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
+  	QStringList list;
+  	list.append("Disable");
+  	list.append("Small");
+  	list.append("Medium");
+	list.append("Big");
+  	photoProps->setItems(list);
+	config->setGroup("General Options");
+	int pSize=config->readNumEntry("photo properties",0);
+  	photoProps->setCurrentItem (pSize);
+	slotSetPhotoSize(pSize);
 
         QVBoxLayout *vbox=new QVBoxLayout(page,3);
 
@@ -535,7 +549,9 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         keysList2->setAcceptDrops (true) ;
         keysList2->setSelectionModeExt(KListView::Extended);
 
-        popup=new QPopupMenu();
+
+
+	popup=new QPopupMenu();
         exportPublicKey->plug(popup);
         deleteKey->plug(popup);
         signKey->plug(popup);
@@ -571,6 +587,10 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         importSignatureKey->plug(popupsig);
         delSignKey->plug(popupsig);
 
+        popupphoto=new QPopupMenu();
+        openPhoto->plug(popupphoto);
+
+
         keyPhoto=new QLabel(page);
         keyPhoto->setText(i18n("Photo"));
         keyPhoto->setFixedSize(60,60);
@@ -596,7 +616,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         createGUI("listkeys.rc");
         if (!configshowToolBar)
                 toolBar()->hide();
-        togglePhoto->setChecked(showPhoto);
+        //togglePhoto->setChecked(showPhoto);
         if (!showPhoto)
                 keyPhoto->hide();
         else
@@ -607,6 +627,28 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 listKeys::~listKeys()
 {}
 
+
+void listKeys::slotSetPhotoSize(int size)
+{
+switch( size) {
+                case 1:
+			showPhoto=true;
+			keysList2->previewSize=22;
+			break;
+                case 2:
+			showPhoto=true;
+			keysList2->previewSize=42;
+                        break;
+                case 3:
+			showPhoto=true;
+			keysList2->previewSize=65;
+                        break;
+                default:
+                        showPhoto=false;
+                        break;
+                }
+keysList2->displayPhoto=showPhoto;
+}
 
 void listKeys::configuretoolbars()
 {
@@ -835,6 +877,7 @@ void listKeys::hidePhoto()
                 displayPhoto();
                 keyPhoto->show();
         }
+	keysList2->displayPhoto=showPhoto;
 }
 
 
@@ -874,11 +917,14 @@ void listKeys::displayPhoto()
 {
         if ((!showPhoto) || (keysList2->currentItem()==NULL))
                 return;
-        if (keysList2->currentItem()->depth()!=0) {
+        if ((keysList2->currentItem()->depth()!=0) && (!keysList2->currentItem()->text(0).startsWith(i18n("Photo ")))) {
                 keyPhoto->setText(i18n("No\nphoto"));
                 return;
         }
-        QString CurrentID=keysList2->currentItem()->text(6);
+	QString CurrentID;
+        if (keysList2->currentItem()->depth()==0)
+	CurrentID=keysList2->currentItem()->text(6);
+	else CurrentID=keysList2->currentItem()->parent()->text(6);
         if (keysList2->photoKeysList.find(CurrentID)!=-1) {
                 kgpgtmp=new KTempFile();
                 QString popt="cp %i "+kgpgtmp->name();
@@ -897,9 +943,9 @@ void listKeys::slotProcessPhoto(KProcess *)
         //pixmap.resize(40,40);
         pixmap.load(kgpgtmp->name());
         keyPhoto->setPixmap(pixmap);
-        //keysList2->currentItem()->setPixmap(1,pixmap);
         kgpgtmp->unlink();
 }
+
 
 void listKeys::annule()
 {
@@ -908,7 +954,7 @@ void listKeys::annule()
         keysList2->saveLayout(config,"KeyView");
         config->setGroup("General Options");
         config->writeEntry("show toolbar",toolBar()->isVisible());
-        config->writeEntry("show photo",showPhoto);
+        config->writeEntry("photo properties",photoProps->currentItem());
         config->sync();
         close();
         //reject();
@@ -920,10 +966,12 @@ void listKeys::readOptions()
         config->setGroup("General Options");
         configshowToolBar=config->readBoolEntry("show toolbar",true);
         showPhoto=config->readBoolEntry("show photo",false);
+	keysList2->displayPhoto=showPhoto;
 
         config->setGroup("User Interface");
         //        keysList2->displayMailFirst=config->readBoolEntry("display_mail_first",true);
-        if (config->readBoolEntry("selection_clipboard",false)) {
+
+	if (config->readBoolEntry("selection_clipboard",false)) {
                 // support clipboard selection (if possible)
                 if (kapp->clipboard()->supportsSelection())
                         kapp->clipboard()->setSelectionMode(true);
@@ -1044,6 +1092,8 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
                                         return;
                                 }
                         }
+			else if (sel->text(0).startsWith(i18n("Photo ")))
+			popupphoto->exec(pos);
                 } else {
                         keysList2->setSelected(sel,TRUE);
                         if (keysList2->currentItem()->text(6).isEmpty())
@@ -1249,19 +1299,25 @@ void listKeys::showKeyInfo(QString keyID)
 }
 
 
+void listKeys::slotShowPhoto()
+{
+			 KTrader::OfferList offers = KTrader::self()->query("image/jpeg", "Type == 'Application'");
+ 			KService::Ptr ptr = offers.first();
+ 			//KMessageBox::sorry(0,ptr->desktopEntryName());
+                        KProcIO *p=new KProcIO();
+			*p<<"gpg"<<"--no-tty"<<"--photo-viewer"<<QFile::encodeName(ptr->desktopEntryName()+" %i")<<"--edit-key"<<keysList2->currentItem()->parent()->text(6)<<"uid"<<keysList2->currentItem()->text(0).section(' ',-1)<<"showphoto";
+                        p->start(KProcess::DontCare,true);
+}
+
 void listKeys::listsigns()
 {
         if (keysList2->currentItem()==NULL)
                 return;
         if (keysList2->currentItem()->depth()!=0) {
-                if (keysList2->currentItem()->text(0)==i18n("Photo Id")) {
+                if (keysList2->currentItem()->text(0).startsWith(i18n("Photo "))) {
                         //////////////////////////    display photo
-                        KProcIO *p=new KProcIO();
-                        QString popt="kview %i";
-                        *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(popt)<<"--list-keys"<<keysList2->currentItem()->parent()->text(6);
-                        p->start(KProcess::DontCare,true);
-                        return;
-                } else
+		slotShowPhoto();
+                }
                         return;
         }
 
@@ -1269,9 +1325,7 @@ void listKeys::listsigns()
         QString key=keysList2->currentItem()->text(6);
         if (!key.isEmpty()) {
                 KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",key);
-                opts->show();
-                //delete opts;
-                keysList2->refreshcurrentkey(keysList2->currentItem());
+                if (opts->exec()==QDialog::Accepted) keysList2->refreshcurrentkey(keysList2->currentItem());
         } else
                 editGroup();
 }
@@ -2040,19 +2094,70 @@ void KeyView::expandGroup(QListViewItem *item)
         }
 }
 
+QPixmap KeyView::slotGetPhoto(QString photoId,bool mini)
+{
+                KTempFile *phototmp=new KTempFile();
+                QString popt="cp %i "+phototmp->name();
+                KProcIO *p=new KProcIO();
+                *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(popt)<<"--list-keys"<<photoId;
+                p->start(KProcess::Block);
+
+		QPixmap pixmap;
+
+        pixmap.load(phototmp->name());
+	QImage dup=pixmap.convertToImage();
+	QPixmap dup2;
+	if (!mini)
+	dup2.convertFromImage(dup.scale(previewSize+5,previewSize,QImage::ScaleMin));
+	else dup2.convertFromImage(dup.scale(22,22,QImage::ScaleMin));
+	phototmp->unlink();
+        return dup2;
+}
+
+
 void KeyView::expandKey(QListViewItem *item)
 {
         //kdDebug()<<"Expanding Key\n";
         if (item->childCount()!=0)
                 return;   // key has already been expanded
-        //if (item->text(6).isEmpty()) {expandGroup(item);return;}
-        FILE *fp;
+
+	photoIdList.clear();
+	if (photoKeysList.find(item->text(6))!=-1) // contains a photo id
+	{
+	KgpgInterface *photoProcess=new KgpgInterface();
+        photoProcess->KgpgGetPhotoList(item->text(6));
+	itemToOpen=item;
+	connect(photoProcess,SIGNAL(signalPhotoList(QStringList)),this,SLOT(slotSetPhotoId(QStringList)));
+	}
+	else expandKey2(item);
+}
+
+void KeyView::slotSetPhotoId(QStringList list)
+{
+photoIdList=list;
+expandKey2(itemToOpen);
+}
+
+
+void KeyView::expandKey2(QListViewItem *item)
+{
+	FILE *fp;
         QString tst,cycle,revoked;
         char line[300];
         SmallViewItem *itemsub=NULL;
         SmallViewItem *itemuid=NULL;
         SmallViewItem *itemsig=NULL;
-        cycle="pub";
+        QPixmap keyPhotoId;
+	int uidNumber=0;
+
+/*	if (photoKeysList.find(item->text(6))!=-1) // contains a photo id
+	{
+		keyPhotoId=slotGetPhoto(item->text(6));
+	}*/
+
+	kdDebug()<<"Expanding Key: "<<item->text(6)<<"\n";
+
+	cycle="pub";
         bool noID=false;
         fp = popen(QFile::encodeName(QString("gpg --no-secmem-warning --no-tty --with-colon --list-sigs "+item->text(6))), "r");
 
@@ -2062,9 +2167,31 @@ void KeyView::expandKey(QListViewItem *item)
                         gpgKey uidKey=extractKey(tst);
 
                         if (tst.startsWith("uat")) {
-                                itemuid= new SmallViewItem(item,i18n("Photo Id"),"","","-","-","-","-");
-                                itemuid->setPixmap(0,pixuserphoto);
+				QString photoUid=QString(*photoIdList.begin());
+				itemuid= new SmallViewItem(item,i18n("Photo id: %1").arg(photoUid),"","","-","-","-","-");
+				photoIdList.remove(photoIdList.begin());
+                                if (displayPhoto)
+				{
+				kgpgphototmp=new KTempFile();
+                		kgpgphototmp->setAutoDelete(true);
+                		QString pgpgOutput="cp %i "+kgpgphototmp->name();
+                		KProcIO *p=new KProcIO();
+                		*p<<"gpg"<<"--no-tty"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(pgpgOutput);
+				*p<<"--edit-key"<<item->text(6)<<"uid"<<photoUid<<"showphoto";
+				p->start(KProcess::Block);
+
+				QPixmap pixmap;
+        			pixmap.load(kgpgphototmp->name());
+				QImage dup=pixmap.convertToImage();
+				QPixmap dup2;
+				dup2.convertFromImage(dup.scale(previewSize+5,previewSize,QImage::ScaleMin));
+				itemuid->setPixmap(0,dup2);
+
+				//itemuid->setPixmap(0,keyPhotoId);
+				}
+				else itemuid->setPixmap(0,pixuserphoto);
                                 itemuid->setPixmap(2,uidKey.trustpic);
+				uidNumber++;
                                 cycle="uid";
                         } else {
                                 itemuid= new SmallViewItem(item,uidKey.gpgkeyname,uidKey.gpgkeymail,"","-","-","-","-");
@@ -2231,18 +2358,22 @@ void KeyView::refreshkeylist()
                         if (pubKey.gpgkeyname.isEmpty())
                                 noID=true;
 
-
                         item=new UpdateViewItem(this,pubKey.gpgkeyname,pubKey.gpgkeymail,"",pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold,isexpired);
 
                         item->setPixmap(2,pubKey.trustpic);
 
                         item->setExpandable(true);
-                        if (issec.find(pubKey.gpgkeyid.right(8),0,FALSE)!=-1) {
+
+			//if ((displayPhoto) &&(photoKeysList.find(pubKey.gpgkeyid)!=-1))
+			//item->setPixmap(1,slotGetPhoto(pubKey.gpgkeyid));
+
+			if (issec.find(pubKey.gpgkeyid.right(8),0,FALSE)!=-1) {
                                 item->setPixmap(0,pixkeyPair);
                                 secretList+=pubKey.gpgkeyid;
                         } else {
                                 item->setPixmap(0,pixkeySingle);
                         }
+
                 }
 
         }
@@ -2336,6 +2467,9 @@ void KeyView::refreshcurrentkey(QString currentID)
                 }
         }
         pclose(fp);
+clearSelection();
+setCurrentItem(item);
+setSelected(item,true);
 }
 
 void KeyView::refreshcurrentkey(QListViewItem *current)

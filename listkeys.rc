@@ -19,6 +19,7 @@
     </Menu>
 
 	<Menu name="settings"><text>&amp;Settings</text>
+ <Action name="photo_settings" />
 <Action name="key_showp" />
 <Action name="kgpg_config" />
 <Action name="key_bind" />
@@ -44,8 +45,6 @@
     <Action name="key_import"/>
     <Action name="key_export"/>
     <Action name="key_server"/>
-    <Separator/>
-    <Action name="key_showp"/>
 </ToolBar>
 
 <State name="group_selected">

@@ -1,5 +1,7 @@
 cvs version
 
+-photo id's are now displayed inside the key list view
+-support for multiple photo id's
 -fixed bug hiding key when user answered no to delete secret key
 -improved feedback on key creation
 -added select all action to kgpg editor
@@ -8,7 +10,7 @@ cvs version
 -revocation certificate: create & print
 -animated logo while key creation is in progress
 -added a search function to find a key in the keyring
--splitted email & ley name in two different columns for easier sorting
+-splitted email & key name in two different columns for easier sorting
 -folder encryption (initial support)
 -integrate KAddress Book facilities (export key to address book)
 -key import gives more infos

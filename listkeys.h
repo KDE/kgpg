@@ -68,6 +68,8 @@
 #include <kfinddialog.h>
 #include <kfind.h>
 #include <kurlrequester.h>
+#include <ktrader.h>
+#include <kservice.h>
 
 
 #include "kgpg.h"
@@ -127,22 +129,29 @@ class KeyView : public KListView
         friend class listKeys;
 public:
         KeyView( QWidget *parent = 0, const char *name = 0);
-
+	bool displayPhoto;
+	int previewSize;
 private:
 //        bool displayMailFirst;
         QString secretList,defKey;
         QString photoKeysList,configFilePath;
+	QStringList photoIdList;
         QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown, trustbad, trustgood;
+	QListViewItem *itemToOpen;
+	KTempFile *kgpgphototmp;
 
 private slots:
         void  droppedfile (KURL);
         void refreshkeylist();
         gpgKey extractKey(QString keyColon);
         void expandKey(QListViewItem *item);
+	void expandKey2(QListViewItem *item);
 	void expandGroup(QListViewItem *item);
         void refreshcurrentkey(QListViewItem *current);
 	void refreshcurrentkey(QString currentID);
 	void refreshgroups();
+	QPixmap slotGetPhoto(QString photoId,bool mini=false);
+	void slotSetPhotoId(QStringList list);
 
 protected:
         virtual void startDrag();
@@ -160,7 +169,7 @@ public:
         ~listKeys();
         QLabel *keyPhoto;
         KeyView *keysList2;
-        QPopupMenu *popup,*popupsec,*popupout,*popupsig,*popupgroup;
+        QPopupMenu *popup,*popupsec,*popupout,*popupsig,*popupgroup,*popupphoto;
         QString message, optionsDefaultKey,configUrl;
         QStringList keynames;
         KPassivePopup *pop;
@@ -174,6 +183,7 @@ private:
         KTempFile *kgpgtmp;
         bool showPhoto,configshowToolBar;
         KAction *importSignatureKey, *editKey,*setDefaultKey,*importAllSignKeys,*signKey,*addToAddressBook,*createGroup,*delGroup,*editCurrentGroup;
+	KSelectAction *photoProps;
         QPtrList<QListViewItem> signList;
         uint globalCount;
 	int globalChecked;
@@ -197,6 +207,8 @@ public slots:
 	void slotSetDefaultKey(QString newID);
 
 private slots:
+	void slotSetPhotoSize(int size);
+	void slotShowPhoto();
 	void readgenprocess(KProcIO *p);
 	void newKeyDone(KProcess *);
         void slotrevoke(QString keyID,QString revokeUrl,int reason,QString description);

@@ -36,6 +36,7 @@
 #include <kiconloader.h>
 #include <kio/netaccess.h>
 #include <kdebug.h>
+#include <ktempfile.h>
 
 #include "detailedconsole.h"
 #include "kgpgfast.h"
@@ -132,13 +133,20 @@ public slots:
          * @param Options String with the wanted gpg options. ex: "--armor"
          * returns the encrypted text or empty string if encyption failed
          */
-        //static
         void KgpgEncryptText(QString text,QString userIDs, QString Options="");
 
         /**Decrypt text function
         * @param text QString text to be decrypted.
         * @param userID QString the name of the decryption key (only used to prompt user for passphrase)
         */
+	static QString KgpgDecryptText(QString text,QString userID);
+
+	/**Extract list of photographic user id's
+        * @param keyID the recipients key id's.
+        */
+	void KgpgGetPhotoList(QString keyID);
+
+
 
 	QString getKey(QStringList IDs, bool attributes);
 
@@ -150,7 +158,6 @@ public slots:
 	void revokeover(KProcess *);
 	void revokeprocess(KProcIO *p);
 
-        static QString KgpgDecryptText(QString text,QString userID);
         static QString KgpgDecryptFileToText(KURL srcUrl,QString userID);
 
         static QString extractKeyName(QString txt="");
@@ -164,6 +171,7 @@ public slots:
 	static void setGpgGroupSetting(QString name,QStringList values, QString configFile);
 	static void delGpgGroup(QString name, QString configFile);
 	static QString checkForUtf8(QString txt);
+
 
 
 private slots:
@@ -249,7 +257,9 @@ private slots:
         void signkillDisplayClip();
 
 	void slotReadKey(KProcIO *p);
-
+	void photoreadover(KProcess *);
+	void photoreadprocess(KProcIO *p);
+	bool isPhotoId(int uid);
 
         //void txtreaddecprocess(KProcIO *p);
         //void txtdecryptfin(KProcess *);
@@ -313,6 +323,8 @@ signals:
 	void revokecertificate(QString);
 	void revokeurl(QString);
         void expirationFinished(int);
+	void signalPhotoList(QStringList);
+
 
 
 private:
@@ -325,8 +337,9 @@ private:
         int signSuccess,expSuccess,trustValue,konsChecked;
         int step,signb,sigsearch,expirationDelay;
         QString konsSignKey, konsKeyID,errMessage;
-	int revokeReason;
+	int revokeReason,photoCount;
 	QString revokeDescription,certificateUrl;
+	QStringList photoList;
         KURL sourceFile;
 
         /*

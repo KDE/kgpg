@@ -18,15 +18,21 @@
  #include "keyinfowidget.h"
 
 
-KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KeyProperties( parent, name)
+
+KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDialogBase( parent, name, true,i18n("Key Properties"), KDialogBase::Ok | KDialogBase::Cancel )
 {
 	QColor trustColor;
         QString fingervalue;
         FILE *pass;
         char line[200]="";
         QString gpgOutput,fullID;
-        bool hasPhoto=false;
+        hasPhoto=false;
 	bool isSecret=false;
+
+	//QWidget *page=new QWidget(this);
+	//QVBoxLayout *vbox=new QVBoxLayout(page);
+	prop=new KeyProperties(this);
+
 
 	QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --list-secret-key "+KShellProcess::quote(sigkey.local8Bit());
 
@@ -38,8 +44,9 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KeyPr
 	 pclose(pass);
 
         if (!isSecret) {
-                changeExp->hide();//setEnabled(true);
-                changePass->hide();//setEnabled(true);
+                prop->changeExp->hide();//setEnabled(true);
+                prop->changePass->hide();//setEnabled(true);
+//		prop->changePhoto->setText(i18n("Edit Photo"));
 		        }
 
 	gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key "+KShellProcess::quote(sigkey.local8Bit());
@@ -66,7 +73,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KeyPr
                                 algo=QString("#" + algo);
                                 break;
                         }
-			tLAlgo->setText(algo);
+			prop->tLAlgo->setText(algo);
 
                         const QString trust=gpgOutput.section(':',1,1);
                         QString tr;
@@ -116,17 +123,17 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KeyPr
 				trustColor.setRgb(255,255,255);
                                 break;
                         }
-                        kLTrust->setText(tr);
-                        kLTrust->setPaletteBackgroundColor(trustColor);
+                        prop->kLTrust->setText(tr);
+                        prop->kLTrust->setPaletteBackgroundColor(trustColor);
 
 			fullID=gpgOutput.section(':',4,4);
                         displayedKeyID=fullID.right(8);
-                        tLID->setText(fullID);
+                        prop->tLID->setText(fullID);
 
                         QString fullname=gpgOutput.section(':',9,9);
 
                         QDate date = QDate::fromString(gpgOutput.section(':',5,5), Qt::ISODate);
-                        tLCreation->setText(KGlobal::locale()->formatDate(date));
+                        prop->tLCreation->setText(KGlobal::locale()->formatDate(date));
 
 			if (gpgOutput.section(':',6,6)=="") expirationDate=i18n("Unlimited");
 			else
@@ -134,9 +141,9 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KeyPr
 			date = QDate::fromString(gpgOutput.section(':',6,6), Qt::ISODate);
 			expirationDate=KGlobal::locale()->formatDate(date);
 			}
-                        tLExpiration->setText(expirationDate);
+                        prop->tLExpiration->setText(expirationDate);
 
-                        tLLength->setText(gpgOutput.section(':',2,2));
+                        prop->tLLength->setText(gpgOutput.section(':',2,2));
 
                         const QString otrust=gpgOutput.section(':',8,8);
                         switch( otrust[0] ) {
@@ -156,7 +163,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KeyPr
                                 ownerTrust=i18n("Don't know");
                                 break;
                         }
-                        kCOwnerTrust->setCurrentItem(ownerTrust);
+                        prop->kCOwnerTrust->setCurrentItem(ownerTrust);
 
                         if (fullname.find("<")!=-1) {
                                 QString kmail=fullname;
@@ -169,20 +176,20 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KeyPr
 				kmail=kmail.replace(">",";");
 				kmail.remove("<");
 				}
-				tLMail->setText("<qt><a href=mailto:"+kmail+">"+kmail+"</a></qt>");
+				prop->tLMail->setText("<qt><a href=mailto:"+kmail+">"+kmail+"</a></qt>");
                         } else
-                                tLMail->setText(i18n("none"));
+                                prop->tLMail->setText(i18n("none"));
 
                         QString kname=fullname.section('<',0,0);
                         if (fullname.find("(")!=-1) {
                                 kname=kname.section('(',0,0);
                                 QString comment=fullname.section('(',1,1);
                                 comment=comment.section(')',0,0);
-                                tLComment->setText(KgpgInterface::checkForUtf8(comment));
+                                prop->tLComment->setText(KgpgInterface::checkForUtf8(comment));
                         } else
-                                tLComment->setText(i18n("none"));
+                                prop->tLComment->setText(i18n("none"));
 
-			tLName->setText("<qt><b>"+KgpgInterface::checkForUtf8(kname).replace(QRegExp("<"),"&lt;")+"</b></qt>");
+			prop->tLName->setText("<qt><b>"+KgpgInterface::checkForUtf8(kname).replace(QRegExp("<"),"&lt;")+"</b></qt>");
 
                 }
                 if (gpgOutput.startsWith("fpr")) {
@@ -192,27 +199,110 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KeyPr
                         if ((len > 0) && (len % 4 == 0))
                                 for (uint n = 0; 4*(n+1) < len; n++)
                                         fingervalue.insert(5*n+4, ' ');
-					lEFinger->setText(fingervalue);
+					prop->lEFinger->setText(fingervalue);
                 }
         }
         pclose(pass);
 
         if (hasPhoto) {
-                kgpginfotmp=new KTempFile();
+        /*        kgpginfotmp=new KTempFile();
                 kgpginfotmp->setAutoDelete(true);
                 QString pgpgOutput="cp %i "+kgpginfotmp->name();
                 KProcIO *p=new KProcIO();
                 *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(pgpgOutput)<<"--list-keys"<<fullID;
                 QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotinfoimgread(KProcess *)));
-                p->start(KProcess::NotifyOnExit,true);
+                p->start(KProcess::NotifyOnExit,true);*/
+
+	KgpgInterface *photoProcess=new KgpgInterface();
+        photoProcess->KgpgGetPhotoList(displayedKeyID);
+	connect(photoProcess,SIGNAL(signalPhotoList(QStringList)),this,SLOT(slotSetMainPhoto(QStringList)));
+
+
         }
-	connect(changeExp,SIGNAL(clicked()),this,SLOT(slotChangeExp()));
-        connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotPreOk1()));
-        connect(changePass,SIGNAL(clicked()),this,SLOT(slotChangePass()));
+	else
+
+	connect(prop->changeExp,SIGNAL(clicked()),this,SLOT(slotChangeExp()));
+        connect(this,SIGNAL(okClicked()),this,SLOT(slotPreOk1()));
+        connect(prop->changePass,SIGNAL(clicked()),this,SLOT(slotChangePass()));
+	connect(prop->comboId,SIGNAL(activated (const QString &)),this,SLOT(reloadMainPhoto(const QString &)));
+//	if (!isSecret) connect(prop->changePhoto,SIGNAL(clicked()),this,SLOT(openPhoto()));
+//	else connect(prop->changePhoto,SIGNAL(clicked()),this,SLOT(slotManagePhoto()));
+	connect(this,SIGNAL(changeMainPhoto(const QPixmap&)),this,SLOT(slotSetPhoto(const QPixmap&)));
+
+
+//vbox->addWidget(prop);
+prop->show();
+prop->resize(prop->maximumSize());
+setMainWidget(prop);
+show();
 }
+
+void KgpgKeyInfo::slotSetMainPhoto(QStringList list)
+{
+prop->comboId->insertStringList(list);
+reloadMainPhoto(prop->comboId->currentText());
+}
+
+void KgpgKeyInfo::reloadMainPhoto(const QString &uid)
+{
+
+                kgpginfotmp=new KTempFile();
+                kgpginfotmp->setAutoDelete(true);
+                QString pgpgOutput="cp %i "+kgpginfotmp->name();
+                KProcIO *p=new KProcIO();
+                *p<<"gpg"<<"--no-tty"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(pgpgOutput);
+		*p<<"--edit-key"<<displayedKeyID<<"uid"<<uid<<"showphoto";
+		QObject::connect(p, SIGNAL(readReady(KProcIO *)),this, SLOT(finishphotoreadprocess(KProcIO *)));
+                QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotMainImageRead(KProcess *)));
+                p->start(KProcess::NotifyOnExit,true);
+
+}
+
+
+void KgpgKeyInfo::slotMainImageRead(KProcess *)
+{
+	QPixmap pixmap;
+        pixmap.load(kgpginfotmp->name());
+	emit changeMainPhoto(pixmap);
+        kgpginfotmp->unlink();
+}
+
 
 KgpgKeyInfo::~KgpgKeyInfo()
 {
+}
+
+void KgpgKeyInfo::slotSetPhoto(const QPixmap &pix)
+{
+QImage dup=pix.convertToImage();
+QPixmap dup2;
+dup2.convertFromImage(dup.scale(prop->pLPhoto->width(),prop->pLPhoto->height(),QImage::ScaleMin));
+prop->pLPhoto->setPixmap(dup2);
+}
+
+
+
+
+void KgpgKeyInfo::finishphotoreadprocess(KProcIO *p)
+{
+        QString required="";
+        while (p->readln(required,true)!=-1)
+		if (required.find("keyedit.prompt")!=-1) {
+                        p->writeStdin("quit");
+			p->closeWhenDone();
+
+                }
+}
+
+
+void KgpgKeyInfo::openPhoto()
+{
+			 KTrader::OfferList offers = KTrader::self()->query("image/jpeg", "Type == 'Application'");
+ 			KService::Ptr ptr = offers.first();
+ 			//KMessageBox::sorry(0,ptr->desktopEntryName());
+                        KProcIO *p=new KProcIO();
+                        *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(ptr->desktopEntryName()+" %i")<<"--list-keys"<<displayedKeyID;
+                        p->start(KProcess::DontCare,true);
 }
 
 void KgpgKeyInfo::slotChangeExp()
@@ -221,14 +311,14 @@ chdate=new KDialogBase( this, "choose_date", true,i18n("Choose New Expiration"),
 QWidget *page = new QWidget(chdate);
 kb= new QCheckBox(i18n("Unlimited"),page );
 
-if (tLExpiration->text()==i18n("Unlimited"))
+if (prop->tLExpiration->text()==i18n("Unlimited"))
 {
 kdt= new KDatePicker( page );
 kb->setChecked(true);
 kdt->setEnabled(false);
 }
 else
-kdt= new KDatePicker(page,KGlobal::locale()->readDate(tLExpiration->text()));
+kdt= new KDatePicker(page,KGlobal::locale()->readDate(prop->tLExpiration->text()));
 QVBoxLayout *vbox=new QVBoxLayout(page,3);
 vbox->addWidget(kdt);
 vbox->addWidget(kb);
@@ -240,8 +330,8 @@ chdate->show();
 
 void KgpgKeyInfo::slotChangeDate()
 {
-if (kb->isChecked()) tLExpiration->setText(i18n("Unlimited"));
-else tLExpiration->setText(KGlobal::locale()->formatDate(kdt->getDate()));
+if (kb->isChecked()) prop->tLExpiration->setText(i18n("Unlimited"));
+else prop->tLExpiration->setText(KGlobal::locale()->formatDate(kdt->getDate()));
 }
 
 void KgpgKeyInfo::slotEnableDate(bool isOn)
@@ -254,7 +344,7 @@ void KgpgKeyInfo::slotinfoimgread(KProcess *)
 {
 	QPixmap pixmap;
         pixmap.load(kgpginfotmp->name());
-        pLPhoto->setPixmap(pixmap);
+	emit signalPhotoId(pixmap);
         kgpginfotmp->unlink();
 }
 
@@ -266,12 +356,12 @@ void KgpgKeyInfo::slotChangePass()
 
 void KgpgKeyInfo::slotPreOk1()
 {
-        if (expirationDate!=tLExpiration->text()) {
+        if (expirationDate!=prop->tLExpiration->text()) {
                 KgpgInterface *KeyExpirationProcess=new KgpgInterface();
-		if (tLExpiration->text()==i18n("Unlimited"))
+		if (prop->tLExpiration->text()==i18n("Unlimited"))
                 KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,QDate::currentDate(),true);
 		else
-		KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,KGlobal::locale()->readDate(tLExpiration->text()),false);
+		KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,KGlobal::locale()->readDate(prop->tLExpiration->text()),false);
                 connect(KeyExpirationProcess,SIGNAL(expirationFinished(int)),this,SLOT(slotPreOk2(int)));
         } else
                 slotPreOk2(0);
@@ -279,9 +369,9 @@ void KgpgKeyInfo::slotPreOk1()
 
 void KgpgKeyInfo::slotPreOk2(int)
 {
-        if (ownerTrust!=kCOwnerTrust->currentText()) {
+        if (ownerTrust!=prop->kCOwnerTrust->currentText()) {
                 KgpgInterface *KeyTrustProcess=new KgpgInterface();
-                KeyTrustProcess->KgpgTrustExpire(displayedKeyID,kCOwnerTrust->currentText());
+                KeyTrustProcess->KgpgTrustExpire(displayedKeyID,prop->kCOwnerTrust->currentText());
                 connect(KeyTrustProcess,SIGNAL(trustfinished()),this,SLOT(accept()));
         } else
                 accept();

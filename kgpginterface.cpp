@@ -1593,6 +1593,65 @@ QString KgpgInterface::extractKeyName(QString txt)
         return IDs;
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  photo id's
+
+void KgpgInterface::KgpgGetPhotoList(QString keyID)
+{
+photoList.clear();
+output="";
+photoCount=1;
+txtsent=false;
+userIDs=keyID;
+
+        KProcIO *conprocess=new KProcIO();
+        *conprocess<< "gpg"<<"--no-tty"<<"--status-fd=2"<<"--command-fd=0";
+        *conprocess<<"--with-colon"<<"--list-keys"<<keyID;
+        QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(photoreadover(KProcess *)));
+        QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(photoreadprocess(KProcIO *)));
+        conprocess->start(KProcess::NotifyOnExit,true);
+}
+
+void KgpgInterface::photoreadprocess(KProcIO *p)
+{
+        QString required="";
+        while (p->readln(required,true)!=-1) {
+                output+=required+"\n";
+                if (required.startsWith("uat") || required.startsWith("uid")) photoCount++;
+}
+}
+
+
+void KgpgInterface::photoreadover(KProcess *)
+{
+for (int i=1;i<photoCount+1;i++)
+{
+if (isPhotoId(i)) photoList+=QString::number(i);
+}
+//KMessageBox::sorry(0,QString::number(photoCount)+" liste: "+photoList.join(", "));
+emit signalPhotoList(photoList);
+}
+
+bool KgpgInterface::isPhotoId(int uid)
+{
+KTempFile *kgpginfotmp=new KTempFile();
+                kgpginfotmp->setAutoDelete(true);
+                QString pgpgOutput="cp %i "+kgpginfotmp->name();
+
+KProcIO *conprocess=new KProcIO();
+        *conprocess<< "gpg"<<"--no-tty"<<"--status-fd=2"<<"--command-fd=0";
+        *conprocess<<"--photo-viewer"<<QFile::encodeName(pgpgOutput)<<"--edit-key"<<userIDs<<"uid"<<QString::number(uid)<<"showphoto";
+        conprocess->start(KProcess::Block);
+	if (kgpginfotmp->file()->size()>0)
+	{
+	kgpginfotmp->unlink();
+	return true;
+	}
+	kgpginfotmp->unlink();
+	return false;
+}
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  key revocation
 
 void KgpgInterface::KgpgRevokeKey(QString keyID,QString revokeUrl,int reason,QString description)

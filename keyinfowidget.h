@@ -27,6 +27,7 @@
 #include <qregexp.h>
 #include <qlayout.h>
 #include <qpixmap.h>
+#include <qimage.h>
 
 
 #include <kactivelabel.h>
@@ -39,11 +40,15 @@
 #include <kdatepicker.h>
 #include <klocale.h>
 #include <kcombobox.h>
+#include <ktrader.h>
+#include <kservice.h>
+#include <kfiledialog.h>
+#include <kiconview.h>
 
 #include "keyproperties.h"
 #include "kgpginterface.h"
 
-class KgpgKeyInfo : public KeyProperties
+class KgpgKeyInfo : public KDialogBase
 {
         Q_OBJECT
 
@@ -51,6 +56,8 @@ public:
 
 	KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0);
 	~KgpgKeyInfo();
+	KeyProperties *prop;
+
 private slots:
         void slotinfoimgread(KProcess *);
         void slotChangePass();
@@ -59,16 +66,27 @@ private slots:
 	void slotChangeExp();
 	void slotEnableDate(bool isOn);
 	void slotChangeDate();
+	void openPhoto();
+	void slotSetPhoto(const QPixmap &pix);
+	void finishphotoreadprocess(KProcIO *p);
+	void slotMainImageRead(KProcess *);
+	void slotSetMainPhoto(QStringList list);
+	void reloadMainPhoto(const QString &uid);
 
 private:
         KTempFile *kgpginfotmp;
         QLabel *keyinfoPhoto;
         QString displayedKeyID,ownerTrust;
         QString expirationDate;
-        bool isUnlimited;
+        bool isUnlimited,hasPhoto;
 	KDialogBase *chdate;
 	QCheckBox *kb;
 	KDatePicker *kdt;
+	int counter;
+
+signals:
+void signalPhotoId(const QPixmap&);
+void changeMainPhoto(const QPixmap&);
 };
 
 #endif
