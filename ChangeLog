@@ -4,7 +4,17 @@ version 1.0.1
 -new in keymanager: import missing signatures
 -changed applet behaviour to follow KDE ui styleguides
 -default key & keyserver are now stored in gpg's configuration file.
--moved keyserved management into Kgpg's configuration dialog
+-moved keyserver management into Kgpg's configuration dialog
+-added checkbox to stop asking autostart when user closes kgpg
+-added multi file encryption
+-toolbar in key manager can now be configured
+-added gpg-agent support
+-speed up key manager
+-fix display of keys with local characters encodings
+-added trust color to keymanager
+-added option to save files as .pgp instead of .gpg
+-new key properties dialog, allows to change expiration, ownertrust, passphrase
+
 
 version 1.0.0
 -fixed message box when verifying a signature with a non english gpg
@@ -108,9 +118,9 @@ version 0.8
 -added new option to easily decrypt clipboard content -&gt; kgpg can be added as a
  klipper action (see kgpg's handbook for more infos about activating this option)
 -added support for symetrical encryption for files
--corrected bug when kgpg was called from konqueror (when left-clicking on a gpg file, 
+-corrected bug when kgpg was called from konqueror (when left-clicking on a gpg file,
  kgpg did not always close itself correctly after file decryption)
--removed "decrypt file" entry  in konqueror service menu. Now, use left-click or "Open 
+-removed "decrypt file" entry  in konqueror service menu. Now, use left-click or "Open
  with kgpg" on an encrypted file to decrypt.
 -added a Handbook (documentation)
 -fixed Makefile + added files for debian compilation (thanks Ralf Nolden &lt;nolden@kde.org&gt;)
@@ -144,7 +154,7 @@ version 0.6:
 -new encryption option for pgp 5.x compatibility
 -various crash fixes (mostly related to the default options dialog)
 -new dialog for key generation, automatically pops up on first run if no key is found.
--made ready for internationalization. added french & german translation (courtesty Christoph 
+-made ready for internationalization. added french & german translation (courtesty Christoph
 Thielecke &lt;crissi99@gmx.de&gt;
 -added KTips
 
@@ -161,7 +171,7 @@ version 0.5
 -expired/revoked key are now hidden from encryption dialog
 -untrusted keys are now hidden when required
 -added new configuration icon
--most key operation are now based on key id and not on email adress, which should solve problems 
+-most key operation are now based on key id and not on email adress, which should solve problems
 with same name keys
 
 
@@ -194,8 +204,8 @@ version 0.4.1:
 
 version 0.4
 
--Big changes: 
--kgpg can now be used from inside konqueror using a new menu entry allowing you to encrypt/decrypt 
+-Big changes:
+-kgpg can now be used from inside konqueror using a new menu entry allowing you to encrypt/decrypt
 files.
 -dropped file mode. All file operations can now be performed through konqueror
 -a few minor improvements & code cleaning
@@ -209,7 +219,7 @@ version 0.3.1
 
 
 version 0.3
--Drag&drop now works !!! You can drop local or REMOTE text files in the editor to have them 
+-Drag&drop now works !!! You can drop local or REMOTE text files in the editor to have them
 decrypted automatically
 -More infos on keys: now displays key signatures, key ID,...
 -New key managment features: enables you to sign keys and generate new keys.

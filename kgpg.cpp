@@ -40,6 +40,7 @@
 #include <ktip.h>
 #include <qregexp.h>
 #include <kurldrag.h>
+#include <kdebug.h>
 
 #include "kgpg.h"
 
@@ -147,7 +148,7 @@ void  MyView::openEditor()
 void  MyView::encryptDroppedFile()
 {
         QString opts="";
-        KgpgLibrary *lib=new KgpgLibrary();
+        KgpgLibrary *lib=new KgpgLibrary(pgpExtension);
         if (encryptfileto) {
                 if (untrusted)
                         opts=" --always-trust ";
@@ -370,6 +371,7 @@ void  MyView::readOptions()
         untrusted=ksConfig->readBoolEntry("Allow untrusted keys",false);
         hideid=ksConfig->readBoolEntry("Hide user ID",false);
         pgpcomp=ksConfig->readBoolEntry("PGP compatibility",false);
+	pgpExtension=ksConfig->readBoolEntry("Pgp extension",false);
         customDecrypt=ksConfig->readEntry("custom decrypt");
         if (ksConfig->readBoolEntry("selection clip",false)) {
                 if (kapp->clipboard()->supportsSelection())
@@ -386,7 +388,6 @@ void  MyView::readOptions()
 
         ksConfig->setGroup("TipOfDay");
         tipofday=ksConfig->readBoolEntry("RunOnStart",true);
-
 }
 
 
@@ -590,13 +591,12 @@ void KgpgAppletApp::slotHandleQuit()
 
 int KgpgAppletApp::newInstance()
 {
-        KURL FileToOpen;
         args = KCmdLineArgs::parsedArgs();
         if ( kgpg_applet ) {
                 kgpg_applet->show();
         } else {
-
-                s_keyManager=new listKeys(0, "key_manager");
+kdDebug() << "Starting KGpg\n";
+               s_keyManager=new listKeys(0, "key_manager");
 
                 s_keyManager->refreshkey();
                 kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
@@ -623,6 +623,8 @@ int KgpgAppletApp::newInstance()
                 s_keyManager->refreshkey();
         } else
                 if (args->count()>0) {
+		kdDebug() << "KGpg: found files";
+
                         urlList.clear();
 
                         for (int ct=0;ct<args->count();ct++)
@@ -633,11 +635,12 @@ int KgpgAppletApp::newInstance()
 
                         kgpg_applet->w->droppedUrl=urlList.first();
                         if (KMimeType::findByURL(urlList.first())->name()=="inode/directory") {
-                                KMessageBox::sorry(0,i18n("sorry, only file operations are currently supported"));
+                               KMessageBox::sorry(0,i18n("sorry, only file operations are currently supported"));
                                 return 0;
                         }
                         kgpg_applet->w->droppedUrls=urlList;
-                        if (args->isSet("e")!=0)
+
+			if (args->isSet("e")!=0)
                                 kgpg_applet->w->encryptDroppedFile();
                         else if (args->isSet("X")!=0)
                                 kgpg_applet->w->shredDroppedFile();
@@ -652,7 +655,7 @@ int KgpgAppletApp::newInstance()
                         else
                                 kgpg_applet->w->decryptDroppedFile();
                 }
-        return 0;
+	return 0;
 }
 
 

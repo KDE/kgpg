@@ -133,6 +133,7 @@ public:
         */
         void KgpgKeyExpire(QString keyID,QDate date,bool unlimited);
         void KgpgTrustExpire(QString keyID,QString keyTrust);
+	void KgpgChangePass(QString keyID);
 
         static QString KgpgDecryptText(QString text,QString userID);
         static QString KgpgDecryptFileToText(KURL srcUrl,QString userID);
@@ -224,7 +225,9 @@ private slots:
         void expprocess(KProcIO *p);
         void expover(KProcess*);
         void trustprocess(KProcIO *p);
+	void passprocess(KProcIO *p);
         void trustover(KProcess *);
+	void passover(KProcess *);
 
         void txtreadencprocess(KProcIO *p);
 

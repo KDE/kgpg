@@ -68,7 +68,7 @@ public:
         KConfig *ksConfig;
 
 private:
-        bool ascii,untrusted,hideid,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday;
+        bool ascii,untrusted,hideid,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday,pgpExtension;
         QPopupMenu *droppopup,*udroppopup;
         KAboutData   *_aboutData;
         QString customDecrypt;

@@ -116,6 +116,7 @@ public:
 
 private slots:
         void slotinfoimgread(KProcess *);
+	void slotChangePass();
         void slotPreOk1();
         void slotPreOk2(int);
 

@@ -47,7 +47,7 @@ public:
         /**
          * Initialize the class
          */
-        KgpgLibrary();
+        KgpgLibrary(bool pgpExtension=false);
         ~KgpgLibrary();
 
         KURL::List urlselecteds;
@@ -70,7 +70,7 @@ private slots:
         void shredprocessenc(KURL);
 
 private:
-        QString customDecrypt,tempFile;
+        QString customDecrypt,tempFile,extension;
         KURL urlselected;
         bool popIsDisplayed;
 

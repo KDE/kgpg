@@ -1198,7 +1198,7 @@ void KgpgInterface::KgpgTrustExpire(QString keyID,QString keyTrust)
 {
         if (keyTrust==i18n("Don't know"))
                 trustValue=1;
-        if (keyTrust==i18n("do NOT trust"))
+        if (keyTrust==i18n("Do NOT trust"))
                 trustValue=2;
         if (keyTrust==i18n("Marginally"))
                 trustValue=3;
@@ -1241,7 +1241,7 @@ void KgpgInterface::trustprocess(KProcIO *p)
                         required="";
                 }
 
-                if ((step==2) && (required.find("keyedit.prompt")!=-1)) {
+                if ((step==1) && (required.find("keyedit.prompt")!=-1)) {
                         p->writeStdin("save");
                         required="";
                 }
@@ -1262,6 +1262,116 @@ void KgpgInterface::trustover(KProcess *)
 {
         emit trustfinished();
 }
+
+
+///////////////////////////////////////////////////////////////    change passphrase
+
+
+void KgpgInterface::KgpgChangePass(QString keyID)
+{
+        step=0;
+        output="";
+	message="";
+        KProcIO *conprocess=new KProcIO();
+        *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--no-use-agent"<<"--command-fd=0"<<"--status-fd=2";
+        *conprocess<<"--edit-key"<<keyID;
+        QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(passprocess(KProcIO *)));
+        QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(passover(KProcess *)));
+        conprocess->start(KProcess::NotifyOnExit,KProcess::AllOutput);
+
+}
+
+void KgpgInterface::passprocess(KProcIO *p)
+{
+        QString required="";
+
+        while (p->readln(required,true)!=-1) {
+                output+=required+"\n";
+
+                if (required.find("USERID_HINT",0,false)!=-1) {
+
+                        required=required.section("HINT",1,1);
+                        required=required.stripWhiteSpace();
+                        int cut=required.find(' ',0,false);
+                        required.remove(0,cut);
+                        if (required.find("(",0,false)!=-1)
+                                required=required.section('(',0,0)+required.section(')',-1,-1);
+                        userIDs=required;
+
+                }
+
+                if ((step==0) && (required.find("keyedit.prompt")!=-1)) {
+                        p->writeStdin("passwd");
+                        step=1;
+                        required="";
+                }
+
+                if ((step==3) && (required.find("keyedit.prompt")!=-1)) {
+                        p->writeStdin("save");
+                        required="";
+                }
+
+                if ((required.find("GOOD_PASSPHRASE")!=-1) && (step==2))
+                        step=3;
+
+                if ((required.find("BAD_PASSPHRASE")!=-1) && (step==2)) {
+                        step=1;
+                        message=i18n("<b>Bad passphrase</b>. Try again<br>");
+                }
+
+                if ((required.find("passphrase.enter")!=-1)) {
+                        if (userIDs.isEmpty())
+                                userIDs=i18n("[No user id found]");
+                        userIDs.replace(QRegExp("<"),"&lt;");
+
+                        if (step==1) {
+                                QCString passphrase;
+                                int code=KPasswordDialog::getPassword(passphrase,i18n("<qt>%1Enter passphrase for <b>%2</b></qt>").arg(message).arg(userIDs));
+                                if (code!=QDialog::Accepted) {
+				p->writeStdin("quit");
+//				 p->closeWhenDone();
+                                        emit processaborted(true);
+                                        delete p;
+					return;
+                                }
+                                p->writeStdin(passphrase,true);
+                                step=2;
+                        }
+
+                        if (step==3) {
+                                QCString passphrase;
+                                int code=KPasswordDialog::getNewPassword(passphrase,i18n("<qt>Enter new passphrase for <b>%1</b><br>If you forget this passphrase, all your encrypted files and messages will be lost !<br></qt>").arg(userIDs));
+                                if (code!=QDialog::Accepted) {
+				 p->writeStdin("quit");
+				 p->writeStdin("quit");
+				 p->closeWhenDone();
+                                        emit processaborted(true);
+                                        return;
+                                }
+                                p->writeStdin(passphrase,true);
+                                userIDs="";
+                        }
+
+                        required="";
+                }
+
+
+                if (required.find("GET_")!=-1) /////// gpg asks for something unusal, turn to konsole mode
+                {
+                        p->writeStdin("quit");
+                        p->closeWhenDone();
+
+                }
+        }
+}
+
+
+
+void KgpgInterface::passover(KProcess *)
+{
+        //emit trustfinished();
+}
+
 
 
 

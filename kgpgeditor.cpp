@@ -61,6 +61,7 @@ void KgpgApp::readOptions(bool doresize)
         untrusted=config->readBoolEntry("Allow untrusted keys",false);
         hideid=config->readBoolEntry("Hide user ID",false);
         pgpcomp=config->readBoolEntry("PGP compatibility",false);
+        pgpExtension=config->readBoolEntry("Pgp extension",false);
         encryptfileto=config->readBoolEntry("encrypt files to",false);
         filekey=config->readEntry("file key");
         customDecrypt=config->readEntry("custom decrypt");
@@ -136,7 +137,7 @@ void KgpgApp::slotFilePreEnc()
                                          i18n("*|All Files"), this, i18n("Open File to Encode"));
         if (url.isEmpty())
                 return;
-        KgpgLibrary *lib=new KgpgLibrary();
+        KgpgLibrary *lib=new KgpgLibrary(pgpExtension);
         if (encryptfileto) {
                 if (untrusted)
                         opts=" --always-trust ";

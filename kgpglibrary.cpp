@@ -17,10 +17,14 @@
 
 #include "kgpglibrary.h"
 #include <klocale.h>
+#include <kconfig.h>
 #include <kmessagebox.h>
 
-KgpgLibrary::KgpgLibrary()
-{}
+KgpgLibrary::KgpgLibrary(bool pgpExtension)
+{
+if (pgpExtension) extension=".pgp";
+else extension=".gpg";
+}
 
 KgpgLibrary::~KgpgLibrary()
 {}
@@ -59,11 +63,10 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QString &selec,QString encryptOpt
         }
         urlselected=fileToCrypt;
         KURL dest;
-
         if (encryptOptions.find("--armor")!=-1)
                 dest.setPath(urlselected.path()+".asc");
         else
-                dest.setPath(urlselected.path()+".gpg");
+                dest.setPath(urlselected.path()+extension);
 
         QFile fgpg(dest.path());
 

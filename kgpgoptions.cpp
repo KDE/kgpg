@@ -68,7 +68,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KgpgOptionDialog( pa
         defaultKeyID=KgpgInterface::getGpgSetting("encrypt-to",confPath);
         if (!defaultKeyID.isEmpty())
                 defaut_2_2->setChecked(true);
-
+pgpExtension->setChecked(config->readBoolEntry("Pgp extension",false));
 	if (kLEcustomdec->text().find("--no-use-agent",0,FALSE)!=-1) cBagent->setChecked(true);
 
         kURLconfigPath->setURL(confPath);
@@ -336,6 +336,7 @@ void kgpgOptions::slotOk()
         config->writeEntry("allow custom option",custom_2_2->isChecked());
         config->writeEntry("custom decrypt",kLEcustomdec->text());
         config->writeEntry("gpg config path",kURLconfigPath->url());
+	config->writeEntry("Pgp extension",pgpExtension->isChecked());
 
         if (defaut_2_2->isChecked()) {
                 config->writeEntry("default key","0x"+kCBalwayskey->currentText().section(':',0,0));

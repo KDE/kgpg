@@ -132,6 +132,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,QColor
         if (editable) {
                 kDateWidget->setEnabled(true);
                 cBExpiration->setEnabled(true);
+		buttonPass->setEnabled(true);
         }
         QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key "+KShellProcess::quote(sigkey.local8Bit());
 
@@ -216,8 +217,8 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,QColor
                         tLCreation->setText(KGlobal::locale()->formatDate(date));
 
                         tLLength->setText(opt.section(':',2,2));
-                        tLTrust->setText(tr);
-                        tLTrust->setPaletteBackgroundColor(pix);
+                        kLTrust->setText(tr);
+                        kLTrust->setPaletteBackgroundColor(pix);
 
 
                         const QString otrust=opt.section(':',8,8);
@@ -283,6 +284,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,QColor
                 p->start(KProcess::NotifyOnExit,true);
         }
         connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotPreOk1()));
+connect(buttonPass,SIGNAL(clicked()),this,SLOT(slotChangePass()));
 }
 
 void KgpgKeyInfo::slotinfoimgread(KProcess *)
@@ -293,6 +295,11 @@ void KgpgKeyInfo::slotinfoimgread(KProcess *)
         kgpginfotmp->unlink();
 }
 
+void KgpgKeyInfo::slotChangePass()
+{
+KgpgInterface *ChangeKeyPassProcess=new KgpgInterface();
+                ChangeKeyPassProcess->KgpgChangePass(displayedKeyID);
+}
 
 void KgpgKeyInfo::slotPreOk1()
 {
@@ -426,7 +433,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
                                 KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, expiration: %3").arg(id).arg(tr).arg(val));
                                 sub->setSelectable(false);
                                 item->setPixmap(0,keyPair);
-                                if ((!defaultKeyID.isEmpty()) && (id.right(8)==defaultKeyID)) {
+                                if ((!defaultKeyID.isEmpty()) && (id.right(8)==defaultKeyID.right(8))) {
                                         keysListpr->setSelected(item,true);
                                         selectedok=true;
                                 }

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>530</width>
-            <height>326</height>
+            <width>523</width>
+            <height>328</height>
         </rect>
     </property>
     <property name="caption">
@@ -175,17 +175,6 @@
                             <string>&lt;b&gt;PGP 6 compatibility&lt;/b&gt; Set up all options to be as PGP 6 compliant as possible. (option --pgp6)</string>
                         </property>
                     </widget>
-                    <widget class="QCheckBox" row="3" column="0">
-                        <property name="name">
-                            <cstring>hide_2_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Hide user id</string>
-                        </property>
-                        <property name="whatsThis" stdset="0">
-                            <string>&lt;b&gt;Hide user ID&lt;/b&gt; Do not put the keyid into encrypted packets. This option hides the receiver of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because all available secret keys are tried. </string>
-                        </property>
-                    </widget>
                     <widget class="QLayoutWidget" row="4" column="0">
                         <property name="name">
                             <cstring>layout8</cstring>
@@ -270,7 +259,29 @@
                             </widget>
                         </hbox>
                     </widget>
-                    <spacer row="6" column="0">
+                    <widget class="QCheckBox" row="3" column="0">
+                        <property name="name">
+                            <cstring>hide_2_2</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Hide user id</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Hide user ID&lt;/b&gt; Do not put the keyid into encrypted packets. This option hides the receiver of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because all available secret keys are tried. </string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="6" column="0">
+                        <property name="name">
+                            <cstring>pgpExtension</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Use *.pgp extension for encrypted files</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Hide user ID&lt;/b&gt; Do not put the keyid into encrypted packets. This option hides the receiver of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because all available secret keys are tried. </string>
+                        </property>
+                    </widget>
+                    <spacer row="7" column="0">
                         <property name="name">
                             <cstring>spacer7</cstring>
                         </property>
@@ -283,7 +294,7 @@
                         <property name="sizeHint">
                             <size>
                                 <width>20</width>
-                                <height>16</height>
+                                <height>40</height>
                             </size>
                         </property>
                     </spacer>

@@ -111,8 +111,10 @@ private slots:
 private:
 
 #if (KDE_VERSION >= 310)
+
         KPassivePopup *pop;
 #else
+
         QDialog *clippop;
 #endif
 
@@ -122,7 +124,7 @@ private:
         KURL urlselected;
         /** the configuration object of the application */
         KConfig *config;
-
+        bool pgpExtension;
         KAction* fileSave;
         KAction* editUndo;
         KAction *editRedo;
