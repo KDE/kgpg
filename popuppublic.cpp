@@ -209,9 +209,12 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
         FILE *fp2;
         seclist=QString::null;
 
-        fp2 = popen("gpg --no-secmem-warning --no-tty --list-secret-keys ", "r");
+        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys ", "r");
         while ( fgets( line, sizeof(line), fp2))
-                seclist+=line;
+        {
+	QString readLine=line;
+	if (readLine.startsWith("sec")) seclist+=", 0x"+readLine.section(":",4,4).right(8);
+	}
         pclose(fp2);
 
         trusted=CBuntrusted->isChecked();
@@ -422,11 +425,11 @@ void popupPublic::slotprocread(KProcIO *p)
                 keymail=tst.section('<',-1,-1);
                 keymail.truncate(keymail.length()-1);
                 keyname=tst.section('<',0,0);
-                if (keyname.find("(")!=-1)
-                        keyname=keyname.section('(',0,0);
+                //if (keyname.find("(")!=-1)
+                 //       keyname=keyname.section('(',0,0);
         } else {
                 keymail=QString::null;
-                keyname=tst.section('(',0,0);
+                keyname=tst;//.section('(',0,0);
         }
 
 	keyname=KgpgInterface::checkForUtf8(keyname);

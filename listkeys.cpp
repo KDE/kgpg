@@ -305,10 +305,10 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
                 	keyMail=fullname.section('<',-1,-1);
                 	keyMail.truncate(keyMail.length()-1);
                 	keyName=fullname.section('<',0,0);
-			keyName=keyName.section('(',0,0);
+			//keyName=keyName.section('(',0,0);
 			} else {
                 	keyMail=QString::null;
-			keyName=fullname.section('(',0,0);
+			keyName=fullname;//.section('(',0,0);
         		}
 
         		keyName=KgpgInterface::checkForUtf8(keyName);
@@ -3043,10 +3043,11 @@ gpgKey KeyView::extractKey(QString keyColon)
                 ret.gpgkeymail=fullname.section('<',-1,-1);
                 ret.gpgkeymail.truncate(ret.gpgkeymail.length()-1);
                 ret.gpgkeyname=fullname.section('<',0,0);
-                ret.gpgkeyname=ret.gpgkeyname.section('(',0,0);
+                //ret.gpgkeyname=ret.gpgkeyname.section('(',0,0);
         } else {
                 ret.gpgkeymail=QString::null;
-                ret.gpgkeyname=fullname.section('(',0,0);
+		ret.gpgkeyname=fullname;
+                //ret.gpgkeyname=fullname.section('(',0,0);
         }
 
         ret.gpgkeyname=KgpgInterface::checkForUtf8(ret.gpgkeyname);
