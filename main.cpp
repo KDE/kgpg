@@ -13,7 +13,7 @@
 static const char *description =
 	I18N_NOOP("Kgpg - simple gui for gpg\n\nKgpg was designed to make gpg very easy to use.\nI tried to make it as secure as possible.\nHope you enjoy it.");
 
-static const char *version = "0.9.5";
+static const char *version = "1.0.0";
 
 static KCmdLineOptions options[] =
 {
