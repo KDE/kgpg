@@ -622,6 +622,8 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         refreshKey->plug(popupsec);
         setDefaultKey->plug(popupsec);
         popupsec->insertSeparator();
+        importAllSignKeys->plug(popupsec);
+        popupsec->insertSeparator();
         addPhoto->plug(popupsec);
         addUid->plug(popupsec);
         exportSecretKey->plug(popupsec);
