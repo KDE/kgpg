@@ -46,7 +46,7 @@ public:
         ~KgpgApp();
         /** opens a file specified by commandline option
          */
-        void openDocumentFile(const KURL& url);
+        void openDocumentFile(const KURL& url,QString encoding=QString::null);
         void openEncryptedDocumentFile(const KURL& url);
         /** returns a pointer to the current document connected to the KTMainWindow instance and is used by
          * the View class to access the document object's methods
@@ -91,7 +91,7 @@ private slots:
         void slotundo();
         void slotredo();
 	void slotSetCharset();
-	bool checkEncoding();
+	bool checkEncoding(QTextCodec *codec);
 	void slotOptions();
 	void slotKeyManager();
 
@@ -109,6 +109,7 @@ private:
         KAction* fileSave, *editUndo, *editRedo;
 	KComboBox *fontCombo;
 	bool isMainWindow;
+	QString textEncoding;
 
 signals:
 

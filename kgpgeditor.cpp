@@ -56,6 +56,7 @@
 KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f,KShortcut goHome,bool mainWindow):KMainWindow(parent, name,f)
 {
 	isMainWindow=mainWindow;
+	textEncoding=QString::null;
         readOptions();
 	goDefaultKey=goHome;
         // call inits to invoke all other construction parts
@@ -165,7 +166,7 @@ if (encodingAction->isChecked())
 view->editor->setText(QString::fromUtf8(view->editor->text().ascii()));
 else
 {
-if (checkEncoding()) return;
+if (checkEncoding(QTextCodec::codecForLocale ())) return;
 view->editor->setText(view->editor->text().utf8());
 }
 }
@@ -280,11 +281,13 @@ void KgpgApp::slotFilePreDec()
 
 void KgpgApp::slotFileOpen()
 {
-
-        KURL url=KFileDialog::getOpenURL(QString::null,
-                                         i18n("*|All Files"), this, i18n("Open File"));
+	KEncodingFileDialog::Result loadResult;
+	loadResult=KEncodingFileDialog::getOpenURLAndEncoding(QString::null,QString::null,QString::null,this);
+	KURL url=loadResult.URLs.first();
+	textEncoding=loadResult.encoding;
+	
         if(!url.isEmpty()) {
-                openDocumentFile(url);
+                openDocumentFile(url,textEncoding);
                 Docname=url;
                 fileSave->setEnabled(false);
                 //fileSaveAs->setEnabled(true);
@@ -293,43 +296,40 @@ void KgpgApp::slotFileOpen()
 
 }
 
-bool KgpgApp::checkEncoding()
+bool KgpgApp::checkEncoding(QTextCodec *codec)
 {
-//KGlobal::charsets()->codecForName(encodingAction->currentText());                    ///     encoding selected
  /////////////          KGlobal::locale()->encoding()->name()
-//QTextCodec *codec = KGlobal::charsets()->codecForName(KGlobal::locale()->encoding());  // "Latin1"
-QTextCodec *codec =QTextCodec::codecForLocale ();
 return codec->canEncode(view->editor->text());
 }
 
 void KgpgApp::slotFileSave()
 {
+    QString filn=Docname.path();
+    if (filn.isEmpty()) {
+    	slotFileSaveAs();
+    	return;
+    }
+    QTextCodec*cod=QTextCodec::codecForName (textEncoding.ascii());
         // slotStatusMsg(i18n("Saving file..."));
-if (!checkEncoding())
-{
-KMessageBox::sorry(this,i18n("The document could not been saved, as the selected encoding cannot encode every unicode character in it."));
-return;
-}
-        QString filn=Docname.path();
-        if (filn.isEmpty()) {
-                slotFileSaveAs();
-                return;
-        }
+    if (!checkEncoding(cod)) {
+	KMessageBox::sorry(this,i18n("The document could not been saved, as the selected encoding cannot encode every unicode character in it."));
+	return;
+    }
 
-	KTempFile tmpfile;
-	if (Docname.isLocalFile())
-	{
-	QFile f(filn);
-        if ( !f.open( IO_WriteOnly ) ) {
-		KMessageBox::sorry(this,i18n("The document could not be saved, please check your permissions and disk space."));
-                return;
-        }
-        QTextStream t( &f );
-        t << view->editor->text().utf8();
-        f.close();
-	}
-	else
-	{
+    KTempFile tmpfile;
+    if (Docname.isLocalFile()) {
+    QFile f(filn);
+    if ( !f.open( IO_WriteOnly ) ) {
+	KMessageBox::sorry(this,i18n("The document could not be saved, please check your permissions and disk space."));
+        return;
+    }
+    QTextStream t( &f );
+    t.setCodec(cod);
+    //t.setEncoding( QTextStream::Latin1 );
+    t << view->editor->text();//.utf8();
+    f.close();
+    }
+    else {
 	/*FIXME  use following code:
 	 QFile f( fName );
 00983         if ( !f.open( IO_ReadOnly ) )
@@ -343,19 +343,19 @@ return;
 
 */
 	QTextStream *stream = tmpfile.textStream();
-    	*stream << view->editor->text().utf8();
+	stream->setCodec(cod);
+    	*stream << view->editor->text();//.utf8();
    	tmpfile.close();
-	if(!KIO::NetAccess::upload(tmpfile.name(), Docname,this))
-	{
-		KMessageBox::sorry(this,i18n("The document could not be saved, please check your permissions and disk space."));
-		tmpfile.unlink();
-                return;
+	if(!KIO::NetAccess::upload(tmpfile.name(), Docname,this)) {
+	    KMessageBox::sorry(this,i18n("The document could not be saved, please check your permissions and disk space."));
+	    tmpfile.unlink();
+            return;
 	}
 	tmpfile.unlink();
-	}
+    }
 
-        fileSave->setEnabled(false);
-        setCaption(Docname.fileName(),false);
+    fileSave->setEnabled(false);
+    setCaption(Docname.fileName(),false);
 }
 
 
@@ -389,11 +389,12 @@ void KgpgApp::slotFileSaveAs()
                                 return;
 		}
 	Docname=url;
+	textEncoding=selectedEncoding;
 	slotFileSave();
 	}
 }
 
-void KgpgApp::openDocumentFile(const KURL& url)
+void KgpgApp::openDocumentFile(const KURL& url,QString encoding)
 {
 QString tempOpenFile;
         /////////////////////////////////////////////////
@@ -401,6 +402,7 @@ if( KIO::NetAccess::download( url, tempOpenFile,this ) ) {
         QFile qfile(tempOpenFile);
         if (qfile.open(IO_ReadOnly)) {
                 QTextStream t( &qfile );
+		t.setCodec(QTextCodec::codecForName (encoding.ascii()));
                 view->editor->setText(t.read());
                 qfile.close();
                 fileSave->setEnabled(false);
