@@ -583,6 +583,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   KToggleAction *togglePhoto= new KToggleAction(i18n("&Show Photos"), "imagegallery", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
   (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
 
+
   KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
  #if (KDE_VERSION >= 310)
   (void) new KToggleToolBarAction("mainToolBar",i18n("Show Toolbar"), actionCollection(),"pref_toolbar"); ///  KDE 3.1 only
@@ -763,13 +764,6 @@ kgpgOptions *opts=new kgpgOptions(this);
 opts->exec();
 delete opts;
 readOptions();
-  /*
-
-    KgpgApp *win=(KgpgApp *) parent();
-    win->slotOptions();
-    if (win->encrypttodefault==true) defKey=win->defaultkey;
-    else defKey="";
-  */
 refreshkey();
 }
 
