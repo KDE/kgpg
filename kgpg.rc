@@ -1,10 +1,22 @@
 <!DOCTYPE kpartgui>
 <kpartgui name="kgpg" version="0.3.1">
 <MenuBar>
-  <Menu name="kile"><text>&amp;File</text>
+  <Menu name="file"><text>&amp;File</text>
     <Action name="file_new_window"/>
     <Action name="file_encrypt"/>
     <Action name="file_decrypt"/>
   </Menu>
+  <Menu name="file"><text>&amp;File</text>
+    <Action name="configure"/>
+  </Menu>
 </MenuBar>
+
+<ToolBar name="mainToolBar" position="top"><text>Main ToolBar</text>
+  <Merge/>
+</ToolBar>
+<ToolBar name="extraToolBar" position="top"><text>Extra ToolBar</text>
+  <Action name="file_encrypt"/>
+  <Action name="file_decrypt"/>
+  <Action name="configure"/>
+</ToolBar>
 </kpartgui>

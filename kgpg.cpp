@@ -68,11 +68,11 @@ KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,bool encmode,
       fileNew->plug(toolbar);
       fileOpen->plug(toolbar);
       fileSave->plug(toolbar);
-      fileSaveAs->plug(toolbar);
+      //fileSaveAs->plug(toolbar);
       editUndo->plug(toolbar);
       editRedo->plug(toolbar);
       toolbar->insertLineSeparator();
-      settingsOptions->plug(toolbar);
+//      settingsOptions->plug(toolbar);
       keysManage->plug(toolbar);
 
       toolbar->enableMoving(false);
@@ -85,7 +85,7 @@ KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,bool encmode,
       fileNew->plug(popupfile);
       fileOpen->plug(popupfile);
       fileSave->plug(popupfile);
-      fileSaveAs->plug(popupfile);
+      //fileSaveAs->plug(popupfile);
       popupfile->insertSeparator();
       fileEncrypt->plug(popupfile);
       fileDecrypt->plug(popupfile);
@@ -107,9 +107,9 @@ KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,bool encmode,
       menubar->insertItem(i18n("&Signature"),popupsig);
 
       /// Add custom "settings" menu;
-      QPopupMenu *spopup=new QPopupMenu();
-      settingsOptions->plug(spopup);
-      menubar->insertItem(i18n("Se&ttings"),spopup);
+//      QPopupMenu *spopup=new QPopupMenu();
+//      settingsOptions->plug(spopup);
+//      menubar->insertItem(i18n("Se&ttings"),spopup);
 
       KPopupMenu *help = helpMenu();
       helptips->plug(help);
@@ -158,6 +158,7 @@ KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,bool encmode,
       editUndo->setEnabled(false);
     }
 
+  createGUI("kgpg.rc");
 }
 
 KgpgApp::~KgpgApp()
@@ -213,7 +214,8 @@ void KgpgApp::initActions()
   fileEncrypt = new KAction(i18n("&Encrypt file..."), fileEnc, 0,this, SLOT(slotFileEnc()), actionCollection(),"file_encrypt");
   fileDecrypt = new KAction(i18n("&Decrypt file..."), fileDec, 0,this, SLOT(slotFileDec()), actionCollection(),"file_decrypt");
   fileQuit = KStdAction::quit(this, SLOT(slotFileQuit()), actionCollection());
-  settingsOptions = new KAction(i18n("&Default options"), "configure", 0,this, SLOT(slotOptions()), actionCollection(),"settings_options");
+//  settingsOptions = new KStdActionKAction(i18n("&Default options"), "configure", 0,this, SLOT(slotOptions()), actionCollection(),"settings_options");
+  KStdAction::preferences(this, SLOT(showSettingsDialog()), actionCollection(), "configure");
   editUndo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
   editRedo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());
   helptips = new KAction(i18n("Tip of the &Day..."), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
