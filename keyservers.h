@@ -68,6 +68,7 @@ private:
         int count;
         bool cycle;
         KListViewItem *kitem;
+	KDialogBase *dialogServer;
 };
 
 #endif
