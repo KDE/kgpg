@@ -65,12 +65,12 @@
   </group>
   <group name="General Options">
     <entry name="PhotoProperties" type="Enum" key="photo properties">
-      <values>
-        <value>Disable</value>
-        <value>Small</value>
-        <value>Medium</value>
-        <value>Big</value>
-      </values>
+      <choices>
+        <choice name="Disable"/>
+        <choice name="Small"/>
+        <choice name="Medium"/>
+        <choice name="Big"/>
+      </choices>
       <default>Disable</default>
     </entry>
     <entry name="ShowToolbar" type="Bool" key="show toolbar">
@@ -116,35 +116,35 @@
     </entry>
     <entry name="EncryptedDropEvent" type="Enum" key="encrypted_drop_event">
       <label>Handle encrypted drops</label>
-      <values>
-        <value>DecryptAndSave</value>
-        <value>DecryptAndOpen</value>
-        <value>Ask</value>
-      </values>
+      <choices>
+        <choice name="DecryptAndSave"/>
+        <choice name="DecryptAndOpen"/>
+        <choice name="Ask"/>
+      </choices>
     </entry>
     <entry name="UnencryptedDropEvent" type="Enum" key="unencrypted_drop_event">
       <label>Handle unencrypted drops</label>
-      <values>
-        <value>Encrypt</value>
-        <value>Sign</value>
-        <value>Ask</value>
-      </values>
+      <choices>
+        <choice name="Encrypt"/>
+        <choice name="Sign"/>
+        <choice name="Ask"/>
+      </choices>
     </entry>
     <entry name="SignMenu" type="Enum" key="sign_menu">
       <label>Show the "sign file" service menu.</label>
-      <values>
-        <value>Disabled</value>
-        <value>AllFiles</value>
-      </values>
+      <choices>
+        <choice name="Disabled"/>
+        <choice name="AllFiles"/>
+      </choices>
       <default>Disabled</default>
     </entry>
     <entry name="DecryptMenu" type="Enum" key="decrypt_menu">
       <label>Show the "decrypt file" service menu.</label>
-      <values>
-        <value>Disabled</value>
-        <value>AllFiles</value>
-        <value>EncryptedFiles</value>
-      </values>
+      <choices>
+        <choice name="Disabled"/>
+        <choice name="AllFiles"/>
+        <choice name="EncryptedFiles"/>
+      </choices>
       <default>Disabled</default>
     </entry>
   </group>
