@@ -537,8 +537,8 @@ void  MyView::startWizard()
         QString tst,tst2,name,trustedvals="idre-";
         QString firstKey=QString::null;
         char line[300];
-        int counter=0;
-
+        bool counter=false;
+	
         fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
@@ -549,7 +549,7 @@ void  MyView::startWizard()
                                 while ( fgets( line, sizeof(line), fp2)) {
                                         tst2=line;
                                         if (tst2.startsWith("pub") && (trustedvals.find(tst2.section(':',1,1))==-1)) {
-                                                counter++;
+                                                counter=true;
                                                 wiz->CBdefault->insertItem(tst.section(':',4,4).right(8)+": "+name);
                                                 if (firstKey.isEmpty())
                                                         firstKey=tst.section(':',4,4).right(8)+": "+name;
@@ -563,10 +563,11 @@ void  MyView::startWizard()
         pclose(fp);
 	wiz->CBdefault->setCurrentItem(firstKey);
         //connect(wiz->pushButton4,SIGNAL(clicked()),this,SLOT(slotGenKey()));
-        if (counter==0)
+        if (!counter)
                 connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotGenKey()));
         else {
                 wiz->textGenerate->hide();
+		wiz->setTitle(wiz->page_4,i18n("Step Three: Select your Default Private Key"));
                 connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotSaveOptionsPath()));
         }
         connect(wiz->nextButton(),SIGNAL(clicked()),this,SLOT(slotWizardChange()));
