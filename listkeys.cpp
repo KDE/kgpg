@@ -207,8 +207,6 @@ QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
           QString id=QString("0x"+tid.right(8));
 
           QString fullname=opt.section(':',9,9);
-          //fullname.replace(fullname.find('<'),1,QString("\""));
-          //fullname.replace(fullname.find('>'),1,QString("\""));
           if (opt.section(':',6,6)=="")
 
             labelexpire->setText(i18n("Expiration: never"));
@@ -219,10 +217,14 @@ QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
 				labellength->setText(i18n("Length: ")+opt.section(':',2,2));
 				labeltrust->setText(i18n("Trust: ")+tr);
 				labelid->setText(i18n("ID: ")+tid);
-
-				QString kmail=fullname.section('<',-1,-1);
-				kmail.truncate(kmail.length()-1);
-				labelmail->setText(i18n("E-Mail: ")+kmail);
+				if (fullname.find("<")!=-1)
+				{
+					QString kmail=fullname.section('<',-1,-1);
+					kmail.truncate(kmail.length()-1);
+					labelmail->setText(i18n("E-Mail: ")+kmail);
+				}
+				else labelmail->setText(i18n("E-Mail: ")+i18n("none"));
+				
 				QString kname=fullname.section('<',0,0);
 				if (fullname.find("(")!=-1)
 				{
@@ -231,7 +233,7 @@ QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
 				comment=comment.section(')',0,0);
 				labelcomment->setText(i18n("Comment: ")+comment);
 				}
-				else labelcomment->setText(i18n("Comment: "));
+				else labelcomment->setText(i18n("Comment: ")+i18n("none"));
 				
 				labelname->setText(i18n("Name: ")+kname);
 				labeltype->setText(i18n("Algorithm: ")+algo);
@@ -412,11 +414,15 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
 
 QString KgpgSelKey::extractKeyName(QString fullName)
 {
-QString kMail=fullName.section('<',-1,-1);
+QString kMail;
+if (fullName.find("<")!=-1)
+{
+kMail=fullName.section('<',-1,-1);
 kMail.truncate(kMail.length()-1);
+}
 QString kName=fullName.section('<',0,0);
 if (kName.find("(")!=-1) kName=kName.section('(',0,0);
-return QString(kMail+" ("+kName+")");
+return QString(kMail+" ("+kName+")").stripWhiteSpace();
 }
 
 void KgpgSelKey::slotpreOk()
@@ -469,7 +475,7 @@ QString KgpgSelKey::getkeyMail()
   else
   {
   username=keysListpr->currentItem()->text(0);
-  username=username.section(' ',0,0);
+  //username=username.section(' ',0,0);
   username=username.stripWhiteSpace();
   return(username);
 }
@@ -1535,11 +1541,6 @@ gpgKey pubKey=extractKey(tst);
 
 QString KeyView::extractKeyName(QString name,QString mail)
 {
-/*
-QString kMail=fullName.section('<',-1,-1);
-kMail.truncate(kMail.length()-1);
-QString kName=fullName.section('<',0,0);
-if (kName.find("(")!=-1) kName=kName.section('(',0,0);*/
 if (displayMailFirst) return QString(mail+" ("+name+")");
 return QString(name+" ("+mail+")");
 }
@@ -1553,7 +1554,7 @@ ret.gpgkeycreation=keyColon.section(':',5,5);
 QString tid=keyColon.section(':',4,4);
 ret.gpgkeyid=QString("0x"+tid.right(8));
 ret.gpgkeyexpiration=keyColon.section(':',6,6);
-if (ret.gpgkeyexpiration=="") ret.gpgkeyexpiration="Unlimited";    
+if (ret.gpgkeyexpiration=="") ret.gpgkeyexpiration=i18n("Unlimited");    
 QString fullname=keyColon.section(':',9,9);
 if (fullname.find("<")!=-1)
 {
@@ -1565,7 +1566,7 @@ if (ret.gpgkeyname.find("(")!=-1) ret.gpgkeyname=ret.gpgkeyname.section('(',0,0)
 else 
 {
 ret.gpgkeymail="";
-ret.gpgkeyname=fullname;
+ret.gpgkeyname=fullname.section('(',0,0);
 }
 QString algo=keyColon.section(':',3,3);
 if (!algo.isEmpty())

@@ -72,7 +72,7 @@ commandLineMode=false;
          fileSave->setEnabled(false);
       editRedo->setEnabled(false);
       editUndo->setEnabled(false);
-	  if (opmode=="show") checkEncryptedDocumentFile(fileToOpen);
+	  if (opmode=="show") openEncryptedDocumentFile(fileToOpen,KgpgInterface::extractKeyName(fileToOpen));//checkEncryptedDocumentFile(fileToOpen);
     createGUI("kgpg.rc");
 	}
   else
@@ -278,23 +278,6 @@ void KgpgApp::slotTest()
 }
 
 
-void KgpgApp::checkEncryptedDocumentFile(const KURL& url)
-{
-  /////////////////////////////////////////////////
-  urlselected=url;
-  messages="";
-  KProcIO *encid=new KProcIO();
-  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--batch"<<"--status-fd=1"<<"-d"<<url.path().local8Bit();
-  /////////  when process ends, update dialog infos
-  QObject::connect(encid, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresulted(KProcess *)));
-  QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
-  encid->start(KProcess::NotifyOnExit,false);
-}
-
-void KgpgApp::slotprocresulted(KProcess *)
-{
-  openEncryptedDocumentFile(urlselected,messages);
-}
 
 void KgpgApp::openEncryptedDocumentFile(const KURL& url,QString userIDs)
 {
@@ -703,7 +686,7 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool shred,bool sym
 
   KURL dest;
 
-  if (arm==true) dest.setPath(urlselected.path()+".asc");
+  if (arm) dest.setPath(urlselected.path()+".asc");
   else dest.setPath(urlselected.path()+".gpg");
 
   QFile fgpg(dest.path().local8Bit());
@@ -718,11 +701,11 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool shred,bool sym
     }
   QString encryptOptions="";
 
-  if (utrust==true)
+  if (utrust)
     encryptOptions+=" --always-trust ";
-  if (arm==true)
+  if (arm)
     encryptOptions+=" --armor ";
-  if (pgpcomp==true)
+  if (pgpcomp)
     {
       if (version<120)
         encryptOptions+=" --compress-algo 1 --cipher-algo cast5 ";
@@ -771,27 +754,11 @@ void KgpgApp::fastdecode(bool quit)
 
   fastact=quit;
   QString oldname=urlselected.filename().local8Bit();
-  messages="";
-  KProcIO *encid=new KProcIO();
-  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--batch"<<"--status-fd=1"<<"-d"<<urlselected.path().local8Bit();
-  /////////  when process ends, update dialog infos
-  QObject::connect(encid, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresult(KProcess *)));
-  QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
-  encid->start(KProcess::NotifyOnExit,false);
-}
 
-/////////////////////////////////////////////////
-
-void KgpgApp::slotprocresult(KProcess *)
-{
-
-  QString newname="",enckey="";
+  QString newname="";
   QCString password;
+QString enckey=KgpgInterface::extractKeyName(urlselected);
 
-
-  QString oldname=urlselected.filename().local8Bit();
-
-  enckey=messages;
   if (oldname.endsWith(".gpg"))
     oldname.truncate(oldname.length()-4);
   else if (oldname.endsWith(".asc"))
@@ -841,21 +808,20 @@ void KgpgApp::slotprocresult(KProcess *)
             }
         }
     }
-  
+  decpassuid=enckey;
   KgpgInterface *decryptFileProcess=new KgpgInterface();
   int decresult=0;
-  decpassuid=messages;
-  if (decpassuid.isEmpty()) decpassuid=i18n("[No user ID found]"); 
+  if (enckey.isEmpty()) enckey=i18n("[No user ID found]"); 
   decpasssrc=urlselected;
   if (!newname.isEmpty()) ////////////////////   decrypt to file
   {
   decpassdest=KURL(newname);
-  decresult=decryptFileProcess->KgpgDecryptFile(decpassuid,decpasssrc,decpassdest);
+  decresult=decryptFileProcess->KgpgDecryptFile(enckey,decpasssrc,decpassdest);
   if (decresult==0) {if (fastact) kapp->exit(0); else return;}
   connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
   connect(decryptFileProcess,SIGNAL(badpassphrase(bool)),this,SLOT(processdec(bool)));
   }
-  else openEncryptedDocumentFile(urlselected,decpassuid);
+  else openEncryptedDocumentFile(urlselected,enckey);
 }
 
 void KgpgApp::processdecover(bool res)
@@ -905,24 +871,6 @@ void KgpgApp::processdec3(bool res)
 }
 
 
-
-
-void KgpgApp::slotprocread(KProcIO *p)
-{
-  ///////////////////////////////////////////////////////////////// extract  encryption keys
-  QString outp;
-  while (p->readln(outp)!=-1)
-    {
-      if (outp.find("<")!=-1)
-        {
-          outp=outp.section('<',-1,-1);
-          outp=outp.section('>',0,0);
-          if (messages!="")
-            messages+=" or ";
-          messages+=outp;
-        }
-    }
-}
 
 void KgpgApp::slotFileEnc()
 {

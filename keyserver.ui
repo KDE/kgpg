@@ -37,7 +37,7 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <spacer row="5" column="1">
+                    <spacer row="4" column="2" rowspan="2" colspan="1">
                         <property name="name">
                             <cstring>spacer4_2</cstring>
                         </property>
@@ -49,19 +49,11 @@
                         </property>
                         <property name="sizeHint">
                             <size>
-                                <width>237</width>
+                                <width>90</width>
                                 <height>20</height>
                             </size>
                         </property>
                     </spacer>
-                    <widget class="QPushButton" row="5" column="0">
-                        <property name="name">
-                            <cstring>Buttonimport</cstring>
-                        </property>
-                        <property name="text">
-                            <string>&amp;Import</string>
-                        </property>
-                    </widget>
                     <spacer row="4" column="0">
                         <property name="name">
                             <cstring>spacer2_2</cstring>
@@ -75,34 +67,53 @@
                         <property name="sizeHint">
                             <size>
                                 <width>20</width>
-                                <height>20</height>
+                                <height>16</height>
                             </size>
                         </property>
                     </spacer>
-                    <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+                    <widget class="QLabel" row="2" column="0" rowspan="1" colspan="3">
                         <property name="name">
                             <cstring>textLabel1_2_2</cstring>
                         </property>
                         <property name="text">
-                            <string>ID of the key to be imported</string>
+                            <string>Text to search or ID of the key to import</string>
                         </property>
                     </widget>
-                    <widget class="KComboBox" row="1" column="0" rowspan="1" colspan="2">
+                    <widget class="KComboBox" row="1" column="0" rowspan="1" colspan="3">
                         <property name="name">
                             <cstring>kCBimportks</cstring>
                         </property>
                     </widget>
-                    <widget class="KLineEdit" row="3" column="0" rowspan="1" colspan="2">
+                    <widget class="KLineEdit" row="3" column="0" rowspan="1" colspan="3">
                         <property name="name">
                             <cstring>kLEimportid</cstring>
                         </property>
                     </widget>
-                    <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+                    <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
                         <property name="name">
                             <cstring>textLabel1_3</cstring>
                         </property>
                         <property name="text">
                             <string>Key Server</string>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton" row="5" column="1">
+                        <property name="name">
+                            <cstring>Buttonimport</cstring>
+                        </property>
+                        <property name="text">
+                            <string>&amp;Import</string>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton" row="5" column="0">
+                        <property name="name">
+                            <cstring>Buttonsearch</cstring>
+                        </property>
+                        <property name="text">
+                            <string>&amp;Search</string>
+                        </property>
+                        <property name="default">
+                            <bool>true</bool>
                         </property>
                     </widget>
                 </grid>
@@ -290,11 +301,26 @@
                 <bool>true</bool>
             </property>
             <property name="default">
-                <bool>true</bool>
+                <bool>false</bool>
             </property>
         </widget>
     </grid>
 </widget>
+<tabstops>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>tabWidget2</tabstop>
+    <tabstop>kCBimportks</tabstop>
+    <tabstop>kLEimportid</tabstop>
+    <tabstop>Buttonimport</tabstop>
+    <tabstop>Buttonsearch</tabstop>
+    <tabstop>Buttonexport</tabstop>
+    <tabstop>kCBexportks</tabstop>
+    <tabstop>kCBexportkey</tabstop>
+    <tabstop>kLVservers</tabstop>
+    <tabstop>Buttonedit</tabstop>
+    <tabstop>Buttonremove</tabstop>
+    <tabstop>Buttonadd</tabstop>
+</tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kcombobox.h</includehint>

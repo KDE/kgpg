@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>319</width>
-            <height>301</height>
+            <height>303</height>
         </rect>
     </property>
     <property name="caption">
@@ -107,22 +107,6 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="KComboBox" row="6" column="0">
-                        <property name="name">
-                            <cstring>defautkey_2_2</cstring>
-                        </property>
-                        <property name="enabled">
-                            <bool>false</bool>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>7</hsizetype>
-                                <vsizetype>0</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                    </widget>
                     <widget class="QCheckBox" row="0" column="0">
                         <property name="name">
                             <cstring>ascii_2_2</cstring>
@@ -137,7 +121,23 @@
                             <string>ASCII armored encryption</string>
                         </property>
                     </widget>
-                    <widget class="KComboBox" row="4" column="0">
+                    <widget class="QCheckBox" row="6" column="0">
+                        <property name="name">
+                            <cstring>defaut_2_2</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Always encrypt with default key</string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="4" column="0">
+                        <property name="name">
+                            <cstring>file_2_2</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Use special key for file encryption</string>
+                        </property>
+                    </widget>
+                    <widget class="KComboBox" row="5" column="0">
                         <property name="name">
                             <cstring>filekey_2_2</cstring>
                         </property>
@@ -153,20 +153,20 @@
                             </sizepolicy>
                         </property>
                     </widget>
-                    <widget class="QCheckBox" row="5" column="0">
+                    <widget class="KComboBox" row="7" column="0">
                         <property name="name">
-                            <cstring>defaut_2_2</cstring>
+                            <cstring>defautkey_2_2</cstring>
                         </property>
-                        <property name="text">
-                            <string>Always encrypt with default key</string>
+                        <property name="enabled">
+                            <bool>false</bool>
                         </property>
-                    </widget>
-                    <widget class="QCheckBox" row="1" column="0">
-                        <property name="name">
-                            <cstring>untrusted_2_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Allow encryption with untrusted keys</string>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
                         </property>
                     </widget>
                     <widget class="QCheckBox" row="2" column="0">
@@ -177,12 +177,20 @@
                             <string>PGP compatibility</string>
                         </property>
                     </widget>
-                    <widget class="QCheckBox" row="3" column="0">
+                    <widget class="QCheckBox" row="1" column="0">
                         <property name="name">
-                            <cstring>file_2_2</cstring>
+                            <cstring>untrusted_2_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Use special key for file encryption</string>
+                            <string>Allow encryption with untrusted keys</string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="3" column="0">
+                        <property name="name">
+                            <cstring>hide_2_2</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Hide user ID (not implemented yet)</string>
                         </property>
                     </widget>
                 </grid>
@@ -194,6 +202,28 @@
                 <attribute name="title">
                     <string>Misc.</string>
                 </attribute>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>cbMailFirst</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>11</y>
+                            <width>271</width>
+                            <height>21</height>
+                        </rect>
+                    </property>
+                    <property name="minimumSize">
+                        <size>
+                            <width>0</width>
+                            <height>0</height>
+                        </size>
+                    </property>
+                    <property name="text">
+                        <string>Show E-Mail first in keys list</string>
+                    </property>
+                </widget>
                 <widget class="QGroupBox">
                     <property name="name">
                         <cstring>groupBox1</cstring>
@@ -201,7 +231,7 @@
                     <property name="geometry">
                         <rect>
                             <x>11</x>
-                            <y>38</y>
+                            <y>48</y>
                             <width>271</width>
                             <height>162</height>
                         </rect>
@@ -244,28 +274,6 @@ If your files are not correctly identified,
 just click on reinstall</string>
                         </property>
                     </widget>
-                </widget>
-                <widget class="QCheckBox">
-                    <property name="name">
-                        <cstring>cbMailFirst</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>11</x>
-                            <y>11</y>
-                            <width>271</width>
-                            <height>21</height>
-                        </rect>
-                    </property>
-                    <property name="minimumSize">
-                        <size>
-                            <width>0</width>
-                            <height>0</height>
-                        </size>
-                    </property>
-                    <property name="text">
-                        <string>Show E-Mail first in keys list</string>
-                    </property>
                 </widget>
             </widget>
             <widget class="QWidget">

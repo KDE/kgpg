@@ -138,7 +138,7 @@ void MyEditor::slotprocresultenckey(KProcess *)
     QString enckey;
     enckey=messages;
 
-  if (enckey=="")
+  if (enckey.isEmpty())
   {
     QFile qfile(filename.local8Bit());
 
@@ -430,25 +430,11 @@ void KgpgView::slotdecode()
 {
   ///////////////    decode data from the editor. triggered by the decode button
 
-  FILE *fp;
-  QString dests,gpgcmd,encResult,encUsers;
-  char buffer[200];
+  QString dests,encUsers;
   messages="";
   
-  gpgcmd="echo \""+editor->text()+"\" | gpg --no-secmem-warning --no-tty --batch --status-fd 1 -d";
-  fp = popen(gpgcmd.latin1(), "r");
-  while ( fgets( buffer, sizeof(buffer), fp))
-  {
-  encResult=buffer;
-  if (encResult.find("<")!=-1) 
-  {
-  QString kmail=encResult.section('<',-1,-1);
-  kmail=kmail.section('>',0,0);
-  if (!encUsers.isEmpty()) encUsers+=" or ";
-  encUsers+=kmail;
-  }
-  }
-  pclose(fp);
+  encUsers=KgpgInterface::extractKeyName(editor->text());
+
   if (encUsers.isEmpty()) encUsers=i18n("[No user ID found]");
   QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
   KgpgApp *win=(KgpgApp *) parent();

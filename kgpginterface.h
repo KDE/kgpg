@@ -1,5 +1,5 @@
 /***************************************************************************
-                          popuppublic.h  -  description
+                          kgpginterface.h  -  description
                              -------------------
     begin                : Sat Jun 29 2002
     copyright            : (C) 2002 by 
@@ -112,6 +112,9 @@ class KgpgInterface : public QObject {
 	 * @param userID QString the name of the decryption key (only used to prompt user for passphrase)
 	 */
 	static QString KgpgDecryptText(QString text,QString userID="");
+	
+	static QString extractKeyName(QString txt="");
+	static QString extractKeyName(KURL url=0);
 
 	/*
 	 * Destructor for the class.

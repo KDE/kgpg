@@ -73,7 +73,6 @@ public:
      */
     void openDocumentFile(const KURL& url=0);
     void openEncryptedDocumentFile(const KURL& url=0,QString userIDs="");
-        void checkEncryptedDocumentFile(const KURL& url=0);
     /** returns a pointer to the current document connected to the KTMainWindow instance and is used by
      * the View class to access the document object's methods
      */
@@ -116,10 +115,7 @@ void fastdecode(bool quit);
 void slotFileEnc();
 void slotman();
 void slotFileDec();
-void slotprocresult(KProcess *);
-void slotprocread(KProcIO *);
 void checkVersion();
-void slotprocresulted(KProcess *p);
 void slotExpressQuit();
 //public slots:
 void processenc(bool res);

@@ -352,12 +352,16 @@ if ((dead==false) && (tst!=""))
 
 QString popupPublic::extractKeyName(QString fullName)
 {
-QString kMail=fullName.section('<',-1,-1);
+QString kMail;
+if (fullName.find("<")!=-1)
+{
+kMail=fullName.section('<',-1,-1);
 kMail.truncate(kMail.length()-1);
+}
 QString kName=fullName.section('<',0,0);
 if (kName.find("(")!=-1) kName=kName.section('(',0,0);
-if (displayMailFirst) return QString(kMail+" ("+kName+")");
-return QString(kName+" ("+kMail+")");
+if (displayMailFirst) return QString(kMail+" ("+kName+")").stripWhiteSpace();
+return QString(kName+" ("+kMail+")").stripWhiteSpace();
 }
 
 void popupPublic::annule()

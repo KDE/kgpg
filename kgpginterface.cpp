@@ -656,7 +656,67 @@ void KgpgInterface::importprocess(KProcIO *p)
     }
 }
 
+QString KgpgInterface::extractKeyName(KURL url)
+{
+  ///////////////////////////////////////////////////////////////// extract  encryption keys
+  
+FILE *fp;
+QString encResult,IDs;
+char buffer[200];
 
+  
+QString gpgcmd="gpg --no-tty --no-secmem-warning --batch --status-fd 1 -d "+url.path().local8Bit();
+  //////////   encode with untrusted keys or armor if checked by user
+  fp = popen(gpgcmd.latin1(), "r");
+  while ( fgets( buffer, sizeof(buffer), fp))
+  {
+      encResult=buffer;	  
+      if (encResult.find("USERID_HINT",0,false)!=-1)
+	  {
+	  if (!IDs.isEmpty()) IDs+=i18n(" or ");
+	  encResult=encResult.section("HINT",1,1);
+	  encResult=encResult.stripWhiteSpace();
+	  int cut=encResult.find(' ',0,false);
+	  encResult.remove(0,cut);
+	  if (encResult.find("(",0,false)!=-1)
+	  encResult=encResult.section('(',0,0)+encResult.section(')',-1,-1);
+	  IDs+=encResult;
+	  }
+  }
+  pclose(fp);
+  return IDs;
+}
+
+QString KgpgInterface::extractKeyName(QString txt)
+{
+  ///////////////////////////////////////////////////////////////// extract  encryption keys
+  
+FILE *fp;
+QString encResult,IDs;
+char buffer[200];
+
+  
+QString gpgcmd="echo \""+txt.local8Bit()+"\" | gpg --no-tty --no-secmem-warning --batch --status-fd 1 -d ";
+  //////////   encode with untrusted keys or armor if checked by user
+  fp = popen(gpgcmd.latin1(), "r");
+  while ( fgets( buffer, sizeof(buffer), fp))
+  {
+      encResult=buffer;	  
+      if (encResult.find("USERID_HINT",0,false)!=-1)
+	  {
+	  if (!IDs.isEmpty()) IDs+=i18n(" or ");
+	  encResult=encResult.section("HINT",1,1);
+	  encResult=encResult.stripWhiteSpace();
+	  int cut=encResult.find(' ',0,false);
+	  encResult.remove(0,cut);
+	  if (encResult.find("(",0,false)!=-1)
+	  encResult=encResult.section('(',0,0)+encResult.section(')',-1,-1);
+	  IDs+=encResult;
+	  }
+  }
+  pclose(fp);
+  return IDs;
+}
 
 
 //#include "kgpginterface.moc"

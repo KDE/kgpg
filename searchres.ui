@@ -1,0 +1,121 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>searchres</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>searchres</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>376</width>
+            <height>297</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Search result</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>false</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QPushButton" row="1" column="3">
+            <property name="name">
+                <cstring>buttonCancel</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Cancel</string>
+            </property>
+            <property name="accel">
+                <string></string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="KListView" row="0" column="0" rowspan="1" colspan="4">
+            <column>
+                <property name="text">
+                    <string>Keys</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <property name="name">
+                <cstring>kLVsearch</cstring>
+            </property>
+            <property name="allColumnsShowFocus">
+                <bool>true</bool>
+            </property>
+            <property name="showSortIndicator">
+                <bool>true</bool>
+            </property>
+            <property name="rootIsDecorated">
+                <bool>true</bool>
+            </property>
+            <property name="fullWidth">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="QPushButton" row="1" column="2">
+            <property name="name">
+                <cstring>buttonOk</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Import</string>
+            </property>
+            <property name="accel">
+                <string>Alt+I</string>
+            </property>
+            <property name="autoDefault">
+                <bool>true</bool>
+            </property>
+            <property name="default">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="1" column="1">
+            <property name="name">
+                <cstring>kLEID</cstring>
+            </property>
+            <property name="maxLength">
+                <number>8</number>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Key to import:</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>searchres</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>searchres</receiver>
+        <slot>reject()</slot>
+    </connection>
+</connections>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klistview.h</includehint>
+    <includehint>klineedit.h</includehint>
+</includehints>
+</UI>

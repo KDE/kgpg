@@ -34,8 +34,10 @@
 #include <klineedit.h>
 #include <kprocess.h>
 #include <kprocio.h>
+#include <klistview.h>
 #include <kurl.h>
 #include "keyserver.h"
+#include "searchres.h"
 
 class keyServer : public Keyserver
 {
@@ -46,23 +48,33 @@ class keyServer : public Keyserver
  
  public slots:
  void abortImport();
+ void abortSearch();
+ void transferKeyID();
+ void slotsearchread(KProcIO *p);
  void slotAddServer();
  void slotRemoveServer();
  void slotOk();
 void syncCombobox();
 void slotImport();
+void slotSearch();
 void slotimportresult(KProcess*);
 void slotimportread(KProcIO *p); 
 void slotprocread(KProcIO *p);
 void slotExport();
 void slotEdit(QListViewItem *);
 void slotEditServer();
+void preimport();
+void slotsearchresult(KProcess *);
  
    private:
   KConfig *config;
   QString readmessage;
-  KProcIO *importproc;
+  KProcIO *importproc,*searchproc;
   QDialog *importpop;
+  searchres *listpop;
+  int count;
+  bool cycle;
+  KListViewItem *kitem;
 };
 
 
