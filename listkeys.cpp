@@ -34,6 +34,7 @@
 #include <qtimer.h>
 #include <qpaintdevicemetrics.h>
 #include <qtooltip.h>
+#include <qheader.h>
 
 
 #include <kio/netaccess.h>
@@ -537,7 +538,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 	sSize=new KToggleAction(i18n("Size"),0, 0,this, SLOT(slotShowSize()),actionCollection(),"show_size");
 	sCreat=new KToggleAction(i18n("Creation"),0, 0,this, SLOT(slotShowCreat()),actionCollection(),"show_creat");
 	sExpi=new KToggleAction(i18n("Expiration"),0, 0,this, SLOT(slotShowExpi()),actionCollection(),"show_expi");
-	sId=new KToggleAction(i18n("Id"),0, 0,this, SLOT(slotShowId()),actionCollection(),"show_id");
+	
 	
 	photoProps = new KSelectAction(i18n("&Photo ID's"),"kgpg_photo", actionCollection(), "photo_settings");
 	connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
@@ -568,7 +569,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         keysList2->setFullWidth(true);
         keysList2->setAcceptDrops (true) ;
         keysList2->setSelectionModeExt(KListView::Extended);
-	keysList2->setResizeMode(QListView::LastColumn);
+	//keysList2->setResizeMode(QListView::LastColumn);
 	
 	popup=new QPopupMenu();
         exportPublicKey->plug(popup);
@@ -628,7 +629,6 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 	if (KGpgSettings::showSize()) sSize->setChecked(true);
 	if (KGpgSettings::showCreat()) sCreat->setChecked(true);
 	if (KGpgSettings::showExpi()) sExpi->setChecked(true);
-	if (KGpgSettings::showId()) sId->setChecked(true);
 	
         if (!KGpgSettings::showToolbar())
                 toolBar()->hide();
@@ -639,40 +639,41 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 listKeys::~listKeys()
 {}
 
-void listKeys::slotShowExpi()
+void KeyView::setFullSize()
 {
-if (sExpi->isChecked())
-keysList2->adjustColumn(3);
-else {keysList2->hideColumn(3);keysList2->setFullWidth(true);}
-}
-
-void listKeys::slotShowSize()
-{
-if (sSize->isChecked())
-keysList2->adjustColumn(4);
-else {keysList2->hideColumn(4);keysList2->setFullWidth(true);}
-}
-
-void listKeys::slotShowCreat()
-{
-if (sCreat->isChecked())
-keysList2->adjustColumn(5);
-else {keysList2->hideColumn(5);keysList2->setFullWidth(true);}
+uint c;
+for (c=6;(columnText(c)!=i18n("Id") && c>0);c--);
+header()->setStretchEnabled(true, c);
 }
 
 void listKeys::slotShowTrust()
 {
 if (sTrust->isChecked())
 keysList2->adjustColumn(2);
-else {keysList2->hideColumn(2);keysList2->setFullWidth(true);}
+else {keysList2->hideColumn(2);keysList2->setFullSize();}
 }
 
-void listKeys::slotShowId()
+void listKeys::slotShowExpi()
 {
-if (sId->isChecked())
-keysList2->adjustColumn(6);
-else {keysList2->hideColumn(6);keysList2->setFullWidth(true);}
+if (sExpi->isChecked())
+keysList2->adjustColumn(3);
+else {keysList2->hideColumn(3);keysList2->setFullSize();}
 }
+
+void listKeys::slotShowSize()
+{
+if (sSize->isChecked())
+keysList2->adjustColumn(4);
+else {keysList2->hideColumn(4);keysList2->setFullSize();}
+}
+
+void listKeys::slotShowCreat()
+{
+if (sCreat->isChecked())
+keysList2->adjustColumn(5);
+else {keysList2->hideColumn(5);keysList2->setFullSize();}
+}
+
 
 bool listKeys::eventFilter( QObject *, QEvent *e )
 {
@@ -1108,7 +1109,6 @@ void listKeys::annule()
 	KGpgSettings::setShowExpi(sExpi->isChecked());
 	KGpgSettings::setShowCreat(sCreat->isChecked());
 	KGpgSettings::setShowSize(sSize->isChecked());
-	KGpgSettings::setShowId(sId->isChecked());
         KGpgSettings::writeConfig();
         close();
         //reject();

@@ -138,7 +138,9 @@ private:
         QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown,trustmarginal, trustbad, trustgood,pixRevoke;
 	QListViewItem *itemToOpen;
 	KTempFile *kgpgphototmp;
-
+public slots:
+	void setFullSize();
+	
 private slots:
         void  droppedfile (KURL);
         void refreshkeylist();
@@ -183,7 +185,7 @@ private:
         keyServer *kServer;
         KTempFile *kgpgtmp;
         KAction *importSignatureKey,*importAllSignKeys,*signKey;
-	KToggleAction *sTrust,*sId,*sCreat,*sExpi,*sSize;
+	KToggleAction *sTrust,*sCreat,*sExpi,*sSize;
 	KSelectAction *photoProps;
         QPtrList<QListViewItem> signList;
         uint globalCount,keyCount;
@@ -212,7 +214,6 @@ public slots:
 
 private slots:
 	void slotShowTrust();
-	void slotShowId();
 	void slotShowSize();
 	void slotShowCreat();
 	void slotShowExpi();

@@ -101,10 +101,6 @@
       <desc>Whether to show the creation value in key manager.</desc>
       <default>true</default>
     </entry>
-    <entry name="ShowId" type="bool" key="show_id">
-      <desc>Whether to show the id value in key manager.</desc>
-      <default>true</default>
-    </entry>
   </group>
   <group name="User Interface">
     <entry name="UseMouseSelection" type="bool" key="selection_clipboard">
