@@ -70,6 +70,7 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
   defaultKey=config->readEntry("default key");
   allowcustom=config->readBoolEntry("allow custom option",false);
   if (allowcustom) customOptions=config->readEntry("custom option");
+  
 //  encryptfileto=config->readBoolEntry("encrypt files to",false);
 //  filekey=config->readEntry("file key");
 
@@ -163,11 +164,12 @@ KButtonBox *boutonbox=new KButtonBox(this,KButtonBox::Horizontal,15,12);
   QObject::connect(CBuntrusted,SIGNAL(toggled(bool)),this,SLOT(refresh(bool)));
 
 
- char gpgcmd2[1024] = "\0",line[200]="\0";
+ char line[200]="\0";
  FILE *fp2;
  seclist="";
+ QString gpgcmd2;
 
-              strcat(gpgcmd2,"gpg --no-secmem-warning --no-tty --list-secret-keys ");
+              gpgcmd2="gpg --no-secmem-warning --no-tty --list-secret-keys ";
               fp2 = popen(gpgcmd2, "r");
               while ( fgets( line, sizeof(line), fp2))  seclist+=line;
               pclose(fp2);
@@ -387,6 +389,7 @@ if ((dead==false) && (tst!=""))
 QString popupPublic::extractKeyName(QString fullName)
 {
 QString kMail;
+fullName=QString::fromUtf8(fullName);
 if (fullName.find("<")!=-1)
 {
 kMail=fullName.section('<',-1,-1);

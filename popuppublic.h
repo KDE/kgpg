@@ -45,13 +45,14 @@ public:
 
     QPixmap keyPair,keySingle;
     QString seclist,defaultKey,defaultName;
-	QString customOptions;
+
 
 private:
     QPushButton *bouton0,*bouton1,*bouton2;
     KConfig *config;
 	bool displayMailFirst,allowcustom;
 QButtonGroup *boutonboxoptions;
+	QString customOptions;
 
 private slots:
 void customOpts(const QString &);
