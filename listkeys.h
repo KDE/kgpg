@@ -130,7 +130,7 @@ class KeyView : public KListView
         friend class listKeys;
 public:
         KeyView( QWidget *parent = 0, const char *name = 0);
-	bool displayPhoto;
+	bool displayPhoto,displayOnlySecret;
 	int previewSize;
 private:
 //        bool displayMailFirst;
@@ -188,7 +188,7 @@ private:
         KAction *importSignatureKey,*importAllSignKeys,*signKey;
 	KSelectAction *photoProps;
         QPtrList<QListViewItem> signList;
-        uint globalCount;
+        uint globalCount,keyCount;
 	int globalChecked;
         bool globalisLocal;
         QString globalkeyMail,globalkeyID,searchString;
@@ -212,6 +212,7 @@ public slots:
 	void slotSetDefaultKey(QString newID);
 
 private slots:
+	void slotToggleSecret();
 	void slotGotoDefaultKey();
 	void slotDelUid();
 	void slotAddUid();
@@ -255,7 +256,7 @@ private slots:
         void importsignkey(QString importKeyId);
         void importallsignkey();
         void importfinished();
-        void signatureResult(int);
+        void signatureResult(int success);
         void delsignatureResult(bool);
         void listsigns();
         void slotexport();

@@ -503,7 +503,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
         (void) new KAction(i18n("&Create New Contact in Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
         (void) new KAction(i18n("&Merge Public Keys in Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
-	(void) new KAction(i18n("&Go to Default Key"), 0,QKeySequence(CTRL+Qt::Key_Home) ,this, SLOT(slotGotoDefaultKey()),actionCollection(),"go_default_key");
+	(void) new KAction(i18n("&Go to Default Key"), "gohome",QKeySequence(CTRL+Qt::Key_Home) ,this, SLOT(slotGotoDefaultKey()),actionCollection(),"go_default_key");
 
         KStdAction::quit(this, SLOT(annule()), actionCollection());
         KStdAction::find(this, SLOT(findKey()), actionCollection());
@@ -516,7 +516,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 	KAction *addUid= new KAction(i18n("&Add User Id"), 0, 0,this, SLOT(slotAddUid()),actionCollection(),"add_uid");
 	KAction *delUid= new KAction(i18n("&Delete User Id"), 0, 0,this, SLOT(slotDelUid()),actionCollection(),"del_uid");
 
-	KAction *editKey = new KAction(i18n("&Edit Key in Terminal"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
+	KAction *editKey = new KAction(i18n("&Edit Key in Terminal"), "openterm", QKeySequence(ALT+Qt::Key_Return),this, SLOT(slotedit()),actionCollection(),"key_edit");
         KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
         KAction *revokeKey = new KAction(i18n("Revoke Key..."), 0, 0,this, SLOT(revokeWidget()),actionCollection(),"key_revoke");
 
@@ -531,7 +531,10 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
         KStdAction::configureToolbars(this, SLOT(configuretoolbars() ), actionCollection(), "configuretoolbars");
         setStandardToolBarMenuEnabled(true);
-
+	
+	(void) new KToggleAction(i18n("&Show only Secret Keys"), 0, 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
+	keysList2->displayOnlySecret=false;
+	
 	photoProps = new KSelectAction(i18n("&Photo ID's"),"kgpg_photo", actionCollection(), "photo_settings");
 	connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
   	QStringList list;
@@ -635,6 +638,40 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 listKeys::~listKeys()
 {}
 
+
+void listKeys::slotToggleSecret()
+{
+if (!keysList2->displayOnlySecret)
+{
+QListViewItem *item=keysList2->firstChild();
+while (item)
+{
+if (item->pixmap(0)->serialNumber()!=keysList2->pixkeyPair.serialNumber()) item->setVisible(false);
+item=item->nextSibling();
+}
+keysList2->displayOnlySecret=true;
+if (!keysList2->currentItem()->isVisible())
+{
+QListViewItem *item=keysList2->firstChild();
+while (!item->isVisible())
+item=item->nextSibling();
+keysList2->clearSelection();
+keysList2->setCurrentItem(item);
+keysList2->setSelected(item,true);
+}
+}
+else
+{
+QListViewItem *item=keysList2->firstChild();
+while (item)
+{
+item->setVisible(true);
+item=item->nextSibling();
+}
+keysList2->ensureItemVisible(keysList2->currentItem());
+keysList2->displayOnlySecret=false;
+}
+}
 
 void listKeys::slotGotoDefaultKey()
 {
@@ -1686,8 +1723,9 @@ void listKeys::signkey()
 	globalkeyMail=QString(opts->getkeyMail());
 	globalisLocal=localSign->isChecked();
 	globalChecked=signTrust->currentItem();        
+	keyCount=0;
         delete opts;
-	globalCount=0;
+	globalCount=signList.count();
         if (!terminalSign->isChecked()) signLoop();
 	else
 	{
@@ -1706,30 +1744,33 @@ void listKeys::signkey()
         if (globalisLocal) kp<<"lsign";
 	else kp<<"sign";
         kp.start(KProcess::Block);
-	keysList2->refreshcurrentkey(keysList2->currentItem());	
+	keysList2->refreshcurrentkey(keysList2->currentItem());
 	}
 }
 
 void listKeys::signLoop()
 {
-        if (globalCount<=signList.count()) {
-
-                if ( signList.at(globalCount) ) {
+        if (keyCount<globalCount)
+	{
+	kdDebug()<<"Sign process for key: "<<keyCount<<" on a total of "<<signList.count()<<endl;
+                if ( signList.at(keyCount) ) {
                         KgpgInterface *signKeyProcess=new KgpgInterface();
-                        signKeyProcess->KgpgSignKey(signList.at(globalCount)->text(6),globalkeyID,globalkeyMail,globalisLocal,globalChecked);
+                        signKeyProcess->KgpgSignKey(signList.at(keyCount)->text(6),globalkeyID,globalkeyMail,globalisLocal,globalChecked);
                         connect(signKeyProcess,SIGNAL(signatureFinished(int)),this,SLOT(signatureResult(int)));
                 }
-                globalCount++;
-        }
+	}
 }
 
 void listKeys::signatureResult(int success)
 {
         if (success==3)
-                keysList2->refreshcurrentkey(signList.at(globalCount-1));
+	keysList2->refreshcurrentkey(signList.at(keyCount));
+
         else if (success==2)
-                KMessageBox::sorry(this,i18n("<qt>Bad passphrase, key <b>%1</b> not signed.</qt>").arg(signList.at(globalCount-1)->text(0)+" ("+signList.at(globalCount-1)->text(1)+")"));
-        signLoop();
+                KMessageBox::sorry(this,i18n("<qt>Bad passphrase, key <b>%1</b> not signed.</qt>").arg(signList.at(keyCount)->text(0)+i18n(" (")+signList.at(keyCount)->text(1)+i18n(")")));
+        
+	keyCount++;
+	signLoop();
 }
 
 
@@ -1788,7 +1829,7 @@ void listKeys::delsignkey()
         if (keysList2->currentItem()==NULL)
                 return;
         if (keysList2->currentItem()->depth()>1) {
-                KMessageBox::sorry(this,i18n("Edit key manually to delete this signature."));
+		KMessageBox::sorry(this,i18n("Edit key manually to delete this signature."));
                 return;
         }
 
@@ -1997,7 +2038,7 @@ void listKeys::slotReadFingerProcess(KProcIO *p)
         while (p->readln(outp)!=-1) {
                 if (outp.startsWith("pub") && (continueSearch)) {
                         newkeyID=outp.section(':',4,4).right(8);
-                        //			kdDebug()<<newkeyID<<endl;
+                        
                 }
                 if (outp.startsWith("fpr")) {
                         if (newkeyFinger.lower()==outp.section(':',9,9).lower())
@@ -2100,7 +2141,11 @@ void listKeys::deleteseckey()
 void listKeys::confirmdeletekey()
 {
         if (keysList2->currentItem()->depth()!=0)
+	{
+		if ((keysList2->currentItem()->depth()==1) && (keysList2->currentItem()->text(4)=="-") && (keysList2->currentItem()->text(6).startsWith("0x")))
+		delsignkey();
                 return;
+		}
         if (keysList2->currentItem()->text(6).isEmpty()) {
                 deleteGroup();
                 return;
@@ -2437,6 +2482,7 @@ void KeyView::refreshkeylist()
                                 secretList+=pubKey.gpgkeyid;
                         } else {
                                 item->setPixmap(0,pixkeySingle);
+				if (displayOnlySecret) item->setVisible(false);
                         }
 
 			if (openKeys.find(pubKey.gpgkeyid)!=-1) item->setOpen(true);
@@ -2452,6 +2498,7 @@ void KeyView::refreshkeylist()
                         item=new UpdateViewItem(this,QString(*it),QString::null,QString::null,QString::null,QString::null,QString::null,QString::null,false,false);
                         item->setPixmap(0,pixkeyGroup);
                         item->setExpandable(false);
+			if (displayOnlySecret) item->setVisible(false);
                 }
 
         if(current != NULL) {
