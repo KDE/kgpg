@@ -117,7 +117,7 @@ if (qfile.open(IO_ReadOnly))
       {//////  dropped file is a public key, ask for import
         qfile.close();
 
-        int result=KMessageBox::warningContinueCancel(this,i18n("The file %1 is a public key.\nDo you want to import it?").arg(fname),i18n("Warning"));
+        int result=KMessageBox::warningContinueCancel(this,i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(fname),i18n("Warning"));
         if (result==KMessageBox::Cancel) return;
         else
         {

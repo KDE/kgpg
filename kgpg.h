@@ -114,6 +114,8 @@ protected:
     void initView();
 
 private slots:
+void slotprocresult(KProcess *);
+void slotprocread(KProcIO *p);
 void slotSetClip(QString);
 void killDisplayClip();
 void expressQuit();
@@ -176,7 +178,7 @@ void slotOptions();
      */
 
 private:
-QString customDecrypt;
+QString customDecrypt,tempFile;
 KURL decpasssrc,decpassdest;
 //QDialog *clippop;
 

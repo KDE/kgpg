@@ -56,6 +56,7 @@ KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0,
   config=kapp->config();
   readOptions();
 commandLineMode=false;
+
   if ((opmode.isEmpty()) || (opmode=="show") || (opmode=="clipboard"))
     {
 	  if (tipofday) slotTip();
@@ -274,25 +275,7 @@ void KgpgApp::initView()
 
 void KgpgApp::openEncryptedDocumentFile(const KURL& url)
 {
-QString userIDs=KgpgInterface::extractKeyName(url);
-  QFile qfile(url.path());
-  QString encryptedText;
-  if (qfile.open(IO_ReadOnly))
-    {
-      QTextStream t( &qfile );
-      encryptedText=t.read();
-      qfile.close();
-	  QString decrypted=KgpgInterface::KgpgDecryptText(encryptedText,userIDs);
-      if (!decrypted.isEmpty())
-	  {
-	  view->editor->setText(decrypted);
-      fileSave->setEnabled(false);
-      editRedo->setEnabled(false);
-      editUndo->setEnabled(false);
-	  }
-	  else KMessageBox::sorry(this,i18n("Decryption failed"));
-    }
-    else KMessageBox::sorry(0,i18n("Unable to read file."));
+view->editor->droppedfile(url);
 }
 
 
@@ -877,11 +860,51 @@ delete pop;
 #else
 delete clippop;
 #endif
+///// test if file is a public key
+QFile qfile(QFile::encodeName(urlselected.path()));
+if (qfile.open(IO_ReadOnly))
+{
+QTextStream t( &qfile );
+      QString result(t.read());
+      //////////////     if  pgp data found, decode it
+      if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK"))
+      {//////  dropped file is a public key, ask for import
+        qfile.close();
 
+        int result=KMessageBox::warningContinueCancel(0,i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(urlselected.path()),i18n("Warning"));
+        if (result==KMessageBox::Cancel) {if (fastact) kapp->exit(0);return;}
+        else
+        {
+		messages="";
+	   KProcIO *conprocess=new KProcIO();
+	  *conprocess<< "gpg";
+	  *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--import"<<QFile::encodeName(urlselected.path());
+          QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresult(KProcess *)));
+          QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
+        conprocess->start(KProcess::NotifyOnExit,true);
+        return;
+	} 
+}
+}
   KMessageBox::detailedSorry(0,i18n("Decryption failed."),mssge);
   if (fastact) kapp->exit(0);
 }
 
+void KgpgApp::slotprocresult(KProcess *)
+{
+  KMessageBox::information(0,messages);
+  if (fastact) kapp->exit(0);
+}
+
+void KgpgApp::slotprocread(KProcIO *p)
+{
+QString outp;
+while (p->readln(outp)!=-1)
+{
+if (outp.find("http-proxy")==-1)
+messages+=outp+"\n";
+}
+}
 
 void KgpgApp::slotFileEnc()
 {
