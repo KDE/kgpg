@@ -96,6 +96,7 @@ public slots:
 	void  shredDroppedFile();
 
 private slots:
+
 	void  slotWizardClose();
         void  startWizard();
         void  slotSaveOptionsPath();

@@ -71,7 +71,6 @@ MyView::MyView( QWidget *parent, const char *name )
         udroppopup=new QPopupMenu();
         encrypt->plug(udroppopup);
         sign->plug(udroppopup);
-
 }
 
 MyView::~MyView()
@@ -383,10 +382,12 @@ void  MyView::readOptions()
                 startWizard();
 
 
+
         ksConfig->setGroup("TipOfDay");
         tipofday=ksConfig->readBoolEntry("RunOnStart",true);
 
 }
+
 
 void  MyView::firstRun()
 {
@@ -430,7 +431,7 @@ void  MyView::startWizard()
         wiz->kURLRequester2->setMode(2);
         connect(wiz->pushButton4,SIGNAL(clicked()),this,SLOT(slotGenKey()));
         connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotSaveOptionsPath()));
-        connect( wiz , SIGNAL( destroyed() ) , this, SLOT( slotWizardClosed()));
+        connect( wiz , SIGNAL( destroyed() ) , this, SLOT( slotWizardClose()));
 
         wiz->setFinishEnabled(wiz->page_4,true);
         wiz->show();
@@ -555,12 +556,7 @@ void kgpgapplet::slotOptions()
 KgpgAppletApp::KgpgAppletApp()
                 : KUniqueApplication()//, kgpg_applet( 0 )
 {
-        s_keyManager=new listKeys(0, "key_manager");
 
-        //s_keyManager->show();
-        s_keyManager->refreshkey();
-        kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
-        connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
 }
 
 
@@ -595,16 +591,26 @@ int KgpgAppletApp::newInstance()
 {
         KURL FileToOpen;
         args = KCmdLineArgs::parsedArgs();
-
         if ( kgpg_applet ) {
                 kgpg_applet->show();
         } else {
-                kgpg_applet = new kgpgapplet;
+
+                s_keyManager=new listKeys(0, "key_manager");
+
+                s_keyManager->refreshkey();
+                kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
+                connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
                 kgpg_applet->show();
-                /*if ( isRestored() && KMainWindow::canBeRestored(0) )
-                {
-                	kgpg_applet->restore(0, FALSE);
-                }*/
+                kgpg_applet->w->ksConfig->setGroup("General Options");
+                QString gpgPath=kgpg_applet->w->ksConfig->readEntry("gpg config path");
+
+                if (gpgPath.isEmpty())
+                        KMessageBox::sorry(0,"<qt>You did not set a path to your GnuPG config file.<br>This may bring some surprising results in KGpg's execution...</qt>");
+                else {
+                        if ((KgpgInterface::getGpgBoolSetting("use-agent",gpgPath)) && (!getenv("GPG_AGENT_INFO")))
+                                KMessageBox::sorry(0,i18n("<qt>The use of <b>gpg-agent</b> is enabled in GnuPG's configuration file (%1).<br>"
+                                                          "However, the agent doesn't seem to run. Please either disable the agent in config file or fix it. You will otherwise have problems with signing/decryption.").arg(gpgPath));
+                }
         }
 
         ////////////////////////   parsing of command line args

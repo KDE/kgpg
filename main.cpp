@@ -38,8 +38,8 @@ static KCmdLineOptions options[] =
                 { "s", I18N_NOOP("Show encrypted file"), 0 },
                 { "S", I18N_NOOP("Sign file"), 0 },
                 { "V", I18N_NOOP("Verify signature"), 0 },
-		{ "X", I18N_NOOP("Shred file"), 0 },
-		{ "+[File]", I18N_NOOP("File to open"), 0 },
+                { "X", I18N_NOOP("Shred file"), 0 },
+                { "+[File]", I18N_NOOP("File to open"), 0 },
                 { 0, 0, 0}
                 // INSERT YOUR COMMANDLINE OPTIONS HERE
         };
@@ -60,8 +60,10 @@ int main(int argc, char *argv[])
         if (!KUniqueApplication::start())
                 return 0;
 
-        KgpgAppletApp app;
-        return app.exec();
+        //KgpgAppletApp *app;
+        KApplication *app;
+        app=new KgpgAppletApp;
+        return app->exec();
 
         /*
 

@@ -39,10 +39,12 @@
 #include <kshortcut.h>
 #include <kstdaccel.h>
 #include <klocale.h>
-#include "listkeys.h"
-#include "kgpginterface.h"
-#include "keyservers.h"
 #include <ktip.h>
+
+#include "listkeys.h"
+#include "keyservers.h"
+#include "kgpginterface.h"
+
 
 //////////////  KListviewItem special
 
