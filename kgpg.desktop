@@ -13,4 +13,4 @@ Name[sv]=Kgpg
 
 X-KDE-autostart-after=panel
 X-KDE-StartupNotify=false
-X-KDE-autostart-condition=kgpgrc:Applet:AutoStart:true
+X-KDE-autostart-condition=kgpgrc:Applet:AutoStart:false

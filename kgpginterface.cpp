@@ -1298,7 +1298,7 @@ QString KgpgInterface::checkForUtf8(QString txt)
                                 txt.replace( idx, 4, str );
                         }
 
-                return  QString::fromUtf8(txt.data());
+                return  QString::fromUtf8(txt.ascii());
         } else {
                 /* The string is already in UTF-8 */
                 return QString::fromUtf8(txt.ascii());
