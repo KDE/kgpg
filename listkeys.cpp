@@ -492,7 +492,7 @@ void  KeyView::startDrag()
     QString keytxt;
     fp=popen(QFile::encodeName(gpgcmd),"r");
     while ( fgets( line, sizeof(line), fp))    /// read output
-        keytxt+=line;
+        if (!QString(line).startsWith("gpg:")) keytxt+=line;
     pclose(fp);
 
     QDragObject *d = new QTextDrag( keytxt, this );
