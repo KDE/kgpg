@@ -1089,9 +1089,10 @@ void KgpgInterface::KgpgKeyExpire(QString keyID,QDate date,bool unlimited)
 {
         expSuccess=0;
         step=0;
-	if (unlimited) expirationDelay=0;
-	else
-	expirationDelay=QDate::currentDate().daysTo(date);
+        if (unlimited)
+                expirationDelay=0;
+        else
+                expirationDelay=QDate::currentDate().daysTo(date);
         output="";
         KProcIO *conprocess=new KProcIO();
         *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--command-fd=0"<<"--status-fd=2";
@@ -1106,8 +1107,7 @@ void KgpgInterface::expprocess(KProcIO *p)
 {
         QString required="";
 
-        while (p->readln(required,true)!=-1)
-        {
+        while (p->readln(required,true)!=-1) {
                 output+=required+"\n";
 
                 if (required.find("USERID_HINT",0,false)!=-1) {
@@ -1136,7 +1136,7 @@ void KgpgInterface::expprocess(KProcIO *p)
                         required="";
                 }
 
-		if (required.find("keygen.valid")!=-1) {
+                if (required.find("keygen.valid")!=-1) {
                         p->writeStdin(QString::number(expirationDelay));
                         required="";
                 }
@@ -1183,12 +1183,86 @@ void KgpgInterface::expover(KProcess *)
                 KDetailedConsole *q=new KDetailedConsole(0,"sign_error",i18n("<qt><b>Changing expiration failed.</b><br>"
                                     "Do you want to try changing the key expiration in console mode?</qt>"),output);
                 if (q->exec()==QDialog::Accepted)
-		KMessageBox::sorry(0,"work in progress...");
-                        //openSignConsole();
+                        KMessageBox::sorry(0,"work in progress...");
+                //openSignConsole();
                 else
                         emit expirationFinished(0);
         }
 }
+
+
+///////////////////////////////////////////////////////////////    change key trust
+
+
+void KgpgInterface::KgpgTrustExpire(QString keyID,QString keyTrust)
+{
+        if (keyTrust==i18n("Don't know"))
+                trustValue=1;
+        if (keyTrust==i18n("do NOT trust"))
+                trustValue=2;
+        if (keyTrust==i18n("Marginally"))
+                trustValue=3;
+        if (keyTrust==i18n("Fully"))
+                trustValue=4;
+        if (keyTrust==i18n("Ultimately"))
+                trustValue=5;
+
+        step=0;
+        output="";
+        KProcIO *conprocess=new KProcIO();
+        *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--command-fd=0"<<"--status-fd=2";
+        *conprocess<<"--edit-key"<<keyID;
+        QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(trustprocess(KProcIO *)));
+        QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(trustover(KProcess *)));
+        conprocess->start(KProcess::NotifyOnExit,KProcess::AllOutput);
+
+}
+
+void KgpgInterface::trustprocess(KProcIO *p)
+{
+        QString required="";
+
+        while (p->readln(required,true)!=-1) {
+                output+=required+"\n";
+
+                if ((step==0) && (required.find("keyedit.prompt")!=-1)) {
+                        p->writeStdin("trust");
+                        step=1;
+                        required="";
+                }
+
+                if (required.find("edit_ownertrust.set_ultimate.okay")!=-1) {
+                        p->writeStdin("YES");
+                        required="";
+                }
+
+                if (required.find("edit_ownertrust.value")!=-1) {
+                        p->writeStdin(QString::number(trustValue));
+                        required="";
+                }
+
+                if ((step==2) && (required.find("keyedit.prompt")!=-1)) {
+                        p->writeStdin("save");
+                        required="";
+                }
+
+                if (required.find("GET_")!=-1) /////// gpg asks for something unusal, turn to konsole mode
+                {
+                        expSuccess=1;  /////  switching to console mode
+                        p->writeStdin("quit");
+                        p->closeWhenDone();
+
+                }
+        }
+}
+
+
+
+void KgpgInterface::trustover(KProcess *)
+{
+        emit trustfinished();
+}
+
 
 
 //////////////////////////////////////////////////////////////    key import

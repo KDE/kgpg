@@ -131,8 +131,8 @@ public:
         * @param text QString text to be decrypted.
         * @param userID QString the name of the decryption key (only used to prompt user for passphrase)
         */
-	void KgpgKeyExpire(QString keyID,QDate date,bool unlimited);
-
+        void KgpgKeyExpire(QString keyID,QDate date,bool unlimited);
+        void KgpgTrustExpire(QString keyID,QString keyTrust);
 
         static QString KgpgDecryptText(QString text,QString userID);
         static QString KgpgDecryptFileToText(KURL srcUrl,QString userID);
@@ -141,8 +141,8 @@ public:
         static QString extractKeyName(KURL url=0);
         static QString getGpgSetting(QString name,QString configFile);
         static void setGpgSetting(QString name,QString ID,QString url);
-	static bool getGpgBoolSetting(QString name,QString configFile);
-	static QString checkForUtf8(QString txt);
+        static bool getGpgBoolSetting(QString name,QString configFile);
+        static QString checkForUtf8(QString txt);
 
         /*
          * Destructor for the class.
@@ -222,15 +222,18 @@ private slots:
         void verifyfin(KProcess *p);
 
         void expprocess(KProcIO *p);
-	void expover(KProcess*);
+        void expover(KProcess*);
+        void trustprocess(KProcIO *p);
+        void trustover(KProcess *);
 
-
-	void txtreadencprocess(KProcIO *p);
+        void txtreadencprocess(KProcIO *p);
 
         void txtencryptfin(KProcess *);
         void signkillDisplayClip();
         //void txtreaddecprocess(KProcIO *p);
         //void txtdecryptfin(KProcess *);
+
+
 signals:
         /**
                *  emitted when an txt encryption finished
@@ -285,8 +288,9 @@ signals:
                 *  true if signature successfull, false on error.
                 */
         void signfinished();
+        void trustfinished();
 
-	void expirationFinished(int);
+        void expirationFinished(int);
 
 
 private:
@@ -296,7 +300,7 @@ private:
         QString message,tempKeyFile,userIDs,txtprocess,output;
         QCString passphrase;
         bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc;
-        int signSuccess,expSuccess;
+        int signSuccess,expSuccess,trustValue;
         int step,signb,sigsearch,expirationDelay;
         QString konsSignKey, konsKeyID;
         KURL sourceFile;

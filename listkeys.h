@@ -82,7 +82,7 @@ typedef struct gpgKey
         QString gpgkeycreation;
         QString gpgkeyexpiration;
         QString gpgkeyalgo;
-	QPixmap trustpic;
+        QPixmap trustpic;
 };
 
 class KgpgSelKey : public KDialogBase
@@ -112,19 +112,19 @@ class KgpgKeyInfo : public KeyProperties
 
 public:
 
-        KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0,bool editable=false);
+        KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0,QColor pix=QColor(255,255,255),bool editable=false);
 
 private slots:
         void slotinfoimgread(KProcess *);
-        void slotPreOk();
-	void slotClose(int result);
+        void slotPreOk1();
+        void slotPreOk2(int);
 
 private:
         KTempFile *kgpginfotmp;
         QLabel *keyinfoPhoto;
-	QString displayedKeyID;
-	QDate expirationDate;
-	bool isUnlimited;
+        QString displayedKeyID,ownerTrust;
+        QDate expirationDate;
+        bool isUnlimited;
 };
 
 class KeyView : public KListView
@@ -146,7 +146,7 @@ private slots:
         gpgKey extractKey(QString keyColon);
         QString extractKeyName(QString name,QString mail);
         void expandKey(QListViewItem *item);
-	void refreshcurrentkey(QListViewItem *current);
+        void refreshcurrentkey(QListViewItem *current);
 
 protected:
         virtual void startDrag();

@@ -120,19 +120,18 @@ void SmallViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, int
 
 
 ////////  window for the key info dialog
-KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,bool editable):KeyProperties( parent, name)
+KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,QColor pix,bool editable):KeyProperties( parent, name)
 {
 
-       QString message,fingervalue;
+        QString message,fingervalue;
         FILE *pass;
         char line[200]="";
         QString opt,tid;
         bool isphoto=false;
-	if (editable)
-	{
-	kDateWidget->setEnabled(true);
-	cBExpiration->setEnabled(true);
-	}
+        if (editable) {
+                kDateWidget->setEnabled(true);
+                cBExpiration->setEnabled(true);
+        }
         QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key "+KShellProcess::quote(sigkey.local8Bit());
 
         pass=popen(QFile::encodeName(gpgcmd),"r");
@@ -201,24 +200,44 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,bool e
                         displayedKeyID=QString("0x"+tid.right(8));
 
                         QString fullname=opt.section(':',9,9);
-                        if (opt.section(':',6,6)=="")
-			{
-				isUnlimited=true;
+                        if (opt.section(':',6,6)=="") {
+                                isUnlimited=true;
                                 cBExpiration->setChecked(true);
-				expirationDate=QDate::currentDate();
-				kDateWidget->setDate(expirationDate);
-				}
-                        else {
-				isUnlimited=false;
+                                expirationDate=QDate::currentDate();
+                                kDateWidget->setDate(expirationDate);
+                        } else {
+                                isUnlimited=false;
                                 expirationDate= QDate::fromString(opt.section(':',6,6), Qt::ISODate);
-				kDateWidget->setDate(expirationDate);
+                                kDateWidget->setDate(expirationDate);
                         }
 
                         QDate date = QDate::fromString(opt.section(':',5,5), Qt::ISODate);
                         tLCreation->setText(KGlobal::locale()->formatDate(date));
 
-			tLLength->setText(opt.section(':',2,2));
-                        tLTrust->setText(i18n("Trust: ")+tr);
+                        tLLength->setText(opt.section(':',2,2));
+                        tLTrust->setText(tr);
+                        tLTrust->setPaletteBackgroundColor(pix);
+
+
+                        const QString otrust=opt.section(':',8,8);
+                        switch( otrust[0] ) {
+                        case 'f':
+                                ownerTrust=i18n("Fully");
+                                break;
+                        case 'u':
+                                ownerTrust=i18n("Ultimately");
+                                break;
+                        case 'm':
+                                ownerTrust=i18n("Marginally");
+                                break;
+                        case 'n':
+                                ownerTrust=i18n("Do NOT trust");
+                                break;
+                        default:
+                                ownerTrust=i18n("Don't know");
+                                break;
+                        }
+                        kCOwnerTrust->setCurrentItem(ownerTrust);
                         tLID->setText(tid);
                         if (fullname.find("<")!=-1) {
                                 QString kmail=fullname.section('<',-1,-1);
@@ -250,7 +269,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,bool e
                 }
         }
         pclose(pass);
-	lEFinger->setText(fingervalue);
+        lEFinger->setText(fingervalue);
 
 
         if (isphoto) {
@@ -262,7 +281,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,bool e
                 QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotinfoimgread(KProcess *)));
                 p->start(KProcess::NotifyOnExit,true);
         }
-connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotPreOk()));
+        connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotPreOk1()));
 }
 
 void KgpgKeyInfo::slotinfoimgread(KProcess *)
@@ -274,27 +293,27 @@ void KgpgKeyInfo::slotinfoimgread(KProcess *)
 }
 
 
-void KgpgKeyInfo::slotPreOk()
+void KgpgKeyInfo::slotPreOk1()
 {
-if (expirationDate!=kDateWidget->date() || (isUnlimited!=cBExpiration->isChecked()))
-{
-KgpgInterface *KeyExpirationProcess=new KgpgInterface();
-        KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,kDateWidget->date(),cBExpiration->isChecked());
-        connect(KeyExpirationProcess,SIGNAL(expirationFinished(int)),this,SLOT(slotClose(int)));
+        if (expirationDate!=kDateWidget->date() || (isUnlimited!=cBExpiration->isChecked())) {
+                KgpgInterface *KeyExpirationProcess=new KgpgInterface();
+                KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,kDateWidget->date(),cBExpiration->isChecked());
+                connect(KeyExpirationProcess,SIGNAL(expirationFinished(int)),this,SLOT(slotPreOk2(int)));
+        } else
+                slotPreOk2(0);
 }
-else accept();
+
+void KgpgKeyInfo::slotPreOk2(int)
+{
+        if (ownerTrust!=kCOwnerTrust->currentText()) {
+                KgpgInterface *KeyTrustProcess=new KgpgInterface();
+                KeyTrustProcess->KgpgTrustExpire(displayedKeyID,kCOwnerTrust->currentText());
+                connect(KeyTrustProcess,SIGNAL(trustfinished()),this,SLOT(accept()));
+        } else
+                accept();
 }
 
 
-void KgpgKeyInfo::slotClose(int result)
-{
-if (result==3)
-{
-//KMessageBox::information(0,i18n("<qt>Expiration of the key <b>%1</b> was changed to the:"
-//"<br><b>%2</b></qt>").arg(displayedKeyID).arg(KGlobal::locale()->formatDate(kDateWidget->date())));
-accept();
-}
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1068,12 +1087,20 @@ void listKeys::listsigns()
         /////////////   open a key info dialog (KgpgKeyInfo, see begining of this file)
         QString key=keysList2->currentItem()->text(5);
         if (key!="") {
-	bool isSecret=false;
-	if (keysList2->secretList.find(keysList2->currentItem()->text(5))!=-1) isSecret=true;
-                KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",key,isSecret);
+                QColor pix;
+                if (keysList2->currentItem()->pixmap(1)->serialNumber()==keysList2->trustgood.serialNumber())
+                        pix.setRgb(148,255,0);//;pix=keysList2->trustgood;
+                else if (keysList2->currentItem()->pixmap(1)->serialNumber()==keysList2->trustunknown.serialNumber())
+                        pix.setRgb(255,255,255); //pix=keysList2->trustunknown;
+                else
+                        pix.setRgb(172,0,0); //keysList2->trustbad;
+                bool isSecret=false;
+                if (keysList2->secretList.find(keysList2->currentItem()->text(5))!=-1)
+                        isSecret=true;
+                KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",key, pix,isSecret);
                 opts->exec();
-		delete opts;
-		keysList2->refreshcurrentkey(keysList2->currentItem());
+                delete opts;
+                keysList2->refreshcurrentkey(keysList2->currentItem());
         }
 }
 
@@ -1646,25 +1673,27 @@ void KeyView::refreshkeylist()
 
 void KeyView::refreshcurrentkey(QListViewItem *current)
 {
-if (current==NULL) return;
-//KMessageBox::sorry(0,current->text(5));
+        if (current==NULL)
+                return;
+        //KMessageBox::sorry(0,current->text(5));
         ////////   update display of the current key
         FILE *fp;
         QString tst,cycle,revoked;
         char line[300];
-	QString cmd="gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8 "+current->text(5);
+        QString cmd="gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8 "+current->text(5);
         fp = popen(QFile::encodeName(cmd), "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
                 if (tst.startsWith("pub")) {
                         gpgKey pubKey=extractKey(tst);
-current->setText(2,pubKey.gpgkeyexpiration);
-current->setPixmap(1,pubKey.trustpic);
-current->repaint();
-		}
+                        current->setText(2,pubKey.gpgkeyexpiration);
+                        current->setPixmap(1,pubKey.trustpic);
+                        current->repaint();
+                }
         }
-pclose(fp);
-if (current->isOpen()) current->setOpen(false);
+        pclose(fp);
+        if (current->isOpen())
+                current->setOpen(false);
 
 }
 
