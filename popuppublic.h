@@ -2,7 +2,7 @@
                           popuppublic.h  -  description
                              -------------------
     begin                : Sat Jun 29 2002
-    copyright            : (C) 2002 by
+    copyright          : (C) 2002 by Jean-Baptiste Mardelle
     email                : bj@altern.org
  ***************************************************************************/
 

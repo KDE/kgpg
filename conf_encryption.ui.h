@@ -7,6 +7,14 @@
 ** place of a destructor.
 *****************************************************************************/
 
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; version 2 of the License.               *
+ *                                                                         *
+ ***************************************************************************/
+//(C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
 
 void Encryption::encrypt_to_always_toggled( bool isOn)
 {

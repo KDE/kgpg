@@ -2,7 +2,7 @@
                           main.cpp  -  description
                              -------------------
     begin                : Mon Jul 8 2002
-    copyright            : (C) 2002 by y0k0
+    copyright          : (C) 2002 by Jean-Baptiste Mardelle
     email                : bj@altern.org
  ***************************************************************************/
 
@@ -48,8 +48,8 @@ int main(int argc, char *argv[])
 {
 
         KAboutData about("kgpg", I18N_NOOP("KGpg"), version, description,
-                         KAboutData::License_GPL, "(C) 2003 bj");
-        about.addAuthor( "bj", 0, "bj@altern.org" );
+                         KAboutData::License_GPL, "(C) 2003 Jean-Baptiste Mardelle");
+        about.addAuthor( "Jean-Baptiste Mardelle", 0, "bj@altern.org" );
         KCmdLineArgs::init(argc, argv, &about);
         KCmdLineArgs::addCmdLineOptions(options);
         KUniqueApplication::addCmdLineOptions();

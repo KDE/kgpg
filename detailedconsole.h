@@ -2,7 +2,7 @@
                           detailledconsole.h  -  description
                              -------------------
     begin                : Mon Jul 8 2002
-    copyright            : (C) 2002 by y0k0
+    copyright            : (C) 2002 by Jean-Baptiste Mardelle
     email                : bj@altern.org
  ***************************************************************************/
 

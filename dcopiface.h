@@ -2,7 +2,7 @@
                           kgpg.h  -  description
                              -------------------
     begin                : Mon Jul 21 2003
-    copyright            : (C) 2002 by y0k0
+    copyright            : (C) 2002 by Jean-Baptiste Mardelle
     email                : bj@altern.org
  ***************************************************************************/
 
