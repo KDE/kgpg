@@ -699,9 +699,11 @@ bool listKeys::eventFilter( QObject *, QEvent *e )
 
 void listKeys::slotToggleSecret()
 {
+QListViewItem *item=keysList2->firstChild();
+if (!item) return;
+
 if (!keysList2->displayOnlySecret)
 {
-QListViewItem *item=keysList2->firstChild();
 while (item)
 {
 if (item->pixmap(0)->serialNumber()!=keysList2->pixkeyPair.serialNumber()) item->setVisible(false);
@@ -711,8 +713,12 @@ keysList2->displayOnlySecret=true;
 if (!keysList2->currentItem()->isVisible())
 {
 QListViewItem *item=keysList2->firstChild();
-while (!item->isVisible())
+while (item)
+{
+if (item->isVisible()) break;
 item=item->nextSibling();
+}
+if (!item) return;
 keysList2->clearSelection();
 keysList2->setCurrentItem(item);
 keysList2->setSelected(item,true);
@@ -720,7 +726,6 @@ keysList2->setSelected(item,true);
 }
 else
 {
-QListViewItem *item=keysList2->firstChild();
 while (item)
 {
 item->setVisible(true);
