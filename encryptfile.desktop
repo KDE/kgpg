@@ -4,6 +4,7 @@ Actions=encrypt
 
 [Desktop Action encrypt]
 Name=Encrypt File
+Name[es]=Cifrar archivo
 Name[fr]=Crypter le fichier
 Name[de]=Datei verschlüsseln
 Icon=kgpg
