@@ -26,6 +26,9 @@ class KeyInterface : virtual public DCOPObject
   k_dcop:
   virtual void showKeyInfo(QString keyID) =0;
   virtual bool importRemoteKey(QString keyID)=0;
+  virtual void showOptions()=0;
+  virtual void showKeyServer()=0;
+  virtual void showKeyManager()=0;
   };
-
+  
   #endif

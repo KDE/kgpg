@@ -40,6 +40,8 @@
 #include <kcombobox.h>
 #include <kurlrequester.h>
 #include <kdialogbase.h>
+#include <kiconloader.h>
+#include <kfiledialog.h>
 
 #include <kdesktopfile.h>
 #include <kmimetype.h>
@@ -48,7 +50,7 @@
 
 #include "kgpgoptions.h"
 #include "kgpgsettings.h"
-#include "kgpg.h"
+//#include "kgpg.h"
 
 
 ///////////////////////   main window

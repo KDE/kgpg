@@ -142,6 +142,10 @@ public:
 
 private:
         KSystemTray *kgpgapp;
+private slots:
+void slotOpenKeyManager();
+void slotOpenServerDialog();
+void showOptions();
 };
 
 class KCmdLineArgs;

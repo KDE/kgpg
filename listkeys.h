@@ -75,6 +75,7 @@
 
 #include "kgpg.h"
 #include "keygener.h"
+#include "kgpgeditor.h"
 #include "kgpgoptions.h"
 #include "keyservers.h"
 #include "keyinfowidget.h"
@@ -185,6 +186,7 @@ public:
         KToggleAction *sTrust,*sCreat,*sExpi,*sSize;
         KSelectAction *photoProps;
         KStatusBar *keyStatusBar;
+	KgpgApp *s_kgpgEditor;
 
 private:
         QPushButton *bouton1,*bouton2,*bouton0;
@@ -255,13 +257,14 @@ private slots:
         void saveToolbarConfig();
         void slotManpage();
         void slotTip();
-        void keyserver();
+        void showKeyServer();
+	void showKeyManager();
         void slotReadFingerProcess(KProcIO *p);
         void slotProcessExportMail(QString keys);
         void slotProcessExportClip(QString keys);
         void readOptions();
         void genover(KProcess *p);
-        void slotOptions();
+        void showOptions();
         void slotSetDefKey();
         void slotSetDefaultKey(QListViewItem *newdef);
         void annule();

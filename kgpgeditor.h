@@ -40,8 +40,10 @@
 #include <ksystemtray.h>
 #include <kdeversion.h>
 #include <kpassivepopup.h>
+#include <kmainwindow.h>
 #include <kprinter.h>
 #include <kcharsets.h>
+#include <kactionclasses.h> 
 
 #include "kgpginterface.h"
 #include "kgpgview.h"
@@ -108,6 +110,8 @@ private slots:
         void slotredo();
 	void slotSetCharset();
 	bool checkEncoding();
+	void slotOptions();
+	void slotKeyManager();
 	
 public slots:
 	void slotSetFont(QFont myFont);
@@ -127,6 +131,7 @@ signals:
 
 void refreshImported(QStringList);
 void openChangeFont();
+void openConfigDialog();
 };
 #endif
 

@@ -44,8 +44,8 @@
 
 
 
-#include "popuppublic.h"
-#include "listkeys.h"
+//#include "popuppublic.h"
+//#include "listkeys.h"
 
 
 //class KgpgDoc;

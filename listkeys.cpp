@@ -485,7 +485,10 @@ void  KeyView::startDrag()
 listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterface" ), KMainWindow(parent, name,0)
 {
         //KWin::setType(Qt::WDestructiveClose);
-        
+	
+
+	
+	
         keysList2 = new KeyView(this);
         keysList2->photoKeysList=QString::null;
         keysList2->groupNb=0;
@@ -535,8 +538,8 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
         KAction *regeneratePublic = new KAction(i18n("&Regenerate Public Key"), 0, 0,this, SLOT(slotregenerate()),actionCollection(),"key_regener");
 
-        (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
-        KStdAction::preferences(this, SLOT(slotOptions()), actionCollection(),"kgpg_config");
+        (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(showKeyServer()),actionCollection(),"key_server");
+        KStdAction::preferences(this, SLOT(showOptions()), actionCollection(),"kgpg_config");
         (void) new KAction(i18n("Tip of the &Day"), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
         (void) new KAction(i18n("View GnuPG Manual"), "contents", 0,this, SLOT(slotManpage()),actionCollection(),"gpg_man");
         KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()), 
@@ -675,6 +678,12 @@ actionCollection());
         if (!KGpgSettings::showToolbar())
                 toolBar()->hide();
 
+	s_kgpgEditor= new KgpgApp(parent, "editor",WType_Dialog);
+        connect(s_kgpgEditor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
+        connect(this,SIGNAL(fontChanged(QFont)),s_kgpgEditor,SLOT(slotSetFont(QFont)));
+        connect(s_kgpgEditor->view->editor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
+	
+	
         setAutoSaveSettings();
 }
 
@@ -686,6 +695,11 @@ void  listKeys::clearSearch(int code)
 {
 if (code==buttonClear)
 toolBar()->setLinedText(toolBar()->idAt(searchWidget),QString::null);
+}
+
+void  listKeys::showKeyManager()
+{
+show();
 }
 
 void  listKeys::slotOpenEditor()
@@ -1247,7 +1261,7 @@ void listKeys::closeEvent ( QCloseEvent * e )
         //	e->ignore();
 }
 
-void listKeys::keyserver()
+void listKeys::showKeyServer()
 {
         keyServer *ks=new keyServer(this);
         ks->exec();
@@ -1321,7 +1335,7 @@ void listKeys::readOptions()
 }
 
 
-void listKeys::slotOptions()
+void listKeys::showOptions()
 {
         if (KConfigDialog::showDialog("settings"))
                 return;

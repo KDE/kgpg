@@ -109,6 +109,13 @@
       <label>Display a warning before creating temporary files during remote file operations.</label>
       <default>false</default>
     </entry>
+    <entry name="LeftClick" type="Enum" key="left_click">
+      <label>Choose default left click behaviour</label>
+      <choices>
+        <choice name="KeyManager"/>
+        <choice name="Editor"/>
+      </choices>
+      </entry>
     <entry name="EncryptedDropEvent" type="Enum" key="encrypted_drop_event">
       <label>Handle encrypted drops</label>
       <choices>

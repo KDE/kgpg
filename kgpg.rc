@@ -5,6 +5,8 @@
     <Action name="file_new_window"/>
     <Action name="file_encrypt"/>
     <Action name="file_decrypt"/>
+    <Separator/>
+    <Action name="key_manage"/>
   </Menu>
 
     <Menu name="view"><text>&amp;View</text>
@@ -16,5 +18,10 @@
     <Action name="sign_verify"/>
     <Action name="sign_check"/>
   </Menu>
+  
+  	<Menu name="settings"><text>&amp;Settings</text>
+	<Action name="kgpg_config" />
+	</Menu>
+	
 </MenuBar>
 </kpartgui>

@@ -17,12 +17,12 @@
 
 
 #include <qlabel.h>
-//#include <qpixmap.h>
 #include <qclipboard.h>
 #include <qfile.h>
 #include <qpopupmenu.h>
 #include <qwidget.h>
 #include <qmovie.h>
+#include <qcstring.h>
 
 #include <kglobal.h>
 #include <kdeversion.h>
@@ -43,6 +43,7 @@
 #include <ktar.h>
 #include <kzip.h>
 #include <stdlib.h>
+#include <dcopclient.h>
 
 
 #include "kgpg.h"
@@ -732,10 +733,14 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
         KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0,w, SLOT(clipEncrypt()),actionCollection(),"clip_encrypt");
         KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0,w, SLOT(clipDecrypt()),actionCollection(),"clip_decrypt");
 	KAction *KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), 0, 0,w, SLOT(clipSign()),actionCollection(),"clip_sign");
-        KAction *KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,parent, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
+        KAction *KgpgOpenEditor;
+	if (KGpgSettings::leftClick()==KGpgSettings::EnumLeftClick::KeyManager)
+	KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,parent, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
+	else
+	KgpgOpenEditor = new KAction(i18n("&Open Key Manager"), "kgpg", 0,this, SLOT(slotOpenKeyManager()),actionCollection(),"kgpg_editor");
 	
-	KAction *KgpgOpenServer = new KAction(i18n("&Key Server Dialog"), "network", 0,parent, SLOT(keyserver()),actionCollection(),"kgpg_server");
-        KAction *KgpgPreferences=KStdAction::preferences(parent, SLOT(slotOptions()), actionCollection());
+	KAction *KgpgOpenServer = new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(slotOpenServerDialog()),actionCollection(),"kgpg_server");
+        KAction *KgpgPreferences=KStdAction::preferences(this, SLOT(showOptions()), actionCollection());
         KgpgEncryptClipboard->plug(conf_menu);
         KgpgDecryptClipboard->plug(conf_menu);
 	KgpgSignClipboard->plug(conf_menu);
@@ -743,6 +748,28 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
 	KgpgOpenServer->plug(conf_menu);
         conf_menu->insertSeparator();
         KgpgPreferences->plug(conf_menu);
+}
+
+
+void kgpgapplet::showOptions()
+{
+QByteArray data;
+if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showOptions()",data))
+kdDebug(2100) <<"there was some error using DCOP."<<endl;
+}
+
+void kgpgapplet::slotOpenKeyManager()
+{
+QByteArray data;
+if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showKeyManager()",data))
+kdDebug(2100) <<"there was some error using DCOP."<<endl;
+}
+
+void kgpgapplet::slotOpenServerDialog()
+{
+QByteArray data;
+if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showKeyServer()",data))
+kdDebug(2100) <<"there was some error using DCOP."<<endl;
 }
 
 
@@ -800,13 +827,21 @@ int KgpgAppletApp::newInstance()
         } else {
                 kdDebug(2100) << "Starting KGpg"<<endl;
                 running=true;
+		
                 s_keyManager=new listKeys(0, "key_manager");
+		
 		QString gpgPath= KGpgSettings::gpgConfigPath();
 		if (!gpgPath.isEmpty() && KURL(gpgPath).directory(false)!=QDir::homeDirPath()+"/.gnupg/")
 		setenv("GNUPGHOME",KURL(gpgPath).directory(false).ascii(),1);
 		
                 s_keyManager->refreshkey();
+		
+		if (KGpgSettings::leftClick()==KGpgSettings::EnumLeftClick::KeyManager)
                 kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
+		else
+		{
+		kgpg_applet=new kgpgapplet(s_keyManager->s_kgpgEditor,"kgpg_systrayapplet");
+		}
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
                 connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
                 connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));

@@ -370,7 +370,7 @@ private:
         */
         QString message,tempKeyFile,userIDs,txtprocess,output,keyString;
         QCString passphrase;
-        bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc,revokeSuccess,addSuccess,delSuccess;
+        bool deleteSuccess,konsLocal,anonymous,decfinished,decok,badmdc,revokeSuccess,addSuccess,delSuccess;
 	bool signmiss;
 	QString signID;
         int signSuccess,expSuccess,trustValue,konsChecked;

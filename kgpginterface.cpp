@@ -240,7 +240,6 @@ void KgpgInterface::KgpgEncryptText(QString text,QStringList userIDs, QStringLis
 	if (codec->canEncode(text)) txtprocess=text;
 	else txtprocess=text.utf8();
 	
-        txtsent=false;
         KProcIO *proc=new KProcIO();
         *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2";
         
@@ -259,13 +258,16 @@ void KgpgInterface::KgpgEncryptText(QString text,QStringList userIDs, QStringLis
 
         QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtencryptfin(KProcess *)));
         QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreadencprocess(KProcIO *)));
-        proc->start(KProcess::NotifyOnExit,true);
+        proc->start(KProcess::NotifyOnExit,false);
+	emit txtencryptionstarted();
+	proc->writeStdin(txtprocess,false);
+	proc->closeWhenDone();
 }
 
 
 void KgpgInterface::txtencryptfin(KProcess *)
 {
-        if (txtsent)
+        if (!message.isEmpty())
                 emit txtencryptionfinished(QString::fromUtf8(message.ascii()));
         else
                 emit txtencryptionfinished(QString::null);
@@ -288,15 +290,7 @@ void KgpgInterface::txtreadencprocess(KProcIO *p)
               p->writeStdin(passphrase,true);
             } 
 	    else
-		if (required.find("BEGIN_ENCRYPTION")!=-1) {
-			emit txtencryptionstarted();
-                        p->writeStdin(txtprocess,false);
-                        p->closeWhenDone();
-                } else
-                        if (required.find("END_ENCRYPTION")!=-1)
-                                txtsent=true;
-                        else
-                                if (!required.startsWith("[GNUPG:]")) message+=required+"\n";
+		if (!required.startsWith("[GNUPG:]")) message+=required+"\n";
         }
 }
 

@@ -18,11 +18,14 @@
 #include <kaction.h>
 #include <kfiledialog.h>
 #include <klocale.h>
+#include <dcopclient.h>
+#include <qcstring.h>
 
 #include "kgpgsettings.h"
 #include "kgpgeditor.h"
 #include "sourceselect.h"
 #include "keyexport.h"
+#include "kgpg.h"
 
 KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent, name,f)
 {
@@ -41,6 +44,20 @@ KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent
 
 KgpgApp::~KgpgApp()
 {}
+
+void KgpgApp::slotOptions()
+{
+QByteArray data;
+if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showOptions()",data))
+kdDebug(2100) <<"there was some error using DCOP."<<endl;
+}
+
+void KgpgApp::slotKeyManager()
+{
+QByteArray data;
+if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showKeyManager()",data))
+kdDebug(2100) <<"there was some error using DCOP."<<endl;
+}
 
 void KgpgApp::closeEvent ( QCloseEvent * e )
 {
@@ -83,11 +100,13 @@ void KgpgApp::initActions()
         KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
         KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
 	KStdAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
-        //KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
+	KStdAction::preferences(this, SLOT(slotOptions()), actionCollection(),"kgpg_config");
+
 
         fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
         (void) new KAction(i18n("&Encrypt File..."), "kgpg", 0,this, SLOT(slotFilePreEnc()), actionCollection(),"file_encrypt");
         (void) new KAction(i18n("&Decrypt File..."), "kgpg2", 0,this, SLOT(slotFilePreDec()), actionCollection(),"file_decrypt");
+	(void) new KAction(i18n("&Open Key Manager"), "kgpg", 0,this, SLOT(slotKeyManager()), actionCollection(),"key_manage");
         editUndo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
         editRedo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());
         //(void) new KAction(i18n("&Manage Keys"), "kgpg_manage", CTRL+Key_K,this, SLOT(slotManageKey()), actionCollection(),"keys_manage");
