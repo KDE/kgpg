@@ -64,14 +64,13 @@ class MyEditor : public QTextEdit
 public:
     MyEditor( QWidget *parent = 0, const char *name = 0);
 private:
-QString message,messages,filename,tempFile;
+QString message,messages,tempFile;
 public slots:
 void decodef(QString);
 void droppedfile(KURL url);   
 void slotprocresult(KProcess *);
 void slotprocread(KProcIO *p);
-void slotprocresultenckey(KProcess *);
-void slotprocreadenckey(KProcIO *p);
+
 
 protected:
     void contentsDragEnterEvent( QDragEnterEvent *e );

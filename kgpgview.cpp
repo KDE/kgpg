@@ -23,7 +23,7 @@
 // application specific includes
 
 #include <qscrollview.h>
-
+#include <qregexp.h>
 #include <./kio/netaccess.h>
 #include <kstdaction.h>
 
@@ -104,46 +104,12 @@ void MyEditor::droppedfile(KURL url)
 void MyEditor::decodef(QString fname)
 {
   ////////////////     decode file from given url into editor
-filename=fname;
-  //////  trick to find with which key the file was encrypted. decrypt it with no passphrase & read gpg output
-
-    messages="";
-  KProcIO *encid=new KProcIO();
-  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--batch"<<"--status-fd=1"<<"-d"<<fname.local8Bit();
-  /////////  when process ends, update dialog infos
-    QObject::connect(encid, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresultenckey(KProcess *)));
-    QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocreadenckey(KProcIO *)));
-    encid->start(KProcess::NotifyOnExit,false);
- }
-
-void MyEditor::slotprocreadenckey(KProcIO *p)
+QString enckey=KgpgInterface::extractKeyName(KURL(fname));
+QFile qfile(QFile::encodeName(fname));
+if (qfile.open(IO_ReadOnly))
 {
-///////////////////////////////////////////////////////////////// extract  encryption keys
-
-  QString outp;
-  while (p->readln(outp)!=-1)
-  {
-    if (outp.find("<")!=-1)
-{
-outp=outp.section('<',-1,-1);
-outp=outp.section('>',0,0);
-if (messages!="") messages+=i18n(" or ");
-messages+=outp;
-}
-  }
-}
-
-void MyEditor::slotprocresultenckey(KProcess *)
-{
-    QString enckey;
-    enckey=messages;
-
   if (enckey.isEmpty())
   {
-    QFile qfile(filename.local8Bit());
-
-    if (qfile.open(IO_ReadOnly))
-    {
       QTextStream t( &qfile );
       QString result(t.read());
       //////////////     if  pgp data found, decode it
@@ -151,14 +117,14 @@ void MyEditor::slotprocresultenckey(KProcess *)
       {//////  dropped file is a public key, ask for import
         qfile.close();
 
-        int result=KMessageBox::warningContinueCancel(this,i18n("The file %1 is a public key.\nDo you want to import it ?").arg(filename),i18n("Warning"));
+        int result=KMessageBox::warningContinueCancel(this,i18n("The file %1 is a public key.\nDo you want to import it ?").arg(fname),i18n("Warning"));
         if (result==KMessageBox::Cancel) return;
         else
         {
-	message="";
-                  KProcIO *conprocess=new KProcIO();
+       messages="";
+	   KProcIO *conprocess=new KProcIO();
 	  *conprocess<< "gpg";
-	  *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--import"<<QFile::encodeName(filename);
+	  *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--import"<<QFile::encodeName(fname);
           QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresult(KProcess *)));
           QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
         conprocess->start(KProcess::NotifyOnExit,true);
@@ -168,8 +134,11 @@ void MyEditor::slotprocresultenckey(KProcess *)
       else
        {
        if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK"))
+	   {
        KMessageBox::information(0,i18n("This file is a private key !\nPlease use kgpg key management to import it."));
-       else
+	   return;
+       }
+	   else
        /// unknown file type
 	   if (!result.startsWith("-----BEGIN PGP MESSAGE"))
 	   		{
@@ -179,24 +148,15 @@ void MyEditor::slotprocresultenckey(KProcess *)
 			else enckey=i18n("[No user ID found]");
       }
     }
-  }
 
-
- //KMessageBox::sorry(0,text);
-   QFile qfile(filename);
-
-if (qfile.open(IO_ReadOnly))
-{
-      QTextStream t( &qfile );
-      QString result(t.read());
-
+QTextStream t( &qfile );
+QString result(t.read());
 QString resultat=KgpgInterface::KgpgDecryptText(result,enckey);
 KIO::NetAccess::removeTempFile(tempFile);
-if (resultat!="") setText(resultat);
+if (!resultat.isEmpty()) setText(resultat);
 else KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, missing key or corrupted file"));
 }
- else KMessageBox::sorry(this,i18n("Unable to read file..."));
-
+else KMessageBox::sorry(this,i18n("Unable to read file..."));
 }
 
 
@@ -283,17 +243,8 @@ void KgpgView::clearSign()
         //////////////////////   this is a signed message, verify it
 
         ///////////////////  generate gpg command
-        char line[5000]="echo \"";
-        int i=0;
-        while(i!=-1)
-        {
-            i=mess.find("$",i,FALSE);
-            if (i!=-1) {mess.insert(i,"\\");i+=2;}
-        }
-        strcat(line,mess.local8Bit());
-        strcat(line,"\" | gpg");
-        strcat(line," --no-tty ");
-        QString tst="";
+        QString line="echo \"";
+        line+=mess.local8Bit();
 
         ///////////////// run command
         FILE *fp,*cmdstatus;
@@ -301,28 +252,24 @@ void KgpgView::clearSign()
 
         pipe(process);
         cmdstatus = fdopen(process[1], "w");
-        strcat(line,"--logger-fd ");
-        QString fd;
-        fd.setNum(process[1]);
-        strcat(line, fd.latin1());
-        strcat(line," --no-secmem-warning --verify");
-        fp=popen(line,"r");
+		line+="\" | gpg --no-tty --logger-fd="+QString::number(process[1])+" --no-secmem-warning --verify";
+		fp=popen(line,"r");
         pclose(fp);
         fclose(cmdstatus);
 
         int Len;
         char Buff[500]="\0";
+		QString verifyResult;
 
         //////////////////////////   read gpg output
         while (read(process[0], &Len, sizeof(Len)) > 0)
         {
             read(process[0],Buff, Len);
-            tst+=Buff;
+            verifyResult+=Buff;
         }
 
-
-        if (tst.find("Good signature",0,FALSE)!=-1) KMessageBox::information(this,tst);
-        else KMessageBox::sorry(this,tst);
+        if (verifyResult.find("Good signature",0,FALSE)!=-1) KMessageBox::information(this,verifyResult);
+        else KMessageBox::sorry(this,verifyResult);
 
     }
     else
@@ -333,11 +280,11 @@ void KgpgView::clearSign()
         QString signKeyID,signKeyMail;
         FILE *fp,*pass;
         int ppass[2];
+		char buffer[200];
         QCString password;
 
         ///// open key selection dialog
         KgpgSelKey *opts=new KgpgSelKey(this,0,false);
-
 
         if (opts->exec()==QDialog::Accepted) {signKeyID=opts->getkeyID();signKeyMail=opts->getkeyMail();}
         else
@@ -359,43 +306,38 @@ void KgpgView::clearSign()
         fclose(pass);
 
         ///////////////////  generate gpg command
-        char line[5000]="echo \"";
+        QString line="echo \"";
 
-        int i=0;
-        while(i!=-1)
-        {
-            i=mess.find("$",i,FALSE);
-            if (i!=-1) {mess.insert(i,"\\");i+=2;}
-        }
-        strcat(line,mess.local8Bit());
-        strcat(line,"\" | gpg ");
-        if (pubpgp) strcat(line,"--pgp6 ");
-        strcat(line,"--passphrase-fd ");
+		mess=mess.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
+		
+        line+=mess.local8Bit();
+        line+="\" | gpg ";
+        if (pubpgp) line+="--pgp6 ";
+        line+="--passphrase-fd ";
         QString fd;
         fd.setNum(ppass[0]);
-        strcat(line,fd.latin1());
-        strcat(line," --no-tty --clearsign -u ");
-        strcat(line,signKeyID.local8Bit());
+        line+=fd.latin1();
+        line+=" --no-tty --clearsign -u ";
+        line+=signKeyID.local8Bit();
         //KMessageBox::sorry(0,QString(line));
         QString tst="";
 
         ///////////////// run command
         fp = popen(line, "r");
-        while ( fgets( line, sizeof(line), fp))
-            tst+=line;
+        while ( fgets( buffer, sizeof(buffer), fp))
+            tst+=buffer;
         pclose(fp);
 
         /////////////////  paste result into editor
-        if (tst!="")
+        if (!tst.isEmpty())
         {
             editor->setText(tst);
-            //modified();
             KgpgApp *win=(KgpgApp *) parent();
             win->editRedo->setEnabled(false);
             win->editUndo->setEnabled(false);
         }
         else
-            KMessageBox::sorry(this,i18n("Signing not possible: bad passphrase, missing key or corrupted file"));
+            KMessageBox::sorry(this,i18n("Signing not possible: bad passphrase or missing key"));
     }
 }
 
@@ -403,16 +345,11 @@ void KgpgView::popuppublic()
 {
   /////    popup dialog to select public key for encryption
 
- //   if (editor->length()>4500)
-  //    KMessageBox::sorry(this,i18n("Sorry, but your text is too long for direct encryption.\nPlease save it and use file mode"));
-  //  else
-   // {
       ////////  open dialog --> popuppublic.cpp
       popupPublic *dialogue=new popupPublic(this, "public_keys", 0,false);
       connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool,bool)),this,SLOT(encode(QString &,bool,bool,bool)));
       dialogue->exec();
       delete dialogue;
-   // }
 }
 
 
