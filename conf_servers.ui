@@ -37,7 +37,7 @@
                         <cstring>server_add</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Add</string>
+                        <string>&amp;Add...</string>
                     </property>
                 </widget>
                 <widget class="KPushButton">

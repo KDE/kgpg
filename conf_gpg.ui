@@ -67,7 +67,7 @@
                         <cstring>changeHome</cstring>
                     </property>
                     <property name="text">
-                        <string>Change</string>
+                        <string>Change...</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit" row="1" column="1" rowspan="1" colspan="2">
@@ -152,7 +152,7 @@
                         <bool>false</bool>
                     </property>
                     <property name="text">
-                        <string>Add</string>
+                        <string>Add...</string>
                     </property>
                 </widget>
                 <widget class="QPushButton" row="1" column="2">
