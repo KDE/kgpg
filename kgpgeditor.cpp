@@ -265,7 +265,7 @@ return;
 	{
 	QFile f(filn);
         if ( !f.open( IO_WriteOnly ) ) {
-		KMessageBox::sorry(this,i18n("The document could not been saved, please check your permissions and disk space."));
+		KMessageBox::sorry(this,i18n("The document could not be saved, please check your permissions and disk space."));
                 return;
         }
         QTextStream t( &f );
@@ -277,10 +277,9 @@ return;
 	QTextStream *stream = tmpfile.textStream();
     	*stream << view->editor->text().utf8();
    	tmpfile.close();
-	delete stream;
 	if(!KIO::NetAccess::upload(tmpfile.name(), Docname))
 	{
-		KMessageBox::sorry(this,i18n("The document could not been saved, please check your permissions and disk space."));
+		KMessageBox::sorry(this,i18n("The document could not be saved, please check your permissions and disk space."));
 		tmpfile.unlink();
                 return;
 	}
