@@ -1,10 +1,19 @@
-CVS
+version 1.0.1
+-improved keyserver operations
+-when verifying a text/file and signature is missing, ask user to import missing key from keyserver
+-new in keymanager: import missing signatures
+-changed applet behaviour to follow KDE ui styleguides
+-default key & keyserver are now stored in gpg's configuration file.
+-moved keyserved management into Kgpg's configuration dialog
+
+version 1.0.0
 -fixed message box when verifying a signature with a non english gpg
--only one key manager can now be opened
+-only one key manager can now be opened (Olivier Goffart)
 -fixed orphaned gpg threads when opening private key selection dialog
 -fixed crash on remote file drops
 -added warning on remote file decryption
 -fix decryption of non ascii armored files in kgpg's editor
+-fix deletion of temporary files created when dropping remote files in KGpg
 -added honor-http-proxy to keyserver dialog to allow passing through firewalls (Fabian Wenzel &lt;f.wenzel@gmx.net&gt;)
 
 version 0.9.5
@@ -14,7 +23,7 @@ version 0.9.5
 -rewrote & improved (speed, security) enc/decryption/signing functions
 -fixed bugs in keyserver searching (display of mail adresses, command lines interpreted as keys)
 -rearranged option dialog
--fixed special characters problem in key generation wizard and in all key lists
+-fixed special characters problem in key generation wizard
 -fixed bug preventing servicemenus to appear on some systems
 -when encryption/decryption fails, you can now see the log output in an error box
 -fixed problem when opening a public key
@@ -48,7 +57,6 @@ version 0.9.3
 -fixed error message appearing when encryption was successful
 -fixed key export (export failed in some cases)
 
-
 version 0.9.2
 
 -fixed bug preventing encryption when several options were checked
@@ -58,7 +66,7 @@ version 0.9.2
 
 version 0.9.1.1
 
--fixed bug preventing correct encryption of texts with " (Olivier Goffart <ogoffart@tiscalinet.be>)
+-fixed bug preventing correct encryption of texts with " (Olivier Goffart &lt;ogoffart@tiscalinet.be&gt;)
 
 version 0.9.1
 
@@ -97,7 +105,7 @@ version 0.8
 
 -i18n fixes
 -added option to send key by e-mail in export key dialog
--added new option to easily decrypt clipboard content -> kgpg can be added as a 
+-added new option to easily decrypt clipboard content -&gt; kgpg can be added as a
  klipper action (see kgpg's handbook for more infos about activating this option)
 -added support for symetrical encryption for files
 -corrected bug when kgpg was called from konqueror (when left-clicking on a gpg file, 
@@ -105,14 +113,14 @@ version 0.8
 -removed "decrypt file" entry  in konqueror service menu. Now, use left-click or "Open 
  with kgpg" on an encrypted file to decrypt.
 -added a Handbook (documentation)
--fixed Makefile + added files for debian compilation (thanks Ralf Nolden <nolden@kde.org>)
+-fixed Makefile + added files for debian compilation (thanks Ralf Nolden &lt;nolden@kde.org&gt;)
 -added option to Edit a key (console mode) in key management
 -added a link to GnuPG man page in help menu
 
 version 0.7:
 
 -fixed tips database installation (hopefully)
--pgp compatibility: --pgp6 is now used if gpg version>=1.2.0
+-pgp compatibility: --pgp6 is now used if gpg version&gt;=1.2.0
 -code cleanup
 -many small usability bugfixes
 -added "sign/verify" button to clearsign/verify a text in the editor
@@ -137,7 +145,7 @@ version 0.6:
 -various crash fixes (mostly related to the default options dialog)
 -new dialog for key generation, automatically pops up on first run if no key is found.
 -made ready for internationalization. added french & german translation (courtesty Christoph 
-Thielecke <crissi99@gmx.de>
+Thielecke &lt;crissi99@gmx.de&gt;
 -added KTips
 
 version 0.5.1
@@ -179,7 +187,7 @@ version 0.4.2
 
 version 0.4.1:
 
--Bugfix release: 
+-Bugfix release:
 -corrected error when encrypting a text with "$" from the editor
 -refresh key list after key generation
 -you can now choose a location for decrypting a file
@@ -221,7 +229,7 @@ version 0.2.1
 version 0.2
 
 -Completeley rewrote GUI
--bugfix for messages > 130 characters
+-bugfix for messages &gt; 130 characters
 -added import/delete keys
 -new file mode to encrypt/decrypt files
 -ability to open/save files from the editor
