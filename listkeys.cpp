@@ -21,7 +21,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#include <kurlrequester.h> 
+#include <kurlrequester.h>
 #include <qdir.h>
 #include <qfile.h>
 #include <qlayout.h>
@@ -515,10 +515,10 @@ void  KeyView::startDrag()
 listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterface" ), KMainWindow(parent, name,0)
 {
         //KWin::setType(Qt::WDestructiveClose);
-	
 
-	
-	
+
+
+
         keysList2 = new KeyView(this);
         keysList2->photoKeysList=QString::null;
         keysList2->groupNb=0;
@@ -572,7 +572,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         KStdAction::preferences(this, SLOT(showOptions()), actionCollection(),"kgpg_config");
         (void) new KAction(i18n("Tip of the &Day"), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
         (void) new KAction(i18n("View GnuPG Manual"), "contents", 0,this, SLOT(slotManpage()),actionCollection(),"gpg_man");
-        KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()), 
+        KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()),
 actionCollection());
 
         KStdAction::configureToolbars(this, SLOT(configuretoolbars() ), actionCollection(), "configuretoolbars");
@@ -678,15 +678,15 @@ actionCollection());
         ///////////////    get all keys data
         createGUI("listkeys.rc");
         toolBar()->insertLineSeparator();
-        QLabel *searchLabel= new QLabel(i18n("Search "),toolBar(),"kde toolbar widget");
+        QLabel *searchLabel= new QLabel(i18n("Search:"),toolBar(),"kde toolbar widget");
 
 	int buttonClear;
 	buttonClear=toolBar()->insertButton("locationbar_erase",0,true,i18n("Clear Search"));
         toolBar()->insertWidget( 1, searchLabel->sizeHint().width(), searchLabel);
         searchWidget=toolBar()->insertLined(QString::null,0, SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)),true,i18n("Filter Search"),10);
-	
+
 	connect(toolBar(), SIGNAL(pressed(int)), this, SLOT(clearSearch(int)));
-	
+
 	(void)new KAction(i18n("Filter Search"), Qt::Key_F6, toolBar()->getLined(toolBar()->idAt(searchWidget)), SLOT(setFocus()),actionCollection(), "search_focus");
 
         sTrust->setChecked(KGpgSettings::showTrust());
@@ -710,8 +710,8 @@ actionCollection());
         connect(s_kgpgEditor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
         connect(this,SIGNAL(fontChanged(QFont)),s_kgpgEditor,SLOT(slotSetFont(QFont)));
         connect(s_kgpgEditor->view->editor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
-	
-	
+
+
         setAutoSaveSettings();
 }
 
@@ -1239,13 +1239,13 @@ void listKeys::allToKAB()
         QString email;
         QStringList keylist;
         KABC::Addressee a;
- 
+
         KABC::AddressBook *ab = KABC::StdAddressBook::self();
         if ( !ab->load() ) {
                 KMessageBox::sorry(this,i18n("Unable to contact the address book. Please check your installation."));
                 return;
         }
- 
+
         QListViewItem * myChild = keysList2->firstChild();
         while( myChild ) {
                 //email=extractKeyMail(myChild).stripWhiteSpace();
