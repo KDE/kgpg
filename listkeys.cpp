@@ -2116,6 +2116,7 @@ void listKeys::slotgenkey()
             refreshkey();
         }
     }
+    delete genkey;
 }
 
 void listKeys::readgenprocess(KProcIO *p)
@@ -2457,7 +2458,7 @@ void KeyView::expandKey(QListViewItem *item)
         tst=QStringList::split(":",line,true);
 	if ((tst[0]=="pub") && (tst[9].isEmpty())) /// Primary User Id is separated from public key
  	uidNumber=1;
-	
+
         if (tst[0]=="uid" || tst[0]=="uat")
         {
             if (dropFirstUid)
