@@ -43,7 +43,7 @@ class popupName : public KDialogBase
   QHButtonGroup *hgroup;
   KLineEdit *lineedit;
   KURL path;
-
+  QCheckBox *exportAttributes;
       QButtonGroup* bGroupSources;
     QPushButton* buttonToolbar;
 
