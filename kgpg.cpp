@@ -102,15 +102,6 @@ void  MyView::clipDecrypt()
                 KMessageBox::sorry(this,i18n("No encrypted text found."));
 }
 
-
-void  MyView::openEditor()
-{
-        KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WType_Dialog);
-	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
-	connect(kgpgtxtedit->view->editor,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
-        kgpgtxtedit->show();
-}
-
 void MyView::encryptDroppedFolder()
 {
 	compressionScheme=0;
@@ -685,11 +676,13 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
         KPopupMenu *conf_menu=contextMenu();
         KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0,w, SLOT(clipEncrypt()),actionCollection(),"clip_encrypt");
         KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0,w, SLOT(clipDecrypt()),actionCollection(),"clip_decrypt");
-        KAction *KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,w, SLOT(openEditor()),actionCollection(),"kgpg_editor");
+        KAction *KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,parent, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
+	KAction *KgpgOpenServer = new KAction(i18n("&Key Server Dialog"), "network", 0,parent, SLOT(keyserver()),actionCollection(),"kgpg_server");
         KAction *KgpgPreferences=KStdAction::preferences(w, SLOT(preferences()), actionCollection());
         KgpgEncryptClipboard->plug(conf_menu);
         KgpgDecryptClipboard->plug(conf_menu);
         KgpgOpenEditor->plug(conf_menu);
+	KgpgOpenServer->plug(conf_menu);
         conf_menu->insertSeparator();
         KgpgPreferences->plug(conf_menu);
 }
