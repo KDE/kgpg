@@ -97,7 +97,7 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
         keyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
         keySingle=loader->loadIcon("kgpg_key1",KIcon::Small,20);
 	keyGroup=loader->loadIcon("kgpg_key3",KIcon::Small,20);
-
+	
         if (filemode) setCaption(i18n("Select Public Key for %1").arg(sfile));
 
         fmode=filemode;
@@ -170,7 +170,7 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
         QObject::connect(keysList,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(crypte()));
 	QObject::connect(this,SIGNAL(okClicked()),this,SLOT(crypte()));
         QObject::connect(CBuntrusted,SIGNAL(toggled(bool)),this,SLOT(refresh(bool)));
-
+	
         char line[200]="\0";
         FILE *fp2;
         seclist=QString::null;
@@ -181,9 +181,11 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
         pclose(fp2);
 
         trusted=CBuntrusted->isChecked();
+	
         refreshkeys();
 	setMinimumSize(550,200);
 	updateGeometry();
+	keysList->setFocus();
 	show();
 }
 
@@ -400,7 +402,7 @@ void popupPublic::crypte()
 			if (!list.at(i)->text(2).isEmpty()) selectedKeys<<list.at(i)->text(2);
 			else selectedKeys<<list.at(i)->text(0);
                 }
-        if (selectedKeys.isEmpty())
+        if (selectedKeys.isEmpty() && !CBsymmetric->isChecked())
                 return;
 
         QStringList returnOptions;
