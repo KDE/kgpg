@@ -900,7 +900,7 @@ void listKeys::slotTip()
 
 void listKeys::slotConfigureShortcuts()
 {
-        KKeyDialog::configureKeys( actionCollection(), xmlFile(), true, this );
+        KKeyDialog::configure( actionCollection(), this, true );
 }
 
 void listKeys::closeEvent ( QCloseEvent * e )
