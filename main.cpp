@@ -26,10 +26,10 @@
 #include <klocale.h>
 #include "kgpg.h"
 
-static const char *description =
+static const char description[] =
         I18N_NOOP("Kgpg - simple gui for gpg\n\nKgpg was designed to make gpg very easy to use.\nI tried to make it as secure as possible.\nHope you enjoy it.");
 
-static const char *version = "1.1";
+static const char version[] = "1.1";
 
 static KCmdLineOptions options[] =
         {
