@@ -239,15 +239,18 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
 
         keyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
 
-        setMinimumSize(300,200);
+        setMinimumSize(550,200);
         keysListpr = new KListView( page );
         keysListpr->setRootIsDecorated(true);
-        keysListpr->addColumn( i18n( "Name" ) );
+        keysListpr->addColumn( i18n( "Name" ),200);
+	keysListpr->addColumn( i18n( "Email" ),200);
+	keysListpr->addColumn( i18n( "ID" ),100);
         keysListpr->setShowSortIndicator(true);
         keysListpr->setFullWidth(true);
+	keysListpr->setAllColumnsShowFocus(true);
 
         labeltxt=new QLabel(i18n("Choose secret key for signing:"),page);
-        vbox=new QVBoxLayout(page,3);
+        vbox=new QVBoxLayout(page);
 
         vbox->addWidget(labeltxt);
         vbox->addWidget(keysListpr);
@@ -255,7 +258,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
         QString defaultKeyID= KGpgSettings::defaultKey().right(8);
 
         FILE *fp,*fp2;
-        QString tst,tst2;
+        QString fullname,tst,tst2;
         char line[300];
 
         bool selectedok=false;
@@ -269,7 +272,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
                         QString id=QString("0x"+keyString[4].right(8));
                         if (val.isEmpty())
                                 val=i18n("Unlimited");
-                        tst=keyString[9];
+                        fullname=keyString[9];
 
                         fp2 = popen(QFile::encodeName(QString("gpg --no-tty --with-colon --list-key %1").arg(KShellProcess::quote(id))), "r");
                         bool dead=true;
@@ -277,7 +280,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
                         while ( fgets( line, sizeof(line), fp2)) {
                                 tst2=line;
                                 if (tst2.startsWith("pub")) {
-                                        const QString trust2=tst2.section(':',1,1);
+                         const QString trust2=tst2.section(':',1,1);
                         switch( trust2[0] ) {
                         case 'f':
                                 trust=i18n("Full");
@@ -290,26 +293,30 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
                         default:
                                 break;
                         }
-					/*const QString owntrust=tst2.section(':',8,8);
-                                        switch( owntrust[0] ) {
-                                        case 'f':
-                                                dead=false;
-                                                break;
-                                        case 'u':
-                                                dead=false;
-                                                break;
-                                        default:
-                                                break;
-                                        }*/
                                         if (tst2.section(':',11,11).find('D')!=-1)
                                                 dead=true;
 					break;
                                 }
                         }
                         pclose(fp2);
-                        if (!tst.isEmpty() && (!dead)) {
-                                KListViewItem *item=new KListViewItem(keysListpr,extractKeyName(tst));
-                                KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, expiration: %3").arg(id).arg(trust).arg(val));
+                        if (!fullname.isEmpty() && (!dead)) {
+			QString keyMail,keyName;
+			if (fullname.find("<")!=-1) {
+                	keyMail=fullname.section('<',-1,-1);
+                	keyMail.truncate(keyMail.length()-1);
+                	keyName=fullname.section('<',0,0);
+			keyName=keyName.section('(',0,0);
+			} else {
+                	keyMail=QString::null;
+			keyName=fullname.section('(',0,0);
+        		}
+
+        		keyName=KgpgInterface::checkForUtf8(keyName);
+			
+			
+                                KListViewItem *item=new KListViewItem(keysListpr,keyName,keyMail,id);
+                                //KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, expiration: %3").arg(id).arg(trust).arg(val));
+				KListViewItem *sub= new KListViewItem(item,i18n("Expiration:"),val);
                                 sub->setSelectable(false);
                                 item->setPixmap(0,keyPair);
                                 if ((!defaultKeyID.isEmpty()) && (id.right(8)==defaultKeyID)) {
@@ -334,19 +341,6 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
         setMainWidget(page);
 }
 
-QString KgpgSelKey::extractKeyName(QString fullName)
-{
-        QString kMail;
-        if (fullName.find("<")!=-1) {
-                kMail=fullName.section('<',-1,-1);
-                kMail.truncate(kMail.length()-1);
-        }
-        QString kName=fullName.section('<',0,0);
-        if (kName.find("(")!=-1)
-                kName=kName.section('(',0,0);
-        kName=KgpgInterface::checkForUtf8(kName);
-        return QString(kMail+" ("+kName+")").stripWhiteSpace();
-}
 
 void KgpgSelKey::slotpreOk()
 {
@@ -377,17 +371,10 @@ void KgpgSelKey::slotSelect(QListViewItem *item)
 
 QString KgpgSelKey::getkeyID()
 {
-        QString userid;
         /////  emit selected key
         if (keysListpr->currentItem()==NULL)
                 return(QString::null);
-        else {
-                userid=keysListpr->currentItem()->firstChild()->text(0);
-                userid=userid.section(',',0,0);
-                userid=userid.section(':',1,1);
-                userid=userid.stripWhiteSpace();
-                return(userid);
-        }
+        return(keysListpr->currentItem()->text(2));
 }
 
 QString KgpgSelKey::getkeyMail()
@@ -445,6 +432,7 @@ KeyView::KeyView( QWidget *parent, const char *name )
         setAcceptDrops(true);
         setDragEnabled(true);
 }
+
 
 
 void  KeyView::droppedfile (KURL url)
@@ -517,16 +505,18 @@ void mySearchLine::updateSearch(const QString& s)
     {
     int disabledSerial=searchListView->trustbad.serialNumber();
 	QListViewItem *item=searchListView->firstChild();
-	while (item) 
-	    if (item->isVisible())
+	while (item)
+	{
+	    if (item->isVisible() && !(item->text(6).isEmpty()))
 	    {
 		if (searchListView->displayOnlySecret && searchListView->secretList.find(item->text(6))==-1) 
                     item->setVisible(false);
 		if (!searchListView->displayDisabled && item->pixmap(2))
 		    if (item->pixmap(2)->serialNumber()==disabledSerial)
                         item->setVisible(false);
-                item=item->nextSibling();
             }
+	 item=item->nextSibling();
+	 }
     }
 }
 
@@ -535,9 +525,6 @@ void mySearchLine::updateSearch(const QString& s)
 listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterface" ), KMainWindow(parent, name,0)
 {
         //KWin::setType(Qt::WDestructiveClose);
-
-
-
 
         keysList2 = new KeyView(this);
         keysList2->photoKeysList=QString::null;
@@ -1079,7 +1066,7 @@ void listKeys::findFirstKey()
 
 void listKeys::findNextKey()
 {
-        //kdDebug(2100)<<"find next"<<endl;
+				//kdDebug(2100)<<"find next"<<endl;
         if (searchString.isEmpty()) {
                 findKey();
                 return;
@@ -1338,7 +1325,7 @@ void listKeys::slotSetDefaultKey(QListViewItem *newdef)
         //kdDebug(2100)<<KGpgSettings::defaultKey()<<endl;
         if (newdef->text(6)==KGpgSettings::defaultKey())
                 return;
-        if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) {
+        if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) {        
                 KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted."));
                 return;
         }
@@ -2620,7 +2607,6 @@ void KeyView::expandKey(QListViewItem *item)
                                 if (tst[0]=="sig") {
                                         gpgKey sigKey=extractKey(line);
 
-                                        //QString fsigname=extractKeyName(sigKey.gpgkeyname,sigKey.gpgkeymail);
                                         if (tst[10].endsWith("l"))
                                                 sigKey.gpgkeymail+=i18n(" [local]");
 
@@ -2705,7 +2691,7 @@ void KeyView::refreshkeylist()
                                 isexpired=true;
                         if (pubKey.gpgkeyname.isEmpty())
                                 noID=true;
-
+				
                         item=new UpdateViewItem(this,pubKey.gpgkeyname,pubKey.gpgkeymail,QString::null,pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold,isexpired);
 
                         item->setPixmap(2,pubKey.trustpic);
@@ -2718,11 +2704,7 @@ void KeyView::refreshkeylist()
                                 item->setPixmap(0,pixkeyPair);
                                 secretList+=pubKey.gpgkeyid;
                                 issec.remove(*ite);
-                        } else {
-                                item->setPixmap(0,pixkeySingle);
-                                if (displayOnlySecret)
-                                        item->setVisible(false);
-                        }
+                        } else item->setPixmap(0,pixkeySingle);
 
                         if (openKeys.find(pubKey.gpgkeyid)!=-1)
                                 item->setOpen(true);
@@ -2745,8 +2727,6 @@ void KeyView::refreshkeylist()
                         item=new UpdateViewItem(this,QString(*it),QString::null,QString::null,QString::null,QString::null,QString::null,QString::null,false,false);
                         item->setPixmap(0,pixkeyGroup);
                         item->setExpandable(false);
-                        if (displayOnlySecret)
-                                item->setVisible(false);
                 }
         kdDebug(2100)<<"Finished Groups"<<endl;
 
@@ -2955,9 +2935,8 @@ void KeyView::refreshcurrentkey(QString currentID)
                         if (pubKey.gpgkeytrust==i18n("Expired"))
                                 isexpired=true;
                         item=new UpdateViewItem(this,pubKey.gpgkeyname,pubKey.gpgkeymail,QString::null,pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold,isexpired);
-
                         item->setPixmap(2,pubKey.trustpic);
-
+			item->setVisible(true);
                         item->setExpandable(true);
                         if (issec.find(pubKey.gpgkeyid.right(8),0,FALSE)!=-1) {
                                 item->setPixmap(0,pixkeyPair);
@@ -3064,8 +3043,7 @@ gpgKey KeyView::extractKey(QString keyColon)
                 ret.gpgkeymail=fullname.section('<',-1,-1);
                 ret.gpgkeymail.truncate(ret.gpgkeymail.length()-1);
                 ret.gpgkeyname=fullname.section('<',0,0);
-                if (ret.gpgkeyname.find("(")!=-1)
-                        ret.gpgkeyname=ret.gpgkeyname.section('(',0,0);
+                ret.gpgkeyname=ret.gpgkeyname.section('(',0,0);
         } else {
                 ret.gpgkeymail=QString::null;
                 ret.gpgkeyname=fullname.section('(',0,0);

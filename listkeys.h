@@ -22,11 +22,18 @@
 #include <klistview.h>
 #include <kmainwindow.h>
 #include <klistviewsearchline.h>
+
+#include <kactionclasses.h> 
+#include <qclipboard.h>
+
 #include "dcopiface.h"
 
 #include <qptrlist.h>
 #include <qstringlist.h>
 #include <kurl.h>
+
+#include <qcheckbox.h>
+#include <kmainwindow.h>
 
 class QPushButton;
 class QPopupMenu;
@@ -73,7 +80,7 @@ private slots:
         void slotOk();
         void slotpreOk();
         void slotSelect(QListViewItem *item);
-        QString extractKeyName(QString fullName);
+
 public slots:
         QString getkeyID();
         QString getkeyMail();
