@@ -64,6 +64,7 @@ private:
         bool encryptToAlways;
         bool defaultEncryptToAlways;
 	QStringList serverList;
+	QString defaultConfigPath,defaultHomePath;
 
 private:
         bool hasChanged();
@@ -83,11 +84,12 @@ private slots:
         void slotInstallDecrypt(QString mimetype);
         void slotInstallSign(QString mimetype);
         void slotRemoveMenu(QString menu);
-	void test();
+	void slotChangeHome();
 signals:
         void updateDisplay();
         void settingsUpdated();
 	void changeFont(QFont);
+	void homeChanged();
 };
 
 #endif

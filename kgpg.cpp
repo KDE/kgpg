@@ -741,6 +741,10 @@ int KgpgAppletApp::newInstance()
                 kdDebug() << "Starting KGpg"<<endl;
                 running=true;
                 s_keyManager=new listKeys(0, "key_manager");
+		QString gpgPath= KGpgSettings::gpgConfigPath();
+		if (KURL(gpgPath).directory(false)!=QDir::homeDirPath()+"/.gnupg/")
+		setenv("GNUPGHOME",KURL(gpgPath).directory(false).ascii(),1);
+		
                 s_keyManager->refreshkey();
                 kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
@@ -750,7 +754,7 @@ int KgpgAppletApp::newInstance()
 		connect(s_keyManager,SIGNAL(fontChanged(QFont)),kgpg_applet->w,SIGNAL(setFont(QFont)));
 		connect(kgpg_applet->w,SIGNAL(importedKeys(QStringList)),s_keyManager->keysList2,SLOT(slotReloadKeys(QStringList)));
                 kgpg_applet->show();
-                QString gpgPath= KGpgSettings::gpgConfigPath();
+                
 
                 if (!gpgPath.isEmpty()) {
                         if ((KgpgInterface::getGpgBoolSetting("use-agent",gpgPath)) && (!getenv("GPG_AGENT_INFO")))

@@ -68,6 +68,17 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 	keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
 	if (!keyServer.isEmpty()) serverList.prepend(keyServer+" "+i18n("(Default)"));
 	
+	defaultHomePath=QDir::homeDirPath()+"/.gnupg/";
+	//defaultConfigPath=defaultHomePath+"options";
+        if (QFile(defaultHomePath+"options").exists()) 
+	defaultConfigPath="options";
+	else
+	{
+                //defaultConfigPath=QDir::homeDirPath()+"/.gnupg/gpg.conf";
+                if (QFile(defaultHomePath+"gpg.conf").exists()) defaultConfigPath="gpg.conf";
+		else defaultConfigPath=QString::null;
+		}
+	
 kdDebug()<<"Adding pages"<<endl;
         page1=new Encryption();
         page2=new Decryption();
@@ -80,7 +91,7 @@ kdDebug()<<"Adding pages"<<endl;
         addPage(page1, i18n("Encryption"), "encrypted");
         addPage(page2, i18n("Decryption"), "decrypted");
         addPage(page3, i18n("User Interface"), "misc");
-        addPage(page4, i18n("GPG Settings"), "kgpg");
+        addPage(page4, i18n("GnuPG Settings"), "kgpg");
 //	addPage(page5, i18n("GPG Settings2"), "kgpg");
 	addPage(page6, i18n("Key Servers"), "network");
 	addPage(page7, i18n("Editor Font"), "fonts");  //,QString::null,false);
@@ -91,8 +102,10 @@ kdDebug()<<"Adding pages"<<endl;
         connect(page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(updateButtons()));
         connect(page1->file_key, SIGNAL(activated(int)), this, SLOT(updateButtons()));
         connect(page1->always_key, SIGNAL(activated(int)), this, SLOT(updateButtons()));
-        connect(page4->gpg_config_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
+	connect(page4->gpg_conf_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
+	connect(page4->gpg_home_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
         connect(page4->use_agent, SIGNAL(toggled(bool)), this, SLOT(updateButtons()));
+	connect(page4->changeHome, SIGNAL(clicked()), this, SLOT(slotChangeHome()));
 	connect(page6->server_add, SIGNAL(clicked()), this, SLOT(slotAddKeyServer()));
 	connect(page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
 	connect(page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
@@ -104,11 +117,39 @@ kdDebug()<<"Adding pages"<<endl;
 kgpgOptions::~kgpgOptions()
 {}
 
-void kgpgOptions::test()
+void kgpgOptions::slotChangeHome()
 {
-enableButtonApply(true);
-enableButton(KDialogBase::Default,true);
-//KMessageBox::sorry(0,"hjk");
+QString gpgHome=KFileDialog::getExistingDirectory(page4->gpg_home_path->text(),this,i18n("New GnuPG Home Location"));
+if (gpgHome.isEmpty()) return;
+if (!gpgHome.endsWith("/")) gpgHome.append("/");
+	QString confPath="options";
+        if (!QFile(gpgHome+confPath).exists()) {
+                confPath="gpg.conf";
+		if (!QFile(gpgHome+confPath).exists()) 
+		{
+		if (KMessageBox::questionYesNo(this,i18n("No configuration file was found in the selected location.\nDo you want to create it now ?\n\nWithout configuration file, neither KGpg nor Gnupg will work properly."),i18n("No Configuration File Found"),i18n("Create"),i18n("Ignore"))==KMessageBox::Yes) //////////   Try to create config File by running gpg once
+		{
+		KProcIO *p=new KProcIO();
+        	*p<<"gpg"<<"--homedir"<<gpgHome<<"--no-tty"<<"--list-secret-keys";
+        	p->start(KProcess::Block);  ////  start gnupg so that it will create a config file
+		confPath="gpg.conf";
+		QFile confFile(gpgHome+confPath);
+		if (!confFile.open(IO_WriteOnly))
+		{KMessageBox::sorry(this,i18n("Cannot create configuration file. Please check if destination media is mounted and if you have write access"));
+		return;
+		}
+		else 
+		{
+		QTextStream stream( &confFile );
+		stream<<"#  Config file created by KGpg\n\n";
+		confFile.close();
+		}
+		}
+		else confPath=QString::null;
+		}
+		}
+		page4->gpg_conf_path->setText(confPath);
+		page4->gpg_home_path->setText(gpgHome);
 }
 
 void kgpgOptions::updateWidgets()
@@ -131,7 +172,8 @@ void kgpgOptions::updateWidgets()
         }
         
         gpgConfigPath = KGpgSettings::gpgConfigPath();
-        page4->gpg_config_path->setURL(gpgConfigPath);
+	page4->gpg_conf_path->setText(KURL(gpgConfigPath).fileName());
+	page4->gpg_home_path->setText(KURL(gpgConfigPath).directory(false));
 
         useAgent = KgpgInterface::getGpgBoolSetting("use-agent", KGpgSettings::gpgConfigPath());
         defaultUseAgent = false;
@@ -157,11 +199,15 @@ void kgpgOptions::updateWidgetsDefault()
 {
         page1->encrypt_to_always->setChecked( defaultEncryptToAlways );
 
-        // Note that we don't set a default for gpg_config_path
+ 
 
         page4->use_agent->setChecked( defaultUseAgent );
 	
 	page7->setFont(QFont());
+	
+	
+	page4->gpg_conf_path->setText(defaultConfigPath);
+	page4->gpg_home_path->setText(defaultHomePath);
 	
 	page6->ServerBox->clear();
 	page6->ServerBox->insertStringList(QStringList::split(",",defaultServerList));
@@ -174,7 +220,11 @@ bool kgpgOptions::isDefault()
 	if (page1->encrypt_to_always->isChecked() != defaultEncryptToAlways)
 		return false;
 
-        // Note that we don't check gpg_config_path
+        if (page4->gpg_conf_path->text()!=defaultConfigPath)
+		return false;
+		
+	if (page4->gpg_home_path->text()!=defaultHomePath)
+		return false;
 
 	if (page4->use_agent->isChecked() != defaultUseAgent)
 		return false;
@@ -205,7 +255,9 @@ bool kgpgOptions::hasChanged()
 	    (page1->always_key->currentText().section(':',0,0) != alwaysKeyID))
 		return true;
 
-	if (page4->gpg_config_path->url() != gpgConfigPath)
+	if (page4->gpg_conf_path->text() != KURL(gpgConfigPath).fileName())
+		return true;
+	if (page4->gpg_home_path->text() != KURL(gpgConfigPath).directory(false))
 		return true;
 	   
 	if (page4->use_agent->isChecked() != useAgent)
@@ -225,8 +277,16 @@ bool kgpgOptions::hasChanged()
 void kgpgOptions::updateSettings()
 {
         // Update config path first!
-	KGpgSettings::setGpgConfigPath( page4->gpg_config_path->url() );
-
+	KGpgSettings::setGpgConfigPath( page4->gpg_home_path->text()+page4->gpg_conf_path->text() );
+	if (page4->gpg_home_path->text()!=KURL(gpgConfigPath).directory(false))
+	{
+	if (page4->gpg_home_path->text()!=defaultHomePath)
+	setenv("GNUPGHOME",page4->gpg_home_path->text().ascii(),1);
+	else setenv("GNUPGHOME","",1);
+	emit homeChanged();
+	gpgConfigPath = KGpgSettings::gpgConfigPath();
+	}
+	
         ////////////  save selected keys for file encryption & always encrypt with
         if (page1->kcfg_EncryptFilesTo->isChecked())
 		fileEncryptionKey = page1->file_key->currentText();

@@ -1299,6 +1299,7 @@ void listKeys::slotOptions()
         return;
     kgpgOptions *optionsDialog=new kgpgOptions(this,"settings");
     connect(optionsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAllOptions()));
+    connect(optionsDialog,SIGNAL(homeChanged()),this,SLOT(refreshkey()));
     connect(optionsDialog,SIGNAL(changeFont(QFont)),this,SIGNAL(fontChanged(QFont)));
     optionsDialog->show();
 }
