@@ -492,7 +492,7 @@ void  KeyView::startDrag()
     QString keytxt;
     fp=popen(QFile::encodeName(gpgcmd),"r");
     while ( fgets( line, sizeof(line), fp))    /// read output
-        keytxt+=line;
+        if (!QString(line).startsWith("gpg:")) keytxt+=line;
     pclose(fp);
 
     QDragObject *d = new QTextDrag( keytxt, this );
@@ -575,10 +575,10 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
     // Keep the list in kgpg.kcfg in sync with this one!
     QStringList list;
-    list.append("Disable");
-    list.append("Small");
-    list.append("Medium");
-    list.append("Big");
+    list.append(i18n("Disable"));
+    list.append(i18n("Small"));
+    list.append(i18n("Medium"));
+    list.append(i18n("Big"));
     photoProps->setItems(list);
 
     int pSize = KGpgSettings::photoProperties();
@@ -1271,10 +1271,10 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
             {
                 if ((sel->text(2)=="-") || (sel->text(2)==i18n("Revoked")))
                 {
-                    if (sel->text(0).find(i18n("User id not found"))==-1)
-                        importSignatureKey->setEnabled(false);
-                    else
+                    if ((sel->text(0).startsWith("[")) && (sel->text(0).endsWith("]")))  ////// ugly hack to detect unknown keys
                         importSignatureKey->setEnabled(true);
+                    else
+                        importSignatureKey->setEnabled(false);
                     popupsig->exec(pos);
                     return;
                 }
@@ -1890,7 +1890,7 @@ void listKeys::importallsignkey()
     QListViewItem *current = keysList2->currentItem()->firstChild();
     while (current)
     {
-        if (current->text(0).find(i18n("[User id not found]"))!=-1)
+        if ((current->text(0).startsWith("[")) && (current->text(0).endsWith("]")))   ////// ugly hack to detect unknown keys
             missingKeysList+=current->text(6)+" ";
         current = current->nextSibling();
     }

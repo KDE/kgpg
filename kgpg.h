@@ -87,7 +87,6 @@ public slots:
         void  clipDecrypt();
         void  clipEncrypt();
         void preferences();
-        void  openEditor();
         void  shredDroppedFile();
         void encryptDroppedFolder();
         void startFolderEncode(QStringList selec,QStringList encryptOptions,bool ,bool symetric);
