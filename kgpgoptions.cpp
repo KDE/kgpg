@@ -61,6 +61,8 @@ kdDebug()<<"Adding pages"<<endl;
         page2=new Decryption();
         page3=new UI();
         page4=new GPGConf();
+	pixkeySingle=KGlobal::iconLoader()->loadIcon("kgpg_key1",KIcon::Small,20);
+	pixkeyDouble=KGlobal::iconLoader()->loadIcon("kgpg_key2",KIcon::Small,20);
         addPage(page1, i18n("Encryption"), "encrypted");
         addPage(page2, i18n("Decryption"), "decrypted");
         addPage(page3, i18n("User Interface"), "misc");
@@ -113,7 +115,8 @@ void kgpgOptions::updateWidgets()
 		keyServer = defaultKeyServer;
 
         page4->key_server1->setText(keyServer);
-
+	//page4->KeyServer3->setCurrentItem(KGpgSettings::kServer3(),true);
+	
 	kdDebug()<<"Finishing options"<<endl;
 }
 
@@ -190,6 +193,10 @@ void kgpgOptions::updateSettings()
         else
         	alwaysKeyID = "";
 	KgpgInterface::setGpgSetting("encrypt-to",alwaysKeyID, KGpgSettings::gpgConfigPath());
+	
+	//////////////////  save key servers
+	
+//	KGpgSettings::setKServer3(page4->KeyServer3->currentText().stripWhiteSpace());
 
         ///////////////  install service menus
 
@@ -303,10 +310,21 @@ void kgpgOptions::listkey()
 
         ////////   update display of keys in main management window
         FILE *fp;
-        QString tst,name,trustedvals="idre-";
+        QString tst,name,trustedvals="idre-",issec;
         int counter=0;
-        char line[130];
+        char line[300];
+	
+	FILE *fp2;
 
+        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+        while ( fgets( line, sizeof(line), fp2)) {
+                QString lineRead=line;
+                if (lineRead.startsWith("sec"))
+                        issec+=lineRead.section(':',4,4);
+        }
+        pclose(fp2);
+
+	
         fp = popen("gpg --no-tty --with-colon --list-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
@@ -320,8 +338,16 @@ void kgpgOptions::listkey()
                                 ids+=tst.section(':',4,4);
                                 if (tst.section(':',4,4).right(8)==alwaysKeyID)
                                         alwaysKeyName=tst.section(':',4,4).right(8)+":"+name;
-                                page1->file_key->insertItem(tst.section(':',4,4).right(8)+":"+name);
-                                page1->always_key->insertItem(tst.section(':',4,4).right(8)+":"+name);
+				if (issec.find(tst.section(':',4,4).right(8),0,FALSE)!=-1)
+				{
+				page1->file_key->insertItem(pixkeyDouble,tst.section(':',4,4).right(8)+":"+name);
+                                page1->always_key->insertItem(pixkeyDouble,tst.section(':',4,4).right(8)+":"+name);
+				}
+				else
+				{
+                                page1->file_key->insertItem(pixkeySingle,tst.section(':',4,4).right(8)+":"+name);
+                                page1->always_key->insertItem(pixkeySingle,tst.section(':',4,4).right(8)+":"+name);
+				}
                         }
                 }
         }

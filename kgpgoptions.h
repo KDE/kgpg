@@ -44,7 +44,8 @@ private:
         KConfig *config;
         QString alwaysKeyID,alwaysKeyName;
         bool firstDisplay;
-
+	
+	QPixmap pixkeySingle,pixkeyDouble;
         QString fileEncryptionKey;
         QString gpgConfigPath;
         QString keyServer;
