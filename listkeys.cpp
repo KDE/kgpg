@@ -616,6 +616,7 @@ actionCollection());
         keysList2->setAcceptDrops (true) ;
         keysList2->setSelectionModeExt(KListView::Extended);
 
+
         popup=new QPopupMenu();
         exportPublicKey->plug(popup);
         deleteKey->plug(popup);
@@ -706,7 +707,7 @@ actionCollection());
         if (!KGpgSettings::showToolbar())
                 toolBar()->hide();
 
-	s_kgpgEditor= new KgpgApp(parent, "editor",WType_Dialog);
+	s_kgpgEditor= new KgpgApp(parent, "editor",WType_Dialog,actionCollection()->action("go_default_key")->shortcut());
         connect(s_kgpgEditor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
         connect(this,SIGNAL(fontChanged(QFont)),s_kgpgEditor,SLOT(slotSetFont(QFont)));
         connect(s_kgpgEditor->view->editor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
@@ -732,8 +733,9 @@ show();
 
 void  listKeys::slotOpenEditor()
 {
-        KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WType_Dialog);
+        KgpgApp *kgpgtxtedit = new KgpgApp(this, "editor",WType_Dialog,actionCollection()->action("go_default_key")->shortcut());
         connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
+	connect(kgpgtxtedit,SIGNAL(encryptFiles(KURL::List)),this,SIGNAL(encryptFiles(KURL::List)));
         connect(this,SIGNAL(fontChanged(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
         connect(kgpgtxtedit->view->editor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
         kgpgtxtedit->show();
@@ -2845,7 +2847,7 @@ void KeyView::insertOrphan(QString currentID)
 {
         FILE *fp;
         char line[300];
-        UpdateViewItem *item;
+        UpdateViewItem *item=NULL;
         bool keyFound=false;
         fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {

@@ -23,6 +23,12 @@
 #include <kmainwindow.h>
 #include "dcopiface.h"
 
+
+#include <kdialogbase.h>
+#include <klistview.h>
+#include <kmainwindow.h>
+#include "dcopiface.h"
+
 #include <qptrlist.h>
 #include <qstringlist.h>
 #include <kurl.h>
@@ -266,6 +272,8 @@ signals:
         void certificate(QString);
         void closeAsked();
         void fontChanged(QFont);
+	void encryptFiles(KURL::List);
+
 };
 
 

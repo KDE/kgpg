@@ -44,7 +44,7 @@
 #include <kaction.h>
 #include <kdebug.h>
 
-#include "keyserver.h"
+
 #include "kgpgsettings.h"
 #include "searchres.h"
 #include "detailedconsole.h"

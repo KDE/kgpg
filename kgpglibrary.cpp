@@ -45,7 +45,7 @@ KgpgLibrary::~KgpgLibrary()
 {}
 
 
-void KgpgLibrary::slotFileEnc(KURL::List urls,QStringList opts,QString defaultKey)
+void KgpgLibrary::slotFileEnc(KURL::List urls,QStringList opts,QString defaultKey,KShortcut goDefaultKey)
 {
         /////////////////////////////////////////////////////////////////////////  encode file file
         if (!urls.empty()) {
@@ -53,7 +53,7 @@ void KgpgLibrary::slotFileEnc(KURL::List urls,QStringList opts,QString defaultKe
                 if (defaultKey.isEmpty()) {
 			QString fileNames=urls.first().filename();
 			if (urls.count()>1) fileNames+=",...";
-                        popupPublic *dialogue=new popupPublic(0,"Public keys",fileNames,true);
+                        popupPublic *dialogue=new popupPublic(0,"Public keys",fileNames,true,goDefaultKey);
                         connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startencode(QStringList,QStringList,bool,bool)));
                         dialogue->exec();
                         delete dialogue;
@@ -65,17 +65,17 @@ void KgpgLibrary::slotFileEnc(KURL::List urls,QStringList opts,QString defaultKe
 void KgpgLibrary::startencode(QStringList encryptKeys,QStringList encryptOptions,bool shred,bool symetric)
 {
 	popIsActive=false;
-        KURL::List::iterator it;
-	filesToEncode=urlselecteds.count();
+        //KURL::List::iterator it;
+	//filesToEncode=urlselecteds.count();
 	_encryptKeys=encryptKeys;
 	_encryptOptions=encryptOptions;
 	_shred=shred;
 	_symetric=symetric;
-		fastencode(urlselecteds.first(),encryptKeys,encryptOptions,shred,symetric);
+		fastencode(urlselecteds.first(),encryptKeys,encryptOptions,symetric);
 }
 
 
-void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList encryptOptions,bool shred,bool symetric)
+void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList encryptOptions,bool symetric)
 {
         //////////////////              encode from file
         if ((selec.isEmpty()) && (!symetric)) {
@@ -102,6 +102,7 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
 	    		dest=over->newDestURL();
 	    		delete over;
         }
+	int filesToEncode=urlselecteds.count();
 	if (filesToEncode>1)
 	emit systemMessage(i18n("<b>%1 Files left.</b>\nEncrypting </b>%2").arg(filesToEncode).arg(urlselecteds.first().path()));
 	else emit systemMessage(i18n("<b>Encrypting </b>%2").arg(urlselecteds.first().path()));
@@ -113,10 +114,7 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
 	//connect(cryptFileProcess,SIGNAL(processstarted(QString)),this,SLOT(processpopup2(QString)));
 	popIsActive=true;	
 	}
-        /*if (shred)
-                connect(cryptFileProcess,SIGNAL(encryptionfinished(KURL)),this,SLOT(shredpreprocessenc(KURL)));
-        else*/
-                connect(cryptFileProcess,SIGNAL(encryptionfinished(KURL)),this,SLOT(processenc(KURL)));
+	connect(cryptFileProcess,SIGNAL(encryptionfinished(KURL)),this,SLOT(processenc(KURL)));
         connect(cryptFileProcess,SIGNAL(errormessage(QString)),this,SLOT(processencerror(QString)));
 }
 
@@ -135,8 +133,6 @@ void KgpgLibrary::processpopup2(QString fileName)
 
 void KgpgLibrary::shredpreprocessenc(KURL fileToShred)
 {
-	filesToEncode--;
-	if (filesToEncode==0) delete pop;
 	popIsActive=false;
 	emit systemMessage(QString::null);
 	shredprocessenc(fileToShred);
@@ -169,23 +165,14 @@ void KgpgLibrary::processenc(KURL)
 	if (_shred) shredprocessenc(urlselecteds.first());
 	urlselecteds.pop_front ();
 	if (urlselecteds.count()>0)
-	{
-	fastencode(urlselecteds.first(),_encryptKeys,_encryptOptions,_shred,_symetric);
-	emit systemMessage(i18n("<b>%1 File(s) left.</b>\nEncrypting </b>%2").arg(urlselecteds.count()).arg(urlselecteds.first().path()));
-	}
-	/*filesToEncode--;
-	if (filesToEncode==0) {delete pop;emit systemMessage(QString::null);}
-	popIsActive=false;*/
+	fastencode(urlselecteds.first(),_encryptKeys,_encryptOptions,_symetric);
 }
 
 void KgpgLibrary::processencerror(QString mssge)
 {
-	filesToEncode--;
-	if (filesToEncode==0) delete pop;
 	popIsActive=false;
 	emit systemMessage(QString::null,true);
 	KMessageBox::detailedSorry(panel,i18n("<b>Process halted</b>.<br>Not all files were encrypted."),mssge);
-	
 }
 
 

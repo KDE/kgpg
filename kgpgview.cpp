@@ -29,6 +29,7 @@
 #include <klocale.h>
 #include <kstdaction.h>
 #include <kurldrag.h>
+
 #include <kmessagebox.h>
 #include <qfile.h>
 #include <qlayout.h>
@@ -37,6 +38,7 @@
 #include <kaction.h>
 #include <klineedit.h>
 #include <qtextcodec.h>
+
 
 #include "kgpgsettings.h"
 #include "kgpginterface.h"
@@ -93,7 +95,7 @@ void MyEditor::slotDroppedFile(KURL url)
         else {
                 if (KMessageBox::warningContinueCancel(0,i18n("<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"),0,KStdGuiItem::cont(),"RemoteFileWarning")!=KMessageBox::Continue)
                         return;
-                if (!KIO::NetAccess::download (url, tempFile)) {
+                if (!KIO::NetAccess::download (url, tempFile,this)) {
                         KMessageBox::sorry(this,i18n("Could not download file."));
                         return;
                 }
@@ -277,7 +279,7 @@ void KgpgView::clearSign()
 		
 		KgpgInterface *signProcess=new KgpgInterface();
 		connect(signProcess,SIGNAL(txtSignOver(QString)),this,SLOT(slotSignResult(QString)));
-		QStringList options;
+		QStringList options=NULL;
 		if (KGpgSettings::pgpCompatibility())
                         options<<"--pgp6";
 		signProcess->KgpgSignText(mess,signKeyID,options);
@@ -314,7 +316,7 @@ void KgpgView::popuppublic()
         /////    popup dialog to select public key for encryption
 
         ////////  open dialog --> popuppublic.cpp
-        popupPublic *dialogue=new popupPublic(this, "public_keys", 0,false);
+        popupPublic *dialogue=new popupPublic(this, "public_keys", 0,false,((KgpgApp *) parent())->goDefaultKey);
         connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(encodetxt(QStringList,QStringList,bool,bool)));
         dialogue->exec();
         delete dialogue;

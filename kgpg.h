@@ -26,6 +26,7 @@
 #include <kuniqueapplication.h>
 #include <qlabel.h>
 #include <kurl.h>
+#include <kshortcut.h>
 #include <qstringlist.h>
 #include <qclipboard.h>
 
@@ -49,6 +50,7 @@ public:
         KURL droppedUrl;
         KURL::List droppedUrls;
         KTempFile *kgpgfoldertmp;
+	KShortcut goDefaultKey;
 private:
         QPopupMenu *droppopup,*udroppopup;
         KAboutData   *_aboutData;
@@ -75,6 +77,7 @@ public slots:
         void startFolderEncode(QStringList selec,QStringList encryptOptions,bool ,bool symetric);
         void  slotFolderFinished(KURL);
         void  slotFolderFinishedError(QString errmsge);
+	void  encryptFiles(KURL::List urls);
 
 private slots:
 
@@ -142,6 +145,7 @@ public:
         int newInstance ();
         KURL::List urlList;
         bool running;
+	KShortcut goHome;
 
 protected:
         KCmdLineArgs *args;

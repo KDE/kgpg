@@ -23,6 +23,9 @@
 #include <dcopclient.h>
 #include <qpaintdevicemetrics.h>
 #include <qcstring.h>
+
+#include <kencodingfiledialog.h>
+
 #include <qradiobutton.h>
 #include <qclipboard.h>
 #include <qtextcodec.h>
@@ -38,6 +41,7 @@
 #include <kio/renamedlg.h>
 #include <kedittoolbar.h>
 
+
 #include "kgpgsettings.h"
 #include "kgpgeditor.h"
 #include "sourceselect.h"
@@ -49,10 +53,10 @@
 #include "listkeys.h"
 #include "kgpglibrary.h"
 
-KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent, name,f)
+KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f,KShortcut goHome):KMainWindow(parent, name,f)
 {
         readOptions();
-
+	goDefaultKey=goHome;
         // call inits to invoke all other construction parts
 	setAutoSaveSettings("Editor",true);
         initActions();
@@ -61,8 +65,10 @@ KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent
 	KSimpleConfig *ks=new KSimpleConfig ("kgpgrc");
 	ks->setGroup("Editor");
 	slotSetFont(ks->readFontEntry("Editor_Font"));
+
         setupGUI(( ToolBar | Keys | StatusBar | Save | Create ), "kgpg.rc");
         delete ks;
+
 }
 
 KgpgApp::~KgpgApp()
@@ -204,24 +210,11 @@ void KgpgApp::slotFileNew()
 void KgpgApp::slotFilePreEnc()
 {
         QStringList opts;
-
-        KURL url=KFileDialog::getOpenURL(QString::null,
+	KURL::List urls=KFileDialog::getOpenURLs(QString::null,
                                          i18n("*|All Files"), this, i18n("Open File to Encode"));
-        if (url.isEmpty())
-                return;
-        KgpgLibrary *lib=new KgpgLibrary(this,KGpgSettings::pgpExtension() );
-        if ( KGpgSettings::encryptFilesTo() ) {
-                if (KGpgSettings::allowUntrustedKeys())
-                        opts<<"--always-trust";
-                if (KGpgSettings::asciiArmor())
-                        opts<<"--armor";
-                if (KGpgSettings::hideUserID())
-                        opts<<"--throw-keyid";
-                if (KGpgSettings::pgpCompatibility())
-                        opts<<"--pgp6";
-                lib->slotFileEnc(KURL::List::List(url),opts, KGpgSettings::fileEncryptionKey().left(8));
-        } else
-                lib->slotFileEnc(KURL::List::List(url));
+        if (urls.isEmpty())
+                return;	
+	emit encryptFiles(urls);
 }
 
 void KgpgApp::slotFilePreDec()
@@ -334,10 +327,22 @@ return;
 	}
 	else
 	{
+	/*FIXME  use following code:
+	 QFile f( fName );
+00983         if ( !f.open( IO_ReadOnly ) )
+00984             return;
+00985         QFileInfo info ( f );
+00986         smModificationTime = new QTime( info.lastModified().time() );
+00987         QTextStream t(&f);
+00988         t.setEncoding( QTextStream::Latin1 );
+00989         QString s = t.readLine();
+00990         f.close();
+
+*/
 	QTextStream *stream = tmpfile.textStream();
     	*stream << view->editor->text().utf8();
    	tmpfile.close();
-	if(!KIO::NetAccess::upload(tmpfile.name(), Docname))
+	if(!KIO::NetAccess::upload(tmpfile.name(), Docname,this))
 	{
 		KMessageBox::sorry(this,i18n("The document could not be saved, please check your permissions and disk space."));
 		tmpfile.unlink();
@@ -354,8 +359,12 @@ return;
 void KgpgApp::slotFileSaveAs()
 {
 
-        KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),
-                                         i18n("*|All Files"), this, i18n("Save As"));
+        //KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),i18n("*|All Files"), this, i18n("Save As"));
+	KEncodingFileDialog::Result saveResult;
+	saveResult=KEncodingFileDialog::getSaveURLAndEncoding (QString::null,QString::null,QString::null,this);
+	KURL url=saveResult.URLs.first();
+	QString selectedEncoding=saveResult.encoding;
+
 	if(!url.isEmpty()) {
 		if (url.isLocalFile())
 		{
@@ -369,7 +378,7 @@ void KgpgApp::slotFileSaveAs()
                 }
                 f.close();
 		}
-		else if (KIO::NetAccess::exists(url))
+		else if (KIO::NetAccess::exists(url,false,this))
 		{
 		QString message=i18n("Overwrite existing file %1?").arg(url.filename());
                         int result=KMessageBox::warningContinueCancel(this,QString(message),i18n("Warning"),i18n("Overwrite"));
@@ -385,7 +394,7 @@ void KgpgApp::openDocumentFile(const KURL& url)
 {
 QString tempOpenFile;
         /////////////////////////////////////////////////
-if( KIO::NetAccess::download( url, tempOpenFile ) ) {
+if( KIO::NetAccess::download( url, tempOpenFile,this ) ) {
         QFile qfile(tempOpenFile);
         if (qfile.open(IO_ReadOnly)) {
                 QTextStream t( &qfile );

@@ -21,6 +21,7 @@
 
 #include <qobject.h>
 #include <kurl.h>
+#include <kshortcut.h>
 #include <kio/job.h> 
 
 class KPassivePopup;
@@ -41,13 +42,13 @@ public:
         KURL::List urlselecteds;
 
 public slots:
-        void slotFileEnc(KURL::List urls=KURL(""),QStringList opts=QString::null,QString defaultKey="");
+        void slotFileEnc(KURL::List urls=KURL(""),QStringList opts=QString::null,QString defaultKey="",KShortcut goDefaultKey=QKeySequence(CTRL+Qt::Key_Home));
         void slotFileDec(KURL srcUrl,KURL destUrl,QStringList customDecryptOption=QStringList());
 	void shredprocessenc(KURL::List filesToShred);
 
 private slots:
 	void startencode(QStringList encryptKeys,QStringList encryptOptions,bool shred,bool symetric);
-        void fastencode(KURL &fileToCrypt,QStringList selec,QStringList encryptOptions,bool shred,bool symetric);
+        void fastencode(KURL &fileToCrypt,QStringList selec,QStringList encryptOptions,bool symetric);
 //        void startencode(QString &selec,QString encryptOptions,bool shred,bool symetric);
 	void slotShredResult( KIO::Job * job );
 	void shredpreprocessenc(KURL fileToShred);
@@ -64,7 +65,6 @@ private:
         KPassivePopup *pop;
 	KProgress *shredProgressBar;
 	bool popIsActive;
-	int filesToEncode;
 	QWidget *panel;
 	QStringList _encryptKeys;
 	QStringList _encryptOptions;

@@ -19,12 +19,13 @@
 #define KEYSERVERS_H
 
 #include <kdialogbase.h>
+#include "keyserver.h"
 
 class KListViewItem;
 class KSimpleConfig;
 class KProcIO;
 class KProcess;
-class keyServerWidget;
+
 class searchRes;
 
 class keyServer : public KDialogBase

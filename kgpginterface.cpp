@@ -166,7 +166,7 @@ void KgpgInterface::KgpgDecryptFile(KURL srcUrl,KURL destUrl,QStringList Options
 	decryptUrl=srcUrl.path();
         userIDs=QString::null;
         anonymous=false;
-	kdDebug(2100)<<"Starting decrypt"<<endl;
+	
         KProcIO *proc=new KProcIO();
 
                 *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0";
@@ -413,13 +413,14 @@ void KgpgInterface::txtreaddecprocess(KProcIO *p)
 void KgpgInterface::KgpgSignText(QString text,QString userIDs, QStringList Options)
 {
         message=QString::null;
+	step=4;
 	QString txtprocess;
 	QTextCodec *codec =QTextCodec::codecForLocale ();
 	if (codec->canEncode(text)) txtprocess=text;
 	else txtprocess=text.utf8();
 	
         KProcIO *proc=new KProcIO();
-        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2";
+        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=1";
         
 	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
 		if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
@@ -429,10 +430,19 @@ void KgpgInterface::KgpgSignText(QString text,QString userIDs, QStringList Optio
 
         QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtsignfin(KProcess *)));
         QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtsignprocess(KProcIO *)));
-        proc->start(KProcess::NotifyOnExit,false);
+
 	//emit txtsigningstarted();
-	proc->writeStdin(txtprocess,false);
+
+	proc->start(KProcess::NotifyOnExit,false);
+	/*if (useAgent)
+	{
+	kdDebug(2100)<<"Using Agent+++++++++++++"<<endl;
+	//KMessageBox::sorry(0,"using agent");
+	proc->writeStdin(txtprocess,true);
 	proc->closeWhenDone();
+	}
+	else*/
+	message=txtprocess;
 }
 
 
@@ -448,17 +458,35 @@ void KgpgInterface::txtsignprocess(KProcIO *p)
 {
         QString required;
         while (p->readln(required,true)!=-1) {
+//	kdDebug(2100)<<"SIGNING: "<<required<<endl;
+	
+	if (required.find("USERID_HINT",0,false)!=-1)
+        updateIDs(required);
+	
+	if (required.find("GOOD_PASSPHRASE")!=-1)
+	{
+	p->writeStdin(message,true);
+	message=QString::null;
+	p->closeWhenDone();
+	}
+	
 	if ((required.find("passphrase.enter")!=-1))
             {
+	      step--;
+              if (userIDs.isEmpty())
+                userIDs=i18n("[No user id found]");
               QCString passphrase;
-              QString passdlgmessage=i18n("Enter passphrase");
-              int code=KPasswordDialog::getNewPassword(passphrase,passdlgmessage);
+              QString passdlgmessage;
+              if (step<3)
+              passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
+              passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8(userIDs));
+              int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
 	      if (code!=QDialog::Accepted)
                 {
                   delete p;
                   return;
                 }
-              p->writeStdin(passphrase,true);
+              p->writeStdin(passphrase,true);		
             } 
 	    else
 		if (!required.startsWith("[GNUPG:]")) message+=required+"\n";
@@ -1998,6 +2026,7 @@ void KgpgInterface::setGpgBoolSetting(QString name,bool enable,QString url)
 
 QString KgpgInterface::checkForUtf8(QString txt)
 {
+
         //    code borrowed from gpa
         const char *s;
 

@@ -42,7 +42,7 @@ class KgpgApp : public KMainWindow
 public:
         /** construtor of KgpgApp, calls all init functions to create the application.
          */
-        KgpgApp(QWidget *parent=0, const char *name=0,WFlags f = 0);
+        KgpgApp(QWidget *parent=0, const char *name=0,WFlags f = 0,KShortcut goHome=QKeySequence(CTRL+Qt::Key_Home));
         ~KgpgApp();
         /** opens a file specified by commandline option
          */
@@ -55,6 +55,7 @@ public:
         int version;
         QString messages;
         KgpgView *view;
+	KShortcut goDefaultKey;
 
 
 protected:
@@ -114,6 +115,7 @@ signals:
 void refreshImported(QStringList);
 void openChangeFont();
 void openConfigDialog();
+void encryptFiles(KURL::List fileList);
 };
 
 #endif // KGPGEDITOR_H

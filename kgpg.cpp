@@ -113,7 +113,7 @@ MyView::~MyView()
 
 void  MyView::clipEncrypt()
 {
-        popupPublic *dialoguec=new popupPublic(0, "public_keys", 0,false);
+        popupPublic *dialoguec=new popupPublic(0, "public_keys", 0,false,goDefaultKey);
         connect(dialoguec,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(encryptClipboard(QStringList,QStringList,bool,bool)));
         dialoguec->exec();
         delete dialoguec;
@@ -129,8 +129,9 @@ void  MyView::clipSign(bool openEditor)
 {
         QString clippie=kapp->clipboard()->text(clipboardMode).stripWhiteSpace();
         if (!clippie.isEmpty()) {
-                KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
+                KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose,goDefaultKey);
 		connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
+		connect(kgpgtxtedit,SIGNAL(encryptFiles(KURL::List)),this,SLOT(encryptFiles(KURL::List)));
 		if (!openEditor)
 		connect(kgpgtxtedit->view,SIGNAL(verifyFinished()),kgpgtxtedit,SLOT(closeWindow()));
                 kgpgtxtedit->view->editor->setText(clippie);
@@ -149,7 +150,7 @@ void MyView::encryptDroppedFolder()
         if (KMessageBox::warningContinueCancel(0,i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>").arg(kgpgfoldertmp->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpFile")==KMessageBox::Cancel)
                 return;
 
-	dialogue=new popupPublic(0,"Public keys",droppedUrls.first().filename(),true);
+	dialogue=new popupPublic(0,"Public keys",droppedUrls.first().filename(),true,goDefaultKey);
 
 	QHButtonGroup *bGroup = new QHButtonGroup(dialogue->plainPage());
                 (void) new QLabel(i18n("Compression method for archive:"),bGroup);
@@ -283,11 +284,16 @@ void  MyView::encryptDroppedFile()
                         opts<<"--throw-keyid";
                 if (KGpgSettings::pgpCompatibility())
                         opts<<"--pgp6";
-                lib->slotFileEnc(droppedUrls,opts,KGpgSettings::fileEncryptionKey().left(8));
+                lib->slotFileEnc(droppedUrls,opts,KGpgSettings::fileEncryptionKey().left(8),goDefaultKey);
         } else
-                lib->slotFileEnc(droppedUrls);
+                lib->slotFileEnc(droppedUrls,QString::null,QString::null,goDefaultKey);
 }
 
+void  MyView::encryptFiles(KURL::List urls)
+{
+droppedUrls=urls;
+encryptDroppedFile();
+}
 
 void  MyView::shredDroppedFile()
 {
@@ -441,8 +447,9 @@ void  MyView::unArchive()
 void  MyView::showDroppedFile()
 {
 kdDebug(2100)<<"------Show dropped file"<<endl;
-        KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
+        KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose,goDefaultKey);
         kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
+	connect(kgpgtxtedit,SIGNAL(encryptFiles(KURL::List)),this,SLOT(encryptFiles(KURL::List)));
 	connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
 	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
 	connect(kgpgtxtedit->view->editor,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
@@ -498,7 +505,8 @@ void  MyView::droppedtext (QString inputText,bool allowEncrypt)
 {
 
         if (inputText.startsWith("-----BEGIN PGP MESSAGE")) {
-                KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
+                KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose,goDefaultKey);
+		connect(kgpgtxtedit,SIGNAL(encryptFiles(KURL::List)),this,SLOT(encryptFiles(KURL::List)));
 		connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
                 kgpgtxtedit->view->editor->setText(inputText);
                 kgpgtxtedit->view->slotdecode();
@@ -866,6 +874,9 @@ int KgpgAppletApp::newInstance()
 		{
 		kgpg_applet=new kgpgapplet(s_keyManager->s_kgpgEditor,"kgpg_systrayapplet");
 		}
+		connect(s_keyManager,SIGNAL(encryptFiles(KURL::List)),kgpg_applet->w,SLOT(encryptFiles(KURL::List)));
+		connect(s_keyManager->s_kgpgEditor,SIGNAL(encryptFiles(KURL::List)),kgpg_applet->w,SLOT(encryptFiles(KURL::List)));
+		
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
                 connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
                 connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));
@@ -883,6 +894,8 @@ int KgpgAppletApp::newInstance()
                 }
 
         }
+	goHome=s_keyManager->actionCollection()->action("go_default_key")->shortcut();
+	kgpg_applet->w->goDefaultKey=goHome;
 
         ////////////////////////   parsing of command line args
         if (args->isSet("k")!=0) {

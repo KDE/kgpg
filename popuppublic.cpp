@@ -42,6 +42,7 @@
 #include <kiconloader.h>
 #include <klineedit.h>
 
+
 #include "popuppublic.h"
 #include "kgpgsettings.h"
 #include "kgpgview.h"
@@ -85,7 +86,7 @@ QString UpdateViewItem2 :: key(int c,bool ) const
 
 ///////////////  main view
 
-popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool filemode):
+popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool filemode,KShortcut goDefaultKey):
 KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent, name,true)
 {
 
@@ -142,17 +143,9 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 
         boutonboxoptions=new QButtonGroup(5,Qt::Vertical ,page,0);
 	
-	/*
 	KActionCollection *actcol=new KActionCollection(this);
-	actcol->setXMLFile(locate("appdata", "listkeys.rc")); 
-	KAction *goHome=actcol->action("go_default_key");
-	KMessageBox::sorry(0,goHome->text());*/
-	//KAccel *acc=new KAccel();
-	//actcol->kaccel();
-	//acc->readSettings(); 
-	 
-	 KActionCollection *actcol=new KActionCollection(this,parent);
-	(void) new KAction(i18n("&Go to Default Key"),QKeySequence(CTRL+Qt::Key_Home), this, SLOT(slotGotoDefaultKey()),actcol,"go_default_key");
+	(void) new KAction(i18n("&Go to Default Key"),goDefaultKey, this, SLOT(slotGotoDefaultKey()),actcol,"go_default_key");
+	
 	
         CBarmor=new QCheckBox(i18n("ASCII armored encryption"),boutonboxoptions);
         CBuntrusted=new QCheckBox(i18n("Allow encryption with untrusted keys"),boutonboxoptions);
