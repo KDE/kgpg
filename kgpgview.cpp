@@ -45,7 +45,7 @@ MyEditor::MyEditor( QWidget *parent, const char *name )
 void MyEditor::contentsDragEnterEvent( QDragEnterEvent *e )
 {
         ////////////////   if a file is dragged into editor ...
-        e->accept (QUrlDrag::canDecode(e) || QTextDrag::canDecode (e));
+        e->accept (QUriDrag::canDecode(e) || QTextDrag::canDecode (e));
         //e->accept (QTextDrag::canDecode (e));
 }
 
@@ -57,7 +57,7 @@ void MyEditor::contentsDropEvent( QDropEvent *e )
         /////////////////    decode dropped file
         QStringList list;
         QString text;
-        if ( QUrlDrag::decodeToUnicodeUris( e, list ) )
+        if ( QUriDrag::decodeToUnicodeUris( e, list ) )
                 droppedfile(KURL(list.first()));
         else if ( QTextDrag::decode(e, text) )
                 insert(text);

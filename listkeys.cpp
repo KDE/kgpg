@@ -540,13 +540,13 @@ void  KeyView::droppedfile (KURL url)
 
 void KeyView::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-        e->accept (QUrlDrag::canDecode(e));
+        e->accept (QUriDrag::canDecode(e));
 }
 
 void  KeyView::contentsDropEvent (QDropEvent *o)
 {
         QStringList list;
-        if ( QUrlDrag::decodeToUnicodeUris( o, list ) )
+        if ( QUriDrag::decodeToUnicodeUris( o, list ) )
                 droppedfile(KURL(list.first()));
 }
 

@@ -341,7 +341,7 @@ void  MyView::droppedtext (QString inputText)
 
 void  MyView::dragEnterEvent(QDragEnterEvent *e)
 {
-        e->accept (QUrlDrag::canDecode(e) || QTextDrag::canDecode (e));
+        e->accept (QUriDrag::canDecode(e) || QTextDrag::canDecode (e));
 }
 
 
@@ -349,7 +349,7 @@ void  MyView::dropEvent (QDropEvent *o)
 {
         QStringList list;
         QString text;
-        if ( QUrlDrag::decodeToUnicodeUris( o, list ) )
+        if ( QUriDrag::decodeToUnicodeUris( o, list ) )
                 droppedfile(KURL::List::List(list));
         else if ( QTextDrag::decode(o, text) )
                 droppedtext(text);
