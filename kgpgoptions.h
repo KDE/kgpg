@@ -52,12 +52,13 @@ class kgpgOptions : public KOptions
   
   private:
   KConfig *config;
-public slots:
-
+private slots:
 void listkey();
 QString namecode(QString kid);
 QString idcode(QString kname);
 void slotOk();
+void slotInstallDecrypt();
+void slotRemoveDecrypt();
 signals:
 
 };

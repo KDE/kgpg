@@ -23,6 +23,8 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qvbox.h>
+#include <qfile.h>
+#include <kurlrequester.h>
 
 
 #include "kgpgoption.h"
@@ -72,6 +74,10 @@ config=kapp->config();
   bool encryptfileto=config->readBoolEntry("encrypt files to",false);
   bool displaymailfirst=config->readBoolEntry("display mail first",true);
   QString filekey=config->readEntry("file key");
+  kURLRequester1->setMode(KFile::Directory | KFile::LocalOnly); 
+  kURLRequester1->setFilter( QString::null );
+  kURLRequester1->setURL("~/.kde/share/apps/konqueror/servicemenus/");
+rbAllTypes->setChecked(true);
 if (ascii==true) ascii_2_2->setChecked(true);
 if (untrusted==true) untrusted_2_2->setChecked(true);
 if (pgpcomp==true) pgp_2_2->setChecked(true);
@@ -85,7 +91,42 @@ filekey_2_2->setCurrentItem(filekey);
 if (defaultkey!=NULL)
 defautkey_2_2->setCurrentItem(namecode(defaultkey));
 connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotOk()));
+connect(installDecrypt,SIGNAL(clicked()),this,SLOT(slotInstallDecrypt()));
+connect(removeDecrypt,SIGNAL(clicked()),this,SLOT(slotRemoveDecrypt()));
+}
 
+void kgpgOptions::slotInstallDecrypt()
+{
+QString path=kURLRequester1->url();
+path+="decryptfile.desktop";
+  QFile qfile(path.local8Bit());
+  QString encryptedText;
+  if (qfile.open(IO_WriteOnly))
+    {
+	QString txt="[Desktop Entry]\n";
+	if (rbAllTypes->isChecked()) txt+="ServiceTypes=allfiles\n";
+	else txt+="ServiceTypes=application/pgp-encrypted\n";
+	txt+="Actions=decrypt\n[Desktop Action decrypt]\nName="+i18n("Decrypt file")+"\nIcon=kgpg2\nExec=kgpg -d %u";
+      QTextStream t( &qfile );
+      t <<txt; 
+	  qfile.close();
+	  KMessageBox::information(0,i18n("Decrypt file option is now added in Konqueror's menu."));
+}
+else KMessageBox::sorry(0,i18n("Unable to create file"));
+}
+
+
+void kgpgOptions::slotRemoveDecrypt()
+{
+QString path=kURLRequester1->url();
+path+="decryptfile.desktop";
+QFile qfile(path.local8Bit());
+if (qfile.exists())
+{
+if (!qfile.remove()) KMessageBox::sorry(0,i18n("Cannot remove service menu. Check permissions"));
+else KMessageBox::information(0,i18n("Service menu Decrypt file has been removed"));
+}
+else KMessageBox::sorry(0,i18n("No service menu found"));
 }
 
 void kgpgOptions::slotOk()
