@@ -17,12 +17,26 @@
 
 ///////////////////////////////////////////////             code for the option dialog box
 
-#include <klineedit.h>
 
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qvbox.h>
 #include <qfile.h>
+#include <kconfig.h>
+#include <klocale.h>
+
+#include <qdialog.h>
+#include <qcheckbox.h>
+#include <qradiobutton.h>
+#include <qbuttongroup.h>
+#include <qpushbutton.h>
+#include <qhbuttongroup.h>
+#include <qvbuttongroup.h>
+#include <kmessagebox.h>
+#include <klineedit.h>
+#include <ktoolbar.h>
+#include <kcombobox.h>
+#include <kurlrequester.h>
 
 #include <kdesktopfile.h>
 #include <kmimetype.h>

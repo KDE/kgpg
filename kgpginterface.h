@@ -26,7 +26,6 @@
 #include <qstring.h>
 #include <qfile.h>
 #include <qobject.h>
-#include <qlabel.h>
 
 #include <kled.h>
 #include <kprocess.h>
@@ -38,6 +37,8 @@
 
 #include "detailedconsole.h"
 #include "kgpgfast.h"
+
+class QLabel;
 
 /*
 #include <kdeversion.h>

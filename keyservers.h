@@ -18,11 +18,6 @@
 #ifndef KEYSERVERS_H
 #define KEYSERVERS_H
 
-#include <qfile.h>
-
-#include <kdialogbase.h>
-#include <klocale.h>
-#include <kurl.h>
 
 #include "keyserver.h"
 #include "searchres.h"
@@ -36,6 +31,7 @@ class KeyServer;
 class QStatusBar;
 class QLabel;
 class KListViewItem;
+class QDialog;
 
 class keyServer : public Keyserver
 {

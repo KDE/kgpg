@@ -33,7 +33,12 @@
 #include <qwidget.h>
 #include <qtooltip.h>
 #include <kaboutapplication.h>
-
+#include <qpopupmenu.h>
+#include <kaction.h>
+#include <qclipboard.h>
+#include <kurlrequester.h>
+#include <ktip.h>
+#include <qregexp.h>
 
 #include "kgpg.h"
 

@@ -24,6 +24,10 @@
 #include <qbuttongroup.h>
 #include <qcheckbox.h>
 #include <klistview.h>
+#include <kprocess.h>
+#include <kprocio.h>
+#include <qhbuttongroup.h>
+#include <klocale.h>
 
 #include "popuppublic.h"
 #include "kgpgview.h"

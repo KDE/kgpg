@@ -17,29 +17,12 @@
 #ifndef KGPGOPTIONS_H
 #define KGPGOPTIONS_H
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qdialog.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qbuttongroup.h>
-#include <qpushbutton.h>
-#include <qhbuttongroup.h>
-#include <qvbuttongroup.h>
 
 #include <kdialogbase.h>
-#include <kcombobox.h>
-#include <kurlrequester.h>
-#include <klistview.h>
-#include <kmessagebox.h>
-#include <klineedit.h>
-#include <ktoolbar.h>
-//#include <kstatusbar.h>
 
-#include <kconfig.h>
-#include <klocale.h>
 #include "kgpgoption.h"
 
+class KConfig;
 
 
 class kgpgOptions : public KgpgOptionDialog

@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 #include "kgpglibrary.h"
+#include <klocale.h>
+#include <kmessagebox.h>
 
 KgpgLibrary::KgpgLibrary()
 {}

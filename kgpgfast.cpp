@@ -18,8 +18,15 @@
 ////////////////////////////////////////////////////////   code  for file renaming
 
 #include <qlineedit.h>
+#include <klineedit.h>
+#include <qpushbutton.h>
 
 #include "kgpgfast.h"
+#include <qlayout.h>
+#include <qlabel.h>
+#include <kbuttonbox.h>
+#include <kmessagebox.h>
+#include <klocale.h>
 
 
 KgpgOverwrite::KgpgOverwrite( QWidget *parent, const char *name, KURL ofile):KDialogBase( parent, name, true, i18n("File Already Exists"),0)

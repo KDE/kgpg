@@ -22,8 +22,6 @@
 
 #include <qstring.h>
 
-#include <kprocess.h>
-#include <kprocio.h>
 #include <kglobal.h>
 #include <kiconloader.h>
 
@@ -31,6 +29,7 @@ class QPushButton;
 class QCheckBox;
 class KListView;
 class QButtonGroup;
+class KProcIO;
 
 class popupPublic : public QDialog
 {

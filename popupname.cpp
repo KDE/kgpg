@@ -33,6 +33,7 @@
 #include <qbuttongroup.h>
 #include <qhbuttongroup.h>
 #include <qvbuttongroup.h>
+#include <klocale.h>
 
 #include "popupname.h"
 #include "kgpg.h"

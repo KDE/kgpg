@@ -17,6 +17,8 @@
 
 #include "kgpgeditor.h"
 #include <kaction.h>
+#include <kfiledialog.h>
+#include <klocale.h>
 
 KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent, name,f)
 {

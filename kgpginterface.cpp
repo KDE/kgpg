@@ -29,6 +29,7 @@
 #include <kpassdlg.h>
 #include <kmdcodec.h>
 #include <klineedit.h>
+#include <qlabel.h>
 
 
 #include "kgpginterface.h"

@@ -18,6 +18,14 @@
 
 
 #include "kgpgshredwidget.h"
+#include <qfile.h>
+#include <qlabel.h>
+
+#include <kurl.h>
+#include <kshred.h>
+#include <kprogress.h>
+#include <kmessagebox.h>
+#include <klocale.h>
 
 kgpgShredWidget::kgpgShredWidget(QWidget *parent, const char *name):KgpgShred( parent, name)
 {

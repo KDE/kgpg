@@ -25,21 +25,13 @@
 #include <qevent.h>
 #include <qwidget.h>
 #include <qstring.h>
-#include <qpixmap.h>
-#include <qclipboard.h>
 #include <qdragobject.h>
-#include <qpopupmenu.h>
-#include <qcheckbox.h>
 #include <qlabel.h>
-#include <qtimer.h>
-#include <qregexp.h>
 #include <qwidgetlist.h>
 
 #include <kurl.h>
-#include <kaction.h>
 #include <kpopupmenu.h>
 #include <kiconloader.h>
-#include <khelpmenu.h>
 #include <ksystemtray.h>
 #include <kuniqueapplication.h>
 #include <kdeversion.h>
@@ -57,6 +49,8 @@
 #include "listkeys.h"
 #include "kgpgwizard.h"
 #include "kgpgshredwidget.h"
+
+class QPopupMenu;
 
 
 class MyView : public QLabel

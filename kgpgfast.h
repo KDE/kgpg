@@ -18,18 +18,14 @@
 #ifndef KGPGFAST_H
 #define KGPGFAST_H
 
-#include <qlayout.h>
-#include <qlabel.h>
 #include <qfile.h>
 #include <qstring.h>
-#include <qpushbutton.h>
 
 #include <kurl.h>
-#include <klineedit.h>
 #include <kdialogbase.h>
-#include <kbuttonbox.h>
-#include <kmessagebox.h>
-#include <klocale.h>
+class KLineEdit;
+class QPushButton;
+
 
 class KgpgOverwrite : public KDialogBase
 {

@@ -29,6 +29,7 @@
 #include <qhbuttongroup.h>
 #include <qvbuttongroup.h>
 #include <kmessagebox.h>
+#include <klocale.h>
 
 #include "keygener.h"
 

@@ -31,7 +31,7 @@
 #include "popupname.h"
 #include "kgpgview.h"
 #include "kgpg.h"
-
+#include <klocale.h>
 
 //////////////// configuration for editor
 

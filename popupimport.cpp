@@ -32,6 +32,7 @@
 #include <qhbuttongroup.h>
 #include <qvbuttongroup.h>
 #include <klineedit.h>
+#include <klocale.h>
 
 #include "popupimport.h"
 #include "kgpg.h"

@@ -19,7 +19,6 @@
 
 
 #include <kdialogbase.h>
-#include <klocale.h>
 
 class QCheckBox;
 

@@ -17,6 +17,10 @@
 
 #include <stdlib.h>
 
+#include <kdialogbase.h>
+#include <klocale.h>
+#include <qfile.h>
+
 #include <kapplication.h>
 #include <kcombobox.h>
 #include <kdialogbase.h>
@@ -37,6 +41,7 @@
 #include <kstatusbar.h>
 #include <qcheckbox.h>
 #include <kconfig.h>
+#include <klineedit.h>
 
 keyServer::keyServer(QWidget *parent, const char *name,bool modal,WFlags f):Keyserver( parent, name,modal,f)
 {
