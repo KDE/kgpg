@@ -76,7 +76,7 @@ accept();
 void KgpgOverwrite::slotcheck()
 {
 if (bouton1->isEnabled()){accept();return;}
-QFile nname(direc+lineedit->text());
+QFile nname(QString(direc+lineedit->text()).local8Bit());
 if (nname.exists())
 {
 int result=KMessageBox::warningContinueCancel(this,i18n("File %1 already exists").arg(lineedit->text()),i18n("Warning"),i18n("Overwrite"));
