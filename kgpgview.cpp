@@ -256,11 +256,12 @@ void KgpgView::clearSign()
         {
             read(process[0],Buff, Len);
 			lineRead=Buff;
-if (lineRead.find("goodsig",0,FALSE)!=-1) lineRead.remove(0,lineRead.find("goodsig",0,FALSE)+7);
-if (lineRead.find("badsig",0,FALSE)!=-1) lineRead.remove(0,lineRead.find("badsig",0,FALSE)+6);
+if (lineRead.find("GOODSIG",0,FALSE)!=-1) lineRead.remove(0,lineRead.find("GOODSIG",0,FALSE)+7);
+if (lineRead.find("BADSIG",0,FALSE)!=-1) lineRead.remove(0,lineRead.find("BADSIG",0,FALSE)+6);
+if (lineRead.find("NO_PUBKEY",0,FALSE)!=-1) lineRead.remove(0,lineRead.find("NO_PUBKEY",0,FALSE)+9);
             verifyResult+=Buff;
         }
-if ((verifyResult.find("goodsig",0,FALSE)!=-1) && (verifyResult.find("badsig",0,FALSE)==-1))
+if ((verifyResult.find("GOODSIG",0,FALSE)!=-1) && (verifyResult.find("BADSIG",0,FALSE)==-1))
 		{
 		lineRead=lineRead.left(lineRead.find("\n",0,FALSE));
 		lineRead=lineRead.stripWhiteSpace();
@@ -268,6 +269,21 @@ if ((verifyResult.find("goodsig",0,FALSE)!=-1) && (verifyResult.find("badsig",0,
 		QString resultID=lineRead.section(" ",0,0);
 		KMessageBox::information(this,i18n("<qt>Good signature from :<br><b>%1</b><br>Key ID: %2</qt>").arg(resultKey.replace(QRegExp("<"),"&lt;")).arg(resultID));
 		}
+		else
+		if ((verifyResult.find("NO_PUBKEY",0,FALSE)!=-1) && (verifyResult.find("BADSIG",0,FALSE)==-1))
+		{
+		lineRead=lineRead.left(lineRead.find("\n",0,FALSE));
+		lineRead=lineRead.stripWhiteSpace();
+
+if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
+	  "Do you want to import this key from a keyserver ?</qt>").arg(lineRead),i18n("Missing Key"))==KMessageBox::Yes)
+	  {
+keyServer *kser=new keyServer(0,"server_dialog",false,WDestructiveClose);
+kser->kLEimportid->setText(lineRead);
+kser->slotImport();
+	  }
+	  return;
+	}
 else
 {
 lineRead=lineRead.left(lineRead.find("\n",0,FALSE));

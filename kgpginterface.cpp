@@ -805,7 +805,7 @@ void KgpgInterface::verifyfin(KProcess *)
     KMessageBox::sorry(0,i18n("No signature found."),file.filename());
   else if (message.find("BADSIG")!=-1)
     {
-      message.remove(0,message.find("BADSIG")+7);
+      message.remove(0,message.find("BADSIG")+6);
       message=message.section('\n',0,0);
       message=message.stripWhiteSpace();
       keyID=message.section(' ',0,0);
@@ -813,6 +813,17 @@ void KgpgInterface::verifyfin(KProcess *)
       keyMail=message;
       KMessageBox::sorry(0,i18n("<qt><b>BAD signature</b> from:<br> %1<br>Key id: %2<br><br>"
 	  "<b>The file is corrupted!</b></qt>").arg(keyMail.replace(QRegExp("<"),"&lt;")).arg(keyID),file.filename());
+    }
+	else if (message.find("NO_PUBKEY")!=-1)
+    {
+      message.remove(0,message.find("NO_PUBKEY")+9);
+      message=message.section('\n',0,0);
+      keyID=message.stripWhiteSpace();
+      if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
+	  "Do you want to import this key from a keyserver ?</qt>").arg(keyID),file.filename())==KMessageBox::Yes)
+	emit verifyquerykey(keyID);
+	emit verifyfinished();
+	return;
     }
   else
     KMessageBox::sorry(0,message);

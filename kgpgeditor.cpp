@@ -395,13 +395,18 @@ if (!url.filename().endsWith(".sig"))
         }
 }
       ///////////////////////// pipe gpg command
-      KgpgInterface *verifyFileProcess=new KgpgInterface();
-	
+ KgpgInterface *verifyFileProcess=new KgpgInterface();
  verifyFileProcess->KgpgVerifyFile(url,KURL(sigfile));
+ connect (verifyFileProcess,SIGNAL(verifyquerykey(QString)),this,SLOT(importSignatureKey(QString)));
  }
- 
 }
 
+void KgpgApp::importSignatureKey(QString ID)
+{
+keyServer *kser=new keyServer(0,"server_dialog",false,WDestructiveClose);
+kser->kLEimportid->setText(ID);
+kser->slotImport();
+}
 
 void KgpgApp::openEncryptedDocumentFile(const KURL& url)
 {

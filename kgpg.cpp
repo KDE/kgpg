@@ -198,8 +198,15 @@ droppedUrl=KURL(sigfile.left(sigfile.length()-4));
       ///////////////////////// pipe gpg command
 KgpgInterface *verifyFileProcess=new KgpgInterface();
 verifyFileProcess->KgpgVerifyFile(droppedUrl,KURL(sigfile));
+connect (verifyFileProcess,SIGNAL(verifyquerykey(QString)),this,SLOT(importSignature(QString)));
 }
 
+void  MyView::importSignature(QString ID)
+{
+keyServer *kser=new keyServer(0,"server_dialog",false,WDestructiveClose);
+kser->kLEimportid->setText(ID);
+kser->slotImport();
+}
 
 void  MyView::signDroppedFile()
 {
@@ -282,8 +289,7 @@ case 2:
 }
 else if (url.path().endsWith(".sig"))
 {
-KgpgInterface *verifyFileProcess=new KgpgInterface();
-verifyFileProcess->KgpgVerifyFile(url,"");
+slotVerifyFile();
 }
 else switch (ufileDropEvent)
 {

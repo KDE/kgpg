@@ -99,6 +99,7 @@ void preferences();
 void  openEditor();
 
 private slots:
+void importSignature(QString ID);
 void slotSetClip(QString newtxt);
 void killDisplayClip();
 void encryptClipboard(QString &selec,QString encryptOptions);

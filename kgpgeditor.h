@@ -94,8 +94,6 @@ void slotFileNew();
 
 void slotFilePreEnc();
 void slotFilePreDec();
-
- 
 	void slotFileOpen();
     void slotFileSave();
     void slotFileSaveAs();
@@ -104,15 +102,16 @@ void slotFilePreDec();
     void slotEditCopy();
     void slotEditPaste();
 	void slotCheckMd5();
-	
+
 void slotPreSignFile();
 void slotSignFile(KURL url);
 void slotVerifyFile(KURL url);
 void slotPreVerifyFile();
+void importSignatureKey(QString ID);
 
     void slotundo();
     void slotredo();
-	
+
 private:
 
 #if (KDE_VERSION >= 310)

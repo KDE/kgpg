@@ -263,6 +263,10 @@ signals:
          */
 	void verifyfinished();
 	/**
+         *  emmitted if signature key is missing & user want to import it from keyserver
+         */
+	void verifyquerykey(QString ID);
+	/**
          *  true if signature successfull, false on error.
          */
 	void signfinished();
