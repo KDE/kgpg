@@ -40,13 +40,6 @@
 #include <qdialog.h>
 #include <qregexp.h>
 
-#include <kdeversion.h>
-
-#if (KDE_VERSION >= 310)
-#include <kpassivepopup.h>
-#endif
-
-
 
 // application specific includes
 
@@ -151,10 +144,6 @@ else cryptedClipboard=clipContent;
 
 cryptedClipboard.replace(QRegExp("<"),"&lt;");   /////   disable html tags
 cryptedClipboard.replace(QRegExp("\n"),"<br>");
-#if (KDE_VERSION >= 310)
-KPassivePopup::message(i18n("Encrypted following text:"),cryptedClipboard,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this,0,3500);
-#else
-{
 	clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
               QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
               QLabel *tex=new QLabel(clippop);
@@ -168,8 +157,6 @@ KPassivePopup::message(i18n("Encrypted following text:"),cryptedClipboard,KGloba
               clippop->adjustSize();
 			  clippop->show();
  QTimer::singleShot( 3000, this, SLOT(killDisplayClip()));
- }
- #endif
  //KMessageBox::information(this,i18n("Encrypted following text:\n")+QString(clipContent.left(60).stripWhiteSpace())+"...");
  connect(kapp->clipboard(),SIGNAL(dataChanged ()),this,SLOT(expressQuit()));
  }
@@ -666,7 +653,7 @@ void KgpgApp::slotEditPaste()
 void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool hideID,bool shred,bool symetric)
 {
   //////////////////              encode from file
-  if ((selec==NULL) && (symetric==false))
+  if ((selec==NULL) && (!symetric))
     {
       KMessageBox::sorry(0,i18n("You have not chosen an encryption key..."));
       return;
@@ -698,6 +685,7 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool hideID,bool sh
   if (pgpcomp)
     encryptOptions+=" --pgp6 ";
   KgpgInterface *cryptFileProcess=new KgpgInterface();
+      
   cryptFileProcess->KgpgEncryptFile(selec,urlselected,dest,encryptOptions,symetric);
   //KgpgEncryptFile *cryptFileProcess=new KgpgEncryptFile(selec,urlselected,dest,symetric,encryptOptions);
   if (shred)
@@ -708,7 +696,6 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool hideID,bool sh
 
 void KgpgApp::shredprocessenc(bool res)
 {
-
   if (!res)
     {
       KMessageBox::sorry(0,i18n("There was an error encrypting the file.\nCheck the key and your permissions."));
@@ -799,10 +786,11 @@ QString enckey=KgpgInterface::extractKeyName(urlselected);
   if (enckey.isEmpty()) enckey=i18n("[No user ID found]");
   decpasssrc=urlselected;
   if (!newname.isEmpty()) ////////////////////   decrypt to file
-  {
+  {	
   decpassdest=KURL(newname);
   decresult=decryptFileProcess->KgpgDecryptFile(enckey,decpasssrc,decpassdest);
   if (decresult==0) {if (fastact) kapp->exit(0); else return;}
+  else 
   connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
   connect(decryptFileProcess,SIGNAL(badpassphrase(bool)),this,SLOT(processdec(bool)));
   }

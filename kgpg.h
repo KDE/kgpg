@@ -31,6 +31,8 @@
 #include <kmainwindow.h>
 #include <kaction.h>
 #include <kurl.h>
+#include <kdeversion.h>
+
 
 #include "listkeys.h"
 #include "kgpgview.h"
