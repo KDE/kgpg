@@ -1211,9 +1211,8 @@ kdDebug()<<"Importing is over"<<endl;
 
         while (parsedOutput.find("IMPORTED")!=-1) {
                 parsedOutput.remove(0,parsedOutput.find("IMPORTED")+8);
-                parsedOutput=parsedOutput.section("\n",0,0).stripWhiteSpace();
-		importedKeys<<parsedOutput;
-		importedKeysIds<<parsedOutput.section(' ',0,0);
+		importedKeys<<parsedOutput.section("\n",0,0).stripWhiteSpace();
+		importedKeysIds<<parsedOutput.stripWhiteSpace().section(' ',0,0);
         }
 
         if (message.find("IMPORT_RES")!=-1) {
