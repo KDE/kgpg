@@ -87,7 +87,7 @@ KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0,
         {
           if (encryptfileto==false)
             {
-              popupPublic *dialogue=new popupPublic(this,"public_keys", fileToOpen.filename(),true);
+              popupPublic *dialogue=new popupPublic(this,"public_keys",fileToOpen.filename(),true);
               connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool)),this,SLOT(fastencode(QString &,bool,bool,bool,bool)));
               if (dialogue->exec()==QDialog::Rejected ) exit(0);
             }
@@ -460,8 +460,8 @@ void KgpgApp::slotClip()
 
   // Copy text from the clipboard (paste)
   text = cb->text();
-  if ( !text.isEmpty() )
-      view->editor->setText(text);
+  if ( !text.isEmpty())
+    view->editor->setText(text);
   view->popuppass();
   //KMessageBox::sorry(0,text);
 
@@ -624,7 +624,7 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool shred,bool sym
 
   if (fgpg.exists())
     {
-      KgpgOverwrite *over=new KgpgOverwrite(this,"overwrite", dest);
+      KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",dest);
       over->exec();
       if (over->result())
         dest.setFileName(over->getfname());
@@ -743,7 +743,7 @@ void KgpgApp::slotprocresult(KProcess *)
       QFile fgpg(newname);
       if (fgpg.exists())
         {
-          KgpgOverwrite *over=new KgpgOverwrite(this, "overwrite",KURL(newname));
+          KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",KURL(newname));
           over->exec();
           if (over->result()==true)
             {
@@ -880,4 +880,4 @@ void KgpgApp::slotFileDec()
     }
 }
 //#include "kgpg.moc"
-#include "kgpg.moc"
+
