@@ -1172,6 +1172,87 @@ void listKeys::listsigns()
                 //delete opts;
                 keysList2->refreshcurrentkey(keysList2->currentItem());
         }
+	else editGroup();
+}
+
+void listKeys::groupAdd()
+{
+QPtrList<QListViewItem> addList=gEdit->availableKeys->selectedItems();
+                for ( uint i = 0; i < addList.count(); ++i )
+                        if ( addList.at(i) ) {
+				gEdit->groupKeys->insertItem(addList.at(i));
+                                }
+}
+
+void listKeys::groupRemove()
+{
+QPtrList<QListViewItem> remList=gEdit->groupKeys->selectedItems();
+                for ( uint i = 0; i < remList.count(); ++i )
+                        if ( remList.at(i) ) {
+				gEdit->availableKeys->insertItem(remList.at(i));
+                                }
+}
+
+void listKeys::groupChange()
+{
+KMessageBox::sorry(0,i18n("Group editing not implemented yet..."));
+}
+
+void listKeys::groupInit()
+{
+	QStringList keysGroup=KgpgInterface::getGpgGroupSetting(keysList2->currentItem()->text(0),keysList2->configFilePath);
+	QString groupKeyList=keysGroup.join(" ");
+	QString searchString,lostKeys;
+	bool foundId;
+
+for ( QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it )
+{
+kdDebug()<<"Searchin:"<<*it<<"\n";
+	QListViewItem *item=gEdit->availableKeys->firstChild();
+	foundId=false;
+	while (item)
+	{
+	kdDebug()<<"Searching in key: "<<item->text(0)<<"\n";
+	if (QString(*it).right(8).lower()==item->text(2).right(8).lower())
+	{
+	gEdit->groupKeys->insertItem(item);
+	foundId=true;
+	break;
+	}
+	item=item->nextSibling();
+	}
+if (!foundId) lostKeys+=QString(*it);
+}
+if (!lostKeys.isEmpty()) KMessageBox::sorry(this,i18n("<qt>Following keys are in the group but are not valid or not in your keyring:<br>%1</qt>").arg(lostKeys));
+}
+
+void listKeys::editGroup()
+{
+gEdit=new groupEdit(this);
+//connect(gEdit->groupKeys,SIGNAL(dropped (QDropEvent *, QListViewItem *)),this,SLOT(GroupAdd(QDropEvent *, QListViewItem *)));
+connect(gEdit->buttonAdd,SIGNAL(clicked()),this,SLOT(groupAdd()));
+connect(gEdit->buttonRemove,SIGNAL(clicked()),this,SLOT(groupRemove()));
+connect(gEdit->buttonOk,SIGNAL(clicked()),this,SLOT(groupChange()));
+
+QListViewItem *item=keysList2->firstChild();
+if (item==NULL) return;
+if (item->pixmap(2))
+{
+if (item->pixmap(2)->serialNumber()==keysList2->trustgood.serialNumber())
+(void) new KListViewItem(gEdit->availableKeys,item->text(0),item->text(1),item->text(6));
+}
+while (item->nextSibling())
+{
+item=item->nextSibling();
+if (item->pixmap(2))
+{
+if (item->pixmap(2)->serialNumber()==keysList2->trustgood.serialNumber())
+(void) new KListViewItem(gEdit->availableKeys,item->text(0),item->text(1),item->text(6));
+}
+}
+groupInit();
+gEdit->exec();
+delete gEdit;
 }
 
 void listKeys::signkey()
@@ -1656,7 +1737,7 @@ void KeyView::expandKey(QListViewItem *item)
         //kdDebug()<<"Expanding Key\n";
         if (item->childCount()!=0)
                 return;   // key has already been expanded
-	if (item->text(6).isEmpty()) {expandGroup(item);return;}
+	//if (item->text(6).isEmpty()) {expandGroup(item);return;}
         FILE *fp;
         QString tst,cycle,revoked;
         char line[300];
@@ -1862,7 +1943,7 @@ void KeyView::refreshkeylist()
 	{
         item=new UpdateViewItem(this,QString(*it),"","","","","","",false,false);
 	item->setPixmap(0,pixkeyGroup);
-	item->setExpandable(true);
+	item->setExpandable(false);
 	}
 
         if(current != NULL) {

@@ -74,6 +74,7 @@
 #include "kgpgoptions.h"
 #include "keyservers.h"
 #include "keyinfowidget.h"
+#include "groupedit.h"
 #include "dcopiface.h"
 
 typedef struct gpgKey
@@ -171,6 +172,7 @@ private:
         bool globalisLocal;
         QString globalkeyMail,globalkeyID,searchString;
 	long searchOptions;
+	groupEdit *gEdit;
 
 protected:
         void closeEvent( QCloseEvent * e );
@@ -225,6 +227,11 @@ private slots:
 	void addToKAB();
 	void allToKAB();
 	QString extractKeyMail(QListViewItem *keyitem);
+	void editGroup();
+	void groupAdd();
+	void groupRemove();
+	void groupInit();
+	void groupChange();
 
 signals:
         void readAgainOptions();
