@@ -29,12 +29,24 @@
 #include <klocale.h>
 #include <kstdaction.h>
 #include <kurldrag.h>
+#include <kmessagebox.h>
+#include <qfile.h>
+#include <qlayout.h>
+#include <kbuttonbox.h>
+#include <unistd.h>
+#include <kaction.h>
+#include <klineedit.h>
+#include <qtextcodec.h>
 
 #include "kgpgsettings.h"
 #include "kgpginterface.h"
 #include "kgpgview.h"
+#include "keyservers.h"
+#include "keyserver.h"
 #include "kgpg.h"
-
+#include "kgpgeditor.h"
+#include "listkeys.h"
+#include "popuppublic.h"
 
 //////////////// configuration for editor
 

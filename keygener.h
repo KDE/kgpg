@@ -17,13 +17,10 @@
 #ifndef KEYGEN_H
 #define KEYGEN_H
 
-
 #include <kdialogbase.h>
-
 
 class KComboBox;
 class KLineEdit;
-
 
 class keyGenerate : public KDialogBase
 {
@@ -49,4 +46,5 @@ public slots:
         int getkeyexp();
 };
 
-#endif
+#endif // KEYGEN_H
+

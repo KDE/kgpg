@@ -15,7 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
- #include "keyinfowidget.h"
+#include "keyinfowidget.h"
+#include <klocale.h>
+#include <kprocess.h>
+#include "keyinfowidget.h"
+#include "keyproperties.h"
+#include "kgpginterface.h"
+#include <qdatetime.h>
+#include <qfile.h>
+#include <kprocio.h>
+#include <kpassivepopup.h>
+#include <kaction.h>
+#include <qregexp.h>
+#include <ktempfile.h>
+#include <qimage.h>
+#include <kdatepicker.h>
+#include <qpushbutton.h>
+#include <kcombobox.h>
+#include <qlabel.h>
+#include <kiconloader.h>
+#include <qcheckbox.h>
+#include <qlayout.h>
+#include <kactivelabel.h>
+#include <klineedit.h>
+#include <ktrader.h> 
+#include <kservice.h>
 
 KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDialogBase( Swallow, i18n("Key Properties"), Close, Close, parent, name,true)
 {

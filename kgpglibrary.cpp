@@ -23,8 +23,13 @@
 #include <kconfig.h>
 #include <kmessagebox.h>
 #include <krun.h>
-
+#include <qfile.h>
+#include <kpassivepopup.h>
+#include <kiconloader.h>
 #include "kgpglibrary.h"
+#include "popuppublic.h"
+#include "kgpginterface.h"
+#include <kio/renamedlg.h>
 
 KgpgLibrary::KgpgLibrary(QWidget *parent, bool pgpExtension)
 {

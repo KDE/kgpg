@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 ////////////////////////////////////////////////////////   code  for choosing a public key from a list for encryption
+#include <qlayout.h>
 #include <qpushbutton.h>
 #include <qptrlist.h>
 #include <qwhatsthis.h>
@@ -33,6 +34,10 @@
 #include <klocale.h>
 #include <kaccel.h>
 #include <klistviewsearchline.h>
+#include <kactivelabel.h>
+#include <kaction.h>
+#include <kdebug.h>
+#include <kiconloader.h>
 
 #include "popuppublic.h"
 #include "kgpgsettings.h"

@@ -19,21 +19,12 @@
 #ifndef KGPGLIBRARY_H
 #define KGPGLIBRARY_H
 
-#include <qevent.h>
-#include <qwidget.h>
-#include <qstring.h>
-#include <qwidgetlist.h>
-#include <qapplication.h>
-
+#include <qobject.h>
 #include <kurl.h>
-#include <kdeversion.h>
-#include <kpassivepopup.h>
-#include <kprogress.h>
 #include <kio/job.h> 
 
-#include "popuppublic.h"
-#include "kgpginterface.h"
-
+class KPassivePopup;
+class KProgress;
 
 class KgpgLibrary : public QObject
 {
@@ -84,7 +75,7 @@ signals:
         void decryptionOver();
 	void importOver(QStringList);
 	void systemMessage(QString,bool reset=false);
-
-
 };
-#endif
+
+#endif // KGPGLIBRARY_H
+

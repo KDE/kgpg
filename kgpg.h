@@ -22,37 +22,19 @@
 #include <config.h>
 #endif
 
-#include <qevent.h>
-#include <qwidget.h>
-#include <qstring.h>
-#include <qdragobject.h>
-#include <qlabel.h>
-#include <qwidgetlist.h>
-#include <qhbuttongroup.h>
-#include <qclipboard.h>
-
-#include <kurl.h>
-#include <kpopupmenu.h>
-#include <kiconloader.h>
 #include <ksystemtray.h>
 #include <kuniqueapplication.h>
-#include <kdeversion.h>
-#include <kcmdlineargs.h>
-#include <kdesktopfile.h>
-#include <krun.h>
-#include <kpassivepopup.h>
-#include <kurlrequesterdlg.h>
-#include <kio/renamedlg.h>
-
-#include "kgpgeditor.h"
-#include "kgpgoptions.h"
-#include "popuppublic.h"
-
-#include "listkeys.h"
-#include "kgpgwizard.h"
+#include <qlabel.h>
+#include <kurl.h>
+#include <qstringlist.h>
+#include <qclipboard.h>
 
 class QPopupMenu;
-
+class KTempFile;
+class KAboutData;
+class KPassivePopup;
+class KgpgWizard;
+class popupPublic;
 
 class MyView : public QLabel
 {
@@ -172,6 +154,5 @@ private slots:
 	void wizardOver(QString defaultKeyId);
 };
 
+#endif // KGPGAPPLET_H
 
-
-#endif

@@ -21,6 +21,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+#include <kurlrequester.h> 
 #include <qdir.h>
 #include <qfile.h>
 #include <qlayout.h>
@@ -31,12 +32,20 @@
 #include <qclipboard.h>
 #include <qkeysequence.h>
 #include <qtextcodec.h>
+#include <kstatusbar.h>
 #include <qtimer.h>
 #include <qpaintdevicemetrics.h>
 #include <qtooltip.h>
 #include <qheader.h>
-
-
+#include <ktempfile.h>
+#include <kdebug.h>
+#include <kprocess.h>
+#include <kprocio.h>
+#include <qwidget.h>
+#include <kaction.h>
+#include <qcheckbox.h>
+#include <qlabel.h>
+#include <qradiobutton.h>
 #include <kio/netaccess.h>
 #include <kurl.h>
 #include <kfiledialog.h>
@@ -50,19 +59,43 @@
 #include <kurldrag.h>
 #include <kwin.h>
 #include <dcopclient.h>
-
+#include <klineedit.h>
+#include <kurl.h>
+#include <kiconloader.h>
+#include <kmessagebox.h>
+#include <kapplication.h>
 #include <kabc/stdaddressbook.h>
 #include <kabc/addresseedialog.h>
-
+#include <kedittoolbar.h>
+#include <kdesktopfile.h>
+#include <kmimetype.h>
+#include <kstandarddirs.h>
+#include <qcombobox.h>
+#include <kpassivepopup.h>
+#include <kfind.h>
+#include <qpopupmenu.h>
+#include "newkey.h"
+#include "kgpg.h"
+#include "kgpgeditor.h"
+#include "kgpgview.h"
+#include <kfinddialog.h>
 #include "listkeys.h"
 #include "keyexport.h"
 #include "sourceselect.h"
 #include "adduid.h"
+#include "groupedit.h"
+#include "kgpgrevokewidget.h"
 #include "keyservers.h"
+#include "keyserver.h"
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include <qtabwidget.h>
-
+#include <kinputdialog.h>
+#include <kpassdlg.h>
+#include "keygener.h"
+#include <qwidget.h>
+#include "kgpgoptions.h"
+#include "keyinfowidget.h"
 
 //////////////  KListviewItem special
 

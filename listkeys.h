@@ -18,72 +18,30 @@
 #ifndef LISTKEYS_H
 #define LISTKEYS_H
 
-#include <qpushbutton.h>
-#include <qdialog.h>
-#include <qwidget.h>
-#include <qpopupmenu.h>
-#include <qptrlist.h>
-#include <qlistview.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qradiobutton.h>
-#include <qbuttongroup.h>
-#include <qvbuttongroup.h>
-#include <qcombobox.h>
-#include <qcheckbox.h>
-#include <qdragobject.h>
-#include <qevent.h>
-#include <qdatetime.h>
-#include <qpalette.h>
-#include <qcolor.h>
-#include <qtooltip.h>
-#include <qwizard.h>
-#include <qmovie.h>
-
-#include <kmainwindow.h>
-#include <kurl.h>
-#include <ktempfile.h>
-#include <kstatusbar.h>
-#include <ktoolbar.h>
-#include <klineedit.h>
-#include <kinputdialog.h>
-#include <klistview.h>
 #include <kdialogbase.h>
-#include <kbuttonbox.h>
-#include <kcombobox.h>
-#include <kmessagebox.h>
-#include <kprocess.h>
-#include <kprocio.h>
-#include <kglobal.h>
-#include <kiconloader.h>
-#include <kpassdlg.h>
-#include <kaction.h>
-#include <kapplication.h>
-#include <kedittoolbar.h>
-#include <kpassivepopup.h>
-#include <dcopclient.h>
-#include <kstandarddirs.h>
-#include <kfinddialog.h>
-#include <kfind.h>
-#include <kurlrequester.h>
-#include <ktrader.h>
-#include <kservice.h>
-
-
-
-#include "kgpg.h"
-#include "keygener.h"
-#include "kgpgeditor.h"
-#include "kgpgoptions.h"
-#include "keyservers.h"
-#include "keyinfowidget.h"
-#include "groupedit.h"
+#include <klistview.h>
+#include <kmainwindow.h>
 #include "dcopiface.h"
-#include "kgpgrevokewidget.h"
-#include "newkey.h"
 
+#include <qptrlist.h>
+#include <qstringlist.h>
+#include <kurl.h>
+
+class QPushButton;
+class QPopupMenu;
+class QLabel;
+class QCheckbox;
+class KStatusBar;
+class KPassivePopup;
+class KProcess;
+class KProcIO;
+class QEvent;
+class KTempFile;
+class KgpgApp;
+class keyServer;
+class groupEdit;
+class KgpgInterface;
+class KSelectAction;
 
 typedef struct gpgKey
 {
@@ -308,10 +266,8 @@ signals:
         void certificate(QString);
         void closeAsked();
         void fontChanged(QFont);
-
-
 };
 
 
-#endif
+#endif // LISTKEYS_H
 

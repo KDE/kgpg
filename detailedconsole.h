@@ -20,8 +20,6 @@
 
 #include <kdialogbase.h>
 
-
-
 class KDetailedConsole : public KDialogBase
 {
 public:
@@ -41,4 +39,5 @@ public:
 
 };
 
-#endif
+#endif // KDETAILED_H
+

@@ -18,37 +18,17 @@
 #ifndef KEYINFOWIDGET_H
 #define KEYINFOWIDGET_H
 
-#include <qcolor.h>
-#include <qstring.h>
-#include <qcheckbox.h>
-#include <qfile.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qregexp.h>
-#include <qlayout.h>
-#include <qpixmap.h>
-#include <qimage.h>
-
-
-#include <kactivelabel.h>
-#include <kprocess.h>
-#include <klineedit.h>
-#include <kurl.h>
-#include <ktempfile.h>
-#include <kglobal.h>
 #include <kdialogbase.h>
-#include <kpassivepopup.h>
-#include <kdatepicker.h>
-#include <kiconloader.h>
-#include <klocale.h>
-#include <kcombobox.h>
-#include <ktrader.h>
-#include <kservice.h>
-#include <kfiledialog.h>
-#include <kiconview.h>
+#include <qpixmap.h>
 
-#include "keyproperties.h"
-#include "kgpginterface.h"
+class KTempFile;
+class QLabel;
+class KDialogBase;
+class QCheckBox;
+class KDatePicker;
+class KeyProperties;
+class KProcess;
+class KProcIO;
 
 class KgpgKeyInfo : public KDialogBase
 {
@@ -92,10 +72,12 @@ private:
 	int counter;
 
 signals:
-void signalPhotoId(const QPixmap&);
-void changeMainPhoto(const QPixmap&);
-void keyNeedsRefresh();
+	
+	void signalPhotoId(const QPixmap&);
+	void changeMainPhoto(const QPixmap&);
+	void keyNeedsRefresh();
 
 };
 
-#endif
+#endif // KEYINFOWIDGET_H
+

@@ -19,28 +19,15 @@
 #define KGPGINTERFACE_H
 
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <qstring.h>
-#include <qfile.h>
-#include <qdatetime.h>
 #include <qobject.h>
-
-#include <kled.h>
-#include <kprocess.h>
-#include <kprocio.h>
+#include <kdialogbase.h>
 #include <kurl.h>
-#include <kconfig.h>
-#include <kio/netaccess.h>
-#include <kdebug.h>
-#include <ktempfile.h>
-#include <kio/renamedlg.h>
-
-#include "detailedconsole.h"
+#include <qdatetime.h>
 
 class QLabel;
+class KProcIO;
+class KProcess;
+class KLed;
 
 /**
  * Encrypt a file using gpg.
@@ -410,4 +397,5 @@ private:
         QLabel *TextLabel1_2;
 };
 
-#endif
+#endif // KGPGINTERFACE_HKGPGINTERFACE_H
+

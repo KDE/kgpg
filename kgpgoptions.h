@@ -17,21 +17,17 @@
 #ifndef KGPGOPTIONS_H
 #define KGPGOPTIONS_H
 
-
 #include <kconfigdialog.h>
-#include <kinputdialog.h>
-#include <klistview.h>
-#include <kfontdialog.h>
-#include <ksimpleconfig.h>
-
-#include "conf_encryption.h"
-#include "conf_decryption.h"
-#include "conf_ui.h"
-#include "conf_gpg.h"
-#include "conf_servers.h"
-
 
 class KConfig;
+class Encryption;
+class Decryption;
+class UI;
+class GPGConf;
+class ServerConf;
+class KFontChooser;
+class KConfig;
+class KSimpleConfig;
 
 class kgpgOptions : public KConfigDialog
 {
@@ -92,4 +88,5 @@ signals:
 	void homeChanged();
 };
 
-#endif
+#endif // KGPGOPTIONS_H
+

@@ -17,14 +17,7 @@
 #ifndef POPUPPUBLIC_H
 #define POPUPPUBLIC_H
 
-#include <qdialog.h>
-#include <qwidget.h>
-
-#include <qstring.h>
-
-#include <kglobal.h>
 #include <kdialogbase.h>
-#include <kiconloader.h>
 
 class QPushButton;
 class QCheckBox;
@@ -75,4 +68,5 @@ signals:
 
 };
 
-#endif
+#endif // POPUPPUBLIC_H
+

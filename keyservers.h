@@ -18,14 +18,14 @@
 #ifndef KEYSERVERS_H
 #define KEYSERVERS_H
 
-#include <klistview.h>
-#include <ksimpleconfig.h>
+#include <kdialogbase.h>
 
-#include "keyserver.h"
-#include "searchres.h"
-#include "kgpginterface.h"
-#include "detailedconsole.h"
-
+class KListViewItem;
+class KSimpleConfig;
+class KProcIO;
+class KProcess;
+class keyServerWidget;
+class searchRes;
 
 class keyServer : public KDialogBase
 {
@@ -75,4 +75,5 @@ signals:
 	void importFinished();
 };
 
-#endif
+#endif // KEYSERVERS_H
+

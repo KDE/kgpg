@@ -24,7 +24,8 @@
 #include <qstring.h>
 #include <qlabel.h>
 #include <qapplication.h>
-
+#include <kio/netaccess.h> 
+#include <qcheckbox.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kpassdlg.h>
@@ -33,10 +34,19 @@
 #include <kcharsets.h>
 #include <kpassivepopup.h>
 #include <kiconloader.h>
-
+#include <kaction.h>
 #include <qtextcodec.h>
-
+#include <kprocess.h>
+#include <kprocio.h>
+#include <kconfig.h>
+#include <qfile.h>
+#include <kled.h>
+#include <kdebug.h>
+#include <ktempfile.h>
 #include "kgpginterface.h"
+#include "listkeys.h"
+#include <kprocio.h>
+#include "detailedconsole.h"
 
 KgpgInterface::KgpgInterface()
 {}

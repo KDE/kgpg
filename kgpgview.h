@@ -22,31 +22,10 @@
 #include <config.h>
 #endif
 
-
-// include files for Qt
-#include <qwidget.h>
-#include <qtextedit.h>
-#include <qlayout.h>
-#include <qfile.h>
-#include <qtextstream.h>
-#include <qdragobject.h>
-#include <qevent.h>
-
-#include <ktexteditor/editor.h>
-
-#include <kbuttonbox.h>
-#include <kpassdlg.h>
-#include <kprocess.h>
-#include <kprocio.h>
-#include <kmessagebox.h>
-#include <kurl.h>
 #include <ktextedit.h>
+#include <kurl.h>
 
-
-
-//#include "popuppublic.h"
-//#include "listkeys.h"
-
+class QDragEnterEvent;
 
 //class KgpgDoc;
 
@@ -139,3 +118,4 @@ signals:
 };
 
 #endif // KGPGVIEW_H
+

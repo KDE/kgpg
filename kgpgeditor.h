@@ -22,35 +22,16 @@
 #include <config.h>
 #endif
 
-#include <qevent.h>
-#include <qwidget.h>
-#include <qstring.h>
-#include <qdragobject.h>
-#include <qwidgetlist.h>
-#include <qpainter.h>
-#include <qpaintdevice.h>
-#include <qtextcodec.h>
-#include <qpaintdevicemetrics.h>
-
-#include <kurl.h>
-#include <kfontdialog.h> 
-#include <kpopupmenu.h>
-#include <kcombobox.h>
-#include <khelpmenu.h>
-#include <ksystemtray.h>
-#include <kdeversion.h>
-#include <kpassivepopup.h>
 #include <kmainwindow.h>
-#include <kprinter.h>
-#include <kcharsets.h>
-#include <kactionclasses.h> 
 
-#include "kgpginterface.h"
-#include "kgpgview.h"
-#include "kgpgoptions.h"
-#include "kgpglibrary.h"
+#include <qstringlist.h>
+#include <kurl.h>
 
+class KPassivePopup;
+class KComboBox;
+class KToggleAction;
 class KAction;
+class KgpgView;
 
 class KgpgApp : public KMainWindow
 {
@@ -133,5 +114,6 @@ void refreshImported(QStringList);
 void openChangeFont();
 void openConfigDialog();
 };
-#endif
+
+#endif // KGPGEDITOR_H
 

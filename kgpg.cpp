@@ -21,16 +21,35 @@
 #include <qfile.h>
 #include <qpopupmenu.h>
 #include <qwidget.h>
+#include <qcheckbox.h>
 #include <qmovie.h>
 #include <qcstring.h>
-
+#include <qhbuttongroup.h> 
 #include <kglobal.h>
+#include <kactivelabel.h>
 #include <kdeversion.h>
 #include <klocale.h>
 #include <kconfig.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
 #include <kcombobox.h>
+#include <qregexp.h>
+#include <kcmdlineargs.h>
+#include <qtooltip.h>
+#include <kdebug.h>
+#include <kurlrequesterdlg.h> 
+#include <klineedit.h>
+#include "kgpgeditor.h"
+#include <kio/renamedlg.h>
+#include "kgpglibrary.h"
+#include "kgpgwizard.h"
+#include "popuppublic.h"
+#include "kgpgview.h"
+#include <kpassivepopup.h>
+#include <qlayout.h>
+#include <qbuttongroup.h>
+#include <kiconloader.h>
+#include <ktempfile.h>
 #include <kwin.h>
 #include <kprocess.h>
 #include <kprocio.h>
@@ -44,11 +63,20 @@
 #include <kzip.h>
 #include <stdlib.h>
 #include <dcopclient.h>
-
+#include <kglobal.h>
+#include <kstandarddirs.h>
+#include <kfiledialog.h>
+#include <kdebug.h>
+#include <kpopupmenu.h>
+#include <qcursor.h>
+#include <kdesktopfile.h>
 
 #include "kgpg.h"
 #include "kgpgsettings.h"
-
+#include "listkeys.h"
+#include "popuppublic.h"
+#include "keyserver.h"
+#include "keyservers.h"
 
 MyView::MyView( QWidget *parent, const char *name )
                 : QLabel( parent, name )
