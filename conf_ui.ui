@@ -61,6 +61,11 @@
                                     <property name="text">
                                         <string>Sign file service menu:</string>
                                     </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>&lt;qt&gt;&lt;b&gt;Sign file service menu:&lt;/b&gt;&lt;br /&gt;
+					&lt;p&gt;&lt;/p&gt;
+					&lt;/qt&gt;</string>
+					</property>
                                 </widget>
                                 <widget class="QLabel">
                                     <property name="name">
@@ -76,6 +81,11 @@
                                     </property>
                                     <property name="text">
                                         <string>Decrypt file service menu:</string>
+                                    </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>&lt;qt&gt;&lt;b&gt;Decrypt file service menu:&lt;/b&gt;&lt;br /&gt;
+					&lt;p&gt;&lt;/p&gt;
+					&lt;/qt&gt;</string>
                                     </property>
                                 </widget>
                             </vbox>
@@ -171,6 +181,11 @@
                                     <property name="text">
                                         <string>Event on unencrypted file drop:</string>
                                     </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>&lt;qt&gt;&lt;b&gt;Event on unencrypted file drop:&lt;/b&gt;&lt;br /&gt;
+					&lt;p&gt;&lt;/p&gt;
+					&lt;/qt&gt;</string>
+                                    </property>
                                 </widget>
                                 <widget class="QLabel">
                                     <property name="name">
@@ -179,6 +194,11 @@
                                     <property name="text">
                                         <string>Event on encrypted file drop:</string>
                                     </property>
+                                    <property name="whatsThis" stdset="0">
+                                        <string>&lt;qt&gt;&lt;b&gt;Event on encrypted file drop:&lt;/b&gt;&lt;br /&gt;
+					&lt;p&gt;&lt;/p&gt;
+					&lt;/qt&gt;</string>
+				     </property>
                                 </widget>
                             </vbox>
                         </widget>
@@ -282,7 +302,8 @@
                         <string>Use mouse selection instead of clipboard</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>&lt;b&gt;Use mouse selection instead of clipboard:&lt;/b&gt; If checked, clipboard operations in KGpg will use the selection clipboard, that means highligting a text to copy, and middle button (or right+left together) to paste. If this option is not checked, the clipboard will work with Key shortcuts (Ctrl-c, Ctrl-v). </string>
+		    <string>&lt;qt&gt;&lt;b&gt;Use mouse selection instead of clipboard:&lt;/b&gt; &lt;br /&gt;
+			&lt;p&gt;If checked, clipboard operations in KGpg will use the selection clipboard, that means highlighting a text to copy, and middle button (or right+left together) to paste. If this option is not checked, the clipboard will work with Key shortcuts (Ctrl-c, Ctrl-v).&lt;/p&gt;&lt;/qt&gt; </string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
@@ -300,7 +321,8 @@
 (Only occurs on remote files operations)</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>&lt;b&gt;Show email first in keys list&lt;/b&gt; Lets you choose if you want the email or the user name displayed first in the keys dialogs.</string>
+                        <string>&lt;qt&gt;&lt;b&gt;Display warning before creating temporary files:&lt;/b&gt;&lt;br /&gt;
+			&lt;p&gt;&lt;/p&gt;&lt;/qt&gt;</string>
                     </property>
                 </widget>
             </grid>

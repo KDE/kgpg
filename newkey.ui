@@ -101,8 +101,9 @@
                         <string>Set as your default key</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>&lt;b&gt;Set as your default key:&lt;/b&gt;
-Checking this option sets the newly created key pair as the default key pair.</string>
+                        <string>&lt;qt&gt;&lt;b&gt;Set as your default key:&lt;/b&gt;&lt;br /&gt;
+			&lt;p&gt;Checking this option sets the newly created key pair as the default key pair.&lt;/p&gt;
+			&lt;/qt&gt;</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit" row="3" column="0" rowspan="1" colspan="2">

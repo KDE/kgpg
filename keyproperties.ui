@@ -141,6 +141,11 @@
                     <property name="alignment">
                         <set>AlignCenter</set>
                     </property>
+                        <property name="whatsThis" stdset="0">
+			<string>&lt;qt&gt;&lt;b&gt;Photo:&lt;/b&gt;&lt;br /&gt;
+			&lt;p&gt;A photo can be included with a public key for extra security. The photo can be used as an additional method of authenticating the key. However, it should not be relied upon as the only form of authentication.&lt;/p&gt;
+			&lt;/qt&gt;</string>
+			</property>
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">

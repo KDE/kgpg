@@ -51,6 +51,11 @@
             <property name="text">
                 <string>Custom decryption command:</string>
             </property>
+            <property name="whatsThis" stdset="0">
+                <string>&lt;qt&gt;&lt;b&gt;Custom Decryption Command:&lt;/b&gt;&lt;br /&gt;
+		&lt;p&gt;This option allows the user to specify a custom command to be executed by GPG when decryption occurs. (This is recommended for advanced users only).&lt;/p&gt;
+		&lt;/qt&gt;</string>
+            </property>
         </widget>
     </grid>
 </widget>
