@@ -93,9 +93,46 @@ void KgpgApp::initActions()
         (void) new KAction(i18n("&Verify Signature..."),0, this, SLOT(slotPreVerifyFile()), actionCollection(), "sign_verify");
         (void) new KAction(i18n("&Check MD5 Sum..."), 0,this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
 	KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
+	
+	
+	///////////           todo : changing encoding
+	/*
+	encodingAction = new KSelectAction( i18n( "Se&t Encoding" ), "charset",0, this, SLOT(slotSetCharset() ),actionCollection(), "charsets" );
+	QStringList encodingNames = KGlobal::charsets()->availableEncodingNames();
+  	QStringList encodings;
+  	QMap<QString,bool> mimeNames;
+  	for (QStringList::Iterator it = encodingNames.begin();
+    	it != encodingNames.end(); it++)
+  	{
+    	QTextCodec *codec = KGlobal::charsets()->codecForName(*it);
+    	QString mimeName = (codec) ? QString(codec->mimeName()).lower() : (*it);
+    	if (mimeNames.find(mimeName) == mimeNames.end())
+    	{
+      	encodings.append(KGlobal::charsets()->languageForEncoding(*it) + " ( " + mimeName + " )");
+      	mimeNames.insert(mimeName, TRUE);
+    	}
+  	}
+  	encodings.sort();
+	encodings.prepend(KGlobal::charsets()->languageForEncoding("us-ascii") + " ( us-ascii )");
+	
+  	encodings.prepend( i18n("Auto-detect"));
+  	encodingAction->setItems( encodings );
+  	encodingAction->setCurrentItem( -1 );
+	*/
 }
 
+void KgpgApp::slotSetCharset()
+{
+////////  work in progress
 
+/*
+QTextCodec *codec = QTextCodec::codecForName("KOI8-R");  //encodingAction->currentText()
+QString locallyEncoded = codec->fromUnicode( view->editor->text());
+view->editor->setText(locallyEncoded.utf8());
+//->setCharset(KGlobal::charsets()->encodingForName( encodingAction->currentText() ).latin1());
+*/
+}
+    
 void KgpgApp::initView()
 {
         ////////////////////////////////////////////////////////////////////
@@ -211,12 +248,21 @@ void KgpgApp::slotFileOpen()
 
 }
 
-
+bool KgpgApp::checkEncoding()
+{
+//KGlobal::charsets()->codecForName(encodingAction->currentText());                    ///     encoding selected
+QTextCodec *codec = KGlobal::charsets()->codecForName("Latin1");;
+return codec->canEncode(view->editor->text());
+}
 
 void KgpgApp::slotFileSave()
 {
         // slotStatusMsg(i18n("Saving file..."));
-
+if (!checkEncoding()) 
+{
+KMessageBox::sorry(this,i18n("The document could not been saved, as the selected encoding cannot encode every unicode character in it!"));
+return;
+}
         QString filn=Docname.path();
         if (filn.isEmpty()) {
                 slotFileSaveAs();

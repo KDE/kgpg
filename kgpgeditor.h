@@ -29,6 +29,7 @@
 #include <qwidgetlist.h>
 #include <qpainter.h>
 #include <qpaintdevice.h>
+#include <qtextcodec.h>
 #include <qpaintdevicemetrics.h>
 
 #include <kurl.h>
@@ -38,6 +39,7 @@
 #include <kdeversion.h>
 #include <kpassivepopup.h>
 #include <kprinter.h>
+#include <kcharsets.h>
 
 #include "kgpginterface.h"
 #include "kgpgview.h"
@@ -104,12 +106,16 @@ private slots:
 
         void slotundo();
         void slotredo();
+	void slotSetCharset();
+	bool checkEncoding();
+	
+	
 
 private:
 
         KPassivePopup *pop;
         QString customDecrypt;
-
+	KSelectAction *encodingAction ;
         KURL urlselected;
         /** the configuration object of the application */
         KConfig *config;
