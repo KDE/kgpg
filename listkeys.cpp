@@ -1501,6 +1501,8 @@ void listKeys::groupRemove()
 
 void listKeys::deleteGroup()
 {
+  if( !keysList2->currentItem() )
+    return;
         if (!keysList2->currentItem()->text(6).isEmpty())
                 return;
 
