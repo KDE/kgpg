@@ -46,9 +46,9 @@
 
 #include "kgpgsettings.h"
 
-keyServer::keyServer(QWidget *parent, const char *name,bool modal):KDialogBase( Swallow, i18n("Key Server"), Close, Close, parent, name,modal)
+keyServer::keyServer(QWidget *parent, const char *name,bool modal,bool autoClose):KDialogBase( Swallow, i18n("Key Server"), Close, Close, parent, name,modal)
 {
-        
+	autoCloseWindow=autoClose;
 	config=new KSimpleConfig ("kgpgrc");
 	page=new keyServerWidget();
 	setMainWidget(page);
@@ -482,6 +482,8 @@ void keyServer::slotimportresult(KProcess*)
         m_box->exec();
         if (importpop)
                 delete importpop;
+	emit importFinished();
+	if (autoCloseWindow) close();
 }
 
 void keyServer::slotimportread(KProcIO *p)

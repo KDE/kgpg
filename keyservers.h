@@ -31,9 +31,8 @@ class keyServer : public KDialogBase
 {
         Q_OBJECT
 public:
-        keyServer(QWidget *parent=0, const char *name=0,bool modal=false);
+        keyServer(QWidget *parent=0, const char *name=0,bool modal=false,bool autoClose=false);
         ~keyServer();
-        QDialog *importpop;
 	keyServerWidget *page;
 
 public slots:
@@ -61,15 +60,19 @@ public slots:
 
 private:
 
+        QDialog *importpop;
         KSimpleConfig *config;
         uint keyNumbers;
         QString readmessage;
         KProcIO *importproc,*exportproc;
         searchRes *listpop;
         int count;
-        bool cycle;
+        bool cycle,autoCloseWindow;
         KListViewItem *kitem;
 	KDialogBase *dialogServer;
+	
+signals:
+	void importFinished();
 };
 
 #endif

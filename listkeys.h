@@ -267,7 +267,8 @@ private slots:
         void signkey();
         void delsignkey();
         void preimportsignkey();
-        void importsignkey(QString importKeyId);
+        void importRemoteKey(QString keyID);
+	void importsignkey(QString importKeyId);
         void importallsignkey();
         void importfinished();
         void signatureResult(int success);

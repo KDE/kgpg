@@ -61,7 +61,7 @@
 #include "keyservers.h"
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
-
+#include <qtabwidget.h>
 
 //////////////  KListviewItem special
 
@@ -890,7 +890,7 @@ void listKeys::refreshKeyFromServer()
     kServer=new keyServer(0,"server_dialog",false);
     kServer->page->kLEimportid->setText(keyIDS);
     kServer->slotImport();
-    connect( kServer->importpop, SIGNAL( destroyed() ) , this, SLOT(refreshFinished()));
+    connect( kServer, SIGNAL( importFinished() ) , this, SLOT(refreshFinished()));
 }
 
 
@@ -1895,6 +1895,7 @@ void listKeys::editGroup()
 
     dialogGroupEdit->setMainWidget(gEdit);
     gEdit->setMinimumSize(gEdit->sizeHint());
+    gEdit->show();
     if (dialogGroupEdit->exec()==QDialog::Accepted)
         groupChange();
     delete dialogGroupEdit;
@@ -2081,6 +2082,18 @@ void listKeys::preimportsignkey()
         importsignkey(keysList2->currentItem()->text(6));
 }
 
+void listKeys::importRemoteKey(QString keyID)
+{
+   kServer=new keyServer(0,"server_dialog",false,true);
+    kServer->page->kLEimportid->setText(keyID);
+    kServer->page->Buttonimport->setDefault(true);
+    kServer->page->tabWidget2->setTabEnabled(kServer->page->tabWidget2->page(1),false);
+    //kServer->slotImport();
+    kServer->show();
+    connect( kServer, SIGNAL( importFinished() ) , this, SLOT( importfinished()));
+    //connect( kServer , SIGNAL( destroyed() ) , this, SLOT( refreshkey()));
+}
+
 void listKeys::importsignkey(QString importKeyId)
 {
     ///////////////  sign a key
@@ -2089,7 +2102,8 @@ void listKeys::importsignkey(QString importKeyId)
     //kServer->Buttonimport->setDefault(true);
     kServer->slotImport();
     //kServer->show();
-    connect( kServer->importpop, SIGNAL( destroyed() ) , this, SLOT( importfinished()));
+    connect( kServer, SIGNAL( importFinished() ) , this, SLOT( importfinished()));
+    //connect( kServer->importpop, SIGNAL( destroyed() ) , this, SLOT( importfinished()));
     //connect( kServer , SIGNAL( destroyed() ) , this, SLOT( refreshkey()));
 }
 
