@@ -70,7 +70,7 @@ QString message,messages,tempFile;
 public slots:
 void decodef(QString);
 void droppedfile(KURL url);   
-void slotprocresult(KProcess *);
+void slotprocresult();
 
 protected:
     void contentsDragEnterEvent( QDragEnterEvent *e );

@@ -230,7 +230,7 @@ void MyView::clickedConfMenu(int id)
 
 void  MyView::openKeyServer() 
 {
-keyServer *ks=new keyServer(0);
+keyServer *ks=new keyServer(0,"server_dialog");
 ks->exec();
 delete ks;
 }
@@ -349,7 +349,6 @@ void  MyView::decryptDroppedFile()
 {
 if (!droppedUrl.isLocalFile())
 {
-if (KMessageBox::warningContinueCancel(0,i18n("<qt><b>Remote file decryption</b>.<br>The remote file will now be copied to a temporary file to process decryption. This temporary file will be deleted after operation.</qt>"),0,KStdGuiItem::cont(),"RemoteFileWarning")!=KMessageBox::Continue) return;
 showDroppedFile();
 return;
 }
@@ -368,7 +367,7 @@ QString oldname=droppedUrl.filename();
         }
 
 KgpgLibrary *lib=new KgpgLibrary();
-lib->slotFileDec(droppedUrl,swapname,customDecrypt) ;
+lib->slotFileDec(droppedUrl,swapname,customDecrypt);
 }
 
 void  MyView::showDroppedFile()
@@ -385,7 +384,6 @@ void  MyView::droppedfile (KURL url)
 droppedUrl=url;
 if (!url.isLocalFile())
 {
-if (KMessageBox::warningContinueCancel(0,i18n("<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to a temporary file to process encryption/decryption. This temporary file will be deleted after operation.</qt>"),0,KStdGuiItem::cont(),"RemoteFileWarning")!=KMessageBox::Continue) return;
 showDroppedFile();
 return;
 }
