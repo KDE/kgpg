@@ -1533,10 +1533,9 @@ void listKeys::slotexportsec()
     if (result!=KMessageBox::Yes)
         return;
 
-    QString key=keysList2->currentItem()->text(1);
-
-    QString sname=key.section('@',0,0);
+    QString sname=keysList2->currentItem()->text(1).section('@',0,0);
     sname=sname.section('.',0,0);
+    if (sname.isEmpty()) sname=keysList2->currentItem()->text(0).section(' ',0,0);
     sname.append(".asc");
     sname.prepend(QDir::homeDirPath()+"/");
     KURL url=KFileDialog::getSaveURL(sname,"*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As"));
@@ -1577,9 +1576,9 @@ void listKeys::slotexport()
 
     if (exportList.count()==1)
     {
-        QString key=keysList2->currentItem()->text(1);
-        sname=key.section('@',0,0);
+        sname=keysList2->currentItem()->text(1).section('@',0,0);
         sname=sname.section('.',0,0);
+	if (sname.isEmpty()) sname=keysList2->currentItem()->text(0).section(' ',0,0);
     }
     else
         sname="keyring";
