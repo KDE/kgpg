@@ -113,7 +113,7 @@ KgpgApp::~KgpgApp()
 void KgpgApp::encryptClipboard(QString &selec,bool utrust,bool)
 {
 QString encryptOptions;
-QString clipContent=kapp->clipboard()->text();//=cb->text(QClipboard::Clipboard);
+QString clipContent=kapp->clipboard()->text();//=cb->text(QClipboard::Clipboard);   ///   QT 3.1 only
 
   if (clipContent)
   {
@@ -140,7 +140,7 @@ encryptOptions+=" --armor ";
 QString cryptedClipboard=QString(clipContent.left(60).stripWhiteSpace());
  
  QClipboard *clip=QApplication::clipboard();
- clip->setText(decresultat,QClipboard::Clipboard);
+ clip->setText(decresultat);//,QClipboard::Clipboard);    QT 3.1 only
  
     clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
               QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
@@ -320,7 +320,7 @@ void KgpgApp::openDocumentFile(const KURL& url)
 
   /////////////////////////////////////////////////
 
-  QFile qfile(url.path());
+  QFile qfile(url.path().local8Bit());
 
   if (qfile.open(IO_ReadOnly))
     {
@@ -507,11 +507,11 @@ void KgpgApp::slotVerifyFile(KURL url)
 if (!url.filename().endsWith(".sig"))
 {
       sigfile=url.path()+".sig";
-      QFile fsig(sigfile);
+      QFile fsig(sigfile.local8Bit());
       if (!fsig.exists())
         {
           sigfile=url.path()+".asc";
-          QFile fsig(sigfile);
+          QFile fsig(sigfile.local8Bit());
           //////////////   if no .asc or .sig signature file included, assume the file is internally signed
           if (!fsig.exists())
             sigfile="";
@@ -596,7 +596,7 @@ void KgpgApp::slotFileSave()
       slotFileSaveAs();
       return;
     }
-  QFile f(filn);
+  QFile f(filn.local8Bit());
   if ( !f.open( IO_WriteOnly ) )
     {
       return;
@@ -619,7 +619,7 @@ void KgpgApp::slotFileSaveAs()
     {
 
       QString filn=url.path();
-      QFile f(filn);
+      QFile f(filn.local8Bit());
       if (f.exists())
         {
           QString message=i18n("Overwrite existing file %1 ?").arg(url.filename());
@@ -804,8 +804,8 @@ void KgpgApp::slotprocresult(KProcess *)
       popn->exec();
       if (popn->result()==true)
         {
-          if (popn->getfmode()==true)
-            newname=popn->getfname();
+          if (popn->checkFile->isChecked())
+            newname=popn->newFilename->text();
           else
             newname="";
           //ascii=popn->getascii();
@@ -822,7 +822,7 @@ void KgpgApp::slotprocresult(KProcess *)
     }
   if (newname!="")
     {
-      QFile fgpg(newname);
+      QFile fgpg(newname.local8Bit());
       if (fgpg.exists())
         {
           KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",KURL(newname));

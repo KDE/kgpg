@@ -38,7 +38,7 @@
 
 #include "listkeys.h"
 #include "kgpginterface.h"
-
+#include "keyservers.h"
 
 //////////////  KListviewItem special
 
@@ -571,7 +571,8 @@ keysList2 = new KeyView(page);
   KAction *deleteKeyPair = new KAction(i18n("Delete key pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
   KAction *generateKey = new KAction(i18n("&Generate key pair"), "kgpg_gen", 0,this, SLOT(slotgenkey()),actionCollection(),"key_gener");
   (void) new KToggleAction(i18n("&Show photos"), "imagegallery", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
-
+(void) new KAction(i18n("&Key Server dialog"), 0, 0,this, SLOT(keyserver()),actionCollection(),"key_server");
+  
   KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
   KStdAction::showToolbar(this, SLOT(showToolBar()), actionCollection());
 
@@ -646,6 +647,13 @@ keysList2 = new KeyView(page);
 
 listKeys::~listKeys()
 {}
+
+void listKeys::keyserver()
+{
+keyServer *ks=new keyServer(this);
+ks->exec();
+delete ks;
+}
 
 void listKeys::showToolBar()
 {
@@ -837,7 +845,6 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
 void listKeys::slotexportsec()
 {
   //////////////////////   export secret key
-  char gpgcmd[1024] = "\0";
   QString warn=i18n("Secret keys SHOULD NOT be saved  in an unsafe place.\n"
                     "If someone else can access this file, encryption with this key will be compromised !\nContinue key export ?");
   int result=KMessageBox::warningYesNo(this,warn,i18n("Warning"));
@@ -845,26 +852,27 @@ void listKeys::slotexportsec()
     return;
 
   QString key=keysList2->currentItem()->text(0);
-  KURL *exp=new KURL(QString(QDir::currentDirPath()+"/"+key.section("@",0,0)+".asc"));
-  KURL url=KFileDialog::getSaveURL(exp->path(),"*.asc|*.asc files", this, i18n("Export PRIVATE KEY as..."));
+
+  QString sname=key.section('@',0,0);
+  sname=sname.section(' ',-1,-1);
+  sname=sname.section('.',0,0);
+  sname=sname.section('(',-1,-1);
+  sname.append(".asc");
+  sname.prepend(QDir::homeDirPath()+"/");
+  KURL url=KFileDialog::getSaveURL(sname,"*.asc|*.asc files", this, i18n("Export PRIVATE KEY as..."));
 
   if(!url.isEmpty())
     {
-      FILE *fp;
-      strcat(gpgcmd,"gpg --no-tty --armor --export-secret-keys ");
-      strcat(gpgcmd,QString(keysList2->currentItem()->text(5)+" > "+url.path()).latin1());
-      QFile fgpg(url.path());
-      if (fgpg.exists())
+	QFile fgpg(url.path());
+	  if (fgpg.exists())
         fgpg.remove();
 
-      fp = popen(gpgcmd, "r");
-      pclose(fp);
-
+	  KProcIO *p=new KProcIO();
+      *p<<"gpg"<<"--no-tty"<<"--output"<<url.path().local8Bit()<<"--armor"<<"--export-secret-keys"<<keysList2->currentItem()->text(5).latin1();
+	   p->start(KProcess::Block);
+	
       if (fgpg.exists())
-        {
-          QString mess=i18n("Your PRIVATE key \"%1\"  was successfully exported\nDO NOT leave it in an insecure place !").arg(url.filename());
-          KMessageBox::information(this,mess);
-        }
+          KMessageBox::information(this,i18n("Your PRIVATE key \"%1\"  was successfully exported\nDO NOT leave it in an insecure place !").arg(url.path()));
       else
         KMessageBox::sorry(this,i18n("Your secret key could not be exported\nCheck the key..."));
     }
@@ -880,100 +888,80 @@ void listKeys::slotexport()
   if (keysList2->currentItem()->depth()!=0)
     return;
 
-  char gpgcmd[1024] = "\0",line[130]="";
-  exportresult="";
-
-  QString key=keysList2->currentItem()->text(0);
+KURL u;
+QString key=keysList2->currentItem()->text(0);
 
   QString sname=key.section('@',0,0);
+  sname=sname.section(' ',-1,-1);
   sname=sname.section('.',0,0);
+  sname=sname.section('(',-1,-1);
   sname.append(".asc");
   sname.prepend(QDir::homeDirPath()+"/");
-
-  KURL u;
   u.setPath(sname);
+  
   popupName *dial=new popupName(i18n("Export public key to"),this, "export_key", u,true);
-
-  //popupName *dial=new popupName(this,i18n("Export public key to"),sname,true);
-  /////////////   open export dialog (KgpgExport, see begining of this file)
+  dial->exportAttributes->setChecked(true);
   dial->exec();
 
-  if (dial->result()==true)
+  if (dial->result())
     {
       ////////////////////////// export to file
-      FILE *fp;
       QString expname;
-      expname="";
-      if (dial->getfmode()==true)
-        expname=dial->getfname();
-      bool attr=dial->exportAttributes->isChecked();
-      //if (attr==true) KMessageBox::sorry(0,"rtz");
-      //    if (dial->getmailmode()==true) expname=sname;
-
-      strcat(gpgcmd,"gpg --no-tty --export --armor ");
-      if (attr==true)
-        strcat(gpgcmd,"--export-options include-attributes ");
-      strcat(gpgcmd,keysList2->currentItem()->text(5).latin1());
-      QFile fgpg(expname);
-      if (expname!="")
+	  bool exportAttr=dial->exportAttributes->isChecked();
+	  KProcIO *p=new KProcIO();
+      *p<<"gpg"<<"--no-tty";
+	  
+      if (dial->checkFile->isChecked()) 
+	  {
+	  expname=dial->newFilename->text().stripWhiteSpace();
+      if (!expname.isEmpty())
         {
-          strcat(gpgcmd,QString(" > ")+expname.latin1());
-          if (fgpg.exists())
-            fgpg.remove();
+		QFile fgpg(expname);
+		if (fgpg.exists())  fgpg.remove();
+		*p<<"--output"<<expname.local8Bit()<<"--export"<<"--armor";
+	  if (!exportAttr) *p<<"--export-options"<<"no-include-attributes";
+	  *p<<keysList2->currentItem()->text(5).latin1();
+	p->start(KProcess::Block);
+	 if (fgpg.exists()) KMessageBox::information(this,i18n("Your public key \"%1\" was successfully exported\n").arg(expname));
+     else KMessageBox::sorry(this,i18n("Your public key could not be exported\nCheck the key..."));
         }
-
-      QString tst="";
-      fp=popen(gpgcmd,"r");
-      while ( fgets( line, sizeof(line), fp))    /// read output
-        tst+=line;
-      pclose(fp);
-
-      if (dial->getmailmode()==true)
-        {
-          ///////////////////////// send key by mail
-          KProcIO *proc=new KProcIO();
-          QString subj=QString("Public key for %1").arg(key);
-          *proc<<"kmail"<<"--subject"<<subj<<"--body"<<tst;
-          //QObject::connect(proc, SIGNAL(processExited(KProcess *)),this, SLOT(removetemp(KProcess *)));
-          //proc->start(KProcess::NotifyOnExit);
-          proc->start(KProcess::DontCare);
-          return;
-        }
-
-      ////
-
-      if  ((expname=="") && (tst!=""))
-        {
-          // Copy text to the clipboard (paste)
-
-          //QClipboard *cb = QApplication::clipboard();
-          kapp->clipboard()->setText(tst);
-          ////////////////////////////////  copy key to clipboard
-          //KgpgApp *win=(KgpgApp *) parent();
-          //win->view->editor->setText(tst);
-        }
-
-      /////
-
-      if (expname!="")
-        {
-          if (fgpg.exists())
-            {
-              QString mess=i18n("Your public key \"%1\" was successfully exported\n").arg(dial->getfname());
-              KMessageBox::information(this,mess);
-            }
-          else
-            KMessageBox::sorry(this,i18n("Your public key could not be exported\nCheck the key..."));
-        }
-    }
-  else
-    {
-      delete dial;
-      return;
-    }
-  delete dial;
-
+		}
+		else
+		{
+	message="";
+	*p<<"--export"<<"--armor";
+	  if (!exportAttr) *p<<"--export-options"<<"no-include-attributes";
+	  *p<<keysList2->currentItem()->text(5).latin1();
+      if (dial->checkClipboard->isChecked()) QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotProcessExportClip(KProcess *)));
+	  else QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotProcessExportMail(KProcess *)));
+      QObject::connect(p, SIGNAL(readReady(KProcIO *)),this, SLOT(slotReadProcess(KProcIO *)));
+      p->start(KProcess::NotifyOnExit,false);
 }
+}
+}
+
+void listKeys::slotReadProcess(KProcIO *p)
+{
+  QString outp;
+  while (p->readln(outp)!=-1) message+=outp+"\n";
+}      
+
+
+void listKeys::slotProcessExportMail(KProcess *)
+{
+         ///////////////////////// send key by mail
+          KProcIO *proc=new KProcIO();
+          QString subj="Public key:";
+          *proc<<"kmail"<<"--subject"<<subj<<"--body"<<message;
+          proc->start(KProcess::DontCare);
+          
+        }
+
+void listKeys::slotProcessExportMailClip(KProcess *)
+{
+  kapp->clipboard()->setText(message);
+}
+
 
 
 void listKeys::listsigns()

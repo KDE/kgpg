@@ -138,7 +138,6 @@ friend class KeyView;
   QLabel *keyPhoto;
   KeyView *keysList2;
   QPopupMenu *popup,*popupsec,*popupout,*popupsig;
-  QString exportresult;
 QString message;
 QStringList keynames;
 
@@ -158,7 +157,10 @@ public slots:
 void refreshkey();
 
 private slots:
-
+void keyserver();
+void slotReadProcess(KProcIO *p);
+void slotProcessExportMail(KProcess *);
+void slotProcessExportMailClip(KProcess *);
 void showToolBar();
 void displayPhoto();
 void hidePhoto();

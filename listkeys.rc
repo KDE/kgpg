@@ -15,6 +15,7 @@
     <Action name="key_showp" />
 	</Menu>
 	<Menu name="file"><text>&amp;File</text>
+	<Action name="key_server"/>
 	<Action name="key_refresh"/>
 	</Menu>
     </MenuBar>
