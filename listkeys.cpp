@@ -682,7 +682,8 @@ actionCollection());
         QLabel *searchLabel= new QLabel(i18n("Search:"),toolBar(),"kde toolbar widget");
 
 	int buttonClear;
-	buttonClear=toolBar()->insertButton("locationbar_erase",0,true,i18n("Clear Search"));
+	buttonClear=toolBar()->insertButton(QApplication::reverseLayout() ? "clear_left"
+                                            : "locationbar_erase",0,true,i18n("Clear Search"));
         toolBar()->insertWidget( 1, searchLabel->sizeHint().width(), searchLabel);
         searchWidget=toolBar()->insertLined(QString::null,0, SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)),true,i18n("Filter Search"),10);
 
