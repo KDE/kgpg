@@ -1187,7 +1187,14 @@ void listKeys::checkList()
 {
         QPtrList<QListViewItem> exportList=keysList2->selectedItems();
         if (exportList.count()>1)
-                stateChanged("multi_selected");
+                {
+		stateChanged("multi_selected");
+		for ( uint i = 0; i < exportList.count(); ++i )
+		{
+		    if (exportList.at(i) && !(exportList.at(i)->isVisible()))
+                        exportList.at(i)->setSelected(false);
+		}
+		}
         else {
                 if (keysList2->currentItem()->text(6).isEmpty())
                         stateChanged("group_selected");
