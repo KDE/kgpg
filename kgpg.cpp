@@ -51,10 +51,10 @@ MyView::MyView( QWidget *parent, const char *name )
 {
         setBackgroundMode(  X11ParentRelative );
 
-        KAction *saveDecrypt = new KAction(i18n("&Decrypt && Save File"),"decrypted",0,this, SLOT(decryptDroppedFile()),this,"decrypt_file");
-        KAction *showDecrypt = new KAction(i18n("&Show Decrypted File"),"edit",0,this, SLOT(showDroppedFile()),this,"show_file");
-        KAction *encrypt = new KAction(i18n("&Encrypt File"),"encrypted",0,this, SLOT(encryptDroppedFile()),this,"encrypt_file");
-        KAction *sign = new KAction(i18n("&Sign File"), "signature",0,this, SLOT(signDroppedFile()),this,"sign_file");
+	KAction saveDecrypt(i18n("&Decrypt && Save File"),"decrypted",0,this, SLOT(decryptDroppedFile()),this,"decrypt_file");
+        KAction showDecrypt(i18n("&Show Decrypted File"),"edit",0,this, SLOT(showDroppedFile()),this,"show_file");
+        KAction encrypt(i18n("&Encrypt File"),"encrypted",0,this, SLOT(encryptDroppedFile()),this,"encrypt_file");
+        KAction sign(i18n("&Sign File"), "signature",0,this, SLOT(signDroppedFile()),this,"sign_file");
         //QToolTip::add(this,i18n("KGpg drag & drop encryption applet"));
 
         readOptions();
@@ -64,12 +64,12 @@ MyView::MyView( QWidget *parent, const char *name )
         setAcceptDrops(true);
 
         droppopup=new QPopupMenu();
-        showDecrypt->plug(droppopup);
-        saveDecrypt->plug(droppopup);
+        showDecrypt.plug(droppopup);
+        saveDecrypt.plug(droppopup);
 
         udroppopup=new QPopupMenu();
-        encrypt->plug(udroppopup);
-        sign->plug(udroppopup);
+        encrypt.plug(udroppopup);
+        sign.plug(udroppopup);
 }
 
 MyView::~MyView()
@@ -79,20 +79,6 @@ MyView::~MyView()
         droppopup = 0;
         delete udroppopup;
         udroppopup = 0;
-}
-
-
-void  MyView::openKeyServer()
-{
-        if(!m_keyServer) {
-                //keyServer *ks
-                m_keyServer=new keyServer(0,"server_dialog",false);
-                connect( m_keyServer , SIGNAL( destroyed() ) , this, SLOT( slotKeyServerClosed()));
-        }
-        m_keyServer->show();
-        KWin::setOnDesktop( m_keyServer->winId() , KWin::currentDesktop() );  //set on the current desktop
-        KWin::deIconifyWindow( m_keyServer->winId());  //de-iconify window
-        m_keyServer->raise();  // set on top
 }
 
 
@@ -160,7 +146,7 @@ QString extension;
 
 if (compressionScheme==0)
 	extension=".zip";
-	else if (compressionScheme==1) 
+	else if (compressionScheme==1)
 	extension=".tar.gz";
 	else
 	extension=".tar.bz2";
@@ -171,7 +157,7 @@ if (encryptOptions.find("armor")!=encryptOptions.end () )
                 extension+=".pgp";
         else
                 extension+=".gpg";
-	
+
 KURL encryptedFile(droppedUrls.first().path()+extension);
 QFile encryptedFolder(droppedUrls.first().path()+extension);
 if (encryptedFolder.exists()) {
@@ -198,11 +184,11 @@ pop = new KPassivePopup();
 	KArchive *arch;
 	if (compressionScheme==0)
 	arch=new KZip(kgpgfoldertmp->name());
-	else if (compressionScheme==1) 
+	else if (compressionScheme==1)
 	arch=new KTar(kgpgfoldertmp->name(), "application/x-gzip");
 	else
 	arch=new KTar(kgpgfoldertmp->name(), "application/x-bzip2");
-		
+
 		if (!arch->open( IO_WriteOnly )) {
                 KMessageBox::sorry(0,i18n("Unable to create temporary file"));
                 return;
@@ -257,7 +243,7 @@ void  MyView::shredDroppedFile()
         for ( it = droppedUrls.begin(); it != droppedUrls.end(); ++it ) {
 
 	KgpgLibrary *lib=new KgpgLibrary();
-        lib->shredprocessenc(KURL(*it));	
+        lib->shredprocessenc(KURL(*it));
         }
 }
 
@@ -535,11 +521,11 @@ void  MyView::startWizard()
                         }
                 }
         }
-	
+
 	int gpgVersion=KgpgInterface::getGpgVersion();
 	if (gpgVersion<120) wiz->txtGpgVersion->setText(i18n("Your GnuPG version seems to be older than 1.2.0. Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG (http://gnupg.org)."));
 	else wiz->txtGpgVersion->setText(QString::null);
-	
+
         wiz->kURLRequester1->setURL(confPath);
         wiz->kURLRequester2->setURL(QString(QDir::homeDirPath()+"/Desktop"));
         wiz->kURLRequester2->setMode(2);
@@ -602,7 +588,7 @@ void  MyView::slotWizardChange()
                 while ( fgets( line, sizeof(line), fp)) {
                         tst=line;
                         if (tst.startsWith("sec")) {
-                                name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
+				name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
                                 wiz->CBdefault->setCurrentItem(tst.section(':',4,4).right(8)+": "+name);
                         }
                 }
@@ -630,14 +616,14 @@ qWarning("Save wizard settings...");
         }
 
         KGpgSettings::setAutoStart( wiz->checkBox2->isChecked() );
-        
+
         KGpgSettings::setGpgConfigPath( wiz->kURLRequester1->url() );
         KGpgSettings::setFirstRun( false );
 
         QString defaultID=wiz->CBdefault->currentText().section(':',0,0);
-        if (!defaultID.isEmpty()) {
+/*        if (!defaultID.isEmpty()) {
         	KGpgSettings::setDefaultKey(defaultID);
-        }
+        }*/
 
         KGpgSettings::writeConfig();
 
@@ -684,12 +670,6 @@ void MyView::readAgain1()
         emit readAgain2();
 }
 
-
-void MyView::slotKeyServerClosed()
-{
-        delete m_keyServer;
-        m_keyServer=0L;
-}
 
 
 kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
@@ -764,7 +744,7 @@ int KgpgAppletApp::newInstance()
                 connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
                 connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));
                 connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotgenkey()));
-		connect(kgpg_applet->w,SIGNAL(importedKeys(QStringList)),s_keyManager->keysList2,SLOT(slotReloadKeys(QStringList)));		
+		connect(kgpg_applet->w,SIGNAL(importedKeys(QStringList)),s_keyManager->keysList2,SLOT(slotReloadKeys(QStringList)));
                 kgpg_applet->show();
                 QString gpgPath= KGpgSettings::gpgConfigPath();
 

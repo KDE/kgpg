@@ -47,9 +47,7 @@ public:
 	QStringList untrustedList;
 
 private:
-        QPushButton *bouton0,*bouton1,*bouton2;
         KConfig *config;
-        bool allowcustom;
         QButtonGroup *boutonboxoptions;
         QString customOptions;
 

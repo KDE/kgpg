@@ -147,10 +147,9 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 	CBhideid->setChecked( KGpgSettings::hideUserID() );
 	if (filemode) CBshred->setChecked( KGpgSettings::shredSource() );
         
-        if (allowcustom) {
+        if (KGpgSettings::allowCustomEncryptionOptions()) {
                 QHButtonGroup *bGroup = new QHButtonGroup(page);
                 //bGroup->setFrameStyle(QFrame::NoFrame);
-
                 (void) new QLabel(i18n("Custom option:"),bGroup);
                 KLineEdit *optiontxt=new KLineEdit(bGroup);
                 optiontxt->setText(customOptions);
@@ -416,7 +415,7 @@ kdDebug()<<"Selected Key:"<<selectedKeys<<endl;
                 returnOptions<<"--armor";
         if (CBhideid->isChecked())
                 returnOptions<<"--throw-keyid";
-        if ((allowcustom) && (!customOptions.stripWhiteSpace().isEmpty()))
+        if ((KGpgSettings::allowCustomEncryptionOptions()) && (!customOptions.stripWhiteSpace().isEmpty()))
                 returnOptions.operator+ (QStringList::split(QString(" "),customOptions.simplifyWhiteSpace()));
 	//hide();
         if (fmode)

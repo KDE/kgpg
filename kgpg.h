@@ -45,7 +45,6 @@
 
 #include "kgpgeditor.h"
 #include "kgpgoptions.h"
-#include "keyservers.h"
 #include "popuppublic.h"
 
 #include "listkeys.h"
@@ -72,7 +71,6 @@ private:
         KAboutData   *_aboutData;
         QStringList customDecrypt;
         KgpgWizard *wiz;
-        class keyServer *m_keyServer;
         KPassivePopup *pop;
         KTempFile *kgpgFolderExtract;
 	int compressionScheme;
@@ -113,8 +111,6 @@ private slots:
         void readOptions();
         void  droppedfile (KURL::List);
         void  droppedtext (QString inputText) ;
-        void  openKeyServer();
-        void slotKeyServerClosed();
         void  unArchive();
         void slotSetCompression(int cp);
 

@@ -13,6 +13,7 @@
     </entry>
     <entry name="AllowCustomEncryptionOptions" type="bool" key="allow_custom_option">
       <desc>Whether to allow custom encryption options</desc>
+      <default>false</default>
     </entry>
     <entry name="FileEncryptionKey" type="QString" key="file key">
       <desc>File encryption key.</desc>
@@ -82,13 +83,14 @@
       <default>true</default>
     </entry>
     <entry name="EditorGeometry" type="QSize" key="Geometry">
-      <desc>The size opf the editor window.</desc>
+      <desc>The size of the editor window.</desc>
     </entry>
 
   </group>
   <group name="User Interface">
     <entry name="UseMouseSelection" type="bool" key="selection_clipboard">
-      <desc>Whether to use the louse selection instead of the clipboard.</desc>
+      <desc>Whether to use the mouse selection instead of the clipboard.</desc>
+      <default>false</default>
     </entry>
     <entry name="AutoStart" type="bool">
       <desc>Whether to start KGpg automatically at login.</desc>

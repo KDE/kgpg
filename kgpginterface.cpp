@@ -78,10 +78,11 @@ void KgpgInterface::KgpgEncryptFile(QStringList encryptKeys,KURL srcUrl,KURL des
 {
         sourceFile=srcUrl;
         message=QString::null;
+	kdDebug()<<"--------------------"<<Options<<endl;
         KProcIO *proc=new KProcIO();
 	*proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0";
 	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) 
-       		*proc<< QFile::encodeName(*it);
+       		if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
 
                 *proc<<"--output"<<QFile::encodeName(destUrl.path());
 		
@@ -154,9 +155,9 @@ void KgpgInterface::KgpgDecryptFile(KURL srcUrl,KURL destUrl,QStringList Options
         KProcIO *proc=new KProcIO();
 
                 *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0";
-		
+
 		for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
-       		*proc<< QFile::encodeName(*it);
+       		if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
 
 		if (!destUrl.filename().isEmpty()) // a filename was entered
 				*proc<<"-o"<<QFile::encodeName(destUrl.path());
@@ -235,7 +236,7 @@ void KgpgInterface::KgpgEncryptText(QString text,QStringList userIDs, QStringLis
         *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2";
         
 	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
-       		*proc<< QFile::encodeName(*it);
+       		if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
 	
 	if (!userIDs.isEmpty())
 	{
@@ -306,7 +307,7 @@ badmdc=false;
  KProcIO *proc=new KProcIO();
 	  *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=1"<<"--no-batch";
       	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
-       		*proc<< QFile::encodeName(*it);
+       		if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
 
       *proc<<"-d";
 
@@ -406,7 +407,7 @@ badmdc=false;
  KProcIO *proc=new KProcIO();
 	  *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=1"<<"--no-batch"<<"-o"<<"-";
       	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) {
-       		*proc<< QFile::encodeName(*it);
+       		if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
     		}
       *proc<<"-d"<<QFile::encodeName(srcUrl.path());
 
@@ -508,7 +509,7 @@ void KgpgInterface::KgpgSignFile(QString keyID,KURL srcUrl,QStringList Options)
         keyID=keyID.stripWhiteSpace();
         *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"-u"<<keyID.local8Bit();
 		for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
-       		*proc<< QFile::encodeName(*it);
+       		if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
 
 	*proc<<"--output"<<QFile::encodeName(srcUrl.path()+".sig");
         *proc<<"--detach-sig"<<QFile::encodeName(srcUrl.path());

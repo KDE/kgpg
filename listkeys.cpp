@@ -1154,7 +1154,9 @@ void listKeys::slotSetDefaultKey(QString newID)
 
 void listKeys::slotSetDefaultKey(QListViewItem *newdef)
 {
+kdDebug()<<"------------------start ------------"<<endl;	
 if (!newdef) return;
+if (newdef->text(6)==KGpgSettings::defaultKey()) return;
         if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) {
                 KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted."));
                 return;
@@ -1172,20 +1174,9 @@ if (!newdef) return;
 
  	KGpgSettings::setDefaultKey(newdef->text(6));
  	KGpgSettings::writeConfig();
-
+	
         if (olddef) keysList2->refreshcurrentkey(olddef);
         keysList2->refreshcurrentkey(newdef);
-
-	/*
-        QListViewItem *updef = keysList2->firstChild();
-        while (updef->text(6)!=newdef->text(6))
-                if (updef->nextSibling())
-                        updef = updef->nextSibling();
-                else
-                        break;
-        keysList2->clearSelection();
-        keysList2->setCurrentItem(updef);
-        keysList2->setSelected(updef,true);*/
         keysList2->ensureItemVisible(newdef);
 }
 
