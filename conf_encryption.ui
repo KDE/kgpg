@@ -174,7 +174,7 @@
                         <string>Custom encryption command:</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>&lt;b&gt;Enable custom command line input&lt;/b&gt; When activated, an entry field will be shown in the key selection dialog, enabling you tho enter a custom command for encryption. (recommanded for experienced users only)</string>
+                        <string>&lt;b&gt;Enable custom command line input&lt;/b&gt; When activated, an entry field will be shown in the key selection dialog, enabling you tho enter a custom command for encryption. (recommended for experienced users only)</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit">
