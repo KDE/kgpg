@@ -535,18 +535,23 @@ mySearchLine::~ mySearchLine()
 
 void mySearchLine::updateSearch(const QString& s)
 {
-KListViewSearchLine::updateSearch(s);
-if (searchListView->displayOnlySecret)
-{
-QListViewItem *item=searchListView->firstChild();
-	while (item) {
-			if ((item->isVisible()) && (searchListView->secretList.find(item->text(6))==-1)) 
-                                item->setVisible(false);
-                        item=item->nextSibling();
-                }        
+    KListViewSearchLine::updateSearch(s);
+    if (searchListView->displayOnlySecret || !searchListView->displayDisabled)
+    {
+    int disabledSerial=searchListView->trustbad.serialNumber();
+	QListViewItem *item=searchListView->firstChild();
+	while (item) 
+	    if (item->isVisible())
+	    {
+		if (searchListView->displayOnlySecret && searchListView->secretList.find(item->text(6))==-1) 
+                    item->setVisible(false);
+		if (!searchListView->displayDisabled && item->pixmap(2))
+		    if (item->pixmap(2)->serialNumber()==disabledSerial)
+                        item->setVisible(false);
+                item=item->nextSibling();
+            }
+    }
 }
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////////////   main window for key management
 
@@ -613,6 +618,9 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
         (void) new KToggleAction(i18n("&Show only Secret Keys"), "kgpg_show", 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
         keysList2->displayOnlySecret=false;
+	
+	(void) new KToggleAction(i18n("&Hide Expired/Disabled Keys"),0, 0,this, SLOT(slotToggleDisabled()),actionCollection(),"hide_disabled");
+	keysList2->displayDisabled=true;
 
         sTrust=new KToggleAction(i18n("Trust"),0, 0,this, SLOT(slotShowTrust()),actionCollection(),"show_trust");
         sSize=new KToggleAction(i18n("Size"),0, 0,this, SLOT(slotShowSize()),actionCollection(),"show_size");
@@ -843,6 +851,16 @@ void listKeys::slotToggleSecret()
                 return;
 
         keysList2->displayOnlySecret=!keysList2->displayOnlySecret;
+	listViewSearch->updateSearch(listViewSearch->text());
+}
+
+void listKeys::slotToggleDisabled()
+{
+       QListViewItem *item=keysList2->firstChild();
+        if (!item)
+                return;
+
+        keysList2->displayDisabled=!keysList2->displayDisabled;
 	listViewSearch->updateSearch(listViewSearch->text());
 }
 
@@ -1312,6 +1330,7 @@ void listKeys::showOptions()
         connect(optionsDialog,SIGNAL(homeChanged()),this,SLOT(refreshkey()));
 	connect(optionsDialog,SIGNAL(refreshTrust(int,QColor)),keysList2,SLOT(refreshTrust(int,QColor)));
         connect(optionsDialog,SIGNAL(changeFont(QFont)),this,SIGNAL(fontChanged(QFont)));
+	connect(optionsDialog,SIGNAL(installShredder()),this,SIGNAL(installShredder()));
         optionsDialog->exec();
 	delete optionsDialog;
 }

@@ -87,14 +87,17 @@ class KeyView : public KListView
         friend class listKeys;
 public:
         KeyView( QWidget *parent = 0, const char *name = 0);
-        bool displayPhoto,displayOnlySecret;
+        bool displayPhoto,displayOnlySecret,displayDisabled;
         int previewSize;
 	QString secretList;
+	QPixmap trustbad;
+	
 private:
 
         QString orphanList;
         QString photoKeysList;
-        QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown,trustrevoked, trustbad, trustgood,pixRevoke,pixkeyOrphan;
+        QPixmap pixkeyPair, pixkeySingle, pixkeyGroup, pixsignature, pixuserid, pixuserphoto;
+	QPixmap trustunknown, trustrevoked, trustgood, pixRevoke, pixkeyOrphan;
         QListViewItem *itemToOpen;
         KTempFile *kgpgphototmp;
         int groupNb;
@@ -208,6 +211,7 @@ private slots:
         void slotShowCreat();
         void slotShowExpi();
         void slotToggleSecret();
+	void slotToggleDisabled();
         void slotGotoDefaultKey();
         void slotDelUid();
         void slotAddUid();
@@ -280,6 +284,7 @@ signals:
         void closeAsked();
         void fontChanged(QFont);
 	void encryptFiles(KURL::List);
+	void installShredder();
 
 };
 

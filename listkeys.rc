@@ -20,6 +20,7 @@
     
     <Menu name="view"><text>&amp;View</text>
     <Action name="show_secret"/>
+    <Action name="hide_disabled"/>
     	<Menu name="show_details"><text>&amp;Show Details</text>
     <Action name="show_trust"/>
     <Action name="show_expi"/>
