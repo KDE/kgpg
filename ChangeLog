@@ -1,3 +1,13 @@
+Version 1.2.1
+
+Bugfixes:
+-Don't crash on keyserver operation
+-Don't mix gpg output comments in decrypted text
+-Disabling/enabling a key now works
+-Fix some UTF-8 issues
+-Setting Trust now works correctly
+
+
 Version 1.2
 
 -You can now choose encoding when saving/loading text in editor
