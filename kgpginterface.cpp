@@ -432,9 +432,6 @@ badmdc=false;
 
 void KgpgInterface::KgpgVerifyText(QString text)
 {
-		signok=false;
-		signbad=false;
-		trustok=false;
 		signmiss=false;
 		 KProcIO *verifyproc=new KProcIO();
         	*verifyproc<<"gpg"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"--verify";
@@ -450,7 +447,7 @@ void KgpgInterface::slotverifyresult(KProcess*)
 {
 if (signmiss) emit missingSignature(signID);
 else emit verifyOver(signID);
- kdDebug(2100) << "GPG VERIFY OVER________"<<endl;
+//kdDebug(2100) << "GPG VERIFY OVER________"<<endl;
 }
 
 void KgpgInterface::slotverifyread(KProcIO *p)

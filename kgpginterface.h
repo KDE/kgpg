@@ -371,7 +371,7 @@ private:
         QString message,tempKeyFile,userIDs,txtprocess,output,keyString;
         QCString passphrase;
         bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc,revokeSuccess,addSuccess,delSuccess;
-	bool signok,signbad,trustok,signmiss;
+	bool signmiss;
 	QString signID;
         int signSuccess,expSuccess,trustValue,konsChecked;
         int step,signb,sigsearch,expirationDelay;
