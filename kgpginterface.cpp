@@ -279,7 +279,7 @@ void KgpgInterface::KgpgEncryptText(QString text,QString userIDs, QString Option
 void KgpgInterface::txtencryptfin(KProcess *)
 {
         if (txtsent)
-                emit txtencryptionfinished(QString::fromUtf8(message));
+                emit txtencryptionfinished(QString::fromUtf8(message.ascii()));
         else
                 emit txtencryptionfinished("");
 }
@@ -509,7 +509,7 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
 
 
         if (!encResult.isEmpty())
-                return QString::fromUtf8(encResult);
+                return QString::fromUtf8(encResult.ascii());
         else
                 return "";
 }
@@ -563,7 +563,7 @@ QString KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QString userID)
                 }
         }
         if (!encResult.isEmpty())
-                return QString::fromUtf8(encResult);
+                return encResult;
         else
                 return "";
 }

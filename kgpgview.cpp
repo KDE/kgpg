@@ -343,7 +343,7 @@ void KgpgView::clearSign()
 
                 /////////////////  paste result into editor
                 if (!tst.isEmpty()) {
-                        editor->setText(QString::fromUtf8(tst));
+                        editor->setText(QString::fromUtf8(tst.ascii()));
                         KgpgApp *win=(KgpgApp *) parent();
                         win->editRedo->setEnabled(false);
                         win->editUndo->setEnabled(false);
