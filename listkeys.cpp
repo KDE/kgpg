@@ -582,7 +582,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     list.append(i18n("Disable"));
     list.append(i18n("Small"));
     list.append(i18n("Medium"));
-    list.append(i18n("Big"));
+    list.append(i18n("Large"));
     photoProps->setItems(list);
 
     int pSize = KGpgSettings::photoProperties();
@@ -2353,7 +2353,7 @@ void listKeys::deleteseckey()
     //////////////////////// delete a key
     QString res=keysList2->currentItem()->text(0)+" ("+keysList2->currentItem()->text(1)+")";
     int result=KMessageBox::questionYesNo(this,
-                                          i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b> ?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key anymore.").arg(res),
+                                          i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.").arg(res),
                                           i18n("Warning"),
                                           i18n("Delete"));
     if (result!=KMessageBox::Yes)

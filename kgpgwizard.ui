@@ -246,8 +246,8 @@ This wizard will first setup some basic configuration options required for KGpg 
                 </property>
                 <property name="text">
                     <string>&lt;qt&gt;This will install a Shredder icon on your Desktop.&lt;br&gt;
-The shredder securely deletes files (overwriting 35 times) dropped on it. 
-Remember that if you download or open a file in an editor, parts of the file can be saved in a temporary location. Shredding will not erase these temporary files.
+The shredder securely deletes files (overwriting them 35 times) dropped on to it. 
+Remember that if you download a file or open one in an editor, parts of the file may be saved in a temporary location. Shredding will not erase these temporary files.
 &lt;br&gt;&lt;b&gt;Shredding may not be 100% secure if you use a journaling file system.&lt;/b&gt;&lt;/qt&gt;</string>
                 </property>
                 <property name="alignment">
