@@ -1165,7 +1165,7 @@ void KgpgInterface::slotReadKey(KProcIO *p)
 {
         QString outp;
         while (p->readln(outp)!=-1)
-                keyString+=outp+"\n";
+                if (!outp.startsWith("gpg:")) keyString+=outp+"\n";
 }
 
 
