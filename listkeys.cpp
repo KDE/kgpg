@@ -2153,31 +2153,19 @@ void listKeys::slotPreImportKey()
                                 ////////////////////////// import from file
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
                                 importKeyProcess->importKeyURL(impname);
-                                connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SLOT(slotReloadKeys(QStringList)));
+                                connect(importKeyProcess,SIGNAL(importfinished(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
                         }
                 } else {
                         QString keystr = kapp->clipboard()->text();
                         if (!keystr.isEmpty()) {
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
                                 importKeyProcess->importKey(keystr);
-                                connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SLOT(slotReloadKeys(QStringList)));
+                                connect(importKeyProcess,SIGNAL(importfinished(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
                         }
                 }
         }
         delete dial;
 }
-/*
-void listKeys::slotPreImportKey()
-{
-    KURL url=KFileDialog::getOpenURL(QString::null,i18n("*.asc|*.asc Files"), this,i18n("Select Key File to Import"));
-    if (url.isEmpty())
-        return;
-
-    KgpgInterface *importKeyProcess=new KgpgInterface();
-    importKeyProcess->importKey(url);
-    connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(refreshkey()));
-}
-*/
 
 void KeyView::expandGroup(QListViewItem *item)
 {
