@@ -30,10 +30,11 @@ static const char *description =
 static KCmdLineOptions options[] =
 {
 { "e", I18N_NOOP("encrypt file"), 0 },
-{ "c", I18N_NOOP("decrypt clipboard"), 0 },
+{ "c", I18N_NOOP("decrypt clipboard & open editor"), 0 },
 {"k", I18N_NOOP("open key manager"), 0 },
 { "d", I18N_NOOP("decrypt file"), 0 },
 { "s", I18N_NOOP("show encrypted file"), 0 },
+{ "C", I18N_NOOP("encrypt clipboard & copy resulting text in clipboard"), 0 },
 { "+file", I18N_NOOP("file to open"), 0 },
     { 0, 0, 0}
   // INSERT YOUR COMMANDLINE OPTIONS HERE
@@ -53,8 +54,9 @@ int main(int argc, char *argv[])
 KCmdLineArgs::init( argc, argv, &aboutData );
 KCmdLineArgs::addCmdLineOptions( options );  
 KApplication::addCmdLineOptions();
-
+  
   KApplication app;    
+   
   KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
   QString opmode="";
   KURL FileToOpen=0;
@@ -67,6 +69,7 @@ KApplication::addCmdLineOptions();
  else
  {
  if (args->isSet("c")!=0)  opmode="clipboard";
+ if (args->isSet("C")!=0)  opmode="clipboardEnc";
  else if (args->count()>0)
   {
 FileToOpen=args->url(0); 
@@ -75,7 +78,7 @@ opmode="decrypt";
  else if (args->isSet("s")!=0)  opmode="show";
  }
  KgpgApp *kgpg = new KgpgApp("kgpg",FileToOpen,opmode);
- if ((opmode!="encrypt") && (opmode!="decrypt")) kgpg->show();
+ if ((opmode!="encrypt") && (opmode!="decrypt") && (opmode!="clipboardEnc")) kgpg->show();
  
  
         }

@@ -54,9 +54,9 @@ KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0,
 {
   config=kapp->config();
   readOptions();
+  checkVersion();
   if ((opmode=="") || (opmode=="show") || (opmode=="clipboard"))
     {
-      checkVersion();
       if (tipofday==true)
         slotTip();
     }
@@ -64,7 +64,7 @@ KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0,
   if (opmode=="encrypt")
     commandLineMode=true;
 
-  if ((opmode!="encrypt") && (opmode!="decrypt"))  ///  do not perform these steps if kgpg is called from konqueror or command line
+  if ((opmode!="encrypt") && (opmode!="decrypt")  && (opmode!="clipboardEnc"))  ///  do not perform these steps if kgpg is called from konqueror or command line
     {
       KIconLoader *loader = KGlobal::iconLoader();
       fileEnc=loader->loadIcon("kgpg",KIcon::Small);
@@ -99,9 +99,15 @@ KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0,
         checkEncryptedDocumentFile(urlselected);
       else
         view->editor->droppedfile(urlselected);
-
     }
-  if ((opmode!="encrypt") && (opmode!="decrypt"))
+	if (opmode=="clipboardEnc")
+	{
+	popupPublic *dialogue=new popupPublic(this, "public_keys", 0,false);
+    connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool)),this,SLOT(encryptClipboard(QString &,bool,bool)));
+    if (dialogue->exec()==QDialog::Rejected ) exit(0);
+	}
+
+   if ((opmode!="encrypt") && (opmode!="decrypt")  && (opmode!="clipboardEnc"))
     {
       ///////////////////////////////////////////////////////////////////
       // disable actions at startup
@@ -117,6 +123,30 @@ KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0,
 KgpgApp::~KgpgApp()
 {
 }
+
+void KgpgApp::encryptClipboard(QString &selec,bool utrust,bool arm)
+{
+QString encryptOptions;
+QClipboard *cb = QApplication::clipboard();
+QString clipContent=cb->text();
+
+  
+  //////////////////              encode from editor
+  if (utrust==true) encryptOptions+=" --always-trust ";
+  if (arm==true) encryptOptions+=" --armor ";
+
+  if (pgpcomp==true)
+    {
+      if (version<120) encryptOptions+=" --compress-algo 1 --cipher-algo cast5 ";
+      else encryptOptions+=" --pgp6 ";
+    }
+
+ if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not choosen an encryption key..."));exit(0);}
+  
+ QString resultat=KgpgInterface::KgpgEncryptText(clipContent,selec,encryptOptions);
+ cb->setText(resultat);
+exit(0);
+}	
 
 void KgpgApp::slotman()
 {
@@ -706,11 +736,11 @@ void KgpgApp::slotprocresult(KProcess *)
   enckey=messages;
   if (oldname.endsWith(".gpg"))
     oldname.truncate(oldname.length()-4);
-  if (oldname.endsWith(".asc"))
+  else if (oldname.endsWith(".asc"))
     oldname.truncate(oldname.length()-4);
-  if (oldname.endsWith(".pgp"))
+  else if (oldname.endsWith(".pgp"))
     oldname.truncate(oldname.length()-4);
-
+  else oldname.append(".clear");
   KURL swapname(urlselected.directory(0,0)+oldname);
 
   if (fastact==false)
