@@ -46,7 +46,7 @@
 #include <qlabel.h>
 #include <qtoolbutton.h>
 #include <qradiobutton.h>
-
+#include <qpopupmenu.h>
 
 #include <kurlrequester.h>
 #include <kio/netaccess.h>
@@ -77,7 +77,7 @@
 #include <kpassivepopup.h>
 #include <kfinddialog.h>
 #include <kfind.h>
-#include <qpopupmenu.h>
+#include <dcopref.h>
 
 #include "newkey.h"
 #include "kgpg.h"
@@ -1120,36 +1120,16 @@ void listKeys::addToKAB()
                 KMessageBox::sorry(this,i18n("Unable to contact the address book. Please check your installation."));
                 return;
         }
-        KABC::Addressee::List addressees = ab->findByEmail( email );
-
-        KABC::Addressee a;
-        bool newEntry=false;
-
-        if ( addressees.isEmpty() ) {
-                a.insertEmail(email);
-                newEntry=true;
-        } else if (addressees.count()==1) {
-                a=addressees.first();
-        } else {
-                a=KABC::AddresseeDialog::getAddressee(this);
-                if (a.isEmpty())
-                        return;
-        }
-        KgpgInterface *ks=new KgpgInterface();
-        key.setTextData(ks->getKey(keysList2->currentItem()->text(6),true));
-        a.insertKey(key);
-        ab->insertAddressee(a);
-        KABC::StdAddressBook::save();
-        if (newEntry)
-                KRun::runCommand( "kaddressbook -a " + KProcess::quote(email) );
-        else
-                KMessageBox::information(this,i18n("<qt>The public key for <b>%1</b> was saved in the corresponding entry in the Address book.</qt>").arg(email));
-
-
-        //kapp->dcopClient()->send("kaddressbook","AddressBookServiceIface","importVCard(KURL,bool)",data);
-        //kapp->dcopClient()->send("kaddressbook","KAddressBookIface","addEmail(QString)","toto@titi.noe");
-        //kapp->dcopClient()->send("kgpg","KeyInterface","listsigns()","");
-        //KRun::runCommand( "dcop kaddressbook AddressBookServiceIface importVCard("+Vcard+",true)");
+	
+	KABC::Addressee::List addresseeList = ab->findByEmail(email);
+  	kapp->startServiceByDesktopName( "kaddressbook" );
+  	DCOPRef call( "kaddressbook", "KAddressBookIface" );
+  	if( !addresseeList.isEmpty() ) {
+    	call.send( "showContactEditor(QString)", addresseeList.first().uid() );
+  	}
+  	else {
+    	call.send( "addEmail(QString)", QString (keysList2->currentItem()->text(0))+" <"+email+">" );
+  	}
 }
 
 /*
@@ -1776,11 +1756,12 @@ void listKeys::editGroup()
         if (!keysList2->currentItem()->text(6).isEmpty())
                 return;
         QStringList keysGroup;
+	//KDialogBase *dialogGroupEdit=new KDialogBase( this, "edit_group", true,i18n("Group Properties"),KDialogBase::Ok | KDialogBase::Cancel);
         KDialogBase *dialogGroupEdit=new KDialogBase(KDialogBase::Swallow, i18n("Group Properties"), KDialogBase::Ok | KDialogBase::Cancel,KDialogBase::Ok,this,0,true);
 
         gEdit=new groupEdit();
-        gEdit->buttonAdd->setPixmap(KGlobal::iconLoader()->loadIcon("forward",KIcon::Small,20));
-        gEdit->buttonRemove->setPixmap(KGlobal::iconLoader()->loadIcon("back",KIcon::Small,20));
+        gEdit->buttonAdd->setPixmap(KGlobal::iconLoader()->loadIcon("down",KIcon::Small,20));
+        gEdit->buttonRemove->setPixmap(KGlobal::iconLoader()->loadIcon("up",KIcon::Small,20));
 
         connect(gEdit->buttonAdd,SIGNAL(clicked()),this,SLOT(groupAdd()));
         connect(gEdit->buttonRemove,SIGNAL(clicked()),this,SLOT(groupRemove()));
@@ -1803,8 +1784,21 @@ void listKeys::editGroup()
         }
         keysGroup=KgpgInterface::getGpgGroupSetting(keysList2->currentItem()->text(0),KGpgSettings::gpgConfigPath());
         groupInit(keysGroup);
-
-        dialogGroupEdit->setMainWidget(gEdit);
+	dialogGroupEdit->setMainWidget(gEdit);
+	gEdit->availableKeys->setColumnWidth(0,200);
+	gEdit->availableKeys->setColumnWidth(1,200);
+	gEdit->availableKeys->setColumnWidth(2,100);
+	gEdit->availableKeys->setColumnWidthMode(0,QListView::Manual);
+	gEdit->availableKeys->setColumnWidthMode(1,QListView::Manual);
+	gEdit->availableKeys->setColumnWidthMode(2,QListView::Manual);
+	
+	gEdit->groupKeys->setColumnWidth(0,200);
+	gEdit->groupKeys->setColumnWidth(1,200);
+	gEdit->groupKeys->setColumnWidth(2,100);
+	gEdit->groupKeys->setColumnWidthMode(0,QListView::Manual);
+	gEdit->groupKeys->setColumnWidthMode(1,QListView::Manual);
+	gEdit->groupKeys->setColumnWidthMode(2,QListView::Manual);
+        
         gEdit->setMinimumSize(gEdit->sizeHint());
         gEdit->show();
         if (dialogGroupEdit->exec()==QDialog::Accepted)
