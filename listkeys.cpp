@@ -796,7 +796,7 @@ void listKeys::findFirstKey()
         if (!item)
                 return;
         QString searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
-        //kdDebug()<<"String:"<<searchText<<endl;
+        
         //kdDebug()<<"Search:"<<searchString<<endl;
         //kdDebug()<<"OPts:"<<searchOptions<<endl;
         KFind *m_find = new KFind(searchString, searchOptions,this);
@@ -1638,7 +1638,7 @@ void listKeys::signkey()
                 }
                 pclose(pass);
                 opt=	i18n("<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>%3</b>.<br><br>"
-                          "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
+			  "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
                           "is not trying to intercept your communications</qt>").arg(keysList2->currentItem()->text(0)+" ("+keysList2->currentItem()->text(1)+")").arg(keysList2->currentItem()->text(6)).arg(fingervalue);
 
                 if (KMessageBox::warningContinueCancel(this,opt)!=KMessageBox::Continue)
@@ -1668,25 +1668,46 @@ void listKeys::signkey()
         opts->vbox->addWidget(signTrust);
 
         QCheckBox *localSign = new QCheckBox(i18n("Local signature (cannot be exported)"),opts->page);
-        opts->vbox->addWidget(localSign);
+	opts->vbox->addWidget(localSign);
+	
+	QCheckBox *terminalSign = new QCheckBox(i18n("Do not sign all user id's (open terminal)"),opts->page);
+	opts->vbox->addWidget(terminalSign);
+	if (signList.count()!=1) terminalSign->setEnabled(false);
+	
         opts->setMinimumHeight(300);
 
-        if (opts->exec()==QDialog::Accepted) {
-                globalkeyID=QString(opts->getkeyID());
-                globalkeyMail=QString(opts->getkeyMail());
-                globalisLocal=localSign->isChecked();
-                globalChecked=signTrust->currentItem();
-        } else {
-                delete opts;
-                return;
-        }
+        if (opts->exec()!=QDialog::Accepted) 
+	{
+	delete opts;
+	return;
+	}
+	
+	globalkeyID=QString(opts->getkeyID());
+	globalkeyMail=QString(opts->getkeyMail());
+	globalisLocal=localSign->isChecked();
+	globalChecked=signTrust->currentItem();        
         delete opts;
+	globalCount=0;
+        if (!terminalSign->isChecked()) signLoop();
+	else
+	{
+	KProcess kp;
 
-
-        //for ( uint i = 0; i < signList.count(); ++i )
-
-        globalCount=0;
-        signLoop();
+	KConfig *config = new KConfig("kdeglobals", true);
+	config->setGroup("General");
+	kp<< config->readEntry("TerminalApplication","konsole");
+	kp<<"-e"
+        <<"gpg"
+        <<"--no-secmem-warning"
+	<<"-u"
+	<<globalkeyID
+        <<"--edit-key"
+        <<signList.at(0)->text(6);
+        if (globalisLocal) kp<<"lsign";
+	else kp<<"sign";
+        kp.start(KProcess::Block);
+	keysList2->refreshcurrentkey(keysList2->currentItem());	
+	}
 }
 
 void listKeys::signLoop()
@@ -1697,9 +1718,6 @@ void listKeys::signLoop()
                         KgpgInterface *signKeyProcess=new KgpgInterface();
                         signKeyProcess->KgpgSignKey(signList.at(globalCount)->text(6),globalkeyID,globalkeyMail,globalisLocal,globalChecked);
                         connect(signKeyProcess,SIGNAL(signatureFinished(int)),this,SLOT(signatureResult(int)));
-                        while (signList.at(globalCount)->firstChild()!=0)
-                                delete signList.at(globalCount)->firstChild();
-                        signList.at(globalCount)->setOpen(false);
                 }
                 globalCount++;
         }
@@ -1803,12 +1821,7 @@ void listKeys::delsignatureResult(bool success)
                         top=top->parent();
                 while (top->firstChild()!=0)
                         delete top->firstChild();
-                top->setOpen(false);
                 keysList2->refreshcurrentkey(top);
-                top->setOpen(true);
-
-                //		delete keysList2->currentItem();
-                //refreshkey();
         } else
                 KMessageBox::sorry(this,i18n("Requested operation was unsuccessful, please edit the key manually."));
 }
@@ -2546,8 +2559,8 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
                 return;
 	bool keyIsOpen=false;
         QString keyUpdate=current->text(6);
-	if (current->isOpen ()) keyIsOpen=true;
-        delete current;
+	if (current->isOpen()) keyIsOpen=true;
+	delete current;
         refreshcurrentkey(keyUpdate);
 	if (currentItem()->text(6)==keyUpdate) currentItem()->setOpen(keyIsOpen);
 }

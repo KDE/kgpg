@@ -388,11 +388,6 @@ void KgpgView::slotdecode()
         QString dests,encUsers;
         messages=QString::null;
 
-        encUsers=KgpgInterface::extractKeyName(editor->text());
-
-        if (encUsers.isEmpty())
-                encUsers=i18n("[No user id found]");
-
         //QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
 	KConfig *ksConfig=kapp->config();
 	ksConfig->setGroup("Decryption");

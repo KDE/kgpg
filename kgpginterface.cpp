@@ -59,27 +59,40 @@ FILE *fp;
 	return (100*gpgString.section('.',0,0).toInt()+10*gpgString.section('.',1,1).toInt()+gpgString.section('.',2,2).toInt());
 }
 
+void KgpgInterface::updateIDs(QString txtString)
+{
+ int cut=txtString.find(' ',22,false);
+          txtString.remove(0,cut);
+          if (txtString.find("(",0,false)!=-1)
+            txtString=txtString.section('(',0,0)+txtString.section(')',-1);
+	    txtString.replace(QRegExp("<"),"&lt;");
+          if (userIDs.find(txtString)==-1)
+            {
+              if (!userIDs.isEmpty())
+                userIDs+=i18n(" or ");
+              userIDs+=txtString;
+            }
+}
+
 void KgpgInterface::KgpgEncryptFile(QStringList encryptKeys,KURL srcUrl,KURL destUrl, QStringList Options, bool symetrical)
 {
-        file=destUrl;
         sourceFile=srcUrl;
-        encError=false;
         message=QString::null;
         KProcIO *proc=new KProcIO();
 	*proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0";
-	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) {
+	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) 
        		*proc<< QFile::encodeName(*it);
-    		}
+
+                *proc<<"--output"<<QFile::encodeName(destUrl.path());
 		
-        if (!symetrical) {
-                *proc<<"--output"<<QFile::encodeName(destUrl.path())<<"-e";
-		
-		for ( QStringList::Iterator it = encryptKeys.begin(); it != encryptKeys.end(); ++it ) {
+		if (!symetrical) {
+		*proc<<"-e";
+		for ( QStringList::Iterator it = encryptKeys.begin(); it != encryptKeys.end(); ++it )
        		*proc<<"--recipient"<< *it;
-    		}
-                *proc<<QFile::encodeName(srcUrl.path());
-        } else  ////////////   symetrical encryption, prompt for password
-                *proc<<"--output"<<QFile::encodeName(destUrl.path())<<"-c"<<QFile::encodeName(srcUrl.path());
+        	} else  ////////////   symetrical encryption, prompt for password
+                *proc<<"-c";
+		
+		*proc<<QFile::encodeName(srcUrl.path());
 
         /////////  when process ends, update dialog infos
         QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(encryptfin(KProcess *)));
@@ -98,8 +111,6 @@ void KgpgInterface::encryptfin(KProcess *)
                 emit encryptionfinished(sourceFile);
         else {
                 emit errormessage(message);
-                //KMessageBox::sorry(0,message);
-                //emit encryptionfinished(false);
         }
 }
 
@@ -121,9 +132,6 @@ void KgpgInterface::readencprocess(KProcIO *p)
                                         return;
                                 }
                                 p->writeStdin(passphrase,true);
-                                userIDs=QString::null;
-                                //p->writeStdin("\n");
-                                step--;
                         } else {
                                 p->writeStdin("quit");
                                 p->closeWhenDone();
@@ -147,9 +155,8 @@ void KgpgInterface::KgpgDecryptFile(KURL srcUrl,KURL destUrl,QStringList Options
 
                 *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0";
 		
-		for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) {
+		for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
        		*proc<< QFile::encodeName(*it);
-    		}
 
 		if (!destUrl.filename().isEmpty()) // a filename was entered
 				*proc<<"-o"<<QFile::encodeName(destUrl.path());
@@ -163,7 +170,6 @@ void KgpgInterface::KgpgDecryptFile(KURL srcUrl,KURL destUrl,QStringList Options
 
 void KgpgInterface::decryptfin(KProcess *)
 {
-kdDebug()<<"Decrypt over"<<endl;
         if ((message.find("DECRYPTION_OKAY")!=-1) && (message.find("END_DECRYPTION")!=-1)) //&& (message.find("GOODMDC")!=-1)
                 emit decryptionfinished();
         else
@@ -174,22 +180,11 @@ void KgpgInterface::readdecprocess(KProcIO *p)
 {
         QString required;
         while (p->readln(required,true)!=-1) {
-                //required=QString::fromUtf8(required);
                 if (required.find("BEGIN_DECRYPTION",0,false)!=-1)
                         emit processstarted();
-                if (required.find("USERID_HINT",0,false)!=-1) {
-                        required=required.section("HINT",1,1);
-                        required=required.stripWhiteSpace();
-                        int cut=required.find(' ',0,false);
-                        required.remove(0,cut);
-                        if (required.find("(",0,false)!=-1)
-                                required=required.section('(',0,0)+required.section(')',-1,-1);
-                        if (userIDs.find(required)==-1) {
-                                if (!userIDs.isEmpty())
-                                        userIDs+=i18n(" or ");
-                                userIDs+=required;
-                        }
-                }
+                if (required.find("USERID_HINT",0,false)!=-1)
+			updateIDs(required);
+
                 if (required.find("ENC_TO")!=-1) {
                         if (required.find("0000000000000000")!=-1)
                                 anonymous=true;
@@ -217,7 +212,6 @@ void KgpgInterface::readdecprocess(KProcIO *p)
                                 }
                                 p->writeStdin(passphrase,true);
                                 userIDs=QString::null;
-                                //p->writeStdin("\n");
                                 step--;
                         } else {
                                 p->writeStdin("quit");
@@ -240,16 +234,14 @@ void KgpgInterface::KgpgEncryptText(QString text,QStringList userIDs, QStringLis
         KProcIO *proc=new KProcIO();
         *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2";
         
-	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) {
+	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
        		*proc<< QFile::encodeName(*it);
-		}
 	
 	if (!userIDs.isEmpty())
 	{
         *proc<<"-e";
-	for ( QStringList::Iterator it = userIDs.begin(); it != userIDs.end(); ++it ) {
+	for ( QStringList::Iterator it = userIDs.begin(); it != userIDs.end(); ++it )
        		*proc<<"--recipient"<< *it;
-    		}
 	}
 	else *proc<<"-c";
 
@@ -266,7 +258,7 @@ void KgpgInterface::txtencryptfin(KProcess *)
         if (txtsent)
                 emit txtencryptionfinished(QString::fromUtf8(message.ascii()));
         else
-                emit txtencryptionfinished("");
+                emit txtencryptionfinished(QString::null);
 }
 
 void KgpgInterface::txtreadencprocess(KProcIO *p)
@@ -313,9 +305,9 @@ decok=false;
 badmdc=false;
  KProcIO *proc=new KProcIO();
 	  *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=1"<<"--no-batch";
-      	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) {
+      	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
        		*proc<< QFile::encodeName(*it);
-    		}
+
       *proc<<"-d";
 
   /////////  when process ends, update dialog infos
@@ -328,8 +320,6 @@ badmdc=false;
 
 void KgpgInterface::txtdecryptfin(KProcess *)
 {
-//KMessageBox::sorry(0,message);
-
 if ((decok) && (!badmdc)) 
 {
 message.remove(0,message.find("BEGIN_DECRYPTION")+17);
@@ -342,10 +332,7 @@ KMessageBox::sorry(0,i18n("Bad MDC detected. The encrypted text has been manipul
 emit txtdecryptionfailed(QString::fromUtf8(message.ascii()));
 }
 else
-{
-//KMessageBox::sorry(0,i18n("The decryption was not successful."));
 emit txtdecryptionfailed(QString::fromUtf8(message.ascii()));
-}
 }
 
 void KgpgInterface::txtreaddecprocess(KProcIO *p)
@@ -355,20 +342,8 @@ void KgpgInterface::txtreaddecprocess(KProcIO *p)
     {
 	{
 	if (required.find("USERID_HINT",0,false)!=-1)
-        {
-          required=required.section("HINT",1,1);
-          required=required.stripWhiteSpace();
-          int cut=required.find(' ',0,false);
-          required.remove(0,cut);
-          if (required.find("(",0,false)!=-1)
-            required=required.section('(',0,0)+required.section(')',-1,-1);
-          if (userIDs.find(required)==-1)
-            {
-              if (!userIDs.isEmpty())
-                userIDs+=i18n(" or ");
-              userIDs+=required;
-            }
-        }
+        updateIDs(required);
+	
       if (required.find("ENC_TO")!=-1)
         {
           if (required.find("0000000000000000")!=-1)
@@ -386,9 +361,7 @@ void KgpgInterface::txtreaddecprocess(KProcIO *p)
                 passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys.<br>");
               if ((step<3) && (!anonymous))
                 passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-              QString prettyuIDs=userIDs;
-              prettyuIDs.replace(QRegExp("<"),"&lt;");
-              passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(prettyuIDs);
+              passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(userIDs);
               int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
               if (code!=QDialog::Accepted)
                 {
@@ -463,7 +436,6 @@ Md5Widget::Md5Widget(QWidget *parent, const char *name,KURL url):KDialogBase( pa
         QGridLayout *MyDialogLayout = new QGridLayout( page, 1, 1, 5, 6, "MyDialogLayout");
 
         QLabel *TextLabel1 = new QLabel( page, "TextLabel1" );
-        //TextLabel1->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)3, (QSizePolicy::SizeType)0, 0, 0, TextLabel1->sizePolicy().hasHeightForWidth() ) );
         TextLabel1->setText(i18n("MD5 sum for <b>%1</b> is:").arg(url.filename()));
         MyDialogLayout->addWidget( TextLabel1, 0, 0 );
 
@@ -535,15 +507,14 @@ void KgpgInterface::KgpgSignFile(QString keyID,KURL srcUrl,QStringList Options)
         KProcIO *proc=new KProcIO();
         keyID=keyID.stripWhiteSpace();
         *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"-u"<<keyID.local8Bit();
-		for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) {
+		for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
        		*proc<< QFile::encodeName(*it);
-		}
+
 	*proc<<"--output"<<QFile::encodeName(srcUrl.path()+".sig");
         *proc<<"--detach-sig"<<QFile::encodeName(srcUrl.path());
 
         QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(signfin(KProcess *)));
         QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(readsignprocess(KProcIO *)));
-        //QObject::connect(proc,SIGNAL(receivedStderr(KProcess *, char *, int)),this,SLOT(encrypterror(KProcess *, char *, int)));
         proc->start(KProcess::NotifyOnExit,true);
 }
 
@@ -565,19 +536,8 @@ void KgpgInterface::readsignprocess(KProcIO *p)
 {
         QString required;
         while (p->readln(required,true)!=-1) {
-                if (required.find("USERID_HINT",0,false)!=-1) {
-                        required=required.section("HINT",1,1);
-                        required=required.stripWhiteSpace();
-                        int cut=required.find(' ',0,false);
-                        required.remove(0,cut);
-                        if (required.find("(",0,false)!=-1)
-                                required=required.section('(',0,0)+required.section(')',-1,-1);
-                        if (userIDs.find(required)==-1) {
-                                if (!userIDs.isEmpty())
-                                        userIDs+=i18n(" or ");
-                                userIDs+=required;
-                        }
-                }
+                if (required.find("USERID_HINT",0,false)!=-1) 
+		updateIDs(required);
 
                 if (required.find("GET_")!=-1) {
                         if (required.find("openfile.overwrite.okay")!=-1)
@@ -589,10 +549,7 @@ void KgpgInterface::readsignprocess(KProcIO *p)
                                 QString passdlgmessage;
                                 if (step<3)
                                         passdlgmessage=i18n("<b>Bad passphrase</b>. you have %1 tries left.<br>").arg(step);
-                                // QString prettyuIDs=QString::fromUtf8(userIDs);
-                                QString prettyuIDs=userIDs;
-                                prettyuIDs.replace(QRegExp("<"),"&lt;");
-                                passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(prettyuIDs);
+                                passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(userIDs);
                                 int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
                                 if (code!=QDialog::Accepted) {
                                         delete p;
@@ -686,7 +643,6 @@ void KgpgInterface::verifyfin(KProcess *)
 
 void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyMail,bool local,int checking)
 {
-
         signKeyMail.replace(QRegExp("<"),"&lt;");
         konsChecked=checking;
         konsLocal=local;
@@ -711,7 +667,7 @@ void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyM
         conprocess->start(KProcess::NotifyOnExit,true);
 }
 
-void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
+void KgpgInterface::sigprocess(KProcIO *p)
 {
         QString required=QString::null;
 
@@ -719,21 +675,9 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
         {
 
                 output+=required+"\n";
-                if (required.find("USERID_HINT",0,false)!=-1) {
-                        required=required.section("HINT",1,1);
-                        required=required.stripWhiteSpace();
-                        int cut=required.find(' ',0,false);
-                        required.remove(0,cut);
-                        if (required.find("(",0,false)!=-1)
-                                required=required.section('(',0,0)+required.section(')',-1,-1);
-                        required.replace(QRegExp("<"),"&lt;");
-                        if (userIDs.find(required)==-1) {
-                                if (!userIDs.isEmpty())
-                                        userIDs+=i18n(" or ");
-                                userIDs+=required;
-                        }
-                }
-
+                if (required.find("USERID_HINT",0,false)!=-1) 
+		updateIDs(required);
+		
                 if (signSuccess==4) {
                         if (required.find("GET_")!=-1)
                                 p->writeStdin("quit");
@@ -741,20 +685,11 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                         return;
                 }
 
-
-                //if ((step==2) && (required.find("GOOD_PASSPHRASE")!=-1)) {
                 if ((required.find("GOOD_PASSPHRASE")!=-1)) {
                         signSuccess=3;
                         step=2;
                 }
 
-                //KMessageBox::sorry(0,required);
-		/*
-                if ((step==0) && (required.find("keyedit.prompt")!=-1)) {
-                        p->writeStdin(message);
-                        step=1;
-                        required="";
-                }*/
                 if (required.find("sign_uid.expire")!=-1) {
                         p->writeStdin("Never");
                         required=QString::null;
@@ -767,6 +702,12 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                         p->writeStdin("Y");
                         required=QString::null;
                 }
+		
+		if (required.find("sign_all.okay")!=-1) {
+                        p->writeStdin("Y");
+                        required=QString::null;
+                }
+		
                 if (required.find("passphrase.enter")!=-1) {
                         QCString signpass;
                         int code=KPasswordDialog::getPassword(signpass,i18n("<qt>%1Enter passphrase for <b>%1</b>:</qt>").arg(errMessage).arg(userIDs));
@@ -787,9 +728,7 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                 }
                 if (required.find("BAD_PASSPHRASE")!=-1) {
                         errMessage=i18n("<b>Bad passphrase</b>. Try again.</br>");
-                        //p->writeStdin("quit");
                         required=QString::null;
-                        //p->closeWhenDone();
                         signSuccess=2;  /////  bad passphrase
                 }
                 if (required.find("GET_")!=-1) /////// gpg asks for something unusal, turn to konsole mode
@@ -846,7 +785,7 @@ void KgpgInterface::KgpgDelSignature(QString keyID,QString signKeyID)
 
         message=signKeyID.remove(0,2);
         deleteSuccess=false;
-        step=2;
+        step=0;
         
         FILE *fp;
         QString encResult;
@@ -855,7 +794,6 @@ void KgpgInterface::KgpgDelSignature(QString keyID,QString signKeyID)
         sigsearch=0;
 
         QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --list-sigs "+keyID;
-        
         fp = popen(QFile::encodeName(gpgcmd), "r");
         while ( fgets( buffer, sizeof(buffer), fp)) {
                 encResult=buffer;
@@ -867,11 +805,6 @@ void KgpgInterface::KgpgDelSignature(QString keyID,QString signKeyID)
                         signb++;
         }
         pclose(fp);
-
-        //KMessageBox::sorry(0,"Signature numero: "+QString::number(signb));
-
-
-        //KMessageBox::sorry(0,keyID+"::"+signKeyID);
         KProcIO *conprocess=new KProcIO();
         *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--command-fd=0"<<"--status-fd=2";
         *conprocess<<"--edit-key"<<keyID<<"uid 1"<<"delsig";
@@ -887,27 +820,17 @@ void KgpgInterface::delsigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
         QString required=QString::null;
         while (p->readln(required,true)!=-1)
         {
-/*                if ((step==0) && (required.find("keyedit.prompt")!=-1)) {
-                        p->writeStdin("uid 1");
-                        step=1;
-                        required="";
-                }
-                if ((step==1) && (required.find("keyedit.prompt")!=-1)) {
-                        p->writeStdin("delsig");
-                        step=2;
-                        required="";
-                }*/
-                if ((step==2) && (required.find("keyedit.delsig")!=-1)) {
+                if (required.find("keyedit.delsig")!=-1){
 
-                        if (sigsearch==signb) {
+                        if ((sigsearch==signb) && (step==0)) {
                                 p->writeStdin("Y");
-                                step=3;
+                                step=1;
                         } else
                                 p->writeStdin("n");
                         sigsearch++;
                         required=QString::null;
                 }
-                if ((step==3) && (required.find("keyedit.prompt")!=-1)) {
+                if ((step==1) && (required.find("keyedit.prompt")!=-1)) {
                         p->writeStdin("save");
                         required=QString::null;
                         deleteSuccess=true;
@@ -918,7 +841,6 @@ void KgpgInterface::delsigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                         deleteSuccess=false;
                 }
         }
-        //p->ackRead();
 }
 
 void KgpgInterface::delsignover(KProcess *)
@@ -976,21 +898,9 @@ void KgpgInterface::expprocess(KProcIO *p)
         while (p->readln(required,true)!=-1) {
                 output+=required+"\n";
 
-                if (required.find("USERID_HINT",0,false)!=-1) {
-                        required=required.section("HINT",1,1);
-                        required=required.stripWhiteSpace();
-                        int cut=required.find(' ',0,false);
-                        required.remove(0,cut);
-                        if (required.find("(",0,false)!=-1)
-                                required=required.section('(',0,0)+required.section(')',-1,-1);
-                        if (userIDs.find(required)==-1) {
-                                if (!userIDs.isEmpty())
-                                        userIDs+=i18n(" or ");
-                                userIDs+=required;
-                                userIDs.replace(QRegExp("<"),"&lt;");
-                        }
-                }
-
+                if (required.find("USERID_HINT",0,false)!=-1) 
+		updateIDs(required);
+		
                 if ((required.find("GOOD_PASSPHRASE")!=-1)) {
                         expSuccess=3;
                         step=2;
@@ -1145,18 +1055,8 @@ void KgpgInterface::passprocess(KProcIO *p)
         while (p->readln(required,true)!=-1) {
                 output+=required+"\n";
 
-                if (required.find("USERID_HINT",0,false)!=-1) {
-
-                        required=required.section("HINT",1,1);
-                        required=required.stripWhiteSpace();
-                        int cut=required.find(' ',0,false);
-                        required.remove(0,cut);
-                        if (required.find("(",0,false)!=-1)
-                                required=required.section('(',0,0)+required.section(')',-1,-1);
-                        userIDs=required;
-
-                }
-
+                if (required.find("USERID_HINT",0,false)!=-1)
+		updateIDs(required);
 
                 if ((step>2) && (required.find("keyedit.prompt")!=-1)) {			
 			if (step==3)
@@ -1361,70 +1261,6 @@ void KgpgInterface::importprocess(KProcIO *p)
         }
 }
 
-QString KgpgInterface::extractKeyName(KURL url)
-{
-        ///////////////////////////////////////////////////////////////// extract  encryption keys
-
-        FILE *fp;
-        QString encResult,IDs;
-        char buffer[200];
-
-        QString gpgcmd="gpg --no-tty --no-secmem-warning --batch --status-fd 1 -d "+KShellProcess::quote(url.path());
-        //////////   encode with untrusted keys or armor if checked by user
-        fp = popen(QFile::encodeName(gpgcmd), "r");
-        while ( fgets( buffer, sizeof(buffer), fp)) {
-                encResult=QString::fromUtf8(buffer);
-                if (encResult.find("USERID_HINT",0,false)!=-1) {
-                        encResult=encResult.section("HINT",1,1);
-                        encResult=encResult.stripWhiteSpace();
-                        int cut=encResult.find(' ',0,false);
-                        encResult.remove(0,cut);
-                        if (encResult.find("(",0,false)!=-1)
-                                encResult=encResult.section('(',0,0)+encResult.section(')',-1,-1);
-                        if (IDs.find(encResult)==-1) {
-                                if (!IDs.isEmpty())
-                                        IDs+=i18n(" or ");
-                                IDs+=encResult;
-                        }
-                }
-        }
-        pclose(fp);
-        return IDs;
-}
-
-QString KgpgInterface::extractKeyName(QString txt)
-{
-        ///////////////////////////////////////////////////////////////// extract  encryption keys
-
-        FILE *fp;
-        QString encResult,IDs;
-        char buffer[200];
-
-
-        QString gpgcmd="echo \""+txt+"\" | gpg --no-tty --no-secmem-warning --batch --status-fd 1 -d ";
-        //////////   encode with untrusted keys or armor if checked by user
-        fp = popen(QFile::encodeName(gpgcmd), "r");
-        while ( fgets( buffer, sizeof(buffer), fp)) {
-                encResult=QString::fromUtf8(buffer);
-                if (encResult.find("USERID_HINT",0,false)!=-1) {
-                        encResult=encResult.section("HINT",1,1);
-                        encResult=encResult.stripWhiteSpace();
-                        int cut=encResult.find(' ',0,false);
-                        encResult.remove(0,cut);
-                        if (encResult.find("(",0,false)!=-1)
-                                encResult=encResult.section('(',0,0)+encResult.section(')',-1,-1);
-
-                        if (IDs.find(encResult)==-1) {
-                                if (!IDs.isEmpty())
-                                        IDs+=i18n(" or ");
-                                IDs+=encResult;
-                        }
-
-                }
-        }
-        pclose(fp);
-        return IDs;
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////   User ID's
 
@@ -1456,20 +1292,8 @@ void KgpgInterface::adduidprocess(KProcIO *p)
         QString required=QString::null;
         while (p->readln(required,true)!=-1) {
                 output+=required+"\n";
-                if (required.find("USERID_HINT",0,false)!=-1) {
-                        required=required.section("HINT",1,1);
-                        required=required.stripWhiteSpace();
-                        int cut=required.find(' ',0,false);
-                        required.remove(0,cut);
-                        if (required.find("(",0,false)!=-1)
-                                required=required.section('(',0,0)+required.section(')',-1,-1);
-                        if (userIDs.find(required)==-1) {
-                                if (!userIDs.isEmpty())
-                                        userIDs+=i18n(" or ");
-                                userIDs+=required;
-                                userIDs.replace(QRegExp("<"),"&lt;");
-                        }
-                }
+                if (required.find("USERID_HINT",0,false)!=-1) 
+		updateIDs(required);
 
                 if (required.find("keygen.name")!=-1)  {
                         p->writeStdin(uidName);
@@ -1555,10 +1379,8 @@ void KgpgInterface::photoreadprocess(KProcIO *p)
 void KgpgInterface::photoreadover(KProcess *)
 {
 for (int i=1;i<photoCount+1;i++)
-{
 if (isPhotoId(i)) photoList+=QString::number(i);
-}
-//KMessageBox::sorry(0,QString::number(photoCount)+" liste: "+photoList.join(", "));
+
 emit signalPhotoList(photoList);
 }
 
@@ -1604,20 +1426,8 @@ void KgpgInterface::delphotoprocess(KProcIO *p)
         QString required=QString::null;
         while (p->readln(required,true)!=-1) {
                 output+=required+"\n";
-                if (required.find("USERID_HINT",0,false)!=-1) {
-                        required=required.section("HINT",1,1);
-                        required=required.stripWhiteSpace();
-                        int cut=required.find(' ',0,false);
-                        required.remove(0,cut);
-                        if (required.find("(",0,false)!=-1)
-                                required=required.section('(',0,0)+required.section(')',-1,-1);
-                        if (userIDs.find(required)==-1) {
-                                if (!userIDs.isEmpty())
-                                        userIDs+=i18n(" or ");
-                                userIDs+=required;
-                                userIDs.replace(QRegExp("<"),"&lt;");
-                        }
-                }
+                if (required.find("USERID_HINT",0,false)!=-1)
+                                updateIDs(required);
 
                 if (required.find("keyedit.remove.uid.okay")!=-1)  {
                         p->writeStdin("YES");
@@ -1657,7 +1467,6 @@ void KgpgInterface::delphotoprocess(KProcIO *p)
 
 void KgpgInterface::KgpgAddPhoto(QString keyID,QString imagePath)
 {
-kdDebug()<<"Adding photo :"<<imagePath<<" to key:"<<keyID<<endl;
 photoUrl=imagePath;
 output=QString::null;
 addSuccess=true;
@@ -1680,21 +1489,9 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
         QString required=QString::null;
         while (p->readln(required,true)!=-1) {
                 output+=required+"\n";
-                if (required.find("USERID_HINT",0,false)!=-1) {
-                        required=required.section("HINT",1,1);
-                        required=required.stripWhiteSpace();
-                        int cut=required.find(' ',0,false);
-                        required.remove(0,cut);
-                        if (required.find("(",0,false)!=-1)
-                                required=required.section('(',0,0)+required.section(')',-1,-1);
-                        if (userIDs.find(required)==-1) {
-                                if (!userIDs.isEmpty())
-                                        userIDs+=i18n(" or ");
-                                userIDs+=required;
-                                userIDs.replace(QRegExp("<"),"&lt;");
-                        }
-                }
-
+                if (required.find("USERID_HINT",0,false)!=-1)
+		updateIDs(required);
+		
                 if (required.find("photoid.jpeg.add")!=-1)  {
                         p->writeStdin(photoUrl);
                         required=QString::null;
@@ -1736,7 +1533,6 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
 
 void KgpgInterface::KgpgRevokeKey(QString keyID,QString revokeUrl,int reason,QString description)
 {
-        kdDebug()<<"Revoke key"<<keyID<<"url"<<revokeUrl<<endl;
         revokeReason=reason;
         revokeSuccess=false;
         revokeDescription=description;
@@ -1772,24 +1568,11 @@ void KgpgInterface::revokeprocess(KProcIO *p)
         while (p->readln(required,true)!=-1) {
                 output+=required+"\n";
 
-                if (required.find("USERID_HINT",0,false)!=-1) {
-                        required=required.section("HINT",1,1);
-                        required=required.stripWhiteSpace();
-                        int cut=required.find(' ',0,false);
-                        required.remove(0,cut);
-                        if (required.find("(",0,false)!=-1)
-                                required=required.section('(',0,0)+required.section(')',-1,-1);
-                        if (userIDs.find(required)==-1) {
-                                if (!userIDs.isEmpty())
-                                        userIDs+=i18n(" or ");
-                                userIDs+=required;
-                                userIDs.replace(QRegExp("<"),"&lt;");
-                        }
-                }
-
-                if ((required.find("GOOD_PASSPHRASE")!=-1)) {
+                if (required.find("USERID_HINT",0,false)!=-1)
+		updateIDs(required);
+		
+                if ((required.find("GOOD_PASSPHRASE")!=-1))
                         revokeSuccess=true;
-                }
 
                 if ((required.find("gen_revoke.okay")!=-1) || (required.find("ask_revocation_reason.okay")!=-1) || (required.find("openfile.overwrite.okay")!=-1)) {
                         p->writeStdin("YES");
@@ -1802,7 +1585,6 @@ void KgpgInterface::revokeprocess(KProcIO *p)
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        kdDebug()<<"Passphrase"<<endl;
                         QCString signpass;
                         int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
                         if (code!=QDialog::Accepted) {
@@ -1821,12 +1603,6 @@ void KgpgInterface::revokeprocess(KProcIO *p)
                         revokeDescription=QString::null;
                         required=QString::null;
                 }
-                //                if (required.find("BAD_PASSPHRASE")!=-1) {
-                //		kdDebug()<<"BAD pass"<<endl;
-                //                        p->writeStdin("quit");
-                //                        p->closeWhenDone();
-                /////  bad passphrase
-                //              }
                 if ((required.find("GET_")!=-1)) /////// gpg asks for something unusal, turn to konsole mode
                 {
                         kdDebug()<<"unknown request"<<endl;

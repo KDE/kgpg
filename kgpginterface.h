@@ -157,8 +157,6 @@ public slots:
 	
         void KgpgDecryptFileToText(KURL srcUrl,QStringList Options);
 
-        static QString extractKeyName(QString txt="");
-        static QString extractKeyName(KURL url=0);
         static QString getGpgSetting(QString name,QString configFile);
         static void setGpgSetting(QString name,QString ID,QString url);
         static bool getGpgBoolSetting(QString name,QString configFile);
@@ -265,6 +263,7 @@ private slots:
 	void photoreadover(KProcess *);
 	void photoreadprocess(KProcIO *p);
 	bool isPhotoId(int uid);
+	void updateIDs(QString txtString);
 
         //void txtreaddecprocess(KProcIO *p);
         //void txtdecryptfin(KProcess *);
@@ -372,22 +371,11 @@ private:
 	QString uidName, uidEmail, uidComment;
         KURL sourceFile;
 
-        /*
-        #if (KDE_VERSION >= 310)
-        KPassivePopup *pop;
-        #else
-        QDialog *clippop;
-        #endif
-        */
-
         /**
          * @internal structure for the file information
          */
         KURL file;
-        /**
-         * @internal structure to send signal only once on error.
-         */
-        bool encError;
+
 };
 
 class  Md5Widget :public KDialogBase
