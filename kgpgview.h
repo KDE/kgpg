@@ -107,6 +107,7 @@ public:
 
         MyEditor *editor;
         KURL fselected;
+	bool windowAutoClose;
 
         /** contains the implementation for printing functionality */
         //    void print(QPrinter *pPrinter);
@@ -120,6 +121,8 @@ public slots:
 	void clearSign();
 
 private slots:
+	void slotVerifyResult(QString mssge);
+	void slotAskForImport(QString ID);
         void popuppublic();
         void modified();
         void encodetxt(QStringList selec,QStringList encryptOptions,bool, bool symmetric);
@@ -130,6 +133,8 @@ private slots:
 	
 signals:
 	void resetEncoding(bool);
+	void verifyFinished();
+	void verifyDetach();
 };
 
 #endif // KGPGVIEW_H

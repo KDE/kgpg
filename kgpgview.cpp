@@ -178,6 +178,7 @@ void MyEditor::slotProcessResult(QStringList iKeys)
 KgpgView::KgpgView(QWidget *parent, const char *name) : QWidget(parent, name)
 {
         editor=new MyEditor(this);
+	windowAutoClose=true;
 
         /////    layout
 
@@ -220,6 +221,24 @@ void KgpgView::modified()
 
 }
 
+void KgpgView::slotAskForImport(QString ID)
+{
+if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
+	"Do you want to import this key from a keyserver?</qt>").arg(ID),i18n("Missing Key"))==KMessageBox::Yes) {
+        keyServer *kser=new keyServer(0,"server_dialog",false,true);
+        kser->page->kLEimportid->setText(ID);
+        kser->slotImport();
+	windowAutoClose=false;
+        }
+	else emit verifyFinished();
+}
+
+void KgpgView::slotVerifyResult(QString mssge)
+{
+emit verifyFinished();
+KMessageBox::information(0,mssge);
+}
+
 void KgpgView::clearSign()
 {
         QString mess=editor->text();
@@ -229,59 +248,13 @@ void KgpgView::clearSign()
                 ///////////////////  generate gpg command
 
                 ///////////////// run command
-                FILE *fp,*cmdstatus;
-                int process[2];
-
-                pipe(process);
-                cmdstatus = fdopen(process[1], "w");
-                QString line="echo "+KShellProcess::quote(mess.utf8());
-                line+=" | gpg --no-tty  --no-secmem-warning --status-fd="+QString::number(process[1])+" --verify";
-                fp=popen(QFile::encodeName(line),"r");
-                pclose(fp);
-                fclose(cmdstatus);
-
-                int Len;
-                char Buff[500]="\0";
-                QString verifyResult,lineRead;
-
-                //////////////////////////   read gpg output
-                while (read(process[0], &Len, sizeof(Len)) > 0) {
-                        read(process[0],Buff, Len);
-                        lineRead=Buff;
-                        if (lineRead.find("GOODSIG",0,FALSE)!=-1)
-                                lineRead.remove(0,lineRead.find("GOODSIG",0,FALSE)+7);
-                        if (lineRead.find("BADSIG",0,FALSE)!=-1)
-                                lineRead.remove(0,lineRead.find("BADSIG",0,FALSE)+6);
-                        if (lineRead.find("NO_PUBKEY",0,FALSE)!=-1)
-                                lineRead.remove(0,lineRead.find("NO_PUBKEY",0,FALSE)+9);
-                        verifyResult+=Buff;
-                }
-                if ((verifyResult.find("GOODSIG",0,FALSE)!=-1) && (verifyResult.find("BADSIG",0,FALSE)==-1)) {
-                        lineRead=lineRead.left(lineRead.find("\n",0,FALSE));
-                        lineRead=lineRead.stripWhiteSpace();
-                        QString resultKey=lineRead.section(" ",1,-1);
-                        QString resultID=lineRead.section(" ",0,0);
-                        KMessageBox::information(this,i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>").arg(resultKey.replace(QRegExp("<"),"&lt;")).arg(resultID));
-                } else
-                        if ((verifyResult.find("NO_PUBKEY",0,FALSE)!=-1) && (verifyResult.find("BADSIG",0,FALSE)==-1)) {
-                                lineRead=lineRead.left(lineRead.find("\n",0,FALSE));
-                                lineRead=lineRead.stripWhiteSpace();
-
-                                if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
-                                                                      "Do you want to import this key from a keyserver?</qt>").arg(lineRead),i18n("Missing Key"))==KMessageBox::Yes) {
-                                        keyServer *kser=new keyServer(0,"server_dialog",false);
-                                        kser->page->kLEimportid->setText(lineRead);
-                                        kser->slotImport();
-                                }
-                                return;
-                        } else {
-                                lineRead=lineRead.left(lineRead.find("\n",0,FALSE));
-                                lineRead=lineRead.stripWhiteSpace();
-                                QString resultKey=lineRead.section(" ",1,-1);
-                                QString resultID=lineRead.section(" ",0,0);
-                                KMessageBox::sorry(this,i18n("<qt><b>Bad signature</b> from:<br>%1<br>Key ID: %2<br><br><b>Text is corrupted.</b></qt>").arg(resultKey.replace(QRegExp("<"),"&lt;")).arg(resultID));
-                        }
-        } else {
+		QString verifyResult,lineRead;
+		KgpgInterface *verifyProcess=new KgpgInterface();
+		connect(verifyProcess,SIGNAL(missingSignature(QString)),this,SLOT(slotAskForImport(QString)));
+		connect(verifyProcess,SIGNAL(verifyOver(QString)),this,SLOT(slotVerifyResult(QString)));
+		verifyProcess->KgpgVerifyText(mess);                                                
+        	} 
+		else {
                 /////    Sign the text in Editor
 
 

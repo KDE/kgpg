@@ -48,6 +48,12 @@ void KgpgApp::closeEvent ( QCloseEvent * e )
         KMainWindow::closeEvent( e );
 }
 
+void KgpgApp::closeWindow()
+{
+if (view->windowAutoClose) close();
+kdDebug(2100) << "Close requested"<<endl;
+}
+
 void KgpgApp::saveOptions()
 {
         KGpgSettings::setEditorGeometry(size());

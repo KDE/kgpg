@@ -191,7 +191,7 @@ void KgpgLibrary::slotFileDec(KURL srcUrl,KURL destUrl,QStringList customDecrypt
         pop = new KPassivePopup();
 	urlselected=srcUrl;
         decryptFileProcess->KgpgDecryptFile(srcUrl,destUrl,customDecryptOption);
-        connect(decryptFileProcess,SIGNAL(processaborted(bool)),this,SIGNAL(decryptionOver()));
+        connect(decryptFileProcess,SIGNAL(processaborted(bool)),this,SLOT(processdecover()));
         connect(decryptFileProcess,SIGNAL(processstarted(QString)),this,SLOT(processpopup(QString)));
         connect(decryptFileProcess,SIGNAL(decryptionfinished()),this,SLOT(processdecover()));
         connect(decryptFileProcess,SIGNAL(errormessage(QString)),this,SLOT(processdecerror(QString)));

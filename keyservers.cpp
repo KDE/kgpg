@@ -240,7 +240,7 @@ void keyServer::transferKeyID()
                 	kid=searchList.at(i)->firstChild()->text(0).stripWhiteSpace();
         		else
                 	kid=searchList.at(i)->text(0).stripWhiteSpace();
-		//kdDebug(2100)<<kid<<" : "<<searchList.count()<<endl;
+		//
         	kid=kid.section("key",1,1);
         	kid=kid.stripWhiteSpace();
 		keysToSearch.append(" "+kid.left(8));
@@ -416,6 +416,7 @@ void keyServer::abortImport()
                 delete importpop;
         if (importproc)
                 delete importproc;
+	if (autoCloseWindow) close();
 }
 
 void keyServer::slotimportresult(KProcess*)

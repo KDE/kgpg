@@ -426,6 +426,60 @@ badmdc=false;
   proc->start(KProcess::NotifyOnExit,false);
 }
 
+
+///////////////////////////////////////////////////////          verify text
+
+
+void KgpgInterface::KgpgVerifyText(QString text)
+{
+		signok=false;
+		signbad=false;
+		trustok=false;
+		signmiss=false;
+		 KProcIO *verifyproc=new KProcIO();
+        	*verifyproc<<"gpg"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"--verify";
+        	connect(verifyproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotverifyresult(KProcess *)));
+        	connect(verifyproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotverifyread(KProcIO *)));
+        	verifyproc->start(KProcess::NotifyOnExit,true);
+		verifyproc->writeStdin (text);
+		verifyproc->closeWhenDone();
+}		
+		
+		
+void KgpgInterface::slotverifyresult(KProcess*)
+{
+if (signmiss) emit missingSignature(signID);
+else emit verifyOver(signID);
+ kdDebug(2100) << "GPG VERIFY OVER________"<<endl;
+}
+
+void KgpgInterface::slotverifyread(KProcIO *p)
+{
+QString required;
+  while (p->readln(required,true)!=-1)
+    {
+    required=required.section("]",1,-1).stripWhiteSpace();
+     if (required.startsWith("GOODSIG"))
+     {
+     signID=i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>").arg(required.section(" ",2,-1).replace(QRegExp("<"),"&lt;")).arg("0x"+required.section(" ",1,1).right(8));
+     }
+     if (required.startsWith("BADSIG")) 
+     {
+     signID=i18n("<qt><b>Bad signature</b> from:<br>%1<br>Key ID: %2<br><br><b>Text is corrupted.</b></qt>").arg(required.section(" ",2,-1).replace(QRegExp("<"),"&lt;")).arg("0x"+required.section(" ",1,1).right(8));
+     }
+     if (required.startsWith("NO_PUBKEY")) 
+     {
+     signID="0x"+required.section(" ",1,1).right(8);
+     signmiss=true;
+     }
+     if (required.startsWith("TRUST_UNDEFINED"))
+     signID+=i18n("The signature is valid, but the key is untrusted");
+     if (required.startsWith("TRUST_ULTIMATE"))
+     signID+=i18n("The signature is valid, and the key is ultimately trusted");
+     }
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////   MD5
 
 Md5Widget::Md5Widget(QWidget *parent, const char *name,KURL url):KDialogBase( parent, name, true,i18n("MD5 Checksum"),Apply | Close)

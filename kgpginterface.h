@@ -94,6 +94,11 @@ public slots:
          */
         void KgpgVerifyFile(KURL sigUrl,KURL srcUrl=KURL()) ;
 
+	void KgpgVerifyText(QString text);
+	void slotverifyread(KProcIO *p);
+	void slotverifyresult(KProcess*);
+	
+	
         /**Import key function
          * @param url Kurl the url of the key file. Allows public & secret key import.
          */
@@ -271,6 +276,9 @@ private slots:
 
 signals:
 
+	void missingSignature(QString);
+	void verifyOver(QString);
+
 	/**
                *  emitted when a txt decryption failed. returns log output
                */
@@ -363,6 +371,8 @@ private:
         QString message,tempKeyFile,userIDs,txtprocess,output,keyString;
         QCString passphrase;
         bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc,revokeSuccess,addSuccess,delSuccess;
+	bool signok,signbad,trustok,signmiss;
+	QString signID;
         int signSuccess,expSuccess,trustValue,konsChecked;
         int step,signb,sigsearch,expirationDelay;
         QString konsSignKey, konsKeyID,errMessage;

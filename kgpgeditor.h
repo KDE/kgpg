@@ -111,6 +111,7 @@ private slots:
 	
 public slots:
 	void slotSetFont(QFont myFont);
+	void closeWindow();
 	
 
 private:

@@ -86,7 +86,7 @@ public slots:
         void  signDroppedFile();
         void  showDroppedFile ();
         void  clipDecrypt();
-	void  clipSign();
+	void  clipSign(bool openEditor=true);
         void  clipEncrypt();
         void  shredDroppedFile();
         void encryptDroppedFolder();
@@ -110,7 +110,7 @@ private slots:
         void firstRun();
         void readOptions();
         void  droppedfile (KURL::List);
-        void  droppedtext (QString inputText) ;
+        void  droppedtext (QString inputText, bool allowEncrypt=true);
         void  unArchive();
         void slotSetCompression(int cp);
 	void  decryptNextFile();

@@ -97,25 +97,21 @@ void  MyView::clipEncrypt()
 void  MyView::clipDecrypt()
 {
         QString clippie=kapp->clipboard()->text(clipboardMode).stripWhiteSpace();
-        if (clippie.startsWith("-----BEGIN PGP MESSAGE")) {
-                KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
-		connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
-                kgpgtxtedit->view->editor->setText(clippie);
-                kgpgtxtedit->view->slotdecode();
-                kgpgtxtedit->show();
-        } else
-                KMessageBox::sorry(this,i18n("No encrypted text found."));
+	droppedtext(clippie,false);
 }
 
-void  MyView::clipSign()
+void  MyView::clipSign(bool openEditor)
 {
         QString clippie=kapp->clipboard()->text(clipboardMode).stripWhiteSpace();
         if (!clippie.isEmpty()) {
                 KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
 		connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
+		if (!openEditor)
+		connect(kgpgtxtedit->view,SIGNAL(verifyFinished()),kgpgtxtedit,SLOT(closeWindow()));
                 kgpgtxtedit->view->editor->setText(clippie);
                 kgpgtxtedit->view->clearSign();
-                kgpgtxtedit->show();
+		kgpgtxtedit->show();
+		
         } else
                 KMessageBox::sorry(this,i18n("Clipboard is Empty"));
 }
@@ -233,17 +229,15 @@ if (!mssge.isEmpty())
 openTasks++;
 QToolTip::remove(this);
 QToolTip::add(this, mssge);
-/*QPixmap pm;
-KIconEffect *ki=new KIconEffect();
-pm=ki->apply(KSystemTray::loadIcon("kgpg_docked"),KIconEffect::ToGray,1,QColor(0,0,0),false);
-setPixmap(pm);*/
 setMovie(QMovie(locate("appdata","pics/kgpg_docked.gif")));
 }
 else openTasks--;
+
+//kdDebug(2100) << "Emit message: "<<openTasks<<endl;
+
 if (openTasks<=0)
 {
 setPixmap( KSystemTray::loadIcon("kgpg_docked"));
-//setBackgroundMode(  X11ParentRelative );
 QToolTip::remove(this);
 QToolTip::add(this, i18n("KGpg - encryption tool"));
 openTasks=0;
@@ -379,11 +373,10 @@ void  MyView::decryptDroppedFile()
 	    delete over;
                 }
         }
-	busyMessage(i18n("Decrypting file %1").arg(droppedUrls.first().path()));
         KgpgLibrary *lib=new KgpgLibrary(this);
         lib->slotFileDec(droppedUrls.first(),swapname,KGpgSettings::customDecrypt());
 	connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(importedKeys(QStringList)));
-	//connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
+	connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
 //        if (isFolder)
         connect(lib,SIGNAL(decryptionOver()),this,SLOT(decryptNextFile()));
 	
@@ -391,7 +384,6 @@ void  MyView::decryptDroppedFile()
 
 void  MyView::decryptNextFile()
 {
-busyMessage(QString::null);
 if (droppedUrls.count()>1)
 {
 droppedUrls.pop_front();
@@ -477,12 +469,15 @@ void  MyView::droppedfile (KURL::List url)
 }
 
 
-void  MyView::droppedtext (QString inputText)
+void  MyView::droppedtext (QString inputText,bool allowEncrypt)
 {
 
-        QApplication::clipboard()->setText(inputText,clipboardMode);
         if (inputText.startsWith("-----BEGIN PGP MESSAGE")) {
-                clipDecrypt();
+                KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
+		connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
+                kgpgtxtedit->view->editor->setText(inputText);
+                kgpgtxtedit->view->slotdecode();
+                kgpgtxtedit->show();
                 return;
         }
         if (inputText.startsWith("-----BEGIN PGP PUBLIC KEY")) {
@@ -496,7 +491,12 @@ void  MyView::droppedtext (QString inputText)
                         return;
                 }
         }
-        clipEncrypt();
+	        if (inputText.startsWith("-----BEGIN PGP SIGNED MESSAGE")) {
+                clipSign(false);
+                return;
+        }
+        if (allowEncrypt) clipEncrypt();
+	else KMessageBox::sorry(this,i18n("No encrypted text found."));
 }
 
 
@@ -513,7 +513,10 @@ void  MyView::dropEvent (QDropEvent *o)
         if ( KURLDrag::decode( o, list ) )
                 droppedfile(list);
         else if ( QTextDrag::decode(o, text) )
+		{
+	        QApplication::clipboard()->setText(text,clipboardMode);
                 droppedtext(text);
+		}
 }
 
 
