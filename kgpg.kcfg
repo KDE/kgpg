@@ -173,6 +173,13 @@
       <default>172,0,0</default>
     </entry>
     </group>
+
+  <group name="Text Font">
+    <entry name="Font" type="Font" key="KEditFont">
+      <label>Font</label>
+      <default code="true">KGlobalSettings::fixedFont()</default>
+    </entry>
+  </group>
     
 <group name="Key Servers">
     <entry name="UseProxy" type="Bool" key="use_proxy">

@@ -64,8 +64,6 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
  : KConfigDialog( parent, name, KGpgSettings::self())
 {
 	ks=new KSimpleConfig ("kgpgrc");
-	ks->setGroup("Editor");
-	startFont=ks->readFontEntry("Editor_Font");
 
 	defaultServerList="hkp://wwwkeys.eu.pgp.net ";
 	defaultServerList+=i18n("(Default)");
@@ -91,9 +89,9 @@ kdDebug(2100)<<"Adding pages"<<endl;
 	page6=new ServerConf();
 	page7=new MiscConf();
 	QBoxLayout *fontLayout=new QBoxLayout(page3->tabWidget3->page(1),QBoxLayout::TopToBottom,10);
-	kfc=new KFontChooser(page3->tabWidget3->page(1),0L,false,QStringList(),false);
+	kfc=new KFontChooser(page3->tabWidget3->page(1),"kcfg_Font",false,QStringList(),false);
 	fontLayout->addWidget(kfc);
-	kfc->setFont(startFont);
+
 	page7->shredInfo->setText(i18n( "<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>"));
 	page7->groupShred->adjustSize();
 	pixkeySingle=KGlobal::iconLoader()->loadIcon("kgpg_key1",KIcon::Small,20);
