@@ -300,7 +300,7 @@ void kgpgOptions::slotInstallDecrypt(QString mimetype)
                 configl2.setGroup("Desktop Action decrypt");
                 configl2.writeEntry("Name",i18n("Decrypt File"));
                 //configl2.writeEntry("Icon", "decrypt_file");
-                configl2.writeEntry("Exec","kgpg -d %U");
+                configl2.writeEntry("Exec","kgpg %U");
                 //KMessageBox::information(this,i18n("Decrypt file option is now added in Konqueror's menu."));
         }
 
