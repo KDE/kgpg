@@ -578,10 +578,10 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
     // Keep the list in kgpg.kcfg in sync with this one!
     QStringList list;
-    list.append("Disable");
-    list.append("Small");
-    list.append("Medium");
-    list.append("Big");
+    list.append(i18n("Disable"));
+    list.append(i18n("Small"));
+    list.append(i18n("Medium"));
+    list.append(i18n("Big"));
     photoProps->setItems(list);
 
     int pSize = KGpgSettings::photoProperties();
