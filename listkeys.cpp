@@ -519,6 +519,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         installEventFilter(this);
     setCaption(i18n("Key Management"));
 
+    KAction *openEditor = new KAction(i18n("&Open Editor"), "edit",0,this, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
     KAction *exportPublicKey = new KAction(i18n("E&xport Public Key(s)..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_export");
     KAction *deleteKey = new KAction(i18n("&Delete Key(s)"),"editdelete", Qt::Key_Delete,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
     signKey = new KAction(i18n("&Sign Key(s)..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
@@ -681,6 +682,14 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
 listKeys::~listKeys()
 {}
+
+void  listKeys::slotOpenEditor()
+{
+        KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WType_Dialog);
+	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),keysList2,SIGNAL(slotReloadKeys(QStringList)));
+	connect(kgpgtxtedit->view->editor,SIGNAL(refreshImported(QStringList)),keysList2,SIGNAL(slotReloadKeys(QStringList)));
+        kgpgtxtedit->show();
+}
 
 void listKeys::keyFilter( const QString &filterStr)
 {
