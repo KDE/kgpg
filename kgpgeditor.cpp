@@ -87,8 +87,7 @@ void KgpgApp::initActions()
   (void) new KAction(i18n("&Generate Signature..."),0, this, SLOT(slotPreSignFile()), actionCollection(), "sign_generate");
   (void) new KAction(i18n("&Verify Signature..."),0, this, SLOT(slotPreVerifyFile()), actionCollection(), "sign_verify");
   (void) new KAction(i18n("&Check MD5 Sum..."), 0,this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
-  (void) new KAction(i18n("Tip of the &Day"), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
-  (void) new KAction(i18n("View GnuPG Manual"), "contents", 0,this, SLOT(slotman()),actionCollection(),"gpg_man");
+
 }
 
 
@@ -266,7 +265,6 @@ void KgpgApp::openDocumentFile(const KURL& url)
   /////////////////////////////////////////////////
 
   QFile qfile(url.path());
-
   if (qfile.open(IO_ReadOnly))
     {
       QTextStream t( &qfile );
@@ -410,10 +408,7 @@ void KgpgApp::openEncryptedDocumentFile(const KURL& url)
 view->editor->droppedfile(url);
 }
 
-void KgpgApp::slotman()
-{
-   kapp->startServiceByDesktopName("khelpcenter", QString("man:/gpg"), 0, 0, 0, "", true);
-}
+
 
 
 

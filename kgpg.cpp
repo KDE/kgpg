@@ -38,16 +38,6 @@
 #include "kgpg.h"
 
 
-#define ABOUT_ITEM    30
-#define HELP_ITEM    40
-#define QUIT_ITEM    50
-#define CONFIG_ITEM  60
-#define CLIPDECRYPT_ITEM   70
-#define CLIPENCRYPT_ITEM   80
-#define KEYMANAGER_ITEM   90
-#define EDITOR_ITEM   100
-#define KEYSERVER_ITEM   110
-
 MyView::MyView( QWidget *parent, const char *name )
     : QLabel( parent, name )
 {
@@ -60,11 +50,9 @@ KAction *encrypt = new KAction(i18n("&Encrypt File"),"encrypted",0,this, SLOT(en
 KAction *sign = new KAction(i18n("&Sign File"), "signature",0,this, SLOT(signDroppedFile()),this,"sign_file");
 //QToolTip::add(this,i18n("KGpg drag & drop encryption applet"));
 
-m_popup = new KPopupMenu(0L, "main_menu");
-conf_popup = new KPopupMenu(0L, "config_menu");
 ksConfig=kapp->config();
 readOptions();
-init();
+
 if (tipofday) KTipDialog::showTip(this, "kgpg/tips", true);
 
 setPixmap(KGlobal::iconLoader()->loadIcon("kgpg",KIcon::User,22));
@@ -74,30 +62,16 @@ setAcceptDrops(true);
   droppopup=new QPopupMenu();
   showDecrypt->plug(droppopup);
   saveDecrypt->plug(droppopup);
-  
+
   udroppopup=new QPopupMenu();
   encrypt->plug(udroppopup);
   sign->plug(udroppopup);
-  
-    connect(m_popup, SIGNAL(activated(int)), SLOT(clickedMenu(int)));
-	connect(conf_popup, SIGNAL(activated(int)), SLOT(clickedConfMenu(int)));
 
-	m_keyManager=0L;
- 
 }
 
 MyView::~MyView()
 {
-if (m_popup)
-{
-delete m_popup;
-m_popup = 0;
-}
-if (conf_popup)
-{
-delete conf_popup;
-conf_popup = 0;
-}
+
 if (droppopup)
 {
 delete droppopup;
@@ -110,43 +84,6 @@ udroppopup = 0;
 }
 }
 
-void MyView::init()
-{
-  m_popup->clear();
-  m_popup->insertTitle( SmallIcon( "kgpg" ),
-                        i18n("KGpg Applet"));
-
-if (showeclip)
-m_popup->insertItem(i18n("&Encrypt Clipboard"), CLIPENCRYPT_ITEM );
-if (showdclip)
-m_popup->insertItem(i18n("&Decrypt Clipboard"), CLIPDECRYPT_ITEM );
-m_popup->insertSeparator();
-if (showomanager)
-m_popup->insertItem( SmallIcon("kgpg_manage"),
-			i18n("Open &Key Manager"), KEYMANAGER_ITEM );
-if (showoeditor)
-m_popup->insertItem( SmallIcon("edit"),
-			i18n("&Open Editor"), EDITOR_ITEM );
-
-if (showserver)
-{
-m_popup->insertSeparator();
-m_popup->insertItem( SmallIcon("network"),
-			i18n("Key&server Dialog"), KEYSERVER_ITEM );
-}
-
-///////////////////////////////////////////////////////////////////
-
-  conf_popup->clear();
-  conf_popup->insertTitle( SmallIcon( "kgpg" ),
-                        i18n("KGpg Applet"));
-
- conf_popup->insertItem(SmallIcon("configure"), i18n("&Configure KGpg..."), CONFIG_ITEM );
- //conf_popup->insertItem(SmallIcon("kgpg"), i18n("&About KGpg"), ABOUT_ITEM );
- //conf_popup->insertItem(SmallIcon("help"), i18n("&Help"), HELP_ITEM );
-conf_popup->insertSeparator(); 
-  conf_popup->insertItem(SmallIcon("exit"), i18n("&Quit"), QUIT_ITEM );
-}
 
 void MyView::showPopupMenu( QPopupMenu *menu )
 {
@@ -163,72 +100,18 @@ void MyView::showPopupMenu( QPopupMenu *menu )
             menu->popup(QPoint(g.x(), g.y()));
 }
 
-
+/*
 void MyView::mousePressEvent(QMouseEvent *e)
 {
     if ( e->button() == RightButton)
         showPopupMenu( conf_popup );
-	else  showPopupMenu( m_popup );
+	else toggleKeyManager();
+	//showPopupMenu( m_popup );
 }
-
-void MyView::clickedMenu(int id)
-{
-    switch ( id ) {
-    case -1:
-        break;
-	case KEYSERVER_ITEM:
-        openKeyServer();
-        break;
-    case KEYMANAGER_ITEM:
-        openKeyManager();
-        break;
-    case EDITOR_ITEM:
-        openEditor();
-        break;
-	case CLIPENCRYPT_ITEM:
-        clipEncrypt();
-        break;
-	case CLIPDECRYPT_ITEM:
-        clipDecrypt();
-        break;
-	}
-}
+*/
 
 
-void MyView::clickedConfMenu(int id)
-{
-    switch ( id ) {
-    case -1:
-        break;
-	case HELP_ITEM: 
-        help();
-        break;
-	case ABOUT_ITEM: 
-        about();
-        break;
-	case CONFIG_ITEM: 
-        preferences();
-        break;
-	case QUIT_ITEM: 
-	{
-	 int autoStart = KMessageBox::questionYesNoCancel( 0, i18n("Should KGpg start automatically\nwhen you login?"), i18n("Automatically Start KGpg?") );
-        ksConfig->setGroup("Applet");
-        if ( autoStart == KMessageBox::Yes )
-            ksConfig->writeEntry("AutoStart", true);
-        else if ( autoStart == KMessageBox::No) {
-            ksConfig->writeEntry("AutoStart", false);
-        }else  // cancel chosen don't quit
-	    break;
-		ksConfig->sync();
-        kapp->exit();
-        break;
-	
-		}
-    }
-}
-
-
-void  MyView::openKeyServer() 
+void  MyView::openKeyServer()
 {
 if(!m_keyServer)
 {
@@ -242,18 +125,6 @@ KWin::deIconifyWindow( m_keyServer->winId());  //de-iconify window
 m_keyServer->raise();  // set on top
 }
 
-void  MyView::openKeyManager()
-{
-	if(!m_keyManager)
-	{
-		m_keyManager = new listKeys(0, "key_manager",WDestructiveClose);
-		connect( m_keyManager , SIGNAL( destroyed() ) , this, SLOT( slotKeyManagerClosed()));
-	}
-	m_keyManager->show();
-	KWin::setOnDesktop( m_keyManager->winId() , KWin::currentDesktop() );  //set on the current desktop
-	KWin::deIconifyWindow( m_keyManager->winId());  //de-iconify window
-	m_keyManager->raise();  // set on top
-}
 
 void  MyView::clipEncrypt()
 {
@@ -262,7 +133,7 @@ connect(dialoguec,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(enc
 dialoguec->show();
 }
 
-void  MyView::clipDecrypt() 
+void  MyView::clipDecrypt()
 {
 QString clippie=kapp->clipboard()->text().stripWhiteSpace();
 if (clippie.startsWith("-----BEGIN PGP MESSAGE"))
@@ -330,12 +201,12 @@ verifyFileProcess->KgpgVerifyFile(droppedUrl,KURL(sigfile));
 }
 
 
-void  MyView::signDroppedFile() 
+void  MyView::signDroppedFile()
 {
 
   //////////////////////////////////////   create a detached signature for a chosen file
  if (droppedUrl.isEmpty()) return;
- 
+
  QString signKeyID;
       //////////////////   select a private key to sign file --> listkeys.cpp
 	  KgpgSelKey *opts=new KgpgSelKey(0,"select_secret",false);
@@ -550,13 +421,8 @@ kgpgOptions *opts=new kgpgOptions();
 opts->exec();
 delete opts;
 readOptions();
-init();
 }
 
-void MyView::slotKeyManagerClosed()
-{
-	m_keyManager=0L;
-}
 
 void MyView::slotKeyServerClosed()
 {
@@ -564,12 +430,21 @@ void MyView::slotKeyServerClosed()
 }
 
 
-kgpgapplet::kgpgapplet()
-    : KSystemTray()
-{	
+kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
+    : KSystemTray(parent,name)
+{
   w=new MyView(this);
-   w->init();
    w->show();
+   KPopupMenu *conf_menu=contextMenu();
+KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0,this, SLOT(slotencryptclip()),actionCollection(),"clip_encrypt");
+KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0,this, SLOT(slotdecryptclip()),actionCollection(),"clip_decrypt");
+KAction *KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,this, SLOT(sloteditor()),actionCollection(),"kgpg_editor");
+KAction *KgpgPreferences=KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
+KgpgEncryptClipboard->plug(conf_menu);
+KgpgDecryptClipboard->plug(conf_menu);
+KgpgOpenEditor->plug(conf_menu);
+conf_menu->insertSeparator();
+KgpgPreferences->plug(conf_menu);
 }
 
 kgpgapplet::~kgpgapplet()
@@ -577,24 +452,67 @@ kgpgapplet::~kgpgapplet()
 if (w)
 {
 delete w;
-w = 0;
+w = 0L;
 }
 }
 
+void kgpgapplet::sloteditor()
+{
+w->openEditor();
+}
+
+void kgpgapplet::slotencryptclip()
+{
+w->clipEncrypt();
+}
+
+void kgpgapplet::slotdecryptclip()
+{
+w->clipDecrypt();
+}
+
+void kgpgapplet::slotOptions()
+{
+w->preferences();
+}
 
 KgpgAppletApp::KgpgAppletApp()
-    : KUniqueApplication(), kgpg_applet( 0 )
+    : KUniqueApplication()//, kgpg_applet( 0 )
 {
+
+s_keyManager=new listKeys(0, "key_manager");
+//s_keyManager->show();
+kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
+connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
 }
 
 
 KgpgAppletApp::~KgpgAppletApp()
 {
+if (s_keyManager)
+{
+delete s_keyManager;
+s_keyManager=0L;
+}
 if (kgpg_applet)
 {
 delete kgpg_applet;
-kgpg_applet = 0;	
+kgpg_applet = 0L;
 }
+}
+
+void KgpgAppletApp::slotHandleQuit()
+{
+ int autoStart = KMessageBox::questionYesNoCancel( 0, i18n("Should KGpg start automatically\nwhen you login?"), i18n("Automatically Start KGpg?") );
+        kgpg_applet->w->ksConfig->setGroup("Applet");
+        if ( autoStart == KMessageBox::Yes )
+         kgpg_applet->w->ksConfig->writeEntry("AutoStart", true);
+        else if ( autoStart == KMessageBox::No) {
+          kgpg_applet->w->ksConfig->writeEntry("AutoStart", false);
+        }else  // cancel chosen don't quit
+	    return;
+kgpg_applet->w->ksConfig->sync();
+quit();
 }
 
 int KgpgAppletApp::newInstance()
@@ -618,7 +536,12 @@ args = KCmdLineArgs::parsedArgs();
 
 ////////////////////////   parsing of command line args
 if (args->isSet("k")!=0)
-kgpg_applet->w->openKeyManager();
+{
+s_keyManager->show();
+KWin::setOnDesktop( s_keyManager->winId() , KWin::currentDesktop() );  //set on the current desktop
+KWin::deIconifyWindow( s_keyManager->winId());  //de-iconify window
+s_keyManager->raise();  // set on top
+}
 else
 if (args->count()>0)
 {
@@ -649,9 +572,9 @@ QString clipContent=kapp->clipboard()->text();//=cb->text(QClipboard::Clipboard)
   {
   if (pgpcomp) encryptOptions+=" --pgp6 ";
   encryptOptions+=" --armor ";
-    
+
  if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not chosen an encryption key."));}//exit(0);}
- 
+
  KgpgInterface *txtEncrypt=new KgpgInterface();
 connect (txtEncrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(slotSetClip(QString)));
  txtEncrypt->KgpgEncryptText(clipContent,selec,encryptOptions);
@@ -667,7 +590,7 @@ cryptedClipboard.replace(QRegExp("\n"),"<br>");
 pop = new KPassivePopup( this);
 pop->setView(i18n("Encrypted following text:"),cryptedClipboard,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
 		pop->setTimeout(3200);
-	  	pop->show();	  
+	  	pop->show();
 	  	QRect qRect(QApplication::desktop()->screenGeometry());
 		int iXpos=qRect.width()/2-pop->width()/2;
 		int iYpos=qRect.height()/2-pop->height()/2;

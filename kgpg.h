@@ -68,22 +68,17 @@ public:
 int ufileDropEvent,efileDropEvent;
 bool	 showeclip,showdclip,showomanager,showoeditor,showserver,autostart;
 KURL droppedUrl;
-
-public slots:
-void init();
+KConfig *ksConfig;
 
 
 private:
 bool ascii,untrusted,hideid,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday;
-KConfig *ksConfig;
 QPopupMenu *droppopup,*udroppopup;
-KPopupMenu *m_popup,*conf_popup;
 KAboutData   *_aboutData;
 QString customDecrypt;
 
 QString filekey;
 
-class listKeys *m_keyManager;
 class keyServer *m_keyServer;
 
 
@@ -98,30 +93,25 @@ void  decryptDroppedFile();
 void  slotVerifyFile();
 void  signDroppedFile();
 void  showDroppedFile ();
-void  openKeyManager();
+void  clipDecrypt();
+void  clipEncrypt();
+void preferences();
+void  openEditor();
 
 private slots:
 void slotSetClip(QString newtxt);
 void killDisplayClip();
 void encryptClipboard(QString &selec,QString encryptOptions);
 void help();
-void preferences();
 void about();
 void firstRun();
 void readOptions();
 void  droppedfile (KURL);
 void  droppedtext (QString inputText) ;
 void  openKeyServer();
-void  openEditor();
-void  clipDecrypt();
-void  clipEncrypt();
-void clickedMenu(int);
-void clickedConfMenu(int);
-void slotKeyManagerClosed();
 void slotKeyServerClosed();
 
 protected:
-void mousePressEvent(QMouseEvent *);
 virtual void dragEnterEvent(QDragEnterEvent *);
 virtual void  dropEvent (QDropEvent*);
 
@@ -132,22 +122,27 @@ void showPopupMenu( QPopupMenu * );
 class kgpgapplet : public KSystemTray//KUniqueApplication
 {
     Q_OBJECT
-	
+
 public:
-    kgpgapplet();
+    kgpgapplet( QWidget *parent = 0, const char *name = 0);
     /** destructor */
     ~kgpgapplet();
 	MyView *w;
-	
+
 private:
 	KSystemTray *kgpgapp;
-	
+private slots:
+void slotencryptclip();
+void slotdecryptclip();
+void sloteditor();
+void slotOptions();
 };
 
 class KCmdLineArgs;
 
 class KgpgAppletApp : public KUniqueApplication
 {
+    Q_OBJECT
  friend class kgpgapplet;
  public:
     KgpgAppletApp();
@@ -157,6 +152,10 @@ protected:
  KCmdLineArgs *args;
  private:
     kgpgapplet *kgpg_applet;
+	class listKeys *s_keyManager;
+
+private slots:
+void slotHandleQuit();
 };
 
 

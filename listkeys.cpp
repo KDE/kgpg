@@ -610,6 +610,8 @@ KAction *importSignKey = new KAction(i18n("Import Key from Keyserver"),0, 0,this
   KToggleAction *togglePhoto= new KToggleAction(i18n("&Show Photos"), "kgpg_photo", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
   (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
   KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
+  (void) new KAction(i18n("Tip of the &Day"), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
+  (void) new KAction(i18n("View GnuPG Manual"), "contents", 0,this, SLOT(slotManpage()),actionCollection(),"gpg_man");
 
 
   //KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
@@ -688,6 +690,16 @@ KAction *importSignKey = new KAction(i18n("Import Key from Keyserver"),0, 0,this
 
 listKeys::~listKeys()
 {}
+
+void listKeys::slotManpage()
+{
+   kapp->startServiceByDesktopName("khelpcenter", QString("man:/gpg"), 0, 0, 0, "", true);
+}
+
+void listKeys::slotTip()
+{
+KTipDialog::showTip(this, "kgpg/tips", true);
+}
 
 void listKeys::closeEvent ( QCloseEvent * e )
 {
@@ -1383,7 +1395,7 @@ void KeyView::refreshkeylist()
   SmallViewItem *itemuid=NULL;
   SmallViewItem *itemsig=NULL;
   bool noID=false;
-  //keysList2->
+
   clear();
   cycle="";
   FILE *fp2;
@@ -1465,7 +1477,7 @@ void KeyView::refreshkeylist()
             if (tst.startsWith("pub"))
             {
               noID=false;
-              while (revoked!="")   ///////////////   there are revoked sigs in previous key
+              while (!revoked.isEmpty())   ///////////////   there are revoked sigs in previous key
               {
                 bool found=false;
                 revoked=revoked.stripWhiteSpace();
@@ -1528,7 +1540,7 @@ void KeyView::refreshkeylist()
                     }
                   }
                 }
-                if (found==false)
+                if (!found)
                   (void) new SmallViewItem(item,i18n("Revocation Certificate"),"+","+","+","+",currentRevoke);
               }
               gpgKey pubKey=extractKey(tst);
@@ -1560,7 +1572,7 @@ void KeyView::refreshkeylist()
   }
   pclose(fp);
 
-  while (revoked!="")   ///////////////   there are revoked sigs in previous key
+  while (!revoked.isEmpty())   ///////////////   there are revoked sigs in previous key
   {
     bool found=false;
     revoked=revoked.stripWhiteSpace();
@@ -1623,7 +1635,7 @@ void KeyView::refreshkeylist()
         }
       }
     }
-    if (found==false)
+    if (!found)
       (void) new SmallViewItem(item,i18n("Revocation Certificate"),"+","+","+","+",currentRevoke);
   }
   setSelected(firstChild(),true);

@@ -162,6 +162,8 @@ public slots:
 void refreshkey();
 
 private slots:
+void slotManpage();
+void slotTip();
 void keyserver();
 void slotReadProcess(KProcIO *p);
 void slotProcessExportMail(KProcess *);

@@ -90,9 +90,8 @@ void closeEvent( QCloseEvent * e );
 private slots:
 //void slotOptions();
 void slotFileQuit();
- void slotFileNew();
- void slotman();
-    
+void slotFileNew();
+
 void slotFilePreEnc();
 void slotFilePreDec();
 

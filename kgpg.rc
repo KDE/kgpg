@@ -22,11 +22,6 @@
     <Action name="sign_check"/>
   </Menu>
 
-  <Menu name="help"><text>&amp;Help</text>
-    <Action name="help_tipofday"/>
-    <Action name="gpg_man"/>
-  </Menu>
-  
 </MenuBar>
 
 <ToolBar name="mainToolBar"  noMerge="1" position="top"><text>Main Toolbar</text>

@@ -1187,7 +1187,6 @@ QString KgpgInterface::extractKeyName(KURL url)
   QString encResult,IDs;
   char buffer[200];
 
-
   QString gpgcmd="gpg --no-tty --no-secmem-warning --batch --status-fd 1 -d "+KShellProcess::quote(url.path());
   //////////   encode with untrusted keys or armor if checked by user
   fp = popen(QFile::encodeName(gpgcmd), "r");
