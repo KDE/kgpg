@@ -409,7 +409,11 @@ QString required="";
 while (p->readln(required,true)!=-1)
 {
 //KMessageBox::sorry(0,required);
-if (required.find("openfile.overwrite.okay")) p->writeStdin("Yes");
+if (required.find("GET_")!=-1)
+{
+if (required.find("openfile.overwrite.okay")!=-1) p->writeStdin("Yes");
+else p->writeStdin("quit");
+}
 message+=required+"\n";
 }
 //p->ackRead();
@@ -478,7 +482,7 @@ if ((step==0) && (required.find("keyedit.prompt")!=-1)) {p->writeStdin(message);
  if (required.find("passphrase.enter")!=-1) {p->writeStdin(QString(passphrase));passphrase="xxxxxxxxxxxxxx";required="";step=2;}
  if ((step==2) && (required.find("keyedit.prompt")!=-1)) {p->writeStdin("save");required="";}
 if (required.find("BAD_PASSPHRASE")!=-1){p->writeStdin("quit");signSuccess=2;}
-if (required.find("GET_LINE")!=-1){p->writeStdin("quit");if (signSuccess!=2) signSuccess=1;}
+if (required.find("GET_")!=-1){p->writeStdin("quit");if (signSuccess!=2) signSuccess=1;}
 
 }
 //p->ackRead();
