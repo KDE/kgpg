@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
 <class>SrcSelect</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>350</width>
-            <height>86</height>
+            <height>93</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -27,7 +27,7 @@
         </size>
     </property>
     <property name="caption">
-        <string></string>
+        <string>SrcSelect</string>
     </property>
     <grid>
         <property name="name">
@@ -52,7 +52,7 @@
                         <cstring>checkFile</cstring>
                     </property>
                     <property name="text">
-                        <string>File</string>
+                        <string>File:</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
@@ -95,8 +95,6 @@
         </spacer>
     </grid>
 </widget>
-<customwidgets>
-</customwidgets>
 <connections>
     <connection>
         <sender>checkFile</sender>
@@ -105,14 +103,13 @@
         <slot>checkFile_toggled(bool)</slot>
     </connection>
 </connections>
-<includes>
-    <include location="local" impldecl="in implementation">sourceselect.ui.h</include>
-</includes>
 <slots>
     <slot>checkFile_toggled( bool isOn )</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>kpushbutton.h</includehint>
 </includehints>
 </UI>

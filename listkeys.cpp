@@ -496,9 +496,9 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         importSignatureKey = new KAction(i18n("Import Key From Keyserver"),"network", 0,this, SLOT(preimportsignkey()),actionCollection(),"key_importsign");
         importAllSignKeys = new KAction(i18n("Import Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
 
-        (void) new KAction(i18n("&Create Group With Selected Keys"), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
+        (void) new KAction(i18n("&Create Group with Selected Keys"), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
         KAction *delGroup= new KAction(i18n("&Delete Group"), 0, 0,this, SLOT(deleteGroup()),actionCollection(),"delete_group");
-        KAction *editCurrentGroup= new KAction(i18n("&Edit Group"), 0, 0,this, SLOT(editGroup()),actionCollection(),"edit_group");
+        KAction *editCurrentGroup= new KAction(i18n("&Edit Group..."), 0, 0,this, SLOT(editGroup()),actionCollection(),"edit_group");
 
         (void) new KAction(i18n("&Create New Contact in Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
         (void) new KAction(i18n("&Merge Public Keys in Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
@@ -510,9 +510,9 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
         KAction *openPhoto= new KAction(i18n("&Open Photo"), "image", 0,this, SLOT(slotShowPhoto()),actionCollection(),"key_photo");
 	KAction *deletePhoto= new KAction(i18n("&Delete Photo"), "delete", 0,this, SLOT(slotDeletePhoto()),actionCollection(),"delete_photo");
-	KAction *addPhoto= new KAction(i18n("&Add Photo"), 0, 0,this, SLOT(slotAddPhoto()),actionCollection(),"add_photo");
+	KAction *addPhoto= new KAction(i18n("&Add Photo..."), 0, 0,this, SLOT(slotAddPhoto()),actionCollection(),"add_photo");
 
-	KAction *addUid= new KAction(i18n("&Add User Id"), 0, 0,this, SLOT(slotAddUid()),actionCollection(),"add_uid");
+	KAction *addUid= new KAction(i18n("&Add User Id..."), 0, 0,this, SLOT(slotAddUid()),actionCollection(),"add_uid");
 	KAction *delUid= new KAction(i18n("&Delete User Id"), 0, 0,this, SLOT(slotDelUid()),actionCollection(),"del_uid");
 
 	KAction *editKey = new KAction(i18n("&Edit Key in Terminal"), "openterm", QKeySequence(ALT+Qt::Key_Return),this, SLOT(slotedit()),actionCollection(),"key_edit");
@@ -531,7 +531,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         KStdAction::configureToolbars(this, SLOT(configuretoolbars() ), actionCollection(), "configuretoolbars");
         setStandardToolBarMenuEnabled(true);
 
-	(void) new KToggleAction(i18n("&Show only Secret Keys"), 0, 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
+	(void) new KToggleAction(i18n("&Show Only Secret Keys"), 0, 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
 	keysList2->displayOnlySecret=false;
 	
 	sTrust=new KToggleAction(i18n("Trust"),0, 0,this, SLOT(slotShowTrust()),actionCollection(),"show_trust");

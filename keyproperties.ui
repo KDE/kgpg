@@ -473,7 +473,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>Change Expiration</string>
+                        <string>Change Expiration...</string>
                     </property>
                 </widget>
                 <widget class="QPushButton">
@@ -492,7 +492,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string> Change Passphrase </string>
+                        <string>Change Passphrase...</string>
                     </property>
                 </widget>
             </vbox>
