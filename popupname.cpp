@@ -21,8 +21,6 @@
 #include <kfiledialog.h>
 #include <qlistview.h>
 #include <qfile.h>
-#include <qlayout.h>
-#include <qlabel.h>
 #include <qvbox.h>
 #include <klineedit.h>
 #include <qlayout.h>

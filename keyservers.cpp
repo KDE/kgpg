@@ -17,7 +17,6 @@
 
 #include <stdlib.h>
 
-#include <kdialogbase.h>
 #include <klocale.h>
 #include <qfile.h>
 
