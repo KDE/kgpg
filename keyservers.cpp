@@ -19,6 +19,7 @@
 #include <kcombobox.h>
 #include <kdialogbase.h>
 #include <kmessagebox.h>
+#include <qtextcodec.h> 
  #include "keyservers.h"
   
 keyServer::keyServer(QWidget *parent, const char *name):Keyserver( parent, name)
@@ -150,7 +151,7 @@ searchproc=new KProcIO();
 QString keyserv=kCBimportks->currentText();
       *searchproc<<"gpg"<<"--keyserver"<<keyserv<<"--command-fd=0"<<"--status-fd=2"<<"--search-keys"<<kLEimportid->text().stripWhiteSpace().local8Bit();
       
-	  
+	  keyNumbers=0;
 	  importpop = new QDialog( this,0,true);
               QVBoxLayout *vbox=new QVBoxLayout(importpop,3);
               QLabel *tex=new QLabel(importpop);
@@ -203,6 +204,10 @@ listpop->kLEID->setText(kid);
 void keyServer::slotsearchresult(KProcess *)
 {
 delete importpop;
+QString nb;
+nb=nb.setNum(keyNumbers);
+listpop->kLVsearch->setColumnText(0,i18n("Found %1 matching keys").arg(nb));
+
 if (listpop->kLVsearch->firstChild()!=NULL) 
 {
 listpop->kLVsearch->setSelected(listpop->kLVsearch->firstChild(),true);
@@ -215,6 +220,8 @@ void keyServer::slotsearchread(KProcIO *p)
 QString required;
 while (p->readln(required,true)!=-1)
 {
+//required=QString::fromUtf8(required);
+
 if (required.find("keysearch.prompt")!=-1)
  {
  if (count<4) 
@@ -226,8 +233,10 @@ p->closeWhenDone();
 }
 required="";
 }
+
 if (required.find("GOT_IT")!=-1) {count++;required="";}
-if (cycle)
+
+if ((cycle) && (!required.isEmpty()))
 {
 QString kid=required.stripWhiteSpace();
 (void) new KListViewItem(kitem,kid);
@@ -236,11 +245,14 @@ kid=kid.stripWhiteSpace();
 kid=kid.left(8);
 required="";
 }
+
 cycle=false;
-if (required.find("(")!=-1)
+
+if ((required.find("(")!=-1) && (!required.isEmpty()))
 {
 cycle=true;
 kitem=new KListViewItem(listpop->kLVsearch,required.remove(0,required.find(")")+1).stripWhiteSpace());
+keyNumbers++;
 count=0;
 required="";
 }

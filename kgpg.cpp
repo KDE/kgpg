@@ -447,7 +447,8 @@ void KgpgApp::slotSignFile(KURL url)
         }
       delete opts;
   QString Options;
-  if (pgpcomp) Options=" --pgp6 ";
+  if (ascii) Options=" --armor ";
+  if (pgpcomp) Options+=" --pgp6 ";
  KgpgInterface *signFileProcess=new KgpgInterface();
  if (commandLineMode) connect (signFileProcess,SIGNAL(signfinished()),this,SLOT(slotExpressQuit()));
  signFileProcess->KgpgSignFile(signKeyID,url,Options);

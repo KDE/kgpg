@@ -311,7 +311,7 @@ QString tst;
   while (p->readln(tst)!=-1)
   {
    
-  tst=QString::fromUtf8(tst);
+  //tst=QString::fromUtf8(tst);
        if (tst.startsWith("pub"))
         {
 	dead=false;

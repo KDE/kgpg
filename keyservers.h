@@ -68,6 +68,7 @@ void slotsearchresult(KProcess *);
  
    private:
   KConfig *config;
+  uint keyNumbers;
   QString readmessage;
   KProcIO *importproc,*searchproc;
   QDialog *importpop;

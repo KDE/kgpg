@@ -279,7 +279,7 @@ void KgpgView::clearSign()
         }
         delete opts;
         /////////////////////  get passphrase
-        int code=KPasswordDialog::getPassword(password,i18n("Enter passphrase for %1:").arg(signKeyMail));
+        int code=KPasswordDialog::getPassword(password,i18n("Enter passphrase for <b>%1</b>:").arg(signKeyMail.replace(QRegExp("<"),"&lt;")));
         ///////////////////   ask for password
         if (code!=QDialog::Accepted) return;
 
