@@ -641,7 +641,7 @@ QString mess=i18n("The image must be a JPEG file. Remember that the image is sto
 if (KMessageBox::warningContinueCancel(this,mess)!=KMessageBox::Continue)
 return;
 
-QString imagePath=KFileDialog::getOpenFileName (QString::null,"*.jpg",this);
+QString imagePath=KFileDialog::getOpenFileName (QString::null,"image/jpeg",this);
 if (imagePath.isEmpty()) return;
 KgpgInterface *addPhotoProcess=new KgpgInterface();
                         addPhotoProcess->KgpgAddPhoto(keysList2->currentItem()->text(6),imagePath);
