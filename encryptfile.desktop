@@ -1,21 +1,17 @@
 [Desktop Entry]
-ServiceTypes=allfiles
+ServiceTypes=all/allfiles
 Actions=encrypt
 
 [Desktop Action encrypt]
 Name=Encrypt File
+Name[ca]=Xifra fitxer
+Name[cs]=Zašifrovat soubor
+Name[da]=Indkod fil
 Name[es]=Cifrar archivo
-Name[fr]=Crypter un fichier
-Name[he]=קודד קובץ
-Name[ja]=ファイルの符号化
-Name[pt]=Cifrar o Ficheiro
-Name[pt_BR]=Criptografar arquivo
-Name[ru]=Зашифровать файл
+Name[fr]=Chiffrer le fichier
+Name[pt_BR]=Criptografar Arquivo
 Name[sv]=Kryptera fil
-Name[xh]=Faka ufihlo Kwifayile
-Name[zh_CN]=加密文件
-Name[zh_TW]=加密檔案
-Name[zu]=Ifayela Lokubhalwe ngokungaqondakali
+Name[wa]=Ecripter fitchî
 
 Exec=kgpg -e %U
 

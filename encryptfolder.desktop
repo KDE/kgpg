@@ -1,0 +1,8 @@
+[Desktop Entry]
+ServiceTypes=inode/directory
+Actions=encrypt
+
+[Desktop Action encrypt]
+Name=Archive + Encrypt Folder
+
+Exec=kgpg -e %U
