@@ -76,10 +76,10 @@ KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,bool encmode,
 //      popupsig->insertItem(i18n("&Check MD5 sum"),this,SLOT(slotCheckMd5()));
 //      menubar->insertItem(i18n("&Signature"),popupsig);
 
-      KPopupMenu *help = helpMenu();
-      helptips->plug(help);
-      manpage->plug(help);
-      menubar->insertItem( i18n("&Help"), help);
+      //KPopupMenu *help = helpMenu();
+      //helptips->plug(help);
+      //manpage->plug(help);
+      //menubar->insertItem( i18n("&Help"), help);
 
 
 
@@ -192,7 +192,7 @@ void KgpgApp::initActions()
   KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
   
   helptips = new KAction(i18n("Tip of the &Day..."), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
-  manpage = new KAction(i18n("View GnuPG manual"), "contents", 0,this, SLOT(slotman()),0);
+  manpage = new KAction(i18n("View GnuPG manual"), "contents", 0,this, SLOT(slotman()),actionCollection(),"gpg_man");
 }
 
 
