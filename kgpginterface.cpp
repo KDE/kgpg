@@ -1304,14 +1304,15 @@ while (result!=NULL)
 {
 if (result.stripWhiteSpace().startsWith(name))
 {
-result=name+" "+value;
+if (!value.isEmpty()) result=name+" "+value;
+else result="";
 found=true;
 }
 textToWrite+=result+"\n";
 result=t.readLine();
 }
 qfile.close();
-if (!found) textToWrite+="\n"+name+" "+value;
+if ((!found) && (!value.isEmpty())) textToWrite+="\n"+name+" "+value;
 
 if (qfile.open(IO_WriteOnly))
 {

@@ -66,11 +66,10 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
   bool hideid=config->readBoolEntry("Hide user id",false);
   displayMailFirst=config->readBoolEntry("display mail first",true);
   //pgpcomp=config->readBoolEntry("PGP compatibility",false);
-  encryptToDefault=config->readBoolEntry("encrypt to default key",false);
   defaultKey=config->readEntry("default key");
   allowcustom=config->readBoolEntry("allow custom option",false);
   if (allowcustom) customOptions=config->readEntry("custom option");
-  
+
 //  encryptfileto=config->readBoolEntry("encrypt files to",false);
 //  filekey=config->readEntry("file key");
 
@@ -90,7 +89,7 @@ defaultName="";
 
   keysList = new KListView( this );
   keysList->setRootIsDecorated(true);
-  
+
   keysList->setShowSortIndicator(true);
   keysList->setFullWidth(true);
   keysList->setSelectionModeExt(KListView::Extended);
@@ -364,7 +363,7 @@ tst=tst.section(':',9,9);
 
 if ((!dead) && (!tst.isEmpty()))
 	{
-	if ((id==defaultKey) && (encryptToDefault))
+	if (id==defaultKey)
 	      {
 	      defaultName=extractKeyName(tst);
 	      UpdateViewItem2 *item=new UpdateViewItem2(keysList,defaultName);
@@ -430,7 +429,7 @@ userid=list.at(i)->firstChild()->text(0);
 res+=" "+userid;
 }
 if (res.isEmpty()) return;
-if ((encryptToDefault) && (res.find(defaultKey)==-1)) res+=" "+defaultKey;
+
 QString returnOptions;
 if (CBuntrusted->isChecked()) returnOptions=" --always-trust ";
 if (CBarmor->isChecked()) returnOptions+=" --armor ";

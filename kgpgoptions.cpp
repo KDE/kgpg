@@ -43,8 +43,6 @@ config=kapp->config();
   bool untrusted=config->readBoolEntry("Allow untrusted keys",false);
   bool hideid=config->readBoolEntry("Hide user ID",false);
   bool pgpcomp=config->readBoolEntry("PGP compatibility",false);
-  bool encrypttodefault=config->readBoolEntry("encrypt to default key",false);
-  QString defaultkey=config->readEntry("default key");
   bool encryptfileto=config->readBoolEntry("encrypt files to",false);
   bool displaymailfirst=config->readBoolEntry("display mail first",true);
   bool clipselection=config->readBoolEntry("selection clip",false);
@@ -52,6 +50,9 @@ config=kapp->config();
   bool allowcustom=config->readBoolEntry("allow custom option",false);
   confPath=config->readEntry("gpg config path");
   if (confPath.isEmpty()) confPath=QDir::homeDirPath()+"/.gnupg/options";
+defaultKeyID=KgpgInterface::getGpgSetting("encrypt-to",confPath);
+if (!defaultKeyID.isEmpty()) defaut_2_2->setChecked(true);
+
   kURLconfigPath->setURL(confPath);
   kLEcustom->setText(config->readEntry("custom option"));
   kLEcustomdec->setText(config->readEntry("custom decrypt"));
@@ -76,7 +77,7 @@ ascii_2_2->setChecked(ascii);
 untrusted_2_2->setChecked(untrusted);
 hide_2_2->setChecked(hideid);
 pgp_2_2->setChecked(pgpcomp);
-defaut_2_2->setChecked(encrypttodefault);
+
 file_2_2->setChecked(encryptfileto);
 custom_2_2->setChecked(allowcustom);
 cbMailFirst->setChecked(displaymailfirst);
@@ -88,9 +89,7 @@ kCBunencrypted->setCurrentItem(ufileDropEvent);
 
 listkey();
 if (filekey!=NULL)
-filekey_2_2->setCurrentItem(filekey);
-if (defaultkey!=NULL)
-defautkey_2_2->setCurrentItem(namecode(defaultkey));
+kCBfilekey->setCurrentItem(filekey);
 connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotOk()));
 connect(bcheckMime,SIGNAL(clicked()),this,SLOT(checkMimes()));
 connect(Buttonadd,SIGNAL(clicked()),this,SLOT(slotAddServer()));
@@ -276,16 +275,26 @@ void kgpgOptions::slotOk()
   config->writeEntry("Allow untrusted keys",untrusted_2_2->isChecked());
   config->writeEntry("Hide user ID",hide_2_2->isChecked());
   config->writeEntry("PGP compatibility",pgp_2_2->isChecked());
-  config->writeEntry("encrypt to default key",defaut_2_2->isChecked());
-  config->writeEntry("default key",idcode(defautkey_2_2->currentText()));
   config->writeEntry("encrypt files to",file_2_2->isChecked());
-  config->writeEntry("file key",filekey_2_2->currentText());
+  config->writeEntry("file key",kCBfilekey->currentText());
+
   config->writeEntry("display mail first",cbMailFirst->isChecked());
   config->writeEntry("selection clip",cbClipSelection->isChecked());
   config->writeEntry("custom option",kLEcustom->text());
   config->writeEntry("allow custom option",custom_2_2->isChecked());
   config->writeEntry("custom decrypt",kLEcustomdec->text());
   config->writeEntry("gpg config path",kURLconfigPath->url());
+
+  if (defaut_2_2->isChecked())
+{
+  config->writeEntry("default key","0x"+kCBalwayskey->currentText().section(':',0,0));
+  KgpgInterface::setGpgSetting("encrypt-to",kCBalwayskey->currentText().section(':',0,0),confPath);
+  }
+  else
+  {
+  config->writeEntry("default key","");
+  KgpgInterface::setGpgSetting("encrypt-to","",confPath);
+}
 
   config->setGroup("Service Menus");
   config->writeEntry("Decrypt",kCBdecrypt->currentText());
@@ -348,7 +357,7 @@ void kgpgOptions::listkey()
 {
   ////////   update display of keys in main management window
   FILE *fp;
-  QString tst,name,trustedvals="idre-";
+  QString tst,name,trustedvals="idre-",defaultKeyName;
   int counter=0;
   char line[130];
 
@@ -362,21 +371,24 @@ void kgpgOptions::listkey()
       if ((name!="") && (trustedvals.find(tst.section(':',1,1))==-1))
       {
         counter++;
-	name=name.section('<',-1,-1);
-        name=name.section('>',0,0);
+	//name=name.section('<',-1,-1);
+      //  name=name.section('>',0,0);
         names+=name;
 	ids+=tst.section(':',4,4);
-	filekey_2_2->insertItem(name);
-	defautkey_2_2->insertItem(name);
+	if (tst.section(':',4,4).right(8)==defaultKeyID)
+	defaultKeyName=tst.section(':',4,4).right(8)+":"+name;
+	kCBfilekey->insertItem(tst.section(':',4,4).right(8)+":"+name);
+	kCBalwayskey->insertItem(tst.section(':',4,4).right(8)+":"+name);
       }
     }
   }
+  if (!defaultKeyName.isEmpty()) kCBalwayskey->setCurrentItem(defaultKeyName);
   pclose(fp);
   if (counter==0)
   {
 	ids+="0";
-	filekey_2_2->insertItem("none");
-	defautkey_2_2->insertItem("none");
+	kCBfilekey->insertItem(i18n("none"));
+	kCBalwayskey->insertItem(i18n("none"));
   }
   }
 

@@ -221,9 +221,6 @@ void KgpgView::viewreadopts()
   pubascii=win->ascii;
   pubpgp=win->pgpcomp;
   pubuntrusted=win->untrusted;
-  pubencrypttodefault=win->encrypttodefault;
-  pubdefaultkey=win->defaultkey;
-
 }
 
 void KgpgView::clearSign()

@@ -52,7 +52,7 @@ class kgpgOptions : public KgpgOptionDialog
   
   private:
   KConfig *config;
-  QString confPath;
+  QString confPath,defaultKeyID;
 
 private slots:
 void listkey();

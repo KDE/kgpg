@@ -351,11 +351,6 @@ void  MyView::readOptions()
 ksConfig->setGroup("Applet");
 ufileDropEvent=ksConfig->readNumEntry("unencrypted drop event",0);
 efileDropEvent=ksConfig->readNumEntry("encrypted drop event",2);
-showeclip=ksConfig->readBoolEntry("show encrypt clip",true);
-showdclip=ksConfig->readBoolEntry("show decrypt clip",true);
-showoeditor=ksConfig->readBoolEntry("show open editor",true);
-showomanager=ksConfig->readBoolEntry("show open manager",true);
-showserver=ksConfig->readBoolEntry("show server",true);
 
 ksConfig->setGroup("General Options");
 encryptfileto=ksConfig->readBoolEntry("encrypt files to",false);

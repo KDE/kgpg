@@ -52,8 +52,6 @@ void KgpgApp::readOptions(bool doresize)
   untrusted=config->readBoolEntry("Allow untrusted keys",false);
   hideid=config->readBoolEntry("Hide user ID",false);
   pgpcomp=config->readBoolEntry("PGP compatibility",false);
-  encrypttodefault=config->readBoolEntry("encrypt to default key",false);
-  defaultkey=config->readEntry("default key");
   encryptfileto=config->readBoolEntry("encrypt files to",false);
   filekey=config->readEntry("file key");
   customDecrypt=config->readEntry("custom decrypt");

@@ -328,6 +328,11 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
 
   keyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
 
+  KConfig *config=kapp->config();
+config->setGroup("General Options");
+QString defaultKeyID=KgpgInterface::getGpgSetting("default-key",config->readEntry("gpg config path"));
+
+
   setMinimumSize(300,200);
   keysListpr = new KListView( page );
   keysListpr->setRootIsDecorated(true);
@@ -340,7 +345,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
 
   vbox->addWidget(labeltxt);
   vbox->addWidget(keysListpr);
-  if (showlocal==true)
+  if (showlocal)
   {
     local = new QCheckBox(i18n("Local signature (cannot be exported)"),page);
     vbox->addWidget(local);
@@ -349,6 +354,8 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
   FILE *fp,*fp2;
   QString tst,tst2;
   char line[130];
+bool selectedok=false;
+
   fp = popen(QString("gpg --no-tty --with-colon --list-secret-keys"), "r");
   while ( fgets( line, sizeof(line), fp))
   {
@@ -358,7 +365,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
       const QString trust=tst.section(':',1,1);
       QString val=tst.section(':',6,6);
       QString id=QString("0x"+tst.section(':',4,4).right(8));
-      if (val=="")
+      if (val.isEmpty())
         val=i18n("Unlimited");
       QString tr;
       switch( trust[0] )
@@ -427,6 +434,11 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
         KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, expiration: %3").arg(id).arg(tr).arg(val));
         sub->setSelectable(false);
         item->setPixmap(0,keyPair);
+		if ((!defaultKeyID.isEmpty()) && (id.right(8)==defaultKeyID))
+		{
+		keysListpr->setSelected(item,true);
+selectedok=true;
+		}
       }
     }
   }
@@ -437,7 +449,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
   QObject::connect(keysListpr,SIGNAL(clicked(QListViewItem *)),this,SLOT(slotSelect(QListViewItem *)));
 
 
-  keysListpr->setSelected(keysListpr->firstChild(),true);
+  if (!selectedok) keysListpr->setSelected(keysListpr->firstChild(),true);
 
   page->show();
   resize(this->minimumSize());
@@ -595,12 +607,12 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   KAction *exportPublicKey = new KAction(i18n("E&xport Public Key..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_export");
   KAction *deleteKey = new KAction(i18n("&Delete Key"),"editdelete", Qt::Key_Delete,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
   KAction *signKey = new KAction(i18n("&Sign Key..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
-  KAction *delSignKey = new KAction(i18n("Delete Sign&ature"),0, 0,this, SLOT(delsignkey()),actionCollection(),"key_delsign");
+  KAction *delSignKey = new KAction(i18n("Delete Sign&ature"),"editdelete", 0,this, SLOT(delsignkey()),actionCollection(),"key_delsign");
   KAction *infoKey = new KAction(i18n("&Key Info"), "kgpg_info", Qt::Key_Return,this, SLOT(listsigns()),actionCollection(),"key_info");
   KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", KStdAccel::shortcut(KStdAccel::Paste),this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
   KAction *setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
-KAction *importSignKey = new KAction(i18n("Import Key from Keyserver"),0, 0,this, SLOT(preimportsignkey()),actionCollection(),"key_importsign");
-KAction *importAllSignKeys = new KAction(i18n("Import Missing Signatures from Keyserver"),0, 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
+importSignatureKey = new KAction(i18n("Import Key from Keyserver"),"network", 0,this, SLOT(preimportsignkey()),actionCollection(),"key_importsign");
+KAction *importAllSignKeys = new KAction(i18n("Import Missing Signatures from Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
 
   KStdAction::quit(this, SLOT(annule()), actionCollection());
   (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
@@ -661,8 +673,8 @@ KAction *importAllSignKeys = new KAction(i18n("Import Missing Signatures from Ke
   generateKey->plug(popupout);
 
   popupsig=new QPopupMenu();
+  importSignatureKey->plug(popupsig);
   delSignKey->plug(popupsig);
-  importSignKey->plug(popupsig);
 
   keyPhoto=new QLabel(page);
   keyPhoto->setText(i18n("Photo"));
@@ -794,13 +806,13 @@ void listKeys::saveOptions()
 void listKeys::readOptions()
 {
   config->setGroup("General Options");
-  bool encrypttodefault=config->readBoolEntry("encrypt to default key",false);
   configshowToolBar=config->readBoolEntry("show toolbar",true);
   showPhoto=config->readBoolEntry("show photo",false);
   keysList2->displayMailFirst=config->readBoolEntry("display mail first",true);
   configUrl=config->readEntry("gpg config path");
   optionsDefaultKey=KgpgInterface::getGpgSetting("default-key",configUrl);
-  QString defaultkey="0x"+optionsDefaultKey;
+QString defaultkey=optionsDefaultKey;
+if (!optionsDefaultKey.isEmpty()) defaultkey.prepend("0x");
   config->writeEntry("default key",defaultkey);
   config->sync();
   if (config->readBoolEntry("selection clip",false))
@@ -810,11 +822,7 @@ void listKeys::readOptions()
       kapp->clipboard()->setSelectionMode(true);
   }
   else kapp->clipboard()->setSelectionMode(false);
-
-  if (encrypttodefault)
     keysList2->defKey=defaultkey;
-  else
-    keysList2->defKey="";
 }
 
 
@@ -833,11 +841,6 @@ void listKeys::slotSetDefKey()
   QString key=keysList2->currentItem()->text(5);
 
 config->setGroup("General Options");
-  if  (!config->readBoolEntry("encrypt to default key",false))
-  {
-    KMessageBox::sorry(this,i18n("Before setting a default key, you must enable default key encryption in the options dialog."));
-    return;
-  }
 
   if  (block.find(keysList2->currentItem()->text(1))!=-1)
   {
@@ -885,12 +888,17 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
   {
     if (sel->depth()!=0)
     {
-      if ((sel->text(1)=="-") && (sel->text(3)=="-"))
-        popupsig->exec(pos);
-      if ((sel->text(1)==i18n("Revoked")) && (sel->text(3)=="-"))
-        popupsig->exec(pos);
-      //else popupout->exec(pos);
-    }
+      if ((sel->text(3)=="-") && (sel->text(5)!="-"))
+        {
+if ((sel->text(1)=="-") || (sel->text(1)==i18n("Revoked")))
+{
+if (sel->text(0).find(i18n("User id not found"))==-1) importSignatureKey->setEnabled(false);
+else importSignatureKey->setEnabled(true);
+popupsig->exec(pos);
+return;
+}
+  }
+  }
     else
     {
       keysList2->setSelected(sel,TRUE);
@@ -898,6 +906,7 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
         popupsec->exec(pos);
       else
         popup->exec(pos);
+		return;
     }
   }
   else
@@ -1114,7 +1123,9 @@ if (current->text(0).find(i18n("[User id not found]"))!=-1)
 missingKeysList+=current->text(5)+" ";
 current = current->nextSibling();
 	}
+if (!missingKeysList.isEmpty())
 importsignkey(missingKeysList);
+else KMessageBox::information(this,i18n("All signatures for this key are already in your keyring"));
 }
 
 

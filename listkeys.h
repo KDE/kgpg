@@ -155,6 +155,7 @@ QString tempKeyFile;
 keyServer *kServer;
 KTempFile *kgpgtmp;
 bool showPhoto,configshowToolBar;
+KAction *importSignatureKey;
 
 protected:
 void closeEvent( QCloseEvent * e );
