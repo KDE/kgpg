@@ -176,4 +176,10 @@
     </entry>
     </group>
     
+<group name="Key Servers">
+    <entry name="UseProxy" type="Bool" key="use_proxy">
+      <label>Use HTTP proxy when available.</label>
+      <default>false</default>
+    </entry>
+    </group>    
 </kcfg>

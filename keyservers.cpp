@@ -69,12 +69,12 @@ keyServer::keyServer(QWidget *parent, const char *name,bool modal,bool autoClose
         connect(page->cBproxyE,SIGNAL(toggled(bool)),this,SLOT(slotEnableProxyE(bool)));
 
         connect(page->kLEimportid,  SIGNAL( textChanged ( const QString & )), this,  SLOT( slotTextChanged( const QString &)));
+	page->cBproxyI->setChecked(KGpgSettings::useProxy());
+        page->cBproxyE->setChecked(KGpgSettings::useProxy());
         const char *httpproxy = getenv("http_proxy");
         if (httpproxy) {
                 page->cBproxyI->setEnabled(true);
                 page->cBproxyE->setEnabled(true);
-                page->cBproxyI->setChecked(true);
-                page->cBproxyE->setChecked(true);
                 page->kLEproxyI->setText(httpproxy);
                 page->kLEproxyE->setText(httpproxy);
         }
