@@ -80,7 +80,6 @@ keyGenerate::keyGenerate(QWidget *parent, const char *name):KDialogBase( parent,
         keykind = new KComboBox(bgroup1);
         keykind->insertItem("DSA & ElGamal");
         keykind->insertItem("RSA");
-        keykind->insertItem("ElGamal");
         keykind->setMinimumSize(keykind->sizeHint());
 
         vbox->addWidget(bgroup1);

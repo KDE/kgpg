@@ -2081,9 +2081,7 @@ void listKeys::slotgenkey()
             QObject::connect(proc, SIGNAL(processExited(KProcess *)),this, SLOT(genover(KProcess *)));
             proc->start(KProcess::NotifyOnExit,true);
 
-            if (ktype=="ElGamal")
-                proc->writeStdin("Key-Type: 20");
-            else if (ktype=="RSA")
+            if (ktype=="RSA")
                 proc->writeStdin("Key-Type: 1");
             else
             {
