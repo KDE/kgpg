@@ -1388,6 +1388,103 @@ QString KgpgInterface::extractKeyName(QString txt)
         return IDs;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////   User ID's
+
+void KgpgInterface::KgpgAddUid(QString keyID,QString name,QString email,QString comment)
+{
+uidName=name;
+uidComment=comment;
+uidEmail=email;
+output=QString::null;
+addSuccess=true;
+
+        KProcIO *conprocess=new KProcIO();
+        *conprocess<< "gpg"<<"--no-tty"<<"--status-fd=2"<<"--command-fd=0";
+        *conprocess<<"--edit-key"<<keyID<<"adduid";
+        QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(adduidover(KProcess *)));
+        QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(adduidprocess(KProcIO *)));
+        conprocess->start(KProcess::NotifyOnExit,true);
+}
+
+void KgpgInterface::adduidover(KProcess *)
+{
+if (addSuccess) emit addUidFinished();
+else emit addUidError(output);
+}
+
+void KgpgInterface::adduidprocess(KProcIO *p)
+{
+        QString required=QString::null;
+        while (p->readln(required,true)!=-1) {
+                output+=required+"\n";
+                if (required.find("USERID_HINT",0,false)!=-1) {
+                        required=required.section("HINT",1,1);
+                        required=required.stripWhiteSpace();
+                        int cut=required.find(' ',0,false);
+                        required.remove(0,cut);
+                        if (required.find("(",0,false)!=-1)
+                                required=required.section('(',0,0)+required.section(')',-1,-1);
+                        if (userIDs.find(required)==-1) {
+                                if (!userIDs.isEmpty())
+                                        userIDs+=i18n(" or ");
+                                userIDs+=required;
+                                userIDs.replace(QRegExp("<"),"&lt;");
+                        }
+                }
+
+                if (required.find("keygen.name")!=-1)  {
+                        p->writeStdin(uidName);
+                        required=QString::null;
+                }
+		
+		if (required.find("keygen.email")!=-1)  {
+                        p->writeStdin(uidEmail);
+                        required=QString::null;
+                }
+		
+		if (required.find("keygen.comment")!=-1)  {
+                        p->writeStdin(uidComment);
+                        required=QString::null;
+                }
+
+                if (required.find("passphrase.enter")!=-1) {
+                        kdDebug()<<"Passphrase"<<endl;
+                        QCString delpass;
+                        int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
+                        if (code!=QDialog::Accepted) {
+                                //deleteSuccess=false;
+                                p->writeStdin("quit");
+                                p->closeWhenDone();
+                                return;
+                        }
+                        p->writeStdin(delpass,true);
+                        required=QString::null;
+
+                }
+
+		if (required.find("keyedit.prompt")!=-1) {
+		       p->writeStdin("save");
+                        required=QString::null;
+		}
+
+		if ((required.find("GET_")!=-1)) /////// gpg asks for something unusal, turn to konsole mode
+                {
+                        kdDebug()<<"unknown request"<<endl;
+                        addSuccess=false;  /////  switching to console mode
+                        p->writeStdin("quit");
+                        p->closeWhenDone();
+
+                }
+        }
+}
+
+
+
+
+
+
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  photo id's
 
@@ -1538,7 +1635,7 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
 {
         QString required=QString::null;
         while (p->readln(required,true)!=-1) {
-                output+=required+"\n";
+//                output+=required+"\n";
                 if (required.find("USERID_HINT",0,false)!=-1) {
                         required=required.section("HINT",1,1);
                         required=required.stripWhiteSpace();
@@ -1582,7 +1679,6 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
 		if ((required.find("GET_")!=-1)) /////// gpg asks for something unusal, turn to konsole mode
                 {
                         kdDebug()<<"unknown request"<<endl;
-                        expSuccess=1;  /////  switching to console mode
                         p->writeStdin("quit");
                         p->closeWhenDone();
 

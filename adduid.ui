@@ -1,0 +1,64 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>AddUid</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>AddUid</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>374</width>
+            <height>170</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="KLineEdit" row="1" column="0">
+            <property name="name">
+                <cstring>kLineEdit1</cstring>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="3" column="0">
+            <property name="name">
+                <cstring>kLineEdit2</cstring>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="5" column="0">
+            <property name="name">
+                <cstring>kLineEdit3</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Name (minimum 5 characters):</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>textLabel2</cstring>
+            </property>
+            <property name="text">
+                <string>Email:</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="4" column="0">
+            <property name="name">
+                <cstring>textLabel3</cstring>
+            </property>
+            <property name="text">
+                <string>Comment (optional):</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

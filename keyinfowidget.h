@@ -78,6 +78,7 @@ private slots:
 	void slotInfoTrustChanged();
 	void slotChangeTrust(const QString &newTrust);
 	void loadKey(QString Keyid);
+	void slotDisableKey(bool isOn);
 
 private:
         KTempFile *kgpginfotmp;

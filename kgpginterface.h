@@ -153,6 +153,8 @@ public slots:
 	void KgpgDeletePhoto(QString keyID,QString uid);
 	void KgpgAddPhoto(QString keyID,QString imagePath);
 
+	void KgpgAddUid(QString keyID,QString name,QString email,QString comment);
+	
         void KgpgDecryptFileToText(KURL srcUrl,QStringList Options);
 
         static QString extractKeyName(QString txt="");
@@ -254,6 +256,10 @@ private slots:
 	void delphotoprocess(KProcIO *p);
 	void addphotoover(KProcess *);
 	void addphotoprocess(KProcIO *p);
+	
+	void adduidover(KProcess *);
+	void adduidprocess(KProcIO *p);
+	
 	void slotReadKey(KProcIO *p);
 	void photoreadover(KProcess *);
 	void photoreadprocess(KProcIO *p);
@@ -328,6 +334,10 @@ signals:
         void signfinished();
 	void delPhotoFinished();
 	void addPhotoFinished();
+	
+	void addUidFinished();
+	void addUidError(QString);
+	
         void trustfinished();
 	void revokecertificate(QString);
 	void revokeurl(QString);
@@ -343,13 +353,14 @@ private:
         */
         QString message,tempKeyFile,userIDs,txtprocess,output,keyString;
         QCString passphrase;
-        bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc,revokeSuccess;
+        bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc,revokeSuccess,addSuccess;
         int signSuccess,expSuccess,trustValue,konsChecked;
         int step,signb,sigsearch,expirationDelay;
         QString konsSignKey, konsKeyID,errMessage;
 	int revokeReason,photoCount;
 	QString revokeDescription,certificateUrl,photoUrl;
 	QStringList photoList;
+	QString uidName, uidEmail, uidComment;
         KURL sourceFile;
 
         /*

@@ -55,10 +55,26 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
         connect(this,SIGNAL(closeClicked()),this,SLOT(slotPreOk()));
         connect(prop->changePass,SIGNAL(clicked()),this,SLOT(slotChangePass()));
 	connect(prop->comboId,SIGNAL(activated (const QString &)),this,SLOT(reloadMainPhoto(const QString &)));
+	connect(prop->cbDisabled,SIGNAL(toggled(bool)),this,SLOT(slotDisableKey(bool)));
 	connect(prop->kCOwnerTrust,SIGNAL(activated (const QString &)),this,SLOT(slotChangeTrust(const QString &)));
 	connect(this,SIGNAL(changeMainPhoto(const QPixmap&)),this,SLOT(slotSetPhoto(const QPixmap&)));
 
 	setMinimumSize(sizeHint());
+}
+
+void KgpgKeyInfo::slotDisableKey(bool isOn)
+{
+KProcess kp;
+
+	kp<<"gpg"
+        <<"--no-tty"
+	<<"--edit-key"
+        <<displayedKeyID;
+if (isOn) kp<<"disable";
+else kp<<"enable";
+	kp<<"save";
+        kp.start(KProcess::Block);
+loadKey(displayedKeyID);
 }
 
 void KgpgKeyInfo::loadKey(QString Keyid)
@@ -109,6 +125,7 @@ QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint
                         case 'd':
                                 tr=i18n("Disabled");
 				trustColor.setRgb(172,0,0);
+				prop->cbDisabled->setChecked(true);
                                 break;
                         case 'r':
                                 tr=i18n("Revoked");

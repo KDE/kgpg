@@ -195,6 +195,7 @@ private:
 	long searchOptions;
 	groupEdit *gEdit;
 	KgpgInterface *revKeyProcess;
+	KDialogBase *addUidWidget;
 
 protected:
         void closeEvent( QCloseEvent * e );
@@ -210,6 +211,9 @@ public slots:
 	void slotSetDefaultKey(QString newID);
 
 private slots:
+	void slotAddUid();
+	void slotAddUidEnable(const QString & name);
+	void uidError(QString errortxt);
 	void slotUpdatePhoto();
 	void slotDeletePhoto();
 	void slotAddPhoto();

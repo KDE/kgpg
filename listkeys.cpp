@@ -52,6 +52,7 @@
 #include <kabc/addresseedialog.h>
 
 #include "listkeys.h"
+#include "adduid.h"
 #include "keyservers.h"
 #include "kgpginterface.h"
 
@@ -507,6 +508,8 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         KAction *openPhoto= new KAction(i18n("&Open Photo"), "image", 0,this, SLOT(slotShowPhoto()),actionCollection(),"key_photo");
 	KAction *deletePhoto= new KAction(i18n("&Delete Photo"), "delete", 0,this, SLOT(slotDeletePhoto()),actionCollection(),"delete_photo");
 	KAction *addPhoto= new KAction(i18n("&Add Photo"), 0, 0,this, SLOT(slotAddPhoto()),actionCollection(),"add_photo");
+	
+	KAction *addUid= new KAction(i18n("&Add User Id"), 0, 0,this, SLOT(slotAddUid()),actionCollection(),"add_uid");
 
 	KAction *editKey = new KAction(i18n("&Edit Key In Terminal"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
         KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
@@ -574,6 +577,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         setDefaultKey->plug(popupsec);
         popupsec->insertSeparator();
 	addPhoto->plug(popupsec);
+	addUid->plug(popupsec);
         exportSecretKey->plug(popupsec);
         deleteKeyPair->plug(popupsec);
         revokeKey->plug(popupsec);
@@ -632,6 +636,35 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 listKeys::~listKeys()
 {}
 
+
+void listKeys::slotAddUid()
+{
+addUidWidget=new KDialogBase(KDialogBase::Swallow, i18n("Add New User Id"),  KDialogBase::Ok | KDialogBase::Cancel,KDialogBase::Ok,this,0,true);
+addUidWidget->enableButtonOK(false);
+        AddUid *keyUid=new AddUid();
+        addUidWidget->setMainWidget(keyUid);
+	//keyUid->setMinimumSize(keyUid->sizeHint());
+	keyUid->setMinimumWidth(300);
+	connect(keyUid->kLineEdit1,SIGNAL(textChanged ( const QString & )),this,SLOT(slotAddUidEnable(const QString & )));
+        if (addUidWidget->exec()!=QDialog::Accepted)
+                return;
+KgpgInterface *addUidProcess=new KgpgInterface();
+                        addUidProcess->KgpgAddUid(keysList2->currentItem()->text(6),keyUid->kLineEdit1->text(),keyUid->kLineEdit2->text(),keyUid->kLineEdit3->text());
+                        connect(addUidProcess,SIGNAL(addUidFinished()),keysList2,SLOT(refreshselfkey()));
+			connect(addUidProcess,SIGNAL(addUidError(QString)),this,SLOT(uidError(QString)));
+}
+
+void listKeys::slotAddUidEnable(const QString & name)
+{
+addUidWidget->enableButtonOK(name.length()>4);
+}
+
+void listKeys::uidError(QString errortxt)
+{
+KMessageBox::detailedSorry(this,i18n("Something unexpected happened during the key pair creation.\nPlease check details for full log output."),errortxt);
+}
+
+
 void listKeys::slotAddPhoto()
 {
 QString mess=i18n("The image must be a JPEG file. Remember that the image is stored within your public key."
@@ -650,11 +683,11 @@ KgpgInterface *addPhotoProcess=new KgpgInterface();
 
 void listKeys::slotDeletePhoto()
 {
-if (KMessageBox::questionYesNo(this,i18n("<qt>Are you sure you want to delete <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b> ?</qt>").arg(keysList2->currentItem()->text(0)).arg(keysList2->currentItem()->parent()->text(0)).arg(keysList2->currentItem()->parent()->text(1)),i18n("Warning"),i18n("Delete"))!=KMessageBox::Yes)
+if (KMessageBox::questionYesNo(this,i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b> ?</qt>").arg(keysList2->currentItem()->text(6)).arg(keysList2->currentItem()->parent()->text(0)).arg(keysList2->currentItem()->parent()->text(1)),i18n("Warning"),i18n("Delete"))!=KMessageBox::Yes)
 return;
 
 KgpgInterface *delPhotoProcess=new KgpgInterface();
-                        delPhotoProcess->KgpgDeletePhoto(keysList2->currentItem()->parent()->text(6),keysList2->currentItem()->text(0).section(' ',-1));
+                        delPhotoProcess->KgpgDeletePhoto(keysList2->currentItem()->parent()->text(6),keysList2->currentItem()->text(6));
                         connect(delPhotoProcess,SIGNAL(delPhotoFinished()),this,SLOT(slotUpdatePhoto()));
 }
 
@@ -1122,7 +1155,8 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
                 }
 
                 if (sel->depth()!=0) {
-                        if ((sel->text(4)=="-") && (sel->text(6)!="-")) {
+		kdDebug()<<sel->text(0)<<endl;
+                        if ((sel->text(4)=="-") && (sel->text(6).startsWith("0x"))) {
                                 if ((sel->text(2)=="-") || (sel->text(2)==i18n("Revoked"))) {
                                         if (sel->text(0).find(i18n("User id not found"))==-1)
                                                 importSignatureKey->setEnabled(false);
@@ -1132,8 +1166,10 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
                                         return;
                                 }
                         }
-			else if (sel->text(0).startsWith(i18n("Photo ")))
+			else if (sel->text(0)==i18n("Photo id"))
+			{
 			popupphoto->exec(pos);
+			}
                 } else {
                         keysList2->setSelected(sel,TRUE);
                         if (keysList2->currentItem()->text(6).isEmpty())
@@ -1355,17 +1391,17 @@ void listKeys::slotShowPhoto()
  			KService::Ptr ptr = offers.first();
  			//KMessageBox::sorry(0,ptr->desktopEntryName());
                         KProcIO *p=new KProcIO();
-			*p<<"gpg"<<"--no-tty"<<"--photo-viewer"<<QFile::encodeName(ptr->desktopEntryName()+" %i")<<"--edit-key"<<keysList2->currentItem()->parent()->text(6)<<"uid"<<keysList2->currentItem()->text(0).section(' ',-1)<<"showphoto";
+			*p<<"gpg"<<"--no-tty"<<"--photo-viewer"<<QFile::encodeName(ptr->desktopEntryName()+" %i")<<"--edit-key"<<keysList2->currentItem()->parent()->text(6)<<"uid"<<keysList2->currentItem()->text(6)<<"showphoto";
                         p->start(KProcess::DontCare,true);
 }
 
 void listKeys::listsigns()
 {
-//kdDebug()<<"Edit -------------------------------"<<endl;
+	//kdDebug()<<"Edit -------------------------------"<<endl;
         if (keysList2->currentItem()==NULL)
                 return;
         if (keysList2->currentItem()->depth()!=0) {
-                if (keysList2->currentItem()->text(0).startsWith(i18n("Photo "))) {
+                if (keysList2->currentItem()->text(0)==i18n("Photo id")) {
                         //////////////////////////    display photo
 		slotShowPhoto();
                 }
@@ -1501,7 +1537,7 @@ void listKeys::groupInit(QStringList keysGroup)
                         lostKeys+=QString(*it);
         }
         if (!lostKeys.isEmpty())
-                KMessageBox::informationList(this,i18n("Following keys are in the group but are not valid or not in your keyring:"),lostKeys);
+                KMessageBox::informationList(this,i18n("Following keys are in the group but are not valid or not in your keyring. They will be removed from the group."),lostKeys);
 }
 
 void listKeys::editGroup()
@@ -2220,7 +2256,7 @@ void KeyView::expandKey2(QListViewItem *item)
 
                         if (tst[0]=="uat") {
 				QString photoUid=QString(*photoIdList.begin());
-				itemuid= new SmallViewItem(item,i18n("Photo id: %1").arg(photoUid),QString::null,QString::null,"-","-","-","-");
+				itemuid= new SmallViewItem(item,i18n("Photo id"),QString::null,QString::null,"-","-","-",photoUid);
 				photoIdList.remove(photoIdList.begin());
                                 if (displayPhoto)
 				{
