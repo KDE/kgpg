@@ -57,7 +57,6 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KAutoConfigDialog( p
         config=kapp->config();
 
         config->setGroup("User Interface");
-        firstDisplay=config->readBoolEntry("display_mail_first",true);
 
 
         page1=new Encryption();
@@ -149,10 +148,6 @@ else
 	}
 
         emit updateSettings();
-        if (firstDisplay!=page3->display_mail_first->isChecked()) {
-                emit updateDisplay();
-                firstDisplay=page3->display_mail_first->isChecked();
-        }
 }
 
 

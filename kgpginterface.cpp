@@ -1716,6 +1716,7 @@ QString KgpgInterface::checkForUtf8(QString txt)
  //              ;
 //        if ((*s && !strchr (txt.ascii(), 0xc3)) || (txt.find("\\x")!=-1)){
                 /* The string is not in UTF-8 */
+if (txt.isEmpty()) return "";
 if (!strchr (txt.ascii(), 0xc3)){
 
                 if ((txt.find("\\x")==-1))

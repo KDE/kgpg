@@ -173,7 +173,6 @@ protected:
 public slots:
         void slotgenkey();
         void refreshkey();
-	void updateKeyList();
 	void readAllOptions();
 	void showKeyInfo(QString keyID);
 
@@ -214,7 +213,6 @@ private slots:
         void slotexportsec();
         void slotmenu(QListViewItem *,const QPoint &,int);
         void slotPreImportKey();
-        void slotstatus(QListViewItem *);
         void slotedit();
 	void addToKAB();
 	void allToKAB();

@@ -95,7 +95,6 @@ public slots:
 
 private slots:
 
-	void updateKeyManager1();
 	void readAgain1();
 	void  slotWizardClose();
 	void  startWizard();
@@ -121,7 +120,6 @@ protected slots:
         void showPopupMenu( QPopupMenu * );
 
 signals:
-	void updateKeyManager2();
 	void readAgain2();
 };
 
@@ -142,10 +140,8 @@ private slots:
         void slotdecryptclip();
         void sloteditor();
         void slotOptions();
-	void updateKeyManager3();
 	void readAgain3();
 signals:
-	void updateKeyManager4();
 	void readAgain4();
 };
 
@@ -160,6 +156,7 @@ public:
         ~KgpgAppletApp();
         int newInstance ();
         KURL::List urlList;
+	bool running;
 
 protected:
         KCmdLineArgs *args;

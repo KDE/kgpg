@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>508</width>
-            <height>377</height>
+            <height>346</height>
         </rect>
     </property>
     <property name="caption">
@@ -77,26 +77,6 @@
                     <property name="text">
                         <string>Display warning before creating temporary files 
 (Only occurs on remote files operations)</string>
-                    </property>
-                    <property name="whatsThis" stdset="0">
-                        <string>&lt;b&gt;Show E-Mail first in keys list&lt;/b&gt; Lets you choose if you want the e-mail or the user name displayed first in the keys dialogs.</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="1" column="0">
-                    <property name="name">
-                        <cstring>display_mail_first</cstring>
-                    </property>
-                    <property name="minimumSize">
-                        <size>
-                            <width>0</width>
-                            <height>0</height>
-                        </size>
-                    </property>
-                    <property name="text">
-                        <string>Display the e-mails before the names in Key Manager</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;b&gt;Show E-Mail first in keys list&lt;/b&gt; Lets you choose if you want the e-mail or the user name displayed first in the keys dialogs.</string>

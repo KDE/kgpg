@@ -559,7 +559,6 @@ void  MyView::preferences()
         if (KAutoConfigDialog::showDialog("settings"))
                 return;
         kgpgOptions *optsDialog=new kgpgOptions(this,"settings");
-        connect(optsDialog,SIGNAL(updateDisplay()),this,SLOT(updateKeyManager1()));
         connect(optsDialog,SIGNAL(updateSettings()),this,SLOT(readAgain1()));
         optsDialog->show();
 }
@@ -568,11 +567,6 @@ void MyView::readAgain1()
 {
         readOptions();
         emit readAgain2();
-}
-
-void MyView::updateKeyManager1()
-{
-        emit updateKeyManager2();
 }
 
 
@@ -587,7 +581,6 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
                 : KSystemTray(parent,name)
 {
         w=new MyView(this);
-        connect(w,SIGNAL(updateKeyManager2()),this,SLOT(updateKeyManager3()));
         connect(w,SIGNAL(readAgain2()),this,SLOT(readAgain3()));
         w->show();
         KPopupMenu *conf_menu=contextMenu();
@@ -607,10 +600,6 @@ void kgpgapplet::readAgain3()
         emit readAgain4();
 }
 
-void kgpgapplet::updateKeyManager3()
-{
-        emit updateKeyManager4();
-}
 
 
 kgpgapplet::~kgpgapplet()
@@ -643,6 +632,7 @@ KgpgAppletApp::KgpgAppletApp()
                 : KUniqueApplication()//, kgpg_applet( 0 )
 {
 
+running=false;
 }
 
 
@@ -675,16 +665,16 @@ int KgpgAppletApp::newInstance()
 {
         kdDebug()<<"New instance\n";
         args = KCmdLineArgs::parsedArgs();
-        if (( kgpg_applet ) && (s_keyManager)) {
+        if (running) {
                 kdDebug()<<"Already running\n";
                 kgpg_applet->show();
         } else {
                 kdDebug() << "Starting KGpg\n";
-                s_keyManager=new listKeys(0, "key_manager");
+                running=true;
+		s_keyManager=new listKeys(0, "key_manager");
                 s_keyManager->refreshkey();
                 kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
-                connect(kgpg_applet,SIGNAL(updateKeyManager4()),s_keyManager,SLOT(updateKeyList()));
                 connect(kgpg_applet,SIGNAL(readAgain4()),s_keyManager,SLOT(readOptions()));
                 connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
                 kgpg_applet->show();
