@@ -12,45 +12,17 @@
             <height>274</height>
         </rect>
     </property>
+    <property name="caption">
+        <string>ServerConf</string>
+    </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLayoutWidget" row="0" column="1">
-            <property name="name">
-                <cstring>layout1</cstring>
-            </property>
-            <vbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="KPushButton">
-                    <property name="name">
-                        <cstring>server_default</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Set as Default</string>
-                    </property>
-                </widget>
-                <widget class="KPushButton">
-                    <property name="name">
-                        <cstring>server_add</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Add...</string>
-                    </property>
-                </widget>
-                <widget class="KPushButton">
-                    <property name="name">
-                        <cstring>server_del</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Delete</string>
-                    </property>
-                </widget>
-            </vbox>
-        </widget>
-        <spacer row="1" column="1" rowspan="4" colspan="1">
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <spacer row="3" column="1" rowspan="3" colspan="1">
             <property name="name">
                 <cstring>spacer4</cstring>
             </property>
@@ -67,12 +39,12 @@
                 </size>
             </property>
         </spacer>
-        <widget class="KListBox" row="0" column="0" rowspan="2" colspan="1">
+        <widget class="KListBox" row="0" column="0" rowspan="3" colspan="1">
             <property name="name">
                 <cstring>ServerBox</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="2" column="0">
+        <widget class="QLabel" row="3" column="0">
             <property name="name">
                 <cstring>textLabel1_4</cstring>
             </property>
@@ -82,7 +54,7 @@ Only the default server will be stored in GnuPG's configuration file,
 all others will be stored for use by KGpg only.</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="3" column="0">
+        <widget class="QCheckBox" row="4" column="0">
             <property name="name">
                 <cstring>kcfg_UseProxy</cstring>
             </property>
@@ -90,7 +62,7 @@ all others will be stored for use by KGpg only.</string>
                 <string>Honor HTTP proxy when available</string>
             </property>
         </widget>
-        <spacer row="4" column="0">
+        <spacer row="5" column="0">
             <property name="name">
                 <cstring>spacer4_2</cstring>
             </property>
@@ -107,15 +79,37 @@ all others will be stored for use by KGpg only.</string>
                 </size>
             </property>
         </spacer>
+        <widget class="KPushButton" row="0" column="1">
+            <property name="name">
+                <cstring>server_default</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Set as Default</string>
+            </property>
+            <property name="accel">
+                <string>Alt+S</string>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="1" column="1">
+            <property name="name">
+                <cstring>server_add</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Add...</string>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="2" column="1">
+            <property name="name">
+                <cstring>server_del</cstring>
+            </property>
+            <property name="text">
+                <string>&amp;Delete</string>
+            </property>
+            <property name="accel">
+                <string>Alt+D</string>
+            </property>
+        </widget>
     </grid>
 </widget>
-<customwidgets>
-</customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>kpushbutton.h</includehint>
-    <includehint>klistbox.h</includehint>
-</includehints>
 </UI>
