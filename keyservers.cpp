@@ -20,7 +20,10 @@
 #include <klocale.h>
 #include <qfile.h>
 
+#include <qcheckbox.h>
+
 #include <kapplication.h>
+#include <kiconloader.h>
 #include <kcombobox.h>
 #include <kdialogbase.h>
 #include <kmessagebox.h>
@@ -38,7 +41,6 @@
 #include <kprocio.h>
 #include <klistview.h>
 #include <kstatusbar.h>
-#include <qcheckbox.h>
 #include <kconfig.h>
 #include <klineedit.h>
 
@@ -111,7 +113,7 @@ void keyServer::slotprocread(KProcIO *p)
         ///////////////////////////////////////////////////////////////// extract  encryption keys
         bool dead;
         QString tst;
-
+	//QPixmap pixkeySingle(KGlobal::iconLoader()->loadIcon("kgpg_key1",KIcon::Small,20));
         while (p->readln(tst)!=-1) {
                 //tst=tst.stripWhiteSpace();
                 if (tst.startsWith("pub")) {
@@ -140,6 +142,7 @@ void keyServer::slotprocread(KProcIO *p)
                                 tst+="...";
                         }
                         if ((!dead) && (!tst.isEmpty()))
+//                                page->kCBexportkey->insertItem(pixkeySingle,id+": "+tst);
                                 page->kCBexportkey->insertItem(id+": "+tst);
                 }
         }
@@ -157,19 +160,18 @@ void keyServer::slotSearch()
 
         //listpop = new KeyServer( this,"result",WType_Dialog | WShowModal);
 	
-	KDialogBase *dialogServer=new KDialogBase(KDialogBase::Swallow, i18n("Key Properties"),  KDialogBase::Ok | KDialogBase::Close,KDialogBase::Ok,this,0,true);
+	dialogServer=new KDialogBase(KDialogBase::Swallow, i18n("Key Properties"),  KDialogBase::Ok | KDialogBase::Close,KDialogBase::Ok,this,0,true);
 	
 	dialogServer->setButtonText(KDialogBase::Ok,i18n("&Import"));
 	listpop=new searchRes();
-        listpop->setMinimumWidth(250);
-        //§listpop->adjustSize();
-        listpop->statusText->setText(i18n("Connecting to the server..."));
-        
+        //listpop->setMinimumWidth(250);
+        //listpop->adjustSize();
+        listpop->statusText->setText(i18n("Connecting to the server..."));   
         
         connect(listpop->kLVsearch,SIGNAL(selectionChanged()),this,SLOT(transferKeyID()));
         connect(dialogServer,SIGNAL(okClicked()),this,SLOT(preimport()));
-        connect(listpop->kLVsearch,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(preimport()));
-        connect(listpop->kLVsearch,SIGNAL(returnPressed ( QListViewItem * )),this,SLOT(preimport()));
+        connect(listpop->kLVsearch,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),dialogServer,SIGNAL(okClicked()));
+        //connect(listpop->kLVsearch,SIGNAL(returnPressed ( QListViewItem * )),this,SLOT(preimport()));
 
         connect(dialogServer,SIGNAL(closeClicked()),this,SLOT(handleQuit()));
         connect( listpop , SIGNAL( destroyed() ) , this, SLOT( abortSearch()));
@@ -198,15 +200,15 @@ void keyServer::slotSearch()
 
 void keyServer::handleQuit()
 {
-        listpop->close();
+        dialogServer->close();
 }
 
 
 void keyServer::abortSearch()
 {
-        if (listpop) {
-                delete listpop;
-                listpop=0L;
+        if (dialogServer) {
+                delete dialogServer;
+                dialogServer=0L;
         }
 }
 
@@ -218,13 +220,13 @@ void keyServer::preimport()
                 return;
         }
         page->kLEimportid->setText(listpop->kLEID->text());
-        listpop->close();
+        dialogServer->close();
         slotImport();
 }
 
 void keyServer::transferKeyID()
 {
-        if (listpop->kLVsearch->firstChild()==NULL)
+        if (!listpop->kLVsearch->firstChild())
                 return;
         QString kid;
         if (listpop->kLVsearch->currentItem()->depth()==0)
