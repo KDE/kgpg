@@ -49,7 +49,10 @@ config=kapp->config();
   QString defaultkey=config->readEntry("default key");
   bool encryptfileto=config->readBoolEntry("encrypt files to",false);
   bool displaymailfirst=config->readBoolEntry("display mail first",true);
-QString filekey=config->readEntry("file key");
+  QString filekey=config->readEntry("file key");
+  bool allowcustom=config->readBoolEntry("allow custom option",false);
+  kLEcustom->setText(config->readEntry("custom option"));
+
 config->setGroup("Service Menus");
 QString smenu;
 smenu=config->readEntry("Decrypt");
@@ -63,6 +66,7 @@ if (hideid) hide_2_2->setChecked(true);
 if (pgpcomp) pgp_2_2->setChecked(true);
 if (encrypttodefault) defaut_2_2->setChecked(true);
 if (encryptfileto) file_2_2->setChecked(true);
+if (allowcustom) custom_2_2->setChecked(true);
 if (displaymailfirst) cbMailFirst->setChecked(true);
 
 listkey();
@@ -172,9 +176,13 @@ void kgpgOptions::slotOk()
   config->writeEntry("encrypt files to",file_2_2->isChecked());
   config->writeEntry("file key",filekey_2_2->currentText());
   config->writeEntry("display mail first",cbMailFirst->isChecked());
+  config->writeEntry("custom option",kLEcustom->text());
+  config->writeEntry("allow custom option",custom_2_2->isChecked());
+  
   config->setGroup("Service Menus");
   config->writeEntry("Decrypt",kCBdecrypt->currentText());
   config->writeEntry("Sign",kCBsign->currentText());
+  
   config->sync();
 
   if (kCBsign->currentText()==i18n("All files")) slotInstallSign("allfiles");

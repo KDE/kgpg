@@ -29,10 +29,8 @@
 #include <kdialogbase.h>
 #include <kcombobox.h>
 
-#include <kiconloader.h>
 #include <kmessagebox.h>
-#include <kfiledialog.h>
-#include <kmenubar.h>
+#include <klineedit.h>
 #include <ktoolbar.h>
 //#include <kstatusbar.h>
 

@@ -58,7 +58,6 @@ void UpdateViewItem2::paintCell(QPainter *p, const QColorGroup &cg,int column, i
 
 popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool filemode):QDialog(parent,name,TRUE)
 {
-  QLabel *labeltxt;
   QString caption(i18n("Encryption"));
   config=kapp->config();
   config->setGroup("General Options");
@@ -69,6 +68,8 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
   //pgpcomp=config->readBoolEntry("PGP compatibility",false);
   encryptToDefault=config->readBoolEntry("encrypt to default key",false);
   defaultKey=config->readEntry("default key");
+  allowcustom=config->readBoolEntry("allow custom option",false);
+  if (allowcustom) customOptions=config->readEntry("custom option");
 //  encryptfileto=config->readBoolEntry("encrypt files to",false);
 //  filekey=config->readEntry("file key");
 
@@ -80,8 +81,6 @@ defaultName="";
 
   keyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
   keySingle=loader->loadIcon("kgpg_key1",KIcon::Small,20);
-  dkeyPair=loader->loadIcon("kgpg_dkey2",KIcon::Small,20);
-  dkeySingle=loader->loadIcon("kgpg_dkey1",KIcon::Small,20);
 
   //setMinimumSize(300,120);
   setCaption(caption);
@@ -90,21 +89,17 @@ defaultName="";
 
   keysList = new KListView( this );
   keysList->setRootIsDecorated(true);
-  keysList->addColumn( i18n( "Keys" ) );
+  
   keysList->setShowSortIndicator(true);
   keysList->setFullWidth(true);
   keysList->setSelectionModeExt(KListView::Extended);
 
   QVBoxLayout *vbox=new QVBoxLayout(this,3);
 
-  if (sfile=="")
-    labeltxt=new QLabel(i18n("Choose encryption key(s):"),this);
+  if (sfile.isEmpty())
+  keysList->addColumn(i18n("Encryption key(s):"));
   else
-    {
-      caption=i18n("Choose encryption key(s) for %1:").arg(sfile);
-      labeltxt=new QLabel(caption,this);
-    }
-
+      keysList->addColumn(i18n("Encryption key(s) for %1:").arg(sfile));
   
   boutonboxoptions=new QButtonGroup(5,Qt::Vertical ,this,0);  
 
@@ -147,8 +142,19 @@ KButtonBox *boutonbox=new KButtonBox(this,KButtonBox::Horizontal,15,12);
   if (istrust) CBuntrusted->setChecked(true);
   if (hideid) CBhideid->setChecked(true);
 
-  vbox->addWidget(labeltxt);
   vbox->addWidget(keysList);
+  if (allowcustom)
+  {
+  QHButtonGroup *bGroup = new QHButtonGroup(this);
+  bGroup->setLineWidth(0);
+  bGroup->setInsideMargin(2);
+  (void) new QLabel(i18n("Custom option "),bGroup);
+  KLineEdit *optiontxt=new KLineEdit(bGroup);
+  optiontxt->setText(customOptions);
+  QWhatsThis::add(optiontxt,i18n("<b>Custom option</b>: for experienced users only, allows you to enter a gpg command line option, like: '--armor'"));
+  vbox->addWidget(bGroup);
+  QObject::connect(optiontxt,SIGNAL(textChanged ( const QString & )),this,SLOT(customOpts(const QString & )));
+  }
   vbox->addWidget(boutonboxoptions);
   boutonboxoptions->hide();
   vbox->addWidget(boutonbox);
@@ -250,6 +256,11 @@ CBuntrusted->setEnabled(!state);
 CBhideid->setEnabled(!state);
 }
 
+
+void popupPublic::customOpts(const QString &str)
+{
+customOptions=str;
+}
 
 void popupPublic::refresh(bool state)
 {
@@ -417,10 +428,16 @@ userid=list.at(i)->firstChild()->text(0);
 res+=" "+userid;
 }
 if (res.isEmpty()) return;
-if ((encryptToDefault==true) && (res.find(defaultKey)==-1)) res+=" "+defaultKey;
-if (fmode==true)
-    emit selectedKey(res,CBuntrusted->isChecked(),CBarmor->isChecked(),CBhideid->isChecked(),CBshred->isChecked(),CBsymmetric->isChecked());
-  else emit selectedKey(res,CBuntrusted->isChecked(),CBarmor->isChecked(),CBhideid->isChecked(),false,false);
+if ((encryptToDefault) && (res.find(defaultKey)==-1)) res+=" "+defaultKey;
+QString returnOptions;
+if (CBuntrusted->isChecked()) returnOptions=" --always-trust ";
+if (CBarmor->isChecked()) returnOptions+=" --armor ";
+if (CBhideid->isChecked()) returnOptions=" --throw-keyid ";
+if ((allowcustom) && (!customOptions.stripWhiteSpace().isEmpty())) returnOptions+=customOptions;
+
+if (fmode)
+	emit selectedKey(res,returnOptions,CBshred->isChecked(),CBsymmetric->isChecked());
+else emit selectedKey(res,returnOptions,false,false);
   accept();
 }
 

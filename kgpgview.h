@@ -116,7 +116,7 @@ void clearSign();
 void popuppublic();
 void modified();
 void viewreadopts();
-void encode(QString &,bool,bool,bool);
+void encodetxt(QString &,QString encryptOptions);
 };
 
 #endif // KGPGVIEW_H

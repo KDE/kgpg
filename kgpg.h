@@ -111,8 +111,8 @@ protected:
 private slots:
 void killDisplayClip();
 void expressQuit();
-void encryptClipboard(QString &selec,bool utrust,bool,bool hideID);
-void fastencode(QString &selec,bool utrust,bool arm,bool hideID,bool shred,bool symetric);
+void encryptClipboard(QString &selec,QString);
+void fastencode(QString &selec,QString encryptOptions,bool shred,bool symetric);
 void fastdecode(bool quit);
 void slotFileEnc();
 void slotman();

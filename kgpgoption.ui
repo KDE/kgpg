@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>319</width>
-            <height>330</height>
+            <height>382</height>
         </rect>
     </property>
     <property name="caption">
@@ -127,15 +127,50 @@
                             <string>&lt;b&gt;ASCII encryption&lt;/b&gt;: makes it possible to open the encrypted file/message in a text editor</string>
                         </property>
                     </widget>
-                    <widget class="QCheckBox" row="6" column="0">
+                    <widget class="QCheckBox" row="2" column="0">
                         <property name="name">
-                            <cstring>defaut_2_2</cstring>
+                            <cstring>pgp_2_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Always encrypt with default key</string>
+                            <string>PGP 6 compatibility</string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="1" column="0">
+                        <property name="name">
+                            <cstring>untrusted_2_2</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Allow encryption with untrusted keys</string>
                         </property>
                         <property name="whatsThis" stdset="0">
-                            <string>&lt;b&gt;Always encrypt with default key&lt;/b&gt; This ensures all files/messages will also be encrypted with that key. (except if special key for file encryption is enabled)</string>
+                            <string>&lt;b&gt;Allow encryption with untrusted keys&lt;/b&gt;: when you import a public key, it is usually marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this box enables you to use any key, even if it has not be signed.</string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="3" column="0">
+                        <property name="name">
+                            <cstring>hide_2_2</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Hide user ID</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Hide user ID&lt;/b&gt; Do not put the keyid into encrypted packets. This option hides the receiver of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because all available secret keys are tried. </string>
+                        </property>
+                    </widget>
+                    <widget class="KComboBox" row="7" column="0">
+                        <property name="name">
+                            <cstring>defautkey_2_2</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>false</bool>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
                         </property>
                     </widget>
                     <widget class="QCheckBox" row="4" column="0">
@@ -165,50 +200,34 @@
                             </sizepolicy>
                         </property>
                     </widget>
-                    <widget class="KComboBox" row="7" column="0">
+                    <widget class="KLineEdit" row="9" column="0">
                         <property name="name">
-                            <cstring>defautkey_2_2</cstring>
+                            <cstring>kLEcustom</cstring>
                         </property>
                         <property name="enabled">
                             <bool>false</bool>
                         </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>7</hsizetype>
-                                <vsizetype>0</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
                     </widget>
-                    <widget class="QCheckBox" row="2" column="0">
+                    <widget class="QCheckBox" row="6" column="0">
                         <property name="name">
-                            <cstring>pgp_2_2</cstring>
+                            <cstring>defaut_2_2</cstring>
                         </property>
                         <property name="text">
-                            <string>PGP compatibility</string>
-                        </property>
-                    </widget>
-                    <widget class="QCheckBox" row="1" column="0">
-                        <property name="name">
-                            <cstring>untrusted_2_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Allow encryption with untrusted keys</string>
+                            <string>Always encrypt with default key</string>
                         </property>
                         <property name="whatsThis" stdset="0">
-                            <string>&lt;b&gt;Allow encryption with untrusted keys&lt;/b&gt;: when you import a public key, it is usually marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this box enables you to use any key, even if it has not be signed.</string>
+                            <string>&lt;b&gt;Always encrypt with default key&lt;/b&gt; This ensures all files/messages will also be encrypted with that key. (except if special key for file encryption is enabled)</string>
                         </property>
                     </widget>
-                    <widget class="QCheckBox" row="3" column="0">
+                    <widget class="QCheckBox" row="8" column="0">
                         <property name="name">
-                            <cstring>hide_2_2</cstring>
+                            <cstring>custom_2_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Hide user ID</string>
+                            <string>Enable custom command line input</string>
                         </property>
                         <property name="whatsThis" stdset="0">
-                            <string>&lt;b&gt;Hide user ID&lt;/b&gt; Do not put the keyid into encrypted packets. This option hides the receiver of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because all available secret keys are tried. </string>
+                            <string>&lt;b&gt;Always encrypt with default key&lt;/b&gt; This ensures all files/messages will also be encrypted with that key. (except if special key for file encryption is enabled)</string>
                         </property>
                     </widget>
                 </grid>
@@ -435,6 +454,12 @@ just click on reinstall</string>
         <receiver>Options</receiver>
         <slot>defaut_2_2_toggled(bool)</slot>
     </connection>
+    <connection>
+        <sender>custom_2_2</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>Options</receiver>
+        <slot>custom_2_2_toggled(bool)</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>buttonOk</tabstop>
@@ -458,11 +483,13 @@ just click on reinstall</string>
 <slots>
     <slot>file_2_2_toggled( bool ison )</slot>
     <slot>defaut_2_2_toggled( bool ison )</slot>
+    <slot>custom_2_2_toggled( bool ison )</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kcombobox.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>kcombobox.h</includehint>
     <includehint>kcombobox.h</includehint>
 </includehints>

@@ -81,7 +81,7 @@ commandLineMode=false;
   	if (opmode=="clipboardEnc")
 	{
 popupPublic *dialoguec=new popupPublic(this, "public_keys", 0,false);
-connect(dialoguec,SIGNAL(selectedKey(QString &,bool,bool,bool,bool,bool)),this,SLOT(encryptClipboard(QString &,bool,bool,bool)));
+connect(dialoguec,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(encryptClipboard(QString &,QString)));
 if (dialoguec->exec()==QDialog::Rejected ) exit(0);
 	}
 else if (!fileToOpen.filename().isEmpty())
@@ -93,11 +93,16 @@ else if (!fileToOpen.filename().isEmpty())
           if (!encryptfileto)
             {
               popupPublic *dialogue=new popupPublic(this,"public_keys",fileToOpen.filename(),true);
-              connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool,bool)),this,SLOT(fastencode(QString &,bool,bool,bool,bool,bool)));
+              connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(fastencode(QString &,QString,bool,bool)));
               if (dialogue->exec()==QDialog::Rejected ) exit(0);
             }
           else
-            fastencode(filekey,untrusted,ascii,hideid,false,false);
+		  {
+		  QString opts;
+		  	if (untrusted) opts=" --always-trust ";
+			if (ascii) opts+=" --armor ";
+            fastencode(filekey,opts,false,false);
+		  }
           return;
         }
       else if (opmode=="decrypt") fastdecode(true);  ///// user asked for decryption in command line arguments
@@ -112,16 +117,12 @@ KgpgApp::~KgpgApp()
 }
 
 
-void KgpgApp::encryptClipboard(QString &selec,bool utrust,bool,bool hideID)
+void KgpgApp::encryptClipboard(QString &selec,QString encryptOptions)
 {
-QString encryptOptions;
 QString clipContent=kapp->clipboard()->text();//=cb->text(QClipboard::Clipboard);   ///   QT 3.1 only
 
   if (clipContent)
   {
- 
-  if (utrust) encryptOptions+=" --always-trust ";
-  if (hideID) encryptOptions+=" --throw-keyid ";
   if (pgpcomp) encryptOptions+=" --pgp6 ";
   encryptOptions+=" --armor ";
     
@@ -632,7 +633,7 @@ void KgpgApp::slotEditPaste()
 }
 
 
-void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool hideID,bool shred,bool symetric)
+void KgpgApp::fastencode(QString &selec,QString encryptOptions,bool shred,bool symetric)
 {
   //////////////////              encode from file
   if ((selec==NULL) && (!symetric))
@@ -643,7 +644,7 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool hideID,bool sh
 
   KURL dest;
 
-  if (arm) dest.setPath(urlselected.path()+".asc");
+  if (encryptOptions.find("--armor")!=-1) dest.setPath(urlselected.path()+".asc");
   else dest.setPath(urlselected.path()+".gpg");
 
   QFile fgpg(dest.path());
@@ -656,14 +657,6 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool hideID,bool sh
       else
         return;
     }
-  QString encryptOptions="";
-
-  if (utrust)
-    encryptOptions+=" --always-trust ";
-  if (arm)
-    encryptOptions+=" --armor ";
-  if (hideID)
-    encryptOptions+=" --throw-keyid ";
   if (pgpcomp)
     encryptOptions+=" --pgp6 ";
   KgpgInterface *cryptFileProcess=new KgpgInterface();
@@ -863,12 +856,17 @@ void KgpgApp::slotFileEnc()
       if (!encryptfileto)
         {
           popupPublic *dialogue=new popupPublic(this,"Public keys",url.filename(),true);
-          connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool,bool)),this,SLOT(fastencode(QString &,bool,bool,bool,bool,bool)));
+          connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(fastencode(QString &,QString,bool,bool)));
           dialogue->exec();
           delete dialogue;
         }
       else
-        fastencode(filekey,untrusted,ascii,hideid,false,false);
+	  	{
+        	QString opts;
+		  	if (untrusted) opts=" --always-trust ";
+			if (ascii) opts+=" --armor ";
+            fastencode(filekey,opts,false,false);
+		}
     }
 }
 

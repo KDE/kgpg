@@ -20,4 +20,7 @@ defautkey_2_2->setEnabled(ison);
 }
 
 
-
+void KOptions::custom_2_2_toggled( bool ison)
+{
+kLEcustom->setEnabled(ison);
+}

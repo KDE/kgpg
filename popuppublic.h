@@ -43,16 +43,18 @@ public:
     QCheckBox *CBarmor,*CBuntrusted,*CBshred,*CBsymmetric,*CBhideid;
     bool fmode,encryptToDefault,trusted;
 
-    QPixmap keyPair,keySingle,dkeyPair,dkeySingle;
+    QPixmap keyPair,keySingle;
     QString seclist,defaultKey,defaultName;
+	QString customOptions;
 
 private:
     QPushButton *bouton0,*bouton1,*bouton2;
     KConfig *config;
-	bool displayMailFirst;
+	bool displayMailFirst,allowcustom;
 QButtonGroup *boutonboxoptions;
 
 private slots:
+void customOpts(const QString &);
 QString extractKeyName(QString fullName);
 void annule();
 void toggleOptions();
@@ -67,7 +69,7 @@ void sort();
 void enable();
 
 signals:
-    void selectedKey(QString &,bool,bool,bool,bool,bool);
+    void selectedKey(QString &,QString,bool,bool);
 
   };
 
