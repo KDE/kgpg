@@ -134,8 +134,8 @@ void KgpgApp::initActions()
         //KStdAction::configureToolbars(this, SLOT(slotConfigureToolbars()), actionCollection());
 
         fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
-        (void) new KAction(i18n("&Encrypt File..."), "kgpg", 0,this, SLOT(slotFilePreEnc()), actionCollection(),"file_encrypt");
-        (void) new KAction(i18n("&Decrypt File..."), "kgpg2", 0,this, SLOT(slotFilePreDec()), actionCollection(),"file_decrypt");
+        (void) new KAction(i18n("&Encrypt File..."), "encrypted", 0,this, SLOT(slotFilePreEnc()), actionCollection(),"file_encrypt");
+        (void) new KAction(i18n("&Decrypt File..."), "decrypted", 0,this, SLOT(slotFilePreDec()), actionCollection(),"file_decrypt");
 	(void) new KAction(i18n("&Open Key Manager"), "kgpg", 0,this, SLOT(slotKeyManager()), actionCollection(),"key_manage");
         editUndo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
         editRedo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());
@@ -212,7 +212,7 @@ void KgpgApp::slotFilePreEnc()
 	KURL::List urls=KFileDialog::getOpenURLs(QString::null,
                                          i18n("*|All Files"), this, i18n("Open File to Encode"));
         if (urls.isEmpty())
-                return;	
+                return;
 	emit encryptFiles(urls);
 }
 
