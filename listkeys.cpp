@@ -35,6 +35,7 @@
 #include <qpaintdevicemetrics.h>
 #include <qtooltip.h>
 #include <qheader.h>
+#include <qtoolbutton.h>
 
 
 #include <kio/netaccess.h>
@@ -50,7 +51,7 @@
 #include <kurldrag.h>
 #include <kwin.h>
 #include <dcopclient.h>
-
+#include <klistviewsearchline.h>
 
 #include <kabc/stdaddressbook.h>
 #include <kabc/addresseedialog.h>
@@ -485,7 +486,7 @@ void  KeyView::startDrag()
 listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterface" ), KMainWindow(parent, name,0)
 {
         //KWin::setType(Qt::WDestructiveClose);
-        kdDebug(2100) << "Starting building GUI"<<endl;
+        
         keysList2 = new KeyView(this);
         keysList2->photoKeysList=QString::null;
         keysList2->groupNb=0;
@@ -645,13 +646,18 @@ actionCollection());
         ///////////////    get all keys data
         createGUI("listkeys.rc");
         toolBar()->insertLineSeparator();
-        QLabel *searchLabel= new QLabel(i18n("Search: "),toolBar(),"kde toolbar widget");
+        QLabel *searchLabel= new QLabel(i18n("Search "),toolBar(),"kde toolbar widget");
 
-        toolBar()->insertWidget( KAction::getToolButtonID(), searchLabel->sizeHint().width(), searchLabel);
+	QPixmap clean;
+	clean=KGlobal::iconLoader()->loadIcon("locationbar_erase",KIcon::Toolbar);
+	int buttonClear;
+	buttonClear=toolBar()->insertButton(clean,0,true,i18n("Clear Search"));
+        toolBar()->insertWidget( 1, searchLabel->sizeHint().width(), searchLabel);
         searchWidget=toolBar()->insertLined(QString::null,0, SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)),true,i18n("Filter Search"),10);
 	
-	(void)new KAction(i18n("Filter Search"), Qt::Key_F6, toolBar()->getLined(toolBar()->idAt(searchWidget)), SLOT(setFocus()),
-                actionCollection(), "search_focus");
+	connect(toolBar(), SIGNAL(pressed(int)), this, SLOT(clearSearch(int)));
+	
+	(void)new KAction(i18n("Filter Search"), Qt::Key_F6, toolBar()->getLined(toolBar()->idAt(searchWidget)), SLOT(setFocus()),actionCollection(), "search_focus");
 
         sTrust->setChecked(KGpgSettings::showTrust());
         sSize->setChecked(KGpgSettings::showSize());
@@ -677,6 +683,11 @@ actionCollection());
 listKeys::~listKeys()
 {}
 
+void  listKeys::clearSearch(int code)
+{
+if (code==buttonClear)
+toolBar()->setLinedText(toolBar()->idAt(searchWidget),QString::null);
+}
 
 void  listKeys::slotOpenEditor()
 {

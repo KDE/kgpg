@@ -196,7 +196,7 @@ private:
         KAction *importSignatureKey,*importAllSignKeys,*signKey,*refreshKey;
         QPtrList<QListViewItem> signList,keysList;
         uint globalCount,keyCount;
-        int globalChecked,searchWidget;
+        int globalChecked,searchWidget,buttonClear;
         bool globalisLocal,showTipOfDay;
         QString globalkeyMail,globalkeyID,searchString;
         long searchOptions;
@@ -222,6 +222,7 @@ public slots:
         void slotSetDefaultKey(QString newID);
 
 private slots:
+	void  clearSearch(int code);
         void quitApp();
         void  slotOpenEditor();
         void keyFilter( const QString &filterStr);
