@@ -61,6 +61,7 @@
 #include "kgpgoptions.h"
 #include "keyservers.h"
 
+
 typedef struct gpgKey{
   QString gpgkeymail;
   QString gpgkeyname;
@@ -183,7 +184,9 @@ void deletekey();
 void deleteseckey();
 void signkey();
 void delsignkey();
-void importsignkey();
+void preimportsignkey();
+void importsignkey(QString importKeyId);
+void importallsignkey();
 void importfinished();
 void signatureResult(int);
 void delsignatureResult(bool);

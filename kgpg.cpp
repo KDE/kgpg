@@ -482,6 +482,7 @@ KgpgAppletApp::KgpgAppletApp()
 
 s_keyManager=new listKeys(0, "key_manager");
 //s_keyManager->show();
+s_keyManager->refreshkey();
 kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
 }
@@ -541,6 +542,7 @@ s_keyManager->show();
 KWin::setOnDesktop( s_keyManager->winId() , KWin::currentDesktop() );  //set on the current desktop
 KWin::deIconifyWindow( s_keyManager->winId());  //de-iconify window
 s_keyManager->raise();  // set on top
+s_keyManager->refreshkey();
 }
 else
 if (args->count()>0)

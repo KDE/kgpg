@@ -24,11 +24,20 @@
 
 class KDetailedConsole : public KDialogBase
   {
-    Q_OBJECT
 public:
 
     KDetailedConsole(QWidget *parent=0, const char *name=0,QString boxLabel="",QString errormessage="");
 	~KDetailedConsole();
+
+  };
+
+
+class KDetailedInfo : public KDialogBase
+  {
+public:
+
+  KDetailedInfo(QWidget *parent=0, const char *name=0,QString boxLabel="",QString errormessage="");
+~KDetailedInfo();
 
   };
 

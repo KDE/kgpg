@@ -55,7 +55,7 @@
                 <string></string>
             </property>
             <property name="autoDefault">
-                <bool>true</bool>
+                <bool>false</bool>
             </property>
         </widget>
         <widget class="KLineEdit" row="1" column="1">
@@ -98,6 +98,12 @@
 </widget>
 <toolbars>
 </toolbars>
+<tabstops>
+    <tabstop>kLVsearch</tabstop>
+    <tabstop>kLEID</tabstop>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+</tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>

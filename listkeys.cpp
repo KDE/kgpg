@@ -599,7 +599,8 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   KAction *infoKey = new KAction(i18n("&Key Info"), "kgpg_info", Qt::Key_Return,this, SLOT(listsigns()),actionCollection(),"key_info");
   KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", KStdAccel::shortcut(KStdAccel::Paste),this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
   KAction *setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
-KAction *importSignKey = new KAction(i18n("Import Key from Keyserver"),0, 0,this, SLOT(importsignkey()),actionCollection(),"key_importsign");
+KAction *importSignKey = new KAction(i18n("Import Key from Keyserver"),0, 0,this, SLOT(preimportsignkey()),actionCollection(),"key_importsign");
+KAction *importAllSignKeys = new KAction(i18n("Import Missing Signatures from Keyserver"),0, 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
 
   KStdAction::quit(this, SLOT(annule()), actionCollection());
   (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
@@ -642,6 +643,8 @@ KAction *importSignKey = new KAction(i18n("Import Key from Keyserver"),0, 0,this
   infoKey->plug(popup);
   editKey->plug(popup);
   setDefaultKey->plug(popup);
+  popup->insertSeparator();
+  importAllSignKeys->plug(popup);
 
   popupsec=new QPopupMenu();
   exportPublicKey->plug(popupsec);
@@ -681,7 +684,6 @@ KAction *importSignKey = new KAction(i18n("Import Key from Keyserver"),0, 0,this
 
 
   ///////////////    get all keys data
-  refreshkey();
   createGUI("listkeys.rc");
   if (!configshowToolBar) toolBar()->hide();
   togglePhoto->setChecked(showPhoto);
@@ -1094,13 +1096,35 @@ void listKeys::signatureResult(int success)
 }
 
 
-void listKeys::importsignkey()
+void listKeys::importallsignkey()
 {
-  ///////////////  sign a key
   if (keysList2->currentItem()==NULL)
     return;
+QString missingKeysList;
+	QListViewItem *current = keysList2->currentItem()->firstChild();
+if (current==NULL) return;
+        while ( current->nextSibling() )
+	{
+if (current->text(0).find(i18n("[User id not found]"))!=-1)
+missingKeysList+=current->text(5)+" ";
+current = current->nextSibling();
+	}
+importsignkey(missingKeysList);
+}
+
+
+void listKeys::preimportsignkey()
+{
+  if (keysList2->currentItem()==NULL)
+    return;
+else importsignkey(keysList2->currentItem()->text(5));
+}
+
+void listKeys::importsignkey(QString importKeyId)
+{
+  ///////////////  sign a key
 kServer=new keyServer(0,"server_dialog",false,WDestructiveClose);
-kServer->kLEimportid->setText(keysList2->currentItem()->text(5));
+kServer->kLEimportid->setText(importKeyId);
 //kServer->Buttonimport->setDefault(true);
 kServer->slotImport();
 //kServer->show();

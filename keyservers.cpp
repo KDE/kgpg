@@ -163,12 +163,15 @@ sBar->show();
 			  listpop->show();
 connect(listpop->kLVsearch,SIGNAL(selectionChanged()),this,SLOT(transferKeyID()));
 connect(listpop->buttonOk,SIGNAL(clicked()),this,SLOT(preimport()));
-connect(listpop->buttonCancel,SIGNAL(clicked()),this,SLOT(abortSearch()));
+connect(listpop->kLVsearch,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(preimport()));
+connect(listpop->kLVsearch,SIGNAL(returnPressed ( QListViewItem * )),this,SLOT(preimport()));
+
+connect(listpop->buttonCancel,SIGNAL(clicked()),this,SLOT(handleQuit()));
 connect( listpop , SIGNAL( destroyed() ) , this, SLOT( abortSearch()));
 count=0;
 cycle=false;
 readmessage="";
-searchproc=new KProcIO();
+KProcIO *searchproc=new KProcIO();
 QString keyserv=kCBimportks->currentText();
       *searchproc<<"gpg";
 if (cBproxyI->isChecked())
@@ -180,40 +183,36 @@ else *searchproc<<	"--keyserver-options"<<"no-honor-http-proxy";
 *searchproc<<"--keyserver"<<keyserv<<"--command-fd=0"<<"--status-fd=2"<<"--search-keys"<<kLEimportid->text().stripWhiteSpace().local8Bit();
 
    keyNumbers=0;
-   /*
-	  importpop = new QDialog( this,0,true);
-              QVBoxLayout *vbox=new QVBoxLayout(importpop,3);
-              QLabel *tex=new QLabel(importpop);
-              tex->setText(i18n("<b>Connecting to the server...</b>"));
-			  QPushButton *Buttonabort=new QPushButton(i18n("&Abort"),importpop);
-              vbox->addWidget(tex);
-			  vbox->addWidget(Buttonabort);
-              importpop->setMinimumWidth(250);
-              importpop->adjustSize();
-			  importpop->show();
-connect(Buttonabort,SIGNAL(clicked()),this,SLOT(abortSearch()));
-*/
 	  QObject::connect(searchproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotsearchresult(KProcess *)));
       QObject::connect(searchproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotsearchread(KProcIO *)));
       searchproc->start(KProcess::NotifyOnExit,true);
 }
 
+void keyServer::handleQuit()
+{
+listpop->close();
+}
+
+
 void keyServer::abortSearch()
 {
-//delete importpop;
-if (searchproc) delete searchproc;
+if (listpop)
+{
 delete listpop;
+listpop=0L;
+}
 }
 
 void keyServer::preimport()
 {
+transferKeyID();
 if (listpop->kLEID->text().isEmpty())
 {
 KMessageBox::sorry(this,i18n("You must choose a key."));
 return;
 }
 kLEimportid->setText(listpop->kLEID->text());
-delete listpop;
+listpop->close();
 slotImport();
 }
 
@@ -232,7 +231,6 @@ listpop->kLEID->setText(kid);
 
 void keyServer::slotsearchresult(KProcess *)
 {
-delete importpop;
 QString nb;
 nb=nb.setNum(keyNumbers);
 //listpop->kLVsearch->setColumnText(0,i18n("Found %1 matching keys").arg(nb));
@@ -254,9 +252,9 @@ while (p->readln(required,true)!=-1)
 
 if (required.find("keysearch.prompt")!=-1)
  {
- if (count<4) 
+ if (count<4)
  p->writeStdin("N");
- else 
+ else
  {
 p->writeStdin("Q");
 p->closeWhenDone();
@@ -347,7 +345,18 @@ importproc->setEnvironment("http_proxy",kLEproxyI->text());
 }
 else *importproc<<	"--keyserver-options"<<"no-honor-http-proxy";
 
-*importproc<<"--recv-keys"<<"--keyserver"<<keyserv<<kLEimportid->text().local8Bit();
+*importproc<<"--status-fd=2"<<"--keyserver"<<keyserv<<"--recv-keys";
+QString keyNames=kLEimportid->text();
+keyNames=keyNames.stripWhiteSpace();
+  keyNames=keyNames.simplifyWhiteSpace();
+      while (!keyNames.isEmpty())
+        {
+          QString fkeyNames=keyNames.section(' ',0,0);
+          keyNames.remove(0,fkeyNames.length());
+          keyNames=keyNames.stripWhiteSpace();
+          *importproc<<QFile::encodeName(fkeyNames);
+        }
+
 
 	  QObject::connect(importproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotimportresult(KProcess *)));
       QObject::connect(importproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotimportread(KProcIO *)));
@@ -375,7 +384,27 @@ if (importproc) delete importproc;
 
 void keyServer::slotimportresult(KProcess*)
 {
-KMessageBox::information(this,readmessage);
+QString importedNb,importedNbSucess,importedNbProcess,resultMessage,importedKeys, parsedOutput;
+parsedOutput=readmessage;
+
+while (parsedOutput.find("IMPORTED")!=-1)
+{
+parsedOutput.remove(0,parsedOutput.find("IMPORTED")+8);
+importedKeys+=parsedOutput.section("\n",0,0).stripWhiteSpace().replace(QRegExp("<"),"&lt;")+"<br>";
+}
+
+if (readmessage.find("IMPORT_RES")!=-1)
+{
+importedNb=readmessage.section("IMPORT_RES",-1,-1);
+importedNb=importedNb.stripWhiteSpace();
+importedNbProcess=importedNb.section(" ",0,0);
+importedNbSucess=importedNb.section(" ",2,2);
+resultMessage=i18n("<qt>%1 key(s) processed. %2 key(s) imported.<br><b>%3</b></qt>").arg(importedNbProcess).arg(importedNbSucess).arg(importedKeys.left(600));
+}
+else resultMessage=i18n("No key imported... \nCheck detailed log for more infos");
+KDetailedInfo *m_box=new KDetailedInfo(0,"import_result",resultMessage,readmessage);
+if (importpop) importpop->hide();
+m_box->exec();
 if (importpop) delete importpop;
 }
 
@@ -405,17 +434,17 @@ QListViewItem *firstserver = kLVservers->firstChild();
 
 void keyServer::slotEditServer()
 {
-KDialogBase *importpop = new KDialogBase(this, "urldialog", true, i18n("Edit Keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
-              QWidget *page = new QWidget(importpop);
+KDialogBase *serverEdit = new KDialogBase(this, "urldialog", true, i18n("Edit Keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
+              QWidget *page = new QWidget(serverEdit);
 			  QHBoxLayout *vbox=new QHBoxLayout(page,3);
               KLineEdit *lined=new KLineEdit(page);
 			  vbox->addWidget(lined);
-			  importpop->setMainWidget(page);
+			  serverEdit->setMainWidget(page);
 			  page->setMinimumSize(250,50);
 			  lined->setFocus();
 			  lined->setText(kLVservers->currentItem()->text(0));
 			  page->show();
-if ((importpop->exec()==QDialog::Accepted) && (!lined->text().stripWhiteSpace().isEmpty()))
+if ((serverEdit->exec()==QDialog::Accepted) && (!lined->text().stripWhiteSpace().isEmpty()))
 {
 kLVservers->currentItem()->setText(0,lined->text());
 syncCombobox();
@@ -425,8 +454,8 @@ syncCombobox();
 
 void keyServer::slotAddServer()
 {
-KDialogBase *importpop = new KDialogBase(this, "urldialog", true, i18n("Add Keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
-              QWidget *page = new QWidget(importpop);
+KDialogBase *serverAdd = new KDialogBase(this, "urldialog", true, i18n("Add Keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
+              QWidget *page = new QWidget(serverAdd);
 			  QHBoxLayout *vbox=new QHBoxLayout(page,3);
               KComboBox *protocol=new KComboBox(page);
 			  protocol->insertItem("hkp://");
@@ -435,11 +464,11 @@ KDialogBase *importpop = new KDialogBase(this, "urldialog", true, i18n("Add Keys
               KLineEdit *lined=new KLineEdit(page);
               vbox->addWidget(protocol);
 			  vbox->addWidget(lined);
-			  importpop->setMainWidget(page);
+			  serverAdd->setMainWidget(page);
 			  page->setMinimumSize(300,50);
 			  lined->setFocus();
 			  page->show();
-if ((importpop->exec()==QDialog::Accepted) && (!lined->text().stripWhiteSpace().isEmpty()))
+if ((serverAdd->exec()==QDialog::Accepted) && (!lined->text().stripWhiteSpace().isEmpty()))
 {
 (void) new KListViewItem(kLVservers,QString(protocol->currentText()+lined->text()));
 syncCombobox();

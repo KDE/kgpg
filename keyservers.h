@@ -27,6 +27,8 @@
 #include <qbuttongroup.h>
 #include <qhbuttongroup.h>
 #include <qvbuttongroup.h>
+#include <qregexp.h>
+#include <qfile.h>
 
 #include <kdialogbase.h>
 #include <klocale.h>
@@ -40,6 +42,7 @@
 
 #include "keyserver.h"
 #include "searchres.h"
+#include "detailedconsole.h"
 
 class keyServer : public Keyserver
 {
@@ -47,8 +50,8 @@ class keyServer : public Keyserver
   public:
  keyServer(QWidget *parent=0, const char *name=0,bool modal=false, WFlags f = 0);
  ~keyServer();
+  QDialog *importpop;
 
- QDialog *importpop;
 
  public slots:
  void abortImport();
@@ -71,12 +74,14 @@ void preimport();
 void slotsearchresult(KProcess *);
 void slotEnableProxyI(bool on);
 void slotEnableProxyE(bool on);
+void handleQuit();
 
    private:
+
   KConfig *config;
   uint keyNumbers;
   QString readmessage;
-  KProcIO *importproc,*searchproc;
+  KProcIO *importproc;
 
   KeyServer *listpop;
   QStatusBar *sBar;
