@@ -128,7 +128,7 @@ it in the Key Manager->Keys menu->Generate Key Pair.
 </screenshot>
 
 <para>
-Simply enter your name, E-Mail adress and click ok. This will generate a standard gpg key. If you want more 
+Simply enter your name, Email address and click ok. This will generate a standard gpg key. If you want more 
 options, you can click on the Expert mode button, which will bring up a konsole window with all of gpg's options.
 </para>
 
