@@ -40,7 +40,7 @@ static KCmdLineOptions options[] =
                 { "V", I18N_NOOP("Verify signature"), 0 },
                 { "X", I18N_NOOP("Shred file"), 0 },
                 { "+[File]", I18N_NOOP("File to open"), 0 },
-                { 0, 0, 0}
+                KCmdLineLastOption
                 // INSERT YOUR COMMANDLINE OPTIONS HERE
         };
 
