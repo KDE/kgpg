@@ -300,18 +300,19 @@ void KgpgView::clearSign()
                 }
                 delete opts;
                 /////////////////////  get passphrase
-                int code=KPasswordDialog::getPassword(password,i18n("Enter passphrase for <b>%1</b>:").arg(signKeyMail.replace(QRegExp("<"),"&lt;")));
-                ///////////////////   ask for password
-                if (code!=QDialog::Accepted)
-                        return;
+                if (!getenv("GPG_AGENT_INFO")) {
+                        int code=KPasswordDialog::getPassword(password,i18n("Enter passphrase for <b>%1</b>:").arg(signKeyMail.replace(QRegExp("<"),"&lt;")));
+                        ///////////////////   ask for password
+                        if (code!=QDialog::Accepted)
+                                return;
 
-                ///////////////////   pipe passphrase
-                pipe(ppass);
-                pass = fdopen(ppass[1], "w");
-                fwrite(password, sizeof(char), strlen(password), pass);
-                //        fwrite("\n", sizeof(char), 1, pass);
-                fclose(pass);
-
+                        ///////////////////   pipe passphrase
+                        pipe(ppass);
+                        pass = fdopen(ppass[1], "w");
+                        fwrite(password, sizeof(char), strlen(password), pass);
+                        //        fwrite("\n", sizeof(char), 1, pass);
+                        fclose(pass);
+                }
                 ///////////////////  generate gpg command
                 QString line="echo ";
 
@@ -321,10 +322,12 @@ void KgpgView::clearSign()
                 line+=" | gpg ";
                 if (pubpgp)
                         line+="--pgp6 ";
-                line+="--passphrase-fd ";
-                QString fd;
-                fd.setNum(ppass[0]);
-                line+=fd;
+                if (!getenv("GPG_AGENT_INFO")) {
+                        line+="--passphrase-fd ";
+                        QString fd;
+                        fd.setNum(ppass[0]);
+                        line+=fd;
+                }
                 line+=" --no-tty --clearsign -u ";
                 line+=KShellProcess::quote(signKeyID);
                 //KMessageBox::sorry(0,QString(line));
