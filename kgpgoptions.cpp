@@ -140,6 +140,8 @@ void kgpgOptions::slotOk()
   config->writeEntry("encrypt files to",file_2_2->isChecked());
   config->writeEntry("file key",filekey_2_2->currentText());
   config->writeEntry("display mail first",cbMailFirst->isChecked());
+  config->writeEntry("gpg version",0);
+  
   config->sync();
 }
 
