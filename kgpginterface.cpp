@@ -500,6 +500,8 @@ void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyM
 {
 if (checkuid(keyID)>0){KMessageBox::sorry(0,i18n("This key has more than one user id...\nEdit the key manually to sign it."));return;}
 sent=false;
+message="sign";
+if (local==true) message="lsign";
 int code=KPasswordDialog::getPassword(passphrase,i18n("Enter passphrase for %1:").arg(signKeyMail));
       if (code!=QDialog::Accepted)
         return;
@@ -525,7 +527,7 @@ readResult=required;
 //p->readln(required);
 //KMessageBox::sorry(0,readResult);
 //required=QString(buf).left(buflen);
- if ((sent==false) && (readResult.find("keyedit.prompt")!=-1)) {p->writeStdin("sign");cmd=true;}
+ if ((sent==false) && (readResult.find("keyedit.prompt")!=-1)) {p->writeStdin(message);cmd=true;}
  if (readResult.find("sign_uid.class")!=-1) {p->writeStdin("");cmd=true;}
  if (readResult.find("sign_uid.okay")!=-1) {p->writeStdin("Y");cmd=true;}
  if (readResult.find("passphrase.enter")!=-1) {p->writeStdin(QString(passphrase));passphrase="xxxxxxxxxxxxxx";cmd=true;sent=true;}
