@@ -522,7 +522,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         keysList2 = new KeyView(this);
         keysList2->photoKeysList=QString::null;
         keysList2->groupNb=0;
-
+	keyStatusBar=NULL;
         readOptions();
 
         if (showTipOfDay)
