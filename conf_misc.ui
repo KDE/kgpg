@@ -127,9 +127,9 @@
                                     <cstring>textLabel6</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>KGpg allows you to create a Shredder on your Desktop. 
-It will shred (overwrite several times before erasing) the 
-files you drop on it, making it almost impossible to recover 
+                                    <string>KGpg allows you to create a shredder on your desktop.
+It will shred (overwrite several times before erasing) the
+files you drop on it, making it almost impossible to recover
 the original file.</string>
                                 </property>
                                 <property name="alignment">
