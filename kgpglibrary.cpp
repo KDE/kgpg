@@ -32,6 +32,7 @@ KgpgLibrary::KgpgLibrary(bool pgpExtension)
                 extension=".pgp";
         else
                 extension=".gpg";
+	popIsActive=false;
 }
 
 KgpgLibrary::~KgpgLibrary()
@@ -57,7 +58,9 @@ void KgpgLibrary::slotFileEnc(KURL::List urls,QStringList opts,QString defaultKe
 
 void KgpgLibrary::startencode(QStringList encryptKeys,QStringList encryptOptions,bool shred,bool symetric)
 {
+	popIsActive=false;
         KURL::List::iterator it;
+	filesToEncode=urlselecteds.count();
         for ( it = urlselecteds.begin(); it != urlselecteds.end(); ++it )
                 fastencode(*it,encryptKeys,encryptOptions,shred,symetric);
 }
@@ -91,9 +94,14 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
         }
 
         KgpgInterface *cryptFileProcess=new KgpgInterface();
+	
 	pop = new KPassivePopup();
         cryptFileProcess->KgpgEncryptFile(selec,urlselected,dest,encryptOptions,symetric);
-        connect(cryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup2()));
+        if (!popIsActive) 
+	{
+	connect(cryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup2()));
+	popIsActive=true;	
+	}
         if (shred)
                 connect(cryptFileProcess,SIGNAL(encryptionfinished(KURL)),this,SLOT(shredpreprocessenc(KURL)));
         else
@@ -103,7 +111,6 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
 
 void KgpgLibrary::processpopup2()
 {
-        
 	pop->setTimeout(0);
         pop->setView(i18n("Processing encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
         pop->show();
@@ -111,14 +118,14 @@ void KgpgLibrary::processpopup2()
         int iXpos=qRect.width()/2-pop->width()/2;
         int iYpos=qRect.height()/2-pop->height()/2;
         pop->move(iXpos,iYpos);
-
 }
 
 void KgpgLibrary::shredpreprocessenc(KURL fileToShred)
 {
-	delete pop;
-	pop=0L;		
-shredprocessenc(fileToShred);
+	filesToEncode--;
+	if (filesToEncode==0) delete pop;
+	popIsActive=false;
+	shredprocessenc(fileToShred);
 }
 
 void KgpgLibrary::shredprocessenc(KURL fileToShred)
@@ -157,15 +164,16 @@ shredProgressBar->setProgress((int) shredSize);
 
 void KgpgLibrary::processenc(KURL)
 {
-        delete pop;
-	pop=0L;
+	filesToEncode--;
+	if (filesToEncode==0) delete pop;
+	popIsActive=false;
 }
 
 void KgpgLibrary::processencerror(QString mssge)
 {
-        delete pop;
-	pop=0L;
-        KMessageBox::detailedSorry(0,i18n("Encryption failed."),mssge);
+	filesToEncode--;
+	if (filesToEncode==0) delete pop;
+	popIsActive=false;        KMessageBox::detailedSorry(0,i18n("Encryption failed."),mssge);
 }
 
 
