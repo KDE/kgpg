@@ -118,15 +118,11 @@ KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0,
 
 KgpgApp::~KgpgApp()
 {
-  exit(1);
 }
 
 void KgpgApp::slotman()
 {
-
-  KProcess *conprocess=new KProcess();
-  *conprocess<< "konsole"<<"-e"<<"man"<<"gpg";
-  conprocess->start(KProcess::NotifyOnExit,KProcess::AllOutput);
+   kapp->startServiceByDesktopName("khelpcenter", QString("man:/gpg"), 0, 0, 0, "", true);
 }
 
 void KgpgApp::slotTip()
