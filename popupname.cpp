@@ -30,7 +30,7 @@
 
 ////////////////////   main window
 
-popupName::popupName(const QString& caption, QWidget *parent, const char *name,KURL oldnam,bool email):KDialogBase( parent, name, true, caption,Ok | Cancel)
+popupName::popupName(const QString& caption,QWidget *parent, const char *name,KURL oldnam,bool email):KDialogBase( parent, name, true,name,Ok | Cancel)
 {
   resize( 350, 180 );
 
@@ -38,6 +38,8 @@ popupName::popupName(const QString& caption, QWidget *parent, const char *name,K
   setMinimumSize( QSize( 350, 180 ) );
   setMaximumSize( QSize( 350, 180 ) );
   QWidget *page = new QWidget(this);
+  QVBoxLayout *vbox=new QVBoxLayout(page,2);
+
   bGroupSources = new QButtonGroup( page, "bGroupSources" );
   bGroupSources->setGeometry( QRect( 0, 0, 325, 120 ) );
   bGroupSources->setTitle(caption);
@@ -55,6 +57,7 @@ popupName::popupName(const QString& caption, QWidget *parent, const char *name,K
   choix1->setText( i18n( "Clipboard" ) );
   choix2 = new QRadioButton( bGroupSources, "choix2" );
   choix2->setText( i18n( "E-Mail" ) );
+  exportAttributes = new QCheckBox(i18n("Export attributes (photo ID)"),page);
   }
   else choix1->setText( i18n( "Editor" ) );
 
@@ -92,6 +95,8 @@ popupName::popupName(const QString& caption, QWidget *parent, const char *name,K
   setTabOrder( lineedit, buttonToolbar );
   setTabOrder( buttonToolbar, choix0 );
   setTabOrder( choix0, choix1 );
+  vbox->add(bGroupSources);
+  vbox->add(exportAttributes);
   page->show();
   page->resize(page->maximumSize());
   setMainWidget(page);
@@ -128,4 +133,4 @@ QString popupName::getfname()
   return(lineedit->text());
 }
 //#include "popupname.moc"
-#include "popupname.moc"
+//#include "popupname.moc"
