@@ -901,9 +901,8 @@ QString key=keysList2->currentItem()->text(0);
   
   popupName *dial=new popupName(i18n("Export public key to"),this, "export_key", u,true);
   dial->exportAttributes->setChecked(true);
-  dial->exec();
 
-  if (dial->result())
+  if (dial->exec()==QDialog::Accepted)
     {
       ////////////////////////// export to file
       QString expname;
@@ -1007,8 +1006,7 @@ void listKeys::signkey()
   //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
   KgpgSelKey *opts=new KgpgSelKey(this);
 
-  opts->exec();
-  if (opts->result()==true)
+  if (opts->exec()==QDialog::Accepted)
     {
       keyID=QString(opts->getkeyID());
       keyMail=QString(opts->getkeyMail());

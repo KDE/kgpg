@@ -342,8 +342,8 @@ void KgpgView::clearSign()
         ///// open key selection dialog
         KgpgSelKey *opts=new KgpgSelKey(this,0,false);
 
-        opts->exec();
-        if (opts->result()==true) {signKeyID=opts->getkeyID();signKeyMail=opts->getkeyMail();}
+        
+        if (opts->exec()==QDialog::Accepted) {signKeyID=opts->getkeyID();signKeyMail=opts->getkeyMail();}
         else
         {
             delete opts;

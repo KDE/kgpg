@@ -468,8 +468,7 @@ void KgpgApp::slotSignFile(KURL url)
     {
       //////////////////   select a private key to sign file --> listkeys.cpp
 	  KgpgSelKey *opts=new KgpgSelKey(this,"select_secret",false);
-      opts->exec();
-      if (opts->result())
+      if (opts->exec()==QDialog::Accepted)
         {
           signKeyID=opts->getkeyID();
           signKeyMail=opts->getkeyMail();
@@ -707,8 +706,7 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool shred,bool sym
   if (fgpg.exists())
     {
       KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",dest);
-      over->exec();
-      if (over->result())
+      if (over->exec()==QDialog::Accepted)
         dest.setFileName(over->getfname());
       else
         return;
@@ -798,11 +796,10 @@ void KgpgApp::slotprocresult(KProcess *)
   else oldname.append(".clear");
   KURL swapname(urlselected.directory(0,0)+oldname);
 
-  if (fastact==false)
+  if (!fastact)
     {
       popupName *popn=new popupName(i18n("Decryption to"), this, "decryption to", swapname);
-      popn->exec();
-      if (popn->result()==true)
+      if (popn->exec()==QDialog::Accepted)
         {
           if (popn->checkFile->isChecked())
             newname=popn->newFilename->text();
@@ -810,9 +807,7 @@ void KgpgApp::slotprocresult(KProcess *)
             newname="";
           //ascii=popn->getascii();
         }
-
-      else
-        return;
+      else {delete popn;return;}
       delete popn;
     }
   else
@@ -826,37 +821,31 @@ void KgpgApp::slotprocresult(KProcess *)
       if (fgpg.exists())
         {
           KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",KURL(newname));
-          over->exec();
-          if (over->result()==true)
+          if (over->exec()==QDialog::Accepted)
             {
-              if (fastact==true)
+              if (fastact)
                 newname=swapname.directory(0,0)+over->getfname();
               else
                 newname=KURL(newname).directory(0,0)+over->getfname();
             }
           else
             {
-              if (fastact==true)
-                exit(1);
+              if (fastact) exit(1);
               else
                 return;
             }
         }
     }
-  /*
-  QFile fgpg(newname);
-  if (fgpg.exists())
-    fgpg.remove();
-*/
+  
   KgpgInterface *decryptFileProcess=new KgpgInterface();
   int decresult=0;
   decpassuid=messages;
   decpasssrc=urlselected;
-  if (newname!="") ////////////////////   decrypt to file
+  if (!newname.isEmpty()) ////////////////////   decrypt to file
   {
   decpassdest=KURL(newname);
   decresult=decryptFileProcess->KgpgDecryptFile(decpassuid,decpasssrc,decpassdest);
-  if (decresult==0) {if (fastact==true) kapp->exit(0); else return;}
+  if (decresult==0) {if (fastact) kapp->exit(0); else return;}
   connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
   connect(decryptFileProcess,SIGNAL(badpassphrase(bool)),this,SLOT(processdec(bool)));
   }
@@ -865,11 +854,11 @@ void KgpgApp::slotprocresult(KProcess *)
 
 void KgpgApp::processdecover(bool res)
 {
-  if ((res==true) && (fastact==true)) kapp->exit(0);
+  if ((res) && (fastact)) kapp->exit(0);
   if (res==false)
   {
   KMessageBox::sorry(0,i18n("Decryption failed..."));
-  if (fastact==true) kapp->exit(0);
+  if (fastact) kapp->exit(0);
   }
 }
 
@@ -882,7 +871,7 @@ void KgpgApp::processdec(bool res)
    KgpgInterface *decryptFileProcess=new KgpgInterface();
   int decresult=0;
   decresult=decryptFileProcess->KgpgDecryptFile(decpassuid,decpasssrc,decpassdest,2);
-  if (decresult==0) {if (fastact==true) kapp->exit(0); else return;}
+  if (decresult==0) {if (fastact) kapp->exit(0); else return;}
   connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
   connect(decryptFileProcess,SIGNAL(badpassphrase(bool)),this,SLOT(processdec2(bool)));
  }
@@ -896,7 +885,7 @@ void KgpgApp::processdec2(bool res)
    KgpgInterface *decryptFileProcess=new KgpgInterface();
   int decresult=0;
   decresult=decryptFileProcess->KgpgDecryptFile(decpassuid,decpasssrc,decpassdest,1);
-  if (decresult==0) {if (fastact==true) kapp->exit(0); else return;}
+  if (decresult==0) {if (fastact) kapp->exit(0); else return;}
   connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
   connect(decryptFileProcess,SIGNAL(badpassphrase(bool)),this,SLOT(processdecover(bool)));
  }
