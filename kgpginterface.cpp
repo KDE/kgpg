@@ -1205,6 +1205,7 @@ void KgpgInterface::importover(KProcess *)
 {
 QStringList importedKeysIds;
 QString resultMessage;
+bool secretImport=false;
 kdDebug()<<"Importing is over"<<endl;
         QString parsedOutput=message;
         QStringList importedKeys;
@@ -1235,7 +1236,10 @@ kdDebug()<<"Importing is over"<<endl;
                 if (messageList[8]!="0")
                         resultMessage+=i18n("<qt>%1 revocation certificate(s) imported.<br></qt>").arg(messageList[8]);
                 if (messageList[9]!="0")
+			{
                         resultMessage+=i18n("<qt>%1 secret key(s) processed.<br></qt>").arg(messageList[9]);
+			secretImport=true;
+			}
                 if (messageList[10]!="0")
                         resultMessage+=i18n("<qt><b>%1 secret key(s) imported.</b><br></qt>").arg(messageList[10]);
                 if (messageList[11]!="0")
@@ -1244,6 +1248,10 @@ kdDebug()<<"Importing is over"<<endl;
                         resultMessage+=i18n("<qt>%1 secret key(s) not imported.<br></qt>").arg(messageList[12]);
                 if (messageList[2]!="0")
                         resultMessage+=i18n("<qt><b>%1 key(s) imported:</b><br></qt>").arg(messageList[2]);
+			
+		if (secretImport) resultMessage+=i18n("<qt><br><b>You have imported a secret key.</b> <br>"
+									"Please note that imported secret keys are not trusted by default.<br>"
+									"To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</qt>");
         } else
                 resultMessage=i18n("No key imported... \nCheck detailed log for more infos");
         KDetailedInfo *m_box=new KDetailedInfo(0,"import_result",resultMessage,message,importedKeys);
@@ -1857,7 +1865,7 @@ QString KgpgInterface::checkForUtf8(QString txt)
         /* Make sure the encoding is UTF-8.
          * Test structure suggested by Werner Koch */
         if (txt.isEmpty())
-                return "";
+                return QString::null;
 
         for (s = txt.ascii(); *s && !(*s & 0x80); s++)
                 ;

@@ -50,26 +50,25 @@ KDetailedConsole::~KDetailedConsole()
 {}
 
 KDetailedInfo::KDetailedInfo(QWidget *parent, const char *name , const QString &boxLabel,const QString &errormessage,QStringList keysList)
-    : KDialogBase(parent,name,true,i18n("Info"),KDialogBase::Details|KDialogBase::Ok)
+    : KDialogBase(Plain, i18n("Info"),KDialogBase::Details|KDialogBase::Ok, KDialogBase::Ok,parent,name,true)
 {
-        QWidget *page = new QWidget( this );
-
+	QWidget *page = plainPage();
+	setMainWidget(page);
         QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
+	topLayout->setAutoAdd(true);
 
         QLabel *label = new QLabel( boxLabel, page, "caption" );
 	KListBox *list=new KListBox(page);
 	list->insertStringList(keysList);
 
-        topLayout->addWidget( label );
-	topLayout->addWidget( list );
+
 	if (keysList.isEmpty()) list->hide();
 
         QVGroupBox *detailsGroup = new QVGroupBox( i18n("Details"), this);
         QLabel *labdetails = new QLabel(errormessage,detailsGroup);
         labdetails->setMinimumSize(labdetails->sizeHint());
         setDetailsWidget(detailsGroup);
-
-	setMainWidget(page);
+	show();
 }
 
 KDetailedInfo::~KDetailedInfo()
