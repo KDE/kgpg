@@ -441,7 +441,7 @@ void  MyView::slotSaveOptionsPath()
                         configl2.setGroup("Desktop Entry");
                         configl2.writeEntry("Type", "Application");
                         configl2.writeEntry("Name",i18n("Shredder"));
-                        configl2.writeEntry("Icon",i18n("shredder.png"));
+                        configl2.writeEntry("Icon","shredder");
                         configl2.writeEntry("Exec","kgpg -X %U");
                 }
         }
