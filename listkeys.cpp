@@ -142,9 +142,9 @@ void SmallViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, int
 
 
 ////////  window for the key info dialog
-KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,QColor pix,bool editable):KeyProperties( parent, name)
+KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,bool editable):KeyProperties( parent, name)
 {
-
+	QColor pix;
         QString message,fingervalue;
         FILE *pass;
         char line[200]="";
@@ -181,41 +181,53 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,QColor
                                 break;
                         }
 
+
                         const QString trust=opt.section(':',1,1);
                         QString tr;
                         switch( trust[0] ) {
                         case 'o':
                                 tr= i18n("Unknown");
+				pix.setRgb(255,255,255);
                                 break;
                         case 'i':
                                 tr= i18n("Invalid");
+				pix.setRgb(172,0,0);
                                 break;
                         case 'd':
                                 tr=i18n("Disabled");
+				pix.setRgb(172,0,0);
                                 break;
                         case 'r':
                                 tr=i18n("Revoked");
+				pix.setRgb(172,0,0);
                                 break;
                         case 'e':
                                 tr=i18n("Expired");
+				pix.setRgb(172,0,0);
                                 break;
                         case 'q':
                                 tr=i18n("Undefined");
+				pix.setRgb(255,255,255);
                                 break;
                         case 'n':
                                 tr=i18n("None");
+				pix.setRgb(255,255,255);
                                 break;
                         case 'm':
                                 tr=i18n("Marginal");
+				pix.setRgb(172,0,0);
                                 break;
                         case 'f':
                                 tr=i18n("Full");
+				pix.setRgb(148,255,0);
                                 break;
                         case 'u':
                                 tr=i18n("Ultimate");
+				pix.setRgb(148,255,0);
                                 break;
                         default:
                                 tr="?";
+				pix.setRgb(255,255,255);
                                 break;
                         }
 
@@ -634,7 +646,8 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         importSignatureKey = new KAction(i18n("Import Key From Keyserver"),"network", 0,this, SLOT(preimportsignkey()),actionCollection(),"key_importsign");
         importAllSignKeys = new KAction(i18n("Import Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
 
-	addToAddressBook= new KAction(i18n("&Add to Address Book"), "kabc", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
+	addToAddressBook= new KAction(i18n("&Create New Contact In Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
+	(void) new KAction(i18n("&Merge Public Keys In Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
 
         KStdAction::quit(this, SLOT(annule()), actionCollection());
         (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
@@ -753,26 +766,13 @@ void listKeys::saveToolbarConfig()
 
 void listKeys::addToKAB()
 {
-KgpgInterface *ks=new KgpgInterface();
-                        ks->getKey(keysList2->currentItem()->text(5),true);
-                        connect(ks,SIGNAL(publicKeyString(QString)),this,SLOT(slotToKAB(QString)));
+KABC::Key key;
 
-
-//kapp->dcopClient()->send("kaddressbook","AddressBookServiceIface","importVCard(KURL,bool)",data);
-//kapp->dcopClient()->send("kaddressbook","KAddressBookIface","addEmail(QString)","toto@titi.noe");
-//kapp->dcopClient()->send("kgpg","KeyInterface","listsigns()","");
-//KRun::runCommand( "dcop kaddressbook AddressBookServiceIface importVCard("+Vcard+",true)");
-}
-
-void listKeys::slotToKAB(QString keyString)
-{
- KABC::Key key;
-
- QString email=keysList2->extractKeyMail().stripWhiteSpace();
+ QString email=extractKeyMail(keysList2->currentItem()).stripWhiteSpace();
 
  KABC::AddressBook *ab = KABC::StdAddressBook::self();
   if ( !ab->load() ) {
-  KMessageBox::sorry(0,i18n("Unable to contact the Address Book. Please check your installation."));
+  KMessageBox::sorry(this,i18n("Unable to contact the Address Book. Please check your installation."));
   return;
   }
  KABC::Addressee::List addressees = ab->findByEmail( email );
@@ -790,15 +790,65 @@ else
 a=KABC::AddresseeDialog::getAddressee(this);
 if (a.isEmpty()) return;
 }
-
-key.setTextData(keyString);
+KgpgInterface *ks=new KgpgInterface();
+key.setTextData(ks->getKey(keysList2->currentItem()->text(5),true));
 a.insertKey(key);
 ab->insertAddressee(a);
 KABC::StdAddressBook::save();
 if (newEntry) KRun::runCommand( "kaddressbook -a " + KProcess::quote(email) );
-else KMessageBox::information(0,i18n("<qt>The public key for <b>%1</b> was saved in the corresponding entry in the Address book.</qt>").arg(email));
+else KMessageBox::information(this,i18n("<qt>The public key for <b>%1</b> was saved in the corresponding entry in the Address book.</qt>").arg(email));
 
+
+//kapp->dcopClient()->send("kaddressbook","AddressBookServiceIface","importVCard(KURL,bool)",data);
+//kapp->dcopClient()->send("kaddressbook","KAddressBookIface","addEmail(QString)","toto@titi.noe");
+//kapp->dcopClient()->send("kgpg","KeyInterface","listsigns()","");
+//KRun::runCommand( "dcop kaddressbook AddressBookServiceIface importVCard("+Vcard+",true)");
 }
+
+void listKeys::allToKAB()
+{
+KABC::Key key;
+QString email;
+QStringList keylist;
+KABC::Addressee a;
+
+ KABC::AddressBook *ab = KABC::StdAddressBook::self();
+  if ( !ab->load() ) {
+  KMessageBox::sorry(this,i18n("Unable to contact the Address Book. Please check your installation."));
+  return;
+  }
+
+QListViewItem * myChild = keysList2->firstChild();
+        while( myChild ) {
+	email=extractKeyMail(myChild).stripWhiteSpace();
+	 KABC::Addressee::List addressees = ab->findByEmail( email );
+	if (addressees.count()==1)
+		{
+			a=addressees.first();
+			KgpgInterface *ks=new KgpgInterface();
+			key.setTextData(ks->getKey(myChild->text(5),true));
+			a.insertKey(key);
+			ab->insertAddressee(a);
+			keylist<<myChild->text(5)+": "+email;
+		}
+//            doSomething( myChild );
+            myChild = myChild->nextSibling();
+        }
+KABC::StdAddressBook::save();
+if (!keylist.isEmpty())
+KMessageBox::informationList(this,i18n("The following keys were exported to the Address Book:"),keylist);
+else KMessageBox::sorry(this,i18n("No entry matching your keys were found in the Address Book."));
+}
+
+
+QString listKeys::extractKeyMail(QListViewItem *keyitem)
+{
+        QString name=keyitem->text(0);
+        if (keysList2->displayMailFirst)
+                return name.section('(',0,0);
+        return (name.section('(',-1)).section(')',0,0);
+}
+
 
 void listKeys::slotManpage()
 {
@@ -1175,12 +1225,14 @@ void listKeys::slotexport()
                                         klist.append(exportList.at(i)->text(5).stripWhiteSpace());
 
 			KgpgInterface *kexp=new KgpgInterface();
-                        kexp->getKey(klist,exportAttr);
 
+QString result=kexp->getKey(klist,exportAttr);
                         if (dial->checkClipboard->isChecked())
-			connect(kexp,SIGNAL(publicKeyString(QString)),this,SLOT(slotProcessExportClip(QString)));
+			slotProcessExportClip(result);
+			//connect(kexp,SIGNAL(publicKeyString(QString)),this,SLOT(slotProcessExportClip(QString)));
                         else
-			connect(kexp,SIGNAL(publicKeyString(QString)),this,SLOT(slotProcessExportMail(QString)));
+			slotProcessExportMail(result);
+			//connect(kexp,SIGNAL(publicKeyString(QString)),this,SLOT(slotProcessExportMail(QString)));
 
                 }
         }
@@ -1212,6 +1264,13 @@ void listKeys::slotProcessExportClip(QString keys)
 }
 
 
+void listKeys::showKeyInfo(QString keyID)
+{
+KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",keyID);
+                opts->exec();
+                delete opts;
+}
+
 
 void listKeys::listsigns()
 {
@@ -1232,6 +1291,7 @@ void listKeys::listsigns()
         /////////////   open a key info dialog (KgpgKeyInfo, see begining of this file)
         QString key=keysList2->currentItem()->text(5);
         if (key!="") {
+	/*
                 QColor pix;
                 if (keysList2->currentItem()->pixmap(1)->serialNumber()==keysList2->trustgood.serialNumber())
                         pix.setRgb(148,255,0);//;pix=keysList2->trustgood;
@@ -1239,10 +1299,11 @@ void listKeys::listsigns()
                         pix.setRgb(255,255,255); //pix=keysList2->trustunknown;
                 else
                         pix.setRgb(172,0,0); //keysList2->trustbad;
+			*/
                 bool isSecret=false;
                 if (keysList2->secretList.find(keysList2->currentItem()->text(5))!=-1)
                         isSecret=true;
-                KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",key, pix,isSecret);
+                KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",key, isSecret);
                 opts->exec();
                 delete opts;
                 keysList2->refreshcurrentkey(keysList2->currentItem());
@@ -1953,13 +2014,6 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
         pclose(fp);
 }
 
-QString KeyView::extractKeyMail()
-{
-        QString name=currentItem()->text(0);
-        if (displayMailFirst)
-                return name.section('(',0,0);
-        return (name.section('(',-1)).section(')',0,0);
-}
 
 QString KeyView::extractKeyName(QString name,QString mail)
 {

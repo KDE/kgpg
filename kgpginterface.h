@@ -140,7 +140,7 @@ public slots:
         * @param userID QString the name of the decryption key (only used to prompt user for passphrase)
         */
 
-	void getKey(QStringList IDs, bool attributes);
+	QString getKey(QStringList IDs, bool attributes);
 
         void KgpgKeyExpire(QString keyID,QDate date,bool unlimited);
         void KgpgTrustExpire(QString keyID,QString keyTrust);
@@ -245,7 +245,6 @@ private slots:
         void signkillDisplayClip();
 
 	void slotReadKey(KProcIO *p);
-	void getKeyResult(KProcess *);
 
 
         //void txtreaddecprocess(KProcIO *p);
@@ -309,11 +308,6 @@ signals:
         void trustfinished();
 
         void expirationFinished(int);
-
-	/**
-                * returns a public key string
-                */
-	void publicKeyString(QString);
 
 
 private:

@@ -20,6 +20,7 @@
 	<Menu name="file">
 	<Action name="key_server"/>
 	<Action name="key_refresh"/>
+	<Action name="all_kabc"/>
 	</Menu>
 	 <Menu name="help">
     <Action name="help_tipofday"/>

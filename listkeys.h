@@ -116,7 +116,8 @@ class KgpgKeyInfo : public KeyProperties
 
 public:
 
-        KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0,QColor pix=QColor(255,255,255),bool editable=false);
+        //KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0,QColor pix=QColor(255,255,255),bool editable=false);
+	KgpgKeyInfo( QWidget *parent = 0, const char *name = 0,QString sigkey=0,bool editable=false);
 
 private slots:
         void slotinfoimgread(KProcess *);
@@ -152,7 +153,6 @@ private slots:
         QString extractKeyName(QString name,QString mail);
         void expandKey(QListViewItem *item);
         void refreshcurrentkey(QListViewItem *current);
-	QString extractKeyMail();
 
 protected:
         virtual void startDrag();
@@ -197,6 +197,7 @@ public slots:
         void refreshkey();
 	void updateKeyList();
 	void readAllOptions();
+	void showKeyInfo(QString keyID);
 
 private slots:
         void checkList();
@@ -238,7 +239,8 @@ private slots:
         void slotstatus(QListViewItem *);
         void slotedit();
 	void addToKAB();
-	void slotToKAB(QString keyString);
+	void allToKAB();
+	QString extractKeyMail(QListViewItem *keyitem);
 
 signals:
         void readAgainOptions();

@@ -1387,7 +1387,7 @@ void KgpgInterface::passover(KProcess *)
 
 //////////////////////////////////////////////////////////////    key export
 
-void KgpgInterface::getKey(QStringList IDs, bool attributes)
+QString KgpgInterface::getKey(QStringList IDs, bool attributes)
 {
                 keyString=QString::null;
                 KProcIO *proc=new KProcIO();
@@ -1398,9 +1398,9 @@ void KgpgInterface::getKey(QStringList IDs, bool attributes)
 
 		for ( QStringList::Iterator it = IDs.begin(); it != IDs.end(); ++it )
         	*proc << *it;
-                QObject::connect(proc, SIGNAL(processExited(KProcess *)),this, SLOT(getKeyResult(KProcess *)));
                 QObject::connect(proc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotReadKey(KProcIO *)));
-                proc->start(KProcess::NotifyOnExit,true);
+		proc->start(KProcess::Block,true);
+		return keyString;
 }
 
 
@@ -1411,10 +1411,6 @@ void KgpgInterface::slotReadKey(KProcIO *p)
 		keyString+=outp+"\n";
 }
 
-void KgpgInterface::getKeyResult(KProcess *)
-{
-emit publicKeyString(keyString);
-}
 
 //////////////////////////////////////////////////////////////    key import
 

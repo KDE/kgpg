@@ -26,7 +26,7 @@ class KeyInterface : virtual public DCOPObject
 
   k_dcop:
 
-  virtual void listsigns() =0;
+  virtual void showKeyInfo(QString keyID) =0;
   };
 
   #endif
