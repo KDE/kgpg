@@ -137,7 +137,7 @@ private:
         QString secretList,defKey;
         QString photoKeysList,configFilePath;
 	QStringList photoIdList;
-        QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown,trustmarginal, trustbad, trustgood;
+        QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown,trustmarginal, trustbad, trustgood,pixRevoke;
 	QListViewItem *itemToOpen;
 	KTempFile *kgpgphototmp;
 

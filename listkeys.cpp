@@ -33,6 +33,7 @@
 #include <qtextcodec.h>
 #include <qtimer.h>
 #include <qpaintdevicemetrics.h>
+#include <qtooltip.h>
 
 
 #include <kio/netaccess.h>
@@ -414,6 +415,7 @@ KeyView::KeyView( QWidget *parent, const char *name )
         pixsignature=loader->loadIcon("signature",KIcon::Small,20);
         pixuserid=loader->loadIcon("kgpg_identity",KIcon::Small,20);
         pixuserphoto=loader->loadIcon("kgpg_photo",KIcon::Small,20);
+	pixRevoke=loader->loadIcon("stop",KIcon::Small,20);
 
         trustunknown.load(locate("appdata", "pics/kgpg_unknown.png"));
         trustbad.load(locate("appdata", "pics/kgpg_bad.png"));
@@ -2238,14 +2240,15 @@ void KeyView::expandKey2(QListViewItem *item)
 {
 	FILE *fp;
         QString cycle;
-	QStringList revoked;
 	QStringList tst;
         char line[300];
         SmallViewItem *itemsub=NULL;
         SmallViewItem *itemuid=NULL;
         SmallViewItem *itemsig=NULL;
+	SmallViewItem *itemrev=NULL;
         QPixmap keyPhotoId;
 	int uidNumber=0;
+	bool dropFirstUid=false;
 
 	kdDebug()<<"Expanding Key: "<<item->text(6)<<endl;
 
@@ -2256,7 +2259,13 @@ void KeyView::expandKey2(QListViewItem *item)
         while ( fgets( line, sizeof(line), fp)) {
                 tst=QStringList::split(":",line,true);
                 if (tst[0]=="uid" || tst[0]=="uat") {
-                        gpgKey uidKey=extractKey(line);
+			if (dropFirstUid) 
+			{
+			dropFirstUid=false;
+                        }
+			else
+			{
+			gpgKey uidKey=extractKey(line);
 
                         if (tst[0]=="uat") {
 				QString photoUid=QString(*photoIdList.begin());
@@ -2296,11 +2305,20 @@ void KeyView::expandKey2(QListViewItem *item)
                                 itemuid->setPixmap(0,pixuserid);
                                 cycle="uid";
                         }
+			}
                 } else
-
-
                         if (tst[0]=="rev") {
-                                revoked<<QString("0x"+tst[4].right(8));
+			 gpgKey revKey=extractKey(line);
+			 if (cycle=="uid" || cycle=="uat")
+                         itemrev= new SmallViewItem(itemuid,revKey.gpgkeyname,revKey.gpgkeymail+i18n(" [Revocation signature]"),"-","-","-",revKey.gpgkeycreation,revKey.gpgkeyid);
+			 else if (cycle=="pub")
+			 { //////////////public key revoked
+			 itemrev= new SmallViewItem(item,revKey.gpgkeyname,revKey.gpgkeymail+i18n(" [Revocation signature]"),"-","-","-",revKey.gpgkeycreation,revKey.gpgkeyid);
+                         dropFirstUid=true;
+			 }
+			 else if (cycle=="sub")
+			 itemrev= new SmallViewItem(itemsub,revKey.gpgkeyname,revKey.gpgkeymail+i18n(" [Revocation signature]"),"-","-","-",revKey.gpgkeycreation,revKey.gpgkeyid);
+			 itemrev->setPixmap(0,pixRevoke);
                         } else
 
 
@@ -2320,7 +2338,6 @@ void KeyView::expandKey2(QListViewItem *item)
 
                                         itemsig->setPixmap(0,pixsignature);
                                 } else
-
                                         if (tst[0]=="sub") {
                                                 gpgKey subKey=extractKey(line);
                                                 itemsub= new SmallViewItem(item,i18n("%1 subkey").arg(subKey.gpgkeyalgo),QString::null,QString::null,subKey.gpgkeyexpiration,subKey.gpgkeysize,subKey.gpgkeycreation,subKey.gpgkeyid);
@@ -2331,39 +2348,6 @@ void KeyView::expandKey2(QListViewItem *item)
                                         }
         }
         pclose(fp);
-
-        while (!revoked.isEmpty())   ///////////////   there are revoked sigs in previous key
-        {
-                bool found=false;
-                QString currentRevoke=revoked[0];
-                revoked.remove(revoked.begin());
-		
-		
-                QListViewItem *current = item->firstChild();
-                
-		while (current)
-		{
-                        if (currentRevoke==current->text(6))
-                        {
-                                current->setText(2,i18n("Revoked"));
-                                found=true;
-                        }
-
-                QListViewItem *subcurrent = current->firstChild();
-                while (subcurrent)
-                {
-                        if (currentRevoke==subcurrent->text(6)) {
-                                subcurrent->setText(2,i18n("Revoked"));
-                                found=true;
-                        }
-                        subcurrent = subcurrent->nextSibling();
-                }
-		current=current->nextSibling();
-		}
-		
-                if (!found)
-                        (void) new SmallViewItem(item,i18n("Revocation Certificate"),"+","+","+","+","+",currentRevoke);
-        }
 }
 
 
