@@ -97,7 +97,6 @@ void UpdateViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, in
 
 QString UpdateViewItem :: key(int c,bool ) const
 {
-        QString s;
         if ((c==3) || (c==5)) {
                 QDate d = KGlobal::locale()->readDate(text(c));
                 if (d.isValid())
@@ -106,7 +105,10 @@ QString UpdateViewItem :: key(int c,bool ) const
                         return "50000000";  // unlimited expiration dates are handeled as year 5000, so that they are correctly sorted
         }
         if (c==2)   /* sorting by pixmap */
-                return QString::number(pixmap(c)->serialNumber());
+                {
+		if (!pixmap(c)) return 0;
+		return QString::number(pixmap(c)->serialNumber());
+		}
         return text(c).lower();
 }
 
@@ -364,6 +366,7 @@ KeyView::KeyView( QWidget *parent, const char *name )
 {
         KIconLoader *loader = KGlobal::iconLoader();
 
+	pixkeyGroup=loader->loadIcon("kgpg_key3",KIcon::Small,20);
         pixkeyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
         pixkeySingle=loader->loadIcon("kgpg_key1",KIcon::Small,20);
         pixsignature=loader->loadIcon("signature",KIcon::Small,20);
@@ -599,7 +602,6 @@ else
 {
 item = item->nextSibling();
 searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
-kdDebug()<<searchText<<"\n";
 m_find->setData(searchText);
 }
 }
@@ -858,7 +860,6 @@ void listKeys::annule()
 {
         /////////  cancel & close window
         //exit(0);
-kdDebug()<<"Saving layout\n";
         keysList2->saveLayout(config,"KeyView");
         config->setGroup("General Options");
         config->writeEntry("show toolbar",toolBar()->isVisible());
@@ -886,6 +887,7 @@ void listKeys::readOptions()
 
         config->setGroup("GPG Settings");
         configUrl=config->readPathEntry("gpg_config_path");
+	keysList2->configFilePath=configUrl;
         optionsDefaultKey=KgpgInterface::getGpgSetting("default-key",configUrl);
         QString defaultkey=optionsDefaultKey;
         if (!optionsDefaultKey.isEmpty())
@@ -1637,11 +1639,24 @@ void listKeys::slotPreImportKey()
 }
 */
 
+void KeyView::expandGroup(QListViewItem *item)
+{
+	kdDebug()<<"Expanding group\n";
+	QStringList keysGroup=KgpgInterface::getGpgGroupSetting(item->text(0),configFilePath);
+	kdDebug()<<keysGroup<<"\n";
+	for ( QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it ) {
+        SmallViewItem *item2=new SmallViewItem(item,QString(*it),"","","","","","");
+	item2->setPixmap(0,pixkeyGroup);
+	item2->setExpandable(false);
+}
+}
+
 void KeyView::expandKey(QListViewItem *item)
 {
         //kdDebug()<<"Expanding Key\n";
         if (item->childCount()!=0)
                 return;   // key has already been expanded
+	if (item->text(6).isEmpty()) {expandGroup(item);return;}
         FILE *fp;
         QString tst,cycle,revoked;
         char line[300];
@@ -1650,17 +1665,14 @@ void KeyView::expandKey(QListViewItem *item)
         SmallViewItem *itemsig=NULL;
         cycle="pub";
         bool noID=false;
-
         fp = popen(QFile::encodeName(QString("gpg --no-secmem-warning --no-tty --with-colon --list-sigs "+item->text(6))), "r");
 
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
                 if (tst.startsWith("uid") || tst.startsWith("uat")) {
-			kdDebug()<<"New user id/attribute found\n";
                         gpgKey uidKey=extractKey(tst);
 
                         if (tst.startsWith("uat")) {
-				kdDebug()<<"Photo id found\n";
                                 itemuid= new SmallViewItem(item,i18n("Photo Id"),"","","-","-","-","-");
                                 itemuid->setPixmap(0,pixuserphoto);
                                 itemuid->setPixmap(2,uidKey.trustpic);
@@ -1680,7 +1692,6 @@ void KeyView::expandKey(QListViewItem *item)
 
 
                         if (tst.startsWith("rev")) {
-				kdDebug()<<"Revocation found\n";
                                 revoked+=QString("0x"+tst.section(':',4,4).right(8)+" ");
                         } else
 
@@ -1797,7 +1808,6 @@ void KeyView::refreshkeylist()
                 while(current->depth() > 0) {
                         current = current->parent();
                 }
-kdDebug()<<"Current Item:"<<current->text(0)<<"\n";
                 takeItem(current);
         }
 
@@ -1846,7 +1856,14 @@ kdDebug()<<"Current Item:"<<current->text(0)<<"\n";
         }
         pclose(fp);
 	if (emptyList) return;
-
+	QStringList groups=KgpgInterface::getGpgGroupNames(configFilePath);
+	for ( QStringList::Iterator it = groups.begin(); it != groups.end(); ++it )
+	if (!QString(*it).isEmpty())
+	{
+        item=new UpdateViewItem(this,QString(*it),"","","","","","",false,false);
+	item->setPixmap(0,pixkeyGroup);
+	item->setExpandable(true);
+	}
 
         if(current != NULL) {
                 // select previous selected

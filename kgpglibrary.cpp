@@ -40,7 +40,9 @@ void KgpgLibrary::slotFileEnc(KURL::List urls,QString opts,QString defaultKey)
         if (!urls.empty()) {
                 urlselecteds=urls;
                 if (defaultKey.isEmpty()) {
-                        popupPublic *dialogue=new popupPublic(0,"Public keys","files",true);
+			QString fileNames=urls.first().filename();
+			if (urls.count()>1) fileNames+=",...";
+                        popupPublic *dialogue=new popupPublic(0,"Public keys",fileNames,true);
                         connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(startencode(QString &,QString,bool,bool)));
                         dialogue->exec();
                         delete dialogue;

@@ -156,7 +156,9 @@ public slots:
         static void setGpgSetting(QString name,QString ID,QString url);
         static bool getGpgBoolSetting(QString name,QString configFile);
 	static void setGpgBoolSetting(QString name,bool enable,QString url);
-        static QString checkForUtf8(QString txt);
+        static QStringList getGpgGroupNames(QString configFile);
+	static QStringList getGpgGroupSetting(QString name,QString configFile);
+	static QString checkForUtf8(QString txt);
 
 
 

@@ -1617,6 +1617,55 @@ QString KgpgInterface::getGpgSetting(QString name,QString configFile)
         return "";
 }
 
+QStringList KgpgInterface::getGpgGroupSetting(QString name,QString configFile)
+{
+kdDebug()<<"Searching for group:"<<name<<"\n";
+        QFile qfile(QFile::encodeName(configFile));
+        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+                QString result;
+                QTextStream t( &qfile );
+                result=t.readLine();
+                while (result!=NULL) {
+                        if (result.stripWhiteSpace().startsWith("group ")) {
+			kdDebug()<<"Found 1 group\n";
+			result.remove(0,6);
+                                if (result.stripWhiteSpace().startsWith(name))
+				{
+				kdDebug()<<"Found group: "<<name<<"\n";
+				result=result.section('=',1);
+                                result=result.section('#',0,0);
+                                return QStringList::split (" ",result);
+                        }
+			}
+                        result=t.readLine();
+                }
+                qfile.close();
+        }
+        return "";
+}
+
+QStringList KgpgInterface::getGpgGroupNames(QString configFile)
+{
+QStringList groups;
+        QFile qfile(QFile::encodeName(configFile));
+        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+                QString result;
+                QTextStream t( &qfile );
+                result=t.readLine();
+                while (result!=NULL) {
+                        if (result.stripWhiteSpace().startsWith("group ")) {
+                                result=result.stripWhiteSpace();
+                                result.remove(0,6);
+                                groups<<result.section("=",0,0).stripWhiteSpace();
+                        }
+                        result=t.readLine();
+                }
+                qfile.close();
+        }
+        return groups;
+}
+
+
 bool KgpgInterface::getGpgBoolSetting(QString name,QString configFile)
 {
         name=name;

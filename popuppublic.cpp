@@ -38,20 +38,25 @@
 class UpdateViewItem2 : public KListViewItem
 {
 public:
-        UpdateViewItem2(QListView *parent, QString tst);
+        UpdateViewItem2(QListView *parent, QString name,QString mail,QString id,bool isDefault);
         virtual void paintCell(QPainter *p, const QColorGroup &cg,int col, int width, int align);
+	virtual QString key(int c,bool ) const;
+	bool def;
 };
 
-UpdateViewItem2::UpdateViewItem2(QListView *parent, QString tst)
+UpdateViewItem2::UpdateViewItem2(QListView *parent, QString name,QString mail,QString id,bool isDefault)
                 : KListViewItem(parent)
 {
-        setText(0,tst);
+def=isDefault;
+        setText(0,name);
+	setText(1,mail);
+	setText(2,id);
 }
 
 
 void UpdateViewItem2::paintCell(QPainter *p, const QColorGroup &cg,int column, int width, int alignment)
 {
-        if (column==0) {
+        if ((def) && (column<2)) {
                 QFont font(p->font());
                 font.setBold(true);
                 p->setFont(font);
@@ -59,63 +64,65 @@ void UpdateViewItem2::paintCell(QPainter *p, const QColorGroup &cg,int column, i
         KListViewItem::paintCell(p, cg, column, width, alignment);
 }
 
+QString UpdateViewItem2 :: key(int c,bool ) const
+{
+        return text(c).lower();
+}
+
 ///////////////  main view
 
-popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool filemode):QDialog(parent,name,TRUE)
+popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool filemode): KDialogBase(parent,name,true,i18n("Select Public Key"),KDialogBase::Details|KDialogBase::Ok|KDialogBase::Cancel)
+//QDialog(parent,name,TRUE)
 {
-        QString caption(i18n("Encryption"));
+        QWidget *page = new QWidget( this );
+        QVBoxLayout *vbox = new QVBoxLayout( page, 0, spacingHint() );
+	setButtonText(KDialogBase::Details,i18n("Options"));
+
         config=kapp->config();
-        config->setGroup("General Options");
-        bool isascii=config->readBoolEntry("Ascii armor",true);
-        bool istrust=config->readBoolEntry("Allow untrusted keys",false);
-        bool hideid=config->readBoolEntry("Hide user id",false);
-        displayMailFirst=config->readBoolEntry("display mail first",true);
+        config->setGroup("Encryption");
+        bool isascii=config->readBoolEntry("Ascii_armor",true);
+        bool istrust=config->readBoolEntry("Allow_untrusted_keys",false);
+        bool hideid=config->readBoolEntry("Hide_user_id",false);
         //pgpcomp=config->readBoolEntry("PGP compatibility",false);
         defaultKey=config->readEntry("default key");
-        allowcustom=config->readBoolEntry("allow custom option",false);
+        allowcustom=config->readBoolEntry("allow_custom_option",false);
         if (allowcustom)
-                customOptions=config->readEntry("custom option");
-
-        //  encryptfileto=config->readBoolEntry("encrypt files to",false);
-        //  filekey=config->readEntry("file key");
-
-
-        defaultName="";
-
+                customOptions=config->readEntry("custom_option");
+	config->setGroup("GPG Settings");
+	keyGroups=config->readEntry("Groups");
 
         KIconLoader *loader = KGlobal::iconLoader();
 
         keyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
         keySingle=loader->loadIcon("kgpg_key1",KIcon::Small,20);
+	keyGroup=loader->loadIcon("kgpg_key3",KIcon::Small,20);
 
-        //setMinimumSize(300,120);
-        setCaption(caption);
+        if (filemode) setCaption(i18n("Select Public Key for %1").arg(sfile));
 
         fmode=filemode;
 
-        keysList = new KListView( this );
-        keysList->setRootIsDecorated(true);
+        keysList = new KListView( page );
+	 keysList->addColumn(i18n("Name"));
+	 keysList->addColumn(i18n("Email"));
+	 keysList->addColumn(i18n("ID"));
 
+        keysList->setRootIsDecorated(false);
+        page->setMinimumSize(540,200);
         keysList->setShowSortIndicator(true);
         keysList->setFullWidth(true);
+	keysList->setAllColumnsShowFocus(true);
         keysList->setSelectionModeExt(KListView::Extended);
+	keysList->setColumnWidthMode(0,QListView::Manual);
+	keysList->setColumnWidthMode(1,QListView::Manual);
+	keysList->setColumnWidth(0,210);
+	keysList->setColumnWidth(1,210);
 
-        QVBoxLayout *vbox=new QVBoxLayout(this,3);
-
-        if (sfile.isEmpty())
-                keysList->addColumn(i18n("Encryption key(s):"));
-        else
-                keysList->addColumn(i18n("Encryption key(s) for %1:").arg(sfile));
-
-        boutonboxoptions=new QButtonGroup(5,Qt::Vertical ,this,0);
+        boutonboxoptions=new QButtonGroup(5,Qt::Vertical ,page,0);
 
         CBarmor=new QCheckBox(i18n("ASCII armored encryption"),boutonboxoptions);
         CBuntrusted=new QCheckBox(i18n("Allow encryption with untrusted keys"),boutonboxoptions);
         CBhideid=new QCheckBox(i18n("Hide user id"),boutonboxoptions);
-
-        //boutonboxoptions->insert(CBarmor);
-        //boutonboxoptions->insert(CBuntrusted);
-
+        setDetailsWidget(boutonboxoptions);
         QWhatsThis::add
                 (keysList,i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
         QWhatsThis::add
@@ -141,14 +148,6 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
                 QObject::connect(CBsymmetric,SIGNAL(toggled(bool)),this,SLOT(isSymetric(bool)));
         }
 
-        KButtonBox *boutonbox=new KButtonBox(this,KButtonBox::Horizontal,15,12);
-        bouton0=boutonbox->addButton(i18n("&Options"),this,SLOT(toggleOptions()),TRUE);
-        bouton0->setIconSet(QIconSet(KGlobal::iconLoader()->loadIcon("up",KIcon::Small)));
-        boutonbox->addStretch(1);
-        bouton1=boutonbox->addButton(i18n("&Encrypt"),this,SLOT(crypte()),TRUE);
-        bouton2=boutonbox->addButton(i18n("&Cancel"),this,SLOT(annule()),TRUE);
-        boutonbox->layout();
-        bouton1->setDefault(true);
         if (isascii)
                 CBarmor->setChecked(true);
         if (istrust)
@@ -158,10 +157,10 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
 
         vbox->addWidget(keysList);
         if (allowcustom) {
-                QHButtonGroup *bGroup = new QHButtonGroup(this);
-                bGroup->setLineWidth(0);
-                bGroup->setInsideMargin(2);
-                (void) new QLabel(i18n("Custom option "),bGroup);
+                QHButtonGroup *bGroup = new QHButtonGroup(page);
+                //bGroup->setFrameStyle(QFrame::NoFrame);
+
+                (void) new QLabel(i18n("Custom option:"),bGroup);
                 KLineEdit *optiontxt=new KLineEdit(bGroup);
                 optiontxt->setText(customOptions);
                 QWhatsThis::add
@@ -169,13 +168,10 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
                 vbox->addWidget(bGroup);
                 QObject::connect(optiontxt,SIGNAL(textChanged ( const QString & )),this,SLOT(customOpts(const QString & )));
         }
-        vbox->addWidget(boutonboxoptions);
-        boutonboxoptions->hide();
-        vbox->addWidget(boutonbox);
-
-        QObject::connect(keysList,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(precrypte()));
+        QObject::connect(keysList,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(crypte()));
+	QObject::connect(this,SIGNAL(okClicked()),this,SLOT(crypte()));
         QObject::connect(CBuntrusted,SIGNAL(toggled(bool)),this,SLOT(refresh(bool)));
-
+setMainWidget(page);
 
         char line[200]="\0";
         FILE *fp2;
@@ -188,21 +184,13 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
 
         trusted=istrust;
         refreshkeys();
+	setMinimumSize(550,200);
+	updateGeometry();
+	show();
 }
 
 popupPublic::~popupPublic()
 {}
-
-void popupPublic::toggleOptions()
-{
-        if (boutonboxoptions->isVisible()) {
-                boutonboxoptions->hide();
-                bouton0->setIconSet(QIconSet(KGlobal::iconLoader()->loadIcon("up",KIcon::Small)));
-        } else {
-                boutonboxoptions->show();
-                bouton0->setIconSet(QIconSet(KGlobal::iconLoader()->loadIcon("down",KIcon::Small)));
-        }
-}
 
 
 void popupPublic::enable()
@@ -210,7 +198,6 @@ void popupPublic::enable()
         QListViewItem *current = keysList->firstChild();
         if (current==NULL)
                 return;
-
         current->setVisible(true);
         while ( current->nextSibling() ) {
                 current = current->nextSibling();
@@ -221,35 +208,27 @@ void popupPublic::enable()
 void popupPublic::sort()
 {
         bool reselect=false;
-        QString block=i18n("Undefined")+" , "+i18n("?")+" , "+i18n("Unknown")+" , "+i18n("None");
         QListViewItem *current = keysList->firstChild();
         if (current==NULL)
                 return;
 
-        QString trust=current->firstChild()->text(0);
-        trust=trust.section(',',1,1);
-        trust=trust.section(':',1,1);
-        trust=trust.stripWhiteSpace();
-        if (block.find(trust,0,false)!=-1) {
+	if ((untrustedList.find(current->text(2),0,false)!=-1) && (!current->text(2).isEmpty())){
                 if (current->isSelected()) {
                         current->setSelected(false);
                         reselect=true;
                 }
                 current->setVisible(false);
-        }
+		}
+
         while ( current->nextSibling() ) {
                 current = current->nextSibling();
-                QString trust=current->firstChild()->text(0);
-                trust=trust.section(',',1,1);
-                trust=trust.section(':',1,1);
-                trust=trust.stripWhiteSpace();
-                if (block.find(trust,0,false)!=-1) {
-                        if (current->isSelected()) {
-                                current->setSelected(false);
-                                reselect=true;
-                        }
-                        current->setVisible(false);
+                if ((untrustedList.find(current->text(2),0,false)!=-1) && (!current->text(2).isEmpty())) {
+                if (current->isSelected()) {
+                        current->setSelected(false);
+                        reselect=true;
                 }
+                current->setVisible(false);
+		}
         }
 
         if (reselect) {
@@ -262,6 +241,7 @@ void popupPublic::sort()
                 }
                 keysList->setSelected(firstvisible,true);
                 keysList->setCurrentItem(firstvisible);
+		keysList->ensureItemVisible(firstvisible);
         }
 }
 
@@ -288,6 +268,17 @@ void popupPublic::refresh(bool state)
 
 void popupPublic::refreshkeys()
 {
+keysList->clear();
+if (!keyGroups.isEmpty())
+{
+QStringList groups=QStringList::split(",",keyGroups);
+	for ( QStringList::Iterator it = groups.begin(); it != groups.end(); ++it )
+	if (!QString(*it).isEmpty())
+	{
+			UpdateViewItem2 *item=new UpdateViewItem2(keysList,QString(*it),"","",false);
+			item->setPixmap(0,keyGroup);
+	}
+}
         KProcIO *encid=new KProcIO();
         *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--with-colon"<<"--list-keys";
         /////////  when process ends, update dialog infos
@@ -298,17 +289,19 @@ void popupPublic::refreshkeys()
 
 void popupPublic::slotpreselect()
 {
-        if (trusted==false)
-                sort();
-        if (encryptToDefault==true) {
-                keysList->setSelected(keysList->findItem(defaultName,0),true);
-                keysList->setCurrentItem(keysList->findItem(defaultName,0));
+        if (!trusted)
+              sort();
+        if (encryptToDefault) {
+		QListViewItem *it=keysList->findItem("0x"+defaultKey,2);
+                keysList->setSelected(it,true);
+                keysList->setCurrentItem(it);
+		keysList->ensureItemVisible(it);
         } else {
                 QListViewItem *firstvisible;
                 firstvisible=keysList->firstChild();
                 if (firstvisible==NULL)
                         return;
-                while (firstvisible->isVisible()!=true) {
+                while (!firstvisible->isVisible()) {
                         firstvisible=firstvisible->nextSibling();
                         if (firstvisible==NULL)
                                 return;
@@ -323,11 +316,9 @@ void popupPublic::slotprocread(KProcIO *p)
 {
         ///////////////////////////////////////////////////////////////// extract  encryption keys
         bool dead;
-        QString tst;
+        QString tst,keyname,keymail;
 
         while (p->readln(tst)!=-1) {
-
-                //tst=QString::fromUtf8(tst);
                 if (tst.startsWith("pub")) {
                         dead=false;
                         const QString trust=tst.section(':',1,1);
@@ -338,98 +329,66 @@ void popupPublic::slotprocread(KProcIO *p)
                         QString tr;
                         switch( trust[0] ) {
                         case 'o':
-                                tr=i18n("Unknown");
+				untrustedList+=id+" ";
                                 break;
                         case 'i':
-                                tr=i18n("Invalid");
                                 dead=true;
                                 break;
                         case 'd':
-                                tr=i18n("Disabled");
                                 dead=true;
                                 break;
                         case 'r':
-                                tr=i18n("Revoked");
                                 dead=true;
                                 break;
                         case 'e':
-                                tr=i18n("Expired");
                                 dead=true;
                                 break;
                         case 'q':
-                                tr=i18n("Undefined");
+                                untrustedList+=id+" ";
                                 break;
                         case 'n':
-                                tr=i18n("None");
+                                untrustedList+=id+" ";
                                 break;
                         case 'm':
-                                tr=i18n("Marginal");
+                                untrustedList+=id+" ";
                                 break;
                         case 'f':
-                                tr=i18n("Full");
                                 break;
                         case 'u':
-                                tr=i18n("Ultimate");
                                 break;
                         default:
-                                tr=i18n("?");
+				untrustedList+=id+" ";
                                 break;
                         }
                         tst=tst.section(':',9,9);
+			if (tst.find("<")!=-1) {
+                keymail=tst.section('<',-1,-1);
+                keymail.truncate(keymail.length()-1);
+                keyname=tst.section('<',0,0);
+                if (keyname.find("(")!=-1)
+                        keyname=keyname.section('(',0,0);
+        } else {
+                keymail="";
+                keyname=tst.section('(',0,0);
+        }
+
+	keyname=KgpgInterface::checkForUtf8(keyname);
 
                         if ((!dead) && (!tst.isEmpty())) {
-                                if (id.right(8)==defaultKey) {
-                                        defaultName=extractKeyName(tst);
-                                        UpdateViewItem2 *item=new UpdateViewItem2(keysList,defaultName);
-                                        KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, validity: %3").arg(id).arg(tr).arg(val));
-                                        sub->setSelectable(false);
+				bool isDefaultKey=false;
+                                if (id.right(8)==defaultKey) isDefaultKey=true;
+                                        UpdateViewItem2 *item=new UpdateViewItem2(keysList,keyname,keymail,id,isDefaultKey);
+					//KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, validity: %3").arg(id).arg(tr).arg(val));
+                                        //sub->setSelectable(false);
                                         if (seclist.find(tst,0,FALSE)!=-1)
                                                 item->setPixmap(0,keyPair);
                                         else
                                                 item->setPixmap(0,keySingle);
-                                } else {
-                                        KListViewItem *item=new KListViewItem(keysList,extractKeyName(tst));
-                                        KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, validity: %3").arg(id).arg(tr).arg(val));
-                                        sub->setSelectable(false);
-                                        if (seclist.find(tst,0,FALSE)!=-1)
-                                                item->setPixmap(0,keyPair);
-                                        else
-                                                item->setPixmap(0,keySingle);
-                                }
                         }
                 }
         }
 }
 
-QString popupPublic::extractKeyName(QString fullName)
-{
-        QString kMail;
-        if (fullName.find("<")!=-1) {
-                kMail=fullName.section('<',-1,-1);
-                kMail.truncate(kMail.length()-1);
-        }
-        QString kName=fullName.section('<',0,0);
-        if (kName.find("(")!=-1)
-                kName=kName.section('(',0,0);
-	kName=KgpgInterface::checkForUtf8(kName);
-        if (displayMailFirst)
-                return QString(kMail+" ("+kName+")").stripWhiteSpace();
-        return QString(kName+" ("+kMail+")").stripWhiteSpace();
-}
-
-void popupPublic::annule()
-{
-        ////////  cancel & close dialog
-        reject();
-}
-
-
-void popupPublic::precrypte()
-{
-        //////   emit selected data
-        if (keysList->currentItem()->depth()==0)
-                crypte();
-}
 
 void popupPublic::crypte()
 {
@@ -440,11 +399,9 @@ void popupPublic::crypte()
 
         for ( uint i = 0; i < list.count(); ++i )
                 if ( list.at(i) ) {
-                        userid=list.at(i)->firstChild()->text(0);
-                        userid=userid.section(',',0,0);
-                        userid=userid.section(':',1,1);
-                        userid=userid.stripWhiteSpace();
-                        res+=" "+userid;
+			if (!(list.at(i)->text(2)).isEmpty())
+                        res+=" "+list.at(i)->text(2);
+			else res+=" "+list.at(i)->text(0);
                 }
         if (res.isEmpty())
                 return;

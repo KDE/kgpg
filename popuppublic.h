@@ -23,6 +23,7 @@
 #include <qstring.h>
 
 #include <kglobal.h>
+#include <kdialogbase.h>
 #include <kiconloader.h>
 
 class QPushButton;
@@ -31,7 +32,7 @@ class KListView;
 class QButtonGroup;
 class KProcIO;
 
-class popupPublic : public QDialog
+class popupPublic : public KDialogBase //QDialog
 {
         Q_OBJECT
 public:
@@ -41,25 +42,20 @@ public:
         KListView *keysList;
         QCheckBox *CBarmor,*CBuntrusted,*CBshred,*CBsymmetric,*CBhideid;
         bool fmode,encryptToDefault,trusted;
-
-        QPixmap keyPair,keySingle;
-        QString seclist,defaultKey,defaultName;
+        QPixmap keyPair,keySingle,keyGroup;
+        QString seclist,defaultKey,keyGroups,untrustedList;
 
 
 private:
         QPushButton *bouton0,*bouton1,*bouton2;
         KConfig *config;
-        bool displayMailFirst,allowcustom;
+        bool allowcustom;
         QButtonGroup *boutonboxoptions;
         QString customOptions;
 
 private slots:
         void customOpts(const QString &);
-        QString extractKeyName(QString fullName);
-        void annule();
-        void toggleOptions();
         void crypte();
-        void precrypte();
         void slotprocread(KProcIO *);
         void slotpreselect();
         void refreshkeys();

@@ -124,8 +124,8 @@ public:
 private:
         bool displayMailFirst;
         QString secretList,defKey;
-        QString photoKeysList;
-        QPixmap pixkeyPair,pixkeySingle,pixsignature,pixuserid,pixuserphoto,trustunknown, trustbad, trustgood;
+        QString photoKeysList,configFilePath;
+        QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown, trustbad, trustgood;
 
 private slots:
         void  droppedfile (KURL);
@@ -133,6 +133,7 @@ private slots:
         gpgKey extractKey(QString keyColon);
         QString extractKeyName(QString name,QString mail);
         void expandKey(QListViewItem *item);
+	void expandGroup(QListViewItem *item);
         void refreshcurrentkey(QListViewItem *current);
 
 protected:

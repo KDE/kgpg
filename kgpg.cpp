@@ -148,7 +148,7 @@ void MyView::encryptDroppedFolder()
         if (KMessageBox::warningContinueCancel(0,i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>").arg(kgpgfoldertmp->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpFile")==KMessageBox::Cancel)
                 return;
 
-        popupPublic *dialogue=new popupPublic(0,"Public keys","files",true);
+        popupPublic *dialogue=new popupPublic(0,"Public keys",droppedUrls.first().filename(),true);
         connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(startFolderEncode(QString &,QString,bool,bool)));
         dialogue->CBshred->setEnabled(false);
         if (!dialogue->exec()==QDialog::Accepted)
@@ -456,6 +456,7 @@ void  MyView::dropEvent (QDropEvent *o)
 
 void  MyView::readOptions()
 {
+QString path;
         //kdDebug()<<"Reading options\n";
         ksConfig->setGroup("Encryption");
         encryptfileto=ksConfig->readBoolEntry("encrypt_files_to",false);
@@ -479,10 +480,16 @@ void  MyView::readOptions()
                 firstRun();
         else {
                 ksConfig->setGroup("GPG Settings");
-                if (ksConfig->readPathEntry("gpg_config_path").isEmpty()) {
+		path=ksConfig->readPathEntry("gpg_config_path");
+                if (path.isEmpty()) {
                         if (KMessageBox::questionYesNo(0,"<qt>You did not set a path to your GnuPG config file.<br>This may bring some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem ?</qt>")==KMessageBox::Yes)
                                 startWizard();
                 }
+		else
+		{
+		QStringList groups=KgpgInterface::getGpgGroupNames(path);
+		if (!groups.isEmpty()) ksConfig->writeEntry("Groups",groups.join(","));
+		}
         }
 
         ksConfig->setGroup("TipOfDay");

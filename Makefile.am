@@ -9,7 +9,7 @@ kgpg_LDADD   =  $(LIB_KIO) $(LIB_KABC) -lkutils
 
 KDE_ICON =kgpg
 
-kgpg_ICON= kgpg_gen kgpg kgpg2 kgpg_edit kgpg_sign kgpg_info kgpg_import kgpg_export kgpg_key2 kgpg_key1 kgpg_manage kgpg_photo kgpg_identity
+kgpg_ICON= kgpg_gen kgpg kgpg2 kgpg_edit kgpg_sign kgpg_info kgpg_import kgpg_export kgpg_key3 kgpg_key2 kgpg_key1 kgpg_manage kgpg_photo kgpg_identity
 
 kgpgdir=$(kde_datadir)/kgpg/icons
 
