@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>405</width>
-            <height>374</height>
+            <width>585</width>
+            <height>466</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -176,7 +176,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>Owner Trust:</string>
+                        <string>Owner trust:</string>
                     </property>
                 </widget>
                 <widget class="QLayoutWidget" row="4" column="0">
@@ -326,7 +326,7 @@
                                 <cstring>tLMail2_2</cstring>
                             </property>
                             <property name="text">
-                                <string>E-Mail:</string>
+                                <string>Email:</string>
                             </property>
                         </widget>
                     </vbox>

@@ -48,7 +48,7 @@
                     <cstring>textLabel1</cstring>
                 </property>
                 <property name="text">
-                    <string>This wizard will first setup some basic configuration options required for KGpg to work properly. Next, it will allow you to create your own key pair, enabling you to encrypt your files and e-mails.</string>
+                    <string>This wizard will first setup some basic configuration options required for KGpg to work properly. Next, it will allow you to create your own key pair, enabling you to encrypt your files and emails.</string>
                 </property>
                 <property name="alignment">
                     <set>WordBreak|AlignTop</set>

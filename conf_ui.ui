@@ -79,7 +79,7 @@
 (Only occurs on remote files operations)</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>&lt;b&gt;Show E-Mail first in keys list&lt;/b&gt; Lets you choose if you want the e-mail or the user name displayed first in the keys dialogs.</string>
+                        <string>&lt;b&gt;Show email first in keys list&lt;/b&gt; Lets you choose if you want the email or the user name displayed first in the keys dialogs.</string>
                     </property>
                 </widget>
             </grid>
