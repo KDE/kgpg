@@ -128,12 +128,12 @@ void KgpgApp::slotSetCharset()
 {
 ////////  work in progress
 if (encodingAction->isChecked())
-{
-if (!checkEncoding()) return;
 view->editor->setText(QString::fromUtf8(view->editor->text().ascii()));
-}
 else
+{
+if (checkEncoding()) return;
 view->editor->setText(view->editor->text().utf8());
+}
 }
 
 void KgpgApp::initView()
