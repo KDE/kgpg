@@ -97,7 +97,7 @@ void keyGenerate::slotOk()
         }
         QString vmail=mail->text();
         if ((vmail.find(" ")!=-1) || (vmail.find(".")==-1) || (vmail.find("@")==-1)) {
-                KMessageBox::sorry(0,i18n("Email adress not valid"));
+                KMessageBox::sorry(0,i18n("Email address not valid"));
                 return;
         }
         accept();

@@ -940,7 +940,7 @@ void KgpgInterface::signkillDisplayClip()
 void KgpgInterface::signover(KProcess *)
 {
         if ((signSuccess==3) || (signSuccess==2))
-                emit signatureFinished(signSuccess);  ////   signature successfull or bad passphrase
+                emit signatureFinished(signSuccess);  ////   signature successful or bad passphrase
         else {
                 KDetailedConsole *q=new KDetailedConsole(0,"sign_error",i18n("<qt><b>Signing failed.</b><br>"
                                     "Do you want to try signing the key in console mode?</qt>"),output);
@@ -1178,7 +1178,7 @@ void KgpgInterface::expprocess(KProcIO *p)
 void KgpgInterface::expover(KProcess *)
 {
         if ((expSuccess==3) || (expSuccess==2))
-                emit expirationFinished(expSuccess);  ////   signature successfull or bad passphrase
+                emit expirationFinished(expSuccess);  ////   signature successful or bad passphrase
         else {
                 KDetailedConsole *q=new KDetailedConsole(0,"sign_error",i18n("<qt><b>Changing expiration failed.</b><br>"
                                     "Do you want to try changing the key expiration in console mode?</qt>"),output);

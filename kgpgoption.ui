@@ -210,7 +210,7 @@
                                             <string>Encrypt files with:</string>
                                         </property>
                                         <property name="whatsThis" stdset="0">
-                                            <string>&lt;b&gt;Use special key for file encryption&lt;/b&gt; With this options, file encryption will automatically be made with the choosen key. Kgpg will not ask you for a recipient. The default key will not be used.</string>
+                                            <string>&lt;b&gt;Use special key for file encryption&lt;/b&gt; With this options, file encryption will automatically be made with the chosen key. Kgpg will not ask you for a recipient. The default key will not be used.</string>
                                         </property>
                                     </widget>
                                 </vbox>

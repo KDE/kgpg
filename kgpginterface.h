@@ -175,7 +175,7 @@ private slots:
         void decryptfin(KProcess *);
 
         /**
-                * Checks if the signing was successfull.
+                * Checks if the signing was successful.
                 */
         void signfin(KProcess *p);
 
@@ -243,20 +243,20 @@ signals:
                */
         void txtencryptionfinished(QString);
         /**
-               *  emitted when an error occured
+               *  emitted when an error occurred
                */
         void errormessage(QString);
         /**
-                *  true if encryption successfull, false on error.
+                *  true if encryption successful, false on error.
                 */
         void encryptionfinished(KURL);
         /**
-                *  true if key signature deletion successfull, false on error.
+                *  true if key signature deletion successful, false on error.
                 */
         void delsigfinished(bool);
 
         /**
-                * Signature process result: 0=successfull, 1=error, 2=bad passphrase
+                * Signature process result: 0=successful, 1=error, 2=bad passphrase
                 */
         void signatureFinished(int);
         /**
@@ -268,7 +268,7 @@ signals:
                 */
         void processstarted();
         /**
-                *  true if decryption successfull, false on error.
+                *  true if decryption successful, false on error.
                 */
         void decryptionfinished();
         /**
@@ -276,11 +276,11 @@ signals:
                 */
         void badpassphrase(bool);
         /**
-                *  true if import successfull, false on error.
+                *  true if import successful, false on error.
                 */
         void importfinished();
         /**
-                *  true if verify successfull, false on error.
+                *  true if verify successful, false on error.
                 */
         void verifyfinished();
         /**
@@ -288,7 +288,7 @@ signals:
                 */
         void verifyquerykey(QString ID);
         /**
-                *  true if signature successfull, false on error.
+                *  true if signature successful, false on error.
                 */
         void signfinished();
         void trustfinished();
