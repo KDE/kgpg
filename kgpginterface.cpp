@@ -26,6 +26,7 @@
 #include <qapplication.h>
 #include <kio/netaccess.h> 
 #include <qcheckbox.h>
+
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kpassdlg.h>
@@ -530,6 +531,8 @@ void KgpgInterface::KgpgVerifyText(QString text)
 		QTextCodec *codec =QTextCodec::codecForLocale ();
 		if (!codec->canEncode(text)) text=text.utf8();
 		signmiss=false;
+		signID=QString::null;
+		message=QString::null;
 		 KProcIO *verifyproc=new KProcIO();
         	*verifyproc<<"gpg"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"--verify";
         	connect(verifyproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotverifyresult(KProcess *)));
@@ -543,7 +546,10 @@ void KgpgInterface::KgpgVerifyText(QString text)
 void KgpgInterface::slotverifyresult(KProcess*)
 {
 if (signmiss) emit missingSignature(signID);
-else emit verifyOver(signID);
+    else {
+	if (signID.isEmpty()) signID=i18n("No signature found.");
+	emit verifyOver(signID,message);
+	}
 //kdDebug(2100) << "GPG VERIFY OVER________"<<endl;
 }
 
@@ -552,6 +558,7 @@ void KgpgInterface::slotverifyread(KProcIO *p)
 QString required;
   while (p->readln(required,true)!=-1)
     {
+    message+=required+"\n";
     required=required.section("]",1,-1).stripWhiteSpace();
      if (required.startsWith("GOODSIG"))
      {
@@ -566,6 +573,8 @@ QString required;
      signID="0x"+required.section(" ",1,1).right(8);
      signmiss=true;
      }
+     if (required.startsWith("UNEXPECTED") || required.startsWith("NODATA"))
+	signID=i18n("No signature found.");
      if (required.startsWith("TRUST_UNDEFINED"))
      signID+=i18n("The signature is valid, but the key is untrusted");
      if (required.startsWith("TRUST_ULTIMATE"))
@@ -732,6 +741,8 @@ void KgpgInterface::KgpgVerifyFile(KURL sigUrl,KURL srcUrl)
 {
         //////////////////////////////////////   verify signature for a chosen file
         message=QString::null;
+	signID=QString::null;
+	signmiss=false;
         /////////////       create gpg command
         KProcIO *proc=new KProcIO();
         file=sigUrl;
@@ -748,50 +759,51 @@ void KgpgInterface::KgpgVerifyFile(KURL sigUrl,KURL srcUrl)
 
 void KgpgInterface::readprocess(KProcIO *p)
 {
-        QString required;
-        while (p->readln(required,true)!=-1) {
-                if (required.find("GET_")!=-1) {
-                        p->writeStdin("quit");
-                        p->closeWhenDone();
-                }
-                message+=required+"\n";
+QString required;
+  while (p->readln(required,true)!=-1)
+    {
+    message+=required+"\n";
+	if (required.find("GET_")!=-1) {
+        p->writeStdin("quit");
+        p->closeWhenDone();
         }
+    required=required.section("]",1,-1).stripWhiteSpace();
+    if (required.startsWith("UNEXPECTED") || required.startsWith("NODATA"))
+	signID=i18n("No signature found.");
+    if (required.startsWith("GOODSIG"))
+    {
+    signID=i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>").arg(required.section(" ",2,-1).replace(QRegExp("<"),"&lt;")).arg("0x"+required.section(" ",1,1).right(8));
+    }
+    if (required.startsWith("BADSIG")) 
+    {
+    signID=i18n("<qt><b>BAD signature</b> from:<br> %1<br>Key id: %2<br><br>"
+                             "<b>The file is corrupted!</b></qt>").arg(required.section(" ",2,-1).replace(QRegExp("<"),"&lt;")).arg("0x"+required.section(" ",1,1).right(8));
+    }
+    if (required.startsWith("NO_PUBKEY")) 
+    {
+    signmiss=true;
+    signID="0x"+required.section(" ",1,1).right(8);
+    }
+    if (required.startsWith("TRUST_UNDEFINED"))
+    	signID+=i18n("The signature is valid, but the key is untrusted");
+    if (required.startsWith("TRUST_ULTIMATE"))
+	signID+=i18n("The signature is valid, and the key is ultimately trusted");
+    }
 }
+
 
 void KgpgInterface::verifyfin(KProcess *)
 {
-        QString keyID,keyMail;
-        if ((message.find("VALIDSIG")!=-1) && (message.find("GOODSIG")!=-1) && (message.find("BADSIG")==-1)) {
-                message.remove(0,message.find("GOODSIG")+7);
-                message=message.section('\n',0,0);
-                message=message.stripWhiteSpace();
-                keyID=message.section(' ',0,0);
-                message.remove(0,keyID.length());
-                keyMail=message;
-                KMessageBox::information(0,i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>").arg(keyMail.replace(QRegExp("<"),"&lt;")).arg(keyID),file.filename());
-        } else if (message.find("UNEXPECTED")!=-1)
-                KMessageBox::sorry(0,i18n("No signature found."),file.filename());
-        else if (message.find("BADSIG")!=-1) {
-                message.remove(0,message.find("BADSIG")+6);
-                message=message.section('\n',0,0);
-                message=message.stripWhiteSpace();
-                keyID=message.section(' ',0,0);
-//                 message.remove(0,keyID.length());
-                keyMail=message;
-                KMessageBox::sorry(0,i18n("<qt><b>BAD signature</b> from:<br> %1<br>Key id: %2<br><br>"
-                                          "<b>The file is corrupted!</b></qt>").arg(keyMail.replace(QRegExp("<"),"&lt;")).arg(keyID),file.filename());
-        } else if (message.find("NO_PUBKEY")!=-1) {
-                message.remove(0,message.find("NO_PUBKEY")+9);
-                message=message.section('\n',0,0);
-                keyID=message.stripWhiteSpace();
-                if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
-                                                      "Do you want to import this key from a keyserver?</qt>").arg(keyID),file.filename())==KMessageBox::Yes)
-                        emit verifyquerykey(keyID);
-                emit verifyfinished();
-                return;
-        } else
-                KMessageBox::sorry(0,message);
-        emit verifyfinished();
+    if (!signmiss) {
+        if (signID.isEmpty()) signID=i18n("No signature found.");    
+        (void) new KDetailedInfo(0,"verify_result",signID,message);
+    }
+    else {
+    	if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
+                                                      "Do you want to import this key from a keyserver?</qt>").arg(signID),file.filename())==KMessageBox::Yes)
+    	emit verifyquerykey(signID);
+    }
+    emit verifyfinished();
 }
 
 
@@ -1081,14 +1093,16 @@ void KgpgInterface::expprocess(KProcIO *p)
                         }
                         p->writeStdin(signpass,true);
                         required=QString::null;
-                        //               step=2;
+                        //              step=2;
                 }
                 if ((step==2) && (required.find("keyedit.prompt")!=-1)) {
                         p->writeStdin("save");
+			p->closeWhenDone();
                         required=QString::null;
                 }
 		if ((step==2) && (required.find("keyedit.save.okay")!=-1)) {
                         p->writeStdin("YES");
+			p->closeWhenDone();
                         required=QString::null;
                 }
                 if (required.find("BAD_PASSPHRASE")!=-1) {
@@ -1411,9 +1425,7 @@ kdDebug(2100)<<"Importing is over"<<endl;
 	emit refreshOrphaned();
         emit importfinished(importedKeysIds);
 	
-        KDetailedInfo *m_box=new KDetailedInfo(0,"import_result",resultMessage,message,importedKeys);
-        m_box->setMinimumWidth(300);
-        m_box->exec();
+	(void) new KDetailedInfo(0,"import_result",resultMessage,message,importedKeys);
 }
 
 void KgpgInterface::importURLover(KProcess *p)

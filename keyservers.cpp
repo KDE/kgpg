@@ -488,11 +488,10 @@ void keyServer::slotimportresult(KProcess*)
 	emit importFinished(lastID);
 	}
 	
-        KDetailedInfo *m_box=new KDetailedInfo(0,"import_result",resultMessage,readmessage,importedKeys);
         if (importpop)
                 importpop->hide();
-	m_box->setMinimumWidth(300);
-        m_box->exec();
+	(void) new KDetailedInfo(0,"import_result",resultMessage,readmessage,importedKeys);
+
         if (importpop)
                 delete importpop;
 	if (autoCloseWindow) close();

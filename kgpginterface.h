@@ -268,7 +268,7 @@ private slots:
 signals:
 
 	void missingSignature(QString);
-	void verifyOver(QString);
+	void verifyOver(QString,QString);
 
 	/**
                *  emitted when a txt decryption failed. returns log output

@@ -16,18 +16,18 @@
  ***************************************************************************/
 
 
-#include "detailedconsole.h"
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qvgroupbox.h>
 #include <qtextedit.h>
 
+#include <kmessagebox.h>
 #include <klocale.h>
 #include <klistbox.h>
 #include <kglobal.h>
 
 #include "kgpgoptions.h"
-
+#include "detailedconsole.h"
 
 
 KDetailedConsole::KDetailedConsole(QWidget *parent, const char *name,const QString &boxLabel,const QString &errormessage)
@@ -52,25 +52,11 @@ KDetailedConsole::~KDetailedConsole()
 {}
 
 KDetailedInfo::KDetailedInfo(QWidget *parent, const char *name , const QString &boxLabel,const QString &errormessage,QStringList keysList)
-    : KDialogBase(Plain, i18n("Info"),KDialogBase::Details|KDialogBase::Ok, KDialogBase::Ok,parent,name,true)
+    : KDialogBase(Swallow, i18n("Info"),KDialogBase::Details|KDialogBase::Ok, KDialogBase::Ok,parent,name,true)
 {
-	QWidget *page = plainPage();
-	setMainWidget(page);
-        QVBoxLayout *topLayout = new QVBoxLayout( page, 0, spacingHint() );
-	topLayout->setAutoAdd(true);
-
-        (void) new QLabel( boxLabel, page, "caption" );
-	KListBox *list=new KListBox(page);
-	list->insertStringList(keysList);
-
-	if (keysList.isEmpty()) list->hide();
-
-	QTextEdit *te=new QTextEdit(this);
-	te->setText(errormessage);
-	te->setReadOnly(true);
-        te->setMinimumSize(te->sizeHint());
-        setDetailsWidget(te);
-	show();
+	bool checkboxResult;
+	KMessageBox::createKMessageBox(this, QMessageBox::Information,
+                       boxLabel, keysList,QString::null,&checkboxResult, 0,errormessage);
 }
 
 KDetailedInfo::~KDetailedInfo()

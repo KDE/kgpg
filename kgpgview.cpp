@@ -49,6 +49,7 @@
 #include "kgpgeditor.h"
 #include "listkeys.h"
 #include "popuppublic.h"
+#include "detailedconsole.h"
 
 //////////////// configuration for editor
 
@@ -247,10 +248,11 @@ if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: 
 	else emit verifyFinished();
 }
 
-void KgpgView::slotVerifyResult(QString mssge)
+void KgpgView::slotVerifyResult(QString mssge,QString log)
 {
 emit verifyFinished();
-KMessageBox::information(0,mssge);
+//KMessageBox::information(0,mssge);
+(void) new KDetailedInfo(0,"verify_result",mssge,log);
 }
 
 void KgpgView::clearSign()
@@ -260,7 +262,7 @@ void KgpgView::clearSign()
                 //////////////////////   this is a signed message, verify it
 		KgpgInterface *verifyProcess=new KgpgInterface();
 		connect(verifyProcess,SIGNAL(missingSignature(QString)),this,SLOT(slotAskForImport(QString)));
-		connect(verifyProcess,SIGNAL(verifyOver(QString)),this,SLOT(slotVerifyResult(QString)));
+		connect(verifyProcess,SIGNAL(verifyOver(QString,QString)),this,SLOT(slotVerifyResult(QString,QString)));
 		verifyProcess->KgpgVerifyText(mess);                                                
         	} 
 		else {

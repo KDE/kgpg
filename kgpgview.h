@@ -100,7 +100,7 @@ public slots:
 	void clearSign();
 
 private slots:
-	void slotVerifyResult(QString mssge);
+	void slotVerifyResult(QString mssge,QString log);
 	void slotSignResult(QString signResult);
 	void slotAskForImport(QString ID);
         void popuppublic();
