@@ -169,6 +169,7 @@ void keyServer::slotSearch()
 	dialogServer=new KDialogBase(KDialogBase::Swallow, i18n("Import Key From Keyserver"),  KDialogBase::Ok | KDialogBase::Close,KDialogBase::Ok,this,0,true);
 	
 	dialogServer->setButtonText(KDialogBase::Ok,i18n("&Import"));
+	dialogServer->enableButtonOK(false);
 	listpop=new searchRes();
         //listpop->setMinimumWidth(250);
         //listpop->adjustSize();
@@ -198,7 +199,7 @@ void keyServer::slotSearch()
         QObject::connect(searchproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotsearchresult(KProcess *)));
         QObject::connect(searchproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotsearchread(KProcIO *)));
         searchproc->start(KProcess::NotifyOnExit,true);
-	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 	dialogServer->setMainWidget(listpop);
 	listpop->setMinimumSize(listpop->sizeHint());
         dialogServer->exec();
@@ -208,9 +209,9 @@ void keyServer::handleQuit()
 {
 	if (searchproc->isRunning()) 
 	{
+	    QApplication::restoreOverrideCursor();
 	    disconnect(searchproc,0,0,0);
 	    searchproc->kill();
-	    QApplication::restoreOverrideCursor();
 	}
 	dialogServer->close();
 }
@@ -266,6 +267,7 @@ void keyServer::transferKeyID()
 void keyServer::slotsearchresult(KProcess *)
 {
         QString nb;
+	dialogServer->enableButtonOK(true);
 	QApplication::restoreOverrideCursor();
         nb=nb.setNum(keyNumbers);
         //listpop->kLVsearch->setColumnText(0,i18n("Found %1 matching keys").arg(nb));
@@ -346,7 +348,7 @@ void keyServer::slotExport(QString keyId)
         QObject::connect(exportproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotexportresult(KProcess *)));
         QObject::connect(exportproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotimportread(KProcIO *)));
         exportproc->start(KProcess::NotifyOnExit,true);
-
+	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
         importpop = new QDialog( this,0,true);
         QVBoxLayout *vbox=new QVBoxLayout(importpop,3);
         QLabel *tex=new QLabel(importpop);
@@ -362,6 +364,7 @@ void keyServer::slotExport(QString keyId)
 
 void keyServer::abortExport()
 {
+	QApplication::restoreOverrideCursor();
         if (importpop)
                 delete importpop;
         if (exportproc->isRunning()) 
@@ -373,6 +376,7 @@ void keyServer::abortExport()
 
 void keyServer::slotexportresult(KProcess*)
 {
+	QApplication::restoreOverrideCursor();
         KMessageBox::information(0,readmessage);
         if (importpop)
                 delete importpop;
@@ -413,7 +417,7 @@ void keyServer::slotImport()
         QObject::connect(importproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotimportresult(KProcess *)));
         QObject::connect(importproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotimportread(KProcIO *)));
         importproc->start(KProcess::NotifyOnExit,true);
-	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
         importpop = new QDialog( this,0,true);
         QVBoxLayout *vbox=new QVBoxLayout(importpop,3);
         QLabel *tex=new QLabel(importpop);
@@ -429,11 +433,11 @@ void keyServer::slotImport()
 
 void keyServer::abortImport()
 {
+	QApplication::restoreOverrideCursor();
         if (importpop)
                 delete importpop;
 	if (importproc->isRunning()) 
 	{
-	    QApplication::restoreOverrideCursor();
 	    disconnect(importproc,0,0,0);
 	    emit importFinished(QString::null);
 	    importproc->kill();   
