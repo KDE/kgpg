@@ -228,6 +228,7 @@
     </connection>
 </connections>
 <includes>
+	<include>kcombobox.h</include>
     <include location="local" impldecl="in implementation">kgpgoption.ui.h</include>
 </includes>
 <slots>
