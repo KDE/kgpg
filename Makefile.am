@@ -14,7 +14,7 @@ picsdir=$(kde_datadir)/kgpg/pics
 servicedir = $(kde_datadir)/konqueror/servicemenus
 service_DATA = encryptfile.desktop encryptfolder.desktop
 
-autostartdir = $(prefix)/share/autostart
+autostartdir = $(datadir)/autostart
 autostart_DATA = kgpg.desktop
 
 xdg_apps_DATA = kgpg.desktop
