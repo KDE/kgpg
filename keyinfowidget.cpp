@@ -59,7 +59,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
 	connect(prop->kCOwnerTrust,SIGNAL(activated (const QString &)),this,SLOT(slotChangeTrust(const QString &)));
 	connect(this,SIGNAL(changeMainPhoto(const QPixmap&)),this,SLOT(slotSetPhoto(const QPixmap&)));
 
-	setMinimumSize(sizeHint());
+	//prop->setMinimumSize(prop->sizeHint());
 }
 
 void KgpgKeyInfo::slotDisableKey(bool isOn)

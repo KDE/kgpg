@@ -210,7 +210,7 @@ void popupPublic::sort()
         if (current==NULL)
                 return;
 
-	if ((untrustedList.find(current->text(2),0,false)!=-1) && (!current->text(2).isEmpty())){
+	if ((untrustedList.find(current->text(2))!=untrustedList.end()) && (!current->text(2).isEmpty())){
                 if (current->isSelected()) {
                         current->setSelected(false);
                         reselect=true;
@@ -220,7 +220,7 @@ void popupPublic::sort()
 
         while ( current->nextSibling() ) {
                 current = current->nextSibling();
-                if ((untrustedList.find(current->text(2),0,false)!=-1) && (!current->text(2).isEmpty())) {
+                if ((untrustedList.find(current->text(2))!=untrustedList.end()) && (!current->text(2).isEmpty())) {
                 if (current->isSelected()) {
                         current->setSelected(false);
                         reselect=true;
@@ -325,7 +325,7 @@ void popupPublic::slotprocread(KProcIO *p)
                         QString tr;
                         switch( trust[0] ) {
                         case 'o':
-				untrustedList+=id+" ";
+				untrustedList<<id;
                                 break;
                         case 'i':
                                 dead=true;
@@ -340,22 +340,23 @@ void popupPublic::slotprocread(KProcIO *p)
                                 dead=true;
                                 break;
                         case 'q':
-                                untrustedList+=id+" ";
+                                untrustedList<<id;
                                 break;
                         case 'n':
-                                untrustedList+=id+" ";
+                                untrustedList<<id;
                                 break;
                         case 'm':
-                                untrustedList+=id+" ";
+                                untrustedList<<id;
                                 break;
                         case 'f':
                                 break;
                         case 'u':
                                 break;
                         default:
-				untrustedList+=id+" ";
+				untrustedList<<id;
                                 break;
                         }
+			if (keyString[11].find('D')!=-1) dead=true;
                         tst=keyString[9];
 			if (tst.find("<")!=-1) {
                 keymail=tst.section('<',-1,-1);

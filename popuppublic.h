@@ -43,7 +43,8 @@ public:
         QCheckBox *CBarmor,*CBuntrusted,*CBshred,*CBsymmetric,*CBhideid;
         bool fmode,trusted;
         QPixmap keyPair,keySingle,keyGroup;
-        QString seclist,defaultKey,keyGroups,untrustedList;
+        QString seclist,defaultKey,keyGroups;
+	QStringList untrustedList;
 	
 
 

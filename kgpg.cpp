@@ -467,7 +467,7 @@ void  MyView::droppedtext (QString inputText)
                         return;
                 else {
                         KgpgInterface *importKeyProcess=new KgpgInterface();
-                        importKeyProcess->importKey(inputText,false);
+                        importKeyProcess->importKey(inputText);
 			connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SIGNAL(importedKeys(QStringList)));
                         return;
                 }

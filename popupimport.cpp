@@ -82,7 +82,7 @@ popupImport::popupImport(const QString& caption,QWidget *parent, const char *nam
         bGroupSourcesLayout->addWidget( newFilename, 1, 1 );
         bGroupSourcesLayout->addWidget( buttonToolbar, 1, 2 );
 
-        importSecretKeys = new QCheckBox(i18n("Allow import of secret keys"),page);
+//        importSecretKeys = new QCheckBox(i18n("Allow import of secret keys"),page);
         // signals and slots connections
 
         connect( checkFile, SIGNAL( toggled(bool) ), this, SLOT( slotenable(bool) ) );
@@ -90,14 +90,11 @@ popupImport::popupImport(const QString& caption,QWidget *parent, const char *nam
 
         vbox->add
         (bGroupSources);
-        vbox->add
-        (importSecretKeys);
-
+ 
         // tab order
         setTabOrder( checkFile, newFilename );
         setTabOrder( newFilename, buttonToolbar );
-        setTabOrder( buttonToolbar, importSecretKeys );
-
+ 
         page->show();
         page->resize(page->maximumSize());
         setMainWidget(page);
@@ -119,5 +116,4 @@ void popupImport::slotenable(bool on)
         /////////  toggle editing of file name depending of the user choice
         newFilename->setEnabled(on);
 }
-//#include "popupimport.moc"
 #include "popupimport.moc"

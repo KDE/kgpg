@@ -97,11 +97,11 @@ public slots:
         /**Import key function
          * @param url Kurl the url of the key file. Allows public & secret key import.
          */
-        void importKeyURL(KURL url, bool importSecret=false);
+        void importKeyURL(KURL url);
         /**Import key function
          * @param keystr QString containing th key. Allows public & secret key import.
         */
-        void importKey(QString keystr, bool importSecret=false);
+        void importKey(QString keystr);
 
         /**Key signature function
          * @param keyID QString the ID of the key to be signed
@@ -259,7 +259,7 @@ private slots:
 	
 	void adduidover(KProcess *);
 	void adduidprocess(KProcIO *p);
-	
+		
 	void slotReadKey(KProcIO *p);
 	void photoreadover(KProcess *);
 	void photoreadprocess(KProcIO *p);

@@ -1221,7 +1221,7 @@ void KgpgInterface::slotReadKey(KProcIO *p)
 
 //////////////////////////////////////////////////////////////    key import
 
-void KgpgInterface::importKeyURL(KURL url, bool importSecret)
+void KgpgInterface::importKeyURL(KURL url)
 {
         /////////////      import a key
 kdDebug()<<"Importing "<<url.path()<<endl;
@@ -1229,8 +1229,7 @@ kdDebug()<<"Importing "<<url.path()<<endl;
                 message=QString::null;
                 KProcIO *conprocess=new KProcIO();
                 *conprocess<< "gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--import";
-                if (importSecret)
-                        *conprocess<<"--allow-secret-key-import";
+                *conprocess<<"--allow-secret-key-import";
                 *conprocess<<tempKeyFile;
                 QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(importURLover(KProcess *)));
                 QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(importprocess(KProcIO *)));
@@ -1238,14 +1237,13 @@ kdDebug()<<"Importing "<<url.path()<<endl;
         }
 }
 
-void KgpgInterface::importKey(QString keystr, bool importSecret)
+void KgpgInterface::importKey(QString keystr)
 {
         /////////////      import a key
         message=QString::null;
         KProcIO *conprocess=new KProcIO();
         *conprocess<< "gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--import";
-        if (importSecret)
-                *conprocess<<"--allow-secret-key-import";
+        *conprocess<<"--allow-secret-key-import";
         QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(importover(KProcess *)));
         QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(importprocess(KProcIO *)));
         conprocess->start(KProcess::NotifyOnExit,true);
@@ -1390,6 +1388,7 @@ QString KgpgInterface::extractKeyName(QString txt)
 
 ///////////////////////////////////////////////////////////////////////////////////////   User ID's
 
+
 void KgpgInterface::KgpgAddUid(QString keyID,QString name,QString email,QString comment)
 {
 uidName=name;
@@ -1493,7 +1492,6 @@ void KgpgInterface::KgpgGetPhotoList(QString keyID)
 photoList.clear();
 output=QString::null;
 photoCount=1;
-txtsent=false;
 userIDs=keyID;
 
         KProcIO *conprocess=new KProcIO();

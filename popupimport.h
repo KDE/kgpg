@@ -42,7 +42,7 @@ public:
         KLineEdit *newFilename;
         KURL path;
         QButtonGroup* bGroupSources;
-        QCheckBox *importSecretKeys;
+//        QCheckBox *importSecretKeys;
         QPushButton* buttonToolbar;
 
 protected:

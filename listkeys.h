@@ -172,7 +172,7 @@ public:
         ~listKeys();
         QLabel *keyPhoto;
         KeyView *keysList2;
-        QPopupMenu *popup,*popupsec,*popupout,*popupsig,*popupgroup,*popupphoto;
+        QPopupMenu *popup,*popupsec,*popupout,*popupsig,*popupgroup,*popupphoto,*popupuid;
         QString message, optionsDefaultKey,configUrl;
         QStringList keynames;
         KPassivePopup *pop;
@@ -211,6 +211,7 @@ public slots:
 	void slotSetDefaultKey(QString newID);
 
 private slots:
+	void slotDelUid();
 	void slotAddUid();
 	void slotAddUidEnable(const QString & name);
 	void uidError(QString errortxt);

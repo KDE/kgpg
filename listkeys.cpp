@@ -298,7 +298,8 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
                                         default:
                                                 break;
                                         }
-                                }
+                                if (tst2.section(':',11,11).find('D')!=-1) dead=true;
+				}
                         }
                         pclose(fp2);
                         if (!tst.isEmpty() && (!dead)) {
@@ -510,6 +511,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 	KAction *addPhoto= new KAction(i18n("&Add Photo"), 0, 0,this, SLOT(slotAddPhoto()),actionCollection(),"add_photo");
 	
 	KAction *addUid= new KAction(i18n("&Add User Id"), 0, 0,this, SLOT(slotAddUid()),actionCollection(),"add_uid");
+	KAction *delUid= new KAction(i18n("&Delete User Id"), 0, 0,this, SLOT(slotDelUid()),actionCollection(),"del_uid");
 
 	KAction *editKey = new KAction(i18n("&Edit Key In Terminal"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
         KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
@@ -598,17 +600,11 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         openPhoto->plug(popupphoto);
 	deletePhoto->plug(popupphoto);
 
+	popupuid=new QPopupMenu();
+        delUid->plug(popupuid);
 
-/*        keyPhoto=new QLabel(page);
-        keyPhoto->setText(i18n("Photo"));
-        keyPhoto->setFixedSize(60,60);
-        keyPhoto->setScaledContents(true);
-        keyPhoto->setFrameStyle( QFrame::Box | QFrame::Raised );
-*/
+
         vbox->addWidget(keysList2);
-        //if (showPhoto==true)
-        //vbox->addWidget(keyPhoto);
-        //vbox->addWidget(statusbar);
         setCentralWidget(page);
         keysList2->restoreLayout(config,"KeyView");
 
@@ -635,6 +631,21 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
 listKeys::~listKeys()
 {}
+
+
+void listKeys::slotDelUid()
+{
+QListViewItem *item=keysList2->currentItem();
+while (item->depth()>0) item=item->parent();
+
+KProcess *conprocess=new KProcess();
+KConfig *config = new KConfig("kdeglobals", true);
+	config->setGroup("General");
+	*conprocess<< config->readEntry("TerminalApplication","konsole");
+        *conprocess<<"-e"<<"gpg";
+        *conprocess<<"--edit-key"<<item->text(6)<<"uid";
+	conprocess->start(KProcess::Block);
+}
 
 
 void listKeys::slotAddUid()
@@ -1166,10 +1177,8 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
                                         return;
                                 }
                         }
-			else if (sel->text(0)==i18n("Photo id"))
-			{
-			popupphoto->exec(pos);
-			}
+			else if (sel->text(0)==i18n("Photo id")) popupphoto->exec(pos);
+			else if (sel->text(6)==("-")) popupuid->exec(pos);
                 } else {
                         keysList2->setSelected(sel,TRUE);
                         if (keysList2->currentItem()->text(6).isEmpty())
@@ -2135,21 +2144,20 @@ void listKeys::slotPreImportKey()
         popupImport *dial=new popupImport(i18n("Import Key From"),this, "import_key");
 
         if (dial->exec()==QDialog::Accepted) {
-                bool importSecret = dial->importSecretKeys->isChecked();
 
                 if (dial->checkFile->isChecked()) {
                         QString impname=dial->newFilename->text().stripWhiteSpace();
                         if (!impname.isEmpty()) {
                                 ////////////////////////// import from file
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
-                                importKeyProcess->importKeyURL(impname, importSecret);
+                                importKeyProcess->importKeyURL(impname);
                                 connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SLOT(slotReloadKeys(QStringList)));
                         }
                 } else {
                         QString keystr = kapp->clipboard()->text();
                         if (!keystr.isEmpty()) {
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
-                                importKeyProcess->importKey(keystr, importSecret);
+                                importKeyProcess->importKey(keystr);
                                 connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SLOT(slotReloadKeys(QStringList)));
                         }
                 }
@@ -2209,6 +2217,7 @@ void KeyView::expandKey(QListViewItem *item)
                 return;   // key has already been expanded
 
 	photoIdList.clear();
+	
 	if (photoKeysList.find(item->text(6))!=-1) // contains a photo id
 	{
 	KgpgInterface *photoProcess=new KgpgInterface();
@@ -2225,11 +2234,11 @@ photoIdList=list;
 expandKey2(itemToOpen);
 }
 
-
 void KeyView::expandKey2(QListViewItem *item)
 {
 	FILE *fp;
-        QString cycle,revoked;
+        QString cycle;
+	QStringList revoked;
 	QStringList tst;
         char line[300];
         SmallViewItem *itemsub=NULL;
@@ -2237,11 +2246,6 @@ void KeyView::expandKey2(QListViewItem *item)
         SmallViewItem *itemsig=NULL;
         QPixmap keyPhotoId;
 	int uidNumber=0;
-
-/*	if (photoKeysList.find(item->text(6))!=-1) // contains a photo id
-	{
-		keyPhotoId=slotGetPhoto(item->text(6));
-	}*/
 
 	kdDebug()<<"Expanding Key: "<<item->text(6)<<endl;
 
@@ -2296,7 +2300,7 @@ void KeyView::expandKey2(QListViewItem *item)
 
 
                         if (tst[0]=="rev") {
-                                revoked+=QString("0x"+tst[4].right(8)+" ");
+                                revoked<<QString("0x"+tst[4].right(8));
                         } else
 
 
@@ -2331,58 +2335,32 @@ void KeyView::expandKey2(QListViewItem *item)
         while (!revoked.isEmpty())   ///////////////   there are revoked sigs in previous key
         {
                 bool found=false;
-                revoked=revoked.stripWhiteSpace();
-                QString currentRevoke=revoked.section(' ',0,0);
-                revoked.remove(0,currentRevoke.length());
-                revoked=revoked.stripWhiteSpace();
-
+                QString currentRevoke=revoked[0];
+                revoked.remove(revoked.begin());
+		
+		
                 QListViewItem *current = item->firstChild();
-                if (current)
-                        if (currentRevoke.find(current->text(6))!=-1)
+                
+		while (current)
+		{
+                        if (currentRevoke==current->text(6))
                         {
                                 current->setText(2,i18n("Revoked"));
                                 found=true;
                         }
 
                 QListViewItem *subcurrent = current->firstChild();
-                if (subcurrent)
+                while (subcurrent)
                 {
-                        if (currentRevoke.find(subcurrent->text(6))!=-1) {
+                        if (currentRevoke==subcurrent->text(6)) {
                                 subcurrent->setText(2,i18n("Revoked"));
                                 found=true;
                         }
-                        while (subcurrent->nextSibling()) {
-                                subcurrent = subcurrent->nextSibling();
-                                if (currentRevoke.find(subcurrent->text(6))!=-1) {
-                                        subcurrent->setText(2,i18n("Revoked"));
-                                        found=true;
-                                }
-                        }
+                        subcurrent = subcurrent->nextSibling();
                 }
-
-                while ( current->nextSibling() )
-                {
-                        current = current->nextSibling();
-                        if (currentRevoke.find(current->text(6))!=-1) {
-                                current->setText(2,i18n("Revoked"));
-                                found=true;
-                        }
-
-                        QListViewItem *subcurrent = current->firstChild();
-                        if (subcurrent) {
-                                if (currentRevoke.find(subcurrent->text(6))!=-1) {
-                                        subcurrent->setText(2,i18n("Revoked"));
-                                        found=true;
-                                }
-                                while (subcurrent->nextSibling()) {
-                                        subcurrent = subcurrent->nextSibling();
-                                        if (currentRevoke.find(subcurrent->text(6))!=-1) {
-                                                subcurrent->setText(2,i18n("Revoked"));
-                                                found=true;
-                                        }
-                                }
-                        }
-                }
+		current=current->nextSibling();
+		}
+		
                 if (!found)
                         (void) new SmallViewItem(item,i18n("Revocation Certificate"),"+","+","+","+","+",currentRevoke);
         }
@@ -2694,7 +2672,12 @@ QStringList keyString=QStringList::split(":",keyColon,true);
                 ret.trustpic=trustunknown;
                 break;
         }
-
+	if (keyString[11].find('D')!=-1)
+	{
+	ret.gpgkeytrust=i18n("Disabled");
+	ret.trustpic=trustbad;
+	}
+	
         return ret;
 }
 #include "listkeys.moc"
