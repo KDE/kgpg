@@ -58,6 +58,7 @@ keyServer::keyServer(QWidget *parent, const char *name,bool modal,WFlags f):Keys
         connect(cBproxyI,SIGNAL(toggled(bool)),this,SLOT(slotEnableProxyI(bool)));
         connect(cBproxyE,SIGNAL(toggled(bool)),this,SLOT(slotEnableProxyE(bool)));
 
+        connect(  kLEimportid,  SIGNAL( textChanged ( const QString & )), this,  SLOT( slotTextChanged( const QString &)));
         const char *httpproxy = getenv("http_proxy");
         if (httpproxy) {
                 cBproxyI->setEnabled(true);
@@ -73,12 +74,22 @@ keyServer::keyServer(QWidget *parent, const char *name,bool modal,WFlags f):Keys
         *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--with-colon"<<"--list-keys";
         QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
         encid->start(KProcess::NotifyOnExit,true);
+        Buttonimport->setEnabled( !kLEimportid->text().isEmpty());
+        Buttonsearch->setEnabled( !kLEimportid->text().isEmpty());
+
 }
 
 
 keyServer::~keyServer()
 {}
 
+
+void keyServer::slotTextChanged( const QString &text)
+{
+    Buttonimport->setEnabled( !text.isEmpty());
+    Buttonsearch->setEnabled( !text.isEmpty());
+
+}
 void keyServer::slotEnableProxyI(bool on)
 {
         kLEproxyI->setEnabled(on);

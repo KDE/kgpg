@@ -62,7 +62,7 @@ public slots:
         void slotEnableProxyI(bool on);
         void slotEnableProxyE(bool on);
         void handleQuit();
-
+    void slotTextChanged( const QString &text);
 private:
 
         KConfig *config;
