@@ -103,7 +103,7 @@ class listKeys : public KMainWindow//QDialog //KMainWindow
    KToolBar *toolbar;
 QString message,defKey,issec;
 QStringList keynames;
-QPixmap keyPair,keySingle,dkeyPair,dkeySingle,nkeyPair,nkeySingle,gkeyPair,gkeySingle,signature,userid;
+QPixmap pixkeyPair,pixkeySingle,pixsignature,pixuserid,pixuserphoto;
 QDialog *pop;
 
   private:

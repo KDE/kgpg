@@ -514,17 +514,11 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
 
   KIconLoader *loader = KGlobal::iconLoader();
 
-  dkeyPair=loader->loadIcon("kgpg_dkey2",KIcon::Small,20);
-  dkeySingle=loader->loadIcon("kgpg_dkey1",KIcon::Small,20);
-  keyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
-  keySingle=loader->loadIcon("kgpg_key1",KIcon::Small,20);
-  gkeyPair=loader->loadIcon("kgpg_gkey2",KIcon::Small,20);
-  gkeySingle=loader->loadIcon("kgpg_gkey1",KIcon::Small,20);
-  nkeyPair=loader->loadIcon("kgpg_nkey2",KIcon::Small,20);
-  nkeySingle=loader->loadIcon("kgpg_nkey1",KIcon::Small,20);
-  signature=loader->loadIcon("signature",KIcon::Small,20);
-  userid=loader->loadIcon("identity",KIcon::Small,20);
-
+  pixkeyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
+  pixkeySingle=loader->loadIcon("kgpg_key1",KIcon::Small,20);
+  pixsignature=loader->loadIcon("signature",KIcon::Small,20);
+  pixuserid=loader->loadIcon("kgpg_identity",KIcon::Small,20);
+  pixuserphoto=loader->loadIcon("kgpg_photo",KIcon::Small,20);
 
   QWidget *page=new QWidget(this);
   QVBoxLayout *vbox=new QVBoxLayout(page,3);
@@ -1277,8 +1271,10 @@ void listKeys::refreshkey()
   photoKeysList="";
   QString tst,cycle,keyname,revoked;
   char line[300];
-  UpdateViewItem *item;
-  SmallViewItem *itemsub,*itemuid,*itemsig;
+  UpdateViewItem *item=NULL;
+  SmallViewItem *itemsub=NULL;
+  SmallViewItem *itemuid=NULL;
+  SmallViewItem *itemsig=NULL;
   keysList2->clear();
   cycle="";
   char gpgcmd2[1024] = "\0";
@@ -1301,7 +1297,7 @@ void listKeys::refreshkey()
 
       if (tst.startsWith("uid") || tst.startsWith("uat"))
         {
-          QString uidname=tst.section(':',9,9);
+          
           const QString trust=tst.section(':',1,1);
 
           QString tr;
@@ -1344,21 +1340,20 @@ void listKeys::refreshkey()
           if (tst.startsWith("uat"))
             {
               photoKeysList+=item->text(5);
-              uidname=i18n("Photo ID");
-              itemuid= new SmallViewItem(item,uidname,tr,"-","-","-","-");
-              itemuid->setPixmap(0,userid);
+              itemuid= new SmallViewItem(item,i18n("Photo ID"),tr,"-","-","-","-");
+              itemuid->setPixmap(0,pixuserphoto);
               cycle="uid";
             }
 
           else
-            if (uidname.find("<",0,FALSE)!=-1)
+            if (tst.section(':',9,9).find("<",0,FALSE)!=-1)
               {
-                //tst=uidname.section('<',1,1);
-                //  uidname=uidname.section('<',0,0);
-                //tst=tst.section('>',0,0);
+                QString uidname=tst.section(':',9,9).section('<',1,1);
+                  uidname=uidname.section('>',0,0);
+                  uidname+=" ("+tst.section(':',9,9).section('<',0,0)+")";
 
                 itemuid= new SmallViewItem(item,uidname,tr,"-","-","-","-");
-                itemuid->setPixmap(0,userid);
+                itemuid->setPixmap(0,pixuserid);
                 cycle="uid";
               }
         }
@@ -1400,7 +1395,7 @@ void listKeys::refreshkey()
                   if (cycle=="uid")
                     itemsig= new SmallViewItem(itemuid,signame,"-",val,"-",creat,id);
 
-                  itemsig->setPixmap(0,signature);
+                  itemsig->setPixmap(0,pixsignature);
                   //KMessageBox::sorry(0,cycle+"::"+signame);
                   //              (void) new KListViewItem(keysListsig,signame,opt,islocalsig,date,id);
                 }
@@ -1477,7 +1472,7 @@ void listKeys::refreshkey()
                 if (!tst.isEmpty())
                   {
                     itemsub= new SmallViewItem(item,tst,tr,val,klength,creat,id);
-                    itemsub->setPixmap(0,keySingle);
+                    itemsub->setPixmap(0,pixkeySingle);
                     cycle="sub";
                   }
               }
@@ -1613,12 +1608,12 @@ void listKeys::refreshkey()
 
                       if (issec.find(id.right(8),0,FALSE)!=-1)
                         {
-                          item->setPixmap(0,keyPair);
+                          item->setPixmap(0,pixkeyPair);
                           secretList+=id;
                         }
                       else
                         {
-                          item->setPixmap(0,keySingle);
+                          item->setPixmap(0,pixkeySingle);
                         }
                     }
                 }
