@@ -21,6 +21,7 @@
 #include <qclipboard.h>
 #include <qfile.h>
 #include <kglobal.h>
+#include <kdeversion.h>
 #include <klocale.h>
 #include <kconfig.h>
 #include <kapplication.h>
@@ -30,7 +31,6 @@
 #include <kprocess.h>
 #include <kprocio.h>
 #include <qcursor.h>
-//#include <qframe.h>
 #include <qwidget.h>
 #include <qtooltip.h>
 #include <kaboutapplication.h>
@@ -381,7 +381,7 @@ void  MyView::readOptions()
 
         if (ksConfig->readBoolEntry("First run",true))
                 firstRun();
-        if (ksConfig->readEntry("gpg config path").isEmpty())
+        if (ksConfig->readPathEntry("gpg config path").isEmpty())
                 startWizard();
 
 
@@ -458,13 +458,14 @@ void  MyView::slotSaveOptionsPath()
         }
 
         ksConfig->setGroup("Applet");
-        if ( wiz->checkBox2->isChecked())
-                ksConfig->writeEntry("AutoStart", true);
-        else
-                ksConfig->writeEntry("AutoStart", false);
+        ksConfig->writeEntry("AutoStart", wiz->checkBox2->isChecked());
 
         ksConfig->setGroup("General Options");
+#if KDE_IS_VERSION(3,1,3)
+        ksConfig->writePathEntry("gpg config path",wiz->kURLRequester1->url());
+#else
         ksConfig->writeEntry("gpg config path",wiz->kURLRequester1->url());
+#endif
         ksConfig->writeEntry("First run",false);
         ksConfig->sync();
         if (wiz)
@@ -598,7 +599,7 @@ kdDebug() << "Starting KGpg\n";
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
                 kgpg_applet->show();
                 kgpg_applet->w->ksConfig->setGroup("General Options");
-                QString gpgPath=kgpg_applet->w->ksConfig->readEntry("gpg config path");
+                QString gpgPath=kgpg_applet->w->ksConfig->readPathEntry("gpg config path");
 
                 if (gpgPath.isEmpty())
                         KMessageBox::sorry(0,"<qt>You did not set a path to your GnuPG config file.<br>This may bring some surprising results in KGpg's execution...</qt>");

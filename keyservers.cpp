@@ -404,7 +404,7 @@ void keyServer::slotimportread(KProcIO *p)
 void keyServer::syncCombobox()
 {
         config->setGroup("General Options");
-        QString confPath=config->readEntry("gpg config path");
+        QString confPath=config->readPathEntry("gpg config path");
 
         config->setGroup("Keyservers");
         QString servers=config->readEntry("servers");

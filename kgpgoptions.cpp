@@ -23,6 +23,7 @@
 #include <qvbox.h>
 #include <qfile.h>
 #include <kconfig.h>
+#include <kdeversion.h>
 #include <klocale.h>
 
 #include <qdialog.h>
@@ -62,7 +63,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KgpgOptionDialog( pa
         bool clipselection=config->readBoolEntry("selection clip",false);
         QString filekey=config->readEntry("file key");
         bool allowcustom=config->readBoolEntry("allow custom option",false);
-        confPath=config->readEntry("gpg config path");
+        confPath=config->readPathEntry("gpg config path");
         if (confPath.isEmpty())
                 confPath=QDir::homeDirPath()+"/.gnupg/options";
         defaultKeyID=KgpgInterface::getGpgSetting("encrypt-to",confPath);
@@ -335,7 +336,12 @@ void kgpgOptions::slotOk()
         config->writeEntry("custom option",kLEcustom->text());
         config->writeEntry("allow custom option",custom_2_2->isChecked());
         config->writeEntry("custom decrypt",kLEcustomdec->text());
+#if KDE_IS_VERSION(3,1,3)
+        config->writePathEntry("gpg config path",kURLconfigPath->url());
+#else
         config->writeEntry("gpg config path",kURLconfigPath->url());
+#endif
+
 	config->writeEntry("Pgp extension",pgpExtension->isChecked());
 
         if (defaut_2_2->isChecked()) {
@@ -353,10 +359,7 @@ void kgpgOptions::slotOk()
         config->setGroup("Applet");
         config->writeEntry("encrypted drop event",kCBencrypted->currentItem());
         config->writeEntry("unencrypted drop event",kCBunencrypted->currentItem());
-        if ( cBautolog->isChecked())
-                config->writeEntry("AutoStart", true);
-        else
-                config->writeEntry("AutoStart", false);
+        config->writeEntry("AutoStart", cBautolog->isChecked());
 
         config->setGroup("Notification Messages");
         config->writeEntry("RemoteFileWarning",cbTempWarning->isChecked());

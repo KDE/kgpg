@@ -337,7 +337,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
 
         KConfig *config=kapp->config();
         config->setGroup("General Options");
-        QString defaultKeyID=KgpgInterface::getGpgSetting("default-key",config->readEntry("gpg config path"));
+        QString defaultKeyID=KgpgInterface::getGpgSetting("default-key",config->readPathEntry("gpg config path"));
 
 
         setMinimumSize(300,200);
@@ -857,7 +857,7 @@ void listKeys::readOptions()
         configshowToolBar=config->readBoolEntry("show toolbar",true);
         showPhoto=config->readBoolEntry("show photo",false);
         keysList2->displayMailFirst=config->readBoolEntry("display mail first",true);
-        configUrl=config->readEntry("gpg config path");
+        configUrl=config->readPathEntry("gpg config path");
         optionsDefaultKey=KgpgInterface::getGpgSetting("default-key",configUrl);
         QString defaultkey=optionsDefaultKey;
         if (!optionsDefaultKey.isEmpty())
