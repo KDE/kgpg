@@ -298,7 +298,7 @@ emit txtdecryptionfinished(QString::fromUtf8(message.ascii()));
 }
 else if (badmdc) 
 {
-KMessageBox::sorry(0,i18n("Bad MDC detected. The encrypted message has been manipulated."));
+KMessageBox::sorry(0,i18n("Bad MDC detected. The encrypted text has been manipulated."));
 emit txtdecryptionfailed(QString::fromUtf8(message.ascii()));
 }
 else
@@ -807,11 +807,7 @@ void KgpgInterface::KgpgDelSignature(QString keyID,QString signKeyID)
         message=signKeyID.remove(0,2);
         deleteSuccess=false;
         step=2;
-        /*
-          int code=KPasswordDialog::getPassword(passphrase,i18n("Enter passphrase for %1:").arg(signKeyMail));
-          if (code!=QDialog::Accepted)
-          return;
-        */
+        
         FILE *fp;
         QString encResult;
         char buffer[200];
@@ -819,7 +815,7 @@ void KgpgInterface::KgpgDelSignature(QString keyID,QString signKeyID)
         sigsearch=0;
 
         QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --list-sigs "+keyID;
-        //////////   encode with untrusted keys or armor if checked by user
+        
         fp = popen(QFile::encodeName(gpgcmd), "r");
         while ( fgets( buffer, sizeof(buffer), fp)) {
                 encResult=buffer;
@@ -1260,11 +1256,9 @@ void KgpgInterface::importKey(QString keystr, bool importSecret)
 void KgpgInterface::importover(KProcess *)
 {
 QStringList importedKeysIds;
+QString resultMessage;
 kdDebug()<<"Importing is over"<<endl;
-        QString importedNb,importedNbSucess,importedNbProcess,resultMessage, parsedOutput,importedNbUnchanged,importedNbSig;
-        QString notImportesNbSec,importedNbMissing,importedNbRSA,importedNbUid,importedNbSub,importedNbRev,readNbSec;
-        QString importedNbSec,dupNbSec;
-        parsedOutput=message;
+        QString parsedOutput=message;
         QStringList importedKeys;
 
         while (parsedOutput.find("IMPORTED")!=-1) {
@@ -1275,46 +1269,34 @@ kdDebug()<<"Importing is over"<<endl;
         }
 
         if (message.find("IMPORT_RES")!=-1) {
-                importedNb=message.section("IMPORT_RES",-1,-1);
-                importedNb=importedNb.stripWhiteSpace();
-                importedNbProcess=importedNb.section(" ",0,0);
-                importedNbMissing=importedNb.section(" ",1,1);
-                importedNbSucess=importedNb.section(" ",2,2);
-                importedNbRSA=importedNb.section(" ",3,3);
-                importedNbUnchanged=importedNb.section(" ",4,4);
-                importedNbUid=importedNb.section(" ",5,5);
-                importedNbSub=importedNb.section(" ",6,6);
-                importedNbSig=importedNb.section(" ",7,7);
-                importedNbRev=importedNb.section(" ",8,8);
-                readNbSec=importedNb.section(" ",9,9);
-                importedNbSec=importedNb.section(" ",10,10);
-                dupNbSec=importedNb.section(" ",11,11);
-                notImportesNbSec=importedNb.section(" ",12,12);
-                resultMessage=i18n("<qt>%1 key(s) processed.<br></qt>").arg(importedNbProcess);
-                if (importedNbUnchanged!="0")
-                        resultMessage+=i18n("<qt>%1 key(s) unchanged.<br></qt>").arg(importedNbUnchanged);
-                if (importedNbSig!="0")
-                        resultMessage+=i18n("<qt>%1 signature(s) imported.<br></qt>").arg(importedNbSig);
-                if (importedNbMissing!="0")
-                        resultMessage+=i18n("<qt>%1 key(s) without ID.<br></qt>").arg(importedNbMissing);
-                if (importedNbRSA!="0")
-                        resultMessage+=i18n("<qt>%1 RSA key(s) imported.<br></qt>").arg(importedNbRSA);
-                if (importedNbUid!="0")
-                        resultMessage+=i18n("<qt>%1 user ID(s) imported.<br></qt>").arg(importedNbUid);
-                if (importedNbSub!="0")
-                        resultMessage+=i18n("<qt>%1 subkey(s) imported.<br></qt>").arg(importedNbSub);
-                if (importedNbRev!="0")
-                        resultMessage+=i18n("<qt>%1 revocation certificate(s) imported.<br></qt>").arg(importedNbRev);
-                if (readNbSec!="0")
-                        resultMessage+=i18n("<qt>%1 secret key(s) processed.<br></qt>").arg(readNbSec);
-                if (importedNbSec!="0")
-                        resultMessage+=i18n("<qt><b>%1 secret key(s) imported.</b><br></qt>").arg(importedNbSec);
-                if (dupNbSec!="0")
-                        resultMessage+=i18n("<qt>%1 secret key(s) unchanged.<br></qt>").arg(dupNbSec);
-                if (notImportesNbSec!="0")
-                        resultMessage+=i18n("<qt>%1 secret key(s) not imported.<br></qt>").arg(notImportesNbSec);
-                if (importedNbSucess!="0")
-                        resultMessage+=i18n("<qt><b>%1 key(s) imported:</b><br></qt>").arg(importedNbSucess);
+                parsedOutput=message.section("IMPORT_RES",-1,-1).stripWhiteSpace();
+		QStringList messageList=QStringList::split(" ",parsedOutput,true);
+                	
+                resultMessage=i18n("<qt>%1 key(s) processed.<br></qt>").arg(messageList[0]);
+                if (messageList[4]!="0")
+                        resultMessage+=i18n("<qt>%1 key(s) unchanged.<br></qt>").arg(messageList[4]);
+                if (messageList[7]!="0")
+                        resultMessage+=i18n("<qt>%1 signature(s) imported.<br></qt>").arg(messageList[7]);
+                if (messageList[1]!="0")
+                        resultMessage+=i18n("<qt>%1 key(s) without ID.<br></qt>").arg(messageList[1]);
+                if (messageList[3]!="0")
+                        resultMessage+=i18n("<qt>%1 RSA key(s) imported.<br></qt>").arg(messageList[3]);
+                if (messageList[5]!="0")
+                        resultMessage+=i18n("<qt>%1 user ID(s) imported.<br></qt>").arg(messageList[5]);
+                if (messageList[6]!="0")
+                        resultMessage+=i18n("<qt>%1 subkey(s) imported.<br></qt>").arg(messageList[6]);
+                if (messageList[8]!="0")
+                        resultMessage+=i18n("<qt>%1 revocation certificate(s) imported.<br></qt>").arg(messageList[8]);
+                if (messageList[9]!="0")
+                        resultMessage+=i18n("<qt>%1 secret key(s) processed.<br></qt>").arg(messageList[9]);
+                if (messageList[10]!="0")
+                        resultMessage+=i18n("<qt><b>%1 secret key(s) imported.</b><br></qt>").arg(messageList[10]);
+                if (messageList[11]!="0")
+                        resultMessage+=i18n("<qt>%1 secret key(s) unchanged.<br></qt>").arg(messageList[11]);
+                if (messageList[12]!="0")
+                        resultMessage+=i18n("<qt>%1 secret key(s) not imported.<br></qt>").arg(messageList[12]);
+                if (messageList[2]!="0")
+                        resultMessage+=i18n("<qt><b>%1 key(s) imported:</b><br></qt>").arg(messageList[2]);
         } else
                 resultMessage=i18n("No key imported... \nCheck detailed log for more infos");
         KDetailedInfo *m_box=new KDetailedInfo(0,"import_result",resultMessage,message,importedKeys);

@@ -315,10 +315,11 @@ void popupPublic::slotprocread(KProcIO *p)
 
         while (p->readln(tst)!=-1) {
                 if (tst.startsWith("pub")) {
+			QStringList keyString=QStringList::split(":",tst,true);
                         dead=false;
-                        const QString trust=tst.section(':',1,1);
-                        QString val=tst.section(':',6,6);
-                        QString id=QString("0x"+tst.section(':',4,4).right(8));
+                        const QString trust=keyString[1];
+                        QString val=keyString[6];
+                        QString id=QString("0x"+keyString[4].right(8));
                         if (val.isEmpty())
                                 val=i18n("Unlimited");
                         QString tr;
@@ -355,7 +356,7 @@ void popupPublic::slotprocread(KProcIO *p)
 				untrustedList+=id+" ";
                                 break;
                         }
-                        tst=tst.section(':',9,9);
+                        tst=keyString[9];
 			if (tst.find("<")!=-1) {
                 keymail=tst.section('<',-1,-1);
                 keymail.truncate(keymail.length()-1);

@@ -20,6 +20,9 @@
 #include <qpixmap.h>
 #include <qclipboard.h>
 #include <qfile.h>
+#include <qpopupmenu.h>
+#include <qwidget.h>
+
 #include <kglobal.h>
 #include <kdeversion.h>
 #include <klocale.h>
@@ -30,15 +33,10 @@
 #include <kwin.h>
 #include <kprocess.h>
 #include <kprocio.h>
-#include <qcursor.h>
-#include <qwidget.h>
-#include <qtooltip.h>
 #include <kaboutapplication.h>
-#include <qpopupmenu.h>
 #include <kaction.h>
 #include <kurlrequester.h>
 #include <ktip.h>
-#include <qregexp.h>
 #include <kurldrag.h>
 #include <kdebug.h>
 #include <ktar.h>
@@ -808,7 +806,7 @@ void KgpgAppletApp::wizardOver(QString defaultKeyId)
 
 int KgpgAppletApp::newInstance()
 {
-        kdDebug()<<"New instance"<<endl;
+        kdDebug()<<"New instance"<<endl;	
         args = KCmdLineArgs::parsedArgs();
         if (running) {
                 kdDebug()<<"Already running"<<endl;

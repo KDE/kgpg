@@ -226,9 +226,10 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
                 if (tst.startsWith("sec")) {
-                        const QString trust=tst.section(':',1,1);
-                        QString val=tst.section(':',6,6);
-                        QString id=QString("0x"+tst.section(':',4,4).right(8));
+			QStringList keyString=QStringList::split(":",tst,true);
+                        const QString trust=keyString[1];
+                        QString val=keyString[6];
+                        QString id=QString("0x"+keyString[4].right(8));
                         if (val.isEmpty())
                                 val=i18n("Unlimited");
                         QString tr;
@@ -267,7 +268,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
                                 tr=i18n("?");
                                 break;
                         }
-                        tst=tst.section(":",9,9);
+                        tst=keyString[9];
 
                         fp2 = popen(QFile::encodeName(QString("gpg --no-tty --with-colon --list-key %1").arg(KShellProcess::quote(id))), "r");
                         bool dead=true;
@@ -488,15 +489,15 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         KAction *delSignKey = new KAction(i18n("Delete Sign&ature"),"editdelete", 0,this, SLOT(delsignkey()),actionCollection(),"key_delsign");
         KAction *infoKey = new KAction(i18n("&Edit Key"), "kgpg_info", Qt::Key_Return,this, SLOT(listsigns()),actionCollection(),"key_info");
         KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", KStdAccel::shortcut(KStdAccel::Paste),this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
-        setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
+        KAction *setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
         importSignatureKey = new KAction(i18n("Import Key From Keyserver"),"network", 0,this, SLOT(preimportsignkey()),actionCollection(),"key_importsign");
         importAllSignKeys = new KAction(i18n("Import Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
 
-        createGroup= new KAction(i18n("&Create Group With Selected Keys"), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
-        delGroup= new KAction(i18n("&Delete Group"), 0, 0,this, SLOT(deleteGroup()),actionCollection(),"delete_group");
-        editCurrentGroup= new KAction(i18n("&Edit Group"), 0, 0,this, SLOT(editGroup()),actionCollection(),"edit_group");
+        (void) new KAction(i18n("&Create Group With Selected Keys"), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
+        KAction *delGroup= new KAction(i18n("&Delete Group"), 0, 0,this, SLOT(deleteGroup()),actionCollection(),"delete_group");
+        KAction *editCurrentGroup= new KAction(i18n("&Edit Group"), 0, 0,this, SLOT(editGroup()),actionCollection(),"edit_group");
 
-        addToAddressBook= new KAction(i18n("&Create New Contact In Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
+        (void) new KAction(i18n("&Create New Contact In Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
         (void) new KAction(i18n("&Merge Public Keys In Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
 
         KStdAction::quit(this, SLOT(annule()), actionCollection());
@@ -507,7 +508,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 	KAction *deletePhoto= new KAction(i18n("&Delete Photo"), "delete", 0,this, SLOT(slotDeletePhoto()),actionCollection(),"delete_photo");
 	KAction *addPhoto= new KAction(i18n("&Add Photo"), 0, 0,this, SLOT(slotAddPhoto()),actionCollection(),"add_photo");
 
-	editKey = new KAction(i18n("&Edit Key In Terminal"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
+	KAction *editKey = new KAction(i18n("&Edit Key In Terminal"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
         KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
         KAction *revokeKey = new KAction(i18n("Revoke Key..."), 0, 0,this, SLOT(revokeWidget()),actionCollection(),"key_revoke");
 
@@ -564,9 +565,6 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         setDefaultKey->plug(popup);
         popup->insertSeparator();
         importAllSignKeys->plug(popup);
-        popup->insertSeparator();
-        createGroup->plug(popup);
-        addToAddressBook->plug(popup);
 
         popupsec=new QPopupMenu();
         exportPublicKey->plug(popupsec);
@@ -2195,7 +2193,8 @@ expandKey2(itemToOpen);
 void KeyView::expandKey2(QListViewItem *item)
 {
 	FILE *fp;
-        QString tst,cycle,revoked;
+        QString cycle,revoked;
+	QStringList tst;
         char line[300];
         SmallViewItem *itemsub=NULL;
         SmallViewItem *itemuid=NULL;
@@ -2215,11 +2214,11 @@ void KeyView::expandKey2(QListViewItem *item)
         fp = popen(QFile::encodeName(QString("gpg --no-secmem-warning --no-tty --with-colon --list-sigs "+item->text(6))), "r");
 
         while ( fgets( line, sizeof(line), fp)) {
-                tst=line;
-                if (tst.startsWith("uid") || tst.startsWith("uat")) {
-                        gpgKey uidKey=extractKey(tst);
+                tst=QStringList::split(":",line,true);
+                if (tst[0]=="uid" || tst[0]=="uat") {
+                        gpgKey uidKey=extractKey(line);
 
-                        if (tst.startsWith("uat")) {
+                        if (tst[0]=="uat") {
 				QString photoUid=QString(*photoIdList.begin());
 				itemuid= new SmallViewItem(item,i18n("Photo id: %1").arg(photoUid),QString::null,QString::null,"-","-","-","-");
 				photoIdList.remove(photoIdList.begin());
@@ -2239,7 +2238,7 @@ void KeyView::expandKey2(QListViewItem *item)
 				QPixmap dup2;
 				dup2.convertFromImage(dup.scale(previewSize+5,previewSize,QImage::ScaleMin));
 				itemuid->setPixmap(0,dup2);
-
+				delete kgpgphototmp;
 				//itemuid->setPixmap(0,keyPhotoId);
 				}
 				else itemuid->setPixmap(0,pixuserphoto);
@@ -2260,16 +2259,16 @@ void KeyView::expandKey2(QListViewItem *item)
                 } else
 
 
-                        if (tst.startsWith("rev")) {
-                                revoked+=QString("0x"+tst.section(':',4,4).right(8)+" ");
+                        if (tst[0]=="rev") {
+                                revoked+=QString("0x"+tst[4].right(8)+" ");
                         } else
 
 
-                                if (tst.startsWith("sig")) {
-                                        gpgKey sigKey=extractKey(tst);
+                                if (tst[0]=="sig") {
+                                        gpgKey sigKey=extractKey(line);
 
                                         //QString fsigname=extractKeyName(sigKey.gpgkeyname,sigKey.gpgkeymail);
-                                        if (tst.section(':',10,10).endsWith("l"))
+                                        if (tst[10].endsWith("l"))
                                                 sigKey.gpgkeymail+=i18n(" [local]");
 
                                         if (cycle=="pub")
@@ -2282,10 +2281,9 @@ void KeyView::expandKey2(QListViewItem *item)
                                         itemsig->setPixmap(0,pixsignature);
                                 } else
 
-                                        if (tst.startsWith("sub")) {
-                                                gpgKey subKey=extractKey(tst);
-                                                tst=i18n("%1 subkey").arg(subKey.gpgkeyalgo);
-                                                itemsub= new SmallViewItem(item,tst,QString::null,QString::null,subKey.gpgkeyexpiration,subKey.gpgkeysize,subKey.gpgkeycreation,subKey.gpgkeyid);
+                                        if (tst[0]=="sub") {
+                                                gpgKey subKey=extractKey(line);
+                                                itemsub= new SmallViewItem(item,i18n("%1 subkey").arg(subKey.gpgkeyalgo),QString::null,QString::null,subKey.gpgkeyexpiration,subKey.gpgkeysize,subKey.gpgkeycreation,subKey.gpgkeyid);
                                                 itemsub->setPixmap(0,pixkeySingle);
                                                 itemsub->setPixmap(2,subKey.trustpic);
                                                 cycle="sub";
@@ -2562,24 +2560,25 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
 
 gpgKey KeyView::extractKey(QString keyColon)
 {
+QStringList keyString=QStringList::split(":",keyColon,true);
         gpgKey ret;
 
-        ret.gpgkeysize=keyColon.section(':',2,2);
-        ret.gpgkeycreation=keyColon.section(':',5,5);
+        ret.gpgkeysize=keyString[2];
+        ret.gpgkeycreation=keyString[5];
         if(!ret.gpgkeycreation.isEmpty()) {
                 QDate date = QDate::fromString(ret.gpgkeycreation, Qt::ISODate);
                 ret.gpgkeycreation=KGlobal::locale()->formatDate(date, true);
         }
-        QString tid=keyColon.section(':',4,4);
+        QString tid=keyString[4];
         ret.gpgkeyid=QString("0x"+tid.right(8));
-        ret.gpgkeyexpiration=keyColon.section(':',6,6);
+        ret.gpgkeyexpiration=keyString[6];
         if (ret.gpgkeyexpiration.isEmpty())
                 ret.gpgkeyexpiration=i18n("Unlimited");
         else {
                 QDate date = QDate::fromString(ret.gpgkeyexpiration, Qt::ISODate);
                 ret.gpgkeyexpiration=KGlobal::locale()->formatDate(date, true);
         }
-        QString fullname=keyColon.section(':',9,9);
+        QString fullname=keyString[9];
         if (fullname.find("<")!=-1) {
                 ret.gpgkeymail=fullname.section('<',-1,-1);
                 ret.gpgkeymail.truncate(ret.gpgkeymail.length()-1);
@@ -2593,7 +2592,7 @@ gpgKey KeyView::extractKey(QString keyColon)
 
         ret.gpgkeyname=KgpgInterface::checkForUtf8(ret.gpgkeyname);
 
-        QString algo=keyColon.section(':',3,3);
+        QString algo=keyString[3];
         if (!algo.isEmpty())
                 switch( algo.toInt() ) {
                 case  1:
@@ -2612,7 +2611,7 @@ gpgKey KeyView::extractKey(QString keyColon)
                 }
         ret.gpgkeyalgo=algo;
 
-        const QString trust=keyColon.section(':',1,1);
+        const QString trust=keyString[1];
         switch( trust[0] ) {
         case 'o':
                 ret.gpgkeytrust=i18n("Unknown");

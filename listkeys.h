@@ -184,7 +184,7 @@ private:
         keyServer *kServer;
         KTempFile *kgpgtmp;
         bool showPhoto,configshowToolBar;
-        KAction *importSignatureKey, *editKey,*setDefaultKey,*importAllSignKeys,*signKey,*addToAddressBook,*createGroup,*delGroup,*editCurrentGroup;
+        KAction *importSignatureKey,*importAllSignKeys,*signKey;
 	KSelectAction *photoProps;
         QPtrList<QListViewItem> signList;
         uint globalCount;
