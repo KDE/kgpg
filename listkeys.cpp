@@ -896,7 +896,7 @@ void listKeys::slotDelUid()
         KProcess *conprocess=new KProcess();
         KConfig *config = KGlobal::config();
         config->setGroup("General");
-        *conprocess<< config->readEntry("TerminalApplication","konsole");
+        *conprocess<< config->readPathEntry("TerminalApplication","konsole");
         *conprocess<<"-e"<<"gpg";
         *conprocess<<"--edit-key"<<item->text(6)<<"uid";
         conprocess->start(KProcess::Block);
@@ -1922,7 +1922,7 @@ void listKeys::signkey()
 
                 KConfig *config = KGlobal::config();
                 config->setGroup("General");
-                kp<< config->readEntry("TerminalApplication","konsole");
+                kp<< config->readPathEntry("TerminalApplication","konsole");
                 kp<<"-e"
                 <<"gpg"
                 <<"--no-secmem-warning"
@@ -2098,7 +2098,7 @@ void listKeys::slotedit()
 
         KConfig *config = KGlobal::config();
         config->setGroup("General");
-        kp<< config->readEntry("TerminalApplication","konsole");
+        kp<< config->readPathEntry("TerminalApplication","konsole");
         kp<<"-e"
         <<"gpg"
         <<"--no-secmem-warning"
@@ -2217,7 +2217,7 @@ void listKeys::slotgenkey()
 
                         KConfig *config = KGlobal::config();
                         config->setGroup("General");
-                        kp<< config->readEntry("TerminalApplication","konsole");
+                        kp<< config->readPathEntry("TerminalApplication","konsole");
                         kp<<"-e"
                         <<"gpg"
                         <<"--gen-key";
@@ -2353,7 +2353,7 @@ void listKeys::deleteseckey()
         KProcess *conprocess=new KProcess();
         KConfig *config = KGlobal::config();
         config->setGroup("General");
-        *conprocess<< config->readEntry("TerminalApplication","konsole");
+        *conprocess<< config->readPathEntry("TerminalApplication","konsole");
         *conprocess<<"-e"<<"gpg"
         <<"--no-secmem-warning"
         <<"--delete-secret-key"<<keysList2->currentItem()->text(6);

@@ -920,7 +920,7 @@ void KgpgInterface::openSignConsole()
         KProcess conprocess;
 	KConfig *config = KGlobal::config();
 	config->setGroup("General");
-	conprocess<< config->readEntry("TerminalApplication","konsole");
+	conprocess<< config->readPathEntry("TerminalApplication","konsole");
         conprocess<<"-e"<<"gpg";
         conprocess<<"--no-secmem-warning"<<"--expert"<<"-u"<<konsSignKey;
         if (!konsLocal)
