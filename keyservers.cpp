@@ -17,7 +17,6 @@
 
 #include <stdlib.h>
 
-#include <klocale.h>
 #include <qfile.h>
 #include <qcheckbox.h>
 #include <kapplication.h>
@@ -34,6 +33,9 @@
 #include <qhbuttongroup.h>
 #include <qvbuttongroup.h>
 #include <qregexp.h>
+#include <qcursor.h>
+
+#include <klocale.h>
 #include <kprocess.h>
 #include <kprocio.h>
 #include <klistview.h>
@@ -164,7 +166,7 @@ void keyServer::slotSearch()
 
         //listpop = new KeyServer( this,"result",WType_Dialog | WShowModal);
 	
-	dialogServer=new KDialogBase(KDialogBase::Swallow, i18n("Key Properties"),  KDialogBase::Ok | KDialogBase::Close,KDialogBase::Ok,this,0,true);
+	dialogServer=new KDialogBase(KDialogBase::Swallow, i18n("Import Key From Keyserver"),  KDialogBase::Ok | KDialogBase::Close,KDialogBase::Ok,this,0,true);
 	
 	dialogServer->setButtonText(KDialogBase::Ok,i18n("&Import"));
 	listpop=new searchRes();
@@ -182,7 +184,7 @@ void keyServer::slotSearch()
         count=0;
         cycle=false;
         readmessage=QString::null;
-        KProcIO *searchproc=new KProcIO();
+        searchproc=new KProcIO();
         QString keyserv=page->kCBimportks->currentText();
         *searchproc<<"gpg";
         if (page->cBproxyI->isChecked()) {
@@ -196,7 +198,7 @@ void keyServer::slotSearch()
         QObject::connect(searchproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotsearchresult(KProcess *)));
         QObject::connect(searchproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotsearchread(KProcIO *)));
         searchproc->start(KProcess::NotifyOnExit,true);
-	
+	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 	dialogServer->setMainWidget(listpop);
 	listpop->setMinimumSize(listpop->sizeHint());
         dialogServer->exec();
@@ -204,12 +206,19 @@ void keyServer::slotSearch()
 
 void keyServer::handleQuit()
 {
-        dialogServer->close();
+	if (searchproc->isRunning()) 
+	{
+	    disconnect(searchproc,0,0,0);
+	    searchproc->kill();
+	    QApplication::restoreOverrideCursor();
+	}
+	dialogServer->close();
 }
 
 
 void keyServer::abortSearch()
 {
+
         if (dialogServer) {
                 delete dialogServer;
                 dialogServer=0L;
@@ -257,6 +266,7 @@ void keyServer::transferKeyID()
 void keyServer::slotsearchresult(KProcess *)
 {
         QString nb;
+	QApplication::restoreOverrideCursor();
         nb=nb.setNum(keyNumbers);
         //listpop->kLVsearch->setColumnText(0,i18n("Found %1 matching keys").arg(nb));
         listpop->statusText->setText(i18n("Found %1 matching keys").arg(nb));
@@ -354,8 +364,11 @@ void keyServer::abortExport()
 {
         if (importpop)
                 delete importpop;
-        if (exportproc)
-                delete exportproc;
+        if (exportproc->isRunning()) 
+	{
+	    disconnect(exportproc,0,0,0);
+	    exportproc->kill();
+	}
 }
 
 void keyServer::slotexportresult(KProcess*)
@@ -400,7 +413,7 @@ void keyServer::slotImport()
         QObject::connect(importproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotimportresult(KProcess *)));
         QObject::connect(importproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotimportread(KProcIO *)));
         importproc->start(KProcess::NotifyOnExit,true);
-
+	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         importpop = new QDialog( this,0,true);
         QVBoxLayout *vbox=new QVBoxLayout(importpop,3);
         QLabel *tex=new QLabel(importpop);
@@ -418,13 +431,19 @@ void keyServer::abortImport()
 {
         if (importpop)
                 delete importpop;
-        if (importproc)
-                delete importproc;
+	if (importproc->isRunning()) 
+	{
+	    QApplication::restoreOverrideCursor();
+	    disconnect(importproc,0,0,0);
+	    emit importFinished(QString::null);
+	    importproc->kill();   
+	}
 	if (autoCloseWindow) close();
 }
 
 void keyServer::slotimportresult(KProcess*)
 {
+	QApplication::restoreOverrideCursor();
         QString importedNb,importedNbSucess,importedNbProcess,resultMessage, parsedOutput,importedNbUnchanged,importedNbSig;
 	QString notImportesNbSec,importedNbMissing,importedNbRSA,importedNbUid,importedNbSub,importedNbRev,readNbSec;
 	QString importedNbSec,dupNbSec;
@@ -484,7 +503,7 @@ void keyServer::slotimportresult(KProcess*)
 	QString lastID=QString("0x"+importedKeys.last().section(" ",0,0).right(8));
 	if (!lastID.isEmpty()) 
 	{
-	kdDebug(2100)<<"++++++++++imported key"<<lastID<<endl;	
+	//kdDebug(2100)<<"++++++++++imported key"<<lastID<<endl;	
 	emit importFinished(lastID);
 	}
 	

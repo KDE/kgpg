@@ -66,6 +66,7 @@ private:
         uint keyNumbers;
         QString readmessage;
         KProcIO *importproc,*exportproc;
+	KProcIO *searchproc;
         searchRes *listpop;
         int count;
         bool cycle,autoCloseWindow;

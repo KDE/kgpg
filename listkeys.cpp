@@ -2888,6 +2888,7 @@ void KeyView::slotReloadOrphaned()
 
 void KeyView::refreshcurrentkey(QString currentID)
 {
+	if (currentID==QString::null) return;
         UpdateViewItem *item=NULL;
         QString issec=QString::null;
         FILE *fp,*fp2;
