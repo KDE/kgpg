@@ -958,7 +958,7 @@ void listKeys::slotexportsec()
         //////////////////////   export secret key
         QString warn=i18n("Secret keys SHOULD NOT be saved in an unsafe place.\n"
                           "If someone else can access this file, encryption with this key will be compromised!\nContinue key export?");
-        int result=KMessageBox::warningYesNo(this,warn,i18n("Warning"));
+        int result=KMessageBox::questionYesNo(this,warn,i18n("Warning"));
         if (result!=KMessageBox::Yes)
                 return;
 
@@ -1246,7 +1246,7 @@ void listKeys::delsignkey()
         }
         QString ask=i18n("<qt>Are you sure you want to delete signature<br><b>%1</b> from key:<br><b>%2</b>?</qt>").arg(signMail).arg(parentMail);
 
-        if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes)
+        if (KMessageBox::questionYesNo(this,ask)!=KMessageBox::Yes)
                 return;
         KgpgInterface *delSignKeyProcess=new KgpgInterface();
         delSignKeyProcess->KgpgDelSignature(parentKey,signID);
@@ -1400,7 +1400,7 @@ void listKeys::deleteseckey()
         //////////////////////// delete a key
         QString res=keysList2->currentItem()->text(0);
         res.replace(QRegExp("<"),"&lt;");
-        int result=KMessageBox::warningYesNo(this,
+        int result=KMessageBox::questionYesNo(this,
                                              i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b> ?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key anymore!").arg(res),
                                              i18n("Warning"),
                                              i18n("Delete"));
@@ -1422,7 +1422,7 @@ void listKeys::confirmdeletekey()
         else {
                 QString res=keysList2->currentItem()->text(0);
                 res.replace(QRegExp("<"),"&lt;");
-                int result=KMessageBox::warningYesNo(this,i18n("<p>Delete public key <b>%1</b> ?</p>").arg(res),i18n("Warning"),i18n("Delete"));
+                int result=KMessageBox::questionYesNo(this,i18n("<p>Delete public key <b>%1</b> ?</p>").arg(res),i18n("Warning"),i18n("Delete"));
                 if (result!=KMessageBox::Yes)
                         return;
                 else
@@ -1441,7 +1441,7 @@ void listKeys::deletekey()
         << "--delete-key"
         << keysList2->currentItem()->text(5);
         gp.start(KProcess::Block);
-        refreshkey();
+        delete keysList2->currentItem();
 }
 
 
@@ -1632,6 +1632,17 @@ void KeyView::refreshkeylist()
         UpdateViewItem *item=NULL;
         bool noID=false;
 
+        // get current position.
+        int colWidth = QMAX(150, columnWidth(0));
+        QListViewItem *current = currentItem();
+        if(current != NULL) {
+            while(current->depth() > 0) {
+                current = current->parent();
+            }
+            takeItem(current);
+        }
+
+        // refill
         clear();
         FILE *fp2;
         QString issec="";
@@ -1674,9 +1685,17 @@ void KeyView::refreshkeylist()
 
         }
         pclose(fp);
-        setSelected(firstChild(),true);
-        if (columnWidth(0)>150)
-                setColumnWidth(0,150);
+
+        if(current != NULL) {
+            // select previous selected
+            QListViewItem *newPos = findItem(current->text(0), 0);
+            setSelected(newPos, true);
+            ensureItemVisible(newPos);
+            delete current;
+        }
+
+        if (columnWidth(0) > colWidth)
+                setColumnWidth(0, colWidth);
 }
 
 void KeyView::refreshcurrentkey(QListViewItem *current)
