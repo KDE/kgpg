@@ -109,6 +109,7 @@ protected:
     void initView();
 
 private slots:
+void slotSetClip(QString);
 void killDisplayClip();
 void expressQuit();
 void encryptClipboard(QString &selec,QString);
@@ -119,10 +120,13 @@ void slotman();
 void slotFileDec();
 void slotExpressQuit();
 //public slots:
-void processenc(bool res);
-void processdecover(bool res);
-void processpopup(QString title,QString mssge);
-void shredprocessenc(bool res);
+void processenc();
+void processdecover();
+void processdecerror(QString mssge);
+void processencerror(QString mssge);
+void processpopup();
+void processpopup2();
+void shredprocessenc();
 void slotTip();
 void firstrun();
 void saveOptions();
@@ -167,7 +171,7 @@ void slotOptions();
      */
 
 private:
-QString decpassuid;
+QString customDecrypt;
 KURL decpasssrc,decpassdest;
 QDialog *clippop;
 KPassivePopup *pop;

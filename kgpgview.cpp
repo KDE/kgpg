@@ -365,15 +365,21 @@ void KgpgView::slotdecode()
   encUsers=KgpgInterface::extractKeyName(editor->text());
 
   if (encUsers.isEmpty()) encUsers=i18n("[No user ID found]");
-  QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
-  KgpgApp *win=(KgpgApp *) parent();
-if (resultat!="")
+  
+ QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
+
+ KgpgApp *win=(KgpgApp *) parent();
+if (!resultat.isEmpty())
 {
 editor->setText(resultat);
 win->editRedo->setEnabled(false);
 win->editUndo->setEnabled(false);
  }
- else if (win->commandLineMode) {KMessageBox::sorry(0,i18n("Decryption failed"));exit(0);}
+else if (win->commandLineMode)
+{
+KMessageBox::sorry(this,i18n("Decryption failed..."));
+exit(0);
+} 
  }
 
 
@@ -383,10 +389,23 @@ void KgpgView::encodetxt(QString &selec,QString encryptOptions)
   if (pubpgp) encryptOptions+=" --pgp6 ";
  if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not chosen an encryption key..."));return;}
 
- QString resultat=KgpgInterface::KgpgEncryptText(editor->text(),selec,encryptOptions);
- if (!resultat.isEmpty()) editor->setText(resultat);
- else KMessageBox::sorry(this,i18n("Decryption failed..."));
+ KgpgInterface *txtCrypt=new KgpgInterface();
+ connect (txtCrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(updatetxt(QString)));
+ txtCrypt->KgpgEncryptText(editor->text(),selec,encryptOptions);
+ //KMessageBox::sorry(0,"OVER");
+ 
+ //KgpgInterface::KgpgEncryptText(editor->text(),selec,encryptOptions);
+ //if (!resultat.isEmpty()) editor->setText(resultat);
+ //else KMessageBox::sorry(this,i18n("Decryption failed..."));
 }
+
+void KgpgView::updatetxt(QString newtxt)
+{
+if (!newtxt.isEmpty())
+editor->setText(newtxt);
+else KMessageBox::sorry(this,i18n("Encryption failed..."));
+}
+
 
 KgpgView::~KgpgView()
 {}

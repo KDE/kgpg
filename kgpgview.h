@@ -117,6 +117,7 @@ void popuppublic();
 void modified();
 void viewreadopts();
 void encodetxt(QString &,QString encryptOptions);
+void updatetxt(QString);
 };
 
 #endif // KGPGVIEW_H

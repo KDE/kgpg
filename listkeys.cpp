@@ -1068,7 +1068,7 @@ void listKeys::delsignkey()
     return;
   KgpgInterface *delSignKeyProcess=new KgpgInterface();
   delSignKeyProcess->KgpgDelSignature(parentKey,signID);
-  connect(delSignKeyProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(delsignatureResult(bool)));
+  connect(delSignKeyProcess,SIGNAL(delsigfinished(bool)),this,SLOT(delsignatureResult(bool)));
 }
 
 void listKeys::delsignatureResult(bool success)

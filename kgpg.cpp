@@ -127,8 +127,12 @@ QString clipContent=kapp->clipboard()->text();//=cb->text(QClipboard::Clipboard)
   encryptOptions+=" --armor ";
     
  if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not chosen an encryption key..."));exit(0);}
- QString decresultat=KgpgInterface::KgpgEncryptText(clipContent,selec,encryptOptions);
+
  
+ KgpgInterface *txtEncrypt=new KgpgInterface();
+connect (txtEncrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(slotSetClip(QString)));
+ txtEncrypt->KgpgEncryptText(clipContent,selec,encryptOptions);
+
      QWidgetList  *list = QApplication::topLevelWidgets();
     QWidgetListIt it( *list );          // iterate over the widgets
     while ( it.current() ) {            // for each top level widget...
@@ -142,8 +146,6 @@ QString cryptedClipboard;
 if (clipContent.length()>300) cryptedClipboard=QString(clipContent.left(250).stripWhiteSpace())+"...\n"+QString(clipContent.right(40).stripWhiteSpace());
 else cryptedClipboard=clipContent;
 
- QClipboard *clip=QApplication::clipboard();
- clip->setText(decresultat);//,QClipboard::Clipboard);    QT 3.1 only
 
 cryptedClipboard.replace(QRegExp("<"),"&lt;");   /////   disable html tags
 cryptedClipboard.replace(QRegExp("\n"),"<br>");
@@ -156,13 +158,23 @@ pop->setView(i18n("Encrypted following text:"),cryptedClipboard,KGlobal::iconLoa
 		int iYpos=qRect.height()/2-pop->height()/2;
       	pop->move(iXpos,iYpos);
  //KMessageBox::information(this,i18n("Encrypted following text:\n")+QString(clipContent.left(60).stripWhiteSpace())+"...");
- connect(kapp->clipboard(),SIGNAL(dataChanged ()),this,SLOT(expressQuit()));
  }
  else
 {
 KMessageBox::sorry(0,i18n("Clipboard is empty"));
 exit(0);
 }
+}
+
+void KgpgApp::slotSetClip(QString newtxt)
+{
+ if (!newtxt.isEmpty())
+ {
+ QClipboard *clip=QApplication::clipboard();
+ clip->setText(newtxt);//,QClipboard::Clipboard);    QT 3.1 only
+ connect(kapp->clipboard(),SIGNAL(dataChanged ()),this,SLOT(expressQuit()));
+ }
+ else expressQuit();
 }
 
 void KgpgApp::killDisplayClip()
@@ -306,7 +318,7 @@ void KgpgApp::readOptions(bool doresize)
   defaultkey=config->readEntry("default key");
   encryptfileto=config->readBoolEntry("encrypt files to",false);
   filekey=config->readEntry("file key");
-
+customDecrypt=config->readEntry("custom decrypt");
   if (doresize)
     {
       QSize size=config->readSizeEntry("Geometry");
@@ -661,40 +673,38 @@ void KgpgApp::fastencode(QString &selec,QString encryptOptions,bool shred,bool s
   //KgpgEncryptFile *cryptFileProcess=new KgpgEncryptFile(selec,urlselected,dest,symetric,encryptOptions);
   
   connect(cryptFileProcess,SIGNAL(processaborted(bool)),this,SLOT(processenc(bool)));
-  connect(cryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup(i18n("Processing encryption"),i18n("<b>file</b>:%1<br><b>Key</b>:%2").arg(urlselected.filename()).arg(selec))));
+  connect(cryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup2()));
   if (shred)
-    connect(cryptFileProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(shredprocessenc(bool)));
+    connect(cryptFileProcess,SIGNAL(encryptionfinished()),this,SLOT(shredprocessenc()));
   else
-    connect(cryptFileProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(processenc(bool)));
+    connect(cryptFileProcess,SIGNAL(encryptionfinished()),this,SLOT(processenc()));
+	connect(cryptFileProcess,SIGNAL(errormessage(QString)),this,SLOT(processencerror(QString)));
 }
 
-void KgpgApp::shredprocessenc(bool res)
+void KgpgApp::shredprocessenc()
 {
 delete pop;
-  if (!res)
-    {
-      KMessageBox::sorry(0,i18n("There was an error encrypting the file.\nCheck the key and your permissions."));
-if (commandLineMode) kapp->exit(0);
-    }
-  else
-    {
       //KMessageBox::sorry(0,"shred");
       KShred *shredres=new KShred(urlselected.path());
       if (shredres->shred()==false) KMessageBox::sorry(0,i18n("The source file could not be shredded.\nCheck your permissions."));
 if (commandLineMode) kapp->exit(0);
-    }
+    
 }
 
 
-void KgpgApp::processenc(bool res)
+void KgpgApp::processenc()
 {
 delete pop;
-  if (!res)
-    KMessageBox::sorry(0,i18n("There was an error encrypting the file.\nCheck the key and your permissions."));
   if (commandLineMode)
     kapp->exit(0);
 }
 
+void KgpgApp::processencerror(QString mssge)
+{
+delete pop;  
+  KMessageBox::detailedSorry(0,i18n("Encryption failed..."),mssge);
+  if (commandLineMode) kapp->exit(0);
+}
 
 void KgpgApp::fastdecode(bool quit)
 {
@@ -751,18 +761,19 @@ QString newname;
   if (!newname.isEmpty()) ////////////////////   decrypt to file
   {	
   decpassdest=KURL(newname);
-  decryptFileProcess->KgpgDecryptFile(decpasssrc,decpassdest);
-  connect(decryptFileProcess,SIGNAL(processaborted(bool)),this,SLOT(processdecover(bool)));
-  connect(decryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup(i18n("Processing decryption"),i18n("please wait..."))));
-  connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
+  decryptFileProcess->KgpgDecryptFile(decpasssrc,decpassdest,customDecrypt);
+  connect(decryptFileProcess,SIGNAL(processaborted(bool)),this,SLOT(processdecover()));
+  connect(decryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup()));
+  connect(decryptFileProcess,SIGNAL(decryptionfinished()),this,SLOT(processdecover()));
+  connect(decryptFileProcess,SIGNAL(errormessage(QString)),this,SLOT(processdecerror(QString)));
   }
   else openEncryptedDocumentFile(urlselected);
 }
 
-void KgpgApp::processpopup(QString title,QString mssge)
+void KgpgApp::processpopup()
 {
  pop = new KPassivePopup( this);
-      pop->setView(title,mssge,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+      pop->setView(i18n("Processing decryption"),i18n("please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
 	  	pop->show();	  
 	  	QRect qRect(QApplication::desktop()->screenGeometry());
 		int iXpos=qRect.width()/2-pop->width()/2;
@@ -770,16 +781,28 @@ void KgpgApp::processpopup(QString title,QString mssge)
       	pop->move(iXpos,iYpos);
 }
 
+void KgpgApp::processpopup2()
+{
+ pop = new KPassivePopup( this);
+      pop->setView(i18n("Processing encryption"),i18n("please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+	  	pop->show();	  
+	  	QRect qRect(QApplication::desktop()->screenGeometry());
+		int iXpos=qRect.width()/2-pop->width()/2;
+		int iYpos=qRect.height()/2-pop->height()/2;
+      	pop->move(iXpos,iYpos);
+}
 
-void KgpgApp::processdecover(bool res)
+void KgpgApp::processdecover()
 {
 delete pop;
-  if ((res) && (fastact)) kapp->exit(0);
-  if (!res)
-  {
-  KMessageBox::sorry(0,i18n("Decryption failed..."));
+if (fastact) kapp->exit(0);
+}
+
+void KgpgApp::processdecerror(QString mssge)
+{
+delete pop;  
+  KMessageBox::detailedSorry(0,i18n("Decryption failed..."),mssge);
   if (fastact) kapp->exit(0);
-  }
 }
 
 

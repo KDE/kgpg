@@ -64,7 +64,7 @@ class KgpgInterface : public QObject {
 	 * @param destUrl Kurl for the decrypted file.
 	 * @param chances int number of trials left for decryption (used only as an info displayed in the password dialog)
 	 */
-	void KgpgDecryptFile(KURL srcUrl=0,KURL destUrl=0);
+	void KgpgDecryptFile(KURL srcUrl=0,KURL destUrl=0,QString Options="");
 	
 	/**Sign file function
 	 * @param keyID QString the signing key ID.
@@ -104,13 +104,14 @@ class KgpgInterface : public QObject {
 	 * @param Options String with the wanted gpg options. ex: "--armor"
 	 * returns the encrypted text or empty string if encyption failed
 	 */
-	 static QString KgpgEncryptText(QString text,QString userIDs, QString Options="");
+	 //static 
+	 void KgpgEncryptText(QString text,QString userIDs, QString Options="");
 	
 	 /**Decrypt text function
 	 * @param text QString text to be decrypted.
 	 * @param userID QString the name of the decryption key (only used to prompt user for passphrase)
 	 */
-	static QString KgpgDecryptText(QString text,QString userID="");
+	static QString KgpgDecryptText(QString text,QString userID);
 	
 	static QString extractKeyName(QString txt="");
 	static QString extractKeyName(KURL url=0);
@@ -189,12 +190,28 @@ class KgpgInterface : public QObject {
          * Checks output of the verify process
          */
 	void verifyfin(KProcess *p);
-
+	
+	void txtreadencprocess(KProcIO *p);
+void txtencryptfin(KProcess *);
+	//void txtreaddecprocess(KProcIO *p);
+//void txtdecryptfin(KProcess *);
 signals:
+		/**
+         *  emitted when an txt encryption finished
+         */
+    void txtencryptionfinished(QString);	
+		/**
+         *  emitted when an error occured
+         */
+    void errormessage(QString);	
 	/**
          *  true if encryption successfull, false on error.
          */
-    void encryptionfinished(bool);	
+    void encryptionfinished();	
+	/**
+         *  true if key signature deletion successfull, false on error.
+         */
+    void delsigfinished(bool);	
 	
 	/**
          * Signature process result: 0=successfull, 1=error, 2=bad passphrase
@@ -211,7 +228,7 @@ signals:
 	/**
          *  true if decryption successfull, false on error.
          */
-    void decryptionfinished(bool);
+    void decryptionfinished();
 	/**
          * emitted if bad passphrase was giver
          */
@@ -234,9 +251,9 @@ signals:
     /**
 	 * @internal structure for communication
 	 */
-        QString message,tempKeyFile,userIDs;
+        QString message,tempKeyFile,userIDs,txtprocess;
 		QCString passphrase;
-		bool deleteSuccess,konsLocal,anonymous;
+		bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc;
 		int signSuccess;
 		int step,signb,sigsearch;
 		QString konsSignKey, konsKeyID;
