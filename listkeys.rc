@@ -2,12 +2,12 @@
 <kpartgui name="listkeys" version="31">
 
 <MenuBar>
-  <Menu name="managekeys"><text>&amp;Keys</text>
-    <Action name="key_info"/>
-    <Action name="key_server_refresh"/>
-    <Action name="key_sign"/>
-    <Action name="key_edit"/>
-    <Action name="key_gener"/>
+    <Menu name="managekeys"><text>&amp;Keys</text>
+	<Action name="key_info"/>
+	<Action name="key_server_refresh"/>
+	<Action name="key_sign"/>
+	<Action name="key_edit"/>
+	<Action name="key_gener"/>
 	<Separator />
 	<Action name="key_export"/>
 	<Action name="key_import"/>
@@ -15,43 +15,42 @@
     </Menu>
 
     <Menu name="edit">
-    <Action name="go_default_key"/>
+    	<Action name="go_default_key"/>
     </Menu>
     
     <Menu name="view"><text>&amp;View</text>
-    <Action name="show_secret"/>
-    <Action name="hide_disabled"/>
+    	<Action name="show_secret"/>
+    	<Action name="hide_disabled"/>
     	<Menu name="show_details"><text>&amp;Show Details</text>
-    <Action name="show_trust"/>
-    <Action name="show_expi"/>
-    <Action name="show_size"/>
-    <Action name="show_creat"/>
-	    </Menu>
-    <Action name="photo_settings" />
-    <Action name="key_refresh"/>
+    	    <Action name="show_trust"/>
+    	    <Action name="show_expi"/>
+    	    <Action name="show_size"/>
+    	    <Action name="show_creat"/>
+	</Menu>
+    	<Action name="photo_settings" />
+    	<Action name="key_refresh"/>
     </Menu>
     
     <Menu name="groups"><text>&amp;Groups</text>
-    <Action name="create_group"/>
-    <Action name="edit_group"/>
-    <Action name="delete_group"/>
+    	<Action name="create_group"/>
+    	<Action name="edit_group"/>
+    	<Action name="delete_group"/>
     </Menu>
 
-	<Menu name="settings"><text>&amp;Settings</text>
-<Action name="key_showp" />
-<Action name="key_bind" />
-<Action name="configuretoolbars"/>
-<Action name="kgpg_config" />
-	</Menu>
-	<Menu name="file">
+
+    
+
+    
+    <Menu name="file">
 	<Action name="key_server"/>
 	<Action name="kgpg_editor"/>
-	</Menu>
-	 <Menu name="help">
-    <Action name="help_tipofday"/>
-    <Action name="gpg_man"/>
+    </Menu>
+    
+    <Menu name="help">
+    	<Action name="help_tipofday"/>
+    	<Action name="gpg_man"/>
   </Menu>
-    </MenuBar>
+</MenuBar>
 
 
 <ToolBar name="mainToolBar" position="top">
@@ -118,7 +117,5 @@
 	<Action name="create_group"/>
 	</enable>
 </State>
-
-
 
 </kpartgui>

@@ -68,10 +68,6 @@
       </choices>
       <default>Disable</default>
     </entry>
-    <entry name="ShowToolbar" type="Bool" key="show toolbar">
-      <label>Show the toolbar.</label>
-      <default>true</default>
-    </entry>
     <entry name="FirstRun" type="Bool" key="First run">
       <label>Is the first time the application runs.</label>
       <default>true</default>

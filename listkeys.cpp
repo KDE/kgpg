@@ -612,7 +612,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         KAction *regeneratePublic = new KAction(i18n("&Regenerate Public Key"), 0, 0,this, SLOT(slotregenerate()),actionCollection(),"key_regener");
 
         (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(showKeyServer()),actionCollection(),"key_server");
-        KStdAction::preferences(this, SLOT(showOptions()), actionCollection(),"kgpg_config");
+        KStdAction::preferences(this, SLOT(showOptions()), actionCollection(),"options_configure");
         (void) new KAction(i18n("Tip of the &Day"), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
         (void) new KAction(i18n("View GnuPG Manual"), "contents", 0,this, SLOT(slotManpage()),actionCollection(),"gpg_man");
 
@@ -718,7 +718,9 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
 
         ///////////////    get all keys data
-        setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "listkeys.rc");
+	keyStatusBar=statusBar();
+	
+	setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "listkeys.rc");
         toolBar()->insertLineSeparator();
 	
 	QToolButton *clearSearch = new QToolButton(toolBar());
@@ -738,16 +740,13 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         sExpi->setChecked(KGpgSettings::showExpi());
 
         statusbarTimer = new QTimer(this);
-        keyStatusBar=statusBar();
+        
         keyStatusBar->insertItem("",0,1);
         keyStatusBar->insertFixedItem(i18n("00000 Keys, 000 Groups"),1,true);
         keyStatusBar->setItemAlignment(0, AlignLeft);
         keyStatusBar->changeItem("",1);
         QObject::connect(keysList2,SIGNAL(statusMessage(QString,int,bool)),this,SLOT(changeMessage(QString,int,bool)));
         QObject::connect(statusbarTimer,SIGNAL(timeout()),this,SLOT(statusBarTimeout()));
-
-        if (!KGpgSettings::showToolbar())
-                toolBar()->hide();
 
 	s_kgpgEditor= new KgpgApp(parent, "editor",WType_Dialog,actionCollection()->action("go_default_key")->shortcut());
         connect(s_kgpgEditor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
