@@ -68,6 +68,7 @@
     	<Action name="delete_group"/>
 	</enable>
 	<disable>
+	  <Action name="add_kab"/>
 	<Action name="key_server_refresh"/>
 	<Action name="create_group"/>
 	<Action name="key_info"/>
@@ -85,9 +86,8 @@
 	</disable>
 	<enable>
 	<Action name="key_server_refresh"/>
-	<Action name="key_info"/>
+	<Action name="add_kab"/>
 	<Action name="key_sign"/>
-    	<Action name="key_edit"/>
 	<Action name="key_export"/>
 	<Action name="key_import"/>
 	<Action name="key_default"/>
@@ -100,6 +100,7 @@
 
 <State name="multi_selected">
 	<disable>
+	  <Action name="add_kab"/>
 	<Action name="edit_group"/>
     	<Action name="delete_group"/>
 	<Action name="key_default"/>
@@ -108,14 +109,28 @@
 	<Action name="key_importallsign"/>
 	</disable>
 	<enable>
-	<Action name="key_info"/>
 	<Action name="key_server_refresh"/>
 	<Action name="key_sign"/>
-    	<Action name="key_edit"/>
 	<Action name="key_export"/>
 	<Action name="key_import"/>
 	<Action name="create_group"/>
 	</enable>
 </State>
+
+<State name="empty_list">
+  <disable>
+    <Action name="edit_group"/>
+    <Action name="delete_group"/>
+    <Action name="key_default"/>
+    <Action name="key_edit"/>
+    <Action name="key_info"/>
+    <Action name="key_importallsign"/>
+    <Action name="key_server_refresh"/>
+    <Action name="key_sign"/>
+    <Action name="key_export"/>
+    <Action name="key_import"/>
+    <Action name="create_group"/>
+    <Action name="add_kab"/>
+  </disable>
 
 </kpartgui>

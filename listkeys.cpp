@@ -529,11 +529,11 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         importAllSignKeys = new KAction(i18n("Import &Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
         refreshKey = new KAction(i18n("&Refresh Keys From Keyserver"),"reload", 0,this, SLOT(refreshKeyFromServer()),actionCollection(),"key_server_refresh");
 
-        (void) new KAction(i18n("&Create Group with Selected Keys..."), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
+	KAction *createGroup=new KAction(i18n("&Create Group with Selected Keys..."), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
         KAction *delGroup= new KAction(i18n("&Delete Group"), 0, 0,this, SLOT(deleteGroup()),actionCollection(),"delete_group");
         KAction *editCurrentGroup= new KAction(i18n("&Edit Group"), 0, 0,this, SLOT(editGroup()),actionCollection(),"edit_group");
 
-        (void) new KAction(i18n("&Create New Contact in Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
+	KAction *newContact=new KAction(i18n("&Create New Contact in Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
         (void) new KAction(i18n("&Go to Default Key"), "gohome",QKeySequence(CTRL+Qt::Key_Home) ,this, SLOT(slotGotoDefaultKey()),actionCollection(),"go_default_key");
 
         KStdAction::quit(this, SLOT(quitApp()), actionCollection());
@@ -650,6 +650,16 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         popuporphan=new QPopupMenu();
         regeneratePublic->plug(popuporphan);
         deleteKeyPair->plug(popuporphan);
+	
+	editCurrentGroup->setEnabled(false);
+	delGroup->setEnabled(false);
+	createGroup->setEnabled(false);
+	infoKey->setEnabled(false);
+	editKey->setEnabled(false);
+	signKey->setEnabled(false);
+	refreshKey->setEnabled(false);
+	exportPublicKey->setEnabled(false);
+	newContact->setEnabled(false);
 
         setCentralWidget(keysList2);
         keysList2->restoreLayout(KGlobal::config(), "KeyView");
@@ -1092,7 +1102,7 @@ void listKeys::findNextKey()
 void listKeys::addToKAB()
 {
         KABC::Key key;
-
+	if (!keysList2->currentItem()) return;
         //QString email=extractKeyMail(keysList2->currentItem()).stripWhiteSpace();
         QString email=keysList2->currentItem()->text(1);
 
@@ -1197,7 +1207,8 @@ void listKeys::checkList()
                 if (keysList2->currentItem()->text(6).isEmpty())
                         stateChanged("group_selected");
                 else
-                        stateChanged("single_selected");
+		  stateChanged("single_selected");
+		
         }
         int serial=keysList2->currentItem()->pixmap(0)->serialNumber();
         if (serial==keysList2->pixkeySingle.serialNumber()) {
@@ -1741,7 +1752,7 @@ void listKeys::groupInit(QStringList keysGroup)
 
 void listKeys::editGroup()
 {
-        if (!keysList2->currentItem()->text(6).isEmpty())
+  if (!keysList2->currentItem() || !keysList2->currentItem()->text(6).isEmpty())
                 return;
         QStringList keysGroup;
 	//KDialogBase *dialogGroupEdit=new KDialogBase( this, "edit_group", true,i18n("Group Properties"),KDialogBase::Ok | KDialogBase::Cancel);
@@ -2430,6 +2441,7 @@ void listKeys::deletekey()
                         keysList2->setCurrentItem(myChild);
                 }
         }
+	else stateChanged("empty_list");
         changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount()-keysList2->groupNb).arg(keysList2->groupNb),1);
 }
 
