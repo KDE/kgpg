@@ -93,8 +93,6 @@ private slots:
 	bool checkEncoding();
 	void slotOptions();
 	void slotKeyManager();
-    void slotConfigureToolbars();
-    void saveToolbarConfig();
 
 
 public slots:

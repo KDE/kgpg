@@ -61,7 +61,7 @@ KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent
 	KSimpleConfig *ks=new KSimpleConfig ("kgpgrc");
 	ks->setGroup("Editor");
 	slotSetFont(ks->readFontEntry("Editor_Font"));
-	createGUI("kgpg.rc");
+        setupGUI(( ToolBar | Keys | StatusBar | Save | Create ), "kgpg.rc");
         delete ks;
 }
 
@@ -125,8 +125,8 @@ void KgpgApp::initActions()
 	KStdAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
 	KStdAction::preferences(this, SLOT(slotOptions()), actionCollection(),"kgpg_config");
 
-        KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()), actionCollection());
-        KStdAction::configureToolbars(this, SLOT(slotConfigureToolbars()), actionCollection());
+        //KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()), actionCollection());
+        //KStdAction::configureToolbars(this, SLOT(slotConfigureToolbars()), actionCollection());
 
         fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
         (void) new KAction(i18n("&Encrypt File..."), "kgpg", 0,this, SLOT(slotFilePreEnc()), actionCollection(),"file_encrypt");
@@ -148,22 +148,6 @@ void KgpgApp::slotSetFont(QFont myFont)
 view->editor->setFont (myFont);
 }
 
-void KgpgApp::slotConfigureToolbars()
-{
-    saveMainWindowSettings(KGlobal::config(), "MainWindow");
-    KEditToolbar dlg( actionCollection(),"kgpg.rc" );
-    connect(&dlg, SIGNAL(newToolbarConfig()), SLOT(saveToolbarConfig()));
-    dlg.exec();
-}
-
-/**
- * Save new toolbarconfig.
- */
-void KgpgApp::saveToolbarConfig()
-{
-        createGUI("kgpg.rc");
-        applyMainWindowSettings(KGlobal::config(), "MainWindow");
-}
 
 void KgpgApp::slotSetCharset()
 {
