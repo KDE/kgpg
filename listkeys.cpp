@@ -1605,8 +1605,7 @@ void listKeys::editGroup()
 	gEdit=new groupEdit();
 	gEdit->buttonAdd->setPixmap(KGlobal::iconLoader()->loadIcon("forward",KIcon::Small,20));
 	gEdit->buttonRemove->setPixmap(KGlobal::iconLoader()->loadIcon("back",KIcon::Small,20));
-
-        //connect(gEdit->groupKeys,SIGNAL(dropped (QDropEvent *, QListViewItem *)),this,SLOT(GroupAdd(QDropEvent *, QListViewItem *)));
+        //connect(this,SIGNAL(dropped(gEdit->groupKeys,QDropEvent *, QListViewItem *)),this,SLOT(groupTest(KListView*,QDropEvent *, QListViewItem *)));
         connect(gEdit->buttonAdd,SIGNAL(clicked()),this,SLOT(groupAdd()));
         connect(gEdit->buttonRemove,SIGNAL(clicked()),this,SLOT(groupRemove()));
 //        connect(dialogGroupEdit->okClicked(),SIGNAL(clicked()),this,SLOT(groupChange()));
