@@ -1,0 +1,10 @@
+[Desktop Entry]
+ServiceTypes=application/pgp-encrypted
+Actions=decrypt
+
+[Desktop Action decrypt]
+Name=Decrypt File
+Name[fr]=Décrypter le fichier
+Name[de]=Datei entschlüsseln
+Icon=kgpg2
+Exec=kgpg -d %u

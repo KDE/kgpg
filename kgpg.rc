@@ -1,0 +1,10 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="kgpg" version="0.3.1">
+<MenuBar>
+  <Menu name="kile"><text>&amp;File</text>
+    <Action name="file_new_window"/>
+    <Action name="file_encrypt"/>
+    <Action name="file_decrypt"/>
+  </Menu>
+</MenuBar>
+</kpartgui>

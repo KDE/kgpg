@@ -1,0 +1,11 @@
+[Desktop Entry]
+ServiceTypes=allfiles
+Actions=encrypt
+
+[Desktop Action encrypt]
+Name=Encrypt File
+Name[fr]=Crypter le fichier
+Name[de]=Datei verschlüsseln
+Icon=kgpg
+Exec=kgpg -e %u
+

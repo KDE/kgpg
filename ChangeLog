@@ -1,0 +1,142 @@
+version 0.8.2
+
+-fixed debian rules permissions
+-fixed makefile for installation in a user chosen directory
+
+version 0.8.1
+
+-fixed compilation bug
+
+version 0.8
+
+-i18n fixes
+-added option to send key by e-mail in export key dialog
+-added new option to easily decrypt clipboard content -> kgpg can be added as a 
+ klipper action (see kgpg's handbook for more infos about activating this option)
+-added support for symetrical encryption for files
+-corrected bug when kgpg was called from konqueror (when left-clicking on a gpg file, 
+ kgpg did not always close itself correctly after file decryption)
+-removed "decrypt file" entry  in konqueror service menu. Now, use left-click or "Open 
+ with kgpg" on an encrypted file to decrypt.
+-added a Handbook (documentation)
+-fixed Makefile + added files for debian compilation (thanks Ralf Nolden <nolden@kde.org>)
+-added option to Edit a key (console mode) in key management
+-added a link to GnuPG man page in help menu
+
+version 0.7:
+
+-fixed tips database installation (hopefully)
+-pgp compatibility: --pgp6 is now used if gpg version>=1.2.0
+-code cleanup
+-many small usability bugfixes
+-added "sign/verify" button to clearsign/verify a text in the editor
+-corrected lots of bugs in the way "new file", "save" and "save as" behaved
+-added "save as" icon in toolbar
+-switched display of key id's to short id's for more convenience
+-only trusted keys can now be set to default key
+
+
+version 0.6.1:
+
+-corrected a compilation problem with KDE prior to KDE 3.1 beta
+
+
+version 0.6:
+
+-default key is now in bold
+-signing a key now asks if you want your signature to be exportable
+-md5 checksum now uses gpg instead of md5sum
+-key info now tells if a signature is local or not, and if there is a subkey
+-new encryption option for pgp 5.x compatibility
+-various crash fixes (mostly related to the default options dialog)
+-new dialog for key generation, automatically pops up on first run if no key is found.
+-made ready for internationalization. added french & german translation (courtesty Christoph Thielecke <crissi99@gmx.de>
+-added KTips
+
+version 0.5.1
+
+-fixed bug preventing secret key import
+-fixed messy code preventing key signing
+
+
+version 0.5
+
+-fixed possible crash with key names containing "pub"
+-default keys are now displayed with a red icon
+-expired/revoked key are now hidden from encryption dialog
+-untrusted keys are now hidden when required
+-added new configuration icon
+-most key operation are now based on key id and not on email adress, which should solve problems with same name keys
+
+
+version 0.4.3
+
+-speed improvements
+-encryption/decryption from konqueror is more straightforward
+-ability to define special key for file encryption
+-enable default key definition to ensure messages are also encrypted with your key
+-you now have 3 trials in case you type a wrong passphrase
+-fixed possible crash when no key selected for encryption
+-fixed multi key encryption bug
+-added what's this help texts in main dialogs
+
+
+version 0.4.2
+
+-you can now choose location to export a public key
+-key management window now displays the key owner name in statusbar
+-key info now displays key type (RSA, DSA, ...)
+-fixed crash when decrypting message encrypted with several keys
+-allow encryption with multiple keys
+
+version 0.4.1:
+
+-Bugfix release: 
+-corrected error when encrypting a text with "$" from the editor
+-refresh key list after key generation
+-you can now choose a location for decrypting a file
+
+version 0.4
+
+-Big changes: 
+-kgpg can now be used from inside konqueror using a new menu entry allowing you to encrypt/decrypt files.
+-dropped file mode. All file operations can now be performed through konqueror
+-a few minor improvements & code cleaning
+
+
+version 0.3.1
+-Added option to shred source file after encryption
+-File signature options: Create a detached signature, verify a signed file, checking file MD5 sum
+-added icons in keys lists, toolbar & popup menu in key management window.
+-export secret key
+
+
+version 0.3
+-Drag&drop now works !!! You can drop local or REMOTE text files in the editor to have them decrypted automatically
+-More infos on keys: now displays key signatures, key ID,...
+-New key managment features: enables you to sign keys and generate new keys.
+-Some minor improvements
+-New icon
+
+version 0.2.1
+
+-In the file browser, you can now double click on a file to encrypt/decrypt it
+-You can drag a file in the editor window to open/decrypt it
+-Now displays keys trust and validity
+-New option to allow encryption with untrusted keys
+-Choose if you want armored encryption or not
+-Export your public keys
+-And many small interface improvements
+
+version 0.2
+
+-Completeley rewrote GUI
+-bugfix for messages > 130 characters
+-added import/delete keys
+-new file mode to encrypt/decrypt files
+-ability to open/save files from the editor
+
+
+version 0.1
+
+-initial release

@@ -1,0 +1,34 @@
+<tip category="Kgpg|app">
+<html>
+<p>If you want to decrypt a text file, simply drag and drop it into the editor window. Kgpg will do the rest. Even remote files can be dropped.</p>
+<p>Drag a public key into the editor window and kgpg will automatically import it if you want.</p>
+</html>
+<tip category="Kgpg|app">
+<html>
+<p>The easiest way to encrypt a file: simply right click on the file, and you have an encrypt option in the contextual menu.
+This works in <strong>konqueror</strong> or on your Desktop !</p>
+</html>
+</tip>
+<tip category="Kgpg|app">
+<html>
+<p>If you want to encrypt a message for several persons, just select several encryption keys by pressing the "Ctrl" key...</p>
+</html>
+</tip>
+<tip category="Kgpg|app">
+<html>
+<p><strong>You don't know anything about encryption ?</strong><br>
+No problem, simply create yourself a key pair in the key management window. Then, export your public key & mail it to your friends.<br>
+Ask them to do the same & import their public keys. Finally, to send an encrypted message, type it in the Kgpg editor, then click "encrypt". Choose 
+your friend key and click "encrypt" again. The message will be encrypted, ready to be sent by E-Mail.</p>
+</html>
+</tip>
+<tip category="Kgpg|app">
+<html>
+<p>To perform an operation on a key, open the key management window & right click on the key. A popup menu with all available options will appear...</p>
+</html>
+</tip>
+<tip category="Kgpg|app">
+<html>
+<p>Decrypt a file with a single mouse click on it. You will then be prompted for password & that's all !</p>
+</html>
+</tip>
