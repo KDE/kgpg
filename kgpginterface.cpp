@@ -1281,4 +1281,27 @@ void KgpgInterface::setGpgSetting(QString name,QString value,QString url)
         }
 }
 
+
+QString KgpgInterface::checkForUtf8(QString txt)
+{
+//    code borrowed from gpa
+const char *s;
+
+  /* Make sure the encoding is UTF-8.
+   * Test structure suggested by Werner Koch */
+  for (s = txt.ascii(); *s && !(*s & 0x80); s++)
+  ;
+  if (*s && !strchr (txt.ascii(), 0xc3))
+    {
+      /* The string is Latin-1 */
+     return  txt;
+    }
+  else
+    {
+      /* The string is already in UTF-8 */
+      return QString::fromUtf8(txt.ascii());
+    }
+}
+
+
 #include "kgpginterface.moc"

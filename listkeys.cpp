@@ -205,14 +205,13 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
                         QString fullname=opt.section(':',9,9);
                         if (opt.section(':',6,6)=="")
 
-                                labelexpire->setText(i18n("Expiration: never"));
+                                labelexpire->setText(i18n("Expiration: Unlimited"));
                         else {
                                 QDate date = QDate::fromString(opt.section(':',6,6), Qt::ISODate);
                                 labelexpire->setText(i18n("Expiration: ")+KGlobal::locale()->formatDate(date));
                         }
                         QDate date = QDate::fromString(opt.section(':',5,5), Qt::ISODate);
                         labelcreation->setText(i18n("Creation: ")+KGlobal::locale()->formatDate(date));
-                        labelname=new QLabel(i18n("Name: ")+fullname.section('<',0,0),page);
                         labellength->setText(i18n("Length: ")+opt.section(':',2,2));
                         labeltrust->setText(i18n("Trust: %1").arg(tr));
                         labelid->setText(i18n("Id: ")+tid);
@@ -228,11 +227,11 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
                                 kname=kname.section('(',0,0);
                                 QString comment=fullname.section('(',1,1);
                                 comment=comment.section(')',0,0);
-                                labelcomment->setText(i18n("Comment: %1").arg(comment));
+                                labelcomment->setText(i18n("Comment: %1").arg(KgpgInterface::checkForUtf8(comment)));
                         } else
                                 labelcomment->setText(i18n("Comment: none"));
 
-                        labelname->setText(i18n("Name: %1").arg(kname));
+                        labelname->setText(i18n("Name: %1").arg(KgpgInterface::checkForUtf8(kname)));
                         labeltype->setText(i18n("Algorithm: %1").arg(algo));
                 }
                 if (opt.startsWith("fpr")) {
@@ -451,6 +450,7 @@ QString KgpgSelKey::extractKeyName(QString fullName)
         QString kName=fullName.section('<',0,0);
         if (kName.find("(")!=-1)
                 kName=kName.section('(',0,0);
+	kName=KgpgInterface::checkForUtf8(kName);
         return QString(kMail+" ("+kName+")").stripWhiteSpace();
 }
 
@@ -1695,6 +1695,7 @@ void KeyView::refreshkeylist()
 
 QString KeyView::extractKeyName(QString name,QString mail)
 {
+name=KgpgInterface::checkForUtf8(name);
         if (displayMailFirst)
                 return QString(mail+" ("+name+")");
         return QString(name+" ("+mail+")");

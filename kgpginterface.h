@@ -136,6 +136,7 @@ public:
         static QString extractKeyName(KURL url=0);
         static QString getGpgSetting(QString name,QString configFile);
         static void setGpgSetting(QString name,QString ID,QString url);
+	static QString checkForUtf8(QString txt);
 
         /*
          * Destructor for the class.

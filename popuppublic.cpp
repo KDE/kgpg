@@ -405,6 +405,7 @@ QString popupPublic::extractKeyName(QString fullName)
         QString kName=fullName.section('<',0,0);
         if (kName.find("(")!=-1)
                 kName=kName.section('(',0,0);
+	kName=KgpgInterface::checkForUtf8(kName);
         if (displayMailFirst)
                 return QString(kMail+" ("+kName+")").stripWhiteSpace();
         return QString(kName+" ("+kMail+")").stripWhiteSpace();
