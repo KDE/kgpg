@@ -318,9 +318,7 @@ void KgpgView::clearSign()
                 }
                 ///////////////////  generate gpg command
                 QString line="echo ";
-
-                mess=mess.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
-
+                //mess=mess.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
                 line+=KShellProcess::quote(mess.local8Bit());
                 line+=" | gpg ";
                 if (pubpgp)
