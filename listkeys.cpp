@@ -1742,7 +1742,7 @@ void listKeys::groupRemove()
 
 void listKeys::deleteGroup()
 {
-        if (!keysList2->currentItem()->text(6).isEmpty())
+        if (!keysList2->currentItem() || !keysList2->currentItem()->text(6).isEmpty())
                 return;
 
         int result=KMessageBox::warningContinueCancel(this,i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>").arg(keysList2->currentItem()->text(0)),i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"));
