@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>654</width>
-            <height>352</height>
+            <width>466</width>
+            <height>254</height>
         </rect>
     </property>
     <property name="caption">
@@ -79,17 +79,6 @@
                 <cstring>comboBox1</cstring>
             </property>
         </widget>
-        <widget class="QCheckBox" row="6" column="0">
-            <property name="name">
-                <cstring>cbSend</cstring>
-            </property>
-            <property name="enabled">
-                <bool>false</bool>
-            </property>
-            <property name="text">
-                <string>Send certificate to key server</string>
-            </property>
-        </widget>
         <widget class="QLabel" row="1" column="0">
             <property name="name">
                 <cstring>textLabel3</cstring>
@@ -114,7 +103,7 @@
                 <cstring>cbImport</cstring>
             </property>
             <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
             </property>
             <property name="text">
                 <string>Import into keyring</string>
@@ -140,6 +129,14 @@
         <slot>cbSave_toggled(bool)</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>comboBox1</tabstop>
+    <tabstop>textDescription</tabstop>
+    <tabstop>cbSave</tabstop>
+    <tabstop>cbPrint</tabstop>
+    <tabstop>cbImport</tabstop>
+    <tabstop>kURLRequester1</tabstop>
+</tabstops>
 <includes>
     <include location="local" impldecl="in implementation">kgpgrevokewidget.ui.h</include>
 </includes>

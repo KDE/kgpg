@@ -1230,8 +1230,9 @@ KDialogBase *keyRevokeWidget=new KDialogBase(KDialogBase::Swallow, i18n("Create 
         keyRevoke->kURLRequester1->setURL(QDir::homeDirPath()+"/"+keysList2->currentItem()->text(1).section('@',0,0)+".revoke");
         keyRevoke->kURLRequester1->setMode(KFile::File);
 	
-	keyRevokeWidget->setMainWidget(keyRevoke);
 	keyRevoke->setMinimumSize(keyRevoke->sizeHint());
+	keyRevoke->show();
+	keyRevokeWidget->setMainWidget(keyRevoke);
 	
         if (keyRevokeWidget->exec()!=QDialog::Accepted)
                 return;
@@ -1239,15 +1240,31 @@ KDialogBase *keyRevokeWidget=new KDialogBase(KDialogBase::Swallow, i18n("Create 
                 slotrevoke(keysList2->currentItem()->text(6),keyRevoke->kURLRequester1->url(),keyRevoke->comboBox1->currentItem(),keyRevoke->textDescription->text());
                 if (keyRevoke->cbPrint->isChecked())
                         connect(revKeyProcess,SIGNAL(revokeurl(QString)),this,SLOT(doFilePrint(QString)));
+		if (keyRevoke->cbImport->isChecked())
+			connect(revKeyProcess,SIGNAL(revokeurl(QString)),this,SLOT(slotImportRevoke(QString)));
         } else {
-                if (keyRevoke->cbPrint->isChecked()) {
-                        slotrevoke(keysList2->currentItem()->text(6),QString::null,keyRevoke->comboBox1->currentItem(),keyRevoke->textDescription->text());
+			slotrevoke(keysList2->currentItem()->text(6),QString::null,keyRevoke->comboBox1->currentItem(),keyRevoke->textDescription->text());
+		if (keyRevoke->cbPrint->isChecked()) 
                         connect(revKeyProcess,SIGNAL(revokecertificate(QString)),this,SLOT(doPrint(QString)));
-                }
+		if (keyRevoke->cbImport->isChecked())
+			connect(revKeyProcess,SIGNAL(revokecertificate(QString)),this,SLOT(slotImportRevokeTxt(QString)));
         }
-
 }
 
+
+void listKeys::slotImportRevoke(QString url)
+{
+KgpgInterface *importKeyProcess=new KgpgInterface();
+                                importKeyProcess->importKeyURL(url);
+                                connect(importKeyProcess,SIGNAL(importfinished(QStringList)),keysList2,SLOT(refreshselfkey()));
+}
+
+void listKeys::slotImportRevokeTxt(QString revokeText)
+{
+KgpgInterface *importKeyProcess=new KgpgInterface();
+                                importKeyProcess->importKey(revokeText);
+                                connect(importKeyProcess,SIGNAL(importfinished(QStringList)),keysList2,SLOT(refreshselfkey()));
+}
 
 void listKeys::slotexportsec()
 {
@@ -1389,23 +1406,7 @@ void listKeys::slotProcessExportClip(QString keys)
 void listKeys::showKeyInfo(QString keyID)
 {
         KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",keyID);
-	//connect(opts,SIGNAL(keyNeedsRefresh()),keysList2,SLOT(refreshselfkey()));
         opts->show();
-
-        //delete opts;
-        /*
-                QListViewItem *current = keysList2->firstChild();
-                if (current==NULL)
-                        return;
-                while ( keyID.find(current->text(6).right(8),0,false)==-1) {
-                        if (!current->nextSibling())
-                                break;
-                        else
-                                current = current->nextSibling();
-                }
-                keysList2->setCurrentItem(current);
-                keysList2->refreshcurrentkey(keysList2->currentItem());
-        */
 }
 
 

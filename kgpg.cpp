@@ -538,9 +538,12 @@ void  MyView::readOptions()
 void  MyView::firstRun()
 {
         KProcIO *p=new KProcIO();
-        *p<<"gpg"<<"--no-tty"<<"--list-keys";
+        *p<<"gpg"<<"--no-tty"<<"--list-secret-keys";
         p->start(KProcess::Block);  ////  start gnupg so that it will create a config file
-
+	int gpgVersion=KgpgInterface::getGpgVersion();
+	if (gpgVersion<120) KMessageBox::information(0,i18n("Your GnuPG version seems to be older than 1.0.7. Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG if you want to be able to use these options."));
+	else if (gpgVersion<120) 
+	KMessageBox::information(0,i18n("Your GnuPG version seems to be older than 1.2.0. Key Groups will not work. Please consider upgrading GnuPG if you want to be able to use this option."));
         startWizard();
 }
 
@@ -806,7 +809,7 @@ void KgpgAppletApp::wizardOver(QString defaultKeyId)
 
 int KgpgAppletApp::newInstance()
 {
-        kdDebug()<<"New instance"<<endl;	
+        kdDebug()<<"New instance"<<endl;
         args = KCmdLineArgs::parsedArgs();
         if (running) {
                 kdDebug()<<"Already running"<<endl;

@@ -168,6 +168,7 @@ public slots:
 	static void setGpgGroupSetting(QString name,QStringList values, QString configFile);
 	static void delGpgGroup(QString name, QString configFile);
 	static QString checkForUtf8(QString txt);
+	static int getGpgVersion();
 
 
 

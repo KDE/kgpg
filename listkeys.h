@@ -239,8 +239,6 @@ private slots:
         void slotReadFingerProcess(KProcIO *p);
         void slotProcessExportMail(QString keys);
         void slotProcessExportClip(QString keys);
-//        void displayPhoto();
-//        void slotProcessPhoto(KProcess *);
         void readOptions();
         void genover(KProcess *p);
         void slotOptions();
@@ -273,6 +271,8 @@ private slots:
 	void groupChange();
 	void createNewGroup();
 	void deleteGroup();
+	void slotImportRevoke(QString url);
+	void slotImportRevokeTxt(QString revokeText);
 
 signals:
         void readAgainOptions();

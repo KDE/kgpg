@@ -37,6 +37,28 @@
 KgpgInterface::KgpgInterface()
 {}
 
+
+int KgpgInterface::getGpgVersion()
+{
+FILE *fp;
+        QString readResult,gpgString;
+        char buffer[200];
+	bool readLine=true;
+
+        QString gpgcmd="gpg --version";
+        
+        fp = popen(QFile::encodeName(gpgcmd), "r");
+        while ( fgets( buffer, sizeof(buffer), fp)) {
+                readResult=buffer;
+                if (readLine) {
+		gpgString=readResult.stripWhiteSpace().section(' ',-1);
+		readLine=false;
+		}
+        }
+        pclose(fp);
+	return (100*gpgString.section('.',0,0).toInt()+10*gpgString.section('.',1,1).toInt()+gpgString.section('.',2,2).toInt());
+}
+
 void KgpgInterface::KgpgEncryptFile(QStringList encryptKeys,KURL srcUrl,KURL destUrl, QStringList Options, bool symetrical)
 {
         file=destUrl;
