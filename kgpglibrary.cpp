@@ -97,6 +97,18 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
         connect(cryptFileProcess,SIGNAL(errormessage(QString)),this,SLOT(processencerror(QString)));
 }
 
+void KgpgLibrary::processpopup2()
+{
+        pop = new KPassivePopup();
+        pop->setView(i18n("Processing encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+        pop->show();
+        QRect qRect(QApplication::desktop()->screenGeometry());
+        int iXpos=qRect.width()/2-pop->width()/2;
+        int iYpos=qRect.height()/2-pop->height()/2;
+        pop->move(iXpos,iYpos);
+
+}
+
 void KgpgLibrary::shredpreprocessenc(KURL fileToShred)
 {
 	delete pop;
@@ -160,7 +172,7 @@ void KgpgLibrary::slotFileDec(KURL srcUrl,KURL destUrl,QStringList customDecrypt
         urlselected=srcUrl;
         popIsDisplayed=false;
         decryptFileProcess->KgpgDecryptFile(srcUrl,destUrl,customDecryptOption);
-        connect(decryptFileProcess,SIGNAL(processaborted(bool)),this,SLOT(processdecover()));
+        connect(decryptFileProcess,SIGNAL(processaborted(bool)),this,SIGNAL(decryptionOver()));
         connect(decryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup()));
         connect(decryptFileProcess,SIGNAL(decryptionfinished()),this,SLOT(processdecover()));
         connect(decryptFileProcess,SIGNAL(errormessage(QString)),this,SLOT(processdecerror(QString)));
@@ -178,23 +190,9 @@ void KgpgLibrary::processpopup()
         pop->move(iXpos,iYpos);
 }
 
-void KgpgLibrary::processpopup2()
-{
-        pop = new KPassivePopup();
-        pop->setView(i18n("Processing encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
-        pop->show();
-        QRect qRect(QApplication::desktop()->screenGeometry());
-        int iXpos=qRect.width()/2-pop->width()/2;
-        int iYpos=qRect.height()/2-pop->height()/2;
-        pop->move(iXpos,iYpos);
-
-}
-
 void KgpgLibrary::processdecover()
 {
-        //       if (popIsDisplayed)
-        delete pop;
-	pop=0L;
+	delete pop;
         emit decryptionOver();
 }
 
