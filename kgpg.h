@@ -31,6 +31,7 @@
 #include <qpopupmenu.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
+#include <qtimer.h>
 #include <qregexp.h>
 #include <qwidgetlist.h>
 

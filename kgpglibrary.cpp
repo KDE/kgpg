@@ -132,7 +132,7 @@ pop = new KPassivePopup();
 		int iYpos=qRect.height()/2-pop->height()/2;
       	pop->move(iXpos,iYpos);
 #else
-	clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
+	clippop = new QDialog( 0,0,false,WStyle_Customize | WStyle_NormalBorder);
               QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
               QLabel *tex=new QLabel(clippop);
               tex->setText(i18n("<b>Processing decryption</b>"));
