@@ -552,10 +552,9 @@ if (kgpg_applet)
 delete kgpg_applet;
 kgpg_applet = 0;	
 }
+}
 
-
-int
-KgpgAppletApp::newInstance()
+int KgpgAppletApp::newInstance()
 {
 KURL FileToOpen;
 args = KCmdLineArgs::parsedArgs();
