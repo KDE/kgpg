@@ -141,6 +141,7 @@ private slots:
         void expandKey(QListViewItem *item);
 	void expandGroup(QListViewItem *item);
         void refreshcurrentkey(QListViewItem *current);
+	void refreshcurrentkey(QString currentID);
 	void refreshgroups();
 
 protected:

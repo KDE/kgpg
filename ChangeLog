@@ -1,5 +1,6 @@
 cvs version
 
+-fixed bug hiding key when user answered no to delete secret key
 -improved feedback on key creation
 -added select all action to kgpg editor
 -fixed utf8 problem with some key names

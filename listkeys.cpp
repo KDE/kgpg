@@ -1821,11 +1821,13 @@ void listKeys::slotReadFingerProcess(KProcIO *p)
 
 void listKeys::newKeyDone(KProcess *)
 {
-        refreshkey();
+//        refreshkey();
         if (newkeyID.isEmpty()) {
                 KMessageBox::detailedSorry(this,i18n("Something unexpected happened during the key pair creation.\nPlease check details for full log output."),message);
+		refreshkey();
                 return;
         }
+	keysList2->refreshcurrentkey(newkeyID);
         KDialogBase *keyCreated=new KDialogBase( this, "key_created", true,i18n("New Key Pair Created"), KDialogBase::Ok);
         newKey *page=new newKey(keyCreated);
         page->TLname->setText("<b>"+newKeyName+"</b>");
@@ -1962,9 +1964,8 @@ void listKeys::deletekey()
 
         for ( uint i = 0; i < exportList.count(); ++i )
                 if ( exportList.at(i) )
-                        delete exportList.at(i);
+                        keysList2->refreshcurrentkey(exportList.at(i));
         keysList2->currentItem()->setSelected(true);
-
 }
 
 
@@ -2271,18 +2272,14 @@ void KeyView::refreshgroups()
                 }
 }
 
-void KeyView::refreshcurrentkey(QListViewItem *current)
+void KeyView::refreshcurrentkey(QString currentID)
 {
-        if (current==NULL)
-                return;
-        QString keyUpdate=current->text(6);
-        UpdateViewItem *item=NULL;
+UpdateViewItem *item=NULL;
         QString issec="";
         FILE *fp,*fp2;
 	char line[300];
-        takeItem(current);
 
-        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp2)) {
                 QString lineRead=line;
                 if (lineRead.startsWith("sec"))
@@ -2291,8 +2288,8 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
         pclose(fp2);
 
 
-        QString tst,cycle,revoked;
-        QString cmd="gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8 "+keyUpdate;
+        QString tst;
+        QString cmd="gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8 "+currentID;
         fp = popen(QFile::encodeName(cmd), "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
@@ -2319,6 +2316,15 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
                 }
         }
         pclose(fp);
+}
+
+void KeyView::refreshcurrentkey(QListViewItem *current)
+{
+        if (current==NULL)
+                return;
+        QString keyUpdate=current->text(6);
+        takeItem(current);
+	refreshcurrentkey(keyUpdate);
 }
 
 
