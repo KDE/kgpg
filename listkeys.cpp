@@ -349,7 +349,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
 
     if (!selectedok)
         keysListpr->setSelected(keysListpr->firstChild(),true);
-
+	
     page->show();
     resize(this->minimumSize());
     setMainWidget(page);
@@ -507,7 +507,10 @@ void  KeyView::startDrag()
 listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterface" ), KMainWindow(parent, name,0)
 {
     //KWin::setType(Qt::WDestructiveClose);
+    kdDebug() << "Starting building GUI"<<endl;
     keysList2 = new KeyView(this);
+    keysList2->photoKeysList=QString::null;
+    keysList2->groupNb=0;
 
     setAutoSaveSettings();
     readOptions();
@@ -654,12 +657,23 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
     ///////////////    get all keys data
     createGUI("listkeys.rc");
-
+    toolBar()->insertLineSeparator();
+    toolBar()->insertLined("",0, SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)),true,i18n("Filter Search"),20);
+    
     sTrust->setChecked(KGpgSettings::showTrust());
     sSize->setChecked(KGpgSettings::showSize());
     sCreat->setChecked(KGpgSettings::showCreat());
     sExpi->setChecked(KGpgSettings::showExpi());
 
+    statusbarTimer = new QTimer(this);
+    keyStatusBar=statusBar();
+    keyStatusBar->insertItem("",0,1);
+    keyStatusBar->insertFixedItem(i18n("00000 Keys, 000 Groups"),1,true);
+    keyStatusBar->setItemAlignment(0, AlignLeft);
+    keyStatusBar->changeItem("",1);
+    QObject::connect(keysList2,SIGNAL(statusMessage(QString,int,bool)),this,SLOT(changeMessage(QString,int,bool)));
+    QObject::connect(statusbarTimer,SIGNAL(timeout()),this,SLOT(statusBarTimeout()));
+    
     if (!KGpgSettings::showToolbar())
         toolBar()->hide();
 }
@@ -667,6 +681,61 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
 listKeys::~listKeys()
 {}
+
+void listKeys::keyFilter( const QString &filterStr)
+{
+    QListViewItem *item=keysList2->firstChild();
+    if (!item)
+        return;
+
+	if (filterStr.isEmpty())
+	{
+	while (item)
+        {
+            item->setVisible(true);
+            item=item->nextSibling();
+        }
+	}
+	else
+	{	
+        while (item)
+        {
+            if ((item->text(0).find(filterStr,0,false)==-1) && (item->text(1).find(filterStr,0,false)==-1))
+                item->setVisible(false);
+	    else item->setVisible(true);
+            item=item->nextSibling();
+        }
+	}
+        if (!keysList2->currentItem()->isVisible())
+        {
+            QListViewItem *item=keysList2->firstChild();
+            while (item)
+            {
+                if (item->isVisible())
+                    break;
+                item=item->nextSibling();
+            }
+            if (!item)
+                return;
+            keysList2->clearSelection();
+            keysList2->setCurrentItem(item);
+            keysList2->setSelected(item,true);
+        }
+        
+        keysList2->ensureItemVisible(keysList2->currentItem());
+}
+
+void listKeys::statusBarTimeout()
+{
+keyStatusBar->changeItem("",0);
+}
+
+void listKeys::changeMessage(QString msg, int nb, bool keep)
+{
+statusbarTimer->stop();
+if ((nb==0) & (!keep)) statusbarTimer->start(10000, true);
+keyStatusBar->changeItem(" "+msg+" ",nb);
+}
 
 
 void KeyView::slotRemoveColumn(int d)
@@ -886,13 +955,14 @@ void listKeys::slotSetPhotoSize(int size)
     QListViewItem *newdef = keysList2->firstChild();
     while (newdef)
     {
+        //if ((keysList2->photoKeysList.find(newdef->text(6))!=-1) && (newdef->childCount ()>0))
 	if (newdef->childCount ()>0)
 	{
 	bool hasphoto=false;
 	QListViewItem *newdefChild = newdef->firstChild();
 	while (newdefChild)
 	{
-	if (newdefChild->text(0)==i18n("Photo id"))
+	if (newdefChild->text(0)==i18n("Photo id")) 
 	{
 	hasphoto=true;
 	break;
@@ -948,7 +1018,7 @@ void listKeys::findFirstKey()
     QString searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
 
 
-    //kdDebug()<<"OPts:"<<searchOptions<<endl;
+    //
     KFind *m_find = new KFind(searchString, searchOptions,this);
     m_find->setData(searchText);
     while (m_find->find()==KFind::NoMatch)
@@ -1166,6 +1236,24 @@ void listKeys::checkList()
         else
             stateChanged("single_selected");
     }
+    int serial=keysList2->currentItem()->pixmap(0)->serialNumber();
+    if (serial==keysList2->pixkeySingle.serialNumber())
+    {
+    if (keysList2->currentItem()->depth()==0) changeMessage(i18n("Public Key"),0);
+    else changeMessage(i18n("Sub Key"),0);
+    }
+    else if (serial==keysList2->pixkeyPair.serialNumber())
+    changeMessage(i18n("Secret Key Pair"),0);
+    else if (serial==keysList2->pixkeyGroup.serialNumber())
+    changeMessage(i18n("Key Group"),0);
+    else if (serial==keysList2->pixsignature.serialNumber())
+    changeMessage(i18n("Signature"),0);
+    else if (serial==keysList2->pixuserid.serialNumber())
+    changeMessage(i18n("User ID"),0);
+    else if (keysList2->currentItem()->text(0)==i18n("Photo id"))
+    changeMessage(i18n("Photo ID"),0);
+    else if (serial==keysList2->pixRevoke.serialNumber())
+    changeMessage(i18n("Revocation Signature"),0);
 }
 
 void listKeys::annule()
@@ -1597,6 +1685,8 @@ void listKeys::deleteGroup()
 
     QStringList groups=KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
     KGpgSettings::setGroups(groups.join(","));
+    keysList2->groupNb=groups.count();
+    changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount()-keysList2->groupNb).arg(keysList2->groupNb),1);
 }
 
 void listKeys::groupChange()
@@ -1651,6 +1741,14 @@ void listKeys::createNewGroup()
             QStringList groups=KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
             KGpgSettings::setGroups(groups.join(","));
             keysList2->refreshgroups();
+	    QListViewItem *newgrp = keysList2->findItem(groupName,0);
+	   
+	    keysList2->clearSelection();
+            keysList2->setCurrentItem(newgrp);
+            keysList2->setSelected(newgrp,true);
+            keysList2->ensureItemVisible(newgrp);
+	    keysList2->groupNb=groups.count();
+    	    changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount()-keysList2->groupNb).arg(keysList2->groupNb),1);
         }
         else
             KMessageBox::sorry(this,i18n("<qt>No valid or trusted key was selected. The group <b>%1</b> will not be created.</qt>").arg(groupName));
@@ -2057,6 +2155,8 @@ void listKeys::slotgenkey()
             pop->setView(wid);
 
             pop->show();
+	    changeMessage(i18n("Generating New Key..."),0,true);
+	    
             QRect qRect(QApplication::desktop()->screenGeometry());
             int iXpos=qRect.width()/2-pop->width()/2;
             int iYpos=qRect.height()/2-pop->height()/2;
@@ -2165,6 +2265,7 @@ void listKeys::slotReadFingerProcess(KProcIO *p)
 
 void listKeys::newKeyDone(KProcess *)
 {
+changeMessage(i18n("Ready"),0);
     //        refreshkey();
     if (newkeyID.isEmpty())
     {
@@ -2173,6 +2274,7 @@ void listKeys::newKeyDone(KProcess *)
         return;
     }
     keysList2->refreshcurrentkey(newkeyID);
+    changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount()-keysList2->groupNb).arg(keysList2->groupNb),1);
     KDialogBase *keyCreated=new KDialogBase( this, "key_created", true,i18n("New Key Pair Created"), KDialogBase::Ok);
     newKey *page=new newKey(keyCreated);
     page->TLname->setText("<b>"+newKeyName+"</b>");
@@ -2351,6 +2453,7 @@ void listKeys::deletekey()
             keysList2->setCurrentItem(myChild);
         }
     }
+changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount()-keysList2->groupNb).arg(keysList2->groupNb),1);
 }
 
 
@@ -2367,7 +2470,7 @@ void listKeys::slotPreImportKey()
 
     if (dial->exec()==QDialog::Accepted)
     {
-
+	changeMessage(i18n("Importing..."),0,true);
         if (page->checkFile->isChecked())
         {
             QString impname=page->newFilename->url().stripWhiteSpace();
@@ -2431,9 +2534,9 @@ QPixmap KeyView::slotGetPhoto(QString photoId,bool mini)
 
 void KeyView::expandKey(QListViewItem *item)
 {
-    if (item->childCount()!=0)
-        return;   // key has already been expanded
 
+if (item->childCount()!=0)
+        return;   // key has already been expanded
     FILE *fp;
     QString cycle;
     QStringList tst;
@@ -2456,8 +2559,7 @@ void KeyView::expandKey(QListViewItem *item)
     {
         tst=QStringList::split(":",line,true);
 	if ((tst[0]=="pub") && (tst[9].isEmpty())) /// Primary User Id is separated from public key
- 	uidNumber=1;
-
+	uidNumber=1;
         if (tst[0]=="uid" || tst[0]=="uat")
         {
             if (dropFirstUid)
@@ -2470,7 +2572,8 @@ void KeyView::expandKey(QListViewItem *item)
 
                 if (tst[0]=="uat")
                 {
-                    itemuid= new SmallViewItem(item,i18n("Photo id"),QString::null,QString::null,"-","-","-",QString::number(uidNumber));
+		   kdDebug()<<"Found photo at uid "<<uidNumber<<endl;
+		    itemuid= new SmallViewItem(item,i18n("Photo id"),QString::null,QString::null,"-","-","-",QString::number(uidNumber));
                     if (displayPhoto)
                     {
                         kgpgphototmp=new KTempFile();
@@ -2478,9 +2581,8 @@ void KeyView::expandKey(QListViewItem *item)
                         QString pgpgOutput="cp %i "+kgpgphototmp->name();
                         KProcIO *p=new KProcIO();
                         *p<<"gpg"<<"--no-tty"<<"--photo-viewer"<<QFile::encodeName(pgpgOutput);
-                        *p<<"--edit-key"<<item->text(6)<<"uid"<<QString::number(uidNumber)<<"showphoto"<<"quit";
+			*p<<"--edit-key"<<item->text(6)<<"uid"<<QString::number(uidNumber)<<"showphoto"<<"quit";
                         p->start(KProcess::Block);
-
                         QPixmap pixmap;
                         pixmap.load(kgpgphototmp->name());
                         QImage dup=pixmap.convertToImage();
@@ -2497,6 +2599,7 @@ void KeyView::expandKey(QListViewItem *item)
                 }
                 else
                 {
+			kdDebug()<<"Found uid at "<<uidNumber<<endl;
                     itemuid= new SmallViewItem(item,uidKey.gpgkeyname,uidKey.gpgkeymail,QString::null,"-","-","-","-");
                     itemuid->setPixmap(2,uidKey.trustpic);
                     if (noID)
@@ -2568,8 +2671,10 @@ void listKeys::refreshkey()
 
 void KeyView::refreshkeylist()
 {
+emit statusMessage(i18n("Loading Keys..."),0,true);
+kapp->processEvents();
     ////////   update display of keys in main management window
-    FILE *fp;
+    kdDebug()<<"Refreshing key list"<<endl;
     QString tst;
     char line[300];
     UpdateViewItem *item=NULL;
@@ -2590,7 +2695,7 @@ void KeyView::refreshkeylist()
 
     // refill
     clear();
-    FILE *fp2;
+    FILE *fp2,*fp;
     QString issec=QString::null;
     secretList=QString::null;
     fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
@@ -2625,11 +2730,7 @@ void KeyView::refreshkeylist()
             item=new UpdateViewItem(this,pubKey.gpgkeyname,pubKey.gpgkeymail,QString::null,pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold,isexpired);
 
             item->setPixmap(2,pubKey.trustpic);
-
             item->setExpandable(true);
-
-            //if ((displayPhoto) &&(photoKeysList.find(pubKey.gpgkeyid)!=-1))
-            //item->setPixmap(1,slotGetPhoto(pubKey.gpgkeyid));
 
             if (issec.find(pubKey.gpgkeyid.right(8),0,FALSE)!=-1)
             {
@@ -2650,8 +2751,14 @@ void KeyView::refreshkeylist()
     }
     pclose(fp);
     if (emptyList)
+    {
+    kdDebug()<<"No key found"<<endl;
+    emit statusMessage(i18n("Ready"),0);
         return;
+    }
+    kdDebug()<<"Checking Groups"<<endl;
     QStringList groups=KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
+    groupNb=groups.count();
     for ( QStringList::Iterator it = groups.begin(); it != groups.end(); ++it )
         if (!QString(*it).isEmpty())
         {
@@ -2661,24 +2768,34 @@ void KeyView::refreshkeylist()
             if (displayOnlySecret)
                 item->setVisible(false);
         }
+kdDebug()<<"Finished Groups"<<endl;
 
+QListViewItem *newPos=0L;
     if(current != NULL)
     {
         // select previous selected
-        QListViewItem *newPos = findItem(current->text(6), 6);
-        if (newPos==0)
-            return;
+        if (!current->text(6).isEmpty()) newPos = findItem(current->text(6), 6);
+	else newPos = findItem(current->text(0), 0);
+    	delete current;
+    }
+    
+        if (newPos != 0L)
+	 {
         setCurrentItem(newPos);
         setSelected(newPos, true);
         ensureItemVisible(newPos);
-        delete current;
-    }
+	}
     else
     {
         setCurrentItem(firstChild());
         setSelected(firstChild(),true);
     }
+    
+    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount()-groupNb).arg(groupNb),1);
+    emit statusMessage(i18n("Ready"),0);
+    kdDebug()<<"Refresh Finished"<<endl;
 }
+
 
 void KeyView::refreshgroups()
 {
@@ -2694,7 +2811,9 @@ void KeyView::refreshgroups()
         else
             item=item->nextSibling();
     }
+
     QStringList groups=KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
+    groupNb=groups.count();
     for ( QStringList::Iterator it = groups.begin(); it != groups.end(); ++it )
         if (!QString(*it).isEmpty())
         {
@@ -2702,6 +2821,8 @@ void KeyView::refreshgroups()
             item->setPixmap(0,pixkeyGroup);
             item->setExpandable(false);
         }
+	emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount()-groupNb).arg(groupNb),1);
+    	emit statusMessage(i18n("Ready"),0);
 }
 
 void KeyView::refreshselfkey()
@@ -2722,6 +2843,8 @@ if (keyIDs.isEmpty()) return;
     }
     kdDebug()<<"Refreshing key:--------"<<(keyIDs.last()).right(8).prepend("0x")<<endl;
     ensureItemVisible(this->findItem((keyIDs.last()).right(8).prepend("0x"),6));
+    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount()-groupNb).arg(groupNb),1);
+    emit statusMessage(i18n("Ready"),0);
 }
 
 void KeyView::refreshcurrentkey(QString currentID)

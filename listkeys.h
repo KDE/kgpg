@@ -131,11 +131,14 @@ public:
 	bool displayPhoto,displayOnlySecret;
 	int previewSize;
 private:
-//        bool displayMailFirst;
+
         QString secretList;
+        QString photoKeysList;
         QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown,trustmarginal, trustbad, trustgood,pixRevoke;
 	QListViewItem *itemToOpen;
 	KTempFile *kgpgphototmp;
+	int groupNb;
+	
 public slots:
 	void slotRemoveColumn(int d);
 	void slotAddColumn(int c);
@@ -152,6 +155,9 @@ private slots:
 	void refreshgroups();
 	QPixmap slotGetPhoto(QString photoId,bool mini=false);
 	void slotReloadKeys(QStringList keyIDs);
+	
+signals:
+	void statusMessage(QString,int,bool keep=false);
 
 protected:
         virtual void startDrag();
@@ -175,6 +181,7 @@ public:
         KPassivePopup *pop;
 	KToggleAction *sTrust,*sCreat,*sExpi,*sSize;
 	KSelectAction *photoProps;
+	KStatusBar *keyStatusBar;
 
 private:
         QPushButton *bouton1,*bouton2,*bouton0;
@@ -194,6 +201,7 @@ private:
 	KgpgInterface *revKeyProcess;
 	KDialogBase *addUidWidget;
 	QClipboard::Mode clipboardMode;
+	QTimer *statusbarTimer;
 
 protected:
         void closeEvent( QCloseEvent * e );
@@ -210,6 +218,9 @@ public slots:
 	void slotSetDefaultKey(QString newID);
 
 private slots:
+	void keyFilter( const QString &filterStr);
+	void changeMessage(QString,int, bool keep=false);
+	void statusBarTimeout();
 	void slotShowTrust();
 	void slotShowSize();
 	void slotShowCreat();
@@ -280,6 +291,7 @@ private slots:
 signals:
         void readAgainOptions();
 	void certificate(QString);
+	void closeAsked();
 
 
 };

@@ -2,7 +2,7 @@
                           popuppublic.cpp  -  description
                              -------------------
     begin                : Sat Jun 29 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
+    copyright            : (C) 2002 by Jean-Baptiste Mardelle
     email                : bj@altern.org
  ***************************************************************************/
 
@@ -94,7 +94,9 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
         if (filemode) setCaption(i18n("Select Public Key for %1").arg(sfile));
 
         fmode=filemode;
-
+	KLineEdit *isearch=new KLineEdit(page);
+	QObject::connect(isearch,SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)));
+	
         keysList = new KListView( page );
 	 keysList->addColumn(i18n("Name"));
 	 keysList->addColumn(i18n("Email"));
@@ -131,7 +133,7 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
                                   "box enables you to use any key, even if it has not be signed."));
 
         if (filemode) {
-                CBshred=new QCheckBox(i18n("Shred source file"),boutonboxoptions);
+               CBshred=new QCheckBox(i18n("Shred source file"),boutonboxoptions);
                 QWhatsThis::add
                         (CBshred,i18n("<b>Shred source file</b>: permanently remove source file. No recovery will be possible"));
         }
@@ -182,6 +184,50 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 popupPublic::~popupPublic()
 {}
 
+void popupPublic::keyFilter( const QString &filterStr)
+{
+    QListViewItem *item=keysList->firstChild();
+    if (!item)
+        return;
+
+	if (filterStr.isEmpty())
+	{
+	while (item)
+        {
+            item->setVisible(true);
+            item=item->nextSibling();
+        }
+	}
+	else
+	{	
+        while (item)
+        {
+            if ((item->text(0).find(filterStr,0,false)==-1) && (item->text(1).find(filterStr,0,false)==-1))
+                item->setVisible(false);
+	    else item->setVisible(true);
+            item=item->nextSibling();
+        }
+	}
+        if (!keysList->currentItem()->isVisible())
+        {
+            QListViewItem *item=keysList->firstChild();
+            while (item)
+            {
+                if (item->isVisible())
+                    break;
+                item=item->nextSibling();
+            }
+            if (!item)
+                return;
+            keysList->clearSelection();
+            keysList->setCurrentItem(item);
+            keysList->setSelected(item,true);
+        }
+        
+        keysList->ensureItemVisible(keysList->currentItem());
+}
+
+
 void popupPublic::slotAccept()
 {
 accept();
@@ -197,6 +243,7 @@ void popupPublic::enable()
                 current = current->nextSibling();
                 current->setVisible(true);
         }
+	keysList->ensureItemVisible(keysList->currentItem());
 }
 
 void popupPublic::sort()
@@ -234,7 +281,7 @@ void popupPublic::sort()
                                 return;
                 }
                 keysList->setSelected(firstvisible,true);
-                keysList->setCurrentItem(firstvisible);
+		keysList->setCurrentItem(firstvisible);
 		keysList->ensureItemVisible(firstvisible);
         }
 }
@@ -297,11 +344,11 @@ QListViewItem *it;
                                 return;
                 }
         }
+if (!trusted)
+              sort();
 	keysList->setSelected(it,true);
 	keysList->setCurrentItem(it);
 	keysList->ensureItemVisible(it);
-        if (!trusted)
-              sort();
 emit keyListFilled();
 }
 

@@ -2,7 +2,7 @@
                           popuppublic.h  -  description
                              -------------------
     begin                : Sat Jun 29 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
+    copyright            : (C) 2002 by Jean-Baptiste Mardelle
     email                : bj@altern.org
  ***************************************************************************/
 
@@ -60,7 +60,8 @@ private slots:
         void isSymetric(bool state);
         void sort();
         void enable();
-
+	void keyFilter( const QString &filterStr);
+	
 public slots:
 void slotAccept();
 void slotSetVisible();
