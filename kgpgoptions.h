@@ -22,7 +22,7 @@
 class KConfig;
 class Encryption;
 class Decryption;
-class UI;
+class UIConf;
 class GPGConf;
 class ServerConf;
 class ColorsConf;
@@ -39,11 +39,10 @@ public:
         QStringList names,ids;
         Encryption *page1;
         Decryption *page2;
-        UI *page3;
+        UIConf *page3;
         GPGConf *page4;
 	ServerConf *page6;
 	KFontChooser *page7;
-	ColorsConf *page8;
         
 private:
         KConfig *config;

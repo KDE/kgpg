@@ -59,7 +59,7 @@
 #include "conf_encryption.h"
 #include "conf_gpg.h"
 #include "conf_servers.h"
-#include "conf_ui.h"
+#include "conf_ui2.h"
 #include "conf_colors.h"
 
 ///////////////////////   main window
@@ -93,22 +93,20 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 kdDebug(2100)<<"Adding pages"<<endl;
         page1=new Encryption();
         page2=new Decryption();
-        page3=new UI();
+        page3=new UIConf();
         page4=new GPGConf();
 	page6=new ServerConf();
 	page7=new KFontChooser();
-	page8=new ColorsConf();
+
 	pixkeySingle=KGlobal::iconLoader()->loadIcon("kgpg_key1",KIcon::Small,20);
 	pixkeyDouble=KGlobal::iconLoader()->loadIcon("kgpg_key2",KIcon::Small,20);
         addPage(page1, i18n("Encryption"), "encrypted");
         addPage(page2, i18n("Decryption"), "decrypted");
         addPage(page3, i18n("User Interface"), "misc");
         addPage(page4, i18n("GnuPG Settings"), "kgpg");
-//	addPage(page5, i18n("GPG Settings2"), "kgpg");
 	addPage(page6, i18n("Key Servers"), "network");
-	addPage(page7, i18n("Editor Font"), "fonts");  //,QString::null,false);
+	addPage(page7, i18n("Editor Font"), "fonts");  
 	page7->setFont(startFont);
-	addPage(page8, i18n("Key Colors"), "colorize");
 	
 
         // The following widgets are managed manually.
