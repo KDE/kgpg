@@ -265,66 +265,32 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
                 tst=line;
                 if (tst.startsWith("sec")) {
                         QStringList keyString=QStringList::split(":",tst,true);
-                        const QString trust=keyString[1];
                         QString val=keyString[6];
                         QString id=QString("0x"+keyString[4].right(8));
                         if (val.isEmpty())
                                 val=i18n("Unlimited");
-                        QString tr;
-                        switch( trust[0] ) {
-                        case 'o':
-                                tr= i18n("Unknown");
-                                break;
-                        case 'i':
-                                tr= i18n("Invalid");
-                                break;
-                        case 'd':
-                                tr=i18n("Disabled");
-                                break;
-                        case 'r':
-                                tr=i18n("Revoked");
-                                break;
-                        case 'e':
-                                tr=i18n("Expired");
-                                break;
-                        case 'q':
-                                tr=i18n("Undefined");
-                                break;
-                        case 'n':
-                                tr=i18n("None");
-                                break;
-                        case 'm':
-                                tr=i18n("Marginal");
-                                break;
-                        case 'f':
-                                tr=i18n("Full");
-                                break;
-                        case 'u':
-                                tr=i18n("Ultimate");
-                                break;
-                        default:
-                                tr=i18n("?");
-                                break;
-                        }
                         tst=keyString[9];
 
                         fp2 = popen(QFile::encodeName(QString("gpg --no-tty --with-colon --list-key %1").arg(KShellProcess::quote(id))), "r");
                         bool dead=true;
+			QString trust;
                         while ( fgets( line, sizeof(line), fp2)) {
                                 tst2=line;
                                 if (tst2.startsWith("pub")) {
                                         const QString trust2=tst2.section(':',1,1);
-                                        switch( trust2[0] ) {
-                                        case 'f':
-                                                dead=false;
-                                                break;
-                                        case 'u':
-                                                dead=false;
-                                                break;
-                                        default:
-                                                break;
-                                        }
-                                        const QString owntrust=tst2.section(':',8,8);
+                        switch( trust2[0] ) {
+                        case 'f':
+                                trust=i18n("Full");
+				dead=false;
+                                break;
+                        case 'u':
+                                trust=i18n("Ultimate");
+				dead=false;
+                                break;
+                        default:
+                                break;
+                        }
+					/*const QString owntrust=tst2.section(':',8,8);
                                         switch( owntrust[0] ) {
                                         case 'f':
                                                 dead=false;
@@ -334,15 +300,16 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
                                                 break;
                                         default:
                                                 break;
-                                        }
+                                        }*/
                                         if (tst2.section(':',11,11).find('D')!=-1)
                                                 dead=true;
+					break;
                                 }
                         }
                         pclose(fp2);
                         if (!tst.isEmpty() && (!dead)) {
                                 KListViewItem *item=new KListViewItem(keysListpr,extractKeyName(tst));
-                                KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, expiration: %3").arg(id).arg(tr).arg(val));
+                                KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, expiration: %3").arg(id).arg(trust).arg(val));
                                 sub->setSelectable(false);
                                 item->setPixmap(0,keyPair);
                                 if ((!defaultKeyID.isEmpty()) && (id.right(8)==defaultKeyID)) {
@@ -528,10 +495,20 @@ mySearchLine::mySearchLine(QWidget *parent, KeyView *listView, const char *name)
 :KListViewSearchLine(parent,listView,name)
 {
 searchListView=listView;
+setKeepParentsVisible(false);
 }
 
 mySearchLine::~ mySearchLine()
 {}
+
+
+bool mySearchLine::itemMatches(const QListViewItem *item, const QString & s) const
+{
+if (item->depth()!=0) return true;
+else return KListViewSearchLine::itemMatches(item,s);
+}
+
+
 
 void mySearchLine::updateSearch(const QString& s)
 {

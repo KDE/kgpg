@@ -143,6 +143,8 @@ private:
     
 public slots:
 virtual void updateSearch(const QString &s = QString::null);
+protected:
+virtual bool itemMatches(const QListViewItem *item, const QString & s)  const;
 };
 
 
