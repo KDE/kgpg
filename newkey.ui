@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>522</width>
+            <width>560</width>
             <height>336</height>
         </rect>
     </property>
@@ -99,6 +99,10 @@
                     </property>
                     <property name="text">
                         <string>Set as your default key</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>&lt;b&gt;Set as your default key:&lt;/b&gt;
+Checking this option sets the newly created key pair as the default key pair.</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit" row="3" column="0" rowspan="1" colspan="2">
