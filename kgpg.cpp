@@ -537,13 +537,64 @@ void  MyView::startWizard()
         wiz->kURLRequester1->setURL(confPath);
         wiz->kURLRequester2->setURL(QString(QDir::homeDirPath()+"/Desktop"));
         wiz->kURLRequester2->setMode(2);
+
+	FILE *fp,*fp2;
+        QString tst,tst2,name,trustedvals="idre-";
+	QString firstKey="";
+        char line[300];
+
+        fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
+        while ( fgets( line, sizeof(line), fp)) {
+                tst=line;
+                if (tst.find("sec",0,FALSE)!=-1) {
+                        name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
+                        if ((!name.isEmpty()) && (trustedvals.find(tst.section(':',1,1))==-1)) {
+			fp2 = popen("gpg --no-tty --with-colon --list-keys "+tst.section(':',4,4).right(8), "r");
+			while ( fgets( line, sizeof(line), fp2)) {
+                	tst2=line;
+                	if (tst2.startsWith("pub") && (trustedvals.find(tst2.section(':',1,1))==-1))
+			{
+			        wiz->CBdefault->insertItem(tst.section(':',4,4).right(8)+": "+name);
+				if (firstKey.isEmpty()) firstKey=tst.section(':',4,4).right(8)+": "+name;
+				}
+			}
+			pclose(fp2);
+                        }
+                }
+        }
+        pclose(fp);
+	wiz->CBdefault->setCurrentItem(firstKey);
         connect(wiz->pushButton4,SIGNAL(clicked()),this,SLOT(slotGenKey()));
         connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotSaveOptionsPath()));
+	connect(wiz->nextButton(),SIGNAL(clicked()),this,SLOT(slotWizardChange()));
         connect( wiz , SIGNAL( destroyed() ) , this, SLOT( slotWizardClose()));
 
         wiz->setFinishEnabled(wiz->page_4,true);
         wiz->show();
 }
+
+void  MyView::slotWizardChange()
+{
+QString tst,name;
+char line[300];
+FILE *fp;
+
+if (wiz->indexOf(wiz->currentPage())==2)
+{
+QString defaultID=KgpgInterface::getGpgSetting("default-key",wiz->kURLRequester1->url());
+if (defaultID.isEmpty()) return;
+	fp = popen("gpg --no-tty --with-colon --list-secret-keys "+defaultID, "r");
+        while ( fgets( line, sizeof(line), fp)) {
+                tst=line;
+                if (tst.find("sec",0,FALSE)!=-1) {
+                        name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
+			wiz->CBdefault->setCurrentItem(tst.section(':',4,4).right(8)+": "+name);
+			}
+        }
+        pclose(fp);
+}
+}
+
 
 void  MyView::slotSaveOptionsPath()
 {
@@ -576,7 +627,17 @@ void  MyView::slotSaveOptionsPath()
 
         ksConfig->setGroup("General Options");
         ksConfig->writeEntry("First run",false);
+
+                ksConfig->setGroup("Encryption");
+		QString defaultID=wiz->CBdefault->currentText().section(':',0,0);
+                ksConfig->writeEntry("default key",defaultID);
+		KgpgInterface::setGpgSetting("default-key",defaultID,wiz->kURLRequester1->url());
+
+		//m_keyServer->keysList2->defKey="0x"+defaultID;
+		//m_keyServer->keysList2->refreshcurrentkey(defaultID);
+
         ksConfig->sync();
+	emit updateDefault("0x"+defaultID);
         if (wiz)
                 delete wiz;
 }
@@ -728,6 +789,7 @@ int KgpgAppletApp::newInstance()
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
                 connect(kgpg_applet,SIGNAL(readAgain4()),s_keyManager,SLOT(readOptions()));
                 connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
+		connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),s_keyManager,SLOT(slotSetDefaultKey(QString)));
                 kgpg_applet->show();
                 kgpg_applet->w->ksConfig->setGroup("GPG Settings");
                 QString gpgPath=kgpg_applet->w->ksConfig->readPathEntry("gpg_config_path");

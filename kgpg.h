@@ -97,6 +97,7 @@ private slots:
         void readAgain1();
         void  slotWizardClose();
         void  startWizard();
+	void  slotWizardChange();
         void  slotSaveOptionsPath();
         void  slotGenKey();
         void importSignature(QString ID);
@@ -121,6 +122,7 @@ protected slots:
 
 signals:
         void readAgain2();
+	void updateDefault(QString);
 };
 
 class kgpgapplet : public KSystemTray//KUniqueApplication

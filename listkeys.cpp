@@ -961,6 +961,17 @@ void listKeys::slotSetDefKey()
 slotSetDefaultKey(keysList2->currentItem());
 }
 
+void listKeys::slotSetDefaultKey(QString newID)
+{
+	QListViewItem *newdef = keysList2->firstChild();
+                while (newdef->text(6)!=newID)
+                        if (newdef->nextSibling())
+                                newdef = newdef->nextSibling();
+                        else
+                                break;
+slotSetDefaultKey(newdef);
+}
+
 void listKeys::slotSetDefaultKey(QListViewItem *newdef)
 {
 
@@ -976,9 +987,11 @@ void listKeys::slotSetDefaultKey(QListViewItem *newdef)
                         else
                                 break;
                 keysList2->defKey=newdef->text(6);
+
                 config->setGroup("Encryption");
                 config->writeEntry("default key",newdef->text(6).right(8));
-                KgpgInterface::setGpgSetting("default-key",newdef->text(6).right(8),configUrl);
+		config->setGroup("GPG Settings");
+		KgpgInterface::setGpgSetting("default-key",newdef->text(6).right(8),config->readPathEntry("gpg_config_path"));
                 keysList2->refreshcurrentkey(olddef);
 		keysList2->refreshcurrentkey(newdef);
 
@@ -1216,7 +1229,7 @@ void listKeys::showKeyInfo(QString keyID)
         KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",keyID);
         opts->show();
         //delete opts;
-
+/*
         QListViewItem *current = keysList2->firstChild();
         if (current==NULL)
                 return;
@@ -1228,6 +1241,7 @@ void listKeys::showKeyInfo(QString keyID)
         }
         keysList2->setCurrentItem(current);
         keysList2->refreshcurrentkey(keysList2->currentItem());
+*/
 }
 
 
