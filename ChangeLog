@@ -1,3 +1,15 @@
+version 0.9
+
+-fixed security bug in key generation wizard
+-fixed detection of file shredding results
+-rewrote key manager & key selection dialog
+-MD5 sum checking rewritten for easier use
+-centralised all encrypt/decrypt functions into one library file (kgpginterface) for easy reuse
+-fixed bug with filenames containing whitespaces
+-key manager can now be used as a standalone application
+-added new -s 'filename' option on command line to decrypt a file & open it in kgpg
+-added italian translation
+
 version 0.8.2
 
 -fixed debian rules permissions
@@ -50,7 +62,8 @@ version 0.6:
 -new encryption option for pgp 5.x compatibility
 -various crash fixes (mostly related to the default options dialog)
 -new dialog for key generation, automatically pops up on first run if no key is found.
--made ready for internationalization. added french & german translation (courtesty Christoph Thielecke <crissi99@gmx.de>
+-made ready for internationalization. added french & german translation (courtesty Christoph 
+Thielecke <crissi99@gmx.de>
 -added KTips
 
 version 0.5.1
@@ -66,7 +79,8 @@ version 0.5
 -expired/revoked key are now hidden from encryption dialog
 -untrusted keys are now hidden when required
 -added new configuration icon
--most key operation are now based on key id and not on email adress, which should solve problems with same name keys
+-most key operation are now based on key id and not on email adress, which should solve problems 
+with same name keys
 
 
 version 0.4.3
@@ -99,7 +113,8 @@ version 0.4.1:
 version 0.4
 
 -Big changes: 
--kgpg can now be used from inside konqueror using a new menu entry allowing you to encrypt/decrypt files.
+-kgpg can now be used from inside konqueror using a new menu entry allowing you to encrypt/decrypt 
+files.
 -dropped file mode. All file operations can now be performed through konqueror
 -a few minor improvements & code cleaning
 
@@ -112,7 +127,8 @@ version 0.3.1
 
 
 version 0.3
--Drag&drop now works !!! You can drop local or REMOTE text files in the editor to have them decrypted automatically
+-Drag&drop now works !!! You can drop local or REMOTE text files in the editor to have them 
+decrypted automatically
 -More infos on keys: now displays key signatures, key ID,...
 -New key managment features: enables you to sign keys and generate new keys.
 -Some minor improvements
