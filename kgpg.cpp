@@ -50,7 +50,7 @@
 
 #define ID_STATUS_MSG 1
 
-KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,QString opmode):KMainWindow(0, name)
+KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0, name)
 {
   config=kapp->config();
   readOptions();
@@ -87,7 +87,7 @@ KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,QString opmod
         {
           if (encryptfileto==false)
             {
-              popupPublic *dialogue=new popupPublic(this,i18n("Public Keys"),fileToOpen.filename(),true);
+              popupPublic *dialogue=new popupPublic(this,"public_keys", fileToOpen.filename(),true);
               connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool)),this,SLOT(fastencode(QString &,bool,bool,bool,bool)));
               if (dialogue->exec()==QDialog::Rejected ) exit(0);
             }
@@ -113,7 +113,7 @@ KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,QString opmod
     createGUI("kgpg.rc");
     }
 
-  
+
 }
 
 KgpgApp::~KgpgApp()
@@ -131,9 +131,7 @@ void KgpgApp::slotman()
 
 void KgpgApp::slotTip()
 {
-  KTipDatabase *tip=new KTipDatabase("tips");
-  KTipDialog::setShowOnStart(true);
-  KTipDialog::showTip();
+    KTipDialog::showTip(this, "kgpg/tips", true);
 }
 
 void KgpgApp::checkVersion()
@@ -238,7 +236,7 @@ void KgpgApp::checkEncryptedDocumentFile(const KURL& url)
   encid->start(KProcess::NotifyOnExit,true);
 }
 
-void KgpgApp::slotprocresulted(KProcess *p)
+void KgpgApp::slotprocresulted(KProcess *)
 {
   openEncryptedDocumentFile(urlselected,messages);
 }
@@ -345,7 +343,7 @@ void KgpgApp::firstrun()
       int result=KMessageBox::questionYesNo(0,i18n("Welcome to KGPG.\nNo secret key was found on your computer.\nWould you like to create one now ?"));
       if (result==3)
         {
-          listKeys *creat=new listKeys(this,i18n("Key Management"));
+          listKeys *creat=new listKeys(this);
           creat->slotgenkey();
           delete creat;
         }
@@ -466,8 +464,8 @@ void KgpgApp::slotClip()
 
   // Copy text from the clipboard (paste)
   text = cb->text();
-  if ( text )
-    view->editor->setText(text);
+  if ( !text.isEmpty() )
+      view->editor->setText(text);
   view->popuppass();
   //KMessageBox::sorry(0,text);
 
@@ -478,10 +476,10 @@ void KgpgApp::slotClip()
 
 void KgpgApp::slotManageKey()
 {
-  /////////// open key management window --> listkeys.cpp
-  listKeys *keydialogue=new listKeys(this,i18n("Key Management"), WShowModal |  WType_Dialog);
-  keydialogue->show();
-  optionsChanged=true;
+    /////////// open key management window --> listkeys.cpp
+    listKeys * keydialogue = new listKeys(this, 0, WShowModal |  WType_Dialog);
+    keydialogue->show();
+    optionsChanged=true;
 }
 
 
@@ -630,9 +628,9 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool shred,bool sym
 
   if (fgpg.exists())
     {
-      KgpgOverwrite *over=new KgpgOverwrite(0,i18n("overwrite"),dest);
+      KgpgOverwrite *over=new KgpgOverwrite(this,"overwrite", dest);
       over->exec();
-      if (over->result()==true)
+      if (over->result())
         dest.setFileName(over->getfname());
       else
         return;
@@ -703,9 +701,9 @@ void KgpgApp::fastdecode(bool quit)
 
 /////////////////////////////////////////////////
 
-void KgpgApp::slotprocresult(KProcess *p)
+void KgpgApp::slotprocresult(KProcess *)
 {
-  
+
   QString newname="",enckey="";
   QCString password;
 
@@ -724,7 +722,7 @@ void KgpgApp::slotprocresult(KProcess *p)
 
   if (fastact==false)
     {
-      popupName *popn=new popupName(this,i18n("Decryption to"),swapname);
+      popupName *popn=new popupName(i18n("Decryption to"), this, "decryption to", swapname);
       popn->exec();
       if (popn->result()==true)
         {
@@ -749,7 +747,7 @@ void KgpgApp::slotprocresult(KProcess *p)
       QFile fgpg(newname);
       if (fgpg.exists())
         {
-          KgpgOverwrite *over=new KgpgOverwrite(0,i18n("overwrite"),KURL(newname));
+          KgpgOverwrite *over=new KgpgOverwrite(this, "overwrite",KURL(newname));
           over->exec();
           if (over->result()==true)
             {
@@ -789,7 +787,7 @@ void KgpgApp::slotprocresult(KProcess *p)
 void KgpgApp::processdecover(bool res)
 {
   if ((res==true) && (fastact==true)) kapp->exit(0);
-  if (res==false) 
+  if (res==false)
   {
   KMessageBox::sorry(0,i18n("Decryption failed..."));
   if (fastact==true) kapp->exit(0);
@@ -863,7 +861,7 @@ void KgpgApp::slotFileEnc()
       urlselected=url;
       if (encryptfileto==false)
         {
-          popupPublic *dialogue=new popupPublic(this,i18n("Public keys"),url.filename(),true);
+          popupPublic *dialogue=new popupPublic(this,"Public keys",url.filename(),true);
           connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool)),this,SLOT(fastencode(QString &,bool,bool,bool,bool)));
           dialogue->exec();
           delete dialogue;
@@ -886,3 +884,4 @@ void KgpgApp::slotFileDec()
     }
 }
 //#include "kgpg.moc"
+#include "kgpg.moc"

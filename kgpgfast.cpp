@@ -2,8 +2,8 @@
                           kgpgfast.cpp  -  description
                              -------------------
     begin                : Sat Jun 29 2002
-    copyright            : (C) 2002 by 
-    email                : 
+    copyright            : (C) 2002 by
+    email                :
  ***************************************************************************/
 
 /***************************************************************************
@@ -22,37 +22,37 @@
 #include "kgpgfast.h"
 
 
-KgpgOverwrite::KgpgOverwrite( QWidget *parent, const char *name,KURL ofile):KDialogBase( parent, name, true,i18n("File already exists"),0)
+KgpgOverwrite::KgpgOverwrite( QWidget *parent, const char *name, KURL ofile):KDialogBase( parent, name, true, i18n("File already exists"),0)
 {
-QWidget *page = new QWidget(this);
-direc=ofile.directory(0,0);
-QVBoxLayout *vbox=new QVBoxLayout(page,3);
+    QWidget *page = new QWidget(this);
+    direc=ofile.directory(0,0);
+    QVBoxLayout *vbox=new QVBoxLayout(page,3);
 
-QLabel *label=new QLabel(i18n("File <b>%1</b> already exists").arg(ofile.filename()),page);
-lineedit=new KLineEdit(page);
-lineedit->setText(ofile.filename());
+    QLabel *label=new QLabel(i18n("File <b>%1</b> already exists").arg(ofile.filename()),page);
+    lineedit=new KLineEdit(page);
+    lineedit->setText(ofile.filename());
 
-KButtonBox *boutonbox=new KButtonBox(page,KButtonBox::Horizontal,15,12);
-  boutonbox->addStretch(1);
-  bouton1=boutonbox->addButton(i18n("&Overwrite"),TRUE);
-  bouton2=boutonbox->addButton(i18n("&Rename"),TRUE);
-  bouton3=boutonbox->addButton(i18n("&Cancel"),TRUE);
-  
-  QObject::connect(lineedit,SIGNAL(textChanged(const QString &)),this,SLOT(enablerename()));
-  QObject::connect(lineedit,SIGNAL(returnPressed(const QString &)),this,SLOT(slotcheck()));
-  QObject::connect(bouton1,SIGNAL(clicked()),this,SLOT(slotok()));
-  QObject::connect(bouton2,SIGNAL(clicked()),this,SLOT(slotcheck()));
-  QObject::connect(bouton3,SIGNAL(clicked()),this,SLOT(annule()));
-  
-bouton2->setDisabled(true);
+    KButtonBox *boutonbox=new KButtonBox(page,KButtonBox::Horizontal,15,12);
+    boutonbox->addStretch(1);
+    bouton1=boutonbox->addButton(i18n("&Overwrite"),TRUE);
+    bouton2=boutonbox->addButton(i18n("&Rename"),TRUE);
+    bouton3=boutonbox->addButton(i18n("&Cancel"),TRUE);
 
-  vbox->addWidget(label);
+    QObject::connect(lineedit,SIGNAL(textChanged(const QString &)),this,SLOT(enablerename()));
+    QObject::connect(lineedit,SIGNAL(returnPressed(const QString &)),this,SLOT(slotcheck()));
+    QObject::connect(bouton1,SIGNAL(clicked()),this,SLOT(slotok()));
+    QObject::connect(bouton2,SIGNAL(clicked()),this,SLOT(slotcheck()));
+    QObject::connect(bouton3,SIGNAL(clicked()),this,SLOT(annule()));
+
+    bouton2->setDisabled(true);
+
+    vbox->addWidget(label);
     vbox->addWidget(lineedit);
-  vbox->addWidget(boutonbox);
-  //page->resize(page->minimumSize());
-  //resize(this->minimumSize());
-  page->show();
-  setMainWidget(page);
+    vbox->addWidget(boutonbox);
+    //page->resize(page->minimumSize());
+    //resize(this->minimumSize());
+    page->show();
+    setMainWidget(page);
 }
 
 
@@ -89,8 +89,9 @@ QString KgpgOverwrite::getfname()
 {
 return (lineedit->text());
 }
-    
+
 
 
 
 //#include "kgpgfast.moc"
+#include "kgpgfast.moc"

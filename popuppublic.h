@@ -2,7 +2,7 @@
                           popuppublic.h  -  description
                              -------------------
     begin                : Sat Jun 29 2002
-    copyright            : (C) 2002 by 
+    copyright            : (C) 2002 by
     email                : bj@altern.org
  ***************************************************************************/
 
@@ -42,7 +42,7 @@ public:
     KListView *keysList;
     QCheckBox *checkbox1,*checkbox2,*checkbox3,*checkbox4;
     bool fmode,encryptToDefault,trusted;
-    
+
     QPixmap keyPair,keySingle,dkeyPair,dkeySingle;
     QString seclist,defaultKey,defaultName;
 

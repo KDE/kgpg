@@ -158,3 +158,4 @@ return(comment->text());
 else return ("");
 }
 //#include "keygener.moc"
+#include "keygener.moc"

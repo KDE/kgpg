@@ -44,55 +44,52 @@ int main(int argc, char *argv[])
 {
 
 	KAboutData aboutData( "kgpg", "kgpg",
-		VERSION, description, KAboutData::License_GPL,
-		"(c) 2002, y0k0", 0, 0, "bj@altern.org");
+                              VERSION, description, KAboutData::License_GPL,
+                              "(c) 2002, y0k0", 0, 0, "bj@altern.org");
 	aboutData.addAuthor("y0k0",0, "bj@altern.org");
 	aboutData.addCredit("Christoph Thielecke",I18N_NOOP("German translation"),"crissi99@gmx.de");
 	aboutData.addCredit("Daniele Medri",I18N_NOOP("Italian translation"),"madrid@linuxmeeting.net");
-KCmdLineArgs::init( argc, argv, &aboutData );
-KCmdLineArgs::addCmdLineOptions( options );  
-KApplication::addCmdLineOptions();
+        KCmdLineArgs::init( argc, argv, &aboutData );
+        KCmdLineArgs::addCmdLineOptions( options );
+        KApplication::addCmdLineOptions();
 
-  KApplication app(argc, argv);  
-  
-  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-  
-  
+        KApplication app;
+        KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
-  
-  //KUniqueApplication app;
-  QString opmode="";
-  KURL FileToOpen=0;
-  
- if (args->isSet("k")!=0)
- {
- listKeys *creat=new listKeys(0,i18n("Key Management"));
- creat->show();
- }
- else
- {
- if (args->isSet("c")!=0)  opmode="clipboard";
- else if (args->count()>0)
-  {
-FileToOpen=args->url(0); 
-opmode="decrypt";
- if (args->isSet("e")!=0)  opmode="encrypt";
- else if (args->isSet("s")!=0)  opmode="show";
- }
- KgpgApp *kgpg = new KgpgApp(0,"kgpg",FileToOpen,opmode);
- if ((opmode!="encrypt") && (opmode!="decrypt")) kgpg->show();
- 
- 
+
+        //KUniqueApplication app;
+        QString opmode="";
+        KURL FileToOpen=0;
+
+        if (args->isSet("k")!=0)
+        {
+            listKeys *creat=new listKeys;
+            creat->show();
+        }
+        else
+        {
+            if (args->isSet("c")!=0)  opmode="clipboard";
+            else if (args->count()>0)
+            {
+                FileToOpen=args->url(0);
+                opmode="decrypt";
+                if (args->isSet("e")!=0)  opmode="encrypt";
+                else if (args->isSet("s")!=0)  opmode="show";
+            }
+            KgpgApp *kgpg = new KgpgApp("kgpg",FileToOpen,opmode);
+            if ((opmode!="encrypt") && (opmode!="decrypt")) kgpg->show();
+
+
  /* if (app.isRestored())
   {
     RESTORE(KgpgApp);
   }
-  else 
+  else
   {
     KgpgApp *kgpg = new KgpgApp();
     kgpg->show();
   }
 */
+        }
+        return app.exec();
 }
-return app.exec();
-}  

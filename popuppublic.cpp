@@ -2,7 +2,7 @@
                           popuppublic.cpp  -  description
                              -------------------
     begin                : Sat Jun 29 2002
-    copyright            : (C) 2002 by 
+    copyright            : (C) 2002 by
     email                : bj@altern.org
  ***************************************************************************/
 
@@ -30,8 +30,8 @@
 class UpdateViewItem2 : public KListViewItem
 {
 public:
-UpdateViewItem2::UpdateViewItem2(QListView *parent, QString tst);
-virtual void paintCell(QPainter *p, const QColorGroup &cg,int col, int width, int align);
+    UpdateViewItem2(QListView *parent, QString tst);
+    virtual void paintCell(QPainter *p, const QColorGroup &cg,int col, int width, int align);
 };
 
 UpdateViewItem2::UpdateViewItem2(QListView *parent, QString tst)
@@ -48,7 +48,7 @@ void UpdateViewItem2::paintCell(QPainter *p, const QColorGroup &cg,int column, i
         QFont font(p->font());
         font.setBold(true);
         p->setFont(font);
- }   
+ }
     KListViewItem::paintCell(p, cg, column, width, alignment);
 }
 
@@ -67,7 +67,7 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
   defaultKey=config->readEntry("default key");
 //  encryptfileto=config->readBoolEntry("encrypt files to",false);
 //  filekey=config->readEntry("file key");
-  
+
 
 defaultName="";
 
@@ -78,7 +78,7 @@ defaultName="";
   keySingle=loader->loadIcon("kgpg_key1",KIcon::Small,20);
   dkeyPair=loader->loadIcon("kgpg_dkey2",KIcon::Small,20);
   dkeySingle=loader->loadIcon("kgpg_dkey1",KIcon::Small,20);
-  
+
   //setMinimumSize(300,120);
   setCaption(caption);
 
@@ -92,9 +92,9 @@ defaultName="";
   keysList->setShowSortIndicator(true);
   keysList->setFullWidth(true);
   keysList->setSelectionModeExt(KListView::Extended);
-  
+
   QVBoxLayout *vbox=new QVBoxLayout(this,3);
-  
+
   if (sfile=="")
     labeltxt=new QLabel(i18n("Choose encryption key(s):"),this);
   else
@@ -107,35 +107,35 @@ defaultName="";
 
   checkbox1=new QCheckBox(i18n("ASCII Armored encryption"),this);
   checkbox2=new QCheckBox(i18n("Allow encryption with untrusted keys"),this);
-  
+
    QWhatsThis::add(keysList,i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
   QWhatsThis::add(checkbox1,i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));
   QWhatsThis::add(checkbox2,i18n("<b>Allow encryption with untrusted keys</b>: when you import a public key, it is usually "
 "marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this "
 "box enables you to use any key, even if it has not be signed."));
-  
-  if (filemode==true) 
+
+  if (filemode==true)
   {
   checkbox3=new QCheckBox(i18n("Shred source file"),this);
   QWhatsThis::add(checkbox3,i18n("<b>Shred source file</b>: permanently remove source file. No recovery will be possible"));
-  
+
   checkbox4=new QCheckBox(i18n("Symmetrical encryption"),this);
   QWhatsThis::add(checkbox3,i18n("<b>Symmetrical encryption</b>: encryption doesn't use keys. You just need to give a password "
   "to encrypt/decrypt the file"));
   }
-  
+
   boutonbox->addStretch(1);
   bouton1=boutonbox->addButton(i18n("&Encrypt"),TRUE);
   bouton2=boutonbox->addButton(i18n("&Cancel"),TRUE);
 
   if (isascii==true) checkbox1->setChecked(true);
   if (istrust==true) checkbox2->setChecked(true);
-  
+
   vbox->addWidget(labeltxt);
   vbox->addWidget(keysList);
   vbox->addWidget(checkbox1);
   vbox->addWidget(checkbox2);
-  if (filemode==true) 
+  if (filemode==true)
   {
   vbox->addWidget(checkbox3);
   vbox->addWidget(checkbox4);
@@ -147,7 +147,7 @@ defaultName="";
   QObject::connect(bouton1,SIGNAL(clicked()),this,SLOT(crypte()));
   QObject::connect(bouton2,SIGNAL(clicked()),this,SLOT(annule()));
   QObject::connect(checkbox2,SIGNAL(toggled(bool)),this,SLOT(refresh(bool)));
-  
+
 
  char gpgcmd2[1024] = "\0",line[200]="\0";
  FILE *fp2;
@@ -157,9 +157,9 @@ defaultName="";
               fp2 = popen(gpgcmd2, "r");
               while ( fgets( line, sizeof(line), fp2))  seclist+=line;
               pclose(fp2);
-  
+
 trusted=istrust;
-refreshkeys(); 
+refreshkeys();
 }
 
 
@@ -168,29 +168,29 @@ void popupPublic::enable()
 QListViewItem *current = keysList->firstChild();
 if (current==NULL) return;
 
-	current->setVisible(true);  
+	current->setVisible(true);
         while ( current->nextSibling() )
 	{
 current = current->nextSibling();
-current->setVisible(true);  
+current->setVisible(true);
 	}
 }
-	
+
 void popupPublic::sort()
 {
 bool reselect=false;
 QString block="Undefined, ?,Unknown,None";
 QListViewItem *current = keysList->firstChild();
 if (current==NULL) return;
- 
+
 	QString trust=current->firstChild()->text(0);
 	trust=trust.section(',',1,1);
 	trust=trust.section(':',1,1);
 	trust=trust.stripWhiteSpace();
-	if (block.find(trust)!=-1) 
+	if (block.find(trust)!=-1)
 	{
 	if (current->isSelected()) {current->setSelected(false);reselect=true;}
-	current->setVisible(false);  
+	current->setVisible(false);
 	}
             while ( current->nextSibling() )
                 {
@@ -199,10 +199,10 @@ if (current==NULL) return;
 	trust=trust.section(',',1,1);
 	trust=trust.section(':',1,1);
 	trust.stripWhiteSpace();
-		if (block.find(trust)!=-1) 
+		if (block.find(trust)!=-1)
 		{
 		if (current->isSelected()) {current->setSelected(false);reselect=true;}
-		current->setVisible(false);  
+		current->setVisible(false);
 		}
 		}
 
@@ -251,7 +251,7 @@ if (encryptToDefault==true)
 keysList->setSelected(keysList->findItem(defaultName,0),true);
 keysList->setCurrentItem(keysList->findItem(defaultName,0));
 }
-else 
+else
 {
 QListViewItem *firstvisible;
 firstvisible=keysList->firstChild();
@@ -272,7 +272,7 @@ void popupPublic::slotprocread(KProcIO *p)
 ///////////////////////////////////////////////////////////////// extract  encryption keys
 bool dead;
 QString tst,keyname;
-  
+
   while (p->readln(tst)!=-1)
   {
        if (tst.startsWith("pub"))
@@ -329,20 +329,20 @@ keyname=tst.section('<',1,1);
 		    keyname=keyname.section('>',0,0);
 		    keyname+=" ("+tst.section('<',0,0)+")";
 if ((tst!="") && (dead==false))
-	{       
+	{
 	if ((id==defaultKey) && (encryptToDefault==true))
 	      {
 	      defaultName=keyname;
-	      UpdateViewItem2 *item=new UpdateViewItem2(keysList,keyname);	
+	      UpdateViewItem2 *item=new UpdateViewItem2(keysList,keyname);
 	      KListViewItem *sub= new KListViewItem(item,QString("ID: "+id+", trust: "+tr+", validity: "+val));
 	      sub->setSelectable(false);
 	      if (seclist.find(tst,0,FALSE)!=-1) item->setPixmap(0,keyPair);
               else item->setPixmap(0,keySingle);
 	      }
-	      else 
+	      else
 	      {
 	      KListViewItem *item=new KListViewItem(keysList,keyname);
-	      KListViewItem *sub= new KListViewItem(item,QString("ID: "+id+", trust: "+tr+", validity: "+val));	
+	      KListViewItem *sub= new KListViewItem(item,QString("ID: "+id+", trust: "+tr+", validity: "+val));
 	      sub->setSelectable(false);
 	      if (seclist.find(tst,0,FALSE)!=-1) item->setPixmap(0,keyPair);
               else item->setPixmap(0,keySingle);
@@ -385,7 +385,8 @@ if (res=="") {reject();return;}
 if ((encryptToDefault==true) && (res.find(defaultKey)==-1)) res+=" "+defaultKey;
 if (fmode==true)
     emit selectedKey(res,checkbox2->isChecked(),checkbox1->isChecked(),checkbox3->isChecked(),checkbox4->isChecked());
-  else emit selectedKey(res,checkbox2->isChecked(),checkbox1->isChecked(),false,false); 
+  else emit selectedKey(res,checkbox2->isChecked(),checkbox1->isChecked(),false,false);
   accept();
 }
-//#include "popuppublic.moc"
+
+#include "popuppublic.moc"

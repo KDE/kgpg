@@ -36,20 +36,20 @@ class popupName : public KDialogBase
   Q_OBJECT
   public:
 
-  popupName(QWidget *parent=0, const char *name=0,KURL oldnam=NULL,bool email=false);
-  
+  popupName(const QString& caption, QWidget *parent=0, const char *name=0, KURL oldnam=KURL(), bool email=false);
+
   QRadioButton *choix0,*choix1,*choix2;
-//  QVButtonGroup *vgroup; 
-  QHButtonGroup *hgroup; 
+//  QVButtonGroup *vgroup;
+  QHButtonGroup *hgroup;
   KLineEdit *lineedit;
   KURL path;
-  
+
       QButtonGroup* bGroupSources;
     QPushButton* buttonToolbar;
-    
+
 protected:
-    QGridLayout* bGroupSourcesLayout;  
-  
+    QGridLayout* bGroupSourcesLayout;
+
   private:
 protected slots:
 //virtual void slotOk();

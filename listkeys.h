@@ -84,48 +84,49 @@ public:
 
 class listKeys : public KMainWindow//QDialog //KMainWindow
 {
-  Q_OBJECT
-  public:
-  listKeys(QWidget *parent=0, const char *name=0,WFlags f = 0);
-  ~listKeys();
-  KListView *keysList2;
-  QPopupMenu *popup,*popupsec,*popupout,*popupsig;
-  QString secretList,exportresult;
-   KStatusBar *statusbar;
-   KToolBar *toolbar;
-QString message,defKey,issec;
-QStringList keynames;
-QPixmap keyPair,keySingle,dkeyPair,dkeySingle,nkeyPair,nkeySingle,gkeyPair,gkeySingle,signature,userid;
-QDialog *pop;
+    Q_OBJECT
+public:
+    listKeys(QWidget *parent = 0, const char *name = 0, WFlags f = 0);
+    ~listKeys();
+    KListView *keysList2;
+    QPopupMenu *popup,*popupsec,*popupout,*popupsig;
+    QString secretList,exportresult;
+    KStatusBar *statusbar;
+    KToolBar *toolbar;
+    QString message,defKey,issec;
+    QStringList keynames;
+    QPixmap keyPair,keySingle,dkeyPair,dkeySingle,nkeyPair,nkeySingle,gkeyPair,gkeySingle,signature,userid;
+    QDialog *pop;
 
-  private:
-QPushButton *bouton1,*bouton2,*bouton0;
-KConfig *config;
+private:
+    QPushButton *bouton1,*bouton2,*bouton0;
+    KConfig *config;
+    QString tempKeyFile;
 
 public slots:
-void slotgenkey();
+    void slotgenkey();
 
 private slots:
-void readOptions();
-void genover(KProcess *p);
-void slotParentOptions();
-void slotSetDefKey();
-void annule();
-void confirmdeletekey();
-void deletekey();
-void deleteseckey();
-void signkey();
-void delsignkey();
-void listsigns();
-void slotexport();
-void slotexportsec();
-void slotmenu(QListViewItem *,const QPoint &,int);
-void slotprocresult(KProcess *);
-void slotprocread(KProcIO *);
-void refreshkey();
-void slotImportKey();
-void slotstatus(QListViewItem *);
-void slotedit();
+    void readOptions();
+    void genover(KProcess *p);
+    void slotParentOptions();
+    void slotSetDefKey();
+    void annule();
+    void confirmdeletekey();
+    void deletekey();
+    void deleteseckey();
+    void signkey();
+    void delsignkey();
+    void listsigns();
+    void slotexport();
+    void slotexportsec();
+    void slotmenu(QListViewItem *,const QPoint &,int);
+    void slotprocresult(KProcess *);
+    void slotprocread(KProcIO *);
+    void refreshkey();
+    void slotImportKey();
+    void slotstatus(QListViewItem *);
+    void slotedit();
 
 signals:
 //void selectedKey(QString &);

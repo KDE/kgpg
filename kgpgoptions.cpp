@@ -16,7 +16,7 @@
  ***************************************************************************/
 
  ///////////////////////////////////////////////             code for the option dialog box
- 
+
 #include <klineedit.h>
 
 #include <qwhatsthis.h>
@@ -74,7 +74,7 @@ void kgpgOptions::slotOk()
 QWhatsThis::add(selkey,i18n("<b>Special file key</b>: files will be encrypted only with this key"));
 QWhatsThis::add(selkey2,i18n("<b>Default key</b>: all messages/files will also be encrypted with this key"));
 QWhatsThis::add(choix3,i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));
-QWhatsThis::add(choix2,i18n("<b>Use special key for file encryption</b>: allows faster operations. When you encrypt a file " 
+QWhatsThis::add(choix2,i18n("<b>Use special key for file encryption</b>: allows faster operations. When you encrypt a file "
 "from konqueror, kgpg will not ask you anything and will automatically use the special key."));
 QWhatsThis::add(choix1,i18n("<b>Always encrypt to default key</b>: ensures that all messages/files are also "
 "encrypted with your selected default key. It means that when you encrypt a message/file for someone, it will also be "
@@ -88,23 +88,20 @@ QWhatsThis::add(choix5,i18n("<b>PGP compatibility</b>: this option ensures that 
 
 QString kgpgOptions::namecode(QString kid)
 {
-if (kid!=NULL)
-{
-for ( int counter = 0; counter<names.count(); counter++ ) 
-        if (QString("0x"+ids[counter].right(8))==kid) return names[counter];
-}
-else return QString("");
+    for ( uint counter = 0; counter<names.count(); counter++ )
+        if (QString("0x"+ids[counter].right(8))==kid)
+            return names[counter];
+
+    return QString::null;
 }
 
 
 QString kgpgOptions::idcode(QString kname)
 {
-if (kname!=NULL)
-{
-for ( int counter = 0; counter<names.count(); counter++ ) 
-        if (names[counter]==kname) return QString("0x"+ids[counter].right(8));
-}
-else return QString("");
+    for ( uint counter = 0; counter<names.count(); counter++ )
+        if (names[counter]==kname)
+            return QString("0x"+ids[counter].right(8));
+    return QString::null;
 }
 
 void kgpgOptions::listkey()
@@ -114,7 +111,7 @@ void kgpgOptions::listkey()
   QString tst,name,trustedvals="idre-";
   int counter=0;
   char line[130];
-  
+
   fp = popen("gpg --no-tty --with-colon --list-keys", "r");
   while ( fgets( line, sizeof(line), fp))
   {
@@ -139,8 +136,9 @@ void kgpgOptions::listkey()
   {
 	ids+="0";
 	filekey_2_2->insertItem("none");
-	defautkey_2_2->insertItem("none"); 
+	defautkey_2_2->insertItem("none");
   }
   }
 
 //#include "kgpgoptions.moc"
+#include "kgpgoptions.moc"

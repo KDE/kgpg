@@ -30,7 +30,7 @@
 
 ////////////////////   main window
 
-popupName::popupName(QWidget *parent, const char *name,KURL oldnam,bool email):KDialogBase( parent, name, true,name,Ok | Cancel)
+popupName::popupName(const QString& caption, QWidget *parent, const char *name,KURL oldnam,bool email):KDialogBase( parent, name, true, caption,Ok | Cancel)
 {
   resize( 350, 180 );
 
@@ -40,7 +40,7 @@ popupName::popupName(QWidget *parent, const char *name,KURL oldnam,bool email):K
   QWidget *page = new QWidget(this);
   bGroupSources = new QButtonGroup( page, "bGroupSources" );
   bGroupSources->setGeometry( QRect( 0, 0, 325, 120 ) );
-  bGroupSources->setTitle(name);
+  bGroupSources->setTitle(caption);
   bGroupSources->setColumnLayout(0, Qt::Vertical );
   bGroupSources->layout()->setSpacing( 6 );
   bGroupSources->layout()->setMargin( 11 );
@@ -48,8 +48,8 @@ popupName::popupName(QWidget *parent, const char *name,KURL oldnam,bool email):K
   bGroupSourcesLayout->setAlignment( Qt::AlignTop );
 
   choix1 = new QRadioButton( bGroupSources, "choix1" );
-  
-  
+
+
   if (email==true)
   {
   choix1->setText( i18n( "Clipboard" ) );
@@ -64,11 +64,11 @@ popupName::popupName(QWidget *parent, const char *name,KURL oldnam,bool email):K
 
   path=oldnam;
 
-  lineedit->setText(oldnam.path());
+  lineedit->setText(oldnam.prettyURL());
 
   bGroupSourcesLayout->addWidget( lineedit, 2, 1 );
  if (email==true) bGroupSourcesLayout->addWidget( choix2, 1, 0 );
- 
+
   choix0 = new QRadioButton( bGroupSources, "choix0" );
   choix0->setText( i18n( "File" ) );
   choix0->setChecked( TRUE );
@@ -128,3 +128,4 @@ QString popupName::getfname()
   return(lineedit->text());
 }
 //#include "popupname.moc"
+#include "popupname.moc"

@@ -28,6 +28,7 @@
 #include <qclipboard.h>
 #include <qkeysequence.h>
 
+#include <kio/netaccess.h>
 #include <kurl.h>
 #include <kfiledialog.h>
 #include <kprocess.h>
@@ -102,7 +103,7 @@ if (column==0)
       //font.setPointSize(font.pointSize()-1);
       font.setItalic(true);
       p->setFont(font);
- }   
+ }
   KListViewItem::paintCell(p, cg, column, width, alignment);
 }
 
@@ -118,20 +119,20 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
   QVBoxLayout *vbox=new QVBoxLayout(page,2);
 
   //label2=new QLabel(i18n("<b>Key id</b>:"),page);
-  
+
   labelfinger=new QLabel(i18n("Fingerprint :"),page);
 
   finger=new KLineEdit("",page);
   finger->setReadOnly(true);
   finger->setPaletteBackgroundColor(QColor(white));
-  
+
 
   FILE *pass;
   char gpgcmd[200]="",line[200]="";
   QString opt;
 
   strcat(gpgcmd,"gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key ");
-  strcat(gpgcmd,sigkey);
+  strcat(gpgcmd,sigkey.latin1());
 
   pass=popen(gpgcmd,"r");
   while ( fgets( line, sizeof(line), pass))
@@ -157,7 +158,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
               algo=QString("#" + algo);
               break;
             }
-	    
+
 	    const QString trust=opt.section(':',1,1);
           QString tr;
           switch( trust[0] )
@@ -341,7 +342,7 @@ QString keyname;
 
   QObject::connect(keysListpr,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(slotpreOk()));
   QObject::connect(keysListpr,SIGNAL(clicked(QListViewItem *)),this,SLOT(slotSelect(QListViewItem *)));
-  
+
 
   keysListpr->setSelected(keysListpr->firstChild(),true);
 
@@ -366,8 +367,8 @@ void KgpgSelKey::slotOk()
 
 void KgpgSelKey::slotSelect(QListViewItem *item)
 {
-if (item==NULL) return;  
-if (item->depth()!=0) 
+if (item==NULL) return;
+if (item->depth()!=0)
 {
 keysListpr->setSelected(item->parent(),true);
 keysListpr->setCurrentItem(item->parent());
@@ -380,7 +381,7 @@ QString KgpgSelKey::getkeyID()
 QString userid;
   /////  emit selected key
   if (keysListpr->currentItem()==NULL) return("");
-  else 
+  else
   {
   userid=keysListpr->currentItem()->firstChild()->text(0);
 	userid=userid.section(',',0,0);
@@ -395,7 +396,7 @@ QString KgpgSelKey::getkeyMail()
 QString username;
   /////  emit selected key
   if (keysListpr->currentItem()==NULL) return("");
-  else 
+  else
   {
   username=keysListpr->currentItem()->text(0);
   username=username.section(' ',0,0);
@@ -415,13 +416,13 @@ bool KgpgSelKey::getlocal()
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////   main window for key management
-listKeys::listKeys(QWidget *parent, const char *name,WFlags f):KMainWindow(parent, name, f)//QDialog(parent,name,TRUE)//KMainWindow(parent, name)
+listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(parent, name, f)//QDialog(parent,name,TRUE)//KMainWindow(parent, name)
 {
   config=kapp->config();
   readOptions();
   //if (enctodef==true) defKey=defaultKey;
   //else defKey="";
-  setCaption(name);
+  setCaption(i18n("Key Management"));
   //KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
   KAction *exportPublicKey = new KAction(i18n("E&xport public key"), "kgpg_export", 0,this, SLOT(slotexport()),actionCollection(),"key_export");
   KAction *deleteKey = new KAction(i18n("&Delete key"),"editdelete", 0,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
@@ -495,7 +496,7 @@ listKeys::listKeys(QWidget *parent, const char *name,WFlags f):KMainWindow(paren
   //importKey->plug(popupsig);
   //generateKey->plug(popupsig);
 
-  
+
   /*
   toolbar=new KToolBar(this);
   vbox->addWidget(toolbar);
@@ -511,7 +512,7 @@ listKeys::listKeys(QWidget *parent, const char *name,WFlags f):KMainWindow(paren
   configure->plug(toolbar);
   close->plug(toolbar);
 
-    
+
   //toolbar->setIconText(KToolBar::IconTextBottom);
   toolbar->enableMoving(false);
   */
@@ -572,7 +573,7 @@ void listKeys::slotParentOptions()
   delete opts;
   readOptions();
   /*
-   
+
     KgpgApp *win=(KgpgApp *) parent();
     win->slotOptions();
     if (win->encrypttodefault==true) defKey=win->defaultkey;
@@ -585,19 +586,19 @@ void listKeys::slotParentOptions()
 
 /*
 {
- 
- 
+
+
  int main(int argc, char** argv)
  {
  QApplication app(argc,argv);
- 
+
  QClipboard* clip = QApplication::clipboard();
  clip->setSelectionMode(true);
  QMimeSource* data = clip ->data();
  if (!data)
  qFatal("No data in clipboad!");
  int pos = 0;
- 
+
  while (data->format(pos))
  {
  qDebug("Format supported:%s", data->format(pos));
@@ -643,12 +644,12 @@ void listKeys::slotSetDefKey()
   /*
     KgpgApp *win=(KgpgApp *) parent();
     win->defaultkey=defKey;
-   
+
     win->view->pubdefaultkey=defKey;
     win->saveOptions();*/
 }
 
-void listKeys::slotstatus(QListViewItem *sel)
+void listKeys::slotstatus(QListViewItem *)
 {
   ////////////  echo key email in statusbar
   /*
@@ -663,13 +664,13 @@ void listKeys::slotstatus(QListViewItem *sel)
   */
 }
 
-void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int column)
+void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
 {
   ////////////  popup a different menu depending on which key is selected
   if (sel!=NULL)
     {
 	if (sel->depth()!=0)
-	{ 
+	{
 	if ((sel->text(1)=="-") && (sel->text(3)=="-")) popupsig->exec(pos);
 	//else popupout->exec(pos);
 	}
@@ -705,7 +706,7 @@ void listKeys::slotexportsec()
     {
       FILE *fp;
       strcat(gpgcmd,"gpg --no-tty --armor --export-secret-keys ");
-      strcat(gpgcmd,QString(key+" > "+url.path()));
+      strcat(gpgcmd,QString(key+" > "+url.path()).latin1());
       QFile fgpg(url.path());
       if (fgpg.exists())
         fgpg.remove();
@@ -732,7 +733,7 @@ void listKeys::slotexport()
     return;
       if (keysList2->currentItem()->depth()!=0)
     return;
-    
+
   char gpgcmd[1024] = "\0",line[130]="";
   exportresult="";
 
@@ -741,10 +742,11 @@ void listKeys::slotexport()
   QString sname=key.section('@',0,0);
   sname=sname.section('.',0,0);
   sname.append(".asc");
-  sname.prepend(QString(QDir::homeDirPath()+"/"));
+  sname.prepend(QDir::homeDirPath()+"/");
 
-
-  popupName *dial=new popupName(this,i18n("Export public key to"),sname,true);
+  KURL u;
+  u.setPath(sname);
+  popupName *dial=new popupName(i18n("Export public key to"),this, "export_key", u,true);
   /////////////   open export dialog (KgpgExport, see begining of this file)
   dial->exec();
 
@@ -759,11 +761,12 @@ void listKeys::slotexport()
       //    if (dial->getmailmode()==true) expname=sname;
 
       strcat(gpgcmd,"gpg --no-tty --export --armor ");
-      strcat(gpgcmd,keysList2->currentItem()->text(5));
+      strcat(gpgcmd,keysList2->currentItem()->text(5).latin1());
+
       QFile fgpg(expname);
       if (expname!="")
         {
-          strcat(gpgcmd,QString(" > "+expname));
+          strcat(gpgcmd,QString(" > "+expname).latin1());
           if (fgpg.exists())
             fgpg.remove();
         }
@@ -827,7 +830,7 @@ void listKeys::listsigns()
     return;
   if (keysList2->currentItem()->depth()!=0)
     return;
-    
+
   /////////////   open a key info dialog (KgpgKeyInfo, see begining of this file)
   QString key=keysList2->currentItem()->text(5);
   if (key!="")
@@ -871,8 +874,8 @@ QString ask=i18n("Are you sure you want to sign key\n%1 with key %2 ?\n"
 if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes) return;
   KgpgInterface *signKeyProcess=new KgpgInterface();
   signKeyProcess->KgpgSignKey(keysList2->currentItem()->text(5),keyID,keyMail,islocal);
-  connect(signKeyProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(refreshkey())); 
-  
+  connect(signKeyProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(refreshkey()));
+
 }
 
 
@@ -883,7 +886,7 @@ void listKeys::delsignkey()
     return;
     if (keysList2->currentItem()->depth()==0)
     return;
-  
+
   QString signID,parentKey,signMail,parentMail;
 
       //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
@@ -897,48 +900,38 @@ QString ask=i18n("Are you sure you want to delete signature\n%1 from key %2 ?").
 if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes) return;
   KgpgInterface *delSignKeyProcess=new KgpgInterface();
   delSignKeyProcess->KgpgDelSignature(parentKey,signID);
-  connect(delSignKeyProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(refreshkey())); 
-  
+  connect(delSignKeyProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(refreshkey()));
+
 }
 
 
 
 void listKeys::slotedit()
 {
-  if (keysList2->currentItem()==NULL)
-    return;
-  if (keysList2->currentItem()->depth()!=0)
+  if ( !keysList2->currentItem() )
     return;
 
-  FILE *pass;
-  int status;
-  pid_t pid;
-  QString tst;
-  QString key=keysList2->currentItem()->text(5);
-  char line[130],gpgcmd[200]="";
+  if (keysList2->currentItem()->depth() != 0)
+    return;
 
-  //////////   fork process
-  pid = fork ();
-  if (pid == 0)  //////////  child process =console
-    {
-      strcat(gpgcmd,"konsole -e gpg --no-secmem-warning --edit-key ");
-      strcat(gpgcmd,key);
-      strcat(gpgcmd," help");
-      pass=popen(gpgcmd,"r");
-      while ( fgets( line, sizeof(line), pass))
-        tst+=line;
-      pclose(pass);
-    }
-  else if (waitpid (pid, &status, 0) != pid)  ////// parent process wait for end of child
-    status = -1;
+  KProcess kp;
+  kp << "konsole"
+     << "-e"
+     << "gpg"
+     << "--no-secmem-warning"
+     << "--edit-key"
+     << keysList2->currentItem()->text(5)
+     << "help";
 
+  kp.start(KProcess::Block);
   refreshkey();
 }
 
-void listKeys::slotprocresult(KProcess *p)
+void listKeys::slotprocresult(KProcess *)
 {
-  KMessageBox::information(0,message);
-  refreshkey();
+    KIO::NetAccess::removeTempFile(tempKeyFile);
+    KMessageBox::information(0,message);
+    refreshkey();
 }
 
 void listKeys::slotprocread(KProcIO *p)
@@ -969,7 +962,7 @@ void listKeys::slotgenkey()
           QString kmail=genkey->getkeymail();
           QString kcomment=genkey->getkeycomm();
 delete genkey;
-          
+
 	  //genkey->delayedDestruct();
           QCString password;
           int code=KPasswordDialog::getNewPassword(password,QString(i18n("Enter passphrase for %1:").arg(kmail)));
@@ -984,13 +977,13 @@ delete genkey;
               pop->show();
 
               KProcIO *proc=new KProcIO();
-           
+
               //*proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--batch"<<"--passphrase-fd"<<res<<"--gen-key"<<"-a"<<"kgpg.tmp";
 *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--batch"<<"--gen-key";
               /////////  when process ends, update dialog infos
               QObject::connect(proc, SIGNAL(processExited(KProcess *)),this, SLOT(genover(KProcess *)));
               proc->start(KProcess::NotifyOnExit);
-	  
+
 	  if (ktype=="ElGamal") proc->writeStdin("Key-Type: 20");
           else if (ktype=="RSA")
                 proc->writeStdin("Key-Type: 1");
@@ -1002,7 +995,7 @@ delete genkey;
             }
 	    proc->writeStdin(QString("Passphrase:%1").arg(password));
 	    proc->writeStdin(QString("Key-Length:%1").arg(ksize));
-	    
+
           filecont+=QString("Key-Length:%1\n").arg(ksize);
           proc->writeStdin(QString("Name-Real:%1").arg(kname));
           proc->writeStdin(QString("Name-Email:%1").arg(kmail));
@@ -1012,12 +1005,12 @@ delete genkey;
           if (kexp==1)
             proc->writeStdin(QString("Expire-Date:%1").arg(knumb));
           if (kexp==2) proc->writeStdin(QString("Expire-Date:%1w").arg(knumb));
-            
+
           if (kexp==3) proc->writeStdin(QString("Expire-Date:%1m").arg(knumb));
-            
+
           if (kexp==4) proc->writeStdin(QString("Expire-Date:%y").arg(knumb));
           proc->writeStdin("%commit");
-	  proc->writeStdin("EOF");  
+	  proc->writeStdin("EOF");
             }
         }
 
@@ -1050,17 +1043,14 @@ delete genkey;
 
 }
 
-void listKeys::genover(KProcess *p)
+void listKeys::genover(KProcess *)
 {
+    KProcess sp;
+    sp << "shred" << "-zu" << "kgpg.tmp";
+    sp.start(KProcess::Block);
 
-  FILE *fp;
-  char shredcmd[200]="";
-  strcat(shredcmd,"shred -zu kgpg.tmp");
-  fp = popen(shredcmd, "r");
-  pclose(fp);
-
-  refreshkey();
-  delete pop;
+    refreshkey();
+    delete pop;
 }
 
 
@@ -1094,29 +1084,31 @@ void listKeys::confirmdeletekey()
 
 void listKeys::deletekey()
 {
-  //////////////////////// delete a key
-  FILE *fp;
-  char gpgcmd[1024] = "\0";
-  QString tst;
-  strcat(gpgcmd,"gpg --no-tty --no-secmem-warning --batch --yes --delete-key ");
-  strcat(gpgcmd,keysList2->currentItem()->text(5));
-
-  fp=popen(gpgcmd,"r");
-  pclose(fp);
-  refreshkey();
+    KProcess gp;
+    gp << "gpg"
+       << "--no-tty"
+       << "--no-secmem-warning"
+       << "--batch"
+       << "--yes"
+       << "--delete-key"
+       << keysList2->currentItem()->text(5);
+    gp.start(KProcess::Block);
+    refreshkey();
 }
 
 void listKeys::slotImportKey()
 {
   /////////////      import a key
   KURL url=KFileDialog::getOpenURL(QString::null,i18n("*.asc|*.asc files"), this,i18n("Select key file to import"));
+  if (url.isEmpty())
+      return;
 
-  if(!url.isEmpty())
-    {
-      message="";
+  if( KIO::NetAccess::download( url, tempKeyFile ) )
+  {
+      message=QString::null;
       KProcIO *conprocess=new KProcIO();
       *conprocess<< "gpg";
-      *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--allow-secret-key-import"<<"--import"<<url.path();
+      *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--allow-secret-key-import"<<"--import"<<tempKeyFile;
       QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresult(KProcess *)));
       QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
       conprocess->start(KProcess::NotifyOnExit,true);
@@ -1233,7 +1225,7 @@ void listKeys::refreshkey()
                   itemsig= new SmallViewItem(itemsub,signame,"-",val,"-",creat,id);
                 if (cycle=="uid")
                   itemsig= new SmallViewItem(itemuid,signame,"-",val,"-",creat,id);
-               
+
                   itemsig->setPixmap(0,signature);
                 //KMessageBox::sorry(0,cycle+"::"+signame);
                 //              (void) new KListViewItem(keysListsig,signame,opt,islocalsig,date,id);
@@ -1420,3 +1412,4 @@ void listKeys::refreshkey()
 if (keysList2->columnWidth(0)>150) keysList2->setColumnWidth(0,150);
 }
 //#include "listkeys.moc"
+#include "listkeys.moc"
