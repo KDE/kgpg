@@ -85,10 +85,10 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 	if (!keyServer.isEmpty()) serverList.prepend(keyServer+" "+i18n("(Default)"));
 	
 	defaultHomePath=QDir::homeDirPath()+"/.gnupg/";
-        if (QFile(defaultHomePath+"gpg.conf").exists()) defaultConfigPath="gpg.conf";
+	if (QFile(defaultHomePath+"options").exists()) defaultConfigPath="options";
 	else
 	{
-                if (QFile(defaultHomePath+"options").exists()) defaultConfigPath="options";
+                if (QFile(defaultHomePath+"gpg.conf").exists()) defaultConfigPath="gpg.conf";
 		else defaultConfigPath=QString::null;
 		}
 	

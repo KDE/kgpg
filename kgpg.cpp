@@ -616,9 +616,9 @@ void  MyView::startWizard()
         kdDebug(2100)<<"Starting Wizard"<<endl;
         wiz=new KgpgWizard(0,"wizard");
         QString gpgHome(getGpgHome());
-        QString confPath=gpgHome+"gpg.conf";
+        QString confPath=gpgHome+"options";
         if (!QFile(confPath).exists()) {
-                confPath=gpgHome+"options";
+                confPath=gpgHome+"gpg.conf";
                 if (!QFile(confPath).exists()) {
                         if (KMessageBox::questionYesNo(this,i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"))==KMessageBox::Yes) {
                                 confPath=gpgHome+"options";
