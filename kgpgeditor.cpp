@@ -21,7 +21,7 @@
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <dcopclient.h>
-#include <qpaintdevicemetrics.h> 
+#include <qpaintdevicemetrics.h>
 #include <qcstring.h>
 #include <qradiobutton.h>
 #include <qclipboard.h>
@@ -56,11 +56,12 @@ KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent
 	setAutoSaveSettings("Editor",true);
         initActions();
         initView();
-        
+
 	KSimpleConfig *ks=new KSimpleConfig ("kgpgrc");
 	ks->setGroup("Editor");
 	slotSetFont(ks->readFontEntry("Editor_Font"));
 	createGUI("kgpg.rc");
+        delete ks;
 }
 
 KgpgApp::~KgpgApp()
@@ -102,7 +103,7 @@ void KgpgApp::saveOptions()
 void KgpgApp::readOptions(bool doresize)
 {
 	customDecrypt=QStringList::split(QString(" "), KGpgSettings::customDecrypt().simplifyWhiteSpace());
-	
+
         if (doresize) {
                 QSize size= KGpgSettings::editorGeometry();
                 if (!size.isEmpty())
