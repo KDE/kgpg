@@ -75,6 +75,7 @@ else kp<<"enable";
 	kp<<"save";
         kp.start(KProcess::Block);
 loadKey(displayedKeyID);
+keyWasChanged=true;
 }
 
 void KgpgKeyInfo::loadKey(QString Keyid)
