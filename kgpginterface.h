@@ -129,7 +129,10 @@ public slots:
         * @param text QString text to be decrypted.
         * @param userID QString the name of the decryption key (only used to prompt user for passphrase)
         */
-	static QString KgpgDecryptText(QString text,QString userID);
+	//static QString KgpgDecryptText(QString text,QString userID);
+	void KgpgDecryptText(QString text,QStringList Options=QString::null);
+	void txtreaddecprocess(KProcIO *p);
+	void txtdecryptfin(KProcess *);
 
 	/**Extract list of photographic user id's
         * @param keyID the recipients key id's.
@@ -261,8 +264,17 @@ private slots:
 
 
 signals:
+
+	/**
+               *  emitted when a txt decryption failed. returns log output
+               */
+	void txtdecryptionfailed(QString);
+	/**
+               *  emitted when a txt decryption finished. returns decrypted text
+               */
+	void txtdecryptionfinished(QString);
         /**
-               *  emitted when an txt encryption finished
+               *  emitted when a txt encryption finished. returns encrypted text
                */
         void txtencryptionfinished(QString);
         /**

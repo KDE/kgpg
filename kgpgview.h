@@ -123,6 +123,8 @@ private slots:
         void viewreadopts();
         void encodetxt(QStringList selec,QStringList encryptOptions);
         void updatetxt(QString);
+	void updateDecryptedtxt(QString newtxt);
+	void failedDecryptedtxt(QString newtxt);
 };
 
 #endif // KGPGVIEW_H

@@ -260,30 +260,22 @@ void KgpgInterface::txtreadencprocess(KProcIO *p)
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////     Text decryption
-/*
-void KgpgInterface::KgpgDecryptText(QString text,QString Options)   /// doesn't work, gives a mysterious bad mdc error...
+
+void KgpgInterface::KgpgDecryptText(QString text,QStringList Options)   /// doesn't work, gives a mysterious bad mdc error...
 {
-  message="";
+  message=QString::null;
+  userIDs=QString::null;
   step=3;
-  userIDs="";
   anonymous=false;
 txtprocess=text;
 decfinished=false;
 decok=false;
 badmdc=false;
  KProcIO *proc=new KProcIO();
-  userIDs=userIDs.stripWhiteSpace();
-  userIDs=userIDs.simplifyWhiteSpace();
-  Options=Options.stripWhiteSpace();
-  Options=Options.simplifyWhiteSpace();
 	  *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=1"<<"--no-batch";
-      while (!Options.isEmpty())
-        {
-          QString fOption=Options.section(' ',0,0);
-          Options.remove(0,fOption.length());
-          Options=Options.stripWhiteSpace();
-          *proc<<QFile::encodeName(fOption);
-        }
+      	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) {
+       		*proc<< QFile::encodeName(*it);
+    		}
       *proc<<"-d";
 
   /////////  when process ends, update dialog infos
@@ -291,16 +283,30 @@ badmdc=false;
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtdecryptfin(KProcess *)));
   QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreaddecprocess(KProcIO *)));
   proc->start(KProcess::NotifyOnExit,false);
-  proc->writeStdin(txtprocess,false);
+  proc->writeStdin(txtprocess.utf8(),false);
 
 }
 
 void KgpgInterface::txtdecryptfin(KProcess *)
 {
 //KMessageBox::sorry(0,message);
-if ((decok) && (!badmdc)) emit txtencryptionfinished(message);
-else if (badmdc) {KMessageBox::sorry(0,i18n("Bad MDC detected. The encrypted message has been manipulated."));emit txtencryptionfinished(message);}
-else {KMessageBox::sorry(0,i18n("The encryption was not successful."));emit txtencryptionfinished(message);}
+
+if ((decok) && (!badmdc)) 
+{
+message.remove(0,message.find("BEGIN_DECRYPTION")+17);
+if (message.find("[GNUPG:] DECRYPTION_OKAY")!=-1) message=message.left(message.findRev("[GNUPG:] DECRYPTION_OKAY",-1,false)-1);
+emit txtdecryptionfinished(QString::fromUtf8(message.ascii()));
+}
+else if (badmdc) 
+{
+KMessageBox::sorry(0,i18n("Bad MDC detected. The encrypted message has been manipulated."));
+emit txtdecryptionfailed(QString::fromUtf8(message.ascii()));
+}
+else
+{
+//KMessageBox::sorry(0,i18n("The decryption was not successful."));
+emit txtdecryptionfailed(QString::fromUtf8(message.ascii()));
+}
 }
 
 void KgpgInterface::txtreaddecprocess(KProcIO *p)
@@ -352,28 +358,29 @@ void KgpgInterface::txtreaddecprocess(KProcIO *p)
                   return;
                 }
               p->writeStdin(passphrase,true);
-              userIDs="";
+              userIDs=QString::null;
               //p->writeStdin("\n");
               step--;
             }
 		  else
            p->writeStdin("quit");
         }
+		message+=required+"\n";
+	
 		if (required.find("BEGIN_DECRYPTION")!=-1)
       		{
-	  		p->writeStdin(txtprocess,false);
-	  		//p->closeWhenDone();
 			p->closeStdin();
+			required=QString::null;
 			}
-      if (decfinished) message+=required+"\n";
+
 	  if (required.find("END_DECRYPTION")!=-1) decfinished=true;
 	  if (required.find("DECRYPTION_OKAY")!=-1) decok=true;
 	  if (required.find("BADMDC")!=-1) badmdc=true;
     }
 	}
 }
-*/
 
+/*
 QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
 {
         FILE *fp,*pass;
@@ -430,7 +437,7 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
         else
                 return "";
 }
-
+*/
 
 QString KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QString userID)
 {

@@ -385,14 +385,31 @@ void KgpgView::slotdecode()
         if (encUsers.isEmpty())
                 encUsers=i18n("[No user id found]");
 
-        QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
-
+        //QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
+	KConfig *ksConfig=kapp->config();
+	ksConfig->setGroup("Decryption");
+	KgpgInterface *txtDecrypt=new KgpgInterface();
+        connect (txtDecrypt,SIGNAL(txtdecryptionfinished(QString)),this,SLOT(updateDecryptedtxt(QString)));
+	connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(failedDecryptedtxt(QString)));
+        txtDecrypt->KgpgDecryptText(editor->text(),QStringList::split(QString(" "),ksConfig->readEntry("custom_decrypt").simplifyWhiteSpace()));
+	
+	/*
         KgpgApp *win=(KgpgApp *) parent();
         if (!resultat.isEmpty()) {
                 editor->setText(resultat);
                 win->editRedo->setEnabled(false);
                 win->editUndo->setEnabled(false);
-        }
+        }*/
+}
+
+void KgpgView::updateDecryptedtxt(QString newtxt)
+{
+	editor->setText(newtxt);
+}
+
+void KgpgView::failedDecryptedtxt(QString newtxt)
+{
+	KMessageBox::detailedSorry(this,i18n("Decryption failed."),newtxt);
 }
 
 
