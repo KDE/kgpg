@@ -145,7 +145,7 @@ void KgpgApp::initActions()
         (void) new KAction(i18n("&Check MD5 Sum..."), 0,this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
 	KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
 
-	encodingAction=new KToggleAction(i18n("&Unicode (utf-8) encoding"), 0, 0,this, SLOT(slotSetCharset()),actionCollection(),"charsets");
+	encodingAction=new KToggleAction(i18n("&Unicode (utf-8) Encoding"), 0, 0,this, SLOT(slotSetCharset()),actionCollection(),"charsets");
 }
 
 void KgpgApp::slotSetFont(QFont myFont)

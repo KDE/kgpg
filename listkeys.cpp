@@ -553,7 +553,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         importAllSignKeys = new KAction(i18n("Import &Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
         refreshKey = new KAction(i18n("&Refresh Key(s) From Keyserver"),"reload", 0,this, SLOT(refreshKeyFromServer()),actionCollection(),"key_server_refresh");
 
-        (void) new KAction(i18n("&Create Group With Selected Keys..."), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
+        (void) new KAction(i18n("&Create Group with Selected Keys..."), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
         KAction *delGroup= new KAction(i18n("&Delete Group"), 0, 0,this, SLOT(deleteGroup()),actionCollection(),"delete_group");
         KAction *editCurrentGroup= new KAction(i18n("&Edit Group"), 0, 0,this, SLOT(editGroup()),actionCollection(),"edit_group");
 
@@ -1185,7 +1185,7 @@ void listKeys::addToKAB()
 
         KABC::AddressBook *ab = KABC::StdAddressBook::self();
         if ( !ab->load() ) {
-                KMessageBox::sorry(this,i18n("Unable to contact the Address Book. Please check your installation."));
+                KMessageBox::sorry(this,i18n("Unable to contact the address book. Please check your installation."));
                 return;
         }
         KABC::Addressee::List addressees = ab->findByEmail( email );
