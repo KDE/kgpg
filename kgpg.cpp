@@ -526,10 +526,6 @@ void  MyView::firstRun()
         KProcIO *p=new KProcIO();
         *p<<"gpg"<<"--no-tty"<<"--list-secret-keys";
         p->start(KProcess::Block);  ////  start gnupg so that it will create a config file
-	int gpgVersion=KgpgInterface::getGpgVersion();
-	if (gpgVersion<120) KMessageBox::information(0,i18n("Your GnuPG version seems to be older than 1.0.7. Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG if you want to be able to use these options."));
-	else if (gpgVersion<120) 
-	KMessageBox::information(0,i18n("Your GnuPG version seems to be older than 1.2.0. Key Groups will not work. Please consider upgrading GnuPG if you want to be able to use this option."));
         startWizard();
 }
 
@@ -537,7 +533,6 @@ void  MyView::firstRun()
 void  MyView::startWizard()
 {
         kdDebug()<<"Starting Wizard"<<endl;
-
         wiz=new KgpgWizard(0,"wizard");
         QString confPath=QDir::homeDirPath()+"/.gnupg/options";
         if (!QFile(confPath).exists()) {
@@ -557,6 +552,11 @@ void  MyView::startWizard()
                         }
                 }
         }
+	
+	int gpgVersion=KgpgInterface::getGpgVersion();
+	if (gpgVersion<120) wiz->txtGpgVersion->setText(i18n("Your GnuPG version seems to be older than 1.2.0. Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG (http://gnupg.org)."));
+	else wiz->txtGpgVersion->setText(QString::null);
+	
         wiz->kURLRequester1->setURL(confPath);
         wiz->kURLRequester2->setURL(QString(QDir::homeDirPath()+"/Desktop"));
         wiz->kURLRequester2->setMode(2);
@@ -570,10 +570,10 @@ void  MyView::startWizard()
         fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
-                if (tst.find("sec",0,FALSE)!=-1) {
+                if (tst.startsWith("sec")) {
                         name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
-                        if ((!name.isEmpty()) && (trustedvals.find(tst.section(':',1,1))==-1)) {
-                                fp2 = popen("gpg --no-tty --with-colon --list-keys "+QFile::encodeName(tst.section(':',4,4).right(8)), "r");
+                        if (!name.isEmpty()) {
+                                fp2 = popen("gpg --no-tty --with-colon --list-keys "+QFile::encodeName(tst.section(':',4,4)), "r");
                                 while ( fgets( line, sizeof(line), fp2)) {
                                         tst2=line;
                                         if (tst2.startsWith("pub") && (trustedvals.find(tst2.section(':',1,1))==-1)) {
@@ -581,6 +581,7 @@ void  MyView::startWizard()
                                                 wiz->CBdefault->insertItem(tst.section(':',4,4).right(8)+": "+name);
                                                 if (firstKey.isEmpty())
                                                         firstKey=tst.section(':',4,4).right(8)+": "+name;
+						break;
                                         }
                                 }
                                 pclose(fp2);
@@ -588,7 +589,7 @@ void  MyView::startWizard()
                 }
         }
         pclose(fp);
-        wiz->CBdefault->setCurrentItem(firstKey);
+	wiz->CBdefault->setCurrentItem(firstKey);
         //connect(wiz->pushButton4,SIGNAL(clicked()),this,SLOT(slotGenKey()));
         if (counter==0)
                 connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotGenKey()));
@@ -598,6 +599,7 @@ void  MyView::startWizard()
         }
         connect(wiz->nextButton(),SIGNAL(clicked()),this,SLOT(slotWizardChange()));
         connect( wiz , SIGNAL( destroyed() ) , this, SLOT( slotWizardClose()));
+	connect(wiz,SIGNAL(helpClicked()),this,SLOT(help()));
 
         wiz->setFinishEnabled(wiz->page_4,true);
         wiz->show();
@@ -616,7 +618,7 @@ void  MyView::slotWizardChange()
                 fp = popen("gpg --no-tty --with-colon --list-secret-keys "+QFile::encodeName(defaultID), "r");
                 while ( fgets( line, sizeof(line), fp)) {
                         tst=line;
-                        if (tst.find("sec",0,FALSE)!=-1) {
+                        if (tst.startsWith("sec")) {
                                 name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
                                 wiz->CBdefault->setCurrentItem(tst.section(':',4,4).right(8)+": "+name);
                         }

@@ -47,6 +47,7 @@
 #include "kgpgoptions.h"
 #include "keyservers.h"
 #include "popuppublic.h"
+
 #include "listkeys.h"
 #include "kgpgwizard.h"
 
