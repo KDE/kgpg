@@ -795,7 +795,7 @@ int KgpgAppletApp::newInstance()
                         }
 
                         if ((directoryInside) && (lst.count()>1)) {
-                                KMessageBox::sorry(0,i18n("Sorry, cannot perform requested operation.\nPlease select only one directory, or several files, but don't mix files and directories."));
+                                KMessageBox::sorry(0,i18n("Sorry, cannot perform requested operation.\nPlease select only one folder, or several files, but don't mix files and folders."));
                                 return 0;
                         }
 
@@ -810,22 +810,22 @@ int KgpgAppletApp::newInstance()
                                 if (!directoryInside)
                                         kgpg_applet->w->shredDroppedFile();
                                 else
-                                        KMessageBox::sorry(0,i18n("Cannot shred directory."));
+                                        KMessageBox::sorry(0,i18n("Cannot shred folder."));
                         } else if (args->isSet("s")!=0) {
                                 if (!directoryInside)
                                         kgpg_applet->w->showDroppedFile();
                                 else
-                                        KMessageBox::sorry(0,i18n("Cannot decrypt & show directory."));
+                                        KMessageBox::sorry(0,i18n("Cannot decrypt & show folder."));
                         } else if (args->isSet("S")!=0) {
                                 if (!directoryInside)
                                         kgpg_applet->w->signDroppedFile();
                                 else
-                                        KMessageBox::sorry(0,i18n("Cannot sign directory."));
+                                        KMessageBox::sorry(0,i18n("Cannot sign folder."));
                         } else if (args->isSet("V")!=0) {
                                 if (!directoryInside)
                                         kgpg_applet->w->slotVerifyFile();
                                 else
-                                        KMessageBox::sorry(0,i18n("Cannot verify directory."));
+                                        KMessageBox::sorry(0,i18n("Cannot verify folder."));
                         } else if (kgpg_applet->w->droppedUrl.filename().endsWith(".sig"))
                                 kgpg_applet->w->slotVerifyFile();
                         else

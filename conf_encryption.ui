@@ -214,7 +214,7 @@
             </property>
             <property name="whatsThis" stdset="0">
                 <string>&lt;qt&gt;&lt;b&gt;Shred source file:&lt;/b&gt;&lt;br /&gt; 
-		&lt;p&gt;Checking this option will shred (overwrite several times before erasing) the files you have encrypted. This way, it is almost impossible that the source file is recovered. But &lt;b&gt;you must be aware that this is not 100% secure&lt;/b&gt; on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on directories).&lt;/p&gt;&lt;/qt&gt;</string>
+		&lt;p&gt;Checking this option will shred (overwrite several times before erasing) the files you have encrypted. This way, it is almost impossible that the source file is recovered. But &lt;b&gt;you must be aware that this is not 100% secure&lt;/b&gt; on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
         <spacer row="8" column="0">
