@@ -136,7 +136,7 @@ public slots:
 	QString getKey(QStringList IDs, bool attributes);
 
         void KgpgKeyExpire(QString keyID,QDate date,bool unlimited);
-        void KgpgTrustExpire(QString keyID,QString keyTrust);
+        void KgpgTrustExpire(QString keyID,int keyTrust);
 	void KgpgChangePass(QString keyID);
 
 	void KgpgRevokeKey(QString keyID,QString revokeUrl,int reason,QString description);

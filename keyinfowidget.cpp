@@ -82,7 +82,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
         connect(prop->changePass,SIGNAL(clicked()),this,SLOT(slotChangePass()));
 	connect(prop->comboId,SIGNAL(activated (const QString &)),this,SLOT(reloadMainPhoto(const QString &)));
 	connect(prop->cbDisabled,SIGNAL(toggled(bool)),this,SLOT(slotDisableKey(bool)));
-	connect(prop->kCOwnerTrust,SIGNAL(activated (const QString &)),this,SLOT(slotChangeTrust(const QString &)));
+	connect(prop->kCOwnerTrust,SIGNAL(activated (int)),this,SLOT(slotChangeTrust(int)));
 	connect(this,SIGNAL(changeMainPhoto(const QPixmap&)),this,SLOT(slotSetPhoto(const QPixmap&)));
 
 	//prop->setMinimumSize(prop->sizeHint());
@@ -218,21 +218,25 @@ QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint
                         prop->tLLength->setText(gpgOutput.section(':',2,2));
 
                         const QString otrust=gpgOutput.section(':',8,8);
+			int ownerTrust=0;
+			
+			/*	Don't know=1; Do NOT trust=2; Marginally=3; Fully=4; Ultimately=5;   */
+			
                         switch( otrust[0] ) {
                         case 'f':
-                                ownerTrust=i18n("Fully");
+                                ownerTrust=3;
                                 break;
                         case 'u':
-                                ownerTrust=i18n("Ultimately");
+                                ownerTrust=4;
                                 break;
                         case 'm':
-                                ownerTrust=i18n("Marginally");
+                                ownerTrust=2;
                                 break;
                         case 'n':
-                                ownerTrust=i18n("Do NOT trust");
+                                ownerTrust=1;
                                 break;
                         default:
-                                ownerTrust=i18n("Don't know");
+                                ownerTrust=0;
                                 break;
                         }
                         prop->kCOwnerTrust->setCurrentItem(ownerTrust);
@@ -415,7 +419,7 @@ void KgpgKeyInfo::slotChangePass()
 	connect(ChangeKeyPassProcess,SIGNAL(passwordChanged()),this,SLOT(slotInfoPasswordChanged()));
 }
 
-void KgpgKeyInfo::slotChangeTrust(const QString &newTrust)
+void KgpgKeyInfo::slotChangeTrust(int newTrust)
 {
         KgpgInterface *KeyTrustProcess=new KgpgInterface();
                 KeyTrustProcess->KgpgTrustExpire(displayedKeyID,newTrust);

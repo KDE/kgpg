@@ -1161,36 +1161,26 @@ void KgpgInterface::expover(KProcess *)
 ///////////////////////////////////////////////////////////////    change key trust
 
 
-void KgpgInterface::KgpgTrustExpire(QString keyID,QString keyTrust)
+void KgpgInterface::KgpgTrustExpire(QString keyID,int keyTrust)
 {
-        if (keyTrust==i18n("Don't know"))
-                trustValue=1;
-        if (keyTrust==i18n("Do NOT trust"))
-                trustValue=2;
-        if (keyTrust==i18n("Marginally"))
-                trustValue=3;
-        if (keyTrust==i18n("Fully"))
-                trustValue=4;
-        if (keyTrust==i18n("Ultimately"))
-                trustValue=5;
-
+	trustValue=keyTrust+1;
+/*	Don't know=1; Do NOT trust=2; Marginally=3; Fully=4; Ultimately=5;   */
+	
         output=QString::null;
         KProcIO *conprocess=new KProcIO();
         *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--command-fd=0"<<"--status-fd=2";
         *conprocess<<"--edit-key"<<keyID<<"trust";
         QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(trustprocess(KProcIO *)));
         QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(trustover(KProcess *)));
-        conprocess->start(KProcess::NotifyOnExit,KProcess::AllOutput);
+        conprocess->start(KProcess::NotifyOnExit,true);
 
 }
 
 void KgpgInterface::trustprocess(KProcIO *p)
 {
         QString required=QString::null;
-
         while (p->readln(required,true)!=-1) {
                 output+=required+"\n";
-
                 if (required.find("edit_ownertrust.set_ultimate.okay")!=-1) {
                         p->writeStdin("YES");
                         required=QString::null;
@@ -1203,6 +1193,7 @@ void KgpgInterface::trustprocess(KProcIO *p)
 
                 if (required.find("keyedit.prompt")!=-1) {
                         p->writeStdin("save");
+			p->closeWhenDone();
                         required=QString::null;
                 }
 

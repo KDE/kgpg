@@ -57,14 +57,14 @@ private slots:
 	void slotInfoPasswordChanged();
 	void slotInfoExpirationChanged(int res);
 	void slotInfoTrustChanged();
-	void slotChangeTrust(const QString &newTrust);
+	void slotChangeTrust(int newTrust);
 	void loadKey(QString Keyid);
 	void slotDisableKey(bool isOn);
 
 private:
         KTempFile *kgpginfotmp;
         QLabel *keyinfoPhoto;
-        QString displayedKeyID,ownerTrust;
+        QString displayedKeyID;
         QString expirationDate;
         bool hasPhoto,keyWasChanged;
 	KDialogBase *chdate;
