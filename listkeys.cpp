@@ -695,38 +695,36 @@ bool listKeys::eventFilter( QObject *, QEvent *e )
 
 void listKeys::slotToggleSecret()
 {
-  if( !keysList2->currentItem() )
-    return;
-  if (!keysList2->displayOnlySecret)
-    {
-      QListViewItem *item=keysList2->firstChild();
-      while (item)
-	{
-	  if (item->pixmap(0)->serialNumber()!=keysList2->pixkeyPair.serialNumber()) item->setVisible(false);
-	  item=item->nextSibling();
-	}
-      keysList2->displayOnlySecret=true;
-      if (!keysList2->currentItem()->isVisible())
-	{
-	  QListViewItem *item=keysList2->firstChild();
-	  while (!item->isVisible())
-	    item=item->nextSibling();
-	  keysList2->clearSelection();
-	  keysList2->setCurrentItem(item);
-	  keysList2->setSelected(item,true);
-	}
-    }
-  else
-    {
-      QListViewItem *item=keysList2->firstChild();
-      while (item)
-	{
-	  item->setVisible(true);
-	  item=item->nextSibling();
-	}
-      keysList2->ensureItemVisible(keysList2->currentItem());
-      keysList2->displayOnlySecret=false;
-    }
+if (!keysList2->displayOnlySecret)
+{
+QListViewItem *item=keysList2->firstChild();
+while (item)
+{
+if (item->pixmap(0)->serialNumber()!=keysList2->pixkeyPair.serialNumber()) item->setVisible(false);
+item=item->nextSibling();
+}
+keysList2->displayOnlySecret=true;
+if (!keysList2->currentItem()->isVisible())
+{
+QListViewItem *item=keysList2->firstChild();
+while (!item->isVisible())
+item=item->nextSibling();
+keysList2->clearSelection();
+keysList2->setCurrentItem(item);
+keysList2->setSelected(item,true);
+}
+}
+else
+{
+QListViewItem *item=keysList2->firstChild();
+while (item)
+{
+item->setVisible(true);
+item=item->nextSibling();
+}
+keysList2->ensureItemVisible(keysList2->currentItem());
+keysList2->displayOnlySecret=false;
+}
 }
 
 void listKeys::slotGotoDefaultKey()
@@ -1108,20 +1106,8 @@ void listKeys::checkList()
 
 void listKeys::annule()
 {
-        /////////  cancel & close window
-        //exit(0);
-	/*
-        keysList2->saveLayout(KGlobal::config(),"KeyView");
-
-        KGpgSettings::setShowToolbar(toolBar()->isVisible());
-        KGpgSettings::setPhotoProperties(photoProps->currentItem());
-	KGpgSettings::setShowTrust(sTrust->isChecked());
-	KGpgSettings::setShowExpi(sExpi->isChecked());
-	KGpgSettings::setShowCreat(sCreat->isChecked());
-	KGpgSettings::setShowSize(sSize->isChecked());
-        KGpgSettings::writeConfig();*/
+	/////////  close window
         close();
-        //reject();
 }
 
 
@@ -1377,6 +1363,17 @@ void listKeys::slotexport()
                 ////////////////////////// export to file
                 QString expname;
                 bool exportAttr=page->exportAttributes->isChecked();
+		if (page->checkServer->isChecked())
+		{
+		 keyServer *expServer=new keyServer(0,"server_export",false);
+		 expServer->page->exportAttributes->setChecked(exportAttr);
+		 QString exportKeysList;
+		 for ( uint i = 0; i < exportList.count(); ++i )
+                                        if ( exportList.at(i) )
+                                                exportKeysList.append(" "+exportList.at(i)->text(6).stripWhiteSpace());
+		expServer->slotExport(exportKeysList);
+		return;
+		}
                 KProcIO *p=new KProcIO();
                 *p<<"gpg"<<"--no-tty";
                 if (page->checkFile->isChecked()) {
@@ -1388,9 +1385,6 @@ void listKeys::slotexport()
                                 *p<<"--output"<<QFile::encodeName(expname)<<"--export"<<"--armor";
                                 if (!exportAttr)
                                         *p<<"--export-options"<<"no-include-attributes";
-
-
-
 
                                 for ( uint i = 0; i < exportList.count(); ++i )
                                         if ( exportList.at(i) )
@@ -1503,8 +1497,6 @@ void listKeys::groupRemove()
 
 void listKeys::deleteGroup()
 {
-  if( !keysList2->currentItem() )
-    return;
         if (!keysList2->currentItem()->text(6).isEmpty())
                 return;
 
@@ -1807,12 +1799,12 @@ void listKeys::preimportsignkey()
 void listKeys::importsignkey(QString importKeyId)
 {
         ///////////////  sign a key
-        kServer=new keyServer(0,"server_dialog",false);
-        kServer->page->kLEimportid->setText(importKeyId);
-        //kServer->Buttonimport->setDefault(true);
-        kServer->slotImport();
-        //kServer->show();
-        connect( kServer->importpop, SIGNAL( destroyed() ) , this, SLOT( importfinished()));
+				kServer=new keyServer(0,"server_dialog",false);
+				kServer->page->kLEimportid->setText(importKeyId);
+				//kServer->Buttonimport->setDefault(true);
+				kServer->slotImport();
+				//kServer->show();
+				connect( kServer->importpop, SIGNAL( destroyed() ) , this, SLOT( importfinished()));
         //connect( kServer , SIGNAL( destroyed() ) , this, SLOT( refreshkey()));
 }
 

@@ -49,7 +49,8 @@ public slots:
 	void slotexportresult(KProcess*);
         void slotimportread(KProcIO *p);
         void slotprocread(KProcIO *p);
-        void slotExport();
+        void slotPreExport();
+	void slotExport(QString keyId);
         void preimport();
         void slotsearchresult(KProcess *);
         void slotEnableProxyI(bool on);

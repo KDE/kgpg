@@ -56,7 +56,7 @@ keyServer::keyServer(QWidget *parent, const char *name,bool modal):KDialogBase( 
 
         connect(page->Buttonimport,SIGNAL(clicked()),this,SLOT(slotImport()));
         connect(page->Buttonsearch,SIGNAL(clicked()),this,SLOT(slotSearch()));
-        connect(page->Buttonexport,SIGNAL(clicked()),this,SLOT(slotExport()));
+        connect(page->Buttonexport,SIGNAL(clicked()),this,SLOT(slotPreExport()));
         connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 
         connect(page->cBproxyI,SIGNAL(toggled(bool)),this,SLOT(slotEnableProxyI(bool)));
@@ -292,8 +292,12 @@ void keyServer::slotsearchread(KProcIO *p)
         }
 }
 
+void keyServer::slotPreExport()
+{
+slotExport(page->kCBexportkey->currentText().section(':',0,0));
+}
 
-void keyServer::slotExport()
+void keyServer::slotExport(QString keyId)
 {
         if (page->kCBexportks->currentText().isEmpty())
                 return;
@@ -302,12 +306,15 @@ void keyServer::slotExport()
         QString keyserv=page->kCBexportks->currentText();
 
         *exportproc<<"gpg";
+	if (!page->exportAttributes->isChecked())
+                *exportproc<<"--export-options"<<"no-include-attributes";
+	
         if (page->cBproxyE->isChecked()) {
                 exportproc->setEnvironment("http_proxy",page->kLEproxyE->text());
                 *exportproc<<	"--keyserver-options"<<"honor-http-proxy";
         } else
                 *exportproc<<	"--keyserver-options"<<"no-honor-http-proxy";
-        *exportproc<<"--status-fd=2"<<"--keyserver"<<keyserv<<"--send-keys"<<page->kCBexportkey->currentText().section(':',0,0);
+        *exportproc<<"--status-fd=2"<<"--keyserver"<<keyserv<<"--send-keys"<<keyId;
 
         QObject::connect(exportproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotexportresult(KProcess *)));
         QObject::connect(exportproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotimportread(KProcIO *)));

@@ -8,12 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>426</width>
-            <height>229</height>
+            <width>465</width>
+            <height>252</height>
         </rect>
     </property>
     <property name="caption">
-        <string></string>
+        <string>keyServerWidget</string>
     </property>
     <grid>
         <property name="name">
@@ -200,7 +200,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QPushButton" row="6" column="0">
+                    <widget class="QPushButton" row="7" column="0">
                         <property name="name">
                             <cstring>Buttonexport</cstring>
                         </property>
@@ -216,7 +216,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
 				&lt;/qt&gt;</string>
                         </property>
                     </widget>
-                    <spacer row="6" column="1" rowspan="1" colspan="2">
+                    <spacer row="7" column="1" rowspan="1" colspan="2">
                         <property name="name">
                             <cstring>spacer4_3</cstring>
                         </property>
@@ -264,7 +264,41 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
 				&lt;/qt&gt;</string>
                         </property>
                     </widget>
-                    <widget class="KLineEdit" row="4" column="2">
+                    <spacer row="6" column="0">
+                        <property name="name">
+                            <cstring>spacer2_4</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>40</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <spacer row="6" column="2">
+                        <property name="name">
+                            <cstring>spacer2_3_2</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>30</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="KLineEdit" row="5" column="2">
                         <property name="name">
                             <cstring>kLEproxyE</cstring>
                         </property>
@@ -283,7 +317,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                             <bool>true</bool>
                         </property>
                     </widget>
-                    <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
+                    <widget class="QCheckBox" row="5" column="0" rowspan="1" colspan="2">
                         <property name="name">
                             <cstring>cBproxyE</cstring>
                         </property>
@@ -294,40 +328,17 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                             <string>Honor HTTP proxy:</string>
                         </property>
                     </widget>
-                    <spacer row="5" column="0">
+                    <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="3">
                         <property name="name">
-                            <cstring>spacer2_4</cstring>
+                            <cstring>exportAttributes</cstring>
                         </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
+                        <property name="text">
+                            <string>Export attributes (photo id)</string>
                         </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
+                        <property name="checked">
+                            <bool>true</bool>
                         </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <spacer row="5" column="2">
-                        <property name="name">
-                            <cstring>spacer2_3_2</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>20</height>
-                            </size>
-                        </property>
-                    </spacer>
+                    </widget>
                 </grid>
             </widget>
         </widget>

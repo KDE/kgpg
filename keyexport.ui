@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>350</width>
-            <height>140</height>
+            <width>371</width>
+            <height>167</height>
         </rect>
     </property>
     <property name="sizePolicy">
@@ -27,7 +27,7 @@
         </size>
     </property>
     <property name="caption">
-        <string></string>
+        <string>KeyExport</string>
     </property>
     <grid>
         <property name="name">
@@ -47,7 +47,15 @@
                 <property name="name">
                     <cstring>unnamed</cstring>
                 </property>
-                <widget class="QRadioButton" row="2" column="0">
+                <widget class="QRadioButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>checkMail</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Email</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="3" column="0">
                     <property name="name">
                         <cstring>checkFile</cstring>
                     </property>
@@ -58,15 +66,7 @@
                         <bool>true</bool>
                     </property>
                 </widget>
-                <widget class="QRadioButton" row="0" column="0">
-                    <property name="name">
-                        <cstring>checkMail</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Email</string>
-                    </property>
-                </widget>
-                <widget class="KURLRequester" row="2" column="1">
+                <widget class="KURLRequester" row="3" column="1">
                     <property name="name">
                         <cstring>newFilename</cstring>
                     </property>
@@ -80,6 +80,14 @@
                     </property>
                     <property name="text">
                         <string>Clipboard</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="2" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>checkServer</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Default key server</string>
                     </property>
                 </widget>
             </grid>
@@ -108,7 +116,7 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>21</height>
+                    <height>16</height>
                 </size>
             </property>
         </spacer>
