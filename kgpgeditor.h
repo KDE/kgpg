@@ -93,11 +93,14 @@ private slots:
 	bool checkEncoding();
 	void slotOptions();
 	void slotKeyManager();
-	
+    void slotConfigureToolbars();
+    void saveToolbarConfig();
+
+
 public slots:
 	void slotSetFont(QFont myFont);
 	void closeWindow();
-	
+
 
 private:
 
@@ -107,7 +110,7 @@ private:
         KURL urlselected;
         KAction* fileSave, *editUndo, *editRedo;
 	KComboBox *fontCombo;
-	
+
 signals:
 
 void refreshImported(QStringList);
