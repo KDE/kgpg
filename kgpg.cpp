@@ -763,7 +763,7 @@ int KgpgAppletApp::newInstance()
                 if (!gpgPath.isEmpty()) {
                         if ((KgpgInterface::getGpgBoolSetting("use-agent",gpgPath)) && (!getenv("GPG_AGENT_INFO")))
                                 KMessageBox::sorry(0,i18n("<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br>"
-                                                          "However, the agent doesn't seem to run. This could result in problems with signing/decryption.<br>"
+                                                          "However, the agent does not seem to run. This could result in problems with signing/decryption.<br>"
                                                           "Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>").arg(gpgPath));
                 }
 
@@ -797,7 +797,7 @@ int KgpgAppletApp::newInstance()
                         }
 
                         if ((directoryInside) && (lst.count()>1)) {
-                                KMessageBox::sorry(0,i18n("Sorry, cannot perform requested operation.\nPlease select only one folder, or several files, but don't mix files and folders."));
+                                KMessageBox::sorry(0,i18n("Sorry, cannot perform requested operation.\nPlease select only one folder, or several files, but do not mix files and folders."));
                                 return 0;
                         }
 

@@ -1389,7 +1389,7 @@ void listKeys::slotexportsec()
         p->start(KProcess::Block);
 
         if (fgpg.exists())
-            KMessageBox::information(this,i18n("Your PRIVATE key \"%1\" was successfully exported.\nDO NOT leave it in an insecure place!").arg(url.path()));
+            KMessageBox::information(this,i18n("Your PRIVATE key \"%1\" was successfully exported.\nDO NOT leave it in an insecure place.").arg(url.path()));
         else
             KMessageBox::sorry(this,i18n("Your secret key could not be exported.\nCheck the key."));
     }
@@ -2239,7 +2239,7 @@ void listKeys::deleteseckey()
     //////////////////////// delete a key
     QString res=keysList2->currentItem()->text(0)+" ("+keysList2->currentItem()->text(1)+")";
     int result=KMessageBox::questionYesNo(this,
-                                          i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b> ?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key anymore!").arg(res),
+                                          i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b> ?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key anymore.").arg(res),
                                           i18n("Warning"),
                                           i18n("Delete"));
     if (result!=KMessageBox::Yes)

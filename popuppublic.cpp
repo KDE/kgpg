@@ -72,14 +72,14 @@ QString UpdateViewItem2 :: key(int c,bool ) const
 
 ///////////////  main view
 
-popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool filemode): 
+popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool filemode):
 KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent, name,true)
 {
 
 	QWidget *page = plainPage();
 	QVBoxLayout *vbox=new QVBoxLayout(page,0,spacingHint());
 	vbox->setAutoAdd(true);
-	
+
 	setButtonText(KDialogBase::Details,i18n("Options"));
 
         if (KGpgSettings::allowCustomEncryptionOptions())
@@ -90,7 +90,7 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
         keyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
         keySingle=loader->loadIcon("kgpg_key1",KIcon::Small,20);
 	keyGroup=loader->loadIcon("kgpg_key3",KIcon::Small,20);
-	
+
         if (filemode) setCaption(i18n("Select Public Key for %1").arg(sfile));
 
         fmode=filemode;
@@ -135,10 +135,10 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
                 QWhatsThis::add
                         (CBshred,i18n("<b>Shred source file</b>: permanently remove source file. No recovery will be possible"));
         }
-	
+
 	        CBsymmetric=new QCheckBox(i18n("Symmetrical encryption"),boutonboxoptions);
                 QWhatsThis::add
-                        (CBsymmetric,i18n("<b>Symmetrical encryption</b>: encryption doesn't use keys. You just need to give a password "
+                        (CBsymmetric,i18n("<b>Symmetrical encryption</b>: encryption does not use keys. You just need to give a password "
                                           "to encrypt/decrypt the file"));
                 QObject::connect(CBsymmetric,SIGNAL(toggled(bool)),this,SLOT(isSymetric(bool)));
 
@@ -146,7 +146,7 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 	CBuntrusted->setChecked( KGpgSettings::allowUntrustedKeys() );
 	CBhideid->setChecked( KGpgSettings::hideUserID() );
 	if (filemode) CBshred->setChecked( KGpgSettings::shredSource() );
-        
+
         if (KGpgSettings::allowCustomEncryptionOptions()) {
                 QHButtonGroup *bGroup = new QHButtonGroup(page);
                 //bGroup->setFrameStyle(QFrame::NoFrame);
@@ -160,7 +160,7 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
         QObject::connect(keysList,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(slotOk()));
 //	QObject::connect(this,SIGNAL(okClicked()),this,SLOT(crypte()));
         QObject::connect(CBuntrusted,SIGNAL(toggled(bool)),this,SLOT(refresh(bool)));
-	
+
         char line[200]="\0";
         FILE *fp2;
         seclist=QString::null;
@@ -171,7 +171,7 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
         pclose(fp2);
 
         trusted=CBuntrusted->isChecked();
-	
+
         refreshkeys();
 	setMinimumSize(550,200);
 	updateGeometry();
@@ -184,7 +184,7 @@ popupPublic::~popupPublic()
 
 void popupPublic::slotAccept()
 {
-accept(); 
+accept();
 }
 
 void popupPublic::enable()

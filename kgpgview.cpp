@@ -87,7 +87,7 @@ void MyEditor::slotDroppedFile(KURL url)
                 }
         }
 
-        
+
                 /////////////  if dropped filename ends with gpg, pgp or asc, try to decode it
                 if ((tempFile.endsWith(".gpg")) || (tempFile.endsWith(".asc")) || (tempFile.endsWith(".pgp"))) {
                         slotDecodeFile(tempFile);
@@ -101,7 +101,7 @@ void MyEditor::slotCheckContent(QString fileToCheck, bool checkForPgpMessage)
 QFile qfile(fileToCheck);
         if (qfile.open(IO_ReadOnly)) {
                 //////////   open file
-                
+
                         QTextStream t( &qfile );
                         QString result(t.read());
                         //////////////     if  pgp data found, decode it
@@ -125,7 +125,7 @@ QFile qfile(fileToCheck);
                                 } else {
                                         if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK")) {
 						qfile.close();
-                                                KMessageBox::information(0,i18n("This file is a private key!\nPlease use kgpg key management to import it."));
+                                                KMessageBox::information(0,i18n("This file is a private key.\nPlease use kgpg key management to import it."));
                                                 KIO::NetAccess::removeTempFile(fileToCheck);
                                                 return;
                                         }
@@ -153,7 +153,7 @@ void MyEditor::slotDecodeFile(QString fname)
 {
         ////////////////     decode file from given url into editor
         QFile qfile(QFile::encodeName(fname));
-        if (qfile.open(IO_ReadOnly)) {			
+        if (qfile.open(IO_ReadOnly)) {
 	KgpgInterface *txtDecrypt=new KgpgInterface();
         connect (txtDecrypt,SIGNAL(txtdecryptionfinished(QString)),this,SLOT(editorUpdateDecryptedtxt(QString)));
 	connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(editorFailedDecryptedtxt(QString)));
@@ -277,7 +277,7 @@ void KgpgView::clearSign()
                                 lineRead=lineRead.stripWhiteSpace();
                                 QString resultKey=lineRead.section(" ",1,-1);
                                 QString resultID=lineRead.section(" ",0,0);
-                                KMessageBox::sorry(this,i18n("<qt><b>BAD signature</b> from:<br>%1<br>Key ID: %2<br><br><b>Text is corrupted!</b></qt>").arg(resultKey.replace(QRegExp("<"),"&lt;")).arg(resultID));
+                                KMessageBox::sorry(this,i18n("<qt><b>Bad signature</b> from:<br>%1<br>Key ID: %2<br><br><b>Text is corrupted.</b></qt>").arg(resultKey.replace(QRegExp("<"),"&lt;")).arg(resultID));
                         }
         } else {
                 /////    Sign the text in Editor
@@ -301,9 +301,9 @@ void KgpgView::clearSign()
                 }
                 delete opts;
                 /////////////////////  get passphrase
-		
+
                 bool useAgent=KgpgInterface::getGpgBoolSetting("use-agent",KGpgSettings::gpgConfigPath());
-		
+
                 if (!getenv("GPG_AGENT_INFO") || !useAgent) {
                         int code=KPasswordDialog::getPassword(password,i18n("Enter passphrase for <b>%1</b>:").arg(signKeyMail.replace(QRegExp("<"),"&lt;")));
                         ///////////////////   ask for password
@@ -378,7 +378,7 @@ void KgpgView::slotdecode()
         connect (txtDecrypt,SIGNAL(txtdecryptionfinished(QString)),this,SLOT(updateDecryptedtxt(QString)));
 	connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(failedDecryptedtxt(QString)));
         txtDecrypt->KgpgDecryptText(editor->text(),QStringList::split(QString(" "),KGpgSettings::customDecrypt().simplifyWhiteSpace()));
-	
+
 	/*
         KgpgApp *win=(KgpgApp *) parent();
         if (!resultat.isEmpty()) {
@@ -391,19 +391,19 @@ void KgpgView::slotdecode()
 void KgpgView::updateDecryptedtxt(QString newtxt)
 {
 	//kdDebug()<<"UTF8 Test Result--------------"<<KgpgView::checkForUtf8()<<endl;
-	if (checkForUtf8(newtxt)) 
+	if (checkForUtf8(newtxt))
 	{
 	editor->setText(QString::fromUtf8(newtxt.ascii()));
 	emit resetEncoding(true);
 	}
-	else 
+	else
 	{
 	editor->setText(newtxt);
 	emit resetEncoding(false);
 	}
 }
 
-bool KgpgView::checkForUtf8(QString text)    
+bool KgpgView::checkForUtf8(QString text)
 {  //// try to guess if the decrypted text uses utf-8 encoding
 const unsigned char *s=(unsigned char *) text.ascii();
 int n=text.length();
@@ -412,11 +412,11 @@ for (int ct=0;ct<n;ct++)
 {
 c=s[ct];
   //kdDebug()<<"Testing --------- "<<c<<"caractere"<<n<<endl;
-if ((c>0xc2) && (c<0xdf)) 
-if (ct+1<n) 
+if ((c>0xc2) && (c<0xdf))
+if (ct+1<n)
 {
 c=s[ct+1];
-if ((c>0x80) && (c<0xbf)) 
+if ((c>0x80) && (c<0xbf))
 return true;
 }
 }
@@ -434,9 +434,9 @@ void KgpgView::encodetxt(QStringList selec,QStringList encryptOptions,bool, bool
         //////////////////              encode from editor
         if (KGpgSettings::pgpCompatibility())
                 encryptOptions<<"--pgp6";
-        
+
 	if (symmetric) selec.clear();
-		
+
 	KgpgInterface *txtCrypt=new KgpgInterface();
         connect (txtCrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(updatetxt(QString)));
         txtCrypt->KgpgEncryptText(editor->text(),selec,encryptOptions);

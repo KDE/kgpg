@@ -85,7 +85,7 @@ void KgpgApp::initActions()
         (void) new KAction(i18n("&Verify Signature..."),0, this, SLOT(slotPreVerifyFile()), actionCollection(), "sign_verify");
         (void) new KAction(i18n("&Check MD5 Sum..."), 0,this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
 	KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
-	
+
 	encodingAction=new KToggleAction(i18n("&Unicode (utf-8) encoding"), 0, 0,this, SLOT(slotSetCharset()),actionCollection(),"charsets");
 }
 
@@ -97,10 +97,10 @@ if (encodingAction->isChecked())
 if (!checkEncoding()) return;
 view->editor->setText(QString::fromUtf8(view->editor->text().ascii()));
 }
-else 
+else
 view->editor->setText(view->editor->text().utf8());
 }
-    
+
 void KgpgApp::initView()
 {
         ////////////////////////////////////////////////////////////////////
@@ -183,7 +183,7 @@ void KgpgApp::slotFilePreDec()
         oldname.prepend(url.directory(0,0));
 
 	KDialogBase *popn=new KDialogBase( KDialogBase::Swallow, i18n("Decrypt File to"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "file_decrypt",true);
-	
+
 	SrcSelect *page=new SrcSelect();
 	popn->setMainWidget(page);
 	page->newFilename->setURL(oldname);
@@ -249,9 +249,9 @@ return codec->canEncode(view->editor->text());
 void KgpgApp::slotFileSave()
 {
         // slotStatusMsg(i18n("Saving file..."));
-if (!checkEncoding()) 
+if (!checkEncoding())
 {
-KMessageBox::sorry(this,i18n("The document could not been saved, as the selected encoding cannot encode every unicode character in it!"));
+KMessageBox::sorry(this,i18n("The document could not been saved, as the selected encoding cannot encode every unicode character in it."));
 return;
 }
         QString filn=Docname.path();
@@ -272,7 +272,7 @@ return;
         t << view->editor->text().utf8();
         f.close();
 	}
-	else 
+	else
 	{
 	QTextStream *stream = tmpfile.textStream();
     	*stream << view->editor->text().utf8();
@@ -285,7 +285,7 @@ return;
 	}
 	tmpfile.unlink();
 	}
-	
+
         fileSave->setEnabled(false);
         setCaption(Docname.fileName(),false);
 }
