@@ -17,7 +17,7 @@
 
 
 #include <qlabel.h>
-#include <qpixmap.h>
+//#include <qpixmap.h>
 #include <qclipboard.h>
 #include <qfile.h>
 #include <qpopupmenu.h>

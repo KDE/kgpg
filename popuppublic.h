@@ -60,7 +60,7 @@ private slots:
         void isSymetric(bool state);
         void sort();
         void enable();
-	void keyFilter( const QString &filterStr);
+	void slotGotoDefaultKey();
 	
 public slots:
 void slotAccept();

@@ -66,9 +66,6 @@ void KgpgLibrary::startencode(QStringList encryptKeys,QStringList encryptOptions
 	_encryptOptions=encryptOptions;
 	_shred=shred;
 	_symetric=symetric;
-	if (filesToEncode>1)
-	emit systemMessage(i18n("<b>%1 Files left.</b>\nEncrypting </b>%2").arg(filesToEncode).arg(urlselecteds.first().path()));
-	else emit systemMessage(i18n("Encrypting </b>%2").arg(urlselecteds.first().path()));
 		fastencode(urlselecteds.first(),encryptKeys,encryptOptions,shred,symetric);
 }
 
@@ -94,12 +91,15 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
 		    	if (over->exec()==QDialog::Rejected)
 	    		{
                 	delete over;
+			emit systemMessage(QString::null,true);
                 	return;
             		}
 	    		dest=over->newDestURL();
 	    		delete over;
         }
-
+	if (filesToEncode>1)
+	emit systemMessage(i18n("<b>%1 Files left.</b>\nEncrypting </b>%2").arg(filesToEncode).arg(urlselecteds.first().path()));
+	else emit systemMessage(i18n("<b>Encrypting </b>%2").arg(urlselecteds.first().path()));
         KgpgInterface *cryptFileProcess=new KgpgInterface();
 	pop = new KPassivePopup(panel);
         cryptFileProcess->KgpgEncryptFile(selec,urlselected,dest,encryptOptions,symetric);

@@ -35,7 +35,6 @@
 #include <qpaintdevicemetrics.h>
 #include <qtooltip.h>
 #include <qheader.h>
-#include <qtoolbutton.h>
 
 
 #include <kio/netaccess.h>

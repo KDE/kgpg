@@ -23,11 +23,16 @@
 #include <qiconset.h>
 #include <qbuttongroup.h>
 #include <qcheckbox.h>
+#include <qhbuttongroup.h>
+#include <qtoolbutton.h>
+
 #include <klistview.h>
 #include <kprocess.h>
 #include <kprocio.h>
 #include <qhbuttongroup.h>
 #include <klocale.h>
+#include <kaccel.h>
+#include <klistviewsearchline.h>
 
 #include "popuppublic.h"
 #include "kgpgsettings.h"
@@ -92,15 +97,25 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 	keyGroup=loader->loadIcon("kgpg_key3",KIcon::Small,20);
 
         if (filemode) setCaption(i18n("Select Public Key for %1").arg(sfile));
-
-        fmode=filemode;
-	KLineEdit *isearch=new KLineEdit(page);
-	QObject::connect(isearch,SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)));
+        fmode=filemode;	
+	
+	QHButtonGroup *hBar=new QHButtonGroup(page);
+	//hBar->setFrameStyle(QFrame::NoFrame);
+	hBar->setMargin(0);
+	
+	QToolButton *clearSearch = new QToolButton(hBar);
+	clearSearch->setTextLabel(i18n("Clear Search"), true);
+	clearSearch->setIconSet(SmallIconSet("locationbar_erase"));
+	(void) new QLabel(i18n("Search: "),hBar);
+	KListViewSearchLine* listViewSearch = new KListViewSearchLine(hBar);
+	connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
 	
         keysList = new KListView( page );
 	 keysList->addColumn(i18n("Name"));
 	 keysList->addColumn(i18n("Email"));
 	 keysList->addColumn(i18n("ID"));
+	 
+	 listViewSearch->setListView(keysList);
 
         keysList->setRootIsDecorated(false);
         page->setMinimumSize(540,200);
@@ -114,7 +129,19 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 	keysList->setColumnWidth(1,210);
 
         boutonboxoptions=new QButtonGroup(5,Qt::Vertical ,page,0);
-
+	
+	/*
+	KActionCollection *actcol=new KActionCollection(this);
+	actcol->setXMLFile(locate("appdata", "listkeys.rc")); 
+	KAction *goHome=actcol->action("go_default_key");
+	KMessageBox::sorry(0,goHome->text());*/
+	//KAccel *acc=new KAccel();
+	//actcol->kaccel();
+	//acc->readSettings(); 
+	 
+	 KActionCollection *actcol=new KActionCollection(this,parent);
+	(void) new KAction(i18n("&Go to Default Key"),QKeySequence(CTRL+Qt::Key_Home), this, SLOT(slotGotoDefaultKey()),actcol,"go_default_key");
+	
         CBarmor=new QCheckBox(i18n("ASCII armored encryption"),boutonboxoptions);
         CBuntrusted=new QCheckBox(i18n("Allow encryption with untrusted keys"),boutonboxoptions);
         CBhideid=new QCheckBox(i18n("Hide user id"),boutonboxoptions);
@@ -133,9 +160,18 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
                                   "box enables you to use any key, even if it has not be signed."));
 
         if (filemode) {
-               CBshred=new QCheckBox(i18n("Shred source file"),boutonboxoptions);
+		QWidget *parentBox=new QWidget(boutonboxoptions);
+		QHBoxLayout *shredBox=new QHBoxLayout(parentBox,0);
+		//shredBox->setFrameStyle(QFrame::NoFrame);
+		//shredBox->setMargin(0);
+	       CBshred=new QCheckBox(i18n("Shred source file"),parentBox);
                 QWhatsThis::add
                         (CBshred,i18n("<b>Shred source file</b>: permanently remove source file. No recovery will be possible"));
+			
+		QString shredWhatsThis = i18n( "<qt><b>Shred source file:</b><br /><p>Checking this option will shred (overwrite several times before erasing) the files you have encrypted. This way, it is almost impossible that the source file is recovered.</p><p><b>But you must be aware that this is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>");
+		  KActiveLabel *warn= new KActiveLabel( i18n("<a href=\"whatsthis:%1\">Read this before using shredding</a>").arg(shredWhatsThis),parentBox );
+		  shredBox->addWidget(CBshred);
+		  shredBox->addWidget(warn);
         }
 
 	        CBsymmetric=new QCheckBox(i18n("Symmetrical encryption"),boutonboxoptions);
@@ -183,49 +219,6 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 
 popupPublic::~popupPublic()
 {}
-
-void popupPublic::keyFilter( const QString &filterStr)
-{
-    QListViewItem *item=keysList->firstChild();
-    if (!item)
-        return;
-
-	if (filterStr.isEmpty())
-	{
-	while (item)
-        {
-            item->setVisible(true);
-            item=item->nextSibling();
-        }
-	}
-	else
-	{	
-        while (item)
-        {
-            if ((item->text(0).find(filterStr,0,false)==-1) && (item->text(1).find(filterStr,0,false)==-1))
-                item->setVisible(false);
-	    else item->setVisible(true);
-            item=item->nextSibling();
-        }
-	}
-        if (!keysList->currentItem()->isVisible())
-        {
-            QListViewItem *item=keysList->firstChild();
-            while (item)
-            {
-                if (item->isVisible())
-                    break;
-                item=item->nextSibling();
-            }
-            if (!item)
-                return;
-            keysList->clearSelection();
-            keysList->setCurrentItem(item);
-            keysList->setSelected(item,true);
-        }
-        
-        keysList->ensureItemVisible(keysList->currentItem());
-}
 
 
 void popupPublic::slotAccept()
@@ -297,6 +290,15 @@ void popupPublic::isSymetric(bool state)
 void popupPublic::customOpts(const QString &str)
 {
         customOptions=str;
+}
+
+void popupPublic::slotGotoDefaultKey()
+{
+    QListViewItem *myDefaulKey = keysList->findItem(KGpgSettings::defaultKey(),2);
+    keysList->clearSelection();
+    keysList->setCurrentItem(myDefaulKey);
+    keysList->setSelected(myDefaulKey,true);
+    keysList->ensureItemVisible(myDefaulKey);
 }
 
 void popupPublic::refresh(bool state)
