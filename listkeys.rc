@@ -54,7 +54,6 @@
 <ToolBar name="mainToolBar" position="top">
     <Action name="key_info"/>
     <Action name="key_sign"/>
-    <Action name="key_edit"/>
     <Separator/>
     <Action name="key_import"/>
     <Action name="key_export"/>
