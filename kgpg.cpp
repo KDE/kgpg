@@ -545,7 +545,7 @@ void  MyView::startWizard()
                 if (tst.find("sec",0,FALSE)!=-1) {
                         name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
                         if ((!name.isEmpty()) && (trustedvals.find(tst.section(':',1,1))==-1)) {
-                                fp2 = popen("gpg --no-tty --with-colon --list-keys "+tst.section(':',4,4).right(8), "r");
+                                fp2 = popen("gpg --no-tty --with-colon --list-keys "+QFile::encodeName(tst.section(':',4,4).right(8)), "r");
                                 while ( fgets( line, sizeof(line), fp2)) {
                                         tst2=line;
                                         if (tst2.startsWith("pub") && (trustedvals.find(tst2.section(':',1,1))==-1)) {
@@ -585,7 +585,7 @@ void  MyView::slotWizardChange()
                 QString defaultID=KgpgInterface::getGpgSetting("default-key",wiz->kURLRequester1->url());
                 if (defaultID.isEmpty())
                         return;
-                fp = popen("gpg --no-tty --with-colon --list-secret-keys "+defaultID, "r");
+                fp = popen("gpg --no-tty --with-colon --list-secret-keys "+QFile::encodeName(defaultID), "r");
                 while ( fgets( line, sizeof(line), fp)) {
                         tst=line;
                         if (tst.find("sec",0,FALSE)!=-1) {
