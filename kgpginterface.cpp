@@ -26,7 +26,6 @@
 #include <qclipboard.h>
 #include <qlayout.h>
 #include <qcolor.h>
-#include <qhbuttongroup.h>
 #include <qregexp.h>
 
 #include <kmdcodec.h>
@@ -197,18 +196,8 @@ QString KgpgInterface::KgpgEncryptText(QString text,QString userIDs, QString Opt
       ct=userIDs.find(" ");
     }
   dests+=" --recipient "+userIDs;
-
-  text=text.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
-    /*int i=0;
-  while(i!=-1)
-    {
-      i=text.find("$",i,FALSE);
-      if (i!=-1)
-        {
-          text.insert(i,"\\");
-          i+=2;
-        }
-    }*/
+  
+text=text.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
 	
 	gpgcmd="echo \""+text+"\" | gpg --no-secmem-warning --no-tty "+Options+" -e "+dests;
   //////////   encode with untrusted keys or armor if checked by user
@@ -455,7 +444,19 @@ void KgpgInterface::verifyfin(KProcess *)
 
 void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyMail,bool local)
 {
-if (checkuid(keyID)>0){KMessageBox::sorry(0,i18n("This key has more than one user id...\nEdit the key manually to sign it."));return;}
+if (checkuid(keyID)>0)
+{
+  KProcess *conprocess=new KProcess();
+  *conprocess<< "konsole"<<"-e"<<"gpg";
+  *conprocess<<"--no-secmem-warning"<<"-u"<<signKeyID;
+  if (local==false) *conprocess<<"--sign-key"<<keyID;
+  else *conprocess<<"--lsign-key"<<keyID;
+  QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(refreshkey()));
+  conprocess->start(KProcess::Block);
+emit signatureFinished(true);
+return;
+}
+
 signSuccess=0;
 step=0;
 message="sign";
@@ -480,6 +481,7 @@ while (p->readln(required,true)!=-1)
 {
 //KMessageBox::sorry(0,required);
 if ((step==0) && (required.find("keyedit.prompt")!=-1)) {p->writeStdin(message);step=1;required="";}
+ if (required.find("sign_uid.expire")!=-1) {p->writeStdin("Never");required="";}
  if (required.find("sign_uid.class")!=-1) {p->writeStdin("");required="";}
  if (required.find("sign_uid.okay")!=-1) {p->writeStdin("Y");required="";}
  if (required.find("passphrase.enter")!=-1) {p->writeStdin(QString(passphrase));passphrase="xxxxxxxxxxxxxx";required="";step=2;}
