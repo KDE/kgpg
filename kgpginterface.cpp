@@ -50,7 +50,13 @@ void KgpgInterface::KgpgEncryptFile(QString userIDs,KURL srcUrl,KURL destUrl, QS
   if (symetrical==false)
     {
       *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2";
-  if (!Options.isEmpty()) *proc<<Options.local8Bit();
+  while (!Options.isEmpty())
+  {
+  QString fOption=Options.section(' ',0,0);
+  Options.remove(0,fOption.length());
+  Options=Options.stripWhiteSpace();
+   *proc<<fOption.local8Bit();
+   }
   *proc<<"--output"<<destUrl.path().local8Bit()<<"-e";
       int ct=userIDs.find(" ");
       while (ct!=-1)  // if multiple keys...
@@ -79,7 +85,13 @@ void KgpgInterface::KgpgEncryptFile(QString userIDs,KURL srcUrl,KURL destUrl, QS
       fclose(pass);
       
         *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0";
-    if (!Options.isEmpty()) *proc<<Options.local8Bit();
+      while (!Options.isEmpty())
+  {
+  QString fOption=Options.section(' ',0,0);
+  Options.remove(0,fOption.length());
+  Options=Options.stripWhiteSpace();
+   *proc<<fOption.local8Bit();
+   }
 	*proc<<"--output"<<destUrl.path().local8Bit()<<"--passphrase-fd"<<QString::number(ppass[0])<<"-c"<<srcUrl.path().local8Bit();
 	}
 
@@ -97,7 +109,6 @@ KgpgInterface::~KgpgInterface()
 
 void KgpgInterface::encryptfin(KProcess *)
 {
-
   if (message.find("END_ENCRYPTION")!=-1)  emit encryptionfinished(true);
   else
   {
@@ -350,7 +361,13 @@ void KgpgInterface::KgpgSignFile(QString keyName,QString keyID,KURL srcUrl,QStri
   Options=Options.simplifyWhiteSpace();
   
     *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"--passphrase-fd"<<QString::number(ppass[0])<<"-u"<<keyID.local8Bit();
-	if (!Options.isEmpty()) *proc<<Options.local8Bit();
+	while (!Options.isEmpty())
+  {
+  QString fOption=Options.section(' ',0,0);
+  Options.remove(0,fOption.length());
+  Options=Options.stripWhiteSpace();
+   *proc<<fOption.local8Bit();
+   }
 	 *proc<<"--detach-sig"<<srcUrl.path().local8Bit();
 
       /////////         open gpg pipe
