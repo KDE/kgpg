@@ -138,7 +138,7 @@ KShred *shredres=new KShred(fileToShred.path());
         if (shredres->shred())
                 delete shredPopup;
         else
-                KMessageBox::sorry(0,i18n("<qt><b>ERROR</b> during file shredding.<br>File <b>%1</b> was not securely deleted. Please check your permissions.<qt>").arg(fileToShred.path()));
+                KMessageBox::sorry(0,i18n("<qt><b>ERROR</b> during file shredding.<br>File <b>%1</b> was not securely deleted. Please check your permissions.</qt>").arg(fileToShred.path()));
 
 }
 
