@@ -336,3 +336,4 @@ res+=list.at(i)->text(0);
   
   reject();
 }
+#include "popuppublic.moc"

@@ -127,3 +127,4 @@ QString popupName::getfname()
 {
   return(lineedit->text());
 }
+#include "popupname.moc"

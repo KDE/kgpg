@@ -627,3 +627,4 @@ void KgpgView::print(QPrinter *pPrinter)
   printpainter.end();
 }
 */
+#include "kgpgview.moc"

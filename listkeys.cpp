@@ -1041,3 +1041,4 @@ void listKeys::refreshkey()
   pclose(fp);
   keysList2->setSelected(keysList2->firstChild(),true);
 }
+#include "listkeys.moc"

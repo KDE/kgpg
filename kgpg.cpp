@@ -1011,3 +1011,4 @@ void KgpgApp::slotFileDec()
       fastdecode(false);
     }
 }
+#include "kgpg.moc"
