@@ -438,6 +438,7 @@ KeyView::KeyView( QWidget *parent, const char *name )
 {
     KIconLoader *loader = KGlobal::iconLoader();
 
+    pixkeyOrphan=loader->loadIcon("kgpg_key4",KIcon::Small,20);
     pixkeyGroup=loader->loadIcon("kgpg_key3",KIcon::Small,20);
     pixkeyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
     pixkeySingle=loader->loadIcon("kgpg_key1",KIcon::Small,20);
@@ -554,6 +555,8 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
     KAction *deleteKeyPair = new KAction(i18n("Delete Key Pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
     KAction *generateKey = new KAction(i18n("&Generate Key Pair..."), "kgpg_gen", KStdAccel::shortcut(KStdAccel::New),this, SLOT(slotgenkey()),actionCollection(),"key_gener");
+    
+    KAction *regeneratePublic = new KAction(i18n("&Regenerate Public Key"), 0, 0,this, SLOT(slotregenerate()),actionCollection(),"key_regener");
 
     (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
     KStdAction::preferences(this, SLOT(slotOptions()), actionCollection(),"kgpg_config");
@@ -645,6 +648,10 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
     popupuid=new QPopupMenu();
     delUid->plug(popupuid);
+    
+    popuporphan=new QPopupMenu();
+    regeneratePublic->plug(popuporphan);
+    deleteKeyPair->plug(popuporphan);
 
     setCentralWidget(keysList2);
     keysList2->restoreLayout(KGlobal::config(), "KeyView");
@@ -865,9 +872,6 @@ void listKeys::slotGotoDefaultKey()
 
 
 
-
-
-
 void listKeys::refreshKeyFromServer()
 {
     if (keysList2->currentItem()==NULL)
@@ -919,6 +923,11 @@ void listKeys::slotDelUid()
     *conprocess<<"--edit-key"<<item->text(6)<<"uid";
     conprocess->start(KProcess::Block);
     keysList2->refreshselfkey();
+}
+
+void listKeys::slotregenerate()
+{
+
 }
 
 
@@ -1311,6 +1320,9 @@ void listKeys::checkList()
     changeMessage(i18n("Photo ID"),0);
     else if (serial==keysList2->pixRevoke.serialNumber())
     changeMessage(i18n("Revocation Signature"),0);
+    else if (serial==keysList2->pixkeyOrphan.serialNumber())
+    changeMessage(i18n("Orphaned Secret Key"),0);
+    
 }
 
 void listKeys::annule()
@@ -1404,7 +1416,6 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
     ////////////  popup a different menu depending on which key is selected
     if (sel!=NULL)
     {
-
         if (keysList2->selectedItems().count()>1)
         {
             QPtrList<QListViewItem> exportList=keysList2->selectedItems();
@@ -1457,6 +1468,9 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
                 if ((keysList2->secretList.find(sel->text(6))!=-1) && (keysList2->selectedItems().count()==1))
                     popupsec->exec(pos);
                 else
+		if ((keysList2->orphanList.find(sel->text(6))!=-1) && (keysList2->selectedItems().count()==1))
+                    popuporphan->exec(pos);
+		    else
                     popup->exec(pos);
             }
             return;
@@ -1709,6 +1723,13 @@ void listKeys::listsigns()
         return;
     }
 
+    if (keysList2->currentItem()->pixmap(0)->serialNumber()==keysList2->pixkeyOrphan.serialNumber())
+    {
+    KMessageBox::sorry(this,i18n("This key is an orphaned secret key (secret key without public key. It is currently not usable.\n\n"
+    							"Would you like to regenerate the public key?"));
+							return;
+    }
+    
     /////////////   open a key info dialog (KgpgKeyInfo, see begining of this file)
     QString key=keysList2->currentItem()->text(6);
     if (!key.isEmpty())
@@ -1860,8 +1881,8 @@ void listKeys::groupInit(QStringList keysGroup)
 
 void listKeys::editGroup()
 {
+    if (!keysList2->currentItem()->text(6).isEmpty()) return;
     QStringList keysGroup;
-
     KDialogBase *dialogGroupEdit=new KDialogBase(KDialogBase::Swallow, i18n("Group Properties"), KDialogBase::Ok | KDialogBase::Cancel,KDialogBase::Ok,this,0,true);
 
     gEdit=new groupEdit();
@@ -2082,17 +2103,16 @@ void listKeys::preimportsignkey()
         importsignkey(keysList2->currentItem()->text(6));
 }
 
-void listKeys::importRemoteKey(QString keyID)
+void listKeys::importRemoteKey(const QString keyID)
 {
    kServer=new keyServer(0,"server_dialog",false,true);
     kServer->page->kLEimportid->setText(keyID);
     kServer->page->Buttonimport->setDefault(true);
     kServer->page->tabWidget2->setTabEnabled(kServer->page->tabWidget2->page(1),false);
-    //kServer->slotImport();
     kServer->show();
     connect( kServer, SIGNAL( importFinished() ) , this, SLOT( importfinished()));
-    //connect( kServer , SIGNAL( destroyed() ) , this, SLOT( refreshkey()));
 }
+
 
 void listKeys::importsignkey(QString importKeyId)
 {
@@ -2169,6 +2189,8 @@ void listKeys::slotedit()
     if (!keysList2->currentItem())
         return;
     if (keysList2->currentItem()->depth()!=0)
+        return;
+    if (keysList2->currentItem()->text(6).isEmpty())
         return;
 
     KProcess kp;
@@ -2465,7 +2487,7 @@ void listKeys::confirmdeletekey()
     else
     {
         QStringList keysToDelete;
-        QString secretList;
+        QString secList;
         QPtrList<QListViewItem> exportList=keysList2->selectedItems();
         bool secretKeyInside=false;
         for ( uint i = 0; i < exportList.count(); ++i )
@@ -2474,7 +2496,7 @@ void listKeys::confirmdeletekey()
                 if (keysList2->secretList.find(exportList.at(i)->text(6))!=-1)
                 {
                     secretKeyInside=true;
-                    secretList+=exportList.at(i)->text(0)+" ("+exportList.at(i)->text(1)+")<br>";
+                    secList+=exportList.at(i)->text(0)+" ("+exportList.at(i)->text(1)+")<br>";
                     exportList.at(i)->setSelected(false);
                 }
                 else
@@ -2483,7 +2505,7 @@ void listKeys::confirmdeletekey()
 
         if (secretKeyInside)
         {
-            int result=KMessageBox::warningContinueCancel(this,i18n("<qt>The following are secret key pairs:<br><b>%1</b>They will not be deleted.<br></qt>").arg(secretList));
+            int result=KMessageBox::warningContinueCancel(this,i18n("<qt>The following are secret key pairs:<br><b>%1</b>They will not be deleted.<br></qt>").arg(secList));
             if (result!=KMessageBox::Continue)
                 return;
         }
@@ -2788,14 +2810,15 @@ kapp->processEvents();
     // refill
     clear();
     FILE *fp2,*fp;
-    QString issec=QString::null;
+    QStringList issec;
     secretList=QString::null;
+    orphanList=QString::null;
     fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
     while ( fgets( line, sizeof(line), fp2))
     {
         QString lineRead=line;
         if (lineRead.startsWith("sec"))
-            issec+=lineRead.section(':',4,4);
+            issec<<lineRead.section(':',4,4).right(8);
     }
     pclose(fp2);
 
@@ -2824,10 +2847,14 @@ kapp->processEvents();
             item->setPixmap(2,pubKey.trustpic);
             item->setExpandable(true);
 
-            if (issec.find(pubKey.gpgkeyid.right(8),0,FALSE)!=-1)
+	     
+	    QStringList::Iterator ite;
+	    ite=issec.find(pubKey.gpgkeyid.right(8));
+            if (ite!=issec.end())
             {
                 item->setPixmap(0,pixkeyPair);
                 secretList+=pubKey.gpgkeyid;
+		issec.remove(*ite);
             }
             else
             {
@@ -2842,6 +2869,7 @@ kapp->processEvents();
 
     }
     pclose(fp);
+    if (!issec.isEmpty()) insertOrphanedKeys(issec);
     if (emptyList)
     {
     kdDebug(2100)<<"No key found"<<endl;
@@ -2888,6 +2916,65 @@ QListViewItem *newPos=0L;
     kdDebug(2100)<<"Refresh Finished"<<endl;
 }
 
+void KeyView::insertOrphan(QString currentID)
+{
+   FILE *fp;
+    char line[300];
+    UpdateViewItem *item;
+    fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+    while ( fgets( line, sizeof(line), fp))
+    {
+        QString lineRead=line;
+        if ((lineRead.startsWith("sec")) && (lineRead.section(':',4,4).right(8))==currentID.right(8))
+	{
+	gpgKey orphanedKey=extractKey(lineRead);
+
+    	    bool isbold=false;
+            bool isexpired=false;
+ //           if (orphanedKey.gpgkeyid==defaultKey)
+ //               isbold=true;
+            if (orphanedKey.gpgkeytrust==i18n("Expired"))
+                isexpired=true;
+  //          if (orphanedKey.gpgkeyname.isEmpty())
+  //              noID=true;
+	    
+            item=new UpdateViewItem(this,orphanedKey.gpgkeyname,orphanedKey.gpgkeymail,QString::null,orphanedKey.gpgkeyexpiration,orphanedKey.gpgkeysize,orphanedKey.gpgkeycreation,orphanedKey.gpgkeyid,isbold,isexpired);
+	    item->setPixmap(0,pixkeyOrphan);
+	}
+    }
+    pclose(fp);
+    clearSelection();
+    setCurrentItem(item);
+    setSelected(item,true);
+}
+
+void KeyView::insertOrphanedKeys(QStringList orphans)
+{
+    FILE *fp;
+    char line[300];
+    fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+    while ( fgets( line, sizeof(line), fp))
+    {
+        QString lineRead=line;
+        if ((lineRead.startsWith("sec")) && (orphans.find(lineRead.section(':',4,4).right(8))!=orphans.end()))
+	{
+	gpgKey orphanedKey=extractKey(lineRead);
+
+    bool isbold=false;
+            bool isexpired=false;
+ //           if (orphanedKey.gpgkeyid==defaultKey)
+ //               isbold=true;
+            if (orphanedKey.gpgkeytrust==i18n("Expired"))
+                isexpired=true;
+  //          if (orphanedKey.gpgkeyname.isEmpty())
+  //              noID=true;
+	    orphanList+=orphanedKey.gpgkeyid+",";
+            UpdateViewItem *item=new UpdateViewItem(this,orphanedKey.gpgkeyname,orphanedKey.gpgkeymail,QString::null,orphanedKey.gpgkeyexpiration,orphanedKey.gpgkeysize,orphanedKey.gpgkeycreation,orphanedKey.gpgkeyid,isbold,isexpired);
+	    item->setPixmap(0,pixkeyOrphan);
+	}
+    }
+    pclose(fp);
+}
 
 void KeyView::refreshgroups()
 {
@@ -2941,6 +3028,7 @@ if (keyIDs.isEmpty()) return;
 
 void KeyView::refreshcurrentkey(QString currentID)
 {
+
     UpdateViewItem *item=NULL;
     QString issec=QString::null;
     FILE *fp,*fp2;
@@ -2958,6 +3046,7 @@ void KeyView::refreshcurrentkey(QString currentID)
     QString defaultKey = KGpgSettings::defaultKey();
 
     QString tst;
+    bool keyFound=false;
     QString cmd="gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8 "+currentID;
     fp = popen(QFile::encodeName(cmd), "r");
     while ( fgets( line, sizeof(line), fp))
@@ -2966,7 +3055,7 @@ void KeyView::refreshcurrentkey(QString currentID)
         if (tst.startsWith("pub"))
         {
             gpgKey pubKey=extractKey(tst);
-
+	    keyFound=true;
             bool isbold=false;
             bool isexpired=false;
             if (pubKey.gpgkeyid==defaultKey)
@@ -2990,6 +3079,11 @@ void KeyView::refreshcurrentkey(QString currentID)
         }
     }
     pclose(fp);
+    	if (orphanList.find(currentID)!=-1)
+	{
+	if (!keyFound) {insertOrphan(currentID);return;}
+	else orphanList.remove(currentID);
+	}
     clearSelection();
     setCurrentItem(item);
     setSelected(item,true);
@@ -3001,6 +3095,7 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
         return;
     bool keyIsOpen=false;
     QString keyUpdate=current->text(6);
+    if (keyUpdate.isEmpty()) return;
     if (current->isOpen())
         keyIsOpen=true;
     delete current;

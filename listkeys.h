@@ -132,9 +132,9 @@ public:
 	int previewSize;
 private:
 
-        QString secretList;
+        QString secretList,orphanList;
         QString photoKeysList;
-        QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown,trustmarginal, trustbad, trustgood,pixRevoke;
+        QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown,trustmarginal, trustbad, trustgood,pixRevoke,pixkeyOrphan;
 	QListViewItem *itemToOpen;
 	KTempFile *kgpgphototmp;
 	int groupNb;
@@ -153,6 +153,8 @@ private slots:
 	void refreshcurrentkey(QString currentID);
 	void refreshselfkey();
 	void refreshgroups();
+	void insertOrphanedKeys(QStringList orpans);
+	void insertOrphan(QString currentID);
 	QPixmap slotGetPhoto(QString photoId,bool mini=false);
 	void slotReloadKeys(QStringList keyIDs);
 	
@@ -175,7 +177,7 @@ public:
         ~listKeys();
         QLabel *keyPhoto;
         KeyView *keysList2;
-        QPopupMenu *popup,*popupsec,*popupout,*popupsig,*popupgroup,*popupphoto,*popupuid;
+        QPopupMenu *popup,*popupsec,*popupout,*popupsig,*popupgroup,*popupphoto,*popupuid,*popuporphan;
         QString message;
         QStringList keynames;
         KPassivePopup *pop;
@@ -267,7 +269,7 @@ private slots:
         void signkey();
         void delsignkey();
         void preimportsignkey();
-        void importRemoteKey(QString keyID);
+        void importRemoteKey(const QString keyID);
 	void importsignkey(QString importKeyId);
         void importallsignkey();
         void importfinished();
@@ -292,6 +294,7 @@ private slots:
 	void slotImportRevokeTxt(QString revokeText);
 	void refreshKeyFromServer();
 	void refreshFinished();
+	void slotregenerate();
 
 signals:
         void readAgainOptions();
