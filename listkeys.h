@@ -89,7 +89,7 @@ class listKeys : public KMainWindow//QDialog //KMainWindow
   listKeys(QWidget *parent=0, const char *name=0,WFlags f = 0);
   ~listKeys();
   KListView *keysList2;
-  QPopupMenu *popup,*popupsec,*popupout;
+  QPopupMenu *popup,*popupsec,*popupout,*popupsig;
   QString secretList,exportresult;
    KStatusBar *statusbar;
    KToolBar *toolbar;
@@ -115,6 +115,7 @@ void confirmdeletekey();
 void deletekey();
 void deleteseckey();
 void signkey();
+void delsignkey();
 void listsigns();
 void slotexport();
 void slotexportsec();

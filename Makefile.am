@@ -10,64 +10,60 @@ kgpg_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 EXTRA_DIST = main.cpp kgpg.cpp kgpg.h kgpgview.cpp kgpgview.h kgpg.desktop popuppublic.cpp popuppublic.h listkeys.h listkeys.cpp kgpgoptions.h kgpgoptions.cpp 
 
 install-data-local:
-	$(mkinstalldirs) $(kde_appsdir)/Applications/
-	$(INSTALL_DATA) $(srcdir)/kgpg.desktop $(kde_appsdir)/Applications/kgpg.desktop
-	$(INSTALL_DATA) $(srcdir)/keymanager.desktop $(kde_appsdir)/Applications/keymanager.desktop
-	$(mkinstalldirs) $(kde_icondir)/hicolor/48x48/apps/
-	$(INSTALL_DATA) $(srcdir)/hi48-app-kgpg.png $(kde_icondir)/hicolor/48x48/apps/kgpg.png
-	$(mkinstalldirs) $(kde_icondir)/hicolor/32x32/apps/
-	$(INSTALL_DATA) $(srcdir)/hi32-app-kgpg.png $(kde_icondir)/hicolor/32x32/apps/kgpg.png
-	$(mkinstalldirs) $(kde_icondir)/hicolor/16x16/apps/
-	$(INSTALL_DATA) $(srcdir)/hi16-app-kgpg.png $(kde_icondir)/hicolor/16x16/apps/kgpg.png
-	$(INSTALL_DATA) $(srcdir)/hi16-app-kgpg2.png $(kde_icondir)/hicolor/16x16/apps/kgpg2.png
+	$(mkinstalldirs) $(DESTDIR)$(kde_appsdir)/Applications/
+	$(INSTALL_DATA) $(srcdir)/kgpg.desktop $(DESTDIR)$(kde_appsdir)/Applications/kgpg.desktop
+	$(INSTALL_DATA) $(srcdir)/keymanager.desktop $(DESTDIR)$(kde_appsdir)/Applications/keymanager.desktop
+	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/hicolor/48x48/apps/
+	$(INSTALL_DATA) $(srcdir)/hi48-app-kgpg.png $(DESTDIR)$(kde_icondir)/hicolor/48x48/apps/kgpg.png
+	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/hicolor/32x32/apps/
+	$(INSTALL_DATA) $(srcdir)/hi32-app-kgpg.png $(DESTDIR)$(kde_icondir)/hicolor/32x32/apps/kgpg.png
+	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/hicolor/16x16/apps/
+	$(INSTALL_DATA) $(srcdir)/hi16-app-kgpg.png $(DESTDIR)$(kde_icondir)/hicolor/16x16/apps/kgpg.png
+	$(INSTALL_DATA) $(srcdir)/hi16-app-kgpg2.png $(DESTDIR)$(kde_icondir)/hicolor/16x16/apps/kgpg2.png
 	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions
-	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_gen.png $(kde_icondir)/hicolor/22x22/actions/kgpg_gen.png
-	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_edit.png $(kde_icondir)/hicolor/22x22/actions/kgpg_edit.png
-	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_sign.png $(kde_icondir)/hicolor/22x22/actions/kgpg_sign.png
-	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_info.png $(kde_icondir)/hicolor/22x22/actions/kgpg_info.png
-	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_import.png $(kde_icondir)/hicolor/22x22/actions/kgpg_import.png
-	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_export.png $(kde_icondir)/hicolor/22x22/actions/kgpg_export.png
+	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_gen.png $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_gen.png
+	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_edit.png $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_edit.png
+	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_sign.png $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_sign.png
+	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_info.png $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_info.png
+	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_import.png $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_import.png
+	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_export.png $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_export.png
 	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/hicolor/16x16/actions
-	$(INSTALL_DATA) $(srcdir)/hi16-action-kgpg_key2.png $(kde_icondir)/hicolor/16x16/actions/kgpg_key2.png
-	$(INSTALL_DATA) $(srcdir)/hi16-action-kgpg_key1.png $(kde_icondir)/hicolor/16x16/actions/kgpg_key1.png
+	$(INSTALL_DATA) $(srcdir)/hi16-action-kgpg_key2.png $(DESTDIR)$(kde_icondir)/hicolor/16x16/actions/kgpg_key2.png
+	$(INSTALL_DATA) $(srcdir)/hi16-action-kgpg_key1.png $(DESTDIR)$(kde_icondir)/hicolor/16x16/actions/kgpg_key1.png
 	
 
-	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_manage.png $(kde_icondir)/hicolor/22x22/actions/kgpg_manage.png
+	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_manage.png $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_manage.png
 	
-	$(mkinstalldirs) $(kde_datadir)/konqueror/servicemenus/
-
-#	$(INSTALL_DATA) $(srcdir)/decryptfile.desktop $(kde_datadir)/konqueror/servicemenus/decryptfile.desktop
-	-rm -f $(kde_datadir)/konqueror/servicemenus/decryptfile.desktop
+	$(mkinstalldirs) $(DESTDIR)$(kde_datadir)/konqueror/servicemenus/
 	
-	$(INSTALL_DATA) $(srcdir)/encryptfile.desktop $(kde_datadir)/konqueror/servicemenus/encryptfile.desktop
+	$(INSTALL_DATA) $(srcdir)/encryptfile.desktop $(DESTDIR)$(kde_datadir)/konqueror/servicemenus/encryptfile.desktop
 	
-	$(mkinstalldirs) $(kde_datadir)/kgpg/
-	$(INSTALL_DATA) $(srcdir)/tips $(kde_datadir)/kgpg/tips
+	$(mkinstalldirs) $(DESTDIR)$(kde_datadir)/kgpg/
+	$(INSTALL_DATA) $(DESTDIR)$(srcdir)/tips $(kde_datadir)/kgpg/tips
 
 	
 uninstall-local:
-	-rm -f $(kde_appsdir)/Applications/kgpg.desktop
-	-rm -f $(kde_appsdir)/Applications/keymanager.desktop
-	-rm -f $(kde_icondir)/hicolor/48x48/apps/kgpg.png
-	-rm -f $(kde_icondir)/hicolor/32x32/apps/kgpg.png
-	-rm -f $(kde_icondir)/hicolor/16x16/apps/kgpg.png
+	-rm -f $(DESTDIR)$(kde_appsdir)/Applications/kgpg.desktop
+	-rm -f $(DESTDIR)$(kde_appsdir)/Applications/keymanager.desktop
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/48x48/apps/kgpg.png
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/32x32/apps/kgpg.png
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/16x16/apps/kgpg.png
 	
-	-rm -f $(kde_icondir)/hicolor/22x22/actions/kgpg_gen.png
-	-rm -f $(kde_icondir)/hicolor/22x22/actions/kgpg_edit.png
-	-rm -f $(kde_icondir)/hicolor/22x22/actions/kgpg_sign.png
-	-rm -f $(kde_icondir)/hicolor/22x22/actions/kgpg_info.png
-	-rm -f $(kde_icondir)/hicolor/22x22/actions/kgpg_import.png
-	-rm -f $(kde_icondir)/hicolor/22x22/actions/kgpg_export.png
-	-rm -f $(kde_icondir)/hicolor/16x16/actions/kgpg_key2.png
-	-rm -f $(kde_icondir)/hicolor/16x16/actions/kgpg_key1.png
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_gen.png
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_edit.png
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_sign.png
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_info.png
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_import.png
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_export.png
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/16x16/actions/kgpg_key2.png
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/16x16/actions/kgpg_key1.png
 
 	
-	-rm -f $(kde_icondir)/hicolor/22x22/actions/kgpg_manage.png
-	-rm -f $(kde_icondir)/hicolor/16x16/apps/kgpg2.png
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/22x22/actions/kgpg_manage.png
+	-rm -f $(DESTDIR)$(kde_icondir)/hicolor/16x16/apps/kgpg2.png
 	
-#	-rm -f $(kde_datadir)/konqueror/servicemenus/decryptfile.desktop
-	-rm -f $(kde_datadir)/konqueror/servicemenus/encryptfile.desktop
-	-rm -f $(kde_datadir)/kgpg/tips
+	-rm -f $(DESTDIR)$(kde_datadir)/konqueror/servicemenus/encryptfile.desktop
+	-rm -f $(DESTDIR)$(kde_datadir)/kgpg/tips
 
 	
 ####### kdevelop will overwrite this part!!! (end)############

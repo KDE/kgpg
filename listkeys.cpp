@@ -34,6 +34,7 @@
 #include <kshortcut.h>
 
 #include "listkeys.h"
+#include "kgpginterface.h"
 
 
 //////////////  KListviewItem special
@@ -425,6 +426,7 @@ listKeys::listKeys(QWidget *parent, const char *name,WFlags f):KMainWindow(paren
   KAction *exportPublicKey = new KAction(i18n("E&xport public key"), "kgpg_export", 0,this, SLOT(slotexport()),actionCollection(),"key_export");
   KAction *deleteKey = new KAction(i18n("&Delete key"),"editdelete", 0,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
   KAction *signKey = new KAction(i18n("&Sign key"), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
+  KAction *delSignKey = new KAction(i18n("Delete sign&ature"),0, 0,this, SLOT(delsignkey()),actionCollection(),"key_delsign");
   KAction *infoKey = new KAction(i18n("&Key info"), "kgpg_info", 0,this, SLOT(listsigns()),actionCollection(),"key_info");
   KAction *importKey = new KAction(i18n("&Import key"), "kgpg_import", 0,this, SLOT(slotImportKey()),actionCollection(),"key_import");
   KAction *setDefaultKey = new KAction(i18n("Set as De&fault key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
@@ -488,6 +490,12 @@ listKeys::listKeys(QWidget *parent, const char *name,WFlags f):KMainWindow(paren
   importKey->plug(popupout);
   generateKey->plug(popupout);
 
+  popupsig=new QPopupMenu();
+  delSignKey->plug(popupsig);
+  //importKey->plug(popupsig);
+  //generateKey->plug(popupsig);
+
+  
   /*
   toolbar=new KToolBar(this);
   vbox->addWidget(toolbar);
@@ -658,13 +666,21 @@ void listKeys::slotstatus(QListViewItem *sel)
 void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int column)
 {
   ////////////  popup a different menu depending on which key is selected
-  if ((sel!=NULL) && (sel->depth()==0))
+  if (sel!=NULL)
     {
+	if (sel->depth()!=0)
+	{ 
+	if ((sel->text(1)=="-") && (sel->text(3)=="-")) popupsig->exec(pos);
+	//else popupout->exec(pos);
+	}
+	else
+	{
       keysList2->setSelected(sel,TRUE);
       if (secretList.find(sel->text(5))!=-1)
         popupsec->exec(pos);
       else
         popup->exec(pos);
+		}
     }
   else
     popupout->exec(pos);
@@ -676,9 +692,9 @@ void listKeys::slotexportsec()
   //////////////////////   export secret key
   char gpgcmd[1024] = "\0";
   QString warn=i18n("Secret keys SHOULD NOT be saved  in an unsafe place.\n"
-                    "If someone else can access this file, encryption with this key will be compromised !!!");
-  int result=KMessageBox::warningContinueCancel(this,warn,i18n("Warning"),i18n("Continue"));
-  if (result==KMessageBox::Cancel)
+                    "If someone else can access this file, encryption with this key will be compromised !\nContinue key export ?");
+  int result=KMessageBox::warningYesNo(this,warn,i18n("Warning"));
+  if (result!=KMessageBox::Yes)
     return;
 
   QString key=keysList2->currentItem()->text(0);
@@ -832,18 +848,15 @@ void listKeys::signkey()
     if (keysList2->currentItem()->depth()!=0)
     return;
   bool islocal=false;
-  QString key,key2;
-
-  key=keysList2->currentItem()->text(0);
-  if (key!="")
-    {
+  QString keyID,keyMail;
       //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
       KgpgSelKey *opts=new KgpgSelKey(this);
 
       opts->exec();
       if (opts->result()==true)
         {
-          key2=QString(opts->getkeyID());
+          keyID=QString(opts->getkeyID());
+		  keyMail=QString(opts->getkeyMail());
           islocal=opts->getlocal();
         }
       else
@@ -852,22 +865,43 @@ void listKeys::signkey()
           return;
         }
       delete opts;
+QString ask=i18n("Are you sure you want to sign key\n%1 with key %2 ?\n"
+"You should always check fingerprint before signing !").arg(keysList2->currentItem()->text(0)).arg(keyMail);
 
-    }
-
-  //KMessageBox::sorry(0,QString(key2+"\n"+key));
-
-  /////////////////   ugly console trick...
-  KProcess *conprocess=new KProcess();
-  *conprocess<< "konsole"<<"-e"<<"gpg";
-  *conprocess<<"--no-secmem-warning"<<"-u"<<key2;
-  if (islocal==false)
-    *conprocess<<"--sign-key"<<keysList2->currentItem()->text(5);
-  else
-    *conprocess<<"--lsign-key"<<keysList2->currentItem()->text(5);
-  QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(refreshkey()));
-  conprocess->start(KProcess::NotifyOnExit,KProcess::AllOutput);
+if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes) return;
+  KgpgInterface *signKeyProcess=new KgpgInterface();
+  signKeyProcess->KgpgSignKey(keysList2->currentItem()->text(5),keyID,keyMail,islocal);
+  connect(signKeyProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(refreshkey())); 
+  
 }
+
+
+void listKeys::delsignkey()
+{
+  ///////////////  sign a key
+  if (keysList2->currentItem()==NULL)
+    return;
+    if (keysList2->currentItem()->depth()==0)
+    return;
+  
+  QString signID,parentKey,signMail,parentMail;
+
+      //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
+          parentKey=keysList2->currentItem()->parent()->text(5);
+		  signID=keysList2->currentItem()->text(5);
+		  parentMail=keysList2->currentItem()->parent()->text(0);
+		  signMail=keysList2->currentItem()->text(0);
+
+QString ask=i18n("Are you sure you want to delete signature\n%1 from key %2 ?").arg(signMail).arg(parentMail);
+
+if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes) return;
+  KgpgInterface *delSignKeyProcess=new KgpgInterface();
+  delSignKeyProcess->KgpgDelSignature(parentKey,signID);
+  connect(delSignKeyProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(refreshkey())); 
+  
+}
+
+
 
 void listKeys::slotedit()
 {
@@ -1035,8 +1069,8 @@ void listKeys::deleteseckey()
   //////////////////////// delete a key
   QString res=keysList2->currentItem()->text(0);
 
-  int result=KMessageBox::warningContinueCancel(this,i18n("Delete SECRET KEY pair %1 ?\nDeleting this key pair means you will never be able to decrypt files encrypted with this key anymore!!!").arg(res),i18n("Warning"),i18n("Delete"));
-  if (result==KMessageBox::Cancel)
+  int result=KMessageBox::warningYesNo(this,i18n("Delete SECRET KEY pair %1 ?\nDeleting this key pair means you will never be able to decrypt files encrypted with this key anymore!!!").arg(res),i18n("Warning"),i18n("Delete"));
+  if (result!=KMessageBox::Yes)
     return;
 
   KProcess *conprocess=new KProcess();
@@ -1050,8 +1084,8 @@ void listKeys::confirmdeletekey()
 {
   QString res=keysList2->currentItem()->text(0);
 
-  int result=KMessageBox::warningContinueCancel(this,i18n("Delete public key %1 ?").arg(res),i18n("Warning"),i18n("Delete"));
-  if (result==KMessageBox::Cancel)
+  int result=KMessageBox::warningYesNo(this,i18n("Delete public key %1 ?").arg(res),i18n("Warning"),i18n("Delete"));
+  if (result!=KMessageBox::Yes)
     return;
   else
     deletekey();

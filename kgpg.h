@@ -123,6 +123,7 @@ public slots:
 void processenc(bool res);
 void processdec(bool res);
 void processdec2(bool res);
+void processdecover(bool res);
 void processdec3(bool res);
 void shredprocessenc(bool res);
 void slotTest();

@@ -81,6 +81,10 @@ class KgpgInterface : public QObject {
 	void KgpgVerifyFile(KURL srcUrl,KURL sigUrl) ;
 	
 	
+	void KgpgSignKey(QString keyID="",QString signKeyID="",QString signKeyMail="",bool local=false);
+	
+	void KgpgDelSignature(QString keyID="",QString signKeyID="");
+	
 	/**Encrypt text function
 	 * @param text QString text to be encrypted.
 	 * @param userIDs the recipients key id's.
@@ -99,6 +103,11 @@ class KgpgInterface : public QObject {
 
 	
     private slots:
+	
+	void signover(KProcess *p);
+	void sigprocess(KProcIO *p);//ess *p,char *buf, int buflen);
+
+	
         /**
          * Checks if the encrypted file was saved.
          */
@@ -119,8 +128,11 @@ class KgpgInterface : public QObject {
          * Checks if the signing was successfull.
          */
 	void signfin(KProcess *p);
+	int checkuid(QString KeyID);
+	void delsigprocess(KProcIO *p);
+	void delsignover(KProcess *p);
 	
-	void verifyprocess(KProcess *p, char *buff, int bufflen);
+	void readprocess(KProcIO *p);//ess *p, char *buff, int bufflen);
 	
 	void verifyfin(KProcess *p);
 
@@ -133,6 +145,7 @@ signals:
          * returns true if decryption successfull, false on error.
          */
     void decryptionfinished(bool);
+	void badpassphrase(bool);
 
 	        
     private:
@@ -140,6 +153,9 @@ signals:
 	 * @internal structure for communication
 	 */
         QString message;
+		QCString passphrase;
+		bool sent;
+		int step,signb,sigsearch;
 	/**
 	 * @internal structure for the file information
 	 */

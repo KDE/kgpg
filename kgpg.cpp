@@ -623,9 +623,8 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool shred,bool sym
 
   KURL dest;
 
-  if (arm==true)
-    dest.setPath(urlselected.path()+".asc");
-  dest.setPath(urlselected.path()+".gpg");
+  if (arm==true) dest.setPath(urlselected.path()+".asc");
+  else dest.setPath(urlselected.path()+".gpg");
 
   QFile fgpg(dest.path().local8Bit());
 
@@ -781,34 +780,48 @@ void KgpgApp::slotprocresult(KProcess *p)
   decpassdest=KURL(newname);
   decresult=decryptFileProcess->KgpgDecryptFile(decpassuid,decpasssrc,decpassdest);
   if (decresult==0) {if (fastact==true) kapp->exit(0); else return;}
-  connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdec(bool)));
+  connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
+  connect(decryptFileProcess,SIGNAL(badpassphrase(bool)),this,SLOT(processdec(bool)));
   }
   else openEncryptedDocumentFile(urlselected,messages);
 }
 
-void KgpgApp::processdec(bool res)
+void KgpgApp::processdecover(bool res)
 {
   if ((res==true) && (fastact==true)) kapp->exit(0);
+  if (res==false) 
+  {
+  KMessageBox::sorry(0,i18n("Decryption failed..."));
+  if (fastact==true) kapp->exit(0);
+  }
+}
+
+
+void KgpgApp::processdec(bool res)
+{
+  //if ((res==true) && (fastact==true)) kapp->exit(0);
   if (res==false)
   {
    KgpgInterface *decryptFileProcess=new KgpgInterface();
   int decresult=0;
   decresult=decryptFileProcess->KgpgDecryptFile(decpassuid,decpasssrc,decpassdest,2);
   if (decresult==0) {if (fastact==true) kapp->exit(0); else return;}
-  connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdec2(bool)));
+  connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
+  connect(decryptFileProcess,SIGNAL(badpassphrase(bool)),this,SLOT(processdec2(bool)));
  }
 }
 
 void KgpgApp::processdec2(bool res)
 {
-  if ((res==true) && (fastact==true)) kapp->exit(0);
+  //if ((res==true) && (fastact==true)) kapp->exit(0);
   if (res==false)
   {
    KgpgInterface *decryptFileProcess=new KgpgInterface();
   int decresult=0;
   decresult=decryptFileProcess->KgpgDecryptFile(decpassuid,decpasssrc,decpassdest,1);
   if (decresult==0) {if (fastact==true) kapp->exit(0); else return;}
-  connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdec3(bool)));
+  connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
+  connect(decryptFileProcess,SIGNAL(badpassphrase(bool)),this,SLOT(processdecover(bool)));
  }
 }
 
