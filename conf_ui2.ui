@@ -12,9 +12,6 @@
             <height>439</height>
         </rect>
     </property>
-    <property name="caption">
-        <string>UIConf</string>
-    </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
@@ -233,7 +230,7 @@
                                                 </item>
                                                 <item>
                                                     <property name="text">
-                                                        <string>Enable With All Files</string>
+                                                        <string>Enable with All Files</string>
                                                     </property>
                                                 </item>
                                                 <property name="name">
@@ -256,12 +253,12 @@
                                                 </item>
                                                 <item>
                                                     <property name="text">
-                                                        <string>Enable With All Files</string>
+                                                        <string>Enable with All Files</string>
                                                     </property>
                                                 </item>
                                                 <item>
                                                     <property name="text">
-                                                        <string>Enable With Encrypted Files</string>
+                                                        <string>Enable with Encrypted Files</string>
                                                     </property>
                                                 </item>
                                                 <property name="name">
