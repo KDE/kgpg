@@ -60,12 +60,13 @@ KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f,KShortcut goHome,bo
         readOptions();
 	goDefaultKey=goHome;
         // call inits to invoke all other construction parts
-	setAutoSaveSettings("Editor",true);
+	
         initActions();
         initView();
 
 	slotSetFont(KGpgSettings::font());
         setupGUI(( ToolBar | Keys | StatusBar | Save | Create ), "kgpg.rc");
+	setAutoSaveSettings("Editor",true);
 
 }
 
