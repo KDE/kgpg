@@ -218,6 +218,7 @@ public slots:
 	void slotSetDefaultKey(QString newID);
 
 private slots:
+	void quitApp();
 	void  slotOpenEditor();
 	void keyFilter( const QString &filterStr);
 	void changeMessage(QString,int, bool keep=false);

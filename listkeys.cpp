@@ -512,7 +512,6 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     keysList2->photoKeysList=QString::null;
     keysList2->groupNb=0;
 
-    setAutoSaveSettings();
     readOptions();
 
     if (showTipOfDay)
@@ -538,7 +537,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     (void) new KAction(i18n("&Create New Contact in Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
     (void) new KAction(i18n("&Go to Default Key"), "gohome",QKeySequence(CTRL+Qt::Key_Home) ,this, SLOT(slotGotoDefaultKey()),actionCollection(),"go_default_key");
 
-    KStdAction::quit(this, SLOT(annule()), actionCollection());
+    KStdAction::quit(this, SLOT(quitApp()), actionCollection());
     KStdAction::find(this, SLOT(findKey()), actionCollection());
     KStdAction::findNext(this, SLOT(findNextKey()), actionCollection());
     (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
@@ -682,6 +681,8 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     
     if (!KGpgSettings::showToolbar())
         toolBar()->hide();
+	
+	setAutoSaveSettings();
 }
 
 
@@ -1318,6 +1319,11 @@ void listKeys::annule()
     close();
 }
 
+void listKeys::quitApp()
+{
+    /////////  close window
+    exit(1);
+}
 
 void listKeys::readOptions()
 {
