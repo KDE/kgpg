@@ -206,11 +206,14 @@ void KgpgApp::slotFilePreDec()
         if (!newname.isEmpty()) {
                 QFile fgpg(newname);
                 if (fgpg.exists()) {
-                        KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",KURL(newname));
-                        if (over->exec()==QDialog::Accepted) {
-                                newname=KURL(newname).directory(0,0)+over->getfname();
-                        } else
-                                return;
+			KIO::RenameDlg *over=new KIO::RenameDlg(0,i18n("File Already Exists"),QString::null,newname,KIO::M_OVERWRITE);
+		    	if (over->exec()==QDialog::Rejected)
+	    		{
+                	delete over;
+                	return;
+            		}
+	    		newname=over->newDestURL().path();
+	    		delete over;
                 }
                 KgpgLibrary *lib=new KgpgLibrary();
                 lib->slotFileDec(url,KURL(newname), customDecrypt);

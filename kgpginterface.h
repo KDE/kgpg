@@ -36,9 +36,9 @@
 #include <kio/netaccess.h>
 #include <kdebug.h>
 #include <ktempfile.h>
+#include <kio/renamedlg.h>
 
 #include "detailedconsole.h"
-#include "kgpgfast.h"
 
 class QLabel;
 

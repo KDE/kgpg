@@ -42,6 +42,7 @@
 #include <krun.h>
 #include <kpassivepopup.h>
 #include <kurlrequesterdlg.h>
+#include <kio/renamedlg.h>
 
 #include "kgpgeditor.h"
 #include "kgpgoptions.h"

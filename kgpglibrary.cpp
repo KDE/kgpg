@@ -80,11 +80,14 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
         QFile fgpg(dest.path());
 
         if (fgpg.exists()) {
-                KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",dest);
-                if (over->exec()==QDialog::Accepted)
-                        dest.setFileName(over->getfname());
-                else
-                        return;
+			KIO::RenameDlg *over=new KIO::RenameDlg(0,i18n("File Already Exists"),QString::null,dest.path(),KIO::M_OVERWRITE);
+		    	if (over->exec()==QDialog::Rejected)
+	    		{
+                	delete over;
+                	return;
+            		}
+	    		dest=over->newDestURL();
+	    		delete over;
         }
 
         KgpgInterface *cryptFileProcess=new KgpgInterface();

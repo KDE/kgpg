@@ -162,14 +162,14 @@ KURL encryptedFile(droppedUrls.first().path()+extension);
 QFile encryptedFolder(droppedUrls.first().path()+extension);
 if (encryptedFolder.exists()) {
 			dialogue->hide();
-                        KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",encryptedFile);
-                        if (over->exec()==QDialog::Accepted)
-                                encryptedFile=KURL(encryptedFile.directory(0,0)+over->getfname());
-                        else {
-                                delete over;
-                                return;
-                        }
-                        delete over;
+			KIO::RenameDlg *over=new KIO::RenameDlg(0,i18n("File Already Exists"),QString::null,encryptedFile.path(),KIO::M_OVERWRITE);
+		    	if (over->exec()==QDialog::Rejected)
+	    		{
+                	delete over;
+                	return;
+            		}
+	    		encryptedFile=over->newDestURL();
+	    		delete over;
 			dialogue->show();   /////// strange, but if dialogue is hidden, the passive popup is not displayed...
                 }
 
@@ -335,14 +335,14 @@ void  MyView::decryptDroppedFile()
                 swapname=KURL(droppedUrl.directory(0,0)+oldname);
                 QFile fgpg(swapname.path());
                 if (fgpg.exists()) {
-                        KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",swapname);
-                        if (over->exec()==QDialog::Accepted)
-                                swapname=KURL(swapname.directory(0,0)+over->getfname());
-                        else {
-                                delete over;
-                                return;
-                        }
-                        delete over;
+	    KIO::RenameDlg *over=new KIO::RenameDlg(0,i18n("File Already Exists"),QString::null,swapname.path(),KIO::M_OVERWRITE);
+	    if (over->exec()==QDialog::Rejected)
+	    {
+                delete over;
+                return;
+            }
+	    swapname=over->newDestURL();
+	    delete over;
                 }
         }
         KgpgLibrary *lib=new KgpgLibrary();
