@@ -336,7 +336,7 @@ chdate->show();
 void KgpgKeyInfo::slotChangeDate()
 {
 if (kb->isChecked()) prop->tLExpiration->setText(i18n("Unlimited"));
-else prop->tLExpiration->setText(KGlobal::locale()->formatDate(kdt->getDate()));
+else prop->tLExpiration->setText(KGlobal::locale()->formatDate(kdt->date()));
 
 KgpgInterface *KeyExpirationProcess=new KgpgInterface();
 		if (prop->tLExpiration->text()==i18n("Unlimited"))
