@@ -215,7 +215,7 @@ private slots:
 	void slotDelUid();
 	void slotAddUid();
 	void slotAddUidEnable(const QString & name);
-	void uidError(QString errortxt);
+	void slotGpgError(QString errortxt);
 	void slotUpdatePhoto();
 	void slotDeletePhoto();
 	void slotAddPhoto();

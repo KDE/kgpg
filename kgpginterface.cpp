@@ -1543,6 +1543,8 @@ KProcIO *conprocess=new KProcIO();
 
 void KgpgInterface::KgpgDeletePhoto(QString keyID,QString uid)
 {
+	delSuccess=true;
+	output=QString::null;
         KProcIO *conprocess=new KProcIO();
         *conprocess<< "gpg"<<"--no-tty"<<"--status-fd=2"<<"--command-fd=0";
         *conprocess<<"--edit-key"<<keyID<<"uid"<<uid<<"deluid";
@@ -1553,7 +1555,8 @@ void KgpgInterface::KgpgDeletePhoto(QString keyID,QString uid)
 
 void KgpgInterface::delphotoover(KProcess *)
 {
-emit delPhotoFinished();
+if (delSuccess) emit delPhotoFinished();
+else emit delPhotoError(output);
 }
 
 void KgpgInterface::delphotoprocess(KProcIO *p)
@@ -1603,7 +1606,7 @@ void KgpgInterface::delphotoprocess(KProcIO *p)
 		if ((required.find("GET_")!=-1)) /////// gpg asks for something unusal, turn to konsole mode
                 {
                         kdDebug()<<"unknown request"<<endl;
-                        expSuccess=1;  /////  switching to console mode
+                        delSuccess=false;
                         p->writeStdin("quit");
                         p->closeWhenDone();
 
@@ -1616,6 +1619,8 @@ void KgpgInterface::KgpgAddPhoto(QString keyID,QString imagePath)
 {
 kdDebug()<<"Adding photo :"<<imagePath<<" to key:"<<keyID<<endl;
 photoUrl=imagePath;
+output=QString::null;
+addSuccess=true;
         KProcIO *conprocess=new KProcIO();
         *conprocess<< "gpg"<<"--no-tty"<<"--status-fd=2"<<"--command-fd=0";
         *conprocess<<"--edit-key"<<keyID<<"addphoto";
@@ -1626,14 +1631,15 @@ photoUrl=imagePath;
 
 void KgpgInterface::addphotoover(KProcess *)
 {
-emit addPhotoFinished();
+if (addSuccess) emit addPhotoFinished();
+else emit addPhotoError(output);
 }
 
 void KgpgInterface::addphotoprocess(KProcIO *p)
 {
         QString required=QString::null;
         while (p->readln(required,true)!=-1) {
-//                output+=required+"\n";
+                output+=required+"\n";
                 if (required.find("USERID_HINT",0,false)!=-1) {
                         required=required.section("HINT",1,1);
                         required=required.stripWhiteSpace();
@@ -1678,6 +1684,7 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
                 {
                         kdDebug()<<"unknown request"<<endl;
                         p->writeStdin("quit");
+			addSuccess=false;
                         p->closeWhenDone();
 
                 }

@@ -674,17 +674,12 @@ addUidWidget->enableButtonOK(false);
 KgpgInterface *addUidProcess=new KgpgInterface();
                         addUidProcess->KgpgAddUid(keysList2->currentItem()->text(6),keyUid->kLineEdit1->text(),keyUid->kLineEdit2->text(),keyUid->kLineEdit3->text());
                         connect(addUidProcess,SIGNAL(addUidFinished()),keysList2,SLOT(refreshselfkey()));
-			connect(addUidProcess,SIGNAL(addUidError(QString)),this,SLOT(uidError(QString)));
+			connect(addUidProcess,SIGNAL(addUidError(QString)),this,SLOT(slotGpgError(QString)));
 }
 
 void listKeys::slotAddUidEnable(const QString & name)
 {
 addUidWidget->enableButtonOK(name.length()>4);
-}
-
-void listKeys::uidError(QString errortxt)
-{
-KMessageBox::detailedSorry(this,i18n("Something unexpected happened during the key pair creation.\nPlease check details for full log output."),errortxt);
 }
 
 
@@ -702,7 +697,14 @@ if (imagePath.isEmpty()) return;
 KgpgInterface *addPhotoProcess=new KgpgInterface();
                         addPhotoProcess->KgpgAddPhoto(keysList2->currentItem()->text(6),imagePath);
                         connect(addPhotoProcess,SIGNAL(addPhotoFinished()),this,SLOT(slotUpdatePhoto()));
+			connect(addPhotoProcess,SIGNAL(addPhotoError(QString)),this,SLOT(slotGpgError(QString)));
 }
+
+void listKeys::slotGpgError(QString errortxt)
+{
+KMessageBox::detailedSorry(this,i18n("Something unexpected happened during the requested operation.\nPlease check details for full log output."),errortxt);
+}
+
 
 void listKeys::slotDeletePhoto()
 {
@@ -712,6 +714,7 @@ return;
 KgpgInterface *delPhotoProcess=new KgpgInterface();
                         delPhotoProcess->KgpgDeletePhoto(keysList2->currentItem()->parent()->text(6),keysList2->currentItem()->text(6));
                         connect(delPhotoProcess,SIGNAL(delPhotoFinished()),this,SLOT(slotUpdatePhoto()));
+			connect(delPhotoProcess,SIGNAL(delPhotoError(QString)),this,SLOT(slotGpgError(QString)));
 }
 
 void listKeys::slotUpdatePhoto()

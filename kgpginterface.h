@@ -333,7 +333,10 @@ signals:
                 */
         void signfinished();
 	void delPhotoFinished();
+	void delPhotoError(QString);
+	
 	void addPhotoFinished();
+	void addPhotoError(QString);
 	
 	void addUidFinished();
 	void addUidError(QString);
@@ -353,7 +356,7 @@ private:
         */
         QString message,tempKeyFile,userIDs,txtprocess,output,keyString;
         QCString passphrase;
-        bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc,revokeSuccess,addSuccess;
+        bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc,revokeSuccess,addSuccess,delSuccess;
         int signSuccess,expSuccess,trustValue,konsChecked;
         int step,signb,sigsearch,expirationDelay;
         QString konsSignKey, konsKeyID,errMessage;
