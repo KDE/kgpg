@@ -2393,7 +2393,7 @@ void listKeys::confirmdeletekey()
                 }
                 if (keysToDelete.isEmpty())
                         return;
-		int result=KMessageBox::warningContinueCancelList(this,i18n("<qt><b>Delete the following public key?</b></qt>","<qt><b>Delete the following public keys?</b></qt>",keysToDelete.count()),keysToDelete,i18n("Warning"),KStdGuiItem::del());
+		int result=KMessageBox::warningContinueCancelList(this,i18n("<qt><b>Delete the following public key?</b></qt>","<qt><b>Delete the following %n public keys?</b></qt>",keysToDelete.count()),keysToDelete,i18n("Warning"),KStdGuiItem::del());
                 if (result!=KMessageBox::Continue)
                         return;
                 else
