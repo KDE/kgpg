@@ -218,8 +218,6 @@ private slots:
         void doPrint(QString txt);
         void checkList();
         void signLoop();
-        void configuretoolbars();
-        void saveToolbarConfig();
         void slotManpage();
         void slotTip();
         void showKeyServer();

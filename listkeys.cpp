@@ -64,7 +64,6 @@
 #include <kapplication.h>
 #include <kabc/stdaddressbook.h>
 #include <kabc/addresseedialog.h>
-#include <kedittoolbar.h>
 #include <kdesktopfile.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>
@@ -254,7 +253,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
 
         FILE *fp,*fp2;
         QString tst,tst2;
-	char line[300];
+        char line[300];
 
         bool selectedok=false;
 
@@ -585,11 +584,6 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         KStdAction::preferences(this, SLOT(showOptions()), actionCollection(),"kgpg_config");
         (void) new KAction(i18n("Tip of the &Day"), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
         (void) new KAction(i18n("View GnuPG Manual"), "contents", 0,this, SLOT(slotManpage()),actionCollection(),"gpg_man");
-        KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()),
-actionCollection());
-
-        KStdAction::configureToolbars(this, SLOT(configuretoolbars() ), actionCollection(), "configuretoolbars");
-        setStandardToolBarMenuEnabled(true);
 
         (void) new KToggleAction(i18n("&Show only Secret Keys"), "kgpg_show", 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
         keysList2->displayOnlySecret=false;
@@ -690,19 +684,18 @@ actionCollection());
 
 
         ///////////////    get all keys data
-        createGUI("listkeys.rc");
+        setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "listkeys.rc");
         toolBar()->insertLineSeparator();
         QLabel *searchLabel= new QLabel(i18n("Search:"),toolBar(),"kde toolbar widget");
 
 	int buttonClear;
 	buttonClear=toolBar()->insertButton(QApplication::reverseLayout() ? "clear_left"
                                             : "locationbar_erase",0,true,i18n("Clear Search"));
-        toolBar()->insertWidget( 1, searchLabel->sizeHint().width(), searchLabel);
         searchWidget=toolBar()->insertLined(QString::null,0, SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)),true,i18n("Filter Search"),10);
 
-	connect(toolBar(), SIGNAL(pressed(int)), this, SLOT(clearSearch(int)));
+        connect(toolBar(), SIGNAL(pressed(int)), this, SLOT(clearSearch(int)));
 
-	(void)new KAction(i18n("Filter Search"), Qt::Key_F6, toolBar()->getLined(toolBar()->idAt(searchWidget)), SLOT(setFocus()),actionCollection(), "search_focus");
+        (void)new KAction(i18n("Filter Search"), Qt::Key_F6, toolBar()->getLined(toolBar()->idAt(searchWidget)), SLOT(setFocus()),actionCollection(), "search_focus");
 
         sTrust->setChecked(KGpgSettings::showTrust());
         sSize->setChecked(KGpgSettings::showSize());
@@ -725,9 +718,6 @@ actionCollection());
         connect(s_kgpgEditor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
         connect(this,SIGNAL(fontChanged(QFont)),s_kgpgEditor,SLOT(slotSetFont(QFont)));
         connect(s_kgpgEditor->view->editor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
-
-
-        setAutoSaveSettings();
 }
 
 
@@ -1094,23 +1084,6 @@ void listKeys::slotSetPhotoSize(int size)
                 }
                 newdef = newdef->nextSibling();
         }
-}
-
-void listKeys::configuretoolbars()
-{
-        saveMainWindowSettings(KGlobal::config(), "MainWindow");
-        KEditToolbar dlg(actionCollection(), "listkeys.rc");
-        connect(&dlg, SIGNAL(newToolbarConfig()), SLOT(saveToolbarConfig()));
-        dlg.exec();
-}
-
-/**
- * Save new toolbarconfig.
- */
-void listKeys::saveToolbarConfig()
-{
-        createGUI("listkeys.rc");
-        applyMainWindowSettings(KGlobal::config(), "MainWindow");
 }
 
 void listKeys::findKey()
