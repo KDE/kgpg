@@ -64,7 +64,7 @@ class UpdateViewItem : public KListViewItem
 public:
         UpdateViewItem(QListView *parent, QString name,QString email, QString tr, QString val, QString size, QString creat, QString id,bool isdefault,bool isexpired);
         virtual void paintCell(QPainter *p, const QColorGroup &cg,int col, int width, int align);
-        virtual QString key(int c,bool ) const;
+        virtual int compare(  QListViewItem * item, int c, bool ascending ) const;
         bool def,exp;
 };
 
@@ -97,22 +97,63 @@ void UpdateViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, in
         KListViewItem::paintCell(p,_cg, column, width, alignment);
 }
 
-QString UpdateViewItem :: key(int c,bool ) const
+#include <iostream>
+using namespace std;
+int UpdateViewItem :: compare(  QListViewItem * item, int c, bool ascending ) const
 {
+        int rc = 0;
         if ((c==3) || (c==5)) {
                 QDate d = KGlobal::locale()->readDate(text(c));
+                QDate itemDate = KGlobal::locale()->readDate(item->text(c));
+                bool itemDateValid = itemDate.isValid();
                 if (d.isValid())
-                        return d.toString("yyyyMMdd");
-                else
-                        return "50000000";  // unlimited expiration dates are handeled as year 5000, so that they are correctly sorted
+                {
+                        if (itemDateValid)
+                        {
+                                if (d < itemDate)
+                                       rc = -1;
+                                else if (d > itemDate)
+                                       rc = 1;
+                        }
+                        else
+                                rc = -1;
+                }
+                else if (itemDateValid)
+                        rc = 1;
         }
-        if (c==2)   /* sorting by pixmap */
+        else if (c==2)   /* sorting by pixmap */
         {
-                if (!pixmap(c))
-                        return 0;
-                return QString::number(pixmap(c)->serialNumber());
+                const QPixmap* pix = pixmap(c);
+                const QPixmap* itemPix = item->pixmap(c);
+                int serial,itemSerial;
+		if (!pix) serial=0;
+		else serial=pix->serialNumber();
+		if (!itemPix) itemSerial=0;
+		else itemSerial=itemPix->serialNumber();
+		if (serial<itemSerial) rc=-1;
+		else if (serial>itemSerial) rc=1;
         }
-        return text(c).lower();
+        else
+        {
+                rc = item->text(c).lower().compare(text(c).lower());
+        }
+
+        // if we aren't comparing by name and we have an equal value,
+        // in the column that we are sorting in, do a secondary sort on the name
+        if (c > 1 && rc == 0)
+        {
+                // trick QListView into also sorting ascending on first column
+                if (ascending)
+                {
+                        rc = text(0).lower().compare(item->text(0).lower());
+                }
+                else
+                {
+                        rc = item->text(0).lower().compare(text(0).lower());
+                }
+        }
+
+        return rc;
 }
 
 
@@ -603,7 +644,6 @@ void listKeys::findFirstKey()
                 return;
         bool foundItem=true;
         QListViewItem *item=keysList2->firstChild();
-        int *ix;
         QString searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
         //kdDebug()<<"String:"<<searchText<<"\n";
         //kdDebug()<<"Search:"<<searchString<<"\n";
@@ -639,7 +679,6 @@ void listKeys::findNextKey()
         if (searchString.isEmpty())
                 return;
         bool foundItem=true;
-        int *ix;
         QListViewItem *item=keysList2->currentItem();
         while(item->depth() > 0)
                 item = item->parent();
