@@ -251,7 +251,7 @@ void KgpgInterface::KgpgEncryptText(QString text,QStringList userIDs, QStringLis
        		*proc<<"--recipient"<< *it;
     		}
 	}
-	*proc<<"-c";
+	else *proc<<"-c";
 
         /////////  when process ends, update dialog infos
 
@@ -301,7 +301,7 @@ void KgpgInterface::txtreadencprocess(KProcIO *p)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////     Text decryption
 
-void KgpgInterface::KgpgDecryptText(QString text,QStringList Options)   /// doesn't work, gives a mysterious bad mdc error...
+void KgpgInterface::KgpgDecryptText(QString text,QStringList Options)
 {
   message=QString::null;
   userIDs=QString::null;
