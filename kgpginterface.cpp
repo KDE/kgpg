@@ -755,7 +755,7 @@ void KgpgInterface::verifyfin(KProcess *)
       keyID=message.section(' ',0,0);
       message.remove(0,keyID.length());
       keyMail=message;
-      KMessageBox::information(0,i18n("Good signature from %1\nKey id: %2").arg(keyMail).arg(keyID),file.filename());
+      KMessageBox::information(0,i18n("<qt>Good signature from :<br><b>%1</b><br>Key ID: %2</qt>").arg(keyMail.replace(QRegExp("<"),"&lt;")).arg(keyID),file.filename());
     }
   else if (message.find("UNEXPECTED")!=-1)
     KMessageBox::sorry(0,i18n("No signature found."),file.filename());
@@ -767,7 +767,8 @@ void KgpgInterface::verifyfin(KProcess *)
       keyID=message.section(' ',0,0);
       message.remove(0,keyID.length());
       keyMail=message;
-      KMessageBox::sorry(0,i18n("BAD signature from %1\nKey id: %2\n\nThe file is corrupted!").arg(keyMail).arg(keyID),file.filename());
+      KMessageBox::sorry(0,i18n("<qt><b>BAD signature</b> from:<br> %1<br>Key id: %2<br><br>"
+	  "<b>The file is corrupted!</b></qt>").arg(keyMail.replace(QRegExp("<"),"&lt;")).arg(keyID),file.filename());
     }
   else
     KMessageBox::sorry(0,message);

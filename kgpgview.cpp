@@ -242,25 +242,40 @@ void KgpgView::clearSign()
         pipe(process);
         cmdstatus = fdopen(process[1], "w");
 		QString line="echo "+KShellProcess::quote(mess.local8Bit());
-		line+=" | gpg --no-tty --logger-fd="+QString::number(process[1])+" --no-secmem-warning --verify";
+		line+=" | gpg --no-tty  --no-secmem-warning --status-fd="+QString::number(process[1])+" --verify";
 		fp=popen(line,"r");
         pclose(fp);
         fclose(cmdstatus);
 
         int Len;
         char Buff[500]="\0";
-		QString verifyResult;
+		QString verifyResult,lineRead;
 
         //////////////////////////   read gpg output
         while (read(process[0], &Len, sizeof(Len)) > 0)
         {
             read(process[0],Buff, Len);
+			lineRead=Buff;
+if (lineRead.find("goodsig",0,FALSE)!=-1) lineRead.remove(0,lineRead.find("goodsig",0,FALSE)+7);
+if (lineRead.find("badsig",0,FALSE)!=-1) lineRead.remove(0,lineRead.find("badsig",0,FALSE)+6);
             verifyResult+=Buff;
         }
-
-        if (verifyResult.find("Good signature",0,FALSE)!=-1) KMessageBox::information(this,verifyResult);
-        else KMessageBox::sorry(this,verifyResult);
-
+if ((verifyResult.find("goodsig",0,FALSE)!=-1) && (verifyResult.find("badsig",0,FALSE)==-1))
+		{
+		lineRead=lineRead.left(lineRead.find("\n",0,FALSE));
+		lineRead=lineRead.stripWhiteSpace();
+		QString resultKey=lineRead.section(" ",1,-1);
+		QString resultID=lineRead.section(" ",0,0);
+		KMessageBox::information(this,i18n("<qt>Good signature from :<br><b>%1</b><br>Key ID: %2</qt>").arg(resultKey.replace(QRegExp("<"),"&lt;")).arg(resultID));
+		}
+else
+{
+lineRead=lineRead.left(lineRead.find("\n",0,FALSE));
+		lineRead=lineRead.stripWhiteSpace();
+		QString resultKey=lineRead.section(" ",1,-1);
+		QString resultID=lineRead.section(" ",0,0);
+		KMessageBox::sorry(this,i18n("<qt><b>BAD signature</b> from :<br>%1<br>Key ID: %2<br><br><b>Text is corrupted !</b></qt>").arg(resultKey.replace(QRegExp("<"),"&lt;")).arg(resultID));
+		}
     }
     else
     {
