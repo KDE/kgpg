@@ -219,7 +219,6 @@ void keyServer::handleQuit()
 
 void keyServer::abortSearch()
 {
-
         if (dialogServer) {
                 delete dialogServer;
                 dialogServer=0L;
@@ -360,13 +359,12 @@ void keyServer::slotExport(QString keyId)
         importpop->adjustSize();
         importpop->show();
         connect(importpop,SIGNAL(destroyed ()),this,SLOT(abortExport()));
-	connect(Buttonabort,SIGNAL(clicked ()),this,SLOT(abortExport()));
+	connect(Buttonabort,SIGNAL(clicked ()),importpop,SLOT(close()));
 }
 
 void keyServer::abortExport()
 {
 	QApplication::restoreOverrideCursor();
-        importpop->close();
         if (exportproc->isRunning())
 	{
 	    disconnect(exportproc,0,0,0);
@@ -394,7 +392,7 @@ void keyServer::slotImport()
         readmessage=QString::null;
         importproc=new KProcIO();
         QString keyserv=page->kCBimportks->currentText();
-
+	
         *importproc<<"gpg";
         if (page->cBproxyI->isChecked()) {
                 importproc->setEnvironment("http_proxy",page->kLEproxyI->text());
@@ -413,10 +411,10 @@ void keyServer::slotImport()
                 *importproc<<QFile::encodeName(fkeyNames);
         }
 
-
         QObject::connect(importproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotimportresult(KProcess *)));
         QObject::connect(importproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotimportread(KProcIO *)));
         importproc->start(KProcess::NotifyOnExit,true);
+	importproc->closeWhenDone();
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
         importpop = new QDialog( this,0,true,Qt::WDestructiveClose);
         QVBoxLayout *vbox=new QVBoxLayout(importpop,3);
@@ -428,14 +426,13 @@ void keyServer::slotImport()
         importpop->setMinimumWidth(250);
         importpop->adjustSize();
         importpop->show();
-        connect(Buttonabort,SIGNAL(clicked()),this,SLOT(abortImport()));
+	connect(Buttonabort,SIGNAL(clicked()),importpop,SLOT(close()));
 	connect(importpop,SIGNAL(destroyed ()),this,SLOT(abortImport()));
 }
 
 void keyServer::abortImport()
 {
 	QApplication::restoreOverrideCursor();
-        importpop->close();
 	if (importproc->isRunning())
 	{
 	    disconnect(importproc,0,0,0);
