@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>newKey</class>
 <widget class="QWidget">
     <property name="name">
@@ -9,75 +9,20 @@
             <x>0</x>
             <y>0</y>
             <width>625</width>
-            <height>316</height>
+            <height>328</height>
         </rect>
     </property>
     <property name="caption">
         <string>New Key Pair Created</string>
     </property>
-    <grid>
+    <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
         <property name="margin">
             <number>0</number>
         </property>
-        <widget class="QGroupBox" row="1" column="0">
-            <property name="name">
-                <cstring>groupBox1</cstring>
-            </property>
-            <property name="title">
-                <string>Revocation Certificate</string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QLabel" row="0" column="0">
-                    <property name="name">
-                        <cstring>textLabel1</cstring>
-                    </property>
-                    <property name="text">
-                        <string>It is recommended to save or print a revocation certificate in case your key is compromised.</string>
-                    </property>
-                </widget>
-                <widget class="QCheckBox" row="2" column="0">
-                    <property name="name">
-                        <cstring>CBprint</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Print</string>
-                    </property>
-                </widget>
-                <widget class="QLayoutWidget" row="1" column="0">
-                    <property name="name">
-                        <cstring>layout1</cstring>
-                    </property>
-                    <hbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QCheckBox">
-                            <property name="name">
-                                <cstring>CBsave</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Save as:</string>
-                            </property>
-                        </widget>
-                        <widget class="KURLRequester">
-                            <property name="name">
-                                <cstring>kURLRequester1</cstring>
-                            </property>
-                            <property name="enabled">
-                                <bool>false</bool>
-                            </property>
-                        </widget>
-                    </hbox>
-                </widget>
-            </grid>
-        </widget>
-        <widget class="QGroupBox" row="0" column="0">
+        <widget class="QGroupBox">
             <property name="name">
                 <cstring>groupBox2</cstring>
             </property>
@@ -96,7 +41,7 @@
                         <string>You have successfully created the following key:</string>
                     </property>
                 </widget>
-                <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
+                <widget class="QCheckBox" row="6" column="0" rowspan="1" colspan="2">
                     <property name="name">
                         <cstring>CBdefault</cstring>
                     </property>
@@ -109,7 +54,7 @@
 			&lt;/qt&gt;</string>
                     </property>
                 </widget>
-                <widget class="KLineEdit" row="3" column="0" rowspan="1" colspan="2">
+                <widget class="KLineEdit" row="5" column="0" rowspan="1" colspan="2">
                     <property name="name">
                         <cstring>LEfinger</cstring>
                     </property>
@@ -120,51 +65,41 @@
                         <bool>true</bool>
                     </property>
                 </widget>
-                <widget class="QLayoutWidget" row="1" column="0">
+                <widget class="QLabel" row="4" column="0" rowspan="1" colspan="2">
                     <property name="name">
-                        <cstring>layout19</cstring>
+                        <cstring>textLabel6</cstring>
                     </property>
-                    <property name="sizePolicy">
-                        <sizepolicy>
-                            <hsizetype>5</hsizetype>
-                            <vsizetype>5</vsizetype>
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
+                    <property name="text">
+                        <string>Fingerprint:</string>
                     </property>
-                    <vbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel3</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Name:</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel4</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Email:</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>textLabel5</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Key ID:</string>
-                            </property>
-                        </widget>
-                    </vbox>
                 </widget>
-                <widget class="QLayoutWidget" row="1" column="1">
+                <widget class="QLabel" row="1" column="0">
                     <property name="name">
-                        <cstring>layout20</cstring>
+                        <cstring>textLabel3</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Name:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="2" column="0">
+                    <property name="name">
+                        <cstring>textLabel4</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Email:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="3" column="0">
+                    <property name="name">
+                        <cstring>textLabel5</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Key ID:</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="1">
+                    <property name="name">
+                        <cstring>TLname</cstring>
                     </property>
                     <property name="sizePolicy">
                         <sizepolicy>
@@ -174,58 +109,75 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <vbox>
-                        <property name="name">
-                            <cstring>unnamed</cstring>
-                        </property>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>TLname</cstring>
-                            </property>
-                            <property name="sizePolicy">
-                                <sizepolicy>
-                                    <hsizetype>7</hsizetype>
-                                    <vsizetype>5</vsizetype>
-                                    <horstretch>0</horstretch>
-                                    <verstretch>0</verstretch>
-                                </sizepolicy>
-                            </property>
-                            <property name="text">
-                                <string>textLabel7</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>TLemail</cstring>
-                            </property>
-                            <property name="text">
-                                <string>textLabel8</string>
-                            </property>
-                        </widget>
-                        <widget class="QLabel">
-                            <property name="name">
-                                <cstring>TLid</cstring>
-                            </property>
-                            <property name="text">
-                                <string>textLabel10</string>
-                            </property>
-                        </widget>
-                    </vbox>
+                    <property name="text">
+                        <string>textLabel7</string>
+                    </property>
                 </widget>
-                <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+                <widget class="QLabel" row="2" column="1">
                     <property name="name">
-                        <cstring>textLabel6</cstring>
+                        <cstring>TLemail</cstring>
                     </property>
                     <property name="text">
-                        <string>Fingerprint:</string>
+                        <string>textLabel8</string>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="3" column="1">
+                    <property name="name">
+                        <cstring>TLid</cstring>
+                    </property>
+                    <property name="text">
+                        <string>textLabel10</string>
                     </property>
                 </widget>
             </grid>
         </widget>
-    </grid>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>groupBox1</cstring>
+            </property>
+            <property name="title">
+                <string>Revocation Certificate</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>It is recommended to save or print a revocation certificate in case your key is compromised.</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>CBprint</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Print</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="1" column="0">
+                    <property name="name">
+                        <cstring>CBsave</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Save as:</string>
+                    </property>
+                </widget>
+                <widget class="KURLRequester" row="1" column="1">
+                    <property name="name">
+                        <cstring>kURLRequester1</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+    </vbox>
 </widget>
-<customwidgets>
-</customwidgets>
 <connections>
     <connection>
         <sender>CBsave</sender>
@@ -241,7 +193,4 @@
     <slot>CBsave_toggled( bool isOn )</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kpushbutton.h</includehint>
-</includehints>
 </UI>
