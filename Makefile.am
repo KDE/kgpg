@@ -7,7 +7,15 @@ INCLUDES = $(all_includes)
 kgpg_SOURCES = kgpgoptions.cpp listkeys.cpp popuppublic.cpp kgpgview.cpp kgpg.cpp main.cpp popupname.cpp kgpgfast.cpp keygener.cpp kgpgoption.ui kgpginterface.cpp keyservers.cpp keyserver.ui searchres.ui popupimport.cpp kgpgeditor.cpp detailedconsole.cpp kgpglibrary.cpp
 kgpg_LDADD   =  $(LIB_KIO)
 
-KDE_ICON = kgpg_gen kgpg kgpg2 kgpg_edit kgpg_sign kgpg_info kgpg_import kgpg_export kgpg_key2 kgpg_key1 kgpg_manage kgpg_photo kgpg_identity
+KDE_ICON =kgpg
+
+kgpg_ICON= kgpg_gen kgpg kgpg2 kgpg_edit kgpg_sign kgpg_info kgpg_import kgpg_export kgpg_key2 kgpg_key1 kgpg_manage kgpg_photo kgpg_identity
+
+kgpgdir=$(kde_datadir)/kgpg/icons
+
+
+pics_DATA=kgpg.png
+picsdir=$(kde_datadir)/kgpg/pics
 
 servicedir = $(kde_datadir)/konqueror/servicemenus
 service_DATA = encryptfile.desktop
@@ -18,12 +26,9 @@ autostart_DATA = kgpg.desktop
 applnkdir = $(kde_appsdir)/Applications
 applnk_DATA = kgpg.desktop
 
-picsdir = $(kde_datadir)/kgpg/pics
-pics_DATA = kgpg.png
-
 METASOURCES = AUTO
 
-# the library search path. 
+# the library search path.
 kgpg_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 appsdir = $(kde_datadir)/kgpg
