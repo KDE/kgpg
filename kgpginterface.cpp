@@ -761,7 +761,7 @@ void KgpgInterface::signover(KProcess *)
 void KgpgInterface::openSignConsole()
 {
         KProcess conprocess;
-	KConfig *config = new KConfig("kdeglobals", true);
+	KConfig *config = KGlobal::config();
 	config->setGroup("General");
 	conprocess<< config->readEntry("TerminalApplication","konsole");
         conprocess<<"-e"<<"gpg";

@@ -66,10 +66,8 @@ public:
         bool	 showeclip,showdclip,showomanager,showoeditor,showserver,autostart;
         KURL droppedUrl;
         KURL::List droppedUrls;
-        KConfig *ksConfig;
         KTempFile *kgpgfoldertmp;
 private:
-        bool ascii,untrusted,hideid,pgpcomp,fastact,encrypttodefault,encryptfileto,pgpExtension;
         QPopupMenu *droppopup,*udroppopup;
         KAboutData   *_aboutData;
         QStringList customDecrypt;

@@ -42,6 +42,8 @@
 #include <kconfig.h>
 #include <klineedit.h>
 
+#include "kgpgsettings.h"
+
 keyServer::keyServer(QWidget *parent, const char *name,bool modal):KDialogBase( Swallow, i18n("Key Server"), Close, Close, parent, name,modal)
 {
         config=kapp->config();
@@ -471,21 +473,21 @@ void keyServer::slotimportread(KProcIO *p)
 
 void keyServer::syncCombobox()
 {
-QString servers;
+	QString servers;
         config->setGroup("GPG Settings");
         QString confPath=config->readPathEntry("gpg_config_path");
 
-        QString optionsServer=KgpgInterface::getGpgSetting("keyserver",confPath);
-	        if (optionsServer.isEmpty())
+        QString optionsServer=KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
+        if (optionsServer.isEmpty())
 		optionsServer="hkp://wwwkeys.pgp.net";
-		page->kCBexportks->insertItem(optionsServer);
-                page->kCBimportks->insertItem(optionsServer);
-	servers=config->readEntry("key_server2","hkp://wwwkeys.eu.pgp.net");
+	page->kCBexportks->insertItem(optionsServer);
+        page->kCBimportks->insertItem(optionsServer);
+	servers= KGpgSettings::keyServer2();
         if (!servers.isEmpty()) {
                 page->kCBexportks->insertItem(servers);
                 page->kCBimportks->insertItem(servers);
         }
-	servers=config->readEntry("key_server3","hkp://wwwkeys.us.pgp.net");
+	servers= KGpgSettings::keyServer3();
         if (!servers.isEmpty()) {
                 page->kCBexportks->insertItem(servers);
                 page->kCBimportks->insertItem(servers);

@@ -105,7 +105,6 @@ public:
 
         //        QTextEdit  *editor;
 
-        bool pubuntrusted,pubascii,pubpgp,pubencrypttodefault;
         MyEditor *editor;
         KURL fselected;
 
@@ -114,7 +113,7 @@ public:
 
         QPushButton *bouton1,*bouton2,*bouton0;
 private:
-        QString messages,pubdefaultkey;
+        QString messages;
 
 public slots:
         void slotdecode();
@@ -123,7 +122,6 @@ private slots:
         void clearSign();
         void popuppublic();
         void modified();
-        void viewreadopts();
         void encodetxt(QStringList selec,QStringList encryptOptions,bool, bool symmetric);
         void updatetxt(QString);
 	void updateDecryptedtxt(QString newtxt);

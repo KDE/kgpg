@@ -132,8 +132,8 @@ public:
 	int previewSize;
 private:
 //        bool displayMailFirst;
-        QString secretList,defKey;
-        QString photoKeysList,configFilePath;
+        QString secretList;
+        QString photoKeysList;
 	QStringList photoIdList;
         QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown,trustmarginal, trustbad, trustgood,pixRevoke;
 	QListViewItem *itemToOpen;
@@ -171,18 +171,17 @@ public:
         QLabel *keyPhoto;
         KeyView *keysList2;
         QPopupMenu *popup,*popupsec,*popupout,*popupsig,*popupgroup,*popupphoto,*popupuid;
-        QString message, optionsDefaultKey,configUrl;
+        QString message;
         QStringList keynames;
         KPassivePopup *pop;
 
 private:
         QPushButton *bouton1,*bouton2,*bouton0;
-        KConfig *config;
         QString tempKeyFile,newKeyMail,newKeyName,newkeyFinger,newkeyID;
 	bool continueSearch;
+	bool showPhoto;
         keyServer *kServer;
         KTempFile *kgpgtmp;
-        bool showPhoto,configshowToolBar;
         KAction *importSignatureKey,*importAllSignKeys,*signKey;
 	KSelectAction *photoProps;
         QPtrList<QListViewItem> signList;

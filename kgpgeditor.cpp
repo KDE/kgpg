@@ -19,13 +19,13 @@
 #include <kfiledialog.h>
 #include <klocale.h>
 
+#include "kgpgsettings.h"
 #include "kgpgeditor.h"
 #include "sourceselect.h"
 #include "keyexport.h"
 
 KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent, name,f)
 {
-        config=kapp->config();
         readOptions();
 
         // call inits to invoke all other construction parts
@@ -46,28 +46,17 @@ void KgpgApp::closeEvent ( QCloseEvent * e )
 
 void KgpgApp::saveOptions()
 {
-        config->setGroup("General Options");
-        config->writeEntry("Geometry", size());
-        config->writeEntry("First run",false);
+        KGpgSettings::setEditorGeometry(size());
+        KGpgSettings::setFirstRun(false);
+        KGpgSettings::writeConfig();
 }
 
 void KgpgApp::readOptions(bool doresize)
 {
-
-	config->setGroup("Encryption");
-        ascii=config->readBoolEntry("Ascii_armor",true);
-        untrusted=config->readBoolEntry("Allow_untrusted_keys",false);
-        hideid=config->readBoolEntry("Hide_user_ID",false);
-        pgpcomp=config->readBoolEntry("PGP_compatibility",false);
-        pgpExtension=config->readBoolEntry("Pgp_extension",false);
-        encryptfileto=config->readBoolEntry("encrypt_files_to",false);
-
-	config->setGroup("Decryption");
-	customDecrypt=QStringList::split(QString(" "),config->readEntry("custom_decrypt").simplifyWhiteSpace());
+	customDecrypt=QStringList::split(QString(" "), KGpgSettings::customDecrypt().simplifyWhiteSpace());
 
         if (doresize) {
-		config->setGroup("General Options");
-                QSize size=config->readSizeEntry("Geometry");
+                QSize size= KGpgSettings::editorGeometry();
                 if (!size.isEmpty())
                         resize(size);
         }
@@ -175,18 +164,17 @@ void KgpgApp::slotFilePreEnc()
                                          i18n("*|All Files"), this, i18n("Open File to Encode"));
         if (url.isEmpty())
                 return;
-        KgpgLibrary *lib=new KgpgLibrary(pgpExtension);
-        if (encryptfileto) {
-                if (untrusted)
+        KgpgLibrary *lib=new KgpgLibrary( KGpgSettings::pgpExtension() );
+        if ( KGpgSettings::encryptFilesTo() ) {
+                if (KGpgSettings::allowUntrustedKeys())
                         opts<<"--always-trust";
-                if (ascii)
+                if (KGpgSettings::asciiArmor())
                         opts<<"--armor";
-                if (hideid)
+                if (KGpgSettings::hideUserID())
                         opts<<"--throw-keyid";
-                if (pgpcomp)
+                if (KGpgSettings::pgpCompatibility())
                         opts<<"--pgp6";
-		config->setGroup("Encryption");
-                lib->slotFileEnc(KURL::List::List(url),opts,config->readEntry("file key").left(8));
+                lib->slotFileEnc(KURL::List::List(url),opts, KGpgSettings::fileEncryptionKey().left(8));
         } else
                 lib->slotFileEnc(KURL::List::List(url));
 }
@@ -240,7 +228,7 @@ void KgpgApp::slotFilePreDec()
                                 return;
                 }
                 KgpgLibrary *lib=new KgpgLibrary();
-                lib->slotFileDec(url,KURL(newname),customDecrypt) ;
+                lib->slotFileDec(url,KURL(newname), customDecrypt);
 		connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(refreshImported(QStringList)));
         } else
                 openEncryptedDocumentFile(url);
@@ -434,9 +422,9 @@ void KgpgApp::slotSignFile(KURL url)
                 }
                 delete opts;
                 QString Options;
-                if (ascii)
+                if (KGpgSettings::asciiArmor())
                         Options=" --armor ";
-                if (pgpcomp)
+                if (KGpgSettings::pgpCompatibility())
                         Options+=" --pgp6 ";
                 KgpgInterface *signFileProcess=new KgpgInterface();
                 signFileProcess->KgpgSignFile(signKeyID,url,Options);

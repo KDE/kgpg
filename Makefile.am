@@ -5,7 +5,7 @@ bin_PROGRAMS = kgpg
 
 INCLUDES = $(all_includes)
 
-kgpg_SOURCES = kgpgoptions.cpp listkeys.cpp popuppublic.cpp kgpgview.cpp kgpg.cpp main.cpp kgpgfast.cpp keygener.cpp kgpginterface.cpp keyservers.cpp keyserver.ui searchres.ui kgpgeditor.cpp detailedconsole.cpp kgpglibrary.cpp kgpgwizard.ui keyproperties.ui conf_encryption.ui conf_decryption.ui conf_ui.ui conf_gpg.ui dcopiface.skel keyinfowidget.cpp groupedit.ui kgpgrevokewidget.ui newkey.ui adduid.ui keyexport.ui sourceselect.ui
+kgpg_SOURCES = kgpgoptions.cpp listkeys.cpp popuppublic.cpp kgpgview.cpp kgpg.cpp main.cpp kgpgfast.cpp keygener.cpp kgpginterface.cpp keyservers.cpp keyserver.ui searchres.ui kgpgeditor.cpp detailedconsole.cpp kgpglibrary.cpp kgpgwizard.ui keyproperties.ui conf_encryption.ui conf_decryption.ui conf_ui.ui conf_gpg.ui dcopiface.skel keyinfowidget.cpp groupedit.ui kgpgrevokewidget.ui newkey.ui adduid.ui keyexport.ui sourceselect.ui kgpgsettings.cpp
 kgpg_LDADD   =  $(LIB_KIO) $(LIB_KABC) -lkutils -lkdeprint
 
 pics_DATA=kgpg_unknown.png kgpg_good.png kgpg_bad.png kgpg_marginal.png kgpg_anim.gif
@@ -35,3 +35,9 @@ messages: rc.cpp
 	if test -n "$$LIST"; then \
 	 $(XGETTEXT) $$LIST -o $(podir)/kgpg.pot; \
 	fi
+
+# avoid running the below command in parallel
+kgpgpsettings.cpp: kgpgsettings.h
+kgpgsettings.cpp kgpgsettings.h: $(srcdir)/kgpg.kcfg $(srcdir)/kgpgsettings.kcfg-codegen
+	kconfig_compiler $(srcdir)/kgpg.kcfg $(srcdir)/kgpgsettings.kcfg-codegen
+

@@ -47,17 +47,15 @@
 
 
 #include "kgpgoptions.h"
+#include "kgpgsettings.h"
 #include "kgpg.h"
 
 
 ///////////////////////   main window
 
-kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KAutoConfigDialog( parent, name)
+kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
+ : KAutoConfigDialog( parent, name, KDialogBase::IconList, KGpgSettings::self())
 {
-        config=kapp->config();
-
-        config->setGroup("User Interface");
-
 kdDebug()<<"Adding pages"<<endl;
         page1=new Encryption();
         page2=new Decryption();
@@ -68,88 +66,165 @@ kdDebug()<<"Adding pages"<<endl;
         addPage(page3, i18n("User Interface"), "User Interface", "misc",QString::null,true);
         addPage(page4, i18n("GPG Settings"), "GPG Settings", "kgpg",QString::null,true);
 
-
-kdDebug()<<"Starting options"<<endl;
-
-        config->setGroup("GPG Settings");
-        alwaysKeyID=KgpgInterface::getGpgSetting("encrypt-to",config->readPathEntry("gpg_config_path"));
-	config->writeEntry("use_agent",KgpgInterface::getGpgBoolSetting("use-agent",config->readPathEntry("gpg_config_path")));
-
-	config->setGroup("Encryption");
-        if (!alwaysKeyID.isEmpty())
-                config->writeEntry("encrypt_to_always",true);
-        else
-                config->writeEntry("encrypt_to_always",false);
-        listkey();
-
-
-        QString key=config->readEntry("file key");
-        if (key!=NULL) {
-                page1->file_key->setCurrentItem(key);
-                config->writeEntry("file_key",page1->file_key->currentItem());
-        }
-
-
-        if (alwaysKeyID!=NULL) {
-                page1->always_key->setCurrentItem(alwaysKeyName);
-                config->writeEntry("always_key",page1->always_key->currentItem());
-        }
-        //////////////////////  check if gpg's keyserver is the same as KGpg's first server. Otherwise, syncro
-        config->setGroup("GPG Settings");
-        QString optionsServer=KgpgInterface::getGpgSetting("keyserver",config->readPathEntry("gpg_config_path"));
-        if (!optionsServer.isEmpty())
-                config->writeEntry("key_server1",optionsServer);
-
-        connect(this, SIGNAL(settingsChanged()), this, SLOT(readSettings()));
-	kdDebug()<<"Finishing options"<<endl;
+        // The following widgets are managed manually.
+        connect(page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(settingModified()));
+        connect(page1->file_key, SIGNAL(activated(int)), this, SLOT(settingModified()));
+        connect(page1->always_key, SIGNAL(activated(int)), this, SLOT(settingModified()));
+        connect(page4->gpg_config_path, SIGNAL(textChanged(const QString&)), this, SLOT(settingModified()));
+        connect(page4->use_agent, SIGNAL(toggled(bool)), this, SLOT(settingModified()));
+        connect(page4->key_server1, SIGNAL(textChanged(const QString&)), this, SLOT(settingModified()));
 }
 
 
 kgpgOptions::~kgpgOptions()
 {}
 
-
-void kgpgOptions::readSettings()
+void kgpgOptions::updateWidgets()
 {
+        alwaysKeyID=KgpgInterface::getGpgSetting("encrypt-to", KGpgSettings::gpgConfigPath());
+
+        encryptToAlways = !alwaysKeyID.isEmpty();
+        defaultEncryptToAlways = false;
+       
+        page1->encrypt_to_always->setChecked(encryptToAlways);
+
+        listkey();
+        fileEncryptionKey = KGpgSettings::fileEncryptionKey();
+        if (!fileEncryptionKey.isEmpty()) {
+                page1->file_key->setCurrentItem(fileEncryptionKey);
+        }
+
+        if (!alwaysKeyName.isEmpty()) {
+                page1->always_key->setCurrentItem(alwaysKeyName);
+        }
+        
+        gpgConfigPath = KGpgSettings::gpgConfigPath();
+        page4->gpg_config_path->setURL(gpgConfigPath);
+
+        useAgent = KgpgInterface::getGpgBoolSetting("use-agent", KGpgSettings::gpgConfigPath());
+        defaultUseAgent = false;
+
+        page4->use_agent->setChecked( useAgent );
+
+        keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
+        defaultKeyServer = "hkp://wwwkeys.pgp.net";
+        
+        if (keyServer.isEmpty())
+		keyServer = defaultKeyServer;
+
+        page4->key_server1->setText(keyServer);
+
+	kdDebug()<<"Finishing options"<<endl;
+}
+
+void kgpgOptions::updateWidgetsDefault()
+{
+        page1->encrypt_to_always->setChecked( defaultEncryptToAlways );
+
+        // Note that we don't set a default for gpg_config_path
+
+        page4->use_agent->setChecked( defaultUseAgent );
+
+	page4->key_server1->setText( defaultKeyServer );
+
+	kdDebug()<<"Finishing default options"<<endl;
+}
+
+bool kgpgOptions::isDefault()
+{
+	if (page1->encrypt_to_always->isChecked() != defaultEncryptToAlways)
+		return false;
+
+        // Note that we don't check gpg_config_path
+
+	if (page4->use_agent->isChecked() != defaultUseAgent)
+		return false;
+	   
+	if (page4->key_server1->text().stripWhiteSpace() != defaultKeyServer)
+		return false;
+
+	return true;
+}
+
+bool kgpgOptions::hasChanged()
+{
+	if (page1->kcfg_EncryptFilesTo->isChecked() &&
+	    (page1->file_key->currentText() != fileEncryptionKey))
+		return true;
+
+	if (page1->encrypt_to_always->isChecked() != encryptToAlways)
+		return true;
+
+	if (page1->encrypt_to_always->isChecked() &&
+	    (page1->always_key->currentText().section(':',0,0) != alwaysKeyID))
+		return true;
+
+	if (page4->gpg_config_path->url() != gpgConfigPath)
+		return true;
+	   
+	if (page4->use_agent->isChecked() != useAgent)
+		return true;
+
+	if (page4->key_server1->text().stripWhiteSpace() != keyServer)
+		return true;
+
+	return false;
+}
+
+void kgpgOptions::updateSettings()
+{
+        // Update config path first!
+	KGpgSettings::setGpgConfigPath( page4->gpg_config_path->url() );
 
         ////////////  save selected keys for file encryption & always encrypt with
-        config->setGroup("Encryption");
-        config->writeEntry("file key",page1->file_key->currentText());
-        if (page1->encrypt_to_always->isChecked()) {
-                config->writeEntry("always key",page1->always_key->currentText().section(':',0,0));
-                KgpgInterface::setGpgSetting("encrypt-to",page1->always_key->currentText().section(':',0,0),page4->gpg_config_path->url());
-        } else
-                KgpgInterface::setGpgSetting("encrypt-to","",page4->gpg_config_path->url());
+        if (page1->kcfg_EncryptFilesTo->isChecked())
+		fileEncryptionKey = page1->file_key->currentText();
+	else
+		fileEncryptionKey = "";
+        KGpgSettings::setFileEncryptionKey( fileEncryptionKey );
 
-        ////////////  save the first key server into GnuPG's configuration file
-        if (!page4->key_server1->text().isEmpty())
-                KgpgInterface::setGpgSetting("keyserver",page4->key_server1->text().stripWhiteSpace(),page4->gpg_config_path->url());
+	encryptToAlways = page1->encrypt_to_always->isChecked();
+
+        if (encryptToAlways)
+        	alwaysKeyID = page1->always_key->currentText().section(':',0,0);
+        else
+        	alwaysKeyID = "";
+	KgpgInterface::setGpgSetting("encrypt-to",alwaysKeyID, KGpgSettings::gpgConfigPath());
 
         ///////////////  install service menus
 
-        if (page3->sign_menu->currentItem()==1)
+        if (page3->kcfg_SignMenu->currentItem()==KGpgSettings::EnumSignMenu::AllFiles)
                 slotInstallSign("all/allfiles");
         else
                 slotRemoveMenu("signfile.desktop");
-        if (page3->decrypt_menu->currentItem()==1)
+        if (page3->kcfg_DecryptMenu->currentItem()==KGpgSettings::EnumDecryptMenu::AllFiles)
                 slotInstallDecrypt("all/allfiles");
-        else if (page3->decrypt_menu->currentItem()==2)
+        else if (page3->kcfg_DecryptMenu->currentItem()==KGpgSettings::EnumDecryptMenu::EncryptedFiles)
                 slotInstallDecrypt("application/pgp-encrypted,application/pgp-signature,application/pgp-keys");
         else
                 slotRemoveMenu("decryptfile.desktop");
 
-if (page4->use_agent->isChecked())
-	{
-	KgpgInterface::setGpgBoolSetting("use-agent",true,page4->gpg_config_path->url());
-	KgpgInterface::setGpgBoolSetting("no-use-agent",false,page4->gpg_config_path->url());
-	}
-else
-	{
-//	KgpgInterface::setGpgBoolSetting("no-use-agent",true,page4->gpg_config_path->url());
-	KgpgInterface::setGpgBoolSetting("use-agent",false,page4->gpg_config_path->url());
-	}
+        ////////////  save the first key server into GnuPG's configuration file
+        keyServer = page4->key_server1->text().stripWhiteSpace();
+        if (!keyServer.isEmpty())
+                KgpgInterface::setGpgSetting("keyserver", keyServer, KGpgSettings::gpgConfigPath());
 
-        emit updateSettings();
+
+        useAgent = page4->use_agent->isChecked();
+
+	if (useAgent)
+	{
+		KgpgInterface::setGpgBoolSetting("use-agent",true, KGpgSettings::gpgConfigPath());
+		KgpgInterface::setGpgBoolSetting("no-use-agent",false, KGpgSettings::gpgConfigPath());
+	}
+	else
+	{
+	//	KgpgInterface::setGpgBoolSetting("no-use-agent",true, KGpgSettings::gpgConfigPath());
+		KgpgInterface::setGpgBoolSetting("use-agent",false, KGpgSettings::gpgConfigPath());
+	}
+	KGpgSettings::writeConfig();
+	
+        emit settingsUpdated();
 }
 
 

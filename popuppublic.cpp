@@ -30,6 +30,7 @@
 #include <klocale.h>
 
 #include "popuppublic.h"
+#include "kgpgsettings.h"
 #include "kgpgview.h"
 #include "kgpg.h"
 
@@ -81,16 +82,8 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 	
 	setButtonText(KDialogBase::Details,i18n("Options"));
 
-        config=kapp->config();
-
-        //pgpcomp=config->readBoolEntry("PGP compatibility",false);
-        config->setGroup("Encryption");
-	defaultKey=config->readEntry("default key");
-        allowcustom=config->readBoolEntry("allow_custom_option",false);
-        if (allowcustom)
-                customOptions=config->readEntry("custom_option");
-	config->setGroup("GPG Settings");
-	keyGroups=config->readEntry("Groups");
+        if (KGpgSettings::allowCustomEncryptionOptions())
+                customOptions=KGpgSettings::customEncryptionOptions();
 
         KIconLoader *loader = KGlobal::iconLoader();
 
@@ -149,12 +142,10 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
                                           "to encrypt/decrypt the file"));
                 QObject::connect(CBsymmetric,SIGNAL(toggled(bool)),this,SLOT(isSymetric(bool)));
 
-        config->setGroup("Encryption");
-	
-	CBarmor->setChecked(config->readBoolEntry("Ascii_armor",true));
-	CBuntrusted->setChecked(config->readBoolEntry("Allow_untrusted_keys",false));
-	CBhideid->setChecked(config->readBoolEntry("Hide_user_id",false));
-	if (filemode) CBshred->setChecked(config->readBoolEntry("shred_source",false));
+	CBarmor->setChecked( KGpgSettings::asciiArmor() );
+	CBuntrusted->setChecked( KGpgSettings::allowUntrustedKeys() );
+	CBhideid->setChecked( KGpgSettings::hideUserID() );
+	if (filemode) CBshred->setChecked( KGpgSettings::shredSource() );
         
         if (allowcustom) {
                 QHButtonGroup *bGroup = new QHButtonGroup(page);
@@ -272,17 +263,19 @@ void popupPublic::refresh(bool state)
 
 void popupPublic::refreshkeys()
 {
-keysList->clear();
-if (!keyGroups.isEmpty())
-{
-QStringList groups=QStringList::split(",",keyGroups);
-	for ( QStringList::Iterator it = groups.begin(); it != groups.end(); ++it )
-	if (!QString(*it).isEmpty())
+	keysList->clear();
+	QStringList groups= QStringList::split(",", KGpgSettings::groups());
+	if (!groups.isEmpty())
 	{
-			UpdateViewItem2 *item=new UpdateViewItem2(keysList,QString(*it),QString::null,QString::null,false);
-			item->setPixmap(0,keyGroup);
+		for ( QStringList::Iterator it = groups.begin(); it != groups.end(); ++it )
+		{
+			if (!QString(*it).isEmpty())
+			{
+				UpdateViewItem2 *item=new UpdateViewItem2(keysList,QString(*it),QString::null,QString::null,false);
+				item->setPixmap(0,keyGroup);
+			}
+		}
 	}
-}
         KProcIO *encid=new KProcIO();
         *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--with-colon"<<"--list-keys";
         /////////  when process ends, update dialog infos
@@ -294,7 +287,7 @@ QStringList groups=QStringList::split(",",keyGroups);
 void popupPublic::slotpreselect()
 {
 QListViewItem *it;
-        if (fmode) it=keysList->findItem("0x"+defaultKey,2);        
+        if (fmode) it=keysList->findItem(KGpgSettings::defaultKey(),2);
         else {
                 it=keysList->firstChild();
                 if (it==NULL)
@@ -323,6 +316,8 @@ void popupPublic::slotprocread(KProcIO *p)
         ///////////////////////////////////////////////////////////////// extract  encryption keys
         bool dead;
         QString tst,keyname,keymail;
+
+        QString defaultKey = KGpgSettings::defaultKey().right(8);
 
         while (p->readln(tst)!=-1) {
                 if (tst.startsWith("pub")) {

@@ -30,6 +30,7 @@
 #include <kstdaction.h>
 #include <kurldrag.h>
 
+#include "kgpgsettings.h"
 #include "kgpginterface.h"
 #include "kgpgview.h"
 #include "kgpg.h"
@@ -153,12 +154,10 @@ void MyEditor::slotDecodeFile(QString fname)
         ////////////////     decode file from given url into editor
         QFile qfile(QFile::encodeName(fname));
         if (qfile.open(IO_ReadOnly)) {			
-	KConfig *ksConfig=kapp->config();
-	ksConfig->setGroup("Decryption");
 	KgpgInterface *txtDecrypt=new KgpgInterface();
         connect (txtDecrypt,SIGNAL(txtdecryptionfinished(QString)),this,SLOT(editorUpdateDecryptedtxt(QString)));
 	connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(editorFailedDecryptedtxt(QString)));
-        txtDecrypt->KgpgDecryptFileToText(KURL(fname),QStringList::split(QString(" "),ksConfig->readEntry("custom_decrypt").simplifyWhiteSpace()));
+        txtDecrypt->KgpgDecryptFileToText(KURL(fname),QStringList::split(QString(" "),KGpgSettings::customDecrypt().simplifyWhiteSpace()));
         } else
                 KMessageBox::sorry(this,i18n("Unable to read file."));
 }
@@ -176,7 +175,6 @@ void MyEditor::slotProcessResult(QStringList iKeys)
 
 KgpgView::KgpgView(QWidget *parent, const char *name) : QWidget(parent, name)
 {
-        viewreadopts();
         editor=new MyEditor(this);
 
         /////    layout
@@ -218,16 +216,6 @@ void KgpgView::modified()
                 win->editUndo->setEnabled(true);
         }
 
-}
-
-void KgpgView::viewreadopts()
-{
-        ////////  read default options for encryption
-
-        KgpgApp *win=(KgpgApp *) parent();
-        pubascii=win->ascii;
-        pubpgp=win->pgpcomp;
-        pubuntrusted=win->untrusted;
 }
 
 void KgpgView::clearSign()
@@ -314,9 +302,7 @@ void KgpgView::clearSign()
                 delete opts;
                 /////////////////////  get passphrase
 		
-		KConfig *ksConfig=kapp->config();
-		ksConfig->setGroup("GPG Settings");
-                bool useAgent=KgpgInterface::getGpgBoolSetting("use-agent",ksConfig->readPathEntry("gpg_config_path"));
+                bool useAgent=KgpgInterface::getGpgBoolSetting("use-agent",KGpgSettings::gpgConfigPath());
 		
                 if (!getenv("GPG_AGENT_INFO") || !useAgent) {
                         int code=KPasswordDialog::getPassword(password,i18n("Enter passphrase for <b>%1</b>:").arg(signKeyMail.replace(QRegExp("<"),"&lt;")));
@@ -336,7 +322,7 @@ void KgpgView::clearSign()
                 //mess=mess.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
                 line+=KShellProcess::quote(mess.utf8());
                 line+=" | gpg ";
-                if (pubpgp)
+                if (KGpgSettings::pgpCompatibility())
                         line+="--pgp6 ";
                 if (!getenv("GPG_AGENT_INFO") || !useAgent) {
                         line+="--passphrase-fd ";
@@ -388,12 +374,10 @@ void KgpgView::slotdecode()
         messages=QString::null;
 
         //QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
-	KConfig *ksConfig=kapp->config();
-	ksConfig->setGroup("Decryption");
 	KgpgInterface *txtDecrypt=new KgpgInterface();
         connect (txtDecrypt,SIGNAL(txtdecryptionfinished(QString)),this,SLOT(updateDecryptedtxt(QString)));
 	connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(failedDecryptedtxt(QString)));
-        txtDecrypt->KgpgDecryptText(editor->text(),QStringList::split(QString(" "),ksConfig->readEntry("custom_decrypt").simplifyWhiteSpace()));
+        txtDecrypt->KgpgDecryptText(editor->text(),QStringList::split(QString(" "),KGpgSettings::customDecrypt().simplifyWhiteSpace()));
 	
 	/*
         KgpgApp *win=(KgpgApp *) parent();
@@ -418,7 +402,7 @@ void KgpgView::failedDecryptedtxt(QString newtxt)
 void KgpgView::encodetxt(QStringList selec,QStringList encryptOptions,bool, bool symmetric)
 {
         //////////////////              encode from editor
-        if (pubpgp)
+        if (KGpgSettings::pgpCompatibility())
                 encryptOptions<<"--pgp6";
         
 	if (symmetric) selec.clear();

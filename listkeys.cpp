@@ -58,7 +58,7 @@
 #include "adduid.h"
 #include "keyservers.h"
 #include "kgpginterface.h"
-
+#include "kgpgsettings.h"
 
 
 //////////////  KListviewItem special
@@ -203,11 +203,6 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
 
         keyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
 
-        KConfig *config=kapp->config();
-        config->setGroup("GPG Settings");
-        QString defaultKeyID=KgpgInterface::getGpgSetting("default-key",config->readPathEntry("gpg_config_path"));
-
-
         setMinimumSize(300,200);
         keysListpr = new KListView( page );
         keysListpr->setRootIsDecorated(true);
@@ -220,6 +215,8 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
 
         vbox->addWidget(labeltxt);
         vbox->addWidget(keysListpr);
+
+        QString defaultKeyID= KGpgSettings::defaultKey().right(8);
 
         FILE *fp,*fp2;
         QString tst,tst2;
@@ -310,7 +307,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
                                 KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, expiration: %3").arg(id).arg(tr).arg(val));
                                 sub->setSelectable(false);
                                 item->setPixmap(0,keyPair);
-                                if ((!defaultKeyID.isEmpty()) && (id.right(8)==defaultKeyID.right(8))) {
+                                if ((!defaultKeyID.isEmpty()) && (id.right(8)==defaultKeyID)) {
                                         keysListpr->setSelected(item,true);
                                         selectedok=true;
                                 }
@@ -483,7 +480,6 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         QWidget *page=new QWidget(this);
         keysList2 = new KeyView(page);
         keysList2->photoKeysList=QString::null;
-        config=kapp->config();
         setAutoSaveSettings();
         readOptions();
 
@@ -541,15 +537,17 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
 	photoProps = new KSelectAction(i18n("&Photo ID's"),"kgpg_photo", actionCollection(), "photo_settings");
 	connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
+
+        // Keep the list in kgpg.kcfg in sync with this one!
   	QStringList list;
   	list.append("Disable");
   	list.append("Small");
   	list.append("Medium");
 	list.append("Big");
   	photoProps->setItems(list);
-	config->setGroup("General Options");
-	int pSize=config->readNumEntry("photo properties",0);
-  	photoProps->setCurrentItem (pSize);
+
+	int pSize = KGpgSettings::photoProperties();
+  	photoProps->setCurrentItem( pSize );
 	slotSetPhotoSize(pSize);
 
         QVBoxLayout *vbox=new QVBoxLayout(page,3);
@@ -616,7 +614,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
         vbox->addWidget(keysList2);
         setCentralWidget(page);
-        keysList2->restoreLayout(config,"KeyView");
+        keysList2->restoreLayout(KGlobal::config(), "KeyView");
 
 	QObject::connect(keysList2,SIGNAL(returnPressed(QListViewItem *)),this,SLOT(listsigns()));
         QObject::connect(keysList2,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(listsigns()));
@@ -627,9 +625,9 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
         ///////////////    get all keys data
         createGUI("listkeys.rc");
-        if (!configshowToolBar)
+        if (!KGpgSettings::showToolbar())
                 toolBar()->hide();
-                checkPhotos();
+        checkPhotos();
 }
 
 
@@ -684,20 +682,20 @@ keysList2->displayOnlySecret=false;
 
 void listKeys::slotGotoDefaultKey()
 {
-QListViewItem *myDefaulKey=keysList2->findItem(keysList2->defKey,6);
-keysList2->clearSelection();
-                keysList2->setCurrentItem(myDefaulKey);
-                keysList2->setSelected(myDefaulKey,true);
-                keysList2->ensureItemVisible(myDefaulKey);
+	QListViewItem *myDefaulKey = keysList2->findItem(KGpgSettings::defaultKey(),6);
+	keysList2->clearSelection();
+	keysList2->setCurrentItem(myDefaulKey);
+	keysList2->setSelected(myDefaulKey,true);
+	keysList2->ensureItemVisible(myDefaulKey);
 }
 
 void listKeys::slotDelUid()
 {
-QListViewItem *item=keysList2->currentItem();
-while (item->depth()>0) item=item->parent();
+	QListViewItem *item=keysList2->currentItem();
+	while (item->depth()>0) item=item->parent();
 
-KProcess *conprocess=new KProcess();
-KConfig *config = new KConfig("kdeglobals", true);
+	KProcess *conprocess=new KProcess();
+	KConfig *config = KGlobal::config();
 	config->setGroup("General");
 	*conprocess<< config->readEntry("TerminalApplication","konsole");
         *conprocess<<"-e"<<"gpg";
@@ -1099,11 +1097,11 @@ void listKeys::annule()
 {
         /////////  cancel & close window
         //exit(0);
-        keysList2->saveLayout(config,"KeyView");
-        config->setGroup("General Options");
-        config->writeEntry("show toolbar",toolBar()->isVisible());
-        config->writeEntry("photo properties",photoProps->currentItem());
-        config->sync();
+        keysList2->saveLayout(KGlobal::config(),"KeyView");
+
+        KGpgSettings::setShowToolbar(toolBar()->isVisible());
+        KGpgSettings::setPhotoProperties(photoProps->currentItem());
+        KGpgSettings::writeConfig();
         close();
         //reject();
 }
@@ -1111,30 +1109,12 @@ void listKeys::annule()
 
 void listKeys::readOptions()
 {
-        config->setGroup("General Options");
-        configshowToolBar=config->readBoolEntry("show toolbar",true);
-        showPhoto=config->readBoolEntry("show photo",false);
-	keysList2->displayPhoto=showPhoto;
-
-        config->setGroup("User Interface");
 
 	clipboardMode=QClipboard::Clipboard;
-        if ((config->readBoolEntry("selection_clipboard",false)) && (kapp->clipboard()->supportsSelection())) clipboardMode=QClipboard::Selection;
+        if (KGpgSettings::useMouseSelection() && (kapp->clipboard()->supportsSelection()))
+                 clipboardMode=QClipboard::Selection;
 
-        config->setGroup("GPG Settings");
-        configUrl=config->readPathEntry("gpg_config_path");
-        keysList2->configFilePath=configUrl;
-        optionsDefaultKey=KgpgInterface::getGpgSetting("default-key",configUrl);
-        QString defaultkey=optionsDefaultKey;
-        if (!optionsDefaultKey.isEmpty())
-                defaultkey.prepend("0x");
-
-        config->setGroup("Encryption");
-        config->writeEntry("default key",defaultkey.right(8));
-        config->sync();
-        keysList2->defKey=defaultkey;
-	config->setGroup("TipOfDay");
-        showTipOfDay=config->readBoolEntry("RunOnStart",true);
+        showTipOfDay= KGpgSettings::showTipOfDay();
 }
 
 
@@ -1143,7 +1123,7 @@ void listKeys::slotOptions()
         if (KAutoConfigDialog::showDialog("settings"))
                 return;
         kgpgOptions *optionsDialog=new kgpgOptions(this,"settings");
-        connect(optionsDialog,SIGNAL(updateSettings()),this,SLOT(readAllOptions()));
+        connect(optionsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAllOptions()));
         optionsDialog->show();
 }
 
@@ -1183,18 +1163,16 @@ if (!newdef) return;
         QListViewItem *olddef = keysList2->firstChild();
         while (olddef)
 	{
-	if (olddef->text(6)==keysList2->defKey)
-	{
-	break;
+		if (olddef->text(6)==KGpgSettings::defaultKey())
+		{
+			break;
+		}
+        	olddef = olddef->nextSibling();
 	}
-        olddef = olddef->nextSibling();
-	}
-        keysList2->defKey=newdef->text(6);
 
-        config->setGroup("Encryption");
-        config->writeEntry("default key",newdef->text(6).right(8));
-        config->setGroup("GPG Settings");
-        KgpgInterface::setGpgSetting("default-key",newdef->text(6).right(8),config->readPathEntry("gpg_config_path"));
+ 	KGpgSettings::setDefaultKey(newdef->text(6));
+ 	KGpgSettings::writeConfig();
+
         if (olddef) keysList2->refreshcurrentkey(olddef);
         keysList2->refreshcurrentkey(newdef);
 
@@ -1522,19 +1500,16 @@ void listKeys::deleteGroup()
         int result=KMessageBox::questionYesNo(this,i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>").arg(keysList2->currentItem()->text(0)),i18n("Warning"),i18n("Delete"));
         if (result!=KMessageBox::Yes)
                 return;
-        KgpgInterface::delGpgGroup(keysList2->currentItem()->text(0),keysList2->configFilePath);
+        KgpgInterface::delGpgGroup(keysList2->currentItem()->text(0), KGpgSettings::gpgConfigPath());
         QListViewItem *item=keysList2->currentItem()->nextSibling();
         delete keysList2->currentItem();
 	if (!item)
                 item=keysList2->lastChild();
         keysList2->setCurrentItem(item);
         keysList2->setSelected(item,true);
-        config->setGroup("GPG Settings");
-        QStringList groups=KgpgInterface::getGpgGroupNames(keysList2->configFilePath);
-        if (!groups.isEmpty())
-                config->writeEntry("Groups",groups.join(","));
-        else
-                config->writeEntry("Groups","");
+
+        QStringList groups=KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
+        KGpgSettings::setGroups(groups.join(","));
 }
 
 void listKeys::groupChange()
@@ -1545,7 +1520,7 @@ void listKeys::groupChange()
                 selected+=item->text(2);
                 item=item->nextSibling();
         }
-        KgpgInterface::setGpgGroupSetting(keysList2->currentItem()->text(0),selected,keysList2->configFilePath);
+        KgpgInterface::setGpgGroupSetting(keysList2->currentItem()->text(0),selected,KGpgSettings::gpgConfigPath());
 }
 
 void listKeys::createNewGroup()
@@ -1579,13 +1554,9 @@ void listKeys::createNewGroup()
                 if (!keysGroup.isEmpty()) {
                         if (!badkeys.isEmpty())
                                 KMessageBox::informationList(this,i18n("Following keys are not valid or not trusted and will not be added to the group:"),badkeys);
-                        KgpgInterface::setGpgGroupSetting(groupName,keysGroup,keysList2->configFilePath);
-                        config->setGroup("GPG Settings");
-                        QStringList groups=KgpgInterface::getGpgGroupNames(keysList2->configFilePath);
-                        if (!groups.isEmpty())
-                                config->writeEntry("Groups",groups.join(","));
-                        else
-                                config->writeEntry("Groups","");
+                        KgpgInterface::setGpgGroupSetting(groupName,keysGroup,KGpgSettings::gpgConfigPath());
+                        QStringList groups=KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
+                        KGpgSettings::setGroups(groups.join(","));
                         keysList2->refreshgroups();
                 } else
                         KMessageBox::sorry(this,i18n("<qt>No valid or trusted key was selected. The group <b>%1</b> will not be created.</qt>").arg(groupName));
@@ -1648,7 +1619,7 @@ void listKeys::editGroup()
                                 (void) new KListViewItem(gEdit->availableKeys,item->text(0),item->text(1),item->text(6));
                 }
         }
-        keysGroup=KgpgInterface::getGpgGroupSetting(keysList2->currentItem()->text(0),keysList2->configFilePath);
+        keysGroup=KgpgInterface::getGpgGroupSetting(keysList2->currentItem()->text(0),KGpgSettings::gpgConfigPath());
         groupInit(keysGroup);
 
 	dialogGroupEdit->setMainWidget(gEdit);
@@ -1752,7 +1723,7 @@ void listKeys::signkey()
 	{
 	KProcess kp;
 
-	KConfig *config = new KConfig("kdeglobals", true);
+	KConfig *config = KGlobal::config();
 	config->setGroup("General");
 	kp<< config->readEntry("TerminalApplication","konsole");
 	kp<<"-e"
@@ -1897,7 +1868,7 @@ void listKeys::slotedit()
 
         KProcess kp;
 
-	KConfig *config = new KConfig("kdeglobals", true);
+	KConfig *config = KGlobal::config();
 	config->setGroup("General");
 	kp<< config->readEntry("TerminalApplication","konsole");
 	kp<<"-e"
@@ -2016,7 +1987,7 @@ void listKeys::slotgenkey()
                 {
 		KProcess kp;
 
-		KConfig *config = new KConfig("kdeglobals", true);
+		KConfig *config = KGlobal::config();
 		config->setGroup("General");
 		kp<< config->readEntry("TerminalApplication","konsole");
 		kp<<"-e"
@@ -2153,7 +2124,7 @@ void listKeys::deleteseckey()
                 return;
 
 	KProcess *conprocess=new KProcess();
-        KConfig *config = new KConfig("kdeglobals", true);
+        KConfig *config = KGlobal::config();
 	config->setGroup("General");
 	*conprocess<< config->readEntry("TerminalApplication","konsole");
         *conprocess<<"-e"<<"gpg"
@@ -2269,7 +2240,7 @@ void listKeys::slotPreImportKey()
 void KeyView::expandGroup(QListViewItem *item)
 {
         kdDebug()<<"Expanding group"<<endl;
-        QStringList keysGroup=KgpgInterface::getGpgGroupSetting(item->text(0),configFilePath);
+        QStringList keysGroup=KgpgInterface::getGpgGroupSetting(item->text(0),KGpgSettings::gpgConfigPath());
         kdDebug()<<keysGroup<<endl;
         for ( QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it ) {
                 SmallViewItem *item2=new SmallViewItem(item,QString(*it),QString::null,QString::null,QString::null,QString::null,QString::null,QString::null);
@@ -2482,6 +2453,8 @@ void KeyView::refreshkeylist()
                         issec+=lineRead.section(':',4,4);
         }
         pclose(fp2);
+        
+        QString defaultKey = KGpgSettings::defaultKey();
 
         fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8", "r");
         while ( fgets( line, sizeof(line), fp)) {
@@ -2493,7 +2466,7 @@ void KeyView::refreshkeylist()
 
                         bool isbold=false;
                         bool isexpired=false;
-                        if (pubKey.gpgkeyid==defKey)
+                        if (pubKey.gpgkeyid==defaultKey)
                                 isbold=true;
                         if (pubKey.gpgkeytrust==i18n("Expired"))
                                 isexpired=true;
@@ -2524,7 +2497,7 @@ void KeyView::refreshkeylist()
         pclose(fp);
         if (emptyList)
                 return;
-        QStringList groups=KgpgInterface::getGpgGroupNames(configFilePath);
+        QStringList groups=KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
         for ( QStringList::Iterator it = groups.begin(); it != groups.end(); ++it )
                 if (!QString(*it).isEmpty()) {
                         item=new UpdateViewItem(this,QString(*it),QString::null,QString::null,QString::null,QString::null,QString::null,QString::null,false,false);
@@ -2559,7 +2532,7 @@ void KeyView::refreshgroups()
                 } else
                         item=item->nextSibling();
         }
-        QStringList groups=KgpgInterface::getGpgGroupNames(configFilePath);
+        QStringList groups=KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
         for ( QStringList::Iterator it = groups.begin(); it != groups.end(); ++it )
                 if (!QString(*it).isEmpty()) {
                         item=new UpdateViewItem(this,QString(*it),QString::null,QString::null,QString::null,QString::null,QString::null,QString::null,false,false);
@@ -2598,6 +2571,7 @@ void KeyView::refreshcurrentkey(QString currentID)
         }
         pclose(fp2);
 
+        QString defaultKey = KGpgSettings::defaultKey();
 
         QString tst;
         QString cmd="gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8 "+currentID;
@@ -2609,7 +2583,7 @@ void KeyView::refreshcurrentkey(QString currentID)
 
                         bool isbold=false;
                         bool isexpired=false;
-                        if (pubKey.gpgkeyid==defKey)
+                        if (pubKey.gpgkeyid==defaultKey)
                                 isbold=true;
                         if (pubKey.gpgkeytrust==i18n("Expired"))
                                 isexpired=true;

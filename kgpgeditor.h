@@ -68,7 +68,6 @@ public:
          */
         KURL Docname;
         int version;
-        bool ascii,untrusted,hideid,pgpcomp,encryptfileto,tipofday;
         QString messages;
         KgpgView *view;
 
@@ -116,9 +115,6 @@ private:
         QStringList customDecrypt;
 	KSelectAction *encodingAction ;
         KURL urlselected;
-        /** the configuration object of the application */
-        KConfig *config;
-        bool pgpExtension;
         KAction* fileSave, *editUndo, *editRedo;
 	
 signals:

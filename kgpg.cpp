@@ -43,6 +43,8 @@
 #include <kzip.h>
 
 #include "kgpg.h"
+#include "kgpgsettings.h"
+
 
 MyView::MyView( QWidget *parent, const char *name )
                 : QLabel( parent, name )
@@ -55,7 +57,6 @@ MyView::MyView( QWidget *parent, const char *name )
         KAction *sign = new KAction(i18n("&Sign File"), "signature",0,this, SLOT(signDroppedFile()),this,"sign_file");
         //QToolTip::add(this,i18n("KGpg drag & drop encryption applet"));
 
-        ksConfig=kapp->config();
         readOptions();
 
         setPixmap( KSystemTray::loadIcon("kgpg"));
@@ -166,7 +167,7 @@ if (compressionScheme==0)
 
 if (encryptOptions.find("armor")!=encryptOptions.end () )
                 extension+=".asc";
-        else if (pgpExtension)
+        else if (KGpgSettings::pgpExtension())
                 extension+=".pgp";
         else
                 extension+=".gpg";
@@ -232,18 +233,17 @@ void  MyView::slotFolderFinishedError(QString errmsge)
 void  MyView::encryptDroppedFile()
 {
         QStringList opts;
-        KgpgLibrary *lib=new KgpgLibrary(pgpExtension);
-        if (encryptfileto) {
-                if (untrusted)
+        KgpgLibrary *lib=new KgpgLibrary(KGpgSettings::pgpExtension());
+        if (KGpgSettings::encryptFilesTo()) {
+                if (KGpgSettings::allowUntrustedKeys())
                         opts<<"--always-trust";
-                if (ascii)
+                if (KGpgSettings::asciiArmor())
                         opts<<"--armor";
-                if (hideid)
+                if (KGpgSettings::hideUserID())
                         opts<<"--throw-keyid";
-                if (pgpcomp)
+                if (KGpgSettings::pgpCompatibility())
                         opts<<"--pgp6";
-                ksConfig->setGroup("Encryption");
-                lib->slotFileEnc(droppedUrls,opts,ksConfig->readEntry("file key").left(8));
+                lib->slotFileEnc(droppedUrls,opts,KGpgSettings::fileEncryptionKey().left(8));
         } else
                 lib->slotFileEnc(droppedUrls);
 }
@@ -315,9 +315,9 @@ void  MyView::signDroppedFile()
         }
         delete opts;
         QStringList Options;
-        if (ascii)
+        if (KGpgSettings::asciiArmor())
                 Options<<"--armor";
-        if (pgpcomp)
+        if (KGpgSettings::pgpCompatibility())
                 Options<<"--pgp6";
         KgpgInterface *signFileProcess=new KgpgInterface();
         signFileProcess->KgpgSignFile(signKeyID,droppedUrl,Options);
@@ -360,7 +360,7 @@ void  MyView::decryptDroppedFile()
                 }
         }
         KgpgLibrary *lib=new KgpgLibrary();
-        lib->slotFileDec(droppedUrl,swapname,customDecrypt);
+        lib->slotFileDec(droppedUrl,swapname,KGpgSettings::customDecrypt());
 //        if (isFolder)
   //              connect(lib,SIGNAL(decryptionOver()),this,SLOT(unArchive()));
 	connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(importedKeys(QStringList)));
@@ -412,31 +412,30 @@ void  MyView::droppedfile (KURL::List url)
                 showDroppedFile();
                 return;
         }
-        ksConfig->setGroup("User Interface");
 
         if ((droppedUrl.path().endsWith(".asc")) || (droppedUrl.path().endsWith(".pgp")) || (droppedUrl.path().endsWith(".gpg"))) {
-                switch (ksConfig->readNumEntry("encrypted_drop_event",0)) {
-                case 0:
+                switch (KGpgSettings::encryptedDropEvent()) {
+                case KGpgSettings::EnumEncryptedDropEvent::DecryptAndSave:
                         decryptDroppedFile();
                         break;
-                case 1:
+                case KGpgSettings::EnumEncryptedDropEvent::DecryptAndOpen:
                         showDroppedFile();
                         break;
-                case 2:
+                case KGpgSettings::EnumEncryptedDropEvent::Ask:
                         droppopup->exec(QCursor::pos ());
                         break;
                 }
         } else if (droppedUrl.path().endsWith(".sig")) {
                 slotVerifyFile();
         } else
-                switch (ksConfig->readNumEntry("unencrypted_drop_event",0)) {
-                case 0:
+                switch (KGpgSettings::unencryptedDropEvent()) {
+                case KGpgSettings::EnumUnencryptedDropEvent::Encrypt:
                         encryptDroppedFile();
                         break;
-                case 1:
+                case KGpgSettings::EnumUnencryptedDropEvent::Sign:
                         signDroppedFile();
                         break;
-                case 2:
+                case KGpgSettings::EnumUnencryptedDropEvent::Ask:
                         udroppopup->exec(QCursor::pos ());
                         break;
                 }
@@ -485,37 +484,21 @@ void  MyView::dropEvent (QDropEvent *o)
 
 void  MyView::readOptions()
 {
-        QString path;
-        //kdDebug()<<"Reading options"<<endl;
-        ksConfig->setGroup("Encryption");
-        encryptfileto=ksConfig->readBoolEntry("encrypt_files_to",false);
-        ascii=ksConfig->readBoolEntry("Ascii_armor",true);
-        untrusted=ksConfig->readBoolEntry("Allow_untrusted_keys",false);
-        hideid=ksConfig->readBoolEntry("Hide_user_ID",false);
-        pgpcomp=ksConfig->readBoolEntry("PGP_compatibility",false);
-        pgpExtension=ksConfig->readBoolEntry("Pgp_extension",false);
-
-        ksConfig->setGroup("Decryption");
-        customDecrypt=QStringList::split(QString(" "),ksConfig->readEntry("custom_decrypt").simplifyWhiteSpace());
-
-        ksConfig->setGroup("User Interface");
-	
 	clipboardMode=QClipboard::Clipboard;
-        if ((ksConfig->readBoolEntry("selection_clipboard",false)) && (kapp->clipboard()->supportsSelection())) clipboardMode=QClipboard::Selection;
-	             
-        ksConfig->setGroup("General Options");
-        if (ksConfig->readBoolEntry("First run",true))
+        if ( KGpgSettings::useMouseSelection() && kapp->clipboard()->supportsSelection())
+                clipboardMode=QClipboard::Selection;
+
+	if (KGpgSettings::firstRun()) {
                 firstRun();
-        else {
-                ksConfig->setGroup("GPG Settings");
-                path=ksConfig->readPathEntry("gpg_config_path");
+        } else {
+                QString path = KGpgSettings::gpgConfigPath();
                 if (path.isEmpty()) {
                         if (KMessageBox::questionYesNo(0,"<qt>You did not set a path to your GnuPG config file.<br>This may bring some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem ?</qt>")==KMessageBox::Yes)
                                 startWizard();
                 } else {
                         QStringList groups=KgpgInterface::getGpgGroupNames(path);
                         if (!groups.isEmpty())
-                                ksConfig->writeEntry("Groups",groups.join(","));
+                                KGpgSettings::setGroups(groups.join(","));
                 }
         }
 }
@@ -630,7 +613,7 @@ void  MyView::slotWizardChange()
 
 void  MyView::slotSaveOptionsPath()
 {
-
+qWarning("Save wizard settings...");
         if (wiz->checkBox1->isChecked()) {
                 KURL path;
                 path.addPath(wiz->kURLRequester2->url());
@@ -646,30 +629,18 @@ void  MyView::slotSaveOptionsPath()
                 }
         }
 
-        ksConfig->setGroup("User Interface");
-        ksConfig->writeEntry("AutoStart", wiz->checkBox2->isChecked());
-        ksConfig->setGroup("GPG Settings");
-#if KDE_IS_VERSION(3,1,3)
+        KGpgSettings::setAutoStart( wiz->checkBox2->isChecked() );
+        
+        KGpgSettings::setGpgConfigPath( wiz->kURLRequester1->url() );
+        KGpgSettings::setFirstRun( false );
 
-        ksConfig->writePathEntry("gpg_config_path",wiz->kURLRequester1->url());
-#else
-
-        ksConfig->writeEntry("gpg_config_path",wiz->kURLRequester1->url());
-#endif
-
-        ksConfig->setGroup("General Options");
-        ksConfig->writeEntry("First run",false);
-
-        ksConfig->setGroup("Encryption");
         QString defaultID=wiz->CBdefault->currentText().section(':',0,0);
         if (!defaultID.isEmpty()) {
-                ksConfig->writeEntry("default key",defaultID);
-                KgpgInterface::setGpgSetting("default-key",defaultID,wiz->kURLRequester1->url());
+        	KGpgSettings::setDefaultKey(defaultID);
         }
-        //m_keyServer->keysList2->defKey="0x"+defaultID;
-        //m_keyServer->keysList2->refreshcurrentkey(defaultID);
 
-        ksConfig->sync();
+        KGpgSettings::writeConfig();
+
         emit updateDefault("0x"+defaultID);
         if (wiz)
                 delete wiz;
@@ -703,7 +674,7 @@ void  MyView::preferences()
         if (KAutoConfigDialog::showDialog("settings"))
                 return;
         kgpgOptions *optsDialog=new kgpgOptions(this,"settings");
-        connect(optsDialog,SIGNAL(updateSettings()),this,SLOT(readAgain1()));
+        connect(optsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAgain1()));
         optsDialog->show();
 }
 
@@ -795,8 +766,7 @@ int KgpgAppletApp::newInstance()
                 connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotgenkey()));
 		connect(kgpg_applet->w,SIGNAL(importedKeys(QStringList)),s_keyManager->keysList2,SLOT(slotReloadKeys(QStringList)));		
                 kgpg_applet->show();
-                kgpg_applet->w->ksConfig->setGroup("GPG Settings");
-                QString gpgPath=kgpg_applet->w->ksConfig->readPathEntry("gpg_config_path");
+                QString gpgPath= KGpgSettings::gpgConfigPath();
 
                 if (!gpgPath.isEmpty()) {
                         if ((KgpgInterface::getGpgBoolSetting("use-agent",gpgPath)) && (!getenv("GPG_AGENT_INFO")))
@@ -887,7 +857,7 @@ void MyView::encryptClipboard(QStringList selec,QStringList encryptOptions,bool,
 	KPassivePopup::message(i18n("Clipboard is empty."),QString::null,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this);
 	return;
 	}
-                if (pgpcomp)
+                if (KGpgSettings::pgpCompatibility())
                         encryptOptions<<"--pgp6";
                 encryptOptions<<"--armor";
 

@@ -113,7 +113,7 @@
                                         </property>
                                     </item>
                                     <property name="name">
-                                        <cstring>sign_menu</cstring>
+                                        <cstring>kcfg_SignMenu</cstring>
                                     </property>
                                     <property name="sizePolicy">
                                         <sizepolicy>
@@ -141,7 +141,7 @@
                                         </property>
                                     </item>
                                     <property name="name">
-                                        <cstring>decrypt_menu</cstring>
+                                        <cstring>kcfg_DecryptMenu</cstring>
                                     </property>
                                 </widget>
                             </vbox>
@@ -230,7 +230,7 @@
                                         </property>
                                     </item>
                                     <property name="name">
-                                        <cstring>unencrypted_drop_event</cstring>
+                                        <cstring>kcfg_UnencryptedDropEvent</cstring>
                                     </property>
                                 </widget>
                                 <widget class="KComboBox">
@@ -250,7 +250,7 @@
                                         </property>
                                     </item>
                                     <property name="name">
-                                        <cstring>encrypted_drop_event</cstring>
+                                        <cstring>kcfg_EncryptedDropEvent</cstring>
                                     </property>
                                 </widget>
                             </vbox>
@@ -278,7 +278,7 @@
                 </property>
                 <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
                     <property name="name">
-                        <cstring>AutoStart</cstring>
+                        <cstring>kcfg_AutoStart</cstring>
                     </property>
                     <property name="text">
                         <string>Start KGpg automatically at login</string>
@@ -293,7 +293,7 @@
                 </widget>
                 <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
                     <property name="name">
-                        <cstring>selection_clipboard</cstring>
+                        <cstring>kcfg_UseMouseSelection</cstring>
                     </property>
                     <property name="minimumSize">
                         <size>
@@ -311,7 +311,7 @@
                 </widget>
                 <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
                     <property name="name">
-                        <cstring>remote_file_warn</cstring>
+                        <cstring>kcfg_RemoteFileWarn</cstring>
                     </property>
                     <property name="minimumSize">
                         <size>

@@ -24,7 +24,7 @@
         </property>
         <widget class="KLineEdit" row="1" column="0">
             <property name="name">
-                <cstring>custom_decrypt</cstring>
+                <cstring>kcfg_CustomDecrypt</cstring>
             </property>
             <property name="enabled">
                 <bool>true</bool>

@@ -109,18 +109,12 @@
                 </widget>
                 <widget class="QLineEdit" row="1" column="1">
                     <property name="name">
-                        <cstring>key_server2</cstring>
-                    </property>
-                    <property name="text">
-                        <string>hkp://wwwkeys.eu.pgp.net</string>
+                        <cstring>kcfg_KeyServer2</cstring>
                     </property>
                 </widget>
                 <widget class="QLineEdit" row="2" column="1">
                     <property name="name">
-                        <cstring>key_server3</cstring>
-                    </property>
-                    <property name="text">
-                        <string>hkp://wwwkeys.us.pgp.net</string>
+                        <cstring>kcfg_KeyServer3</cstring>
                     </property>
                 </widget>
                 <widget class="QLineEdit" row="0" column="1">

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg>
+  <kcfgfile name="kgpgrc"/>
+  <group name="Decryption">
+    <entry name="CustomDecrypt" type="QString" key="custom_decrypt">
+      <desc>Custom decyption command.</desc>
+    </entry>
+  </group>
+  <group name="Encryption">
+    <entry name="CustomEncryptionOptions" type="QString" key="custom_option">
+      <desc>Custom encryption options</desc>
+    </entry>
+    <entry name="AllowCustomEncryptionOptions" type="bool" key="allow_custom_option">
+      <desc>Whether to allow custom encryption options</desc>
+    </entry>
+    <entry name="FileEncryptionKey" type="QString" key="file key">
+      <desc>File encryption key.</desc>
+    </entry>
+    <entry name="EncryptFilesTo" type="bool" key="encrypt_files_to">
+      <desc>Whether to encrypt files</desc>
+      <default>false</default>
+    </entry>
+    <entry name="AsciiArmor" type="bool" key="Ascii_armor">
+      <desc>Whether to use ASCII armored encryption.</desc>
+      <default>true</default>
+    </entry>
+    <entry name="AllowUntrustedKeys" type="bool" key="Allow_untrusted_keys">
+      <desc>Whether to allow encryption with untrusted keys.</desc>
+      <default>false</default>
+    </entry>
+    <entry name="HideUserID" type="bool" key="Hide_user_ID">
+      <desc>Whether to hide the user ID.</desc>
+      <default>false</default>
+    </entry>
+    <entry name="ShredSource" type="bool" key="shred_source">
+      <desc>Whether to shred the source file after encryption.</desc>
+      <default>false</default>
+    </entry>
+    <entry name="PgpCompatibility" type="bool" key="PGP_compatibility">
+      <desc>Whether to enable PGP 6 compatibility.</desc>
+      <default>false</default>
+    </entry>
+    <entry name="PgpExtension" type="bool" key="Pgp_extension">
+      <desc>Whether to use *.pgp extension for encrypted files.</desc>
+      <default>false</default>
+    </entry>
+  </group>
+  <group name="GPG Settings">
+    <entry name="GpgConfigPath" type="Path" key="gpg_config_path">
+      <desc>The path of the gpg configuration file.</desc>
+    </entry>
+    <entry name="Groups" type="QString">
+      <desc>GPG groups</desc>
+    </entry>
+    <entry name="KeyServer2" type="QString" key="key_server2">
+      <desc>Additional key server used by kgpg</desc>
+      <default>hkp://wwwkeys.eu.pgp.net</default>
+    </entry>
+    <entry name="KeyServer3" type="QString" key="key_server3">
+      <desc>Additional key server used by kgpg</desc>
+      <default>hkp://wwwkeys.us.pgp.net</default>
+    </entry>
+  </group>
+  <group name="General Options">
+    <entry name="PhotoProperties" type="Enum" key="photo properties">
+      <desc></desc>
+      <values>
+        <value>Disable</value>
+        <value>Small</value>
+        <value>Medium</value>
+        <value>Big</value>
+      </values>
+      <default>Disable</default>
+    </entry>
+    <entry name="ShowToolbar" type="bool" key="show toolbar">
+      <desc>Whether to show the toolbar.</desc>
+      <default>true</default>
+    </entry>
+    <entry name="FirstRun" type="bool" key="First run">
+      <desc>Whether this is the first time the application runs.</desc>
+      <default>true</default>
+    </entry>
+    <entry name="EditorGeometry" type="QSize" key="Geometry">
+      <desc>The size opf the editor window.</desc>
+    </entry>
+
+  </group>
+  <group name="User Interface">
+    <entry name="UseMouseSelection" type="bool" key="selection_clipboard">
+      <desc>Whether to use the louse selection instead of the clipboard.</desc>
+    </entry>
+    <entry name="AutoStart" type="bool">
+      <desc>Whether to start KGpg automatically at login.</desc>
+      <default>false</default>
+    </entry>
+    <entry name="RemoteFileWarn" type="bool" key="remote_file_warn">
+      <desc>Whether to display a warning before creating temporary files during remote file operations.</desc>
+      <default>false</default>
+    </entry>
+    <entry name="EncryptedDropEvent" type="Enum" key="encrypted_drop_event">
+      <desc>How to handle encrypted drops</desc>
+      <values>
+        <value>DecryptAndSave</value>
+        <value>DecryptAndOpen</value>
+        <value>Ask</value>
+      </values>
+    </entry>
+    <entry name="UnencryptedDropEvent" type="Enum" key="unencrypted_drop_event">
+      <desc>How to handle unencrypted drops</desc>
+      <values>
+        <value>Encrypt</value>
+        <value>Sign</value>
+        <value>Ask</value>
+      </values>
+    </entry>
+    <entry name="SignMenu" type="Enum" key="sign_menu">
+      <desc>When to show the "sign file" service menu.</desc>
+      <values>
+        <value>Disabled</value>
+        <value>AllFiles</value>
+      </values>
+      <default>Disabled</default>
+    </entry>
+    <entry name="DecryptMenu" type="Enum" key="decrypt_menu">
+      <desc>When to show the "decrypt file" service menu.</desc>
+      <values>
+        <value>Disabled</value>
+        <value>AllFiles</value>
+        <value>EncryptedFiles</value>
+      </values>
+      <default>Disabled</default>
+    </entry>
+  </group>
+  <group name="TipOfDay">
+    <entry name="ShowTipOfDay" type="bool" key="RunOnStart">
+      <desc>Whether to show tip of the days.</desc>
+      <default>true</default>
+    </entry>
+  </group>
+
+</kcfg>

@@ -22,5 +22,5 @@ file_key->setEnabled(isOn);
 
 void Encryption::allow_custom_option_toggled( bool isOn)
 {
-custom_option->setEnabled(isOn);
+kcfg_CustomEncryptionOptions->setEnabled(isOn);
 }

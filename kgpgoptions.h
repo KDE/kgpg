@@ -39,13 +39,30 @@ public:
         Decryption *page2;
         UI *page3;
         GPGConf *page4;
+        
 private:
         KConfig *config;
         QString alwaysKeyID,alwaysKeyName;
         bool firstDisplay;
 
+        QString fileEncryptionKey;
+        QString gpgConfigPath;
+        QString keyServer;
+        QString defaultKeyServer;
+        bool useAgent;
+        bool defaultUseAgent;
+        bool encryptToAlways;
+        bool defaultEncryptToAlways;
+
+private:
+        bool hasChanged();
+        bool isDefault();
+
 private slots:
-        void readSettings();
+        void updateWidgets();
+        void updateWidgetsDefault();
+        void updateSettings();
+
         void listkey();
         QString namecode(QString kid);
         QString idcode(QString kname);
@@ -54,7 +71,7 @@ private slots:
         void slotRemoveMenu(QString menu);
 signals:
         void updateDisplay();
-        void updateSettings();
+        void settingsUpdated();
 };
 
 #endif
