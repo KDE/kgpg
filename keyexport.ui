@@ -38,7 +38,7 @@
                 <cstring>exportAttributes</cstring>
             </property>
             <property name="text">
-                <string>Export attibutes (photo id)</string>
+                <string>Export attributes (photo id)</string>
             </property>
             <property name="checked">
                 <bool>true</bool>
