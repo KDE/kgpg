@@ -132,7 +132,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,QColor
         if (editable) {
                 kDateWidget->setEnabled(true);
                 cBExpiration->setEnabled(true);
-		buttonPass->setEnabled(true);
+                buttonPass->setEnabled(true);
         }
         QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key "+KShellProcess::quote(sigkey.local8Bit());
 
@@ -284,7 +284,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey,QColor
                 p->start(KProcess::NotifyOnExit,true);
         }
         connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotPreOk1()));
-connect(buttonPass,SIGNAL(clicked()),this,SLOT(slotChangePass()));
+        connect(buttonPass,SIGNAL(clicked()),this,SLOT(slotChangePass()));
 }
 
 void KgpgKeyInfo::slotinfoimgread(KProcess *)
@@ -297,8 +297,8 @@ void KgpgKeyInfo::slotinfoimgread(KProcess *)
 
 void KgpgKeyInfo::slotChangePass()
 {
-KgpgInterface *ChangeKeyPassProcess=new KgpgInterface();
-                ChangeKeyPassProcess->KgpgChangePass(displayedKeyID);
+        KgpgInterface *ChangeKeyPassProcess=new KgpgInterface();
+        ChangeKeyPassProcess->KgpgChangePass(displayedKeyID);
 }
 
 void KgpgKeyInfo::slotPreOk1()
@@ -607,13 +607,12 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         keysList2->photoKeysList="";
         config=kapp->config();
         readOptions();
-        //if (enctodef==true) defKey=defaultKey;
-        //else defKey="";
+
         setCaption(i18n("Key Management"));
-        //(void) new KAction(i18n("&Refresh List"), KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_copy");
+
         KAction *exportPublicKey = new KAction(i18n("E&xport Public Key(s)..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_export");
-        KAction *deleteKey = new KAction(i18n("&Delete Key"),"editdelete", Qt::Key_Delete,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
-        KAction *signKey = new KAction(i18n("&Sign Key..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
+        KAction *deleteKey = new KAction(i18n("&Delete Key(s)"),"editdelete", Qt::Key_Delete,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
+        signKey = new KAction(i18n("&Sign Key..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
         KAction *delSignKey = new KAction(i18n("Delete Sign&ature"),"editdelete", 0,this, SLOT(delsignkey()),actionCollection(),"key_delsign");
         KAction *infoKey = new KAction(i18n("&Key Info"), "kgpg_info", Qt::Key_Return,this, SLOT(listsigns()),actionCollection(),"key_info");
         KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", KStdAccel::shortcut(KStdAccel::Paste),this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
@@ -637,14 +636,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         KStdAction::configureToolbars(this, SLOT(configuretoolbars() ), actionCollection(), "configuretoolbars");
         setStandardToolBarMenuEnabled(true);
 
-        /*
-          //KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
-        #if (KDE_VERSION >= 310)
-          (void) new KToggleToolBarAction("mainToolBar",i18n("Show Toolbar"), actionCollection(),"pref_toolbar"); ///  KDE 3.1 only
-        #endif
-        */
         QVBoxLayout *vbox=new QVBoxLayout(page,3);
-        //keysList2 = new KListView(page);
 
         keysList2->setRootIsDecorated(true);
         keysList2->addColumn( i18n( "Key" ) );
@@ -657,7 +649,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         keysList2->setAllColumnsShowFocus(true);
         keysList2->setFullWidth(true);
         keysList2->setAcceptDrops (true) ;
-	keysList2->setSelectionModeExt(KListView::Extended);
+        keysList2->setSelectionModeExt(KListView::Extended);
 
         popup=new QPopupMenu();
         exportPublicKey->plug(popup);
@@ -804,21 +796,18 @@ void listKeys::checkPhotos()
 
 void listKeys::checkList()
 {
-QPtrList<QListViewItem> exportList=keysList2->selectedItems();
-if (exportList.count()>1)
-{
-editKey->setEnabled(false);
-setDefaultKey->setEnabled(false);
-importAllSignKeys->setEnabled(false);
-}
-else
-{
-editKey->setEnabled(true);
-setDefaultKey->setEnabled(true);
-importAllSignKeys->setEnabled(true);
-}
+        QPtrList<QListViewItem> exportList=keysList2->selectedItems();
+        if (exportList.count()>1) {
+                editKey->setEnabled(false);
+                setDefaultKey->setEnabled(false);
+                importAllSignKeys->setEnabled(false);
+        } else {
+                editKey->setEnabled(true);
+                setDefaultKey->setEnabled(true);
+                importAllSignKeys->setEnabled(true);
+        }
 
-	displayPhoto();
+        displayPhoto();
 }
 
 void listKeys::displayPhoto()
@@ -950,19 +939,20 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
         ////////////  popup a different menu depending on which key is selected
         if (sel!=NULL) {
 
-	if (keysList2->selectedItems().count()>1)
-	{
-	QPtrList<QListViewItem> exportList=keysList2->selectedItems();
-	bool keyDepth=true;
-        for ( uint i = 0; i < exportList.count(); ++i )
-                if ( exportList.at(i) )
-                        if (exportList.at(i)->depth()!=0) keyDepth=false;
-        if (!keyDepth)
-	{
-	popupout->exec(pos);
-	return;
-	}
-	}
+                if (keysList2->selectedItems().count()>1) {
+                        QPtrList<QListViewItem> exportList=keysList2->selectedItems();
+                        bool keyDepth=true;
+                        for ( uint i = 0; i < exportList.count(); ++i )
+                                if ( exportList.at(i) )
+                                        if (exportList.at(i)->depth()!=0)
+                                                keyDepth=false;
+                        if (!keyDepth) {
+                                signKey->setEnabled(false);
+                                popupout->exec(pos);
+                                return;
+                        } else
+                                signKey->setEnabled(true);
+                }
 
                 if (sel->depth()!=0) {
                         if ((sel->text(3)=="-") && (sel->text(5)!="-")) {
@@ -1034,22 +1024,22 @@ void listKeys::slotexport()
                 return;
 
 
-QPtrList<QListViewItem> exportList=keysList2->selectedItems();
-if (exportList.count()==0) return;
+        QPtrList<QListViewItem> exportList=keysList2->selectedItems();
+        if (exportList.count()==0)
+                return;
 
 
-KURL u;
-QString sname;
+        KURL u;
+        QString sname;
 
-if (exportList.count()==1)
-{
-        QString key=keysList2->currentItem()->text(0);
-	sname=key.section('@',0,0);
-        sname=sname.section(' ',-1,-1);
-        sname=sname.section('.',0,0);
-        sname=sname.section('(',-1,-1);
-	}
-	else sname="keyring";
+        if (exportList.count()==1) {
+                QString key=keysList2->currentItem()->text(0);
+                sname=key.section('@',0,0);
+                sname=sname.section(' ',-1,-1);
+                sname=sname.section('.',0,0);
+                sname=sname.section('(',-1,-1);
+        } else
+                sname="keyring";
         sname.append(".asc");
         sname.prepend(QDir::homeDirPath()+"/");
         u.setPath(sname);
@@ -1076,12 +1066,12 @@ if (exportList.count()==1)
 
 
 
-	for ( uint i = 0; i < exportList.count(); ++i )
-                if ( exportList.at(i) )
-                                *p<<(exportList.at(i)->text(5)).stripWhiteSpace();
+                                for ( uint i = 0; i < exportList.count(); ++i )
+                                        if ( exportList.at(i) )
+                                                *p<<(exportList.at(i)->text(5)).stripWhiteSpace();
 
 
-				p->start(KProcess::Block);
+                                p->start(KProcess::Block);
                                 if (fgpg.exists())
                                         KMessageBox::information(this,i18n("Your public key \"%1\" was successfully exported\n").arg(expname));
                                 else
@@ -1093,9 +1083,9 @@ if (exportList.count()==1)
                         if (!exportAttr)
                                 *p<<"--export-options"<<"no-include-attributes";
 
-					for ( uint i = 0; i < exportList.count(); ++i )
-                if ( exportList.at(i) )
-                                *p<<(exportList.at(i)->text(5)).stripWhiteSpace();
+                        for ( uint i = 0; i < exportList.count(); ++i )
+                                if ( exportList.at(i) )
+                                        *p<<(exportList.at(i)->text(5)).stripWhiteSpace();
 
                         if (dial->checkClipboard->isChecked())
                                 QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotProcessExportClip(KProcess *)));
@@ -1177,32 +1167,54 @@ void listKeys::signkey()
                 return;
         if (keysList2->currentItem()->depth()!=0)
                 return;
-        bool islocal=false;
-        QString keyID,keyMail;
 
-        FILE *pass;
-        char line[200]="";
-        QString opt,fingervalue;
-        QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --fingerprint "+KShellProcess::quote(keysList2->currentItem()->text(5));
-        pass=popen(QFile::encodeName(gpgcmd),"r");
-        while ( fgets( line, sizeof(line), pass)) {
-                opt=line;
-                if (opt.startsWith("fpr")) {
-                        fingervalue=opt.section(':',9,9);
-                        // format fingervalue in 4-digit groups
-                        uint len = fingervalue.length();
-                        if ((len > 0) && (len % 4 == 0))
-                                for (uint n = 0; 4*(n+1) < len; n++)
-                                        fingervalue.insert(5*n+4, ' ');
-                }
+        signList=keysList2->selectedItems();
+        bool keyDepth=true;
+        for ( uint i = 0; i < signList.count(); ++i )
+                if ( signList.at(i) )
+                        if (signList.at(i)->depth()!=0)
+                                keyDepth=false;
+        if (!keyDepth) {
+                KMessageBox::sorry(this,i18n("You can only sign primary keys. Please check your selection."));
+                return;
         }
 
-        opt=	i18n("<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>%3</b>.<br><br>"
-                  "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-                  "is not trying to intercept your communications</qt>").arg(keysList2->currentItem()->text(0)).arg(keysList2->currentItem()->text(5)).arg(fingervalue);
+        bool islocal=false;
+        QString keyID,keyMail;
+        if (signList.count()==1) {
+                FILE *pass;
+                char line[200]="";
+                QString opt,fingervalue;
+                QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --fingerprint "+KShellProcess::quote(keysList2->currentItem()->text(5));
+                pass=popen(QFile::encodeName(gpgcmd),"r");
+                while ( fgets( line, sizeof(line), pass)) {
+                        opt=line;
+                        if (opt.startsWith("fpr")) {
+                                fingervalue=opt.section(':',9,9);
+                                // format fingervalue in 4-digit groups
+                                uint len = fingervalue.length();
+                                if ((len > 0) && (len % 4 == 0))
+                                        for (uint n = 0; 4*(n+1) < len; n++)
+                                                fingervalue.insert(5*n+4, ' ');
+                        }
+                }
+                pclose(pass);
+                opt=	i18n("<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>%3</b>.<br><br>"
+                          "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
+                          "is not trying to intercept your communications</qt>").arg(keysList2->currentItem()->text(0)).arg(keysList2->currentItem()->text(5)).arg(fingervalue);
 
-        if (KMessageBox::warningContinueCancel(this,opt)!=KMessageBox::Continue)
-                return;
+                if (KMessageBox::warningContinueCancel(this,opt)!=KMessageBox::Continue)
+                        return;
+
+        } else {
+                QStringList signKeyList;
+                for ( uint i = 0; i < signList.count(); ++i )
+                        if ( signList.at(i) )
+                                signKeyList+=signList.at(i)->text(0)+": "+signList.at(i)->text(5);
+                if (KMessageBox::warningContinueCancelList(this,i18n("<qt>You are about to sign the following keys in one pass.<br><b>If you have not carefully checked all fingerprints, the security of your communications may be compromised !</b></qt>"),signKeyList)!=KMessageBox::Continue)
+                        return;
+        }
+
 
         //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
         KgpgSelKey *opts=new KgpgSelKey(this);
@@ -1216,18 +1228,46 @@ void listKeys::signkey()
                 return;
         }
         delete opts;
-        KgpgInterface *signKeyProcess=new KgpgInterface();
-        signKeyProcess->KgpgSignKey(keysList2->currentItem()->text(5),keyID,keyMail,islocal);
 
-        connect(signKeyProcess,SIGNAL(signatureFinished(int)),this,SLOT(signatureResult(int)));
+
+        //for ( uint i = 0; i < signList.count(); ++i )
+
+        globalCount=1;
+        globalkeyID=keyID;
+        globalkeyMail=keyMail;
+        globalisLocal=islocal;
+        if ( signList.at(0) ) {
+                KgpgInterface *signKeyProcess=new KgpgInterface();
+                signKeyProcess->KgpgSignKey(signList.at(0)->text(5),keyID,keyMail,islocal);
+                connect(signKeyProcess,SIGNAL(signatureFinished(int)),this,SLOT(signatureResult(int)));
+                while (signList.at(0)->firstChild()!=0)
+                        delete signList.at(0)->firstChild();
+                signList.at(0)->setOpen(false);
+        }
+        //signKeyProcess->KgpgSignKey(keysList2->currentItem()->text(5),keyID,keyMail,islocal);
+
 }
 
 void listKeys::signatureResult(int success)
 {
-        if (success==3)
-                refreshkey();
+        if (success==3) {
+                keysList2->refreshcurrentkey(signList.at(globalCount-1));
+                if (globalCount<=signList.count()) {
+
+                        if ( signList.at(globalCount) ) {
+                                KgpgInterface *signKeyProcess=new KgpgInterface();
+                                signKeyProcess->KgpgSignKey(signList.at(globalCount)->text(5),globalkeyID,globalkeyMail,globalisLocal);
+                                connect(signKeyProcess,SIGNAL(signatureFinished(int)),this,SLOT(signatureResult(int)));
+                                while (signList.at(globalCount)->firstChild()!=0)
+                                        delete signList.at(globalCount)->firstChild();
+                                signList.at(globalCount)->setOpen(false);
+                                //keysList2->refreshcurrentkey(signList.at(globalCount));
+                        }
+                        globalCount++;
+                }
+        }
         if (success==2)
-                KMessageBox::sorry(this,i18n("Bad passphrase, try again."));
+                KMessageBox::sorry(this,i18n("Bad passphrase, key not signed."));
 }
 
 
@@ -1313,9 +1353,19 @@ void listKeys::delsignkey()
 
 void listKeys::delsignatureResult(bool success)
 {
-        if (success)
-                refreshkey();
-        else
+        if (success) {
+                QListViewItem *top=keysList2->currentItem();
+                while (top->depth()!=0)
+                        top=top->parent();
+                while (top->firstChild()!=0)
+                        delete top->firstChild();
+                top->setOpen(false);
+                keysList2->refreshcurrentkey(top);
+                top->setOpen(true);
+
+                //		delete keysList2->currentItem();
+                //refreshkey();
+        } else
                 KMessageBox::sorry(this,i18n("Requested operation was unsuccessful, please edit the key manually."));
 }
 
@@ -1459,9 +1509,9 @@ void listKeys::deleteseckey()
         QString res=keysList2->currentItem()->text(0);
         res.replace(QRegExp("<"),"&lt;");
         int result=KMessageBox::questionYesNo(this,
-                                             i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b> ?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key anymore!").arg(res),
-                                             i18n("Warning"),
-                                             i18n("Delete"));
+                                              i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b> ?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key anymore!").arg(res),
+                                              i18n("Warning"),
+                                              i18n("Delete"));
         if (result!=KMessageBox::Yes)
                 return;
 
@@ -1475,12 +1525,29 @@ void listKeys::deleteseckey()
 
 void listKeys::confirmdeletekey()
 {
-        if (keysList2->secretList.find(keysList2->currentItem()->text(5))!=-1)
+        if ((keysList2->secretList.find(keysList2->currentItem()->text(5))!=-1) && (keysList2->selectedItems().count()==1))
                 deleteseckey();
         else {
-                QString res=keysList2->currentItem()->text(0);
-                res.replace(QRegExp("<"),"&lt;");
-                int result=KMessageBox::questionYesNo(this,i18n("<p>Delete public key <b>%1</b> ?</p>").arg(res),i18n("Warning"),i18n("Delete"));
+                QStringList keysToDelete;
+                QString secretList;
+                QPtrList<QListViewItem> exportList=keysList2->selectedItems();
+                bool secretKeyInside=false;
+                for ( uint i = 0; i < exportList.count(); ++i )
+                        if ( exportList.at(i) ) {
+                                if (keysList2->secretList.find(exportList.at(i)->text(5))!=-1) {
+                                        secretKeyInside=true;
+                                        secretList+=(exportList.at(i)->text(0)).replace(QRegExp("<"),"&lt;")+"<br>";
+                                        exportList.at(i)->setSelected(false);
+                                } else
+                                        keysToDelete+=(exportList.at(i)->text(0)).replace(QRegExp("<"),"&lt;");
+                        }
+
+                if (secretKeyInside) {
+                        int result=KMessageBox::warningContinueCancel(this,i18n("<qt>The following are secret key pairs:<br><b>%1</b>They will not be deleted.<br></qt>").arg(secretList));
+                        if (result!=KMessageBox::Continue)
+                                return;
+                }
+                int result=KMessageBox::questionYesNoList(this,i18n("<qt><b>Delete the following public key(s)  ?</b></qt>"),keysToDelete,i18n("Warning"),i18n("Delete"));
                 if (result!=KMessageBox::Yes)
                         return;
                 else
@@ -1490,16 +1557,28 @@ void listKeys::confirmdeletekey()
 
 void listKeys::deletekey()
 {
+        QPtrList<QListViewItem> exportList=keysList2->selectedItems();
+        if (exportList.count()==0)
+                return;
+
+
         KProcess gp;
         gp << "gpg"
         << "--no-tty"
         << "--no-secmem-warning"
         << "--batch"
         << "--yes"
-        << "--delete-key"
-        << keysList2->currentItem()->text(5);
+        << "--delete-key";
+        for ( uint i = 0; i < exportList.count(); ++i )
+                if ( exportList.at(i) )
+                        gp<<(exportList.at(i)->text(5)).stripWhiteSpace();
+
         gp.start(KProcess::Block);
-        delete keysList2->currentItem();
+
+        for ( uint i = 0; i < exportList.count(); ++i )
+                if ( exportList.at(i) )
+                        delete exportList.at(i);
+
 }
 
 
@@ -1695,10 +1774,10 @@ void KeyView::refreshkeylist()
         int colWidth = QMAX(150, columnWidth(0));
         QListViewItem *current = currentItem();
         if(current != NULL) {
-            while(current->depth() > 0) {
-                current = current->parent();
-            }
-            takeItem(current);
+                while(current->depth() > 0) {
+                        current = current->parent();
+                }
+                takeItem(current);
         }
 
         // refill
@@ -1746,11 +1825,11 @@ void KeyView::refreshkeylist()
         pclose(fp);
 
         if(current != NULL) {
-            // select previous selected
-            QListViewItem *newPos = findItem(current->text(0), 0);
-            setSelected(newPos, true);
-            ensureItemVisible(newPos);
-            delete current;
+                // select previous selected
+                QListViewItem *newPos = findItem(current->text(0), 0);
+                setSelected(newPos, true);
+                ensureItemVisible(newPos);
+                delete current;
         }
 
         if (columnWidth(0) > colWidth)
@@ -1778,9 +1857,6 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
                 }
         }
         pclose(fp);
-        if (current->isOpen())
-                current->setOpen(false);
-
 }
 
 

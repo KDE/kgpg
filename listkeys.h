@@ -22,7 +22,8 @@
 #include <qdialog.h>
 #include <qwidget.h>
 #include <qpopupmenu.h>
-
+#include <qptrlist.h>
+#include <qlistview.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qstring.h>
@@ -116,7 +117,7 @@ public:
 
 private slots:
         void slotinfoimgread(KProcess *);
-	void slotChangePass();
+        void slotChangePass();
         void slotPreOk1();
         void slotPreOk2(int);
 
@@ -178,7 +179,11 @@ private:
         keyServer *kServer;
         KTempFile *kgpgtmp;
         bool showPhoto,configshowToolBar;
-        KAction *importSignatureKey, *editKey,*setDefaultKey,*importAllSignKeys ;
+        KAction *importSignatureKey, *editKey,*setDefaultKey,*importAllSignKeys,*signKey;
+        QPtrList<QListViewItem> signList;
+        uint globalCount;
+        bool globalisLocal;
+        QString globalkeyMail,globalkeyID;
 
 protected:
         void closeEvent( QCloseEvent * e );
@@ -188,7 +193,7 @@ public slots:
         void refreshkey();
 
 private slots:
-	void checkList();
+        void checkList();
         void configuretoolbars();
         void saveToolbarConfig();
         void checkPhotos();
