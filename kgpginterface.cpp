@@ -15,22 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kgpginterface.h"
 
+#include <qdialog.h>
+#include <qclipboard.h>
+#include <qlayout.h>
+#include <qregexp.h>
 
 #include <kmessagebox.h>
 #include <kapplication.h>
 #include <klocale.h>
 #include <kpassdlg.h>
-#include <qdialog.h>
-#include <qclipboard.h>
-#include <qlayout.h>
-#include <qcolor.h>
-#include <qregexp.h>
-
 #include <kmdcodec.h>
 #include <klineedit.h>
 
+#include "kgpginterface.h"
 
 KgpgInterface::KgpgInterface()
 {}
@@ -393,7 +391,7 @@ emit signfinished();
 }
 
 
-void KgpgInterface::KgpgVerifyFile(KURL srcUrl,KURL sigUrl)
+void KgpgInterface::KgpgVerifyFile(KURL sigUrl,KURL srcUrl)
 {
   //////////////////////////////////////   verify signature for a chosen file
   message="";
@@ -401,8 +399,8 @@ void KgpgInterface::KgpgVerifyFile(KURL srcUrl,KURL sigUrl)
       KProcIO *proc=new KProcIO();
 file=srcUrl;
     *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--verify";
-    if (sigUrl.filename()!="") *proc<<sigUrl.path().local8Bit();
-*proc<<srcUrl.path().local8Bit();
+    if (srcUrl.filename()!="") *proc<<srcUrl.path().local8Bit();
+*proc<<sigUrl.path().local8Bit();
 
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(verifyfin(KProcess *)));
   QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(readprocess(KProcIO *)));
@@ -425,7 +423,6 @@ else p->writeStdin("quit");
 }
 message+=required+"\n";
 }
-//p->ackRead();
 }
 
 void KgpgInterface::verifyfin(KProcess *)
@@ -571,16 +568,11 @@ int code=KPasswordDialog::getPassword(passphrase,i18n("Enter passphrase for %1:"
   *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--command-fd=0"<<"--status-fd=2";
   *conprocess<<"--edit-key"<<keyID;
   QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(delsigprocess(KProcIO *)));
-
   QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(delsignover(KProcess *)));
   conprocess->start(KProcess::NotifyOnExit,true);
   
 }
 
-void KgpgInterface::timerDone()
-{
-KMessageBox::sorry(0,"bla");
-}
 
 void KgpgInterface::delsigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
 {

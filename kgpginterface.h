@@ -75,15 +75,28 @@ class KgpgInterface : public QObject {
 	void KgpgSignFile(QString keyName="",QString keyID="",KURL srcUrl=0,QString Options="");
 	
 	/**Verify file function
-	 * @param srcUrl Kurl of the file to verify.
-	 * @param srcUrl Kurl of the signature file.
+	 * @param sigUrl Kurl of the signature file.
+	 * @param srcUrl Kurl of the file to be verified. If empty, gpg will try to find it using the signature file name (by removing the .sig extensio)
 	 */
-	void KgpgVerifyFile(KURL srcUrl,KURL sigUrl) ;
+	void KgpgVerifyFile(KURL sigUrl,KURL srcUrl=NULL) ;
 	
+	/**Import key function
+	 * @param url Kurl the url of the key file. Allows public & secret key import.
+	 */
 	void importKey(KURL url);
 	
+	/**Key signature function
+	 * @param keyID QString the ID of the key to be signed
+	 * @param signKeyID QString the ID of the signing key
+	 * @param signKeyMail QString the name of the signing key (only used to prompt user for passphrase)
+	 * @param local bool should the signature be local
+	 */
 	void KgpgSignKey(QString keyID="",QString signKeyID="",QString signKeyMail="",bool local=false);
 	
+	/**Key signature deletion function
+	 * @param keyID QString the ID of the key
+	 * @param signKeyID QString the ID of the signature key
+	 */
 	void KgpgDelSignature(QString keyID="",QString signKeyID="");
 	
 	/**Encrypt text function
@@ -94,6 +107,10 @@ class KgpgInterface : public QObject {
 	 */
 	 static QString KgpgEncryptText(QString text,QString userIDs, QString Options="");
 	
+	 /**Decrypt text function
+	 * @param text QString text to be decrypted.
+	 * @param userID QString the name of the decryption key (only used to prompt user for passphrase)
+	 */
 	static QString KgpgDecryptText(QString text,QString userID="");
 
 	/*
@@ -105,9 +122,14 @@ class KgpgInterface : public QObject {
 	
     private slots:
 	
-	void signover(KProcess *p);
-	void sigprocess(KProcIO *p);//ess *p,char *buf, int buflen);
-
+	  /**
+         * Checks output of the signature process
+         */
+	void signover(KProcess *);
+	/**
+         * Read output of the signature process
+         */
+	void sigprocess(KProcIO *p);
 	
         /**
          * Checks if the encrypted file was saved.
@@ -122,31 +144,67 @@ class KgpgInterface : public QObject {
 	/**
          * Checks if the signing was successfull.
          */
-	void timerDone();
 	void signfin(KProcess *p);
+	
+	/**
+         * Checks the number of uid's for a key-> if greater than one, key signature will switch to konsole mode
+         */
 	int checkuid(QString KeyID);
+	
+	/**
+         * Reads output of the delete signature process
+         */
 	void delsigprocess(KProcIO *p);
+	/**
+         * Checks output of the delete signature process
+         */
 	void delsignover(KProcess *p);
+	/**
+         * Checks output of the import process
+         */
 	void importover(KProcess *);
+/**
+         * Read output of the import process
+         */
 	void importprocess(KProcIO *p);
-	
-	void readprocess(KProcIO *p);//ess *p, char *buff, int bufflen);
-	
+/**
+         * Reads output of the current process + allow overwriting of a file
+         */
+	void readprocess(KProcIO *p);
+/**
+         * Checks output of the verify process
+         */
 	void verifyfin(KProcess *p);
 
 signals:
 	/**
-         * returns true if encryption successfull, false on error.
+         *  true if encryption successfull, false on error.
          */
     void encryptionfinished(bool);	
+	
 	/**
-         * returns true if decryption successfull, false on error.
+         * Signature process result: 0=successfull, 1=error, 2=bad passphrase
          */
-	void signatureFinished(int); //// 0=successfull, 1=error, 2=bad passphrase
+	void signatureFinished(int); 
+	/**
+         *  true if decryption successfull, false on error.
+         */
     void decryptionfinished(bool);
+	/**
+         * emitted if bad passphrase was giver
+         */
 	void badpassphrase(bool);
+	/**
+         *  true if import successfull, false on error.
+         */
 	void importfinished();
+	/**
+         *  true if verify successfull, false on error.
+         */
 	void verifyfinished();
+	/**
+         *  true if signature successfull, false on error.
+         */
 	void signfinished();
 
 	        
