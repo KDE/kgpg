@@ -685,7 +685,20 @@ switch( size) {
                         break;
                 }
 keysList2->displayPhoto=showPhoto;
-refreshkey();
+
+/////////////////////////////   refresh keys with photo id
+
+QListViewItem *newdef = keysList2->firstChild();
+        while (newdef)
+	{
+	if ((keysList2->photoKeysList.find(newdef->text(6))!=-1) && (newdef->childCount ()>0))
+	{
+	while (newdef->firstChild())
+	delete newdef->firstChild();
+	keysList2->expandKey(newdef);
+	}
+        newdef = newdef->nextSibling();
+	}
 }
 
 void listKeys::configuretoolbars()
@@ -1386,7 +1399,7 @@ void listKeys::deleteGroup()
         QListViewItem *item=keysList2->currentItem()->nextSibling();
         if (!item)
                 item=keysList2->lastChild();
-        keysList2->takeItem(keysList2->currentItem());
+        delete keysList2->currentItem();
         keysList2->setCurrentItem(item);
         keysList2->setSelected(item,true);
         config->setGroup("GPG Settings");
@@ -2442,7 +2455,7 @@ void KeyView::refreshgroups()
         while (item) {
                 if (item->text(6).isEmpty()) {
                         QListViewItem *item2=item->nextSibling();
-                        takeItem(item);
+                        delete item;
                         item=item2;
                 } else
                         item=item->nextSibling();
@@ -2519,7 +2532,7 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
 	bool keyIsOpen=false;
         QString keyUpdate=current->text(6);
 	if (current->isOpen ()) keyIsOpen=true;
-        takeItem(current);
+        delete current;
         refreshcurrentkey(keyUpdate);
 	currentItem()->setOpen(keyIsOpen);
 }
