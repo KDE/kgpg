@@ -340,15 +340,14 @@ void kgpgOptions::slotOk()
 
         config->sync();
 
-        if (kCBsign->currentText()==i18n("All Files"))
+	if (kCBsign->currentItem()==1)
                 slotInstallSign("allfiles");
         else
                 slotRemoveMenu("signfile.desktop");
-
-        if (kCBdecrypt->currentText()==i18n("All Files"))
+        if (kCBdecrypt->currentItem()==1)
                 slotInstallDecrypt("allfiles");
-        else if (kCBdecrypt->currentText().startsWith(i18n("Encrypted")))
-                slotInstallDecrypt("application/pgp-encrypted");
+        else if (kCBdecrypt->currentItem()==2)
+                slotInstallDecrypt("application/pgp-encrypted,application/pgp-signature,application/pgp-keys");
         else
                 slotRemoveMenu("decryptfile.desktop");
 }
