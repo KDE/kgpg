@@ -174,15 +174,13 @@ KURL urlselected;
      */
 
     // KAction pointers to enable/disable actions
-    KAction* fileNew,*manpage;
-    KAction* fileOpen;
+    KAction* manpage;
     KAction* fileSave;
-    KAction* fileSaveAs;
-        KAction* fileEncrypt;
+    KAction* fileEncrypt;
     KAction* fileDecrypt;
-    KAction* fileQuit;
     KAction* editUndo;
     KAction *editRedo,*helptips,*keysManage;
+    KAction *signGenerate, *signVerify, *signCheck;
     
   //  KToggleAction* viewEditorFirst;
   };

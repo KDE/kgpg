@@ -9,12 +9,17 @@
   <Menu name="keys"><text>&amp;Keys</text>
     <Action name="keys_manage"/>
   </Menu>
+
+  <Menu name="signature"><text>S&amp;ignature</text>
+    <Action name="sign_generate"/>
+    <Action name="sign_verify"/>
+    <Action name="sign_check"/>
+  </Menu>
 </MenuBar>
 
-<ToolBar name="mainToolBar" position="top"><text>Main ToolBar</text>
-  <Merge/>
+<ToolBar name="mainToolBar" position="top"><text>Main Toolbar</text>
 </ToolBar>
-<ToolBar name="extraToolBar" position="top"><text>Extra ToolBar</text>
+<ToolBar name="extraToolBar" position="top"><text>Extra Toolbar</text>
   <Action name="file_encrypt"/>
   <Action name="file_decrypt"/>
   <Action name="options_configure"/>

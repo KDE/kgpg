@@ -68,30 +68,13 @@ KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,bool encmode,
       QPopupMenu *popupfile=new QPopupMenu();
 
 
-      /// Add custom "file" menu;
-      fileNew->plug(popupfile);
-      fileOpen->plug(popupfile);
-      fileSave->plug(popupfile);
-      //fileSaveAs->plug(popupfile);
-      popupfile->insertSeparator();
-      fileEncrypt->plug(popupfile);
-      fileDecrypt->plug(popupfile);
-      popupfile->insertSeparator();
-      fileQuit->plug(popupfile);
-      menubar->insertItem(i18n("&File"),popupfile);
-
-      /// Add custom "keys" menu;
-      QPopupMenu *popup=new QPopupMenu();
-      keysManage->plug(popup);
-      menubar->insertItem(i18n("&Keys"),popup);
-
       /// Add custom "signature" menu;
-      QPopupMenu *popupsig=new QPopupMenu();
+      //QPopupMenu *popupsig=new QPopupMenu();
       //popupsig->insertItem(i18n("&Test"),this,SLOT(slotTest()));
-      popupsig->insertItem(i18n("&Generate signature"),this,SLOT(slotSignFile()));
-      popupsig->insertItem(i18n("&Verify signature"),this,SLOT(slotVerifyFile()));
-      popupsig->insertItem(i18n("&Check MD5 sum"),this,SLOT(slotCheckMd5()));
-      menubar->insertItem(i18n("&Signature"),popupsig);
+//      popupsig->insertItem(i18n("&Generate signature"),this,SLOT(slotSignFile()));
+//      popupsig->insertItem(i18n("&Verify signature"),this,SLOT(slotVerifyFile()));
+//      popupsig->insertItem(i18n("&Check MD5 sum"),this,SLOT(slotCheckMd5()));
+//      menubar->insertItem(i18n("&Signature"),popupsig);
 
       KPopupMenu *help = helpMenu();
       helptips->plug(help);
@@ -189,18 +172,22 @@ void KgpgApp::checkVersion()
 
 void KgpgApp::initActions()
 {
-  fileNew = KStdAction::openNew(this, SLOT(slotFileNew()), actionCollection());
-  fileOpen = KStdAction::open(this, SLOT(slotFileOpen()), actionCollection());
+  KStdAction::openNew(this, SLOT(slotFileNew()), actionCollection());
+  KStdAction::open(this, SLOT(slotFileOpen()), actionCollection());
   fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
-  fileSaveAs = KStdAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
+  KStdAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
   fileEncrypt = new KAction(i18n("&Encrypt file..."), fileEnc, 0,this, SLOT(slotFileEnc()), actionCollection(),"file_encrypt");
   fileDecrypt = new KAction(i18n("&Decrypt file..."), fileDec, 0,this, SLOT(slotFileDec()), actionCollection(),"file_decrypt");
-  fileQuit = KStdAction::quit(this, SLOT(slotFileQuit()), actionCollection());
+  KStdAction::quit(this, SLOT(slotFileQuit()), actionCollection());
   
   editUndo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
   editRedo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());
   
   keysManage = new KAction(i18n("&Manage keys"), "kgpg_manage", 0,this, SLOT(slotManageKey()), actionCollection(),"keys_manage");
+
+  signGenerate = new KAction(i18n("&Generate Signature..."),0, this, SLOT(slotSignFile()), actionCollection(), "sign_generate");
+  signVerify = new KAction(i18n("&Verify Signature..."),0, this, SLOT(slotVerifyFile()), actionCollection(), "sign_verify");
+  signCheck = new KAction(i18n("&Check MD5 sum..."), 0,this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
 
   KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
   
