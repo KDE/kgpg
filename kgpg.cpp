@@ -147,6 +147,7 @@ QString cryptedClipboard=QString(clipContent.left(60).stripWhiteSpace());
               QLabel *tex=new QLabel(clippop);
               tex->setText(i18n("<b>Encrypted following text:</b>"));
 			  QLabel *tex2=new QLabel(clippop);
+			  tex2->setTextFormat(Qt::PlainText);
 			  tex2->setText(cryptedClipboard+"...");
               vbox->addWidget(tex);
 			  vbox->addWidget(tex2);
