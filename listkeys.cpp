@@ -414,6 +414,7 @@ KeyView::KeyView( QWidget *parent, const char *name )
 
         trustunknown.load(locate("appdata", "pics/kgpg_unknown.png"));
         trustbad.load(locate("appdata", "pics/kgpg_bad.png"));
+        trustmarginal.load(locate("appdata", "pics/kgpg_marginal.png"));
         trustgood.load(locate("appdata", "pics/kgpg_good.png"));
 
         connect(this,SIGNAL(expanded (QListViewItem *)),this,SLOT(expandKey(QListViewItem *)));
@@ -2643,7 +2644,7 @@ gpgKey KeyView::extractKey(QString keyColon)
                 break;
         case 'm':
                 ret.gpgkeytrust=i18n("Marginal");
-                ret.trustpic=trustunknown;
+                ret.trustpic=trustmarginal;
                 break;
         case 'f':
                 ret.gpgkeytrust=i18n("Full");
