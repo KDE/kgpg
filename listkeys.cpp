@@ -623,7 +623,9 @@ void listKeys::findNextKey()
 if (searchString.isEmpty()) return;
 bool foundItem=true;
 int *ix;
-QListViewItem *item=keysList2->currentItem()->nextSibling();
+QListViewItem *item=keysList2->currentItem();
+while(item->depth() > 0) item = item->parent();
+item=item->nextSibling();
 QString searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
 //kdDebug()<<"Next string:"<<searchText<<"\n";
 //kdDebug()<<"Search:"<<searchString<<"\n";
