@@ -178,7 +178,7 @@ private:
         keyServer *kServer;
         KTempFile *kgpgtmp;
         bool showPhoto,configshowToolBar;
-        KAction *importSignatureKey;
+        KAction *importSignatureKey, *editKey,*setDefaultKey,*importAllSignKeys ;
 
 protected:
         void closeEvent( QCloseEvent * e );
@@ -188,6 +188,7 @@ public slots:
         void refreshkey();
 
 private slots:
+	void checkList();
         void configuretoolbars();
         void saveToolbarConfig();
         void checkPhotos();

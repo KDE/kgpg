@@ -611,19 +611,19 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         //else defKey="";
         setCaption(i18n("Key Management"));
         //(void) new KAction(i18n("&Refresh List"), KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_copy");
-        KAction *exportPublicKey = new KAction(i18n("E&xport Public Key..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_export");
+        KAction *exportPublicKey = new KAction(i18n("E&xport Public Key(s)..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_export");
         KAction *deleteKey = new KAction(i18n("&Delete Key"),"editdelete", Qt::Key_Delete,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
         KAction *signKey = new KAction(i18n("&Sign Key..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
         KAction *delSignKey = new KAction(i18n("Delete Sign&ature"),"editdelete", 0,this, SLOT(delsignkey()),actionCollection(),"key_delsign");
         KAction *infoKey = new KAction(i18n("&Key Info"), "kgpg_info", Qt::Key_Return,this, SLOT(listsigns()),actionCollection(),"key_info");
         KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", KStdAccel::shortcut(KStdAccel::Paste),this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
-        KAction *setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
+        setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
         importSignatureKey = new KAction(i18n("Import Key From Keyserver"),"network", 0,this, SLOT(preimportsignkey()),actionCollection(),"key_importsign");
-        KAction *importAllSignKeys = new KAction(i18n("Import Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
+        importAllSignKeys = new KAction(i18n("Import Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
 
         KStdAction::quit(this, SLOT(annule()), actionCollection());
         (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
-        KAction *editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
+        editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
         KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
         KAction *deleteKeyPair = new KAction(i18n("Delete Key Pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
         KAction *generateKey = new KAction(i18n("&Generate Key Pair..."), "kgpg_gen", KStdAccel::shortcut(KStdAccel::New),this, SLOT(slotgenkey()),actionCollection(),"key_gener");
@@ -657,6 +657,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         keysList2->setAllColumnsShowFocus(true);
         keysList2->setFullWidth(true);
         keysList2->setAcceptDrops (true) ;
+	keysList2->setSelectionModeExt(KListView::Extended);
 
         popup=new QPopupMenu();
         exportPublicKey->plug(popup);
@@ -699,7 +700,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         setCentralWidget(page);
 
         QObject::connect(keysList2,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(listsigns()));
-        QObject::connect(keysList2,SIGNAL(selectionChanged ()),this,SLOT(displayPhoto()));
+        QObject::connect(keysList2,SIGNAL(selectionChanged ()),this,SLOT(checkList()));
         QObject::connect(keysList2,SIGNAL(contextMenuRequested(QListViewItem *,const QPoint &,int)),
                          this,SLOT(slotmenu(QListViewItem *,const QPoint &,int)));
 
@@ -799,6 +800,25 @@ void listKeys::checkPhotos()
                         keysList2->photoKeysList+=tstID;
         }
         pclose(fp);
+}
+
+void listKeys::checkList()
+{
+QPtrList<QListViewItem> exportList=keysList2->selectedItems();
+if (exportList.count()>1)
+{
+editKey->setEnabled(false);
+setDefaultKey->setEnabled(false);
+importAllSignKeys->setEnabled(false);
+}
+else
+{
+editKey->setEnabled(true);
+setDefaultKey->setEnabled(true);
+importAllSignKeys->setEnabled(true);
+}
+
+	displayPhoto();
 }
 
 void listKeys::displayPhoto()
@@ -929,6 +949,21 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
 {
         ////////////  popup a different menu depending on which key is selected
         if (sel!=NULL) {
+
+	if (keysList2->selectedItems().count()>1)
+	{
+	QPtrList<QListViewItem> exportList=keysList2->selectedItems();
+	bool keyDepth=true;
+        for ( uint i = 0; i < exportList.count(); ++i )
+                if ( exportList.at(i) )
+                        if (exportList.at(i)->depth()!=0) keyDepth=false;
+        if (!keyDepth)
+	{
+	popupout->exec(pos);
+	return;
+	}
+	}
+
                 if (sel->depth()!=0) {
                         if ((sel->text(3)=="-") && (sel->text(5)!="-")) {
                                 if ((sel->text(1)=="-") || (sel->text(1)==i18n("Revoked"))) {
@@ -942,7 +977,7 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
                         }
                 } else {
                         keysList2->setSelected(sel,TRUE);
-                        if (keysList2->secretList.find(sel->text(5))!=-1)
+                        if ((keysList2->secretList.find(sel->text(5))!=-1) && (keysList2->selectedItems().count()==1))
                                 popupsec->exec(pos);
                         else
                                 popup->exec(pos);
@@ -998,18 +1033,28 @@ void listKeys::slotexport()
         if (keysList2->currentItem()->depth()!=0)
                 return;
 
-        KURL u;
-        QString key=keysList2->currentItem()->text(0);
 
-        QString sname=key.section('@',0,0);
+QPtrList<QListViewItem> exportList=keysList2->selectedItems();
+if (exportList.count()==0) return;
+
+
+KURL u;
+QString sname;
+
+if (exportList.count()==1)
+{
+        QString key=keysList2->currentItem()->text(0);
+	sname=key.section('@',0,0);
         sname=sname.section(' ',-1,-1);
         sname=sname.section('.',0,0);
         sname=sname.section('(',-1,-1);
+	}
+	else sname="keyring";
         sname.append(".asc");
         sname.prepend(QDir::homeDirPath()+"/");
         u.setPath(sname);
 
-        popupName *dial=new popupName(i18n("Export Public Key To"),this, "export_key", u,true);
+        popupName *dial=new popupName(i18n("Export Public Key(s) To"),this, "export_key", u,true);
         dial->exportAttributes->setChecked(true);
 
         if (dial->exec()==QDialog::Accepted) {
@@ -1027,8 +1072,16 @@ void listKeys::slotexport()
                                 *p<<"--output"<<QFile::encodeName(expname)<<"--export"<<"--armor";
                                 if (!exportAttr)
                                         *p<<"--export-options"<<"no-include-attributes";
-                                *p<<keysList2->currentItem()->text(5);
-                                p->start(KProcess::Block);
+
+
+
+
+	for ( uint i = 0; i < exportList.count(); ++i )
+                if ( exportList.at(i) )
+                                *p<<(exportList.at(i)->text(5)).stripWhiteSpace();
+
+
+				p->start(KProcess::Block);
                                 if (fgpg.exists())
                                         KMessageBox::information(this,i18n("Your public key \"%1\" was successfully exported\n").arg(expname));
                                 else
@@ -1039,7 +1092,11 @@ void listKeys::slotexport()
                         *p<<"--export"<<"--armor";
                         if (!exportAttr)
                                 *p<<"--export-options"<<"no-include-attributes";
-                        *p<<keysList2->currentItem()->text(5);
+
+					for ( uint i = 0; i < exportList.count(); ++i )
+                if ( exportList.at(i) )
+                                *p<<(exportList.at(i)->text(5)).stripWhiteSpace();
+
                         if (dial->checkClipboard->isChecked())
                                 QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotProcessExportClip(KProcess *)));
                         else
