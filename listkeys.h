@@ -62,6 +62,7 @@
 #include <kaction.h>
 #include <kapplication.h>
 #include <kedittoolbar.h>
+#include <dcopclient.h>
 #include <kstandarddirs.h>
 
 #include "kgpg.h"
@@ -71,7 +72,7 @@
 #include "kgpgoptions.h"
 #include "keyservers.h"
 #include "keyproperties.h"
-
+#include "dcopiface.h"
 
 typedef struct gpgKey
 {
@@ -151,6 +152,7 @@ private slots:
         QString extractKeyName(QString name,QString mail);
         void expandKey(QListViewItem *item);
         void refreshcurrentkey(QListViewItem *current);
+	QString extractKeyMail();
 
 protected:
         virtual void startDrag();
@@ -158,7 +160,7 @@ protected:
         virtual void  contentsDropEvent (QDropEvent*);
 };
 
-class listKeys : public KMainWindow//QDialog //KMainWindow
+class listKeys : public KMainWindow, virtual public KeyInterface
 {
         friend class KeyView;
         Q_OBJECT
@@ -180,7 +182,7 @@ private:
         keyServer *kServer;
         KTempFile *kgpgtmp;
         bool showPhoto,configshowToolBar;
-        KAction *importSignatureKey, *editKey,*setDefaultKey,*importAllSignKeys,*signKey;
+        KAction *importSignatureKey, *editKey,*setDefaultKey,*importAllSignKeys,*signKey,*addToAddressBook;
         QPtrList<QListViewItem> signList;
         uint globalCount;
 	int globalChecked;
@@ -207,8 +209,8 @@ private slots:
         void slotConfigureShortcuts();
         void keyserver();
         void slotReadProcess(KProcIO *p);
-        void slotProcessExportMail(KProcess *);
-        void slotProcessExportClip(KProcess *);
+        void slotProcessExportMail(QString keys);
+        void slotProcessExportClip(QString keys);
         void displayPhoto();
         void hidePhoto();
         void slotProcessPhoto(KProcess *);
@@ -235,6 +237,8 @@ private slots:
         void slotPreImportKey();
         void slotstatus(QListViewItem *);
         void slotedit();
+	void addToKAB();
+	void slotToKAB(QString keyString);
 
 signals:
         void readAgainOptions();

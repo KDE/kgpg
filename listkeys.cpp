@@ -42,7 +42,12 @@
 #include <kstdaccel.h>
 #include <klocale.h>
 #include <ktip.h>
+#include <krun.h>
 #include <kurldrag.h>
+
+
+#include <kabc/stdaddressbook.h>
+#include <kabc/addresseedialog.h>
 
 #include "listkeys.h"
 #include "keyservers.h"
@@ -608,7 +613,7 @@ void  KeyView::startDrag()
 
 
 ///////////////   main window for key management
-listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(parent, name, f)//QDialog(parent,name,TRUE)//KMainWindow(parent, name)
+listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(parent, name, f), DCOPObject( "KeyInterface" )
 {
         QWidget *page=new QWidget(this);
         keysList2 = new KeyView(page);
@@ -628,6 +633,8 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
         importSignatureKey = new KAction(i18n("Import Key From Keyserver"),"network", 0,this, SLOT(preimportsignkey()),actionCollection(),"key_importsign");
         importAllSignKeys = new KAction(i18n("Import Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
+
+	addToAddressBook= new KAction(i18n("&Add to Address Book"), "kabc", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
 
         KStdAction::quit(this, SLOT(annule()), actionCollection());
         (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
@@ -669,6 +676,8 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         setDefaultKey->plug(popup);
         popup->insertSeparator();
         importAllSignKeys->plug(popup);
+	popup->insertSeparator();
+	addToAddressBook->plug(popup);
 
         popupsec=new QPopupMenu();
         exportPublicKey->plug(popupsec);
@@ -740,6 +749,55 @@ void listKeys::saveToolbarConfig()
 {
         createGUI("listkeys.rc");
         applyMainWindowSettings(KGlobal::config(), "Main Window");
+}
+
+void listKeys::addToKAB()
+{
+KgpgInterface *ks=new KgpgInterface();
+                        ks->getKey(keysList2->currentItem()->text(5),true);
+                        connect(ks,SIGNAL(publicKeyString(QString)),this,SLOT(slotToKAB(QString)));
+
+
+//kapp->dcopClient()->send("kaddressbook","AddressBookServiceIface","importVCard(KURL,bool)",data);
+//kapp->dcopClient()->send("kaddressbook","KAddressBookIface","addEmail(QString)","toto@titi.noe");
+//kapp->dcopClient()->send("kgpg","KeyInterface","listsigns()","");
+//KRun::runCommand( "dcop kaddressbook AddressBookServiceIface importVCard("+Vcard+",true)");
+}
+
+void listKeys::slotToKAB(QString keyString)
+{
+ KABC::Key key;
+
+ QString email=keysList2->extractKeyMail().stripWhiteSpace();
+
+ KABC::AddressBook *ab = KABC::StdAddressBook::self();
+  if ( !ab->load() ) {
+  KMessageBox::sorry(0,i18n("Unable to contact the Address Book. Please check your installation."));
+  return;
+  }
+ KABC::Addressee::List addressees = ab->findByEmail( email );
+
+KABC::Addressee a;
+bool newEntry=false;
+
+if ( addressees.isEmpty() ) {
+a.insertEmail(email);
+newEntry=true;
+}
+else if (addressees.count()==1) {a=addressees.first();}
+else
+{
+a=KABC::AddresseeDialog::getAddressee(this);
+if (a.isEmpty()) return;
+}
+
+key.setTextData(keyString);
+a.insertKey(key);
+ab->insertAddressee(a);
+KABC::StdAddressBook::save();
+if (newEntry) KRun::runCommand( "kaddressbook -a " + KProcess::quote(email) );
+else KMessageBox::information(0,i18n("<qt>The public key for <b>%1</b> was saved in the corresponding entry in the Address book.</qt>").arg(email));
+
 }
 
 void listKeys::slotManpage()
@@ -1109,21 +1167,21 @@ void listKeys::slotexport()
                                         KMessageBox::sorry(this,i18n("Your public key could not be exported\nCheck the key."));
                         }
                 } else {
-                        message="";
-                        *p<<"--export"<<"--armor";
-                        if (!exportAttr)
-                                *p<<"--export-options"<<"no-include-attributes";
 
-                        for ( uint i = 0; i < exportList.count(); ++i )
+			QStringList klist;
+
+			for ( uint i = 0; i < exportList.count(); ++i )
                                 if ( exportList.at(i) )
-                                        *p<<(exportList.at(i)->text(5)).stripWhiteSpace();
+                                        klist.append(exportList.at(i)->text(5).stripWhiteSpace());
+
+			KgpgInterface *kexp=new KgpgInterface();
+                        kexp->getKey(klist,exportAttr);
 
                         if (dial->checkClipboard->isChecked())
-                                QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotProcessExportClip(KProcess *)));
+			connect(kexp,SIGNAL(publicKeyString(QString)),this,SLOT(slotProcessExportClip(QString)));
                         else
-                                QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotProcessExportMail(KProcess *)));
-                        QObject::connect(p, SIGNAL(readReady(KProcIO *)),this, SLOT(slotReadProcess(KProcIO *)));
-                        p->start(KProcess::NotifyOnExit,false);
+			connect(kexp,SIGNAL(publicKeyString(QString)),this,SLOT(slotProcessExportMail(QString)));
+
                 }
         }
         delete dial;
@@ -1137,20 +1195,20 @@ void listKeys::slotReadProcess(KProcIO *p)
 }
 
 
-void listKeys::slotProcessExportMail(KProcess *)
+void listKeys::slotProcessExportMail(QString keys)
 {
         ///////////////////////// send key by mail
         KProcIO *proc=new KProcIO();
         QString subj="Public key:";
-        *proc<<"kmail"<<"--subject"<<subj<<"--body"<<message;
+        *proc<<"kmail"<<"--subject"<<subj<<"--body"<<keys;
         proc->start(KProcess::DontCare);
 }
 
-void listKeys::slotProcessExportClip(KProcess *)
+void listKeys::slotProcessExportClip(QString keys)
 {
         // if (kapp->clipboard()->supportsSelection())
         //   kapp->clipboard()->setSelectionMode(true);
-        kapp->clipboard()->setText(message);
+        kapp->clipboard()->setText(keys);
 }
 
 
@@ -1895,7 +1953,13 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
         pclose(fp);
 }
 
-
+QString KeyView::extractKeyMail()
+{
+        QString name=currentItem()->text(0);
+        if (displayMailFirst)
+                return name.section('(',0,0);
+        return (name.section('(',-1)).section(')',0,0);
+}
 
 QString KeyView::extractKeyName(QString name,QString mail)
 {

@@ -35,6 +35,7 @@
 #include <kurl.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
+#include <kdebug.h>
 
 #include "detailedconsole.h"
 #include "kgpgfast.h"
@@ -64,6 +65,13 @@ public:
          * Initialize the class
          */
         KgpgInterface();
+
+	        /*
+         * Destructor for the class.
+         */
+        ~KgpgInterface();
+
+public slots:
 
         /**Encrypt file function
          * @param userIDs the recipients key id's.
@@ -131,9 +139,13 @@ public:
         * @param text QString text to be decrypted.
         * @param userID QString the name of the decryption key (only used to prompt user for passphrase)
         */
+
+	void getKey(QStringList IDs, bool attributes);
+
         void KgpgKeyExpire(QString keyID,QDate date,bool unlimited);
         void KgpgTrustExpire(QString keyID,QString keyTrust);
 	void KgpgChangePass(QString keyID);
+
 
         static QString KgpgDecryptText(QString text,QString userID);
         static QString KgpgDecryptFileToText(KURL srcUrl,QString userID);
@@ -146,10 +158,7 @@ public:
 	static void setGpgBoolSetting(QString name,bool enable,QString url);
         static QString checkForUtf8(QString txt);
 
-        /*
-         * Destructor for the class.
-         */
-        ~KgpgInterface();
+
 
 
 
@@ -234,6 +243,11 @@ private slots:
 
         void txtencryptfin(KProcess *);
         void signkillDisplayClip();
+
+	void slotReadKey(KProcIO *p);
+	void getKeyResult(KProcess *);
+
+
         //void txtreaddecprocess(KProcIO *p);
         //void txtdecryptfin(KProcess *);
 
@@ -296,12 +310,17 @@ signals:
 
         void expirationFinished(int);
 
+	/**
+                * returns a public key string
+                */
+	void publicKeyString(QString);
+
 
 private:
         /**
         * @internal structure for communication
         */
-        QString message,tempKeyFile,userIDs,txtprocess,output;
+        QString message,tempKeyFile,userIDs,txtprocess,output,keyString;
         QCString passphrase;
         bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc;
         int signSuccess,expSuccess,trustValue,konsChecked;
