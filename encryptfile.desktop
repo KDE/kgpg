@@ -1,5 +1,5 @@
 [Desktop Entry]
-ServiceTypes=all/allfiles
+ServiceTypes=allfiles
 Actions=encrypt
 
 [Desktop Action encrypt]
@@ -8,7 +8,7 @@ Name[es]=Cifrar archivo
 Name[fr]=Crypter un fichier
 Name[ja]=ファイルの符号化
 Name[pt]=Cifrar o Ficheiro
-Name[pt_BR]=Cifrar o Ficheiro
+Name[pt_BR]=Criptografar arquivo
 Name[ru]=Зашифровать файл
 Name[sv]=Kryptera fil
 Name[xh]=Faka ufihlo Kwifayile
