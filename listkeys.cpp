@@ -1320,7 +1320,9 @@ void listKeys::slotProcessExportClip(QString keys)
 void listKeys::showKeyInfo(QString keyID)
 {
         KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",keyID);
+	//connect(opts,SIGNAL(keyNeedsRefresh()),keysList2,SLOT(refreshselfkey()));
         opts->show();
+
         //delete opts;
         /*
                 QListViewItem *current = keysList2->firstChild();
@@ -1364,7 +1366,8 @@ void listKeys::listsigns()
         QString key=keysList2->currentItem()->text(6);
         if (!key.isEmpty()) {
                 KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",key);
-                if (opts->exec()==QDialog::Accepted) keysList2->refreshcurrentkey(keysList2->currentItem());
+		connect(opts,SIGNAL(keyNeedsRefresh()),keysList2,SLOT(refreshselfkey()));
+		opts->exec();
         } else
                 editGroup();
 }
@@ -2471,6 +2474,7 @@ void KeyView::refreshgroups()
 
 void KeyView::refreshselfkey()
 {
+kdDebug()<<"Refreshing key\n";
 if (currentItem()->depth()==0)
 refreshcurrentkey(currentItem());
 else refreshcurrentkey(currentItem()->parent());

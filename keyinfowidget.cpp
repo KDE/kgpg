@@ -355,6 +355,7 @@ void KgpgKeyInfo::slotChangePass()
 
 void KgpgKeyInfo::slotPreOk1()
 {
+if ((expirationDate==prop->tLExpiration->text()) && (ownerTrust==prop->kCOwnerTrust->currentText())) return;
         if (expirationDate!=prop->tLExpiration->text()) {
                 KgpgInterface *KeyExpirationProcess=new KgpgInterface();
 		if (prop->tLExpiration->text()==i18n("Unlimited"))
@@ -371,7 +372,14 @@ void KgpgKeyInfo::slotPreOk2(int)
         if (ownerTrust!=prop->kCOwnerTrust->currentText()) {
                 KgpgInterface *KeyTrustProcess=new KgpgInterface();
                 KeyTrustProcess->KgpgTrustExpire(displayedKeyID,prop->kCOwnerTrust->currentText());
-                connect(KeyTrustProcess,SIGNAL(trustfinished()),this,SLOT(accept()));
+                connect(KeyTrustProcess,SIGNAL(trustfinished()),this,SLOT(slotAccept()));
         } else
-                accept();
+                slotAccept();
+}
+
+void KgpgKeyInfo::slotAccept()
+{
+//kdDebug()<<"Key was modified\n";
+emit keyNeedsRefresh();
+accept();
 }

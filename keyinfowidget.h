@@ -72,6 +72,7 @@ private slots:
 	void slotMainImageRead(KProcess *);
 	void slotSetMainPhoto(QStringList list);
 	void reloadMainPhoto(const QString &uid);
+	void slotAccept();
 
 private:
         KTempFile *kgpginfotmp;
@@ -87,6 +88,8 @@ private:
 signals:
 void signalPhotoId(const QPixmap&);
 void changeMainPhoto(const QPixmap&);
+void keyNeedsRefresh();
+
 };
 
 #endif
