@@ -38,8 +38,6 @@
 #include "popupname.h"
 #include "kgpgoptions.h"
 
-//#include "kgpgoptions.h"
-
 
 // forward declaration of the Kgpg classes
 //class KgpgView;
@@ -80,7 +78,6 @@ public:
     KURL Docname;
     int version;
     bool ascii,untrusted,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday;//,edecrypt;
-    KToolBar *toolbar;
     QString messages,defaultkey,filekey;
     QPixmap fileEnc,fileDec;
         KgpgView *view;
@@ -187,7 +184,6 @@ KURL urlselected;
     KAction* editUndo;
     KAction *editRedo,*helptips,*keysManage;
     
-    KAction* settingsOptions;
   //  KToggleAction* viewEditorFirst;
   };
 

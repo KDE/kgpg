@@ -25,7 +25,6 @@
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <kmenubar.h>
-#include <ktoolbar.h>
 
 #include <klocale.h>
 #include <kconfig.h>
@@ -63,19 +62,7 @@ KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,bool encmode,
       initActions();
       //  initDocument();
       KMenuBar *menubar=KgpgApp::menuBar();
-      toolbar=KgpgApp::toolBar();
-      //toolbar->clear();
-      fileNew->plug(toolbar);
-      fileOpen->plug(toolbar);
-      fileSave->plug(toolbar);
-      //fileSaveAs->plug(toolbar);
-      editUndo->plug(toolbar);
-      editRedo->plug(toolbar);
-      toolbar->insertLineSeparator();
-//      settingsOptions->plug(toolbar);
-      keysManage->plug(toolbar);
 
-      toolbar->enableMoving(false);
       /// Add "keys" menu;
 
       QPopupMenu *popupfile=new QPopupMenu();
@@ -105,11 +92,6 @@ KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,bool encmode,
       popupsig->insertItem(i18n("&Verify signature"),this,SLOT(slotVerifyFile()));
       popupsig->insertItem(i18n("&Check MD5 sum"),this,SLOT(slotCheckMd5()));
       menubar->insertItem(i18n("&Signature"),popupsig);
-
-      /// Add custom "settings" menu;
-//      QPopupMenu *spopup=new QPopupMenu();
-//      settingsOptions->plug(spopup);
-//      menubar->insertItem(i18n("Se&ttings"),spopup);
 
       KPopupMenu *help = helpMenu();
       helptips->plug(help);
@@ -214,13 +196,16 @@ void KgpgApp::initActions()
   fileEncrypt = new KAction(i18n("&Encrypt file..."), fileEnc, 0,this, SLOT(slotFileEnc()), actionCollection(),"file_encrypt");
   fileDecrypt = new KAction(i18n("&Decrypt file..."), fileDec, 0,this, SLOT(slotFileDec()), actionCollection(),"file_decrypt");
   fileQuit = KStdAction::quit(this, SLOT(slotFileQuit()), actionCollection());
-//  settingsOptions = new KStdActionKAction(i18n("&Default options"), "configure", 0,this, SLOT(slotOptions()), actionCollection(),"settings_options");
-  KStdAction::preferences(this, SLOT(showSettingsDialog()), actionCollection(), "configure");
+  
   editUndo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
   editRedo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());
+  
+  keysManage = new KAction(i18n("&Manage keys"), "kgpg_manage", 0,this, SLOT(slotManageKey()), actionCollection(),"keys_manage");
+
+  KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
+  
   helptips = new KAction(i18n("Tip of the &Day..."), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
   manpage = new KAction(i18n("View GnuPG manual"), "contents", 0,this, SLOT(slotman()),0);
-  keysManage = new KAction(i18n("&Manage keys"), "kgpg_manage", 0,this, SLOT(slotManageKey()), actionCollection(),"keys_manage");
 }
 
 

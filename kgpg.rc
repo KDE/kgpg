@@ -6,8 +6,8 @@
     <Action name="file_encrypt"/>
     <Action name="file_decrypt"/>
   </Menu>
-  <Menu name="file"><text>&amp;File</text>
-    <Action name="configure"/>
+  <Menu name="keys"><text>&amp;Keys</text>
+    <Action name="keys_manage"/>
   </Menu>
 </MenuBar>
 
@@ -17,6 +17,7 @@
 <ToolBar name="extraToolBar" position="top"><text>Extra ToolBar</text>
   <Action name="file_encrypt"/>
   <Action name="file_decrypt"/>
-  <Action name="configure"/>
+  <Action name="options_configure"/>
+  <Action name="keys_manage"/>
 </ToolBar>
 </kpartgui>
