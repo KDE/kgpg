@@ -1,4 +1,4 @@
-version 1.0.1
+cvs version
 -improved keyserver operations
 -when verifying a text/file and signature is missing, ask user to import missing key from keyserver
 -new in keymanager: import missing signatures
@@ -14,6 +14,7 @@ version 1.0.1
 -added trust color to keymanager
 -added option to save files as .pgp instead of .gpg
 -new key properties dialog, allows to change expiration, ownertrust, passphrase
+-allow multi key operations in keymanager: deleting, exporting and signing of several keys at once is now possible
 
 
 version 1.0.0
