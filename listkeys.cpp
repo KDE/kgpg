@@ -516,7 +516,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         installEventFilter(this);
     setCaption(i18n("Key Management"));
 
-    (void) new KAction(i18n("&Open Editor"), "edit",0,this, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");    
+    (void) new KAction(i18n("&Open Editor"), "edit",0,this, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
     KAction *exportPublicKey = new KAction(i18n("E&xport Public Key(s)..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_export");
     KAction *deleteKey = new KAction(i18n("&Delete Key(s)"),"editdelete", Qt::Key_Delete,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
     signKey = new KAction(i18n("&Sign Key(s)..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
@@ -853,7 +853,7 @@ void listKeys::slotGpgError(QString errortxt)
 
 void listKeys::slotDeletePhoto()
 {
-    if (KMessageBox::questionYesNo(this,i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b> ?</qt>").arg(keysList2->currentItem()->text(6)).arg(keysList2->currentItem()->parent()->text(0)).arg(keysList2->currentItem()->parent()->text(1)),i18n("Warning"),i18n("Delete"))!=KMessageBox::Yes)
+    if (KMessageBox::warningContinueCancel(this,i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b> ?</qt>").arg(keysList2->currentItem()->text(6)).arg(keysList2->currentItem()->parent()->text(0)).arg(keysList2->currentItem()->parent()->text(1)),i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"))!=KMessageBox::Continue)
         return;
 
     KgpgInterface *delPhotoProcess=new KgpgInterface();
@@ -1597,8 +1597,8 @@ void listKeys::deleteGroup()
     if (!keysList2->currentItem()->text(6).isEmpty())
         return;
 
-    int result=KMessageBox::questionYesNo(this,i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>").arg(keysList2->currentItem()->text(0)),i18n("Warning"),i18n("Delete"));
-    if (result!=KMessageBox::Yes)
+    int result=KMessageBox::warningContinueCancel(this,i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>").arg(keysList2->currentItem()->text(0)),i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"));
+    if (result!=KMessageBox::Continue)
         return;
     KgpgInterface::delGpgGroup(keysList2->currentItem()->text(0), KGpgSettings::gpgConfigPath());
     QListViewItem *item=keysList2->currentItem()->nextSibling();
@@ -2252,11 +2252,11 @@ void listKeys::deleteseckey()
 {
     //////////////////////// delete a key
     QString res=keysList2->currentItem()->text(0)+" ("+keysList2->currentItem()->text(1)+")";
-    int result=KMessageBox::questionYesNo(this,
+    int result=KMessageBox::warningContinueCancel(this,
                                           i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b> ?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key anymore!").arg(res),
                                           i18n("Warning"),
-                                          i18n("Delete"));
-    if (result!=KMessageBox::Yes)
+                                          KGuiItem(i18n("Delete"),"editdelete"));
+    if (result!=KMessageBox::Continue)
         return;
 
     KProcess *conprocess=new KProcess();
@@ -2312,8 +2312,8 @@ void listKeys::confirmdeletekey()
         }
         if (keysToDelete.isEmpty())
             return;
-        int result=KMessageBox::questionYesNoList(this,i18n("<qt><b>Delete the following public key(s)  ?</b></qt>"),keysToDelete,i18n("Warning"),i18n("Delete"));
-        if (result!=KMessageBox::Yes)
+        int result=KMessageBox::warningContinueCancelList(this,i18n("<qt><b>Delete the following public key(s)  ?</b></qt>"),keysToDelete,i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"));
+        if (result!=KMessageBox::Continue)
             return;
         else
             deletekey();
