@@ -175,7 +175,7 @@ void KgpgInterface::KgpgDecryptFile(KURL srcUrl,KURL destUrl,QStringList Options
 		for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
        		if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
 
-		if (!destUrl.filename().isEmpty()) // a filename was entered
+		if (!destUrl.fileName().isEmpty()) // a filename was entered
 				*proc<<"-o"<<QFile::encodeName(destUrl.path());
         
                 *proc<<"-d"<<QFile::encodeName(srcUrl.path());
@@ -602,7 +602,7 @@ Md5Widget::Md5Widget(QWidget *parent, const char *name,KURL url):KDialogBase( pa
         QGridLayout *MyDialogLayout = new QGridLayout( page, 1, 1, 5, 6, "MyDialogLayout");
 
         QLabel *TextLabel1 = new QLabel( page, "TextLabel1" );
-        TextLabel1->setText(i18n("MD5 sum for <b>%1</b> is:").arg(url.filename()));
+        TextLabel1->setText(i18n("MD5 sum for <b>%1</b> is:").arg(url.fileName()));
         MyDialogLayout->addWidget( TextLabel1, 0, 0 );
 
         KLineEdit *KRestrictedLine1 = new KLineEdit(mdSum,page);
@@ -689,7 +689,7 @@ void KgpgInterface::KgpgSignFile(QString keyID,KURL srcUrl,QStringList Options)
 void KgpgInterface::signfin(KProcess *)
 {
         if (message.find("SIG_CREATED")!=-1)
-                KMessageBox::information(0,i18n("The signature file %1 was successfully created.").arg(file.filename()));
+                KMessageBox::information(0,i18n("The signature file %1 was successfully created.").arg(file.fileName()));
         else if (message.find("BAD_PASSPHRASE")!=-1)
                 KMessageBox::sorry(0,i18n("Bad passphrase, signature was not created."));
         else
@@ -800,7 +800,7 @@ void KgpgInterface::verifyfin(KProcess *)
     }
     else {
     	if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
-                                                      "Do you want to import this key from a keyserver?</qt>").arg(signID),file.filename())==KMessageBox::Yes)
+                                                      "Do you want to import this key from a keyserver?</qt>").arg(signID),file.fileName())==KMessageBox::Yes)
     	emit verifyquerykey(signID);
     }
     emit verifyfinished();

@@ -151,7 +151,7 @@ void MyView::encryptDroppedFolder()
         if (KMessageBox::warningContinueCancel(0,i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>").arg(kgpgfoldertmp->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpFile")==KMessageBox::Cancel)
                 return;
 
-	dialogue=new popupPublic(0,"Public keys",droppedUrls.first().filename(),true,goDefaultKey);
+	dialogue=new popupPublic(0,"Public keys",droppedUrls.first().fileName(),true,goDefaultKey);
 
 	QHButtonGroup *bGroup = new QHButtonGroup(dialogue->plainPage());
                 (void) new QLabel(i18n("Compression method for archive:"),bGroup);
@@ -226,7 +226,7 @@ pop = new KPassivePopup();
                 KMessageBox::sorry(0,i18n("Unable to create temporary file"));
                 return;
         	}
-        arch->addLocalDirectory (droppedUrls.first().path(),droppedUrls.first().filename());
+        arch->addLocalDirectory (droppedUrls.first().path(),droppedUrls.first().fileName());
         arch->close();
 
         KgpgInterface *folderprocess=new KgpgInterface();
@@ -325,7 +325,7 @@ void  MyView::slotVerifyFile()
 
         QString sigfile=QString::null;
         //////////////////////////////////////       try to find detached signature.
-        if (!droppedUrl.filename().endsWith(".sig")) {
+        if (!droppedUrl.fileName().endsWith(".sig")) {
                 sigfile=droppedUrl.path()+".sig";
                 QFile fsig(sigfile);
                 if (!fsig.exists()) {
@@ -388,7 +388,7 @@ void  MyView::decryptDroppedFile()
                 decryptNextFile();
         }
 
-        QString oldname=droppedUrls.first().filename();
+        QString oldname=droppedUrls.first().fileName();
         if (oldname.endsWith(".gpg") || oldname.endsWith(".asc") || oldname.endsWith(".pgp"))
                 oldname.truncate(oldname.length()-4);
         else
@@ -971,7 +971,7 @@ int KgpgAppletApp::newInstance()
                                         kgpg_applet->w->slotVerifyFile();
                                 else
                                         KMessageBox::sorry(0,i18n("Cannot verify folder."));
-                        } else if (kgpg_applet->w->droppedUrl.filename().endsWith(".sig"))
+                        } else if (kgpg_applet->w->droppedUrl.fileName().endsWith(".sig"))
                                 kgpg_applet->w->slotVerifyFile();
                         else
                                 kgpg_applet->w->decryptDroppedFile();

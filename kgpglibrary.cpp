@@ -51,7 +51,7 @@ void KgpgLibrary::slotFileEnc(KURL::List urls,QStringList opts,QString defaultKe
         if (!urls.empty()) {
                 urlselecteds=urls;
                 if (defaultKey.isEmpty()) {
-			QString fileNames=urls.first().filename();
+			QString fileNames=urls.first().fileName();
 			if (urls.count()>1) fileNames+=",...";
                         popupPublic *dialogue=new popupPublic(0,"Public keys",fileNames,true,goDefaultKey);
                         connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startencode(QStringList,QStringList,bool,bool)));

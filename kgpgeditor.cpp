@@ -229,7 +229,7 @@ void KgpgApp::slotFilePreDec()
 
         if (url.isEmpty())
                 return;
-        QString oldname=url.filename();
+        QString oldname=url.fileName();
 
         QString newname;
 
@@ -374,7 +374,7 @@ void KgpgApp::slotFileSaveAs()
                 QString filn=url.path();
                 QFile f(filn);
                 if (f.exists()) {
-                        QString message=i18n("Overwrite existing file %1?").arg(url.filename());
+                        QString message=i18n("Overwrite existing file %1?").arg(url.fileName());
                         int result=KMessageBox::warningContinueCancel(this,QString(message),i18n("Warning"),i18n("Overwrite"));
                         if (result==KMessageBox::Cancel)
                                 return;
@@ -383,7 +383,7 @@ void KgpgApp::slotFileSaveAs()
 		}
 		else if (KIO::NetAccess::exists(url,false,this))
 		{
-		QString message=i18n("Overwrite existing file %1?").arg(url.filename());
+		QString message=i18n("Overwrite existing file %1?").arg(url.fileName());
                         int result=KMessageBox::warningContinueCancel(this,QString(message),i18n("Warning"),i18n("Overwrite"));
                         if (result==KMessageBox::Cancel)
                                 return;
@@ -468,7 +468,7 @@ void KgpgApp::slotCheckMd5()
                 Md5Widget *mdwidget=new Md5Widget(this,0,url);
                 mdwidget->exec();
                 delete mdwidget;
-                //      KMessageBox::information(this,QString("MD5 sum for "+url.filename()+" is:\n"+checkfile.hexDigest().data()));
+                //      KMessageBox::information(this,QString("MD5 sum for "+url.fileName()+" is:\n"+checkfile.hexDigest().data()));
         }
 }
 
@@ -518,7 +518,7 @@ void KgpgApp::slotVerifyFile(KURL url)
         QString sigfile=QString::null;
         if (!url.isEmpty()) {
                 //////////////////////////////////////       try to find detached signature.
-                if (!url.filename().endsWith(".sig")) {
+                if (!url.fileName().endsWith(".sig")) {
                         sigfile=url.path()+".sig";
                         QFile fsig(sigfile);
                         if (!fsig.exists()) {

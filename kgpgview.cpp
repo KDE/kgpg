@@ -226,7 +226,7 @@ void KgpgView::modified()
         /////////////// notify for changes in editor window
         KgpgApp *win=(KgpgApp *) parent();
         if (win->fileSave->isEnabled()==false) {
-                QString capt=win->Docname.filename();
+                QString capt=win->Docname.fileName();
                 if (capt.isEmpty())
                         capt=i18n("untitled");
                 win->setCaption(capt,true);
