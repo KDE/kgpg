@@ -499,8 +499,8 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         KAction *delGroup= new KAction(i18n("&Delete Group"), 0, 0,this, SLOT(deleteGroup()),actionCollection(),"delete_group");
         KAction *editCurrentGroup= new KAction(i18n("&Edit Group"), 0, 0,this, SLOT(editGroup()),actionCollection(),"edit_group");
 
-        (void) new KAction(i18n("&Create New Contact In Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
-        (void) new KAction(i18n("&Merge Public Keys In Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
+        (void) new KAction(i18n("&Create New Contact in Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
+        (void) new KAction(i18n("&Merge Public Keys in Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
 
         KStdAction::quit(this, SLOT(annule()), actionCollection());
         KStdAction::find(this, SLOT(findKey()), actionCollection());
@@ -513,7 +513,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 	KAction *addUid= new KAction(i18n("&Add User Id"), 0, 0,this, SLOT(slotAddUid()),actionCollection(),"add_uid");
 	KAction *delUid= new KAction(i18n("&Delete User Id"), 0, 0,this, SLOT(slotDelUid()),actionCollection(),"del_uid");
 
-	KAction *editKey = new KAction(i18n("&Edit Key In Terminal"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
+	KAction *editKey = new KAction(i18n("&Edit Key in Terminal"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
         KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
         KAction *revokeKey = new KAction(i18n("Revoke Key..."), 0, 0,this, SLOT(revokeWidget()),actionCollection(),"key_revoke");
 
@@ -904,7 +904,7 @@ void listKeys::allToKAB()
 
         KABC::AddressBook *ab = KABC::StdAddressBook::self();
         if ( !ab->load() ) {
-                KMessageBox::sorry(this,i18n("Unable to contact the Address Book. Please check your installation."));
+                KMessageBox::sorry(this,i18n("Unable to contact the address book. Please check your installation."));
                 return;
         }
 
@@ -926,9 +926,9 @@ void listKeys::allToKAB()
         }
         KABC::StdAddressBook::save();
         if (!keylist.isEmpty())
-                KMessageBox::informationList(this,i18n("The following keys were exported to the Address Book:"),keylist);
+                KMessageBox::informationList(this,i18n("The following keys were exported to the address book:"),keylist);
         else
-                KMessageBox::sorry(this,i18n("No entry matching your keys were found in the Address Book."));
+                KMessageBox::sorry(this,i18n("No entry matching your keys were found in the address book."));
 }
 
 void listKeys::slotManpage()
@@ -1650,10 +1650,10 @@ void listKeys::signkey()
                                             "belongs to the person(s) you want to communicate with:"),opts->page);
         opts->vbox->addWidget(signCheck);
         QComboBox *signTrust=new QComboBox(opts->page);
-        signTrust->insertItem(i18n("I will not answer"));
-        signTrust->insertItem(i18n("I have not checked at all"));
-        signTrust->insertItem(i18n("I have done casual checking"));
-        signTrust->insertItem(i18n("I have done very careful checking"));
+        signTrust->insertItem(i18n("I Will Not Answer"));
+        signTrust->insertItem(i18n("I Have Not Checked at All"));
+        signTrust->insertItem(i18n("I Have Done Casual Checking"));
+        signTrust->insertItem(i18n("I Have Done Very Careful Checking"));
         opts->vbox->addWidget(signTrust);
 
         QCheckBox *localSign = new QCheckBox(i18n("Local signature (cannot be exported)"),opts->page);

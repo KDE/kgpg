@@ -12,13 +12,13 @@
             <height>309</height>
         </rect>
     </property>
+    <property name="caption">
+        <string>GNUPG Settings</string>
+    </property>
     <property name="whatsThis" stdset="0">
         <string>&lt;qt&gt;&lt;b&gt;Global Settings:&lt;/b&gt;&lt;br /&gt;
 	&lt;p&gt;&lt;/p&gt;
 	&lt;/qt&gt;</string>
-    </property>
-    <property name="caption">
-        <string>GNUPG settings</string>
     </property>
     <grid>
         <property name="name">
@@ -56,7 +56,7 @@
             <property name="title">
                 <string>Key Servers Configuration</string>
             </property>
-	    <property name="whatsThis" stdset="0">
+            <property name="whatsThis" stdset="0">
                 <string>&lt;qt&gt;&lt;b&gt;Key Servers Configuration:&lt;/b&gt;&lt;br /&gt;
 		&lt;p&gt;This dialog is used for configuring which Internet based key servers are to be polled, and in what order they are to be polled when searching for public keys.&lt;/p&gt;
 		&lt;/qt&gt;</string>
@@ -70,9 +70,9 @@
                         <cstring>textLabel1_3</cstring>
                     </property>
                     <property name="text">
-                        <string>Third Server</string>
+                        <string>Third server:</string>
                     </property>
-		    <property name="whatsThis" stdset="0">
+                    <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;&lt;b&gt;Third Server:&lt;/b&gt;&lt;br /&gt;
 			&lt;p&gt;This option specifies the Third key server that will be polled when attempting to download GPG/PGP keys from an Internet based key server. &lt;i&gt;Please note:&lt;/i&gt; The First Server will be stored in GnuPG's configuration file, all other key servers are stored for use by KGpg only.&lt;/p&gt;
 			&lt;/qt&gt;</string>
@@ -83,9 +83,9 @@
                         <cstring>textLabel1_2</cstring>
                     </property>
                     <property name="text">
-                        <string>Second Server</string>
+                        <string>Second server:</string>
                     </property>
-		    <property name="whatsThis" stdset="0">
+                    <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;&lt;b&gt;Second Server:&lt;/b&gt;&lt;br /&gt;
 			&lt;p&gt;This option specifies the Second key server that will be polled when attempting to download GPG/PGP keys from an Internet based key server. &lt;i&gt;Please note:&lt;/i&gt; The First Server will be stored in GnuPG's configuration file, all other key servers are stored for use by KGpg only.&lt;/p&gt;
 			&lt;/qt&gt;</string>
@@ -96,9 +96,9 @@
                         <cstring>textLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>First Server</string>
+                        <string>First server:</string>
                     </property>
-		    <property name="whatsThis" stdset="0">
+                    <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;&lt;b&gt;First Server:&lt;/b&gt;&lt;br /&gt;
 			&lt;p&gt;This option specifies the First key server that will be polled when attempting to download GPG/PGP keys from an Internet based key server. &lt;i&gt;Please note:&lt;/i&gt; The First Server will be stored in GnuPG's configuration file, all other key servers are stored for use by KGpg only.&lt;/p&gt;
 			&lt;/qt&gt;</string>
@@ -151,10 +151,6 @@ all others will be stored for use by KGpg only.</string>
         <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>gpg_config_path</cstring>
-            </property>
-            <property name="whatsThis" stdset="0">
-                <string>&lt;qt&gt;&lt;b&gt;GnuPG configuration file:&lt;/b&gt;&lt;br /&gt;
-		&lt;p&gt;This option allows a user to specify a GnuPG configuration file to be used instead of the default file contained in ~/.gnupg/gpg.conf.&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
             <property name="whatsThis" stdset="0">
                 <string>&lt;qt&gt;&lt;b&gt;GnuPG configuration file:&lt;/b&gt;&lt;br /&gt;

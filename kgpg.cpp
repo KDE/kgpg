@@ -151,7 +151,7 @@ void MyView::encryptDroppedFolder()
                 return;
 
         popupPublic *dialogue=new popupPublic(0,"Public keys",droppedUrls.first().filename(),true);
-	
+
 	QHButtonGroup *bGroup = new QHButtonGroup(dialogue->plainPage());
                 (void) new QLabel(i18n("Compression method for archive:"),bGroup);
                 KComboBox *optionbx=new KComboBox(bGroup);
@@ -181,10 +181,10 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
         int iXpos=qRect.width()/2-pop->width()/2;
         int iYpos=qRect.height()/2-pop->height()/2;
         pop->move(iXpos,iYpos);
-	
+
         QString extension;
 	KArchive *arch;
-	if (compressionScheme==0) 
+	if (compressionScheme==0)
 	{
 	arch=new KZip(kgpgfoldertmp->name());
 	extension=".zip";
@@ -880,22 +880,22 @@ int KgpgAppletApp::newInstance()
                                 if (!directoryInside)
                                         kgpg_applet->w->shredDroppedFile();
                                 else
-                                        KMessageBox::sorry(0,i18n("Cannot shred directory"));
+                                        KMessageBox::sorry(0,i18n("Cannot shred directory."));
                         } else if (args->isSet("s")!=0) {
                                 if (!directoryInside)
                                         kgpg_applet->w->showDroppedFile();
                                 else
-                                        KMessageBox::sorry(0,i18n("Cannot decrypt & show directory"));
+                                        KMessageBox::sorry(0,i18n("Cannot decrypt & show directory."));
                         } else if (args->isSet("S")!=0) {
                                 if (!directoryInside)
                                         kgpg_applet->w->signDroppedFile();
                                 else
-                                        KMessageBox::sorry(0,i18n("Cannot sign directory"));
+                                        KMessageBox::sorry(0,i18n("Cannot sign directory."));
                         } else if (args->isSet("V")!=0) {
                                 if (!directoryInside)
                                         kgpg_applet->w->slotVerifyFile();
                                 else
-                                        KMessageBox::sorry(0,i18n("Cannot verify directory"));
+                                        KMessageBox::sorry(0,i18n("Cannot verify directory."));
                         } else if (kgpg_applet->w->droppedUrl.filename().endsWith(".sig"))
                                 kgpg_applet->w->slotVerifyFile();
                         else
