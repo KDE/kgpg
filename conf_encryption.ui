@@ -10,7 +10,7 @@
             <x>0</x>
             <y>0</y>
             <width>455</width>
-            <height>320</height>
+            <height>324</height>
         </rect>
     </property>
     <property name="caption">
@@ -20,18 +20,49 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QCheckBox" row="6" column="0">
+        <widget class="QCheckBox" row="1" column="0">
             <property name="name">
-                <cstring>Pgp_extension</cstring>
+                <cstring>Allow_untrusted_keys</cstring>
             </property>
             <property name="text">
-                <string>Use *.pgp extension for encrypted files</string>
+                <string>Allow encryption with untrusted keys</string>
             </property>
             <property name="whatsThis" stdset="0">
-                <string>&lt;b&gt;Hide user ID&lt;/b&gt; Do not put the keyid into encrypted packets. This option hides the receiver of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because all available secret keys are tried. </string>
+                <string>&lt;b&gt;Allow encryption with untrusted keys&lt;/b&gt;: when you import a public key, it is usually marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this box enables you to use any key, even if it has not be signed.</string>
             </property>
         </widget>
-        <widget class="QLayoutWidget" row="4" column="0">
+        <widget class="QCheckBox" row="2" column="0">
+            <property name="name">
+                <cstring>PGP_compatibility</cstring>
+            </property>
+            <property name="text">
+                <string>PGP 6 compatibility</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>&lt;b&gt;PGP 6 compatibility&lt;/b&gt; Set up all options to be as PGP 6 compliant as possible. (option --pgp6)</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="0" column="0">
+            <property name="name">
+                <cstring>Ascii_armor</cstring>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>0</width>
+                    <height>0</height>
+                </size>
+            </property>
+            <property name="text">
+                <string>ASCII armored encryption</string>
+            </property>
+            <property name="checked">
+                <bool>true</bool>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>&lt;b&gt;ASCII encryption&lt;/b&gt;: makes it possible to open the encrypted file/message in a text editor</string>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="5" column="0">
             <property name="name">
                 <cstring>layout8</cstring>
             </property>
@@ -115,60 +146,19 @@
                 </widget>
             </hbox>
         </widget>
-        <widget class="QCheckBox" row="3" column="0">
+        <widget class="QCheckBox" row="7" column="0">
             <property name="name">
-                <cstring>Hide_user_ID</cstring>
+                <cstring>Pgp_extension</cstring>
             </property>
             <property name="text">
-                <string>Hide user id</string>
+                <string>Use *.pgp extension for encrypted files</string>
             </property>
             <property name="whatsThis" stdset="0">
-                <string>&lt;b&gt;Hide user ID&lt;/b&gt; Do not put the keyid into encrypted packets. This option hides the receiver of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because all available secret keys are tried. </string>
+                <string>&lt;qt&gt;&lt;b&gt;Use *.pgp extension for encrypted files:&lt;/b&gt;&lt;br /&gt;
+&lt;p&gt;Checking this option will append a .pgp extension to all encrypted files instead of a .gpg extension. This option will maintain compatability with users of PGP (Pretty Good Privacy) software.&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="1" column="0">
-            <property name="name">
-                <cstring>Allow_untrusted_keys</cstring>
-            </property>
-            <property name="text">
-                <string>Allow encryption with untrusted keys</string>
-            </property>
-            <property name="whatsThis" stdset="0">
-                <string>&lt;b&gt;Allow encryption with untrusted keys&lt;/b&gt;: when you import a public key, it is usually marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this box enables you to use any key, even if it has not be signed.</string>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="2" column="0">
-            <property name="name">
-                <cstring>PGP_compatibility</cstring>
-            </property>
-            <property name="text">
-                <string>PGP 6 compatibility</string>
-            </property>
-            <property name="whatsThis" stdset="0">
-                <string>&lt;b&gt;PGP 6 compatibility&lt;/b&gt; Set up all options to be as PGP 6 compliant as possible. (option --pgp6)</string>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="0" column="0">
-            <property name="name">
-                <cstring>Ascii_armor</cstring>
-            </property>
-            <property name="minimumSize">
-                <size>
-                    <width>0</width>
-                    <height>0</height>
-                </size>
-            </property>
-            <property name="text">
-                <string>ASCII armored encryption</string>
-            </property>
-            <property name="checked">
-                <bool>true</bool>
-            </property>
-            <property name="whatsThis" stdset="0">
-                <string>&lt;b&gt;ASCII encryption&lt;/b&gt;: makes it possible to open the encrypted file/message in a text editor</string>
-            </property>
-        </widget>
-        <widget class="QLayoutWidget" row="5" column="0">
+        <widget class="QLayoutWidget" row="6" column="0">
             <property name="name">
                 <cstring>layout3</cstring>
             </property>
@@ -197,7 +187,30 @@
                 </widget>
             </hbox>
         </widget>
-        <spacer row="7" column="0">
+        <widget class="QCheckBox" row="3" column="0">
+            <property name="name">
+                <cstring>Hide_user_ID</cstring>
+            </property>
+            <property name="text">
+                <string>Hide user id</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>&lt;b&gt;Hide user ID&lt;/b&gt; Do not put the keyid into encrypted packets. This option hides the receiver of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because all available secret keys are tried. </string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="4" column="0">
+            <property name="name">
+                <cstring>shred_source</cstring>
+            </property>
+            <property name="text">
+                <string>Shred source file</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>&lt;qt&gt;&lt;b&gt;Hide user ID:&lt;/b&gt;&lt;br /&gt; 
+&lt;p&gt;Checking this option will remove the keyid of the recepient from all encrypted packets. The advantage being that traffic analysis of the encrypted packets cannot be performed as easily because the recepeient is unknown. The disadvantage being that the receiver of the encrypted packets is forced to try all secret keys before being able to decrypt the packets. This can be a lengthy process depending on the number of secret keys the receiver holds.&lt;/p&gt;&lt;/qt&gt;</string>
+            </property>
+        </widget>
+        <spacer row="8" column="0">
             <property name="name">
                 <cstring>spacer7</cstring>
             </property>
@@ -210,7 +223,7 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>40</height>
+                    <height>30</height>
                 </size>
             </property>
         </spacer>
