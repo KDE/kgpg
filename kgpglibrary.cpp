@@ -150,10 +150,11 @@ void KgpgLibrary::slotShredResult( KIO::Job * job )
 {
     emit systemMessage(QString::null);
     if (job && job->error())
+    {
     job->showErrorDialog( (QWidget*)parent() );
     emit systemMessage(QString::null,true);
     KPassivePopup::message(i18n("KGpg error"),i18n("Process halted, not all files were shredded."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),panel,"kgpg_error",0);
-    
+    }
 }
 
 
