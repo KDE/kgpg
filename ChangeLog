@@ -1,4 +1,7 @@
 cvs version
+-use of gpg-agent can be enabled/disabled from settings dialog
+-fixed message after exporting a key to keyserver
+-changed default keyservers
 -rewrote settings dialog to use kautoconfigdialog
 -key signing now lets you select how carefully you checked that the key really belongs to the person
 -improved keyserver operations

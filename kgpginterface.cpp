@@ -1586,6 +1586,39 @@ void KgpgInterface::setGpgSetting(QString name,QString value,QString url)
 }
 
 
+void KgpgInterface::setGpgBoolSetting(QString name,bool enable,QString url)
+{
+        QString textToWrite;
+        bool found=false;
+        QFile qfile(QFile::encodeName(url));
+
+        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+                QString result;
+                QTextStream t( &qfile );
+                result=t.readLine();
+                while (result!=NULL) {
+                        if (result.stripWhiteSpace().startsWith(name)) {
+                                if (enable)
+                                        result=name;
+                                else
+                                        result="";
+                                found=true;
+                        }
+                        textToWrite+=result;
+                        result=t.readLine();
+                }
+                qfile.close();
+                if ((!found) && (enable))
+                        textToWrite+=name;
+
+                if (qfile.open(IO_WriteOnly)) {
+                        QTextStream t( &qfile);
+                        t << textToWrite;
+                        qfile.close();
+                }
+        }
+}
+
 QString KgpgInterface::checkForUtf8(QString txt)
 {
         //    code borrowed from gpa

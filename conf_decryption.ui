@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>518</width>
-            <height>313</height>
+            <height>315</height>
         </rect>
     </property>
     <property name="caption">
@@ -27,15 +27,7 @@
                 <bool>true</bool>
             </property>
         </widget>
-        <widget class="QCheckBox" row="2" column="0">
-            <property name="name">
-                <cstring>use_agent</cstring>
-            </property>
-            <property name="text">
-                <string>Do not use gpg-agent (use only with GnuPG &gt; 1.06)</string>
-            </property>
-        </widget>
-        <spacer row="3" column="0">
+        <spacer row="2" column="0">
             <property name="name">
                 <cstring>spacer3_2</cstring>
             </property>
@@ -62,17 +54,6 @@
         </widget>
     </grid>
 </widget>
-<connections>
-    <connection>
-        <sender>use_agent</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>Decryption</receiver>
-        <slot>use_agent_toggled(bool)</slot>
-    </connection>
-</connections>
-<includes>
-    <include location="local" impldecl="in implementation">conf_decryption.ui.h</include>
-</includes>
 <slots>
     <slot>use_agent_toggled( bool isOn )</slot>
 </slots>

@@ -57,7 +57,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KAutoConfigDialog( p
         config=kapp->config();
 
         config->setGroup("User Interface");
-        firstDisplay=config->readBoolEntry("display_mail_first",false);
+        firstDisplay=config->readBoolEntry("display_mail_first",true);
 
 
         page1=new Encryption();
@@ -69,9 +69,13 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KAutoConfigDialog( p
         addPage(page3, i18n("User Interface"), "User Interface", "misc");
         addPage(page4, i18n("GPG Settings"), "GPG Settings", "gpg");
 
+
+
         config->setGroup("GPG Settings");
         alwaysKeyID=KgpgInterface::getGpgSetting("encrypt-to",config->readEntry("gpg_config_path"));
-        config->setGroup("Encryption");
+	config->writeEntry("use_agent",KgpgInterface::getGpgBoolSetting("use-agent",config->readEntry("gpg_config_path")));
+
+	config->setGroup("Encryption");
         if (!alwaysKeyID.isEmpty())
                 config->writeEntry("encrypt_to_always",true);
         else
@@ -132,6 +136,17 @@ void kgpgOptions::readSettings()
                 slotInstallDecrypt("application/pgp-encrypted,application/pgp-signature,application/pgp-keys");
         else
                 slotRemoveMenu("decryptfile.desktop");
+
+if (page4->use_agent->isChecked())
+	{
+	KgpgInterface::setGpgBoolSetting("use-agent",true,page4->gpg_config_path->url());
+	KgpgInterface::setGpgBoolSetting("no-use-agent",false,page4->gpg_config_path->url());
+	}
+else
+	{
+//	KgpgInterface::setGpgBoolSetting("no-use-agent",true,page4->gpg_config_path->url());
+	KgpgInterface::setGpgBoolSetting("use-agent",false,page4->gpg_config_path->url());
+	}
 
         emit updateSettings();
         if (firstDisplay!=page3->display_mail_first->isChecked()) {

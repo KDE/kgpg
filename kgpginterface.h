@@ -143,6 +143,7 @@ public:
         static QString getGpgSetting(QString name,QString configFile);
         static void setGpgSetting(QString name,QString ID,QString url);
         static bool getGpgBoolSetting(QString name,QString configFile);
+	static void setGpgBoolSetting(QString name,bool enable,QString url);
         static QString checkForUtf8(QString txt);
 
         /*

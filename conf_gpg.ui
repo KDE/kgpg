@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>581</width>
-            <height>272</height>
+            <height>274</height>
         </rect>
     </property>
     <property name="caption">
@@ -19,20 +19,12 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QLabel" row="0" column="0">
-            <property name="name">
-                <cstring>textLabel1_5</cstring>
-            </property>
-            <property name="text">
-                <string>Gnupg configuration file:</string>
-            </property>
-        </widget>
-        <widget class="KURLRequester" row="0" column="1">
+        <widget class="KURLRequester" row="0" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>gpg_config_path</cstring>
             </property>
         </widget>
-        <spacer row="2" column="1">
+        <spacer row="3" column="2">
             <property name="name">
                 <cstring>spacer5</cstring>
             </property>
@@ -45,11 +37,11 @@
             <property name="sizeHint">
                 <size>
                     <width>21</width>
-                    <height>50</height>
+                    <height>30</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QGroupBox" row="1" column="0" rowspan="1" colspan="2">
+        <widget class="QGroupBox" row="2" column="0" rowspan="1" colspan="3">
             <property name="name">
                 <cstring>groupBox3_2</cstring>
             </property>
@@ -119,6 +111,22 @@ the other will be stored for use in KGpg only.</string>
                     </property>
                 </widget>
             </grid>
+        </widget>
+        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>use_agent</cstring>
+            </property>
+            <property name="text">
+                <string>Use GnuPG Agent</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>textLabel1_5</cstring>
+            </property>
+            <property name="text">
+                <string>GnuPG configuration file:</string>
+            </property>
         </widget>
     </grid>
 </widget>

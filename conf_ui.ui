@@ -43,6 +43,9 @@
                     <property name="text">
                         <string>Start KGpg automatically at login</string>
                     </property>
+                    <property name="checked">
+                        <bool>false</bool>
+                    </property>
                 </widget>
                 <widget class="QCheckBox" row="2" column="0">
                     <property name="name">
