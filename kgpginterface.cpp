@@ -243,12 +243,16 @@ void KgpgInterface::KgpgEncryptText(QString text,QStringList userIDs, QStringLis
 	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) {
        		*proc<< QFile::encodeName(*it);
 		}
-        *proc<<"-e";
 	
+	if (!userIDs.isEmpty())
+	{
+        *proc<<"-e";
 	for ( QStringList::Iterator it = userIDs.begin(); it != userIDs.end(); ++it ) {
        		*proc<<"--recipient"<< *it;
     		}
-	
+	}
+	*proc<<"-c";
+
         /////////  when process ends, update dialog infos
 
         QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtencryptfin(KProcess *)));
@@ -269,14 +273,28 @@ void KgpgInterface::txtreadencprocess(KProcIO *p)
 {
         QString required;
         while (p->readln(required,true)!=-1) {
-                if (required.find("BEGIN_ENCRYPTION")!=-1) {
+	if ((required.find("passphrase.enter")!=-1))
+            {
+              QCString passphrase;
+              QString passdlgmessage=i18n("Enter passphrase (symmetrical encryption)");
+              int code=KPasswordDialog::getNewPassword(passphrase,passdlgmessage);
+	      if (code!=QDialog::Accepted)
+                {
+                  delete p;
+                  return;
+                }
+              p->writeStdin(passphrase,true);
+            } 
+	    else
+		if (required.find("BEGIN_ENCRYPTION")!=-1) {
+			emit txtencryptionstarted();
                         p->writeStdin(txtprocess,true);
                         p->closeWhenDone();
                 } else
                         if (required.find("END_ENCRYPTION")!=-1)
                                 txtsent=true;
                         else
-                                message+=required+"\n";
+                                if (!required.startsWith("[GNUPG:]")) message+=required+"\n";
         }
 }
 
@@ -1246,7 +1264,7 @@ void KgpgInterface::slotReadKey(KProcIO *p)
 void KgpgInterface::importKeyURL(KURL url)
 {
         /////////////      import a key
-kdDebug()<<"Importing "<<url.path()<<endl;
+
         if( KIO::NetAccess::download( url, tempKeyFile ) ) {
                 message=QString::null;
                 KProcIO *conprocess=new KProcIO();

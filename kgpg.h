@@ -104,7 +104,8 @@ private slots:
         void  slotGenKey();
         void importSignature(QString ID);
         void slotSetClip(QString newtxt);
-        void encryptClipboard(QStringList selec,QStringList encryptOptions);
+	void slotPassiveClip();
+        void encryptClipboard(QStringList selec,QStringList encryptOptions,bool,bool symmetric);
         void help();
         void about();
         void firstRun();

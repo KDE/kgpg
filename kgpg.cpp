@@ -100,9 +100,9 @@ void  MyView::openKeyServer()
 
 void  MyView::clipEncrypt()
 {
-        popupPublic *dialoguec=new popupPublic(this, "public_keys", 0,false);
-        connect(dialoguec,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(encryptClipboard(QStringList,QStringList)));
-        dialoguec->show();
+        popupPublic *dialoguec=new popupPublic(0, "public_keys", 0,false);
+        connect(dialoguec,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(encryptClipboard(QStringList,QStringList,bool,bool)));
+        dialoguec->exec();
 }
 
 void  MyView::clipDecrypt()
@@ -907,57 +907,52 @@ int KgpgAppletApp::newInstance()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-void MyView::encryptClipboard(QStringList selec,QStringList encryptOptions)
+void MyView::encryptClipboard(QStringList selec,QStringList encryptOptions,bool,bool symmetric)
 {
-        QString clipContent=kapp->clipboard()->text();//=cb->text(QClipboard::Clipboard);   ///   QT 3.1 only
+        //QString clipContent=kapp->clipboard()->text();//=cb->text(QClipboard::Clipboard);   ///   QT 3.1 only
 
-        if (!clipContent.isEmpty()) {
+        if (kapp->clipboard()->text().isEmpty()) {
+	KPassivePopup::message(i18n("Clipboard is empty."),QString::null,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this);
+	return;
+	}
                 if (pgpcomp)
                         encryptOptions<<"--pgp6";
                 encryptOptions<<"--armor";
-
-                if (selec.isEmpty()) {
+                /*
+		if (selec.isEmpty()) {
                         KMessageBox::sorry(0,i18n("You have not chosen an encryption key."));
-                }//exit(0);}
-
+                }*/
+		if (symmetric) selec.clear();
                 KgpgInterface *txtEncrypt=new KgpgInterface();
                 connect (txtEncrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(slotSetClip(QString)));
-                txtEncrypt->KgpgEncryptText(clipContent,selec,encryptOptions);
-                QString cryptedClipboard;
-                if (clipContent.length()>300)
-                        cryptedClipboard=QString(clipContent.left(250).stripWhiteSpace())+"...\n"+QString(clipContent.right(40).stripWhiteSpace());
-                else
-                        cryptedClipboard=clipContent;
+		connect (txtEncrypt,SIGNAL(txtencryptionstarted()),this,SLOT(slotPassiveClip()));
+                txtEncrypt->KgpgEncryptText(kapp->clipboard()->text(),selec,encryptOptions);
+}
 
+void MyView::slotPassiveClip()
+{
+QString newtxt=kapp->clipboard()->text();
+if (newtxt.length()>300)
+                        newtxt=QString(newtxt.left(250).stripWhiteSpace())+"...\n"+QString(newtxt.right(40).stripWhiteSpace());
 
-                cryptedClipboard.replace(QRegExp("<"),"&lt;");   /////   disable html tags
-                cryptedClipboard.replace(QRegExp("\n"),"<br>");
+                newtxt.replace(QRegExp("<"),"&lt;");   /////   disable html tags
+                newtxt.replace(QRegExp("\n"),"<br>");
 
-
-
-                pop = new KPassivePopup( this);
-                pop->setView(i18n("Encrypted following text:"),cryptedClipboard,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+pop = new KPassivePopup( this);
+                pop->setView(i18n("Encrypted following text:"),newtxt,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
                 pop->setTimeout(3200);
                 pop->show();
                 QRect qRect(QApplication::desktop()->screenGeometry());
                 int iXpos=qRect.width()/2-pop->width()/2;
                 int iYpos=qRect.height()/2-pop->height()/2;
                 pop->move(iXpos,iYpos);
-
-        } else {
-                KMessageBox::sorry(0,i18n("Clipboard is empty."));
-                //exit(0);
-        }
 }
 
 void MyView::slotSetClip(QString newtxt)
 {
-        if (!newtxt.isEmpty()) {
+        if (newtxt.isEmpty()) return;
                 QClipboard *clip=QApplication::clipboard();
                 clip->setText(newtxt);//,QClipboard::Clipboard);    QT 3.1 only
-                //connect(kapp->clipboard(),SIGNAL(dataChanged ()),this,SLOT(expressQuit()));
-        }
-        //else expressQuit();
 }
 
 

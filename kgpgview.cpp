@@ -373,7 +373,7 @@ void KgpgView::popuppublic()
 
         ////////  open dialog --> popuppublic.cpp
         popupPublic *dialogue=new popupPublic(this, "public_keys", 0,false);
-        connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(encodetxt(QStringList,QStringList)));
+        connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(encodetxt(QStringList,QStringList,bool,bool)));
         dialogue->exec();
         delete dialogue;
 }
@@ -421,17 +421,15 @@ void KgpgView::failedDecryptedtxt(QString newtxt)
 }
 
 
-void KgpgView::encodetxt(QStringList selec,QStringList encryptOptions)
+void KgpgView::encodetxt(QStringList selec,QStringList encryptOptions,bool, bool symmetric)
 {
         //////////////////              encode from editor
         if (pubpgp)
                 encryptOptions<<"--pgp6";
-        if (selec.isEmpty()) {
-                KMessageBox::sorry(0,i18n("You have not chosen an encryption key."));
-                return;
-        }
-
-        KgpgInterface *txtCrypt=new KgpgInterface();
+        
+	if (symmetric) selec.clear();
+		
+	KgpgInterface *txtCrypt=new KgpgInterface();
         connect (txtCrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(updatetxt(QString)));
         txtCrypt->KgpgEncryptText(editor->text(),selec,encryptOptions);
         //KMessageBox::sorry(0,"OVER");

@@ -277,6 +277,11 @@ signals:
                */
 	void txtdecryptionfailed(QString);
 	/**
+               *  emitted when a txt encryption starts.
+               */
+	void txtencryptionstarted();
+	
+	/**
                *  emitted when a txt decryption finished. returns decrypted text
                */
 	void txtdecryptionfinished(QString);

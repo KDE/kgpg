@@ -141,13 +141,13 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
                 CBshred=new QCheckBox(i18n("Shred source file"),boutonboxoptions);
                 QWhatsThis::add
                         (CBshred,i18n("<b>Shred source file</b>: permanently remove source file. No recovery will be possible"));
-
-                CBsymmetric=new QCheckBox(i18n("Symmetrical encryption"),boutonboxoptions);
+        }
+	
+	        CBsymmetric=new QCheckBox(i18n("Symmetrical encryption"),boutonboxoptions);
                 QWhatsThis::add
                         (CBsymmetric,i18n("<b>Symmetrical encryption</b>: encryption doesn't use keys. You just need to give a password "
                                           "to encrypt/decrypt the file"));
                 QObject::connect(CBsymmetric,SIGNAL(toggled(bool)),this,SLOT(isSymetric(bool)));
-        }
 
         config->setGroup("Encryption");
 	
@@ -427,7 +427,7 @@ kdDebug()<<"Selected Key:"<<selectedKeys<<endl;
         if (fmode)
                 emit selectedKey(selectedKeys,returnOptions,CBshred->isChecked(),CBsymmetric->isChecked());
         else
-                emit selectedKey(selectedKeys,returnOptions,false,false);
+                emit selectedKey(selectedKeys,returnOptions,false,CBsymmetric->isChecked());
         accept();
 }
 

@@ -124,7 +124,7 @@ private slots:
         void popuppublic();
         void modified();
         void viewreadopts();
-        void encodetxt(QStringList selec,QStringList encryptOptions);
+        void encodetxt(QStringList selec,QStringList encryptOptions,bool, bool symmetric);
         void updatetxt(QString);
 	void updateDecryptedtxt(QString newtxt);
 	void failedDecryptedtxt(QString newtxt);
