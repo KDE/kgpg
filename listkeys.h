@@ -99,8 +99,6 @@ class listKeys : public KMainWindow//QDialog //KMainWindow
   KListView *keysList2;
   QPopupMenu *popup,*popupsec,*popupout,*popupsig;
   QString secretList,exportresult;
-   KStatusBar *statusbar;
-   KToolBar *toolbar;
 QString message,defKey,issec;
 QStringList keynames;
 QPixmap pixkeyPair,pixkeySingle,pixsignature,pixuserid,pixuserphoto;
@@ -118,6 +116,7 @@ public slots:
     void slotgenkey();
 
 private slots:
+void showToolBar();
 void displayPhoto();
 void hidePhoto();
 void slotProcessPhoto(KProcess *);

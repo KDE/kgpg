@@ -499,7 +499,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   KAction *infoKey = new KAction(i18n("&Key info"), "kgpg_info", 0,this, SLOT(listsigns()),actionCollection(),"key_info");
   KAction *importKey = new KAction(i18n("&Import key"), "kgpg_import", 0,this, SLOT(slotImportKey()),actionCollection(),"key_import");
   KAction *setDefaultKey = new KAction(i18n("Set as De&fault key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
-
+  
   KStdAction::quit(this, SLOT(annule()), actionCollection());
   (void) new KAction(i18n("&Refresh list"), "reload", 0,this, SLOT(refreshkey()),actionCollection(),"key_refresh");
   KAction *editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
@@ -507,9 +507,9 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   KAction *deleteKeyPair = new KAction(i18n("Delete key pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
   KAction *generateKey = new KAction(i18n("&Generate key pair"), "kgpg_gen", 0,this, SLOT(slotgenkey()),actionCollection(),"key_gener");
   (void) new KToggleAction(i18n("&Show photos"), "imagegallery", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
+
   KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
-
-
+  KStdAction::showToolbar(this, SLOT(showToolBar()), actionCollection());
 
 
   KIconLoader *loader = KGlobal::iconLoader();
@@ -581,17 +581,25 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   ///////////////    get all keys data
   refreshkey();
   createGUI("listkeys.rc");
-  //KMenuBar *menu=KMainWindow::menuBar();
-  //menu->hide();
   keyPhoto->hide();
 }
 
 listKeys::~listKeys()
 {}
 
+void listKeys::showToolBar()
+{
+  if( toolBar()->isVisible () )
+    toolBar()->hide();
+  else
+    toolBar()->show();
+}
+
+
+
 void listKeys::hidePhoto()
 {
-  if (showPhoto==true)
+  if (showPhoto)
     {
       keyPhoto->hide();
       showPhoto=false;

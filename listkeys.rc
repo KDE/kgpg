@@ -2,15 +2,14 @@
 <kpartgui name="listkeys" version="0.3.1">
 
 <MenuBar>
-  <Menu name="managekeys"><text>&amp;Key</text>
-    <Action name="key_export"/>
+  <Menu name="managekeys"><text>&amp;Keys</text>
     <Action name="key_info"/>
     <Action name="key_sign"/>
     <Action name="key_edit"/>
-    <Action name="key_delete"/>
     <Action name="key_gener"/>
-    <Separator />
-    <Action name="key_exit"/>
+	<Separator />
+	<Action name="key_export"/>
+	<Action name="key_import"/>
     </Menu>
 	<Menu name="settings"><text>&amp;Settings</text>
     <Action name="key_showp" />
