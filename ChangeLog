@@ -1,5 +1,8 @@
 cvs version
 
+-fixed problem with quotes when signing from the editor
+-revocation certificate: create & print
+-animated logo while key creation is in progress
 -added a search function to find a key in the keyring
 -splitted email & ley name in two different columns for easier sorting
 -folder encryption (initial support)
