@@ -319,8 +319,6 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
         if (!selectedok)
                 keysListpr->setSelected(keysListpr->firstChild(),true);
 
-        page->show();
-        resize(this->minimumSize());
         setMainWidget(page);
 }
 
@@ -1854,7 +1852,7 @@ void listKeys::signkey()
         //////////////////  open a secret key selection dialog (KgpgSelKey, see begining of this file)
         KgpgSelKey *opts=new KgpgSelKey(this);
 
-        QLabel *signCheck = new QLabel(i18n("How carefully have you checked that the key really "
+        QLabel *signCheck = new QLabel("<qt>"+i18n("How carefully have you checked that the key really "
                                             "belongs to the person you want to communicate with:",
 					    "How carefully have you checked that the keys really "
                                             "belong to the people you want to communicate with:",signList.count()),opts->page);
