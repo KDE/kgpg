@@ -646,6 +646,9 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
         toolBar()->insertWidget( KAction::getToolButtonID(), searchLabel->sizeHint().width(), searchLabel);
         searchWidget=toolBar()->insertLined(QString::null,0, SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)),true,i18n("Filter Search"),10);
+	
+	(void)new KAction(i18n("Search Filter"), Qt::Key_F6, this, SLOT(filterFocus()),
+                actionCollection(), "search_focus");
 
         sTrust->setChecked(KGpgSettings::showTrust());
         sSize->setChecked(KGpgSettings::showSize());
@@ -670,6 +673,12 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
 listKeys::~listKeys()
 {}
+
+void  listKeys::filterFocus()
+{
+toolBar()->getLined(toolBar()->idAt(searchWidget))->setFocus();
+}
+
 
 void  listKeys::slotOpenEditor()
 {
