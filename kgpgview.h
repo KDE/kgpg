@@ -69,8 +69,6 @@ public slots:
 void decodef(QString);
 void droppedfile(KURL url);   
 void slotprocresult(KProcess *);
-void slotprocread(KProcIO *p);
-
 
 protected:
     void contentsDragEnterEvent( QDragEnterEvent *e );

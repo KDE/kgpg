@@ -121,13 +121,9 @@ if (qfile.open(IO_ReadOnly))
         if (result==KMessageBox::Cancel) return;
         else
         {
-       messages="";
-	   KProcIO *conprocess=new KProcIO();
-	  *conprocess<< "gpg";
-	  *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--import"<<QFile::encodeName(fname);
-          QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresult(KProcess *)));
-          QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
-        conprocess->start(KProcess::NotifyOnExit,true);
+		KgpgInterface *importKeyProcess=new KgpgInterface();
+  		importKeyProcess->importKeyURL(KURL(fname));
+		connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(slotprocresult(KProcess *)));
         return;
 	}
       }
@@ -163,18 +159,8 @@ else KMessageBox::sorry(this,i18n("Unable to read file."));
 void MyEditor::slotprocresult(KProcess *)
 {
 KIO::NetAccess::removeTempFile(tempFile);
-  KMessageBox::information(0,message);
 }
 
-void MyEditor::slotprocread(KProcIO *p)
-{
-QString outp;
-while (p->readln(outp)!=-1)
-{
-if (outp.find("http-proxy")==-1)
-message+=outp+"\n";
-}
-}
 
 ////////////////////////// main view configuration
 

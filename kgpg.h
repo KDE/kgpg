@@ -115,7 +115,6 @@ protected:
 
 private slots:
 void slotprocresult(KProcess *);
-void slotprocread(KProcIO *p);
 void slotSetClip(QString);
 void killDisplayClip();
 void expressQuit();

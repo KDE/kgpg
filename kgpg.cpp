@@ -875,15 +875,18 @@ QTextStream t( &qfile );
         if (result==KMessageBox::Cancel) {if (fastact) kapp->exit(0);return;}
         else
         {
-		messages="";
-	   KProcIO *conprocess=new KProcIO();
-	  *conprocess<< "gpg";
-	  *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--import"<<QFile::encodeName(urlselected.path());
-          QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresult(KProcess *)));
-          QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
-        conprocess->start(KProcess::NotifyOnExit,true);
-        return;
+		KgpgInterface *importKeyProcess=new KgpgInterface();
+  		importKeyProcess->importKeyURL(urlselected);
+		connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(slotprocresult(KProcess *)));
+		return;
 	} 
+}
+	else if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK"))
+      {//////  dropped file is a public key, ask for import
+        qfile.close();
+		KMessageBox::information(0,i18n("<p>The file <b>%1</b> is a private key block. Please use KGpg key manager to import it.</p>").arg(urlselected.path()));
+  if (fastact) kapp->exit(0);
+  return;
 }
 }
   KMessageBox::detailedSorry(0,i18n("Decryption failed."),mssge);
@@ -892,19 +895,9 @@ QTextStream t( &qfile );
 
 void KgpgApp::slotprocresult(KProcess *)
 {
-  KMessageBox::information(0,messages);
   if (fastact) kapp->exit(0);
 }
 
-void KgpgApp::slotprocread(KProcIO *p)
-{
-QString outp;
-while (p->readln(outp)!=-1)
-{
-if (outp.find("http-proxy")==-1)
-messages+=outp+"\n";
-}
-}
 
 void KgpgApp::slotFileEnc()
 {
