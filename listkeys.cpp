@@ -601,7 +601,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   KAction *setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
 
   KStdAction::quit(this, SLOT(annule()), actionCollection());
-  (void) new KAction(i18n("&Refresh List"), "reload", 0,this, SLOT(refreshkey()),actionCollection(),"key_refresh");
+  (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
   KAction *editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
   KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
   KAction *deleteKeyPair = new KAction(i18n("Delete Key Pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
