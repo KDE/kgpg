@@ -50,9 +50,8 @@ void KgpgInterface::KgpgEncryptFile(QString userIDs,KURL srcUrl,KURL destUrl, QS
   if (symetrical==false)
     {
       *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2";
-
-	
-  *proc<<Options.local8Bit()<<"--output"<<destUrl.path().local8Bit()<<"-e";
+  if (!Options.isEmpty()) *proc<<Options.local8Bit();
+  *proc<<"--output"<<destUrl.path().local8Bit()<<"-e";
       int ct=userIDs.find(" ");
       while (ct!=-1)  // if multiple keys...
         {
@@ -78,11 +77,11 @@ void KgpgInterface::KgpgEncryptFile(QString userIDs,KURL srcUrl,KURL destUrl, QS
       fwrite(password, sizeof(char), strlen(password), pass);
       fwrite("\n", sizeof(char), 1, pass);
       fclose(pass);
-      //if (Options!="")
-        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<Options.local8Bit()<<"--output"<<destUrl.path().local8Bit()<<"--passphrase-fd"<<QString::number(ppass[0])<<"-c"<<srcUrl.path().local8Bit();
-      //else
-       // *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--output"<<destUrl.path().local8Bit()<<"--passphrase-fd"<<QString::number(ppass[0])<<"-c"<<srcUrl.path().local8Bit();
-    }
+      
+        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0";
+    if (!Options.isEmpty()) *proc<<Options.local8Bit();
+	*proc<<"--output"<<destUrl.path().local8Bit()<<"--passphrase-fd"<<QString::number(ppass[0])<<"-c"<<srcUrl.path().local8Bit();
+	}
 
   /////////  when process ends, update dialog infos
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(encryptfin(KProcess *)));
@@ -357,14 +356,14 @@ void KgpgInterface::KgpgSignFile(QString keyName,QString keyID,KURL srcUrl,QStri
   Options=Options.stripWhiteSpace();
   Options=Options.simplifyWhiteSpace();
   
-    *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--passphrase-fd"<<QString::number(ppass[0])<<"-u"<<keyID;
-
-	 *proc<<Options.local8Bit()<<"--detach-sig"<<srcUrl.path().local8Bit();
+    *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"--passphrase-fd"<<QString::number(ppass[0])<<"-u"<<keyID.local8Bit();
+	if (!Options.isEmpty()) *proc<<Options.local8Bit();
+	 *proc<<"--detach-sig"<<srcUrl.path().local8Bit();
 
       /////////         open gpg pipe
-      file=KURL(srcUrl.path()+".sig");
-      QFile fsig(file.path());
-      if (fsig.exists()) fsig.remove();
+      //file=KURL(srcUrl.path()+".sig");
+      //QFile fsig(file.path());
+      //if (fsig.exists()) fsig.remove();
 
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(signfin(KProcess *)));
   QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(readprocess(KProcIO *)));
