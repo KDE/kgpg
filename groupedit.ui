@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>599</width>
-            <height>236</height>
+            <height>238</height>
         </rect>
     </property>
     <property name="caption">
@@ -99,7 +99,7 @@
                                 <bool>true</bool>
                             </property>
                             <property name="dragEnabled">
-                                <bool>true</bool>
+                                <bool>false</bool>
                             </property>
                             <property name="alternateBackground">
                                 <color>
@@ -236,7 +236,7 @@
                                 <bool>true</bool>
                             </property>
                             <property name="dragEnabled">
-                                <bool>true</bool>
+                                <bool>false</bool>
                             </property>
                         </widget>
                     </vbox>
