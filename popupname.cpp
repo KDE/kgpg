@@ -1,5 +1,5 @@
 /***************************************************************************
-                          kgpgoptions.cpp  -  description
+                          popupname.cpp  -  description
                              -------------------
     begin                : Mon Jul 8 2002
     copyright            : (C) 2002 by y0k0
@@ -132,5 +132,4 @@ QString popupName::getfname()
 {
   return(lineedit->text());
 }
-//#include "popupname.moc"
 //#include "popupname.moc"

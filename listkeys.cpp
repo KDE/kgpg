@@ -234,9 +234,6 @@ QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
 				else labelcomment->setText(i18n("Comment: "));
 				
 				labelname->setText(i18n("Name: ")+kname);
-				fullname=fullname.section('<',1,1);
-				fullname=fullname.section('>',0,0);
-				
 				labeltype->setText(i18n("Algorithm: ")+algo);
         }
       if (opt.startsWith("fpr"))
@@ -394,7 +391,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
           if (!tst.isEmpty())
           {
               KListViewItem *item=new KListViewItem(keysListpr,extractKeyName(tst));
-              KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, validity: %3").arg(id).arg(tr).arg(val));
+              KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, expiration: %3").arg(id).arg(tr).arg(val));
               sub->setSelectable(false);
               item->setPixmap(0,keyPair);
           }
@@ -587,7 +584,7 @@ keysList2 = new KeyView(page);
   keysList2->setRootIsDecorated(true);
   keysList2->addColumn( i18n( "Key" ) );
   keysList2->addColumn( i18n( "Trust" ) );
-  keysList2->addColumn( i18n( "Validity" ) );
+  keysList2->addColumn( i18n( "Expiration" ) );
   keysList2->addColumn( i18n( "Size" ) );
   keysList2->addColumn( i18n( "Creation" ) );
   keysList2->addColumn( i18n( "ID" ) );
@@ -761,13 +758,13 @@ void listKeys::slotSetDefKey()
 
   if  (keysList2->defKey=="")
     {
-      KMessageBox::sorry(0,i18n("Before setting a default key, you must enable default key encryption in the Options dialog"));
+      KMessageBox::sorry(this,i18n("Before setting a default key, you must enable default key encryption in the Options dialog"));
       return;
     }
 
   if  (block.find(keysList2->currentItem()->text(1))!=-1)
     {
-      KMessageBox::sorry(0,i18n("Sorry, this key is not valid for encryption or not trusted..."));
+      KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted..."));
       return;
     }
   /////////////// revert old default key to normal icon
@@ -866,10 +863,10 @@ void listKeys::slotexportsec()
       if (fgpg.exists())
         {
           QString mess=i18n("Your PRIVATE key \"%1\"  was successfully exported\nDO NOT leave it in an insecure place !").arg(url.filename());
-          KMessageBox::information(0,mess);
+          KMessageBox::information(this,mess);
         }
       else
-        KMessageBox::sorry(0,i18n("Your secret key could not be exported\nCheck the key..."));
+        KMessageBox::sorry(this,i18n("Your secret key could not be exported\nCheck the key..."));
     }
 
 }
@@ -949,8 +946,8 @@ void listKeys::slotexport()
         {
           // Copy text to the clipboard (paste)
 
-          QClipboard *cb = QApplication::clipboard();
-          cb->setText(tst);
+          //QClipboard *cb = QApplication::clipboard();
+          kapp->clipboard()->setText(tst);
           ////////////////////////////////  copy key to clipboard
           //KgpgApp *win=(KgpgApp *) parent();
           //win->view->editor->setText(tst);
@@ -963,10 +960,10 @@ void listKeys::slotexport()
           if (fgpg.exists())
             {
               QString mess=i18n("Your public key \"%1\" was successfully exported\n").arg(dial->getfname());
-              KMessageBox::information(0,mess);
+              KMessageBox::information(this,mess);
             }
           else
-            KMessageBox::sorry(0,i18n("Your public key could not be exported\nCheck the key..."));
+            KMessageBox::sorry(this,i18n("Your public key could not be exported\nCheck the key..."));
         }
     }
   else
@@ -1140,9 +1137,15 @@ delete genkey;
 
 	  //genkey->delayedDestruct();
           QCString password;
-          int code=KPasswordDialog::getNewPassword(password,QString(i18n("Enter passphrase for %1:").arg(kmail)));
-          if (code==QDialog::Accepted)
-            {
+		  bool goodpass=false;
+          while (goodpass==false)
+		  {
+		  int code=KPasswordDialog::getNewPassword(password,i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences").arg(kmail));
+          if (code!=QDialog::Accepted) return;
+		  if (password.length()<5) KMessageBox::sorry(this,i18n("This passphrase is not secure enough.\nMinimum length= 5 characters"));
+		  else goodpass=true;
+          }
+		    
               pop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
               QVBoxLayout *vbox=new QVBoxLayout(pop,3);
               QLabel *tex=new QLabel(pop);
@@ -1191,7 +1194,6 @@ delete genkey;
               proc->writeStdin("%commit");
               proc->writeStdin("EOF");
             }
-        }
 
       else  ////// start expert (=konsole) mode
         {
@@ -1326,24 +1328,22 @@ void KeyView::refreshkeylist()
 
       if (tst.startsWith("uid") || tst.startsWith("uat"))
         {
+          gpgKey uidKey=extractKey(tst);
           
-          const QString trust=tst.section(':',1,1);
-
-          QString tr=trustString(trust);
+//          QString tr=trustString(trust).gpgkeytrust;
 		  if (tst.startsWith("uat"))
             {
               photoKeysList+=item->text(5);
-              itemuid= new SmallViewItem(item,i18n("Photo ID"),tr,"-","-","-","-");
+              itemuid= new SmallViewItem(item,i18n("Photo ID"),uidKey.gpgkeytrust,"-","-","-","-");
               itemuid->setPixmap(0,pixuserphoto);
               cycle="uid";
             }
           else
-            if (tst.section(':',9,9).find("<",0,FALSE)!=-1)
               {
-                itemuid= new SmallViewItem(item,extractKeyName(tst.section(':',9,9)),tr,"-","-","-","-");
+                itemuid= new SmallViewItem(item,extractKeyName(uidKey.gpgkeyname,uidKey.gpgkeymail),uidKey.gpgkeytrust,"-","-","-","-");
 				if (noID==true) 
 				{
-				item->setText(0,extractKeyName(tst.section(':',9,9)));
+				item->setText(0,extractKeyName(uidKey.gpgkeyname,uidKey.gpgkeymail));
                 noID=false;
 				}
 				itemuid->setPixmap(0,pixuserid);
@@ -1360,71 +1360,32 @@ void KeyView::refreshkeylist()
 
           if (tst.startsWith("sig"))
             {
-              QString fsigname=tst.section(':',9,9);
-              QString islocalsig=tst.section(':',10,10);
-              const QString creat=tst.section(':',5,5);
-              const QString tid=tst.section(':',4,4);
-              QString id=QString("0x"+tid.right(8));
-              QString val=tst.section(':',6,6);
-              if (val=="")
-                val=i18n("Unlimited");
-              if (fsigname.find("<",0,FALSE)!=-1)
-                {
-                  
-                  fsigname=extractKeyName(fsigname);
-				  if (islocalsig.endsWith("l"))
+			gpgKey sigKey=extractKey(tst);
+            
+                  QString fsigname=extractKeyName(sigKey.gpgkeyname,sigKey.gpgkeymail);
+				  if (tst.section(':',10,10).endsWith("l"))
                     fsigname+=i18n(" [local]");
 
                   if (cycle=="pub")
-                    itemsig= new SmallViewItem(item,fsigname,"-",val,"-",creat,id);
+                    itemsig= new SmallViewItem(item,fsigname,"-",sigKey.gpgkeyexpiration,"-",sigKey.gpgkeycreation,sigKey.gpgkeyid);
                   if (cycle=="sub")
-                    itemsig= new SmallViewItem(itemsub,fsigname,"-",val,"-",creat,id);
+                    itemsig= new SmallViewItem(itemsub,fsigname,"-",sigKey.gpgkeyexpiration,"-",sigKey.gpgkeycreation,sigKey.gpgkeyid);
                   if (cycle=="uid")
-                    itemsig= new SmallViewItem(itemuid,fsigname,"-",val,"-",creat,id);
+                    itemsig= new SmallViewItem(itemuid,fsigname,"-",sigKey.gpgkeyexpiration,"-",sigKey.gpgkeycreation,sigKey.gpgkeyid);
 
                   itemsig->setPixmap(0,pixsignature);
-                  //KMessageBox::sorry(0,cycle+"::"+signame);
-                  //              (void) new KListViewItem(keysListsig,signame,opt,islocalsig,date,id);
-                }
+            
             }
           else
 
             if (tst.startsWith("sub"))
               {
-                QString algo=tst.section(':',3,3);
-                const QString creat=tst.section(':',5,5);
-                const QString tid=tst.section(':',4,4);
-                QString id=QString("0x"+tid.right(8));
-                const QString trust=tst.section(':',1,1);
-                QString val=tst.section(':',6,6);
-                if (val=="")
-                  val=i18n("Unlimited");
-                QString tr=trustString(trust);
-                switch( algo.toInt() )
-                  {
-                  case  1:
-                    algo=i18n("RSA");
-                    break;
-                  case 16:
-                  case 20:
-                    algo=i18n("ElGamal");
-                    break;
-                  case 17:
-                    algo=i18n("DSA");
-                    break;
-                  default:
-                    algo=QString("#" + algo);
-                    break;
-                  }
-                QString klength=tst.section(':',2,2);
-                tst=i18n("%1 subkey").arg(algo);
-                //      pos=tst.find("<",0,FALSE);
-                if (!tst.isEmpty())
-                  {
-                    itemsub= new SmallViewItem(item,tst,tr,val,klength,creat,id);
+			  gpgKey subKey=extractKey(tst);
+                tst=i18n("%1 subkey").arg(subKey.gpgkeyalgo);
+                    itemsub= new SmallViewItem(item,tst,subKey.gpgkeytrust,subKey.gpgkeyexpiration,subKey.gpgkeysize,subKey.gpgkeycreation,subKey.gpgkeyid);
                     itemsub->setPixmap(0,pixkeySingle);
                     cycle="sub";
-                  }
+                
               }
             else
               if (tst.startsWith("pub"))
@@ -1496,36 +1457,19 @@ void KeyView::refreshkeylist()
                       if (found==false)
                         (void) new SmallViewItem(item,i18n("Revocation certificate"),"+","+","+","+",currentRevoke);
                     }
+gpgKey pubKey=extractKey(tst);
 
-                  const QString size=tst.section(':',2,2);
-                  const QString creat=tst.section(':',5,5);
-                  const QString tid=tst.section(':',4,4);
-                  QString id=QString("0x"+tid.right(8));
-                  const QString trust=tst.section(':',1,1);
-                  QString val=tst.section(':',6,6);
-                  if (val=="")
-                    val="Unlimited";
-                  QString tr=trustString(trust);
-                  tst=tst.section(':',9,9);
-                  //      pos=tst.find("<",0,FALSE);
-                  
-                    
                       QString isbold="";
-                      if (id==defKey)
+                      if (pubKey.gpgkeyid==defKey)
                         isbold="on";
-                      if (tst!="")
-					  item=new UpdateViewItem(this,extractKeyName(tst),tr,val,size,creat,id,isbold);
-					  else 
-					  {
-					  noID=true;
-                      item=new UpdateViewItem(this,extractKeyName(tst),tr,val,size,creat,id,isbold);
-					  }
-                      cycle="pub";
+                      if (pubKey.gpgkeyname.isEmpty()) noID=true;
+					  item=new UpdateViewItem(this,extractKeyName(pubKey.gpgkeyname,pubKey.gpgkeymail),pubKey.gpgkeytrust,pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold);
+					  cycle="pub";
 
-                      if (issec.find(id.right(8),0,FALSE)!=-1)
+                      if (issec.find(pubKey.gpgkeyid.right(8),0,FALSE)!=-1)
                         {
                           item->setPixmap(0,pixkeyPair);
-                          secretList+=id;
+                          secretList+=pubKey.gpgkeyid;
                         }
                       else
                         {
@@ -1607,53 +1551,99 @@ void KeyView::refreshkeylist()
     setColumnWidth(0,150);
 }
 
-QString KeyView::extractKeyName(QString fullName)
+QString KeyView::extractKeyName(QString name,QString mail)
 {
+/*
 QString kMail=fullName.section('<',-1,-1);
 kMail.truncate(kMail.length()-1);
 QString kName=fullName.section('<',0,0);
-if (kName.find("(")!=-1) kName=kName.section('(',0,0);
-if (displayMailFirst) return QString(kMail+" ("+kName+")");
-return QString(kName+" ("+kMail+")");
+if (kName.find("(")!=-1) kName=kName.section('(',0,0);*/
+if (displayMailFirst) return QString(mail+" ("+name+")");
+return QString(name+" ("+mail+")");
 }
 
-QString KeyView::trustString(const QString trust)
+gpgKey KeyView::extractKey(QString keyColon)
 {
+gpgKey ret;
+
+ret.gpgkeysize=keyColon.section(':',2,2);
+ret.gpgkeycreation=keyColon.section(':',5,5);
+QString tid=keyColon.section(':',4,4);
+ret.gpgkeyid=QString("0x"+tid.right(8));
+ret.gpgkeyexpiration=keyColon.section(':',6,6);
+if (ret.gpgkeyexpiration=="") ret.gpgkeyexpiration="Unlimited";    
+QString fullname=keyColon.section(':',9,9);
+if (fullname.find("<")!=-1)
+{
+ret.gpgkeymail=fullname.section('<',-1,-1);
+ret.gpgkeymail.truncate(ret.gpgkeymail.length()-1);
+ret.gpgkeyname=fullname.section('<',0,0);
+if (ret.gpgkeyname.find("(")!=-1) ret.gpgkeyname=ret.gpgkeyname.section('(',0,0);
+}
+else 
+{
+ret.gpgkeymail="";
+ret.gpgkeyname=fullname;
+}
+QString algo=keyColon.section(':',3,3);
+if (!algo.isEmpty())
+				switch( algo.toInt() )
+                  {
+                  case  1:
+                    algo=i18n("RSA");
+                    break;
+                  case 16:
+                  case 20:
+                    algo=i18n("ElGamal");
+                    break;
+                  case 17:
+                    algo=i18n("DSA");
+                    break;
+                  default:
+                    algo=QString("#" + algo);
+                    break;
+                  }
+ret.gpgkeyalgo=algo;
+
+const QString trust=keyColon.section(':',1,1);
 QString tr;
            switch( trust[0] )
             {
             case 'o':
-              return i18n("Unknown");
+              tr=i18n("Unknown");
               break;
             case 'i':
-              return i18n("Invalid");
+              tr=i18n("Invalid");
               break;
             case 'd':
-              return i18n("Disabled");
+              tr=i18n("Disabled");
               break;
             case 'r':
-              return i18n("Revoked");
+              tr=i18n("Revoked");
               break;
             case 'e':
-              return i18n("Expired");
+              tr=i18n("Expired");
               break;
             case 'q':
-              return i18n("Undefined");
+              tr=i18n("Undefined");
               break;
             case 'n':
-              return i18n("None");
+              tr=i18n("None");
               break;
             case 'm':
-              return i18n("Marginal");
+              tr=i18n("Marginal");
               break;
             case 'f':
-              return i18n("Full");
+              tr=i18n("Full");
               break;
             case 'u':
-              return i18n("Ultimate");
+              tr=i18n("Ultimate");
               break;
             default:
-              return i18n("?");
+              tr=i18n("?");
               break;
             }
+ret.gpgkeytrust=tr;
+			
+return ret;
 }

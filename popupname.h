@@ -1,5 +1,5 @@
 /***************************************************************************
-                          kgpgoptions.h  -  description
+                          popupname.h  -  description
                              -------------------
     begin                : Mon Jul 8 2002
     copyright            : (C) 2002 by y0k0

@@ -38,8 +38,8 @@
 MyEditor::MyEditor( QWidget *parent, const char *name )
     : QTextEdit( parent, name )
 {
-
-  setAcceptDrops(true);
+setTextFormat(PlainText);
+setAcceptDrops(true);
 }
 
 void MyEditor::contentsDragEnterEvent( QDragEnterEvent *e )
@@ -109,11 +109,11 @@ filename=fname;
 
     messages="";
   KProcIO *encid=new KProcIO();
-  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--batch"<<"-d"<<fname.local8Bit();
+  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--batch"<<"--status-fd=1"<<"-d"<<fname.local8Bit();
   /////////  when process ends, update dialog infos
     QObject::connect(encid, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresultenckey(KProcess *)));
     QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocreadenckey(KProcIO *)));
-    encid->start(KProcess::NotifyOnExit,true);
+    encid->start(KProcess::NotifyOnExit,false);
  }
 
 void MyEditor::slotprocreadenckey(KProcIO *p)
@@ -125,7 +125,7 @@ void MyEditor::slotprocreadenckey(KProcIO *p)
   {
     if (outp.find("<")!=-1)
 {
-outp=outp.section('<',1,1);
+outp=outp.section('<',-1,-1);
 outp=outp.section('>',0,0);
 if (messages!="") messages+=" or ";
 messages+=outp;
@@ -171,8 +171,12 @@ void MyEditor::slotprocresultenckey(KProcess *)
        KMessageBox::information(0,i18n("This file is a private key !\nPlease use kgpg key management to import it."));
        else
        /// unknown file type
-      KMessageBox::sorry(0,i18n("Sorry, no encrypted data found..."));
-      return;
+	   if (!result.startsWith("-----BEGIN PGP MESSAGE")) 
+	   		{
+      		KMessageBox::sorry(0,i18n("Sorry, no encrypted data found..."));
+      		return;
+			}
+			else enckey=i18n("[No user ID found]");
       }
     }
   }
@@ -238,7 +242,7 @@ KgpgView::KgpgView(QWidget *parent, const char *name) : QWidget(parent, name)
 
   QObject::connect(bouton0,SIGNAL(clicked()),this,SLOT(clearSign()));
   QObject::connect(bouton1,SIGNAL(clicked()),this,SLOT(popuppublic()));
-  QObject::connect(bouton2,SIGNAL(clicked()),this,SLOT(popuppass()));
+  QObject::connect(bouton2,SIGNAL(clicked()),this,SLOT(slotdecode()));
 
   QObject::connect(editor,SIGNAL(textChanged()),this,SLOT(modified()));
 
@@ -419,110 +423,43 @@ void KgpgView::popuppublic()
    // }
 }
 
-void KgpgView::popuppass()
-{
-  ////////  redirect to decode slot
-  slotdecode();
-}
-
 
 //////////////////////////////////////////////////////////////////////////////////////     decode
 
 void KgpgView::slotdecode()
 {
   ///////////////    decode data from the editor. triggered by the decode button
-  QFile f;
 
-     //// put encrypted data in a tempo file
-
-    f.setName("kgpg.tmp");
-    if ( !f.open( IO_WriteOnly ) ) {KMessageBox::sorry(0,i18n("Error writing temp file"));return;}
-    QTextStream t( &f );
-    t << editor->text();
-    f.close();
-
-     messages="";
-  KProcIO *encid=new KProcIO();
-  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--batch"<<"-d"<<"kgpg.tmp";
-  /////////  when process ends, update dialog infos
-    QObject::connect(encid, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresult(KProcess *)));
-    QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
-    encid->start(KProcess::NotifyOnExit,true);
-}
-
-
-void KgpgView::slotprocresult(KProcess *)
-{
-  FILE *output,*pass;
-  QFile f;
-  QString tst="",newname="",enckey="";
-  char gpgcmd[1024] = "\0",line[130]="";
-  int ppass[2];
-  QCString password;
-
-enckey=messages;
-
-    tst="";
-    int counter=0;
-    while ((counter<3) && (tst==""))
-    {
-  /// pipe for passphrase
-  counter++;
-  QString passdlg=i18n("Enter passphrase for %1:").arg(enckey);
-  if (counter>1) passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 trial(s) left.<br>").arg(QString::number(4-counter)));
-  int code=KPasswordDialog::getPassword(password,passdlg);
-  if (code!=QDialog::Accepted) return;
-
-  //   pass=password;
-
-  pipe(ppass);
-  pass = fdopen(ppass[1], "w");
-  fwrite(password, sizeof(char), strlen(password), pass);
-  fwrite("\n", sizeof(char), 1, pass);
-  fclose(pass);
-
-  /// create gpg command
-snprintf(gpgcmd, 130, "gpg --no-tty --passphrase-fd %d -d kgpg.tmp",ppass[0]);
-  /// open gpg pipe
-  tst="";
-  output=popen(gpgcmd,"r");
-  while ( fgets( line, sizeof(line), output))    /// read output
-    tst+=line;
-  pclose(output);
-
-f.setName("kgpg.tmp");
-f.remove(); //delete temp file
-    if (tst!="")
-    {
-      editor->setText(tst);
-      KgpgApp *win=(KgpgApp *) parent();
-      win->editRedo->setEnabled(false);
-      win->editUndo->setEnabled(false);
-      //modified();
-    }
-    }
-
-    if (tst=="")
-      KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, missing key or corrupted file"));
-
-}
-
-void KgpgView::slotprocread(KProcIO *p)
-{
-///////////////////////////////////////////////////////////////// extract  encryption keys
-
-  QString outp;
-  while (p->readln(outp)!=-1)
+  FILE *fp;
+  QString dests,gpgcmd,encResult,encUsers;
+  char buffer[200];
+  messages="";
+  
+  gpgcmd="echo \""+editor->text()+"\" | gpg --no-secmem-warning --no-tty --batch --status-fd 1 -d";
+  fp = popen(gpgcmd.latin1(), "r");
+  while ( fgets( buffer, sizeof(buffer), fp))
   {
-    if (outp.find("<")!=-1)
-{
-outp=outp.section('<',1,1);
-outp=outp.section('>',0,0);
-if (messages!="") messages+=" or ";
-messages+=outp;
-}
+  encResult=buffer;
+  if (encResult.find("<")!=-1) 
+  {
+  QString kmail=encResult.section('<',-1,-1);
+  kmail=kmail.section('>',0,0);
+  if (!encUsers.isEmpty()) encUsers+=" or ";
+  encUsers+=kmail;
   }
-}
+  }
+  pclose(fp);
+  if (encUsers.isEmpty()) encUsers=i18n("[No user ID found]");
+  QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
+  KgpgApp *win=(KgpgApp *) parent();
+if (resultat!="") 
+{
+editor->setText(resultat);
+win->editRedo->setEnabled(false);
+win->editUndo->setEnabled(false);
+ }
+ else if (win->commandLineMode) {KMessageBox::sorry(0,i18n("Decryption failed"));exit(0);}
+ }
 
 
 void KgpgView::encode(QString &selec,bool utrust,bool arm)

@@ -102,23 +102,22 @@ class KgpgView : public QWidget
 	int gpgversion;
     MyEditor *editor;
 KURL fselected;
-QString messages,pubdefaultkey;    
+
     /** contains the implementation for printing functionality */
 //    void print(QPrinter *pPrinter);
 
 QPushButton *bouton1,*bouton2,*bouton0;	
+private:
+QString messages,pubdefaultkey;    
 
 public slots:
-void popuppass();
-
-  private slots:
-void clearSign();
 void slotdecode();
+
+private slots:
+void clearSign();
 void popuppublic();
 void modified();
 void viewreadopts();
-void slotprocresult(KProcess *);
-void slotprocread(KProcIO *p);
 void encode(QString &,bool,bool);
 };
 

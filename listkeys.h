@@ -57,6 +57,18 @@
 
 //#include "popupname.h"
 
+typedef struct gpgKey{
+  QString gpgkeymail;
+  QString gpgkeyname;
+  QString gpgkeyid;
+  QString gpgkeytrust;
+  QString gpgkeyvalidity;
+  QString gpgkeysize;
+  QString gpgkeycreation;
+  QString gpgkeyexpiration;
+  QString gpgkeyalgo;
+};
+
 class KgpgSelKey : public KDialogBase
 {
     Q_OBJECT
@@ -107,8 +119,8 @@ QPixmap pixkeyPair,pixkeySingle,pixsignature,pixuserid,pixuserphoto;
 private slots:
 void  droppedfile (KURL);
 void refreshkeylist();
-QString trustString(const QString trust);
-QString extractKeyName(QString fullName);
+gpgKey extractKey(QString keyColon);
+QString extractKeyName(QString name,QString mail);
 protected:
 virtual void startDrag();
 virtual void contentsDragMoveEvent(QDragMoveEvent *e);
