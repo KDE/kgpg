@@ -1854,9 +1854,9 @@ void listKeys::signkey()
         //////////////////  open a secret key selection dialog (KgpgSelKey, see begining of this file)
         KgpgSelKey *opts=new KgpgSelKey(this);
 
-        QLabel *signCheck = new QLabel(i18n("How carefully have you checked that the key really\n"
+        QLabel *signCheck = new QLabel(i18n("How carefully have you checked that the key really "
                                             "belongs to the person you want to communicate with:",
-					    "How carefully have you checked that the keys really\n"
+					    "How carefully have you checked that the keys really "
                                             "belong to the people you want to communicate with:",signList.count()),opts->page);
         opts->vbox->addWidget(signCheck);
         QComboBox *signTrust=new QComboBox(opts->page);
