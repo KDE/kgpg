@@ -179,7 +179,6 @@ if (!gpgHome.endsWith("/")) gpgHome.append("/");
 void kgpgOptions::updateWidgets()
 {
 
-kdDebug(2100)<<"++++++++++++ UPDATE WIDGET +++++++++++"<<endl;
         alwaysKeyID=KgpgInterface::getGpgSetting("encrypt-to", KGpgSettings::gpgConfigPath());
 
         encryptToAlways = !alwaysKeyID.isEmpty();
@@ -303,7 +302,6 @@ bool kgpgOptions::hasChanged()
 void kgpgOptions::updateSettings()
 {
         // Update config path first!
-	kdDebug(2100)<<"++++++++++++ UPDATE SETTINGS +++++++++++"<<endl;
 	
 	KGpgSettings::setGpgConfigPath( page4->gpg_home_path->text()+page4->gpg_conf_path->text() );
 	if (page4->gpg_home_path->text()!=KURL(gpgConfigPath).directory(false))
