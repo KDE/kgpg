@@ -519,7 +519,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 	KAction *addUid= new KAction(i18n("&Add User Id"), 0, 0,this, SLOT(slotAddUid()),actionCollection(),"add_uid");
 	KAction *delUid= new KAction(i18n("&Delete User Id"), 0, 0,this, SLOT(slotDelUid()),actionCollection(),"del_uid");
 
-	KAction *editKey = new KAction(i18n("&Edit Key in Terminal"), "openterm", QKeySequence(ALT+Qt::Key_Return),this, SLOT(slotedit()),actionCollection(),"key_edit");
+	KAction *editKey = new KAction(i18n("&Edit Key in Terminal"), "kgpg_term", QKeySequence(ALT+Qt::Key_Return),this, SLOT(slotedit()),actionCollection(),"key_edit");
         KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
         KAction *revokeKey = new KAction(i18n("Revoke Key..."), 0, 0,this, SLOT(revokeWidget()),actionCollection(),"key_revoke");
 
@@ -535,7 +535,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         KStdAction::configureToolbars(this, SLOT(configuretoolbars() ), actionCollection(), "configuretoolbars");
         setStandardToolBarMenuEnabled(true);
 
-	(void) new KToggleAction(i18n("&Show only Secret Keys"), 0, 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
+	(void) new KToggleAction(i18n("&Show only Secret Keys"), "kgpg_show", 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
 	keysList2->displayOnlySecret=false;
 	
 	sTrust=new KToggleAction(i18n("Trust"),0, 0,this, SLOT(slotShowTrust()),actionCollection(),"show_trust");
@@ -1159,8 +1159,10 @@ if (newdef) slotSetDefaultKey(newdef);
 
 void listKeys::slotSetDefaultKey(QListViewItem *newdef)
 {
-kdDebug()<<"------------------start ------------"<<endl;	
+kdDebug()<<"------------------start ------------"<<endl;
 if (!newdef) return;
+kdDebug()<<newdef->text(6)<<endl;
+kdDebug()<<KGpgSettings::defaultKey()<<endl;
 if (newdef->text(6)==KGpgSettings::defaultKey()) return;
         if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) {
                 KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted."));
@@ -1171,10 +1173,9 @@ if (newdef->text(6)==KGpgSettings::defaultKey()) return;
 
  	KGpgSettings::setDefaultKey(newdef->text(6));
  	KGpgSettings::writeConfig();
-	
         if (olddef) keysList2->refreshcurrentkey(olddef);
         keysList2->refreshcurrentkey(newdef);
-        keysList2->ensureItemVisible(newdef);
+        keysList2->ensureItemVisible(keysList2->currentItem());
 }
 
 
@@ -2059,8 +2060,9 @@ void listKeys::newKeyDone(KProcess *)
         keyCreated->exec();
 
         QListViewItem *newdef = keysList2->findItem(newkeyID,6);
-		if ((newdef) && (page->CBdefault->isChecked())) slotSetDefaultKey(newdef);
-                if ((!page->CBdefault->isChecked()) && (newdef))
+		if (newdef)
+		if (page->CBdefault->isChecked()) slotSetDefaultKey(newdef);
+                else
         	{
                 keysList2->clearSelection();
                 keysList2->setCurrentItem(newdef);
@@ -2158,36 +2160,51 @@ void listKeys::confirmdeletekey()
                 int result=KMessageBox::questionYesNoList(this,i18n("<qt><b>Delete the following public key(s)  ?</b></qt>"),keysToDelete,i18n("Warning"),i18n("Delete"));
                 if (result!=KMessageBox::Yes)
                         return;
-                else
-                        deletekey();
+                else deletekey();
         }
 }
 
 void listKeys::deletekey()
 {
-        QPtrList<QListViewItem> exportList=keysList2->selectedItems();
-        if (exportList.count()==0)
-                return;
-
+QPtrList<QListViewItem> exportList=keysList2->selectedItems();
+		        if (exportList.count()==0) return;
 
         KProcess gp;
-        gp << "gpg"
-        << "--no-tty"
-        << "--no-secmem-warning"
-        << "--batch"
-        << "--yes"
-        << "--delete-key";
-        for ( uint i = 0; i < exportList.count(); ++i )
-                if ( exportList.at(i) )
-                        gp<<(exportList.at(i)->text(6)).stripWhiteSpace();
-
-        gp.start(KProcess::Block);
+	gp << "gpg"
+	<< "--no-tty"
+	<< "--no-secmem-warning"
+	<< "--batch"
+	<< "--yes"
+	<< "--delete-key";
+	for ( uint i = 0; i < exportList.count(); ++i )
+	if ( exportList.at(i) )
+	gp<<(exportList.at(i)->text(6)).stripWhiteSpace();
+	gp.start(KProcess::Block);
 
         for ( uint i = 0; i < exportList.count(); ++i )
                 if ( exportList.at(i) )
                         keysList2->refreshcurrentkey(exportList.at(i));
-        if (keysList2->currentItem())
-                keysList2->currentItem()->setSelected(true);
+kdDebug()<<keysList2->currentItem()->text(0)<<endl;
+	if (keysList2->currentItem())
+		{
+		QListViewItem * myChild = keysList2->currentItem();
+		while(!myChild->isVisible()) {
+            	myChild = myChild->nextSibling();
+		if (!myChild) break;
+        	}
+		if (!myChild) 
+		{
+		QListViewItem * myChild = keysList2->firstChild();
+		while(!myChild->isVisible()) {
+            	myChild = myChild->nextSibling();
+		if (!myChild) break;
+        	}
+		}
+		if (myChild) {
+		myChild->setSelected(true);
+		keysList2->setCurrentItem(myChild);
+		}
+		}
 }
 
 
@@ -2226,7 +2243,7 @@ void listKeys::slotPreImportKey()
 
 void KeyView::expandGroup(QListViewItem *item)
 {
-        kdDebug()<<"Expanding group"<<endl;
+        
         QStringList keysGroup=KgpgInterface::getGpgGroupSetting(item->text(0),KGpgSettings::gpgConfigPath());
         kdDebug()<<keysGroup<<endl;
         for ( QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it ) {
@@ -2412,12 +2429,7 @@ void KeyView::refreshkeylist()
         bool emptyList=true;
 	QString openKeys;
 
-	QListViewItem * myChild = firstChild();
-        while( myChild ) {
-            if (myChild->isOpen()) openKeys+=myChild->text(6)+" ";
-            myChild = myChild->nextSibling();
-        }
-        // get current position.
+	// get current position.
         //int colWidth = 120; //QMAX(70, columnWidth(0));
         QListViewItem *current = currentItem();
         if(current != NULL) {
