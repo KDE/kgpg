@@ -718,7 +718,7 @@ KgpgAppletApp::~KgpgAppletApp()
 void KgpgAppletApp::slotHandleQuit()
 {
 s_keyManager->keysList2->saveLayout(KGlobal::config(),"KeyView");
-        KGpgSettings::setShowToolbar(s_keyManager->toolBar()->isVisible());
+        KGpgSettings::setShowToolbar(!s_keyManager->toolBar()->isHidden());
         KGpgSettings::setPhotoProperties(s_keyManager->photoProps->currentItem());
 	KGpgSettings::setShowTrust(s_keyManager->sTrust->isChecked());
 	KGpgSettings::setShowExpi(s_keyManager->sExpi->isChecked());
