@@ -1,10 +1,10 @@
 /***************************************************************************
-                        kgpg.cpp  -  description
-                           -------------------
-  begin                : Tue Jul  2 12:31:38 GMT 2002
-  copyright            : (C) 2002 by y0k0
-  email                : bj@altern.org
-***************************************************************************/
+                          kgpg.cpp  -  description
+                             -------------------
+    begin                : Mon Nov 18 2002
+    copyright            : (C) 2002 by y0k0
+    email                : bj@altern.org
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,110 +15,563 @@
  *                                                                         *
  ***************************************************************************/
 
-// include files for QT
-#include <qstring.h>
-#include <qtimer.h>
+#include <qlabel.h>
+#include <qpixmap.h>
+#include <qclipboard.h>
 #include <qfile.h>
-#include <stdlib.h>
-#include <qwidgetlist.h>
-#include <unistd.h>
-
-// include files for KDE
-#include <kiconloader.h>
-#include <kmessagebox.h>
-#include <kfiledialog.h>
-#include <kmenubar.h>
-#include <kshred.h>
-
+#include <kglobal.h>
 #include <klocale.h>
 #include <kconfig.h>
-#include <kstdaction.h>
-#include <kpopupmenu.h>
-#include <ktip.h>
 #include <kapplication.h>
-#include <qclipboard.h>
-#include <qdialog.h>
-#include <qregexp.h>
+#include <kmessagebox.h>
+#include <kcombobox.h>
+#include <kprocess.h>
+#include <kprocio.h>
+#include <qcursor.h>
+//#include <qframe.h>
+#include <qwidget.h>
+#include <qtooltip.h>
+#include <kaboutapplication.h>
 
 
-// application specific includes
-
-#include "kgpgfast.h"
-
-//#include <qfont.h>
 #include "kgpg.h"
-#include "kgpginterface.h"
 
-#define ID_STATUS_MSG 1
 
-KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0, name)
-{  
-  config=kapp->config();
-  readOptions();
-commandLineMode=false;
+#define ABOUT_ITEM    30
+#define HELP_ITEM    40
+#define QUIT_ITEM    50
+#define CONFIG_ITEM  60
+#define CLIPDECRYPT_ITEM   70
+#define CLIPENCRYPT_ITEM   80
+#define KEYMANAGER_ITEM   90
+#define EDITOR_ITEM   100
+#define KEYSERVER_ITEM   110
 
-  if ((opmode.isEmpty()) || (opmode=="show") || (opmode=="clipboard"))
-    {
-	  if (tipofday) slotTip();
-	  
-	  KIconLoader *loader = KGlobal::iconLoader();
-      fileEnc=loader->loadIcon("kgpg",KIcon::Small);
-      fileDec=loader->loadIcon("kgpg2",KIcon::Small);
-      
-	  // call inits to invoke all other construction parts
-      initActions();
-      initView();
-      
-	  if (opmode=="clipboard") {commandLineMode=true;slotClip();} /// decrypt & open clipboard content
-      
-      fileSave->setEnabled(false);
-      editRedo->setEnabled(false);
-      editUndo->setEnabled(false);
-	  
-	  if (opmode=="show") openEncryptedDocumentFile(fileToOpen);//checkEncryptedDocumentFile(fileToOpen);
-    createGUI("kgpg.rc");
+MyView::MyView( QWidget *parent, const char *name )
+    : QLabel( parent, name )
+{
+
+KAction *saveDecrypt = new KAction(i18n("&Decrypt+Save file"),"decrypted",0,this, SLOT(decryptDroppedFile()),this,"decrypt_file");
+KAction *showDecrypt = new KAction(i18n("&Show decrypted file"),"edit",0,this, SLOT(showDroppedFile()),this,"show_file");
+KAction *encrypt = new KAction(i18n("&Encrypt file"),"encrypted",0,this, SLOT(encryptDroppedFile()),this,"encrypt_file");
+KAction *sign = new KAction(i18n("&Sign file"), "signature",0,this, SLOT(signDroppedFile()),this,"sign_file");
+//QToolTip::add(this,i18n("KGpg drag & drop encryption applet"));
+
+m_popup = new KPopupMenu(0L, "main_menu");
+conf_popup = new KPopupMenu(0L, "config_menu");
+ksConfig=kapp->config();
+readOptions();
+init();
+if (tipofday) KTipDialog::showTip(this, "kgpg/tips", true);
+
+setPixmap(KGlobal::iconLoader()->loadIcon("kgpg",KIcon::User,22));
+resize(24,24);
+setAcceptDrops(true);
+
+  droppopup=new QPopupMenu();
+  showDecrypt->plug(droppopup);
+  saveDecrypt->plug(droppopup);
+  
+  udroppopup=new QPopupMenu();
+  encrypt->plug(udroppopup);
+  sign->plug(udroppopup);
+  
+    connect(m_popup, SIGNAL(activated(int)), SLOT(clickedMenu(int)));
+	connect(conf_popup, SIGNAL(activated(int)), SLOT(clickedConfMenu(int)));
+ 
+}
+
+MyView::~MyView()
+{}
+
+void MyView::init()
+{
+  m_popup->clear();
+  m_popup->insertTitle( SmallIcon( "kgpg" ),
+                        i18n("KGpg Applet"));
+
+if (showeclip)
+m_popup->insertItem(i18n("&Encrypt clipboard"), CLIPENCRYPT_ITEM );
+if (showdclip)
+m_popup->insertItem(i18n("&Decrypt clipboard"), CLIPDECRYPT_ITEM );
+m_popup->insertSeparator();
+if (showomanager)
+m_popup->insertItem( SmallIcon("kgpg_manage"),
+			i18n("Open &key manager"), KEYMANAGER_ITEM );
+if (showoeditor)
+m_popup->insertItem( SmallIcon("edit"),
+			i18n("&Open Editor"), EDITOR_ITEM );
+
+if (showserver)
+{
+m_popup->insertSeparator();
+m_popup->insertItem( SmallIcon("network"),
+			i18n("Key&server dialog"), KEYSERVER_ITEM );
+}
+
+///////////////////////////////////////////////////////////////////
+
+  conf_popup->clear();
+  conf_popup->insertTitle( SmallIcon( "kgpg" ),
+                        i18n("KGpg Applet"));
+
+ conf_popup->insertItem(SmallIcon("configure"), i18n("&Configure KGpg"), CONFIG_ITEM );
+ conf_popup->insertItem(SmallIcon("kgpg"), i18n("&About KGpg"), ABOUT_ITEM );
+ conf_popup->insertItem(SmallIcon("help"), i18n("&Help"), HELP_ITEM );
+conf_popup->insertSeparator(); 
+  conf_popup->insertItem(SmallIcon("exit"), i18n("&Quit"), QUIT_ITEM );
+}
+
+void MyView::showPopupMenu( QPopupMenu *menu )
+{
+	Q_ASSERT( menu != 0L );
+
+    menu->move(-1000,-1000);
+    menu->show();
+    menu->hide();
+
+        QPoint g = QCursor::pos();
+        if ( menu->height() < g.y() )
+            menu->popup(QPoint( g.x(), g.y() - menu->height()));
+        else
+            menu->popup(QPoint(g.x(), g.y()));
+}
+
+
+void MyView::mousePressEvent(QMouseEvent *e)
+{
+    if ( e->button() == RightButton)
+        showPopupMenu( conf_popup );
+	else  showPopupMenu( m_popup );
+}
+
+void MyView::clickedMenu(int id)
+{
+    switch ( id ) {
+    case -1:
+        break;
+	case KEYSERVER_ITEM:
+        openKeyServer();
+        break;
+    case KEYMANAGER_ITEM:
+        openKeyManager();
+        break;
+    case EDITOR_ITEM:
+        openEditor();
+        break;
+	case CLIPENCRYPT_ITEM:
+        clipEncrypt();
+        break;
+	case CLIPDECRYPT_ITEM:
+        clipDecrypt();
+        break;
 	}
-  else
-  	if (opmode=="clipboardEnc")
+}
+
+
+void MyView::clickedConfMenu(int id)
+{
+    switch ( id ) {
+    case -1:
+        break;
+	case HELP_ITEM: 
+        help();
+        break;
+	case ABOUT_ITEM: 
+        about();
+        break;
+	case CONFIG_ITEM: 
+        preferences();
+        break;
+	case QUIT_ITEM: 
 	{
-popupPublic *dialoguec=new popupPublic(this, "public_keys", 0,false);
-connect(dialoguec,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(encryptClipboard(QString &,QString)));
-if (dialoguec->exec()==QDialog::Rejected ) exit(0);
-	}
-else if (!fileToOpen.filename().isEmpty())
-    {
-      urlselected=fileToOpen;
-	  commandLineMode=true;
-      if (opmode=="encrypt") ///// user asked for encryption in command line arguments
-        {
-          if (!encryptfileto)
-            {
-              popupPublic *dialogue=new popupPublic(this,"public_keys",fileToOpen.filename(),true);
-              connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(fastencode(QString &,QString,bool,bool)));
-              if (dialogue->exec()==QDialog::Rejected ) exit(0);
-            }
-          else
-		  {
-		  QString opts;
-		  	if (untrusted) opts=" --always-trust ";
-			if (ascii) opts+=" --armor ";
-            fastencode(filekey,opts,false,false);
-		  }
-          return;
-        }
-      else if (opmode=="decrypt") fastdecode(true);  ///// user asked for decryption in command line arguments
-     else if (opmode=="verify") slotVerifyFile(urlselected);
-	  else if (opmode=="sign") slotSignFile(urlselected);
-	  else view->editor->droppedfile(urlselected);
+	 int autoStart = KMessageBox::questionYesNoCancel( 0L, i18n("Should KGpg start automatically\nwhen you login?"), i18n("Automatically Start KGpg?") );
+
+        KConfig *config = KGlobal::config();
+        config->setGroup("Applet");
+        if ( autoStart == KMessageBox::Yes )
+            config->writeEntry("AutoStart", true);
+        else if ( autoStart == KMessageBox::No) {
+            config->writeEntry("AutoStart", false);
+        }else  // cancel chosen don't quit
+	    break;
+		config->sync();
+        kapp->exit();
+        break;
+	
+		}
     }
 }
 
-KgpgApp::~KgpgApp()
+
+void  MyView::openKeyServer() 
+{
+keyServer *ks=new keyServer(0);
+ks->exec();
+delete ks;
+}
+
+void  MyView::openKeyManager() 
+{
+   listKeys *keydialog = new listKeys(0, "key_manager",WDestructiveClose);
+   keydialog->show();
+}
+
+void  MyView::clipEncrypt() 
+{
+popupPublic *dialoguec=new popupPublic(this, "public_keys", 0,false);
+connect(dialoguec,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(encryptClipboard(QString &,QString)));
+dialoguec->show();
+}
+
+void  MyView::clipDecrypt() 
+{
+QString clippie=kapp->clipboard()->text().stripWhiteSpace();
+if (clippie.startsWith("-----BEGIN PGP MESSAGE"))
+{
+   KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
+   kgpgtxtedit->view->editor->setText(clippie);
+   kgpgtxtedit->view->slotdecode();
+   kgpgtxtedit->show();
+}
+else KMessageBox::sorry(this,i18n("No encrypted text found..."));
+}
+
+
+void  MyView::openEditor() 
+{
+ KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WType_Dialog);
+ kgpgtxtedit->show();
+}
+
+void  MyView::encryptDroppedFile() 
+{
+QString opts="";
+KgpgLibrary *lib=new KgpgLibrary();     	
+if (encryptfileto)
+{
+		  	if (untrusted) opts=" --always-trust ";
+			if (ascii) opts+=" --armor ";
+			if (hideid) opts+=" --throw-keyid ";
+			if (pgpcomp) opts+=" --pgp6 ";
+lib->slotFileEnc(droppedUrl,opts,filekey);
+}								   
+else lib->slotFileEnc(droppedUrl);
+}
+
+
+void  MyView::slotVerifyFile()
+{
+  ///////////////////////////////////   check file signature
+ if (droppedUrl.isEmpty()) return;
+ 
+QString sigfile="";    
+      //////////////////////////////////////       try to find detached signature.
+if (!droppedUrl.filename().endsWith(".sig"))
+{
+      sigfile=droppedUrl.path()+".sig";
+      QFile fsig(sigfile);
+      if (!fsig.exists())
+        {
+          sigfile=droppedUrl.path()+".asc";
+          QFile fsig(sigfile);
+          //////////////   if no .asc or .sig signature file included, assume the file is internally signed
+          if (!fsig.exists())
+            sigfile="";
+        }
+}
+      ///////////////////////// pipe gpg command
+KgpgInterface *verifyFileProcess=new KgpgInterface();
+verifyFileProcess->KgpgVerifyFile(droppedUrl,KURL(sigfile)); 
+}
+
+
+void  MyView::signDroppedFile() 
+{
+
+  //////////////////////////////////////   create a detached signature for a chosen file
+ if (droppedUrl.isEmpty()) return;
+ 
+ QString signKeyID;
+      //////////////////   select a private key to sign file --> listkeys.cpp
+	  KgpgSelKey *opts=new KgpgSelKey(0,"select_secret",false);
+      if (opts->exec()==QDialog::Accepted) signKeyID=opts->getkeyID();
+      else
+        {
+          delete opts;
+          return;
+        }
+      delete opts;
+  QString Options;
+  if (ascii) Options=" --armor ";
+  if (pgpcomp) Options+=" --pgp6 ";
+ KgpgInterface *signFileProcess=new KgpgInterface();
+ signFileProcess->KgpgSignFile(signKeyID,droppedUrl,Options);
+}
+
+void  MyView::decryptDroppedFile() 
+{
+QString oldname=droppedUrl.filename();
+  if (oldname.endsWith(".gpg") || oldname.endsWith(".asc") || oldname.endsWith(".pgp"))
+    oldname.truncate(oldname.length()-4);
+  else oldname.append(".clear");
+  KURL swapname(droppedUrl.directory(0,0)+oldname);
+
+      QFile fgpg(swapname.path());
+      if (fgpg.exists())
+        {
+          KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",swapname);
+          if (over->exec()==QDialog::Accepted)
+            swapname=KURL(swapname.directory(0,0)+over->getfname());
+          else return;
+        }
+KgpgLibrary *lib=new KgpgLibrary();
+lib->slotFileDec(droppedUrl,swapname,customDecrypt) ;
+
+}
+
+void  MyView::showDroppedFile() 
+{
+
+KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
+   kgpgtxtedit->view->editor->droppedfile(droppedUrl);
+   kgpgtxtedit->show();
+}
+
+
+void  MyView::droppedfile (KURL url) 
+{
+droppedUrl=url;
+if ((url.path().endsWith(".asc")) || (url.path().endsWith(".pgp")) || (url.path().endsWith(".gpg"))) 
+{
+switch (efileDropEvent)
+{
+case 0:
+	decryptDroppedFile();
+	break;
+case 1:
+	showDroppedFile();
+	break;
+case 2:
+	droppopup->exec(QCursor::pos ());
+	break;
+}
+}
+else if (url.path().endsWith(".sig"))
+{
+KgpgInterface *verifyFileProcess=new KgpgInterface();	
+verifyFileProcess->KgpgVerifyFile(url,"");
+}
+else switch (ufileDropEvent)
+{
+case 0:
+	encryptDroppedFile();
+	break;
+case 1:
+	signDroppedFile();
+	break;
+case 2:
+	udroppopup->exec(QCursor::pos ());
+	break;
+}
+}
+
+
+void  MyView::droppedtext (QString inputText) 
+{
+
+QClipboard *cb = QApplication::clipboard();
+cb->setText(inputText);
+if (inputText.startsWith("-----BEGIN PGP MESSAGE"))
+{
+clipDecrypt();
+return;
+}
+if (inputText.startsWith("-----BEGIN PGP PUBLIC KEY")) 
+{
+int result=KMessageBox::warningContinueCancel(0,i18n("<p>The dropped text is a public key.<br>Do you want to import it ?</p>"),i18n("Warning"));
+        if (result==KMessageBox::Cancel) return;
+        else
+        {
+		KgpgInterface *importKeyProcess=new KgpgInterface();
+  		importKeyProcess->importKey(inputText,false);
+        return;
+}
+}
+clipEncrypt();
+}
+
+
+void  MyView::dragEnterEvent(QDragEnterEvent *e)
+{
+e->accept (QUrlDrag::canDecode(e) || QTextDrag::canDecode (e));
+}
+
+
+void  MyView::dropEvent (QDropEvent *o) 
+{
+  QStringList list;
+  QString text;
+  if ( QUrlDrag::decodeToUnicodeUris( o, list ) ) droppedfile(KURL(list.first()));
+  else if ( QTextDrag::decode(o, text) ) droppedtext(text);
+}
+
+
+void  MyView::readOptions()
+{
+ksConfig->setGroup("Applet");
+ufileDropEvent=ksConfig->readNumEntry("unencrypted drop event",0);
+efileDropEvent=ksConfig->readNumEntry("encrypted drop event",2);
+showeclip=ksConfig->readBoolEntry("show encrypt clip",true);
+showdclip=ksConfig->readBoolEntry("show decrypt clip",true);
+showoeditor=ksConfig->readBoolEntry("show open editor",true);
+showomanager=ksConfig->readBoolEntry("show open manager",true);
+showserver=ksConfig->readBoolEntry("show server",true);
+
+ksConfig->setGroup("General Options");
+encryptfileto=ksConfig->readBoolEntry("encrypt files to",false);
+filekey=ksConfig->readEntry("file key");
+ascii=ksConfig->readBoolEntry("Ascii armor",true);
+untrusted=ksConfig->readBoolEntry("Allow untrusted keys",false);
+hideid=ksConfig->readBoolEntry("Hide user ID",false);
+pgpcomp=ksConfig->readBoolEntry("PGP compatibility",false);
+customDecrypt=ksConfig->readEntry("custom decrypt");
+if (ksConfig->readBoolEntry("selection clip",false))
+{
+if (kapp->clipboard()->supportsSelection())
+kapp->clipboard()->setSelectionMode(true);
+}
+else kapp->clipboard()->setSelectionMode(false);
+
+if (ksConfig->readBoolEntry("First run",true)) firstRun();
+ksConfig->setGroup("TipOfDay");
+tipofday=ksConfig->readBoolEntry("RunOnStart",true);
+
+}
+
+void  MyView::firstRun()
+{
+  FILE *fp;
+  QString tst;
+  char line[200];
+  bool found=false;
+
+kgpgOptions *opts=new kgpgOptions(this,0);
+opts->checkMimes();
+delete opts;
+
+  fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
+  while ( fgets( line, sizeof(line), fp))
+    {
+      tst=line;
+      if (tst.startsWith("sec"))
+      found=true;
+    }
+  pclose(fp);
+  if (!found)
+    {
+      int result=KMessageBox::questionYesNo(0,i18n("Welcome to KGPG.\nNo secret key was found on your computer.\nWould you like to create one now?"));
+      if (result==3)
+        {
+          listKeys *creat=new listKeys(0);
+          creat->slotgenkey();
+          delete creat;
+        }
+    }
+}
+
+void  MyView::about()
+{
+    KAboutApplication dialog(kapp->aboutData());//_aboutData);
+    dialog.exec();
+}
+
+void  MyView::help()
+{
+kapp->invokeHelp(0,"kgpg");
+}
+
+
+void  MyView::preferences()
+{
+kgpgOptions *opts=new kgpgOptions();
+opts->exec();
+delete opts;
+readOptions();
+init();
+}
+
+
+kgpgapplet::kgpgapplet()
+    : KSystemTray()
+{	
+  w=new MyView(this);
+   w->init();
+   w->show();
+}
+
+kgpgapplet::~kgpgapplet()
+{
+delete kgpgapp;
+}
+
+
+KgpgAppletApp::KgpgAppletApp()
+    : KUniqueApplication(), kgpg_applet( 0 )
 {
 }
 
 
-void KgpgApp::encryptClipboard(QString &selec,QString encryptOptions)
+KgpgAppletApp::~KgpgAppletApp()
+{
+	delete kgpg_applet;
+}
+
+
+int
+KgpgAppletApp::newInstance()
+{
+KURL FileToOpen;
+args = KCmdLineArgs::parsedArgs();
+
+	if ( kgpg_applet )
+	{
+		kgpg_applet->show();
+	}
+	else
+	{
+		kgpg_applet = new kgpgapplet;
+		kgpg_applet->show();
+		/*if ( isRestored() && KMainWindow::canBeRestored(0) )
+		{
+			kgpg_applet->restore(0, FALSE);
+		}*/
+	}
+	
+////////////////////////   parsing of command line args
+if (args->count()>0)
+{
+FileToOpen=args->url(0);
+if (FileToOpen.isEmpty()) return 0;
+kgpg_applet->w->droppedUrl=FileToOpen;
+if (args->isSet("e")!=0)	kgpg_applet->w->encryptDroppedFile();
+else if (args->isSet("s")!=0) kgpg_applet->w->showDroppedFile();	
+else if (args->isSet("S")!=0) kgpg_applet->w->signDroppedFile();	
+else if (args->isSet("V")!=0) kgpg_applet->w->slotVerifyFile();
+else if (FileToOpen.filename().endsWith(".sig")) kgpg_applet->w->slotVerifyFile();
+else kgpg_applet->w->decryptDroppedFile();
+}
+
+return 0;
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void MyView::encryptClipboard(QString &selec,QString encryptOptions)
 {
 QString clipContent=kapp->clipboard()->text();//=cb->text(QClipboard::Clipboard);   ///   QT 3.1 only
 
@@ -127,22 +580,11 @@ QString clipContent=kapp->clipboard()->text();//=cb->text(QClipboard::Clipboard)
   if (pgpcomp) encryptOptions+=" --pgp6 ";
   encryptOptions+=" --armor ";
     
- if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not chosen an encryption key."));exit(0);}
-
+ if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not chosen an encryption key."));}//exit(0);}
  
  KgpgInterface *txtEncrypt=new KgpgInterface();
 connect (txtEncrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(slotSetClip(QString)));
  txtEncrypt->KgpgEncryptText(clipContent,selec,encryptOptions);
-
-     QWidgetList  *list = QApplication::topLevelWidgets();
-    QWidgetListIt it( *list );          // iterate over the widgets
-    while ( it.current() ) {            // for each top level widget...
-        if ( it.current()->isVisible() )
-            it.current()->hide();
-        ++it;
-    }
-    delete list;
-
 QString cryptedClipboard;
 if (clipContent.length()>300) cryptedClipboard=QString(clipContent.left(250).stripWhiteSpace())+"...\n"+QString(clipContent.right(40).stripWhiteSpace());
 else cryptedClipboard=clipContent;
@@ -180,22 +622,22 @@ pop->setView(i18n("Encrypted following text:"),cryptedClipboard,KGlobal::iconLoa
  else
 {
 KMessageBox::sorry(0,i18n("Clipboard is empty."));
-exit(0);
+//exit(0);
 }
 }
 
-void KgpgApp::slotSetClip(QString newtxt)
+void MyView::slotSetClip(QString newtxt)
 {
  if (!newtxt.isEmpty())
  {
  QClipboard *clip=QApplication::clipboard();
  clip->setText(newtxt);//,QClipboard::Clipboard);    QT 3.1 only
- connect(kapp->clipboard(),SIGNAL(dataChanged ()),this,SLOT(expressQuit()));
+ //connect(kapp->clipboard(),SIGNAL(dataChanged ()),this,SLOT(expressQuit()));
  }
- else expressQuit();
+ //else expressQuit();
 }
 
-void KgpgApp::killDisplayClip()
+void MyView::killDisplayClip()
 {
 #if (KDE_VERSION < 310)
 delete clippop;
@@ -203,740 +645,8 @@ delete clippop;
 }
 
 
-void KgpgApp::expressQuit()
-{
-exit(0);
-}
 
+/////////////////////////////////////////////////////////////////////////////
 
-void KgpgApp::slotman()
-{
-   kapp->startServiceByDesktopName("khelpcenter", QString("man:/gpg"), 0, 0, 0, "", true);
-}
-
-void KgpgApp::slotTip()
-{
-    KTipDialog::showTip(this, "kgpg/tips", true);
-}
-
-
-void KgpgApp::initActions()
-{
-  KStdAction::openNew(this, SLOT(slotFileNew()), actionCollection());
-  KStdAction::open(this, SLOT(slotFileOpen()), actionCollection());
-  KStdAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
-  KStdAction::quit(this, SLOT(slotFileQuit()), actionCollection());
-  KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
-  KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
-  KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
-  KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
-  
-  fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
-  (void) new KAction(i18n("&Encrypt File..."), fileEnc, 0,this, SLOT(slotFileEnc()), actionCollection(),"file_encrypt");
-  (void) new KAction(i18n("&Decrypt File..."), fileDec, 0,this, SLOT(slotFileDec()), actionCollection(),"file_decrypt");
-  editUndo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
-  editRedo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());  
-  (void) new KAction(i18n("&Manage Keys"), "kgpg_manage", CTRL+Key_K,this, SLOT(slotManageKey()), actionCollection(),"keys_manage");
-  (void) new KAction(i18n("&Generate Signature..."),0, this, SLOT(slotPreSignFile()), actionCollection(), "sign_generate");
-  (void) new KAction(i18n("&Verify Signature..."),0, this, SLOT(slotPreVerifyFile()), actionCollection(), "sign_verify");
-  (void) new KAction(i18n("&Check MD5 Sum..."), 0,this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
-  (void) new KAction(i18n("Tip of the &Day"), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
-  (void) new KAction(i18n("View GnuPG Manual"), "contents", 0,this, SLOT(slotman()),actionCollection(),"gpg_man");
-}
-
-void KgpgApp::initStatusBar()
-{
-  ///////////////////////////////////////////////////////////////////
-  // STATUSBAR
-  // TODO: add your own items you need for displaying current application status.
-  //  statusBar()->insertItem(i18n("Ready."), ID_STATUS_MSG);
-}
-
-
-
-
-
-
-
-
-void KgpgApp::initView()
-{
-  ////////////////////////////////////////////////////////////////////
-  // create the main widget here that is managed by KTMainWindow's view-region and
-  // connect the widget to your document to display document contents.
-
-  view = new KgpgView(this,0);
-  //  doc->addView(view);
-  setCentralWidget(view);
-  setCaption(i18n("untitled"),false); ///   doc->URL().fileName(),false);
-
-}
-
-
-void KgpgApp::openEncryptedDocumentFile(const KURL& url)
-{
-view->editor->droppedfile(url);
-}
-
-
-
-void KgpgApp::openDocumentFile(const KURL& url)
-{
-
-  /////////////////////////////////////////////////
-
-  QFile qfile(url.path());
-
-  if (qfile.open(IO_ReadOnly))
-    {
-      QTextStream t( &qfile );
-      view->editor->setText(t.read());
-      qfile.close();
-      fileSave->setEnabled(false);
-      editRedo->setEnabled(false);
-      editUndo->setEnabled(false);
-    }
-
-}
-
-
-void KgpgApp::saveOptions()
-{
-  config->setGroup("General Options");
-  config->writeEntry("Geometry", size());
-  config->writeEntry("First run",false);
-  config->writeEntry("gpg version",version);
-}
-
-void KgpgApp::readOptions(bool doresize)
-{
-  config->setGroup("General Options");
-
-  ascii=config->readBoolEntry("Ascii armor",true);
-  untrusted=config->readBoolEntry("Allow untrusted keys",false);
-  hideid=config->readBoolEntry("Hide user ID",false);
-  pgpcomp=config->readBoolEntry("PGP compatibility",false);
-  encrypttodefault=config->readBoolEntry("encrypt to default key",false);
-  defaultkey=config->readEntry("default key");
-  encryptfileto=config->readBoolEntry("encrypt files to",false);
-  filekey=config->readEntry("file key");
-customDecrypt=config->readEntry("custom decrypt");
-
-if (config->readBoolEntry("selection clip",false))
-{
-// support clipboard selection (if possible)
-if (kapp->clipboard()->supportsSelection())
-kapp->clipboard()->setSelectionMode(true);
-}
-else kapp->clipboard()->setSelectionMode(false);
-
-  if (doresize)
-    {
-      QSize size=config->readSizeEntry("Geometry");
-      bool frun=config->readBoolEntry("First run",true);
-      config->setGroup("TipOfDay");
-      tipofday=config->readBoolEntry("RunOnStart",true);
-      if (frun) firstrun();
-	else
-      if (!size.isEmpty())
-        resize(size);
-    }
-
-}
-
-/////////////////////////////////////////////////////////////////////
-// SLOT IMPLEMENTATION
-/////////////////////////////////////////////////////////////////////
-
-void KgpgApp::firstrun()
-{
-  FILE *fp;
-  QString tst;
-  char line[200];
-  bool found=false;
-
-kgpgOptions *opts=new kgpgOptions(this,0);
-opts->checkMimes();
-delete opts;
-
-  fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
-  while ( fgets( line, sizeof(line), fp))
-    {
-      tst=line;
-      if (tst.startsWith("sec"))
-      found=true;
-    }
-  pclose(fp);
-  if (!found)
-    {
-      int result=KMessageBox::questionYesNo(0,i18n("Welcome to KGPG.\nNo secret key was found on your computer.\nWould you like to create one now?"));
-      if (result==3)
-        {
-          listKeys *creat=new listKeys(this);
-          creat->slotgenkey();
-          delete creat;
-        }
-    }
-}
-
-
-
-
-void KgpgApp::slotOptions()
-{
-  /////////////////////// open option dialog box --> kgpgoptions.cpp
-  kgpgOptions *opts=new kgpgOptions(this,0);
-  opts->exec();
-  delete opts;
-  readOptions(false);
-}
-
-
-void KgpgApp::slotundo()
-{
-  view->editor->undo();
-  editRedo->setEnabled(true);
-}
-
-void KgpgApp::slotredo()
-{
-  view->editor->redo();
-}
-
-/////////////    file signature slots
-
-
-void KgpgApp::slotCheckMd5()
-{
-  /////////////////////////////////////////////////////////////////////////  display md5 sum for a chosen file
-
-  KURL url=KFileDialog::getOpenURL(QString::null,
-                                   i18n("*|All Files"), this, i18n("Open File to Verify"));
-  if (!url.isEmpty())
-    {
-
-      Md5Widget *mdwidget=new Md5Widget(this,0,url);
-      mdwidget->exec();
-      delete mdwidget;
-      //      KMessageBox::information(this,QString("MD5 sum for "+url.filename()+" is:\n"+checkfile.hexDigest().data()));
-    }
-}
-
-
-void KgpgApp::slotPreSignFile()
-{
-  //////////////////////////////////////   create a detached signature for a chosen file
-  KURL url=KFileDialog::getOpenURL(QString::null,i18n("*|All Files"), this, i18n("Open File to Sign"));
- if (!url.isEmpty()) slotSignFile(url);
-}
-
-void KgpgApp::slotSignFile(KURL url)
-{
-  //////////////////////////////////////   create a detached signature for a chosen file
-  QString signKeyID;
- if (!url.isEmpty())
-    {
-      //////////////////   select a private key to sign file --> listkeys.cpp
-	  KgpgSelKey *opts=new KgpgSelKey(this,"select_secret",false);
-      if (opts->exec()==QDialog::Accepted) signKeyID=opts->getkeyID();
-      else
-        {
-          delete opts;
-		  if (commandLineMode) slotExpressQuit();
-          return;
-        }
-      delete opts;
-  QString Options;
-  if (ascii) Options=" --armor ";
-  if (pgpcomp) Options+=" --pgp6 ";
- KgpgInterface *signFileProcess=new KgpgInterface();
- if (commandLineMode) connect (signFileProcess,SIGNAL(signfinished()),this,SLOT(slotExpressQuit()));
- signFileProcess->KgpgSignFile(signKeyID,url,Options);
-  }
-  else if (commandLineMode) slotExpressQuit();
-}
-
-void KgpgApp::slotPreVerifyFile()
-{
- KURL url=KFileDialog::getOpenURL(QString::null,
-                                   i18n("*|All Files"), this, i18n("Open File to Verify"));
- slotVerifyFile(url);
-}
-
-void KgpgApp::slotVerifyFile(KURL url)
-{
-  ///////////////////////////////////   check file signature
-  QString sigfile="";
- if (!url.isEmpty())
-    {
-      //////////////////////////////////////       try to find detached signature.
-if (!url.filename().endsWith(".sig"))
-{
-      sigfile=url.path()+".sig";
-      QFile fsig(sigfile);
-      if (!fsig.exists())
-        {
-          sigfile=url.path()+".asc";
-          QFile fsig(sigfile);
-          //////////////   if no .asc or .sig signature file included, assume the file is internally signed
-          if (!fsig.exists())
-            sigfile="";
-        }
-}
-      ///////////////////////// pipe gpg command
-      KgpgInterface *verifyFileProcess=new KgpgInterface();
-	  if (commandLineMode) connect (verifyFileProcess,SIGNAL(verifyfinished()),this,SLOT(slotExpressQuit()));
- verifyFileProcess->KgpgVerifyFile(url,KURL(sigfile));
- }
- else if (commandLineMode) slotExpressQuit();
-}
-
-///////////////////////////////////   key slots
-
-
-void KgpgApp::slotClip()
-{
-
-  QString text;
-
-  // Copy text from the clipboard (paste)
-  text = kapp->clipboard()->text();
-  if ( !text.isEmpty())
-  {
-  view->editor->setText(text);
-  view->slotdecode();
-  commandLineMode=false;
-  }
-  else {KMessageBox::sorry(this,i18n("Clipboard is empty."));exit(0);}
-}
-
-
-
-
-void KgpgApp::slotManageKey()
-{
-    /////////// open key management window --> listkeys.cpp
-   listKeys * keydialogue = new listKeys(this, "key_manager",WShowModal | WType_Dialog);
-   keydialogue->show();
-}
-
-
-void KgpgApp::slotFileNew()
-{
-  //////  delete all text from editor
-
-  view->editor->setText("");
-  editRedo->setEnabled(false);
-  editUndo->setEnabled(false);
-  setCaption(i18n("Untitled"), false);
-  fileSave->setEnabled(false);
-  Docname="";
-}
-
-
-void KgpgApp::slotFileOpen()
-{
-
-  KURL url=KFileDialog::getOpenURL(QString::null,
-                                   i18n("*|All Files"), this, i18n("Open File"));
-  if(!url.isEmpty())
-    {
-      openDocumentFile(url);
-      Docname=url;
-      fileSave->setEnabled(false);
-      //fileSaveAs->setEnabled(true);
-      setCaption(url.fileName(), false);
-    }
-
-}
-
-
-
-void KgpgApp::slotFileSave()
-{
-  // slotStatusMsg(i18n("Saving file..."));
-
-  QString filn=Docname.path();
-  if (filn=="")
-    {
-      slotFileSaveAs();
-      return;
-    }
-  QFile f(filn);
-  if ( !f.open( IO_WriteOnly ) )
-    {
-      return;
-    }
-
-  QTextStream t( &f );
-  t << view->editor->text();
-  f.close();
-  fileSave->setEnabled(false);
-  setCaption(Docname.fileName(),false);
-}
-
-
-void KgpgApp::slotFileSaveAs()
-{
-
-  KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),
-                                   i18n("*|All Files"), this, i18n("Save As"));
-  if(!url.isEmpty())
-    {
-
-      QString filn=url.path();
-      QFile f(filn);
-      if (f.exists())
-        {
-          QString message=i18n("Overwrite existing file %1?").arg(url.filename());
-          int result=KMessageBox::warningContinueCancel(this,QString(message),i18n("Warning"),i18n("Overwrite"));
-          if (result==KMessageBox::Cancel)
-            return;
-        }
-
-      if ( !f.open( IO_WriteOnly ) )
-        {
-          return;
-        }
-
-      QTextStream t( &f );
-      t << view->editor->text();
-      f.close();
-      Docname=url;
-      fileSave->setEnabled(false);
-      setCaption(url.fileName(),false);
-    }
-}
-
-void KgpgApp::slotFilePrint()
-{}
-
-void KgpgApp::slotExpressQuit()
-{
-  //kapp->
-  exit(0);
-}
-
-void KgpgApp::slotFileQuit()
-{
-  saveOptions();
-  // close the first window, the list makes the next one the first again.
-  // This ensures that queryClose() is called on each window to ask for closing
-  /*
-    KMainWindow* w;
-    if(memberList)
-    {
-      for(w=memberList->first(); w!=0; w=memberList->first())
-      {
-        // only close the window if the closeEvent is accepted. If the user presses Cancel on the saveModified() dialog,
-        // the window and the application stay open.
-        if(!w->close())
-  	break;
-      }
-    }
-    */
-  kapp->exit(0);
-}
-
-void KgpgApp::slotEditCut()
-{
-  view->editor->cut();
-}
-
-void KgpgApp::slotEditCopy()
-{
-  view->editor->copy();
-}
-
-void KgpgApp::slotEditPaste()
-{
-  view->editor->paste();
-}
-
-
-void KgpgApp::fastencode(QString &selec,QString encryptOptions,bool shred,bool symetric)
-{
-  //////////////////              encode from file
-  if ((selec==NULL) && (!symetric))
-    {
-      KMessageBox::sorry(0,i18n("You have not chosen an encryption key."));
-      return;
-    }
-
-  KURL dest;
-
-  if (encryptOptions.find("--armor")!=-1) dest.setPath(urlselected.path()+".asc");
-  else dest.setPath(urlselected.path()+".gpg");
-
-  QFile fgpg(dest.path());
-
-  if (fgpg.exists())
-    {
-      KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",dest);
-      if (over->exec()==QDialog::Accepted)
-        dest.setFileName(over->getfname());
-      else
-        return;
-    }
-  if (pgpcomp)
-    encryptOptions+=" --pgp6 ";
-  KgpgInterface *cryptFileProcess=new KgpgInterface();
-  cryptFileProcess->KgpgEncryptFile(selec,urlselected,dest,encryptOptions,symetric);
-  //KgpgEncryptFile *cryptFileProcess=new KgpgEncryptFile(selec,urlselected,dest,symetric,encryptOptions);
-  
-  connect(cryptFileProcess,SIGNAL(processaborted(bool)),this,SLOT(processenc(bool)));
-  connect(cryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup2()));
-  if (shred)
-    connect(cryptFileProcess,SIGNAL(encryptionfinished()),this,SLOT(shredprocessenc()));
-  else
-    connect(cryptFileProcess,SIGNAL(encryptionfinished()),this,SLOT(processenc()));
-	connect(cryptFileProcess,SIGNAL(errormessage(QString)),this,SLOT(processencerror(QString)));
-}
-
-void KgpgApp::shredprocessenc()
-{
-#if (KDE_VERSION >= 310)
-delete pop;
-#else
-delete clippop;
-#endif
-      //KMessageBox::sorry(0,"shred");
-      KShred *shredres=new KShred(urlselected.path());
-      if (shredres->shred()==false) KMessageBox::sorry(0,i18n("The source file could not be shredded.\nCheck your permissions."));
-if (commandLineMode) kapp->exit(0);
-    
-}
-
-
-void KgpgApp::processenc()
-{
-#if (KDE_VERSION >= 310)
-delete pop;
-#else
-delete clippop;
-#endif
-  if (commandLineMode)
-    kapp->exit(0);
-}
-
-void KgpgApp::processencerror(QString mssge)
-{
-#if (KDE_VERSION >= 310)
-delete pop;
-#else
-delete clippop;
-#endif
-  KMessageBox::detailedSorry(0,i18n("Encryption failed."),mssge);
-  if (commandLineMode) kapp->exit(0);
-}
-
-void KgpgApp::fastdecode(bool quit)
-{
-  //////////////////////////////////////////////////////////////////    decode file from konqueror or menu
-
-  fastact=quit;
-  QString oldname=urlselected.filename();
-
-QString newname;
-
-  if (oldname.endsWith(".gpg") || oldname.endsWith(".asc") || oldname.endsWith(".pgp"))
-    oldname.truncate(oldname.length()-4);
-  else oldname.append(".clear");
-  KURL swapname(urlselected.directory(0,0)+oldname);
-
-  if (!fastact)
-    {
-      popupName *popn=new popupName(i18n("Decryption To"), this, "decryption to", swapname);
-      if (popn->exec()==QDialog::Accepted)
-        {
-          if (popn->checkFile->isChecked())
-            newname=popn->newFilename->text();
-        }
-      else {delete popn;return;}
-      delete popn;
-    }
-  else 
-  newname=swapname.path();  ////////////////// fast mode
-      
-    
-  if (!newname.isEmpty())
-    {
-      QFile fgpg(newname);
-      if (fgpg.exists())
-        {
-          KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",KURL(newname));
-          if (over->exec()==QDialog::Accepted)
-            {
-              if (fastact)
-                newname=swapname.directory(0,0)+over->getfname();
-              else
-                newname=KURL(newname).directory(0,0)+over->getfname();
-            }
-          else
-            {
-              if (fastact) exit(1);
-              else
-                return;
-            }
-        }
-    }
-  KgpgInterface *decryptFileProcess=new KgpgInterface();
-  decpasssrc=urlselected;
-  if (!newname.isEmpty()) ////////////////////   decrypt to file
-  {	
-  decpassdest=KURL(newname);
-  decryptFileProcess->KgpgDecryptFile(decpasssrc,decpassdest,customDecrypt);
-  connect(decryptFileProcess,SIGNAL(processaborted(bool)),this,SLOT(processdecover()));
-  connect(decryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup()));
-  connect(decryptFileProcess,SIGNAL(decryptionfinished()),this,SLOT(processdecover()));
-  connect(decryptFileProcess,SIGNAL(errormessage(QString)),this,SLOT(processdecerror(QString)));
-  }
-  else openEncryptedDocumentFile(urlselected);
-}
-
-void KgpgApp::processpopup()
-{
-#if (KDE_VERSION >= 310)
-pop = new KPassivePopup( this);
-      pop->setView(i18n("Processing decryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
-	  	pop->show();	  
-	  	QRect qRect(QApplication::desktop()->screenGeometry());
-		int iXpos=qRect.width()/2-pop->width()/2;
-		int iYpos=qRect.height()/2-pop->height()/2;
-      	pop->move(iXpos,iYpos);
-#else
-	clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
-              QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
-              QLabel *tex=new QLabel(clippop);
-              tex->setText(i18n("<b>Processing decryption</b>"));
-			  QLabel *tex2=new QLabel(clippop);
-			  tex2->setText(i18n("Please wait..."));
-              vbox->addWidget(tex);
-			  vbox->addWidget(tex2);
-              clippop->setMinimumWidth(250);
-              clippop->adjustSize();
-			  clippop->show();
-#endif
-}
-
-void KgpgApp::processpopup2()
-{
-#if (KDE_VERSION >= 310)
- pop = new KPassivePopup( this);
-      pop->setView(i18n("Processing encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
-	  	pop->show();	  
-	  	QRect qRect(QApplication::desktop()->screenGeometry());
-		int iXpos=qRect.width()/2-pop->width()/2;
-		int iYpos=qRect.height()/2-pop->height()/2;
-      	pop->move(iXpos,iYpos);
-#else
-	clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
-              QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
-              QLabel *tex=new QLabel(clippop);
-              tex->setText(i18n("<b>Processing encryption</b>"));
-			  QLabel *tex2=new QLabel(clippop);
-			  tex2->setText(i18n("Please wait..."));
-              vbox->addWidget(tex);
-			  vbox->addWidget(tex2);
-              clippop->setMinimumWidth(250);
-              clippop->adjustSize();
-			  clippop->show();
-#endif
-}
-
-void KgpgApp::processdecover()
-{
-#if (KDE_VERSION >= 310)
-delete pop;
-#else
-delete clippop;
-#endif
-if (fastact) kapp->exit(0);
-}
-
-void KgpgApp::processdecerror(QString mssge)
-{
-#if (KDE_VERSION >= 310)
-delete pop;
-#else
-delete clippop;
-#endif
-///// test if file is a public key
-QFile qfile(QFile::encodeName(urlselected.path()));
-if (qfile.open(IO_ReadOnly))
-{
-QTextStream t( &qfile );
-      QString result(t.read());
-      //////////////     if  pgp data found, decode it
-      if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK"))
-      {//////  dropped file is a public key, ask for import
-        qfile.close();
-
-        int result=KMessageBox::warningContinueCancel(0,i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(urlselected.path()),i18n("Warning"));
-        if (result==KMessageBox::Cancel) {if (fastact) kapp->exit(0);return;}
-        else
-        {
-		KgpgInterface *importKeyProcess=new KgpgInterface();
-  		importKeyProcess->importKeyURL(urlselected);
-		connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(slotprocresult(KProcess *)));
-		return;
-	} 
-}
-	else if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK"))
-      {//////  dropped file is a public key, ask for import
-        qfile.close();
-		KMessageBox::information(0,i18n("<p>The file <b>%1</b> is a private key block. Please use KGpg key manager to import it.</p>").arg(urlselected.path()));
-  if (fastact) kapp->exit(0);
-  return;
-}
-}
-  KMessageBox::detailedSorry(0,i18n("Decryption failed."),mssge);
-  if (fastact) kapp->exit(0);
-}
-
-void KgpgApp::slotprocresult(KProcess *)
-{
-  if (fastact) kapp->exit(0);
-}
-
-
-void KgpgApp::slotFileEnc()
-{
-  /////////////////////////////////////////////////////////////////////////  encode file file
-
-  KURL url=KFileDialog::getOpenURL(QString::null,
-                                   i18n("*|All Files"), this, i18n("Open File to Encode"));
-  if (!url.isEmpty())
-    {
-      urlselected=url;
-      if (!encryptfileto)
-        {
-          popupPublic *dialogue=new popupPublic(this,"Public keys",url.filename(),true);
-          connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(fastencode(QString &,QString,bool,bool)));
-          dialogue->exec();
-          delete dialogue;
-        }
-      else
-	  	{
-        	QString opts;
-		  	if (untrusted) opts=" --always-trust ";
-			if (ascii) opts+=" --armor ";
-            fastencode(filekey,opts,false,false);
-		}
-    }
-}
-
-void KgpgApp::slotFileDec()
-{
-  /////////////////////////////////////////////////////////////////////////  decode file file
-
-  KURL url=KFileDialog::getOpenURL(QString::null,
-                                   i18n("*|All Files"), this, i18n("Open File to Decode"));
-  if (!url.isEmpty())
-    {
-      urlselected=url;
-      fastdecode(false);
-    }
-}
 #include "kgpg.moc"
 

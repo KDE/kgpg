@@ -28,18 +28,19 @@
 #include <kmimetype.h>
 #include <kstandarddirs.h>
 
-#include "kgpgoption.h"
 #include "kgpgoptions.h"
 #include "kgpg.h"
 
 
 ///////////////////////   main window
 
-kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KOptions( parent, name)
+kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KgpgOptionDialog( parent, name)
   {
-
-
 config=kapp->config();
+//config = new KSimpleConfig("kgpgrc");// config();
+
+
+//config=kapp->config();
   config->setGroup("General Options");
   bool ascii=config->readBoolEntry("Ascii armor",true);
   bool untrusted=config->readBoolEntry("Allow untrusted keys",false);
@@ -55,23 +56,39 @@ config=kapp->config();
   kLEcustom->setText(config->readEntry("custom option"));
   kLEcustomdec->setText(config->readEntry("custom decrypt"));
   
-  
-config->setGroup("Service Menus");
+config->setGroup("Applet");
+int ufileDropEvent=config->readNumEntry("unencrypted drop event",0);
+int efileDropEvent=config->readNumEntry("encrypted drop event",2);
+bool showeclip=config->readBoolEntry("show encrypt clip",true);
+bool showdclip=config->readBoolEntry("show decrypt clip",true);
+bool showoeditor=config->readBoolEntry("show open editor",true);
+bool showomanager=config->readBoolEntry("show open manager",true);
+bool showserver=config->readBoolEntry("show server",true);
+
+  config->setGroup("Service Menus");
 QString smenu;
 smenu=config->readEntry("Decrypt");
 if (smenu!=NULL) kCBdecrypt->setCurrentItem(smenu);
 smenu=config->readEntry("Sign");
 if (smenu!=NULL) kCBsign->setCurrentItem(smenu);
 
-if (ascii) ascii_2_2->setChecked(true);
-if (untrusted) untrusted_2_2->setChecked(true);
-if (hideid) hide_2_2->setChecked(true);
-if (pgpcomp) pgp_2_2->setChecked(true);
-if (encrypttodefault) defaut_2_2->setChecked(true);
-if (encryptfileto) file_2_2->setChecked(true);
-if (allowcustom) custom_2_2->setChecked(true);
-if (displaymailfirst) cbMailFirst->setChecked(true);
-if (clipselection) cbClipSelection->setChecked(true);
+ascii_2_2->setChecked(ascii);
+untrusted_2_2->setChecked(untrusted);
+hide_2_2->setChecked(hideid);
+pgp_2_2->setChecked(pgpcomp);
+defaut_2_2->setChecked(encrypttodefault);
+file_2_2->setChecked(encryptfileto);
+custom_2_2->setChecked(allowcustom);
+cbMailFirst->setChecked(displaymailfirst);
+cbClipSelection->setChecked(clipselection);
+
+kCBencrypted->setCurrentItem(efileDropEvent);
+kCBunencrypted->setCurrentItem(ufileDropEvent);
+CBeclip->setChecked(showeclip);
+CBdclip->setChecked(showdclip);
+CBoeditor->setChecked(showoeditor);
+CBomanager->setChecked(showomanager);
+CBserver->setChecked(showserver);
 
 listkey();
 if (filekey!=NULL)
@@ -188,6 +205,17 @@ void kgpgOptions::slotOk()
   config->setGroup("Service Menus");
   config->writeEntry("Decrypt",kCBdecrypt->currentText());
   config->writeEntry("Sign",kCBsign->currentText());
+  
+config->setGroup("Applet");
+config->writeEntry("encrypted drop event",kCBencrypted->currentItem());
+config->writeEntry("unencrypted drop event",kCBunencrypted->currentItem());
+config->writeEntry("show encrypt clip",CBeclip->isChecked());
+config->writeEntry("show decrypt clip",CBdclip->isChecked());
+config->writeEntry("show open editor",CBoeditor->isChecked());
+config->writeEntry("show open manager",CBomanager->isChecked());
+config->writeEntry("show server",CBserver->isChecked());
+
+
   
   config->sync();
 

@@ -36,12 +36,17 @@
 #include <kiconloader.h>
 #include <kio/netaccess.h>
 
+#include "detailedconsole.h"
+#include "kgpgfast.h"
+
+/*
 #include <kdeversion.h>
 #if (KDE_VERSION >= 310)
 #include <kpassivepopup.h>
 #else
 #include <qtimer.h>
 #endif
+*/
 
 /**
  * Encrypt a file using gpg.
@@ -137,6 +142,7 @@ void importKey(QString keystr, bool importSecret=false);
 	
     private slots:
 	
+	void openSignConsole();
 	  /**
          * Checks output of the signature process
          */
@@ -265,19 +271,20 @@ signals:
     /**
 	 * @internal structure for communication
 	 */
-        QString message,tempKeyFile,userIDs,txtprocess;
+        QString message,tempKeyFile,userIDs,txtprocess,output;
 		QCString passphrase;
 		bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc;
 		int signSuccess;
 		int step,signb,sigsearch;
 		QString konsSignKey, konsKeyID;
 		
+/*
 #if (KDE_VERSION >= 310)
 KPassivePopup *pop;
 #else
 QDialog *clippop;
 #endif
-		
+*/		
 		
 	/**
 	 * @internal structure for the file information

@@ -149,8 +149,11 @@ QTextStream t( &qfile );
 QString result(t.read());
 QString resultat=KgpgInterface::KgpgDecryptText(result,enckey);
 KIO::NetAccess::removeTempFile(tempFile);
+if (resultat!=" ") // if user didn't cancel ...
+{
 if (!resultat.isEmpty()) setText(resultat);
 else KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, missing key or corrupted file."));
+}
 }
 else KMessageBox::sorry(this,i18n("Unable to read file."));
 }
@@ -207,6 +210,7 @@ void KgpgView::modified()
   win->fileSave->setEnabled(true);
   win->editUndo->setEnabled(true);
   }
+  
 }
 
 void KgpgView::viewreadopts()
@@ -219,6 +223,7 @@ void KgpgView::viewreadopts()
   pubuntrusted=win->untrusted;
   pubencrypttodefault=win->encrypttodefault;
   pubdefaultkey=win->defaultkey;
+  
 }
 
 void KgpgView::clearSign()
@@ -353,18 +358,13 @@ void KgpgView::slotdecode()
   
  QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
 
- KgpgApp *win=(KgpgApp *) parent();
+KgpgApp *win=(KgpgApp *) parent();
 if (!resultat.isEmpty())
 {
 editor->setText(resultat);
 win->editRedo->setEnabled(false);
 win->editUndo->setEnabled(false);
- }
-else if (win->commandLineMode)
-{
-KMessageBox::sorry(this,i18n("Decryption failed."));
-exit(0);
-} 
+ } 
  }
 
 

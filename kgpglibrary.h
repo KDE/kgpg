@@ -1,0 +1,87 @@
+/***************************************************************************
+ *   Copyright (C) 2003 by bjUTHOR$                                        *
+ *   bj@altern.org                                                         *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ ***************************************************************************/
+ 
+ #ifndef KGPGLIBRARY_H
+#define KGPGLIBRARY_H
+
+#include <qevent.h>
+#include <qwidget.h>
+#include <qstring.h>
+#include <qpixmap.h>
+#include <qclipboard.h>
+#include <qdragobject.h>
+#include <qpopupmenu.h>
+#include <qcheckbox.h>
+#include <qlabel.h>
+#include <qregexp.h>
+#include <qwidgetlist.h>
+
+#include <kurl.h>
+#include <kaction.h>
+#include <kiconloader.h>
+#include <kpopupmenu.h>
+#include <kiconloader.h>
+#include <khelpmenu.h>
+#include <ksystemtray.h>
+#include <ktip.h>
+#include <ksimpleconfig.h>
+#include <kfiledialog.h>
+#include <kuniqueapplication.h>
+#include <kdeversion.h>
+#include <kshred.h>
+
+#include "popuppublic.h"
+#include "popupname.h"
+#include "kgpginterface.h"
+
+#if (KDE_VERSION >= 310)
+#include <kpassivepopup.h>
+#endif
+
+ class KgpgLibrary : public QObject {
+
+  Q_OBJECT
+
+    public:
+	/**
+	 * Initialize the class
+	 */
+        KgpgLibrary();
+		~KgpgLibrary();
+		
+public slots:
+void slotFileEnc(KURL url=0,QString opts="",QString defaultKey="");
+void slotFileDec(KURL srcUrl=0,KURL destUrl=0,QString customDecryptOption="");
+		
+private slots:
+void fastencode(QString &selec,QString encryptOptions,bool shred,bool symetric);
+
+void processenc();
+void processdecover();
+void processdecerror(QString mssge);
+void processencerror(QString mssge);
+void processpopup();
+void processpopup2();
+void shredprocessenc();
+
+private:
+QString customDecrypt,tempFile;
+KURL urlselected;
+bool popIsDisplayed;
+
+#if (KDE_VERSION >= 310)
+KPassivePopup *pop;
+#else
+QDialog *clippop;
+#endif
+
+
+};
+#endif

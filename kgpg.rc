@@ -16,10 +16,6 @@
     <Action name="edit_paste" />
       </Menu>
   
-  <Menu name="keys"><text>&amp;Keys</text>
-    <Action name="keys_manage"/>
-  </Menu>
-  
   <Menu name="signature"><text>Si&amp;gnature</text>
     <Action name="sign_generate"/>
     <Action name="sign_verify"/>
@@ -42,9 +38,5 @@
     <Action name="edit_cut" />
     <Action name="edit_copy" />
     <Action name="edit_paste" />
-</ToolBar>
-<ToolBar name="extraToolBar" position="top"><text>Extra Toolbar</text>
-  <Action name="options_configure"/>
-  <Action name="keys_manage"/>
 </ToolBar>
 </kpartgui>

@@ -35,7 +35,6 @@
 KgpgInterface::KgpgInterface()
 {}
 
-
 void KgpgInterface::KgpgEncryptFile(QString encuserIDs,KURL srcUrl,KURL destUrl, QString Options, bool symetrical)
 {
   file=destUrl;
@@ -185,7 +184,7 @@ void KgpgInterface::decryptfin(KProcess *)
 {
   if ((message.find("DECRYPTION_OKAY")!=-1) && (message.find("END_DECRYPTION")!=-1)) //&& (message.find("GOODMDC")!=-1)
     emit decryptionfinished();
-  else	  emit errormessage(message);
+  else  emit errormessage(message);
 }
 
 void KgpgInterface::readdecprocess(KProcIO *p)
@@ -193,7 +192,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
   QString required;
   while (p->readln(required,true)!=-1)
     {
-	required=QString::fromUtf8(required);
+	//required=QString::fromUtf8(required);
       if (required.find("BEGIN_DECRYPTION",0,false)!=-1)
         emit processstarted();
       if (required.find("USERID_HINT",0,false)!=-1)
@@ -496,7 +495,7 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
       /// pipe for passphrase
       int code=KPasswordDialog::getPassword(password,passdlg);
       if (code!=QDialog::Accepted)
-        return "";
+        return " ";
 
       pipe(ppass);
       pass = fdopen(ppass[1], "w");
@@ -625,6 +624,7 @@ void KgpgInterface::KgpgSignFile(QString keyID,KURL srcUrl,QString Options)
       Options=Options.stripWhiteSpace();
       *proc<<QFile::encodeName(fOption);
     }
+*proc<<"--output"<<QFile::encodeName(srcUrl.path())+".sig";
   *proc<<"--detach-sig"<<QFile::encodeName(srcUrl.path());
 
   /////////         open gpg pipe
@@ -799,8 +799,9 @@ signKeyMail.replace(QRegExp("<"),"&lt;");
   konsKeyID=keyID;
   signSuccess=0;
   step=0;
+  output="";
   message="sign";
-  if (local==true)
+  if (local)
     message="lsign";
   int code=KPasswordDialog::getPassword(passphrase,i18n("Enter passphrase for <b>%1</b>:").arg(signKeyMail));
   if (code!=QDialog::Accepted)
@@ -820,6 +821,12 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
 
   while (p->readln(required,true)!=-1)
     {
+	output+=required+"\n";
+	    if ((step==2) && (required.find("GOOD_PASSPHRASE")!=-1))
+        {
+		signSuccess=3;
+        }
+
       //KMessageBox::sorry(0,required);
       if ((step==0) && (required.find("keyedit.prompt")!=-1))
         {
@@ -858,13 +865,14 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
         {
 		  p->writeStdin("quit");
 		  p->closeWhenDone();
-          signSuccess=2;
+          signSuccess=2;  /////  bad passphrase
         }
       if ((required.find("GET_")!=-1) && (signSuccess!=2)) /////// gpg asks for something unusal, turn to konsole mode
         {
-          p->writeStdin("quit");
+          signSuccess=1;  /////  switching to console mode
+		  p->writeStdin("quit");
 		  p->closeWhenDone();
-
+/*
 #if (KDE_VERSION >= 310)
 pop = new KPassivePopup();
 pop->setView(i18n("Unexpected gpg query"),i18n("Kgpg cannot sign this key in GUI mode... switching to konsole"),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
@@ -890,32 +898,54 @@ pop->setView(i18n("Unexpected gpg query"),i18n("Kgpg cannot sign this key in GUI
  QTimer::singleShot( 3200, this, SLOT(signkillDisplayClip()));
 #endif
 		  		  
-          signSuccess=0;
+		  
           KProcess *conprocess=new KProcess();
           *conprocess<< "konsole"<<"-e"<<"gpg";
           *conprocess<<"--no-secmem-warning"<<"-u"<<konsSignKey;
-          if (konsLocal==false)
+          if (!konsLocal)
             *conprocess<<"--sign-key"<<konsKeyID;
           else
             *conprocess<<"--lsign-key"<<konsKeyID;
           conprocess->start(KProcess::Block);
           emit signatureFinished(0);
-        }
+        */
+		}
     }
   //p->ackRead();
 }
 
 void KgpgInterface::signkillDisplayClip()
 {
+/*
 #if (KDE_VERSION < 310)
 delete clippop;
 #endif
+*/
 }
 
 
 void KgpgInterface::signover(KProcess *)
 {
-  emit signatureFinished(signSuccess);
+  if ((signSuccess==3) || (signSuccess==2)) emit signatureFinished(signSuccess);  ////   signature successfull or bad passphrase 
+  else 
+  {
+  KDetailedConsole *q=new KDetailedConsole(0,"sign_error",i18n("<b>Encryption failed:</b><br>Do you want to try signing in a console ?"),output);
+  if (q->exec()==QDialog::Accepted) openSignConsole();
+  else emit signatureFinished(0);
+  }
+}
+
+void KgpgInterface::openSignConsole()
+{
+KProcess *conprocess=new KProcess();
+          *conprocess<< "konsole"<<"-e"<<"gpg";
+          *conprocess<<"--no-secmem-warning"<<"-u"<<konsSignKey;
+          if (!konsLocal)
+            *conprocess<<"--sign-key"<<konsKeyID;
+          else
+            *conprocess<<"--lsign-key"<<konsKeyID;
+          conprocess->start(KProcess::Block);
+          emit signatureFinished(3);
 }
 
 ////////////////////////////////////////////////////////////////////////////     delete signature

@@ -1,36 +1,19 @@
-/***************************************************************************
-                          main.cpp  -  description
-                             -------------------
-    begin                : Tue Jul  2 12:31:38 GMT 2002
-    copyright            : (C) 2002 by y0k0
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2003 bj <bj@altern.org>
+ */
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
 
-#include <stdlib.h>
-
-#include <qwidget.h>
-
-#include <kcmdlineargs.h>
+#include <kuniqueapplication.h>
+#include <dcopclient.h>
 #include <kaboutdata.h>
+#include <kcmdlineargs.h>
 #include <klocale.h>
-#include <kmessagebox.h>
-
 #include "kgpg.h"
-#include "keyservers.h"
-
 
 static const char *description =
 	I18N_NOOP("Kgpg - simple gui for gpg\n\nKgpg was designed to make gpg very easy to use.\nI tried to make it as secure as possible.\nHope you enjoy it.");
-// INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
+
+static const char *version = "0.9.5";
 
 static KCmdLineOptions options[] =
 {
@@ -48,58 +31,31 @@ static KCmdLineOptions options[] =
   // INSERT YOUR COMMANDLINE OPTIONS HERE
 };
 
-
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
 
-	KAboutData aboutData( "kgpg", "kgpg",
-                              VERSION, description, KAboutData::License_GPL,
-                              "(c) 2002, y0k0", 0, 0, "bj@altern.org");
-	aboutData.addAuthor("y0k0",0, "bj@altern.org");
-	aboutData.addCredit("Christoph Thielecke",I18N_NOOP("German translation"),"crissi99@gmx.de");
-	aboutData.addCredit("Daniele Medri",I18N_NOOP("Italian translation"),"madrid@linuxmeeting.net");
-
-KCmdLineArgs::init( argc, argv, &aboutData );
-KCmdLineArgs::addCmdLineOptions( options );  
-KApplication::addCmdLineOptions();
-  
-  KApplication app;    
+    KAboutData about("kgpg", I18N_NOOP("kgpg"), version, description,
+                     KAboutData::License_GPL, "(C) 2003 bj", 0, 0, "bj@altern.org");
+    about.addAuthor( "bj", 0, "bj@altern.org" );
+    KCmdLineArgs::init(argc, argv, &about);
+    KCmdLineArgs::addCmdLineOptions(options);
+	KUniqueApplication::addCmdLineOptions();
    
-  KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-  QString opmode="";
-  KURL FileToOpen=0;
-  
+	 if (!KgpgAppletApp::start())
+       return 0;
 
- if (args->isSet("k")!=0)
- {
- listKeys *creat=new listKeys(0,i18n("Key Management"));
- creat->show();
- }
- else if (args->isSet("K")!=0)
- {
-keyServer *ks=new keyServer(0);
-ks->exec();
-delete ks;
-exit(1);
- }
- else
- {
- if (args->isSet("c")!=0)  opmode="clipboard";
- else
- if (args->isSet("C")!=0)  opmode="clipboardEnc";
- else if (args->count()>0)
-  {
-FileToOpen=args->url(0); 
-opmode="decrypt";
- if (args->isSet("e")!=0)  opmode="encrypt";
- else if (args->isSet("s")!=0)  opmode="show";
- else if (args->isSet("V")!=0)  opmode="verify";
- else if (args->isSet("S")!=0)  opmode="sign";
- else if (FileToOpen.filename().endsWith(".sig")) opmode="verify";
- }
- KgpgApp *kgpg = new KgpgApp("kgpg",FileToOpen,opmode);
+   KgpgAppletApp app;
+   return app.exec();
+	
+	/* 
+	  
+	KUniqueApplication app;
+
+    // register ourselves as a dcop client
+  //app.dcopClient()->registerAs(app.name(), false);
+    
   
- if ((opmode=="") || (opmode=="show") || (opmode=="clipboard")) kgpg->show(); 
-}
- return app.exec();
+  kgpgapplet widget;// = new kgpgapplet("kgpg");
+  widget.show();
+  return app.exec();*/
 }

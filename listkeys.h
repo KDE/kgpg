@@ -49,13 +49,15 @@
 #include <kprocio.h>
 #include <kglobal.h>
 #include <kiconloader.h>
+#include <kpassdlg.h>
 #include <kaction.h>
 #include <kapp.h>
 
 #include "kgpg.h"
 #include "keygener.h"
 #include "popupimport.h"
-//#include "popupname.h"
+#include "popupname.h"
+#include "kgpgoptions.h"
 
 typedef struct gpgKey{
   QString gpgkeymail;
@@ -151,6 +153,8 @@ QString tempKeyFile;
 KTempFile *kgpgtmp;
 bool showPhoto,configshowToolBar;
 
+protected:
+void closeEvent( QCloseEvent * e );
 
 public slots:
     void slotgenkey();
@@ -166,7 +170,7 @@ void hidePhoto();
 void slotProcessPhoto(KProcess *);
 void readOptions();
 void genover(KProcess *p);
-void slotParentOptions();
+//void slotParentOptions();
 void slotSetDefKey();
 void annule();
 void confirmdeletekey();

@@ -32,7 +32,6 @@
     <Action name="key_showp"/>
 	<Action name="key_refresh"/>
 	<Action name="key_server"/>
-	<Action name="options_configure"/>
 	<Action name="file_quit"/>
 	
 </ToolBar>

@@ -608,7 +608,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
 
 
-  KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
+  //KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
 #if (KDE_VERSION >= 310)
   (void) new KToggleToolBarAction("mainToolBar",i18n("Show Toolbar"), actionCollection(),"pref_toolbar"); ///  KDE 3.1 only
 #endif
@@ -683,6 +683,12 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
 
 listKeys::~listKeys()
 {}
+
+void listKeys::closeEvent ( QCloseEvent * e )
+{
+     kapp->ref(); // prevent KMainWindow from closing the app
+ 	 KMainWindow::closeEvent( e );
+}
 
 void listKeys::keyserver()
 {
@@ -781,7 +787,7 @@ void listKeys::readOptions()
 }
 
 
-
+/*
 void listKeys::slotParentOptions()
 {
   kgpgOptions *opts=new kgpgOptions(this);
@@ -790,7 +796,7 @@ void listKeys::slotParentOptions()
   readOptions();
   refreshkey();
 }
-
+*/
 
 void listKeys::slotSetDefKey()
 {
@@ -1064,12 +1070,10 @@ void listKeys::signkey()
 
 void listKeys::signatureResult(int success)
 {
-  if (success==0)
+  if (success==3)
     refreshkey();
   if (success==2)
     KMessageBox::sorry(this,i18n("Bad passphrase, try again."));
-  if (success==1)
-    KMessageBox::sorry(this,i18n("Requested operation was unsuccessful, please edit the key manually."));
 }
 
 

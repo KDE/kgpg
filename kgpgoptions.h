@@ -23,6 +23,7 @@
 #include <qcheckbox.h>
 #include <qradiobutton.h>
 #include <qbuttongroup.h>
+#include <qpushbutton.h>
 #include <qhbuttongroup.h>
 #include <qvbuttongroup.h>
 
@@ -40,7 +41,7 @@
 
 
 
-class kgpgOptions : public KOptions
+class kgpgOptions : public KgpgOptionDialog
 {
   Q_OBJECT
   public:
