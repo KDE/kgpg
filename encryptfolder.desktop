@@ -3,6 +3,16 @@ ServiceTypes=inode/directory
 Actions=encrypt
 
 [Desktop Action encrypt]
-Name=Archive + Encrypt Folder
+Name=Archive && Encrypt Folder
+Name[ca]=Arxiva i xifra la carpeta
+Name[de]=Verzeichnis packen und verschlüsseln
+Name[es]=Archivar y cifrar carpeta
+Name[fr]=Archive puis crypte le dossier
+Name[hu]=Könyvtár titkosítása és archiválása
+Name[pt_BR]=Arquivo + Diretório criptografado
+Name[ru]=Архивный и зашифрованный каталог
+Name[sv]=Arkivera och kryptera fil
+Name[wa]=Fé ene ecriptêye årtchive d' on ridant
+Name[xx]=xxArchive + Encrypt Folderxx
 
 Exec=kgpg -e %U
