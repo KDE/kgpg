@@ -281,21 +281,20 @@ void keyServer::slotExport()
         if (kCBexportks->currentText().isEmpty())
                 return;
         readmessage="";
-        importproc=new KProcIO();
+        exportproc=new KProcIO();
         QString keyserv=kCBexportks->currentText();
 
-        *importproc<<"gpg";
+        *exportproc<<"gpg";
         if (cBproxyE->isChecked()) {
-                importproc->setEnvironment("http_proxy",kLEproxyE->text());
-                *importproc<<	"--keyserver-options"<<"honor-http-proxy";
+                exportproc->setEnvironment("http_proxy",kLEproxyE->text());
+                *exportproc<<	"--keyserver-options"<<"honor-http-proxy";
         } else
-                *importproc<<	"--keyserver-options"<<"no-honor-http-proxy";
-        *importproc<<"--keyserver"<<keyserv<<"--send-keys"<<kCBexportkey->currentText().section(':',0,0);
+                *exportproc<<	"--keyserver-options"<<"no-honor-http-proxy";
+        *exportproc<<"--status-fd=2"<<"--keyserver"<<keyserv<<"--send-keys"<<kCBexportkey->currentText().section(':',0,0);
 
-
-        QObject::connect(importproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotimportresult(KProcess *)));
-        QObject::connect(importproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotimportread(KProcIO *)));
-        importproc->start(KProcess::NotifyOnExit,true);
+        QObject::connect(exportproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotexportresult(KProcess *)));
+        QObject::connect(exportproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotimportread(KProcIO *)));
+        exportproc->start(KProcess::NotifyOnExit,true);
 
         importpop = new QDialog( this,0,true);
         QVBoxLayout *vbox=new QVBoxLayout(importpop,3);
@@ -307,7 +306,22 @@ void keyServer::slotExport()
         importpop->setMinimumWidth(250);
         importpop->adjustSize();
         importpop->show();
-        connect(Buttonabort,SIGNAL(clicked()),this,SLOT(abortImport()));
+        connect(Buttonabort,SIGNAL(clicked()),this,SLOT(abortExport()));
+}
+
+void keyServer::abortExport()
+{
+        if (importpop)
+                delete importpop;
+        if (exportproc)
+                delete exportproc;
+}
+
+void keyServer::slotexportresult(KProcess*)
+{
+        KMessageBox::information(0,readmessage);
+        if (importpop)
+                delete importpop;
 }
 
 
@@ -367,7 +381,6 @@ void keyServer::abortImport()
                 delete importproc;
 }
 
-
 void keyServer::slotimportresult(KProcess*)
 {
         QString importedNb,importedNbSucess,importedNbProcess,resultMessage,importedKeys, parsedOutput;
@@ -412,12 +425,12 @@ QString servers;
 		optionsServer="hkp://[wwwkeys.pgp.net,wwwkeys.eu.pgp.net,wwwkeys.us.pgp.net]";
 		kCBexportks->insertItem(optionsServer);
                 kCBimportks->insertItem(optionsServer);
-	servers=config->readEntry("key_server2");
+	servers=config->readEntry("key_server2","hkp://wwwkeys.eu.pgp.net");
         if (!servers.isEmpty()) {
                 kCBexportks->insertItem(servers);
                 kCBimportks->insertItem(servers);
         }
-	servers=config->readEntry("key_server3");
+	servers=config->readEntry("key_server3","hkp://wwwkeys.us.pgp.net");
         if (!servers.isEmpty()) {
                 kCBexportks->insertItem(servers);
                 kCBimportks->insertItem(servers);

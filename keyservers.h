@@ -44,6 +44,7 @@ public:
 
 public slots:
         void abortImport();
+	void abortExport();
         void abortSearch();
         void transferKeyID();
         void slotsearchread(KProcIO *p);
@@ -52,6 +53,7 @@ public slots:
         void slotImport();
         void slotSearch();
         void slotimportresult(KProcess*);
+	void slotexportresult(KProcess*);
         void slotimportread(KProcIO *p);
         void slotprocread(KProcIO *p);
         void slotExport();
@@ -66,7 +68,7 @@ private:
         KConfig *config;
         uint keyNumbers;
         QString readmessage;
-        KProcIO *importproc;
+        KProcIO *importproc,*exportproc;
 
         KeyServer *listpop;
         QStatusBar *sBar;
