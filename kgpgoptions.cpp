@@ -141,4 +141,3 @@ void kgpgOptions::listkey()
   }
 
 //#include "kgpgoptions.moc"
-#include "kgpgoptions.moc"
