@@ -45,8 +45,6 @@ public:
         QPixmap keyPair,keySingle,keyGroup;
         QString seclist,defaultKey,keyGroups;
 	QStringList untrustedList;
-	
-
 
 private:
         QPushButton *bouton0,*bouton1,*bouton2;
@@ -57,7 +55,6 @@ private:
 
 private slots:
         void customOpts(const QString &);
-        void crypte();
         void slotprocread(KProcIO *);
         void slotpreselect();
         void refreshkeys();
@@ -68,9 +65,14 @@ private slots:
 
 public slots:
 void slotAccept();
+void slotSetVisible();
+
+protected slots:
+virtual void slotOk();
 	
 signals:
         void selectedKey(QStringList ,QStringList,bool,bool);
+	void keyListFilled();
 
 };
 

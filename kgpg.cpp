@@ -84,22 +84,6 @@ MyView::~MyView()
 }
 
 
-void MyView::showPopupMenu( QPopupMenu *menu )
-{
-        Q_ASSERT( menu != 0L );
-
-        menu->move(-1000,-1000);
-        menu->show();
-        menu->hide();
-
-        QPoint g = QCursor::pos();
-        if ( menu->height() < g.y() )
-                menu->popup(QPoint( g.x(), g.y() - menu->height()));
-        else
-                menu->popup(QPoint(g.x(), g.y()));
-}
-
-
 void  MyView::openKeyServer()
 {
         if(!m_keyServer) {
@@ -159,6 +143,7 @@ void MyView::encryptDroppedFolder()
 		optionbx->insertItem(i18n("Gzip"));
 		optionbx->insertItem(i18n("Bzip2"));
 	bGroup->show();
+	connect(dialogue,SIGNAL(keyListFilled ()),dialogue,SLOT(slotSetVisible()));
 	connect(optionbx,SIGNAL(activated (int)),this,SLOT(slotSetCompression(int)));
         connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startFolderEncode(QStringList,QStringList,bool,bool)));
         dialogue->CBshred->setEnabled(false);
@@ -173,6 +158,37 @@ compressionScheme=cp;
 
 void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool ,bool symetric)
 {
+QString extension;
+
+if (compressionScheme==0)
+	extension=".zip";
+	else if (compressionScheme==1) 
+	extension=".tar.gz";
+	else
+	extension=".tar.bz2";
+
+if (encryptOptions.find("armor")!=encryptOptions.end () )
+                extension+=".asc";
+        else if (pgpExtension)
+                extension+=".pgp";
+        else
+                extension+=".gpg";
+	
+KURL encryptedFile(droppedUrls.first().path()+extension);
+QFile encryptedFolder(droppedUrls.first().path()+extension);
+if (encryptedFolder.exists()) {
+			dialogue->hide();
+                        KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",encryptedFile);
+                        if (over->exec()==QDialog::Accepted)
+                                encryptedFile=KURL(encryptedFile.directory(0,0)+over->getfname());
+                        else {
+                                delete over;
+                                return;
+                        }
+                        delete over;
+			dialogue->show();   /////// strange, but if dialogue is hidden, the passive popup is not displayed...
+                }
+
 pop = new KPassivePopup();
 	pop->setView(i18n("Processing folder compression and encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
 	pop->setAutoDelete(false);
@@ -181,31 +197,14 @@ pop = new KPassivePopup();
 	dialogue->slotAccept();
 	dialogue=0L;
 
-	/*
-	QRect qRect(QApplication::desktop()->screenGeometry());
-        int iXpos=qRect.width()/2-pop->width()/2;
-        int iYpos=qRect.height()/2-pop->height()/2;
-        pop->move(iXpos,iYpos);*/
-
-        
-	QString extension;
-	kdDebug()<<"Starting.........."<<endl;
 	KArchive *arch;
 	if (compressionScheme==0)
-	{
 	arch=new KZip(kgpgfoldertmp->name());
-	extension=".zip";
-	}
 	else if (compressionScheme==1) 
-	{
 	arch=new KTar(kgpgfoldertmp->name(), "application/x-gzip");
-	extension=".tar.gz";
-	}
 	else
-	{
 	arch=new KTar(kgpgfoldertmp->name(), "application/x-bzip2");
-	extension=".tar.bz2";
-	}
+		
 		if (!arch->open( IO_WriteOnly )) {
                 KMessageBox::sorry(0,i18n("Unable to create temporary file"));
                 return;
@@ -213,14 +212,8 @@ pop = new KPassivePopup();
         arch->addLocalDirectory (droppedUrls.first().path(),droppedUrls.first().filename());
         arch->close();
 
-        if (encryptOptions.find("armor")!=encryptOptions.end () )
-                extension+=".asc";
-        else if (pgpExtension)
-                extension+=".pgp";
-        else
-                extension+=".gpg";
         KgpgInterface *folderprocess=new KgpgInterface();
-        folderprocess->KgpgEncryptFile(selec,KURL(kgpgfoldertmp->name()),KURL(droppedUrls.first().path()+extension),encryptOptions,symetric);
+        folderprocess->KgpgEncryptFile(selec,KURL(kgpgfoldertmp->name()),encryptedFile,encryptOptions,symetric);
         connect(folderprocess,SIGNAL(encryptionfinished(KURL)),this,SLOT(slotFolderFinished(KURL)));
         connect(folderprocess,SIGNAL(errormessage(QString)),this,SLOT(slotFolderFinishedError(QString)));
 }
@@ -310,7 +303,6 @@ void  MyView::importSignature(QString ID)
 
 void  MyView::signDroppedFile()
 {
-
         //////////////////////////////////////   create a detached signature for a chosen file
         if (droppedUrl.isEmpty())
                 return;
@@ -336,7 +328,7 @@ void  MyView::signDroppedFile()
 
 void  MyView::decryptDroppedFile()
 {
-        bool isFolder=false;
+        //bool isFolder=false;
         KURL swapname;
 
         if (!droppedUrl.isLocalFile()) {

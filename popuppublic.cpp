@@ -167,8 +167,8 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
                         (optiontxt,i18n("<b>Custom option</b>: for experienced users only, allows you to enter a gpg command line option, like: '--armor'"));
                 QObject::connect(optiontxt,SIGNAL(textChanged ( const QString & )),this,SLOT(customOpts(const QString & )));
         }
-        QObject::connect(keysList,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(crypte()));
-	QObject::connect(this,SIGNAL(okClicked()),this,SLOT(crypte()));
+        QObject::connect(keysList,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(slotOk()));
+//	QObject::connect(this,SIGNAL(okClicked()),this,SLOT(crypte()));
         QObject::connect(CBuntrusted,SIGNAL(toggled(bool)),this,SLOT(refresh(bool)));
 	
         char line[200]="\0";
@@ -310,8 +310,13 @@ QListViewItem *it;
 	keysList->ensureItemVisible(it);
         if (!trusted)
               sort();
+emit keyListFilled();
 }
 
+void popupPublic::slotSetVisible()
+{
+	keysList->ensureItemVisible(keysList->currentItem());
+}
 
 void popupPublic::slotprocread(KProcIO *p)
 {
@@ -393,10 +398,10 @@ void popupPublic::slotprocread(KProcIO *p)
 }
 
 
-void popupPublic::crypte()
+void popupPublic::slotOk()
 {
         //////   emit selected data
-
+kdDebug()<<"Ok pressed"<<endl;
         QStringList selectedKeys;
 	QString userid;
         QPtrList<QListViewItem> list=keysList->selectedItems();
@@ -408,7 +413,7 @@ void popupPublic::crypte()
                 }
         if (selectedKeys.isEmpty() && !CBsymmetric->isChecked())
                 return;
-
+kdDebug()<<"Selected Key:"<<selectedKeys<<endl;
         QStringList returnOptions;
         if (CBuntrusted->isChecked())
                 returnOptions<<"--always-trust";

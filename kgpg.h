@@ -121,7 +121,7 @@ protected:
         virtual void  dropEvent (QDropEvent*);
 
 protected slots:
-        void showPopupMenu( QPopupMenu * );
+
 
 signals:
         void readAgain2();
