@@ -114,7 +114,7 @@ void  MyView::openEditor()
 void MyView::encryptDroppedFolder()
 {
 	compressionScheme=0;
-        kgpgfoldertmp=new KTempFile(QString::null,".tar.gz");
+        kgpgfoldertmp=new KTempFile(QString::null);
         kgpgfoldertmp->setAutoDelete(true);
         if (KMessageBox::warningContinueCancel(0,i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>").arg(kgpgfoldertmp->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpFile")==KMessageBox::Cancel)
                 return;
