@@ -1,5 +1,14 @@
 CVS
 
+
+-System tray icon animates itself when KGpg is processing a task
+-Added a Tooltip to applet's icon to say if KGpg is busy and what it is doing
+-shredding doesn't freeze the ui anymore
+-encrypting several files now processes one file after another instead of all at once, keeping the interface much more responsive
+-verifying a signed text now tells if the key is trusted or not
+-multi file decryption now works
+-dropping a signed text over the applet automatically verfies it
+-If there is a public key in clipboar, trying to decrypt it asks if user wants to import it
 -Can now change the editor font
 -Can now store more than 3 keyservers
 -added sign clipboard
