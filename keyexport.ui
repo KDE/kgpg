@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>371</width>
+            <width>370</width>
             <height>167</height>
         </rect>
     </property>
@@ -36,62 +36,6 @@
         <property name="margin">
             <number>0</number>
         </property>
-        <widget class="QButtonGroup" row="0" column="0">
-            <property name="name">
-                <cstring>buttonGroup2</cstring>
-            </property>
-            <property name="title">
-                <string></string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <widget class="QRadioButton" row="0" column="0">
-                    <property name="name">
-                        <cstring>checkMail</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Email</string>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="3" column="0">
-                    <property name="name">
-                        <cstring>checkFile</cstring>
-                    </property>
-                    <property name="text">
-                        <string>File:</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="KURLRequester" row="3" column="1">
-                    <property name="name">
-                        <cstring>newFilename</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="1" column="0">
-                    <property name="name">
-                        <cstring>checkClipboard</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Clipboard</string>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="2" column="0" rowspan="1" colspan="2">
-                    <property name="name">
-                        <cstring>checkServer</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Default key server</string>
-                    </property>
-                </widget>
-            </grid>
-        </widget>
         <widget class="QCheckBox" row="1" column="0">
             <property name="name">
                 <cstring>exportAttributes</cstring>
@@ -120,6 +64,62 @@
                 </size>
             </property>
         </spacer>
+        <widget class="QButtonGroup" row="0" column="0">
+            <property name="name">
+                <cstring>buttonGroup2</cstring>
+            </property>
+            <property name="title">
+                <string></string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton" row="0" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>checkMail</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Email</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="2" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>checkServer</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Default key server</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="1" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>checkClipboard</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Clipboard</string>
+                    </property>
+                </widget>
+                <widget class="KURLRequester" row="3" column="1">
+                    <property name="name">
+                        <cstring>newFilename</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QRadioButton" row="3" column="0">
+                    <property name="name">
+                        <cstring>checkFile</cstring>
+                    </property>
+                    <property name="text">
+                        <string>File:</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
     </grid>
 </widget>
 <customwidgets>
