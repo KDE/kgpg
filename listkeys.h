@@ -293,6 +293,7 @@ signals:
         void readAgainOptions();
 	void certificate(QString);
 	void closeAsked();
+	void fontChanged(QFont);
 
 
 };

@@ -1,0 +1,99 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>ServerConf</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>ServerConf</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>576</width>
+            <height>241</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLayoutWidget" row="0" column="1">
+            <property name="name">
+                <cstring>layout1</cstring>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>server_default</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Set as Default</string>
+                    </property>
+                </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>server_add</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Add</string>
+                    </property>
+                </widget>
+                <widget class="KPushButton">
+                    <property name="name">
+                        <cstring>server_del</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Delete</string>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <spacer row="1" column="1" rowspan="3" colspan="1">
+            <property name="name">
+                <cstring>spacer4</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>250</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="KListBox" row="0" column="0" rowspan="2" colspan="1">
+            <property name="name">
+                <cstring>ServerBox</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>textLabel1_4</cstring>
+            </property>
+            <property name="text">
+                <string>&lt;b&gt;INFORMATION&lt;/b&gt;:
+Only the Default Server will be stored in GnuPG's configuration file, 
+all others will be stored for use by KGpg only.</string>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klistbox.h</includehint>
+</includehints>
+</UI>

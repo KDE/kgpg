@@ -1,12 +1,15 @@
 CVS
 
+-Can now change the editor font
+-Can now store more than 3 keyservers
+-added sign clipboard
 -added incremental search line in Key Manager and Public Key selection dialog
 -allow selecting several key for import in the search results of key server operation
 -added entry to open editor from key manager
 -fixed popup never disappearing when a wrong passphrase was entered 3 times.
 -fixed "import missing key" always disabled with non english languages
 -comments exported in public keys should be fixed (I cannot reproduce)
-
+-added statusbar with feedback info
 
 
 Version 1.1

@@ -85,6 +85,7 @@ public slots:
         void  signDroppedFile();
         void  showDroppedFile ();
         void  clipDecrypt();
+	void  clipSign();
         void  clipEncrypt();
         void  shredDroppedFile();
         void encryptDroppedFolder();
@@ -120,6 +121,7 @@ protected slots:
 
 
 signals:
+	void setFont(QFont);
         void readAgain2();
 	void createNewKey();
 	void updateDefault(QString);

@@ -95,11 +95,25 @@ void  MyView::clipDecrypt()
         QString clippie=kapp->clipboard()->text(clipboardMode).stripWhiteSpace();
         if (clippie.startsWith("-----BEGIN PGP MESSAGE")) {
                 KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
+		connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
                 kgpgtxtedit->view->editor->setText(clippie);
                 kgpgtxtedit->view->slotdecode();
                 kgpgtxtedit->show();
         } else
                 KMessageBox::sorry(this,i18n("No encrypted text found."));
+}
+
+void  MyView::clipSign()
+{
+        QString clippie=kapp->clipboard()->text(clipboardMode).stripWhiteSpace();
+        if (!clippie.isEmpty()) {
+                KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
+		connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
+                kgpgtxtedit->view->editor->setText(clippie);
+                kgpgtxtedit->view->clearSign();
+                kgpgtxtedit->show();
+        } else
+                KMessageBox::sorry(this,i18n("Clipboard is Empty"));
 }
 
 void MyView::encryptDroppedFolder()
@@ -373,6 +387,7 @@ void  MyView::showDroppedFile()
 kdDebug()<<"------Show dropped file"<<endl;
         KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
         kgpgtxtedit->view->editor->slotDroppedFile(droppedUrl);
+	connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
 	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
 	connect(kgpgtxtedit->view->editor,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
         kgpgtxtedit->show();
@@ -657,11 +672,13 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
         KPopupMenu *conf_menu=contextMenu();
         KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0,w, SLOT(clipEncrypt()),actionCollection(),"clip_encrypt");
         KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0,w, SLOT(clipDecrypt()),actionCollection(),"clip_decrypt");
+	KAction *KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), 0, 0,w, SLOT(clipSign()),actionCollection(),"clip_sign");
         KAction *KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,parent, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
 	KAction *KgpgOpenServer = new KAction(i18n("&Key Server Dialog"), "network", 0,parent, SLOT(keyserver()),actionCollection(),"kgpg_server");
         KAction *KgpgPreferences=KStdAction::preferences(parent, SLOT(slotOptions()), actionCollection());
         KgpgEncryptClipboard->plug(conf_menu);
         KgpgDecryptClipboard->plug(conf_menu);
+	KgpgSignClipboard->plug(conf_menu);
         KgpgOpenEditor->plug(conf_menu);
 	KgpgOpenServer->plug(conf_menu);
         conf_menu->insertSeparator();
@@ -730,6 +747,7 @@ int KgpgAppletApp::newInstance()
                 connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
                 connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));
                 connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotgenkey()));
+		connect(s_keyManager,SIGNAL(fontChanged(QFont)),kgpg_applet->w,SIGNAL(setFont(QFont)));
 		connect(kgpg_applet->w,SIGNAL(importedKeys(QStringList)),s_keyManager->keysList2,SLOT(slotReloadKeys(QStringList)));
                 kgpg_applet->show();
                 QString gpgPath= KGpgSettings::gpgConfigPath();

@@ -117,9 +117,9 @@ private:
 
 public slots:
         void slotdecode();
+	void clearSign();
 
 private slots:
-        void clearSign();
         void popuppublic();
         void modified();
         void encodetxt(QStringList selec,QStringList encryptOptions,bool, bool symmetric);

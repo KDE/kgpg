@@ -43,6 +43,7 @@
 	</Menu>
 	<Menu name="file">
 	<Action name="key_server"/>
+	<Action name="kgpg_editor"/>
 	</Menu>
 	 <Menu name="help">
     <Action name="help_tipofday"/>

@@ -519,7 +519,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         installEventFilter(this);
     setCaption(i18n("Key Management"));
 
-    KAction *openEditor = new KAction(i18n("&Open Editor"), "edit",0,this, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
+    (void) new KAction(i18n("&Open Editor"), "edit",0,this, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
     KAction *exportPublicKey = new KAction(i18n("E&xport Public Key(s)..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_export");
     KAction *deleteKey = new KAction(i18n("&Delete Key(s)"),"editdelete", Qt::Key_Delete,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
     signKey = new KAction(i18n("&Sign Key(s)..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
@@ -689,8 +689,9 @@ listKeys::~listKeys()
 void  listKeys::slotOpenEditor()
 {
         KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WType_Dialog);
-	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),keysList2,SIGNAL(slotReloadKeys(QStringList)));
-	connect(kgpgtxtedit->view->editor,SIGNAL(refreshImported(QStringList)),keysList2,SIGNAL(slotReloadKeys(QStringList)));
+	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
+	connect(this,SIGNAL(fontChanged(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
+	connect(kgpgtxtedit->view->editor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
         kgpgtxtedit->show();
 }
 
@@ -1227,7 +1228,6 @@ void listKeys::closeEvent ( QCloseEvent * e )
 
 void listKeys::keyserver()
 {
-
     keyServer *ks=new keyServer(this);
     ks->exec();
     if (ks)
@@ -1281,7 +1281,14 @@ void listKeys::readOptions()
     clipboardMode=QClipboard::Clipboard;
     if (KGpgSettings::useMouseSelection() && (kapp->clipboard()->supportsSelection()))
         clipboardMode=QClipboard::Selection;
-
+	
+    ///////  re-read groups in case the config file location was changed
+    QStringList groups=KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
+    KGpgSettings::setGroups(groups.join(","));
+    keysList2->groupNb=groups.count();
+    if (keyStatusBar)
+    changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount()-keysList2->groupNb).arg(keysList2->groupNb),1);
+    
     showTipOfDay= KGpgSettings::showTipOfDay();
 }
 
@@ -1292,6 +1299,7 @@ void listKeys::slotOptions()
         return;
     kgpgOptions *optionsDialog=new kgpgOptions(this,"settings");
     connect(optionsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAllOptions()));
+    connect(optionsDialog,SIGNAL(changeFont(QFont)),this,SIGNAL(fontChanged(QFont)));
     optionsDialog->show();
 }
 

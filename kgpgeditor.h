@@ -33,7 +33,9 @@
 #include <qpaintdevicemetrics.h>
 
 #include <kurl.h>
+#include <kfontdialog.h> 
 #include <kpopupmenu.h>
+#include <kcombobox.h>
 #include <khelpmenu.h>
 #include <ksystemtray.h>
 #include <kdeversion.h>
@@ -107,6 +109,8 @@ private slots:
 	void slotSetCharset();
 	bool checkEncoding();
 	
+public slots:
+	void slotSetFont(QFont myFont);
 	
 
 private:
@@ -116,10 +120,12 @@ private:
 	KToggleAction *encodingAction ;
         KURL urlselected;
         KAction* fileSave, *editUndo, *editRedo;
+	KComboBox *fontCombo;
 	
 signals:
 
 void refreshImported(QStringList);
+void openChangeFont();
 };
 #endif
 

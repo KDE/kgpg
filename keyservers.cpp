@@ -48,8 +48,8 @@
 
 keyServer::keyServer(QWidget *parent, const char *name,bool modal):KDialogBase( Swallow, i18n("Key Server"), Close, Close, parent, name,modal)
 {
-        config=kapp->config();
-
+        
+	config=new KSimpleConfig ("kgpgrc");
 	page=new keyServerWidget();
 	setMainWidget(page);
 	
@@ -493,25 +493,22 @@ void keyServer::slotimportread(KProcIO *p)
 
 void keyServer::syncCombobox()
 {
-	QString servers;
-        config->setGroup("GPG Settings");
-        QString confPath=config->readPathEntry("gpg_config_path");
-
+        config->setGroup("Servers");
+        QString serverList=config->readEntry("Server_List");
+	
         QString optionsServer=KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
-        if (optionsServer.isEmpty())
-		optionsServer="hkp://wwwkeys.pgp.net";
+        
+	//if (optionsServer.isEmpty())
+	//	optionsServer="hkp://wwwkeys.pgp.net";
+	page->kCBexportks->clear();
+	page->kCBimportks->clear();
+	
 	page->kCBexportks->insertItem(optionsServer);
         page->kCBimportks->insertItem(optionsServer);
-	servers= KGpgSettings::keyServer2();
-        if (!servers.isEmpty()) {
-                page->kCBexportks->insertItem(servers);
-                page->kCBimportks->insertItem(servers);
-        }
-	servers= KGpgSettings::keyServer3();
-        if (!servers.isEmpty()) {
-                page->kCBexportks->insertItem(servers);
-                page->kCBimportks->insertItem(servers);
-        }
+	
+	page->kCBexportks->insertStringList(QStringList::split(",",serverList));
+	page->kCBimportks->insertStringList(QStringList::split(",",serverList));
+        
 }
 
 void keyServer::slotOk()

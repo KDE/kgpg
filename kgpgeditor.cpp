@@ -32,9 +32,12 @@ KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent
 	setAutoSaveSettings("Editor",true);
         initActions();
         initView();
-        createGUI("kgpg.rc");
+        
+	KSimpleConfig *ks=new KSimpleConfig ("kgpgrc");
+	ks->setGroup("Editor");
+	slotSetFont(ks->readFontEntry("Editor_Font"));
+	createGUI("kgpg.rc");
 }
-
 
 KgpgApp::~KgpgApp()
 {}
@@ -55,7 +58,7 @@ void KgpgApp::saveOptions()
 void KgpgApp::readOptions(bool doresize)
 {
 	customDecrypt=QStringList::split(QString(" "), KGpgSettings::customDecrypt().simplifyWhiteSpace());
-
+	
         if (doresize) {
                 QSize size= KGpgSettings::editorGeometry();
                 if (!size.isEmpty())
@@ -89,6 +92,12 @@ void KgpgApp::initActions()
 
 	encodingAction=new KToggleAction(i18n("&Unicode (utf-8) encoding"), 0, 0,this, SLOT(slotSetCharset()),actionCollection(),"charsets");
 }
+
+void KgpgApp::slotSetFont(QFont myFont)
+{
+view->editor->setFont (myFont);
+}
+
 
 void KgpgApp::slotSetCharset()
 {

@@ -19,11 +19,16 @@
 
 
 #include <kconfigdialog.h>
+#include <kinputdialog.h>
+#include <klistview.h>
+#include <kfontdialog.h>
+#include <ksimpleconfig.h>
 
 #include "conf_encryption.h"
 #include "conf_decryption.h"
 #include "conf_ui.h"
 #include "conf_gpg.h"
+#include "conf_servers.h"
 
 
 class KConfig;
@@ -39,6 +44,8 @@ public:
         Decryption *page2;
         UI *page3;
         GPGConf *page4;
+	ServerConf *page6;
+	KFontChooser *page7;
         
 private:
         KConfig *config;
@@ -48,18 +55,24 @@ private:
 	QPixmap pixkeySingle,pixkeyDouble;
         QString fileEncryptionKey;
         QString gpgConfigPath;
-        QString keyServer;
+        QString keyServer,defaultServerList;
         QString defaultKeyServer;
+	QFont startFont;
+	KSimpleConfig *ks;
         bool useAgent;
         bool defaultUseAgent;
         bool encryptToAlways;
         bool defaultEncryptToAlways;
+	QStringList serverList;
 
 private:
         bool hasChanged();
         bool isDefault();
 
 private slots:
+	void slotAddKeyServer();
+	void slotDelKeyServer();
+	void slotDefaultKeyServer();
         void updateWidgets();
         void updateWidgetsDefault();
         void updateSettings();
@@ -70,9 +83,11 @@ private slots:
         void slotInstallDecrypt(QString mimetype);
         void slotInstallSign(QString mimetype);
         void slotRemoveMenu(QString menu);
+	void test();
 signals:
         void updateDisplay();
         void settingsUpdated();
+	void changeFont(QFont);
 };
 
 #endif

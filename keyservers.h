@@ -19,6 +19,7 @@
 #define KEYSERVERS_H
 
 #include <klistview.h>
+#include <ksimpleconfig.h>
 
 #include "keyserver.h"
 #include "searchres.h"
@@ -60,7 +61,7 @@ public slots:
 
 private:
 
-        KConfig *config;
+        KSimpleConfig *config;
         uint keyNumbers;
         QString readmessage;
         KProcIO *importproc,*exportproc;

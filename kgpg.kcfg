@@ -54,15 +54,10 @@
     <entry name="Groups" type="String">
       <label>GPG groups</label>
     </entry>
-    <entry name="KeyServer2" type="String" key="key_server2">
-      <label>Additional key server used by kgpg</label>
-      <default>hkp://wwwkeys.eu.pgp.net</default>
-    </entry>
-    <entry name="KeyServer3" type="String" key="key_server3">
-      <label>Additional key server used by kgpg</label>
-      <default>hkp://wwwkeys.us.pgp.net</default>
-    </entry>
-  </group>
+     </group>
+    
+
+  
   <group name="General Options">
     <entry name="PhotoProperties" type="Enum" key="photo properties">
       <choices>

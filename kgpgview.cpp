@@ -133,7 +133,6 @@ QFile qfile(fileToCheck);
                                         setText(result);
                                         qfile.close();
                                         KIO::NetAccess::removeTempFile(fileToCheck);
-					return false;
                                 }
                 }
 		return false;
