@@ -508,8 +508,6 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 {
     //KWin::setType(Qt::WDestructiveClose);
     keysList2 = new KeyView(this);
-    keysList2->photoKeysList=QString::null;
-
 
     setAutoSaveSettings();
     readOptions();
@@ -664,7 +662,6 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
     if (!KGpgSettings::showToolbar())
         toolBar()->hide();
-    checkPhotos();
 }
 
 
@@ -794,6 +791,7 @@ void listKeys::slotDelUid()
     *conprocess<<"-e"<<"gpg";
     *conprocess<<"--edit-key"<<item->text(6)<<"uid";
     conprocess->start(KProcess::Block);
+    keysList2->refreshselfkey();
 }
 
 
@@ -857,7 +855,6 @@ void listKeys::slotDeletePhoto()
 
 void listKeys::slotUpdatePhoto()
 {
-    checkPhotos();
     keysList2->refreshselfkey();
 }
 
@@ -889,12 +886,26 @@ void listKeys::slotSetPhotoSize(int size)
     QListViewItem *newdef = keysList2->firstChild();
     while (newdef)
     {
-        if ((keysList2->photoKeysList.find(newdef->text(6))!=-1) && (newdef->childCount ()>0))
-        {
+	if (newdef->childCount ()>0)
+	{
+	bool hasphoto=false;
+	QListViewItem *newdefChild = newdef->firstChild();
+	while (newdefChild)
+	{
+	if (newdefChild->text(0)==i18n("Photo id"))
+	{
+	hasphoto=true;
+	break;
+	}
+	newdefChild = newdefChild->nextSibling();
+	}
+        if (hasphoto)
+	{
             while (newdef->firstChild())
                 delete newdef->firstChild();
             keysList2->expandKey(newdef);
         }
+	}
         newdef = newdef->nextSibling();
     }
 }
@@ -1077,13 +1088,13 @@ void listKeys::allToKAB()
         QString email;
         QStringList keylist;
         KABC::Addressee a;
- 
+
         KABC::AddressBook *ab = KABC::StdAddressBook::self();
         if ( !ab->load() ) {
                 KMessageBox::sorry(this,i18n("Unable to contact the address book. Please check your installation."));
                 return;
         }
- 
+
         QListViewItem * myChild = keysList2->firstChild();
         while( myChild ) {
                 //email=extractKeyMail(myChild).stripWhiteSpace();
@@ -1142,26 +1153,6 @@ void listKeys::keyserver()
     refreshkey();
 }
 
-
-
-void listKeys::checkPhotos()
-{
-    keysList2->photoKeysList=QString::null;
-    char line[300];
-    FILE *fp;
-    QString tst;
-    QString tstID;
-    fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-sigs", "r");
-    while ( fgets( line, sizeof(line), fp))
-    {
-        tst=line;
-        if (tst.startsWith("pub"))
-            tstID=QString("0x"+tst.section(':',4,4).right(8));
-        if (tst.startsWith("uat"))
-            keysList2->photoKeysList+=tstID;
-    }
-    pclose(fp);
-}
 
 void listKeys::checkList()
 {
@@ -1537,7 +1528,7 @@ void listKeys::slotShowPhoto()
     KService::Ptr ptr = offers.first();
     //KMessageBox::sorry(0,ptr->desktopEntryName());
     KProcIO *p=new KProcIO();
-    *p<<"gpg"<<"--no-tty"<<"--photo-viewer"<<QFile::encodeName(ptr->desktopEntryName()+" %i")<<"--edit-key"<<keysList2->currentItem()->parent()->text(6)<<"uid"<<keysList2->currentItem()->text(6)<<"showphoto";
+    *p<<"gpg"<<"--no-tty"<<"--photo-viewer"<<QFile::encodeName(ptr->desktopEntryName()+" %i")<<"--edit-key"<<keysList2->currentItem()->parent()->text(6)<<"uid"<<keysList2->currentItem()->text(6)<<"showphoto"<<"quit";
     p->start(KProcess::DontCare,true);
 }
 
@@ -2403,6 +2394,7 @@ void listKeys::slotPreImportKey()
     delete dial;
 }
 
+
 void KeyView::expandGroup(QListViewItem *item)
 {
 
@@ -2437,34 +2429,11 @@ QPixmap KeyView::slotGetPhoto(QString photoId,bool mini)
     return dup2;
 }
 
-
 void KeyView::expandKey(QListViewItem *item)
 {
-    //kdDebug()<<"Expanding Key"<<endl;
     if (item->childCount()!=0)
         return;   // key has already been expanded
 
-    photoIdList.clear();
-
-    if (photoKeysList.find(item->text(6))!=-1) // contains a photo id
-    {
-        KgpgInterface *photoProcess=new KgpgInterface();
-        photoProcess->KgpgGetPhotoList(item->text(6));
-        itemToOpen=item;
-        connect(photoProcess,SIGNAL(signalPhotoList(QStringList)),this,SLOT(slotSetPhotoId(QStringList)));
-    }
-    else
-        expandKey2(item);
-}
-
-void KeyView::slotSetPhotoId(QStringList list)
-{
-    photoIdList=list;
-    expandKey2(itemToOpen);
-}
-
-void KeyView::expandKey2(QListViewItem *item)
-{
     FILE *fp;
     QString cycle;
     QStringList tst;
@@ -2474,7 +2443,7 @@ void KeyView::expandKey2(QListViewItem *item)
     SmallViewItem *itemsig=NULL;
     SmallViewItem *itemrev=NULL;
     QPixmap keyPhotoId;
-    int uidNumber=0;
+    int uidNumber=2;
     bool dropFirstUid=false;
 
     kdDebug()<<"Expanding Key: "<<item->text(6)<<endl;
@@ -2486,6 +2455,9 @@ void KeyView::expandKey2(QListViewItem *item)
     while ( fgets( line, sizeof(line), fp))
     {
         tst=QStringList::split(":",line,true);
+	if ((tst[0]=="pub") && (tst[9].isEmpty())) /// Primary User Id is separated from public key
+ 	uidNumber=1;
+	
         if (tst[0]=="uid" || tst[0]=="uat")
         {
             if (dropFirstUid)
@@ -2498,17 +2470,15 @@ void KeyView::expandKey2(QListViewItem *item)
 
                 if (tst[0]=="uat")
                 {
-                    QString photoUid=QString(*photoIdList.begin());
-                    itemuid= new SmallViewItem(item,i18n("Photo id"),QString::null,QString::null,"-","-","-",photoUid);
-                    photoIdList.remove(photoIdList.begin());
+                    itemuid= new SmallViewItem(item,i18n("Photo id"),QString::null,QString::null,"-","-","-",QString::number(uidNumber));
                     if (displayPhoto)
                     {
                         kgpgphototmp=new KTempFile();
                         kgpgphototmp->setAutoDelete(true);
                         QString pgpgOutput="cp %i "+kgpgphototmp->name();
                         KProcIO *p=new KProcIO();
-                        *p<<"gpg"<<"--no-tty"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(pgpgOutput);
-                        *p<<"--edit-key"<<item->text(6)<<"uid"<<photoUid<<"showphoto";
+                        *p<<"gpg"<<"--no-tty"<<"--photo-viewer"<<QFile::encodeName(pgpgOutput);
+                        *p<<"--edit-key"<<item->text(6)<<"uid"<<QString::number(uidNumber)<<"showphoto"<<"quit";
                         p->start(KProcess::Block);
 
                         QPixmap pixmap;
@@ -2523,7 +2493,6 @@ void KeyView::expandKey2(QListViewItem *item)
                     else
                         itemuid->setPixmap(0,pixuserphoto);
                     itemuid->setPixmap(2,uidKey.trustpic);
-                    uidNumber++;
                     cycle="uid";
                 }
                 else
@@ -2540,6 +2509,7 @@ void KeyView::expandKey2(QListViewItem *item)
                     cycle="uid";
                 }
             }
+	    uidNumber++;
         }
         else
             if (tst[0]=="rev")

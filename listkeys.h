@@ -133,8 +133,6 @@ public:
 private:
 //        bool displayMailFirst;
         QString secretList;
-        QString photoKeysList;
-	QStringList photoIdList;
         QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown,trustmarginal, trustbad, trustgood,pixRevoke;
 	QListViewItem *itemToOpen;
 	KTempFile *kgpgphototmp;
@@ -147,14 +145,12 @@ private slots:
         void refreshkeylist();
         gpgKey extractKey(QString keyColon);
         void expandKey(QListViewItem *item);
-	void expandKey2(QListViewItem *item);
 	void expandGroup(QListViewItem *item);
         void refreshcurrentkey(QListViewItem *current);
 	void refreshcurrentkey(QString currentID);
 	void refreshselfkey();
 	void refreshgroups();
 	QPixmap slotGetPhoto(QString photoId,bool mini=false);
-	void slotSetPhotoId(QStringList list);
 	void slotReloadKeys(QStringList keyIDs);
 
 protected:
@@ -239,7 +235,6 @@ private slots:
 	void signLoop();
         void configuretoolbars();
         void saveToolbarConfig();
-        void checkPhotos();
         void slotManpage();
         void slotTip();
         void slotConfigureShortcuts();
