@@ -430,19 +430,27 @@ void  MyView::startWizard()
 
 void  MyView::slotSaveOptionsPath()
 {
-        KURL path;
-        path.addPath(wiz->kURLRequester2->url());
-        path.adjustPath(1);
-        path.setFileName("shredder.desktop");
-        KDesktopFile configl2(path.path(), false);
-        if (configl2.isImmutable() ==false) {
-                configl2.setGroup("Desktop Entry");
-                configl2.writeEntry("Type", "Application");
-                configl2.writeEntry("Name",i18n("Shredder"));
-                configl2.writeEntry("Icon",i18n("shredder.png"));
-                configl2.writeEntry("Exec","kgpg -X %U");
+
+        if (wiz->checkBox1->isChecked()) {
+                KURL path;
+                path.addPath(wiz->kURLRequester2->url());
+                path.adjustPath(1);
+                path.setFileName("shredder.desktop");
+                KDesktopFile configl2(path.path(), false);
+                if (configl2.isImmutable() ==false) {
+                        configl2.setGroup("Desktop Entry");
+                        configl2.writeEntry("Type", "Application");
+                        configl2.writeEntry("Name",i18n("Shredder"));
+                        configl2.writeEntry("Icon",i18n("shredder.png"));
+                        configl2.writeEntry("Exec","kgpg -X %U");
+                }
         }
 
+        ksConfig->setGroup("Applet");
+        if ( wiz->checkBox2->isChecked())
+                ksConfig->writeEntry("AutoStart", true);
+        else
+                ksConfig->writeEntry("AutoStart", false);
 
         ksConfig->setGroup("General Options");
         ksConfig->writeEntry("gpg config path",wiz->kURLRequester1->url());
