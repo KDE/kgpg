@@ -21,12 +21,7 @@
 #include <kdialogbase.h>
 #include <klistview.h>
 #include <kmainwindow.h>
-#include "dcopiface.h"
-
-
-#include <kdialogbase.h>
-#include <klistview.h>
-#include <kmainwindow.h>
+#include <klistviewsearchline.h>
 #include "dcopiface.h"
 
 #include <qptrlist.h>
@@ -86,7 +81,6 @@ public slots:
 
 
 
-
 class KeyView : public KListView
 {
         Q_OBJECT
@@ -95,9 +89,10 @@ public:
         KeyView( QWidget *parent = 0, const char *name = 0);
         bool displayPhoto,displayOnlySecret;
         int previewSize;
+	QString secretList;
 private:
 
-        QString secretList,orphanList;
+        QString orphanList;
         QString photoKeysList;
         QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown,trustrevoked, trustbad, trustgood,pixRevoke,pixkeyOrphan;
         QListViewItem *itemToOpen;
@@ -134,6 +129,20 @@ protected:
         virtual void  contentsDropEvent (QDropEvent*);
 };
 
+class mySearchLine: public KListViewSearchLine
+{
+    Q_OBJECT
+public:
+    mySearchLine(QWidget *parent = 0, KeyView *listView = 0, const char *name = 0);
+    virtual ~mySearchLine();
+private:
+ KeyView *searchListView;    
+    
+public slots:
+virtual void updateSearch(const QString &s = QString::null);
+};
+
+
 class listKeys : public KMainWindow, virtual public KeyInterface
 {
         friend class KeyView;
@@ -156,6 +165,7 @@ public:
 private:
         QPushButton *bouton1,*bouton2,*bouton0;
         QString tempKeyFile,newKeyMail,newKeyName,newkeyFinger,newkeyID;
+	KListViewSearchLine* listViewSearch;	
         bool continueSearch;
         bool showPhoto;
         keyServer *kServer;
@@ -163,7 +173,7 @@ private:
         KAction *importSignatureKey,*importAllSignKeys,*signKey,*refreshKey;
         QPtrList<QListViewItem> signList,keysList;
         uint globalCount,keyCount;
-        int globalChecked,searchWidget,buttonClear;
+        int globalChecked;
         bool globalisLocal,showTipOfDay;
         QString globalkeyMail,globalkeyID,searchString;
         long searchOptions;
@@ -189,10 +199,8 @@ public slots:
         void slotSetDefaultKey(QString newID);
 
 private slots:
-	void  clearSearch(int code);
         void quitApp();
         void  slotOpenEditor();
-        void keyFilter( const QString &filterStr);
         void changeMessage(QString,int, bool keep=false);
         void statusBarTimeout();
         void slotShowTrust();

@@ -115,7 +115,8 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 #if KDE_IS_VERSION( 3, 2, 90 )
 	QToolButton *clearSearch = new QToolButton(hBar);
 	clearSearch->setTextLabel(i18n("Clear Search"), true);
-	clearSearch->setIconSet(SmallIconSet("locationbar_erase"));
+	clearSearch->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left"
+                                            : "locationbar_erase"));
 	(void) new QLabel(i18n("Search: "),hBar);
 	KListViewSearchLine* listViewSearch = new KListViewSearchLine(hBar);
 	connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));

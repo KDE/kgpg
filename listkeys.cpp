@@ -21,7 +21,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#include <kurlrequester.h>
 #include <qdir.h>
 #include <qfile.h>
 #include <qlayout.h>
@@ -45,7 +44,11 @@
 #include <kaction.h>
 #include <qcheckbox.h>
 #include <qlabel.h>
+#include <qtoolbutton.h>
 #include <qradiobutton.h>
+
+
+#include <kurlrequester.h>
 #include <kio/netaccess.h>
 #include <kurl.h>
 #include <kfiledialog.h>
@@ -521,6 +524,29 @@ void  KeyView::startDrag()
 }
 
 
+mySearchLine::mySearchLine(QWidget *parent, KeyView *listView, const char *name)
+:KListViewSearchLine(parent,listView,name)
+{
+searchListView=listView;
+}
+
+mySearchLine::~ mySearchLine()
+{}
+
+void mySearchLine::updateSearch(const QString& s)
+{
+KListViewSearchLine::updateSearch(s);
+if (searchListView->displayOnlySecret)
+{
+QListViewItem *item=searchListView->firstChild();
+	while (item) {
+			if ((item->isVisible()) && (searchListView->secretList.find(item->text(6))==-1)) 
+                                item->setVisible(false);
+                        item=item->nextSibling();
+                }        
+}
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////   main window for key management
 
@@ -686,16 +712,17 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         ///////////////    get all keys data
         setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "listkeys.rc");
         toolBar()->insertLineSeparator();
-        QLabel *searchLabel= new QLabel(i18n("Search:"),toolBar(),"kde toolbar widget");
-
-	int buttonClear;
-	buttonClear=toolBar()->insertButton(QApplication::reverseLayout() ? "clear_left"
-                                            : "locationbar_erase",0,true,i18n("Clear Search"));
-        searchWidget=toolBar()->insertLined(QString::null,0, SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)),true,i18n("Filter Search"),10);
-
-        connect(toolBar(), SIGNAL(pressed(int)), this, SLOT(clearSearch(int)));
-
-        (void)new KAction(i18n("Filter Search"), Qt::Key_F6, toolBar()->getLined(toolBar()->idAt(searchWidget)), SLOT(setFocus()),actionCollection(), "search_focus");
+	
+	QToolButton *clearSearch = new QToolButton(toolBar());
+	clearSearch->setTextLabel(i18n("Clear Search"), true);
+	clearSearch->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left"
+                                            : "locationbar_erase"));
+	(void) new QLabel(i18n("Search: "),toolBar());
+	listViewSearch = new mySearchLine(toolBar(),keysList2);
+	connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
+	
+	
+	(void)new KAction(i18n("Filter Search"), Qt::Key_F6, listViewSearch, SLOT(setFocus()),actionCollection(), "search_focus");
 
         sTrust->setChecked(KGpgSettings::showTrust());
         sSize->setChecked(KGpgSettings::showSize());
@@ -724,12 +751,6 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 listKeys::~listKeys()
 {}
 
-void  listKeys::clearSearch(int code)
-{
-if (code==buttonClear)
-toolBar()->setLinedText(toolBar()->idAt(searchWidget),QString::null);
-}
-
 void  listKeys::showKeyManager()
 {
 show();
@@ -743,53 +764,6 @@ void  listKeys::slotOpenEditor()
         connect(this,SIGNAL(fontChanged(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
         connect(kgpgtxtedit->view->editor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
         kgpgtxtedit->show();
-}
-
-void listKeys::keyFilter( const QString &filterStr)
-{
-        QListViewItem *item=keysList2->firstChild();
-        if (!item)
-                return;
-
-        if (filterStr.isEmpty()) {
-                while (item) {
-			if (!keysList2->displayOnlySecret)
-			{
-                        item->setVisible(true);
-			}
-			else if (keysList2->secretList.find(item->text(6))!=-1) item->setVisible(true);
-                        item=item->nextSibling();
-                }
-        } else {
-                while (item) {
-                        if ((item->text(0).find(filterStr,0,false)==-1) && (item->text(1).find(filterStr,0,false)==-1))
-                                item->setVisible(false);
-                        else
-                               {
-			       if (!keysList2->displayOnlySecret)
-					{
-                        		item->setVisible(true);
-					}
-			else if (keysList2->secretList.find(item->text(6))!=-1) item->setVisible(true);
-			       }
-                        item=item->nextSibling();
-                }
-        }
-        if (!keysList2->currentItem()->isVisible()) {
-                QListViewItem *item=keysList2->firstChild();
-                while (item) {
-                        if (item->isVisible())
-                                break;
-                        item=item->nextSibling();
-                }
-                if (!item)
-                        return;
-                keysList2->clearSelection();
-                keysList2->setCurrentItem(item);
-                keysList2->setSelected(item,true);
-        }
-
-        keysList2->ensureItemVisible(keysList2->currentItem());
 }
 
 void listKeys::statusBarTimeout()
@@ -868,31 +842,8 @@ void listKeys::slotToggleSecret()
         if (!item)
                 return;
 
-        if (!keysList2->displayOnlySecret) {
-                while (item) {
-                        if (keysList2->secretList.find(item->text(6))==-1) //pixmap(0)->serialNumber()!=keysList2->pixkeyPair.serialNumber())
-                                item->setVisible(false);
-                        item=item->nextSibling();
-                }
-                keysList2->displayOnlySecret=true;
-                if (!keysList2->currentItem()->isVisible()) {
-                        QListViewItem *item=keysList2->firstChild();
-                        while (item) {
-                                if (item->isVisible())
-                                        break;
-                                item=item->nextSibling();
-                        }
-                        if (!item)
-                                return;
-                        keysList2->clearSelection();
-                        keysList2->setCurrentItem(item);
-                        keysList2->setSelected(item,true);
-                }
-        } else {
-		QString Ltext=toolBar()->getLinedText(toolBar()->idAt(searchWidget));
-		keysList2->displayOnlySecret=false;
-		keyFilter(Ltext);
-        }
+        keysList2->displayOnlySecret=!keysList2->displayOnlySecret;
+	listViewSearch->updateSearch(listViewSearch->text());
 }
 
 void listKeys::slotGotoDefaultKey()
@@ -1123,7 +1074,7 @@ void listKeys::findFirstKey()
         delete m_find;
 
         if (foundItem) {
-                //kdDebug(2100)<<"Found: "<<searchText<<endl;
+                
                 keysList2->clearSelection();
                 keysList2->setCurrentItem(item);
                 keysList2->setSelected(item,true);
@@ -1385,11 +1336,11 @@ void listKeys::slotSetDefaultKey(QString newID)
 
 void listKeys::slotSetDefaultKey(QListViewItem *newdef)
 {
-        kdDebug(2100)<<"------------------start ------------"<<endl;
+        //kdDebug(2100)<<"------------------start ------------"<<endl;
         if ((!newdef) || (newdef->pixmap(2)==NULL))
                 return;
-        kdDebug(2100)<<newdef->text(6)<<endl;
-        kdDebug(2100)<<KGpgSettings::defaultKey()<<endl;
+        //kdDebug(2100)<<newdef->text(6)<<endl;
+        //kdDebug(2100)<<KGpgSettings::defaultKey()<<endl;
         if (newdef->text(6)==KGpgSettings::defaultKey())
                 return;
         if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) {
@@ -1432,7 +1383,7 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
                 }
 
                 if (sel->depth()!=0) {
-                        kdDebug(2100)<<sel->text(0)<<endl;
+                        //kdDebug(2100)<<sel->text(0)<<endl;
                         if ((sel->text(4)=="-") && (sel->text(6).startsWith("0x"))) {
                                 if ((sel->text(2)=="-") || (sel->text(2)==i18n("Revoked"))) {
                                         if ((sel->text(0).startsWith("[")) && (sel->text(0).endsWith("]")))  ////// ugly hack to detect unknown keys
@@ -2703,9 +2654,7 @@ void KeyView::expandKey(QListViewItem *item)
 void listKeys::refreshkey()
 {
         keysList2->refreshkeylist();
-        QString lText=toolBar()->getLinedText(toolBar()->idAt(searchWidget));
-        if (!lText.isEmpty())
-                keyFilter(lText);
+	listViewSearch->updateSearch(listViewSearch->text());
 }
 
 void KeyView::refreshkeylist()
@@ -2980,7 +2929,6 @@ void KeyView::slotReloadOrphaned()
 
 void KeyView::refreshcurrentkey(QString currentID)
 {
-	kdDebug(2100)<<"++++++++++Key to show: "<<currentID<<endl;
         UpdateViewItem *item=NULL;
         QString issec=QString::null;
         FILE *fp,*fp2;
