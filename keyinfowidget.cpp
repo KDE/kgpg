@@ -107,7 +107,7 @@ keyWasChanged=true;
 void KgpgKeyInfo::loadKey(QString Keyid)
 {
 QColor trustColor;
-QString fingervalue;
+QString fingervalue=QString::null;
 FILE *pass;
 char line[200]="";
 QString gpgOutput,fullID;
@@ -268,7 +268,7 @@ QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint
 			prop->tLName->setText("<qt><b>"+KgpgInterface::checkForUtf8(kname).replace(QRegExp("<"),"&lt;")+"</b></qt>");
 
                 }
-                if (gpgOutput.startsWith("fpr")) {
+		if (gpgOutput.startsWith("fpr") && (fingervalue==QString::null)) {
                         fingervalue=gpgOutput.section(':',9,9);
                         // format fingervalue in 4-digit groups
                         uint len = fingervalue.length();
