@@ -266,7 +266,7 @@ void  MyView::slotVerifyFile()
         if (droppedUrl.isEmpty())
                 return;
 
-        QString sigfile="";
+        QString sigfile=QString::null;
         //////////////////////////////////////       try to find detached signature.
         if (!droppedUrl.filename().endsWith(".sig")) {
                 sigfile=droppedUrl.path()+".sig";
@@ -276,7 +276,7 @@ void  MyView::slotVerifyFile()
                         QFile fsig(sigfile);
                         //////////////   if no .asc or .sig signature file included, assume the file is internally signed
                         if (!fsig.exists())
-                                sigfile="";
+                                sigfile=QString::null;
                 }
         } else {
                 sigfile=droppedUrl.path();
@@ -553,7 +553,7 @@ void  MyView::startWizard()
                                 }
                         } else {
                                 wiz->text_optionsfound->setText(i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed and give the path to the config file.</qt>"));
-                                confPath="";
+                                confPath=QString::null;
                         }
                 }
         }
@@ -563,7 +563,7 @@ void  MyView::startWizard()
 
         FILE *fp,*fp2;
         QString tst,tst2,name,trustedvals="idre-";
-        QString firstKey="";
+        QString firstKey=QString::null;
         char line[300];
         int counter=0;
 

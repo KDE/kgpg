@@ -73,7 +73,7 @@ void MyEditor::slotDroppedFile(KURL url)
         QString text;
         if (!tempFile.isEmpty()) {
                 KIO::NetAccess::removeTempFile(tempFile);
-                tempFile="";
+                tempFile=QString::null;
         }
 
         if (url.isLocalFile())
@@ -148,7 +148,7 @@ void MyEditor::slotDecodeFile(QString fname)
                         enckey=i18n("[No user id found]");
                 QString resultat=KgpgInterface::KgpgDecryptFileToText(KURL(fname),enckey);
                 KIO::NetAccess::removeTempFile(fname);
-                tempFile="";
+                tempFile=QString::null;
                 if (resultat!=" ") // if user didn't cancel ...
                 {
                         if (!resultat.isEmpty())
@@ -166,7 +166,7 @@ void MyEditor::slotProcessResult(QStringList iKeys)
 {
 	emit refreshImported(iKeys);
         KIO::NetAccess::removeTempFile(tempFile);
-        tempFile="";
+        tempFile=QString::null;
 }
 
 
@@ -209,7 +209,7 @@ void KgpgView::modified()
         KgpgApp *win=(KgpgApp *) parent();
         if (win->fileSave->isEnabled()==false) {
                 QString capt=win->Docname.filename();
-                if (capt=="")
+                if (capt.isEmpty())
                         capt=i18n("untitled");
                 win->setCaption(capt,true);
                 win->fileSave->setEnabled(true);
@@ -340,7 +340,7 @@ void KgpgView::clearSign()
                 line+=" --no-tty --clearsign -u ";
                 line+=KShellProcess::quote(signKeyID);
                 //KMessageBox::sorry(0,QString(line));
-                QString tst="";
+                QString tst=QString::null;
 
                 ///////////////// run command
                 fp = popen(QFile::encodeName(line), "r");
@@ -378,7 +378,7 @@ void KgpgView::slotdecode()
         ///////////////    decode data from the editor. triggered by the decode button
 
         QString dests,encUsers;
-        messages="";
+        messages=QString::null;
 
         encUsers=KgpgInterface::extractKeyName(editor->text());
 

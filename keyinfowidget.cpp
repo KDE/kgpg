@@ -155,7 +155,7 @@ QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint
                         QDate date = QDate::fromString(gpgOutput.section(':',5,5), Qt::ISODate);
                         prop->tLCreation->setText(KGlobal::locale()->formatDate(date));
 
-			if (gpgOutput.section(':',6,6)=="") expirationDate=i18n("Unlimited");
+			if (gpgOutput.section(':',6,6).isEmpty()) expirationDate=i18n("Unlimited");
 			else
 			{
 			date = QDate::fromString(gpgOutput.section(':',6,6), Qt::ISODate);
@@ -273,7 +273,7 @@ prop->pLPhoto->setPixmap(dup2);
 
 void KgpgKeyInfo::finishphotoreadprocess(KProcIO *p)
 {
-        QString required="";
+        QString required=QString::null;
         while (p->readln(required,true)!=-1)
 		if (required.find("keyedit.prompt")!=-1) {
                         p->writeStdin("quit");

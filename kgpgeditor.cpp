@@ -124,7 +124,7 @@ void KgpgApp::slotFileNew()
         editUndo->setEnabled(false);
         setCaption(i18n("Untitled"), false);
         fileSave->setEnabled(false);
-        Docname="";
+        Docname=QString::null;
 }
 
 void KgpgApp::slotFilePreEnc()
@@ -394,7 +394,7 @@ void KgpgApp::slotPreVerifyFile()
 void KgpgApp::slotVerifyFile(KURL url)
 {
         ///////////////////////////////////   check file signature
-        QString sigfile="";
+        QString sigfile=QString::null;
         if (!url.isEmpty()) {
                 //////////////////////////////////////       try to find detached signature.
                 if (!url.filename().endsWith(".sig")) {
@@ -405,7 +405,7 @@ void KgpgApp::slotVerifyFile(KURL url)
                                 QFile fsig(sigfile);
                                 //////////////   if no .asc or .sig signature file included, assume the file is internally signed
                                 if (!fsig.exists())
-                                        sigfile="";
+                                        sigfile=QString::null;
                         }
                 }
                 ///////////////////////// pipe gpg command

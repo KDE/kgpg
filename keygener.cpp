@@ -91,7 +91,7 @@ keyGenerate::keyGenerate(QWidget *parent, const char *name):KDialogBase( parent,
 
 void keyGenerate::slotOk()
 {
-        if (QString(kname->text()).stripWhiteSpace()=="") {
+        if (QString(kname->text()).stripWhiteSpace().isEmpty()) {
                 KMessageBox::sorry(0,i18n("You must give a name."));
                 return;
         }

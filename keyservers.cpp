@@ -173,7 +173,7 @@ void keyServer::slotSearch()
         connect( listpop , SIGNAL( destroyed() ) , this, SLOT( abortSearch()));
         count=0;
         cycle=false;
-        readmessage="";
+        readmessage=QString::null;
         KProcIO *searchproc=new KProcIO();
         QString keyserv=kCBimportks->currentText();
         *searchproc<<"gpg";
@@ -257,12 +257,12 @@ void keyServer::slotsearchread(KProcIO *p)
                                 p->writeStdin("Q");
                                 p->closeWhenDone();
                         }
-                        required="";
+                        required=QString::null;
                 }
 
                 if (required.find("GOT_IT")!=-1) {
                         count++;
-                        required="";
+                        required=QString::null;
                 }
 
                 if ((cycle) && (!required.isEmpty())) {
@@ -271,7 +271,7 @@ void keyServer::slotsearchread(KProcIO *p)
                         kid=kid.section("key",1,1);
                         kid=kid.stripWhiteSpace();
                         kid=kid.left(8);
-                        required="";
+                        required=QString::null;
                 }
 
                 cycle=false;
@@ -281,7 +281,7 @@ void keyServer::slotsearchread(KProcIO *p)
                         kitem=new KListViewItem(listpop->kLVsearch,required.remove(0,required.find(")")+1).stripWhiteSpace());
                         keyNumbers++;
                         count=0;
-                        required="";
+                        required=QString::null;
                 }
         }
 }
@@ -291,7 +291,7 @@ void keyServer::slotExport()
 {
         if (kCBexportks->currentText().isEmpty())
                 return;
-        readmessage="";
+        readmessage=QString::null;
         exportproc=new KProcIO();
         QString keyserv=kCBexportks->currentText();
 
@@ -344,7 +344,7 @@ void keyServer::slotImport()
                 KMessageBox::sorry(this,i18n("You must enter a search string."));
                 return;
         }
-        readmessage="";
+        readmessage=QString::null;
         importproc=new KProcIO();
         QString keyserv=kCBimportks->currentText();
 

@@ -172,7 +172,7 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 
         char line[200]="\0";
         FILE *fp2;
-        seclist="";
+        seclist=QString::null;
 
         fp2 = popen("gpg --no-secmem-warning --no-tty --list-secret-keys ", "r");
         while ( fgets( line, sizeof(line), fp2))
@@ -272,7 +272,7 @@ QStringList groups=QStringList::split(",",keyGroups);
 	for ( QStringList::Iterator it = groups.begin(); it != groups.end(); ++it )
 	if (!QString(*it).isEmpty())
 	{
-			UpdateViewItem2 *item=new UpdateViewItem2(keysList,QString(*it),"","",false);
+			UpdateViewItem2 *item=new UpdateViewItem2(keysList,QString(*it),QString::null,QString::null,false);
 			item->setPixmap(0,keyGroup);
 	}
 }
@@ -318,7 +318,7 @@ void popupPublic::slotprocread(KProcIO *p)
                         const QString trust=tst.section(':',1,1);
                         QString val=tst.section(':',6,6);
                         QString id=QString("0x"+tst.section(':',4,4).right(8));
-                        if (val=="")
+                        if (val.isEmpty())
                                 val=i18n("Unlimited");
                         QString tr;
                         switch( trust[0] ) {
@@ -362,7 +362,7 @@ void popupPublic::slotprocread(KProcIO *p)
                 if (keyname.find("(")!=-1)
                         keyname=keyname.section('(',0,0);
         } else {
-                keymail="";
+                keymail=QString::null;
                 keyname=tst.section('(',0,0);
         }
 
