@@ -94,4 +94,3 @@ return (lineedit->text());
 
 
 //#include "kgpgfast.moc"
-#include "kgpgfast.moc"
