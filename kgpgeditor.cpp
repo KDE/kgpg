@@ -133,9 +133,9 @@ if (encryptfileto)
 			if (ascii) opts+=" --armor ";
 			if (hideid) opts+=" --throw-keyid ";
 			if (pgpcomp) opts+=" --pgp6 ";
-lib->slotFileEnc(url,opts,filekey);
+lib->slotFileEnc(KURL::List::List(url),opts,filekey);
 }								   
-else lib->slotFileEnc(url);
+else lib->slotFileEnc(KURL::List::List(url));
 }
 
 void KgpgApp::slotFilePreDec()

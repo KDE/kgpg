@@ -55,13 +55,17 @@
 	 */
         KgpgLibrary();
 		~KgpgLibrary();
-		
+
+KURL::List urlselecteds;
+
 public slots:
-void slotFileEnc(KURL url=0,QString opts="",QString defaultKey="");
+//void slotFileEnc(KURL url=0,QString opts="",QString defaultKey="");
+void slotFileEnc(KURL::List urls=KURL(""),QString opts="",QString defaultKey="");
 void slotFileDec(KURL srcUrl=0,KURL destUrl=0,QString customDecryptOption="");
-		
+
 private slots:
-void fastencode(QString &selec,QString encryptOptions,bool shred,bool symetric);
+void fastencode(KURL &fileToCrypt,QString &selec,QString encryptOptions,bool shred,bool symetric);
+void startencode(QString &selec,QString encryptOptions,bool shred,bool symetric);
 
 void processenc();
 void processdecover();

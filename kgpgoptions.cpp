@@ -232,7 +232,7 @@ QString path=locateLocal("data","konqueror/servicemenus/signfile.desktop");
     configl2.setGroup("Desktop Action sign");
 	configl2.writeEntry("Name",i18n("Sign File"));
 	//configl2.writeEntry("Icon", "sign_file");
-	configl2.writeEntry("Exec","kgpg -S %u");
+	configl2.writeEntry("Exec","kgpg -S %U");
   	  //KMessageBox::information(this,i18n("Decrypt file option is now added in Konqueror's menu."));
   }
 }
@@ -249,7 +249,7 @@ QString path=locateLocal("data","konqueror/servicemenus/decryptfile.desktop");
     configl2.setGroup("Desktop Action decrypt");
 	configl2.writeEntry("Name",i18n("Decrypt File"));
 	//configl2.writeEntry("Icon", "decrypt_file");
-	configl2.writeEntry("Exec","kgpg -d %u");
+	configl2.writeEntry("Exec","kgpg -d %U");
   	  //KMessageBox::information(this,i18n("Decrypt file option is now added in Konqueror's menu."));
   }
 

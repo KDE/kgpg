@@ -68,6 +68,7 @@ public:
 int ufileDropEvent,efileDropEvent;
 bool	 showeclip,showdclip,showomanager,showoeditor,showserver,autostart;
 KURL droppedUrl;
+KURL::List droppedUrls;
 KConfig *ksConfig;
 
 private:
@@ -106,7 +107,7 @@ void help();
 void about();
 void firstRun();
 void readOptions();
-void  droppedfile (KURL);
+void  droppedfile (KURL::List);
 void  droppedtext (QString inputText) ;
 void  openKeyServer();
 void slotKeyServerClosed();
@@ -148,6 +149,8 @@ class KgpgAppletApp : public KUniqueApplication
     KgpgAppletApp();
     ~KgpgAppletApp();
     int newInstance ();
+KURL::List urlList;
+
 protected:
  KCmdLineArgs *args;
  private:

@@ -2,6 +2,9 @@
  * Copyright (C) 2003 bj <bj@altern.org>
  */
 
+#include <qstring.h>
+#include <kmessagebox.h>
+
 
 #include <kuniqueapplication.h>
 #include <dcopclient.h>
@@ -17,17 +20,17 @@ static const char *version = "1.0.0";
 
 static KCmdLineOptions options[] =
 {
+{ "+[File]", I18N_NOOP("File to open"), 0 },
 { "e", I18N_NOOP("Encrypt file"), 0 },
 { "k", I18N_NOOP("Open key manager"), 0 },
 { "s", I18N_NOOP("Show encrypted file"), 0 },
 { "S", I18N_NOOP("Sign file"), 0 },
 { "V", I18N_NOOP("Verify signature"), 0 },
-{ "+file", I18N_NOOP("File to open"), 0 },
     { 0, 0, 0}
   // INSERT YOUR COMMANDLINE OPTIONS HERE
 };
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
 
     KAboutData about("kgpg", I18N_NOOP("kgpg"), version, description,
@@ -36,8 +39,11 @@ int main(int argc, char **argv)
     KCmdLineArgs::init(argc, argv, &about);
     KCmdLineArgs::addCmdLineOptions(options);
 	KUniqueApplication::addCmdLineOptions();
-   
-	 if (!KgpgAppletApp::start())
+
+
+//KMessageBox::sorry(0,"nombre: "+QString::number(i));
+
+	 if (!KUniqueApplication::start())
        return 0;
 
    KgpgAppletApp app;

@@ -163,9 +163,9 @@ if (encryptfileto)
 			if (ascii) opts+=" --armor ";
 			if (hideid) opts+=" --throw-keyid ";
 			if (pgpcomp) opts+=" --pgp6 ";
-lib->slotFileEnc(droppedUrl,opts,filekey);
+lib->slotFileEnc(droppedUrls,opts,filekey);
 }
-else lib->slotFileEnc(droppedUrl);
+else lib->slotFileEnc(droppedUrls);
 }
 
 
@@ -264,15 +264,16 @@ KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
 }
 
 
-void  MyView::droppedfile (KURL url)
+void  MyView::droppedfile (KURL::List url)
 {
-droppedUrl=url;
-if (!url.isLocalFile())
+droppedUrls=url;
+droppedUrl=url.first();
+if (!droppedUrl.isLocalFile())
 {
 showDroppedFile();
 return;
 }
-if ((url.path().endsWith(".asc")) || (url.path().endsWith(".pgp")) || (url.path().endsWith(".gpg")))
+if ((droppedUrl.path().endsWith(".asc")) || (droppedUrl.path().endsWith(".pgp")) || (droppedUrl.path().endsWith(".gpg")))
 {
 switch (efileDropEvent)
 {
@@ -287,7 +288,7 @@ case 2:
 	break;
 }
 }
-else if (url.path().endsWith(".sig"))
+else if (droppedUrl.path().endsWith(".sig"))
 {
 slotVerifyFile();
 }
@@ -337,11 +338,11 @@ e->accept (QUrlDrag::canDecode(e) || QTextDrag::canDecode (e));
 }
 
 
-void  MyView::dropEvent (QDropEvent *o) 
+void  MyView::dropEvent (QDropEvent *o)
 {
   QStringList list;
   QString text;
-  if ( QUrlDrag::decodeToUnicodeUris( o, list ) ) droppedfile(KURL(list.first()));
+  if ( QUrlDrag::decodeToUnicodeUris( o, list ) ) droppedfile(KURL::List::List(list));
   else if ( QTextDrag::decode(o, text) ) droppedtext(text);
 }
 
@@ -482,6 +483,7 @@ KgpgAppletApp::KgpgAppletApp()
 {
 
 s_keyManager=new listKeys(0, "key_manager");
+
 //s_keyManager->show();
 s_keyManager->refreshkey();
 kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
@@ -548,9 +550,15 @@ s_keyManager->refreshkey();
 else
 if (args->count()>0)
 {
-FileToOpen=args->url(0);
-if (FileToOpen.isEmpty()) return 0;
-kgpg_applet->w->droppedUrl=FileToOpen;
+urlList.clear();
+
+for (int ct=0;ct<args->count();ct++)
+urlList.append(args->url(ct));
+
+if (urlList.empty()) return 0;
+
+kgpg_applet->w->droppedUrl=urlList.first();
+kgpg_applet->w->droppedUrls=urlList;
 if (args->isSet("e")!=0)	kgpg_applet->w->encryptDroppedFile();
 else if (args->isSet("s")!=0) kgpg_applet->w->showDroppedFile();
 else if (args->isSet("S")!=0) kgpg_applet->w->signDroppedFile();

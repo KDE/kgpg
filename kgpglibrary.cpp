@@ -7,36 +7,44 @@
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
  ***************************************************************************/
- 
+
  #include "kgpglibrary.h"
- 
+
  KgpgLibrary::KgpgLibrary()
 {}
 
 KgpgLibrary::~KgpgLibrary()
 {}
 
- 
- void KgpgLibrary::slotFileEnc(KURL url,QString opts,QString defaultKey)
+
+ //void KgpgLibrary::slotFileEnc(KURL url,QString opts,QString defaultKey)
+ void KgpgLibrary::slotFileEnc(KURL::List urls,QString opts,QString defaultKey)
 {
   /////////////////////////////////////////////////////////////////////////  encode file file
-
-  if (!url.isEmpty())
+ if (!urls.empty())
     {
-      urlselected=url;
+      urlselecteds=urls;
       if (defaultKey.isEmpty())
         {
-          popupPublic *dialogue=new popupPublic(0,"Public keys",url.filename(),true);
-          connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(fastencode(QString &,QString,bool,bool)));
+          popupPublic *dialogue=new popupPublic(0,"Public keys","files",true);
+          connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(startencode(QString &,QString,bool,bool)));
           dialogue->exec();
           delete dialogue;
         }
-      else fastencode(defaultKey,opts,false,false);
+      else startencode(defaultKey,opts,false,false);
     }
 }
 
+void KgpgLibrary::startencode(QString &selec,QString encryptOptions,bool shred,bool symetric)
+{
+KURL::List::iterator it;
+for ( it = urlselecteds.begin(); it != urlselecteds.end(); ++it )
+fastencode(*it,selec,encryptOptions,shred,symetric);
 
-void KgpgLibrary::fastencode(QString &selec,QString encryptOptions,bool shred,bool symetric)
+}
+
+
+void KgpgLibrary::fastencode(KURL &fileToCrypt,QString &selec,QString encryptOptions,bool shred,bool symetric)
 {
   //////////////////              encode from file
   if ((selec==NULL) && (!symetric))
@@ -44,7 +52,7 @@ void KgpgLibrary::fastencode(QString &selec,QString encryptOptions,bool shred,bo
       KMessageBox::sorry(0,i18n("You have not chosen an encryption key."));
       return;
     }
-
+urlselected=fileToCrypt;
   KURL dest;
 
   if (encryptOptions.find("--armor")!=-1) dest.setPath(urlselected.path()+".asc");
@@ -63,7 +71,7 @@ void KgpgLibrary::fastencode(QString &selec,QString encryptOptions,bool shred,bo
 
   KgpgInterface *cryptFileProcess=new KgpgInterface();
   cryptFileProcess->KgpgEncryptFile(selec,urlselected,dest,encryptOptions,symetric);
-  
+
   connect(cryptFileProcess,SIGNAL(processaborted(bool)),this,SLOT(processenc(bool)));
   connect(cryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup2()));
   if (shred)
