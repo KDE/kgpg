@@ -1205,6 +1205,7 @@ void KgpgInterface::importKey(QString keystr)
 void KgpgInterface::importover(KProcess *)
 {
 QStringList importedKeysIds;
+QStringList messageList;
 QString resultMessage;
 bool secretImport=false;
 kdDebug(2100)<<"Importing is over"<<endl;
@@ -1216,10 +1217,11 @@ kdDebug(2100)<<"Importing is over"<<endl;
 		importedKeys<<parsedOutput.section("\n",0,0).stripWhiteSpace();
 		importedKeysIds<<parsedOutput.stripWhiteSpace().section(' ',0,0);
         }
+	
 
         if (message.find("IMPORT_RES")!=-1) {
                 parsedOutput=message.section("IMPORT_RES",-1,-1).stripWhiteSpace();
-		QStringList messageList=QStringList::split(" ",parsedOutput,true);
+		messageList=QStringList::split(" ",parsedOutput,true);
                 	
                 resultMessage=i18n("<qt>%1 key(s) processed.<br></qt>").arg(messageList[0]);
                 if (messageList[4]!="0")
@@ -1258,7 +1260,9 @@ kdDebug(2100)<<"Importing is over"<<endl;
         KDetailedInfo *m_box=new KDetailedInfo(0,"import_result",resultMessage,message,importedKeys);
         m_box->setMinimumWidth(300);
         m_box->exec();
-        //KMessageBox::information(0,message);
+	if ((messageList[9]!=0) && (importedKeysIds.isEmpty())) // orphaned secret key imported
+	emit refreshOrphaned();
+	else
         emit importfinished(importedKeysIds);
 }
 

@@ -925,11 +925,24 @@ void listKeys::slotDelUid()
     keysList2->refreshselfkey();
 }
 
+
 void listKeys::slotregenerate()
 {
+FILE *fp;
+    QString tst;
+    char line[300];
+    QString cmd="gpg --no-secmem-warning --export-secret-key "+keysList2->currentItem()->text(6)+" | gpgsplit --no-split --secret-to-public | gpg --import";
 
+    fp = popen(cmd.ascii(), "r");
+    while ( fgets( line, sizeof(line), fp))
+    {
+        tst+=line;
+    }
+    pclose(fp);
+    QString regID=keysList2->currentItem()->text(6);
+    keysList2->takeItem(keysList2->currentItem());
+    keysList2->refreshcurrentkey(regID);
 }
-
 
 void listKeys::slotAddUid()
 {
@@ -1725,8 +1738,9 @@ void listKeys::listsigns()
 
     if (keysList2->currentItem()->pixmap(0)->serialNumber()==keysList2->pixkeyOrphan.serialNumber())
     {
-    KMessageBox::sorry(this,i18n("This key is an orphaned secret key (secret key without public key. It is currently not usable.\n\n"
-    							"Would you like to regenerate the public key?"));
+    if (KMessageBox::questionYesNo(this,i18n("This key is an orphaned secret key (secret key without public key. It is currently not usable.\n\n"
+    							"Would you like to regenerate the public key?"))==KMessageBox::Yes)
+							slotregenerate();
 							return;
     }
     
@@ -2482,7 +2496,7 @@ void listKeys::confirmdeletekey()
         deleteGroup();
         return;
     }
-    if ((keysList2->secretList.find(keysList2->currentItem()->text(6))!=-1) && (keysList2->selectedItems().count()==1))
+    if (((keysList2->secretList.find(keysList2->currentItem()->text(6))!=-1) || (keysList2->orphanList.find(keysList2->currentItem()->text(6))!=-1)) && (keysList2->selectedItems().count()==1))
         deleteseckey();
     else
     {
@@ -2591,6 +2605,7 @@ void listKeys::slotPreImportKey()
                 KgpgInterface *importKeyProcess=new KgpgInterface();
                 importKeyProcess->importKeyURL(KURL::fromPathOrURL( impname ));
                 connect(importKeyProcess,SIGNAL(importfinished(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
+		connect(importKeyProcess,SIGNAL(refreshOrphaned()),keysList2,SLOT(slotReloadOrphaned()));
             }
         }
         else
@@ -2601,6 +2616,7 @@ void listKeys::slotPreImportKey()
                 KgpgInterface *importKeyProcess=new KgpgInterface();
                 importKeyProcess->importKey(keystr);
                 connect(importKeyProcess,SIGNAL(importfinished(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
+		connect(importKeyProcess,SIGNAL(refreshOrphaned()),keysList2,SLOT(slotReloadOrphaned()));
             }
         }
     }
@@ -2921,6 +2937,7 @@ void KeyView::insertOrphan(QString currentID)
    FILE *fp;
     char line[300];
     UpdateViewItem *item;
+    bool keyFound=false;
     fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
     while ( fgets( line, sizeof(line), fp))
     {
@@ -2928,7 +2945,7 @@ void KeyView::insertOrphan(QString currentID)
         if ((lineRead.startsWith("sec")) && (lineRead.section(':',4,4).right(8))==currentID.right(8))
 	{
 	gpgKey orphanedKey=extractKey(lineRead);
-
+	keyFound=true;
     	    bool isbold=false;
             bool isexpired=false;
  //           if (orphanedKey.gpgkeyid==defaultKey)
@@ -2943,6 +2960,12 @@ void KeyView::insertOrphan(QString currentID)
 	}
     }
     pclose(fp);
+    if (!keyFound)
+    {
+    orphanList.remove(currentID);
+    setSelected(currentItem(),true);
+    return;
+    }
     clearSelection();
     setCurrentItem(item);
     setSelected(item,true);
@@ -3026,6 +3049,45 @@ if (keyIDs.isEmpty()) return;
     emit statusMessage(i18n("Ready"),0);
 }
 
+void KeyView::slotReloadOrphaned()
+{
+    QStringList issec;
+    FILE *fp,*fp2;
+    char line[300];
+
+    fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+    while ( fgets( line, sizeof(line), fp2))
+    {
+        QString lineRead=line;
+        if (lineRead.startsWith("sec"))
+            issec<<"0x"+lineRead.section(':',4,4).right(8);
+    }
+    pclose(fp2);
+    
+        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-keys", "r");
+    while ( fgets( line, sizeof(line), fp))
+    {
+        QString lineRead=line;
+        if (lineRead.startsWith("pub"))
+            issec.remove("0x"+lineRead.section(':',4,4).right(8));
+    }
+    pclose(fp);
+
+QStringList::Iterator it;
+
+for ( it = issec.begin(); it != issec.end(); ++it )
+{
+	if (findItem(*it,6)==0)
+	{
+	insertOrphan(*it);
+	orphanList+=*it+",";
+	}
+}
+    setSelected(findItem(*it,6),true);    
+    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount()-groupNb).arg(groupNb),1);
+    emit statusMessage(i18n("Ready"),0);
+}
+
 void KeyView::refreshcurrentkey(QString currentID)
 {
 
@@ -3079,14 +3141,18 @@ void KeyView::refreshcurrentkey(QString currentID)
         }
     }
     pclose(fp);
-    	if (orphanList.find(currentID)!=-1)
+    	
+	if (!keyFound)
 	{
-	if (!keyFound) {insertOrphan(currentID);return;}
-	else orphanList.remove(currentID);
+	if (orphanList.find(currentID)==-1) orphanList+=currentID+",";
+	insertOrphan(currentID);
+	return;
 	}
+	if (orphanList.find(currentID)!=-1) orphanList.remove(currentID);
+    
     clearSelection();
     setCurrentItem(item);
-    setSelected(item,true);
+
 }
 
 void KeyView::refreshcurrentkey(QListViewItem *current)

@@ -157,6 +157,7 @@ private slots:
 	void insertOrphan(QString currentID);
 	QPixmap slotGetPhoto(QString photoId,bool mini=false);
 	void slotReloadKeys(QStringList keyIDs);
+	void slotReloadOrphaned();
 	
 signals:
 	void statusMessage(QString,int,bool keep=false);

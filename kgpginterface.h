@@ -342,6 +342,7 @@ signals:
 	
 	void addPhotoFinished();
 	void addPhotoError(QString);
+	void refreshOrphaned();
 	
 	void addUidFinished();
 	void addUidError(QString);
