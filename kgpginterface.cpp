@@ -827,8 +827,9 @@ void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyM
         konsSignKey=signKeyID;
         konsKeyID=keyID;
 
-	if (checkuid(keyID)>0) {
-        openSignConsole();
+        if (checkuid(keyID)>0) {
+                openSignConsole();
+                emit signatureFinished(3);
                 return;
         }
         signSuccess=0;
@@ -852,9 +853,9 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
 
         while (p->readln(required,true)!=-1)
         {
-	output+=required+"\n";
+                output+=required+"\n";
 
-	 if (required.find("USERID_HINT",0,false)!=-1) {
+                if (required.find("USERID_HINT",0,false)!=-1) {
                         required=required.section("HINT",1,1);
                         required=required.stripWhiteSpace();
                         int cut=required.find(' ',0,false);
@@ -865,15 +866,15 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                                 if (!userIDs.isEmpty())
                                         userIDs+=i18n(" or ");
                                 userIDs+=required;
-				userIDs.replace(QRegExp("<"),"&lt;");
+                                userIDs.replace(QRegExp("<"),"&lt;");
                         }
-			}
+                }
 
 
                 //if ((step==2) && (required.find("GOOD_PASSPHRASE")!=-1)) {
-		if ((required.find("GOOD_PASSPHRASE")!=-1)) {
+                if ((required.find("GOOD_PASSPHRASE")!=-1)) {
                         signSuccess=3;
-			step=2;
+                        step=2;
                 }
 
                 //KMessageBox::sorry(0,required);
@@ -895,18 +896,17 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                         required="";
                 }
                 if (required.find("passphrase.enter")!=-1) {
-		QCString signpass;
-		int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
-        		if (code!=QDialog::Accepted)
-			{
-			signSuccess=3;  /////  aborted by user mode
-                        p->writeStdin("quit");
-                        p->closeWhenDone();
-                	return;
-			}
+                        QCString signpass;
+                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
+                        if (code!=QDialog::Accepted) {
+                                signSuccess=3;  /////  aborted by user mode
+                                p->writeStdin("quit");
+                                p->closeWhenDone();
+                                return;
+                        }
                         p->writeStdin(signpass);
                         required="";
-         //               step=2;
+                        //               step=2;
                 }
                 if ((step==2) && (required.find("keyedit.prompt")!=-1)) {
                         p->writeStdin("save");
@@ -943,7 +943,7 @@ void KgpgInterface::signover(KProcess *)
                 emit signatureFinished(signSuccess);  ////   signature successfull or bad passphrase
         else {
                 KDetailedConsole *q=new KDetailedConsole(0,"sign_error",i18n("<qt><b>Signing failed.</b><br>"
-		"Do you want to try signing the key in console mode?</qt>"),output);
+                                    "Do you want to try signing the key in console mode?</qt>"),output);
                 if (q->exec()==QDialog::Accepted)
                         openSignConsole();
                 else
@@ -1291,13 +1291,14 @@ QString KgpgInterface::checkForUtf8(QString txt)
         if (*s && !strchr (txt.ascii(), 0xc3)) {
                 /* The string is not in UTF-8 */
 
-                if (txt.find("\\x")==-1) return txt;
+                if (txt.find("\\x")==-1)
+                        return txt;
 
-                        for ( int idx = 0 ; (idx = txt.find( "\\x", idx )) >= 0 ; ++idx ) {
-                                char str[2] = "x";
-                                str[0] = (char) QString( txt.mid( idx + 2, 2 ) ).toShort( 0, 16 );
-                                txt.replace( idx, 4, str );
-                        }
+                for ( int idx = 0 ; (idx = txt.find( "\\x", idx )) >= 0 ; ++idx ) {
+                        char str[2] = "x";
+                        str[0] = (char) QString( txt.mid( idx + 2, 2 ) ).toShort( 0, 16 );
+                        txt.replace( idx, 4, str );
+                }
 
                 return  QString::fromUtf8(txt.ascii());
         } else {

@@ -9,12 +9,12 @@ kgpg_LDADD   =  $(LIB_KIO)
 
 KDE_ICON =kgpg
 
-kgpg_ICON= kgpg_gen kgpg kgpg2 kgpg_edit kgpg_sign kgpg_info kgpg_import kgpg_export kgpg_key2 kgpg_key1 kgpg_manage kgpg_photo kgpg_trust0 kgpg_trust1 kgpg_trust2 kgpg_identity
+kgpg_ICON= kgpg_gen kgpg kgpg2 kgpg_edit kgpg_sign kgpg_info kgpg_import kgpg_export kgpg_key2 kgpg_key1 kgpg_manage kgpg_photo kgpg_identity
 
 kgpgdir=$(kde_datadir)/kgpg/icons
 
 
-pics_DATA=kgpg.png
+pics_DATA=kgpg.png kgpg_unknown.png kgpg_good.png kgpg_bad.png
 picsdir=$(kde_datadir)/kgpg/pics
 
 servicedir = $(kde_datadir)/konqueror/servicemenus

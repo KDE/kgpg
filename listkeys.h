@@ -56,6 +56,7 @@
 #include <kaction.h>
 #include <kapplication.h>
 #include <kedittoolbar.h>
+#include <kstandarddirs.h>
 
 #include "kgpg.h"
 #include "keygener.h"

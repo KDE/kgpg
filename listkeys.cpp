@@ -51,18 +51,16 @@
 class UpdateViewItem : public KListViewItem
 {
 public:
-        UpdateViewItem(QListView *parent, QString tst, QString tr, QString val, QString size, QString creat, QString id,QString defaultkey);
-        bool Itemdefault;
+        UpdateViewItem(QListView *parent, QString tst, QString tr, QString val, QString size, QString creat, QString id,bool isdefault,bool isexpired);
         virtual void paintCell(QPainter *p, const QColorGroup &cg,int col, int width, int align);
+        bool def,exp;
 };
 
-UpdateViewItem::UpdateViewItem(QListView *parent, QString tst, QString tr, QString val, QString size, QString creat, QString id,QString defaultkey)
+UpdateViewItem::UpdateViewItem(QListView *parent, QString tst, QString tr, QString val, QString size, QString creat, QString id,bool isdefault,bool isexpired)
                 : KListViewItem(parent)
 {
-        if (defaultkey=="on")
-                Itemdefault=true;
-        else
-                Itemdefault=false;
+        def=isdefault;
+        exp=isexpired;
         setText(0,tst);
         setText(1,tr);
         setText(2,val);
@@ -74,12 +72,16 @@ UpdateViewItem::UpdateViewItem(QListView *parent, QString tst, QString tr, QStri
 
 void UpdateViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, int width, int alignment)
 {
-        if ((Itemdefault) && (column==0)) {
+        QColorGroup _cg( cg );
+        if ((def) && (column==0)) {
                 QFont font(p->font());
                 font.setBold(true);
                 p->setFont(font);
         }
-        KListViewItem::paintCell(p,cg, column, width, alignment);
+        if ((exp) && (column==2)) {
+                _cg.setColor( QColorGroup::Text, Qt::red );
+        }
+        KListViewItem::paintCell(p,_cg, column, width, alignment);
 }
 
 
@@ -532,10 +534,10 @@ KeyView::KeyView( QWidget *parent, const char *name )
         pixsignature=loader->loadIcon("signature",KIcon::Small,20);
         pixuserid=loader->loadIcon("kgpg_identity",KIcon::Small,20);
         pixuserphoto=loader->loadIcon("kgpg_photo",KIcon::Small,20);
-        trustunknown=loader->loadIcon("kgpg_trust1",KIcon::Small,15);
-        trustbad=loader->loadIcon("kgpg_trust0",KIcon::Small,15);
-        trustgood=loader->loadIcon("kgpg_trust2",KIcon::Small,15);
 
+        trustunknown.load(locate("appdata", "pics/kgpg_unknown.png"));
+        trustbad.load(locate("appdata", "pics/kgpg_bad.png"));
+        trustgood.load(locate("appdata", "pics/kgpg_good.png"));
 
         connect(this,SIGNAL(expanded (QListViewItem *)),this,SLOT(expandKey(QListViewItem *)));
 
@@ -873,15 +875,12 @@ void listKeys::slotOptions()
 
 void listKeys::slotSetDefKey()
 {
-        QString block=i18n("Invalid")+" "+i18n("Disabled")+" "+i18n("Revoked")+" "+i18n("Expired")+" "+i18n("?");
-        QString key=keysList2->currentItem()->text(5);
 
-        config->setGroup("General Options");
-
-        if  (block.find(keysList2->currentItem()->text(1))!=-1) {
+        if (keysList2->currentItem()->pixmap(1)->serialNumber()!=keysList2->trustgood.serialNumber()) {
                 KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted."));
                 return;
         }
+
         /////////////// revert old default key to normal icon
         keysList2->defKey=keysList2->currentItem()->text(5);
         refreshkey();
@@ -1122,8 +1121,8 @@ void listKeys::signkey()
         }
 
         opt=	i18n("<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>%3</b>.<br><br>"
-	"You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-         "is not trying to intercept your comunications</qt>").arg(keysList2->currentItem()->text(0)).arg(keysList2->currentItem()->text(5)).arg(fingervalue);
+                  "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
+                  "is not trying to intercept your communications</qt>").arg(keysList2->currentItem()->text(0)).arg(keysList2->currentItem()->text(5)).arg(fingervalue);
 
         if (KMessageBox::warningContinueCancel(this,opt)!=KMessageBox::Continue)
                 return;
@@ -1488,11 +1487,13 @@ void KeyView::expandKey(QListViewItem *item)
 
                         //          QString tr=trustString(trust).gpgkeytrust;
                         if (tst.startsWith("uat")) {
-                                itemuid= new SmallViewItem(item,i18n("Photo Id"),uidKey.gpgkeytrust,"-","-","-","-");
+                                itemuid= new SmallViewItem(item,i18n("Photo Id"),"","-","-","-","-");
                                 itemuid->setPixmap(0,pixuserphoto);
+                                itemuid->setPixmap(1,uidKey.trustpic);
                                 cycle="uid";
                         } else {
-                                itemuid= new SmallViewItem(item,extractKeyName(uidKey.gpgkeyname,uidKey.gpgkeymail),uidKey.gpgkeytrust,"-","-","-","-");
+                                itemuid= new SmallViewItem(item,extractKeyName(uidKey.gpgkeyname,uidKey.gpgkeymail),"","-","-","-","-");
+                                itemuid->setPixmap(1,uidKey.trustpic);
                                 if (noID) {
                                         item->setText(0,extractKeyName(uidKey.gpgkeyname,uidKey.gpgkeymail));
                                         noID=false;
@@ -1528,7 +1529,7 @@ void KeyView::expandKey(QListViewItem *item)
                                         if (tst.startsWith("sub")) {
                                                 gpgKey subKey=extractKey(tst);
                                                 tst=i18n("%1 subkey").arg(subKey.gpgkeyalgo);
-                                                itemsub= new SmallViewItem(item,tst,subKey.gpgkeytrust,subKey.gpgkeyexpiration,subKey.gpgkeysize,subKey.gpgkeycreation,subKey.gpgkeyid);
+                                                itemsub= new SmallViewItem(item,tst,"",subKey.gpgkeyexpiration,subKey.gpgkeysize,subKey.gpgkeycreation,subKey.gpgkeyid);
                                                 itemsub->setPixmap(0,pixkeySingle);
                                                 itemsub->setPixmap(1,subKey.trustpic);
                                                 cycle="sub";
@@ -1630,16 +1631,18 @@ void KeyView::refreshkeylist()
                         noID=false;
                         gpgKey pubKey=extractKey(tst);
 
-                        QString isbold="";
+                        bool isbold=false;
+                        bool isexpired=false;
                         if (pubKey.gpgkeyid==defKey)
-                                isbold="on";
+                                isbold=true;
+                        if (pubKey.gpgkeytrust==i18n("Expired"))
+                                isexpired=true;
                         if (pubKey.gpgkeyname.isEmpty())
                                 noID=true;
 
 
                         //QTextCodec::codecForContent(locallyEncoded,locallyEncoded.length()); // get the codec for KOI8-R
-
-                        item=new UpdateViewItem(this,extractKeyName(pubKey.gpgkeyname,pubKey.gpgkeymail),pubKey.gpgkeytrust,pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold);
+                        item=new UpdateViewItem(this,extractKeyName(pubKey.gpgkeyname,pubKey.gpgkeymail),"",pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold,isexpired);
 
                         item->setPixmap(1,pubKey.trustpic);
 
