@@ -3,46 +3,46 @@
 <kcfg>
   <kcfgfile name="kgpgrc"/>
   <group name="Decryption">
-    <entry name="CustomDecrypt" type="QString" key="custom_decrypt">
+    <entry name="CustomDecrypt" type="String" key="custom_decrypt">
       <label>Custom decyption command.</label>
     </entry>
   </group>
   <group name="Encryption">
-    <entry name="CustomEncryptionOptions" type="QString" key="custom_option">
+    <entry name="CustomEncryptionOptions" type="String" key="custom_option">
       <label>Custom encryption options</label>
     </entry>
-    <entry name="AllowCustomEncryptionOptions" type="bool" key="allow_custom_option">
+    <entry name="AllowCustomEncryptionOptions" type="Bool" key="allow_custom_option">
       <label>Allow custom encryption options</label>
       <default>false</default>
     </entry>
-    <entry name="FileEncryptionKey" type="QString" key="file key">
+    <entry name="FileEncryptionKey" type="String" key="file key">
       <label>File encryption key.</label>
     </entry>
-    <entry name="EncryptFilesTo" type="bool" key="encrypt_files_to">
+    <entry name="EncryptFilesTo" type="Bool" key="encrypt_files_to">
       <label>Encrypt files</label>
       <default>false</default>
     </entry>
-    <entry name="AsciiArmor" type="bool" key="Ascii_armor">
+    <entry name="AsciiArmor" type="Bool" key="Ascii_armor">
       <label>Use ASCII armored encryption.</label>
       <default>true</default>
     </entry>
-    <entry name="AllowUntrustedKeys" type="bool" key="Allow_untrusted_keys">
+    <entry name="AllowUntrustedKeys" type="Bool" key="Allow_untrusted_keys">
       <label>Allow encryption with untrusted keys.</label>
       <default>false</default>
     </entry>
-    <entry name="HideUserID" type="bool" key="Hide_user_ID">
+    <entry name="HideUserID" type="Bool" key="Hide_user_ID">
       <label>Hide the user ID.</label>
       <default>false</default>
     </entry>
-    <entry name="ShredSource" type="bool" key="shred_source">
+    <entry name="ShredSource" type="Bool" key="shred_source">
       <label>Shred the source file after encryption.</label>
       <default>false</default>
     </entry>
-    <entry name="PgpCompatibility" type="bool" key="PGP_compatibility">
+    <entry name="PgpCompatibility" type="Bool" key="PGP_compatibility">
       <label>Enable PGP 6 compatibility.</label>
       <default>false</default>
     </entry>
-    <entry name="PgpExtension" type="bool" key="Pgp_extension">
+    <entry name="PgpExtension" type="Bool" key="Pgp_extension">
       <label>Use *.pgp extension for encrypted files.</label>
       <default>false</default>
     </entry>
@@ -51,14 +51,14 @@
     <entry name="GpgConfigPath" type="Path" key="gpg_config_path">
       <label>The path of the gpg configuration file.</label>
     </entry>
-    <entry name="Groups" type="QString">
+    <entry name="Groups" type="String">
       <label>GPG groups</label>
     </entry>
-    <entry name="KeyServer2" type="QString" key="key_server2">
+    <entry name="KeyServer2" type="String" key="key_server2">
       <label>Additional key server used by kgpg</label>
       <default>hkp://wwwkeys.eu.pgp.net</default>
     </entry>
-    <entry name="KeyServer3" type="QString" key="key_server3">
+    <entry name="KeyServer3" type="String" key="key_server3">
       <label>Additional key server used by kgpg</label>
       <default>hkp://wwwkeys.us.pgp.net</default>
     </entry>
@@ -73,44 +73,44 @@
       </values>
       <default>Disable</default>
     </entry>
-    <entry name="ShowToolbar" type="bool" key="show toolbar">
+    <entry name="ShowToolbar" type="Bool" key="show toolbar">
       <label>Show the toolbar.</label>
       <default>true</default>
     </entry>
-    <entry name="FirstRun" type="bool" key="First run">
+    <entry name="FirstRun" type="Bool" key="First run">
       <label>Is the first time the application runs.</label>
       <default>true</default>
     </entry>
-    <entry name="EditorGeometry" type="QSize" key="Geometry">
+    <entry name="EditorGeometry" type="Size" key="Geometry">
       <label>The size of the editor window.</label>
     </entry>
-    <entry name="ShowTrust" type="bool" key="show_trust">
+    <entry name="ShowTrust" type="Bool" key="show_trust">
       <label>Show the trust value in key manager.</label>
       <default>true</default>
     </entry>
-    <entry name="ShowExpi" type="bool" key="show_expi">
+    <entry name="ShowExpi" type="Bool" key="show_expi">
       <label>Show the expiration value in key manager.</label>
       <default>true</default>
     </entry>
-    <entry name="ShowSize" type="bool" key="show_size">
+    <entry name="ShowSize" type="Bool" key="show_size">
       <label>Show the size value in key manager.</label>
       <default>true</default>
     </entry>
-    <entry name="ShowCreat" type="bool" key="show_creat">
+    <entry name="ShowCreat" type="Bool" key="show_creat">
       <label>Show the creation value in key manager.</label>
       <default>true</default>
     </entry>
   </group>
   <group name="User Interface">
-    <entry name="UseMouseSelection" type="bool" key="selection_clipboard">
+    <entry name="UseMouseSelection" type="Bool" key="selection_clipboard">
       <label>Use the mouse selection instead of the clipboard.</label>
       <default>false</default>
     </entry>
-    <entry name="AutoStart" type="bool">
+    <entry name="AutoStart" type="Bool">
       <label>Start KGpg automatically at login.</label>
       <default>false</default>
     </entry>
-    <entry name="RemoteFileWarn" type="bool" key="remote_file_warn">
+    <entry name="RemoteFileWarn" type="Bool" key="remote_file_warn">
       <label>Display a warning before creating temporary files during remote file operations.</label>
       <default>false</default>
     </entry>
@@ -149,7 +149,7 @@
     </entry>
   </group>
   <group name="TipOfDay">
-    <entry name="ShowTipOfDay" type="bool" key="RunOnStart">
+    <entry name="ShowTipOfDay" type="Bool" key="RunOnStart">
       <label>Show tip of the day.</label>
       <default>true</default>
     </entry>
