@@ -57,8 +57,12 @@ void listkey();
 QString namecode(QString kid);
 QString idcode(QString kname);
 void slotOk();
-void slotInstallDecrypt();
-void slotRemoveDecrypt();
+void slotInstallDecrypt(QString mimetype);
+void slotInstallSign(QString mimetype);
+
+void slotRemoveMenu(QString menu);
+public slots:
+void checkMimes();
 signals:
 
 };

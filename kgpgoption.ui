@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>305</width>
-            <height>308</height>
+            <width>319</width>
+            <height>301</height>
         </rect>
     </property>
     <property name="caption">
@@ -123,23 +123,6 @@
                             </sizepolicy>
                         </property>
                     </widget>
-                    <spacer row="7" column="0">
-                        <property name="name">
-                            <cstring>spacer3_2</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>16</height>
-                            </size>
-                        </property>
-                    </spacer>
                     <widget class="QCheckBox" row="0" column="0">
                         <property name="name">
                             <cstring>ascii_2_2</cstring>
@@ -170,14 +153,6 @@
                             </sizepolicy>
                         </property>
                     </widget>
-                    <widget class="QCheckBox" row="3" column="0">
-                        <property name="name">
-                            <cstring>file_2_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Use special key for file encryption</string>
-                        </property>
-                    </widget>
                     <widget class="QCheckBox" row="5" column="0">
                         <property name="name">
                             <cstring>defaut_2_2</cstring>
@@ -202,124 +177,15 @@
                             <string>PGP compatibility</string>
                         </property>
                     </widget>
+                    <widget class="QCheckBox" row="3" column="0">
+                        <property name="name">
+                            <cstring>file_2_2</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Use special key for file encryption</string>
+                        </property>
+                    </widget>
                 </grid>
-            </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tab</cstring>
-                </property>
-                <attribute name="title">
-                    <string>Service menus</string>
-                </attribute>
-                <widget class="QLabel">
-                    <property name="name">
-                        <cstring>textLabel2</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>10</x>
-                            <y>13</y>
-                            <width>130</width>
-                            <height>21</height>
-                        </rect>
-                    </property>
-                    <property name="text">
-                        <string>Service menu folder:</string>
-                    </property>
-                </widget>
-                <widget class="KURLRequester">
-                    <property name="name">
-                        <cstring>kURLRequester1</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>10</x>
-                            <y>40</y>
-                            <width>260</width>
-                            <height>26</height>
-                        </rect>
-                    </property>
-                </widget>
-                <widget class="QButtonGroup">
-                    <property name="name">
-                        <cstring>buttonGroup1</cstring>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>10</x>
-                            <y>70</y>
-                            <width>260</width>
-                            <height>140</height>
-                        </rect>
-                    </property>
-                    <property name="title">
-                        <string>Decrypt file menu</string>
-                    </property>
-                    <widget class="QPushButton">
-                        <property name="name">
-                            <cstring>installDecrypt</cstring>
-                        </property>
-                        <property name="geometry">
-                            <rect>
-                                <x>70</x>
-                                <y>100</y>
-                                <width>91</width>
-                                <height>31</height>
-                            </rect>
-                        </property>
-                        <property name="text">
-                            <string>Install</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton">
-                        <property name="name">
-                            <cstring>removeDecrypt</cstring>
-                        </property>
-                        <property name="geometry">
-                            <rect>
-                                <x>160</x>
-                                <y>100</y>
-                                <width>91</width>
-                                <height>31</height>
-                            </rect>
-                        </property>
-                        <property name="text">
-                            <string>Remove</string>
-                        </property>
-                    </widget>
-                    <widget class="QRadioButton">
-                        <property name="name">
-                            <cstring>rbAllTypes</cstring>
-                        </property>
-                        <property name="geometry">
-                            <rect>
-                                <x>10</x>
-                                <y>20</y>
-                                <width>211</width>
-                                <height>31</height>
-                            </rect>
-                        </property>
-                        <property name="text">
-                            <string>Show on all file types</string>
-                        </property>
-                    </widget>
-                    <widget class="QRadioButton">
-                        <property name="name">
-                            <cstring>rbPgpTypes</cstring>
-                        </property>
-                        <property name="geometry">
-                            <rect>
-                                <x>10</x>
-                                <y>50</y>
-                                <width>240</width>
-                                <height>31</height>
-                            </rect>
-                        </property>
-                        <property name="text">
-                            <string>Show only on *.pgp,*.gpg,*.asc</string>
-                        </property>
-                    </widget>
-                </widget>
             </widget>
             <widget class="QWidget">
                 <property name="name">
@@ -328,15 +194,66 @@
                 <attribute name="title">
                     <string>Misc.</string>
                 </attribute>
+                <widget class="QGroupBox">
+                    <property name="name">
+                        <cstring>groupBox1</cstring>
+                    </property>
+                    <property name="geometry">
+                        <rect>
+                            <x>11</x>
+                            <y>38</y>
+                            <width>271</width>
+                            <height>162</height>
+                        </rect>
+                    </property>
+                    <property name="title">
+                        <string>Encrypted mime types</string>
+                    </property>
+                    <widget class="QPushButton">
+                        <property name="name">
+                            <cstring>bcheckMime</cstring>
+                        </property>
+                        <property name="geometry">
+                            <rect>
+                                <x>50</x>
+                                <y>120</y>
+                                <width>170</width>
+                                <height>31</height>
+                            </rect>
+                        </property>
+                        <property name="text">
+                            <string>Reinstall Mime types</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel">
+                        <property name="name">
+                            <cstring>textLabel1_2</cstring>
+                        </property>
+                        <property name="geometry">
+                            <rect>
+                                <x>10</x>
+                                <y>20</y>
+                                <width>246</width>
+                                <height>80</height>
+                            </rect>
+                        </property>
+                        <property name="text">
+                            <string>Pgp-encrypted: *.pgp,*.gpg,*.asc
+Pgp-signature: *.sig
+If your files are not correctly identified,
+just click on reinstall</string>
+                        </property>
+                    </widget>
+                </widget>
                 <widget class="QCheckBox">
                     <property name="name">
                         <cstring>cbMailFirst</cstring>
                     </property>
                     <property name="geometry">
                         <rect>
-                            <x>10</x>
-                            <y>10</y>
-                            <width>257</width>
+                            <x>11</x>
+                            <y>11</y>
+                            <width>271</width>
                             <height>21</height>
                         </rect>
                     </property>
@@ -350,6 +267,112 @@
                         <string>Show E-Mail first in keys list</string>
                     </property>
                 </widget>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>tab</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Service menus</string>
+                </attribute>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <widget class="QButtonGroup" row="0" column="0">
+                        <property name="name">
+                            <cstring>buttonGroup4_3</cstring>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>5</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="title">
+                            <string>Sign file</string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="KComboBox" row="1" column="0">
+                                <item>
+                                    <property name="text">
+                                        <string>Disable</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>All files</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kCBsign</cstring>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy>
+                                        <hsizetype>1</hsizetype>
+                                        <vsizetype>0</vsizetype>
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel1</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Enable menu with following mime type:</string>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                    <widget class="QButtonGroup" row="1" column="0">
+                        <property name="name">
+                            <cstring>buttonGroup4</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Decrypt file</string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="KComboBox" row="1" column="0">
+                                <item>
+                                    <property name="text">
+                                        <string>Disable</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>All files</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Encrypted files (*.pgp;*.gpg;*.asc)</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kCBdecrypt</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel1_3</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Enable menu with following mime type:</string>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                </grid>
             </widget>
         </widget>
     </grid>
@@ -380,6 +403,22 @@
         <slot>defaut_2_2_toggled(bool)</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>buttonOk</tabstop>
+    <tabstop>buttonCancel</tabstop>
+    <tabstop>Ktab</tabstop>
+    <tabstop>ascii_2_2</tabstop>
+    <tabstop>untrusted_2_2</tabstop>
+    <tabstop>pgp_2_2</tabstop>
+    <tabstop>file_2_2</tabstop>
+    <tabstop>filekey_2_2</tabstop>
+    <tabstop>defaut_2_2</tabstop>
+    <tabstop>defautkey_2_2</tabstop>
+    <tabstop>cbMailFirst</tabstop>
+    <tabstop>bcheckMime</tabstop>
+    <tabstop>kCBsign</tabstop>
+    <tabstop>kCBdecrypt</tabstop>
+</tabstops>
 <includes>
     <include location="local" impldecl="in implementation">kgpgoption.ui.h</include>
 </includes>
@@ -391,8 +430,7 @@
 <includehints>
     <includehint>kcombobox.h</includehint>
     <includehint>kcombobox.h</includehint>
-    <includehint>kurlrequester.h</includehint>
-    <includehint>klineedit.h</includehint>
-    <includehint>kpushbutton.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>

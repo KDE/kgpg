@@ -24,8 +24,10 @@
 #include <qlabel.h>
 #include <qvbox.h>
 #include <qfile.h>
-#include <kurlrequester.h>
 
+#include <kdesktopfile.h>
+#include <kmimetype.h>
+#include <kstandarddirs.h>
 
 #include "kgpgoption.h"
 #include "kgpgoptions.h"
@@ -34,35 +36,9 @@
 
 ///////////////////////   main window
 
-
-/*
-displayOptions::displayOptions(QWidget *parent, const char *name):QDialog( parent, name)
-{
-QVBoxLayout *vbox=new QVBoxLayout(this,3);
-
-  checkboxMailFirst=new QCheckBox(i18n("Display E-Mail first in keys list"),this);
-  checkboxDecryptMenu=new QCheckBox(i18n("Add decrypt menu to konqueror"),this);
-  
-  vbox->addWidget(checkboxMailFirst);
-  vbox->addWidget(checkboxDecryptMenu);
-}
-*/
 kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KOptions( parent, name)
   {
-//KSimpleConfig *config= new KSimpleConfig("kgpgtst");
 
-
-
-//	ProjectOptions* optionsPage = new ProjectOptions(dlg );
-//opts=new KOptions(this);
-//disp=new displayOptions(this);
-
-
-//addTab( opts, i18n("Encryption") );
-//addTab( disp, i18n("Display") );
-
-//setOkButton();
-//setCancelButton();
 
 config=kapp->config();
   config->setGroup("General Options");
@@ -73,11 +49,14 @@ config=kapp->config();
   QString defaultkey=config->readEntry("default key");
   bool encryptfileto=config->readBoolEntry("encrypt files to",false);
   bool displaymailfirst=config->readBoolEntry("display mail first",true);
-  QString filekey=config->readEntry("file key");
-  kURLRequester1->setMode(KFile::Directory | KFile::LocalOnly); 
-  kURLRequester1->setFilter( QString::null );
-  kURLRequester1->setURL("~/.kde/share/apps/konqueror/servicemenus/");
-rbPgpTypes->setChecked(true);
+QString filekey=config->readEntry("file key");
+config->setGroup("Service Menus");
+QString smenu;
+smenu=config->readEntry("Decrypt");
+if (smenu!=NULL) kCBdecrypt->setCurrentItem(smenu);
+smenu=config->readEntry("Sign");
+if (smenu!=NULL) kCBsign->setCurrentItem(smenu);
+
 if (ascii==true) ascii_2_2->setChecked(true);
 if (untrusted==true) untrusted_2_2->setChecked(true);
 if (pgpcomp==true) pgp_2_2->setChecked(true);
@@ -91,42 +70,88 @@ filekey_2_2->setCurrentItem(filekey);
 if (defaultkey!=NULL)
 defautkey_2_2->setCurrentItem(namecode(defaultkey));
 connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotOk()));
-connect(installDecrypt,SIGNAL(clicked()),this,SLOT(slotInstallDecrypt()));
-connect(removeDecrypt,SIGNAL(clicked()),this,SLOT(slotRemoveDecrypt()));
+connect(bcheckMime,SIGNAL(clicked()),this,SLOT(checkMimes()));
 }
 
-void kgpgOptions::slotInstallDecrypt()
+void kgpgOptions::checkMimes()
 {
-QString path=kURLRequester1->url();
-path+="decryptfile.desktop";
-  QFile qfile(path.local8Bit());
-  QString encryptedText;
-  if (qfile.open(IO_WriteOnly))
-    {
-	QString txt="[Desktop Entry]\n";
-	if (rbAllTypes->isChecked()) txt+="ServiceTypes=allfiles\n";
-	else txt+="ServiceTypes=application/pgp-encrypted\n";
-	txt+="Actions=decrypt\n[Desktop Action decrypt]\nName="+i18n("Decrypt file")+"\nIcon=kgpg2\nExec=kgpg -d %u";
-      QTextStream t( &qfile );
-      t <<txt; 
-	  qfile.close();
-	  KMessageBox::information(this,i18n("Decrypt file option is now added in Konqueror's menu."));
-}
-else KMessageBox::sorry(this,i18n("Unable to create file"));
-}
+	KStandardDirs *sd=new KStandardDirs();
+	QString baseDir=sd->findResource("mime","application/pgp-encrypted.desktop");
+	QString localDir=locateLocal("mime","application/pgp-encrypted.desktop");
 
-
-void kgpgOptions::slotRemoveDecrypt()
+KDesktopFile configb(baseDir, true, "mime");
+QString pats=configb.readEntry("Patterns");
+if ((pats.find("gpg")==-1) || (pats.find("asc")==-1) || (pats.find("pgp")==-1))
 {
-QString path=kURLRequester1->url();
-path+="decryptfile.desktop";
+KDesktopFile configl(localDir, false, "mime");
+    configl.writeEntry("Type", "MimeType");
+    configl.writeEntry("MimeType", "application/pgp-encrypted");
+    configl.writeEntry("Hidden", false);
+	configl.writeEntry("Patterns","*.pgp;*.gpg;*.asc");
+	}
+
+ baseDir=sd->findResource("mime","application/pgp-signature.desktop");
+ localDir=locateLocal("mime","application/pgp-signature.desktop");
+
+KDesktopFile configb2(baseDir, true, "mime");
+ pats=configb2.readEntry("Patterns");
+if (pats.find("sig")==-1)
+{
+KDesktopFile configl2(localDir, false, "mime");
+    configl2.writeEntry("Type", "MimeType");
+    configl2.writeEntry("MimeType", "application/pgp-signature");
+    configl2.writeEntry("Hidden", false);
+	configl2.writeEntry("Patterns","*.sig");
+	}
+}
+
+
+void kgpgOptions::slotInstallSign(QString mimetype)
+{
+QString path=locateLocal("data","konqueror/servicemenus/signfile.desktop");
+  KDesktopFile configl2(path, false);
+  if (configl2.isImmutable() ==false)
+{
+  configl2.setGroup("Desktop Entry");
+    configl2.writeEntry("ServiceTypes", mimetype);
+    configl2.writeEntry("Actions", "sign");
+    configl2.setGroup("Desktop Action sign");
+	configl2.writeEntry("Name",i18n("Sign file"));
+	configl2.writeEntry("Icon", "signature");
+	configl2.writeEntry("Exec","kgpg -S %u");
+  	  //KMessageBox::information(this,i18n("Decrypt file option is now added in Konqueror's menu."));
+  }
+}
+
+void kgpgOptions::slotInstallDecrypt(QString mimetype)
+{
+QString path=locateLocal("data","konqueror/servicemenus/decryptfile.desktop");
+  KDesktopFile configl2(path, false);
+  if (configl2.isImmutable() ==false)
+{
+  configl2.setGroup("Desktop Entry");
+    configl2.writeEntry("ServiceTypes", mimetype);
+    configl2.writeEntry("Actions", "decrypt");
+    configl2.setGroup("Desktop Action decrypt");
+	configl2.writeEntry("Name",i18n("Decrypt file"));
+	configl2.writeEntry("Icon", "kgpg2");
+	configl2.writeEntry("Exec","kgpg -d %u");
+  	  //KMessageBox::information(this,i18n("Decrypt file option is now added in Konqueror's menu."));
+  }
+
+}
+
+
+void kgpgOptions::slotRemoveMenu(QString menu)
+{
+QString path=locateLocal("data","konqueror/servicemenus/"+menu);
 QFile qfile(path.local8Bit());
-if (qfile.exists())
+if (qfile.exists()) qfile.remove();
 {
-if (!qfile.remove()) KMessageBox::sorry(this,i18n("Cannot remove service menu. Check permissions"));
-else KMessageBox::information(this,i18n("Service menu Decrypt file has been removed"));
+//if (!qfile.remove()) KMessageBox::sorry(this,i18n("Cannot remove service menu. Check permissions"));
+//else KMessageBox::information(this,i18n("Service menu Decrypt file has been removed"));
 }
-else KMessageBox::sorry(this,i18n("No service menu found"));
+//else KMessageBox::sorry(this,i18n("No service menu found"));
 }
 
 void kgpgOptions::slotOk()
@@ -140,9 +165,18 @@ void kgpgOptions::slotOk()
   config->writeEntry("encrypt files to",file_2_2->isChecked());
   config->writeEntry("file key",filekey_2_2->currentText());
   config->writeEntry("display mail first",cbMailFirst->isChecked());
-  config->writeEntry("gpg version",0);
-  
+  config->writeEntry("gpg version",0); 
+  config->setGroup("Service Menus");
+  config->writeEntry("Decrypt",kCBdecrypt->currentText());
+  config->writeEntry("Sign",kCBsign->currentText());
   config->sync();
+  
+  if (kCBsign->currentText()==i18n("All files")) slotInstallSign("all/allfiles");
+  else slotRemoveMenu("signfile.desktop");
+    
+  if (kCBdecrypt->currentText()==i18n("All files")) slotInstallDecrypt("all/allfiles");
+  else if (kCBdecrypt->currentText().startsWith(i18n("Encrypted"))) slotInstallDecrypt("all/allfiles");
+  else slotRemoveMenu("decryptfile.desktop");
 }
 
 /*
