@@ -49,7 +49,7 @@ void KgpgInterface::KgpgEncryptFile(QString userIDs,KURL srcUrl,KURL destUrl, QS
   Options=Options.simplifyWhiteSpace();
   if (symetrical==false)
     {
-      *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2";
+      *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2";
 
 	
   *proc<<Options.local8Bit()<<"--output"<<destUrl.path().local8Bit()<<"-e";
@@ -79,7 +79,7 @@ void KgpgInterface::KgpgEncryptFile(QString userIDs,KURL srcUrl,KURL destUrl, QS
       fwrite("\n", sizeof(char), 1, pass);
       fclose(pass);
       //if (Options!="")
-        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<Options.local8Bit()<<"--output"<<destUrl.path().local8Bit()<<"--passphrase-fd"<<QString::number(ppass[0])<<"-c"<<srcUrl.path().local8Bit();
+        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<Options.local8Bit()<<"--output"<<destUrl.path().local8Bit()<<"--passphrase-fd"<<QString::number(ppass[0])<<"-c"<<srcUrl.path().local8Bit();
       //else
        // *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--output"<<destUrl.path().local8Bit()<<"--passphrase-fd"<<QString::number(ppass[0])<<"-c"<<srcUrl.path().local8Bit();
     }
@@ -152,7 +152,7 @@ int KgpgInterface::KgpgDecryptFile(QString userIDs,KURL srcUrl,KURL destUrl,int 
 
         KProcIO *proc=new KProcIO();
       if (destUrl.filename()!="") // a filename was entered
-	        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--passphrase-fd"<<QString::number(ppass[0])<<"-o"<<destUrl.path().local8Bit()<<"-d"<<srcUrl.path().local8Bit();
+	        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"--passphrase-fd"<<QString::number(ppass[0])<<"-o"<<destUrl.path().local8Bit()<<"-d"<<srcUrl.path().local8Bit();
 
       else //// no filename -> decrypt to editor
               *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--passphrase-fd"<<QString::number(ppass[0])<<"-d"<<srcUrl.path().local8Bit();
@@ -410,6 +410,7 @@ QString required="";
 while (p->readln(required,true)!=-1)
 {
 //KMessageBox::sorry(0,required);
+if (required.find("openfile.overwrite.okay")) p->writeStdin("Yes");
 message+=required+"\n";
 }
 //p->ackRead();

@@ -761,10 +761,11 @@ void KgpgApp::slotprocresult(KProcess *)
             }
         }
     }
+  /*
   QFile fgpg(newname);
   if (fgpg.exists())
     fgpg.remove();
-
+*/
   KgpgInterface *decryptFileProcess=new KgpgInterface();
   int decresult=0;
   decpassuid=messages;
@@ -879,5 +880,5 @@ void KgpgApp::slotFileDec()
       fastdecode(false);
     }
 }
-//#include "kgpg.moc"
+#include "kgpg.moc"
 
