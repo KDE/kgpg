@@ -149,6 +149,7 @@ private slots:
 	void expandGroup(QListViewItem *item);
         void refreshcurrentkey(QListViewItem *current);
 	void refreshcurrentkey(QString currentID);
+	void refreshselfkey();
 	void refreshgroups();
 	QPixmap slotGetPhoto(QString photoId,bool mini=false);
 	void slotSetPhotoId(QStringList list);
@@ -207,6 +208,8 @@ public slots:
 	void slotSetDefaultKey(QString newID);
 
 private slots:
+	void slotDeletePhoto();
+	void slotAddPhoto();
 	void slotSetPhotoSize(int size);
 	void slotShowPhoto();
 	void readgenprocess(KProcIO *p);
@@ -227,9 +230,8 @@ private slots:
         void slotReadFingerProcess(KProcIO *p);
         void slotProcessExportMail(QString keys);
         void slotProcessExportClip(QString keys);
-        void displayPhoto();
-        void hidePhoto();
-        void slotProcessPhoto(KProcess *);
+//        void displayPhoto();
+//        void slotProcessPhoto(KProcess *);
         void readOptions();
         void genover(KProcess *p);
         void slotOptions();

@@ -473,7 +473,7 @@ QString servers;
 
         QString optionsServer=KgpgInterface::getGpgSetting("keyserver",confPath);
 	        if (optionsServer.isEmpty())
-		optionsServer="hkp://[wwwkeys.pgp.net,wwwkeys.eu.pgp.net,wwwkeys.us.pgp.net]";
+		optionsServer="hkp://wwwkeys.pgp.net";
 		kCBexportks->insertItem(optionsServer);
                 kCBimportks->insertItem(optionsServer);
 	servers=config->readEntry("key_server2","hkp://wwwkeys.eu.pgp.net");

@@ -157,6 +157,8 @@ public slots:
 	void KgpgRevokeKey(QString keyID,QString revokeUrl,int reason,QString description);
 	void revokeover(KProcess *);
 	void revokeprocess(KProcIO *p);
+	void KgpgDeletePhoto(QString keyID,QString uid);
+	void KgpgAddPhoto(QString keyID,QString imagePath);
 
         static QString KgpgDecryptFileToText(KURL srcUrl,QString userID);
 
@@ -256,6 +258,10 @@ private slots:
         void txtencryptfin(KProcess *);
         void signkillDisplayClip();
 
+	void delphotoover(KProcess *);
+	void delphotoprocess(KProcIO *p);
+	void addphotoover(KProcess *);
+	void addphotoprocess(KProcIO *p);
 	void slotReadKey(KProcIO *p);
 	void photoreadover(KProcess *);
 	void photoreadprocess(KProcIO *p);
@@ -319,6 +325,8 @@ signals:
                 *  true if signature successful, false on error.
                 */
         void signfinished();
+	void delPhotoFinished();
+	void addPhotoFinished();
         void trustfinished();
 	void revokecertificate(QString);
 	void revokeurl(QString);
@@ -338,7 +346,7 @@ private:
         int step,signb,sigsearch,expirationDelay;
         QString konsSignKey, konsKeyID,errMessage;
 	int revokeReason,photoCount;
-	QString revokeDescription,certificateUrl;
+	QString revokeDescription,certificateUrl,photoUrl;
 	QStringList photoList;
         KURL sourceFile;
 

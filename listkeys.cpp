@@ -503,6 +503,9 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         KStdAction::findNext(this, SLOT(findNextKey()), actionCollection());
         (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
         KAction *openPhoto= new KAction(i18n("&Open Photo"), "image", 0,this, SLOT(slotShowPhoto()),actionCollection(),"key_photo");
+	KAction *deletePhoto= new KAction(i18n("&Delete Photo"), "delete", 0,this, SLOT(slotDeletePhoto()),actionCollection(),"delete_photo");
+	KAction *addPhoto= new KAction(i18n("&Add Photo"), 0, 0,this, SLOT(slotAddPhoto()),actionCollection(),"add_photo");
+
 	editKey = new KAction(i18n("&Edit Key In Konsole"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
         KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
         KAction *revokeKey = new KAction(i18n("Revoke Key..."), 0, 0,this, SLOT(revokeWidget()),actionCollection(),"key_revoke");
@@ -571,6 +574,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         editKey->plug(popupsec);
         setDefaultKey->plug(popupsec);
         popupsec->insertSeparator();
+	addPhoto->plug(popupsec);
         exportSecretKey->plug(popupsec);
         deleteKeyPair->plug(popupsec);
         revokeKey->plug(popupsec);
@@ -589,17 +593,18 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
         popupphoto=new QPopupMenu();
         openPhoto->plug(popupphoto);
+	deletePhoto->plug(popupphoto);
 
 
-        keyPhoto=new QLabel(page);
+/*        keyPhoto=new QLabel(page);
         keyPhoto->setText(i18n("Photo"));
         keyPhoto->setFixedSize(60,60);
         keyPhoto->setScaledContents(true);
         keyPhoto->setFrameStyle( QFrame::Box | QFrame::Raised );
-
+*/
         vbox->addWidget(keysList2);
         //if (showPhoto==true)
-        vbox->addWidget(keyPhoto);
+        //vbox->addWidget(keyPhoto);
         //vbox->addWidget(statusbar);
         setCentralWidget(page);
         keysList2->restoreLayout(config,"KeyView");
@@ -617,9 +622,9 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         if (!configshowToolBar)
                 toolBar()->hide();
         //togglePhoto->setChecked(showPhoto);
-        if (!showPhoto)
-                keyPhoto->hide();
-        else
+//        if (!showPhoto)
+//                keyPhoto->hide();
+//        else
                 checkPhotos();
 }
 
@@ -627,6 +632,31 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 listKeys::~listKeys()
 {}
 
+void listKeys::slotAddPhoto()
+{
+QString mess="The image must be a JPEG file. Remember that the image is stored within your public key."
+			"If you use a very large picture, your key will become very large as well! Keeping the image "
+			"close to 240x288 is a good size to use.";
+
+if (KMessageBox::warningContinueCancel(this,i18n(mess))!=KMessageBox::Continue)
+return;
+
+QString imagePath=KFileDialog::getOpenFileName (QString::null,"*.jpg",this);
+if (imagePath.isEmpty()) return;
+KgpgInterface *addPhotoProcess=new KgpgInterface();
+                        addPhotoProcess->KgpgAddPhoto(keysList2->currentItem()->text(6),imagePath);
+                        connect(addPhotoProcess,SIGNAL(addPhotoFinished()),keysList2,SLOT(refreshselfkey()));
+}
+
+void listKeys::slotDeletePhoto()
+{
+if (KMessageBox::questionYesNo(this,i18n("<qt>Are you sure you want to delete <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b> ?</qt>").arg(keysList2->currentItem()->text(0)).arg(keysList2->currentItem()->parent()->text(0)).arg(keysList2->currentItem()->parent()->text(1)),i18n("Warning"),i18n("Delete"))!=KMessageBox::Yes)
+return;
+
+KgpgInterface *delPhotoProcess=new KgpgInterface();
+                        delPhotoProcess->KgpgDeletePhoto(keysList2->currentItem()->parent()->text(6),keysList2->currentItem()->text(0).section(' ',-1));
+                        connect(delPhotoProcess,SIGNAL(delPhotoFinished()),keysList2,SLOT(refreshselfkey()));
+}
 
 void listKeys::slotSetPhotoSize(int size)
 {
@@ -866,19 +896,6 @@ void listKeys::keyserver()
         refreshkey();
 }
 
-void listKeys::hidePhoto()
-{
-        if (showPhoto) {
-                keyPhoto->hide();
-                showPhoto=false;
-        } else {
-                checkPhotos();
-                showPhoto=true;
-                displayPhoto();
-                keyPhoto->show();
-        }
-	keysList2->displayPhoto=showPhoto;
-}
 
 
 void listKeys::checkPhotos()
@@ -910,9 +927,10 @@ void listKeys::checkList()
                 else
                         stateChanged("single_selected");
         }
-        displayPhoto();
+//        displayPhoto();
 }
 
+/*
 void listKeys::displayPhoto()
 {
         if ((!showPhoto) || (keysList2->currentItem()==NULL))
@@ -945,7 +963,7 @@ void listKeys::slotProcessPhoto(KProcess *)
         keyPhoto->setPixmap(pixmap);
         kgpgtmp->unlink();
 }
-
+*/
 
 void listKeys::annule()
 {
@@ -2423,6 +2441,13 @@ void KeyView::refreshgroups()
                 }
 }
 
+void KeyView::refreshselfkey()
+{
+if (currentItem()->depth()==0)
+refreshcurrentkey(currentItem());
+else refreshcurrentkey(currentItem()->parent());
+}
+
 void KeyView::refreshcurrentkey(QString currentID)
 {
         UpdateViewItem *item=NULL;
@@ -2476,9 +2501,12 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
 {
         if (current==NULL)
                 return;
+	bool keyIsOpen=false;
         QString keyUpdate=current->text(6);
+	if (current->isOpen ()) keyIsOpen=true;
         takeItem(current);
         refreshcurrentkey(keyUpdate);
+	currentItem()->setOpen(keyIsOpen);
 }
 
 

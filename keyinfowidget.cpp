@@ -216,10 +216,9 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
 	KgpgInterface *photoProcess=new KgpgInterface();
         photoProcess->KgpgGetPhotoList(displayedKeyID);
 	connect(photoProcess,SIGNAL(signalPhotoList(QStringList)),this,SLOT(slotSetMainPhoto(QStringList)));
-
-
         }
 	else
+	prop->comboId->setEnabled(false);
 
 	connect(prop->changeExp,SIGNAL(clicked()),this,SLOT(slotChangeExp()));
         connect(this,SIGNAL(okClicked()),this,SLOT(slotPreOk1()));
