@@ -27,6 +27,8 @@ kgpg_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 appsdir = $(kde_datadir)/kgpg
 apps_DATA = kgpg.rc listkeys.rc tips
 
+KDE_ICON = kgpg
+
 messages: rc.cpp
 	$(PREPARETIPS) > tips.cpp
 	LIST=`find . -name \*.h -o -name \*.hh -o -name \*.H -o -name \*.hxx -o -name \*.hpp -o -name \*.cpp -o -name \*.cc -o -name \*.cxx -o -name \*.ecpp -o -name \*.C`; \
