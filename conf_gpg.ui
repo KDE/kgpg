@@ -158,6 +158,13 @@ all others will be stored for use by KGpg only.</string>
 </widget>
 <customwidgets>
 </customwidgets>
+<tabstops>
+    <tabstop>use_agent</tabstop>
+    <tabstop>key_server1</tabstop>
+    <tabstop>kcfg_KeyServer2</tabstop>
+    <tabstop>kcfg_KeyServer3</tabstop>
+    <tabstop>gpg_config_path</tabstop>
+</tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kpushbutton.h</includehint>

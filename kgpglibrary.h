@@ -72,6 +72,8 @@ private:
         KURL urlselected;
         KPassivePopup *pop;
 	KProgress *shredProgressBar;
+	bool popIsActive;
+	int filesToEncode;
 
 signals:
         void decryptionOver();

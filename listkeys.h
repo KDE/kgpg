@@ -210,6 +210,8 @@ public slots:
 	void slotSetDefaultKey(QString newID);
 
 private slots:
+	void slotExit();
+	void slotOpenEditor();	
 	void slotShowTrust();
 	void slotShowSize();
 	void slotShowCreat();

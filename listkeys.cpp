@@ -492,7 +492,7 @@ void  KeyView::startDrag()
     QString keytxt;
     fp=popen(QFile::encodeName(gpgcmd),"r");
     while ( fgets( line, sizeof(line), fp))    /// read output
-        keytxt+=line;
+        if (!QString(line).startsWith("gpg:")) keytxt+=line;
     pclose(fp);
 
     QDragObject *d = new QTextDrag( keytxt, this );
@@ -516,6 +516,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         installEventFilter(this);
     setCaption(i18n("Key Management"));
 
+    (void) new KAction(i18n("&Open Editor"), "edit",0,this, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
     KAction *exportPublicKey = new KAction(i18n("E&xport Public Key(s)..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_export");
     KAction *deleteKey = new KAction(i18n("&Delete Key(s)"),"editdelete", Qt::Key_Delete,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
     signKey = new KAction(i18n("&Sign Key(s)..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
@@ -534,7 +535,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     //        (void) new KAction(i18n("&Merge Public Keys in Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
     (void) new KAction(i18n("&Go to Default Key"), "gohome",QKeySequence(CTRL+Qt::Key_Home) ,this, SLOT(slotGotoDefaultKey()),actionCollection(),"go_default_key");
 
-    KStdAction::quit(this, SLOT(annule()), actionCollection());
+    KStdAction::quit(this, SLOT(slotExit()), actionCollection());
     KStdAction::find(this, SLOT(findKey()), actionCollection());
     KStdAction::findNext(this, SLOT(findNextKey()), actionCollection());
     (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
@@ -575,10 +576,10 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
     // Keep the list in kgpg.kcfg in sync with this one!
     QStringList list;
-    list.append("Disable");
-    list.append("Small");
-    list.append("Medium");
-    list.append("Big");
+    list.append(i18n("Disable"));
+    list.append(i18n("Small"));
+    list.append(i18n("Medium"));
+    list.append(i18n("Big"));
     photoProps->setItems(list);
 
     int pSize = KGpgSettings::photoProperties();
@@ -668,6 +669,14 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 listKeys::~listKeys()
 {}
 
+void  listKeys::slotOpenEditor()
+{
+        KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WType_Dialog);
+	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
+	connect(this,SIGNAL(fontChanged(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
+	connect(kgpgtxtedit->view->editor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
+        kgpgtxtedit->show();
+}
 
 void KeyView::slotRemoveColumn(int d)
 {
@@ -844,7 +853,7 @@ void listKeys::slotGpgError(QString errortxt)
 
 void listKeys::slotDeletePhoto()
 {
-    if (KMessageBox::questionYesNo(this,i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b> ?</qt>").arg(keysList2->currentItem()->text(6)).arg(keysList2->currentItem()->parent()->text(0)).arg(keysList2->currentItem()->parent()->text(1)),i18n("Warning"),i18n("Delete"))!=KMessageBox::Yes)
+    if (KMessageBox::warningContinueCancel(this,i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b> ?</qt>").arg(keysList2->currentItem()->text(6)).arg(keysList2->currentItem()->parent()->text(0)).arg(keysList2->currentItem()->parent()->text(1)),i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"))!=KMessageBox::Continue)
         return;
 
     KgpgInterface *delPhotoProcess=new KgpgInterface();
@@ -1174,6 +1183,10 @@ void listKeys::annule()
     close();
 }
 
+void listKeys::slotExit()
+{
+exit(1);
+}
 
 void listKeys::readOptions()
 {
@@ -1271,10 +1284,10 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
             {
                 if ((sel->text(2)=="-") || (sel->text(2)==i18n("Revoked")))
                 {
-                    if (sel->text(0).find(i18n("User id not found"))==-1)
-                        importSignatureKey->setEnabled(false);
-                    else
+                    if ((sel->text(0).startsWith("[")) && (sel->text(0).endsWith("]")))  ////// ugly hack to detect unknown keys
                         importSignatureKey->setEnabled(true);
+                    else
+                        importSignatureKey->setEnabled(false);
                     popupsig->exec(pos);
                     return;
                 }
@@ -1584,8 +1597,8 @@ void listKeys::deleteGroup()
     if (!keysList2->currentItem()->text(6).isEmpty())
         return;
 
-    int result=KMessageBox::questionYesNo(this,i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>").arg(keysList2->currentItem()->text(0)),i18n("Warning"),i18n("Delete"));
-    if (result!=KMessageBox::Yes)
+    int result=KMessageBox::warningContinueCancel(this,i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>").arg(keysList2->currentItem()->text(0)),i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"));
+    if (result!=KMessageBox::Continue)
         return;
     KgpgInterface::delGpgGroup(keysList2->currentItem()->text(0), KGpgSettings::gpgConfigPath());
     QListViewItem *item=keysList2->currentItem()->nextSibling();
@@ -1890,7 +1903,7 @@ void listKeys::importallsignkey()
     QListViewItem *current = keysList2->currentItem()->firstChild();
     while (current)
     {
-        if (current->text(0).find(i18n("[User id not found]"))!=-1)
+        if ((current->text(0).startsWith("[")) && (current->text(0).endsWith("]")))   ////// ugly hack to detect unknown keys
             missingKeysList+=current->text(6)+" ";
         current = current->nextSibling();
     }
@@ -2168,6 +2181,7 @@ void listKeys::newKeyDone(KProcess *)
     //        refreshkey();
     if (newkeyID.isEmpty())
     {
+    	delete pop;
         KMessageBox::detailedSorry(this,i18n("Something unexpected happened during the key pair creation.\nPlease check details for full log output."),message);
         refreshkey();
         return;
@@ -2238,11 +2252,11 @@ void listKeys::deleteseckey()
 {
     //////////////////////// delete a key
     QString res=keysList2->currentItem()->text(0)+" ("+keysList2->currentItem()->text(1)+")";
-    int result=KMessageBox::questionYesNo(this,
+    int result=KMessageBox::warningContinueCancel(this,
                                           i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b> ?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key anymore!").arg(res),
                                           i18n("Warning"),
-                                          i18n("Delete"));
-    if (result!=KMessageBox::Yes)
+                                          KGuiItem(i18n("Delete"),"editdelete"));
+    if (result!=KMessageBox::Continue)
         return;
 
     KProcess *conprocess=new KProcess();
@@ -2298,8 +2312,8 @@ void listKeys::confirmdeletekey()
         }
         if (keysToDelete.isEmpty())
             return;
-        int result=KMessageBox::questionYesNoList(this,i18n("<qt><b>Delete the following public key(s)  ?</b></qt>"),keysToDelete,i18n("Warning"),i18n("Delete"));
-        if (result!=KMessageBox::Yes)
+        int result=KMessageBox::warningContinueCancelList(this,i18n("<qt><b>Delete the following public key(s)  ?</b></qt>"),keysToDelete,i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"));
+        if (result!=KMessageBox::Continue)
             return;
         else
             deletekey();

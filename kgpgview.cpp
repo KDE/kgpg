@@ -96,7 +96,7 @@ void MyEditor::slotDroppedFile(KURL url)
 }
 
 
-void MyEditor::slotCheckContent(QString fileToCheck, bool checkForPgpMessage)
+bool MyEditor::slotCheckContent(QString fileToCheck, bool checkForPgpMessage)
 {
 QFile qfile(fileToCheck);
         if (qfile.open(IO_ReadOnly)) {
@@ -108,26 +108,26 @@ QFile qfile(fileToCheck);
                         if ((checkForPgpMessage) && (result.startsWith("-----BEGIN PGP MESSAGE"))) {
                                 qfile.close();
                                 slotDecodeFile(fileToCheck);
-                                return;
+                                return true;
                         } else
                                 if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK")) {//////  dropped file is a public key, ask for import
                                         qfile.close();
                                         int result=KMessageBox::warningContinueCancel(this,i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(fileToCheck),i18n("Warning"));
                                         if (result==KMessageBox::Cancel) {
                                                 KIO::NetAccess::removeTempFile(fileToCheck);
-                                                return;
+                                                return true;
                                         } else {
                                                 KgpgInterface *importKeyProcess=new KgpgInterface();
                                                 importKeyProcess->importKeyURL(KURL(fileToCheck));
                                                 connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SLOT(slotProcessResult(QStringList)));
-                                                return;
+                                                return true;
                                         }
                                 } else {
                                         if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK")) {
 						qfile.close();
                                                 KMessageBox::information(0,i18n("This file is a private key!\nPlease use kgpg key management to import it."));
                                                 KIO::NetAccess::removeTempFile(fileToCheck);
-                                                return;
+                                                return true;
                                         }
 
                                         setText(result);
@@ -135,6 +135,7 @@ QFile qfile(fileToCheck);
                                         KIO::NetAccess::removeTempFile(fileToCheck);
                                 }
                 }
+		return false;
 }
 
 
@@ -145,6 +146,7 @@ void MyEditor::editorUpdateDecryptedtxt(QString newtxt)
 
 void MyEditor::editorFailedDecryptedtxt(QString newtxt)
 {
+	if (!slotCheckContent(tempFile,false))
 	KMessageBox::detailedSorry(this,i18n("Decryption failed."),newtxt);
 }
 

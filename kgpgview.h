@@ -71,7 +71,7 @@ public slots:
         void slotDecodeFile(QString);
         void slotDroppedFile(KURL url);
         void slotProcessResult(QStringList iKeys);
-	void slotCheckContent(QString fileToCheck, bool checkForPgpMessage=true);
+	bool slotCheckContent(QString fileToCheck, bool checkForPgpMessage=true);
 
 protected:
         void contentsDragEnterEvent( QDragEnterEvent *e );
