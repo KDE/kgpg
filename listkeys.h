@@ -169,7 +169,7 @@ class listKeys : public KMainWindow, virtual public KeyInterface
         Q_OBJECT
 
 public:
-        listKeys(QWidget *parent=0, const char *name=0,WFlags f = 0);
+        listKeys(QWidget *parent=0, const char *name=0);
         ~listKeys();
         QLabel *keyPhoto;
         KeyView *keysList2;

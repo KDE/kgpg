@@ -48,6 +48,7 @@
 #include <krun.h>
 #include <kprinter.h>
 #include <kurldrag.h>
+#include <kwin.h>
 
 
 #include <kabc/stdaddressbook.h>
@@ -475,10 +476,13 @@ void  KeyView::startDrag()
 
 ///////////////////////////////////////////////////////////////////////////////////////   main window for key management
 
-listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "KeyInterface" ), KMainWindow(parent, name, f)
+listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterface" ), KMainWindow(parent, name)
 {
+	//KWin::setType(Qt::WDestructiveClose);
         keysList2 = new KeyView(this);
         keysList2->photoKeysList=QString::null;
+	
+	
         setAutoSaveSettings();
         readOptions();
 
@@ -638,6 +642,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
 listKeys::~listKeys()
 {}
+
 
 void KeyView::slotRemoveColumn(int d)
 {
@@ -1057,8 +1062,10 @@ void listKeys::slotConfigureShortcuts()
 
 void listKeys::closeEvent ( QCloseEvent * e )
 {
-        kapp->ref(); // prevent KMainWindow from closing the app
-        KMainWindow::closeEvent( e );
+        //kapp->ref(); // prevent KMainWindow from closing the app
+        //KMainWindow::closeEvent( e );
+	hide();
+	e->ignore();
 }
 
 void listKeys::keyserver()
@@ -1146,16 +1153,8 @@ void listKeys::slotSetDefKey()
 
 void listKeys::slotSetDefaultKey(QString newID)
 {
-        QListViewItem *newdef = keysList2->firstChild();
-        while (newdef)
-	{
-	if (newdef->text(6)==newID)
-	{
-	slotSetDefaultKey(newdef);
-	break;
-	}
-        newdef = newdef->nextSibling();
-        }
+QListViewItem *newdef = keysList2->findItem(newID,6);
+if (newdef) slotSetDefaultKey(newdef);
 }
 
 void listKeys::slotSetDefaultKey(QListViewItem *newdef)
@@ -1168,15 +1167,7 @@ if (newdef->text(6)==KGpgSettings::defaultKey()) return;
                 return;
         }
 
-        QListViewItem *olddef = keysList2->firstChild();
-        while (olddef)
-	{
-		if (olddef->text(6)==KGpgSettings::defaultKey())
-		{
-			break;
-		}
-        	olddef = olddef->nextSibling();
-	}
+	QListViewItem *olddef = keysList2->findItem(KGpgSettings::defaultKey(),6);
 
  	KGpgSettings::setDefaultKey(newdef->text(6));
  	KGpgSettings::writeConfig();
@@ -2067,17 +2058,8 @@ void listKeys::newKeyDone(KProcess *)
         delete pop;
         keyCreated->exec();
 
-        QListViewItem *newdef = keysList2->firstChild();
-        while (newdef)
-		{
-		if (newdef->text(6)==newkeyID)
-		{
-		if (page->CBdefault->isChecked())
-		slotSetDefaultKey(newdef);
-		break;
-		}
-		newdef = newdef->nextSibling();
-                }
+        QListViewItem *newdef = keysList2->findItem(newkeyID,6);
+		if ((newdef) && (page->CBdefault->isChecked())) slotSetDefaultKey(newdef);
                 if ((!page->CBdefault->isChecked()) && (newdef))
         	{
                 keysList2->clearSelection();
