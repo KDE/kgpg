@@ -55,7 +55,10 @@ config=kapp->config();
   bool allowcustom=config->readBoolEntry("allow custom option",false);
   kLEcustom->setText(config->readEntry("custom option"));
   kLEcustomdec->setText(config->readEntry("custom decrypt"));
-  
+
+config->setGroup("Notification Messages");
+if (config->readBoolEntry("RemoteFileWarning",true)) cbTempWarning->setChecked(true);
+
 config->setGroup("Applet");
 int ufileDropEvent=config->readNumEntry("unencrypted drop event",0);
 int efileDropEvent=config->readNumEntry("encrypted drop event",2);
@@ -201,11 +204,11 @@ void kgpgOptions::slotOk()
   config->writeEntry("custom option",kLEcustom->text());
   config->writeEntry("allow custom option",custom_2_2->isChecked());
   config->writeEntry("custom decrypt",kLEcustomdec->text());
-  
+
   config->setGroup("Service Menus");
   config->writeEntry("Decrypt",kCBdecrypt->currentText());
   config->writeEntry("Sign",kCBsign->currentText());
-  
+
 config->setGroup("Applet");
 config->writeEntry("encrypted drop event",kCBencrypted->currentItem());
 config->writeEntry("unencrypted drop event",kCBunencrypted->currentItem());
@@ -215,8 +218,11 @@ config->writeEntry("show open editor",CBoeditor->isChecked());
 config->writeEntry("show open manager",CBomanager->isChecked());
 config->writeEntry("show server",CBserver->isChecked());
 
+config->setGroup("Notification Messages");
+config->writeEntry("RemoteFileWarning",cbTempWarning->isChecked());
+//else KMessageBox::enableAllMessages();
 
-  
+
   config->sync();
 
   if (kCBsign->currentText()==i18n("All Files")) slotInstallSign("allfiles");

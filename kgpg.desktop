@@ -1,14 +1,15 @@
-# KDE Config File  
+# KDE Config File
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-Exec=kgpg  
+Exec=kgpg %U 
 Icon=kgpg.png
 DocPath=kgpg/index.html
 MimeType=application/pgp-encrypted;application/pgp-signature
 Comment=
 Terminal=0
 Name=KGpg
+Name[sv]=Kgpg
 
 X-KDE-autostart-after=panel
 X-KDE-StartupNotify=false

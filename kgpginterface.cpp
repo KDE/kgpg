@@ -718,10 +718,10 @@ void KgpgInterface::KgpgVerifyFile(KURL sigUrl,KURL srcUrl)
   message="";
   /////////////       create gpg command
   KProcIO *proc=new KProcIO();
-  file=srcUrl;
+  file=sigUrl;
   *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--verify";
-  if (srcUrl.filename()!="")
-    *proc<<QFile::encodeName(srcUrl.path());
+  if (!srcUrl.isEmpty())
+  *proc<<QFile::encodeName(srcUrl.path());
   *proc<<QFile::encodeName(sigUrl.path());
 
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(verifyfin(KProcess *)));

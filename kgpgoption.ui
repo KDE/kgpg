@@ -242,7 +242,41 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QCheckBox" row="0" column="0">
+                    <spacer row="3" column="0">
+                        <property name="name">
+                            <cstring>spacer4</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>21</width>
+                                <height>160</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="QCheckBox" row="2" column="0">
+                        <property name="name">
+                            <cstring>cbTempWarning</cstring>
+                        </property>
+                        <property name="minimumSize">
+                            <size>
+                                <width>0</width>
+                                <height>0</height>
+                            </size>
+                        </property>
+                        <property name="text">
+                            <string>Display warning before creating temporary files</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Show E-Mail first in keys list&lt;/b&gt; Lets you choose if you want the e-mail or the user name displayed first in the keys dialogs.</string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="1" column="0">
                         <property name="name">
                             <cstring>cbMailFirst</cstring>
                         </property>
@@ -259,7 +293,7 @@
                             <string>&lt;b&gt;Show E-Mail first in keys list&lt;/b&gt; Lets you choose if you want the e-mail or the user name displayed first in the keys dialogs.</string>
                         </property>
                     </widget>
-                    <widget class="QCheckBox" row="1" column="0">
+                    <widget class="QCheckBox" row="0" column="0">
                         <property name="name">
                             <cstring>cbClipSelection</cstring>
                         </property>
@@ -276,23 +310,6 @@
                             <string>&lt;b&gt;Use mouse selection instead of clipboard&lt;/b&gt; If checked, clipboard operations in KGpg will use the selection clipboard, that means highligting a text to copy, and middle button (or right+left together) to paste. If this option is not checked, the clipboard will work with Key shortcuts (Ctrl-c, Ctrl-v). </string>
                         </property>
                     </widget>
-                    <spacer row="2" column="0">
-                        <property name="name">
-                            <cstring>spacer4</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>21</width>
-                                <height>140</height>
-                            </size>
-                        </property>
-                    </spacer>
                 </grid>
             </widget>
             <widget class="QWidget">

@@ -266,16 +266,16 @@ else KMessageBox::sorry(this,i18n("No encrypted text found..."));
 }
 
 
-void  MyView::openEditor() 
+void  MyView::openEditor()
 {
  KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WType_Dialog);
  kgpgtxtedit->show();
 }
 
-void  MyView::encryptDroppedFile() 
+void  MyView::encryptDroppedFile()
 {
 QString opts="";
-KgpgLibrary *lib=new KgpgLibrary();     	
+KgpgLibrary *lib=new KgpgLibrary();
 if (encryptfileto)
 {
 		  	if (untrusted) opts=" --always-trust ";
@@ -283,7 +283,7 @@ if (encryptfileto)
 			if (hideid) opts+=" --throw-keyid ";
 			if (pgpcomp) opts+=" --pgp6 ";
 lib->slotFileEnc(droppedUrl,opts,filekey);
-}								   
+}
 else lib->slotFileEnc(droppedUrl);
 }
 
@@ -292,8 +292,8 @@ void  MyView::slotVerifyFile()
 {
   ///////////////////////////////////   check file signature
  if (droppedUrl.isEmpty()) return;
- 
-QString sigfile="";    
+
+QString sigfile="";
       //////////////////////////////////////       try to find detached signature.
 if (!droppedUrl.filename().endsWith(".sig"))
 {
@@ -308,9 +308,15 @@ if (!droppedUrl.filename().endsWith(".sig"))
             sigfile="";
         }
 }
+else
+{
+sigfile=droppedUrl.path();
+droppedUrl=KURL(sigfile.left(sigfile.length()-4));
+}
+
       ///////////////////////// pipe gpg command
 KgpgInterface *verifyFileProcess=new KgpgInterface();
-verifyFileProcess->KgpgVerifyFile(droppedUrl,KURL(sigfile)); 
+verifyFileProcess->KgpgVerifyFile(droppedUrl,KURL(sigfile));
 }
 
 
@@ -337,14 +343,19 @@ void  MyView::signDroppedFile()
  signFileProcess->KgpgSignFile(signKeyID,droppedUrl,Options);
 }
 
-void  MyView::decryptDroppedFile() 
+void  MyView::decryptDroppedFile()
 {
+if (!droppedUrl.isLocalFile())
+{
+if (KMessageBox::warningContinueCancel(0,i18n("<qt><b>Remote file decryption</b>.<br>The remote file will now be copied to a temporary file to process decryption. This temporary file will be deleted after operation.</qt>"),0,KStdGuiItem::cont(),"RemoteFileWarning")!=KMessageBox::Continue) return;
+showDroppedFile();
+return;
+}
 QString oldname=droppedUrl.filename();
   if (oldname.endsWith(".gpg") || oldname.endsWith(".asc") || oldname.endsWith(".pgp"))
     oldname.truncate(oldname.length()-4);
   else oldname.append(".clear");
   KURL swapname(droppedUrl.directory(0,0)+oldname);
-
       QFile fgpg(swapname.path());
       if (fgpg.exists())
         {
@@ -353,12 +364,12 @@ QString oldname=droppedUrl.filename();
             swapname=KURL(swapname.directory(0,0)+over->getfname());
           else return;
         }
+
 KgpgLibrary *lib=new KgpgLibrary();
 lib->slotFileDec(droppedUrl,swapname,customDecrypt) ;
-
 }
 
-void  MyView::showDroppedFile() 
+void  MyView::showDroppedFile()
 {
 
 KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
@@ -367,10 +378,16 @@ KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
 }
 
 
-void  MyView::droppedfile (KURL url) 
+void  MyView::droppedfile (KURL url)
 {
 droppedUrl=url;
-if ((url.path().endsWith(".asc")) || (url.path().endsWith(".pgp")) || (url.path().endsWith(".gpg"))) 
+if (!url.isLocalFile())
+{
+if (KMessageBox::warningContinueCancel(0,i18n("<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to a temporary file to process encryption/decryption. This temporary file will be deleted after operation.</qt>"),0,KStdGuiItem::cont(),"RemoteFileWarning")!=KMessageBox::Continue) return;
+showDroppedFile();
+return;
+}
+if ((url.path().endsWith(".asc")) || (url.path().endsWith(".pgp")) || (url.path().endsWith(".gpg")))
 {
 switch (efileDropEvent)
 {
@@ -387,7 +404,7 @@ case 2:
 }
 else if (url.path().endsWith(".sig"))
 {
-KgpgInterface *verifyFileProcess=new KgpgInterface();	
+KgpgInterface *verifyFileProcess=new KgpgInterface();
 verifyFileProcess->KgpgVerifyFile(url,"");
 }
 else switch (ufileDropEvent)
@@ -405,7 +422,7 @@ case 2:
 }
 
 
-void  MyView::droppedtext (QString inputText) 
+void  MyView::droppedtext (QString inputText)
 {
 
 QClipboard *cb = QApplication::clipboard();
@@ -595,7 +612,7 @@ FileToOpen=args->url(0);
 if (FileToOpen.isEmpty()) return 0;
 kgpg_applet->w->droppedUrl=FileToOpen;
 if (args->isSet("e")!=0)	kgpg_applet->w->encryptDroppedFile();
-else if (args->isSet("s")!=0) kgpg_applet->w->showDroppedFile();	
+else if (args->isSet("s")!=0) kgpg_applet->w->showDroppedFile();
 else if (args->isSet("S")!=0) kgpg_applet->w->signDroppedFile();	
 else if (args->isSet("V")!=0) kgpg_applet->w->slotVerifyFile();
 else if (FileToOpen.filename().endsWith(".sig")) kgpg_applet->w->slotVerifyFile();
