@@ -53,4 +53,4 @@ setDetailsWidget(detailsGroup);
 KDetailedInfo::~KDetailedInfo()
 {}
 
-#include "detailedconsole.moc"
+//#include "detailedconsole.moc"
