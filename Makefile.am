@@ -1,3 +1,4 @@
+SUBDIRS = icons
 bin_PROGRAMS = kgpg
 
 ## INCLUDES were found outside kdevelop specific part
