@@ -29,11 +29,38 @@
 #include "kgpgoptions.h"
 #include "kgpg.h"
 
+
 ///////////////////////   main window
 
-kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KOptions( parent, name, true)
+
+/*
+displayOptions::displayOptions(QWidget *parent, const char *name):QDialog( parent, name)
+{
+QVBoxLayout *vbox=new QVBoxLayout(this,3);
+
+  checkboxMailFirst=new QCheckBox(i18n("Display E-Mail first in keys list"),this);
+  checkboxDecryptMenu=new QCheckBox(i18n("Add decrypt menu to konqueror"),this);
+  
+  vbox->addWidget(checkboxMailFirst);
+  vbox->addWidget(checkboxDecryptMenu);
+}
+*/
+kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KOptions( parent, name)
   {
 //KSimpleConfig *config= new KSimpleConfig("kgpgtst");
+
+
+
+//	ProjectOptions* optionsPage = new ProjectOptions(dlg );
+//opts=new KOptions(this);
+//disp=new displayOptions(this);
+
+
+//addTab( opts, i18n("Encryption") );
+//addTab( disp, i18n("Display") );
+
+//setOkButton();
+//setCancelButton();
 
 config=kapp->config();
   config->setGroup("General Options");
@@ -43,18 +70,22 @@ config=kapp->config();
   bool encrypttodefault=config->readBoolEntry("encrypt to default key",false);
   QString defaultkey=config->readEntry("default key");
   bool encryptfileto=config->readBoolEntry("encrypt files to",false);
+  bool displaymailfirst=config->readBoolEntry("display mail first",true);
   QString filekey=config->readEntry("file key");
 if (ascii==true) ascii_2_2->setChecked(true);
 if (untrusted==true) untrusted_2_2->setChecked(true);
 if (pgpcomp==true) pgp_2_2->setChecked(true);
 if (encrypttodefault==true) defaut_2_2->setChecked(true);
 if (encryptfileto==true) file_2_2->setChecked(true);
+if (displaymailfirst==true) cbMailFirst->setChecked(true);
+
 listkey();
 if (filekey!=NULL)
 filekey_2_2->setCurrentItem(filekey);
 if (defaultkey!=NULL)
 defautkey_2_2->setCurrentItem(namecode(defaultkey));
 connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotOk()));
+
 }
 
 void kgpgOptions::slotOk()
@@ -67,6 +98,7 @@ void kgpgOptions::slotOk()
   config->writeEntry("default key",idcode(defautkey_2_2->currentText()));
   config->writeEntry("encrypt files to",file_2_2->isChecked());
   config->writeEntry("file key",filekey_2_2->currentText());
+  config->writeEntry("display mail first",cbMailFirst->isChecked());
   config->sync();
 }
 
@@ -122,7 +154,7 @@ void kgpgOptions::listkey()
       if ((name!="") && (trustedvals.find(tst.section(':',1,1))==-1))
       {
         counter++;
-	name=name.section('<',1,1);
+	name=name.section('<',-1,-1);
         name=name.section('>',0,0);
         names+=name;
 	ids+=tst.section(':',4,4);

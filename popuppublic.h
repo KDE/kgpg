@@ -49,9 +49,11 @@ public:
 private:
     QPushButton *bouton1,*bouton2;
     KConfig *config;
+	bool displayMailFirst;
 
 
 private slots:
+QString extractKeyName(QString fullName);
 void annule();
 void crypte();
 void precrypte();

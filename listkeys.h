@@ -98,6 +98,7 @@ public:
     KeyView( QWidget *parent = 0, const char *name = 0);
 
 private:
+bool displayMailFirst;
 QString secretList,defKey;
 QString photoKeysList;
 QPixmap pixkeyPair,pixkeySingle,pixsignature,pixuserid,pixuserphoto;
@@ -106,6 +107,7 @@ private slots:
 void  droppedfile (KURL);
 void refreshkeylist();
 QString trustString(const QString trust);
+QString extractKeyName(QString fullName);
 protected:
 virtual void startDrag();
 virtual void contentsDragMoveEvent(QDragMoveEvent *e);

@@ -124,6 +124,7 @@ QLabel *labelcreation = new QLabel(page);
 QLabel *labelexpire = new QLabel(page);
 QLabel *labeltrust = new QLabel(page);
 QLabel *labelid = new QLabel(page);
+QLabel *labelcomment = new QLabel(page);
 QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
   //QString labelname,labelmail,labeltype,labellength,labelfinger,labelcreation,labelexpire,labeltrust,labelid,fingervalue;
   //QVBoxLayout *vbox=new QVBoxLayout(page,2);
@@ -219,10 +220,23 @@ QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
 				labeltrust->setText(i18n("Trust: ")+tr);
 				labelid->setText(i18n("ID: ")+tid);
 
-				labelname->setText(i18n("Name: ")+fullname.section('<',0,0));
+				QString kmail=fullname.section('<',-1,-1);
+				kmail.truncate(kmail.length()-1);
+				labelmail->setText(i18n("E-Mail: ")+kmail);
+				QString kname=fullname.section('<',0,0);
+				if (fullname.find("(")!=-1)
+				{
+				kname=kname.section('(',0,0);
+				QString comment=fullname.section('(',1,1);
+				comment=comment.section(')',0,0);
+				labelcomment->setText(i18n("Comment: ")+comment);
+				}
+				else labelcomment->setText(i18n("Comment: "));
+				
+				labelname->setText(i18n("Name: ")+kname);
 				fullname=fullname.section('<',1,1);
 				fullname=fullname.section('>',0,0);
-				labelmail->setText(i18n("E-Mail: ")+fullname);
+				
 				labeltype->setText(i18n("Algorithm: ")+algo);
         }
       if (opt.startsWith("fpr"))
@@ -233,18 +247,20 @@ QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
 
   QGridLayout *Form1Layout = new QGridLayout( page, 1, 1, 11, 6, "Form1Layout");
 
-  Form1Layout->addWidget( labelid, 7, 1 );
+  Form1Layout->addWidget( labelid, 8, 1 );
 
-  Form1Layout->addWidget( labeltrust, 6, 1 );
+  Form1Layout->addWidget( labeltrust, 7, 1 );
 
-  Form1Layout->addWidget( labelexpire, 5, 1 );
+  Form1Layout->addWidget( labelexpire, 6, 1 );
 
-  Form1Layout->addWidget( labelcreation, 4, 1 );
+  Form1Layout->addWidget( labelcreation, 5, 1 );
 
-  Form1Layout->addWidget( labellength, 3, 1 );
+  Form1Layout->addWidget( labellength, 4, 1 );
 
-  Form1Layout->addWidget( labeltype, 2, 1 );
+  Form1Layout->addWidget( labeltype, 3, 1 );
 
+  Form1Layout->addWidget( labelcomment, 2, 1 );
+  
   Form1Layout->addWidget( labelmail, 1, 1 );
 
   Form1Layout->addWidget( labelname, 0, 1 );
@@ -267,6 +283,7 @@ QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
   if (isphoto==true)
     {
       kgpginfotmp=new KTempFile();
+	  kgpginfotmp->setAutoDelete(true);
       QString popt="cp %i "+kgpginfotmp->name();
       KProcIO *p=new KProcIO();
       *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<popt.local8Bit()<<"--list-keys"<<tid;
@@ -704,6 +721,7 @@ void listKeys::readOptions()
 {
   config->setGroup("General Options");
   bool encrypttodefault=config->readBoolEntry("encrypt to default key",false);
+  keysList2->displayMailFirst=config->readBoolEntry("display mail first",true);
   QString defaultkey=config->readEntry("default key");
   if (encrypttodefault==true)
     keysList2->defKey=defaultkey;
@@ -715,10 +733,10 @@ void listKeys::readOptions()
 
 void listKeys::slotParentOptions()
 {
-  kgpgOptions *opts=new kgpgOptions(this,0);
-  opts->exec();
-  delete opts;
-  readOptions();
+kgpgOptions *opts=new kgpgOptions(this);
+opts->exec();
+delete opts;
+readOptions();
   /*
 
     KgpgApp *win=(KgpgApp *) parent();
@@ -726,7 +744,7 @@ void listKeys::slotParentOptions()
     if (win->encrypttodefault==true) defKey=win->defaultkey;
     else defKey="";
   */
-  refreshkey();
+refreshkey();
 }
 
 
@@ -1253,7 +1271,6 @@ void listKeys::deletekey()
 
 void listKeys::slotPreImportKey()
 {
-
 KURL url=KFileDialog::getOpenURL(QString::null,i18n("*.asc|*.asc files"), this,i18n("Select key file to import"));
   if (url.isEmpty())
       return;
@@ -1273,12 +1290,13 @@ void KeyView::refreshkeylist()
   ////////   update display of keys in main management window
   FILE *fp;
   photoKeysList="";
-  QString tst,cycle,keyname,revoked;
+  QString tst,cycle,revoked;
   char line[300];
   UpdateViewItem *item=NULL;
   SmallViewItem *itemsub=NULL;
   SmallViewItem *itemuid=NULL;
   SmallViewItem *itemsig=NULL;
+  bool noID=false;
   //keysList2->
   clear();
   cycle="";
@@ -1313,16 +1331,16 @@ void KeyView::refreshkeylist()
               itemuid->setPixmap(0,pixuserphoto);
               cycle="uid";
             }
-
           else
             if (tst.section(':',9,9).find("<",0,FALSE)!=-1)
               {
-                QString uidname=tst.section(':',9,9).section('<',1,1);
-                  uidname=uidname.section('>',0,0);
-                  uidname+=" ("+tst.section(':',9,9).section('<',0,0)+")";
-
-                itemuid= new SmallViewItem(item,uidname,tr,"-","-","-","-");
-                itemuid->setPixmap(0,pixuserid);
+                itemuid= new SmallViewItem(item,extractKeyName(tst.section(':',9,9)),tr,"-","-","-","-");
+				if (noID==true) 
+				{
+				item->setText(0,extractKeyName(tst.section(':',9,9)));
+                noID=false;
+				}
+				itemuid->setPixmap(0,pixuserid);
                 cycle="uid";
               }
         }
@@ -1346,23 +1364,17 @@ void KeyView::refreshkeylist()
                 val=i18n("Unlimited");
               if (fsigname.find("<",0,FALSE)!=-1)
                 {
-                  //tst=signame.section('<',1,1);
-                  //signame=signame.section('<',0,0);
-                  //tst=tst.section('>',0,0);
-
-                  QString signame=fsigname.section('<',1,1);
-                  signame=signame.section('>',0,0);
-                  signame+=" ("+fsigname.section('<',0,0)+")";
-
-                  if (islocalsig.endsWith("l"))
-                    signame+=i18n(" [local]");
+                  
+                  fsigname=extractKeyName(fsigname);
+				  if (islocalsig.endsWith("l"))
+                    fsigname+=i18n(" [local]");
 
                   if (cycle=="pub")
-                    itemsig= new SmallViewItem(item,signame,"-",val,"-",creat,id);
+                    itemsig= new SmallViewItem(item,fsigname,"-",val,"-",creat,id);
                   if (cycle=="sub")
-                    itemsig= new SmallViewItem(itemsub,signame,"-",val,"-",creat,id);
+                    itemsig= new SmallViewItem(itemsub,fsigname,"-",val,"-",creat,id);
                   if (cycle=="uid")
-                    itemsig= new SmallViewItem(itemuid,signame,"-",val,"-",creat,id);
+                    itemsig= new SmallViewItem(itemuid,fsigname,"-",val,"-",creat,id);
 
                   itemsig->setPixmap(0,pixsignature);
                   //KMessageBox::sorry(0,cycle+"::"+signame);
@@ -1411,6 +1423,7 @@ void KeyView::refreshkeylist()
             else
               if (tst.startsWith("pub"))
                 {
+				noID=false;
                   while (revoked!="")   ///////////////   there are revoked sigs in previous key
                     {
                       bool found=false;
@@ -1489,17 +1502,18 @@ void KeyView::refreshkeylist()
                   QString tr=trustString(trust);
                   tst=tst.section(':',9,9);
                   //      pos=tst.find("<",0,FALSE);
-                  if (tst!="")
-                    {
-                      keyname=tst.section('<',1,1);
-                      keyname=keyname.section('>',0,0);
-                      keyname+=" ("+tst.section('<',0,0)+")";
-                      //tst=tst.section('>',0,0);
+                  
+                    
                       QString isbold="";
                       if (id==defKey)
                         isbold="on";
-                      item=new UpdateViewItem(this,keyname,tr,val,size,creat,id,isbold);
-                      
+                      if (tst!="")
+					  item=new UpdateViewItem(this,extractKeyName(tst),tr,val,size,creat,id,isbold);
+					  else 
+					  {
+					  noID=true;
+                      item=new UpdateViewItem(this,extractKeyName(tst),tr,val,size,creat,id,isbold);
+					  }
                       cycle="pub";
 
                       if (issec.find(id.right(8),0,FALSE)!=-1)
@@ -1512,7 +1526,7 @@ void KeyView::refreshkeylist()
                           item->setPixmap(0,pixkeySingle);
                         }
                     }
-                }
+                
     }
   pclose(fp);
 
@@ -1586,7 +1600,17 @@ void KeyView::refreshkeylist()
   if (columnWidth(0)>150)
     setColumnWidth(0,150);
 }
-//#include "listkeys.moc"
+
+QString KeyView::extractKeyName(QString fullName)
+{
+QString kMail=fullName.section('<',-1,-1);
+kMail.truncate(kMail.length()-1);
+QString kName=fullName.section('<',0,0);
+if (kName.find("(")!=-1) kName=kName.section('(',0,0);
+if (displayMailFirst) return QString(kMail+" ("+kName+")");
+return QString(kName+" ("+kMail+")");
+}
+
 QString KeyView::trustString(const QString trust)
 {
 QString tr;

@@ -62,6 +62,7 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
   config->setGroup("General Options");
   bool isascii=config->readBoolEntry("Ascii armor",true);
   bool istrust=config->readBoolEntry("Allow untrusted keys",false);
+  displayMailFirst=config->readBoolEntry("display mail first",true);
   //pgpcomp=config->readBoolEntry("PGP compatibility",false);
   encryptToDefault=config->readBoolEntry("encrypt to default key",false);
   defaultKey=config->readEntry("default key");
@@ -128,8 +129,8 @@ defaultName="";
   bouton1=boutonbox->addButton(i18n("&Encrypt"),TRUE);
   bouton2=boutonbox->addButton(i18n("&Cancel"),TRUE);
 
-  if (isascii==true) checkbox1->setChecked(true);
-  if (istrust==true) checkbox2->setChecked(true);
+  if (isascii) checkbox1->setChecked(true);
+  if (istrust) checkbox2->setChecked(true);
 
   vbox->addWidget(labeltxt);
   vbox->addWidget(keysList);
@@ -271,7 +272,7 @@ void popupPublic::slotprocread(KProcIO *p)
 {
 ///////////////////////////////////////////////////////////////// extract  encryption keys
 bool dead;
-QString tst,keyname;
+QString tst;
 
   while (p->readln(tst)!=-1)
   {
@@ -325,15 +326,12 @@ QString tst,keyname;
             }
 tst=tst.section(':',9,9);
 
-keyname=tst.section('<',1,1);
-		    keyname=keyname.section('>',0,0);
-		    keyname+=" ("+tst.section('<',0,0)+")";
-if ((tst!="") && (dead==false))
+if ((dead==false) && (tst!=""))
 	{
-	if ((id==defaultKey) && (encryptToDefault==true))
+	if ((id==defaultKey) && (encryptToDefault))
 	      {
-	      defaultName=keyname;
-	      UpdateViewItem2 *item=new UpdateViewItem2(keysList,keyname);
+	      defaultName=extractKeyName(tst);
+	      UpdateViewItem2 *item=new UpdateViewItem2(keysList,defaultName);
 	      KListViewItem *sub= new KListViewItem(item,QString("ID: "+id+", trust: "+tr+", validity: "+val));
 	      sub->setSelectable(false);
 	      if (seclist.find(tst,0,FALSE)!=-1) item->setPixmap(0,keyPair);
@@ -341,7 +339,7 @@ if ((tst!="") && (dead==false))
 	      }
 	      else
 	      {
-	      KListViewItem *item=new KListViewItem(keysList,keyname);
+	      KListViewItem *item=new KListViewItem(keysList,extractKeyName(tst));
 	      KListViewItem *sub= new KListViewItem(item,QString("ID: "+id+", trust: "+tr+", validity: "+val));
 	      sub->setSelectable(false);
 	      if (seclist.find(tst,0,FALSE)!=-1) item->setPixmap(0,keyPair);
@@ -350,6 +348,16 @@ if ((tst!="") && (dead==false))
 	  }
 }
 }
+}
+
+QString popupPublic::extractKeyName(QString fullName)
+{
+QString kMail=fullName.section('<',-1,-1);
+kMail.truncate(kMail.length()-1);
+QString kName=fullName.section('<',0,0);
+if (kName.find("(")!=-1) kName=kName.section('(',0,0);
+if (displayMailFirst) return QString(kMail+" ("+kName+")");
+return QString(kName+" ("+kMail+")");
 }
 
 void popupPublic::annule()
