@@ -95,21 +95,13 @@ QString UpdateViewItem :: key(int c,bool ) const
         if ((c==2) || (c==4)) {
                 QDate d = KGlobal::locale()->readDate(text(c));
                 if (d.isValid())
-                        s.sprintf("%08d",d.toString("yyyyMMdd").toInt());
+                        return d.toString("yyyyMMdd");
                 else
-                        s.sprintf("%08d",50000000);  // unlimited expiration dates are handeled as year 5000, so that they are correctly sorted
+                        return "50000000";  // unlimited expiration dates are handeled as year 5000, so that they are correctly sorted
         }
-        if (c==3)
-                /* sorting by int */
-                s.sprintf("%08d",text(c).toInt());
-        if (c==1)
-                /* sorting by pixmap */
-                s.sprintf("%08d",pixmap(c)->serialNumber());
-        else if ((c==0) || (c==5))
-                /* sorting alphanumeric */
-                s.sprintf("%s",text(c).ascii());
-
-        return s;
+        if (c==1)   /* sorting by pixmap */
+                return QString::number(pixmap(c)->serialNumber());
+        return text(c);
 }
 
 
