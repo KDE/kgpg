@@ -621,7 +621,8 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         keysList2 = new KeyView(page);
         keysList2->photoKeysList="";
         config=kapp->config();
-        readOptions();
+        setAutoSaveSettings();
+	readOptions();
 
         setCaption(i18n("Key Management"));
 
@@ -727,7 +728,8 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
 
 
 listKeys::~listKeys()
-{}
+{
+}
 
 
 void listKeys::configuretoolbars()
