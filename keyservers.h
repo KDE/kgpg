@@ -1,5 +1,5 @@
 /***************************************************************************
-                          keyserver.h  -  description
+                          keyservers.h  -  description
                              -------------------
     begin                : Tue Nov 26 2002
     copyright            : (C) 2002 by y0k0
@@ -45,7 +45,7 @@ class keyServer : public Keyserver
   public:
  keyServer(QWidget *parent=0, const char *name=0);
  ~keyServer();
- 
+
  public slots:
  void abortImport();
  void abortSearch();
@@ -58,14 +58,16 @@ void syncCombobox();
 void slotImport();
 void slotSearch();
 void slotimportresult(KProcess*);
-void slotimportread(KProcIO *p); 
+void slotimportread(KProcIO *p);
 void slotprocread(KProcIO *p);
 void slotExport();
 void slotEdit(QListViewItem *);
 void slotEditServer();
 void preimport();
 void slotsearchresult(KProcess *);
- 
+void slotEnableProxyI(bool on);
+void slotEnableProxyE(bool on);
+
    private:
   KConfig *config;
   uint keyNumbers;
@@ -77,7 +79,5 @@ void slotsearchresult(KProcess *);
   bool cycle;
   KListViewItem *kitem;
 };
-
-
 
 #endif

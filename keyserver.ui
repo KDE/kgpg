@@ -2,14 +2,14 @@
 <class>Keyserver</class>
 <widget class="QDialog">
     <property name="name">
-        <cstring>MyDialog</cstring>
+        <cstring>KeyServer</cstring>
     </property>
     <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>364</width>
-            <height>273</height>
+            <width>401</width>
+            <height>271</height>
         </rect>
     </property>
     <property name="caption">
@@ -37,24 +37,58 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <spacer row="4" column="2" rowspan="2" colspan="1">
+                    <widget class="QLabel" row="2" column="0" rowspan="1" colspan="4">
                         <property name="name">
-                            <cstring>spacer4_2</cstring>
+                            <cstring>textLabel1_2_2</cstring>
                         </property>
-                        <property name="orientation">
-                            <enum>Horizontal</enum>
+                        <property name="frameShape">
+                            <enum>NoFrame</enum>
                         </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
+                        <property name="frameShadow">
+                            <enum>Plain</enum>
                         </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>90</width>
-                                <height>20</height>
-                            </size>
+                        <property name="text">
+                            <string>Text to search or ID of the key to import:</string>
                         </property>
-                    </spacer>
-                    <spacer row="4" column="0">
+                    </widget>
+                    <widget class="KComboBox" row="1" column="0" rowspan="1" colspan="4">
+                        <property name="name">
+                            <cstring>kCBimportks</cstring>
+                        </property>
+                    </widget>
+                    <widget class="KLineEdit" row="3" column="0" rowspan="1" colspan="4">
+                        <property name="name">
+                            <cstring>kLEimportid</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="0" column="0" rowspan="1" colspan="4">
+                        <property name="name">
+                            <cstring>textLabel1_3</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Key server:</string>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton" row="6" column="0">
+                        <property name="name">
+                            <cstring>Buttonsearch</cstring>
+                        </property>
+                        <property name="text">
+                            <string>&amp;Search</string>
+                        </property>
+                        <property name="default">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton" row="6" column="1" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>Buttonimport</cstring>
+                        </property>
+                        <property name="text">
+                            <string>&amp;Import</string>
+                        </property>
+                    </widget>
+                    <spacer row="5" column="0">
                         <property name="name">
                             <cstring>spacer2_2</cstring>
                         </property>
@@ -71,48 +105,67 @@
                             </size>
                         </property>
                     </spacer>
-                    <widget class="QLabel" row="2" column="0" rowspan="1" colspan="3">
+                    <spacer row="5" column="3">
                         <property name="name">
-                            <cstring>textLabel1_2_2</cstring>
+                            <cstring>spacer2_2_2</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <spacer row="6" column="3">
+                        <property name="name">
+                            <cstring>spacer4_2</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Horizontal</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>160</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>cBproxyI</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>false</bool>
                         </property>
                         <property name="text">
-                            <string>Text to search or ID of the key to import:</string>
+                            <string>Honor HTTP proxy</string>
                         </property>
                     </widget>
-                    <widget class="KComboBox" row="1" column="0" rowspan="1" colspan="3">
+                    <widget class="KLineEdit" row="4" column="2" rowspan="1" colspan="2">
                         <property name="name">
-                            <cstring>kCBimportks</cstring>
+                            <cstring>kLEproxyI</cstring>
                         </property>
-                    </widget>
-                    <widget class="KLineEdit" row="3" column="0" rowspan="1" colspan="3">
-                        <property name="name">
-                            <cstring>kLEimportid</cstring>
+                        <property name="enabled">
+                            <bool>false</bool>
                         </property>
-                    </widget>
-                    <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
-                        <property name="name">
-                            <cstring>textLabel1_3</cstring>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
                         </property>
-                        <property name="text">
-                            <string>Key server:</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="5" column="1">
-                        <property name="name">
-                            <cstring>Buttonimport</cstring>
-                        </property>
-                        <property name="text">
-                            <string>&amp;Import</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="5" column="0">
-                        <property name="name">
-                            <cstring>Buttonsearch</cstring>
-                        </property>
-                        <property name="text">
-                            <string>&amp;Search</string>
-                        </property>
-                        <property name="default">
+                        <property name="readOnly">
                             <bool>true</bool>
                         </property>
                     </widget>
@@ -129,7 +182,7 @@
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QPushButton" row="5" column="0">
+                    <widget class="QPushButton" row="6" column="0">
                         <property name="name">
                             <cstring>Buttonexport</cstring>
                         </property>
@@ -137,24 +190,7 @@
                             <string>&amp;Export</string>
                         </property>
                     </widget>
-                    <spacer row="4" column="0">
-                        <property name="name">
-                            <cstring>spacer2</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>100</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <spacer row="5" column="1">
+                    <spacer row="6" column="1" rowspan="1" colspan="2">
                         <property name="name">
                             <cstring>spacer4</cstring>
                         </property>
@@ -171,17 +207,17 @@
                             </size>
                         </property>
                     </spacer>
-                    <widget class="KComboBox" row="1" column="0" rowspan="1" colspan="2">
+                    <widget class="KComboBox" row="1" column="0" rowspan="1" colspan="3">
                         <property name="name">
                             <cstring>kCBexportks</cstring>
                         </property>
                     </widget>
-                    <widget class="KComboBox" row="3" column="0" rowspan="1" colspan="2">
+                    <widget class="KComboBox" row="3" column="0" rowspan="1" colspan="3">
                         <property name="name">
                             <cstring>kCBexportkey</cstring>
                         </property>
                     </widget>
-                    <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+                    <widget class="QLabel" row="0" column="0" rowspan="1" colspan="3">
                         <property name="name">
                             <cstring>textLabel1</cstring>
                         </property>
@@ -189,7 +225,7 @@
                             <string>Key server:</string>
                         </property>
                     </widget>
-                    <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
+                    <widget class="QLabel" row="2" column="0" rowspan="1" colspan="3">
                         <property name="name">
                             <cstring>textLabel1_2</cstring>
                         </property>
@@ -197,6 +233,70 @@
                             <string>Key to be exported:</string>
                         </property>
                     </widget>
+                    <widget class="KLineEdit" row="4" column="2">
+                        <property name="name">
+                            <cstring>kLEproxyE</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>false</bool>
+                        </property>
+                        <property name="sizePolicy">
+                            <sizepolicy>
+                                <hsizetype>7</hsizetype>
+                                <vsizetype>0</vsizetype>
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                            </sizepolicy>
+                        </property>
+                        <property name="readOnly">
+                            <bool>true</bool>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>cBproxyE</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>false</bool>
+                        </property>
+                        <property name="text">
+                            <string>Honor HTTP proxy</string>
+                        </property>
+                    </widget>
+                    <spacer row="5" column="0">
+                        <property name="name">
+                            <cstring>spacer2</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
+                    <spacer row="5" column="2">
+                        <property name="name">
+                            <cstring>spacer2_3</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>20</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
                 </grid>
             </widget>
             <widget class="QWidget">
@@ -325,8 +425,10 @@
 <includehints>
     <includehint>kcombobox.h</includehint>
     <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>kcombobox.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>klineedit.h</includehint>
     <includehint>klistview.h</includehint>
 </includehints>
 </UI>

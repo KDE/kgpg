@@ -1,3 +1,40 @@
+CVS
+-fixed message box when verifying a signature with a non english gpg
+-only one key manager can now be opened
+-fixed orphaned gpg threads when opening private key selection dialog
+-fixed crash on remote file drops
+-added warning on remote file decryption
+-fix decryption of non ascii armored files in kgpg's editor
+-added honor-http-proxy to keyserver dialog to allow passing through firewalls (Fabian Wenzel &lt;f.wenzel@gmx.net&gt;)
+
+version 0.9.5
+-added keyboard shortcuts to key manager
+-added popup dialog indicating that a file en/decryption is in progress
+-added "on the fly" custom option for encryption
+-rewrote & improved (speed, security) enc/decryption/signing functions
+-fixed bugs in keyserver searching (display of mail adresses, command lines interpreted as keys)
+-rearranged option dialog
+-fixed special characters problem in key generation wizard and in all key lists
+-fixed bug preventing servicemenus to appear on some systems
+-when encryption/decryption fails, you can now see the log output in an error box
+-fixed problem when opening a public key
+-hide expired secret keys from encryption/signing selection dialog
+-new icons based on icons from malte_gell@t-online.de (Malte Gell)
+-many small GUI improvements
+-kgpg has now been turned to a system tray applet
+
+
+version 0.9.4
+
+-fixed crash when decrypting from Kgpg's editor file menu
+-added GUI keyserver support (manage keyserver, key import/export/search)
+-show photo/toolbar in key manager is now saved & restored
+-new command line mode to open keyserver dialog
+-fixed problems with keys having no e-mail adress
+-new button to show/hide options in the key selection dialog
+-added gpg option to hide user id in encrypted blocks
+-fixed small bug preventing key generation with expiration date in years
+
 version 0.9.3
 
 -automatic mimetype detection & installation (for encrypted files and signature files)
@@ -7,6 +44,10 @@ version 0.9.3
 -disabled html display in Kgpg's editor
 -a few small bugfixes
 -password length for a new key must now be greater than 5 characters.
+-in decryption dialog, password only ask for keys for which you have a secret key.
+-fixed error message appearing when encryption was successful
+-fixed key export (export failed in some cases)
+
 
 version 0.9.2
 

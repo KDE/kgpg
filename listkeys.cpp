@@ -71,7 +71,7 @@ UpdateViewItem::UpdateViewItem(QListView *parent, QString tst, QString tr, QStri
 
 void UpdateViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, int width, int alignment)
 {
-  if ((Itemdefault==true) && (column==0))
+  if ((Itemdefault) && (column==0))
   {
     QFont font(p->font());
     font.setBold(true);

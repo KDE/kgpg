@@ -1,5 +1,5 @@
 /***************************************************************************
-                          keyserver.cpp  -  description
+                          keyservers.cpp  -  description
                              -------------------
     begin                : Tue Nov 26 2002
     copyright            : (C) 2002 by y0k0
@@ -14,14 +14,16 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
+#include <stdlib.h>
+
 #include <kapplication.h>
 #include <kcombobox.h>
 #include <kdialogbase.h>
 #include <kmessagebox.h>
-#include <qtextcodec.h> 
+#include <qtextcodec.h>
  #include "keyservers.h"
-  
+
 keyServer::keyServer(QWidget *parent, const char *name):Keyserver( parent, name)
 {
 kLVservers->setFullWidth(true);
@@ -38,13 +40,9 @@ server1=server1.stripWhiteSpace();
 servers.remove(0,server1.length()+1);
 }
 
- KProcIO *encid=new KProcIO();
-  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--with-colon"<<"--list-keys";
-   QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
-    encid->start(KProcess::DontCare,false);
-
 syncCombobox();
 kLEimportid->setFocus();
+
 connect(Buttonadd,SIGNAL(clicked()),this,SLOT(slotAddServer()));
 connect(Buttonedit,SIGNAL(clicked()),this,SLOT(slotEditServer()));
 connect(Buttonremove,SIGNAL(clicked()),this,SLOT(slotRemoveServer()));
@@ -53,12 +51,43 @@ connect(Buttonsearch,SIGNAL(clicked()),this,SLOT(slotSearch()));
 connect(Buttonexport,SIGNAL(clicked()),this,SLOT(slotExport()));
 connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotOk()));
 connect(kLVservers,SIGNAL(doubleClicked(QListViewItem *)),this,SLOT(slotEdit(QListViewItem *)));
+
+connect(cBproxyI,SIGNAL(toggled(bool)),this,SLOT(slotEnableProxyI(bool)));
+connect(cBproxyE,SIGNAL(toggled(bool)),this,SLOT(slotEnableProxyE(bool)));
+
+const char *httpproxy = getenv("http_proxy");
+if (httpproxy)
+{
+cBproxyI->setEnabled(true);
+cBproxyE->setEnabled(true);
+cBproxyI->setChecked(true);
+cBproxyE->setChecked(true);
+kLEproxyI->setText(httpproxy);
+kLEproxyE->setText(httpproxy);
+}
+
+
+ KProcIO *encid=new KProcIO();
+  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--with-colon"<<"--list-keys";
+   QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
+encid->start(KProcess::NotifyOnExit,true);
 }
 
 
 keyServer::~keyServer()
 {
 }
+
+void keyServer::slotEnableProxyI(bool on)
+{
+kLEproxyI->setEnabled(on);
+}
+
+void keyServer::slotEnableProxyE(bool on)
+{
+kLEproxyE->setEnabled(on);
+}
+
 
 void keyServer::slotEdit(QListViewItem *)
 {
@@ -71,60 +100,40 @@ void keyServer::slotprocread(KProcIO *p)
 bool dead;
 QString tst;
 
-  while (p->readln(tst)!=-1)
-  
+while (p->readln(tst)!=-1)
+{
+//tst=tst.stripWhiteSpace();
        if (tst.startsWith("pub"))
         {
-	dead=false;
           const QString trust=tst.section(':',1,1);
-          QString val=tst.section(':',6,6);
-	  QString id=QString("0x"+tst.section(':',4,4).right(8));
-          if (val=="") val="Unlimited";
-          QString tr;
+	      QString id=QString("0x"+tst.section(':',4,4).right(8));
           switch( trust[0] )
             {
-            case 'o':
-              tr= "Unknown" ;
-              break;
             case 'i':
-              tr= "Invalid";
 	      dead=true;
               break;
             case 'd':
-              tr="Disabled";
 	      dead=true;
               break;
             case 'r':
-              tr="Revoked";
 	      dead=true;
               break;
             case 'e':
-              tr="Expired";
 	      dead=true;
               break;
-            case 'q':
-              tr="Undefined";
-              break;
-            case 'n':
-              tr="None";
-              break;
-            case 'm':
-              tr="Marginal";
-	      break;
-            case 'f':
-              tr="Full";
-              break;
-            case 'u':
-              tr="Ultimate";
-              break;
             default:
-              tr="?";
+		  dead=false;
               break;
             }
 tst=tst.section(':',9,9);
-
-if ((dead==false) && (tst!=""))
-	      kCBexportkey->insertItem(id+": "+tst);
+if (tst.length()>35)
+{
+tst.remove(35,tst.length());
+tst+="...";
+}
+if ((!dead) && (!tst.isEmpty()))
+kCBexportkey->insertItem(id+": "+tst);
+}
 }
 }
 
@@ -149,9 +158,16 @@ cycle=false;
 readmessage="";
 searchproc=new KProcIO();
 QString keyserv=kCBimportks->currentText();
-      *searchproc<<"gpg"<<"--keyserver"<<keyserv<<"--command-fd=0"<<"--status-fd=2"<<"--search-keys"<<kLEimportid->text().stripWhiteSpace().local8Bit();
-      
-	  keyNumbers=0;
+      *searchproc<<"gpg";
+if (cBproxyI->isChecked())
+{
+searchproc->setEnvironment("http_proxy",kLEproxyI->text());
+*searchproc<<	"--keyserver-options"<<"honor-http-proxy";
+}
+else *searchproc<<	"--keyserver-options"<<"no-honor-http-proxy";
+*searchproc<<"--keyserver"<<keyserv<<"--command-fd=0"<<"--status-fd=2"<<"--search-keys"<<kLEimportid->text().stripWhiteSpace().local8Bit();
+
+   keyNumbers=0;
 	  importpop = new QDialog( this,0,true);
               QVBoxLayout *vbox=new QVBoxLayout(importpop,3);
               QLabel *tex=new QLabel(importpop);
@@ -267,7 +283,17 @@ return;
 readmessage="";
 importproc=new KProcIO();
 QString keyserv=kCBexportks->currentText();
-      *importproc<<"gpg"<<"--keyserver"<<keyserv<<"--send-keys"<<kCBexportkey->currentText().section(':',0,0);
+
+*importproc<<"gpg";
+if (cBproxyE->isChecked())
+{
+importproc->setEnvironment("http_proxy",kLEproxyE->text());
+*importproc<<	"--keyserver-options"<<"honor-http-proxy";
+}
+else *importproc<<	"--keyserver-options"<<"no-honor-http-proxy";
+*importproc<<"--keyserver"<<keyserv<<"--send-keys"<<kCBexportkey->currentText().section(':',0,0);
+
+
       QObject::connect(importproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotimportresult(KProcess *)));
       QObject::connect(importproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotimportread(KProcIO *)));
       importproc->start(KProcess::NotifyOnExit,true);
@@ -298,8 +324,18 @@ return;
 readmessage="";
 importproc=new KProcIO();
 QString keyserv=kCBimportks->currentText();
-	  *importproc<<"gpg"<<"--recv-keys"<<"--keyserver"<<keyserv<<kLEimportid->text().local8Bit();
-      QObject::connect(importproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotimportresult(KProcess *)));
+
+*importproc<<"gpg";
+if (cBproxyI->isChecked())
+{
+importproc->setEnvironment("http_proxy",kLEproxyI->text());
+*importproc<<	"--keyserver-options"<<"honor-http-proxy";
+}
+else *importproc<<	"--keyserver-options"<<"no-honor-http-proxy";
+
+*importproc<<"--recv-keys"<<"--keyserver"<<keyserv<<kLEimportid->text().local8Bit();
+
+	  QObject::connect(importproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotimportresult(KProcess *)));
       QObject::connect(importproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotimportread(KProcIO *)));
       importproc->start(KProcess::NotifyOnExit,true);
 
@@ -345,7 +381,7 @@ QListViewItem *firstserver = kLVservers->firstChild();
   while (firstserver!=NULL)
   {
   kCBexportks->insertItem(firstserver->text(0));
-  kCBimportks->insertItem(firstserver->text(0));  
+  kCBimportks->insertItem(firstserver->text(0));
 	if (firstserver->nextSibling())
     firstserver = firstserver->nextSibling();
     else
