@@ -15,12 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qwidget.h>
+
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
 #include "kgpg.h"
+#include "keyservers.h"
 
 
 static const char *description =
@@ -32,6 +35,7 @@ static KCmdLineOptions options[] =
 { "e", I18N_NOOP("encrypt file"), 0 },
 { "c", I18N_NOOP("decrypt clipboard & open editor"), 0 },
 {"k", I18N_NOOP("open key manager"), 0 },
+{"K", I18N_NOOP("open keyserver dialog"), 0 },
 { "d", I18N_NOOP("decrypt file"), 0 },
 { "s", I18N_NOOP("show encrypted file"), 0 },
 { "S", I18N_NOOP("sign file"), 0 },
@@ -63,10 +67,18 @@ KApplication::addCmdLineOptions();
   QString opmode="";
   KURL FileToOpen=0;
   
+
  if (args->isSet("k")!=0)
  {
  listKeys *creat=new listKeys(0,i18n("Key Management"));
  creat->show();
+ }
+ else if (args->isSet("K")!=0)
+ {
+keyServer *ks=new keyServer(0);
+ks->exec();
+delete ks;
+exit(1);
  }
  else
  {
@@ -84,6 +96,7 @@ opmode="decrypt";
  else if (FileToOpen.filename().endsWith(".sig")) opmode="verify";
  }
  KgpgApp *kgpg = new KgpgApp("kgpg",FileToOpen,opmode);
+  
  if ((opmode=="") || (opmode=="show") || (opmode=="clipboard")) kgpg->show(); 
 }
  return app.exec();

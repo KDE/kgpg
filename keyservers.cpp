@@ -29,6 +29,7 @@ kLVservers->setFullWidth(true);
 config=kapp->config();
 config->setGroup("Keyservers");
 QString servers=config->readEntry("servers");
+if (servers.isEmpty()) servers="hkp://pgp.mit.edu,hkp://blackhole.pca.dfn.de";
 while (!servers.isEmpty())
 {
 QString server1=servers.section(',',0,0);
@@ -39,11 +40,8 @@ servers.remove(0,server1.length()+1);
 
  KProcIO *encid=new KProcIO();
   *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--with-colon"<<"--list-keys";
-  /////////  when process ends, update dialog infos
-    //QObject::connect(encid, SIGNAL(processExited(KProcess *)),this, SLOT(slotpreselect()));
-    QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
+   QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
     encid->start(KProcess::DontCare,false);
-
 
 syncCombobox();
 connect(Buttonadd,SIGNAL(clicked()),this,SLOT(slotAddServer()));
@@ -55,6 +53,10 @@ connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotOk()));
 connect(kLVservers,SIGNAL(doubleClicked(QListViewItem *)),this,SLOT(slotEdit(QListViewItem *)));
 }
 
+
+keyServer::~keyServer()
+{
+}
 
 void keyServer::slotEdit(QListViewItem *)
 {
@@ -283,5 +285,6 @@ QListViewItem *firstserver = kLVservers->firstChild();
 
 config->setGroup("Keyservers");
 config->writeEntry("servers",serverslist);
+config->sync();
 accept();
 }

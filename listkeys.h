@@ -149,7 +149,7 @@ KConfig *config;
 QString tempKeyFile;
 
 KTempFile *kgpgtmp;
-bool showPhoto;
+bool showPhoto,configshowToolBar;
 
 
 public slots:
@@ -161,7 +161,6 @@ void keyserver();
 void slotReadProcess(KProcIO *p);
 void slotProcessExportMail(KProcess *);
 void slotProcessExportMailClip(KProcess *);
-void showToolBar();
 void displayPhoto();
 void hidePhoto();
 void slotProcessPhoto(KProcess *);

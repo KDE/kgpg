@@ -42,6 +42,7 @@ class keyServer : public Keyserver
   Q_OBJECT
   public:
  keyServer(QWidget *parent=0, const char *name=0);
+ ~keyServer();
  
  public slots:
  void abortImport();

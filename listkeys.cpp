@@ -552,7 +552,6 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
 keysList2 = new KeyView(page);
   config=kapp->config();
   readOptions();
-  showPhoto=false;
   //if (enctodef==true) defKey=defaultKey;
   //else defKey="";
   setCaption(i18n("Key Management"));
@@ -570,12 +569,11 @@ keysList2 = new KeyView(page);
   KAction *exportSecretKey = new KAction(i18n("Export secret key"), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
   KAction *deleteKeyPair = new KAction(i18n("Delete key pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
   KAction *generateKey = new KAction(i18n("&Generate key pair"), "kgpg_gen", 0,this, SLOT(slotgenkey()),actionCollection(),"key_gener");
-  (void) new KToggleAction(i18n("&Show photos"), "imagegallery", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
-(void) new KAction(i18n("&Key Server dialog"), 0, 0,this, SLOT(keyserver()),actionCollection(),"key_server");
+  KToggleAction *togglePhoto= new KToggleAction(i18n("&Show photos"), "imagegallery", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
+(void) new KAction(i18n("&Key Server dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
   
   KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
-  KStdAction::showToolbar(this, SLOT(showToolBar()), actionCollection());
-
+(void) new KToggleToolBarAction("mainToolBar",i18n("Show toolbar"), actionCollection(),"pref_toolbar");
 
   
 
@@ -641,7 +639,9 @@ keysList2 = new KeyView(page);
   ///////////////    get all keys data
   refreshkey();
   createGUI("listkeys.rc");
-  keyPhoto->hide();
+  if (!configshowToolBar) toolBar()->hide();
+  togglePhoto->setChecked(showPhoto);
+  if (!showPhoto) keyPhoto->hide();
 }
 
 
@@ -653,17 +653,8 @@ void listKeys::keyserver()
 keyServer *ks=new keyServer(this);
 ks->exec();
 delete ks;
+refreshkey();
 }
-
-void listKeys::showToolBar()
-{
-  if( toolBar()->isVisible () )
-    toolBar()->hide();
-  else
-    toolBar()->show();
-}
-
-
 
 void listKeys::hidePhoto()
 {
@@ -718,6 +709,9 @@ void listKeys::annule()
 {
   /////////  cancel & close window
   //exit(0);
+  config->setGroup("General Options");
+  config->writeEntry("show toolbar",toolBar()->isVisible());
+  config->writeEntry("show photo",showPhoto);
   close();
   //reject();
 }
@@ -732,6 +726,8 @@ void listKeys::readOptions()
 {
   config->setGroup("General Options");
   bool encrypttodefault=config->readBoolEntry("encrypt to default key",false);
+  configshowToolBar=config->readBoolEntry("show toolbar",true);
+  showPhoto=config->readBoolEntry("show photo",false);
   keysList2->displayMailFirst=config->readBoolEntry("display mail first",true);
   QString defaultkey=config->readEntry("default key");
   if (encrypttodefault==true)

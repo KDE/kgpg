@@ -12,7 +12,8 @@
 	<Action name="key_import"/>
     </Menu>
 	<Menu name="settings"><text>&amp;Settings</text>
-    <Action name="key_showp" />
+    <Action name="pref_toolbar" />
+	<Action name="key_showp" />
 	</Menu>
 	<Menu name="file"><text>&amp;File</text>
 	<Action name="key_server"/>
@@ -30,6 +31,7 @@
     <Action name="key_gener"/>
     <Action name="key_showp"/>
 	<Action name="key_refresh"/>
+	<Action name="key_server"/>
 	<Action name="options_configure"/>
 	<Action name="file_quit"/>
 	
