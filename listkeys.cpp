@@ -425,7 +425,7 @@ void  KeyView::startDrag()
 
 
 ///////////////   main window for key management
-listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(parent, name, f), DCOPObject( "KeyInterface" )
+listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "KeyInterface" ), KMainWindow(parent, name, f)
 {
         QWidget *page=new QWidget(this);
         keysList2 = new KeyView(page);
