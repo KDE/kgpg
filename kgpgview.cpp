@@ -62,12 +62,12 @@ void MyEditor::contentsDropEvent( QDropEvent *e )
         KURL::List list;
         QString text;
         if ( KURLDrag::decode( e, list ) )
-                droppedfile(list.first());
+                slotDroppedFile(list.first());
         else if ( QTextDrag::decode(e, text) )
                 insert(text);
 }
 
-void MyEditor::droppedfile(KURL url)
+void MyEditor::slotDroppedFile(KURL url)
 {
         /////////////////    decide what to do with dropped file
         QString text;
@@ -87,53 +87,58 @@ void MyEditor::droppedfile(KURL url)
                 }
         }
 
-        QFile qfile(tempFile);
-
-        if (qfile.open(IO_ReadOnly)) {
+        
                 /////////////  if dropped filename ends with gpg, pgp or asc, try to decode it
                 if ((tempFile.endsWith(".gpg")) || (tempFile.endsWith(".asc")) || (tempFile.endsWith(".pgp"))) {
-                        decodef(tempFile);
+                        slotDecodeFile(tempFile);
                 }
-                //////////   else open file
-                else {
+		else slotCheckContent(tempFile);
+}
+
+
+void MyEditor::slotCheckContent(QString fileToCheck, bool checkForPgpMessage)
+{
+QFile qfile(fileToCheck);
+        if (qfile.open(IO_ReadOnly)) {
+                //////////   open file
+                
                         QTextStream t( &qfile );
                         QString result(t.read());
                         //////////////     if  pgp data found, decode it
-                        if (result.startsWith("-----BEGIN PGP MESSAGE")) {
+                        if ((checkForPgpMessage) && (result.startsWith("-----BEGIN PGP MESSAGE"))) {
                                 qfile.close();
-                                decodef(tempFile);
+                                slotDecodeFile(fileToCheck);
                                 return;
                         } else
                                 if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK")) {//////  dropped file is a public key, ask for import
                                         qfile.close();
-                                        int result=KMessageBox::warningContinueCancel(this,i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(url.path()),i18n("Warning"));
+                                        int result=KMessageBox::warningContinueCancel(this,i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(fileToCheck),i18n("Warning"));
                                         if (result==KMessageBox::Cancel) {
-                                                KIO::NetAccess::removeTempFile(tempFile);
+                                                KIO::NetAccess::removeTempFile(fileToCheck);
                                                 return;
                                         } else {
                                                 KgpgInterface *importKeyProcess=new KgpgInterface();
-                                                importKeyProcess->importKeyURL(KURL(tempFile));
-                                                connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(slotprocresult()));
+                                                importKeyProcess->importKeyURL(KURL(fileToCheck));
+                                                connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SLOT(slotProcessResult(QStringList)));
                                                 return;
                                         }
                                 } else {
                                         if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK")) {
+						qfile.close();
                                                 KMessageBox::information(0,i18n("This file is a private key!\nPlease use kgpg key management to import it."));
-                                                KIO::NetAccess::removeTempFile(tempFile);
+                                                KIO::NetAccess::removeTempFile(fileToCheck);
                                                 return;
                                         }
 
                                         setText(result);
                                         qfile.close();
-                                        KIO::NetAccess::removeTempFile(tempFile);
-                                        tempFile="";
-
+                                        KIO::NetAccess::removeTempFile(fileToCheck);
                                 }
                 }
-        }
 }
 
-void MyEditor::decodef(QString fname)
+
+void MyEditor::slotDecodeFile(QString fname)
 {
         ////////////////     decode file from given url into editor
         QString enckey=KgpgInterface::extractKeyName(KURL(fname));
@@ -142,22 +147,24 @@ void MyEditor::decodef(QString fname)
                 if (enckey.isEmpty())
                         enckey=i18n("[No user id found]");
                 QString resultat=KgpgInterface::KgpgDecryptFileToText(KURL(fname),enckey);
-                KIO::NetAccess::removeTempFile(tempFile);
+                KIO::NetAccess::removeTempFile(fname);
                 tempFile="";
                 if (resultat!=" ") // if user didn't cancel ...
                 {
                         if (!resultat.isEmpty())
                                 setText(resultat);
                         else
-                                KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, missing key or corrupted file."));
+				slotCheckContent(fname,false);	
+                                //KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, missing key or corrupted file."));
                 }
         } else
                 KMessageBox::sorry(this,i18n("Unable to read file."));
 }
 
 
-void MyEditor::slotprocresult()
+void MyEditor::slotProcessResult(QStringList iKeys)
 {
+	refreshImported(iKeys);
         KIO::NetAccess::removeTempFile(tempFile);
         tempFile="";
 }

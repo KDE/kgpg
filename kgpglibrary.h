@@ -63,6 +63,7 @@ private slots:
         void processdecover();
         void processdecerror(QString mssge);
         void processencerror(QString mssge);
+	void processimportover(QStringList keyList);
         void processpopup();
         void processpopup2();
         void shredprocessenc(KURL);
@@ -75,6 +76,7 @@ private:
 
 signals:
         void decryptionOver();
+	void importOver(QStringList);
 
 
 };

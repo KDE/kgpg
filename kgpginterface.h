@@ -312,7 +312,7 @@ signals:
         /**
                 *  true if import successful, false on error.
                 */
-        void importfinished();
+        void importfinished(QStringList);
         /**
                 *  true if verify successful, false on error.
                 */

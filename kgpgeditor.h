@@ -101,6 +101,7 @@ private slots:
         void slotVerifyFile(KURL url);
         void slotPreVerifyFile();
         void importSignatureKey(QString ID);
+	void slotRefreshImportedKeys(QStringList iKeys);
 
         void slotundo();
         void slotredo();
@@ -115,6 +116,10 @@ private:
         KConfig *config;
         bool pgpExtension;
         KAction* fileSave, *editUndo, *editRedo;
+	
+signals:
+
+void refreshImported(QStringList);
 };
 #endif
 

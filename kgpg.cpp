@@ -138,6 +138,7 @@ void  MyView::clipDecrypt()
 void  MyView::openEditor()
 {
         KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WType_Dialog);
+	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),this,SLOT(slotImportedKeys(QStringList)));	
         kgpgtxtedit->show();
 }
 
@@ -339,6 +340,12 @@ void  MyView::decryptDroppedFile()
         lib->slotFileDec(droppedUrl,swapname,customDecrypt);
         if (isFolder)
                 connect(lib,SIGNAL(decryptionOver()),this,SLOT(unArchive()));
+		connect(lib,SIGNAL(importOver(QStringList)),this,SLOT(slotImportedKeys(QStringList)));
+}
+
+void  MyView::slotImportedKeys(QStringList iKeys)
+{
+emit importedKeys(iKeys);
 }
 
 void  MyView::unArchive()
@@ -366,7 +373,8 @@ void  MyView::unArchive()
 void  MyView::showDroppedFile()
 {
         KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
-        kgpgtxtedit->view->editor->droppedfile(droppedUrl);
+        kgpgtxtedit->view->editor->slotDroppedFile(droppedUrl);
+	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),this,SLOT(slotImportedKeys(QStringList)));
         kgpgtxtedit->show();
 }
 
@@ -800,6 +808,7 @@ int KgpgAppletApp::newInstance()
                 connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
                 connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));
                 connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotgenkey()));
+		connect(kgpg_applet->w,SIGNAL(importedKeys(QStringList)),s_keyManager->keysList2,SLOT(slotReloadKeys(QStringList)));
                 kgpg_applet->show();
                 kgpg_applet->w->ksConfig->setGroup("GPG Settings");
                 QString gpgPath=kgpg_applet->w->ksConfig->readPathEntry("gpg_config_path");

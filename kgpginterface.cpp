@@ -755,7 +755,7 @@ void KgpgInterface::verifyfin(KProcess *)
                 message=message.section('\n',0,0);
                 message=message.stripWhiteSpace();
                 keyID=message.section(' ',0,0);
-                message.remove(0,keyID.length());
+//                 message.remove(0,keyID.length());
                 keyMail=message;
                 KMessageBox::sorry(0,i18n("<qt><b>BAD signature</b> from:<br> %1<br>Key id: %2<br><br>"
                                           "<b>The file is corrupted!</b></qt>").arg(keyMail.replace(QRegExp("<"),"&lt;")).arg(keyID),file.filename());
@@ -1357,7 +1357,7 @@ void KgpgInterface::slotReadKey(KProcIO *p)
 void KgpgInterface::importKeyURL(KURL url, bool importSecret)
 {
         /////////////      import a key
-
+kdDebug()<<"Importing "<<url.path()<<"\n";
         if( KIO::NetAccess::download( url, tempKeyFile ) ) {
                 message=QString::null;
                 KProcIO *conprocess=new KProcIO();
@@ -1374,7 +1374,6 @@ void KgpgInterface::importKeyURL(KURL url, bool importSecret)
 void KgpgInterface::importKey(QString keystr, bool importSecret)
 {
         /////////////      import a key
-
         message=QString::null;
         KProcIO *conprocess=new KProcIO();
         *conprocess<< "gpg"<<"--no-tty"<<"--no-secmem-warning"<<"<<status-fd=2"<<"--import";
@@ -1389,7 +1388,8 @@ void KgpgInterface::importKey(QString keystr, bool importSecret)
 
 void KgpgInterface::importover(KProcess *)
 {
-
+QStringList importedKeysIds;
+kdDebug()<<"Importing is over"<<"\n";
         QString importedNb,importedNbSucess,importedNbProcess,resultMessage, parsedOutput,importedNbUnchanged,importedNbSig;
         QString notImportesNbSec,importedNbMissing,importedNbRSA,importedNbUid,importedNbSub,importedNbRev,readNbSec;
         QString importedNbSec,dupNbSec;
@@ -1398,7 +1398,9 @@ void KgpgInterface::importover(KProcess *)
 
         while (parsedOutput.find("IMPORTED")!=-1) {
                 parsedOutput.remove(0,parsedOutput.find("IMPORTED")+8);
-                importedKeys+=parsedOutput.section("\n",0,0).stripWhiteSpace();
+                parsedOutput=parsedOutput.section("\n",0,0).stripWhiteSpace();
+		importedKeys<<parsedOutput;
+		importedKeysIds<<parsedOutput.section(' ',0,0);
         }
 
         if (message.find("IMPORT_RES")!=-1) {
@@ -1448,7 +1450,7 @@ void KgpgInterface::importover(KProcess *)
         m_box->setMinimumWidth(300);
         m_box->exec();
         //KMessageBox::information(0,message);
-        emit importfinished();
+        emit importfinished(importedKeysIds);
 }
 
 void KgpgInterface::importURLover(KProcess *p)

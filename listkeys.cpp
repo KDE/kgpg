@@ -2480,6 +2480,13 @@ refreshcurrentkey(currentItem());
 else refreshcurrentkey(currentItem()->parent());
 }
 
+void KeyView::slotReloadKeys(QStringList keyIDs)
+{
+for ( QStringList::Iterator it = keyIDs.begin(); it != keyIDs.end(); ++it ) {
+       		refreshcurrentkey(*it);
+		}
+}
+
 void KeyView::refreshcurrentkey(QString currentID)
 {
         UpdateViewItem *item=NULL;

@@ -153,6 +153,7 @@ private slots:
 	void refreshgroups();
 	QPixmap slotGetPhoto(QString photoId,bool mini=false);
 	void slotSetPhotoId(QStringList list);
+	void slotReloadKeys(QStringList keyIDs);
 
 protected:
         virtual void startDrag();

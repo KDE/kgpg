@@ -112,6 +112,7 @@ private slots:
         void  openKeyServer();
         void slotKeyServerClosed();
         void  unArchive();
+	void  slotImportedKeys(QStringList iKeys);
 
 protected:
         virtual void dragEnterEvent(QDragEnterEvent *);
@@ -124,6 +125,7 @@ signals:
         void readAgain2();
 	void createNewKey();
 	void updateDefault(QString);
+	void importedKeys(QStringList);
 };
 
 class kgpgapplet : public KSystemTray//KUniqueApplication

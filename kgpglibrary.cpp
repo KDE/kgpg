@@ -163,12 +163,14 @@ void KgpgLibrary::processdecover()
         emit decryptionOver();
 }
 
+void KgpgLibrary::processimportover(QStringList keyList)
+{
+        emit importOver(keyList);
+}
+
 
 void KgpgLibrary::processdecerror(QString mssge)
 {
-        //        if (popIsDisplayed) {
-        delete pop;
-        //        }
         ///// test if file is a public key
         QFile qfile(QFile::encodeName(urlselected.path()));
         if (qfile.open(IO_ReadOnly)) {
@@ -177,15 +179,14 @@ void KgpgLibrary::processdecerror(QString mssge)
                 qfile.close();
                 //////////////     if  pgp data found, decode it
                 if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK")) {//////  dropped file is a public key, ask for import
-
-
                         int result=KMessageBox::warningContinueCancel(0,i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(urlselected.path()),i18n("Warning"));
                         if (result==KMessageBox::Cancel)
                                 return;
                         else {
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
                                 importKeyProcess->importKeyURL(urlselected);
-
+				connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SLOT(processimportover(QStringList)));
+				
                                 return;
                         }
                 } else if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK")) {//////  dropped file is a public key, ask for import
