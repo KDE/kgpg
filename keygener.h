@@ -20,7 +20,6 @@
 
 #include <kdialogbase.h>
 
-class QCheckBox;
 
 class KComboBox;
 class KLineEdit;
@@ -31,7 +30,6 @@ class keyGenerate : public KDialogBase
         Q_OBJECT
 public:
         keyGenerate(QWidget *parent=0, const char *name=0);
-        QCheckBox *choix3,*choix4,*choix2,*choix1,*choix5;
 
         KComboBox *keykind,*keysize,*keyexp;
         KLineEdit *numb,*comment,*kname,*mail;

@@ -28,12 +28,13 @@
 #include <kurl.h>
 #include <kdeversion.h>
 #include <kshred.h>
+#include <kpassivepopup.h>
 
 #include "popuppublic.h"
 #include "popupname.h"
 #include "kgpginterface.h"
 #include "kgpgshredwidget.h"
-#include <kpassivepopup.h>
+
 
 class KgpgLibrary : public QObject
 {

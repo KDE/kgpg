@@ -1,0 +1,234 @@
+<!DOCTYPE UI><UI version="3.1" stdsetdef="1">
+<class>KgpgRevokeWidget</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>KgpgRevokeWidget</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>449</width>
+            <height>313</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Create Revocation Certificate</string>
+    </property>
+    <property name="sizeGripEnabled">
+        <bool>false</bool>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>textLabel3</cstring>
+            </property>
+            <property name="text">
+                <string>Reason for revocation</string>
+            </property>
+        </widget>
+        <widget class="QComboBox" row="1" column="1">
+            <item>
+                <property name="text">
+                    <string>No reason</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Key has been compromised</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Key is superseded</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Key Is is no longer used</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>comboBox1</cstring>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="6" column="0">
+            <property name="name">
+                <cstring>cbSend</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+            <property name="text">
+                <string>Send certificate to Key Server</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="7" column="0">
+            <property name="name">
+                <cstring>cbImport</cstring>
+            </property>
+            <property name="enabled">
+                <bool>false</bool>
+            </property>
+            <property name="text">
+                <string>Import into Keyring</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="4" column="0">
+            <property name="name">
+                <cstring>cbSave</cstring>
+            </property>
+            <property name="text">
+                <string>Save certificate:</string>
+            </property>
+            <property name="checked">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="KURLRequester" row="4" column="1">
+            <property name="name">
+                <cstring>kURLRequester1</cstring>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="5" column="0">
+            <property name="name">
+                <cstring>cbPrint</cstring>
+            </property>
+            <property name="text">
+                <string>Print certificate</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>textLabel4</cstring>
+            </property>
+            <property name="text">
+                <string>Description:</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Create revocation certificate for</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="0" column="1">
+            <property name="name">
+                <cstring>keyID</cstring>
+            </property>
+            <property name="text">
+                <string>key id</string>
+            </property>
+            <property name="alignment">
+                <set>AlignVCenter</set>
+            </property>
+        </widget>
+        <widget class="QLayoutWidget" row="8" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>Layout1</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Horizontal Spacing2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonOk</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonCancel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QTextEdit" row="3" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>textDescription</cstring>
+            </property>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>buttonOk</sender>
+        <signal>clicked()</signal>
+        <receiver>KgpgRevokeWidget</receiver>
+        <slot>accept()</slot>
+    </connection>
+    <connection>
+        <sender>buttonCancel</sender>
+        <signal>clicked()</signal>
+        <receiver>KgpgRevokeWidget</receiver>
+        <slot>reject()</slot>
+    </connection>
+    <connection>
+        <sender>cbSave</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>KgpgRevokeWidget</receiver>
+        <slot>cbSave_toggled(bool)</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">kgpgrevokewidget.ui.h</include>
+</includes>
+<slots>
+    <slot>cbSave_toggled( bool isOn )</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
+</UI>

@@ -61,10 +61,13 @@
 #include <kaction.h>
 #include <kapplication.h>
 #include <kedittoolbar.h>
+#include <kpassivepopup.h>
 #include <dcopclient.h>
 #include <kstandarddirs.h>
 #include <kfinddialog.h>
 #include <kfind.h>
+#include <qmovie.h>
+#include <kurlrequester.h>
 
 
 #include "kgpg.h"
@@ -76,6 +79,8 @@
 #include "keyinfowidget.h"
 #include "groupedit.h"
 #include "dcopiface.h"
+#include "kgpgrevokewidget.h"
+
 
 typedef struct gpgKey
 {
@@ -157,12 +162,13 @@ public:
         QPopupMenu *popup,*popupsec,*popupout,*popupsig,*popupgroup;
         QString message, optionsDefaultKey,configUrl;
         QStringList keynames;
-        QDialog *pop;
+        KPassivePopup *pop;
 
 private:
         QPushButton *bouton1,*bouton2,*bouton0;
         KConfig *config;
-        QString tempKeyFile;
+        QString tempKeyFile,newKeyMail,newKeyName,newkeyFinger,newkeyID;
+	bool continueSearch;
         keyServer *kServer;
         KTempFile *kgpgtmp;
         bool showPhoto,configshowToolBar;
@@ -174,6 +180,7 @@ private:
         QString globalkeyMail,globalkeyID,searchString;
 	long searchOptions;
 	groupEdit *gEdit;
+	KgpgInterface *revKeyProcess;
 
 protected:
         void closeEvent( QCloseEvent * e );
@@ -188,7 +195,13 @@ public slots:
 	void findNextKey();
 
 private slots:
-        void checkList();
+	void readgenprocess(KProcIO *p);
+	void newKeyDone(KProcess *);
+        void slotrevoke(QString keyID,QString revokeUrl,int reason,QString description);
+	void revokeWidget();
+	void doFilePrint(QString url);
+	void doPrint(QString txt);
+	void checkList();
 	void signLoop();
         void configuretoolbars();
         void saveToolbarConfig();
@@ -197,7 +210,7 @@ private slots:
         void slotTip();
         void slotConfigureShortcuts();
         void keyserver();
-        void slotReadProcess(KProcIO *p);
+        void slotReadFingerProcess(KProcIO *p);
         void slotProcessExportMail(QString keys);
         void slotProcessExportClip(QString keys);
         void displayPhoto();
@@ -237,6 +250,7 @@ private slots:
 
 signals:
         void readAgainOptions();
+	void certificate(QString);
 
 
 };

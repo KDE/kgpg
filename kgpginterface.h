@@ -146,6 +146,9 @@ public slots:
         void KgpgTrustExpire(QString keyID,QString keyTrust);
 	void KgpgChangePass(QString keyID);
 
+	void KgpgRevokeKey(QString keyID,QString revokeUrl,int reason,QString description);
+	void revokeover(KProcess *);
+	void revokeprocess(KProcIO *p);
 
         static QString KgpgDecryptText(QString text,QString userID);
         static QString KgpgDecryptFileToText(KURL srcUrl,QString userID);
@@ -310,7 +313,8 @@ signals:
                 */
         void signfinished();
         void trustfinished();
-
+	void revokecertificate(QString);
+	void revokeurl(QString);
         void expirationFinished(int);
 
 
@@ -320,10 +324,12 @@ private:
         */
         QString message,tempKeyFile,userIDs,txtprocess,output,keyString;
         QCString passphrase;
-        bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc;
+        bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc,revokeSuccess;
         int signSuccess,expSuccess,trustValue,konsChecked;
         int step,signb,sigsearch,expirationDelay;
         QString konsSignKey, konsKeyID,errMessage;
+	int revokeReason;
+	QString revokeDescription,certificateUrl;
         KURL sourceFile;
 
         /*
