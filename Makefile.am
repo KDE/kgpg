@@ -16,7 +16,7 @@ autostartdir = $(prefix)/share/autostart
 autostart_DATA = kgpg.desktop
 
 applnkdir = $(kde_appsdir)/Applications
-applnk_DATA = kgpg.desktop keymanager.desktop
+applnk_DATA = kgpg.desktop
 
 picsdir = $(kde_datadir)/kgpg/pics
 pics_DATA = kgpg.png
