@@ -206,9 +206,12 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
                         if (opt.section(':',6,6)=="")
 
                                 labelexpire->setText(i18n("Expiration: never"));
-                        else
-                                labelexpire->setText(i18n("Expiration: ")+opt.section(':',6,6));
-                        labelcreation->setText(i18n("Creation: ")+opt.section(':',5,5));
+                        else {
+                                QDate date = QDate::fromString(opt.section(':',6,6), Qt::ISODate);
+                                labelexpire->setText(i18n("Expiration: ")+KGlobal::locale()->formatDate(date));
+                        }
+                        QDate date = QDate::fromString(opt.section(':',5,5), Qt::ISODate);
+                        labelcreation->setText(i18n("Creation: ")+KGlobal::locale()->formatDate(date));
                         labelname=new QLabel(i18n("Name: ")+fullname.section('<',0,0),page);
                         labellength->setText(i18n("Length: ")+opt.section(':',2,2));
                         labeltrust->setText(i18n("Trust: %1").arg(tr));
@@ -1656,11 +1659,19 @@ gpgKey KeyView::extractKey(QString keyColon)
 
         ret.gpgkeysize=keyColon.section(':',2,2);
         ret.gpgkeycreation=keyColon.section(':',5,5);
+        if(!ret.gpgkeycreation.isEmpty()) {
+                QDate date = QDate::fromString(ret.gpgkeycreation, Qt::ISODate);
+                ret.gpgkeycreation=KGlobal::locale()->formatDate(date, true);
+        }
         QString tid=keyColon.section(':',4,4);
         ret.gpgkeyid=QString("0x"+tid.right(8));
         ret.gpgkeyexpiration=keyColon.section(':',6,6);
         if (ret.gpgkeyexpiration=="")
                 ret.gpgkeyexpiration=i18n("Unlimited");
+        else {
+                QDate date = QDate::fromString(ret.gpgkeyexpiration, Qt::ISODate);
+                ret.gpgkeyexpiration=KGlobal::locale()->formatDate(date, true);
+        }
         QString fullname=keyColon.section(':',9,9);
         if (fullname.find("<")!=-1) {
                 ret.gpgkeymail=fullname.section('<',-1,-1);
