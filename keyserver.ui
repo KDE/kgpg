@@ -88,9 +88,6 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                         <property name="text">
                             <string>&amp;Search</string>
                         </property>
-                        <property name="accel">
-                            <string>Alt+S</string>
-                        </property>
                         <property name="default">
                             <bool>true</bool>
                         </property>
@@ -101,9 +98,6 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                         </property>
                         <property name="text">
                             <string>&amp;Import</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+I</string>
                         </property>
                     </widget>
                     <spacer row="5" column="0">
@@ -206,9 +200,6 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
                         </property>
                         <property name="text">
                             <string>&amp;Export</string>
-                        </property>
-                        <property name="accel">
-                            <string>Alt+E</string>
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;qt&gt;&lt;b&gt;Export:&lt;/b&gt;&lt;br /&gt;
