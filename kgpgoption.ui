@@ -171,7 +171,7 @@
                         <property name="sizeHint">
                             <size>
                                 <width>21</width>
-                                <height>40</height>
+                                <height>16</height>
                             </size>
                         </property>
                     </spacer>
@@ -675,6 +675,24 @@
         <receiver>KgpgOptionDialog</receiver>
         <slot>reject()</slot>
     </connection>
+    <connection>
+        <sender>file_2_2</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>KgpgOptionDialog</receiver>
+        <slot>file_2_2_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>defaut_2_2</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>KgpgOptionDialog</receiver>
+        <slot>defaut_2_2_toggled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>custom_2_2</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>KgpgOptionDialog</receiver>
+        <slot>custom_2_2_toggled(bool)</slot>
+    </connection>
 </connections>
 <tabstops>
     <tabstop>tabWidget</tabstop>
@@ -705,7 +723,7 @@
     <tabstop>buttonCancel</tabstop>
 </tabstops>
 <includes>
-    <include location="local" impldecl="in implementation">kgpgoptiondialog.ui.h</include>
+    <include location="local" impldecl="in implementation">kgpgoption.ui.h</include>
 </includes>
 <slots>
     <slot>file_2_2_toggled( bool ison )</slot>

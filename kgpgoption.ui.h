@@ -7,18 +7,17 @@
 ** place of a destructor.
 *****************************************************************************/
 #include <kcombobox.h>
+#include <klineedit.h>
 
-void KgpgOptionDialog::file_2_2_toggled( bool ison)
+void KgpgOptionDialog::file_2_2_toggled( bool ison )
 {
 filekey_2_2->setEnabled(ison);
 }
 
-
-void KgpgOptionDialog::defaut_2_2_toggled( bool ison)
+void KgpgOptionDialog::defaut_2_2_toggled( bool ison )
 {
 defautkey_2_2->setEnabled(ison);
 }
-
 
 void KgpgOptionDialog::custom_2_2_toggled( bool ison)
 {

@@ -82,7 +82,28 @@ setAcceptDrops(true);
 }
 
 MyView::~MyView()
-{}
+{
+if (m_popup)
+{
+delete m_popup;
+m_popup = 0;
+}
+if (conf_popup)
+{
+delete conf_popup;
+conf_popup = 0;
+}
+if (droppopup)
+{
+delete droppopup;
+droppopup = 0;
+}
+if (udroppopup)
+{
+delete udroppopup;
+udroppopup = 0;
+}
+}
 
 void MyView::init()
 {
@@ -510,7 +531,11 @@ kgpgapplet::kgpgapplet()
 
 kgpgapplet::~kgpgapplet()
 {
-delete kgpgapp;
+if (w)
+{
+delete w;
+w = 0;
+}
 }
 
 
@@ -522,7 +547,10 @@ KgpgAppletApp::KgpgAppletApp()
 
 KgpgAppletApp::~KgpgAppletApp()
 {
-	delete kgpg_applet;
+if (kgpg_applet)
+{
+delete kgpg_applet;
+kgpg_applet = 0;	
 }
 
 
