@@ -74,7 +74,7 @@ void MyEditor::droppedfile(KURL url)
     return;
   }
 
-  QFile qfile(tempFile);
+  QFile qfile(tempFile.local8Bit());
 
   if (qfile.open(IO_ReadOnly))
   {
@@ -140,7 +140,7 @@ void MyEditor::slotprocresultenckey(KProcess *)
 
   if (enckey=="")
   {
-    QFile qfile(filename);
+    QFile qfile(filename.local8Bit());
 
     if (qfile.open(IO_ReadOnly))
     {
@@ -183,7 +183,7 @@ void MyEditor::slotprocresultenckey(KProcess *)
 
 
  //KMessageBox::sorry(0,text);
-   QFile qfile(filename);
+   QFile qfile(filename.local8Bit());
 
 if (qfile.open(IO_ReadOnly))
 {
