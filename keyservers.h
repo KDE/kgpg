@@ -54,11 +54,10 @@ void slotimportresult(KProcess*);
 void slotimportread(KProcIO *p); 
 void slotprocread(KProcIO *p);
 void slotExport();
-void slotEdit(QListViewItem *cur);
-void slotUndoEdit(); 
+void slotEdit(QListViewItem *);
+void slotEditServer();
  
    private:
-  bool editItem;
   KConfig *config;
   QString readmessage;
   KProcIO *importproc;
