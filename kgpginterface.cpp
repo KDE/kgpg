@@ -1949,9 +1949,7 @@ QString KgpgInterface::checkForUtf8(QString txt)
                         str[0] = (char) QString( txt.mid( idx + 2, 2 ) ).toShort( 0, 16 );
                         txt.replace( idx, 4, str );
                 }
-                return QString::fromUtf8(txt.ascii());
-                /* The string is already in UTF-8 */
-//                return txt;//QString::fromUtf8(txt.ascii());
+                return QString::fromUtf8(QString::fromUtf8(txt.ascii()).ascii());  // perform Utf8 twice, or some keys display badly
 }
 
 
