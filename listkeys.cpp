@@ -1302,11 +1302,11 @@ void listKeys::slotexport()
 
 void listKeys::slotProcessExportMail(QString keys)
 {
-        ///////////////////////// send key by mail
-        KProcIO *proc=new KProcIO();
-        QString subj="Public key:";
-        *proc<<"kmail"<<"--subject"<<subj<<"--body"<<keys;
-        proc->start(KProcess::DontCare);
+///   start default Mail application
+kapp->invokeMailer(QString::null, QString::null, QString::null, QString::null,
+                     keys, //body
+                     QString::null,
+                     QString::null); // attachments
 }
 
 void listKeys::slotProcessExportClip(QString keys)
@@ -1750,15 +1750,18 @@ void listKeys::slotedit()
                 return;
 
         KProcess kp;
-        kp<<"konsole"
-        <<"-e"
+
+	KConfig *config = new KConfig("kdeglobals", true);
+	config->setGroup("General");
+	kp<< config->readEntry("TerminalApplication","konsole");
+	kp<<"-e"
         <<"gpg"
         <<"--no-secmem-warning"
         <<"--edit-key"
         <<keysList2->currentItem()->text(6)
         <<"help";
         kp.start(KProcess::Block);
-        refreshkey();
+	keysList2->refreshcurrentkey(keysList2->currentItem());
 }
 
 
@@ -1865,30 +1868,18 @@ void listKeys::slotgenkey()
                         proc->closeWhenDone();
                 } else  ////// start expert (=konsole) mode
                 {
-                        FILE *pass;
-                        int status;
-                        pid_t pid;
-                        QString tst;
+		KProcess kp;
 
-                        char line[130];
-
-                        //////////   fork process
-                        pid = fork ();
-                        if (pid == 0)  //////////  child process =console
-                        {
-                                pass=popen("konsole -e gpg --gen-key","r");
-                                while ( fgets( line, sizeof(line), pass))
-                                        tst+=line;
-                                pclose(pass);
-                        } else if (waitpid (pid, &status, 0) != pid)  ////// parent process wait for end of child
-                                status = -1;
-
+		KConfig *config = new KConfig("kdeglobals", true);
+		config->setGroup("General");
+		kp<< config->readEntry("TerminalApplication","konsole");
+		kp<<"-e"
+        	<<"gpg"
+        	<<"--gen-key";
+        	kp.start(KProcess::Block);
+		refreshkey();
                 }
-                refreshkey();
-
         }
-
-
 }
 
 void listKeys::readgenprocess(KProcIO *p)
@@ -2011,8 +2002,11 @@ void listKeys::deleteseckey()
         if (result!=KMessageBox::Yes)
                 return;
 
-        KProcess *conprocess=new KProcess();
-        *conprocess<< "konsole"<<"-e"<<"gpg"
+	KProcess *conprocess=new KProcess();
+        KConfig *config = new KConfig("kdeglobals", true);
+	config->setGroup("General");
+	*conprocess<< config->readEntry("TerminalApplication","konsole");
+        *conprocess<<"-e"<<"gpg"
         <<"--no-secmem-warning"
         <<"--delete-secret-key"<<keysList2->currentItem()->text(6);
         QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(deletekey()));

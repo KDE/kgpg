@@ -32,6 +32,7 @@
 #include <kprocess.h>
 #include <kprocio.h>
 #include <kurl.h>
+#include <kconfig.h>
 #include <kio/netaccess.h>
 #include <kdebug.h>
 #include <ktempfile.h>

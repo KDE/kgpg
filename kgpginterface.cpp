@@ -862,7 +862,10 @@ void KgpgInterface::signover(KProcess *)
 void KgpgInterface::openSignConsole()
 {
         KProcess *conprocess=new KProcess();
-        *conprocess<< "konsole"<<"-e"<<"gpg";
+	KConfig *config = new KConfig("kdeglobals", true);
+	config->setGroup("General");
+	*conprocess<< config->readEntry("TerminalApplication","konsole");
+        *conprocess<<"-e"<<"gpg";
         *conprocess<<"--no-secmem-warning"<<"--expert"<<"-u"<<konsSignKey;
         if (!konsLocal)
                 *conprocess<<"--sign-key"<<konsKeyID;
