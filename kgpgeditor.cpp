@@ -29,6 +29,7 @@ KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent
         readOptions();
 
         // call inits to invoke all other construction parts
+	setAutoSaveSettings("Editor",true);
         initActions();
         initView();
         createGUI("kgpg.rc");
