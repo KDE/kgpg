@@ -539,7 +539,8 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         KStdAction::preferences(this, SLOT(slotOptions()), actionCollection(),"kgpg_config");
         (void) new KAction(i18n("Tip of the &Day"), "idea", 0,this, SLOT(slotTip()), actionCollection(),"help_tipofday");
         (void) new KAction(i18n("View GnuPG Manual"), "contents", 0,this, SLOT(slotManpage()),actionCollection(),"gpg_man");
-        KStdAction::keyBindings( this, SLOT( slotConfigureShortcuts() ),actionCollection(), "key_bind" );
+        KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()), 
+actionCollection());
 
         KStdAction::configureToolbars(this, SLOT(configuretoolbars() ), actionCollection(), "configuretoolbars");
         setStandardToolBarMenuEnabled(true);
@@ -1225,11 +1226,6 @@ void listKeys::slotManpage()
 void listKeys::slotTip()
 {
         KTipDialog::showTip(this, QString("kgpg/tips"), true);
-}
-
-void listKeys::slotConfigureShortcuts()
-{
-        KKeyDialog::configure( actionCollection(), this, true );
 }
 
 void listKeys::closeEvent ( QCloseEvent * e )

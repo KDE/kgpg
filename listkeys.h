@@ -58,7 +58,6 @@
 #include <kprocio.h>
 #include <kglobal.h>
 #include <kiconloader.h>
-#include <kkeydialog.h>
 #include <kpassdlg.h>
 #include <kaction.h>
 #include <kapplication.h>
@@ -255,7 +254,6 @@ private slots:
         void saveToolbarConfig();
         void slotManpage();
         void slotTip();
-        void slotConfigureShortcuts();
         void keyserver();
         void slotReadFingerProcess(KProcIO *p);
         void slotProcessExportMail(QString keys);
