@@ -1,6 +1,7 @@
 CVS
 
-
+-Add color for revoked keys
+-Make colors configurable
 -Rewrote text signing and decryption processes.
 -User can now choose the left click behaviour (open key manager or editor)
 -Fixed bug in text encryption (gpg errors were included in encrypted text)

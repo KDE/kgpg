@@ -452,11 +452,24 @@ KeyView::KeyView( QWidget *parent, const char *name )
         pixuserid=loader->loadIcon("kgpg_identity",KIcon::Small,20);
         pixuserphoto=loader->loadIcon("kgpg_photo",KIcon::Small,20);
         pixRevoke=loader->loadIcon("stop",KIcon::Small,20);
-
-        trustunknown.load(locate("appdata", "pics/kgpg_unknown.png"));
-        trustbad.load(locate("appdata", "pics/kgpg_bad.png"));
-        trustmarginal.load(locate("appdata", "pics/kgpg_marginal.png"));
-        trustgood.load(locate("appdata", "pics/kgpg_good.png"));
+	QPixmap blankFrame;
+	blankFrame.load(locate("appdata", "pics/kgpg_blank.png"));
+        
+	trustunknown.load(locate("appdata", "pics/kgpg_fill.png"));
+	trustunknown.fill(KGpgSettings::colorUnknown());
+	bitBlt(&trustunknown,0,0,&blankFrame,0,0,50,15);
+	
+	trustbad.load(locate("appdata", "pics/kgpg_fill.png"));
+	trustbad.fill(KGpgSettings::colorBad());//QColor(172,0,0));
+	bitBlt(&trustbad,0,0,&blankFrame,0,0,50,15);
+        
+	trustrevoked.load(locate("appdata", "pics/kgpg_fill.png"));
+	trustrevoked.fill(KGpgSettings::colorRev());//QColor(30,30,30));
+	bitBlt(&trustrevoked,0,0,&blankFrame,0,0,50,15);
+        
+	trustgood.load(locate("appdata", "pics/kgpg_fill.png"));
+	trustgood.fill(KGpgSettings::colorGood());//QColor(144,255,0));
+	bitBlt(&trustgood,0,0,&blankFrame,0,0,50,15);
 
         connect(this,SIGNAL(expanded (QListViewItem *)),this,SLOT(expandKey(QListViewItem *)));
         header()->setMovingEnabled(false);
@@ -3141,7 +3154,7 @@ gpgKey KeyView::extractKey(QString keyColon)
                 break;
         case 'r':
                 ret.gpgkeytrust=i18n("Revoked");
-                ret.trustpic=trustbad;
+                ret.trustpic=trustrevoked;
                 break;
         case 'e':
                 ret.gpgkeytrust=i18n("Expired");
@@ -3157,7 +3170,7 @@ gpgKey KeyView::extractKey(QString keyColon)
                 break;
         case 'm':
                 ret.gpgkeytrust=i18n("Marginal");
-                ret.trustpic=trustmarginal;
+                ret.trustpic=trustbad;
                 break;
         case 'f':
                 ret.gpgkeytrust=i18n("Full");

@@ -1,0 +1,157 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>ColorsConf</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>ColorsConf</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>582</width>
+            <height>400</height>
+        </rect>
+    </property>
+    <property name="whatsThis" stdset="0">
+        <string>&lt;qt&gt;&lt;b&gt;Global Settings:&lt;/b&gt;&lt;br /&gt;
+	&lt;p&gt;&lt;/p&gt;
+	&lt;/qt&gt;</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>0</number>
+        </property>
+        <widget class="QLabel" row="0" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Trusted Keys</string>
+            </property>
+        </widget>
+        <widget class="KColorButton" row="0" column="1">
+            <property name="name">
+                <cstring>kcfg_ColorGood</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="color">
+                <color>
+                    <red>144</red>
+                    <green>255</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+        </widget>
+        <widget class="KColorButton" row="1" column="1">
+            <property name="name">
+                <cstring>kcfg_ColorRev</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="color">
+                <color>
+                    <red>30</red>
+                    <green>30</green>
+                    <blue>30</blue>
+                </color>
+            </property>
+        </widget>
+        <widget class="KColorButton" row="2" column="1">
+            <property name="name">
+                <cstring>kcfg_ColorUnknown</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="KColorButton" row="3" column="1">
+            <property name="name">
+                <cstring>kcfg_ColorBad</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+            <property name="color">
+                <color>
+                    <red>172</red>
+                    <green>0</green>
+                    <blue>0</blue>
+                </color>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
+            </property>
+            <property name="text">
+                <string>Revoked Keys</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>textLabel1_3</cstring>
+            </property>
+            <property name="text">
+                <string>Unknown Keys</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0">
+            <property name="name">
+                <cstring>textLabel1_4</cstring>
+            </property>
+            <property name="text">
+                <string>Expired/disabled Keys</string>
+            </property>
+        </widget>
+        <spacer row="4" column="0">
+            <property name="name">
+                <cstring>spacer5</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>21</width>
+                    <height>60</height>
+                </size>
+            </property>
+        </spacer>
+        <spacer row="1" column="2">
+            <property name="name">
+                <cstring>spacer4</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>91</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kcolorbutton.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
+    <includehint>kcolorbutton.h</includehint>
+</includehints>
+</UI>

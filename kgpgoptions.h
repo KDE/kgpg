@@ -25,6 +25,7 @@ class Decryption;
 class UI;
 class GPGConf;
 class ServerConf;
+class ColorsConf;
 class KFontChooser;
 class KConfig;
 class KSimpleConfig;
@@ -42,6 +43,7 @@ public:
         GPGConf *page4;
 	ServerConf *page6;
 	KFontChooser *page7;
+	ColorsConf *page8;
         
 private:
         KConfig *config;

@@ -99,7 +99,7 @@ private:
 
         QString secretList,orphanList;
         QString photoKeysList;
-        QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown,trustmarginal, trustbad, trustgood,pixRevoke,pixkeyOrphan;
+        QPixmap pixkeyPair,pixkeySingle,pixkeyGroup,pixsignature,pixuserid,pixuserphoto,trustunknown,trustrevoked, trustbad, trustgood,pixRevoke,pixkeyOrphan;
         QListViewItem *itemToOpen;
         KTempFile *kgpgphototmp;
         int groupNb;

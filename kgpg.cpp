@@ -838,6 +838,7 @@ s_keyManager->keysList2->saveLayout(KGlobal::config(),"KeyView");
 	KGpgSettings::setShowCreat(s_keyManager->sCreat->isChecked());
 	KGpgSettings::setShowSize(s_keyManager->sSize->isChecked());
         KGpgSettings::writeConfig();
+	KSimpleConfig ("kgpgrc").sync();
         quit();
 }
 

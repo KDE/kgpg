@@ -156,5 +156,24 @@
       <default>true</default>
     </entry>
   </group>
-
+  
+<group name="Key Colors">
+    <entry name="ColorGood" type="Color" key="color_good">
+      <label>Color used for trusted keys.</label>
+      <default>144,255,0</default>
+    </entry>
+    <entry name="ColorRev" type="Color" key="color_revoked">
+      <label>Color used for revoked keys.</label>
+      <default>30,30,30</default>
+    </entry>
+    <entry name="ColorUnknown" type="Color" key="color_unknown">
+      <label>Color used for unknown keys.</label>
+      <default>255,255,255</default>
+    </entry>
+    <entry name="ColorBad" type="Color" key="color_bad">
+      <label>Color used for untrusted keys.</label>
+      <default>172,0,0</default>
+    </entry>
+    </group>
+    
 </kcfg>

@@ -60,6 +60,7 @@
 #include "conf_gpg.h"
 #include "conf_servers.h"
 #include "conf_ui.h"
+#include "conf_colors.h"
 
 ///////////////////////   main window
 
@@ -96,6 +97,7 @@ kdDebug(2100)<<"Adding pages"<<endl;
         page4=new GPGConf();
 	page6=new ServerConf();
 	page7=new KFontChooser();
+	page8=new ColorsConf();
 	pixkeySingle=KGlobal::iconLoader()->loadIcon("kgpg_key1",KIcon::Small,20);
 	pixkeyDouble=KGlobal::iconLoader()->loadIcon("kgpg_key2",KIcon::Small,20);
         addPage(page1, i18n("Encryption"), "encrypted");
@@ -106,6 +108,7 @@ kdDebug(2100)<<"Adding pages"<<endl;
 	addPage(page6, i18n("Key Servers"), "network");
 	addPage(page7, i18n("Editor Font"), "fonts");  //,QString::null,false);
 	page7->setFont(startFont);
+	addPage(page8, i18n("Key Colors"), "colorize");
 	
 
         // The following widgets are managed manually.
@@ -290,6 +293,7 @@ void kgpgOptions::updateSettings()
 	KGpgSettings::setGpgConfigPath( page4->gpg_home_path->text()+page4->gpg_conf_path->text() );
 	if (page4->gpg_home_path->text()!=KURL(gpgConfigPath).directory(false))
 	{
+
 	if (page4->gpg_home_path->text()!=defaultHomePath)
 	setenv("GNUPGHOME",page4->gpg_home_path->text().ascii(),1);
 	else setenv("GNUPGHOME","",1);
@@ -301,7 +305,8 @@ void kgpgOptions::updateSettings()
         if (page1->kcfg_EncryptFilesTo->isChecked())
 		fileEncryptionKey = page1->file_key->currentText();
 	else
-		fileEncryptionKey = "";
+		fileEncryptionKey = QString::null;
+	if (fileEncryptionKey!=KGpgSettings::fileEncryptionKey())
         KGpgSettings::setFileEncryptionKey( fileEncryptionKey );
 
 	encryptToAlways = page1->encrypt_to_always->isChecked();
@@ -309,7 +314,7 @@ void kgpgOptions::updateSettings()
         if (encryptToAlways)
         	alwaysKeyID = page1->always_key->currentText().section(':',0,0);
         else
-        	alwaysKeyID = "";
+        	alwaysKeyID = QString::null;
 	KgpgInterface::setGpgSetting("encrypt-to",alwaysKeyID, KGpgSettings::gpgConfigPath());
 	
 	//////////////////  save key servers
@@ -322,24 +327,6 @@ void kgpgOptions::updateSettings()
 	ks->writeEntry("Editor_Font",startFont);
 	}
 	
-	QString currList;
-	serverList=QStringList ();
-	for (uint i=0;i<page6->ServerBox->count();i++)
-	{
-	QString currItem=page6->ServerBox->text(i);
-	if (currItem.find(" ")!=-1) // it is the default keyserver
-	keyServer=currItem.section(" ",0,0);
-	else
-	{
-	serverList.append(currItem);
-	}
-	}
-	currList=serverList.join(",");
-	ks->setGroup("Servers");
-	ks->writeEntry("Server_List",currList);
-	KgpgInterface::setGpgSetting("keyserver",keyServer, KGpgSettings::gpgConfigPath());
-	serverList.prepend(keyServer+" "+i18n("(Default)"));
-	ks->sync();
 
         ///////////////  install service menus
 
@@ -366,11 +353,30 @@ void kgpgOptions::updateSettings()
 	{
 	//	KgpgInterface::setGpgBoolSetting("no-use-agent",true, KGpgSettings::gpgConfigPath());
 		KgpgInterface::setGpgBoolSetting("use-agent",false, KGpgSettings::gpgConfigPath());
-	}	
+	}
 	
+	QString currList;
+	serverList=QStringList ();
+	for (uint i=0;i<page6->ServerBox->count();i++)
+	{
+	QString currItem=page6->ServerBox->text(i);
+	if (currItem.find(" ")!=-1) // it is the default keyserver
+	keyServer=currItem.section(" ",0,0);
+	else
+	{
+	serverList.append(currItem);
+	}
+	}
+	currList=serverList.join(",");
+	ks->setGroup("Servers");
+	ks->writeEntry("Server_List",currList);
+	KgpgInterface::setGpgSetting("keyserver",keyServer, KGpgSettings::gpgConfigPath());
+	serverList.prepend(keyServer+" "+i18n("(Default)"));
+	
+
 	KGpgSettings::writeConfig();
-	
-        emit settingsUpdated();
+	//ks->sync();
+	emit settingsUpdated();
 }
 
 

@@ -65,7 +65,6 @@ KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f,KShortcut goHome):K
 	KSimpleConfig *ks=new KSimpleConfig ("kgpgrc");
 	ks->setGroup("Editor");
 	slotSetFont(ks->readFontEntry("Editor_Font"));
-
         setupGUI(( ToolBar | Keys | StatusBar | Save | Create ), "kgpg.rc");
         delete ks;
 
