@@ -847,7 +847,7 @@ void KgpgApp::processpopup2()
       	pop->move(iXpos,iYpos);
 #else
 	clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
-              QVBoxLayout *voxLayout(clippop,3);
+              QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
               QLabel *tex=new QLabel(clippop);
               tex->setText(i18n("<b>Processing encryption</b>"));
 			  QLabel *tex2=new QLabel(clippop);

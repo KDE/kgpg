@@ -194,6 +194,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
   QString required;
   while (p->readln(required,true)!=-1)
     {
+	required=QString::fromUtf8(required);
       if (required.find("BEGIN_DECRYPTION",0,false)!=-1)
         emit processstarted();
       if (required.find("USERID_HINT",0,false)!=-1)
@@ -224,15 +225,15 @@ void KgpgInterface::readdecprocess(KProcIO *p)
             {
               if (userIDs.isEmpty())
                 userIDs=i18n("[No user id found]");
+				userIDs.replace(QRegExp("<"),"&lt;");
               QCString passphrase;
               QString passdlgmessage;
               if (anonymous)
                 passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys.<br>");
               if ((step<3) && (!anonymous))
                 passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-              QString prettyuIDs=QString::fromUtf8(userIDs);
               
-              passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(prettyuIDs);
+              passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(userIDs);
               int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
               if (code!=QDialog::Accepted)
                 {
@@ -487,7 +488,7 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
     {
       /// pipe for passphrase
       counter++;
-	  userID=QString::fromUtf8(userID);
+	  //userID=QString::fromUtf8(userID);
 	  userID.replace(QRegExp("<"),"&lt;");
       QString passdlg=i18n("Enter passphrase for <b>%1</b>:").arg(userID);
       if (counter>1)
@@ -1118,7 +1119,7 @@ QString KgpgInterface::extractKeyName(KURL url)
   fp = popen(QFile::encodeName(gpgcmd), "r");
   while ( fgets( buffer, sizeof(buffer), fp))
     {
-      encResult=buffer;
+      encResult=QString::fromUtf8(buffer);
       if (encResult.find("USERID_HINT",0,false)!=-1)
         {
           encResult=encResult.section("HINT",1,1);
@@ -1153,7 +1154,7 @@ QString KgpgInterface::extractKeyName(QString txt)
   fp = popen(QFile::encodeName(gpgcmd), "r");
   while ( fgets( buffer, sizeof(buffer), fp))
     {
-      encResult=buffer;
+      encResult=QString::fromUtf8(buffer);
       if (encResult.find("USERID_HINT",0,false)!=-1)
         {
           encResult=encResult.section("HINT",1,1);
