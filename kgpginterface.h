@@ -79,20 +79,20 @@ public slots:
          * @param destUrl Kurl for the decrypted file.
          * @param chances int number of trials left for decryption (used only as an info displayed in the password dialog)
          */
-        void KgpgDecryptFile(KURL srcUrl=0,KURL destUrl=0,QStringList Options="");
+        void KgpgDecryptFile(KURL srcUrl,KURL destUrl,QStringList Options=QStringList());
 
         /**Sign file function
          * @param keyID QString the signing key ID.
          * @param srcUrl Kurl of the file to sign.
          * @param Options String with the wanted gpg options. ex: "--armor"
          */
-        void KgpgSignFile(QString keyID="",KURL srcUrl=0,QStringList Options=QString::null);
+        void KgpgSignFile(QString keyID,KURL srcUrl,QStringList Options=QStringList());
 
         /**Verify file function
          * @param sigUrl Kurl of the signature file.
          * @param srcUrl Kurl of the file to be verified. If empty, gpg will try to find it using the signature file name (by removing the .sig extensio)
          */
-        void KgpgVerifyFile(KURL sigUrl,KURL srcUrl=NULL) ;
+        void KgpgVerifyFile(KURL sigUrl,KURL srcUrl=KURL()) ;
 
         /**Import key function
          * @param url Kurl the url of the key file. Allows public & secret key import.
@@ -109,13 +109,13 @@ public slots:
          * @param signKeyMail QString the name of the signing key (only used to prompt user for passphrase)
          * @param local bool should the signature be local
          */
-        void KgpgSignKey(QString keyID="",QString signKeyID="",QString signKeyMail="",bool local=false,int checking=0);
+        void KgpgSignKey(QString keyID,QString signKeyID,QString signKeyMail=QString::null,bool local=false,int checking=0);
 
         /**Key signature deletion function
          * @param keyID QString the ID of the key
          * @param signKeyID QString the ID of the signature key
          */
-        void KgpgDelSignature(QString keyID="",QString signKeyID="");
+        void KgpgDelSignature(QString keyID,QString signKeyID);
 
         /**Encrypt text function
          * @param text QString text to be encrypted.
@@ -382,7 +382,7 @@ class  Md5Widget :public KDialogBase
 {
         Q_OBJECT
 public:
-        Md5Widget(QWidget *parent=0, const char *name=0,KURL url=0);
+        Md5Widget(QWidget *parent=0, const char *name=0,KURL url=KURL());
         ~Md5Widget();
 public slots:
         void slotApply();

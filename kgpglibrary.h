@@ -51,7 +51,7 @@ public:
 
 public slots:
         void slotFileEnc(KURL::List urls=KURL(""),QStringList opts=QString::null,QString defaultKey="");
-        void slotFileDec(KURL srcUrl=0,KURL destUrl=0,QStringList customDecryptOption="");
+        void slotFileDec(KURL srcUrl,KURL destUrl,QStringList customDecryptOption=QStringList());
 	void shredprocessenc(KURL);
 
 private slots:

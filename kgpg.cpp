@@ -805,7 +805,7 @@ int KgpgAppletApp::newInstance()
                         bool directoryInside=false;
                         QStringList lst=urlList.toStringList();
                         for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) {
-                                if (KMimeType::findByURL(*it)->name()=="inode/directory")
+                                if (KMimeType::findByURL(KURL( *it ))->name()=="inode/directory")
                                         directoryInside=true;
                         }
 
