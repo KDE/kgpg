@@ -17,9 +17,18 @@
 
 
 #include "detailedconsole.h"
+#include <qlayout.h>
+#include <qlabel.h>
+#include <qvgroupbox.h>
+
+#include <klocale.h>
+#include <kglobal.h>
+
+#include "kgpgoption.h"
 
 
-KDetailedConsole::KDetailedConsole(QWidget *parent, const char *name,QString boxLabel,QString errormessage): KDialogBase(parent,name,true,i18n("Sorry"),KDialogBase::Details|KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok)
+KDetailedConsole::KDetailedConsole(QWidget *parent, const char *name,const QString &boxLabel,const QString &errormessage)
+    : KDialogBase(parent,name,true,i18n("Sorry"),KDialogBase::Details|KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok)
 {
         QWidget *page = new QWidget( this );
         setMainWidget(page);
@@ -39,7 +48,8 @@ KDetailedConsole::KDetailedConsole(QWidget *parent, const char *name,QString box
 KDetailedConsole::~KDetailedConsole()
 {}
 
-KDetailedInfo::KDetailedInfo(QWidget *parent, const char *name,QString boxLabel,QString errormessage): KDialogBase(parent,name,true,i18n("Info"),KDialogBase::Details|KDialogBase::Ok)
+KDetailedInfo::KDetailedInfo(QWidget *parent, const char *name , const QString &boxLabel,const QString &errormessage)
+    : KDialogBase(parent,name,true,i18n("Info"),KDialogBase::Details|KDialogBase::Ok)
 {
         QWidget *page = new QWidget( this );
 

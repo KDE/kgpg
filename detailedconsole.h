@@ -18,15 +18,7 @@
 #ifndef KDETAILED_H
 #define KDETAILED_H
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qvgroupbox.h>
-
-#include <klocale.h>
 #include <kdialogbase.h>
-#include <kglobal.h>
-
-#include "kgpgoption.h"
 
 
 
@@ -34,7 +26,7 @@ class KDetailedConsole : public KDialogBase
 {
 public:
 
-        KDetailedConsole(QWidget *parent=0, const char *name=0,QString boxLabel="",QString errormessage="");
+        KDetailedConsole(QWidget *parent=0, const char *name=0,const QString &boxLabel="",const QString &errormessage="");
         ~KDetailedConsole();
 
 };
@@ -44,7 +36,7 @@ class KDetailedInfo : public KDialogBase
 {
 public:
 
-        KDetailedInfo(QWidget *parent=0, const char *name=0,QString boxLabel="",QString errormessage="");
+        KDetailedInfo(QWidget *parent=0, const char *name=0,const QString &boxLabel="",const QString &errormessage="");
         ~KDetailedInfo();
 
 };

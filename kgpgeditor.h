@@ -35,7 +35,6 @@
 #include <qwidgetlist.h>
 
 #include <kurl.h>
-#include <kaction.h>
 #include <kpopupmenu.h>
 #include <kiconloader.h>
 #include <khelpmenu.h>
@@ -57,7 +56,7 @@
 #include "kgpgoptions.h"
 #include "kgpglibrary.h"
 
-
+class KAction;
 
 class KgpgApp : public KMainWindow
 {
