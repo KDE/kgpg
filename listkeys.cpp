@@ -112,17 +112,26 @@ if (column==0)
 KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDialogBase( parent, name, true,sigkey,Close)
 {
   QString message;
-  QLabel *labelname,*labelmail,*labeltype,*labellength,*labelfinger,*labelcreation,*labelexpire,*labeltrust,*labelid;
-  KLineEdit *finger;
+
   resize(400,100);
   QWidget *page=new QWidget(this);
   QVBoxLayout *vbox=new QVBoxLayout(page,2);
+
+  QLabel *labelname = new QLabel(page);
+  QLabel *labelmail = new QLabel(page);
+  QLabel *labeltype = new QLabel(page);
+  QLabel *labellength = new QLabel(page);
+  QLabel *labelfinger = new QLabel(page);
+  QLabel *labelcreation = new QLabel(page);
+  QLabel *labelexpire = new QLabel(page);
+  QLabel *labeltrust = new QLabel(page);
+  QLabel *labelid = new QLabel(page);
 
   //label2=new QLabel(i18n("<b>Key id</b>:"),page);
 
   labelfinger=new QLabel(i18n("Fingerprint :"),page);
 
-  finger=new KLineEdit("",page);
+  KLineEdit *finger=new KLineEdit("",page);
   finger->setReadOnly(true);
   finger->setPaletteBackgroundColor(QColor(white));
 
@@ -136,91 +145,94 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
 
   pass=popen(gpgcmd,"r");
   while ( fgets( line, sizeof(line), pass))
-    {
+  {
       opt=line;
       if (opt.startsWith("pub"))
-        {
+      {
           QString algo=opt.section(':',3,3);
 
           switch( algo.toInt() )
-            {
-            case  1:
+          {
+          case  1:
               algo="RSA";
               break;
-            case 16:
-            case 20:
+          case 16:
+          case 20:
               algo="ElGamal";
               break;
-            case 17:
+          case 17:
               algo="DSA";
               break;
-            default:
+          default:
               algo=QString("#" + algo);
               break;
-            }
+          }
 
-	    const QString trust=opt.section(':',1,1);
+          const QString trust=opt.section(':',1,1);
           QString tr;
           switch( trust[0] )
-            {
-            case 'o':
+          {
+          case 'o':
               tr= "Unknown" ;
               break;
-            case 'i':
+          case 'i':
               tr= "Invalid";
               break;
-            case 'd':
+          case 'd':
               tr="Disabled";
               break;
-            case 'r':
+          case 'r':
               tr="Revoked";
               break;
-            case 'e':
+          case 'e':
               tr="Expired";
               break;
-            case 'q':
+          case 'q':
               tr="Undefined";
               break;
-            case 'n':
+          case 'n':
               tr="None";
               break;
-            case 'm':
+          case 'm':
               tr="Marginal";
               break;
-            case 'f':
+          case 'f':
               tr="Full";
               break;
-            case 'u':
+          case 'u':
               tr="Ultimate";
               break;
-            default:
+          default:
               tr="?";
               break;
-            }
+          }
 
-        const QString tid=opt.section(':',4,4);
-	QString id=QString("0x"+tid.right(8));
+          const QString tid=opt.section(':',4,4);
+          QString id=QString("0x"+tid.right(8));
 
 	  QString fullname=opt.section(':',9,9);
           //fullname.replace(fullname.find('<'),1,QString("\""));
           //fullname.replace(fullname.find('>'),1,QString("\""));
-          if (opt.section(':',6,6)=="") labelexpire=new QLabel(i18n("Expiration: never"),page);
-	  else labelexpire=new QLabel(i18n("Expiration: ")+opt.section(':',6,6),page);
-	  labelcreation=new QLabel(i18n("Creation: ")+opt.section(':',5,5),page);
-	  labellength=new QLabel(i18n("Length: ")+opt.section(':',2,2),page);
-	  labeltrust=new QLabel(i18n("Trust: ")+tr,page);
-	labelid=new QLabel(i18n("ID: ")+tid,page);
-	  labelname=new QLabel(i18n("Name: ")+fullname.section('<',0,0),page);
+          if (opt.section(':',6,6)=="")
+              labelexpire->setText(i18n("Expiration: never"));
+	  else
+              labelexpire->setText(i18n("Expiration: ")+opt.section(':',6,6));
+
+	  labelcreation->setText(i18n("Creation: ")+opt.section(':',5,5));
+	  labellength->setText(i18n("Length: ")+opt.section(':',2,2));
+	  labeltrust->setText(i18n("Trust: ")+tr);
+          labelid->setText(i18n("ID: ")+tid);
+	  labelname->setText(i18n("Name: ")+fullname.section('<',0,0));
 	  fullname=fullname.section('<',1,1);
 	  fullname=fullname.section('>',0,0);
-	  labelmail=new QLabel(i18n("E-Mail: ")+fullname,page);
-	  labeltype=new QLabel(i18n("Algorithm: ")+algo,page);
+	  labelmail->setText(i18n("E-Mail: ")+fullname);
+	  labeltype->setText(i18n("Algorithm: ")+algo);
           //label2->setText(i18n("<b>%1 key</b>: %2").arg(algo).arg(fullname));
         }
 
 
       if (opt.startsWith("fpr"))
-        finger->setText(opt.section(':',9,9));
+          finger->setText(opt.section(':',9,9));
 
       }
 
@@ -278,71 +290,69 @@ QString keyname;
 
   fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
   while ( fgets( line, sizeof(line), fp))
-    {
+  {
       tst=line;
-
       if (tst.find("sec",0,FALSE)!=-1)
-        {
+      {
           const QString trust=tst.section(':',1,1);
           QString val=tst.section(':',6,6);
 	  QString id=QString("0x"+tst.section(':',4,4).right(8));
           if (val=="")
-            val="Unlimited";
+              val=i18n("Unlimited");
           QString tr;
           switch( trust[0] )
-            {
-            case 'o':
-              tr= "Unknown" ;
+          {
+          case 'o':
+              tr= i18n("Unknown");
               break;
-            case 'i':
-              tr= "Invalid";
+          case 'i':
+              tr = i18n( "Invalid");
               break;
-            case 'd':
-              tr="Disabled";
+          case 'd':
+              tr = i18n("Disabled");
               break;
-            case 'r':
-              tr="Revoked";
+          case 'r':
+              tr = i18n("Revoked");
               break;
-            case 'e':
-              tr="Expired";
+          case 'e':
+              tr = i18n("Expired");
               break;
-            case 'q':
-              tr="Undefined";
+          case 'q':
+              tr = i18n("Undefined");
               break;
-            case 'n':
-              tr="None";
+          case 'n':
+              tr = i18n("None");
               break;
-            case 'm':
-              tr="Marginal";
+          case 'm':
+              tr = i18n("Marginal");
               break;
-            case 'f':
-              tr="Full";
+          case 'f':
+              tr = i18n("Full");
               break;
-            case 'u':
-              tr="Ultimate";
+          case 'u':
+              tr = i18n("Ultimate");
               break;
-            default:
-              tr="?";
+          default:
+              tr = i18n("?");
               break;
-            }
-	    tst=tst.section(":",9,9);
-          if (tst!="")
-            {
-	    keyname=tst.section('<',1,1);
-	   keyname=keyname.section('>',0,0);
-	keyname+=" ("+tst.section('<',0,0)+")";
+          }
+          tst=tst.section(":",9,9);
+          if (!tst.isEmpty())
+          {
+              keyname=tst.section('<',1,1);
+              keyname=keyname.section('>',0,0);
+              keyname+=" ("+tst.section('<',0,0)+")";
               KListViewItem *item=new KListViewItem(keysListpr,keyname);
-	      KListViewItem *sub= new KListViewItem(item,QString("ID: "+id+", trust: "+tr+", validity: "+val));
+	      KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, validity: %3").arg(id).arg(tr).arg(val));
 	      sub->setSelectable(false);
               item->setPixmap(0,keyPair);
-            }
+          }
         }
-    }
+  }
   pclose(fp);
 
   QObject::connect(keysListpr,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(slotpreOk()));
   QObject::connect(keysListpr,SIGNAL(clicked(QListViewItem *)),this,SLOT(slotSelect(QListViewItem *)));
-
 
   keysListpr->setSelected(keysListpr->firstChild(),true);
 
@@ -845,37 +855,36 @@ void listKeys::listsigns()
 
 void listKeys::signkey()
 {
-  ///////////////  sign a key
-  if (keysList2->currentItem()==NULL)
-    return;
+    ///////////////  sign a key
+    if (keysList2->currentItem()==NULL)
+        return;
     if (keysList2->currentItem()->depth()!=0)
-    return;
-  bool islocal=false;
-  QString keyID,keyMail;
-      //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
-      KgpgSelKey *opts=new KgpgSelKey(this);
+        return;
+    bool islocal=false;
+    QString keyID,keyMail;
+    //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
+    KgpgSelKey *opts=new KgpgSelKey(this);
 
-      opts->exec();
-      if (opts->result()==true)
-        {
-          keyID=QString(opts->getkeyID());
-		  keyMail=QString(opts->getkeyMail());
-          islocal=opts->getlocal();
-        }
-      else
-        {
-          delete opts;
-          return;
-        }
-      delete opts;
-QString ask=i18n("Are you sure you want to sign key\n%1 with key %2 ?\n"
-"You should always check fingerprint before signing !").arg(keysList2->currentItem()->text(0)).arg(keyMail);
+    opts->exec();
+    if (opts->result()==true)
+    {
+        keyID=QString(opts->getkeyID());
+        keyMail=QString(opts->getkeyMail());
+        islocal=opts->getlocal();
+    }
+    else
+    {
+        delete opts;
+        return;
+    }
+    delete opts;
+    QString ask=i18n("Are you sure you want to sign key\n%1 with key %2 ?\n"
+                     "You should always check fingerprint before signing !").arg(keysList2->currentItem()->text(0)).arg(keyMail);
 
-if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes) return;
-  KgpgInterface *signKeyProcess=new KgpgInterface();
-  signKeyProcess->KgpgSignKey(keysList2->currentItem()->text(5),keyID,keyMail,islocal);
-  connect(signKeyProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(refreshkey()));
-
+    if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes) return;
+    KgpgInterface *signKeyProcess=new KgpgInterface();
+    signKeyProcess->KgpgSignKey(keysList2->currentItem()->text(5),keyID,keyMail,islocal);
+    connect(signKeyProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(refreshkey()));
 }
 
 
@@ -1056,18 +1065,21 @@ void listKeys::genover(KProcess *)
 
 void listKeys::deleteseckey()
 {
-  //////////////////////// delete a key
-  QString res=keysList2->currentItem()->text(0);
+    //////////////////////// delete a key
+    QString res=keysList2->currentItem()->text(0);
 
-  int result=KMessageBox::warningYesNo(this,i18n("Delete SECRET KEY pair %1 ?\nDeleting this key pair means you will never be able to decrypt files encrypted with this key anymore!!!").arg(res),i18n("Warning"),i18n("Delete"));
-  if (result!=KMessageBox::Yes)
-    return;
+    int result=KMessageBox::warningYesNo(this,
+                                         i18n("Delete SECRET KEY pair %1 ?\nDeleting this key pair means you will never be able to decrypt files encrypted with this key anymore!!!").arg(res),
+                                         i18n("Warning"),
+                                         i18n("Delete"));
+    if (result!=KMessageBox::Yes)
+        return;
 
-  KProcess *conprocess=new KProcess();
-  *conprocess<< "konsole"<<"-e"<<"gpg";
-  *conprocess<<"--no-secmem-warning"<<"--delete-secret-key"<<keysList2->currentItem()->text(5);
-  QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(deletekey()));
-  conprocess->start(KProcess::NotifyOnExit,KProcess::AllOutput);
+    KProcess *conprocess=new KProcess();
+    *conprocess<< "konsole"<<"-e"<<"gpg";
+    *conprocess<<"--no-secmem-warning"<<"--delete-secret-key"<<keysList2->currentItem()->text(5);
+    QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(deletekey()));
+    conprocess->start(KProcess::NotifyOnExit,KProcess::AllOutput);
 }
 
 void listKeys::confirmdeletekey()
@@ -1153,37 +1165,37 @@ void listKeys::refreshkey()
           switch( trust[0] )
             {
             case 'o':
-              tr= "Unknown" ;
+              tr = i18n("Unknown");
               break;
             case 'i':
-              tr= "Invalid";
+              tr = i18n("Invalid");
               break;
             case 'd':
-              tr="Disabled";
+              tr = i18n("Disabled");
               break;
             case 'r':
-              tr="Revoked";
+              tr = i18n("Revoked");
               break;
             case 'e':
-              tr="Expired";
+              tr = i18n("Expired");
               break;
             case 'q':
-              tr="Undefined";
+              tr = i18n("Undefined");
               break;
             case 'n':
-              tr="None";
+              tr = i18n("None");
               break;
             case 'm':
-              tr="Marginal";
+              tr = i18n("Marginal");
               break;
             case 'f':
-              tr="Full";
+              tr = i18n("Full");
               break;
             case 'u':
-              tr="Ultimate";
+              tr = i18n("Ultimate");
               break;
             default:
-              tr="?";
+              tr = i18n("?");
               break;
             }
 
@@ -1209,7 +1221,7 @@ void listKeys::refreshkey()
             QString id=QString("0x"+tid.right(8));
             QString val=tst.section(':',6,6);
             if (val=="")
-              val="Unlimited";
+              val=i18n("Unlimited");
             if (signame.find("<",0,FALSE)!=-1)
               {
                 //tst=signame.section('<',1,1);
@@ -1242,42 +1254,42 @@ void listKeys::refreshkey()
               const QString trust=tst.section(':',1,1);
               QString val=tst.section(':',6,6);
               if (val=="")
-                val="Unlimited";
+                val=i18n("Unlimited");
               QString tr;
               switch( trust[0] )
                 {
                 case 'o':
-                  tr= "Unknown" ;
+                  tr=i18n("Unknown");
                   break;
                 case 'i':
-                  tr= "Invalid";
+                  tr=i18n("Invalid");
                   break;
                 case 'd':
-                  tr="Disabled";
+                  tr=i18n("Disabled");
                   break;
                 case 'r':
-                  tr="Revoked";
+                  tr=i18n("Revoked");
                   break;
                 case 'e':
-                  tr="Expired";
+                  tr=i18n("Expired");
                   break;
                 case 'q':
-                  tr="Undefined";
+                  tr=i18n("Undefined");
                   break;
                 case 'n':
-                  tr="None";
+                  tr=i18n("None");
                   break;
                 case 'm':
-                  tr="Marginal";
+                  tr=i18n("Marginal");
                   break;
                 case 'f':
-                  tr="Full";
+                  tr=i18n("Full");
                   break;
                 case 'u':
-                  tr="Ultimate";
+                  tr=i18n("Ultimate");
                   break;
                 default:
-                  tr="?";
+                  tr=i18n("?");
                   break;
                 }
 
@@ -1285,14 +1297,14 @@ void listKeys::refreshkey()
               switch( algo.toInt() )
                 {
                 case  1:
-                  algo="RSA";
+                  algo=i18n("RSA");
                   break;
                 case 16:
                 case 20:
-                  algo="ElGamal";
+                  algo=i18n("ElGamal");
                   break;
                 case 17:
-                  algo="DSA";
+                  algo=i18n("DSA");
                   break;
                 default:
                   algo=QString("#" + algo);
@@ -1301,7 +1313,7 @@ void listKeys::refreshkey()
               QString klength=tst.section(':',2,2);
               tst=algo+" subkey"; //"(i18n("<b>%1 subkey</b>: size: %2, ID: %3").arg(algo).arg(klength).arg(id));
               //      pos=tst.find("<",0,FALSE);
-              if (tst!="")
+              if (!tst.isEmpty())
                 {
                   //keynames+=QString(id+","+tst);
                   //tst=tst.section('<',1,1);
@@ -1322,42 +1334,42 @@ void listKeys::refreshkey()
                 const QString trust=tst.section(':',1,1);
                 QString val=tst.section(':',6,6);
                 if (val=="")
-                  val="Unlimited";
+                  val=i18n("Unlimited");
                 QString tr;
                 switch( trust[0] )
                   {
                   case 'o':
-                    tr= "Unknown" ;
+                    tr=i18n("Unknown");
                     break;
                   case 'i':
-                    tr= "Invalid";
+                    tr=i18n("Invalid");
                     break;
                   case 'd':
-                    tr="Disabled";
+                    tr=i18n("Disabled");
                     break;
                   case 'r':
-                    tr="Revoked";
+                    tr=i18n("Revoked");
                     break;
                   case 'e':
-                    tr="Expired";
+                    tr=i18n("Expired");
                     break;
                   case 'q':
-                    tr="Undefined";
+                    tr=i18n("Undefined");
                     break;
                   case 'n':
-                    tr="None";
+                    tr=i18n("None");
                     break;
                   case 'm':
-                    tr="Marginal";
+                    tr=i18n("Marginal");
                     break;
                   case 'f':
-                    tr="Full";
+                    tr=i18n("Full");
                     break;
                   case 'u':
-                    tr="Ultimate";
+                    tr=i18n("Ultimate");
                     break;
                   default:
-                    tr="?";
+                    tr=i18n("?");
                     break;
                   }
                 tst=tst.section(':',9,9);
@@ -1374,7 +1386,7 @@ void listKeys::refreshkey()
                     item=new UpdateViewItem(keysList2,keyname,tr,val,size,creat,id,isbold);
                     //(void) new KListViewItem(item,"signature","toto");
                     cycle="pub";
-                    QString oldies="Expired,Invalid,Revoked,Disabled";
+                    // QString oldies="Expired,Invalid,Revoked,Disabled";
 
                     if (issec.find(id.right(8),0,FALSE)!=-1)
                       {
