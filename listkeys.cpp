@@ -1600,12 +1600,12 @@ void listKeys::editGroup()
 {
         QStringList keysGroup;
 
-	KDialogBase *dialogGroupEdit=new KDialogBase(KDialogBase::Swallow, i18n("Key Properties"), KDialogBase::Ok | KDialogBase::Cancel,KDialogBase::Ok,this,0,true);
+	KDialogBase *dialogGroupEdit=new KDialogBase(KDialogBase::Swallow, i18n("Group Properties"), KDialogBase::Ok | KDialogBase::Cancel,KDialogBase::Ok,this,0,true);
 
 	gEdit=new groupEdit();
 	gEdit->buttonAdd->setPixmap(KGlobal::iconLoader()->loadIcon("forward",KIcon::Small,20));
 	gEdit->buttonRemove->setPixmap(KGlobal::iconLoader()->loadIcon("back",KIcon::Small,20));
-        //connect(this,SIGNAL(dropped(gEdit->groupKeys,QDropEvent *, QListViewItem *)),this,SLOT(groupTest(KListView*,QDropEvent *, QListViewItem *)));
+
         connect(gEdit->buttonAdd,SIGNAL(clicked()),this,SLOT(groupAdd()));
         connect(gEdit->buttonRemove,SIGNAL(clicked()),this,SLOT(groupRemove()));
 //        connect(dialogGroupEdit->okClicked(),SIGNAL(clicked()),this,SLOT(groupChange()));
