@@ -83,7 +83,7 @@ private slots:
         //void slotOptions();
         void slotFileQuit();
         void slotFileNew();
-
+	void slotResetEncoding(bool enc);
         void slotFilePreEnc();
         void slotFilePreDec();
         void slotFileOpen();
@@ -113,7 +113,7 @@ private:
 
         KPassivePopup *pop;
         QStringList customDecrypt;
-	KSelectAction *encodingAction ;
+	KToggleAction *encodingAction ;
         KURL urlselected;
         KAction* fileSave, *editUndo, *editRedo;
 	

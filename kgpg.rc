@@ -7,6 +7,10 @@
     <Action name="file_decrypt"/>
   </Menu>
 
+    <Menu name="view"><text>&amp;View</text>
+    <Action name="charsets"/>
+  </Menu>
+  
   <Menu name="signature"><text>Si&amp;gnature</text>
     <Action name="sign_generate"/>
     <Action name="sign_verify"/>

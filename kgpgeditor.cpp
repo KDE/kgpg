@@ -86,43 +86,19 @@ void KgpgApp::initActions()
         (void) new KAction(i18n("&Check MD5 Sum..."), 0,this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
 	KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
 	
-	
-	///////////           todo : changing encoding
-	/*
-	encodingAction = new KSelectAction( i18n( "Se&t Encoding" ), "charset",0, this, SLOT(slotSetCharset() ),actionCollection(), "charsets" );
-	QStringList encodingNames = KGlobal::charsets()->availableEncodingNames();
-  	QStringList encodings;
-  	QMap<QString,bool> mimeNames;
-  	for (QStringList::Iterator it = encodingNames.begin();
-    	it != encodingNames.end(); it++)
-  	{
-    	QTextCodec *codec = KGlobal::charsets()->codecForName(*it);
-    	QString mimeName = (codec) ? QString(codec->mimeName()).lower() : (*it);
-    	if (mimeNames.find(mimeName) == mimeNames.end())
-    	{
-      	encodings.append(KGlobal::charsets()->languageForEncoding(*it) + " ( " + mimeName + " )");
-      	mimeNames.insert(mimeName, TRUE);
-    	}
-  	}
-  	encodings.sort();
-	encodings.prepend(KGlobal::charsets()->languageForEncoding("us-ascii") + " ( us-ascii )");
-	
-  	encodings.prepend( i18n("Auto-detect"));
-  	encodingAction->setItems( encodings );
-  	encodingAction->setCurrentItem( -1 );
-	*/
+	encodingAction=new KToggleAction(i18n("&Unicode (utf-8) encoding"), 0, 0,this, SLOT(slotSetCharset()),actionCollection(),"charsets");
 }
 
 void KgpgApp::slotSetCharset()
 {
 ////////  work in progress
-
-/*
-QTextCodec *codec = QTextCodec::codecForName("KOI8-R");  //encodingAction->currentText()
-QString locallyEncoded = codec->fromUnicode( view->editor->text());
-view->editor->setText(locallyEncoded.utf8());
-//->setCharset(KGlobal::charsets()->encodingForName( encodingAction->currentText() ).latin1());
-*/
+if (encodingAction->isChecked())
+{
+if (!checkEncoding()) return;
+view->editor->setText(QString::fromUtf8(view->editor->text().ascii()));
+}
+else 
+view->editor->setText(view->editor->text().utf8());
 }
     
 void KgpgApp::initView()
@@ -133,6 +109,7 @@ void KgpgApp::initView()
 
         view = new KgpgView(this,0);
         //  doc->addView(view);
+	connect(view,SIGNAL(resetEncoding(bool)),this,SLOT(slotResetEncoding(bool)));
         setCentralWidget(view);
         setCaption(i18n("Untitled"),false); ///   doc->URL().fileName(),false);
 
@@ -144,16 +121,24 @@ void KgpgApp::slotFileQuit()
         close();
 }
 
+void KgpgApp::slotResetEncoding(bool enc)
+{
+//kdDebug()<<"Resetting encoding--------------------"<<endl;
+encodingAction->setChecked(enc);
+//if (enc) slotSetCharset();
+}
+
 void KgpgApp::slotFileNew()
 {
         //////  delete all text from editor
 
-        view->editor->setText("");
+        view->editor->setText(QString::null);
         editRedo->setEnabled(false);
         editUndo->setEnabled(false);
         setCaption(i18n("Untitled"), false);
         fileSave->setEnabled(false);
         Docname=QString::null;
+	slotResetEncoding(false);
 }
 
 void KgpgApp::slotFilePreEnc()
@@ -252,7 +237,9 @@ void KgpgApp::slotFileOpen()
 bool KgpgApp::checkEncoding()
 {
 //KGlobal::charsets()->codecForName(encodingAction->currentText());                    ///     encoding selected
-QTextCodec *codec = KGlobal::charsets()->codecForName("Latin1");;
+ /////////////          KGlobal::locale()->encoding()->name()
+//QTextCodec *codec = KGlobal::charsets()->codecForName(KGlobal::locale()->encoding());  // "Latin1"
+QTextCodec *codec =QTextCodec::codecForLocale ();
 return codec->canEncode(view->editor->text());
 }
 

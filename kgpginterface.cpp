@@ -30,7 +30,11 @@
 #include <kpassdlg.h>
 #include <kmdcodec.h>
 #include <klineedit.h>
+#include <kcharsets.h>
+#include <kpassivepopup.h>
+#include <kiconloader.h>
 
+#include <qtextcodec.h>
 
 #include "kgpginterface.h"
 
@@ -230,7 +234,11 @@ void KgpgInterface::readdecprocess(KProcIO *p)
 void KgpgInterface::KgpgEncryptText(QString text,QStringList userIDs, QStringList Options)
 {
         message=QString::null;
-        txtprocess=text.utf8();
+	//QTextCodec *codec = KGlobal::charsets()->codecForName(KGlobal::locale()->encoding());
+	QTextCodec *codec =QTextCodec::codecForLocale ();
+	if (codec->canEncode(text)) txtprocess=text;
+	else txtprocess=text.utf8();
+	
         txtsent=false;
         KProcIO *proc=new KProcIO();
         *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2";
@@ -316,7 +324,7 @@ badmdc=false;
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtdecryptfin(KProcess *)));
   QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreaddecprocess(KProcIO *)));
   proc->start(KProcess::NotifyOnExit,false);
-  proc->writeStdin(txtprocess.utf8(),false);
+  proc->writeStdin(txtprocess,false);
 }
 
 void KgpgInterface::txtdecryptfin(KProcess *)
@@ -324,16 +332,16 @@ void KgpgInterface::txtdecryptfin(KProcess *)
 if ((decok) && (!badmdc)) 
 {
 message.remove(0,message.find("BEGIN_DECRYPTION")+17);
-if (message.find("[GNUPG:] DECRYPTION_OKAY")!=-1) message=message.left(message.findRev("[GNUPG:] DECRYPTION_OKAY",-1,false)-1);
-emit txtdecryptionfinished(QString::fromUtf8(message.ascii()));
+if (message.find("[GNUPG:] DECRYPTION_OKAY")!=-1) message=message.left(message.findRev("[GNUPG:] DECRYPTION_OKAY",-1,false)-1); 
+emit txtdecryptionfinished(message);
 }
 else if (badmdc) 
 {
 KMessageBox::sorry(0,i18n("Bad MDC detected. The encrypted text has been manipulated."));
-emit txtdecryptionfailed(QString::fromUtf8(message.ascii()));
+emit txtdecryptionfailed(message);
 }
 else
-emit txtdecryptionfailed(QString::fromUtf8(message.ascii()));
+emit txtdecryptionfailed(message);
 }
 
 void KgpgInterface::txtreaddecprocess(KProcIO *p)

@@ -390,7 +390,37 @@ void KgpgView::slotdecode()
 
 void KgpgView::updateDecryptedtxt(QString newtxt)
 {
+	//kdDebug()<<"UTF8 Test Result--------------"<<KgpgView::checkForUtf8()<<endl;
+	if (checkForUtf8(newtxt)) 
+	{
+	editor->setText(QString::fromUtf8(newtxt.ascii()));
+	emit resetEncoding(true);
+	}
+	else 
+	{
 	editor->setText(newtxt);
+	emit resetEncoding(false);
+	}
+}
+
+bool KgpgView::checkForUtf8(QString text)    
+{  //// try to guess if the decrypted text uses utf-8 encoding
+const unsigned char *s=(unsigned char *) text.ascii();
+int n=text.length();
+unsigned char c;
+for (int ct=0;ct<n;ct++)
+{
+c=s[ct];
+  //kdDebug()<<"Testing --------- "<<c<<"caractere"<<n<<endl;
+if ((c>0xc2) && (c<0xdf)) 
+if (ct+1<n) 
+{
+c=s[ct+1];
+if ((c>0x80) && (c<0xbf)) 
+return true;
+}
+}
+return false;
 }
 
 void KgpgView::failedDecryptedtxt(QString newtxt)

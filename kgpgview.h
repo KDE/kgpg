@@ -126,6 +126,10 @@ private slots:
         void updatetxt(QString);
 	void updateDecryptedtxt(QString newtxt);
 	void failedDecryptedtxt(QString newtxt);
+	bool checkForUtf8(QString text);
+	
+signals:
+	void resetEncoding(bool);
 };
 
 #endif // KGPGVIEW_H

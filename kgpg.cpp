@@ -51,10 +51,10 @@ MyView::MyView( QWidget *parent, const char *name )
 {
         setBackgroundMode(  X11ParentRelative );
 
-	KAction saveDecrypt(i18n("&Decrypt && Save File"),"decrypted",0,this, SLOT(decryptDroppedFile()),this,"decrypt_file");
-        KAction showDecrypt(i18n("&Show Decrypted File"),"edit",0,this, SLOT(showDroppedFile()),this,"show_file");
-        KAction encrypt(i18n("&Encrypt File"),"encrypted",0,this, SLOT(encryptDroppedFile()),this,"encrypt_file");
-        KAction sign(i18n("&Sign File"), "signature",0,this, SLOT(signDroppedFile()),this,"sign_file");
+	KAction *saveDecrypt=new KAction(i18n("&Decrypt && Save File"),"decrypted",0,this, SLOT(decryptDroppedFile()),this,"decrypt_file");
+        KAction *showDecrypt=new KAction(i18n("&Show Decrypted File"),"edit",0,this, SLOT(showDroppedFile()),this,"show_file");
+        KAction *encrypt=new KAction(i18n("&Encrypt File"),"encrypted",0,this, SLOT(encryptDroppedFile()),this,"encrypt_file");
+        KAction *sign=new KAction(i18n("&Sign File"), "signature",0,this, SLOT(signDroppedFile()),this,"sign_file");
         //QToolTip::add(this,i18n("KGpg drag & drop encryption applet"));
 
         readOptions();
@@ -64,12 +64,12 @@ MyView::MyView( QWidget *parent, const char *name )
         setAcceptDrops(true);
 
         droppopup=new QPopupMenu();
-        showDecrypt.plug(droppopup);
-        saveDecrypt.plug(droppopup);
+        showDecrypt->plug(droppopup);
+        saveDecrypt->plug(droppopup);
 
         udroppopup=new QPopupMenu();
-        encrypt.plug(udroppopup);
-        sign.plug(udroppopup);
+        encrypt->plug(udroppopup);
+        sign->plug(udroppopup);
 }
 
 MyView::~MyView()
@@ -378,6 +378,7 @@ void  MyView::unArchive()
 
 void  MyView::showDroppedFile()
 {
+kdDebug()<<"------Show dropped file"<<endl;
         KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
         kgpgtxtedit->view->editor->slotDroppedFile(droppedUrl);
 	connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),this,SIGNAL(importedKeys(QStringList)));
@@ -409,6 +410,7 @@ void  MyView::droppedfile (KURL::List url)
                         break;
                 case KGpgSettings::EnumEncryptedDropEvent::Ask:
                         droppopup->exec(QCursor::pos ());
+			kdDebug()<<"Drop menu--------"<<endl;
                         break;
                 }
         } else if (droppedUrl.path().endsWith(".sig")) {
