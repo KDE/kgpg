@@ -161,6 +161,7 @@ public slots:
 	void KgpgAddUid(QString keyID,QString name,QString email,QString comment);
 	
         void KgpgDecryptFileToText(KURL srcUrl,QStringList Options);
+	void KgpgSignText(QString text,QString userIDs, QStringList Options);
 
         static QString getGpgSetting(QString name,QString configFile);
         static void setGpgSetting(QString name,QString ID,QString url);
@@ -269,6 +270,9 @@ private slots:
 	void photoreadprocess(KProcIO *p);
 	bool isPhotoId(int uid);
 	void updateIDs(QString txtString);
+	
+	void txtsignprocess(KProcIO *p);
+	void txtsignfin(KProcess *);
 
         //void txtreaddecprocess(KProcIO *p);
         //void txtdecryptfin(KProcess *);
@@ -361,6 +365,8 @@ signals:
         void expirationFinished(int);
 	void signalPhotoList(QStringList);
 	void passwordChanged();
+	
+	void txtSignOver(QString);
 
 
 
@@ -368,7 +374,7 @@ private:
         /**
         * @internal structure for communication
         */
-        QString message,tempKeyFile,userIDs,txtprocess,output,keyString;
+        QString message,tempKeyFile,userIDs,output,keyString;
         QCString passphrase;
         bool deleteSuccess,konsLocal,anonymous,decfinished,decok,badmdc,revokeSuccess,addSuccess,delSuccess;
 	bool signmiss;

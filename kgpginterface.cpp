@@ -235,6 +235,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
 void KgpgInterface::KgpgEncryptText(QString text,QStringList userIDs, QStringList Options)
 {
         message=QString::null;
+	QString txtprocess;
 	//QTextCodec *codec = KGlobal::charsets()->codecForName(KGlobal::locale()->encoding());
 	QTextCodec *codec =QTextCodec::codecForLocale ();
 	if (codec->canEncode(text)) txtprocess=text;
@@ -299,6 +300,7 @@ void KgpgInterface::txtreadencprocess(KProcIO *p)
 
 void KgpgInterface::KgpgDecryptText(QString text,QStringList Options)
 {
+ QString txtprocess;
   message=QString::null;
   userIDs=QString::null;
   step=3;
@@ -395,6 +397,66 @@ void KgpgInterface::txtreaddecprocess(KProcIO *p)
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////    Text signing
+
+
+void KgpgInterface::KgpgSignText(QString text,QString userIDs, QStringList Options)
+{
+        message=QString::null;
+	QString txtprocess;
+	QTextCodec *codec =QTextCodec::codecForLocale ();
+	if (codec->canEncode(text)) txtprocess=text;
+	else txtprocess=text.utf8();
+	
+        KProcIO *proc=new KProcIO();
+        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2";
+        
+	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
+		if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
+        *proc<<"--clearsign"<<"-u"<<userIDs;
+
+        /////////  when process ends, update dialog infos
+
+        QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtsignfin(KProcess *)));
+        QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtsignprocess(KProcIO *)));
+        proc->start(KProcess::NotifyOnExit,false);
+	//emit txtsigningstarted();
+	proc->writeStdin(txtprocess,false);
+	proc->closeWhenDone();
+}
+
+
+void KgpgInterface::txtsignfin(KProcess *)
+{
+        if (!message.isEmpty())
+                emit txtSignOver(message);
+        else
+                emit txtSignOver(QString::null);
+}
+
+void KgpgInterface::txtsignprocess(KProcIO *p)
+{
+        QString required;
+        while (p->readln(required,true)!=-1) {
+	if ((required.find("passphrase.enter")!=-1))
+            {
+              QCString passphrase;
+              QString passdlgmessage=i18n("Enter passphrase");
+              int code=KPasswordDialog::getNewPassword(passphrase,passdlgmessage);
+	      if (code!=QDialog::Accepted)
+                {
+                  delete p;
+                  return;
+                }
+              p->writeStdin(passphrase,true);
+            } 
+	    else
+		if (!required.startsWith("[GNUPG:]")) message+=required+"\n";
+        }
+}
+
+
+////////////////////////////////////////////////   decrypt file to text
 
 void KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QStringList Options)
 {
@@ -426,6 +488,9 @@ badmdc=false;
 
 void KgpgInterface::KgpgVerifyText(QString text)
 {
+
+		QTextCodec *codec =QTextCodec::codecForLocale ();
+		if (!codec->canEncode(text)) text=text.utf8();
 		signmiss=false;
 		 KProcIO *verifyproc=new KProcIO();
         	*verifyproc<<"gpg"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"--verify";
@@ -1302,13 +1367,15 @@ kdDebug(2100)<<"Importing is over"<<endl;
 									"To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</qt>");
         } else
                 resultMessage=i18n("No key imported... \nCheck detailed log for more infos");
+		
+	if (messageList[8]!="0") importedKeysIds="ALL";
+	if ((messageList[9]!="0") && (importedKeysIds.isEmpty())) // orphaned secret key imported
+	emit refreshOrphaned();
+        emit importfinished(importedKeysIds);
+	
         KDetailedInfo *m_box=new KDetailedInfo(0,"import_result",resultMessage,message,importedKeys);
         m_box->setMinimumWidth(300);
         m_box->exec();
-	if ((messageList[9]!=0) && (importedKeysIds.isEmpty())) // orphaned secret key imported
-	emit refreshOrphaned();
-	else
-        emit importfinished(importedKeysIds);
 }
 
 void KgpgInterface::importURLover(KProcess *p)

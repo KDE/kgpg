@@ -50,7 +50,6 @@
 #include <kurldrag.h>
 #include <kwin.h>
 #include <dcopclient.h>
-#include <klistviewsearchline.h>
 
 #include <kabc/stdaddressbook.h>
 #include <kabc/addresseedialog.h>
@@ -650,10 +649,8 @@ actionCollection());
         toolBar()->insertLineSeparator();
         QLabel *searchLabel= new QLabel(i18n("Search "),toolBar(),"kde toolbar widget");
 
-	QPixmap clean;
-	clean=KGlobal::iconLoader()->loadIcon("locationbar_erase",KIcon::Toolbar);
 	int buttonClear;
-	buttonClear=toolBar()->insertButton(clean,0,true,i18n("Clear Search"));
+	buttonClear=toolBar()->insertButton("locationbar_erase",0,true,i18n("Clear Search"));
         toolBar()->insertWidget( 1, searchLabel->sizeHint().width(), searchLabel);
         searchWidget=toolBar()->insertLined(QString::null,0, SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)),true,i18n("Filter Search"),10);
 	
@@ -2322,6 +2319,10 @@ void listKeys::newKeyDone(KProcess *)
         newKey *page=new newKey(keyCreated);
         page->TLname->setText("<b>"+newKeyName+"</b>");
         page->TLemail->setText("<b>"+newKeyMail+"</b>");
+	if (!newKeyMail.isEmpty())
+	page->kURLRequester1->setURL(QDir::homeDirPath()+"/"+newKeyMail.section("@",0,0)+".revoke");
+	else
+	page->kURLRequester1->setURL(QDir::homeDirPath()+"/"+newKeyName.section(" ",0,0)+".revoke");
         page->TLid->setText("<b>"+newkeyID+"</b>");
         page->LEfinger->setText(newkeyFinger);
         page->CBdefault->setChecked(true);
@@ -2908,6 +2909,11 @@ void KeyView::slotReloadKeys(QStringList keyIDs)
 {
         if (keyIDs.isEmpty())
                 return;
+	if (keyIDs.first()=="ALL")
+	{
+	refreshkeylist();
+	return;
+	}
         for ( QStringList::Iterator it = keyIDs.begin(); it != keyIDs.end(); ++it ) {
                 refreshcurrentkey(*it);
         }

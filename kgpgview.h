@@ -122,6 +122,7 @@ public slots:
 
 private slots:
 	void slotVerifyResult(QString mssge);
+	void slotSignResult(QString signResult);
 	void slotAskForImport(QString ID);
         void popuppublic();
         void modified();

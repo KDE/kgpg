@@ -1,6 +1,9 @@
 CVS
 
 
+-Rewrote text signing and decryption processes.
+-User can now choose the left click behaviour (open key manager or editor)
+-Fixed bug in text encryption (gpg errors were included in encrypted text)
 -System tray icon animates itself when KGpg is processing a task
 -Added a Tooltip to applet's icon to say if KGpg is busy and what it is doing
 -shredding doesn't freeze the ui anymore

@@ -244,11 +244,6 @@ void KgpgView::clearSign()
         QString mess=editor->text();
         if (mess.startsWith("-----BEGIN PGP SIGNED")) {
                 //////////////////////   this is a signed message, verify it
-
-                ///////////////////  generate gpg command
-
-                ///////////////// run command
-		QString verifyResult,lineRead;
 		KgpgInterface *verifyProcess=new KgpgInterface();
 		connect(verifyProcess,SIGNAL(missingSignature(QString)),this,SLOT(slotAskForImport(QString)));
 		connect(verifyProcess,SIGNAL(verifyOver(QString)),this,SLOT(slotVerifyResult(QString)));
@@ -256,76 +251,51 @@ void KgpgView::clearSign()
         	} 
 		else {
                 /////    Sign the text in Editor
-
-
-                QString signKeyID,signKeyMail;
-                FILE *fp,*pass;
-                int ppass[2];
-                char buffer[200];
-                QCString password;
-
-                ///// open key selection dialog
+		QString signKeyID;
+		///// open key selection dialog
                 KgpgSelKey *opts=new KgpgSelKey(this,0);
 
                 if (opts->exec()==QDialog::Accepted) {
                         signKeyID=opts->getkeyID();
-                        signKeyMail=opts->getkeyMail();
                 } else {
                         delete opts;
                         return;
                 }
                 delete opts;
-                /////////////////////  get passphrase
-
-                bool useAgent=KgpgInterface::getGpgBoolSetting("use-agent",KGpgSettings::gpgConfigPath());
-
-                if (!getenv("GPG_AGENT_INFO") || !useAgent) {
-                        int code=KPasswordDialog::getPassword(password,i18n("Enter passphrase for <b>%1</b>:").arg(signKeyMail.replace(QRegExp("<"),"&lt;")));
-                        ///////////////////   ask for password
-                        if (code!=QDialog::Accepted)
-                                return;
-
-                        ///////////////////   pipe passphrase
-                        pipe(ppass);
-                        pass = fdopen(ppass[1], "w");
-                        fwrite(password, sizeof(char), strlen(password), pass);
-                        //        fwrite("\n", sizeof(char), 1, pass);
-                        fclose(pass);
-                }
-                ///////////////////  generate gpg command
-                QString line="echo ";
-                //mess=mess.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
-                line+=KShellProcess::quote(mess.utf8());
-                line+=" | gpg ";
-                if (KGpgSettings::pgpCompatibility())
-                        line+="--pgp6 ";
-                if (!getenv("GPG_AGENT_INFO") || !useAgent) {
-                        line+="--passphrase-fd ";
-                        QString fd;
-                        fd.setNum(ppass[0]);
-                        line+=fd;
-                }
-                line+=" --no-tty --clearsign -u ";
-                line+=KShellProcess::quote(signKeyID);
-                //KMessageBox::sorry(0,QString(line));
-                QString tst=QString::null;
-
-                ///////////////// run command
-                fp = popen(QFile::encodeName(line), "r");
-                while ( fgets( buffer, sizeof(buffer), fp))
-                        tst+=buffer;
-                pclose(fp);
-
-                /////////////////  paste result into editor
-                if (!tst.isEmpty()) {
-                        editor->setText(QString::fromUtf8(tst.ascii()));
-                        KgpgApp *win=(KgpgApp *) parent();
-                        win->editRedo->setEnabled(false);
-                        win->editUndo->setEnabled(false);
-                } else
-                        KMessageBox::sorry(this,i18n("Signing not possible: bad passphrase or missing key"));
-        }
+		
+		KgpgInterface *signProcess=new KgpgInterface();
+		connect(signProcess,SIGNAL(txtSignOver(QString)),this,SLOT(slotSignResult(QString)));
+		QStringList options;
+		if (KGpgSettings::pgpCompatibility())
+                        options<<"--pgp6";
+		signProcess->KgpgSignText(mess,signKeyID,options);
 }
+}
+
+
+void KgpgView::slotSignResult(QString signResult)
+{
+if (signResult.isEmpty())
+KMessageBox::sorry(this,i18n("Signing not possible: bad passphrase or missing key"));
+else
+{
+	if (checkForUtf8(signResult))
+	{
+	editor->setText(QString::fromUtf8(signResult.ascii()));
+	emit resetEncoding(true);
+	}
+	else
+	{
+	editor->setText(signResult);
+	emit resetEncoding(false);
+	}
+	KgpgApp *win=(KgpgApp *) parent();
+	win->editRedo->setEnabled(false);
+	win->editUndo->setEnabled(false);
+}
+}
+
+
 
 void KgpgView::popuppublic()
 {

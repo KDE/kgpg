@@ -237,7 +237,6 @@ void KgpgLibrary::processdecerror(QString mssge)
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
                                 importKeyProcess->importKeyURL(urlselected);
 				connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SIGNAL(importOver(QStringList)));
-				
                                 return;
                         }
                 } else if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK")) {//////  dropped file is a public key, ask for import
