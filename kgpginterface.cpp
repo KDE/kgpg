@@ -82,7 +82,7 @@ void KgpgInterface::KgpgEncryptFile(QStringList encryptKeys,KURL srcUrl,KURL des
 {
         sourceFile=srcUrl;
         message=QString::null;
-	kdDebug()<<"--------------------"<<Options<<endl;
+
         KProcIO *proc=new KProcIO();
 	*proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0";
 	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) 
@@ -289,7 +289,7 @@ void KgpgInterface::txtreadencprocess(KProcIO *p)
 	    else
 		if (required.find("BEGIN_ENCRYPTION")!=-1) {
 			emit txtencryptionstarted();
-                        p->writeStdin(txtprocess,true);
+                        p->writeStdin(txtprocess,false);
                         p->closeWhenDone();
                 } else
                         if (required.find("END_ENCRYPTION")!=-1)
@@ -332,7 +332,7 @@ void KgpgInterface::txtdecryptfin(KProcess *)
 if ((decok) && (!badmdc)) 
 {
 message.remove(0,message.find("BEGIN_DECRYPTION")+17);
-if (message.find("[GNUPG:] DECRYPTION_OKAY")!=-1) message=message.left(message.findRev("[GNUPG:] DECRYPTION_OKAY",-1,false)-1); 
+if (message.find("[GNUPG:] DECRYPTION_OKAY")!=-1) message=message.left(message.findRev("[GNUPG:] DECRYPTION_OKAY",-1,false)); 
 emit txtdecryptionfinished(message);
 }
 else if (badmdc) 
@@ -387,7 +387,6 @@ void KgpgInterface::txtreaddecprocess(KProcIO *p)
            p->writeStdin("quit");
         }
 		message+=required+"\n";
-	
 		if (required.find("BEGIN_DECRYPTION")!=-1)
       		{
 			p->closeStdin();
@@ -1322,7 +1321,6 @@ void KgpgInterface::adduidprocess(KProcIO *p)
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        kdDebug()<<"Passphrase"<<endl;
                         QCString delpass;
                         int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
                         if (code!=QDialog::Accepted) {
@@ -1509,7 +1507,6 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        kdDebug()<<"Passphrase"<<endl;
                         QCString delpass;
                         int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(userIDs));
                         if (code!=QDialog::Accepted) {
@@ -1694,8 +1691,8 @@ void KgpgInterface::setGpgGroupSetting(QString name,QStringList values, QString 
                                 result2.remove(0,6);
                                 result2=result2.stripWhiteSpace();
                                 if (result2.startsWith(name) && (result2.remove(0,name.length()).stripWhiteSpace().startsWith("="))) {
-                                        kdDebug()<<"Found group: "<<name<<endl;
-                                        kdDebug()<<"New values: "<<values<<endl;
+//                                        kdDebug()<<"Found group: "<<name<<endl;
+                                        //kdDebug()<<"New values: "<<values<<endl;
                                         result=QString("group %1=%2").arg(name).arg(values.join(" "));
                                         found=true;
                                 }
