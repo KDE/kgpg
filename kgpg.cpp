@@ -305,10 +305,15 @@ void KgpgApp::openEncryptedDocumentFile(const KURL& url,QString userIDs)
       QTextStream t( &qfile );
       encryptedText=t.read();
       qfile.close();
-      view->editor->setText(KgpgInterface::KgpgDecryptText(encryptedText,userIDs));
+	  QString decrypted=KgpgInterface::KgpgDecryptText(encryptedText,userIDs);
+      if (!decrypted.isEmpty()) 
+	  {
+	  view->editor->setText(decrypted);
       fileSave->setEnabled(false);
       editRedo->setEnabled(false);
       editUndo->setEnabled(false);
+	  }
+	  else KMessageBox::sorry(this,i18n("Decryption failed"));
     }
     else KMessageBox::sorry(0,i18n("Unable to read file..."));
 }
@@ -840,6 +845,7 @@ void KgpgApp::slotprocresult(KProcess *)
   KgpgInterface *decryptFileProcess=new KgpgInterface();
   int decresult=0;
   decpassuid=messages;
+  if (decpassuid.isEmpty()) decpassuid=i18n("[No user ID found]"); 
   decpasssrc=urlselected;
   if (!newname.isEmpty()) ////////////////////   decrypt to file
   {
@@ -849,7 +855,7 @@ void KgpgApp::slotprocresult(KProcess *)
   connect(decryptFileProcess,SIGNAL(decryptionfinished(bool)),this,SLOT(processdecover(bool)));
   connect(decryptFileProcess,SIGNAL(badpassphrase(bool)),this,SLOT(processdec(bool)));
   }
-  else openEncryptedDocumentFile(urlselected,messages);
+  else openEncryptedDocumentFile(urlselected,decpassuid);
 }
 
 void KgpgApp::processdecover(bool res)

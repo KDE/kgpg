@@ -52,7 +52,7 @@ popupName::popupName(const QString& caption,QWidget *parent, const char *name,KU
   checkClipboard = new QRadioButton( bGroupSources, "checkClipboard" );
 
 
-  if (email==true)
+  if (email)
   {
   checkClipboard->setText( i18n( "Clipboard" ) );
   checkMail = new QRadioButton( bGroupSources, "checkMail" );
@@ -70,7 +70,7 @@ popupName::popupName(const QString& caption,QWidget *parent, const char *name,KU
   newFilename->setText(oldnam.path());
 
   bGroupSourcesLayout->addWidget( newFilename, 2, 1 );
- if (email==true) bGroupSourcesLayout->addWidget( checkMail, 1, 0 );
+ if (email) bGroupSourcesLayout->addWidget( checkMail, 1, 0 );
 
   checkFile = new QRadioButton( bGroupSources, "checkFile" );
   checkFile->setText( i18n( "File" ) );
@@ -96,7 +96,7 @@ popupName::popupName(const QString& caption,QWidget *parent, const char *name,KU
   setTabOrder( buttonToolbar, checkFile );
   setTabOrder( checkFile, checkClipboard );
   vbox->add(bGroupSources);
-  vbox->add(exportAttributes);
+  if (email) vbox->add(exportAttributes);
   page->show();
   page->resize(page->maximumSize());
   setMainWidget(page);
