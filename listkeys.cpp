@@ -2168,6 +2168,7 @@ void listKeys::newKeyDone(KProcess *)
     //        refreshkey();
     if (newkeyID.isEmpty())
     {
+    	delete pop;
         KMessageBox::detailedSorry(this,i18n("Something unexpected happened during the key pair creation.\nPlease check details for full log output."),message);
         refreshkey();
         return;
