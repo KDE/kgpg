@@ -112,21 +112,16 @@ class KgpgInterface : public QObject {
          * Checks if the encrypted file was saved.
          */
 	void encryptfin(KProcess *);
-	/**
-         * Checks if the encryption was successfull.
-         */
-	void encrypterror(KProcess *p, char *buf, int buflen);
+	
 	/**
          * Checks if the decrypted file was saved.
          */
 	void decryptfin(KProcess *);
-	/**
-         * Checks if the decryption was successfull.
-         */
-	void decrypterror(KProcess *p, char *buf, int buflen);
+	
 	/**
          * Checks if the signing was successfull.
          */
+	void timerDone();
 	void signfin(KProcess *p);
 	int checkuid(QString KeyID);
 	void delsigprocess(KProcIO *p);
@@ -144,6 +139,7 @@ signals:
 	/**
          * returns true if decryption successfull, false on error.
          */
+	void signatureFinished(int); //// 0=successfull, 1=error, 2=bad passphrase
     void decryptionfinished(bool);
 	void badpassphrase(bool);
 
@@ -154,7 +150,8 @@ signals:
 	 */
         QString message;
 		QCString passphrase;
-		bool sent;
+		bool deleteSuccess;
+		int signSuccess;
 		int step,signb,sigsearch;
 	/**
 	 * @internal structure for the file information
