@@ -36,6 +36,7 @@
 #include <klineedit.h>
 #include <ktrader.h> 
 #include <kservice.h>
+#include <kmessagebox.h>
 
 #include "keyinfowidget.h"
 #include "keyproperties.h"
@@ -355,27 +356,40 @@ vbox->addWidget(kdt);
 vbox->addWidget(kb);
 connect(kb,SIGNAL(toggled(bool)),this,SLOT(slotEnableDate(bool)));
 connect(chdate,SIGNAL(okClicked()),this,SLOT(slotChangeDate()));
+connect(kdt,SIGNAL(dateChanged(QDate)),this,SLOT(slotCheckDate(QDate)));
+connect(kdt,SIGNAL(dateEntered(QDate)),this,SLOT(slotCheckDate(QDate)));
+
 chdate->setMainWidget(page);
 chdate->show();
 }
 
+void KgpgKeyInfo::slotCheckDate(QDate date)
+{
+chdate->enableButtonOK(date>=QDate::currentDate ());
+}
+
 void KgpgKeyInfo::slotChangeDate()
 {
-if (kb->isChecked()) prop->tLExpiration->setText(i18n("Unlimited"));
-else prop->tLExpiration->setText(KGlobal::locale()->formatDate(kdt->date()));
-
 KgpgInterface *KeyExpirationProcess=new KgpgInterface();
-		if (prop->tLExpiration->text()==i18n("Unlimited"))
+		if (kb->isChecked())
                 KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,QDate::currentDate(),true);
 		else
-		KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,KGlobal::locale()->readDate(prop->tLExpiration->text()),false);
+		KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,kdt->date(),false);
                 connect(KeyExpirationProcess,SIGNAL(expirationFinished(int)),this,SLOT(slotInfoExpirationChanged(int)));
 }
 
 void KgpgKeyInfo::slotEnableDate(bool isOn)
 {
-if (isOn) kdt->setEnabled(false);
-else kdt->setEnabled(true);
+if (isOn) 
+{
+kdt->setEnabled(false);
+chdate->enableButtonOK(true);
+}
+else 
+{
+kdt->setEnabled(true);
+chdate->enableButtonOK(kdt->date()>=QDate::currentDate ());
+}
 }
 
 void KgpgKeyInfo::slotinfoimgread(KProcess *)
@@ -416,7 +430,12 @@ loadKey(displayedKeyID);
 void KgpgKeyInfo::slotInfoExpirationChanged(int res)
 {
 QString infoMessage,infoText;
-if (res==3) keyWasChanged=true;
+if (res==3) 
+{
+keyWasChanged=true;
+if (kb->isChecked()) prop->tLExpiration->setText(i18n("Unlimited"));
+else prop->tLExpiration->setText(KGlobal::locale()->formatDate(kdt->date()));
+}
 if (res==2) {
 infoMessage=i18n("Could not change expiration");infoText=i18n("Bad passphrase");
 KPassivePopup::message(infoMessage,infoText,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this);

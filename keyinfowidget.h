@@ -47,6 +47,7 @@ private slots:
 	void slotChangeExp();
 	void slotEnableDate(bool isOn);
 	void slotChangeDate();
+	void slotCheckDate(QDate date);
 	void openPhoto();
 	void slotSetPhoto(const QPixmap &pix);
 	void finishphotoreadprocess(KProcIO *p);
