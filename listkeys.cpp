@@ -476,9 +476,7 @@ void  KeyView::startDrag()
 
 listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "KeyInterface" ), KMainWindow(parent, name, f)
 {
-
-        QWidget *page=new QWidget(this);
-        keysList2 = new KeyView(page);
+        keysList2 = new KeyView(this);
         keysList2->photoKeysList=QString::null;
         setAutoSaveSettings();
         readOptions();
@@ -550,8 +548,6 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
   	photoProps->setCurrentItem( pSize );
 	slotSetPhotoSize(pSize);
 
-        QVBoxLayout *vbox=new QVBoxLayout(page,3);
-
         keysList2->setRootIsDecorated(true);
         //keysList2->addColumn( i18n( "Keys" ),140);
         keysList2->addColumn( i18n( "Name" ),200);
@@ -611,9 +607,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 	popupuid=new QPopupMenu();
         delUid->plug(popupuid);
 
-
-        vbox->addWidget(keysList2);
-        setCentralWidget(page);
+	setCentralWidget(keysList2);
         keysList2->restoreLayout(KGlobal::config(), "KeyView");
 
 	QObject::connect(keysList2,SIGNAL(returnPressed(QListViewItem *)),this,SLOT(listsigns()));
