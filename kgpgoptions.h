@@ -47,7 +47,7 @@ public:
         UIConf *page3;
         GPGConf *page4;
 	ServerConf *page6;
-	KFontChooser *page7;
+	KFontChooser *kfc;
         
 private:
         KConfig *config;

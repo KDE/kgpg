@@ -12,6 +12,9 @@
             <height>439</height>
         </rect>
     </property>
+    <property name="caption">
+        <string>UIConf</string>
+    </property>
     <grid>
         <property name="name">
             <cstring>unnamed</cstring>
@@ -487,6 +490,14 @@
                         </property>
                     </spacer>
                 </grid>
+            </widget>
+            <widget class="QWidget">
+                <property name="name">
+                    <cstring>TabPage</cstring>
+                </property>
+                <attribute name="title">
+                    <string>Editor Font</string>
+                </attribute>
             </widget>
         </widget>
     </grid>

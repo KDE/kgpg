@@ -19,6 +19,7 @@
 
 
 #include <qlayout.h>
+#include <qtabwidget.h>
 #include <qlabel.h>
 #include <qvbox.h>
 #include <qfile.h>
@@ -62,6 +63,7 @@
 #include "conf_servers.h"
 #include "conf_ui2.h"
 
+class QTabWidget;
 
 ///////////////////////   main window
 
@@ -97,8 +99,12 @@ kdDebug(2100)<<"Adding pages"<<endl;
         page3=new UIConf();
         page4=new GPGConf();
 	page6=new ServerConf();
-	page7=new KFontChooser();
-
+	QBoxLayout *fontLayout=new QBoxLayout(page3->tabWidget3->page(2),QBoxLayout::TopToBottom,10);
+	kfc=new KFontChooser(page3->tabWidget3->page(2),0L,false,QStringList(),false);
+	fontLayout->addWidget(kfc);
+	kfc->setFont(startFont);
+	
+	
 	pixkeySingle=KGlobal::iconLoader()->loadIcon("kgpg_key1",KIcon::Small,20);
 	pixkeyDouble=KGlobal::iconLoader()->loadIcon("kgpg_key2",KIcon::Small,20);
         addPage(page1, i18n("Encryption"), "encrypted");
@@ -106,8 +112,7 @@ kdDebug(2100)<<"Adding pages"<<endl;
         addPage(page3, i18n("User Interface"), "misc");
         addPage(page4, i18n("GnuPG Settings"), "kgpg");
 	addPage(page6, i18n("Key Servers"), "network");
-	addPage(page7, i18n("Editor Font"), "fonts");  
-	page7->setFont(startFont);
+	
 	
 
         // The following widgets are managed manually.
@@ -122,7 +127,7 @@ kdDebug(2100)<<"Adding pages"<<endl;
 	connect(page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
 	connect(page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
 	connect(page6->ServerBox, SIGNAL(currentChanged ( QListBoxItem *)), this, SLOT(updateButtons()));
-	connect(page7, SIGNAL(fontSelected(const QFont &)), this, SLOT(updateButtons()));
+	connect(kfc, SIGNAL(fontSelected(const QFont &)), this, SLOT(updateButtons()));
 	
 	keyGood=KGpgSettings::colorGood();
 	keyUnknown=KGpgSettings::colorUnknown();
@@ -205,7 +210,7 @@ kdDebug(2100)<<"++++++++++++ UPDATE WIDGET +++++++++++"<<endl;
         if (keyServer.isEmpty())
 		keyServer = defaultKeyServer;
 
-        page7->setFont(startFont);
+        kfc->setFont(startFont);
 	
 	page6->ServerBox->clear();
 	page6->ServerBox->insertStringList(serverList);
@@ -222,7 +227,7 @@ void kgpgOptions::updateWidgetsDefault()
 
         page4->use_agent->setChecked( defaultUseAgent );
 	
-	page7->setFont(QFont());
+	kfc->setFont(QFont());
 	
 	
 	page4->gpg_conf_path->setText(defaultConfigPath);
@@ -248,7 +253,7 @@ bool kgpgOptions::isDefault()
 	if (page4->use_agent->isChecked() != defaultUseAgent)
 		return false;
 	   
-	if (page7->font()!=QFont())
+	if (kfc->font()!=QFont())
 		return false;
 		
 
@@ -288,7 +293,7 @@ bool kgpgOptions::hasChanged()
 	
 	if (currList!=serverList) return true;
 
-	if (page7->font()!=startFont)
+	if (kfc->font()!=startFont)
 		return true;
 	return false;
 }
@@ -327,10 +332,10 @@ void kgpgOptions::updateSettings()
 	
 	//////////////////  save key servers
 	
-	if (page7->font()!=startFont)
+	if (kfc->font()!=startFont)
 	{
-	emit changeFont(page7->font());
-	startFont=page7->font();
+	emit changeFont(kfc->font());
+	startFont=kfc->font();
 	ks->setGroup("Editor");
 	ks->writeEntry("Editor_Font",startFont);
 	}
