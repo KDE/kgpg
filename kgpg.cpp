@@ -765,7 +765,6 @@ int KgpgAppletApp::newInstance()
                 KWin::setOnDesktop( s_keyManager->winId() , KWin::currentDesktop() );  //set on the current desktop
                 KWin::deIconifyWindow( s_keyManager->winId());  //de-iconify window
                 s_keyManager->raise();  // set on top
-                s_keyManager->refreshkey();
         } else
                 if (args->count()>0) {
                         kdDebug() << "KGpg: found files"<<endl;
