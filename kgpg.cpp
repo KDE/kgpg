@@ -52,10 +52,10 @@ MyView::MyView( QWidget *parent, const char *name )
     : QLabel( parent, name )
 {
 
-KAction *saveDecrypt = new KAction(i18n("&Decrypt+Save file"),"decrypted",0,this, SLOT(decryptDroppedFile()),this,"decrypt_file");
-KAction *showDecrypt = new KAction(i18n("&Show decrypted file"),"edit",0,this, SLOT(showDroppedFile()),this,"show_file");
-KAction *encrypt = new KAction(i18n("&Encrypt file"),"encrypted",0,this, SLOT(encryptDroppedFile()),this,"encrypt_file");
-KAction *sign = new KAction(i18n("&Sign file"), "signature",0,this, SLOT(signDroppedFile()),this,"sign_file");
+KAction *saveDecrypt = new KAction(i18n("&Decrypt && Save File"),"decrypted",0,this, SLOT(decryptDroppedFile()),this,"decrypt_file");
+KAction *showDecrypt = new KAction(i18n("&Show Decrypted File"),"edit",0,this, SLOT(showDroppedFile()),this,"show_file");
+KAction *encrypt = new KAction(i18n("&Encrypt File"),"encrypted",0,this, SLOT(encryptDroppedFile()),this,"encrypt_file");
+KAction *sign = new KAction(i18n("&Sign File"), "signature",0,this, SLOT(signDroppedFile()),this,"sign_file");
 //QToolTip::add(this,i18n("KGpg drag & drop encryption applet"));
 
 m_popup = new KPopupMenu(0L, "main_menu");
@@ -115,13 +115,13 @@ void MyView::init()
                         i18n("KGpg Applet"));
 
 if (showeclip)
-m_popup->insertItem(i18n("&Encrypt clipboard"), CLIPENCRYPT_ITEM );
+m_popup->insertItem(i18n("&Encrypt Clipboard"), CLIPENCRYPT_ITEM );
 if (showdclip)
-m_popup->insertItem(i18n("&Decrypt clipboard"), CLIPDECRYPT_ITEM );
+m_popup->insertItem(i18n("&Decrypt Clipboard"), CLIPDECRYPT_ITEM );
 m_popup->insertSeparator();
 if (showomanager)
 m_popup->insertItem( SmallIcon("kgpg_manage"),
-			i18n("Open &key manager"), KEYMANAGER_ITEM );
+			i18n("Open &Key Manager"), KEYMANAGER_ITEM );
 if (showoeditor)
 m_popup->insertItem( SmallIcon("edit"),
 			i18n("&Open Editor"), EDITOR_ITEM );
@@ -130,7 +130,7 @@ if (showserver)
 {
 m_popup->insertSeparator();
 m_popup->insertItem( SmallIcon("network"),
-			i18n("Key&server dialog"), KEYSERVER_ITEM );
+			i18n("Key&server Dialog"), KEYSERVER_ITEM );
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -139,7 +139,7 @@ m_popup->insertItem( SmallIcon("network"),
   conf_popup->insertTitle( SmallIcon( "kgpg" ),
                         i18n("KGpg Applet"));
 
- conf_popup->insertItem(SmallIcon("configure"), i18n("&Configure KGpg"), CONFIG_ITEM );
+ conf_popup->insertItem(SmallIcon("configure"), i18n("&Configure KGpg..."), CONFIG_ITEM );
  conf_popup->insertItem(SmallIcon("kgpg"), i18n("&About KGpg"), ABOUT_ITEM );
  conf_popup->insertItem(SmallIcon("help"), i18n("&Help"), HELP_ITEM );
 conf_popup->insertSeparator(); 
@@ -262,7 +262,7 @@ if (clippie.startsWith("-----BEGIN PGP MESSAGE"))
    kgpgtxtedit->view->slotdecode();
    kgpgtxtedit->show();
 }
-else KMessageBox::sorry(this,i18n("No encrypted text found..."));
+else KMessageBox::sorry(this,i18n("No encrypted text found."));
 }
 
 

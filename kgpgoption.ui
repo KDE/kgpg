@@ -13,7 +13,7 @@
         </rect>
     </property>
     <property name="caption">
-        <string>Kgpg preferences</string>
+        <string>Kgpg Preferences</string>
     </property>
     <property name="sizeGripEnabled">
         <bool>false</bool>
@@ -236,7 +236,7 @@
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>User interface</string>
+                    <string>User Interface</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -287,7 +287,7 @@
                             </size>
                         </property>
                         <property name="text">
-                            <string>Show E-Mail first in keys list</string>
+                            <string>Show email first in keys list</string>
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;b&gt;Show E-Mail first in keys list&lt;/b&gt; Lets you choose if you want the e-mail or the user name displayed first in the keys dialogs.</string>
@@ -317,7 +317,7 @@
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>KDE integration</string>
+                    <string>KDE Integration</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -478,12 +478,12 @@
                     <widget class="KComboBox" row="3" column="0">
                         <item>
                             <property name="text">
-                                <string>Decrypt and save</string>
+                                <string>Decrypt &amp; Save</string>
                             </property>
                         </item>
                         <item>
                             <property name="text">
-                                <string>Decrypt and open in editor</string>
+                                <string>Decrypt &amp; Open in Editor</string>
                             </property>
                         </item>
                         <item>
@@ -528,7 +528,7 @@
                             <cstring>groupBox4</cstring>
                         </property>
                         <property name="title">
-                            <string>Menu options</string>
+                            <string>Menu Options</string>
                         </property>
                         <grid>
                             <property name="name">
