@@ -114,6 +114,7 @@ private slots:
         void  openKeyServer();
         void slotKeyServerClosed();
         void  unArchive();
+        void slotSetCompression(int cp);
 
 protected:
         virtual void dragEnterEvent(QDragEnterEvent *);

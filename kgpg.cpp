@@ -146,6 +146,7 @@ void  MyView::openEditor()
 
 void MyView::encryptDroppedFolder()
 {
+	compressionScheme=0;
         kgpgfoldertmp=new KTempFile(QString::null,".tar.gz");
         kgpgfoldertmp->setAutoDelete(true);
         if (KMessageBox::warningContinueCancel(0,i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>").arg(kgpgfoldertmp->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpFile")==KMessageBox::Cancel)
@@ -157,25 +158,32 @@ void MyView::encryptDroppedFolder()
                 (void) new QLabel(i18n("Compression method for archive:"),bGroup);
                 KComboBox *optionbx=new KComboBox(bGroup);
 		optionbx->insertItem(i18n("Zip"));
-		optionbx->insertItem(i18n("Tar.gz"));
+		optionbx->insertItem(i18n("Gzip"));
+		optionbx->insertItem(i18n("Bzip2"));
 	bGroup->show();
+	connect(optionbx,SIGNAL(activated (int)),this,SLOT(slotSetCompression(int)));
         connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startFolderEncode(QStringList,QStringList,bool,bool)));
         dialogue->CBshred->setEnabled(false);
-        if (!dialogue->exec()==QDialog::Accepted)
-                return;
-        compressionScheme=optionbx->currentItem();
+        dialogue->exec();
 	delete dialogue;
 }
 
+void MyView::slotSetCompression(int cp)
+{
+compressionScheme=cp;
+}
+
+
 void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool ,bool symetric)
 {
-        pop = new KPassivePopup();
-        pop->setView(i18n("Processing archiving & encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
-        pop->show();
-        QRect qRect(QApplication::desktop()->screenGeometry());
+	pop = new KPassivePopup();
+	pop->setView(i18n("Processing archiving & encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+	pop->show();
+	QRect qRect(QApplication::desktop()->screenGeometry());
         int iXpos=qRect.width()/2-pop->width()/2;
         int iYpos=qRect.height()/2-pop->height()/2;
         pop->move(iXpos,iYpos);
+	
         QString extension;
 	KArchive *arch;
 	if (compressionScheme==0) 
@@ -183,12 +191,16 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
 	arch=new KZip(kgpgfoldertmp->name());
 	extension=".zip";
 	}
-	else
+	else if (compressionScheme==1) 
 	{
 	arch=new KTar(kgpgfoldertmp->name(), "application/x-gzip");
 	extension=".tar.gz";
 	}
-	
+	else
+	{
+	arch=new KTar(kgpgfoldertmp->name(), "application/x-bzip2");
+	extension=".tar.bz2";
+	}
 		if (!arch->open( IO_WriteOnly )) {
                 KMessageBox::sorry(0,i18n("Unable to create temporary file"));
                 return;

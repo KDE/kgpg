@@ -84,7 +84,8 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
         config=kapp->config();
 
         //pgpcomp=config->readBoolEntry("PGP compatibility",false);
-        defaultKey=config->readEntry("default key");
+        config->setGroup("Encryption");
+	defaultKey=config->readEntry("default key");
         allowcustom=config->readBoolEntry("allow_custom_option",false);
         if (allowcustom)
                 customOptions=config->readEntry("custom_option");
@@ -409,7 +410,7 @@ void popupPublic::crypte()
                 returnOptions<<"--throw-keyid";
         if ((allowcustom) && (!customOptions.stripWhiteSpace().isEmpty()))
                 returnOptions.operator+ (QStringList::split(QString(" "),customOptions.simplifyWhiteSpace()));
-
+	hide();
         if (fmode)
                 emit selectedKey(selectedKeys,returnOptions,CBshred->isChecked(),CBsymmetric->isChecked());
         else
