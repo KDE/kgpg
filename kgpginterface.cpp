@@ -116,7 +116,7 @@ void KgpgInterface::readencprocess(KProcIO *p)
           else if ((required.find("passphrase.enter")!=-1))
             {
               QCString passphrase;
-              int code=KPasswordDialog::getNewPassword(passphrase,QString(i18n("Enter passphrase for your file (symmetrical encryption):")));
+              int code=KPasswordDialog::getNewPassword(passphrase,i18n("Enter passphrase for your file (symmetrical encryption):"));
               if (code!=QDialog::Accepted)
                 {
                   delete p;
