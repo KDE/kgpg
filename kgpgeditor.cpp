@@ -91,8 +91,11 @@ kdDebug(2100) <<"there was some error using DCOP."<<endl;
 void KgpgApp::closeEvent ( QCloseEvent * e )
 {
         if (!isMainWindow) 
+	{
+	 kapp->ref();	
 	KMainWindow::closeEvent( e );
-	else e->accept();
+	}
+  else e->accept();
 }
 
 void KgpgApp::closeWindow()

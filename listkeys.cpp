@@ -720,7 +720,7 @@ show();
 
 void  listKeys::slotOpenEditor()
 {
-        KgpgApp *kgpgtxtedit = new KgpgApp(this, "editor",WType_Dialog | WDestructiveClose,actionCollection()->action("go_default_key")->shortcut());
+  KgpgApp *kgpgtxtedit = new KgpgApp(this, "editor",WType_TopLevel | WDestructiveClose,actionCollection()->action("go_default_key")->shortcut());
         connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
 	connect(kgpgtxtedit,SIGNAL(encryptFiles(KURL::List)),this,SIGNAL(encryptFiles(KURL::List)));
         connect(this,SIGNAL(fontChanged(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
@@ -2123,7 +2123,7 @@ void listKeys::slotgenkey()
                                         goodpass=true;
                         }
 
-                        pop = new KPassivePopup();
+			pop = new KPassivePopup((QWidget *)parent(),"new_key");
                         pop->setTimeout(0);
 
                         QWidget *wid=new QWidget(pop);
