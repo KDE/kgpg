@@ -123,7 +123,6 @@ public slots:
         */
 	//static QString KgpgDecryptText(QString text,QString userID);
 	void KgpgDecryptText(QString text,QStringList Options=QString::null);
-	void txtreaddecprocess(KProcIO *p);
 	void txtdecryptfin(KProcess *);
 
 	/**Extract list of photographic user id's
@@ -131,7 +130,8 @@ public slots:
         */
 	void KgpgGetPhotoList(QString keyID);
 
-
+	void getOutput(KProcess *, char *data, int );
+	void getCmdOutput(KProcess *p, char *data, int );
 
 	QString getKey(QStringList IDs, bool attributes);
 
@@ -357,12 +357,11 @@ signals:
 	void txtSignOver(QString);
 
 
-
 private:
         /**
         * @internal structure for communication
         */
-        QString message,tempKeyFile,userIDs,output,keyString,txtToEncrypt;
+        QString message,tempKeyFile,userIDs,output,keyString,txtToEncrypt,log;
         QCString passphrase;
         bool deleteSuccess,konsLocal,anonymous,decfinished,decok,badmdc,revokeSuccess,addSuccess,delSuccess;
 	bool signmiss;
@@ -377,6 +376,8 @@ private:
         KURL sourceFile;
 	QString decryptUrl;
 
+	QString gpgOutput;
+	
         /**
          * @internal structure for the file information
          */

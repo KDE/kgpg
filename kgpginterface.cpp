@@ -190,8 +190,9 @@ void KgpgInterface::decryptfin(KProcess *)
         if ((message.find("DECRYPTION_OKAY")!=-1) && (message.find("END_DECRYPTION")!=-1)) //&& (message.find("GOODMDC")!=-1)
                 emit decryptionfinished();
         else
-                emit errormessage(message);
+	emit errormessage(message);
 }
+
 
 void KgpgInterface::readdecprocess(KProcIO *p)
 {
@@ -316,103 +317,115 @@ void KgpgInterface::txtreadencprocess(KProcIO *p)
 
 void KgpgInterface::KgpgDecryptText(QString text,QStringList Options)
 {
- QString txtprocess;
+  gpgOutput=QString::null;
+  log=QString::null;	
+  
   message=QString::null;
   userIDs=QString::null;
   step=3;
   anonymous=false;
-txtprocess=text;
-decfinished=false;
-decok=false;
-badmdc=false;
- KProcIO *proc=new KProcIO();
-	  *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=1"<<"--no-batch";
-      	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
-       		if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
-
-      *proc<<"-d";
+  decfinished=false;
+  decok=false;
+  badmdc=false;
+  KProcess *proc=new KProcess();
+  *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2"<<"--no-batch";
+  for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
+	  if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
+  *proc<<"-d";
 
   /////////  when process ends, update dialog infos
 
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtdecryptfin(KProcess *)));
-  QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreaddecprocess(KProcIO *)));
-  proc->start(KProcess::NotifyOnExit,false);
-  proc->writeStdin(txtprocess,false);
+  connect(proc, SIGNAL(receivedStdout(KProcess *, char *, int)),this, SLOT(getOutput(KProcess *, char *, int)));
+  connect(proc, SIGNAL(receivedStderr(KProcess *, char *, int)),this, SLOT(getCmdOutput(KProcess *, char *, int)));
+  proc->start(KProcess::NotifyOnExit,KProcess::All);
+  proc->writeStdin(text.ascii(),text.length());
 }
 
 void KgpgInterface::txtdecryptfin(KProcess *)
 {
 if ((decok) && (!badmdc)) 
-{
-message.remove(0,message.find("BEGIN_DECRYPTION")+17);
-if (message.find("[GNUPG:] DECRYPTION_OKAY")!=-1) message=message.left(message.findRev("[GNUPG:] DECRYPTION_OKAY",-1,false)); 
 emit txtdecryptionfinished(message);
-}
+
 else if (badmdc) 
 {
 KMessageBox::sorry(0,i18n("Bad MDC detected. The encrypted text has been manipulated."));
-emit txtdecryptionfailed(message);
+emit txtdecryptionfailed(log);
 }
 else
-emit txtdecryptionfailed(message);
+emit txtdecryptionfailed(log);
 }
 
-void KgpgInterface::txtreaddecprocess(KProcIO *p)
-{
-  QString required;
-  while (p->readln(required,true)!=-1)
-    {
-	{
-	if (required.find("USERID_HINT",0,false)!=-1)
-        updateIDs(required);
-	
-      if (required.find("ENC_TO")!=-1)
-        {
-          if (required.find("0000000000000000")!=-1)
-            anonymous=true;
-        }
-      if (required.find("GET_")!=-1)
-        {
-         if ((required.find("passphrase.enter")!=-1))
-            {
-              if (userIDs.isEmpty())
-                userIDs=i18n("[No user id found]");
-              QCString passphrase;
-              QString passdlgmessage;
-              if (anonymous)
-                passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys.<br>");
-              if ((step<3) && (!anonymous))
-                passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-              passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
-              int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
-              if (code!=QDialog::Accepted)
-                {
-                  delete p;
-                  emit processaborted(true);
-                  return;
-                }
-              p->writeStdin(passphrase,true);
-              userIDs=QString::null;
-              //p->writeStdin("\n");
-              step--;
-            }
-		  else
-           p->writeStdin("quit");
-        }
-		message+=required+"\n";
-		if (required.find("BEGIN_DECRYPTION")!=-1)
-      		{
-			p->closeStdin();
-			required=QString::null;
-			}
 
-	  if (required.find("END_DECRYPTION")!=-1) decfinished=true;
-	  if (required.find("DECRYPTION_OKAY")!=-1) decok=true;
-	  if (required.find("BADMDC")!=-1) badmdc=true;
-    }
+void KgpgInterface::getOutput(KProcess *, char *data, int )
+{
+	message.append(data);
+}
+
+
+void KgpgInterface::getCmdOutput(KProcess *p, char *data, int )
+{
+  gpgOutput.append(data);
+  log.append(data);
+
+  int pos;
+  while ((pos=gpgOutput.find("\n"))!=-1)
+  {	
+	QString required=gpgOutput.left(pos);
+	gpgOutput.remove(0,pos+2);
+			
+	if (required.find("USERID_HINT",0,false)!=-1)
+		updateIDs(required);
+	
+	if (required.find("ENC_TO")!=-1)
+	{
+		if (required.find("0000000000000000")!=-1)
+			anonymous=true;
+	}
+		
+	if (required.find("GET_")!=-1)
+	{
+		if ((required.find("passphrase.enter")!=-1))
+		{
+			if (userIDs.isEmpty())
+			userIDs=i18n("[No user id found]");
+			QCString passphrase;
+			QString passdlgmessage;
+			if (anonymous)
+				passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys.<br>");
+			if ((step<3) && (!anonymous))
+				passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
+			passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+			int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
+			if (code!=QDialog::Accepted)
+			{
+				delete p;
+				emit processaborted(true);
+				return;
+			}
+			passphrase.append("\n");
+			p->writeStdin(passphrase,passphrase.length());
+			userIDs=QString::null;
+			step--;
+		}
+		else
+		{
+			p->writeStdin("quit",4);
+			p->closeStdin();
+		}
+	}
+	
+	if (required.find("BEGIN_DECRYPTION")!=-1)
+	{
+		p->closeStdin();
+		required=QString::null;
+	}
+
+	if (required.find("END_DECRYPTION")!=-1) decfinished=true;
+	if (required.find("DECRYPTION_OKAY")!=-1) decok=true;
+	if (required.find("BADMDC")!=-1) badmdc=true;
 	}
 }
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////    Text signing
 
 
@@ -567,7 +580,9 @@ QString required;
     required=required.section("]",1,-1).stripWhiteSpace();
      if (required.startsWith("GOODSIG"))
      {
-     signID=i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>").arg(required.section(" ",2,-1).replace(QRegExp("<"),"&lt;")).arg("0x"+required.section(" ",1,1).right(8));
+	     QString userName=required.section(" ",2,-1).replace(QRegExp("<"),"&lt;");
+	     userName=checkForUtf8(userName);
+     signID=i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>").arg(userName).arg("0x"+required.section(" ",1,1).right(8));
      }
      if (required.startsWith("BADSIG")) 
      {
@@ -2079,10 +2094,10 @@ QString KgpgInterface::checkForUtf8(QString txt)
                 str[0] = (char) QString( txt.mid( idx + 2, 2 ) ).toShort( 0, 16 );
                 txt.replace( idx, 4, str );
         }
-	if (!strchr (txt.ascii(), 0xc3))
+//	if (!strchr (txt.ascii(), 0xc3))
                 return QString::fromUtf8(txt.ascii());
-        else
-                return QString::fromUtf8(QString::fromUtf8(txt.ascii()).ascii());  // perform Utf8 twice, or some keys display badly
+//        else
+//                return QString::fromUtf8(QString::fromUtf8(txt.ascii()).ascii());  // perform Utf8 twice, or some keys display badly
 }
 
 
