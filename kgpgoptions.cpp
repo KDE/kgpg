@@ -67,12 +67,12 @@ kdDebug()<<"Adding pages"<<endl;
         addPage(page4, i18n("GPG Settings"), "kgpg");
 
         // The following widgets are managed manually.
-        connect(page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(settingModified()));
-        connect(page1->file_key, SIGNAL(activated(int)), this, SLOT(settingModified()));
-        connect(page1->always_key, SIGNAL(activated(int)), this, SLOT(settingModified()));
-        connect(page4->gpg_config_path, SIGNAL(textChanged(const QString&)), this, SLOT(settingModified()));
-        connect(page4->use_agent, SIGNAL(toggled(bool)), this, SLOT(settingModified()));
-        connect(page4->key_server1, SIGNAL(textChanged(const QString&)), this, SLOT(settingModified()));
+        connect(page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(updateButtons()));
+        connect(page1->file_key, SIGNAL(activated(int)), this, SLOT(updateButtons()));
+        connect(page1->always_key, SIGNAL(activated(int)), this, SLOT(updateButtons()));
+        connect(page4->gpg_config_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
+        connect(page4->use_agent, SIGNAL(toggled(bool)), this, SLOT(updateButtons()));
+        connect(page4->key_server1, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
 }
 
 
