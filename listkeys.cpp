@@ -382,7 +382,7 @@ KeyView::KeyView( QWidget *parent, const char *name )
 
 void  KeyView::droppedfile (KURL url)
 {
-        if (KMessageBox::questionYesNo(this,i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>").arg(url.filename()))!=KMessageBox::Yes)
+        if (KMessageBox::questionYesNo(this,i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>").arg(url.path()))!=KMessageBox::Yes)
                 return;
 
         KgpgInterface *importKeyProcess=new KgpgInterface();

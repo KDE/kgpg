@@ -36,7 +36,7 @@ class KDetailedInfo : public KDialogBase
 {
 public:
 
-        KDetailedInfo(QWidget *parent=0, const char *name=0,const QString &boxLabel="",const QString &errormessage="");
+        KDetailedInfo(QWidget *parent=0, const char *name=0,const QString &boxLabel="",const QString &errormessage="",QStringList keysList=0);
         ~KDetailedInfo();
 
 };

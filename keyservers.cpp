@@ -394,25 +394,65 @@ void keyServer::abortImport()
 
 void keyServer::slotimportresult(KProcess*)
 {
-        QString importedNb,importedNbSucess,importedNbProcess,resultMessage,importedKeys, parsedOutput;
+        QString importedNb,importedNbSucess,importedNbProcess,resultMessage, parsedOutput,importedNbUnchanged,importedNbSig;
+	QString notImportesNbSec,importedNbMissing,importedNbRSA,importedNbUid,importedNbSub,importedNbRev,readNbSec;
+	QString importedNbSec,dupNbSec;
+
         parsedOutput=readmessage;
+	QStringList importedKeys;
 
         while (parsedOutput.find("IMPORTED")!=-1) {
                 parsedOutput.remove(0,parsedOutput.find("IMPORTED")+8);
-                importedKeys+=parsedOutput.section("\n",0,0).stripWhiteSpace().replace(QRegExp("<"),"&lt;")+"<br>";
+                importedKeys+=parsedOutput.section("\n",0,0).stripWhiteSpace();
         }
 
         if (readmessage.find("IMPORT_RES")!=-1) {
                 importedNb=readmessage.section("IMPORT_RES",-1,-1);
-                importedNb=importedNb.stripWhiteSpace();
+                  importedNb=importedNb.stripWhiteSpace();
                 importedNbProcess=importedNb.section(" ",0,0);
+		importedNbMissing=importedNb.section(" ",1,1);
                 importedNbSucess=importedNb.section(" ",2,2);
-                resultMessage=i18n("<qt>%1 key(s) processed. %2 key(s) imported.<br><b>%3</b></qt>").arg(importedNbProcess).arg(importedNbSucess).arg(importedKeys.left(600));
+		importedNbRSA=importedNb.section(" ",3,3);
+		importedNbUnchanged=importedNb.section(" ",4,4);
+		importedNbUid=importedNb.section(" ",5,5);
+		importedNbSub=importedNb.section(" ",6,6);
+		importedNbSig=importedNb.section(" ",7,7);
+		importedNbRev=importedNb.section(" ",8,8);
+		readNbSec=importedNb.section(" ",9,9);
+		importedNbSec=importedNb.section(" ",10,10);
+		dupNbSec=importedNb.section(" ",11,11);
+		notImportesNbSec=importedNb.section(" ",12,12);
+                resultMessage=i18n("<qt>%1 key(s) processed.<br></qt>").arg(importedNbProcess);
+		if (importedNbUnchanged!="0")
+		resultMessage+=i18n("<qt>%1 key(s) unchanged.<br></qt>").arg(importedNbUnchanged);
+		if (importedNbSig!="0")
+		resultMessage+=i18n("<qt>%1 signature(s) imported.<br></qt>").arg(importedNbSig);
+		if (importedNbMissing!="0")
+		resultMessage+=i18n("<qt>%1 key(s) without ID.<br></qt>").arg(importedNbMissing);
+		if (importedNbRSA!="0")
+		resultMessage+=i18n("<qt>%1 RSA key(s) imported.<br></qt>").arg(importedNbRSA);
+		if (importedNbUid!="0")
+		resultMessage+=i18n("<qt>%1 user ID(s) imported.<br></qt>").arg(importedNbUid);
+		if (importedNbSub!="0")
+		resultMessage+=i18n("<qt>%1 subkey(s) imported.<br></qt>").arg(importedNbSub);
+		if (importedNbRev!="0")
+		resultMessage+=i18n("<qt>%1 revocation certificate(s) imported.<br></qt>").arg(importedNbRev);
+		if (readNbSec!="0")
+		resultMessage+=i18n("<qt>%1 secret key(s) processed.<br></qt>").arg(readNbSec);
+		if (importedNbSec!="0")
+		resultMessage+=i18n("<qt><b>%1 secret key(s) imported.</b><br></qt>").arg(importedNbSec);
+		if (dupNbSec!="0")
+		resultMessage+=i18n("<qt>%1 secret key(s) unchanged.<br></qt>").arg(dupNbSec);
+		if (notImportesNbSec!="0")
+		resultMessage+=i18n("<qt>%1 secret key(s) not imported.<br></qt>").arg(notImportesNbSec);
+		if (importedNbSucess!="0")
+		resultMessage+=i18n("<qt><b>%1 key(s) imported:</b><br></qt>").arg(importedNbSucess);
         } else
                 resultMessage=i18n("No key imported... \nCheck detailed log for more infos");
-        KDetailedInfo *m_box=new KDetailedInfo(0,"import_result",resultMessage,readmessage);
+        KDetailedInfo *m_box=new KDetailedInfo(0,"import_result",resultMessage,readmessage,importedKeys);
         if (importpop)
                 importpop->hide();
+	m_box->setMinimumWidth(300);
         m_box->exec();
         if (importpop)
                 delete importpop;

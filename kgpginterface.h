@@ -205,7 +205,7 @@ private slots:
         /**
                 * Checks output of the import process
                 */
-        void importURLover(KProcess *);
+        void importURLover(KProcess *p);
         void importover(KProcess *);
         /**
                  * Read output of the import process
