@@ -1391,7 +1391,7 @@ kdDebug(2100)<<"Importing is over"<<endl;
                 if (messageList[7]!="0")
                         resultMessage+=i18n("<qt>One signature imported.<br></qt>","<qt>%n signatures imported.<br></qt>",messageList[7].toULong());
                 if (messageList[1]!="0")
-                        resultMessage+=i18n("<qt>%One key without ID.<br></qt>","<qt>%n keys without ID.<br></qt>",messageList[1].toULong());
+                        resultMessage+=i18n("<qt>One key without ID.<br></qt>","<qt>%n keys without ID.<br></qt>",messageList[1].toULong());
                 if (messageList[3]!="0")
                         resultMessage+=i18n("<qt>One RSA key imported.<br></qt>","<qt>%n RSA keys imported.<br></qt>",messageList[3].toULong());
                 if (messageList[5]!="0")
