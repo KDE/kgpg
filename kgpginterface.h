@@ -33,7 +33,13 @@
 #include <kprocio.h>
 #include <kdialogbase.h>
 #include <kurl.h>
+#include <kiconloader.h>
 #include <kio/netaccess.h>
+
+#include <kdeversion.h>
+#if (KDE_VERSION >= 310)
+#include <kpassivepopup.h>
+#endif
 
 /**
  * Encrypt a file using gpg.
@@ -198,6 +204,7 @@ void importKey(QString keystr, bool importSecret=false);
 	
 	void txtreadencprocess(KProcIO *p);
 void txtencryptfin(KProcess *);
+void signkillDisplayClip();
 	//void txtreaddecprocess(KProcIO *p);
 //void txtdecryptfin(KProcess *);
 signals:
@@ -262,6 +269,14 @@ signals:
 		int signSuccess;
 		int step,signb,sigsearch;
 		QString konsSignKey, konsKeyID;
+		
+#if (KDE_VERSION >= 310)
+KPassivePopup *pop;
+#else
+QDialog *clippop;
+#endif
+		
+		
 	/**
 	 * @internal structure for the file information
 	 */

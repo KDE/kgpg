@@ -149,11 +149,9 @@ readmessage="";
 searchproc=new KProcIO();
 QString keyserv=kCBimportks->currentText();
       *searchproc<<"gpg"<<"--keyserver"<<keyserv<<"--command-fd=0"<<"--status-fd=2"<<"--search-keys"<<kLEimportid->text().stripWhiteSpace().local8Bit();
-      QObject::connect(searchproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotsearchresult(KProcess *)));
-      QObject::connect(searchproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotsearchread(KProcIO *)));
-      searchproc->start(KProcess::NotifyOnExit,true);
-
-			importpop = new QDialog( this,0,true);
+      
+	  
+	  importpop = new QDialog( this,0,true);
               QVBoxLayout *vbox=new QVBoxLayout(importpop,3);
               QLabel *tex=new QLabel(importpop);
               tex->setText(i18n("<b>Connecting to the server...</b>"));
@@ -164,6 +162,10 @@ QString keyserv=kCBimportks->currentText();
               importpop->adjustSize();
 			  importpop->show();
 connect(Buttonabort,SIGNAL(clicked()),this,SLOT(abortSearch()));
+	  
+	  QObject::connect(searchproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotsearchresult(KProcess *)));
+      QObject::connect(searchproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotsearchread(KProcIO *)));
+      searchproc->start(KProcess::NotifyOnExit,true);
 }
 
 void keyServer::abortSearch()
@@ -213,6 +215,18 @@ void keyServer::slotsearchread(KProcIO *p)
 QString required;
 while (p->readln(required,true)!=-1)
 {
+if (required.find("keysearch.prompt")!=-1)
+ {
+ if (count<4) 
+ p->writeStdin("N");
+ else 
+ {
+p->writeStdin("Q");
+p->closeWhenDone();
+}
+required="";
+}
+if (required.find("GOT_IT")!=-1) {count++;required="";}
 if (cycle)
 {
 QString kid=required.stripWhiteSpace();
@@ -220,6 +234,7 @@ QString kid=required.stripWhiteSpace();
 kid=kid.section("key",1,1);
 kid=kid.stripWhiteSpace();
 kid=kid.left(8);
+required="";
 }
 cycle=false;
 if (required.find("(")!=-1)
@@ -227,11 +242,7 @@ if (required.find("(")!=-1)
 cycle=true;
 kitem=new KListViewItem(listpop->kLVsearch,required.remove(0,required.find(")")+1).stripWhiteSpace());
 count=0;
-}
- if (required.find("keysearch.prompt")!=-1)
- {
- if (count<3) {p->writeStdin("N");count++;} 
- else p->writeStdin("Q");
+required="";
 }
 }
 }

@@ -172,7 +172,7 @@ pop->setView(i18n("Encrypted following text:"),cryptedClipboard,KGlobal::iconLoa
               clippop->setMinimumWidth(250);
               clippop->adjustSize();
 			  clippop->show();
- QTimer::singleShot( 3000, this, SLOT(killDisplayClip()));
+ QTimer::singleShot( 3200, this, SLOT(killDisplayClip()));
 //KMessageBox::information(this,i18n("<b>Encrypted following text</b>:<br>")+cryptedClipboard);
 #endif
  }
