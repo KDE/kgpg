@@ -11,19 +11,27 @@
     <Action name="key_gener"/>
     <Separator />
     <Action name="key_exit"/>
-    </Menu>  
+    </Menu>
+	<Menu name="settings"><text>&amp;Settings</text>
+    <Action name="key_showp" />
+	</Menu>
+	<Menu name="file"><text>&amp;File</text>
+	<Action name="key_refresh"/>
+	</Menu>
     </MenuBar>
 
 
-<ToolBar name="manageToolBar" position="top"><text>Extra Toolbar</text>
+<ToolBar name="mainToolBar" position="top"><text>Main Toolbar</text>
     <Action name="key_export"/>
     <Action name="key_info"/>
     <Action name="key_sign"/>
     <Action name="key_edit"/>
     <Action name="key_import"/>
     <Action name="key_gener"/>
-    <Action name="key_configure"/>
-    <Action name="key_exit"/>
+    <Action name="key_showp"/>
+	<Action name="key_refresh"/>
+	<Action name="file_quit"/>
+	
 </ToolBar>
 
 
