@@ -386,3 +386,5 @@ void KgpgKeyInfo::slotPreOk()
 if (keyWasChanged) emit keyNeedsRefresh();
 accept();
 }
+
+#include "keyinfowidget.moc"
