@@ -1386,6 +1386,7 @@ void listKeys::showOptions()
         kgpgOptions *optionsDialog=new kgpgOptions(this,"settings");
         connect(optionsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAllOptions()));
         connect(optionsDialog,SIGNAL(homeChanged()),this,SLOT(refreshkey()));
+	connect(optionsDialog,SIGNAL(refreshTrust(int,QColor)),keysList2,SLOT(refreshTrust(int,QColor)));
         connect(optionsDialog,SIGNAL(changeFont(QFont)),this,SIGNAL(fontChanged(QFont)));
         optionsDialog->show();
 }
@@ -3084,6 +3085,40 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
                         currentItem()->setOpen(keyIsOpen);
 }
 
+
+void KeyView::refreshTrust(int color,QColor newColor)
+{
+if (!newColor.isValid()) return;
+QPixmap blankFrame,newtrust;
+int trustFinger=0;
+blankFrame.load(locate("appdata", "pics/kgpg_blank.png"));
+newtrust.load(locate("appdata", "pics/kgpg_fill.png"));
+newtrust.fill(newColor);
+bitBlt(&newtrust,0,0,&blankFrame,0,0,50,15);
+switch (color)
+{
+case GoodColor:
+trustFinger=trustgood.serialNumber();
+break;
+case BadColor:
+trustFinger=trustbad.serialNumber();
+break;
+case UnknownColor:
+trustFinger=trustunknown.serialNumber();
+break;
+case RevColor:
+trustFinger=trustrevoked.serialNumber();
+break;
+}
+QListViewItem *item=firstChild();
+                while (item) {
+			if (!item->pixmap(2)->isNull())
+			{
+                        if (item->pixmap(2)->serialNumber()==trustFinger) item->setPixmap(2,newtrust);
+			}
+			item=item->nextSibling();
+                }
+}
 
 gpgKey KeyView::extractKey(QString keyColon)
 {

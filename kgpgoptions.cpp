@@ -60,7 +60,7 @@
 #include "conf_gpg.h"
 #include "conf_servers.h"
 #include "conf_ui2.h"
-#include "conf_colors.h"
+
 
 ///////////////////////   main window
 
@@ -122,6 +122,11 @@ kdDebug(2100)<<"Adding pages"<<endl;
 	connect(page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
 	connect(page6->ServerBox, SIGNAL(currentChanged ( QListBoxItem *)), this, SLOT(updateButtons()));
 	connect(page7, SIGNAL(fontSelected(const QFont &)), this, SLOT(updateButtons()));
+	
+	keyGood=KGpgSettings::colorGood();
+	keyUnknown=KGpgSettings::colorUnknown();
+	keyRev=KGpgSettings::colorRev();
+	keyBad=KGpgSettings::colorBad();
 }
 
 
@@ -371,6 +376,10 @@ void kgpgOptions::updateSettings()
 	KgpgInterface::setGpgSetting("keyserver",keyServer, KGpgSettings::gpgConfigPath());
 	serverList.prepend(keyServer+" "+i18n("(Default)"));
 	
+	if (keyGood!=KGpgSettings::colorGood()) emit refreshTrust(GoodColor,KGpgSettings::colorGood());
+	if (keyBad!=KGpgSettings::colorBad()) emit refreshTrust(BadColor,KGpgSettings::colorBad());
+	if (keyUnknown!=KGpgSettings::colorUnknown()) emit refreshTrust(UnknownColor,KGpgSettings::colorUnknown());
+	if (keyRev!=KGpgSettings::colorRev()) emit refreshTrust(RevColor,KGpgSettings::colorRev());
 
 	KGpgSettings::writeConfig();
 	//ks->sync();

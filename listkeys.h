@@ -109,6 +109,7 @@ public slots:
         void slotAddColumn(int c);
 
 private slots:
+	void refreshTrust(int color,QColor newColor);
         void  droppedfile (KURL);
         void refreshkeylist();
         gpgKey extractKey(QString keyColon);

@@ -18,6 +18,10 @@
 #define KGPGOPTIONS_H
 
 #include <kconfigdialog.h>
+#define GoodColor 0
+#define BadColor 1
+#define UnknownColor 2
+#define RevColor 3
 
 class KConfig;
 class Encryption;
@@ -62,6 +66,7 @@ private:
         bool defaultEncryptToAlways;
 	QStringList serverList;
 	QString defaultConfigPath,defaultHomePath;
+	QColor keyGood,keyBad,keyUnknown,keyRev;
 
 private:
         bool hasChanged();
@@ -87,6 +92,7 @@ signals:
         void settingsUpdated();
 	void changeFont(QFont);
 	void homeChanged();
+	void refreshTrust(int, QColor);
 };
 
 #endif // KGPGOPTIONS_H
