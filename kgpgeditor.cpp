@@ -133,7 +133,7 @@ void KgpgApp::slotFileQuit()
 
 void KgpgApp::slotResetEncoding(bool enc)
 {
-//kdDebug()<<"Resetting encoding--------------------"<<endl;
+//kdDebug(2100)<<"Resetting encoding--------------------"<<endl;
 encodingAction->setChecked(enc);
 //if (enc) slotSetCharset();
 }
@@ -351,7 +351,7 @@ if( KIO::NetAccess::download( url, tempOpenFile ) ) {
 void KgpgApp::slotFilePrint()
 {
         KPrinter prt;
-        //kdDebug()<<"Printing..."<<endl;
+        //kdDebug(2100)<<"Printing..."<<endl;
         if (prt.setup(this)) {
                 QPainter painter(&prt);
                 QPaintDeviceMetrics metrics(painter.device());

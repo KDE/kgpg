@@ -442,7 +442,7 @@ void popupPublic::slotprocread(KProcIO *p)
 void popupPublic::slotOk()
 {
         //////   emit selected data
-kdDebug()<<"Ok pressed"<<endl;
+kdDebug(2100)<<"Ok pressed"<<endl;
         QStringList selectedKeys;
 	QString userid;
         QPtrList<QListViewItem> list=keysList->selectedItems();
@@ -454,7 +454,7 @@ kdDebug()<<"Ok pressed"<<endl;
                 }
         if (selectedKeys.isEmpty() && !CBsymmetric->isChecked())
                 return;
-kdDebug()<<"Selected Key:"<<selectedKeys<<endl;
+kdDebug(2100)<<"Selected Key:"<<selectedKeys<<endl;
         QStringList returnOptions;
         if (CBuntrusted->isChecked())
                 returnOptions<<"--always-trust";

@@ -392,7 +392,7 @@ void KgpgView::slotdecode()
 
 void KgpgView::updateDecryptedtxt(QString newtxt)
 {
-	//kdDebug()<<"UTF8 Test Result--------------"<<KgpgView::checkForUtf8()<<endl;
+	//kdDebug(2100)<<"UTF8 Test Result--------------"<<KgpgView::checkForUtf8()<<endl;
 	if (checkForUtf8(newtxt))
 	{
 	editor->setText(QString::fromUtf8(newtxt.ascii()));
@@ -413,7 +413,7 @@ unsigned char c;
 for (int ct=0;ct<n;ct++)
 {
 c=s[ct];
-  //kdDebug()<<"Testing --------- "<<c<<"caractere"<<n<<endl;
+  //kdDebug(2100)<<"Testing --------- "<<c<<"caractere"<<n<<endl;
 if ((c>0xc2) && (c<0xdf))
 if (ct+1<n)
 {

@@ -384,7 +384,7 @@ void  MyView::unArchive()
 
 void  MyView::showDroppedFile()
 {
-kdDebug()<<"------Show dropped file"<<endl;
+kdDebug(2100)<<"------Show dropped file"<<endl;
         KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
         kgpgtxtedit->view->editor->slotDroppedFile(droppedUrl);
 	connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
@@ -417,7 +417,7 @@ void  MyView::droppedfile (KURL::List url)
                         break;
                 case KGpgSettings::EnumEncryptedDropEvent::Ask:
                         droppopup->exec(QCursor::pos ());
-			kdDebug()<<"Drop menu--------"<<endl;
+			kdDebug(2100)<<"Drop menu--------"<<endl;
                         break;
                 }
         } else if (droppedUrl.path().endsWith(".sig")) {
@@ -510,7 +510,7 @@ void  MyView::firstRun()
 
 void  MyView::startWizard()
 {
-        kdDebug()<<"Starting Wizard"<<endl;
+        kdDebug(2100)<<"Starting Wizard"<<endl;
         wiz=new KgpgWizard(0,"wizard");
         QString confPath=QDir::homeDirPath()+"/.gnupg/options";
         if (!QFile(confPath).exists()) {
@@ -732,13 +732,13 @@ void KgpgAppletApp::wizardOver(QString defaultKeyId)
 
 int KgpgAppletApp::newInstance()
 {
-        kdDebug()<<"New instance"<<endl;
+        kdDebug(2100)<<"New instance"<<endl;
         args = KCmdLineArgs::parsedArgs();
         if (running) {
-                kdDebug()<<"Already running"<<endl;
+                kdDebug(2100)<<"Already running"<<endl;
                 kgpg_applet->show();
         } else {
-                kdDebug() << "Starting KGpg"<<endl;
+                kdDebug(2100) << "Starting KGpg"<<endl;
                 running=true;
                 s_keyManager=new listKeys(0, "key_manager");
 		QString gpgPath= KGpgSettings::gpgConfigPath();
@@ -773,7 +773,7 @@ int KgpgAppletApp::newInstance()
                 s_keyManager->raise();  // set on top
         } else
                 if (args->count()>0) {
-                        kdDebug() << "KGpg: found files"<<endl;
+                        kdDebug(2100) << "KGpg: found files"<<endl;
 
                         urlList.clear();
 

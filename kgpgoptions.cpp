@@ -79,7 +79,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 		else defaultConfigPath=QString::null;
 		}
 	
-kdDebug()<<"Adding pages"<<endl;
+kdDebug(2100)<<"Adding pages"<<endl;
         page1=new Encryption();
         page2=new Decryption();
         page3=new UI();
@@ -192,7 +192,7 @@ void kgpgOptions::updateWidgets()
 	page6->ServerBox->insertStringList(serverList);
 	
 	
-	kdDebug()<<"Finishing options"<<endl;
+	kdDebug(2100)<<"Finishing options"<<endl;
 }
 
 void kgpgOptions::updateWidgetsDefault()
@@ -212,7 +212,7 @@ void kgpgOptions::updateWidgetsDefault()
 	page6->ServerBox->clear();
 	page6->ServerBox->insertStringList(QStringList::split(",",defaultServerList));
 
-	kdDebug()<<"Finishing default options"<<endl;
+	kdDebug(2100)<<"Finishing default options"<<endl;
 }
 
 bool kgpgOptions::isDefault()

@@ -155,7 +155,7 @@ void KgpgInterface::KgpgDecryptFile(KURL srcUrl,KURL destUrl,QStringList Options
         step=3;
         userIDs=QString::null;
         anonymous=false;
-	kdDebug()<<"Starting decrypt"<<endl;
+	kdDebug(2100)<<"Starting decrypt"<<endl;
         KProcIO *proc=new KProcIO();
 
                 *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0";
@@ -1206,7 +1206,7 @@ void KgpgInterface::importover(KProcess *)
 QStringList importedKeysIds;
 QString resultMessage;
 bool secretImport=false;
-kdDebug()<<"Importing is over"<<endl;
+kdDebug(2100)<<"Importing is over"<<endl;
         QString parsedOutput=message;
         QStringList importedKeys;
 
@@ -1348,7 +1348,7 @@ void KgpgInterface::adduidprocess(KProcIO *p)
 
 		if ((required.find("GET_")!=-1)) /////// gpg asks for something unusal, turn to konsole mode
                 {
-                        kdDebug()<<"unknown request"<<endl;
+                        kdDebug(2100)<<"unknown request"<<endl;
                         addSuccess=false;  /////  switching to console mode
                         p->writeStdin("quit");
                         p->closeWhenDone();
@@ -1471,7 +1471,7 @@ void KgpgInterface::delphotoprocess(KProcIO *p)
 
 		if ((required.find("GET_")!=-1)) /////// gpg asks for something unusal, turn to konsole mode
                 {
-                        kdDebug()<<"unknown request"<<endl;
+                        kdDebug(2100)<<"unknown request"<<endl;
                         delSuccess=false;
                         p->writeStdin("quit");
                         p->closeWhenDone();
@@ -1534,7 +1534,7 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
 
 		if ((required.find("GET_")!=-1)) /////// gpg asks for something unusal, turn to konsole mode
                 {
-                        kdDebug()<<"unknown request"<<endl;
+                        kdDebug(2100)<<"unknown request"<<endl;
                         p->writeStdin("quit");
 			addSuccess=false;
                         p->closeWhenDone();
@@ -1613,14 +1613,14 @@ void KgpgInterface::revokeprocess(KProcIO *p)
 
                 }
                 if (required.find("ask_revocation_reason.text")!=-1) {
-                        //		kdDebug()<<"description"<<endl;
+                        //		kdDebug(2100)<<"description"<<endl;
                         p->writeStdin(revokeDescription);
                         revokeDescription=QString::null;
                         required=QString::null;
                 }
                 if ((required.find("GET_")!=-1)) /////// gpg asks for something unusal, turn to konsole mode
                 {
-                        kdDebug()<<"unknown request"<<endl;
+                        kdDebug(2100)<<"unknown request"<<endl;
                         expSuccess=1;  /////  switching to console mode
                         p->writeStdin("quit");
                         p->closeWhenDone();
@@ -1687,7 +1687,7 @@ void KgpgInterface::setGpgGroupSetting(QString name,QStringList values, QString 
         QString textToWrite;
         bool found=false;
         QFile qfile(QFile::encodeName(configFile));
-        kdDebug()<<"Changing group: "<<name<<endl;
+        kdDebug(2100)<<"Changing group: "<<name<<endl;
         if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
                 QString result;
                 QTextStream t( &qfile );
@@ -1698,8 +1698,8 @@ void KgpgInterface::setGpgGroupSetting(QString name,QStringList values, QString 
                                 result2.remove(0,6);
                                 result2=result2.stripWhiteSpace();
                                 if (result2.startsWith(name) && (result2.remove(0,name.length()).stripWhiteSpace().startsWith("="))) {
-//                                        kdDebug()<<"Found group: "<<name<<endl;
-                                        //kdDebug()<<"New values: "<<values<<endl;
+//                                        kdDebug(2100)<<"Found group: "<<name<<endl;
+                                        //kdDebug(2100)<<"New values: "<<values<<endl;
                                         result=QString("group %1=%2").arg(name).arg(values.join(" "));
                                         found=true;
                                 }
@@ -1732,10 +1732,10 @@ QStringList KgpgInterface::getGpgGroupSetting(QString name,QString configFile)
                 while (result!=NULL) {
                         result=result.stripWhiteSpace();
                         if (result.startsWith("group ")) {
-                                kdDebug()<<"Found 1 group"<<endl;
+                                kdDebug(2100)<<"Found 1 group"<<endl;
                                 result.remove(0,6);
                                 if (result.stripWhiteSpace().startsWith(name)) {
-                                        kdDebug()<<"Found group: "<<name<<endl;
+                                        kdDebug(2100)<<"Found group: "<<name<<endl;
                                         result=result.section('=',1);
                                         result=result.section('#',0,0);
                                         return QStringList::split (" ",result);

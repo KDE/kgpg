@@ -240,13 +240,13 @@ void keyServer::transferKeyID()
                 	kid=searchList.at(i)->firstChild()->text(0).stripWhiteSpace();
         		else
                 	kid=searchList.at(i)->text(0).stripWhiteSpace();
-		//kdDebug()<<kid<<" : "<<searchList.count()<<endl;
+		//kdDebug(2100)<<kid<<" : "<<searchList.count()<<endl;
         	kid=kid.section("key",1,1);
         	kid=kid.stripWhiteSpace();
 		keysToSearch.append(" "+kid.left(8));
 		}
 	}
-	kdDebug()<<keysToSearch<<endl;
+	kdDebug(2100)<<keysToSearch<<endl;
 	listpop->kLEID->setText(keysToSearch.stripWhiteSpace());
 }
 
