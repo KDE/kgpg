@@ -187,6 +187,14 @@ QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint
 				trustColor=KGpgSettings::colorUnknown();
                                 break;
                         }
+			
+			if (gpgOutput.section(':',11,11).find("D",0,true)!=-1)  // disabled key
+			{
+				tr=i18n("Disabled");
+				trustColor=KGpgSettings::colorBad();
+				prop->cbDisabled->setChecked(true);	
+			}
+			
                         prop->kLTrust->setText(tr);
                         prop->pixmapTrust->setPaletteBackgroundColor(trustColor);
 
