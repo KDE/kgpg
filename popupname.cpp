@@ -49,36 +49,36 @@ popupName::popupName(const QString& caption,QWidget *parent, const char *name,KU
   bGroupSourcesLayout = new QGridLayout( bGroupSources->layout() );
   bGroupSourcesLayout->setAlignment( Qt::AlignTop );
 
-  choix1 = new QRadioButton( bGroupSources, "choix1" );
+  checkClipboard = new QRadioButton( bGroupSources, "checkClipboard" );
 
 
   if (email==true)
   {
-  choix1->setText( i18n( "Clipboard" ) );
-  choix2 = new QRadioButton( bGroupSources, "choix2" );
-  choix2->setText( i18n( "E-Mail" ) );
+  checkClipboard->setText( i18n( "Clipboard" ) );
+  checkMail = new QRadioButton( bGroupSources, "checkMail" );
+  checkMail->setText( i18n( "E-Mail" ) );
   exportAttributes = new QCheckBox(i18n("Export attributes (photo ID)"),page);
   }
-  else choix1->setText( i18n( "Editor" ) );
+  else checkClipboard->setText( i18n( "Editor" ) );
 
-  bGroupSourcesLayout->addMultiCellWidget( choix1, 0, 0, 0, 2 );
+  bGroupSourcesLayout->addMultiCellWidget( checkClipboard, 0, 0, 0, 2 );
 
-  lineedit = new KLineEdit( bGroupSources, "lineedit" );
+  newFilename = new KLineEdit( bGroupSources, "newFilename" );
 
   path=oldnam;
 
-  lineedit->setText(oldnam.prettyURL());
+  newFilename->setText(oldnam.path());
 
-  bGroupSourcesLayout->addWidget( lineedit, 2, 1 );
- if (email==true) bGroupSourcesLayout->addWidget( choix2, 1, 0 );
+  bGroupSourcesLayout->addWidget( newFilename, 2, 1 );
+ if (email==true) bGroupSourcesLayout->addWidget( checkMail, 1, 0 );
 
-  choix0 = new QRadioButton( bGroupSources, "choix0" );
-  choix0->setText( i18n( "File" ) );
-  choix0->setChecked( TRUE );
+  checkFile = new QRadioButton( bGroupSources, "checkFile" );
+  checkFile->setText( i18n( "File" ) );
+  checkFile->setChecked( TRUE );
 
 
 
-  bGroupSourcesLayout->addWidget( choix0, 2, 0 );
+  bGroupSourcesLayout->addWidget( checkFile, 2, 0 );
 
   buttonToolbar = new QPushButton( bGroupSources, "buttonToolbar" );
   buttonToolbar->setMinimumSize( QSize( 0, 0 ) );
@@ -89,12 +89,12 @@ popupName::popupName(const QString& caption,QWidget *parent, const char *name,KU
 
   // signals and slots connections
 
-  connect( choix0, SIGNAL( toggled(bool) ), this, SLOT( slotenable(bool) ) );
+  connect( checkFile, SIGNAL( toggled(bool) ), this, SLOT( slotenable(bool) ) );
   connect( buttonToolbar, SIGNAL( clicked() ), this, SLOT( slotchooseurl()));
   // tab order
-  setTabOrder( lineedit, buttonToolbar );
-  setTabOrder( buttonToolbar, choix0 );
-  setTabOrder( choix0, choix1 );
+  setTabOrder( newFilename, buttonToolbar );
+  setTabOrder( buttonToolbar, checkFile );
+  setTabOrder( checkFile, checkClipboard );
   vbox->add(bGroupSources);
   vbox->add(exportAttributes);
   page->show();
@@ -106,7 +106,7 @@ void popupName::slotchooseurl()
 {
   /////////  toggle editing of file name depending of the user choice
   KURL url=KFileDialog::getSaveURL(path.path(),i18n("*|All files"), this, i18n("Save as..."));
-  if(!url.isEmpty()) lineedit->setText(url.path());
+  if(!url.isEmpty()) newFilename->setText(url.path());
 
 }
 
@@ -114,22 +114,6 @@ void popupName::slotchooseurl()
 void popupName::slotenable(bool on)
 {
   /////////  toggle editing of file name depending of the user choice
-  lineedit->setEnabled(on);
-}
-
-
-bool popupName::getfmode()
-{
-  return(choix0->isChecked());
-}
-
-bool popupName::getmailmode()
-{
-  return(choix2->isChecked());
-}
-
-QString popupName::getfname()
-{
-  return(lineedit->text());
+  newFilename->setEnabled(on);
 }
 //#include "popupname.moc"

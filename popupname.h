@@ -38,10 +38,10 @@ class popupName : public KDialogBase
 
   popupName(const QString& caption, QWidget *parent=0, const char *name=0, KURL oldnam=KURL(), bool email=false);
 
-  QRadioButton *choix0,*choix1,*choix2;
+  QRadioButton *checkFile,*checkClipboard,*checkMail;
 //  QVButtonGroup *vgroup;
   QHButtonGroup *hgroup;
-  KLineEdit *lineedit;
+  KLineEdit *newFilename;
   KURL path;
   QCheckBox *exportAttributes;
       QButtonGroup* bGroupSources;
@@ -58,12 +58,6 @@ private slots:
 public slots:
 void slotchooseurl();
 void slotenable(bool);
-bool getfmode();
-bool getmailmode();
-QString getfname();
-
-signals:
-
 };
 
 #endif
