@@ -17,7 +17,7 @@
 
 ///////////////////////////////////////////////             code for the option dialog box
 
-
+#include <config.h>
 #include <qlayout.h>
 #include <qtabwidget.h>
 #include <qlabel.h>
