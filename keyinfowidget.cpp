@@ -39,6 +39,7 @@
 
 #include "keyinfowidget.h"
 #include "keyproperties.h"
+#include "kgpgsettings.h"
 #include "kgpginterface.h"
 
 KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDialogBase( Swallow, i18n("Key Properties"), Close, Close, parent, name,true)
@@ -141,52 +142,52 @@ QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint
                         switch( trust[0] ) {
                         case 'o':
                                 tr= i18n("Unknown");
-				trustColor.setRgb(255,255,255);
+				trustColor=KGpgSettings::colorUnknown();
                                 break;
                         case 'i':
                                 tr= i18n("Invalid");
-				trustColor.setRgb(172,0,0);
+				trustColor=KGpgSettings::colorBad();
                                 break;
                         case 'd':
                                 tr=i18n("Disabled");
-				trustColor.setRgb(172,0,0);
+				trustColor=KGpgSettings::colorBad();
 				prop->cbDisabled->setChecked(true);
                                 break;
                         case 'r':
                                 tr=i18n("Revoked");
-				trustColor.setRgb(172,0,0);
+				trustColor=KGpgSettings::colorRev();
                                 break;
                         case 'e':
                                 tr=i18n("Expired");
-				trustColor.setRgb(172,0,0);
+				trustColor=KGpgSettings::colorBad();
                                 break;
                         case 'q':
                                 tr=i18n("Undefined");
-				trustColor.setRgb(255,255,255);
+				trustColor=KGpgSettings::colorUnknown();
                                 break;
                         case 'n':
                                 tr=i18n("None");
-				trustColor.setRgb(255,255,255);
+				trustColor=KGpgSettings::colorUnknown();
                                 break;
                         case 'm':
                                 tr=i18n("Marginal");
-				trustColor.setRgb(172,0,0);
+				trustColor=KGpgSettings::colorBad();
                                 break;
                         case 'f':
                                 tr=i18n("Full");
-				trustColor.setRgb(148,255,0);
+				trustColor=KGpgSettings::colorGood();
                                 break;
                         case 'u':
                                 tr=i18n("Ultimate");
-				trustColor.setRgb(148,255,0);
+				trustColor=KGpgSettings::colorGood();
                                 break;
                         default:
                                 tr="?";
-				trustColor.setRgb(255,255,255);
+				trustColor=KGpgSettings::colorUnknown();
                                 break;
                         }
                         prop->kLTrust->setText(tr);
-                        prop->kLTrust->setPaletteBackgroundColor(trustColor);
+                        prop->pixmapTrust->setPaletteBackgroundColor(trustColor);
 
 			fullID=gpgOutput.section(':',4,4);
                         displayedKeyID=fullID.right(8);

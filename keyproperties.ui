@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>KeyProperties</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>421</width>
+            <width>431</width>
             <height>350</height>
         </rect>
     </property>
@@ -30,7 +30,7 @@
         <property name="margin">
             <number>0</number>
         </property>
-        <widget class="QLayoutWidget" row="0" column="2" rowspan="7" colspan="1">
+        <widget class="QLayoutWidget" row="0" column="3" rowspan="7" colspan="1">
             <property name="name">
                 <cstring>layout39</cstring>
             </property>
@@ -115,7 +115,7 @@
                 </widget>
             </vbox>
         </widget>
-        <widget class="QLayoutWidget" row="7" column="2" rowspan="4" colspan="1">
+        <widget class="QLayoutWidget" row="7" column="3" rowspan="4" colspan="1">
             <property name="name">
                 <cstring>layout4</cstring>
             </property>
@@ -223,49 +223,6 @@
                 <string>Owner trust:</string>
             </property>
         </widget>
-        <widget class="KComboBox" row="6" column="1">
-            <item>
-                <property name="text">
-                    <string>Don't Know</string>
-                </property>
-            </item>
-            <item>
-                <property name="text">
-                    <string>Do NOT Trust</string>
-                </property>
-            </item>
-            <item>
-                <property name="text">
-                    <string>Marginally</string>
-                </property>
-            </item>
-            <item>
-                <property name="text">
-                    <string>Fully</string>
-                </property>
-            </item>
-            <item>
-                <property name="text">
-                    <string>Ultimately</string>
-                </property>
-            </item>
-            <property name="name">
-                <cstring>kCOwnerTrust</cstring>
-            </property>
-        </widget>
-        <widget class="KActiveLabel" row="7" column="1">
-            <property name="name">
-                <cstring>tLID</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>7</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-        </widget>
         <widget class="QLabel" row="1" column="0">
             <property name="name">
                 <cstring>tLMail2_2</cstring>
@@ -318,25 +275,6 @@
                 <string>Trust:</string>
             </property>
         </widget>
-        <widget class="QLabel" row="5" column="1">
-            <property name="name">
-                <cstring>kLTrust</cstring>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>5</hsizetype>
-                    <vsizetype>4</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-            <property name="frameShape">
-                <enum>Box</enum>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-        </widget>
         <widget class="QLabel" row="2" column="0">
             <property name="name">
                 <cstring>tLComment2_2</cstring>
@@ -359,33 +297,26 @@
                 <string>Name:</string>
             </property>
         </widget>
-        <widget class="KActiveLabel" row="1" column="1">
+        <widget class="KLineEdit" row="11" column="0" rowspan="1" colspan="4">
             <property name="name">
-                <cstring>tLMail</cstring>
+                <cstring>lEFinger</cstring>
             </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>7</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
+            <property name="frame">
+                <bool>true</bool>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
             </property>
         </widget>
-        <widget class="KActiveLabel" row="0" column="1">
+        <widget class="QLabel" row="10" column="0" rowspan="1" colspan="3">
             <property name="name">
-                <cstring>tLName</cstring>
+                <cstring>tLID_2</cstring>
             </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>7</hsizetype>
-                    <vsizetype>5</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
+            <property name="text">
+                <string>Fingerprint:</string>
             </property>
         </widget>
-        <widget class="KActiveLabel" row="2" column="1">
+        <widget class="KActiveLabel" row="2" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>tLComment</cstring>
             </property>
@@ -398,9 +329,28 @@
                 </sizepolicy>
             </property>
         </widget>
-        <widget class="KActiveLabel" row="3" column="1">
+        <widget class="QLabel" row="5" column="2">
             <property name="name">
-                <cstring>tLCreation</cstring>
+                <cstring>pixmapTrust</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="frameShape">
+                <enum>Box</enum>
+            </property>
+            <property name="scaledContents">
+                <bool>true</bool>
+            </property>
+        </widget>
+        <widget class="KActiveLabel" row="1" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>tLMail</cstring>
             </property>
             <property name="sizePolicy">
                 <sizepolicy>
@@ -411,7 +361,20 @@
                 </sizepolicy>
             </property>
         </widget>
-        <widget class="KActiveLabel" row="4" column="1">
+        <widget class="KActiveLabel" row="7" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>tLID</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+        </widget>
+        <widget class="KActiveLabel" row="4" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>tLExpiration</cstring>
             </property>
@@ -424,14 +387,44 @@
                 </sizepolicy>
             </property>
         </widget>
-        <widget class="QLabel" row="8" column="1">
+        <widget class="KComboBox" row="6" column="1" rowspan="1" colspan="2">
+            <item>
+                <property name="text">
+                    <string>Don't Know</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Do NOT Trust</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Marginally</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Fully</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>Ultimately</string>
+                </property>
+            </item>
             <property name="name">
-                <cstring>tLAlgo</cstring>
+                <cstring>kCOwnerTrust</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="5" column="1">
+            <property name="name">
+                <cstring>kLTrust</cstring>
             </property>
             <property name="sizePolicy">
                 <sizepolicy>
-                    <hsizetype>7</hsizetype>
-                    <vsizetype>5</vsizetype>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>4</vsizetype>
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                 </sizepolicy>
@@ -440,7 +433,7 @@
                 <string></string>
             </property>
         </widget>
-        <widget class="QLabel" row="9" column="1">
+        <widget class="QLabel" row="9" column="1" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>tLLength</cstring>
             </property>
@@ -456,23 +449,46 @@
                 <string></string>
             </property>
         </widget>
-        <widget class="QLabel" row="10" column="0" rowspan="1" colspan="2">
+        <widget class="QLabel" row="8" column="1" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>tLID_2</cstring>
+                <cstring>tLAlgo</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
             </property>
             <property name="text">
-                <string>Fingerprint:</string>
+                <string></string>
             </property>
         </widget>
-        <widget class="KLineEdit" row="11" column="0" rowspan="1" colspan="3">
+        <widget class="KActiveLabel" row="3" column="1" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>lEFinger</cstring>
+                <cstring>tLCreation</cstring>
             </property>
-            <property name="frame">
-                <bool>true</bool>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
             </property>
-            <property name="readOnly">
-                <bool>true</bool>
+        </widget>
+        <widget class="KActiveLabel" row="0" column="1" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>tLName</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>7</hsizetype>
+                    <vsizetype>5</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
             </property>
         </widget>
     </grid>
