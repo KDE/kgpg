@@ -5,7 +5,7 @@
   <!ENTITY package "kdeutils">
   <!ENTITY kappname "&kgpg;">
   <!ENTITY % addindex "IGNORE">
-  <!ENTITY % English "INCLUDE"> 
+  <!ENTITY % English "INCLUDE">
 ]>
 
 <book lang="&language;">
@@ -58,7 +58,7 @@ url="http://gnupg.org"> (http://gnupg.org)</ulink>
 <title>Introduction</title>
 
 
-<para>&kgpg; is a simple interface for GnuPG, a powerful encryption utility. GnuPG (also known as gpg) is included in most distribution and should be installed on your system. You can get the latest version on <ulink
+<para>&kgpg; is a simple interface for GnuPG, a powerful encryption utility. GnuPG (also known as gpg) is included in most distributions and should be installed on your system. You can get the latest version on <ulink
 url="http://gnupg.org">http://gnupg.org</ulink>.</para>
 
 <para>With &kgpg; you will be able to encrypt and decrypt your files and emails, allowing much more secure communications. A mini howto on encryption with gpg is available on <ulink url="http://www.gnupg.org/(en)/documentation/howtos.html">gnupg's web site</ulink>.
@@ -89,7 +89,7 @@ url="http://gnupg.org">http://gnupg.org</ulink>.</para>
 
 <para>
 When you start &kgpg;, a system tray icon will appear. A &LMB;
-click will open the Key Manager window, while a &RMB; click will open a menu allowing quick access to some important features. 
+click will open the Key Manager window, while a &RMB; click will open a menu allowing quick access to some important features.
 You can also drop files or text on the applet icon to encrypt or decrypt it.
 </para>
 </listitem>
@@ -283,8 +283,8 @@ passphrase.
 <title>Key Management</title>
 
 <para>All basic key management options can be performed through
-&kgpg;. To open the key management window &LMB; on &kgpg;'s applet. 
-Most options are available with a <mousebutton>right</mousebutton> click on a key. 
+&kgpg;. To open the key management window &LMB; on &kgpg;'s applet.
+Most options are available with a <mousebutton>right</mousebutton> click on a key.
 To import/export public keys, you can use drag
 and drop or the Copy/Paste keyboard shortcuts.</para>
 
