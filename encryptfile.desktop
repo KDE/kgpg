@@ -5,6 +5,7 @@ Actions=encrypt
 
 [Desktop Action encrypt]
 Name=Encrypt File
+Name[ar]=تشفير ملف
 Name[bg]=Шифроване на файл
 Name[bs]=Šifriraj datoteku
 Name[ca]=Xifra fitxer
@@ -15,13 +16,16 @@ Name[de]=Datei verschlüsseln
 Name[el]=Κρυπτογράφηση αρχείου
 Name[es]=Cifrar archivo
 Name[et]=Krüpti fail
+Name[eu]=Fitxategiak Zifratu
 Name[fi]=Salaa tiedosto
 Name[fr]=Chiffrer le fichier
+Name[ga]=Criptigh Comhad
 Name[hi]=एनक्रिप्ट फ़ाइल
 Name[hu]=Fájl titkosítása
 Name[is]=Dulrita skrá
 Name[it]=Cifratura file
 Name[ja]=ファイルを暗号化
+Name[mk]=Криптирај датотеки
 Name[nb]=Krypter fil
 Name[nl]=Bestand versleutelen
 Name[nn]=Krypter fil
