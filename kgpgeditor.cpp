@@ -300,10 +300,10 @@ void KgpgApp::slotFileSaveAs()
 
 void KgpgApp::openDocumentFile(const KURL& url)
 {
-
+QString tempOpenFile;
         /////////////////////////////////////////////////
-
-        QFile qfile(url.path());
+if( KIO::NetAccess::download( url, tempOpenFile ) ) {
+        QFile qfile(tempOpenFile);
         if (qfile.open(IO_ReadOnly)) {
                 QTextStream t( &qfile );
                 view->editor->setText(t.read());
@@ -312,7 +312,7 @@ void KgpgApp::openDocumentFile(const KURL& url)
                 editRedo->setEnabled(false);
                 editUndo->setEnabled(false);
         }
-
+}
 }
 
 void KgpgApp::slotFilePrint()
