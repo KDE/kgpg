@@ -719,7 +719,7 @@ void KgpgInterface::sigprocess(KProcIO *p)
 		
                 if (required.find("passphrase.enter")!=-1) {
                         QCString signpass;
-                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>%1Enter passphrase for <b>%1</b>:</qt>").arg(errMessage).arg(userIDs));
+                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>%1Enter passphrase for <b>%2</b>:</qt>").arg(errMessage).arg(userIDs));
                         if (code!=QDialog::Accepted) {
                                 signSuccess=4;  /////  aborted by user mode
                                 required=QString::null;
