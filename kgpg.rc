@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="kgpg" version="31">
+<kpartgui name="kgpg" version="33">
 <MenuBar>
   <Menu name="file">
     <Action name="file_new_window"/>
