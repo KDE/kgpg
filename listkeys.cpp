@@ -520,16 +520,16 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         setCaption(i18n("Key Management"));
 
         (void) new KAction(i18n("&Open Editor"), "edit",0,this, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
-        KAction *exportPublicKey = new KAction(i18n("E&xport Public Key(s)..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_export");
-        KAction *deleteKey = new KAction(i18n("&Delete Key(s)"),"editdelete", Qt::Key_Delete,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
-        signKey = new KAction(i18n("&Sign Key(s)..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
+        KAction *exportPublicKey = new KAction(i18n("E&xport Public Keys..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_export");
+        KAction *deleteKey = new KAction(i18n("&Delete Keys"),"editdelete", Qt::Key_Delete,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
+        signKey = new KAction(i18n("&Sign Keys..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
         KAction *delSignKey = new KAction(i18n("Delete Sign&ature"),"editdelete", 0,this, SLOT(delsignkey()),actionCollection(),"key_delsign");
         KAction *infoKey = new KAction(i18n("&Edit Key"), "kgpg_info", Qt::Key_Return,this, SLOT(listsigns()),actionCollection(),"key_info");
         KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", KStdAccel::shortcut(KStdAccel::Paste),this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
         KAction *setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
         importSignatureKey = new KAction(i18n("Import Key From Keyserver"),"network", 0,this, SLOT(preimportsignkey()),actionCollection(),"key_importsign");
         importAllSignKeys = new KAction(i18n("Import &Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
-        refreshKey = new KAction(i18n("&Refresh Key(s) From Keyserver"),"reload", 0,this, SLOT(refreshKeyFromServer()),actionCollection(),"key_server_refresh");
+        refreshKey = new KAction(i18n("&Refresh Keys From Keyserver"),"reload", 0,this, SLOT(refreshKeyFromServer()),actionCollection(),"key_server_refresh");
 
         (void) new KAction(i18n("&Create Group with Selected Keys..."), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
         KAction *delGroup= new KAction(i18n("&Delete Group"), 0, 0,this, SLOT(deleteGroup()),actionCollection(),"delete_group");
@@ -1854,8 +1854,10 @@ void listKeys::signkey()
         //////////////////  open a secret key selection dialog (KgpgSelKey, see begining of this file)
         KgpgSelKey *opts=new KgpgSelKey(this);
 
-        QLabel *signCheck = new QLabel(i18n("How carefully have you checked that the key(s) really\n"
-                                            "belongs to the person(s) you want to communicate with:"),opts->page);
+        QLabel *signCheck = new QLabel(i18n("How carefully have you checked that the key really\n"
+                                            "belongs to the person you want to communicate with:",
+					    "How carefully have you checked that the keys really\n"
+                                            "belongs to the persons you want to communicate with:",signList.count()),opts->page);
         opts->vbox->addWidget(signCheck);
         QComboBox *signTrust=new QComboBox(opts->page);
         signTrust->insertItem(i18n("I Will Not Answer"));
@@ -2382,7 +2384,7 @@ void listKeys::confirmdeletekey()
                 }
                 if (keysToDelete.isEmpty())
                         return;
-                int result=KMessageBox::warningContinueCancelList(this,i18n("<qt><b>Delete the following public key(s)  ?</b></qt>"),keysToDelete,i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"));
+                int result=KMessageBox::warningContinueCancelList(this,i18n("<qt><b>Delete the following public key?</b></qt>","<qt><b>Delete the following public keys?</b></qt>",keysToDelete.count()),keysToDelete,i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"));
                 if (result!=KMessageBox::Continue)
                         return;
                 else

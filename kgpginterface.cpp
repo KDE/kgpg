@@ -1385,34 +1385,34 @@ kdDebug(2100)<<"Importing is over"<<endl;
                 parsedOutput=message.section("IMPORT_RES",-1,-1).stripWhiteSpace();
 		messageList=QStringList::split(" ",parsedOutput,true);
                 	
-                resultMessage=i18n("<qt>%1 key(s) processed.<br></qt>").arg(messageList[0]);
+                resultMessage=i18n("<qt>%n key processed.<br></qt>","<qt>%n keys processed.<br></qt>",messageList[0].toULong());
                 if (messageList[4]!="0")
-                        resultMessage+=i18n("<qt>%1 key(s) unchanged.<br></qt>").arg(messageList[4]);
+                        resultMessage+=i18n("<qt>One key unchanged.<br></qt>","<qt>%n keys unchanged.<br></qt>",messageList[4].toULong());
                 if (messageList[7]!="0")
-                        resultMessage+=i18n("<qt>%1 signature(s) imported.<br></qt>").arg(messageList[7]);
+                        resultMessage+=i18n("<qt>One signature imported.<br></qt>","<qt>%n signatures imported.<br></qt>",messageList[7].toULong());
                 if (messageList[1]!="0")
-                        resultMessage+=i18n("<qt>%1 key(s) without ID.<br></qt>").arg(messageList[1]);
+                        resultMessage+=i18n("<qt>%One key without ID.<br></qt>","<qt>%n keys without ID.<br></qt>",messageList[1].toULong());
                 if (messageList[3]!="0")
-                        resultMessage+=i18n("<qt>%1 RSA key(s) imported.<br></qt>").arg(messageList[3]);
+                        resultMessage+=i18n("<qt>One RSA key imported.<br></qt>","<qt>%n RSA keys imported.<br></qt>",messageList[3].toULong());
                 if (messageList[5]!="0")
-                        resultMessage+=i18n("<qt>%1 user ID(s) imported.<br></qt>").arg(messageList[5]);
+                        resultMessage+=i18n("<qt>One user ID imported.<br></qt>","<qt>%n user IDs imported.<br></qt>",messageList[5].toULong());
                 if (messageList[6]!="0")
-                        resultMessage+=i18n("<qt>%1 subkey(s) imported.<br></qt>").arg(messageList[6]);
+                        resultMessage+=i18n("<qt>One subkey imported.<br></qt>","<qt>%n subkeys imported.<br></qt>",messageList[6].toULong());
                 if (messageList[8]!="0")
-                        resultMessage+=i18n("<qt>%1 revocation certificate(s) imported.<br></qt>").arg(messageList[8]);
+                        resultMessage+=i18n("<qt>One revocation certificate imported.<br></qt>","<qt>%n revocation certificates imported.<br></qt>",messageList[8].toULong());
                 if (messageList[9]!="0")
 			{
-                        resultMessage+=i18n("<qt>%1 secret key(s) processed.<br></qt>").arg(messageList[9]);
+                        resultMessage+=i18n("<qt>One secret key processed.<br></qt>","<qt>%n secret keys processed.<br></qt>",messageList[9].toULong());
 			secretImport=true;
 			}
                 if (messageList[10]!="0")
-                        resultMessage+=i18n("<qt><b>%1 secret key(s) imported.</b><br></qt>").arg(messageList[10]);
+                        resultMessage+=i18n("<qt><b>One secret key imported.</b><br></qt>","<qt><b>%n secret keys imported.</b><br></qt>",messageList[10].toULong());
                 if (messageList[11]!="0")
-                        resultMessage+=i18n("<qt>%1 secret key(s) unchanged.<br></qt>").arg(messageList[11]);
+                        resultMessage+=i18n("<qt>One secret key unchanged.<br></qt>","<qt>%n secret keys unchanged.<br></qt>",messageList[11].toULong());
                 if (messageList[12]!="0")
-                        resultMessage+=i18n("<qt>%1 secret key(s) not imported.<br></qt>").arg(messageList[12]);
+                        resultMessage+=i18n("<qt>One secret key not imported.<br></qt>","<qt>%n secret keys not imported.<br></qt>",messageList[12].toULong());
                 if (messageList[2]!="0")
-                        resultMessage+=i18n("<qt><b>%1 key(s) imported:</b><br></qt>").arg(messageList[2]);
+                        resultMessage+=i18n("<qt><b>One key imported:</b><br></qt>","<qt><b>%n keys imported:</b><br></qt>",messageList[2].toULong());
 			
 		if (secretImport) resultMessage+=i18n("<qt><br><b>You have imported a secret key.</b> <br>"
 									"Please note that imported secret keys are not trusted by default.<br>"

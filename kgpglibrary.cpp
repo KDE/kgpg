@@ -140,7 +140,7 @@ void KgpgLibrary::shredpreprocessenc(KURL fileToShred)
 
 void KgpgLibrary::shredprocessenc(KURL::List filesToShred)
 {
-emit systemMessage(i18n("Shredding %1 file(s)").arg(filesToShred.count()));
+emit systemMessage(i18n("Shredding %n file","Shredding %n files",filesToShred.count()));
 
 KIO::Job *job;
 job = KIO::del( filesToShred, true );

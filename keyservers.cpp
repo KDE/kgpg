@@ -58,7 +58,7 @@ keyServer::keyServer(QWidget *parent, const char *name,bool modal,bool autoClose
 	config=new KSimpleConfig ("kgpgrc");
 	page=new keyServerWidget();
 	setMainWidget(page);
-	
+
         syncCombobox();
         page->kLEimportid->setFocus();
 
@@ -165,16 +165,16 @@ void keyServer::slotSearch()
         }
 
         //listpop = new KeyServer( this,"result",WType_Dialog | WShowModal);
-	
+
 	dialogServer=new KDialogBase(KDialogBase::Swallow, i18n("Import Key From Keyserver"),  KDialogBase::Ok | KDialogBase::Close,KDialogBase::Ok,this,0,true);
-	
+
 	dialogServer->setButtonText(KDialogBase::Ok,i18n("&Import"));
 	dialogServer->enableButtonOK(false);
 	listpop=new searchRes();
         //listpop->setMinimumWidth(250);
         //listpop->adjustSize();
-        listpop->statusText->setText(i18n("Connecting to the server..."));   
-        
+        listpop->statusText->setText(i18n("Connecting to the server..."));
+
         connect(listpop->kLVsearch,SIGNAL(selectionChanged()),this,SLOT(transferKeyID()));
         connect(dialogServer,SIGNAL(okClicked()),this,SLOT(preimport()));
         connect(listpop->kLVsearch,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),dialogServer,SIGNAL(okClicked()));
@@ -207,7 +207,7 @@ void keyServer::slotSearch()
 
 void keyServer::handleQuit()
 {
-	if (searchproc->isRunning()) 
+	if (searchproc->isRunning())
 	{
 	    QApplication::restoreOverrideCursor();
 	    disconnect(searchproc,0,0,0);
@@ -245,7 +245,7 @@ void keyServer::transferKeyID()
         QString kid,keysToSearch;
 	listpop->kLEID->clear();
 	QPtrList< QListViewItem >searchList=listpop->kLVsearch->selectedItems();
-	
+
 	for ( uint i = 0; i < searchList.count(); ++i )
 	{
                 if ( searchList.at(i) )
@@ -337,7 +337,7 @@ void keyServer::slotExport(QString keyId)
         *exportproc<<"gpg";
 	if (!page->exportAttributes->isChecked())
                 *exportproc<<"--export-options"<<"no-include-attributes";
-	
+
         if (page->cBproxyE->isChecked()) {
                 exportproc->setEnvironment("http_proxy",page->kLEproxyE->text());
                 *exportproc<<	"--keyserver-options"<<"honor-http-proxy";
@@ -367,7 +367,7 @@ void keyServer::abortExport()
 {
 	QApplication::restoreOverrideCursor();
         importpop->close();
-        if (exportproc->isRunning()) 
+        if (exportproc->isRunning())
 	{
 	    disconnect(exportproc,0,0,0);
 	    exportproc->kill();
@@ -436,7 +436,7 @@ void keyServer::abortImport()
 {
 	QApplication::restoreOverrideCursor();
         importpop->close();
-	if (importproc->isRunning()) 
+	if (importproc->isRunning())
 	{
 	    disconnect(importproc,0,0,0);
 	    importproc->kill();
@@ -476,41 +476,41 @@ void keyServer::slotimportresult(KProcess*)
 		importedNbSec=importedNb.section(" ",10,10);
 		dupNbSec=importedNb.section(" ",11,11);
 		notImportesNbSec=importedNb.section(" ",12,12);
-                resultMessage=i18n("<qt>%1 key(s) processed.<br></qt>").arg(importedNbProcess);
+                resultMessage=i18n("<qt>%n key processed.<br></qt>","<qt>%n keys processed.<br></qt>",importedNbProcess.toULong());
 		if (importedNbUnchanged!="0")
-		resultMessage+=i18n("<qt>%1 key(s) unchanged.<br></qt>").arg(importedNbUnchanged);
+		resultMessage+=i18n("<qt>One key unchanged.<br></qt>","<qt>%n keys unchanged.<br></qt>",importedNbUnchanged.toULong());
 		if (importedNbSig!="0")
-		resultMessage+=i18n("<qt>%1 signature(s) imported.<br></qt>").arg(importedNbSig);
+		resultMessage+=i18n("<qt>One signature imported.<br></qt>","<qt>%n signatures imported.<br></qt>",importedNbSig.toULong());
 		if (importedNbMissing!="0")
-		resultMessage+=i18n("<qt>%1 key(s) without ID.<br></qt>").arg(importedNbMissing);
+		resultMessage+=i18n("<qt>One key without ID.<br></qt>","<qt>%n keys without ID.<br></qt>",importedNbMissing.toULong());
 		if (importedNbRSA!="0")
-		resultMessage+=i18n("<qt>%1 RSA key(s) imported.<br></qt>").arg(importedNbRSA);
+		resultMessage+=i18n("<qt>One RSA key imported.<br></qt>","<qt>%n RSA keys imported.<br></qt>",importedNbRSA.toULong());
 		if (importedNbUid!="0")
-		resultMessage+=i18n("<qt>%1 user ID(s) imported.<br></qt>").arg(importedNbUid);
+		resultMessage+=i18n("<qt>One user ID imported.<br></qt>","<qt>%n user IDs imported.<br></qt>",importedNbUid.toULong());
 		if (importedNbSub!="0")
-		resultMessage+=i18n("<qt>%1 subkey(s) imported.<br></qt>").arg(importedNbSub);
+		resultMessage+=i18n("<qt>One subkey imported.<br></qt>","<qt>%n subkeys imported.<br></qt>",importedNbSub.toULong());
 		if (importedNbRev!="0")
-		resultMessage+=i18n("<qt>%1 revocation certificate(s) imported.<br></qt>").arg(importedNbRev);
+		resultMessage+=i18n("<qt>One revocation certificate imported.<br></qt>","<qt>%n revocation certificates imported.<br></qt>",importedNbRev.toULong());
 		if (readNbSec!="0")
-		resultMessage+=i18n("<qt>%1 secret key(s) processed.<br></qt>").arg(readNbSec);
+		resultMessage+=i18n("<qt>One secret key processed.<br></qt>","<qt>%n secret keys processed.<br></qt>",readNbSec.toULong());
 		if (importedNbSec!="0")
-		resultMessage+=i18n("<qt><b>%1 secret key(s) imported.</b><br></qt>").arg(importedNbSec);
+		resultMessage+=i18n("<qt><b>One secret key imported.</b><br></qt>","<qt><b>%n secret keys imported.</b><br></qt>",importedNbSec.toULong());
 		if (dupNbSec!="0")
-		resultMessage+=i18n("<qt>%1 secret key(s) unchanged.<br></qt>").arg(dupNbSec);
+		resultMessage+=i18n("<qt>One secret key unchanged.<br></qt>","<qt>%n secret keys unchanged.<br></qt>",dupNbSec.toULong());
 		if (notImportesNbSec!="0")
-		resultMessage+=i18n("<qt>%1 secret key(s) not imported.<br></qt>").arg(notImportesNbSec);
+		resultMessage+=i18n("<qt>One secret key not imported.<br></qt>","<qt>%n secret keys not imported.<br></qt>",notImportesNbSec.toULong());
 		if (importedNbSucess!="0")
-		resultMessage+=i18n("<qt><b>%1 key(s) imported:</b><br></qt>").arg(importedNbSucess);
+		resultMessage+=i18n("<qt><b>One key imported:</b><br></qt>","<qt><b>%n keys imported:</b><br></qt>",importedNbSucess.toULong());
         } else
                 resultMessage=i18n("No key imported... \nCheck detailed log for more infos");
-		
+
 	QString lastID=QString("0x"+importedKeys.last().section(" ",0,0).right(8));
-	if (!lastID.isEmpty()) 
+	if (!lastID.isEmpty())
 	{
-	//kdDebug(2100)<<"++++++++++imported key"<<lastID<<endl;	
+	//kdDebug(2100)<<"++++++++++imported key"<<lastID<<endl;
 	emit importFinished(lastID);
 	}
-	
+
         if (importpop)
                 importpop->hide();
 	(void) new KDetailedInfo(0,"import_result",resultMessage,readmessage,importedKeys);
@@ -531,20 +531,20 @@ void keyServer::syncCombobox()
 {
         config->setGroup("Servers");
         QString serverList=config->readEntry("Server_List");
-	
+
         QString optionsServer=KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
-        
+
 	//if (optionsServer.isEmpty())
 	//	optionsServer="hkp://wwwkeys.pgp.net";
 	page->kCBexportks->clear();
 	page->kCBimportks->clear();
-	
+
 	page->kCBexportks->insertItem(optionsServer);
         page->kCBimportks->insertItem(optionsServer);
-	
+
 	page->kCBexportks->insertStringList(QStringList::split(",",serverList));
 	page->kCBimportks->insertStringList(QStringList::split(",",serverList));
-        
+
 }
 
 void keyServer::slotOk()
