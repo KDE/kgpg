@@ -29,7 +29,7 @@
                         <cstring>server_default</cstring>
                     </property>
                     <property name="text">
-                        <string>Set as Default</string>
+                        <string>&amp;Set as Default</string>
                     </property>
                 </widget>
                 <widget class="KPushButton">
@@ -37,7 +37,7 @@
                         <cstring>server_add</cstring>
                     </property>
                     <property name="text">
-                        <string>Add</string>
+                        <string>&amp;Add</string>
                     </property>
                 </widget>
                 <widget class="KPushButton">
@@ -45,7 +45,7 @@
                         <cstring>server_del</cstring>
                     </property>
                     <property name="text">
-                        <string>Delete</string>
+                        <string>&amp;Delete</string>
                     </property>
                 </widget>
             </vbox>
@@ -78,7 +78,7 @@
             </property>
             <property name="text">
                 <string>&lt;b&gt;INFORMATION&lt;/b&gt;:
-Only the Default Server will be stored in GnuPG's configuration file, 
+Only the default server will be stored in GnuPG's configuration file,
 all others will be stored for use by KGpg only.</string>
             </property>
         </widget>

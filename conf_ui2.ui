@@ -315,8 +315,8 @@
                             </size>
                         </property>
                         <property name="text">
-                            <string>Display warning before creating temporary files 
-(Only occurs on remote files operations)</string>
+                            <string>Display warning before creating temporary files
+(only occurs on remote files operations)</string>
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;qt&gt;&lt;b&gt;Display warning before creating temporary files:&lt;/b&gt;&lt;br /&gt;
@@ -380,7 +380,7 @@
                             <cstring>textLabel1_3_3</cstring>
                         </property>
                         <property name="text">
-                            <string>Unknown Keys</string>
+                            <string>Unknown keys:</string>
                         </property>
                     </widget>
                     <widget class="KColorButton" row="1" column="1">
@@ -403,7 +403,7 @@
                             <cstring>textLabel1_4</cstring>
                         </property>
                         <property name="text">
-                            <string>Trusted Keys</string>
+                            <string>Trusted keys:</string>
                         </property>
                     </widget>
                     <widget class="QLabel" row="3" column="0">
@@ -411,7 +411,7 @@
                             <cstring>textLabel1_4_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Expired/disabled Keys</string>
+                            <string>Expired/disabled keys:</string>
                         </property>
                     </widget>
                     <widget class="QLabel" row="1" column="0">
@@ -419,7 +419,7 @@
                             <cstring>textLabel1_2_3</cstring>
                         </property>
                         <property name="text">
-                            <string>Revoked Keys</string>
+                            <string>Revoked keys:</string>
                         </property>
                     </widget>
                     <widget class="KColorButton" row="3" column="1">
