@@ -297,7 +297,7 @@ private slots:
         void refreshFinished();
         void slotregenerate();
         void reloadSecretKeys();
-
+	
 signals:
         void readAgainOptions();
         void certificate(QString);
