@@ -3,7 +3,7 @@ bin_PROGRAMS = kgpg
 
 ## INCLUDES were found outside kdevelop specific part
 
-kgpg_SOURCES = kgpgoptions.cpp listkeys.cpp popuppublic.cpp kgpgview.cpp kgpg.cpp main.cpp popupname.cpp popupname.h hi16-app-kgpg.png hi32-app-kgpg.png hi48-app-kgpg.png kgpgfast.cpp keygener.cpp keygener.h tips
+kgpg_SOURCES = kgpgoptions.cpp listkeys.cpp popuppublic.cpp kgpgview.cpp kgpg.cpp main.cpp popupname.cpp popupname.h hi16-app-kgpg.png hi32-app-kgpg.png hi48-app-kgpg.png kgpgfast.cpp keygener.cpp keygener.h tips kgpgoption.ui kgpginterface.cpp kgpginterface.h
 kgpg_LDADD   =  $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
 
@@ -12,6 +12,7 @@ EXTRA_DIST = main.cpp kgpg.cpp kgpg.h kgpgview.cpp kgpgview.h kgpg.desktop popup
 install-data-local:
 	$(mkinstalldirs) $(kde_appsdir)/Applications/
 	$(INSTALL_DATA) $(srcdir)/kgpg.desktop $(kde_appsdir)/Applications/kgpg.desktop
+	$(INSTALL_DATA) $(srcdir)/keymanager.desktop $(kde_appsdir)/Applications/keymanager.desktop
 	$(mkinstalldirs) $(kde_icondir)/hicolor/48x48/apps/
 	$(INSTALL_DATA) $(srcdir)/hi48-app-kgpg.png $(kde_icondir)/hicolor/48x48/apps/kgpg.png
 	$(mkinstalldirs) $(kde_icondir)/hicolor/32x32/apps/
@@ -49,6 +50,7 @@ install-data-local:
 	
 uninstall-local:
 	-rm -f $(kde_appsdir)/Applications/kgpg.desktop
+	-rm -f $(kde_appsdir)/Applications/keymanager.desktop
 	-rm -f $(kde_icondir)/hicolor/48x48/apps/kgpg.png
 	-rm -f $(kde_icondir)/hicolor/32x32/apps/kgpg.png
 	-rm -f $(kde_icondir)/hicolor/16x16/apps/kgpg.png

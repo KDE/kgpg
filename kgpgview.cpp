@@ -27,15 +27,18 @@
 #include <./kio/netaccess.h>
 #include <kstdaction.h>
 
+#include "kgpginterface.h"
 #include "popupname.h"
 #include "kgpgview.h"
 #include "kgpg.h"
+
 
 //////////////// configuration for editor 
 
 MyEditor::MyEditor( QWidget *parent, const char *name )
     : QTextEdit( parent, name )
 {
+
   setAcceptDrops(true);
 }
 
@@ -187,43 +190,9 @@ enckey=messages;
 
   //KMessageBox::sorry(0,tst);
 
-  tst="";
- int counter=0;
-    while ((counter<3) && (tst==""))
-    {
-  /// pipe for passphrase
-  counter++;
-  QString passdlg=i18n("Enter passphrase for %1:").arg(enckey);
-  if (counter>1) passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 trial(s) left.<br>").arg(QString::number(4-counter)));
-
-  /// pipe for passphrase
-  int code=KPasswordDialog::getPassword(password,passdlg);
-  if (code!=QDialog::Accepted) return;
-
-  pipe(ppass);
-  pass = fdopen(ppass[1], "w");
-  fwrite(password, sizeof(char), strlen(password), pass);
-  fwrite("\n", sizeof(char), 1, pass);
-  fclose(pass);
-
-  /// create gpg command
-  snprintf(gpgcmd, 130, "gpg --no-tty --passphrase-fd %d -d ",ppass[0]);
-  strcat(gpgcmd,filename);
-
-  ////// open gpg pipe & read output
-  output=popen(gpgcmd,"r");
-  while ( fgets( line, sizeof(line), output))    /// read output
-    tst+=line;
-  pclose(output);
-
-  ///////////  if there is an output, assume it's the decrypted file & paste it into editor
-  if (tst!="")
-  {
-    setText(tst);
-  }
-}
-
-if (tst=="") KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, missing key or corrupted file"));
+ QString resultat=KgpgInterface::KgpgDecryptText(text(),enckey);
+ if (resultat!="") setText(resultat);  
+else KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, missing key or corrupted file"));
 
 
 }
@@ -265,7 +234,7 @@ KgpgView::KgpgView(QWidget *parent, const char *name) : QWidget(parent, name)
   boutonbox->addStretch(1);
 
   bouton0=boutonbox->addButton(i18n("S&ign/Verify"),TRUE);
-  bouton1=boutonbox->addButton(i18n("&Encrypt"),TRUE);
+  bouton1=boutonbox->addButton(i18n("En&crypt"),TRUE);
   bouton2=boutonbox->addButton(i18n("&Decrypt"),TRUE);
 
   QObject::connect(bouton0,SIGNAL(clicked()),this,SLOT(clearSign()));
@@ -442,7 +411,7 @@ void KgpgView::popuppublic()
     else
     {
       ////////  open dialog --> popuppublic.cpp
-      popupPublic *dialogue=new popupPublic(this,i18n("Public keys"),0,false,pubascii,pubuntrusted,pubencrypttodefault,pubdefaultkey);
+      popupPublic *dialogue=new popupPublic(this,i18n("Public keys"),0,false);
       connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool)),this,SLOT(encode(QString &,bool,bool)));
       dialogue->exec();
       delete dialogue;
@@ -564,51 +533,21 @@ messages+=outp;
 void KgpgView::encode(QString &selec,bool utrust,bool arm)
 {
   //////////////////              encode from editor
-  if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not choosen an encryption key..."));return;}
+  QString encryptOptions="";
   
-  FILE *fp;
-  QString tst="";
-  char line[5000]="echo \"";
-QString mess=editor->text();
-int i=0;
-while(i!=-1)
-{
-i=mess.find("$",i,FALSE);
-if (i!=-1) {mess.insert(i,"\\");i+=2;}
-}
+  if (utrust==true) encryptOptions+=" --always-trust ";
+    if (arm==true) encryptOptions+=" --armor ";
   
-  strcat(line,mess);
-  strcat(line,"\" | gpg ");
-  //////////   encode with untrusted keys or armor if checked by user
-  if (utrust==true) strcat(line,"--always-trust ");
-  if (arm==true) strcat(line,"--armor ");
-  if (pubpgp==true) 
-  {
-  if (gpgversion<120) strcat(line,"--compress-algo 1 --cipher-algo cast5 ");
-  else strcat(line,"--pgp6 ");
-  }
-  strcat(line,"--no-tty -er ");
-  strcat(line,selec);
-  if (pubencrypttodefault==true)
-  {
-  strcat(line," --recipient ");
-  strcat(line,pubdefaultkey);
-  }
-  fp = popen(line, "r");
-  while ( fgets( line, sizeof(line), fp))
-    tst+=line;
-  pclose(fp);
-  if (tst!="")
-  {
-    editor->setText(tst);
-    //modified();
-    KgpgApp *win=(KgpgApp *) parent();
-    //    win->fileSave->setEnabled(false);
-    win->editRedo->setEnabled(false);
-    win->editUndo->setEnabled(false);
-  }
-  else
-    KMessageBox::sorry(this,i18n("Encryption not possible: key is not trusted or missing..."));
+  if (pubpgp==true)
+    {
+      if (gpgversion<120) encryptOptions+=" --compress-algo 1 --cipher-algo cast5 ";
+      else encryptOptions+=" --pgp6 ";
+    }
+  
+ if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not choosen an encryption key..."));return;}
+ 
+ QString resultat=KgpgInterface::KgpgEncryptText(editor->text(),selec,encryptOptions);
+ if (resultat!="") editor->setText(resultat);
 }
 
 
@@ -627,4 +566,4 @@ void KgpgView::print(QPrinter *pPrinter)
   printpainter.end();
 }
 */
-#include "kgpgview.moc"
+//#include "kgpgview.moc"

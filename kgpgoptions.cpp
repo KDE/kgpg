@@ -24,41 +24,53 @@
 #include <qlabel.h>
 #include <qvbox.h>
 
+
+#include "kgpgoption.h"
 #include "kgpgoptions.h"
 #include "kgpg.h"
 
 ///////////////////////   main window
-kgpgOptions::kgpgOptions(QWidget *parent, const char *name,bool oascii,bool otrusted,bool opgp,bool ofilekey,bool odefkey,
-QString ofkey,QString odkey):
-KDialogBase( parent, name, true,i18n("Options"),Ok | Cancel)
+
+kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KOptions( parent, name, true)
   {
-    
-QWidget *page = new QWidget(this);
+//KSimpleConfig *config= new KSimpleConfig("kgpgtst");
 
-QVBoxLayout *vbox=new QVBoxLayout(page);
-
-QVButtonGroup *bgroup1=new QVButtonGroup(i18n("Encryption defaults"),page);
-
-choix3 = new QCheckBox(i18n("ASCII Armored encryption"),bgroup1);
-choix4 = new QCheckBox(i18n("Allow encryption with untrusted keys"),bgroup1);
- choix5 = new QCheckBox(i18n("PGP compatibility"),bgroup1);
-choix2 = new QCheckBox(i18n("Use special key for file encryption:"),bgroup1);
-
-selkey = new KComboBox(bgroup1);
-selkey->setMinimumSize(selkey->sizeHint());
-selkey->setDisabled(true);
-
-choix1 = new QCheckBox(i18n("Always encrypt with default key:"),bgroup1);
-selkey2 = new KComboBox(bgroup1);
+config=kapp->config();
+  config->setGroup("General Options");
+  bool ascii=config->readBoolEntry("Ascii armor",true);
+  bool untrusted=config->readBoolEntry("Allow untrusted keys",false);
+  bool pgpcomp=config->readBoolEntry("PGP compatibility",false);
+  bool encrypttodefault=config->readBoolEntry("encrypt to default key",false);
+  QString defaultkey=config->readEntry("default key");
+  bool encryptfileto=config->readBoolEntry("encrypt files to",false);
+  QString filekey=config->readEntry("file key");
+if (ascii==true) ascii_2_2->setChecked(true);
+if (untrusted==true) untrusted_2_2->setChecked(true);
+if (pgpcomp==true) pgp_2_2->setChecked(true);
+if (encrypttodefault==true) defaut_2_2->setChecked(true);
+if (encryptfileto==true) file_2_2->setChecked(true);
 listkey();
-selkey2->setMinimumSize(selkey->sizeHint());
-selkey2->setDisabled(true);
+if (filekey!=NULL)
+filekey_2_2->setCurrentItem(filekey);
+if (defaultkey!=NULL)
+defautkey_2_2->setCurrentItem(namecode(defaultkey));
+connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotOk()));
+}
 
-connect(choix2,SIGNAL(stateChanged(int)),this,SLOT(activateselkey(int)));
-connect(choix1,SIGNAL(stateChanged(int)),this,SLOT(activateselkey2(int)));
+void kgpgOptions::slotOk()
+{
+  config->setGroup("General Options");
+  config->writeEntry("Ascii armor",ascii_2_2->isChecked());
+  config->writeEntry("Allow untrusted keys",untrusted_2_2->isChecked());
+  config->writeEntry("PGP compatibility",pgp_2_2->isChecked());
+  config->writeEntry("encrypt to default key",defaut_2_2->isChecked());
+  config->writeEntry("default key",idcode(defautkey_2_2->currentText()));
+  config->writeEntry("encrypt files to",file_2_2->isChecked());
+  config->writeEntry("file key",filekey_2_2->currentText());
+  config->sync();
+}
 
-vbox->addWidget(bgroup1);
-
+/*
 QWhatsThis::add(selkey,i18n("<b>Special file key</b>: files will be encrypted only with this key"));
 QWhatsThis::add(selkey2,i18n("<b>Default key</b>: all messages/files will also be encrypted with this key"));
 QWhatsThis::add(choix3,i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));
@@ -72,73 +84,7 @@ QWhatsThis::add(choix4,i18n("<b>Allow encryption with untrusted keys</b>: when y
 "box enables you to use any key, even if it has not be signed."));
 QWhatsThis::add(choix5,i18n("<b>PGP compatibility</b>: this option ensures that your messages can be decrypted by PGP 5.x"
 " and higher."));
-
-
-if (oascii==true) choix3->setChecked(true);
-if (otrusted==true) choix4->setChecked(true);
-if (opgp==true) choix5->setChecked(true);
-
-selkey->setCurrentItem(ofkey);
-if (odkey!="")
-selkey2->setCurrentItem(namecode(odkey));
-
-if (odefkey==true) choix1->setChecked(true);
-if (ofilekey==true) choix2->setChecked(true);
-
-
-
-page->show();
-page->resize(page->maximumSize());
-setMainWidget(page);
-}
-
-void kgpgOptions::activateselkey(int state)
-{
-if (state==2) selkey->setDisabled(false);
-else selkey->setDisabled(true);
-}
-
-void kgpgOptions::activateselkey2(int state)
-{
-if (state==2) selkey2->setDisabled(false);
-else selkey2->setDisabled(true);
-}
-
-bool kgpgOptions::getascii()
-{
-return(choix3->isChecked());
-}
-
-bool kgpgOptions::getuntrusted()
-{
-return(choix4->isChecked());
-}
-
-bool kgpgOptions::getpgp()
-{
-return(choix5->isChecked());
-}
-
-bool kgpgOptions::fileenc()
-{
-return(choix2->isChecked());
-}
-
-bool kgpgOptions::defaultenc()
-{
-return(choix1->isChecked());
-}
-
-QString kgpgOptions::getfilekey()
-{
-return(selkey->currentText());
-}
-
-
-QString kgpgOptions::getdefkey()
-{
-return(idcode(selkey2->currentText()));
-}
+*/
 
 QString kgpgOptions::namecode(QString kid)
 {
@@ -183,8 +129,8 @@ void kgpgOptions::listkey()
         name=name.section('>',0,0);
         names+=name;
 	ids+=tst.section(':',4,4);
-	selkey->insertItem(name);
-	selkey2->insertItem(name);
+	filekey_2_2->insertItem(name);
+	defautkey_2_2->insertItem(name);
       }
     }
   }
@@ -192,9 +138,9 @@ void kgpgOptions::listkey()
   if (counter==0)
   {
 	ids+="0";
-	selkey->insertItem("none");
-	selkey2->insertItem("none"); 
+	filekey_2_2->insertItem("none");
+	defautkey_2_2->insertItem("none"); 
   }
   }
 
-#include "kgpgoptions.moc"
+//#include "kgpgoptions.moc"

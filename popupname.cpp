@@ -48,7 +48,7 @@ popupName::popupName(QWidget *parent, const char *name,KURL oldnam,bool email):K
   bGroupSourcesLayout->setAlignment( Qt::AlignTop );
 
   choix1 = new QRadioButton( bGroupSources, "choix1" );
-  choix1->setText( i18n( "Editor" ) );
+  choix1->setText( i18n( "Clipboard" ) );
   
   if (email==true)
   {
@@ -93,8 +93,6 @@ popupName::popupName(QWidget *parent, const char *name,KURL oldnam,bool email):K
   page->show();
   page->resize(page->maximumSize());
   setMainWidget(page);
-
-
 }
 
 void popupName::slotchooseurl()
@@ -127,4 +125,4 @@ QString popupName::getfname()
 {
   return(lineedit->text());
 }
-#include "popupname.moc"
+//#include "popupname.moc"

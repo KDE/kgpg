@@ -36,43 +36,27 @@
 #include <ktoolbar.h>
 //#include <kstatusbar.h>
 
-
+#include <kconfig.h>
 #include <klocale.h>
+#include "kgpgoption.h"
 
 
-
-class kgpgOptions : public KDialogBase
+class kgpgOptions : public KOptions
 {
   Q_OBJECT
   public:
- kgpgOptions(QWidget *parent=0, const char *name=0,bool oascii=true,bool otrusted=false,bool opgp=false,bool ofilekey=false,bool odefkey=false,
-QString ofkey=0,QString odkey=0);
-  //kgpgOptions(QWidget *parent=0, const char *name=0);
-  QCheckBox *choix3,*choix4,*choix2,*choix1,*choix5;
-  //QCheckBox *choix5;
-  QHButtonGroup *bgroup; 
-  KComboBox *selkey,*selkey2;
+ kgpgOptions(QWidget *parent=0, const char *name=0);
   QStringList names,ids;
   
   private:
-protected slots:
-//virtual void slotOk();
-private slots:
+  KConfig *config;
 
 public slots:
+
+void listkey();
 QString namecode(QString kid);
 QString idcode(QString kname);
-bool getascii();
-bool getpgp();
-bool getuntrusted();
-bool defaultenc();
-QString getdefkey();
-bool fileenc();
-QString getfilekey();
-void activateselkey(int state);
-void activateselkey2(int state);
-void listkey();
-
+void slotOk();
 signals:
 
 };

@@ -31,7 +31,9 @@ static KCmdLineOptions options[] =
 {
 { "e", I18N_NOOP("encrypt file"), 0 },
 { "c", I18N_NOOP("decrypt clipboard"), 0 },
+{"k", I18N_NOOP("key manager"), 0 },
 { "d", I18N_NOOP("decrypt file"), 0 },
+{ "s", I18N_NOOP("show encrypted file"), 0 },
 { "+file", I18N_NOOP("file to open"), 0 },
     { 0, 0, 0}
   // INSERT YOUR COMMANDLINE OPTIONS HERE
@@ -59,21 +61,28 @@ KApplication::addCmdLineOptions();
 
   
   //KUniqueApplication app;
-  bool encmode=false,decmode=false,clipmode=false;
+  QString opmode="";
   KURL FileToOpen=0;
   
- if (args->isSet("c")!=0)  clipmode=true;
+ if (args->isSet("c")!=0)  opmode="clipboard";
  else 
+ if (args->isSet("k")!=0)
+ {
+ listKeys *creat=new listKeys(0,i18n("Key Management"));
+ creat->show();
+ }
+ else
+ {
  if (args->count()>0)
   {
 FileToOpen=args->url(0); 
- if (args->isSet("e")!=0)  encmode=true;
- else if (args->isSet("d")!=0)  decmode=true;
- else decmode=true;
+ if (args->isSet("e")!=0)  opmode="encrypt";
+ else if (args->isSet("s")!=0)  opmode="show";
+ else opmode="decrypt";
  }
-
- KgpgApp *kgpg = new KgpgApp(0,"kgpg",FileToOpen,encmode,decmode,clipmode);
- if ((encmode==false) && (decmode==false)) kgpg->show();
+ //KgpgApp *kgpg = new KgpgApp(0,"kgpg",FileToOpen,encmode,decmode,clipmode);
+ KgpgApp *kgpg = new KgpgApp(0,"kgpg",FileToOpen,opmode);
+ if ((opmode!="encrypt") && (opmode!="decrypt")) kgpg->show();
  
  
  /* if (app.isRestored())
@@ -86,6 +95,6 @@ FileToOpen=args->url(0);
     kgpg->show();
   }
 */
-
+}
 return app.exec();
 }  

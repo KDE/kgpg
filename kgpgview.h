@@ -32,6 +32,8 @@
 #include <qdragobject.h>
 #include <qevent.h>
 
+#include <ktexteditor/editor.h>
+
 #include <kbuttonbox.h>
 #include <klineeditdlg.h>
 #include <kpassdlg.h>

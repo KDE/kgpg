@@ -56,13 +56,23 @@ void UpdateViewItem2::paintCell(QPainter *p, const QColorGroup &cg,int column, i
 
 ///////////////  main view
 
-popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool filemode,bool isascii,bool istrust,bool enctodef,QString defKey):QDialog(parent,name,TRUE)
+popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool filemode):QDialog(parent,name,TRUE)
 {
   QLabel *labeltxt;
   QString caption(i18n("Encryption"));
+  config=kapp->config();
+  config->setGroup("General Options");
+  bool isascii=config->readBoolEntry("Ascii armor",true);
+  bool istrust=config->readBoolEntry("Allow untrusted keys",false);
+  //pgpcomp=config->readBoolEntry("PGP compatibility",false);
+  encryptToDefault=config->readBoolEntry("encrypt to default key",false);
+  defaultKey=config->readEntry("default key");
+//  encryptfileto=config->readBoolEntry("encrypt files to",false);
+//  filekey=config->readEntry("file key");
+  
+
 defaultName="";
-encryptToDefault=enctodef;
-defaultKey=defKey;
+
 
   KIconLoader *loader = KGlobal::iconLoader();
 
@@ -154,6 +164,7 @@ trusted=istrust;
 refreshkeys(); 
 }
 
+
 void popupPublic::enable()
 {
 QListViewItem *current = keysList->firstChild();
@@ -229,8 +240,23 @@ void popupPublic::refreshkeys()
 void popupPublic::slotpreselect()
 {
 if (trusted==false) sort();
+if (encryptToDefault==true)
+{
 keysList->setSelected(keysList->findItem(defaultName,0),true);
 keysList->setCurrentItem(keysList->findItem(defaultName,0));
+}
+else 
+{
+QListViewItem *firstvisible;
+firstvisible=keysList->firstChild();
+while (firstvisible->isVisible()!=true)
+{
+firstvisible=firstvisible->nextSibling();
+if (firstvisible==NULL) return;
+}
+keysList->setSelected(firstvisible,true);
+keysList->setCurrentItem(firstvisible);
+}
 }
 
 
@@ -325,15 +351,13 @@ QString res;
 QPtrList<QListViewItem> list=keysList->selectedItems();
 
 for ( uint i = 0; i < list.count(); ++i )
-        if ( list.at(i) )
-	{
-if (i>0) res+=" --recipient ";
-res+=list.at(i)->text(0);
-}
+if ( list.at(i) ) res+=" "+list.at(i)->text(0);
+
+if (encryptToDefault==true) res+=" "+defaultKey;
   if (fmode==true)
     emit selectedKey(res,checkbox2->isChecked(),checkbox1->isChecked(),checkbox3->isChecked(),checkbox4->isChecked());
   else emit selectedKey(res,checkbox2->isChecked(),checkbox1->isChecked(),false,false);
   
   reject();
 }
-#include "popuppublic.moc"
+//#include "popuppublic.moc"

@@ -25,6 +25,7 @@
 #include <qfile.h>
 #include <qpainter.h>
 #include <qvbox.h>
+#include <qclipboard.h>
 #include <qkeysequence.h>
 
 #include <kurl.h>
@@ -33,6 +34,7 @@
 #include <kshortcut.h>
 
 #include "listkeys.h"
+
 
 //////////////  KListviewItem special
 
@@ -325,11 +327,12 @@ bool KgpgSelKey::getlocal()
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////   main window for key management
-listKeys::listKeys(QWidget *parent, const char *name,bool enctodef,QString defaultKey):KMainWindow(parent, name)//QDialog(parent,name,TRUE)//KMainWindow(parent, name)
+listKeys::listKeys(QWidget *parent, const char *name,WFlags f):KMainWindow(parent, name, f)//QDialog(parent,name,TRUE)//KMainWindow(parent, name)
 {
-  QLabel *labeltxt;
-  if (enctodef==true) defKey=defaultKey;
-  else defKey="";
+  config=kapp->config();
+  readOptions();
+  //if (enctodef==true) defKey=defaultKey;
+  //else defKey="";
   setCaption(name);
 //KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
   KAction *exportPublicKey = new KAction(i18n("E&xport public key"), "kgpg_export", 0,this, SLOT(slotexport()),actionCollection(),"key_export");
@@ -338,12 +341,12 @@ listKeys::listKeys(QWidget *parent, const char *name,bool enctodef,QString defau
   KAction *infoKey = new KAction(i18n("&Key info"), "kgpg_info", 0,this, SLOT(listsigns()),actionCollection(),"key_info");
   KAction *importKey = new KAction(i18n("&Import key"), "kgpg_import", 0,this, SLOT(slotImportKey()),actionCollection(),"key_import");
   KAction *setDefaultKey = new KAction(i18n("Set as De&fault key"),"kgpg_dkey1", 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
-  KAction *close = new KAction(i18n("&Close window"), "exit", 0,this, SLOT(annule()),actionCollection(),"key_exit");
+(void) new KAction(i18n("&Close window"), "exit", 0,this, SLOT(annule()),actionCollection(),"key_exit");
   KAction *editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
   KAction *exportSecretKey = new KAction(i18n("Export secret key"), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
   KAction *deleteKeyPair = new KAction(i18n("Delete key pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
   KAction *generateKey = new KAction(i18n("&Generate key pair"), "kgpg_gen", 0,this, SLOT(slotgenkey()),actionCollection(),"key_gener");
-  KAction *configure = new KAction(i18n("Default &options"), "configure", 0,this, SLOT(slotParentOptions()),actionCollection(),"key_configure");
+(void) new KAction(i18n("Default &options"), "configure", 0,this, SLOT(slotParentOptions()),actionCollection(),"key_configure");
   
   
   
@@ -440,13 +443,36 @@ void listKeys::annule()
 close();
   //reject();
 }
+/*
+void listKeys::saveOptions()
+{
+  config->setGroup("General Options");
+  config->writeEntry("default key",defaultkey);
+}
+*/
+void listKeys::readOptions()
+{
+  config->setGroup("General Options");
+ bool encrypttodefault=config->readBoolEntry("encrypt to default key",false);
+ QString defaultkey=config->readEntry("default key");
+if (encrypttodefault==true) defKey=defaultkey; else defKey="";
+}
+
+
 
 void listKeys::slotParentOptions()
 {
+kgpgOptions *opts=new kgpgOptions(this,0);
+opts->exec();
+delete opts;
+readOptions();
+/*
+
   KgpgApp *win=(KgpgApp *) parent();
   win->slotOptions();
   if (win->encrypttodefault==true) defKey=win->defaultkey;
   else defKey="";
+*/  
   refreshkey();
 }
 
@@ -503,11 +529,15 @@ void listKeys::slotSetDefKey()
 
   ////////////// store new default key
 
+config->setGroup("General Options");
+config->writeEntry("default key",defKey);
+
+/*  
   KgpgApp *win=(KgpgApp *) parent();
   win->defaultkey=defKey;
 
   win->view->pubdefaultkey=defKey;
-  win->saveOptions();
+  win->saveOptions();*/
 }
 
 void listKeys::slotstatus(QListViewItem *sel)
@@ -626,9 +656,13 @@ void listKeys::slotexport()
 
       if  ((expname=="") && (tst!=""))
         {
-          ////////////////////////////////  copy key to editor
-          KgpgApp *win=(KgpgApp *) parent();
-          win->view->editor->setText(tst);
+	  // Copy text to the clipboard (paste)
+
+QClipboard *cb = QApplication::clipboard();
+cb->setText(tst);
+          ////////////////////////////////  copy key to clipboard
+          //KgpgApp *win=(KgpgApp *) parent();
+          //win->view->editor->setText(tst);
         }
 
       /////
@@ -1041,4 +1075,4 @@ void listKeys::refreshkey()
   pclose(fp);
   keysList2->setSelected(keysList2->firstChild(),true);
 }
-#include "listkeys.moc"
+//#include "listkeys.moc"

@@ -19,12 +19,14 @@
 #include <qstring.h>
 #include <qfile.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 // include files for KDE
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <kmenubar.h>
+#include <kshred.h>
 
 #include <klocale.h>
 #include <kconfig.h>
@@ -35,85 +37,98 @@
 
 #include <qapplication.h>
 #include <qclipboard.h>
+#include <qdialog.h>
+
+
 
 // application specific includes
 
 #include "kgpgfast.h"
 
+//#include <qfont.h>
 #include "kgpg.h"
+#include "kgpginterface.h"
 
 #define ID_STATUS_MSG 1
 
-KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,bool encmode,bool decmode,bool clipmode):KMainWindow(0, name)
+KgpgApp::KgpgApp(QWidget* parent, const char* name,KURL fileToOpen,QString opmode):KMainWindow(0, name)
 {
   config=kapp->config();
   readOptions();
   checkVersion();
+  commandLineMode=false;
+  if (opmode=="encrypt") commandLineMode=true;
+  /////////////////  some tests
+/*
+     Kpgp::Block block;//=new Kpgp::Block;
+     block.setProcessedText( "-----BEGIN PGP MESSAGE-----\n"
+"Version: GnuPG v1.2.0 (GNU/Linux)\n"
+"\n"
+"hQGOA8PUjYkwbCo3EAX+KNxyLkssyhe1b/SYdbqZwVUN5MU746fKX7ORaamycIHC\n"
+"MPOdGln4i7P1Edv+soEAB7B4CP9hwDWAKtMK0JtwYxKfVfoUmAZNEGLZJk9hRoTZ\n"
+"Vvplei9HYfVSCKAu7liF86tTck7ZNnj9FFeyAEzLPLR0ctMsOKhevQTGifa745cK\n"
+"FBTBMycZZTSq/fI61TsaHIVnStZMfN51cTt5OHLwSKhsuVNWp78403joyLyP/E+9\n"
+"upCLgzDGXMf63NNRzR3YBf4zwbFhq/ZC8QEyh/7PaW6b87sHklgOrv31IRes3cg/\n"
+"8KbN3aXxlgODGC2fjxd6nyhvfzM7qHDgNVk4W/SfBVhJwM5CAgbVKnMm/fsC9ifa\n"
+"PAqxiwv2FLkQbFP/SJOK7pWQ3NJgMVpXq3PigYFnyz3n4myiRjYdAfseaQf2lKxo\n"
+"faQ0buKq4eiyrkUpg0zmXMunbqPDHkkBGx7sIhyoI7fRtVL67l9KxdwwsEtICEDQ\n"
+"gHuI42Ye4tdQFaJ6MrqSUA3SQQEukMdY4WM8qNwSCOkve34dil1BXNa/xYldALVX\n"
+"589FpJNOTGwSVWb3dPPZYK9asy4A+kL9uWRZHZjRaxMgRLqu\n"
+"=l3m9\n"
+"-----END PGP MESSAGE-----\n");
+KMessageBox::sorry(0,block.text());
+      // clearsign the message
+      bool bOk;
+      
+//if (block.type() == Kpgp::ClearsignedBlock ) 
+//bOk=true; else bOk=false;
+//block.setSignatureUserId( "B6DD738890312048" );
+ 
+// bOk = block.verify();//clearsign( "825B6980", "QFont::Unicode" );
+KMessageBox::sorry(0,block.requiredKey());
+
+bOk = block.clearsign( "B6DD738890312048","Unicode");     
+  if (bOk==true) KMessageBox::sorry(0,"Yep!!");//block.text());
+  else KMessageBox::sorry(0,"failed");
+  
+*/
+//////////////////////////
+  optionsChanged=false;
   if (tipofday==true) slotTip();
-  if ((encmode==false) && (decmode==false))
+  if ((opmode!="encrypt") && (opmode!="decrypt"))  ///  do not perform these steps if kgpg is called from konqueror or command line
     {
       KIconLoader *loader = KGlobal::iconLoader();
       fileEnc=loader->loadIcon("kgpg",KIcon::Small);
       fileDec=loader->loadIcon("kgpg2",KIcon::Small);
       ///////////////////////////////////////////////////////////////////
       // call inits to invoke all other construction parts
-
-      //initStatusBar();
       initActions();
-      //  initDocument();
-      KMenuBar *menubar=KgpgApp::menuBar();
-
-      /// Add "keys" menu;
-
-      QPopupMenu *popupfile=new QPopupMenu();
-
-
-      /// Add custom "signature" menu;
-      //QPopupMenu *popupsig=new QPopupMenu();
-      //popupsig->insertItem(i18n("&Test"),this,SLOT(slotTest()));
-//      popupsig->insertItem(i18n("&Generate signature"),this,SLOT(slotSignFile()));
-//      popupsig->insertItem(i18n("&Verify signature"),this,SLOT(slotVerifyFile()));
-//      popupsig->insertItem(i18n("&Check MD5 sum"),this,SLOT(slotCheckMd5()));
-//      menubar->insertItem(i18n("&Signature"),popupsig);
-
-      //KPopupMenu *help = helpMenu();
-      //helptips->plug(help);
-      //manpage->plug(help);
-      //menubar->insertItem( i18n("&Help"), help);
-
-
-
       initView();
-      if (clipmode==true)   slotClip();
+      if (opmode=="clipboard")  slotClip(); /// decrypt & open clipboard content
       view->gpgversion=version;
-      //statusBar()->hide();
     }
 
   if (fileToOpen.filename()!="")
     {
       urlselected=fileToOpen;
-      if (encmode==true) ///// user asked for encryption in command line arguments
+      if (opmode=="encrypt") ///// user asked for encryption in command line arguments
         {
           if (encryptfileto==false)
             {
-              popupPublic *dialogue=new popupPublic(this,i18n("Public Keys"),fileToOpen.filename(),true,ascii,untrusted,encrypttodefault,defaultkey);
+              popupPublic *dialogue=new popupPublic(this,i18n("Public Keys"),fileToOpen.filename(),true);
               connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool)),this,SLOT(fastencode(QString &,bool,bool,bool,bool)));
-              dialogue->exec();
-              delete dialogue;
+	      if (dialogue->exec()==QDialog::Rejected) kapp->exit(0);
+	      delete dialogue;
             }
           else fastencode(filekey,untrusted,ascii,false,false);
-          exit(1);
+	  return;
         }
-      else if (decmode==true)
-        {
-          fastdecode(true);  ///// user asked for decryption in command line arguments
-          //exit(1);
-        }
-
-      else view->editor->droppedfile(urlselected);
+      	else if (opmode=="decrypt") fastdecode(true);  ///// user asked for decryption in command line arguments
+	else if (opmode=="show") checkEncryptedDocumentFile(urlselected);
+      	else view->editor->droppedfile(urlselected);
 
     }
-  if (decmode==false)
+if ((opmode!="encrypt") && (opmode!="decrypt"))
     {
       ///////////////////////////////////////////////////////////////////
       // disable actions at startup
@@ -227,7 +242,45 @@ void KgpgApp::initView()
 
 
 
+void KgpgApp::slotTest()
+{
 
+}
+
+
+void KgpgApp::checkEncryptedDocumentFile(const KURL& url)
+{
+  /////////////////////////////////////////////////
+urlselected=url;
+  messages="";
+  KProcIO *encid=new KProcIO();
+  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--batch"<<"-d"<<url.path().local8Bit();
+  /////////  when process ends, update dialog infos
+  QObject::connect(encid, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresulted(KProcess *)));
+  QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
+  encid->start(KProcess::NotifyOnExit,true);
+}  
+
+void KgpgApp::slotprocresulted(KProcess *p)
+{
+openEncryptedDocumentFile(urlselected,messages);
+}  
+  
+void KgpgApp::openEncryptedDocumentFile(const KURL& url,QString userIDs)
+{  
+  QFile qfile(url.path().local8Bit());
+QString encryptedText;
+  if (qfile.open(IO_ReadOnly))
+    {
+      QTextStream t( &qfile );
+      encryptedText=t.read();
+      qfile.close();
+view->editor->setText(KgpgInterface::KgpgDecryptText(encryptedText,userIDs));
+      fileSave->setEnabled(false);
+      editRedo->setEnabled(false);
+      editUndo->setEnabled(false);
+ }
+}
 
 
 
@@ -256,13 +309,13 @@ void KgpgApp::saveOptions()
   config->setGroup("General Options");
   config->writeEntry("Geometry", size());
   config->writeEntry("First run",false);
-  config->writeEntry("Ascii armor",ascii);
-  config->writeEntry("Allow untrusted keys",untrusted);
-  config->writeEntry("PGP compatibility",pgpcomp);
-  config->writeEntry("encrypt to default key",encrypttodefault);
-  config->writeEntry("default key",defaultkey);
-  config->writeEntry("encrypt files to",encryptfileto);
-  config->writeEntry("file key",filekey);
+  //config->writeEntry("Ascii armor",ascii);
+  //config->writeEntry("Allow untrusted keys",untrusted);
+  //config->writeEntry("PGP compatibility",pgpcomp);
+  //config->writeEntry("encrypt to default key",encrypttodefault);
+  //config->writeEntry("default key",defaultkey);
+  //config->writeEntry("encrypt files to",encryptfileto);
+  //config->writeEntry("file key",filekey);
   //  config->writeEntry("Decrypt files to editor",edecrypt);
 }
 
@@ -272,7 +325,7 @@ void KgpgApp::saveOptions()
 
 
 
-void KgpgApp::readOptions()
+void KgpgApp::readOptions(bool doresize)
 {
   config->setGroup("General Options");
   bool frun=config->readBoolEntry("First run",true);
@@ -284,7 +337,7 @@ void KgpgApp::readOptions()
   encryptfileto=config->readBoolEntry("encrypt files to",false);
   filekey=config->readEntry("file key");
   QSize size=config->readSizeEntry("Geometry");
-  if(!size.isEmpty())
+  if ((!size.isEmpty()) && (doresize==true))
     {
       resize(size);
     }
@@ -316,7 +369,7 @@ void KgpgApp::firstrun()
       int result=KMessageBox::questionYesNo(0,i18n("Welcome to KGPG.\nNo secret key was found on your computer.\nWould you like to create one now ?"));
       if (result==3)
         {
-          listKeys *creat=new listKeys(this,i18n("Key Management"),encrypttodefault,defaultkey);
+          listKeys *creat=new listKeys(this,i18n("Key Management"));
           creat->slotgenkey();
           delete creat;
         }
@@ -329,10 +382,14 @@ void KgpgApp::firstrun()
 void KgpgApp::slotOptions()
 {
   /////////////////////// open option dialog box --> kgpgoptions.cpp
-  kgpgOptions *opts=new kgpgOptions(this,0,ascii,untrusted,pgpcomp,encryptfileto,encrypttodefault,filekey,defaultkey);
+  kgpgOptions *opts=new kgpgOptions(this,0);
 
+ // KOptions *opts=new KOptions(this);
+  opts->exec();
+  /*
   if (opts->exec()==QDialog::Accepted)
     {
+    
       ascii=opts->getascii();
       untrusted=opts->getuntrusted();
       pgpcomp=opts->getpgp();
@@ -347,10 +404,12 @@ void KgpgApp::slotOptions()
       view->pubencrypttodefault=encrypttodefault;
       view->pubdefaultkey=defaultkey;
     }
-  //delete opts;
-  opts->delayedDestruct();
+    */
+  delete opts;
+  readOptions(false);
+  //opts->delayedDestruct();
 
-  saveOptions();
+  //saveOptions();
 }
 
 ////////////////////////////////////////////////////    tree view slots
@@ -530,11 +589,19 @@ void KgpgApp::slotManageKey()
 {
   /////////// open key management window --> listkeys.cpp
 
-  listKeys *dialogue=new listKeys(this,i18n("Key Management"),encrypttodefault,defaultkey);
-  dialogue->show();
+  //listKeys *dialogue=new listKeys(this,i18n("Key Management"),encrypttodefault,defaultkey);
+  //dialogue->show();
+  //if (keydialogue==NULL) 
+
+listKeys *keydialogue=new listKeys(this,i18n("Key Management"), WShowModal |  WType_Dialog);
+keydialogue->show();
+optionsChanged=true;
+  
   //connect(dialogue,SIGNAL(selectedKey(QString &)),this,SLOT(encode(QString &)));
-  //  dialogue->exec();
-  //  delete dialogue;
+  //dialogue->exec();
+ //delete keydialogue;
+
+//readOptions(false);
 }
 
 
@@ -704,36 +771,37 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool shred,bool sym
       return;
     }
 
-  FILE *fp;
 
-  QString tst="",gpgfile="",gpgfilename="";
-  char line[200]="";
-
-  if (arm==true)
-    {
-      gpgfile=urlselected.path()+".asc";
-      gpgfilename=urlselected.filename()+".asc";
-    }
-  else
-    {
-      gpgfile=urlselected.path()+".gpg";
-      gpgfilename=urlselected.filename()+".gpg";
-    }
-  //dest=gpgfile;
-  KURL dest(urlselected.directory(0,0)+gpgfilename);
-  QFile fgpg(gpgfile);
+KURL dest;
+  
+  if (arm==true) dest.setPath(urlselected.path()+".asc");
+  dest.setPath(urlselected.path()+".gpg");
+  
+  QFile fgpg(dest.path().local8Bit());
 
   if (fgpg.exists())
     {
       KgpgOverwrite *over=new KgpgOverwrite(0,i18n("overwrite"),dest);
       over->exec();
-      if (over->result()==true)
-        {
-          dest.setFileName(over->getfname());
-        }
+      if (over->result()==true) dest.setFileName(over->getfname());
       else return;
     }
-
+    QString encryptOptions="";
+    
+    if (utrust==true) encryptOptions+=" --always-trust ";
+    if (arm==true) encryptOptions+=" --armor ";
+  if (pgpcomp==true)
+    {
+      if (version<120) encryptOptions+=" --compress-algo 1 --cipher-algo cast5 ";
+      else encryptOptions+=" --pgp6 ";
+    }
+    KgpgInterface *cryptFileProcess=new KgpgInterface();
+    cryptFileProcess->KgpgEncryptFile(selec,urlselected,dest,encryptOptions,symetric);
+    //KgpgEncryptFile *cryptFileProcess=new KgpgEncryptFile(selec,urlselected,dest,symetric,encryptOptions);
+if (shred==true) 
+connect(cryptFileProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(shredprocessenc(bool)));    
+else connect(cryptFileProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(processenc(bool)));
+/*
   if (symetric==true)
     {
       QCString password;
@@ -753,7 +821,7 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool shred,bool sym
       else strcat(line,"--pgp6 ");
     }
   strcat(line,"--output ");
-  strcat(line,dest.path());
+  strcat(line,KURL::encode_string_no_slash(dest.path()));
   if (symetric==false)
     {
       strcat(line," -er ");
@@ -766,33 +834,33 @@ void KgpgApp::fastencode(QString &selec,bool utrust,bool arm,bool shred,bool sym
     }
   else  strcat(line," --passphrase-fd 0 -c ");
   strcat(line," ");
-  strcat(line,urlselected.path());
-
+  strcat(line,KURL::encode_string_no_slash(urlselected.path()));
+  KMessageBox::sorry(0,QString(line));
   fp = popen(line, "r");
+  */
   /*
   while ( fgets( line, sizeof line, fp))
   tst+=line;
   */
-  pclose(fp);
-  if (!fgpg.exists())
-    KMessageBox::sorry(this,i18n("There was an error encrypting the file\nChek the key and your permissions"));
-  else if (shred==true)
-    {
-      QString mssg=i18n("File %1 was created and encrypted with %2.\n").arg(gpgfilename).arg(selec);
-      mssg+=i18n("File %1 is about to be shredded.\n").arg(urlselected.filename());
-      mssg+=i18n("[beware: shred may not be 100% secure on some filesystems]");
-      int result=KMessageBox::warningContinueCancel(this,mssg,i18n("Warning"));
-      if (result==KMessageBox::Cancel) return;
-      char shredcmd[200]="";
-      strcat(shredcmd,"shred -zu ");
-      strcat(shredcmd,urlselected.path());
-      fp = popen(shredcmd, "r");
-      pclose(fp);
-      QFile fsource(urlselected.path());
-      if (fsource.exists())
-        KMessageBox::sorry(this,i18n("The source file could not be shredded\nChek your permissions"));
-    }
+  //pclose(fp);
+}
 
+void KgpgApp::shredprocessenc(bool res)
+{
+if (res==false) KMessageBox::sorry(0,i18n("There was an error encrypting the file\nChek the key and your permissions"));
+else
+{
+if (!KShred::shred(urlselected.path().local8Bit()))
+KMessageBox::sorry(0,i18n("The source file could not be shredded\nChek your permissions"));
+}
+if (commandLineMode==true) kapp->exit(0);
+}
+
+
+void KgpgApp::processenc(bool res)
+{
+if (res==false) KMessageBox::sorry(0,i18n("There was an error encrypting the file\nChek the key and your permissions"));
+if (commandLineMode==true) kapp->exit(0);
 }
 
 
@@ -804,7 +872,7 @@ void KgpgApp::fastdecode(bool quit)
   QString oldname=urlselected.filename();
   messages="";
   KProcIO *encid=new KProcIO();
-  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--batch"<<"-d"<<urlselected.path();
+  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--batch"<<"-d"<<urlselected.path().local8Bit();
   /////////  when process ends, update dialog infos
   QObject::connect(encid, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresult(KProcess *)));
   QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
@@ -990,7 +1058,7 @@ void KgpgApp::slotFileEnc()
       urlselected=url;
       if (encryptfileto==false)
         {
-          popupPublic *dialogue=new popupPublic(this,i18n("Public keys"),url.filename(),true,ascii,untrusted,encrypttodefault,defaultkey);
+          popupPublic *dialogue=new popupPublic(this,i18n("Public keys"),url.filename(),true);
           connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool)),this,SLOT(fastencode(QString &,bool,bool,bool,bool)));
           dialogue->exec();
           delete dialogue;
@@ -1011,4 +1079,4 @@ void KgpgApp::slotFileDec()
       fastdecode(false);
     }
 }
-#include "kgpg.moc"
+//#include "kgpg.moc"

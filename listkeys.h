@@ -83,7 +83,7 @@ class listKeys : public KMainWindow//QDialog //KMainWindow
 {
   Q_OBJECT
   public:
-  listKeys(QWidget *parent=0, const char *name=0,bool enctodef=false,QString defaultKey="");
+  listKeys(QWidget *parent=0, const char *name=0,WFlags f = 0);
   ~listKeys();
   KListView *keysList2;
   QPopupMenu *popup,*popupsec,*popupout;
@@ -97,11 +97,13 @@ QDialog *pop;
 
   private:
 QPushButton *bouton1,*bouton2,*bouton0;
+KConfig *config;
 
 public slots:
 void slotgenkey();
 
 private slots:
+void readOptions();
 void genover(KProcess *p);
 void slotParentOptions();
 void slotSetDefKey();

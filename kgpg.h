@@ -32,6 +32,13 @@
 #include <kaction.h>
 #include <kurl.h>
 
+#include "libkdenetwork/cryptplugwrapperlist.h"
+#include "libkdenetwork/cryptplugwrapper.h"
+#include "libkdenetwork/kpgpbase.h"
+#include "libkdenetwork/kpgpkey.h"
+#include "libkdenetwork/kpgpblock.h"
+#include "libkdenetwork/kpgp.h"
+
 #include "listkeys.h"
 #include "kgpgview.h"
 #include "popuppublic.h"
@@ -67,20 +74,23 @@ class KgpgApp : public KMainWindow
 public:
     /** construtor of KgpgApp, calls all init functions to create the application.
      */
-    KgpgApp(QWidget* parent=0, const char* name=0,KURL fileToOpen=0,bool encmode=false,bool decmode=false,bool clipmode=false);
+    KgpgApp(QWidget* parent=0, const char* name=0,KURL fileToOpen=0,QString opmode=0);
     ~KgpgApp();
     /** opens a file specified by commandline option
      */
     void openDocumentFile(const KURL& url=0);
+    void openEncryptedDocumentFile(const KURL& url=0,QString userIDs="");
+        void checkEncryptedDocumentFile(const KURL& url=0);
     /** returns a pointer to the current document connected to the KTMainWindow instance and is used by
      * the View class to access the document object's methods
      */
     KURL Docname;
     int version;
-    bool ascii,untrusted,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday;//,edecrypt;
+    bool ascii,untrusted,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday,optionsChanged;//,edecrypt;
     QString messages,defaultkey,filekey;
     QPixmap fileEnc,fileDec;
         KgpgView *view;
+
 	
 protected:
     /** save general Options like all bar positions and status as well as the geometry and the recent file list to the configuration
@@ -89,7 +99,7 @@ protected:
     
     /** read general Options again and initialize all variables like the recent file list
      */
-    void readOptions();
+    void readOptions(bool doresize=true);
     /** initializes the KActions of the application */
     void initActions();
     /** sets up the statusbar for the main window by initialzing a statuslabel.
@@ -113,8 +123,12 @@ void slotFileDec();
 void slotprocresult(KProcess *);
 void slotprocread(KProcIO *);
 void checkVersion();
+void slotprocresulted(KProcess *p);
 
 public slots:
+void processenc(bool res);
+void shredprocessenc(bool res);
+void slotTest();
 void slotTip();
 void firstrun();
 void saveOptions();
@@ -157,7 +171,7 @@ void slotOptions();
      */
 
 private:
-
+bool commandLineMode;
 KURL urlselected;
     /** the configuration object of the application */
     KConfig *config;

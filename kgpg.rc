@@ -10,7 +10,7 @@
     <Action name="keys_manage"/>
   </Menu>
 
-  <Menu name="signature"><text>S&amp;ignature</text>
+  <Menu name="signature"><text>Si&amp;gnature</text>
     <Action name="sign_generate"/>
     <Action name="sign_verify"/>
     <Action name="sign_check"/>
@@ -26,8 +26,6 @@
 <ToolBar name="mainToolBar" position="top"><text>Main Toolbar</text>
 </ToolBar>
 <ToolBar name="extraToolBar" position="top"><text>Extra Toolbar</text>
-  <Action name="file_encrypt"/>
-  <Action name="file_decrypt"/>
   <Action name="options_configure"/>
   <Action name="keys_manage"/>
 </ToolBar>

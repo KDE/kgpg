@@ -2,12 +2,10 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
-Exec=kgpg -caption "%c" %i %m  
+Exec=kgpg  
 Icon=kgpg.png
 DocPath=kgpg/index.html
 MimeType=application/pgp-encrypted
 Comment=
-Comment[de]=
 Terminal=0
 Name=Kgpg
-Name[de]=Kgpg
