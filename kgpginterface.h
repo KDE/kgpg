@@ -26,9 +26,12 @@
 #include <qstring.h>
 #include <qfile.h>
 #include <qobject.h>
+#include <qlabel.h>
 
+#include <kled.h>
 #include <kprocess.h>
 #include <kprocio.h>
+#include <kdialogbase.h>
 #include <kurl.h>
 
 
@@ -54,6 +57,29 @@ class KgpgInterface : public QObject {
 	 * @param symetrical bool whether the encryption should be symmetrical.
 	 */
 	void KgpgEncryptFile(QString userIDs,KURL srcUrl,KURL destUrl,QString Options="",bool symetrical=false);
+	
+	/**Encrypt file function
+	 * @param userIDs the key user identification.
+	 * @param srcUrl Kurl of the file to decrypt.
+	 * @param destUrl Kurl for the decrypted file.
+	 * @param chances int number of trials left for decryption (used only as an info displayed in the password dialog)
+	 */
+	int KgpgDecryptFile(QString userIDs="",KURL srcUrl=0,KURL destUrl=0,int chances=0);
+	
+	/**Sign file function
+	 * @param keyName QString the signing key name.
+	 * @param keyID QString the signing key ID.
+	 * @param srcUrl Kurl of the file to sign.
+	 * @param Options String with the wanted gpg options. ex: "--armor"
+	 */
+	void KgpgSignFile(QString keyName="",QString keyID="",KURL srcUrl=0,QString Options="");
+	
+	/**Verify file function
+	 * @param srcUrl Kurl of the file to verify.
+	 * @param srcUrl Kurl of the signature file.
+	 */
+	void KgpgVerifyFile(KURL srcUrl,KURL sigUrl) ;
+	
 	
 	/**Encrypt text function
 	 * @param text QString text to be encrypted.
@@ -81,22 +107,61 @@ class KgpgInterface : public QObject {
          * Checks if the encryption was successfull.
          */
 	void encrypterror(KProcess *p, char *buf, int buflen);
+	/**
+         * Checks if the decrypted file was saved.
+         */
+	void decryptfin(KProcess *);
+	/**
+         * Checks if the decryption was successfull.
+         */
+	void decrypterror(KProcess *p, char *buf, int buflen);
+	/**
+         * Checks if the signing was successfull.
+         */
+	void signfin(KProcess *p);
+	
+	void verifyprocess(KProcess *p, char *buff, int bufflen);
+	
+	void verifyfin(KProcess *p);
 
 signals:
 	/**
          * returns true if encryption successfull, false on error.
          */
-    void encryptionfinished(bool);
-	
+    void encryptionfinished(bool);	
+	/**
+         * returns true if decryption successfull, false on error.
+         */
+    void decryptionfinished(bool);
+
 	        
     private:
+    /**
+	 * @internal structure for communication
+	 */
+        QString message;
 	/**
 	 * @internal structure for the file information
 	 */
-        KURL file;
+        KURL file,filedec;
 	/**
 	 * @internal structure to send signal only once on error.
 	 */
-	bool encError;
+	bool encError,decError;
 };
+
+ class  Md5Widget :public KDialogBase
+ {
+     Q_OBJECT
+ public:
+ Md5Widget(QWidget *parent=0, const char *name=0,KURL url=0);
+ ~Md5Widget();
+  public slots:
+  void slotApply();
+  private:
+  QString mdSum;
+  KLed *KLed1;
+QLabel *TextLabel1_2;
+ };
+
 #endif

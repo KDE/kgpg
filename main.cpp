@@ -31,7 +31,7 @@ static KCmdLineOptions options[] =
 {
 { "e", I18N_NOOP("encrypt file"), 0 },
 { "c", I18N_NOOP("decrypt clipboard"), 0 },
-{"k", I18N_NOOP("key manager"), 0 },
+{"k", I18N_NOOP("open key manager"), 0 },
 { "d", I18N_NOOP("decrypt file"), 0 },
 { "s", I18N_NOOP("show encrypted file"), 0 },
 { "+file", I18N_NOOP("file to open"), 0 },
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 		"(c) 2002, y0k0", 0, 0, "bj@altern.org");
 	aboutData.addAuthor("y0k0",0, "bj@altern.org");
 	aboutData.addCredit("Christoph Thielecke",I18N_NOOP("German translation"),"crissi99@gmx.de");
-
+	aboutData.addCredit("Daniele Medri",I18N_NOOP("Italian translation"),"madrid@linuxmeeting.net");
 KCmdLineArgs::init( argc, argv, &aboutData );
 KCmdLineArgs::addCmdLineOptions( options );  
 KApplication::addCmdLineOptions();
@@ -64,8 +64,6 @@ KApplication::addCmdLineOptions();
   QString opmode="";
   KURL FileToOpen=0;
   
- if (args->isSet("c")!=0)  opmode="clipboard";
- else 
  if (args->isSet("k")!=0)
  {
  listKeys *creat=new listKeys(0,i18n("Key Management"));
@@ -73,14 +71,14 @@ KApplication::addCmdLineOptions();
  }
  else
  {
- if (args->count()>0)
+ if (args->isSet("c")!=0)  opmode="clipboard";
+ else if (args->count()>0)
   {
 FileToOpen=args->url(0); 
+opmode="decrypt";
  if (args->isSet("e")!=0)  opmode="encrypt";
  else if (args->isSet("s")!=0)  opmode="show";
- else opmode="decrypt";
  }
- //KgpgApp *kgpg = new KgpgApp(0,"kgpg",FileToOpen,encmode,decmode,clipmode);
  KgpgApp *kgpg = new KgpgApp(0,"kgpg",FileToOpen,opmode);
  if ((opmode!="encrypt") && (opmode!="decrypt")) kgpg->show();
  

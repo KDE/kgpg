@@ -48,13 +48,15 @@ popupName::popupName(QWidget *parent, const char *name,KURL oldnam,bool email):K
   bGroupSourcesLayout->setAlignment( Qt::AlignTop );
 
   choix1 = new QRadioButton( bGroupSources, "choix1" );
-  choix1->setText( i18n( "Clipboard" ) );
+  
   
   if (email==true)
   {
+  choix1->setText( i18n( "Clipboard" ) );
   choix2 = new QRadioButton( bGroupSources, "choix2" );
   choix2->setText( i18n( "E-Mail" ) );
   }
+  else choix1->setText( i18n( "Editor" ) );
 
   bGroupSourcesLayout->addMultiCellWidget( choix1, 0, 0, 0, 2 );
 

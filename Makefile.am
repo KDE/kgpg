@@ -30,8 +30,7 @@ install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(kde_icondir)/hicolor/16x16/actions
 	$(INSTALL_DATA) $(srcdir)/hi16-action-kgpg_key2.png $(kde_icondir)/hicolor/16x16/actions/kgpg_key2.png
 	$(INSTALL_DATA) $(srcdir)/hi16-action-kgpg_key1.png $(kde_icondir)/hicolor/16x16/actions/kgpg_key1.png
-	$(INSTALL_DATA) $(srcdir)/hi16-action-kgpg_dkey2.png $(kde_icondir)/hicolor/16x16/actions/kgpg_dkey2.png
-	$(INSTALL_DATA) $(srcdir)/hi16-action-kgpg_dkey1.png $(kde_icondir)/hicolor/16x16/actions/kgpg_dkey1.png
+	
 
 	$(INSTALL_DATA) $(srcdir)/hi22-action-kgpg_manage.png $(kde_icondir)/hicolor/22x22/actions/kgpg_manage.png
 	
@@ -41,9 +40,7 @@ install-data-local:
 	-rm -f $(kde_datadir)/konqueror/servicemenus/decryptfile.desktop
 	
 	$(INSTALL_DATA) $(srcdir)/encryptfile.desktop $(kde_datadir)/konqueror/servicemenus/encryptfile.desktop
-	$(mkinstalldirs) $(kde_mimedir)/application
-	$(INSTALL_DATA) $(srcdir)/pgp-encrypted.desktop $(kde_mimedir)/application/pgp-encrypted.desktop
-
+	
 	$(mkinstalldirs) $(kde_datadir)/kgpg/
 	$(INSTALL_DATA) $(srcdir)/tips $(kde_datadir)/kgpg/tips
 
@@ -63,8 +60,8 @@ uninstall-local:
 	-rm -f $(kde_icondir)/hicolor/22x22/actions/kgpg_export.png
 	-rm -f $(kde_icondir)/hicolor/16x16/actions/kgpg_key2.png
 	-rm -f $(kde_icondir)/hicolor/16x16/actions/kgpg_key1.png
-	-rm -f $(kde_icondir)/hicolor/16x16/actions/kgpg_dkey2.png
-	-rm -f $(kde_icondir)/hicolor/16x16/actions/kgpg_dkey1.png
+
+	
 	-rm -f $(kde_icondir)/hicolor/22x22/actions/kgpg_manage.png
 	-rm -f $(kde_icondir)/hicolor/16x16/apps/kgpg2.png
 	

@@ -66,8 +66,11 @@ QPixmap keyPair;
 QCheckBox *local;
 private slots:
 void slotOk();
+void slotpreOk();
+void slotSelect(QListViewItem *item);
 public slots:
-QString getkey();
+QString getkeyID();
+QString getkeyMail();
 bool getlocal();
 };
 
@@ -92,7 +95,7 @@ class listKeys : public KMainWindow//QDialog //KMainWindow
    KToolBar *toolbar;
 QString message,defKey,issec;
 QStringList keynames;
-QPixmap keyPair,keySingle,dkeyPair,dkeySingle;
+QPixmap keyPair,keySingle,dkeyPair,dkeySingle,nkeyPair,nkeySingle,gkeyPair,gkeySingle,signature,userid;
 QDialog *pop;
 
   private:

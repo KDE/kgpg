@@ -36,16 +36,16 @@ QVBoxLayout *vbox=new QVBoxLayout(page);
 
 QVButtonGroup *bgroup1=new QVButtonGroup(i18n("Generate a key pair"),page);
 
-QLabel *nam=new QLabel(i18n("Name"),bgroup1);
+(void) new QLabel(i18n("Name"),bgroup1);
 kname=new KLineEdit("",bgroup1);
 kname->setFocus();
-QLabel *email=new QLabel(i18n("E-Mail"),bgroup1);
+(void) new QLabel(i18n("E-Mail"),bgroup1);
 mail=new KLineEdit("",bgroup1);
 
-QLabel *commen=new QLabel(i18n("Comment (optional)"),bgroup1);
+(void) new QLabel(i18n("Comment (optional)"),bgroup1);
 comment=new KLineEdit("",bgroup1);
 
-QLabel *exp=new QLabel(i18n("Expiration"),bgroup1);
+(void) new QLabel(i18n("Expiration"),bgroup1);
   QHButtonGroup *bgroup=new  QHButtonGroup(bgroup1); 
 numb=new KLineEdit("0",bgroup);
 numb->setMaxLength(4);
@@ -59,7 +59,7 @@ keyexp->insertItem(i18n("years"),4);
 keyexp->setMinimumSize(keyexp->sizeHint());
 connect(keyexp,SIGNAL(activated(int)),this,SLOT(activateexp(int)));
 
-QLabel *size=new QLabel(i18n("Key size:"),bgroup1);
+(void) new QLabel(i18n("Key size:"),bgroup1);
 keysize = new KComboBox(bgroup1);
 keysize->insertItem("768");
 keysize->insertItem("1024");
@@ -68,7 +68,7 @@ keysize->insertItem("4096");
 keysize->setCurrentItem("1024");
 keysize->setMinimumSize(keysize->sizeHint());
 
-QLabel *type=new QLabel(i18n("Algorithm:"),bgroup1);
+(void) new QLabel(i18n("Algorithm:"),bgroup1);
 keykind = new KComboBox(bgroup1);
 keykind->insertItem("DSA & ElGamal");
 keykind->insertItem("RSA");

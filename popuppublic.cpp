@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sat Jun 29 2002
     copyright            : (C) 2002 by 
-    email                : 
+    email                : bj@altern.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -30,16 +30,14 @@
 class UpdateViewItem2 : public KListViewItem
 {
 public:
-UpdateViewItem2::UpdateViewItem2(QListView *parent, QString tst, QString tr, QString val);
+UpdateViewItem2::UpdateViewItem2(QListView *parent, QString tst);
 virtual void paintCell(QPainter *p, const QColorGroup &cg,int col, int width, int align);
 };
 
-UpdateViewItem2::UpdateViewItem2(QListView *parent, QString tst, QString tr, QString val)
+UpdateViewItem2::UpdateViewItem2(QListView *parent, QString tst)
     : KListViewItem(parent)
 {
 setText(0,tst);
-setText(1,tr);
-setText(2,val);
 }
 
 
@@ -81,17 +79,17 @@ defaultName="";
   dkeyPair=loader->loadIcon("kgpg_dkey2",KIcon::Small,20);
   dkeySingle=loader->loadIcon("kgpg_dkey1",KIcon::Small,20);
   
-  setMinimumSize(300,120);
+  //setMinimumSize(300,120);
   setCaption(caption);
 
   fmode=filemode;
 
   keysList = new KListView( this );
-  keysList->setRootIsDecorated(false);
-  keysList->addColumn( i18n( "E-Mail" ) );
-  keysList->addColumn( i18n( "Trust" ) );
-  keysList->addColumn( i18n( "Validity" ) );
-  keysList->setShowSortIndicator(false);
+  keysList->setRootIsDecorated(true);
+  keysList->addColumn( i18n( "Keys" ) );
+  //keysList->addColumn( i18n( "Trust" ) );
+  //keysList->addColumn( i18n( "Validity" ) );
+  keysList->setShowSortIndicator(true);
   keysList->setFullWidth(true);
   keysList->setSelectionModeExt(KListView::Extended);
   
@@ -145,7 +143,7 @@ defaultName="";
   }
   vbox->addWidget(boutonbox);
 
-  QObject::connect(keysList,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(crypte()));
+  QObject::connect(keysList,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(precrypte()));
   QObject::connect(bouton1,SIGNAL(clicked()),this,SLOT(crypte()));
   QObject::connect(bouton2,SIGNAL(clicked()),this,SLOT(annule()));
   QObject::connect(checkbox2,SIGNAL(toggled(bool)),this,SLOT(refresh(bool)));
@@ -168,7 +166,8 @@ refreshkeys();
 void popupPublic::enable()
 {
 QListViewItem *current = keysList->firstChild();
-if ( current ) {
+if (current==NULL) return;
+
 	current->setVisible(true);  
         while ( current->nextSibling() )
 	{
@@ -176,16 +175,19 @@ current = current->nextSibling();
 current->setVisible(true);  
 	}
 }
-
-}
 	
 void popupPublic::sort()
 {
 bool reselect=false;
 QString block="Undefined, ?,Unknown,None";
 QListViewItem *current = keysList->firstChild();
-        if ( current ) {
-	if (block.find(current->text(1))!=-1) 
+if (current==NULL) return;
+ 
+	QString trust=current->firstChild()->text(0);
+	trust=trust.section(',',1,1);
+	trust=trust.section(':',1,1);
+	trust=trust.stripWhiteSpace();
+	if (block.find(trust)!=-1) 
 	{
 	if (current->isSelected()) {current->setSelected(false);reselect=true;}
 	current->setVisible(false);  
@@ -193,13 +195,17 @@ QListViewItem *current = keysList->firstChild();
             while ( current->nextSibling() )
                 {
 		current = current->nextSibling();
-		if (block.find(current->text(1))!=-1) 
+		QString trust=current->firstChild()->text(0);
+	trust=trust.section(',',1,1);
+	trust=trust.section(':',1,1);
+	trust.stripWhiteSpace();
+		if (block.find(trust)!=-1) 
 		{
 		if (current->isSelected()) {current->setSelected(false);reselect=true;}
 		current->setVisible(false);  
 		}
 		}
-}
+
 if (reselect==true)
 {
 QListViewItem *firstvisible;
@@ -249,6 +255,7 @@ else
 {
 QListViewItem *firstvisible;
 firstvisible=keysList->firstChild();
+if (firstvisible==NULL) return;
 while (firstvisible->isVisible()!=true)
 {
 firstvisible=firstvisible->nextSibling();
@@ -264,11 +271,11 @@ void popupPublic::slotprocread(KProcIO *p)
 {
 ///////////////////////////////////////////////////////////////// extract  encryption keys
 bool dead;
-QString tst;
+QString tst,keyname;
   
   while (p->readln(tst)!=-1)
   {
-       if (tst.find("pub",0,FALSE)!=-1)
+       if (tst.startsWith("pub"))
         {
 	dead=false;
           const QString trust=tst.section(':',1,1);
@@ -316,20 +323,27 @@ QString tst;
               tr="?";
               break;
             }
-tst=tst.section('<',1,1);
-tst=tst.section('>',0,0);
+tst=tst.section(':',9,9);
+
+keyname=tst.section('<',1,1);
+		    keyname=keyname.section('>',0,0);
+		    keyname+=" ("+tst.section('<',0,0)+")";
 if ((tst!="") && (dead==false))
 	{       
 	if ((id==defaultKey) && (encryptToDefault==true))
 	      {
-	      defaultName=tst;
-	      UpdateViewItem2 *item=new UpdateViewItem2(keysList,tst,tr,val);	
-	      if (seclist.find(tst,0,FALSE)!=-1) item->setPixmap(0,dkeyPair);
-              else item->setPixmap(0,dkeySingle);
+	      defaultName=keyname;
+	      UpdateViewItem2 *item=new UpdateViewItem2(keysList,keyname);	
+	      KListViewItem *sub= new KListViewItem(item,QString("ID: "+id+", trust: "+tr+", validity: "+val));
+	      sub->setSelectable(false);
+	      if (seclist.find(tst,0,FALSE)!=-1) item->setPixmap(0,keyPair);
+              else item->setPixmap(0,keySingle);
 	      }
 	      else 
 	      {
-	      KListViewItem *item=new KListViewItem(keysList,tst,tr,val);
+	      KListViewItem *item=new KListViewItem(keysList,keyname);
+	      KListViewItem *sub= new KListViewItem(item,QString("ID: "+id+", trust: "+tr+", validity: "+val));	
+	      sub->setSelectable(false);
 	      if (seclist.find(tst,0,FALSE)!=-1) item->setPixmap(0,keyPair);
               else item->setPixmap(0,keySingle);
 	      }
@@ -344,20 +358,34 @@ void popupPublic::annule()
   reject();
 }
 
+
+void popupPublic::precrypte()
+{
+//////   emit selected data
+if (keysList->currentItem()->depth()==0) crypte();
+}
+
 void popupPublic::crypte()
 {
 //////   emit selected data
-QString res;
+
+QString res="",userid;
 QPtrList<QListViewItem> list=keysList->selectedItems();
 
 for ( uint i = 0; i < list.count(); ++i )
-if ( list.at(i) ) res+=" "+list.at(i)->text(0);
-
-if (encryptToDefault==true) res+=" "+defaultKey;
-  if (fmode==true)
+if ( list.at(i) )
+{
+userid=list.at(i)->firstChild()->text(0);
+	userid=userid.section(',',0,0);
+	userid=userid.section(':',1,1);
+	userid.stripWhiteSpace();
+res+=" "+userid;
+}
+if (res=="") {reject();return;}
+if ((encryptToDefault==true) && (res.find(defaultKey)==-1)) res+=" "+defaultKey;
+if (fmode==true)
     emit selectedKey(res,checkbox2->isChecked(),checkbox1->isChecked(),checkbox3->isChecked(),checkbox4->isChecked());
-  else emit selectedKey(res,checkbox2->isChecked(),checkbox1->isChecked(),false,false);
-  
-  reject();
+  else emit selectedKey(res,checkbox2->isChecked(),checkbox1->isChecked(),false,false); 
+  accept();
 }
 //#include "popuppublic.moc"

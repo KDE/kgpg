@@ -101,23 +101,16 @@ void MyEditor::droppedfile(KURL url)
 void MyEditor::decodef(QString fname)
 {
   ////////////////     decode file from given url into editor
-  FILE *output,*pass,*stat;
-  QFile f;
-  QString tst="",enckey="";
-  char gpgcmd[1024] = "\0",line[130]="";
-  int ppass[2];
-  QCString password;
 filename=fname;
   //////  trick to find with which key the file was encrypted. decrypt it with no passphrase & read gpg output
     
     messages="";
   KProcIO *encid=new KProcIO();
-  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--batch"<<"-d"<<fname;
+  *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--batch"<<"-d"<<fname.local8Bit();
   /////////  when process ends, update dialog infos
     QObject::connect(encid, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresultenckey(KProcess *)));
     QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocreadenckey(KProcIO *)));
     encid->start(KProcess::NotifyOnExit,true); 
-  
  }
  
 void MyEditor::slotprocreadenckey(KProcIO *p)
@@ -139,15 +132,9 @@ messages+=outp;
 
 void MyEditor::slotprocresultenckey(KProcess *p)
 {
-  FILE *output,*pass,*stat;
-  QFile f;
-  QString tst="",newname="",enckey="";
-  char gpgcmd[1024] = "\0",line[130]="";
-  int ppass[2];
-  QCString password;
-
+QString enckey;
 enckey=messages;
-  
+
   if (enckey=="")
   {
     QFile qfile(filename);
@@ -168,7 +155,7 @@ enckey=messages;
 	message="";    
                   KProcIO *conprocess=new KProcIO();
 	  *conprocess<< "gpg";
-	  *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--import"<<filename;
+	  *conprocess<<"--no-tty"<<"--no-secmem-warning"<<"--import"<<filename.local8Bit();
           QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(slotprocresult(KProcess *)));
           QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
         conprocess->start(KProcess::NotifyOnExit,true);
@@ -188,12 +175,20 @@ enckey=messages;
   }
 
 
-  //KMessageBox::sorry(0,tst);
+ //KMessageBox::sorry(0,text);
+   QFile qfile(filename);
 
- QString resultat=KgpgInterface::KgpgDecryptText(text(),enckey);
- if (resultat!="") setText(resultat);  
+if (qfile.open(IO_ReadOnly))
+{
+      QTextStream t( &qfile );
+      QString result(t.read());
+ 
+QString resultat=KgpgInterface::KgpgDecryptText(result,enckey);
+if (resultat!="") setText(resultat);  
+
 else KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, missing key or corrupted file"));
-
+}
+ else KMessageBox::sorry(this,i18n("Unable to read file..."));
 
 }
 
@@ -284,7 +279,7 @@ QString mess=editor->text();
   //////////////////////   this is a signed message, verify it
   
 ///////////////////  generate gpg command    
-char line[5000]="echo \"",result[130]="";
+char line[5000]="echo \"";
 int i=0;
 while(i!=-1)
 {
@@ -331,14 +326,14 @@ if (i!=-1) {mess.insert(i,"\\");i+=2;}
   /////    Sign the text in Editor
 
   
-  QString signKey;
+  QString signKeyID,signKeyMail;
   FILE *fp,*pass;
   int ppass[2];
   QCString password;
   
     KgpgSelKey *opts=new KgpgSelKey(this,0,false);  ///// open key selection dialog
     opts->exec();
-    if (opts->result()==true) signKey=opts->getkey();
+    if (opts->result()==true) {signKeyID=opts->getkeyID();signKeyMail=opts->getkeyMail();}
     else
     {
       delete opts;
@@ -346,7 +341,7 @@ if (i!=-1) {mess.insert(i,"\\");i+=2;}
     }
     delete opts;
     /////////////////////  get passphrase
-    int code=KPasswordDialog::getPassword(password,i18n("Enter passphrase for %1:").arg(signKey));
+    int code=KPasswordDialog::getPassword(password,i18n("Enter passphrase for %1:").arg(signKeyMail));
     ///////////////////   ask for password
     if (code!=QDialog::Accepted) return;
 
@@ -378,7 +373,7 @@ if (i!=-1) {mess.insert(i,"\\");i+=2;}
   fd.setNum(ppass[0]);
   strcat(line,fd);
   strcat(line," --no-tty --clearsign -u ");
-  strcat(line,signKey);
+  strcat(line,signKeyID);
   //KMessageBox::sorry(0,QString(line));
   QString tst="";
   
@@ -430,13 +425,7 @@ void KgpgView::popuppass()
 void KgpgView::slotdecode()
 {
   ///////////////    decode data from the editor. triggered by the decode button
-  FILE *output,*pass,*stat;
   QFile f;
-  QString tst="",newname="",enckey="";
-  char gpgcmd[1024] = "\0",line[130]="";
-  int ppass[2];
-  QCString password;
-
 
      //// put encrypted data in a tempo file
 
@@ -458,7 +447,7 @@ void KgpgView::slotdecode()
 
 void KgpgView::slotprocresult(KProcess *p)
 {
-  FILE *output,*pass,*stat;
+  FILE *output,*pass;
   QFile f;
   QString tst="",newname="",enckey="";
   char gpgcmd[1024] = "\0",line[130]="";
@@ -536,7 +525,7 @@ void KgpgView::encode(QString &selec,bool utrust,bool arm)
   QString encryptOptions="";
   
   if (utrust==true) encryptOptions+=" --always-trust ";
-    if (arm==true) encryptOptions+=" --armor ";
+  if (arm==true) encryptOptions+=" --armor ";
   
   if (pubpgp==true)
     {

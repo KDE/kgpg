@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sat Jun 29 2002
     copyright            : (C) 2002 by 
-    email                : 
+    email                : bj@altern.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -54,6 +54,7 @@ private:
 private slots:
 void annule();
 void crypte();
+void precrypte();
 void slotprocread(KProcIO *);
 void slotpreselect();
 void refreshkeys();

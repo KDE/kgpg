@@ -32,3 +32,13 @@ your friend key and click "encrypt" again. The message will be encrypted, ready 
 <p>Decrypt a file with a single mouse click on it. You will then be prompted for password & that's all !</p>
 </html>
 </tip>
+<tip category="Kgpg|app">
+<html>
+<p>If you only want to open the key manager, type "kgpg -k" in the command line prompt</p>
+</html>
+</tip>
+<tip category="Kgpg|app">
+<html>
+<p>Typing "kgpg -s filename" will decrypt the file filename and open it in Kgpg's editor</p>
+</html>
+</tip>
