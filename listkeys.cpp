@@ -444,11 +444,15 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         KAction *deleteKey = new KAction(i18n("&Delete Key(s)"),"editdelete", Qt::Key_Delete,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
         signKey = new KAction(i18n("&Sign Key(s)..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
         KAction *delSignKey = new KAction(i18n("Delete Sign&ature"),"editdelete", 0,this, SLOT(delsignkey()),actionCollection(),"key_delsign");
-        KAction *infoKey = new KAction(i18n("&Key Info"), "kgpg_info", Qt::Key_Return,this, SLOT(listsigns()),actionCollection(),"key_info");
+        KAction *infoKey = new KAction(i18n("&Edit Key"), "kgpg_info", Qt::Key_Return,this, SLOT(listsigns()),actionCollection(),"key_info");
         KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", KStdAccel::shortcut(KStdAccel::Paste),this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
         setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
         importSignatureKey = new KAction(i18n("Import Key From Keyserver"),"network", 0,this, SLOT(preimportsignkey()),actionCollection(),"key_importsign");
         importAllSignKeys = new KAction(i18n("Import Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
+
+	createGroup= new KAction(i18n("&Create Group With Selected Keys"), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
+	delGroup= new KAction(i18n("&Delete Group"), 0, 0,this, SLOT(deleteGroup()),actionCollection(),"delete_group");
+	editCurrentGroup= new KAction(i18n("&Edit Group"), 0, 0,this, SLOT(editGroup()),actionCollection(),"edit_group");
 
 	addToAddressBook= new KAction(i18n("&Create New Contact In Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
 	(void) new KAction(i18n("&Merge Public Keys In Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
@@ -457,7 +461,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 	KStdAction::find(this, SLOT(findKey()), actionCollection());
 	KStdAction::findNext(this, SLOT(findNextKey()), actionCollection());
         (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
-        editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
+        editKey = new KAction(i18n("&Edit Key In Konsole"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
         KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
         KAction *deleteKeyPair = new KAction(i18n("Delete Key Pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
         KAction *generateKey = new KAction(i18n("&Generate Key Pair..."), "kgpg_gen", KStdAccel::shortcut(KStdAccel::New),this, SLOT(slotgenkey()),actionCollection(),"key_gener");
@@ -498,6 +502,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         popup->insertSeparator();
         importAllSignKeys->plug(popup);
 	popup->insertSeparator();
+	createGroup->plug(popup);
 	addToAddressBook->plug(popup);
 
         popupsec=new QPopupMenu();
@@ -509,6 +514,10 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         popupsec->insertSeparator();
         exportSecretKey->plug(popupsec);
         deleteKeyPair->plug(popupsec);
+
+	popupgroup=new QPopupMenu();
+	editCurrentGroup->plug(popupgroup);
+	delGroup->plug(popupgroup);
 
         popupout=new QPopupMenu();
         importKey->plug(popupout);
@@ -737,16 +746,6 @@ KMessageBox::informationList(this,i18n("The following keys were exported to the 
 else KMessageBox::sorry(this,i18n("No entry matching your keys were found in the Address Book."));
 }
 
-//////////////////////supprimer
-QString listKeys::extractKeyMail(QListViewItem *keyitem)
-{
-        QString name=keyitem->text(0);
-        if (keysList2->displayMailFirst)
-                return name.section('(',0,0);
-        return (name.section('(',-1)).section(')',0,0);
-}
-
-
 void listKeys::slotManpage()
 {
         kapp->startServiceByDesktopName("khelpcenter", QString("man:/gpg"), 0, 0, 0, "", true);
@@ -812,16 +811,14 @@ void listKeys::checkPhotos()
 void listKeys::checkList()
 {
         QPtrList<QListViewItem> exportList=keysList2->selectedItems();
-        if (exportList.count()>1) {
-                editKey->setEnabled(false);
-                setDefaultKey->setEnabled(false);
-                importAllSignKeys->setEnabled(false);
-        } else {
-                editKey->setEnabled(true);
-                setDefaultKey->setEnabled(true);
-                importAllSignKeys->setEnabled(true);
+        if (exportList.count()>1)
+                stateChanged("multi_selected");
+        else {
+		if (keysList2->currentItem()->text(6).isEmpty())
+		stateChanged("group_selected");
+		else
+		stateChanged("single_selected");
         }
-
         displayPhoto();
 }
 
@@ -943,6 +940,30 @@ void listKeys::slotSetDefKey()
 }
 
 
+void listKeys::createNewGroup()
+{
+kdDebug()<<"creating a new group\n";
+                if (keysList2->selectedItems().count()>0) {
+                        QPtrList<QListViewItem> groupList=keysList2->selectedItems();
+                        bool keyDepth=true;
+                        for ( uint i = 0; i < groupList.count(); ++i )
+                                if ( groupList.at(i) )
+				{
+                                        if (groupList.at(i)->depth()!=0)
+                                                keyDepth=false;
+					if (groupList.at(i)->text(6).isEmpty())
+                                                keyDepth=false;
+				}
+                        if (!keyDepth) {
+                              KMessageBox::sorry(this,i18n("<qt>You cannot create a group containing signatures, subkeys or other groups.</qt>"));
+			      return;
+                        }
+QString groupName=KLineEditDlg::getText(i18n("Enter new group name:"),0,0,this);
+if (groupName.isEmpty()) return;
+editGroup(groupName);
+                }
+}
+
 void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
 {
         ////////////  popup a different menu depending on which key is selected
@@ -976,10 +997,14 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
                         }
                 } else {
                         keysList2->setSelected(sel,TRUE);
-                        if ((keysList2->secretList.find(sel->text(6))!=-1) && (keysList2->selectedItems().count()==1))
+				if (keysList2->currentItem()->text(6).isEmpty())
+                                popupgroup->exec(pos);
+				else {
+                        	if ((keysList2->secretList.find(sel->text(6))!=-1) && (keysList2->selectedItems().count()==1))
                                 popupsec->exec(pos);
-                        else
-                                popup->exec(pos);
+                        	else
+				popup->exec(pos);
+				}
                         return;
                 }
         } else
@@ -1193,21 +1218,51 @@ QPtrList<QListViewItem> remList=gEdit->groupKeys->selectedItems();
                                 }
 }
 
-void listKeys::groupChange()
+void listKeys::deleteGroup()
 {
-KMessageBox::sorry(0,i18n("Group editing not implemented yet..."));
+if (!keysList2->currentItem()->text(6).isEmpty()) return;
+KgpgInterface::setGpgGroupSetting(keysList2->currentItem()->text(0),NULL,keysList2->configFilePath);
+QListViewItem *item=keysList2->currentItem()->nextSibling();
+if (!item) item=keysList2->lastChild();
+keysList2->takeItem(keysList2->currentItem());
+keysList2->setCurrentItem(item);
+keysList2->setSelected(item,true);
 }
 
-void listKeys::groupInit()
+void listKeys::groupNewChange()
 {
-	QStringList keysGroup=KgpgInterface::getGpgGroupSetting(keysList2->currentItem()->text(0),keysList2->configFilePath);
-	QString groupKeyList=keysGroup.join(" ");
-	QString searchString,lostKeys;
-	bool foundId;
+groupChange();
+config->setGroup("GPG Settings");
+QStringList groups=KgpgInterface::getGpgGroupNames(keysList2->configFilePath);
+if (!groups.isEmpty()) config->writeEntry("Groups",groups.join(","));
+keysList2->refreshgroups();
+}
+
+void listKeys::groupChange()
+{
+QStringList selected;
+QListViewItem *item=gEdit->groupKeys->firstChild();
+while (item)
+{
+selected+=item->text(2);
+item=item->nextSibling();
+}
+KgpgInterface::setGpgGroupSetting(gEdit->textLabel2->text(),selected,keysList2->configFilePath);
+}
+
+void listKeys::groupInit(QStringList keysGroup)
+{
+kdDebug()<<"preparing group\n";
+QString groupName;
+
+QString groupKeyList=keysGroup.join(" ");
+QString searchString;
+QStringList lostKeys;
+bool foundId;
 
 for ( QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it )
 {
-kdDebug()<<"Searchin:"<<*it<<"\n";
+
 	QListViewItem *item=gEdit->availableKeys->firstChild();
 	foundId=false;
 	while (item)
@@ -1223,16 +1278,18 @@ kdDebug()<<"Searchin:"<<*it<<"\n";
 	}
 if (!foundId) lostKeys+=QString(*it);
 }
-if (!lostKeys.isEmpty()) KMessageBox::sorry(this,i18n("<qt>Following keys are in the group but are not valid or not in your keyring:<br>%1</qt>").arg(lostKeys));
+if (!lostKeys.isEmpty()) KMessageBox::informationList(this,i18n("Following keys are in the group but are not valid or not in your keyring:"),lostKeys);
 }
 
-void listKeys::editGroup()
+void listKeys::editGroup(QString newGroupName)
 {
+QStringList keysGroup;
 gEdit=new groupEdit(this);
 //connect(gEdit->groupKeys,SIGNAL(dropped (QDropEvent *, QListViewItem *)),this,SLOT(GroupAdd(QDropEvent *, QListViewItem *)));
 connect(gEdit->buttonAdd,SIGNAL(clicked()),this,SLOT(groupAdd()));
 connect(gEdit->buttonRemove,SIGNAL(clicked()),this,SLOT(groupRemove()));
-connect(gEdit->buttonOk,SIGNAL(clicked()),this,SLOT(groupChange()));
+if (newGroupName.isEmpty()) connect(gEdit->buttonOk,SIGNAL(clicked()),this,SLOT(groupChange()));
+else connect(gEdit->buttonOk,SIGNAL(clicked()),this,SLOT(groupNewChange()));
 
 QListViewItem *item=keysList2->firstChild();
 if (item==NULL) return;
@@ -1250,7 +1307,21 @@ if (item->pixmap(2)->serialNumber()==keysList2->trustgood.serialNumber())
 (void) new KListViewItem(gEdit->availableKeys,item->text(0),item->text(1),item->text(6));
 }
 }
-groupInit();
+
+if (!newGroupName.isEmpty())
+{
+QPtrList<QListViewItem> groupList=keysList2->selectedItems();
+                        for ( uint i = 0; i < groupList.count(); ++i )
+                                if ( groupList.at(i) )
+				keysGroup+=groupList.at(i)->text(6);
+}
+else   ///// editing an already existing group
+{
+newGroupName=keysList2->currentItem()->text(0);
+keysGroup=KgpgInterface::getGpgGroupSetting(newGroupName,keysList2->configFilePath);
+}
+gEdit->textLabel2->setText(newGroupName);
+groupInit(keysGroup);
 gEdit->exec();
 delete gEdit;
 }
@@ -1956,6 +2027,29 @@ void KeyView::refreshkeylist()
                 delete current;
         }
 	else {setCurrentItem(firstChild());setSelected(firstChild(),true);}
+}
+
+void KeyView::refreshgroups()
+{
+QListViewItem *item=firstChild();
+while (item)
+{
+if (item->text(6).isEmpty())
+{
+QListViewItem *item2=item->nextSibling();
+takeItem(item);
+item=item2;
+}
+else item=item->nextSibling();
+}
+	QStringList groups=KgpgInterface::getGpgGroupNames(configFilePath);
+	for ( QStringList::Iterator it = groups.begin(); it != groups.end(); ++it )
+	if (!QString(*it).isEmpty())
+	{
+        item=new UpdateViewItem(this,QString(*it),"","","","","","",false,false);
+	item->setPixmap(0,pixkeyGroup);
+	item->setExpandable(false);
+	}
 }
 
 void KeyView::refreshcurrentkey(QListViewItem *current)

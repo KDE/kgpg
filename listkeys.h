@@ -136,6 +136,7 @@ private slots:
         void expandKey(QListViewItem *item);
 	void expandGroup(QListViewItem *item);
         void refreshcurrentkey(QListViewItem *current);
+	void refreshgroups();
 
 protected:
         virtual void startDrag();
@@ -153,7 +154,7 @@ public:
         ~listKeys();
         QLabel *keyPhoto;
         KeyView *keysList2;
-        QPopupMenu *popup,*popupsec,*popupout,*popupsig;
+        QPopupMenu *popup,*popupsec,*popupout,*popupsig,*popupgroup;
         QString message, optionsDefaultKey,configUrl;
         QStringList keynames;
         QDialog *pop;
@@ -165,7 +166,7 @@ private:
         keyServer *kServer;
         KTempFile *kgpgtmp;
         bool showPhoto,configshowToolBar;
-        KAction *importSignatureKey, *editKey,*setDefaultKey,*importAllSignKeys,*signKey,*addToAddressBook;
+        KAction *importSignatureKey, *editKey,*setDefaultKey,*importAllSignKeys,*signKey,*addToAddressBook,*createGroup,*delGroup,*editCurrentGroup;
         QPtrList<QListViewItem> signList;
         uint globalCount;
 	int globalChecked;
@@ -226,12 +227,14 @@ private slots:
         void slotedit();
 	void addToKAB();
 	void allToKAB();
-	QString extractKeyMail(QListViewItem *keyitem);
-	void editGroup();
+	void editGroup(QString newGroupName="");
 	void groupAdd();
 	void groupRemove();
-	void groupInit();
+	void groupInit(QStringList keysGroup);
 	void groupChange();
+	void groupNewChange();
+	void createNewGroup();
+	void deleteGroup();
 
 signals:
         void readAgainOptions();
