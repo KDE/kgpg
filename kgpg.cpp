@@ -78,10 +78,10 @@ MyView::MyView( QWidget *parent, const char *name )
 MyView::~MyView()
 {
 
-    delete droppopup;
-    droppopup = 0;
-    delete udroppopup;
-    udroppopup = 0;
+        delete droppopup;
+        droppopup = 0;
+        delete udroppopup;
+        udroppopup = 0;
 }
 
 
@@ -256,11 +256,10 @@ void  MyView::decryptDroppedFile()
         if (fgpg.exists()) {
                 KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",swapname);
                 if (over->exec()==QDialog::Accepted)
-                    swapname=KURL(swapname.directory(0,0)+over->getfname());
-                else
-                {
-                    delete over;
-                    return;
+                        swapname=KURL(swapname.directory(0,0)+over->getfname());
+                else {
+                        delete over;
+                        return;
                 }
                 delete over;
         }
@@ -360,6 +359,7 @@ void  MyView::dropEvent (QDropEvent *o)
 
 void  MyView::readOptions()
 {
+        //kdDebug()<<"Reading options\n";
         ksConfig->setGroup("Applet");
         ufileDropEvent=ksConfig->readNumEntry("unencrypted drop event",0);
         efileDropEvent=ksConfig->readNumEntry("encrypted drop event",2);
@@ -371,7 +371,7 @@ void  MyView::readOptions()
         untrusted=ksConfig->readBoolEntry("Allow untrusted keys",false);
         hideid=ksConfig->readBoolEntry("Hide user ID",false);
         pgpcomp=ksConfig->readBoolEntry("PGP compatibility",false);
-	pgpExtension=ksConfig->readBoolEntry("Pgp extension",false);
+        pgpExtension=ksConfig->readBoolEntry("Pgp extension",false);
         customDecrypt=ksConfig->readEntry("custom decrypt");
         if (ksConfig->readBoolEntry("selection clip",false)) {
                 if (kapp->clipboard()->supportsSelection())
@@ -381,10 +381,11 @@ void  MyView::readOptions()
 
         if (ksConfig->readBoolEntry("First run",true))
                 firstRun();
-        if (ksConfig->readPathEntry("gpg config path").isEmpty())
-                startWizard();
-
-
+        else
+                if (ksConfig->readPathEntry("gpg config path").isEmpty()) {
+                        if (KMessageBox::questionYesNo(0,"<qt>You did not set a path to your GnuPG config file.<br>This may bring some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem ?</qt>")==KMessageBox::Yes)
+                                startWizard();
+                }
 
         ksConfig->setGroup("TipOfDay");
         tipofday=ksConfig->readBoolEntry("RunOnStart",true);
@@ -417,6 +418,7 @@ void  MyView::firstRun()
 
 void  MyView::startWizard()
 {
+        //kdDebug()<<"Starting Wizard\n";
         if (wiz)
                 return;
         wiz=new KgpgWizard(0,"wizard");
@@ -459,13 +461,15 @@ void  MyView::slotSaveOptionsPath()
 
         ksConfig->setGroup("Applet");
         ksConfig->writeEntry("AutoStart", wiz->checkBox2->isChecked());
-
         ksConfig->setGroup("General Options");
 #if KDE_IS_VERSION(3,1,3)
+
         ksConfig->writePathEntry("gpg config path",wiz->kURLRequester1->url());
 #else
+
         ksConfig->writeEntry("gpg config path",wiz->kURLRequester1->url());
 #endif
+
         ksConfig->writeEntry("First run",false);
         ksConfig->sync();
         if (wiz)
@@ -507,8 +511,8 @@ void  MyView::preferences()
 
 void MyView::slotKeyServerClosed()
 {
-    delete m_keyServer;
-    m_keyServer=0L;
+        delete m_keyServer;
+        m_keyServer=0L;
 }
 
 
@@ -531,8 +535,8 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
 
 kgpgapplet::~kgpgapplet()
 {
-    delete w;
-    w = 0L;
+        delete w;
+        w = 0L;
 }
 
 void kgpgapplet::sloteditor()
@@ -564,10 +568,10 @@ KgpgAppletApp::KgpgAppletApp()
 
 KgpgAppletApp::~KgpgAppletApp()
 {
-    delete s_keyManager;
-    s_keyManager=0L;
-    delete kgpg_applet;
-    kgpg_applet = 0L;
+        delete s_keyManager;
+        s_keyManager=0L;
+        delete kgpg_applet;
+        kgpg_applet = 0L;
 }
 
 void KgpgAppletApp::slotHandleQuit()
@@ -587,12 +591,13 @@ void KgpgAppletApp::slotHandleQuit()
 
 int KgpgAppletApp::newInstance()
 {
+        //kdDebug()<<"New instance\n";
         args = KCmdLineArgs::parsedArgs();
         if ( kgpg_applet ) {
                 kgpg_applet->show();
         } else {
-kdDebug() << "Starting KGpg\n";
-               s_keyManager=new listKeys(0, "key_manager");
+                kdDebug() << "Starting KGpg\n";
+                s_keyManager=new listKeys(0, "key_manager");
 
                 s_keyManager->refreshkey();
                 kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
@@ -601,13 +606,12 @@ kdDebug() << "Starting KGpg\n";
                 kgpg_applet->w->ksConfig->setGroup("General Options");
                 QString gpgPath=kgpg_applet->w->ksConfig->readPathEntry("gpg config path");
 
-                if (gpgPath.isEmpty())
-                        KMessageBox::sorry(0,"<qt>You did not set a path to your GnuPG config file.<br>This may bring some surprising results in KGpg's execution...</qt>");
-                else {
+                if (!gpgPath.isEmpty()) {
                         if ((KgpgInterface::getGpgBoolSetting("use-agent",gpgPath)) && (!getenv("GPG_AGENT_INFO")))
                                 KMessageBox::sorry(0,i18n("<qt>The use of <b>gpg-agent</b> is enabled in GnuPG's configuration file (%1).<br>"
                                                           "However, the agent doesn't seem to run. Please either disable the agent in config file or fix it. You will otherwise have problems with signing/decryption.").arg(gpgPath));
                 }
+
         }
 
         ////////////////////////   parsing of command line args
@@ -619,7 +623,7 @@ kdDebug() << "Starting KGpg\n";
                 s_keyManager->refreshkey();
         } else
                 if (args->count()>0) {
-		kdDebug() << "KGpg: found files";
+                        kdDebug() << "KGpg: found files";
 
                         urlList.clear();
 
@@ -631,12 +635,12 @@ kdDebug() << "Starting KGpg\n";
 
                         kgpg_applet->w->droppedUrl=urlList.first();
                         if (KMimeType::findByURL(urlList.first())->name()=="inode/directory") {
-                               KMessageBox::sorry(0,i18n("Sorry, only file operations are currently supported."));
+                                KMessageBox::sorry(0,i18n("Sorry, only file operations are currently supported."));
                                 return 0;
                         }
                         kgpg_applet->w->droppedUrls=urlList;
 
-			if (args->isSet("e")!=0)
+                        if (args->isSet("e")!=0)
                                 kgpg_applet->w->encryptDroppedFile();
                         else if (args->isSet("X")!=0)
                                 kgpg_applet->w->shredDroppedFile();
@@ -651,7 +655,7 @@ kdDebug() << "Starting KGpg\n";
                         else
                                 kgpg_applet->w->decryptDroppedFile();
                 }
-	return 0;
+        return 0;
 }
 
 
