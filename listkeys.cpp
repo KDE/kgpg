@@ -1410,9 +1410,9 @@ void listKeys::deleteGroup()
                 return;
         KgpgInterface::delGpgGroup(keysList2->currentItem()->text(0),keysList2->configFilePath);
         QListViewItem *item=keysList2->currentItem()->nextSibling();
-        if (!item)
-                item=keysList2->lastChild();
         delete keysList2->currentItem();
+	if (!item)
+                item=keysList2->lastChild();
         keysList2->setCurrentItem(item);
         keysList2->setSelected(item,true);
         config->setGroup("GPG Settings");
