@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>319</width>
-            <height>382</height>
+            <width>369</width>
+            <height>405</height>
         </rect>
     </property>
     <property name="caption">
@@ -134,6 +134,9 @@
                         <property name="text">
                             <string>PGP 6 compatibility</string>
                         </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;PGP 6 compatibility&lt;/b&gt; Set up all options to be as PGP 6 compliant as possible. (option --pgp6)</string>
+                        </property>
                     </widget>
                     <widget class="QCheckBox" row="1" column="0">
                         <property name="name">
@@ -227,7 +230,7 @@
                             <string>Enable custom command line input</string>
                         </property>
                         <property name="whatsThis" stdset="0">
-                            <string>&lt;b&gt;Always encrypt with default key&lt;/b&gt; This ensures all files/messages will also be encrypted with that key. (except if special key for file encryption is enabled)</string>
+                            <string>&lt;b&gt;Enable custom command line input&lt;/b&gt; When activated, an entry field will be shown in the key selection dialog, enabling you tho enter a custom command for encryption. (recommanded for experienced users only)</string>
                         </property>
                     </widget>
                 </grid>
@@ -239,65 +242,43 @@
                 <attribute name="title">
                     <string>Misc.</string>
                 </attribute>
-                <vbox>
+                <grid>
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <widget class="QCheckBox">
+                    <widget class="QGroupBox" row="1" column="0">
                         <property name="name">
-                            <cstring>cbMailFirst</cstring>
-                        </property>
-                        <property name="minimumSize">
-                            <size>
-                                <width>0</width>
-                                <height>0</height>
-                            </size>
-                        </property>
-                        <property name="text">
-                            <string>Show E-Mail first in keys list</string>
-                        </property>
-                        <property name="whatsThis" stdset="0">
-                            <string>&lt;b&gt;Show E-Mail first in keys list&lt;/b&gt; Lets you choose if you want the e-mail or the user name displayed first in the keys dialogs.</string>
-                        </property>
-                    </widget>
-                    <widget class="QGroupBox">
-                        <property name="name">
-                            <cstring>groupBox1</cstring>
+                            <cstring>groupBox4</cstring>
                         </property>
                         <property name="title">
-                            <string>Encrypted mime types</string>
+                            <string>KGPG interface</string>
                         </property>
-                        <property name="whatsThis" stdset="0">
-                            <string>&lt;b&gt;Encrypted mime types&lt;/b&gt; You should only need this if your KDE install was updated/broken. It ensures encrypted and signed files are properly recognised and can be opened by KGpg with a left button mouse click.</string>
-                        </property>
-                        <vbox>
+                        <grid>
                             <property name="name">
                                 <cstring>unnamed</cstring>
                             </property>
-                            <widget class="QLabel">
+                            <widget class="QCheckBox" row="0" column="0">
                                 <property name="name">
-                                    <cstring>textLabel1_2</cstring>
+                                    <cstring>cbMailFirst</cstring>
+                                </property>
+                                <property name="minimumSize">
+                                    <size>
+                                        <width>0</width>
+                                        <height>0</height>
+                                    </size>
                                 </property>
                                 <property name="text">
-                                    <string>Pgp-encrypted: *.pgp,*.gpg,*.asc
-Pgp-signature: *.sig
-If your files are not correctly identified,
-just click on reinstall</string>
+                                    <string>Show E-Mail first in keys list</string>
+                                </property>
+                                <property name="whatsThis" stdset="0">
+                                    <string>&lt;b&gt;Show E-Mail first in keys list&lt;/b&gt; Lets you choose if you want the e-mail or the user name displayed first in the keys dialogs.</string>
                                 </property>
                             </widget>
-                            <widget class="QPushButton">
-                                <property name="name">
-                                    <cstring>bcheckMime</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Reinstall Mime types</string>
-                                </property>
-                            </widget>
-                        </vbox>
+                        </grid>
                     </widget>
-                    <spacer>
+                    <spacer row="2" column="0">
                         <property name="name">
-                            <cstring>spacer2</cstring>
+                            <cstring>spacer4</cstring>
                         </property>
                         <property name="orientation">
                             <enum>Vertical</enum>
@@ -308,23 +289,101 @@ just click on reinstall</string>
                         <property name="sizeHint">
                             <size>
                                 <width>21</width>
-                                <height>91</height>
+                                <height>40</height>
                             </size>
                         </property>
                     </spacer>
-                </vbox>
+                </grid>
             </widget>
             <widget class="QWidget">
                 <property name="name">
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>Service menus</string>
+                    <string>KDE integration</string>
                 </attribute>
                 <grid>
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
+                    <widget class="QGroupBox" row="2" column="0">
+                        <property name="name">
+                            <cstring>groupBox1</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Encrypted mime types</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Encrypted mime types&lt;/b&gt; You should only need this if your KDE install was updated/broken. It ensures encrypted and signed files are properly recognised and can be opened by KGpg with a left button mouse click.</string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel1_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Pgp-encrypted: *.pgp,*.gpg,*.asc
+Pgp-signature: *.sig
+If your files are not correctly identified, reinstall</string>
+                                </property>
+                            </widget>
+                            <widget class="QPushButton" row="1" column="0">
+                                <property name="name">
+                                    <cstring>bcheckMime</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Reinstall Mime types</string>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                    <widget class="QButtonGroup" row="1" column="0">
+                        <property name="name">
+                            <cstring>buttonGroup4</cstring>
+                        </property>
+                        <property name="title">
+                            <string>Decrypt file</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Decrypt file service menu&lt;/b&gt; Lets you choose if you want to have a Decrypt File option in Konqueror's menu. You can decide if you want to have it on all files, or only on encrypted files</string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="KComboBox" row="1" column="0">
+                                <item>
+                                    <property name="text">
+                                        <string>Disable</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>All files</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Encrypted files (*.pgp;*.gpg;*.asc)</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kCBdecrypt</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel1_3</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Enable menu with following mime type:</string>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
                     <widget class="QButtonGroup" row="0" column="0">
                         <property name="name">
                             <cstring>buttonGroup4_3</cstring>
@@ -373,50 +432,6 @@ just click on reinstall</string>
                             <widget class="QLabel" row="0" column="0">
                                 <property name="name">
                                     <cstring>textLabel1</cstring>
-                                </property>
-                                <property name="text">
-                                    <string>Enable menu with following mime type:</string>
-                                </property>
-                            </widget>
-                        </grid>
-                    </widget>
-                    <widget class="QButtonGroup" row="1" column="0">
-                        <property name="name">
-                            <cstring>buttonGroup4</cstring>
-                        </property>
-                        <property name="title">
-                            <string>Decrypt file</string>
-                        </property>
-                        <property name="whatsThis" stdset="0">
-                            <string>&lt;b&gt;Decrypt file service menu&lt;/b&gt; Lets you choose if you want to have a Decrypt File option in Konqueror's menu. You can decide if you want to have it on all files, or only on encrypted files</string>
-                        </property>
-                        <grid>
-                            <property name="name">
-                                <cstring>unnamed</cstring>
-                            </property>
-                            <widget class="KComboBox" row="1" column="0">
-                                <item>
-                                    <property name="text">
-                                        <string>Disable</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>All files</string>
-                                    </property>
-                                </item>
-                                <item>
-                                    <property name="text">
-                                        <string>Encrypted files (*.pgp;*.gpg;*.asc)</string>
-                                    </property>
-                                </item>
-                                <property name="name">
-                                    <cstring>kCBdecrypt</cstring>
-                                </property>
-                            </widget>
-                            <widget class="QLabel" row="0" column="0">
-                                <property name="name">
-                                    <cstring>textLabel1_3</cstring>
                                 </property>
                                 <property name="text">
                                     <string>Enable menu with following mime type:</string>
@@ -473,7 +488,6 @@ just click on reinstall</string>
     <tabstop>defaut_2_2</tabstop>
     <tabstop>defautkey_2_2</tabstop>
     <tabstop>cbMailFirst</tabstop>
-    <tabstop>bcheckMime</tabstop>
     <tabstop>kCBsign</tabstop>
     <tabstop>kCBdecrypt</tabstop>
 </tabstops>
