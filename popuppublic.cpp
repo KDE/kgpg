@@ -274,7 +274,7 @@ void popupPublic::sort()
 		}
         }
 
-        if (reselect) {
+	if (reselect || !keysList->currentItem()->isVisible()) {
                 QListViewItem *firstvisible;
                 firstvisible=keysList->firstChild();
                 while (firstvisible->isVisible()!=true) {
@@ -459,12 +459,13 @@ kdDebug(2100)<<"Ok pressed"<<endl;
         QPtrList<QListViewItem> list=keysList->selectedItems();
 
         for ( uint i = 0; i < list.count(); ++i )
-                if ( list.at(i) ) {
-			if (!list.at(i)->text(2).isEmpty()) selectedKeys<<list.at(i)->text(2);
+	  if ( list.at(i) && list.at(i)->isVisible()) {
+	  		if (!list.at(i)->text(2).isEmpty()) selectedKeys<<list.at(i)->text(2);
 			else selectedKeys<<list.at(i)->text(0);
                 }
         if (selectedKeys.isEmpty() && !CBsymmetric->isChecked())
                 return;
+	if (CBsymmetric->isChecked()) selectedKeys=NULL;
 kdDebug(2100)<<"Selected Key:"<<selectedKeys<<endl;
         QStringList returnOptions;
         if (CBuntrusted->isChecked())
