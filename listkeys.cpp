@@ -1630,3 +1630,4 @@ ret.gpgkeytrust=tr;
 			
 return ret;
 }
+#include "listkeys.moc"

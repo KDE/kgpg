@@ -422,3 +422,4 @@ config->writeEntry("servers",serverslist);
 config->sync();
 accept();
 }
+#include "keyservers.moc"

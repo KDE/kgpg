@@ -720,3 +720,4 @@ QString gpgcmd="echo \""+txt.local8Bit()+"\" | gpg --no-tty --no-secmem-warning 
 
 
 //#include "kgpginterface.moc"
+#include "kgpginterface.moc"

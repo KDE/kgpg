@@ -117,3 +117,4 @@ void popupName::slotenable(bool on)
   newFilename->setEnabled(on);
 }
 //#include "popupname.moc"
+#include "popupname.moc"

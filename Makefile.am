@@ -2,6 +2,8 @@ bin_PROGRAMS = kgpg
 
 ## INCLUDES were found outside kdevelop specific part
 
+INCLUDES = $(all_includes)
+
 kgpg_SOURCES = kgpgoptions.cpp listkeys.cpp popuppublic.cpp kgpgview.cpp kgpg.cpp main.cpp popupname.cpp kgpgfast.cpp keygener.cpp kgpgoption.ui kgpginterface.cpp keyservers.cpp keyservers.h keyserver.ui searchres.ui
 kgpg_LDADD   =  $(LIB_KIO)
 
@@ -12,9 +14,6 @@ service_DATA = encryptfile.desktop
 
 applnkdir = $(kde_appsdir)/Applications
 applnk_DATA = kgpg.desktop keymanager.desktop
-
-# set the include path for X, qt and KDE
-INCLUDES= $(all_includes)
 
 METASOURCES = AUTO
 
