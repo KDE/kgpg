@@ -211,13 +211,18 @@ QString KgpgInterface::KgpgEncryptText(QString text,QString userIDs, QString Opt
 
     text=text.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
 
-	gpgcmd="echo \""+text+"\" | gpg --no-secmem-warning --no-tty "+Options+" -e "+dests;
+	gpgcmd="echo ";
+	gpgcmd+=KShellProcess::quote(text);
+	gpgcmd+=" | gpg --no-secmem-warning --no-tty ";
+	gpgcmd+=Options;
+	gpgcmd+=" -e ";
+	gpgcmd+=dests;
     //////////   encode with untrusted keys or armor if checked by user
     fp = popen(QFile::encodeName(gpgcmd), "r");
     while ( fgets( buffer, sizeof(buffer), fp))
         encResult+=buffer;
     pclose(fp);
-    if (encResult!="") return encResult;
+    if (!encResult.isEmpty()) return encResult;
     else return QString::null;
 }
 
@@ -249,7 +254,10 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
         fwrite("\n", sizeof(char), 1, pass);
         fclose(pass);
 
-        gpgcmd="echo \""+text+"\" | gpg --no-tty --passphrase-fd "+QString::number(ppass[0])+" -d ";
+	    gpgcmd="echo ";
+	    gpgcmd+=KShellProcess::quote(text);
+	    gpgcmd+=" | gpg --no-secmem-warning --no-tty ";
+        gpgcmd+="--passphrase-fd "+QString::number(ppass[0])+" -d ";
         //////////   encode with untrusted keys or armor if checked by user
         fp = popen(QFile::encodeName(gpgcmd), "r");
         while ( fgets( buffer, sizeof(buffer), fp))
@@ -676,7 +684,7 @@ QString KgpgInterface::extractKeyName(KURL url)
     char buffer[200];
 
 
-    QString gpgcmd="gpg --no-tty --no-secmem-warning --batch --status-fd 1 -d "+url.path();
+    QString gpgcmd="gpg --no-tty --no-secmem-warning --batch --status-fd 1 -d "+KShellProcess::quote(url.path());
     //////////   encode with untrusted keys or armor if checked by user
     fp = popen(QFile::encodeName(gpgcmd), "r");
     while ( fgets( buffer, sizeof(buffer), fp))

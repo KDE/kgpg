@@ -1179,7 +1179,7 @@ delete genkey;
                 proc->writeStdin(QString("Expire-Date:%1m").arg(knumb));
 
               if (kexp==4)
-                proc->writeStdin(QString("Expire-Date:%y").arg(knumb));
+                proc->writeStdin(QString("Expire-Date:%1y").arg(knumb));
               proc->writeStdin("%commit");
               proc->writeStdin("EOF");
             }
