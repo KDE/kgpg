@@ -2115,7 +2115,6 @@ void listKeys::slotgenkey()
             refreshkey();
         }
     }
-    delete genkey;
 }
 
 void listKeys::readgenprocess(KProcIO *p)
