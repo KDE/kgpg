@@ -510,6 +510,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     keysList2 = new KeyView(this);
 
     setAutoSaveSettings();
+    keyStatusBar=NULL;
     readOptions();
 
     if (showTipOfDay)
