@@ -456,7 +456,7 @@ QString KgpgSelKey::getkeyID()
   userid=keysListpr->currentItem()->firstChild()->text(0);
 	userid=userid.section(',',0,0);
 	userid=userid.section(':',1,1);
-	userid.stripWhiteSpace();
+	userid=userid.stripWhiteSpace();
   return(userid);
 }
 }

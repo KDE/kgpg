@@ -180,7 +180,7 @@ current->setVisible(true);
 void popupPublic::sort()
 {
 bool reselect=false;
-QString block="Undefined, ?,Unknown,None";
+QString block=i18n("Undefined")+" , "+i18n("?")+" , "+i18n("Unknown")+" , "+i18n("None");
 QListViewItem *current = keysList->firstChild();
 if (current==NULL) return;
 
@@ -188,7 +188,7 @@ if (current==NULL) return;
 	trust=trust.section(',',1,1);
 	trust=trust.section(':',1,1);
 	trust=trust.stripWhiteSpace();
-	if (block.find(trust)!=-1)
+	if (block.find(trust,0,false)!=-1)
 	{
 	if (current->isSelected()) {current->setSelected(false);reselect=true;}
 	current->setVisible(false);
@@ -199,15 +199,15 @@ if (current==NULL) return;
 		QString trust=current->firstChild()->text(0);
 	trust=trust.section(',',1,1);
 	trust=trust.section(':',1,1);
-	trust.stripWhiteSpace();
-		if (block.find(trust)!=-1)
+	trust=trust.stripWhiteSpace();
+		if (block.find(trust,0,false)!=-1)
 		{
 		if (current->isSelected()) {current->setSelected(false);reselect=true;}
 		current->setVisible(false);
 		}
 		}
 
-if (reselect==true)
+if (reselect)
 {
 QListViewItem *firstvisible;
 firstvisible=keysList->firstChild();
@@ -282,46 +282,46 @@ QString tst;
           const QString trust=tst.section(':',1,1);
           QString val=tst.section(':',6,6);
 	  QString id=QString("0x"+tst.section(':',4,4).right(8));
-          if (val=="") val="Unlimited";
+          if (val=="") val=i18n("Unlimited");
           QString tr;
           switch( trust[0] )
             {
             case 'o':
-              tr= "Unknown" ;
+              tr=i18n("Unknown");
               break;
             case 'i':
-              tr= "Invalid";
+              tr=i18n("Invalid");
 	      dead=true;
               break;
             case 'd':
-              tr="Disabled";
+              tr=i18n("Disabled");
 	      dead=true;
               break;
             case 'r':
-              tr="Revoked";
+              tr=i18n("Revoked");
 	      dead=true;
               break;
             case 'e':
-              tr="Expired";
+              tr=i18n("Expired");
 	      dead=true;
               break;
             case 'q':
-              tr="Undefined";
+              tr=i18n("Undefined");
               break;
             case 'n':
-              tr="None";
+              tr=i18n("None");
               break;
             case 'm':
-              tr="Marginal";
+              tr=i18n("Marginal");
 	      break;
             case 'f':
-              tr="Full";
+              tr=i18n("Full");
               break;
             case 'u':
-              tr="Ultimate";
+              tr=i18n("Ultimate");
               break;
             default:
-              tr="?";
+              tr=i18n("?");
               break;
             }
 tst=tst.section(':',9,9);
@@ -332,7 +332,7 @@ if ((dead==false) && (tst!=""))
 	      {
 	      defaultName=extractKeyName(tst);
 	      UpdateViewItem2 *item=new UpdateViewItem2(keysList,defaultName);
-	      KListViewItem *sub= new KListViewItem(item,QString("ID: "+id+", trust: "+tr+", validity: "+val));
+	      KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, validity: %3").arg(id).arg(tr).arg(val));
 	      sub->setSelectable(false);
 	      if (seclist.find(tst,0,FALSE)!=-1) item->setPixmap(0,keyPair);
               else item->setPixmap(0,keySingle);
@@ -340,7 +340,7 @@ if ((dead==false) && (tst!=""))
 	      else
 	      {
 	      KListViewItem *item=new KListViewItem(keysList,extractKeyName(tst));
-	      KListViewItem *sub= new KListViewItem(item,QString("ID: "+id+", trust: "+tr+", validity: "+val));
+	      KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, validity: %3").arg(id).arg(tr).arg(val));
 	      sub->setSelectable(false);
 	      if (seclist.find(tst,0,FALSE)!=-1) item->setPixmap(0,keyPair);
               else item->setPixmap(0,keySingle);
@@ -386,7 +386,7 @@ if ( list.at(i) )
 userid=list.at(i)->firstChild()->text(0);
 	userid=userid.section(',',0,0);
 	userid=userid.section(':',1,1);
-	userid.stripWhiteSpace();
+	userid=userid.stripWhiteSpace();
 res+=" "+userid;
 }
 if (res=="") {reject();return;}
