@@ -237,7 +237,7 @@ void  MyView::encryptDroppedFile()
 
 void  MyView::shredDroppedFile()
 {
-        if (KMessageBox::warningContinueCancelList(0,i18n("Do you really want to shred these files"),droppedUrls.toStringList())!=KMessageBox::Continue)
+        if (KMessageBox::warningContinueCancelList(0,i18n("Do you really want to shred these files?"),droppedUrls.toStringList())!=KMessageBox::Continue)
                 return;
         KURL::List::iterator it;
         for ( it = droppedUrls.begin(); it != droppedUrls.end(); ++it ) {
