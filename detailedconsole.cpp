@@ -20,12 +20,14 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qvgroupbox.h>
+#include <qtextedit.h>
 
 #include <klocale.h>
 #include <klistbox.h>
 #include <kglobal.h>
 
 #include "kgpgoptions.h"
+
 
 
 KDetailedConsole::KDetailedConsole(QWidget *parent, const char *name,const QString &boxLabel,const QString &errormessage)
@@ -61,13 +63,13 @@ KDetailedInfo::KDetailedInfo(QWidget *parent, const char *name , const QString &
 	KListBox *list=new KListBox(page);
 	list->insertStringList(keysList);
 
-
 	if (keysList.isEmpty()) list->hide();
 
-        QVGroupBox *detailsGroup = new QVGroupBox( i18n("Details"), this);
-        QLabel *labdetails = new QLabel(errormessage,detailsGroup);
-        labdetails->setMinimumSize(labdetails->sizeHint());
-        setDetailsWidget(detailsGroup);
+	QTextEdit *te=new QTextEdit(this);
+	te->setText(errormessage);
+	te->setReadOnly(true);
+        te->setMinimumSize(te->sizeHint());
+        setDetailsWidget(te);
 	show();
 }
 
