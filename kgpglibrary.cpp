@@ -203,6 +203,7 @@ void KgpgLibrary::processdecover()
 
 void KgpgLibrary::processdecerror(QString mssge)
 {
+	delete pop;
         ///// test if file is a public key
         QFile qfile(QFile::encodeName(urlselected.path()));
         if (qfile.open(IO_ReadOnly)) {
