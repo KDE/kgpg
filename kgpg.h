@@ -86,7 +86,6 @@ public slots:
         void  showDroppedFile ();
         void  clipDecrypt();
         void  clipEncrypt();
-        void preferences();
         void  shredDroppedFile();
         void encryptDroppedFolder();
         void startFolderEncode(QStringList selec,QStringList encryptOptions,bool ,bool symetric);
@@ -95,7 +94,6 @@ public slots:
 
 private slots:
 
-        void readAgain1();
         void  slotWizardClose();
         void  startWizard();
 	void  slotWizardChange();

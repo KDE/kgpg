@@ -649,25 +649,6 @@ void  MyView::help()
         kapp->invokeHelp(0,"kgpg");
 }
 
-
-void  MyView::preferences()
-{
-        KConfigDialog *optsDialog=KConfigDialog::exists("settings");
-        if (!optsDialog)
-                optsDialog=new kgpgOptions(this,"settings");
-        disconnect(optsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAgain1()));
-        connect(optsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAgain1()));
-        optsDialog->show();
-}
-
-void MyView::readAgain1()
-{
-        readOptions();
-        emit readAgain2();
-}
-
-
-
 kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
                 : KSystemTray(parent,name)
 {
@@ -678,7 +659,7 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
         KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0,w, SLOT(clipDecrypt()),actionCollection(),"clip_decrypt");
         KAction *KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,parent, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
 	KAction *KgpgOpenServer = new KAction(i18n("&Key Server Dialog"), "network", 0,parent, SLOT(keyserver()),actionCollection(),"kgpg_server");
-        KAction *KgpgPreferences=KStdAction::preferences(w, SLOT(preferences()), actionCollection());
+        KAction *KgpgPreferences=KStdAction::preferences(parent, SLOT(slotOptions()), actionCollection());
         KgpgEncryptClipboard->plug(conf_menu);
         KgpgDecryptClipboard->plug(conf_menu);
         KgpgOpenEditor->plug(conf_menu);
@@ -746,7 +727,6 @@ int KgpgAppletApp::newInstance()
                 s_keyManager->refreshkey();
                 kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
-                connect(kgpg_applet->w,SIGNAL(readAgain2()),s_keyManager,SLOT(readOptions()));
                 connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
                 connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));
                 connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotgenkey()));
