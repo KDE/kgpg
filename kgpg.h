@@ -78,7 +78,7 @@ public:
      */
     KURL Docname;
     int version;
-    bool ascii,untrusted,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday;//,edecrypt;
+    bool ascii,untrusted,hideid,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday;//,edecrypt;
 	bool commandLineMode;
     QString messages,defaultkey,filekey;
     QPixmap fileEnc,fileDec;
@@ -109,13 +109,12 @@ protected:
 private slots:
 void killDisplayClip();
 void expressQuit();
-void encryptClipboard(QString &selec,bool utrust,bool);
-void fastencode(QString &selec,bool utrust,bool arm,bool shred,bool symetric);
+void encryptClipboard(QString &selec,bool utrust,bool,bool hideID);
+void fastencode(QString &selec,bool utrust,bool arm,bool hideID,bool shred,bool symetric);
 void fastdecode(bool quit);
 void slotFileEnc();
 void slotman();
 void slotFileDec();
-void checkVersion();
 void slotExpressQuit();
 //public slots:
 void processenc(bool res);

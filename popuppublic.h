@@ -40,7 +40,7 @@ public:
 
     popupPublic(QWidget *parent=0, const char *name=0,QString sfile="",bool filemode=false);
     KListView *keysList;
-    QCheckBox *checkbox1,*checkbox2,*checkbox3,*checkbox4;
+    QCheckBox *CBarmor,*CBuntrusted,*CBshred,*CBsymmetric,*CBhideid;
     bool fmode,encryptToDefault,trusted;
 
     QPixmap keyPair,keySingle,dkeyPair,dkeySingle;
@@ -67,7 +67,7 @@ void sort();
 void enable();
 
 signals:
-    void selectedKey(QString &,bool,bool,bool,bool);
+    void selectedKey(QString &,bool,bool,bool,bool,bool);
 
   };
 

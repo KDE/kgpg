@@ -175,9 +175,10 @@ return 1;
 
 void KgpgInterface::decryptfin(KProcess *)
 {
- if (message.find("BAD_PASSPHRASE")!=-1) emit badpassphrase(false);
-else if ((message.find("DECRYPTION_OKAY")!=-1) && (message.find("END_DECRYPTION")!=-1)) //&& (message.find("GOODMDC")!=-1)
+ 
+if ((message.find("DECRYPTION_OKAY")!=-1) && (message.find("END_DECRYPTION")!=-1)) //&& (message.find("GOODMDC")!=-1)
 emit decryptionfinished(true);
+else if (message.find("BAD_PASSPHRASE")!=-1) emit badpassphrase(false);
 else
 {
 KMessageBox::sorry(0,message);
@@ -729,5 +730,4 @@ QString KgpgInterface::extractKeyName(QString txt)
 }
 
 
-//#include "kgpginterface.moc"
 #include "kgpginterface.moc"

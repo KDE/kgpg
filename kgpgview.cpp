@@ -236,13 +236,9 @@ KgpgView::KgpgView(QWidget *parent, const char *name) : QWidget(parent, name)
   KButtonBox *boutonbox=new KButtonBox(this,KButtonBox::Horizontal,15,12);
   boutonbox->addStretch(1);
 
-  bouton0=boutonbox->addButton(i18n("S&ign/Verify"),TRUE);
-  bouton1=boutonbox->addButton(i18n("En&crypt"),TRUE);
-  bouton2=boutonbox->addButton(i18n("&Decrypt"),TRUE);
-
-  QObject::connect(bouton0,SIGNAL(clicked()),this,SLOT(clearSign()));
-  QObject::connect(bouton1,SIGNAL(clicked()),this,SLOT(popuppublic()));
-  QObject::connect(bouton2,SIGNAL(clicked()),this,SLOT(slotdecode()));
+  bouton0=boutonbox->addButton(i18n("S&ign/Verify"),this,SLOT(clearSign()),TRUE);
+  bouton1=boutonbox->addButton(i18n("En&crypt"),this,SLOT(popuppublic()),TRUE);
+  bouton2=boutonbox->addButton(i18n("&Decrypt"),this,SLOT(slotdecode()),TRUE);
 
   QObject::connect(editor,SIGNAL(textChanged()),this,SLOT(modified()));
 
@@ -373,11 +369,7 @@ void KgpgView::clearSign()
         }
         strcat(line,mess.local8Bit());
         strcat(line,"\" | gpg ");
-        if (pubpgp==true)
-        {
-            if (gpgversion<120) strcat(line,"--compress-algo 1 --cipher-algo cast5 ");
-            else strcat(line,"--pgp6 ");
-        }
+        if (pubpgp) strcat(line,"--pgp6 ");
         strcat(line,"--passphrase-fd ");
         QString fd;
         fd.setNum(ppass[0]);
@@ -417,7 +409,7 @@ void KgpgView::popuppublic()
    // {
       ////////  open dialog --> popuppublic.cpp
       popupPublic *dialogue=new popupPublic(this, "public_keys", 0,false);
-      connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool)),this,SLOT(encode(QString &,bool,bool)));
+      connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool,bool)),this,SLOT(encode(QString &,bool,bool,bool)));
       dialogue->exec();
       delete dialogue;
    // }
@@ -448,19 +440,16 @@ win->editUndo->setEnabled(false);
  }
 
 
-void KgpgView::encode(QString &selec,bool utrust,bool arm)
+void KgpgView::encode(QString &selec,bool utrust,bool arm,bool hideID)
 {
   //////////////////              encode from editor
   QString encryptOptions="";
 
-  if (utrust==true) encryptOptions+=" --always-trust ";
-  if (arm==true) encryptOptions+=" --armor ";
-
-  if (pubpgp==true)
-    {
-      if (gpgversion<120) encryptOptions+=" --compress-algo 1 --cipher-algo cast5 ";
-      else encryptOptions+=" --pgp6 ";
-    }
+  if (utrust) encryptOptions+=" --always-trust ";
+  if (arm) encryptOptions+=" --armor ";
+  if (hideID) encryptOptions+=" --throw-keyid ";
+  if (pubpgp) encryptOptions+=" --pgp6 ";
+    
 
  if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not chosen an encryption key..."));return;}
 
@@ -483,3 +472,4 @@ void KgpgView::print(QPrinter *pPrinter)
 }
 */
 #include "kgpgview.moc"
+

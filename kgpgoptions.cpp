@@ -19,7 +19,6 @@
 
 #include <klineedit.h>
 
-#include <qwhatsthis.h>
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qvbox.h>
@@ -44,6 +43,7 @@ config=kapp->config();
   config->setGroup("General Options");
   bool ascii=config->readBoolEntry("Ascii armor",true);
   bool untrusted=config->readBoolEntry("Allow untrusted keys",false);
+  bool hideid=config->readBoolEntry("Hide user ID",false);
   bool pgpcomp=config->readBoolEntry("PGP compatibility",false);
   bool encrypttodefault=config->readBoolEntry("encrypt to default key",false);
   QString defaultkey=config->readEntry("default key");
@@ -57,12 +57,13 @@ if (smenu!=NULL) kCBdecrypt->setCurrentItem(smenu);
 smenu=config->readEntry("Sign");
 if (smenu!=NULL) kCBsign->setCurrentItem(smenu);
 
-if (ascii==true) ascii_2_2->setChecked(true);
-if (untrusted==true) untrusted_2_2->setChecked(true);
-if (pgpcomp==true) pgp_2_2->setChecked(true);
-if (encrypttodefault==true) defaut_2_2->setChecked(true);
-if (encryptfileto==true) file_2_2->setChecked(true);
-if (displaymailfirst==true) cbMailFirst->setChecked(true);
+if (ascii) ascii_2_2->setChecked(true);
+if (untrusted) untrusted_2_2->setChecked(true);
+if (hideid) hide_2_2->setChecked(true);
+if (pgpcomp) pgp_2_2->setChecked(true);
+if (encrypttodefault) defaut_2_2->setChecked(true);
+if (encryptfileto) file_2_2->setChecked(true);
+if (displaymailfirst) cbMailFirst->setChecked(true);
 
 listkey();
 if (filekey!=NULL)
@@ -164,13 +165,13 @@ void kgpgOptions::slotOk()
   config->setGroup("General Options");
   config->writeEntry("Ascii armor",ascii_2_2->isChecked());
   config->writeEntry("Allow untrusted keys",untrusted_2_2->isChecked());
+  config->writeEntry("Hide user ID",hide_2_2->isChecked());
   config->writeEntry("PGP compatibility",pgp_2_2->isChecked());
   config->writeEntry("encrypt to default key",defaut_2_2->isChecked());
   config->writeEntry("default key",idcode(defautkey_2_2->currentText()));
   config->writeEntry("encrypt files to",file_2_2->isChecked());
   config->writeEntry("file key",filekey_2_2->currentText());
   config->writeEntry("display mail first",cbMailFirst->isChecked());
-  config->writeEntry("gpg version",0);
   config->setGroup("Service Menus");
   config->writeEntry("Decrypt",kCBdecrypt->currentText());
   config->writeEntry("Sign",kCBsign->currentText());
@@ -183,22 +184,6 @@ void kgpgOptions::slotOk()
   else if (kCBdecrypt->currentText().startsWith(i18n("Encrypted"))) slotInstallDecrypt("all/allfiles");
   else slotRemoveMenu("decryptfile.desktop");
 }
-
-/*
-QWhatsThis::add(selkey,i18n("<b>Special file key</b>: files will be encrypted only with this key"));
-QWhatsThis::add(selkey2,i18n("<b>Default key</b>: all messages/files will also be encrypted with this key"));
-QWhatsThis::add(choix3,i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));
-QWhatsThis::add(choix2,i18n("<b>Use special key for file encryption</b>: allows faster operations. When you encrypt a file "
-"from konqueror, kgpg will not ask you anything and will automatically use the special key."));
-QWhatsThis::add(choix1,i18n("<b>Always encrypt to default key</b>: ensures that all messages/files are also "
-"encrypted with your selected default key. It means that when you encrypt a message/file for someone, it will also be "
-"encrypted with your default key, so you can always decrypt it for further use."));
-QWhatsThis::add(choix4,i18n("<b>Allow encryption with untrusted keys</b>: when you import a public key, it is usually "
-"marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this "
-"box enables you to use any key, even if it has not be signed."));
-QWhatsThis::add(choix5,i18n("<b>PGP compatibility</b>: this option ensures that your messages can be decrypted by PGP 5.x"
-" and higher."));
-*/
 
 QString kgpgOptions::namecode(QString kid)
 {

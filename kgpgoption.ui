@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>400</width>
-            <height>382</height>
+            <width>319</width>
+            <height>330</height>
         </rect>
     </property>
     <property name="caption">
@@ -17,6 +17,9 @@
     </property>
     <property name="sizeGripEnabled">
         <bool>false</bool>
+    </property>
+    <property name="whatsThis" stdset="0">
+        <string> &lt;b&gt;PGP compatibility&lt;/b&gt; Set up all options to be as PGP 6 compliant as possible (--pgp6).</string>
     </property>
     <grid>
         <property name="name">
@@ -120,6 +123,9 @@
                         <property name="text">
                             <string>ASCII armored encryption</string>
                         </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;ASCII encryption&lt;/b&gt;: makes it possible to open the encrypted file/message in a text editor</string>
+                        </property>
                     </widget>
                     <widget class="QCheckBox" row="6" column="0">
                         <property name="name">
@@ -128,6 +134,9 @@
                         <property name="text">
                             <string>Always encrypt with default key</string>
                         </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Always encrypt with default key&lt;/b&gt; This ensures all files/messages will also be encrypted with that key. (except if special key for file encryption is enabled)</string>
+                        </property>
                     </widget>
                     <widget class="QCheckBox" row="4" column="0">
                         <property name="name">
@@ -135,6 +144,9 @@
                         </property>
                         <property name="text">
                             <string>Use special key for file encryption</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Use special key for file encryption&lt;/b&gt; With this options, file encryption will automatically be made with the choosen key. Kgpg will not ask you for a recipient. The default key will not be used.</string>
                         </property>
                     </widget>
                     <widget class="KComboBox" row="5" column="0">
@@ -184,13 +196,19 @@
                         <property name="text">
                             <string>Allow encryption with untrusted keys</string>
                         </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Allow encryption with untrusted keys&lt;/b&gt;: when you import a public key, it is usually marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this box enables you to use any key, even if it has not be signed.</string>
+                        </property>
                     </widget>
                     <widget class="QCheckBox" row="3" column="0">
                         <property name="name">
                             <cstring>hide_2_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Hide user ID (not implemented yet)</string>
+                            <string>Hide user ID</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Hide user ID&lt;/b&gt; Do not put the keyid into encrypted packets. This option hides the receiver of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because all available secret keys are tried. </string>
                         </property>
                     </widget>
                 </grid>
@@ -219,6 +237,9 @@
                         <property name="text">
                             <string>Show E-Mail first in keys list</string>
                         </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Show E-Mail first in keys list&lt;/b&gt; Lets you choose if you want the e-mail or the user name displayed first in the keys dialogs.</string>
+                        </property>
                     </widget>
                     <widget class="QGroupBox">
                         <property name="name">
@@ -226,6 +247,9 @@
                         </property>
                         <property name="title">
                             <string>Encrypted mime types</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Encrypted mime types&lt;/b&gt; You should only need this if your KDE install was updated/broken. It ensures encrypted and signed files are properly recognised and can be opened by KGpg with a left button mouse click.</string>
                         </property>
                         <vbox>
                             <property name="name">
@@ -297,6 +321,9 @@ just click on reinstall</string>
                         <property name="title">
                             <string>Sign file</string>
                         </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Sign file service menu&lt;/b&gt; Lets you choose if you want to have a Sign File option in Konqueror's menu.</string>
+                        </property>
                         <grid>
                             <property name="name">
                                 <cstring>unnamed</cstring>
@@ -340,6 +367,9 @@ just click on reinstall</string>
                         </property>
                         <property name="title">
                             <string>Decrypt file</string>
+                        </property>
+                        <property name="whatsThis" stdset="0">
+                            <string>&lt;b&gt;Decrypt file service menu&lt;/b&gt; Lets you choose if you want to have a Decrypt File option in Konqueror's menu. You can decide if you want to have it on all files, or only on encrypted files</string>
                         </property>
                         <grid>
                             <property name="name">

@@ -64,6 +64,7 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
   config->setGroup("General Options");
   bool isascii=config->readBoolEntry("Ascii armor",true);
   bool istrust=config->readBoolEntry("Allow untrusted keys",false);
+  bool hideid=config->readBoolEntry("Hide user ID",false);
   displayMailFirst=config->readBoolEntry("display mail first",true);
   //pgpcomp=config->readBoolEntry("PGP compatibility",false);
   encryptToDefault=config->readBoolEntry("encrypt to default key",false);
@@ -104,40 +105,47 @@ defaultName="";
       labeltxt=new QLabel(caption,this);
     }
 
-  KButtonBox *boutonbox=new KButtonBox(this,KButtonBox::Horizontal,15,10);
-  boutonboxoptions=new QButtonGroup(4,Qt::Vertical ,this,0);
+  
+  boutonboxoptions=new QButtonGroup(5,Qt::Vertical ,this,0);  
 
-  checkbox1=new QCheckBox(i18n("ASCII Armored encryption"),boutonboxoptions);
-  checkbox2=new QCheckBox(i18n("Allow encryption with untrusted keys"),boutonboxoptions);
+  CBarmor=new QCheckBox(i18n("ASCII Armored encryption"),boutonboxoptions);
+  CBuntrusted=new QCheckBox(i18n("Allow encryption with untrusted keys"),boutonboxoptions);
+  CBhideid=new QCheckBox(i18n("Hide user ID"),boutonboxoptions);
 
-//boutonboxoptions->insert(checkbox1);
-//boutonboxoptions->insert(checkbox2);
+//boutonboxoptions->insert(CBarmor);
+//boutonboxoptions->insert(CBuntrusted);
 
-   QWhatsThis::add(keysList,i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
-  QWhatsThis::add(checkbox1,i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));
-  QWhatsThis::add(checkbox2,i18n("<b>Allow encryption with untrusted keys</b>: when you import a public key, it is usually "
+  QWhatsThis::add(keysList,i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
+  QWhatsThis::add(CBarmor,i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));
+  QWhatsThis::add(CBhideid,i18n("<b>Hide user ID</b>: Do not put the keyid into encrypted packets. This option hides the receiver "
+                                 "of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because " 
+								 "all available secret keys are tried."));
+  QWhatsThis::add(CBuntrusted,i18n("<b>Allow encryption with untrusted keys</b>: when you import a public key, it is usually "
                                  "marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this "
                                  "box enables you to use any key, even if it has not be signed."));
 
   if (filemode)
   {
-  checkbox3=new QCheckBox(i18n("Shred source file"),boutonboxoptions);
-  QWhatsThis::add(checkbox3,i18n("<b>Shred source file</b>: permanently remove source file. No recovery will be possible"));
+  CBshred=new QCheckBox(i18n("Shred source file"),boutonboxoptions);
+  QWhatsThis::add(CBshred,i18n("<b>Shred source file</b>: permanently remove source file. No recovery will be possible"));
 
-  checkbox4=new QCheckBox(i18n("Symmetrical encryption"),boutonboxoptions);
-  QWhatsThis::add(checkbox4,i18n("<b>Symmetrical encryption</b>: encryption doesn't use keys. You just need to give a password "
+  CBsymmetric=new QCheckBox(i18n("Symmetrical encryption"),boutonboxoptions);
+  QWhatsThis::add(CBsymmetric,i18n("<b>Symmetrical encryption</b>: encryption doesn't use keys. You just need to give a password "
                                  "to encrypt/decrypt the file"));
-  QObject::connect(checkbox4,SIGNAL(toggled(bool)),this,SLOT(isSymetric(bool)));
+  QObject::connect(CBsymmetric,SIGNAL(toggled(bool)),this,SLOT(isSymetric(bool)));
   }
 
+KButtonBox *boutonbox=new KButtonBox(this,KButtonBox::Horizontal,15,12);
+  bouton0=boutonbox->addButton(i18n("&Options"),this,SLOT(toggleOptions()),TRUE);
+  bouton0->setIconSet(QIconSet(KGlobal::iconLoader()->loadIcon("up",KIcon::Small)));
   boutonbox->addStretch(1);
-  bouton0=boutonbox->addButton(i18n("&Options"),TRUE);
-  bouton0->setIconSet(QIconSet(KGlobal::iconLoader()->loadIcon("down",KIcon::Small)));
-  bouton1=boutonbox->addButton(i18n("&Encrypt"),TRUE);
-  bouton2=boutonbox->addButton(i18n("&Cancel"),TRUE);
+  bouton1=boutonbox->addButton(i18n("&Encrypt"),this,SLOT(crypte()),TRUE);
+  bouton2=boutonbox->addButton(i18n("&Cancel"),this,SLOT(annule()),TRUE);
+  boutonbox->layout();
   bouton1->setDefault(true);
-  if (isascii) checkbox1->setChecked(true);
-  if (istrust) checkbox2->setChecked(true);
+  if (isascii) CBarmor->setChecked(true);
+  if (istrust) CBuntrusted->setChecked(true);
+  if (hideid) CBhideid->setChecked(true);
 
   vbox->addWidget(labeltxt);
   vbox->addWidget(keysList);
@@ -146,10 +154,7 @@ defaultName="";
   vbox->addWidget(boutonbox);
 
   QObject::connect(keysList,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(precrypte()));
-  QObject::connect(bouton0,SIGNAL(clicked()),this,SLOT(toggleOptions()));
-  QObject::connect(bouton1,SIGNAL(clicked()),this,SLOT(crypte()));
-  QObject::connect(bouton2,SIGNAL(clicked()),this,SLOT(annule()));
-  QObject::connect(checkbox2,SIGNAL(toggled(bool)),this,SLOT(refresh(bool)));
+  QObject::connect(CBuntrusted,SIGNAL(toggled(bool)),this,SLOT(refresh(bool)));
 
 
  char gpgcmd2[1024] = "\0",line[200]="\0";
@@ -241,7 +246,8 @@ keysList->setCurrentItem(firstvisible);
 void popupPublic::isSymetric(bool state)
 {
 keysList->setEnabled(!state);
-checkbox2->setEnabled(!state);
+CBuntrusted->setEnabled(!state);
+CBhideid->setEnabled(!state);
 }
 
 
@@ -398,7 +404,7 @@ void popupPublic::crypte()
 {
 //////   emit selected data
 
-QString res="",userid;
+QString res,userid;
 QPtrList<QListViewItem> list=keysList->selectedItems();
 
 for ( uint i = 0; i < list.count(); ++i )
@@ -410,11 +416,11 @@ userid=list.at(i)->firstChild()->text(0);
 	userid=userid.stripWhiteSpace();
 res+=" "+userid;
 }
-if (res=="") {reject();return;}
+if (res.isEmpty()) return;
 if ((encryptToDefault==true) && (res.find(defaultKey)==-1)) res+=" "+defaultKey;
 if (fmode==true)
-    emit selectedKey(res,checkbox2->isChecked(),checkbox1->isChecked(),checkbox3->isChecked(),checkbox4->isChecked());
-  else emit selectedKey(res,checkbox2->isChecked(),checkbox1->isChecked(),false,false);
+    emit selectedKey(res,CBuntrusted->isChecked(),CBarmor->isChecked(),CBhideid->isChecked(),CBshred->isChecked(),CBsymmetric->isChecked());
+  else emit selectedKey(res,CBuntrusted->isChecked(),CBarmor->isChecked(),CBhideid->isChecked(),false,false);
   accept();
 }
 

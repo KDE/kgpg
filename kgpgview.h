@@ -99,7 +99,6 @@ class KgpgView : public QWidget
 //        QTextEdit  *editor;
        
 	bool pubuntrusted,pubascii,pubpgp,pubencrypttodefault;
-	int gpgversion;
     MyEditor *editor;
 KURL fselected;
 
@@ -118,7 +117,7 @@ void clearSign();
 void popuppublic();
 void modified();
 void viewreadopts();
-void encode(QString &,bool,bool);
+void encode(QString &,bool,bool,bool);
 };
 
 #endif // KGPGVIEW_H
