@@ -37,11 +37,9 @@
 #include <kdeversion.h>
 #include <kcmdlineargs.h>
 #include <kdesktopfile.h>
-#include <kzip.h>
-
-#if (KDE_VERSION >= 310)
+#include <krun.h>
 #include <kpassivepopup.h>
-#endif
+#include <kurlrequesterdlg.h>
 
 #include "kgpgeditor.h"
 #include "kgpgoptions.h"
@@ -67,7 +65,7 @@ public:
         KURL droppedUrl;
         KURL::List droppedUrls;
         KConfig *ksConfig;
-	KTempFile *kgpgfoldertmp;
+        KTempFile *kgpgfoldertmp;
 private:
         bool ascii,untrusted,hideid,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday,pgpExtension;
         QPopupMenu *droppopup,*udroppopup;
@@ -76,6 +74,7 @@ private:
         KgpgWizard *wiz;
         class keyServer *m_keyServer;
         KPassivePopup *pop;
+        KTempFile *kgpgFolderExtract;
 
 public slots:
         void  encryptDroppedFile();
@@ -87,17 +86,17 @@ public slots:
         void  clipEncrypt();
         void preferences();
         void  openEditor();
-	void  shredDroppedFile();
-	void encryptDroppedFolder();
-	void startFolderEncode(QString &selec,QString encryptOptions,bool ,bool symetric);
-	void  slotFolderFinished(KURL);
-	void  slotFolderFinishedError(QString errmsge);
+        void  shredDroppedFile();
+        void encryptDroppedFolder();
+        void startFolderEncode(QString &selec,QString encryptOptions,bool ,bool symetric);
+        void  slotFolderFinished(KURL);
+        void  slotFolderFinishedError(QString errmsge);
 
 private slots:
 
-	void readAgain1();
-	void  slotWizardClose();
-	void  startWizard();
+        void readAgain1();
+        void  slotWizardClose();
+        void  startWizard();
         void  slotSaveOptionsPath();
         void  slotGenKey();
         void importSignature(QString ID);
@@ -111,6 +110,7 @@ private slots:
         void  droppedtext (QString inputText) ;
         void  openKeyServer();
         void slotKeyServerClosed();
+        void  unArchive();
 
 protected:
         virtual void dragEnterEvent(QDragEnterEvent *);
@@ -120,7 +120,7 @@ protected slots:
         void showPopupMenu( QPopupMenu * );
 
 signals:
-	void readAgain2();
+        void readAgain2();
 };
 
 class kgpgapplet : public KSystemTray//KUniqueApplication
@@ -140,9 +140,9 @@ private slots:
         void slotdecryptclip();
         void sloteditor();
         void slotOptions();
-	void readAgain3();
+        void readAgain3();
 signals:
-	void readAgain4();
+        void readAgain4();
 };
 
 class KCmdLineArgs;
@@ -156,7 +156,7 @@ public:
         ~KgpgAppletApp();
         int newInstance ();
         KURL::List urlList;
-	bool running;
+        bool running;
 
 protected:
         KCmdLineArgs *args;

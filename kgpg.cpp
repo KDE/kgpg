@@ -143,51 +143,60 @@ void  MyView::openEditor()
 
 void MyView::encryptDroppedFolder()
 {
-kgpgfoldertmp=new KTempFile(QString::null,".tar.gz");
-if (KMessageBox::warningContinueCancel(0,i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>").arg(kgpgfoldertmp->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpFile")==KMessageBox::Cancel) return;
+        kgpgfoldertmp=new KTempFile(QString::null,".tar.gz");
+        kgpgfoldertmp->setAutoDelete(true);
+        if (KMessageBox::warningContinueCancel(0,i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>").arg(kgpgfoldertmp->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpFile")==KMessageBox::Cancel)
+                return;
 
- popupPublic *dialogue=new popupPublic(0,"Public keys","files",true);
-                        connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(startFolderEncode(QString &,QString,bool,bool)));
-			dialogue->CBshred->setEnabled(false);
-                        if (!dialogue->exec()==QDialog::Accepted) return;
-                        delete dialogue;
-	}
+        popupPublic *dialogue=new popupPublic(0,"Public keys","files",true);
+        connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(startFolderEncode(QString &,QString,bool,bool)));
+        dialogue->CBshred->setEnabled(false);
+        if (!dialogue->exec()==QDialog::Accepted)
+                return;
+        delete dialogue;
+}
 
 void MyView::startFolderEncode(QString &selec,QString encryptOptions,bool ,bool symetric)
 {
-pop = new KPassivePopup();
+        pop = new KPassivePopup();
         pop->setView(i18n("Processing archiving & encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
         pop->show();
         QRect qRect(QApplication::desktop()->screenGeometry());
         int iXpos=qRect.width()/2-pop->width()/2;
         int iYpos=qRect.height()/2-pop->height()/2;
         pop->move(iXpos,iYpos);
-QString extension;
-KTar arch(kgpgfoldertmp->name(), "application/x-gzip");
-if (!arch.open( IO_WriteOnly )) KMessageBox::sorry(0,i18n("Unable to create temporary file"));
-arch.addLocalDirectory (droppedUrls.first().path(),droppedUrls.first().filename());
-arch.close();
+        QString extension;
+        KTar arch(kgpgfoldertmp->name(), "application/x-gzip");
+        if (!arch.open( IO_WriteOnly )) {
+                KMessageBox::sorry(0,i18n("Unable to create temporary file"));
+                return;
+        }
+        arch.addLocalDirectory (droppedUrls.first().path(),droppedUrls.first().filename());
+        arch.close();
 
-if (encryptOptions.find("armor")!=-1) extension=".asc";
-else if (pgpExtension) extension=".pgp";
-else extension=".gpg";
-KgpgInterface *folderprocess=new KgpgInterface();
-folderprocess->KgpgEncryptFile(selec,KURL(kgpgfoldertmp->name()),KURL(droppedUrls.first().path()+".tar.gz"+extension),encryptOptions,symetric);
-connect(folderprocess,SIGNAL(encryptionfinished(KURL)),this,SLOT(slotFolderFinished(KURL)));
-connect(folderprocess,SIGNAL(errormessage(QString)),this,SLOT(slotFolderFinishedError(QString)));
+        if (encryptOptions.find("armor")!=-1)
+                extension=".asc";
+        else if (pgpExtension)
+                extension=".pgp";
+        else
+                extension=".gpg";
+        KgpgInterface *folderprocess=new KgpgInterface();
+        folderprocess->KgpgEncryptFile(selec,KURL(kgpgfoldertmp->name()),KURL(droppedUrls.first().path()+".tar.gz"+extension),encryptOptions,symetric);
+        connect(folderprocess,SIGNAL(encryptionfinished(KURL)),this,SLOT(slotFolderFinished(KURL)));
+        connect(folderprocess,SIGNAL(errormessage(QString)),this,SLOT(slotFolderFinishedError(QString)));
 }
 
 void  MyView::slotFolderFinished(KURL)
 {
-delete pop;
-kgpgfoldertmp->unlink();
+        delete pop;
+        delete kgpgfoldertmp;
 }
 
 void  MyView::slotFolderFinishedError(QString errmsge)
 {
-delete pop;
-KMessageBox::sorry(0,errmsge);
-kgpgfoldertmp->unlink();
+        delete pop;
+        delete kgpgfoldertmp;
+        KMessageBox::sorry(0,errmsge);
 }
 
 
@@ -293,6 +302,9 @@ void  MyView::signDroppedFile()
 
 void  MyView::decryptDroppedFile()
 {
+        bool isFolder=false;
+        KURL swapname;
+
         if (!droppedUrl.isLocalFile()) {
                 showDroppedFile();
                 return;
@@ -302,22 +314,54 @@ void  MyView::decryptDroppedFile()
                 oldname.truncate(oldname.length()-4);
         else
                 oldname.append(".clear");
-        KURL swapname(droppedUrl.directory(0,0)+oldname);
-        QFile fgpg(swapname.path());
-        if (fgpg.exists()) {
-                KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",swapname);
-                if (over->exec()==QDialog::Accepted)
-                        swapname=KURL(swapname.directory(0,0)+over->getfname());
-                else {
-                        delete over;
+        if (oldname.endsWith(".tar.gz")) {
+                isFolder=true;
+                kgpgFolderExtract=new KTempFile(QString::null,".tar.gz");
+                kgpgFolderExtract->setAutoDelete(true);
+                swapname=KURL(kgpgFolderExtract->name());
+                if (KMessageBox::warningContinueCancel(0,i18n("<qt>The file to decrypt is an archive. KGpg will create a temporary unencrypted archive file:<br><b>%1</b> before processing the archive extraction. This temporary file will be deleted after the decryption is finished.</qt>").arg(kgpgFolderExtract->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpDecFile")==KMessageBox::Cancel)
                         return;
+        } else {
+                swapname=KURL(droppedUrl.directory(0,0)+oldname);
+                QFile fgpg(swapname.path());
+                if (fgpg.exists()) {
+                        KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",swapname);
+                        if (over->exec()==QDialog::Accepted)
+                                swapname=KURL(swapname.directory(0,0)+over->getfname());
+                        else {
+                                delete over;
+                                return;
+                        }
+                        delete over;
                 }
-                delete over;
         }
-
         KgpgLibrary *lib=new KgpgLibrary();
         lib->slotFileDec(droppedUrl,swapname,customDecrypt);
+        if (isFolder)
+                connect(lib,SIGNAL(decryptionOver()),this,SLOT(unArchive()));
 }
+
+void  MyView::unArchive()
+{
+        KTar compressedFolder(kgpgFolderExtract->name(),"application/x-gzip");
+        if (!compressedFolder.open( IO_ReadOnly )) {
+                KMessageBox::sorry(0,i18n("Unable to read temporary archive file"));
+                return;
+        }
+        const KArchiveDirectory *archiveDirectory=compressedFolder.directory();
+        //KURL savePath=KURL::getURL(droppedUrl,this,i18n(""));
+        KURLRequesterDlg *savePath=new KURLRequesterDlg(droppedUrl.directory(false),i18n("Extract to: "),0,"extract");
+        savePath->fileDialog()->setMode(KFile::Directory);
+        if (!savePath->exec()==QDialog::Accepted) {
+                delete kgpgFolderExtract;
+                return;
+        }
+        archiveDirectory->KArchiveDirectory::copyTo(savePath->selectedURL().path());
+        compressedFolder.close();
+        delete savePath;
+        delete kgpgFolderExtract;
+}
+
 
 void  MyView::showDroppedFile()
 {
@@ -632,7 +676,7 @@ KgpgAppletApp::KgpgAppletApp()
                 : KUniqueApplication()//, kgpg_applet( 0 )
 {
 
-running=false;
+        running=false;
 }
 
 
@@ -671,7 +715,7 @@ int KgpgAppletApp::newInstance()
         } else {
                 kdDebug() << "Starting KGpg\n";
                 running=true;
-		s_keyManager=new listKeys(0, "key_manager");
+                s_keyManager=new listKeys(0, "key_manager");
                 s_keyManager->refreshkey();
                 kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
@@ -685,7 +729,7 @@ int KgpgAppletApp::newInstance()
                         if ((KgpgInterface::getGpgBoolSetting("use-agent",gpgPath)) && (!getenv("GPG_AGENT_INFO")))
                                 KMessageBox::sorry(0,i18n("<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br>"
                                                           "However, the agent doesn't seem to run. This could result in problems with signing/decryption.<br>"
-							  "Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>").arg(gpgPath));
+                                                          "Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>").arg(gpgPath));
                 }
 
         }
@@ -711,51 +755,46 @@ int KgpgAppletApp::newInstance()
 
                         kgpg_applet->w->droppedUrl=urlList.first();
 
-			bool directoryInside=false;
-			QStringList lst=urlList.toStringList();
-			for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) {
-			if (KMimeType::findByURL(*it)->name()=="inode/directory")
-        		directoryInside=true;
-			}
+                        bool directoryInside=false;
+                        QStringList lst=urlList.toStringList();
+                        for ( QStringList::Iterator it = lst.begin(); it != lst.end(); ++it ) {
+                                if (KMimeType::findByURL(*it)->name()=="inode/directory")
+                                        directoryInside=true;
+                        }
 
-			if ((directoryInside) && (lst.count()>1)){
+                        if ((directoryInside) && (lst.count()>1)) {
                                 KMessageBox::sorry(0,i18n("Sorry, cannot perform requested operation.\nPlease select only one directory, or several files, but don't mix files and directories."));
                                 return 0;
                         }
 
                         kgpg_applet->w->droppedUrls=urlList;
 
-                        if (args->isSet("e")!=0)
-			{
-				if (!directoryInside)
-                                kgpg_applet->w->encryptDroppedFile();
-				else kgpg_applet->w->encryptDroppedFolder();
-				}
-                        else if (args->isSet("X")!=0)
-			{
-				if (!directoryInside)
-                                kgpg_applet->w->shredDroppedFile();
-				else KMessageBox::sorry(0,i18n("Cannot shred directory"));
-				}
-                        else if (args->isSet("s")!=0)
-			{
+                        if (args->isSet("e")!=0) {
                                 if (!directoryInside)
-				kgpg_applet->w->showDroppedFile();
-				else KMessageBox::sorry(0,i18n("Cannot decrypt & show directory"));
-				}
-                        else if (args->isSet("S")!=0)
-			{
+                                        kgpg_applet->w->encryptDroppedFile();
+                                else
+                                        kgpg_applet->w->encryptDroppedFolder();
+                        } else if (args->isSet("X")!=0) {
                                 if (!directoryInside)
-				kgpg_applet->w->signDroppedFile();
-				else KMessageBox::sorry(0,i18n("Cannot sign directory"));
-				}
-                        else if (args->isSet("V")!=0)
-			{
-				if (!directoryInside)
-                                kgpg_applet->w->slotVerifyFile();
-				else KMessageBox::sorry(0,i18n("Cannot verify directory"));
-				}
-                        else if (kgpg_applet->w->droppedUrl.filename().endsWith(".sig"))
+                                        kgpg_applet->w->shredDroppedFile();
+                                else
+                                        KMessageBox::sorry(0,i18n("Cannot shred directory"));
+                        } else if (args->isSet("s")!=0) {
+                                if (!directoryInside)
+                                        kgpg_applet->w->showDroppedFile();
+                                else
+                                        KMessageBox::sorry(0,i18n("Cannot decrypt & show directory"));
+                        } else if (args->isSet("S")!=0) {
+                                if (!directoryInside)
+                                        kgpg_applet->w->signDroppedFile();
+                                else
+                                        KMessageBox::sorry(0,i18n("Cannot sign directory"));
+                        } else if (args->isSet("V")!=0) {
+                                if (!directoryInside)
+                                        kgpg_applet->w->slotVerifyFile();
+                                else
+                                        KMessageBox::sorry(0,i18n("Cannot verify directory"));
+                        } else if (kgpg_applet->w->droppedUrl.filename().endsWith(".sig"))
                                 kgpg_applet->w->slotVerifyFile();
                         else
                                 kgpg_applet->w->decryptDroppedFile();

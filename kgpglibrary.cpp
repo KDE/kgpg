@@ -15,15 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kgpglibrary.h"
 #include <klocale.h>
 #include <kconfig.h>
 #include <kmessagebox.h>
+#include <krun.h>
+
+#include "kgpglibrary.h"
 
 KgpgLibrary::KgpgLibrary(bool pgpExtension)
 {
-if (pgpExtension) extension=".pgp";
-else extension=".gpg";
+        if (pgpExtension)
+                extension=".pgp";
+        else
+                extension=".gpg";
 }
 
 KgpgLibrary::~KgpgLibrary()
@@ -152,15 +156,17 @@ void KgpgLibrary::processpopup2()
 
 void KgpgLibrary::processdecover()
 {
-        if (popIsDisplayed)
-                delete pop;
+        //       if (popIsDisplayed)
+        delete pop;
+        emit decryptionOver();
 }
+
 
 void KgpgLibrary::processdecerror(QString mssge)
 {
-        if (popIsDisplayed) {
-                delete pop;
-        }
+        //        if (popIsDisplayed) {
+        delete pop;
+        //        }
         ///// test if file is a public key
         QFile qfile(QFile::encodeName(urlselected.path()));
         if (qfile.open(IO_ReadOnly)) {

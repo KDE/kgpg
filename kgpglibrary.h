@@ -71,6 +71,9 @@ private:
         bool popIsDisplayed;
         KPassivePopup *pop;
 
+signals:
+        void decryptionOver();
+
 
 };
 #endif
