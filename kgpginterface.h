@@ -91,7 +91,7 @@ class KgpgInterface : public QObject {
 	 * @param srcUrl Kurl of the file to be verified. If empty, gpg will try to find it using the signature file name (by removing the .sig extensio)
 	 */
 	void KgpgVerifyFile(KURL sigUrl,KURL srcUrl=NULL) ;
-	
+
  	/**Import key function
  	 * @param url Kurl the url of the key file. Allows public & secret key import.
  	 */
@@ -129,6 +129,7 @@ void importKey(QString keystr, bool importSecret=false);
 	 * @param userID QString the name of the decryption key (only used to prompt user for passphrase)
 	 */
 	static QString KgpgDecryptText(QString text,QString userID);
+	static QString KgpgDecryptFileToText(KURL srcUrl,QString userID);
 	
 	static QString extractKeyName(QString txt="");
 	static QString extractKeyName(KURL url=0);

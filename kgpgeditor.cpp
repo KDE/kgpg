@@ -165,9 +165,9 @@ QString newname;
         }
       else {delete popn;return;}
       delete popn;
-      
-    
-  if (!newname.isEmpty())
+
+
+if (!newname.isEmpty())
     {
       QFile fgpg(newname);
       if (fgpg.exists())
@@ -181,12 +181,9 @@ QString newname;
                 return;
         }
 KgpgLibrary *lib=new KgpgLibrary();
-lib->slotFileDec(url,KURL(newname),customDecrypt) ;		
+lib->slotFileDec(url,KURL(newname),customDecrypt) ;
     }
-  else openEncryptedDocumentFile(urlselected);
-								   
-								   
-
+  else openEncryptedDocumentFile(url);
 }
 
 void KgpgApp::slotFileOpen()

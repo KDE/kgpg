@@ -162,9 +162,9 @@ void KgpgInterface::KgpgDecryptFile(KURL srcUrl,KURL destUrl,QString Options)
         }
       *proc<<"-o"<<QFile::encodeName(destUrl.path())<<"-d"<<QFile::encodeName(srcUrl.path());
     }
-  else //// no filename -> decrypt to editor
+  else //// no filename given
     {
-      *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2";
+     *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0";
       while (!Options.isEmpty())
         {
           QString fOption=Options.section(' ',0,0);
@@ -230,7 +230,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
                 passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys.<br>");
               if ((step<3) && (!anonymous))
                 passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-              
+
               passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(userIDs);
               int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
               if (code!=QDialog::Accepted)
@@ -285,9 +285,9 @@ txtsent=false;
           ct=userIDs.find(" ");
         }
       *proc<<"--recipient"<<userIDs;
-   
+
   /////////  when process ends, update dialog infos
-  
+
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtencryptfin(KProcess *)));
   QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreadencprocess(KProcIO *)));
   proc->start(KProcess::NotifyOnExit,true);
@@ -385,14 +385,14 @@ badmdc=false;
           *proc<<QFile::encodeName(fOption);
         }
       *proc<<"-d";
-      
+
   /////////  when process ends, update dialog infos
   
   QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtdecryptfin(KProcess *)));
   QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreaddecprocess(KProcIO *)));
   proc->start(KProcess::NotifyOnExit,false);
   proc->writeStdin(txtprocess,false);
-  
+
 }
 
 void KgpgInterface::txtdecryptfin(KProcess *)
@@ -482,7 +482,7 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
   int counter=0,ppass[2];
   QCString password;
 
-  while ((counter<3) && (encResult==""))
+  while ((counter<3) && (encResult.isEmpty()))
     {
       /// pipe for passphrase
       counter++;
@@ -519,6 +519,50 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
     return "";
 }
 
+
+QString KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QString userID)
+{
+  FILE *fp,*pass;
+  QString encResult,gpgcmd;
+  char buffer[200];
+  int counter=0,ppass[2];
+  QCString password;
+
+  while ((counter<3) && (encResult.isEmpty()))
+    {
+      /// pipe for passphrase
+      counter++;
+	  //userID=QString::fromUtf8(userID);
+	  userID.replace(QRegExp("<"),"&lt;");
+      QString passdlg=i18n("Enter passphrase for <b>%1</b>:").arg(userID);
+      if (counter>1)
+        passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 tries left.<br>").arg(QString::number(4-counter)));
+
+      /// pipe for passphrase
+      int code=KPasswordDialog::getPassword(password,passdlg);
+      if (code!=QDialog::Accepted)
+        return " ";
+
+      pipe(ppass);
+      pass = fdopen(ppass[1], "w");
+      fwrite(password, sizeof(char), strlen(password), pass);
+      //        fwrite("\n", sizeof(char), 1, pass);
+      fclose(pass);
+
+      gpgcmd+="gpg --no-secmem-warning --no-tty ";
+      gpgcmd+="--passphrase-fd "+QString::number(ppass[0])+" -o - -d '";
+	  gpgcmd+=srcUrl.path()+"'";
+      //////////   encode with untrusted keys or armor if checked by user
+      fp = popen(QFile::encodeName(gpgcmd), "r");
+      while ( fgets( buffer, sizeof(buffer), fp))
+        encResult+=buffer;
+      pclose(fp);
+    }
+  if (encResult!="")
+    return encResult;
+  else
+    return "";
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////   MD5
 

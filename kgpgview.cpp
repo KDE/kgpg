@@ -145,9 +145,8 @@ if (qfile.open(IO_ReadOnly))
       }
     }
 
-QTextStream t( &qfile );
-QString result(t.read());
-QString resultat=KgpgInterface::KgpgDecryptText(result,enckey);
+QString resultat=KgpgInterface::KgpgDecryptFileToText(KURL(fname),enckey);
+
 KIO::NetAccess::removeTempFile(tempFile);
 if (resultat!=" ") // if user didn't cancel ...
 {
