@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <stdlib.h>
+
 #include <qwidget.h>
 
 #include <kcmdlineargs.h>
