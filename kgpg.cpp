@@ -717,6 +717,14 @@ KgpgAppletApp::~KgpgAppletApp()
 
 void KgpgAppletApp::slotHandleQuit()
 {
+s_keyManager->keysList2->saveLayout(KGlobal::config(),"KeyView");
+        KGpgSettings::setShowToolbar(s_keyManager->toolBar()->isVisible());
+        KGpgSettings::setPhotoProperties(s_keyManager->photoProps->currentItem());
+	KGpgSettings::setShowTrust(s_keyManager->sTrust->isChecked());
+	KGpgSettings::setShowExpi(s_keyManager->sExpi->isChecked());
+	KGpgSettings::setShowCreat(s_keyManager->sCreat->isChecked());
+	KGpgSettings::setShowSize(s_keyManager->sSize->isChecked());
+        KGpgSettings::writeConfig();
         quit();
 }
 

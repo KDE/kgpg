@@ -139,7 +139,8 @@ private:
 	QListViewItem *itemToOpen;
 	KTempFile *kgpgphototmp;
 public slots:
-	void setFullSize();
+	void slotRemoveColumn(int d);
+	void slotAddColumn(int c);
 	
 private slots:
         void  droppedfile (KURL);
@@ -176,6 +177,8 @@ public:
         QString message;
         QStringList keynames;
         KPassivePopup *pop;
+	KToggleAction *sTrust,*sCreat,*sExpi,*sSize;
+	KSelectAction *photoProps;
 
 private:
         QPushButton *bouton1,*bouton2,*bouton0;
@@ -185,8 +188,6 @@ private:
         keyServer *kServer;
         KTempFile *kgpgtmp;
         KAction *importSignatureKey,*importAllSignKeys,*signKey;
-	KToggleAction *sTrust,*sCreat,*sExpi,*sSize;
-	KSelectAction *photoProps;
         QPtrList<QListViewItem> signList;
         uint globalCount,keyCount;
 	int globalChecked;

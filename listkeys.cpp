@@ -423,7 +423,7 @@ KeyView::KeyView( QWidget *parent, const char *name )
         trustgood.load(locate("appdata", "pics/kgpg_good.png"));
 
         connect(this,SIGNAL(expanded (QListViewItem *)),this,SLOT(expandKey(QListViewItem *)));
-
+	header()->setMovingEnabled(false);
         setAcceptDrops(true);
         setDragEnabled(true);
 }
@@ -556,7 +556,6 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 	slotSetPhotoSize(pSize);
 
         keysList2->setRootIsDecorated(true);
-        //keysList2->addColumn( i18n( "Keys" ),140);
         keysList2->addColumn( i18n( "Name" ),200);
         keysList2->addColumn( i18n( "Email" ),200);
         keysList2->addColumn( i18n( "Trust" ),60);
@@ -569,7 +568,6 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         keysList2->setFullWidth(true);
         keysList2->setAcceptDrops (true) ;
         keysList2->setSelectionModeExt(KListView::Extended);
-	//keysList2->setResizeMode(QListView::LastColumn);
 	
 	popup=new QPopupMenu();
         exportPublicKey->plug(popup);
@@ -621,6 +619,8 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         QObject::connect(keysList2,SIGNAL(selectionChanged ()),this,SLOT(checkList()));
         QObject::connect(keysList2,SIGNAL(contextMenuRequested(QListViewItem *,const QPoint &,int)),
                          this,SLOT(slotmenu(QListViewItem *,const QPoint &,int)));
+	QObject::connect(keysList2,SIGNAL(destroyed()),this,SLOT(annule()));
+
 
         ///////////////    get all keys data
         createGUI("listkeys.rc");
@@ -639,39 +639,46 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 listKeys::~listKeys()
 {}
 
-void KeyView::setFullSize()
+void KeyView::slotRemoveColumn(int d)
 {
-uint c;
-for (c=6;(columnText(c)!=i18n("Id") && c>0);c--);
-header()->setStretchEnabled(true, c);
+hideColumn(d);
+header()->setResizeEnabled(false,d);
+header()->setStretchEnabled(true,6);
+
+}
+
+void KeyView::slotAddColumn(int c)
+{
+header()->setResizeEnabled(true,c);
+adjustColumn(c);
 }
 
 void listKeys::slotShowTrust()
 {
 if (sTrust->isChecked())
-keysList2->adjustColumn(2);
-else {keysList2->hideColumn(2);keysList2->setFullSize();}
+keysList2->slotAddColumn(2);
+else keysList2->slotRemoveColumn(2);
 }
 
 void listKeys::slotShowExpi()
 {
 if (sExpi->isChecked())
-keysList2->adjustColumn(3);
-else {keysList2->hideColumn(3);keysList2->setFullSize();}
+keysList2->slotAddColumn(3);
+else keysList2->slotRemoveColumn(3);
 }
 
 void listKeys::slotShowSize()
 {
 if (sSize->isChecked())
-keysList2->adjustColumn(4);
-else {keysList2->hideColumn(4);keysList2->setFullSize();}
+keysList2->slotAddColumn(4);
+else keysList2->slotRemoveColumn(4);
 }
 
 void listKeys::slotShowCreat()
 {
 if (sCreat->isChecked())
-keysList2->adjustColumn(5);
-else {keysList2->hideColumn(5);keysList2->setFullSize();}
+keysList2->slotAddColumn(5);
+else keysList2->slotRemoveColumn(5);
 }
 
 
@@ -1101,6 +1108,7 @@ void listKeys::annule()
 {
         /////////  cancel & close window
         //exit(0);
+	/*
         keysList2->saveLayout(KGlobal::config(),"KeyView");
 
         KGpgSettings::setShowToolbar(toolBar()->isVisible());
@@ -1109,7 +1117,7 @@ void listKeys::annule()
 	KGpgSettings::setShowExpi(sExpi->isChecked());
 	KGpgSettings::setShowCreat(sCreat->isChecked());
 	KGpgSettings::setShowSize(sSize->isChecked());
-        KGpgSettings::writeConfig();
+        KGpgSettings::writeConfig();*/
         close();
         //reject();
 }
