@@ -246,14 +246,13 @@ void KgpgInterface::readdecprocess(KProcIO *p)
 void KgpgInterface::KgpgEncryptText(QString text,QStringList userIDs, QStringList Options)
 {
         message=QString::null;
-	QString txtprocess;
 	//QTextCodec *codec = KGlobal::charsets()->codecForName(KGlobal::locale()->encoding());
 	QTextCodec *codec =QTextCodec::codecForLocale ();
-	if (codec->canEncode(text)) txtprocess=text;
-	else txtprocess=text.utf8();
+	if (codec->canEncode(text)) txtToEncrypt=text;
+	else txtToEncrypt=text.utf8();
 	
         KProcIO *proc=new KProcIO();
-        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2";
+        *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=1";
         
 	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it )
        		if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
@@ -264,16 +263,15 @@ void KgpgInterface::KgpgEncryptText(QString text,QStringList userIDs, QStringLis
 	for ( QStringList::Iterator it = userIDs.begin(); it != userIDs.end(); ++it )
        		*proc<<"--recipient"<< *it;
 	}
-	else *proc<<"-c";
-
+	else 
+	  *proc<<"-c";
+	
         /////////  when process ends, update dialog infos
 
         QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtencryptfin(KProcess *)));
         QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreadencprocess(KProcIO *)));
         proc->start(KProcess::NotifyOnExit,false);
 	emit txtencryptionstarted();
-	proc->writeStdin(txtprocess,false);
-	proc->closeWhenDone();
 }
 
 
@@ -289,6 +287,13 @@ void KgpgInterface::txtreadencprocess(KProcIO *p)
 {
         QString required;
         while (p->readln(required,true)!=-1) {
+	  if (required.find("BEGIN_ENCRYPTION",0,false)!=-1)
+	  {
+	    p->writeStdin(txtToEncrypt,false);
+	    txtToEncrypt=QString::null;
+	    p->closeWhenDone();
+	  }
+	  else
 	if ((required.find("passphrase.enter")!=-1))
             {
               QCString passphrase;

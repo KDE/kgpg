@@ -362,7 +362,7 @@ private:
         /**
         * @internal structure for communication
         */
-        QString message,tempKeyFile,userIDs,output,keyString;
+        QString message,tempKeyFile,userIDs,output,keyString,txtToEncrypt;
         QCString passphrase;
         bool deleteSuccess,konsLocal,anonymous,decfinished,decok,badmdc,revokeSuccess,addSuccess,delSuccess;
 	bool signmiss;
