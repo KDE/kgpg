@@ -143,11 +143,6 @@ public:
 
 private:
         KSystemTray *kgpgapp;
-private slots:
-        void slotencryptclip();
-        void slotdecryptclip();
-        void sloteditor();
-        void slotOptions();
 };
 
 class KCmdLineArgs;

@@ -733,10 +733,10 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
         w=new MyView(this);
         w->show();
         KPopupMenu *conf_menu=contextMenu();
-        KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0,this, SLOT(slotencryptclip()),actionCollection(),"clip_encrypt");
-        KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0,this, SLOT(slotdecryptclip()),actionCollection(),"clip_decrypt");
-        KAction *KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,this, SLOT(sloteditor()),actionCollection(),"kgpg_editor");
-        KAction *KgpgPreferences=KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
+        KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0,w, SLOT(clipEncrypt()),actionCollection(),"clip_encrypt");
+        KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0,w, SLOT(clipDecrypt()),actionCollection(),"clip_decrypt");
+        KAction *KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,w, SLOT(openEditor()),actionCollection(),"kgpg_editor");
+        KAction *KgpgPreferences=KStdAction::preferences(w, SLOT(preferences()), actionCollection());
         KgpgEncryptClipboard->plug(conf_menu);
         KgpgDecryptClipboard->plug(conf_menu);
         KgpgOpenEditor->plug(conf_menu);
@@ -750,26 +750,6 @@ kgpgapplet::~kgpgapplet()
 {
         delete w;
         w = 0L;
-}
-
-void kgpgapplet::sloteditor()
-{
-        w->openEditor();
-}
-
-void kgpgapplet::slotencryptclip()
-{
-        w->clipEncrypt();
-}
-
-void kgpgapplet::slotdecryptclip()
-{
-        w->clipDecrypt();
-}
-
-void kgpgapplet::slotOptions()
-{
-        w->preferences();
 }
 
 KgpgAppletApp::KgpgAppletApp()
@@ -909,8 +889,6 @@ int KgpgAppletApp::newInstance()
 
 void MyView::encryptClipboard(QStringList selec,QStringList encryptOptions,bool,bool symmetric)
 {
-        //QString clipContent=kapp->clipboard()->text();//=cb->text(QClipboard::Clipboard);   ///   QT 3.1 only
-
         if (kapp->clipboard()->text().isEmpty()) {
 	KPassivePopup::message(i18n("Clipboard is empty."),QString::null,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this);
 	return;
@@ -918,10 +896,7 @@ void MyView::encryptClipboard(QStringList selec,QStringList encryptOptions,bool,
                 if (pgpcomp)
                         encryptOptions<<"--pgp6";
                 encryptOptions<<"--armor";
-                /*
-		if (selec.isEmpty()) {
-                        KMessageBox::sorry(0,i18n("You have not chosen an encryption key."));
-                }*/
+
 		if (symmetric) selec.clear();
                 KgpgInterface *txtEncrypt=new KgpgInterface();
                 connect (txtEncrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(slotSetClip(QString)));
