@@ -72,8 +72,8 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KAutoConfigDialog( p
 
 
         config->setGroup("GPG Settings");
-        alwaysKeyID=KgpgInterface::getGpgSetting("encrypt-to",config->readEntry("gpg_config_path"));
-	config->writeEntry("use_agent",KgpgInterface::getGpgBoolSetting("use-agent",config->readEntry("gpg_config_path")));
+        alwaysKeyID=KgpgInterface::getGpgSetting("encrypt-to",config->readPathEntry("gpg_config_path"));
+	config->writeEntry("use_agent",KgpgInterface::getGpgBoolSetting("use-agent",config->readPathEntry("gpg_config_path")));
 
 	config->setGroup("Encryption");
         if (!alwaysKeyID.isEmpty())
@@ -96,7 +96,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KAutoConfigDialog( p
         }
         //////////////////////  check if gpg's keyserver is the same as KGpg's first server. Otherwise, syncro
         config->setGroup("GPG Settings");
-        QString optionsServer=KgpgInterface::getGpgSetting("keyserver",config->readEntry("gpg_config_path"));
+        QString optionsServer=KgpgInterface::getGpgSetting("keyserver",config->readPathEntry("gpg_config_path"));
         if (!optionsServer.isEmpty())
                 config->writeEntry("key_server1",optionsServer);
 
