@@ -20,6 +20,8 @@
 #include <qptrlist.h>
 #include <qwhatsthis.h>
 #include <qpainter.h>
+#include <qiconset.h>
+#include <qbuttongroup.h>
 
 #include "popuppublic.h"
 #include "kgpgview.h"
@@ -88,8 +90,6 @@ defaultName="";
   keysList = new KListView( this );
   keysList->setRootIsDecorated(true);
   keysList->addColumn( i18n( "Keys" ) );
-  //keysList->addColumn( i18n( "Trust" ) );
-  //keysList->addColumn( i18n( "Validity" ) );
   keysList->setShowSortIndicator(true);
   keysList->setFullWidth(true);
   keysList->setSelectionModeExt(KListView::Extended);
@@ -105,46 +105,48 @@ defaultName="";
     }
 
   KButtonBox *boutonbox=new KButtonBox(this,KButtonBox::Horizontal,15,10);
+  boutonboxoptions=new QButtonGroup(4,Qt::Vertical ,this,0);  
 
-  checkbox1=new QCheckBox(i18n("ASCII Armored encryption"),this);
-  checkbox2=new QCheckBox(i18n("Allow encryption with untrusted keys"),this);
+  checkbox1=new QCheckBox(i18n("ASCII Armored encryption"),boutonboxoptions);
+  checkbox2=new QCheckBox(i18n("Allow encryption with untrusted keys"),boutonboxoptions);
 
+//boutonboxoptions->insert(checkbox1);
+//boutonboxoptions->insert(checkbox2);
+   
    QWhatsThis::add(keysList,i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
   QWhatsThis::add(checkbox1,i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));
   QWhatsThis::add(checkbox2,i18n("<b>Allow encryption with untrusted keys</b>: when you import a public key, it is usually "
 "marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this "
 "box enables you to use any key, even if it has not be signed."));
 
-  if (filemode==true)
+  if (filemode)
   {
-  checkbox3=new QCheckBox(i18n("Shred source file"),this);
+  checkbox3=new QCheckBox(i18n("Shred source file"),boutonboxoptions);
   QWhatsThis::add(checkbox3,i18n("<b>Shred source file</b>: permanently remove source file. No recovery will be possible"));
 
-  checkbox4=new QCheckBox(i18n("Symmetrical encryption"),this);
-  QWhatsThis::add(checkbox3,i18n("<b>Symmetrical encryption</b>: encryption doesn't use keys. You just need to give a password "
+  checkbox4=new QCheckBox(i18n("Symmetrical encryption"),boutonboxoptions);
+  QWhatsThis::add(checkbox4,i18n("<b>Symmetrical encryption</b>: encryption doesn't use keys. You just need to give a password "
   "to encrypt/decrypt the file"));
+  QObject::connect(checkbox4,SIGNAL(toggled(bool)),this,SLOT(isSymetric(bool)));
   }
 
   boutonbox->addStretch(1);
+  bouton0=boutonbox->addButton(i18n("&Options"),TRUE);
+  bouton0->setIconSet(QIconSet(KGlobal::iconLoader()->loadIcon("down",KIcon::Small)));
   bouton1=boutonbox->addButton(i18n("&Encrypt"),TRUE);
   bouton2=boutonbox->addButton(i18n("&Cancel"),TRUE);
-
+  bouton1->setDefault(true);
   if (isascii) checkbox1->setChecked(true);
   if (istrust) checkbox2->setChecked(true);
 
   vbox->addWidget(labeltxt);
   vbox->addWidget(keysList);
-  vbox->addWidget(checkbox1);
-  vbox->addWidget(checkbox2);
-  if (filemode==true)
-  {
-  vbox->addWidget(checkbox3);
-  vbox->addWidget(checkbox4);
-  QObject::connect(checkbox4,SIGNAL(toggled(bool)),this,SLOT(isSymetric(bool)));
-  }
+  vbox->addWidget(boutonboxoptions);
+  boutonboxoptions->hide();
   vbox->addWidget(boutonbox);
 
   QObject::connect(keysList,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(precrypte()));
+  QObject::connect(bouton0,SIGNAL(clicked()),this,SLOT(toggleOptions()));
   QObject::connect(bouton1,SIGNAL(clicked()),this,SLOT(crypte()));
   QObject::connect(bouton2,SIGNAL(clicked()),this,SLOT(annule()));
   QObject::connect(checkbox2,SIGNAL(toggled(bool)),this,SLOT(refresh(bool)));
@@ -161,6 +163,21 @@ defaultName="";
 
 trusted=istrust;
 refreshkeys();
+}
+
+
+void popupPublic::toggleOptions()
+{
+if (boutonboxoptions->isVisible()) 
+{
+boutonboxoptions->hide();
+bouton0->setIconSet(QIconSet(KGlobal::iconLoader()->loadIcon("up",KIcon::Small)));
+}
+else 
+{
+boutonboxoptions->show();
+bouton0->setIconSet(QIconSet(KGlobal::iconLoader()->loadIcon("down",KIcon::Small)));
+}
 }
 
 

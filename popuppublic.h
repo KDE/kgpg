@@ -47,14 +47,15 @@ public:
     QString seclist,defaultKey,defaultName;
 
 private:
-    QPushButton *bouton1,*bouton2;
+    QPushButton *bouton0,*bouton1,*bouton2;
     KConfig *config;
 	bool displayMailFirst;
-
+QButtonGroup *boutonboxoptions;
 
 private slots:
 QString extractKeyName(QString fullName);
 void annule();
+void toggleOptions();
 void crypte();
 void precrypte();
 void slotprocread(KProcIO *);
