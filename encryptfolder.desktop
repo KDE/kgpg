@@ -43,7 +43,6 @@ Name[tg]=Бойгонӣ && Рамзкунонии Феҳрист
 Name[tr]=Arşiv && Klasör Şifrele
 Name[uk]=Зробити архів теки та зашифрувати
 Name[wa]=Fé ene ecriptêye årtchive d' on ridant
-Name[xx]=xxArchive && Encrypt Folderxx
 Name[zh_CN]=存档并加密文件夹
 Icon=kgpg
 Exec=kgpg -e %F

@@ -44,7 +44,6 @@ Name[tg]=Рамзкунонии Файл
 Name[tr]=Dosya Şifrele
 Name[uk]=Зашифрувати файл
 Name[wa]=Ecripter fitchî
-Name[xx]=xxEncrypt Filexx
 Name[zh_CN]=加密文件
 Icon=kgpg
 Exec=kgpg -e %F
