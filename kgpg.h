@@ -47,7 +47,6 @@ public:
         MyView( QWidget *parent = 0, const char *name = 0);
         ~MyView();
 
-        bool	 showeclip,showdclip,showomanager,showoeditor,showserver,autostart;
         KURL droppedUrl;
         KURL::List droppedUrls;
         KTempFile *kgpgfoldertmp;
