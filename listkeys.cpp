@@ -645,7 +645,7 @@ QString imagePath=KFileDialog::getOpenFileName (QString::null,"*.jpg",this);
 if (imagePath.isEmpty()) return;
 KgpgInterface *addPhotoProcess=new KgpgInterface();
                         addPhotoProcess->KgpgAddPhoto(keysList2->currentItem()->text(6),imagePath);
-                        connect(addPhotoProcess,SIGNAL(addPhotoFinished()),keysList2,SLOT(refreshselfkey()));
+                        connect(addPhotoProcess,SIGNAL(addPhotoFinished()),this,SLOT(slotUpdatePhoto()));
 }
 
 void listKeys::slotDeletePhoto()
@@ -655,8 +655,15 @@ return;
 
 KgpgInterface *delPhotoProcess=new KgpgInterface();
                         delPhotoProcess->KgpgDeletePhoto(keysList2->currentItem()->parent()->text(6),keysList2->currentItem()->text(0).section(' ',-1));
-                        connect(delPhotoProcess,SIGNAL(delPhotoFinished()),keysList2,SLOT(refreshselfkey()));
+                        connect(delPhotoProcess,SIGNAL(delPhotoFinished()),this,SLOT(slotUpdatePhoto()));
 }
+
+void listKeys::slotUpdatePhoto()
+{
+checkPhotos();
+keysList2->refreshselfkey();
+}
+
 
 void listKeys::slotSetPhotoSize(int size)
 {
@@ -678,6 +685,7 @@ switch( size) {
                         break;
                 }
 keysList2->displayPhoto=showPhoto;
+refreshkey();
 }
 
 void listKeys::configuretoolbars()
@@ -2334,7 +2342,13 @@ void KeyView::refreshkeylist()
         UpdateViewItem *item=NULL;
         bool noID=false;
         bool emptyList=true;
+	QString openKeys;
 
+	QListViewItem * myChild = firstChild();
+        while( myChild ) {
+            if (myChild->isOpen()) openKeys+=myChild->text(6)+" ";
+            myChild = myChild->nextSibling();
+        }
         // get current position.
         //int colWidth = 120; //QMAX(70, columnWidth(0));
         QListViewItem *current = currentItem();
@@ -2392,6 +2406,7 @@ void KeyView::refreshkeylist()
                                 item->setPixmap(0,pixkeySingle);
                         }
 
+			if (openKeys.find(pubKey.gpgkeyid)!=-1) item->setOpen(true);
                 }
 
         }

@@ -208,6 +208,7 @@ public slots:
 	void slotSetDefaultKey(QString newID);
 
 private slots:
+	void slotUpdatePhoto();
 	void slotDeletePhoto();
 	void slotAddPhoto();
 	void slotSetPhotoSize(int size);
