@@ -647,7 +647,7 @@ void MyView::encryptClipboard(QString &selec,QString encryptOptions)
 {
         QString clipContent=kapp->clipboard()->text();//=cb->text(QClipboard::Clipboard);   ///   QT 3.1 only
 
-        if (clipContent) {
+        if (!clipContent.isEmpty()) {
                 if (pgpcomp)
                         encryptOptions+=" --pgp6 ";
                 encryptOptions+=" --armor ";

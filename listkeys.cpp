@@ -137,7 +137,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
         bool isphoto=false;
         QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key "+KShellProcess::quote(sigkey.local8Bit());
 
-        pass=popen(gpgcmd,"r");
+        pass=popen(QFile::encodeName(gpgcmd),"r");
         while ( fgets( line, sizeof(line), pass)) {
                 opt=line;
                 if (opt.startsWith("uat"))
@@ -348,7 +348,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
         char line[130];
         bool selectedok=false;
 
-        fp = popen(QString("gpg --no-tty --with-colon --list-secret-keys"), "r");
+        fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
                 if (tst.startsWith("sec")) {
@@ -395,7 +395,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
                         }
                         tst=tst.section(":",9,9);
 
-                        fp2 = popen(QString("gpg --no-tty --with-colon --list-key %1").arg(KShellProcess::quote(id)), "r");
+                        fp2 = popen(QFile::encodeName(QString("gpg --no-tty --with-colon --list-key %1").arg(KShellProcess::quote(id))), "r");
                         bool dead=true;
                         while ( fgets( line, sizeof(line), fp2)) {
                                 tst2=line;
@@ -569,7 +569,7 @@ void  KeyView::startDrag()
         QString gpgcmd="gpg --no-tty --export --armor "+KShellProcess::quote(keyid.local8Bit());
 
         QString keytxt;
-        fp=popen(gpgcmd,"r");
+        fp=popen(QFile::encodeName(gpgcmd),"r");
         while ( fgets( line, sizeof(line), fp))    /// read output
                 keytxt+=line;
         pclose(fp);
@@ -1451,7 +1451,7 @@ void KeyView::expandKey(QListViewItem *item)
         cycle="pub";
         bool noID=false;
 
-        fp = popen(QString("gpg --no-secmem-warning --no-tty --with-colon --list-sigs "+item->text(5)), "r");
+        fp = popen(QFile::encodeName(QString("gpg --no-secmem-warning --no-tty --with-colon --list-sigs "+item->text(5))), "r");
 
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;

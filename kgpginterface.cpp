@@ -698,7 +698,8 @@ void KgpgInterface::readsignprocess(KProcIO *p)
                                 QString passdlgmessage;
                                 if (step<3)
                                         passdlgmessage=i18n("<b>Bad passphrase</b>. you have %1 tries left.<br>").arg(step);
-                                QString prettyuIDs=QString::fromUtf8(userIDs);
+                                // QString prettyuIDs=QString::fromUtf8(userIDs);
+                                QString prettyuIDs=userIDs;
                                 prettyuIDs.replace(QRegExp("<"),"&lt;");
                                 passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(prettyuIDs);
                                 int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);

@@ -231,9 +231,9 @@ void KgpgView::clearSign()
 
                 pipe(process);
                 cmdstatus = fdopen(process[1], "w");
-                QString line="echo "+KShellProcess::quote(mess.local8Bit());
+                QString line="echo "+KShellProcess::quote(mess);
                 line+=" | gpg --no-tty  --no-secmem-warning --status-fd="+QString::number(process[1])+" --verify";
-                fp=popen(line,"r");
+                fp=popen(QFile::encodeName(line),"r");
                 pclose(fp);
                 fclose(cmdstatus);
 
@@ -326,12 +326,12 @@ void KgpgView::clearSign()
                 fd.setNum(ppass[0]);
                 line+=fd;
                 line+=" --no-tty --clearsign -u ";
-                line+=KShellProcess::quote(signKeyID.local8Bit());
+                line+=KShellProcess::quote(signKeyID);
                 //KMessageBox::sorry(0,QString(line));
                 QString tst="";
 
                 ///////////////// run command
-                fp = popen(line, "r");
+                fp = popen(QFile::encodeName(line), "r");
                 while ( fgets( buffer, sizeof(buffer), fp))
                         tst+=buffer;
                 pclose(fp);
