@@ -1469,6 +1469,7 @@ void listKeys::slotPreImportKey()
                         }
                 }
         }
+        delete dial;
 }
 /*
 void listKeys::slotPreImportKey()
