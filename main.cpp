@@ -29,21 +29,21 @@
 
 
 static const char *description =
-	I18N_NOOP("Kgpg - simple gui for gpg\n\nKgpg was designed to make gpg very easy to use.\nI tried to make it as secure as possible.\nHope you enjoy it...");
+	I18N_NOOP("Kgpg - simple gui for gpg\n\nKgpg was designed to make gpg very easy to use.\nI tried to make it as secure as possible.\nHope you enjoy it.");
 // INSERT A DESCRIPTION FOR YOUR APPLICATION HERE
 
 static KCmdLineOptions options[] =
 {
-{ "e", I18N_NOOP("encrypt file"), 0 },
-{ "c", I18N_NOOP("decrypt clipboard & open editor"), 0 },
-{"k", I18N_NOOP("open key manager"), 0 },
-{"K", I18N_NOOP("open keyserver dialog"), 0 },
-{ "d", I18N_NOOP("decrypt file"), 0 },
-{ "s", I18N_NOOP("show encrypted file"), 0 },
-{ "S", I18N_NOOP("sign file"), 0 },
-{ "V", I18N_NOOP("verify signature"), 0 },
-{ "C", I18N_NOOP("encrypt clipboard & copy resulting text in clipboard"), 0 },
-{ "+file", I18N_NOOP("file to open"), 0 },
+{ "e", I18N_NOOP("Encrypt file"), 0 },
+{ "c", I18N_NOOP("Decrypt clipboard & open editor"), 0 },
+{"k", I18N_NOOP("Open key manager"), 0 },
+{"K", I18N_NOOP("Open keyserver dialog"), 0 },
+{ "d", I18N_NOOP("Decrypt file"), 0 },
+{ "s", I18N_NOOP("Show encrypted file"), 0 },
+{ "S", I18N_NOOP("Sign file"), 0 },
+{ "V", I18N_NOOP("Verify signature"), 0 },
+{ "C", I18N_NOOP("Encrypt clipboard & copy resulting text in clipboard"), 0 },
+{ "+file", I18N_NOOP("File to open"), 0 },
     { 0, 0, 0}
   // INSERT YOUR COMMANDLINE OPTIONS HERE
 };

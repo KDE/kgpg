@@ -219,13 +219,13 @@ void KgpgInterface::readdecprocess(KProcIO *p)
           else if ((required.find("passphrase.enter")!=-1))
             {
               if (userIDs.isEmpty())
-                userIDs=i18n("[No user ID found]");
+                userIDs=i18n("[No user id found]");
               QCString passphrase;
               QString passdlgmessage;
               if (anonymous)
-                passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys...<br>");
+                passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys.<br>");
               if ((step<3) && (!anonymous))
-                passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 trial left.<br>").arg(step);
+                passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
               QString prettyuIDs=QString::fromUtf8(userIDs);
               prettyuIDs.replace(QRegExp("<"),"&lt;");
               passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(prettyuIDs);
@@ -393,8 +393,8 @@ void KgpgInterface::txtdecryptfin(KProcess *)
 {
 //KMessageBox::sorry(0,message);
 if ((decok) && (!badmdc)) emit txtencryptionfinished(message);
-else if (badmdc) {KMessageBox::sorry(0,i18n("Bad MDC detected. The encrypted message has been manipulated"));emit txtencryptionfinished(message);}
-else {KMessageBox::sorry(0,i18n("The encryption was not successfull"));emit txtencryptionfinished(message);}
+else if (badmdc) {KMessageBox::sorry(0,i18n("Bad MDC detected. The encrypted message has been manipulated."));emit txtencryptionfinished(message);}
+else {KMessageBox::sorry(0,i18n("The encryption was not successful."));emit txtencryptionfinished(message);}
 }
 
 void KgpgInterface::txtreaddecprocess(KProcIO *p)
@@ -428,13 +428,13 @@ void KgpgInterface::txtreaddecprocess(KProcIO *p)
          if ((required.find("passphrase.enter")!=-1))
             {
               if (userIDs.isEmpty())
-                userIDs=i18n("[No user ID found]");
+                userIDs=i18n("[No user id found]");
               QCString passphrase;
               QString passdlgmessage;
               if (anonymous)
-                passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys...<br>");
+                passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys.<br>");
               if ((step<3) && (!anonymous))
-                passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 trial left.<br>").arg(step);
+                passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
               QString prettyuIDs=userIDs;
               prettyuIDs.replace(QRegExp("<"),"&lt;");
               passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(prettyuIDs);
@@ -484,7 +484,7 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
 	  userID.replace(QRegExp("<"),"&lt;");
       QString passdlg=i18n("Enter passphrase for <b>%1</b>:").arg(userID);
       if (counter>1)
-        passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 trial(s) left.<br>").arg(QString::number(4-counter)));
+        passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 tries left.<br>").arg(QString::number(4-counter)));
 
       /// pipe for passphrase
       int code=KPasswordDialog::getPassword(password,passdlg);
@@ -518,7 +518,7 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
 
 Md5Widget::Md5Widget(QWidget *parent, const char *name,KURL url):KDialogBase( parent, name, true,i18n("MD5 Checksum"),Apply | Close)
 {
-  setButtonApplyText(i18n("Compare MD5 with clipboard"));
+  setButtonApplyText(i18n("Compare MD5 With Clipboard"));
   mdSum="";
   QFile f(url.path());
   f.open( IO_ReadOnly);
@@ -581,12 +581,12 @@ void Md5Widget::slotApply()
         text.remove(text.find(' '),1);
       if (text==mdSum)
         {
-          TextLabel1_2->setText(i18n("<b>Correct checksum</b>, file is ok"));
+          TextLabel1_2->setText(i18n("<b>Correct checksum</b>, file is ok."));
           KLed1->setColor(QColor(0,255,0));
           KLed1->on();
         }//KMessageBox::sorry(0,"OK");
       else if (text.length()!=mdSum.length())
-        KMessageBox::sorry(0,i18n("Clipboard content is not a MD5 sum..."));
+        KMessageBox::sorry(0,i18n("Clipboard content is not a MD5 sum."));
       else
         {
           TextLabel1_2->setText(i18n("<b>Wrong checksum, FILE CORRUPTED</b>"));
@@ -636,9 +636,9 @@ void KgpgInterface::KgpgSignFile(QString keyID,KURL srcUrl,QString Options)
 void KgpgInterface::signfin(KProcess *)
 {
   if (message.find("SIG_CREATED")!=-1)
-    KMessageBox::information(0,i18n("The signature file %1 was successfully created").arg(file.filename()));
+    KMessageBox::information(0,i18n("The signature file %1 was successfully created.").arg(file.filename()));
   else if (message.find("BAD_PASSPHRASE")!=-1)
-    KMessageBox::sorry(0,i18n("Bad passphrase, signature was not created"));
+    KMessageBox::sorry(0,i18n("Bad passphrase, signature was not created."));
   else
     KMessageBox::sorry(0,message);
   emit signfinished();
@@ -673,11 +673,11 @@ void KgpgInterface::readsignprocess(KProcIO *p)
           else if ((required.find("passphrase.enter")!=-1))
             {
               if (userIDs.isEmpty())
-                userIDs=i18n("[No user ID found]");
+                userIDs=i18n("[No user id found]");
               QCString passphrase;
               QString passdlgmessage;
               if (step<3)
-                passdlgmessage=i18n("<b>Bad passphrase</b>. you have %1 trial left.<br>").arg(step);
+                passdlgmessage=i18n("<b>Bad passphrase</b>. you have %1 tries left.<br>").arg(step);
               QString prettyuIDs=QString::fromUtf8(userIDs);
               prettyuIDs.replace(QRegExp("<"),"&lt;");
               passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(prettyuIDs);
@@ -742,10 +742,10 @@ void KgpgInterface::verifyfin(KProcess *)
       keyID=message.section(' ',0,0);
       message.remove(0,keyID.length());
       keyMail=message;
-      KMessageBox::information(0,i18n("Good signature from %1\nKey ID: %2").arg(keyMail).arg(keyID),file.filename());
+      KMessageBox::information(0,i18n("Good signature from %1\nKey id: %2").arg(keyMail).arg(keyID),file.filename());
     }
   else if (message.find("UNEXPECTED")!=-1)
-    KMessageBox::sorry(0,i18n("No signature found..."),file.filename());
+    KMessageBox::sorry(0,i18n("No signature found."),file.filename());
   else if (message.find("BADSIG")!=-1)
     {
       message.remove(0,message.find("BADSIG")+7);
@@ -754,7 +754,7 @@ void KgpgInterface::verifyfin(KProcess *)
       keyID=message.section(' ',0,0);
       message.remove(0,keyID.length());
       keyMail=message;
-      KMessageBox::sorry(0,i18n("BAD signature from %1\nKey ID: %2\n\nThe file is corrupted!").arg(keyMail).arg(keyID),file.filename());
+      KMessageBox::sorry(0,i18n("BAD signature from %1\nKey id: %2\n\nThe file is corrupted!").arg(keyMail).arg(keyID),file.filename());
     }
   else
     KMessageBox::sorry(0,message);
@@ -876,7 +876,7 @@ void KgpgInterface::KgpgDelSignature(QString keyID,QString signKeyID)
 {
   if (checkuid(keyID)>0)
     {
-      KMessageBox::sorry(0,i18n("This key has more than one user ID...\nEdit the key manually to delete signature."));
+      KMessageBox::sorry(0,i18n("This key has more than one user ID.\nEdit the key manually to delete signature."));
       return;
     }
 

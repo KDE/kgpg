@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>400</width>
-            <height>405</height>
+            <width>420</width>
+            <height>423</height>
         </rect>
     </property>
     <property name="caption">
@@ -164,7 +164,7 @@
                             <cstring>defaut_2_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Always encrypt with default key</string>
+                            <string>Always encrypt with default key:</string>
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;b&gt;Always encrypt with default key&lt;/b&gt; This ensures all files/messages will also be encrypted with that key. (except if special key for file encryption is enabled)</string>
@@ -175,7 +175,7 @@
                             <cstring>file_2_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Use special key for file encryption</string>
+                            <string>Use special key for file encryption:</string>
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;b&gt;Use special key for file encryption&lt;/b&gt; With this options, file encryption will automatically be made with the choosen key. Kgpg will not ask you for a recipient. The default key will not be used.</string>
@@ -186,7 +186,7 @@
                             <cstring>hide_2_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Hide user ID</string>
+                            <string>Hide user id</string>
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;b&gt;Hide user ID&lt;/b&gt; Do not put the keyid into encrypted packets. This option hides the receiver of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because all available secret keys are tried. </string>
@@ -219,7 +219,7 @@
                             <cstring>custom_2_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Custom command</string>
+                            <string>Custom command:</string>
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;b&gt;Enable custom command line input&lt;/b&gt; When activated, an entry field will be shown in the key selection dialog, enabling you tho enter a custom command for encryption. (recommanded for experienced users only)</string>
@@ -251,7 +251,7 @@
                             <cstring>textLabel1_4</cstring>
                         </property>
                         <property name="text">
-                            <string>Custom command line</string>
+                            <string>Custom command line:</string>
                         </property>
                     </widget>
                     <widget class="KLineEdit" row="1" column="0">
@@ -286,7 +286,7 @@
                     <cstring>Widget3</cstring>
                 </property>
                 <attribute name="title">
-                    <string>Misc.</string>
+                    <string>Misc</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -297,7 +297,7 @@
                             <cstring>groupBox4</cstring>
                         </property>
                         <property name="title">
-                            <string>KGPG interface</string>
+                            <string>KGPG Interface</string>
                         </property>
                         <grid>
                             <property name="name">
@@ -363,7 +363,7 @@
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>KDE integration</string>
+                    <string>KDE Integration</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -374,7 +374,7 @@
                             <cstring>groupBox1</cstring>
                         </property>
                         <property name="title">
-                            <string>Encrypted mime types</string>
+                            <string>Encrypted Mime Types</string>
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;b&gt;Encrypted mime types&lt;/b&gt; You should only need this if your KDE install was updated/broken. It ensures encrypted and signed files are properly recognised and can be opened by KGpg with a left button mouse click.</string>
@@ -390,7 +390,7 @@
                                 <property name="text">
                                     <string>Pgp-encrypted: *.pgp,*.gpg,*.asc
 Pgp-signature: *.sig
-If your files are not correctly identified, reinstall</string>
+If your files are not correctly identified, reinstall.</string>
                                 </property>
                             </widget>
                             <widget class="QPushButton" row="1" column="0">
@@ -398,7 +398,7 @@ If your files are not correctly identified, reinstall</string>
                                     <cstring>bcheckMime</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Reinstall Mime types</string>
+                                    <string>Reinstall Mime Types</string>
                                 </property>
                             </widget>
                         </grid>
@@ -408,7 +408,7 @@ If your files are not correctly identified, reinstall</string>
                             <cstring>buttonGroup4</cstring>
                         </property>
                         <property name="title">
-                            <string>Decrypt file</string>
+                            <string>Decrypt File</string>
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;b&gt;Decrypt file service menu&lt;/b&gt; Lets you choose if you want to have a Decrypt File option in Konqueror's menu. You can decide if you want to have it on all files, or only on encrypted files</string>
@@ -425,12 +425,12 @@ If your files are not correctly identified, reinstall</string>
                                 </item>
                                 <item>
                                     <property name="text">
-                                        <string>All files</string>
+                                        <string>All Files</string>
                                     </property>
                                 </item>
                                 <item>
                                     <property name="text">
-                                        <string>Encrypted files (*.pgp;*.gpg;*.asc)</string>
+                                        <string>Encrypted Files (*.pgp;*.gpg;*.asc)</string>
                                     </property>
                                 </item>
                                 <property name="name">
@@ -460,7 +460,7 @@ If your files are not correctly identified, reinstall</string>
                             </sizepolicy>
                         </property>
                         <property name="title">
-                            <string>Sign file</string>
+                            <string>Sign File</string>
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;b&gt;Sign file service menu&lt;/b&gt; Lets you choose if you want to have a Sign File option in Konqueror's menu.</string>
@@ -477,7 +477,7 @@ If your files are not correctly identified, reinstall</string>
                                 </item>
                                 <item>
                                     <property name="text">
-                                        <string>All files</string>
+                                        <string>All Files</string>
                                     </property>
                                 </item>
                                 <property name="name">

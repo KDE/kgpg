@@ -125,7 +125,7 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
   QLabel *labeltrust = new QLabel(page);
   QLabel *labelid = new QLabel(page);
   QLabel *labelcomment = new QLabel(page);
-  QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
+  QLabel *labelfinger = new QLabel(i18n("Fingerprint:"),page);
   //QString labelname,labelmail,labeltype,labellength,labelfinger,labelcreation,labelexpire,labeltrust,labelid,fingervalue;
   //QVBoxLayout *vbox=new QVBoxLayout(page,2);
 
@@ -215,14 +215,14 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
 				labelname=new QLabel(i18n("Name: ")+fullname.section('<',0,0),page);
 				labellength->setText(i18n("Length: ")+opt.section(':',2,2));
 				labeltrust->setText(i18n("Trust: %1").arg(tr));
-				labelid->setText(i18n("ID: ")+tid);
+				labelid->setText(i18n("Id: ")+tid);
 				if (fullname.find("<")!=-1)
 				{
 					QString kmail=fullname.section('<',-1,-1);
 					kmail.truncate(kmail.length()-1);
-					labelmail->setText(i18n("E-Mail: %1").arg(kmail));
+					labelmail->setText(i18n("Email: %1").arg(kmail));
 				}
-				else labelmail->setText(i18n("E-Mail: none"));
+				else labelmail->setText(i18n("Email: none"));
 
 				QString kname=fullname.section('<',0,0);
 				if (fullname.find("(")!=-1)
@@ -316,7 +316,7 @@ void KgpgKeyInfo::slotinfoimgread(KProcess *)//IO *p)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////   Secret key selection dialog, used when user wants to sign a key
-KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialogBase( parent, name, true,i18n("Private key list"),Ok | Cancel)
+KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialogBase( parent, name, true,i18n("Private Key List"),Ok | Cancel)
 {
   QString keyname;
   QWidget *page = new QWidget(this);
@@ -515,7 +515,7 @@ KIconLoader *loader = KGlobal::iconLoader();
 
 void  KeyView::droppedfile (KURL url)
 {
-QString ask=i18n("Do you want to import file %1 into your key ring ?").arg(url.filename());
+QString ask=i18n("Do you want to import file %1 into your key ring?").arg(url.filename());
   if (KMessageBox::questionYesNo(this,ask)!=KMessageBox::Yes)
     return;
 
@@ -566,26 +566,26 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   //if (enctodef==true) defKey=defaultKey;
   //else defKey="";
   setCaption(i18n("Key Management"));
-  KAction *exportPublicKey = new KAction(i18n("E&xport public key"), "kgpg_export", 0,this, SLOT(slotexport()),actionCollection(),"key_export");
-  KAction *deleteKey = new KAction(i18n("&Delete key"),"editdelete", 0,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
-  KAction *signKey = new KAction(i18n("&Sign key"), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
-  KAction *delSignKey = new KAction(i18n("Delete sign&ature"),0, 0,this, SLOT(delsignkey()),actionCollection(),"key_delsign");
-  KAction *infoKey = new KAction(i18n("&Key info"), "kgpg_info", 0,this, SLOT(listsigns()),actionCollection(),"key_info");
-  KAction *importKey = new KAction(i18n("&Import key"), "kgpg_import", 0,this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
-  KAction *setDefaultKey = new KAction(i18n("Set as De&fault key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
+  KAction *exportPublicKey = new KAction(i18n("E&xport Public Key..."), "kgpg_export", 0,this, SLOT(slotexport()),actionCollection(),"key_export");
+  KAction *deleteKey = new KAction(i18n("&Delete Key"),"editdelete", 0,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
+  KAction *signKey = new KAction(i18n("&Sign Key..."), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
+  KAction *delSignKey = new KAction(i18n("Delete Sign&ature"),0, 0,this, SLOT(delsignkey()),actionCollection(),"key_delsign");
+  KAction *infoKey = new KAction(i18n("&Key Info"), "kgpg_info", 0,this, SLOT(listsigns()),actionCollection(),"key_info");
+  KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", 0,this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
+  KAction *setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
 
   KStdAction::quit(this, SLOT(annule()), actionCollection());
-  (void) new KAction(i18n("&Refresh list"), "reload", 0,this, SLOT(refreshkey()),actionCollection(),"key_refresh");
+  (void) new KAction(i18n("&Refresh List"), "reload", 0,this, SLOT(refreshkey()),actionCollection(),"key_refresh");
   KAction *editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
-  KAction *exportSecretKey = new KAction(i18n("Export secret key"), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
-  KAction *deleteKeyPair = new KAction(i18n("Delete key pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
-  KAction *generateKey = new KAction(i18n("&Generate key pair"), "kgpg_gen", 0,this, SLOT(slotgenkey()),actionCollection(),"key_gener");
-  KToggleAction *togglePhoto= new KToggleAction(i18n("&Show photos"), "imagegallery", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
-  (void) new KAction(i18n("&Key Server dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
+  KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
+  KAction *deleteKeyPair = new KAction(i18n("Delete Key Pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
+  KAction *generateKey = new KAction(i18n("&Generate Key Pair..."), "kgpg_gen", 0,this, SLOT(slotgenkey()),actionCollection(),"key_gener");
+  KToggleAction *togglePhoto= new KToggleAction(i18n("&Show Photos"), "imagegallery", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
+  (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
 
   KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
  #if (KDE_VERSION >= 310)
-  (void) new KToggleToolBarAction("mainToolBar",i18n("Show toolbar"), actionCollection(),"pref_toolbar"); ///  KDE 3.1 only
+  (void) new KToggleToolBarAction("mainToolBar",i18n("Show Toolbar"), actionCollection(),"pref_toolbar"); ///  KDE 3.1 only
 #endif
 
   QVBoxLayout *vbox=new QVBoxLayout(page,3);
@@ -597,7 +597,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   keysList2->addColumn( i18n( "Expiration" ) );
   keysList2->addColumn( i18n( "Size" ) );
   keysList2->addColumn( i18n( "Creation" ) );
-  keysList2->addColumn( i18n( "ID" ) );
+  keysList2->addColumn( i18n( "Id" ) );
   keysList2->setShowSortIndicator(true);
   keysList2->setAllColumnsShowFocus(true);
   keysList2->setFullWidth(true);
@@ -781,13 +781,13 @@ void listKeys::slotSetDefKey()
 
   if  (keysList2->defKey=="")
     {
-      KMessageBox::sorry(this,i18n("Before setting a default key, you must enable default key encryption in the Options dialog"));
+      KMessageBox::sorry(this,i18n("Before setting a default key, you must enable default key encryption in the options dialog."));
       return;
     }
 
   if  (block.find(keysList2->currentItem()->text(1))!=-1)
     {
-      KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted..."));
+      KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted."));
       return;
     }
   /////////////// revert old default key to normal icon
@@ -874,7 +874,7 @@ void listKeys::slotexportsec()
   sname=sname.section('(',-1,-1);
   sname.append(".asc");
   sname.prepend(QDir::homeDirPath()+"/");
-  KURL url=KFileDialog::getSaveURL(sname,"*.asc|*.asc files", this, i18n("Export PRIVATE KEY as..."));
+  KURL url=KFileDialog::getSaveURL(sname,"*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As"));
 
   if(!url.isEmpty())
     {
@@ -887,9 +887,9 @@ void listKeys::slotexportsec()
 	   p->start(KProcess::Block);
 
       if (fgpg.exists())
-          KMessageBox::information(this,i18n("Your PRIVATE key \"%1\" was successfully exported.\nDO NOT leave it in an insecure place !").arg(url.path()));
+          KMessageBox::information(this,i18n("Your PRIVATE key \"%1\" was successfully exported.\nDO NOT leave it in an insecure place!").arg(url.path()));
       else
-        KMessageBox::sorry(this,i18n("Your secret key could not be exported.\nCheck the key..."));
+        KMessageBox::sorry(this,i18n("Your secret key could not be exported.\nCheck the key."));
     }
 
 }
@@ -914,7 +914,7 @@ void listKeys::slotexport()
   sname.prepend(QDir::homeDirPath()+"/");
   u.setPath(sname);
 
-  popupName *dial=new popupName(i18n("Export public key to"),this, "export_key", u,true);
+  popupName *dial=new popupName(i18n("Export Public Key To"),this, "export_key", u,true);
   dial->exportAttributes->setChecked(true);
 
   if (dial->exec()==QDialog::Accepted)
@@ -936,7 +936,7 @@ void listKeys::slotexport()
 	  *p<<keysList2->currentItem()->text(5);
 	p->start(KProcess::Block);
 	 if (fgpg.exists()) KMessageBox::information(this,i18n("Your public key \"%1\" was successfully exported\n").arg(expname));
-     else KMessageBox::sorry(this,i18n("Your public key could not be exported\nCheck the key..."));
+     else KMessageBox::sorry(this,i18n("Your public key could not be exported\nCheck the key."));
         }
 		}
 		else
@@ -984,7 +984,7 @@ void listKeys::listsigns()
     return;
   if (keysList2->currentItem()->depth()!=0)
     {
-      if (keysList2->currentItem()->text(0)==i18n("Photo ID"))
+      if (keysList2->currentItem()->text(0)==i18n("Photo Id"))
         {
           //////////////////////////    display photo
           KProcIO *p=new KProcIO();
@@ -1149,7 +1149,7 @@ delete genkey;
               pop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
               QVBoxLayout *vbox=new QVBoxLayout(pop,3);
               QLabel *tex=new QLabel(pop);
-              tex->setText(i18n("Generating new key pair... please wait ..."));
+              tex->setText(i18n("Generating new key pair. Please wait."));
               vbox->addWidget(tex);
               pop->adjustSize();
               pop->show();
@@ -1237,7 +1237,7 @@ void listKeys::deleteseckey()
   QString res=keysList2->currentItem()->text(0);
 
     int result=KMessageBox::warningYesNo(this,
-                                         i18n("Delete SECRET KEY pair %1?\nDeleting this key pair means you will never be able to decrypt files encrypted with this key anymore!!!").arg(res),
+                                         i18n("Delete SECRET KEY pair %1?\nDeleting this key pair means you will never be able to decrypt files encrypted with this key anymore!").arg(res),
                                          i18n("Warning"),
                                          i18n("Delete"));
     if (result!=KMessageBox::Yes)
@@ -1280,7 +1280,7 @@ void listKeys::deletekey()
 
  void listKeys::slotPreImportKey()
  {
-  popupImport *dial=new popupImport(i18n("Import key from"),this, "import_key");
+  popupImport *dial=new popupImport(i18n("Import Key From"),this, "import_key");
 
   if (dial->exec()==QDialog::Accepted)
   {
@@ -1312,7 +1312,7 @@ void listKeys::deletekey()
 /*
 void listKeys::slotPreImportKey()
 {
-    KURL url=KFileDialog::getOpenURL(QString::null,i18n("*.asc|*.asc files"), this,i18n("Select key file to import"));
+    KURL url=KFileDialog::getOpenURL(QString::null,i18n("*.asc|*.asc Files"), this,i18n("Select Key File to Import"));
     if (url.isEmpty())
         return;
 
@@ -1366,7 +1366,7 @@ void KeyView::refreshkeylist()
 		  if (tst.startsWith("uat"))
             {
               photoKeysList+=item->text(5);
-              itemuid= new SmallViewItem(item,i18n("Photo ID"),uidKey.gpgkeytrust,"-","-","-","-");
+              itemuid= new SmallViewItem(item,i18n("Photo Id"),uidKey.gpgkeytrust,"-","-","-","-");
               itemuid->setPixmap(0,pixuserphoto);
               cycle="uid";
             }
@@ -1487,7 +1487,7 @@ void KeyView::refreshkeylist()
                             }
                         }
                       if (found==false)
-                        (void) new SmallViewItem(item,i18n("Revocation certificate"),"+","+","+","+",currentRevoke);
+                        (void) new SmallViewItem(item,i18n("Revocation Certificate"),"+","+","+","+",currentRevoke);
                     }
 gpgKey pubKey=extractKey(tst);
 
@@ -1576,7 +1576,7 @@ gpgKey pubKey=extractKey(tst);
             }
         }
       if (found==false)
-        (void) new SmallViewItem(item,i18n("Revocation certificate"),"+","+","+","+",currentRevoke);
+        (void) new SmallViewItem(item,i18n("Revocation Certificate"),"+","+","+","+",currentRevoke);
     }
   setSelected(firstChild(),true);
   if (columnWidth(0)>150)

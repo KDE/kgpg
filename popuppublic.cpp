@@ -63,7 +63,7 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
   config->setGroup("General Options");
   bool isascii=config->readBoolEntry("Ascii armor",true);
   bool istrust=config->readBoolEntry("Allow untrusted keys",false);
-  bool hideid=config->readBoolEntry("Hide user ID",false);
+  bool hideid=config->readBoolEntry("Hide user id",false);
   displayMailFirst=config->readBoolEntry("display mail first",true);
   //pgpcomp=config->readBoolEntry("PGP compatibility",false);
   encryptToDefault=config->readBoolEntry("encrypt to default key",false);
@@ -104,9 +104,9 @@ defaultName="";
   
   boutonboxoptions=new QButtonGroup(5,Qt::Vertical ,this,0);  
 
-  CBarmor=new QCheckBox(i18n("ASCII Armored encryption"),boutonboxoptions);
+  CBarmor=new QCheckBox(i18n("ASCII armored encryption"),boutonboxoptions);
   CBuntrusted=new QCheckBox(i18n("Allow encryption with untrusted keys"),boutonboxoptions);
-  CBhideid=new QCheckBox(i18n("Hide user ID"),boutonboxoptions);
+  CBhideid=new QCheckBox(i18n("Hide user id"),boutonboxoptions);
 
 //boutonboxoptions->insert(CBarmor);
 //boutonboxoptions->insert(CBuntrusted);

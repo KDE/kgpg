@@ -22,7 +22,7 @@
 #include "kgpgfast.h"
 
 
-KgpgOverwrite::KgpgOverwrite( QWidget *parent, const char *name, KURL ofile):KDialogBase( parent, name, true, i18n("File already exists"),0)
+KgpgOverwrite::KgpgOverwrite( QWidget *parent, const char *name, KURL ofile):KDialogBase( parent, name, true, i18n("File Already Exists"),0)
 {
     QWidget *page = new QWidget(this);
     direc=ofile.directory(0,0);

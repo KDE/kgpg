@@ -134,7 +134,7 @@ return;
 
 if (kLEimportid->text().isEmpty())
 {
-KMessageBox::sorry(this,i18n("You must enter a search string"));
+KMessageBox::sorry(this,i18n("You must enter a search string."));
 return;
 }
 listpop = new searchres( this,"result",true);
@@ -177,7 +177,7 @@ void keyServer::preimport()
 {
 if (listpop->kLEID->text().isEmpty())
 {
-KMessageBox::sorry(this,i18n("You must choose a key"));
+KMessageBox::sorry(this,i18n("You must choose a key."));
 return;
 }
 kLEimportid->setText(listpop->kLEID->text());
@@ -269,7 +269,7 @@ if (kCBimportks->currentText().isEmpty())
 return;
 if (kLEimportid->text().isEmpty())
 {
-KMessageBox::sorry(this,i18n("You must enter a search string"));
+KMessageBox::sorry(this,i18n("You must enter a search string."));
 return;
 }
 readmessage="";
@@ -332,7 +332,7 @@ QListViewItem *firstserver = kLVservers->firstChild();
 
 void keyServer::slotEditServer()
 {
-KDialogBase *importpop = new KDialogBase(this, "urldialog", true, i18n("Edit a keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
+KDialogBase *importpop = new KDialogBase(this, "urldialog", true, i18n("Edit Keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
               QWidget *page = new QWidget(importpop);
 			  QHBoxLayout *vbox=new QHBoxLayout(page,3);
               KLineEdit *lined=new KLineEdit(page);
@@ -352,7 +352,7 @@ syncCombobox();
 
 void keyServer::slotAddServer()
 {
-KDialogBase *importpop = new KDialogBase(this, "urldialog", true, i18n("Add a keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
+KDialogBase *importpop = new KDialogBase(this, "urldialog", true, i18n("Add Keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
               QWidget *page = new QWidget(importpop);
 			  QHBoxLayout *vbox=new QHBoxLayout(page,3);
               KComboBox *protocol=new KComboBox(page);

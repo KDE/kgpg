@@ -8,12 +8,12 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>325</width>
-            <height>253</height>
+            <width>364</width>
+            <height>273</height>
         </rect>
     </property>
     <property name="caption">
-        <string>Keyserver operation</string>
+        <string>Key Server Operation</string>
     </property>
     <property name="sizeGripEnabled">
         <bool>false</bool>
@@ -76,7 +76,7 @@
                             <cstring>textLabel1_2_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Text to search or ID of the key to import</string>
+                            <string>Text to search or ID of the key to import:</string>
                         </property>
                     </widget>
                     <widget class="KComboBox" row="1" column="0" rowspan="1" colspan="3">
@@ -94,7 +94,7 @@
                             <cstring>textLabel1_3</cstring>
                         </property>
                         <property name="text">
-                            <string>Key Server</string>
+                            <string>Key server:</string>
                         </property>
                     </widget>
                     <widget class="QPushButton" row="5" column="1">
@@ -186,7 +186,7 @@
                             <cstring>textLabel1</cstring>
                         </property>
                         <property name="text">
-                            <string>Key Server</string>
+                            <string>Key server:</string>
                         </property>
                     </widget>
                     <widget class="QLabel" row="2" column="0" rowspan="1" colspan="2">
@@ -194,7 +194,7 @@
                             <cstring>textLabel1_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Key to be exported</string>
+                            <string>Key to be exported:</string>
                         </property>
                     </widget>
                 </grid>
@@ -204,7 +204,7 @@
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>Keyservers</string>
+                    <string>Key Servers</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -230,7 +230,7 @@
                     <widget class="KListView" row="0" column="0" rowspan="4" colspan="1">
                         <column>
                             <property name="text">
-                                <string>Keyservers</string>
+                                <string>Key Servers</string>
                             </property>
                             <property name="clickable">
                                 <bool>true</bool>
@@ -248,7 +248,7 @@
                             <cstring>Buttonedit</cstring>
                         </property>
                         <property name="text">
-                            <string>Edit</string>
+                            <string>Edit...</string>
                         </property>
                     </widget>
                     <widget class="QPushButton" row="3" column="1">
@@ -264,7 +264,7 @@
                             <cstring>Buttonadd</cstring>
                         </property>
                         <property name="text">
-                            <string>Add</string>
+                            <string>Add...</string>
                         </property>
                     </widget>
                 </grid>

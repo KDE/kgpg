@@ -117,7 +117,7 @@ if (qfile.open(IO_ReadOnly))
       {//////  dropped file is a public key, ask for import
         qfile.close();
 
-        int result=KMessageBox::warningContinueCancel(this,i18n("The file %1 is a public key.\nDo you want to import it ?").arg(fname),i18n("Warning"));
+        int result=KMessageBox::warningContinueCancel(this,i18n("The file %1 is a public key.\nDo you want to import it?").arg(fname),i18n("Warning"));
         if (result==KMessageBox::Cancel) return;
         else
         {
@@ -142,10 +142,10 @@ if (qfile.open(IO_ReadOnly))
        /// unknown file type
 	   if (!result.startsWith("-----BEGIN PGP MESSAGE"))
 	   		{
-      		KMessageBox::sorry(0,i18n("Sorry, no encrypted data found..."));
+      		KMessageBox::sorry(0,i18n("Sorry, no encrypted data found."));
       		return;
 			}
-			else enckey=i18n("[No user ID found]");
+			else enckey=i18n("[No user id found]");
       }
     }
 
@@ -154,9 +154,9 @@ QString result(t.read());
 QString resultat=KgpgInterface::KgpgDecryptText(result,enckey);
 KIO::NetAccess::removeTempFile(tempFile);
 if (!resultat.isEmpty()) setText(resultat);
-else KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, missing key or corrupted file"));
+else KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, missing key or corrupted file."));
 }
-else KMessageBox::sorry(this,i18n("Unable to read file..."));
+else KMessageBox::sorry(this,i18n("Unable to read file."));
 }
 
 
@@ -364,7 +364,7 @@ void KgpgView::slotdecode()
 
   encUsers=KgpgInterface::extractKeyName(editor->text());
 
-  if (encUsers.isEmpty()) encUsers=i18n("[No user ID found]");
+  if (encUsers.isEmpty()) encUsers=i18n("[No user id found]");
   
  QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
 
@@ -377,7 +377,7 @@ win->editUndo->setEnabled(false);
  }
 else if (win->commandLineMode)
 {
-KMessageBox::sorry(this,i18n("Decryption failed..."));
+KMessageBox::sorry(this,i18n("Decryption failed."));
 exit(0);
 } 
  }
@@ -387,7 +387,7 @@ void KgpgView::encodetxt(QString &selec,QString encryptOptions)
 {
   //////////////////              encode from editor
   if (pubpgp) encryptOptions+=" --pgp6 ";
- if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not chosen an encryption key..."));return;}
+ if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not chosen an encryption key."));return;}
 
  KgpgInterface *txtCrypt=new KgpgInterface();
  connect (txtCrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(updatetxt(QString)));
@@ -396,14 +396,14 @@ void KgpgView::encodetxt(QString &selec,QString encryptOptions)
  
  //KgpgInterface::KgpgEncryptText(editor->text(),selec,encryptOptions);
  //if (!resultat.isEmpty()) editor->setText(resultat);
- //else KMessageBox::sorry(this,i18n("Decryption failed..."));
+ //else KMessageBox::sorry(this,i18n("Decryption failed."));
 }
 
 void KgpgView::updatetxt(QString newtxt)
 {
 if (!newtxt.isEmpty())
 editor->setText(newtxt);
-else KMessageBox::sorry(this,i18n("Encryption failed..."));
+else KMessageBox::sorry(this,i18n("Encryption failed."));
 }
 
 

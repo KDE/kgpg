@@ -95,7 +95,7 @@ popupImport::popupImport(const QString& caption,QWidget *parent, const char *nam
 void popupImport::slotchooseurl()
 {
   /////////  toggle editing of file name depending of the user choice
-  KURL url=KFileDialog::getOpenURL(QString::null,i18n("*.asc|*.asc files"), this,i18n("Select key file to import"));
+  KURL url=KFileDialog::getOpenURL(QString::null,i18n("*.asc|*.asc Files"), this,i18n("Select Key File to Import"));
   if(!url.isEmpty()) newFilename->setText(url.path());
 
 }

@@ -56,7 +56,7 @@ popupName::popupName(const QString& caption,QWidget *parent, const char *name,KU
   {
   checkClipboard->setText( i18n( "Clipboard" ) );
   checkMail = new QRadioButton( bGroupSources, "checkMail" );
-  checkMail->setText( i18n( "E-Mail" ) );
+  checkMail->setText( i18n( "Email" ) );
   exportAttributes = new QCheckBox(i18n("Export attributes (photo ID)"),page);
   }
   else checkClipboard->setText( i18n( "Editor" ) );
@@ -73,7 +73,7 @@ popupName::popupName(const QString& caption,QWidget *parent, const char *name,KU
  if (email) bGroupSourcesLayout->addWidget( checkMail, 1, 0 );
 
   checkFile = new QRadioButton( bGroupSources, "checkFile" );
-  checkFile->setText( i18n( "File" ) );
+  checkFile->setText( i18n( "File:" ) );
   checkFile->setChecked( TRUE );
 
 
@@ -105,7 +105,7 @@ popupName::popupName(const QString& caption,QWidget *parent, const char *name,KU
 void popupName::slotchooseurl()
 {
   /////////  toggle editing of file name depending of the user choice
-  KURL url=KFileDialog::getSaveURL(path.path(),i18n("*|All files"), this, i18n("Save as..."));
+  KURL url=KFileDialog::getSaveURL(path.path(),i18n("*|All Files"), this, i18n("Save As"));
   if(!url.isEmpty()) newFilename->setText(url.path());
 
 }
