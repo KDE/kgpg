@@ -78,14 +78,10 @@ MyView::MyView( QWidget *parent, const char *name )
 MyView::~MyView()
 {
 
-        if (droppopup) {
-                delete droppopup;
-                droppopup = 0;
-        }
-        if (udroppopup) {
-                delete udroppopup;
-                udroppopup = 0;
-        }
+    delete droppopup;
+    droppopup = 0;
+    delete udroppopup;
+    udroppopup = 0;
 }
 
 
@@ -260,9 +256,13 @@ void  MyView::decryptDroppedFile()
         if (fgpg.exists()) {
                 KgpgOverwrite *over=new KgpgOverwrite(0,"overwrite",swapname);
                 if (over->exec()==QDialog::Accepted)
-                        swapname=KURL(swapname.directory(0,0)+over->getfname());
+                    swapname=KURL(swapname.directory(0,0)+over->getfname());
                 else
-                        return;
+                {
+                    delete over;
+                    return;
+                }
+                delete over;
         }
 
         KgpgLibrary *lib=new KgpgLibrary();
@@ -506,7 +506,8 @@ void  MyView::preferences()
 
 void MyView::slotKeyServerClosed()
 {
-        m_keyServer=0L;
+    delete m_keyServer;
+    m_keyServer=0L;
 }
 
 
@@ -529,10 +530,8 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
 
 kgpgapplet::~kgpgapplet()
 {
-        if (w) {
-                delete w;
-                w = 0L;
-        }
+    delete w;
+    w = 0L;
 }
 
 void kgpgapplet::sloteditor()
@@ -564,14 +563,10 @@ KgpgAppletApp::KgpgAppletApp()
 
 KgpgAppletApp::~KgpgAppletApp()
 {
-        if (s_keyManager) {
-                delete s_keyManager;
-                s_keyManager=0L;
-        }
-        if (kgpg_applet) {
-                delete kgpg_applet;
-                kgpg_applet = 0L;
-        }
+    delete s_keyManager;
+    s_keyManager=0L;
+    delete kgpg_applet;
+    kgpg_applet = 0L;
 }
 
 void KgpgAppletApp::slotHandleQuit()
