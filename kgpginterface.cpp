@@ -1328,7 +1328,7 @@ void KgpgInterface::importKey(QString keystr, bool importSecret)
         /////////////      import a key
         message=QString::null;
         KProcIO *conprocess=new KProcIO();
-        *conprocess<< "gpg"<<"--no-tty"<<"--no-secmem-warning"<<"<<status-fd=2"<<"--import";
+        *conprocess<< "gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--import";
         if (importSecret)
                 *conprocess<<"--allow-secret-key-import";
         QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(importover(KProcess *)));

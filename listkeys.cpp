@@ -2539,7 +2539,7 @@ void KeyView::refreshcurrentkey(QListViewItem *current)
 	if (current->isOpen ()) keyIsOpen=true;
         delete current;
         refreshcurrentkey(keyUpdate);
-	currentItem()->setOpen(keyIsOpen);
+	if (currentItem()->text(6)==keyUpdate) currentItem()->setOpen(keyIsOpen);
 }
 
 
