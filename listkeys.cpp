@@ -816,7 +816,7 @@ void listKeys::slotexportsec()
     {
       FILE *fp;
       strcat(gpgcmd,"gpg --no-tty --armor --export-secret-keys ");
-      strcat(gpgcmd,QString(key+" > "+url.path().latin1()));
+      strcat(gpgcmd,QString(keysList2->currentItem()->text(5)+" > "+url.path()).latin1());
       QFile fgpg(url.path());
       if (fgpg.exists())
         fgpg.remove();
