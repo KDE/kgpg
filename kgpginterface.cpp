@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <stdio.h>
 
 #include <qdialog.h>
 #include <qclipboard.h>
@@ -462,6 +463,19 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
         int counter=0,ppass[2];
         QCString password;
 
+if (getenv("GPG_AGENT_INFO"))
+{
+        gpgcmd="echo ";
+                gpgcmd+=KShellProcess::quote(text);
+                gpgcmd+=" | gpg --no-secmem-warning --no-tty -d";
+
+                fp = popen(QFile::encodeName(gpgcmd), "r");
+                while ( fgets( buffer, sizeof(buffer), fp))
+                        encResult+=buffer;
+                pclose(fp);
+}
+else
+{
         while ((counter<3) && (encResult.isEmpty())) {
                 /// pipe for passphrase
                 counter++;
@@ -492,7 +506,10 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
                         encResult+=buffer;
                 pclose(fp);
         }
-        if (encResult!="")
+        }
+
+
+	if (!encResult.isEmpty())
                 return encResult;
         else
                 return "";
@@ -507,6 +524,18 @@ QString KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QString userID)
         int counter=0,ppass[2];
         QCString password;
 
+if (getenv("GPG_AGENT_INFO"))
+{
+        gpgcmd+="gpg --no-secmem-warning --no-tty -o - -d '";
+                gpgcmd+=srcUrl.path()+"'";
+
+                fp = popen(QFile::encodeName(gpgcmd), "r");
+                while ( fgets( buffer, sizeof(buffer), fp))
+                        encResult+=buffer;
+                pclose(fp);
+}
+else
+{
         while ((counter<3) && (encResult.isEmpty())) {
                 /// pipe for passphrase
                 counter++;
@@ -536,7 +565,8 @@ QString KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QString userID)
                         encResult+=buffer;
                 pclose(fp);
         }
-        if (encResult!="")
+	}
+        if (!encResult.isEmpty())
                 return encResult;
         else
                 return "";
