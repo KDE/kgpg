@@ -1514,7 +1514,7 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
                 }
 		
 		if (required.find("photoid.jpeg.size")!=-1)  {
-			if (KMessageBox::questionYesNo(0,i18n("This image is really large. Use it anyway ?"))==KMessageBox::Yes)
+			if (KMessageBox::questionYesNo(0,i18n("This image is very large. Use it anyway ?"))==KMessageBox::Yes)
                         p->writeStdin("Yes");
 			else 
 			{
