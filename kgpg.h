@@ -32,13 +32,6 @@
 #include <kaction.h>
 #include <kurl.h>
 
-#include "libkdenetwork/cryptplugwrapperlist.h"
-#include "libkdenetwork/cryptplugwrapper.h"
-#include "libkdenetwork/kpgpbase.h"
-#include "libkdenetwork/kpgpkey.h"
-#include "libkdenetwork/kpgpblock.h"
-#include "libkdenetwork/kpgp.h"
-
 #include "listkeys.h"
 #include "kgpgview.h"
 #include "popuppublic.h"
