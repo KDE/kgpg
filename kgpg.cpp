@@ -230,12 +230,19 @@ void MyView::clickedConfMenu(int id)
 
 void  MyView::openKeyServer() 
 {
-keyServer *ks=new keyServer(0,"server_dialog");
-ks->exec();
-delete ks;
+if(!m_keyServer)
+{
+//keyServer *ks
+m_keyServer=new keyServer(0,"server_dialog",false,WDestructiveClose);
+connect( m_keyServer , SIGNAL( destroyed() ) , this, SLOT( slotKeyServerClosed()));
+}
+m_keyServer->show();
+KWin::setOnDesktop( m_keyServer->winId() , KWin::currentDesktop() );  //set on the current desktop
+KWin::deIconifyWindow( m_keyServer->winId());  //de-iconify window
+m_keyServer->raise();  // set on top
 }
 
-void  MyView::openKeyManager() 
+void  MyView::openKeyManager()
 {
 	if(!m_keyManager)
 	{
@@ -244,10 +251,11 @@ void  MyView::openKeyManager()
 	}
 	m_keyManager->show();
 	KWin::setOnDesktop( m_keyManager->winId() , KWin::currentDesktop() );  //set on the current desktop
+	KWin::deIconifyWindow( m_keyManager->winId());  //de-iconify window
 	m_keyManager->raise();  // set on top
 }
 
-void  MyView::clipEncrypt() 
+void  MyView::clipEncrypt()
 {
 popupPublic *dialoguec=new popupPublic(this, "public_keys", 0,false);
 connect(dialoguec,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(encryptClipboard(QString &,QString)));
@@ -372,7 +380,6 @@ lib->slotFileDec(droppedUrl,swapname,customDecrypt);
 
 void  MyView::showDroppedFile()
 {
-
 KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose);
    kgpgtxtedit->view->editor->droppedfile(droppedUrl);
    kgpgtxtedit->show();
@@ -551,6 +558,10 @@ void MyView::slotKeyManagerClosed()
 	m_keyManager=0L;
 }
 
+void MyView::slotKeyServerClosed()
+{
+	m_keyServer=0L;
+}
 
 
 kgpgapplet::kgpgapplet()

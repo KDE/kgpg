@@ -599,6 +599,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   KAction *infoKey = new KAction(i18n("&Key Info"), "kgpg_info", Qt::Key_Return,this, SLOT(listsigns()),actionCollection(),"key_info");
   KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", KStdAccel::shortcut(KStdAccel::Paste),this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
   KAction *setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
+KAction *importSignKey = new KAction(i18n("Import Key from Keyserver"),0, 0,this, SLOT(importsignkey()),actionCollection(),"key_importsign");
 
   KStdAction::quit(this, SLOT(annule()), actionCollection());
   (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
@@ -608,6 +609,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   KAction *generateKey = new KAction(i18n("&Generate Key Pair..."), "kgpg_gen", KStdAccel::shortcut(KStdAccel::New),this, SLOT(slotgenkey()),actionCollection(),"key_gener");
   KToggleAction *togglePhoto= new KToggleAction(i18n("&Show Photos"), "kgpg_photo", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
   (void) new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(keyserver()),actionCollection(),"key_server");
+  KStdAction::preferences(this, SLOT(slotOptions()), actionCollection());
 
 
   //KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
@@ -654,6 +656,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
 
   popupsig=new QPopupMenu();
   delSignKey->plug(popupsig);
+  importSignKey->plug(popupsig);
 
   keyPhoto=new QLabel(page);
   keyPhoto->setText(i18n("Photo"));
@@ -766,6 +769,8 @@ void listKeys::saveOptions()
   config->writeEntry("default key",defaultkey);
 }
 */
+
+
 void listKeys::readOptions()
 {
   config->setGroup("General Options");
@@ -789,8 +794,7 @@ void listKeys::readOptions()
 }
 
 
-/*
-void listKeys::slotParentOptions()
+void listKeys::slotOptions()
 {
   kgpgOptions *opts=new kgpgOptions(this);
   opts->exec();
@@ -798,14 +802,14 @@ void listKeys::slotParentOptions()
   readOptions();
   refreshkey();
 }
-*/
 
 void listKeys::slotSetDefKey()
 {
   QString block=i18n("Invalid")+" "+i18n("Disabled")+" "+i18n("Revoked")+" "+i18n("Expired")+" "+i18n("?");
   QString key=keysList2->currentItem()->text(5);
 
-  if  (keysList2->defKey=="")
+config->setGroup("General Options");
+  if  (!config->readBoolEntry("encrypt to default key",false))
   {
     KMessageBox::sorry(this,i18n("Before setting a default key, you must enable default key encryption in the options dialog."));
     return;
@@ -832,13 +836,6 @@ void listKeys::slotSetDefKey()
 
   config->setGroup("General Options");
   config->writeEntry("default key",keysList2->defKey);
-
-  /*
-    KgpgApp *win=(KgpgApp *) parent();
-    win->defaultkey=defKey;
-
-    win->view->pubdefaultkey=defKey;
-    win->saveOptions();*/
 }
 
 void listKeys::slotstatus(QListViewItem *)
@@ -1079,6 +1076,27 @@ void listKeys::signatureResult(int success)
 }
 
 
+void listKeys::importsignkey()
+{
+  ///////////////  sign a key
+  if (keysList2->currentItem()==NULL)
+    return;
+kServer=new keyServer(0,"server_dialog",false,WDestructiveClose);
+kServer->kLEimportid->setText(keysList2->currentItem()->text(5));
+//kServer->Buttonimport->setDefault(true);
+kServer->slotImport();
+//kServer->show();
+connect( kServer->importpop, SIGNAL( destroyed() ) , this, SLOT( importfinished()));
+//connect( kServer , SIGNAL( destroyed() ) , this, SLOT( refreshkey()));
+ }
+
+
+void listKeys::importfinished()
+{
+if (kServer) kServer=0L;
+ refreshkey();
+}
+
 
 void listKeys::delsignkey()
 {
@@ -1115,7 +1133,7 @@ void listKeys::delsignkey()
 
 void listKeys::delsignatureResult(bool success)
 {
-  if (success==true)
+  if (success)
     refreshkey();
   else
     KMessageBox::sorry(this,i18n("Requested operation was unsuccessful, please edit the key manually."));

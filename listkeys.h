@@ -58,6 +58,7 @@
 #include "popupimport.h"
 #include "popupname.h"
 #include "kgpgoptions.h"
+#include "keyservers.h"
 
 typedef struct gpgKey{
   QString gpgkeymail;
@@ -133,7 +134,7 @@ class listKeys : public KMainWindow//QDialog //KMainWindow
 {
 friend class KeyView;
   Q_OBJECT
-  
+
   public:
   listKeys(QWidget *parent=0, const char *name=0,WFlags f = 0);
   ~listKeys();
@@ -149,7 +150,7 @@ QDialog *pop;
 QPushButton *bouton1,*bouton2,*bouton0;
 KConfig *config;
 QString tempKeyFile;
-
+keyServer *kServer;
 KTempFile *kgpgtmp;
 bool showPhoto,configshowToolBar;
 
@@ -170,7 +171,7 @@ void hidePhoto();
 void slotProcessPhoto(KProcess *);
 void readOptions();
 void genover(KProcess *p);
-//void slotParentOptions();
+void slotOptions();
 void slotSetDefKey();
 void annule();
 void confirmdeletekey();
@@ -178,6 +179,8 @@ void deletekey();
 void deleteseckey();
 void signkey();
 void delsignkey();
+void importsignkey();
+void importfinished();
 void signatureResult(int);
 void delsignatureResult(bool);
 void listsigns();

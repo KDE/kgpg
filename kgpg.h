@@ -61,7 +61,7 @@ class MyView : public QLabel
 {
 
    Q_OBJECT
-   
+
 public:
     MyView( QWidget *parent = 0, const char *name = 0);
 	~MyView();
@@ -84,6 +84,8 @@ QString customDecrypt;
 QString filekey;
 
 class listKeys *m_keyManager;
+class keyServer *m_keyServer;
+
 
 #if (KDE_VERSION >= 310)
 KPassivePopup *pop;
@@ -116,6 +118,7 @@ void  clipEncrypt();
 void clickedMenu(int);
 void clickedConfMenu(int);
 void slotKeyManagerClosed();
+void slotKeyServerClosed();
 
 protected:
 void mousePressEvent(QMouseEvent *);

@@ -24,7 +24,7 @@
 #include <qtextcodec.h>
  #include "keyservers.h"
 
-keyServer::keyServer(QWidget *parent, const char *name):Keyserver( parent, name)
+keyServer::keyServer(QWidget *parent, const char *name,bool modal,WFlags f):Keyserver( parent, name,modal,f)
 {
 kLVservers->setFullWidth(true);
 
@@ -147,12 +147,24 @@ if (kLEimportid->text().isEmpty())
 KMessageBox::sorry(this,i18n("You must enter a search string."));
 return;
 }
-listpop = new searchres( this,"result",true);
+
+listpop = new KeyServer( this,"result",WType_Dialog | WShowModal);
+//KStatusBar *searchStatusBar=new KStatusBar(listpop);
               listpop->setMinimumWidth(250);
               listpop->adjustSize();
+sBar=listpop->statusBar();
+sBar->setSizeGripEnabled(false);
+statusmsg = new QLabel(sBar);
+sBar->addWidget(statusmsg,3,true);
+statusmsg->setText(i18n("Connecting to the server..."));
+//sBar->message(i18n("Connecting to the server..."));
+sBar->show();
+
 			  listpop->show();
 connect(listpop->kLVsearch,SIGNAL(selectionChanged()),this,SLOT(transferKeyID()));
 connect(listpop->buttonOk,SIGNAL(clicked()),this,SLOT(preimport()));
+connect(listpop->buttonCancel,SIGNAL(clicked()),this,SLOT(abortSearch()));
+connect( listpop , SIGNAL( destroyed() ) , this, SLOT( abortSearch()));
 count=0;
 cycle=false;
 readmessage="";
@@ -168,6 +180,7 @@ else *searchproc<<	"--keyserver-options"<<"no-honor-http-proxy";
 *searchproc<<"--keyserver"<<keyserv<<"--command-fd=0"<<"--status-fd=2"<<"--search-keys"<<kLEimportid->text().stripWhiteSpace().local8Bit();
 
    keyNumbers=0;
+   /*
 	  importpop = new QDialog( this,0,true);
               QVBoxLayout *vbox=new QVBoxLayout(importpop,3);
               QLabel *tex=new QLabel(importpop);
@@ -179,7 +192,7 @@ else *searchproc<<	"--keyserver-options"<<"no-honor-http-proxy";
               importpop->adjustSize();
 			  importpop->show();
 connect(Buttonabort,SIGNAL(clicked()),this,SLOT(abortSearch()));
-	  
+*/
 	  QObject::connect(searchproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotsearchresult(KProcess *)));
       QObject::connect(searchproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotsearchread(KProcIO *)));
       searchproc->start(KProcess::NotifyOnExit,true);
@@ -187,8 +200,8 @@ connect(Buttonabort,SIGNAL(clicked()),this,SLOT(abortSearch()));
 
 void keyServer::abortSearch()
 {
-delete importpop;
-delete searchproc;
+//delete importpop;
+if (searchproc) delete searchproc;
 delete listpop;
 }
 
@@ -222,9 +235,10 @@ void keyServer::slotsearchresult(KProcess *)
 delete importpop;
 QString nb;
 nb=nb.setNum(keyNumbers);
-listpop->kLVsearch->setColumnText(0,i18n("Found %1 matching keys").arg(nb));
+//listpop->kLVsearch->setColumnText(0,i18n("Found %1 matching keys").arg(nb));
+statusmsg->setText(i18n("Found %1 matching keys").arg(nb));
 
-if (listpop->kLVsearch->firstChild()!=NULL) 
+if (listpop->kLVsearch->firstChild()!=NULL)
 {
 listpop->kLVsearch->setSelected(listpop->kLVsearch->firstChild(),true);
 transferKeyID();
@@ -354,15 +368,15 @@ connect(Buttonabort,SIGNAL(clicked()),this,SLOT(abortImport()));
 
 void keyServer::abortImport()
 {
-delete importpop;
-delete importproc;
+if (importpop) delete importpop;
+if (importproc) delete importproc;
 }
 
 
 void keyServer::slotimportresult(KProcess*)
 {
-delete importpop;
 KMessageBox::information(this,readmessage);
+if (importpop) delete importpop;
 }
 
 void keyServer::slotimportread(KProcIO *p)

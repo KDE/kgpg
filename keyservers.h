@@ -35,7 +35,9 @@
 #include <kprocess.h>
 #include <kprocio.h>
 #include <klistview.h>
+#include <kstatusbar.h>
 #include <kurl.h>
+
 #include "keyserver.h"
 #include "searchres.h"
 
@@ -43,8 +45,10 @@ class keyServer : public Keyserver
 {
   Q_OBJECT
   public:
- keyServer(QWidget *parent=0, const char *name=0);
+ keyServer(QWidget *parent=0, const char *name=0,bool modal=false, WFlags f = 0);
  ~keyServer();
+
+ QDialog *importpop;
 
  public slots:
  void abortImport();
@@ -73,8 +77,10 @@ void slotEnableProxyE(bool on);
   uint keyNumbers;
   QString readmessage;
   KProcIO *importproc,*searchproc;
-  QDialog *importpop;
-  searchres *listpop;
+
+  KeyServer *listpop;
+  QStatusBar *sBar;
+QLabel *statusmsg;
   int count;
   bool cycle;
   KListViewItem *kitem;
