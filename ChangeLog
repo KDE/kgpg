@@ -1,4 +1,8 @@
 cvs version
+
+-folder encryption (initial support)
+-integrate KAddress Book facilities (export key to address book)
+-key import gives more infos
 -use of gpg-agent can be enabled/disabled from settings dialog
 -fixed message after exporting a key to keyserver
 -changed default keyservers
