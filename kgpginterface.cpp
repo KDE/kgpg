@@ -1512,6 +1512,18 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
                         p->writeStdin(photoUrl);
                         required=QString::null;
                 }
+		
+		if (required.find("photoid.jpeg.size")!=-1)  {
+			if (KMessageBox::questionYesNo(0,i18n("This image is really large. Use it anyway ?"))==KMessageBox::Yes)
+                        p->writeStdin("Yes");
+			else 
+			{
+			p->writeStdin("No");
+			p->writeStdin("");
+			p->writeStdin("quit");
+			}
+                        required=QString::null;
+                }
 
                 if (required.find("passphrase.enter")!=-1) {
                         QCString delpass;
