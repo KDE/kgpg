@@ -110,7 +110,7 @@ public:
          * @param signKeyMail QString the name of the signing key (only used to prompt user for passphrase)
          * @param local bool should the signature be local
          */
-        void KgpgSignKey(QString keyID="",QString signKeyID="",QString signKeyMail="",bool local=false);
+        void KgpgSignKey(QString keyID="",QString signKeyID="",QString signKeyMail="",bool local=false,int checking=0);
 
         /**Key signature deletion function
          * @param keyID QString the ID of the key
@@ -303,7 +303,7 @@ private:
         QString message,tempKeyFile,userIDs,txtprocess,output;
         QCString passphrase;
         bool deleteSuccess,konsLocal,anonymous,txtsent,decfinished,decok,badmdc;
-        int signSuccess,expSuccess,trustValue;
+        int signSuccess,expSuccess,trustValue,konsChecked;
         int step,signb,sigsearch,expirationDelay;
         QString konsSignKey, konsKeyID,errMessage;
         KURL sourceFile;

@@ -39,6 +39,7 @@
 #include <qpalette.h>
 #include <qcolor.h>
 #include <qtooltip.h>
+#include <qwizard.h>
 
 #include <kmainwindow.h>
 #include <kurl.h>
@@ -91,10 +92,12 @@ class KgpgSelKey : public KDialogBase
         Q_OBJECT
 
 public:
-        KgpgSelKey( QWidget *parent = 0, const char *name = 0,bool showlocal=true);
+        KgpgSelKey( QWidget *parent = 0, const char *name = 0);
         KListView *keysListpr;
         QPixmap keyPair;
         QCheckBox *local;
+	QVBoxLayout *vbox;
+	QWidget *page;
 private slots:
         void slotOk();
         void slotpreOk();
@@ -103,7 +106,6 @@ private slots:
 public slots:
         QString getkeyID();
         QString getkeyMail();
-        bool getlocal();
 };
 
 
@@ -169,7 +171,6 @@ public:
         QPopupMenu *popup,*popupsec,*popupout,*popupsig;
         QString message, optionsDefaultKey,configUrl;
         QStringList keynames;
-
         QDialog *pop;
 
 private:
@@ -182,6 +183,7 @@ private:
         KAction *importSignatureKey, *editKey,*setDefaultKey,*importAllSignKeys,*signKey;
         QPtrList<QListViewItem> signList;
         uint globalCount;
+	int globalChecked;
         bool globalisLocal;
         QString globalkeyMail,globalkeyID;
 

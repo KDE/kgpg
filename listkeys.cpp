@@ -326,10 +326,10 @@ void KgpgKeyInfo::slotPreOk2(int)
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////   Secret key selection dialog, used when user wants to sign a key
-KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialogBase( parent, name, true,i18n("Private Key List"),Ok | Cancel)
+KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, name, true,i18n("Private Key List"),Ok | Cancel)
 {
         QString keyname;
-        QWidget *page = new QWidget(this);
+        page = new QWidget(this);
         QLabel *labeltxt;
         KIconLoader *loader = KGlobal::iconLoader();
 
@@ -348,14 +348,10 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
         keysListpr->setFullWidth(true);
 
         labeltxt=new QLabel(i18n("Choose secret key for signing:"),page);
-        QVBoxLayout *vbox=new QVBoxLayout(page,3);
+        vbox=new QVBoxLayout(page,3);
 
         vbox->addWidget(labeltxt);
         vbox->addWidget(keysListpr);
-        if (showlocal) {
-                local = new QCheckBox(i18n("Local signature (cannot be exported)"),page);
-                vbox->addWidget(local);
-        }
 
         FILE *fp,*fp2;
         QString tst,tst2;
@@ -525,11 +521,6 @@ QString KgpgSelKey::getkeyMail()
         }
 }
 
-bool KgpgSelKey::getlocal()
-{
-        /////  emit exportation choice
-        return(local->isChecked());
-}
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -1179,9 +1170,8 @@ void listKeys::signkey()
                 return;
         }
 
-        bool islocal=false;
-        QString keyID,keyMail;
-        if (signList.count()==1) {
+
+	if (signList.count()==1) {
                 FILE *pass;
                 char line[200]="";
                 QString opt,fingervalue;
@@ -1216,13 +1206,29 @@ void listKeys::signkey()
         }
 
 
-        //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
-        KgpgSelKey *opts=new KgpgSelKey(this);
+        //////////////////  open a secret key selection dialog (KgpgSelKey, see begining of this file)
+	KgpgSelKey *opts=new KgpgSelKey(this);
+
+	QLabel *signCheck = new QLabel(i18n("How carefully have you checked that the key(s) really\n"
+									"belongs to the person(s) you want to communicate with:"),opts->page);
+        opts->vbox->addWidget(signCheck);
+	QComboBox *signTrust=new QComboBox(opts->page);
+	signTrust->insertItem(i18n("I will not answer"));
+	signTrust->insertItem(i18n("I have not checked at all"));
+	signTrust->insertItem(i18n("I have done casual checking"));
+	signTrust->insertItem(i18n("I have done very careful checking"));
+        opts->vbox->addWidget(signTrust);
+
+	QCheckBox *localSign = new QCheckBox(i18n("Local signature (cannot be exported)"),opts->page);
+        opts->vbox->addWidget(localSign);
+	opts->setMinimumHeight(300);
+	opts->setMaximumWidth(250);
 
         if (opts->exec()==QDialog::Accepted) {
-                keyID=QString(opts->getkeyID());
-                keyMail=QString(opts->getkeyMail());
-                islocal=opts->getlocal();
+                globalkeyID=QString(opts->getkeyID());
+                globalkeyMail=QString(opts->getkeyMail());
+                globalisLocal=localSign->isChecked();
+		globalChecked=signTrust->currentItem();
         } else {
                 delete opts;
                 return;
@@ -1233,9 +1239,6 @@ void listKeys::signkey()
         //for ( uint i = 0; i < signList.count(); ++i )
 
         globalCount=0;
-        globalkeyID=keyID;
-        globalkeyMail=keyMail;
-        globalisLocal=islocal;
         signLoop();
 }
 
@@ -1245,7 +1248,7 @@ void listKeys::signLoop()
 
                 if ( signList.at(globalCount) ) {
                         KgpgInterface *signKeyProcess=new KgpgInterface();
-                        signKeyProcess->KgpgSignKey(signList.at(globalCount)->text(5),globalkeyID,globalkeyMail,globalisLocal);
+                        signKeyProcess->KgpgSignKey(signList.at(globalCount)->text(5),globalkeyID,globalkeyMail,globalisLocal,globalChecked);
                         connect(signKeyProcess,SIGNAL(signatureFinished(int)),this,SLOT(signatureResult(int)));
                         while (signList.at(globalCount)->firstChild()!=0)
                                 delete signList.at(globalCount)->firstChild();

@@ -292,7 +292,7 @@ void KgpgView::clearSign()
                 QCString password;
 
                 ///// open key selection dialog
-                KgpgSelKey *opts=new KgpgSelKey(this,0,false);
+                KgpgSelKey *opts=new KgpgSelKey(this,0);
 
                 if (opts->exec()==QDialog::Accepted) {
                         signKeyID=opts->getkeyID();

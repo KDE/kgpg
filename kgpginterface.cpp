@@ -819,11 +819,12 @@ void KgpgInterface::verifyfin(KProcess *)
 
 ////////////////////////////////////////////////////////////   sign a key
 
-void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyMail,bool local)
+void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyMail,bool local,int checking)
 {
 
         signKeyMail.replace(QRegExp("<"),"&lt;");
-        konsLocal=local;
+        konsChecked=checking;
+	konsLocal=local;
         konsSignKey=signKeyID;
         konsKeyID=keyID;
 	errMessage="";
@@ -895,7 +896,7 @@ void KgpgInterface::sigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                         required="";
                 }
                 if (required.find("sign_uid.class")!=-1) {
-                        p->writeStdin("");
+                        p->writeStdin(QString::number(konsChecked));
                         required="";
                 }
                 if (required.find("sign_uid.okay")!=-1) {

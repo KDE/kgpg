@@ -223,7 +223,7 @@ void  MyView::signDroppedFile()
 
         QString signKeyID;
         //////////////////   select a private key to sign file --> listkeys.cpp
-        KgpgSelKey *opts=new KgpgSelKey(0,"select_secret",false);
+        KgpgSelKey *opts=new KgpgSelKey(0,"select_secret");
         if (opts->exec()==QDialog::Accepted)
                 signKeyID=opts->getkeyID();
         else {
@@ -588,12 +588,14 @@ void KgpgAppletApp::slotHandleQuit()
         quit();
 }
 
+
 int KgpgAppletApp::newInstance()
 {
         kdDebug()<<"New instance\n";
         args = KCmdLineArgs::parsedArgs();
         if ( kgpg_applet ) {
-                kgpg_applet->show();
+	kdDebug()<<"Already running\n";
+               kgpg_applet->show();
         } else {
                 kdDebug() << "Starting KGpg\n";
                 s_keyManager=new listKeys(0, "key_manager");

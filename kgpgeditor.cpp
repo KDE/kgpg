@@ -354,7 +354,7 @@ void KgpgApp::slotSignFile(KURL url)
         QString signKeyID;
         if (!url.isEmpty()) {
                 //////////////////   select a private key to sign file --> listkeys.cpp
-                KgpgSelKey *opts=new KgpgSelKey(this,"select_secret",false);
+                KgpgSelKey *opts=new KgpgSelKey(this,"select_secret");
                 if (opts->exec()==QDialog::Accepted)
                         signKeyID=opts->getkeyID();
                 else {
