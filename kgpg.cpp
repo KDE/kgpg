@@ -659,9 +659,10 @@ void  MyView::help()
 
 void  MyView::preferences()
 {
-        if (KConfigDialog::showDialog("settings"))
-                return;
-        kgpgOptions *optsDialog=new kgpgOptions(this,"settings");
+        KConfigDialog *optsDialog=KConfigDialog::exists("settings");
+        if (!optsDialog)
+                optsDialog=new kgpgOptions(this,"settings");
+        disconnect(optsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAgain1()));
         connect(optsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAgain1()));
         optsDialog->show();
 }
