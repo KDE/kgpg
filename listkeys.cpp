@@ -91,19 +91,26 @@ void UpdateViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, in
 
 QString UpdateViewItem :: key(int c,bool ) const{
   QString s;
-  if(c==3)
+  if ((c==2) || (c==4))
+  {
+  QDate d = KGlobal::locale()->readDate(text(c));
+  if (d.isValid())
+  s.sprintf("%08d",d.toString("yyyyMMdd").toInt());
+  else s.sprintf("%08d",50000000);  // unlimited expiration dates are handeled as year 5000, so that they are correctly sorted
+  }
+  if (c==3)
     /* sorting by int */
     s.sprintf("%08d",text(c).toInt());
-  else if(c==1)
+   if (c==1)
     /* sorting by pixmap */
     s.sprintf("%08d",pixmap(c)->serialNumber());
-  else {
+  else if ((c==0) || (c==5))
     /* sorting alphanumeric */
     s.sprintf("%s",text(c).ascii());
-  }
 
-  return s;
+    return s;
 }
+
 
 class SmallViewItem : public KListViewItem
 {
