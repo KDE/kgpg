@@ -646,7 +646,7 @@ int KgpgAppletApp::newInstance()
                                 kgpg_applet->w->signDroppedFile();
                         else if (args->isSet("V")!=0)
                                 kgpg_applet->w->slotVerifyFile();
-                        else if (FileToOpen.filename().endsWith(".sig"))
+                        else if (kgpg_applet->w->droppedUrl.filename().endsWith(".sig"))
                                 kgpg_applet->w->slotVerifyFile();
                         else
                                 kgpg_applet->w->decryptDroppedFile();
