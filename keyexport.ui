@@ -60,7 +60,7 @@
                         <cstring>checkFile</cstring>
                     </property>
                     <property name="text">
-                        <string>File</string>
+                        <string>File:</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
