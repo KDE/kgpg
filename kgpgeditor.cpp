@@ -119,7 +119,7 @@ void KgpgApp::initView()
 void KgpgApp::slotFileQuit()
 {
         saveOptions();
-        close();
+        exit(1);
 }
 
 void KgpgApp::slotResetEncoding(bool enc)

@@ -535,7 +535,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     //        (void) new KAction(i18n("&Merge Public Keys in Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
     (void) new KAction(i18n("&Go to Default Key"), "gohome",QKeySequence(CTRL+Qt::Key_Home) ,this, SLOT(slotGotoDefaultKey()),actionCollection(),"go_default_key");
 
-    KStdAction::quit(this, SLOT(annule()), actionCollection());
+    KStdAction::quit(this, SLOT(slotExit()), actionCollection());
     KStdAction::find(this, SLOT(findKey()), actionCollection());
     KStdAction::findNext(this, SLOT(findNextKey()), actionCollection());
     (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
@@ -1183,6 +1183,10 @@ void listKeys::annule()
     close();
 }
 
+void listKeys::slotExit()
+{
+exit(1);
+}
 
 void listKeys::readOptions()
 {
