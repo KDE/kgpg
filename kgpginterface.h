@@ -320,6 +320,7 @@ signals:
 	void revokeurl(QString);
         void expirationFinished(int);
 	void signalPhotoList(QStringList);
+	void passwordChanged();
 
 
 

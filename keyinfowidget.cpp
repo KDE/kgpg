@@ -17,25 +17,19 @@
 
  #include "keyinfowidget.h"
 
-
-
-KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDialogBase( parent, name, true,i18n("Key Properties"), KDialogBase::Ok | KDialogBase::Cancel )
+KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDialogBase( Swallow, i18n("Key Properties"), Close, Close, parent, name,true)
 {
-	QColor trustColor;
-        QString fingervalue;
+	
         FILE *pass;
         char line[200]="";
         QString gpgOutput,fullID;
         hasPhoto=false;
 	bool isSecret=false;
-
-	//QWidget *page=new QWidget(this);
-	//QVBoxLayout *vbox=new QVBoxLayout(page);
-	prop=new KeyProperties(this);
-
-
-	QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --list-secret-key "+KShellProcess::quote(sigkey.local8Bit());
-
+	keyWasChanged=false;
+	
+	prop=new KeyProperties();
+	setMainWidget(prop);
+	QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --list-secret-key "+KShellProcess::quote(sigkey);
         pass=popen(QFile::encodeName(gpgcmd),"r");
         while ( fgets( line, sizeof(line), pass)) {
                 gpgOutput=line;
@@ -44,12 +38,38 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
 	 pclose(pass);
 
         if (!isSecret) {
-                prop->changeExp->hide();//setEnabled(true);
-                prop->changePass->hide();//setEnabled(true);
-//		prop->changePhoto->setText(i18n("Edit Photo"));
+                prop->changeExp->hide();
+                prop->changePass->hide();
 		        }
+	loadKey(sigkey);
 
-	gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key "+KShellProcess::quote(sigkey.local8Bit());
+        if (hasPhoto) {
+	KgpgInterface *photoProcess=new KgpgInterface();
+        photoProcess->KgpgGetPhotoList(displayedKeyID);
+	connect(photoProcess,SIGNAL(signalPhotoList(QStringList)),this,SLOT(slotSetMainPhoto(QStringList)));
+        }
+	else
+	prop->comboId->setEnabled(false);
+
+	connect(prop->changeExp,SIGNAL(clicked()),this,SLOT(slotChangeExp()));
+        connect(this,SIGNAL(closeClicked()),this,SLOT(slotPreOk()));
+        connect(prop->changePass,SIGNAL(clicked()),this,SLOT(slotChangePass()));
+	connect(prop->comboId,SIGNAL(activated (const QString &)),this,SLOT(reloadMainPhoto(const QString &)));
+	connect(prop->kCOwnerTrust,SIGNAL(activated (const QString &)),this,SLOT(slotChangeTrust(const QString &)));
+	connect(this,SIGNAL(changeMainPhoto(const QPixmap&)),this,SLOT(slotSetPhoto(const QPixmap&)));
+
+	setMinimumSize(sizeHint());
+}
+
+void KgpgKeyInfo::loadKey(QString Keyid)
+{
+QColor trustColor;
+QString fingervalue;
+FILE *pass;
+char line[200]="";
+QString gpgOutput,fullID;
+
+QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key "+KShellProcess::quote(Keyid);
 
         pass=popen(QFile::encodeName(gpgcmd),"r");
         while ( fgets( line, sizeof(line), pass)) {
@@ -203,37 +223,6 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
                 }
         }
         pclose(pass);
-
-        if (hasPhoto) {
-        /*        kgpginfotmp=new KTempFile();
-                kgpginfotmp->setAutoDelete(true);
-                QString pgpgOutput="cp %i "+kgpginfotmp->name();
-                KProcIO *p=new KProcIO();
-                *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(pgpgOutput)<<"--list-keys"<<fullID;
-                QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotinfoimgread(KProcess *)));
-                p->start(KProcess::NotifyOnExit,true);*/
-
-	KgpgInterface *photoProcess=new KgpgInterface();
-        photoProcess->KgpgGetPhotoList(displayedKeyID);
-	connect(photoProcess,SIGNAL(signalPhotoList(QStringList)),this,SLOT(slotSetMainPhoto(QStringList)));
-        }
-	else
-	prop->comboId->setEnabled(false);
-
-	connect(prop->changeExp,SIGNAL(clicked()),this,SLOT(slotChangeExp()));
-        connect(this,SIGNAL(okClicked()),this,SLOT(slotPreOk1()));
-        connect(prop->changePass,SIGNAL(clicked()),this,SLOT(slotChangePass()));
-	connect(prop->comboId,SIGNAL(activated (const QString &)),this,SLOT(reloadMainPhoto(const QString &)));
-//	if (!isSecret) connect(prop->changePhoto,SIGNAL(clicked()),this,SLOT(openPhoto()));
-//	else connect(prop->changePhoto,SIGNAL(clicked()),this,SLOT(slotManagePhoto()));
-	connect(this,SIGNAL(changeMainPhoto(const QPixmap&)),this,SLOT(slotSetPhoto(const QPixmap&)));
-
-
-//vbox->addWidget(prop);
-prop->show();
-prop->resize(prop->maximumSize());
-setMainWidget(prop);
-show();
 }
 
 void KgpgKeyInfo::slotSetMainPhoto(QStringList list)
@@ -331,6 +320,13 @@ void KgpgKeyInfo::slotChangeDate()
 {
 if (kb->isChecked()) prop->tLExpiration->setText(i18n("Unlimited"));
 else prop->tLExpiration->setText(KGlobal::locale()->formatDate(kdt->getDate()));
+
+KgpgInterface *KeyExpirationProcess=new KgpgInterface();
+		if (prop->tLExpiration->text()==i18n("Unlimited"))
+                KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,QDate::currentDate(),true);
+		else
+		KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,KGlobal::locale()->readDate(prop->tLExpiration->text()),false);
+                connect(KeyExpirationProcess,SIGNAL(expirationFinished(int)),this,SLOT(slotInfoExpirationChanged(int)));
 }
 
 void KgpgKeyInfo::slotEnableDate(bool isOn)
@@ -351,35 +347,42 @@ void KgpgKeyInfo::slotChangePass()
 {
         KgpgInterface *ChangeKeyPassProcess=new KgpgInterface();
         ChangeKeyPassProcess->KgpgChangePass(displayedKeyID);
+	connect(ChangeKeyPassProcess,SIGNAL(passwordChanged()),this,SLOT(slotInfoPasswordChanged()));
 }
 
-void KgpgKeyInfo::slotPreOk1()
+void KgpgKeyInfo::slotChangeTrust(const QString &newTrust)
 {
-if ((expirationDate==prop->tLExpiration->text()) && (ownerTrust==prop->kCOwnerTrust->currentText())) return;
-        if (expirationDate!=prop->tLExpiration->text()) {
-                KgpgInterface *KeyExpirationProcess=new KgpgInterface();
-		if (prop->tLExpiration->text()==i18n("Unlimited"))
-                KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,QDate::currentDate(),true);
-		else
-		KeyExpirationProcess->KgpgKeyExpire(displayedKeyID,KGlobal::locale()->readDate(prop->tLExpiration->text()),false);
-                connect(KeyExpirationProcess,SIGNAL(expirationFinished(int)),this,SLOT(slotPreOk2(int)));
-        } else
-                slotPreOk2(0);
+        KgpgInterface *KeyTrustProcess=new KgpgInterface();
+                KeyTrustProcess->KgpgTrustExpire(displayedKeyID,newTrust);
+                connect(KeyTrustProcess,SIGNAL(trustfinished()),this,SLOT(slotInfoTrustChanged()));
+}
+		
+		
+void KgpgKeyInfo::slotInfoPasswordChanged()
+{
+KPassivePopup::message(i18n("Passphrase for the key was changed"),QString::null,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this);
 }
 
-void KgpgKeyInfo::slotPreOk2(int)
+void KgpgKeyInfo::slotInfoTrustChanged()
 {
-        if (ownerTrust!=prop->kCOwnerTrust->currentText()) {
-                KgpgInterface *KeyTrustProcess=new KgpgInterface();
-                KeyTrustProcess->KgpgTrustExpire(displayedKeyID,prop->kCOwnerTrust->currentText());
-                connect(KeyTrustProcess,SIGNAL(trustfinished()),this,SLOT(keyNeedsRefresh()));
-        } else
-                slotAccept();
+keyWasChanged=true;
+loadKey(displayedKeyID);
+//KPassivePopup::message(i18n("Owner trust of the key was changed"),QString::null,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this,0,600);
 }
 
-void KgpgKeyInfo::slotAccept()
+void KgpgKeyInfo::slotInfoExpirationChanged(int res)
 {
-//kdDebug()<<"Key was modified"<<endl;
-emit keyNeedsRefresh();
+QString infoMessage,infoText;
+if (res==3) keyWasChanged=true;
+if (res==2) {
+infoMessage=i18n("Could not change expiration");infoText=i18n("Bad passphrase");
+KPassivePopup::message(infoMessage,infoText,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this);
+}
+}
+
+
+void KgpgKeyInfo::slotPreOk()
+{
+if (keyWasChanged) emit keyNeedsRefresh();
 accept();
 }

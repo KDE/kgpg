@@ -1200,8 +1200,13 @@ void KgpgInterface::passprocess(KProcIO *p)
                 }
 
 
-                if ((step==3) && (required.find("keyedit.prompt")!=-1)) {
+                if ((step>2) && (required.find("keyedit.prompt")!=-1)) {			
+			if (step==3)
+			{
+			emit passwordChanged();
                         p->writeStdin("save");
+			}
+			else p->writeStdin("quit");
                         required="";
                 }
 
@@ -1236,6 +1241,7 @@ void KgpgInterface::passprocess(KProcIO *p)
                                 QCString passphrase;
                                 int code=KPasswordDialog::getNewPassword(passphrase,i18n("<qt>Enter new passphrase for <b>%1</b><br>If you forget this passphrase, all your encrypted files and messages will be lost !<br></qt>").arg(userIDs));
                                 if (code!=QDialog::Accepted) {
+					step=4;
                                         p->writeStdin("quit");
                                         p->writeStdin("quit");
                                         p->closeWhenDone();

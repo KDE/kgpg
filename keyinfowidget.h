@@ -37,7 +37,9 @@
 #include <ktempfile.h>
 #include <kglobal.h>
 #include <kdialogbase.h>
+#include <kpassivepopup.h>
 #include <kdatepicker.h>
+#include <kiconloader.h>
 #include <klocale.h>
 #include <kcombobox.h>
 #include <ktrader.h>
@@ -61,8 +63,7 @@ public:
 private slots:
         void slotinfoimgread(KProcess *);
         void slotChangePass();
-        void slotPreOk1();
-        void slotPreOk2(int);
+        void slotPreOk();
 	void slotChangeExp();
 	void slotEnableDate(bool isOn);
 	void slotChangeDate();
@@ -72,14 +73,18 @@ private slots:
 	void slotMainImageRead(KProcess *);
 	void slotSetMainPhoto(QStringList list);
 	void reloadMainPhoto(const QString &uid);
-	void slotAccept();
+	void slotInfoPasswordChanged();
+	void slotInfoExpirationChanged(int res);
+	void slotInfoTrustChanged();
+	void slotChangeTrust(const QString &newTrust);
+	void loadKey(QString Keyid);
 
 private:
         KTempFile *kgpginfotmp;
         QLabel *keyinfoPhoto;
         QString displayedKeyID,ownerTrust;
         QString expirationDate;
-        bool isUnlimited,hasPhoto;
+        bool hasPhoto,keyWasChanged;
 	KDialogBase *chdate;
 	QCheckBox *kb;
 	KDatePicker *kdt;

@@ -85,8 +85,6 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
 
         KgpgInterface *cryptFileProcess=new KgpgInterface();
         cryptFileProcess->KgpgEncryptFile(selec,urlselected,dest,encryptOptions,symetric);
-
-        connect(cryptFileProcess,SIGNAL(processaborted(bool)),this,SLOT(processenc(bool)));
         connect(cryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup2()));
         if (shred)
                 connect(cryptFileProcess,SIGNAL(encryptionfinished(KURL)),this,SLOT(shredprocessenc(KURL)));
@@ -105,6 +103,7 @@ void KgpgLibrary::shredprocessenc(KURL fileToShred)
         sh->show();
         sh->kgpgShredFile(fileToShred);
 }
+
 
 void KgpgLibrary::processenc(KURL)
 {

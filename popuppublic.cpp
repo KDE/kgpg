@@ -71,11 +71,14 @@ QString UpdateViewItem2 :: key(int c,bool ) const
 
 ///////////////  main view
 
-popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool filemode): KDialogBase(parent,name,true,i18n("Select Public Key"),KDialogBase::Details|KDialogBase::Ok|KDialogBase::Cancel)
-//QDialog(parent,name,TRUE)
+popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool filemode): 
+KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent, name,true)
 {
-        QWidget *page = new QWidget( this );
-        QVBoxLayout *vbox = new QVBoxLayout( page, 0, spacingHint() );
+
+	QWidget *page = plainPage();
+	QVBoxLayout *vbox=new QVBoxLayout(page,0,spacingHint());
+	vbox->setAutoAdd(true);
+	
 	setButtonText(KDialogBase::Details,i18n("Options"));
 
         config=kapp->config();
@@ -155,7 +158,6 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
         if (hideid)
                 CBhideid->setChecked(true);
 
-        vbox->addWidget(keysList);
         if (allowcustom) {
                 QHButtonGroup *bGroup = new QHButtonGroup(page);
                 //bGroup->setFrameStyle(QFrame::NoFrame);
@@ -165,13 +167,11 @@ popupPublic::popupPublic(QWidget *parent, const char *name,QString sfile,bool fi
                 optiontxt->setText(customOptions);
                 QWhatsThis::add
                         (optiontxt,i18n("<b>Custom option</b>: for experienced users only, allows you to enter a gpg command line option, like: '--armor'"));
-                vbox->addWidget(bGroup);
                 QObject::connect(optiontxt,SIGNAL(textChanged ( const QString & )),this,SLOT(customOpts(const QString & )));
         }
         QObject::connect(keysList,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(crypte()));
 	QObject::connect(this,SIGNAL(okClicked()),this,SLOT(crypte()));
         QObject::connect(CBuntrusted,SIGNAL(toggled(bool)),this,SLOT(refresh(bool)));
-setMainWidget(page);
 
         char line[200]="\0";
         FILE *fp2;

@@ -128,11 +128,11 @@ void kgpgOptions::readSettings()
         ///////////////  install service menus
 
         if (page3->sign_menu->currentItem()==1)
-                slotInstallSign("allfiles");
+                slotInstallSign("all/allfiles");
         else
                 slotRemoveMenu("signfile.desktop");
         if (page3->decrypt_menu->currentItem()==1)
-                slotInstallDecrypt("allfiles");
+                slotInstallDecrypt("all/allfiles");
         else if (page3->decrypt_menu->currentItem()==2)
                 slotInstallDecrypt("application/pgp-encrypted,application/pgp-signature,application/pgp-keys");
         else
