@@ -420,6 +420,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
           }
         }
       }
+	  pclose(fp2);
       if (!tst.isEmpty() && (!dead))
       {
         KListViewItem *item=new KListViewItem(keysListpr,extractKeyName(tst));
@@ -430,6 +431,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
     }
   }
   pclose(fp);
+
 
   QObject::connect(keysListpr,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(slotpreOk()));
   QObject::connect(keysListpr,SIGNAL(clicked(QListViewItem *)),this,SLOT(slotSelect(QListViewItem *)));
