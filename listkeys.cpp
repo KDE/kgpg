@@ -717,7 +717,7 @@ void listKeys::hidePhoto()
 
 void listKeys::displayPhoto()
 {
-  if (showPhoto==false)
+  if ((!showPhoto) || (keysList2->currentItem()==NULL))
     return;
   if (keysList2->currentItem()->depth()!=0)
   {
