@@ -37,10 +37,7 @@
 kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KgpgOptionDialog( parent, name)
   {
 config=kapp->config();
-//config = new KSimpleConfig("kgpgrc");// config();
 
-
-//config=kapp->config();
   config->setGroup("General Options");
   bool ascii=config->readBoolEntry("Ascii armor",true);
   bool untrusted=config->readBoolEntry("Allow untrusted keys",false);
@@ -53,8 +50,13 @@ config=kapp->config();
   bool clipselection=config->readBoolEntry("selection clip",false);
   QString filekey=config->readEntry("file key");
   bool allowcustom=config->readBoolEntry("allow custom option",false);
+  confPath=config->readEntry("gpg config path");
+  if (confPath.isEmpty()) confPath=QDir::homeDirPath()+"/.gnupg/options";
+  kURLconfigPath->setURL(confPath);
   kLEcustom->setText(config->readEntry("custom option"));
   kLEcustomdec->setText(config->readEntry("custom decrypt"));
+
+reloadServer();
 
 config->setGroup("Notification Messages");
 if (config->readBoolEntry("RemoteFileWarning",true)) cbTempWarning->setChecked(true);
@@ -62,11 +64,6 @@ if (config->readBoolEntry("RemoteFileWarning",true)) cbTempWarning->setChecked(t
 config->setGroup("Applet");
 int ufileDropEvent=config->readNumEntry("unencrypted drop event",0);
 int efileDropEvent=config->readNumEntry("encrypted drop event",2);
-bool showeclip=config->readBoolEntry("show encrypt clip",true);
-bool showdclip=config->readBoolEntry("show decrypt clip",true);
-bool showoeditor=config->readBoolEntry("show open editor",true);
-bool showomanager=config->readBoolEntry("show open manager",true);
-bool showserver=config->readBoolEntry("show server",true);
 
   config->setGroup("Service Menus");
 QString smenu;
@@ -87,11 +84,7 @@ cbClipSelection->setChecked(clipselection);
 
 kCBencrypted->setCurrentItem(efileDropEvent);
 kCBunencrypted->setCurrentItem(ufileDropEvent);
-CBeclip->setChecked(showeclip);
-CBdclip->setChecked(showdclip);
-CBoeditor->setChecked(showoeditor);
-CBomanager->setChecked(showomanager);
-CBserver->setChecked(showserver);
+
 
 listkey();
 if (filekey!=NULL)
@@ -100,11 +93,99 @@ if (defaultkey!=NULL)
 defautkey_2_2->setCurrentItem(namecode(defaultkey));
 connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotOk()));
 connect(bcheckMime,SIGNAL(clicked()),this,SLOT(checkMimes()));
+connect(Buttonadd,SIGNAL(clicked()),this,SLOT(slotAddServer()));
+connect(Buttondefault,SIGNAL(clicked()),this,SLOT(slotDefaultServer()));
+connect(Buttonedit,SIGNAL(clicked()),this,SLOT(slotEditServer()));
+connect(Buttonremove,SIGNAL(clicked()),this,SLOT(slotRemoveServer()));
 }
 
 
 kgpgOptions::~kgpgOptions()
 {
+}
+
+
+void kgpgOptions::slotEditServer()
+{
+KDialogBase *serverEdit = new KDialogBase(this, "urldialog", true, i18n("Edit Keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
+              QWidget *page = new QWidget(serverEdit);
+			  QHBoxLayout *vbox=new QHBoxLayout(page,3);
+              KLineEdit *lined=new KLineEdit(page);
+			  vbox->addWidget(lined);
+			  serverEdit->setMainWidget(page);
+			  page->setMinimumSize(250,50);
+			  lined->setFocus();
+			  lined->setText(kLVservers->currentItem()->text(0));
+			  page->show();
+if ((serverEdit->exec()==QDialog::Accepted) && (!lined->text().stripWhiteSpace().isEmpty()))
+{
+kLVservers->currentItem()->setText(0,lined->text());
+}
+}
+
+
+void kgpgOptions::slotAddServer()
+{
+KDialogBase *serverAdd = new KDialogBase(this, "urldialog", true, i18n("Add Keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
+              QWidget *page = new QWidget(serverAdd);
+			  QHBoxLayout *vbox=new QHBoxLayout(page,3);
+              KComboBox *protocol=new KComboBox(page);
+			  protocol->insertItem("hkp://");
+			  protocol->insertItem("ldap://");
+			  protocol->insertItem("wwwkeys.");
+              KLineEdit *lined=new KLineEdit(page);
+              vbox->addWidget(protocol);
+			  vbox->addWidget(lined);
+			  serverAdd->setMainWidget(page);
+			  page->setMinimumSize(300,50);
+			  lined->setFocus();
+			  page->show();
+if ((serverAdd->exec()==QDialog::Accepted) && (!lined->text().stripWhiteSpace().isEmpty()))
+{
+(void) new KListViewItem(kLVservers,QString(protocol->currentText()+lined->text()));
+}
+}
+
+
+void kgpgOptions::slotRemoveServer()
+{
+if (kLVservers->currentItem()!=NULL)
+{
+kLVservers->takeItem(kLVservers->currentItem());
+if (kLVservers->firstChild()!=NULL) kLVservers->firstChild()->setSelected(true);
+}
+}
+
+void kgpgOptions::slotDefaultServer()
+{
+if (kLVservers->currentItem()!=NULL)
+{
+KgpgInterface::setGpgSetting("keyserver",kLVservers->currentItem()->text(0).stripWhiteSpace().section(' ',0,0),confPath);
+kLVservers->clear();
+reloadServer();
+}
+}
+
+
+void kgpgOptions::reloadServer()
+{
+config->setGroup("Keyservers");
+QString servers=config->readEntry("servers");
+if (servers.isEmpty()) servers="hkp://pgp.mit.edu,hkp://blackhole.pca.dfn.de";
+QString optionsServer=KgpgInterface::getGpgSetting("keyserver",confPath);
+if (!optionsServer.isEmpty() && (servers.find(optionsServer)==-1))
+servers+=","+optionsServer;
+while (!servers.isEmpty())
+{
+QString server1=servers.section(',',0,0);
+servers.remove(0,server1.length()+1);
+server1=server1.stripWhiteSpace();
+if (!server1.isEmpty())
+{
+if (server1==optionsServer) server1+=i18n(" [default]");
+(void) new KListViewItem(kLVservers,server1);
+}
+}
 }
 
 void kgpgOptions::checkMimes()
@@ -204,6 +285,7 @@ void kgpgOptions::slotOk()
   config->writeEntry("custom option",kLEcustom->text());
   config->writeEntry("allow custom option",custom_2_2->isChecked());
   config->writeEntry("custom decrypt",kLEcustomdec->text());
+  config->writeEntry("gpg config path",kURLconfigPath->url());
 
   config->setGroup("Service Menus");
   config->writeEntry("Decrypt",kCBdecrypt->currentText());
@@ -212,15 +294,26 @@ void kgpgOptions::slotOk()
 config->setGroup("Applet");
 config->writeEntry("encrypted drop event",kCBencrypted->currentItem());
 config->writeEntry("unencrypted drop event",kCBunencrypted->currentItem());
-config->writeEntry("show encrypt clip",CBeclip->isChecked());
-config->writeEntry("show decrypt clip",CBdclip->isChecked());
-config->writeEntry("show open editor",CBoeditor->isChecked());
-config->writeEntry("show open manager",CBomanager->isChecked());
-config->writeEntry("show server",CBserver->isChecked());
+
 
 config->setGroup("Notification Messages");
 config->writeEntry("RemoteFileWarning",cbTempWarning->isChecked());
 //else KMessageBox::enableAllMessages();
+
+QString serverslist;
+
+QListViewItem *firstserver = kLVservers->firstChild();
+  while (firstserver!=NULL)
+  {
+    serverslist+=firstserver->text(0).stripWhiteSpace().section(' ',0,0);
+	if (firstserver->nextSibling())
+     {firstserver = firstserver->nextSibling();serverslist+=",";}
+    else
+      break;
+}
+
+config->setGroup("Keyservers");
+config->writeEntry("servers",serverslist);
 
 
   config->sync();

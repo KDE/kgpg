@@ -42,6 +42,7 @@
 
 #include "keyserver.h"
 #include "searchres.h"
+#include "kgpginterface.h"
 #include "detailedconsole.h"
 
 class keyServer : public Keyserver
@@ -58,8 +59,6 @@ class keyServer : public Keyserver
  void abortSearch();
  void transferKeyID();
  void slotsearchread(KProcIO *p);
- void slotAddServer();
- void slotRemoveServer();
  void slotOk();
 void syncCombobox();
 void slotImport();
@@ -68,8 +67,6 @@ void slotimportresult(KProcess*);
 void slotimportread(KProcIO *p);
 void slotprocread(KProcIO *p);
 void slotExport();
-void slotEdit(QListViewItem *);
-void slotEditServer();
 void preimport();
 void slotsearchresult(KProcess *);
 void slotEnableProxyI(bool on);

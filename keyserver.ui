@@ -299,76 +299,6 @@
                     </spacer>
                 </grid>
             </widget>
-            <widget class="QWidget">
-                <property name="name">
-                    <cstring>tab</cstring>
-                </property>
-                <attribute name="title">
-                    <string>Key Servers</string>
-                </attribute>
-                <grid>
-                    <property name="name">
-                        <cstring>unnamed</cstring>
-                    </property>
-                    <spacer row="0" column="1">
-                        <property name="name">
-                            <cstring>spacer9</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>100</height>
-                            </size>
-                        </property>
-                    </spacer>
-                    <widget class="KListView" row="0" column="0" rowspan="4" colspan="1">
-                        <column>
-                            <property name="text">
-                                <string>Key Servers</string>
-                            </property>
-                            <property name="clickable">
-                                <bool>true</bool>
-                            </property>
-                            <property name="resizable">
-                                <bool>true</bool>
-                            </property>
-                        </column>
-                        <property name="name">
-                            <cstring>kLVservers</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="2" column="1">
-                        <property name="name">
-                            <cstring>Buttonedit</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Edit...</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="3" column="1">
-                        <property name="name">
-                            <cstring>Buttonremove</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Remove</string>
-                        </property>
-                    </widget>
-                    <widget class="QPushButton" row="1" column="1">
-                        <property name="name">
-                            <cstring>Buttonadd</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Add...</string>
-                        </property>
-                    </widget>
-                </grid>
-            </widget>
         </widget>
         <spacer row="1" column="0">
             <property name="name">
@@ -416,10 +346,6 @@
     <tabstop>Buttonexport</tabstop>
     <tabstop>kCBexportks</tabstop>
     <tabstop>kCBexportkey</tabstop>
-    <tabstop>kLVservers</tabstop>
-    <tabstop>Buttonedit</tabstop>
-    <tabstop>Buttonremove</tabstop>
-    <tabstop>Buttonadd</tabstop>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
@@ -429,6 +355,5 @@
     <includehint>kcombobox.h</includehint>
     <includehint>kcombobox.h</includehint>
     <includehint>klineedit.h</includehint>
-    <includehint>klistview.h</includehint>
 </includehints>
 </UI>

@@ -143,7 +143,7 @@ friend class KeyView;
   QLabel *keyPhoto;
   KeyView *keysList2;
   QPopupMenu *popup,*popupsec,*popupout,*popupsig;
-QString message;
+QString message, optionsDefaultKey,configUrl;
 QStringList keynames;
 
 QDialog *pop;

@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>525</width>
-            <height>369</height>
+            <width>539</width>
+            <height>361</height>
         </rect>
     </property>
     <property name="caption">
@@ -28,7 +28,71 @@
         <property name="spacing">
             <number>6</number>
         </property>
-        <widget class="QTabWidget" row="0" column="1">
+        <widget class="QLayoutWidget" row="1" column="0">
+            <property name="name">
+                <cstring>Layout1</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>Horizontal Spacing2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonOk</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;OK</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                    <property name="default">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>buttonCancel</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Cancel</string>
+                    </property>
+                    <property name="accel">
+                        <string></string>
+                    </property>
+                    <property name="autoDefault">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+            </hbox>
+        </widget>
+        <widget class="QTabWidget" row="0" column="0">
             <property name="name">
                 <cstring>tabWidget</cstring>
             </property>
@@ -37,7 +101,7 @@
                     <cstring>Widget2</cstring>
                 </property>
                 <attribute name="title">
-                    <string>Encryption</string>
+                    <string>&amp;Encryption</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -190,7 +254,7 @@
                     <cstring>Widget3</cstring>
                 </property>
                 <attribute name="title">
-                    <string>Decryption</string>
+                    <string>&amp;Decryption</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -236,29 +300,12 @@
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>User Interface</string>
+                    <string>&amp;User Interface</string>
                 </attribute>
                 <grid>
                     <property name="name">
                         <cstring>unnamed</cstring>
                     </property>
-                    <spacer row="3" column="0">
-                        <property name="name">
-                            <cstring>spacer4</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Expanding</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>21</width>
-                                <height>160</height>
-                            </size>
-                        </property>
-                    </spacer>
                     <widget class="QCheckBox" row="2" column="0">
                         <property name="name">
                             <cstring>cbTempWarning</cstring>
@@ -310,6 +357,92 @@
                             <string>&lt;b&gt;Use mouse selection instead of clipboard&lt;/b&gt; If checked, clipboard operations in KGpg will use the selection clipboard, that means highligting a text to copy, and middle button (or right+left together) to paste. If this option is not checked, the clipboard will work with Key shortcuts (Ctrl-c, Ctrl-v). </string>
                         </property>
                     </widget>
+                    <widget class="QGroupBox" row="3" column="0">
+                        <property name="name">
+                            <cstring>groupBox3</cstring>
+                        </property>
+                        <property name="title">
+                            <string>System Tray Applet</string>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <widget class="KComboBox" row="3" column="0">
+                                <item>
+                                    <property name="text">
+                                        <string>Decrypt &amp; Save</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Decrypt &amp; Open in Editor</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Ask</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kCBencrypted</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="0" column="0">
+                                <property name="name">
+                                    <cstring>textLabel1_3_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Event on unencrypted file drop:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="2" column="0">
+                                <property name="name">
+                                    <cstring>textLabel1_2_2</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Event on encrypted file drop:</string>
+                                </property>
+                            </widget>
+                            <widget class="KComboBox" row="1" column="0">
+                                <item>
+                                    <property name="text">
+                                        <string>Encrypt</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Sign</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>Ask</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>kCBunencrypted</cstring>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                    <spacer row="4" column="0">
+                        <property name="name">
+                            <cstring>spacer4</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>21</width>
+                                <height>20</height>
+                            </size>
+                        </property>
+                    </spacer>
                 </grid>
             </widget>
             <widget class="QWidget">
@@ -317,7 +450,7 @@
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>KDE Integration</string>
+                    <string>&amp;KDE Integration</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -461,7 +594,7 @@
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>Applet</string>
+                    <string>&amp;GnuPG</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -469,213 +602,100 @@
                     </property>
                     <widget class="QLabel" row="0" column="0">
                         <property name="name">
-                            <cstring>textLabel1_3_2</cstring>
+                            <cstring>textLabel1_5</cstring>
                         </property>
                         <property name="text">
-                            <string>Event on unencrypted file drop:</string>
+                            <string>Gnupg configuration file:</string>
                         </property>
                     </widget>
-                    <widget class="KComboBox" row="3" column="0">
-                        <item>
-                            <property name="text">
-                                <string>Decrypt &amp; Save</string>
-                            </property>
-                        </item>
-                        <item>
-                            <property name="text">
-                                <string>Decrypt &amp; Open in Editor</string>
-                            </property>
-                        </item>
-                        <item>
-                            <property name="text">
-                                <string>Ask</string>
-                            </property>
-                        </item>
+                    <widget class="KURLRequester" row="0" column="1">
                         <property name="name">
-                            <cstring>kCBencrypted</cstring>
+                            <cstring>kURLconfigPath</cstring>
                         </property>
                     </widget>
-                    <widget class="QLabel" row="2" column="0">
+                    <widget class="QGroupBox" row="1" column="0" rowspan="1" colspan="2">
                         <property name="name">
-                            <cstring>textLabel1_2_2</cstring>
-                        </property>
-                        <property name="text">
-                            <string>Event on encrypted file drop:</string>
-                        </property>
-                    </widget>
-                    <widget class="KComboBox" row="1" column="0">
-                        <item>
-                            <property name="text">
-                                <string>Encrypt</string>
-                            </property>
-                        </item>
-                        <item>
-                            <property name="text">
-                                <string>Sign</string>
-                            </property>
-                        </item>
-                        <item>
-                            <property name="text">
-                                <string>Ask</string>
-                            </property>
-                        </item>
-                        <property name="name">
-                            <cstring>kCBunencrypted</cstring>
-                        </property>
-                    </widget>
-                    <widget class="QGroupBox" row="4" column="0">
-                        <property name="name">
-                            <cstring>groupBox4</cstring>
+                            <cstring>groupBox3_2</cstring>
                         </property>
                         <property name="title">
-                            <string>Menu Options</string>
+                            <string>Key Server Configuration</string>
                         </property>
                         <grid>
                             <property name="name">
                                 <cstring>unnamed</cstring>
                             </property>
-                            <widget class="QCheckBox" row="2" column="0">
+                            <widget class="KListView" row="0" column="0" rowspan="4" colspan="1">
+                                <column>
+                                    <property name="text">
+                                        <string>Key Servers</string>
+                                    </property>
+                                    <property name="clickable">
+                                        <bool>true</bool>
+                                    </property>
+                                    <property name="resizable">
+                                        <bool>true</bool>
+                                    </property>
+                                </column>
                                 <property name="name">
-                                    <cstring>CBoeditor</cstring>
+                                    <cstring>kLVservers</cstring>
                                 </property>
-                                <property name="text">
-                                    <string>Open editor</string>
+                                <property name="fullWidth">
+                                    <bool>true</bool>
                                 </property>
                             </widget>
-                            <widget class="QCheckBox" row="1" column="0">
+                            <widget class="QPushButton" row="3" column="1">
                                 <property name="name">
-                                    <cstring>CBdclip</cstring>
+                                    <cstring>Buttonremove</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Decrypt clipboard</string>
+                                    <string>Remove</string>
                                 </property>
                             </widget>
-                            <widget class="QCheckBox" row="0" column="0">
+                            <widget class="QPushButton" row="2" column="1">
                                 <property name="name">
-                                    <cstring>CBeclip</cstring>
+                                    <cstring>Buttonedit</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Encrypt clipboard</string>
+                                    <string>Edit...</string>
                                 </property>
                             </widget>
-                            <widget class="QCheckBox" row="1" column="1">
+                            <widget class="QPushButton" row="1" column="1">
                                 <property name="name">
-                                    <cstring>CBserver</cstring>
+                                    <cstring>Buttonadd</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Keyserver dialog</string>
+                                    <string>Add...</string>
                                 </property>
                             </widget>
-                            <widget class="QCheckBox" row="0" column="1">
+                            <widget class="QPushButton" row="0" column="1">
                                 <property name="name">
-                                    <cstring>CBomanager</cstring>
+                                    <cstring>Buttondefault</cstring>
                                 </property>
                                 <property name="text">
-                                    <string>Open key manager</string>
+                                    <string>Set as Default</string>
                                 </property>
                             </widget>
-                            <spacer row="2" column="1" rowspan="2" colspan="1">
-                                <property name="name">
-                                    <cstring>spacer18</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Vertical</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>31</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                            <spacer row="3" column="0">
-                                <property name="name">
-                                    <cstring>spacer19</cstring>
-                                </property>
-                                <property name="orientation">
-                                    <enum>Vertical</enum>
-                                </property>
-                                <property name="sizeType">
-                                    <enum>Expanding</enum>
-                                </property>
-                                <property name="sizeHint">
-                                    <size>
-                                        <width>20</width>
-                                        <height>41</height>
-                                    </size>
-                                </property>
-                            </spacer>
                         </grid>
                     </widget>
+                    <spacer row="2" column="1">
+                        <property name="name">
+                            <cstring>spacer5</cstring>
+                        </property>
+                        <property name="orientation">
+                            <enum>Vertical</enum>
+                        </property>
+                        <property name="sizeType">
+                            <enum>Expanding</enum>
+                        </property>
+                        <property name="sizeHint">
+                            <size>
+                                <width>21</width>
+                                <height>70</height>
+                            </size>
+                        </property>
+                    </spacer>
                 </grid>
             </widget>
-        </widget>
-        <widget class="QLayoutWidget" row="1" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>Layout1</cstring>
-            </property>
-            <hbox>
-                <property name="name">
-                    <cstring>unnamed</cstring>
-                </property>
-                <property name="margin">
-                    <number>0</number>
-                </property>
-                <property name="spacing">
-                    <number>6</number>
-                </property>
-                <spacer>
-                    <property name="name">
-                        <cstring>Horizontal Spacing2</cstring>
-                    </property>
-                    <property name="orientation">
-                        <enum>Horizontal</enum>
-                    </property>
-                    <property name="sizeType">
-                        <enum>Expanding</enum>
-                    </property>
-                    <property name="sizeHint">
-                        <size>
-                            <width>20</width>
-                            <height>20</height>
-                        </size>
-                    </property>
-                </spacer>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>buttonOk</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;OK</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
-                    </property>
-                    <property name="default">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QPushButton">
-                    <property name="name">
-                        <cstring>buttonCancel</cstring>
-                    </property>
-                    <property name="text">
-                        <string>&amp;Cancel</string>
-                    </property>
-                    <property name="accel">
-                        <string></string>
-                    </property>
-                    <property name="autoDefault">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-            </hbox>
         </widget>
     </grid>
 </widget>
@@ -729,13 +749,6 @@
     <tabstop>kCBsign</tabstop>
     <tabstop>kCBdecrypt</tabstop>
     <tabstop>bcheckMime</tabstop>
-    <tabstop>kCBunencrypted</tabstop>
-    <tabstop>kCBencrypted</tabstop>
-    <tabstop>CBeclip</tabstop>
-    <tabstop>CBdclip</tabstop>
-    <tabstop>CBoeditor</tabstop>
-    <tabstop>CBomanager</tabstop>
-    <tabstop>CBserver</tabstop>
     <tabstop>buttonOk</tabstop>
     <tabstop>buttonCancel</tabstop>
 </tabstops>
@@ -757,5 +770,9 @@
     <includehint>kcombobox.h</includehint>
     <includehint>kcombobox.h</includehint>
     <includehint>kcombobox.h</includehint>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>klistview.h</includehint>
 </includehints>
 </UI>

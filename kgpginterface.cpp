@@ -1247,19 +1247,79 @@ QString KgpgInterface::extractKeyName(QString txt)
           encResult.remove(0,cut);
           if (encResult.find("(",0,false)!=-1)
             encResult=encResult.section('(',0,0)+encResult.section(')',-1,-1);
-		  
+
 		  if (IDs.find(encResult)==-1)
             {
               if (!IDs.isEmpty())
                 IDs+=i18n(" or ");
               IDs+=encResult;
             }
-		  
+
         }
     }
   pclose(fp);
   return IDs;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////   parsing of ./gnupg/options file
+
+QString KgpgInterface::getGpgSetting(QString name,QString configFile)
+{
+name=name+" ";
+QFile qfile(QFile::encodeName(configFile));
+if (qfile.open(IO_ReadOnly) && (qfile.exists()))
+{
+QString result;
+QTextStream t( &qfile );
+result=t.readLine();
+while (result!=NULL)
+{
+if (result.stripWhiteSpace().startsWith(name))
+{
+result=result.stripWhiteSpace();
+result.remove(0,name.length());
+result=result.stripWhiteSpace();
+return result.section(" ",0,0);
+}
+result=t.readLine();
+}
+qfile.close();
+}
+return "";
+}
+
+void KgpgInterface::setGpgSetting(QString name,QString value,QString url)
+{
+name=name+" ";
+QString textToWrite;
+bool found=false;
+QFile qfile(QFile::encodeName(url));
+
+  if (qfile.open(IO_ReadOnly) && (qfile.exists()))
+  {
+QString result;
+QTextStream t( &qfile );
+result=t.readLine();
+while (result!=NULL)
+{
+if (result.stripWhiteSpace().startsWith(name))
+{
+result=name+" "+value;
+found=true;
+}
+textToWrite+=result+"\n";
+result=t.readLine();
+}
+qfile.close();
+if (!found) textToWrite+="\n"+name+" "+value;
+
+if (qfile.open(IO_WriteOnly))
+{
+QTextStream t( &qfile);
+  t << textToWrite;
+  qfile.close();
+}
+}
+}
 
 #include "kgpginterface.moc"

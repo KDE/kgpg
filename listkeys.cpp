@@ -798,7 +798,11 @@ void listKeys::readOptions()
   configshowToolBar=config->readBoolEntry("show toolbar",true);
   showPhoto=config->readBoolEntry("show photo",false);
   keysList2->displayMailFirst=config->readBoolEntry("display mail first",true);
-  QString defaultkey=config->readEntry("default key");
+  configUrl=config->readEntry("gpg config path");
+  optionsDefaultKey=KgpgInterface::getGpgSetting("default-key",configUrl);
+  QString defaultkey="0x"+optionsDefaultKey;
+  config->writeEntry("default key",defaultkey);
+  config->sync();
   if (config->readBoolEntry("selection clip",false))
   {
     // support clipboard selection (if possible)
@@ -856,6 +860,7 @@ config->setGroup("General Options");
 
   config->setGroup("General Options");
   config->writeEntry("default key",keysList2->defKey);
+  KgpgInterface::setGpgSetting("default-key",keysList2->defKey.right(keysList2->defKey.length()-2),configUrl);
 }
 
 void listKeys::slotstatus(QListViewItem *)

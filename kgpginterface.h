@@ -108,41 +108,43 @@ void importKey(QString keystr, bool importSecret=false);
 	 * @param local bool should the signature be local
 	 */
 	void KgpgSignKey(QString keyID="",QString signKeyID="",QString signKeyMail="",bool local=false);
-	
+
 	/**Key signature deletion function
 	 * @param keyID QString the ID of the key
 	 * @param signKeyID QString the ID of the signature key
 	 */
 	void KgpgDelSignature(QString keyID="",QString signKeyID="");
-	
+
 	/**Encrypt text function
 	 * @param text QString text to be encrypted.
 	 * @param userIDs the recipients key id's.
 	 * @param Options String with the wanted gpg options. ex: "--armor"
 	 * returns the encrypted text or empty string if encyption failed
 	 */
-	 //static 
+	 //static
 	 void KgpgEncryptText(QString text,QString userIDs, QString Options="");
-	
+
 	 /**Decrypt text function
 	 * @param text QString text to be decrypted.
 	 * @param userID QString the name of the decryption key (only used to prompt user for passphrase)
 	 */
 	static QString KgpgDecryptText(QString text,QString userID);
 	static QString KgpgDecryptFileToText(KURL srcUrl,QString userID);
-	
+
 	static QString extractKeyName(QString txt="");
 	static QString extractKeyName(KURL url=0);
+	static QString getGpgSetting(QString name,QString configFile);
+	static void setGpgSetting(QString name,QString ID,QString url);
 
 	/*
 	 * Destructor for the class.
 	 */
 	~KgpgInterface();
-	
 
-	
+
+
     private slots:
-	
+
 	void openSignConsole();
 	  /**
          * Checks output of the signature process
@@ -232,8 +234,8 @@ signals:
 	/**
          *  true if key signature deletion successfull, false on error.
          */
-    void delsigfinished(bool);	
-	
+    void delsigfinished(bool);
+
 	/**
          * Signature process result: 0=successfull, 1=error, 2=bad passphrase
          */

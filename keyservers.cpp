@@ -26,31 +26,16 @@
 
 keyServer::keyServer(QWidget *parent, const char *name,bool modal,WFlags f):Keyserver( parent, name,modal,f)
 {
-kLVservers->setFullWidth(true);
-
 config=kapp->config();
-config->setGroup("Keyservers");
-QString servers=config->readEntry("servers");
-if (servers.isEmpty()) servers="hkp://pgp.mit.edu,hkp://blackhole.pca.dfn.de";
-while (!servers.isEmpty())
-{
-QString server1=servers.section(',',0,0);
-server1=server1.stripWhiteSpace();
-(void) new KListViewItem(kLVservers,server1);
-servers.remove(0,server1.length()+1);
-}
 
 syncCombobox();
 kLEimportid->setFocus();
 
-connect(Buttonadd,SIGNAL(clicked()),this,SLOT(slotAddServer()));
-connect(Buttonedit,SIGNAL(clicked()),this,SLOT(slotEditServer()));
-connect(Buttonremove,SIGNAL(clicked()),this,SLOT(slotRemoveServer()));
+
 connect(Buttonimport,SIGNAL(clicked()),this,SLOT(slotImport()));
 connect(Buttonsearch,SIGNAL(clicked()),this,SLOT(slotSearch()));
 connect(Buttonexport,SIGNAL(clicked()),this,SLOT(slotExport()));
 connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotOk()));
-connect(kLVservers,SIGNAL(doubleClicked(QListViewItem *)),this,SLOT(slotEdit(QListViewItem *)));
 
 connect(cBproxyI,SIGNAL(toggled(bool)),this,SLOT(slotEnableProxyI(bool)));
 connect(cBproxyE,SIGNAL(toggled(bool)),this,SLOT(slotEnableProxyE(bool)));
@@ -89,10 +74,6 @@ kLEproxyE->setEnabled(on);
 }
 
 
-void keyServer::slotEdit(QListViewItem *)
-{
-slotEditServer();
-}
 
 void keyServer::slotprocread(KProcIO *p)
 {
@@ -417,93 +398,32 @@ readmessage+=required+"\n";
 
 void keyServer::syncCombobox()
 {
-kCBimportks->clear();
-kCBexportks->clear();
+config->setGroup("General Options");
+QString confPath=config->readEntry("gpg config path");
 
-QListViewItem *firstserver = kLVservers->firstChild();
-  while (firstserver!=NULL)
+config->setGroup("Keyservers");
+QString servers=config->readEntry("servers");
+if (servers.isEmpty()) servers="hkp://pgp.mit.edu,hkp://blackhole.pca.dfn.de";
+QString optionsServer=KgpgInterface::getGpgSetting("keyserver",confPath);
+while (!servers.isEmpty())
   {
-  kCBexportks->insertItem(firstserver->text(0));
-  kCBimportks->insertItem(firstserver->text(0));
-	if (firstserver->nextSibling())
-    firstserver = firstserver->nextSibling();
-    else
-      break;
+QString server1=servers.section(',',0,0);
+server1=server1.stripWhiteSpace();
+kCBexportks->insertItem(server1);
+kCBimportks->insertItem(server1);
+servers.remove(0,server1.length()+1);
 }
-}
-
-void keyServer::slotEditServer()
+if (!optionsServer.isEmpty())
 {
-KDialogBase *serverEdit = new KDialogBase(this, "urldialog", true, i18n("Edit Keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
-              QWidget *page = new QWidget(serverEdit);
-			  QHBoxLayout *vbox=new QHBoxLayout(page,3);
-              KLineEdit *lined=new KLineEdit(page);
-			  vbox->addWidget(lined);
-			  serverEdit->setMainWidget(page);
-			  page->setMinimumSize(250,50);
-			  lined->setFocus();
-			  lined->setText(kLVservers->currentItem()->text(0));
-			  page->show();
-if ((serverEdit->exec()==QDialog::Accepted) && (!lined->text().stripWhiteSpace().isEmpty()))
-{
-kLVservers->currentItem()->setText(0,lined->text());
-syncCombobox();
-}
-}
-
-
-void keyServer::slotAddServer()
-{
-KDialogBase *serverAdd = new KDialogBase(this, "urldialog", true, i18n("Add Keyserver"),KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok, true );
-              QWidget *page = new QWidget(serverAdd);
-			  QHBoxLayout *vbox=new QHBoxLayout(page,3);
-              KComboBox *protocol=new KComboBox(page);
-			  protocol->insertItem("hkp://");
-			  protocol->insertItem("ldap://");
-			  protocol->insertItem("mailto://");
-              KLineEdit *lined=new KLineEdit(page);
-              vbox->addWidget(protocol);
-			  vbox->addWidget(lined);
-			  serverAdd->setMainWidget(page);
-			  page->setMinimumSize(300,50);
-			  lined->setFocus();
-			  page->show();
-if ((serverAdd->exec()==QDialog::Accepted) && (!lined->text().stripWhiteSpace().isEmpty()))
-{
-(void) new KListViewItem(kLVservers,QString(protocol->currentText()+lined->text()));
-syncCombobox();
-}
-}
-
-
-void keyServer::slotRemoveServer()
-{
-if (kLVservers->currentItem()!=NULL)
-{
-kLVservers->takeItem(kLVservers->currentItem());
-if (kLVservers->firstChild()!=NULL) kLVservers->firstChild()->setSelected(true);
-syncCombobox();
+kCBexportks->setCurrentItem(optionsServer);
+kCBimportks->setCurrentItem(optionsServer);
 }
 }
 
 void keyServer::slotOk()
 {
-QString serverslist;
-
-QListViewItem *firstserver = kLVservers->firstChild();
-  while (firstserver!=NULL)
-  {
-    serverslist+=firstserver->text(0);
-	if (firstserver->nextSibling())
-     {firstserver = firstserver->nextSibling();serverslist+=",";}
-    else
-      break;
-}
-
-config->setGroup("Keyservers");
-config->writeEntry("servers",serverslist);
-config->sync();
 accept();
 }
+
 
 #include "keyservers.moc"

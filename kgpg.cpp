@@ -316,7 +316,7 @@ if (inputText.startsWith("-----BEGIN PGP MESSAGE"))
 clipDecrypt();
 return;
 }
-if (inputText.startsWith("-----BEGIN PGP PUBLIC KEY")) 
+if (inputText.startsWith("-----BEGIN PGP PUBLIC KEY"))
 {
 int result=KMessageBox::warningContinueCancel(0,i18n("<p>The dropped text is a public key.<br>Do you want to import it ?</p>"),i18n("Warning"));
         if (result==KMessageBox::Cancel) return;

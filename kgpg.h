@@ -70,7 +70,6 @@ bool	 showeclip,showdclip,showomanager,showoeditor,showserver,autostart;
 KURL droppedUrl;
 KConfig *ksConfig;
 
-
 private:
 bool ascii,untrusted,hideid,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday;
 QPopupMenu *droppopup,*udroppopup;

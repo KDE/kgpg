@@ -29,7 +29,8 @@
 
 #include <kdialogbase.h>
 #include <kcombobox.h>
-
+#include <kurlrequester.h>
+#include <klistview.h>
 #include <kmessagebox.h>
 #include <klineedit.h>
 #include <ktoolbar.h>
@@ -51,6 +52,8 @@ class kgpgOptions : public KgpgOptionDialog
   
   private:
   KConfig *config;
+  QString confPath;
+
 private slots:
 void listkey();
 QString namecode(QString kid);
@@ -58,8 +61,12 @@ QString idcode(QString kname);
 void slotOk();
 void slotInstallDecrypt(QString mimetype);
 void slotInstallSign(QString mimetype);
-
 void slotRemoveMenu(QString menu);
+void slotEditServer();
+ void slotAddServer();
+ void slotRemoveServer();
+ void reloadServer();
+ void slotDefaultServer();
 public slots:
 void checkMimes();
 signals:
