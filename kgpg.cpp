@@ -17,6 +17,7 @@
 
 // include files for QT
 #include <qstring.h>
+#include <qtimer.h>
 #include <qfile.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -27,6 +28,7 @@
 #include <kfiledialog.h>
 #include <kmenubar.h>
 #include <kshred.h>
+#include <kpassivepopup.h>
 
 #include <klocale.h>
 #include <kconfig.h>
@@ -54,15 +56,14 @@ KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0,
 {
   config=kapp->config();
   readOptions();
-  checkVersion();
+
   if ((opmode=="") || (opmode=="show") || (opmode=="clipboard"))
     {
-      if (tipofday==true)
+	  if (tipofday==true)
         slotTip();
     }
   commandLineMode=false;
-  if (opmode=="encrypt")
-    commandLineMode=true;
+  if (opmode=="encrypt")  commandLineMode=true;
 
   if ((opmode!="encrypt") && (opmode!="decrypt")  && (opmode!="clipboardEnc"))  ///  do not perform these steps if kgpg is called from konqueror or command line
     {
@@ -102,9 +103,9 @@ KgpgApp::KgpgApp(const char* name,KURL fileToOpen,QString opmode):KMainWindow(0,
     }
 	if (opmode=="clipboardEnc")
 	{
-	popupPublic *dialogue=new popupPublic(this, "public_keys", 0,false);
-    connect(dialogue,SIGNAL(selectedKey(QString &,bool,bool,bool,bool)),this,SLOT(encryptClipboard(QString &,bool,bool)));
-    if (dialogue->exec()==QDialog::Rejected ) exit(0);
+popupPublic *dialoguec=new popupPublic(this, "public_keys", 0,false);
+connect(dialoguec,SIGNAL(selectedKey(QString &,bool,bool,bool,bool)),this,SLOT(encryptClipboard(QString &,bool,bool)));
+if (dialoguec->exec()==QDialog::Rejected ) exit(0);
 	}
 
    if ((opmode!="encrypt") && (opmode!="decrypt")  && (opmode!="clipboardEnc"))
@@ -124,16 +125,18 @@ KgpgApp::~KgpgApp()
 {
 }
 
-void KgpgApp::encryptClipboard(QString &selec,bool utrust,bool arm)
+void KgpgApp::encryptClipboard(QString &selec,bool utrust,bool)
 {
+QClipboard *cb;
 QString encryptOptions;
-QClipboard *cb = QApplication::clipboard();
-QString clipContent=cb->text();
+cb = QApplication::clipboard();
+QString clipContent=cb->text(QClipboard::Clipboard);
 
-  
+  if (clipContent)
+  {
   //////////////////              encode from editor
   if (utrust==true) encryptOptions+=" --always-trust ";
-  if (arm==true) encryptOptions+=" --armor ";
+encryptOptions+=" --armor ";
 
   if (pgpcomp==true)
     {
@@ -142,11 +145,24 @@ QString clipContent=cb->text();
     }
 
  if (selec==NULL) {KMessageBox::sorry(0,i18n("You have not choosen an encryption key..."));exit(0);}
-  
- QString resultat=KgpgInterface::KgpgEncryptText(clipContent,selec,encryptOptions);
- cb->setText(resultat);
+ QString decresultat=KgpgInterface::KgpgEncryptText(clipContent,selec,encryptOptions);
+ cb->setText(decresultat,QClipboard::Clipboard);
+ QTimer::singleShot( 4000, this, SLOT(expressQuit())); 
+ KMessageBox::information(this,QString(i18n("Encrypted following text:\n")+clipContent.left(200).stripWhiteSpace()+"..."));
+ }
+ else 
+{
+KMessageBox::sorry(0,i18n("Clipboard is empty"));
 exit(0);
+}
 }	
+
+void KgpgApp::expressQuit()
+{
+ //KMessageBox::sorry(0,QString("Following text was encrypted:\n"+cliptxtenc+"..."));
+ exit(0);
+}
+
 
 void KgpgApp::slotman()
 {
@@ -309,14 +325,7 @@ void KgpgApp::saveOptions()
   config->setGroup("General Options");
   config->writeEntry("Geometry", size());
   config->writeEntry("First run",false);
-  //config->writeEntry("Ascii armor",ascii);
-  //config->writeEntry("Allow untrusted keys",untrusted);
-  //config->writeEntry("PGP compatibility",pgpcomp);
-  //config->writeEntry("encrypt to default key",encrypttodefault);
-  //config->writeEntry("default key",defaultkey);
-  //config->writeEntry("encrypt files to",encryptfileto);
-  //config->writeEntry("file key",filekey);
-  //  config->writeEntry("Decrypt files to editor",edecrypt);
+  config->writeEntry("gpg version",version);
 }
 
 void KgpgApp::readOptions(bool doresize)
@@ -331,17 +340,21 @@ void KgpgApp::readOptions(bool doresize)
   encryptfileto=config->readBoolEntry("encrypt files to",false);
   filekey=config->readEntry("file key");
 
+version=config->readNumEntry("gpg version",0);
+if (version==0) checkVersion();
+
   if (doresize==true)
     {
       QSize size=config->readSizeEntry("Geometry");
       bool frun=config->readBoolEntry("First run",true);
       config->setGroup("TipOfDay");
       tipofday=config->readBoolEntry("RunOnStart",true);
-      if (frun==true)
-        firstrun();
+      if (frun) firstrun();
+	else 
       if (!size.isEmpty())
         resize(size);
     }
+	
 }
 
 /////////////////////////////////////////////////////////////////////

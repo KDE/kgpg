@@ -108,7 +108,8 @@ protected:
     void initView();
 
 private slots:
-void encryptClipboard(QString &selec,bool utrust,bool arm);
+void expressQuit();
+void encryptClipboard(QString &selec,bool utrust,bool);
 void fastencode(QString &selec,bool utrust,bool arm,bool shred,bool symetric);
 void fastdecode(bool quit);
 void slotFileEnc();
