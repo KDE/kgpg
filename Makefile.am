@@ -4,7 +4,7 @@ bin_PROGRAMS = kgpg
 
 INCLUDES = $(all_includes)
 
-kgpg_SOURCES = kgpgoptions.cpp listkeys.cpp popuppublic.cpp kgpgview.cpp kgpg.cpp main.cpp popupname.cpp kgpgfast.cpp keygener.cpp kgpgoption.ui kgpginterface.cpp keyservers.cpp keyservers.h keyserver.ui searchres.ui
+kgpg_SOURCES = kgpgoptions.cpp listkeys.cpp popuppublic.cpp kgpgview.cpp kgpg.cpp main.cpp popupname.cpp kgpgfast.cpp keygener.cpp kgpgoption.ui kgpginterface.cpp keyservers.cpp keyservers.h keyserver.ui searchres.ui popupimport.cpp popupimport.h
 kgpg_LDADD   =  $(LIB_KIO)
 
 KDE_ICON = kgpg_gen kgpg kgpg2 kgpg_edit kgpg_sign kgpg_info kgpg_import kgpg_export kgpg_key2 kgpg_key1 kgpg_manage kgpg_photo kgpg_identity
