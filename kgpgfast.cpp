@@ -27,7 +27,7 @@
 #include <kbuttonbox.h>
 #include <kmessagebox.h>
 #include <klocale.h>
-
+#include <kstdguiitem.h>
 
 KgpgOverwrite::KgpgOverwrite( QWidget *parent, const char *name, KURL ofile):KDialogBase( parent, name, true, i18n("File Already Exists"),0)
 {
@@ -43,7 +43,7 @@ KgpgOverwrite::KgpgOverwrite( QWidget *parent, const char *name, KURL ofile):KDi
         boutonbox->addStretch(1);
         bouton1=boutonbox->addButton(i18n("&Overwrite"),TRUE);
         bouton2=boutonbox->addButton(i18n("&Rename"),TRUE);
-        bouton3=boutonbox->addButton(i18n("&Cancel"),TRUE);
+        bouton3=boutonbox->addButton(KStdGuiItem::cancel().text(),TRUE);
 
         QObject::connect(lineedit,SIGNAL(textChanged(const QString &)),this,SLOT(enablerename()));
         QObject::connect(lineedit,SIGNAL(returnPressed(const QString &)),this,SLOT(slotcheck()));
