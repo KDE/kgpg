@@ -271,7 +271,7 @@ private slots:
         void slotPreImportKey();
         void slotedit();
 	void addToKAB();
-	void allToKAB();
+//	void allToKAB();
 	void editGroup();
 	void groupAdd();
 	void groupRemove();

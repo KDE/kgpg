@@ -476,7 +476,7 @@ void  KeyView::startDrag()
 
 ///////////////////////////////////////////////////////////////////////////////////////   main window for key management
 
-listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterface" ), KMainWindow(parent, name)
+listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterface" ), KMainWindow(parent, name,0)
 {
 	//KWin::setType(Qt::WDestructiveClose);
         keysList2 = new KeyView(this);
@@ -500,12 +500,12 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         importSignatureKey = new KAction(i18n("Import Key From Keyserver"),"network", 0,this, SLOT(preimportsignkey()),actionCollection(),"key_importsign");
         importAllSignKeys = new KAction(i18n("Import Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
 
-        (void) new KAction(i18n("&Create Group with Selected Keys"), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
+        (void) new KAction(i18n("&Create Group With Selected Keys"), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
         KAction *delGroup= new KAction(i18n("&Delete Group"), 0, 0,this, SLOT(deleteGroup()),actionCollection(),"delete_group");
-        KAction *editCurrentGroup= new KAction(i18n("&Edit Group..."), 0, 0,this, SLOT(editGroup()),actionCollection(),"edit_group");
+        KAction *editCurrentGroup= new KAction(i18n("&Edit Group"), 0, 0,this, SLOT(editGroup()),actionCollection(),"edit_group");
 
         (void) new KAction(i18n("&Create New Contact in Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
-        (void) new KAction(i18n("&Merge Public Keys in Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
+//        (void) new KAction(i18n("&Merge Public Keys in Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
 	(void) new KAction(i18n("&Go to Default Key"), "gohome",QKeySequence(CTRL+Qt::Key_Home) ,this, SLOT(slotGotoDefaultKey()),actionCollection(),"go_default_key");
 
         KStdAction::quit(this, SLOT(annule()), actionCollection());
@@ -514,9 +514,9 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
         KAction *openPhoto= new KAction(i18n("&Open Photo"), "image", 0,this, SLOT(slotShowPhoto()),actionCollection(),"key_photo");
 	KAction *deletePhoto= new KAction(i18n("&Delete Photo"), "delete", 0,this, SLOT(slotDeletePhoto()),actionCollection(),"delete_photo");
-	KAction *addPhoto= new KAction(i18n("&Add Photo..."), 0, 0,this, SLOT(slotAddPhoto()),actionCollection(),"add_photo");
+	KAction *addPhoto= new KAction(i18n("&Add Photo"), 0, 0,this, SLOT(slotAddPhoto()),actionCollection(),"add_photo");
 
-	KAction *addUid= new KAction(i18n("&Add User Id..."), 0, 0,this, SLOT(slotAddUid()),actionCollection(),"add_uid");
+	KAction *addUid= new KAction(i18n("&Add User Id"), 0, 0,this, SLOT(slotAddUid()),actionCollection(),"add_uid");
 	KAction *delUid= new KAction(i18n("&Delete User Id"), 0, 0,this, SLOT(slotDelUid()),actionCollection(),"del_uid");
 
 	KAction *editKey = new KAction(i18n("&Edit Key in Terminal"), "openterm", QKeySequence(ALT+Qt::Key_Return),this, SLOT(slotedit()),actionCollection(),"key_edit");
@@ -535,7 +535,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         KStdAction::configureToolbars(this, SLOT(configuretoolbars() ), actionCollection(), "configuretoolbars");
         setStandardToolBarMenuEnabled(true);
 
-	(void) new KToggleAction(i18n("&Show Only Secret Keys"), 0, 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
+	(void) new KToggleAction(i18n("&Show only Secret Keys"), 0, 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
 	keysList2->displayOnlySecret=false;
 	
 	sTrust=new KToggleAction(i18n("Trust"),0, 0,this, SLOT(slotShowTrust()),actionCollection(),"show_trust");
@@ -1009,6 +1009,7 @@ void listKeys::addToKAB()
         //KRun::runCommand( "dcop kaddressbook AddressBookServiceIface importVCard("+Vcard+",true)");
 }
 
+/*
 void listKeys::allToKAB()
 {
         KABC::Key key;
@@ -1044,6 +1045,7 @@ void listKeys::allToKAB()
         else
                 KMessageBox::sorry(this,i18n("No entry matching your keys were found in the address book."));
 }
+*/
 
 void listKeys::slotManpage()
 {
@@ -1064,8 +1066,9 @@ void listKeys::closeEvent ( QCloseEvent * e )
 {
         //kapp->ref(); // prevent KMainWindow from closing the app
         //KMainWindow::closeEvent( e );
-	hide();
-	e->ignore();
+	e->accept();
+//	hide();
+//	e->ignore();
 }
 
 void listKeys::keyserver()
@@ -1131,11 +1134,9 @@ void listKeys::readOptions()
 
 void listKeys::slotOptions()
 {
-        KConfigDialog *optionsDialog=KConfigDialog::exists("settings");
-        if (!optionsDialog)
-                optionsDialog = new kgpgOptions(this,"settings");
-        
-        disconnect(optionsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAllOptions()));
+        if (KConfigDialog::showDialog("settings"))
+                return;
+        kgpgOptions *optionsDialog=new kgpgOptions(this,"settings");
         connect(optionsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAllOptions()));
         optionsDialog->show();
 }
