@@ -1853,9 +1853,9 @@ void listKeys::signkey()
         KgpgSelKey *opts=new KgpgSelKey(this);
 
         QLabel *signCheck = new QLabel("<qt>"+i18n("How carefully have you checked that the key really "
-                                            "belongs to the person you want to communicate with:",
+                                            "belongs to the person with whom you wish to communicate:",
 					    "How carefully have you checked that the %n keys really "
-                                            "belong to the people you want to communicate with:",signList.count()),opts->page);
+                                            "belong to the people with whom you wish to communicate:",signList.count()),opts->page);
         opts->vbox->addWidget(signCheck);
         QComboBox *signTrust=new QComboBox(opts->page);
         signTrust->insertItem(i18n("I Will Not Answer"));
