@@ -77,6 +77,10 @@ public slots:
 protected:
         void contentsDragEnterEvent( QDragEnterEvent *e );
         void contentsDropEvent( QDropEvent *e );
+	
+private slots:
+	void editorUpdateDecryptedtxt(QString newtxt);
+	void editorFailedDecryptedtxt(QString newtxt);
 
 signals:
 	void refreshImported(QStringList);

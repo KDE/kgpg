@@ -138,29 +138,28 @@ QFile qfile(fileToCheck);
 }
 
 
+void MyEditor::editorUpdateDecryptedtxt(QString newtxt)
+{
+	setText(newtxt);
+}
+
+void MyEditor::editorFailedDecryptedtxt(QString newtxt)
+{
+	KMessageBox::detailedSorry(this,i18n("Decryption failed."),newtxt);
+}
+
+
 void MyEditor::slotDecodeFile(QString fname)
 {
         ////////////////     decode file from given url into editor
-        QString enckey=KgpgInterface::extractKeyName(KURL(fname));
         QFile qfile(QFile::encodeName(fname));
-        if (qfile.open(IO_ReadOnly)) {
-                if (enckey.isEmpty())
-                        enckey=i18n("[No user id found]");
-			
-		KConfig *ksConfig=kapp->config();
-		ksConfig->setGroup("GPG Settings");
-		
-                QString resultat=KgpgInterface::KgpgDecryptFileToText(KURL(fname),enckey,KgpgInterface::getGpgBoolSetting("use-agent",ksConfig->readPathEntry("gpg_config_path")));
-                KIO::NetAccess::removeTempFile(fname);
-                tempFile=QString::null;
-                if (resultat!=" ") // if user didn't cancel ...
-                {
-                        if (!resultat.isEmpty())
-                                setText(resultat);
-                        else
-				slotCheckContent(fname,false);	
-                                //KMessageBox::sorry(this,i18n("Decryption not possible: bad passphrase, missing key or corrupted file."));
-                }
+        if (qfile.open(IO_ReadOnly)) {			
+	KConfig *ksConfig=kapp->config();
+	ksConfig->setGroup("Decryption");
+	KgpgInterface *txtDecrypt=new KgpgInterface();
+        connect (txtDecrypt,SIGNAL(txtdecryptionfinished(QString)),this,SLOT(editorUpdateDecryptedtxt(QString)));
+	connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(editorFailedDecryptedtxt(QString)));
+        txtDecrypt->KgpgDecryptFileToText(KURL(fname),QStringList::split(QString(" "),ksConfig->readEntry("custom_decrypt").simplifyWhiteSpace()));
         } else
                 KMessageBox::sorry(this,i18n("Unable to read file."));
 }

@@ -153,7 +153,7 @@ public slots:
 	void KgpgDeletePhoto(QString keyID,QString uid);
 	void KgpgAddPhoto(QString keyID,QString imagePath);
 
-        static QString KgpgDecryptFileToText(KURL srcUrl,QString userID,bool useAgent);
+        void KgpgDecryptFileToText(KURL srcUrl,QStringList Options);
 
         static QString extractKeyName(QString txt="");
         static QString extractKeyName(KURL url=0);

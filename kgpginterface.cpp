@@ -284,7 +284,6 @@ badmdc=false;
   QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreaddecprocess(KProcIO *)));
   proc->start(KProcess::NotifyOnExit,false);
   proc->writeStdin(txtprocess.utf8(),false);
-
 }
 
 void KgpgInterface::txtdecryptfin(KProcess *)
@@ -380,116 +379,29 @@ void KgpgInterface::txtreaddecprocess(KProcIO *p)
 	}
 }
 
-/*
-QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
+
+void KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QStringList Options)
 {
-        FILE *fp,*pass;
-        QString encResult,gpgcmd;
-        char buffer[200];
-        int counter=0,ppass[2];
-        QCString password;
-
-        if (getenv("GPG_AGENT_INFO")) {
-                gpgcmd="echo ";
-                gpgcmd+=KShellProcess::quote(text);
-                gpgcmd+=" | gpg --no-secmem-warning --no-tty -d";
-
-                fp = popen(QFile::encodeName(gpgcmd), "r");
-                while ( fgets( buffer, sizeof(buffer), fp))
-                        encResult+=buffer;
-                pclose(fp);
-        } else {
-                while ((counter<3) && (encResult.isEmpty())) {
-                        /// pipe for passphrase
-                        counter++;
-                        //userID=QString::fromUtf8(userID);
-                        userID.replace(QRegExp("<"),"&lt;");
-                        QString passdlg=i18n("Enter passphrase for <b>%1</b>:").arg(userID);
-                        if (counter>1)
-                                passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 tries left.<br>").arg(QString::number(4-counter)));
-
-                        /// pipe for passphrase
-                        int code=KPasswordDialog::getPassword(password,passdlg);
-                        if (code!=QDialog::Accepted)
-                                return " ";
-
-                        pipe(ppass);
-                        pass = fdopen(ppass[1], "w");
-                        fwrite(password, sizeof(char), strlen(password), pass);
-                        //        fwrite("\n", sizeof(char), 1, pass);
-                        fclose(pass);
-
-                        gpgcmd="echo ";
-                        gpgcmd+=KShellProcess::quote(text.utf8());
-                        gpgcmd+=" | gpg --no-secmem-warning --no-tty ";
-                        gpgcmd+="--passphrase-fd "+QString::number(ppass[0])+" -d ";
-                        //////////   encode with untrusted keys or armor if checked by user
-                        fp = popen(QFile::encodeName(gpgcmd), "r");
-                        while ( fgets( buffer, sizeof(buffer), fp))
-                                encResult+=buffer;
-                        pclose(fp);
-                }
-        }
-
-
-        if (!encResult.isEmpty())
-                return QString::fromUtf8(encResult.ascii());
-        else
-                return "";
-}
-*/
-
-QString KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QString userID,bool useAgent)
-{
-        FILE *fp,*pass;
-        QString encResult=QString::null,gpgcmd;
-        char buffer[200];
-        int counter=0,ppass[2];
-        QCString password;
         
-	if (useAgent && getenv("GPG_AGENT_INFO")) {
-                gpgcmd+="gpg --no-secmem-warning --no-tty -o - -d ";
-                gpgcmd+=QFile::encodeName(srcUrl.path());
+  message=QString::null;
+  userIDs=QString::null;
+  step=3;
+  anonymous=false;
+decfinished=false;
+decok=false;
+badmdc=false;
+ KProcIO *proc=new KProcIO();
+	  *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=1"<<"--no-batch"<<"-o"<<"-";
+      	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) {
+       		*proc<< QFile::encodeName(*it);
+    		}
+      *proc<<"-d"<<QFile::encodeName(srcUrl.path());
 
-                fp = popen(QFile::encodeName(gpgcmd), "r");
-                while ( fgets( buffer, sizeof(buffer), fp))
-                        encResult+=buffer;
-                pclose(fp);
-        } else {
-                while ((counter<3) && (encResult.isEmpty())) {
-                        /// pipe for passphrase
-                        counter++;
-                        //userID=QString::fromUtf8(userID);
-                        userID.replace(QRegExp("<"),"&lt;");
-                        QString passdlg=i18n("Enter passphrase for <b>%1</b>:").arg(userID);
-                        if (counter>1)
-                                passdlg.prepend(i18n("<b>Bad passphrase</b><br> You have %1 tries left.<br>").arg(QString::number(4-counter)));
+  /////////  when process ends, update dialog infos
 
-                        /// pipe for passphrase
-                        int code=KPasswordDialog::getPassword(password,passdlg);
-                        if (code!=QDialog::Accepted)
-                                return " ";
-
-                        pipe(ppass);
-                        pass = fdopen(ppass[1], "w");
-                        fwrite(password, sizeof(char), strlen(password), pass);
-                        //        fwrite("\n", sizeof(char), 1, pass);
-                        fclose(pass);
-
-                        gpgcmd+="gpg --no-secmem-warning --no-tty ";
-                        gpgcmd+="--passphrase-fd "+QString::number(ppass[0])+" -o - -d '";
-                        gpgcmd+=srcUrl.path()+"'";
-                        //////////   encode with untrusted keys or armor if checked by user
-                        fp = popen(QFile::encodeName(gpgcmd), "r");
-                        while ( fgets( buffer, sizeof(buffer), fp))
-                                encResult+=buffer;
-                        pclose(fp);
-                }
-        }
-        if (!encResult.isEmpty())
-                return encResult;
-        else
-                return "";
+  QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtdecryptfin(KProcess *)));
+  QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreaddecprocess(KProcIO *)));
+  proc->start(KProcess::NotifyOnExit,false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////   MD5
