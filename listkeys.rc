@@ -4,6 +4,7 @@
 <MenuBar>
   <Menu name="managekeys"><text>&amp;Keys</text>
     <Action name="key_info"/>
+    <Action name="key_server_refresh"/>
     <Action name="key_sign"/>
     <Action name="key_edit"/>
     <Action name="key_gener"/>
@@ -67,6 +68,7 @@
     	<Action name="delete_group"/>
 	</enable>
 	<disable>
+	<Action name="key_server_refresh"/>
 	<Action name="create_group"/>
 	<Action name="key_info"/>
 	<Action name="key_sign"/>
@@ -82,6 +84,7 @@
     	<Action name="delete_group"/>
 	</disable>
 	<enable>
+	<Action name="key_server_refresh"/>
 	<Action name="key_info"/>
 	<Action name="key_sign"/>
     	<Action name="key_edit"/>
@@ -106,6 +109,7 @@
 	</disable>
 	<enable>
 	<Action name="key_info"/>
+	<Action name="key_server_refresh"/>
 	<Action name="key_sign"/>
     	<Action name="key_edit"/>
 	<Action name="key_export"/>

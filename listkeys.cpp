@@ -528,14 +528,14 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", KStdAccel::shortcut(KStdAccel::Paste),this, SLOT(slotPreImportKey()),actionCollection(),"key_import");
     KAction *setDefaultKey = new KAction(i18n("Set as De&fault Key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
     importSignatureKey = new KAction(i18n("Import Key From Keyserver"),"network", 0,this, SLOT(preimportsignkey()),actionCollection(),"key_importsign");
-    importAllSignKeys = new KAction(i18n("Import Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
+    importAllSignKeys = new KAction(i18n("Import &Missing Signatures From Keyserver"),"network", 0,this, SLOT(importallsignkey()),actionCollection(),"key_importallsign");
+    refreshKey = new KAction(i18n("&Refresh Key(s) From Keyserver"),"reload", 0,this, SLOT(refreshKeyFromServer()),actionCollection(),"key_server_refresh");
 
     (void) new KAction(i18n("&Create Group With Selected Keys"), 0, 0,this, SLOT(createNewGroup()),actionCollection(),"create_group");
     KAction *delGroup= new KAction(i18n("&Delete Group"), 0, 0,this, SLOT(deleteGroup()),actionCollection(),"delete_group");
     KAction *editCurrentGroup= new KAction(i18n("&Edit Group"), 0, 0,this, SLOT(editGroup()),actionCollection(),"edit_group");
 
     (void) new KAction(i18n("&Create New Contact in Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
-    //        (void) new KAction(i18n("&Merge Public Keys in Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
     (void) new KAction(i18n("&Go to Default Key"), "gohome",QKeySequence(CTRL+Qt::Key_Home) ,this, SLOT(slotGotoDefaultKey()),actionCollection(),"go_default_key");
 
     KStdAction::quit(this, SLOT(annule()), actionCollection());
@@ -549,7 +549,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     KAction *addUid= new KAction(i18n("&Add User Id"), 0, 0,this, SLOT(slotAddUid()),actionCollection(),"add_uid");
     KAction *delUid= new KAction(i18n("&Delete User Id"), 0, 0,this, SLOT(slotDelUid()),actionCollection(),"del_uid");
 
-    KAction *editKey = new KAction(i18n("&Edit Key in Terminal"), "kgpg_term", QKeySequence(ALT+Qt::Key_Return),this, SLOT(slotedit()),actionCollection(),"key_edit");
+    KAction *editKey = new KAction(i18n("Edit Key in &Terminal"), "kgpg_term", QKeySequence(ALT+Qt::Key_Return),this, SLOT(slotedit()),actionCollection(),"key_edit");
     KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
     KAction *revokeKey = new KAction(i18n("Revoke Key..."), 0, 0,this, SLOT(revokeWidget()),actionCollection(),"key_revoke");
 
@@ -609,6 +609,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     signKey->plug(popup);
     infoKey->plug(popup);
     editKey->plug(popup);
+    refreshKey->plug(popup);
     setDefaultKey->plug(popup);
     popup->insertSeparator();
     importAllSignKeys->plug(popup);
@@ -618,6 +619,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     signKey->plug(popupsec);
     infoKey->plug(popupsec);
     editKey->plug(popupsec);
+    refreshKey->plug(popupsec);
     setDefaultKey->plug(popupsec);
     popupsec->insertSeparator();
     addPhoto->plug(popupsec);
@@ -859,6 +861,48 @@ void listKeys::slotGotoDefaultKey()
     keysList2->setSelected(myDefaulKey,true);
     keysList2->ensureItemVisible(myDefaulKey);
 }
+
+
+
+
+
+
+void listKeys::refreshKeyFromServer()
+{
+    if (keysList2->currentItem()==NULL)
+        return;
+	QString keyIDS;
+	keysList=keysList2->selectedItems();
+    	bool keyDepth=true;
+    	for ( uint i = 0; i < keysList.count(); ++i )
+        if ( keysList.at(i) )
+            	{
+	    	if ((keysList.at(i)->depth()!=0) || (keysList.at(i)->text(6).isEmpty()))
+                keyDepth=false;
+		else keyIDS+=keysList.at(i)->text(6)+" ";
+		}
+    	if (!keyDepth)
+	{
+        KMessageBox::sorry(this,i18n("You can only refresh primary keys. Please check your selection."));
+        return;
+    	}
+    kServer=new keyServer(0,"server_dialog",false);
+    kServer->page->kLEimportid->setText(keyIDS);
+    kServer->slotImport();
+    connect( kServer->importpop, SIGNAL( destroyed() ) , this, SLOT(refreshFinished()));
+}
+
+
+void listKeys::refreshFinished()
+{
+    if (kServer)
+        kServer=0L;
+	
+	for ( uint i = 0; i < keysList.count(); ++i )
+        if (keysList.at(i))
+    	keysList2->refreshcurrentkey(keysList.at(i));
+}
+
 
 void listKeys::slotDelUid()
 {
@@ -1366,11 +1410,15 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
             if (!keyDepth)
             {
                 signKey->setEnabled(false);
+		refreshKey->setEnabled(false);
                 popupout->exec(pos);
                 return;
             }
             else
-                signKey->setEnabled(true);
+                {
+		signKey->setEnabled(true);
+		refreshKey->setEnabled(true);
+		}
         }
 
         if (sel->depth()!=0)

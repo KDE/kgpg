@@ -190,8 +190,8 @@ private:
 	bool showPhoto;
         keyServer *kServer;
         KTempFile *kgpgtmp;
-        KAction *importSignatureKey,*importAllSignKeys,*signKey;
-        QPtrList<QListViewItem> signList;
+        KAction *importSignatureKey,*importAllSignKeys,*signKey,*refreshKey;
+        QPtrList<QListViewItem> signList,keysList;
         uint globalCount,keyCount;
 	int globalChecked,searchWidget;
         bool globalisLocal,showTipOfDay;
@@ -288,6 +288,8 @@ private slots:
 	void deleteGroup();
 	void slotImportRevoke(QString url);
 	void slotImportRevokeTxt(QString revokeText);
+	void refreshKeyFromServer();
+	void refreshFinished();
 
 signals:
         void readAgainOptions();
