@@ -486,7 +486,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         config=kapp->config();
         setAutoSaveSettings();
         readOptions();
-	
+
 	if (showTipOfDay)
 	installEventFilter(this);
         setCaption(i18n("Key Management"));
@@ -516,7 +516,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         KAction *openPhoto= new KAction(i18n("&Open Photo"), "image", 0,this, SLOT(slotShowPhoto()),actionCollection(),"key_photo");
 	KAction *deletePhoto= new KAction(i18n("&Delete Photo"), "delete", 0,this, SLOT(slotDeletePhoto()),actionCollection(),"delete_photo");
 	KAction *addPhoto= new KAction(i18n("&Add Photo"), 0, 0,this, SLOT(slotAddPhoto()),actionCollection(),"add_photo");
-	
+
 	KAction *addUid= new KAction(i18n("&Add User Id"), 0, 0,this, SLOT(slotAddUid()),actionCollection(),"add_uid");
 	KAction *delUid= new KAction(i18n("&Delete User Id"), 0, 0,this, SLOT(slotDelUid()),actionCollection(),"del_uid");
 
@@ -535,10 +535,10 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
         KStdAction::configureToolbars(this, SLOT(configuretoolbars() ), actionCollection(), "configuretoolbars");
         setStandardToolBarMenuEnabled(true);
-	
+
 	(void) new KToggleAction(i18n("&Show only Secret Keys"), 0, 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
 	keysList2->displayOnlySecret=false;
-	
+
 	photoProps = new KSelectAction(i18n("&Photo ID's"),"kgpg_photo", actionCollection(), "photo_settings");
 	connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
   	QStringList list;
@@ -638,11 +638,11 @@ listKeys::~listKeys()
 
 
 bool listKeys::eventFilter( QObject *, QEvent *e )
-{  
+{
         if ((e->type() == QEvent::Show) && (showTipOfDay))
-	{	
+	{
             	KTipDialog::showTip(this, QString("kgpg/tips"), false);
-		showTipOfDay=false;    
+		showTipOfDay=false;
 	}
         return FALSE;
 }
@@ -842,7 +842,7 @@ void listKeys::findFirstKey()
         if (!item)
                 return;
         QString searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
-        
+
         //kdDebug()<<"Search:"<<searchString<<endl;
         //kdDebug()<<"OPts:"<<searchOptions<<endl;
         KFind *m_find = new KFind(searchString, searchOptions,this);
@@ -874,7 +874,10 @@ void listKeys::findNextKey()
 {
         //kdDebug()<<"find next"<<endl;
         if (searchString.isEmpty())
-                return;
+        {
+            findKey();
+            return;
+        }
         bool foundItem=true;
         QListViewItem *item=keysList2->currentItem();
         if (!item)
@@ -1114,10 +1117,10 @@ void listKeys::readOptions()
 	keysList2->displayPhoto=showPhoto;
 
         config->setGroup("User Interface");
-	
+
 	clipboardMode=QClipboard::Clipboard;
         if ((config->readBoolEntry("selection_clipboard",false)) && (kapp->clipboard()->supportsSelection())) clipboardMode=QClipboard::Selection;
-		
+
         config->setGroup("GPG Settings");
         configUrl=config->readPathEntry("gpg_config_path");
         keysList2->configFilePath=configUrl;
@@ -1274,15 +1277,15 @@ void listKeys::revokeWidget()
 KDialogBase *keyRevokeWidget=new KDialogBase(KDialogBase::Swallow, i18n("Create Revocation Certificate"),  KDialogBase::Ok | KDialogBase::Cancel,KDialogBase::Ok,this,0,true);
 
         KgpgRevokeWidget *keyRevoke=new KgpgRevokeWidget();
-        
+
 	keyRevoke->keyID->setText(keysList2->currentItem()->text(0)+" ("+keysList2->currentItem()->text(1)+") "+i18n("ID: ")+keysList2->currentItem()->text(6));
         keyRevoke->kURLRequester1->setURL(QDir::homeDirPath()+"/"+keysList2->currentItem()->text(1).section('@',0,0)+".revoke");
         keyRevoke->kURLRequester1->setMode(KFile::File);
-	
+
 	keyRevoke->setMinimumSize(keyRevoke->sizeHint());
 	keyRevoke->show();
 	keyRevokeWidget->setMainWidget(keyRevoke);
-	
+
         if (keyRevokeWidget->exec()!=QDialog::Accepted)
                 return;
         if (keyRevoke->cbSave->isChecked()) {
@@ -1293,7 +1296,7 @@ KDialogBase *keyRevokeWidget=new KDialogBase(KDialogBase::Swallow, i18n("Create 
 			connect(revKeyProcess,SIGNAL(revokeurl(QString)),this,SLOT(slotImportRevoke(QString)));
         } else {
 			slotrevoke(keysList2->currentItem()->text(6),QString::null,keyRevoke->comboBox1->currentItem(),keyRevoke->textDescription->text());
-		if (keyRevoke->cbPrint->isChecked()) 
+		if (keyRevoke->cbPrint->isChecked())
                         connect(revKeyProcess,SIGNAL(revokecertificate(QString)),this,SLOT(doPrint(QString)));
 		if (keyRevoke->cbImport->isChecked())
 			connect(revKeyProcess,SIGNAL(revokecertificate(QString)),this,SLOT(slotImportRevokeTxt(QString)));
@@ -1373,9 +1376,9 @@ void listKeys::slotexport()
                 sname="keyring";
         sname.append(".asc");
         sname.prepend(QDir::homeDirPath()+"/");
-	
+
 	KDialogBase *dial=new KDialogBase( KDialogBase::Swallow, i18n("Public Key Export"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "key_export",true);
-	
+
 	KeyExport *page=new KeyExport();
 	dial->setMainWidget(page);
 	page->newFilename->setURL(sname);
@@ -1548,7 +1551,7 @@ void listKeys::groupChange()
 void listKeys::createNewGroup()
 {
         QStringList badkeys,keysGroup;
-        
+
         if (keysList2->selectedItems().count()>0) {
                 QPtrList<QListViewItem> groupList=keysList2->selectedItems();
                 bool keyDepth=true;
@@ -1618,9 +1621,9 @@ void listKeys::groupInit(QStringList keysGroup)
 void listKeys::editGroup()
 {
         QStringList keysGroup;
-	
+
 	KDialogBase *dialogGroupEdit=new KDialogBase(KDialogBase::Swallow, i18n("Key Properties"), KDialogBase::Ok | KDialogBase::Cancel,KDialogBase::Ok,this,0,true);
-	
+
 	gEdit=new groupEdit();
 	gEdit->buttonAdd->setPixmap(KGlobal::iconLoader()->loadIcon("forward",KIcon::Small,20));
 	gEdit->buttonRemove->setPixmap(KGlobal::iconLoader()->loadIcon("back",KIcon::Small,20));
@@ -1647,7 +1650,7 @@ void listKeys::editGroup()
         }
         keysGroup=KgpgInterface::getGpgGroupSetting(keysList2->currentItem()->text(0),keysList2->configFilePath);
         groupInit(keysGroup);
-	
+
 	dialogGroupEdit->setMainWidget(gEdit);
 	gEdit->setMinimumSize(gEdit->sizeHint());
         if (dialogGroupEdit->exec()==QDialog::Accepted) groupChange();
@@ -1724,23 +1727,23 @@ void listKeys::signkey()
 
         QCheckBox *localSign = new QCheckBox(i18n("Local signature (cannot be exported)"),opts->page);
 	opts->vbox->addWidget(localSign);
-	
+
 	QCheckBox *terminalSign = new QCheckBox(i18n("Do not sign all user id's (open terminal)"),opts->page);
 	opts->vbox->addWidget(terminalSign);
 	if (signList.count()!=1) terminalSign->setEnabled(false);
-	
+
         opts->setMinimumHeight(300);
 
-        if (opts->exec()!=QDialog::Accepted) 
+        if (opts->exec()!=QDialog::Accepted)
 	{
 	delete opts;
 	return;
 	}
-	
+
 	globalkeyID=QString(opts->getkeyID());
 	globalkeyMail=QString(opts->getkeyMail());
 	globalisLocal=localSign->isChecked();
-	globalChecked=signTrust->currentItem();        
+	globalChecked=signTrust->currentItem();
 	keyCount=0;
         delete opts;
 	globalCount=signList.count();
@@ -1786,7 +1789,7 @@ void listKeys::signatureResult(int success)
 
         else if (success==2)
                 KMessageBox::sorry(this,i18n("<qt>Bad passphrase, key <b>%1</b> not signed.</qt>").arg(signList.at(keyCount)->text(0)+i18n(" (")+signList.at(keyCount)->text(1)+i18n(")")));
-        
+
 	keyCount++;
 	signLoop();
 }
@@ -2056,7 +2059,7 @@ void listKeys::slotReadFingerProcess(KProcIO *p)
         while (p->readln(outp)!=-1) {
                 if (outp.startsWith("pub") && (continueSearch)) {
                         newkeyID=outp.section(':',4,4).right(8).prepend("0x");
-                        
+
                 }
                 if (outp.startsWith("fpr")) {
                         if (newkeyFinger.lower()==outp.section(':',9,9).lower())
@@ -2092,7 +2095,7 @@ void listKeys::newKeyDone(KProcess *)
         QListViewItem *newdef = keysList2->firstChild();
         while (newdef)
 		{
-		if (newdef->text(6)==newkeyID) 
+		if (newdef->text(6)==newkeyID)
 		{
 		if (page->CBdefault->isChecked())
 		slotSetDefaultKey(newdef);
@@ -2240,7 +2243,7 @@ void listKeys::slotPreImportKey()
 	page->newFilename->setMode(KFile::File);
 	page->resize(page->minimumSize());
 	dial->resize(dial->minimumSize());
-	
+
         if (dial->exec()==QDialog::Accepted) {
 
                 if (page->checkFile->isChecked()) {
@@ -2303,7 +2306,7 @@ void KeyView::expandKey(QListViewItem *item)
                 return;   // key has already been expanded
 
 	photoIdList.clear();
-	
+
 	if (photoKeysList.find(item->text(6))!=-1) // contains a photo id
 	{
 	KgpgInterface *photoProcess=new KgpgInterface();
@@ -2343,7 +2346,7 @@ void KeyView::expandKey2(QListViewItem *item)
         while ( fgets( line, sizeof(line), fp)) {
                 tst=QStringList::split(":",line,true);
                 if (tst[0]=="uid" || tst[0]=="uat") {
-			if (dropFirstUid) 
+			if (dropFirstUid)
 			{
 			dropFirstUid=false;
                         }
@@ -2747,7 +2750,7 @@ QStringList keyString=QStringList::split(":",keyColon,true);
 	ret.gpgkeytrust=i18n("Disabled");
 	ret.trustpic=trustbad;
 	}
-	
+
         return ret;
 }
 
