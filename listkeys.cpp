@@ -1854,7 +1854,7 @@ void listKeys::signkey()
 
         QLabel *signCheck = new QLabel("<qt>"+i18n("How carefully have you checked that the key really "
                                             "belongs to the person you want to communicate with:",
-					    "How carefully have you checked that the keys really "
+					    "How carefully have you checked that the %n keys really "
                                             "belong to the people you want to communicate with:",signList.count()),opts->page);
         opts->vbox->addWidget(signCheck);
         QComboBox *signTrust=new QComboBox(opts->page);
