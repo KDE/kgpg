@@ -77,7 +77,7 @@ void UpdateViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, in
                 font.setBold(true);
                 p->setFont(font);
         }
-        KListViewItem::paintCell(p, cg, column, width, alignment);
+        KListViewItem::paintCell(p,cg, column, width, alignment);
 }
 
 
@@ -451,7 +451,7 @@ QString KgpgSelKey::extractKeyName(QString fullName)
         QString kName=fullName.section('<',0,0);
         if (kName.find("(")!=-1)
                 kName=kName.section('(',0,0);
-	kName=KgpgInterface::checkForUtf8(kName);
+        kName=KgpgInterface::checkForUtf8(kName);
         return QString(kMail+" ("+kName+")").stripWhiteSpace();
 }
 
@@ -530,6 +530,9 @@ KeyView::KeyView( QWidget *parent, const char *name )
         pixsignature=loader->loadIcon("signature",KIcon::Small,20);
         pixuserid=loader->loadIcon("kgpg_identity",KIcon::Small,20);
         pixuserphoto=loader->loadIcon("kgpg_photo",KIcon::Small,20);
+        trustunknown=loader->loadIcon("kgpg_trust1",KIcon::Small,15);
+        trustbad=loader->loadIcon("kgpg_trust0",KIcon::Small,15);
+        trustgood=loader->loadIcon("kgpg_trust2",KIcon::Small,15);
 
 
         connect(this,SIGNAL(expanded (QListViewItem *)),this,SLOT(expandKey(QListViewItem *)));
@@ -747,7 +750,8 @@ void listKeys::keyserver()
 {
         keyServer *ks=new keyServer(this);
         ks->exec();
-        delete ks;
+        if (ks)
+                delete ks;
         refreshkey();
 }
 
@@ -1097,6 +1101,31 @@ void listKeys::signkey()
                 return;
         bool islocal=false;
         QString keyID,keyMail;
+
+        FILE *pass;
+        char line[200]="";
+        QString opt,fingervalue;
+        QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --fingerprint "+KShellProcess::quote(keysList2->currentItem()->text(5));
+        pass=popen(QFile::encodeName(gpgcmd),"r");
+        while ( fgets( line, sizeof(line), pass)) {
+                opt=line;
+                if (opt.startsWith("fpr")) {
+                        fingervalue=opt.section(':',9,9);
+                        // format fingervalue in 4-digit groups
+                        uint len = fingervalue.length();
+                        if ((len > 0) && (len % 4 == 0))
+                                for (uint n = 0; 4*(n+1) < len; n++)
+                                        fingervalue.insert(5*n+4, ' ');
+                }
+        }
+
+        opt=	i18n("<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>%3</b>.<br><br>"
+	"You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
+         "is not trying to intercept your comunications</qt>").arg(keysList2->currentItem()->text(0)).arg(keysList2->currentItem()->text(5)).arg(fingervalue);
+
+        if (KMessageBox::warningContinueCancel(this,opt)!=KMessageBox::Continue)
+                return;
+
         //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
         KgpgSelKey *opts=new KgpgSelKey(this);
 
@@ -1109,11 +1138,6 @@ void listKeys::signkey()
                 return;
         }
         delete opts;
-        QString ask=i18n("Are you sure you want to sign key\n%1 with key %2?\n"
-                         "You should always check fingerprint before signing!").arg(keysList2->currentItem()->text(0)).arg(keyMail);
-
-        if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes)
-                return;
         KgpgInterface *signKeyProcess=new KgpgInterface();
         signKeyProcess->KgpgSignKey(keysList2->currentItem()->text(5),keyID,keyMail,islocal);
 
@@ -1200,7 +1224,7 @@ void listKeys::delsignkey()
                 KMessageBox::sorry(this,i18n("Edit key manually to delete a self-signature."));
                 return;
         }
-        QString ask=i18n("Are you sure you want to delete signature\n%1 from key %2?").arg(signMail).arg(parentMail);
+        QString ask=i18n("<qt>Are you sure you want to delete signature<br><b>%1</b> from key:<br><b>%2</b>?</qt>").arg(signMail).arg(parentMail);
 
         if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes)
                 return;
@@ -1504,6 +1528,7 @@ void KeyView::expandKey(QListViewItem *item)
                                                 tst=i18n("%1 subkey").arg(subKey.gpgkeyalgo);
                                                 itemsub= new SmallViewItem(item,tst,subKey.gpgkeytrust,subKey.gpgkeyexpiration,subKey.gpgkeysize,subKey.gpgkeycreation,subKey.gpgkeyid);
                                                 itemsub->setPixmap(0,pixkeySingle);
+                                                itemsub->setPixmap(1,subKey.trustpic);
                                                 cycle="sub";
 
                                         }
@@ -1586,9 +1611,7 @@ void KeyView::refreshkeylist()
         bool noID=false;
 
         clear();
-        cycle="";
         FILE *fp2;
-        QString block="idre";
         QString issec="";
         secretList="";
         revoked="";
@@ -1598,7 +1621,7 @@ void KeyView::refreshkeylist()
         pclose(fp2);
 
         //fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-sigs", "r");
-        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-keys", "r");
+        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8", "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
                 if (tst.startsWith("pub")) {
@@ -1615,11 +1638,10 @@ void KeyView::refreshkeylist()
                         //QTextCodec::codecForContent(locallyEncoded,locallyEncoded.length()); // get the codec for KOI8-R
 
                         item=new UpdateViewItem(this,extractKeyName(pubKey.gpgkeyname,pubKey.gpgkeymail),pubKey.gpgkeytrust,pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold);
+
+                        item->setPixmap(1,pubKey.trustpic);
+
                         item->setExpandable(true);
-                        //item=new UpdateViewItem(this,codec->toUnicode( locallyEncoded),pubKey.gpgkeytrust,pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold);
-
-                        cycle="pub";
-
                         if (issec.find(pubKey.gpgkeyid.right(8),0,FALSE)!=-1) {
                                 item->setPixmap(0,pixkeyPair);
                                 secretList+=pubKey.gpgkeyid;
@@ -1630,65 +1652,6 @@ void KeyView::refreshkeylist()
 
         }
         pclose(fp);
-        /*
-                while (!revoked.isEmpty())   ///////////////   there are revoked sigs in previous key
-                {
-                        bool found=false;
-                        revoked=revoked.stripWhiteSpace();
-                        QString currentRevoke=revoked.section(' ',0,0);
-                        revoked.remove(0,currentRevoke.length());
-                        revoked=revoked.stripWhiteSpace();
-
-                        QListViewItem *current = item->firstChild();
-                        if (current)
-                                if (currentRevoke.find(current->text(5))!=-1)
-                                {
-                                        current->setText(1,i18n("Revoked"));
-                                        found=true;
-                                }
-
-                        QListViewItem *subcurrent = current->firstChild();
-                        if (subcurrent)
-                        {
-                                if (currentRevoke.find(subcurrent->text(5))!=-1) {
-                                        subcurrent->setText(1,i18n("Revoked"));
-                                        found=true;
-                                }
-                                while (subcurrent->nextSibling()) {
-                                        subcurrent = subcurrent->nextSibling();
-                                        if (currentRevoke.find(subcurrent->text(5))!=-1) {
-                                                subcurrent->setText(1,i18n("Revoked"));
-                                                found=true;
-                                        }
-                                }
-                        }
-
-                        while ( current->nextSibling() )
-                        {
-                                current = current->nextSibling();
-                                if (currentRevoke.find(current->text(5))!=-1) {
-                                        current->setText(1,i18n("Revoked"));
-                                        found=true;
-                                }
-
-                                QListViewItem *subcurrent = current->firstChild();
-                                if (subcurrent) {
-                                        if (currentRevoke.find(subcurrent->text(5))!=-1) {
-                                                subcurrent->setText(1,i18n("Revoked"));
-                                                found=true;
-                                        }
-                                        while (subcurrent->nextSibling()) {
-                                                subcurrent = subcurrent->nextSibling();
-                                                if (currentRevoke.find(subcurrent->text(5))!=-1) {
-                                                        subcurrent->setText(1,i18n("Revoked"));
-                                                        found=true;
-                                                }
-                                        }
-                                }
-                        }
-                        if (!found)
-                                (void) new SmallViewItem(item,i18n("Revocation Certificate"),"+","+","+","+",currentRevoke);
-                }*/
         setSelected(firstChild(),true);
         if (columnWidth(0)>150)
                 setColumnWidth(0,150);
@@ -1696,7 +1659,7 @@ void KeyView::refreshkeylist()
 
 QString KeyView::extractKeyName(QString name,QString mail)
 {
-name=KgpgInterface::checkForUtf8(name);
+        name=KgpgInterface::checkForUtf8(name);
         if (displayMailFirst)
                 return QString(mail+" ("+name+")");
         return QString(name+" ("+mail+")");
@@ -1752,43 +1715,52 @@ gpgKey KeyView::extractKey(QString keyColon)
         ret.gpgkeyalgo=algo;
 
         const QString trust=keyColon.section(':',1,1);
-        QString tr;
         switch( trust[0] ) {
         case 'o':
-                tr=i18n("Unknown");
+                ret.gpgkeytrust=i18n("Unknown");
+                ret.trustpic=trustunknown;
                 break;
         case 'i':
-                tr=i18n("Invalid");
+                ret.gpgkeytrust=i18n("Invalid");
+                ret.trustpic=trustbad;
                 break;
         case 'd':
-                tr=i18n("Disabled");
+                ret.gpgkeytrust=i18n("Disabled");
+                ret.trustpic=trustbad;
                 break;
         case 'r':
-                tr=i18n("Revoked");
+                ret.gpgkeytrust=i18n("Revoked");
+                ret.trustpic=trustbad;
                 break;
         case 'e':
-                tr=i18n("Expired");
+                ret.gpgkeytrust=i18n("Expired");
+                ret.trustpic=trustbad;
                 break;
         case 'q':
-                tr=i18n("Undefined");
+                ret.gpgkeytrust=i18n("Undefined");
+                ret.trustpic=trustunknown;
                 break;
         case 'n':
-                tr=i18n("None");
+                ret.gpgkeytrust=i18n("None");
+                ret.trustpic=trustunknown;
                 break;
         case 'm':
-                tr=i18n("Marginal");
+                ret.gpgkeytrust=i18n("Marginal");
+                ret.trustpic=trustunknown;
                 break;
         case 'f':
-                tr=i18n("Full");
+                ret.gpgkeytrust=i18n("Full");
+                ret.trustpic=trustgood;
                 break;
         case 'u':
-                tr=i18n("Ultimate");
+                ret.gpgkeytrust=i18n("Ultimate");
+                ret.trustpic=trustgood;
                 break;
         default:
-                tr=i18n("?");
+                ret.gpgkeytrust=i18n("?");
+                ret.trustpic=trustunknown;
                 break;
         }
-        ret.gpgkeytrust=tr;
 
         return ret;
 }

@@ -32,14 +32,14 @@ KDetailedConsole::KDetailedConsole(QWidget *parent, const char *name,const QStri
 {
         QWidget *page = new QWidget( this );
         setMainWidget(page);
-        QVBoxLayout *vbox=new QVBoxLayout(page,3);
+        QVBoxLayout *vbox=new QVBoxLayout(page,0, spacingHint() );
 
         QLabel *lab1=new QLabel(page);
         lab1->setText(boxLabel);
 
         QVGroupBox *detailsGroup = new QVGroupBox( i18n("Details"), page);
-        QLabel *labdetails = new QLabel(errormessage,detailsGroup);
-        labdetails->setMinimumSize(labdetails->sizeHint());
+        (void) new QLabel(errormessage,detailsGroup);
+        //labdetails->setMinimumSize(labdetails->sizeHint());
         setDetailsWidget(detailsGroup);
         vbox->addWidget(lab1);
 

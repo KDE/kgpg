@@ -69,6 +69,8 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KgpgOptionDialog( pa
         if (!defaultKeyID.isEmpty())
                 defaut_2_2->setChecked(true);
 
+	if (kLEcustomdec->text().find("--no-use-agent",0,FALSE)!=-1) cBagent->setChecked(true);
+
         kURLconfigPath->setURL(confPath);
         kLEcustom->setText(config->readEntry("custom option"));
         kLEcustomdec->setText(config->readEntry("custom decrypt"));
@@ -117,11 +119,20 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name):KgpgOptionDialog( pa
         connect(Buttondefault,SIGNAL(clicked()),this,SLOT(slotDefaultServer()));
         connect(Buttonedit,SIGNAL(clicked()),this,SLOT(slotEditServer()));
         connect(Buttonremove,SIGNAL(clicked()),this,SLOT(slotRemoveServer()));
+	connect(cBagent,SIGNAL(toggled(bool)),this,SLOT(slotAgent(bool)));
 }
 
 
 kgpgOptions::~kgpgOptions()
 {}
+
+void kgpgOptions::slotAgent(bool)
+{
+int pos=kLEcustomdec->text().find("--no-use-agent",0,FALSE);
+if (pos==-1) kLEcustomdec->setText(kLEcustomdec->text()+" --no-use-agent");
+else kLEcustomdec->setText(kLEcustomdec->text().remove(pos,14));
+}
+
 
 
 void kgpgOptions::slotEditServer()
@@ -383,6 +394,8 @@ QString kgpgOptions::idcode(QString kname)
                         return QString("0x"+ids[counter].right(8));
         return QString::null;
 }
+
+
 
 void kgpgOptions::listkey()
 {

@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>530</width>
-            <height>315</height>
+            <height>326</height>
         </rect>
     </property>
     <property name="caption">
@@ -316,7 +316,15 @@
                             <bool>true</bool>
                         </property>
                     </widget>
-                    <spacer row="2" column="0">
+                    <widget class="QCheckBox" row="2" column="0">
+                        <property name="name">
+                            <cstring>cBagent</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Do not use gpg-agent (use only with GnuPG &gt; 1.06)</string>
+                        </property>
+                    </widget>
+                    <spacer row="3" column="0">
                         <property name="name">
                             <cstring>spacer3</cstring>
                         </property>
@@ -329,7 +337,7 @@
                         <property name="sizeHint">
                             <size>
                                 <width>21</width>
-                                <height>110</height>
+                                <height>70</height>
                             </size>
                         </property>
                     </spacer>

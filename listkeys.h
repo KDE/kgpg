@@ -34,6 +34,8 @@
 #include <qcheckbox.h>
 #include <qdragobject.h>
 #include <qevent.h>
+#include <qpalette.h>
+#include <qcolor.h>
 
 #include <kmainwindow.h>
 #include <kurl.h>
@@ -74,6 +76,7 @@ typedef struct gpgKey
         QString gpgkeycreation;
         QString gpgkeyexpiration;
         QString gpgkeyalgo;
+	QPixmap trustpic;
 };
 
 class KgpgSelKey : public KDialogBase
@@ -121,7 +124,7 @@ private:
         bool displayMailFirst;
         QString secretList,defKey;
         QString photoKeysList;
-        QPixmap pixkeyPair,pixkeySingle,pixsignature,pixuserid,pixuserphoto;
+        QPixmap pixkeyPair,pixkeySingle,pixsignature,pixuserid,pixuserphoto,trustunknown, trustbad, trustgood;
 
 private slots:
         void  droppedfile (KURL);

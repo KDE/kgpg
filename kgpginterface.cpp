@@ -821,22 +821,16 @@ void KgpgInterface::verifyfin(KProcess *)
 
 void KgpgInterface::KgpgSignKey(QString keyID,QString signKeyID,QString signKeyMail,bool local)
 {
-        if (checkuid(keyID)>0) {
-                KProcess *conprocess=new KProcess();
-                *conprocess<< "konsole"<<"-e"<<"gpg";
-                *conprocess<<"--no-secmem-warning"<<"-u"<<signKeyID;
-                if (local==false)
-                        *conprocess<<"--sign-key"<<keyID;
-                else
-                        *conprocess<<"--lsign-key"<<keyID;
-                conprocess->start(KProcess::Block);
-                emit signatureFinished(0);
-                return;
-        }
+
         signKeyMail.replace(QRegExp("<"),"&lt;");
         konsLocal=local;
         konsSignKey=signKeyID;
         konsKeyID=keyID;
+
+	if (checkuid(keyID)>0) {
+        openSignConsole();
+                return;
+        }
         signSuccess=0;
         step=0;
         output="";
@@ -961,7 +955,8 @@ void KgpgInterface::signover(KProcess *)
         if ((signSuccess==3) || (signSuccess==2))
                 emit signatureFinished(signSuccess);  ////   signature successfull or bad passphrase
         else {
-                KDetailedConsole *q=new KDetailedConsole(0,"sign_error",i18n("<b>Encryption failed:</b><br>Do you want to try signing in a console ?"),output);
+                KDetailedConsole *q=new KDetailedConsole(0,"sign_error",i18n("<qt><b>Signing failed.</b><br>"
+		"Do you want to try signing the key in console mode?</qt>"),output);
                 if (q->exec()==QDialog::Accepted)
                         openSignConsole();
                 else
@@ -973,7 +968,7 @@ void KgpgInterface::openSignConsole()
 {
         KProcess *conprocess=new KProcess();
         *conprocess<< "konsole"<<"-e"<<"gpg";
-        *conprocess<<"--no-secmem-warning"<<"-u"<<konsSignKey;
+        *conprocess<<"--no-secmem-warning"<<"--expert"<<"-u"<<konsSignKey;
         if (!konsLocal)
                 *conprocess<<"--sign-key"<<konsKeyID;
         else

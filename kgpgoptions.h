@@ -38,6 +38,7 @@ private:
         QString confPath,defaultKeyID;
 
 private slots:
+	void slotAgent(bool);
         void slotSaveServer();
         void listkey();
         QString namecode(QString kid);
