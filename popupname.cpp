@@ -116,6 +116,7 @@ popupName::popupName(const QString& caption,QWidget *parent, const char *name,KU
 
 void popupName::slotchooseurl()
 {
+    checkFile->setChecked( true );
         /////////  toggle editing of file name depending of the user choice
         KURL url=KFileDialog::getSaveURL(path.path(),i18n("*|All Files"), this, i18n("Save As"));
         if(!url.isEmpty())

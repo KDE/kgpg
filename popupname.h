@@ -47,10 +47,6 @@ public:
 protected:
         QGridLayout* bGroupSourcesLayout;
 
-private:
-protected slots:
-        //virtual void slotOk();
-private slots:
 
 public slots:
         void slotchooseurl();

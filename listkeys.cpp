@@ -1048,6 +1048,7 @@ void listKeys::slotexport()
                         p->start(KProcess::NotifyOnExit,false);
                 }
         }
+        delete dial;
 }
 
 void listKeys::slotReadProcess(KProcIO *p)
