@@ -63,6 +63,9 @@
 #include <kedittoolbar.h>
 #include <dcopclient.h>
 #include <kstandarddirs.h>
+#include <kfinddialog.h>
+#include <kfind.h>
+
 
 #include "kgpg.h"
 #include "keygener.h"
@@ -165,7 +168,8 @@ private:
         uint globalCount;
 	int globalChecked;
         bool globalisLocal;
-        QString globalkeyMail,globalkeyID;
+        QString globalkeyMail,globalkeyID,searchString;
+	long searchOptions;
 
 protected:
         void closeEvent( QCloseEvent * e );
@@ -175,6 +179,9 @@ public slots:
         void refreshkey();
 	void readAllOptions();
 	void showKeyInfo(QString keyID);
+	void findKey();
+	void findFirstKey();
+	void findNextKey();
 
 private slots:
         void checkList();

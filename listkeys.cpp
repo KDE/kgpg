@@ -46,7 +46,6 @@
 #include <kurldrag.h>
 
 
-
 #include <kabc/stdaddressbook.h>
 #include <kabc/addresseedialog.h>
 
@@ -452,6 +451,8 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 	(void) new KAction(i18n("&Merge Public Keys In Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
 
         KStdAction::quit(this, SLOT(annule()), actionCollection());
+	KStdAction::find(this, SLOT(findKey()), actionCollection());
+	KStdAction::findNext(this, SLOT(findNextKey()), actionCollection());
         (void) new KAction(i18n("&Refresh List"), "reload", KStdAccel::reload(),this, SLOT(refreshkey()),actionCollection(),"key_refresh");
         editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
         KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
@@ -568,6 +569,91 @@ void listKeys::saveToolbarConfig()
         createGUI("listkeys.rc");
         applyMainWindowSettings(KGlobal::config(), "MainWindow");
 }
+
+void listKeys::findKey()
+{
+KFindDialog fd(this,"find_dialog",0,"");
+if ( fd.exec() != QDialog::Accepted )
+return;
+searchString=fd.pattern();
+searchOptions=fd.options();
+findFirstKey();
+}
+
+void listKeys::findFirstKey()
+{
+if (searchString.isEmpty()) return;
+bool foundItem=true;
+QListViewItem *item=keysList2->firstChild();
+int *ix;
+QString searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
+//kdDebug()<<"String:"<<searchText<<"\n";
+//kdDebug()<<"Search:"<<searchString<<"\n";
+//kdDebug()<<"OPts:"<<searchOptions<<"\n";
+KFind *m_find = new KFind(searchString, searchOptions,this);
+m_find->setData(searchText);
+while (m_find->find()==KFind::NoMatch)
+{
+if (!item->nextSibling()) {foundItem=false;break;}
+else
+{
+item = item->nextSibling();
+searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
+kdDebug()<<searchText<<"\n";
+m_find->setData(searchText);
+}
+}
+delete m_find;
+//kdDebug()<<"end loop"<<"\n";
+
+if (foundItem)
+{
+//kdDebug()<<"Found: "<<searchText<<"\n";
+keysList2->clearSelection();
+keysList2->setCurrentItem(item);
+keysList2->setSelected(item,true);
+keysList2->ensureItemVisible(item);
+}
+else KMessageBox::sorry(this,i18n("<qt>Search string '<b>%1</b>' not found.").arg(searchString));
+}
+
+void listKeys::findNextKey()
+{
+//kdDebug()<<"find next\n";
+if (searchString.isEmpty()) return;
+bool foundItem=true;
+int *ix;
+QListViewItem *item=keysList2->currentItem()->nextSibling();
+QString searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
+//kdDebug()<<"Next string:"<<searchText<<"\n";
+//kdDebug()<<"Search:"<<searchString<<"\n";
+//kdDebug()<<"OPts:"<<searchOptions<<"\n";
+KFind *m_find = new KFind(searchString, searchOptions,this);
+m_find->setData(searchText);
+while (m_find->find()==KFind::NoMatch)
+{
+if (!item->nextSibling()) {foundItem=false;break;}
+else
+{
+item = item->nextSibling();
+searchText=item->text(0)+" "+item->text(1)+" "+item->text(6);
+m_find->setData(searchText);
+//kdDebug()<<"Next string:"<<searchText<<"\n";
+}
+}
+delete m_find;
+if (foundItem)
+{
+keysList2->clearSelection();
+keysList2->setCurrentItem(item);
+keysList2->setSelected(item,true);
+keysList2->ensureItemVisible(item);
+}
+else findFirstKey();
+}
+
+
+
 
 void listKeys::addToKAB()
 {
@@ -1700,6 +1786,7 @@ void KeyView::refreshkeylist()
         char line[300];
         UpdateViewItem *item=NULL;
         bool noID=false;
+	bool emptyList=true;
 
         // get current position.
         //int colWidth = 120; //QMAX(70, columnWidth(0));
@@ -1708,6 +1795,7 @@ void KeyView::refreshkeylist()
                 while(current->depth() > 0) {
                         current = current->parent();
                 }
+kdDebug()<<"Current Item:"<<current->text(0)<<"\n";
                 takeItem(current);
         }
 
@@ -1726,6 +1814,7 @@ void KeyView::refreshkeylist()
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
                 if (tst.startsWith("pub")) {
+			emptyList=false;
                         noID=false;
                         gpgKey pubKey=extractKey(tst);
 
@@ -1754,22 +1843,19 @@ void KeyView::refreshkeylist()
 
         }
         pclose(fp);
+	if (emptyList) return;
+
 
         if(current != NULL) {
                 // select previous selected
-                QListViewItem *newPos = findItem(current->text(0), 0);
-                setSelected(newPos, true);
+                QListViewItem *newPos = findItem(current->text(6), 6);
+		if (newPos==0) return;
+                setCurrentItem(newPos);
+		setSelected(newPos, true);
                 ensureItemVisible(newPos);
                 delete current;
         }
-/*
-        if (columnWidth(0) > 200)
-                setColumnWidth(0, 200);
-        if (columnWidth(1) > 200)
-                setColumnWidth(1, 200);
-        if (columnWidth(2) > 60)
-                setColumnWidth(2, 60);
-*/
+	else {setCurrentItem(firstChild());setSelected(firstChild(),true);}
 }
 
 void KeyView::refreshcurrentkey(QListViewItem *current)
