@@ -87,6 +87,7 @@ void  MyView::clipEncrypt()
         popupPublic *dialoguec=new popupPublic(0, "public_keys", 0,false);
         connect(dialoguec,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(encryptClipboard(QStringList,QStringList,bool,bool)));
         dialoguec->exec();
+        delete dialoguec;
 }
 
 void  MyView::clipDecrypt()
