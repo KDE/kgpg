@@ -70,7 +70,6 @@ private slots:
 private:
         QString customDecrypt,tempFile,extension;
         KURL urlselected;
-        bool popIsDisplayed;
         KPassivePopup *pop;
 	KProgress *shredProgressBar;
 

@@ -91,6 +91,7 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
         }
 
         KgpgInterface *cryptFileProcess=new KgpgInterface();
+	pop = new KPassivePopup();
         cryptFileProcess->KgpgEncryptFile(selec,urlselected,dest,encryptOptions,symetric);
         connect(cryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup2()));
         if (shred)
@@ -102,7 +103,8 @@ void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList enc
 
 void KgpgLibrary::processpopup2()
 {
-        pop = new KPassivePopup();
+        
+	pop->setTimeout(0);
         pop->setView(i18n("Processing encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
         pop->show();
         QRect qRect(QApplication::desktop()->screenGeometry());
@@ -172,8 +174,8 @@ void KgpgLibrary::slotFileDec(KURL srcUrl,KURL destUrl,QStringList customDecrypt
 {
         //////////////////////////////////////////////////////////////////    decode file from konqueror or menu
         KgpgInterface *decryptFileProcess=new KgpgInterface();
-        urlselected=srcUrl;
-        popIsDisplayed=false;
+        pop = new KPassivePopup();
+	urlselected=srcUrl;
         decryptFileProcess->KgpgDecryptFile(srcUrl,destUrl,customDecryptOption);
         connect(decryptFileProcess,SIGNAL(processaborted(bool)),this,SIGNAL(decryptionOver()));
         connect(decryptFileProcess,SIGNAL(processstarted()),this,SLOT(processpopup()));
@@ -183,8 +185,7 @@ void KgpgLibrary::slotFileDec(KURL srcUrl,KURL destUrl,QStringList customDecrypt
 
 void KgpgLibrary::processpopup()
 {
-        popIsDisplayed=true;
-        pop = new KPassivePopup();
+	pop->setTimeout(0);
         pop->setView(i18n("Processing decryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
         pop->show();
         QRect qRect(QApplication::desktop()->screenGeometry());

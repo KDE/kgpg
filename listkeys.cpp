@@ -2033,9 +2033,8 @@ void listKeys::slotgenkey()
                     goodpass=true;
             }
 
-            //pop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
             pop = new KPassivePopup();
-
+	    pop->setTimeout(0);
 
             QWidget *wid=new QWidget(pop);
             QVBoxLayout *vbox=new QVBoxLayout(wid,3);
@@ -2572,7 +2571,7 @@ void KeyView::refreshkeylist()
 {
     ////////   update display of keys in main management window
     FILE *fp;
-    QString tst,cycle,revoked;
+    QString tst;
     char line[300];
     UpdateViewItem *item=NULL;
     bool noID=false;
@@ -2580,7 +2579,6 @@ void KeyView::refreshkeylist()
     QString openKeys;
 
     // get current position.
-    //int colWidth = 120; //QMAX(70, columnWidth(0));
     QListViewItem *current = currentItem();
     if(current != NULL)
     {
@@ -2596,7 +2594,6 @@ void KeyView::refreshkeylist()
     FILE *fp2;
     QString issec=QString::null;
     secretList=QString::null;
-    revoked=QString::null;
     fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
     while ( fgets( line, sizeof(line), fp2))
     {
