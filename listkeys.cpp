@@ -894,7 +894,7 @@ void listKeys::slotManpage()
 
 void listKeys::slotTip()
 {
-        KTipDialog::showTip(this, "kgpg/tips", true);
+        KTipDialog::showTip(this, QString("kgpg/tips"), true);
 }
 
 void listKeys::slotConfigureShortcuts()

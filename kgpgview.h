@@ -41,6 +41,7 @@
 #include <kprocio.h>
 #include <kmessagebox.h>
 #include <kurl.h>
+#include <ktextedit.h>
 
 
 
@@ -59,7 +60,7 @@
  * @version KDevelop version 0.4 code generation
  */
 
-class MyEditor : public QTextEdit
+class MyEditor : public KTextEdit
 {
         Q_OBJECT
 

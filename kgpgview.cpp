@@ -39,9 +39,10 @@
 //////////////// configuration for editor
 
 MyEditor::MyEditor( QWidget *parent, const char *name )
-                : QTextEdit( parent, name )
+                : KTextEdit( parent, name )
 {
         setTextFormat(PlainText);
+	setCheckSpellingEnabled (true);
         setAcceptDrops(true);
 }
 
@@ -234,7 +235,7 @@ void KgpgView::clearSign()
 
                 pipe(process);
                 cmdstatus = fdopen(process[1], "w");
-                QString line="echo "+KShellProcess::quote(mess);
+                QString line="echo "+KShellProcess::quote(mess.utf8());
                 line+=" | gpg --no-tty  --no-secmem-warning --status-fd="+QString::number(process[1])+" --verify";
                 fp=popen(QFile::encodeName(line),"r");
                 pclose(fp);
@@ -319,7 +320,7 @@ void KgpgView::clearSign()
                 ///////////////////  generate gpg command
                 QString line="echo ";
                 //mess=mess.replace(QRegExp("\\\\") , "\\\\").replace(QRegExp("\\\"") , "\\\"").replace(QRegExp("\\$") , "\\$");
-                line+=KShellProcess::quote(mess.local8Bit());
+                line+=KShellProcess::quote(mess.utf8());
                 line+=" | gpg ";
                 if (pubpgp)
                         line+="--pgp6 ";
@@ -342,7 +343,7 @@ void KgpgView::clearSign()
 
                 /////////////////  paste result into editor
                 if (!tst.isEmpty()) {
-                        editor->setText(tst);
+                        editor->setText(QString::fromUtf8(tst));
                         KgpgApp *win=(KgpgApp *) parent();
                         win->editRedo->setEnabled(false);
                         win->editUndo->setEnabled(false);

@@ -27,16 +27,17 @@
 #include <qstring.h>
 #include <qdragobject.h>
 #include <qwidgetlist.h>
+#include <qpainter.h>
+#include <qpaintdevice.h>
+#include <qpaintdevicemetrics.h>
 
 #include <kurl.h>
 #include <kpopupmenu.h>
 #include <khelpmenu.h>
 #include <ksystemtray.h>
 #include <kdeversion.h>
-
-#if (KDE_VERSION >= 310)
 #include <kpassivepopup.h>
-#endif
+#include <kprinter.h>
 
 #include "kgpginterface.h"
 #include "kgpgview.h"
@@ -106,26 +107,14 @@ private slots:
 
 private:
 
-#if (KDE_VERSION >= 310)
-
         KPassivePopup *pop;
-#else
-
-        QDialog *clippop;
-#endif
-
         QString customDecrypt;
-        //QDialog *clippop;
 
         KURL urlselected;
         /** the configuration object of the application */
         KConfig *config;
         bool pgpExtension;
-        KAction* fileSave;
-        KAction* editUndo;
-        KAction *editRedo;
-
-        //  KToggleAction* viewEditorFirst;
+        KAction* fileSave, *editUndo, *editRedo;
 };
 #endif
 

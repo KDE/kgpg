@@ -244,7 +244,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
 void KgpgInterface::KgpgEncryptText(QString text,QString userIDs, QString Options)
 {
         message="";
-        txtprocess=text;
+        txtprocess=text.utf8();
         txtsent=false;
         KProcIO *proc=new KProcIO();
         userIDs=userIDs.stripWhiteSpace();
@@ -279,7 +279,7 @@ void KgpgInterface::KgpgEncryptText(QString text,QString userIDs, QString Option
 void KgpgInterface::txtencryptfin(KProcess *)
 {
         if (txtsent)
-                emit txtencryptionfinished(message);
+                emit txtencryptionfinished(QString::fromUtf8(message));
         else
                 emit txtencryptionfinished("");
 }
@@ -496,7 +496,7 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
                         fclose(pass);
 
                         gpgcmd="echo ";
-                        gpgcmd+=KShellProcess::quote(text);
+                        gpgcmd+=KShellProcess::quote(text.utf8());
                         gpgcmd+=" | gpg --no-secmem-warning --no-tty ";
                         gpgcmd+="--passphrase-fd "+QString::number(ppass[0])+" -d ";
                         //////////   encode with untrusted keys or armor if checked by user
@@ -509,7 +509,7 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
 
 
         if (!encResult.isEmpty())
-                return encResult;
+                return QString::fromUtf8(encResult);
         else
                 return "";
 }
@@ -563,7 +563,7 @@ QString KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QString userID)
                 }
         }
         if (!encResult.isEmpty())
-                return encResult;
+                return QString::fromUtf8(encResult);
         else
                 return "";
 }

@@ -22,7 +22,6 @@
 
 KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f):KMainWindow(parent, name,f)
 {
-
         config=kapp->config();
         readOptions();
 
@@ -93,7 +92,7 @@ void KgpgApp::initActions()
         (void) new KAction(i18n("&Generate Signature..."),0, this, SLOT(slotPreSignFile()), actionCollection(), "sign_generate");
         (void) new KAction(i18n("&Verify Signature..."),0, this, SLOT(slotPreVerifyFile()), actionCollection(), "sign_verify");
         (void) new KAction(i18n("&Check MD5 Sum..."), 0,this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
-
+	KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
 }
 
 
@@ -218,7 +217,7 @@ void KgpgApp::slotFileSave()
         // slotStatusMsg(i18n("Saving file..."));
 
         QString filn=Docname.path();
-        if (filn=="") {
+        if (filn.isEmpty()) {
                 slotFileSaveAs();
                 return;
         }
@@ -228,7 +227,7 @@ void KgpgApp::slotFileSave()
         }
 
         QTextStream t( &f );
-        t << view->editor->text();
+        t << view->editor->text().utf8();
         f.close();
         fileSave->setEnabled(false);
         setCaption(Docname.fileName(),false);
@@ -282,7 +281,15 @@ void KgpgApp::openDocumentFile(const KURL& url)
 }
 
 void KgpgApp::slotFilePrint()
-{}
+{
+        KPrinter prt;
+        //kdDebug()<<"Printing...\n";
+        if (prt.setup(this)) {
+                QPainter painter(&prt);
+                QPaintDeviceMetrics metrics(painter.device());
+                painter.drawText( 0, 0, metrics.width(), metrics.height(), AlignLeft|AlignTop|DontClip,view->editor->text() );
+        }
+}
 
 void KgpgApp::slotEditCut()
 {
@@ -418,9 +425,6 @@ void KgpgApp::openEncryptedDocumentFile(const KURL& url)
 {
         view->editor->droppedfile(url);
 }
-
-
-
 
 
 #include "kgpgeditor.moc"

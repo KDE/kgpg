@@ -12,17 +12,5 @@
     <Action name="sign_verify"/>
     <Action name="sign_check"/>
   </Menu>
-
 </MenuBar>
-
-<ToolBar name="mainToolBar"  noMerge="1" position="top"><text>Main Toolbar</text>
-<Action name="file_new"     />
-    <Action name="file_open"    />
-    <Action name="file_save"    />
-    <Action name="edit_undo" />
-    <Action name="edit_redo" />
-    <Action name="edit_cut" />
-    <Action name="edit_copy" />
-    <Action name="edit_paste" />
-</ToolBar>
 </kpartgui>
