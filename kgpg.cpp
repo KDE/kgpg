@@ -151,9 +151,9 @@ else cryptedClipboard=clipContent;
 
 cryptedClipboard.replace(QRegExp("<"),"&lt;");   /////   disable html tags
 cryptedClipboard.replace(QRegExp("\n"),"<br>");
-if (KDE_VERSION >= 310)
+#if (KDE_VERSION >= 310)
 KPassivePopup::message(i18n("Encrypted following text:"),cryptedClipboard,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this,0,3500);
-else
+#else
 {
 	clippop = new QDialog( this,0,false,WStyle_Customize | WStyle_NormalBorder);
               QVBoxLayout *vbox=new QVBoxLayout(clippop,3);
@@ -169,6 +169,7 @@ else
 			  clippop->show();
  QTimer::singleShot( 3000, this, SLOT(killDisplayClip()));
  }
+ #endif
  //KMessageBox::information(this,i18n("Encrypted following text:\n")+QString(clipContent.left(60).stripWhiteSpace())+"...");
  connect(kapp->clipboard(),SIGNAL(dataChanged ()),this,SLOT(expressQuit()));
  }
