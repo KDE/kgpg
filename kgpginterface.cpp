@@ -439,17 +439,17 @@ QString KgpgInterface::KgpgDecryptText(QString text,QString userID)
 }
 */
 
-QString KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QString userID)
+QString KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QString userID,bool useAgent)
 {
         FILE *fp,*pass;
-        QString encResult,gpgcmd;
+        QString encResult=QString::null,gpgcmd;
         char buffer[200];
         int counter=0,ppass[2];
         QCString password;
-
-        if (getenv("GPG_AGENT_INFO")) {
-                gpgcmd+="gpg --no-secmem-warning --no-tty -o - -d '";
-                gpgcmd+=srcUrl.path()+"'";
+        
+	if (useAgent && getenv("GPG_AGENT_INFO")) {
+                gpgcmd+="gpg --no-secmem-warning --no-tty -o - -d ";
+                gpgcmd+=QFile::encodeName(srcUrl.path());
 
                 fp = popen(QFile::encodeName(gpgcmd), "r");
                 while ( fgets( buffer, sizeof(buffer), fp))

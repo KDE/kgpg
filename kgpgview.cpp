@@ -146,7 +146,11 @@ void MyEditor::slotDecodeFile(QString fname)
         if (qfile.open(IO_ReadOnly)) {
                 if (enckey.isEmpty())
                         enckey=i18n("[No user id found]");
-                QString resultat=KgpgInterface::KgpgDecryptFileToText(KURL(fname),enckey);
+			
+		KConfig *ksConfig=kapp->config();
+		ksConfig->setGroup("GPG Settings");
+		
+                QString resultat=KgpgInterface::KgpgDecryptFileToText(KURL(fname),enckey,KgpgInterface::getGpgBoolSetting("use-agent",ksConfig->readPathEntry("gpg_config_path")));
                 KIO::NetAccess::removeTempFile(fname);
                 tempFile=QString::null;
                 if (resultat!=" ") // if user didn't cancel ...
@@ -311,7 +315,12 @@ void KgpgView::clearSign()
                 }
                 delete opts;
                 /////////////////////  get passphrase
-                if (!getenv("GPG_AGENT_INFO")) {
+		
+		KConfig *ksConfig=kapp->config();
+		ksConfig->setGroup("GPG Settings");
+                bool useAgent=KgpgInterface::getGpgBoolSetting("use-agent",ksConfig->readPathEntry("gpg_config_path"));
+		
+                if (!getenv("GPG_AGENT_INFO") || !useAgent) {
                         int code=KPasswordDialog::getPassword(password,i18n("Enter passphrase for <b>%1</b>:").arg(signKeyMail.replace(QRegExp("<"),"&lt;")));
                         ///////////////////   ask for password
                         if (code!=QDialog::Accepted)
@@ -331,7 +340,7 @@ void KgpgView::clearSign()
                 line+=" | gpg ";
                 if (pubpgp)
                         line+="--pgp6 ";
-                if (!getenv("GPG_AGENT_INFO")) {
+                if (!getenv("GPG_AGENT_INFO") || !useAgent) {
                         line+="--passphrase-fd ";
                         QString fd;
                         fd.setNum(ppass[0]);
