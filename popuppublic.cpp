@@ -27,16 +27,20 @@
 #include <qhbuttongroup.h>
 #include <qtoolbutton.h>
 
+#include <kdeversion.h>
 #include <klistview.h>
 #include <kprocess.h>
 #include <kprocio.h>
 #include <klocale.h>
 #include <kaccel.h>
+#if KDE_IS_VERSION( 3, 2, 90 )
 #include <klistviewsearchline.h>
+#endif
 #include <kactivelabel.h>
 #include <kaction.h>
 #include <kdebug.h>
 #include <kiconloader.h>
+#include <klineedit.h>
 
 #include "popuppublic.h"
 #include "kgpgsettings.h"
@@ -107,19 +111,23 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 	//hBar->setFrameStyle(QFrame::NoFrame);
 	hBar->setMargin(0);
 	
+#if KDE_IS_VERSION( 3, 2, 90 )
 	QToolButton *clearSearch = new QToolButton(hBar);
 	clearSearch->setTextLabel(i18n("Clear Search"), true);
 	clearSearch->setIconSet(SmallIconSet("locationbar_erase"));
 	(void) new QLabel(i18n("Search: "),hBar);
 	KListViewSearchLine* listViewSearch = new KListViewSearchLine(hBar);
 	connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
+#endif
 	
         keysList = new KListView( page );
 	 keysList->addColumn(i18n("Name"));
 	 keysList->addColumn(i18n("Email"));
 	 keysList->addColumn(i18n("ID"));
 	 
+#if KDE_IS_VERSION( 3, 2, 90 )
 	 listViewSearch->setListView(keysList);
+#endif
 
         keysList->setRootIsDecorated(false);
         page->setMinimumSize(540,200);
