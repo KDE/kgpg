@@ -345,10 +345,9 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
       vbox->addWidget(local);
     }
 
-  FILE *fp;
-  QString tst;
+  FILE *fp,*fp2;
+  QString tst,tst2;
   char line[130];
-
   fp = popen(QString("gpg --no-tty --with-colon --list-secret-keys"), "r");
   while ( fgets( line, sizeof(line), fp))
   {
@@ -397,8 +396,30 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialog
               tr=i18n("?");
               break;
           }
-          tst=tst.section(":",9,9);
-          if (!tst.isEmpty())
+          tst=tst.section(":",9,9);  
+		  
+  fp2 = popen(QString("gpg --no-tty --with-colon --list-key %1").arg(id), "r");
+  bool dead=true;
+  while ( fgets( line, sizeof(line), fp2))
+  {
+      tst2=line;
+      if (tst2.startsWith("pub"))
+      {
+          const QString trust2=tst2.section(':',1,1);
+          switch( trust2[0] )
+            {
+            case 'f':
+              dead=false;
+              break;
+            case 'u':
+              dead=false;
+              break;
+            default:
+              break;
+          }
+  }
+  }
+		  if (!tst.isEmpty() && (!dead))
           {
               KListViewItem *item=new KListViewItem(keysListpr,QString::fromUtf8(extractKeyName(tst)));
               KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, expiration: %3").arg(id).arg(tr).arg(val));
