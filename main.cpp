@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 	aboutData.addAuthor("y0k0",0, "bj@altern.org");
 	aboutData.addCredit("Christoph Thielecke",I18N_NOOP("German translation"),"crissi99@gmx.de");
 	aboutData.addCredit("Daniele Medri",I18N_NOOP("Italian translation"),"madrid@linuxmeeting.net");
-<<<<<<< main.cpp
+
 KCmdLineArgs::init( argc, argv, &aboutData );
 KCmdLineArgs::addCmdLineOptions( options );  
 KApplication::addCmdLineOptions();
