@@ -343,23 +343,18 @@ void popupPublic::refreshkeys()
 
 void popupPublic::slotpreselect()
 {
-QListViewItem *it;
+QListViewItem *it=NULL;
+if (!keysList->firstChild()) return;
         if (fmode) it=keysList->findItem(KGpgSettings::defaultKey(),2);
-        else {
-                it=keysList->firstChild();
-                if (it==NULL)
-                        return;
-                while (!it->isVisible()) {
-                        it=it->nextSibling();
-                        if (it==NULL)
-                                return;
-                }
-        }
 if (!trusted)
               sort();
+if (fmode) 
+{
+  	keysList->clearSelection();
 	keysList->setSelected(it,true);
 	keysList->setCurrentItem(it);
 	keysList->ensureItemVisible(it);
+}	
 emit keyListFilled();
 }
 
@@ -396,7 +391,7 @@ void popupPublic::slotprocread(KProcIO *p)
                         case 'd':
                                 dead=true;
                                 break;
-                        case 'r':
+                       case 'r':
                                 dead=true;
                                 break;
                         case 'e':
