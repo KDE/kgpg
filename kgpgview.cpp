@@ -71,9 +71,9 @@ KIO::NetAccess::removeTempFile(tempFile);
 tempFile="";
 }
 
-  if (url.isLocalFile())
-    tempFile = url.path();
-  else
+if (url.isLocalFile())
+tempFile = url.path();
+else
 {
 if (KMessageBox::warningContinueCancel(0,i18n("<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"),0,KStdGuiItem::cont(),"RemoteFileWarning")!=KMessageBox::Continue) return;
   if (!KIO::NetAccess::download (url, tempFile))
@@ -83,7 +83,7 @@ if (KMessageBox::warningContinueCancel(0,i18n("<qt><b>Remote file dropped</b>.<b
   }
 }
 
-  QFile qfile(tempFile);
+ QFile qfile(tempFile);
 
   if (qfile.open(IO_ReadOnly))
   {
@@ -98,44 +98,22 @@ if (KMessageBox::warningContinueCancel(0,i18n("<qt><b>Remote file dropped</b>.<b
       QTextStream t( &qfile );
       QString result(t.read());
       //////////////     if  pgp data found, decode it
-      if (result.startsWith("-----BEGIN PGP"))
+      if (result.startsWith("-----BEGIN PGP MESSAGE"))
       {
         qfile.close();
         decodef(tempFile);
+		return;
       }
-      else
-      {
-        setText(result);
-        qfile.close();
-		KIO::NetAccess::removeTempFile(tempFile);
-		tempFile="";
-      }
-    }
-  }
-}
-
-void MyEditor::decodef(QString fname)
-{
-  ////////////////     decode file from given url into editor
-QString enckey=KgpgInterface::extractKeyName(KURL(fname));
-QFile qfile(QFile::encodeName(fname));
-if (qfile.open(IO_ReadOnly))
-{
-  if (enckey.isEmpty())
-  {
-      QTextStream t( &qfile );
-      QString result(t.read());
-      //////////////     if  pgp data found, decode it
-      if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK"))
+else
+ if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK"))
       {//////  dropped file is a public key, ask for import
         qfile.close();
-
-        int result=KMessageBox::warningContinueCancel(this,i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(fname),i18n("Warning"));
+        int result=KMessageBox::warningContinueCancel(this,i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(url.path()),i18n("Warning"));
         if (result==KMessageBox::Cancel) {KIO::NetAccess::removeTempFile(tempFile);return;}
         else
         {
 		KgpgInterface *importKeyProcess=new KgpgInterface();
-  		importKeyProcess->importKeyURL(KURL(fname));
+  		importKeyProcess->importKeyURL(KURL(tempFile));
 		connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(slotprocresult()));
         return;
 	}
@@ -148,20 +126,26 @@ if (qfile.open(IO_ReadOnly))
 	   KIO::NetAccess::removeTempFile(tempFile);
 	   return;
        }
-	   else
-       /// unknown file type
-	   if (!result.startsWith("-----BEGIN PGP MESSAGE"))
-	   		{
-      		KMessageBox::sorry(0,i18n("Sorry, no encrypted data found."));
-			KIO::NetAccess::removeTempFile(tempFile);
-      		return;
-			}
-			else enckey=i18n("[No user id found]");
-      }
+
+        setText(result);
+        qfile.close();
+		KIO::NetAccess::removeTempFile(tempFile);
+		tempFile="";
+
     }
+  }
+}
+}
 
+void MyEditor::decodef(QString fname)
+{
+  ////////////////     decode file from given url into editor
+QString enckey=KgpgInterface::extractKeyName(KURL(fname));
+QFile qfile(QFile::encodeName(fname));
+if (qfile.open(IO_ReadOnly))
+{
+if (enckey.isEmpty()) enckey=i18n("[No user id found]");
 QString resultat=KgpgInterface::KgpgDecryptFileToText(KURL(fname),enckey);
-
 KIO::NetAccess::removeTempFile(tempFile);
 tempFile="";
 if (resultat!=" ") // if user didn't cancel ...
