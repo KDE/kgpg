@@ -128,6 +128,8 @@ private slots:
         void refreshkeylist();
         gpgKey extractKey(QString keyColon);
         QString extractKeyName(QString name,QString mail);
+        void expandKey(QListViewItem *item);
+
 protected:
         virtual void startDrag();
         virtual void contentsDragMoveEvent(QDragMoveEvent *e);
@@ -169,7 +171,7 @@ public slots:
 private slots:
         void configuretoolbars();
         void saveToolbarConfig();
-
+        void checkPhotos();
         void slotManpage();
         void slotTip();
         void slotConfigureShortcuts();

@@ -531,6 +531,7 @@ KeyView::KeyView( QWidget *parent, const char *name )
         pixuserphoto=loader->loadIcon("kgpg_photo",KIcon::Small,20);
 
 
+        connect(this,SIGNAL(expanded (QListViewItem *)),this,SLOT(expandKey(QListViewItem *)));
 
         setAcceptDrops(true);
         setDragEnabled(true);
@@ -585,6 +586,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
 {
         QWidget *page=new QWidget(this);
         keysList2 = new KeyView(page);
+        keysList2->photoKeysList="";
         config=kapp->config();
         readOptions();
         //if (enctodef==true) defKey=defaultKey;
@@ -682,6 +684,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         QObject::connect(keysList2,SIGNAL(selectionChanged ()),this,SLOT(displayPhoto()));
         QObject::connect(keysList2,SIGNAL(contextMenuRequested(QListViewItem *,const QPoint &,int)),
                          this,SLOT(slotmenu(QListViewItem *,const QPoint &,int)));
+
         //QObject::connect(keysList2,SIGNAL(dropped(QDropEvent * , QListViewItem *)),this,SLOT(slotDroppedFile(QDropEvent * , QListViewItem *)));
 
 
@@ -692,6 +695,8 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
         togglePhoto->setChecked(showPhoto);
         if (!showPhoto)
                 keyPhoto->hide();
+        else
+                checkPhotos();
 }
 
 
@@ -751,10 +756,30 @@ void listKeys::hidePhoto()
                 keyPhoto->hide();
                 showPhoto=false;
         } else {
+                checkPhotos();
                 showPhoto=true;
                 displayPhoto();
                 keyPhoto->show();
         }
+}
+
+
+void listKeys::checkPhotos()
+{
+        keysList2->photoKeysList="";
+        char line[300];
+        FILE *fp;
+        QString tst;
+        QString tstID;
+        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-sigs", "r");
+        while ( fgets( line, sizeof(line), fp)) {
+                tst=line;
+                if (tst.startsWith("pub"))
+                        tstID=QString("0x"+tst.section(':',4,4).right(8));
+                if (tst.startsWith("uat"))
+                        keysList2->photoKeysList+=tstID;
+        }
+        pclose(fp);
 }
 
 void listKeys::displayPhoto()
@@ -1290,8 +1315,7 @@ void listKeys::slotgenkey()
                         proc->writeStdin("%commit");
                         proc->writeStdin("EOF");
                         proc->closeWhenDone();
-                }
-                else  ////// start expert (=konsole) mode
+                } else  ////// start expert (=konsole) mode
                 {
                         FILE *pass;
                         int status;
@@ -1413,37 +1437,22 @@ void listKeys::slotPreImportKey()
     connect(importKeyProcess,SIGNAL(importfinished()),this,SLOT(refreshkey()));
 }
 */
-void listKeys::refreshkey()
-{
-        keysList2->refreshkeylist();
-}
 
-void KeyView::refreshkeylist()
+void KeyView::expandKey(QListViewItem *item)
 {
-        ////////   update display of keys in main management window
+        if (item->childCount()!=0)
+                return;   // key has already been expanded
         FILE *fp;
-        photoKeysList="";
         QString tst,cycle,revoked;
         char line[300];
-        UpdateViewItem *item=NULL;
         SmallViewItem *itemsub=NULL;
         SmallViewItem *itemuid=NULL;
         SmallViewItem *itemsig=NULL;
+        cycle="pub";
         bool noID=false;
 
-        clear();
-        cycle="";
-        FILE *fp2;
-        QString block="idre";
-        QString issec="";
-        secretList="";
-        revoked="";
-        fp2 = popen("gpg --no-secmem-warning --no-tty --list-secret-keys", "r");
-        while ( fgets( line, sizeof(line), fp2))
-                issec+=line;
-        pclose(fp2);
+        fp = popen(QString("gpg --no-secmem-warning --no-tty --with-colon --list-sigs "+item->text(5)), "r");
 
-        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-sigs", "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
 
@@ -1452,7 +1461,6 @@ void KeyView::refreshkeylist()
 
                         //          QString tr=trustString(trust).gpgkeytrust;
                         if (tst.startsWith("uat")) {
-                                photoKeysList+=item->text(5);
                                 itemuid= new SmallViewItem(item,i18n("Photo Id"),uidKey.gpgkeytrust,"-","-","-","-");
                                 itemuid->setPixmap(0,pixuserphoto);
                                 cycle="uid";
@@ -1467,9 +1475,11 @@ void KeyView::refreshkeylist()
                         }
                 } else
 
+
                         if (tst.startsWith("rev")) {
                                 revoked+=QString("0x"+tst.section(':',4,4).right(8)+" ");
                         } else
+
 
                                 if (tst.startsWith("sig")) {
                                         gpgKey sigKey=extractKey(tst);
@@ -1495,91 +1505,7 @@ void KeyView::refreshkeylist()
                                                 itemsub->setPixmap(0,pixkeySingle);
                                                 cycle="sub";
 
-                                        } else
-                                                if (tst.startsWith("pub")) {
-                                                        noID=false;
-                                                        while (!revoked.isEmpty())   ///////////////   there are revoked sigs in previous key
-                                                        {
-                                                                bool found=false;
-                                                                revoked=revoked.stripWhiteSpace();
-                                                                QString currentRevoke=revoked.section(' ',0,0);
-                                                                revoked.remove(0,currentRevoke.length());
-                                                                revoked=revoked.stripWhiteSpace();
-
-                                                                QListViewItem *current = item->firstChild();
-                                                                if (current)
-                                                                        if (currentRevoke.find(current->text(5))!=-1)
-                                                                        {
-                                                                                current->setText(1,i18n("Revoked"));
-                                                                                found=true;
-                                                                        }
-
-                                                                QListViewItem *subcurrent = current->firstChild();
-                                                                if (subcurrent)
-                                                                {
-                                                                        if (currentRevoke.find(subcurrent->text(5))!=-1) {
-                                                                                subcurrent->setText(1,i18n("Revoked"));
-                                                                                found=true;
-                                                                        }
-                                                                        while (subcurrent->nextSibling()) {
-                                                                                subcurrent = subcurrent->nextSibling();
-                                                                                if (currentRevoke.find(subcurrent->text(5))!=-1) {
-                                                                                        subcurrent->setText(1,i18n("Revoked"));
-                                                                                        found=true;
-                                                                                }
-                                                                        }
-                                                                }
-
-                                                                while ( current->nextSibling() )
-                                                                {
-                                                                        current = current->nextSibling();
-                                                                        if (currentRevoke.find(current->text(5))!=-1) {
-                                                                                current->setText(1,i18n("Revoked"));
-                                                                                found=true;
-                                                                        }
-
-                                                                        QListViewItem *subcurrent = current->firstChild();
-                                                                        if (subcurrent) {
-                                                                                if (currentRevoke.find(subcurrent->text(5))!=-1) {
-                                                                                        subcurrent->setText(1,i18n("Revoked"));
-                                                                                        found=true;
-                                                                                }
-                                                                                while (subcurrent->nextSibling()) {
-                                                                                        subcurrent = subcurrent->nextSibling();
-                                                                                        if (currentRevoke.find(subcurrent->text(5))!=-1) {
-                                                                                                subcurrent->setText(1,i18n("Revoked"));
-                                                                                                found=true;
-                                                                                        }
-                                                                                }
-                                                                        }
-                                                                }
-                                                                if (!found)
-                                                                        (void) new SmallViewItem(item,i18n("Revocation Certificate"),"+","+","+","+",currentRevoke);
-                                                        }
-                                                        gpgKey pubKey=extractKey(tst);
-
-                                                        QString isbold="";
-                                                        if (pubKey.gpgkeyid==defKey)
-                                                                isbold="on";
-                                                        if (pubKey.gpgkeyname.isEmpty())
-                                                                noID=true;
-
-
-                                                        //QTextCodec::codecForContent(locallyEncoded,locallyEncoded.length()); // get the codec for KOI8-R
-
-                                                        item=new UpdateViewItem(this,extractKeyName(pubKey.gpgkeyname,pubKey.gpgkeymail),pubKey.gpgkeytrust,pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold);
-                                                        //item=new UpdateViewItem(this,codec->toUnicode( locallyEncoded),pubKey.gpgkeytrust,pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold);
-
-                                                        cycle="pub";
-
-                                                        if (issec.find(pubKey.gpgkeyid.right(8),0,FALSE)!=-1) {
-                                                                item->setPixmap(0,pixkeyPair);
-                                                                secretList+=pubKey.gpgkeyid;
-                                                        } else {
-                                                                item->setPixmap(0,pixkeySingle);
-                                                        }
-                                                }
-
+                                        }
         }
         pclose(fp);
 
@@ -1641,6 +1567,127 @@ void KeyView::refreshkeylist()
                 if (!found)
                         (void) new SmallViewItem(item,i18n("Revocation Certificate"),"+","+","+","+",currentRevoke);
         }
+}
+
+
+void listKeys::refreshkey()
+{
+        keysList2->refreshkeylist();
+}
+
+void KeyView::refreshkeylist()
+{
+        ////////   update display of keys in main management window
+        FILE *fp;
+        QString tst,cycle,revoked;
+        char line[300];
+        UpdateViewItem *item=NULL;
+        bool noID=false;
+
+        clear();
+        cycle="";
+        FILE *fp2;
+        QString block="idre";
+        QString issec="";
+        secretList="";
+        revoked="";
+        fp2 = popen("gpg --no-secmem-warning --no-tty --list-secret-keys", "r");
+        while ( fgets( line, sizeof(line), fp2))
+                issec+=line;
+        pclose(fp2);
+
+        //fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-sigs", "r");
+        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-keys", "r");
+        while ( fgets( line, sizeof(line), fp)) {
+                tst=line;
+                if (tst.startsWith("pub")) {
+                        noID=false;
+                        gpgKey pubKey=extractKey(tst);
+
+                        QString isbold="";
+                        if (pubKey.gpgkeyid==defKey)
+                                isbold="on";
+                        if (pubKey.gpgkeyname.isEmpty())
+                                noID=true;
+
+
+                        //QTextCodec::codecForContent(locallyEncoded,locallyEncoded.length()); // get the codec for KOI8-R
+
+                        item=new UpdateViewItem(this,extractKeyName(pubKey.gpgkeyname,pubKey.gpgkeymail),pubKey.gpgkeytrust,pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold);
+                        item->setExpandable(true);
+                        //item=new UpdateViewItem(this,codec->toUnicode( locallyEncoded),pubKey.gpgkeytrust,pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold);
+
+                        cycle="pub";
+
+                        if (issec.find(pubKey.gpgkeyid.right(8),0,FALSE)!=-1) {
+                                item->setPixmap(0,pixkeyPair);
+                                secretList+=pubKey.gpgkeyid;
+                        } else {
+                                item->setPixmap(0,pixkeySingle);
+                        }
+                }
+
+        }
+        pclose(fp);
+        /*
+                while (!revoked.isEmpty())   ///////////////   there are revoked sigs in previous key
+                {
+                        bool found=false;
+                        revoked=revoked.stripWhiteSpace();
+                        QString currentRevoke=revoked.section(' ',0,0);
+                        revoked.remove(0,currentRevoke.length());
+                        revoked=revoked.stripWhiteSpace();
+
+                        QListViewItem *current = item->firstChild();
+                        if (current)
+                                if (currentRevoke.find(current->text(5))!=-1)
+                                {
+                                        current->setText(1,i18n("Revoked"));
+                                        found=true;
+                                }
+
+                        QListViewItem *subcurrent = current->firstChild();
+                        if (subcurrent)
+                        {
+                                if (currentRevoke.find(subcurrent->text(5))!=-1) {
+                                        subcurrent->setText(1,i18n("Revoked"));
+                                        found=true;
+                                }
+                                while (subcurrent->nextSibling()) {
+                                        subcurrent = subcurrent->nextSibling();
+                                        if (currentRevoke.find(subcurrent->text(5))!=-1) {
+                                                subcurrent->setText(1,i18n("Revoked"));
+                                                found=true;
+                                        }
+                                }
+                        }
+
+                        while ( current->nextSibling() )
+                        {
+                                current = current->nextSibling();
+                                if (currentRevoke.find(current->text(5))!=-1) {
+                                        current->setText(1,i18n("Revoked"));
+                                        found=true;
+                                }
+
+                                QListViewItem *subcurrent = current->firstChild();
+                                if (subcurrent) {
+                                        if (currentRevoke.find(subcurrent->text(5))!=-1) {
+                                                subcurrent->setText(1,i18n("Revoked"));
+                                                found=true;
+                                        }
+                                        while (subcurrent->nextSibling()) {
+                                                subcurrent = subcurrent->nextSibling();
+                                                if (currentRevoke.find(subcurrent->text(5))!=-1) {
+                                                        subcurrent->setText(1,i18n("Revoked"));
+                                                        found=true;
+                                                }
+                                        }
+                                }
+                        }
+                        if (!found)
+                                (void) new SmallViewItem(item,i18n("Revocation Certificate"),"+","+","+","+",currentRevoke);
+                }*/
         setSelected(firstChild(),true);
         if (columnWidth(0)>150)
                 setColumnWidth(0,150);
