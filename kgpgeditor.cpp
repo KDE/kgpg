@@ -259,14 +259,34 @@ return;
                 slotFileSaveAs();
                 return;
         }
-        QFile f(filn);
+
+	KTempFile tmpfile;
+	if (Docname.isLocalFile())
+	{
+	QFile f(filn);
         if ( !f.open( IO_WriteOnly ) ) {
+		KMessageBox::sorry(this,i18n("The document could not been saved, please check your permissions and disk space."));
                 return;
         }
-
         QTextStream t( &f );
         t << view->editor->text().utf8();
         f.close();
+	}
+	else 
+	{
+	QTextStream *stream = tmpfile.textStream();
+    	*stream << view->editor->text().utf8();
+   	tmpfile.close();
+	delete stream;
+	if(!KIO::NetAccess::upload(tmpfile.name(), Docname))
+	{
+		KMessageBox::sorry(this,i18n("The document could not been saved, please check your permissions and disk space."));
+		tmpfile.unlink();
+                return;
+	}
+	tmpfile.unlink();
+	}
+	
         fileSave->setEnabled(false);
         setCaption(Docname.fileName(),false);
 }
@@ -277,8 +297,9 @@ void KgpgApp::slotFileSaveAs()
 
         KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),
                                          i18n("*|All Files"), this, i18n("Save As"));
-        if(!url.isEmpty()) {
-
+	if(!url.isEmpty()) {
+		if (url.isLocalFile())
+		{
                 QString filn=url.path();
                 QFile f(filn);
                 if (f.exists()) {
@@ -287,18 +308,18 @@ void KgpgApp::slotFileSaveAs()
                         if (result==KMessageBox::Cancel)
                                 return;
                 }
-
-                if ( !f.open( IO_WriteOnly ) ) {
-                        return;
-                }
-
-                QTextStream t( &f );
-                t << view->editor->text();
                 f.close();
-                Docname=url;
-                fileSave->setEnabled(false);
-                setCaption(url.fileName(),false);
-        }
+		}
+		else if (KIO::NetAccess::exists(url))
+		{
+		QString message=i18n("Overwrite existing file %1?").arg(url.filename());
+                        int result=KMessageBox::warningContinueCancel(this,QString(message),i18n("Warning"),i18n("Overwrite"));
+                        if (result==KMessageBox::Cancel)
+                                return;
+		}
+	Docname=url;
+	slotFileSave();
+	}
 }
 
 void KgpgApp::openDocumentFile(const KURL& url)
