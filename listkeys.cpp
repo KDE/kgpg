@@ -1771,11 +1771,18 @@ void listKeys::importallsignkey()
 {
         if (keysList2->currentItem()==NULL)
                 return;
-        QString missingKeysList;
+	if (! keysList2->currentItem()->firstChild())
+	{
+        keysList2->currentItem()->setOpen(true);
+	keysList2->currentItem()->setOpen(false);
+	}
+	
+	
+	QString missingKeysList;
         QListViewItem *current = keysList2->currentItem()->firstChild();
         if (current==NULL)
                 return;
-        while ( current->nextSibling() ) {
+        while (current) {
                 if (current->text(0).find(i18n("[User id not found]"))!=-1)
                         missingKeysList+=current->text(6)+" ";
                 current = current->nextSibling();
