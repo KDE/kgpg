@@ -42,6 +42,7 @@
 #include <kstdaccel.h>
 #include <klocale.h>
 #include <ktip.h>
+#include <kurldrag.h>
 
 #include "listkeys.h"
 #include "keyservers.h"
@@ -559,14 +560,14 @@ void  KeyView::droppedfile (KURL url)
 
 void KeyView::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-        e->accept (QUriDrag::canDecode(e));
+        e->accept (KURLDrag::canDecode(e));
 }
 
 void  KeyView::contentsDropEvent (QDropEvent *o)
 {
-        QStringList list;
-        if ( QUriDrag::decodeToUnicodeUris( o, list ) )
-                droppedfile(KURL(list.first()));
+        KURL::List list;
+        if ( KURLDrag::decode( o, list ) )
+                droppedfile(list.first());
 }
 
 void  KeyView::startDrag()

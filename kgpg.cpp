@@ -39,6 +39,7 @@
 #include <kurlrequester.h>
 #include <ktip.h>
 #include <qregexp.h>
+#include <kurldrag.h>
 
 #include "kgpg.h"
 
@@ -341,16 +342,16 @@ void  MyView::droppedtext (QString inputText)
 
 void  MyView::dragEnterEvent(QDragEnterEvent *e)
 {
-        e->accept (QUriDrag::canDecode(e) || QTextDrag::canDecode (e));
+        e->accept (KURLDrag::canDecode(e) || QTextDrag::canDecode (e));
 }
 
 
 void  MyView::dropEvent (QDropEvent *o)
 {
-        QStringList list;
+        KURL::List list;
         QString text;
-        if ( QUriDrag::decodeToUnicodeUris( o, list ) )
-                droppedfile(KURL::List::List(list));
+        if ( KURLDrag::decode( o, list ) )
+                droppedfile(list);
         else if ( QTextDrag::decode(o, text) )
                 droppedtext(text);
 }

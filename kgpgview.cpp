@@ -24,14 +24,17 @@
 
 #include <qscrollview.h>
 #include <qregexp.h>
-#include <./kio/netaccess.h>
+
+#include <kio/netaccess.h>
+#include <klocale.h>
 #include <kstdaction.h>
+#include <kurldrag.h>
 
 #include "kgpginterface.h"
 #include "popupname.h"
 #include "kgpgview.h"
 #include "kgpg.h"
-#include <klocale.h>
+
 
 //////////////// configuration for editor
 
@@ -45,7 +48,7 @@ MyEditor::MyEditor( QWidget *parent, const char *name )
 void MyEditor::contentsDragEnterEvent( QDragEnterEvent *e )
 {
         ////////////////   if a file is dragged into editor ...
-        e->accept (QUriDrag::canDecode(e) || QTextDrag::canDecode (e));
+        e->accept (KURLDrag::canDecode(e) || QTextDrag::canDecode (e));
         //e->accept (QTextDrag::canDecode (e));
 }
 
@@ -55,10 +58,10 @@ void MyEditor::contentsDragEnterEvent( QDragEnterEvent *e )
 void MyEditor::contentsDropEvent( QDropEvent *e )
 {
         /////////////////    decode dropped file
-        QStringList list;
+        KURL::List list;
         QString text;
-        if ( QUriDrag::decodeToUnicodeUris( e, list ) )
-                droppedfile(KURL(list.first()));
+        if ( KURLDrag::decode( e, list ) )
+                droppedfile(list.first());
         else if ( QTextDrag::decode(e, text) )
                 insert(text);
 }
