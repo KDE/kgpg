@@ -225,7 +225,7 @@ cycle=false;
 if (required.find("(")!=-1)
 {
 cycle=true;
-kitem=new KListViewItem(listpop->kLVsearch,required.section(')',1,1).stripWhiteSpace());
+kitem=new KListViewItem(listpop->kLVsearch,required.remove(0,required.find(")")+1).stripWhiteSpace());
 count=0;
 }
  if (required.find("keysearch.prompt")!=-1)
