@@ -23,6 +23,8 @@
 
 #include <qdir.h>
 #include <qfile.h>
+#include <qlayout.h>
+#include <qvariant.h>
 #include <qpainter.h>
 #include <qvbox.h>
 #include <qclipboard.h>
@@ -97,13 +99,13 @@ SmallViewItem::SmallViewItem(QListViewItem *parent, QString tst, QString tr, QSt
 
 void SmallViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, int width, int alignment)
 {
-if (column==0)
-{
+  if (column==0)
+    {
       QFont font(p->font());
       //font.setPointSize(font.pointSize()-1);
       font.setItalic(true);
       p->setFont(font);
- }
+    }
   KListViewItem::paintCell(p, cg, column, width, alignment);
 }
 
@@ -111,35 +113,26 @@ if (column==0)
 ////////  window for the key info dialog
 KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDialogBase( parent, name, true,sigkey,Close)
 {
-  QString message;
-
+  QString message,fingervalue;
   resize(400,100);
   QWidget *page=new QWidget(this);
-  QVBoxLayout *vbox=new QVBoxLayout(page,2);
-
-  QLabel *labelname = new QLabel(page);
-  QLabel *labelmail = new QLabel(page);
-  QLabel *labeltype = new QLabel(page);
-  QLabel *labellength = new QLabel(page);
-  QLabel *labelfinger = new QLabel(page);
-  QLabel *labelcreation = new QLabel(page);
-  QLabel *labelexpire = new QLabel(page);
-  QLabel *labeltrust = new QLabel(page);
-  QLabel *labelid = new QLabel(page);
-
-  //label2=new QLabel(i18n("<b>Key id</b>:"),page);
-
-  labelfinger=new QLabel(i18n("Fingerprint :"),page);
-
-  KLineEdit *finger=new KLineEdit("",page);
-  finger->setReadOnly(true);
-  finger->setPaletteBackgroundColor(QColor(white));
+QLabel *labelname = new QLabel(page);
+QLabel *labelmail = new QLabel(page);
+QLabel *labeltype = new QLabel(page);
+QLabel *labellength = new QLabel(page);
+QLabel *labelcreation = new QLabel(page);
+QLabel *labelexpire = new QLabel(page);
+QLabel *labeltrust = new QLabel(page);
+QLabel *labelid = new QLabel(page);
+QLabel *labelfinger = new QLabel(i18n("Fingerprint :"),page);
+  //QString labelname,labelmail,labeltype,labellength,labelfinger,labelcreation,labelexpire,labeltrust,labelid,fingervalue;
+  //QVBoxLayout *vbox=new QVBoxLayout(page,2);
 
 
   FILE *pass;
   char gpgcmd[200]="",line[200]="";
-  QString opt;
-
+  QString opt,tid;
+  bool isphoto=false;
   strcat(gpgcmd,"gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint --list-key ");
   strcat(gpgcmd,sigkey.latin1());
 
@@ -147,6 +140,8 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
   while ( fgets( line, sizeof(line), pass))
   {
       opt=line;
+      if (opt.startsWith("uat"))
+        isphoto=true;
       if (opt.startsWith("pub"))
       {
           QString algo=opt.section(':',3,3);
@@ -207,59 +202,119 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDial
               break;
           }
 
-          const QString tid=opt.section(':',4,4);
+           tid=opt.section(':',4,4);
           QString id=QString("0x"+tid.right(8));
 
-	  QString fullname=opt.section(':',9,9);
+          QString fullname=opt.section(':',9,9);
           //fullname.replace(fullname.find('<'),1,QString("\""));
           //fullname.replace(fullname.find('>'),1,QString("\""));
           if (opt.section(':',6,6)=="")
-              labelexpire->setText(i18n("Expiration: never"));
-	  else
-              labelexpire->setText(i18n("Expiration: ")+opt.section(':',6,6));
 
-	  labelcreation->setText(i18n("Creation: ")+opt.section(':',5,5));
-	  labellength->setText(i18n("Length: ")+opt.section(':',2,2));
-	  labeltrust->setText(i18n("Trust: ")+tr);
-          labelid->setText(i18n("ID: ")+tid);
-	  labelname->setText(i18n("Name: ")+fullname.section('<',0,0));
-	  fullname=fullname.section('<',1,1);
-	  fullname=fullname.section('>',0,0);
-	  labelmail->setText(i18n("E-Mail: ")+fullname);
-	  labeltype->setText(i18n("Algorithm: ")+algo);
-          //label2->setText(i18n("<b>%1 key</b>: %2").arg(algo).arg(fullname));
+            labelexpire->setText(i18n("Expiration: never"));
+				else
+				labelexpire->setText(i18n("Expiration: ")+opt.section(':',6,6));
+				labelcreation->setText(i18n("Creation: ")+opt.section(':',5,5));
+				labelname=new QLabel(i18n("Name: ")+fullname.section('<',0,0),page);
+				labellength->setText(i18n("Length: ")+opt.section(':',2,2));
+				labeltrust->setText(i18n("Trust: ")+tr);
+				labelid->setText(i18n("ID: ")+tid);
+
+				labelname->setText(i18n("Name: ")+fullname.section('<',0,0));
+				fullname=fullname.section('<',1,1);
+				fullname=fullname.section('<',1,1);
+				fullname=fullname.section('>',0,0);
+				fullname=fullname.section('>',0,0);
+				labelmail->setText(i18n("E-Mail: ")+fullname);
+				labeltype->setText(i18n("Algorithm: ")+algo);
         }
-
-
       if (opt.startsWith("fpr"))
-          finger->setText(opt.section(':',9,9));
-
-      }
-
+        fingervalue=opt.section(':',9,9);
+    }
   pclose(pass);
 
 
-  vbox->addWidget(labelname);
-  vbox->addWidget(labelmail);
-  vbox->addWidget(labeltype);
-  vbox->addWidget(labellength);
-  vbox->addWidget(labelcreation);
-  vbox->addWidget(labelexpire);
-  vbox->addWidget(labeltrust);
-  vbox->addWidget(labelid);
-  vbox->addWidget(labelfinger);
-  vbox->addWidget(finger);
-layout();
+  QGridLayout *Form1Layout = new QGridLayout( page, 1, 1, 11, 6, "Form1Layout");
+
+  Form1Layout->addWidget( labelid, 7, 1 );
+
+  Form1Layout->addWidget( labeltrust, 6, 1 );
+
+  Form1Layout->addWidget( labelexpire, 5, 1 );
+
+  Form1Layout->addWidget( labelcreation, 4, 1 );
+
+  Form1Layout->addWidget( labellength, 3, 1 );
+
+  Form1Layout->addWidget( labeltype, 2, 1 );
+
+  Form1Layout->addWidget( labelmail, 1, 1 );
+
+  Form1Layout->addWidget( labelname, 0, 1 );
+
+  Form1Layout->addWidget( labelfinger, 9, 1 );
+
+  KLineEdit *finger=new KLineEdit("",page);
+  finger->setReadOnly(true);
+  finger->setPaletteBackgroundColor(QColor(white));
+  finger->setText(fingervalue);
+  Form1Layout->addMultiCellWidget( finger, 10, 10, 0, 1 );
+
+  keyinfoPhoto=new QLabel(i18n("No photo"),page);
+  //keyinfoPhoto->setFixedSize(70,80);
+  //keyinfoPhoto->setScaledContents(true);
+  keyinfoPhoto->setAlignment(Qt::AlignTop);
+
+  keyinfoPhoto->setFrameStyle( QFrame::Box | QFrame::Raised );
+
+  if (isphoto==true)
+    {
+      kgpginfotmp=new KTempFile();
+      QString popt="cp %i "+kgpginfotmp->name();
+      KProcIO *p=new KProcIO();
+      *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<popt.local8Bit()<<"--list-keys"<<tid;
+      QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotinfoimgread(KProcess *)));
+      //QObject::connect(p, SIGNAL(readReady(KProcIO *)),this, SLOT(slotinfoimgread(KProcIO *)));
+      p->start(KProcess::NotifyOnExit,true);
+    }
+
+  Form1Layout->addMultiCellWidget( keyinfoPhoto, 0, 9, 0, 0 );
+
   setMainWidget(page);
   page->show();
+
 }
+
+void KgpgKeyInfo::slotinfoimgread(KProcess *)//IO *p)
+{
+  /*
+    QString outp;
+    while (p->readln(outp)!=-1)
+      {
+          //message+=outp;
+  		if (outp.startsWith("Filename="))
+  		{
+  		outp.remove(0,9);
+  		outp=outp.stripWhiteSpace();
+  		QPixmap pixmap; 
+  		pixmap.load(outp);
+  		keyinfoPhoto->setPixmap(pixmap);
+    }
+  		
+      }
+  	*/
+  QPixmap pixmap;
+  pixmap.load(kgpginfotmp->name());
+  keyinfoPhoto->setPixmap(pixmap);
+  kgpginfotmp->unlink();
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////   Secret key selection dialog, used when user wants to sign a key
 KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool showlocal):KDialogBase( parent, name, true,i18n("Private key list"),Ok | Cancel)
 {
-QString keyname;
+  QString keyname;
   QWidget *page = new QWidget(this);
   QLabel *labeltxt;
   KIconLoader *loader = KGlobal::iconLoader();
@@ -296,44 +351,44 @@ QString keyname;
       {
           const QString trust=tst.section(':',1,1);
           QString val=tst.section(':',6,6);
-	  QString id=QString("0x"+tst.section(':',4,4).right(8));
+          QString id=QString("0x"+tst.section(':',4,4).right(8));
           if (val=="")
-              val=i18n("Unlimited");
+            val=i18n("Unlimited");
           QString tr;
           switch( trust[0] )
-          {
-          case 'o':
+            {
+            case 'o':
               tr= i18n("Unknown");
               break;
-          case 'i':
-              tr = i18n( "Invalid");
+            case 'i':
+              tr= i18n("Invalid");
               break;
-          case 'd':
-              tr = i18n("Disabled");
+            case 'd':
+              tr=i18n("Disabled");
               break;
-          case 'r':
-              tr = i18n("Revoked");
+            case 'r':
+              tr=i18n("Revoked");
               break;
-          case 'e':
-              tr = i18n("Expired");
+            case 'e':
+              tr=i18n("Expired");
               break;
-          case 'q':
-              tr = i18n("Undefined");
+            case 'q':
+              tr=i18n("Undefined");
               break;
-          case 'n':
-              tr = i18n("None");
+            case 'n':
+              tr=i18n("None");
               break;
-          case 'm':
-              tr = i18n("Marginal");
+            case 'm':
+              tr=i18n("Marginal");
               break;
-          case 'f':
-              tr = i18n("Full");
+            case 'f':
+              tr=i18n("Full");
               break;
-          case 'u':
-              tr = i18n("Ultimate");
+            case 'u':
+              tr=i18n("Ultimate");
               break;
-          default:
-              tr = i18n("?");
+            default:
+              tr=i18n("?");
               break;
           }
           tst=tst.section(":",9,9);
@@ -343,8 +398,8 @@ QString keyname;
               keyname=keyname.section('>',0,0);
               keyname+=" ("+tst.section('<',0,0)+")";
               KListViewItem *item=new KListViewItem(keysListpr,keyname);
-	      KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, validity: %3").arg(id).arg(tr).arg(val));
-	      sub->setSelectable(false);
+              KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, validity: %3").arg(id).arg(tr).arg(val));
+              sub->setSelectable(false);
               item->setPixmap(0,keyPair);
           }
         }
@@ -353,6 +408,7 @@ QString keyname;
 
   QObject::connect(keysListpr,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(slotpreOk()));
   QObject::connect(keysListpr,SIGNAL(clicked(QListViewItem *)),this,SLOT(slotSelect(QListViewItem *)));
+
 
   keysListpr->setSelected(keysListpr->firstChild(),true);
 
@@ -363,8 +419,10 @@ QString keyname;
 
 void KgpgSelKey::slotpreOk()
 {
-if (keysListpr->currentItem()->depth()!=0) return;
-else slotOk();
+  if (keysListpr->currentItem()->depth()!=0)
+    return;
+  else
+    slotOk();
 }
 
 void KgpgSelKey::slotOk()
@@ -388,7 +446,7 @@ keysListpr->setCurrentItem(item->parent());
 
 QString KgpgSelKey::getkeyID()
 {
-QString userid;
+  QString userid;
   /////  emit selected key
   if (keysListpr->currentItem()==NULL) return("");
   else
@@ -403,7 +461,7 @@ QString userid;
 
 QString KgpgSelKey::getkeyMail()
 {
-QString username;
+  QString username;
   /////  emit selected key
   if (keysListpr->currentItem()==NULL) return("");
   else
@@ -430,10 +488,10 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
 {
   config=kapp->config();
   readOptions();
+  showPhoto=false;
   //if (enctodef==true) defKey=defaultKey;
   //else defKey="";
   setCaption(i18n("Key Management"));
-  //KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
   KAction *exportPublicKey = new KAction(i18n("E&xport public key"), "kgpg_export", 0,this, SLOT(slotexport()),actionCollection(),"key_export");
   KAction *deleteKey = new KAction(i18n("&Delete key"),"editdelete", 0,this, SLOT(confirmdeletekey()),actionCollection(),"key_delete");
   KAction *signKey = new KAction(i18n("&Sign key"), "kgpg_sign", 0,this, SLOT(signkey()),actionCollection(),"key_sign");
@@ -441,12 +499,15 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   KAction *infoKey = new KAction(i18n("&Key info"), "kgpg_info", 0,this, SLOT(listsigns()),actionCollection(),"key_info");
   KAction *importKey = new KAction(i18n("&Import key"), "kgpg_import", 0,this, SLOT(slotImportKey()),actionCollection(),"key_import");
   KAction *setDefaultKey = new KAction(i18n("Set as De&fault key"),0, 0,this, SLOT(slotSetDefKey()),actionCollection(),"key_default");
-  (void) new KAction(i18n("&Close window"), "exit", 0,this, SLOT(annule()),actionCollection(),"key_exit");
+
+  KStdAction::quit(this, SLOT(annule()), actionCollection());
+  (void) new KAction(i18n("&Refresh list"), "reload", 0,this, SLOT(refreshkey()),actionCollection(),"key_refresh");
   KAction *editKey = new KAction(i18n("&Edit Key"), "kgpg_edit", 0,this, SLOT(slotedit()),actionCollection(),"key_edit");
   KAction *exportSecretKey = new KAction(i18n("Export secret key"), 0, 0,this, SLOT(slotexportsec()),actionCollection(),"key_sexport");
   KAction *deleteKeyPair = new KAction(i18n("Delete key pair"), 0, 0,this, SLOT(deleteseckey()),actionCollection(),"key_pdelete");
   KAction *generateKey = new KAction(i18n("&Generate key pair"), "kgpg_gen", 0,this, SLOT(slotgenkey()),actionCollection(),"key_gener");
-  (void) new KAction(i18n("Default &options"), "configure", 0,this, SLOT(slotParentOptions()),actionCollection(),"key_configure");
+  (void) new KToggleAction(i18n("&Show photos"), "imagegallery", 0,this, SLOT(hidePhoto()),actionCollection(),"key_showp");
+  KStdAction::preferences(this, SLOT(slotParentOptions()), actionCollection());
 
 
 
@@ -469,7 +530,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   QVBoxLayout *vbox=new QVBoxLayout(page,3);
   keysList2 = new KListView(page);
   keysList2->setRootIsDecorated(true);
-  keysList2->addColumn( i18n( "E-Mail" ) );
+  keysList2->addColumn( i18n( "Key" ) );
   keysList2->addColumn( i18n( "Trust" ) );
   keysList2->addColumn( i18n( "Validity" ) );
   keysList2->addColumn( i18n( "Size" ) );
@@ -503,37 +564,21 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
 
   popupsig=new QPopupMenu();
   delSignKey->plug(popupsig);
-  //importKey->plug(popupsig);
-  //generateKey->plug(popupsig);
-
-
-  /*
-  toolbar=new KToolBar(this);
-  vbox->addWidget(toolbar);
-
-  exportPublicKey->plug(toolbar);
-  signKey->plug(toolbar);
-  infoKey->plug(toolbar);
-  editKey->plug(toolbar);
-  toolbar->insertLineSeparator();
-  generateKey->plug(toolbar);
-  importKey->plug(toolbar);
-  toolbar->insertLineSeparator();
-  configure->plug(toolbar);
-  close->plug(toolbar);
-
-
-  //toolbar->setIconText(KToolBar::IconTextBottom);
-  toolbar->enableMoving(false);
-  */
-  //statusbar=new KStatusBar(page);
-
-  //vbox->addWidget(labeltxt);
+    
+	keyPhoto=new QLabel(page);
+    keyPhoto->setText("Photo");
+    keyPhoto->setFixedSize(60,60);
+    keyPhoto->setScaledContents(true);
+    keyPhoto->setFrameStyle( QFrame::Box | QFrame::Raised );
+  
   vbox->addWidget(keysList2);
+  //if (showPhoto==true)
+  vbox->addWidget(keyPhoto);
   //vbox->addWidget(statusbar);
   setCentralWidget(page);
 
   QObject::connect(keysList2,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(listsigns()));
+  QObject::connect(keysList2,SIGNAL(selectionChanged ()),this,SLOT(displayPhoto()));
   QObject::connect(keysList2,SIGNAL(contextMenuRequested(QListViewItem *,const QPoint &,int)),
                    this,SLOT(slotmenu(QListViewItem *,const QPoint &,int)));
 
@@ -542,12 +587,62 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : KMainWindow(pa
   ///////////////    get all keys data
   refreshkey();
   createGUI("listkeys.rc");
-  KMenuBar *menu=KMainWindow::menuBar();
-  menu->hide();
+  //KMenuBar *menu=KMainWindow::menuBar();
+  //menu->hide();
+  keyPhoto->hide();
 }
 
 listKeys::~listKeys()
 {}
+
+void listKeys::hidePhoto()
+{
+  if (showPhoto==true)
+    {
+      keyPhoto->hide();
+      showPhoto=false;
+    }
+  else
+    {
+      showPhoto=true;
+      displayPhoto();
+      keyPhoto->show();
+    }
+}
+
+void listKeys::displayPhoto()
+{
+  if (showPhoto==false)
+    return;
+  if (keysList2->currentItem()->depth()!=0)
+    {
+      keyPhoto->setText(i18n("No\nphoto"));
+      return;
+    }
+  QString CurrentID=keysList2->currentItem()->text(5);
+  if (photoKeysList.find(CurrentID)!=-1)
+    {
+      kgpgtmp=new KTempFile();
+      QString popt="cp %i "+kgpgtmp->name();
+      KProcIO *p=new KProcIO();
+      *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<popt.local8Bit()<<"--list-keys"<<CurrentID;
+      QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotProcessPhoto(KProcess *)));
+      //QObject::connect(p, SIGNAL(readReady(KProcIO *)),this, SLOT(slotinfoimgread(KProcIO *)));
+      p->start(KProcess::NotifyOnExit,true);
+    }
+  else
+    keyPhoto->setText(i18n("No\nphoto"));
+}
+
+void listKeys::slotProcessPhoto(KProcess *)
+{
+  QPixmap pixmap;
+  //pixmap.resize(40,40);
+  pixmap.load(kgpgtmp->name());
+  keyPhoto->setPixmap(pixmap);
+  //keysList2->currentItem()->setPixmap(1,pixmap);
+  kgpgtmp->unlink();
+}
 
 void listKeys::annule()
 {
@@ -679,19 +774,22 @@ void listKeys::slotmenu(QListViewItem *sel, const QPoint &pos, int )
   ////////////  popup a different menu depending on which key is selected
   if (sel!=NULL)
     {
-	if (sel->depth()!=0)
-	{
-	if ((sel->text(1)=="-") && (sel->text(3)=="-")) popupsig->exec(pos);
-	//else popupout->exec(pos);
-	}
-	else
-	{
-      keysList2->setSelected(sel,TRUE);
-      if (secretList.find(sel->text(5))!=-1)
-        popupsec->exec(pos);
+      if (sel->depth()!=0)
+        {
+          if ((sel->text(1)=="-") && (sel->text(3)=="-"))
+            popupsig->exec(pos);
+          if ((sel->text(1)==i18n("Revoked")) && (sel->text(3)=="-"))
+            popupsig->exec(pos);
+          //else popupout->exec(pos);
+        }
       else
-        popup->exec(pos);
-		}
+        {
+          keysList2->setSelected(sel,TRUE);
+          if (secretList.find(sel->text(5))!=-1)
+            popupsec->exec(pos);
+          else
+            popup->exec(pos);
+        }
     }
   else
     popupout->exec(pos);
@@ -716,7 +814,7 @@ void listKeys::slotexportsec()
     {
       FILE *fp;
       strcat(gpgcmd,"gpg --no-tty --armor --export-secret-keys ");
-      strcat(gpgcmd,QString(key+" > "+url.path()).latin1());
+      strcat(gpgcmd,QString(key+" > "+url.path().latin1()));
       QFile fgpg(url.path());
       if (fgpg.exists())
         fgpg.remove();
@@ -741,7 +839,7 @@ void listKeys::slotexport()
   /////////////////////  export key
   if (keysList2->currentItem()==NULL)
     return;
-      if (keysList2->currentItem()->depth()!=0)
+  if (keysList2->currentItem()->depth()!=0)
     return;
 
   char gpgcmd[1024] = "\0",line[130]="";
@@ -757,6 +855,8 @@ void listKeys::slotexport()
   KURL u;
   u.setPath(sname);
   popupName *dial=new popupName(i18n("Export public key to"),this, "export_key", u,true);
+
+  //popupName *dial=new popupName(this,i18n("Export public key to"),sname,true);
   /////////////   open export dialog (KgpgExport, see begining of this file)
   dial->exec();
 
@@ -768,15 +868,18 @@ void listKeys::slotexport()
       expname="";
       if (dial->getfmode()==true)
         expname=dial->getfname();
+      bool attr=dial->exportAttributes->isChecked();
+      //if (attr==true) KMessageBox::sorry(0,"rtz");
       //    if (dial->getmailmode()==true) expname=sname;
 
       strcat(gpgcmd,"gpg --no-tty --export --armor ");
+      if (attr==true)
+        strcat(gpgcmd,"--export-options include-attributes ");
       strcat(gpgcmd,keysList2->currentItem()->text(5).latin1());
-
       QFile fgpg(expname);
       if (expname!="")
         {
-          strcat(gpgcmd,QString(" > "+expname).latin1());
+          strcat(gpgcmd,QString(" > ")+expname.latin1());
           if (fgpg.exists())
             fgpg.remove();
         }
@@ -834,12 +937,25 @@ void listKeys::slotexport()
 
 }
 
+
 void listKeys::listsigns()
 {
   if (keysList2->currentItem()==NULL)
     return;
   if (keysList2->currentItem()->depth()!=0)
-    return;
+    {
+      if (keysList2->currentItem()->text(0)==i18n("Photo ID"))
+        {
+          //////////////////////////    display photo
+          KProcIO *p=new KProcIO();
+          QString popt="kview %i";
+          *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<popt.local8Bit()<<"--list-keys"<<keysList2->currentItem()->parent()->text(5);
+          p->start(KProcess::DontCare,true);
+          return;
+        }
+      else
+        return;
+    }
 
   /////////////   open a key info dialog (KgpgKeyInfo, see begining of this file)
   QString key=keysList2->currentItem()->text(5);
@@ -855,37 +971,50 @@ void listKeys::listsigns()
 
 void listKeys::signkey()
 {
-    ///////////////  sign a key
-    if (keysList2->currentItem()==NULL)
-        return;
-    if (keysList2->currentItem()->depth()!=0)
-        return;
-    bool islocal=false;
-    QString keyID,keyMail;
-    //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
-    KgpgSelKey *opts=new KgpgSelKey(this);
+  ///////////////  sign a key
+  if (keysList2->currentItem()==NULL)
+    return;
+  if (keysList2->currentItem()->depth()!=0)
+    return;
+  bool islocal=false;
+  QString keyID,keyMail;
+  //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
+  KgpgSelKey *opts=new KgpgSelKey(this);
 
-    opts->exec();
-    if (opts->result()==true)
+  opts->exec();
+  if (opts->result()==true)
     {
-        keyID=QString(opts->getkeyID());
-        keyMail=QString(opts->getkeyMail());
-        islocal=opts->getlocal();
+      keyID=QString(opts->getkeyID());
+      keyMail=QString(opts->getkeyMail());
+      islocal=opts->getlocal();
     }
-    else
+  else
     {
-        delete opts;
-        return;
+      delete opts;
+      return;
     }
-    delete opts;
-    QString ask=i18n("Are you sure you want to sign key\n%1 with key %2 ?\n"
-                     "You should always check fingerprint before signing !").arg(keysList2->currentItem()->text(0)).arg(keyMail);
+  delete opts;
+  QString ask=i18n("Are you sure you want to sign key\n%1 with key %2 ?\n"
+                   "You should always check fingerprint before signing !").arg(keysList2->currentItem()->text(0)).arg(keyMail);
 
-    if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes) return;
-    KgpgInterface *signKeyProcess=new KgpgInterface();
-    signKeyProcess->KgpgSignKey(keysList2->currentItem()->text(5),keyID,keyMail,islocal);
-    connect(signKeyProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(refreshkey()));
+  if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes)
+    return;
+  KgpgInterface *signKeyProcess=new KgpgInterface();
+  signKeyProcess->KgpgSignKey(keysList2->currentItem()->text(5),keyID,keyMail,islocal);
+
+  connect(signKeyProcess,SIGNAL(signatureFinished(int)),this,SLOT(signatureResult(int)));
 }
+
+void listKeys::signatureResult(int success)
+{
+  if (success==0)
+    refreshkey();
+  if (success==2)
+    KMessageBox::sorry(this,i18n("Bad passphrase, try again"));
+  if (success==1)
+    KMessageBox::sorry(this,i18n("Requested operation was unsuccessful, please edit the key manually"));
+}
+
 
 
 void listKeys::delsignkey()
@@ -893,45 +1022,57 @@ void listKeys::delsignkey()
   ///////////////  sign a key
   if (keysList2->currentItem()==NULL)
     return;
-    if (keysList2->currentItem()->depth()==0)
-    return;
+  if (keysList2->currentItem()->depth()>1)
+    {
+      KMessageBox::sorry(this,i18n("Edit key manually to delete this signature"));
+      return;
+    }
 
   QString signID,parentKey,signMail,parentMail;
 
-      //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
-          parentKey=keysList2->currentItem()->parent()->text(5);
-		  signID=keysList2->currentItem()->text(5);
-		  parentMail=keysList2->currentItem()->parent()->text(0);
-		  signMail=keysList2->currentItem()->text(0);
+  //////////////////  open a key selection dialog (KgpgSelKey, see begining of this file)
+  parentKey=keysList2->currentItem()->parent()->text(5);
+  signID=keysList2->currentItem()->text(5);
+  parentMail=keysList2->currentItem()->parent()->text(0);
+  signMail=keysList2->currentItem()->text(0);
 
-QString ask=i18n("Are you sure you want to delete signature\n%1 from key %2 ?").arg(signMail).arg(parentMail);
+  if (parentKey==signID)
+    {
+      KMessageBox::sorry(this,i18n("Edit key manually to delete a self-signature"));
+      return;
+    }
+  QString ask=i18n("Are you sure you want to delete signature\n%1 from key %2 ?").arg(signMail).arg(parentMail);
 
-if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes) return;
+  if (KMessageBox::warningYesNo(this,ask)!=KMessageBox::Yes)
+    return;
   KgpgInterface *delSignKeyProcess=new KgpgInterface();
   delSignKeyProcess->KgpgDelSignature(parentKey,signID);
-  connect(delSignKeyProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(refreshkey()));
-
+  connect(delSignKeyProcess,SIGNAL(encryptionfinished(bool)),this,SLOT(delsignatureResult(bool)));
 }
 
-
+void listKeys::delsignatureResult(bool success)
+{
+  if (success==true)
+    refreshkey();
+  else
+    KMessageBox::sorry(this,i18n("Requested operation was unsuccessful, please edit the key manually"));
+}
 
 void listKeys::slotedit()
 {
-  if ( !keysList2->currentItem() )
+  if (!keysList2->currentItem())
+    return;
+  if (keysList2->currentItem()->depth()!=0)
     return;
 
-  if (keysList2->currentItem()->depth() != 0)
-    return;
-
-  KProcess kp;
-  kp << "konsole"
-     << "-e"
-     << "gpg"
-     << "--no-secmem-warning"
-     << "--edit-key"
-     << keysList2->currentItem()->text(5)
-     << "help";
-
+KProcess kp;
+kp<<"konsole"
+	<<"-e"
+	<<"gpg"
+	<<"--no-secmem-warning"
+	<<"--edit-key"
+	<<keysList2->currentItem()->text(5).latin1()
+	<<"help";
   kp.start(KProcess::Block);
   refreshkey();
 }
@@ -988,7 +1129,7 @@ delete genkey;
               KProcIO *proc=new KProcIO();
 
               //*proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--batch"<<"--passphrase-fd"<<res<<"--gen-key"<<"-a"<<"kgpg.tmp";
-*proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--batch"<<"--gen-key";
+              *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--batch"<<"--gen-key";
               /////////  when process ends, update dialog infos
               QObject::connect(proc, SIGNAL(processExited(KProcess *)),this, SLOT(genover(KProcess *)));
               proc->start(KProcess::NotifyOnExit);
@@ -996,30 +1137,34 @@ delete genkey;
 	  if (ktype=="ElGamal") proc->writeStdin("Key-Type: 20");
           else if (ktype=="RSA")
                 proc->writeStdin("Key-Type: 1");
-          else
-            {
-              proc->writeStdin("Key-Type: DSA");
-              proc->writeStdin("Subkey-Type: ELG-E");
-	      proc->writeStdin(QString("Subkey-Length:%1").arg(ksize));
-            }
-	    proc->writeStdin(QString("Passphrase:%1").arg(password));
-	    proc->writeStdin(QString("Key-Length:%1").arg(ksize));
+              else
+                {
+                  proc->writeStdin("Key-Type: DSA");
+                  proc->writeStdin("Subkey-Type: ELG-E");
+                  proc->writeStdin(QString("Subkey-Length:%1").arg(ksize));
+                }
+              proc->writeStdin(QString("Passphrase:%1").arg(password));
+              proc->writeStdin(QString("Key-Length:%1").arg(ksize));
 
-          filecont+=QString("Key-Length:%1\n").arg(ksize);
-          proc->writeStdin(QString("Name-Real:%1").arg(kname));
-          proc->writeStdin(QString("Name-Email:%1").arg(kmail));
-          if (kcomment!="") proc->writeStdin(QString("Name-Comment:%1").arg(kcomment));
-          if (kexp==0)
-          proc->writeStdin(QString("Expire-Date:0"));
-          if (kexp==1)
-            proc->writeStdin(QString("Expire-Date:%1").arg(knumb));
-          if (kexp==2) proc->writeStdin(QString("Expire-Date:%1w").arg(knumb));
+              filecont+=QString("Key-Length:%1\n").arg(ksize);
+              proc->writeStdin(QString("Name-Real:%1").arg(kname));
+              proc->writeStdin(QString("Name-Email:%1").arg(kmail));
+              if (kcomment!="")
+                proc->writeStdin(QString("Name-Comment:%1").arg(kcomment));
+              if (kexp==0)
+                proc->writeStdin(QString("Expire-Date:0"));
+              if (kexp==1)
+                proc->writeStdin(QString("Expire-Date:%1").arg(knumb));
+              if (kexp==2)
+                proc->writeStdin(QString("Expire-Date:%1w").arg(knumb));
 
-          if (kexp==3) proc->writeStdin(QString("Expire-Date:%1m").arg(knumb));
+              if (kexp==3)
+                proc->writeStdin(QString("Expire-Date:%1m").arg(knumb));
 
-          if (kexp==4) proc->writeStdin(QString("Expire-Date:%y").arg(knumb));
-          proc->writeStdin("%commit");
-	  proc->writeStdin("EOF");
+              if (kexp==4)
+                proc->writeStdin(QString("Expire-Date:%y").arg(knumb));
+              proc->writeStdin("%commit");
+              proc->writeStdin("EOF");
             }
         }
 
@@ -1054,19 +1199,15 @@ delete genkey;
 
 void listKeys::genover(KProcess *)
 {
-    KProcess sp;
-    sp << "shred" << "-zu" << "kgpg.tmp";
-    sp.start(KProcess::Block);
-
-    refreshkey();
-    delete pop;
+delete pop;
+refreshkey();
 }
 
 
 void listKeys::deleteseckey()
 {
-    //////////////////////// delete a key
-    QString res=keysList2->currentItem()->text(0);
+  //////////////////////// delete a key
+  QString res=keysList2->currentItem()->text(0);
 
     int result=KMessageBox::warningYesNo(this,
                                          i18n("Delete SECRET KEY pair %1 ?\nDeleting this key pair means you will never be able to decrypt files encrypted with this key anymore!!!").arg(res),
@@ -1133,7 +1274,8 @@ void listKeys::refreshkey()
 {
   ////////   update display of keys in main management window
   FILE *fp;
-  QString tst,cycle,keyname;
+  photoKeysList="";
+  QString tst,cycle,keyname,revoked;
   char line[300];
   UpdateViewItem *item;
   SmallViewItem *itemsub,*itemuid,*itemsig;
@@ -1144,6 +1286,7 @@ void listKeys::refreshkey()
   QString block="idre";
   issec="";
   secretList="";
+  revoked="";
   strcat(gpgcmd2,"gpg --no-secmem-warning --no-tty --list-secret-keys ");
   //strcat(gpgcmd2,tst);
   fp2 = popen(gpgcmd2, "r");
@@ -1156,178 +1299,117 @@ void listKeys::refreshkey()
     {
       tst=line;
 
-      if (tst.startsWith("uid"))
+      if (tst.startsWith("uid") || tst.startsWith("uat"))
         {
           QString uidname=tst.section(':',9,9);
           const QString trust=tst.section(':',1,1);
 
           QString tr;
-          switch( trust[0] )
+           switch( trust[0] )
             {
             case 'o':
-              tr = i18n("Unknown");
+              tr= i18n("Unknown");
               break;
             case 'i':
-              tr = i18n("Invalid");
+              tr= i18n("Invalid");
               break;
             case 'd':
-              tr = i18n("Disabled");
+              tr=i18n("Disabled");
               break;
             case 'r':
-              tr = i18n("Revoked");
+              tr=i18n("Revoked");
               break;
             case 'e':
-              tr = i18n("Expired");
+              tr=i18n("Expired");
               break;
             case 'q':
-              tr = i18n("Undefined");
+              tr=i18n("Undefined");
               break;
             case 'n':
-              tr = i18n("None");
+              tr=i18n("None");
               break;
             case 'm':
-              tr = i18n("Marginal");
+              tr=i18n("Marginal");
               break;
             case 'f':
-              tr = i18n("Full");
+              tr=i18n("Full");
               break;
             case 'u':
-              tr = i18n("Ultimate");
+              tr=i18n("Ultimate");
               break;
             default:
-              tr = i18n("?");
+              tr=i18n("?");
               break;
             }
-
-          if (uidname.find("<",0,FALSE)!=-1)
+          if (tst.startsWith("uat"))
             {
-              //tst=uidname.section('<',1,1);
-            //  uidname=uidname.section('<',0,0);
-              //tst=tst.section('>',0,0);
-
+              photoKeysList+=item->text(5);
+              uidname=i18n("Photo ID");
               itemuid= new SmallViewItem(item,uidname,tr,"-","-","-","-");
               itemuid->setPixmap(0,userid);
-	      cycle="uid";
+              cycle="uid";
             }
+
+          else
+            if (uidname.find("<",0,FALSE)!=-1)
+              {
+                //tst=uidname.section('<',1,1);
+                //  uidname=uidname.section('<',0,0);
+                //tst=tst.section('>',0,0);
+
+                itemuid= new SmallViewItem(item,uidname,tr,"-","-","-","-");
+                itemuid->setPixmap(0,userid);
+                cycle="uid";
+              }
         }
       else
 
-        if (tst.startsWith("sig"))
+        if (tst.startsWith("rev"))
           {
-            QString signame=tst.section(':',9,9);
-            QString islocalsig=tst.section(':',10,10);
-            const QString creat=tst.section(':',5,5);
-            const QString tid=tst.section(':',4,4);
-            QString id=QString("0x"+tid.right(8));
-            QString val=tst.section(':',6,6);
-            if (val=="")
-              val=i18n("Unlimited");
-            if (signame.find("<",0,FALSE)!=-1)
-              {
-                //tst=signame.section('<',1,1);
-                //signame=signame.section('<',0,0);
-                //tst=tst.section('>',0,0);
-
-                if (islocalsig.endsWith("l"))
-                  signame+=i18n(" [local]");
-
-                if (cycle=="pub")
-                  itemsig= new SmallViewItem(item,signame,"-",val,"-",creat,id);
-                if (cycle=="sub")
-                  itemsig= new SmallViewItem(itemsub,signame,"-",val,"-",creat,id);
-                if (cycle=="uid")
-                  itemsig= new SmallViewItem(itemuid,signame,"-",val,"-",creat,id);
-
-                  itemsig->setPixmap(0,signature);
-                //KMessageBox::sorry(0,cycle+"::"+signame);
-                //              (void) new KListViewItem(keysListsig,signame,opt,islocalsig,date,id);
-              }
+            revoked+=QString("0x"+tst.section(':',4,4).right(8)+" ");
           }
         else
 
-          if (tst.startsWith("sub"))
+          if (tst.startsWith("sig"))
             {
-              QString algo=tst.section(':',3,3);
+              QString fsigname=tst.section(':',9,9);
+              QString islocalsig=tst.section(':',10,10);
               const QString creat=tst.section(':',5,5);
               const QString tid=tst.section(':',4,4);
               QString id=QString("0x"+tid.right(8));
-              const QString trust=tst.section(':',1,1);
               QString val=tst.section(':',6,6);
               if (val=="")
                 val=i18n("Unlimited");
-              QString tr;
-              switch( trust[0] )
+              if (fsigname.find("<",0,FALSE)!=-1)
                 {
-                case 'o':
-                  tr=i18n("Unknown");
-                  break;
-                case 'i':
-                  tr=i18n("Invalid");
-                  break;
-                case 'd':
-                  tr=i18n("Disabled");
-                  break;
-                case 'r':
-                  tr=i18n("Revoked");
-                  break;
-                case 'e':
-                  tr=i18n("Expired");
-                  break;
-                case 'q':
-                  tr=i18n("Undefined");
-                  break;
-                case 'n':
-                  tr=i18n("None");
-                  break;
-                case 'm':
-                  tr=i18n("Marginal");
-                  break;
-                case 'f':
-                  tr=i18n("Full");
-                  break;
-                case 'u':
-                  tr=i18n("Ultimate");
-                  break;
-                default:
-                  tr=i18n("?");
-                  break;
-                }
-
-
-              switch( algo.toInt() )
-                {
-                case  1:
-                  algo=i18n("RSA");
-                  break;
-                case 16:
-                case 20:
-                  algo=i18n("ElGamal");
-                  break;
-                case 17:
-                  algo=i18n("DSA");
-                  break;
-                default:
-                  algo=QString("#" + algo);
-                  break;
-                }
-              QString klength=tst.section(':',2,2);
-              tst=algo+" subkey"; //"(i18n("<b>%1 subkey</b>: size: %2, ID: %3").arg(algo).arg(klength).arg(id));
-              //      pos=tst.find("<",0,FALSE);
-              if (!tst.isEmpty())
-                {
-                  //keynames+=QString(id+","+tst);
-                  //tst=tst.section('<',1,1);
+                  //tst=signame.section('<',1,1);
+                  //signame=signame.section('<',0,0);
                   //tst=tst.section('>',0,0);
-                  //em=new UpdateViewItem(keysList2,tst,tr,val,size,creat,id,isbold);
-                  itemsub= new SmallViewItem(item,tst,tr,val,klength,creat,id);
-                  itemsub->setPixmap(0,keySingle);
-		  cycle="sub";
+
+                  QString signame=fsigname.section('<',1,1);
+                  signame=signame.section('>',0,0);
+                  signame+=" ("+fsigname.section('<',0,0)+")";
+
+                  if (islocalsig.endsWith("l"))
+                    signame+=i18n(" [local]");
+
+                  if (cycle=="pub")
+                    itemsig= new SmallViewItem(item,signame,"-",val,"-",creat,id);
+                  if (cycle=="sub")
+                    itemsig= new SmallViewItem(itemsub,signame,"-",val,"-",creat,id);
+                  if (cycle=="uid")
+                    itemsig= new SmallViewItem(itemuid,signame,"-",val,"-",creat,id);
+
+                  itemsig->setPixmap(0,signature);
+                  //KMessageBox::sorry(0,cycle+"::"+signame);
+                  //              (void) new KListViewItem(keysListsig,signame,opt,islocalsig,date,id);
                 }
             }
           else
-            if (tst.startsWith("pub"))
+
+            if (tst.startsWith("sub"))
               {
-                const QString size=tst.section(':',2,2);
+                QString algo=tst.section(':',3,3);
                 const QString creat=tst.section(':',5,5);
                 const QString tid=tst.section(':',4,4);
                 QString id=QString("0x"+tid.right(8));
@@ -1336,92 +1418,282 @@ void listKeys::refreshkey()
                 if (val=="")
                   val=i18n("Unlimited");
                 QString tr;
-                switch( trust[0] )
+             switch( trust[0] )
+            {
+            case 'o':
+              tr= i18n("Unknown");
+              break;
+            case 'i':
+              tr= i18n("Invalid");
+              break;
+            case 'd':
+              tr=i18n("Disabled");
+              break;
+            case 'r':
+              tr=i18n("Revoked");
+              break;
+            case 'e':
+              tr=i18n("Expired");
+              break;
+            case 'q':
+              tr=i18n("Undefined");
+              break;
+            case 'n':
+              tr=i18n("None");
+              break;
+            case 'm':
+              tr=i18n("Marginal");
+              break;
+            case 'f':
+              tr=i18n("Full");
+              break;
+            case 'u':
+              tr=i18n("Ultimate");
+              break;
+            default:
+              tr=i18n("?");
+              break;
+            }
+
+                switch( algo.toInt() )
                   {
-                  case 'o':
-                    tr=i18n("Unknown");
+                  case  1:
+                    algo=i18n("RSA");
                     break;
-                  case 'i':
-                    tr=i18n("Invalid");
+                  case 16:
+                  case 20:
+                    algo=i18n("ElGamal");
                     break;
-                  case 'd':
-                    tr=i18n("Disabled");
-                    break;
-                  case 'r':
-                    tr=i18n("Revoked");
-                    break;
-                  case 'e':
-                    tr=i18n("Expired");
-                    break;
-                  case 'q':
-                    tr=i18n("Undefined");
-                    break;
-                  case 'n':
-                    tr=i18n("None");
-                    break;
-                  case 'm':
-                    tr=i18n("Marginal");
-                    break;
-                  case 'f':
-                    tr=i18n("Full");
-                    break;
-                  case 'u':
-                    tr=i18n("Ultimate");
+                  case 17:
+                    algo=i18n("DSA");
                     break;
                   default:
-                    tr=i18n("?");
+                    algo=QString("#" + algo);
                     break;
                   }
-                tst=tst.section(':',9,9);
+                QString klength=tst.section(':',2,2);
+                tst=i18n("%1 subkey").arg(algo);
                 //      pos=tst.find("<",0,FALSE);
-                if (tst!="")
+                if (!tst.isEmpty())
                   {
-                    keyname=tst.section('<',1,1);
-		    keyname=keyname.section('>',0,0);
-		    keyname+=" ("+tst.section('<',0,0)+")";
-                    //tst=tst.section('>',0,0);
-                    QString isbold="";
-                    if (id==defKey)
-                      isbold="on";
-                    item=new UpdateViewItem(keysList2,keyname,tr,val,size,creat,id,isbold);
-                    //(void) new KListViewItem(item,"signature","toto");
-                    cycle="pub";
-                    // QString oldies="Expired,Invalid,Revoked,Disabled";
-
-                    if (issec.find(id.right(8),0,FALSE)!=-1)
-                      {
-                        //if ((id==defKey) && (block.find(tr)==-1))   item->setPixmap(0,dkeyPair);
-                        //else
- //                       if (oldies.find(tr)!=-1)
-                          item->setPixmap(0,keyPair);
-/*                        else if ((tr=="Full") || (tr=="Ultimate"))
-                          item->setPixmap(0,gkeyPair);
-                        else
-                          item->setPixmap(0,nkeyPair);
-*/
-
-                        //item->setPixmap(0,keyPair);
-
-                        secretList+=id;
-                      }
-                    else
-                      {
-                       // if (oldies.find(tr)!=-1)
-                          item->setPixmap(0,keySingle);
-                        /*else if ((tr=="Full") || (tr=="Ultimate"))
-                          item->setPixmap(0,gkeySingle);
-                        else
-                          item->setPixmap(0,nkeySingle);*/
-                        //if ((id==defKey) && (block.find(tr)==-1)) item->setPixmap(0,dkeySingle);
-                        //else
-                        //item->setPixmap(0,keySingle);
-                      }
+                    itemsub= new SmallViewItem(item,tst,tr,val,klength,creat,id);
+                    itemsub->setPixmap(0,keySingle);
+                    cycle="sub";
                   }
               }
+            else
+              if (tst.startsWith("pub"))
+                {
+                  while (revoked!="")   ///////////////   there are revoked sigs in previous key
+                    {
+                      bool found=false;
+                      revoked=revoked.stripWhiteSpace();
+                      QString currentRevoke=revoked.section(' ',0,0);
+                      revoked.remove(0,currentRevoke.length());
+                      revoked=revoked.stripWhiteSpace();
+
+                      QListViewItem *current = item->firstChild();
+                      if (current)
+                        if (currentRevoke.find(current->text(5))!=-1)
+                          {
+                            current->setText(1,i18n("Revoked"));
+                            found=true;
+                          }
+
+                      QListViewItem *subcurrent = current->firstChild();
+                      if (subcurrent)
+                        {
+                          if (currentRevoke.find(subcurrent->text(5))!=-1)
+                            {
+                              subcurrent->setText(1,i18n("Revoked"));
+                              found=true;
+                            }
+                          while (subcurrent->nextSibling())
+                            {
+                              subcurrent = subcurrent->nextSibling();
+                              if (currentRevoke.find(subcurrent->text(5))!=-1)
+                                {
+                                  subcurrent->setText(1,i18n("Revoked"));
+                                  found=true;
+                                }
+                            }
+                        }
+
+                      while ( current->nextSibling() )
+                        {
+                          current = current->nextSibling();
+                          if (currentRevoke.find(current->text(5))!=-1)
+                            {
+                              current->setText(1,i18n("Revoked"));
+                              found=true;
+                            }
+
+                          QListViewItem *subcurrent = current->firstChild();
+                          if (subcurrent)
+                            {
+                              if (currentRevoke.find(subcurrent->text(5))!=-1)
+                                {
+                                  subcurrent->setText(1,i18n("Revoked"));
+                                  found=true;
+                                }
+                              while (subcurrent->nextSibling())
+                                {
+                                  subcurrent = subcurrent->nextSibling();
+                                  if (currentRevoke.find(subcurrent->text(5))!=-1)
+                                    {
+                                      subcurrent->setText(1,i18n("Revoked"));
+                                      found=true;
+                                    }
+                                }
+                            }
+                        }
+                      if (found==false)
+                        (void) new SmallViewItem(item,i18n("Revocation certificate"),"+","+","+","+",currentRevoke);
+                    }
+
+                  const QString size=tst.section(':',2,2);
+                  const QString creat=tst.section(':',5,5);
+                  const QString tid=tst.section(':',4,4);
+                  QString id=QString("0x"+tid.right(8));
+                  const QString trust=tst.section(':',1,1);
+                  QString val=tst.section(':',6,6);
+                  if (val=="")
+                    val="Unlimited";
+                  QString tr;
+                  switch( trust[0] )
+                    {
+                    case 'o':
+                      tr= "Unknown" ;
+                      break;
+                    case 'i':
+                      tr= "Invalid";
+                      break;
+                    case 'd':
+                      tr="Disabled";
+                      break;
+                    case 'r':
+                      tr="Revoked";
+                      break;
+                    case 'e':
+                      tr="Expired";
+                      break;
+                    case 'q':
+                      tr="Undefined";
+                      break;
+                    case 'n':
+                      tr="None";
+                      break;
+                    case 'm':
+                      tr="Marginal";
+                      break;
+                    case 'f':
+                      tr="Full";
+                      break;
+                    case 'u':
+                      tr="Ultimate";
+                      break;
+                    default:
+                      tr="?";
+                      break;
+                    }
+                  tst=tst.section(':',9,9);
+                  //      pos=tst.find("<",0,FALSE);
+                  if (tst!="")
+                    {
+                      keyname=tst.section('<',1,1);
+                      keyname=keyname.section('>',0,0);
+                      keyname+=" ("+tst.section('<',0,0)+")";
+                      //tst=tst.section('>',0,0);
+                      QString isbold="";
+                      if (id==defKey)
+                        isbold="on";
+                      item=new UpdateViewItem(keysList2,keyname,tr,val,size,creat,id,isbold);
+                      
+                      cycle="pub";
+
+                      if (issec.find(id.right(8),0,FALSE)!=-1)
+                        {
+                          item->setPixmap(0,keyPair);
+                          secretList+=id;
+                        }
+                      else
+                        {
+                          item->setPixmap(0,keySingle);
+                        }
+                    }
+                }
     }
   pclose(fp);
+
+  while (revoked!="")   ///////////////   there are revoked sigs in previous key
+    {
+      bool found=false;
+      revoked=revoked.stripWhiteSpace();
+      QString currentRevoke=revoked.section(' ',0,0);
+      revoked.remove(0,currentRevoke.length());
+      revoked=revoked.stripWhiteSpace();
+
+      QListViewItem *current = item->firstChild();
+      if (current)
+        if (currentRevoke.find(current->text(5))!=-1)
+          {
+            current->setText(1,i18n("Revoked"));
+            found=true;
+          }
+
+      QListViewItem *subcurrent = current->firstChild();
+      if (subcurrent)
+        {
+          if (currentRevoke.find(subcurrent->text(5))!=-1)
+            {
+              subcurrent->setText(1,i18n("Revoked"));
+              found=true;
+            }
+          while (subcurrent->nextSibling())
+            {
+              subcurrent = subcurrent->nextSibling();
+              if (currentRevoke.find(subcurrent->text(5))!=-1)
+                {
+                  subcurrent->setText(1,i18n("Revoked"));
+                  found=true;
+                }
+            }
+        }
+
+      while ( current->nextSibling() )
+        {
+          current = current->nextSibling();
+          if (currentRevoke.find(current->text(5))!=-1)
+            {
+              current->setText(1,i18n("Revoked"));
+              found=true;
+            }
+
+          QListViewItem *subcurrent = current->firstChild();
+          if (subcurrent)
+            {
+              if (currentRevoke.find(subcurrent->text(5))!=-1)
+                {
+                  subcurrent->setText(1,i18n("Revoked"));
+                  found=true;
+                }
+              while (subcurrent->nextSibling())
+                {
+                  subcurrent = subcurrent->nextSibling();
+                  if (currentRevoke.find(subcurrent->text(5))!=-1)
+                    {
+                      subcurrent->setText(1,i18n("Revoked"));
+                      found=true;
+                    }
+                }
+            }
+        }
+      if (found==false)
+        (void) new SmallViewItem(item,i18n("Revocation certificate"),"+","+","+","+",currentRevoke);
+    }
   keysList2->setSelected(keysList2->firstChild(),true);
-if (keysList2->columnWidth(0)>150) keysList2->setColumnWidth(0,150);
+  if (keysList2->columnWidth(0)>150)
+    keysList2->setColumnWidth(0,150);
 }
 //#include "listkeys.moc"
-#include "listkeys.moc"
+
