@@ -211,6 +211,7 @@ public slots:
 	void slotSetDefaultKey(QString newID);
 
 private slots:
+	void slotGotoDefaultKey();
 	void slotDelUid();
 	void slotAddUid();
 	void slotAddUidEnable(const QString & name);

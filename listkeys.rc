@@ -13,6 +13,10 @@
 	<Action name="add_kab"/>
     </Menu>
 
+    <Menu name="edit">
+    <Action name="go_default_key"/>
+    </Menu>
+    
     <Menu name="groups"><text>&amp;Groups</text>
     <Action name="create_group"/>
     <Action name="edit_group"/>

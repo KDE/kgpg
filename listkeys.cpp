@@ -503,6 +503,7 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
         (void) new KAction(i18n("&Create New Contact in Address Book"), "kaddressbook", 0,this, SLOT(addToKAB()),actionCollection(),"add_kab");
         (void) new KAction(i18n("&Merge Public Keys in Address Book"), "kaddressbook", 0,this, SLOT(allToKAB()),actionCollection(),"all_kabc");
+	(void) new KAction(i18n("&Go to Default Key"), 0,QKeySequence(CTRL+Qt::Key_Home) ,this, SLOT(slotGotoDefaultKey()),actionCollection(),"go_default_key");
 
         KStdAction::quit(this, SLOT(annule()), actionCollection());
         KStdAction::find(this, SLOT(findKey()), actionCollection());
@@ -634,6 +635,15 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 listKeys::~listKeys()
 {}
 
+
+void listKeys::slotGotoDefaultKey()
+{
+QListViewItem *myDefaulKey=keysList2->findItem(keysList2->defKey,6);
+keysList2->clearSelection();
+                keysList2->setCurrentItem(myDefaulKey);
+                keysList2->setSelected(myDefaulKey,true);
+                keysList2->ensureItemVisible(myDefaulKey);
+}
 
 void listKeys::slotDelUid()
 {
