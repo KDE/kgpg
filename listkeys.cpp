@@ -103,8 +103,10 @@ class UpdateViewItem : public KListViewItem
 {
 public:
         UpdateViewItem(QListView *parent, QString name,QString email, QString tr, QString val, QString size, QString creat, QString id,bool isdefault,bool isexpired);
+	UpdateViewItem(QListViewItem *parent=0, QString name=QString::null,QString email=QString::null, QString tr=QString::null, QString val=QString::null, QString size=QString::null, QString creat=QString::null, QString id=QString::null);
         virtual void paintCell(QPainter *p, const QColorGroup &cg,int col, int width, int align);
         virtual int compare(  QListViewItem * item, int c, bool ascending ) const;
+	virtual QString key( int column, bool ) const;
         bool def,exp;
 };
 
@@ -122,23 +124,45 @@ UpdateViewItem::UpdateViewItem(QListView *parent, QString name,QString email, QS
         setText(6,id);
 }
 
+UpdateViewItem::UpdateViewItem(QListViewItem *parent, QString name,QString email, QString tr, QString val, QString size, QString creat, QString id)
+                : KListViewItem(parent)
+{
+        setText(0,name);
+        setText(1,email);
+        setText(2,tr);
+        setText(3,val);
+        setText(4,size);
+        setText(5,creat);
+        setText(6,id);
+}
+
 
 void UpdateViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, int width, int alignment)
 {
         QColorGroup _cg( cg );
-        if ((def) && (column<2)) {
+	if (depth()==0)
+	{
+	if ((def) && (column<2)) {
                 QFont font(p->font());
                 font.setBold(true);
                 p->setFont(font);
         }
-        if ((exp) && (column==3)) {
-                _cg.setColor( QColorGroup::Text, Qt::red );
+	else if ((exp) && (column==3)) _cg.setColor( QColorGroup::Text, Qt::red );
+	}
+	else 
+        if (column<2) {
+                QFont font(p->font());
+                font.setItalic(true);
+                p->setFont(font);
         }
+		
+
         KListViewItem::paintCell(p,_cg, column, width, alignment);
 }
 
 #include <iostream>
 using namespace std;
+
 int UpdateViewItem :: compare(  QListViewItem * item, int c, bool ascending ) const
 {
         int rc = 0;
@@ -156,7 +180,9 @@ int UpdateViewItem :: compare(  QListViewItem * item, int c, bool ascending ) co
                                 rc = -1;
                 } else if (itemDateValid)
                         rc = 1;
-        } else if (c==2)   /* sorting by pixmap */
+        return rc;
+	}
+	if (c==2)   /* sorting by pixmap */
         {
                 const QPixmap* pix = pixmap(c);
                 const QPixmap* itemPix = item->pixmap(c);
@@ -173,58 +199,15 @@ int UpdateViewItem :: compare(  QListViewItem * item, int c, bool ascending ) co
                         rc=-1;
                 else if (serial>itemSerial)
                         rc=1;
-        } else {
-                rc = item->text(c).lower().compare(text(c).lower());
-        }
-
-        // if we aren't comparing by name and we have an equal value,
-        // in the column that we are sorting in, do a secondary sort on the name
-        if (c > 1 && rc == 0) {
-                // trick QListView into also sorting ascending on first column
-                if (ascending) {
-                        rc = text(0).lower().compare(item->text(0).lower());
-                } else {
-                        rc = item->text(0).lower().compare(text(0).lower());
-                }
-        }
-
-        return rc;
+		return rc;
+        } 
+	return QListViewItem::compare(item,c,ascending);
 }
 
-
-class SmallViewItem : public KListViewItem
+QString UpdateViewItem::key( int column, bool ) const
 {
-public:
-        SmallViewItem(QListViewItem *parent=0, QString name=QString::null,QString email=QString::null, QString tr=QString::null, QString val=QString::null, QString size=QString::null, QString creat=QString::null, QString id=QString::null);
-        virtual void paintCell(QPainter *p, const QColorGroup &cg,int col, int width, int align);
-};
-
-SmallViewItem::SmallViewItem(QListViewItem *parent, QString name,QString email, QString tr, QString val, QString size, QString creat, QString id)
-                : KListViewItem(parent)
-{
-        setText(0,name);
-        setText(1,email);
-        setText(2,tr);
-        setText(3,val);
-        setText(4,size);
-        setText(5,creat);
-        setText(6,id);
+    return text( column ).lower();
 }
-
-
-void SmallViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, int width, int alignment)
-{
-        if (column<2) {
-                QFont font(p->font());
-                //font.setPointSize(font.pointSize()-1);
-                font.setItalic(true);
-                p->setFont(font);
-        }
-        KListViewItem::paintCell(p, cg, column, width, alignment);
-}
-
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2377,7 +2360,7 @@ void listKeys::confirmdeletekey()
                 bool secretKeyInside=false;
                 for ( uint i = 0; i < exportList.count(); ++i )
                         if ( exportList.at(i) ) {
-                                if (keysList2->secretList.find(exportList.at(i)->text(6))!=-1) {
+				if (keysList2->secretList.find(exportList.at(i)->text(6))!=-1) {
                                         secretKeyInside=true;
                                         secList+=exportList.at(i)->text(0)+" ("+exportList.at(i)->text(1)+")<br>";
                                         exportList.at(i)->setSelected(false);
@@ -2486,7 +2469,7 @@ void KeyView::expandGroup(QListViewItem *item)
         QStringList keysGroup=KgpgInterface::getGpgGroupSetting(item->text(0),KGpgSettings::gpgConfigPath());
         kdDebug(2100)<<keysGroup<<endl;
         for ( QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it ) {
-                SmallViewItem *item2=new SmallViewItem(item,QString(*it),QString::null,QString::null,QString::null,QString::null,QString::null,QString::null);
+                UpdateViewItem *item2=new UpdateViewItem(item,QString(*it),QString::null,QString::null,QString::null,QString::null,QString::null,QString::null);
                 item2->setPixmap(0,pixkeyGroup);
                 item2->setExpandable(false);
         }
@@ -2523,10 +2506,10 @@ void KeyView::expandKey(QListViewItem *item)
         QString cycle;
         QStringList tst;
         char line[300];
-        SmallViewItem *itemsub=NULL;
-        SmallViewItem *itemuid=NULL;
-        SmallViewItem *itemsig=NULL;
-        SmallViewItem *itemrev=NULL;
+        UpdateViewItem *itemsub=NULL;
+        UpdateViewItem *itemuid=NULL;
+        UpdateViewItem *itemsig=NULL;
+        UpdateViewItem *itemrev=NULL;
         QPixmap keyPhotoId;
         int uidNumber=2;
         bool dropFirstUid=false;
@@ -2549,7 +2532,7 @@ void KeyView::expandKey(QListViewItem *item)
 
                                 if (tst[0]=="uat") {
                                         kdDebug(2100)<<"Found photo at uid "<<uidNumber<<endl;
-                                        itemuid= new SmallViewItem(item,i18n("Photo id"),QString::null,QString::null,"-","-","-",QString::number(uidNumber));
+                                        itemuid= new UpdateViewItem(item,i18n("Photo id"),QString::null,QString::null,"-","-","-",QString::number(uidNumber));
                                         if (displayPhoto) {
                                                 kgpgphototmp=new KTempFile();
                                                 kgpgphototmp->setAutoDelete(true);
@@ -2572,7 +2555,7 @@ void KeyView::expandKey(QListViewItem *item)
                                         cycle="uid";
                                 } else {
                                         kdDebug(2100)<<"Found uid at "<<uidNumber<<endl;
-                                        itemuid= new SmallViewItem(item,uidKey.gpgkeyname,uidKey.gpgkeymail,QString::null,"-","-","-","-");
+                                        itemuid= new UpdateViewItem(item,uidKey.gpgkeyname,uidKey.gpgkeymail,QString::null,"-","-","-","-");
                                         itemuid->setPixmap(2,uidKey.trustpic);
                                         if (noID) {
                                                 item->setText(0,uidKey.gpgkeyname);
@@ -2588,12 +2571,12 @@ void KeyView::expandKey(QListViewItem *item)
                         if (tst[0]=="rev") {
                                 gpgKey revKey=extractKey(line);
                                 if (cycle=="uid" || cycle=="uat")
-                                        itemrev= new SmallViewItem(itemuid,revKey.gpgkeyname,revKey.gpgkeymail+i18n(" [Revocation signature]"),"-","-","-",revKey.gpgkeycreation,revKey.gpgkeyid);
+                                        itemrev= new UpdateViewItem(itemuid,revKey.gpgkeyname,revKey.gpgkeymail+i18n(" [Revocation signature]"),"-","-","-",revKey.gpgkeycreation,revKey.gpgkeyid);
                                 else if (cycle=="pub") { //////////////public key revoked
-                                        itemrev= new SmallViewItem(item,revKey.gpgkeyname,revKey.gpgkeymail+i18n(" [Revocation signature]"),"-","-","-",revKey.gpgkeycreation,revKey.gpgkeyid);
+                                        itemrev= new UpdateViewItem(item,revKey.gpgkeyname,revKey.gpgkeymail+i18n(" [Revocation signature]"),"-","-","-",revKey.gpgkeycreation,revKey.gpgkeyid);
                                         dropFirstUid=true;
                                 } else if (cycle=="sub")
-                                        itemrev= new SmallViewItem(itemsub,revKey.gpgkeyname,revKey.gpgkeymail+i18n(" [Revocation signature]"),"-","-","-",revKey.gpgkeycreation,revKey.gpgkeyid);
+                                        itemrev= new UpdateViewItem(itemsub,revKey.gpgkeyname,revKey.gpgkeymail+i18n(" [Revocation signature]"),"-","-","-",revKey.gpgkeycreation,revKey.gpgkeyid);
                                 itemrev->setPixmap(0,pixRevoke);
                         } else
 
@@ -2605,17 +2588,17 @@ void KeyView::expandKey(QListViewItem *item)
                                                 sigKey.gpgkeymail+=i18n(" [local]");
 
                                         if (cycle=="pub")
-                                                itemsig= new SmallViewItem(item,sigKey.gpgkeyname,sigKey.gpgkeymail,"-",sigKey.gpgkeyexpiration,"-",sigKey.gpgkeycreation,sigKey.gpgkeyid);
+                                                itemsig= new UpdateViewItem(item,sigKey.gpgkeyname,sigKey.gpgkeymail,"-",sigKey.gpgkeyexpiration,"-",sigKey.gpgkeycreation,sigKey.gpgkeyid);
                                         if (cycle=="sub")
-                                                itemsig= new SmallViewItem(itemsub,sigKey.gpgkeyname,sigKey.gpgkeymail,"-",sigKey.gpgkeyexpiration,"-",sigKey.gpgkeycreation,sigKey.gpgkeyid);
+                                                itemsig= new UpdateViewItem(itemsub,sigKey.gpgkeyname,sigKey.gpgkeymail,"-",sigKey.gpgkeyexpiration,"-",sigKey.gpgkeycreation,sigKey.gpgkeyid);
                                         if (cycle=="uid")
-                                                itemsig= new SmallViewItem(itemuid,sigKey.gpgkeyname,sigKey.gpgkeymail,"-",sigKey.gpgkeyexpiration,"-",sigKey.gpgkeycreation,sigKey.gpgkeyid);
+                                                itemsig= new UpdateViewItem(itemuid,sigKey.gpgkeyname,sigKey.gpgkeymail,"-",sigKey.gpgkeyexpiration,"-",sigKey.gpgkeycreation,sigKey.gpgkeyid);
 
                                         itemsig->setPixmap(0,pixsignature);
                                 } else
                                         if (tst[0]=="sub") {
                                                 gpgKey subKey=extractKey(line);
-                                                itemsub= new SmallViewItem(item,i18n("%1 subkey").arg(subKey.gpgkeyalgo),QString::null,QString::null,subKey.gpgkeyexpiration,subKey.gpgkeysize,subKey.gpgkeycreation,subKey.gpgkeyid);
+                                                itemsub= new UpdateViewItem(item,i18n("%1 subkey").arg(subKey.gpgkeyalgo),QString::null,QString::null,subKey.gpgkeyexpiration,subKey.gpgkeysize,subKey.gpgkeycreation,subKey.gpgkeyid);
                                                 itemsub->setPixmap(0,pixkeySingle);
                                                 itemsub->setPixmap(2,subKey.trustpic);
                                                 cycle="sub";
