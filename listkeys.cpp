@@ -659,7 +659,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     ///////////////    get all keys data
     createGUI("listkeys.rc");
     toolBar()->insertLineSeparator();
-    QLabel *searchLabel= new QLabel(i18n("Search: "),toolBar());
+    QLabel *searchLabel= new QLabel(i18n("Search: "),toolBar(),"kde toolbar widget");
 
     toolBar()->insertWidget( KAction::getToolButtonID(), searchLabel->sizeHint().width(), searchLabel);
     toolBar()->insertLined(QString::null,0, SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)),true,i18n("Filter Search"),10);
