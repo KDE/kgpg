@@ -193,7 +193,7 @@ private:
         KAction *importSignatureKey,*importAllSignKeys,*signKey;
         QPtrList<QListViewItem> signList;
         uint globalCount,keyCount;
-	int globalChecked;
+	int globalChecked,searchWidget;
         bool globalisLocal,showTipOfDay;
         QString globalkeyMail,globalkeyID,searchString;
 	long searchOptions;

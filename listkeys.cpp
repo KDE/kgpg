@@ -662,7 +662,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
     QLabel *searchLabel= new QLabel(i18n("Search: "),toolBar(),"kde toolbar widget");
 
     toolBar()->insertWidget( KAction::getToolButtonID(), searchLabel->sizeHint().width(), searchLabel);
-    toolBar()->insertLined(QString::null,0, SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)),true,i18n("Filter Search"),10);
+    searchWidget=toolBar()->insertLined(QString::null,0, SIGNAL(textChanged(const QString &)),this,SLOT(keyFilter(const QString &)),true,i18n("Filter Search"),10);
     
     sTrust->setChecked(KGpgSettings::showTrust());
     sSize->setChecked(KGpgSettings::showSize());
@@ -2687,6 +2687,9 @@ if (item->childCount()!=0)
 void listKeys::refreshkey()
 {
     keysList2->refreshkeylist();
+    QString lText=toolBar()->getLinedText(toolBar()->idAt(searchWidget));
+    if (!lText.isEmpty())
+    keyFilter(lText);
 }
 
 void KeyView::refreshkeylist()
