@@ -238,7 +238,7 @@ void KgpgApp::slotFilePreDec()
                 oldname.append(".clear");
         oldname.prepend(url.directory(0,0));
 
-	KDialogBase *popn=new KDialogBase( KDialogBase::Swallow, i18n("Decrypt File to"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "file_decrypt",true);
+	KDialogBase *popn=new KDialogBase( KDialogBase::Swallow, i18n("Decrypt File To"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "file_decrypt",true);
 
 	SrcSelect *page=new SrcSelect();
 	popn->setMainWidget(page);

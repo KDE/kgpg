@@ -138,7 +138,7 @@ void  MyView::clipSign(bool openEditor)
 		kgpgtxtedit->show();
 		
         } else
-                KMessageBox::sorry(this,i18n("Clipboard is Empty"));
+                KMessageBox::sorry(this,i18n("Clipboard is empty."));
 }
 
 void MyView::encryptDroppedFolder()
@@ -932,7 +932,7 @@ int KgpgAppletApp::newInstance()
                                 if (!directoryInside)
                                         kgpg_applet->w->showDroppedFile();
                                 else
-                                        KMessageBox::sorry(0,i18n("Cannot decrypt & show folder."));
+                                        KMessageBox::sorry(0,i18n("Cannot decrypt and show folder."));
                         } else if (args->isSet("S")!=0) {
                                 if (!directoryInside)
                                         kgpg_applet->w->signDroppedFile();
