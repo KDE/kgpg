@@ -73,6 +73,7 @@ connect(buttonOk,SIGNAL(clicked()),this,SLOT(slotOk()));
 connect(bcheckMime,SIGNAL(clicked()),this,SLOT(checkMimes()));
 }
 
+
 void kgpgOptions::checkMimes()
 {
 	KStandardDirs *sd=new KStandardDirs();
@@ -116,8 +117,8 @@ QString path=locateLocal("data","konqueror/servicemenus/signfile.desktop");
     configl2.writeEntry("ServiceTypes", mimetype);
     configl2.writeEntry("Actions", "sign");
     configl2.setGroup("Desktop Action sign");
-	configl2.writeEntry("Name",i18n("Sign file"));
-	configl2.writeEntry("Icon", "signature");
+	configl2.writeEntry("Name",i18n("Sign File"));
+	//configl2.writeEntry("Icon", "sign_file");
 	configl2.writeEntry("Exec","kgpg -S %u");
   	  //KMessageBox::information(this,i18n("Decrypt file option is now added in Konqueror's menu."));
   }
@@ -133,8 +134,8 @@ QString path=locateLocal("data","konqueror/servicemenus/decryptfile.desktop");
     configl2.writeEntry("ServiceTypes", mimetype);
     configl2.writeEntry("Actions", "decrypt");
     configl2.setGroup("Desktop Action decrypt");
-	configl2.writeEntry("Name",i18n("Decrypt file"));
-	configl2.writeEntry("Icon", "kgpg2");
+	configl2.writeEntry("Name",i18n("Decrypt File"));
+	//configl2.writeEntry("Icon", "decrypt_file");
 	configl2.writeEntry("Exec","kgpg -d %u");
   	  //KMessageBox::information(this,i18n("Decrypt file option is now added in Konqueror's menu."));
   }
@@ -249,5 +250,4 @@ void kgpgOptions::listkey()
   }
   }
 
-//#include "kgpgoptions.moc"
 #include "kgpgoptions.moc"

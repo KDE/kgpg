@@ -5,6 +5,7 @@ Actions=encrypt
 [Desktop Action encrypt]
 Name=Encrypt File
 Name[es]=Cifrar archivo
+Name[fr]=Crypter un fichier
 Name[ja]=ファイルの符号化
 Name[pt]=Cifrar o Ficheiro
 Name[pt_BR]=Cifrar o Ficheiro
@@ -13,6 +14,6 @@ Name[sv]=Kryptera fil
 Name[xh]=Faka ufihlo Kwifayile
 Name[zh_TW]=加密檔案
 Name[zu]=Ifayela Lokubhalwe ngokungaqondakali
-Icon=kgpg
+
 Exec=kgpg -e %u
 
