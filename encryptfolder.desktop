@@ -4,6 +4,7 @@ Actions=encrypt
 
 [Desktop Action encrypt]
 Name=Archive && Encrypt Folder
+Name[ar]=أرشفة و تشفير المجلّد
 Name[bg]=Архивиране и шифроване на директория
 Name[bs]=Arhiviraj i šifriraj direktorij
 Name[ca]=Arxiva i xifra la carpeta
@@ -22,6 +23,7 @@ Name[hu]=Könyvtár titkosítása és archiválása
 Name[is]=Pakka og dulrita möppu
 Name[it]=Archivia e cifra cartella
 Name[ja]=アーカイブ && フォルダを暗号化
+Name[mk]=Архивирај и криптирај папка
 Name[nb]=Arkiver && krypter mappe
 Name[nl]=Map inpakken en versleutelen
 Name[nn]=Arkiver og krypter mappe
