@@ -235,7 +235,7 @@ void kgpgOptions::listkey()
         fp = popen("gpg --no-tty --with-colon --list-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
-                if (tst.find("pub",0,FALSE)!=-1) {
+                if (tst.startsWith("pub")) {
                         name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
                         if ((!name.isEmpty()) && (trustedvals.find(tst.section(':',1,1))==-1)) {
                                 counter++;
