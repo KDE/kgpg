@@ -2173,7 +2173,6 @@ void listKeys::deletekey()
 {
 QPtrList<QListViewItem> exportList=keysList2->selectedItems();
 		        if (exportList.count()==0) return;
-
         KProcess gp;
 	gp << "gpg"
 	<< "--no-tty"
@@ -2185,11 +2184,10 @@ QPtrList<QListViewItem> exportList=keysList2->selectedItems();
 	if ( exportList.at(i) )
 	gp<<(exportList.at(i)->text(6)).stripWhiteSpace();
 	gp.start(KProcess::Block);
-
+	
         for ( uint i = 0; i < exportList.count(); ++i )
                 if ( exportList.at(i) )
                         keysList2->refreshcurrentkey(exportList.at(i));
-kdDebug()<<keysList2->currentItem()->text(0)<<endl;
 	if (keysList2->currentItem())
 		{
 		QListViewItem * myChild = keysList2->currentItem();
@@ -2612,13 +2610,14 @@ setSelected(item,true);
 
 void KeyView::refreshcurrentkey(QListViewItem *current)
 {
-        if (current==NULL)
+        if (!current)
                 return;
 	bool keyIsOpen=false;
         QString keyUpdate=current->text(6);
 	if (current->isOpen()) keyIsOpen=true;
 	delete current;
         refreshcurrentkey(keyUpdate);
+	if (currentItem())
 	if (currentItem()->text(6)==keyUpdate) currentItem()->setOpen(keyIsOpen);
 }
 
