@@ -19,7 +19,7 @@
 
 #include "kgpgshredwidget.h"
 
-kgpgShredWidget::kgpgShredWidget(QWidget *parent, const char *name,KURL sfile):KgpgShred( parent, name)
+kgpgShredWidget::kgpgShredWidget(QWidget *parent, const char *name):KgpgShred( parent, name)
 {
         update();
         //fileSize=QFile(sfile.path()).size();

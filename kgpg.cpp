@@ -169,6 +169,27 @@ void  MyView::encryptDroppedFile()
 }
 
 
+void  MyView::shredDroppedFile()
+{
+if (KMessageBox::warningContinueCancelList(0,i18n("Do you really want to shred these files"),droppedUrls.toStringList())!=KMessageBox::Continue)
+return;
+
+
+        KURL::List::iterator it;
+        for ( it = droppedUrls.begin(); it != droppedUrls.end(); ++it )
+{
+if (!KURL(*it).isLocalFile()) KMessageBox::sorry(0,i18n("Cannot shred remote files !"));
+else
+{
+kgpgShredWidget *sh=new kgpgShredWidget(0,"shred");
+        sh->setCaption(i18n("Shredding %1").arg(KURL(*it).filename()));
+        sh->show();
+        sh->kgpgShredFile(KURL(*it));
+}
+}
+}
+
+
 void  MyView::slotVerifyFile()
 {
         ///////////////////////////////////   check file signature
@@ -410,17 +431,31 @@ void  MyView::startWizard()
                 }
         }
         wiz->kURLRequester1->setURL(confPath);
-
+	wiz->kURLRequester2->setURL(QString(QDir::homeDirPath()+"/Desktop"));
         connect(wiz->pushButton4,SIGNAL(clicked()),this,SLOT(slotGenKey()));
         connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotSaveOptionsPath()));
         connect( wiz , SIGNAL( destroyed() ) , this, SLOT( slotWizardClosed()));
 
-        wiz->setFinishEnabled(wiz->page_3,true);
+        wiz->setFinishEnabled(wiz->page_4,true);
         wiz->show();
 }
 
 void  MyView::slotSaveOptionsPath()
 {
+KURL path;
+path.addPath(wiz->kURLRequester2->url());
+path.adjustPath(1);
+path.setFileName("shredder.desktop");
+        KDesktopFile configl2(path.path(), false);
+        if (configl2.isImmutable() ==false) {
+                configl2.setGroup("Desktop Entry");
+                configl2.writeEntry("Type", "Application");
+                configl2.writeEntry("Name",i18n("Shredder"));
+		configl2.writeEntry("Icon",i18n("shredder.png"));
+                configl2.writeEntry("Exec","kgpg -X %U");
+        }
+
+
         ksConfig->setGroup("General Options");
         ksConfig->writeEntry("gpg config path",wiz->kURLRequester1->url());
         ksConfig->writeEntry("First run",false);
@@ -590,7 +625,9 @@ int KgpgAppletApp::newInstance()
                         kgpg_applet->w->droppedUrls=urlList;
                         if (args->isSet("e")!=0)
                                 kgpg_applet->w->encryptDroppedFile();
-                        else if (args->isSet("s")!=0)
+			else if (args->isSet("X")!=0)
+                                kgpg_applet->w->shredDroppedFile();
+			else if (args->isSet("s")!=0)
                                 kgpg_applet->w->showDroppedFile();
                         else if (args->isSet("S")!=0)
                                 kgpg_applet->w->signDroppedFile();

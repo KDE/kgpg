@@ -45,6 +45,7 @@
 #include <kuniqueapplication.h>
 #include <kdeversion.h>
 #include <kcmdlineargs.h>
+#include <kdesktopfile.h>
 
 #if (KDE_VERSION >= 310)
 #include <kpassivepopup.h>
@@ -56,6 +57,7 @@
 #include "popuppublic.h"
 #include "listkeys.h"
 #include "kgpgwizard.h"
+#include "kgpgshredwidget.h"
 
 
 class MyView : public QLabel
@@ -98,9 +100,10 @@ public slots:
         void  clipEncrypt();
         void preferences();
         void  openEditor();
+	void  shredDroppedFile();
 
 private slots:
-        void  slotWizardClose();
+	void  slotWizardClose();
         void  startWizard();
         void  slotSaveOptionsPath();
         void  slotGenKey();

@@ -93,21 +93,10 @@ void KgpgLibrary::shredprocessenc(KURL fileToShred)
 #else
         delete clippop;
 #endif
-        kgpgShredWidget *sh=new kgpgShredWidget(0,"shred",fileToShred);
+        kgpgShredWidget *sh=new kgpgShredWidget(0,"shred");
         sh->setCaption(i18n("Shredding %1").arg(fileToShred.filename()));
         sh->show();
         sh->kgpgShredFile(fileToShred);
-
-        /*
-        KgpgShred *sh=new KgpgShred(0,"shred",false);
-        	  KShred *shredres=new KShred(fileToShred.path());
-        connect(shredres,SIGNAL(processedSize(KIO::filesize_t)),sh,SLOT(setValue(KIO::filesize_t)));
-        sh->exec();
-        shredres->shred();
-
-        */
-        //if (!shredres->shred()) KMessageBox::sorry(0,i18n("<qt>The source file <b>%1</b> could not be shredded.<br>Check your permissions.</qt>").arg(fileToShred.path()));
-
 }
 
 void KgpgLibrary::processenc(KURL)

@@ -34,7 +34,7 @@ class kgpgShredWidget : public KgpgShred
 {
         Q_OBJECT
 public:
-        kgpgShredWidget(QWidget *parent=0, const char *name=0,KURL sfile=0);
+        kgpgShredWidget(QWidget *parent=0, const char *name=0);
         ~kgpgShredWidget();
 
 private:
