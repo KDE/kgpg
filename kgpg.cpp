@@ -297,11 +297,23 @@ encryptDroppedFile();
 
 void  MyView::shredDroppedFile()
 {
-        if (KMessageBox::warningContinueCancelList(0,i18n("Do you really want to shred these files?"),droppedUrls.toStringList())!=KMessageBox::Continue)
-                return;
+KDialogBase *shredConfirm=new KDialogBase( this, "confirm_shred", true,i18n("Shred Files"),KDialogBase::Ok | KDialogBase::Cancel);
+QWidget *page = new QWidget(shredConfirm);
+shredConfirm->setMainWidget(page);
+QBoxLayout *layout=new QBoxLayout(page,QBoxLayout::TopToBottom,0);
+layout->setAutoAdd(true);
+QString shredWhatsThis = i18n( "<qt><b>Shred source file:</b><br /><p>Checking this option will shred (overwrite several times before erasing) the files you have encrypted. This way, it is almost impossible that the source file is recovered.</p><p><b>But you must be aware that this is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>");
+
+(void) new KActiveLabel( i18n("Do you really want to <a href=\"whatsthis:%1\">shred</a> these files?").arg(shredWhatsThis),page);
+KListBox *lb=new KListBox(page);
+lb->insertStringList(droppedUrls.toStringList());
+if (shredConfirm->exec()==QDialog::Accepted)
+	{
 	KgpgLibrary *lib=new KgpgLibrary(this);
 	connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
 	lib->shredprocessenc(droppedUrls);
+	}
+delete shredConfirm;
 }
 
 
@@ -604,9 +616,9 @@ void  MyView::startWizard()
         kdDebug(2100)<<"Starting Wizard"<<endl;
         wiz=new KgpgWizard(0,"wizard");
         QString gpgHome(getGpgHome());
-        QString confPath=gpgHome+"options";
+        QString confPath=gpgHome+"gpg.conf";
         if (!QFile(confPath).exists()) {
-                confPath=gpgHome+"gpg.conf";
+                confPath=gpgHome+"options";
                 if (!QFile(confPath).exists()) {
                         if (KMessageBox::questionYesNo(this,i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"))==KMessageBox::Yes) {
                                 confPath=gpgHome+"options";
@@ -628,7 +640,7 @@ void  MyView::startWizard()
 	else wiz->txtGpgVersion->setText(QString::null);
 
         wiz->kURLRequester1->setURL(confPath);
-        wiz->kURLRequester2->setURL(QString(QDir::homeDirPath()+"/Desktop"));
+        wiz->kURLRequester2->setURL(KGlobalSettings::desktopPath());
         wiz->kURLRequester2->setMode(2);
 
         FILE *fp,*fp2;
