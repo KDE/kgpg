@@ -85,7 +85,26 @@
     <entry name="EditorGeometry" type="QSize" key="Geometry">
       <desc>The size of the editor window.</desc>
     </entry>
-
+    <entry name="ShowTrust" type="bool" key="show_trust">
+      <desc>Whether to show the trust value in key manager.</desc>
+      <default>true</default>
+    </entry>
+    <entry name="ShowExpi" type="bool" key="show_expi">
+      <desc>Whether to show the expiration value in key manager.</desc>
+      <default>true</default>
+    </entry>
+    <entry name="ShowSize" type="bool" key="show_size">
+      <desc>Whether to show the size value in key manager.</desc>
+      <default>true</default>
+    </entry>
+    <entry name="ShowCreat" type="bool" key="show_creat">
+      <desc>Whether to show the creation value in key manager.</desc>
+      <default>true</default>
+    </entry>
+    <entry name="ShowId" type="bool" key="show_id">
+      <desc>Whether to show the id value in key manager.</desc>
+      <default>true</default>
+    </entry>
   </group>
   <group name="User Interface">
     <entry name="UseMouseSelection" type="bool" key="selection_clipboard">

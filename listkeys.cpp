@@ -532,7 +532,13 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
 	(void) new KToggleAction(i18n("&Show only Secret Keys"), 0, 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
 	keysList2->displayOnlySecret=false;
-
+	
+	sTrust=new KToggleAction(i18n("Trust"),0, 0,this, SLOT(slotShowTrust()),actionCollection(),"show_trust");
+	sSize=new KToggleAction(i18n("Size"),0, 0,this, SLOT(slotShowSize()),actionCollection(),"show_size");
+	sCreat=new KToggleAction(i18n("Creation"),0, 0,this, SLOT(slotShowCreat()),actionCollection(),"show_creat");
+	sExpi=new KToggleAction(i18n("Expiration"),0, 0,this, SLOT(slotShowExpi()),actionCollection(),"show_expi");
+	sId=new KToggleAction(i18n("Id"),0, 0,this, SLOT(slotShowId()),actionCollection(),"show_id");
+	
 	photoProps = new KSelectAction(i18n("&Photo ID's"),"kgpg_photo", actionCollection(), "photo_settings");
 	connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
 
@@ -552,19 +558,18 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         //keysList2->addColumn( i18n( "Keys" ),140);
         keysList2->addColumn( i18n( "Name" ),200);
         keysList2->addColumn( i18n( "Email" ),200);
-        keysList2->addColumn( i18n( "Trust" ));
-        keysList2->addColumn( i18n( "Expiration" ));
-        keysList2->addColumn( i18n( "Size" ));
-        keysList2->addColumn( i18n( "Creation" ));
-        keysList2->addColumn( i18n( "Id" ));
+        keysList2->addColumn( i18n( "Trust" ),60);
+        keysList2->addColumn( i18n( "Expiration" ),100);
+        keysList2->addColumn( i18n( "Size" ),100);
+        keysList2->addColumn( i18n( "Creation" ),100);
+        keysList2->addColumn( i18n( "Id" ),100);
         keysList2->setShowSortIndicator(true);
         keysList2->setAllColumnsShowFocus(true);
         keysList2->setFullWidth(true);
         keysList2->setAcceptDrops (true) ;
         keysList2->setSelectionModeExt(KListView::Extended);
-
-
-
+	keysList2->setResizeMode(QListView::LastColumn);
+	
 	popup=new QPopupMenu();
         exportPublicKey->plug(popup);
         deleteKey->plug(popup);
@@ -609,16 +614,22 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 
 	setCentralWidget(keysList2);
         keysList2->restoreLayout(KGlobal::config(), "KeyView");
-
+	
 	QObject::connect(keysList2,SIGNAL(returnPressed(QListViewItem *)),this,SLOT(listsigns()));
         QObject::connect(keysList2,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(listsigns()));
         QObject::connect(keysList2,SIGNAL(selectionChanged ()),this,SLOT(checkList()));
         QObject::connect(keysList2,SIGNAL(contextMenuRequested(QListViewItem *,const QPoint &,int)),
                          this,SLOT(slotmenu(QListViewItem *,const QPoint &,int)));
 
-
         ///////////////    get all keys data
         createGUI("listkeys.rc");
+	
+	if (KGpgSettings::showTrust()) sTrust->setChecked(true);
+	if (KGpgSettings::showSize()) sSize->setChecked(true);
+	if (KGpgSettings::showCreat()) sCreat->setChecked(true);
+	if (KGpgSettings::showExpi()) sExpi->setChecked(true);
+	if (KGpgSettings::showId()) sId->setChecked(true);
+	
         if (!KGpgSettings::showToolbar())
                 toolBar()->hide();
         checkPhotos();
@@ -628,6 +639,40 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
 listKeys::~listKeys()
 {}
 
+void listKeys::slotShowExpi()
+{
+if (sExpi->isChecked())
+keysList2->adjustColumn(3);
+else {keysList2->hideColumn(3);keysList2->setFullWidth(true);}
+}
+
+void listKeys::slotShowSize()
+{
+if (sSize->isChecked())
+keysList2->adjustColumn(4);
+else {keysList2->hideColumn(4);keysList2->setFullWidth(true);}
+}
+
+void listKeys::slotShowCreat()
+{
+if (sCreat->isChecked())
+keysList2->adjustColumn(5);
+else {keysList2->hideColumn(5);keysList2->setFullWidth(true);}
+}
+
+void listKeys::slotShowTrust()
+{
+if (sTrust->isChecked())
+keysList2->adjustColumn(2);
+else {keysList2->hideColumn(2);keysList2->setFullWidth(true);}
+}
+
+void listKeys::slotShowId()
+{
+if (sId->isChecked())
+keysList2->adjustColumn(6);
+else {keysList2->hideColumn(6);keysList2->setFullWidth(true);}
+}
 
 bool listKeys::eventFilter( QObject *, QEvent *e )
 {
@@ -1049,43 +1094,7 @@ void listKeys::checkList()
                 else
                         stateChanged("single_selected");
         }
-//        displayPhoto();
 }
-
-/*
-void listKeys::displayPhoto()
-{
-        if ((!showPhoto) || (keysList2->currentItem()==NULL))
-                return;
-        if ((keysList2->currentItem()->depth()!=0) && (!keysList2->currentItem()->text(0).startsWith(i18n("Photo ")))) {
-                keyPhoto->setText(i18n("No\nphoto"));
-                return;
-        }
-	QString CurrentID;
-        if (keysList2->currentItem()->depth()==0)
-	CurrentID=keysList2->currentItem()->text(6);
-	else CurrentID=keysList2->currentItem()->parent()->text(6);
-        if (keysList2->photoKeysList.find(CurrentID)!=-1) {
-                kgpgtmp=new KTempFile();
-                QString popt="cp %i "+kgpgtmp->name();
-                KProcIO *p=new KProcIO();
-                *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(popt)<<"--list-keys"<<CurrentID;
-                QObject::connect(p, SIGNAL(processExited(KProcess *)),this, SLOT(slotProcessPhoto(KProcess *)));
-                //QObject::connect(p, SIGNAL(readReady(KProcIO *)),this, SLOT(slotinfoimgread(KProcIO *)));
-                p->start(KProcess::NotifyOnExit,true);
-        } else
-                keyPhoto->setText(i18n("No\nphoto"));
-}
-
-void listKeys::slotProcessPhoto(KProcess *)
-{
-        QPixmap pixmap;
-        //pixmap.resize(40,40);
-        pixmap.load(kgpgtmp->name());
-        keyPhoto->setPixmap(pixmap);
-        kgpgtmp->unlink();
-}
-*/
 
 void listKeys::annule()
 {
@@ -1095,6 +1104,11 @@ void listKeys::annule()
 
         KGpgSettings::setShowToolbar(toolBar()->isVisible());
         KGpgSettings::setPhotoProperties(photoProps->currentItem());
+	KGpgSettings::setShowTrust(sTrust->isChecked());
+	KGpgSettings::setShowExpi(sExpi->isChecked());
+	KGpgSettings::setShowCreat(sCreat->isChecked());
+	KGpgSettings::setShowSize(sSize->isChecked());
+	KGpgSettings::setShowId(sId->isChecked());
         KGpgSettings::writeConfig();
         close();
         //reject();
@@ -2440,7 +2454,6 @@ void KeyView::refreshkeylist()
         pclose(fp2);
         
         QString defaultKey = KGpgSettings::defaultKey();
-
         fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8", "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;

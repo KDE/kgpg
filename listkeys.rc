@@ -19,6 +19,12 @@
     
     <Menu name="view"><text>&amp;View</text>
     <Action name="show_secret"/>
+    	<Menu name="show_details"><text>&amp;Show Details</text>
+    <Action name="show_expi"/>
+    <Action name="show_size"/>
+    <Action name="show_creat"/>
+    <Action name="show_id"/>
+	    </Menu>
     <Action name="photo_settings" />
     <Action name="key_refresh"/>
     </Menu>

@@ -183,6 +183,7 @@ private:
         keyServer *kServer;
         KTempFile *kgpgtmp;
         KAction *importSignatureKey,*importAllSignKeys,*signKey;
+	KToggleAction *sTrust,*sId,*sCreat,*sExpi,*sSize;
 	KSelectAction *photoProps;
         QPtrList<QListViewItem> signList;
         uint globalCount,keyCount;
@@ -210,6 +211,11 @@ public slots:
 	void slotSetDefaultKey(QString newID);
 
 private slots:
+	void slotShowTrust();
+	void slotShowId();
+	void slotShowSize();
+	void slotShowCreat();
+	void slotShowExpi();
 	void slotToggleSecret();
 	void slotGotoDefaultKey();
 	void slotDelUid();
