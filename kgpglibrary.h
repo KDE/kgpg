@@ -51,12 +51,13 @@ public:
         KURL::List urlselecteds;
 
 public slots:
-        void slotFileEnc(KURL::List urls=KURL(""),QString opts="",QString defaultKey="");
-        void slotFileDec(KURL srcUrl=0,KURL destUrl=0,QString customDecryptOption="");
+        void slotFileEnc(KURL::List urls=KURL(""),QStringList opts=QString::null,QString defaultKey="");
+        void slotFileDec(KURL srcUrl=0,KURL destUrl=0,QStringList customDecryptOption="");
 
 private slots:
-        void fastencode(KURL &fileToCrypt,QString &selec,QString encryptOptions,bool shred,bool symetric);
-        void startencode(QString &selec,QString encryptOptions,bool shred,bool symetric);
+	void startencode(QStringList encryptKeys,QStringList encryptOptions,bool shred,bool symetric);
+        void fastencode(KURL &fileToCrypt,QStringList selec,QStringList encryptOptions,bool shred,bool symetric);
+//        void startencode(QString &selec,QString encryptOptions,bool shred,bool symetric);
 
         void processenc(KURL);
         void processdecover();

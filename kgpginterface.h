@@ -81,7 +81,7 @@ public slots:
          * @param Options String with the wanted gpg options. ex: "--armor"
          * @param symetrical bool whether the encryption should be symmetrical.
          */
-        void KgpgEncryptFile(QString encuserIDs,KURL srcUrl,KURL destUrl,QString Options="",bool symetrical=false);
+        void KgpgEncryptFile(QStringList encryptKeys,KURL srcUrl,KURL destUrl,QStringList Options=QString::null,bool symetrical=false);
 
         /**Encrypt file function
          * @param userIDs the key user identification.
@@ -89,14 +89,14 @@ public slots:
          * @param destUrl Kurl for the decrypted file.
          * @param chances int number of trials left for decryption (used only as an info displayed in the password dialog)
          */
-        void KgpgDecryptFile(KURL srcUrl=0,KURL destUrl=0,QString Options="");
+        void KgpgDecryptFile(KURL srcUrl=0,KURL destUrl=0,QStringList Options="");
 
         /**Sign file function
          * @param keyID QString the signing key ID.
          * @param srcUrl Kurl of the file to sign.
          * @param Options String with the wanted gpg options. ex: "--armor"
          */
-        void KgpgSignFile(QString keyID="",KURL srcUrl=0,QString Options="");
+        void KgpgSignFile(QString keyID="",KURL srcUrl=0,QStringList Options=QString::null);
 
         /**Verify file function
          * @param sigUrl Kurl of the signature file.
@@ -133,7 +133,7 @@ public slots:
          * @param Options String with the wanted gpg options. ex: "--armor"
          * returns the encrypted text or empty string if encyption failed
          */
-        void KgpgEncryptText(QString text,QString userIDs, QString Options="");
+        void KgpgEncryptText(QString text,QStringList userIDs, QStringList Options=QString::null);
 
         /**Decrypt text function
         * @param text QString text to be decrypted.

@@ -129,7 +129,7 @@ void KgpgApp::slotFileNew()
 
 void KgpgApp::slotFilePreEnc()
 {
-        QString opts;
+        QStringList opts;
 
         KURL url=KFileDialog::getOpenURL(QString::null,
                                          i18n("*|All Files"), this, i18n("Open File to Encode"));
@@ -138,13 +138,13 @@ void KgpgApp::slotFilePreEnc()
         KgpgLibrary *lib=new KgpgLibrary(pgpExtension);
         if (encryptfileto) {
                 if (untrusted)
-                        opts=" --always-trust ";
+                        opts<<"--always-trust";
                 if (ascii)
-                        opts+=" --armor ";
+                        opts<<"--armor";
                 if (hideid)
-                        opts+=" --throw-keyid ";
+                        opts<<"--throw-keyid";
                 if (pgpcomp)
-                        opts+=" --pgp6 ";
+                        opts<<"--pgp6";
 		config->setGroup("Encryption");
                 lib->slotFileEnc(KURL::List::List(url),opts,config->readEntry("file key").left(8));
         } else

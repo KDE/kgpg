@@ -117,7 +117,7 @@ private slots:
         void popuppublic();
         void modified();
         void viewreadopts();
-        void encodetxt(QString &,QString encryptOptions);
+        void encodetxt(QStringList selec,QStringList encryptOptions);
         void updatetxt(QString);
 };
 

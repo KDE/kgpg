@@ -65,7 +65,7 @@ private slots:
         void enable();
 
 signals:
-        void selectedKey(QString &,QString,bool,bool);
+        void selectedKey(QStringList ,QStringList,bool,bool);
 
 };
 

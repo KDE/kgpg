@@ -60,7 +60,7 @@ MyView::MyView( QWidget *parent, const char *name )
         readOptions();
 
         if (tipofday)
-                KTipDialog::showTip(this, "kgpg/tips", true);
+                KTipDialog::showTip(this, QString("kgpg/tips"), true);
 
         setPixmap( KSystemTray::loadIcon("kgpg"));
         resize(24,24);
@@ -118,7 +118,7 @@ void  MyView::openKeyServer()
 void  MyView::clipEncrypt()
 {
         popupPublic *dialoguec=new popupPublic(this, "public_keys", 0,false);
-        connect(dialoguec,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(encryptClipboard(QString &,QString)));
+        connect(dialoguec,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(encryptClipboard(QStringList,QStringList)));
         dialoguec->show();
 }
 
@@ -149,14 +149,14 @@ void MyView::encryptDroppedFolder()
                 return;
 
         popupPublic *dialogue=new popupPublic(0,"Public keys",droppedUrls.first().filename(),true);
-        connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(startFolderEncode(QString &,QString,bool,bool)));
+        connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startFolderEncode(QStringList,QStringList,bool,bool)));
         dialogue->CBshred->setEnabled(false);
         if (!dialogue->exec()==QDialog::Accepted)
                 return;
         delete dialogue;
 }
 
-void MyView::startFolderEncode(QString &selec,QString encryptOptions,bool ,bool symetric)
+void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool ,bool symetric)
 {
         pop = new KPassivePopup();
         pop->setView(i18n("Processing archiving & encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
@@ -174,7 +174,7 @@ void MyView::startFolderEncode(QString &selec,QString encryptOptions,bool ,bool 
         arch.addLocalDirectory (droppedUrls.first().path(),droppedUrls.first().filename());
         arch.close();
 
-        if (encryptOptions.find("armor")!=-1)
+        if (encryptOptions.find("armor")!=encryptOptions.end () )
                 extension=".asc";
         else if (pgpExtension)
                 extension=".pgp";
@@ -202,17 +202,17 @@ void  MyView::slotFolderFinishedError(QString errmsge)
 
 void  MyView::encryptDroppedFile()
 {
-        QString opts="";
+        QStringList opts;
         KgpgLibrary *lib=new KgpgLibrary(pgpExtension);
         if (encryptfileto) {
                 if (untrusted)
-                        opts=" --always-trust ";
+                        opts<<"--always-trust";
                 if (ascii)
-                        opts+=" --armor ";
+                        opts<<"--armor";
                 if (hideid)
-                        opts+=" --throw-keyid ";
+                        opts<<"--throw-keyid";
                 if (pgpcomp)
-                        opts+=" --pgp6 ";
+                        opts<<"--pgp6";
                 ksConfig->setGroup("Encryption");
                 lib->slotFileEnc(droppedUrls,opts,ksConfig->readEntry("file key").left(8));
         } else
@@ -291,11 +291,11 @@ void  MyView::signDroppedFile()
                 return;
         }
         delete opts;
-        QString Options;
+        QStringList Options;
         if (ascii)
-                Options=" --armor ";
+                Options<<"--armor";
         if (pgpcomp)
-                Options+=" --pgp6 ";
+                Options<<"--pgp6";
         KgpgInterface *signFileProcess=new KgpgInterface();
         signFileProcess->KgpgSignFile(signKeyID,droppedUrl,Options);
 }
@@ -467,7 +467,7 @@ void  MyView::readOptions()
         pgpExtension=ksConfig->readBoolEntry("Pgp_extension",false);
 
         ksConfig->setGroup("Decryption");
-        customDecrypt=ksConfig->readEntry("custom_decrypt");
+        customDecrypt=QStringList::split(QString(" "),ksConfig->readEntry("custom_decrypt").simplifyWhiteSpace());
 
         ksConfig->setGroup("User Interface");
         if (ksConfig->readBoolEntry("selection clip",false)) {
@@ -887,16 +887,16 @@ int KgpgAppletApp::newInstance()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-void MyView::encryptClipboard(QString &selec,QString encryptOptions)
+void MyView::encryptClipboard(QStringList selec,QStringList encryptOptions)
 {
         QString clipContent=kapp->clipboard()->text();//=cb->text(QClipboard::Clipboard);   ///   QT 3.1 only
 
         if (!clipContent.isEmpty()) {
                 if (pgpcomp)
-                        encryptOptions+=" --pgp6 ";
-                encryptOptions+=" --armor ";
+                        encryptOptions<<"--pgp6";
+                encryptOptions<<"--armor";
 
-                if (selec==NULL) {
+                if (selec.isEmpty()) {
                         KMessageBox::sorry(0,i18n("You have not chosen an encryption key."));
                 }//exit(0);}
 

@@ -34,7 +34,7 @@ KgpgLibrary::~KgpgLibrary()
 {}
 
 
-void KgpgLibrary::slotFileEnc(KURL::List urls,QString opts,QString defaultKey)
+void KgpgLibrary::slotFileEnc(KURL::List urls,QStringList opts,QString defaultKey)
 {
         /////////////////////////////////////////////////////////////////////////  encode file file
         if (!urls.empty()) {
@@ -43,7 +43,7 @@ void KgpgLibrary::slotFileEnc(KURL::List urls,QString opts,QString defaultKey)
 			QString fileNames=urls.first().filename();
 			if (urls.count()>1) fileNames+=",...";
                         popupPublic *dialogue=new popupPublic(0,"Public keys",fileNames,true);
-                        connect(dialogue,SIGNAL(selectedKey(QString &,QString,bool,bool)),this,SLOT(startencode(QString &,QString,bool,bool)));
+                        connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startencode(QStringList,QStringList,bool,bool)));
                         dialogue->exec();
                         delete dialogue;
                 } else
@@ -51,24 +51,24 @@ void KgpgLibrary::slotFileEnc(KURL::List urls,QString opts,QString defaultKey)
         }
 }
 
-void KgpgLibrary::startencode(QString &selec,QString encryptOptions,bool shred,bool symetric)
+void KgpgLibrary::startencode(QStringList encryptKeys,QStringList encryptOptions,bool shred,bool symetric)
 {
         KURL::List::iterator it;
         for ( it = urlselecteds.begin(); it != urlselecteds.end(); ++it )
-                fastencode(*it,selec,encryptOptions,shred,symetric);
+                fastencode(*it,encryptKeys,encryptOptions,shred,symetric);
 }
 
 
-void KgpgLibrary::fastencode(KURL &fileToCrypt,QString &selec,QString encryptOptions,bool shred,bool symetric)
+void KgpgLibrary::fastencode(KURL &fileToCrypt,QStringList selec,QStringList encryptOptions,bool shred,bool symetric)
 {
         //////////////////              encode from file
-        if ((selec==NULL) && (!symetric)) {
+        if ((selec.isEmpty()) && (!symetric)) {
                 KMessageBox::sorry(0,i18n("You have not chosen an encryption key."));
                 return;
         }
         urlselected=fileToCrypt;
         KURL dest;
-        if (encryptOptions.find("--armor")!=-1)
+        if (encryptOptions.find("--armor")!=encryptOptions.end())
                 dest.setPath(urlselected.path()+".asc");
         else
                 dest.setPath(urlselected.path()+extension);
@@ -119,7 +119,7 @@ void KgpgLibrary::processencerror(QString mssge)
 
 
 
-void KgpgLibrary::slotFileDec(KURL srcUrl,KURL destUrl,QString customDecryptOption)
+void KgpgLibrary::slotFileDec(KURL srcUrl,KURL destUrl,QStringList customDecryptOption)
 {
         //////////////////////////////////////////////////////////////////    decode file from konqueror or menu
         KgpgInterface *decryptFileProcess=new KgpgInterface();

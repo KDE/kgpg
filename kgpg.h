@@ -70,7 +70,7 @@ private:
         bool ascii,untrusted,hideid,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday,pgpExtension;
         QPopupMenu *droppopup,*udroppopup;
         KAboutData   *_aboutData;
-        QString customDecrypt;
+        QStringList customDecrypt;
         KgpgWizard *wiz;
         class keyServer *m_keyServer;
         KPassivePopup *pop;
@@ -88,7 +88,7 @@ public slots:
         void  openEditor();
         void  shredDroppedFile();
         void encryptDroppedFolder();
-        void startFolderEncode(QString &selec,QString encryptOptions,bool ,bool symetric);
+        void startFolderEncode(QStringList selec,QStringList encryptOptions,bool ,bool symetric);
         void  slotFolderFinished(KURL);
         void  slotFolderFinishedError(QString errmsge);
 
@@ -102,7 +102,7 @@ private slots:
         void  slotGenKey();
         void importSignature(QString ID);
         void slotSetClip(QString newtxt);
-        void encryptClipboard(QString &selec,QString encryptOptions);
+        void encryptClipboard(QStringList selec,QStringList encryptOptions);
         void help();
         void about();
         void firstRun();

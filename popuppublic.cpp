@@ -394,32 +394,31 @@ void popupPublic::crypte()
 {
         //////   emit selected data
 
-        QString res,userid;
+        QStringList selectedKeys;
+	QString userid;
         QPtrList<QListViewItem> list=keysList->selectedItems();
 
         for ( uint i = 0; i < list.count(); ++i )
                 if ( list.at(i) ) {
-			if (!(list.at(i)->text(2)).isEmpty())
-                        res+=" "+list.at(i)->text(2);
-			else res+=" "+list.at(i)->text(0);
+			selectedKeys<<list.at(i)->text(2);
                 }
-        if (res.isEmpty())
+        if (selectedKeys.isEmpty())
                 return;
 
-        QString returnOptions;
+        QStringList returnOptions;
         if (CBuntrusted->isChecked())
-                returnOptions=" --always-trust ";
+                returnOptions<<"--always-trust";
         if (CBarmor->isChecked())
-                returnOptions+=" --armor ";
+                returnOptions<<"--armor";
         if (CBhideid->isChecked())
-                returnOptions+=" --throw-keyid ";
+                returnOptions<<"--throw-keyid";
         if ((allowcustom) && (!customOptions.stripWhiteSpace().isEmpty()))
-                returnOptions+=customOptions;
+                returnOptions.operator+ (QStringList::split(QString(" "),customOptions.simplifyWhiteSpace()));
 
         if (fmode)
-                emit selectedKey(res,returnOptions,CBshred->isChecked(),CBsymmetric->isChecked());
+                emit selectedKey(selectedKeys,returnOptions,CBshred->isChecked(),CBsymmetric->isChecked());
         else
-                emit selectedKey(res,returnOptions,false,false);
+                emit selectedKey(selectedKeys,returnOptions,false,false);
         accept();
 }
 
