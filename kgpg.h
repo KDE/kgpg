@@ -68,7 +68,7 @@ public:
         KConfig *ksConfig;
         KTempFile *kgpgfoldertmp;
 private:
-        bool ascii,untrusted,hideid,pgpcomp,fastact,encrypttodefault,encryptfileto,tipofday,pgpExtension;
+        bool ascii,untrusted,hideid,pgpcomp,fastact,encrypttodefault,encryptfileto,pgpExtension;
         QPopupMenu *droppopup,*udroppopup;
         KAboutData   *_aboutData;
         QStringList customDecrypt;

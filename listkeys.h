@@ -190,7 +190,7 @@ private:
         QPtrList<QListViewItem> signList;
         uint globalCount,keyCount;
 	int globalChecked;
-        bool globalisLocal;
+        bool globalisLocal,showTipOfDay;
         QString globalkeyMail,globalkeyID,searchString;
 	long searchOptions;
 	groupEdit *gEdit;
@@ -200,7 +200,8 @@ private:
 
 protected:
         void closeEvent( QCloseEvent * e );
-
+        bool eventFilter( QObject *, QEvent *e );
+	
 public slots:
         void slotgenkey();
         void refreshkey();

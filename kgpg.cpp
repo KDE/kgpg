@@ -58,9 +58,6 @@ MyView::MyView( QWidget *parent, const char *name )
         ksConfig=kapp->config();
         readOptions();
 
-        if (tipofday)
-                KTipDialog::showTip(this, QString("kgpg/tips"), true);
-
         setPixmap( KSystemTray::loadIcon("kgpg"));
         resize(24,24);
         setAcceptDrops(true);
@@ -366,7 +363,7 @@ void  MyView::decryptDroppedFile()
         lib->slotFileDec(droppedUrl,swapname,customDecrypt);
 //        if (isFolder)
   //              connect(lib,SIGNAL(decryptionOver()),this,SLOT(unArchive()));
-		connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(importedKeys(QStringList)));
+	connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(importedKeys(QStringList)));
 }
 
 
@@ -521,9 +518,6 @@ void  MyView::readOptions()
                                 ksConfig->writeEntry("Groups",groups.join(","));
                 }
         }
-
-        ksConfig->setGroup("TipOfDay");
-        tipofday=ksConfig->readBoolEntry("RunOnStart",true);
 }
 
 
@@ -797,7 +791,7 @@ int KgpgAppletApp::newInstance()
                 connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
                 connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));
                 connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotgenkey()));
-		connect(kgpg_applet->w,SIGNAL(importedKeys(QStringList)),s_keyManager->keysList2,SLOT(slotReloadKeys(QStringList)));
+		connect(kgpg_applet->w,SIGNAL(importedKeys(QStringList)),s_keyManager->keysList2,SLOT(slotReloadKeys(QStringList)));		
                 kgpg_applet->show();
                 kgpg_applet->w->ksConfig->setGroup("GPG Settings");
                 QString gpgPath=kgpg_applet->w->ksConfig->readPathEntry("gpg_config_path");

@@ -484,7 +484,9 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         config=kapp->config();
         setAutoSaveSettings();
         readOptions();
-
+	
+	if (showTipOfDay)
+	installEventFilter(this);
         setCaption(i18n("Key Management"));
 
         KAction *exportPublicKey = new KAction(i18n("E&xport Public Key(s)..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy),this, SLOT(slotexport()),actionCollection(),"key_export");
@@ -620,23 +622,28 @@ listKeys::listKeys(QWidget *parent, const char *name, WFlags f) : DCOPObject( "K
         QObject::connect(keysList2,SIGNAL(contextMenuRequested(QListViewItem *,const QPoint &,int)),
                          this,SLOT(slotmenu(QListViewItem *,const QPoint &,int)));
 
-        //QObject::connect(keysList2,SIGNAL(dropped(QDropEvent * , QListViewItem *)),this,SLOT(slotDroppedFile(QDropEvent * , QListViewItem *)));
-
 
         ///////////////    get all keys data
         createGUI("listkeys.rc");
         if (!configshowToolBar)
                 toolBar()->hide();
-        //togglePhoto->setChecked(showPhoto);
-//        if (!showPhoto)
-//                keyPhoto->hide();
-//        else
                 checkPhotos();
 }
 
 
 listKeys::~listKeys()
 {}
+
+
+bool listKeys::eventFilter( QObject *, QEvent *e )
+{  
+        if ((e->type() == QEvent::Show) && (showTipOfDay))
+	{	
+            	KTipDialog::showTip(this, QString("kgpg/tips"), false);
+		showTipOfDay=false;    
+	}
+        return FALSE;
+}
 
 
 void listKeys::slotToggleSecret()
@@ -1105,8 +1112,6 @@ void listKeys::readOptions()
 	keysList2->displayPhoto=showPhoto;
 
         config->setGroup("User Interface");
-        //        keysList2->displayMailFirst=config->readBoolEntry("display_mail_first",true);
-
 	
 	clipboardMode=QClipboard::Clipboard;
         if ((config->readBoolEntry("selection_clipboard",false)) && (kapp->clipboard()->supportsSelection())) clipboardMode=QClipboard::Selection;
@@ -1123,6 +1128,8 @@ void listKeys::readOptions()
         config->writeEntry("default key",defaultkey.right(8));
         config->sync();
         keysList2->defKey=defaultkey;
+	config->setGroup("TipOfDay");
+        showTipOfDay=config->readBoolEntry("RunOnStart",true);
 }
 
 
