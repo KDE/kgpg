@@ -37,7 +37,7 @@
 keyGenerate::keyGenerate(QWidget *parent, const char *name):KDialogBase( parent, name, true,i18n("Key Generation"),Apply | Ok | Cancel)
 {
         expert=false;
-        setButtonApplyText(i18n("Expert Mode"));
+        setButtonApply(i18n("Expert Mode"));
 
         QWidget *page = new QWidget(this);
         QVBoxLayout *vbox=new QVBoxLayout(page);

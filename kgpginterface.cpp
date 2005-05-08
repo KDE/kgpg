@@ -607,7 +607,7 @@ QString required;
 
 Md5Widget::Md5Widget(QWidget *parent, const char *name,KURL url):KDialogBase( parent, name, true,i18n("MD5 Checksum"),Apply | Close)
 {
-        setButtonApplyText(i18n("Compare MD5 with Clipboard"));
+        setButtonApply(i18n("Compare MD5 with Clipboard"));
         mdSum=QString::null;
         QFile f(url.path());
         f.open( IO_ReadOnly);
