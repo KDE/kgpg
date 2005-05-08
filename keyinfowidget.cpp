@@ -268,7 +268,7 @@ QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint
 			prop->tLName->setText("<qt><b>"+KgpgInterface::checkForUtf8(kname).replace(QRegExp("<"),"&lt;")+"</b></qt>");
 
                 }
-		if (gpgOutput.startsWith("fpr") && (fingervalue==QString::null)) {
+		if (gpgOutput.startsWith("fpr") && (fingervalue.isNull())) {
                         fingervalue=gpgOutput.section(':',9,9);
                         // format fingervalue in 4-digit groups
                         uint len = fingervalue.length();
