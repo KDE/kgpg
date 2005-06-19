@@ -3,7 +3,7 @@ ServiceTypes=inode/directory
 Actions=encrypt
 
 [Desktop Action encrypt]
-Name=Archive && Encrypt Folder
+Name=Archive & Encrypt Folder
 Name[ar]=أرشفة و تشفير المجلّد
 Name[bg]=Архивиране и шифроване на директория
 Name[bs]=Arhiviraj i šifriraj direktorij
