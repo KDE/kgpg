@@ -19,6 +19,9 @@
 
 #include <qfile.h>
 #include <qcheckbox.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3PtrList>
 #include <kapplication.h>
 #include <kiconloader.h>
 #include <kcombobox.h>
@@ -29,7 +32,7 @@
 #include <qlabel.h>
 #include <qdialog.h>
 #include <qpushbutton.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qhbuttongroup.h>
 #include <qvbuttongroup.h>
 #include <qregexp.h>
@@ -177,7 +180,7 @@ void keyServer::slotSearch()
 
         connect(listpop->kLVsearch,SIGNAL(selectionChanged()),this,SLOT(transferKeyID()));
         connect(dialogServer,SIGNAL(okClicked()),this,SLOT(preimport()));
-        connect(listpop->kLVsearch,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),dialogServer,SIGNAL(okClicked()));
+        connect(listpop->kLVsearch,SIGNAL(doubleClicked(Q3ListViewItem *,const QPoint &,int)),dialogServer,SIGNAL(okClicked()));
         //connect(listpop->kLVsearch,SIGNAL(returnPressed ( QListViewItem * )),this,SLOT(preimport()));
 
         connect(dialogServer,SIGNAL(closeClicked()),this,SLOT(handleQuit()));
@@ -243,7 +246,7 @@ void keyServer::transferKeyID()
                 return;
         QString kid,keysToSearch;
 	listpop->kLEID->clear();
-	QPtrList< QListViewItem >searchList=listpop->kLVsearch->selectedItems();
+	Q3PtrList< Q3ListViewItem >searchList=listpop->kLVsearch->selectedItems();
 
 	for ( uint i = 0; i < searchList.count(); ++i )
 	{

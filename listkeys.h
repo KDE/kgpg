@@ -25,10 +25,19 @@
 
 #include <kactionclasses.h> 
 #include <qclipboard.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QCloseEvent>
+#include <QDragMoveEvent>
+#include <QEvent>
+#include <QDropEvent>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <Q3PopupMenu>
 
 #include "dcopiface.h"
 
-#include <qptrlist.h>
+#include <q3ptrlist.h>
 #include <qstringlist.h>
 #include <kurl.h>
 
@@ -36,7 +45,7 @@
 #include <kmainwindow.h>
 
 class QPushButton;
-class QPopupMenu;
+class Q3PopupMenu;
 class QLabel;
 class QCheckbox;
 class KStatusBar;
@@ -79,7 +88,7 @@ public:
 private slots:
         void slotOk();
         void slotpreOk();
-        void slotSelect(QListViewItem *item);
+        void slotSelect(Q3ListViewItem *item);
 
 public slots:
         QString getkeyID();
@@ -105,7 +114,7 @@ private:
         QString photoKeysList;
         QPixmap pixkeyPair, pixkeySingle, pixkeyGroup, pixsignature, pixuserid, pixuserphoto;
 	QPixmap trustunknown, trustrevoked, trustgood, pixRevoke, pixkeyOrphan;
-        QListViewItem *itemToOpen;
+        Q3ListViewItem *itemToOpen;
         KTempFile *kgpgphototmp;
         int groupNb;
 
@@ -118,9 +127,9 @@ private slots:
         void  droppedfile (KURL);
         void refreshkeylist();
         gpgKey extractKey(QString keyColon);
-        void expandKey(QListViewItem *item);
-        void expandGroup(QListViewItem *item);
-        void refreshcurrentkey(QListViewItem *current);
+        void expandKey(Q3ListViewItem *item);
+        void expandGroup(Q3ListViewItem *item);
+        void refreshcurrentkey(Q3ListViewItem *current);
         void refreshcurrentkey(QString currentID);
         void refreshselfkey();
         void refreshgroups();
@@ -151,7 +160,7 @@ private:
 public slots:
 virtual void updateSearch(const QString &s = QString::null);
 protected:
-virtual bool itemMatches(const QListViewItem *item, const QString & s)  const;
+virtual bool itemMatches(const Q3ListViewItem *item, const QString & s)  const;
 };
 
 
@@ -165,7 +174,7 @@ public:
         ~listKeys();
         QLabel *keyPhoto;
         KeyView *keysList2;
-        QPopupMenu *popup,*popupsec,*popupout,*popupsig,*popupgroup,*popupphoto,*popupuid,*popuporphan;
+        Q3PopupMenu *popup,*popupsec,*popupout,*popupsig,*popupgroup,*popupphoto,*popupuid,*popuporphan;
         QString message;
         QStringList keynames;
         KPassivePopup *pop;
@@ -183,7 +192,7 @@ private:
         keyServer *kServer;
         KTempFile *kgpgtmp;
         KAction *importSignatureKey,*importAllSignKeys,*signKey,*refreshKey;
-        QPtrList<QListViewItem> signList,keysList;
+        Q3PtrList<Q3ListViewItem> signList,keysList;
         uint globalCount,keyCount;
         int globalChecked;
         bool globalisLocal,showTipOfDay;
@@ -250,7 +259,7 @@ private slots:
         void genover(KProcess *p);
         void showOptions();
         void slotSetDefKey();
-        void slotSetDefaultKey(QListViewItem *newdef);
+        void slotSetDefaultKey(Q3ListViewItem *newdef);
         void annule();
         void confirmdeletekey();
         void deletekey();
@@ -267,7 +276,7 @@ private slots:
         void listsigns();
         void slotexport();
         void slotexportsec();
-        void slotmenu(QListViewItem *,const QPoint &,int);
+        void slotmenu(Q3ListViewItem *,const QPoint &,int);
         void slotPreImportKey();
         void slotedit();
         void addToKAB();

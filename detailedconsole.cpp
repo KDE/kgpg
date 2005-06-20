@@ -19,7 +19,9 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qvgroupbox.h>
-#include <qtextedit.h>
+#include <q3textedit.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
 
 #include <kmessagebox.h>
 #include <klocale.h>

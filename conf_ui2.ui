@@ -28,7 +28,7 @@
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>Key Colors</string>
+                    <string>Qt::Key Colors</string>
                 </attribute>
                 <grid>
                     <property name="name">
@@ -59,9 +59,9 @@
                         </property>
                         <property name="color">
                             <color>
-                                <red>30</red>
-                                <green>30</green>
-                                <blue>30</blue>
+                                <Qt::red>30</Qt::red>
+                                <Qt::green>30</Qt::green>
+                                <Qt::blue>30</Qt::blue>
                             </color>
                         </property>
                     </widget>
@@ -98,9 +98,9 @@
                         </property>
                         <property name="color">
                             <color>
-                                <red>172</red>
-                                <green>0</green>
-                                <blue>0</blue>
+                                <Qt::red>172</Qt::red>
+                                <Qt::green>0</Qt::green>
+                                <Qt::blue>0</Qt::blue>
                             </color>
                         </property>
                     </widget>
@@ -113,9 +113,9 @@
                         </property>
                         <property name="color">
                             <color>
-                                <red>144</red>
-                                <green>255</green>
-                                <blue>0</blue>
+                                <Qt::red>144</Qt::red>
+                                <Qt::green>255</Qt::green>
+                                <Qt::blue>0</Qt::blue>
                             </color>
                         </property>
                     </widget>
@@ -124,7 +124,7 @@
                             <cstring>spacer5</cstring>
                         </property>
                         <property name="orientation">
-                            <enum>Vertical</enum>
+                            <enum>Qt::Vertical</enum>
                         </property>
                         <property name="sizeType">
                             <enum>Expanding</enum>
@@ -141,7 +141,7 @@
                             <cstring>spacer4</cstring>
                         </property>
                         <property name="orientation">
-                            <enum>Horizontal</enum>
+                            <enum>Qt::Horizontal</enum>
                         </property>
                         <property name="sizeType">
                             <enum>Expanding</enum>

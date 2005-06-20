@@ -22,6 +22,9 @@
 #include <qtabwidget.h>
 #include <qlabel.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <QTextStream>
+#include <QBoxLayout>
 #include <kconfig.h>
 #include <kdeversion.h>
 #include <klocale.h>
@@ -116,7 +119,7 @@ kdDebug(2100)<<"Adding pages"<<endl;
 	connect(page6->server_add, SIGNAL(clicked()), this, SLOT(slotAddKeyServer()));
 	connect(page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
 	connect(page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
-	connect(page6->ServerBox, SIGNAL(currentChanged ( QListBoxItem *)), this, SLOT(updateButtons()));
+	connect(page6->ServerBox, SIGNAL(currentChanged ( Q3ListBoxItem *)), this, SLOT(updateButtons()));
 	connect(page7->pushShredder, SIGNAL(clicked ()), this, SIGNAL(installShredder()));
 
 	keyGood=KGpgSettings::colorGood();
@@ -146,7 +149,7 @@ if (!gpgHome.endsWith("/")) gpgHome.append("/");
         	p->start(KProcess::Block);  ////  start gnupg so that it will create a config file
 		confPath="gpg.conf";
 		QFile confFile(gpgHome+confPath);
-		if (!confFile.open(IO_WriteOnly))
+		if (!confFile.open(QIODevice::WriteOnly))
 		{KMessageBox::sorry(this,i18n("Cannot create configuration file. Please check if destination media is mounted and if you have write access"));
 		return;
 		}

@@ -25,6 +25,8 @@
 #include <kmainwindow.h>
 
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <QCloseEvent>
 #include <kurl.h>
 
 class KPassivePopup;
@@ -42,7 +44,7 @@ class KgpgApp : public KMainWindow
 public:
         /** construtor of KgpgApp, calls all init functions to create the application.
          */
-        KgpgApp(QWidget *parent=0, const char *name=0,WFlags f = 0,KShortcut goHome=QKeySequence(CTRL+Qt::Key_Home),bool mainWindow=false);
+        KgpgApp(QWidget *parent=0, const char *name=0,Qt::WFlags f = 0,KShortcut goHome=QKeySequence(Qt::CTRL+Qt::Key_Home),bool mainWindow=false);
         ~KgpgApp();
         /** opens a file specified by commandline option
          */

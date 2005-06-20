@@ -20,6 +20,9 @@
 
 
 #include <qobject.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <Q3CString>
 #include <kdialogbase.h>
 #include <kurl.h>
 #include <qdatetime.h>
@@ -362,7 +365,7 @@ private:
         * @internal structure for communication
         */
         QString message,tempKeyFile,userIDs,output,keyString,txtToEncrypt,log;
-        QCString passphrase;
+        Q3CString passphrase;
         bool deleteSuccess,konsLocal,anonymous,decfinished,decok,badmdc,revokeSuccess,addSuccess,delSuccess;
 	bool signmiss;
 	QString signID;

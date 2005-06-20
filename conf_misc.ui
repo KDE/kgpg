@@ -64,7 +64,7 @@
                         </property>
                         <property name="whatsThis" stdset="0">
                             <string>&lt;qt&gt;&lt;b&gt;Use mouse selection instead of clipboard:&lt;/b&gt; &lt;br /&gt;
-			&lt;p&gt;If checked, clipboard operations in KGpg will use the selection clipboard, that means highlighting a text to copy, and middle button (or right+left together) to paste. If this option is not checked, the clipboard will work with Key shortcuts (Ctrl-c, Ctrl-v).&lt;/p&gt;&lt;/qt&gt; </string>
+			&lt;p&gt;If checked, clipboard operations in KGpg will use the selection clipboard, that means highlighting a text to copy, and middle button (or right+left together) to paste. If this option is not checked, the clipboard will work with Qt::Key shortcuts (Ctrl-c, Ctrl-v).&lt;/p&gt;&lt;/qt&gt; </string>
                         </property>
                     </widget>
                     <widget class="QCheckBox" row="2" column="0">
@@ -102,7 +102,7 @@
                                     <cstring>spacer7</cstring>
                                 </property>
                                 <property name="orientation">
-                                    <enum>Horizontal</enum>
+                                    <enum>Qt::Horizontal</enum>
                                 </property>
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
@@ -133,7 +133,7 @@ files you drop on it, making it almost impossible to recover
 the original file.</string>
                                 </property>
                                 <property name="alignment">
-                                    <set>WordBreak|AlignJustify|AlignTop</set>
+                                    <set>Qt::TextWordWrap|Qt::AlignJustify|Qt::AlignTop</set>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
@@ -144,7 +144,7 @@ the original file.</string>
                                     <string>textLabel5</string>
                                 </property>
                                 <property name="alignment">
-                                    <set>AlignTop</set>
+                                    <set>Qt::AlignTop</set>
                                 </property>
                             </widget>
                         </grid>
@@ -154,7 +154,7 @@ the original file.</string>
                             <cstring>spacer8</cstring>
                         </property>
                         <property name="orientation">
-                            <enum>Vertical</enum>
+                            <enum>Qt::Vertical</enum>
                         </property>
                         <property name="sizeType">
                             <enum>Expanding</enum>
@@ -184,13 +184,13 @@ the original file.</string>
                             <cstring>textLabel1_2</cstring>
                         </property>
                         <property name="text">
-                            <string>Left mouse click opens (restart KGpg to apply):</string>
+                            <string>Qt::DockLeft mouse click opens (restart KGpg to apply):</string>
                         </property>
                     </widget>
                     <widget class="QComboBox" row="0" column="1">
                         <item>
                             <property name="text">
-                                <string>Key Manager</string>
+                                <string>Qt::Key Manager</string>
                             </property>
                         </item>
                         <item>
@@ -215,7 +215,7 @@ the original file.</string>
                             <cstring>spacer3</cstring>
                         </property>
                         <property name="orientation">
-                            <enum>Vertical</enum>
+                            <enum>Qt::Vertical</enum>
                         </property>
                         <property name="sizeType">
                             <enum>Expanding</enum>
