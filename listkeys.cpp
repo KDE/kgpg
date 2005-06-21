@@ -57,6 +57,7 @@
 #include <qtoolbutton.h>
 #include <qradiobutton.h>
 #include <q3popupmenu.h>
+#include <QDesktopWidget>
 
 #include <kurlrequester.h>
 #include <kio/netaccess.h>
