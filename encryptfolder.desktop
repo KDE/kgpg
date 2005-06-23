@@ -4,5 +4,9 @@ Actions=encrypt
 
 [Desktop Action encrypt]
 Name=Archive & Encrypt Folder
+Name[da]=Arkivér & kryptér mappe
+Name[ga]=Cuir Fillteán i gCartlann & Criptigh É
+Name[ru]=Архивировать и зашифровать папку
+Name[sv]=Arkivera och kryptera katalog
 Icon=kgpg
 Exec=kgpg -e %F
