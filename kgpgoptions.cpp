@@ -422,7 +422,7 @@ void kgpgOptions::slotRemoveMenu(QString menu)
 QString kgpgOptions::namecode(QString kid)
 {
 
-        for ( uint counter = 0; counter<names.count(); counter++ )
+        for ( int counter = 0; counter<names.count(); counter++ )
                 if (QString(ids[counter].right(8))==kid)
                         return names[counter];
 
@@ -432,7 +432,7 @@ QString kgpgOptions::namecode(QString kid)
 
 QString kgpgOptions::idcode(QString kname)
 {
-        for ( uint counter = 0; counter<names.count(); counter++ )
+        for ( int counter = 0; counter<names.count(); counter++ )
                 if (names[counter]==kname)
                         return QString(ids[counter].right(8));
         return QString::null;

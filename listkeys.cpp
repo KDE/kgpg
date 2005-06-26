@@ -275,18 +275,18 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
                                 tst2=line;
                                 if (tst2.startsWith("pub")) {
                          const QString trust2=tst2.section(':',1,1);
-                        switch( trust2[0] ) {
-                        case 'f':
+						 QChar tmp = trust2[0];
+						 if( tmp == 'f')
+						 {
                                 trust=i18n("Full");
-				dead=false;
-                                break;
-                        case 'u':
-                                trust=i18n("Ultimate");
-				dead=false;
-                                break;
-                        default:
-                                break;
-                        }
+     				           dead=false;
+						 }
+						 else if( tmp == 'u')
+							{
+						trust=i18n("Ultimate");
+ 							dead=false;
+							}
+							   
                                         if (tst2.section(':',11,11).find('D')!=-1)
                                                 dead=true;
 					break;
@@ -1580,9 +1580,9 @@ void listKeys::slotProcessExportMail(QString keys)
 {
         ///   start default Mail application
         kapp->invokeMailer(QString::null, QString::null, QString::null, QString::null,
-                           keys, //body
-                           QString::null,
-                           QString::null); // attachments
+                           keys); //body
+                           //QString::null,
+                           //QString::null); // attachments
 }
 
 void listKeys::slotProcessExportClip(QString keys)
@@ -2150,7 +2150,7 @@ void listKeys::slotgenkey()
 
                         QLabel *tex=new QLabel(wid);
                         QLabel *tex2=new QLabel(wid);
-                        tex->setAlignment(AlignHCenter);
+                        tex->setAlignment(Qt::AlignHCenter);
                         tex->setMovie(anim);
                         tex2->setText(i18n("\nPlease wait..."));
                         vbox->addWidget(passiveBox);
