@@ -34,7 +34,7 @@
 #include <qpushbutton.h>
 #include <q3buttongroup.h>
 #include <qhbuttongroup.h>
-#include <qvbuttongroup.h>
+
 #include <qregexp.h>
 #include <qcursor.h>
 
