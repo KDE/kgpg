@@ -733,7 +733,7 @@ show();
 
 void  listKeys::slotOpenEditor()
 {
-  KgpgApp *kgpgtxtedit = new KgpgApp(this, "editor",WType_TopLevel | WDestructiveClose,actionCollection()->action("go_default_key")->shortcut());
+  KgpgApp *kgpgtxtedit = new KgpgApp(this, "editor",(Qt::Window | Qt::WA_DeleteOnClose) ,actionCollection()->action("go_default_key")->shortcut());
         connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
 	connect(kgpgtxtedit,SIGNAL(encryptFiles(KURL::List)),this,SIGNAL(encryptFiles(KURL::List)));
         connect(this,SIGNAL(fontChanged(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
@@ -2011,6 +2011,8 @@ void listKeys::dcopImportFinished()
                 kServer=0L;
     QByteArray params;
     QDataStream stream(&params, QIODevice::WriteOnly);
+
+    stream.setVersion(QDataStream::Qt_3_1);
    stream << true;
     kapp->dcopClient()->emitDCOPSignal("keyImported(bool)", params);
     refreshkey();
