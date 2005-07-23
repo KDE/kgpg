@@ -820,7 +820,7 @@ void KgpgInterface::verifyfin(KProcess *)
     }
     else {
     	if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
-                                                      "Do you want to import this key from a keyserver?</qt>").arg(signID),file.fileName())==KMessageBox::Yes)
+                                                      "Do you want to import this key from a keyserver?</qt>").arg(signID),file.fileName(),QString::null, i18n("Import"), i18n("Do Not Import"))==KMessageBox::Yes)
     	emit verifyquerykey(signID);
     }
     emit verifyfinished();
@@ -1692,7 +1692,7 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
                 }
 		
 		if (required.find("photoid.jpeg.size")!=-1)  {
-			if (KMessageBox::questionYesNo(0,i18n("This image is very large. Use it anyway?"))==KMessageBox::Yes)
+			if (KMessageBox::questionYesNo(0,i18n("This image is very large. Use it anyway?"), QString::null, i18n("Use Anyway"), i18n("Do Not Use"))==KMessageBox::Yes)
                         p->writeStdin("Yes");
 			else 
 			{

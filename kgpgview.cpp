@@ -239,7 +239,7 @@ void KgpgView::modified()
 void KgpgView::slotAskForImport(QString ID)
 {
 if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
-	"Do you want to import this key from a keyserver?</qt>").arg(ID),i18n("Missing Key"))==KMessageBox::Yes) {
+	"Do you want to import this key from a keyserver?</qt>").arg(ID),i18n("Missing Key"), QString::null, i18n("Import"), i18n("Do Not Import"))==KMessageBox::Yes) {
         keyServer *kser=new keyServer(0,"server_dialog",false,true);
         kser->page->kLEimportid->setText(ID);
         kser->slotImport();
