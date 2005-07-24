@@ -429,7 +429,7 @@ KeyView::KeyView( QWidget *parent, const char *name )
 
 void  KeyView::droppedfile (KURL url)
 {
-        if (KMessageBox::questionYesNo(this,i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>").arg(url.path()))!=KMessageBox::Yes)
+        if (KMessageBox::questionYesNo(this,i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>").arg(url.path()), QString::null, i18n("Import"), i18n("Do Not Import"))!=KMessageBox::Yes)
                 return;
 
         KgpgInterface *importKeyProcess=new KgpgInterface();
@@ -1450,7 +1450,7 @@ void listKeys::slotexportsec()
         //////////////////////   export secret key
         QString warn=i18n("Secret keys SHOULD NOT be saved in an unsafe place.\n"
                           "If someone else can access this file, encryption with this key will be compromised!\nContinue key export?");
-        int result=KMessageBox::questionYesNo(this,warn,i18n("Warning"));
+        int result=KMessageBox::questionYesNo(this,warn,i18n("Warning"), i18n("Export"), i18n("Do Not Export"));
         if (result!=KMessageBox::Yes)
                 return;
 
@@ -1623,7 +1623,7 @@ void listKeys::listsigns()
 
         if (keysList2->currentItem()->pixmap(0)->serialNumber()==keysList2->pixkeyOrphan.serialNumber()) {
                 if (KMessageBox::questionYesNo(this,i18n("This key is an orphaned secret key (secret key without public key.) It is currently not usable.\n\n"
-                                               "Would you like to regenerate the public key?"))==KMessageBox::Yes)
+                                               "Would you like to regenerate the public key?"), QString::null, i18n("Generate"), i18n("Do Not Generate"))==KMessageBox::Yes)
                         slotregenerate();
                 return;
         }
@@ -2062,7 +2062,7 @@ void listKeys::delsignkey()
         }
         QString ask=i18n("<qt>Are you sure you want to delete signature<br><b>%1</b> from key:<br><b>%2</b>?</qt>").arg(signMail).arg(parentMail);
 
-        if (KMessageBox::questionYesNo(this,ask)!=KMessageBox::Yes)
+        if (KMessageBox::questionYesNo(this,ask,QString::null,KStdGuiItem::del(),KStdGuiItem::cancel())!=KMessageBox::Yes)
                 return;
         KgpgInterface *delSignKeyProcess=new KgpgInterface();
         delSignKeyProcess->KgpgDelSignature(parentKey,signID);

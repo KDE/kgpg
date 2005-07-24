@@ -581,7 +581,7 @@ void  MyView::readOptions()
         } else {
                 QString path = KGpgSettings::gpgConfigPath();
                 if (path.isEmpty()) {
-                        if (KMessageBox::questionYesNo(0,"<qt>You did not set a path to your GnuPG config file.<br>This may bring some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem ?</qt>")==KMessageBox::Yes)
+                        if (KMessageBox::questionYesNo(0,i18n("<qt>You did not set a path to your GnuPG config file.<br>This may bring some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem ?</qt>"),QString::null,i18n("Start Wizard"),i18n("Do Not Start"))==KMessageBox::Yes)
                                 startWizard();
                 } else {
                         QStringList groups=KgpgInterface::getGpgGroupNames(path);
@@ -625,7 +625,7 @@ void  MyView::startWizard()
         if (!QFile(confPath).exists()) {
                 confPath=gpgHome+"gpg.conf";
                 if (!QFile(confPath).exists()) {
-                        if (KMessageBox::questionYesNo(this,i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"))==KMessageBox::Yes) {
+                        if (KMessageBox::questionYesNo(this,i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"),QString::null,i18n("Create Config"),i18n("Do Not Create"))==KMessageBox::Yes) {
                                 confPath=gpgHome+"options";
                                 QFile file(confPath);
                                 if ( file.open( QIODevice::WriteOnly ) ) {
