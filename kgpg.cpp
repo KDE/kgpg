@@ -20,12 +20,17 @@
 #include <qlabel.h>
 #include <qclipboard.h>
 #include <qfile.h>
-#include <qpopupmenu.h>
+#include <q3popupmenu.h>
 #include <qwidget.h>
 #include <qcheckbox.h>
 #include <qmovie.h>
-#include <qcstring.h>
+#include <q3cstring.h>
 #include <qhbuttongroup.h> 
+//Added by qt3to4:
+#include <QTextStream>
+#include <QDropEvent>
+#include <QBoxLayout>
+#include <QDragEnterEvent>
 #include <kglobal.h>
 #include <kactivelabel.h>
 #include <kdeversion.h>
@@ -43,7 +48,7 @@
 #include <kio/renamedlg.h>
 #include <kpassivepopup.h>
 #include <qlayout.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <kiconloader.h>
 #include <ktempfile.h>
 #include <kwin.h>
@@ -92,11 +97,11 @@ MyView::MyView( QWidget *parent, const char *name )
 	setPixmap( KSystemTray::loadIcon("kgpg_docked"));
         setAcceptDrops(true);
 
-        droppopup=new QPopupMenu();
+        droppopup=new Q3PopupMenu();
         showDecrypt->plug(droppopup);
         saveDecrypt->plug(droppopup);
 
-        udroppopup=new QPopupMenu();
+        udroppopup=new Q3PopupMenu();
         encrypt->plug(udroppopup);
         sign->plug(udroppopup);
 	QToolTip::add(this, i18n("KGpg - encryption tool"));
@@ -153,7 +158,7 @@ void MyView::encryptDroppedFolder()
 
 	dialogue=new popupPublic(0,"Public keys",droppedUrls.first().fileName(),true,goDefaultKey);
 
-	QHButtonGroup *bGroup = new QHButtonGroup(dialogue->plainPage());
+	Q3HButtonGroup *bGroup = new Q3HButtonGroup(dialogue->plainPage());
                 (void) new QLabel(i18n("Compression method for archive:"),bGroup);
                 KComboBox *optionbx=new KComboBox(bGroup);
 		optionbx->insertItem(i18n("Zip"));
@@ -222,7 +227,7 @@ pop = new KPassivePopup();
 	else
 	arch=new KTar(kgpgfoldertmp->name(), "application/x-bzip2");
 
-		if (!arch->open( IO_WriteOnly )) {
+		if (!arch->open( QIODevice::WriteOnly )) {
                 KMessageBox::sorry(0,i18n("Unable to create temporary file"));
                 return;
         	}
@@ -437,7 +442,7 @@ decryptDroppedFile();
 void  MyView::unArchive()
 {
         KTar compressedFolder(kgpgFolderExtract->name(),"application/x-gzip");
-        if (!compressedFolder.open( IO_ReadOnly )) {
+        if (!compressedFolder.open( QIODevice::ReadOnly )) {
                 KMessageBox::sorry(0,i18n("Unable to read temporary archive file"));
                 return;
         }
@@ -547,7 +552,7 @@ void  MyView::droppedtext (QString inputText,bool allowEncrypt)
 
 void  MyView::dragEnterEvent(QDragEnterEvent *e)
 {
-        e->accept (KURLDrag::canDecode(e) || QTextDrag::canDecode (e));
+        e->accept (KURLDrag::canDecode(e) || Q3TextDrag::canDecode (e));
 }
 
 
@@ -557,7 +562,7 @@ void  MyView::dropEvent (QDropEvent *o)
         QString text;
         if ( KURLDrag::decode( o, list ) )
                 droppedfile(list);
-        else if ( QTextDrag::decode(o, text) )
+        else if ( Q3TextDrag::decode(o, text) )
 		{
 	        QApplication::clipboard()->setText(text,clipboardMode);
                 droppedtext(text);
@@ -623,7 +628,7 @@ void  MyView::startWizard()
                         if (KMessageBox::questionYesNo(this,i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"),QString::null,i18n("Create Config"),i18n("Do Not Create"))==KMessageBox::Yes) {
                                 confPath=gpgHome+"options";
                                 QFile file(confPath);
-                                if ( file.open( IO_WriteOnly ) ) {
+                                if ( file.open( QIODevice::WriteOnly ) ) {
                                         QTextStream stream( &file );
                                         stream <<"# GnuPG config file created by KGpg"<< "\n";
                                         file.close();

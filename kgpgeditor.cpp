@@ -21,8 +21,11 @@
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <dcopclient.h>
-#include <qpaintdevicemetrics.h>
-#include <qcstring.h>
+#include <q3paintdevicemetrics.h>
+#include <q3cstring.h>
+//Added by qt3to4:
+#include <QTextStream>
+#include <QCloseEvent>
 
 #include <kencodingfiledialog.h>
 
@@ -53,7 +56,7 @@
 #include "listkeys.h"
 #include "kgpglibrary.h"
 
-KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f,KShortcut goHome,bool mainWindow):KMainWindow(parent, name,f)
+KgpgApp::KgpgApp(QWidget *parent, const char *name, Qt::WFlags f,KShortcut goHome,bool mainWindow):KMainWindow(parent, name,f)
 {
 	isMainWindow=mainWindow;
 	textEncoding=QString::null;
@@ -320,7 +323,7 @@ void KgpgApp::slotFileSave()
     KTempFile tmpfile;
     if (Docname.isLocalFile()) {
     QFile f(filn);
-    if ( !f.open( IO_WriteOnly ) ) {
+    if ( !f.open( QIODevice::WriteOnly ) ) {
 	KMessageBox::sorry(this,i18n("The document could not be saved, please check your permissions and disk space."));
         return;
     }
@@ -401,7 +404,7 @@ QString tempOpenFile;
         /////////////////////////////////////////////////
 if( KIO::NetAccess::download( url, tempOpenFile,this ) ) {
         QFile qfile(tempOpenFile);
-        if (qfile.open(IO_ReadOnly)) {
+        if (qfile.open(QIODevice::ReadOnly)) {
                 QTextStream t( &qfile );
 		t.setCodec(QTextCodec::codecForName (encoding.ascii()));
                 view->editor->setText(t.read());
@@ -419,7 +422,7 @@ void KgpgApp::slotFilePrint()
         //kdDebug(2100)<<"Printing..."<<endl;
         if (prt.setup(this)) {
                 QPainter painter(&prt);
-                QPaintDeviceMetrics metrics(painter.device());
+                Q3PaintDeviceMetrics metrics(painter.device());
                 painter.drawText( 0, 0, metrics.width(), metrics.height(), AlignLeft|AlignTop|DontClip,view->editor->text() );
         }
 }

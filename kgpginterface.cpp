@@ -24,6 +24,11 @@
 #include <qstring.h>
 #include <qlabel.h>
 #include <qapplication.h>
+//Added by qt3to4:
+#include <Q3CString>
+#include <QTextStream>
+#include <QGridLayout>
+#include <QHBoxLayout>
 #include <kio/netaccess.h> 
 #include <qcheckbox.h>
 
@@ -140,7 +145,7 @@ void KgpgInterface::readencprocess(KProcIO *p)
                         if (required.find("openfile.overwrite.okay")!=-1)
                                 p->writeStdin("Yes");
                         else if ((required.find("passphrase.enter")!=-1)) {
-                                QCString passphrase;
+                                Q3CString passphrase;
                                 int code=KPasswordDialog::getNewPassword(passphrase,i18n("Enter passphrase for your file (symmetrical encryption):"));
                                 if (code!=QDialog::Accepted) {
                                         delete p;
@@ -214,7 +219,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
                                 if (userIDs.isEmpty())
                                         userIDs=i18n("[No user id found]");
                                 userIDs.replace(QRegExp("<"),"&lt;");
-                                QCString passphrase;
+                                Q3CString passphrase;
                                 QString passdlgmessage;
                                 if (anonymous)
                                         passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys.<br>");
@@ -297,7 +302,7 @@ void KgpgInterface::txtreadencprocess(KProcIO *p)
 	  else
 	if ((required.find("passphrase.enter")!=-1))
             {
-              QCString passphrase;
+              Q3CString passphrase;
               QString passdlgmessage=i18n("Enter passphrase (symmetrical encryption)");
               int code=KPasswordDialog::getNewPassword(passphrase,passdlgmessage);
 	      if (code!=QDialog::Accepted)
@@ -389,7 +394,7 @@ void KgpgInterface::getCmdOutput(KProcess *p, char *data, int )
 		{
 			if (userIDs.isEmpty())
 			userIDs=i18n("[No user id found]");
-			QCString passphrase;
+			Q3CString passphrase;
 			QString passdlgmessage;
 			if (anonymous)
 				passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys.<br>");
@@ -494,7 +499,7 @@ void KgpgInterface::txtsignprocess(KProcIO *p)
 	      step--;
               if (userIDs.isEmpty())
                 userIDs=i18n("[No user id found]");
-              QCString passphrase;
+              Q3CString passphrase;
               QString passdlgmessage;
               if (step<3)
               passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
@@ -610,7 +615,7 @@ Md5Widget::Md5Widget(QWidget *parent, const char *name,KURL url):KDialogBase( pa
         setButtonApply(i18n("Compare MD5 with Clipboard"));
         mdSum=QString::null;
         QFile f(url.path());
-        f.open( IO_ReadOnly);
+        f.open( QIODevice::ReadOnly);
         KMD5 checkfile;
         checkfile.reset();
         checkfile.update(f);
@@ -731,7 +736,7 @@ void KgpgInterface::readsignprocess(KProcIO *p)
                         else if ((required.find("passphrase.enter")!=-1)) {
                                 if (userIDs.isEmpty())
                                         userIDs=i18n("[No user id found]");
-                                QCString passphrase;
+                                Q3CString passphrase;
                                 QString passdlgmessage;
                                 if (step<3)
                                         passdlgmessage=i18n("<b>Bad passphrase</b>. you have %1 tries left.<br>").arg(step);
@@ -899,7 +904,7 @@ void KgpgInterface::sigprocess(KProcIO *p)
                 }
 		
                 if (required.find("passphrase.enter")!=-1) {
-                        QCString signpass;
+                        Q3CString signpass;
                         int code=KPasswordDialog::getPassword(signpass,i18n("<qt>%1 Enter passphrase for <b>%2</b>:</qt>").arg(errMessage).arg(checkForUtf8bis(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 signSuccess=4;  /////  aborted by user mode
@@ -1103,7 +1108,7 @@ void KgpgInterface::expprocess(KProcIO *p)
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        QCString signpass;
+                        Q3CString signpass;
                         int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 expSuccess=3;  /////  aborted by user mode
@@ -1266,7 +1271,7 @@ void KgpgInterface::passprocess(KProcIO *p)
                         userIDs.replace(QRegExp("<"),"&lt;");
 
                         if (step==1) {
-                                QCString passphrase;
+                                Q3CString passphrase;
                                 int code=KPasswordDialog::getPassword(passphrase,i18n("<qt>%1 Enter passphrase for <b>%2</b></qt>").arg(message).arg(checkForUtf8bis(userIDs)));
                                 if (code!=QDialog::Accepted) {
                                         p->writeStdin("quit");
@@ -1280,7 +1285,7 @@ void KgpgInterface::passprocess(KProcIO *p)
                         }
 
                         if (step==3) {
-                                QCString passphrase;
+                                Q3CString passphrase;
                                 int code=KPasswordDialog::getNewPassword(passphrase,i18n("<qt>Enter new passphrase for <b>%1</b><br>If you forget this passphrase, all your encrypted files and messages will be lost !<br></qt>").arg(userIDs));
                                 if (code!=QDialog::Accepted) {
 					step=4;
@@ -1506,7 +1511,7 @@ void KgpgInterface::adduidprocess(KProcIO *p)
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        QCString delpass;
+                        Q3CString delpass;
                         int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 //deleteSuccess=false;
@@ -1629,7 +1634,7 @@ void KgpgInterface::delphotoprocess(KProcIO *p)
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        QCString delpass;
+                        Q3CString delpass;
                         int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 //deleteSuccess=false;
@@ -1704,7 +1709,7 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        QCString delpass;
+                        Q3CString delpass;
                         int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 //deleteSuccess=false;
@@ -1790,7 +1795,7 @@ void KgpgInterface::revokeprocess(KProcIO *p)
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        QCString signpass;
+                        Q3CString signpass;
                         int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 expSuccess=3;  /////  aborted by user mode
@@ -1826,7 +1831,7 @@ QString KgpgInterface::getGpgSetting(QString name,QString configFile)
 {
         name=name.stripWhiteSpace()+" ";
         QFile qfile(QFile::encodeName(configFile));
-        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+        if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
                 QString result;
                 QTextStream t( &qfile );
                 result=t.readLine();
@@ -1848,7 +1853,7 @@ void KgpgInterface::delGpgGroup(QString name, QString configFile)
 {
         QString textToWrite;
         QFile qfile(QFile::encodeName(configFile));
-        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+        if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
                 QString result;
                 QTextStream t( &qfile );
                 result=t.readLine();
@@ -1864,7 +1869,7 @@ void KgpgInterface::delGpgGroup(QString name, QString configFile)
                         result=t.readLine();
                 }
                 qfile.close();
-                if (qfile.open(IO_WriteOnly)) {
+                if (qfile.open(QIODevice::WriteOnly)) {
                         QTextStream t( &qfile);
                         t << textToWrite;
                         qfile.close();
@@ -1878,7 +1883,7 @@ void KgpgInterface::setGpgGroupSetting(QString name,QStringList values, QString 
         bool found=false;
         QFile qfile(QFile::encodeName(configFile));
         kdDebug(2100)<<"Changing group: "<<name<<endl;
-        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+        if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
                 QString result;
                 QTextStream t( &qfile );
                 result=t.readLine();
@@ -1901,7 +1906,7 @@ void KgpgInterface::setGpgGroupSetting(QString name,QStringList values, QString 
                 if (!found)
                         textToWrite+="\n"+QString("group %1=%2").arg(name).arg(values.join(" "));
 
-                if (qfile.open(IO_WriteOnly)) {
+                if (qfile.open(QIODevice::WriteOnly)) {
                         QTextStream t( &qfile);
                         t << textToWrite;
                         qfile.close();
@@ -1915,7 +1920,7 @@ QStringList KgpgInterface::getGpgGroupSetting(QString name,QString configFile)
 {
 
         QFile qfile(QFile::encodeName(configFile));
-        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+        if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
                 QString result;
                 QTextStream t( &qfile );
                 result=t.readLine();
@@ -1942,7 +1947,7 @@ QStringList KgpgInterface::getGpgGroupNames(QString configFile)
 {
         QStringList groups;
         QFile qfile(QFile::encodeName(configFile));
-        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+        if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
                 QString result;
                 QTextStream t( &qfile );
                 result=t.readLine();
@@ -1964,7 +1969,7 @@ bool KgpgInterface::getGpgBoolSetting(QString name,QString configFile)
 {
         name=name;
         QFile qfile(QFile::encodeName(configFile));
-        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+        if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
                 QString result;
                 QTextStream t( &qfile );
                 result=t.readLine();
@@ -1986,7 +1991,7 @@ void KgpgInterface::setGpgSetting(QString name,QString value,QString url)
         bool found=false;
         QFile qfile(QFile::encodeName(url));
 
-        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+        if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
                 QString result;
                 QTextStream t( &qfile );
                 result=t.readLine();
@@ -2005,7 +2010,7 @@ void KgpgInterface::setGpgSetting(QString name,QString value,QString url)
                 if ((!found) && (!value.isEmpty()))
                         textToWrite+="\n"+name+" "+value;
 
-                if (qfile.open(IO_WriteOnly)) {
+                if (qfile.open(QIODevice::WriteOnly)) {
                         QTextStream t( &qfile);
                         t << textToWrite;
                         qfile.close();
@@ -2020,7 +2025,7 @@ void KgpgInterface::setGpgBoolSetting(QString name,bool enable,QString url)
         bool found=false;
         QFile qfile(QFile::encodeName(url));
 
-        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+        if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
                 QString result;
                 QTextStream t( &qfile );
                 result=t.readLine();
@@ -2039,7 +2044,7 @@ void KgpgInterface::setGpgBoolSetting(QString name,bool enable,QString url)
                 if ((!found) && (enable))
                         textToWrite+=name;
 
-                if (qfile.open(IO_WriteOnly)) {
+                if (qfile.open(QIODevice::WriteOnly)) {
                         QTextStream t( &qfile);
                         t << textToWrite;
                         qfile.close();

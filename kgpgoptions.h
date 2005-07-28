@@ -18,6 +18,8 @@
 #define KGPGOPTIONS_H
 
 #include <kconfigdialog.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #define GoodColor 0
 #define BadColor 1

@@ -18,17 +18,17 @@
 ///////////////////////////////////////////////             code for new key generation
 
 
-#include <qwhatsthis.h>
+#include <q3whatsthis.h>
 #include <qlayout.h>
 #include <qlabel.h>
-#include <qvbox.h>
+#include <q3vbox.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <qcheckbox.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 #include <qhbuttongroup.h>
-#include <qvbuttongroup.h>
-#include <kmessagebox.h>
 #include <klocale.h>
 
 #include "keygener.h"
@@ -42,7 +42,7 @@ keyGenerate::keyGenerate(QWidget *parent, const char *name):KDialogBase( parent,
         QWidget *page = new QWidget(this);
         QVBoxLayout *vbox=new QVBoxLayout(page);
 
-        QVButtonGroup *bgroup1=new QVButtonGroup(i18n("Generate Key Pair"),page);
+        Q3VButtonGroup *bgroup1=new Q3VButtonGroup(i18n("Generate Key Pair"),page);
 
         (void) new QLabel(i18n("Name:"),bgroup1);
         kname=new KLineEdit("",bgroup1);
@@ -54,7 +54,7 @@ keyGenerate::keyGenerate(QWidget *parent, const char *name):KDialogBase( parent,
         comment=new KLineEdit("",bgroup1);
 
         (void) new QLabel(i18n("Expiration:"),bgroup1);
-        QHButtonGroup *bgroup=new  QHButtonGroup(bgroup1);
+        Q3HButtonGroup *bgroup=new  Q3HButtonGroup(bgroup1);
         numb=new KLineEdit("0",bgroup);
         numb->setMaxLength(4);
         numb->setDisabled(true);

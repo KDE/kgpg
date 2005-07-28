@@ -25,13 +25,17 @@
 #include <ksystemtray.h>
 #include <kuniqueapplication.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <QDragEnterEvent>
+#include <Q3PopupMenu>
+#include <QDropEvent>
 #include <kurl.h>
 #include <kshortcut.h>
 #include <qstringlist.h>
 #include <qclipboard.h>
 
 
-class QPopupMenu;
+class Q3PopupMenu;
 class KTempFile;
 class KAboutData;
 class KPassivePopup;
@@ -52,7 +56,7 @@ public:
         KTempFile *kgpgfoldertmp;
 	KShortcut goDefaultKey;
 private:
-        QPopupMenu *droppopup,*udroppopup;
+        Q3PopupMenu *droppopup,*udroppopup;
         KAboutData   *_aboutData;
         QStringList customDecrypt;
         KgpgWizard *wiz;

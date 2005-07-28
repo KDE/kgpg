@@ -21,7 +21,7 @@
         </sizepolicy>
     </property>
     <property name="caption">
-        <string>Key Properties</string>
+        <string>Qt::Key Properties</string>
     </property>
     <grid>
         <property name="name">
@@ -64,9 +64,9 @@
                     </property>
                     <property name="paletteBackgroundColor">
                         <color>
-                            <red>200</red>
-                            <green>200</green>
-                            <blue>200</blue>
+                            <Qt::red>200</Qt::red>
+                            <Qt::green>200</Qt::green>
+                            <Qt::blue>200</Qt::blue>
                         </color>
                     </property>
                     <property name="frameShape">
@@ -82,7 +82,7 @@
                         <bool>false</bool>
                     </property>
                     <property name="alignment">
-                        <set>AlignCenter</set>
+                        <set>Qt::AlignCenter</set>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;&lt;b&gt;Photo:&lt;/b&gt;&lt;br /&gt;
@@ -201,7 +201,7 @@
                 <number>0</number>
             </property>
             <property name="text">
-                <string>Key ID:</string>
+                <string>Qt::Key ID:</string>
             </property>
         </widget>
         <widget class="QLabel" row="6" column="0">

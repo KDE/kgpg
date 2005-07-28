@@ -24,6 +24,9 @@
 
 #include <ktextedit.h>
 #include <kurl.h>
+//Added by qt3to4:
+#include <QDragEnterEvent>
+#include <QDropEvent>
 
 class QDragEnterEvent;
 

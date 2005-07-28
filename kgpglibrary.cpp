@@ -15,8 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qhbox.h>
-#include <qvbox.h>
+#include <q3hbox.h>
+#include <q3vbox.h>
+//Added by qt3to4:
+#include <QTextStream>
 
 #include <klocale.h>
 #include <kapplication.h>
@@ -216,7 +218,7 @@ void KgpgLibrary::processdecerror(QString mssge)
 	emit systemMessage(QString::null);
         ///// test if file is a public key
         QFile qfile(QFile::encodeName(urlselected.path()));
-        if (qfile.open(IO_ReadOnly)) {
+        if (qfile.open(QIODevice::ReadOnly)) {
                 QTextStream t( &qfile );
                 QString result(t.read());
                 qfile.close();

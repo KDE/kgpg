@@ -22,8 +22,13 @@
 
 // application specific includes
 
-#include <qscrollview.h>
+#include <q3scrollview.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <QDragEnterEvent>
+#include <QVBoxLayout>
+#include <QTextStream>
+#include <QDropEvent>
 
 #include <kio/netaccess.h>
 #include <klocale.h>
@@ -64,7 +69,7 @@ MyEditor::MyEditor( QWidget *parent, const char *name )
 void MyEditor::contentsDragEnterEvent( QDragEnterEvent *e )
 {
         ////////////////   if a file is dragged into editor ...
-        e->accept (KURLDrag::canDecode(e) || QTextDrag::canDecode (e));
+        e->accept (KURLDrag::canDecode(e) || Q3TextDrag::canDecode (e));
         //e->accept (QTextDrag::canDecode (e));
 }
 
@@ -78,7 +83,7 @@ void MyEditor::contentsDropEvent( QDropEvent *e )
         QString text;
         if ( KURLDrag::decode( e, list ) )
                 slotDroppedFile(list.first());
-        else if ( QTextDrag::decode(e, text) )
+        else if ( Q3TextDrag::decode(e, text) )
                 insert(text);
 }
 
@@ -114,7 +119,7 @@ void MyEditor::slotDroppedFile(KURL url)
 bool MyEditor::slotCheckContent(QString fileToCheck, bool checkForPgpMessage)
 {
 QFile qfile(fileToCheck);
-        if (qfile.open(IO_ReadOnly)) {
+        if (qfile.open(QIODevice::ReadOnly)) {
                 //////////   open file
 
                         QTextStream t( &qfile );
@@ -170,7 +175,7 @@ void MyEditor::slotDecodeFile(QString fname)
 {
         ////////////////     decode file from given url into editor
         QFile qfile(QFile::encodeName(fname));
-        if (qfile.open(IO_ReadOnly)) {
+        if (qfile.open(QIODevice::ReadOnly)) {
 	KgpgInterface *txtDecrypt=new KgpgInterface();
         connect (txtDecrypt,SIGNAL(txtdecryptionfinished(QString)),this,SLOT(editorUpdateDecryptedtxt(QString)));
 	connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(editorFailedDecryptedtxt(QString)));

@@ -21,12 +21,14 @@
 
 //#include <kiconloader.h>
 #include <kshortcut.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 
 class QPushButton;
 class QCheckBox;
 class KListView;
-class QButtonGroup;
+class Q3ButtonGroup;
 class KProcIO;
 
 class popupPublic : public KDialogBase //QDialog
@@ -34,7 +36,7 @@ class popupPublic : public KDialogBase //QDialog
         Q_OBJECT
 public:
 
-        popupPublic(QWidget *parent=0, const char *name=0,QString sfile="",bool filemode=false,KShortcut goDefaultKey=QKeySequence(CTRL+Qt::Key_Home));
+        popupPublic(QWidget *parent=0, const char *name=0,QString sfile="",bool filemode=false,KShortcut goDefaultKey=QKeySequence(Qt::CTRL+Qt::Key_Home));
 	~popupPublic();
         KListView *keysList;
         QCheckBox *CBarmor,*CBuntrusted,*CBshred,*CBsymmetric,*CBhideid;
@@ -45,7 +47,7 @@ public:
 
 private:
         KConfig *config;
-        QButtonGroup *boutonboxoptions;
+        Q3ButtonGroup *boutonboxoptions;
         QString customOptions;
 
 private slots:

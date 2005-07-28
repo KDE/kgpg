@@ -27,7 +27,7 @@
                 <string>key id</string>
             </property>
             <property name="alignment">
-                <set>AlignVCenter</set>
+                <set>Qt::AlignVCenter</set>
             </property>
         </widget>
         <widget class="QCheckBox" row="5" column="0">
@@ -62,17 +62,17 @@
             </item>
             <item>
                 <property name="text">
-                    <string>Key Has Been Compromised</string>
+                    <string>Qt::Key Has Been Compromised</string>
                 </property>
             </item>
             <item>
                 <property name="text">
-                    <string>Key is Superseded</string>
+                    <string>Qt::Key is Superseded</string>
                 </property>
             </item>
             <item>
                 <property name="text">
-                    <string>Key is No Longer Used</string>
+                    <string>Qt::Key is No Longer Used</string>
                 </property>
             </item>
             <property name="name">

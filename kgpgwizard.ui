@@ -51,7 +51,7 @@
                     <bool>false</bool>
                 </property>
                 <property name="alignment">
-                    <set>AlignTop</set>
+                    <set>Qt::AlignTop</set>
                 </property>
             </widget>
             <widget class="QLabel" row="0" column="1">
@@ -63,7 +63,7 @@
 This wizard will first setup some basic configuration options required for KGpg to work properly. Next, it will allow you to create your own key pair, enabling you to encrypt your files and emails.</string>
                 </property>
                 <property name="alignment">
-                    <set>WordBreak|AlignTop</set>
+                    <set>Qt::TextWordWrap|Qt::AlignTop</set>
                 </property>
             </widget>
             <spacer row="2" column="1">
@@ -71,7 +71,7 @@ This wizard will first setup some basic configuration options required for KGpg 
                     <cstring>spacer17</cstring>
                 </property>
                 <property name="orientation">
-                    <enum>Vertical</enum>
+                    <enum>Qt::Vertical</enum>
                 </property>
                 <property name="sizeType">
                     <enum>Expanding</enum>
@@ -112,7 +112,7 @@ This wizard will first setup some basic configuration options required for KGpg 
                     <string>Unless you want to try some unusual settings, just click on the "next" button.</string>
                 </property>
                 <property name="alignment">
-                    <set>WordBreak|AlignTop</set>
+                    <set>Qt::TextWordWrap|Qt::AlignTop</set>
                 </property>
             </widget>
             <widget class="QLabel" row="0" column="1">
@@ -123,7 +123,7 @@ This wizard will first setup some basic configuration options required for KGpg 
                     <string>KGpg needs to know where your GnuPG configuration file is stored.</string>
                 </property>
                 <property name="alignment">
-                    <set>WordBreak|AlignTop</set>
+                    <set>Qt::TextWordWrap|Qt::AlignTop</set>
                 </property>
             </widget>
             <spacer row="4" column="1">
@@ -131,7 +131,7 @@ This wizard will first setup some basic configuration options required for KGpg 
                     <cstring>spacer2_2</cstring>
                 </property>
                 <property name="orientation">
-                    <enum>Vertical</enum>
+                    <enum>Qt::Vertical</enum>
                 </property>
                 <property name="sizeType">
                     <enum>Expanding</enum>
@@ -156,7 +156,7 @@ This wizard will first setup some basic configuration options required for KGpg 
                     <string>&lt;br&gt;Path to your GnuPG options file:</string>
                 </property>
                 <property name="alignment">
-                    <set>WordBreak|AlignVCenter</set>
+                    <set>Qt::TextWordWrap|Qt::AlignVCenter</set>
                 </property>
             </widget>
             <widget class="QLabel" row="0" column="0" rowspan="5" colspan="1">
@@ -184,7 +184,7 @@ This wizard will first setup some basic configuration options required for KGpg 
                     <bool>false</bool>
                 </property>
                 <property name="alignment">
-                    <set>AlignTop</set>
+                    <set>Qt::AlignTop</set>
                 </property>
             </widget>
         </grid>
@@ -236,7 +236,7 @@ This wizard will first setup some basic configuration options required for KGpg 
                     <bool>false</bool>
                 </property>
                 <property name="alignment">
-                    <set>AlignTop</set>
+                    <set>Qt::AlignTop</set>
                 </property>
             </widget>
             <spacer row="2" column="1">
@@ -244,7 +244,7 @@ This wizard will first setup some basic configuration options required for KGpg 
                     <cstring>spacer18</cstring>
                 </property>
                 <property name="orientation">
-                    <enum>Vertical</enum>
+                    <enum>Qt::Vertical</enum>
                 </property>
                 <property name="sizeType">
                     <enum>Expanding</enum>
@@ -267,7 +267,7 @@ Remember that if you download a file or open one in an editor, parts of the file
 &lt;br&gt;&lt;b&gt;Shredding may not be 100% secure if you use a journaling file system.&lt;/b&gt;&lt;/qt&gt;</string>
                 </property>
                 <property name="alignment">
-                    <set>WordBreak|AlignJustify|AlignTop</set>
+                    <set>Qt::TextWordWrap|Qt::AlignJustify|Qt::AlignTop</set>
                 </property>
             </widget>
         </grid>
@@ -277,7 +277,7 @@ Remember that if you download a file or open one in an editor, parts of the file
             <cstring>page</cstring>
         </property>
         <attribute name="title">
-            <string>Step Three: Ready to Create your Key Pair</string>
+            <string>Step Three: Ready to Create your Qt::Key Pair</string>
         </attribute>
         <grid>
             <property name="name">
@@ -299,7 +299,7 @@ Remember that if you download a file or open one in an editor, parts of the file
                     <cstring>spacer7</cstring>
                 </property>
                 <property name="orientation">
-                    <enum>Vertical</enum>
+                    <enum>Qt::Vertical</enum>
                 </property>
                 <property name="sizeType">
                     <enum>Expanding</enum>
@@ -350,7 +350,7 @@ Remember that if you download a file or open one in an editor, parts of the file
                     <string>KGpg will now launch the key generation dialog to create your own key pair for encryption and decryption.</string>
                 </property>
                 <property name="alignment">
-                    <set>WordBreak|AlignTop</set>
+                    <set>Qt::TextWordWrap|Qt::AlignTop</set>
                 </property>
             </widget>
             <widget class="QLabel" row="0" column="0" rowspan="4" colspan="1">
@@ -378,7 +378,7 @@ Remember that if you download a file or open one in an editor, parts of the file
                     <bool>false</bool>
                 </property>
                 <property name="alignment">
-                    <set>AlignTop</set>
+                    <set>Qt::AlignTop</set>
                 </property>
             </widget>
         </grid>
