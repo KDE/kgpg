@@ -35,7 +35,7 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kpassdlg.h>
-#include <kmdcodec.h>
+#include <kcodecs.h>
 #include <klineedit.h>
 #include <kcharsets.h>
 #include <kpassivepopup.h>
