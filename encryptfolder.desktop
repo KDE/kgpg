@@ -12,5 +12,6 @@ Name[ga]=Cuir Fillteán i gCartlann & Criptigh É
 Name[ru]=Архивировать и зашифровать папку
 Name[sv]=Arkivera och kryptera katalog
 Name[tr]=Arşiv ve Klasör Şifrele
+Name[zh_CN]=存档并加密文件夹
 Icon=kgpg
 Exec=kgpg -e %F
