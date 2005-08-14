@@ -22,11 +22,13 @@
 #include <config.h>
 #endif
 
+#include <kaction.h>
 #include <ksystemtray.h>
 #include <kuniqueapplication.h>
-#include <qlabel.h>
 #include <kurl.h>
 #include <kshortcut.h>
+
+#include <qlabel.h>
 #include <qstringlist.h>
 #include <qclipboard.h>
 
@@ -51,6 +53,8 @@ public:
         KURL::List droppedUrls;
         KTempFile *kgpgfoldertmp;
 	KShortcut goDefaultKey;
+	QClipboard::Mode clipboardMode;
+
 private:
         QPopupMenu *droppopup,*udroppopup;
         KAboutData   *_aboutData;
@@ -60,7 +64,6 @@ private:
         KTempFile *kgpgFolderExtract;
 	int compressionScheme,openTasks;
 	popupPublic *dialogue;
-	QClipboard::Mode clipboardMode;
 
 public slots:
 	void busyMessage(QString mssge,bool reset=false);
@@ -79,8 +82,8 @@ public slots:
         void  slotFolderFinishedError(QString errmsge);
 	void  encryptFiles(KURL::List urls);
 	void installShred();
-private slots:
 
+private slots:
         void  slotWizardClose();
         void  startWizard();
 	void  slotWizardChange();
@@ -127,10 +130,13 @@ public:
 
 private:
         KSystemTray *kgpgapp;
+	KAction *KgpgEncryptClipboard, *KgpgDecryptClipboard, *KgpgSignClipboard;
+
 private slots:
-void slotOpenKeyManager();
-void slotOpenServerDialog();
-void showOptions();
+	void slotOpenKeyManager();
+	void slotOpenServerDialog();
+	void showOptions();
+	void checkMenu();
 };
 
 class KCmdLineArgs;

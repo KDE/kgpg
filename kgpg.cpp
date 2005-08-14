@@ -50,7 +50,6 @@
 #include <kprocess.h>
 #include <kprocio.h>
 #include <kaboutapplication.h>
-#include <kaction.h>
 #include <kurlrequester.h>
 #include <ktip.h>
 #include <kurldrag.h>
@@ -776,9 +775,9 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
         w=new MyView(this);
         w->show();
         KPopupMenu *conf_menu=contextMenu();
-        KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0,w, SLOT(clipEncrypt()),actionCollection(),"clip_encrypt");
-        KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0,w, SLOT(clipDecrypt()),actionCollection(),"clip_decrypt");
-	KAction *KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), 0, 0,w, SLOT(clipSign()),actionCollection(),"clip_sign");
+        KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0,w, SLOT(clipEncrypt()),actionCollection(),"clip_encrypt");
+        KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0,w, SLOT(clipDecrypt()),actionCollection(),"clip_decrypt");
+	KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), 0, 0,w, SLOT(clipSign()),actionCollection(),"clip_sign");
         KAction *KgpgOpenEditor;
 	if (KGpgSettings::leftClick()==KGpgSettings::EnumLeftClick::KeyManager)
 	KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,parent, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
@@ -787,6 +786,9 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
 	
 	KAction *KgpgOpenServer = new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(slotOpenServerDialog()),actionCollection(),"kgpg_server");
         KAction *KgpgPreferences=KStdAction::preferences(this, SLOT(showOptions()), actionCollection());
+
+	connect (conf_menu,SIGNAL(aboutToShow()),this,SLOT(checkMenu()));
+
         KgpgEncryptClipboard->plug(conf_menu);
         KgpgDecryptClipboard->plug(conf_menu);
 	KgpgSignClipboard->plug(conf_menu);
@@ -796,6 +798,23 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
         KgpgPreferences->plug(conf_menu);
 }
 
+
+void kgpgapplet::checkMenu()
+{
+	KgpgDecryptClipboard->setEnabled(false);
+	if ((kapp->clipboard()->text(w->clipboardMode).isEmpty()))
+	{
+		KgpgEncryptClipboard->setEnabled(false);
+		KgpgSignClipboard->setEnabled(false);
+	}
+	else
+	{
+		KgpgEncryptClipboard->setEnabled(true);
+		if (kapp->clipboard()->text(w->clipboardMode).stripWhiteSpace().startsWith("-----BEGIN"))
+		KgpgDecryptClipboard->setEnabled(true);
+		KgpgSignClipboard->setEnabled(true);
+	}
+}
 
 void kgpgapplet::showOptions()
 {
