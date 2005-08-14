@@ -97,4 +97,4 @@ Name[xx]=xxKGpgxx
 X-KDE-autostart-after=panel
 X-KDE-autostart-condition=kgpgrc:User Interface:AutoStart:false
 
-Categories=Qt;KDE;Utility;
+Categories=Qt;KDE;Utility;X-KDE-Utilities-PIM;
