@@ -262,7 +262,6 @@ private slots:
 	void txtsignprocess(KProcIO *p);
 	void txtsignfin(KProcess *);
 
-        //void txtreaddecprocess(KProcIO *p);
         //void txtdecryptfin(KProcess *);
 
 

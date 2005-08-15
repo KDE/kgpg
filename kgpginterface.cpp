@@ -423,6 +423,7 @@ void KgpgInterface::getCmdOutput(KProcess *p, char *data, int )
 
 	if (required.find("END_DECRYPTION")!=-1) decfinished=true;
 	if (required.find("DECRYPTION_OKAY")!=-1) decok=true;
+	if (required.find("DECRYPTION_FAILED")!=-1) decok=false;
 	if (required.find("BADMDC")!=-1) badmdc=true;
 	}
 }
@@ -525,8 +526,9 @@ void KgpgInterface::KgpgDecryptFileToText(KURL srcUrl,QStringList Options)
 decfinished=false;
 decok=false;
 badmdc=false;
- KProcIO *proc=new KProcIO();
-	  *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=1"<<"--no-batch"<<"-o"<<"-";
+
+  KProcess *proc=new KProcess();
+  *proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--command-fd=0"<<"--status-fd=2"<<"--no-batch"<<"-o"<<"-";
       	for ( QStringList::Iterator it = Options.begin(); it != Options.end(); ++it ) {
        		if (!QFile::encodeName(*it).isEmpty()) *proc<< QFile::encodeName(*it);
     		}
@@ -534,9 +536,10 @@ badmdc=false;
 
   /////////  when process ends, update dialog infos
 
-  QObject::connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtdecryptfin(KProcess *)));
-  QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(txtreaddecprocess(KProcIO *)));
-  proc->start(KProcess::NotifyOnExit,false);
+  connect(proc, SIGNAL(processExited(KProcess *)),this,SLOT(txtdecryptfin(KProcess *)));
+  connect(proc, SIGNAL(receivedStdout(KProcess *, char *, int)),this, SLOT(getOutput(KProcess *, char *, int)));
+  connect(proc, SIGNAL(receivedStderr(KProcess *, char *, int)),this, SLOT(getCmdOutput(KProcess *, char *, int)));
+  proc->start(KProcess::NotifyOnExit,KProcess::All);
 }
 
 
