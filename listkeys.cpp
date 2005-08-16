@@ -222,21 +222,18 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
 
         keyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
 
-        setMinimumSize(550,200);
+        setMinimumSize(350,100);
         keysListpr = new KListView( page );
         keysListpr->setRootIsDecorated(true);
-        keysListpr->addColumn( i18n( "Name" ),200);
-	keysListpr->addColumn( i18n( "Email" ),200);
-	keysListpr->addColumn( i18n( "ID" ),100);
+        keysListpr->addColumn( i18n( "Name" ));
+	keysListpr->addColumn( i18n( "Email" ));
+	keysListpr->addColumn( i18n( "ID" ));
         keysListpr->setShowSortIndicator(true);
         keysListpr->setFullWidth(true);
 	keysListpr->setAllColumnsShowFocus(true);
 
         labeltxt=new QLabel(i18n("Choose secret key for signing:"),page);
         vbox=new QVBoxLayout(page);
-
-        vbox->addWidget(labeltxt);
-        vbox->addWidget(keysListpr);
 
         QString defaultKeyID= KGpgSettings::defaultKey().right(8);
 
@@ -245,6 +242,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
         char line[300];
 
         bool selectedok=false;
+	bool warn=false;
 
         fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
@@ -259,20 +257,20 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
 
                         fp2 = popen(QFile::encodeName(QString("gpg --no-tty --with-colon --list-key %1").arg(KShellProcess::quote(id))), "r");
                         bool dead=true;
-			QString trust;
                         while ( fgets( line, sizeof(line), fp2)) {
                                 tst2=line;
                                 if (tst2.startsWith("pub")) {
                          const QString trust2=tst2.section(':',1,1);
                         switch( trust2[0] ) {
                         case 'f':
-                                trust=i18n("Full");
 				dead=false;
                                 break;
                         case 'u':
-                                trust=i18n("Ultimate");
 				dead=false;
                                 break;
+			case '-':
+				if (tst2.section(':',11,11).find('D')==-1) warn=true;
+				break;
                         default:
                                 break;
                         }
@@ -288,10 +286,9 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
                 	keyMail=fullname.section('<',-1,-1);
                 	keyMail.truncate(keyMail.length()-1);
                 	keyName=fullname.section('<',0,0);
-			//keyName=keyName.section('(',0,0);
 			} else {
                 	keyMail=QString::null;
-			keyName=fullname;//.section('(',0,0);
+			keyName=fullname;
         		}
 
         		keyName=KgpgInterface::checkForUtf8(keyName);
@@ -311,7 +308,10 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
         }
         pclose(fp);
 
-
+	if (warn)
+	{
+	KMessageBox::information(this,i18n("<qt><b>Some of your secret keys are untrusted.</b><br>Change their trust if you want to use them for signing.</qt>"),QString::null,"warnUntrusted");
+	}
         QObject::connect(keysListpr,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),this,SLOT(slotpreOk()));
         QObject::connect(keysListpr,SIGNAL(clicked(QListViewItem *)),this,SLOT(slotSelect(QListViewItem *)));
 
@@ -319,6 +319,8 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
         if (!selectedok)
                 keysListpr->setSelected(keysListpr->firstChild(),true);
 
+        vbox->addWidget(labeltxt);
+        vbox->addWidget(keysListpr);
         setMainWidget(page);
 }
 
