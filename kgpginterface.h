@@ -151,6 +151,7 @@ public slots:
 	void KgpgSignText(QString text,QString userIDs, QStringList Options);
 
         static QString getGpgSetting(QString name,QString configFile);
+	static QString getGpgMultiSetting(QString name,QString configFile);
         static void setGpgSetting(QString name,QString ID,QString url);
         static bool getGpgBoolSetting(QString name,QString configFile);
 	static void setGpgBoolSetting(QString name,bool enable,QString url);

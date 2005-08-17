@@ -1847,6 +1847,35 @@ QString KgpgInterface::getGpgSetting(QString name,QString configFile)
         return QString::null;
 }
 
+QString KgpgInterface::getGpgMultiSetting(QString name,QString configFile)
+{
+// get GnuPG setting for item that can have multiple entries (eg. encrypt-to)
+
+QString parsedResult=QString::null;
+
+        name=name.stripWhiteSpace()+" ";
+        QFile qfile(QFile::encodeName(configFile));
+        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+                QString result;
+                QTextStream t( &qfile );
+                result=t.readLine();
+                while (result!=NULL) {
+                        if (result.stripWhiteSpace().startsWith(name)) {
+                                result=result.stripWhiteSpace();
+                                result.remove(0,name.length());
+				if (parsedResult!=QString::null)
+				parsedResult+=" "+result.stripWhiteSpace();
+				else
+                                parsedResult+=result.stripWhiteSpace();
+                                //return result.section(" ",0,0);
+                        }
+                        result=t.readLine();
+                }
+                qfile.close();
+        }
+        return parsedResult;
+}
+
 void KgpgInterface::delGpgGroup(QString name, QString configFile)
 {
         QString textToWrite;

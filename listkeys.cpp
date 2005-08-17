@@ -369,7 +369,7 @@ QString KgpgSelKey::getkeyID()
     	for ( item = list.first(); item; item = list.next() )
 	{
 	result.append(item->text(2));
-	if (item!=list.getLast()) result.append(", ");
+	if (item!=list.getLast()) result.append(" ");
 	}
         return(result);
 }

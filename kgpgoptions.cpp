@@ -158,7 +158,7 @@ void kgpgOptions::insertAlwaysKey()
 {
 		QString signKeyID;
 		///// open key selection dialog
-                KgpgSelKey *opts=new KgpgSelKey(this,0,false,page1->alwaysKey->text());
+                KgpgSelKey *opts=new KgpgSelKey(this,0,true,page1->alwaysKey->text());
 
                 if (opts->exec()==QDialog::Accepted) {
                         page1->alwaysKey->setText(opts->getkeyID());
@@ -212,12 +212,11 @@ void kgpgOptions::updateWidgets()
 	page4->gpg_home_path->setText(KURL(gpgConfigPath).directory(false));
 
 	// fill some values from kgpg's config file
-        page1->alwaysKey->setText(KgpgInterface::getGpgSetting("encrypt-to", gpgConfigPath));
 
         useAgent = KgpgInterface::getGpgBoolSetting("use-agent", gpgConfigPath);
         defaultUseAgent = false;
 
-        page1->alwaysKey->setText(KgpgInterface::getGpgSetting("encrypt-to", gpgConfigPath));
+        page1->alwaysKey->setText(KgpgInterface::getGpgMultiSetting("encrypt-to", gpgConfigPath));
 	alwaysKeyID = page1->alwaysKey->text();
 
         page4->use_agent->setChecked( useAgent );
