@@ -62,7 +62,6 @@ private:
         QString keyServer,defaultServerList;
         QString defaultKeyServer;
 	QFont startFont;
-	KSimpleConfig *ks;
         bool useAgent;
         bool defaultUseAgent;
         bool encryptToAlways;
@@ -82,6 +81,8 @@ private slots:
         void updateWidgets();
         void updateWidgetsDefault();
         void updateSettings();
+	void insertAlwaysKey();
+	void insertFileKey();
 
         void listkey();
         QString namecode(QString kid);

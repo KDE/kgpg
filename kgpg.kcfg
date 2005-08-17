@@ -17,13 +17,10 @@
       <label>Allow custom encryption options</label>
       <default>false</default>
     </entry>
-    <entry name="FileEncryptionKey" type="String" key="file key">
+    <entry name="FileKey" type="String" key="file_key">
       <label>File encryption key.</label>
     </entry>
-    <entry name="EncryptFilesTo" type="Bool" key="encrypt_files_to">
-      <label>Encrypt files</label>
-      <default>false</default>
-    </entry>
+
     <entry name="AsciiArmor" type="Bool" key="Ascii_armor">
       <label>Use ASCII armored encryption.</label>
       <default>true</default>
@@ -58,8 +55,6 @@
     </entry>
      </group>
     
-
-  
   <group name="General Options">
     <entry name="PhotoProperties" type="Enum" key="photo properties">
       <choices>

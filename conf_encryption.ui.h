@@ -14,18 +14,6 @@
  *   the Free Software Foundation; version 2 of the License.               *
  *                                                                         *
  ***************************************************************************/
-//(C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
-
-void Encryption::encrypt_to_always_toggled( bool isOn)
-{
-always_key->setEnabled(isOn);
-}
-
-
-void Encryption::encrypt_files_to_toggled( bool isOn)
-{
-file_key->setEnabled(isOn);
-}
 
 
 void Encryption::allow_custom_option_toggled( bool isOn)

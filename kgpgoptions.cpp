@@ -21,6 +21,7 @@
 #include <qlayout.h>
 #include <qtabwidget.h>
 #include <qlabel.h>
+#include <qtoolbutton.h>
 #include <qfile.h>
 #include <kconfig.h>
 #include <kdeversion.h>
@@ -48,6 +49,7 @@
 
 #include "kgpgoptions.h"
 #include "kgpgsettings.h"
+#include "listkeys.h"
 
 #include "conf_decryption.h"
 #include "conf_encryption.h"
@@ -63,14 +65,14 @@ class QTabWidget;
 kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
  : KConfigDialog( parent, name, KGpgSettings::self())
 {
-	ks=new KSimpleConfig ("kgpgrc");
-
 	defaultServerList="hkp://wwwkeys.eu.pgp.net ";
 	defaultServerList+=i18n("(Default)");
 	defaultServerList+=",hkp://search.keyserver.net,hkp://wwwkeys.pgp.net,hkp://pgp.dtype.org,hkp://wwwkeys.us.pgp.net";
-	ks->setGroup("Servers");
-	serverList=QStringList::split (",",ks->readEntry("Server_List",defaultServerList));
+	config = new KConfig ("kgpgrc");
+	config->setGroup("Servers");
+	serverList=QStringList::split (",",config->readEntry("Server_List",defaultServerList));
 	keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
+
 	if (!keyServer.isEmpty()) serverList.prepend(keyServer+" "+i18n("(Default)"));
 	
 	defaultHomePath=QDir::homeDirPath()+"/.gnupg/";
@@ -102,13 +104,16 @@ kdDebug(2100)<<"Adding pages"<<endl;
         addPage(page4, i18n("GnuPG Settings"), "kgpg");
 	addPage(page6, i18n("Key Servers"), "network");
 	addPage(page7, i18n("Misc"), "misc");
-	
-	
 
+	page1->clear_akey->setIconSet(QIconSet(QPixmap(SmallIcon("clear_left"))));
+	page1->clear_fkey->setIconSet(QIconSet(QPixmap(SmallIcon("clear_left"))));
+	
         // The following widgets are managed manually.
-        connect(page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(updateButtons()));
-        connect(page1->file_key, SIGNAL(activated(int)), this, SLOT(updateButtons()));
-        connect(page1->always_key, SIGNAL(activated(int)), this, SLOT(updateButtons()));
+        connect(page1->change_fkey, SIGNAL(clicked()), this, SLOT(insertFileKey()));
+	connect(page1->clear_fkey, SIGNAL(clicked()), page1->kcfg_FileKey, SLOT(clear()));
+	connect(page1->change_akey, SIGNAL(clicked()), this, SLOT(insertAlwaysKey()));
+	connect(page1->clear_akey, SIGNAL(clicked()), page1->alwaysKey, SLOT(clear()));
+	connect(page1->alwaysKey, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
 	connect(page4->gpg_conf_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
 	connect(page4->gpg_home_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
         connect(page4->use_agent, SIGNAL(toggled(bool)), this, SLOT(updateButtons()));
@@ -119,6 +124,8 @@ kdDebug(2100)<<"Adding pages"<<endl;
 	connect(page6->ServerBox, SIGNAL(currentChanged ( QListBoxItem *)), this, SLOT(updateButtons()));
 	connect(page7->pushShredder, SIGNAL(clicked ()), this, SIGNAL(installShredder()));
 
+	//connect(this, SIGNAL(settingsChanged()), SLOT(updateSettings()));
+
 	keyGood=KGpgSettings::colorGood();
 	keyUnknown=KGpgSettings::colorUnknown();
 	keyRev=KGpgSettings::colorRev();
@@ -127,7 +134,40 @@ kdDebug(2100)<<"Adding pages"<<endl;
 
 
 kgpgOptions::~kgpgOptions()
-{}
+{
+delete config;
+}
+
+
+void kgpgOptions::insertFileKey()
+{
+		QString signKeyID;
+		///// open key selection dialog
+                KgpgSelKey *opts=new KgpgSelKey(this,0,false,page1->kcfg_FileKey->text());
+
+                if (opts->exec()==QDialog::Accepted) {
+                        page1->kcfg_FileKey->setText(opts->getkeyID());
+                } else {
+                        delete opts;
+                        return;
+                }
+                delete opts;
+}
+
+void kgpgOptions::insertAlwaysKey()
+{
+		QString signKeyID;
+		///// open key selection dialog
+                KgpgSelKey *opts=new KgpgSelKey(this,0,false,page1->alwaysKey->text());
+
+                if (opts->exec()==QDialog::Accepted) {
+                        page1->alwaysKey->setText(opts->getkeyID());
+                } else {
+                        delete opts;
+                        return;
+                }
+                delete opts;
+}
 
 void kgpgOptions::slotChangeHome()
 {
@@ -167,33 +207,22 @@ if (!gpgHome.endsWith("/")) gpgHome.append("/");
 void kgpgOptions::updateWidgets()
 {
 
-        alwaysKeyID=KgpgInterface::getGpgSetting("encrypt-to", KGpgSettings::gpgConfigPath());
-
-        encryptToAlways = !alwaysKeyID.isEmpty();
-        defaultEncryptToAlways = false;
-       
-        page1->encrypt_to_always->setChecked(encryptToAlways);
-
-        listkey();
-        fileEncryptionKey = KGpgSettings::fileEncryptionKey();
-        if (!fileEncryptionKey.isEmpty()) {
-                page1->file_key->setCurrentItem(fileEncryptionKey);
-        }
-
-        if (!alwaysKeyName.isEmpty()) {
-                page1->always_key->setCurrentItem(alwaysKeyName);
-        }
-        
         gpgConfigPath = KGpgSettings::gpgConfigPath();
 	page4->gpg_conf_path->setText(KURL(gpgConfigPath).fileName());
 	page4->gpg_home_path->setText(KURL(gpgConfigPath).directory(false));
 
-        useAgent = KgpgInterface::getGpgBoolSetting("use-agent", KGpgSettings::gpgConfigPath());
+	// fill some values from kgpg's config file
+        page1->alwaysKey->setText(KgpgInterface::getGpgSetting("encrypt-to", gpgConfigPath));
+
+        useAgent = KgpgInterface::getGpgBoolSetting("use-agent", gpgConfigPath);
         defaultUseAgent = false;
+
+        page1->alwaysKey->setText(KgpgInterface::getGpgSetting("encrypt-to", gpgConfigPath));
+	alwaysKeyID = page1->alwaysKey->text();
 
         page4->use_agent->setChecked( useAgent );
 
-        keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
+        keyServer = KgpgInterface::getGpgSetting("keyserver", gpgConfigPath);
         defaultKeyServer = "hkp://wwwkeys.pgp.net";
         
         if (keyServer.isEmpty())
@@ -209,7 +238,9 @@ void kgpgOptions::updateWidgets()
 
 void kgpgOptions::updateWidgetsDefault()
 {
-        page1->encrypt_to_always->setChecked( defaultEncryptToAlways );
+
+	page1->alwaysKey->clear();
+	page1->kcfg_FileKey->clear();
 
         page4->use_agent->setChecked( defaultUseAgent );	
 	
@@ -224,7 +255,7 @@ void kgpgOptions::updateWidgetsDefault()
 
 bool kgpgOptions::isDefault()
 {
-	if (page1->encrypt_to_always->isChecked() != defaultEncryptToAlways)
+	if (!page1->alwaysKey->text().isEmpty())
 		return false;
 
         if (page4->gpg_conf_path->text()!=defaultConfigPath)
@@ -247,15 +278,8 @@ bool kgpgOptions::isDefault()
 
 bool kgpgOptions::hasChanged()
 {
-	if (page1->kcfg_EncryptFilesTo->isChecked() &&
-	    (page1->file_key->currentText() != fileEncryptionKey))
-		return true;
 
-	if (page1->encrypt_to_always->isChecked() != encryptToAlways)
-		return true;
-
-	if (page1->encrypt_to_always->isChecked() &&
-	    (page1->always_key->currentText().section(':',0,0) != alwaysKeyID))
+	if (page1->alwaysKey->text()!= alwaysKeyID)
 		return true;
 
 	if (page4->gpg_conf_path->text() != KURL(gpgConfigPath).fileName())
@@ -268,9 +292,9 @@ bool kgpgOptions::hasChanged()
 		
 	QStringList currList;
 	for (uint i=0;i<page6->ServerBox->count();i++)
-	currList.append(page6->ServerBox->text(i));
-	
+	currList.append(page6->ServerBox->text(i));	
 	if (currList!=serverList) return true;
+
 	return false;
 }
 
@@ -281,7 +305,6 @@ void kgpgOptions::updateSettings()
 	KGpgSettings::setGpgConfigPath( page4->gpg_home_path->text()+page4->gpg_conf_path->text() );
 	if (page4->gpg_home_path->text()!=KURL(gpgConfigPath).directory(false))
 	{
-
 	if (page4->gpg_home_path->text()!=defaultHomePath)
 	setenv("GNUPGHOME",page4->gpg_home_path->text().ascii(),1);
 	else setenv("GNUPGHOME","",1);
@@ -290,7 +313,7 @@ void kgpgOptions::updateSettings()
 	}
 	
         ////////////  save selected keys for file encryption & always encrypt with
-        if (page1->kcfg_EncryptFilesTo->isChecked())
+/*        if (page1->kcfg_EncryptFilesTo->isChecked())
 		fileEncryptionKey = page1->file_key->currentText();
 	else
 		fileEncryptionKey = QString::null;
@@ -300,12 +323,12 @@ void kgpgOptions::updateSettings()
 	encryptToAlways = page1->encrypt_to_always->isChecked();
 
         if (encryptToAlways)
-        	alwaysKeyID = page1->always_key->currentText().section(':',0,0);
+        	
         else
         	alwaysKeyID = QString::null;
-	KgpgInterface::setGpgSetting("encrypt-to",alwaysKeyID, KGpgSettings::gpgConfigPath());
 	
-	//////////////////  save key servers
+*/	
+
 	
 
 	emit changeFont(kfc->font());
@@ -322,6 +345,8 @@ void kgpgOptions::updateSettings()
         else
                 slotRemoveMenu("decryptfile.desktop");
 
+	KgpgInterface::setGpgSetting("encrypt-to",page1->alwaysKey->text(),KGpgSettings::gpgConfigPath());
+	alwaysKeyID = page1->alwaysKey->text();
 	
         useAgent = page4->use_agent->isChecked();
 
@@ -336,6 +361,9 @@ void kgpgOptions::updateSettings()
 		KgpgInterface::setGpgBoolSetting("use-agent",false, KGpgSettings::gpgConfigPath());
 	}
 	
+	//////////////////  save key servers
+
+
 	QString currList;
 	serverList=QStringList ();
 	for (uint i=0;i<page6->ServerBox->count();i++)
@@ -349,8 +377,7 @@ void kgpgOptions::updateSettings()
 	}
 	}
 	currList=serverList.join(",");
-	ks->setGroup("Servers");
-	ks->writeEntry("Server_List",currList);
+
 	KgpgInterface::setGpgSetting("keyserver",keyServer, KGpgSettings::gpgConfigPath());
 	serverList.prepend(keyServer+" "+i18n("(Default)"));
 	
@@ -360,8 +387,10 @@ void kgpgOptions::updateSettings()
 	if (keyUnknown!=page3->kcfg_ColorUnknown->color()) emit refreshTrust(UnknownColor,page3->kcfg_ColorUnknown->color());
 	if (keyRev!=page3->kcfg_ColorRev->color()) emit refreshTrust(RevColor,page3->kcfg_ColorRev->color());
 
-	KGpgSettings::writeConfig();
-	ks->sync();
+
+//	KGpgSettings::writeConfig();
+	config->setGroup("Servers");
+	config->writeEntry("Server_List",currList);
 	emit settingsUpdated();
 }
 
@@ -471,13 +500,13 @@ void kgpgOptions::listkey()
                                         alwaysKeyName=tst.section(':',4,4).right(8)+":"+name;
 				if (issec.find(tst.section(':',4,4).right(8),0,FALSE)!=-1)
 				{
-				page1->file_key->insertItem(pixkeyDouble,tst.section(':',4,4).right(8)+":"+name);
-                                page1->always_key->insertItem(pixkeyDouble,tst.section(':',4,4).right(8)+":"+name);
+//***                           page1->file_key->insertItem(pixkeyDouble,tst.section(':',4,4).right(8)+":"+name);
+//***                           page1->always_key->insertItem(pixkeyDouble,tst.section(':',4,4).right(8)+":"+name);
 				}
 				else
 				{
-                                page1->file_key->insertItem(pixkeySingle,tst.section(':',4,4).right(8)+":"+name);
-                                page1->always_key->insertItem(pixkeySingle,tst.section(':',4,4).right(8)+":"+name);
+//***                           page1->file_key->insertItem(pixkeySingle,tst.section(':',4,4).right(8)+":"+name);
+//***                           page1->always_key->insertItem(pixkeySingle,tst.section(':',4,4).right(8)+":"+name);
 				}
                         }
                 }
@@ -485,8 +514,8 @@ void kgpgOptions::listkey()
         pclose(fp);
         if (counter==0) {
                 ids+="0";
-                page1->file_key->insertItem(i18n("none"));
-                page1->always_key->insertItem(i18n("none"));
+//***                           page1->file_key->insertItem(i18n("none"));
+//***                           page1->always_key->insertItem(i18n("none"));
         }
 }
 

@@ -275,7 +275,7 @@ void  MyView::encryptDroppedFile()
         QStringList opts;
         KgpgLibrary *lib=new KgpgLibrary(this,KGpgSettings::pgpExtension());
 	connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
-        if (KGpgSettings::encryptFilesTo()) {
+        if (KGpgSettings::fileKey()!=QString::null) {
                 if (KGpgSettings::allowUntrustedKeys())
                         opts<<"--always-trust";
                 if (KGpgSettings::asciiArmor())
@@ -284,7 +284,7 @@ void  MyView::encryptDroppedFile()
                         opts<<"--throw-keyid";
                 if (KGpgSettings::pgpCompatibility())
                         opts<<"--pgp6";
-                lib->slotFileEnc(droppedUrls,opts,KGpgSettings::fileEncryptionKey().left(8),goDefaultKey);
+                lib->slotFileEnc(droppedUrls,opts,KGpgSettings::fileKey().left(8),goDefaultKey);
         } else
                 lib->slotFileEnc(droppedUrls,QString::null,QString::null,goDefaultKey);
 }

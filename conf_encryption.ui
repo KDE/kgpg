@@ -9,8 +9,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>421</width>
-            <height>280</height>
+            <width>538</width>
+            <height>389</height>
         </rect>
     </property>
     <property name="caption">
@@ -23,19 +23,22 @@
         <property name="margin">
             <number>0</number>
         </property>
-        <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="3">
+        <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>kcfg_PgpCompatibility</cstring>
             </property>
             <property name="text">
                 <string>PGP 6 compatibility</string>
             </property>
+            <property name="accel">
+                <string>Alt+6</string>
+            </property>
             <property name="whatsThis" stdset="0">
                 <string>&lt;qt&gt;&lt;b&gt;PGP 6 compatibility:&lt;/b&gt;&lt;br /&gt; 
 		&lt;p&gt;Checking this option forces GnuPG to output encrypted packets that are as compliant with PGP (Pretty Good Privacy) 6 standards as possible thus allowing GnuPG users to inter operate with PGP 6 users.&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="3">
+        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>kcfg_AsciiArmor</cstring>
             </property>
@@ -53,19 +56,7 @@
 		&lt;p&gt;Checking this option outputs all encrypted files in a format that can be opened by a text editor and as such the output is suitable for placing in the body of an e-mail message.&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="8" column="0" rowspan="1" colspan="3">
-            <property name="name">
-                <cstring>kcfg_PgpExtension</cstring>
-            </property>
-            <property name="text">
-                <string>Use *.pgp extension for encrypted files</string>
-            </property>
-            <property name="whatsThis" stdset="0">
-                <string>&lt;qt&gt;&lt;b&gt;Use *.pgp extension for encrypted files:&lt;/b&gt;&lt;br /&gt;
-		&lt;p&gt;Checking this option will append a .pgp extension to all encrypted files instead of a .gpg extension. This option will maintain compatibility with users of PGP (Pretty Good Privacy) software.&lt;/p&gt;&lt;/qt&gt;</string>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="3">
+        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>kcfg_HideUserID</cstring>
             </property>
@@ -77,7 +68,7 @@
 		&lt;p&gt;Checking this option will remove the keyid of the recipient from all encrypted packets. The advantage: traffic analysis of the encrypted packets cannot be performed as easily because the recipient is unknown. The disadvantage: the receiver of the encrypted packets is forced to try all secret keys before being able to decrypt the packets. This can be a lengthy process depending on the number of secret keys the receiver holds.&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="3">
+        <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>kcfg_ShredSource</cstring>
             </property>
@@ -89,7 +80,19 @@
 		&lt;p&gt;Checking this option will shred (overwrite several times before erasing) the files you have encrypted. This way, it is almost impossible that the source file is recovered. But &lt;b&gt;you must be aware that this is not 100% secure&lt;/b&gt; on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
-        <spacer row="9" column="1">
+        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>kcfg_AllowUntrustedKeys</cstring>
+            </property>
+            <property name="text">
+                <string>Allow encryption with untrusted keys</string>
+            </property>
+            <property name="whatsThis" stdset="0">
+                <string>&lt;qt&gt;&lt;b&gt;Allow encryption with untrusted keys:&lt;/b&gt; &lt;br /&gt;
+		&lt;p&gt;When importing a public key, the key is usually marked as untrusted and as such cannot be used unless it is signed by the default key (Thus, making it 'trusted'). Checking this box enables any key to be used even if it is untrusted.&lt;/p&gt;&lt;/qt&gt;</string>
+            </property>
+        </widget>
+        <spacer row="9" column="0">
             <property name="name">
                 <cstring>spacer7</cstring>
             </property>
@@ -102,127 +105,217 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>16</height>
+                    <height>72</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QCheckBox" row="7" column="0" rowspan="1" colspan="2">
+        <widget class="QLayoutWidget" row="7" column="0" rowspan="1" colspan="4">
             <property name="name">
-                <cstring>kcfg_AllowCustomEncryptionOptions</cstring>
+                <cstring>layout3</cstring>
             </property>
-            <property name="text">
-                <string>Custom encryption command:</string>
-            </property>
-            <property name="whatsThis" stdset="0">
-                <string>&lt;qt&gt;&lt;b&gt;Custom encryption command:&lt;/b&gt; &lt;br /&gt;
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox">
+                    <property name="name">
+                        <cstring>kcfg_AllowCustomEncryptionOptions</cstring>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>0</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string>Custom encryption command:</string>
+                    </property>
+                    <property name="whatsThis" stdset="0">
+                        <string>&lt;qt&gt;&lt;b&gt;Custom encryption command:&lt;/b&gt; &lt;br /&gt;
 			&lt;p&gt;When activated, an entry field will be shown in the key selection dialog, enabling you to enter a custom command for encryption. This option is recommended for experienced users only.&lt;/p&gt;&lt;/qt&gt;</string>
-            </property>
+                    </property>
+                </widget>
+                <widget class="KLineEdit">
+                    <property name="name">
+                        <cstring>kcfg_CustomEncryptionOptions</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>3</hsizetype>
+                            <vsizetype>0</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                </widget>
+            </hbox>
         </widget>
-        <widget class="KLineEdit" row="7" column="2">
+        <widget class="QCheckBox" row="8" column="0" rowspan="1" colspan="4">
             <property name="name">
-                <cstring>kcfg_CustomEncryptionOptions</cstring>
-            </property>
-            <property name="enabled">
-                <bool>false</bool>
-            </property>
-        </widget>
-        <widget class="KComboBox" row="5" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>always_key</cstring>
-            </property>
-            <property name="enabled">
-                <bool>false</bool>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>7</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-        </widget>
-        <widget class="KComboBox" row="6" column="1" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>file_key</cstring>
-            </property>
-            <property name="enabled">
-                <bool>false</bool>
-            </property>
-            <property name="sizePolicy">
-                <sizepolicy>
-                    <hsizetype>7</hsizetype>
-                    <vsizetype>0</vsizetype>
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                </sizepolicy>
-            </property>
-        </widget>
-        <widget class="QCheckBox" row="5" column="0">
-            <property name="name">
-                <cstring>encrypt_to_always</cstring>
+                <cstring>kcfg_PgpExtension</cstring>
             </property>
             <property name="text">
-                <string>Always encrypt with:</string>
+                <string>Use *.pgp extension for encrypted files</string>
             </property>
             <property name="whatsThis" stdset="0">
-                <string>&lt;qt&gt;&lt;b&gt;Always encrypt with:&lt;/b&gt;&lt;br /&gt; 
-				&lt;p&gt;This ensures all files/messages will also be encrypted with the chosen key. However, if the "Encrypt files with:" option is selected that chosen key will override the "Always encrypt with:" selection.&lt;/p&gt;&lt;/qt&gt;</string>
+                <string>&lt;qt&gt;&lt;b&gt;Use *.pgp extension for encrypted files:&lt;/b&gt;&lt;br /&gt;
+		&lt;p&gt;Checking this option will append a .pgp extension to all encrypted files instead of a .gpg extension. This option will maintain compatibility with users of PGP (Pretty Good Privacy) software.&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="6" column="0">
+        <widget class="QLabel" row="6" column="0">
             <property name="name">
-                <cstring>kcfg_EncryptFilesTo</cstring>
+                <cstring>textLabel1</cstring>
             </property>
             <property name="text">
                 <string>Encrypt files with:</string>
             </property>
+        </widget>
+        <widget class="KLineEdit" row="6" column="1">
+            <property name="name">
+		    <cstring>kcfg_FileKey</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Panel</enum>
+            </property>
+            <property name="lineWidth">
+                <number>1</number>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
+            </property>
             <property name="whatsThis" stdset="0">
                 <string>&lt;qt&gt;&lt;b&gt;Encrypt files with:&lt;/b&gt;&lt;br /&gt; 
-				&lt;p&gt;Checking this option and selecting a key will force any file encryption operation to use the selected key. KGpg will not query for a recipient and the default key will be bypassed.&lt;/p&gt;&lt;/qt&gt;</string>
+&lt;p&gt;Checking this option and selecting a key will force any file encryption operation to use the selected key. KGpg will not query for a recipient and the default key will be bypassed.&lt;/p&gt;&lt;/qt&gt;</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="3">
+        <widget class="QToolButton" row="6" column="2">
             <property name="name">
-                <cstring>kcfg_AllowUntrustedKeys</cstring>
+                <cstring>clear_fkey</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
             </property>
             <property name="text">
-                <string>Allow encryption with untrusted keys</string>
+                <string>...</string>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="6" column="3">
+            <property name="name">
+                <cstring>change_fkey</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>Change...</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="5" column="0">
+            <property name="name">
+                <cstring>textLabel1_2</cstring>
+            </property>
+            <property name="text">
+                <string>Always encrypt with:</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="5" column="1">
+            <property name="name">
+                <cstring>alwaysKey</cstring>
+            </property>
+            <property name="frameShape">
+                <enum>Panel</enum>
+            </property>
+            <property name="lineWidth">
+                <number>1</number>
+            </property>
+            <property name="readOnly">
+                <bool>true</bool>
             </property>
             <property name="whatsThis" stdset="0">
-                <string>&lt;qt&gt;&lt;b&gt;Allow encryption with untrusted keys:&lt;/b&gt; &lt;br /&gt;
-		&lt;p&gt;When importing a public key, the key is usually marked as untrusted and as such cannot be used unless it is signed by the default key (Thus, making it 'trusted'). Checking this box enables any key to be used even if it is untrusted.&lt;/p&gt;&lt;/qt&gt;</string>
+                <string>&lt;qt&gt;&lt;b&gt;Always encrypt with:&lt;/b&gt;&lt;br /&gt; 
+&lt;p&gt;This ensures all files/messages will also be encrypted with the chosen key. However, if the "Encrypt files with:" option is selected that chosen key will override the "Always encrypt with:" selection.&lt;/p&gt;&lt;/qt&gt;</string>
+            </property>
+        </widget>
+        <widget class="KPushButton" row="5" column="3">
+            <property name="name">
+                <cstring>change_akey</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>Change...</string>
+            </property>
+        </widget>
+        <widget class="QToolButton" row="5" column="2">
+            <property name="name">
+                <cstring>clear_akey</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>1</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="text">
+                <string>...</string>
             </property>
         </widget>
     </grid>
 </widget>
 <connections>
     <connection>
-        <sender>kcfg_EncryptFilesTo</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>Encryption</receiver>
-        <slot>encrypt_files_to_toggled(bool)</slot>
-    </connection>
-    <connection>
         <sender>kcfg_AllowCustomEncryptionOptions</sender>
         <signal>toggled(bool)</signal>
         <receiver>Encryption</receiver>
         <slot>allow_custom_option_toggled(bool)</slot>
     </connection>
-    <connection>
-        <sender>encrypt_to_always</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>Encryption</receiver>
-        <slot>encrypt_to_always_toggled(bool)</slot>
-    </connection>
 </connections>
+<tabstops>
+    <tabstop>kcfg_AsciiArmor</tabstop>
+    <tabstop>kcfg_AllowUntrustedKeys</tabstop>
+    <tabstop>kcfg_PgpCompatibility</tabstop>
+    <tabstop>kcfg_HideUserID</tabstop>
+    <tabstop>kcfg_ShredSource</tabstop>
+    <tabstop>alwaysKey</tabstop>
+    <tabstop>change_akey</tabstop>
+    <tabstop>kcfg_FileKey</tabstop>
+    <tabstop>change_fkey</tabstop>
+    <tabstop>kcfg_AllowCustomEncryptionOptions</tabstop>
+    <tabstop>kcfg_CustomEncryptionOptions</tabstop>
+    <tabstop>kcfg_PgpExtension</tabstop>
+</tabstops>
 <includes>
     <include location="local" impldecl="in implementation">conf_encryption.ui.h</include>
 </includes>
 <slots>
-    <slot>encrypt_to_always_toggled( bool isOn )</slot>
-    <slot>encrypt_files_to_toggled( bool isOn )</slot>
     <slot>allow_custom_option_toggled( bool isOn )</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
 </UI>
