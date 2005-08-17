@@ -70,7 +70,7 @@ class KgpgSelKey : public KDialogBase
         Q_OBJECT
 
 public:
-        KgpgSelKey( QWidget *parent = 0, const char *name = 0);
+        KgpgSelKey( QWidget *parent = 0, const char *name = 0,bool allowMultipleSelection=false, QString preselected=QString::null);
         KListView *keysListpr;
         QPixmap keyPair;
         QCheckBox *local;

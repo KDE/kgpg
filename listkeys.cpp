@@ -213,13 +213,13 @@ QString UpdateViewItem::key( int column, bool ) const
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////   Secret key selection dialog, used when user wants to sign a key
-KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, name, true,i18n("Private Key List"),Ok | Cancel)
+KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name,bool allowMultipleSelection, QString preselected):
+KDialogBase( parent, name, true,i18n("Private Key List"),Ok | Cancel)
 {
         QString keyname;
         page = new QWidget(this);
         QLabel *labeltxt;
         KIconLoader *loader = KGlobal::iconLoader();
-
         keyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
 
         setMinimumSize(350,100);
@@ -231,11 +231,12 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
         keysListpr->setShowSortIndicator(true);
         keysListpr->setFullWidth(true);
 	keysListpr->setAllColumnsShowFocus(true);
+	if (allowMultipleSelection) keysListpr->setSelectionMode(QListView::Extended);
 
-        labeltxt=new QLabel(i18n("Choose secret key for signing:"),page);
+        labeltxt=new QLabel(i18n("Choose secret key:"),page);
         vbox=new QVBoxLayout(page);
 
-        QString defaultKeyID= KGpgSettings::defaultKey().right(8);
+        if (preselected==QString::null) preselected = KGpgSettings::defaultKey();
 
         FILE *fp,*fp2;
         QString fullname,tst,tst2;
@@ -243,6 +244,7 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
 
         bool selectedok=false;
 	bool warn=false;
+	KListViewItem *item;
 
         fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
@@ -294,13 +296,14 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
         		keyName=KgpgInterface::checkForUtf8(keyName);
 			
 			
-                                KListViewItem *item=new KListViewItem(keysListpr,keyName,keyMail,id);
+                                item=new KListViewItem(keysListpr,keyName,keyMail,id);
                                 //KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, expiration: %3").arg(id).arg(trust).arg(val));
 				KListViewItem *sub= new KListViewItem(item,i18n("Expiration:"),val);
                                 sub->setSelectable(false);
                                 item->setPixmap(0,keyPair);
-                                if ((!defaultKeyID.isEmpty()) && (id.right(8)==defaultKeyID)) {
+                                if (preselected.find(id,0,false)!=-1) {
                                         keysListpr->setSelected(item,true);
+					keysListpr->setCurrentItem(item);
                                         selectedok=true;
                                 }
                         }
@@ -317,7 +320,10 @@ KgpgSelKey::KgpgSelKey(QWidget *parent, const char *name):KDialogBase( parent, n
 
 
         if (!selectedok)
+	{
                 keysListpr->setSelected(keysListpr->firstChild(),true);
+		keysListpr->setCurrentItem(keysListpr->firstChild());
+	}
 
         vbox->addWidget(labeltxt);
         vbox->addWidget(keysListpr);
@@ -357,7 +363,15 @@ QString KgpgSelKey::getkeyID()
         /////  emit selected key
         if (keysListpr->currentItem()==NULL)
                 return(QString::null);
-        return(keysListpr->currentItem()->text(2));
+	QString result;
+	QPtrList< QListViewItem > list = keysListpr->selectedItems(false);
+	QListViewItem *item;
+    	for ( item = list.first(); item; item = list.next() )
+	{
+	result.append(item->text(2));
+	if (item!=list.getLast()) result.append(", ");
+	}
+        return(result);
 }
 
 QString KgpgSelKey::getkeyMail()
