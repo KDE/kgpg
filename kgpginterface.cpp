@@ -230,7 +230,8 @@ void KgpgInterface::readdecprocess(KProcIO *p)
                                 }
                                 p->writeStdin(passphrase,true);
                                 userIDs=QString::null;
-                                step--;
+                                if (step>1) step--;
+				else step=3;
                         } else {
                                 p->writeStdin("quit");
                                 p->closeWhenDone();
@@ -406,7 +407,8 @@ void KgpgInterface::getCmdOutput(KProcess *p, char *data, int )
 			passphrase.append("\n");
 			p->writeStdin(passphrase,passphrase.length());
 			userIDs=QString::null;
-			step--;
+			if (step>1) step--;
+			else step=3;
 		}
 		else
 		{
@@ -492,7 +494,8 @@ void KgpgInterface::txtsignprocess(KProcIO *p)
 	
 	if ((required.find("passphrase.enter")!=-1))
             {
-	      step--;
+	      if (step>1) step--;
+	      else step=3;
               if (userIDs.isEmpty())
                 userIDs=i18n("[No user id found]");
               QCString passphrase;
@@ -747,7 +750,8 @@ void KgpgInterface::readsignprocess(KProcIO *p)
                                 }
                                 p->writeStdin(passphrase,true);
                                 userIDs=QString::null;
-                                step--;
+				if (step>1) step--;
+				else step=3;
                         } else {
                                 p->writeStdin("quit");
                                 p->closeWhenDone();
@@ -1892,7 +1896,7 @@ void KgpgInterface::delGpgGroup(QString name, QString configFile)
                                 if (result2.startsWith(name) && (result2.remove(0,name.length()).stripWhiteSpace().startsWith("=")))
                                         result=QString::null;
                         }
-                        textToWrite+=result+"\n";
+                       if (result!=QString::null) textToWrite+=result+"\n";
                         result=t.readLine();
                 }
                 qfile.close();
@@ -2030,7 +2034,7 @@ void KgpgInterface::setGpgSetting(QString name,QString value,QString url)
                                         result=QString::null;
                                 found=true;
                         }
-                        textToWrite+=result+"\n";
+                        if (result!=QString::null) textToWrite+=result+"\n";
                         result=t.readLine();
                 }
                 qfile.close();
@@ -2045,6 +2049,38 @@ void KgpgInterface::setGpgSetting(QString name,QString value,QString url)
         }
 }
 
+
+void KgpgInterface::setGpgMultiSetting(QString name,QStringList values,QString url)
+{
+        name=name+" ";
+        QString textToWrite;
+        bool found=false;
+        QFile qfile(QFile::encodeName(url));
+
+        if (qfile.open(IO_ReadOnly) && (qfile.exists())) {
+                QString result;
+                QTextStream t( &qfile );
+                result=t.readLine();
+                while (result!=NULL) {
+                        if (!result.stripWhiteSpace().startsWith(name))
+				textToWrite+=result+"\n";
+                        result=t.readLine();
+                }
+                qfile.close();
+
+		while (!values.isEmpty())
+		{
+                        textToWrite+="\n"+name+" "+values.first();
+			values.pop_front();
+		}
+
+                if (qfile.open(IO_WriteOnly)) {
+                        QTextStream t( &qfile);
+                        t << textToWrite;
+                        qfile.close();
+                }
+        }
+}
 
 void KgpgInterface::setGpgBoolSetting(QString name,bool enable,QString url)
 {
@@ -2064,7 +2100,7 @@ void KgpgInterface::setGpgBoolSetting(QString name,bool enable,QString url)
                                         result=QString::null;
                                 found=true;
                         }
-                        textToWrite+=result+"\n";
+                       if (result!=QString::null) textToWrite+=result+"\n";
                         result=t.readLine();
                 }
                 qfile.close();

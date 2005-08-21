@@ -143,7 +143,7 @@ void kgpgOptions::insertFileKey()
 {
 		QString signKeyID;
 		///// open key selection dialog
-                KgpgSelKey *opts=new KgpgSelKey(this,0,false,page1->kcfg_FileKey->text());
+                KgpgSelKey *opts=new KgpgSelKey(this,0,true,page1->kcfg_FileKey->text());
 
                 if (opts->exec()==QDialog::Accepted) {
                         page1->kcfg_FileKey->setText(opts->getkeyID());
@@ -344,7 +344,7 @@ void kgpgOptions::updateSettings()
         else
                 slotRemoveMenu("decryptfile.desktop");
 
-	KgpgInterface::setGpgSetting("encrypt-to",page1->alwaysKey->text(),KGpgSettings::gpgConfigPath());
+	KgpgInterface::setGpgMultiSetting("encrypt-to",QStringList::split(" ",page1->alwaysKey->text()),KGpgSettings::gpgConfigPath());
 	alwaysKeyID = page1->alwaysKey->text();
 	
         useAgent = page4->use_agent->isChecked();

@@ -153,6 +153,7 @@ public slots:
         static QString getGpgSetting(QString name,QString configFile);
 	static QString getGpgMultiSetting(QString name,QString configFile);
         static void setGpgSetting(QString name,QString ID,QString url);
+	static void setGpgMultiSetting(QString name,QStringList values,QString url);
         static bool getGpgBoolSetting(QString name,QString configFile);
 	static void setGpgBoolSetting(QString name,bool enable,QString url);
         static QStringList getGpgGroupNames(QString configFile);

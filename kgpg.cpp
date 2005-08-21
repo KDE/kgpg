@@ -284,7 +284,7 @@ void  MyView::encryptDroppedFile()
                         opts<<"--throw-keyid";
                 if (KGpgSettings::pgpCompatibility())
                         opts<<"--pgp6";
-                lib->slotFileEnc(droppedUrls,opts,KGpgSettings::fileKey().left(8),goDefaultKey);
+                lib->slotFileEnc(droppedUrls,opts,QStringList::split(" ",KGpgSettings::fileKey()),goDefaultKey);
         } else
                 lib->slotFileEnc(droppedUrls,QString::null,QString::null,goDefaultKey);
 }
@@ -775,9 +775,9 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
         w=new MyView(this);
         w->show();
         KPopupMenu *conf_menu=contextMenu();
-        KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0,w, SLOT(clipEncrypt()),actionCollection(),"clip_encrypt");
+        KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), "kgpg", 0,w, SLOT(clipEncrypt()),actionCollection(),"clip_encrypt");
         KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0,w, SLOT(clipDecrypt()),actionCollection(),"clip_decrypt");
-	KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), 0, 0,w, SLOT(clipSign()),actionCollection(),"clip_sign");
+	KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), "signature", 0,w, SLOT(clipSign()),actionCollection(),"clip_sign");
         KAction *KgpgOpenEditor;
 	if (KGpgSettings::leftClick()==KGpgSettings::EnumLeftClick::KeyManager)
 	KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,parent, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
