@@ -118,6 +118,10 @@ kdDebug(2100)<<"Adding pages"<<endl;
 	connect(page4->gpg_home_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
         connect(page4->use_agent, SIGNAL(toggled(bool)), this, SLOT(updateButtons()));
 	connect(page4->changeHome, SIGNAL(clicked()), this, SLOT(slotChangeHome()));
+	connect(page4->kcfg_PubKeyring, SIGNAL(toggled (bool)), page4->kcfg_PubKeyringUrl, SLOT(setEnabled(bool)));
+	connect(page4->kcfg_PubKeyring, SIGNAL(toggled (bool)), this, SLOT(checkAdditionalState(bool)));
+	connect(page4->kcfg_PrivKeyring, SIGNAL(toggled (bool)), page4->kcfg_PrivKeyringUrl, SLOT(setEnabled(bool)));
+	connect(page4->kcfg_PrivKeyring, SIGNAL(toggled (bool)), this, SLOT(checkAdditionalState(bool)));
 	connect(page6->server_add, SIGNAL(clicked()), this, SLOT(slotAddKeyServer()));
 	connect(page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
 	connect(page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
@@ -138,6 +142,16 @@ kgpgOptions::~kgpgOptions()
 delete config;
 }
 
+
+void kgpgOptions::checkAdditionalState(bool)
+{
+// enable / disable the "use only this keyring" option depending on the other checkboxes state
+
+if (page4->kcfg_PubKeyring->isOn() && page4->kcfg_PrivKeyring->isOn())
+page4->kcfg_OnlyAdditional->setEnabled(true);
+else
+page4->kcfg_OnlyAdditional->setEnabled(false);
+}
 
 void kgpgOptions::insertFileKey()
 {
@@ -206,10 +220,29 @@ if (!gpgHome.endsWith("/")) gpgHome.append("/");
 
 void kgpgOptions::updateWidgets()
 {
+QString pubKeyring,privKeyring;
 
         gpgConfigPath = KGpgSettings::gpgConfigPath();
 	page4->gpg_conf_path->setText(KURL(gpgConfigPath).fileName());
 	page4->gpg_home_path->setText(KURL(gpgConfigPath).directory(false));
+	
+	pubKeyring=KgpgInterface::getGpgSetting("keyring", gpgConfigPath);
+	if (pubKeyring!="")
+	{
+	page4->kcfg_PubKeyringUrl->setURL(pubKeyring);
+	page4->kcfg_PubKeyring->setChecked(true);
+	}
+	else page4->kcfg_PubKeyring->setChecked(false);
+
+	privKeyring=KgpgInterface::getGpgSetting("secret-keyring", gpgConfigPath);
+	if (privKeyring!="")
+	{
+	page4->kcfg_PrivKeyringUrl->setURL(privKeyring);
+	page4->kcfg_PrivKeyring->setChecked(true);
+	}
+	else page4->kcfg_PrivKeyring->setChecked(false);
+
+	page4->kcfg_OnlyAdditional->setChecked(KgpgInterface::getGpgBoolSetting("no-default-keyring", gpgConfigPath));
 
 	// fill some values from kgpg's config file
 
@@ -223,11 +256,10 @@ void kgpgOptions::updateWidgets()
 
         keyServer = KgpgInterface::getGpgSetting("keyserver", gpgConfigPath);
         defaultKeyServer = "hkp://wwwkeys.pgp.net";
-        
+
         if (keyServer.isEmpty())
 		keyServer = defaultKeyServer;
 
-	
 	page6->ServerBox->clear();
 	page6->ServerBox->insertStringList(serverList);
 	
@@ -245,6 +277,13 @@ void kgpgOptions::updateWidgetsDefault()
 	
 	page4->gpg_conf_path->setText(defaultConfigPath);
 	page4->gpg_home_path->setText(defaultHomePath);
+
+	page4->kcfg_PubKeyringUrl->setURL(QString::null);
+	page4->kcfg_PubKeyring->setChecked(false);
+	page4->kcfg_PrivKeyringUrl->setURL(QString::null);
+	page4->kcfg_PrivKeyring->setChecked(false);
+	page4->kcfg_OnlyAdditional->setChecked(false);
+
 	
 	page6->ServerBox->clear();
 	page6->ServerBox->insertStringList(QStringList::split(",",defaultServerList));
@@ -310,25 +349,33 @@ void kgpgOptions::updateSettings()
 	emit homeChanged();
 	gpgConfigPath = KGpgSettings::gpgConfigPath();
 	}
-	
-        ////////////  save selected keys for file encryption & always encrypt with
-/*        if (page1->kcfg_EncryptFilesTo->isChecked())
-		fileEncryptionKey = page1->file_key->currentText();
+
+	bool emitReload=false;
+
+	if (page4->kcfg_OnlyAdditional->isChecked()!=KgpgInterface::getGpgBoolSetting("no-default-keyring", gpgConfigPath)) emitReload=true;
+	KgpgInterface::setGpgBoolSetting("no-default-keyring",page4->kcfg_OnlyAdditional->isChecked(), gpgConfigPath);
+
+	if (page4->kcfg_PubKeyring->isChecked())
+	{
+	if (page4->kcfg_PubKeyringUrl->url()!=KgpgInterface::getGpgSetting("keyring", gpgConfigPath)) emitReload=true;
+	KgpgInterface::setGpgSetting("keyring",page4->kcfg_PubKeyringUrl->url(), gpgConfigPath);
+	}
+	else 
+	{
+	if (KgpgInterface::getGpgSetting("keyring", gpgConfigPath)!="") emitReload=true;
+	KgpgInterface::setGpgSetting("keyring",QString::null, gpgConfigPath);
+	}
+
+	if (page4->kcfg_PrivKeyring->isChecked())
+	{
+	if (page4->kcfg_PrivKeyringUrl->url()!=KgpgInterface::getGpgSetting("secret-keyring", gpgConfigPath)) emitReload=true;
+	KgpgInterface::setGpgSetting("secret-keyring",page4->kcfg_PrivKeyringUrl->url(), gpgConfigPath);
+	}
 	else
-		fileEncryptionKey = QString::null;
-	if (fileEncryptionKey!=KGpgSettings::fileEncryptionKey())
-        KGpgSettings::setFileEncryptionKey( fileEncryptionKey );
-
-	encryptToAlways = page1->encrypt_to_always->isChecked();
-
-        if (encryptToAlways)
-        	
-        else
-        	alwaysKeyID = QString::null;
-	
-*/	
-
-	
+	{
+	if (KgpgInterface::getGpgSetting("secret-keyring", gpgConfigPath)!="") emitReload=true;
+	KgpgInterface::setGpgSetting("secret-keyring",QString::null, gpgConfigPath);
+	}
 
 	emit changeFont(kfc->font());
         ///////////////  install service menus
@@ -391,6 +438,7 @@ void kgpgOptions::updateSettings()
 	config->setGroup("Servers");
 	config->writeEntry("Server_List",currList);
 	emit settingsUpdated();
+	if (emitReload) emit reloadKeyList();
 }
 
 

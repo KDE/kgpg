@@ -1288,6 +1288,7 @@ void listKeys::showOptions()
         kgpgOptions *optionsDialog=new kgpgOptions(this,"settings");
         connect(optionsDialog,SIGNAL(settingsUpdated()),this,SLOT(readAllOptions()));
         connect(optionsDialog,SIGNAL(homeChanged()),this,SLOT(refreshkey()));
+	connect(optionsDialog,SIGNAL(reloadKeyList()),this,SLOT(refreshkey()));
 	connect(optionsDialog,SIGNAL(refreshTrust(int,QColor)),keysList2,SLOT(refreshTrust(int,QColor)));
         connect(optionsDialog,SIGNAL(changeFont(QFont)),this,SIGNAL(fontChanged(QFont)));
 	connect(optionsDialog,SIGNAL(installShredder()),this,SIGNAL(installShredder()));
@@ -2172,7 +2173,6 @@ void listKeys::slotgenkey()
                         int iYpos=qRect.height()/2-pop->height()/2;
                         pop->move(iXpos,iYpos);
                         pop->setAutoDelete(false);
-
                         KProcIO *proc=new KProcIO();
                         message=QString::null;
                         //*proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--batch"<<"--passphrase-fd"<<res<<"--gen-key"<<"-a"<<"kgpg.tmp";

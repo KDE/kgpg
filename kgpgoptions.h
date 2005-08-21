@@ -75,6 +75,7 @@ private:
         bool isDefault();
 
 private slots:
+	void checkAdditionalState(bool);
 	void slotAddKeyServer();
 	void slotDelKeyServer();
 	void slotDefaultKeyServer();
@@ -98,6 +99,7 @@ signals:
 	void homeChanged();
 	void refreshTrust(int, QColor);
 	void installShredder();
+	void reloadKeyList();
 };
 
 #endif // KGPGOPTIONS_H

@@ -24,7 +24,7 @@
         <property name="margin">
             <number>0</number>
         </property>
-        <widget class="QGroupBox" row="1" column="0" rowspan="1" colspan="2">
+        <widget class="QGroupBox" row="0" column="0">
             <property name="name">
                 <cstring>groupBox2</cstring>
             </property>
@@ -58,6 +58,12 @@
                     <property name="enabled">
                         <bool>true</bool>
                     </property>
+                    <property name="frameShape">
+                        <enum>Panel</enum>
+                    </property>
+                    <property name="lineWidth">
+                        <number>1</number>
+                    </property>
                     <property name="readOnly">
                         <bool>true</bool>
                     </property>
@@ -76,6 +82,12 @@
                     </property>
                     <property name="enabled">
                         <bool>true</bool>
+                    </property>
+                    <property name="frameShape">
+                        <enum>Panel</enum>
+                    </property>
+                    <property name="lineWidth">
+                        <number>1</number>
                     </property>
                     <property name="readOnly">
                         <bool>true</bool>
@@ -100,7 +112,7 @@
                 </spacer>
             </grid>
         </widget>
-        <spacer row="4" column="0">
+        <spacer row="3" column="0">
             <property name="name">
                 <cstring>spacer5</cstring>
             </property>
@@ -113,19 +125,95 @@
             <property name="sizeHint">
                 <size>
                     <width>21</width>
-                    <height>60</height>
+                    <height>54</height>
                 </size>
             </property>
         </spacer>
-        <widget class="QCheckBox" row="3" column="0" rowspan="1" colspan="2">
+        <widget class="QCheckBox" row="2" column="0">
             <property name="name">
                 <cstring>use_agent</cstring>
             </property>
             <property name="text">
-                <string>Use GnuPG agent</string>
+                <string>&amp;Use GnuPG agent</string>
             </property>
+        </widget>
+        <widget class="QGroupBox" row="1" column="0">
+            <property name="name">
+                <cstring>groupBox2_2</cstring>
+            </property>
+            <property name="title">
+                <string>Additional keyring</string>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QCheckBox" row="0" column="0">
+                    <property name="name">
+                        <cstring>kcfg_PubKeyring</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Pu&amp;blic</string>
+                    </property>
+                </widget>
+                <widget class="QCheckBox" row="1" column="0">
+                    <property name="name">
+                        <cstring>kcfg_PrivKeyring</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Private</string>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget" row="0" column="1" rowspan="2" colspan="1">
+                    <property name="name">
+                        <cstring>layout1</cstring>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="KURLRequester">
+                            <property name="name">
+                                <cstring>kcfg_PubKeyringUrl</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                        <widget class="KURLRequester">
+                            <property name="name">
+                                <cstring>kcfg_PrivKeyringUrl</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QCheckBox" row="2" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>kcfg_OnlyAdditional</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="text">
+                        <string>Use only this keyring</string>
+                    </property>
+                </widget>
+            </grid>
         </widget>
     </grid>
 </widget>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+    <includehint>kurlrequester.h</includehint>
+    <includehint>klineedit.h</includehint>
+    <includehint>kpushbutton.h</includehint>
+</includehints>
 </UI>

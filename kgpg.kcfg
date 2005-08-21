@@ -9,6 +9,7 @@
       <label>Custom decryption command.</label>
     </entry>
   </group>
+
   <group name="Encryption">
     <entry name="CustomEncryptionOptions" type="String" key="custom_option">
       <label>Custom encryption options</label>
@@ -20,7 +21,6 @@
     <entry name="FileKey" type="String" key="file_key">
       <label>File encryption key.</label>
     </entry>
-
     <entry name="AsciiArmor" type="Bool" key="Ascii_armor">
       <label>Use ASCII armored encryption.</label>
       <default>true</default>
@@ -46,12 +46,31 @@
       <default>false</default>
     </entry>
   </group>
+
   <group name="GPG Settings">
     <entry name="GpgConfigPath" type="Path" key="gpg_config_path">
       <label>The path of the gpg configuration file.</label>
     </entry>
     <entry name="Groups" type="String">
       <label>GPG groups</label>
+    </entry>
+    <entry name="OnlyAdditional" type="Bool">
+      <label>Use only the additional keyring, not the default one.</label>
+      <default>false</default>
+    </entry>
+    <entry name="PubKeyring" type="Bool">
+      <label>Enable additional public keyring.</label>
+      <default>false</default>
+    </entry>
+    <entry name="PrivKeyring" type="Bool">
+      <label>Enable additional private keyring.</label>
+      <default>false</default>
+    </entry>
+    <entry name="PubKeyringUrl" type="Path">
+      <label>The path of the additional public keyring.</label>
+    </entry>
+    <entry name="PrivKeyringUrl" type="Path">
+      <label>The path of the additional private keyring.</label>
     </entry>
      </group>
     
@@ -89,6 +108,7 @@
       <default>true</default>
     </entry>
   </group>
+
   <group name="User Interface">
     <entry name="UseMouseSelection" type="Bool" key="selection_clipboard">
       <label>Use the mouse selection instead of the clipboard.</label>
@@ -143,6 +163,7 @@
       <default>Disabled</default>
     </entry>
   </group>
+
   <group name="TipOfDay">
     <entry name="ShowTipOfDay" type="Bool" key="RunOnStart">
       <label>Show tip of the day.</label>
