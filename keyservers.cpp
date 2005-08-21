@@ -171,14 +171,14 @@ void keyServer::slotSearch()
 	dialogServer->setButtonText(KDialogBase::Ok,i18n("&Import"));
 	dialogServer->enableButtonOK(false);
 	listpop=new searchRes();
-        //listpop->setMinimumWidth(250);
-        //listpop->adjustSize();
+	listpop->kLVsearch->setColumnWidthMode(0,QListView::Manual);
+	listpop->kLVsearch->setColumnWidthMode(1,QListView::Manual);
+	listpop->kLVsearch->setColumnWidth(0,150);
+	listpop->kLVsearch->setColumnWidth(1,130);
         listpop->statusText->setText(i18n("Connecting to the server..."));
-
         connect(listpop->kLVsearch,SIGNAL(selectionChanged()),this,SLOT(transferKeyID()));
         connect(dialogServer,SIGNAL(okClicked()),this,SLOT(preimport()));
         connect(listpop->kLVsearch,SIGNAL(doubleClicked(QListViewItem *,const QPoint &,int)),dialogServer,SIGNAL(okClicked()));
-        //connect(listpop->kLVsearch,SIGNAL(returnPressed ( QListViewItem * )),this,SLOT(preimport()));
 
         connect(dialogServer,SIGNAL(closeClicked()),this,SLOT(handleQuit()));
         connect( listpop , SIGNAL( destroyed() ) , this, SLOT( abortSearch()));
@@ -202,6 +202,7 @@ void keyServer::slotSearch()
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 	dialogServer->setMainWidget(listpop);
 	listpop->setMinimumSize(listpop->sizeHint());
+	listpop->setMinimumWidth(550);
         dialogServer->exec();
 }
 
@@ -248,18 +249,9 @@ void keyServer::transferKeyID()
 	for ( uint i = 0; i < searchList.count(); ++i )
 	{
                 if ( searchList.at(i) )
-		{
-                    if (searchList.at(i)->depth()==0)
-                	kid=searchList.at(i)->firstChild()->text(0).stripWhiteSpace();
-        		else
-                	kid=searchList.at(i)->text(0).stripWhiteSpace();
-		//
-        	kid=kid.section("key",1,1);
-        	kid=kid.stripWhiteSpace();
-		keysToSearch.append(" "+kid.left(8));
-		}
+		keysToSearch.append(" "+searchList.at(i)->text(3));
 	}
-	kdDebug(2100)<<keysToSearch<<endl;
+//	kdDebug(2100)<<keysToSearch<<endl;
 	listpop->kLEID->setText(keysToSearch.stripWhiteSpace());
 }
 
@@ -274,6 +266,7 @@ void keyServer::slotsearchresult(KProcess *)
 
         if (listpop->kLVsearch->firstChild()!=NULL) {
                 listpop->kLVsearch->setSelected(listpop->kLVsearch->firstChild(),true);
+		listpop->kLVsearch->setCurrentItem(listpop->kLVsearch->firstChild());
                 transferKeyID();
         }
 }
@@ -281,6 +274,7 @@ void keyServer::slotsearchresult(KProcess *)
 void keyServer::slotsearchread(KProcIO *p)
 {
         QString required;
+	QString keymail,keyname;
         while (p->readln(required,true)!=-1) {
                 //required=QString::fromUtf8(required);
 
@@ -299,22 +293,49 @@ void keyServer::slotsearchread(KProcIO *p)
                         required=QString::null;
                 }
 
-                if ((cycle) && (!required.isEmpty())) {
-                        QString kid=required.stripWhiteSpace();
-                        (void) new KListViewItem(kitem,kid);
-                        kid=kid.section("key",1,1);
-                        kid=kid.stripWhiteSpace();
-                        kid=kid.left(8);
+                if (required.find("(")==0) {
+                        cycle=true;
+			QString fullname=required.remove(0,required.find(")")+1).stripWhiteSpace();
+			if (fullname.find("<")!=-1) {
+	                keymail=fullname.section('<',-1,-1);
+			if (keymail.endsWith(">")) keymail.truncate(keymail.length()-1);
+                	keyname=fullname.section('<',0,0);
+        		} else {
+                	keymail=QString::null;
+			keyname=fullname;
+		        }
+                        kitem=new KListViewItem(listpop->kLVsearch,keyname,keymail,QString::null,QString::null);
+                        keyNumbers++;
+                        count=0;
                         required=QString::null;
                 }
 
-                cycle=false;
-
-                if ((required.find("(")!=-1) && (!required.isEmpty())) {
-                        cycle=true;
-                        kitem=new KListViewItem(listpop->kLVsearch,required.remove(0,required.find(")")+1).stripWhiteSpace());
-                        keyNumbers++;
-                        count=0;
+                if ((cycle) && (!required.isEmpty())) {
+                        QString subkey=required.stripWhiteSpace();
+			if (subkey.find(" key ")!=-1 && subkey.at(0).isDigit ())
+			{
+                        QString kid=subkey.section(" key ",1,1);
+                        kid=kid.stripWhiteSpace();
+                        kid=kid.left(8);
+			kitem->setText(3,kid);
+			QString creation=subkey.section("created",1,1);
+			if (creation.startsWith(":")) creation=creation.right(creation.length()-1);
+			kitem->setText(2,creation);
+			cycle=false;
+			}
+			else 
+			{
+			if (subkey.find("<")!=-1) {
+	                keymail=subkey.section('<',-1,-1);
+        	        if (keymail.endsWith(">")) keymail.truncate(keymail.length()-1);
+                	keyname=subkey.section('<',0,0);
+        		} else {
+                	keymail=QString::null;
+			keyname=subkey;
+		        }
+			KListViewItem *subk = new KListViewItem(kitem,keyname,keymail,QString::null,QString::null);
+			subk->setSelectable(false);
+			}
                         required=QString::null;
                 }
         }

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>searchRes</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>387</width>
-            <height>287</height>
+            <width>415</width>
+            <height>305</height>
         </rect>
     </property>
     <grid>
@@ -19,10 +19,64 @@
         <property name="margin">
             <number>0</number>
         </property>
+        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>statusText</cstring>
+            </property>
+            <property name="text">
+                <string></string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>textLabel1</cstring>
+            </property>
+            <property name="text">
+                <string>Key to import:</string>
+            </property>
+        </widget>
+        <widget class="KLineEdit" row="2" column="1">
+            <property name="name">
+                <cstring>kLEID</cstring>
+            </property>
+        </widget>
         <widget class="KListView" row="1" column="0" rowspan="1" colspan="2">
             <column>
                 <property name="text">
-                    <string>Keys</string>
+                    <string>Name</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Email</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>Creation</string>
+                </property>
+                <property name="clickable">
+                    <bool>true</bool>
+                </property>
+                <property name="resizable">
+                    <bool>true</bool>
+                </property>
+            </column>
+            <column>
+                <property name="text">
+                    <string>ID</string>
                 </property>
                 <property name="clickable">
                     <bool>true</bool>
@@ -46,29 +100,14 @@
             <property name="rootIsDecorated">
                 <bool>true</bool>
             </property>
+            <property name="resizeMode">
+                <enum>LastColumn</enum>
+            </property>
             <property name="fullWidth">
                 <bool>true</bool>
             </property>
-        </widget>
-        <widget class="QLabel" row="0" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>statusText</cstring>
-            </property>
-            <property name="text">
-                <string></string>
-            </property>
-        </widget>
-        <widget class="QLabel" row="2" column="0">
-            <property name="name">
-                <cstring>textLabel1</cstring>
-            </property>
-            <property name="text">
-                <string>Key to import:</string>
-            </property>
-        </widget>
-        <widget class="KLineEdit" row="2" column="1">
-            <property name="name">
-                <cstring>kLEID</cstring>
+            <property name="itemsMovable">
+                <bool>false</bool>
             </property>
         </widget>
     </grid>
@@ -78,4 +117,8 @@
     <tabstop>kLEID</tabstop>
 </tabstops>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klineedit.h</includehint>
+    <includehint>klistview.h</includehint>
+</includehints>
 </UI>
