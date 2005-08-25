@@ -9,6 +9,7 @@ MimeType=application/pgp-encrypted;application/pgp-signature;application/pgp-key
 GenericName=Encryption Tool
 GenericName[ar]=أداة التشفير
 GenericName[bg]=Програма за криптиране
+GenericName[br]=Ostilh enrinegadur
 GenericName[bs]=Alat za šifrovanje
 GenericName[ca]=Eina de xifrat
 GenericName[cs]=Šifrovací nástroj
