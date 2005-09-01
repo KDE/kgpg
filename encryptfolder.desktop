@@ -5,6 +5,7 @@ Actions=encrypt
 [Desktop Action encrypt]
 Name=Archive & Encrypt Folder
 Name[bg]=Архивиране и шифроване на директория
+Name[cs]=Archivovat a zašifrovat složku
 Name[da]=Arkivér & kryptér mappe
 Name[el]=Αρχειοθέτηση & Κρυπτογράφηση φακέλου
 Name[es]=Archivar y cifrar carpeta
@@ -17,6 +18,7 @@ Name[sr]=Архивирај и шифруј директоријум
 Name[sr@Latn]=Архивирај и шифруј директоријум
 Name[sv]=Arkivera och kryptera katalog
 Name[tr]=Arşiv ve Klasör Şifrele
+Name[xx]=xxArchive & Encrypt Folderxx
 Name[zh_CN]=存档并加密文件夹
 Icon=kgpg
 Exec=kgpg -e %F
