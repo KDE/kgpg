@@ -142,7 +142,7 @@
                 <cstring>groupBox2_2</cstring>
             </property>
             <property name="title">
-                <string>Additional keyring</string>
+                <string>Additional Keyring</string>
             </property>
             <grid>
                 <property name="name">
@@ -153,7 +153,7 @@
                         <cstring>kcfg_PubKeyring</cstring>
                     </property>
                     <property name="text">
-                        <string>Pu&amp;blic</string>
+                        <string>Pu&amp;blic:</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="1" column="0">
@@ -161,7 +161,7 @@
                         <cstring>kcfg_PrivKeyring</cstring>
                     </property>
                     <property name="text">
-                        <string>Private</string>
+                        <string>Private:</string>
                     </property>
                 </widget>
                 <widget class="QLayoutWidget" row="0" column="1" rowspan="2" colspan="1">
