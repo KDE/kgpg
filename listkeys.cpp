@@ -218,7 +218,7 @@ int UpdateViewItem :: compare(  Q3ListViewItem * item, int c, bool ascending ) c
 
 QString UpdateViewItem::key( int column, bool ) const
 {
-    return text( column ).lower();
+    return text( column ).toLower();
 }
 
 
@@ -1750,7 +1750,7 @@ void listKeys::groupInit(QStringList keysGroup)
                 foundId=false;
                 while (item) {
                         kdDebug(2100)<<"Searching in key: "<<item->text(0)<<endl;
-                        if (QString(*it).right(8).lower()==item->text(2).right(8).lower()) {
+                        if (QString(*it).right(8).toLower()==item->text(2).right(8).toLower()) {
                                 gEdit->groupKeys->insertItem(item);
                                 foundId=true;
                                 break;
@@ -2259,7 +2259,7 @@ void listKeys::slotReadFingerProcess(KProcIO *p)
 
                 }
                 if (outp.startsWith("fpr")) {
-                        if (newkeyFinger.lower()==outp.section(':',9,9).lower())
+                        if (newkeyFinger.toLower()==outp.section(':',9,9).toLower())
                                 continueSearch=false;
                         //			kdDebug(2100)<<newkeyFinger<<" test:"<<outp.section(':',9,9)<<endl;
                 }

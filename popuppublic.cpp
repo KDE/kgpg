@@ -83,7 +83,7 @@ void UpdateViewItem2::paintCell(QPainter *p, const QColorGroup &cg,int column, i
 
 QString UpdateViewItem2 :: key(int c,bool ) const
 {
-        return text(c).lower();
+        return text(c).toLower();
 }
 
 ///////////////  main view
