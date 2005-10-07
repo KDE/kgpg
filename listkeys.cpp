@@ -172,6 +172,7 @@ void UpdateViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, in
 }
 
 #include <iostream>
+#include <ktoolinvocation.h>
 using namespace std;
 
 int UpdateViewItem :: compare(  Q3ListViewItem * item, int c, bool ascending ) const
@@ -1126,7 +1127,7 @@ void listKeys::addToKAB()
         }
 	
 	KABC::Addressee::List addresseeList = ab->findByEmail(email);
-  	kapp->startServiceByDesktopName( "kaddressbook" );
+  	KToolInvocation::startServiceByDesktopName( "kaddressbook" );
   	DCOPRef call( "kaddressbook", "KAddressBookIface" );
   	if( !addresseeList.isEmpty() ) {
     	call.send( "showContactEditor(QString)", addresseeList.first().uid() );
@@ -1176,7 +1177,7 @@ void listKeys::allToKAB()
 
 void listKeys::slotManpage()
 {
-        kapp->startServiceByDesktopName("khelpcenter", QString("man:/gpg"), 0, 0, 0, "", true);
+        KToolInvocation::startServiceByDesktopName("khelpcenter", QString("man:/gpg"), 0, 0, 0, "", true);
 }
 
 void listKeys::slotTip()
@@ -1579,7 +1580,7 @@ void listKeys::slotexport()
 void listKeys::slotProcessExportMail(QString keys)
 {
         ///   start default Mail application
-        kapp->invokeMailer(QString::null, QString::null, QString::null, QString::null,
+        KToolInvocation::invokeMailer(QString::null, QString::null, QString::null, QString::null,
                            keys); //body
                            //QString::null,
                            //QString::null); // attachments

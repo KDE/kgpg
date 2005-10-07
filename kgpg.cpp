@@ -64,9 +64,10 @@
 #include <dcopclient.h>
 #include <kstandarddirs.h>
 #include <kfiledialog.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <qcursor.h>
 #include <kdesktopfile.h>
+#include <ktoolinvocation.h>
 
 #include "kgpgeditor.h"
                        
@@ -772,7 +773,7 @@ void  MyView::about()
 
 void  MyView::help()
 {
-        kapp->invokeHelp(0,"kgpg");
+        KToolInvocation::invokeHelp(0,"kgpg");
 }
 
 kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
@@ -780,7 +781,7 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
 {
         w=new MyView(this);
         w->show();
-        KPopupMenu *conf_menu=contextMenu();
+        KMenu *conf_menu=contextMenu();
         KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0,w, SLOT(clipEncrypt()),actionCollection(),"clip_encrypt");
         KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0,w, SLOT(clipDecrypt()),actionCollection(),"clip_decrypt");
 	KAction *KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), 0, 0,w, SLOT(clipSign()),actionCollection(),"clip_sign");
