@@ -423,7 +423,7 @@ void KgpgApp::slotFilePrint()
         if (prt.setup(this)) {
                 QPainter painter(&prt);
                 Q3PaintDeviceMetrics metrics(painter.device());
-                painter.drawText( 0, 0, metrics.width(), metrics.height(), AlignLeft|AlignTop|DontClip,view->editor->text() );
+                painter.drawText( 0, 0, metrics.width(), metrics.height(), Qt::AlignLeft|Qt::AlignTop|Qt::TextDontClip,view->editor->text() );
         }
 }
 
@@ -505,7 +505,7 @@ void KgpgApp::slotSignFile(KURL url)
                 if (KGpgSettings::pgpCompatibility())
                         Options+=" --pgp6 ";
                 KgpgInterface *signFileProcess=new KgpgInterface();
-                signFileProcess->KgpgSignFile(signKeyID,url,Options);
+                signFileProcess->KgpgSignFile(signKeyID,url,QStringList(Options));
         }
 }
 

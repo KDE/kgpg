@@ -31,6 +31,7 @@
 #include <qclipboard.h>
 #include <qkeysequence.h>
 #include <qtextcodec.h>
+#include <QMovie>
 //Added by qt3to4:
 #include <QEvent>
 #include <QDragMoveEvent>
@@ -69,7 +70,7 @@
 #include <ktip.h>
 #include <krun.h>
 #include <kprinter.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <kwin.h>
 #include <dcopclient.h>
 #include <klineedit.h>
@@ -388,8 +389,8 @@ QString KgpgSelKey::getkeyMail()
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-KeyView::KeyView( QWidget *parent, const char *name )
-                : KListView( parent, name )
+KeyView::KeyView( QWidget *parent )
+                : KListView( parent )
 {
         KIconLoader *loader = KGlobal::iconLoader();
 
@@ -440,13 +441,13 @@ void  KeyView::droppedfile (KURL url)
 
 void KeyView::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-        e->accept (KURLDrag::canDecode(e));
+        e->accept (K3URLDrag::canDecode(e));
 }
 
 void  KeyView::contentsDropEvent (QDropEvent *o)
 {
         KURL::List list;
-        if ( KURLDrag::decode( o, list ) )
+        if ( K3URLDrag::decode( o, list ) )
                 droppedfile(list.first());
 }
 
@@ -472,8 +473,8 @@ void  KeyView::startDrag()
 }
 
 
-mySearchLine::mySearchLine(QWidget *parent, KeyView *listView, const char *name)
-:KListViewSearchLine(parent,listView,name)
+mySearchLine::mySearchLine(QWidget *parent, KeyView *listView)
+:KListViewSearchLine(parent,listView)
 {
 searchListView=listView;
 setKeepParentsVisible(false);
@@ -734,7 +735,8 @@ show();
 
 void  listKeys::slotOpenEditor()
 {
-  KgpgApp *kgpgtxtedit = new KgpgApp(this, "editor",(Qt::Window | Qt::WA_DeleteOnClose) ,actionCollection()->action("go_default_key")->shortcut());
+        KgpgApp *kgpgtxtedit = new KgpgApp(this, "editor",Qt::Window,actionCollection()->action("go_default_key")->shortcut());
+        kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
         connect(kgpgtxtedit,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
 	connect(kgpgtxtedit,SIGNAL(encryptFiles(KURL::List)),this,SIGNAL(encryptFiles(KURL::List)));
         connect(this,SIGNAL(fontChanged(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
@@ -1025,7 +1027,7 @@ void listKeys::slotSetPhotoSize(int size)
 
 void listKeys::findKey()
 {
-        KFindDialog fd(this,"find_dialog",0,"");
+        KFindDialog fd(this,"find_dialog");
         if ( fd.exec() != QDialog::Accepted )
                 return;
         searchString=fd.pattern();
@@ -2126,11 +2128,11 @@ void listKeys::slotgenkey()
                         delete genkey;
 
                         //genkey->delayedDestruct();
-                        Q3CString password;
+                        QByteArray password;
                         bool goodpass=false;
                         while (!goodpass)
                         {
-                                int code=KPasswordDialog::getNewPassword(password,i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences").arg(newKeyName+" <"+newKeyMail+">"));
+                                int code=KPasswordDialog::getNewPassword(0,password,i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences").arg(newKeyName+" <"+newKeyMail+">"));
                                 if (code!=QDialog::Accepted)
                                         return;
                                 if (password.length()<5)
@@ -2145,16 +2147,15 @@ void listKeys::slotgenkey()
                         QWidget *wid=new QWidget(pop);
                         QVBoxLayout *vbox=new QVBoxLayout(wid,3);
 
-                        Q3VBox *passiveBox=pop->standardView(i18n("Generating new key pair."),QString::null,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),wid);
+                        KVBox *passiveBox=pop->standardView(i18n("Generating new key pair."),QString::null,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),wid);
 
-
-                        QMovie anim;
-                        anim=QMovie(locate("appdata", "pics/kgpg_anim.gif"));
 
                         QLabel *tex=new QLabel(wid);
                         QLabel *tex2=new QLabel(wid);
+                        QMovie *anim = new QMovie(locate("appdata", "pics/kgpg_anim.gif"),"gif",tex);
                         tex->setAlignment(Qt::AlignHCenter);
                         tex->setMovie(anim);
+                        anim->start();
                         tex2->setText(i18n("\nPlease wait..."));
                         vbox->addWidget(passiveBox);
                         vbox->addWidget(tex);
@@ -2180,20 +2181,20 @@ void listKeys::slotgenkey()
                         proc->start(KProcess::NotifyOnExit,true);
 
                         if (ktype=="RSA")
-                                proc->writeStdin("Key-Type: 1");
+                                proc->writeStdin(QString("Key-Type: 1"));
                         else
                         {
-                                proc->writeStdin("Key-Type: DSA");
-                                proc->writeStdin("Subkey-Type: ELG-E");
+                                proc->writeStdin(QString("Key-Type: DSA"));
+                                proc->writeStdin(QString("Subkey-Type: ELG-E"));
                                 proc->writeStdin(QString("Subkey-Length:%1").arg(ksize));
                         }
-                        proc->writeStdin(QString("Passphrase:%1").arg(password));
+                        proc->writeStdin(QByteArray("Passphrase:").append(password),true);
                         proc->writeStdin(QString("Key-Length:%1").arg(ksize));
-                        proc->writeStdin(QString("Name-Real:%1").arg(newKeyName.utf8()));
+                        proc->writeStdin(QByteArray("Name-Real:").append(newKeyName.toUtf8()),true);
                         if (!newKeyMail.isEmpty())
                                 proc->writeStdin(QString("Name-Email:%1").arg(newKeyMail));
                         if (!kcomment.isEmpty())
-                                proc->writeStdin(QString("Name-Comment:%1").arg(kcomment.utf8()));
+                                proc->writeStdin(QByteArray("Name-Comment:").append(kcomment.toUtf8()),true);
                         if (kexp==0)
                                 proc->writeStdin(QString("Expire-Date:0"));
                         if (kexp==1)
@@ -2206,7 +2207,7 @@ void listKeys::slotgenkey()
 
                         if (kexp==4)
                                 proc->writeStdin(QString("Expire-Date:%1y").arg(knumb));
-                        proc->writeStdin("%commit");
+                        proc->writeStdin(QString("%commit"));
                         QObject::connect(proc,SIGNAL(readReady(KProcIO *)),this,SLOT(readgenprocess(KProcIO *)));
                         proc->closeWhenDone();
                 } else  ////// start expert (=konsole) mode
@@ -2333,7 +2334,7 @@ void listKeys::doPrint(QString txt)
         if (prt.setup(this)) {
                 QPainter painter(&prt);
                 Q3PaintDeviceMetrics metrics(painter.device());
-                painter.drawText( 0, 0, metrics.width(), metrics.height(), Qt::AlignLeft|Qt::AlignTop|DontClip,txt );
+                painter.drawText( 0, 0, metrics.width(), metrics.height(), Qt::AlignLeft|Qt::AlignTop|Qt::TextDontClip,txt );
         }
 }
 
@@ -2512,24 +2513,18 @@ void KeyView::expandGroup(Q3ListViewItem *item)
 
 QPixmap KeyView::slotGetPhoto(QString photoId,bool mini)
 {
-        KTempFile *phototmp=new KTempFile();
-        QString popt="cp %i "+phototmp->name();
+        KTempFile phototmp;
+        phototmp.setAutoDelete(true);
+        QString popt="cp %i "+phototmp.name();
         KProcIO *p=new KProcIO();
         *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(popt)<<"--list-keys"<<photoId;
         p->start(KProcess::Block);
 
-        QPixmap pixmap;
-
-        pixmap.load(phototmp->name());
-        QImage dup=pixmap.convertToImage();
-        QPixmap dup2;
+        QPixmap pixmap(phototmp.name());
         if (!mini)
-                dup2.convertFromImage(dup.scale(previewSize+5,previewSize,Qt::ScaleMin));
+                return pixmap.scaled(previewSize+5,previewSize,Qt::KeepAspectRatio);
         else
-                dup2.convertFromImage(dup.scale(22,22,Qt::ScaleMin));
-        phototmp->unlink();
-        delete phototmp;
-        return dup2;
+                return pixmap.scaled(22,22,Qt::KeepAspectRatio);
 }
 
 void KeyView::expandKey(Q3ListViewItem *item)
@@ -2576,12 +2571,8 @@ void KeyView::expandKey(Q3ListViewItem *item)
                                                 *p<<"gpg"<<"--no-tty"<<"--photo-viewer"<<QFile::encodeName(pgpgOutput);
                                                 *p<<"--edit-key"<<item->text(6)<<"uid"<<QString::number(uidNumber)<<"showphoto"<<"quit";
                                                 p->start(KProcess::Block);
-                                                QPixmap pixmap;
-                                                pixmap.load(kgpgphototmp->name());
-                                                QImage dup=pixmap.convertToImage();
-                                                QPixmap dup2;
-                                                dup2.convertFromImage(dup.scale(previewSize+5,previewSize,Qt::ScaleMin));
-                                                itemuid->setPixmap(0,dup2);
+                                                QPixmap pixmap(kgpgphototmp->name());
+                                                itemuid->setPixmap(0,pixmap.scaled(previewSize+5,previewSize,Qt::KeepAspectRatio));
                                                 delete kgpgphototmp;
                                                 //itemuid->setPixmap(0,keyPhotoId);
                                         } else
@@ -3085,7 +3076,7 @@ gpgKey KeyView::extractKey(QString keyColon)
         ret.gpgkeyalgo=algo;
 
         const QString trust=keyString[1];
-        switch( trust[0] ) {
+        switch( trust[0].toLatin1() ) {
         case 'o':
                 ret.gpgkeytrust=i18n("Unknown");
                 ret.trustpic=trustunknown;

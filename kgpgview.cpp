@@ -33,7 +33,7 @@
 #include <kio/netaccess.h>
 #include <klocale.h>
 #include <kstdaction.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 
 #include <kmessagebox.h>
 #include <qfile.h>
@@ -58,10 +58,10 @@
 
 //////////////// configuration for editor
 
-MyEditor::MyEditor( QWidget *parent, const char *name )
-                : KTextEdit( parent, name )
+MyEditor::MyEditor( QWidget *parent )
+                : KTextEdit( parent )
 {
-        setTextFormat(PlainText);
+        setTextFormat(Qt::PlainText);
 	setCheckSpellingEnabled (true);
         setAcceptDrops(true);
 }
@@ -69,7 +69,7 @@ MyEditor::MyEditor( QWidget *parent, const char *name )
 void MyEditor::contentsDragEnterEvent( QDragEnterEvent *e )
 {
         ////////////////   if a file is dragged into editor ...
-        e->accept (KURLDrag::canDecode(e) || Q3TextDrag::canDecode (e));
+        e->accept (K3URLDrag::canDecode(e) || Q3TextDrag::canDecode (e));
         //e->accept (QTextDrag::canDecode (e));
 }
 
@@ -81,7 +81,7 @@ void MyEditor::contentsDropEvent( QDropEvent *e )
         /////////////////    decode dropped file
         KURL::List list;
         QString text;
-        if ( KURLDrag::decode( e, list ) )
+        if ( K3URLDrag::decode( e, list ) )
                 slotDroppedFile(list.first());
         else if ( Q3TextDrag::decode(e, text) )
                 insert(text);
@@ -206,11 +206,11 @@ KgpgView::KgpgView(QWidget *parent, const char *name) : QWidget(parent, name)
 
         editor->setReadOnly( false );
         editor->setUndoRedoEnabled(true);
-        editor->setUndoDepth(5);
+        // editor->setUndoDepth(5);
 
         setAcceptDrops(true);
 
-        KButtonBox *boutonbox=new KButtonBox(this,KButtonBox::Horizontal,15,12);
+        KButtonBox *boutonbox=new KButtonBox(this,Qt::Horizontal,15,12);
         boutonbox->addStretch(1);
 
         bouton0=boutonbox->addButton(i18n("S&ign/Verify"),this,SLOT(clearSign()),TRUE);
@@ -244,7 +244,7 @@ void KgpgView::modified()
 void KgpgView::slotAskForImport(QString ID)
 {
 if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
-	"Do you want to import this key from a keyserver?</qt>").arg(ID),i18n("Missing Key"), QString::null, i18n("Import"), i18n("Do Not Import"))==KMessageBox::Yes) {
+	"Do you want to import this key from a keyserver?</qt>").arg(ID),i18n("Missing Key"),i18n("Import"),i18n("Do Not Import"))==KMessageBox::Yes) {
         keyServer *kser=new keyServer(0,"server_dialog",false,true);
         kser->page->kLEimportid->setText(ID);
         kser->slotImport();
@@ -286,7 +286,7 @@ void KgpgView::clearSign()
 		
 		KgpgInterface *signProcess=new KgpgInterface();
 		connect(signProcess,SIGNAL(txtSignOver(QString)),this,SLOT(slotSignResult(QString)));
-		QStringList options=NULL;
+		QStringList options;
 		if (KGpgSettings::pgpCompatibility())
                         options<<"--pgp6";
 		signProcess->KgpgSignText(mess,signKeyID,options);

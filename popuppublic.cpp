@@ -16,6 +16,8 @@
  ***************************************************************************/
 
 ////////////////////////////////////////////////////////   code  for choosing a public key from a list for encryption
+#include <stdio.h>
+
 #include <qlayout.h>
 #include <qpushbutton.h>
 #include <q3ptrlist.h>
@@ -24,12 +26,12 @@
 #include <qicon.h>
 #include <q3buttongroup.h>
 #include <qcheckbox.h>
-#include <qhbuttongroup.h>
 #include <qtoolbutton.h>
 //Added by qt3to4:
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <Q3HButtonGroup>
 
 #include <kdeversion.h>
 #include <klistview.h>
@@ -112,7 +114,7 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 	
 	Q3HButtonGroup *hBar=new Q3HButtonGroup(page);
 	//hBar->setFrameStyle(QFrame::NoFrame);
-	hBar->setMargin(0);
+	//hBar->setMargin(0);
 	
 	QToolButton *clearSearch = new QToolButton(hBar);
 	clearSearch->setTextLabel(i18n("Clear Search"), true);
@@ -379,7 +381,7 @@ void popupPublic::slotprocread(KProcIO *p)
                         if (val.isEmpty())
                                 val=i18n("Unlimited");
                         QString tr;
-                        switch( trust[0] ) {
+                        switch( trust[0].toLatin1() ) {
                         case 'o':
 				untrustedList<<id;
                                 break;
@@ -458,7 +460,7 @@ kdDebug(2100)<<"Ok pressed"<<endl;
                 }
         if (selectedKeys.isEmpty() && !CBsymmetric->isChecked())
                 return;
-	if (CBsymmetric->isChecked()) selectedKeys=NULL;
+	if (CBsymmetric->isChecked()) selectedKeys.clear();
 kdDebug(2100)<<"Selected Key:"<<selectedKeys<<endl;
         QStringList returnOptions;
         if (CBuntrusted->isChecked())

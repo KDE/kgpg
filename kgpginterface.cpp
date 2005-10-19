@@ -25,7 +25,6 @@
 #include <qlabel.h>
 #include <qapplication.h>
 //Added by qt3to4:
-#include <Q3CString>
 #include <QTextStream>
 #include <QGridLayout>
 #include <QHBoxLayout>
@@ -143,10 +142,10 @@ void KgpgInterface::readencprocess(KProcIO *p)
                         emit processstarted(sourceFile.path());
                 if (required.find("GET_")!=-1) {
                         if (required.find("openfile.overwrite.okay")!=-1)
-                                p->writeStdin("Yes");
+                                p->writeStdin(QByteArray("Yes"),true);
                         else if ((required.find("passphrase.enter")!=-1)) {
-                                Q3CString passphrase;
-                                int code=KPasswordDialog::getNewPassword(passphrase,i18n("Enter passphrase for your file (symmetrical encryption):"));
+                                QByteArray passphrase;
+                                int code=KPasswordDialog::getNewPassword(0,passphrase,i18n("Enter passphrase for your file (symmetrical encryption):"));
                                 if (code!=QDialog::Accepted) {
                                         delete p;
                                         emit processaborted(true);
@@ -154,7 +153,7 @@ void KgpgInterface::readencprocess(KProcIO *p)
                                 }
                                 p->writeStdin(passphrase,true);
                         } else {
-                                p->writeStdin("quit");
+                                p->writeStdin(QByteArray("quit"),true);
                                 p->closeWhenDone();
                         }
                 }
@@ -214,12 +213,12 @@ void KgpgInterface::readdecprocess(KProcIO *p)
                 }
                 if (required.find("GET_")!=-1) {
                         if (required.find("openfile.overwrite.okay")!=-1)
-                                p->writeStdin("Yes");
+                                p->writeStdin(QByteArray("Yes"),true);
                         else if ((required.find("passphrase.enter")!=-1)) {
                                 if (userIDs.isEmpty())
                                         userIDs=i18n("[No user id found]");
                                 userIDs.replace(QRegExp("<"),"&lt;");
-                                Q3CString passphrase;
+                                QByteArray passphrase;
                                 QString passdlgmessage;
                                 if (anonymous)
                                         passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys.<br>");
@@ -227,7 +226,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
                                         passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
 
                                 passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
-                                int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
+                                int code=KPasswordDialog::getPassword(0,passphrase,passdlgmessage);
                                 if (code!=QDialog::Accepted) {
                                         delete p;
                                         emit processaborted(true);
@@ -237,7 +236,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
                                 userIDs=QString::null;
                                 step--;
                         } else {
-                                p->writeStdin("quit");
+                                p->writeStdin(QByteArray("quit"),true);
                                 p->closeWhenDone();
                         }
                 }
@@ -302,9 +301,9 @@ void KgpgInterface::txtreadencprocess(KProcIO *p)
 	  else
 	if ((required.find("passphrase.enter")!=-1))
             {
-              Q3CString passphrase;
+              QByteArray passphrase;
               QString passdlgmessage=i18n("Enter passphrase (symmetrical encryption)");
-              int code=KPasswordDialog::getNewPassword(passphrase,passdlgmessage);
+              int code=KPasswordDialog::getNewPassword(0,passphrase,passdlgmessage);
 	      if (code!=QDialog::Accepted)
                 {
                   delete p;
@@ -394,14 +393,14 @@ void KgpgInterface::getCmdOutput(KProcess *p, char *data, int )
 		{
 			if (userIDs.isEmpty())
 			userIDs=i18n("[No user id found]");
-			Q3CString passphrase;
+			QByteArray passphrase;
 			QString passdlgmessage;
 			if (anonymous)
 				passdlgmessage=i18n("<b>No user id found</b>. Trying all secret keys.<br>");
 			if ((step<3) && (!anonymous))
 				passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
 			passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
-			int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
+			int code=KPasswordDialog::getPassword(0,passphrase,passdlgmessage);
 			if (code!=QDialog::Accepted)
 			{
 				delete p;
@@ -499,12 +498,12 @@ void KgpgInterface::txtsignprocess(KProcIO *p)
 	      step--;
               if (userIDs.isEmpty())
                 userIDs=i18n("[No user id found]");
-              Q3CString passphrase;
+              QByteArray passphrase;
               QString passdlgmessage;
               if (step<3)
               passdlgmessage=i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
               passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
-              int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
+              int code=KPasswordDialog::getPassword(0,passphrase,passdlgmessage);
 	      if (code!=QDialog::Accepted)
                 {
                   delete p;
@@ -638,7 +637,7 @@ Md5Widget::Md5Widget(QWidget *parent, const char *name,KURL url):KDialogBase( pa
 
         QHBoxLayout *Layout4 = new QHBoxLayout( 0, 0, 6, "Layout4");
 
-        KLed1=new KLed(QColor(80,80,80),KLed::Off,KLed::Sunken,KLed::Circular,page,"KLed1");
+        KLed1=new KLed(QColor(80,80,80),KLed::Off,KLed::Sunken,KLed::Circular,page);
         KLed1->off();
         KLed1->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, KLed1->sizePolicy().hasHeightForWidth() ) );
         Layout4->addWidget( KLed1 );
@@ -732,16 +731,16 @@ void KgpgInterface::readsignprocess(KProcIO *p)
 
                 if (required.find("GET_")!=-1) {
                         if (required.find("openfile.overwrite.okay")!=-1)
-                                p->writeStdin("Yes");
+                                p->writeStdin(QByteArray("Yes"),true);
                         else if ((required.find("passphrase.enter")!=-1)) {
                                 if (userIDs.isEmpty())
                                         userIDs=i18n("[No user id found]");
-                                Q3CString passphrase;
+                                QByteArray passphrase;
                                 QString passdlgmessage;
                                 if (step<3)
                                         passdlgmessage=i18n("<b>Bad passphrase</b>. you have %1 tries left.<br>").arg(step);
                                 passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
-                                int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
+                                int code=KPasswordDialog::getPassword(0,passphrase,passdlgmessage);
                                 if (code!=QDialog::Accepted) {
                                         delete p;
                                         emit signfinished();
@@ -751,7 +750,7 @@ void KgpgInterface::readsignprocess(KProcIO *p)
                                 userIDs=QString::null;
                                 step--;
                         } else {
-                                p->writeStdin("quit");
+                                p->writeStdin(QByteArray("quit"),true);
                                 p->closeWhenDone();
                         }
                 }
@@ -789,7 +788,7 @@ QString required;
     {
     message+=required+"\n";
 	if (required.find("GET_")!=-1) {
-        p->writeStdin("quit");
+        p->writeStdin(QByteArray("quit"),true);
         p->closeWhenDone();
         }
     required=required.section("]",1,-1).stripWhiteSpace();
@@ -825,7 +824,7 @@ void KgpgInterface::verifyfin(KProcess *)
     }
     else {
     	if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
-                                                      "Do you want to import this key from a keyserver?</qt>").arg(signID),file.fileName(),QString::null, i18n("Import"), i18n("Do Not Import"))==KMessageBox::Yes)
+                                                      "Do you want to import this key from a keyserver?</qt>").arg(signID),file.fileName(),i18n("Import"), i18n("Do Not Import"))==KMessageBox::Yes)
     	emit verifyquerykey(signID);
     }
     emit verifyfinished();
@@ -875,7 +874,7 @@ void KgpgInterface::sigprocess(KProcIO *p)
 		
                 if (signSuccess==4) {
                         if (required.find("GET_")!=-1)
-                                p->writeStdin("quit");
+                                p->writeStdin(QByteArray("quit"),true);
                         p->closeWhenDone();
                         return;
                 }
@@ -886,7 +885,7 @@ void KgpgInterface::sigprocess(KProcIO *p)
                 }
 
                 if (required.find("sign_uid.expire")!=-1) {
-                        p->writeStdin("Never");
+                        p->writeStdin(QByteArray("Never"),true);
                         required=QString::null;
                 }
                 if (required.find("sign_uid.class")!=-1) {
@@ -894,22 +893,22 @@ void KgpgInterface::sigprocess(KProcIO *p)
                         required=QString::null;
                 }
                 if (required.find("sign_uid.okay")!=-1) {
-                        p->writeStdin("Y");
+                        p->writeStdin(QByteArray("Y"),true);
                         required=QString::null;
                 }
 		
 		if (required.find("sign_all.okay")!=-1) {
-                        p->writeStdin("Y");
+                        p->writeStdin(QByteArray("Y"),true);
                         required=QString::null;
                 }
 		
                 if (required.find("passphrase.enter")!=-1) {
-                        Q3CString signpass;
-                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>%1 Enter passphrase for <b>%2</b>:</qt>").arg(errMessage).arg(checkForUtf8bis(userIDs)));
+                        QByteArray signpass;
+                        int code=KPasswordDialog::getPassword(0,signpass,i18n("<qt>%1 Enter passphrase for <b>%2</b>:</qt>").arg(errMessage).arg(checkForUtf8bis(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 signSuccess=4;  /////  aborted by user mode
                                 required=QString::null;
-                                p->writeStdin("quit");
+                                p->writeStdin(QByteArray("quit"),true);
                                 p->closeWhenDone();
                                 return;
                         }
@@ -918,7 +917,7 @@ void KgpgInterface::sigprocess(KProcIO *p)
                         //               step=2;
                 }
                 if ((step==2) && (required.find("keyedit.prompt")!=-1)) {
-                        p->writeStdin("save");
+                        p->writeStdin(QByteArray("save"),true);
                         required=QString::null;
                 }
                 if (required.find("BAD_PASSPHRASE")!=-1) {
@@ -930,7 +929,7 @@ void KgpgInterface::sigprocess(KProcIO *p)
                 {
                         if (signSuccess!=2)
                                 signSuccess=1;  /////  switching to console mode
-                        p->writeStdin("quit");
+                        p->writeStdin(QByteArray("quit"),true);
                         p->closeWhenDone();
 
                 }
@@ -1019,20 +1018,20 @@ void KgpgInterface::delsigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                 if (required.find("keyedit.delsig")!=-1){
 
                         if ((sigsearch==signb) && (step==0)) {
-                                p->writeStdin("Y");
+                                p->writeStdin(QByteArray("Y"),true);
                                 step=1;
                         } else
-                                p->writeStdin("n");
+                                p->writeStdin(QByteArray("n"),true);
                         sigsearch++;
                         required=QString::null;
                 }
                 if ((step==1) && (required.find("keyedit.prompt")!=-1)) {
-                        p->writeStdin("save");
+                        p->writeStdin(QByteArray("save"),true);
                         required=QString::null;
                         deleteSuccess=true;
                 }
                 if (required.find("GET_LINE")!=-1) {
-                        p->writeStdin("quit");
+                        p->writeStdin(QByteArray("quit"),true);
                         p->closeWhenDone();
                         deleteSuccess=false;
                 }
@@ -1108,11 +1107,11 @@ void KgpgInterface::expprocess(KProcIO *p)
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        Q3CString signpass;
-                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
+                        QByteArray signpass;
+                        int code=KPasswordDialog::getPassword(0,signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 expSuccess=3;  /////  aborted by user mode
-                                p->writeStdin("quit");
+                                p->writeStdin(QByteArray("quit"),true);
                                 p->closeWhenDone();
                                 return;
                         }
@@ -1121,24 +1120,24 @@ void KgpgInterface::expprocess(KProcIO *p)
                         //              step=2;
                 }
                 if ((step==2) && (required.find("keyedit.prompt")!=-1)) {
-                        p->writeStdin("save");
+                        p->writeStdin(QByteArray("save"),true);
 			p->closeWhenDone();
                         required=QString::null;
                 }
 		if ((step==2) && (required.find("keyedit.save.okay")!=-1)) {
-                        p->writeStdin("YES");
+                        p->writeStdin(QByteArray("YES"),true);
 			p->closeWhenDone();
                         required=QString::null;
                 }
                 if (required.find("BAD_PASSPHRASE")!=-1) {
-                        p->writeStdin("quit");
+                        p->writeStdin(QByteArray("quit"),true);
                         p->closeWhenDone();
                         expSuccess=2;  /////  bad passphrase
                 }
                 if ((required.find("GET_")!=-1) && (expSuccess!=2)) /////// gpg asks for something unusal, turn to konsole mode
                 {
                         expSuccess=1;  /////  switching to console mode
-                        p->writeStdin("quit");
+                        p->writeStdin(QByteArray("quit"),true);
                         p->closeWhenDone();
 
                 }
@@ -1187,7 +1186,7 @@ void KgpgInterface::trustprocess(KProcIO *p)
         while (p->readln(required,true)!=-1) {
                 output+=required+"\n";
                 if (required.find("edit_ownertrust.set_ultimate.okay")!=-1) {
-                        p->writeStdin("YES");
+                        p->writeStdin(QByteArray("YES"),true);
                         required=QString::null;
                 }
 
@@ -1197,7 +1196,7 @@ void KgpgInterface::trustprocess(KProcIO *p)
                 }
 
                 if (required.find("keyedit.prompt")!=-1) {
-                        p->writeStdin("save");
+                        p->writeStdin(QByteArray("save"),true);
 			p->closeWhenDone();
                         required=QString::null;
                 }
@@ -1205,7 +1204,7 @@ void KgpgInterface::trustprocess(KProcIO *p)
                 if (required.find("GET_")!=-1) /////// gpg asks for something unusal, turn to konsole mode
                 {
                         expSuccess=1;  /////  switching to console mode
-                        p->writeStdin("quit");
+                        p->writeStdin(QByteArray("quit"),true);
                         p->closeWhenDone();
 
                 }
@@ -1251,9 +1250,9 @@ void KgpgInterface::passprocess(KProcIO *p)
 			if (step==3)
 			{
 			emit passwordChanged();
-                        p->writeStdin("save");
+                        p->writeStdin(QByteArray("save"),true);
 			}
-			else p->writeStdin("quit");
+			else p->writeStdin(QByteArray("quit"),true);
                         required=QString::null;
                 }
 
@@ -1271,10 +1270,10 @@ void KgpgInterface::passprocess(KProcIO *p)
                         userIDs.replace(QRegExp("<"),"&lt;");
 
                         if (step==1) {
-                                Q3CString passphrase;
-                                int code=KPasswordDialog::getPassword(passphrase,i18n("<qt>%1 Enter passphrase for <b>%2</b></qt>").arg(message).arg(checkForUtf8bis(userIDs)));
+                                QByteArray passphrase;
+                                int code=KPasswordDialog::getPassword(0,passphrase,i18n("<qt>%1 Enter passphrase for <b>%2</b></qt>").arg(message).arg(checkForUtf8bis(userIDs)));
                                 if (code!=QDialog::Accepted) {
-                                        p->writeStdin("quit");
+                                        p->writeStdin(QByteArray("quit"),true);
                                         //				 p->closeWhenDone();
                                         emit processaborted(true);
                                         delete p;
@@ -1285,12 +1284,12 @@ void KgpgInterface::passprocess(KProcIO *p)
                         }
 
                         if (step==3) {
-                                Q3CString passphrase;
-                                int code=KPasswordDialog::getNewPassword(passphrase,i18n("<qt>Enter new passphrase for <b>%1</b><br>If you forget this passphrase, all your encrypted files and messages will be lost !<br></qt>").arg(userIDs));
+                                QByteArray passphrase;
+                                int code=KPasswordDialog::getNewPassword(0,passphrase,i18n("<qt>Enter new passphrase for <b>%1</b><br>If you forget this passphrase, all your encrypted files and messages will be lost !<br></qt>").arg(userIDs));
                                 if (code!=QDialog::Accepted) {
 					step=4;
-                                        p->writeStdin("quit");
-                                        p->writeStdin("quit");
+                                        p->writeStdin(QByteArray("quit"),true);
+                                        p->writeStdin(QByteArray("quit"),true);
                                         p->closeWhenDone();
                                         emit processaborted(true);
                                         return;
@@ -1305,7 +1304,7 @@ void KgpgInterface::passprocess(KProcIO *p)
 
                 if (required.find("GET_")!=-1) /////// gpg asks for something unusal, turn to konsole mode
                 {
-                        p->writeStdin("quit");
+                        p->writeStdin(QByteArray("quit"),true);
                         p->closeWhenDone();
 
                 }
@@ -1436,7 +1435,7 @@ kdDebug(2100)<<"Importing is over"<<endl;
         } else
                 resultMessage=i18n("No key imported... \nCheck detailed log for more infos");
 		
-	if (messageList[8]!="0") importedKeysIds="ALL";
+	if (messageList[8]!="0") importedKeysIds=QStringList(QString("ALL"));
 	if ((messageList[9]!="0") && (importedKeysIds.isEmpty())) // orphaned secret key imported
 	emit refreshOrphaned();
         emit importfinished(importedKeysIds);
@@ -1511,11 +1510,11 @@ void KgpgInterface::adduidprocess(KProcIO *p)
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        Q3CString delpass;
-                        int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
+                        QByteArray delpass;
+                        int code=KPasswordDialog::getPassword(0,delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 //deleteSuccess=false;
-                                p->writeStdin("quit");
+                                p->writeStdin(QByteArray("quit"),true);
                                 p->closeWhenDone();
                                 return;
                         }
@@ -1525,7 +1524,7 @@ void KgpgInterface::adduidprocess(KProcIO *p)
                 }
 
 		if (required.find("keyedit.prompt")!=-1) {
-		       p->writeStdin("save");
+		       p->writeStdin(QByteArray("save"),true);
                         required=QString::null;
 		}
 
@@ -1533,7 +1532,7 @@ void KgpgInterface::adduidprocess(KProcIO *p)
                 {
                         kdDebug(2100)<<"unknown request"<<endl;
                         addSuccess=false;  /////  switching to console mode
-                        p->writeStdin("quit");
+                        p->writeStdin(QByteArray("quit"),true);
                         p->closeWhenDone();
 
                 }
@@ -1629,16 +1628,16 @@ void KgpgInterface::delphotoprocess(KProcIO *p)
                                 updateIDs(required);
 
                 if (required.find("keyedit.remove.uid.okay")!=-1)  {
-                        p->writeStdin("YES");
+                        p->writeStdin(QByteArray("YES"),true);
                         required=QString::null;
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        Q3CString delpass;
-                        int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
+                        QByteArray delpass;
+                        int code=KPasswordDialog::getPassword(0,delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 //deleteSuccess=false;
-                                p->writeStdin("quit");
+                                p->writeStdin(QByteArray("quit"),true);
                                 p->closeWhenDone();
                                 return;
                         }
@@ -1648,7 +1647,7 @@ void KgpgInterface::delphotoprocess(KProcIO *p)
                 }
 
 		if (required.find("keyedit.prompt")!=-1) {
-		       p->writeStdin("save");
+		       p->writeStdin(QByteArray("save"),true);
                         required=QString::null;
 		}
 
@@ -1656,7 +1655,7 @@ void KgpgInterface::delphotoprocess(KProcIO *p)
                 {
                         kdDebug(2100)<<"unknown request"<<endl;
                         delSuccess=false;
-                        p->writeStdin("quit");
+                        p->writeStdin(QByteArray("quit"),true);
                         p->closeWhenDone();
 
                 }
@@ -1698,22 +1697,22 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
 		
 		if (required.find("photoid.jpeg.size")!=-1)  {
 			if (KMessageBox::questionYesNo(0,i18n("This image is very large. Use it anyway?"), QString::null, i18n("Use Anyway"), i18n("Do Not Use"))==KMessageBox::Yes)
-                        p->writeStdin("Yes");
+                        p->writeStdin(QByteArray("Yes"),true);
 			else 
 			{
-			p->writeStdin("No");
-			p->writeStdin("");
-			p->writeStdin("quit");
+			p->writeStdin(QByteArray("No"),true);
+			p->writeStdin(QByteArray(),true);
+			p->writeStdin(QByteArray("quit"),true);
 			}
                         required=QString::null;
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        Q3CString delpass;
-                        int code=KPasswordDialog::getPassword(delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
+                        QByteArray delpass;
+                        int code=KPasswordDialog::getPassword(0,delpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 //deleteSuccess=false;
-                                p->writeStdin("quit");
+                                p->writeStdin(QByteArray("quit"),true);
                                 p->closeWhenDone();
                                 return;
                         }
@@ -1723,14 +1722,14 @@ void KgpgInterface::addphotoprocess(KProcIO *p)
                 }
 
 		if (required.find("keyedit.prompt")!=-1) {
-		       p->writeStdin("save");
+		       p->writeStdin(QByteArray("save"),true);
                         required=QString::null;
 		}
 
 		if ((required.find("GET_")!=-1)) /////// gpg asks for something unusal, turn to konsole mode
                 {
                         kdDebug(2100)<<"unknown request"<<endl;
-                        p->writeStdin("quit");
+                        p->writeStdin(QByteArray("quit"),true);
 			addSuccess=false;
                         p->closeWhenDone();
 
@@ -1785,7 +1784,7 @@ void KgpgInterface::revokeprocess(KProcIO *p)
                         revokeSuccess=true;
 
                 if ((required.find("gen_revoke.okay")!=-1) || (required.find("ask_revocation_reason.okay")!=-1) || (required.find("openfile.overwrite.okay")!=-1)) {
-                        p->writeStdin("YES");
+                        p->writeStdin(QByteArray("YES"),true);
                         required=QString::null;
                 }
 
@@ -1795,11 +1794,11 @@ void KgpgInterface::revokeprocess(KProcIO *p)
                 }
 
                 if (required.find("passphrase.enter")!=-1) {
-                        Q3CString signpass;
-                        int code=KPasswordDialog::getPassword(signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
+                        QByteArray signpass;
+                        int code=KPasswordDialog::getPassword(0,signpass,i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)));
                         if (code!=QDialog::Accepted) {
                                 expSuccess=3;  /////  aborted by user mode
-                                p->writeStdin("quit");
+                                p->writeStdin(QByteArray("quit"),true);
                                 p->closeWhenDone();
                                 return;
                         }
@@ -1817,7 +1816,7 @@ void KgpgInterface::revokeprocess(KProcIO *p)
                 {
                         kdDebug(2100)<<"unknown request"<<endl;
                         expSuccess=1;  /////  switching to console mode
-                        p->writeStdin("quit");
+                        p->writeStdin(QByteArray("quit"),true);
                         p->closeWhenDone();
 
                 }
@@ -1920,12 +1919,10 @@ QStringList KgpgInterface::getGpgGroupSetting(QString name,QString configFile)
 {
 
         QFile qfile(QFile::encodeName(configFile));
-        if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
-                QString result;
+        if (qfile.open(QIODevice::ReadOnly)) {
                 QTextStream t( &qfile );
-                result=t.readLine();
-                while (result!=NULL) {
-                        result=result.stripWhiteSpace();
+                while (!t.atEnd()) {
+                        QString result=t.readLine().stripWhiteSpace();
                         if (result.startsWith("group ")) {
                                 kdDebug(2100)<<"Found 1 group"<<endl;
                                 result.remove(0,6);
@@ -1936,11 +1933,9 @@ QStringList KgpgInterface::getGpgGroupSetting(QString name,QString configFile)
                                         return QStringList::split (" ",result);
                                 }
                         }
-                        result=t.readLine();
                 }
-                qfile.close();
         }
-        return QString::null;
+        return QStringList();
 }
 
 QStringList KgpgInterface::getGpgGroupNames(QString configFile)

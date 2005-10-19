@@ -22,13 +22,13 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <q3vbox.h>
+#include <kmessagebox.h>
 //Added by qt3to4:
 #include <QVBoxLayout>
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <qcheckbox.h>
 #include <q3buttongroup.h>
-#include <qhbuttongroup.h>
 #include <klocale.h>
 
 #include "keygener.h"

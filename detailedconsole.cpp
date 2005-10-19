@@ -19,6 +19,7 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <q3textedit.h>
+#include <QGroupBox>
 //Added by qt3to4:
 #include <QVBoxLayout>
 
@@ -41,7 +42,7 @@ KDetailedConsole::KDetailedConsole(QWidget *parent, const char *name,const QStri
         QLabel *lab1=new QLabel(page);
         lab1->setText(boxLabel);
 
-        QVGroupBox *detailsGroup = new QVGroupBox( i18n("Details"), page);
+        QGroupBox *detailsGroup = new QGroupBox( i18n("Details"), page);
         (void) new QLabel(errormessage,detailsGroup);
         //labdetails->setMinimumSize(labdetails->sizeHint());
         setDetailsWidget(detailsGroup);

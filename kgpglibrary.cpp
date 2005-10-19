@@ -17,6 +17,7 @@
 
 #include <q3hbox.h>
 #include <q3vbox.h>
+#include <QDesktopWidget>
 //Added by qt3to4:
 #include <QTextStream>
 
@@ -60,7 +61,7 @@ void KgpgLibrary::slotFileEnc(KURL::List urls,QStringList opts,QString defaultKe
                         dialogue->exec();
                         delete dialogue;
                 } else
-                        startencode(defaultKey,opts,false,false);
+                        startencode(QStringList(defaultKey),opts,false,false);
         }
 }
 

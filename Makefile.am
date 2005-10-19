@@ -11,7 +11,7 @@ kgpg_SOURCES = kgpgoptions.cpp listkeys.cpp popuppublic.cpp kgpgview.cpp \
 		keyproperties.ui conf_encryption.ui conf_decryption.ui conf_gpg.ui dcopiface.skel \
 		keyinfowidget.cpp groupedit.ui kgpgrevokewidget.ui newkey.ui adduid.ui 	keyexport.ui \
 		sourceselect.ui kgpgsettings.kcfgc conf_servers.ui conf_ui2.ui conf_misc.ui
-kgpg_LDADD   =  $(LIB_KIO) $(LIB_KABC) -lkutils -lkdeprint
+kgpg_LDADD   =  $(LIB_KIO) $(LIB_KABC) $(LIB_KDE3SUPPORT) -lkutils -lkdeprint
 
 pics_DATA= kgpg_anim.gif kgpg_docked.png  kgpg_docked.gif kgpg_blank.png  kgpg_fill.png
 picsdir=$(kde_datadir)/kgpg/pics

@@ -1,6 +1,6 @@
 <!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>KgpgWizard</class>
-<widget class="QWizard">
+<widget class="Q3Wizard">
     <property name="name">
         <cstring>KgpgWizard</cstring>
     </property>

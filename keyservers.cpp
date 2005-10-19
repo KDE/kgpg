@@ -33,7 +33,6 @@
 #include <qdialog.h>
 #include <qpushbutton.h>
 #include <q3buttongroup.h>
-#include <qhbuttongroup.h>
 
 #include <qregexp.h>
 #include <qcursor.h>
@@ -128,7 +127,7 @@ void keyServer::slotprocread(KProcIO *p)
                 if (tst.startsWith("pub")) {
                         const QString trust=tst.section(':',1,1);
                         QString id=QString("0x"+tst.section(':',4,4).right(8));
-                        switch( trust[0] ) {
+                        switch( trust[0].toLatin1() ) {
                         case 'i':
                                 dead=true;
                                 break;
@@ -289,9 +288,9 @@ void keyServer::slotsearchread(KProcIO *p)
 
                 if (required.find("keysearch.prompt")!=-1) {
                         if (count<4)
-                                p->writeStdin("N");
+                                p->writeStdin(QString("N"));
                         else {
-                                p->writeStdin("Q");
+                                p->writeStdin(QString("Q"));
                                 p->closeWhenDone();
                         }
                         required=QString::null;

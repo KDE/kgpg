@@ -143,7 +143,7 @@ QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint
 
                         const QString trust=gpgOutput.section(':',1,1);
                         QString tr;
-                        switch( trust[0] ) {
+                        switch( trust[0].toLatin1() ) {
                         case 'o':
                                 tr= i18n("Unknown");
 				trustColor=KGpgSettings::colorUnknown();
@@ -225,7 +225,7 @@ QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint
 			
 			/*	Don't know=1; Do NOT trust=2; Marginally=3; Fully=4; Ultimately=5;   */
 			
-                        switch( otrust[0] ) {
+                        switch( otrust[0].toLatin1() ) {
                         case 'f':
                                 ownerTrust=3;
                                 break;
@@ -321,10 +321,7 @@ KgpgKeyInfo::~KgpgKeyInfo()
 
 void KgpgKeyInfo::slotSetPhoto(const QPixmap &pix)
 {
-QImage dup=pix.convertToImage();
-QPixmap dup2;
-dup2.convertFromImage(dup.scale(prop->pLPhoto->width(),prop->pLPhoto->height(),QImage::ScaleMin));
-prop->pLPhoto->setPixmap(dup2);
+        prop->pLPhoto->setPixmap(pix.scaled(prop->pLPhoto->size(),Qt::KeepAspectRatio));
 }
 
 
@@ -335,7 +332,7 @@ void KgpgKeyInfo::finishphotoreadprocess(KProcIO *p)
         QString required=QString::null;
         while (p->readln(required,true)!=-1)
 		if (required.find("keyedit.prompt")!=-1) {
-                        p->writeStdin("quit");
+                        p->writeStdin(QString("quit"));
 			p->closeWhenDone();
 
                 }

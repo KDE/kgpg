@@ -25,7 +25,8 @@
 #include <qcheckbox.h>
 #include <qmovie.h>
 #include <q3cstring.h>
-#include <qhbuttongroup.h> 
+#include <Q3HButtonGroup> 
+#include <QDesktopWidget>
 //Added by qt3to4:
 #include <QTextStream>
 #include <QDropEvent>
@@ -58,7 +59,7 @@
 #include <kaction.h>
 #include <kurlrequester.h>
 #include <ktip.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <ktar.h>
 #include <kzip.h>
 #include <dcopclient.h>
@@ -84,13 +85,14 @@
 MyView::MyView( QWidget *parent, const char *name )
                 : QLabel( parent, name )
 {
-        setBackgroundMode( X11ParentRelative );
+        setBackgroundMode( Qt::X11ParentRelative );
 	openTasks=0;
 
-	KAction *saveDecrypt=new KAction(i18n("&Decrypt && Save File"),"decrypted",0,this, SLOT(decryptDroppedFile()),this,"decrypt_file");
-        KAction *showDecrypt=new KAction(i18n("&Show Decrypted File"),"edit",0,this, SLOT(showDroppedFile()),this,"show_file");
-        KAction *encrypt=new KAction(i18n("&Encrypt File"),"encrypted",0,this, SLOT(encryptDroppedFile()),this,"encrypt_file");
-        KAction *sign=new KAction(i18n("&Sign File"), "signature",0,this, SLOT(signDroppedFile()),this,"sign_file");
+        KActionCollection *actionCollection = new KActionCollection(this);
+	KAction *saveDecrypt=new KAction(i18n("&Decrypt && Save File"),"decrypted",KShortcut(),this, SLOT(decryptDroppedFile()),actionCollection,"decrypt_file");
+        KAction *showDecrypt=new KAction(i18n("&Show Decrypted File"),"edit",KShortcut(),this, SLOT(showDroppedFile()),actionCollection,"show_file");
+        KAction *encrypt=new KAction(i18n("&Encrypt File"),"encrypted",KShortcut(),this, SLOT(encryptDroppedFile()),actionCollection,"encrypt_file");
+        KAction *sign=new KAction(i18n("&Sign File"), "signature",KShortcut(),this, SLOT(signDroppedFile()),actionCollection,"sign_file");
         //QToolTip::add(this,i18n("KGpg drag & drop encryption applet"));
 
         readOptions();
@@ -136,7 +138,7 @@ void  MyView::clipSign(bool openEditor)
 {
         QString clippie=kapp->clipboard()->text(clipboardMode).stripWhiteSpace();
         if (!clippie.isEmpty()) {
-                KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose,goDefaultKey);
+                KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",Qt::WDestructiveClose,goDefaultKey);
 		connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
 		connect(kgpgtxtedit,SIGNAL(encryptFiles(KURL::List)),this,SLOT(encryptFiles(KURL::List)));
 		if (!openEditor)
@@ -262,7 +264,8 @@ if (!mssge.isEmpty())
 openTasks++;
 QToolTip::remove(this);
 QToolTip::add(this, mssge);
-setMovie(QMovie(locate("appdata","pics/kgpg_docked.gif")));
+setMovie(new QMovie(locate("appdata","pics/kgpg_docked.gif"),"gif",this));
+movie()->start();
 }
 else openTasks--;
 
@@ -293,7 +296,7 @@ void  MyView::encryptDroppedFile()
                         opts<<"--pgp6";
                 lib->slotFileEnc(droppedUrls,opts,KGpgSettings::fileEncryptionKey().left(8),goDefaultKey);
         } else
-                lib->slotFileEnc(droppedUrls,QString::null,QString::null,goDefaultKey);
+                lib->slotFileEnc(droppedUrls,QStringList(),QString::null,goDefaultKey);
 }
 
 void  MyView::encryptFiles(KURL::List urls)
@@ -423,7 +426,7 @@ void  MyView::decryptDroppedFile()
                 }
         }
         KgpgLibrary *lib=new KgpgLibrary(this);
-        lib->slotFileDec(droppedUrls.first(),swapname,KGpgSettings::customDecrypt());
+        lib->slotFileDec(droppedUrls.first(),swapname,QStringList(KGpgSettings::customDecrypt()));
 	connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(importedKeys(QStringList)));
 	connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
 //        if (isFolder)
@@ -465,7 +468,7 @@ void  MyView::unArchive()
 void  MyView::showDroppedFile()
 {
 kdDebug(2100)<<"------Show dropped file"<<endl;
-        KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose,goDefaultKey);
+        KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",Qt::WDestructiveClose,goDefaultKey);
         kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
 	connect(kgpgtxtedit,SIGNAL(encryptFiles(KURL::List)),this,SLOT(encryptFiles(KURL::List)));
 	connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
@@ -523,7 +526,7 @@ void  MyView::droppedtext (QString inputText,bool allowEncrypt)
 {
 
         if (inputText.startsWith("-----BEGIN PGP MESSAGE")) {
-                KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",WDestructiveClose,goDefaultKey);
+                KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",Qt::WDestructiveClose,goDefaultKey);
 		connect(kgpgtxtedit,SIGNAL(encryptFiles(KURL::List)),this,SLOT(encryptFiles(KURL::List)));
 		connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
                 kgpgtxtedit->view->editor->setText(inputText);
@@ -553,7 +556,7 @@ void  MyView::droppedtext (QString inputText,bool allowEncrypt)
 
 void  MyView::dragEnterEvent(QDragEnterEvent *e)
 {
-        e->accept (KURLDrag::canDecode(e) || Q3TextDrag::canDecode (e));
+        e->accept (K3URLDrag::canDecode(e) || Q3TextDrag::canDecode (e));
 }
 
 
@@ -561,7 +564,7 @@ void  MyView::dropEvent (QDropEvent *o)
 {
         KURL::List list;
         QString text;
-        if ( KURLDrag::decode( o, list ) )
+        if ( K3URLDrag::decode( o, list ) )
                 droppedfile(list);
         else if ( Q3TextDrag::decode(o, text) )
 		{
@@ -684,14 +687,14 @@ void  MyView::startWizard()
                 connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotGenKey()));
         else {
                 wiz->textGenerate->hide();
-		wiz->setTitle(wiz->page_4,i18n("Step Three: Select your Default Private Key"));
+		wiz->setTitle(wiz->page3,i18n("Step Three: Select your Default Private Key"));
                 connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotSaveOptionsPath()));
         }
         connect(wiz->nextButton(),SIGNAL(clicked()),this,SLOT(slotWizardChange()));
         connect( wiz , SIGNAL( destroyed() ) , this, SLOT( slotWizardClose()));
 	connect(wiz,SIGNAL(helpClicked()),this,SLOT(help()));
 
-        wiz->setFinishEnabled(wiz->page_4,true);
+        wiz->setFinishEnabled(wiz->page3,true);
         wiz->show();
 }
 

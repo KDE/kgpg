@@ -102,7 +102,7 @@ class KeyView : public KListView
         Q_OBJECT
         friend class listKeys;
 public:
-        KeyView( QWidget *parent = 0, const char *name = 0);
+        KeyView(QWidget *parent = 0);
         bool displayPhoto,displayOnlySecret,displayDisabled;
         int previewSize;
 	QString secretList;
@@ -152,7 +152,7 @@ class mySearchLine: public KListViewSearchLine
 {
     Q_OBJECT
 public:
-    mySearchLine(QWidget *parent = 0, KeyView *listView = 0, const char *name = 0);
+    mySearchLine(QWidget *parent = 0, KeyView *listView = 0);
     virtual ~mySearchLine();
 private:
  KeyView *searchListView;    

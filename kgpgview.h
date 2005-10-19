@@ -46,7 +46,7 @@ class MyEditor : public KTextEdit
         Q_OBJECT
 
 public:
-        MyEditor( QWidget *parent = 0, const char *name = 0);
+        MyEditor( QWidget *parent = 0);
 private:
         QString message,messages,tempFile;
 public slots:
