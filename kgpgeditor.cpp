@@ -498,9 +498,9 @@ void KgpgApp::slotSignFile(KURL url)
                 delete opts;
                 QString Options;
                 if (KGpgSettings::asciiArmor())
-                        Options=" --armor ";
+                        Options="--armor";
                 if (KGpgSettings::pgpCompatibility())
-                        Options+=" --pgp6 ";
+                        Options+="--pgp6";
                 KgpgInterface *signFileProcess=new KgpgInterface();
                 signFileProcess->KgpgSignFile(signKeyID,url,Options);
         }
