@@ -1946,8 +1946,8 @@ void listKeys::signLoop()
                 kdDebug(2100)<<"Sign process for key: "<<keyCount<<" on a total of "<<signList.count()<<endl;
                 if ( signList.at(keyCount) ) {
                         KgpgInterface *signKeyProcess=new KgpgInterface();
+			QObject::connect(signKeyProcess,SIGNAL(signatureFinished(int)),this,SLOT(signatureResult(int)));
                         signKeyProcess->KgpgSignKey(signList.at(keyCount)->text(6),globalkeyID,globalkeyMail,globalisLocal,globalChecked);
-                        connect(signKeyProcess,SIGNAL(signatureFinished(int)),this,SLOT(signatureResult(int)));
                 }
         }
 }
