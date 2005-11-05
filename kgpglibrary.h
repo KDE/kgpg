@@ -15,67 +15,62 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #ifndef KGPGLIBRARY_H
 #define KGPGLIBRARY_H
 
-#include <qobject.h>
-#include <kurl.h>
+#include <QObject>
+
 #include <kshortcut.h>
-#include <kio/job.h> 
+#include <kurl.h>
 
 class KPassivePopup;
-class KProgress;
+class KIO::Job;
 
 class KgpgLibrary : public QObject
 {
-
-        Q_OBJECT
+    Q_OBJECT
 
 public:
-        /**
-         * Initialize the class
-         */
-        KgpgLibrary(QWidget *parent=0,bool pgpExtension=false);
-        ~KgpgLibrary();
-
-        KURL::List urlselecteds;
-
-public slots:
-        void slotFileEnc(KURL::List urls=KURL(""),QStringList opts=QString::null,QString defaultKey="",KShortcut goDefaultKey=QKeySequence(Qt::CTRL+Qt::Key_Home));
-        void slotFileDec(KURL srcUrl,KURL destUrl,QStringList customDecryptOption=QStringList());
-	void shredprocessenc(KURL::List filesToShred);
-
-private slots:
-	void startencode(QStringList encryptKeys,QStringList encryptOptions,bool shred,bool symetric);
-        void fastencode(KURL &fileToCrypt,QStringList selec,QStringList encryptOptions,bool symetric);
-//        void startencode(QString &selec,QString encryptOptions,bool shred,bool symetric);
-	void slotShredResult( KIO::Job * job );
-	void shredpreprocessenc(KURL fileToShred);
-        void processenc(KURL);
-        void processdecover();
-        void processdecerror(QString mssge);
-        void processencerror(QString mssge);
-        void processpopup(QString fileName);
-        void processpopup2(QString fileName);
-
-private:
-        QString customDecrypt,tempFile,extension;
-        KURL urlselected;
-        KPassivePopup *pop;
-	KProgress *shredProgressBar;
-	bool popIsActive;
-	QWidget *panel;
-	QStringList _encryptKeys;
-	QStringList _encryptOptions;
-	bool _shred;
-	bool _symetric;
+    /**
+     * Initialize the class
+     */
+    KgpgLibrary(QWidget *parent = 0, const bool &pgpExtension = false);
 
 signals:
-        void decryptionOver();
-	void importOver(QStringList);
-	void systemMessage(QString,bool reset=false);
+    void encryptionOver();
+    void decryptionOver();
+    void importOver(QStringList);
+    void systemMessage(QString, bool reset = false);
+
+public slots:
+    void slotFileEnc(const KURL::List &urls = KURL(""), const QStringList &opts = QStringList(), const QStringList &defaultKey = QStringList(), const KShortcut &goDefaultKey = QKeySequence(Qt::CTRL + Qt::Key_Home));
+    void slotFileDec(const KURL &srcUrl, const KURL &destUrl, const QStringList &customDecryptOption = QStringList());
+    void shredProcessEnc(const KURL::List &filesToShred);
+
+private slots:
+    void startEncode(const QStringList &encryptKeys, const QStringList &encryptOptions, const bool &shred, const bool &symetric);
+    void fastEncode(const KURL &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
+    void processEnc();
+    void processEncError(const QString &mssge);
+    void processDecOver();
+    void processDecError(const QString &mssge);
+    void slotShredResult(KIO::Job *job);
+    void processEncPopup(const QString &fileName);
+    void processPopup2(const QString &fileName);
+
+private:
+    QWidget *m_panel;
+    QString m_extension;
+    QStringList m_encryptkeys;
+    QStringList m_encryptoptions;
+
+    KURL::List m_urlselecteds;
+    KURL m_urlselected;
+    KPassivePopup *m_pop;
+
+    bool m_popisactive;
+    bool m_shred;
+    bool m_symetric;
 };
 
 #endif // KGPGLIBRARY_H
-

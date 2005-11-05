@@ -17,34 +17,46 @@
 #ifndef KEYGEN_H
 #define KEYGEN_H
 
+#include <QString>
+
 #include <kdialogbase.h>
 
 class KComboBox;
 class KLineEdit;
 
-class keyGenerate : public KDialogBase
+class KgpgKeyGenerate : public KDialogBase
 {
-        Q_OBJECT
-public:
-        keyGenerate(QWidget *parent=0, const char *name=0);
+    Q_OBJECT
 
-        KComboBox *keykind,*keysize,*keyexp;
-        KLineEdit *numb,*comment,*kname,*mail;
-        bool expert;
+public:
+    KgpgKeyGenerate(QWidget *parent = 0, const char *name = 0);
+
+    int getkeyexp() const;
+    bool getmode() const;
+    QString getkeycomm() const;
+    QString getkeynumb() const;
+    QString getkeymail() const;
+    QString getkeyname() const;
+    QString getkeysize() const;
+    QString getkeytype() const;
 
 public slots:
-        void slotOk();
-        void slotApply();
-        void activateexp(int state);
-        bool getmode();
-        QString getkeycomm();
-        QString getkeynumb();
-        QString getkeymail();
-        QString getkeyname();
-        QString getkeysize();
-        QString getkeytype();
-        int getkeyexp();
+    void slotOk();
+    void slotUser1();
+    void slotActivateExp(const int &state);
+
+private slots:
+    void slotEnableOk();
+
+private:
+    KComboBox *m_keykind;
+    KComboBox *m_keysize;
+    KComboBox *m_keyexp;
+    KLineEdit *m_numb;
+    KLineEdit *m_comment;
+    KLineEdit *m_kname;
+    KLineEdit *m_mail;
+    bool m_expert;
 };
 
 #endif // KEYGEN_H
-

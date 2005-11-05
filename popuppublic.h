@@ -17,62 +17,80 @@
 #ifndef POPUPPUBLIC_H
 #define POPUPPUBLIC_H
 
-#include <kdialogbase.h>
-
-//#include <kiconloader.h>
-#include <kshortcut.h>
-//Added by qt3to4:
+#include <QKeySequence>
+#include <QStringList>
+#include <QString>
 #include <QPixmap>
 
+#include <kdialogbase.h>
+#include <kshortcut.h>
+
+#include "kgpgkey.h"
 
 class QPushButton;
 class QCheckBox;
+class QWidget;
+
 class KListView;
-class Q3ButtonGroup;
 class KProcIO;
 
-class popupPublic : public KDialogBase //QDialog
+class KgpgInterface;
+
+class KgpgSelectPublicKeyDlg : public KDialogBase
 {
-        Q_OBJECT
+    Q_OBJECT
+
 public:
+    KgpgSelectPublicKeyDlg(QWidget *parent = 0, const char *name = 0, const QString &sfile = "", const bool &filemode = false, const KShortcut &goDefaultKey = QKeySequence(Qt::CTRL + Qt::Key_Home), const bool &enabledshred = true);
 
-        popupPublic(QWidget *parent=0, const char *name=0,QString sfile="",bool filemode=false,KShortcut goDefaultKey=QKeySequence(Qt::CTRL+Qt::Key_Home));
-	~popupPublic();
-        KListView *keysList;
-        QCheckBox *CBarmor,*CBuntrusted,*CBshred,*CBsymmetric,*CBhideid;
-        bool fmode,trusted;
-        QPixmap keyPair,keySingle,keyGroup;
-        QString seclist;
-	QStringList untrustedList;
+    QStringList selectedKeys() const;
+    bool getSymmetric() const;
+    bool getUntrusted() const;
+    bool getArmor() const;
+    bool getHideId() const;
+    bool getShred() const;
 
-private:
-        KConfig *config;
-        Q3ButtonGroup *boutonboxoptions;
-        QString customOptions;
+signals:
+    void selectedKey(QStringList, QStringList, bool, bool);
+    void keyListFilled();
 
-private slots:
-        void customOpts(const QString &);
-        void slotprocread(KProcIO *);
-        void slotpreselect();
-        void refreshkeys();
-        void refresh(bool state);
-        void isSymetric(bool state);
-        void sort();
-        void enable();
-	void slotGotoDefaultKey();
-	
 public slots:
-void slotAccept();
-void slotSetVisible();
+    void slotAccept();
+    void slotSetVisible();
 
 protected slots:
-virtual void slotOk();
-	
-signals:
-        void selectedKey(QStringList ,QStringList,bool,bool);
-	void keyListFilled();
+    virtual void slotOk();
 
+private slots:
+    void symmetric(const bool &state);
+    void selectionChanged();
+    void customOpts(const QString &str);
+    void refreshKeys();
+    void refreshKeysReady(KgpgListKeys keys, KgpgInterface *interface);
+    void slotPreSelect();
+    void refresh(const bool &state);
+    void sort();
+    void enable();
+    void slotGotoDefaultKey();
+
+private:
+    QPixmap m_keysingle;
+    QPixmap m_keypair;
+    QPixmap m_keygroup;
+
+    QCheckBox *m_cbarmor;
+    QCheckBox *m_cbuntrusted;
+    QCheckBox *m_cbhideid;
+    QCheckBox *m_cbshred;
+    QCheckBox *m_cbsymmetric;
+
+    QString m_customoptions;
+    QString m_seclist; // list of IDs of secrets keys
+    QStringList m_untrustedlist; // list of keys that are untrusted
+
+    KListView *m_keyslist;
+
+    bool m_fmode;
 };
 
 #endif // POPUPPUBLIC_H
-

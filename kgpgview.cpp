@@ -15,36 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
-//////////////////////////////////////////////////////////////  code for the main view (editor)
-
-// include files for Qt
-//#include <qprinter.h>
-
-// application specific includes
-
-#include <q3scrollview.h>
-#include <qregexp.h>
-//Added by qt3to4:
+// code for the main view (editor)
 #include <QDragEnterEvent>
 #include <QVBoxLayout>
 #include <QTextStream>
 #include <QDropEvent>
+#include <QLayout>
+#include <QRegExp>
+#include <QFile>
+
+#include <Q3TextDrag>
 
 #include <kio/netaccess.h>
-#include <klocale.h>
-#include <kstdaction.h>
-#include <k3urldrag.h>
-
 #include <kmessagebox.h>
-#include <qfile.h>
-#include <qlayout.h>
-#include <kbuttonbox.h>
-#include <unistd.h>
-#include <kaction.h>
-#include <klineedit.h>
 #include <qtextcodec.h>
+#include <kstdaction.h>
+#include <kbuttonbox.h>
+#include <klineedit.h>
+#include <klocale.h>
+#include <kaction.h>
+#include <unistd.h>
 
-
+#include "selectsecretkey.h"
 #include "kgpgsettings.h"
 #include "kgpginterface.h"
 #include "kgpgview.h"
@@ -57,34 +49,32 @@
 #include "detailedconsole.h"
 
 //////////////// configuration for editor
-
-MyEditor::MyEditor( QWidget *parent )
-                : KTextEdit( parent )
+MyEditor::MyEditor(QWidget *parent, const char *name)
+        : KTextEdit(name, parent)
 {
-        setTextFormat(Qt::PlainText);
-	setCheckSpellingEnabled (true);
-        setAcceptDrops(true);
+    setTextFormat(Qt::PlainText);
+    setCheckSpellingEnabled(true);
+    setAcceptDrops(true);
 }
 
-void MyEditor::contentsDragEnterEvent( QDragEnterEvent *e )
+void MyEditor::contentsDragEnterEvent(QDragEnterEvent *e)
 {
-        ////////////////   if a file is dragged into editor ...
-        e->accept (K3URLDrag::canDecode(e) || Q3TextDrag::canDecode (e));
-        //e->accept (QTextDrag::canDecode (e));
+    ////////////////   if a file is dragged into editor ...
+    e->accept (KURL::List::canDecode(e->mimeData()) || Q3TextDrag::canDecode(e));
 }
 
-
-
-
-void MyEditor::contentsDropEvent( QDropEvent *e )
+void MyEditor::contentsDropEvent(QDropEvent *e)
 {
-        /////////////////    decode dropped file
-        KURL::List list;
-        QString text;
-        if ( K3URLDrag::decode( e, list ) )
-                slotDroppedFile(list.first());
-        else if ( Q3TextDrag::decode(e, text) )
-                insert(text);
+    /////////////////    decode dropped file
+    QString text;
+    KURL::List uriList = KURL::List::fromMimeData(e->mimeData());
+    if (!uriList.isEmpty())
+        slotDroppedFile(uriList.first());
+    else
+    {
+        if (Q3TextDrag::decode(e, text))
+            insert(text);
+    }
 }
 
 void MyEditor::slotDroppedFile(KURL url)
@@ -112,7 +102,7 @@ void MyEditor::slotDroppedFile(KURL url)
                 if ((tempFile.endsWith(".gpg")) || (tempFile.endsWith(".asc")) || (tempFile.endsWith(".pgp"))) {
                         slotDecodeFile(tempFile);
                 }
-		else slotCheckContent(tempFile);
+        else slotCheckContent(tempFile);
 }
 
 
@@ -144,7 +134,7 @@ QFile qfile(fileToCheck);
                                         }
                                 } else {
                                         if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK")) {
-						qfile.close();
+                        qfile.close();
                                                 KMessageBox::information(0,i18n("This file is a private key.\nPlease use kgpg key management to import it."));
                                                 KIO::NetAccess::removeTempFile(fileToCheck);
                                                 return true;
@@ -155,19 +145,19 @@ QFile qfile(fileToCheck);
                                         KIO::NetAccess::removeTempFile(fileToCheck);
                                 }
                 }
-		return false;
+        return false;
 }
 
 
 void MyEditor::editorUpdateDecryptedtxt(QString newtxt)
 {
-	setText(newtxt);
+    setText(newtxt);
 }
 
 void MyEditor::editorFailedDecryptedtxt(QString newtxt)
 {
-	if (!slotCheckContent(tempFile,false))
-	KMessageBox::detailedSorry(this,i18n("Decryption failed."),newtxt);
+    if (!slotCheckContent(tempFile,false))
+    KMessageBox::detailedSorry(this,i18n("Decryption failed."),newtxt);
 }
 
 
@@ -176,9 +166,9 @@ void MyEditor::slotDecodeFile(QString fname)
         ////////////////     decode file from given url into editor
         QFile qfile(QFile::encodeName(fname));
         if (qfile.open(QIODevice::ReadOnly)) {
-	KgpgInterface *txtDecrypt=new KgpgInterface();
+    KgpgInterface *txtDecrypt=new KgpgInterface();
         connect (txtDecrypt,SIGNAL(txtdecryptionfinished(QString)),this,SLOT(editorUpdateDecryptedtxt(QString)));
-	connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(editorFailedDecryptedtxt(QString)));
+    connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(editorFailedDecryptedtxt(QString)));
         txtDecrypt->KgpgDecryptFileToText(KURL(fname),QStringList::split(QString(" "),KGpgSettings::customDecrypt().simplifyWhiteSpace()));
         } else
                 KMessageBox::sorry(this,i18n("Unable to read file."));
@@ -187,7 +177,7 @@ void MyEditor::slotDecodeFile(QString fname)
 
 void MyEditor::slotProcessResult(QStringList iKeys)
 {
-	emit refreshImported(iKeys);
+    emit refreshImported(iKeys);
         KIO::NetAccess::removeTempFile(tempFile);
         tempFile=QString::null;
 }
@@ -195,36 +185,34 @@ void MyEditor::slotProcessResult(QStringList iKeys)
 
 ////////////////////////// main view configuration
 
-KgpgView::KgpgView(QWidget *parent, const char *name) : QWidget(parent, name)
+KgpgView::KgpgView(QWidget *parent, const char *name)
+        : QWidget(parent, name)
 {
-        editor=new MyEditor(this);
-	windowAutoClose=true;
+    editor = new MyEditor(this);
+    windowAutoClose=true;
 
-        /////    layout
+    /////    layout
+    QVBoxLayout *vbox = new QVBoxLayout(this, 3);
 
-        QVBoxLayout *vbox=new QVBoxLayout(this,3);
+    editor->setReadOnly(false);
+    editor->setUndoRedoEnabled(true);
 
-        editor->setReadOnly( false );
-        editor->setUndoRedoEnabled(true);
-        // editor->setUndoDepth(5);
+    setAcceptDrops(true);
 
-        setAcceptDrops(true);
+    KButtonBox *boutonbox = new KButtonBox(this, Qt::Horizontal, 15, 12);
+    boutonbox->addStretch(1);
 
-        KButtonBox *boutonbox=new KButtonBox(this,Qt::Horizontal,15,12);
-        boutonbox->addStretch(1);
+    bouton0 = boutonbox->addButton(i18n("S&ign/Verify"), this, SLOT(clearSign()), true);
+    bouton1 = boutonbox->addButton(i18n("En&crypt"), this, SLOT(popuppublic()), true);
+    bouton2 = boutonbox->addButton(i18n("&Decrypt"), this, SLOT(slotdecode()), true);
 
-        bouton0=boutonbox->addButton(i18n("S&ign/Verify"),this,SLOT(clearSign()),TRUE);
-        bouton1=boutonbox->addButton(i18n("En&crypt"),this,SLOT(popuppublic()),TRUE);
-        bouton2=boutonbox->addButton(i18n("&Decrypt"),this,SLOT(slotdecode()),TRUE);
+    connect(editor, SIGNAL(textChanged()), this, SLOT(modified()));
 
-        QObject::connect(editor,SIGNAL(textChanged()),this,SLOT(modified()));
-
-        boutonbox->layout();
-        editor->resize(editor->maximumSize());
-        vbox->addWidget(editor);
-        vbox->addWidget(boutonbox);
+    boutonbox->layout();
+    editor->resize(editor->maximumSize());
+    vbox->addWidget(editor);
+    vbox->addWidget(boutonbox);
 }
-
 
 void KgpgView::modified()
 {
@@ -243,21 +231,30 @@ void KgpgView::modified()
 
 void KgpgView::slotAskForImport(QString ID)
 {
-if (KMessageBox::questionYesNo(0,i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>"
-	"Do you want to import this key from a keyserver?</qt>").arg(ID),i18n("Missing Key"),i18n("Import"),i18n("Do Not Import"))==KMessageBox::Yes) {
-        keyServer *kser=new keyServer(0,"server_dialog",false,true);
-        kser->page->kLEimportid->setText(ID);
+    KGuiItem importitem = KStdGuiItem::yes();
+    importitem.setText(i18n("&Import"));
+    importitem.setToolTip(i18n("Import key in your list"));
+
+    KGuiItem noimportitem = KStdGuiItem::no();
+    noimportitem.setText(i18n("Do &Not Import"));
+    noimportitem.setToolTip(i18n("Will not import this key in your list"));
+
+    if (KMessageBox::questionYesNo(this, i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>Do you want to import this key from a keyserver?</qt>").arg(ID), i18n("Missing Key"), importitem, noimportitem) == KMessageBox::Yes)
+    {
+        keyServer *kser = new keyServer(0, "server_dialog", false, true);
+        kser->slotSetText(ID);
         kser->slotImport();
-	windowAutoClose=false;
-        }
-	else emit verifyFinished();
+        windowAutoClose = false;
+    }
+    else
+        emit verifyFinished();
 }
 
 void KgpgView::slotVerifyResult(QString mssge,QString log)
 {
 emit verifyFinished();
 //KMessageBox::information(0,mssge);
-(void) new KDetailedInfo(0,"verify_result",mssge,log);
+(void) new KgpgDetailedInfo(0,"verify_result",mssge,log);
 }
 
 void KgpgView::clearSign()
@@ -265,31 +262,31 @@ void KgpgView::clearSign()
         QString mess=editor->text();
         if (mess.startsWith("-----BEGIN PGP SIGNED")) {
                 //////////////////////   this is a signed message, verify it
-		KgpgInterface *verifyProcess=new KgpgInterface();
-		connect(verifyProcess,SIGNAL(missingSignature(QString)),this,SLOT(slotAskForImport(QString)));
-		connect(verifyProcess,SIGNAL(verifyOver(QString,QString)),this,SLOT(slotVerifyResult(QString,QString)));
-		verifyProcess->KgpgVerifyText(mess);                                                
-        	} 
-		else {
+        KgpgInterface *verifyProcess=new KgpgInterface();
+        connect(verifyProcess,SIGNAL(missingSignature(QString)),this,SLOT(slotAskForImport(QString)));
+        connect(verifyProcess,SIGNAL(verifyOver(QString,QString)),this,SLOT(slotVerifyResult(QString,QString)));
+        verifyProcess->KgpgVerifyText(mess);
+            }
+        else {
                 /////    Sign the text in Editor
-		QString signKeyID;
-		///// open key selection dialog
-                KgpgSelKey *opts=new KgpgSelKey(this,0);
+        QString signKeyID;
+        ///// open key selection dialog
+                KgpgSelectSecretKey *opts=new KgpgSelectSecretKey(this,0);
 
                 if (opts->exec()==QDialog::Accepted) {
-                        signKeyID=opts->getkeyID();
+                        signKeyID=opts->getKeyID();
                 } else {
                         delete opts;
                         return;
                 }
                 delete opts;
-		
-		KgpgInterface *signProcess=new KgpgInterface();
-		connect(signProcess,SIGNAL(txtSignOver(QString)),this,SLOT(slotSignResult(QString)));
-		QStringList options;
-		if (KGpgSettings::pgpCompatibility())
+
+        KgpgInterface *signProcess=new KgpgInterface();
+        connect(signProcess,SIGNAL(txtSignOver(QString)),this,SLOT(slotSignResult(QString)));
+        QStringList options = QStringList();
+        if (KGpgSettings::pgpCompatibility())
                         options<<"--pgp6";
-		signProcess->KgpgSignText(mess,signKeyID,options);
+        signProcess->KgpgSignText(mess,signKeyID,options);
 }
 }
 
@@ -300,19 +297,19 @@ if (signResult.isEmpty())
 KMessageBox::sorry(this,i18n("Signing not possible: bad passphrase or missing key"));
 else
 {
-	if (checkForUtf8(signResult))
-	{
-	editor->setText(QString::fromUtf8(signResult.ascii()));
-	emit resetEncoding(true);
-	}
-	else
-	{
-	editor->setText(signResult);
-	emit resetEncoding(false);
-	}
-	KgpgApp *win=(KgpgApp *) parent();
-	win->editRedo->setEnabled(false);
-	win->editUndo->setEnabled(false);
+    if (checkForUtf8(signResult))
+    {
+    editor->setText(QString::fromUtf8(signResult.ascii()));
+    emit resetEncoding(true);
+    }
+    else
+    {
+    editor->setText(signResult);
+    emit resetEncoding(false);
+    }
+    KgpgApp *win=(KgpgApp *) parent();
+    win->editRedo->setEnabled(false);
+    win->editUndo->setEnabled(false);
 }
 }
 
@@ -323,7 +320,7 @@ void KgpgView::popuppublic()
         /////    popup dialog to select public key for encryption
 
         ////////  open dialog --> popuppublic.cpp
-        popupPublic *dialogue=new popupPublic(this, "public_keys", 0,false,((KgpgApp *) parent())->goDefaultKey);
+        KgpgSelectPublicKeyDlg *dialogue=new KgpgSelectPublicKeyDlg(this, "public_keys", 0,false,((KgpgApp *) parent())->goDefaultKey);
         connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(encodetxt(QStringList,QStringList,bool,bool)));
         dialogue->exec();
         delete dialogue;
@@ -340,12 +337,12 @@ void KgpgView::slotdecode()
         messages=QString::null;
 
         //QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
-	KgpgInterface *txtDecrypt=new KgpgInterface();
+    KgpgInterface *txtDecrypt=new KgpgInterface();
         connect (txtDecrypt,SIGNAL(txtdecryptionfinished(QString)),this,SLOT(updateDecryptedtxt(QString)));
-	connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(failedDecryptedtxt(QString)));
+    connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(failedDecryptedtxt(QString)));
         txtDecrypt->KgpgDecryptText(editor->text(),QStringList::split(QString(" "),KGpgSettings::customDecrypt().simplifyWhiteSpace()));
 
-	/*
+    /*
         KgpgApp *win=(KgpgApp *) parent();
         if (!resultat.isEmpty()) {
                 editor->setText(resultat);
@@ -356,29 +353,29 @@ void KgpgView::slotdecode()
 
 void KgpgView::updateDecryptedtxt(QString newtxt)
 {
-	//kdDebug(2100)<<"UTF8 Test Result--------------"<<KgpgView::checkForUtf8()<<endl;
-	if (checkForUtf8(newtxt))
-	{
-	editor->setText(QString::fromUtf8(newtxt.ascii()));
-	emit resetEncoding(true);
-	}
-	else
-	{
-	editor->setText(newtxt);
-	emit resetEncoding(false);
-	}
+    //kdDebug(2100)<<"UTF8 Test Result--------------"<<KgpgView::checkForUtf8()<<endl;
+    if (checkForUtf8(newtxt))
+    {
+    editor->setText(QString::fromUtf8(newtxt.ascii()));
+    emit resetEncoding(true);
+    }
+    else
+    {
+    editor->setText(newtxt);
+    emit resetEncoding(false);
+    }
 }
 
 bool KgpgView::checkForUtf8(QString text)
 {  //// try to guess if the decrypted text uses utf-8 encoding
 QTextCodec *codec =QTextCodec::codecForLocale ();
-		if (!codec->canEncode(text)) return true;
+        if (!codec->canEncode(text)) return true;
 return false;
 }
 
 void KgpgView::failedDecryptedtxt(QString newtxt)
 {
-	KMessageBox::detailedSorry(this,i18n("Decryption failed."),newtxt);
+    KMessageBox::detailedSorry(this,i18n("Decryption failed."),newtxt);
 }
 
 
@@ -388,9 +385,9 @@ void KgpgView::encodetxt(QStringList selec,QStringList encryptOptions,bool, bool
         if (KGpgSettings::pgpCompatibility())
                 encryptOptions<<"--pgp6";
 
-	if (symmetric) selec.clear();
+    if (symmetric) selec.clear();
 
-	KgpgInterface *txtCrypt=new KgpgInterface();
+    KgpgInterface *txtCrypt=new KgpgInterface();
         connect (txtCrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(updatetxt(QString)));
         txtCrypt->KgpgEncryptText(editor->text(),selec,encryptOptions);
         //KMessageBox::sorry(0,"OVER");

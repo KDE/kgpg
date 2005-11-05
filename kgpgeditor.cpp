@@ -17,34 +17,30 @@
 
 #include <stdlib.h>
 
-#include <kaction.h>
-#include <kfiledialog.h>
-#include <klocale.h>
-#include <dcopclient.h>
-#include <q3paintdevicemetrics.h>
-#include <q3cstring.h>
-//Added by qt3to4:
+#include <QRadioButton>
 #include <QTextStream>
 #include <QCloseEvent>
+#include <QClipboard>
+#include <QTextCodec>
+#include <QCheckBox>
+#include <QPainter>
 
 #include <kencodingfiledialog.h>
-
-#include <qradiobutton.h>
-#include <qclipboard.h>
-#include <qtextcodec.h>
-#include <qpainter.h>
-#include <kprinter.h>
-#include <kmessagebox.h>
-#include <kdebug.h>
-#include <klineedit.h>
-#include <qcheckbox.h>
 #include <kurlrequester.h>
-#include <ktempfile.h>
 #include <kio/netaccess.h>
 #include <kio/renamedlg.h>
 #include <kedittoolbar.h>
+#include <kmessagebox.h>
+#include <kfiledialog.h>
+#include <dcopclient.h>
+#include <klineedit.h>
+#include <ktempfile.h>
+#include <kprinter.h>
+#include <kaction.h>
+#include <klocale.h>
+#include <kdebug.h>
 
-
+#include "selectsecretkey.h"
 #include "kgpgsettings.h"
 #include "kgpgeditor.h"
 #include "sourceselect.h"
@@ -56,286 +52,294 @@
 #include "listkeys.h"
 #include "kgpglibrary.h"
 
-KgpgApp::KgpgApp(QWidget *parent, const char *name, Qt::WFlags f,KShortcut goHome,bool mainWindow):KMainWindow(parent, name,f)
+KgpgApp::KgpgApp(QWidget *parent, const char *name, Qt::WFlags f, KShortcut goHome, bool mainWindow)
+       : KMainWindow(parent, name, f)
 {
-	isMainWindow=mainWindow;
-	textEncoding=QString::null;
-        readOptions();
-	goDefaultKey=goHome;
-        // call inits to invoke all other construction parts
-	
-        initActions();
-        initView();
+    isMainWindow = mainWindow;
+    textEncoding = QString::null;
+    readOptions();
+    goDefaultKey = goHome;
 
-	slotSetFont(KGpgSettings::font());
-        setupGUI(( ToolBar | Keys | StatusBar | Save | Create ), "kgpg.rc");
-	setAutoSaveSettings("Editor",true);
+    // call inits to invoke all other construction parts
+    initActions();
+    initView();
 
+    slotSetFont(KGpgSettings::font());
+    setupGUI((ToolBar | Keys | StatusBar | Save | Create ), "kgpg.rc");
+    setAutoSaveSettings("Editor", true);
 }
 
 KgpgApp::~KgpgApp()
 {
-delete view;
+    delete view;
 }
 
-void KgpgApp::slotOptions()
+void KgpgApp::openDocumentFile(const KURL& url, QString encoding)
 {
-QByteArray data;
-if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showOptions()",data))
-kdDebug(2100) <<"there was some error using DCOP."<<endl;
-}
+    QString tempOpenFile;
 
-void KgpgApp::slotKeyManager()
-{
-QByteArray data;
-if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showKeyManager()",data))
-kdDebug(2100) <<"there was some error using DCOP."<<endl;
-}
+    if(KIO::NetAccess::download(url, tempOpenFile, this))
+    {
+        QFile qfile(tempOpenFile);
+        if (qfile.open(QIODevice::ReadOnly))
+        {
+            QTextStream t(&qfile);
+            t.setCodec(QTextCodec::codecForName(encoding.ascii()));
+            view->editor->setText(t.read());
+            qfile.close();
 
-void KgpgApp::closeEvent ( QCloseEvent * e )
-{
-        if (!isMainWindow) 
-	{
-	 kapp->ref();	
-	KMainWindow::closeEvent( e );
-	}
-  else e->accept();
-}
-
-void KgpgApp::closeWindow()
-{
-if (view->windowAutoClose) close();
-kdDebug(2100) << "Close requested"<<endl;
-}
-
-void KgpgApp::saveOptions()
-{
-        KGpgSettings::setEditorGeometry(size());
-        KGpgSettings::setFirstRun(false);
-        KGpgSettings::writeConfig();
-}
-
-void KgpgApp::readOptions(bool doresize)
-{
-	customDecrypt=QStringList::split(QString(" "), KGpgSettings::customDecrypt().simplifyWhiteSpace());
-
-        if (doresize) {
-                QSize size= KGpgSettings::editorGeometry();
-                if (!size.isEmpty())
-                        resize(size);
+            fileSave->setEnabled(false);
+            editRedo->setEnabled(false);
+            editUndo->setEnabled(false);
         }
-
+        KIO::NetAccess::removeTempFile(tempOpenFile);
+    }
 }
 
-void KgpgApp::initActions()
+void KgpgApp::openEncryptedDocumentFile(const KURL& url)
 {
-        KStdAction::openNew(this, SLOT(slotFileNew()), actionCollection());
-        KStdAction::open(this, SLOT(slotFileOpen()), actionCollection());
-        KStdAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
-        KStdAction::quit(this, SLOT(slotFileQuit()), actionCollection());
-        KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
-        KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
-        KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
-	KStdAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
-	KStdAction::preferences(this, SLOT(slotOptions()), actionCollection(),"kgpg_config");
-
-        //KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()), actionCollection());
-        //KStdAction::configureToolbars(this, SLOT(slotConfigureToolbars()), actionCollection());
-
-        fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
-        (void) new KAction(i18n("&Encrypt File..."), "encrypted", 0,this, SLOT(slotFilePreEnc()), actionCollection(),"file_encrypt");
-        (void) new KAction(i18n("&Decrypt File..."), "decrypted", 0,this, SLOT(slotFilePreDec()), actionCollection(),"file_decrypt");
-	(void) new KAction(i18n("&Open Key Manager"), "kgpg", 0,this, SLOT(slotKeyManager()), actionCollection(),"key_manage");
-        editUndo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
-        editRedo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());
-        //(void) new KAction(i18n("&Manage Keys"), "kgpg_manage", CTRL+Key_K,this, SLOT(slotManageKey()), actionCollection(),"keys_manage");
-        (void) new KAction(i18n("&Generate Signature..."),0, this, SLOT(slotPreSignFile()), actionCollection(), "sign_generate");
-        (void) new KAction(i18n("&Verify Signature..."),0, this, SLOT(slotPreVerifyFile()), actionCollection(), "sign_verify");
-        (void) new KAction(i18n("&Check MD5 Sum..."), 0,this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
-	KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
-
-	encodingAction=new KToggleAction(i18n("&Unicode (utf-8) Encoding"), 0, 0,this, SLOT(slotSetCharset()),actionCollection(),"charsets");
+    view->editor->slotDroppedFile(url);
 }
 
 void KgpgApp::slotSetFont(QFont myFont)
 {
-view->editor->setFont (myFont);
+    view->editor->setFont(myFont);
 }
 
+void KgpgApp::closeWindow()
+{
+    if (view->windowAutoClose)
+        close();
 
-void KgpgApp::slotSetCharset()
-{
-////////  work in progress
-if (encodingAction->isChecked())
-view->editor->setText(QString::fromUtf8(view->editor->text().ascii()));
-else
-{
-if (checkEncoding(QTextCodec::codecForLocale ())) return;
-view->editor->setText(view->editor->text().utf8());
+    kdDebug(2100) << "Close requested" << endl;
 }
+
+void KgpgApp::readOptions(bool doresize)
+{
+    customDecrypt = QStringList::split(QString(" "), KGpgSettings::customDecrypt().simplified());
+
+    if (doresize)
+    {
+        QSize size = KGpgSettings::editorGeometry();
+        if (!size.isEmpty())
+            resize(size);
+    }
+}
+
+void KgpgApp::saveOptions()
+{
+    KGpgSettings::setEditorGeometry(size());
+    KGpgSettings::setFirstRun(false);
+    KGpgSettings::writeConfig();
+}
+
+void KgpgApp::initActions()
+{
+    KStdAction::openNew(this, SLOT(slotFileNew()), actionCollection());
+    KStdAction::open(this, SLOT(slotFileOpen()), actionCollection());
+    KStdAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
+    KStdAction::quit(this, SLOT(slotFileQuit()), actionCollection());
+    KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
+    KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
+    KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
+    KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
+    KStdAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
+    KStdAction::preferences(this, SLOT(slotOptions()), actionCollection(), "kgpg_config");
+
+    //KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()), actionCollection());
+    //KStdAction::configureToolbars(this, SLOT(slotConfigureToolbars()), actionCollection());
+
+    fileSave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
+    editUndo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
+    editRedo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());
+
+    (void) new KAction(i18n("&Encrypt File..."), "encrypted", 0, this, SLOT(slotFilePreEnc()), actionCollection(),"file_encrypt");
+    (void) new KAction(i18n("&Decrypt File..."), "decrypted", 0, this, SLOT(slotFilePreDec()), actionCollection(),"file_decrypt");
+    (void) new KAction(i18n("&Open Key Manager"), "kgpg", 0, this, SLOT(slotKeyManager()), actionCollection(),"key_manage");
+
+    //(void) new KAction(i18n("&Manage Keys"), "kgpg_manage", CTRL+Key_K,this, SLOT(slotManageKey()), actionCollection(),"keys_manage");
+    (void) new KAction(i18n("&Generate Signature..."), 0, this, SLOT(slotPreSignFile()), actionCollection(), "sign_generate");
+    (void) new KAction(i18n("&Verify Signature..."), 0, this, SLOT(slotPreVerifyFile()), actionCollection(), "sign_verify");
+    (void) new KAction(i18n("&Check MD5 Sum..."), 0, this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
+
+    encodingAction = new KToggleAction(i18n("&Unicode (utf-8) Encoding"), 0, 0, this, SLOT(slotSetCharset()), actionCollection(), "charsets");
 }
 
 void KgpgApp::initView()
 {
-        ////////////////////////////////////////////////////////////////////
-        // create the main widget here that is managed by KTMainWindow's view-region and
-        // connect the widget to your document to display document contents.
+    //********************************************************************************
+    // create the main widget here that is managed by KTMainWindow's view-region and
+    // connect the widget to your document to display document contents.
 
-        view = new KgpgView(this,0);
-        //  doc->addView(view);
-	connect(view,SIGNAL(resetEncoding(bool)),this,SLOT(slotResetEncoding(bool)));
-        setCentralWidget(view);
-        setCaption(i18n("Untitled"),false); ///   doc->URL().fileName(),false);
+    view = new KgpgView(this, 0);
+    connect(view, SIGNAL(resetEncoding(bool)), this, SLOT(slotResetEncoding(bool)));
+    setCentralWidget(view);
+    setCaption(i18n("Untitled"), false); // doc->URL().fileName(),false);
+}
 
+void KgpgApp::closeEvent (QCloseEvent *e)
+{
+    if (!isMainWindow)
+    {
+        kapp->ref();
+        KMainWindow::closeEvent(e);
+    }
+    else
+        e->accept();
 }
 
 void KgpgApp::slotFileQuit()
 {
-        saveOptions();
-        exit(1);
-}
-
-void KgpgApp::slotResetEncoding(bool enc)
-{
-//kdDebug(2100)<<"Resetting encoding--------------------"<<endl;
-encodingAction->setChecked(enc);
-//if (enc) slotSetCharset();
+    saveOptions();
+    exit(1);
 }
 
 void KgpgApp::slotFileNew()
 {
-        //////  delete all text from editor
+    // delete all text from editor
+    view->editor->setText(QString::null);
+    editRedo->setEnabled(false);
+    editUndo->setEnabled(false);
+    fileSave->setEnabled(false);
+    Docname = QString::null;
 
-        view->editor->setText(QString::null);
-        editRedo->setEnabled(false);
-        editUndo->setEnabled(false);
-        setCaption(i18n("Untitled"), false);
-        fileSave->setEnabled(false);
-        Docname=QString::null;
-	slotResetEncoding(false);
+    setCaption(i18n("Untitled"), false);
+    slotResetEncoding(false);
+}
+
+void KgpgApp::slotResetEncoding(bool enc)
+{
+    //kdDebug(2100) << "Resetting encoding--------------------" << endl;
+    encodingAction->setChecked(enc);
+    //if (enc) slotSetCharset();
 }
 
 void KgpgApp::slotFilePreEnc()
 {
-        QStringList opts;
-	KURL::List urls=KFileDialog::getOpenURLs(QString::null,
-                                         i18n("*|All Files"), this, i18n("Open File to Encode"));
-        if (urls.isEmpty())
-                return;
-	emit encryptFiles(urls);
+    QStringList opts;
+    KURL::List urls = KFileDialog::getOpenURLs(QString::null, i18n("*|All Files"), this, i18n("Open File to Encode"));
+    if (urls.isEmpty())
+        return;
+    emit encryptFiles(urls);
 }
 
 void KgpgApp::slotFilePreDec()
 {
+    KURL url = KFileDialog::getOpenURL(QString::null, i18n("*|All Files"), this, i18n("Open File to Decode"));
 
-        KURL url=KFileDialog::getOpenURL(QString::null,
-                                         i18n("*|All Files"), this, i18n("Open File to Decode"));
+    if (url.isEmpty())
+        return;
 
-        if (url.isEmpty())
-                return;
-        QString oldname=url.fileName();
+    QString oldname = url.fileName();
+    QString newname;
 
-        QString newname;
+    if (oldname.endsWith(".gpg") || oldname.endsWith(".asc") || oldname.endsWith(".pgp"))
+        oldname.truncate(oldname.length() - 4);
+    else
+        oldname.append(".clear");
+    oldname.prepend(url.directory(0, 0));
 
-        if (oldname.endsWith(".gpg") || oldname.endsWith(".asc") || oldname.endsWith(".pgp"))
-                oldname.truncate(oldname.length()-4);
-        else
-                oldname.append(".clear");
-        oldname.prepend(url.directory(0,0));
+    KDialogBase *popn = new KDialogBase(KDialogBase::Swallow, i18n("Decrypt File To"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "file_decrypt", true);
 
-	KDialogBase *popn=new KDialogBase( KDialogBase::Swallow, i18n("Decrypt File To"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "file_decrypt",true);
+    SrcSelect *page = new SrcSelect();
+    popn->setMainWidget(page);
+    page->newFilename->setURL(oldname);
+    page->newFilename->setMode(KFile::File);
+    page->newFilename->setCaption(i18n("Save File"));
 
-	SrcSelect *page=new SrcSelect();
-	popn->setMainWidget(page);
-	page->newFilename->setURL(oldname);
-	page->newFilename->setMode(KFile::File);
-	page->newFilename->setCaption(i18n("Save File"));
-
-	page->checkClipboard->setText(i18n("Editor"));
-	page->resize(page->minimumSize());
-	popn->resize(popn->minimumSize());
-        if (popn->exec()==QDialog::Accepted) {
-                if (page->checkFile->isChecked())
-                        newname=page->newFilename->url();
-        } else {
-                delete popn;
-                return;
-        }
+    page->checkClipboard->setText(i18n("Editor"));
+    page->resize(page->minimumSize());
+    popn->resize(popn->minimumSize());
+    if (popn->exec() == QDialog::Accepted)
+    {
+        if (page->checkFile->isChecked())
+            newname = page->newFilename->url();
+    }
+    else
+    {
         delete popn;
+        return;
+    }
+    delete popn;
 
+    if (!newname.isEmpty())
+    {
+        QFile fgpg(newname);
+        if (fgpg.exists())
+        {
+            KIO::RenameDlg *over = new KIO::RenameDlg(0, i18n("File Already Exists"), QString::null, newname, KIO::M_OVERWRITE);
+            if (over->exec() == QDialog::Rejected)
+            {
+                delete over;
+                return;
+            }
+            newname = over->newDestURL().path();
+            delete over;
+        }
 
-        if (!newname.isEmpty()) {
-                QFile fgpg(newname);
-                if (fgpg.exists()) {
-			KIO::RenameDlg *over=new KIO::RenameDlg(0,i18n("File Already Exists"),QString::null,newname,KIO::M_OVERWRITE);
-		    	if (over->exec()==QDialog::Rejected)
-	    		{
-                	delete over;
-                	return;
-            		}
-	    		newname=over->newDestURL().path();
-	    		delete over;
-                }
-                KgpgLibrary *lib=new KgpgLibrary(this);
-                lib->slotFileDec(url,KURL(newname), customDecrypt);
-		connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(refreshImported(QStringList)));
-        } else
-                openEncryptedDocumentFile(url);
+        KgpgLibrary *lib = new KgpgLibrary(this);
+        lib->slotFileDec(url, KURL(newname), customDecrypt);
+        connect(lib, SIGNAL(importOver(QStringList)), this, SIGNAL(refreshImported(QStringList)));
+    }
+    else
+        openEncryptedDocumentFile(url);
 }
 
 void KgpgApp::slotFileOpen()
 {
-	KEncodingFileDialog::Result loadResult;
-	loadResult=KEncodingFileDialog::getOpenURLAndEncoding(QString::null,QString::null,QString::null,this);
-	KURL url=loadResult.URLs.first();
-	textEncoding=loadResult.encoding;
-	
-        if(!url.isEmpty()) {
-                openDocumentFile(url,textEncoding);
-                Docname=url;
-                fileSave->setEnabled(false);
-                //fileSaveAs->setEnabled(true);
-                setCaption(url.fileName(), false);
-        }
+    KEncodingFileDialog::Result loadResult;
+    loadResult = KEncodingFileDialog::getOpenURLAndEncoding(QString::null, QString::null, QString::null, this);
+    KURL url = loadResult.URLs.first();
+    textEncoding = loadResult.encoding;
 
-}
-
-bool KgpgApp::checkEncoding(QTextCodec *codec)
-{
- /////////////          KGlobal::locale()->encoding()->name()
-return codec->canEncode(view->editor->text());
+    if(!url.isEmpty())
+    {
+        openDocumentFile(url, textEncoding);
+        Docname = url;
+        fileSave->setEnabled(false);
+        //fileSaveAs->setEnabled(true);
+        setCaption(url.fileName(), false);
+    }
 }
 
 void KgpgApp::slotFileSave()
 {
-    QString filn=Docname.path();
-    if (filn.isEmpty()) {
-    	slotFileSaveAs();
-    	return;
+    QString filn = Docname.path();
+    if (filn.isEmpty())
+    {
+        slotFileSaveAs();
+        return;
     }
-    QTextCodec*cod=QTextCodec::codecForName (textEncoding.ascii());
-        // slotStatusMsg(i18n("Saving file..."));
-    if (!checkEncoding(cod)) {
-	KMessageBox::sorry(this,i18n("The document could not been saved, as the selected encoding cannot encode every unicode character in it."));
-	return;
+
+    QTextCodec*cod = QTextCodec::codecForName(textEncoding.ascii());
+    // slotStatusMsg(i18n("Saving file..."));
+
+    if (!checkEncoding(cod))
+    {
+        KMessageBox::sorry(this, i18n("The document could not been saved, as the selected encoding cannot encode every unicode character in it."));
+        return;
     }
 
     KTempFile tmpfile;
-    if (Docname.isLocalFile()) {
-    QFile f(filn);
-    if ( !f.open( QIODevice::WriteOnly ) ) {
-	KMessageBox::sorry(this,i18n("The document could not be saved, please check your permissions and disk space."));
-        return;
+    if (Docname.isLocalFile())
+    {
+        QFile f(filn);
+        if (!f.open( QIODevice::WriteOnly))
+        {
+            KMessageBox::sorry(this, i18n("The document could not be saved, please check your permissions and disk space."));
+            return;
+        }
+
+        QTextStream t(&f);
+        t.setCodec(cod);
+        //t.setEncoding(QTextStream::Latin1);
+        t << view->editor->text(); //.utf8();
+        f.close();
     }
-    QTextStream t( &f );
-    t.setCodec(cod);
-    //t.setEncoding( QTextStream::Latin1 );
-    t << view->editor->text();//.utf8();
-    f.close();
-    }
-    else {
-	/*FIXME  use following code:
-	 QFile f( fName );
+    else
+    {
+    /*FIXME  use following code:
+     QFile f( fName );
 00983         if ( !f.open( IO_ReadOnly ) )
 00984             return;
 00985         QFileInfo info ( f );
@@ -346,211 +350,228 @@ void KgpgApp::slotFileSave()
 00990         f.close();
 
 */
-	QTextStream *stream = tmpfile.textStream();
-	stream->setCodec(cod);
-    	*stream << view->editor->text();//.utf8();
-   	tmpfile.close();
-	if(!KIO::NetAccess::upload(tmpfile.name(), Docname,this)) {
-	    KMessageBox::sorry(this,i18n("The document could not be saved, please check your permissions and disk space."));
-	    tmpfile.unlink();
+        QTextStream *stream = tmpfile.textStream();
+        stream->setCodec(cod);
+        *stream << view->editor->text();//.utf8();
+        tmpfile.close();
+
+        if(!KIO::NetAccess::upload(tmpfile.name(), Docname, this))
+        {
+            KMessageBox::sorry(this, i18n("The document could not be saved, please check your permissions and disk space."));
+            tmpfile.unlink();
             return;
-	}
-	tmpfile.unlink();
+        }
+        tmpfile.unlink();
     }
 
     fileSave->setEnabled(false);
-    setCaption(Docname.fileName(),false);
+    setCaption(Docname.fileName(), false);
 }
-
 
 void KgpgApp::slotFileSaveAs()
 {
+    //KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),i18n("*|All Files"), this, i18n("Save As"));
+    KEncodingFileDialog::Result saveResult;
+    saveResult = KEncodingFileDialog::getSaveURLAndEncoding(QString::null, QString::null, QString::null, this);
+    KURL url = saveResult.URLs.first();
+    QString selectedEncoding = saveResult.encoding;
 
-        //KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),i18n("*|All Files"), this, i18n("Save As"));
-	KEncodingFileDialog::Result saveResult;
-	saveResult=KEncodingFileDialog::getSaveURLAndEncoding (QString::null,QString::null,QString::null,this);
-	KURL url=saveResult.URLs.first();
-	QString selectedEncoding=saveResult.encoding;
-
-	if(!url.isEmpty()) {
-		if (url.isLocalFile())
-		{
-                QString filn=url.path();
-                QFile f(filn);
-                if (f.exists()) {
-                        QString message=i18n("Overwrite existing file %1?").arg(url.fileName());
-                        int result=KMessageBox::warningContinueCancel(this,QString(message),i18n("Warning"),i18n("Overwrite"));
-                        if (result==KMessageBox::Cancel)
-                                return;
-                }
-                f.close();
-		}
-		else if (KIO::NetAccess::exists(url,false,this))
-		{
-		QString message=i18n("Overwrite existing file %1?").arg(url.fileName());
-                        int result=KMessageBox::warningContinueCancel(this,QString(message),i18n("Warning"),i18n("Overwrite"));
-                        if (result==KMessageBox::Cancel)
-                                return;
-		}
-	Docname=url;
-	textEncoding=selectedEncoding;
-	slotFileSave();
-	}
-}
-
-void KgpgApp::openDocumentFile(const KURL& url,QString encoding)
-{
-QString tempOpenFile;
-        /////////////////////////////////////////////////
-if( KIO::NetAccess::download( url, tempOpenFile,this ) ) {
-        QFile qfile(tempOpenFile);
-        if (qfile.open(QIODevice::ReadOnly)) {
-                QTextStream t( &qfile );
-		t.setCodec(QTextCodec::codecForName (encoding.ascii()));
-                view->editor->setText(t.read());
-                qfile.close();
-                fileSave->setEnabled(false);
-                editRedo->setEnabled(false);
-                editUndo->setEnabled(false);
+    if(!url.isEmpty())
+    {
+        if (url.isLocalFile())
+        {
+            QString filn = url.path();
+            QFile f(filn);
+            if (f.exists())
+            {
+                QString message = i18n("Overwrite existing file %1?").arg(url.fileName());
+                int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), i18n("Overwrite"));
+                if (result == KMessageBox::Cancel)
+                    return;
+            }
+            f.close();
         }
-}
+        else
+        if (KIO::NetAccess::exists(url, false, this))
+        {
+            QString message = i18n("Overwrite existing file %1?").arg(url.fileName());
+            int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), i18n("Overwrite"));
+            if (result == KMessageBox::Cancel)
+                return;
+        }
+
+        Docname = url;
+        textEncoding = selectedEncoding;
+        slotFileSave();
+    }
 }
 
 void KgpgApp::slotFilePrint()
 {
-        KPrinter prt;
-        //kdDebug(2100)<<"Printing..."<<endl;
-        if (prt.setup(this)) {
-                QPainter painter(&prt);
-                Q3PaintDeviceMetrics metrics(painter.device());
-                painter.drawText( 0, 0, metrics.width(), metrics.height(), Qt::AlignLeft|Qt::AlignTop|Qt::TextDontClip,view->editor->text() );
-        }
+    KPrinter prt;
+    kdDebug(2100) << "Printing..." << endl;
+
+    if (prt.setup(this))
+    {
+        int width = prt.width();
+        int height = prt.height();
+        QPainter painter(&prt);
+        painter.drawText(0, 0, width, height, Qt::AlignLeft|Qt::AlignTop|Qt::TextDontClip, view->editor->text());
+    }
 }
 
 void KgpgApp::slotEditCut()
 {
-        view->editor->cut();
+    view->editor->cut();
 }
 
 void KgpgApp::slotEditCopy()
 {
-        view->editor->copy();
+    view->editor->copy();
 }
 
 void KgpgApp::slotEditPaste()
 {
-        view->editor->paste();
+    view->editor->paste();
 }
 
 void KgpgApp::slotSelectAll()
 {
-        view->editor->selectAll();
+    view->editor->selectAll();
 }
-
-void KgpgApp::slotundo()
-{
-        view->editor->undo();
-        editRedo->setEnabled(true);
-}
-
-void KgpgApp::slotredo()
-{
-        view->editor->redo();
-}
-
-/////////////    file signature slots
-
 
 void KgpgApp::slotCheckMd5()
 {
-        /////////////////////////////////////////////////////////////////////////  display md5 sum for a chosen file
-
-        KURL url=KFileDialog::getOpenURL(QString::null,
-                                         i18n("*|All Files"), this, i18n("Open File to Verify"));
-        if (!url.isEmpty()) {
-
-                Md5Widget *mdwidget=new Md5Widget(this,0,url);
-                mdwidget->exec();
-                delete mdwidget;
-                //      KMessageBox::information(this,QString("MD5 sum for "+url.fileName()+" is:\n"+checkfile.hexDigest().data()));
-        }
+    // display md5 sum for a chosen file
+    KURL url = KFileDialog::getOpenURL(QString::null, i18n("*|All Files"), this, i18n("Open File to Verify"));
+    if (!url.isEmpty())
+    {
+        Md5Widget *mdwidget = new Md5Widget(this, 0, url);
+        mdwidget->exec();
+        delete mdwidget;
+        // KMessageBox::information(this,QString("MD5 sum for " + url.fileName() + " is:\n" + checkfile.hexDigest().data()));
+    }
 }
-
 
 void KgpgApp::slotPreSignFile()
 {
-        //////////////////////////////////////   create a detached signature for a chosen file
-        KURL url=KFileDialog::getOpenURL(QString::null,i18n("*|All Files"), this, i18n("Open File to Sign"));
-        if (!url.isEmpty())
-                slotSignFile(url);
+    // create a detached signature for a chosen file
+    KURL url = KFileDialog::getOpenURL(QString::null, i18n("*|All Files"), this, i18n("Open File to Sign"));
+    if (!url.isEmpty())
+        slotSignFile(url);
 }
 
 void KgpgApp::slotSignFile(KURL url)
 {
-        //////////////////////////////////////   create a detached signature for a chosen file
-        QString signKeyID;
-        if (!url.isEmpty()) {
-                //////////////////   select a private key to sign file --> listkeys.cpp
-                KgpgSelKey *opts=new KgpgSelKey(this,"select_secret");
-                if (opts->exec()==QDialog::Accepted)
-                        signKeyID=opts->getkeyID();
-                else {
-                        delete opts;
-                        return;
-                }
-                delete opts;
-                QString Options;
-                if (KGpgSettings::asciiArmor())
-                        Options=" --armor ";
-                if (KGpgSettings::pgpCompatibility())
-                        Options+=" --pgp6 ";
-                KgpgInterface *signFileProcess=new KgpgInterface();
-                signFileProcess->KgpgSignFile(signKeyID,url,QStringList(Options));
+    // create a detached signature for a chosen file
+    QString signKeyID;
+    if (!url.isEmpty())
+    {
+        // select a private key to sign file --> listkeys.cpp
+        KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, "select_secret");
+        if (opts->exec() == QDialog::Accepted)
+            signKeyID = opts->getKeyID();
+        else
+        {
+            delete opts;
+            return;
         }
-}
 
-void KgpgApp::slotPreVerifyFile()
-{
-        KURL url=KFileDialog::getOpenURL(QString::null,
-                                         i18n("*|All Files"), this, i18n("Open File to Verify"));
-        slotVerifyFile(url);
+        delete opts;
+        QStringList Options;
+        if (KGpgSettings::asciiArmor())
+            Options << QString::fromLocal8Bit("--armor");
+
+        if (KGpgSettings::pgpCompatibility())
+            Options << QString::fromLocal8Bit("--pgp6");
+
+        KgpgInterface *signFileProcess = new KgpgInterface();
+        signFileProcess->KgpgSignFile(signKeyID, url, Options);
+    }
 }
 
 void KgpgApp::slotVerifyFile(KURL url)
 {
-        ///////////////////////////////////   check file signature
-        QString sigfile=QString::null;
-        if (!url.isEmpty()) {
-                //////////////////////////////////////       try to find detached signature.
-                if (!url.fileName().endsWith(".sig")) {
-                        sigfile=url.path()+".sig";
-                        QFile fsig(sigfile);
-                        if (!fsig.exists()) {
-                                sigfile=url.path()+".asc";
-                                QFile fsig(sigfile);
-                                //////////////   if no .asc or .sig signature file included, assume the file is internally signed
-                                if (!fsig.exists())
-                                        sigfile=QString::null;
-                        }
-                }
-                ///////////////////////// pipe gpg command
-                KgpgInterface *verifyFileProcess=new KgpgInterface();
-                verifyFileProcess->KgpgVerifyFile(url,KURL(sigfile));
-                connect (verifyFileProcess,SIGNAL(verifyquerykey(QString)),this,SLOT(importSignatureKey(QString)));
+    // check file signature
+    QString sigfile = QString::null;
+    if (!url.isEmpty())
+    {
+        // try to find detached signature.
+        if (!url.fileName().endsWith(".sig"))
+        {
+            sigfile = url.path() + ".sig";
+            QFile fsig(sigfile);
+            if (!fsig.exists())
+            {
+                sigfile = url.path() + ".asc";
+                QFile fsig(sigfile);
+                // if no .asc or .sig signature file included, assume the file is internally signed
+                if (!fsig.exists())
+                    sigfile = QString::null;
+            }
         }
+
+        // pipe gpg command
+        KgpgInterface *verifyFileProcess = new KgpgInterface();
+        verifyFileProcess->KgpgVerifyFile(url, KURL(sigfile));
+        connect(verifyFileProcess, SIGNAL(verifyquerykey(QString)), this, SLOT(importSignatureKey(QString)));
+    }
+}
+
+void KgpgApp::slotPreVerifyFile()
+{
+    KURL url = KFileDialog::getOpenURL(QString::null, i18n("*|All Files"), this, i18n("Open File to Verify"));
+    slotVerifyFile(url);
 }
 
 void KgpgApp::importSignatureKey(QString ID)
 {
-        keyServer *kser=new keyServer(0,"server_dialog",false);
-        kser->page->kLEimportid->setText(ID);
-        kser->slotImport();
+    keyServer *kser = new keyServer(0, "server_dialog", false);
+    kser->slotSetText(ID);
+    kser->slotImport();
 }
 
-void KgpgApp::openEncryptedDocumentFile(const KURL& url)
+void KgpgApp::slotundo()
 {
-        view->editor->slotDroppedFile(url);
+    view->editor->undo();
+    editRedo->setEnabled(true);
 }
 
+void KgpgApp::slotredo()
+{
+    view->editor->redo();
+}
+
+void KgpgApp::slotSetCharset()
+{
+    if (encodingAction->isChecked())
+        view->editor->setText(QString::fromUtf8(view->editor->text().ascii()));
+    else
+    {
+        if (checkEncoding(QTextCodec::codecForLocale()))
+            return;
+        view->editor->setText(view->editor->text().utf8());
+    }
+}
+
+bool KgpgApp::checkEncoding(QTextCodec *codec)
+{
+    // KGlobal::locale()->encoding()->name()
+    return codec->canEncode(view->editor->text());
+}
+
+void KgpgApp::slotOptions()
+{
+    QByteArray data;
+    if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showOptions()", data))
+        kdDebug(2100) << "there was some error using DCOP." << endl;
+}
+
+void KgpgApp::slotKeyManager()
+{
+    QByteArray data;
+    if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showKeyManager()",data))
+        kdDebug(2100) << "there was some error using DCOP." << endl;
+}
 
 #include "kgpgeditor.moc"

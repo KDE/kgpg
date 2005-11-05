@@ -19,9 +19,11 @@
 #define KEYSERVERS_H
 
 #include <kdialogbase.h>
+
 #include "keyserver.h"
 
-class KListViewItem;
+class Q3ListViewItem;
+
 class KSimpleConfig;
 class KProcIO;
 class KProcess;
@@ -30,52 +32,61 @@ class searchRes;
 
 class keyServer : public KDialogBase
 {
-        Q_OBJECT
+    Q_OBJECT
+
 public:
-        keyServer(QWidget *parent=0, const char *name=0,bool modal=false,bool autoClose=false);
-        ~keyServer();
-	keyServerWidget *page;
+    keyServer(QWidget *parent = 0, const char *name = 0, const bool &modal = false, const bool &autoClose = false);
+
+signals:
+    void importFinished(QString);
 
 public slots:
-        void abortImport();
-	void abortExport();
-        void abortSearch();
-        void transferKeyID();
-        void slotsearchread(KProcIO *p);
-        void slotOk();
-        void syncCombobox();
-        void slotImport();
-        void slotSearch();
-        void slotimportresult(KProcess*);
-	void slotexportresult(KProcess*);
-        void slotimportread(KProcIO *p);
-        void slotprocread(KProcIO *p);
-        void slotPreExport();
-	void slotExport(QString keyId);
-        void preimport();
-        void slotsearchresult(KProcess *);
-        void slotEnableProxyI(bool on);
-        void slotEnableProxyE(bool on);
-        void handleQuit();
-    	void slotTextChanged( const QString &text);
+    void slotImport();
+    void slotAbortImport();
+    void slotExport(const QString &keyId);
+    void slotAbortExport();
+    void slotSearch();
+    void slotAbortSearch();
+    void slotSetText(const QString &text);
+    void slotTextChanged(const QString &text);
+    void slotSetExportAttribute(const bool &state);
+    void slotEnableProxyI(const bool &on);
+    void slotEnableProxyE(const bool &on);
+
+    void transferKeyID();
+    void slotPreImport();
+    void slotPreExport();
+
+    void slotOk();
+    void syncCombobox();
+    void handleQuit();
+
+private slots:
+    void slotImportRead(KProcIO *p);
+    void slotImportResult(KProcess *p);
+    void slotProcRead(KProcIO *p);
+    void slotExportResult(KProcess *p);
+    void slotSearchRead(KProcIO *p);
+    void slotSearchResult(KProcess *p);
 
 private:
+    QDialog *m_importpop;
+    QString m_readmessage;
+    Q3ListViewItem *m_kitem;
 
-        QDialog *importpop;
-        KSimpleConfig *config;
-        uint keyNumbers;
-        QString readmessage;
-        KProcIO *importproc,*exportproc;
-	KProcIO *searchproc;
-        searchRes *listpop;
-        int count;
-        bool cycle,autoCloseWindow;
-        KListViewItem *kitem;
-	KDialogBase *dialogServer;
-	
-signals:
-	void importFinished(QString);
+    KDialogBase *m_dialogserver;
+    KSimpleConfig *m_config;
+    KProcIO *m_importproc;
+    KProcIO *m_exportproc;
+    KProcIO *m_searchproc;
+
+    keyServerWidget *page;
+    searchRes *m_listpop;
+
+    int m_count;
+    uint m_keynumbers;
+    bool m_cycle;
+    bool m_autoclosewindow;
 };
 
 #endif // KEYSERVERS_H
-

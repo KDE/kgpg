@@ -15,53 +15,39 @@
  *                                                                         *
  ***************************************************************************/
 
-
-#include <qlayout.h>
-#include <qlabel.h>
-#include <q3textedit.h>
-#include <QGroupBox>
-//Added by qt3to4:
 #include <QVBoxLayout>
+#include <QGroupBox>
+#include <QLabel>
 
 #include <kmessagebox.h>
 #include <klocale.h>
-#include <klistbox.h>
-#include <kglobal.h>
 
-#include "kgpgoptions.h"
 #include "detailedconsole.h"
 
-
-KDetailedConsole::KDetailedConsole(QWidget *parent, const char *name,const QString &boxLabel,const QString &errormessage)
-    : KDialogBase(parent,name,true,i18n("Sorry"),KDialogBase::Details|KDialogBase::Ok|KDialogBase::Cancel, KDialogBase::Ok)
+KgpgDetailedConsole::KgpgDetailedConsole(QWidget *parent, const char *name, const QString &boxLabel, const QString &errormessage)
+                   : KDialogBase(parent, name, true, i18n("Sorry"), Details | Ok | Cancel, Ok)
 {
-        QWidget *page = new QWidget( this );
-        setMainWidget(page);
-        QVBoxLayout *vbox=new QVBoxLayout(page,0, spacingHint() );
+    QWidget *page = new QWidget(this);
+    setMainWidget(page);
 
-        QLabel *lab1=new QLabel(page);
-        lab1->setText(boxLabel);
+    QVBoxLayout *vbox = new QVBoxLayout(page);
+    vbox->setMargin(0);
+    vbox->setSpacing(spacingHint());
 
-        QGroupBox *detailsGroup = new QGroupBox( i18n("Details"), page);
-        (void) new QLabel(errormessage,detailsGroup);
-        //labdetails->setMinimumSize(labdetails->sizeHint());
-        setDetailsWidget(detailsGroup);
-        vbox->addWidget(lab1);
+    QLabel *lab1 = new QLabel(page);
+    lab1->setText(boxLabel);
 
+    QGroupBox *detailsGroup = new QGroupBox(i18n("Details"), page);
+    (void) new QLabel(errormessage, detailsGroup);
+    //labdetails->setMinimumSize(labdetails->sizeHint());
+
+    setDetailsWidget(detailsGroup);
+    vbox->addWidget(lab1);
 }
 
-KDetailedConsole::~KDetailedConsole()
-{}
-
-KDetailedInfo::KDetailedInfo(QWidget *parent, const char *name , const QString &boxLabel,const QString &errormessage,QStringList keysList)
-    : KDialogBase(Swallow, i18n("Info"),KDialogBase::Details|KDialogBase::Ok, KDialogBase::Ok,parent,name,true)
+KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const char *name, const QString &boxLabel, const QString &errormessage, const QStringList &keysList)
+                : KDialogBase(Swallow, i18n("Info"), Details | Ok, Ok, parent, name, true)
 {
-	bool checkboxResult;
-	KMessageBox::createKMessageBox(this, QMessageBox::Information,
-                       boxLabel, keysList,QString::null,&checkboxResult, 0,errormessage);
+    bool checkboxResult;
+    KMessageBox::createKMessageBox(this, QMessageBox::Information, boxLabel, keysList, QString::null, &checkboxResult, 0, errormessage);
 }
-
-KDetailedInfo::~KDetailedInfo()
-{}
-
-//#include "detailedconsole.moc"

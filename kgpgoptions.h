@@ -17,16 +17,14 @@
 #ifndef KGPGOPTIONS_H
 #define KGPGOPTIONS_H
 
-#include <kconfigdialog.h>
-//Added by qt3to4:
 #include <QPixmap>
 
-#define GoodColor 0
-#define BadColor 1
-#define UnknownColor 2
-#define RevColor 3
+#include <kconfigdialog.h>
 
+class KSimpleConfig;
+class KFontChooser;
 class KConfig;
+
 class Encryption;
 class Decryption;
 class UIConf;
@@ -34,72 +32,82 @@ class GPGConf;
 class ServerConf;
 class ColorsConf;
 class MiscConf;
-class KFontChooser;
-class KConfig;
-class KSimpleConfig;
 
 class kgpgOptions : public KConfigDialog
 {
-        Q_OBJECT
-public:
-        kgpgOptions(QWidget *parent=0, const char *name=0);
-        ~kgpgOptions();
-        QStringList names,ids;
-        Encryption *page1;
-        Decryption *page2;
-        UIConf *page3;
-        GPGConf *page4;
-	ServerConf *page6;
-	MiscConf *page7;
-	KFontChooser *kfc;
-        
-private:
-        KConfig *config;
-        QString alwaysKeyID,alwaysKeyName;
-        bool firstDisplay;
-	
-	QPixmap pixkeySingle,pixkeyDouble;
-        QString fileEncryptionKey;
-        QString gpgConfigPath;
-        QString keyServer,defaultServerList;
-        QString defaultKeyServer;
-	QFont startFont;
-	KSimpleConfig *ks;
-        bool useAgent;
-        bool defaultUseAgent;
-        bool encryptToAlways;
-        bool defaultEncryptToAlways;
-	QStringList serverList;
-	QString defaultConfigPath,defaultHomePath;
-	QColor keyGood,keyBad,keyUnknown,keyRev;
+    Q_OBJECT
 
-private:
-        bool hasChanged();
-        bool isDefault();
+public:
+    enum KeyColors
+    {
+        GoodColor = 0,
+        BadColor = 1,
+        UnknownColor = 2,
+        RevColor = 3
+    };
+
+    kgpgOptions(QWidget *parent = 0, const char *name = 0);
+    ~kgpgOptions();
+
+signals:
+    void updateDisplay();
+    void settingsUpdated();
+    void changeFont(QFont);
+    void homeChanged();
+    void refreshTrust(int, QColor);
+    void installShredder();
 
 private slots:
-	void slotAddKeyServer();
-	void slotDelKeyServer();
-	void slotDefaultKeyServer();
-        void updateWidgets();
-        void updateWidgetsDefault();
-        void updateSettings();
+    void slotChangeHome();
+    void slotAddKeyServer();
+    void slotDelKeyServer();
+    void slotDefaultKeyServer();
+    void updateWidgets();
+    void updateWidgetsDefault();
+    void updateSettings();
+    void listKeys();
+    void slotInstallDecrypt(QString mimetype);
+    void slotInstallSign(QString mimetype);
+    void slotRemoveMenu(QString menu);
 
-        void listkey();
-        QString namecode(QString kid);
-        QString idcode(QString kname);
-        void slotInstallDecrypt(QString mimetype);
-        void slotInstallSign(QString mimetype);
-        void slotRemoveMenu(QString menu);
-	void slotChangeHome();
-signals:
-        void updateDisplay();
-        void settingsUpdated();
-	void changeFont(QFont);
-	void homeChanged();
-	void refreshTrust(int, QColor);
-	void installShredder();
+private:
+    bool hasChanged();
+    bool isDefault();
+
+private:
+    QStringList serverList;
+    QStringList names;
+    QStringList ids;
+    QString alwaysKeyID;
+    QString alwaysKeyName;
+    QString fileEncryptionKey;
+    QString gpgConfigPath;
+    QString keyServer;
+    QString defaultServerList;
+    QString defaultKeyServer;
+    QString defaultConfigPath;
+    QString defaultHomePath;
+    QPixmap pixkeySingle;
+    QPixmap pixkeyDouble;
+    QColor keyGood;
+    QColor keyBad;
+    QColor keyUnknown;
+    QColor keyRev;
+
+    KFontChooser *m_fontchooser;
+    KSimpleConfig *m_config;
+
+    Encryption *m_page1;
+    Decryption *m_page2;
+    UIConf *m_page3;
+    GPGConf *m_page4;
+    ServerConf *m_page6;
+    MiscConf *m_page7;
+
+    bool m_useagent;
+    bool m_defaultuseagent;
+    bool m_encrypttoalways;
+    bool m_defaultencrypttoalways;
 };
 
 #endif // KGPGOPTIONS_H
-

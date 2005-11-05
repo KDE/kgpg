@@ -15,162 +15,203 @@
  *                                                                         *
  ***************************************************************************/
 
-///////////////////////////////////////////////             code for new key generation
-
-
-#include <q3whatsthis.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <q3vbox.h>
-#include <kmessagebox.h>
-//Added by qt3to4:
 #include <QVBoxLayout>
+#include <QWhatsThis>
+#include <QGroupBox>
+#include <QWidget>
+#include <QLabel>
+
+#include <kmessagebox.h>
 #include <kcombobox.h>
 #include <klineedit.h>
-#include <qcheckbox.h>
-#include <q3buttongroup.h>
 #include <klocale.h>
+#include <kdebug.h>
+#include <khbox.h>
 
 #include "keygener.h"
 
-///////////////////////   main window
-keyGenerate::keyGenerate(QWidget *parent, const char *name):KDialogBase( parent, name, true,i18n("Key Generation"),Apply | Ok | Cancel)
+KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent, const char *name)
+               : KDialogBase(Plain, i18n("Key Generation"), User1 | Ok | Cancel, Ok, parent, name, true)
 {
-        expert=false;
-        setButtonApply(i18n("Expert Mode"));
+    m_expert = false;
 
-        QWidget *page = new QWidget(this);
-        QVBoxLayout *vbox=new QVBoxLayout(page);
+    setButtonText(User1, i18n("&Expert mode"));
+    setButtonTip(User1, i18n("Go to the expert mode"));
+    setButtonWhatsThis(User1, "If you go to the expert mode, you will use gpg to create keys with the command line.");
 
-        Q3VButtonGroup *bgroup1=new Q3VButtonGroup(i18n("Generate Key Pair"),page);
+    QFrame *page = plainPage();
+    QGroupBox *vgroup = new QGroupBox(i18n("Generate Key Pair"), page);
 
-        (void) new QLabel(i18n("Name:"),bgroup1);
-        kname=new KLineEdit("",bgroup1);
-        kname->setFocus();
-        (void) new QLabel(i18n("Email:"),bgroup1);
-        mail=new KLineEdit("",bgroup1);
+    QLabel *nameLabel = new QLabel(i18n("&Name:"), vgroup);
+    m_kname = new KLineEdit("", vgroup);
+    nameLabel->setBuddy(m_kname);
+    m_kname->setFocus();
+    connect(m_kname, SIGNAL(textChanged(const QString&)), this, SLOT(slotActivateOk()));
 
-        (void) new QLabel(i18n("Comment (optional):"),bgroup1);
-        comment=new KLineEdit("",bgroup1);
+    QLabel *emailLabel = new QLabel(i18n("E&mail:"), vgroup);
+    m_mail = new KLineEdit("", vgroup);
+    emailLabel->setBuddy(m_mail);
 
-        (void) new QLabel(i18n("Expiration:"),bgroup1);
-        Q3HButtonGroup *bgroup=new  Q3HButtonGroup(bgroup1);
-        numb=new KLineEdit("0",bgroup);
-        numb->setMaxLength(4);
-        numb->setDisabled(true);
-        keyexp = new KComboBox(bgroup);
-        keyexp->insertItem(i18n("Never"),0);
-        keyexp->insertItem(i18n("Days"),1);
-        keyexp->insertItem(i18n("Weeks"),2);
-        keyexp->insertItem(i18n("Months"),3);
-        keyexp->insertItem(i18n("Years"),4);
-        keyexp->setMinimumSize(keyexp->sizeHint());
-        connect(keyexp,SIGNAL(activated(int)),this,SLOT(activateexp(int)));
+    QLabel *commentLabel = new QLabel(i18n("Commen&t (optional):"), vgroup);
+    m_comment = new KLineEdit("", vgroup);
+    commentLabel->setBuddy(m_comment);
 
-        (void) new QLabel(i18n("Key size:"),bgroup1);
-        keysize = new KComboBox(bgroup1);
-        keysize->insertItem("768");
-        keysize->insertItem("1024");
-        keysize->insertItem("2048");
-        keysize->insertItem("4096");
-        keysize->setCurrentItem("1024");
-        keysize->setMinimumSize(keysize->sizeHint());
+    QLabel *expLabel = new QLabel(i18n("Expiration:"), vgroup);
+    KHBox *hgroup = new KHBox(vgroup);
+    hgroup->setFrameShape(QFrame::StyledPanel);
+    m_numb = new KLineEdit("0", hgroup);
+    m_numb->setMaxLength(4);
+    m_numb->setDisabled(true);
 
-        (void) new QLabel(i18n("Algorithm:"),bgroup1);
-        keykind = new KComboBox(bgroup1);
-        keykind->insertItem("DSA & ElGamal");
-        keykind->insertItem("RSA");
-        keykind->setMinimumSize(keykind->sizeHint());
+    m_keyexp = new KComboBox(hgroup);
+    m_keyexp->insertItem(i18n("Never"), 0);
+    m_keyexp->insertItem(i18n("Days"), 1);
+    m_keyexp->insertItem(i18n("Weeks"), 2);
+    m_keyexp->insertItem(i18n("Months"), 3);
+    m_keyexp->insertItem(i18n("Years"), 4);
+    m_keyexp->setMinimumSize(m_keyexp->sizeHint());
+    connect(m_keyexp, SIGNAL(activated(int)), this, SLOT(slotActivateExp(int)));
 
-        vbox->addWidget(bgroup1);
-        page->show();
-        page->resize(page->maximumSize());
-        setMainWidget(page);
+    QLabel *sizeLabel = new QLabel(i18n("&Key size:"), vgroup);
+    m_keysize = new KComboBox(vgroup);
+    m_keysize->insertItem("768");
+    m_keysize->insertItem("1024");
+    m_keysize->insertItem("2048");
+    m_keysize->insertItem("4096");
+    m_keysize->setCurrentItem("1024");
+    m_keysize->setMinimumSize(m_keysize->sizeHint());
+    sizeLabel->setBuddy(m_keysize);
+
+    QLabel *algoLabel = new QLabel(i18n("&Algorithm:"), vgroup);
+    m_keykind = new KComboBox(vgroup);
+    m_keykind->insertItem("DSA & ElGamal");
+    m_keykind->insertItem("RSA");
+    m_keykind->setMinimumSize(m_keykind->sizeHint());
+    algoLabel->setBuddy(m_keykind);
+
+    QVBoxLayout *vlayout = new QVBoxLayout(vgroup);
+    vlayout->setSpacing(spacingHint());
+    vlayout->setMargin(marginHint());
+    vlayout->addWidget(nameLabel);
+    vlayout->addWidget(m_kname);
+    vlayout->addWidget(emailLabel);
+    vlayout->addWidget(m_mail);
+    vlayout->addWidget(commentLabel);
+    vlayout->addWidget(m_comment);
+    vlayout->addWidget(expLabel);
+    vlayout->addWidget(hgroup);
+    vlayout->addWidget(sizeLabel);
+    vlayout->addWidget(m_keysize);
+    vlayout->addWidget(algoLabel);
+    vlayout->addWidget(m_keykind);
+    vgroup->setLayout(vlayout);
+
+    QVBoxLayout *vbox = new QVBoxLayout(page);
+    vbox->setSpacing(0);
+    vbox->setMargin(0);
+    vbox->addWidget(vgroup);
+    page->setLayout(vbox);
+
+    slotEnableOk();
+    updateGeometry();
+    show();
 }
 
-void keyGenerate::slotOk()
+void KgpgKeyGenerate::slotOk()
 {
-        if (QString(kname->text()).stripWhiteSpace().isEmpty()) {
-                KMessageBox::sorry(0,i18n("You must give a name."));
-                return;
-        }
-        QString vmail=mail->text();
-	if (vmail.isEmpty()) 
-	{
-	if (KMessageBox::warningContinueCancel(this,i18n("You are about to create a key with no email address"))!=KMessageBox::Continue) return;
-        }
-	else if ((vmail.find(" ")!=-1) || (vmail.find(".")==-1) || (vmail.find("@")==-1)) {
-                KMessageBox::sorry(0,i18n("Email address not valid"));
-                return;
-        }
-        accept();
+    if (QString(m_kname->text()).simplified().isEmpty())
+    {
+        KMessageBox::sorry(0, i18n("You must give a name."));
+        return;
+    }
+
+    QString vmail = m_mail->text();
+    if (vmail.isEmpty())
+    {
+        int result;
+        result = KMessageBox::warningContinueCancel(this, i18n("You are about to create a key with no email address"));
+        if (result != KMessageBox::Continue)
+            return;
+    }
+    else
+    if ((vmail.find(" ") != -1) || (vmail.find(".") == -1) || (vmail.find("@") == -1))
+    {
+        KMessageBox::sorry(0, i18n("Email address not valid"));
+        return;
+    }
+
+    accept();
 }
 
-void keyGenerate::slotApply()
+void KgpgKeyGenerate::slotUser1()
 {
-        expert=true;
-        accept();
+    m_expert = true;
+    accept();
 }
 
-void keyGenerate::activateexp(int state)
+void KgpgKeyGenerate::slotActivateExp(const int &state)
 {
-        if (state==0)
-                numb->setDisabled(true);
-        else
-                numb->setDisabled(false);
+    if (state == 0)
+        m_numb->setDisabled(true);
+    else
+        m_numb->setDisabled(false);
 }
 
-bool keyGenerate::getmode()
+void KgpgKeyGenerate::slotEnableOk()
 {
-        return(expert);
+    enableButtonOK(!QString(m_kname->text()).simplified().isEmpty());
 }
 
-
-QString keyGenerate::getkeytype()
+bool KgpgKeyGenerate::getmode() const
 {
-        return(keykind->currentText());
+    return m_expert;
 }
 
-QString keyGenerate::getkeysize()
+QString KgpgKeyGenerate::getkeytype() const
 {
-        return(keysize->currentText());
+    return m_keykind->currentText();
 }
 
-int keyGenerate::getkeyexp()
+QString KgpgKeyGenerate::getkeysize() const
 {
-        return(keyexp->currentItem());
+    return m_keysize->currentText();
 }
 
-QString keyGenerate::getkeynumb()
+int KgpgKeyGenerate::getkeyexp() const
 {
-        if (numb->text()!=NULL)
-                return(numb->text());
-        else
-                return ("");
+    return m_keyexp->currentItem();
 }
 
-QString keyGenerate::getkeyname()
+QString KgpgKeyGenerate::getkeynumb() const
 {
-        if (kname->text()!=NULL)
-                return(kname->text());
-        else
-                return ("");
+    if (m_numb->text() != QString::null)
+        return m_numb->text();
+    else
+        return QString();
 }
 
-QString keyGenerate::getkeymail()
+QString KgpgKeyGenerate::getkeyname() const
 {
-        if (mail->text()!=NULL)
-                return(mail->text());
-        else
-                return ("");
+    if (m_kname->text() != QString::null)
+        return(m_kname->text());
+    else
+        return QString();
 }
 
-QString keyGenerate::getkeycomm()
+QString KgpgKeyGenerate::getkeymail() const
 {
-        if (comment->text()!=NULL)
-                return(comment->text());
-        else
-                return ("");
+    if (m_mail->text() != QString::null)
+        return(m_mail->text());
+    else
+        return QString();
+}
+
+QString KgpgKeyGenerate::getkeycomm() const
+{
+    if (m_comment->text() != QString::null)
+        return(m_comment->text());
+    else
+        return QString();
 }
 
 #include "keygener.moc"

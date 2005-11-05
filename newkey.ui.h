@@ -17,5 +17,5 @@
 
 void newKey::CBsave_toggled( bool isOn)
 {
-kURLRequester1->setEnabled(isOn);
+    kURLRequester1->setEnabled(isOn);
 }

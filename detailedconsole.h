@@ -15,29 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KDETAILED_H
-#define KDETAILED_H
+#ifndef KGPGDETAILEDCONSOLE_H
+#define KGPGDETAILEDCONSOLE_H
 
 #include <kdialogbase.h>
 
-class KDetailedConsole : public KDialogBase
+class KgpgDetailedConsole : public KDialogBase
 {
 public:
-
-        KDetailedConsole(QWidget *parent=0, const char *name=0,const QString &boxLabel=QString::null,const QString &errormessage=QString::null);
-        ~KDetailedConsole();
-
+    KgpgDetailedConsole(QWidget *parent = 0, const char *name = 0, const QString &boxLabel = QString::null, const QString &errormessage = QString::null);
 };
 
-
-class KDetailedInfo : public KDialogBase
+class KgpgDetailedInfo : public KDialogBase
 {
 public:
-
-        KDetailedInfo(QWidget *parent=0, const char *name=0,const QString &boxLabel=QString::null,const QString &errormessage=QString::null,QStringList keysList=QStringList());
-        ~KDetailedInfo();
-
+    KgpgDetailedInfo(QWidget *parent = 0, const char *name = 0,const QString &boxLabel = QString::null, const QString &errormessage = QString::null, const QStringList &keysList = QStringList());
 };
 
-#endif // KDETAILED_H
-
+#endif // KGPGDETAILEDCONSOLE_H

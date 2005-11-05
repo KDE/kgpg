@@ -15,15 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
-#include <kmessagebox.h>
-
+#include <QString>
 
 #include <kuniqueapplication.h>
+#include <kcmdlineargs.h>
 #include <dcopclient.h>
 #include <kaboutdata.h>
-#include <kcmdlineargs.h>
 #include <klocale.h>
+
 #include "kgpg.h"
 
 static const char description[] =
@@ -46,34 +45,30 @@ static KCmdLineOptions options[] =
 
 int main(int argc, char *argv[])
 {
+    KAboutData about("kgpg", I18N_NOOP("KGpg"), version, description, KAboutData::License_GPL, "(C) 2003 Jean-Baptiste Mardelle");
+    about.addAuthor("Jean-Baptiste Mardelle", 0, "bj@altern.org");
+    about.addCredit("Jimmy Gilles", I18N_NOOP("has ported Kgpg to KDE4"), "jimmygilles@gmail.com");
 
-        KAboutData about("kgpg", I18N_NOOP("KGpg"), version, description,
-                         KAboutData::License_GPL, "(C) 2003 Jean-Baptiste Mardelle");
-        about.addAuthor( "Jean-Baptiste Mardelle", 0, "bj@altern.org" );
-        KCmdLineArgs::init(argc, argv, &about);
-        KCmdLineArgs::addCmdLineOptions(options);
-        KUniqueApplication::addCmdLineOptions();
+    KCmdLineArgs::init(argc, argv, &about);
+    KCmdLineArgs::addCmdLineOptions(options);
+    KUniqueApplication::addCmdLineOptions();
 
+    if (!KUniqueApplication::start())
+        return 0;
 
-        //KMessageBox::sorry(0,"nombre: "+QString::number(i));
+    //KgpgAppletApp *app;
+    KApplication *app;
+    app = new KgpgAppletApp;
+    return app->exec();
 
-        if (!KUniqueApplication::start())
-                return 0;
+    /*
+    KUniqueApplication app;
 
-        //KgpgAppletApp *app;
-        KApplication *app;
-        app=new KgpgAppletApp;
-        return app->exec();
+    // register ourselves as a dcop client
+    // app.dcopClient()->registerAs(app.name(), false);
 
-        /*
-
-        KUniqueApplication app;
-
-           // register ourselves as a dcop client
-         //app.dcopClient()->registerAs(app.name(), false);
-
-
-         kgpgapplet widget;// = new kgpgapplet("kgpg");
-         widget.show();
-         return app.exec();*/
+    kgpgapplet widget;// = new kgpgapplet("kgpg");
+    widget.show();
+    return app.exec();
+    */
 }
