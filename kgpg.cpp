@@ -839,44 +839,52 @@ void  MyView::help()
 
 void MyView::encryptClipboard(QStringList selec,QStringList encryptOptions,bool,bool symmetric)
 {
-        if (kapp->clipboard()->text(clipboardMode).isEmpty()) {
-    KPassivePopup::message(i18n("Clipboard is empty."),QString::null,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this);
-    return;
+    if (kapp->clipboard()->text(clipboardMode).isEmpty())
+    {
+        KPassivePopup::message(i18n("Clipboard is empty."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", KIcon::Desktop), this);
+        return;
     }
-                if (KGpgSettings::pgpCompatibility())
-                        encryptOptions<<"--pgp6";
-                encryptOptions<<"--armor";
 
-        if (symmetric) selec.clear();
-                KgpgInterface *txtEncrypt=new KgpgInterface();
-                connect (txtEncrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(slotSetClip(QString)));
-        connect (txtEncrypt,SIGNAL(txtencryptionstarted()),this,SLOT(slotPassiveClip()));
-                txtEncrypt->KgpgEncryptText(kapp->clipboard()->text(clipboardMode),selec,encryptOptions);
+    if (KGpgSettings::pgpCompatibility())
+        encryptOptions << "--pgp6";
+
+    encryptOptions << "--armor";
+
+    if (symmetric)
+        selec.clear();
+
+    KgpgInterface *txtEncrypt = new KgpgInterface();
+    connect (txtEncrypt, SIGNAL(txtEncryptionFinished(QString)), this, SLOT(slotSetClip(QString)));
+    connect (txtEncrypt, SIGNAL(txtEncryptionStarted()), this, SLOT(slotPassiveClip()));
+    txtEncrypt->encryptText(kapp->clipboard()->text(clipboardMode), selec, encryptOptions);
 }
 
 void MyView::slotPassiveClip()
 {
-QString newtxt=kapp->clipboard()->text(clipboardMode);
-if (newtxt.length()>300)
-                        newtxt=QString(newtxt.left(250).simplified())+"...\n"+QString(newtxt.right(40).simplified());
+    QString newtxt = kapp->clipboard()->text(clipboardMode);
+    if (newtxt.length() > 300)
+        newtxt = QString(newtxt.left(250).simplified()) + "...\n" + QString(newtxt.right(40).simplified());
 
-                newtxt.replace(QRegExp("<"),"&lt;");   /////   disable html tags
-                newtxt.replace(QRegExp("\n"),"<br>");
+    newtxt.replace(QRegExp("<"), "&lt;"); // disable html tags
+    newtxt.replace(QRegExp("\n"), "<br>");
 
-pop = new KPassivePopup( this);
-                pop->setView(i18n("Encrypted following text:"),newtxt,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
-                pop->setTimeout(3200);
-                pop->show();
-                QRect qRect(QApplication::desktop()->screenGeometry());
-                int iXpos=qRect.width()/2-pop->width()/2;
-                int iYpos=qRect.height()/2-pop->height()/2;
-                pop->move(iXpos,iYpos);
+    pop = new KPassivePopup( this);
+    pop->setView(i18n("Encrypted following text:"), newtxt, KGlobal::iconLoader()->loadIcon("kgpg", KIcon::Desktop));
+    pop->setTimeout(3200);
+    pop->show();
+    QRect qRect(QApplication::desktop()->screenGeometry());
+    int iXpos = qRect.width() / 2 - pop->width() / 2;
+    int iYpos = qRect.height() / 2 - pop->height() / 2;
+    pop->move(iXpos, iYpos);
 }
 
 void MyView::slotSetClip(QString newtxt)
 {
-        if (newtxt.isEmpty()) return;
-                QApplication::clipboard()->setText(newtxt,clipboardMode);//,QClipboard::Clipboard);    QT 3.1 only
+    if (newtxt.isEmpty())
+        return;
+
+    kdDebug(2100) << "Encrypted is " << newtxt << endl;
+    kapp->clipboard()->setText(newtxt, clipboardMode); //,QClipboard::Clipboard);    QT 3.1 only
 }
 
 

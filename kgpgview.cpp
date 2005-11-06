@@ -149,12 +149,12 @@ QFile qfile(fileToCheck);
 }
 
 
-void MyEditor::editorUpdateDecryptedtxt(QString newtxt)
+void MyEditor::editorUpdateDecryptedtxt(QString newtxt, KgpgInterface*)
 {
     setText(newtxt);
 }
 
-void MyEditor::editorFailedDecryptedtxt(QString newtxt)
+void MyEditor::editorFailedDecryptedtxt(QString newtxt, KgpgInterface*)
 {
     if (!slotCheckContent(tempFile,false))
     KMessageBox::detailedSorry(this,i18n("Decryption failed."),newtxt);
@@ -167,8 +167,8 @@ void MyEditor::slotDecodeFile(QString fname)
         QFile qfile(QFile::encodeName(fname));
         if (qfile.open(QIODevice::ReadOnly)) {
     KgpgInterface *txtDecrypt=new KgpgInterface();
-        connect (txtDecrypt,SIGNAL(txtdecryptionfinished(QString)),this,SLOT(editorUpdateDecryptedtxt(QString)));
-    connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(editorFailedDecryptedtxt(QString)));
+        connect (txtDecrypt,SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)),this,SLOT(editorUpdateDecryptedtxt(QString, KgpgInterface*)));
+    connect (txtDecrypt,SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)),this,SLOT(editorFailedDecryptedtxt(QString, KgpgInterface*)));
         txtDecrypt->KgpgDecryptFileToText(KURL(fname),QStringList::split(QString(" "),KGpgSettings::customDecrypt().simplifyWhiteSpace()));
         } else
                 KMessageBox::sorry(this,i18n("Unable to read file."));
@@ -338,9 +338,9 @@ void KgpgView::slotdecode()
 
         //QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
     KgpgInterface *txtDecrypt=new KgpgInterface();
-        connect (txtDecrypt,SIGNAL(txtdecryptionfinished(QString)),this,SLOT(updateDecryptedtxt(QString)));
-    connect (txtDecrypt,SIGNAL(txtdecryptionfailed(QString)),this,SLOT(failedDecryptedtxt(QString)));
-        txtDecrypt->KgpgDecryptText(editor->text(),QStringList::split(QString(" "),KGpgSettings::customDecrypt().simplifyWhiteSpace()));
+        connect (txtDecrypt,SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)),this,SLOT(updateDecryptedtxt(QString, KgpgInterface*)));
+    connect (txtDecrypt,SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)),this,SLOT(failedDecryptedtxt(QString, KgpgInterface*)));
+        txtDecrypt->decryptText(editor->text(),QStringList::split(QString(" "),KGpgSettings::customDecrypt().simplifyWhiteSpace()));
 
     /*
         KgpgApp *win=(KgpgApp *) parent();
@@ -351,7 +351,7 @@ void KgpgView::slotdecode()
         }*/
 }
 
-void KgpgView::updateDecryptedtxt(QString newtxt)
+void KgpgView::updateDecryptedtxt(QString newtxt, KgpgInterface*)
 {
     //kdDebug(2100)<<"UTF8 Test Result--------------"<<KgpgView::checkForUtf8()<<endl;
     if (checkForUtf8(newtxt))
@@ -373,7 +373,7 @@ QTextCodec *codec =QTextCodec::codecForLocale ();
 return false;
 }
 
-void KgpgView::failedDecryptedtxt(QString newtxt)
+void KgpgView::failedDecryptedtxt(QString newtxt, KgpgInterface*)
 {
     KMessageBox::detailedSorry(this,i18n("Decryption failed."),newtxt);
 }
@@ -388,8 +388,8 @@ void KgpgView::encodetxt(QStringList selec,QStringList encryptOptions,bool, bool
     if (symmetric) selec.clear();
 
     KgpgInterface *txtCrypt=new KgpgInterface();
-        connect (txtCrypt,SIGNAL(txtencryptionfinished(QString)),this,SLOT(updatetxt(QString)));
-        txtCrypt->KgpgEncryptText(editor->text(),selec,encryptOptions);
+        connect (txtCrypt,SIGNAL(txtEncryptionFinished(QString, KgpgInterface*)),this,SLOT(updatetxt(QString, KgpgInterface*)));
+        txtCrypt->encryptText(editor->text(),selec,encryptOptions);
         //KMessageBox::sorry(0,"OVER");
 
         //KgpgInterface::KgpgEncryptText(editor->text(),selec,encryptOptions);
@@ -397,7 +397,7 @@ void KgpgView::encodetxt(QStringList selec,QStringList encryptOptions,bool, bool
         //else KMessageBox::sorry(this,i18n("Decryption failed."));
 }
 
-void KgpgView::updatetxt(QString newtxt)
+void KgpgView::updatetxt(QString newtxt, KgpgInterface*)
 {
         if (!newtxt.isEmpty())
                 editor->setText(newtxt);

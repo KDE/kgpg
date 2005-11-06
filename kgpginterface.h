@@ -53,6 +53,20 @@ public:
 
     static int getGpgVersion();
 
+
+/************** function to send a passphrase to gpg **************/
+private:
+    /**
+     * This is a secure method to send the passphrase to gpg.
+     * It will shred (1 pass) the memory before deleting the object
+     * that contains the passphrase.
+     * @return 1 if there is an error
+     * @return 0 if there is no error
+     */
+    int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true);
+/******************************************************************/
+
+
 /************** extract public keys **************/
 signals:
     void startedReadPublicKeys();
@@ -91,6 +105,84 @@ private:
 /*************************************************/
 
 
+/************** encrypt a text **************/
+signals:
+    /**
+     *  emitted when a txt encryption starts.
+     */
+    void txtEncryptionStarted();
+
+    /**
+     *  emitted when a txt encryption finished. returns encrypted text
+     */
+    void txtEncryptionFinished(QString, KgpgInterface*);
+
+public slots:
+    /**
+     * Encrypt text function
+     * @param text text to be encrypted.
+     * @param userIDs the recipients key id's.
+     * @param Options a list of string with the wanted gpg options. ex: "--armor"
+     */
+    void encryptText(const QString &text, const QStringList &userids, const QStringList &options = QStringList());
+
+private slots:
+    void txtReadEncProcess(KProcIO *p);
+    void txtEncryptFin(KProcess *p);
+
+private:
+    QString m_txttoencrypt;
+
+/********************************************/
+
+
+/************** decrypt a text **************/
+signals:
+    /**
+     *  emitted when a txt decryption starts.
+     */
+    void txtDecryptionStarted();
+
+    /**
+     *  emitted when a txt decryption finished. returns decrypted text
+     */
+    void txtDecryptionFinished(QString, KgpgInterface*);
+
+    /**
+     *  emitted when a txt decryption failed. returns log output
+     */
+    void txtDecryptionFailed(QString, KgpgInterface*);
+
+public slots:
+    /**
+     * Decrypt text function
+     * @param text QString text to be decrypted.
+     * @param Options StringList with the wanted gpg options.
+     */
+    void decryptText(const QString &text, const QStringList &options = QStringList());
+
+private slots:
+    void txtReadDecStdErr(KProcess *, char *data, int);
+    void txtReadDecStdOut(KProcess *p, char *data, int);
+    void txtDecryptFin(KProcess *p);
+
+private:
+    int m_textlength;
+
+/********************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -116,22 +208,6 @@ public slots:
      */
     void KgpgDecryptFile(KURL srcUrl, KURL destUrl, QStringList Options = QStringList());
 
-    /**
-     * Encrypt text function
-     * @param text QString text to be encrypted.
-     * @param userIDs the recipients key id's.
-     * @param Options StringList with the wanted gpg options. ex: "--armor"
-     * returns the encrypted text or empty string if encyption failed
-     */
-    void KgpgEncryptText(QString text, QStringList userIDs, QStringList Options = QStringList());
-
-    /**
-     * Decrypt text function
-     * @param text QString text to be decrypted.
-     * @param Options StringList with the wanted gpg options.
-     */
-    void KgpgDecryptText(QString text, QStringList Options = QStringList());
-    //static QString KgpgDecryptText(QString text, QString userID);
 
     /**
      * Sign text function
@@ -199,7 +275,6 @@ public slots:
      */
     void KgpgDelSignature(QString keyID, QString signKeyID);
 
-    void txtdecryptfin(KProcess *);
 
     /**
      * Extract list of photographic user id's
@@ -207,8 +282,8 @@ public slots:
      */
     void KgpgGetPhotoList(QString keyID);
 
-    void getOutput(KProcess *, char *data, int);
-    void getCmdOutput(KProcess *p, char *data, int);
+/*    void getOutput(KProcess *, char *data, int);
+    void getCmdOutput(KProcess *p, char *data, int);*/
 
     QString getKey(QStringList IDs, bool attributes);
 
@@ -323,9 +398,6 @@ private slots:
     void trustover(KProcess *);
     void passover(KProcess *);
 
-    void txtreadencprocess(KProcIO *p);
-
-    void txtencryptfin(KProcess *);
 
     void delphotoover(KProcess *);
     void delphotoprocess(KProcIO *p);
@@ -351,25 +423,8 @@ signals:
     void missingSignature(QString);
     void verifyOver(QString, QString);
 
-    /**
-     *  emitted when a txt decryption failed. returns log output
-     */
-    void txtdecryptionfailed(QString);
 
-    /**
-     *  emitted when a txt encryption starts.
-     */
-    void txtencryptionstarted();
 
-    /**
-     *  emitted when a txt decryption finished. returns decrypted text
-     */
-    void txtdecryptionfinished(QString);
-
-    /**
-     *  emitted when a txt encryption finished. returns encrypted text
-     */
-    void txtencryptionfinished(QString);
 
     /**
      *  emitted when an error occurred
@@ -426,6 +481,9 @@ signals:
      */
     void verifyquerykey(QString ID);
 
+
+
+
     /**
      *  true if signature successful, false on error.
      */
@@ -450,6 +508,10 @@ signals:
     void txtSignOver(QString);
 
 private:
+    // Globals private
+    QString m_partialline;
+    bool m_ispartial;
+
     /**
      * @internal structure for communication
      */
@@ -458,7 +520,6 @@ private:
     QString userIDs;
     QString output;
     QString keyString;
-    QString txtToEncrypt;
     QString log;
 
     bool deleteSuccess;

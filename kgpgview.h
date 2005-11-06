@@ -28,6 +28,8 @@
 class QDragEnterEvent;
 class QDropEvent;
 
+class KgpgInterface;
+
 /** The KgpgView class provides the view widget for the KgpgApp instance.
  * The View instance inherits QWidget as a base class and represents the view object of a KTMainWindow. As KgpgView is part of the
  * docuement-view model, it needs a reference to the document object connected with it by the KgpgApp class to manipulate and display
@@ -62,8 +64,8 @@ private:
     QString tempFile;
 
 private slots:
-    void editorUpdateDecryptedtxt(QString newtxt);
-    void editorFailedDecryptedtxt(QString newtxt);
+    void editorUpdateDecryptedtxt(QString newtxt, KgpgInterface*);
+    void editorFailedDecryptedtxt(QString newtxt, KgpgInterface*);
 };
 
 class KgpgView : public QWidget
@@ -117,9 +119,9 @@ private slots:
     void popuppublic();
     void modified();
     void encodetxt(QStringList selec, QStringList encryptOptions, bool, bool symmetric);
-    void updatetxt(QString);
-    void updateDecryptedtxt(QString newtxt);
-    void failedDecryptedtxt(QString newtxt);
+    void updatetxt(QString, KgpgInterface*);
+    void updateDecryptedtxt(QString newtxt, KgpgInterface*);
+    void failedDecryptedtxt(QString newtxt, KgpgInterface*);
     bool checkForUtf8(QString text);
 };
 
