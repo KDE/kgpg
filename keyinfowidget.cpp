@@ -399,12 +399,12 @@ void KgpgKeyInfo::slotCheckDate(QDate date)
 void KgpgKeyInfo::slotChangeDate()
 {
     KgpgInterface *KeyExpirationProcess = new KgpgInterface();
-    if (kb->isChecked())
-        KeyExpirationProcess->KgpgKeyExpire(displayedKeyID, QDate::currentDate(), true);
-    else
-        KeyExpirationProcess->KgpgKeyExpire(displayedKeyID, kdt->date(), false);
+    connect(KeyExpirationProcess, SIGNAL(keyExpireFinished(int, KgpgInterface*)), this, SLOT(slotInfoExpirationChanged(int, KgpgInterface*)));
 
-    connect(KeyExpirationProcess, SIGNAL(expirationFinished(int)), this, SLOT(slotInfoExpirationChanged(int)));
+    if (kb->isChecked())
+        KeyExpirationProcess->keyExpire(displayedKeyID, QDate::currentDate(), true);
+    else
+        KeyExpirationProcess->keyExpire(displayedKeyID, kdt->date(), false);
 }
 
 void KgpgKeyInfo::slotEnableDate(bool isOn)
@@ -455,8 +455,9 @@ void KgpgKeyInfo::slotInfoTrustChanged()
     //KPassivePopup::message(i18n("Owner trust of the key was changed"),QString::null,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this,0,600);
 }
 
-void KgpgKeyInfo::slotInfoExpirationChanged(int res)
+void KgpgKeyInfo::slotInfoExpirationChanged(int res, KgpgInterface *interface)
 {
+    delete interface;
     QString infoMessage,infoText;
     if (res == 3)
     {

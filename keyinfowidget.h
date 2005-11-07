@@ -32,6 +32,8 @@ class KTempFile;
 class KProcess;
 class KProcIO;
 
+class KgpgInterface;
+
 class KgpgKeyInfo : public KDialogBase
 {
     Q_OBJECT
@@ -60,7 +62,7 @@ private slots:
     void slotSetMainPhoto(QStringList list);
     void reloadMainPhoto(const QString &uid);
     void slotInfoPasswordChanged();
-    void slotInfoExpirationChanged(int res);
+    void slotInfoExpirationChanged(int res, KgpgInterface *interface);
     void slotInfoTrustChanged();
     void slotChangeTrust(int newTrust);
     void loadKey(QString Keyid);
