@@ -309,17 +309,25 @@ private slots:
 private:
     QString m_signkey;
     QString m_keyid;
-    int m_signsuccess;
     int m_checking;
     bool m_local;
 
 /****************************************/
 
 
+/************** change key expiration **************/
+signals:
+    void keyExpireStarted();
+    void keyExpireFinished(int, KgpgInterface*);
 
+public slots:
+    void keyExpire(const QString &keyid, const QDate &date, const bool &unlimited);
 
+private slots:
+    void keyExpireProcess(KProcIO *p);
+    void keyExpireFinished(KProcess *p);
 
-
+/***************************************************/
 
 
 
@@ -393,12 +401,8 @@ public slots:
      */
     void KgpgGetPhotoList(QString keyID);
 
-/*    void getOutput(KProcess *, char *data, int);
-    void getCmdOutput(KProcess *p, char *data, int);*/
-
     QString getKey(QStringList IDs, bool attributes);
 
-    void KgpgKeyExpire(QString keyID, QDate date, bool unlimited);
     void KgpgTrustExpire(QString keyID, int keyTrust);
     void KgpgChangePass(QString keyID);
 
@@ -463,8 +467,6 @@ private slots:
      */
     void verifyfin(KProcess *p);
 
-    void expprocess(KProcIO *p);
-    void expover(KProcess*);
     void trustprocess(KProcIO *p);
     void passprocess(KProcIO *p);
     void trustover(KProcess *);
@@ -541,12 +543,12 @@ signals:
     void trustfinished();
     void revokecertificate(QString);
     void revokeurl(QString);
-    void expirationFinished(int);
     void signalPhotoList(QStringList);
     void passwordChanged();
 
 private:
     // Globals private
+    int m_success;
     QString m_partialline;
     bool m_ispartial;
     QString message;

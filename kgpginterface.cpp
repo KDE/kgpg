@@ -1289,7 +1289,7 @@ void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, cons
         return;
     }
 
-    m_signsuccess = 0;
+    m_success = 0;
 
     KProcIO *proc = new KProcIO();
     *proc << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2" << "-u" << signkeyid;
@@ -1334,7 +1334,7 @@ void KgpgInterface::signKeyProcess(KProcIO *p)
                 if (line.find("USERID_HINT") != -1)
                     updateIDs(line);
                 else
-                if (m_signsuccess == 3)
+                if (m_success == 3)
                 {
                     // user has aborted the process and don't want to sign the key
                     if (line.find("GET_") != -1)
@@ -1344,11 +1344,11 @@ void KgpgInterface::signKeyProcess(KProcIO *p)
                 }
                 else
                 if (line.find("ALREADY_SIGNED") != -1)
-                    m_signsuccess = 4;
+                    m_success = 4;
                 if (line.find("GOOD_PASSPHRASE") != -1)
                 {
                     emit signKeyStarted();
-                    m_signsuccess = 2;
+                    m_success = 2;
                 }
                 else
                 if (line.find("sign_uid.expire") != -1)
@@ -1372,7 +1372,7 @@ void KgpgInterface::signKeyProcess(KProcIO *p)
 
                     if (sendPassphrase(passdlgmessage, p, false))
                     {
-                        m_signsuccess = 3;
+                        m_success = 3;
                         p->writeStdin(QByteArray("quit"), true);
                         return;
                     }
@@ -1383,16 +1383,16 @@ void KgpgInterface::signKeyProcess(KProcIO *p)
                         step = 3;
                 }
                 else
-                if ((m_signsuccess != 1) && (line.find("keyedit.prompt") != -1))
+                if ((m_success != 1) && (line.find("keyedit.prompt") != -1))
                     p->writeStdin(QByteArray("save"), true);
                 else
                 if (line.find("BAD_PASSPHRASE") != -1)
-                    m_signsuccess = 1;
+                    m_success = 1;
                 else
                 if (line.find("GET_") != -1) // gpg asks for something unusal, turn to konsole mode
                 {
-                    if (m_signsuccess != 1)
-                        m_signsuccess = 5; // switching to console mode
+                    if (m_success != 1)
+                        m_success = 5; // switching to console mode
                     p->writeStdin(QByteArray("quit"), true);
                 }
             }
@@ -1407,8 +1407,8 @@ void KgpgInterface::signKeyProcess(KProcIO *p)
 void KgpgInterface::signKeyFinished(KProcess *p)
 {
     delete p;
-    if ((m_signsuccess != 0) && (m_signsuccess != 5))
-        emit signKeyFinished(m_signsuccess, this); // signature successful or bad passphrase or aborted or already signed
+    if ((m_success != 0) && (m_success != 5))
+        emit signKeyFinished(m_success, this); // signature successful or bad passphrase or aborted or already signed
     else
     {
         KgpgDetailedConsole *q = new KgpgDetailedConsole(0, "sign_error", i18n("<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br>Do you want to try signing the key in console mode?</qt>").arg(m_keyid).arg(m_signkey), log);
@@ -1436,6 +1436,135 @@ void KgpgInterface::signKeyOpenConsole()
     proc.start(KProcess::Block);
     emit signKeyFinished(2, this);
 }
+
+void KgpgInterface::keyExpire(const QString &keyid, const QDate &date, const bool &unlimited)
+{
+    m_partialline = QString::null;
+    m_ispartial = false;
+    log = QString::null;
+    m_success = 0;
+    step = 3;
+
+    if (unlimited)
+        expirationDelay = 0;
+    else
+        expirationDelay = QDate::currentDate().daysTo(date);
+
+    output = QString::null;
+    KProcIO *proc = new KProcIO();
+    *proc << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
+    *proc << "--edit-key" << keyid << "expire";
+
+    kdDebug(2100) << "Change expiration of the key " << keyid << endl;
+    connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(keyExpireProcess(KProcIO *)));
+    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(keyExpireFinished(KProcess *)));
+    proc->start(KProcess::NotifyOnExit, true);
+}
+
+void KgpgInterface::keyExpireProcess(KProcIO *p)
+{
+    QString line;
+    bool partial = false;
+    while (p->readln(line, false, &partial) != -1)
+    {
+        if (partial == true)
+        {
+            m_partialline += line;
+            m_ispartial = true;
+            partial = false;
+        }
+        else
+        {
+            if (m_ispartial)
+            {
+                m_partialline += line;
+                line = m_partialline;
+
+                m_partialline = "";
+                m_ispartial = false;
+            }
+
+            kdDebug(2100) << line << endl;
+            if (!line.startsWith("[GNUPG:]"))
+                log += line + "\n";
+            else
+            if (line.find("USERID_HINT") != -1)
+                updateIDs(line);
+            else
+            if ((line.find("GOOD_PASSPHRASE") != -1))
+            {
+                m_success = 3;
+                emit keyExpireStarted();
+            }
+            else
+            if (line.find("keygen.valid") != -1)
+                p->writeStdin(QString::number(expirationDelay), true);
+            else
+            if (line.find("passphrase.enter") != -1)
+            {
+                QString passdlgmessage;
+                if (step < 3)
+                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
+                passdlgmessage += i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+
+                if (sendPassphrase(passdlgmessage, p, false))
+                {
+                    m_success = 3;  // aborted by user mode
+                    p->writeStdin(QByteArray("quit"), true);
+                    return;
+                }
+            }
+            else
+            if ((m_success = 3) && (line.find("keyedit.prompt") != -1))
+                p->writeStdin(QByteArray("save"), true);
+            else
+            if ((m_success = 3) && (line.find("keyedit.save.okay") != -1))
+                p->writeStdin(QByteArray("YES"), true);
+            else
+            if (line.find("BAD_PASSPHRASE") != -1)
+            {
+                p->writeStdin(QByteArray("quit"), true);
+                m_success = 2; // bad passphrase
+            }
+            else
+            if ((line.find("GET_") != -1) && (m_success != 2)) // gpg asks for something unusal, turn to konsole mode
+            {
+                m_success = 1; // switching to console mode
+                p->writeStdin(QByteArray("quit"), true);
+            }
+        }
+    }
+
+    p->ackRead();
+}
+
+void KgpgInterface::keyExpireFinished(KProcess *p)
+{
+    delete p;
+    if ((m_success == 3) || (m_success == 2))
+        emit keyExpireFinished(m_success, this); // signature successful or bad passphrase
+    else
+    {
+        KgpgDetailedConsole *q = new KgpgDetailedConsole(0,"sign_error",i18n("<qt><b>Changing expiration failed.</b><br>"
+                                    "Do you want to try changing the key expiration in console mode?</qt>"),output);
+        if (q->exec() == QDialog::Accepted)
+            KMessageBox::sorry(0, "work in progress...");
+        else
+            emit keyExpireFinished(0, this);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1783,8 +1912,8 @@ void KgpgInterface::KgpgDelSignature(QString keyID,QString signKeyID)
         KProcIO *conprocess=new KProcIO();
         *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--command-fd=0"<<"--status-fd=2";
         *conprocess<<"--edit-key"<<keyID<<"uid 1"<<"delsig";
-        QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(delsigprocess(KProcIO *)));
-        QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(delsignover(KProcess *)));
+        connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(delsigprocess(KProcIO *)));
+        connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(delsignover(KProcess *)));
         conprocess->start(KProcess::NotifyOnExit,true);
 }
 
@@ -1821,99 +1950,6 @@ void KgpgInterface::delsigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
 void KgpgInterface::delsignover(KProcess *)
 {
         emit delsigfinished(deleteSuccess);
-}
-
-///////////////////////////////////////////////////////////////    change key expiration
-void KgpgInterface::KgpgKeyExpire(QString keyID,QDate date,bool unlimited)
-{
-        expSuccess=0;
-        step=0;
-        if (unlimited)
-                expirationDelay=0;
-        else
-                expirationDelay=QDate::currentDate().daysTo(date);
-        output=QString::null;
-        KProcIO *conprocess=new KProcIO();
-        *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--command-fd=0"<<"--status-fd=2";
-        *conprocess<<"--edit-key"<<keyID<<"expire";
-        QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(expprocess(KProcIO *)));
-        QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(expover(KProcess *)));
-        conprocess->start(KProcess::NotifyOnExit,KProcess::AllOutput);
-
-}
-
-void KgpgInterface::expprocess(KProcIO *p)
-{
-        QString required=QString::null;
-
-        while (p->readln(required,true)!=-1) {
-                output+=required+"\n";
-
-                if (required.find("USERID_HINT",0,false)!=-1)
-        updateIDs(required);
-
-                if ((required.find("GOOD_PASSPHRASE")!=-1)) {
-                        expSuccess=3;
-                        step=2;
-                }
-
-                if (required.find("keygen.valid")!=-1) {
-                        p->writeStdin(QString::number(expirationDelay));
-                        required=QString::null;
-                }
-
-                if (required.find("passphrase.enter")!=-1)
-                {
-                    if (sendPassphrase(i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)), p))
-                    {
-                        expSuccess = 3;  // aborted by user mode
-                        p->writeStdin(QByteArray("quit"));
-                        p->closeWhenDone();
-                        return;
-                    }
-                        required=QString::null;
-                        //              step=2;
-                }
-                if ((step==2) && (required.find("keyedit.prompt")!=-1)) {
-                        p->writeStdin(QByteArray("save"));
-            p->closeWhenDone();
-                        required=QString::null;
-                }
-        if ((step==2) && (required.find("keyedit.save.okay")!=-1)) {
-                        p->writeStdin(QByteArray("YES"));
-            p->closeWhenDone();
-                        required=QString::null;
-                }
-                if (required.find("BAD_PASSPHRASE")!=-1) {
-                        p->writeStdin(QByteArray("quit"));
-                        p->closeWhenDone();
-                        expSuccess=2;  /////  bad passphrase
-                }
-                if ((required.find("GET_")!=-1) && (expSuccess!=2)) /////// gpg asks for something unusal, turn to konsole mode
-                {
-                        expSuccess=1;  /////  switching to console mode
-                        p->writeStdin(QByteArray("quit"));
-                        p->closeWhenDone();
-
-                }
-        }
-}
-
-
-
-void KgpgInterface::expover(KProcess *)
-{
-        if ((expSuccess==3) || (expSuccess==2))
-                emit expirationFinished(expSuccess);  ////   signature successful or bad passphrase
-        else {
-                KgpgDetailedConsole *q=new KgpgDetailedConsole(0,"sign_error",i18n("<qt><b>Changing expiration failed.</b><br>"
-                                    "Do you want to try changing the key expiration in console mode?</qt>"),output);
-                if (q->exec()==QDialog::Accepted)
-                        KMessageBox::sorry(0,"work in progress...");
-                //openSignConsole();
-                else
-                        emit expirationFinished(0);
-        }
 }
 
 
