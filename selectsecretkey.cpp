@@ -68,7 +68,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const char *name, cons
         m_localsign = new QCheckBox(i18n("Local signature (cannot be exported)"), page);
         vbox->addWidget(m_localsign);
 
-        QCheckBox *m_terminalsign = new QCheckBox(i18n("Do not sign all user id's (open terminal)"), page);
+        m_terminalsign = new QCheckBox(i18n("Do not sign all user id's (open terminal)"), page);
         vbox->addWidget(m_terminalsign);
         if (countkey != 1)
             m_terminalsign->setEnabled(false);

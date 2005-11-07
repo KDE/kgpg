@@ -113,9 +113,9 @@ private:
     QString messages;
 
 private slots:
-    void slotVerifyResult(QString mssge, QString log);
-    void slotSignResult(QString signResult);
-    void slotAskForImport(QString ID);
+    void slotVerifyResult(QString mssge, QString log, KgpgInterface*);
+    void slotSignResult(QString signResult, KgpgInterface*);
+    void slotAskForImport(QString ID, KgpgInterface*);
     void popuppublic();
     void modified();
     void encodetxt(QStringList selec, QStringList encryptOptions, bool, bool symmetric);

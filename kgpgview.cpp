@@ -229,7 +229,7 @@ void KgpgView::modified()
 
 }
 
-void KgpgView::slotAskForImport(QString ID)
+void KgpgView::slotAskForImport(QString ID, KgpgInterface*)
 {
     KGuiItem importitem = KStdGuiItem::yes();
     importitem.setText(i18n("&Import"));
@@ -250,7 +250,7 @@ void KgpgView::slotAskForImport(QString ID)
         emit verifyFinished();
 }
 
-void KgpgView::slotVerifyResult(QString mssge,QString log)
+void KgpgView::slotVerifyResult(QString mssge,QString log, KgpgInterface*)
 {
 emit verifyFinished();
 //KMessageBox::information(0,mssge);
@@ -263,9 +263,9 @@ void KgpgView::clearSign()
         if (mess.startsWith("-----BEGIN PGP SIGNED")) {
                 //////////////////////   this is a signed message, verify it
         KgpgInterface *verifyProcess=new KgpgInterface();
-        connect(verifyProcess,SIGNAL(missingSignature(QString)),this,SLOT(slotAskForImport(QString)));
-        connect(verifyProcess,SIGNAL(verifyOver(QString,QString)),this,SLOT(slotVerifyResult(QString,QString)));
-        verifyProcess->KgpgVerifyText(mess);
+        connect(verifyProcess,SIGNAL(txtVerifyMissingSignature(QString, KgpgInterface*)),this,SLOT(slotAskForImport(QString, KgpgInterface*)));
+        connect(verifyProcess,SIGNAL(txtVerifyFinished(QString,QString, KgpgInterface*)),this,SLOT(slotVerifyResult(QString,QString, KgpgInterface*)));
+        verifyProcess->verifyText(mess);
             }
         else {
                 /////    Sign the text in Editor
@@ -282,16 +282,16 @@ void KgpgView::clearSign()
                 delete opts;
 
         KgpgInterface *signProcess=new KgpgInterface();
-        connect(signProcess,SIGNAL(txtSignOver(QString)),this,SLOT(slotSignResult(QString)));
+        connect(signProcess,SIGNAL(txtSigningFinished(QString, KgpgInterface*)),this,SLOT(slotSignResult(QString, KgpgInterface*)));
         QStringList options = QStringList();
         if (KGpgSettings::pgpCompatibility())
                         options<<"--pgp6";
-        signProcess->KgpgSignText(mess,signKeyID,options);
+        signProcess->signText(mess,signKeyID,options);
 }
 }
 
 
-void KgpgView::slotSignResult(QString signResult)
+void KgpgView::slotSignResult(QString signResult, KgpgInterface*)
 {
 if (signResult.isEmpty())
 KMessageBox::sorry(this,i18n("Signing not possible: bad passphrase or missing key"));

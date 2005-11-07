@@ -26,6 +26,8 @@
 class KPassivePopup;
 class KIO::Job;
 
+class KgpgInterface;
+
 class KgpgLibrary : public QObject
 {
     Q_OBJECT
@@ -48,10 +50,10 @@ public slots:
     void shredProcessEnc(const KURL::List &filesToShred);
 
 private slots:
-    void startEncode(const QStringList &encryptKeys, const QStringList &encryptOptions, const bool &shred, const bool &symetric);
+    void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &shred, const bool &symetric);
     void fastEncode(const KURL &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
-    void processEnc();
-    void processEncError(const QString &mssge);
+    void processEnc(KURL, KgpgInterface*);
+    void processEncError(const QString &mssge, KgpgInterface*);
     void processDecOver();
     void processDecError(const QString &mssge);
     void slotShredResult(KIO::Job *job);

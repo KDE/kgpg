@@ -263,7 +263,7 @@ private slots:
     void importsignkey(QString importKeyId);
     void importallsignkey();
     void importfinished();
-    void signatureResult(int success);
+    void signatureResult(int success, KgpgInterface*);
     void delsignatureResult(bool);
     void listsigns();
     void slotexport();
@@ -325,6 +325,7 @@ private:
     bool showPhoto;
     bool globalisLocal;
     bool showTipOfDay;
+    bool m_isterminal;
 
     uint globalCount;
     uint keyCount;

@@ -233,73 +233,79 @@ compressionScheme=cp;
 
 void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool ,bool symetric)
 {
-QString extension;
+    QString extension;
 
-if (compressionScheme==0)
-    extension=".zip";
-    else if (compressionScheme==1)
-    extension=".tar.gz";
+    if (compressionScheme == 0)
+        extension = ".zip";
     else
-    extension=".tar.bz2";
+    if (compressionScheme == 1)
+        extension = ".tar.gz";
+    else
+        extension = ".tar.bz2";
 
-if (encryptOptions.find("armor")!=encryptOptions.end () )
-                extension+=".asc";
-        else if (KGpgSettings::pgpExtension())
-                extension+=".pgp";
-        else
-                extension+=".gpg";
+    if (encryptOptions.find("armor") != encryptOptions.end())
+        extension += ".asc";
+    else
+    if (KGpgSettings::pgpExtension())
+        extension += ".pgp";
+    else
+        extension += ".gpg";
 
-KURL encryptedFile(droppedUrls.first().path()+extension);
-QFile encryptedFolder(droppedUrls.first().path()+extension);
-if (encryptedFolder.exists()) {
-            dialogue->hide();
-            KIO::RenameDlg *over=new KIO::RenameDlg(0,i18n("File Already Exists"),QString::null,encryptedFile.path(),KIO::M_OVERWRITE);
-                if (over->exec()==QDialog::Rejected)
-                {
-                    delete over;
-                    return;
-                    }
-                encryptedFile=over->newDestURL();
-                delete over;
-            dialogue->show();   /////// strange, but if dialogue is hidden, the passive popup is not displayed...
-                }
+    KURL encryptedFile(droppedUrls.first().path() + extension);
+    QFile encryptedFolder(droppedUrls.first().path() + extension);
+    if (encryptedFolder.exists())
+    {
+        dialogue->hide();
+        KIO::RenameDlg *over = new KIO::RenameDlg(0, i18n("File Already Exists"), QString::null, encryptedFile.path(), KIO::M_OVERWRITE);
+        if (over->exec() == QDialog::Rejected)
+        {
+            delete over;
+            return;
+        }
+        encryptedFile = over->newDestURL();
+        delete over;
+        dialogue->show(); // strange, but if dialogue is hidden, the passive popup is not displayed...
+    }
 
-pop = new KPassivePopup();
-    pop->setView(i18n("Processing folder compression and encryption"),i18n("Please wait..."),KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop));
+    pop = new KPassivePopup();
+    pop->setView(i18n("Processing folder compression and encryption"),i18n("Please wait..."), KGlobal::iconLoader()->loadIcon("kgpg", KIcon::Desktop));
     pop->setAutoDelete(false);
     pop->show();
     kapp->processEvents();
     dialogue->slotAccept();
-    dialogue=0L;
+    dialogue = 0L;
 
     KArchive *arch;
-    if (compressionScheme==0)
-    arch=new KZip(kgpgfoldertmp->name());
-    else if (compressionScheme==1)
-    arch=new KTar(kgpgfoldertmp->name(), "application/x-gzip");
+    if (compressionScheme == 0)
+        arch = new KZip(kgpgfoldertmp->name());
     else
-    arch=new KTar(kgpgfoldertmp->name(), "application/x-bzip2");
+    if (compressionScheme == 1)
+        arch = new KTar(kgpgfoldertmp->name(), "application/x-gzip");
+    else
+        arch = new KTar(kgpgfoldertmp->name(), "application/x-bzip2");
 
-        if (!arch->open( QIODevice::WriteOnly )) {
-                KMessageBox::sorry(0,i18n("Unable to create temporary file"));
-                return;
-            }
-        arch->addLocalDirectory (droppedUrls.first().path(),droppedUrls.first().fileName());
-        arch->close();
+    if (!arch->open(QIODevice::WriteOnly))
+    {
+        KMessageBox::sorry(0,i18n("Unable to create temporary file"));
+        return;
+    }
 
-        KgpgInterface *folderprocess=new KgpgInterface();
-        folderprocess->KgpgEncryptFile(selec,KURL(kgpgfoldertmp->name()),encryptedFile,encryptOptions,symetric);
-        connect(folderprocess,SIGNAL(encryptionfinished(KURL)),this,SLOT(slotFolderFinished(KURL)));
-        connect(folderprocess,SIGNAL(errormessage(QString)),this,SLOT(slotFolderFinishedError(QString)));
+    arch->addLocalDirectory(droppedUrls.first().path(), droppedUrls.first().fileName());
+    arch->close();
+
+    KgpgInterface *folderprocess = new KgpgInterface();
+    connect(folderprocess, SIGNAL(fileEncryptionFinished(KURL)), this, SLOT(slotFolderFinished(KURL, KgpgInterface*)));
+    connect(folderprocess, SIGNAL(errorMessage(QString)), this, SLOT(slotFolderFinishedError(QString, KgpgInterface*)));
+    folderprocess->encryptFile(selec, KURL(kgpgfoldertmp->name()), encryptedFile, encryptOptions, symetric);
 }
 
-void  MyView::slotFolderFinished(KURL)
+void  MyView::slotFolderFinished(KURL, KgpgInterface*)
 {
         delete pop;
         delete kgpgfoldertmp;
 }
 
-void  MyView::slotFolderFinishedError(QString errmsge)
+void  MyView::slotFolderFinishedError(QString errmsge, KgpgInterface*)
 {
         delete pop;
         delete kgpgfoldertmp;

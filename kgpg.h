@@ -35,13 +35,14 @@ class QDragEnterEvent;
 class QDropEvent;
 class QMenu;
 
-class KgpgSelectPublicKeyDlg;
 class KPassivePopup;
 class KgpgWizard;
 class KAboutData;
 class KTempFile;
 class KAction;
 
+class KgpgSelectPublicKeyDlg;
+class KgpgInterface;
 class listKeys;
 
 class MyView : public QLabel
@@ -84,8 +85,8 @@ public slots:
     void slotVerifyFile();
     void encryptDroppedFolder();
     void startFolderEncode(QStringList selec, QStringList encryptOptions, bool, bool symetric);
-    void slotFolderFinished(KURL);
-    void slotFolderFinishedError(QString errmsge);
+    void slotFolderFinished(KURL, KgpgInterface*);
+    void slotFolderFinishedError(QString errmsge, KgpgInterface*);
     void encryptFiles(KURL::List urls);
     void installShred();
 

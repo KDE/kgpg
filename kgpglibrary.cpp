@@ -46,7 +46,6 @@ KgpgLibrary::KgpgLibrary(QWidget *parent, const bool &pgpExtension)
 
 void KgpgLibrary::slotFileEnc(const KURL::List &urls, const QStringList &opts, const QStringList &defaultKey, const KShortcut &goDefaultKey)
 {
-    // encode file file
     if (!urls.empty())
     {
         m_urlselecteds = urls;
@@ -57,31 +56,30 @@ void KgpgLibrary::slotFileEnc(const KURL::List &urls, const QStringList &opts, c
                 fileNames += ",...";
 
             KgpgSelectPublicKeyDlg *dialogue = new KgpgSelectPublicKeyDlg(0, "Public keys", fileNames, true, goDefaultKey);
-            connect(dialogue, SIGNAL(selectedKey(QStringList, QStringList, bool, bool)), this, SLOT(startencode(QStringList, QStringList, bool, bool)));
+            connect(dialogue, SIGNAL(selectedKey(QStringList, QStringList, bool, bool)), this, SLOT(startEncode(QStringList, QStringList, bool, bool)));
             dialogue->exec();
 
-            delete dialogue;
+            //delete dialogue;
         }
         else
             startEncode(defaultKey, opts, false, false);
     }
 }
 
-void KgpgLibrary::startEncode(const QStringList &encryptKeys, const QStringList &encryptOptions, const bool &shred, const bool &symetric)
+void KgpgLibrary::startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &shred, const bool &symetric)
 {
     m_popisactive = false;
     //KURL::List::iterator it;
     //filesToEncode=m_urlselecteds.count();
-    m_encryptkeys = encryptKeys;
-    m_encryptoptions = encryptOptions;
+    m_encryptkeys = encryptkeys;
+    m_encryptoptions = encryptoptions;
     m_shred = shred;
     m_symetric = symetric;
-    fastEncode(m_urlselecteds.first(), encryptKeys, encryptOptions, symetric);
+    fastEncode(m_urlselecteds.first(), encryptkeys, encryptoptions, symetric);
 }
 
 void KgpgLibrary::fastEncode(const KURL &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric)
 {
-    // encode from file
     if ((encryptkeys.isEmpty()) && (!symetric))
     {
         KMessageBox::sorry(0, i18n("You have not chosen an encryption key."));
@@ -89,8 +87,8 @@ void KgpgLibrary::fastEncode(const KURL &filetocrypt, const QStringList &encrypt
     }
 
     m_urlselected = filetocrypt;
-    KURL dest;
 
+    KURL dest;
     if (encryptoptions.find("--armor") != encryptoptions.end())
         dest.setPath(m_urlselected.path() + ".asc");
     else
@@ -120,19 +118,21 @@ void KgpgLibrary::fastEncode(const KURL &filetocrypt, const QStringList &encrypt
     m_pop = new KPassivePopup(m_panel);
 
     KgpgInterface *cryptFileProcess = new KgpgInterface();
-    cryptFileProcess->KgpgEncryptFile(encryptkeys, m_urlselected, dest, encryptoptions, symetric);
+    connect(cryptFileProcess, SIGNAL(fileEncryptionFinished(KURL, KgpgInterface*)), this, SLOT(processEnc(KURL, KgpgInterface*)));
+    connect(cryptFileProcess, SIGNAL(errorMessage(QString, KgpgInterface*)), this, SLOT(processEncError(QString, KgpgInterface*)));
+    cryptFileProcess->encryptFile(encryptkeys, m_urlselected, dest, encryptoptions, symetric);
+
     if (!m_popisactive)
     {
         //connect(cryptFileProcess,SIGNAL(processstarted(QString)),this,SLOT(processpopup2(QString)));
         m_popisactive = true;
     }
 
-    connect(cryptFileProcess, SIGNAL(encryptionfinished(KURL)), this, SLOT(processenc(KURL)));
-    connect(cryptFileProcess, SIGNAL(errormessage(QString)), this, SLOT(processencerror(QString)));
 }
 
-void KgpgLibrary::processEnc()
+void KgpgLibrary::processEnc(KURL, KgpgInterface *i)
 {
+    delete i;
     emit systemMessage(QString::null);
 
     if (m_shred)
@@ -146,8 +146,9 @@ void KgpgLibrary::processEnc()
         emit encryptionOver();
 }
 
-void KgpgLibrary::processEncError(const QString &mssge)
+void KgpgLibrary::processEncError(const QString &mssge, KgpgInterface *i)
 {
+    delete i;
     m_popisactive = false;
     emit systemMessage(QString::null, true);
     KMessageBox::detailedSorry(m_panel, i18n("<b>Process halted</b>.<br>Not all files were encrypted."), mssge);
