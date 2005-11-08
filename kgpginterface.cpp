@@ -16,27 +16,18 @@
  ***************************************************************************/
 
 #include <QApplication>
-#include <QTextStream>
-#include <QGridLayout>
 #include <QHBoxLayout>
-#include <QClipboard>
+#include <QTextStream>
 #include <QTextCodec>
-#include <QCheckBox>
-#include <QDialog>
-#include <QLayout>
-#include <QRegExp>
+#include <QClipboard>
 #include <QLabel>
 #include <QFile>
 
 #include <kio/netaccess.h>
-#include <kpassivepopup.h>
 #include <kmessagebox.h>
-#include <kiconloader.h>
-#include <klineedit.h>
-#include <kcharsets.h>
 #include <ktempfile.h>
+#include <klineedit.h>
 #include <kpassdlg.h>
-#include <kprocess.h>
 #include <klocale.h>
 #include <kcodecs.h>
 #include <kaction.h>
@@ -46,7 +37,6 @@
 #include <kled.h>
 
 #include "kgpginterface.h"
-#include "listkeys.h"
 #include "detailedconsole.h"
 
 KgpgInterface::KgpgInterface()
@@ -423,8 +413,8 @@ KgpgListKeys KgpgInterface::readPublicKeys(const bool &block, const QStringList 
     if (!block)
     {
         kdDebug(2100) << "Extract public keys with KProcess::NotifyOnExit" << endl;
-        connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(readPublicKeysExited(KProcess *)));
-        connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(readPublicKeyLines(KProcIO *)));
+        connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(readPublicKeysProcess(KProcIO *)));
+        connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(readPublicKeysFin(KProcess *)));
         process->start(KProcess::NotifyOnExit, false);
         emit startedReadPublicKeys();
         return KgpgListKeys();
@@ -433,13 +423,13 @@ KgpgListKeys KgpgInterface::readPublicKeys(const bool &block, const QStringList 
     {
         kdDebug(2100) << "Extract public keys with KProcess::Block" << endl;
         process->start(KProcess::Block, false);
-        readPublicKeyLines(process);
-        readPublicKeysExited(process, true);
+        readPublicKeysProcess(process);
+        readPublicKeysFin(process, true);
         return m_publiclistkeys;
     }
 }
 
-void KgpgInterface::readPublicKeyLines(KProcIO *p)
+void KgpgInterface::readPublicKeysProcess(KProcIO *p)
 {
     QString line;
     bool partial = false;
@@ -552,14 +542,20 @@ void KgpgInterface::readPublicKeyLines(KProcIO *p)
             }
 
             if (line.startsWith("uat"))
+            {
+                m_publickey->gpgkeynumberuat += 1;
                 m_publickey->gpghasphoto = true;
+            }
+
+            if (line.startsWith("uid"))
+                m_publickey->gpgkeynumberuid += 1;
         }
     }
 
     p->ackRead();
 }
 
-void KgpgInterface::readPublicKeysExited(KProcess *p, const bool &block)
+void KgpgInterface::readPublicKeysFin(KProcess *p, const bool &block)
 {
     // insert the last key
     if (m_publickey)
@@ -585,8 +581,8 @@ KgpgListKeys KgpgInterface::readSecretKeys(const bool &block, const QStringList 
     if (!block)
     {
         kdDebug(2100) << "Extract secret keys with KProcess::NotifyOnExit" << endl;
-        connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(readSecretKeysExited(KProcess *)));
-        connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(readSecretKeyLines(KProcIO *)));
+        connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(readSecretKeysProcess(KProcIO *)));
+        connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(readSecretKeysFin(KProcess *)));
         process->start(KProcess::NotifyOnExit, false);
         emit startedReadSecretKeys();
         return KgpgListKeys();
@@ -595,13 +591,13 @@ KgpgListKeys KgpgInterface::readSecretKeys(const bool &block, const QStringList 
     {
         kdDebug(2100) << "Extract secret keys with KProcess::Block" << endl;
         process->start(KProcess::Block, false);
-        readSecretKeyLines(process);
-        readSecretKeysExited(process, true);
+        readSecretKeysProcess(process);
+        readSecretKeysFin(process, true);
         return m_secretlistkeys;
     }
 }
 
-void KgpgInterface::readSecretKeyLines(KProcIO *p)
+void KgpgInterface::readSecretKeysProcess(KProcIO *p)
 {
     QString line;
     bool partial = false;
@@ -693,14 +689,20 @@ void KgpgInterface::readSecretKeyLines(KProcIO *p)
             }
 
             if (line.startsWith("uat"))
+            {
+                m_secretkey->gpgkeynumberuat += 1;
                 m_secretkey->gpghasphoto = true;
+            }
+
+            if (line.startsWith("uid"))
+                m_secretkey->gpgkeynumberuid += 1;
         }
     }
 
     p->ackRead();
 }
 
-void KgpgInterface::readSecretKeysExited(KProcess *p, const bool &block)
+void KgpgInterface::readSecretKeysFin(KProcess *p, const bool &block)
 {
     if (m_secretkey)
         m_secretlistkeys << m_secretkey;
@@ -708,6 +710,49 @@ void KgpgInterface::readSecretKeysExited(KProcess *p, const bool &block)
     delete p;
     if (!block)
         emit finishedReadSecretKeys(m_secretlistkeys, this);
+}
+
+void KgpgInterface::getPhotoList(const QString &keyid)
+{
+    userIDs = keyid;
+    connect(this, SIGNAL(finishedReadPublicKeys(KgpgListKeys, KgpgInterface*)), this, SLOT(getPhotoListProcess(KgpgListKeys, KgpgInterface*)));
+    readPublicKeys(false, QStringList(keyid));
+}
+
+void KgpgInterface::getPhotoListProcess(KgpgListKeys listkeys, KgpgInterface*)
+{
+    uint number = 1;
+    number += (listkeys.at(0))->gpgkeynumberuat;
+    number += (listkeys.at(0))->gpgkeynumberuid;
+
+    QStringList photolist;
+    for (uint i = 1; i <= number; ++i)
+        if (isPhotoId(i))
+            photolist += QString::number(i);
+
+    emit getPhotoListFinished(photolist, this);
+}
+
+bool KgpgInterface::isPhotoId(uint uid)
+{
+    KTempFile *kgpginfotmp = new KTempFile();
+    kgpginfotmp->setAutoDelete(true);
+
+    QString pgpgoutput = "cp %i " + kgpginfotmp->name();
+
+    KProcIO *proc = new KProcIO();
+    *proc << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0";
+    *proc << "--photo-viewer" << QFile::encodeName(pgpgoutput) << "--edit-key" << userIDs << "uid" << QString::number(uid) << "showphoto";
+    proc->start(KProcess::Block);
+
+    if (kgpginfotmp->file()->size() > 0)
+    {
+        kgpginfotmp->unlink();
+        return true;
+    }
+
+    kgpginfotmp->unlink();
+    return false;
 }
 
 void KgpgInterface::encryptText(const QString &text, const QStringList &userids, const QStringList &options)
@@ -739,12 +784,12 @@ void KgpgInterface::encryptText(const QString &text, const QStringList &userids,
         *proc << "-c";
 
     kdDebug(2100) << "Encrypt a text" << endl;
-    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(txtEncryptFin(KProcess *)));
-    connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(txtReadEncProcess(KProcIO *)));
+    connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(encryptTextProcess(KProcIO *)));
+    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(encryptTextFin(KProcess *)));
     proc->start(KProcess::NotifyOnExit, false);
 }
 
-void KgpgInterface::txtReadEncProcess(KProcIO *p)
+void KgpgInterface::encryptTextProcess(KProcIO *p)
 {
     QString line;
     bool partial = false;
@@ -794,7 +839,7 @@ void KgpgInterface::txtReadEncProcess(KProcIO *p)
     p->ackRead();
 }
 
-void KgpgInterface::txtEncryptFin(KProcess *p)
+void KgpgInterface::encryptTextFin(KProcess *p)
 {
     delete p;
     if (!message.isEmpty())
@@ -830,21 +875,21 @@ void KgpgInterface::decryptText(const QString &text, const QStringList &options)
     *proc << "-d";
 
     kdDebug(2100) << "Decrypt a text" << endl;
-    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(txtDecryptFin(KProcess *)));
-    connect(proc, SIGNAL(receivedStdout(KProcess *, char *, int)), this, SLOT(txtReadDecStdOut(KProcess *, char *, int)));
-    connect(proc, SIGNAL(receivedStderr(KProcess *, char *, int)), this, SLOT(txtReadDecStdErr(KProcess *, char *, int)));
+    connect(proc, SIGNAL(receivedStdout(KProcess *, char *, int)), this, SLOT(decryptTextStdOut(KProcess *, char *, int)));
+    connect(proc, SIGNAL(receivedStderr(KProcess *, char *, int)), this, SLOT(decryptTextStdErr(KProcess *, char *, int)));
+    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(decryptTextFin(KProcess *)));
     proc->start(KProcess::NotifyOnExit, KProcess::All);
 
     // send the encrypted text to gpg
     proc->writeStdin(text.ascii(), text.length());
 }
 
-void KgpgInterface::txtReadDecStdErr(KProcess *, char *data, int)
+void KgpgInterface::decryptTextStdErr(KProcess *, char *data, int)
 {
     log.append(data);
 }
 
-void KgpgInterface::txtReadDecStdOut(KProcess *p, char *data, int)
+void KgpgInterface::decryptTextStdOut(KProcess *p, char *data, int)
 {
     m_partialline.append(data);
 
@@ -929,7 +974,7 @@ void KgpgInterface::txtReadDecStdOut(KProcess *p, char *data, int)
     }
 }
 
-void KgpgInterface::txtDecryptFin(KProcess *p)
+void KgpgInterface::decryptTextFin(KProcess *p)
 {
     delete p;
     if ((decok) && (!badmdc))
@@ -972,12 +1017,12 @@ void KgpgInterface::signText(const QString &text, const QString &userid, const Q
     *proc << "--clearsign" << "-u" << userid;
 
     kdDebug(2100) << "Sign a text" << endl;
-    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(txtSignFin(KProcess *)));
-    connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(txtSignProcess(KProcIO *)));
+    connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(signTextProcess(KProcIO *)));
+    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(signTextFin(KProcess *)));
     proc->start(KProcess::NotifyOnExit, true);
 }
 
-void KgpgInterface::txtSignProcess(KProcIO *p)
+void KgpgInterface::signTextProcess(KProcIO *p)
 {
     QString line;
     bool partial = false;
@@ -1000,7 +1045,6 @@ void KgpgInterface::txtSignProcess(KProcIO *p)
                 m_ispartial = false;
             }
 
-            kdDebug(2100) << line << endl;
             if (line.find("USERID_HINT") != -1)
                 updateIDs(line);
             else
@@ -1047,7 +1091,7 @@ void KgpgInterface::txtSignProcess(KProcIO *p)
     p->ackRead();
 }
 
-void KgpgInterface::txtSignFin(KProcess *p)
+void KgpgInterface::signTextFin(KProcess *p)
 {
     delete p;
     if (badpassword)
@@ -1085,8 +1129,8 @@ void KgpgInterface::verifyText(const QString &text)
     *proc << "gpg" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0" << "--verify";
 
     kdDebug(2100) << "Verify a text" << endl;
-    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(txtVerifyFin(KProcess *)));
-    connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(txtVerifyProcess(KProcIO *)));
+    connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(verifyTextProcess(KProcIO *)));
+    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(verifyTextFin(KProcess *)));
     proc->start(KProcess::NotifyOnExit, true);
     emit txtVerifyStarted();
 
@@ -1095,7 +1139,7 @@ void KgpgInterface::verifyText(const QString &text)
     proc->closeWhenDone();
 }
 
-void KgpgInterface::txtVerifyProcess(KProcIO *p)
+void KgpgInterface::verifyTextProcess(KProcIO *p)
 {
     QString line;
     bool partial = false;
@@ -1157,7 +1201,7 @@ void KgpgInterface::txtVerifyProcess(KProcIO *p)
     p->ackRead();
 }
 
-void KgpgInterface::txtVerifyFin(KProcess *p)
+void KgpgInterface::verifyTextFin(KProcess *p)
 {
     delete p;
     if (signmiss)
@@ -1707,7 +1751,6 @@ void KgpgInterface::changeTrustProcess(KProcIO *p)
                 m_ispartial = false;
             }
 
-            kdDebug(2100) << line << endl;
             if (line.find("edit_ownertrust.set_ultimate.okay") != -1)
                 p->writeStdin(QByteArray("YES"), true);
             else
@@ -1737,8 +1780,127 @@ void KgpgInterface::changeTrustFin(KProcess *p)
     emit changeTrustFinished(this);
 }
 
+void KgpgInterface::changeDisable(const QString &keyid, const bool &ison)
+{
+    m_partialline = QString::null;
+    m_ispartial = false;
 
+    KProcIO *proc = new KProcIO();
+    *proc << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
+    *proc << "--edit-key" << keyid;
 
+    if (ison)
+        *proc << "disable";
+    else
+        *proc << "enable";
+
+    kdDebug(2100) << "Change disable of the key " << keyid << " to " << ison << endl;
+    connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(changeDisableProcess(KProcIO *)));
+    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(changeDisableFin(KProcess *)));
+    proc->start(KProcess::NotifyOnExit, true);
+}
+
+void KgpgInterface::changeDisableProcess(KProcIO *p)
+{
+    QString line;
+    bool partial = false;
+    while (p->readln(line, false, &partial) != -1)
+    {
+        if (partial == true)
+        {
+            m_partialline += line;
+            m_ispartial = true;
+            partial = false;
+        }
+        else
+        {
+            if (m_ispartial)
+            {
+                m_partialline += line;
+                line = m_partialline;
+
+                m_partialline = "";
+                m_ispartial = false;
+            }
+
+            if (line.find("keyedit.prompt") != -1)
+            {
+                p->writeStdin(QByteArray("save"), true);
+                p->closeWhenDone();
+            }
+        }
+    }
+
+    p->ackRead();
+}
+
+void KgpgInterface::changeDisableFin(KProcess *p)
+{
+    delete p;
+    changeDisableFinished(this);
+}
+
+void KgpgInterface::loadPhoto(const QString &keyid, const QString &uid)
+{
+    m_partialline = QString::null;
+    m_ispartial = false;
+
+    m_kgpginfotmp = new KTempFile();
+    m_kgpginfotmp->setAutoDelete(true);
+    QString pgpgoutput = "cp %i " + m_kgpginfotmp->name();
+
+    KProcIO *proc = new KProcIO();
+    *proc << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
+    *proc << "--show-photos" << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto";
+
+    kdDebug(2100) << "Load a photo for the key " << keyid << " uid " << uid << endl;
+    connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(loadPhotoProcess(KProcIO *)));
+    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(loadPhotoFin(KProcess *)));
+    proc->start(KProcess::NotifyOnExit, true);
+}
+
+void KgpgInterface::loadPhotoProcess(KProcIO *p)
+{
+    QString line;
+    bool partial = false;
+    while (p->readln(line, false, &partial) != -1)
+    {
+        if (partial == true)
+        {
+            m_partialline += line;
+            m_ispartial = true;
+            partial = false;
+        }
+        else
+        {
+            if (m_ispartial)
+            {
+                m_partialline += line;
+                line = m_partialline;
+
+                m_partialline = "";
+                m_ispartial = false;
+            }
+
+            if (line.find("keyedit.prompt") != -1)
+            {
+                p->writeStdin(QByteArray("quit"), true);
+                p->closeWhenDone();
+            }
+        }
+    }
+
+    p->ackRead();
+}
+
+void KgpgInterface::loadPhotoFin(KProcess *p)
+{
+    delete p;
+    QPixmap pixmap;
+    pixmap.load(m_kgpginfotmp->name());
+    m_kgpginfotmp->unlink();
+    emit loadPhotoFinished(pixmap, this);
+}
 
 
 
@@ -2363,61 +2525,6 @@ void KgpgInterface::adduidprocess(KProcIO *p)
 
 
 
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  photo id's
-
-void KgpgInterface::KgpgGetPhotoList(QString keyID)
-{
-photoList.clear();
-output=QString::null;
-photoCount=1;
-userIDs=keyID;
-
-        KProcIO *conprocess=new KProcIO();
-        *conprocess<< "gpg"<<"--no-tty"<<"--status-fd=2"<<"--command-fd=0";
-        *conprocess<<"--with-colon"<<"--list-keys"<<keyID;
-        QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(photoreadover(KProcess *)));
-        QObject::connect(conprocess, SIGNAL(readReady(KProcIO *)),this, SLOT(photoreadprocess(KProcIO *)));
-        conprocess->start(KProcess::NotifyOnExit,true);
-}
-
-void KgpgInterface::photoreadprocess(KProcIO *p)
-{
-        QString required=QString::null;
-        while (p->readln(required,true)!=-1) {
-                output+=required+"\n";
-                if (required.startsWith("uat") || required.startsWith("uid")) photoCount++;
-}
-}
-
-
-void KgpgInterface::photoreadover(KProcess *)
-{
-for (int i=1;i<photoCount+1;i++)
-if (isPhotoId(i)) photoList+=QString::number(i);
-
-emit signalPhotoList(photoList);
-}
-
-bool KgpgInterface::isPhotoId(int uid)
-{
-KTempFile *kgpginfotmp=new KTempFile();
-                kgpginfotmp->setAutoDelete(true);
-                QString pgpgOutput="cp %i "+kgpginfotmp->name();
-
-KProcIO *conprocess=new KProcIO();
-        *conprocess<< "gpg"<<"--no-tty"<<"--status-fd=2"<<"--command-fd=0";
-        *conprocess<<"--photo-viewer"<<QFile::encodeName(pgpgOutput)<<"--edit-key"<<userIDs<<"uid"<<QString::number(uid)<<"showphoto";
-        conprocess->start(KProcess::Block);
-    if (kgpginfotmp->file()->size()>0)
-    {
-    kgpginfotmp->unlink();
-    return true;
-    }
-    kgpginfotmp->unlink();
-    return false;
-}
 
 void KgpgInterface::KgpgDeletePhoto(QString keyID,QString uid)
 {

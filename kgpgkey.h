@@ -25,6 +25,8 @@ class KgpgKey : public QObject
 public:
     bool    gpgsecretkey;
     bool    gpghasphoto;
+    uint    gpgkeynumberuid;
+    uint    gpgkeynumberuat;
     bool    gpgkeyvalide;
     QString gpgkeyid;
     QString gpgfullid;
@@ -39,6 +41,17 @@ public:
     bool    gpgkeyunlimited;
     QDate   gpgkeyexpiration;
     uint    gpgkeyalgo;
+
+    inline KgpgKey()
+    {
+        gpgsecretkey = false;
+        gpghasphoto = false;
+        gpgkeynumberuid = 0;
+        gpgkeynumberuat = 0;
+        gpgkeyvalide = false;
+        gpgkeyunlimited = false;
+        gpgkeyalgo = 0;
+    }
 
     inline ~KgpgKey()
     {

@@ -1478,8 +1478,8 @@ void listKeys::slotProcessExportClip(QString keys)
 
 void listKeys::showKeyInfo(QString keyID)
 {
-        KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",keyID);
-        opts->show();
+    KgpgKeyInfo *opts = new KgpgKeyInfo(keyID, this, "key_props");
+    opts->show();
 }
 
 
@@ -1521,7 +1521,7 @@ void listKeys::listsigns()
     QString key = keysList2->currentItem()->text(6);
     if (!key.isEmpty())
     {
-        KgpgKeyInfo *opts = new KgpgKeyInfo(this, "key_props", key);
+        KgpgKeyInfo *opts = new KgpgKeyInfo(key, this, "key_props");
         connect(opts, SIGNAL(keyNeedsRefresh()), keysList2, SLOT(refreshselfkey()));
         opts->exec();
         delete opts;

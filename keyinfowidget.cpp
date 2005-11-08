@@ -16,37 +16,22 @@
  ***************************************************************************/
 
 #include <QVBoxLayout>
-#include <QPushButton>
-#include <QDateTime>
+#include <QStringList>
 #include <QCheckBox>
-#include <QLayout>
-#include <QPixmap>
-#include <QRegExp>
+#include <QColor>
 #include <QImage>
-#include <QLabel>
-#include <QFile>
 
 #include <kpassivepopup.h>
-#include <kactivelabel.h>
 #include <kdatepicker.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
-#include <ktempfile.h>
-#include <kcombobox.h>
-#include <klineedit.h>
-#include <kprocess.h>
-#include <kservice.h>
 #include <klocale.h>
-#include <kprocio.h>
-#include <kaction.h>
-#include <ktrader.h>
 
 #include "keyinfowidget.h"
 #include "keyproperties.h"
-#include "kgpgsettings.h"
 #include "kgpginterface.h"
 
-KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name, QString sigkey)
+KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent, const char *name)
            : KDialogBase(Swallow, i18n("Key Properties"), Close, Close, parent, name, true)
 {
     m_hasphoto = false;
@@ -56,14 +41,15 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name, QString sigkey)
     m_prop = new KeyProperties();
     setMainWidget(m_prop);
 
-    bool isSecret = false;
     KgpgInterface *interface = new KgpgInterface();
     KgpgListKeys keys = interface->readSecretKeys(true, QStringList(sigkey));
-    if (keys.count() > 0)
-        isSecret = true;
     delete interface;
 
-    if (!isSecret)
+    bool issecret = false;
+    if (keys.count() > 0)
+        issecret = true;
+
+    if (!issecret)
     {
         m_prop->changeExp->hide();
         m_prop->changePass->hide();
@@ -74,8 +60,8 @@ KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name, QString sigkey)
     if (m_hasphoto)
     {
         KgpgInterface *photoProcess = new KgpgInterface();
-        connect(photoProcess, SIGNAL(signalPhotoList(QStringList)), this, SLOT(slotSetMainPhoto(QStringList)));
-        photoProcess->KgpgGetPhotoList(m_displayedkeyid);
+        connect(photoProcess, SIGNAL(getPhotoListFinished(QStringList, KgpgInterface*)), this, SLOT(slotSetMainPhoto(QStringList, KgpgInterface*)));
+        photoProcess->getPhotoList(m_displayedkeyid);
     }
     else
         m_prop->comboId->setEnabled(false);
@@ -151,20 +137,16 @@ void KgpgKeyInfo::slotPreOk()
     accept();
 }
 
-// TODO put this method in KgpgInterface
 void KgpgKeyInfo::slotDisableKey(const bool &ison)
 {
-    KProcIO kp;
-    kp << "gpg" << "--no-tty" << "--edit-key" << m_displayedkeyid;
+    KgpgInterface *interface = new KgpgInterface;
+    connect (interface, SIGNAL(changeDisableFinished(KgpgInterface*)), this, SLOT(slotDisableKeyFinished(KgpgInterface*)));
+    interface->changeDisable(m_displayedkeyid, ison);
+}
 
-    if (ison)
-        kp << "disable";
-    else
-        kp << "enable";
-
-    kp << "save";
-
-    kp.start(KProcess::Block);
+void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface)
+{
+    delete interface;
     loadKey(m_displayedkeyid);
     m_keywaschanged = true;
 }
@@ -197,7 +179,7 @@ void KgpgKeyInfo::slotChangeExp()
     m_chdate->show();
 }
 
-void KgpgKeyInfo::slotCheckDate(QDate date)
+void KgpgKeyInfo::slotCheckDate(const QDate &date)
 {
     m_chdate->enableButtonOK(date >= QDate::currentDate());
 }
@@ -213,7 +195,7 @@ void KgpgKeyInfo::slotChangeDate()
         KeyExpirationProcess->keyExpire(m_displayedkeyid, m_kdt->date(), false);
 }
 
-void KgpgKeyInfo::slotEnableDate(bool ison)
+void KgpgKeyInfo::slotEnableDate(const bool &ison)
 {
     if (ison)
     {
@@ -227,7 +209,7 @@ void KgpgKeyInfo::slotEnableDate(bool ison)
     }
 }
 
-void KgpgKeyInfo::slotInfoExpirationChanged(int res, KgpgInterface *interface)
+void KgpgKeyInfo::slotInfoExpirationChanged(const int &res, KgpgInterface *interface)
 {
     delete interface;
 
@@ -250,9 +232,9 @@ void KgpgKeyInfo::slotInfoExpirationChanged(int res, KgpgInterface *interface)
 
     if (res == 1)
     {
-        QString infoMessage = i18n("Could not change expiration");
-        QString infoText = i18n("Bad passphrase");
-        KPassivePopup::message(infoMessage, infoText, KGlobal::iconLoader()->loadIcon("kgpg", KIcon::Desktop), this);
+        QString infomessage = i18n("Could not change expiration");
+        QString infotext = i18n("Bad passphrase. Expiration of the key has not been changed.");
+        KMessageBox::error(this, infotext, infomessage);
     }
 }
 
@@ -263,21 +245,21 @@ void KgpgKeyInfo::slotChangePass()
     connect(interface, SIGNAL(changePassFinished(int, KgpgInterface*)), this, SLOT(slotInfoPasswordChanged(int, KgpgInterface*)));
 }
 
-void KgpgKeyInfo::slotInfoPasswordChanged(int res, KgpgInterface *interface)
+void KgpgKeyInfo::slotInfoPasswordChanged(const int &res, KgpgInterface *interface)
 {
     delete interface;
 
-     if (res == 2)
+    if (res == 2)
         KPassivePopup::message(i18n("Passphrase for the key was changed"), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", KIcon::Desktop), this);
 
     if (res == 1)
-        KPassivePopup::message(i18n("Bad old passphrase, the passphrase for the key was not changed"), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", KIcon::Desktop), this);
+        KMessageBox::error(this, i18n("Bad old passphrase, the passphrase for the key was not changed"), i18n("Could not change passphrase"));
 }
 
-void KgpgKeyInfo::slotChangeTrust(int newTrust)
+void KgpgKeyInfo::slotChangeTrust(const int &newtrust)
 {
     KgpgInterface *interface = new KgpgInterface();
-    interface->changeTrust(m_displayedkeyid, newTrust);
+    interface->changeTrust(m_displayedkeyid, newtrust);
     connect(interface, SIGNAL(changeTrustFinished(KgpgInterface*)), this, SLOT(slotInfoTrustChanged(KgpgInterface*)));
 }
 
@@ -288,78 +270,32 @@ void KgpgKeyInfo::slotInfoTrustChanged(KgpgInterface *interface)
     loadKey(m_displayedkeyid);
 }
 
-
-
-
-
-
-
-void KgpgKeyInfo::slotSetMainPhoto(QStringList list)
+void KgpgKeyInfo::slotSetMainPhoto(QStringList list, KgpgInterface *interface)
 {
+    delete interface;
     m_prop->comboId->insertStringList(list);
     slotReloadMainPhoto(m_prop->comboId->currentText());
 }
 
 void KgpgKeyInfo::slotReloadMainPhoto(const QString &uid)
 {
-    m_kgpginfotmp = new KTempFile();
-    m_kgpginfotmp->setAutoDelete(true);
-
-    QString pgpgOutput = "cp %i " + m_kgpginfotmp->name();
-
-    KProcIO *p = new KProcIO();
-    *p << "gpg" << "--no-tty" << "--show-photos" << "--photo-viewer" << QFile::encodeName(pgpgOutput);
-    *p << "--edit-key" << m_displayedkeyid << "uid" << uid << "showphoto";
-
-    connect(p, SIGNAL(readReady(KProcIO *)), this, SLOT(finishphotoreadprocess(KProcIO *)));
-    connect(p, SIGNAL(processExited(KProcess *)), this, SLOT(slotMainImageRead(KProcess *)));
-    p->start(KProcess::NotifyOnExit, true);
+    KgpgInterface *interface = new KgpgInterface();
+    connect(interface, SIGNAL(loadPhotoFinished(QPixmap, KgpgInterface*)), this, SLOT(slotMainImageRead(QPixmap, KgpgInterface*)));
+    interface->loadPhoto(m_displayedkeyid, uid);
 }
 
-void KgpgKeyInfo::slotMainImageRead(KProcess *)
+void KgpgKeyInfo::slotMainImageRead(const QPixmap &pixmap, KgpgInterface *interface)
 {
-    QPixmap pixmap;
-    pixmap.load(m_kgpginfotmp->name());
+    delete interface;
     emit changeMainPhoto(pixmap);
-    m_kgpginfotmp->unlink();
 }
 
-void KgpgKeyInfo::slotSetPhoto(const QPixmap &pix)
+void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap)
 {
-    QImage dup = pix.convertToImage();
+    QImage dup = pixmap.convertToImage();
     QPixmap dup2;
     dup2.convertFromImage(dup. scaled(m_prop->pLPhoto->width(), m_prop->pLPhoto->height(), Qt::KeepAspectRatio));
     m_prop->pLPhoto->setPixmap(dup2);
-}
-
-void KgpgKeyInfo::finishphotoreadprocess(KProcIO *p)
-{
-    QString required = QString::null;
-    while (p->readln(required, true) != -1)
-        if (required.find("keyedit.prompt") != -1)
-        {
-            p->writeStdin(QByteArray("quit"));
-            p->closeWhenDone();
-        }
-}
-
-void KgpgKeyInfo::openPhoto()
-{
-    KTrader::OfferList offers = KTrader::self()->query("image/jpeg", "Type == 'Application'");
-    KService::Ptr ptr = offers.first();
-    //KMessageBox::sorry(0,ptr->desktopEntryName());
-
-    KProcIO *p = new KProcIO();
-    *p << "gpg" << "--show-photos" << "--photo-viewer" << QFile::encodeName(ptr->desktopEntryName() + " %i") << "--list-keys" << m_displayedkeyid;
-    p->start(KProcess::DontCare, true);
-}
-
-void KgpgKeyInfo::slotinfoimgread(KProcess *)
-{
-    QPixmap pixmap;
-    pixmap.load(m_kgpginfotmp->name());
-    emit signalPhotoId(pixmap);
-    m_kgpginfotmp->unlink();
 }
 
 #include "keyinfowidget.moc"

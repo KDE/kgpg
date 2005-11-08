@@ -20,15 +20,18 @@
 
 #include <QStringList>
 #include <QDateTime>
+#include <QPixmap>
 #include <QString>
 
 #include <kdialogbase.h>
 #include <kurl.h>
+
 #include <kgpgkey.h>
 
 class QWidget;
 class QLabel;
 
+class KTempFile;
 class KProcess;
 class KProcIO;
 class KLed;
@@ -87,8 +90,8 @@ public slots:
     KgpgListKeys readPublicKeys(const bool &block = false, const QStringList &ids = QStringList());
 
 private slots:
-    void readPublicKeyLines(KProcIO *p);
-    void readPublicKeysExited(KProcess *p, const bool &block = false);
+    void readPublicKeysProcess(KProcIO *p);
+    void readPublicKeysFin(KProcess *p, const bool &block = false);
 
 private:
     KgpgKeyPtr m_publickey;
@@ -106,14 +109,32 @@ public slots:
     KgpgListKeys readSecretKeys(const bool &block = false, const QStringList &ids = QStringList());
 
 private slots:
-    void readSecretKeyLines(KProcIO *p);
-    void readSecretKeysExited(KProcess *p, const bool &block = false);
+    void readSecretKeysProcess(KProcIO *p);
+    void readSecretKeysFin(KProcess *p, const bool &block = false);
 
 private:
     KgpgKeyPtr m_secretkey;
     KgpgListKeys m_secretlistkeys;
 
 /*************************************************/
+
+
+/************** get photo list **************/
+signals:
+    void getPhotoListFinished(QStringList, KgpgInterface*);
+
+public slots:
+    /**
+     * Extract list of photographic user id's
+     * @param keyID the recipients key id's.
+     */
+    void getPhotoList(const QString &keyid);
+
+private slots:
+    void getPhotoListProcess(KgpgListKeys listkeys, KgpgInterface*);
+    bool isPhotoId(uint uid);
+
+/********************************************/
 
 
 /************** encrypt a text **************/
@@ -138,8 +159,8 @@ public slots:
     void encryptText(const QString &text, const QStringList &userids, const QStringList &options = QStringList());
 
 private slots:
-    void txtReadEncProcess(KProcIO *p);
-    void txtEncryptFin(KProcess *p);
+    void encryptTextProcess(KProcIO *p);
+    void encryptTextFin(KProcess *p);
 
 /********************************************/
 
@@ -170,9 +191,9 @@ public slots:
     void decryptText(const QString &text, const QStringList &options = QStringList());
 
 private slots:
-    void txtReadDecStdErr(KProcess *, char *data, int);
-    void txtReadDecStdOut(KProcess *p, char *data, int);
-    void txtDecryptFin(KProcess *p);
+    void decryptTextStdOut(KProcess *p, char *data, int);
+    void decryptTextStdErr(KProcess *, char *data, int);
+    void decryptTextFin(KProcess *p);
 
 private:
     int m_textlength;
@@ -196,8 +217,8 @@ public slots:
     void signText(const QString &text, const QString &userid, const QStringList &options);
 
 private slots:
-    void txtSignProcess(KProcIO *p);
-    void txtSignFin(KProcess *p);
+    void signTextProcess(KProcIO *p);
+    void signTextFin(KProcess *p);
 
 /*****************************************/
 
@@ -216,8 +237,8 @@ public slots:
     void verifyText(const QString &text);
 
 private slots:
-    void txtVerifyProcess(KProcIO *p);
-    void txtVerifyFin(KProcess*);
+    void verifyTextProcess(KProcIO *p);
+    void verifyTextFin(KProcess*);
 
 /*******************************************/
 
@@ -371,13 +392,35 @@ private slots:
 /**********************************************/
 
 
+/************** change disable key **************/
+signals:
+    void changeDisableFinished(KgpgInterface*);
+
+public slots:
+    void changeDisable(const QString &keyid, const bool &ison);
+
+private slots:
+    void changeDisableProcess(KProcIO *p);
+    void changeDisableFin(KProcess *p);
+
+/************************************************/
 
 
+/************** load a photo in a QPixmap **************/
+signals:
+    void loadPhotoFinished(QPixmap, KgpgInterface*);
 
+public slots:
+    void loadPhoto(const QString &keyid, const QString &uid);
 
+private slots:
+    void loadPhotoProcess(KProcIO *p);
+    void loadPhotoFin(KProcess *p);
 
+private:
+    KTempFile *m_kgpginfotmp;
 
-
+/*******************************************************/
 
 
 
@@ -432,11 +475,6 @@ public slots:
      */
     void KgpgDelSignature(QString keyID, QString signKeyID);
 
-    /**
-     * Extract list of photographic user id's
-     * @param keyID the recipients key id's.
-     */
-    void KgpgGetPhotoList(QString keyID);
 
     QString getKey(QStringList IDs, bool attributes);
 
@@ -511,9 +549,6 @@ private slots:
     void adduidprocess(KProcIO *p);
 
     void slotReadKey(KProcIO *p);
-    void photoreadover(KProcess *);
-    void photoreadprocess(KProcIO *p);
-    bool isPhotoId(int uid);
     void updateIDs(QString txtString);
 
     //void txtreaddecprocess(KProcIO *p);
@@ -571,7 +606,6 @@ signals:
 
     void revokecertificate(QString);
     void revokeurl(QString);
-    void signalPhotoList(QStringList);
 
 private:
     // Globals private
@@ -613,7 +647,6 @@ private:
     QString revokeDescription;
     QString certificateUrl;
     QString photoUrl;
-    QStringList photoList;
     QString uidName;
     QString uidEmail;
     QString uidComment;
