@@ -1291,7 +1291,7 @@ void listKeys::revokeWidget()
         KgpgRevokeWidget *keyRevoke=new KgpgRevokeWidget();
 
         keyRevoke->keyID->setText(keysList2->currentItem()->text(0)+" ("+keysList2->currentItem()->text(1)+") "+i18n("ID: ")+keysList2->currentItem()->text(6));
-        keyRevoke->kURLRequester1->setURL(QDir::homeDirPath()+"/"+keysList2->currentItem()->text(1).section('@',0,0)+".revoke");
+        keyRevoke->kURLRequester1->setURL(QDir::homePath()+"/"+keysList2->currentItem()->text(1).section('@',0,0)+".revoke");
         keyRevoke->kURLRequester1->setMode(KFile::File);
 
         keyRevoke->setMinimumSize(keyRevoke->sizeHint());
@@ -1344,7 +1344,7 @@ void listKeys::slotexportsec()
         if (sname.isEmpty())
                 sname=keysList2->currentItem()->text(0).section(' ',0,0);
         sname.append(".asc");
-        sname.prepend(QDir::homeDirPath()+"/");
+        sname.prepend(QDir::homePath()+"/");
         KURL url=KFileDialog::getSaveURL(sname,"*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As"));
 
         if(!url.isEmpty()) {
@@ -1388,7 +1388,7 @@ void listKeys::slotexport()
         } else
                 sname="keyring";
         sname.append(".asc");
-        sname.prepend(QDir::homeDirPath()+"/");
+        sname.prepend(QDir::homePath()+"/");
 
         KDialogBase *dial=new KDialogBase( KDialogBase::Swallow, i18n("Public Key Export"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "key_export",true);
 
@@ -2133,9 +2133,9 @@ void listKeys::newKeyDone(KProcess *)
         page->TLname->setText("<b>"+newKeyName+"</b>");
         page->TLemail->setText("<b>"+newKeyMail+"</b>");
     if (!newKeyMail.isEmpty())
-    page->kURLRequester1->setURL(QDir::homeDirPath()+"/"+newKeyMail.section("@",0,0)+".revoke");
+    page->kURLRequester1->setURL(QDir::homePath()+"/"+newKeyMail.section("@",0,0)+".revoke");
     else
-    page->kURLRequester1->setURL(QDir::homeDirPath()+"/"+newKeyName.section(" ",0,0)+".revoke");
+    page->kURLRequester1->setURL(QDir::homePath()+"/"+newKeyName.section(" ",0,0)+".revoke");
         page->TLid->setText("<b>"+newkeyID+"</b>");
         page->LEfinger->setText(newkeyFinger);
         page->CBdefault->setChecked(true);

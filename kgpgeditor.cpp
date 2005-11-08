@@ -340,7 +340,7 @@ void KgpgApp::slotFileSave()
     {
     /*FIXME  use following code:
      QFile f( fName );
-00983         if ( !f.open( IO_ReadOnly ) )
+00983         if ( !f.open( QIODevice::ReadOnly ) )
 00984             return;
 00985         QFileInfo info ( f );
 00986         smModificationTime = new QTime( info.lastModified().time() );
@@ -370,7 +370,7 @@ void KgpgApp::slotFileSave()
 
 void KgpgApp::slotFileSaveAs()
 {
-    //KURL url=KFileDialog::getSaveURL(QDir::currentDirPath(),i18n("*|All Files"), this, i18n("Save As"));
+    //KURL url=KFileDialog::getSaveURL(QDir::currentPath(),i18n("*|All Files"), this, i18n("Save As"));
     KEncodingFileDialog::Result saveResult;
     saveResult = KEncodingFileDialog::getSaveURLAndEncoding(QString::null, QString::null, QString::null, this);
     KURL url = saveResult.URLs.first();
