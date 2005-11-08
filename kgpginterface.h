@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KGPGINTERFACE_H
-#define KGPGINTERFACE_H
+#ifndef __KGPGINTERFACE_H__
+#define __KGPGINTERFACE_H__
 
 #include <QStringList>
 #include <QDateTime>
@@ -298,7 +298,7 @@ private slots:
     /**
      * Checks output of the signature process
      */
-    void signKeyFinished(KProcess *p);
+    void signKeyFin(KProcess *p);
 
     /**
      * Opens the console when the user want to sign
@@ -318,6 +318,13 @@ private:
 /************** change key expiration **************/
 signals:
     void keyExpireStarted();
+
+    /**
+     * 0 = unknown error
+     * 1 = Bad Passphrase
+     * 2 = Good Passphrase
+     * 3 = Aborted
+     */
     void keyExpireFinished(int, KgpgInterface*);
 
 public slots:
@@ -325,11 +332,43 @@ public slots:
 
 private slots:
     void keyExpireProcess(KProcIO *p);
-    void keyExpireFinished(KProcess *p);
+    void keyExpireFin(KProcess *p);
 
 /***************************************************/
 
 
+/************** change key password **************/
+signals:
+    /**
+     * 0 = Unknown error
+     * 1 = Bad Passphrase
+     * 2 = Passphrase changed
+     * 3 = Aborted
+     */
+    void changePassFinished(int, KgpgInterface*);
+
+public slots:
+    void changePass(const QString &keyid);
+
+private slots:
+    void changePassProcess(KProcIO *p);
+    void changePassFin(KProcess *p);
+
+/*************************************************/
+
+
+/************** change key trust **************/
+signals:
+    void changeTrustFinished(KgpgInterface*);
+
+public slots:
+    void changeTrust(const QString &keyid, const int &keytrust);
+
+private slots:
+    void changeTrustProcess(KProcIO *p);
+    void changeTrustFin(KProcess *p);
+
+/**********************************************/
 
 
 
@@ -352,7 +391,6 @@ public slots:
      * @param Options String List with the wanted gpg options
      */
     void KgpgDecryptFile(KURL srcUrl, KURL destUrl, QStringList Options = QStringList());
-
 
     /**
      * Decrypt File to text function
@@ -394,7 +432,6 @@ public slots:
      */
     void KgpgDelSignature(QString keyID, QString signKeyID);
 
-
     /**
      * Extract list of photographic user id's
      * @param keyID the recipients key id's.
@@ -403,8 +440,6 @@ public slots:
 
     QString getKey(QStringList IDs, bool attributes);
 
-    void KgpgTrustExpire(QString keyID, int keyTrust);
-    void KgpgChangePass(QString keyID);
 
     void KgpgRevokeKey(QString keyID, QString revokeUrl, int reason, QString description);
     void revokeover(KProcess *);
@@ -466,12 +501,6 @@ private slots:
      * Checks output of the verify process
      */
     void verifyfin(KProcess *p);
-
-    void trustprocess(KProcIO *p);
-    void passprocess(KProcIO *p);
-    void trustover(KProcess *);
-    void passover(KProcess *);
-
 
     void delphotoover(KProcess *);
     void delphotoprocess(KProcIO *p);
@@ -540,11 +569,9 @@ signals:
     void addUidFinished();
     void addUidError(QString);
 
-    void trustfinished();
     void revokecertificate(QString);
     void revokeurl(QString);
     void signalPhotoList(QStringList);
-    void passwordChanged();
 
 private:
     // Globals private
@@ -599,7 +626,6 @@ private:
      * @internal structure for the file information
      */
     KURL file;
-
 };
 
 class  Md5Widget : public KDialogBase
@@ -618,4 +644,4 @@ private:
     QLabel *m_textlabel;
 };
 
-#endif // KGPGINTERFACE_HKGPGINTERFACE_H
+#endif // __KGPGINTERFACE_H__

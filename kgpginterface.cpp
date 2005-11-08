@@ -481,6 +481,7 @@ void KgpgInterface::readPublicKeyLines(KProcIO *p)
                     m_publickey->gpgkeyvalide = false;
 
                 QString fullid = line.section(':', 4, 4);
+                m_publickey->gpgfullid = fullid;
                 m_publickey->gpgkeyid = fullid.right(8);
 
                 QDate date = QDate::fromString(line.section(':', 5, 5), Qt::ISODate);
@@ -635,6 +636,7 @@ void KgpgInterface::readSecretKeyLines(KProcIO *p)
                 m_secretkey->gpgkeyalgo = algo.toInt();
 
                 QString fullid = line.section(':', 4, 4);
+                m_secretkey->gpgfullid = fullid;
                 m_secretkey->gpgkeyid = fullid.right(8);
 
                 QDate date = QDate::fromString(line.section(':', 5, 5), Qt::ISODate);
@@ -1302,7 +1304,7 @@ void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, cons
 
     kdDebug(2100) << "Sign a key" << endl;
     connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(signKeyProcess(KProcIO *)));
-    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(signKeyFinished(KProcess *)));
+    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(signKeyFin(KProcess *)));
     proc->start(KProcess::NotifyOnExit, true);
 }
 
@@ -1404,7 +1406,7 @@ void KgpgInterface::signKeyProcess(KProcIO *p)
     p->ackRead();
 }
 
-void KgpgInterface::signKeyFinished(KProcess *p)
+void KgpgInterface::signKeyFin(KProcess *p)
 {
     delete p;
     if ((m_success != 0) && (m_success != 5))
@@ -1450,14 +1452,13 @@ void KgpgInterface::keyExpire(const QString &keyid, const QDate &date, const boo
     else
         expirationDelay = QDate::currentDate().daysTo(date);
 
-    output = QString::null;
     KProcIO *proc = new KProcIO();
     *proc << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *proc << "--edit-key" << keyid << "expire";
 
     kdDebug(2100) << "Change expiration of the key " << keyid << endl;
     connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(keyExpireProcess(KProcIO *)));
-    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(keyExpireFinished(KProcess *)));
+    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(keyExpireFin(KProcess *)));
     proc->start(KProcess::NotifyOnExit, true);
 }
 
@@ -1484,16 +1485,23 @@ void KgpgInterface::keyExpireProcess(KProcIO *p)
                 m_ispartial = false;
             }
 
-            kdDebug(2100) << line << endl;
             if (!line.startsWith("[GNUPG:]"))
                 log += line + "\n";
+            else
+            if (m_success == 3)
+            {
+                if (line.find("GET_") != -1)
+                    p->writeStdin(QByteArray("quit"), true);
+                p->closeWhenDone();
+                return;
+            }
             else
             if (line.find("USERID_HINT") != -1)
                 updateIDs(line);
             else
             if ((line.find("GOOD_PASSPHRASE") != -1))
             {
-                m_success = 3;
+                m_success = 2;
                 emit keyExpireStarted();
             }
             else
@@ -1511,25 +1519,28 @@ void KgpgInterface::keyExpireProcess(KProcIO *p)
                 {
                     m_success = 3;  // aborted by user mode
                     p->writeStdin(QByteArray("quit"), true);
+                    p->closeWhenDone();
                     return;
                 }
+                --step;
             }
             else
-            if ((m_success = 3) && (line.find("keyedit.prompt") != -1))
+            if ((m_success == 2) && (line.find("keyedit.prompt") != -1))
                 p->writeStdin(QByteArray("save"), true);
             else
-            if ((m_success = 3) && (line.find("keyedit.save.okay") != -1))
+            if ((m_success == 2) && (line.find("keyedit.save.okay") != -1))
                 p->writeStdin(QByteArray("YES"), true);
             else
             if (line.find("BAD_PASSPHRASE") != -1)
             {
+                m_success = 1; // bad passphrase
                 p->writeStdin(QByteArray("quit"), true);
-                m_success = 2; // bad passphrase
             }
             else
-            if ((line.find("GET_") != -1) && (m_success != 2)) // gpg asks for something unusal, turn to konsole mode
+            if (line.find("GET_") != -1) // gpg asks for something unusal, turn to konsole mode
             {
-                m_success = 1; // switching to console mode
+                if (m_success != 1)
+                    m_success = 4; // switching to console mode
                 p->writeStdin(QByteArray("quit"), true);
             }
         }
@@ -1538,10 +1549,10 @@ void KgpgInterface::keyExpireProcess(KProcIO *p)
     p->ackRead();
 }
 
-void KgpgInterface::keyExpireFinished(KProcess *p)
+void KgpgInterface::keyExpireFin(KProcess *p)
 {
     delete p;
-    if ((m_success == 3) || (m_success == 2))
+    if (m_success < 4)
         emit keyExpireFinished(m_success, this); // signature successful or bad passphrase
     else
     {
@@ -1550,12 +1561,181 @@ void KgpgInterface::keyExpireFinished(KProcess *p)
         if (q->exec() == QDialog::Accepted)
             KMessageBox::sorry(0, "work in progress...");
         else
-            emit keyExpireFinished(0, this);
+            emit keyExpireFinished(3, this);
     }
 }
 
+void KgpgInterface::changePass(const QString &keyid)
+{
+    m_partialline = QString::null;
+    m_ispartial = false;
+    m_success = 1;
+    step = 3;
 
+    KProcIO *proc = new KProcIO();
+    *proc << "gpg" << "--no-secmem-warning" << "--no-tty" << "--no-use-agent" << "--command-fd=0" << "--status-fd=2";
+    *proc << "--edit-key" << keyid << "passwd";
 
+    kdDebug(2100) << "Change passphrase of the key " << keyid << endl;
+    connect(proc,SIGNAL(readReady(KProcIO *)), this, SLOT(changePassProcess(KProcIO *)));
+    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(changePassFin(KProcess *)));
+    proc->start(KProcess::NotifyOnExit, true);
+}
+
+void KgpgInterface::changePassProcess(KProcIO *p)
+{
+    QString line;
+    bool partial = false;
+    while (p->readln(line, false, &partial) != -1)
+    {
+        if (partial == true)
+        {
+            m_partialline += line;
+            m_ispartial = true;
+            partial = false;
+        }
+        else
+        {
+            if (m_ispartial)
+            {
+                m_partialline += line;
+                line = m_partialline;
+
+                m_partialline = "";
+                m_ispartial = false;
+            }
+
+            if (line.find("USERID_HINT") != -1)
+                updateIDs(line);
+            else
+            if ((m_success == 4) && (line.find("keyedit.prompt") != -1))
+            {
+                m_success = 2;
+                p->writeStdin(QByteArray("save"), true);
+            }
+            else
+            if (line.find("GOOD_PASSPHRASE") != -1)
+                m_success = 4;
+            else
+            if ((line.find("passphrase.enter") != -1))
+            {
+                if (userIDs.isEmpty())
+                    userIDs = i18n("[No user id found]");
+                userIDs.replace(QRegExp("<"), "&lt;");
+
+                if (m_success == 1)
+                {
+                    QString passdlgmessage;
+                    if (step < 3)
+                        passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
+                    passdlgmessage += i18n("Enter old passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+
+                    if (sendPassphrase(passdlgmessage, p, false))
+                    {
+                        delete p;
+                        emit changePassFinished(3, this);
+                        return;
+                    }
+                    --step;
+                }
+                else
+                if (m_success == 4)
+                {
+                    if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br>If you forget this passphrase, all your encrypted files and messages will be lost !<br></qt>").arg(userIDs), p))
+                    {
+                        delete p;
+                        emit changePassFinished(3, this);
+                        return;
+                    }
+                }
+            }
+            else
+            if (line.find("GET_") != -1) // gpg asks for something unusal, turn to konsole mode
+            {
+                p->writeStdin(QByteArray("quit"), true);
+                p->closeWhenDone();
+            }
+        }
+    }
+
+    p->ackRead();
+}
+
+void KgpgInterface::changePassFin(KProcess *p)
+{
+    delete p;
+    emit changePassFinished(m_success, this);
+}
+
+void KgpgInterface::changeTrust(const QString &keyid, const int &keytrust)
+{
+    m_partialline = QString::null;
+    m_ispartial = false;
+    trustValue = keytrust + 1;
+    /* Don't know = 1; Do NOT trust = 2; Marginally = 3; Fully = 4; Ultimately = 5; */
+
+    KProcIO *proc = new KProcIO();
+    *proc << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
+    *proc << "--edit-key" << keyid << "trust";
+
+    kdDebug(2100) << "Change trust of the key " << keyid << " to " << keytrust << endl;
+    connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(changeTrustProcess(KProcIO *)));
+    connect(proc, SIGNAL(processExited(KProcess *)), this, SLOT(changeTrustFin(KProcess *)));
+    proc->start(KProcess::NotifyOnExit, true);
+}
+
+void KgpgInterface::changeTrustProcess(KProcIO *p)
+{
+    QString line;
+    bool partial = false;
+    while (p->readln(line, false, &partial) != -1)
+    {
+        if (partial == true)
+        {
+            m_partialline += line;
+            m_ispartial = true;
+            partial = false;
+        }
+        else
+        {
+            if (m_ispartial)
+            {
+                m_partialline += line;
+                line = m_partialline;
+
+                m_partialline = "";
+                m_ispartial = false;
+            }
+
+            kdDebug(2100) << line << endl;
+            if (line.find("edit_ownertrust.set_ultimate.okay") != -1)
+                p->writeStdin(QByteArray("YES"), true);
+            else
+            if (line.find("edit_ownertrust.value") != -1)
+                p->writeStdin(QString::number(trustValue), true);
+            else
+            if (line.find("keyedit.prompt") != -1)
+            {
+                p->writeStdin(QByteArray("save"), true);
+                p->closeWhenDone();
+            }
+            else
+            if (line.find("GET_") != -1) // gpg asks for something unusal
+            {
+                p->writeStdin(QByteArray("quit"), true);
+                p->closeWhenDone();
+            }
+        }
+    }
+
+    p->ackRead();
+}
+
+void KgpgInterface::changeTrustFin(KProcess *p)
+{
+    delete p;
+    emit changeTrustFinished(this);
+}
 
 
 
@@ -1951,169 +2131,6 @@ void KgpgInterface::delsignover(KProcess *)
 {
         emit delsigfinished(deleteSuccess);
 }
-
-
-///////////////////////////////////////////////////////////////    change key trust
-
-
-void KgpgInterface::KgpgTrustExpire(QString keyID,int keyTrust)
-{
-    trustValue=keyTrust+1;
-/*  Don't know=1; Do NOT trust=2; Marginally=3; Fully=4; Ultimately=5;   */
-
-        output=QString::null;
-        KProcIO *conprocess=new KProcIO();
-        *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--command-fd=0"<<"--status-fd=2";
-        *conprocess<<"--edit-key"<<keyID<<"trust";
-        QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(trustprocess(KProcIO *)));
-        QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(trustover(KProcess *)));
-        conprocess->start(KProcess::NotifyOnExit,true);
-
-}
-
-void KgpgInterface::trustprocess(KProcIO *p)
-{
-        QString required=QString::null;
-        while (p->readln(required,true)!=-1) {
-                output+=required+"\n";
-                if (required.find("edit_ownertrust.set_ultimate.okay")!=-1) {
-                        p->writeStdin(QByteArray("YES"));
-                        required=QString::null;
-                }
-
-                if (required.find("edit_ownertrust.value")!=-1) {
-                        p->writeStdin(QString::number(trustValue));
-                        required=QString::null;
-                }
-
-                if (required.find("keyedit.prompt")!=-1) {
-                        p->writeStdin(QByteArray("save"));
-            p->closeWhenDone();
-                        required=QString::null;
-                }
-
-                if (required.find("GET_")!=-1) /////// gpg asks for something unusal, turn to konsole mode
-                {
-                        expSuccess=1;  /////  switching to console mode
-                        p->writeStdin(QByteArray("quit"));
-                        p->closeWhenDone();
-
-                }
-        }
-}
-
-
-
-void KgpgInterface::trustover(KProcess *)
-{
-        emit trustfinished();
-}
-
-
-///////////////////////////////////////////////////////////////    change passphrase
-
-
-void KgpgInterface::KgpgChangePass(QString keyID)
-{
-        step=1;
-        output=QString::null;
-        message=QString::null;
-        KProcIO *conprocess=new KProcIO();
-        *conprocess<<"gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--no-use-agent"<<"--command-fd=0"<<"--status-fd=2";
-        *conprocess<<"--edit-key"<<keyID<<"passwd";
-        QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(passprocess(KProcIO *)));
-        QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(passover(KProcess *)));
-        conprocess->start(KProcess::NotifyOnExit,KProcess::AllOutput);
-
-}
-
-void KgpgInterface::passprocess(KProcIO *p)
-{
-    QString required=QString::null;
-
-    while (p->readln(required, true) != -1)
-    {
-        output += required+"\n";
-
-        if (required.find("USERID_HINT", 0, false) != -1)
-            updateIDs(required);
-
-        if ((step>2) && (required.find("keyedit.prompt") != -1))
-        {
-            if (step == 3)
-            {
-                emit passwordChanged();
-                p->writeStdin(QByteArray("save"));
-            }
-            else
-                p->writeStdin(QByteArray("quit"));
-
-            required=QString::null;
-        }
-
-        if ((required.find("GOOD_PASSPHRASE") != -1) && (step == 2))
-            step = 3;
-
-        if ((required.find("BAD_PASSPHRASE") != -1) && (step == 2))
-        {
-            step = 1;
-            message = i18n("<b>Bad passphrase</b>. Try again<br>");
-        }
-
-        if ((required.find("passphrase.enter") != -1))
-        {
-            if (userIDs.isEmpty())
-                userIDs = i18n("[No user id found]");
-            userIDs.replace(QRegExp("<"), "&lt;");
-
-            if (step == 1)
-            {
-                if (sendPassphrase(i18n("<qt>%1 Enter passphrase for <b>%2</b></qt>").arg(message).arg(checkForUtf8bis(userIDs)), p))
-                {
-                    p->writeStdin(QByteArray("quit"));
-                    // p->closeWhenDone();
-                    emit processaborted(true);
-                    delete p;
-                    return;
-                }
-
-                step =2;
-            }
-
-            if (step == 3)
-            {
-                if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br>If you forget this passphrase, all your encrypted files and messages will be lost !<br></qt>").arg(userIDs), p))
-                {
-                    step = 4;
-                    p->writeStdin(QByteArray("quit"));
-                    p->writeStdin(QByteArray("quit"));
-                    p->closeWhenDone();
-                    emit processaborted(true);
-                    return;
-                }
-
-                userIDs = QString::null;
-            }
-
-            required = QString::null;
-        }
-
-        if (required.find("GET_") != -1) // gpg asks for something unusal, turn to konsole mode
-        {
-            p->writeStdin(QByteArray("quit"));
-            p->closeWhenDone();
-        }
-    }
-}
-
-void KgpgInterface::passover(KProcess *)
-{
-        //emit trustfinished();
-}
-
-
-
-//////////////////////////////////////////////////////////////    key export
 
 QString KgpgInterface::getKey(QStringList IDs, bool attributes)
 {

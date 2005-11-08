@@ -13,6 +13,7 @@
 #include <QPointer>
 #include <QObject>
 #include <QString>
+#include <QColor>
 #include <QList>
 #include <QChar>
 #include <QDate>
@@ -26,6 +27,7 @@ public:
     bool    gpghasphoto;
     bool    gpgkeyvalide;
     QString gpgkeyid;
+    QString gpgfullid;
     QString gpgkeymail;
     QString gpgkeyname;
     QString gpgkeycomment;
@@ -45,7 +47,9 @@ public:
 
     static QString algorithme(const int &v);
     static QString trust(const QChar &c);
+    static QColor color(const QChar &c);
     static QString ownerTrust(const QChar &c);
+    static int ownerTrustIndex(const QChar &c);
 };
 
 typedef QPointer<KgpgKey> KgpgKeyPtr;

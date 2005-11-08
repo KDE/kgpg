@@ -244,67 +244,57 @@ QString UpdateViewItem::key(int column, bool) const
     return text(column).toLower();
 }
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////   Secret key selection dialog, used when user wants to sign a key
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-KeyView::KeyView( QWidget *parent )
-                : KListView( parent )
+KeyView::KeyView(QWidget *parent)
+       : KListView(parent)
 {
-        KIconLoader *loader = KGlobal::iconLoader();
+    KIconLoader *loader = KGlobal::iconLoader();
 
-        pixkeyOrphan=loader->loadIcon("kgpg_key4",KIcon::Small,20);
-        pixkeyGroup=loader->loadIcon("kgpg_key3",KIcon::Small,20);
-        pixkeyPair=loader->loadIcon("kgpg_key2",KIcon::Small,20);
-        pixkeySingle=loader->loadIcon("kgpg_key1",KIcon::Small,20);
-        pixsignature=loader->loadIcon("signature",KIcon::Small,20);
-        pixuserid=loader->loadIcon("kgpg_identity",KIcon::Small,20);
-        pixuserphoto=loader->loadIcon("kgpg_photo",KIcon::Small,20);
-        pixRevoke=loader->loadIcon("stop",KIcon::Small,20);
+    pixkeyOrphan = loader->loadIcon("kgpg_key4", KIcon::Small,20);
+    pixkeyGroup = loader->loadIcon("kgpg_key3", KIcon::Small,20);
+    pixkeyPair = loader->loadIcon("kgpg_key2", KIcon::Small,20);
+    pixkeySingle = loader->loadIcon("kgpg_key1", KIcon::Small,20);
+    pixsignature = loader->loadIcon("signature", KIcon::Small,20);
+    pixuserid = loader->loadIcon("kgpg_identity", KIcon::Small,20);
+    pixuserphoto = loader->loadIcon("kgpg_photo", KIcon::Small,20);
+    pixRevoke = loader->loadIcon("stop",KIcon::Small,20);
     QPixmap blankFrame;
     blankFrame.load(locate("appdata", "pics/kgpg_blank.png"));
 
     trustunknown.load(locate("appdata", "pics/kgpg_fill.png"));
     trustunknown.fill(KGpgSettings::colorUnknown());
-    bitBlt(&trustunknown,0,0,&blankFrame,0,0,50,15);
+    bitBlt(&trustunknown, 0, 0, &blankFrame, 0, 0, 50, 15);
 
     trustbad.load(locate("appdata", "pics/kgpg_fill.png"));
     trustbad.fill(KGpgSettings::colorBad());//QColor(172,0,0));
-    bitBlt(&trustbad,0,0,&blankFrame,0,0,50,15);
+    bitBlt(&trustbad, 0, 0, &blankFrame, 0, 0, 50, 15);
 
     trustrevoked.load(locate("appdata", "pics/kgpg_fill.png"));
     trustrevoked.fill(KGpgSettings::colorRev());//QColor(30,30,30));
-    bitBlt(&trustrevoked,0,0,&blankFrame,0,0,50,15);
+    bitBlt(&trustrevoked, 0, 0, &blankFrame, 0, 0, 50, 15);
 
     trustgood.load(locate("appdata", "pics/kgpg_fill.png"));
     trustgood.fill(KGpgSettings::colorGood());//QColor(144,255,0));
-    bitBlt(&trustgood,0,0,&blankFrame,0,0,50,15);
+    bitBlt(&trustgood, 0, 0, &blankFrame, 0, 0, 50, 15);
 
-        connect(this,SIGNAL(expanded (Q3ListViewItem *)),this,SLOT(expandKey(Q3ListViewItem *)));
-        header()->setMovingEnabled(false);
-        setAcceptDrops(true);
-        setDragEnabled(true);
+    connect(this, SIGNAL(expanded(Q3ListViewItem *)), this, SLOT(expandKey(Q3ListViewItem *)));
+    header()->setMovingEnabled(false);
+    setAcceptDrops(true);
+    setDragEnabled(true);
 }
-
-
 
 void  KeyView::droppedfile (KURL url)
 {
-        if (KMessageBox::questionYesNo(this,i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>").arg(url.path()), QString::null, i18n("Import"), i18n("Do Not Import"))!=KMessageBox::Yes)
-                return;
+    if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>").arg(url.path()), QString::null, i18n("Import"), i18n("Do Not Import")) != KMessageBox::Yes)
+        return;
 
-        KgpgInterface *importKeyProcess=new KgpgInterface();
-        importKeyProcess->importKeyURL(url);
-        connect(importKeyProcess,SIGNAL(importfinished(QStringList)),this,SLOT(slotReloadKeys(QStringList)));
+    KgpgInterface *importKeyProcess = new KgpgInterface();
+    importKeyProcess->importKeyURL(url);
+    connect(importKeyProcess,SIGNAL(importfinished(QStringList)), this, SLOT(slotReloadKeys(QStringList)));
 }
 
 void KeyView::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-        e->accept (KURL::List::canDecode(e->mimeData()));
+    e->accept (KURL::List::canDecode(e->mimeData()));
 }
 
 void  KeyView::contentsDropEvent (QDropEvent *o)
@@ -316,74 +306,74 @@ void  KeyView::contentsDropEvent (QDropEvent *o)
 
 void  KeyView::startDrag()
 {
-        FILE *fp;
-        char line[200]="";
-        QString keyid=currentItem()->text(6);
-        if (!keyid.startsWith("0x"))
-                return;
-        QString gpgcmd="gpg --no-tty --export --armor "+KShellProcess::quote(keyid.local8Bit());
+    FILE *fp;
+    char line[200] = "";
+    QString keyid = currentItem()->text(6);
+    if (!keyid.startsWith("0x"))
+        return;
 
-        QString keytxt;
-        fp=popen(QFile::encodeName(gpgcmd),"r");
-        while ( fgets( line, sizeof(line), fp))    /// read output
-                if (!QString(line).startsWith("gpg:"))
-                        keytxt+=line;
-        pclose(fp);
+    QString gpgcmd = "gpg --no-tty --export --armor " + KShellProcess::quote(keyid.local8Bit());
+    QString keytxt;
 
-        Q3DragObject *d = new Q3TextDrag( keytxt, this );
-        d->dragCopy();
-        // do NOT delete d.
+    fp = popen(QFile::encodeName(gpgcmd), "r");
+    while (fgets(line, sizeof(line), fp)) // read output
+        if (!QString(line).startsWith("gpg:"))
+            keytxt += line;
+    pclose(fp);
+
+    Q3DragObject *d = new Q3TextDrag(keytxt, this);
+    d->dragCopy();
+    // do NOT delete d.
 }
 
-
 mySearchLine::mySearchLine(QWidget *parent, KeyView *listView)
-:KListViewSearchLine(parent,listView)
+            : KListViewSearchLine(parent, listView)
 {
-searchListView=listView;
-setKeepParentsVisible(false);
+    searchListView = listView;
+    setKeepParentsVisible(false);
 }
 
 mySearchLine::~ mySearchLine()
-{}
-
+{
+}
 
 bool mySearchLine::itemMatches(const Q3ListViewItem *item, const QString & s) const
 {
-if (item->depth()!=0) return true;
-else return KListViewSearchLine::itemMatches(item,s);
+    if (item->depth() != 0)
+        return true;
+    else
+        return KListViewSearchLine::itemMatches(item, s);
 }
-
-
 
 void mySearchLine::updateSearch(const QString& s)
 {
     KListViewSearchLine::updateSearch(s);
     if (searchListView->displayOnlySecret || !searchListView->displayDisabled)
     {
-    int disabledSerial=searchListView->trustbad.serialNumber();
-    Q3ListViewItem *item = searchListView->firstChild();
-    while (item)
-    {
-        if (item->isVisible() && !(item->text(6).isEmpty()))
+        int disabledSerial = searchListView->trustbad.serialNumber();
+        Q3ListViewItem *item = searchListView->firstChild();
+        while (item)
         {
-        if (searchListView->displayOnlySecret && searchListView->secretList.find(item->text(6))==-1)
+            if (item->isVisible() && !(item->text(6).isEmpty()))
+            {
+                if (searchListView->displayOnlySecret && searchListView->secretList.find(item->text(6)) == -1)
                     item->setVisible(false);
-        if (!searchListView->displayDisabled && item->pixmap(2))
-            if (item->pixmap(2)->serialNumber()==disabledSerial)
+
+                if (!searchListView->displayDisabled && item->pixmap(2))
+                    if (item->pixmap(2)->serialNumber() == disabledSerial)
                         item->setVisible(false);
             }
-     item=item->nextSibling();
-     }
+
+            item = item->nextSibling();
+        }
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////   main window for key management
-
+// main window for key management
 listKeys::listKeys(QWidget *parent, const char *name)
         : DCOPObject("KeyInterface"), KMainWindow(parent, name,0)
 {
     //KWin::setType(Qt::WA_DeleteOnClose);
-
     keysList2 = new KeyView(this);
     keysList2->photoKeysList = QString::null;
     keysList2->groupNb = 0;
@@ -561,12 +551,12 @@ listKeys::listKeys(QWidget *parent, const char *name)
         setCentralWidget(keysList2);
         keysList2->restoreLayout(KGlobal::config(), "KeyView");
 
-        QObject::connect(keysList2,SIGNAL(returnPressed(Q3ListViewItem *)),this,SLOT(listsigns()));
-        QObject::connect(keysList2,SIGNAL(doubleClicked(Q3ListViewItem *,const QPoint &,int)),this,SLOT(listsigns()));
-        QObject::connect(keysList2,SIGNAL(selectionChanged ()),this,SLOT(checkList()));
-        QObject::connect(keysList2,SIGNAL(contextMenuRequested(Q3ListViewItem *,const QPoint &,int)),
+        connect(keysList2,SIGNAL(returnPressed(Q3ListViewItem *)),this,SLOT(listsigns()));
+        connect(keysList2,SIGNAL(doubleClicked(Q3ListViewItem *,const QPoint &,int)),this,SLOT(listsigns()));
+        connect(keysList2,SIGNAL(selectionChanged ()),this,SLOT(checkList()));
+        connect(keysList2,SIGNAL(contextMenuRequested(Q3ListViewItem *,const QPoint &,int)),
                          this,SLOT(slotmenu(Q3ListViewItem *,const QPoint &,int)));
-        QObject::connect(keysList2,SIGNAL(destroyed()),this,SLOT(annule()));
+        connect(keysList2,SIGNAL(destroyed()),this,SLOT(annule()));
 
 
         ///////////////    get all keys data
@@ -1505,32 +1495,39 @@ void listKeys::slotShowPhoto()
 
 void listKeys::listsigns()
 {
-        //kdDebug(2100)<<"Edit -------------------------------"<<endl;
-        if (keysList2->currentItem()==NULL)
-                return;
-        if (keysList2->currentItem()->depth()!=0) {
-                if (keysList2->currentItem()->text(0)==i18n("Photo id")) {
-                        //////////////////////////    display photo
-                        slotShowPhoto();
-                }
-                return;
-        }
+    // kdDebug(2100) << "Edit -------------------------------" << endl;
+    if (keysList2->currentItem() == 0)
+        return;
 
-        if (keysList2->currentItem()->pixmap(0)->serialNumber()==keysList2->pixkeyOrphan.serialNumber()) {
-                if (KMessageBox::questionYesNo(this,i18n("This key is an orphaned secret key (secret key without public key.) It is currently not usable.\n\n"
-                                               "Would you like to regenerate the public key?"), QString::null, i18n("Generate"), i18n("Do Not Generate"))==KMessageBox::Yes)
-                        slotregenerate();
-                return;
+    if (keysList2->currentItem()->depth() != 0)
+    {
+        if (keysList2->currentItem()->text(0) == i18n("Photo id"))
+        {
+            // display photo
+            slotShowPhoto();
         }
+        return;
+    }
 
-        /////////////   open a key info dialog (KgpgKeyInfo, see begining of this file)
-        QString key=keysList2->currentItem()->text(6);
-        if (!key.isEmpty()) {
-                KgpgKeyInfo *opts=new KgpgKeyInfo(this,"key_props",key);
-                connect(opts,SIGNAL(keyNeedsRefresh()),keysList2,SLOT(refreshselfkey()));
-                opts->exec();
-        } else
-                editGroup();
+    if (keysList2->currentItem()->pixmap(0)->serialNumber() == keysList2->pixkeyOrphan.serialNumber())
+    {
+        if (KMessageBox::questionYesNo(this, i18n("This key is an orphaned secret key (secret key without public key.) It is currently not usable.\n\n"
+                                               "Would you like to regenerate the public key?"), QString::null, i18n("Generate"), i18n("Do Not Generate")) == KMessageBox::Yes)
+            slotregenerate();
+            return;
+    }
+
+    // open a key info dialog (KgpgKeyInfo, see begining of this file)
+    QString key = keysList2->currentItem()->text(6);
+    if (!key.isEmpty())
+    {
+        KgpgKeyInfo *opts = new KgpgKeyInfo(this, "key_props", key);
+        connect(opts, SIGNAL(keyNeedsRefresh()), keysList2, SLOT(refreshselfkey()));
+        opts->exec();
+        delete opts;
+    }
+    else
+        editGroup();
 }
 
 void listKeys::groupAdd()
