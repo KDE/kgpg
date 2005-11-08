@@ -14,8 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef KEYGEN_H
-#define KEYGEN_H
+#ifndef __KGPGKEYGENERATE_H__
+#define __KGPGKEYGENERATE_H__
 
 #include <QString>
 
@@ -59,4 +59,4 @@ private:
     bool m_expert;
 };
 
-#endif // KEYGEN_H
+#endif // __KGPGKEYGENERATE_H__

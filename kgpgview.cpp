@@ -163,15 +163,17 @@ void MyEditor::editorFailedDecryptedtxt(QString newtxt, KgpgInterface*)
 
 void MyEditor::slotDecodeFile(QString fname)
 {
-        ////////////////     decode file from given url into editor
-        QFile qfile(QFile::encodeName(fname));
-        if (qfile.open(QIODevice::ReadOnly)) {
-    KgpgInterface *txtDecrypt=new KgpgInterface();
+    // decode file from given url into editor
+    QFile qfile(QFile::encodeName(fname));
+    if (qfile.open(QIODevice::ReadOnly))
+    {
+        KgpgInterface *txtDecrypt=new KgpgInterface();
         connect (txtDecrypt,SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)),this,SLOT(editorUpdateDecryptedtxt(QString, KgpgInterface*)));
-    connect (txtDecrypt,SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)),this,SLOT(editorFailedDecryptedtxt(QString, KgpgInterface*)));
+        connect (txtDecrypt,SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)),this,SLOT(editorFailedDecryptedtxt(QString, KgpgInterface*)));
         txtDecrypt->KgpgDecryptFileToText(KURL(fname),QStringList::split(QString(" "),KGpgSettings::customDecrypt().simplified()));
-        } else
-                KMessageBox::sorry(this,i18n("Unable to read file."));
+    }
+    else
+        KMessageBox::sorry(this,i18n("Unable to read file."));
 }
 
 
@@ -326,21 +328,19 @@ void KgpgView::popuppublic()
         delete dialogue;
 }
 
-
-//////////////////////////////////////////////////////////////////////////////////////     decode
-
+// decode
 void KgpgView::slotdecode()
 {
-        ///////////////    decode data from the editor. triggered by the decode button
+    // decode data from the editor. triggered by the decode button
+    QString dests;
+    QString encUsers;
+    messages = QString::null;
 
-        QString dests,encUsers;
-        messages=QString::null;
-
-        //QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
-    KgpgInterface *txtDecrypt=new KgpgInterface();
-        connect (txtDecrypt,SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)),this,SLOT(updateDecryptedtxt(QString, KgpgInterface*)));
+    //QString resultat=KgpgInterface::KgpgDecryptText(editor->text(),encUsers);
+    KgpgInterface *txtDecrypt = new KgpgInterface();
+    connect (txtDecrypt,SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)),this,SLOT(updateDecryptedtxt(QString, KgpgInterface*)));
     connect (txtDecrypt,SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)),this,SLOT(failedDecryptedtxt(QString, KgpgInterface*)));
-        txtDecrypt->decryptText(editor->text(),QStringList::split(QString(" "),KGpgSettings::customDecrypt().simplified()));
+    txtDecrypt->decryptText(editor->text(),QStringList::split(QString(" "),KGpgSettings::customDecrypt().simplified()));
 
     /*
         KgpgApp *win=(KgpgApp *) parent();

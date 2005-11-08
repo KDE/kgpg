@@ -818,47 +818,72 @@ void listKeys::slotAddUidEnable(const QString & name)
         addUidWidget->enableButtonOK(name.length()>4);
 }
 
+void listKeys::slotGpgError(QString string)
+{
+    // A enlever
+}
 
 void listKeys::slotAddPhoto()
 {
-        QString mess=i18n("The image must be a JPEG file. Remember that the image is stored within your public key."
-                          "If you use a very large picture, your key will become very large as well! Keeping the image "
-                          "close to 240x288 is a good size to use.");
+    QString mess = i18n("The image must be a JPEG file. Remember that the image is stored within your public key."
+                        "If you use a very large picture, your key will become very large as well! Keeping the image "
+                        "close to 240x288 is a good size to use.");
 
-        if (KMessageBox::warningContinueCancel(this,mess)!=KMessageBox::Continue)
-                return;
+    if (KMessageBox::warningContinueCancel(this, mess) != KMessageBox::Continue)
+        return;
 
-        QString imagePath=KFileDialog::getOpenFileName (QString::null,"image/jpeg",this);
-        if (imagePath.isEmpty())
-                return;
-        KgpgInterface *addPhotoProcess=new KgpgInterface();
-        addPhotoProcess->KgpgAddPhoto(keysList2->currentItem()->text(6),imagePath);
-        connect(addPhotoProcess,SIGNAL(addPhotoFinished()),this,SLOT(slotUpdatePhoto()));
-        connect(addPhotoProcess,SIGNAL(addPhotoError(QString)),this,SLOT(slotGpgError(QString)));
+    QString imagePath = KFileDialog::getOpenFileName(QString::null, "image/jpeg", this);
+    if (imagePath.isEmpty())
+        return;
+
+    KgpgInterface *interface = new KgpgInterface();
+    connect(interface, SIGNAL(addPhotoFinished(int, KgpgInterface*)), this, SLOT(slotAddPhotoFinished(int, KgpgInterface*)));
+    interface->addPhoto(keysList2->currentItem()->text(6), imagePath);
 }
 
-void listKeys::slotGpgError(QString errortxt)
+void listKeys::slotAddPhotoFinished(int res, KgpgInterface *interface)
 {
-        KMessageBox::detailedSorry(this,i18n("Something unexpected happened during the requested operation.\nPlease check details for full log output."),errortxt);
-}
+    delete interface;
 
+    // TODO : add res == 3 (bad passphrase)
+
+    if (res == 2)
+        slotUpdatePhoto();
+
+}
 
 void listKeys::slotDeletePhoto()
 {
-        if (KMessageBox::warningContinueCancel(this,i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b> ?</qt>").arg(keysList2->currentItem()->text(6)).arg(keysList2->currentItem()->parent()->text(0)).arg(keysList2->currentItem()->parent()->text(1)),i18n("Warning"),KGuiItem(i18n("Delete"),"editdelete"))!=KMessageBox::Continue)
-                return;
+    QString mess = i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b>?</qt>");
+    mess = mess.arg(keysList2->currentItem()->text(6));
+    mess = mess.arg(keysList2->currentItem()->parent()->text(0));
+    mess = mess.arg(keysList2->currentItem()->parent()->text(1));
 
-        KgpgInterface *delPhotoProcess=new KgpgInterface();
-        delPhotoProcess->KgpgDeletePhoto(keysList2->currentItem()->parent()->text(6),keysList2->currentItem()->text(6));
-        connect(delPhotoProcess,SIGNAL(delPhotoFinished()),this,SLOT(slotUpdatePhoto()));
-        connect(delPhotoProcess,SIGNAL(delPhotoError(QString)),this,SLOT(slotGpgError(QString)));
+    /*
+    if (KMessageBox::warningContinueCancel(this, mess, i18n("Warning"), KGuiItem(i18n("Delete"), "editdelete")) != KMessageBox::Continue)
+        return;
+    */
+
+    KgpgInterface *interface = new KgpgInterface();
+    connect(interface, SIGNAL(delPhotoFinished(int, KgpgInterface*)), this, SLOT(slotDelPhotoFinished(int, KgpgInterface*)));
+    interface->deletePhoto(keysList2->currentItem()->parent()->text(6), keysList2->currentItem()->text(6));
+}
+
+void listKeys::slotDelPhotoFinished(int res, KgpgInterface *interface)
+{
+    delete interface;
+
+    // TODO : add res == 3 (bad passphrase)
+
+    if (res == 2)
+        slotUpdatePhoto();
+
 }
 
 void listKeys::slotUpdatePhoto()
 {
-        keysList2->refreshselfkey();
+    keysList2->refreshselfkey();
 }
-
 
 void listKeys::slotSetPhotoSize(int size)
 {
@@ -1291,7 +1316,7 @@ void listKeys::revokeWidget()
         KgpgRevokeWidget *keyRevoke=new KgpgRevokeWidget();
 
         keyRevoke->keyID->setText(keysList2->currentItem()->text(0)+" ("+keysList2->currentItem()->text(1)+") "+i18n("ID: ")+keysList2->currentItem()->text(6));
-        keyRevoke->kURLRequester1->setURL(QDir::homePath()+"/"+keysList2->currentItem()->text(1).section('@',0,0)+".revoke");
+        keyRevoke->kURLRequester1->setURL(QDir::homeDirPath()+"/"+keysList2->currentItem()->text(1).section('@',0,0)+".revoke");
         keyRevoke->kURLRequester1->setMode(KFile::File);
 
         keyRevoke->setMinimumSize(keyRevoke->sizeHint());
@@ -1344,7 +1369,7 @@ void listKeys::slotexportsec()
         if (sname.isEmpty())
                 sname=keysList2->currentItem()->text(0).section(' ',0,0);
         sname.append(".asc");
-        sname.prepend(QDir::homePath()+"/");
+        sname.prepend(QDir::homeDirPath()+"/");
         KURL url=KFileDialog::getSaveURL(sname,"*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As"));
 
         if(!url.isEmpty()) {
@@ -1364,124 +1389,125 @@ void listKeys::slotexportsec()
 
 }
 
-
 void listKeys::slotexport()
 {
-        /////////////////////  export key
-        if (keysList2->currentItem()==NULL)
+    // export key
+    if (keysList2->currentItem() == 0)
+        return;
+    if (keysList2->currentItem()->depth() != 0)
+        return;
+
+    Q3PtrList<Q3ListViewItem> exportList = keysList2->selectedItems();
+    if (exportList.count() == 0)
+        return;
+
+    QString sname;
+
+    if (exportList.count() == 1)
+    {
+        sname = keysList2->currentItem()->text(1).section('@', 0, 0);
+        sname = sname.section('.', 0, 0);
+        if (sname.isEmpty())
+            sname = keysList2->currentItem()->text(0).section(' ', 0, 0);
+    }
+    else
+        sname = "keyring";
+
+    sname.append(".asc");
+    sname.prepend(QDir::homeDirPath() + "/");
+
+    KDialogBase *dial = new KDialogBase(KDialogBase::Swallow, i18n("Public Key Export"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "key_export",true);
+
+    KeyExport *page = new KeyExport(dial);
+    dial->setMainWidget(page);
+    page->newFilename->setURL(sname);
+    page->newFilename->setCaption(i18n("Save File"));
+    page->newFilename->setMode(KFile::File);
+    page->show();
+
+    if (dial->exec() == QDialog::Accepted)
+    {
+        // export to file
+        QString expname;
+        bool exportAttr = page->exportAttributes->isChecked();
+        if (page->checkServer->isChecked())
+        {
+            keyServer *expServer = new keyServer(0, "server_export", false);
+            expServer->slotSetExportAttribute(exportAttr);
+            QString exportKeysList;
+            for (uint i = 0; i < exportList.count(); ++i)
+                if (exportList.at(i))
+                    exportKeysList.append(" " + exportList.at(i)->text(6).simplified());
+
+                expServer->slotExport(exportKeysList);
                 return;
-        if (keysList2->currentItem()->depth()!=0)
-                return;
-
-
-        Q3PtrList<Q3ListViewItem> exportList=keysList2->selectedItems();
-        if (exportList.count()==0)
-                return;
-
-        QString sname;
-
-        if (exportList.count()==1) {
-                sname=keysList2->currentItem()->text(1).section('@',0,0);
-                sname=sname.section('.',0,0);
-                if (sname.isEmpty())
-                        sname=keysList2->currentItem()->text(0).section(' ',0,0);
-        } else
-                sname="keyring";
-        sname.append(".asc");
-        sname.prepend(QDir::homePath()+"/");
-
-        KDialogBase *dial=new KDialogBase( KDialogBase::Swallow, i18n("Public Key Export"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "key_export",true);
-
-        KeyExport *page=new KeyExport();
-        dial->setMainWidget(page);
-        page->newFilename->setURL(sname);
-        page->newFilename->setCaption(i18n("Save File"));
-        page->newFilename->setMode(KFile::File);
-        page->show();
-
-        if (dial->exec()==QDialog::Accepted) {
-                ////////////////////////// export to file
-                QString expname;
-                bool exportAttr=page->exportAttributes->isChecked();
-                if (page->checkServer->isChecked()) {
-                        keyServer *expServer=new keyServer(0,"server_export",false);
-                        expServer->slotSetExportAttribute(exportAttr);
-                        QString exportKeysList;
-                        for ( uint i = 0; i < exportList.count(); ++i )
-                                if ( exportList.at(i) )
-                                        exportKeysList.append(" "+exportList.at(i)->text(6).simplified());
-                        expServer->slotExport(exportKeysList);
-                        return;
-                }
-                KProcIO *p=new KProcIO();
-                *p<<"gpg"<<"--no-tty";
-                if (page->checkFile->isChecked()) {
-                        expname=page->newFilename->url().simplified();
-                        if (!expname.isEmpty()) {
-                                QFile fgpg(expname);
-                                if (fgpg.exists())
-                                        fgpg.remove();
-                                *p<<"--output"<<QFile::encodeName(expname)<<"--export"<<"--armor";
-                                if (!exportAttr)
-                                        *p<<"--export-options"<<"no-include-attributes";
-
-                                for ( uint i = 0; i < exportList.count(); ++i )
-                                        if ( exportList.at(i) )
-                                                *p<<(exportList.at(i)->text(6)).simplified();
-
-
-                                p->start(KProcess::Block);
-                                if (fgpg.exists())
-                                        KMessageBox::information(this,i18n("Your public key \"%1\" was successfully exported\n").arg(expname));
-                                else
-                                        KMessageBox::sorry(this,i18n("Your public key could not be exported\nCheck the key."));
-                        }
-                } else {
-
-                        QStringList klist;
-
-                        for ( uint i = 0; i < exportList.count(); ++i )
-                                if ( exportList.at(i) )
-                                        klist.append(exportList.at(i)->text(6).simplified());
-
-                        KgpgInterface *kexp=new KgpgInterface();
-
-                        QString result=kexp->getKey(klist,exportAttr);
-                        if (page->checkClipboard->isChecked())
-                                slotProcessExportClip(result);
-                        //connect(kexp,SIGNAL(publicKeyString(QString)),this,SLOT(slotProcessExportClip(QString)));
-                        else
-                                slotProcessExportMail(result);
-                        //connect(kexp,SIGNAL(publicKeyString(QString)),this,SLOT(slotProcessExportMail(QString)));
-
-                }
         }
-        delete dial;
+        else
+        if (page->checkFile->isChecked())
+        {
+            KProcIO *p = new KProcIO();
+            *p << "gpg" << "--no-tty";
+
+            expname = page->newFilename->url().simplified();
+            if (!expname.isEmpty())
+            {
+                QFile fgpg(expname);
+                if (fgpg.exists())
+                    fgpg.remove();
+
+                *p << "--output" << QFile::encodeName(expname) << "--export" << "--armor";
+                if (!exportAttr)
+                    *p << "--export-options" << "no-include-attributes";
+
+                for (uint i = 0; i < exportList.count(); ++i)
+                    if (exportList.at(i))
+                        *p << (exportList.at(i)->text(6)).simplified();
+
+                p->start(KProcess::Block);
+
+                if (fgpg.exists())
+                    KMessageBox::information(this, i18n("Your public key \"%1\" was successfully exported\n").arg(expname));
+                else
+                    KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
+            }
+        }
+        else
+        {
+            QStringList klist;
+            for (uint i = 0; i < exportList.count(); ++i)
+                if (exportList.at(i))
+                    klist.append(exportList.at(i)->text(6).simplified());
+
+            KgpgInterface *kexp = new KgpgInterface();
+            QString result = kexp->getKeys(true, exportAttr, klist);
+            delete kexp;
+
+            if (page->checkClipboard->isChecked())
+                slotProcessExportClip(result);
+            else
+                slotProcessExportMail(result);
+        }
+    }
+
+    delete dial;
 }
-
-
 
 void listKeys::slotProcessExportMail(QString keys)
 {
-        ///   start default Mail application
-        KToolInvocation::invokeMailer(QString::null, QString::null, QString::null, QString::null,
-                           keys); //body
-                           //QString::null,
-                           //QString::null); // attachments
+    // start default Mail application
+    KToolInvocation::invokeMailer(QString::null, QString::null, QString::null, QString::null, keys);
 }
 
 void listKeys::slotProcessExportClip(QString keys)
 {
-        kapp->clipboard()->setText(keys,clipboardMode);
+    kapp->clipboard()->setText(keys, clipboardMode);
 }
-
 
 void listKeys::showKeyInfo(QString keyID)
 {
     KgpgKeyInfo *opts = new KgpgKeyInfo(keyID, this, "key_props");
     opts->show();
 }
-
 
 void listKeys::slotShowPhoto()
 {
@@ -2133,9 +2159,9 @@ void listKeys::newKeyDone(KProcess *)
         page->TLname->setText("<b>"+newKeyName+"</b>");
         page->TLemail->setText("<b>"+newKeyMail+"</b>");
     if (!newKeyMail.isEmpty())
-    page->kURLRequester1->setURL(QDir::homePath()+"/"+newKeyMail.section("@",0,0)+".revoke");
+    page->kURLRequester1->setURL(QDir::homeDirPath()+"/"+newKeyMail.section("@",0,0)+".revoke");
     else
-    page->kURLRequester1->setURL(QDir::homePath()+"/"+newKeyName.section(" ",0,0)+".revoke");
+    page->kURLRequester1->setURL(QDir::homeDirPath()+"/"+newKeyName.section(" ",0,0)+".revoke");
         page->TLid->setText("<b>"+newkeyID+"</b>");
         page->LEfinger->setText(newkeyFinger);
         page->CBdefault->setChecked(true);

@@ -37,7 +37,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent, const char *name)
 
     setButtonText(User1, i18n("&Expert mode"));
     setButtonTip(User1, i18n("Go to the expert mode"));
-    setButtonWhatsThis(User1, "If you go to the expert mode, you will use gpg to create keys with the command line.");
+    setButtonWhatsThis(User1, "If you go to the expert mode, you will use the command line to create your key.");
 
     QFrame *page = plainPage();
     QGroupBox *vgroup = new QGroupBox(i18n("Generate Key Pair"), page);

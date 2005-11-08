@@ -212,6 +212,8 @@ protected:
     bool eventFilter(QObject *, QEvent *e);
 
 private slots:
+    void slotAddPhotoFinished(int res, KgpgInterface *interface);
+    void slotDelPhotoFinished(int res, KgpgInterface *interface);
     void quitApp();
     void slotOpenEditor();
     void changeMessage(QString, int, bool keep=false);

@@ -73,9 +73,13 @@ private:
     /**
      * This is a secure method to send the passphrase to gpg.
      * It will shred (1 pass) the memory before deleting the object
-     * that contains the passphrase.
-     * @return 1 if there is an error
+     * that contains the passphrase. The password is securely send
+     * to gpg.
+     * @param text text is the message that must be displayed in the MessageBox
+     * @param process process is the process where we must send the password
+     * @param isnew if the password is a \e new password that must be confirmed.
      * @return 0 if there is no error
+     * @return 1 if there is an error
      */
     int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true);
 /******************************************************************/
@@ -119,6 +123,7 @@ private:
 /*************************************************/
 
 
+// TODO : mettre cette méthode non bloquante et proposer les deux options (bloquante ou non)
 /************** get photo list **************/
 signals:
     void getPhotoListFinished(QStringList, KgpgInterface*);
@@ -126,7 +131,7 @@ signals:
 public slots:
     /**
      * Extract list of photographic user id's
-     * @param keyID the recipients key id's.
+     * @param keyid the recipients key id's.
      */
     void getPhotoList(const QString &keyid);
 
@@ -135,6 +140,23 @@ private slots:
     bool isPhotoId(uint uid);
 
 /********************************************/
+
+
+/************** get keys as a text **************/
+signals:
+    void getKeysFinished(QString, KgpgInterface*);
+
+public slots:
+    QString getKeys(const bool &block = false, const bool &attributes = true, const QStringList &ids = QStringList());
+
+private slots:
+    void getKeysProcess(KProcIO *p);
+    void getKeysFin(KProcess *p);
+
+private:
+    QString m_keystring;
+
+/************************************************/
 
 
 /************** encrypt a text **************/
@@ -305,7 +327,7 @@ public slots:
      * @param keyid the ID of the key to be signed
      * @param signkeyid the ID of the signing key
      * @param local bool should the signature be local
-     * @param checkin
+     * @param checking
      * @param terminal if the user want to sign the key manually
      */
     void signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal = false);
@@ -341,9 +363,9 @@ signals:
     void keyExpireStarted();
 
     /**
-     * 0 = unknown error
+     * 0 = Unknown error
      * 1 = Bad Passphrase
-     * 2 = Good Passphrase
+     * 2 = Expiration changed
      * 3 = Aborted
      */
     void keyExpireFinished(int, KgpgInterface*);
@@ -383,11 +405,24 @@ signals:
     void changeTrustFinished(KgpgInterface*);
 
 public slots:
+    /**
+     * This method changes the trust of a key
+     * @param keyid the id of the key
+     * @param keytrust the new trust,
+     * Don't know = 1,
+     * Do NOT trust = 2,
+     * Marginally = 3,
+     * Fully = 4,
+     * Ultimately = 5.
+     */
     void changeTrust(const QString &keyid, const int &keytrust);
 
 private slots:
     void changeTrustProcess(KProcIO *p);
     void changeTrustFin(KProcess *p);
+
+private:
+    int m_trustvalue;
 
 /**********************************************/
 
@@ -421,6 +456,52 @@ private:
     KTempFile *m_kgpginfotmp;
 
 /*******************************************************/
+
+
+/************** add a photo in a key **************/
+signals:
+    /**
+     * 0 = Unknown error
+     * 1 = Bad passphrase
+     * 2 = Photo added successfully
+     * 3 = Aborted
+     */
+    void addPhotoFinished(int, KgpgInterface*);
+
+public slots:
+    void addPhoto(const QString &keyid, const QString &imagepath);
+
+private slots:
+    void addPhotoProcess(KProcIO *p);
+    void addPhotoFin(KProcess *p);
+
+/**************************************************/
+
+
+/************** delete a photo of a key **************/
+signals:
+    /**
+     * 0 = Unknown error
+     * 1 = Bad passphrase
+     * 2 = Photo deleted
+     * 3 = Aborted
+     */
+    void deletePhotoFinished(int, KgpgInterface*);
+
+public slots:
+    void deletePhoto(const QString &keyid, const QString &uid);
+
+private slots:
+    void deletePhotoProcess(KProcIO *p);
+    void deletePhotoFin(KProcess *p);
+
+/*****************************************************/
+
+
+
+
+
+
 
 
 
@@ -476,14 +557,10 @@ public slots:
     void KgpgDelSignature(QString keyID, QString signKeyID);
 
 
-    QString getKey(QStringList IDs, bool attributes);
-
 
     void KgpgRevokeKey(QString keyID, QString revokeUrl, int reason, QString description);
     void revokeover(KProcess *);
     void revokeprocess(KProcIO *p);
-    void KgpgDeletePhoto(QString keyID, QString uid);
-    void KgpgAddPhoto(QString keyID, QString imagePath);
 
     void KgpgAddUid(QString keyID, QString name, QString email, QString comment);
 
@@ -540,15 +617,9 @@ private slots:
      */
     void verifyfin(KProcess *p);
 
-    void delphotoover(KProcess *);
-    void delphotoprocess(KProcIO *p);
-    void addphotoover(KProcess *);
-    void addphotoprocess(KProcIO *p);
-
     void adduidover(KProcess *);
     void adduidprocess(KProcIO *p);
 
-    void slotReadKey(KProcIO *p);
     void updateIDs(QString txtString);
 
     //void txtreaddecprocess(KProcIO *p);
@@ -594,11 +665,7 @@ signals:
      *  true if signature successful, false on error.
      */
     void signfinished();
-    void delPhotoFinished();
-    void delPhotoError(QString);
 
-    void addPhotoFinished();
-    void addPhotoError(QString);
     void refreshOrphaned();
 
     void addUidFinished();
@@ -625,7 +692,6 @@ private:
      */
     QString tempKeyFile;
     QString output;
-    QString keyString;
 
     bool deleteSuccess;
     bool anonymous;
@@ -637,7 +703,6 @@ private:
 
     QString signID;
     int expSuccess;
-    int trustValue;
     int step;
     int signb;
     int sigsearch;
