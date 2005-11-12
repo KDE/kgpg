@@ -19,6 +19,7 @@
 #include <QTextStream>
 #include <QFile>
 
+#include <kfiledialog.h>
 #include <kpassivepopup.h>
 #include <kio/renamedlg.h>
 #include <kapplication.h>
@@ -198,7 +199,7 @@ void KgpgLibrary::processDecError(const QString &mssge)
             else
             {
                 KgpgInterface *importKeyProcess = new KgpgInterface();
-                importKeyProcess->importKeyURL(m_urlselected);
+                importKeyProcess->importKey(m_urlselected);
                 connect(importKeyProcess, SIGNAL(importfinished(QStringList)), this, SIGNAL(importOver(QStringList)));
                 return;
             }
@@ -258,6 +259,34 @@ void KgpgLibrary::processPopup2(const QString &fileName)
     int iXpos=qRect.width()/2-m_pop->width()/2;
     int iYpos=qRect.height()/2-m_pop->height()/2;
     m_pop->move(iXpos,iYpos);*/
+}
+
+void KgpgLibrary::addPhoto(QString keyid)
+{
+    QString mess = i18n("The image must be a JPEG file. Remember that the image is stored within your public key."
+                        "If you use a very large picture, your key will become very large as well! Keeping the image "
+                        "close to 240x288 is a good size to use.");
+
+    if (KMessageBox::warningContinueCancel(0, mess) != KMessageBox::Continue)
+        return;
+
+    QString imagepath = KFileDialog::getOpenFileName(QString::null, "image/jpeg", 0);
+    if (imagepath.isEmpty())
+        return;
+
+    KgpgInterface *interface = new KgpgInterface();
+    connect(interface, SIGNAL(addPhotoFinished(int, KgpgInterface*)), this, SLOT(slotAddPhotoFinished(int, KgpgInterface*)));
+    interface->addPhoto(keyid, imagepath);
+}
+
+void KgpgLibrary::slotAddPhotoFinished(int res, KgpgInterface *interface)
+{
+    delete interface;
+
+    // TODO : add res == 3 (bad passphrase)
+
+    if (res == 2)
+        emit photoAdded();
 }
 
 #include "kgpglibrary.moc"

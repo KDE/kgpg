@@ -15,12 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KGPGEDITOR_H
-#define KGPGEDITOR_H
-
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#ifndef __KGPGEDITOR_H__
+#define __KGPGEDITOR_H__
 
 #include <QStringList>
 
@@ -35,14 +31,14 @@ class KComboBox;
 class KAction;
 class KgpgView;
 
-class KgpgApp : public KMainWindow
+class KgpgEditor : public KMainWindow
 {
     Q_OBJECT
     friend class KgpgView;
 
 public:
-    KgpgApp(QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0, KShortcut goHome = QKeySequence(Qt::CTRL + Qt::Key_Home), bool mainWindow = false);
-    ~KgpgApp();
+    KgpgEditor(QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0, KShortcut goHome = QKeySequence(Qt::CTRL + Qt::Key_Home), bool mainWindow = false);
+    ~KgpgEditor();
 
     void openDocumentFile(const KURL& url, QString encoding = QString::null);
     void openEncryptedDocumentFile(const KURL& url);
@@ -112,4 +108,4 @@ private:
     int version;
 };
 
-#endif // KGPGEDITOR_H
+#endif // __KGPGEDITOR_H__

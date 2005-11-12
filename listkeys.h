@@ -55,7 +55,7 @@ class KMenu;
 class KgpgInterface;
 class groupEdit;
 class keyServer;
-class KgpgApp;
+class KgpgEditor;
 
 typedef struct gpgKey
 {
@@ -187,7 +187,7 @@ public:
     KToggleAction *sSize;
     KSelectAction *photoProps;
     KStatusBar *keyStatusBar;
-    KgpgApp *s_kgpgEditor;
+    KgpgEditor *s_kgpgEditor;
 
 signals:
     void readAgainOptions();
@@ -212,7 +212,7 @@ protected:
     bool eventFilter(QObject *, QEvent *e);
 
 private slots:
-    void slotAddPhotoFinished(int res, KgpgInterface *interface);
+    void slotAddUidFin(int res, KgpgInterface *interface);
     void slotDelPhotoFinished(int res, KgpgInterface *interface);
     void quitApp();
     void slotOpenEditor();
@@ -228,7 +228,6 @@ private slots:
     void slotDelUid();
     void slotAddUid();
     void slotAddUidEnable(const QString & name);
-    void slotGpgError(QString errortxt);
     void slotUpdatePhoto();
     void slotDeletePhoto();
     void slotAddPhoto();

@@ -344,7 +344,7 @@ void KgpgSelectPublicKeyDlg::refreshKeys()
             }
 
     KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(finishedReadPublicKeys(KgpgListKeys, KgpgInterface*)), this, SLOT(refreshKeysReady(KgpgListKeys, KgpgInterface*)));
+    connect(interface, SIGNAL(readPublicKeysFinished(KgpgListKeys, KgpgInterface*)), this, SLOT(refreshKeysReady(KgpgListKeys, KgpgInterface*)));
     interface->readPublicKeys();
 }
 

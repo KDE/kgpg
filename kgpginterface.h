@@ -23,18 +23,13 @@
 #include <QPixmap>
 #include <QString>
 
-#include <kdialogbase.h>
 #include <kurl.h>
 
 #include <kgpgkey.h>
 
-class QWidget;
-class QLabel;
-
 class KTempFile;
 class KProcess;
 class KProcIO;
-class KLed;
 
 /**
  * Encrypt a file using gpg.
@@ -85,10 +80,17 @@ private:
 /******************************************************************/
 
 
+/************** function update the userIDs variable **************/
+private:
+    void updateIDs(QString txt);
+
+/******************************************************************/
+
+
 /************** extract public keys **************/
 signals:
-    void startedReadPublicKeys();
-    void finishedReadPublicKeys(KgpgListKeys, KgpgInterface*);
+    void readPublicKeysStarted(KgpgInterface*);
+    void readPublicKeysFinished(KgpgListKeys, KgpgInterface*);
 
 public slots:
     KgpgListKeys readPublicKeys(const bool &block = false, const QStringList &ids = QStringList());
@@ -106,8 +108,8 @@ private:
 
 /************** extract secret keys **************/
 signals:
-    void startedReadSecretKeys();
-    void finishedReadSecretKeys(KgpgListKeys, KgpgInterface*);
+    void readSecretKeysStarted(KgpgInterface*);
+    void readSecretKeysFinished(KgpgListKeys, KgpgInterface*);
 
 public slots:
     KgpgListKeys readSecretKeys(const bool &block = false, const QStringList &ids = QStringList());
@@ -123,7 +125,6 @@ private:
 /*************************************************/
 
 
-// TODO : mettre cette méthode non bloquante et proposer les deux options (bloquante ou non)
 /************** get photo list **************/
 signals:
     void getPhotoListFinished(QStringList, KgpgInterface*);
@@ -133,17 +134,22 @@ public slots:
      * Extract list of photographic user id's
      * @param keyid the recipients key id's.
      */
-    void getPhotoList(const QString &keyid);
+    QStringList getPhotoList(const QString &keyid, const bool &block = false);
 
 private slots:
-    void getPhotoListProcess(KgpgListKeys listkeys, KgpgInterface*);
+    void getPhotoListProcess(KgpgListKeys listkeys, KgpgInterface*, const bool &block = false);
+    // TODO rendre cette méthode bloquante ou non au choix.
     bool isPhotoId(uint uid);
+
+private:
+    QStringList photolist;
 
 /********************************************/
 
 
 /************** get keys as a text **************/
 signals:
+    void getKeysStarted(KgpgInterface*);
     void getKeysFinished(QString, KgpgInterface*);
 
 public slots:
@@ -498,9 +504,65 @@ private slots:
 /*****************************************************/
 
 
+// TODO : ajouter KgpgInterface à importKeyFinished
+/************** import a key **************/
+signals:
+    void importKeyFinished(QStringList);
+    void importKeyOrphaned();
+
+public slots:
+    /**
+     * Import key function
+     * @param url Kurl the url of the key file. Allows public & secret key import.
+     */
+    void importKey(KURL url);
+
+    /**
+     * Import key function
+     * @param keystr QString containing th key. Allows public & secret key import.
+     */
+    void importKey(QString keystr);
+
+private slots:
+    /**
+     * Read output of the import process
+     */
+    void importKeyProcess(KProcIO *p);
+    void importKeyFinished(KProcess *p);
+
+private:
+    QString m_tempkeyfile;
+
+/******************************************/
 
 
+/************** add uid **************/
+signals:
+    /**
+     * 0 = Unknown error
+     * 1 = Bad passphrase
+     * 2 = Uid Added
+     * 3 = Aborted
+     * 4 = email is not valid
+     */
+    void addUidFinished(int, KgpgInterface*);
 
+public slots:
+    /**
+     * @param email email MUST be a valid email address or an empty string.
+     */
+    void addUid(const QString &keyid, const QString &name, const QString &email, const QString &comment);
+
+private slots:
+    void addUidProcess(KProcIO *p);
+    void addUidFin(KProcess *p);
+
+private:
+    QString uidName;
+    QString uidEmail;
+    QString uidComment;
+
+/*************************************/
 
 
 
@@ -538,31 +600,16 @@ public slots:
     void KgpgVerifyFile(KURL sigUrl, KURL srcUrl = KURL()) ;
 
     /**
-     * Import key function
-     * @param url Kurl the url of the key file. Allows public & secret key import.
-     */
-    void importKeyURL(KURL url);
-
-    /**
-     * Import key function
-     * @param keystr QString containing th key. Allows public & secret key import.
-     */
-    void importKey(QString keystr);
-
-    /**
      * Key signature deletion function
      * @param keyID QString the ID of the key
      * @param signKeyID QString the ID of the signature key
      */
     void KgpgDelSignature(QString keyID, QString signKeyID);
 
-
-
     void KgpgRevokeKey(QString keyID, QString revokeUrl, int reason, QString description);
     void revokeover(KProcess *);
     void revokeprocess(KProcIO *p);
 
-    void KgpgAddUid(QString keyID, QString name, QString email, QString comment);
 
 private slots:
     /**
@@ -590,13 +637,6 @@ private slots:
      */
     void importURLover(KProcess *p);
 
-    void importover(KProcess *);
-
-    /**
-     * Read output of the import process
-     */
-    void importprocess(KProcIO *p);
-
     /**
      * Reads output of the current process + allow overwriting of a file
      */
@@ -616,14 +656,6 @@ private slots:
      * Checks output of the verify process
      */
     void verifyfin(KProcess *p);
-
-    void adduidover(KProcess *);
-    void adduidprocess(KProcIO *p);
-
-    void updateIDs(QString txtString);
-
-    //void txtreaddecprocess(KProcIO *p);
-    //void txtdecryptfin(KProcess *);
 
 signals:
     /**
@@ -647,11 +679,6 @@ signals:
     void badpassphrase(bool);
 
     /**
-     *  true if import successful, false on error.
-     */
-    void importfinished(QStringList);
-
-    /**
      *  true if verify successful, false on error.
      */
     void verifyfinished();
@@ -665,11 +692,6 @@ signals:
      *  true if signature successful, false on error.
      */
     void signfinished();
-
-    void refreshOrphaned();
-
-    void addUidFinished();
-    void addUidError(QString);
 
     void revokecertificate(QString);
     void revokeurl(QString);
@@ -690,7 +712,6 @@ private:
     /**
      * @internal structure for communication
      */
-    QString tempKeyFile;
     QString output;
 
     bool deleteSuccess;
@@ -712,9 +733,6 @@ private:
     QString revokeDescription;
     QString certificateUrl;
     QString photoUrl;
-    QString uidName;
-    QString uidEmail;
-    QString uidComment;
     KURL sourceFile;
     QString decryptUrl;
 
@@ -724,22 +742,6 @@ private:
      * @internal structure for the file information
      */
     KURL file;
-};
-
-class  Md5Widget : public KDialogBase
-{
-    Q_OBJECT
-
-public:
-    Md5Widget(QWidget *parent = 0, const char *name = 0, const KURL &url = KURL());
-
-public slots:
-    void slotApply();
-
-private:
-    QString m_mdsum;
-    KLed *m_kled;
-    QLabel *m_textlabel;
 };
 
 #endif // __KGPGINTERFACE_H__

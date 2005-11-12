@@ -16,25 +16,20 @@
  ***************************************************************************/
 
 #include <QApplication>
-#include <QHBoxLayout>
 #include <QTextStream>
 #include <QTextCodec>
 #include <QClipboard>
-#include <QLabel>
 #include <QFile>
 
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <ktempfile.h>
-#include <klineedit.h>
 #include <kpassdlg.h>
 #include <klocale.h>
 #include <kcodecs.h>
-#include <kaction.h>
 #include <kprocio.h>
 #include <kconfig.h>
 #include <kdebug.h>
-#include <kled.h>
 
 #include "kgpginterface.h"
 #include "detailedconsole.h"
@@ -400,10 +395,29 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const 
     return 0;
 }
 
+void KgpgInterface::updateIDs(QString txt)
+{
+    int cut = txt.find(' ', 22, false);
+    txt.remove(0, cut);
+
+    if (txt.find("(", 0, false) != -1)
+        txt = txt.section('(', 0, 0) + txt.section(')', -1);
+
+    txt.replace(QRegExp("<"), "&lt;");
+
+    if (userIDs.find(txt) == -1)
+    {
+        if (!userIDs.isEmpty())
+            userIDs += i18n(" or ");
+        userIDs += txt;
+    }
+}
+
 KgpgListKeys KgpgInterface::readPublicKeys(const bool &block, const QStringList &ids)
 {
     m_partialline = QString::null;
     m_ispartial = false;
+    m_publiclistkeys = KgpgListKeys();
     m_publickey = 0;
 
     KProcIO *process = new KProcIO();
@@ -417,7 +431,7 @@ KgpgListKeys KgpgInterface::readPublicKeys(const bool &block, const QStringList 
         connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(readPublicKeysProcess(KProcIO *)));
         connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(readPublicKeysFin(KProcess *)));
         process->start(KProcess::NotifyOnExit, false);
-        emit startedReadPublicKeys();
+        emit readPublicKeysStarted(this);
         return KgpgListKeys();
     }
     else
@@ -564,7 +578,7 @@ void KgpgInterface::readPublicKeysFin(KProcess *p, const bool &block)
 
     delete p;
     if (!block)
-        emit finishedReadPublicKeys(m_publiclistkeys, this);
+        emit readPublicKeysFinished(m_publiclistkeys, this);
 }
 
 
@@ -572,6 +586,7 @@ KgpgListKeys KgpgInterface::readSecretKeys(const bool &block, const QStringList 
 {
     m_partialline = QString::null;
     m_ispartial = false;
+    m_secretlistkeys = KgpgListKeys();
     m_secretkey = 0;
 
     KProcIO *process = new KProcIO();
@@ -585,7 +600,7 @@ KgpgListKeys KgpgInterface::readSecretKeys(const bool &block, const QStringList 
         connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(readSecretKeysProcess(KProcIO *)));
         connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(readSecretKeysFin(KProcess *)));
         process->start(KProcess::NotifyOnExit, false);
-        emit startedReadSecretKeys();
+        emit readSecretKeysStarted(this);
         return KgpgListKeys();
     }
     else
@@ -631,6 +646,9 @@ void KgpgInterface::readSecretKeysProcess(KProcIO *p)
 
                 QString algo = line.section(':', 3, 3);
                 m_secretkey->gpgkeyalgo = algo.toInt();
+
+                QString trust = line.section(':', 1, 1);
+                m_secretkey->gpgkeytrust = trust[0];
 
                 QString fullid = line.section(':', 4, 4);
                 m_secretkey->gpgfullid = fullid;
@@ -710,17 +728,31 @@ void KgpgInterface::readSecretKeysFin(KProcess *p, const bool &block)
 
     delete p;
     if (!block)
-        emit finishedReadSecretKeys(m_secretlistkeys, this);
+        emit readSecretKeysFinished(m_secretlistkeys, this);
 }
 
-void KgpgInterface::getPhotoList(const QString &keyid)
+QStringList KgpgInterface::getPhotoList(const QString &keyid, const bool &block)
 {
+    photolist = QStringList();
     userIDs = keyid;
-    connect(this, SIGNAL(finishedReadPublicKeys(KgpgListKeys, KgpgInterface*)), this, SLOT(getPhotoListProcess(KgpgListKeys, KgpgInterface*)));
-    readPublicKeys(false, QStringList(keyid));
+
+    if (!block)
+    {
+        kdDebug(2100) << "(KgpgInterface::getPhotoList) Get photo list with KProcess::NotifyOnExit" << endl;
+        connect(this, SIGNAL(readPublicKeysFinished(KgpgListKeys, KgpgInterface*)), this, SLOT(getPhotoListProcess(KgpgListKeys, KgpgInterface*)));
+        readPublicKeys(false, QStringList(keyid));
+        return QStringList();
+    }
+    else
+    {
+        kdDebug(2100) << "(KgpgInterface::getPhotoList) Get photo list with KProcess::Block" << endl;
+        KgpgListKeys list = readPublicKeys(true, QStringList(keyid));
+        getPhotoListProcess(list, 0, true);
+        return photolist;
+    }
 }
 
-void KgpgInterface::getPhotoListProcess(KgpgListKeys listkeys, KgpgInterface*)
+void KgpgInterface::getPhotoListProcess(KgpgListKeys listkeys, KgpgInterface*, const bool &block)
 {
     uint number = 1;
     number += (listkeys.at(0))->gpgkeynumberuat;
@@ -731,7 +763,8 @@ void KgpgInterface::getPhotoListProcess(KgpgListKeys listkeys, KgpgInterface*)
         if (isPhotoId(i))
             photolist += QString::number(i);
 
-    emit getPhotoListFinished(photolist, this);
+    if (!block)
+        emit getPhotoListFinished(photolist, this);
 }
 
 bool KgpgInterface::isPhotoId(uint uid)
@@ -778,6 +811,7 @@ QString KgpgInterface::getKeys(const bool &block, const bool &attributes, const 
         connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(getKeysProcess(KProcIO *)));
         connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(getKeysFin(KProcess *)));
         process->start(KProcess::NotifyOnExit, false);
+        emit getKeysStarted(this);
         return QString();
     }
     else
@@ -1974,6 +2008,9 @@ void KgpgInterface::loadPhotoFin(KProcess *p)
 
 void KgpgInterface::addPhoto(const QString &keyid, const QString &imagepath)
 {
+    m_partialline = QString::null;
+    m_ispartial = false;
+
     photoUrl = imagepath;
     m_success = 0;
     step = 3;
@@ -2073,6 +2110,9 @@ void KgpgInterface::addPhotoFin(KProcess *p)
 
 void KgpgInterface::deletePhoto(const QString &keyid, const QString &uid)
 {
+    m_partialline = QString::null;
+    m_ispartial = false;
+
     m_success = 0;
     step = 3;
 
@@ -2109,7 +2149,6 @@ void KgpgInterface::deletePhotoProcess(KProcIO *p)
                 m_ispartial = false;
             }
 
-            kdDebug(2100) << line << endl;
             if (line.find("USERID_HINT") != -1)
                 updateIDs(line);
             else
@@ -2156,55 +2195,286 @@ void KgpgInterface::deletePhotoFin(KProcess *p)
     emit deletePhotoFinished(m_success, this);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-void KgpgInterface::updateIDs(QString txtString)
+void KgpgInterface::importKey(QString keystr)
 {
-    int cut = txtString.find(' ', 22, false);
-    txtString.remove(0, cut);
+    m_partialline = QString::null;
+    m_ispartial = false;
+    message = QString::null;
 
-    if (txtString.find("(", 0, false) != -1)
-        txtString = txtString.section('(', 0, 0) + txtString.section(')', -1);
+    KProcIO *process = new KProcIO();
+    *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--import";
+    *process << "--allow-secret-key-import";
 
-    txtString.replace(QRegExp("<"), "&lt;");
+    kdDebug(2100) << "(KgpgInterface::importKey) Import a key (text)" << endl;
+    connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(importKeyProcess(KProcIO *)));
+    connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(importKeyFinished(KProcess *)));
+    process->start(KProcess::NotifyOnExit, true);
 
-    if (userIDs.find(txtString) == -1)
+    process->writeStdin(keystr, true);
+    process->closeWhenDone();
+}
+
+void KgpgInterface::importKey(KURL url)
+{
+    m_partialline = QString::null;
+    m_ispartial = false;
+    message = QString::null;
+
+    if(KIO::NetAccess::download(url, m_tempkeyfile, 0))
     {
-        if (!userIDs.isEmpty())
-            userIDs += i18n(" or ");
-        userIDs += txtString;
+        KProcIO *process = new KProcIO();
+        *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--import";
+        *process << "--allow-secret-key-import";
+        *process << m_tempkeyfile;
+
+        kdDebug(2100) << "(KgpgInterface::importKey) Import a key (file)" << endl;
+        connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(importKeyProcess(KProcIO *)));
+        connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(importURLover(KProcess *)));
+        process->start(KProcess::NotifyOnExit, true);
     }
 }
+
+void KgpgInterface::importURLover(KProcess *p)
+{
+    KIO::NetAccess::removeTempFile(m_tempkeyfile);
+    importKeyFinished(p);
+}
+
+void KgpgInterface::importKeyProcess(KProcIO *p)
+{
+    QString line;
+    bool partial = false;
+    while (p->readln(line, false, &partial) != -1)
+    {
+        if (partial == true)
+        {
+            m_partialline += line;
+            m_ispartial = true;
+            partial = false;
+        }
+        else
+        {
+            if (m_ispartial)
+            {
+                m_partialline += line;
+                line = m_partialline;
+
+                m_partialline = "";
+                m_ispartial = false;
+            }
+
+            if (line.find("http-proxy") == -1)
+                message += line + "\n";
+        }
+    }
+    p->ackRead();
+}
+
+void KgpgInterface::importKeyFinished(KProcess *p)
+{
+    delete p;
+
+    QStringList importedKeysIds;
+    QStringList importedKeys;
+    QStringList messageList;
+    QString resultMessage;
+    bool secretImport = false;
+
+    QString parsedOutput = message;
+
+    while (parsedOutput.find("IMPORTED") != -1)
+    {
+        parsedOutput.remove(0, parsedOutput.find("IMPORTED") + 8);
+        importedKeys << parsedOutput.section("\n", 0, 0).simplified();
+        importedKeysIds << parsedOutput.simplified().section(' ', 0, 0);
+    }
+
+    if (message.find("IMPORT_RES") != -1)
+    {
+        parsedOutput = message.section("IMPORT_RES", -1, -1).simplified();
+        messageList = QStringList::split(" ", parsedOutput, true);
+
+        resultMessage = i18n("<qt>%n key processed.<br></qt>", "<qt>%n keys processed.<br></qt>", messageList[0].toULong());
+
+        if (messageList[1] != "0")
+            resultMessage += i18n("<qt>One key without ID.<br></qt>", "<qt>%n keys without ID.<br></qt>", messageList[1].toULong());
+        if (messageList[2] != "0")
+            resultMessage += i18n("<qt><b>One key imported:</b><br></qt>", "<qt><b>%n keys imported:</b><br></qt>", messageList[2].toULong());
+        if (messageList[3] != "0")
+            resultMessage += i18n("<qt>One RSA key imported.<br></qt>", "<qt>%n RSA keys imported.<br></qt>", messageList[3].toULong());
+        if (messageList[4] != "0")
+            resultMessage += i18n("<qt>One key unchanged.<br></qt>", "<qt>%n keys unchanged.<br></qt>", messageList[4].toULong());
+        if (messageList[5] != "0")
+            resultMessage += i18n("<qt>One user ID imported.<br></qt>", "<qt>%n user IDs imported.<br></qt>", messageList[5].toULong());
+        if (messageList[6] != "0")
+            resultMessage += i18n("<qt>One subkey imported.<br></qt>", "<qt>%n subkeys imported.<br></qt>", messageList[6].toULong());
+        if (messageList[7] != "0")
+            resultMessage += i18n("<qt>One signature imported.<br></qt>", "<qt>%n signatures imported.<br></qt>", messageList[7].toULong());
+        if (messageList[8] != "0")
+            resultMessage += i18n("<qt>One revocation certificate imported.<br></qt>", "<qt>%n revocation certificates imported.<br></qt>", messageList[8].toULong());
+        if (messageList[9] != "0")
+        {
+            resultMessage += i18n("<qt>One secret key processed.<br></qt>", "<qt>%n secret keys processed.<br></qt>", messageList[9].toULong());
+            secretImport = true;
+        }
+        if (messageList[10] != "0")
+            resultMessage += i18n("<qt><b>One secret key imported.</b><br></qt>", "<qt><b>%n secret keys imported.</b><br></qt>", messageList[10].toULong());
+        if (messageList[11] != "0")
+            resultMessage += i18n("<qt>One secret key unchanged.<br></qt>", "<qt>%n secret keys unchanged.<br></qt>", messageList[11].toULong());
+        if (messageList[12] != "0")
+            resultMessage += i18n("<qt>One secret key not imported.<br></qt>", "<qt>%n secret keys not imported.<br></qt>", messageList[12].toULong());
+
+        if (secretImport)
+            resultMessage += i18n("<qt><br><b>You have imported a secret key.</b> <br>"
+                                  "Please note that imported secret keys are not trusted by default.<br>"
+                                  "To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</qt>");
+    }
+    else
+        resultMessage = i18n("No key imported... \nCheck detailed log for more infos");
+
+    if (messageList[8] != "0")
+        importedKeysIds = QStringList("ALL");
+
+    if ((messageList[9] != "0") && (importedKeysIds.isEmpty())) // orphaned secret key imported
+        emit importKeyOrphaned();
+
+    emit importKeyFinished(importedKeysIds);
+
+    // TODO : a supprimer d'une manière ou d'une autre
+    (void) new KgpgDetailedInfo(0, "import_result", resultMessage, message, importedKeys);
+}
+
+void KgpgInterface::addUid(const QString &keyid, const QString &name, const QString &email, const QString &comment)
+{
+    m_partialline = QString::null;
+    m_ispartial = false;
+    step = 3;
+    m_success = 0;
+
+    if ((!email.isEmpty()) && ((email.find(" ") != -1) || (email.find(".") == -1) || (email.find("@") == -1)))
+    {
+        emit addUidFinished(4, this);
+        return;
+    }
+
+    uidName = name;
+    uidComment = comment;
+    uidEmail = email;
+
+    KProcIO *process = new KProcIO();
+    *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
+    *process << "--edit-key" << keyid << "adduid";
+
+    kdDebug(2100) << "(KgpgInterface::addUid) Add Uid " << name << ", " << email << ", " << comment << " to key " << keyid << endl;
+    connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(addUidProcess(KProcIO *)));
+    connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(addUidFin(KProcess *)));
+    process->start(KProcess::NotifyOnExit, true);
+}
+
+void KgpgInterface::addUidProcess(KProcIO *p)
+{
+    QString line;
+    bool partial = false;
+    while (p->readln(line, false, &partial) != -1)
+    {
+        if (partial == true)
+        {
+            m_partialline += line;
+            m_ispartial = true;
+            partial = false;
+        }
+        else
+        {
+            if (m_ispartial)
+            {
+                m_partialline += line;
+                line = m_partialline;
+
+                m_partialline = "";
+                m_ispartial = false;
+            }
+
+            if (line.find("USERID_HINT") != -1)
+                updateIDs(line);
+            else
+            if (line.find("BAD_PASSPHRASE") != -1)
+                m_success = 1;
+            else
+            if (line.find("GOOD_PASSPHRASE") != -1)
+                m_success = 2;
+            if (line.find("keygen.name") != -1)
+                p->writeStdin(uidName, true);
+            else
+            if (line.find("keygen.email") != -1)
+                p->writeStdin(uidEmail, true);
+            else
+            if (line.find("keygen.comment") != -1)
+                p->writeStdin(uidComment, true);
+            else
+            if (line.find("passphrase.enter") != -1)
+            {
+                QString passdlgmessage;
+                if (step < 3)
+                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
+                passdlgmessage += i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+
+                if (sendPassphrase(passdlgmessage, p, false))
+                {
+                    delete p;
+                    emit addUidFinished(3, this);
+                    return;
+                }
+                step--;
+            }
+            else
+            if (line.find("keyedit.prompt") != -1)
+                p->writeStdin(QByteArray("save"), true);
+            else
+            if (line.find("GET_") != -1) // gpg asks for something unusal, turn to konsole mode
+            {
+                p->writeStdin(QByteArray("quit"), true);
+                p->closeWhenDone();
+            }
+        }
+    }
+
+    p->ackRead();
+}
+
+void KgpgInterface::addUidFin(KProcess *p)
+{
+    delete p;
+    emit addUidFinished(m_success, this);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void KgpgInterface::KgpgDecryptFile(KURL srcUrl, KURL destUrl, QStringList Options)
 {
@@ -2545,206 +2815,6 @@ void KgpgInterface::delsignover(KProcess *)
         emit delsigfinished(deleteSuccess);
 }
 
-// key import
-void KgpgInterface::importKeyURL(KURL url)
-{
-    // import a key
-    if(KIO::NetAccess::download(url, tempKeyFile, 0))
-    {
-        message = QString::null;
-        KProcIO *process = new KProcIO();
-        *process << "gpg"<<"--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--import";
-        *process << "--allow-secret-key-import";
-        *process << tempKeyFile;
-
-        connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(importURLover(KProcess *)));
-        connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(importprocess(KProcIO *)));
-        process->start(KProcess::NotifyOnExit, true);
-    }
-}
-
-void KgpgInterface::importKey(QString keystr)
-{
-    // import a key
-    message=QString::null;
-    KProcIO *process=new KProcIO();
-    *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--import";
-    *process << "--allow-secret-key-import";
-    connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(importover(KProcess *)));
-    connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(importprocess(KProcIO *)));
-    process->start(KProcess::NotifyOnExit,true);
-    process->writeStdin(keystr, true);
-    process->closeWhenDone();
-}
-
-void KgpgInterface::importover(KProcess *)
-{
-    QStringList importedKeysIds;
-    QStringList importedKeys;
-    QStringList messageList;
-    QString resultMessage;
-    bool secretImport = false;
-
-    kdDebug(2100) << "Importing is over" << endl;
-
-    QString parsedOutput = message;
-
-    while (parsedOutput.find("IMPORTED") != -1)
-    {
-        parsedOutput.remove(0, parsedOutput.find("IMPORTED") + 8);
-        importedKeys << parsedOutput.section("\n", 0, 0).simplified();
-        importedKeysIds << parsedOutput.simplified().section(' ', 0, 0);
-    }
-
-    if (message.find("IMPORT_RES") != -1)
-    {
-        parsedOutput = message.section("IMPORT_RES", -1, -1).simplified();
-        messageList = QStringList::split(" ", parsedOutput, true);
-
-        resultMessage = i18n("<qt>%n key processed.<br></qt>", "<qt>%n keys processed.<br></qt>", messageList[0].toULong());
-
-        if (messageList[4] != "0")
-            resultMessage += i18n("<qt>One key unchanged.<br></qt>", "<qt>%n keys unchanged.<br></qt>", messageList[4].toULong());
-        if (messageList[7] != "0")
-            resultMessage += i18n("<qt>One signature imported.<br></qt>", "<qt>%n signatures imported.<br></qt>", messageList[7].toULong());
-        if (messageList[1] != "0")
-            resultMessage += i18n("<qt>One key without ID.<br></qt>", "<qt>%n keys without ID.<br></qt>", messageList[1].toULong());
-        if (messageList[3] != "0")
-            resultMessage += i18n("<qt>One RSA key imported.<br></qt>", "<qt>%n RSA keys imported.<br></qt>", messageList[3].toULong());
-        if (messageList[5] != "0")
-            resultMessage += i18n("<qt>One user ID imported.<br></qt>", "<qt>%n user IDs imported.<br></qt>", messageList[5].toULong());
-        if (messageList[6] != "0")
-            resultMessage += i18n("<qt>One subkey imported.<br></qt>", "<qt>%n subkeys imported.<br></qt>", messageList[6].toULong());
-        if (messageList[8] != "0")
-            resultMessage += i18n("<qt>One revocation certificate imported.<br></qt>", "<qt>%n revocation certificates imported.<br></qt>", messageList[8].toULong());
-        if (messageList[9] != "0")
-        {
-            resultMessage += i18n("<qt>One secret key processed.<br></qt>", "<qt>%n secret keys processed.<br></qt>", messageList[9].toULong());
-            secretImport = true;
-        }
-        if (messageList[10] != "0")
-            resultMessage += i18n("<qt><b>One secret key imported.</b><br></qt>", "<qt><b>%n secret keys imported.</b><br></qt>", messageList[10].toULong());
-        if (messageList[11] != "0")
-            resultMessage += i18n("<qt>One secret key unchanged.<br></qt>", "<qt>%n secret keys unchanged.<br></qt>", messageList[11].toULong());
-        if (messageList[12] != "0")
-            resultMessage += i18n("<qt>One secret key not imported.<br></qt>", "<qt>%n secret keys not imported.<br></qt>", messageList[12].toULong());
-        if (messageList[2] != "0")
-            resultMessage += i18n("<qt><b>One key imported:</b><br></qt>", "<qt><b>%n keys imported:</b><br></qt>", messageList[2].toULong());
-
-        if (secretImport)
-            resultMessage += i18n("<qt><br><b>You have imported a secret key.</b> <br>"
-                                  "Please note that imported secret keys are not trusted by default.<br>"
-                                  "To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</qt>");
-    }
-    else
-        resultMessage=i18n("No key imported... \nCheck detailed log for more infos");
-
-    if (messageList[8] != "0")
-        importedKeysIds = QStringList("ALL");
-
-    if ((messageList[9] != "0") && (importedKeysIds.isEmpty())) // orphaned secret key imported
-        emit refreshOrphaned();
-
-    emit importfinished(importedKeysIds);
-
-    (void) new KgpgDetailedInfo(0, "import_result", resultMessage, message, importedKeys);
-}
-
-void KgpgInterface::importURLover(KProcess *p)
-{
-    KIO::NetAccess::removeTempFile(tempKeyFile);
-    importover(p);
-    //KMessageBox::information(0,message);
-    //emit importfinished();
-}
-
-void KgpgInterface::importprocess(KProcIO *p)
-{
-    QString outp;
-    while (p->readln(outp) != -1)
-    {
-        if (outp.find("http-proxy") == -1)
-            message += outp + "\n";
-    }
-}
-
-
-// User ID's
-void KgpgInterface::KgpgAddUid(QString keyID,QString name,QString email,QString comment)
-{
-    uidName = name;
-    uidComment = comment;
-    uidEmail = email;
-    output = QString::null;
-    addSuccess = true;
-
-    KProcIO *process = new KProcIO();
-    *process << "gpg" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
-    *process << "--edit-key" << keyID << "adduid";
-    connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(adduidover(KProcess *)));
-    connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(adduidprocess(KProcIO *)));
-    process->start(KProcess::NotifyOnExit, true);
-}
-
-void KgpgInterface::adduidover(KProcess *)
-{
-    if (addSuccess)
-        emit addUidFinished();
-    else
-        emit addUidError(output);
-}
-
-void KgpgInterface::adduidprocess(KProcIO *p)
-{
-        QString required=QString::null;
-        while (p->readln(required,true)!=-1) {
-                output+=required+"\n";
-                if (required.find("USERID_HINT",0,false)!=-1)
-        updateIDs(required);
-
-                if (required.find("keygen.name")!=-1)  {
-                        p->writeStdin(uidName);
-                        required=QString::null;
-                }
-
-        if (required.find("keygen.email")!=-1)  {
-                        p->writeStdin(uidEmail);
-                        required=QString::null;
-                }
-
-        if (required.find("keygen.comment")!=-1)  {
-                        p->writeStdin(uidComment);
-                        required=QString::null;
-                }
-
-                if (required.find("passphrase.enter")!=-1)
-                {
-                    if (sendPassphrase(i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)), p))
-                    {
-                                //deleteSuccess=false;
-                                p->writeStdin(QByteArray("quit"));
-                                p->closeWhenDone();
-                                return;
-                        }
-                        required=QString::null;
-
-                }
-
-        if (required.find("keyedit.prompt")!=-1) {
-               p->writeStdin(QByteArray("save"));
-                        required=QString::null;
-        }
-
-        if ((required.find("GET_")!=-1)) /////// gpg asks for something unusal, turn to konsole mode
-                {
-                        kdDebug(2100)<<"unknown request"<<endl;
-                        addSuccess=false;  /////  switching to console mode
-                        p->writeStdin(QByteArray("quit"));
-                        p->closeWhenDone();
-
-                }
-        }
-}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  key revocation
 
 void KgpgInterface::KgpgRevokeKey(QString keyID,QString revokeUrl,int reason,QString description)
@@ -2827,87 +2897,6 @@ void KgpgInterface::revokeprocess(KProcIO *p)
 
                 }
         }
-}
-
-Md5Widget::Md5Widget(QWidget *parent, const char *name, const KURL &url)
-         : KDialogBase(parent, name, true, i18n("MD5 Checksum"), Apply | Close)
-{
-    setButtonApply(i18n("Compare MD5 with Clipboard"));
-
-    m_mdsum = QString::null;
-
-    QFile f(url.path());
-    f.open(QIODevice::ReadOnly);
-
-    KMD5 checkfile;
-    checkfile.reset();
-    checkfile.update(f);
-
-    m_mdsum = checkfile.hexDigest().data();
-    f.close();
-
-    QWidget *page = new QWidget(this);
-
-    resize(360, 150);
-    QGridLayout *dialoglayout = new QGridLayout(page, 1, 1, 5, 6, "MyDialogLayout");
-
-    QLabel *textlabel = new QLabel(page, "TextLabel1");
-    textlabel->setText(i18n("MD5 sum for <b>%1</b> is:").arg(url.fileName()));
-    dialoglayout->addWidget(textlabel, 0, 0);
-
-    KLineEdit *restrictedline = new KLineEdit(m_mdsum, page);
-    restrictedline->setReadOnly(true);
-    restrictedline->setPaletteBackgroundColor(QColor(255, 255, 255));
-    dialoglayout->addWidget(restrictedline, 1, 0);
-
-    QHBoxLayout *layout = new QHBoxLayout(0, 0, 6, "Layout4");
-    m_kled = new KLed(QColor(80, 80, 80), KLed::Off, KLed::Sunken, KLed::Circular, page);
-    m_kled->off();
-    m_kled->setSizePolicy(QSizePolicy((QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, m_kled->sizePolicy().hasHeightForWidth()));
-    layout->addWidget(m_kled);
-
-    m_textlabel = new QLabel(page, "m_textlabel");
-    m_textlabel->setText(i18n("<b>Unknown status</b>"));
-    layout->addWidget(m_textlabel);
-
-    dialoglayout->addLayout(layout, 2, 0);
-
-    QSpacerItem* spacer = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
-    dialoglayout->addItem(spacer, 3, 0);
-
-    page->show();
-    page->resize(page->minimumSize());
-    setMainWidget(page);
-}
-
-void Md5Widget::slotApply()
-{
-    QClipboard *cb = QApplication::clipboard();
-    QString text;
-
-    text = cb->text(QClipboard::Clipboard);
-    if (!text.isEmpty())
-    {
-        text = text.simplified();
-        while(text.find(' ') != -1)
-            text.remove(text.find(' '), 1);
-
-        if (text == m_mdsum)
-        {
-            m_textlabel->setText(i18n("<b>Correct checksum</b>, file is ok."));
-            m_kled->setColor(QColor(0, 255, 0));
-            m_kled->on();
-        }
-        else
-        if (text.length() != m_mdsum.length())
-            KMessageBox::sorry(0, i18n("Clipboard content is not a MD5 sum."));
-        else
-        {
-            m_textlabel->setText(i18n("<b>Wrong checksum, FILE CORRUPTED</b>"));
-            m_kled->setColor(QColor(255, 0, 0));
-            m_kled->on();
-        }
-    }
 }
 
 #include "kgpginterface.moc"

@@ -108,6 +108,7 @@
 #include "keygener.h"
 #include "kgpgoptions.h"
 #include "keyinfowidget.h"
+#include "kgpglibrary.h"
 
 //////////////  KListviewItem special
 
@@ -288,8 +289,8 @@ void  KeyView::droppedfile (KURL url)
         return;
 
     KgpgInterface *importKeyProcess = new KgpgInterface();
-    importKeyProcess->importKeyURL(url);
-    connect(importKeyProcess,SIGNAL(importfinished(QStringList)), this, SLOT(slotReloadKeys(QStringList)));
+    importKeyProcess->importKey(url);
+    connect(importKeyProcess,SIGNAL(importKeyFinished(QStringList)), this, SLOT(slotReloadKeys(QStringList)));
 }
 
 void KeyView::contentsDragMoveEvent(QDragMoveEvent *e)
@@ -590,10 +591,9 @@ listKeys::listKeys(QWidget *parent, const char *name)
         QObject::connect(keysList2,SIGNAL(statusMessage(QString,int,bool)),this,SLOT(changeMessage(QString,int,bool)));
         QObject::connect(statusbarTimer,SIGNAL(timeout()),this,SLOT(statusBarTimeout()));
 
-    s_kgpgEditor= new KgpgApp(parent, "editor",Qt::WType_Dialog,actionCollection()->action("go_default_key")->shortcut(),true);
+    s_kgpgEditor= new KgpgEditor(parent, "editor",Qt::WType_Dialog,actionCollection()->action("go_default_key")->shortcut(),true);
         connect(s_kgpgEditor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
         connect(this,SIGNAL(fontChanged(QFont)),s_kgpgEditor,SLOT(slotSetFont(QFont)));
-        connect(s_kgpgEditor->view->editor,SIGNAL(refreshImported(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
 }
 
 
@@ -607,13 +607,12 @@ show();
 
 void  listKeys::slotOpenEditor()
 {
-    KgpgApp *kgpgtxtedit = new KgpgApp(this, "editor", Qt::Window, actionCollection()->action("go_default_key")->shortcut());
+    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, "editor", Qt::Window, actionCollection()->action("go_default_key")->shortcut());
     kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
     connect(kgpgtxtedit, SIGNAL(encryptFiles(KURL::List)), this, SIGNAL(encryptFiles(KURL::List)));
     connect(this, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
-    connect(kgpgtxtedit->view->editor, SIGNAL(refreshImported(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
 
     kgpgtxtedit->show();
 }
@@ -712,14 +711,12 @@ void listKeys::slotToggleDisabled()
 
 void listKeys::slotGotoDefaultKey()
 {
-        Q3ListViewItem *myDefaulKey = keysList2->findItem(KGpgSettings::defaultKey(),6);
-        keysList2->clearSelection();
-        keysList2->setCurrentItem(myDefaulKey);
-        keysList2->setSelected(myDefaulKey,true);
-        keysList2->ensureItemVisible(myDefaulKey);
+    Q3ListViewItem *myDefaulKey = keysList2->findItem(KGpgSettings::defaultKey(),6);
+    keysList2->clearSelection();
+    keysList2->setCurrentItem(myDefaulKey);
+    keysList2->setSelected(myDefaulKey,true);
+    keysList2->ensureItemVisible(myDefaulKey);
 }
-
-
 
 void listKeys::refreshKeyFromServer()
 {
@@ -808,9 +805,16 @@ void listKeys::slotAddUid()
         if (addUidWidget->exec()!=QDialog::Accepted)
                 return;
         KgpgInterface *addUidProcess=new KgpgInterface();
-        addUidProcess->KgpgAddUid(keysList2->currentItem()->text(6),keyUid->kLineEdit1->text(),keyUid->kLineEdit2->text(),keyUid->kLineEdit3->text());
-        connect(addUidProcess,SIGNAL(addUidFinished()),keysList2,SLOT(refreshselfkey()));
-        connect(addUidProcess,SIGNAL(addUidError(QString)),this,SLOT(slotGpgError(QString)));
+        addUidProcess->addUid(keysList2->currentItem()->text(6),keyUid->kLineEdit1->text(),keyUid->kLineEdit2->text(),keyUid->kLineEdit3->text());
+        connect(addUidProcess,SIGNAL(addUidFinished(int, KgpgInterface*)), this ,SLOT(slotAddUidFin(int, KgpgInterface*)));
+}
+
+void listKeys::slotAddUidFin(int res, KgpgInterface *interface)
+{
+    // TODO tester les res
+    kdDebug(2100) << "Resultat : " << res << endl;
+    delete interface;
+    keysList2->refreshselfkey();
 }
 
 void listKeys::slotAddUidEnable(const QString & name)
@@ -818,38 +822,11 @@ void listKeys::slotAddUidEnable(const QString & name)
         addUidWidget->enableButtonOK(name.length()>4);
 }
 
-void listKeys::slotGpgError(QString string)
-{
-    // A enlever
-}
-
 void listKeys::slotAddPhoto()
 {
-    QString mess = i18n("The image must be a JPEG file. Remember that the image is stored within your public key."
-                        "If you use a very large picture, your key will become very large as well! Keeping the image "
-                        "close to 240x288 is a good size to use.");
-
-    if (KMessageBox::warningContinueCancel(this, mess) != KMessageBox::Continue)
-        return;
-
-    QString imagePath = KFileDialog::getOpenFileName(QString::null, "image/jpeg", this);
-    if (imagePath.isEmpty())
-        return;
-
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(addPhotoFinished(int, KgpgInterface*)), this, SLOT(slotAddPhotoFinished(int, KgpgInterface*)));
-    interface->addPhoto(keysList2->currentItem()->text(6), imagePath);
-}
-
-void listKeys::slotAddPhotoFinished(int res, KgpgInterface *interface)
-{
-    delete interface;
-
-    // TODO : add res == 3 (bad passphrase)
-
-    if (res == 2)
-        slotUpdatePhoto();
-
+    KgpgLibrary *lib = new KgpgLibrary();
+    connect (lib, SIGNAL(photoAdded()), this, SLOT(slotUpdatePhoto()));
+    lib->addPhoto(keysList2->currentItem()->text(6));
 }
 
 void listKeys::slotDeletePhoto()
@@ -1213,36 +1190,35 @@ void listKeys::slotSetDefKey()
 
 void listKeys::slotSetDefaultKey(QString newID)
 {
-        Q3ListViewItem *newdef = keysList2->findItem(newID,6);
-        if (newdef)
-                slotSetDefaultKey(newdef);
+    Q3ListViewItem *newdef = keysList2->findItem(newID, 6);
+    if (newdef)
+        slotSetDefaultKey(newdef);
 }
 
 void listKeys::slotSetDefaultKey(Q3ListViewItem *newdef)
 {
-        //kdDebug(2100)<<"------------------start ------------"<<endl;
-        if ((!newdef) || (newdef->pixmap(2)==NULL))
-                return;
-        //kdDebug(2100)<<newdef->text(6)<<endl;
-        //kdDebug(2100)<<KGpgSettings::defaultKey()<<endl;
-        if (newdef->text(6)==KGpgSettings::defaultKey())
-                return;
-        if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) {
-                KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted."));
-                return;
-        }
+    //kdDebug(2100)<<"------------------start ------------"<<endl;
+    if ((!newdef) || (newdef->pixmap(2)==NULL))
+        return;
+    //kdDebug(2100)<<newdef->text(6)<<endl;
+    //kdDebug(2100)<<KGpgSettings::defaultKey()<<endl;
+    if (newdef->text(6)==KGpgSettings::defaultKey())
+        return;
+    if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber())
+    {
+        KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted."));
+        return;
+    }
 
-        Q3ListViewItem *olddef = keysList2->findItem(KGpgSettings::defaultKey(),6);
+    Q3ListViewItem *olddef = keysList2->findItem(KGpgSettings::defaultKey(), 6);
 
-        KGpgSettings::setDefaultKey(newdef->text(6));
-        KGpgSettings::writeConfig();
-        if (olddef)
-                keysList2->refreshcurrentkey(olddef);
-        keysList2->refreshcurrentkey(newdef);
-        keysList2->ensureItemVisible(keysList2->currentItem());
+    KGpgSettings::setDefaultKey(newdef->text(6));
+    KGpgSettings::writeConfig();
+    if (olddef)
+        keysList2->refreshcurrentkey(olddef);
+    keysList2->refreshcurrentkey(newdef);
+    keysList2->ensureItemVisible(keysList2->currentItem());
 }
-
-
 
 void listKeys::slotmenu(Q3ListViewItem *sel, const QPoint &pos, int )
 {
@@ -1344,15 +1320,15 @@ void listKeys::revokeWidget()
 void listKeys::slotImportRevoke(QString url)
 {
         KgpgInterface *importKeyProcess=new KgpgInterface();
-        importKeyProcess->importKeyURL(KURL::fromPathOrURL( url ));
-        connect(importKeyProcess,SIGNAL(importfinished(QStringList)),keysList2,SLOT(refreshselfkey()));
+        importKeyProcess->importKey(KURL::fromPathOrURL( url ));
+        connect(importKeyProcess,SIGNAL(importKeyFinished(QStringList)),keysList2,SLOT(refreshselfkey()));
 }
 
 void listKeys::slotImportRevokeTxt(QString revokeText)
 {
         KgpgInterface *importKeyProcess=new KgpgInterface();
         importKeyProcess->importKey(revokeText);
-        connect(importKeyProcess,SIGNAL(importfinished(QStringList)),keysList2,SLOT(refreshselfkey()));
+        connect(importKeyProcess,SIGNAL(importKeyFinished(QStringList)),keysList2,SLOT(refreshselfkey()));
 }
 
 void listKeys::slotexportsec()
@@ -1609,50 +1585,59 @@ void listKeys::groupChange()
 
 void listKeys::createNewGroup()
 {
-        QStringList badkeys,keysGroup;
+    QStringList badkeys,keysGroup;
 
-        if (keysList2->selectedItems().count()>0) {
-                Q3PtrList<Q3ListViewItem> groupList=keysList2->selectedItems();
-                bool keyDepth=true;
-                for ( uint i = 0; i < groupList.count(); ++i )
-                        if ( groupList.at(i) ) {
-                                if (groupList.at(i)->depth()!=0)
-                                        keyDepth=false;
-                                else if (groupList.at(i)->text(6).isEmpty())
-                                        keyDepth=false;
-                                else if (groupList.at(i)->pixmap(2)) {
-                                        if (groupList.at(i)->pixmap(2)->serialNumber()==keysList2->trustgood.serialNumber())
-                                                keysGroup+=groupList.at(i)->text(6);
-                                        else
-                                                badkeys+=groupList.at(i)->text(0)+" ("+groupList.at(i)->text(1)+") "+groupList.at(i)->text(6);
-                                }
-
-                        }
-                if (!keyDepth) {
-                        KMessageBox::sorry(this,i18n("<qt>You cannot create a group containing signatures, subkeys or other groups.</qt>"));
-                        return;
+    if (keysList2->selectedItems().count() > 0)
+    {
+        Q3PtrList<Q3ListViewItem> groupList = keysList2->selectedItems();
+        bool keyDepth = true;
+        for (uint i = 0; i < groupList.count(); ++i)
+            if (groupList.at(i))
+            {
+                if (groupList.at(i)->depth() != 0)
+                    keyDepth = false;
+                else
+                if (groupList.at(i)->text(6).isEmpty())
+                    keyDepth = false;
+                else if (groupList.at(i)->pixmap(2))
+                {
+                    if (groupList.at(i)->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber())
+                        keysGroup += groupList.at(i)->text(6);
+                    else
+                        badkeys += groupList.at(i)->text(0) + " (" + groupList.at(i)->text(1) + ") " + groupList.at(i)->text(6);
                 }
-                QString groupName=KInputDialog::getText(i18n("Create New Group"),i18n("Enter new group name:"),QString::null,0,this);
-                if (groupName.isEmpty())
-                        return;
-                if (!keysGroup.isEmpty()) {
-                        if (!badkeys.isEmpty())
-                                KMessageBox::informationList(this,i18n("Following keys are not valid or not trusted and will not be added to the group:"),badkeys);
-                        KgpgInterface::setGpgGroupSetting(groupName,keysGroup,KGpgSettings::gpgConfigPath());
-                        QStringList groups=KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
-                        KGpgSettings::setGroups(groups.join(","));
-                        keysList2->refreshgroups();
-                        Q3ListViewItem *newgrp = keysList2->findItem(groupName,0);
+            }
 
-                        keysList2->clearSelection();
-                        keysList2->setCurrentItem(newgrp);
-                        keysList2->setSelected(newgrp,true);
-                        keysList2->ensureItemVisible(newgrp);
-                        keysList2->groupNb=groups.count();
-                        changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount()-keysList2->groupNb).arg(keysList2->groupNb),1);
-                } else
-                        KMessageBox::sorry(this,i18n("<qt>No valid or trusted key was selected. The group <b>%1</b> will not be created.</qt>").arg(groupName));
+        if (!keyDepth)
+        {
+            KMessageBox::sorry(this, i18n("<qt>You cannot create a group containing signatures, subkeys or other groups.</qt>"));
+            return;
         }
+
+        QString groupName = KInputDialog::getText(i18n("Create New Group"), i18n("Enter new group name:"), QString::null, 0, this);
+        if (groupName.isEmpty())
+            return;
+        if (!keysGroup.isEmpty())
+        {
+            if (!badkeys.isEmpty())
+                KMessageBox::informationList(this, i18n("Following keys are not valid or not trusted and will not be added to the group:"), badkeys);
+
+            KgpgInterface::setGpgGroupSetting(groupName, keysGroup, KGpgSettings::gpgConfigPath());
+            QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
+            KGpgSettings::setGroups(groups.join(","));
+            keysList2->refreshgroups();
+            Q3ListViewItem *newgrp = keysList2->findItem(groupName, 0);
+
+            keysList2->clearSelection();
+            keysList2->setCurrentItem(newgrp);
+            keysList2->setSelected(newgrp, true);
+            keysList2->ensureItemVisible(newgrp);
+            keysList2->groupNb = groups.count();
+            changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount() - keysList2->groupNb).arg(keysList2->groupNb), 1);
+        }
+        else
+            KMessageBox::sorry(this, i18n("<qt>No valid or trusted key was selected. The group <b>%1</b> will not be created.</qt>").arg(groupName));
+    }
 }
 
 void listKeys::groupInit(QStringList keysGroup)
@@ -1764,6 +1749,7 @@ void listKeys::signkey()
         QStringList list(keysList2->currentItem()->text(6));
         KgpgInterface *interface = new KgpgInterface();
         KgpgListKeys listkeys = interface->readPublicKeys(true, list);
+        delete interface;
         fingervalue = (listkeys.at(0))->gpgkeyfingerprint;
 
         opt = i18n("<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>%3</b>.<br><br>"
@@ -2357,17 +2343,17 @@ void listKeys::slotPreImportKey()
                         if (!impname.isEmpty()) {
                                 ////////////////////////// import from file
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
-                                importKeyProcess->importKeyURL(KURL::fromPathOrURL( impname ));
-                                connect(importKeyProcess,SIGNAL(importfinished(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
-                                connect(importKeyProcess,SIGNAL(refreshOrphaned()),keysList2,SLOT(slotReloadOrphaned()));
+                                importKeyProcess->importKey(KURL::fromPathOrURL( impname ));
+                                connect(importKeyProcess,SIGNAL(importKeyFinished(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
+                                connect(importKeyProcess,SIGNAL(importKeyOrphaned()),keysList2,SLOT(slotReloadOrphaned()));
                         }
                 } else {
                         QString keystr = kapp->clipboard()->text(clipboardMode);
                         if (!keystr.isEmpty()) {
                                 KgpgInterface *importKeyProcess=new KgpgInterface();
                                 importKeyProcess->importKey(keystr);
-                                connect(importKeyProcess,SIGNAL(importfinished(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
-                                connect(importKeyProcess,SIGNAL(refreshOrphaned()),keysList2,SLOT(slotReloadOrphaned()));
+                                connect(importKeyProcess,SIGNAL(importKeyFinished(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
+                                connect(importKeyProcess,SIGNAL(importKeyOrphaned()),keysList2,SLOT(slotReloadOrphaned()));
                         }
                 }
         }
@@ -2649,38 +2635,43 @@ void KeyView::refreshkeylist()
 
 void KeyView::insertOrphan(QString currentID)
 {
-        FILE *fp;
-        char line[300];
-        UpdateViewItem *item=NULL;
-        bool keyFound=false;
-        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
-        while ( fgets( line, sizeof(line), fp)) {
-                QString lineRead=line;
-                if ((lineRead.startsWith("sec")) && (lineRead.section(':',4,4).right(8))==currentID.right(8)) {
-                        gpgKey orphanedKey=extractKey(lineRead);
-                        keyFound=true;
-                        bool isbold=false;
-                        bool isexpired=false;
-                        //           if (orphanedKey.gpgkeyid==defaultKey)
-                        //               isbold=true;
-                        if (orphanedKey.gpgkeytrust==i18n("Expired"))
-                                isexpired=true;
-                        //          if (orphanedKey.gpgkeyname.isEmpty())
-                        //              noID=true;
+    KgpgInterface *interface = new KgpgInterface();
+    KgpgListKeys keys = interface->readSecretKeys(true, QStringList(currentID));
+    delete interface;
 
-                        item=new UpdateViewItem(this,orphanedKey.gpgkeyname,orphanedKey.gpgkeymail,QString::null,orphanedKey.gpgkeyexpiration,orphanedKey.gpgkeysize,orphanedKey.gpgkeycreation,orphanedKey.gpgkeyid,isbold,isexpired);
-                        item->setPixmap(0,pixkeyOrphan);
-                }
-        }
-        pclose(fp);
-        if (!keyFound) {
-                orphanList.remove(currentID);
-                setSelected(currentItem(),true);
-                return;
-        }
-        clearSelection();
-        setCurrentItem(item);
-        setSelected(item,true);
+    bool keyFound = false;
+    UpdateViewItem *item = 0;
+    for (int i = 0; i < keys.count(); ++i)
+    {
+        keyFound = true;
+        KgpgKeyPtr key = keys.at(i);
+
+        bool isbold = false;
+        bool isexpired = false;
+        if (key->gpgkeytrust == 'e')
+            isexpired = true;
+
+        QString creationdate = KGlobal::locale()->formatDate(key->gpgkeycreation, true);
+        QString expirationdate;
+        if (key->gpgkeyunlimited == true)
+            expirationdate = i18n("Unlimited");
+        else
+            expirationdate = KGlobal::locale()->formatDate(key->gpgkeyexpiration, true);
+
+        item = new UpdateViewItem(this, key->gpgkeyname, key->gpgkeymail, QString::null, expirationdate, key->gpgkeysize, creationdate, key->gpgkeyid, isbold, isexpired);
+        item->setPixmap(0, pixkeyOrphan);
+    }
+
+    if (!keyFound)
+    {
+        orphanList.remove(currentID);
+        setSelected(currentItem(), true);
+        return;
+    }
+
+    clearSelection();
+    setCurrentItem(item);
+    setSelected(item, true);
 }
 
 void KeyView::insertOrphanedKeys(QStringList orphans)
@@ -2742,57 +2733,52 @@ void KeyView::refreshselfkey()
                 refreshcurrentkey(currentItem()->parent());
 }
 
-void KeyView::slotReloadKeys(QStringList keyIDs)
+void KeyView::slotReloadKeys(QStringList keyids)
 {
-        if (keyIDs.isEmpty())
-                return;
-    if (keyIDs.first()=="ALL")
+    if (keyids.isEmpty())
+        return;
+
+    if (keyids.first() == "ALL")
     {
-    refreshkeylist();
-    return;
+        refreshkeylist();
+        return;
     }
-        for ( QStringList::Iterator it = keyIDs.begin(); it != keyIDs.end(); ++it ) {
-                refreshcurrentkey(*it);
-        }
-        kdDebug(2100)<<"Refreshing key:--------"<<(keyIDs.last()).right(8).prepend("0x")<<endl;
-        ensureItemVisible(this->findItem((keyIDs.last()).right(8).prepend("0x"),6));
-        emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount()-groupNb).arg(groupNb),1);
-        emit statusMessage(i18n("Ready"),0);
+
+    for (QStringList::Iterator it = keyids.begin(); it != keyids.end(); ++it)
+        refreshcurrentkey(*it);
+
+    ensureItemVisible(this->findItem((keyids.last()).right(8).prepend("0x"), 6));
+    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount() - groupNb).arg(groupNb), 1);
+    emit statusMessage(i18n("Ready"), 0);
 }
 
 void KeyView::slotReloadOrphaned()
 {
-        QStringList issec;
-        FILE *fp,*fp2;
-        char line[300];
+    QStringList issec;
 
-        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
-        while ( fgets( line, sizeof(line), fp2)) {
-                QString lineRead=line;
-                if (lineRead.startsWith("sec"))
-                        issec<<"0x"+lineRead.section(':',4,4).right(8);
+    KgpgInterface *interface = new KgpgInterface();
+    KgpgListKeys listkeys;
+
+    listkeys = interface->readSecretKeys(true);
+    for (int i = 0; i < listkeys.count(); ++i)
+        issec << (listkeys.at(i))->gpgkeyid;
+    listkeys = interface->readPublicKeys(true);
+    for (int i = 0; i < listkeys.count(); ++i)
+        issec.remove((listkeys.at(i))->gpgkeyid);
+
+    delete interface;
+
+    QStringList::Iterator it;
+    for (it = issec.begin(); it != issec.end(); ++it)
+        if (findItem(*it, 6) == 0)
+        {
+            insertOrphan(*it);
+            orphanList += *it + ",";
         }
-        pclose(fp2);
 
-        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-keys", "r");
-        while ( fgets( line, sizeof(line), fp)) {
-                QString lineRead=line;
-                if (lineRead.startsWith("pub"))
-                        issec.remove("0x"+lineRead.section(':',4,4).right(8));
-        }
-        pclose(fp);
-
-        QStringList::Iterator it;
-
-        for ( it = issec.begin(); it != issec.end(); ++it ) {
-                if (findItem(*it,6)==0) {
-                        insertOrphan(*it);
-                        orphanList+=*it+",";
-                }
-        }
-        setSelected(findItem(*it,6),true);
-        emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount()-groupNb).arg(groupNb),1);
-        emit statusMessage(i18n("Ready"),0);
+    setSelected(findItem(*it, 6), true);
+    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount() - groupNb).arg(groupNb), 1);
+    emit statusMessage(i18n("Ready"), 0);
 }
 
 void KeyView::refreshcurrentkey(QString currentID)

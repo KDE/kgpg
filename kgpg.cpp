@@ -159,7 +159,7 @@ void  MyView::clipSign(bool openEditor)
     QString clippie = kapp->clipboard()->text(clipboardMode).simplified();
     if (!clippie.isEmpty())
     {
-        KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor", Qt::WDestructiveClose, goDefaultKey);
+        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, "editor", Qt::WDestructiveClose, goDefaultKey);
         connect(this,SIGNAL(setFont(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
         connect(kgpgtxtedit, SIGNAL(encryptFiles(KURL::List)), this, SLOT(encryptFiles(KURL::List)));
 
@@ -350,24 +350,26 @@ encryptDroppedFile();
 
 void  MyView::shredDroppedFile()
 {
-KDialogBase *shredConfirm=new KDialogBase( this, "confirm_shred", true,i18n("Shred Files"),KDialogBase::Ok | KDialogBase::Cancel);
-QWidget *page = new QWidget(shredConfirm);
-shredConfirm->setMainWidget(page);
-QBoxLayout *layout=new QBoxLayout(page,QBoxLayout::TopToBottom,0);
-layout->setAutoAdd(true);
+    KDialogBase *shredConfirm = new KDialogBase(this, "confirm_shred", true, i18n("Shred Files"), KDialogBase::Ok | KDialogBase::Cancel);
+    QWidget *page = new QWidget(shredConfirm);
+    shredConfirm->setMainWidget(page);
+    QBoxLayout *layout = new QBoxLayout(page, QBoxLayout::TopToBottom, 0);
+    layout->setAutoAdd(true);
 
-(void) new KActiveLabel( i18n("Do you really want to <a href=\"whatsthis:%1\">shred</a> these files?").arg(i18n( "<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>")),page);
-KListBox *lb=new KListBox(page);
-lb->insertStringList(droppedUrls.toStringList());
-if (shredConfirm->exec()==QDialog::Accepted)
+    QString mess = i18n("Do you really want to <a href=\"whatsthis:%1\">shred</a> these files?");
+    mess = mess.arg(i18n("<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>"));
+
+    (void) new KActiveLabel(mess, page);
+    KListBox *lb = new KListBox(page);
+    lb->insertStringList(droppedUrls.toStringList());
+    if (shredConfirm->exec() == QDialog::Accepted)
     {
-    KgpgLibrary *lib=new KgpgLibrary(this);
-    connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
-    lib->shredProcessEnc(droppedUrls);
+        KgpgLibrary *lib = new KgpgLibrary(this);
+        connect(lib, SIGNAL(systemMessage(QString, bool)), this, SLOT(busyMessage(QString, bool)));
+        lib->shredProcessEnc(droppedUrls);
     }
-delete shredConfirm;
+    delete shredConfirm;
 }
-
 
 void  MyView::slotVerifyFile()
 {
@@ -516,13 +518,12 @@ void  MyView::showDroppedFile()
 {
     kdDebug(2100) << "------Show dropped file" << endl;
 
-    KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor", Qt::WDestructiveClose, goDefaultKey);
+    KgpgEditor *kgpgtxtedit = new KgpgEditor(0, "editor", Qt::WDestructiveClose, goDefaultKey);
     kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
 
     connect(kgpgtxtedit, SIGNAL(encryptFiles(KURL::List)), this, SLOT(encryptFiles(KURL::List)));
     connect(this, SIGNAL(setFont(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
     connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), this, SIGNAL(importedKeys(QStringList)));
-    connect(kgpgtxtedit->view->editor, SIGNAL(refreshImported(QStringList)), this, SIGNAL(importedKeys(QStringList)));
     kgpgtxtedit->show();
 }
 
@@ -575,11 +576,11 @@ void  MyView::droppedtext (QString inputText,bool allowEncrypt)
 {
 
         if (inputText.startsWith("-----BEGIN PGP MESSAGE")) {
-                KgpgApp *kgpgtxtedit = new KgpgApp(0, "editor",Qt::WDestructiveClose,goDefaultKey);
+                KgpgEditor *kgpgtxtedit = new KgpgEditor(0, "editor",Qt::WDestructiveClose,goDefaultKey);
         connect(kgpgtxtedit,SIGNAL(encryptFiles(KURL::List)),this,SLOT(encryptFiles(KURL::List)));
         connect(this,SIGNAL(setFont(QFont)),kgpgtxtedit,SLOT(slotSetFont(QFont)));
                 kgpgtxtedit->view->editor->setText(inputText);
-                kgpgtxtedit->view->slotdecode();
+                kgpgtxtedit->view->slotDecode();
                 kgpgtxtedit->show();
                 return;
         }
