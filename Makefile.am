@@ -37,10 +37,10 @@ apps_DATA = kgpg.rc listkeys.rc tips
 KDE_ICON = kgpg
 
 messages: rc.cpp
-    $(PREPARETIPS) > tips.cpp
-    LIST=`find . -name \*.h -o -name \*.hh -o -name \*.H -o -name \*.hxx -o -name \*.hpp -o -name \*.cpp -o -name \*.cc -o -name \*.cxx -o -name \*.ecpp -o -name \*.C`; \
-         if test -n "$$LIST"; then \
-         $(XGETTEXT) $$LIST -o $(podir)/kgpg.pot; \
+	$(PREPARETIPS) > tips.cpp
+	LIST=`find . -name \*.h -o -name \*.hh -o -name \*.H -o -name \*.hxx -o -name \*.hpp -o -name \*.cpp -o -name \*.cc -o -name \*.cxx -o -name \*.ecpp -o -name \*.C`; \
+		 if test -n "$$LIST"; then \
+		 $(XGETTEXT) $$LIST -o $(podir)/kgpg.pot; \
          fi
 
 
