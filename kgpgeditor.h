@@ -25,10 +25,10 @@
 
 class QCloseEvent;
 
-class KPassivePopup;
 class KToggleAction;
-class KComboBox;
 class KAction;
+
+class KgpgInterface;
 class KgpgView;
 
 class KgpgEditor : public KMainWindow
@@ -60,52 +60,60 @@ protected:
     void saveOptions();
     void initActions();
     void initView();
-    void closeEvent(QCloseEvent * e);
+    void closeEvent(QCloseEvent *e);
 
 private slots:
-    //void slotOptions();
-    void slotFileQuit();
+    // File menu
     void slotFileNew();
-    void slotResetEncoding(bool enc);
-    void slotFilePreEnc();
-    void slotFilePreDec();
     void slotFileOpen();
     void slotFileSave();
     void slotFileSaveAs();
     void slotFilePrint();
+    void slotFilePreEnc();
+    void slotFilePreDec();
+    void slotKeyManager();
+    void slotFileQuit();
+
+    // Edit menu
+    void slotundo();
+    void slotredo();
     void slotEditCut();
     void slotEditCopy();
     void slotEditPaste();
     void slotSelectAll();
-    void slotCheckMd5();
+
+    // Coding menu
+    void slotSetCharset();
+    void slotResetEncoding(bool enc);
+    bool checkEncoding(QTextCodec *codec);
+
+    // Signing menu
     void slotPreSignFile();
     void slotSignFile(KURL url);
-    void slotVerifyFile(KURL url);
+    void slotSignFileFin(KgpgInterface *interface);
     void slotPreVerifyFile();
-    void importSignatureKey(QString ID);
-    void slotundo();
-    void slotredo();
-    void slotSetCharset();
-    bool checkEncoding(QTextCodec *codec);
+    void slotVerifyFile(KURL url);
+    void slotCheckMd5();
+    void importSignatureKey(QString id);
+
+    // Options menu
     void slotOptions();
-    void slotKeyManager();
+
+    void modified();
+    void newText();
 
 private:
-    QStringList customDecrypt;
-    QString textEncoding;
-    QString messages;
+    QStringList m_customdecrypt;
+    QString m_textencoding;
 
-    KToggleAction *encodingAction ;
-    KURL urlselected;
-    KAction *fileSave;
-    KAction *editUndo;
-    KAction *editRedo;
-    KComboBox *fontCombo;
+    KToggleAction *m_encodingaction;
+    KAction *m_filesave;
+    KAction *m_editundo;
+    KAction *m_editredo;
     KShortcut goDefaultKey;
-    KURL Docname;
+    KURL m_docname;
 
-    bool isMainWindow;
-    int version;
+    bool m_ismainwindow;
 };
 
 #endif // __KGPGEDITOR_H__

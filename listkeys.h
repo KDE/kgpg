@@ -23,8 +23,8 @@
 #include <QClipboard>
 #include <QPixmap>
 
-#include <Q3ListViewItem>
 #include <Q3PtrList>
+#include <Q3ListViewItem>
 
 #include <klistviewsearchline.h>
 #include <kactionclasses.h>
@@ -57,20 +57,6 @@ class groupEdit;
 class keyServer;
 class KgpgEditor;
 
-typedef struct gpgKey
-{
-    QString gpgkeymail;
-    QString gpgkeyname;
-    QString gpgkeyid;
-    QString gpgkeytrust;
-    QString gpgkeyvalidity;
-    QString gpgkeysize;
-    QString gpgkeycreation;
-    QString gpgkeyexpiration;
-    QString gpgkeyalgo;
-    QPixmap trustpic;
-};
-
 class KeyView : public KListView
 {
     Q_OBJECT
@@ -78,44 +64,55 @@ class KeyView : public KListView
 
 public:
     KeyView(QWidget *parent = 0);
-    bool displayPhoto;
-    bool displayOnlySecret;
-    bool displayDisabled;
-    int previewSize;
-    QString secretList;
+
+    void setPreviewSize(const int &size);
+    int previewSize() const;
+
+    void setDisplayPhoto(const bool &display);
+    bool displayPhoto() const;
+
     QPixmap trustbad;
+    QString secretList;
+    bool displayDisabled;
+    bool displayOnlySecret;
 
 signals:
     void statusMessage(QString, int, bool keep = false);
 
 public slots:
-    void slotRemoveColumn(int d);
-    void slotAddColumn(int c);
+    void slotAddColumn(const int &c);
+    void slotRemoveColumn(const int &c);
 
 protected:
-    virtual void startDrag();
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
-    virtual void contentsDropEvent(QDropEvent*);
+    virtual void contentsDropEvent(QDropEvent *e);
+    virtual void startDrag();
 
 private slots:
-    void refreshTrust(int color, QColor newColor);
-    void droppedfile(KURL);
-    void refreshkeylist();
-    gpgKey extractKey(QString keyColon);
-    void expandKey(Q3ListViewItem *item);
-    void expandGroup(Q3ListViewItem *item);
-    void refreshcurrentkey(Q3ListViewItem *current);
-    void refreshcurrentkey(QString currentID);
+    void droppedfile(const KURL &url);
+
+    void slotReloadKeys(const QStringList &keyids);
+    void refreshAll();
+
+    bool refreshKeys(QStringList ids = QStringList());
+    void refreshcurrentkey(KListViewItem *current);
     void refreshselfkey();
-    void refreshgroups();
-    void insertOrphanedKeys(QStringList orpans);
-    void insertOrphan(QString currentID);
-    QPixmap slotGetPhoto(QString photoId, bool mini = false);
-    void slotReloadKeys(QStringList keyIDs);
+
     void slotReloadOrphaned();
+    void insertOrphans(QStringList ids);
+
+    void refreshGroups();
+    void refreshTrust(int color, QColor newColor);
+
+    void expandKey(Q3ListViewItem *item);
+    void expandGroup(KListViewItem *item);
+    void insertSigns(KListViewItem *item, const KgpgKeySignList &list);
 
 private:
-    QString orphanList;
+    QPixmap getTrustPix(const QChar &c, const bool &isvalid);
+
+private:
+    QStringList orphanList;
     QString photoKeysList;
 
     QPixmap pixkeyPair;
@@ -130,11 +127,9 @@ private:
     QPixmap pixRevoke;
     QPixmap pixkeyOrphan;
 
-    Q3ListViewItem *itemToOpen;
-
-    KTempFile *kgpgphototmp;
-
     int groupNb;
+    int m_previewsize;
+    bool m_displayphoto;
 };
 
 class mySearchLine: public KListViewSearchLine
@@ -145,14 +140,14 @@ public:
     mySearchLine(QWidget *parent = 0, KeyView *listView = 0);
     virtual ~mySearchLine();
 
-private:
-    KeyView *searchListView;
-
 public slots:
     virtual void updateSearch(const QString &s = QString::null);
 
 protected:
-    virtual bool itemMatches(const Q3ListViewItem *item, const QString & s)  const;
+    virtual bool itemMatches(const KListViewItem *item, const QString & s)  const;
+
+private:
+    KeyView *m_searchlistview;
 };
 
 
@@ -252,7 +247,7 @@ private slots:
     void genover(KProcess *p);
     void showOptions();
     void slotSetDefKey();
-    void slotSetDefaultKey(Q3ListViewItem *newdef);
+    void slotSetDefaultKey(KListViewItem *newdef);
     void annule();
     void confirmdeletekey();
     void deletekey();
@@ -305,6 +300,11 @@ private:
 
     Q3PtrList<Q3ListViewItem> signList;
     Q3PtrList<Q3ListViewItem> keysList;
+
+    /*
+    QList<KListViewItem> signList;
+    QList<KListViewItem> keysList;
+    */
 
     QClipboard::Mode clipboardMode;
     QTimer *statusbarTimer;

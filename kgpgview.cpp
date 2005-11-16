@@ -33,10 +33,7 @@
 #include "kgpgsettings.h"
 #include "kgpginterface.h"
 #include "keyservers.h"
-//#include "keyserver.h"
-//#include "kgpg.h"
 #include "kgpgeditor.h"
-//#include "listkeys.h"
 #include "popuppublic.h"
 #include "detailedconsole.h"
 #include "kgpgview.h"
@@ -116,7 +113,7 @@ bool KgpgTextEdit::slotCheckContent(const QString &filetocheck, const bool &chec
 
         if ((checkforpgpmessage) && (result.startsWith("-----BEGIN PGP MESSAGE")))
         {
-            // if  pgp data found, decode it
+            // if pgp data found, decode it
             qfile.close();
             slotDecodeFile(filetocheck);
             return true;
@@ -180,8 +177,6 @@ KgpgView::KgpgView(QWidget *parent, const char *name)
         : QWidget(parent, name)
 {
     editor = new KgpgTextEdit(this);
-    windowAutoClose = true;
-
     editor->setReadOnly(false);
     editor->setUndoRedoEnabled(true);
 
@@ -189,11 +184,11 @@ KgpgView::KgpgView(QWidget *parent, const char *name)
 
     KButtonBox *boutonbox = new KButtonBox(this, Qt::Horizontal, 15, 12);
     boutonbox->addStretch(1);
-    bouton0 = boutonbox->addButton(i18n("S&ign/Verify"), this, SLOT(clearSign()), true);
-    bouton1 = boutonbox->addButton(i18n("En&crypt"), this, SLOT(slotEncode()), true);
-    bouton2 = boutonbox->addButton(i18n("&Decrypt"), this, SLOT(slotDecode()), true);
+    boutonbox->addButton(i18n("S&ign/Verify"), this, SLOT(slotSignVerify()), true);
+    boutonbox->addButton(i18n("En&crypt"), this, SLOT(slotEncode()), true);
+    boutonbox->addButton(i18n("&Decrypt"), this, SLOT(slotDecode()), true);
 
-    connect(editor, SIGNAL(textChanged()), this, SLOT(modified()));
+    connect(editor, SIGNAL(textChanged()), this, SIGNAL(textChanged()));
 
     editor->resize(editor->maximumSize());
 
@@ -209,7 +204,7 @@ KgpgView::~KgpgView()
     delete editor;
 }
 
-void KgpgView::clearSign()
+void KgpgView::slotSignVerify()
 {
     QString mess = editor->text();
     if (mess.startsWith("-----BEGIN PGP SIGNED"))
@@ -249,7 +244,7 @@ void KgpgView::clearSign()
 void KgpgView::slotEncode()
 {
     // dialog to select public key for encryption
-    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, "public_keys", 0, false, ((KgpgEditor *)parent())->goDefaultKey);
+    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, "public_keys", 0, false, (static_cast<KgpgEditor*>(parent()))->goDefaultKey);
     connect(dialog, SIGNAL(selectedKey(QStringList, QStringList, bool, bool)), this, SLOT(encodeTxt(QStringList, QStringList, bool, bool)));
     dialog->exec();
     delete dialog;
@@ -264,7 +259,7 @@ void KgpgView::slotDecode()
     interface->decryptText(editor->text(), QStringList::split(QString(" "), KGpgSettings::customDecrypt().simplified()));
 }
 
-void KgpgView::updateDecryptedtxt(QString newtxt, KgpgInterface *interface)
+void KgpgView::updateDecryptedtxt(const QString &newtxt, KgpgInterface *interface)
 {
     delete interface;
     if (checkForUtf8(newtxt))
@@ -277,15 +272,17 @@ void KgpgView::updateDecryptedtxt(QString newtxt, KgpgInterface *interface)
         editor->setText(newtxt);
         emit resetEncoding(false);
     }
+
+    emit newText();
 }
 
-void KgpgView::failedDecryptedtxt(QString newtxt, KgpgInterface *interface)
+void KgpgView::failedDecryptedtxt(const QString &newtxt, KgpgInterface *interface)
 {
     delete interface;
     KMessageBox::detailedSorry(this, i18n("Decryption failed."), newtxt);
 }
 
-void KgpgView::slotAskForImport(QString id, KgpgInterface *interface)
+void KgpgView::slotAskForImport(const QString &id, KgpgInterface *interface)
 {
     delete interface;
     KGuiItem importitem = KStdGuiItem::yes();
@@ -301,20 +298,19 @@ void KgpgView::slotAskForImport(QString id, KgpgInterface *interface)
         keyServer *kser = new keyServer(0, "server_dialog", false, true);
         kser->slotSetText(id);
         kser->slotImport();
-        windowAutoClose = false;
     }
     else
         emit verifyFinished();
 }
 
-void KgpgView::slotVerifyResult(QString mssge, QString log, KgpgInterface *interface)
+void KgpgView::slotVerifyResult(const QString &mssge, const QString &log, KgpgInterface *interface)
 {
     delete interface;
     emit verifyFinished();
     (void) new KgpgDetailedInfo(0, "verify_result", mssge, log);
 }
 
-void KgpgView::slotSignResult(QString signResult, KgpgInterface*)
+void KgpgView::slotSignResult(const QString &signResult, KgpgInterface*)
 {
     if (signResult.isEmpty())
         KMessageBox::sorry(this, i18n("Signing not possible: bad passphrase or missing key"));
@@ -330,52 +326,37 @@ void KgpgView::slotSignResult(QString signResult, KgpgInterface*)
             editor->setText(signResult);
             emit resetEncoding(false);
         }
-
-        KgpgEditor *win = static_cast<KgpgEditor*>(parent());
-        win->editRedo->setEnabled(false);
-        win->editUndo->setEnabled(false);
+        emit newText();
     }
 }
 
-void KgpgView::encodeTxt(QStringList selec, QStringList encryptOptions, bool, bool symmetric)
+void KgpgView::encodeTxt(QStringList selec, QStringList encryptoptions, bool, bool symmetric)
 {
     // encode from editor
     if (KGpgSettings::pgpCompatibility())
-        encryptOptions << "--pgp6";
+        encryptoptions << "--pgp6";
 
     if (symmetric)
         selec.clear();
 
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(txtEncryptionFinished(QString, KgpgInterface*)), this, SLOT(updateTxt(QString, KgpgInterface*)));
-    interface->encryptText(editor->text(), selec, encryptOptions);
+    interface->encryptText(editor->text(), selec, encryptoptions);
 }
 
-void KgpgView::updateTxt(QString newtxt, KgpgInterface *interface)
+void KgpgView::updateTxt(const QString &newtxt, KgpgInterface *interface)
 {
     delete interface;
     if (!newtxt.isEmpty())
+    {
         editor->setText(newtxt);
+        emit newText();
+    }
     else
         KMessageBox::sorry(this, i18n("Encryption failed."));
 }
 
-void KgpgView::modified()
-{
-    // notify for changes in editor window
-    KgpgEditor *win = static_cast<KgpgEditor*>(parent());
-    if (win->fileSave->isEnabled() == false)
-    {
-        QString capt = win->Docname.fileName();
-        if (capt.isEmpty())
-            capt = i18n("untitled");
-        win->setCaption(capt, true);
-        win->fileSave->setEnabled(true);
-        win->editUndo->setEnabled(true);
-    }
-}
-
-bool KgpgView::checkForUtf8(QString text)
+bool KgpgView::checkForUtf8(const QString &text)
 {
     // try to guess if the decrypted text uses utf-8 encoding
     QTextCodec *codec = QTextCodec::codecForLocale();
@@ -384,15 +365,4 @@ bool KgpgView::checkForUtf8(QString text)
     return false;
 }
 
-/*
-void KgpgView::print(QPrinter *pPrinter)
-{
-  QPainter printpainter;
-  printpainter.begin(pPrinter);
-
-  // TODO: add your printing code here
-
-  printpainter.end();
-}
-*/
 #include "kgpgview.moc"

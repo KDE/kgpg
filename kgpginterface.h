@@ -93,14 +93,16 @@ signals:
     void readPublicKeysFinished(KgpgListKeys, KgpgInterface*);
 
 public slots:
-    KgpgListKeys readPublicKeys(const bool &block = false, const QStringList &ids = QStringList());
+    KgpgListKeys readPublicKeys(const bool &block = false, const QStringList &ids = QStringList(), const bool &withsigs = false);
 
 private slots:
     void readPublicKeysProcess(KProcIO *p);
     void readPublicKeysFin(KProcess *p, const bool &block = false);
 
 private:
-    KgpgKeyPtr m_publickey;
+    int m_numberid;
+    QString cycle;
+    KgpgKey m_publickey;
     KgpgListKeys m_publiclistkeys;
 
 /*************************************************/
@@ -119,32 +121,11 @@ private slots:
     void readSecretKeysFin(KProcess *p, const bool &block = false);
 
 private:
-    KgpgKeyPtr m_secretkey;
+    bool m_secretactivate;
+    KgpgKey m_secretkey;
     KgpgListKeys m_secretlistkeys;
 
 /*************************************************/
-
-
-/************** get photo list **************/
-signals:
-    void getPhotoListFinished(QStringList, KgpgInterface*);
-
-public slots:
-    /**
-     * Extract list of photographic user id's
-     * @param keyid the recipients key id's.
-     */
-    QStringList getPhotoList(const QString &keyid, const bool &block = false);
-
-private slots:
-    void getPhotoListProcess(KgpgListKeys listkeys, KgpgInterface*, const bool &block = false);
-    // TODO rendre cette méthode bloquante ou non au choix.
-    bool isPhotoId(uint uid);
-
-private:
-    QStringList photolist;
-
-/********************************************/
 
 
 /************** get keys as a text **************/
@@ -452,13 +433,13 @@ signals:
     void loadPhotoFinished(QPixmap, KgpgInterface*);
 
 public slots:
-    void loadPhoto(const QString &keyid, const QString &uid);
+    QPixmap loadPhoto(const QString &keyid, const QString &uid, const bool &block = false);
 
 private slots:
-    void loadPhotoProcess(KProcIO *p);
-    void loadPhotoFin(KProcess *p);
+    void loadPhotoFin(KProcess *p, const bool &block = false);
 
 private:
+    QPixmap m_pixmap;
     KTempFile *m_kgpginfotmp;
 
 /*******************************************************/

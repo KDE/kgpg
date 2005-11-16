@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-// code  for choosing a public key from a list for encryption
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -210,8 +209,8 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const char *name
     KgpgInterface *interface = new KgpgInterface();
     KgpgListKeys list = interface->readSecretKeys(true);
     delete interface;
-    for (int i = 0; i < list.count(); ++i)
-        m_seclist += ", 0x" + (list.at(i))->gpgkeyid;
+    for (int i = 0; i < list.size(); ++i)
+        m_seclist += ", 0x" + list.at(i).id();
 
     refreshKeys();
     //m_keyslist->setFocus();
@@ -352,13 +351,13 @@ void KgpgSelectPublicKeyDlg::refreshKeysReady(KgpgListKeys keys, KgpgInterface *
 {
     delete interface;
 
-    for (int i = 0; i < keys.count(); ++i)
+    for (int i = 0; i < keys.size(); ++i)
     {
         bool dead = false;
-        KgpgKeyPtr key = keys.at(i);
-        QString id = QString("0x" + key->gpgkeyid);
+        KgpgKey key = keys.at(i);
+        QString id = QString("0x" + key.id());
 
-        QChar c = key->gpgkeytrust;
+        QChar c = key.trust();
         if (c == 'o' || c == 'q' || c == 'n' || c == 'm')
             m_untrustedlist << id;
         else
@@ -368,18 +367,18 @@ void KgpgSelectPublicKeyDlg::refreshKeysReady(KgpgListKeys keys, KgpgInterface *
         if (c != 'f' && c != 'u')
             m_untrustedlist << id;
 
-        if (key->gpgkeyvalide == false)
+        if (key.valide() == false)
             dead = true;
 
-        QString keyname = KgpgInterface::checkForUtf8(key->gpgkeyname);
+        QString keyname = KgpgInterface::checkForUtf8(key.name());
         if (!dead && !keyname.isEmpty())
         {
             QString defaultKey = KGpgSettings::defaultKey().right(8);
             bool isDefaultKey = false;
-            if (key->gpgkeyid == defaultKey)
+            if (key.id() == defaultKey)
                 isDefaultKey = true;
 
-            KeyViewItem *item = new KeyViewItem(m_keyslist, keyname, key->gpgkeymail, id, isDefaultKey);
+            KeyViewItem *item = new KeyViewItem(m_keyslist, keyname, key.email(), id, isDefaultKey);
             if (m_seclist.find(id, 0, false) != -1)
                 item->setPixmap(0, m_keypair);
             else

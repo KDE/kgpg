@@ -84,46 +84,38 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const char *name, cons
     KgpgListKeys list1 = inter1->readSecretKeys(true);
     delete inter1;
 
-    for (int i = 0; i < list1.count(); ++i)
+    for (int i = 0; i < list1.size(); ++i)
     {
-        KgpgKeyPtr keyptr = list1.at(i);
-        QString id = keyptr->gpgkeyid;
-
-        QString val;
-        if (keyptr->gpgkeyunlimited)
-            val = i18n("Unlimited");
-        else
-            val = KGlobal::locale()->formatDate(keyptr->gpgkeyexpiration);
+        KgpgKey key = list1.at(i);
+        QString id = key.id();
+        QString val = key.expiration();
 
         bool dead = true;
-        QString trust;
 
         /* Public key */
         KgpgInterface *inter2 = new KgpgInterface();
         KgpgListKeys list2 = inter2->readPublicKeys(true, QStringList(id));
         delete inter2;
-        KgpgKeyPtr keyptr2 = list2.at(0);
+        KgpgKey key2 = list2.at(0);
 
-        trust = KgpgKey::trust(keyptr2->gpgkeytrust);
-        if ((keyptr2->gpgkeytrust == 'f') || (keyptr2->gpgkeytrust == 'u'))
+        if ((key2.trust() == 'f') || (key2.trust() == 'u'))
             dead = false;
 
-        if (keyptr2->gpgkeyvalide == false)
+        if (!key2.valide())
             dead = true;
         /**************/
 
-        if (!dead && !(keyptr->gpgkeyname.isEmpty()))
+        if (!dead && !(key.name().isEmpty()))
         {
-            QString keyMail = keyptr->gpgkeymail;
-            QString keyName = keyptr->gpgkeyname;
+            QString keyMail = key.email();
+            QString keyName = key.name();
 
             keyName = KgpgInterface::checkForUtf8(keyName);
             Q3ListViewItem *item = new Q3ListViewItem(m_keyslistpr, keyName, keyMail, id);
-            //Q3ListViewItem *sub= new Q3ListViewItem(item,i18n("ID: %1, trust: %2, expiration: %3").arg(id).arg(trust).arg(val));
             Q3ListViewItem *sub = new Q3ListViewItem(item, i18n("Expiration:"), val);
             sub->setSelectable(false);
             item->setPixmap(0, keyPair);
-            if ((!defaultKeyID.isEmpty()) && (keyptr->gpgkeyid == defaultKeyID))
+            if ((!defaultKeyID.isEmpty()) && (key.id() == defaultKeyID))
             {
                 m_keyslistpr->setSelected(item, true);
                 selectedok = true;

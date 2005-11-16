@@ -413,15 +413,22 @@ void KgpgInterface::updateIDs(QString txt)
     }
 }
 
-KgpgListKeys KgpgInterface::readPublicKeys(const bool &block, const QStringList &ids)
+KgpgListKeys KgpgInterface::readPublicKeys(const bool &block, const QStringList &ids, const bool &withsigs)
 {
     m_partialline = QString::null;
     m_ispartial = false;
     m_publiclistkeys = KgpgListKeys();
-    m_publickey = 0;
+    m_publickey = KgpgKey();
+    m_numberid = 1;
+    cycle = "none";
 
-    KProcIO *process = new KProcIO();
-    *process << "gpg" << "--no-tty" << "--status-fd=2" << "--command-fd=0" << "--with-colon" << "--with-fingerprint" << "--list-keys";
+    KProcIO *process = new KProcIO(QTextCodec::codecForName("utf8"));
+    *process << "gpg" << "--no-tty" << "--status-fd=2" << "--command-fd=0" << "--with-colon" << "--with-fingerprint";
+    if (!withsigs)
+        *process << "--list-keys";
+    else
+        *process << "--list-sigs";
+
     for (int i = 0; i < ids.count(); ++i)
         *process << ids.at(i);
 
@@ -469,45 +476,140 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
 
             if (line.startsWith("pub"))
             {
-                if (m_publickey)
-                    m_publiclistkeys << m_publickey;
-
-                m_publickey = new KgpgKey();
-                m_publickey->gpgsecretkey = false;
-
-                QString algo = line.section(':', 3, 3);
-                m_publickey->gpgkeyalgo = algo.toInt();
-
-                QString trust = line.section(':', 1, 1);
-                m_publickey->gpgkeytrust = trust[0];
-
-                m_publickey->gpgkeyvalide = true;
-                if (line.section(':', 11, 11).find("D", 0, true) != -1)  // disabled key
-                    m_publickey->gpgkeyvalide = false;
-
-                QString fullid = line.section(':', 4, 4);
-                m_publickey->gpgfullid = fullid;
-                m_publickey->gpgkeyid = fullid.right(8);
-
-                QDate date = QDate::fromString(line.section(':', 5, 5), Qt::ISODate);
-                m_publickey->gpgkeycreation = date;
-
-                if (line.section(':', 6, 6).isEmpty())
+                if (cycle != "none")
                 {
-                    m_publickey->gpgkeyunlimited = true;
-                    m_publickey->gpgkeyexpiration = QDate();
+                    cycle = "none";
+                    m_publiclistkeys << m_publickey;
+                }
+
+                m_publickey = KgpgKey();
+
+                QStringList lsp = line.split(":");
+
+                m_publickey.setTrust(lsp.at(1));
+                m_publickey.setSize(lsp.at(2));
+                m_publickey.setAlgorithme(lsp.at(3).toInt());
+                m_publickey.setFullId(lsp.at(4));
+                m_publickey.setId(lsp.at(4).right(8));
+                m_publickey.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
+                m_publickey.setOwnerTrust(lsp.at(8));
+
+                if (lsp.at(6).isEmpty())
+                {
+                    m_publickey.setUnlimited(true);
+                    m_publickey.setExpiration(QDate());
                 }
                 else
                 {
-                    m_publickey->gpgkeyunlimited = false;
-                    date = QDate::fromString(line.section(':', 6, 6), Qt::ISODate);
-                    m_publickey->gpgkeyexpiration = date;
+                    m_publickey.setUnlimited(false);
+                    m_publickey.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
                 }
 
-                m_publickey->gpgkeysize = line.section(':', 2, 2);
+                if (lsp.at(11).find("D", 0, true) != -1)  // disabled key
+                    m_publickey.setValide(false);
+                else
+                    m_publickey.setValide(true);
 
-                QString otrust = line.section(':', 8, 8);
-                m_publickey->gpgkeyownertrust = otrust[0];
+                QString fullname = lsp.at(9);
+                if (fullname.find("<") != -1)
+                {
+                    QString kmail = fullname;
+
+                    if (fullname.find(")") != -1)
+                        kmail = kmail.section(')', 1);
+
+                    kmail = kmail.section('<', 1);
+                    kmail.truncate(kmail.length() - 1);
+
+                    if (kmail.find("<") != -1) // several email addresses in the same key
+                    {
+                        kmail = kmail.replace(">", ";");
+                        kmail.remove("<");
+                    }
+
+                    m_publickey.setEmail(kmail);
+                }
+                else
+                    m_publickey.setEmail(QString());
+
+                QString kname = fullname.section('<', 0, 0);
+                if (fullname.find("(") != -1)
+                {
+                    kname = kname.section('(', 0, 0);
+                    QString comment = fullname.section('(', 1, 1);
+                    comment = comment.section(')', 0, 0);
+
+                    m_publickey.setComment(comment);
+                }
+                else
+                    m_publickey.setComment(QString());
+                m_publickey.setName(kname);
+
+                cycle = "pub";
+            }
+            else
+            if (line.startsWith("fpr"))
+            {
+                QString fingervalue = line.section(':', 9, 9);
+                uint len = fingervalue.length();
+                if ((len > 0) && (len % 4 == 0))
+                    for (uint n = 0; 4 * (n + 1) < len; ++n)
+                        fingervalue.insert(5 * n + 4, ' ');
+
+                m_publickey.setFingerprint(fingervalue);
+            }
+            else
+            if (line.startsWith("sub"))
+            {
+                KgpgKeySub sub;
+
+                QStringList lsp = line.split(":");
+                sub.setId(lsp.at(4).right(8));
+                sub.setTrust(lsp.at(1));
+                sub.setSize(lsp.at(2));
+                sub.setAlgorithme(lsp.at(3).toInt());
+                sub.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
+
+                if (lsp.at(11).find("D", 0, true) != -1)
+                    sub.setValide(false);
+                else
+                    sub.setValide(true);
+
+
+                if (lsp.at(6).isEmpty())
+                {
+                    sub.setUnlimited(true);
+                    sub.setExpiration(QDate());
+                }
+                else
+                {
+                    sub.setUnlimited(false);
+                    sub.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
+                }
+
+                m_publickey.subList()->append(sub);
+                cycle = "sub";
+            }
+            else
+            if (line.startsWith("uat"))
+            {
+                m_numberid++;
+                KgpgKeyUat uat;
+                uat.setId(QString::number(m_numberid));
+                m_publickey.uatList()->append(uat);
+
+                cycle = "uat";
+            }
+            else
+            if (line.startsWith("uid"))
+            {
+                KgpgKeyUid uid;
+
+                uid.setTrust(line.section(":", 1, 1));
+                if (line.section(":", 11, 11).find("D", 0, true) != -1)
+                    uid.setValide(false);
+                else
+                    uid.setValide(true);
 
                 QString fullname = line.section(':', 9, 9);
                 if (fullname.find("<") != -1)
@@ -526,10 +628,10 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
                         kmail.remove("<");
                     }
 
-                    m_publickey->gpgkeymail = kmail;
+                    uid.setEmail(kmail);
                 }
                 else
-                    m_publickey->gpgkeymail = QString();
+                    uid.setEmail(QString());
 
                 QString kname = fullname.section('<', 0, 0);
                 if (fullname.find("(") != -1)
@@ -538,32 +640,90 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
                     QString comment = fullname.section('(', 1, 1);
                     comment = comment.section(')', 0, 0);
 
-                    m_publickey->gpgkeycomment = comment;
+                    uid.setComment(comment);
                 }
                 else
-                    m_publickey->gpgkeycomment = QString();
-                m_publickey->gpgkeyname = kname;
-            }
+                    uid.setComment(QString());
+                uid.setName(kname);
 
-            if (line.startsWith("fpr"))
+                m_publickey.uidList()->append(uid);
+
+                m_numberid++;
+                cycle = "uid";
+            }
+            else
+            if (line.startsWith("sig") || line.startsWith("rev"))
             {
-                QString fingervalue = line.section(':', 9, 9);
-                uint len = fingervalue.length();
-                if ((len > 0) && (len % 4 == 0))
-                    for (uint n = 0; 4 * (n + 1) < len; ++n)
-                        fingervalue.insert(5 * n + 4, ' ');
+                KgpgKeySign signature;
+                QStringList lsp = line.split(":");
 
-                m_publickey->gpgkeyfingerprint = fingervalue;
+                signature.setId(lsp.at(4).right(8));
+                signature.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
+
+                if (lsp.at(6).isEmpty())
+                {
+                    signature.setUnlimited(true);
+                    signature.setExpiration(QDate());
+                }
+                else
+                {
+                    signature.setUnlimited(false);
+                    signature.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
+                }
+
+                QString fullname = lsp.at(9);
+                if (fullname.find("<") != -1)
+                {
+                    QString kmail = fullname;
+
+                    if (fullname.find(")") != -1)
+                        kmail = kmail.section(')', 1);
+
+                    kmail = kmail.section('<', 1);
+                    kmail.truncate(kmail.length() - 1);
+
+                    if (kmail.find("<") != -1) // several email addresses in the same key
+                    {
+                        kmail = kmail.replace(">", ";");
+                        kmail.remove("<");
+                    }
+
+                    signature.setEmail(kmail);
+                }
+                else
+                    signature.setEmail(QString());
+
+                QString kname = fullname.section('<', 0, 0);
+                if (fullname.find("(") != -1)
+                {
+                    kname = kname.section('(', 0, 0);
+                    QString comment = fullname.section('(', 1, 1);
+                    comment = comment.section(')', 0, 0);
+
+                    signature.setComment(comment);
+                }
+                else
+                    signature.setComment(QString());
+                signature.setName(kname);
+
+                if (lsp.at(10).endsWith("l"))
+                    signature.setLocal(true);
+
+                if (line.startsWith("rev"))
+                    signature.setRevocation(true);
+
+                if (cycle == "pub")
+                    m_publickey.addSign(signature);
+                else
+                if (cycle == "uat")
+                    m_publickey.uatList()->last().addSign(signature);
+                else
+                if (cycle == "uid")
+                    m_publickey.uidList()->last().addSign(signature);
+                else
+                if (cycle == "sub")
+                    m_publickey.subList()->last().addSign(signature);
             }
-
-            if (line.startsWith("uat"))
-            {
-                m_publickey->gpgkeynumberuat += 1;
-                m_publickey->gpghasphoto = true;
-            }
-
-            if (line.startsWith("uid"))
-                m_publickey->gpgkeynumberuid += 1;
         }
     }
 
@@ -573,7 +733,7 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
 void KgpgInterface::readPublicKeysFin(KProcess *p, const bool &block)
 {
     // insert the last key
-    if (m_publickey)
+    if (cycle != "none")
         m_publiclistkeys << m_publickey;
 
     delete p;
@@ -587,10 +747,12 @@ KgpgListKeys KgpgInterface::readSecretKeys(const bool &block, const QStringList 
     m_partialline = QString::null;
     m_ispartial = false;
     m_secretlistkeys = KgpgListKeys();
-    m_secretkey = 0;
+    m_secretkey = KgpgKey();
+    m_secretactivate = false;
 
-    KProcIO *process = new KProcIO();
-    *process << "gpg" << "--no-tty" << "--status-fd=2" << "--command-fd=0" << "--with-colon" << "--list-secret-keys";
+    KProcIO *process = new KProcIO(QTextCodec::codecForName("utf8"));
+    *process << "gpg" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
+    *process << "--with-colon" << "--list-secret-keys";
     for (int i = 0; i < ids.count(); ++i)
         *process << ids.at(i);
 
@@ -638,40 +800,33 @@ void KgpgInterface::readSecretKeysProcess(KProcIO *p)
 
             if (line.startsWith("sec"))
             {
-                if (m_secretkey)
+                if (m_secretactivate)
                     m_secretlistkeys << m_secretkey;
 
-                m_secretkey = new KgpgKey();
-                m_secretkey->gpgsecretkey = true;
+                m_secretactivate = true;
+                m_secretkey = KgpgKey();
 
-                QString algo = line.section(':', 3, 3);
-                m_secretkey->gpgkeyalgo = algo.toInt();
+                QStringList lsp = line.split(":");
 
-                QString trust = line.section(':', 1, 1);
-                m_secretkey->gpgkeytrust = trust[0];
+                m_secretkey.setTrust(lsp.at(1));
+                m_secretkey.setSize(lsp.at(2));
+                m_secretkey.setAlgorithme(lsp.at(3).toInt());
+                m_secretkey.setFullId(lsp.at(4));
+                m_secretkey.setId(lsp.at(4).right(8));
+                m_secretkey.setCreation(QDate::fromString(lsp[5], Qt::ISODate));
 
-                QString fullid = line.section(':', 4, 4);
-                m_secretkey->gpgfullid = fullid;
-                m_secretkey->gpgkeyid = fullid.right(8);
-
-                QDate date = QDate::fromString(line.section(':', 5, 5), Qt::ISODate);
-                m_secretkey->gpgkeycreation = date;
-
-                if (line.section(':', 6, 6).isEmpty())
+                if (lsp.at(6).isEmpty())
                 {
-                    m_secretkey->gpgkeyunlimited = true;
-                    m_secretkey->gpgkeyexpiration = QDate();
+                    m_secretkey.setUnlimited(true);
+                    m_secretkey.setExpiration(QDate());
                 }
                 else
                 {
-                    m_secretkey->gpgkeyunlimited = false;
-                    date = QDate::fromString(line.section(':', 6, 6), Qt::ISODate);
-                    m_secretkey->gpgkeyexpiration = date;
+                    m_secretkey.setUnlimited(false);
+                    m_secretkey.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
                 }
 
-                m_secretkey->gpgkeysize = line.section(':', 2, 2);
-
-                QString fullname = line.section(':', 9, 9);
+                QString fullname = lsp.at(9);
                 if (fullname.find("<") != -1)
                 {
                     QString kmail = fullname;
@@ -688,10 +843,10 @@ void KgpgInterface::readSecretKeysProcess(KProcIO *p)
                         kmail.remove("<");
                     }
 
-                    m_secretkey->gpgkeymail = kmail;
+                    m_secretkey.setEmail(kmail);
                 }
                 else
-                    m_secretkey->gpgkeymail = QString();
+                    m_secretkey.setEmail(QString());
 
                 QString kname = fullname.section('<', 0, 0);
                 if (fullname.find("(") != -1)
@@ -700,21 +855,12 @@ void KgpgInterface::readSecretKeysProcess(KProcIO *p)
                     QString comment = fullname.section('(', 1, 1);
                     comment = comment.section(')', 0, 0);
 
-                    m_secretkey->gpgkeycomment = comment;
+                    m_secretkey.setComment(comment);
                 }
                 else
-                    m_secretkey->gpgkeycomment = QString();
-                m_secretkey->gpgkeyname = kname;
+                    m_secretkey.setComment(QString());
+                m_secretkey.setName(kname);
             }
-
-            if (line.startsWith("uat"))
-            {
-                m_secretkey->gpgkeynumberuat += 1;
-                m_secretkey->gpghasphoto = true;
-            }
-
-            if (line.startsWith("uid"))
-                m_secretkey->gpgkeynumberuid += 1;
         }
     }
 
@@ -723,70 +869,12 @@ void KgpgInterface::readSecretKeysProcess(KProcIO *p)
 
 void KgpgInterface::readSecretKeysFin(KProcess *p, const bool &block)
 {
-    if (m_secretkey)
+    if (m_secretactivate)
         m_secretlistkeys << m_secretkey;
 
     delete p;
     if (!block)
         emit readSecretKeysFinished(m_secretlistkeys, this);
-}
-
-QStringList KgpgInterface::getPhotoList(const QString &keyid, const bool &block)
-{
-    photolist = QStringList();
-    userIDs = keyid;
-
-    if (!block)
-    {
-        kdDebug(2100) << "(KgpgInterface::getPhotoList) Get photo list with KProcess::NotifyOnExit" << endl;
-        connect(this, SIGNAL(readPublicKeysFinished(KgpgListKeys, KgpgInterface*)), this, SLOT(getPhotoListProcess(KgpgListKeys, KgpgInterface*)));
-        readPublicKeys(false, QStringList(keyid));
-        return QStringList();
-    }
-    else
-    {
-        kdDebug(2100) << "(KgpgInterface::getPhotoList) Get photo list with KProcess::Block" << endl;
-        KgpgListKeys list = readPublicKeys(true, QStringList(keyid));
-        getPhotoListProcess(list, 0, true);
-        return photolist;
-    }
-}
-
-void KgpgInterface::getPhotoListProcess(KgpgListKeys listkeys, KgpgInterface*, const bool &block)
-{
-    uint number = 1;
-    number += (listkeys.at(0))->gpgkeynumberuat;
-    number += (listkeys.at(0))->gpgkeynumberuid;
-
-    QStringList photolist;
-    for (uint i = 1; i <= number; ++i)
-        if (isPhotoId(i))
-            photolist += QString::number(i);
-
-    if (!block)
-        emit getPhotoListFinished(photolist, this);
-}
-
-bool KgpgInterface::isPhotoId(uint uid)
-{
-    KTempFile *kgpginfotmp = new KTempFile();
-    kgpginfotmp->setAutoDelete(true);
-
-    QString pgpgoutput = "cp %i " + kgpginfotmp->name();
-
-    KProcIO *process = new KProcIO();
-    *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0";
-    *process << "--photo-viewer" << QFile::encodeName(pgpgoutput) << "--edit-key" << userIDs << "uid" << QString::number(uid) << "showphoto";
-    process->start(KProcess::Block);
-
-    if (kgpginfotmp->file()->size() > 0)
-    {
-        kgpginfotmp->unlink();
-        return true;
-    }
-
-    kgpginfotmp->unlink();
-    return false;
 }
 
 QString KgpgInterface::getKeys(const bool &block, const bool &attributes, const QStringList &ids)
@@ -1944,66 +2032,46 @@ void KgpgInterface::changeDisableFin(KProcess *p)
     changeDisableFinished(this);
 }
 
-void KgpgInterface::loadPhoto(const QString &keyid, const QString &uid)
+QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool &block)
 {
     m_partialline = QString::null;
     m_ispartial = false;
+    m_pixmap = QPixmap();
 
     m_kgpginfotmp = new KTempFile();
     m_kgpginfotmp->setAutoDelete(true);
+
     QString pgpgoutput = "cp %i " + m_kgpginfotmp->name();
 
     KProcIO *process = new KProcIO();
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
-    *process << "--show-photos" << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto";
+    *process << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
 
-    kdDebug(2100) << "(KgpgInterface::loadPhoto) Load a photo for the key " << keyid << " uid " << uid << endl;
-    connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(loadPhotoProcess(KProcIO *)));
-    connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(loadPhotoFin(KProcess *)));
-    process->start(KProcess::NotifyOnExit, true);
-}
-
-void KgpgInterface::loadPhotoProcess(KProcIO *p)
-{
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
+    if (!block)
     {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
-
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
-            if (line.find("keyedit.prompt") != -1)
-            {
-                p->writeStdin(QByteArray("quit"), true);
-                p->closeWhenDone();
-            }
-        }
+        kdDebug(2100) << "(KgpgInterface::loadPhoto) Load a photo for the key " << keyid << " uid " << uid << endl;
+        connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(loadPhotoFin(KProcess *)));
+        process->start(KProcess::NotifyOnExit, true);
+        return QPixmap();
     }
-
-    p->ackRead();
+    else
+    {
+        kdDebug(2100) << "(KgpgInterface::loadPhoto) Load a photo for the key " << keyid << " uid " << uid << endl;
+        process->start(KProcess::Block, true);
+        loadPhotoFin(process, true);
+        return m_pixmap;
+    }
 }
 
-void KgpgInterface::loadPhotoFin(KProcess *p)
+void KgpgInterface::loadPhotoFin(KProcess *p, const bool &block)
 {
     delete p;
-    QPixmap pixmap;
-    pixmap.load(m_kgpginfotmp->name());
+
+    m_pixmap.load(m_kgpginfotmp->name());
     m_kgpginfotmp->unlink();
-    emit loadPhotoFinished(pixmap, this);
+
+    if (!block)
+        emit loadPhotoFinished(m_pixmap, this);
 }
 
 void KgpgInterface::addPhoto(const QString &keyid, const QString &imagepath)

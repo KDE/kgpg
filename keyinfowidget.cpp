@@ -46,7 +46,7 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent, const char *nam
     delete interface;
 
     bool issecret = false;
-    if (keys.count() > 0)
+    if (keys.size() > 0)
         issecret = true;
 
     if (!issecret)
@@ -56,15 +56,10 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent, const char *nam
     }
 
     loadKey(sigkey);
-
-    if (m_hasphoto)
-    {
-        KgpgInterface *photoProcess = new KgpgInterface();
-        connect(photoProcess, SIGNAL(getPhotoListFinished(QStringList, KgpgInterface*)), this, SLOT(slotSetMainPhoto(QStringList, KgpgInterface*)));
-        photoProcess->getPhotoList(m_displayedkeyid);
-    }
-    else
+    if (!m_hasphoto)
         m_prop->comboId->setEnabled(false);
+    else
+        slotReloadMainPhoto(m_prop->comboId->currentText());
 
     connect(m_prop->changeExp, SIGNAL(clicked()), this, SLOT(slotChangeExp()));
     connect(this, SIGNAL(closeClicked()), this, SLOT(slotPreOk()));
@@ -80,28 +75,34 @@ void KgpgKeyInfo::loadKey(const QString &Keyid)
     KgpgInterface *interface = new KgpgInterface();
     KgpgListKeys listkeys = interface->readPublicKeys(true, QStringList(Keyid));
     delete interface;
-    KgpgKeyPtr key = listkeys.at(0);
+    KgpgKey key = listkeys.at(0);
 
-    m_prop->tLAlgo->setText(KgpgKey::algorithme(key->gpgkeyalgo));
+    m_prop->tLAlgo->setText(KgpgKey::algorithmeToString(key.algorithme()));
 
-    QString tr = KgpgKey::trust(key->gpgkeytrust);
-    QColor trustcolor = KgpgKey::color(key->gpgkeytrust);
-    if (key->gpgkeytrust == 'd')
+    QString tr = KgpgKey::trustToString(key.trust());
+    QColor trustcolor = KgpgKey::color(key.trust());
+    if (key.trust() == 'd')
         m_prop->cbDisabled->setChecked(true);
-    if (!key->gpgkeyvalide)
+    if (!key.valide())
     {
-        tr = KgpgKey::trust('d');
+        tr = KgpgKey::trustToString('d');
         trustcolor = KgpgKey::color('d');
         m_prop->cbDisabled->setChecked(true);
     }
     m_prop->kLTrust->setText(tr);
     m_prop->pixmapTrust->setPaletteBackgroundColor(trustcolor);
 
-    m_hasphoto = key->gpghasphoto;
-    m_prop->tLID->setText(key->gpgfullid);
-    m_displayedkeyid = key->gpgkeyid;
-    m_prop->tLCreation->setText(KGlobal::locale()->formatDate(key->gpgkeycreation));
-    if (key->gpgkeyunlimited)
+    QStringList photolist = key.photoList();
+    if (!photolist.isEmpty())
+    {
+        m_hasphoto = true;
+        m_prop->comboId->insertStringList(photolist);
+    }
+
+    m_prop->tLID->setText(key.fullId());
+    m_displayedkeyid = key.id();
+    m_prop->tLCreation->setText(key.creation());
+    if (key.unlimited())
     {
         m_isunlimited = true;
         m_prop->tLExpiration->setText(i18n("Unlimited"));
@@ -109,25 +110,25 @@ void KgpgKeyInfo::loadKey(const QString &Keyid)
     else
     {
         m_isunlimited = false;
-        m_prop->tLExpiration->setText(KGlobal::locale()->formatDate(key->gpgkeyexpiration));
-        m_date = key->gpgkeyexpiration;
+        m_prop->tLExpiration->setText(key.expiration());
+        m_date = key.expirationDate();
     }
 
-    m_prop->tLLength->setText(key->gpgkeysize);
-    m_prop->kCOwnerTrust->setCurrentItem(KgpgKey::ownerTrustIndex(key->gpgkeyownertrust));
+    m_prop->tLLength->setText(key.size());
+    m_prop->kCOwnerTrust->setCurrentItem(KgpgKey::ownerTrustIndex(key.ownerTrust()));
 
-    if (!key->gpgkeymail.isEmpty())
-        m_prop->tLMail->setText("<qt><a href=mailto:" + key->gpgkeymail + ">" + key->gpgkeymail + "</a></qt>");
+    if (!key.email().isEmpty())
+        m_prop->tLMail->setText("<qt><a href=mailto:" + key.email() + ">" + key.email() + "</a></qt>");
     else
         m_prop->tLMail->setText(i18n("none"));
 
-    if (!key->gpgkeycomment.isEmpty())
-        m_prop->tLComment->setText(KgpgInterface::checkForUtf8(key->gpgkeycomment));
+    if (!key.comment().isEmpty())
+        m_prop->tLComment->setText(KgpgInterface::checkForUtf8(key.comment()));
     else
         m_prop->tLComment->setText(i18n("none"));
 
-    m_prop->tLName->setText("<qt><b>" + KgpgInterface::checkForUtf8(key->gpgkeyname) + "</b></qt>");
-    m_prop->lEFinger->setText(key->gpgkeyfingerprint);
+    m_prop->tLName->setText("<qt><b>" + KgpgInterface::checkForUtf8(key.name()) + "</b></qt>");
+    m_prop->lEFinger->setText(key.fingerprint());
 }
 
 void KgpgKeyInfo::slotPreOk()
@@ -268,13 +269,6 @@ void KgpgKeyInfo::slotInfoTrustChanged(KgpgInterface *interface)
     delete interface;
     m_keywaschanged = true;
     loadKey(m_displayedkeyid);
-}
-
-void KgpgKeyInfo::slotSetMainPhoto(QStringList list, KgpgInterface *interface)
-{
-    delete interface;
-    m_prop->comboId->insertStringList(list);
-    slotReloadMainPhoto(m_prop->comboId->currentText());
 }
 
 void KgpgKeyInfo::slotReloadMainPhoto(const QString &uid)

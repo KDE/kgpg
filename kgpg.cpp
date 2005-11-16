@@ -167,7 +167,7 @@ void  MyView::clipSign(bool openEditor)
             connect(kgpgtxtedit->view, SIGNAL(verifyFinished()), kgpgtxtedit, SLOT(closeWindow()));
 
         kgpgtxtedit->view->editor->setText(clippie);
-        kgpgtxtedit->view->clearSign();
+        kgpgtxtedit->view->slotSignVerify();
         kgpgtxtedit->show();
     }
     else
