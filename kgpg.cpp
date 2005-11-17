@@ -67,6 +67,7 @@
 #include <ktip.h>
 #include <ktar.h>
 #include <kzip.h>
+#include <klistbox.h>
 
 #include "selectsecretkey.h"
 #include "kgpgeditor.h"
