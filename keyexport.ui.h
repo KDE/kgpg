@@ -17,5 +17,5 @@
 
 void KeyExport::checkFile_toggled( bool isOn)
 {
-newFilename->setEnabled(isOn);
+    newFilename->setEnabled(isOn);
 }

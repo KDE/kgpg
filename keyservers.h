@@ -20,7 +20,7 @@
 
 #include <kdialogbase.h>
 
-#include "keyserver.h"
+#include "kgpginterface.h"
 
 class Q3ListViewItem;
 
@@ -28,6 +28,7 @@ class KSimpleConfig;
 class KProcIO;
 class KProcess;
 
+class keyServerWidget;
 class searchRes;
 
 class keyServer : public KDialogBase
@@ -62,9 +63,10 @@ public slots:
     void handleQuit();
 
 private slots:
+    void slotReadKeys(KgpgListKeys list, KgpgInterface *interface);
+
     void slotImportRead(KProcIO *p);
     void slotImportResult(KProcess *p);
-    void slotProcRead(KProcIO *p);
     void slotExportResult(KProcess *p);
     void slotSearchRead(KProcIO *p);
     void slotSearchResult(KProcess *p);

@@ -23,8 +23,6 @@
 KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const char *name, const bool &signkey, const int &countkey)
                    : KDialogBase(parent, name, true, i18n("Private Key List"), Ok | Cancel)
 {
-    QString keyname;
-
     QWidget *page = new QWidget(this);
     QLabel *labeltxt;
     KIconLoader *loader = KGlobal::iconLoader();
@@ -42,8 +40,8 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const char *name, cons
     m_keyslistpr->setAllColumnsShowFocus(true);
 
     labeltxt = new QLabel(i18n("Choose secret key for signing:"), page);
-    QVBoxLayout *vbox = new QVBoxLayout(page);
 
+    QVBoxLayout *vbox = new QVBoxLayout(page);
     vbox->addWidget(labeltxt);
     vbox->addWidget(m_keyslistpr);
 
@@ -70,32 +68,28 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const char *name, cons
 
         m_terminalsign = new QCheckBox(i18n("Do not sign all user id's (open terminal)"), page);
         vbox->addWidget(m_terminalsign);
+
         if (countkey != 1)
             m_terminalsign->setEnabled(false);
     }
 
     QString defaultKeyID = KGpgSettings::defaultKey().right(8);
-
     QString fullname;
     QString line;
 
     bool selectedok = false;
-    KgpgInterface *inter1 = new KgpgInterface();
-    KgpgListKeys list1 = inter1->readSecretKeys(true);
-    delete inter1;
+    KgpgInterface *interface = new KgpgInterface();
+    KgpgListKeys list1 = interface->readSecretKeys(true);
 
     for (int i = 0; i < list1.size(); ++i)
     {
         KgpgKey key = list1.at(i);
         QString id = key.id();
-        QString val = key.expiration();
 
         bool dead = true;
 
         /* Public key */
-        KgpgInterface *inter2 = new KgpgInterface();
-        KgpgListKeys list2 = inter2->readPublicKeys(true, QStringList(id));
-        delete inter2;
+        KgpgListKeys list2 = interface->readPublicKeys(true, QStringList(id));
         KgpgKey key2 = list2.at(0);
 
         if ((key2.trust() == 'f') || (key2.trust() == 'u'))
@@ -107,21 +101,21 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const char *name, cons
 
         if (!dead && !(key.name().isEmpty()))
         {
-            QString keyMail = key.email();
             QString keyName = key.name();
 
             keyName = KgpgInterface::checkForUtf8(keyName);
-            Q3ListViewItem *item = new Q3ListViewItem(m_keyslistpr, keyName, keyMail, id);
-            Q3ListViewItem *sub = new Q3ListViewItem(item, i18n("Expiration:"), val);
+            Q3ListViewItem *item = new Q3ListViewItem(m_keyslistpr, keyName, key.email(), id);
+            Q3ListViewItem *sub = new Q3ListViewItem(item, i18n("Expiration:"), key.expiration());
             sub->setSelectable(false);
             item->setPixmap(0, keyPair);
-            if ((!defaultKeyID.isEmpty()) && (key.id() == defaultKeyID))
+            if ((!defaultKeyID.isEmpty()) && (id == defaultKeyID))
             {
                 m_keyslistpr->setSelected(item, true);
                 selectedok = true;
             }
         }
     }
+    delete interface;
 
     connect(m_keyslistpr, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this,SLOT(slotOk()));
     connect(m_keyslistpr, SIGNAL(clicked(Q3ListViewItem *)), this, SLOT(slotSelect(Q3ListViewItem *)));
@@ -146,13 +140,11 @@ QString KgpgSelectSecretKey::getKeyMail() const
 {
     if (m_keyslistpr->currentItem() == 0)
         return(QString::null);
-    else
-    {
-        QString username;
-        username = m_keyslistpr->currentItem()->text(0);
-        username = username.simplified();
-        return username;
-    }
+
+    QString username;
+    username = m_keyslistpr->currentItem()->text(0);
+    username = username.simplified();
+    return username;
 }
 
 int KgpgSelectSecretKey::getSignTrust() const

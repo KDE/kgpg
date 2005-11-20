@@ -14,8 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef POPUPPUBLIC_H
-#define POPUPPUBLIC_H
+#ifndef __KGPGSELECTPUBLICKEYDLG_H__
+#define __KGPGSELECTPUBLICKEYDLG_H__
 
 #include <QKeySequence>
 #include <QStringList>
@@ -93,4 +93,4 @@ private:
     bool m_fmode;
 };
 
-#endif // POPUPPUBLIC_H
+#endif // __KGPGSELECTPUBLICKEYDLG_H__

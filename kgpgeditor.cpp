@@ -23,6 +23,7 @@
 #include <kencodingfiledialog.h>
 #include <kio/netaccess.h>
 #include <kio/renamedlg.h>
+#include <kapplication.h>
 #include <kmessagebox.h>
 #include <dcopclient.h>
 #include <ktempfile.h>
@@ -32,22 +33,21 @@
 #include <kdebug.h>
 
 #include "selectsecretkey.h"
+#include "kgpgmd5widget.h"
 #include "kgpgsettings.h"
 #include "sourceselect.h"
-#include "keyservers.h"
-#include "kgpg.h"
-#include "kgpgview.h"
 #include "kgpglibrary.h"
-#include "kgpgmd5widget.h"
 #include "kgpgeditor.h"
+#include "keyservers.h"
+#include "kgpgview.h"
+#include "kgpg.h"
 
-KgpgEditor::KgpgEditor(QWidget *parent, const char *name, Qt::WFlags f, KShortcut goHome, bool mainWindow)
-       : KMainWindow(parent, name, f)
+KgpgEditor::KgpgEditor(QWidget *parent, const char *name, Qt::WFlags f, KShortcut gohome, bool mainwindow)
+          : KMainWindow(parent, name, f)
 {
-    m_ismainwindow = mainWindow;
+    m_ismainwindow = mainwindow;
     m_textencoding = QString::null;
-    readOptions();
-    goDefaultKey = goHome;
+    m_godefaultkey = gohome;
 
     // call inits to invoke all other construction parts
     initActions();
@@ -59,6 +59,9 @@ KgpgEditor::KgpgEditor(QWidget *parent, const char *name, Qt::WFlags f, KShortcu
 
     connect(view, SIGNAL(textChanged()), this, SLOT(modified()));
     connect(view, SIGNAL(newText()), this, SLOT(newText()));
+    connect(view->editor, SIGNAL(undoAvailable(bool)), this, SLOT(slotUndoAvailable(bool)));
+    connect(view->editor, SIGNAL(redoAvailable(bool)), this, SLOT(slotRedoAvailable(bool)));
+    connect(view->editor, SIGNAL(copyAvailable(bool)), this, SLOT(slotCopyAvailable(bool)));
 }
 
 KgpgEditor::~KgpgEditor()
@@ -78,10 +81,9 @@ void KgpgEditor::openDocumentFile(const KURL& url, QString encoding)
             t.setCodec(QTextCodec::codecForName(encoding.ascii()));
             view->editor->setText(t.read());
             qfile.close();
-
-            m_filesave->setEnabled(false);
-            m_editredo->setEnabled(false);
-            m_editundo->setEnabled(false);
+            m_docname = url;
+            m_textchanged = false;
+            setCaption(url.fileName(), false);
         }
         KIO::NetAccess::removeTempFile(tempopenfile);
     }
@@ -100,23 +102,10 @@ void KgpgEditor::slotSetFont(QFont myFont)
 void KgpgEditor::closeWindow()
 {
     close();
-    kdDebug(2100) << "Close requested" << endl;
-}
-
-void KgpgEditor::readOptions(bool doresize)
-{
-    m_customdecrypt = QStringList::split(QString(" "), KGpgSettings::customDecrypt().simplified());
-    if (doresize)
-    {
-        QSize size = KGpgSettings::editorGeometry();
-        if (!size.isEmpty())
-            resize(size);
-    }
 }
 
 void KgpgEditor::saveOptions()
 {
-    KGpgSettings::setEditorGeometry(size());
     KGpgSettings::setFirstRun(false);
     KGpgSettings::writeConfig();
 }
@@ -125,21 +114,18 @@ void KgpgEditor::initActions()
 {
     KStdAction::openNew(this, SLOT(slotFileNew()), actionCollection());
     KStdAction::open(this, SLOT(slotFileOpen()), actionCollection());
+    KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
     KStdAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
     KStdAction::quit(this, SLOT(slotFileQuit()), actionCollection());
-    KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
-    KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
     KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
     KStdAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
     KStdAction::preferences(this, SLOT(slotOptions()), actionCollection(), "kgpg_config");
 
-    //KStdAction::keyBindings(guiFactory(), SLOT(configureShortcuts()), actionCollection());
-    //KStdAction::configureToolbars(this, SLOT(slotConfigureToolbars()), actionCollection());
-
-    m_filesave = KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
     m_editundo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
     m_editredo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());
+    m_editcopy = KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
+    m_editcut  = KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
 
     (void) new KAction(i18n("&Encrypt File..."), "encrypted", 0, this, SLOT(slotFilePreEnc()), actionCollection(), "file_encrypt");
     (void) new KAction(i18n("&Decrypt File..."), "decrypted", 0, this, SLOT(slotFilePreDec()), actionCollection(), "file_decrypt");
@@ -153,14 +139,15 @@ void KgpgEditor::initActions()
 
 void KgpgEditor::initView()
 {
-    //********************************************************************************
-    // create the main widget here that is managed by KTMainWindow's view-region and
-    // connect the widget to your document to display document contents.
-
     view = new KgpgView(this);
     connect(view, SIGNAL(resetEncoding(bool)), this, SLOT(slotResetEncoding(bool)));
     setCentralWidget(view);
     setCaption(i18n("Untitled"), false);
+    m_editredo->setEnabled(false);
+    m_editundo->setEnabled(false);
+    m_editcopy->setEnabled(false);
+    m_editcut->setEnabled(false);
+    m_textchanged = false;
 }
 
 void KgpgEditor::closeEvent (QCloseEvent *e)
@@ -174,52 +161,71 @@ void KgpgEditor::closeEvent (QCloseEvent *e)
         e->accept();
 }
 
+bool KgpgEditor::queryClose()
+{
+    return saveBeforeClear();
+}
+
+bool KgpgEditor::saveBeforeClear()
+{
+    if (m_textchanged)
+    {
+        QString fname;
+        if (m_docname.fileName().isEmpty())
+            fname = i18n("Untitled");
+        else
+            fname = m_docname.fileName();
+
+        QString msg = i18n("The document \"%1\" has changed.\nDo you want to save it?").arg(fname);
+        QString caption = i18n("Close the document");
+        int res = KMessageBox::warningYesNoCancel(this, msg, caption, KStdGuiItem::save(), KStdGuiItem::discard());
+        if (res == KMessageBox::Yes)
+            return slotFileSave();
+        else
+        if (res == KMessageBox::No)
+            return true;
+        else
+            return false;
+    }
+
+    return true;
+}
+
 void KgpgEditor::slotFileNew()
 {
-    // delete all text from editor
-    view->editor->setText(QString::null);
-    m_editredo->setEnabled(false);
-    m_editundo->setEnabled(false);
-    m_filesave->setEnabled(false);
-    m_docname = QString::null;
-
-    setCaption(i18n("Untitled"), false);
-    slotResetEncoding(false);
+    if (saveBeforeClear())
+    {
+        view->editor->clear();
+        newText();
+    }
 }
 
 void KgpgEditor::slotFileOpen()
 {
-    KEncodingFileDialog::Result loadResult;
-    loadResult = KEncodingFileDialog::getOpenURLAndEncoding(QString::null, QString::null, QString::null, this);
-    KURL url = loadResult.URLs.first();
-    m_textencoding = loadResult.encoding;
-
-    if(!url.isEmpty())
+    if (saveBeforeClear())
     {
-        openDocumentFile(url, m_textencoding);
-        m_docname = url;
-        m_filesave->setEnabled(false);
-        //m_filesaveAs->setEnabled(true);
-        setCaption(url.fileName(), false);
+        KEncodingFileDialog::Result loadResult;
+        loadResult = KEncodingFileDialog::getOpenURLAndEncoding(QString::null, QString::null, QString::null, this);
+        KURL url = loadResult.URLs.first();
+        m_textencoding = loadResult.encoding;
+
+        if(!url.isEmpty())
+            openDocumentFile(url, m_textencoding);
     }
 }
 
-void KgpgEditor::slotFileSave()
+bool KgpgEditor::slotFileSave()
 {
     QString filn = m_docname.path();
     if (filn.isEmpty())
-    {
-        slotFileSaveAs();
-        return;
-    }
+        return slotFileSaveAs();
 
-    QTextCodec*cod = QTextCodec::codecForName(m_textencoding.ascii());
-    // slotStatusMsg(i18n("Saving file..."));
+    QTextCodec *cod = QTextCodec::codecForName(m_textencoding.ascii());
 
     if (!checkEncoding(cod))
     {
         KMessageBox::sorry(this, i18n("The document could not been saved, as the selected encoding cannot encode every unicode character in it."));
-        return;
+        return false;
     }
 
     if (m_docname.isLocalFile())
@@ -228,7 +234,7 @@ void KgpgEditor::slotFileSave()
         if (!f.open(QIODevice::WriteOnly))
         {
             KMessageBox::sorry(this, i18n("The document could not be saved, please check your permissions and disk space."));
-            return;
+            return false;
         }
 
         QTextStream t(&f);
@@ -248,16 +254,17 @@ void KgpgEditor::slotFileSave()
         {
             KMessageBox::sorry(this, i18n("The document could not be saved, please check your permissions and disk space."));
             tmpfile.unlink();
-            return;
+            return false;
         }
         tmpfile.unlink();
     }
 
-    m_filesave->setEnabled(false);
+    m_textchanged = false;
     setCaption(m_docname.fileName(), false);
+    return true;
 }
 
-void KgpgEditor::slotFileSaveAs()
+bool KgpgEditor::slotFileSaveAs()
 {
     KEncodingFileDialog::Result saveResult;
     saveResult = KEncodingFileDialog::getSaveURLAndEncoding(QString::null, QString::null, QString::null, this);
@@ -275,7 +282,7 @@ void KgpgEditor::slotFileSaveAs()
                 QString message = i18n("Overwrite existing file %1?").arg(url.fileName());
                 int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), i18n("Overwrite"));
                 if (result == KMessageBox::Cancel)
-                    return;
+                    return false;
             }
             f.close();
         }
@@ -285,13 +292,15 @@ void KgpgEditor::slotFileSaveAs()
             QString message = i18n("Overwrite existing file %1?").arg(url.fileName());
             int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), i18n("Overwrite"));
             if (result == KMessageBox::Cancel)
-                return;
+                return false;
         }
 
         m_docname = url;
         m_textencoding = selectedEncoding;
         slotFileSave();
+        return true;
     }
+    return false;
 }
 
 void KgpgEditor::slotFilePrint()
@@ -386,14 +395,12 @@ void KgpgEditor::slotKeyManager()
 void KgpgEditor::slotFileQuit()
 {
     saveOptions();
-    //TODO exit me semble pas correcte, mettre ce qui est bon
-    //exit(1);
+    KApplication::quit();
 }
 
 void KgpgEditor::slotundo()
 {
     view->editor->undo();
-    m_editredo->setEnabled(true);
 }
 
 void KgpgEditor::slotredo()
@@ -545,21 +552,38 @@ void KgpgEditor::slotOptions()
 
 void KgpgEditor::modified()
 {
-    if (m_filesave->isEnabled() == false)
+    if (!m_textchanged)
     {
         QString capt = m_docname.fileName();
         if (capt.isEmpty())
-            capt = i18n("untitled");
+            capt = i18n("Untitled");
         setCaption(capt, true);
-        m_filesave->setEnabled(true);
-        m_editundo->setEnabled(true);
+        m_textchanged = true;
     }
+}
+
+void KgpgEditor::slotUndoAvailable(const bool &v)
+{
+    m_editundo->setEnabled(v);
+}
+
+void KgpgEditor::slotRedoAvailable(const bool &v)
+{
+    m_editredo->setEnabled(v);
+}
+
+void KgpgEditor::slotCopyAvailable(const bool &v)
+{
+    m_editcopy->setEnabled(v);
+    m_editcut->setEnabled(v);
 }
 
 void KgpgEditor::newText()
 {
-    m_editredo->setEnabled(false);
-    m_editundo->setEnabled(false);
+    m_textchanged = false;
+    m_docname = QString::null;
+    setCaption(i18n("Untitled"), false);
+    slotResetEncoding(false);
 }
 
 #include "kgpgeditor.moc"

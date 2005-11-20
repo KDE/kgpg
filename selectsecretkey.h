@@ -7,8 +7,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SELECTSECRETKEY_H
-#define SELECTSECRETKEY_H
+#ifndef __KGPGSELECTSECRETKEY_H__
+#define __KGPGSELECTSECRETKEY_H__
 
 #include <QString>
 
@@ -49,4 +49,4 @@ private:
     bool m_signkey;
 };
 
-#endif // SELECTSECRETKEY_H
+#endif // __KGPGSELECTSECRETKEY_H__

@@ -37,7 +37,7 @@ class KgpgEditor : public KMainWindow
     friend class KgpgView;
 
 public:
-    KgpgEditor(QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0, KShortcut goHome = QKeySequence(Qt::CTRL + Qt::Key_Home), bool mainWindow = false);
+    KgpgEditor(QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0, KShortcut gohome = QKeySequence(Qt::CTRL + Qt::Key_Home), bool mainwindow = false);
     ~KgpgEditor();
 
     void openDocumentFile(const KURL& url, QString encoding = QString::null);
@@ -56,18 +56,19 @@ public slots:
     void closeWindow();
 
 protected:
-    void readOptions(bool doresize = true);
     void saveOptions();
     void initActions();
     void initView();
     void closeEvent(QCloseEvent *e);
+    bool queryClose();
+    bool saveBeforeClear();
 
 private slots:
     // File menu
     void slotFileNew();
     void slotFileOpen();
-    void slotFileSave();
-    void slotFileSaveAs();
+    bool slotFileSave();
+    bool slotFileSaveAs();
     void slotFilePrint();
     void slotFilePreEnc();
     void slotFilePreDec();
@@ -99,6 +100,10 @@ private slots:
     // Options menu
     void slotOptions();
 
+    void slotUndoAvailable(const bool &v);
+    void slotRedoAvailable(const bool &v);
+    void slotCopyAvailable(const bool &v);
+
     void modified();
     void newText();
 
@@ -107,12 +112,14 @@ private:
     QString m_textencoding;
 
     KToggleAction *m_encodingaction;
-    KAction *m_filesave;
     KAction *m_editundo;
     KAction *m_editredo;
-    KShortcut goDefaultKey;
+    KAction *m_editcopy;
+    KAction *m_editcut;
+    KShortcut m_godefaultkey;
     KURL m_docname;
 
+    bool m_textchanged;
     bool m_ismainwindow;
 };
 

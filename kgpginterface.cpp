@@ -38,6 +38,18 @@ KgpgInterface::KgpgInterface()
 {
 }
 
+KgpgInterface::~KgpgInterface()
+{
+    const QObjectList &list = children();
+    // First, we block all signals
+    for (int i = 0; i < list.size(); ++i)
+        list.at(i)->blockSignals(true);
+
+    // Then, we delete objects
+    for (int i = 0; i < list.size(); ++i)
+        delete list.at(i);
+}
+
 int KgpgInterface::getGpgVersion()
 {
     KProcIO p;
@@ -423,6 +435,7 @@ KgpgListKeys KgpgInterface::readPublicKeys(const bool &block, const QStringList 
     cycle = "none";
 
     KProcIO *process = new KProcIO(QTextCodec::codecForName("utf8"));
+    this->insertChild(process);
     *process << "gpg" << "--no-tty" << "--status-fd=2" << "--command-fd=0" << "--with-colon" << "--with-fingerprint";
     if (!withsigs)
         *process << "--list-keys";
@@ -751,6 +764,7 @@ KgpgListKeys KgpgInterface::readSecretKeys(const bool &block, const QStringList 
     m_secretactivate = false;
 
     KProcIO *process = new KProcIO(QTextCodec::codecForName("utf8"));
+    this->insertChild(process);
     *process << "gpg" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--with-colon" << "--list-secret-keys";
     for (int i = 0; i < ids.count(); ++i)
@@ -884,6 +898,7 @@ QString KgpgInterface::getKeys(const bool &block, const bool &attributes, const 
     m_keystring = QString::null;
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0";
     *process << "--export" << "--armor";
 
@@ -961,6 +976,7 @@ void KgpgInterface::encryptText(const QString &text, const QStringList &userids,
         message = text.utf8();
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--command-fd=0" << "--status-fd=1";
 
     for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
@@ -1059,6 +1075,7 @@ void KgpgInterface::decryptText(const QString &text, const QStringList &options)
     step = 3;
 
     KProcess *process = new KProcess();
+    this->insertChild(process);
     *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--command-fd=0" << "--status-fd=1"; // << "--no-batch";
 
     for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
@@ -1201,6 +1218,7 @@ void KgpgInterface::signText(const QString &text, const QString &userid, const Q
         message = text.utf8();
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--command-fd=0" << "--status-fd=1";
 
     for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
@@ -1319,6 +1337,7 @@ void KgpgInterface::verifyText(const QString &text)
     message = QString::null;
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0" << "--verify";
 
     kdDebug(2100) << "(KgpgInterface::verifyText) Verify a text" << endl;
@@ -1417,6 +1436,7 @@ void KgpgInterface::encryptFile(const QStringList &encryptkeys, const KURL &srcu
     message = QString::null;
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0";
 
     for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
@@ -1531,6 +1551,7 @@ void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, cons
     m_success = 0;
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2" << "-u" << signkeyid;
     *process << "--edit-key" << keyid;
 
@@ -1690,6 +1711,7 @@ void KgpgInterface::keyExpire(const QString &keyid, const QDate &date, const boo
         expirationDelay = QDate::currentDate().daysTo(date);
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid << "expire";
 
@@ -1810,6 +1832,7 @@ void KgpgInterface::changePass(const QString &keyid)
     step = 3;
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--no-use-agent" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid << "passwd";
 
@@ -1911,6 +1934,7 @@ void KgpgInterface::changeTrust(const QString &keyid, const int &keytrust)
     m_trustvalue = keytrust + 1;
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid << "trust";
 
@@ -1978,6 +2002,7 @@ void KgpgInterface::changeDisable(const QString &keyid, const bool &ison)
     m_ispartial = false;
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid;
 
@@ -2044,6 +2069,7 @@ QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const
     QString pgpgoutput = "cp %i " + m_kgpginfotmp->name();
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *process << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
 
@@ -2084,6 +2110,7 @@ void KgpgInterface::addPhoto(const QString &keyid, const QString &imagepath)
     step = 3;
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0";
     *process << "--edit-key" << keyid << "addphoto";
 
@@ -2185,6 +2212,7 @@ void KgpgInterface::deletePhoto(const QString &keyid, const QString &uid)
     step = 3;
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--edit-key" << keyid << "uid" << uid << "deluid";
 
@@ -2270,6 +2298,7 @@ void KgpgInterface::importKey(QString keystr)
     message = QString::null;
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--import";
     *process << "--allow-secret-key-import";
 
@@ -2291,6 +2320,7 @@ void KgpgInterface::importKey(KURL url)
     if(KIO::NetAccess::download(url, m_tempkeyfile, 0))
     {
         KProcIO *process = new KProcIO();
+        this->insertChild(process);
         *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--import";
         *process << "--allow-secret-key-import";
         *process << m_tempkeyfile;
@@ -2430,6 +2460,7 @@ void KgpgInterface::addUid(const QString &keyid, const QString &name, const QStr
     uidEmail = email;
 
     KProcIO *process = new KProcIO();
+    this->insertChild(process);
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--edit-key" << keyid << "adduid";
 

@@ -130,7 +130,7 @@ bool KgpgTextEdit::slotCheckContent(const QString &filetocheck, const bool &chec
 
             qfile.close();
             KMessageBox::information(this, tmpinfo);
-            KIO::NetAccess::removeTempFile(filetocheck);
+            KIO::NetAccess::removeTempFile(filetocheck); // TODO try to SHRED the file (more secure if it is a secret key)
             return true;
         }
         else
@@ -193,8 +193,6 @@ KgpgView::KgpgView(QWidget *parent, const char *name)
     editor->resize(editor->maximumSize());
 
     QVBoxLayout *vbox = new QVBoxLayout(this, 3);
-    //vbox->setMargin(marginHint());
-    //vbox->setSpacing(spacingHint());
     vbox->addWidget(editor);
     vbox->addWidget(boutonbox);
 }
@@ -244,7 +242,7 @@ void KgpgView::slotSignVerify()
 void KgpgView::slotEncode()
 {
     // dialog to select public key for encryption
-    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, "public_keys", 0, false, (static_cast<KgpgEditor*>(parent()))->goDefaultKey);
+    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, "public_keys", 0, false, (static_cast<KgpgEditor*>(parent()))->m_godefaultkey);
     connect(dialog, SIGNAL(selectedKey(QStringList, QStringList, bool, bool)), this, SLOT(encodeTxt(QStringList, QStringList, bool, bool)));
     dialog->exec();
     delete dialog;
@@ -272,7 +270,6 @@ void KgpgView::updateDecryptedtxt(const QString &newtxt, KgpgInterface *interfac
         editor->setText(newtxt);
         emit resetEncoding(false);
     }
-
     emit newText();
 }
 

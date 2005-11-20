@@ -150,15 +150,12 @@ private:
     KeyView *m_searchlistview;
 };
 
-
 class listKeys : public KMainWindow, virtual public KeyInterface
 {
-    friend class KeyView;
     Q_OBJECT
 
 public:
     listKeys(QWidget *parent = 0, const char *name = 0);
-    ~listKeys();
 
     QLabel *keyPhoto;
     KeyView *keysList2;

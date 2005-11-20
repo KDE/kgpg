@@ -17,13 +17,9 @@
 
 #include <stdlib.h>
 
-#include <QVBoxLayout>
 #include <QPushButton>
 #include <QTextCodec>
 #include <QCheckBox>
-#include <QLayout>
-#include <QDialog>
-#include <QRegExp>
 #include <QCursor>
 #include <QLabel>
 #include <QFile>
@@ -31,24 +27,16 @@
 #include <Q3ListViewItem>
 
 #include <ksimpleconfig.h>
-#include <kapplication.h>
-#include <kiconloader.h>
-#include <kdialogbase.h>
 #include <kmessagebox.h>
-#include <kstatusbar.h>
 #include <kcombobox.h>
-#include <klistview.h>
-#include <klineedit.h>
-#include <kprocess.h>
 #include <klocale.h>
 #include <kprocio.h>
-#include <kconfig.h>
-#include <kaction.h>
 #include <kdebug.h>
 
 #include "kgpgsettings.h"
 #include "searchres.h"
 #include "detailedconsole.h"
+#include "keyserver.h"
 #include "keyservers.h"
 
 keyServer::keyServer(QWidget *parent, const char *name, const bool &modal, const bool &autoClose)
@@ -74,8 +62,8 @@ keyServer::keyServer(QWidget *parent, const char *name, const bool &modal, const
     page->cBproxyI->setChecked(KGpgSettings::useProxy());
     page->cBproxyE->setChecked(KGpgSettings::useProxy());
 
-    const char *httpproxy = getenv("http_proxy");
-    if (httpproxy)
+    QString httpproxy = getenv("http_proxy");
+    if (!httpproxy.isEmpty())
     {
         page->cBproxyI->setEnabled(true);
         page->cBproxyE->setEnabled(true);
@@ -83,14 +71,41 @@ keyServer::keyServer(QWidget *parent, const char *name, const bool &modal, const
         page->kLEproxyE->setText(httpproxy);
     }
 
-    KProcIO *encid = new KProcIO();
-    *encid << "gpg" << "--no-secmem-warning" << "--no-tty" << "--with-colon" << "--list-keys";
-    connect(encid, SIGNAL(readReady(KProcIO *)), this, SLOT(slotProcRead(KProcIO *)));
-    encid->start(KProcess::NotifyOnExit, true);
+    KgpgInterface *interface = new KgpgInterface();
+    connect (interface, SIGNAL(readPublicKeysFinished(KgpgListKeys, KgpgInterface*)), this, SLOT(slotReadKeys(KgpgListKeys, KgpgInterface*)));
+    interface->readPublicKeys();
 
     page->Buttonimport->setEnabled(!page->kLEimportid->text().isEmpty());
     page->Buttonsearch->setEnabled(!page->kLEimportid->text().isEmpty());
     setMinimumSize(sizeHint());
+}
+
+void keyServer::slotReadKeys(KgpgListKeys list, KgpgInterface *interface)
+{
+    delete interface;
+    for (int i = 0; i < list.size(); ++i)
+    {
+        const KgpgKey key = list.at(i);
+
+        bool dead = false;
+        if ((key.trust() == 'i') || (key.trust() == 'd') || (key.trust() == 'r') || (key.trust() == 'e'))
+            dead = true;
+
+        if (!dead)
+        {
+            QString line = key.name();
+            if (!key.comment().isEmpty()) line += " (" + key.comment() + ")";
+            if (!key.email().isEmpty())    line += " <" + key.email() + ">";
+            if (line.length() > 35)
+            {
+                line.remove(35, line.length());
+                line += "...";
+            }
+
+            if (!line.isEmpty())
+                page->kCBexportkey->insertItem(key.id() + ": " + line);
+        }
+    }
 }
 
 void keyServer::slotImport()
@@ -133,20 +148,20 @@ void keyServer::slotImport()
     m_importproc->start(KProcess::NotifyOnExit, true);
     m_importproc->closeWhenDone();
 
-    QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 
+    QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
     m_importpop = new QDialog(this, 0, true, Qt::WDestructiveClose);
-    QVBoxLayout *vbox = new QVBoxLayout(m_importpop, 3);
 
     QLabel *tex = new QLabel(m_importpop);
     tex->setText(i18n("<b>Connecting to the server...</b>"));
 
-    QPushButton *Buttonabort = new QPushButton(i18n("&Abort"), m_importpop);
+    QPushButton *buttonabort = new QPushButton(i18n("&Abort"), m_importpop);
 
+    QVBoxLayout *vbox = new QVBoxLayout(m_importpop, 3);
     vbox->addWidget(tex);
-    vbox->addWidget(Buttonabort);
+    vbox->addWidget(buttonabort);
 
-    connect(Buttonabort, SIGNAL(clicked()), m_importpop, SLOT(close()));
+    connect(buttonabort, SIGNAL(clicked()), m_importpop, SLOT(close()));
     connect(m_importpop, SIGNAL(destroyed()), this, SLOT(slotAbortImport()));
 
     m_importpop->setMinimumWidth(250);
@@ -323,52 +338,6 @@ void keyServer::slotAbortExport()
     {
         disconnect(m_exportproc, 0, 0, 0);
         m_exportproc->kill();
-    }
-}
-
-void keyServer::slotProcRead(KProcIO *p)
-{
-    // extract  encryption keys
-    bool dead;
-    QString line;
-
-    while (p->readln(line) != -1)
-    {
-        //line = line.simplified();
-        if (line.startsWith("pub"))
-        {
-            const QString trust = line.section(':', 1, 1);
-            QString id = QString("0x" + line.section(':', 4, 4).right(8));
-
-            switch(trust[0].toLatin1())
-            {
-                case 'i':
-                    dead = true;
-                    break;
-                case 'd':
-                    dead = true;
-                    break;
-                case 'r':
-                    dead = true;
-                    break;
-                case 'e':
-                    dead = true;
-                    break;
-                default:
-                    dead = false;
-                    break;
-            }
-
-            line = KgpgInterface::checkForUtf8(line.section(':', 9, 9));
-            if (line.length() > 35)
-            {
-                line.remove(35, line.length());
-                line += "...";
-            }
-
-            if ((!dead) && (!line.isEmpty()))
-                page->kCBexportkey->insertItem(id + ": " + line);
-        }
     }
 }
 

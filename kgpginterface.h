@@ -32,7 +32,7 @@ class KProcess;
 class KProcIO;
 
 /**
- * Encrypt a file using gpg.
+ * This class is the interface for gpg.
  */
 class KgpgInterface : public QObject
 {
@@ -43,6 +43,8 @@ public:
      * Initialize the class
      */
     KgpgInterface();
+
+    ~KgpgInterface();
 
     static int getGpgVersion();
 
