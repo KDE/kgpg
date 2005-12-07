@@ -487,7 +487,7 @@ private slots:
 /*****************************************************/
 
 
-// TODO : ajouter KgpgInterface à importKeyFinished
+// TODO : ajouter KgpgInterface Ã  importKeyFinished
 /************** import a key **************/
 signals:
     void importKeyFinished(QStringList);

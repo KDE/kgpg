@@ -2438,7 +2438,7 @@ void KgpgInterface::importKeyFinished(KProcess *p)
 
     emit importKeyFinished(importedKeysIds);
 
-    // TODO : a supprimer d'une manière ou d'une autre
+    // TODO : a supprimer d'une maniÃ¨re ou d'une autre
     (void) new KgpgDetailedInfo(0, "import_result", resultMessage, message, importedKeys);
 }
 
