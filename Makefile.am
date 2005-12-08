@@ -42,5 +42,6 @@ messages: rc.cpp
 		 if test -n "$$LIST"; then \
 		 $(XGETTEXT) $$LIST -o $(podir)/kgpg.pot; \
          fi
+	rm -f tips.cpp
 
 
