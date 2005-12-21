@@ -24,7 +24,6 @@
 #include <QLabel>
 
 #include <Q3ListViewItem>
-#include <Q3PtrList>
 
 #include <klistviewsearchline.h>
 #include <kactivelabel.h>

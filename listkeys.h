@@ -23,7 +23,6 @@
 #include <QClipboard>
 #include <QPixmap>
 
-#include <Q3PtrList>
 #include <Q3ListViewItem>
 
 #include <klistviewsearchline.h>
