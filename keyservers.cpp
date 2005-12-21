@@ -512,7 +512,7 @@ void keyServer::transferKeyID()
     QString kid;
     QString keysToSearch;
     m_listpop->kLEID->clear();
-    Q3PtrList<Q3ListViewItem>searchList = m_listpop->kLVsearch->selectedItems();
+    QList<Q3ListViewItem*>searchList = m_listpop->kLVsearch->selectedItems();
 
     for (uint i = 0; i < searchList.count(); ++i)
     {

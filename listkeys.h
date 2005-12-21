@@ -295,8 +295,8 @@ private:
     QString globalkeyID;
     QString searchString;
 
-    Q3PtrList<Q3ListViewItem> signList;
-    Q3PtrList<Q3ListViewItem> keysList;
+    QList<Q3ListViewItem*> signList;
+    QList<Q3ListViewItem*> keysList;
 
     /*
     QList<KListViewItem> signList;

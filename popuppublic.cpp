@@ -223,7 +223,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const char *name
 QStringList KgpgSelectPublicKeyDlg::selectedKeys() const
 {
     QStringList selectedKeys;
-    Q3PtrList<Q3ListViewItem> list = m_keyslist->selectedItems();
+    QList<Q3ListViewItem*> list = m_keyslist->selectedItems();
     for (uint i = 0; i < list.count(); ++i)
         if (list.at(i) && list.at(i)->isVisible())
         {

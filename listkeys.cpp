@@ -1609,7 +1609,7 @@ void listKeys::showKeyServer()
 
 void listKeys::checkList()
 {
-    Q3PtrList<Q3ListViewItem> exportList = keysList2->selectedItems();
+    QList<Q3ListViewItem*> exportList = keysList2->selectedItems();
     if (exportList.count() > 1)
     {
         stateChanged("multi_selected");
@@ -1752,7 +1752,7 @@ void listKeys::slotmenu(Q3ListViewItem *sel2, const QPoint &pos, int)
     {
         if (keysList2->selectedItems().count() > 1)
         {
-            Q3PtrList<Q3ListViewItem> exportList = keysList2->selectedItems();
+            QList<Q3ListViewItem*> exportList = keysList2->selectedItems();
             bool keyDepth = true;
             for (uint i = 0; i < exportList.count(); ++i)
                 if (exportList.at(i))
@@ -1912,7 +1912,7 @@ void listKeys::slotexport()
     if (keysList2->currentItem()->depth() != 0)
         return;
 
-    Q3PtrList<Q3ListViewItem> exportList = keysList2->selectedItems();
+    QList<Q3ListViewItem*> exportList = keysList2->selectedItems();
     if (exportList.count() == 0)
         return;
 
@@ -2073,7 +2073,7 @@ void listKeys::listsigns()
 
 void listKeys::groupAdd()
 {
-    Q3PtrList<Q3ListViewItem> addList = gEdit->availableKeys->selectedItems();
+    QList<Q3ListViewItem*> addList = gEdit->availableKeys->selectedItems();
     for (uint i = 0; i < addList.count(); ++i)
         if (addList.at(i))
             gEdit->groupKeys->insertItem(addList.at(i));
@@ -2081,7 +2081,7 @@ void listKeys::groupAdd()
 
 void listKeys::groupRemove()
 {
-    Q3PtrList<Q3ListViewItem> remList = gEdit->groupKeys->selectedItems();
+    QList<Q3ListViewItem*> remList = gEdit->groupKeys->selectedItems();
     for (uint i = 0; i < remList.count(); ++i)
         if (remList.at(i))
             gEdit->availableKeys->insertItem(remList.at(i));
@@ -2131,7 +2131,7 @@ void listKeys::createNewGroup()
 
     if (keysList2->selectedItems().count() > 0)
     {
-        Q3PtrList<Q3ListViewItem> groupList = keysList2->selectedItems();
+        QList<Q3ListViewItem*> groupList = keysList2->selectedItems();
         bool keyDepth = true;
         for (uint i = 0; i < groupList.count(); ++i)
             if (groupList.at(i))
@@ -2820,7 +2820,7 @@ void listKeys::confirmdeletekey()
     {
         QStringList keysToDelete;
         QString secList;
-        Q3PtrList<Q3ListViewItem> exportList = keysList2->selectedItems();
+        QList<Q3ListViewItem*> exportList = keysList2->selectedItems();
         bool secretKeyInside = false;
         for (uint i = 0; i < exportList.count(); ++i)
             if (exportList.at(i))
@@ -2855,7 +2855,7 @@ void listKeys::confirmdeletekey()
 
 void listKeys::deletekey()
 {
-    Q3PtrList<Q3ListViewItem> exportList = keysList2->selectedItems();
+    QList<Q3ListViewItem*> exportList = keysList2->selectedItems();
     if (exportList.count() == 0)
         return;
 
