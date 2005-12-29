@@ -575,7 +575,7 @@ void  MyView::readOptions()
         } else {
                 QString path = KGpgSettings::gpgConfigPath();
                 if (path.isEmpty()) {
-                        if (KMessageBox::questionYesNo(0,i18n("<qt>You did not set a path to your GnuPG config file.<br>This may bring some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem ?</qt>"),QString::null,i18n("Start Wizard"),i18n("Do Not Start"))==KMessageBox::Yes)
+                        if (KMessageBox::questionYesNo(0,i18n("<qt>You have not set a path to your GnuPG config file.<br>This may cause some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem?</qt>"),QString::null,i18n("Start Wizard"),i18n("Do Not Start"))==KMessageBox::Yes)
                                 startWizard();
                 } else {
                         QStringList groups=KgpgInterface::getGpgGroupNames(path);
