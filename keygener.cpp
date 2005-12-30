@@ -46,7 +46,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent, const char *name)
     m_kname = new KLineEdit("", vgroup);
     nameLabel->setBuddy(m_kname);
     m_kname->setFocus();
-    connect(m_kname, SIGNAL(textChanged(const QString&)), this, SLOT(slotActivateOk()));
+    connect(m_kname, SIGNAL(textChanged(const QString&)), this, SLOT(slotEnableOk()));
 
     QLabel *emailLabel = new QLabel(i18n("E&mail:"), vgroup);
     m_mail = new KLineEdit("", vgroup);
