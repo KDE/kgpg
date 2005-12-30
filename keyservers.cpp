@@ -514,7 +514,7 @@ void keyServer::transferKeyID()
     m_listpop->kLEID->clear();
     QList<Q3ListViewItem*>searchList = m_listpop->kLVsearch->selectedItems();
 
-    for (uint i = 0; i < searchList.count(); ++i)
+    for (int i = 0; i < searchList.count(); ++i)
     {
         if (searchList.at(i))
         {

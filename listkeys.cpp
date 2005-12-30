@@ -1225,7 +1225,7 @@ void listKeys::refreshKeyFromServer()
     keysList = keysList2->selectedItems();
     bool keyDepth = true;
 
-    for (uint i = 0; i < keysList.count(); ++i)
+    for (int i = 0; i < keysList.count(); ++i)
         if (keysList.at(i))
         {
             if ((keysList.at(i)->depth() != 0) || (keysList.at(i)->text(6).isEmpty()))
@@ -1251,7 +1251,7 @@ void listKeys::refreshFinished()
     if (kServer)
         kServer = 0L;
 
-    for (uint i = 0; i < keysList.count(); ++i)
+    for (int i = 0; i < keysList.count(); ++i)
         if (keysList.at(i))
             keysList2->refreshcurrentkey(static_cast<KListViewItem*>(keysList.at(i)));
 }
@@ -1613,7 +1613,7 @@ void listKeys::checkList()
     if (exportList.count() > 1)
     {
         stateChanged("multi_selected");
-        for (uint i = 0; i < exportList.count(); ++i)
+        for (int i = 0; i < exportList.count(); ++i)
             if (exportList.at(i) && !(exportList.at(i)->isVisible()))
                 exportList.at(i)->setSelected(false);
     }
@@ -1754,7 +1754,7 @@ void listKeys::slotmenu(Q3ListViewItem *sel2, const QPoint &pos, int)
         {
             QList<Q3ListViewItem*> exportList = keysList2->selectedItems();
             bool keyDepth = true;
-            for (uint i = 0; i < exportList.count(); ++i)
+            for (int i = 0; i < exportList.count(); ++i)
                 if (exportList.at(i))
                     if (exportList.at(i)->depth() != 0)
                         keyDepth = false;
@@ -1950,7 +1950,7 @@ void listKeys::slotexport()
             keyServer *expServer = new keyServer(0, "server_export", false);
             expServer->slotSetExportAttribute(exportAttr);
             QString exportKeysList;
-            for (uint i = 0; i < exportList.count(); ++i)
+            for (int i = 0; i < exportList.count(); ++i)
                 if (exportList.at(i))
                     exportKeysList.append(" " + exportList.at(i)->text(6).simplified());
 
@@ -1974,7 +1974,7 @@ void listKeys::slotexport()
                 if (!exportAttr)
                     *p << "--export-options" << "no-include-attributes";
 
-                for (uint i = 0; i < exportList.count(); ++i)
+                for (int i = 0; i < exportList.count(); ++i)
                     if (exportList.at(i))
                         *p << (exportList.at(i)->text(6)).simplified();
 
@@ -1989,7 +1989,7 @@ void listKeys::slotexport()
         else
         {
             QStringList klist;
-            for (uint i = 0; i < exportList.count(); ++i)
+            for (int i = 0; i < exportList.count(); ++i)
                 if (exportList.at(i))
                     klist.append(exportList.at(i)->text(6).simplified());
 
@@ -2074,7 +2074,7 @@ void listKeys::listsigns()
 void listKeys::groupAdd()
 {
     QList<Q3ListViewItem*> addList = gEdit->availableKeys->selectedItems();
-    for (uint i = 0; i < addList.count(); ++i)
+    for (int i = 0; i < addList.count(); ++i)
         if (addList.at(i))
             gEdit->groupKeys->insertItem(addList.at(i));
 }
@@ -2082,7 +2082,7 @@ void listKeys::groupAdd()
 void listKeys::groupRemove()
 {
     QList<Q3ListViewItem*> remList = gEdit->groupKeys->selectedItems();
-    for (uint i = 0; i < remList.count(); ++i)
+    for (int i = 0; i < remList.count(); ++i)
         if (remList.at(i))
             gEdit->availableKeys->insertItem(remList.at(i));
 }
@@ -2133,7 +2133,7 @@ void listKeys::createNewGroup()
     {
         QList<Q3ListViewItem*> groupList = keysList2->selectedItems();
         bool keyDepth = true;
-        for (uint i = 0; i < groupList.count(); ++i)
+        for (int i = 0; i < groupList.count(); ++i)
             if (groupList.at(i))
             {
                 if (groupList.at(i)->depth() != 0)
@@ -2278,7 +2278,7 @@ void listKeys::signkey()
 
     signList = keysList2->selectedItems();
     bool keyDepth = true;
-    for (uint i = 0; i < signList.count(); ++i)
+    for (int i = 0; i < signList.count(); ++i)
         if (signList.at(i))
             if (signList.at(i)->depth() != 0)
                 keyDepth = false;
@@ -2310,7 +2310,7 @@ void listKeys::signkey()
     else
     {
         QStringList signKeyList;
-        for (uint i = 0; i < signList.count(); ++i)
+        for (int i = 0; i < signList.count(); ++i)
             if (signList.at(i))
                 signKeyList += signList.at(i)->text(0) + " (" + signList.at(i)->text(1) + ")" + ": " + signList.at(i)->text(6);
 
@@ -2822,7 +2822,7 @@ void listKeys::confirmdeletekey()
         QString secList;
         QList<Q3ListViewItem*> exportList = keysList2->selectedItems();
         bool secretKeyInside = false;
-        for (uint i = 0; i < exportList.count(); ++i)
+        for (int i = 0; i < exportList.count(); ++i)
             if (exportList.at(i))
             {
                 if (keysList2->secretList.find(exportList.at(i)->text(6)) != -1)
@@ -2867,13 +2867,13 @@ void listKeys::deletekey()
     << "--yes"
     << "--delete-key";
 
-    for (uint i = 0; i < exportList.count(); ++i)
+    for (int i = 0; i < exportList.count(); ++i)
         if (exportList.at(i))
             gp << (exportList.at(i)->text(6)).simplified();
 
     gp.start(KProcess::Block);
 
-    for (uint i = 0; i < exportList.count(); ++i)
+    for (int i = 0; i < exportList.count(); ++i)
         if (exportList.at(i))
             keysList2->refreshcurrentkey(static_cast<KListViewItem*>(exportList.at(i)));
 
