@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef __KGPGKEYINFOWIDGET_H__
-#define __KGPGKEYINFOWIDGET_H__
+#ifndef KGPGKEYINFOWIDGET_H
+#define KGPGKEYINFOWIDGET_H
 
 #include <QPixmap>
 #include <QString>
@@ -82,4 +82,4 @@ private:
     bool m_isunlimited;
 };
 
-#endif // __KGPGKEYINFOWIDGET_H__
+#endif // KGPGKEYINFOWIDGET_H

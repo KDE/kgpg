@@ -139,8 +139,9 @@ public:
     virtual int compare(Q3ListViewItem *item, int c, bool ascending) const;
     virtual QString key(int column, bool) const;
 
-    bool m_def;
-    bool m_exp;
+private:
+    bool m_def; /// Is set to \em true if it is the default key, \em false otherwise.
+    bool m_exp; /// Is set to \em true if the key is expired, \em false otherwise.
     ItemType m_type;
 };
 
@@ -400,7 +401,7 @@ void  KeyView::contentsDropEvent(QDropEvent *o)
 {
     KURL::List uriList = KURL::List::fromMimeData(o->mimeData());
     if (!uriList.isEmpty())
-        droppedfile(uriList.first());
+        droppedFile(uriList.first());
 }
 
 void KeyView::startDrag()
@@ -418,7 +419,7 @@ void KeyView::startDrag()
     // do NOT delete d.
 }
 
-void  KeyView::droppedfile(const KURL &url)
+void KeyView::droppedFile(const KURL &url)
 {
     if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>").arg(url.path()), QString::null, i18n("Import"), i18n("Do Not Import")) != KMessageBox::Yes)
         return;
@@ -926,14 +927,14 @@ bool mySearchLine::itemMatches(const KListViewItem *item, const QString &s) cons
 
 // main window for key management
 listKeys::listKeys(QWidget *parent, const char *name)
-        : DCOPObject("KeyInterface"), KMainWindow(parent, name,0)
+        : DCOPObject("KeyInterface"), KMainWindow(parent, name, 0)
 {
     setCaption(i18n("Key Management"));
 
     keysList2 = new KeyView(this);
     keysList2->photoKeysList = QString::null;
     keysList2->groupNb = 0;
-    keyStatusBar = 0;
+    m_statusbar = 0;
     readOptions();
 
     if (showTipOfDay)
@@ -1081,8 +1082,6 @@ listKeys::listKeys(QWidget *parent, const char *name)
     connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
 
     // get all keys data
-    keyStatusBar = statusBar();
-
     setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "listkeys.rc");
     toolBar()->insertLineSeparator();
 
@@ -1100,18 +1099,166 @@ listKeys::listKeys(QWidget *parent, const char *name)
     sCreat->setChecked(KGpgSettings::showCreat());
     sExpi->setChecked(KGpgSettings::showExpi());
 
-    statusbarTimer = new QTimer(this);
+    m_statusbartimer = new QTimer(this);
 
-    keyStatusBar->insertItem("", 0, 1);
-    keyStatusBar->insertFixedItem(i18n("00000 Keys, 000 Groups"), 1, true);
-    keyStatusBar->setItemAlignment(0, Qt::AlignLeft);
-    keyStatusBar->changeItem("", 1);
+    m_statusbar = statusBar();
+    m_statusbar->insertItem("", 0, 1);
+    m_statusbar->insertFixedItem(i18n("00000 Keys, 000 Groups"), 1, true);
+    m_statusbar->setItemAlignment(0, Qt::AlignLeft);
+    m_statusbar->changeItem("", 1);
+
     connect(keysList2, SIGNAL(statusMessage(QString, int, bool)), this, SLOT(changeMessage(QString, int, bool)));
-    connect(statusbarTimer, SIGNAL(timeout()), this, SLOT(statusBarTimeout()));
+    connect(m_statusbartimer, SIGNAL(timeout()), this, SLOT(statusBarTimeout()));
 
     s_kgpgEditor = new KgpgEditor(parent, "editor", Qt::WType_Dialog, actionCollection()->action("go_default_key")->shortcut(), true);
     connect(s_kgpgEditor, SIGNAL(refreshImported(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
     connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
+}
+
+void listKeys::slotgenkey()
+{
+    KgpgKeyGenerate *genkey = new KgpgKeyGenerate(this, 0);
+    if (genkey->exec() == QDialog::Accepted)
+    {
+        if (!genkey->getMode()) // normal mode (not expert)
+        {
+            // extract data from genkey
+            QString newKeyName = genkey->getKeyName();
+            QString newKeyMail = genkey->getKeyEmail();
+            QString keycomment = genkey->getKeyComment();
+            Kgpg::KeyAlgo keyalgo = genkey->getKeyAlgo();
+            uint keysize = genkey->getKeySize();
+            uint keyexp = genkey->getKeyExp();
+            uint keynumber = genkey->getKeyNumber();
+            delete genkey;
+
+            pop = new KPassivePopup(this, "new_key");
+            pop->setTimeout(0); // FIXME 0 ? we need to keep it ?
+
+            QWidget *wid = new QWidget(pop);
+            QVBoxLayout *vbox = new QVBoxLayout(wid, 3);
+
+            KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", KIcon::Desktop), wid);
+
+            QMovie anim(locate("appdata", "pics/kgpg_anim.gif"));
+
+            QLabel *text1 = new QLabel(wid);
+            QLabel *text2 = new QLabel(wid);
+            text1->setAlignment(Qt::AlignHCenter);
+            text1->setMovie(&anim);
+            text2->setText(i18n("\nPlease wait..."));
+
+            vbox->addWidget(passiveBox);
+            vbox->addWidget(text1);
+            vbox->addWidget(text2);
+
+            pop->setView(wid);
+            pop->show();
+
+            QRect qRect(QApplication::desktop()->screenGeometry());
+            int Xpos = qRect.width() / 2 - pop->width() / 2;
+            int Ypos = qRect.height() / 2 - pop->height() / 2;
+            pop->move(Xpos, Ypos);
+
+            pop->setAutoDelete(false);
+            changeMessage(i18n("Generating New Key..."), 0, true);
+
+
+            KgpgInterface *interface = new KgpgInterface();
+            //connect(interface, SIGNAL(generateKeyStarted(...)), this, SLOT(...));
+            connect(interface, SIGNAL(generateKeyFinished(int, KgpgInterface*, QString, QString, QString, QString)), this, SLOT(newKeyDone(int, KgpgInterface*, QString, QString, QString, QString)));
+            interface->generateKey(newKeyName, newKeyMail, keycomment, keyalgo, keysize, keyexp, keynumber);
+        }
+        else // start expert (=konsole) mode
+        {
+            KProcess kp;
+            KConfig *config = KGlobal::config();
+            config->setGroup("General");
+            kp << config->readPathEntry("TerminalApplication", "konsole");
+            kp << "-e" << "gpg" << "--gen-key";
+            kp.start(KProcess::Block);
+            refreshkey();
+
+            delete genkey;
+        }
+    }
+    else
+        delete genkey;
+}
+
+void listKeys::newKeyDone(int err, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint)
+{
+    delete interface;
+    changeMessage(i18n("Ready"), 0);
+
+    if (err == 1)
+    {
+        // bad password
+    }
+    else
+    if (err == 3)
+    {
+        // aborted
+    }
+    else
+    if (err == 4)
+    {
+        // email invalid
+    }
+    else
+    {
+        keysList2->refreshKeys(QStringList(id));
+        changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount() - keysList2->groupNb).arg(keysList2->groupNb), 1);
+
+        KDialogBase *keyCreated = new KDialogBase(this, "key_created", true, i18n("New Key Pair Created"), KDialogBase::Ok);
+
+        newKey *page = new newKey(keyCreated);
+        page->TLname->setText("<b>" + name + "</b>");
+        page->TLemail->setText("<b>" + email + "</b>");
+
+        if (!email.isEmpty())
+            page->kURLRequester1->setURL(QDir::homeDirPath() + "/" + email.section("@", 0, 0) + ".revoke");
+        else
+            page->kURLRequester1->setURL(QDir::homeDirPath() + "/" + email.section(" ", 0, 0) + ".revoke");
+
+        page->TLid->setText("<b>" + id + "</b>");
+        page->LEfinger->setText(fingerprint);
+        page->CBdefault->setChecked(true);
+        page->show();
+        keyCreated->setMainWidget(page);
+
+        delete pop;
+
+        keyCreated->exec();
+
+        KListViewItem *newdef = static_cast<KListViewItem*>(keysList2->findItem(id, 6));
+        if (newdef)
+        {
+            if (page->CBdefault->isChecked())
+                slotSetDefaultKey(newdef);
+            else
+            {
+                keysList2->clearSelection();
+                keysList2->setCurrentItem(newdef);
+                keysList2->setSelected(newdef, true);
+                keysList2->ensureItemVisible(newdef);
+            }
+        }
+
+        if (page->CBsave->isChecked())
+        {
+            slotrevoke(id, page->kURLRequester1->url(), 0, i18n("backup copy"));
+            if (page->CBprint->isChecked())
+                connect(revKeyProcess, SIGNAL(revokeurl(QString)), this, SLOT(doFilePrint(QString)));
+        }
+        else
+        if (page->CBprint->isChecked())
+        {
+            slotrevoke(id, QString::null, 0, i18n("backup copy"));
+            connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
+        }
+
+    }
 }
 
 void listKeys::showKeyManager()
@@ -1133,15 +1280,20 @@ void listKeys::slotOpenEditor()
 
 void listKeys::statusBarTimeout()
 {
-    keyStatusBar->changeItem("", 0);
+    if (m_statusbar)
+        m_statusbar->changeItem("", 0);
 }
 
 void listKeys::changeMessage(QString msg, int nb, bool keep)
 {
-    statusbarTimer->stop();
-    if ((nb == 0) & (!keep))
-        statusbarTimer->start(10000, true);
-    keyStatusBar->changeItem(" " + msg + " ", nb);
+    m_statusbartimer->stop();
+
+    if (m_statusbar)
+    {
+        if ((nb == 0) && (!keep))
+            m_statusbartimer->start(10000, true);
+        m_statusbar->changeItem(" " + msg + " ", nb);
+    }
 }
 
 void listKeys::slotShowTrust()
@@ -1679,8 +1831,7 @@ void listKeys::readOptions()
     QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
     KGpgSettings::setGroups(groups.join(","));
     keysList2->groupNb = groups.count();
-    if (keyStatusBar)
-        changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount() - keysList2->groupNb).arg(keysList2->groupNb), 1);
+    changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount() - keysList2->groupNb).arg(keysList2->groupNb), 1);
 
     showTipOfDay = KGpgSettings::showTipOfDay();
 }
@@ -2517,223 +2668,6 @@ void listKeys::slotedit()
     kp << "-e" << "gpg" <<"--no-secmem-warning" <<"--edit-key" << keysList2->currentItem()->text(6) << "help";
     kp.start(KProcess::Block);
     keysList2->refreshcurrentkey(static_cast<KListViewItem*>(keysList2->currentItem()));
-}
-
-void listKeys::slotgenkey()
-{
-    // generate key
-    KgpgKeyGenerate *genkey = new KgpgKeyGenerate(this, 0);
-    if (genkey->exec() == QDialog::Accepted)
-    {
-        if (!genkey->getmode()) // normal mode
-        {
-            // extract data from genkey
-            int kexp = genkey->getkeyexp();
-            QString ktype = genkey->getkeytype();
-            QString ksize = genkey->getkeysize();
-            QString knumb = genkey->getkeynumb();
-            QString kcomment = genkey->getkeycomm();
-            newKeyName = genkey->getkeyname();
-            newKeyMail = genkey->getkeymail();
-            delete genkey;
-
-            QByteArray password;
-            bool goodpass = false;
-            while (!goodpass)
-            {
-                int code = KPasswordDialog::getNewPassword(this, password, i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences").arg(newKeyName+" <"+newKeyMail+">"));
-                if (code != QDialog::Accepted)
-                    return;
-
-                if (password.length() < 5)
-                    KMessageBox::sorry(this, i18n("This passphrase is not secure enough.\nMinimum length= 5 characters"));
-                else
-                    goodpass = true;
-            }
-
-            pop = new KPassivePopup((QWidget*)parent(), "new_key");
-            pop->setTimeout(0);
-
-            QWidget *wid = new QWidget(pop);
-            QVBoxLayout *vbox = new QVBoxLayout(wid,3);
-
-            KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", KIcon::Desktop), wid);
-
-            QMovie anim(locate("appdata", "pics/kgpg_anim.gif"));
-
-            QLabel *tex = new QLabel(wid);
-            QLabel *tex2 = new QLabel(wid);
-            tex->setAlignment(Qt::AlignHCenter);
-            tex->setMovie(&anim);
-            tex2->setText(i18n("\nPlease wait..."));
-            vbox->addWidget(passiveBox);
-            vbox->addWidget(tex);
-            vbox->addWidget(tex2);
-
-            pop->setView(wid);
-            pop->show();
-
-            changeMessage(i18n("Generating New Key..."), 0, true);
-
-            QRect qRect(QApplication::desktop()->screenGeometry());
-            int iXpos = qRect.width() / 2 - pop->width() / 2;
-            int iYpos = qRect.height() / 2 - pop->height() / 2;
-            pop->move(iXpos, iYpos);
-            pop->setAutoDelete(false);
-
-            KProcIO *proc = new KProcIO();
-            message = QString::null;
-
-            //*proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--batch"<<"--passphrase-fd"<<res<<"--gen-key"<<"-a"<<"kgpg.tmp";
-            *proc << "gpg" << "--no-tty" << "--status-fd=2" << "--no-secmem-warning" << "--batch" << "--gen-key";
-
-            // when process ends, update dialog infos
-            connect(proc, SIGNAL(processExited(KProcess*)), this, SLOT(genover(KProcess*)));
-
-            proc->start(KProcess::NotifyOnExit, true);
-
-            if (ktype == "RSA")
-                proc->writeStdin(QString("Key-Type: 1"));
-            else
-            {
-                proc->writeStdin(QString("Key-Type: DSA"));
-                proc->writeStdin(QString("Subkey-Type: ELG-E"));
-                proc->writeStdin(QString("Subkey-Length:").append(ksize));
-            }
-
-            proc->writeStdin(QByteArray("Passphrase:").append(password));
-            proc->writeStdin(QString("Key-Length:").append(ksize));
-            proc->writeStdin(QString("Name-Real:").append(newKeyName.toUtf8()));
-
-            if (!newKeyMail.isEmpty())
-                proc->writeStdin(QString("Name-Email:").append(newKeyMail));
-            if (!kcomment.isEmpty())
-                proc->writeStdin(QString("Name-Comment:").append(kcomment.toUtf8()));
-            if (kexp == 0)
-                proc->writeStdin(QString("Expire-Date:0"));
-            if (kexp == 1)
-                proc->writeStdin(QString("Expire-Date:").append(knumb));
-            if (kexp == 2)
-                proc->writeStdin(QString("Expire-Date:%1w").arg(knumb));
-            if (kexp == 3)
-                proc->writeStdin(QString("Expire-Date:%1m").arg(knumb));
-            if (kexp == 4)
-                proc->writeStdin(QString("Expire-Date:%1y").arg(knumb));
-
-            proc->writeStdin(QString("%commit"));
-            connect(proc, SIGNAL(readReady(KProcIO *)), this, SLOT(readgenprocess(KProcIO *)));
-            proc->closeWhenDone();
-        }
-        else // start expert (=konsole) mode
-        {
-            KProcess kp;
-            KConfig *config = KGlobal::config();
-            config->setGroup("General");
-            kp << config->readPathEntry("TerminalApplication", "konsole");
-            kp << "-e" <<"gpg" <<"--gen-key";
-            kp.start(KProcess::Block);
-            refreshkey();
-        }
-    }
-}
-
-void listKeys::readgenprocess(KProcIO *p)
-{
-    QString required;
-    while (p->readln(required,true) != -1)
-    {
-        if (required.find("KEY_CREATED") != -1)
-            newkeyFinger = required.simplified().section(' ', -1);
-        message += required + "\n";
-    }
-    // sample:   [GNUPG:] KEY_CREATED B 156A4305085A58C01E2988229282910254D1B368
-}
-
-void listKeys::genover(KProcess *)
-{
-    newkeyID = QString::null;
-    continueSearch = true;
-    KProcIO *conprocess = new KProcIO();
-    *conprocess<< "gpg";
-    *conprocess<<"--no-secmem-warning"<<"--with-colon"<<"--fingerprint"<<"--list-keys"<<newKeyName;
-    connect(conprocess, SIGNAL(readReady(KProcIO *)), this, SLOT(slotReadFingerProcess(KProcIO *)));
-    connect(conprocess, SIGNAL(processExited(KProcess *)), this, SLOT(newKeyDone(KProcess *)));
-    conprocess->start(KProcess::NotifyOnExit,true);
-}
-
-void listKeys::slotReadFingerProcess(KProcIO *p)
-{
-    QString outp;
-    while (p->readln(outp) != -1)
-    {
-        if (outp.startsWith("pub") && (continueSearch))
-            newkeyID = outp.section(':', 4, 4).right(8).prepend("0x");
-
-        if (outp.startsWith("fpr"))
-            if (newkeyFinger.toLower() == outp.section(':', 9, 9).toLower())
-                continueSearch = false;
-                // kdDebug(2100)<<newkeyFinger<<" test:"<<outp.section(':',9,9)<<endl;
-    }
-}
-
-void listKeys::newKeyDone(KProcess *)
-{
-    changeMessage(i18n("Ready"), 0);
-    // refreshkey();
-    if (newkeyID.isEmpty())
-    {
-        delete pop;
-        KMessageBox::detailedSorry(this, i18n("Something unexpected happened during the key pair creation.\nPlease check details for full log output."), message);
-        refreshkey();
-        return;
-    }
-
-    keysList2->refreshKeys(QStringList(newkeyID));
-    changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount() - keysList2->groupNb).arg(keysList2->groupNb), 1);
-    KDialogBase *keyCreated = new KDialogBase(this, "key_created", true, i18n("New Key Pair Created"), KDialogBase::Ok);
-    newKey *page = new newKey(keyCreated);
-    page->TLname->setText("<b>" + newKeyName + "</b>");
-    page->TLemail->setText("<b>" + newKeyMail + "</b>");
-
-    if (!newKeyMail.isEmpty())
-        page->kURLRequester1->setURL(QDir::homeDirPath() + "/" + newKeyMail.section("@", 0, 0) + ".revoke");
-    else
-        page->kURLRequester1->setURL(QDir::homeDirPath() + "/" + newKeyName.section(" ", 0, 0) + ".revoke");
-
-    page->TLid->setText("<b>" + newkeyID + "</b>");
-    page->LEfinger->setText(newkeyFinger);
-    page->CBdefault->setChecked(true);
-    page->show();
-    //page->resize(page->maximumSize());
-    keyCreated->setMainWidget(page);
-    delete pop;
-
-    keyCreated->exec();
-
-    KListViewItem *newdef = static_cast<KListViewItem*>(keysList2->findItem(newkeyID, 6));
-    if (newdef)
-        if (page->CBdefault->isChecked())
-            slotSetDefaultKey(newdef);
-        else
-        {
-            keysList2->clearSelection();
-            keysList2->setCurrentItem(newdef);
-            keysList2->setSelected(newdef,true);
-            keysList2->ensureItemVisible(newdef);
-        }
-
-    if (page->CBsave->isChecked())
-    {
-        slotrevoke(newkeyID, page->kURLRequester1->url(), 0, i18n("backup copy"));
-        if (page->CBprint->isChecked())
-            connect(revKeyProcess, SIGNAL(revokeurl(QString)), this, SLOT(doFilePrint(QString)));
-    }
-    else
-    if (page->CBprint->isChecked())
-    {
-        slotrevoke(newkeyID, QString::null, 0, i18n("backup copy"));
-        connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
-    }
 }
 
 void listKeys::doFilePrint(QString url)

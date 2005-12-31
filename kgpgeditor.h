@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef __KGPGEDITOR_H__
-#define __KGPGEDITOR_H__
+#ifndef KGPGEDITOR_H
+#define KGPGEDITOR_H
 
 #include <QStringList>
 
@@ -123,4 +123,4 @@ private:
     bool m_ismainwindow;
 };
 
-#endif // __KGPGEDITOR_H__
+#endif // KGPGEDITOR_H

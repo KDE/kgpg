@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef __KGPGLIBRARY_H__
-#define __KGPGLIBRARY_H__
+#ifndef KGPGLIBRARY_H
+#define KGPGLIBRARY_H
 
 #include <QObject>
 
@@ -80,4 +80,4 @@ private:
     bool m_symetric;
 };
 
-#endif // __KGPGLIBRARY_H__
+#endif // KGPGLIBRARY_H

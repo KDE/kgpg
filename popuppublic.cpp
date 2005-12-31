@@ -223,7 +223,7 @@ QStringList KgpgSelectPublicKeyDlg::selectedKeys() const
 {
     QStringList selectedKeys;
     QList<Q3ListViewItem*> list = m_keyslist->selectedItems();
-    for (uint i = 0; i < list.count(); ++i)
+    for (int i = 0; i < list.count(); ++i)
         if (list.at(i) && list.at(i)->isVisible())
         {
             if (!list.at(i)->text(2).isEmpty())

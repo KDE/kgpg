@@ -2501,6 +2501,7 @@ void KgpgInterface::addUidProcess(KProcIO *p)
             else
             if (line.find("GOOD_PASSPHRASE") != -1)
                 m_success = 2;
+            else
             if (line.find("keygen.name") != -1)
                 p->writeStdin(uidName, true);
             else
@@ -2545,6 +2546,169 @@ void KgpgInterface::addUidFin(KProcess *p)
     delete p;
     emit addUidFinished(m_success, this);
 }
+
+void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const Kgpg::KeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber)
+{
+    m_partialline = QString::null;
+    m_ispartial = false;
+    step = 3;
+    m_success = 0;
+
+    if ((!keyemail.isEmpty()) && ((keyemail.find(" ") != -1) || (keyemail.find(".") == -1) || (keyemail.find("@") == -1)))
+    {
+        emit generateKeyFinished(4, this, QString::null, QString::null, QString::null, QString::null);
+        return;
+    }
+
+    m_newkeyid = QString::null;
+    m_newfingerprint = QString::null;
+    m_keyname = keyname;
+    m_keyemail = keyemail;
+    m_keycomment = keycomment;
+    m_keyalgo = keyalgo;
+    m_keysize = keysize;
+    m_keyexp = keyexp;
+    m_keyexpnumber = keyexpnumber;
+
+    KProcIO *process = new KProcIO();
+    this->insertChild(process);
+    *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
+    *process << "--gen-key";
+
+    kdDebug(2100) << "(KgpgInterface::generateKey) Generate a new key-pair" << endl;
+    connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(generateKeyProcess(KProcIO *)));
+    connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(generateKeyFin(KProcess *)));
+    process->start(KProcess::NotifyOnExit, true);
+}
+
+void KgpgInterface::generateKeyProcess(KProcIO *p)
+{
+    QString line;
+    bool partial = false;
+    while (p->readln(line, false, &partial) != -1)
+    {
+        if (partial == true)
+        {
+            m_partialline += line;
+            m_ispartial = true;
+            partial = false;
+        }
+        else
+        {
+            if (m_ispartial)
+            {
+                m_partialline += line;
+                line = m_partialline;
+
+                m_partialline = "";
+                m_ispartial = false;
+            }
+
+            if (line.find("BAD_PASSPHRASE") != -1)
+                m_success = 1;
+            else
+            if (line.find("GOOD_PASSPHRASE") != -1)
+                m_success = 5;
+            else
+            if ((m_success == 5) && (line.find("PROGRESS") != -1))
+            {
+                m_success = 2;
+                emit generateKeyStarted(this);
+            }
+            else
+            if (line.find("keygen.algo") != -1)
+            {
+                if (m_keyalgo == Kgpg::RSA)
+                    p->writeStdin(QString("5"), true);
+                else
+                    p->writeStdin(QString("1"), true);
+            }
+            else
+            if (line.find("keygen.size") != -1)
+                p->writeStdin(QString(m_keysize), true);
+            else
+            if (line.find("keygen.valid") != -1)
+            {
+                QString output;
+                if (m_keyexp != 0)
+                {
+                    output = QString(m_keyexpnumber);
+                    if (m_keyexp == 1)
+                        output.append("d");
+                    if (m_keyexp == 2)
+                        output.append("w");
+                    if (m_keyexp == 2)
+                        output.append("m");
+                    if (m_keyexp == 2)
+                        output.append("y");
+                }
+                else
+                  output = QString("0");
+
+                p->writeStdin(output, true);
+            }
+            else
+            if (line.find("keygen.name") != -1)
+                p->writeStdin(m_keyname, true);
+            else
+            if (line.find("keygen.email") != -1)
+                p->writeStdin(m_keyemail, true);
+            else
+            if (line.find("keygen.comment") != -1)
+                p->writeStdin(m_keycomment, true);
+            else
+            if (line.find("passphrase.enter") != -1)
+            {
+                QString passdlgmessage;
+                passdlgmessage = i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences").arg(m_keyname + " <" + m_keyemail + ">");
+
+                if (sendPassphrase(passdlgmessage, p, false))
+                {
+                    delete p;
+                    emit generateKeyFinished(3, this, m_keyname, m_keyemail, QString::null, QString::null);
+                    return;
+                }
+                step--;
+            }
+            else
+            if (line.find("KEY_CREATED") != -1)
+            {
+                m_newfingerprint = line.right(40);
+                m_newkeyid = line.right(8);
+            }
+            else
+            if (line.find("GET_") != -1) // gpg asks for something unusal, turn to konsole mode
+            {
+                p->writeStdin(QByteArray("quit"), true);
+                p->closeWhenDone();
+            }
+        }
+    }
+
+    p->ackRead();
+}
+
+void KgpgInterface::generateKeyFin(KProcess *p)
+{
+    delete p;
+    if (m_success == 5)
+        m_success = 2;
+    emit generateKeyFinished(m_success, this, m_keyname, m_keyemail, m_newkeyid, m_newfingerprint);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

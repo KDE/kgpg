@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef __KGPGINTERFACE_H__
-#define __KGPGINTERFACE_H__
+#ifndef KGPGINTERFACE_H
+#define KGPGINTERFACE_H
 
 #include <QStringList>
 #include <QDateTime>
@@ -487,7 +487,7 @@ private slots:
 /*****************************************************/
 
 
-// TODO : ajouter KgpgInterface à importKeyFinished
+// TODO : ajouter KgpgInterface a importKeyFinished
 /************** import a key **************/
 signals:
     void importKeyFinished(QStringList);
@@ -546,6 +546,78 @@ private:
     QString uidComment;
 
 /*************************************/
+
+
+/************** generate a key **************/
+signals:
+    /**
+     * This signal is emitted when the key has been generated or when
+     * there is an error.
+     * @param int
+     * 0 = Unknown error
+     * 1 = Bad passphrase
+     * 2 = Key generated
+     * 3 = Aborted
+     * 4 = email is not valid
+     * @param KgpgInterface give a pointer to \em this Interface
+     * @param QString the first QString is the name (keyname)
+     * @param QString the seconde QString is the email (keyemail)
+     * @param QString the third QString is the id of the new key if it is created or QString::null otherwise
+     * @param QString the last QString is the fingerprint
+     */
+    void generateKeyFinished(int, KgpgInterface*, QString, QString, QString, QString);
+    void generateKeyStarted(KgpgInterface*);
+
+public slots:
+    /**
+     * This slot will generate a new key-pair.
+     * @param keyname the name of the key, it is also the user's name.
+     * @param keymail email MUST be a valid email address or an empty string.
+     * @param keycomment is a comment.
+     * @param keyalgo this is the type of the key, RSA or DSA.
+     * @param keysize this is the length of the key (1024, 2048, ...)
+     * @param keyexp that will indicate if \em keyexpnumber represents: days, weeks, months, years.
+     * 0 = no expiration
+     * 1 = day
+     * 2 = week
+     * 3 = month
+     * 4 = year
+     * @param keyexpnumber is the number of X (see keyexp for X) while the key will be valid.
+     */
+    void generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const Kgpg::KeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber);
+
+private slots:
+    void generateKeyProcess(KProcIO *p);
+    void generateKeyFin(KProcess *p);
+
+private:
+    QString m_newkeyid;
+    QString m_newfingerprint;
+    QString m_keyname;
+    QString m_keyemail;
+    QString m_keycomment;
+    Kgpg::KeyAlgo m_keyalgo;
+    uint m_keysize;
+    uint m_keyexpnumber;
+    uint m_keyexp;
+
+/********************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -727,4 +799,4 @@ private:
     KURL file;
 };
 
-#endif // __KGPGINTERFACE_H__
+#endif // KGPGINTERFACE_H

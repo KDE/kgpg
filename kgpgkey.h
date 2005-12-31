@@ -7,8 +7,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef __KGPGKEY_H__
-#define __KGPGKEY_H__
+#ifndef KGPGKEY_H
+#define KGPGKEY_H
 
 #include <QSharedDataPointer>
 #include <QSharedData>
@@ -21,6 +21,17 @@
 #include <QDate>
 
 class KgpgKey;
+
+namespace Kgpg
+{
+    enum KeyAlgoFlag
+    {
+        DSA_ELGAMAL = 1,
+        RSA = 2
+    };
+    Q_DECLARE_FLAGS(KeyAlgo, KeyAlgoFlag)
+    Q_DECLARE_OPERATORS_FOR_FLAGS(KeyAlgo)
+};
 
 class KgpgKeySignPrivate : public QSharedData
 {
@@ -454,4 +465,4 @@ public:
 };
 typedef QPointer<KgpgListKeys> KgpgListKeysPtr;
 
-#endif // __KGPGKEY_H__
+#endif // KGPGKEY_H

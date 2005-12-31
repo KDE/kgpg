@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef __KGPGVIEW_H__
-#define __KGPGVIEW_H__
+#ifndef KGPGVIEW_H
+#define KGPGVIEW_H
 
 #include <ktextedit.h>
 #include <kurl.h>
@@ -94,4 +94,4 @@ private:
     bool checkForUtf8(const QString &text);
 };
 
-#endif // __KGPGVIEW_H__
+#endif // KGPGVIEW_H

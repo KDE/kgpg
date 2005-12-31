@@ -7,8 +7,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef __KGPGMD5WIDGET_H__
-#define __KGPGMD5WIDGET_H__
+#ifndef KGPGMD5WIDGET_H
+#define KGPGMD5WIDGET_H
 
 #include <QString>
 #include <QLabel>
@@ -34,4 +34,4 @@ private:
     QLabel *m_textlabel;
 };
 
-#endif // __KGPGMD5WIDGET_H__
+#endif // KGPGMD5WIDGET_H

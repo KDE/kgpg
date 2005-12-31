@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef __LISTKEYS_H__
-#define __LISTKEYS_H__
+#ifndef LISTKEYS_H
+#define LISTKEYS_H
 
 #include <QStringList>
 #include <QDropEvent>
@@ -88,7 +88,7 @@ protected:
     virtual void startDrag();
 
 private slots:
-    void droppedfile(const KURL &url);
+    void droppedFile(const KURL &url);
 
     void slotReloadKeys(const QStringList &keyids);
     void refreshAll();
@@ -156,28 +156,13 @@ class listKeys : public KMainWindow, virtual public KeyInterface
 public:
     listKeys(QWidget *parent = 0, const char *name = 0);
 
-    QLabel *keyPhoto;
     KeyView *keysList2;
 
-    KMenu *popup;
-    KMenu *popupsec;
-    KMenu *popupout;
-    KMenu *popupsig;
-    KMenu *popupgroup;
-    KMenu *popupphoto;
-    KMenu *popupuid;
-    KMenu *popuporphan;
-
-    QString message;
-    QStringList keynames;
-
-    KPassivePopup *pop;
     KToggleAction *sTrust;
     KToggleAction *sCreat;
     KToggleAction *sExpi;
     KToggleAction *sSize;
     KSelectAction *photoProps;
-    KStatusBar *keyStatusBar;
     KgpgEditor *s_kgpgEditor;
 
 signals:
@@ -203,12 +188,17 @@ protected:
     bool eventFilter(QObject *, QEvent *e);
 
 private slots:
+    void showKeyManager();
+    void slotOpenEditor();
+
+    void statusBarTimeout();
+    void changeMessage(QString msg, int nb, bool keep = false);
+
+    void newKeyDone(int err, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint);
+
     void slotAddUidFin(int res, KgpgInterface *interface);
     void slotDelPhotoFinished(int res, KgpgInterface *interface);
     void quitApp();
-    void slotOpenEditor();
-    void changeMessage(QString, int, bool keep=false);
-    void statusBarTimeout();
     void slotShowTrust();
     void slotShowSize();
     void slotShowCreat();
@@ -218,14 +208,12 @@ private slots:
     void slotGotoDefaultKey();
     void slotDelUid();
     void slotAddUid();
-    void slotAddUidEnable(const QString & name);
+    void slotAddUidEnable(const QString &name);
     void slotUpdatePhoto();
     void slotDeletePhoto();
     void slotAddPhoto();
     void slotSetPhotoSize(int size);
     void slotShowPhoto();
-    void readgenprocess(KProcIO *p);
-    void newKeyDone(KProcess *);
     void slotrevoke(QString keyID, QString revokeUrl, int reason, QString description);
     void revokeWidget();
     void doFilePrint(QString url);
@@ -235,12 +223,9 @@ private slots:
     void slotManpage();
     void slotTip();
     void showKeyServer();
-    void showKeyManager();
-    void slotReadFingerProcess(KProcIO *p);
     void slotProcessExportMail(QString keys);
     void slotProcessExportClip(QString keys);
     void readOptions();
-    void genover(KProcess *p);
     void showOptions();
     void slotSetDefKey();
     void slotSetDefaultKey(KListViewItem *newdef);
@@ -264,7 +249,6 @@ private slots:
     void slotPreImportKey();
     void slotedit();
     void addToKAB();
-    //  void allToKAB();
     void editGroup();
     void groupAdd();
     void groupRemove();
@@ -281,15 +265,7 @@ private slots:
     void dcopImportFinished();
 
 private:
-    QPushButton *bouton1;
-    QPushButton *bouton2;
-    QPushButton *bouton0;
-
-    QString tempKeyFile;
-    QString newKeyMail;
-    QString newKeyName;
-    QString newkeyFinger;
-    QString newkeyID;
+    QString message;
     QString globalkeyMail;
     QString globalkeyID;
     QString searchString;
@@ -303,10 +279,21 @@ private:
     */
 
     QClipboard::Mode clipboardMode;
-    QTimer *statusbarTimer;
+    QTimer *m_statusbartimer;
+
+    KMenu *popup;
+    KMenu *popupsec;
+    KMenu *popupout;
+    KMenu *popupsig;
+    KMenu *popupgroup;
+    KMenu *popupphoto;
+    KMenu *popupuid;
+    KMenu *popuporphan;
+
+    KPassivePopup *pop;
+    KStatusBar *m_statusbar;
 
     KListViewSearchLine* listViewSearch;
-    KTempFile *kgpgtmp;
     KDialogBase *addUidWidget;
 
     KAction *importSignatureKey;
@@ -331,5 +318,4 @@ private:
     long searchOptions;
 };
 
-
-#endif // __LISTKEYS_H__
+#endif // LISTKEYS_H

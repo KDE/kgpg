@@ -14,12 +14,14 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef __KGPGKEYGENERATE_H__
-#define __KGPGKEYGENERATE_H__
+#ifndef KGPGKEYGENERATE_H
+#define KGPGKEYGENERATE_H
 
 #include <QString>
 
 #include <kdialogbase.h>
+
+#include "kgpgkey.h"
 
 class KComboBox;
 class KLineEdit;
@@ -31,14 +33,14 @@ class KgpgKeyGenerate : public KDialogBase
 public:
     KgpgKeyGenerate(QWidget *parent = 0, const char *name = 0);
 
-    int getkeyexp() const;
-    bool getmode() const;
-    QString getkeycomm() const;
-    QString getkeynumb() const;
-    QString getkeymail() const;
-    QString getkeyname() const;
-    QString getkeysize() const;
-    QString getkeytype() const;
+    bool getMode() const;
+    QString getKeyName() const;
+    QString getKeyEmail() const;
+    QString getKeyComment() const;
+    Kgpg::KeyAlgo getKeyAlgo() const;
+    uint getKeySize() const;
+    uint getKeyExp() const;
+    uint getKeyNumber() const;
 
 public slots:
     void slotOk();
@@ -59,4 +61,4 @@ private:
     bool m_expert;
 };
 
-#endif // __KGPGKEYGENERATE_H__
+#endif // KGPGKEYGENERATE_H

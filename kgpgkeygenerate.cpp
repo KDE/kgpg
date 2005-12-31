@@ -162,35 +162,38 @@ void KgpgKeyGenerate::slotEnableOk()
     enableButtonOK(!QString(m_kname->text()).simplified().isEmpty());
 }
 
-bool KgpgKeyGenerate::getmode() const
+bool KgpgKeyGenerate::getMode() const
 {
     return m_expert;
 }
 
-QString KgpgKeyGenerate::getkeytype() const
+Kgpg::KeyAlgo KgpgKeyGenerate::getKeyAlgo() const
 {
-    return m_keykind->currentText();
+    if (m_keykind->currentText() == "RSA")
+        return Kgpg::RSA;
+    else
+        return Kgpg::DSA_ELGAMAL;
 }
 
-QString KgpgKeyGenerate::getkeysize() const
+uint KgpgKeyGenerate::getKeySize() const
 {
-    return m_keysize->currentText();
+    return m_keysize->currentText().toUInt();
 }
 
-int KgpgKeyGenerate::getkeyexp() const
+uint KgpgKeyGenerate::getKeyExp() const
 {
     return m_keyexp->currentItem();
 }
 
-QString KgpgKeyGenerate::getkeynumb() const
+uint KgpgKeyGenerate::getKeyNumber() const
 {
     if (m_numb->text() != QString::null)
-        return m_numb->text();
+        return m_numb->text().toUInt();
     else
-        return QString();
+        return 0;
 }
 
-QString KgpgKeyGenerate::getkeyname() const
+QString KgpgKeyGenerate::getKeyName() const
 {
     if (m_kname->text() != QString::null)
         return(m_kname->text());
@@ -198,7 +201,7 @@ QString KgpgKeyGenerate::getkeyname() const
         return QString();
 }
 
-QString KgpgKeyGenerate::getkeymail() const
+QString KgpgKeyGenerate::getKeyEmail() const
 {
     if (m_mail->text() != QString::null)
         return(m_mail->text());
@@ -206,7 +209,7 @@ QString KgpgKeyGenerate::getkeymail() const
         return QString();
 }
 
-QString KgpgKeyGenerate::getkeycomm() const
+QString KgpgKeyGenerate::getKeyComment() const
 {
     if (m_comment->text() != QString::null)
         return(m_comment->text());
