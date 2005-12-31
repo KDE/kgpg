@@ -6,7 +6,7 @@ bin_PROGRAMS = kgpg
 INCLUDES = $(all_includes)
 
 kgpg_SOURCES = kgpgoptions.cpp listkeys.cpp popuppublic.cpp kgpgview.cpp selectsecretkey.cpp \
-        kgpg.cpp main.cpp keygener.cpp kgpginterface.cpp keyservers.cpp keyserver.ui \
+        kgpg.cpp main.cpp kgpgkeygenerate.cpp kgpginterface.cpp keyservers.cpp keyserver.ui \
         searchres.ui kgpgeditor.cpp detailedconsole.cpp kgpglibrary.cpp kgpgwizard.ui \
         keyproperties.ui conf_encryption.ui conf_decryption.ui conf_gpg.ui dcopiface.skel \
         keyinfowidget.cpp groupedit.ui kgpgrevokewidget.ui newkey.ui adduid.ui  keyexport.ui \

@@ -103,7 +103,7 @@
 #include "keyserver.h"
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
-#include "keygener.h"
+#include "kgpgkeygenerate.h"
 #include "kgpgoptions.h"
 #include "keyinfowidget.h"
 #include "kgpglibrary.h"

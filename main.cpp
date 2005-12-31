@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
 {
     KAboutData about("kgpg", I18N_NOOP("KGpg"), version, description, KAboutData::License_GPL, "(C) 2003 Jean-Baptiste Mardelle");
     about.addAuthor("Jean-Baptiste Mardelle", 0, "bj@altern.org");
-    about.addCredit("Jimmy Gilles", I18N_NOOP("has ported Kgpg to KDE4"), "jimmygilles@gmail.com");
+    about.addAuthor("Jimmy Gilles", 0, "jimmygilles@gmail.com");
 
     KCmdLineArgs::init(argc, argv, &about);
     KCmdLineArgs::addCmdLineOptions(options);

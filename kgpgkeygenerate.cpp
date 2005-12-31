@@ -28,7 +28,7 @@
 #include <kdebug.h>
 #include <khbox.h>
 
-#include "keygener.h"
+#include "kgpgkeygenerate.h"
 
 KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent, const char *name)
                : KDialogBase(Plain, i18n("Key Generation"), User1 | Ok | Cancel, Ok, parent, name, true)

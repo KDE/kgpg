@@ -26,6 +26,15 @@ class KgpgSelectSecretKey : public KDialogBase
     Q_OBJECT
 
 public:
+    /**
+     * Default constructor.
+     * @param parent is the parent object
+     * @param name is the name of the object
+     * @param signkey set to \em true if you are going to sign a key, set
+     * to \em false if you are going to sign a message. Default is \em false
+     * @param countkey if \em signkey is set to \em true, \em countkey is the
+     * number of keys that you are going to sign. Default is 1.
+     */
     KgpgSelectSecretKey(QWidget *parent = 0, const char *name = 0, const bool &signkey = false, const int &countkey = 1);
 
     QString getKeyID() const;
