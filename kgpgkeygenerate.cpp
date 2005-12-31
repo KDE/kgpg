@@ -214,4 +214,4 @@ QString KgpgKeyGenerate::getkeycomm() const
         return QString();
 }
 
-#include "keygener.moc"
+#include "kgpgkeygenerate.moc"

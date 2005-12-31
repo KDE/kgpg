@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KEYSERVERS_H
-#define KEYSERVERS_H
+#ifndef __KEYSERVERS_H__
+#define __KEYSERVERS_H__
 
 #include <kdialogbase.h>
 
@@ -91,4 +91,4 @@ private:
     bool m_autoclosewindow;
 };
 
-#endif // KEYSERVERS_H
+#endif // __KEYSERVERS_H__

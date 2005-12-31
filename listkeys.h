@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LISTKEYS_H
-#define LISTKEYS_H
+#ifndef __LISTKEYS_H__
+#define __LISTKEYS_H__
 
 #include <QStringList>
 #include <QDropEvent>
@@ -332,4 +332,4 @@ private:
 };
 
 
-#endif // LISTKEYS_H
+#endif // __LISTKEYS_H__

@@ -14,8 +14,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef KGPGOPTIONS_H
-#define KGPGOPTIONS_H
+#ifndef __KGPGOPTIONS_H__
+#define __KGPGOPTIONS_H__
 
 #include <QPixmap>
 
@@ -110,4 +110,4 @@ private:
     bool m_defaultencrypttoalways;
 };
 
-#endif // KGPGOPTIONS_H
+#endif // __KGPGOPTIONS_H__

@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KGPGDETAILEDCONSOLE_H
-#define KGPGDETAILEDCONSOLE_H
+#ifndef __KGPGDETAILEDCONSOLE_H__
+#define __KGPGDETAILEDCONSOLE_H__
 
 #include <kdialogbase.h>
 
@@ -32,4 +32,4 @@ public:
     KgpgDetailedInfo(QWidget *parent = 0, const char *name = 0,const QString &boxLabel = QString::null, const QString &errormessage = QString::null, const QStringList &keysList = QStringList());
 };
 
-#endif // KGPGDETAILEDCONSOLE_H
+#endif // __KGPGDETAILEDCONSOLE_H__

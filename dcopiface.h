@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KGPGDCOPIF_H
-#define KGPGDCOPIF_H
+#ifndef __KGPGDCOPIF_H__
+#define __KGPGDCOPIF_H__
 
 #include <dcopobject.h>
 
@@ -32,5 +32,4 @@ k_dcop:
   virtual void showKeyManager() = 0;
 };
 
-#endif // KGPGDCOPIF_H
-
+#endif // __KGPGDCOPIF_H__
