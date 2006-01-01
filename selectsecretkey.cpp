@@ -45,10 +45,12 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const char *name, cons
     vbox->addWidget(labeltxt);
     vbox->addWidget(m_keyslistpr);
 
-    m_signkey = false;
-    if (signkey)
+    m_signkey = signkey;
+    m_localsign = 0;
+    m_terminalsign = 0;
+    m_signtrust = 0;
+    if (m_signkey)
     {
-        m_signkey = true;
         QLabel *signchecklabel = new QLabel("<qt>" + i18n("How carefully have you checked that the key really "
                                            "belongs to the person with whom you wish to communicate:",
                                            "How carefully have you checked that the %1 keys really "
@@ -119,12 +121,12 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const char *name, cons
 
     connect(m_keyslistpr, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this,SLOT(slotOk()));
     connect(m_keyslistpr, SIGNAL(clicked(Q3ListViewItem *)), this, SLOT(slotSelect(Q3ListViewItem *)));
-    connect(m_keyslistpr, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
+    connect(m_keyslistpr, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
 
     if (!selectedok)
         m_keyslistpr->setSelected(m_keyslistpr->firstChild(), true);
 
-    selectionChanged();
+    slotSelectionChanged();
     setMainWidget(page);
 }
 
@@ -188,7 +190,7 @@ void KgpgSelectSecretKey::slotSelect(Q3ListViewItem *item)
     }
 }
 
-void KgpgSelectSecretKey::selectionChanged()
+void KgpgSelectSecretKey::slotSelectionChanged()
 {
     enableButtonOK(!m_keyslistpr->selectedItems().isEmpty());
 }

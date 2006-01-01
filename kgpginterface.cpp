@@ -2556,7 +2556,7 @@ void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail,
 
     if ((!keyemail.isEmpty()) && ((keyemail.find(" ") != -1) || (keyemail.find(".") == -1) || (keyemail.find("@") == -1)))
     {
-        emit generateKeyFinished(4, this, QString::null, QString::null, QString::null, QString::null);
+        emit generateKeyFinished(4, this, keyname, keyemail, QString::null, QString::null);
         return;
     }
 
@@ -2607,12 +2607,9 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
             if (line.find("BAD_PASSPHRASE") != -1)
                 m_success = 1;
             else
-            if (line.find("GOOD_PASSPHRASE") != -1)
-                m_success = 5;
-            else
             if ((m_success == 5) && (line.find("PROGRESS") != -1))
             {
-                m_success = 2;
+                m_success = 0;
                 emit generateKeyStarted(this);
             }
             else
@@ -2625,21 +2622,21 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
             }
             else
             if (line.find("keygen.size") != -1)
-                p->writeStdin(QString(m_keysize), true);
+                p->writeStdin(QString::number(m_keysize), true);
             else
             if (line.find("keygen.valid") != -1)
             {
                 QString output;
                 if (m_keyexp != 0)
                 {
-                    output = QString(m_keyexpnumber);
+                    output = QString::number(m_keyexpnumber);
                     if (m_keyexp == 1)
                         output.append("d");
                     if (m_keyexp == 2)
                         output.append("w");
-                    if (m_keyexp == 2)
+                    if (m_keyexp == 3)
                         output.append("m");
-                    if (m_keyexp == 2)
+                    if (m_keyexp == 4)
                         output.append("y");
                 }
                 else
@@ -2660,21 +2657,27 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
             if (line.find("passphrase.enter") != -1)
             {
                 QString passdlgmessage;
-                passdlgmessage = i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences").arg(m_keyname + " <" + m_keyemail + ">");
+                passdlgmessage = i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences");
+                if (!m_keyemail.isEmpty())
+                    passdlgmessage.arg(m_keyname + " <" + m_keyemail + ">");
+                else
+                    passdlgmessage.arg(m_keyname);
 
-                if (sendPassphrase(passdlgmessage, p, false))
+                if (sendPassphrase(passdlgmessage, p, true))
                 {
                     delete p;
                     emit generateKeyFinished(3, this, m_keyname, m_keyemail, QString::null, QString::null);
                     return;
                 }
                 step--;
+                m_success = 5;
             }
             else
             if (line.find("KEY_CREATED") != -1)
             {
                 m_newfingerprint = line.right(40);
                 m_newkeyid = line.right(8);
+                m_success = 2;
             }
             else
             if (line.find("GET_") != -1) // gpg asks for something unusal, turn to konsole mode
@@ -2691,8 +2694,6 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
 void KgpgInterface::generateKeyFin(KProcess *p)
 {
     delete p;
-    if (m_success == 5)
-        m_success = 2;
     emit generateKeyFinished(m_success, this, m_keyname, m_keyemail, m_newkeyid, m_newfingerprint);
 }
 

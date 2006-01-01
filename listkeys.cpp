@@ -931,6 +931,7 @@ listKeys::listKeys(QWidget *parent, const char *name)
 {
     setCaption(i18n("Key Management"));
 
+    m_statusbartimer = new QTimer(this);
     keysList2 = new KeyView(this);
     keysList2->photoKeysList = QString::null;
     keysList2->groupNb = 0;
@@ -1099,8 +1100,6 @@ listKeys::listKeys(QWidget *parent, const char *name)
     sCreat->setChecked(KGpgSettings::showCreat());
     sExpi->setChecked(KGpgSettings::showExpi());
 
-    m_statusbartimer = new QTimer(this);
-
     m_statusbar = statusBar();
     m_statusbar->insertItem("", 0, 1);
     m_statusbar->insertFixedItem(i18n("00000 Keys, 000 Groups"), 1, true);
@@ -1117,6 +1116,7 @@ listKeys::listKeys(QWidget *parent, const char *name)
 
 void listKeys::slotgenkey()
 {
+    kdDebug(2100) << "listKeys::slotgenkey" << endl;
     KgpgKeyGenerate *genkey = new KgpgKeyGenerate(this, 0);
     if (genkey->exec() == QDialog::Accepted)
     {
@@ -1132,41 +1132,9 @@ void listKeys::slotgenkey()
             uint keynumber = genkey->getKeyNumber();
             delete genkey;
 
-            pop = new KPassivePopup(this, "new_key");
-            pop->setTimeout(0); // FIXME 0 ? we need to keep it ?
-
-            QWidget *wid = new QWidget(pop);
-            QVBoxLayout *vbox = new QVBoxLayout(wid, 3);
-
-            KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", KIcon::Desktop), wid);
-
-            QMovie anim(locate("appdata", "pics/kgpg_anim.gif"));
-
-            QLabel *text1 = new QLabel(wid);
-            QLabel *text2 = new QLabel(wid);
-            text1->setAlignment(Qt::AlignHCenter);
-            text1->setMovie(&anim);
-            text2->setText(i18n("\nPlease wait..."));
-
-            vbox->addWidget(passiveBox);
-            vbox->addWidget(text1);
-            vbox->addWidget(text2);
-
-            pop->setView(wid);
-            pop->show();
-
-            QRect qRect(QApplication::desktop()->screenGeometry());
-            int Xpos = qRect.width() / 2 - pop->width() / 2;
-            int Ypos = qRect.height() / 2 - pop->height() / 2;
-            pop->move(Xpos, Ypos);
-
-            pop->setAutoDelete(false);
-            changeMessage(i18n("Generating New Key..."), 0, true);
-
-
             KgpgInterface *interface = new KgpgInterface();
-            //connect(interface, SIGNAL(generateKeyStarted(...)), this, SLOT(...));
-            connect(interface, SIGNAL(generateKeyFinished(int, KgpgInterface*, QString, QString, QString, QString)), this, SLOT(newKeyDone(int, KgpgInterface*, QString, QString, QString, QString)));
+            connect(interface, SIGNAL(generateKeyStarted(KgpgInterface*)), this, SLOT(slotGenerateKeyProcess(KgpgInterface*)));
+            connect(interface, SIGNAL(generateKeyFinished(int, KgpgInterface*, QString, QString, QString, QString)), this, SLOT(slotGenerateKeyDone(int, KgpgInterface*, QString, QString, QString, QString)));
             interface->generateKey(newKeyName, newKeyMail, keycomment, keyalgo, keysize, keyexp, keynumber);
         }
         else // start expert (=konsole) mode
@@ -1186,24 +1154,57 @@ void listKeys::slotgenkey()
         delete genkey;
 }
 
-void listKeys::newKeyDone(int err, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint)
+void listKeys::slotGenerateKeyProcess(KgpgInterface *)
+{
+    pop = new KPassivePopup(this, "new_key");
+    pop->setTimeout(0);
+
+    KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", KIcon::Desktop), 0);
+
+    QMovie anim(locate("appdata", "pics/kgpg_anim.gif"));
+    QLabel *text1 = new QLabel(passiveBox);
+    text1->setAlignment(Qt::AlignHCenter);
+    text1->setMovie(&anim);
+
+    QLabel *text2 = new QLabel(passiveBox);
+    text2->setText(i18n("\nPlease wait..."));
+
+    pop->setView(passiveBox);
+    pop->show();
+
+    QRect qRect(QApplication::desktop()->screenGeometry());
+    int Xpos = qRect.width() / 2 - pop->width() / 2;
+    int Ypos = qRect.height() / 2 - pop->height() / 2;
+    pop->move(Xpos, Ypos);
+
+    pop->setAutoDelete(false);
+    changeMessage(i18n("Generating New Key..."), 0, true);
+}
+
+void listKeys::slotGenerateKeyDone(int err, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint)
 {
     delete interface;
     changeMessage(i18n("Ready"), 0);
 
     if (err == 1)
     {
-        // bad password
+        QString infomessage = i18n("Generating new key pair");
+        QString infotext = i18n("Bad passphrase. Cannot generate a new key pair.");
+        KMessageBox::error(this, infotext, infomessage);
     }
     else
     if (err == 3)
     {
-        // aborted
+        QString infomessage = i18n("Generating new key pair");
+        QString infotext = i18n("Aborted by the user. Cannot generate a new key pair.");
+        KMessageBox::error(this, infotext, infomessage);
     }
     else
     if (err == 4)
     {
-        // email invalid
+        QString infomessage = i18n("Generating new key pair");
+        QString infotext = i18n("The email address is not valid. Cannot generate a new key pair.");
+        KMessageBox::error(this, infotext, infomessage);
     }
     else
     {
@@ -1228,6 +1229,7 @@ void listKeys::newKeyDone(int err, KgpgInterface *interface, const QString &name
         keyCreated->setMainWidget(page);
 
         delete pop;
+        pop = 0;
 
         keyCreated->exec();
 
@@ -1287,7 +1289,6 @@ void listKeys::statusBarTimeout()
 void listKeys::changeMessage(QString msg, int nb, bool keep)
 {
     m_statusbartimer->stop();
-
     if (m_statusbar)
     {
         if ((nb == 0) && (!keep))

@@ -27,7 +27,7 @@ class KgpgSelectSecretKey : public KDialogBase
 
 public:
     /**
-     * Default constructor.
+     * Constructor.
      * @param parent is the parent object
      * @param name is the name of the object
      * @param signkey set to \em true if you are going to sign a key, set
@@ -46,7 +46,7 @@ public:
 private slots:
     void slotOk();
     void slotSelect(Q3ListViewItem *item);
-    void selectionChanged();
+    void slotSelectionChanged();
 
 private:
     QCheckBox *m_localsign;

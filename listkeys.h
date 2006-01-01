@@ -194,7 +194,8 @@ private slots:
     void statusBarTimeout();
     void changeMessage(QString msg, int nb, bool keep = false);
 
-    void newKeyDone(int err, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint);
+    void slotGenerateKeyProcess(KgpgInterface *interface);
+    void slotGenerateKeyDone(int err, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint);
 
     void slotAddUidFin(int res, KgpgInterface *interface);
     void slotDelPhotoFinished(int res, KgpgInterface *interface);

@@ -573,8 +573,8 @@ public slots:
      * This slot will generate a new key-pair.
      * @param keyname the name of the key, it is also the user's name.
      * @param keymail email MUST be a valid email address or an empty string.
-     * @param keycomment is a comment.
-     * @param keyalgo this is the type of the key, RSA or DSA.
+     * @param keycomment is a comment, it can be an empty string
+     * @param keyalgo this is the type of the key, RSA or DSA & ELGAMAL (see Kgpg::KeyAlgo).
      * @param keysize this is the length of the key (1024, 2048, ...)
      * @param keyexp that will indicate if \em keyexpnumber represents: days, weeks, months, years.
      * 0 = no expiration
