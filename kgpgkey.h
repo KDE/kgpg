@@ -31,7 +31,7 @@ namespace Kgpg
     };
     Q_DECLARE_FLAGS(KeyAlgo, KeyAlgoFlag)
     Q_DECLARE_OPERATORS_FOR_FLAGS(KeyAlgo)
-};
+}
 
 class KgpgKeySignPrivate : public QSharedData
 {

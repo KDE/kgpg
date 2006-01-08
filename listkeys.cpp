@@ -120,7 +120,7 @@ public:
         Uid = 16,
         Uat = 32,
         Rev = 64,
-        Sign = 128,
+        Sign = 128
     };
 
     UpdateViewItem(KListView *parent = 0, QString name = QString::null, QString email = QString::null, QString trust = QString::null, QString expiration = QString::null, QString size = QString::null, QString creation = QString::null, QString id = QString::null, bool isdefault = false, bool isexpired = false, ItemType type = Public);
