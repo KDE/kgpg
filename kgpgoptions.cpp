@@ -86,7 +86,8 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     QVBoxLayout *fontlayout = new QVBoxLayout(m_page3->tabWidget3->page(1));
     fontlayout->setSpacing(spacingHint());
 
-    m_fontchooser = new KFontChooser(m_page3->tabWidget3->page(1), "kcfg_Font", false, QStringList(), false);
+    m_fontchooser = new KFontChooser(m_page3->tabWidget3->page(1), false, QStringList(), false);
+	m_fontchooser->setObjectName("kcfg_Font");
     fontlayout->addWidget(m_fontchooser);
 
     m_page7->shredInfo->setText(i18n( "<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>"));
