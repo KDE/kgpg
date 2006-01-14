@@ -7,15 +7,24 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QDragMoveEvent>
+#include <QDropEvent>
 #include <QPainter>
-#include <QString>
 
 #include <Q3ListViewItem>
+#include <Q3TextDrag>
+#include <Q3Header>
 
 #include <kabc/stdaddressbook.h>
+#include <kstandarddirs.h>
+#include <kapplication.h>
+#include <kiconloader.h>
+#include <kmessagebox.h>
 #include <klocale.h>
 
+#include "kgpgsettings.h"
 #include "keylistview.h"
+#include "kgpgoptions.h"
 
 KeyListViewItem::KeyListViewItem(KListView *parent, QString name, QString email, QString trust, QString expiration, QString size, QString creation, QString id, bool isdefault, bool isexpired, ItemType type)
                : KListViewItem(parent)
@@ -176,6 +185,626 @@ int KeyListViewItem::compare(Q3ListViewItem *item2, int c, bool ascending) const
 QString KeyListViewItem::key(int column, bool) const
 {
     return text(column).toLower();
+}
+
+KeyListView::KeyListView(QWidget *parent)
+           : KListView(parent)
+{
+    setRootIsDecorated(true);
+    addColumn(i18n("Name"), 200);
+    addColumn(i18n("Email"), 200);
+    addColumn(i18n("Trust"), 60);
+    addColumn(i18n("Expiration"), 100);
+    addColumn(i18n("Size"), 100);
+    addColumn(i18n("Creation"), 100);
+    addColumn(i18n("Id"), 100);
+    setShowSortIndicator(true);
+    setAllColumnsShowFocus(true);
+    setFullWidth(true);
+    setAcceptDrops(true) ;
+    setSelectionModeExt(Extended);
+
+    KIconLoader *loader = KGlobal::iconLoader();
+    pixkeyOrphan = loader->loadIcon("kgpg_key4", KIcon::Small, 20);
+    pixkeyGroup = loader->loadIcon("kgpg_key3", KIcon::Small, 20);
+    pixkeyPair = loader->loadIcon("kgpg_key2", KIcon::Small, 20);
+    pixkeySingle = loader->loadIcon("kgpg_key1", KIcon::Small, 20);
+    pixsignature = loader->loadIcon("signature", KIcon::Small, 20);
+    pixuserid = loader->loadIcon("kgpg_identity", KIcon::Small, 20);
+    pixuserphoto = loader->loadIcon("kgpg_photo", KIcon::Small, 20);
+    pixRevoke = loader->loadIcon("stop", KIcon::Small, 20);
+
+    QPixmap blankFrame;
+    blankFrame.load(locate("appdata", "pics/kgpg_blank.png"));
+
+    trustunknown.load(locate("appdata", "pics/kgpg_fill.png"));
+    trustunknown.fill(KGpgSettings::colorUnknown());
+    bitBlt(&trustunknown, 0, 0, &blankFrame, 0, 0, 50, 15);
+
+    trustbad.load(locate("appdata", "pics/kgpg_fill.png"));
+    trustbad.fill(KGpgSettings::colorBad());
+    bitBlt(&trustbad, 0, 0, &blankFrame, 0, 0, 50, 15);
+
+    trustrevoked.load(locate("appdata", "pics/kgpg_fill.png"));
+    trustrevoked.fill(KGpgSettings::colorRev());
+    bitBlt(&trustrevoked, 0, 0, &blankFrame, 0, 0, 50, 15);
+
+    trustgood.load(locate("appdata", "pics/kgpg_fill.png"));
+    trustgood.fill(KGpgSettings::colorGood());
+    bitBlt(&trustgood, 0, 0, &blankFrame, 0, 0, 50, 15);
+
+    connect(this, SIGNAL(expanded(Q3ListViewItem*)), this, SLOT(expandKey(Q3ListViewItem *)));
+
+    header()->setMovingEnabled(false);
+    setAcceptDrops(true);
+    setDragEnabled(true);
+}
+
+void KeyListView::setPreviewSize(const int &size)
+{
+    m_previewsize = size;
+}
+
+int KeyListView::previewSize() const
+{
+    return m_previewsize;
+}
+
+void KeyListView::setDisplayPhoto(const bool &display)
+{
+    m_displayphoto = display;
+}
+
+bool KeyListView::displayPhoto() const
+{
+    return m_displayphoto;
+}
+
+void KeyListView::slotAddColumn(const int &c)
+{
+    header()->setResizeEnabled(true, c);
+    adjustColumn(c);
+}
+
+void KeyListView::slotRemoveColumn(const int &c)
+{
+    hideColumn(c);
+    header()->setResizeEnabled(false, c);
+    header()->setStretchEnabled(true, 6);
+}
+
+void KeyListView::contentsDragMoveEvent(QDragMoveEvent *e)
+{
+    e->accept(KURL::List::canDecode(e->mimeData()));
+}
+
+void  KeyListView::contentsDropEvent(QDropEvent *o)
+{
+    KURL::List uriList = KURL::List::fromMimeData(o->mimeData());
+    if (!uriList.isEmpty())
+        droppedFile(uriList.first());
+}
+
+void KeyListView::startDrag()
+{
+    QString keyid = currentItem()->text(6);
+    if (!keyid.startsWith("0x"))
+        return;
+
+    KgpgInterface *interface = new KgpgInterface();
+    QString keytxt = interface->getKeys(true, true, QStringList(keyid));
+    delete interface;
+
+    Q3DragObject *d = new Q3TextDrag(keytxt, this);
+    d->dragCopy();
+    // do NOT delete d.
+}
+
+void KeyListView::droppedFile(const KURL &url)
+{
+    if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>").arg(url.path()), QString::null, i18n("Import"), i18n("Do Not Import")) != KMessageBox::Yes)
+        return;
+
+    KgpgInterface *interface = new KgpgInterface();
+    connect(interface, SIGNAL(importKeyFinished(QStringList)), this, SLOT(slotReloadKeys(QStringList)));
+    interface->importKey(url);
+}
+
+void KeyListView::slotReloadKeys(const QStringList &keyids)
+{
+    if (keyids.isEmpty())
+        return;
+
+    if (keyids.first() == "ALL")
+    {
+        refreshAll();
+        return;
+    }
+
+    refreshKeys(keyids);
+
+    ensureItemVisible(this->findItem((keyids.last()).right(8).prepend("0x"), 6));
+    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount() - groupNb).arg(groupNb), 1);
+    emit statusMessage(i18n("Ready"), 0);
+}
+
+void KeyListView::refreshAll()
+{
+    emit statusMessage(i18n("Loading Keys..."), 0, true);
+    kapp->processEvents();
+
+    // update display of keys in main management window
+    kdDebug(2100) << "Refreshing All" << endl;
+
+    // get current position.
+    KListViewItem *current = static_cast<KListViewItem*>(currentItem());
+    if(current != 0)
+    {
+        while(current->depth() > 0)
+            current = static_cast<KListViewItem*>(current->parent());
+        takeItem(current);
+    }
+
+    // clear the list
+    clear();
+
+    orphanList = QStringList();
+    if (refreshKeys())
+    {
+        kdDebug(2100) << "No key found" << endl;
+        emit statusMessage(i18n("Ready"), 0);
+        return;
+    }
+
+    refreshGroups();
+
+    KListViewItem *newPos = 0L;
+    if(current != 0)
+    {
+        // select previous selected
+        if (!current->text(6).isEmpty())
+            newPos = static_cast<KListViewItem*>(findItem(current->text(6), 6));
+        else
+            newPos = static_cast<KListViewItem*>(findItem(current->text(0), 0));
+        delete current;
+    }
+
+    if (newPos != 0L)
+    {
+        setCurrentItem(newPos);
+        setSelected(newPos, true);
+        ensureItemVisible(newPos);
+    }
+    else
+    {
+        setCurrentItem(firstChild());
+        setSelected(firstChild(), true);
+    }
+
+    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount() - groupNb).arg(groupNb), 1);
+    emit statusMessage(i18n("Ready"),0);
+    kdDebug(2100) << "Refresh Finished" << endl;
+}
+
+bool KeyListView::refreshKeys(QStringList ids)
+{
+    KgpgInterface *interface = new KgpgInterface();
+    KgpgListKeys secretlist = interface->readSecretKeys(true);
+
+    QStringList issec;
+    for (int i = 0; i < secretlist.size(); ++i)
+        issec << secretlist.at(i).id();
+
+    KgpgListKeys publiclist = interface->readPublicKeys(true, ids);
+    delete interface;
+
+    KeyListViewItem *item = 0;
+    QString defaultkey = KGpgSettings::defaultKey();
+    for (int i = 0; i < publiclist.size(); ++i)
+    {
+        KgpgKey key = publiclist.at(i);
+        bool isbold = false;
+        bool isexpired = false;
+        bool noid = false;
+
+        if (key.id() == defaultkey)
+            isbold = true;
+        if (key.trust() == 'e')
+            isexpired = true;
+        if (key.name().isEmpty())
+            noid = true;
+
+        item = new KeyListViewItem(this, key.name(), key.email(), QString::null, key.expiration(), key.size(), key.creation(), key.id(), isbold, isexpired, KeyListViewItem::Public);
+        item->setPixmap(2, getTrustPix(key.trust(), key.valide()));
+        item->setVisible(true);
+        item->setExpandable(true);
+
+        QStringList::Iterator ite;
+        ite = issec.find(key.id());
+        if (ite != issec.end())
+        {
+            item->setPixmap(0, pixkeyPair);
+            item->setItemType(item->itemType() | KeyListViewItem::Secret);
+            issec.remove(*ite);
+        }
+        else
+            item->setPixmap(0, pixkeySingle);
+    }
+
+    if (!issec.isEmpty())
+        insertOrphans(issec);
+
+    if (publiclist.size() == 0)
+        return 1;
+    else
+    {
+        if (publiclist.size() == 1)
+        {
+            clearSelection();
+            setCurrentItem(item);
+        }
+        return 0;
+    }
+}
+
+void KeyListView::refreshcurrentkey(KListViewItem *current)
+{
+    if (!current)
+        return;
+
+    bool keyIsOpen = false;
+
+    QString keyUpdate = current->text(6);
+    if (keyUpdate.isEmpty())
+        return;
+    if (current->isOpen())
+        keyIsOpen = true;
+
+    delete current;
+
+    refreshKeys(QStringList(keyUpdate));
+
+    if (currentItem())
+        if (currentItem()->text(6) == keyUpdate)
+            currentItem()->setOpen(keyIsOpen);
+}
+
+void KeyListView::refreshselfkey()
+{
+    if (currentItem()->depth() == 0)
+        refreshcurrentkey(static_cast<KListViewItem*>(currentItem()));
+    else
+        refreshcurrentkey(static_cast<KListViewItem*>(currentItem()->parent()));
+}
+
+void KeyListView::slotReloadOrphaned()
+{
+    QStringList issec;
+
+    KgpgInterface *interface = new KgpgInterface();
+    KgpgListKeys listkeys;
+
+    listkeys = interface->readSecretKeys(true);
+    for (int i = 0; i < listkeys.size(); ++i)
+        issec << listkeys.at(i).id();
+    listkeys = interface->readPublicKeys(true);
+    for (int i = 0; i < listkeys.size(); ++i)
+        issec.remove(listkeys.at(i).id());
+
+    delete interface;
+
+    QStringList::Iterator it;
+    QStringList list;
+    for (it = issec.begin(); it != issec.end(); ++it)
+        if (findItem(*it, 6) == 0)
+            list += *it;
+
+    if (list.size() != 0)
+        insertOrphans(list);
+
+    setSelected(findItem(*it, 6), true);
+    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount() - groupNb).arg(groupNb), 1);
+    emit statusMessage(i18n("Ready"), 0);
+}
+
+void KeyListView::insertOrphans(QStringList ids)
+{
+    KgpgInterface *interface = new KgpgInterface();
+    KgpgListKeys keys = interface->readSecretKeys(true, ids);
+    delete interface;
+
+    KeyListViewItem *item = 0;
+    for (int i = 0; i < keys.count(); ++i)
+    {
+        KgpgKey key = keys.at(i);
+        bool isbold = false;
+        bool isexpired = false;
+
+        if (key.trust() == 'e')
+            isexpired = true;
+
+        orphanList << key.id();
+
+        item = new KeyListViewItem(this, key.name(), key.email(), QString::null, key.expiration(), key.size(), key.creation(), key.id(), isbold, isexpired, KeyListViewItem::Secret);
+        item->setPixmap(0, pixkeyOrphan);
+    }
+
+    if (ids.size() == 1)
+    {
+        if (keys.isEmpty())
+        {
+            orphanList.remove(ids.at(0));
+            setSelected(currentItem(), true);
+        }
+        else
+        {
+            clearSelection();
+            setCurrentItem(item);
+            setSelected(item, true);
+        }
+    }
+}
+
+void KeyListView::refreshGroups()
+{
+    kdDebug(2100) << "Refreshing groups..." << endl;
+    KeyListViewItem *item = static_cast<KeyListViewItem*>(firstChild());
+    while (item)
+    {
+        if (item->itemType() == KeyListViewItem::Group)
+        {
+            KeyListViewItem *item2 = static_cast<KeyListViewItem*>(item->nextSibling());
+            delete item;
+            item = item2;
+        }
+        else
+            item = static_cast<KeyListViewItem*>(item->nextSibling());
+    }
+
+    QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
+    groupNb = groups.count();
+
+    for (QStringList::Iterator it = groups.begin(); it != groups.end(); ++it)
+        if (!QString(*it).isEmpty())
+        {
+            item = new KeyListViewItem(this, QString(*it), "-", "-", "-", "-", "-", "-", false, false, KeyListViewItem::Group);
+            item->setPixmap(0, pixkeyGroup);
+            item->setExpandable(false);
+        }
+
+    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount() - groupNb).arg(groupNb), 1);
+    emit statusMessage(i18n("Ready"), 0);
+}
+
+void KeyListView::refreshTrust(int color, QColor newColor)
+{
+    if (!newColor.isValid())
+        return;
+
+    QPixmap blankFrame;
+    QPixmap newtrust;
+    int trustFinger = 0;
+
+    blankFrame.load(locate("appdata", "pics/kgpg_blank.png"));
+    newtrust.load(locate("appdata", "pics/kgpg_fill.png"));
+    newtrust.fill(newColor);
+
+    bitBlt(&newtrust, 0, 0, &blankFrame, 0, 0, 50, 15);
+
+    switch (color)
+    {
+        case kgpgOptions::GoodColor:
+            trustFinger = trustgood.serialNumber();
+            trustgood = newtrust;
+            break;
+
+        case kgpgOptions::BadColor:
+            trustFinger = trustbad.serialNumber();
+            trustbad = newtrust;
+            break;
+
+        case kgpgOptions::UnknownColor:
+            trustFinger = trustunknown.serialNumber();
+            trustunknown = newtrust;
+            break;
+
+        case kgpgOptions::RevColor:
+            trustFinger = trustrevoked.serialNumber();
+            trustrevoked = newtrust;
+            break;
+    }
+
+    KListViewItem *item = static_cast<KListViewItem*>(firstChild());
+    while (item)
+    {
+        if (item->pixmap(2))
+            if (item->pixmap(2)->serialNumber() == trustFinger)
+                item->setPixmap(2, newtrust);
+        item = static_cast<KListViewItem*>(item->nextSibling());
+    }
+}
+
+void KeyListView::expandKey(Q3ListViewItem *item2)
+{
+    KListViewItem *item = static_cast<KListViewItem*>(item2);
+    if (item->childCount() != 0)
+        return;   // key has already been expanded
+
+    QString keyid = item->text(6);
+
+    KgpgInterface *interface = new KgpgInterface();
+    KgpgListKeys keys = interface->readPublicKeys(true, QStringList(keyid), true);
+    KgpgKey key = keys.at(0);
+
+    KeyListViewItem *tmpitem;
+
+
+    /********* insertion of sub keys ********/
+    for (int i = 0; i < key.subList()->size(); ++i)
+    {
+        KgpgKeySub sub = key.subList()->at(i);
+
+        QString algo = i18n("%1 subkey").arg(KgpgKey::algorithmeToString(sub.algorithme()));
+        tmpitem = new KeyListViewItem(item, algo, QString::null, QString::null, sub.expiration(), sub.size(), sub.creation(), sub.id(), false, false, KeyListViewItem::Sub);
+        tmpitem->setPixmap(0, pixkeySingle);
+        tmpitem->setPixmap(2, getTrustPix(sub.trust(), sub.valide()));
+        insertSigns(tmpitem, sub.signList());
+    }
+    /****************************************/
+
+
+    /********* insertion of users id ********/
+    for (int i = 0; i < key.uidList()->size(); ++i)
+    {
+        KgpgKeyUid uid = key.uidList()->at(i);
+
+        tmpitem = new KeyListViewItem(item, uid.name(), uid.email(), QString::null, "-", "-", "-", "-", false, false, KeyListViewItem::Uid);
+        tmpitem->setPixmap(2, getTrustPix(key.trust(), key.valide()));
+        tmpitem->setPixmap(0, pixuserid);
+        insertSigns(tmpitem, uid.signList());
+    }
+    /****************************************/
+
+
+    /******** insertion of photos id ********/
+    QStringList photolist = key.photoList();
+    for (int i = 0; i < photolist.size(); ++i)
+    {
+        tmpitem = new KeyListViewItem(item, i18n("Photo id"), QString::null, QString::null, "-", "-", "-", photolist.at(i), false, false, KeyListViewItem::Uat);
+        tmpitem->setPixmap(2, getTrustPix(key.trust(), key.valide()));
+
+        if (m_displayphoto)
+        {
+            QPixmap pixmap = interface->loadPhoto(keyid, photolist.at(i), true);
+            tmpitem->setPixmap(0, pixmap.scaled(m_previewsize + 5, m_previewsize, Qt::KeepAspectRatio));
+        }
+        else
+            tmpitem->setPixmap(0, pixuserphoto);
+
+        KgpgKeyUat uat = key.uatList()->at(i);
+        insertSigns(tmpitem, uat.signList());
+    }
+    /****************************************/
+
+
+    /******** insertion of signature ********/
+    insertSigns(item, key.signList());
+    /****************************************/
+
+    delete interface;
+}
+
+void KeyListView::insertSigns(KListViewItem *item, const KgpgKeySignList &list)
+{
+    KeyListViewItem *newitem;
+    for (int i = 0; i < list.size(); ++i)
+    {
+        const KgpgKeySign sign = list.at(i);
+
+        QString tmpname = sign.name();
+        if (!sign.comment().isEmpty())
+            tmpname += " (" + sign.comment() + ")";
+
+        QString tmpemail = sign.email();
+        if (sign.local())
+            tmpemail += i18n(" [local]");
+
+        if (sign.revocation())
+        {
+            tmpemail += i18n(" [Revocation signature]");
+            newitem = new KeyListViewItem(item, tmpname, tmpemail, "-", "-", "-", sign.creation(), sign.id(), false, false, KeyListViewItem::Rev);
+            newitem->setPixmap(0, pixRevoke);
+        }
+        else
+        {
+            newitem = new KeyListViewItem(item, tmpname, tmpemail, "-", sign.expiration(), "-", sign.creation(), sign.id(), false, false, KeyListViewItem::Sign);
+            newitem->setPixmap(0, pixsignature);
+        }
+    }
+}
+
+void KeyListView::expandGroup(KListViewItem *item)
+{
+    QStringList keysGroup = KgpgInterface::getGpgGroupSetting(item->text(0), KGpgSettings::gpgConfigPath());
+
+    kdDebug(2100) << keysGroup << endl;
+
+    for (QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
+    {
+        KeyListViewItem *item2 = new KeyListViewItem(item, QString(*it), QString::null, QString::null, QString::null, QString::null, QString::null, QString::null);
+        item2->setPixmap(0, pixkeyGroup);
+        item2->setExpandable(false);
+    }
+}
+
+QPixmap KeyListView::getTrustPix(const QChar &c, const bool &isvalid)
+{
+    if (!isvalid)
+        return trustbad;
+    if (c == 'o')
+        return trustunknown;
+    if (c == 'i')
+        return trustbad;
+    if (c == 'd')
+        return trustbad;
+    if (c == 'r')
+        return trustrevoked;
+    if (c == 'e')
+        return trustbad;
+    if (c == 'q')
+        return trustunknown;
+    if (c == 'n')
+        return trustunknown;
+    if (c == 'm')
+        return trustbad;
+    if (c == 'f')
+        return trustgood;
+    if (c == 'u')
+        return trustgood;
+    return trustunknown;
+}
+
+KeyListViewSearchLine::KeyListViewSearchLine(QWidget *parent, KeyListView *listView)
+                     : KListViewSearchLine(parent, listView)
+{
+    m_searchlistview = listView;
+    setKeepParentsVisible(false);
+    onlySecret = false;
+    showDisabled = true;
+}
+
+void KeyListViewSearchLine::updateSearch(const QString& s)
+{
+   KListViewSearchLine::updateSearch(s);
+/*
+    if (m_searchlistview->displayOnlySecret || !m_searchlistview->displayDisabled)
+    {
+        int disabledSerial = m_searchlistview->trustbad.serialNumber();
+        KListViewItem *item = static_cast<KListViewItem*>(m_searchlistview->firstChild());
+        while (item)
+        {
+            if (item->isVisible() && !(item->text(6).isEmpty()))
+            {
+                if (m_searchlistview->displayOnlySecret && m_searchlistview->secretList.find(item->text(6)) == -1)
+                    item->setVisible(false);
+
+                if (!m_searchlistview->displayDisabled && item->pixmap(2))
+                    if (item->pixmap(2)->serialNumber() == disabledSerial)
+                        item->setVisible(false);
+            }
+
+            item = static_cast<KListViewItem*>(item->nextSibling());
+        }
+    }
+*/
+}
+
+bool KeyListViewSearchLine::itemMatches(const KListViewItem *item, const QString &s) const
+{
+    if (item->depth() != 0)
+        return true;
+    else
+        return KListViewSearchLine::itemMatches(item, s);
 }
 
 #include "keylistview.moc"

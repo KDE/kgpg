@@ -34,6 +34,7 @@
 
 #include "dcopiface.h"
 #include "kgpgkey.h"
+#include "keylistview.h"
 
 class QDragMoveEvent;
 class QVBoxLayout;
@@ -56,102 +57,6 @@ class groupEdit;
 class keyServer;
 class KgpgEditor;
 
-class KeyView : public KListView
-{
-    Q_OBJECT
-    friend class listKeys;
-
-public:
-    KeyView(QWidget *parent = 0);
-
-    void setPreviewSize(const int &size);
-    int previewSize() const;
-
-    void setDisplayPhoto(const bool &display);
-    bool displayPhoto() const;
-
-    QPixmap trustbad;
-    QString secretList;
-
-signals:
-    void statusMessage(QString, int, bool keep = false);
-
-public slots:
-    void slotAddColumn(const int &c);
-    void slotRemoveColumn(const int &c);
-
-protected:
-    virtual void contentsDragMoveEvent(QDragMoveEvent *e);
-    virtual void contentsDropEvent(QDropEvent *e);
-    virtual void startDrag();
-
-private slots:
-    void droppedFile(const KURL &url);
-
-    void slotReloadKeys(const QStringList &keyids);
-    void refreshAll();
-
-    bool refreshKeys(QStringList ids = QStringList());
-    void refreshcurrentkey(KListViewItem *current);
-    void refreshselfkey();
-
-    void slotReloadOrphaned();
-    void insertOrphans(QStringList ids);
-
-    void refreshGroups();
-    void refreshTrust(int color, QColor newColor);
-
-    void expandKey(Q3ListViewItem *item);
-    void expandGroup(KListViewItem *item);
-    void insertSigns(KListViewItem *item, const KgpgKeySignList &list);
-
-private:
-    QPixmap getTrustPix(const QChar &c, const bool &isvalid);
-
-private:
-    QStringList orphanList;
-    QString photoKeysList;
-
-    QPixmap pixkeyPair;
-    QPixmap pixkeySingle;
-    QPixmap pixkeyGroup;
-    QPixmap pixsignature;
-    QPixmap pixuserid;
-    QPixmap pixuserphoto;
-    QPixmap trustunknown;
-    QPixmap trustrevoked;
-    QPixmap trustgood;
-    QPixmap pixRevoke;
-    QPixmap pixkeyOrphan;
-
-    int groupNb;
-    int m_previewsize;
-    bool m_displayphoto;
-    bool m_displaydisabled;
-    bool m_displayonlysecret;
-};
-
-class mySearchLine: public KListViewSearchLine
-{
-    Q_OBJECT
-
-    bool onlySecret;
-    bool showDisabled;
-
-public:
-    mySearchLine(QWidget *parent = 0, KeyView *listView = 0);
-    virtual ~mySearchLine();
-
-public slots:
-    virtual void updateSearch(const QString &s = QString::null);
-
-protected:
-    virtual bool itemMatches(const KListViewItem *item, const QString & s)  const;
-
-private:
-    KeyView *m_searchlistview;
-};
-
 class listKeys : public KMainWindow, virtual public KeyInterface
 {
     Q_OBJECT
@@ -159,7 +64,7 @@ class listKeys : public KMainWindow, virtual public KeyInterface
 public:
     listKeys(QWidget *parent = 0, const char *name = 0);
 
-    KeyView *keysList2;
+    KeyListView *keysList2;
 
     KToggleAction *sTrust;
     KToggleAction *sCreat;

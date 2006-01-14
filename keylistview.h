@@ -10,9 +10,21 @@
 #ifndef KEYLISTVIEW_H
 #define KEYLISTVIEW_H
 
+#include <QStringList>
+#include <QColorGroup>
+#include <QPixmap>
+#include <QString>
+
+#include <klistviewsearchline.h>
 #include <klistview.h>
+#include <kurl.h>
 
 #include "kgpgkey.h"
+
+class Q3ListViewItem;
+class QDragMoveEvent;
+class QDropEvent;
+class QPainter;
 
 class KeyListViewItem : public KListViewItem
 {
@@ -53,10 +65,11 @@ private:
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(KeyListViewItem::ItemType)
 
-/*
+
 class KeyListView : public KListView
 {
     Q_OBJECT
+    friend class listKeys;
 
 public:
     KeyListView(QWidget *parent = 0);
@@ -127,5 +140,27 @@ private:
     bool m_displaydisabled;
     bool m_displayonlysecret;
 };
-*/
+
+
+class KeyListViewSearchLine : public KListViewSearchLine
+{
+    Q_OBJECT
+
+    bool onlySecret;
+    bool showDisabled;
+
+public:
+    KeyListViewSearchLine(QWidget *parent = 0, KeyListView *listView = 0);
+    virtual ~KeyListViewSearchLine() { }
+
+public slots:
+    virtual void updateSearch(const QString &s = QString::null);
+
+protected:
+    virtual bool itemMatches(const KListViewItem *item, const QString & s)  const;
+
+private:
+    KeyListView *m_searchlistview;
+};
+
 #endif // KEYLISTVIEW_H
