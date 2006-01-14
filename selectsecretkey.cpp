@@ -26,7 +26,6 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     setModal(true);
 
     QWidget *page = new QWidget(this);
-    QLabel *labeltxt;
     KIconLoader *loader = KGlobal::iconLoader();
 
     QPixmap keyPair = loader->loadIcon("kgpg_key2", KIcon::Small, 20);
@@ -41,7 +40,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     m_keyslistpr->setShowSortIndicator(true);
     m_keyslistpr->setAllColumnsShowFocus(true);
 
-    labeltxt = new QLabel(i18n("Choose secret key for signing:"), page);
+    QLabel *labeltxt = new QLabel(i18n("Choose secret key for signing:"), page);
 
     QVBoxLayout *vbox = new QVBoxLayout(page);
     vbox->addWidget(labeltxt);

@@ -296,7 +296,7 @@ listKeys::listKeys(QWidget *parent, const char *name)
 
 void listKeys::slotGenerateKey()
 {
-    KgpgKeyGenerate *genkey = new KgpgKeyGenerate(this, 0);
+    KgpgKeyGenerate *genkey = new KgpgKeyGenerate(this);
     if (genkey->exec() == QDialog::Accepted)
     {
         if (!genkey->getMode()) // normal mode (not expert)

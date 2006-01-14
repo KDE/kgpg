@@ -31,7 +31,7 @@ class KgpgKeyGenerate : public KDialog
     Q_OBJECT
 
 public:
-    KgpgKeyGenerate(QWidget *parent = 0, const char *name = 0);
+    KgpgKeyGenerate(QWidget *parent = 0);
 
     bool getMode() const;
     QString getKeyName() const;

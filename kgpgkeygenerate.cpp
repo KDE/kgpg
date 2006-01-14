@@ -30,7 +30,7 @@
 
 #include "kgpgkeygenerate.h"
 
-KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent, const char *name)
+KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
                : KDialog(parent, i18n("Key Generation"), User1 | Ok | Cancel)
 {
     setModal(true);
