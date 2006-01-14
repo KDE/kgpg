@@ -31,16 +31,18 @@
 #include "kgpgkeygenerate.h"
 
 KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent, const char *name)
-               : KDialogBase(Plain, i18n("Key Generation"), User1 | Ok | Cancel, Ok, parent, name, true)
+               : KDialog(parent, i18n("Key Generation"), User1 | Ok | Cancel)
 {
-    m_expert = false;
+    setModal(true);
+    setDefaultButton(Cancel);
 
     setButtonText(User1, i18n("&Expert mode"));
     setButtonTip(User1, i18n("Go to the expert mode"));
     setButtonWhatsThis(User1, "If you go to the expert mode, you will use the command line to create your key.");
 
-    QFrame *page = plainPage();
-    QGroupBox *vgroup = new QGroupBox(i18n("Generate Key Pair"), page);
+    m_expert = false;
+
+    QGroupBox *vgroup = new QGroupBox(i18n("Generate Key Pair"), this);
 
     QLabel *nameLabel = new QLabel(i18n("&Name:"), vgroup);
     m_kname = new KLineEdit("", vgroup);
@@ -59,6 +61,8 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent, const char *name)
     QLabel *expLabel = new QLabel(i18n("Expiration:"), vgroup);
     KHBox *hgroup = new KHBox(vgroup);
     hgroup->setFrameShape(QFrame::StyledPanel);
+    hgroup->setMargin(marginHint());
+    hgroup->setSpacing(spacingHint());
     m_numb = new KLineEdit("0", hgroup);
     m_numb->setMaxLength(4);
     m_numb->setDisabled(true);
@@ -90,8 +94,6 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent, const char *name)
     algoLabel->setBuddy(m_keykind);
 
     QVBoxLayout *vlayout = new QVBoxLayout(vgroup);
-    vlayout->setSpacing(spacingHint());
-    vlayout->setMargin(marginHint());
     vlayout->addWidget(nameLabel);
     vlayout->addWidget(m_kname);
     vlayout->addWidget(emailLabel);
@@ -104,13 +106,10 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent, const char *name)
     vlayout->addWidget(m_keysize);
     vlayout->addWidget(algoLabel);
     vlayout->addWidget(m_keykind);
+    vlayout->addStretch();
     vgroup->setLayout(vlayout);
 
-    QVBoxLayout *vbox = new QVBoxLayout(page);
-    vbox->setSpacing(0);
-    vbox->setMargin(0);
-    vbox->addWidget(vgroup);
-    page->setLayout(vbox);
+    setMainWidget(vgroup);
 
     slotEnableOk();
     updateGeometry();

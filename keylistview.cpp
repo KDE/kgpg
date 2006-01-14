@@ -125,6 +125,13 @@ int KeyListViewItem::compare(Q3ListViewItem *item2, int c, bool ascending) const
         ItemType item1 = itemType();
         ItemType item2 = item->itemType();
 
+        bool test1 = (item1 & KeyListViewItem::Public) && !(item1 & KeyListViewItem::Secret); // only a public key
+        bool test2 = (item2 & KeyListViewItem::Public) && !(item2 & KeyListViewItem::Secret); // only a public key
+
+        // key-pair goes before simple public key
+        if (item1 == KeyListViewItem::Pair && test2) return -1;
+        if (item2 == KeyListViewItem::Pair && test1) return 1;
+
         if (item1 < item2) return -1;
         if (item1 > item2) return 1;
 

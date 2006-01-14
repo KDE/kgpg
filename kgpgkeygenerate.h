@@ -19,14 +19,14 @@
 
 #include <QString>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "kgpgkey.h"
 
 class KComboBox;
 class KLineEdit;
 
-class KgpgKeyGenerate : public KDialogBase
+class KgpgKeyGenerate : public KDialog
 {
     Q_OBJECT
 

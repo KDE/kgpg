@@ -34,6 +34,7 @@ public:
         Group = 1,
         Secret = 2,
         Public = 4,
+        Pair = Secret | Public,
         Sub = 8,
         Uid = 16,
         Uat = 32,
