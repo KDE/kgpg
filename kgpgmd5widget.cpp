@@ -22,10 +22,11 @@
 
 #include "kgpgmd5widget.h"
 
-Md5Widget::Md5Widget(QWidget *parent, const char *name, const KURL &url)
-         : KDialogBase(parent, name, true, i18n("MD5 Checksum"), Apply | Close)
+Md5Widget::Md5Widget(QWidget *parent, const KURL &url)
+         : KDialog(parent, i18n("MD5 Checksum"), Apply | Close)
 {
-    setButtonApply(i18n("Compare MD5 with Clipboard"));
+    setModal(true);
+    setButtonGuiItem(Apply, i18n("Compare MD5 with Clipboard"));
 
     m_mdsum = QString::null;
 

@@ -138,7 +138,7 @@ class kgpgapplet : public KSystemTray
     Q_OBJECT
 
 public:
-    kgpgapplet(QWidget *parent = 0, const char *name = 0);
+    kgpgapplet(QWidget *parent = 0);
     ~kgpgapplet();
     MyView *w;
 

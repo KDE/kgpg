@@ -13,17 +13,17 @@
 #include <QString>
 #include <QLabel>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kurl.h>
 
 class KLed;
 
-class  Md5Widget : public KDialogBase
+class  Md5Widget : public KDialog
 {
     Q_OBJECT
 
 public:
-    Md5Widget(QWidget *parent = 0, const char *name = 0, const KURL &url = KURL());
+    Md5Widget(QWidget *parent = 0, const KURL &url = KURL());
 
 public slots:
     void slotApply();

@@ -18,12 +18,13 @@
 #ifndef KGPGDETAILEDCONSOLE_H
 #define KGPGDETAILEDCONSOLE_H
 
+#include <kdialog.h>
 #include <kdialogbase.h>
 
-class KgpgDetailedConsole : public KDialogBase
+class KgpgDetailedConsole : public KDialog
 {
 public:
-    KgpgDetailedConsole(QWidget *parent = 0, const char *name = 0, const QString &boxLabel = QString::null, const QString &errormessage = QString::null);
+    KgpgDetailedConsole(QWidget *parent = 0, const QString &boxLabel = QString::null, const QString &errormessage = QString::null);
 };
 
 class KgpgDetailedInfo : public KDialogBase

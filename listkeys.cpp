@@ -1248,7 +1248,8 @@ void listKeys::slotGenerateKeyDone(int res, KgpgInterface *interface, const QStr
         keysList2->refreshKeys(QStringList(id));
         changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount() - keysList2->groupNb).arg(keysList2->groupNb), 1);
 
-        KDialogBase *keyCreated = new KDialogBase(this, "key_created", true, i18n("New Key Pair Created"), KDialogBase::Ok);
+        KDialog *keyCreated = new KDialog(this, i18n("New Key Pair Created"), KDialogBase::Ok);
+        keyCreated->setModal(true);
 
         newKey *page = new newKey(keyCreated);
         page->TLname->setText("<b>" + name + "</b>");
@@ -2471,7 +2472,7 @@ void listKeys::signkey()
             return;
     }
 
-    KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, 0, true, signList.count());
+    KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, true, signList.count());
     if (opts->exec() != QDialog::Accepted)
     {
         delete opts;

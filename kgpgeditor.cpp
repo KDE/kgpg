@@ -530,7 +530,7 @@ void KgpgEditor::slotCheckMd5()
     KURL url = KFileDialog::getOpenURL(QString::null, i18n("*|All Files"), this, i18n("Open File to Verify"));
     if (!url.isEmpty())
     {
-        Md5Widget *mdwidget = new Md5Widget(this, 0, url);
+        Md5Widget *mdwidget = new Md5Widget(this, url);
         mdwidget->exec();
         delete mdwidget;
     }

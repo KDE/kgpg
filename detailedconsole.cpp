@@ -24,9 +24,12 @@
 
 #include "detailedconsole.h"
 
-KgpgDetailedConsole::KgpgDetailedConsole(QWidget *parent, const char *name, const QString &boxLabel, const QString &errormessage)
-                   : KDialogBase(parent, name, true, i18n("Sorry"), Details | Yes | No, Yes)
+KgpgDetailedConsole::KgpgDetailedConsole(QWidget *parent, const QString &boxLabel, const QString &errormessage)
+                   : KDialog(parent, i18n("Sorry"), Details | Yes | No)
 {
+    setModal(true);
+    setDefaultButton(Yes);
+
     QWidget *page = new QWidget(this);
     setMainWidget(page);
 

@@ -20,9 +20,11 @@
 #include "kgpgsettings.h"
 #include "selectsecretkey.h"
 
-KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const char *name, const bool &signkey, const int &countkey)
-                   : KDialogBase(parent, name, true, i18n("Private Key List"), Ok | Cancel)
+KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, const int &countkey)
+                   : KDialog(parent, i18n("Private Key List"), Ok | Cancel)
 {
+    setModal(true);
+
     QWidget *page = new QWidget(this);
     QLabel *labeltxt;
     KIconLoader *loader = KGlobal::iconLoader();

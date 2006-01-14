@@ -350,7 +350,8 @@ void MyView::encryptFiles(KURL::List urls)
 
 void MyView::shredDroppedFile()
 {
-    KDialogBase *shredConfirm = new KDialogBase(this, "confirm_shred", true, i18n("Shred Files"), KDialogBase::Ok | KDialogBase::Cancel);
+    KDialog *shredConfirm = new KDialog(this, i18n("Shred Files"), KDialogBase::Ok | KDialogBase::Cancel);
+    shredConfirm->setModal(true);
     QWidget *page = new QWidget(shredConfirm);
     shredConfirm->setMainWidget(page);
     QBoxLayout *layout = new QBoxLayout(page, QBoxLayout::TopToBottom, 0);
@@ -914,7 +915,7 @@ void MyView::slotSetClip(QString newtxt)
 }
 
 
-kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
+kgpgapplet::kgpgapplet(QWidget *parent)
           : KSystemTray(parent)
 {
     w = new MyView(this);
@@ -1029,9 +1030,9 @@ int KgpgAppletApp::newInstance()
         s_keyManager->refreshkey();
 
         if (KGpgSettings::leftClick() == KGpgSettings::EnumLeftClick::KeyManager)
-            kgpg_applet = new kgpgapplet(s_keyManager, "kgpg_systrayapplet");
+            kgpg_applet = new kgpgapplet(s_keyManager);
         else
-            kgpg_applet = new kgpgapplet(s_keyManager->s_kgpgEditor, "kgpg_systrayapplet");
+            kgpg_applet = new kgpgapplet(s_keyManager->s_kgpgEditor);
 
         connect(s_keyManager,SIGNAL(encryptFiles(KURL::List)),kgpg_applet->w,SLOT(encryptFiles(KURL::List)));
         connect(s_keyManager,SIGNAL(installShredder()),kgpg_applet->w,SLOT(installShred()));

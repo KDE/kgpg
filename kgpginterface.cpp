@@ -1672,7 +1672,7 @@ void KgpgInterface::signKeyFin(KProcess *p)
         emit signKeyFinished(m_success, this); // signature successful or bad passphrase or aborted or already signed
     else
     {
-        KgpgDetailedConsole *q = new KgpgDetailedConsole(0, "sign_error", i18n("<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br>Do you want to try signing the key in console mode?</qt>").arg(m_keyid).arg(m_signkey), log);
+        KgpgDetailedConsole *q = new KgpgDetailedConsole(0, i18n("<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br>Do you want to try signing the key in console mode?</qt>").arg(m_keyid).arg(m_signkey), log);
         if (q->exec() == QDialog::Accepted)
             signKeyOpenConsole();
         else
@@ -1816,7 +1816,7 @@ void KgpgInterface::keyExpireFin(KProcess *p)
         emit keyExpireFinished(m_success, this); // signature successful or bad passphrase
     else
     {
-        KgpgDetailedConsole *q = new KgpgDetailedConsole(0,"sign_error",i18n("<qt><b>Changing expiration failed.</b><br>"
+        KgpgDetailedConsole *q = new KgpgDetailedConsole(0, i18n("<qt><b>Changing expiration failed.</b><br>"
                                     "Do you want to try changing the key expiration in console mode?</qt>"),output);
         if (q->exec() == QDialog::Accepted)
             KMessageBox::sorry(0, "work in progress...");

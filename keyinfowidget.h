@@ -72,8 +72,8 @@ private:
     QCheckBox *m_kb;
     QDate m_date;
 
-    KDialogBase *m_chdate;
     KDatePicker *m_kdt;
+    KDialog *m_chdate;
 
     KeyProperties *m_prop;
 
