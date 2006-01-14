@@ -111,17 +111,18 @@
 class UpdateViewItem : public KListViewItem
 {
 public:
-    enum ItemType
+    enum ItemTypeFlag
     {
         Group = 1,
-        Public = 2,
-        Secret = 4,
+        Secret = 2,
+        Public = 4,
         Sub = 8,
         Uid = 16,
         Uat = 32,
         Rev = 64,
         Sign = 128
     };
+    Q_DECLARE_FLAGS(ItemType, ItemTypeFlag)
 
     UpdateViewItem(KListView *parent = 0, QString name = QString::null, QString email = QString::null, QString trust = QString::null, QString expiration = QString::null, QString size = QString::null, QString creation = QString::null, QString id = QString::null, bool isdefault = false, bool isexpired = false, ItemType type = Public);
     UpdateViewItem(KListViewItem *parent = 0, QString name = QString::null, QString email = QString::null, QString trust = QString::null, QString expiration = QString::null, QString size = QString::null, QString creation = QString::null, QString id = QString::null, bool isdefault = false, bool isexpired = false, ItemType type = Public);
@@ -144,6 +145,7 @@ private:
     bool m_exp; /// Is set to \em true if the key is expired, \em false otherwise.
     ItemType m_type;
 };
+Q_DECLARE_OPERATORS_FOR_FLAGS(UpdateViewItem::ItemType)
 
 UpdateViewItem::UpdateViewItem(KListView *parent, QString name, QString email, QString trust, QString expiration, QString size, QString creation, QString id, bool isdefault, bool isexpired, ItemType type)
               : KListViewItem(parent)
@@ -543,6 +545,7 @@ bool KeyView::refreshKeys(QStringList ids)
         if (ite != issec.end())
         {
             item->setPixmap(0, pixkeyPair);
+            item->setItemType(item->itemType() | UpdateViewItem::Secret);
             issec.remove(*ite);
         }
         else
@@ -887,6 +890,8 @@ mySearchLine::mySearchLine(QWidget *parent, KeyView *listView)
 {
     m_searchlistview = listView;
     setKeepParentsVisible(false);
+    onlySecret = false;
+    showDisabled = true;
 }
 
 mySearchLine::~ mySearchLine()
@@ -895,7 +900,8 @@ mySearchLine::~ mySearchLine()
 
 void mySearchLine::updateSearch(const QString& s)
 {
-    KListViewSearchLine::updateSearch(s);
+   KListViewSearchLine::updateSearch(s);
+/*
     if (m_searchlistview->displayOnlySecret || !m_searchlistview->displayDisabled)
     {
         int disabledSerial = m_searchlistview->trustbad.serialNumber();
@@ -915,6 +921,7 @@ void mySearchLine::updateSearch(const QString& s)
             item = static_cast<KListViewItem*>(item->nextSibling());
         }
     }
+*/
 }
 
 bool mySearchLine::itemMatches(const KListViewItem *item, const QString &s) const
@@ -958,7 +965,7 @@ listKeys::listKeys(QWidget *parent, const char *name)
 
     KAction *infoKey = new KAction(i18n("&Edit Key"), "kgpg_info", Qt::Key_Return, this, SLOT(listsigns()), actionCollection(), "key_info");
     KAction *editKey = new KAction(i18n("Edit Key in &Terminal"), "kgpg_term", QKeySequence(Qt::ALT+Qt::Key_Return),this, SLOT(slotedit()),actionCollection(),"key_edit");
-    KAction *generateKey = new KAction(i18n("&Generate Key Pair..."), "kgpg_gen", KStdAccel::shortcut(KStdAccel::New),this, SLOT(slotgenkey()),actionCollection(),"key_gener");
+    KAction *generateKey = new KAction(i18n("&Generate Key Pair..."), "kgpg_gen", KStdAccel::shortcut(KStdAccel::New),this, SLOT(slotGenerateKey()),actionCollection(),"key_gener");
     KAction *exportPublicKey = new KAction(i18n("E&xport Public Keys..."), "kgpg_export", KStdAccel::shortcut(KStdAccel::Copy), this, SLOT(slotexport()), actionCollection(), "key_export");
     KAction *importKey = new KAction(i18n("&Import Key..."), "kgpg_import", KStdAccel::shortcut(KStdAccel::Paste), this, SLOT(slotPreImportKey()), actionCollection(), "key_import");
     KAction *newContact = new KAction(i18n("&Create New Contact in Address Book"), "kaddressbook", 0, this, SLOT(addToKAB()), actionCollection(), "add_kab");
@@ -985,8 +992,8 @@ listKeys::listKeys(QWidget *parent, const char *name)
 
     sTrust = new KToggleAction(i18n("Trust"),0, 0,this, SLOT(slotShowTrust()),actionCollection(),"show_trust");
     sSize = new KToggleAction(i18n("Size"),0, 0,this, SLOT(slotShowSize()),actionCollection(),"show_size");
-    sCreat = new KToggleAction(i18n("Creation"),0, 0,this, SLOT(slotShowCreat()),actionCollection(),"show_creat");
-    sExpi = new KToggleAction(i18n("Expiration"),0, 0,this, SLOT(slotShowExpi()),actionCollection(),"show_expi");
+    sCreat = new KToggleAction(i18n("Creation"),0, 0,this, SLOT(slotShowCreation()),actionCollection(),"show_creat");
+    sExpi = new KToggleAction(i18n("Expiration"),0, 0,this, SLOT(slotShowExpiration()),actionCollection(),"show_expi");
 
     photoProps = new KSelectAction(i18n("&Photo ID's"),"kgpg_photo", actionCollection(), "photo_settings");
 
@@ -997,9 +1004,6 @@ listKeys::listKeys(QWidget *parent, const char *name)
     list.append(i18n("Medium"));
     list.append(i18n("Large"));
     photoProps->setItems(list);
-
-    keysList2->displayOnlySecret = false;
-    keysList2->displayDisabled = true;
 
     int psize = KGpgSettings::photoProperties();
     photoProps->setCurrentItem(psize);
@@ -1114,9 +1118,8 @@ listKeys::listKeys(QWidget *parent, const char *name)
     connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
 }
 
-void listKeys::slotgenkey()
+void listKeys::slotGenerateKey()
 {
-    kdDebug(2100) << "listKeys::slotgenkey" << endl;
     KgpgKeyGenerate *genkey = new KgpgKeyGenerate(this, 0);
     if (genkey->exec() == QDialog::Accepted)
     {
@@ -1154,9 +1157,43 @@ void listKeys::slotgenkey()
         delete genkey;
 }
 
+void listKeys::showKeyManager()
+{
+    show();
+}
+
+void listKeys::slotOpenEditor()
+{
+    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, "editor", Qt::Window, actionCollection()->action("go_default_key")->shortcut());
+    kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
+
+    connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
+    connect(kgpgtxtedit, SIGNAL(encryptFiles(KURL::List)), this, SIGNAL(encryptFiles(KURL::List)));
+    connect(this, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
+
+    kgpgtxtedit->show();
+}
+
+void listKeys::statusBarTimeout()
+{
+    if (m_statusbar)
+        m_statusbar->changeItem("", 0);
+}
+
+void listKeys::changeMessage(QString msg, int nb, bool keep)
+{
+    m_statusbartimer->stop();
+    if (m_statusbar)
+    {
+        if ((nb == 0) && (!keep))
+            m_statusbartimer->start(10000, true);
+        m_statusbar->changeItem(" " + msg + " ", nb);
+    }
+}
+
 void listKeys::slotGenerateKeyProcess(KgpgInterface *)
 {
-    pop = new KPassivePopup(this, "new_key");
+    pop = new KPassivePopup(this);
     pop->setTimeout(0);
 
     KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", KIcon::Desktop), 0);
@@ -1181,26 +1218,26 @@ void listKeys::slotGenerateKeyProcess(KgpgInterface *)
     changeMessage(i18n("Generating New Key..."), 0, true);
 }
 
-void listKeys::slotGenerateKeyDone(int err, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint)
+void listKeys::slotGenerateKeyDone(int res, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint)
 {
     delete interface;
     changeMessage(i18n("Ready"), 0);
 
-    if (err == 1)
+    if (res == 1)
     {
         QString infomessage = i18n("Generating new key pair");
         QString infotext = i18n("Bad passphrase. Cannot generate a new key pair.");
         KMessageBox::error(this, infotext, infomessage);
     }
     else
-    if (err == 3)
+    if (res == 3)
     {
         QString infomessage = i18n("Generating new key pair");
         QString infotext = i18n("Aborted by the user. Cannot generate a new key pair.");
         KMessageBox::error(this, infotext, infomessage);
     }
     else
-    if (err == 4)
+    if (res == 4)
     {
         QString infomessage = i18n("Generating new key pair");
         QString infotext = i18n("The email address is not valid. Cannot generate a new key pair.");
@@ -1263,40 +1300,6 @@ void listKeys::slotGenerateKeyDone(int err, KgpgInterface *interface, const QStr
     }
 }
 
-void listKeys::showKeyManager()
-{
-    show();
-}
-
-void listKeys::slotOpenEditor()
-{
-    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, "editor", Qt::Window, actionCollection()->action("go_default_key")->shortcut());
-    kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
-
-    connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
-    connect(kgpgtxtedit, SIGNAL(encryptFiles(KURL::List)), this, SIGNAL(encryptFiles(KURL::List)));
-    connect(this, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
-
-    kgpgtxtedit->show();
-}
-
-void listKeys::statusBarTimeout()
-{
-    if (m_statusbar)
-        m_statusbar->changeItem("", 0);
-}
-
-void listKeys::changeMessage(QString msg, int nb, bool keep)
-{
-    m_statusbartimer->stop();
-    if (m_statusbar)
-    {
-        if ((nb == 0) && (!keep))
-            m_statusbartimer->start(10000, true);
-        m_statusbar->changeItem(" " + msg + " ", nb);
-    }
-}
-
 void listKeys::slotShowTrust()
 {
     if (sTrust->isChecked())
@@ -1305,7 +1308,7 @@ void listKeys::slotShowTrust()
         keysList2->slotRemoveColumn(2);
 }
 
-void listKeys::slotShowExpi()
+void listKeys::slotShowExpiration()
 {
     if (sExpi->isChecked())
         keysList2->slotAddColumn(3);
@@ -1321,12 +1324,30 @@ void listKeys::slotShowSize()
         keysList2->slotRemoveColumn(4);
 }
 
-void listKeys::slotShowCreat()
+void listKeys::slotShowCreation()
 {
     if (sCreat->isChecked())
         keysList2->slotAddColumn(5);
     else
         keysList2->slotRemoveColumn(5);
+}
+
+void listKeys::slotToggleSecret()
+{
+    KListViewItem *item = static_cast<KListViewItem*>(keysList2->firstChild());
+    if (!item)
+        return;
+
+    listViewSearch->updateSearch(listViewSearch->text());
+}
+
+void listKeys::slotToggleDisabled()
+{
+    KListViewItem *item = static_cast<KListViewItem*>(keysList2->firstChild());
+    if (!item)
+        return;
+
+    listViewSearch->updateSearch(listViewSearch->text());
 }
 
 bool listKeys::eventFilter(QObject *, QEvent *e)
@@ -1338,26 +1359,6 @@ bool listKeys::eventFilter(QObject *, QEvent *e)
     }
 
     return false;
-}
-
-void listKeys::slotToggleSecret()
-{
-    KListViewItem *item = static_cast<KListViewItem*>(keysList2->firstChild());
-    if (!item)
-        return;
-
-    keysList2->displayOnlySecret = !keysList2->displayOnlySecret;
-    listViewSearch->updateSearch(listViewSearch->text());
-}
-
-void listKeys::slotToggleDisabled()
-{
-    KListViewItem *item = static_cast<KListViewItem*>(keysList2->firstChild());
-    if (!item)
-        return;
-
-    keysList2->displayDisabled = !keysList2->displayDisabled;
-    listViewSearch->updateSearch(listViewSearch->text());
 }
 
 void listKeys::slotGotoDefaultKey()

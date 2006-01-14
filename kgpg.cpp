@@ -658,7 +658,7 @@ void MyView::readOptions()
         QString path = KGpgSettings::gpgConfigPath();
         if (path.isEmpty())
         {
-            if (KMessageBox::questionYesNo(0,i18n("<qt>You did not set a path to your GnuPG config file.<br>This may bring some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem ?</qt>"),QString::null,i18n("Start Wizard"),i18n("Do Not Start")) == KMessageBox::Yes)
+            if (KMessageBox::questionYesNo(0,i18n("<qt>You have not set a path to your GnuPG config file.<br>This may cause some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem?</qt>"),QString::null,i18n("Start Wizard"),i18n("Do Not Start"))==KMessageBox::Yes)
                 startWizard();
         }
         else
@@ -915,7 +915,7 @@ void MyView::slotSetClip(QString newtxt)
 
 
 kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
-          : KSystemTray(parent, name)
+          : KSystemTray(parent)
 {
     w = new MyView(this);
     w->show();
@@ -1040,7 +1040,7 @@ int KgpgAppletApp::newInstance()
         connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
         connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
         connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));
-        connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotgenkey()));
+        connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotGenerateKey()));
         connect(s_keyManager,SIGNAL(fontChanged(QFont)),kgpg_applet->w,SIGNAL(setFont(QFont)));
         connect(kgpg_applet->w,SIGNAL(importedKeys(QStringList)),s_keyManager->keysList2,SLOT(slotReloadKeys(QStringList)));
         kgpg_applet->show();

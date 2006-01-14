@@ -78,7 +78,7 @@ private:
      * @return 0 if there is no error
      * @return 1 if there is an error
      */
-    int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true);
+    int sendPassphrase(const QString &text, KProcIO *process, const bool isnew = true);
 /******************************************************************/
 
 

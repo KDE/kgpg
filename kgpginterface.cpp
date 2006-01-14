@@ -383,7 +383,7 @@ int KgpgInterface::checkUID(const QString &keyid)
     return uidcnt;
 }
 
-int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const bool isnew)
+int KgpgInterface::sendPassphrase(const QString &text, KProcIO *process, const bool isnew)
 {
     QByteArray passphrase;
     int code;
@@ -395,8 +395,7 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const 
     if (code != KPasswordDialog::Accepted)
         return 1;
 
-    passphrase.append('\n');
-    process->writeStdin(passphrase, passphrase.length());
+    process->writeStdin(passphrase, true);
 
     // This will erase the password in the memory
     // If passphrase contains "password", after that line, it will contains "xxxxxxxx".
@@ -1061,6 +1060,7 @@ void KgpgInterface::encryptTextFin(KProcess *p)
         emit txtEncryptionFinished(QString::null, this);
 }
 
+// FIXME Check if it works well
 void KgpgInterface::decryptText(const QString &text, const QStringList &options)
 {
     m_partialline = QString::null;
@@ -1074,7 +1074,7 @@ void KgpgInterface::decryptText(const QString &text, const QStringList &options)
     m_textlength = 0;
     step = 3;
 
-    KProcess *process = new KProcess();
+    KProcIO *process = new KProcIO();
     this->insertChild(process);
     *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--command-fd=0" << "--status-fd=1"; // << "--no-batch";
 
@@ -1091,7 +1091,7 @@ void KgpgInterface::decryptText(const QString &text, const QStringList &options)
     process->start(KProcess::NotifyOnExit, KProcess::All);
 
     // send the encrypted text to gpg
-    process->writeStdin(text.ascii(), text.length());
+    process->writeStdin(text);
 }
 
 void KgpgInterface::decryptTextStdErr(KProcess *, char *data, int)
@@ -1099,6 +1099,7 @@ void KgpgInterface::decryptTextStdErr(KProcess *, char *data, int)
     log.append(data);
 }
 
+// try to change KProcess by KProcIO
 void KgpgInterface::decryptTextStdOut(KProcess *p, char *data, int)
 {
     m_partialline.append(data);
@@ -1131,7 +1132,7 @@ void KgpgInterface::decryptTextStdOut(KProcess *p, char *data, int)
                         passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
                     passdlgmessage += i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
 
-                    if (sendPassphrase(passdlgmessage, p, false))
+                    if (sendPassphrase(passdlgmessage, static_cast<KProcIO*>(p), false))
                     {
                         delete p;
                         emit processaborted(true);
@@ -2603,6 +2604,8 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
                 m_partialline = "";
                 m_ispartial = false;
             }
+
+            kdDebug(2100) << line << endl;
 
             if (line.find("BAD_PASSPHRASE") != -1)
                 m_success = 1;

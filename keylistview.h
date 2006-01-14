@@ -1,0 +1,131 @@
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#ifndef KEYLISTVIEW_H
+#define KEYLISTVIEW_H
+
+#include <klistview.h>
+
+#include "kgpgkey.h"
+
+class KeyListViewItem : public KListViewItem
+{
+public:
+    enum ItemTypeFlag
+    {
+        Group = 1,
+        Secret = 2,
+        Public = 4,
+        Sub = 8,
+        Uid = 16,
+        Uat = 32,
+        Rev = 64,
+        Sign = 128,
+    };
+    Q_DECLARE_FLAGS(ItemType, ItemTypeFlag)
+
+    KeyListViewItem(KListView *parent = 0, QString name = QString::null, QString email = QString::null, QString trust = QString::null, QString expiration = QString::null, QString size = QString::null, QString creation = QString::null, QString id = QString::null, bool isdefault = false, bool isexpired = false, ItemType type = Public);
+    KeyListViewItem(KListViewItem *parent = 0, QString name = QString::null, QString email = QString::null, QString trust = QString::null, QString expiration = QString::null, QString size = QString::null, QString creation = QString::null, QString id = QString::null, bool isdefault = false, bool isexpired = false, ItemType type = Public);
+
+    void setItemType(const ItemType &type);
+    ItemType itemType() const;
+
+    void setDefault(const bool &def);
+    bool isDefault() const;
+
+    void setExpired(const bool &exp);
+    bool isExpired() const;
+
+    virtual void paintCell(QPainter *p, const QColorGroup &cg, int col, int width, int align);
+    virtual int compare(Q3ListViewItem *item, int c, bool ascending) const;
+    virtual QString key(int column, bool) const;
+
+private:
+    bool m_def; /// Is set to \em true if it is the default key, \em false otherwise.
+    bool m_exp; /// Is set to \em true if the key is expired, \em false otherwise.
+    ItemType m_type;
+};
+Q_DECLARE_OPERATORS_FOR_FLAGS(KeyListViewItem::ItemType)
+
+/*
+class KeyListView : public KListView
+{
+    Q_OBJECT
+
+public:
+    KeyListView(QWidget *parent = 0);
+
+    void setPreviewSize(const int &size);
+    int previewSize() const;
+
+    void setDisplayPhoto(const bool &display);
+    bool displayPhoto() const;
+
+    QPixmap trustbad;
+    QString secretList;
+
+signals:
+    void statusMessage(QString, int, bool keep = false);
+
+public slots:
+    void slotAddColumn(const int &c);
+    void slotRemoveColumn(const int &c);
+
+protected:
+    virtual void contentsDragMoveEvent(QDragMoveEvent *e);
+    virtual void contentsDropEvent(QDropEvent *e);
+    virtual void startDrag();
+
+private slots:
+    void droppedFile(const KURL &url);
+
+    void slotReloadKeys(const QStringList &keyids);
+    void refreshAll();
+
+    bool refreshKeys(QStringList ids = QStringList());
+    void refreshcurrentkey(KListViewItem *current);
+    void refreshselfkey();
+
+    void slotReloadOrphaned();
+    void insertOrphans(QStringList ids);
+
+    void refreshGroups();
+    void refreshTrust(int color, QColor newColor);
+
+    void expandKey(Q3ListViewItem *item);
+    void expandGroup(KListViewItem *item);
+    void insertSigns(KListViewItem *item, const KgpgKeySignList &list);
+
+private:
+    QPixmap getTrustPix(const QChar &c, const bool &isvalid);
+
+private:
+    QStringList orphanList;
+    QString photoKeysList;
+
+    QPixmap pixkeyPair;
+    QPixmap pixkeySingle;
+    QPixmap pixkeyGroup;
+    QPixmap pixsignature;
+    QPixmap pixuserid;
+    QPixmap pixuserphoto;
+    QPixmap trustunknown;
+    QPixmap trustrevoked;
+    QPixmap trustgood;
+    QPixmap pixRevoke;
+    QPixmap pixkeyOrphan;
+
+    int groupNb;
+    int m_previewsize;
+    bool m_displayphoto;
+    bool m_displaydisabled;
+    bool m_displayonlysecret;
+};
+*/
+#endif // KEYLISTVIEW_H

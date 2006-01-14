@@ -31,12 +31,12 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const char *name, cons
 
     setMinimumSize(550, 200);
     m_keyslistpr = new KListView(page);
-    m_keyslistpr->setRootIsDecorated(true);
     m_keyslistpr->addColumn(i18n("Name"), 200);
     m_keyslistpr->addColumn(i18n("Email"), 200);
     m_keyslistpr->addColumn(i18n("ID"), 100);
-    m_keyslistpr->setShowSortIndicator(true);
     m_keyslistpr->setFullWidth(true);
+    m_keyslistpr->setRootIsDecorated(true);
+    m_keyslistpr->setShowSortIndicator(true);
     m_keyslistpr->setAllColumnsShowFocus(true);
 
     labeltxt = new QLabel(i18n("Choose secret key for signing:"), page);
@@ -56,19 +56,18 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const char *name, cons
                                            "How carefully have you checked that the %1 keys really "
                                            "belong to the people with whom you wish to communicate:", countkey), page);
 
-        vbox->addWidget(signchecklabel);
-
         m_signtrust = new KComboBox(page);
         m_signtrust->insertItem(i18n("I Will Not Answer"));
         m_signtrust->insertItem(i18n("I Have Not Checked at All"));
         m_signtrust->insertItem(i18n("I Have Done Casual Checking"));
         m_signtrust->insertItem(i18n("I Have Done Very Careful Checking"));
-        vbox->addWidget(m_signtrust);
 
         m_localsign = new QCheckBox(i18n("Local signature (cannot be exported)"), page);
-        vbox->addWidget(m_localsign);
-
         m_terminalsign = new QCheckBox(i18n("Do not sign all user id's (open terminal)"), page);
+
+        vbox->addWidget(signchecklabel);
+        vbox->addWidget(m_signtrust);
+        vbox->addWidget(m_localsign);
         vbox->addWidget(m_terminalsign);
 
         if (countkey != 1)
@@ -133,15 +132,15 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const char *name, cons
 QString KgpgSelectSecretKey::getKeyID() const
 {
     if (m_keyslistpr->currentItem() == 0)
-        return(QString::null);
+        return QString::null;
 
-    return(m_keyslistpr->currentItem()->text(2));
+    return m_keyslistpr->currentItem()->text(2);
 }
 
 QString KgpgSelectSecretKey::getKeyMail() const
 {
     if (m_keyslistpr->currentItem() == 0)
-        return(QString::null);
+        return QString::null;
 
     QString username;
     username = m_keyslistpr->currentItem()->text(0);

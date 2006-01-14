@@ -72,8 +72,6 @@ public:
 
     QPixmap trustbad;
     QString secretList;
-    bool displayDisabled;
-    bool displayOnlySecret;
 
 signals:
     void statusMessage(QString, int, bool keep = false);
@@ -129,11 +127,16 @@ private:
     int groupNb;
     int m_previewsize;
     bool m_displayphoto;
+    bool m_displaydisabled;
+    bool m_displayonlysecret;
 };
 
 class mySearchLine: public KListViewSearchLine
 {
     Q_OBJECT
+
+    bool onlySecret;
+    bool showDisabled;
 
 public:
     mySearchLine(QWidget *parent = 0, KeyView *listView = 0);
@@ -174,7 +177,7 @@ signals:
     void installShredder();
 
 public slots:
-    void slotgenkey();
+    void slotGenerateKey();
     void refreshkey();
     void readAllOptions();
     void showKeyInfo(QString keyID);
@@ -194,16 +197,17 @@ private slots:
     void statusBarTimeout();
     void changeMessage(QString msg, int nb, bool keep = false);
 
-    void slotGenerateKeyProcess(KgpgInterface *interface);
-    void slotGenerateKeyDone(int err, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint);
+    void slotGenerateKeyProcess(KgpgInterface *);
+    void slotGenerateKeyDone(int res, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint);
+
+    void slotShowTrust();
+    void slotShowSize();
+    void slotShowCreation();
+    void slotShowExpiration();
 
     void slotAddUidFin(int res, KgpgInterface *interface);
     void slotDelPhotoFinished(int res, KgpgInterface *interface);
     void quitApp();
-    void slotShowTrust();
-    void slotShowSize();
-    void slotShowCreat();
-    void slotShowExpi();
     void slotToggleSecret();
     void slotToggleDisabled();
     void slotGotoDefaultKey();
