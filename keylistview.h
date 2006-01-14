@@ -158,7 +158,7 @@ public slots:
     virtual void updateSearch(const QString &s = QString::null);
 
 protected:
-    virtual bool itemMatches(const KListViewItem *item, const QString &s)  const;
+    virtual bool itemMatches(const Q3ListViewItem *item, const QString &s)  const;
 
 private:
     KeyListView *m_searchlistview;

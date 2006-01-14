@@ -817,7 +817,7 @@ void KeyListViewSearchLine::updateSearch(const QString& s)
     }
 }
 
-bool KeyListViewSearchLine::itemMatches(const KListViewItem *item, const QString &s) const
+bool KeyListViewSearchLine::itemMatches(const Q3ListViewItem *item, const QString &s) const
 {
     if (item->depth() != 0)
         return true;
