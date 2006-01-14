@@ -137,8 +137,6 @@ private:
     int groupNb;
     int m_previewsize;
     bool m_displayphoto;
-    bool m_displaydisabled;
-    bool m_displayonlysecret;
 };
 
 
@@ -146,21 +144,26 @@ class KeyListViewSearchLine : public KListViewSearchLine
 {
     Q_OBJECT
 
-    bool onlySecret;
-    bool showDisabled;
-
 public:
     KeyListViewSearchLine(QWidget *parent = 0, KeyListView *listView = 0);
     virtual ~KeyListViewSearchLine() { }
+
+    void setHidePublic(const bool &hidepublic = true);
+    bool hidePublic() const;
+
+    void setHideDisabled(const bool &hidedisabled = true);
+    bool hideDisabled() const;
 
 public slots:
     virtual void updateSearch(const QString &s = QString::null);
 
 protected:
-    virtual bool itemMatches(const KListViewItem *item, const QString & s)  const;
+    virtual bool itemMatches(const KListViewItem *item, const QString &s)  const;
 
 private:
     KeyListView *m_searchlistview;
+    bool m_hidepublic;
+    bool m_hidedisabled;
 };
 
 #endif // KEYLISTVIEW_H

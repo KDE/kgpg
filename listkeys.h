@@ -203,7 +203,7 @@ private:
     KPassivePopup *pop;
     KStatusBar *m_statusbar;
 
-    KListViewSearchLine* listViewSearch;
+    KeyListViewSearchLine* listViewSearch;
     KDialogBase *addUidWidget;
 
     KAction *importSignatureKey;

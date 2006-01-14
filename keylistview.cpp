@@ -769,34 +769,52 @@ KeyListViewSearchLine::KeyListViewSearchLine(QWidget *parent, KeyListView *listV
 {
     m_searchlistview = listView;
     setKeepParentsVisible(false);
-    onlySecret = false;
-    showDisabled = true;
+    m_hidepublic = false;
+    m_hidedisabled = false;
+}
+
+void KeyListViewSearchLine::setHidePublic(const bool &hidepublic)
+{
+    m_hidepublic = hidepublic;
+}
+
+bool KeyListViewSearchLine::hidePublic() const
+{
+    return m_hidepublic;
+}
+
+void KeyListViewSearchLine::setHideDisabled(const bool &hidedisabled)
+{
+    m_hidedisabled = hidedisabled;
+}
+
+bool KeyListViewSearchLine::hideDisabled() const
+{
+    return m_hidedisabled;
 }
 
 void KeyListViewSearchLine::updateSearch(const QString& s)
 {
-   KListViewSearchLine::updateSearch(s);
-/*
-    if (m_searchlistview->displayOnlySecret || !m_searchlistview->displayDisabled)
+    KListViewSearchLine::updateSearch(s);
+
+    if (m_hidepublic || m_hidedisabled)
     {
-        int disabledSerial = m_searchlistview->trustbad.serialNumber();
-        KListViewItem *item = static_cast<KListViewItem*>(m_searchlistview->firstChild());
+        KeyListViewItem *item = static_cast<KeyListViewItem*>(m_searchlistview->firstChild());
         while (item)
         {
-            if (item->isVisible() && !(item->text(6).isEmpty()))
+            if (item->isVisible())
             {
-                if (m_searchlistview->displayOnlySecret && m_searchlistview->secretList.find(item->text(6)) == -1)
-                    item->setVisible(false);
+                if (m_hidepublic)
+                    if ((item->itemType() == KeyListViewItem::Public) && (item->itemType() != KeyListViewItem::Secret))
+                        item->setVisible(false);
 
-                if (!m_searchlistview->displayDisabled && item->pixmap(2))
-                    if (item->pixmap(2)->serialNumber() == disabledSerial)
+                if (m_hidedisabled)
+                    if (item->isExpired())
                         item->setVisible(false);
             }
-
-            item = static_cast<KListViewItem*>(item->nextSibling());
+            item = static_cast<KeyListViewItem*>(item->nextSibling());
         }
     }
-*/
 }
 
 bool KeyListViewSearchLine::itemMatches(const KListViewItem *item, const QString &s) const

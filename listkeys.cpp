@@ -515,6 +515,7 @@ void listKeys::slotToggleSecret()
     if (!item)
         return;
 
+    listViewSearch->setHidePublic(!listViewSearch->hidePublic());
     listViewSearch->updateSearch(listViewSearch->text());
 }
 
@@ -524,6 +525,7 @@ void listKeys::slotToggleDisabled()
     if (!item)
         return;
 
+    listViewSearch->setHideDisabled(!listViewSearch->hideDisabled());
     listViewSearch->updateSearch(listViewSearch->text());
 }
 
