@@ -26,8 +26,11 @@ namespace Kgpg
 {
     enum KeyAlgoFlag
     {
-        DSA_ELGAMAL = 1,
-        RSA = 2
+        UNKNOWN = 0,
+        RSA = 1,
+        DSA = 2,
+        ELGAMAL = 4,
+        DSA_ELGAMAL = DSA | ELGAMAL
     };
     Q_DECLARE_FLAGS(KeyAlgo, KeyAlgoFlag)
     Q_DECLARE_OPERATORS_FOR_FLAGS(KeyAlgo)
@@ -258,7 +261,8 @@ public:
     QDate           gpgsubexpiration;
     QDate           gpgsubcreation;
     QChar           gpgsubtrust;
-    uint            gpgsubalgo;
+    //uint            gpgsubalgo;
+    Kgpg::KeyAlgo   gpgsubalgo;
     KgpgKeySignList gpgsignlist;
 
     bool operator==(const KgpgKeySubPrivate &other) const;
@@ -278,7 +282,7 @@ public:
     void setCreation(const QDate &date);
     void setTrust(const QChar &c);
     void setTrust(const QString &s);
-    void setAlgorithme(const uint &algo);
+    void setAlgorithme(const Kgpg::KeyAlgo &algo);
     void setValide(const bool &valide);
 
     QString id() const;
@@ -287,7 +291,7 @@ public:
     QDate expirationDate() const;
     QDate creationDate() const;
     QChar trust() const;
-    uint algorithme() const;
+    Kgpg::KeyAlgo algorithme() const;
     bool valide() const;
 
     QString creation() const;
@@ -338,21 +342,21 @@ class KgpgKeyPrivate : public QSharedData
 public:
     KgpgKeyPrivate();
 
-    bool    gpgkeysecret;
-    bool    gpgkeyvalide;
-    QString gpgkeyid;
-    QString gpgfullid;
-    QString gpgkeymail;
-    QString gpgkeyname;
-    QString gpgkeycomment;
-    QString gpgkeyfingerprint;
-    QString gpgkeysize;
-    QChar   gpgkeyownertrust;
-    QChar   gpgkeytrust;
-    QDate   gpgkeycreation;
-    bool    gpgkeyunlimited;
-    QDate   gpgkeyexpiration;
-    uint    gpgkeyalgo;
+    bool          gpgkeysecret;
+    bool          gpgkeyvalide;
+    QString       gpgkeyid;
+    QString       gpgfullid;
+    QString       gpgkeymail;
+    QString       gpgkeyname;
+    QString       gpgkeycomment;
+    QString       gpgkeyfingerprint;
+    QString       gpgkeysize;
+    QChar         gpgkeyownertrust;
+    QChar         gpgkeytrust;
+    QDate         gpgkeycreation;
+    bool          gpgkeyunlimited;
+    QDate         gpgkeyexpiration;
+    Kgpg::KeyAlgo gpgkeyalgo;
 
     KgpgKeySignList gpgsignlist;
     KgpgKeyUatListPtr gpguatlist;
@@ -368,7 +372,7 @@ class KgpgKey : public QObject
 public:
     static QString creation(const QDate &date);
     static QString expiration(const QDate &date, const bool &unlimited);
-    static QString algorithmeToString(const int &v);
+    static QString algorithmeToString(const Kgpg::KeyAlgo &v);
     static QString trustToString(const QChar &c);
     static QColor color(const QChar &c);
     static QString ownerTrustToString(const QChar &c);
@@ -393,7 +397,7 @@ public:
     void setCreation(const QDate &date);
     void setExpiration(const QDate &date);
     void setUnlimited(const bool &unlimited);
-    void setAlgorithme(const uint &algo);
+    void setAlgorithme(const Kgpg::KeyAlgo &algo);
 
     bool secret() const;
     bool valide() const;
@@ -409,7 +413,7 @@ public:
     QDate creationDate() const;
     QDate expirationDate() const;
     bool unlimited() const;
-    uint algorithme() const;
+    Kgpg::KeyAlgo algorithme() const;
 
     QString creation() const;
     QString expiration() const;

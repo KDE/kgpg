@@ -63,6 +63,7 @@ public:
     static void setGpgBoolSetting(const QString &name, const bool &enable, const QString &url);
 
     static int checkUID(const QString &keyid);
+    static Kgpg::KeyAlgo intToAlgo(const uint &v);
 
 
 /************** function to send a passphrase to gpg **************/

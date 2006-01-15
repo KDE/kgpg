@@ -383,6 +383,14 @@ int KgpgInterface::checkUID(const QString &keyid)
     return uidcnt;
 }
 
+Kgpg::KeyAlgo KgpgInterface::intToAlgo(const uint &v)
+{
+    if (v == 1) return Kgpg::RSA;
+    if ((v == 16) || (v == 20)) return Kgpg::ELGAMAL;
+    if (v == 17) return Kgpg::DSA;
+    return Kgpg::UNKNOWN;
+}
+
 int KgpgInterface::sendPassphrase(const QString &text, KProcIO *process, const bool isnew)
 {
     QByteArray passphrase;
@@ -500,7 +508,7 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
 
                 m_publickey.setTrust(lsp.at(1));
                 m_publickey.setSize(lsp.at(2));
-                m_publickey.setAlgorithme(lsp.at(3).toInt());
+                m_publickey.setAlgorithme(intToAlgo(lsp.at(3).toInt()));
                 m_publickey.setFullId(lsp.at(4));
                 m_publickey.setId(lsp.at(4).right(8));
                 m_publickey.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
@@ -579,7 +587,7 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
                 sub.setId(lsp.at(4).right(8));
                 sub.setTrust(lsp.at(1));
                 sub.setSize(lsp.at(2));
-                sub.setAlgorithme(lsp.at(3).toInt());
+                sub.setAlgorithme(intToAlgo(lsp.at(3).toInt()));
                 sub.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
 
                 if (lsp.at(11).find("D", 0, true) != -1)
@@ -823,7 +831,7 @@ void KgpgInterface::readSecretKeysProcess(KProcIO *p)
 
                 m_secretkey.setTrust(lsp.at(1));
                 m_secretkey.setSize(lsp.at(2));
-                m_secretkey.setAlgorithme(lsp.at(3).toInt());
+                m_secretkey.setAlgorithme(intToAlgo(lsp.at(3).toInt()));
                 m_secretkey.setFullId(lsp.at(4));
                 m_secretkey.setId(lsp.at(4).right(8));
                 m_secretkey.setCreation(QDate::fromString(lsp[5], Qt::ISODate));

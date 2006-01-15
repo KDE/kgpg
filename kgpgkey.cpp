@@ -441,7 +441,7 @@ void KgpgKeySub::setTrust(const QString &s)
         d->gpgsubtrust = QChar();
 }
 
-void KgpgKeySub::setAlgorithme(const uint &algo)
+void KgpgKeySub::setAlgorithme(const Kgpg::KeyAlgo &algo)
 {
     d->gpgsubalgo = algo;
 }
@@ -481,7 +481,7 @@ QChar KgpgKeySub::trust() const
     return d->gpgsubtrust;
 }
 
-uint KgpgKeySub::algorithme() const
+Kgpg::KeyAlgo KgpgKeySub::algorithme() const
 {
     return d->gpgsubalgo;
 }
@@ -531,16 +531,12 @@ KgpgKeySub& KgpgKeySub::operator=(const KgpgKeySub &other)
     return *this;
 }
 
-QString KgpgKey::algorithmeToString(const int &v)
+QString KgpgKey::algorithmeToString(const Kgpg::KeyAlgo &v)
 {
-    if (v == 1)
-        return QString("RSA");
-    if ((v == 16) || (v == 20))
-        return QString("ElGamal");
-    if (v == 17)
-        return QString("DSA");
-
-    return QString("#" + v);
+    if (v == Kgpg::RSA) return QString("RSA");
+    if (v == Kgpg::ELGAMAL) return QString("ElGamal");
+    if (v == Kgpg::DSA) return QString("DSA");
+    return QString("Unknown");
 }
 
 QString KgpgKey::trustToString(const QChar &c)
@@ -689,7 +685,7 @@ KgpgKey::KgpgKey()
 {
     d = new KgpgKeyPrivate;
     d->gpgkeyunlimited = false;
-    d->gpgkeyalgo = 0;
+    d->gpgkeyalgo = Kgpg::UNKNOWN;
     d->gpgkeyvalide = false;
 }
 
@@ -785,7 +781,7 @@ void KgpgKey::setUnlimited(const bool &unlimited)
     d->gpgkeyunlimited = unlimited;
 }
 
-void KgpgKey::setAlgorithme(const uint &algo)
+void KgpgKey::setAlgorithme(const Kgpg::KeyAlgo &algo)
 {
     d->gpgkeyalgo = algo;
 }
@@ -860,7 +856,7 @@ bool KgpgKey::unlimited() const
     return d->gpgkeyunlimited;
 }
 
-uint KgpgKey::algorithme() const
+Kgpg::KeyAlgo KgpgKey::algorithme() const
 {
     return d->gpgkeyalgo;
 }
