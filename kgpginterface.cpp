@@ -24,7 +24,7 @@
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <ktempfile.h>
-#include <kpassdlg.h>
+#include <kpassworddialog.h>
 #include <klocale.h>
 #include <kcodecs.h>
 #include <kprocio.h>
@@ -1436,7 +1436,7 @@ void KgpgInterface::verifyTextFin(KProcess *p)
     }
 }
 
-void KgpgInterface::encryptFile(const QStringList &encryptkeys, const KURL &srcurl, const KURL &desturl, const QStringList &options, const bool &symetrical)
+void KgpgInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options, const bool &symetrical)
 {
     m_partialline = QString::null;
     m_ispartial = false;
@@ -2320,7 +2320,7 @@ void KgpgInterface::importKey(QString keystr)
     process->closeWhenDone();
 }
 
-void KgpgInterface::importKey(KURL url)
+void KgpgInterface::importKey(KUrl url)
 {
     m_partialline = QString::null;
     m_ispartial = false;
@@ -2751,7 +2751,7 @@ void KgpgInterface::generateKeyFin(KProcess *p)
 
 
 
-void KgpgInterface::KgpgDecryptFile(KURL srcUrl, KURL destUrl, QStringList Options)
+void KgpgInterface::KgpgDecryptFile(KUrl srcUrl, KUrl destUrl, QStringList Options)
 {
     message = QString::null;
     step=3;
@@ -2837,7 +2837,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
 }
 
 // decrypt file to text
-void KgpgInterface::KgpgDecryptFileToText(KURL srcUrl, QStringList Options)
+void KgpgInterface::KgpgDecryptFileToText(KUrl srcUrl, QStringList Options)
 {
     message = QString::null;
     userIDs = QString::null;
@@ -2863,7 +2863,7 @@ void KgpgInterface::KgpgDecryptFileToText(KURL srcUrl, QStringList Options)
 }
 
 // signatures
-void KgpgInterface::KgpgSignFile(QString keyID, KURL srcUrl, QStringList Options)
+void KgpgInterface::KgpgSignFile(QString keyID, KUrl srcUrl, QStringList Options)
 {
     message = QString::null;
     step = 3;
@@ -2943,7 +2943,7 @@ void KgpgInterface::readsignprocess(KProcIO *p)
     }
 }
 
-void KgpgInterface::KgpgVerifyFile(KURL sigUrl, KURL srcUrl)
+void KgpgInterface::KgpgVerifyFile(KUrl sigUrl, KUrl srcUrl)
 {
     message = QString::null;
     signID = QString::null;

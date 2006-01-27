@@ -282,12 +282,12 @@ void KeyListView::slotRemoveColumn(const int &c)
 
 void KeyListView::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-    e->accept(KURL::List::canDecode(e->mimeData()));
+    e->accept(KUrl::List::canDecode(e->mimeData()));
 }
 
 void  KeyListView::contentsDropEvent(QDropEvent *o)
 {
-    KURL::List uriList = KURL::List::fromMimeData(o->mimeData());
+    KUrl::List uriList = KUrl::List::fromMimeData(o->mimeData());
     if (!uriList.isEmpty())
         droppedFile(uriList.first());
 }
@@ -307,7 +307,7 @@ void KeyListView::startDrag()
     // do NOT delete d.
 }
 
-void KeyListView::droppedFile(const KURL &url)
+void KeyListView::droppedFile(const KUrl &url)
 {
     if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>").arg(url.path()), QString::null, i18n("Import"), i18n("Do Not Import")) != KMessageBox::Yes)
         return;

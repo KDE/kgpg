@@ -162,7 +162,7 @@ void MyView::clipSign(bool openEditor)
     {
         KgpgEditor *kgpgtxtedit = new KgpgEditor(0, "editor", Qt::WDestructiveClose, goDefaultKey);
         connect(this,SIGNAL(setFont(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
-        connect(kgpgtxtedit, SIGNAL(encryptFiles(KURL::List)), this, SLOT(encryptFiles(KURL::List)));
+        connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
 
         if (!openEditor)
             connect(kgpgtxtedit->view, SIGNAL(verifyFinished()), kgpgtxtedit, SLOT(closeWindow()));
@@ -252,7 +252,7 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
     else
         extension += ".gpg";
 
-    KURL encryptedFile(droppedUrls.first().path() + extension);
+    KUrl encryptedFile(droppedUrls.first().path() + extension);
     QFile encryptedFolder(droppedUrls.first().path() + extension);
     if (encryptedFolder.exists())
     {
@@ -342,7 +342,7 @@ void MyView::busyMessage(QString mssge, bool reset)
     }
 }
 
-void MyView::encryptFiles(KURL::List urls)
+void MyView::encryptFiles(KUrl::List urls)
 {
     droppedUrls = urls;
     encryptDroppedFile();
@@ -443,7 +443,7 @@ void MyView::signDroppedFile()
 void MyView::decryptDroppedFile()
 {
     //bool isFolder=false;  // droppedUrls
-    KURL swapname;
+    KUrl swapname;
 
     if (!droppedUrls.first().isLocalFile())
     {
@@ -510,8 +510,8 @@ void MyView::unArchive()
     }
 
     const KArchiveDirectory *archiveDirectory = compressedFolder.directory();
-    //KURL savePath=KURL::getURL(droppedUrl,this,i18n(""));
-    KURLRequesterDlg *savePath = new KURLRequesterDlg(droppedUrl.directory(false), i18n("Extract to: "), 0, "extract");
+    //KUrl savePath=KUrl::getURL(droppedUrl,this,i18n(""));
+    KUrlRequesterDlg *savePath = new KUrlRequesterDlg(droppedUrl.directory(false), i18n("Extract to: "), 0, "extract");
     savePath->fileDialog()->setMode(KFile::Directory);
     if (!savePath->exec() == QDialog::Accepted)
     {
@@ -531,13 +531,13 @@ void MyView::showDroppedFile()
     KgpgEditor *kgpgtxtedit = new KgpgEditor(0, "editor", Qt::WDestructiveClose, goDefaultKey);
     kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
 
-    connect(kgpgtxtedit, SIGNAL(encryptFiles(KURL::List)), this, SLOT(encryptFiles(KURL::List)));
+    connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
     connect(this, SIGNAL(setFont(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
     connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), this, SIGNAL(importedKeys(QStringList)));
     kgpgtxtedit->show();
 }
 
-void MyView::droppedfile (KURL::List url)
+void MyView::droppedfile (KUrl::List url)
 {
     droppedUrls = url;
     droppedUrl = url.first();
@@ -593,7 +593,7 @@ void MyView::droppedtext (QString inputText, bool allowEncrypt)
     if (inputText.startsWith("-----BEGIN PGP MESSAGE"))
     {
         KgpgEditor *kgpgtxtedit = new KgpgEditor(0, "editor", Qt::WDestructiveClose, goDefaultKey);
-        connect(kgpgtxtedit, SIGNAL(encryptFiles(KURL::List)), this, SLOT(encryptFiles(KURL::List)));
+        connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
         connect(this, SIGNAL(setFont(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
         kgpgtxtedit->view->editor->setText(inputText);
         kgpgtxtedit->view->slotDecode();
@@ -629,13 +629,13 @@ void MyView::droppedtext (QString inputText, bool allowEncrypt)
 
 void MyView::dragEnterEvent(QDragEnterEvent *e)
 {
-    e->accept(KURL::List::canDecode(e->mimeData()) || Q3TextDrag::canDecode(e));
+    e->accept(KUrl::List::canDecode(e->mimeData()) || Q3TextDrag::canDecode(e));
 }
 
 void MyView::dropEvent(QDropEvent *o)
 {
     QString text;
-    KURL::List uriList = KURL::List::fromMimeData(o->mimeData());
+    KUrl::List uriList = KUrl::List::fromMimeData(o->mimeData());
     if (!uriList.isEmpty())
         droppedfile(uriList);
     else
@@ -806,7 +806,7 @@ void MyView::slotWizardChange()
 
 void MyView::installShred()
 {
-    KURL path;
+    KUrl path;
     path.setPath(KGlobalSettings::desktopPath());
     path.addPath("shredder.desktop");
     KDesktopFile configl2(path.path(), false);
@@ -1034,9 +1034,9 @@ int KgpgAppletApp::newInstance()
         else
             kgpg_applet = new kgpgapplet(s_keyManager->s_kgpgEditor);
 
-        connect(s_keyManager,SIGNAL(encryptFiles(KURL::List)),kgpg_applet->w,SLOT(encryptFiles(KURL::List)));
+        connect(s_keyManager,SIGNAL(encryptFiles(KUrl::List)),kgpg_applet->w,SLOT(encryptFiles(KUrl::List)));
         connect(s_keyManager,SIGNAL(installShredder()),kgpg_applet->w,SLOT(installShred()));
-        connect(s_keyManager->s_kgpgEditor,SIGNAL(encryptFiles(KURL::List)),kgpg_applet->w,SLOT(encryptFiles(KURL::List)));
+        connect(s_keyManager->s_kgpgEditor,SIGNAL(encryptFiles(KUrl::List)),kgpg_applet->w,SLOT(encryptFiles(KUrl::List)));
 
         connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
         connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));

@@ -23,7 +23,7 @@ class  Md5Widget : public KDialog
     Q_OBJECT
 
 public:
-    Md5Widget(QWidget *parent = 0, const KURL &url = KURL());
+    Md5Widget(QWidget *parent = 0, const KUrl &url = KURL());
 
 public slots:
     void slotApply();

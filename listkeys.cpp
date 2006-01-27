@@ -74,7 +74,7 @@
 #include <kshortcut.h>
 #include <kstdaccel.h>
 #include <kprocess.h>
-#include <kpassdlg.h>
+#include <kpassworddialog.h>
 #include <kprinter.h>
 #include <klocale.h>
 #include <dcopref.h>
@@ -344,7 +344,7 @@ void listKeys::slotOpenEditor()
     kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
-    connect(kgpgtxtedit, SIGNAL(encryptFiles(KURL::List)), this, SIGNAL(encryptFiles(KURL::List)));
+    connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SIGNAL(encryptFiles(KUrl::List)));
     connect(this, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
 
     kgpgtxtedit->show();
@@ -1192,7 +1192,7 @@ void listKeys::slotImportRevoke(QString url)
 {
     KgpgInterface *importKeyProcess = new KgpgInterface();
     connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), keysList2, SLOT(refreshselfkey()));
-    importKeyProcess->importKey(KURL::fromPathOrURL(url));
+    importKeyProcess->importKey(KUrl::fromPathOrURL(url));
 }
 
 void listKeys::slotImportRevokeTxt(QString revokeText)
@@ -1217,7 +1217,7 @@ void listKeys::slotexportsec()
         sname = keysList2->currentItem()->text(0).section(' ', 0, 0);
     sname.append(".asc");
     sname.prepend(QDir::homeDirPath() + "/");
-    KURL url = KFileDialog::getSaveURL(sname, "*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As"));
+    KUrl url = KFileDialog::getSaveURL(sname, "*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As"));
 
     if(!url.isEmpty())
     {
@@ -2048,7 +2048,7 @@ void listKeys::slotPreImportKey()
                 KgpgInterface *importKeyProcess = new KgpgInterface();
                 connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
                 connect(importKeyProcess, SIGNAL(importKeyOrphaned()), keysList2, SLOT(slotReloadOrphaned()));
-                importKeyProcess->importKey(KURL::fromPathOrURL(impname));
+                importKeyProcess->importKey(KUrl::fromPathOrURL(impname));
             }
         }
         else

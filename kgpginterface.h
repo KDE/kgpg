@@ -281,7 +281,7 @@ public slots:
      * @param Options String List with the wanted gpg options. ex: "--armor"
      * @param symetrical bool whether the encryption should be symmetrical.
      */
-    void encryptFile(const QStringList &encryptkeys, const KURL &srcurl, const KURL &desturl, const QStringList &options = QStringList(), const bool &symetrical = false);
+    void encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options = QStringList(), const bool &symetrical = false);
 
 private slots:
     /**
@@ -499,7 +499,7 @@ public slots:
      * Import key function
      * @param url Kurl the url of the key file. Allows public & secret key import.
      */
-    void importKey(KURL url);
+    void importKey(KUrl url);
 
     /**
      * Import key function
@@ -632,14 +632,14 @@ public slots:
      * @param destUrl Kurl for the decrypted file.
      * @param Options String List with the wanted gpg options
      */
-    void KgpgDecryptFile(KURL srcUrl, KURL destUrl, QStringList Options = QStringList());
+    void KgpgDecryptFile(KUrl srcUrl, KUrl destUrl, QStringList Options = QStringList());
 
     /**
      * Decrypt File to text function
      * @param srcUrl Kurl of the file to decrypt.
      * @param Options StringList with the wanted gpg options.
      */
-    void KgpgDecryptFileToText(KURL srcUrl, QStringList Options);
+    void KgpgDecryptFileToText(KUrl srcUrl, QStringList Options);
 
     /**
      * Sign file function
@@ -647,13 +647,13 @@ public slots:
      * @param srcUrl Kurl of the file to sign.
      * @param Options String with the wanted gpg options. ex: "--armor"
      */
-    void KgpgSignFile(QString keyID, KURL srcUrl, QStringList Options = QStringList());
+    void KgpgSignFile(QString keyID, KUrl srcUrl, QStringList Options = QStringList());
 
     /**Verify file function
      * @param sigUrl Kurl of the signature file.
      * @param srcUrl Kurl of the file to be verified. If empty, gpg will try to find it using the signature file name (by removing the .sig extensio)
      */
-    void KgpgVerifyFile(KURL sigUrl, KURL srcUrl = KURL()) ;
+    void KgpgVerifyFile(KUrl sigUrl, KUrl srcUrl = KURL()) ;
 
     /**
      * Key signature deletion function
@@ -789,7 +789,7 @@ private:
     QString revokeDescription;
     QString certificateUrl;
     QString photoUrl;
-    KURL sourceFile;
+    KUrl sourceFile;
     QString decryptUrl;
 
     QString gpgOutput;
@@ -797,7 +797,7 @@ private:
     /**
      * @internal structure for the file information
      */
-    KURL file;
+    KUrl file;
 };
 
 #endif // KGPGINTERFACE_H

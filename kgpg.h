@@ -53,8 +53,8 @@ public:
     MyView(QWidget *parent = 0, const char *name = 0);
     ~MyView();
 
-    KURL droppedUrl;
-    KURL::List droppedUrls;
+    KUrl droppedUrl;
+    KUrl::List droppedUrls;
     KTempFile *kgpgfoldertmp;
     KShortcut goDefaultKey;
 
@@ -87,7 +87,7 @@ public slots:
     void startFolderEncode(QStringList selec, QStringList encryptOptions, bool, bool symetric);
     void slotFolderFinished(KURL, KgpgInterface*);
     void slotFolderFinishedError(QString errmsge, KgpgInterface*);
-    void encryptFiles(KURL::List urls);
+    void encryptFiles(KUrl::List urls);
     void installShred();
 
 protected:
@@ -126,7 +126,7 @@ private slots:
     void about();
     void firstRun();
     void readOptions();
-    void droppedfile(KURL::List);
+    void droppedfile(KUrl::List);
     void droppedtext(QString inputText, bool allowEncrypt = true);
     void unArchive();
     void slotSetCompression(int cp);
@@ -164,7 +164,7 @@ public:
 
     int newInstance ();
     bool running;
-    KURL::List urlList;
+    KUrl::List urlList;
     KShortcut goHome;
 
 protected:

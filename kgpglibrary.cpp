@@ -45,7 +45,7 @@ KgpgLibrary::KgpgLibrary(QWidget *parent, const bool &pgpExtension)
     m_panel = parent;
 }
 
-void KgpgLibrary::slotFileEnc(const KURL::List &urls, const QStringList &opts, const QStringList &defaultKey, const KShortcut &goDefaultKey)
+void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, const QStringList &defaultKey, const KShortcut &goDefaultKey)
 {
     if (!urls.empty())
     {
@@ -70,7 +70,7 @@ void KgpgLibrary::slotFileEnc(const KURL::List &urls, const QStringList &opts, c
 void KgpgLibrary::startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &shred, const bool &symetric)
 {
     m_popisactive = false;
-    //KURL::List::iterator it;
+    //KUrl::List::iterator it;
     //filesToEncode=m_urlselecteds.count();
     m_encryptkeys = encryptkeys;
     m_encryptoptions = encryptoptions;
@@ -79,7 +79,7 @@ void KgpgLibrary::startEncode(const QStringList &encryptkeys, const QStringList 
     fastEncode(m_urlselecteds.first(), encryptkeys, encryptoptions, symetric);
 }
 
-void KgpgLibrary::fastEncode(const KURL &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric)
+void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric)
 {
     if ((encryptkeys.isEmpty()) && (!symetric))
     {
@@ -89,7 +89,7 @@ void KgpgLibrary::fastEncode(const KURL &filetocrypt, const QStringList &encrypt
 
     m_urlselected = filetocrypt;
 
-    KURL dest;
+    KUrl dest;
     if (encryptoptions.find("--armor") != encryptoptions.end())
         dest.setPath(m_urlselected.path() + ".asc");
     else
@@ -155,7 +155,7 @@ void KgpgLibrary::processEncError(const QString &mssge, KgpgInterface *i)
     KMessageBox::detailedSorry(m_panel, i18n("<b>Process halted</b>.<br>Not all files were encrypted."), mssge);
 }
 
-void KgpgLibrary::slotFileDec(const KURL &srcUrl, const KURL &destUrl, const QStringList &customDecryptOption)
+void KgpgLibrary::slotFileDec(const KUrl &srcUrl, const KUrl &destUrl, const QStringList &customDecryptOption)
 {
     // decode file from konqueror or menu
     m_pop = new KPassivePopup();
@@ -231,7 +231,7 @@ void KgpgLibrary::processEncPopup(const QString &fileName)
     m_pop->move(iXpos, iYpos);
 }
 
-void KgpgLibrary::shredProcessEnc(const KURL::List &filestoshred)
+void KgpgLibrary::shredProcessEnc(const KUrl::List &filestoshred)
 {
     emit systemMessage(i18n("Shredding %n file", "Shredding %n files", filestoshred.count()));
     KIO::Job *job = KIO::del(filestoshred, true, true);

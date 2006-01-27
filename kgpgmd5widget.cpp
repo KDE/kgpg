@@ -22,7 +22,7 @@
 
 #include "kgpgmd5widget.h"
 
-Md5Widget::Md5Widget(QWidget *parent, const KURL &url)
+Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
          : KDialog(parent, i18n("MD5 Checksum"), Apply | Close)
 {
     setModal(true);

@@ -96,7 +96,7 @@
                         <string>Clipboard</string>
                     </property>
                 </widget>
-                <widget class="KURLRequester" row="3" column="1">
+                <widget class="KUrlRequester" row="3" column="1">
                     <property name="name">
                         <cstring>newFilename</cstring>
                     </property>

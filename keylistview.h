@@ -97,7 +97,7 @@ protected:
     virtual void startDrag();
 
 private slots:
-    void droppedFile(const KURL &url);
+    void droppedFile(const KUrl &url);
 
     void slotReloadKeys(const QStringList &keyids);
     void refreshAll();

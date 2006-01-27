@@ -35,7 +35,7 @@ public:
     ~KgpgTextEdit();
 
 public slots:
-    void slotDroppedFile(const KURL &url);
+    void slotDroppedFile(const KUrl &url);
     bool slotCheckContent(const QString &filetocheck, const bool &checkforpgpmessage = true);
     void slotDecodeFile(const QString &fname);
 

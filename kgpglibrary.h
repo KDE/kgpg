@@ -46,15 +46,15 @@ signals:
     void photoAdded();
 
 public slots:
-    void slotFileEnc(const KURL::List &urls = KURL(""), const QStringList &opts = QStringList(), const QStringList &defaultKey = QStringList(), const KShortcut &goDefaultKey = QKeySequence(Qt::CTRL + Qt::Key_Home));
-    void slotFileDec(const KURL &srcUrl, const KURL &destUrl, const QStringList &customDecryptOption = QStringList());
-    void shredProcessEnc(const KURL::List &filesToShred);
+    void slotFileEnc(const KUrl::List &urls = KURL(""), const QStringList &opts = QStringList(), const QStringList &defaultKey = QStringList(), const KShortcut &goDefaultKey = QKeySequence(Qt::CTRL + Qt::Key_Home));
+    void slotFileDec(const KUrl &srcUrl, const KUrl &destUrl, const QStringList &customDecryptOption = QStringList());
+    void shredProcessEnc(const KUrl::List &filesToShred);
 
     void addPhoto(QString keyid);
 
 private slots:
     void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &shred, const bool &symetric);
-    void fastEncode(const KURL &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
+    void fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
     void processEnc(KURL, KgpgInterface*);
     void processEncError(const QString &mssge, KgpgInterface*);
     void processDecOver();
@@ -71,8 +71,8 @@ private:
     QStringList m_encryptkeys;
     QStringList m_encryptoptions;
 
-    KURL::List m_urlselecteds;
-    KURL m_urlselected;
+    KUrl::List m_urlselecteds;
+    KUrl m_urlselected;
     KPassivePopup *m_pop;
 
     bool m_popisactive;

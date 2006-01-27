@@ -58,14 +58,14 @@ KgpgTextEdit::~KgpgTextEdit()
 void KgpgTextEdit::contentsDragEnterEvent(QDragEnterEvent *e)
 {
     // if a file is dragged into editor ...
-    e->accept(KURL::List::canDecode(e->mimeData()) || Q3TextDrag::canDecode(e));
+    e->accept(KUrl::List::canDecode(e->mimeData()) || Q3TextDrag::canDecode(e));
 }
 
 void KgpgTextEdit::contentsDropEvent(QDropEvent *e)
 {
     // decode dropped file
     QString text;
-    KURL::List uriList = KURL::List::fromMimeData(e->mimeData());
+    KUrl::List uriList = KUrl::List::fromMimeData(e->mimeData());
     if (!uriList.isEmpty())
         slotDroppedFile(uriList.first());
     else
@@ -73,7 +73,7 @@ void KgpgTextEdit::contentsDropEvent(QDropEvent *e)
         insert(text);
 }
 
-void KgpgTextEdit::slotDroppedFile(const KURL &url)
+void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 {
     if (!m_tempfile.isEmpty())
     {

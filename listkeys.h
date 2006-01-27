@@ -78,7 +78,7 @@ signals:
     void certificate(QString);
     void closeAsked();
     void fontChanged(QFont);
-    void encryptFiles(KURL::List);
+    void encryptFiles(KUrl::List);
     void installShredder();
 
 public slots:
