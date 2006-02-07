@@ -272,7 +272,7 @@ void KgpgSelectPublicKeyDlg::slotSetVisible()
 
 void KgpgSelectPublicKeyDlg::slotOk()
 {
-    kdDebug(2100) << "Ok pressed" << endl;
+    kDebug(2100) << "Ok pressed" << endl;
 
     QStringList selectedkeys = selectedKeys();
     if (selectedkeys.isEmpty() && !m_cbsymmetric->isChecked())
@@ -281,7 +281,7 @@ void KgpgSelectPublicKeyDlg::slotOk()
     if (m_cbsymmetric->isChecked())
         selectedkeys = QStringList();
 
-    kdDebug(2100) << "Selected Key:" << selectedkeys << endl;
+    kDebug(2100) << "Selected Key:" << selectedkeys << endl;
 
     QStringList returnOptions;
     if (m_cbuntrusted->isChecked())

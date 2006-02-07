@@ -146,11 +146,11 @@ QStringList KgpgInterface::getGpgGroupSetting(const QString &name, const QString
             result = result.simplified();
             if (result.startsWith("group "))
             {
-                kdDebug(2100) << "Found 1 group" << endl;
+                kDebug(2100) << "Found 1 group" << endl;
                 result.remove(0, 6);
                 if (result.simplified().startsWith(name))
                 {
-                    kdDebug(2100) << "Found group: " << name << endl;
+                    kDebug(2100) << "Found group: " << name << endl;
                     result = result.section('=', 1);
                     result=result.section('#', 0, 0);
                     return QStringList::split (" ", result);
@@ -169,7 +169,7 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
     bool found = false;
     QFile qfile(QFile::encodeName(configfile));
 
-    kdDebug(2100) << "Changing group: " << name << endl;
+    kDebug(2100) << "Changing group: " << name << endl;
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
         QString result;
@@ -184,8 +184,8 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
                 result2 = result2.simplified();
                 if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith("=")))
                 {
-                    // kdDebug(2100) << "Found group: " << name << endl;
-                    // kdDebug(2100) << "New values: " << values << endl;
+                    // kDebug(2100) << "Found group: " << name << endl;
+                    // kDebug(2100) << "New values: " << values << endl;
                     result = QString("group %1=%2").arg(name).arg(values.join(" "));
                     found = true;
                 }
@@ -454,7 +454,7 @@ KgpgListKeys KgpgInterface::readPublicKeys(const bool &block, const QStringList 
 
     if (!block)
     {
-        kdDebug(2100) << "(KgpgInterface::readPublicKeys) Extract public keys with KProcess::NotifyOnExit" << endl;
+        kDebug(2100) << "(KgpgInterface::readPublicKeys) Extract public keys with KProcess::NotifyOnExit" << endl;
         connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(readPublicKeysProcess(KProcIO *)));
         connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(readPublicKeysFin(KProcess *)));
         process->start(KProcess::NotifyOnExit, false);
@@ -463,7 +463,7 @@ KgpgListKeys KgpgInterface::readPublicKeys(const bool &block, const QStringList 
     }
     else
     {
-        kdDebug(2100) << "(KgpgInterface::readPublicKeys) Extract public keys with KProcess::Block" << endl;
+        kDebug(2100) << "(KgpgInterface::readPublicKeys) Extract public keys with KProcess::Block" << endl;
         process->start(KProcess::Block, false);
         readPublicKeysProcess(process);
         readPublicKeysFin(process, true);
@@ -779,7 +779,7 @@ KgpgListKeys KgpgInterface::readSecretKeys(const bool &block, const QStringList 
 
     if (!block)
     {
-        kdDebug(2100) << "(KgpgInterface::readSecretKeys) Extract secret keys with KProcess::NotifyOnExit" << endl;
+        kDebug(2100) << "(KgpgInterface::readSecretKeys) Extract secret keys with KProcess::NotifyOnExit" << endl;
         connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(readSecretKeysProcess(KProcIO *)));
         connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(readSecretKeysFin(KProcess *)));
         process->start(KProcess::NotifyOnExit, false);
@@ -788,7 +788,7 @@ KgpgListKeys KgpgInterface::readSecretKeys(const bool &block, const QStringList 
     }
     else
     {
-        kdDebug(2100) << "(KgpgInterface::readSecretKeys) Extract secret keys with KProcess::Block" << endl;
+        kDebug(2100) << "(KgpgInterface::readSecretKeys) Extract secret keys with KProcess::Block" << endl;
         process->start(KProcess::Block, false);
         readSecretKeysProcess(process);
         readSecretKeysFin(process, true);
@@ -917,7 +917,7 @@ QString KgpgInterface::getKeys(const bool &block, const bool &attributes, const 
 
     if (!block)
     {
-        kdDebug(2100) << "(KgpgInterface::getKeys) Get a key with KProcess::NotifyOnExit" << endl;
+        kDebug(2100) << "(KgpgInterface::getKeys) Get a key with KProcess::NotifyOnExit" << endl;
         connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(getKeysProcess(KProcIO *)));
         connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(getKeysFin(KProcess *)));
         process->start(KProcess::NotifyOnExit, false);
@@ -926,7 +926,7 @@ QString KgpgInterface::getKeys(const bool &block, const bool &attributes, const 
     }
     else
     {
-        kdDebug(2100) << "(KgpgInterface::getKeys) Get a key with KProcess::Block" << endl;
+        kDebug(2100) << "(KgpgInterface::getKeys) Get a key with KProcess::Block" << endl;
         process->start(KProcess::Block, false);
         getKeysProcess(process);
         delete process;
@@ -999,7 +999,7 @@ void KgpgInterface::encryptText(const QString &text, const QStringList &userids,
     else
         *process << "-c";
 
-    kdDebug(2100) << "(KgpgInterface::encryptText) Encrypt a text" << endl;
+    kDebug(2100) << "(KgpgInterface::encryptText) Encrypt a text" << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(encryptTextProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(encryptTextFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, false);
@@ -1092,7 +1092,7 @@ void KgpgInterface::decryptText(const QString &text, const QStringList &options)
 
     *process << "-d";
 
-    kdDebug(2100) << "(KgpgInterface::decryptText) Decrypt a text" << endl;
+    kDebug(2100) << "(KgpgInterface::decryptText) Decrypt a text" << endl;
     connect(process, SIGNAL(receivedStdout(KProcess *, char *, int)), this, SLOT(decryptTextStdOut(KProcess *, char *, int)));
     connect(process, SIGNAL(receivedStderr(KProcess *, char *, int)), this, SLOT(decryptTextStdErr(KProcess *, char *, int)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(decryptTextFin(KProcess *)));
@@ -1236,7 +1236,7 @@ void KgpgInterface::signText(const QString &text, const QString &userid, const Q
 
     *process << "--clearsign" << "-u" << userid;
 
-    kdDebug(2100) << "(KgpgInterface::signText) Sign a text" << endl;
+    kDebug(2100) << "(KgpgInterface::signText) Sign a text" << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(signTextProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(signTextFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -1349,7 +1349,7 @@ void KgpgInterface::verifyText(const QString &text)
     this->insertChild(process);
     *process << "gpg" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0" << "--verify";
 
-    kdDebug(2100) << "(KgpgInterface::verifyText) Verify a text" << endl;
+    kDebug(2100) << "(KgpgInterface::verifyText) Verify a text" << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(verifyTextProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(verifyTextFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -1465,7 +1465,7 @@ void KgpgInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcu
 
     *process << QFile::encodeName(srcurl.path());
 
-    kdDebug(2100) << "(KgpgInterface::encryptFile) Encrypt a file" << endl;
+    kDebug(2100) << "(KgpgInterface::encryptFile) Encrypt a file" << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(fileReadEncProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(fileEncryptFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -1495,7 +1495,7 @@ void KgpgInterface::fileReadEncProcess(KProcIO *p)
                 m_ispartial = false;
             }
 
-            kdDebug(2100) << line << endl;
+            kDebug(2100) << line << endl;
             if (line.find("BEGIN_ENCRYPTION") != -1)
                 emit processstarted(sourceFile.path());
             else
@@ -1569,7 +1569,7 @@ void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, cons
     else
         *process << "sign";
 
-    kdDebug(2100) << "(KgpgInterface::signKey) Sign a key" << endl;
+    kDebug(2100) << "(KgpgInterface::signKey) Sign a key" << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(signKeyProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(signKeyFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -1724,7 +1724,7 @@ void KgpgInterface::keyExpire(const QString &keyid, const QDate &date, const boo
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid << "expire";
 
-    kdDebug(2100) << "(KgpgInterface::keyExpire) Change expiration of the key " << keyid << endl;
+    kDebug(2100) << "(KgpgInterface::keyExpire) Change expiration of the key " << keyid << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(keyExpireProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(keyExpireFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -1845,7 +1845,7 @@ void KgpgInterface::changePass(const QString &keyid)
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--no-use-agent" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid << "passwd";
 
-    kdDebug(2100) << "(KgpgInterface::changePass) Change passphrase of the key " << keyid << endl;
+    kDebug(2100) << "(KgpgInterface::changePass) Change passphrase of the key " << keyid << endl;
     connect(process,SIGNAL(readReady(KProcIO *)), this, SLOT(changePassProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(changePassFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -1947,7 +1947,7 @@ void KgpgInterface::changeTrust(const QString &keyid, const int &keytrust)
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid << "trust";
 
-    kdDebug(2100) << "(KgpgInterface::changeTrust) Change trust of the key " << keyid << " to " << keytrust << endl;
+    kDebug(2100) << "(KgpgInterface::changeTrust) Change trust of the key " << keyid << " to " << keytrust << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(changeTrustProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(changeTrustFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -2020,7 +2020,7 @@ void KgpgInterface::changeDisable(const QString &keyid, const bool &ison)
     else
         *process << "enable";
 
-    kdDebug(2100) << "(KgpgInterface::changeDisable) Change disable of the key " << keyid << " to " << ison << endl;
+    kDebug(2100) << "(KgpgInterface::changeDisable) Change disable of the key " << keyid << " to " << ison << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(changeDisableProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(changeDisableFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -2084,14 +2084,14 @@ QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const
 
     if (!block)
     {
-        kdDebug(2100) << "(KgpgInterface::loadPhoto) Load a photo for the key " << keyid << " uid " << uid << endl;
+        kDebug(2100) << "(KgpgInterface::loadPhoto) Load a photo for the key " << keyid << " uid " << uid << endl;
         connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(loadPhotoFin(KProcess *)));
         process->start(KProcess::NotifyOnExit, true);
         return QPixmap();
     }
     else
     {
-        kdDebug(2100) << "(KgpgInterface::loadPhoto) Load a photo for the key " << keyid << " uid " << uid << endl;
+        kDebug(2100) << "(KgpgInterface::loadPhoto) Load a photo for the key " << keyid << " uid " << uid << endl;
         process->start(KProcess::Block, true);
         loadPhotoFin(process, true);
         return m_pixmap;
@@ -2123,7 +2123,7 @@ void KgpgInterface::addPhoto(const QString &keyid, const QString &imagepath)
     *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0";
     *process << "--edit-key" << keyid << "addphoto";
 
-    kdDebug(2100) << "(KgpgInterface::addPhoto) Add the photo " << imagepath << " to the key " << keyid << endl;
+    kDebug(2100) << "(KgpgInterface::addPhoto) Add the photo " << imagepath << " to the key " << keyid << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(addPhotoProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(addPhotoFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -2225,7 +2225,7 @@ void KgpgInterface::deletePhoto(const QString &keyid, const QString &uid)
     *process << "gpg" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--edit-key" << keyid << "uid" << uid << "deluid";
 
-    kdDebug(2100) << "(KgpgInterface::deletePhoto) Delete a photo from the key " << keyid << endl;
+    kDebug(2100) << "(KgpgInterface::deletePhoto) Delete a photo from the key " << keyid << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(deletePhotoProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(deletePhotoFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -2311,7 +2311,7 @@ void KgpgInterface::importKey(QString keystr)
     *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--import";
     *process << "--allow-secret-key-import";
 
-    kdDebug(2100) << "(KgpgInterface::importKey) Import a key (text)" << endl;
+    kDebug(2100) << "(KgpgInterface::importKey) Import a key (text)" << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(importKeyProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(importKeyFinished(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -2334,7 +2334,7 @@ void KgpgInterface::importKey(KUrl url)
         *process << "--allow-secret-key-import";
         *process << m_tempkeyfile;
 
-        kdDebug(2100) << "(KgpgInterface::importKey) Import a key (file)" << endl;
+        kDebug(2100) << "(KgpgInterface::importKey) Import a key (file)" << endl;
         connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(importKeyProcess(KProcIO *)));
         connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(importURLover(KProcess *)));
         process->start(KProcess::NotifyOnExit, true);
@@ -2473,7 +2473,7 @@ void KgpgInterface::addUid(const QString &keyid, const QString &name, const QStr
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--edit-key" << keyid << "adduid";
 
-    kdDebug(2100) << "(KgpgInterface::addUid) Add Uid " << name << ", " << email << ", " << comment << " to key " << keyid << endl;
+    kDebug(2100) << "(KgpgInterface::addUid) Add Uid " << name << ", " << email << ", " << comment << " to key " << keyid << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(addUidProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(addUidFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -2584,7 +2584,7 @@ void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail,
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--gen-key";
 
-    kdDebug(2100) << "(KgpgInterface::generateKey) Generate a new key-pair" << endl;
+    kDebug(2100) << "(KgpgInterface::generateKey) Generate a new key-pair" << endl;
     connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(generateKeyProcess(KProcIO *)));
     connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(generateKeyFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
@@ -2613,7 +2613,7 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
                 m_ispartial = false;
             }
 
-            kdDebug(2100) << line << endl;
+            kDebug(2100) << line << endl;
 
             if (line.find("BAD_PASSPHRASE") != -1)
                 m_success = 1;
@@ -3158,14 +3158,14 @@ void KgpgInterface::revokeprocess(KProcIO *p)
 
                 }
                 if (required.find("ask_revocation_reason.text")!=-1) {
-                        //      kdDebug(2100)<<"description"<<endl;
+                        //      kDebug(2100)<<"description"<<endl;
                         p->writeStdin(revokeDescription);
                         revokeDescription=QString::null;
                         required=QString::null;
                 }
                 if ((required.find("GET_")!=-1)) /////// gpg asks for something unusal, turn to konsole mode
                 {
-                        kdDebug(2100)<<"unknown request"<<endl;
+                        kDebug(2100)<<"unknown request"<<endl;
                         expSuccess=1;  /////  switching to console mode
                         p->writeStdin(QByteArray("quit"));
                         p->closeWhenDone();

@@ -643,7 +643,7 @@ void listKeys::slotAddUid()
 void listKeys::slotAddUidFin(int res, KgpgInterface *interface)
 {
     // TODO tester les res
-    kdDebug(2100) << "Resultat : " << res << endl;
+    kDebug(2100) << "Resultat : " << res << endl;
     delete interface;
     keysList2->refreshselfkey();
 }
@@ -798,7 +798,7 @@ void listKeys::findFirstKey()
 
 void listKeys::findNextKey()
 {
-    //kdDebug(2100)<<"find next"<<endl;
+    //kDebug(2100)<<"find next"<<endl;
     if (searchString.isEmpty())
     {
         findKey();
@@ -815,9 +815,9 @@ void listKeys::findNextKey()
     item=static_cast<KListViewItem*>(item->nextSibling());
 
     QString searchText = item->text(0) + " " + item->text(1) + " " + item->text(6);
-    //kdDebug(2100) << "Next string:" << searchText << endl;
-    //kdDebug(2100) << "Search:" << searchString << endl;
-    //kdDebug(2100) << "OPts:" << searchOptions << endl;
+    //kDebug(2100) << "Next string:" << searchText << endl;
+    //kDebug(2100) << "Search:" << searchString << endl;
+    //kDebug(2100) << "OPts:" << searchOptions << endl;
     KFind *m_find = new KFind(searchString, searchOptions, this);
     m_find->setData(searchText);
     while (m_find->find() == KFind::NoMatch)
@@ -832,7 +832,7 @@ void listKeys::findNextKey()
             item = static_cast<KListViewItem*>(item->nextSibling());
             searchText = item->text(0) + " " + item->text(1) + " " + item->text(6);
             m_find->setData(searchText);
-            //kdDebug(2100) << "Next string:" << searchText << endl;
+            //kDebug(2100) << "Next string:" << searchText << endl;
         }
     }
     delete m_find;
@@ -1052,11 +1052,11 @@ void listKeys::slotSetDefaultKey(QString newID)
 
 void listKeys::slotSetDefaultKey(KListViewItem *newdef)
 {
-    //kdDebug(2100)<<"------------------start ------------"<<endl;
+    //kDebug(2100)<<"------------------start ------------"<<endl;
     if ((!newdef) || (newdef->pixmap(2)==NULL))
         return;
-    //kdDebug(2100)<<newdef->text(6)<<endl;
-    //kdDebug(2100)<<KGpgSettings::defaultKey()<<endl;
+    //kDebug(2100)<<newdef->text(6)<<endl;
+    //kDebug(2100)<<KGpgSettings::defaultKey()<<endl;
     if (newdef->text(6)==KGpgSettings::defaultKey())
         return;
     if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber())
@@ -1107,7 +1107,7 @@ void listKeys::slotmenu(Q3ListViewItem *sel2, const QPoint &pos, int)
 
         if (sel->depth() != 0)
         {
-            //kdDebug(2100) << sel->text(0) << endl;
+            //kDebug(2100) << sel->text(0) << endl;
             if ((sel->text(4) == "-") && (sel->text(6).startsWith("0x")))
             {
                 if ((sel->text(2) == "-") || (sel->text(2) == i18n("Revoked")))
@@ -1368,7 +1368,7 @@ void listKeys::slotShowPhoto()
 
 void listKeys::listsigns()
 {
-    // kdDebug(2100) << "Edit -------------------------------" << endl;
+    // kDebug(2100) << "Edit -------------------------------" << endl;
     if (keysList2->currentItem() == 0)
         return;
 
@@ -1517,7 +1517,7 @@ void listKeys::createNewGroup()
 
 void listKeys::groupInit(QStringList keysGroup)
 {
-    kdDebug(2100) << "preparing group" << endl;
+    kDebug(2100) << "preparing group" << endl;
     QStringList lostKeys;
     bool foundId;
 
@@ -1527,7 +1527,7 @@ void listKeys::groupInit(QStringList keysGroup)
         foundId = false;
         while (item)
         {
-            kdDebug(2100) << "Searching in key: " << item->text(0) << endl;
+            kDebug(2100) << "Searching in key: " << item->text(0) << endl;
             if (QString(*it).right(8).toLower() == item->text(2).right(8).toLower())
             {
                 gEdit->groupKeys->insertItem(item);
@@ -1673,7 +1673,7 @@ void listKeys::signLoop()
 {
     if (keyCount < globalCount)
     {
-        kdDebug(2100) << "Sign process for key: " << keyCount + 1 << " on a total of " << signList.count() << endl;
+        kDebug(2100) << "Sign process for key: " << keyCount + 1 << " on a total of " << signList.count() << endl;
         if (signList.at(keyCount))
         {
             KgpgInterface *interface = new KgpgInterface();
@@ -1866,7 +1866,7 @@ void listKeys::doFilePrint(QString url)
 void listKeys::doPrint(QString txt)
 {
     KPrinter prt;
-    //kdDebug(2100) << "Printing..." << endl;
+    //kDebug(2100) << "Printing..." << endl;
     if (prt.setup(this))
     {
         QPainter painter(&prt);

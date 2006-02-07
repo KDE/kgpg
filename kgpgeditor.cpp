@@ -389,7 +389,7 @@ void KgpgEditor::slotKeyManager()
 {
     QByteArray data;
     if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showKeyManager()", data))
-        kdDebug(2100) << "there was some error using DCOP." << endl;
+        kDebug(2100) << "there was some error using DCOP." << endl;
 }
 
 void KgpgEditor::slotFileQuit()
@@ -547,7 +547,7 @@ void KgpgEditor::slotOptions()
 {
     QByteArray data;
     if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showOptions()", data))
-        kdDebug(2100) << "there was some error using DCOP." << endl;
+        kDebug(2100) << "there was some error using DCOP." << endl;
 }
 
 void KgpgEditor::modified()

@@ -331,7 +331,7 @@ void MyView::busyMessage(QString mssge, bool reset)
     else
         openTasks--;
 
-    //kdDebug(2100) << "Emit message: " << openTasks << endl;
+    //kDebug(2100) << "Emit message: " << openTasks << endl;
 
     if (openTasks <= 0)
     {
@@ -526,7 +526,7 @@ void MyView::unArchive()
 
 void MyView::showDroppedFile()
 {
-    kdDebug(2100) << "------Show dropped file" << endl;
+    kDebug(2100) << "------Show dropped file" << endl;
 
     KgpgEditor *kgpgtxtedit = new KgpgEditor(0, "editor", Qt::WDestructiveClose, goDefaultKey);
     kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
@@ -566,7 +566,7 @@ void MyView::droppedfile (KUrl::List url)
                 break;
             case KGpgSettings::EnumEncryptedDropEvent::Ask:
                 droppopup->exec(QCursor::pos ());
-                kdDebug(2100)<<"Drop menu--------"<<endl;
+                kDebug(2100)<<"Drop menu--------"<<endl;
                 break;
         }
     }
@@ -681,7 +681,7 @@ void MyView::firstRun()
 
 void MyView::startWizard()
 {
-    kdDebug(2100) << "Starting Wizard" << endl;
+    kDebug(2100) << "Starting Wizard" << endl;
 
     wiz = new KgpgWizard(0, "wizard");
 
@@ -910,7 +910,7 @@ void MyView::slotSetClip(QString newtxt)
     if (newtxt.isEmpty())
         return;
 
-    kdDebug(2100) << "Encrypted is " << newtxt << endl;
+    kDebug(2100) << "Encrypted is " << newtxt << endl;
     kapp->clipboard()->setText(newtxt, clipboardMode); //,QClipboard::Clipboard);    QT 3.1 only
 }
 
@@ -949,21 +949,21 @@ void kgpgapplet::showOptions()
 {
     QByteArray data;
     if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showOptions()", data))
-        kdDebug(2100) << "there was some error using DCOP." << endl;
+        kDebug(2100) << "there was some error using DCOP." << endl;
 }
 
 void kgpgapplet::slotOpenKeyManager()
 {
     QByteArray data;
     if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showKeyManager()", data))
-        kdDebug(2100) << "there was some error using DCOP." << endl;
+        kDebug(2100) << "there was some error using DCOP." << endl;
 }
 
 void kgpgapplet::slotOpenServerDialog()
 {
     QByteArray data;
     if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showKeyServer()", data))
-        kdDebug(2100) << "there was some error using DCOP." << endl;
+        kDebug(2100) << "there was some error using DCOP." << endl;
 }
 
 kgpgapplet::~kgpgapplet()
@@ -1007,17 +1007,17 @@ void KgpgAppletApp::wizardOver(QString defaultKeyId)
 
 int KgpgAppletApp::newInstance()
 {
-    kdDebug(2100) << "New instance" << endl;
+    kDebug(2100) << "New instance" << endl;
 
     args = KCmdLineArgs::parsedArgs();
     if (running)
     {
-        kdDebug(2100) << "Already running" << endl;
+        kDebug(2100) << "Already running" << endl;
         kgpg_applet->show();
     }
     else
     {
-        kdDebug(2100) << "Starting KGpg" << endl;
+        kDebug(2100) << "Starting KGpg" << endl;
         running = true;
 
         s_keyManager = new listKeys(0, "key_manager");
@@ -1070,7 +1070,7 @@ int KgpgAppletApp::newInstance()
     else
     if (args->count() > 0)
     {
-        kdDebug(2100) << "KGpg: found files" << endl;
+        kDebug(2100) << "KGpg: found files" << endl;
 
         urlList.clear();
         for (int ct = 0; ct < args->count(); ct++)

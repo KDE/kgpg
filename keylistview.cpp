@@ -341,7 +341,7 @@ void KeyListView::refreshAll()
     kapp->processEvents();
 
     // update display of keys in main management window
-    kdDebug(2100) << "Refreshing All" << endl;
+    kDebug(2100) << "Refreshing All" << endl;
 
     // get current position.
     KListViewItem *current = static_cast<KListViewItem*>(currentItem());
@@ -358,7 +358,7 @@ void KeyListView::refreshAll()
     orphanList = QStringList();
     if (refreshKeys())
     {
-        kdDebug(2100) << "No key found" << endl;
+        kDebug(2100) << "No key found" << endl;
         emit statusMessage(i18n("Ready"), 0);
         return;
     }
@@ -390,7 +390,7 @@ void KeyListView::refreshAll()
 
     emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount() - groupNb).arg(groupNb), 1);
     emit statusMessage(i18n("Ready"),0);
-    kdDebug(2100) << "Refresh Finished" << endl;
+    kDebug(2100) << "Refresh Finished" << endl;
 }
 
 bool KeyListView::refreshKeys(QStringList ids)
@@ -554,7 +554,7 @@ void KeyListView::insertOrphans(QStringList ids)
 
 void KeyListView::refreshGroups()
 {
-    kdDebug(2100) << "Refreshing groups..." << endl;
+    kDebug(2100) << "Refreshing groups..." << endl;
     KeyListViewItem *item = static_cast<KeyListViewItem*>(firstChild());
     while (item)
     {
@@ -734,7 +734,7 @@ void KeyListView::expandGroup(KListViewItem *item)
 {
     QStringList keysGroup = KgpgInterface::getGpgGroupSetting(item->text(0), KGpgSettings::gpgConfigPath());
 
-    kdDebug(2100) << keysGroup << endl;
+    kDebug(2100) << keysGroup << endl;
 
     for (QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
     {

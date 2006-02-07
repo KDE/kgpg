@@ -75,7 +75,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     else
         defaultConfigPath = QString::null;
 
-    kdDebug(2100) << "Adding pages" << endl;
+    kDebug(2100) << "Adding pages" << endl;
     m_page1 = new Encryption();
     m_page2 = new Decryption();
     m_page3 = new UIConf();
@@ -242,7 +242,7 @@ void kgpgOptions::updateWidgets()
     m_page6->ServerBox->clear();
     m_page6->ServerBox->insertStringList(serverList);
 
-    kdDebug(2100) << "Finishing options" << endl;
+    kDebug(2100) << "Finishing options" << endl;
 }
 
 void kgpgOptions::updateWidgetsDefault()
@@ -256,7 +256,7 @@ void kgpgOptions::updateWidgetsDefault()
     m_page6->ServerBox->clear();
     m_page6->ServerBox->insertStringList(QStringList::split(",", defaultServerList));
 
-    kdDebug(2100) << "Finishing default options" << endl;
+    kDebug(2100) << "Finishing default options" << endl;
 }
 
 void kgpgOptions::updateSettings()
