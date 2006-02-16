@@ -13,7 +13,7 @@
             <height>280</height>
         </rect>
     </property>
-    <property name="caption">
+    <property name="windowTitle">
         <string>Encryption</string>
     </property>
     <grid>

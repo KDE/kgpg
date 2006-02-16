@@ -12,7 +12,7 @@
             <height>328</height>
         </rect>
     </property>
-    <property name="caption">
+    <property name="windowTitle">
         <string>New Qt::Key Pair Created</string>
     </property>
     <vbox>
