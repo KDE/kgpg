@@ -5,6 +5,7 @@ Actions=encrypt
 
 [Desktop Action encrypt]
 Name=Encrypt File
+Name[fr]=Chiffrer le fichier
 Name[x-test]=xxEncrypt Filexx
 Icon=kgpg
 Exec=kgpg -e %F
