@@ -511,7 +511,7 @@ void MyView::unArchive()
 
     const KArchiveDirectory *archiveDirectory = compressedFolder.directory();
     //KUrl savePath=KUrl::getURL(droppedUrl,this,i18n(""));
-    KUrlRequesterDlg *savePath = new KUrlRequesterDlg(droppedUrl.directory(false), i18n("Extract to: "), 0, "extract");
+    KUrlRequesterDlg *savePath = new KUrlRequesterDlg(droppedUrl.directory(false), i18n("Extract to: "),0);
     savePath->fileDialog()->setMode(KFile::Directory);
     if (!savePath->exec() == QDialog::Accepted)
     {
