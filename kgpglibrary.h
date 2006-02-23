@@ -46,7 +46,7 @@ signals:
     void photoAdded();
 
 public slots:
-    void slotFileEnc(const KUrl::List &urls = KURL(""), const QStringList &opts = QStringList(), const QStringList &defaultKey = QStringList(), const KShortcut &goDefaultKey = QKeySequence(Qt::CTRL + Qt::Key_Home));
+    void slotFileEnc(const KUrl::List &urls = KUrl(""), const QStringList &opts = QStringList(), const QStringList &defaultKey = QStringList(), const KShortcut &goDefaultKey = QKeySequence(Qt::CTRL + Qt::Key_Home));
     void slotFileDec(const KUrl &srcUrl, const KUrl &destUrl, const QStringList &customDecryptOption = QStringList());
     void shredProcessEnc(const KUrl::List &filesToShred);
 
@@ -55,7 +55,7 @@ public slots:
 private slots:
     void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &shred, const bool &symetric);
     void fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
-    void processEnc(KURL, KgpgInterface*);
+    void processEnc(KUrl, KgpgInterface*);
     void processEncError(const QString &mssge, KgpgInterface*);
     void processDecOver();
     void processDecError(const QString &mssge);

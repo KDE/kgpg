@@ -119,7 +119,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
     m_pop = new KPassivePopup(m_panel);
 
     KgpgInterface *cryptFileProcess = new KgpgInterface();
-    connect(cryptFileProcess, SIGNAL(fileEncryptionFinished(KURL, KgpgInterface*)), this, SLOT(processEnc(KURL, KgpgInterface*)));
+    connect(cryptFileProcess, SIGNAL(fileEncryptionFinished(KUrl, KgpgInterface*)), this, SLOT(processEnc(KUrl, KgpgInterface*)));
     connect(cryptFileProcess, SIGNAL(errorMessage(QString, KgpgInterface*)), this, SLOT(processEncError(QString, KgpgInterface*)));
     cryptFileProcess->encryptFile(encryptkeys, m_urlselected, dest, encryptoptions, symetric);
 
@@ -131,7 +131,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
 
 }
 
-void KgpgLibrary::processEnc(KURL, KgpgInterface *i)
+void KgpgLibrary::processEnc(KUrl, KgpgInterface *i)
 {
     delete i;
     emit systemMessage(QString::null);

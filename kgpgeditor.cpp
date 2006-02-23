@@ -378,7 +378,7 @@ void KgpgEditor::slotFilePreDec()
         }
 
         KgpgLibrary *lib = new KgpgLibrary(this);
-        lib->slotFileDec(url, KURL(newname), m_customdecrypt);
+        lib->slotFileDec(url, KUrl(newname), m_customdecrypt);
         connect(lib, SIGNAL(importOver(QStringList)), this, SIGNAL(refreshImported(QStringList)));
     }
     else
@@ -519,7 +519,7 @@ void KgpgEditor::slotVerifyFile(KUrl url)
 
         // pipe gpg command
         KgpgInterface *interface = new KgpgInterface();
-        interface->KgpgVerifyFile(url, KURL(sigfile));
+        interface->KgpgVerifyFile(url, KUrl(sigfile));
         connect(interface, SIGNAL(verifyquerykey(QString)), this, SLOT(importSignatureKey(QString)));
     }
 }

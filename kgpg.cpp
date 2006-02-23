@@ -295,12 +295,12 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
     arch->close();
 
     KgpgInterface *folderprocess = new KgpgInterface();
-    connect(folderprocess, SIGNAL(fileEncryptionFinished(KURL)), this, SLOT(slotFolderFinished(KURL, KgpgInterface*)));
+    connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl)), this, SLOT(slotFolderFinished(KUrl, KgpgInterface*)));
     connect(folderprocess, SIGNAL(errorMessage(QString)), this, SLOT(slotFolderFinishedError(QString, KgpgInterface*)));
-    folderprocess->encryptFile(selec, KURL(kgpgfoldertmp->name()), encryptedFile, encryptOptions, symetric);
+    folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->name()), encryptedFile, encryptOptions, symetric);
 }
 
-void MyView::slotFolderFinished(KURL, KgpgInterface*)
+void MyView::slotFolderFinished(KUrl, KgpgInterface*)
 {
     delete pop;
     delete kgpgfoldertmp;
@@ -396,13 +396,13 @@ void MyView::slotVerifyFile()
     else
     {
         sigfile = droppedUrl.path();
-        droppedUrl = KURL(sigfile.left(sigfile.length() - 4));
+        droppedUrl = KUrl(sigfile.left(sigfile.length() - 4));
     }
 
     // pipe gpg command
     KgpgInterface *verifyFileProcess=new KgpgInterface();
     connect (verifyFileProcess, SIGNAL(verifyquerykey(QString)), this, SLOT(importSignature(QString)));
-    verifyFileProcess->KgpgVerifyFile(droppedUrl, KURL(sigfile));
+    verifyFileProcess->KgpgVerifyFile(droppedUrl, KUrl(sigfile));
 }
 
 void MyView::importSignature(QString ID)
@@ -461,12 +461,12 @@ void MyView::decryptDroppedFile()
                 isFolder=true;
                 kgpgFolderExtract=new KTempFile(QString::null,".tar.gz");
                 kgpgFolderExtract->setAutoDelete(true);
-                swapname=KURL(kgpgFolderExtract->name());
+                swapname=KUrl(kgpgFolderExtract->name());
                 if (KMessageBox::warningContinueCancel(0,i18n("<qt>The file to decrypt is an archive. KGpg will create a temporary unencrypted archive file:<br><b>%1</b> before processing the archive extraction. This temporary file will be deleted after the decryption is finished.</qt>").arg(kgpgFolderExtract->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpDecFile")==KMessageBox::Cancel)
                         return;
         } else*/
         {
-            swapname=KURL(droppedUrls.first().directory(0,0)+oldname);
+            swapname=KUrl(droppedUrls.first().directory(0,0)+oldname);
             QFile fgpg(swapname.path());
             if (fgpg.exists())
             {
@@ -1024,8 +1024,8 @@ int KgpgAppletApp::newInstance()
 
         QString gpgPath = KGpgSettings::gpgConfigPath();
         if (!gpgPath.isEmpty())
-            if (KURL(gpgPath).directory(false) != (QDir::homePath() + "/.gnupg/"))
-                setenv("GNUPGHOME", KURL(gpgPath).directory(false).ascii(), 1);
+            if (KUrl(gpgPath).directory(false) != (QDir::homePath() + "/.gnupg/"))
+                setenv("GNUPGHOME", KUrl(gpgPath).directory(false).ascii(), 1);
 
         s_keyManager->refreshkey();
 
@@ -1084,7 +1084,7 @@ int KgpgAppletApp::newInstance()
         bool directoryInside = false;
         QStringList lst = urlList.toStringList();
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it)
-            if (KMimeType::findByURL(KURL(*it))->name() == "inode/directory")
+            if (KMimeType::findByURL(KUrl(*it))->name() == "inode/directory")
                 directoryInside = true;
 
         if ((directoryInside) && (lst.count() > 1))

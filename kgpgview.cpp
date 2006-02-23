@@ -153,7 +153,7 @@ void KgpgTextEdit::slotDecodeFile(const QString &fname)
         KgpgInterface *interface = new KgpgInterface();
         connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(editorUpdateDecryptedtxt(QString, KgpgInterface*)));
         connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(editorFailedDecryptedtxt(QString, KgpgInterface*)));
-        interface->KgpgDecryptFileToText(KURL(fname), QStringList::split(QString(" "), KGpgSettings::customDecrypt().simplified()));
+        interface->KgpgDecryptFileToText(KUrl(fname), QStringList::split(QString(" "), KGpgSettings::customDecrypt().simplified()));
     }
     else
         KMessageBox::sorry(this, i18n("Unable to read file."));

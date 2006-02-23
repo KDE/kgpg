@@ -85,7 +85,7 @@ public slots:
     void slotVerifyFile();
     void encryptDroppedFolder();
     void startFolderEncode(QStringList selec, QStringList encryptOptions, bool, bool symetric);
-    void slotFolderFinished(KURL, KgpgInterface*);
+    void slotFolderFinished(KUrl, KgpgInterface*);
     void slotFolderFinishedError(QString errmsge, KgpgInterface*);
     void encryptFiles(KUrl::List urls);
     void installShred();

@@ -225,8 +225,8 @@ void kgpgOptions::updateWidgets()
         m_page1->always_key->setCurrentItem(alwaysKeyName);
 
     gpgConfigPath = KGpgSettings::gpgConfigPath();
-    m_page4->gpg_conf_path->setText(KURL(gpgConfigPath).fileName());
-    m_page4->gpg_home_path->setText(KURL(gpgConfigPath).directory(false));
+    m_page4->gpg_conf_path->setText(KUrl(gpgConfigPath).fileName());
+    m_page4->gpg_home_path->setText(KUrl(gpgConfigPath).directory(false));
 
     m_useagent = KgpgInterface::getGpgBoolSetting("use-agent", KGpgSettings::gpgConfigPath());
     m_defaultuseagent = false;
@@ -263,7 +263,7 @@ void kgpgOptions::updateSettings()
 {
     // Update config path first!
     KGpgSettings::setGpgConfigPath(m_page4->gpg_home_path->text() + m_page4->gpg_conf_path->text());
-    if (m_page4->gpg_home_path->text() != KURL(gpgConfigPath).directory(false))
+    if (m_page4->gpg_home_path->text() != KUrl(gpgConfigPath).directory(false))
     {
         if (m_page4->gpg_home_path->text() != defaultHomePath)
             setenv("GNUPGHOME", m_page4->gpg_home_path->text().ascii(), 1);
@@ -476,10 +476,10 @@ bool kgpgOptions::hasChanged()
     if (m_page1->encrypt_to_always->isChecked() && (m_page1->always_key->currentText().section(':', 0, 0) != alwaysKeyID))
         return true;
 
-    if (m_page4->gpg_conf_path->text() != KURL(gpgConfigPath).fileName())
+    if (m_page4->gpg_conf_path->text() != KUrl(gpgConfigPath).fileName())
         return true;
 
-    if (m_page4->gpg_home_path->text() != KURL(gpgConfigPath).directory(false))
+    if (m_page4->gpg_home_path->text() != KUrl(gpgConfigPath).directory(false))
         return true;
 
     if (m_page4->use_agent->isChecked() != m_useagent)

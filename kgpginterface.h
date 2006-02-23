@@ -270,7 +270,7 @@ signals:
     /**
      *  true if encryption successful, false on error.
      */
-    void fileEncryptionFinished(KURL, KgpgInterface*);
+    void fileEncryptionFinished(KUrl, KgpgInterface*);
 
 public slots:
     /**
@@ -653,7 +653,7 @@ public slots:
      * @param sigUrl Kurl of the signature file.
      * @param srcUrl Kurl of the file to be verified. If empty, gpg will try to find it using the signature file name (by removing the .sig extensio)
      */
-    void KgpgVerifyFile(KUrl sigUrl, KUrl srcUrl = KURL()) ;
+    void KgpgVerifyFile(KUrl sigUrl, KUrl srcUrl = KUrl()) ;
 
     /**
      * Key signature deletion function
