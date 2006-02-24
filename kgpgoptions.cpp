@@ -341,6 +341,7 @@ void kgpgOptions::updateSettings()
         // Update config path first!
 	
 	KGpgSettings::setGpgConfigPath( page4->gpg_home_path->text()+page4->gpg_conf_path->text() );
+	KGpgSettings::writeConfig();	//Don't forget to write the config file
 	if (page4->gpg_home_path->text()!=KURL(gpgConfigPath).directory(false))
 	{
 	if (page4->gpg_home_path->text()!=defaultHomePath)
