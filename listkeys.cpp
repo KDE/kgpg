@@ -282,7 +282,7 @@ listKeys::listKeys(QWidget *parent, const char *name)
 
     m_statusbar = statusBar();
     m_statusbar->insertItem("", 0, 1);
-    m_statusbar->insertFixedItem(i18n("00000 Keys, 000 Groups"), 1);
+    m_statusbar->insertPermanentFixedItem(i18n("00000 Keys, 000 Groups"), 1);
     m_statusbar->setItemAlignment(0, Qt::AlignLeft);
     m_statusbar->changeItem("", 1);
 
