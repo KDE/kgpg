@@ -87,6 +87,7 @@
 #include <ktip.h>
 #include <krun.h>
 #include <kwin.h>
+#include <ktoolbar.h>
 
 #include "selectsecretkey.h"
 #include "newkey.h"
