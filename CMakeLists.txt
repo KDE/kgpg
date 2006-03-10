@@ -28,7 +28,7 @@ set(kgpg_SRCS
 
 kde4_automoc(${kgpg_SRCS})
 
-kde4_add_ui_files(kgpg_SRCS 
+kde4_add_ui3_files(kgpg_SRCS 
    keyserver.ui 
    searchres.ui 
    kgpgwizard.ui 
@@ -52,7 +52,7 @@ kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
 kde4_add_executable(kgpg ${kgpg_SRCS})
 
-target_link_libraries(kgpg  ${QT_AND_KDECORE_LIBS} kio kutils kdeprint )
+target_link_libraries(kgpg  ${LIB_KIO} kabc kutils kdeprint )
 
 install_targets(/bin kgpg )
 
