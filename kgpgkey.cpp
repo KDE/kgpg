@@ -395,6 +395,7 @@ KgpgKeySub::KgpgKeySub()
           : QObject()
 {
     d = new KgpgKeySubPrivate;
+    d->gpgsubsize = 0;
 }
 
 KgpgKeySub::KgpgKeySub(const KgpgKeySub &other)
@@ -408,7 +409,7 @@ void KgpgKeySub::setId(const QString &id)
     d->gpgsubid = id;
 }
 
-void KgpgKeySub::setSize(const QString &size)
+void KgpgKeySub::setSize(const uint &size)
 {
     d->gpgsubsize = size;
 }
@@ -456,7 +457,7 @@ QString KgpgKeySub::id() const
     return d->gpgsubid;
 }
 
-QString KgpgKeySub::size() const
+uint KgpgKeySub::size() const
 {
     return d->gpgsubsize;
 }

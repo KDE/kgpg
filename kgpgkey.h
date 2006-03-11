@@ -256,12 +256,11 @@ class KgpgKeySubPrivate : public QSharedData
 public:
     bool            gpgsubvalide;
     QString         gpgsubid;
-    QString         gpgsubsize;
+    uint            gpgsubsize;
     bool            gpgsubunlimited;
     QDate           gpgsubexpiration;
     QDate           gpgsubcreation;
     QChar           gpgsubtrust;
-    //uint            gpgsubalgo;
     Kgpg::KeyAlgo   gpgsubalgo;
     KgpgKeySignList gpgsignlist;
 
@@ -276,7 +275,7 @@ public:
     KgpgKeySub(const KgpgKeySub &other);
 
     void setId(const QString &id);
-    void setSize(const QString &size);
+    void setSize(const uint &size);
     void setUnlimited(const bool &unlimited);
     void setExpiration(const QDate &date);
     void setCreation(const QDate &date);
@@ -286,7 +285,7 @@ public:
     void setValide(const bool &valide);
 
     QString id() const;
-    QString size() const;
+    uint size() const;
     bool unlimited() const;
     QDate expirationDate() const;
     QDate creationDate() const;

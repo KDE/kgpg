@@ -54,7 +54,6 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent, const char *nam
         m_prop->changeExp->hide();
         m_prop->changePass->hide();
     }
-
     loadKey(sigkey);
     if (!m_hasphoto)
         m_prop->comboId->setEnabled(false);

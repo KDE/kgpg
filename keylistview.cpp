@@ -652,7 +652,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
         KgpgKeySub sub = key.subList()->at(i);
 
         QString algo = i18n("%1 subkey").arg(KgpgKey::algorithmeToString(sub.algorithme()));
-        tmpitem = new KeyListViewItem(item, algo, QString::null, QString::null, sub.expiration(), sub.size(), sub.creation(), sub.id(), false, false, KeyListViewItem::Sub);
+        tmpitem = new KeyListViewItem(item, algo, QString::null, QString::null, sub.expiration(), QString::number(sub.size()), sub.creation(), sub.id(), false, false, KeyListViewItem::Sub);
         tmpitem->setPixmap(0, pixkeySingle);
         tmpitem->setPixmap(2, getTrustPix(sub.trust(), sub.valide()));
         insertSigns(tmpitem, sub.signList());

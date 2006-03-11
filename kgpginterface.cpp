@@ -586,7 +586,7 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
                 QStringList lsp = line.split(":");
                 sub.setId(lsp.at(4).right(8));
                 sub.setTrust(lsp.at(1));
-                sub.setSize(lsp.at(2));
+                sub.setSize(lsp.at(2).toUInt());
                 sub.setAlgorithme(intToAlgo(lsp.at(3).toInt()));
                 sub.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
 

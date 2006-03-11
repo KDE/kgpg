@@ -1391,11 +1391,10 @@ void listKeys::listsigns()
             return;
     }
 
-    // open a key info dialog (KgpgKeyInfo, see begining of this file)
     QString key = keysList2->currentItem()->text(6);
     if (!key.isEmpty())
     {
-        KgpgKeyInfo *opts = new KgpgKeyInfo(key, this, "key_props");
+        KgpgKeyInfo *opts = new KgpgKeyInfo(key, this, 0);
         connect(opts, SIGNAL(keyNeedsRefresh()), keysList2, SLOT(refreshselfkey()));
         opts->exec();
         delete opts;
