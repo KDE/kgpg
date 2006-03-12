@@ -2613,7 +2613,6 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
                 m_ispartial = false;
             }
 
-            kDebug(2100) << line << endl;
             if (line.indexOf("BAD_PASSPHRASE") != -1)
                 m_success = 1;
             else
