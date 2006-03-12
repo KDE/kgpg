@@ -10,6 +10,7 @@
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QPainter>
+#include <QRect>
 
 #include <Q3ListViewItem>
 #include <Q3TextDrag>
@@ -221,24 +222,24 @@ KeyListView::KeyListView(QWidget *parent)
     pixuserphoto = loader->loadIcon("kgpg_photo", KIcon::Small, 20);
     pixRevoke = loader->loadIcon("stop", KIcon::Small, 20);
 
-    QPixmap blankFrame;
-    blankFrame.load(locate("appdata", "pics/kgpg_blank.png"));
+    QPixmap blankFrame(locate("appdata", "pics/kgpg_blank.png"));
+    QRect rect(0, 0, 50, 15);
 
     trustunknown.load(locate("appdata", "pics/kgpg_fill.png"));
     trustunknown.fill(KGpgSettings::colorUnknown());
-    bitBlt(&trustunknown, 0, 0, &blankFrame, 0, 0, 50, 15);
+    QPainter(&trustunknown).drawPixmap(rect, blankFrame);
 
     trustbad.load(locate("appdata", "pics/kgpg_fill.png"));
     trustbad.fill(KGpgSettings::colorBad());
-    bitBlt(&trustbad, 0, 0, &blankFrame, 0, 0, 50, 15);
+    QPainter(&trustbad).drawPixmap(rect, blankFrame);
 
     trustrevoked.load(locate("appdata", "pics/kgpg_fill.png"));
     trustrevoked.fill(KGpgSettings::colorRev());
-    bitBlt(&trustrevoked, 0, 0, &blankFrame, 0, 0, 50, 15);
+    QPainter(&trustrevoked).drawPixmap(rect, blankFrame);
 
     trustgood.load(locate("appdata", "pics/kgpg_fill.png"));
     trustgood.fill(KGpgSettings::colorGood());
-    bitBlt(&trustgood, 0, 0, &blankFrame, 0, 0, 50, 15);
+    QPainter(&trustgood).drawPixmap(rect, blankFrame);
 
     connect(this, SIGNAL(expanded(Q3ListViewItem*)), this, SLOT(expandKey(Q3ListViewItem *)));
 
