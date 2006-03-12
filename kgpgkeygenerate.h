@@ -43,6 +43,7 @@ public:
     uint getKeyNumber() const;
 
 public slots:
+    void slotButtonClicked(int button);
     void slotOk();
     void slotUser1();
     void slotActivateExp(const int &state);

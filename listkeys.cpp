@@ -422,7 +422,6 @@ void listKeys::slotGenerateKeyDone(int res, KgpgInterface *interface, const QStr
     }
     else
     {
-        keysList2->refreshKeys(QStringList(id));
         changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount() - keysList2->groupNb).arg(keysList2->groupNb), 1);
 
         KDialog *keyCreated = new KDialog(this, i18n("New Key Pair Created"), KDialogBase::Ok);
@@ -474,7 +473,7 @@ void listKeys::slotGenerateKeyDone(int res, KgpgInterface *interface, const QStr
             slotrevoke(id, QString::null, 0, i18n("backup copy"));
             connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
         }
-
+        keysList2->refreshKeys(QStringList(id));
     }
 }
 

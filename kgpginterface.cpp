@@ -2579,9 +2579,9 @@ void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail,
     m_keyexp = keyexp;
     m_keyexpnumber = keyexpnumber;
 
-    KProcIO *process = new KProcIO();
+    KProcIO *process = new KProcIO(QTextCodec::codecForName("utf8"));
     this->insertChild(process);
-    *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
+    *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0" << "--no-verbose" << "--no-greeting";
     *process << "--gen-key";
 
     kDebug(2100) << "(KgpgInterface::generateKey) Generate a new key-pair" << endl;
@@ -2614,17 +2614,16 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
             }
 
             kDebug(2100) << line << endl;
-
-            if (line.find("BAD_PASSPHRASE") != -1)
+            if (line.indexOf("BAD_PASSPHRASE") != -1)
                 m_success = 1;
             else
-            if ((m_success == 5) && (line.find("PROGRESS") != -1))
+            if ((m_success == 5) && (line.indexOf("PROGRESS") != -1))
             {
                 m_success = 0;
                 emit generateKeyStarted(this);
             }
             else
-            if (line.find("keygen.algo") != -1)
+            if (line.indexOf("keygen.algo") != -1)
             {
                 if (m_keyalgo == Kgpg::RSA)
                     p->writeStdin(QString("5"), true);
@@ -2632,10 +2631,10 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
                     p->writeStdin(QString("1"), true);
             }
             else
-            if (line.find("keygen.size") != -1)
+            if (line.indexOf("keygen.size") != -1)
                 p->writeStdin(QString::number(m_keysize), true);
             else
-            if (line.find("keygen.valid") != -1)
+            if (line.indexOf("keygen.valid") != -1)
             {
                 QString output;
                 if (m_keyexp != 0)
@@ -2656,16 +2655,16 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
                 p->writeStdin(output, true);
             }
             else
-            if (line.find("keygen.name") != -1)
+            if (line.indexOf("keygen.name") != -1)
                 p->writeStdin(m_keyname, true);
             else
-            if (line.find("keygen.email") != -1)
+            if (line.indexOf("keygen.email") != -1)
                 p->writeStdin(m_keyemail, true);
             else
-            if (line.find("keygen.comment") != -1)
+            if (line.indexOf("keygen.comment") != -1)
                 p->writeStdin(m_keycomment, true);
             else
-            if (line.find("passphrase.enter") != -1)
+            if (line.indexOf("passphrase.enter") != -1)
             {
                 QString passdlgmessage;
                 passdlgmessage = i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences");
@@ -2684,14 +2683,14 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
                 m_success = 5;
             }
             else
-            if (line.find("KEY_CREATED") != -1)
+            if (line.indexOf("KEY_CREATED") != -1)
             {
                 m_newfingerprint = line.right(40);
                 m_newkeyid = line.right(8);
                 m_success = 2;
             }
             else
-            if (line.find("GET_") != -1) // gpg asks for something unusal, turn to konsole mode
+            if (line.indexOf("GET_") != -1)
             {
                 p->writeStdin(QByteArray("quit"), true);
                 p->closeWhenDone();

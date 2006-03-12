@@ -116,11 +116,29 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     show();
 }
 
+void KgpgKeyGenerate::slotButtonClicked(int button)
+{
+    if (button == Ok)
+        slotOk();
+    else
+    if (button == User1)
+        slotUser1();
+    else
+    if (button == Cancel)
+        reject();
+}
+
 void KgpgKeyGenerate::slotOk()
 {
     if (QString(m_kname->text()).simplified().isEmpty())
     {
         KMessageBox::sorry(0, i18n("You must give a name."));
+        return;
+    }
+
+    if (QString(m_kname->text()).simplified().length() < 5)
+    {
+        KMessageBox::sorry(0, i18n("The name must have at least 5 characters"));
         return;
     }
 
