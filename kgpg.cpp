@@ -1024,8 +1024,8 @@ int KgpgAppletApp::newInstance()
 
         QString gpgPath = KGpgSettings::gpgConfigPath();
         if (!gpgPath.isEmpty())
-            if (KUrl(gpgPath).directory(false) != (QDir::homePath() + "/.gnupg/"))
-                setenv("GNUPGHOME", KUrl(gpgPath).directory(false).ascii(), 1);
+            if (KUrl::fromPath(gpgPath).directory(false) != (QDir::homePath() + "/.gnupg/"))
+                setenv("GNUPGHOME", KUrl::fromPath(gpgPath).directory(false).ascii(), 1);
 
         s_keyManager->refreshkey();
 
