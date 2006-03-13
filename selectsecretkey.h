@@ -19,7 +19,7 @@ class QCheckBox;
 class Q3ListViewItem;
 
 class KComboBox;
-class KListView;
+class K3ListView;
 
 class KgpgSelectSecretKey : public KDialog
 {
@@ -53,7 +53,7 @@ private:
     QCheckBox *m_terminalsign;
 
     KComboBox *m_signtrust;
-    KListView *m_keyslistpr;
+    K3ListView *m_keyslistpr;
 
     bool m_signkey;
 };

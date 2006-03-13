@@ -25,11 +25,11 @@
 
 #include <Q3ListViewItem>
 
-#include <klistviewsearchline.h>
+#include <k3listviewsearchline.h>
 #include <kactionclasses.h>
 #include <kmainwindow.h>
 #include <kdialogbase.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <kurl.h>
 
 #include "dcopiface.h"
@@ -138,7 +138,7 @@ private slots:
     void readOptions();
     void showOptions();
     void slotSetDefKey();
-    void slotSetDefaultKey(KListViewItem *newdef);
+    void slotSetDefaultKey(K3ListViewItem *newdef);
     void annule();
     void confirmdeletekey();
     void deletekey();
@@ -184,8 +184,8 @@ private:
     QList<Q3ListViewItem*> keysList;
 
     /*
-    QList<KListViewItem> signList;
-    QList<KListViewItem> keysList;
+    QList<K3ListViewItem> signList;
+    QList<K3ListViewItem> keysList;
     */
 
     QClipboard::Mode clipboardMode;

@@ -22,7 +22,7 @@
         <property name="margin">
             <number>0</number>
         </property>
-        <widget class="KListView" row="1" column="0" rowspan="1" colspan="4">
+        <widget class="K3ListView" row="1" column="0" rowspan="1" colspan="4">
             <column>
                 <property name="text">
                     <string>Name</string>
@@ -142,7 +142,7 @@
                 <string>&lt;b&gt;Keys in the Group&lt;/b&gt;</string>
             </property>
         </widget>
-        <widget class="KListView" row="3" column="0" rowspan="1" colspan="4">
+        <widget class="K3ListView" row="3" column="0" rowspan="1" colspan="4">
             <column>
                 <property name="text">
                     <string>Name</string>

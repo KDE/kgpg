@@ -12,7 +12,7 @@
 #include <QLabel>
 
 #include <kiconloader.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <kcombobox.h>
 #include <klocale.h>
 
@@ -31,7 +31,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     QPixmap keyPair = loader->loadIcon("kgpg_key2", KIcon::Small, 20);
 
     setMinimumSize(550, 200);
-    m_keyslistpr = new KListView(page);
+    m_keyslistpr = new K3ListView(page);
     m_keyslistpr->addColumn(i18n("Name"), 200);
     m_keyslistpr->addColumn(i18n("Email"), 200);
     m_keyslistpr->addColumn(i18n("ID"), 100);

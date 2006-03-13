@@ -27,8 +27,8 @@
 #include "keylistview.h"
 #include "kgpgoptions.h"
 
-KeyListViewItem::KeyListViewItem(KListView *parent, QString name, QString email, QString trust, QString expiration, QString size, QString creation, QString id, bool isdefault, bool isexpired, ItemType type)
-               : KListViewItem(parent)
+KeyListViewItem::KeyListViewItem(K3ListView *parent, QString name, QString email, QString trust, QString expiration, QString size, QString creation, QString id, bool isdefault, bool isexpired, ItemType type)
+               : K3ListViewItem(parent)
 {
     m_def = isdefault;
     m_exp = isexpired;
@@ -42,8 +42,8 @@ KeyListViewItem::KeyListViewItem(KListView *parent, QString name, QString email,
     setText(6, id);
 }
 
-KeyListViewItem::KeyListViewItem(KListViewItem *parent, QString name, QString email, QString trust, QString expiration, QString size, QString creation, QString id, bool isdefault, bool isexpired, ItemType type)
-               : KListViewItem(parent)
+KeyListViewItem::KeyListViewItem(K3ListViewItem *parent, QString name, QString email, QString trust, QString expiration, QString size, QString creation, QString id, bool isdefault, bool isexpired, ItemType type)
+               : K3ListViewItem(parent)
 {
     m_def = isdefault;
     m_exp = isexpired;
@@ -114,7 +114,7 @@ void KeyListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, 
         p->setFont(font);
     }
 
-    KListViewItem::paintCell(p, _cg, column, width, alignment);
+    K3ListViewItem::paintCell(p, _cg, column, width, alignment);
 }
 
 int KeyListViewItem::compare(Q3ListViewItem *item2, int c, bool ascending) const
@@ -136,7 +136,7 @@ int KeyListViewItem::compare(Q3ListViewItem *item2, int c, bool ascending) const
         if (item1 < item2) return -1;
         if (item1 > item2) return 1;
 
-        return KListViewItem::compare(item, c, ascending);
+        return K3ListViewItem::compare(item, c, ascending);
     }
 
     if ((c == 3) || (c == 5))  // by (3) expiration date or (5) creation date
@@ -187,7 +187,7 @@ int KeyListViewItem::compare(Q3ListViewItem *item2, int c, bool ascending) const
         return 0;
     }
 
-    return KListViewItem::compare(item, c, ascending);
+    return K3ListViewItem::compare(item, c, ascending);
 }
 
 QString KeyListViewItem::key(int column, bool) const
@@ -196,7 +196,7 @@ QString KeyListViewItem::key(int column, bool) const
 }
 
 KeyListView::KeyListView(QWidget *parent)
-           : KListView(parent)
+           : K3ListView(parent)
 {
     setRootIsDecorated(true);
     addColumn(i18n("Name"), 200);
@@ -345,11 +345,11 @@ void KeyListView::refreshAll()
     kDebug(2100) << "Refreshing All" << endl;
 
     // get current position.
-    KListViewItem *current = static_cast<KListViewItem*>(currentItem());
+    K3ListViewItem *current = static_cast<K3ListViewItem*>(currentItem());
     if(current != 0)
     {
         while(current->depth() > 0)
-            current = static_cast<KListViewItem*>(current->parent());
+            current = static_cast<K3ListViewItem*>(current->parent());
         takeItem(current);
     }
 
@@ -366,14 +366,14 @@ void KeyListView::refreshAll()
 
     refreshGroups();
 
-    KListViewItem *newPos = 0L;
+    K3ListViewItem *newPos = 0L;
     if(current != 0)
     {
         // select previous selected
         if (!current->text(6).isEmpty())
-            newPos = static_cast<KListViewItem*>(findItem(current->text(6), 6));
+            newPos = static_cast<K3ListViewItem*>(findItem(current->text(6), 6));
         else
-            newPos = static_cast<KListViewItem*>(findItem(current->text(0), 0));
+            newPos = static_cast<K3ListViewItem*>(findItem(current->text(0), 0));
         delete current;
     }
 
@@ -455,7 +455,7 @@ bool KeyListView::refreshKeys(QStringList ids)
     }
 }
 
-void KeyListView::refreshcurrentkey(KListViewItem *current)
+void KeyListView::refreshcurrentkey(K3ListViewItem *current)
 {
     if (!current)
         return;
@@ -480,9 +480,9 @@ void KeyListView::refreshcurrentkey(KListViewItem *current)
 void KeyListView::refreshselfkey()
 {
     if (currentItem()->depth() == 0)
-        refreshcurrentkey(static_cast<KListViewItem*>(currentItem()));
+        refreshcurrentkey(static_cast<K3ListViewItem*>(currentItem()));
     else
-        refreshcurrentkey(static_cast<KListViewItem*>(currentItem()->parent()));
+        refreshcurrentkey(static_cast<K3ListViewItem*>(currentItem()->parent()));
 }
 
 void KeyListView::slotReloadOrphaned()
@@ -622,19 +622,19 @@ void KeyListView::refreshTrust(int color, QColor newColor)
             break;
     }
 
-    KListViewItem *item = static_cast<KListViewItem*>(firstChild());
+    K3ListViewItem *item = static_cast<K3ListViewItem*>(firstChild());
     while (item)
     {
         if (item->pixmap(2))
             if (item->pixmap(2)->serialNumber() == trustFinger)
                 item->setPixmap(2, newtrust);
-        item = static_cast<KListViewItem*>(item->nextSibling());
+        item = static_cast<K3ListViewItem*>(item->nextSibling());
     }
 }
 
 void KeyListView::expandKey(Q3ListViewItem *item2)
 {
-    KListViewItem *item = static_cast<KListViewItem*>(item2);
+    K3ListViewItem *item = static_cast<K3ListViewItem*>(item2);
     if (item->childCount() != 0)
         return;   // key has already been expanded
 
@@ -702,7 +702,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
     delete interface;
 }
 
-void KeyListView::insertSigns(KListViewItem *item, const KgpgKeySignList &list)
+void KeyListView::insertSigns(K3ListViewItem *item, const KgpgKeySignList &list)
 {
     KeyListViewItem *newitem;
     for (int i = 0; i < list.size(); ++i)
@@ -731,7 +731,7 @@ void KeyListView::insertSigns(KListViewItem *item, const KgpgKeySignList &list)
     }
 }
 
-void KeyListView::expandGroup(KListViewItem *item)
+void KeyListView::expandGroup(K3ListViewItem *item)
 {
     QStringList keysGroup = KgpgInterface::getGpgGroupSetting(item->text(0), KGpgSettings::gpgConfigPath());
 
@@ -773,7 +773,7 @@ QPixmap KeyListView::getTrustPix(const QChar &c, const bool &isvalid)
 }
 
 KeyListViewSearchLine::KeyListViewSearchLine(QWidget *parent, KeyListView *listView)
-                     : KListViewSearchLine(parent, listView)
+                     : K3ListViewSearchLine(parent, listView)
 {
     m_searchlistview = listView;
     setKeepParentsVisible(false);
@@ -803,7 +803,7 @@ bool KeyListViewSearchLine::hideDisabled() const
 
 void KeyListViewSearchLine::updateSearch(const QString& s)
 {
-    KListViewSearchLine::updateSearch(s);
+    K3ListViewSearchLine::updateSearch(s);
 
     if (m_hidepublic || m_hidedisabled)
     {
@@ -830,7 +830,7 @@ bool KeyListViewSearchLine::itemMatches(const Q3ListViewItem *item, const QStrin
     if (item->depth() != 0)
         return true;
     else
-        return KListViewSearchLine::itemMatches(item, s);
+        return K3ListViewSearchLine::itemMatches(item, s);
 }
 
 #include "keylistview.moc"

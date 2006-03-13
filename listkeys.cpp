@@ -447,7 +447,7 @@ void listKeys::slotGenerateKeyDone(int res, KgpgInterface *interface, const QStr
 
         keyCreated->exec();
 
-        KListViewItem *newdef = static_cast<KListViewItem*>(keysList2->findItem(id, 6));
+        K3ListViewItem *newdef = static_cast<K3ListViewItem*>(keysList2->findItem(id, 6));
         if (newdef)
         {
             if (page->CBdefault->isChecked())
@@ -511,7 +511,7 @@ void listKeys::slotShowCreation()
 
 void listKeys::slotToggleSecret()
 {
-    KListViewItem *item = static_cast<KListViewItem*>(keysList2->firstChild());
+    K3ListViewItem *item = static_cast<K3ListViewItem*>(keysList2->firstChild());
     if (!item)
         return;
 
@@ -521,7 +521,7 @@ void listKeys::slotToggleSecret()
 
 void listKeys::slotToggleDisabled()
 {
-    KListViewItem *item = static_cast<KListViewItem*>(keysList2->firstChild());
+    K3ListViewItem *item = static_cast<K3ListViewItem*>(keysList2->firstChild());
     if (!item)
         return;
 
@@ -542,7 +542,7 @@ bool listKeys::eventFilter(QObject *, QEvent *e)
 
 void listKeys::slotGotoDefaultKey()
 {
-    KListViewItem *myDefaulKey = static_cast<KListViewItem*>(keysList2->findItem(KGpgSettings::defaultKey(), 6));
+    K3ListViewItem *myDefaulKey = static_cast<K3ListViewItem*>(keysList2->findItem(KGpgSettings::defaultKey(), 6));
     keysList2->clearSelection();
     keysList2->setCurrentItem(myDefaulKey);
     keysList2->setSelected(myDefaulKey, true);
@@ -586,14 +586,14 @@ void listKeys::refreshFinished()
 
     for (int i = 0; i < keysList.count(); ++i)
         if (keysList.at(i))
-            keysList2->refreshcurrentkey(static_cast<KListViewItem*>(keysList.at(i)));
+            keysList2->refreshcurrentkey(static_cast<K3ListViewItem*>(keysList.at(i)));
 }
 
 void listKeys::slotDelUid()
 {
-    KListViewItem *item = static_cast<KListViewItem*>(keysList2->currentItem());
+    K3ListViewItem *item = static_cast<K3ListViewItem*>(keysList2->currentItem());
     while (item->depth()>0)
-        item = static_cast<KListViewItem*>(item->parent());
+        item = static_cast<K3ListViewItem*>(item->parent());
 
     KProcess *process = new KProcess();
     KConfig *config = KGlobal::config();
@@ -716,14 +716,14 @@ void listKeys::slotSetPhotoSize(int size)
     keysList2->setDisplayPhoto(showPhoto);
 
     // refresh keys with photo id
-    KListViewItem *newdef = static_cast<KListViewItem*>(keysList2->firstChild());
+    K3ListViewItem *newdef = static_cast<K3ListViewItem*>(keysList2->firstChild());
     while (newdef)
     {
         //if ((keysList2->photoKeysList.find(newdef->text(6))!=-1) && (newdef->childCount ()>0))
         if (newdef->childCount() > 0)
         {
             bool hasphoto = false;
-            KListViewItem *newdefChild = static_cast<KListViewItem*>(newdef->firstChild());
+            K3ListViewItem *newdefChild = static_cast<K3ListViewItem*>(newdef->firstChild());
             while (newdefChild)
             {
                 if (newdefChild->text(0) == i18n("Photo id"))
@@ -731,7 +731,7 @@ void listKeys::slotSetPhotoSize(int size)
                     hasphoto = true;
                     break;
                 }
-                newdefChild = static_cast<KListViewItem*>(newdefChild->nextSibling());
+                newdefChild = static_cast<K3ListViewItem*>(newdefChild->nextSibling());
             }
 
             if (hasphoto)
@@ -741,7 +741,7 @@ void listKeys::slotSetPhotoSize(int size)
                 keysList2->expandKey(newdef);
             }
         }
-        newdef = static_cast<KListViewItem*>(newdef->nextSibling());
+        newdef = static_cast<K3ListViewItem*>(newdef->nextSibling());
     }
 }
 
@@ -762,7 +762,7 @@ void listKeys::findFirstKey()
         return;
 
     bool foundItem = true;
-    KListViewItem *item = static_cast<KListViewItem*>(keysList2->firstChild());
+    K3ListViewItem *item = static_cast<K3ListViewItem*>(keysList2->firstChild());
     if (!item)
         return;
     QString searchText = item->text(0) + " " + item->text(1) + " " + item->text(6);
@@ -778,7 +778,7 @@ void listKeys::findFirstKey()
         }
         else
         {
-            item = static_cast<KListViewItem*>(item->nextSibling());
+            item = static_cast<K3ListViewItem*>(item->nextSibling());
             searchText = item->text(0) + " " + item->text(1) + " " + item->text(6);
             m_find->setData(searchText);
         }
@@ -806,13 +806,13 @@ void listKeys::findNextKey()
     }
 
     bool foundItem = true;
-    KListViewItem *item = static_cast<KListViewItem*>(keysList2->currentItem());
+    K3ListViewItem *item = static_cast<K3ListViewItem*>(keysList2->currentItem());
     if (!item)
         return;
 
     while(item->depth() > 0)
-        item = static_cast<KListViewItem*>(item->parent());
-    item=static_cast<KListViewItem*>(item->nextSibling());
+        item = static_cast<K3ListViewItem*>(item->parent());
+    item=static_cast<K3ListViewItem*>(item->nextSibling());
 
     QString searchText = item->text(0) + " " + item->text(1) + " " + item->text(6);
     //kDebug(2100) << "Next string:" << searchText << endl;
@@ -829,7 +829,7 @@ void listKeys::findNextKey()
         }
         else
         {
-            item = static_cast<KListViewItem*>(item->nextSibling());
+            item = static_cast<K3ListViewItem*>(item->nextSibling());
             searchText = item->text(0) + " " + item->text(1) + " " + item->text(6);
             m_find->setData(searchText);
             //kDebug(2100) << "Next string:" << searchText << endl;
@@ -887,7 +887,7 @@ void listKeys::allToKAB()
                 return;
         }
 
-        KListViewItem * myChild = keysList2->firstChild();
+        K3ListViewItem * myChild = keysList2->firstChild();
         while( myChild ) {
                 //email=extractKeyMail(myChild).simplified();
                 email=myChild->text(1);
@@ -1040,17 +1040,17 @@ void listKeys::readAllOptions()
 
 void listKeys::slotSetDefKey()
 {
-    slotSetDefaultKey(static_cast<KListViewItem*>(keysList2->currentItem()));
+    slotSetDefaultKey(static_cast<K3ListViewItem*>(keysList2->currentItem()));
 }
 
 void listKeys::slotSetDefaultKey(QString newID)
 {
-    KListViewItem *newdef = static_cast<KListViewItem*>(keysList2->findItem(newID, 6));
+    K3ListViewItem *newdef = static_cast<K3ListViewItem*>(keysList2->findItem(newID, 6));
     if (newdef)
         slotSetDefaultKey(newdef);
 }
 
-void listKeys::slotSetDefaultKey(KListViewItem *newdef)
+void listKeys::slotSetDefaultKey(K3ListViewItem *newdef)
 {
     //kDebug(2100)<<"------------------start ------------"<<endl;
     if ((!newdef) || (newdef->pixmap(2)==NULL))
@@ -1065,7 +1065,7 @@ void listKeys::slotSetDefaultKey(KListViewItem *newdef)
         return;
     }
 
-    KListViewItem *olddef = static_cast<KListViewItem*>(keysList2->findItem(KGpgSettings::defaultKey(), 6));
+    K3ListViewItem *olddef = static_cast<K3ListViewItem*>(keysList2->findItem(KGpgSettings::defaultKey(), 6));
 
     KGpgSettings::setDefaultKey(newdef->text(6));
     KGpgSettings::writeConfig();
@@ -1077,7 +1077,7 @@ void listKeys::slotSetDefaultKey(KListViewItem *newdef)
 
 void listKeys::slotmenu(Q3ListViewItem *sel2, const QPoint &pos, int)
 {
-    KListViewItem *sel = static_cast<KListViewItem*>(sel2);
+    K3ListViewItem *sel = static_cast<K3ListViewItem*>(sel2);
 
     // popup a different menu depending on which key is selected
     if (sel != 0)
@@ -1428,11 +1428,11 @@ void listKeys::deleteGroup()
         return;
 
     KgpgInterface::delGpgGroup(keysList2->currentItem()->text(0), KGpgSettings::gpgConfigPath());
-    KListViewItem *item = static_cast<KListViewItem*>(keysList2->currentItem()->nextSibling());
+    K3ListViewItem *item = static_cast<K3ListViewItem*>(keysList2->currentItem()->nextSibling());
     delete keysList2->currentItem();
 
     if (!item)
-        item = static_cast<KListViewItem*>(keysList2->lastChild());
+        item = static_cast<K3ListViewItem*>(keysList2->lastChild());
 
     keysList2->setCurrentItem(item);
     keysList2->setSelected(item,true);
@@ -1446,11 +1446,11 @@ void listKeys::deleteGroup()
 void listKeys::groupChange()
 {
     QStringList selected;
-    KListViewItem *item = static_cast<KListViewItem*>(gEdit->groupKeys->firstChild());
+    K3ListViewItem *item = static_cast<K3ListViewItem*>(gEdit->groupKeys->firstChild());
     while (item)
     {
         selected += item->text(2);
-        item = static_cast<KListViewItem*>(item->nextSibling());
+        item = static_cast<K3ListViewItem*>(item->nextSibling());
     }
     KgpgInterface::setGpgGroupSetting(keysList2->currentItem()->text(0), selected,KGpgSettings::gpgConfigPath());
 }
@@ -1500,7 +1500,7 @@ void listKeys::createNewGroup()
             QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
             KGpgSettings::setGroups(groups.join(","));
             keysList2->refreshGroups();
-            KListViewItem *newgrp = static_cast<KListViewItem*>(keysList2->findItem(groupName, 0));
+            K3ListViewItem *newgrp = static_cast<K3ListViewItem*>(keysList2->findItem(groupName, 0));
 
             keysList2->clearSelection();
             keysList2->setCurrentItem(newgrp);
@@ -1522,7 +1522,7 @@ void listKeys::groupInit(QStringList keysGroup)
 
     for (QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
     {
-        KListViewItem *item = static_cast<KListViewItem*>(gEdit->availableKeys->firstChild());
+        K3ListViewItem *item = static_cast<K3ListViewItem*>(gEdit->availableKeys->firstChild());
         foundId = false;
         while (item)
         {
@@ -1533,7 +1533,7 @@ void listKeys::groupInit(QStringList keysGroup)
                 foundId = true;
                 break;
             }
-            item = static_cast<KListViewItem*>(item->nextSibling());
+            item = static_cast<K3ListViewItem*>(item->nextSibling());
         }
         if (!foundId)
             lostKeys += QString(*it);
@@ -1560,20 +1560,20 @@ void listKeys::editGroup()
     // connect(dialogGroupEdit->okClicked(),SIGNAL(clicked()),this,SLOT(groupChange()));
     connect(gEdit->availableKeys, SIGNAL(doubleClicked (Q3ListViewItem *, const QPoint &, int)), this, SLOT(groupAdd()));
     connect(gEdit->groupKeys, SIGNAL(doubleClicked (Q3ListViewItem *, const QPoint &, int)), this, SLOT(groupRemove()));
-    KListViewItem *item = static_cast<KListViewItem*>(keysList2->firstChild());
+    K3ListViewItem *item = static_cast<K3ListViewItem*>(keysList2->firstChild());
     if (!item)
         return;
 
     if (item->pixmap(2))
         if (item->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber())
-            (void) new KListViewItem(gEdit->availableKeys, item->text(0), item->text(1), item->text(6));
+            (void) new K3ListViewItem(gEdit->availableKeys, item->text(0), item->text(1), item->text(6));
 
     while (item->nextSibling())
     {
-        item = static_cast<KListViewItem*>(item->nextSibling());
+        item = static_cast<K3ListViewItem*>(item->nextSibling());
         if (item->pixmap(2))
             if (item->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber())
-                (void) new KListViewItem(gEdit->availableKeys, item->text(0), item->text(1), item->text(6));
+                (void) new K3ListViewItem(gEdit->availableKeys, item->text(0), item->text(1), item->text(6));
     }
 
     keysGroup = KgpgInterface::getGpgGroupSetting(keysList2->currentItem()->text(0), KGpgSettings::gpgConfigPath());
@@ -1582,16 +1582,16 @@ void listKeys::editGroup()
     gEdit->availableKeys->setColumnWidth(0, 200);
     gEdit->availableKeys->setColumnWidth(1, 200);
     gEdit->availableKeys->setColumnWidth(2, 100);
-    gEdit->availableKeys->setColumnWidthMode(0, KListView::Manual);
-    gEdit->availableKeys->setColumnWidthMode(1, KListView::Manual);
-    gEdit->availableKeys->setColumnWidthMode(2, KListView::Manual);
+    gEdit->availableKeys->setColumnWidthMode(0, K3ListView::Manual);
+    gEdit->availableKeys->setColumnWidthMode(1, K3ListView::Manual);
+    gEdit->availableKeys->setColumnWidthMode(2, K3ListView::Manual);
 
     gEdit->groupKeys->setColumnWidth(0, 200);
     gEdit->groupKeys->setColumnWidth(1, 200);
     gEdit->groupKeys->setColumnWidth(2, 100);
-    gEdit->groupKeys->setColumnWidthMode(0, KListView::Manual);
-    gEdit->groupKeys->setColumnWidthMode(1, KListView::Manual);
-    gEdit->groupKeys->setColumnWidthMode(2, KListView::Manual);
+    gEdit->groupKeys->setColumnWidthMode(0, K3ListView::Manual);
+    gEdit->groupKeys->setColumnWidthMode(1, K3ListView::Manual);
+    gEdit->groupKeys->setColumnWidthMode(2, K3ListView::Manual);
 
     gEdit->setMinimumSize(gEdit->sizeHint());
     gEdit->show();
@@ -1686,7 +1686,7 @@ void listKeys::signatureResult(int success, KgpgInterface *interface)
 {
     delete interface;
     if (success == 2)
-        keysList2->refreshcurrentkey(static_cast<KListViewItem*>(signList.at(keyCount)));
+        keysList2->refreshcurrentkey(static_cast<K3ListViewItem*>(signList.at(keyCount)));
     else
     if (success == 1)
         KMessageBox::sorry(this, i18n("<qt>Bad passphrase, key <b>%1</b> not signed.</qt>").arg(signList.at(keyCount)->text(0) + i18n(" (") + signList.at(keyCount)->text(1) + i18n(")")));
@@ -1711,12 +1711,12 @@ void listKeys::importallsignkey()
     }
 
     QString missingKeysList;
-    KListViewItem *current = static_cast<KListViewItem*>(keysList2->currentItem()->firstChild());
+    K3ListViewItem *current = static_cast<K3ListViewItem*>(keysList2->currentItem()->firstChild());
     while (current)
     {
         if ((current->text(0).startsWith("[")) && (current->text(0).endsWith("]"))) // ugly hack to detect unknown keys
             missingKeysList += current->text(6) + " ";
-        current = static_cast<KListViewItem*>(current->nextSibling());
+        current = static_cast<K3ListViewItem*>(current->nextSibling());
     }
 
     if (!missingKeysList.isEmpty())
@@ -1821,9 +1821,9 @@ void listKeys::delsignatureResult(bool success)
 {
     if (success)
     {
-        KListViewItem *top = static_cast<KListViewItem*>(keysList2->currentItem());
+        K3ListViewItem *top = static_cast<K3ListViewItem*>(keysList2->currentItem());
         while (top->depth() != 0)
-            top = static_cast<KListViewItem*>(top->parent());
+            top = static_cast<K3ListViewItem*>(top->parent());
         while (top->firstChild() != 0)
             delete top->firstChild();
         keysList2->refreshcurrentkey(top);
@@ -1847,7 +1847,7 @@ void listKeys::slotedit()
     kp << config->readPathEntry("TerminalApplication","konsole");
     kp << "-e" << "gpg" <<"--no-secmem-warning" <<"--edit-key" << keysList2->currentItem()->text(6) << "help";
     kp.start(KProcess::Block);
-    keysList2->refreshcurrentkey(static_cast<KListViewItem*>(keysList2->currentItem()));
+    keysList2->refreshcurrentkey(static_cast<K3ListViewItem*>(keysList2->currentItem()));
 }
 
 void listKeys::doFilePrint(QString url)
@@ -1989,24 +1989,24 @@ void listKeys::deletekey()
 
     for (int i = 0; i < exportList.count(); ++i)
         if (exportList.at(i))
-            keysList2->refreshcurrentkey(static_cast<KListViewItem*>(exportList.at(i)));
+            keysList2->refreshcurrentkey(static_cast<K3ListViewItem*>(exportList.at(i)));
 
     if (keysList2->currentItem())
     {
-        KListViewItem * myChild = static_cast<KListViewItem*>(keysList2->currentItem());
+        K3ListViewItem * myChild = static_cast<K3ListViewItem*>(keysList2->currentItem());
         while(!myChild->isVisible())
         {
-            myChild = static_cast<KListViewItem*>(myChild->nextSibling());
+            myChild = static_cast<K3ListViewItem*>(myChild->nextSibling());
             if (!myChild)
                 break;
         }
 
         if (!myChild)
         {
-            KListViewItem * myChild = static_cast<KListViewItem*>(keysList2->firstChild());
+            K3ListViewItem * myChild = static_cast<K3ListViewItem*>(keysList2->firstChild());
             while(!myChild->isVisible())
             {
-                myChild = static_cast<KListViewItem*>(myChild->nextSibling());
+                myChild = static_cast<K3ListViewItem*>(myChild->nextSibling());
                 if (!myChild)
                     break;
             }

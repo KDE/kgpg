@@ -25,11 +25,11 @@
 
 #include <Q3ListViewItem>
 
-#include <klistviewsearchline.h>
+#include <k3listviewsearchline.h>
 #include <kactivelabel.h>
 #include <kiconloader.h>
 #include <kdeversion.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kaction.h>
@@ -44,7 +44,7 @@
 class KeyViewItem : public Q3ListViewItem
 {
 public:
-    KeyViewItem(KListView *parent, const QString &name, const QString &mail, const QString &id, const bool &isDefault);
+    KeyViewItem(K3ListView *parent, const QString &name, const QString &mail, const QString &id, const bool &isDefault);
     virtual void paintCell(QPainter *p, const QColorGroup &cg, const int &col, const int &width, const int &align);
     virtual QString key(const int &c) const;
 
@@ -52,7 +52,7 @@ private:
     bool def;
 };
 
-KeyViewItem::KeyViewItem(KListView *parent, const QString &name, const QString &mail, const QString &id, const bool &isDefault)
+KeyViewItem::KeyViewItem(K3ListView *parent, const QString &name, const QString &mail, const QString &id, const bool &isDefault)
            : Q3ListViewItem(parent)
 {
     def = isDefault;
@@ -111,11 +111,11 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const char *name
     clearSearch->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase"));
 
     QLabel *searchlabel = new QLabel(i18n("&Search: "), hBar);
-    KListViewSearchLine* listViewSearch = new KListViewSearchLine(hBar);
+    K3ListViewSearchLine* listViewSearch = new K3ListViewSearchLine(hBar);
     searchlabel->setBuddy(listViewSearch);
     connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
 
-    m_keyslist = new KListView(page);
+    m_keyslist = new K3ListView(page);
     m_keyslist->addColumn(i18n("Name"));
     m_keyslist->addColumn(i18n("Email"));
     m_keyslist->addColumn(i18n("ID"));
@@ -128,9 +128,9 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const char *name
     m_keyslist->setShowSortIndicator(true);
     m_keyslist->setFullWidth(true);
     m_keyslist->setAllColumnsShowFocus(true);
-    m_keyslist->setSelectionModeExt(KListView::Extended);
-    m_keyslist->setColumnWidthMode(0, KListView::Manual);
-    m_keyslist->setColumnWidthMode(1, KListView::Manual);
+    m_keyslist->setSelectionModeExt(K3ListView::Extended);
+    m_keyslist->setColumnWidthMode(0, K3ListView::Manual);
+    m_keyslist->setColumnWidthMode(1, K3ListView::Manual);
     m_keyslist->setColumnWidth(0, 210);
     m_keyslist->setColumnWidth(1, 210);
     m_keyslist->setWhatsThis(i18n("<b>Public keys list</b>: select the key that will be used for encryption."));

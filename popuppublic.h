@@ -31,7 +31,7 @@ class QPushButton;
 class QCheckBox;
 class QWidget;
 
-class KListView;
+class K3ListView;
 class KProcIO;
 
 class KgpgInterface;
@@ -88,7 +88,7 @@ private:
     QString m_seclist; // list of IDs of secrets keys
     QStringList m_untrustedlist; // list of keys that are untrusted
 
-    KListView *m_keyslist;
+    K3ListView *m_keyslist;
 
     bool m_fmode;
 };

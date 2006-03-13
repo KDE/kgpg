@@ -15,8 +15,8 @@
 #include <QPixmap>
 #include <QString>
 
-#include <klistviewsearchline.h>
-#include <klistview.h>
+#include <k3listviewsearchline.h>
+#include <k3listview.h>
 #include <kurl.h>
 
 #include "kgpgkey.h"
@@ -26,7 +26,7 @@ class QDragMoveEvent;
 class QDropEvent;
 class QPainter;
 
-class KeyListViewItem : public KListViewItem
+class KeyListViewItem : public K3ListViewItem
 {
 public:
     enum ItemTypeFlag
@@ -43,8 +43,8 @@ public:
     };
     Q_DECLARE_FLAGS(ItemType, ItemTypeFlag)
 
-    KeyListViewItem(KListView *parent = 0, QString name = QString::null, QString email = QString::null, QString trust = QString::null, QString expiration = QString::null, QString size = QString::null, QString creation = QString::null, QString id = QString::null, bool isdefault = false, bool isexpired = false, ItemType type = Public);
-    KeyListViewItem(KListViewItem *parent = 0, QString name = QString::null, QString email = QString::null, QString trust = QString::null, QString expiration = QString::null, QString size = QString::null, QString creation = QString::null, QString id = QString::null, bool isdefault = false, bool isexpired = false, ItemType type = Public);
+    KeyListViewItem(K3ListView *parent = 0, QString name = QString::null, QString email = QString::null, QString trust = QString::null, QString expiration = QString::null, QString size = QString::null, QString creation = QString::null, QString id = QString::null, bool isdefault = false, bool isexpired = false, ItemType type = Public);
+    KeyListViewItem(K3ListViewItem *parent = 0, QString name = QString::null, QString email = QString::null, QString trust = QString::null, QString expiration = QString::null, QString size = QString::null, QString creation = QString::null, QString id = QString::null, bool isdefault = false, bool isexpired = false, ItemType type = Public);
 
     void setItemType(const ItemType &type);
     ItemType itemType() const;
@@ -67,7 +67,7 @@ private:
 Q_DECLARE_OPERATORS_FOR_FLAGS(KeyListViewItem::ItemType)
 
 
-class KeyListView : public KListView
+class KeyListView : public K3ListView
 {
     Q_OBJECT
     friend class listKeys;
@@ -103,7 +103,7 @@ private slots:
     void refreshAll();
 
     bool refreshKeys(QStringList ids = QStringList());
-    void refreshcurrentkey(KListViewItem *current);
+    void refreshcurrentkey(K3ListViewItem *current);
     void refreshselfkey();
 
     void slotReloadOrphaned();
@@ -113,8 +113,8 @@ private slots:
     void refreshTrust(int color, QColor newColor);
 
     void expandKey(Q3ListViewItem *item);
-    void expandGroup(KListViewItem *item);
-    void insertSigns(KListViewItem *item, const KgpgKeySignList &list);
+    void expandGroup(K3ListViewItem *item);
+    void insertSigns(K3ListViewItem *item, const KgpgKeySignList &list);
 
 private:
     QPixmap getTrustPix(const QChar &c, const bool &isvalid);
@@ -141,7 +141,7 @@ private:
 };
 
 
-class KeyListViewSearchLine : public KListViewSearchLine
+class KeyListViewSearchLine : public K3ListViewSearchLine
 {
     Q_OBJECT
 
