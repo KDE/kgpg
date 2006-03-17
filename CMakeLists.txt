@@ -1,4 +1,5 @@
 kde4_header()
+project(kgpg)
 
 add_subdirectory( icons ) 
 
