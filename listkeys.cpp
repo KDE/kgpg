@@ -373,7 +373,7 @@ void listKeys::slotGenerateKeyProcess(KgpgInterface *)
     pop = new KPassivePopup(this);
     pop->setTimeout(0);
 
-    KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", KIcon::Desktop), 0);
+    KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop), 0);
 
     QMovie anim(locate("appdata", "pics/kgpg_anim.gif"));
     QLabel *text1 = new QLabel(passiveBox);
@@ -1552,8 +1552,8 @@ void listKeys::editGroup()
     KDialogBase *dialogGroupEdit = new KDialogBase(KDialogBase::Swallow, i18n("Group Properties"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, 0, true);
 
     gEdit = new groupEdit();
-    gEdit->buttonAdd->setPixmap(KGlobal::iconLoader()->loadIcon("down", KIcon::Small, 20));
-    gEdit->buttonRemove->setPixmap(KGlobal::iconLoader()->loadIcon("up", KIcon::Small, 20));
+    gEdit->buttonAdd->setPixmap(KGlobal::iconLoader()->loadIcon("down", K3Icon::Small, 20));
+    gEdit->buttonRemove->setPixmap(KGlobal::iconLoader()->loadIcon("up", K3Icon::Small, 20));
 
     connect(gEdit->buttonAdd, SIGNAL(clicked()), this, SLOT(groupAdd()));
     connect(gEdit->buttonRemove, SIGNAL(clicked()), this, SLOT(groupRemove()));

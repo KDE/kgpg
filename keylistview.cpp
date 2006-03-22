@@ -213,14 +213,14 @@ KeyListView::KeyListView(QWidget *parent)
     setSelectionModeExt(Extended);
 
     KIconLoader *loader = KGlobal::iconLoader();
-    pixkeyOrphan = loader->loadIcon("kgpg_key4", KIcon::Small, 20);
-    pixkeyGroup = loader->loadIcon("kgpg_key3", KIcon::Small, 20);
-    pixkeyPair = loader->loadIcon("kgpg_key2", KIcon::Small, 20);
-    pixkeySingle = loader->loadIcon("kgpg_key1", KIcon::Small, 20);
-    pixsignature = loader->loadIcon("signature", KIcon::Small, 20);
-    pixuserid = loader->loadIcon("kgpg_identity", KIcon::Small, 20);
-    pixuserphoto = loader->loadIcon("kgpg_photo", KIcon::Small, 20);
-    pixRevoke = loader->loadIcon("stop", KIcon::Small, 20);
+    pixkeyOrphan = loader->loadIcon("kgpg_key4", K3Icon::Small, 20);
+    pixkeyGroup = loader->loadIcon("kgpg_key3", K3Icon::Small, 20);
+    pixkeyPair = loader->loadIcon("kgpg_key2", K3Icon::Small, 20);
+    pixkeySingle = loader->loadIcon("kgpg_key1", K3Icon::Small, 20);
+    pixsignature = loader->loadIcon("signature", K3Icon::Small, 20);
+    pixuserid = loader->loadIcon("kgpg_identity", K3Icon::Small, 20);
+    pixuserphoto = loader->loadIcon("kgpg_photo", K3Icon::Small, 20);
+    pixRevoke = loader->loadIcon("stop", K3Icon::Small, 20);
 
     QPixmap blankFrame(locate("appdata", "pics/kgpg_blank.png"));
     QRect rect(0, 0, 50, 15);

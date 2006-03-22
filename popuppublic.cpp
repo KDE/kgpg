@@ -94,9 +94,9 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const char *name
         m_customoptions = KGpgSettings::customEncryptionOptions();
 
     KIconLoader *loader = KGlobal::iconLoader();
-    m_keypair = loader->loadIcon("kgpg_key2", KIcon::Small, 20);
-    m_keysingle = loader->loadIcon("kgpg_key1", KIcon::Small, 20);
-    m_keygroup = loader->loadIcon("kgpg_key3", KIcon::Small, 20);
+    m_keypair = loader->loadIcon("kgpg_key2", K3Icon::Small, 20);
+    m_keysingle = loader->loadIcon("kgpg_key1", K3Icon::Small, 20);
+    m_keygroup = loader->loadIcon("kgpg_key3", K3Icon::Small, 20);
 
     if (filemode)
         setCaption(i18n("Select Public Key for %1").arg(sfile));

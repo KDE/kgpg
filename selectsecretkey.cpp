@@ -28,7 +28,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     QWidget *page = new QWidget(this);
     KIconLoader *loader = KGlobal::iconLoader();
 
-    QPixmap keyPair = loader->loadIcon("kgpg_key2", KIcon::Small, 20);
+    QPixmap keyPair = loader->loadIcon("kgpg_key2", K3Icon::Small, 20);
 
     setMinimumSize(550, 200);
     m_keyslistpr = new K3ListView(page);
