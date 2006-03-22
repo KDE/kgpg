@@ -53,7 +53,7 @@ kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
 kde4_add_executable(kgpg ${kgpg_SRCS})
 
-target_link_libraries(kgpg  ${LIB_KIO} kabc kutils kdeprint )
+target_link_libraries(kgpg  ${KDE4_KIO_LIBRARIES} kabc kutils kdeprint )
 
 install_targets(/bin kgpg )
 
