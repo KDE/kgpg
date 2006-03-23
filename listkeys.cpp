@@ -172,7 +172,7 @@ listKeys::listKeys(QWidget *parent, const char *name)
     sCreat = new KToggleAction(i18n("Creation"),0, 0,this, SLOT(slotShowCreation()),actionCollection(),"show_creat");
     sExpi = new KToggleAction(i18n("Expiration"),0, 0,this, SLOT(slotShowExpiration()),actionCollection(),"show_expi");
 
-    photoProps = new KSelectAction(i18n("&Photo ID's"),"kgpg_photo", actionCollection(), "photo_settings");
+    photoProps = new KSelectAction(KIcon("kgpg_photo"),i18n("&Photo ID's"), actionCollection(), "photo_settings");
 
     // Keep the list in kgpg.kcfg in sync with this one!
     QStringList list;
@@ -265,7 +265,8 @@ listKeys::listKeys(QWidget *parent, const char *name)
 
     // get all keys data
     setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "listkeys.rc");
-    toolBar()->insertLineSeparator();
+#warning "kde4: port it toolBar()->insertLineSeparator();"	
+    //toolBar()->insertLineSeparator();
 
     QToolButton *clearSearch = new QToolButton(toolBar());
     clearSearch->setTextLabel(i18n("Clear Search"), true);
