@@ -310,7 +310,7 @@ void KeyListView::startDrag()
 
 void KeyListView::droppedFile(const KUrl &url)
 {
-    if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>").arg(url.path()), QString::null, i18n("Import"), i18n("Do Not Import")) != KMessageBox::Yes)
+    if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>", url.path()), QString::null, i18n("Import"), i18n("Do Not Import")) != KMessageBox::Yes)
         return;
 
     KgpgInterface *interface = new KgpgInterface();
@@ -332,7 +332,7 @@ void KeyListView::slotReloadKeys(const QStringList &keyids)
     refreshKeys(keyids);
 
     ensureItemVisible(this->findItem((keyids.last()).right(8).prepend("0x"), 6));
-    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount() - groupNb).arg(groupNb), 1);
+    emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
     emit statusMessage(i18n("Ready"), 0);
 }
 
@@ -389,7 +389,7 @@ void KeyListView::refreshAll()
         setSelected(firstChild(), true);
     }
 
-    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount() - groupNb).arg(groupNb), 1);
+    emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
     emit statusMessage(i18n("Ready"),0);
     kDebug(2100) << "Refresh Finished" << endl;
 }
@@ -511,7 +511,7 @@ void KeyListView::slotReloadOrphaned()
         insertOrphans(list);
 
     setSelected(findItem(*it, 6), true);
-    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount() - groupNb).arg(groupNb), 1);
+    emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
     emit statusMessage(i18n("Ready"), 0);
 }
 
@@ -580,7 +580,7 @@ void KeyListView::refreshGroups()
             item->setExpandable(false);
         }
 
-    emit statusMessage(i18n("%1 Keys, %2 Groups").arg(childCount() - groupNb).arg(groupNb), 1);
+    emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
     emit statusMessage(i18n("Ready"), 0);
 }
 
@@ -652,7 +652,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
     {
         KgpgKeySub sub = key.subList()->at(i);
 
-        QString algo = i18n("%1 subkey").arg(KgpgKey::algorithmeToString(sub.algorithme()));
+        QString algo = i18n("%1 subkey", KgpgKey::algorithmeToString(sub.algorithme()));
         tmpitem = new KeyListViewItem(item, algo, QString::null, QString::null, sub.expiration(), QString::number(sub.size()), sub.creation(), sub.id(), false, false, KeyListViewItem::Sub);
         tmpitem->setPixmap(0, pixkeySingle);
         tmpitem->setPixmap(2, getTrustPix(sub.trust(), sub.valide()));

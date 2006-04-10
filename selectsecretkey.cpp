@@ -52,9 +52,9 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     m_signtrust = 0;
     if (m_signkey)
     {
-        QLabel *signchecklabel = new QLabel("<qt>" + i18n("How carefully have you checked that the key really "
+        QLabel *signchecklabel = new QLabel("<qt>" + i18np("How carefully have you checked that the key really "
                                            "belongs to the person with whom you wish to communicate:",
-                                           "How carefully have you checked that the %1 keys really "
+                                           "How carefully have you checked that the %n keys really "
                                            "belong to the people with whom you wish to communicate:", countkey), page);
 
         m_signtrust = new KComboBox(page);

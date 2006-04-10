@@ -423,7 +423,7 @@ void listKeys::slotGenerateKeyDone(int res, KgpgInterface *interface, const QStr
     }
     else
     {
-        changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount() - keysList2->groupNb).arg(keysList2->groupNb), 1);
+        changeMessage(i18n("%1 Keys, %2 Groups", keysList2->childCount() - keysList2->groupNb, keysList2->groupNb), 1);
 
         KDialog *keyCreated = new KDialog(this, i18n("New Key Pair Created"), KDialogBase::Ok);
         keyCreated->setModal(true);
@@ -663,10 +663,10 @@ void listKeys::slotAddPhoto()
 
 void listKeys::slotDeletePhoto()
 {
-    QString mess = i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b>?</qt>");
-    mess = mess.arg(keysList2->currentItem()->text(6));
-    mess = mess.arg(keysList2->currentItem()->parent()->text(0));
-    mess = mess.arg(keysList2->currentItem()->parent()->text(1));
+    QString mess = i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b>?</qt>",
+                        keysList2->currentItem()->text(6),
+                        keysList2->currentItem()->parent()->text(0),
+                        keysList2->currentItem()->parent()->text(1));
 
     /*
     if (KMessageBox::warningContinueCancel(this, mess, i18n("Warning"), KGuiItem(i18n("Delete"), "editdelete")) != KMessageBox::Continue)
@@ -794,7 +794,7 @@ void listKeys::findFirstKey()
         keysList2->ensureItemVisible(item);
     }
     else
-        KMessageBox::sorry(this, i18n("<qt>Search string '<b>%1</b>' not found.").arg(searchString));
+        KMessageBox::sorry(this, i18n("<qt>Search string '<b>%1</b>' not found.", searchString));
 }
 
 void listKeys::findNextKey()
@@ -1013,7 +1013,7 @@ void listKeys::readOptions()
     QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
     KGpgSettings::setGroups(groups.join(","));
     keysList2->groupNb = groups.count();
-    changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount() - keysList2->groupNb).arg(keysList2->groupNb), 1);
+    changeMessage(i18n("%1 Keys, %2 Groups", keysList2->childCount() - keysList2->groupNb, keysList2->groupNb), 1);
 
     showTipOfDay = KGpgSettings::showTipOfDay();
 }
@@ -1231,7 +1231,7 @@ void listKeys::slotexportsec()
         p->start(KProcess::Block);
 
         if (fgpg.exists())
-            KMessageBox::information(this, i18n("Your PRIVATE key \"%1\" was successfully exported.\nDO NOT leave it in an insecure place.").arg(url.path()));
+            KMessageBox::information(this, i18n("Your PRIVATE key \"%1\" was successfully exported.\nDO NOT leave it in an insecure place.", url.path()));
         else
             KMessageBox::sorry(this, i18n("Your secret key could not be exported.\nCheck the key."));
     }
@@ -1314,7 +1314,7 @@ void listKeys::slotexport()
                 p->start(KProcess::Block);
 
                 if (fgpg.exists())
-                    KMessageBox::information(this, i18n("Your public key \"%1\" was successfully exported\n").arg(expname));
+                    KMessageBox::information(this, i18n("Your public key \"%1\" was successfully exported\n", expname));
                 else
                     KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
             }
@@ -1424,7 +1424,7 @@ void listKeys::deleteGroup()
     if (!keysList2->currentItem() || !keysList2->currentItem()->text(6).isEmpty())
         return;
 
-    int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>").arg(keysList2->currentItem()->text(0)), i18n("Warning"), KGuiItem(i18n("Delete"), "editdelete"));
+    int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>", keysList2->currentItem()->text(0)), i18n("Warning"), KGuiItem(i18n("Delete"), "editdelete"));
     if (result != KMessageBox::Continue)
         return;
 
@@ -1441,7 +1441,7 @@ void listKeys::deleteGroup()
     QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
     KGpgSettings::setGroups(groups.join(","));
     keysList2->groupNb = groups.count();
-    changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount()-keysList2->groupNb).arg(keysList2->groupNb), 1);
+    changeMessage(i18n("%1 Keys, %2 Groups", keysList2->childCount()-keysList2->groupNb, keysList2->groupNb), 1);
 }
 
 void listKeys::groupChange()
@@ -1508,10 +1508,10 @@ void listKeys::createNewGroup()
             keysList2->setSelected(newgrp, true);
             keysList2->ensureItemVisible(newgrp);
             keysList2->groupNb = groups.count();
-            changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount() - keysList2->groupNb).arg(keysList2->groupNb), 1);
+            changeMessage(i18n("%1 Keys, %2 Groups", keysList2->childCount() - keysList2->groupNb, keysList2->groupNb), 1);
         }
         else
-            KMessageBox::sorry(this, i18n("<qt>No valid or trusted key was selected. The group <b>%1</b> will not be created.</qt>").arg(groupName));
+            KMessageBox::sorry(this, i18n("<qt>No valid or trusted key was selected. The group <b>%1</b> will not be created.</qt>", groupName));
     }
 }
 
@@ -1634,7 +1634,7 @@ void listKeys::signkey()
 
         opt = i18n("<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>%3</b>.<br><br>"
                    "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-                   "is not trying to intercept your communications</qt>").arg(keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ")").arg(keysList2->currentItem()->text(6)).arg(fingervalue);
+                   "is not trying to intercept your communications</qt>", keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ")", keysList2->currentItem()->text(6), fingervalue);
 
         if (KMessageBox::warningContinueCancel(this, opt) != KMessageBox::Continue)
             return;
@@ -1690,10 +1690,10 @@ void listKeys::signatureResult(int success, KgpgInterface *interface)
         keysList2->refreshcurrentkey(static_cast<K3ListViewItem*>(signList.at(keyCount)));
     else
     if (success == 1)
-        KMessageBox::sorry(this, i18n("<qt>Bad passphrase, key <b>%1</b> not signed.</qt>").arg(signList.at(keyCount)->text(0) + i18n(" (") + signList.at(keyCount)->text(1) + i18n(")")));
+        KMessageBox::sorry(this, i18n("<qt>Bad passphrase, key <b>%1</b> not signed.</qt>", signList.at(keyCount)->text(0) + i18n(" (") + signList.at(keyCount)->text(1) + i18n(")")));
     else
     if (success == 4)
-        KMessageBox::sorry(this, i18n("<qt>The key <b>%1</b> is already signed.</qt>").arg(signList.at(keyCount)->text(0) + i18n(" (") + signList.at(keyCount)->text(1) + i18n(")")));
+        KMessageBox::sorry(this, i18n("<qt>The key <b>%1</b> is already signed.</qt>", signList.at(keyCount)->text(0) + i18n(" (") + signList.at(keyCount)->text(1) + i18n(")")));
 
     keyCount++;
     signLoop();
@@ -1808,7 +1808,7 @@ void listKeys::delsignkey()
         return;
     }
 
-    QString ask = i18n("<qt>Are you sure you want to delete signature<br><b>%1</b> from key:<br><b>%2</b>?</qt>").arg(signMail).arg(parentMail);
+    QString ask = i18n("<qt>Are you sure you want to delete signature<br><b>%1</b> from key:<br><b>%2</b>?</qt>", signMail, parentMail);
 
     if (KMessageBox::questionYesNo(this, ask, QString::null, KStdGuiItem::del(), KStdGuiItem::cancel()) != KMessageBox::Yes)
         return;
@@ -1860,7 +1860,7 @@ void listKeys::doFilePrint(QString url)
         doPrint(t.read());
     }
     else
-        KMessageBox::sorry(this, i18n("<qt>Cannot open file <b>%1</b> for printing...</qt>").arg(url));
+        KMessageBox::sorry(this, i18n("<qt>Cannot open file <b>%1</b> for printing...</qt>", url));
 }
 
 void listKeys::doPrint(QString txt)
@@ -1881,7 +1881,7 @@ void listKeys::deleteseckey()
     // delete a key
     QString res = keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ")";
     int result = KMessageBox::warningContinueCancel(this,
-                        i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.").arg(res),
+                        i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.", res),
                         i18n("Warning"),
                         KGuiItem(i18n("Delete"),"editdelete"));
     if (result != KMessageBox::Continue)
@@ -1952,7 +1952,7 @@ void listKeys::confirmdeletekey()
 
         if (secretKeyInside)
         {
-            int result = KMessageBox::warningContinueCancel(this, i18n("<qt>The following are secret key pairs:<br><b>%1</b>They will not be deleted.<br></qt>").arg(secList));
+            int result = KMessageBox::warningContinueCancel(this, i18n("<qt>The following are secret key pairs:<br><b>%1</b>They will not be deleted.<br></qt>", secList));
             if (result != KMessageBox::Continue)
                 return;
         }
@@ -1960,7 +1960,7 @@ void listKeys::confirmdeletekey()
         if (keysToDelete.isEmpty())
             return;
 
-        int result = KMessageBox::warningContinueCancelList(this, i18n("<qt><b>Delete the following public key?</b></qt>", "<qt><b>Delete the following %n public keys?</b></qt>", keysToDelete.count()), keysToDelete, i18n("Warning"), KStdGuiItem::del());
+        int result = KMessageBox::warningContinueCancelList(this, i18np("<qt><b>Delete the following public key?</b></qt>", "<qt><b>Delete the following %n public keys?</b></qt>", keysToDelete.count()), keysToDelete, i18n("Warning"), KStdGuiItem::del());
         if (result != KMessageBox::Continue)
             return;
         else
@@ -2022,7 +2022,7 @@ void listKeys::deletekey()
     else
         stateChanged("empty_list");
 
-    changeMessage(i18n("%1 Keys, %2 Groups").arg(keysList2->childCount() - keysList2->groupNb).arg(keysList2->groupNb), 1);
+    changeMessage(i18n("%1 Keys, %2 Groups", keysList2->childCount() - keysList2->groupNb, keysList2->groupNb), 1);
 }
 
 void listKeys::slotPreImportKey()

@@ -1137,8 +1137,8 @@ void KgpgInterface::decryptTextStdOut(KProcess *p, char *data, int)
                     if (anonymous)
                         passdlgmessage = i18n("<b>No user id found</b>. Trying all secret keys.<br>");
                     if ((step < 3) && (!anonymous))
-                        passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-                    passdlgmessage += i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+                        passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>", step);
+                    passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
                     if (sendPassphrase(passdlgmessage, static_cast<KProcIO*>(p), false))
                     {
@@ -1291,8 +1291,8 @@ void KgpgInterface::signTextProcess(KProcIO *p)
 
                 QString passdlgmessage;
                 if (step < 3)
-                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-                passdlgmessage += i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>", step);
+                passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
                 if (sendPassphrase(passdlgmessage, p, false))
                 {
@@ -1393,12 +1393,12 @@ void KgpgInterface::verifyTextProcess(KProcIO *p)
                 {
                     QString userName = line.section(" ", 2, -1).replace(QRegExp("<"), "&lt;");
                     userName = checkForUtf8(userName);
-                    signID = i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>").arg(userName).arg("0x" + line.section(" ", 1, 1).right(8));
+                    signID = i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>", userName, "0x" + line.section(" ", 1, 1).right(8));
                 }
                 else
                 if (line.startsWith("BADSIG"))
                 {
-                    signID = i18n("<qt><b>Bad signature</b> from:<br>%1<br>Key ID: %2<br><br><b>Text is corrupted.</b></qt>").arg(line.section(" ", 2, -1).replace(QRegExp("<"), "&lt;")).arg("0x" + line.section(" ", 1, 1).right(8));
+                    signID = i18n("<qt><b>Bad signature</b> from:<br>%1<br>Key ID: %2<br><br><b>Text is corrupted.</b></qt>", line.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), "0x" + line.section(" ", 1, 1).right(8));
                 }
                 else
                 if (line.startsWith("NO_PUBKEY"))
@@ -1636,8 +1636,8 @@ void KgpgInterface::signKeyProcess(KProcIO *p)
                 {
                     QString passdlgmessage;
                     if (step < 3)
-                        passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-                    passdlgmessage += i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+                        passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>", step);
+                    passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
                     if (sendPassphrase(passdlgmessage, p, false))
                     {
@@ -1680,7 +1680,7 @@ void KgpgInterface::signKeyFin(KProcess *p)
         emit signKeyFinished(m_success, this); // signature successful or bad passphrase or aborted or already signed
     else
     {
-        KgpgDetailedConsole *q = new KgpgDetailedConsole(0, i18n("<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br>Do you want to try signing the key in console mode?</qt>").arg(m_keyid).arg(m_signkey), log);
+        KgpgDetailedConsole *q = new KgpgDetailedConsole(0, i18n("<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br>Do you want to try signing the key in console mode?</qt>", m_keyid, m_signkey), log);
         if (q->exec() == QDialog::Accepted)
             signKeyOpenConsole();
         else
@@ -1780,8 +1780,8 @@ void KgpgInterface::keyExpireProcess(KProcIO *p)
             {
                 QString passdlgmessage;
                 if (step < 3)
-                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-                passdlgmessage += i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>", step);
+                passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
                 if (sendPassphrase(passdlgmessage, p, false))
                 {
@@ -1896,8 +1896,8 @@ void KgpgInterface::changePassProcess(KProcIO *p)
                 {
                     QString passdlgmessage;
                     if (step < 3)
-                        passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-                    passdlgmessage += i18n("Enter old passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+                        passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>", step);
+                    passdlgmessage += i18n("Enter old passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
                     if (sendPassphrase(passdlgmessage, p, false))
                     {
@@ -1910,7 +1910,7 @@ void KgpgInterface::changePassProcess(KProcIO *p)
                 else
                 if (m_success == 4)
                 {
-                    if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br>If you forget this passphrase, all your encrypted files and messages will be lost !<br></qt>").arg(userIDs), p))
+                    if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br>If you forget this passphrase, all your encrypted files and messages will be lost !<br></qt>", userIDs), p))
                     {
                         delete p;
                         emit changePassFinished(3, this);
@@ -2179,8 +2179,8 @@ void KgpgInterface::addPhotoProcess(KProcIO *p)
             {
                 QString passdlgmessage;
                 if (step < 3)
-                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-                passdlgmessage += i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>", step);
+                passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
                 if (sendPassphrase(passdlgmessage, p, false))
                 {
@@ -2270,8 +2270,8 @@ void KgpgInterface::deletePhotoProcess(KProcIO *p)
             {
                 QString passdlgmessage;
                 if (step < 3)
-                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-                passdlgmessage += i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>", step);
+                passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
                 if (sendPassphrase(passdlgmessage, p, false))
                 {
@@ -2401,35 +2401,35 @@ void KgpgInterface::importKeyFinished(KProcess *p)
         parsedOutput = message.section("IMPORT_RES", -1, -1).simplified();
         messageList = QStringList::split(" ", parsedOutput, true);
 
-        resultMessage = i18n("<qt>%n key processed.<br></qt>", "<qt>%n keys processed.<br></qt>", messageList[0].toULong());
+        resultMessage = i18np("<qt>%n key processed.<br></qt>", "<qt>%n keys processed.<br></qt>", messageList[0].toULong());
 
         if (messageList[1] != "0")
-            resultMessage += i18n("<qt>One key without ID.<br></qt>", "<qt>%n keys without ID.<br></qt>", messageList[1].toULong());
+            resultMessage += i18np("<qt>One key without ID.<br></qt>", "<qt>%n keys without ID.<br></qt>", messageList[1].toULong());
         if (messageList[2] != "0")
-            resultMessage += i18n("<qt><b>One key imported:</b><br></qt>", "<qt><b>%n keys imported:</b><br></qt>", messageList[2].toULong());
+            resultMessage += i18np("<qt><b>One key imported:</b><br></qt>", "<qt><b>%n keys imported:</b><br></qt>", messageList[2].toULong());
         if (messageList[3] != "0")
-            resultMessage += i18n("<qt>One RSA key imported.<br></qt>", "<qt>%n RSA keys imported.<br></qt>", messageList[3].toULong());
+            resultMessage += i18np("<qt>One RSA key imported.<br></qt>", "<qt>%n RSA keys imported.<br></qt>", messageList[3].toULong());
         if (messageList[4] != "0")
-            resultMessage += i18n("<qt>One key unchanged.<br></qt>", "<qt>%n keys unchanged.<br></qt>", messageList[4].toULong());
+            resultMessage += i18np("<qt>One key unchanged.<br></qt>", "<qt>%n keys unchanged.<br></qt>", messageList[4].toULong());
         if (messageList[5] != "0")
-            resultMessage += i18n("<qt>One user ID imported.<br></qt>", "<qt>%n user IDs imported.<br></qt>", messageList[5].toULong());
+            resultMessage += i18np("<qt>One user ID imported.<br></qt>", "<qt>%n user IDs imported.<br></qt>", messageList[5].toULong());
         if (messageList[6] != "0")
-            resultMessage += i18n("<qt>One subkey imported.<br></qt>", "<qt>%n subkeys imported.<br></qt>", messageList[6].toULong());
+            resultMessage += i18np("<qt>One subkey imported.<br></qt>", "<qt>%n subkeys imported.<br></qt>", messageList[6].toULong());
         if (messageList[7] != "0")
-            resultMessage += i18n("<qt>One signature imported.<br></qt>", "<qt>%n signatures imported.<br></qt>", messageList[7].toULong());
+            resultMessage += i18np("<qt>One signature imported.<br></qt>", "<qt>%n signatures imported.<br></qt>", messageList[7].toULong());
         if (messageList[8] != "0")
-            resultMessage += i18n("<qt>One revocation certificate imported.<br></qt>", "<qt>%n revocation certificates imported.<br></qt>", messageList[8].toULong());
+            resultMessage += i18np("<qt>One revocation certificate imported.<br></qt>", "<qt>%n revocation certificates imported.<br></qt>", messageList[8].toULong());
         if (messageList[9] != "0")
         {
-            resultMessage += i18n("<qt>One secret key processed.<br></qt>", "<qt>%n secret keys processed.<br></qt>", messageList[9].toULong());
+            resultMessage += i18np("<qt>One secret key processed.<br></qt>", "<qt>%n secret keys processed.<br></qt>", messageList[9].toULong());
             secretImport = true;
         }
         if (messageList[10] != "0")
-            resultMessage += i18n("<qt><b>One secret key imported.</b><br></qt>", "<qt><b>%n secret keys imported.</b><br></qt>", messageList[10].toULong());
+            resultMessage += i18np("<qt><b>One secret key imported.</b><br></qt>", "<qt><b>%n secret keys imported.</b><br></qt>", messageList[10].toULong());
         if (messageList[11] != "0")
-            resultMessage += i18n("<qt>One secret key unchanged.<br></qt>", "<qt>%n secret keys unchanged.<br></qt>", messageList[11].toULong());
+            resultMessage += i18np("<qt>One secret key unchanged.<br></qt>", "<qt>%n secret keys unchanged.<br></qt>", messageList[11].toULong());
         if (messageList[12] != "0")
-            resultMessage += i18n("<qt>One secret key not imported.<br></qt>", "<qt>%n secret keys not imported.<br></qt>", messageList[12].toULong());
+            resultMessage += i18np("<qt>One secret key not imported.<br></qt>", "<qt>%n secret keys not imported.<br></qt>", messageList[12].toULong());
 
         if (secretImport)
             resultMessage += i18n("<qt><br><b>You have imported a secret key.</b> <br>"
@@ -2524,8 +2524,8 @@ void KgpgInterface::addUidProcess(KProcIO *p)
             {
                 QString passdlgmessage;
                 if (step < 3)
-                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-                passdlgmessage += i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>", step);
+                passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
                 if (sendPassphrase(passdlgmessage, p, false))
                 {
@@ -2665,13 +2665,12 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
             else
             if (line.indexOf("passphrase.enter") != -1)
             {
-                QString passdlgmessage;
-                passdlgmessage = i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences");
+                QString keyid;
                 if (!m_keyemail.isEmpty())
-                    passdlgmessage.arg(m_keyname + " <" + m_keyemail + ">");
+                    keyid = m_keyname + " <" + m_keyemail + ">";
                 else
-                    passdlgmessage.arg(m_keyname);
-
+                    keyid = m_keyname;
+                QString passdlgmessage = i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences", keyid);
                 if (sendPassphrase(passdlgmessage, p, true))
                 {
                     delete p;
@@ -2811,8 +2810,8 @@ void KgpgInterface::readdecprocess(KProcIO *p)
                 if (anonymous)
                     passdlgmessage = i18n("<b>No user id found</b>. Trying all secret keys.<br>");
                 if ((step < 3) && (!anonymous))
-                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>").arg(step);
-                passdlgmessage += i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>", step);
+                passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
                 if (sendPassphrase(passdlgmessage, p))
                 {
@@ -2888,7 +2887,7 @@ void KgpgInterface::signfin(KProcess *p)
     delete p;
 
     if (message.find("SIG_CREATED") != -1)
-        KMessageBox::information(0, i18n("The signature file %1 was successfully created.").arg(file.fileName()));
+        KMessageBox::information(0, i18n("The signature file %1 was successfully created.", file.fileName()));
     else
     if (message.find("BAD_PASSPHRASE") != -1)
         KMessageBox::sorry(0, i18n("Bad passphrase, signature was not created."));
@@ -2918,8 +2917,8 @@ void KgpgInterface::readsignprocess(KProcIO *p)
 
                 QString passdlgmessage;
                 if (step < 3)
-                    passdlgmessage = i18n("<b>Bad passphrase</b>. you have %1 tries left.<br>").arg(step);
-                passdlgmessage += i18n("Enter passphrase for <b>%1</b>").arg(checkForUtf8bis(userIDs));
+                    passdlgmessage = i18n("<b>Bad passphrase</b>. you have %1 tries left.<br>", step);
+                passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
                 if (sendPassphrase(passdlgmessage, p))
                 {
@@ -2977,10 +2976,10 @@ void KgpgInterface::readprocess(KProcIO *p)
             signID = i18n("No signature found.");
 
         if (required.startsWith("GOODSIG"))
-            signID = i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>").arg(required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;")).arg("0x" + required.section(" ", 1, 1).right(8));
+            signID = i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>", required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), "0x" + required.section(" ", 1, 1).right(8));
 
         if (required.startsWith("BADSIG"))
-    signID=i18n("<qt><b>BAD signature</b> from:<br> %1<br>Key id: %2<br><br><b>The file is corrupted!</b></qt>").arg(required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;")).arg("0x" + required.section(" ", 1, 1).right(8));
+    signID=i18n("<qt><b>BAD signature</b> from:<br> %1<br>Key id: %2<br><br><b>The file is corrupted!</b></qt>", required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), "0x" + required.section(" ", 1, 1).right(8));
 
         if (required.startsWith("NO_PUBKEY"))
         {
@@ -3007,7 +3006,7 @@ void KgpgInterface::verifyfin(KProcess *)
     }
     else
     {
-        if (KMessageBox::questionYesNo(0, i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>Do you want to import this key from a keyserver?</qt>").arg(signID), file.fileName(), i18n("Import"), i18n("Do Not Import")) == KMessageBox::Yes)
+        if (KMessageBox::questionYesNo(0, i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>Do you want to import this key from a keyserver?</qt>", signID), file.fileName(), i18n("Import"), i18n("Do Not Import")) == KMessageBox::Yes)
         emit verifyquerykey(signID);
     }
     emit verifyfinished();
@@ -3145,7 +3144,7 @@ void KgpgInterface::revokeprocess(KProcIO *p)
 
                 if (required.find("passphrase.enter")!=-1)
                 {
-                    if (sendPassphrase(i18n("<qt>Enter passphrase for <b>%1</b>:</qt>").arg(checkForUtf8bis(userIDs)), p))
+                    if (sendPassphrase(i18n("<qt>Enter passphrase for <b>%1</b>:</qt>", checkForUtf8bis(userIDs)), p))
                     {
                                 expSuccess=3;  /////  aborted by user mode
                                 p->writeStdin(QByteArray("quit"));

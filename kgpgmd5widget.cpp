@@ -46,7 +46,7 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     QGridLayout *dialoglayout = new QGridLayout(page, 1, 1, 5, 6, "MyDialogLayout");
 
     QLabel *textlabel = new QLabel(page, "TextLabel1");
-    textlabel->setText(i18n("MD5 sum for <b>%1</b> is:").arg(url.fileName()));
+    textlabel->setText(i18n("MD5 sum for <b>%1</b> is:", url.fileName()));
     dialoglayout->addWidget(textlabel, 0, 0);
 
     KLineEdit *restrictedline = new KLineEdit(m_mdsum, page);

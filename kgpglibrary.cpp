@@ -112,9 +112,9 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
 
     int filesToEncode = m_urlselecteds.count();
     if (filesToEncode > 1)
-        emit systemMessage(i18n("<b>%1 Files left.</b>\nEncrypting </b>%2").arg(filesToEncode).arg(m_urlselecteds.first().path()));
+        emit systemMessage(i18n("<b>%1 Files left.</b>\nEncrypting </b>%2", filesToEncode, m_urlselecteds.first().path()));
     else
-        emit systemMessage(i18n("<b>Encrypting </b>%2").arg(m_urlselecteds.first().path()));
+        emit systemMessage(i18n("<b>Encrypting </b>%2", m_urlselecteds.first().path()));
 
     m_pop = new KPassivePopup(m_panel);
 
@@ -193,7 +193,7 @@ void KgpgLibrary::processDecError(const QString &mssge)
         if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK"))
         {
             // dropped file is a public key, ask for import
-            int result = KMessageBox::warningContinueCancel(0, i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(m_urlselected.path()), i18n("Warning"));
+            int result = KMessageBox::warningContinueCancel(0, i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>", m_urlselected.path()), i18n("Warning"));
             if (result == KMessageBox::Cancel)
                 return;
             else
@@ -209,7 +209,7 @@ void KgpgLibrary::processDecError(const QString &mssge)
         {
             // dropped file is a public key, ask for import
             qfile.close();
-            KMessageBox::information(0, i18n("<p>The file <b>%1</b> is a private key block. Please use KGpg key manager to import it.</p>").arg(m_urlselected.path()));
+            KMessageBox::information(0, i18n("<p>The file <b>%1</b> is a private key block. Please use KGpg key manager to import it.</p>", m_urlselected.path()));
             return;
         }
     }
@@ -219,7 +219,7 @@ void KgpgLibrary::processDecError(const QString &mssge)
 
 void KgpgLibrary::processEncPopup(const QString &fileName)
 {
-    emit systemMessage(i18n("Decrypting %1").arg(fileName));
+    emit systemMessage(i18n("Decrypting %1", fileName));
 
     m_pop->setTimeout(0);
     m_pop->setView(i18n("Processing decryption"), i18n("Please wait..."), KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop));
@@ -233,7 +233,7 @@ void KgpgLibrary::processEncPopup(const QString &fileName)
 
 void KgpgLibrary::shredProcessEnc(const KUrl::List &filestoshred)
 {
-    emit systemMessage(i18n("Shredding %n file", "Shredding %n files", filestoshred.count()));
+    emit systemMessage(i18np("Shredding %n file", "Shredding %n files", filestoshred.count()));
     KIO::Job *job = KIO::del(filestoshred, true, true);
     connect(job, SIGNAL(result(KIO::Job *)), SLOT(slotShredResult(KIO::Job *)));
 }
@@ -253,7 +253,7 @@ void KgpgLibrary::slotShredResult(KIO::Job *job)
 void KgpgLibrary::processPopup2(const QString &fileName)
 {
     //m_pop->setTimeout(0);
-    m_pop->setView(i18n("Processing encryption (%1)").arg(fileName),i18n("Please wait..."), KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop));
+    m_pop->setView(i18n("Processing encryption (%1)", fileName),i18n("Please wait..."), KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop));
     m_pop->show();
     /*QRect qRect(QApplication::desktop()->screenGeometry());
     int iXpos=qRect.width()/2-m_pop->width()/2;

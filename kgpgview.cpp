@@ -290,7 +290,7 @@ void KgpgView::slotAskForImport(const QString &id, KgpgInterface *interface)
     noimportitem.setText(i18n("Do &Not Import"));
     noimportitem.setToolTip(i18n("Will not import this key in your list"));
 
-    if (KMessageBox::questionYesNo(this, i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>Do you want to import this key from a keyserver?</qt>").arg(id), i18n("Missing Key"), importitem, noimportitem) == KMessageBox::Yes)
+    if (KMessageBox::questionYesNo(this, i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>Do you want to import this key from a keyserver?</qt>", id), i18n("Missing Key"), importitem, noimportitem) == KMessageBox::Yes)
     {
         keyServer *kser = new keyServer(0, "server_dialog", false, true);
         kser->slotSetText(id);

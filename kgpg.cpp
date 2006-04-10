@@ -204,7 +204,7 @@ void MyView::encryptDroppedFolder()
     kgpgfoldertmp = new KTempFile(QString::null);
     kgpgfoldertmp->setAutoDelete(true);
 
-    if (KMessageBox::warningContinueCancel(0, i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>").arg(kgpgfoldertmp->name()), i18n("Temporary File Creation"), KStdGuiItem::cont(), "FolderTmpFile") == KMessageBox::Cancel)
+    if (KMessageBox::warningContinueCancel(0, i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>", kgpgfoldertmp->name()), i18n("Temporary File Creation"), KStdGuiItem::cont(), "FolderTmpFile") == KMessageBox::Cancel)
         return;
 
     dialogue=new KgpgSelectPublicKeyDlg(0, "Public keys", droppedUrls.first().fileName(), true, goDefaultKey, false);
@@ -357,8 +357,8 @@ void MyView::shredDroppedFile()
     QBoxLayout *layout = new QBoxLayout(page, QBoxLayout::TopToBottom, 0);
     layout->setAutoAdd(true);
 
-    QString mess = i18n("Do you really want to <a href=\"whatsthis:%1\">shred</a> these files?");
-    mess = mess.arg(i18n("<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>"));
+    QString mess = i18n("Do you really want to <a href=\"whatsthis:%1\">shred</a> these files?",
+                        i18n("<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>"));
 
     (void) new KActiveLabel(mess, page);
     KListBox *lb = new KListBox(page);
@@ -1052,7 +1052,7 @@ int KgpgAppletApp::newInstance()
             if ((KgpgInterface::getGpgBoolSetting("use-agent",gpgPath)) && (!getenv("GPG_AGENT_INFO")))
                 KMessageBox::sorry(0,i18n("<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br>"
                         "However, the agent does not seem to be running. This could result in problems with signing/decryption.<br>"
-                        "Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>").arg(gpgPath));
+                        "Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>", gpgPath));
         }
     }
 
