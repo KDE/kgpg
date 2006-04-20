@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.0//EN"
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
 "dtd/kdex.dtd" [
   <!ENTITY kgpg "<application>Kgpg</application>">
   <!ENTITY package "kdeutils">
@@ -133,7 +133,7 @@ You can import, export, sign and edit your keys. Most actions can be performed w
 
 
 <varlistentry>
-<term>Konqueror Integration</term>
+<term>&konqueror; Integration</term>
 <listitem>
 
 <para>&kgpg; is integrated in &konqueror;. It means that when you right click on a file, you can choose
