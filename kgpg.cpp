@@ -123,7 +123,7 @@ MyView::MyView(QWidget *parent, const char *name)
     encrypt->plug(udroppopup);
     sign->plug(udroppopup);
 
-    QToolTip::add(this, i18n("KGpg - encryption tool"));
+    this->setToolTip( i18n("KGpg - encryption tool"));
 }
 
 MyView::~MyView()
@@ -322,7 +322,7 @@ void MyView::busyMessage(QString mssge, bool reset)
     {
         openTasks++;
         QToolTip::remove(this);
-        QToolTip::add(this, mssge);
+        this->setToolTip( mssge);
 
         QMovie *movie = new QMovie(locate("appdata", "pics/kgpg_docked.gif"));
         setMovie(movie);
@@ -337,7 +337,7 @@ void MyView::busyMessage(QString mssge, bool reset)
     {
         setPixmap(KSystemTray::loadIcon("kgpg_docked"));
         QToolTip::remove(this);
-        QToolTip::add(this, i18n("KGpg - encryption tool"));
+        this->setToolTip( i18n("KGpg - encryption tool"));
         openTasks = 0;
     }
 }
