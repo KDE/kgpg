@@ -59,7 +59,7 @@ private slots:
     void processEncError(const QString &mssge, KgpgInterface*);
     void processDecOver();
     void processDecError(const QString &mssge);
-    void slotShredResult(KIO::Job *job);
+    void slotShredResult(KJob *job);
     void processEncPopup(const QString &fileName);
     void processPopup2(const QString &fileName);
 

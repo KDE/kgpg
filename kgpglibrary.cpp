@@ -235,15 +235,15 @@ void KgpgLibrary::shredProcessEnc(const KUrl::List &filestoshred)
 {
     emit systemMessage(i18np("Shredding %n file", "Shredding %n files", filestoshred.count()));
     KIO::Job *job = KIO::del(filestoshred, true, true);
-    connect(job, SIGNAL(result(KIO::Job *)), SLOT(slotShredResult(KIO::Job *)));
+    connect(job, SIGNAL(result(KJob *)), SLOT(slotShredResult(KJob *)));
 }
 
-void KgpgLibrary::slotShredResult(KIO::Job *job)
+void KgpgLibrary::slotShredResult(KJob *job)
 {
     emit systemMessage(QString::null);
     if (job && job->error())
     {
-        job->showErrorDialog(static_cast<QWidget*>(parent()));
+        static_cast<KIO::Job*>(job)->showErrorDialog(static_cast<QWidget*>(parent()));
         emit systemMessage(QString::null, true);
 
         KPassivePopup::message(i18n("KGpg Error"), i18n("Process halted, not all files were shredded."), KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop), m_panel, 0);
