@@ -39,7 +39,7 @@ public:
         Uid = 16,
         Uat = 32,
         Rev = 64,
-        Sign = 128,
+        Sign = 128
     };
     Q_DECLARE_FLAGS(ItemType, ItemTypeFlag)
 
