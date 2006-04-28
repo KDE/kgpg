@@ -286,9 +286,8 @@ void KgpgKeyInfo::slotMainImageRead(const QPixmap &pixmap, KgpgInterface *interf
 
 void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap)
 {
-    QImage dup = pixmap.convertToImage();
-    QPixmap dup2;
-    dup2.convertFromImage(dup. scaled(m_prop->pLPhoto->width(), m_prop->pLPhoto->height(), Qt::KeepAspectRatio));
+    QImage dup = pixmap.toImage();
+    QPixmap dup2 = QPixmap::fromImage( dup.scaled(m_prop->pLPhoto->width(), m_prop->pLPhoto->height(), Qt::KeepAspectRatio));
     m_prop->pLPhoto->setPixmap(dup2);
 }
 
