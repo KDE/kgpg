@@ -78,8 +78,8 @@ void KgpgEditor::openDocumentFile(const KUrl& url, QString encoding)
         if (qfile.open(QIODevice::ReadOnly))
         {
             QTextStream t(&qfile);
-            t.setCodec(QTextCodec::codecForName(encoding.ascii()));
-            view->editor->setText(t.read());
+            t.setCodec(encoding.ascii());
+            view->editor->setText(t.readAll());
             qfile.close();
             m_docname = url;
             m_textchanged = false;

@@ -186,7 +186,7 @@ void KgpgLibrary::processDecError(const QString &mssge)
     if (qfile.open(QIODevice::ReadOnly))
     {
         QTextStream t(&qfile);
-        QString result(t.read());
+        QString result = t.readAll();
         qfile.close();
 
         // if pgp data found, decode it

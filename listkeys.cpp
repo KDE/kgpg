@@ -265,7 +265,7 @@ listKeys::listKeys(QWidget *parent, const char *name)
 
     // get all keys data
     setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "listkeys.rc");
-#warning "kde4: port it toolBar()->insertLineSeparator();"	
+#warning "kde4: port it toolBar()->insertLineSeparator();"
     //toolBar()->insertLineSeparator();
 
     QToolButton *clearSearch = new QToolButton(toolBar());
@@ -1857,7 +1857,7 @@ void listKeys::doFilePrint(QString url)
     if (qfile.open(QIODevice::ReadOnly))
     {
         QTextStream t(&qfile);
-        doPrint(t.read());
+        doPrint(t.readAll());
     }
     else
         KMessageBox::sorry(this, i18n("<qt>Cannot open file <b>%1</b> for printing...</qt>", url));

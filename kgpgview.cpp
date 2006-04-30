@@ -109,7 +109,7 @@ bool KgpgTextEdit::slotCheckContent(const QString &filetocheck, const bool &chec
     {
         // open file
         QTextStream t(&qfile);
-        QString result(t.read());
+        QString result = t.readAll();
 
         if ((checkforpgpmessage) && (result.startsWith("-----BEGIN PGP MESSAGE")))
         {
