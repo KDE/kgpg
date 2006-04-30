@@ -104,7 +104,7 @@ void KeyListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, 
         }
         else
         if (m_exp && (column == 3))
-            _cg.setColor(QColorGroup::Text, Qt::red);
+            _cg.setColor(QPalette::Text, Qt::red);
     }
     else
     if (column < 2)
