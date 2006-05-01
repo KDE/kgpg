@@ -43,7 +43,10 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     QWidget *page = new QWidget(this);
 
     resize(360, 150);
-    QGridLayout *dialoglayout = new QGridLayout(page, 1, 1, 5, 6, "MyDialogLayout");
+    QGridLayout *dialoglayout = new QGridLayout(page );
+    dialoglayout->setMargin( 5 );
+    dialoglayout->setSpacing( 6 );
+    dialoglayout->setObjectName( "MyDialogLayout" );
 
     QLabel *textlabel = new QLabel(page, "TextLabel1");
     textlabel->setText(i18n("MD5 sum for <b>%1</b> is:", url.fileName()));
