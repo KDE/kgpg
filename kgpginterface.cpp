@@ -76,16 +76,16 @@ QString KgpgInterface::checkForUtf8(QString txt)
 
     for (s = txt.ascii(); *s && !(*s & 0x80); s++)
                 ;
-        if (*s && !strchr (txt.ascii(), 0xc3) && (txt.find("\\x") == -1))
+        if (*s && !strchr (txt.ascii(), 0xc3) && !txt.contains("\\x"))
                 return txt;
 
     /* The string is not in UTF-8 */
     //if (strchr (txt.ascii(), 0xc3)) return (txt+" +++");
-    if (txt.find("\\x") == -1)
+    if (!txt.contains("\\x"))
         return QString::fromUtf8(txt.ascii());
 
     // if (!strchr (txt.ascii(), 0xc3) || (txt.find("\\x")!=-1)) {
-    for (int idx = 0; (idx = txt.find( "\\x", idx )) >= 0 ; ++idx)
+    for (int idx = 0; (idx = txt.indexOf( "\\x", idx )) >= 0 ; ++idx)
     {
         char str[2] = "x";
         str[0] = (char) QString(txt.mid(idx + 2, 2)).toShort(0, 16);
@@ -99,7 +99,7 @@ QString KgpgInterface::checkForUtf8(QString txt)
 
 QString KgpgInterface::checkForUtf8bis(QString txt)
 {
-    if (strchr(txt.ascii(), 0xc3) || (txt.find("\\x") != -1))
+    if (strchr(txt.ascii(), 0xc3) || txt.contains("\\x"))
         txt = checkForUtf8(txt);
     else
     {
@@ -416,15 +416,15 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcIO *process, const b
 
 void KgpgInterface::updateIDs(QString txt)
 {
-    int cut = txt.find(' ', 22, false);
+    int cut = txt.indexOf(' ', 22, false);
     txt.remove(0, cut);
 
-    if (txt.find("(", 0, false) != -1)
+    if (txt.contains("(", 0, false))
         txt = txt.section('(', 0, 0) + txt.section(')', -1);
 
     txt.replace(QRegExp("<"), "&lt;");
 
-    if (userIDs.find(txt) == -1)
+    if (!userIDs.contains(txt))
     {
         if (!userIDs.isEmpty())
             userIDs += i18n(" or ");
@@ -525,13 +525,13 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
                     m_publickey.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
                 }
 
-                if (lsp.at(11).find("D", 0, true) != -1)  // disabled key
+                if (lsp.at(11).contains("D", 0, true))  // disabled key
                     m_publickey.setValide(false);
                 else
                     m_publickey.setValide(true);
 
                 QString fullname = lsp.at(9);
-                if (fullname.find("<") != -1)
+                if (fullname.contains("<"))
                 {
                     QString kmail = fullname;
 

@@ -1940,7 +1940,7 @@ void listKeys::confirmdeletekey()
         for (int i = 0; i < exportList.count(); ++i)
             if (exportList.at(i))
             {
-                if (keysList2->secretList.find(exportList.at(i)->text(6)) != -1)
+                if (keysList2->secretList.contains(exportList.at(i)->text(6)))
                 {
                     secretKeyInside = true;
                     secList += exportList.at(i)->text(0) + " (" + exportList.at(i)->text(1) + ")<br>";
