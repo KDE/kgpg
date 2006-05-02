@@ -2370,7 +2370,7 @@ void KgpgInterface::importKeyProcess(KProcIO *p)
                 m_ispartial = false;
             }
 
-            if (line.contains("http-proxy") == -1)
+            if (line.contains("http-proxy"))
                 message += line + "\n";
         }
     }
