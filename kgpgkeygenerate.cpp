@@ -151,7 +151,7 @@ void KgpgKeyGenerate::slotOk()
             return;
     }
     else
-    if ((vmail.find(" ") != -1) || (vmail.find(".") == -1) || (vmail.find("@") == -1))
+    if (vmail.contains(' ') || !vmail.contains('.') || !vmail.contains('@'))
     {
         KMessageBox::sorry(0, i18n("Email address not valid"));
         return;

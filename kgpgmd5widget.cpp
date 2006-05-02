@@ -86,8 +86,8 @@ void Md5Widget::slotApply()
     if (!text.isEmpty())
     {
         text = text.simplified();
-        while(text.find(' ') != -1)
-            text.remove(text.find(' '), 1);
+        while(text.contains(' '))
+            text.remove(text.indexOf(' '), 1);
 
         if (text == m_mdsum)
         {

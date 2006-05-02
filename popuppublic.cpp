@@ -378,7 +378,7 @@ void KgpgSelectPublicKeyDlg::refreshKeysReady(KgpgListKeys keys, KgpgInterface *
                 isDefaultKey = true;
 
             KeyViewItem *item = new KeyViewItem(m_keyslist, keyname, key.email(), id, isDefaultKey);
-            if (m_seclist.find(id, 0, false) != -1)
+            if (m_seclist.contains(id, Qt::CaseInsensitive))
                 item->setPixmap(0, m_keypair);
             else
                 item->setPixmap(0, m_keysingle);

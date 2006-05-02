@@ -745,7 +745,7 @@ void MyView::startWizard()
                 while (fgets( line, sizeof(line), fp2))
                 {
                     tst2 = line;
-                    if (tst2.startsWith("pub") && (trustedvals.find(tst2.section(':',1,1)) == -1))
+                    if (tst2.startsWith("pub") && !trustedvals.contains(tst2.section(':',1,1)))
                     {
                         counter = true;
                         wiz->CBdefault->insertItem(tst.section(':', 4, 4).right(8) + ": " + name);

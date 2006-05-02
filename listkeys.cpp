@@ -1135,10 +1135,10 @@ void listKeys::slotmenu(Q3ListViewItem *sel2, const QPoint &pos, int)
                 popupgroup->exec(pos);
             else
             {
-                if ((keysList2->secretList.find(sel->text(6)) != -1) && (keysList2->selectedItems().count() == 1))
+                if (keysList2->secretList.contains(sel->text(6)) && (keysList2->selectedItems().count() == 1))
                     popupsec->exec(pos);
                 else
-                if ((keysList2->orphanList.indexOf(sel->text(6)) != -1) && (keysList2->selectedItems().count() == 1))
+                if (keysList2->orphanList.contains(sel->text(6)) && (keysList2->selectedItems().count() == 1))
                     popuporphan->exec(pos);
                 else
                     popup->exec(pos);
@@ -1929,7 +1929,7 @@ void listKeys::confirmdeletekey()
         return;
     }
 
-    if (((keysList2->secretList.find(keysList2->currentItem()->text(6)) != -1) || (keysList2->orphanList.indexOf(keysList2->currentItem()->text(6)) != -1)) && (keysList2->selectedItems().count() == 1))
+    if ((keysList2->secretList.contains(keysList2->currentItem()->text(6)) || keysList2->orphanList.contains(keysList2->currentItem()->text(6))) && (keysList2->selectedItems().count() == 1))
         deleteseckey();
     else
     {

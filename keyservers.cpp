@@ -213,13 +213,13 @@ void keyServer::slotImportResult(KProcess *p)
     parsedOutput = m_readmessage;
     QStringList importedKeys;
 
-    while (parsedOutput.find("IMPORTED") != -1)
+    while (parsedOutput.contains("IMPORTED"))
     {
-        parsedOutput.remove(0, parsedOutput.find("IMPORTED") + 8);
+        parsedOutput.remove(0, parsedOutput.indexOf("IMPORTED") + 8);
         importedKeys += parsedOutput.section("\n", 0, 0).simplified();
     }
 
-    if (m_readmessage.find("IMPORT_RES") != -1)
+    if (m_readmessage.contains("IMPORT_RES"))
     {
         importedNb = m_readmessage.section("IMPORT_RES", -1, -1);
         importedNb = importedNb.simplified();
@@ -420,7 +420,7 @@ void keyServer::slotSearchRead(KProcIO *p)
     while (p->readln(required, true) != -1)
     {
         //required=QString::fromUtf8(required);
-        if (required.find("keysearch.prompt") != -1)
+        if (required.contains("keysearch.prompt"))
         {
             if (m_count < 4)
                 p->writeStdin(QByteArray("N"));
@@ -433,7 +433,7 @@ void keyServer::slotSearchRead(KProcIO *p)
             required = QString::null;
         }
 
-        if (required.find("GOT_IT") != -1)
+        if (required.contains("GOT_IT"))
         {
             m_count++;
             required = QString::null;
@@ -451,10 +451,10 @@ void keyServer::slotSearchRead(KProcIO *p)
 
         m_cycle = false;
 
-        if ((required.find("(") != -1) && (!required.isEmpty()))
+        if (required.contains('(') && !required.isEmpty())
         {
             m_cycle = true;
-            m_kitem = new Q3ListViewItem(m_listpop->kLVsearch, required.remove(0, required.find(")") + 1).simplified());
+            m_kitem = new Q3ListViewItem(m_listpop->kLVsearch, required.remove(0, required.indexOf(')') + 1).simplified());
             m_keynumbers++;
             m_count = 0;
             required = QString::null;

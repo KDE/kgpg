@@ -185,7 +185,7 @@ void kgpgOptions::slotAddKeyServer()
 void kgpgOptions::slotDelKeyServer()
 {
     bool defaultDeleted = false;
-    if (m_page6->ServerBox->currentText().find(" ") != -1)
+    if (m_page6->ServerBox->currentText().contains( ' ' ) )
         defaultDeleted = true;
 
     m_page6->ServerBox->removeItem(m_page6->ServerBox->currentItem());
@@ -326,7 +326,7 @@ void kgpgOptions::updateSettings()
     for (uint i = 0; i < m_page6->ServerBox->count(); i++)
     {
         QString currItem = m_page6->ServerBox->text(i);
-        if (currItem.find(" ") != -1) // it is the default keyserver
+        if (currItem.contains(' ')) // it is the default keyserver
             keyServer = currItem.section(" ", 0, 0);
         else
             serverList.append(currItem);
@@ -384,7 +384,7 @@ void kgpgOptions::listKeys()
         if (line.startsWith("pub"))
         {
             name = KgpgInterface::checkForUtf8(line.section(':', 9, 9));
-            if ((!name.isEmpty()) && (trustedvals.find(line.section(':', 1, 1)) == -1))
+            if ((!name.isEmpty()) && !trustedvals.contains(line.section(':', 1, 1) ) )
             {
                 counter++;
                 //name=name.section('<',-1,-1);
@@ -394,7 +394,7 @@ void kgpgOptions::listKeys()
                 if (line.section(':', 4, 4).right(8) == alwaysKeyID)
                     alwaysKeyName = line.section(':', 4, 4).right(8) + ":" + name;
 
-                if (issec.find(line.section(':', 4, 4).right(8), 0, false) != -1)
+                if (issec.contains(line.section(':', 4, 4).right(8), Qt::CaseInsensitive ) )
                 {
                     m_page1->file_key->insertItem(pixkeyDouble, line.section(':', 4, 4).right(8) + ":" + name);
                     m_page1->always_key->insertItem(pixkeyDouble, line.section(':', 4, 4).right(8) + ":" + name);
