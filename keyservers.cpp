@@ -157,7 +157,8 @@ void keyServer::slotImport()
 
     QPushButton *buttonabort = new QPushButton(i18n("&Abort"), m_importpop);
 
-    QVBoxLayout *vbox = new QVBoxLayout(m_importpop, 3);
+    QVBoxLayout *vbox = new QVBoxLayout(m_importpop);
+    vbox->setSpacing(3);
     vbox->addWidget(tex);
     vbox->addWidget(buttonabort);
 
@@ -314,7 +315,8 @@ void keyServer::slotExport(const QString &keyId)
 
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
     m_importpop = new QDialog(this, 0, true, Qt::WDestructiveClose);
-    QVBoxLayout *vbox = new QVBoxLayout(m_importpop, 3);
+    QVBoxLayout *vbox = new QVBoxLayout(m_importpop);
+    vbox->setSpacing(3);
 
     QLabel *tex = new QLabel(m_importpop);
     tex->setText(i18n("<b>Connecting to the server...</b>"));

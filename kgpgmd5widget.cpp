@@ -57,7 +57,10 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     restrictedline->setPaletteBackgroundColor(QColor(255, 255, 255));
     dialoglayout->addWidget(restrictedline, 1, 0);
 
-    QHBoxLayout *layout = new QHBoxLayout(0, 0, 6, "Layout4");
+    QHBoxLayout *layout = new QHBoxLayout();
+    layout->setObjectName("Layout4");
+    layout->setSpacing(6);
+    layout->setMargin(0);
     m_kled = new KLed(QColor(80, 80, 80), KLed::Off, KLed::Sunken, KLed::Circular, page);
     m_kled->off();
     m_kled->setSizePolicy(QSizePolicy((QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, m_kled->sizePolicy().hasHeightForWidth()));

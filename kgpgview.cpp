@@ -192,7 +192,8 @@ KgpgView::KgpgView(QWidget *parent, const char *name)
 
     editor->resize(editor->maximumSize());
 
-    QVBoxLayout *vbox = new QVBoxLayout(this, 3);
+    QVBoxLayout *vbox = new QVBoxLayout(this);
+    vbox->setSpacing(3);
     vbox->addWidget(editor);
     vbox->addWidget(boutonbox);
 }

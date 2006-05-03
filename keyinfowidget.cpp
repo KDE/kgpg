@@ -167,7 +167,8 @@ void KgpgKeyInfo::slotChangeExp()
     else
         m_kdt = new KDatePicker(m_date, page);
 
-    QVBoxLayout *vbox = new QVBoxLayout(page, 3);
+    QVBoxLayout *vbox = new QVBoxLayout(page);
+    vbox->setSpacing(3);
     vbox->addWidget(m_kdt);
     vbox->addWidget(m_kb);
 
