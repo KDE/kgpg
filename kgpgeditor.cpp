@@ -345,7 +345,7 @@ void KgpgEditor::slotFilePreDec()
     popn->setMainWidget(page);
     page->newFilename->setURL(oldname);
     page->newFilename->setMode(KFile::File);
-    page->newFilename->setCaption(i18n("Save File"));
+    page->newFilename->setWindowTitle(i18n("Save File"));
 
     page->checkClipboard->setText(i18n("Editor"));
     page->resize(page->minimumSize());

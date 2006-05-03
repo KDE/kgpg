@@ -113,7 +113,7 @@
 listKeys::listKeys(QWidget *parent, const char *name)
         : DCOPObject("KeyInterface"), KMainWindow(parent, name, 0)
 {
-    setCaption(i18n("Key Management"));
+    setWindowTitle(i18n("Key Management"));
 
     m_statusbartimer = new QTimer(this);
     keysList2 = new KeyListView(this);
@@ -1269,7 +1269,7 @@ void listKeys::slotexport()
     KeyExport *page = new KeyExport(dial);
     dial->setMainWidget(page);
     page->newFilename->setURL(sname);
-    page->newFilename->setCaption(i18n("Save File"));
+    page->newFilename->setWindowTitle(i18n("Save File"));
     page->newFilename->setMode(KFile::File);
     page->show();
 
@@ -2031,7 +2031,7 @@ void listKeys::slotPreImportKey()
 
     SrcSelect *page = new SrcSelect();
     dial->setMainWidget(page);
-    page->newFilename->setCaption(i18n("Open File"));
+    page->newFilename->setWindowTitle(i18n("Open File"));
     page->newFilename->setMode(KFile::File);
     page->resize(page->minimumSize());
     dial->resize(dial->minimumSize());
