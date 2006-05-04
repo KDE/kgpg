@@ -141,7 +141,9 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const char *name
     vbox->addWidget(boutonboxoptions);
 
     KActionCollection *actcol = new KActionCollection(this);
-    (void) new KAction(i18n("&Go to Default Key"), goDefaultKey, this, SLOT(slotGotoDefaultKey()), actcol, "go_default_key");
+    KAction *action = new KAction(i18n("&Go to Default Key"), actcol, "go_default_key");
+    connect(action, SIGNAL(triggered(bool) ), SLOT(slotGotoDefaultKey()));
+    action->setShortcut(goDefaultKey);
 
     m_cbarmor = new QCheckBox(i18n("ASCII armored encryption"), boutonboxoptions);
     m_cbarmor->setWhatsThis(i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));

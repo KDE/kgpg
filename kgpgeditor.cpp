@@ -130,9 +130,12 @@ void KgpgEditor::initActions()
     (void) new KAction(i18n("&Encrypt File..."), "encrypted", 0, this, SLOT(slotFilePreEnc()), actionCollection(), "file_encrypt");
     (void) new KAction(i18n("&Decrypt File..."), "decrypted", 0, this, SLOT(slotFilePreDec()), actionCollection(), "file_decrypt");
     (void) new KAction(i18n("&Open Key Manager"), "kgpg", 0, this, SLOT(slotKeyManager()), actionCollection(), "key_manage");
-    (void) new KAction(i18n("&Generate Signature..."), 0, this, SLOT(slotPreSignFile()), actionCollection(), "sign_generate");
-    (void) new KAction(i18n("&Verify Signature..."), 0, this, SLOT(slotPreVerifyFile()), actionCollection(), "sign_verify");
-    (void) new KAction(i18n("&Check MD5 Sum..."), 0, this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
+    KAction *action = new KAction(i18n("&Generate Signature..."), actionCollection(), "sign_generate");
+    connect(action, SIGNAL(triggered(bool) ), SLOT(slotPreSignFile()));
+    action = new KAction(i18n("&Verify Signature..."), actionCollection(), "sign_verify");
+    connect(action, SIGNAL(triggered(bool) ), SLOT(slotPreVerifyFile()));
+    action = new KAction(i18n("&Check MD5 Sum..."), actionCollection(), "sign_check");
+    connect(action, SIGNAL(triggered(bool) ), SLOT(slotCheckMd5()));
 
     m_encodingaction = new KToggleAction(i18n("&Unicode (utf-8) Encoding"), 0, 0, this, SLOT(slotSetCharset()), actionCollection(), "charsets");
 }

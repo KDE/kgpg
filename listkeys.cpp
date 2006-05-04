@@ -275,7 +275,9 @@ listKeys::listKeys(QWidget *parent, const char *name)
     listViewSearch = new KeyListViewSearchLine(toolBar(), keysList2);
     connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
 
-    (void)new KAction(i18n("Filter Search"), Qt::Key_F6, listViewSearch, SLOT(setFocus()), actionCollection(), "search_focus");
+    KAction *action = new KAction(i18n("Filter Search"), actionCollection(), "search_focus");
+    connect(action, SIGNAL(triggered(bool) ), listViewSearch, SLOT(setFocus()));
+    action->setShortcut(Qt::Key_F6);
 
     sTrust->setChecked(KGpgSettings::showTrust());
     sSize->setChecked(KGpgSettings::showSize());
