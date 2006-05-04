@@ -354,7 +354,7 @@ void MyView::shredDroppedFile()
     shredConfirm->setModal(true);
     QWidget *page = new QWidget(shredConfirm);
     shredConfirm->setMainWidget(page);
-    QBoxLayout *layout = new QBoxLayout(page, QBoxLayout::TopToBottom, 0);
+    QBoxLayout *layout = new QBoxLayout(QBoxLayout::TopToBottom, page);
     layout->setAutoAdd(true);
 
     QString mess = i18n("Do you really want to <a href=\"whatsthis:%1\">shred</a> these files?",
