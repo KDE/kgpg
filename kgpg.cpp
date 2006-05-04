@@ -838,8 +838,7 @@ void MyView::slotSaveOptionsPath()
 
     KGpgSettings::writeConfig();
     emit updateDefault("0x" + defaultID);
-    if (wiz)
-        delete wiz;
+    delete wiz;
 }
 
 void MyView::slotWizardClose()
