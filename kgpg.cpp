@@ -105,10 +105,14 @@ MyView::MyView(QWidget *parent, const char *name)
     //setBackgroundMode( X11ParentRelative );
     openTasks = 0;
 
-    saveDecrypt = new KAction(i18n("&Decrypt && Save File"), QString("decrypted"), 0, this, SLOT(decryptDroppedFile()), 0, "decrypt_file");
-    showDecrypt = new KAction(i18n("&Show Decrypted File"), QString("edit"), 0, this, SLOT(showDroppedFile()), 0, "show_file");
-    encrypt = new KAction(i18n("&Encrypt File"), QString("encrypted"), 0, this, SLOT(encryptDroppedFile()), 0, "encrypt_file");
-    sign = new KAction(i18n("&Sign File"), QString("signature"), 0, this, SLOT(signDroppedFile()), 0, "sign_file");
+    saveDecrypt = new KAction(KIcon(QString("decrypted")), i18n("&Decrypt && Save File"), 0, "decrypt_file");
+    connect(saveDecrypt, SIGNAL(triggered(bool)), SLOT(decryptDroppedFile()));
+    showDecrypt = new KAction(KIcon(QString("edit")), i18n("&Show Decrypted File"), 0, "show_file");
+    connect(showDecrypt, SIGNAL(triggered(bool)), SLOT(showDroppedFile()));
+    encrypt = new KAction(KIcon(QString("encrypted")), i18n("&Encrypt File"), 0, "encrypt_file");
+    connect(encrypt, SIGNAL(triggered(bool)), SLOT(encryptDroppedFile()));
+    sign = new KAction(KIcon(QString("signature")), i18n("&Sign File"), 0, "sign_file");
+    connect(sign, SIGNAL(triggered(bool)), SLOT(signDroppedFile()));
 
     readOptions();
     resize(24,24);
@@ -922,17 +926,23 @@ kgpgapplet::kgpgapplet(QWidget *parent)
 
     KMenu *conf_menu = contextMenu();
 
-    KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0, w, SLOT(clipEncrypt()), actionCollection(), "clip_encrypt");
-    KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0, w, SLOT(clipDecrypt()), actionCollection(), "clip_decrypt");
-    KAction *KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), 0, 0, w, SLOT(clipSign()), actionCollection(), "clip_sign");
     KAction *KgpgOpenEditor;
 
     if (KGpgSettings::leftClick() == KGpgSettings::EnumLeftClick::KeyManager)
-        KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0, parent, SLOT(slotOpenEditor()), actionCollection(), "kgpg_editor");
-    else
-        KgpgOpenEditor = new KAction(i18n("&Open Key Manager"), "kgpg", 0, this, SLOT(slotOpenKeyManager()), actionCollection(), "kgpg_editor");
+    {
+        KgpgOpenEditor = new KAction(KIcon("edit"), i18n("&Open Editor"), actionCollection(), "kgpg_editor");
+        connect(KgpgOpenEditor, SIGNAL(triggered(bool)), parent, SLOT(slotOpenEditor()));
+    } else {
+        KgpgOpenEditor = new KAction(KIcon("kgpg"), i18n("&Open Key Manager"), actionCollection(), "kgpg_editor");
+        connect(KgpgOpenEditor, SIGNAL(triggered(bool)), SLOT(slotOpenKeyManager()));
+    }
 
-    KAction *KgpgOpenServer = new KAction(i18n("&Key Server Dialog"), "network", 0, this, SLOT(slotOpenServerDialog()), actionCollection(), "kgpg_server");
+    KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0, w, SLOT(clipEncrypt()), actionCollection(), "clip_encrypt");
+    KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0, w, SLOT(clipDecrypt()), actionCollection(), "clip_decrypt");
+    KAction *KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), 0, 0, w, SLOT(clipSign()), actionCollection(), "clip_sign");
+
+    KAction *KgpgOpenServer = new KAction(KIcon("network"), i18n("&Key Server Dialog"), actionCollection(), "kgpg_server");
+    connect(KgpgOpenServer, SIGNAL(triggered(bool)), SLOT(slotOpenServerDialog()));
     KAction *KgpgPreferences = KStdAction::preferences(this, SLOT(showOptions()), actionCollection());
 
     conf_menu->addAction( KgpgEncryptClipboard );

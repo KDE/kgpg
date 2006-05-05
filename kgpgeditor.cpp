@@ -127,10 +127,13 @@ void KgpgEditor::initActions()
     m_editcopy = KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     m_editcut  = KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
 
-    (void) new KAction(i18n("&Encrypt File..."), "encrypted", 0, this, SLOT(slotFilePreEnc()), actionCollection(), "file_encrypt");
-    (void) new KAction(i18n("&Decrypt File..."), "decrypted", 0, this, SLOT(slotFilePreDec()), actionCollection(), "file_decrypt");
-    (void) new KAction(i18n("&Open Key Manager"), "kgpg", 0, this, SLOT(slotKeyManager()), actionCollection(), "key_manage");
-    KAction *action = new KAction(i18n("&Generate Signature..."), actionCollection(), "sign_generate");
+    KAction *action = new KAction(KIcon("encrypted"), i18n("&Encrypt File..."), actionCollection(), "file_encrypt");
+    connect(action, SIGNAL(triggered(bool)), SLOT(slotFilePreEnc()));
+    action = new KAction(KIcon("decrypted"), i18n("&Decrypt File..."), actionCollection(), "file_decrypt");
+    connect(action, SIGNAL(triggered(bool)), SLOT(slotFilePreDec()));
+    action = new KAction(KIcon("kgpg"), i18n("&Open Key Manager"), actionCollection(), "key_manage");
+    connect(action, SIGNAL(triggered(bool)), SLOT(slotKeyManager()));
+    action = new KAction(i18n("&Generate Signature..."), actionCollection(), "sign_generate");
     connect(action, SIGNAL(triggered(bool) ), SLOT(slotPreSignFile()));
     action = new KAction(i18n("&Verify Signature..."), actionCollection(), "sign_verify");
     connect(action, SIGNAL(triggered(bool) ), SLOT(slotPreVerifyFile()));
