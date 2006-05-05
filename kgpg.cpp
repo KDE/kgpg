@@ -937,9 +937,12 @@ kgpgapplet::kgpgapplet(QWidget *parent)
         connect(KgpgOpenEditor, SIGNAL(triggered(bool)), SLOT(slotOpenKeyManager()));
     }
 
-    KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), 0, 0, w, SLOT(clipEncrypt()), actionCollection(), "clip_encrypt");
-    KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), 0, 0, w, SLOT(clipDecrypt()), actionCollection(), "clip_decrypt");
-    KAction *KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), 0, 0, w, SLOT(clipSign()), actionCollection(), "clip_sign");
+    KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), actionCollection(), "clip_encrypt");
+    connect(KgpgEncryptClipboard, SIGNAL(triggered(bool)), w, SLOT(clipEncrypt()));
+    KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), actionCollection(), "clip_decrypt");
+    connect(KgpgDecryptClipboard, SIGNAL(triggered(bool)), w, SLOT(clipDecrypt()));
+    KAction *KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), actionCollection(), "clip_sign");
+    connect(KgpgSignClipboard, SIGNAL(triggered(bool)), w, SLOT(clipSign()));
 
     KAction *KgpgOpenServer = new KAction(KIcon("network"), i18n("&Key Server Dialog"), actionCollection(), "kgpg_server");
     connect(KgpgOpenServer, SIGNAL(triggered(bool)), SLOT(slotOpenServerDialog()));
