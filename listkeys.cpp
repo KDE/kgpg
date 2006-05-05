@@ -188,60 +188,60 @@ listKeys::listKeys(QWidget *parent, const char *name)
 
     // popup on a public key
     popup = new KMenu();
-    exportPublicKey->plug(popup);
-    deleteKey->plug(popup);
-    signKey->plug(popup);
-    infoKey->plug(popup);
-    editKey->plug(popup);
-    refreshKey->plug(popup);
-    setDefaultKey->plug(popup);
+    popup->addAction( exportPublicKey );
+    popup->addAction( deleteKey );
+    popup->addAction( signKey );
+    popup->addAction( infoKey );
+    popup->addAction( editKey );
+    popup->addAction( refreshKey );
+    popup->addAction( setDefaultKey );
     popup->insertSeparator();
-    importAllSignKeys->plug(popup);
+    popup->addAction( importAllSignKeys );
 
     // popup on a secret key
     popupsec = new KMenu();
-    exportPublicKey->plug(popupsec);
-    signKey->plug(popupsec);
-    infoKey->plug(popupsec);
-    editKey->plug(popupsec);
-    refreshKey->plug(popupsec);
-    setDefaultKey->plug(popupsec);
+    popupsec->addAction( exportPublicKey );
+    popupsec->addAction( signKey );
+    popupsec->addAction( infoKey );
+    popupsec->addAction( editKey );
+    popupsec->addAction( refreshKey );
+    popupsec->addAction( setDefaultKey );
     popupsec->insertSeparator();
-    importAllSignKeys->plug(popupsec);
+    popupsec->addAction( importAllSignKeys );
     popupsec->insertSeparator();
-    addPhoto->plug(popupsec);
-    addUid->plug(popupsec);
-    exportSecretKey->plug(popupsec);
-    deleteKeyPair->plug(popupsec);
-    revokeKey->plug(popupsec);
+    popupsec->addAction( addPhoto );
+    popupsec->addAction( addUid );
+    popupsec->addAction( exportSecretKey );
+    popupsec->addAction( deleteKeyPair );
+    popupsec->addAction( revokeKey );
 
     // popup on a group
     popupgroup = new KMenu();
-    editCurrentGroup->plug(popupgroup);
-    delGroup->plug(popupgroup);
+    popupgroup->addAction( editCurrentGroup );
+    popupgroup->addAction( delGroup );
 
     popupout = new KMenu();
-    importKey->plug(popupout);
-    generateKey->plug(popupout);
+    popupout->addAction( importKey );
+    popupout->addAction( generateKey );
 
     // popup on a signature
     popupsig = new KMenu();
-    importSignatureKey->plug(popupsig);
-    delSignKey->plug(popupsig);
+    popupsig->addAction( importSignatureKey );
+    popupsig->addAction( delSignKey );
 
     // popup on a photo
     popupphoto = new KMenu();
-    openPhoto->plug(popupphoto);
-    deletePhoto->plug(popupphoto);
+    popupphoto->addAction( openPhoto );
+    popupphoto->addAction( deletePhoto );
 
     // popup on an user id
     popupuid = new KMenu();
-    delUid->plug(popupuid);
+    popupuid->addAction( delUid );
 
     // popup on an orphan key
     popuporphan = new KMenu();
-    regeneratePublic->plug(popuporphan);
-    deleteKeyPair->plug(popuporphan);
+    popuporphan->addAction( regeneratePublic );
+    popuporphan->addAction( deleteKeyPair );
 
     editCurrentGroup->setEnabled(false);
     delGroup->setEnabled(false);

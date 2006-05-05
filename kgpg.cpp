@@ -116,12 +116,12 @@ MyView::MyView(QWidget *parent, const char *name)
     setAcceptDrops(true);
 
     droppopup = new KMenu();
-    showDecrypt->plug(droppopup);
-    saveDecrypt->plug(droppopup);
+    droppopup->addAction( showDecrypt );
+    droppopup->addAction( saveDecrypt );
 
     udroppopup = new KMenu();
-    encrypt->plug(udroppopup);
-    sign->plug(udroppopup);
+    udroppopup->addAction( encrypt );
+    udroppopup->addAction( sign );
 
     this->setToolTip( i18n("KGpg - encryption tool"));
 }
@@ -935,13 +935,13 @@ kgpgapplet::kgpgapplet(QWidget *parent)
     KAction *KgpgOpenServer = new KAction(i18n("&Key Server Dialog"), "network", 0, this, SLOT(slotOpenServerDialog()), actionCollection(), "kgpg_server");
     KAction *KgpgPreferences = KStdAction::preferences(this, SLOT(showOptions()), actionCollection());
 
-    KgpgEncryptClipboard->plug(conf_menu);
-    KgpgDecryptClipboard->plug(conf_menu);
-    KgpgSignClipboard->plug(conf_menu);
-    KgpgOpenEditor->plug(conf_menu);
-    KgpgOpenServer->plug(conf_menu);
+    conf_menu->addAction( KgpgEncryptClipboard );
+    conf_menu->addAction( KgpgDecryptClipboard );
+    conf_menu->addAction( KgpgSignClipboard );
+    conf_menu->addAction( KgpgOpenEditor );
+    conf_menu->addAction( KgpgOpenServer );
     conf_menu->insertSeparator();
-    KgpgPreferences->plug(conf_menu);
+    conf_menu->addAction( KgpgPreferences );
 }
 
 void kgpgapplet::showOptions()
