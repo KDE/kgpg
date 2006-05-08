@@ -88,6 +88,8 @@
 #include <krun.h>
 #include <kwin.h>
 #include <ktoolbar.h>
+#include <kactioncollection.h>
+#include <kstdaction.h>
 
 #include "selectsecretkey.h"
 #include "newkey.h"

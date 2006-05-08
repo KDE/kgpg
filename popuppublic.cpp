@@ -36,6 +36,7 @@
 #include <kdebug.h>
 #include <khbox.h>
 #include <kvbox.h>
+#include <kactioncollection.h>
 
 #include "kgpginterface.h"
 #include "kgpgsettings.h"

@@ -68,6 +68,8 @@
 #include <ktar.h>
 #include <kzip.h>
 #include <klistbox.h>
+#include <kactioncollection.h>
+#include <kstdaction.h>
 
 #include "selectsecretkey.h"
 #include "kgpgeditor.h"
