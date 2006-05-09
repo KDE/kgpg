@@ -345,7 +345,7 @@ void KgpgEditor::slotFilePreDec()
         oldname.truncate(oldname.length() - 4);
     else
         oldname.append(".clear");
-    oldname.prepend(url.directory(0, 0));
+    oldname.prepend(url.directory(KUrl::IgnoreTrailingSlash));
 
     KDialogBase *popn = new KDialogBase(KDialogBase::Swallow, i18n("Decrypt File To"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "file_decrypt", true);
 
