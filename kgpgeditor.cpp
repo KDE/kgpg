@@ -19,6 +19,7 @@
 #include <QCloseEvent>
 #include <QTextCodec>
 #include <QPainter>
+#include <kstdaction.h>
 
 #include <kencodingfiledialog.h>
 #include <kio/netaccess.h>
