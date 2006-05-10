@@ -147,8 +147,10 @@ listKeys::listKeys(QWidget *parent, const char *name)
     connect(action, SIGNAL(triggered(bool)), SLOT(refreshkey()));
     action->setShortcut(KStdAccel::reload());
 
-    (void) new KToggleAction(i18n("&Show only Secret Keys"), "kgpg_show", 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
-    (void) new KToggleAction(i18n("&Hide Expired/Disabled Keys"),0, 0,this, SLOT(slotToggleDisabled()),actionCollection(),"hide_disabled");
+    action = new KToggleAction(KIcon("kgpg_show"), i18n("&Show only Secret Keys"), actionCollection(), "show_secret");
+    connect(action, SIGNAL(triggered(bool) ), SLOT(slotToggleSecret()));
+    action = new KToggleAction(i18n("&Hide Expired/Disabled Keys"), actionCollection(), "hide_disabled");
+    connect(action, SIGNAL(triggered(bool) ), SLOT(slotToggleDisabled()));
 
     KAction *infoKey = new KAction(KIcon("kgpg_info"), i18n("&Edit Key"), actionCollection(), "key_info");
     connect(infoKey, SIGNAL(triggered(bool)), SLOT(listsigns()));
@@ -208,10 +210,14 @@ listKeys::listKeys(QWidget *parent, const char *name)
     importSignatureKey = new KAction(KIcon("network"), i18n("Import Key From Keyserver"), actionCollection(), "key_importsign");
     connect(importSignatureKey, SIGNAL(triggered(bool)), SLOT(preimportsignkey()));
 
-    sTrust = new KToggleAction(i18n("Trust"),0, 0,this, SLOT(slotShowTrust()),actionCollection(),"show_trust");
-    sSize = new KToggleAction(i18n("Size"),0, 0,this, SLOT(slotShowSize()),actionCollection(),"show_size");
-    sCreat = new KToggleAction(i18n("Creation"),0, 0,this, SLOT(slotShowCreation()),actionCollection(),"show_creat");
-    sExpi = new KToggleAction(i18n("Expiration"),0, 0,this, SLOT(slotShowExpiration()),actionCollection(),"show_expi");
+    sTrust = new KToggleAction(i18n("Trust"), actionCollection(), "show_trust");
+    connect(sTrust, SIGNAL(triggered(bool) ), SLOT(slotShowTrust()));
+    sSize = new KToggleAction(i18n("Size"), actionCollection(), "show_size");
+    connect(sSize, SIGNAL(triggered(bool) ), SLOT(slotShowSize()));
+    sCreat = new KToggleAction(i18n("Creation"), actionCollection(), "show_creat");
+    connect(sCreat, SIGNAL(triggered(bool) ), SLOT(slotShowCreation()));
+    sExpi = new KToggleAction(i18n("Expiration"), actionCollection(), "show_expi");
+    connect(sExpi, SIGNAL(triggered(bool) ), SLOT(slotShowExpiration()));
 
     photoProps = new KSelectAction(KIcon("kgpg_photo"),i18n("&Photo ID's"), actionCollection(), "photo_settings");
 

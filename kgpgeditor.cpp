@@ -142,7 +142,8 @@ void KgpgEditor::initActions()
     action = new KAction(i18n("&Check MD5 Sum..."), actionCollection(), "sign_check");
     connect(action, SIGNAL(triggered(bool) ), SLOT(slotCheckMd5()));
 
-    m_encodingaction = new KToggleAction(i18n("&Unicode (utf-8) Encoding"), 0, 0, this, SLOT(slotSetCharset()), actionCollection(), "charsets");
+    m_encodingaction = new KToggleAction(i18n("&Unicode (utf-8) Encoding"), actionCollection(), "charsets");
+    connect(m_encodingaction, SIGNAL(triggered(bool) ), SLOT(slotSetCharset()));
 }
 
 void KgpgEditor::initView()
