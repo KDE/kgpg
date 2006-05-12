@@ -1,4 +1,3 @@
-kde4_header()
 project(kgpg)
 
 add_subdirectory( icons ) 
@@ -69,7 +68,6 @@ install_files( ${DATA_INSTALL_DIR}/konqueror/servicemenus FILES encryptfile.desk
 
 kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
 
-kde4_footer()
 
 
 
