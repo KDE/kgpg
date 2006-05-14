@@ -74,37 +74,37 @@ QString KgpgInterface::checkForUtf8(QString txt)
     if (txt.isEmpty())
         return QString::null;
 
-    for (s = txt.ascii(); *s && !(*s & 0x80); s++)
+    for (s = txt.toAscii(); *s && !(*s & 0x80); s++)
                 ;
-        if (*s && !strchr (txt.ascii(), 0xc3) && !txt.contains("\\x"))
+        if (*s && !strchr (txt.toAscii(), 0xc3) && !txt.contains("\\x"))
                 return txt;
 
     /* The string is not in UTF-8 */
-    //if (strchr (txt.ascii(), 0xc3)) return (txt+" +++");
+    //if (strchr (txt.toAscii(), 0xc3)) return (txt+" +++");
     if (!txt.contains("\\x"))
-        return QString::fromUtf8(txt.ascii());
+        return QString::fromUtf8(txt.toAscii());
 
-    // if (!strchr (txt.ascii(), 0xc3) || (txt.find("\\x")!=-1)) {
+    // if (!strchr (txt.toAscii(), 0xc3) || (txt.find("\\x")!=-1)) {
     for (int idx = 0; (idx = txt.indexOf( "\\x", idx )) >= 0 ; ++idx)
     {
         char str[2] = "x";
         str[0] = (char) QString(txt.mid(idx + 2, 2)).toShort(0, 16);
         txt.replace(idx, 4, str);
     }
-//  if (!strchr (txt.ascii(), 0xc3))
-    return QString::fromUtf8(txt.ascii());
+//  if (!strchr (txt.toAscii(), 0xc3))
+    return QString::fromUtf8(txt.toAscii());
 //        else
-//                return QString::fromUtf8(QString::fromUtf8(txt.ascii()).ascii());  // perform Utf8 twice, or some keys display badly
+//                return QString::fromUtf8(QString::fromUtf8(txt.toAscii()).ascii());  // perform Utf8 twice, or some keys display badly
 }
 
 QString KgpgInterface::checkForUtf8bis(QString txt)
 {
-    if (strchr(txt.ascii(), 0xc3) || txt.contains("\\x"))
+    if (strchr(txt.toAscii(), 0xc3) || txt.contains("\\x"))
         txt = checkForUtf8(txt);
     else
     {
         txt = checkForUtf8(txt);
-        txt = QString::fromUtf8(txt.ascii());
+        txt = QString::fromUtf8(txt.toAscii());
     }
     return txt;
 }
@@ -1060,7 +1060,7 @@ void KgpgInterface::encryptTextFin(KProcess *p)
     delete p;
     if (!message.isEmpty())
     {
-        emit txtEncryptionFinished(QString::fromUtf8(message.ascii()).trimmed(), this);
+        emit txtEncryptionFinished(QString::fromUtf8(message.toAscii()).trimmed(), this);
         message.fill('x');
         message = QString::null;
     }
