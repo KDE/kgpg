@@ -277,7 +277,7 @@ Remember that if you download a file or open one in an editor, parts of the file
             <cstring>page</cstring>
         </property>
         <attribute name="title">
-            <string>Step Three: Ready to Create your Qt::Key Pair</string>
+            <string>Step Three: Ready to Create your Key Pair</string>
         </attribute>
         <grid>
             <property name="name">

@@ -62,17 +62,17 @@
             </item>
             <item>
                 <property name="text">
-                    <string>Qt::Key Has Been Compromised</string>
+                    <string>Key Has Been Compromised</string>
                 </property>
             </item>
             <item>
                 <property name="text">
-                    <string>Qt::Key is Superseded</string>
+                    <string>Key is Superseded</string>
                 </property>
             </item>
             <item>
                 <property name="text">
-                    <string>Qt::Key is No Longer Used</string>
+                    <string>Key is No Longer Used</string>
                 </property>
             </item>
             <property name="name">

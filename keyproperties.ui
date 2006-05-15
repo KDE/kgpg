@@ -21,7 +21,7 @@
         </sizepolicy>
     </property>
     <property name="windowTitle">
-        <string>Qt::Key Properties</string>
+        <string>Key Properties</string>
     </property>
     <grid>
         <property name="name">
@@ -201,7 +201,7 @@
                 <number>0</number>
             </property>
             <property name="text">
-                <string>Qt::Key ID:</string>
+                <string>Key ID:</string>
             </property>
         </widget>
         <widget class="QLabel" row="6" column="0">
