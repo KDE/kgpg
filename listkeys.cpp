@@ -985,8 +985,7 @@ void listKeys::showKeyServer()
     keyServer *ks = new keyServer(this);
     connect(ks, SIGNAL(importFinished(QString)), keysList2, SLOT(refreshcurrentkey(QString)));
     ks->exec();
-    if (ks)
-        delete ks;
+    delete ks;
     refreshkey();
 }
 
