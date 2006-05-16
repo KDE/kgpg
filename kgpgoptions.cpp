@@ -423,11 +423,11 @@ void kgpgOptions::updateSettings()
 	serverList.append(currItem);
 	}
 	}
-	currList=serverList.join(",");
 
 	KgpgInterface::setGpgSetting("keyserver",keyServer, KGpgSettings::gpgConfigPath());
 	serverList.prepend(keyServer+" "+i18n("(Default)"));
-	
+	currList=serverList.join(",");
+
 	if (keyGood!=page3->kcfg_ColorGood->color()) 
 	emit refreshTrust(GoodColor,page3->kcfg_ColorGood->color());
 	if (keyBad!=page3->kcfg_ColorBad->color()) emit refreshTrust(BadColor,page3->kcfg_ColorBad->color());
