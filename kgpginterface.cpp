@@ -1910,7 +1910,7 @@ void KgpgInterface::changePassProcess(KProcIO *p)
                 else
                 if (m_success == 4)
                 {
-                    if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br>If you forget this passphrase, all your encrypted files and messages will be lost !<br></qt>", userIDs), p))
+                    if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br>If you forget this passphrase all your encrypted files and messages will be inaccessible<br></qt>", userIDs), p))
                     {
                         delete p;
                         emit changePassFinished(3, this);
@@ -2936,7 +2936,7 @@ void KgpgInterface::readprocess(KProcIO *p)
             signID = i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>", required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), "0x" + required.section(" ", 1, 1).right(8));
 
         if (required.startsWith("BADSIG"))
-    signID=i18n("<qt><b>BAD signature</b> from:<br> %1<br>Key id: %2<br><br><b>The file is corrupted!</b></qt>", required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), "0x" + required.section(" ", 1, 1).right(8));
+    signID=i18n("<qt><b>BAD signature</b> from:<br> %1<br>Key id: %2<br><br><b>The file is corrupted</b></qt>", required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), "0x" + required.section(" ", 1, 1).right(8));
 
         if (required.startsWith("NO_PUBKEY"))
         {
