@@ -112,6 +112,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     connect(m_page4->changeHome, SIGNAL(clicked()), this, SLOT(slotChangeHome()));
     connect(m_page6->server_add, SIGNAL(clicked()), this, SLOT(slotAddKeyServer()));
     connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
+    connect(m_page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
     connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
     connect(m_page6->ServerBox, SIGNAL(currentChanged(Q3ListBoxItem *)), this, SLOT(updateButtons()));
     connect(m_page7->pushShredder, SIGNAL(clicked ()), this, SIGNAL(installShredder()));
@@ -193,6 +194,23 @@ void kgpgOptions::slotDelKeyServer()
 
     if (defaultDeleted)
         m_page6->ServerBox->changeItem(m_page6->ServerBox->currentText().section(" ", 0, 0) + " " + i18n("(Default)"), 0);
+}
+
+void kgpgOptions::slotEditKeyServer()
+{
+	QString oldServer = page6->ServerBox->currentText();
+	bool isDefault = false;
+	if (oldServer.contains(' ')) {
+		isDefault = true;
+		oldServer = oldServer.section(" ", 0, 0);
+	}
+
+	QString newServer = KInputDialog::getText(i18n("Edit Key Server"), i18n("Server URL:"), oldServer).simplified();
+	if (newServer.isEmpty())
+		return;
+	if (isDefault)
+		newServer = newServer + " " + i18n("(Default)");
+	page6->ServerBox->changeItem(newServer, page6->ServerBox->currentItem());
 }
 
 void kgpgOptions::slotDefaultKeyServer()
