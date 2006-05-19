@@ -566,13 +566,13 @@ void keyServer::syncCombobox()
 
     QString optionsServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
 
-    //if (optionsServer.isEmpty())
-    //  optionsServer="hkp://wwwkeys.pgp.net";
     page->kCBexportks->clear();
     page->kCBimportks->clear();
 
-    page->kCBexportks->insertItem(optionsServer);
-    page->kCBimportks->insertItem(optionsServer);
+    if (!optionsServer.isEmpty()) {
+	page->kCBexportks->insertItem(optionsServer);
+	page->kCBimportks->insertItem(optionsServer);
+    }
 
     page->kCBexportks->insertStringList(QStringList::split(",", serverList));
     page->kCBimportks->insertStringList(QStringList::split(",", serverList));
