@@ -124,7 +124,6 @@ kdDebug(2100)<<"Adding pages"<<endl;
 	connect(page4->kcfg_PrivKeyring, SIGNAL(toggled (bool)), this, SLOT(checkAdditionalState(bool)));
 	connect(page6->server_add, SIGNAL(clicked()), this, SLOT(slotAddKeyServer()));
 	connect(page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
-	connect(page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
 	connect(page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
 	connect(page6->ServerBox, SIGNAL(currentChanged ( QListBoxItem *)), this, SLOT(updateButtons()));
 	connect(page7->pushShredder, SIGNAL(clicked ()), this, SIGNAL(installShredder()));
@@ -583,23 +582,6 @@ if (page6->ServerBox->currentText().find(" ")!=-1) defaultDeleted=true;
 page6->ServerBox->removeItem(page6->ServerBox->currentItem());
 page6->ServerBox->setSelected(0,true);
 if (defaultDeleted) page6->ServerBox->changeItem(page6->ServerBox->currentText().section(" ",0,0)+" "+i18n("(Default)"),0);
-}
-
-void kgpgOptions::slotEditKeyServer()
-{
-	QString oldServer = page6->ServerBox->currentText();
-	bool isDefault = false;
-	if (oldServer.find(" ") != -1) {
-		isDefault = true;
-		oldServer = oldServer.section(" ",0,0);
-	}
-	
-	QString newServer = KInputDialog::getText(i18n("Edit Key Server"),i18n("Server URL:"), oldServer);
-	if (newServer.isEmpty())
-		return;
-	if (isDefault)
-		newServer = newServer.stripWhiteSpace() + " " + i18n("(Default)");
-	page6->ServerBox->changeItem(newServer, page6->ServerBox->currentItem());
 }
 
 void kgpgOptions::slotDefaultKeyServer()

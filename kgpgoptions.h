@@ -78,7 +78,6 @@ private slots:
 	void checkAdditionalState(bool);
 	void slotAddKeyServer();
 	void slotDelKeyServer();
-	void slotEditKeyServer();
 	void slotDefaultKeyServer();
         void updateWidgets();
         void updateWidgetsDefault();
