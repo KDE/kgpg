@@ -1241,7 +1241,7 @@ void listKeys::slotImportRevoke(QString url)
 {
     KgpgInterface *importKeyProcess = new KgpgInterface();
     connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), keysList2, SLOT(refreshselfkey()));
-    importKeyProcess->importKey(KUrl::fromPathOrURL(url));
+    importKeyProcess->importKey(KUrl::fromPathOrUrl(url));
 }
 
 void listKeys::slotImportRevokeTxt(QString revokeText)
@@ -2096,7 +2096,7 @@ void listKeys::slotPreImportKey()
                 KgpgInterface *importKeyProcess = new KgpgInterface();
                 connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
                 connect(importKeyProcess, SIGNAL(importKeyOrphaned()), keysList2, SLOT(slotReloadOrphaned()));
-                importKeyProcess->importKey(KUrl::fromPathOrURL(impname));
+                importKeyProcess->importKey(KUrl::fromPathOrUrl(impname));
             }
         }
         else
