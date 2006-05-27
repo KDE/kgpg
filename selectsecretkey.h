@@ -29,7 +29,6 @@ public:
     /**
      * Constructor.
      * @param parent is the parent object
-     * @param name is the name of the object
      * @param signkey set to \em true if you are going to sign a key, set
      * to \em false if you are going to sign a message. Default is \em false
      * @param countkey if \em signkey is set to \em true, \em countkey is the

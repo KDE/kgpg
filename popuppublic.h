@@ -14,6 +14,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #ifndef KGPGSELECTPUBLICKEYDLG_H
 #define KGPGSELECTPUBLICKEYDLG_H
 

@@ -94,7 +94,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
         KgpgListKeys list2 = interface->readPublicKeys(true, QStringList(id));
         KgpgKey key2 = list2.at(0);
 
-        if ((key2.trust() == 'f') || (key2.trust() == 'u'))
+        if (key2.trust() == 'f' || key2.trust() == 'u')
             dead = false;
 
         if (!key2.valide())
@@ -119,7 +119,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     }
     delete interface;
 
-    connect(m_keyslistpr, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this,SLOT(slotOk()));
+    connect(m_keyslistpr, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(slotOk()));
     connect(m_keyslistpr, SIGNAL(clicked(Q3ListViewItem *)), this, SLOT(slotSelect(Q3ListViewItem *)));
     connect(m_keyslistpr, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
 

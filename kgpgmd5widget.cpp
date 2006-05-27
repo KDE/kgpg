@@ -37,7 +37,7 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     checkfile.reset();
     checkfile.update(f);
 
-    m_mdsum = checkfile.hexDigest().data();
+    m_mdsum = checkfile.hexDigest().constData();
     f.close();
 
     QWidget *page = new QWidget(this);
@@ -54,7 +54,6 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
 
     KLineEdit *restrictedline = new KLineEdit(m_mdsum, page);
     restrictedline->setReadOnly(true);
-    restrictedline->setPaletteBackgroundColor(QColor(255, 255, 255));
     dialoglayout->addWidget(restrictedline, 1, 0);
 
     QHBoxLayout *layout = new QHBoxLayout();
@@ -77,6 +76,9 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
 
     page->show();
     page->resize(page->minimumSize());
+
+    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+
     setMainWidget(page);
 }
 
@@ -85,13 +87,9 @@ void Md5Widget::slotApply()
     QClipboard *cb = QApplication::clipboard();
     QString text;
 
-    text = cb->text(QClipboard::Clipboard);
+    text = cb->text(QClipboard::Clipboard).remove(' ');
     if (!text.isEmpty())
     {
-        text = text.simplified();
-        while(text.contains(' '))
-            text.remove(text.indexOf(' '), 1);
-
         if (text == m_mdsum)
         {
             m_textlabel->setText(i18n("<b>Correct checksum</b>, file is ok."));

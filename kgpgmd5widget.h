@@ -18,7 +18,7 @@
 
 class KLed;
 
-class  Md5Widget : public KDialog
+class Md5Widget : public KDialog
 {
     Q_OBJECT
 

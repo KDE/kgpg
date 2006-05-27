@@ -64,7 +64,7 @@ KeyViewItem::KeyViewItem(K3ListView *parent, const QString &name, const QString 
 
 void KeyViewItem::paintCell(QPainter *p, const QColorGroup &cg, const int &column, const int &width, const int &alignment)
 {
-    if ((def) && (column < 2))
+    if (def && column < 2)
     {
         QFont font(p->font());
         font.setBold(true);
