@@ -41,7 +41,7 @@
 KgpgTextEdit::KgpgTextEdit(QWidget *parent, const char *name)
             : KTextEdit(name, parent)
 {
-    setTextFormat(Qt::PlainText);
+    //setTextFormat(Qt::PlainText);
     setCheckSpellingEnabled(true);
     setAcceptDrops(true);
 }
@@ -173,8 +173,8 @@ void KgpgTextEdit::editorFailedDecryptedtxt(const QString &newtxt, KgpgInterface
 }
 
 // main view configuration
-KgpgView::KgpgView(QWidget *parent, const char *name)
-        : QWidget(parent, name)
+KgpgView::KgpgView(QWidget *parent)
+        : QWidget(parent)
 {
     editor = new KgpgTextEdit(this);
     editor->setReadOnly(false);

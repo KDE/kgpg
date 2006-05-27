@@ -59,7 +59,7 @@ public:
     /**
      * Constructor for the main view
      */
-    KgpgView(QWidget *parent = 0, const char *name = 0);
+    KgpgView(QWidget *parent = 0);
 
     /**
      * Destructor for the main view
