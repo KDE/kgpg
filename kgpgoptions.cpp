@@ -198,7 +198,7 @@ void kgpgOptions::slotDelKeyServer()
 
 void kgpgOptions::slotEditKeyServer()
 {
-	QString oldServer = page6->ServerBox->currentText();
+	QString oldServer = m_page6->ServerBox->currentText();
 	bool isDefault = false;
 	if (oldServer.contains(' ')) {
 		isDefault = true;
@@ -210,7 +210,7 @@ void kgpgOptions::slotEditKeyServer()
 		return;
 	if (isDefault)
 		newServer = newServer + " " + i18n("(Default)");
-	page6->ServerBox->changeItem(newServer, page6->ServerBox->currentItem());
+	m_page6->ServerBox->changeItem(newServer, m_page6->ServerBox->currentItem());
 }
 
 void kgpgOptions::slotDefaultKeyServer()

@@ -54,6 +54,7 @@
 
 #include <kabc/addresseedialog.h>
 #include <kabc/stdaddressbook.h>
+#include <kpassworddialog.h>
 #include <ktoolinvocation.h>
 #include <kurlrequester.h>
 #include <kio/netaccess.h>
@@ -68,13 +69,14 @@
 #include <kfinddialog.h>
 #include <kstatusbar.h>
 #include <dcopclient.h>
+#include <kservice.h>
+#include <kservicetypetrader.h>
 #include <ktempfile.h>
 #include <klineedit.h>
 #include <kmimetype.h>
 #include <kshortcut.h>
 #include <kstdaccel.h>
 #include <kprocess.h>
-#include <kpassworddialog.h>
 #include <kprinter.h>
 #include <klocale.h>
 #include <dcopref.h>
@@ -482,9 +484,9 @@ void listKeys::slotGenerateKeyDone(int res, KgpgInterface *interface, const QStr
         page->TLemail->setText("<b>" + email + "</b>");
 
         if (!email.isEmpty())
-            page->kURLRequester1->setURL(QDir::homeDirPath() + "/" + email.section("@", 0, 0) + ".revoke");
+            page->kURLRequester1->setUrl(QDir::homeDirPath() + "/" + email.section("@", 0, 0) + ".revoke");
         else
-            page->kURLRequester1->setURL(QDir::homeDirPath() + "/" + email.section(" ", 0, 0) + ".revoke");
+            page->kURLRequester1->setUrl(QDir::homeDirPath() + "/" + email.section(" ", 0, 0) + ".revoke");
 
         page->TLid->setText("<b>" + id + "</b>");
         page->LEfinger->setText(fingerprint);
@@ -1210,7 +1212,7 @@ void listKeys::revokeWidget()
     KgpgRevokeWidget *keyRevoke = new KgpgRevokeWidget();
 
     keyRevoke->keyID->setText(keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ") " + i18n("ID: ") + keysList2->currentItem()->text(6));
-    keyRevoke->kURLRequester1->setURL(QDir::homeDirPath() + "/" + keysList2->currentItem()->text(1).section('@', 0, 0) + ".revoke");
+    keyRevoke->kURLRequester1->setUrl(QDir::homeDirPath() + "/" + keysList2->currentItem()->text(1).section('@', 0, 0) + ".revoke");
     keyRevoke->kURLRequester1->setMode(KFile::File);
 
     keyRevoke->setMinimumSize(keyRevoke->sizeHint());
@@ -1316,7 +1318,7 @@ void listKeys::slotexport()
 
     KeyExport *page = new KeyExport(dial);
     dial->setMainWidget(page);
-    page->newFilename->setURL(sname);
+    page->newFilename->setUrl(sname);
     page->newFilename->setWindowTitle(i18n("Save File"));
     page->newFilename->setMode(KFile::File);
     page->show();
@@ -1344,7 +1346,7 @@ void listKeys::slotexport()
             KProcIO *p = new KProcIO();
             *p << "gpg" << "--no-tty";
 
-            expname = page->newFilename->url().simplified();
+            expname = page->newFilename->url().url().simplified();
             if (!expname.isEmpty())
             {
                 QFile fgpg(expname);
@@ -1407,8 +1409,8 @@ void listKeys::showKeyInfo(QString keyID)
 
 void listKeys::slotShowPhoto()
 {
-    KTrader::OfferList offers = KTrader::self()->query("image/jpeg", "Type == 'Application'");
-    KService::Ptr ptr = offers.first();
+    KService::List list = KServiceTypeTrader::self()->query("image/jpeg", "Type == 'Application'");
+    KService::Ptr ptr = list.first();
     //KMessageBox::sorry(0,ptr->desktopEntryName());
     KProcIO *p = new KProcIO();
     *p << "gpg" << "--no-tty" << "--photo-viewer" << QFile::encodeName(ptr->desktopEntryName() + " %i") << "--edit-key" << keysList2->currentItem()->parent()->text(6) << "uid" << keysList2->currentItem()->text(6) << "showphoto" << "quit";
@@ -2089,7 +2091,7 @@ void listKeys::slotPreImportKey()
         changeMessage(i18n("Importing..."), 0, true);
         if (page->checkFile->isChecked())
         {
-            QString impname = page->newFilename->url().simplified();
+            QString impname = page->newFilename->url().url().simplified();
             if (!impname.isEmpty())
             {
                 // import from file

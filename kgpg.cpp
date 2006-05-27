@@ -724,7 +724,7 @@ void MyView::startWizard()
     else
         wiz->txtGpgVersion->setText(QString::null);
 
-    wiz->kURLRequester1->setURL(confPath);
+    wiz->kURLRequester1->setUrl(confPath);
         /*
     wiz->kURLRequester2->setURL(KGlobalSettings::desktopPath());
         wiz->kURLRequester2->setMode(2);*/

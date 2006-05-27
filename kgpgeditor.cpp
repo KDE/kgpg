@@ -163,7 +163,7 @@ void KgpgEditor::closeEvent (QCloseEvent *e)
 {
     if (!m_ismainwindow)
     {
-        kapp->ref();
+        KGlobal::ref();
         KMainWindow::closeEvent(e);
     }
     else
@@ -352,7 +352,7 @@ void KgpgEditor::slotFilePreDec()
 
     SrcSelect *page = new SrcSelect();
     popn->setMainWidget(page);
-    page->newFilename->setURL(oldname);
+    page->newFilename->setUrl(oldname);
     page->newFilename->setMode(KFile::File);
     page->newFilename->setWindowTitle(i18n("Save File"));
 
