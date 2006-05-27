@@ -43,12 +43,12 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     QWidget *page = new QWidget(this);
 
     resize(360, 150);
-    QGridLayout *dialoglayout = new QGridLayout(page );
-    dialoglayout->setMargin( 5 );
-    dialoglayout->setSpacing( 6 );
-    dialoglayout->setObjectName( "MyDialogLayout" );
+    QGridLayout *dialoglayout = new QGridLayout(page);
+    dialoglayout->setMargin(5);
+    dialoglayout->setSpacing(6);
+    dialoglayout->setObjectName("MyDialogLayout");
 
-    QLabel *textlabel = new QLabel(page, "TextLabel1");
+    QLabel *textlabel = new QLabel(page);
     textlabel->setText(i18n("MD5 sum for <b>%1</b> is:", url.fileName()));
     dialoglayout->addWidget(textlabel, 0, 0);
 
@@ -62,10 +62,16 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     layout->setMargin(0);
     m_kled = new KLed(QColor(80, 80, 80), KLed::Off, KLed::Sunken, KLed::Circular, page);
     m_kled->off();
-    m_kled->setSizePolicy(QSizePolicy((QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, m_kled->sizePolicy().hasHeightForWidth()));
+
+    QSizePolicy policy((QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0);
+    policy.setVerticalStretch(0);
+    policy.setHorizontalStretch(0);
+    policy.setHeightForWidth(m_kled->sizePolicy().hasHeightForWidth());
+
+    m_kled->setSizePolicy(policy);
     layout->addWidget(m_kled);
 
-    m_textlabel = new QLabel(page, "m_textlabel");
+    m_textlabel = new QLabel(page);
     m_textlabel->setText(i18n("<b>Unknown status</b>"));
     layout->addWidget(m_textlabel);
 
@@ -84,10 +90,7 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
 
 void Md5Widget::slotApply()
 {
-    QClipboard *cb = QApplication::clipboard();
-    QString text;
-
-    text = cb->text(QClipboard::Clipboard).remove(' ');
+    QString text = QApplication::clipboard()->text(QClipboard::Clipboard).remove(' ');
     if (!text.isEmpty())
     {
         if (text == m_mdsum)
