@@ -103,7 +103,7 @@ void keyServer::slotReadKeys(KgpgListKeys list, KgpgInterface *interface)
             }
 
             if (!line.isEmpty())
-                page->kCBexportkey->insertItem(key.id() + ": " + line);
+                page->kCBexportkey->addItem(key.id() + ": " + line);
         }
     }
 }
@@ -394,7 +394,7 @@ void keyServer::slotSearch()
     else
         *m_searchproc << "--keyserver-options" << "no-honor-http-proxy";
 
-    *m_searchproc << "--keyserver" << keyserv << "--command-fd=0" << "--status-fd=2" << "--search-keys" << page->kLEimportid->text().simplified().local8Bit();
+    *m_searchproc << "--keyserver" << keyserv << "--command-fd=0" << "--status-fd=2" << "--search-keys" << page->kLEimportid->text().simplified().toLocal8Bit();
 
     m_keynumbers = 0;
     connect(m_searchproc, SIGNAL(processExited(KProcess *)), this, SLOT(slotSearchResult(KProcess *)));
@@ -570,12 +570,12 @@ void keyServer::syncCombobox()
     page->kCBimportks->clear();
 
     if (!optionsServer.isEmpty()) {
-	page->kCBexportks->insertItem(optionsServer);
-	page->kCBimportks->insertItem(optionsServer);
+	page->kCBexportks->addItem(optionsServer);
+	page->kCBimportks->addItem(optionsServer);
     }
 
-    page->kCBexportks->insertStringList(QStringList::split(",", serverList));
-    page->kCBimportks->insertStringList(QStringList::split(",", serverList));
+    page->kCBexportks->addItems(serverList.split(","));
+    page->kCBimportks->addItems(serverList.split(","));
 }
 
 void keyServer::handleQuit()

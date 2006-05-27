@@ -90,7 +90,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
     m_urlselected = filetocrypt;
 
     KUrl dest;
-    if (encryptoptions.find("--armor") != encryptoptions.end())
+    if (encryptoptions.contains("--armor"))
         dest.setPath(m_urlselected.path() + ".asc");
     else
         dest.setPath(m_urlselected.path() + m_extension);

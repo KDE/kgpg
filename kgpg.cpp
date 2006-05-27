@@ -173,7 +173,7 @@ void MyView::clipSign(bool openEditor)
         if (!openEditor)
             connect(kgpgtxtedit->view, SIGNAL(verifyFinished()), kgpgtxtedit, SLOT(closeWindow()));
 
-        kgpgtxtedit->view->editor->setText(clippie);
+        kgpgtxtedit->view->editor->setPlainText(clippie);
         kgpgtxtedit->view->slotSignVerify();
         kgpgtxtedit->show();
     }
@@ -220,9 +220,9 @@ void MyView::encryptDroppedFolder()
     (void) new QLabel(i18n("Compression method for archive:"),bGroup);
 
     KComboBox *optionbx = new KComboBox(bGroup);
-    optionbx->insertItem(i18n("Zip"));
-    optionbx->insertItem(i18n("Gzip"));
-    optionbx->insertItem(i18n("Bzip2"));
+    optionbx->addItem(i18n("Zip"));
+    optionbx->addItem(i18n("Gzip"));
+    optionbx->addItem(i18n("Bzip2"));
 
     bGroup->show();
     connect(dialogue,SIGNAL(keyListFilled ()),dialogue,SLOT(slotSetVisible()));
@@ -250,7 +250,7 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
     else
         extension = ".tar.bz2";
 
-    if (encryptOptions.find("armor") != encryptOptions.end())
+    if (encryptOptions.contains("armor"))
         extension += ".asc";
     else
     if (KGpgSettings::pgpExtension())
@@ -327,8 +327,7 @@ void MyView::busyMessage(QString mssge, bool reset)
     if (!mssge.isEmpty())
     {
         openTasks++;
-        QToolTip::remove(this);
-        this->setToolTip( mssge);
+        this->setToolTip(mssge);
 
         QMovie *movie = new QMovie(locate("appdata", "pics/kgpg_docked.gif"));
         setMovie(movie);
@@ -342,8 +341,7 @@ void MyView::busyMessage(QString mssge, bool reset)
     if (openTasks <= 0)
     {
         setPixmap(KSystemTray::loadIcon("kgpg_docked"));
-        QToolTip::remove(this);
-        this->setToolTip( i18n("KGpg - encryption tool"));
+        this->setToolTip(i18n("KGpg - encryption tool"));
         openTasks = 0;
     }
 }
@@ -601,7 +599,7 @@ void MyView::droppedtext (QString inputText, bool allowEncrypt)
         KgpgEditor *kgpgtxtedit = new KgpgEditor(0, "editor", Qt::WDestructiveClose, goDefaultKey);
         connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
         connect(this, SIGNAL(setFont(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
-        kgpgtxtedit->view->editor->setText(inputText);
+        kgpgtxtedit->view->editor->setPlainText(inputText);
         kgpgtxtedit->view->slotDecode();
         kgpgtxtedit->show();
         return;
@@ -635,7 +633,7 @@ void MyView::droppedtext (QString inputText, bool allowEncrypt)
 
 void MyView::dragEnterEvent(QDragEnterEvent *e)
 {
-    e->accept(KUrl::List::canDecode(e->mimeData()) || Q3TextDrag::canDecode(e));
+    e->setAccepted(KUrl::List::canDecode(e->mimeData()) || Q3TextDrag::canDecode(e));
 }
 
 void MyView::dropEvent(QDropEvent *o)
@@ -720,9 +718,9 @@ void MyView::startWizard()
 
     int gpgVersion = KgpgInterface::getGpgVersion();
     if (gpgVersion < 120)
-        wiz->txtGpgVersion->setText(i18n("Your GnuPG version seems to be older than 1.2.0. Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG (http://gnupg.org)."));
+        wiz->txtGpgVersion->setPlainText(i18n("Your GnuPG version seems to be older than 1.2.0. Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG (http://gnupg.org)."));
     else
-        wiz->txtGpgVersion->setText(QString::null);
+        wiz->txtGpgVersion->setPlainText(QString::null);
 
     wiz->kURLRequester1->setUrl(confPath);
         /*
@@ -754,7 +752,7 @@ void MyView::startWizard()
                     if (tst2.startsWith("pub") && !trustedvals.contains(tst2.section(':',1,1)))
                     {
                         counter = true;
-                        wiz->CBdefault->insertItem(tst.section(':', 4, 4).right(8) + ": " + name);
+                        wiz->CBdefault->addItem(tst.section(':', 4, 4).right(8) + ": " + name);
                         if (firstKey.isEmpty())
                             firstKey=tst.section(':',4,4).right(8)+": "+name;
                         break;
@@ -793,7 +791,7 @@ void MyView::slotWizardChange()
 
     if (wiz->indexOf(wiz->currentPage()) == 2)
     {
-        QString defaultID = KgpgInterface::getGpgSetting("default-key", wiz->kURLRequester1->url());
+        QString defaultID = KgpgInterface::getGpgSetting("default-key", wiz->kURLRequester1->url().path());
         if (defaultID.isEmpty())
             return;
         fp = popen("gpg --no-tty --with-colon --list-secret-keys " + QFile::encodeName(defaultID), "r");
@@ -833,7 +831,7 @@ void MyView::slotSaveOptionsPath()
         installShred();
 
     KGpgSettings::setAutoStart(wiz->checkBox2->isChecked());
-    KGpgSettings::setGpgConfigPath(wiz->kURLRequester1->url());
+    KGpgSettings::setGpgConfigPath(wiz->kURLRequester1->url().path());
     KGpgSettings::setFirstRun(false);
 
     QString defaultID = wiz->CBdefault->currentText().section(':', 0, 0);
@@ -955,7 +953,7 @@ kgpgapplet::kgpgapplet(QWidget *parent)
     conf_menu->addAction( KgpgSignClipboard );
     conf_menu->addAction( KgpgOpenEditor );
     conf_menu->addAction( KgpgOpenServer );
-    conf_menu->insertSeparator();
+    conf_menu->addSeparator();
     conf_menu->addAction( KgpgPreferences );
 }
 
@@ -1039,7 +1037,7 @@ int KgpgAppletApp::newInstance()
         QString gpgPath = KGpgSettings::gpgConfigPath();
         if (!gpgPath.isEmpty())
             if (KUrl::fromPath(gpgPath).directory(false) != (QDir::homePath() + "/.gnupg/"))
-                setenv("GNUPGHOME", KUrl::fromPath(gpgPath).directory(false).ascii(), 1);
+                setenv("GNUPGHOME", KUrl::fromPath(gpgPath).directory(false).toAscii(), 1);
 
         s_keyManager->refreshkey();
 

@@ -68,28 +68,28 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     m_numb->setDisabled(true);
 
     m_keyexp = new KComboBox(hgroup);
-    m_keyexp->insertItem(i18n("Never"), 0);
-    m_keyexp->insertItem(i18n("Days"), 1);
-    m_keyexp->insertItem(i18n("Weeks"), 2);
-    m_keyexp->insertItem(i18n("Months"), 3);
-    m_keyexp->insertItem(i18n("Years"), 4);
+    m_keyexp->addItem(i18n("Never"), 0);
+    m_keyexp->addItem(i18n("Days"), 1);
+    m_keyexp->addItem(i18n("Weeks"), 2);
+    m_keyexp->addItem(i18n("Months"), 3);
+    m_keyexp->addItem(i18n("Years"), 4);
     m_keyexp->setMinimumSize(m_keyexp->sizeHint());
     connect(m_keyexp, SIGNAL(activated(int)), this, SLOT(slotActivateExp(int)));
 
     QLabel *sizeLabel = new QLabel(i18n("&Key size:"), vgroup);
     m_keysize = new KComboBox(vgroup);
-    m_keysize->insertItem("768");
-    m_keysize->insertItem("1024");
-    m_keysize->insertItem("2048");
-    m_keysize->insertItem("4096");
+    m_keysize->addItem("768");
+    m_keysize->addItem("1024");
+    m_keysize->addItem("2048");
+    m_keysize->addItem("4096");
     m_keysize->setCurrentItem("1024");
     m_keysize->setMinimumSize(m_keysize->sizeHint());
     sizeLabel->setBuddy(m_keysize);
 
     QLabel *algoLabel = new QLabel(i18n("&Algorithm:"), vgroup);
     m_keykind = new KComboBox(vgroup);
-    m_keykind->insertItem("DSA & ElGamal");
-    m_keykind->insertItem("RSA");
+    m_keykind->addItem("DSA & ElGamal");
+    m_keykind->addItem("RSA");
     m_keykind->setMinimumSize(m_keykind->sizeHint());
     algoLabel->setBuddy(m_keykind);
 
@@ -199,7 +199,7 @@ uint KgpgKeyGenerate::getKeySize() const
 
 uint KgpgKeyGenerate::getKeyExp() const
 {
-    return m_keyexp->currentItem();
+    return m_keyexp->currentIndex();
 }
 
 uint KgpgKeyGenerate::getKeyNumber() const

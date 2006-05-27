@@ -89,44 +89,47 @@ void KgpgKeyInfo::loadKey(const QString &Keyid)
         m_prop->cbDisabled->setChecked(true);
     }
     m_prop->kLTrust->setText(tr);
-    m_prop->pixmapTrust->setPaletteBackgroundColor(trustcolor);
+
+    QPalette palette;
+    palette.setColor(m_prop->pixmapTrust->backgroundRole(), trustcolor);
+    m_prop->pixmapTrust->setPalette(palette);
 
     QStringList photolist = key.photoList();
     if (!photolist.isEmpty())
     {
         m_hasphoto = true;
-        m_prop->comboId->insertStringList(photolist);
+        m_prop->comboId->addItems(photolist);
     }
 
-    m_prop->tLID->setText(key.fullId());
+    m_prop->tLID->setPlainText(key.fullId());
     m_displayedkeyid = key.id();
-    m_prop->tLCreation->setText(key.creation());
+    m_prop->tLCreation->setPlainText(key.creation());
     if (key.unlimited())
     {
         m_isunlimited = true;
-        m_prop->tLExpiration->setText(i18n("Unlimited"));
+        m_prop->tLExpiration->setPlainText(i18n("Unlimited"));
     }
     else
     {
         m_isunlimited = false;
-        m_prop->tLExpiration->setText(key.expiration());
+        m_prop->tLExpiration->setPlainText(key.expiration());
         m_date = key.expirationDate();
     }
 
     m_prop->tLLength->setText(key.size());
-    m_prop->kCOwnerTrust->setCurrentItem(KgpgKey::ownerTrustIndex(key.ownerTrust()));
+    m_prop->kCOwnerTrust->setCurrentIndex(KgpgKey::ownerTrustIndex(key.ownerTrust()));
 
     if (!key.email().isEmpty())
-        m_prop->tLMail->setText("<qt><a href=mailto:" + key.email() + ">" + key.email() + "</a></qt>");
+        m_prop->tLMail->setPlainText("<qt><a href=mailto:" + key.email() + ">" + key.email() + "</a></qt>");
     else
-        m_prop->tLMail->setText(i18n("none"));
+        m_prop->tLMail->setPlainText(i18n("none"));
 
     if (!key.comment().isEmpty())
-        m_prop->tLComment->setText(KgpgInterface::checkForUtf8(key.comment()));
+        m_prop->tLComment->setPlainText(KgpgInterface::checkForUtf8(key.comment()));
     else
-        m_prop->tLComment->setText(i18n("none"));
+        m_prop->tLComment->setPlainText(i18n("none"));
 
-    m_prop->tLName->setText("<qt><b>" + KgpgInterface::checkForUtf8(key.name()) + "</b></qt>");
+    m_prop->tLName->setPlainText("<qt><b>" + KgpgInterface::checkForUtf8(key.name()) + "</b></qt>");
     m_prop->lEFinger->setText(key.fingerprint());
 }
 
@@ -222,13 +225,13 @@ void KgpgKeyInfo::slotInfoExpirationChanged(const int &res, KgpgInterface *inter
         {
             m_isunlimited = true;
             m_date = QDate::currentDate();
-            m_prop->tLExpiration->setText(i18n("Unlimited"));
+            m_prop->tLExpiration->setPlainText(i18n("Unlimited"));
         }
         else
         {
             m_isunlimited = false;
             m_date = m_kdt->date();
-            m_prop->tLExpiration->setText(KGlobal::locale()->formatDate(m_kdt->date()));
+            m_prop->tLExpiration->setPlainText(KGlobal::locale()->formatDate(m_kdt->date()));
         }
     }
 

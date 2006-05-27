@@ -108,8 +108,8 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const char *name
     vbox->addWidget(hBar);
 
     QToolButton *clearSearch = new QToolButton(hBar);
-    clearSearch->setTextLabel(i18n("Clear Search"), true);
-    clearSearch->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase"));
+    clearSearch->setText(i18n("Clear Search"));
+    clearSearch->setIcon(SmallIconSet(QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase"));
 
     QLabel *searchlabel = new QLabel(i18n("&Search: "), hBar);
     K3ListViewSearchLine* listViewSearch = new K3ListViewSearchLine(hBar);
@@ -295,7 +295,7 @@ void KgpgSelectPublicKeyDlg::slotOk()
         returnOptions << "--throw-keyid";
 
     if ((KGpgSettings::allowCustomEncryptionOptions()) && (!m_customoptions.simplified().isEmpty()))
-        returnOptions << QStringList::split(QString(" "), m_customoptions.simplified());
+        returnOptions << m_customoptions.simplified().split(" ");
 
     if (m_fmode)
         emit selectedKey(selectedkeys, returnOptions, m_cbshred->isChecked(), m_cbsymmetric->isChecked());
@@ -335,7 +335,7 @@ void KgpgSelectPublicKeyDlg::refreshKeys()
 {
     m_keyslist->clear();
 
-    QStringList groups = QStringList::split(",", KGpgSettings::groups());
+    QStringList groups = KGpgSettings::groups().split(",");
     if (!groups.isEmpty())
         for (QStringList::Iterator it = groups.begin(); it != groups.end(); ++it)
             if (!QString(*it).isEmpty())
@@ -430,7 +430,7 @@ void KgpgSelectPublicKeyDlg::sort()
     if (current == NULL)
         return;
 
-    if ((!current->text(2).isEmpty()) && (m_untrustedlist.find(current->text(2)) != m_untrustedlist.end()))
+    if ((!current->text(2).isEmpty()) && m_untrustedlist.contains(current->text(2)))
     {
         if (current->isSelected())
         {
@@ -443,7 +443,7 @@ void KgpgSelectPublicKeyDlg::sort()
     while (current->nextSibling())
     {
         current = current->nextSibling();
-        if ((!current->text(2).isEmpty()) && (m_untrustedlist.find(current->text(2)) != m_untrustedlist.end()))
+        if ((!current->text(2).isEmpty()) && m_untrustedlist.contains(current->text(2)))
         {
             if (current->isSelected())
             {

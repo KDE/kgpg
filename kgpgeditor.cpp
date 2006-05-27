@@ -80,8 +80,8 @@ void KgpgEditor::openDocumentFile(const KUrl& url, QString encoding)
         if (qfile.open(QIODevice::ReadOnly))
         {
             QTextStream t(&qfile);
-            t.setCodec(encoding.ascii());
-            view->editor->setText(t.readAll());
+            t.setCodec(encoding.toAscii());
+            view->editor->setPlainText(t.readAll());
             qfile.close();
             m_docname = url;
             m_textchanged = false;
@@ -229,7 +229,7 @@ bool KgpgEditor::slotFileSave()
     if (filn.isEmpty())
         return slotFileSaveAs();
 
-    QTextCodec *cod = QTextCodec::codecForName(m_textencoding.ascii());
+    QTextCodec *cod = QTextCodec::codecForName(m_textencoding.toAscii());
 
     if (!checkEncoding(cod))
     {
@@ -248,7 +248,7 @@ bool KgpgEditor::slotFileSave()
 
         QTextStream t(&f);
         t.setCodec(cod);
-        t << view->editor->text();
+        t << view->editor->toPlainText();
         f.close();
     }
     else
@@ -256,7 +256,7 @@ bool KgpgEditor::slotFileSave()
         KTempFile tmpfile;
         QTextStream *stream = tmpfile.textStream();
         stream->setCodec(cod);
-        *stream << view->editor->text();
+        *stream << view->editor->toPlainText();
         tmpfile.close();
 
         if(!KIO::NetAccess::upload(tmpfile.name(), m_docname, this))
@@ -320,7 +320,7 @@ void KgpgEditor::slotFilePrint()
         int width = prt.width();
         int height = prt.height();
         QPainter painter(&prt);
-        painter.drawText(0, 0, width, height, Qt::AlignLeft | Qt::AlignTop | Qt::TextDontClip, view->editor->text());
+        painter.drawText(0, 0, width, height, Qt::AlignLeft | Qt::AlignTop | Qt::TextDontClip, view->editor->toPlainText());
     }
 }
 
@@ -362,7 +362,7 @@ void KgpgEditor::slotFilePreDec()
     if (popn->exec() == QDialog::Accepted)
     {
         if (page->checkFile->isChecked())
-            newname = page->newFilename->url();
+            newname = page->newFilename->url().path();
     }
     else
     {
@@ -440,18 +440,18 @@ void KgpgEditor::slotSelectAll()
 void KgpgEditor::slotSetCharset()
 {
     if (!m_encodingaction->isChecked())
-        view->editor->setText(QString::fromUtf8(view->editor->text().ascii()));
+        view->editor->setPlainText(QString::fromUtf8(view->editor->toPlainText().toAscii()));
     else
     {
         if (checkEncoding(QTextCodec::codecForLocale()))
             return;
-        view->editor->setText(view->editor->text().utf8());
+        view->editor->setPlainText(view->editor->toPlainText().toUtf8());
     }
 }
 
 bool KgpgEditor::checkEncoding(QTextCodec *codec)
 {
-    return codec->canEncode(view->editor->text());
+    return codec->canEncode(view->editor->toPlainText());
 }
 
 void KgpgEditor::slotResetEncoding(bool enc)

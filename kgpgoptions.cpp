@@ -60,7 +60,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     defaultServerList += ",hkp://search.keyserver.net,hkp://wwwkeys.pgp.net,hkp://pgp.dtype.org,hkp://wwwkeys.us.pgp.net";
 
     m_config->setGroup("Servers");
-    serverList = QStringList::split(",", m_config->readEntry("Server_List", defaultServerList));
+    serverList = m_config->readEntry("Server_List", defaultServerList).split(",");
     keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
 
     if (!keyServer.isEmpty())
@@ -83,10 +83,10 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     m_page6 = new ServerConf();
     m_page7 = new MiscConf();
 
-    QVBoxLayout *fontlayout = new QVBoxLayout(m_page3->tabWidget3->page(1));
+    QVBoxLayout *fontlayout = new QVBoxLayout(m_page3->tabWidget3->widget(1));
     fontlayout->setSpacing(spacingHint());
 
-    m_fontchooser = new KFontChooser(m_page3->tabWidget3->page(1), false, QStringList(), false);
+    m_fontchooser = new KFontChooser(m_page3->tabWidget3->widget(1), false, QStringList(), false);
 	m_fontchooser->setObjectName("kcfg_Font");
     fontlayout->addWidget(m_fontchooser);
 
@@ -272,7 +272,7 @@ void kgpgOptions::updateWidgetsDefault()
     m_page4->gpg_home_path->setText(defaultHomePath);
 
     m_page6->ServerBox->clear();
-    m_page6->ServerBox->insertStringList(QStringList::split(",", defaultServerList));
+    m_page6->ServerBox->insertStringList(defaultServerList.split(","));
 
     kDebug(2100) << "Finishing default options" << endl;
 }
@@ -284,7 +284,7 @@ void kgpgOptions::updateSettings()
     if (m_page4->gpg_home_path->text() != KUrl::fromPath(gpgConfigPath).directory(false))
     {
         if (m_page4->gpg_home_path->text() != defaultHomePath)
-            setenv("GNUPGHOME", m_page4->gpg_home_path->text().ascii(), 1);
+            setenv("GNUPGHOME", m_page4->gpg_home_path->text().toAscii(), 1);
         else
             setenv("GNUPGHOME", "", 1);
         emit homeChanged();
@@ -313,15 +313,15 @@ void kgpgOptions::updateSettings()
     emit changeFont(m_fontchooser->font());
 
     // install service menus
-    if (m_page7->kcfg_SignMenu->currentItem() == KGpgSettings::EnumSignMenu::AllFiles)
+    if (m_page7->kcfg_SignMenu->currentIndex() == KGpgSettings::EnumSignMenu::AllFiles)
         slotInstallSign("all/allfiles");
     else
         slotRemoveMenu("signfile.desktop");
 
-    if (m_page7->kcfg_DecryptMenu->currentItem() == KGpgSettings::EnumDecryptMenu::AllFiles)
+    if (m_page7->kcfg_DecryptMenu->currentIndex() == KGpgSettings::EnumDecryptMenu::AllFiles)
         slotInstallDecrypt("all/allfiles");
     else
-    if (m_page7->kcfg_DecryptMenu->currentItem() == KGpgSettings::EnumDecryptMenu::EncryptedFiles)
+    if (m_page7->kcfg_DecryptMenu->currentIndex() == KGpgSettings::EnumDecryptMenu::EncryptedFiles)
         slotInstallDecrypt("application/pgp-encrypted,application/pgp-signature,application/pgp-keys");
     else
         slotRemoveMenu("decryptfile.desktop");
@@ -414,13 +414,13 @@ void kgpgOptions::listKeys()
 
                 if (issec.contains(line.section(':', 4, 4).right(8), Qt::CaseInsensitive ) )
                 {
-                    m_page1->file_key->insertItem(pixkeyDouble, line.section(':', 4, 4).right(8) + ":" + name);
-                    m_page1->always_key->insertItem(pixkeyDouble, line.section(':', 4, 4).right(8) + ":" + name);
+                    m_page1->file_key->addItem(pixkeyDouble, line.section(':', 4, 4).right(8) + ":" + name);
+                    m_page1->always_key->addItem(pixkeyDouble, line.section(':', 4, 4).right(8) + ":" + name);
                 }
                 else
                 {
-                    m_page1->file_key->insertItem(pixkeySingle, line.section(':', 4, 4).right(8) + ":" + name);
-                    m_page1->always_key->insertItem(pixkeySingle, line.section(':', 4, 4).right(8) + ":" + name);
+                    m_page1->file_key->addItem(pixkeySingle, line.section(':', 4, 4).right(8) + ":" + name);
+                    m_page1->always_key->addItem(pixkeySingle, line.section(':', 4, 4).right(8) + ":" + name);
                 }
             }
         }
@@ -431,8 +431,8 @@ void kgpgOptions::listKeys()
     if (counter == 0)
     {
         ids += "0";
-        m_page1->file_key->insertItem(i18n("none"));
-        m_page1->always_key->insertItem(i18n("none"));
+        m_page1->file_key->addItem(i18n("none"));
+        m_page1->always_key->addItem(i18n("none"));
     }
 }
 

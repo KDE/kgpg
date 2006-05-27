@@ -58,7 +58,7 @@ KgpgTextEdit::~KgpgTextEdit()
 void KgpgTextEdit::contentsDragEnterEvent(QDragEnterEvent *e)
 {
     // if a file is dragged into editor ...
-    e->accept(KUrl::List::canDecode(e->mimeData()) || Q3TextDrag::canDecode(e));
+    e->setAccepted(KUrl::List::canDecode(e->mimeData()) || Q3TextDrag::canDecode(e));
 }
 
 void KgpgTextEdit::contentsDropEvent(QDropEvent *e)
@@ -70,7 +70,7 @@ void KgpgTextEdit::contentsDropEvent(QDropEvent *e)
         slotDroppedFile(uriList.first());
     else
     if (Q3TextDrag::decode(e, text))
-        insert(text);
+        insertPlainText(text);
 }
 
 void KgpgTextEdit::slotDroppedFile(const KUrl &url)
@@ -135,7 +135,7 @@ bool KgpgTextEdit::slotCheckContent(const QString &filetocheck, const bool &chec
         }
         else
         {
-            setText(result);
+            setPlainText(result);
             qfile.close();
             KIO::NetAccess::removeTempFile(filetocheck);
         }
@@ -153,7 +153,7 @@ void KgpgTextEdit::slotDecodeFile(const QString &fname)
         KgpgInterface *interface = new KgpgInterface();
         connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(editorUpdateDecryptedtxt(QString, KgpgInterface*)));
         connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(editorFailedDecryptedtxt(QString, KgpgInterface*)));
-        interface->KgpgDecryptFileToText(KUrl(fname), QStringList::split(QString(" "), KGpgSettings::customDecrypt().simplified()));
+        interface->KgpgDecryptFileToText(KUrl(fname), KGpgSettings::customDecrypt().simplified().split(" "));
     }
     else
         KMessageBox::sorry(this, i18n("Unable to read file."));
@@ -162,7 +162,7 @@ void KgpgTextEdit::slotDecodeFile(const QString &fname)
 void KgpgTextEdit::editorUpdateDecryptedtxt(const QString &newtxt, KgpgInterface *interface)
 {
     delete interface;
-    setText(newtxt);
+    setPlainText(newtxt);
 }
 
 void KgpgTextEdit::editorFailedDecryptedtxt(const QString &newtxt, KgpgInterface *interface)
@@ -205,7 +205,7 @@ KgpgView::~KgpgView()
 
 void KgpgView::slotSignVerify()
 {
-    QString mess = editor->text();
+    QString mess = editor->toPlainText();
     if (mess.startsWith("-----BEGIN PGP SIGNED"))
     {
         // this is a signed message, verify it
@@ -255,7 +255,7 @@ void KgpgView::slotDecode()
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(updateDecryptedtxt(QString, KgpgInterface*)));
     connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(failedDecryptedtxt(QString, KgpgInterface*)));
-    interface->decryptText(editor->text(), QStringList::split(QString(" "), KGpgSettings::customDecrypt().simplified()));
+    interface->decryptText(editor->toPlainText(), KGpgSettings::customDecrypt().simplified().split(" "));
 }
 
 void KgpgView::updateDecryptedtxt(const QString &newtxt, KgpgInterface *interface)
@@ -263,12 +263,12 @@ void KgpgView::updateDecryptedtxt(const QString &newtxt, KgpgInterface *interfac
     delete interface;
     if (checkForUtf8(newtxt))
     {
-        editor->setText(QString::fromUtf8(newtxt.ascii()));
+        editor->setPlainText(QString::fromUtf8(newtxt.toAscii()));
         emit resetEncoding(true);
     }
     else
     {
-        editor->setText(newtxt);
+        editor->setPlainText(newtxt);
         emit resetEncoding(false);
     }
     emit newText();
@@ -316,12 +316,12 @@ void KgpgView::slotSignResult(const QString &signResult, KgpgInterface*)
     {
         if (checkForUtf8(signResult))
         {
-            editor->setText(QString::fromUtf8(signResult.ascii()));
+            editor->setPlainText(QString::fromUtf8(signResult.toAscii()));
             emit resetEncoding(true);
         }
         else
         {
-            editor->setText(signResult);
+            editor->setPlainText(signResult);
             emit resetEncoding(false);
         }
         emit newText();
@@ -339,7 +339,7 @@ void KgpgView::encodeTxt(QStringList selec, QStringList encryptoptions, bool, bo
 
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(txtEncryptionFinished(QString, KgpgInterface*)), this, SLOT(updateTxt(QString, KgpgInterface*)));
-    interface->encryptText(editor->text(), selec, encryptoptions);
+    interface->encryptText(editor->toPlainText(), selec, encryptoptions);
 }
 
 void KgpgView::updateTxt(const QString &newtxt, KgpgInterface *interface)
@@ -347,7 +347,7 @@ void KgpgView::updateTxt(const QString &newtxt, KgpgInterface *interface)
     delete interface;
     if (!newtxt.isEmpty())
     {
-        editor->setText(newtxt);
+        editor->setPlainText(newtxt);
         emit newText();
     }
     else

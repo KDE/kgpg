@@ -58,10 +58,10 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
                                            "belong to the people with whom you wish to communicate:", countkey), page);
 
         m_signtrust = new KComboBox(page);
-        m_signtrust->insertItem(i18n("I Will Not Answer"));
-        m_signtrust->insertItem(i18n("I Have Not Checked at All"));
-        m_signtrust->insertItem(i18n("I Have Done Casual Checking"));
-        m_signtrust->insertItem(i18n("I Have Done Very Careful Checking"));
+        m_signtrust->addItem(i18n("I Will Not Answer"));
+        m_signtrust->addItem(i18n("I Have Not Checked at All"));
+        m_signtrust->addItem(i18n("I Have Done Casual Checking"));
+        m_signtrust->addItem(i18n("I Have Done Very Careful Checking"));
 
         m_localsign = new QCheckBox(i18n("Local signature (cannot be exported)"), page);
         m_terminalsign = new QCheckBox(i18n("Do not sign all user id's (open terminal)"), page);
@@ -152,7 +152,7 @@ QString KgpgSelectSecretKey::getKeyMail() const
 int KgpgSelectSecretKey::getSignTrust() const
 {
     if (m_signkey)
-        return m_signtrust->currentItem();
+        return m_signtrust->currentIndex();
     return -1;
 }
 

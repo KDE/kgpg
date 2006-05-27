@@ -283,7 +283,7 @@ void KeyListView::slotRemoveColumn(const int &c)
 
 void KeyListView::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-    e->accept(KUrl::List::canDecode(e->mimeData()));
+    e->setAccepted(KUrl::List::canDecode(e->mimeData()));
 }
 
 void  KeyListView::contentsDropEvent(QDropEvent *o)
@@ -427,13 +427,12 @@ bool KeyListView::refreshKeys(QStringList ids)
         item->setVisible(true);
         item->setExpandable(true);
 
-        QStringList::Iterator ite;
-        ite = issec.find(key.id());
-        if (ite != issec.end())
+        int index = issec.indexOf(key.id());
+        if (index != -1)
         {
             item->setPixmap(0, pixkeyPair);
             item->setItemType(item->itemType() | KeyListViewItem::Secret);
-            issec.remove(*ite);
+            issec.removeAt(index);
         }
         else
             item->setPixmap(0, pixkeySingle);

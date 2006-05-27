@@ -244,7 +244,7 @@ listKeys::listKeys(QWidget *parent, const char *name)
     popup->addAction( editKey );
     popup->addAction( refreshKey );
     popup->addAction( setDefaultKey );
-    popup->insertSeparator();
+    popup->addSeparator();
     popup->addAction( importAllSignKeys );
 
     // popup on a secret key
@@ -255,9 +255,9 @@ listKeys::listKeys(QWidget *parent, const char *name)
     popupsec->addAction( editKey );
     popupsec->addAction( refreshKey );
     popupsec->addAction( setDefaultKey );
-    popupsec->insertSeparator();
+    popupsec->addSeparator();
     popupsec->addAction( importAllSignKeys );
-    popupsec->insertSeparator();
+    popupsec->addSeparator();
     popupsec->addAction( addPhoto );
     popupsec->addAction( addUid );
     popupsec->addAction( exportSecretKey );
@@ -318,8 +318,8 @@ listKeys::listKeys(QWidget *parent, const char *name)
     //toolBar()->insertLineSeparator();
 
     QToolButton *clearSearch = new QToolButton(toolBar());
-    clearSearch->setTextLabel(i18n("Clear Search"), true);
-    clearSearch->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left" : "locationbar_erase"));
+    clearSearch->setText(i18n("Clear Search"));
+    clearSearch->setIcon(SmallIcon(QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase"));
     (void) new QLabel(i18n("Search: "), toolBar());
     listViewSearch = new KeyListViewSearchLine(toolBar(), keysList2);
     connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
@@ -415,7 +415,7 @@ void listKeys::changeMessage(QString msg, int nb, bool keep)
     if (m_statusbar)
     {
         if ((nb == 0) && (!keep))
-            m_statusbartimer->start(10000, true);
+            m_statusbartimer->start(10000);
         m_statusbar->changeItem(" " + msg + " ", nb);
     }
 }
@@ -484,9 +484,9 @@ void listKeys::slotGenerateKeyDone(int res, KgpgInterface *interface, const QStr
         page->TLemail->setText("<b>" + email + "</b>");
 
         if (!email.isEmpty())
-            page->kURLRequester1->setUrl(QDir::homeDirPath() + "/" + email.section("@", 0, 0) + ".revoke");
+            page->kURLRequester1->setUrl(QDir::homePath() + "/" + email.section("@", 0, 0) + ".revoke");
         else
-            page->kURLRequester1->setUrl(QDir::homeDirPath() + "/" + email.section(" ", 0, 0) + ".revoke");
+            page->kURLRequester1->setUrl(QDir::homePath() + "/" + email.section(" ", 0, 0) + ".revoke");
 
         page->TLid->setText("<b>" + id + "</b>");
         page->LEfinger->setText(fingerprint);
@@ -515,7 +515,7 @@ void listKeys::slotGenerateKeyDone(int res, KgpgInterface *interface, const QStr
 
         if (page->CBsave->isChecked())
         {
-            slotrevoke(id, page->kURLRequester1->url(), 0, i18n("backup copy"));
+            slotrevoke(id, page->kURLRequester1->url().path(), 0, i18n("backup copy"));
             if (page->CBprint->isChecked())
                 connect(revKeyProcess, SIGNAL(revokeurl(QString)), this, SLOT(doFilePrint(QString)));
         }
@@ -664,7 +664,7 @@ void listKeys::slotregenerate()
     char line[300];
     QString cmd = "gpg --no-secmem-warning --export-secret-key " + keysList2->currentItem()->text(6) + " | gpgsplit --no-split --secret-to-public | gpg --import";
 
-    fp = popen(cmd.ascii(), "r");
+    fp = popen(cmd.toAscii(), "r");
     while (fgets(line, sizeof(line), fp))
     {
         tst += line;
@@ -1212,7 +1212,7 @@ void listKeys::revokeWidget()
     KgpgRevokeWidget *keyRevoke = new KgpgRevokeWidget();
 
     keyRevoke->keyID->setText(keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ") " + i18n("ID: ") + keysList2->currentItem()->text(6));
-    keyRevoke->kURLRequester1->setUrl(QDir::homeDirPath() + "/" + keysList2->currentItem()->text(1).section('@', 0, 0) + ".revoke");
+    keyRevoke->kURLRequester1->setUrl(QDir::homePath() + "/" + keysList2->currentItem()->text(1).section('@', 0, 0) + ".revoke");
     keyRevoke->kURLRequester1->setMode(KFile::File);
 
     keyRevoke->setMinimumSize(keyRevoke->sizeHint());
@@ -1223,7 +1223,7 @@ void listKeys::revokeWidget()
         return;
     if (keyRevoke->cbSave->isChecked())
     {
-        slotrevoke(keysList2->currentItem()->text(6), keyRevoke->kURLRequester1->url(), keyRevoke->comboBox1->currentItem(), keyRevoke->textDescription->text());
+        slotrevoke(keysList2->currentItem()->text(6), keyRevoke->kURLRequester1->url().path(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->text());
         if (keyRevoke->cbPrint->isChecked())
             connect(revKeyProcess, SIGNAL(revokeurl(QString)), this, SLOT(doFilePrint(QString)));
         if (keyRevoke->cbImport->isChecked())
@@ -1231,7 +1231,7 @@ void listKeys::revokeWidget()
     }
     else
     {
-        slotrevoke(keysList2->currentItem()->text(6), QString::null, keyRevoke->comboBox1->currentItem(), keyRevoke->textDescription->text());
+        slotrevoke(keysList2->currentItem()->text(6), QString::null, keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->text());
         if (keyRevoke->cbPrint->isChecked())
             connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
         if (keyRevoke->cbImport->isChecked())
@@ -1243,7 +1243,7 @@ void listKeys::slotImportRevoke(QString url)
 {
     KgpgInterface *importKeyProcess = new KgpgInterface();
     connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), keysList2, SLOT(refreshselfkey()));
-    importKeyProcess->importKey(KUrl::fromPathOrUrl(url));
+    importKeyProcess->importKey(KUrl(url));
 }
 
 void listKeys::slotImportRevokeTxt(QString revokeText)
@@ -1267,7 +1267,7 @@ void listKeys::slotexportsec()
     if (sname.isEmpty())
         sname = keysList2->currentItem()->text(0).section(' ', 0, 0);
     sname.append(".asc");
-    sname.prepend(QDir::homeDirPath() + "/");
+    sname.prepend(QDir::homePath() + "/");
     KUrl url = KFileDialog::getSaveURL(sname, "*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As"));
 
     if(!url.isEmpty())
@@ -1312,7 +1312,7 @@ void listKeys::slotexport()
         sname = "keyring";
 
     sname.append(".asc");
-    sname.prepend(QDir::homeDirPath() + "/");
+    sname.prepend(QDir::homePath() + "/");
 
     KDialogBase *dial = new KDialogBase(KDialogBase::Swallow, i18n("Public Key Export"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "key_export",true);
 
@@ -1603,8 +1603,8 @@ void listKeys::editGroup()
     KDialogBase *dialogGroupEdit = new KDialogBase(KDialogBase::Swallow, i18n("Group Properties"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, 0, true);
 
     gEdit = new groupEdit();
-    gEdit->buttonAdd->setPixmap(KGlobal::iconLoader()->loadIcon("down", K3Icon::Small, 20));
-    gEdit->buttonRemove->setPixmap(KGlobal::iconLoader()->loadIcon("up", K3Icon::Small, 20));
+    gEdit->buttonAdd->setIcon(KGlobal::iconLoader()->loadIconSet("down", K3Icon::Small, 20));
+    gEdit->buttonRemove->setIcon(KGlobal::iconLoader()->loadIconSet("up", K3Icon::Small, 20));
 
     connect(gEdit->buttonAdd, SIGNAL(clicked()), this, SLOT(groupAdd()));
     connect(gEdit->buttonRemove, SIGNAL(clicked()), this, SLOT(groupRemove()));
@@ -2098,7 +2098,7 @@ void listKeys::slotPreImportKey()
                 KgpgInterface *importKeyProcess = new KgpgInterface();
                 connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
                 connect(importKeyProcess, SIGNAL(importKeyOrphaned()), keysList2, SLOT(slotReloadOrphaned()));
-                importKeyProcess->importKey(KUrl::fromPathOrUrl(impname));
+                importKeyProcess->importKey(KUrl(impname));
             }
         }
         else
