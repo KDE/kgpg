@@ -43,6 +43,7 @@ public:
     bool isTerminalSign() const;
 
 private slots:
+    void slotOk();
     void slotSelect(Q3ListViewItem *item);
     void slotSelectionChanged();
 

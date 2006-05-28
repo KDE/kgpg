@@ -125,8 +125,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     slotSelectionChanged();
     setMainWidget(page);
 
-    connect(m_keyslist, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SIGNAL(okClicked()));
-    connect(m_keyslist, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(accept()));
+    connect(m_keyslist, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(slotOk()));
     connect(m_keyslist, SIGNAL(clicked(Q3ListViewItem *)), this, SLOT(slotSelect(Q3ListViewItem *)));
     connect(m_keyslist, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
 }
@@ -183,6 +182,11 @@ void KgpgSelectSecretKey::slotSelect(Q3ListViewItem *item)
 void KgpgSelectSecretKey::slotSelectionChanged()
 {
     enableButtonOK(!m_keyslist->selectedItems().isEmpty());
+}
+
+void KgpgSelectSecretKey::slotOk()
+{
+    slotButtonClicked(Ok);
 }
 
 #include "selectsecretkey.moc"
