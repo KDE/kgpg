@@ -30,8 +30,8 @@ public slots:
 
 private:
     QString m_md5sum;
-    KLed *m_led;
     QLabel *m_label;
+    KLed *m_led;
 };
 
 #endif // KGPGMD5WIDGET_H
