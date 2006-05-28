@@ -52,7 +52,7 @@ private:
     QCheckBox *m_terminalsign;
 
     KComboBox *m_signtrust;
-    K3ListView *m_keyslistpr;
+    K3ListView *m_keyslist;
 
     bool m_signkey;
 };
