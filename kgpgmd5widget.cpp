@@ -35,37 +35,37 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     checkfile.reset();
     checkfile.update(f);
 
-    m_mdsum = checkfile.hexDigest().constData();
+    m_md5sum = checkfile.hexDigest().constData();
     f.close();
 
     QWidget *page = new QWidget(this);
 
-    QLabel *textlabel = new QLabel(page);
-    textlabel->setText(i18n("MD5 sum for <b>%1</b> is:", url.fileName()));
+    QLabel *firstlabel = new QLabel(page);
+    firstlabel->setText(i18n("MD5 sum for <b>%1</b> is:", url.fileName()));
 
-    KLineEdit *restrictedline = new KLineEdit(m_mdsum, page);
-    restrictedline->setReadOnly(true);
+    KLineEdit *md5lineedit = new KLineEdit(m_md5sum, page);
+    md5lineedit->setReadOnly(true);
 
-    m_kled = new KLed(QColor(80, 80, 80), KLed::Off, KLed::Sunken, KLed::Circular, page);
+    m_led = new KLed(QColor(80, 80, 80), KLed::Off, KLed::Sunken, KLed::Circular, page);
     QSizePolicy policy((QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0);
     policy.setVerticalStretch(0);
     policy.setHorizontalStretch(0);
-    policy.setHeightForWidth(m_kled->sizePolicy().hasHeightForWidth());
-    m_kled->setSizePolicy(policy);
+    policy.setHeightForWidth(m_led->sizePolicy().hasHeightForWidth());
+    m_led->setSizePolicy(policy);
 
-    m_textlabel = new QLabel(page);
-    m_textlabel->setText(i18n("<b>Unknown status</b>"));
+    m_label = new QLabel(page);
+    m_label->setText(i18n("<b>Unknown status</b>"));
 
-    QHBoxLayout *layout = new QHBoxLayout();
-    layout->addWidget(m_kled);
-    layout->addWidget(m_textlabel);
+    QHBoxLayout *ledlayout = new QHBoxLayout();
+    ledlayout->addWidget(m_led);
+    ledlayout->addWidget(m_label);
 
     QVBoxLayout *dialoglayout = new QVBoxLayout(page);
     dialoglayout->setMargin(marginHint());
     dialoglayout->setSpacing(spacingHint());
-    dialoglayout->addWidget(textlabel);
-    dialoglayout->addWidget(restrictedline);
-    dialoglayout->addLayout(layout);
+    dialoglayout->addWidget(firstlabel);
+    dialoglayout->addWidget(md5lineedit);
+    dialoglayout->addLayout(ledlayout);
     dialoglayout->addStretch();
 
     page->show();
@@ -79,20 +79,20 @@ void Md5Widget::slotApply()
     QString text = QApplication::clipboard()->text(QClipboard::Clipboard).remove(' ');
     if (!text.isEmpty())
     {
-        if (text.length() != m_mdsum.length())
+        if (text.length() != m_md5sum.length())
             KMessageBox::sorry(this, i18n("Clipboard content is not a MD5 sum."));
         else
-        if (text == m_mdsum)
+        if (text == m_md5sum)
         {
-            m_textlabel->setText(i18n("<b>Correct checksum</b>, file is ok."));
-            m_kled->setColor(QColor(Qt::green));
-            m_kled->on();
+            m_label->setText(i18n("<b>Correct checksum</b>, file is ok."));
+            m_led->setColor(QColor(Qt::green));
+            m_led->on();
         }
         else
         {
-            m_textlabel->setText(i18n("<b>Wrong checksum, FILE CORRUPTED</b>"));
-            m_kled->setColor(QColor(Qt::red));
-            m_kled->on();
+            m_label->setText(i18n("<b>Wrong checksum, FILE CORRUPTED</b>"));
+            m_led->setColor(QColor(Qt::red));
+            m_led->on();
         }
     }
 }

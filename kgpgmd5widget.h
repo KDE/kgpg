@@ -29,9 +29,9 @@ public slots:
     void slotApply();
 
 private:
-    QString m_mdsum;
-    KLed *m_kled;
-    QLabel *m_textlabel;
+    QString m_md5sum;
+    KLed *m_led;
+    QLabel *m_label;
 };
 
 #endif // KGPGMD5WIDGET_H
