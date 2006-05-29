@@ -148,7 +148,7 @@ void MyView::clipEncrypt()
         KPassivePopup::message(i18n("Clipboard is empty."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop), this);
     else
     {
-        KgpgSelectPublicKeyDlg *dialoguec = new KgpgSelectPublicKeyDlg(0, "public_keys", 0, false, goDefaultKey);
+        KgpgSelectPublicKeyDlg *dialoguec = new KgpgSelectPublicKeyDlg(0, 0, false, true, goDefaultKey);
         connect(dialoguec, SIGNAL(selectedKey(QStringList, QStringList, bool, bool)), this, SLOT(encryptClipboard(QStringList, QStringList, bool, bool)));
         dialoguec->exec();
         delete dialoguec;
@@ -213,9 +213,9 @@ void MyView::encryptDroppedFolder()
     if (KMessageBox::warningContinueCancel(0, i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>", kgpgfoldertmp->name()), i18n("Temporary File Creation"), KStdGuiItem::cont(), "FolderTmpFile") == KMessageBox::Cancel)
         return;
 
-    dialogue=new KgpgSelectPublicKeyDlg(0, "Public keys", droppedUrls.first().fileName(), true, goDefaultKey, false);
+    dialogue = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), true, false, goDefaultKey);
 
-    QGroupBox *bGroup = new QGroupBox(dialogue->plainPage());
+    QGroupBox *bGroup = new QGroupBox(dialogue->mainWidget());
 
     (void) new QLabel(i18n("Compression method for archive:"),bGroup);
 
@@ -225,7 +225,6 @@ void MyView::encryptDroppedFolder()
     optionbx->addItem(i18n("Bzip2"));
 
     bGroup->show();
-    connect(dialogue,SIGNAL(keyListFilled ()),dialogue,SLOT(slotSetVisible()));
     connect(optionbx,SIGNAL(activated (int)),this,SLOT(slotSetCompression(int)));
     connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startFolderEncode(QStringList,QStringList,bool,bool)));
 
@@ -279,7 +278,7 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
     pop->setAutoDelete(false);
     pop->show();
     kapp->processEvents();
-    dialogue->slotAccept();
+    dialogue->accept();
     dialogue = 0L;
 
     KArchive *arch;

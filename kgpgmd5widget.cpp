@@ -26,7 +26,7 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
          : KDialog(parent, i18n("MD5 Checksum"), Apply | Close)
 {
     setModal(true);
-    setButtonGuiItem(Apply, i18n("Compare MD5 with Clipboard"));
+    setButtonText(Apply, i18n("Compare MD5 with Clipboard"));
 
     QFile f(url.path());
     f.open(QIODevice::ReadOnly);

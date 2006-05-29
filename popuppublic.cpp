@@ -26,6 +26,7 @@
 #include <Q3ListViewItem>
 
 #include <k3listviewsearchline.h>
+#include <kactioncollection.h>
 #include <kactivelabel.h>
 #include <kiconloader.h>
 #include <kdeversion.h>
@@ -36,7 +37,6 @@
 #include <kdebug.h>
 #include <khbox.h>
 #include <kvbox.h>
-#include <kactioncollection.h>
 
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
@@ -79,160 +79,152 @@ QString KeyViewItem::key(const int &c) const
     return text(c).toLower();
 }
 
-KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const char *name, const QString &sfile, const bool &filemode, const KShortcut &goDefaultKey, const bool &enabledshred)
-                      : KDialogBase(Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent, name, true)
+KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &sfile, const bool &filemode, const bool &enabledshred, const KShortcut &goDefaultKey)
+                      : KDialog(parent, i18n("Select Public Key"), Details | Ok | Cancel)
 {
-    QWidget *page = plainPage();
+    setModal(true);
+    setButtonText(Details, i18n("O&ptions"));
 
-    QVBoxLayout *vbox = new QVBoxLayout(page);
-    vbox->setSpacing(spacingHint());
-    vbox->setMargin(0);
-    page->setLayout(vbox);
-
-    setButtonText(KDialogBase::Details, i18n("O&ptions"));
-
-    if (KGpgSettings::allowCustomEncryptionOptions())
-        m_customoptions = KGpgSettings::customEncryptionOptions();
+    m_fmode = filemode;
+    if (m_fmode)
+        setCaption(i18n("Select Public Key for %1", sfile));
 
     KIconLoader *loader = KGlobal::iconLoader();
     m_keypair = loader->loadIcon("kgpg_key2", K3Icon::Small, 20);
     m_keysingle = loader->loadIcon("kgpg_key1", K3Icon::Small, 20);
     m_keygroup = loader->loadIcon("kgpg_key3", K3Icon::Small, 20);
 
-    if (filemode)
-        setCaption(i18n("Select Public Key for %1", sfile));
-    m_fmode = filemode;
+    QWidget *page = new QWidget(this);
 
-    KHBox *hBar = new KHBox(page);
-    hBar->setFrameShape(QFrame::StyledPanel);
-    vbox->addWidget(hBar);
+    KHBox *searchbar = new KHBox(page);
+    searchbar->setFrameShape(QFrame::StyledPanel);
 
-    QToolButton *clearSearch = new QToolButton(hBar);
-    clearSearch->setText(i18n("Clear Search"));
-    clearSearch->setIcon(SmallIconSet(QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase"));
+    QToolButton *clearsearch = new QToolButton(searchbar);
+    clearsearch->setText(i18n("Clear Search"));
+    clearsearch->setIcon(SmallIconSet(QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase"));
 
-    QLabel *searchlabel = new QLabel(i18n("&Search: "), hBar);
-    K3ListViewSearchLine* listViewSearch = new K3ListViewSearchLine(hBar);
-    searchlabel->setBuddy(listViewSearch);
-    connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
+    QLabel *searchlabel = new QLabel(i18n("&Search: "), searchbar);
+
+    K3ListViewSearchLine* searchlineedit = new K3ListViewSearchLine(searchbar);
+    searchlabel->setBuddy(searchlineedit);
 
     m_keyslist = new K3ListView(page);
+    m_keyslist->setFullWidth(true);
+    m_keyslist->setRootIsDecorated(false);
+    m_keyslist->setShowSortIndicator(true);
+    m_keyslist->setAllColumnsShowFocus(true);
     m_keyslist->addColumn(i18n("Name"));
     m_keyslist->addColumn(i18n("Email"));
     m_keyslist->addColumn(i18n("ID"));
-    vbox->addWidget(m_keyslist);
-
-    listViewSearch->setListView(m_keyslist);
-
-    m_keyslist->setRootIsDecorated(false);
-    page->setMinimumSize(540,200);
-    m_keyslist->setShowSortIndicator(true);
-    m_keyslist->setFullWidth(true);
-    m_keyslist->setAllColumnsShowFocus(true);
     m_keyslist->setSelectionModeExt(K3ListView::Extended);
     m_keyslist->setColumnWidthMode(0, K3ListView::Manual);
     m_keyslist->setColumnWidthMode(1, K3ListView::Manual);
     m_keyslist->setColumnWidth(0, 210);
     m_keyslist->setColumnWidth(1, 210);
     m_keyslist->setWhatsThis(i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
-    connect(m_keyslist, SIGNAL(selectionChanged()), this, SLOT(selectionChanged()));
+    searchlineedit->setListView(m_keyslist);
 
-    KVBox *boutonboxoptions = new KVBox(page);
-    boutonboxoptions->setFrameShape(QFrame::StyledPanel);
-    vbox->addWidget(boutonboxoptions);
+    KVBox *optionsbox = new KVBox(page);
+    optionsbox->setFrameShape(QFrame::StyledPanel);
+    setDetailsWidget(optionsbox);
 
-    KActionCollection *actcol = new KActionCollection(this);
-    KAction *action = new KAction(i18n("&Go to Default Key"), actcol, "go_default_key");
-    connect(action, SIGNAL(triggered(bool) ), SLOT(slotGotoDefaultKey()));
-    action->setShortcut(goDefaultKey);
-
-    m_cbarmor = new QCheckBox(i18n("ASCII armored encryption"), boutonboxoptions);
+    m_cbarmor = new QCheckBox(i18n("ASCII armored encryption"), optionsbox);
+    m_cbarmor->setChecked(KGpgSettings::asciiArmor());
     m_cbarmor->setWhatsThis(i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));
 
-    m_cbuntrusted = new QCheckBox(i18n("Allow encryption with untrusted keys"), boutonboxoptions);
+    m_cbuntrusted = new QCheckBox(i18n("Allow encryption with untrusted keys"), optionsbox);
+    m_cbuntrusted->setChecked(KGpgSettings::allowUntrustedKeys());
     m_cbuntrusted->setWhatsThis(i18n("<b>Allow encryption with untrusted keys</b>: when you import a public key, it is usually "
                     "marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this "
                     "box enables you to use any key, even if it has not be signed."));
 
-    m_cbhideid = new QCheckBox(i18n("Hide user id"), boutonboxoptions);
+    m_cbhideid = new QCheckBox(i18n("Hide user id"), optionsbox);
+    m_cbhideid->setChecked(KGpgSettings::hideUserID());
     m_cbhideid->setWhatsThis(i18n("<b>Hide user ID</b>: Do not put the keyid into encrypted packets. This option hides the receiver "
                     "of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because "
                     "all available secret keys are tried."));
 
-    setDetailsWidget(boutonboxoptions);
-
     if (filemode)
     {
-        QWidget *parentBox = new QWidget(boutonboxoptions);
-        QHBoxLayout *shredBox = new QHBoxLayout(parentBox);
-        shredBox->setMargin(0);
+        KHBox *shredbox = new KHBox(optionsbox);
+        shredbox->setMargin(0);
 
-        m_cbshred = new QCheckBox(i18n("Shred source file"), parentBox);
+        m_cbshred = new QCheckBox(i18n("Shred source file"), shredbox);
         m_cbshred->setWhatsThis(i18n("<b>Shred source file</b>: permanently remove source file. No recovery will be possible"));
+        m_cbshred->setEnabled(enabledshred);
+        m_cbshred->setChecked(KGpgSettings::shredSource());
 
         QString shredWhatsThis = i18n("<qt><b>Shred source file:</b><br /><p>Checking this option will shred (overwrite several times before erasing) the files you have encrypted. This way, it is almost impossible that the source file is recovered.</p><p><b>But you must be aware that this is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>");
 
-        KActiveLabel *warn = new KActiveLabel(i18n("<a href=\"whalinehis:%1\">Read this before using shredding</a>", shredWhatsThis), parentBox);
-        shredBox->addWidget(m_cbshred);
-        shredBox->addWidget(warn);
-        m_cbshred->setEnabled(enabledshred);
+        (void) new KActiveLabel(i18n("<a href=\"whalinehis:%1\">Read this before using shredding</a>", shredWhatsThis), shredbox);
     }
 
-    m_cbsymmetric = new QCheckBox(i18n("Symmetrical encryption"), boutonboxoptions);
+    m_cbsymmetric = new QCheckBox(i18n("Symmetrical encryption"), optionsbox);
     m_cbsymmetric->setWhatsThis(i18n("<b>Symmetrical encryption</b>: encryption does not use keys. You just need to give a password "
                                      "to encrypt/decrypt the file"));
-    connect(m_cbsymmetric, SIGNAL(toggled(bool)), this, SLOT(symmetric(bool)));
 
-    m_cbarmor->setChecked(KGpgSettings::asciiArmor());
-    m_cbuntrusted->setChecked(KGpgSettings::allowUntrustedKeys());
-    m_cbhideid->setChecked(KGpgSettings::hideUserID());
-
-    if (filemode)
-        m_cbshred->setChecked(KGpgSettings::shredSource());
+    QVBoxLayout *dialoglayout = new QVBoxLayout(page);
+    dialoglayout->setSpacing(spacingHint());
+    dialoglayout->setMargin(marginHint());
+    dialoglayout->addWidget(searchbar);
+    dialoglayout->addWidget(m_keyslist);
+    dialoglayout->addWidget(optionsbox);
+    page->setLayout(dialoglayout);
 
     if (KGpgSettings::allowCustomEncryptionOptions())
     {
-        KHBox *bGroup = new KHBox(page);
-        (void) new QLabel(i18n("Custom option:"), bGroup);
+        m_customoptions = KGpgSettings::customEncryptionOptions();
 
-        KLineEdit *optiontxt = new KLineEdit(bGroup);
+        KHBox *expertbox = new KHBox(page);
+        (void) new QLabel(i18n("Custom option:"), expertbox);
+
+        KLineEdit *optiontxt = new KLineEdit(expertbox);
         optiontxt->setText(m_customoptions);
         optiontxt->setWhatsThis(i18n("<b>Custom option</b>: for experienced users only, allows you to enter a gpg command line option, like: '--armor'"));
 
-        connect(optiontxt, SIGNAL(textChanged(const QString &)), this, SLOT(customOpts(const QString &)));
+        dialoglayout->addWidget(expertbox);
+
+        connect(optiontxt, SIGNAL(textChanged(const QString &)), this, SLOT(slotCustomOpts(const QString &)));
     }
 
-    connect(m_keyslist, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(slotOk()));
-    connect(m_cbuntrusted, SIGNAL(toggled(bool)), this, SLOT(refresh(bool)));
+    KActionCollection *actcol = new KActionCollection(this);
+    KAction *action = new KAction(i18n("&Go to Default Key"), actcol, "go_default_key");
+    action->setShortcut(goDefaultKey);
 
-    QString line;
-    m_seclist = QString::null;
+    connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
+    connect(clearsearch, SIGNAL(pressed()), searchlineedit, SLOT(clear()));
+    connect(m_cbsymmetric, SIGNAL(toggled(bool)), this, SLOT(slotSymmetric(bool)));
+    connect(m_cbuntrusted, SIGNAL(toggled(bool)), this, SLOT(slotUntrusted(bool)));
+    connect(m_keyslist, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
+    connect(m_keyslist, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(slotOk()));
 
     KgpgInterface *interface = new KgpgInterface();
     KgpgListKeys list = interface->readSecretKeys(true);
     delete interface;
+
+    m_seclist = QString::null;
     for (int i = 0; i < list.size(); ++i)
         m_seclist += ", 0x" + list.at(i).id();
 
-    refreshKeys();
-    //m_keyslist->setFocus();
+    slotFillKeysList();
     setMinimumSize(550, 200);
     updateGeometry();
-    selectionChanged();
-    show();
+    slotSelectionChanged();
+    setMainWidget(page);
 }
 
 QStringList KgpgSelectPublicKeyDlg::selectedKeys() const
 {
     QStringList selectedKeys;
+
     QList<Q3ListViewItem*> list = m_keyslist->selectedItems();
     for (int i = 0; i < list.count(); ++i)
         if (list.at(i) && list.at(i)->isVisible())
         {
             if (!list.at(i)->text(2).isEmpty())
-                selectedKeys << list.at(i)->text(2);
+                selectedKeys << list.at(i)->text(2); // get the id
             else
-                selectedKeys << list.at(i)->text(0);
+                selectedKeys << list.at(i)->text(0); // get the name
         }
 
     return selectedKeys;
@@ -240,51 +232,38 @@ QStringList KgpgSelectPublicKeyDlg::selectedKeys() const
 
 bool KgpgSelectPublicKeyDlg::getSymmetric() const
 {
-    return m_cbsymmetric;
+    return m_cbsymmetric->checkState() == Qt::Checked;
 }
 
 bool KgpgSelectPublicKeyDlg::getUntrusted() const
 {
-    return m_cbuntrusted;
+    return m_cbuntrusted->checkState() == Qt::Checked;
 }
 
 bool KgpgSelectPublicKeyDlg::getArmor() const
 {
-    return m_cbarmor;
+    return m_cbarmor->checkState() == Qt::Checked;
 }
 
 bool KgpgSelectPublicKeyDlg::getHideId() const
 {
-    return m_cbhideid;
+    return m_cbhideid->checkState() == Qt::Checked;
 }
 
 bool KgpgSelectPublicKeyDlg::getShred() const
 {
-    return m_cbhideid;
-}
-
-void KgpgSelectPublicKeyDlg::slotAccept()
-{
-    accept();
-}
-
-void KgpgSelectPublicKeyDlg::slotSetVisible()
-{
-    m_keyslist->ensureItemVisible(m_keyslist->currentItem());
+    return m_cbhideid->checkState() == Qt::Checked;
 }
 
 void KgpgSelectPublicKeyDlg::slotOk()
 {
-    kDebug(2100) << "Ok pressed" << endl;
-
-    QStringList selectedkeys = selectedKeys();
-    if (selectedkeys.isEmpty() && !m_cbsymmetric->isChecked())
-        return;
-
-    if (m_cbsymmetric->isChecked())
-        selectedkeys = QStringList();
-
-    kDebug(2100) << "Selected Key:" << selectedkeys << endl;
+    QStringList selectedkeys;
+    if (!m_cbsymmetric->isChecked())
+    {
+        selectedkeys = selectedKeys();
+        if (selectedkeys.isEmpty())
+            return;
+    }
 
     QStringList returnOptions;
     if (m_cbuntrusted->isChecked())
@@ -294,7 +273,7 @@ void KgpgSelectPublicKeyDlg::slotOk()
     if (m_cbhideid->isChecked())
         returnOptions << "--throw-keyid";
 
-    if ((KGpgSettings::allowCustomEncryptionOptions()) && (!m_customoptions.simplified().isEmpty()))
+    if (KGpgSettings::allowCustomEncryptionOptions() && !m_customoptions.simplified().isEmpty())
         returnOptions << m_customoptions.simplified().split(" ");
 
     if (m_fmode)
@@ -302,36 +281,10 @@ void KgpgSelectPublicKeyDlg::slotOk()
     else
         emit selectedKey(selectedkeys, returnOptions, false, m_cbsymmetric->isChecked());
 
-    accept();
+    slotButtonClicked(Ok);
 }
 
-void KgpgSelectPublicKeyDlg::symmetric(const bool &state)
-{
-    m_keyslist->setEnabled(!state);
-    m_cbuntrusted->setEnabled(!state);
-    m_cbhideid->setEnabled(!state);
-    selectionChanged();
-}
-
-void KgpgSelectPublicKeyDlg::selectionChanged()
-{
-    if (m_cbsymmetric->isChecked())
-        enableButtonOK(true);
-    else
-    {
-        if (!m_keyslist->selectedItems().isEmpty())
-            enableButtonOK(true);
-        else
-            enableButtonOK(false);
-    }
-}
-
-void KgpgSelectPublicKeyDlg::customOpts(const QString &str)
-{
-    m_customoptions = str;
-}
-
-void KgpgSelectPublicKeyDlg::refreshKeys()
+void KgpgSelectPublicKeyDlg::slotFillKeysList()
 {
     m_keyslist->clear();
 
@@ -345,11 +298,11 @@ void KgpgSelectPublicKeyDlg::refreshKeys()
             }
 
     KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(readPublicKeysFinished(KgpgListKeys, KgpgInterface*)), this, SLOT(refreshKeysReady(KgpgListKeys, KgpgInterface*)));
+    connect(interface, SIGNAL(readPublicKeysFinished(KgpgListKeys, KgpgInterface*)), this, SLOT(slotFillKeysListReady(KgpgListKeys, KgpgInterface*)));
     interface->readPublicKeys();
 }
 
-void KgpgSelectPublicKeyDlg::refreshKeysReady(KgpgListKeys keys, KgpgInterface *interface)
+void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgListKeys keys, KgpgInterface *interface)
 {
     delete interface;
 
@@ -389,7 +342,7 @@ void KgpgSelectPublicKeyDlg::refreshKeysReady(KgpgListKeys keys, KgpgInterface *
     }
 
     slotPreSelect();
-    selectionChanged();
+    slotSelectionChanged();
 }
 
 void KgpgSelectPublicKeyDlg::slotPreSelect()
@@ -402,7 +355,7 @@ void KgpgSelectPublicKeyDlg::slotPreSelect()
         it = m_keyslist->findItem(KGpgSettings::defaultKey(), 2);
 
     if (!m_cbuntrusted->isChecked())
-        sort();
+        slotShowAllKeys();
 
     if (m_fmode)
     {
@@ -412,25 +365,62 @@ void KgpgSelectPublicKeyDlg::slotPreSelect()
         m_keyslist->ensureItemVisible(it);
     }
 
-    emit keyListFilled();
+    m_keyslist->ensureItemVisible(m_keyslist->currentItem());
 }
 
-void KgpgSelectPublicKeyDlg::refresh(const bool &state)
+void KgpgSelectPublicKeyDlg::slotSelectionChanged()
+{
+    if (m_cbsymmetric->isChecked())
+        enableButtonOK(true);
+    else
+        enableButtonOK(!m_keyslist->selectedItems().isEmpty());
+}
+
+void KgpgSelectPublicKeyDlg::slotCustomOpts(const QString &str)
+{
+    m_customoptions = str;
+}
+
+void KgpgSelectPublicKeyDlg::slotSymmetric(const bool &state)
+{
+    m_keyslist->setEnabled(!state);
+    m_cbuntrusted->setEnabled(!state);
+    m_cbhideid->setEnabled(!state);
+    slotSelectionChanged();
+}
+
+void KgpgSelectPublicKeyDlg::slotUntrusted(const bool &state)
 {
     if (state)
-        enable();
+        slotShowAllKeys();
     else
-        sort();
+        slotHideUntrustedKeys();
 }
 
-void KgpgSelectPublicKeyDlg::sort()
+void KgpgSelectPublicKeyDlg::slotShowAllKeys()
+{
+    Q3ListViewItem *current = m_keyslist->firstChild();
+    if (current == 0)
+        return;
+
+    current->setVisible(true);
+    while (current->nextSibling())
+    {
+        current = current->nextSibling();
+        current->setVisible(true);
+    }
+
+    m_keyslist->ensureItemVisible(m_keyslist->currentItem());
+}
+
+void KgpgSelectPublicKeyDlg::slotHideUntrustedKeys()
 {
     bool reselect = false;
     Q3ListViewItem *current = m_keyslist->firstChild();
     if (current == NULL)
         return;
 
-    if ((!current->text(2).isEmpty()) && m_untrustedlist.contains(current->text(2)))
+    if (!current->text(2).isEmpty() && m_untrustedlist.contains(current->text(2)))
     {
         if (current->isSelected())
         {
@@ -443,7 +433,7 @@ void KgpgSelectPublicKeyDlg::sort()
     while (current->nextSibling())
     {
         current = current->nextSibling();
-        if ((!current->text(2).isEmpty()) && m_untrustedlist.contains(current->text(2)))
+        if (!current->text(2).isEmpty() && m_untrustedlist.contains(current->text(2)))
         {
             if (current->isSelected())
             {
@@ -469,22 +459,6 @@ void KgpgSelectPublicKeyDlg::sort()
         m_keyslist->setCurrentItem(firstvisible);
         m_keyslist->ensureItemVisible(firstvisible);
     }
-}
-
-void KgpgSelectPublicKeyDlg::enable()
-{
-    Q3ListViewItem *current = m_keyslist->firstChild();
-    if (current == NULL)
-        return;
-    current->setVisible(true);
-
-    while (current->nextSibling())
-    {
-        current = current->nextSibling();
-        current->setVisible(true);
-    }
-
-    m_keyslist->ensureItemVisible(m_keyslist->currentItem());
 }
 
 void KgpgSelectPublicKeyDlg::slotGotoDefaultKey()
