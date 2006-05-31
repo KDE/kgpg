@@ -125,8 +125,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     slotSelectionChanged();
     setMainWidget(page);
 
-    connect(m_keyslist, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(slotOk()));
-    connect(m_keyslist, SIGNAL(clicked(Q3ListViewItem *)), this, SLOT(slotSelect(Q3ListViewItem *)));
+    connect(m_keyslist, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(slotOk(Q3ListViewItem *)));
     connect(m_keyslist, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
 }
 
@@ -170,22 +169,14 @@ bool KgpgSelectSecretKey::isTerminalSign() const
     return false;
 }
 
-void KgpgSelectSecretKey::slotSelect(Q3ListViewItem *item)
-{
-    if (item != 0 && item->depth() != 0)
-    {
-        m_keyslist->setSelected(item->parent(), true);
-        m_keyslist->setCurrentItem(item->parent());
-    }
-}
-
 void KgpgSelectSecretKey::slotSelectionChanged()
 {
     enableButtonOK(!m_keyslist->selectedItems().isEmpty());
 }
 
-void KgpgSelectSecretKey::slotOk()
+void KgpgSelectSecretKey::slotOk(Q3ListViewItem *item)
 {
+    if (item != 0 && item->depth() == 0)
     slotButtonClicked(Ok);
 }
 
