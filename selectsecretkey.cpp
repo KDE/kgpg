@@ -177,7 +177,7 @@ void KgpgSelectSecretKey::slotSelectionChanged()
 void KgpgSelectSecretKey::slotOk(Q3ListViewItem *item)
 {
     if (item != 0 && item->depth() == 0)
-    slotButtonClicked(Ok);
+        slotButtonClicked(Ok);
 }
 
 #include "selectsecretkey.moc"
