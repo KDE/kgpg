@@ -25,7 +25,7 @@
 #include <qcheckbox.h>
 #include <qmovie.h>
 #include <qcstring.h>
-#include <qhbuttongroup.h> 
+#include <qhbuttongroup.h>
 #include <kglobal.h>
 #include <kactivelabel.h>
 #include <kdeversion.h>
@@ -38,7 +38,7 @@
 #include <kcmdlineargs.h>
 #include <qtooltip.h>
 #include <kdebug.h>
-#include <kurlrequesterdlg.h> 
+#include <kurlrequesterdlg.h>
 #include <klineedit.h>
 #include <kio/renamedlg.h>
 #include <kpassivepopup.h>
@@ -63,7 +63,7 @@
 #include <kdesktopfile.h>
 
 #include "kgpgeditor.h"
-                       
+
 #include "kgpg.h"
 #include "kgpgsettings.h"
 #include "listkeys.h"
@@ -137,7 +137,7 @@ void  MyView::clipSign(bool openEditor)
                 kgpgtxtedit->view->editor->setText(clippie);
                 kgpgtxtedit->view->clearSign();
 		kgpgtxtedit->show();
-		
+
         } else
                 KMessageBox::sorry(this,i18n("Clipboard is empty."));
 }
@@ -421,7 +421,7 @@ void  MyView::decryptDroppedFile()
 	connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
 //        if (isFolder)
         connect(lib,SIGNAL(decryptionOver()),this,SLOT(decryptNextFile()));
-	
+
 }
 
 void  MyView::decryptNextFile()
@@ -648,16 +648,16 @@ void  MyView::startWizard()
         QString firstKey=QString::null;
         char line[300];
         bool counter=false;
-	
-        fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
+
+        fp = popen("gpg --display-charset=utf-8 --no-tty --with-colon --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
-                tst=line;
+                tst=QString::fromUtf8(line);
                 if (tst.startsWith("sec")) {
                         name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
                         if (!name.isEmpty()) {
-                                fp2 = popen("gpg --no-tty --with-colon --list-keys "+QFile::encodeName(tst.section(':',4,4)), "r");
+                                fp2 = popen("gpg --display-charset=utf-8 --no-tty --with-colon --list-keys "+QFile::encodeName(tst.section(':',4,4)), "r");
                                 while ( fgets( line, sizeof(line), fp2)) {
-                                        tst2=line;
+                                        tst2=QString::fromUtf8(line);
                                         if (tst2.startsWith("pub") && (trustedvals.find(tst2.section(':',1,1))==-1)) {
                                                 counter=true;
                                                 wiz->CBdefault->insertItem(tst.section(':',4,4).right(8)+": "+name);
@@ -698,9 +698,9 @@ void  MyView::slotWizardChange()
                 QString defaultID=KgpgInterface::getGpgSetting("default-key",wiz->kURLRequester1->url());
                 if (defaultID.isEmpty())
                         return;
-                fp = popen("gpg --no-tty --with-colon --list-secret-keys "+QFile::encodeName(defaultID), "r");
+                fp = popen("gpg --display-charset=utf-8 --no-tty --with-colon --list-secret-keys "+QFile::encodeName(defaultID), "r");
                 while ( fgets( line, sizeof(line), fp)) {
-                        tst=line;
+                        tst=QString::fromUtf8(line);
                         if (tst.startsWith("sec")) {
 				name=KgpgInterface::checkForUtf8(tst.section(':',9,9));
                                 wiz->CBdefault->setCurrentItem(tst.section(':',4,4).right(8)+": "+name);
@@ -783,7 +783,7 @@ kgpgapplet::kgpgapplet(QWidget *parent, const char *name)
 	KgpgOpenEditor = new KAction(i18n("&Open Editor"), "edit", 0,parent, SLOT(slotOpenEditor()),actionCollection(),"kgpg_editor");
 	else
 	KgpgOpenEditor = new KAction(i18n("&Open Key Manager"), "kgpg", 0,this, SLOT(slotOpenKeyManager()),actionCollection(),"kgpg_editor");
-	
+
 	KAction *KgpgOpenServer = new KAction(i18n("&Key Server Dialog"), "network", 0,this, SLOT(slotOpenServerDialog()),actionCollection(),"kgpg_server");
         KAction *KgpgPreferences=KStdAction::preferences(this, SLOT(showOptions()), actionCollection());
 
@@ -892,15 +892,15 @@ int KgpgAppletApp::newInstance()
         } else {
                 kdDebug(2100) << "Starting KGpg"<<endl;
                 running=true;
-		
+
                 s_keyManager=new listKeys(0, "key_manager");
-		
+
 		QString gpgPath= KGpgSettings::gpgConfigPath();
 		if (!gpgPath.isEmpty() && KURL(gpgPath).directory(false)!=QDir::homeDirPath()+"/.gnupg/")
-		setenv("GNUPGHOME",KURL(gpgPath).directory(false).ascii(),1);
-		
-                s_keyManager->refreshkey();
-		
+		setenv("GNUPGHOME", QFile::encodeName(KURL::fromPathOrURL(gpgPath).directory(false)), 1);
+
+        s_keyManager->refreshkey();
+
 		if (KGpgSettings::leftClick()==KGpgSettings::EnumLeftClick::KeyManager)
                 kgpg_applet=new kgpgapplet(s_keyManager,"kgpg_systrayapplet");
 		else
@@ -910,7 +910,7 @@ int KgpgAppletApp::newInstance()
 		connect(s_keyManager,SIGNAL(encryptFiles(KURL::List)),kgpg_applet->w,SLOT(encryptFiles(KURL::List)));
 		connect(s_keyManager,SIGNAL(installShredder()),kgpg_applet->w,SLOT(installShred()));
 		connect(s_keyManager->s_kgpgEditor,SIGNAL(encryptFiles(KURL::List)),kgpg_applet->w,SLOT(encryptFiles(KURL::List)));
-		
+
                 connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
                 connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
                 connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));
@@ -918,7 +918,7 @@ int KgpgAppletApp::newInstance()
 		connect(s_keyManager,SIGNAL(fontChanged(QFont)),kgpg_applet->w,SIGNAL(setFont(QFont)));
 		connect(kgpg_applet->w,SIGNAL(importedKeys(QStringList)),s_keyManager->keysList2,SLOT(slotReloadKeys(QStringList)));
                 kgpg_applet->show();
-                
+
 
                 if (!gpgPath.isEmpty()) {
                         if ((KgpgInterface::getGpgBoolSetting("use-agent",gpgPath)) && (!getenv("GPG_AGENT_INFO")))

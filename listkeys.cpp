@@ -149,13 +149,13 @@ void UpdateViewItem::paintCell(QPainter *p, const QColorGroup &cg,int column, in
         }
 	else if ((exp) && (column==3)) _cg.setColor( QColorGroup::Text, Qt::red );
 	}
-	else 
+	else
         if (column<2) {
                 QFont font(p->font());
                 font.setItalic(true);
                 p->setFont(font);
         }
-		
+
 
         KListViewItem::paintCell(p,_cg, column, width, alignment);
 }
@@ -200,7 +200,7 @@ int UpdateViewItem :: compare(  QListViewItem * item, int c, bool ascending ) co
                 else if (serial>itemSerial)
                         rc=1;
 		return rc;
-        } 
+        }
 	return QListViewItem::compare(item,c,ascending);
 }
 
@@ -246,9 +246,9 @@ KDialogBase( parent, name, true,i18n("Private Key List"),Ok | Cancel)
 	bool warn=false;
 	KListViewItem *item;
 
-        fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
+        fp = popen("gpg --no-tty --with-colons --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
-                tst=line;
+                tst=QString::fromUtf8(line);
                 if (tst.startsWith("sec")) {
                         QStringList keyString=QStringList::split(":",tst,true);
                         QString val=keyString[6];
@@ -257,10 +257,10 @@ KDialogBase( parent, name, true,i18n("Private Key List"),Ok | Cancel)
                                 val=i18n("Unlimited");
                         fullname=keyString[9];
 
-                        fp2 = popen(QFile::encodeName(QString("gpg --no-tty --with-colon --list-key %1").arg(KShellProcess::quote(id))), "r");
+                        fp2 = popen(QFile::encodeName(QString("gpg --no-tty --with-colons --list-key %1").arg(KShellProcess::quote(id))), "r");
                         bool dead=true;
                         while ( fgets( line, sizeof(line), fp2)) {
-                                tst2=line;
+                                tst2=QString::fromUtf8(line);
                                 if (tst2.startsWith("pub")) {
                          const QString trust2=tst2.section(':',1,1);
                         switch( trust2[0] ) {
@@ -294,8 +294,8 @@ KDialogBase( parent, name, true,i18n("Private Key List"),Ok | Cancel)
         		}
 
         		keyName=KgpgInterface::checkForUtf8(keyName);
-			
-			
+
+
                                 item=new KListViewItem(keysListpr,keyName,keyMail,id);
                                 //KListViewItem *sub= new KListViewItem(item,i18n("ID: %1, trust: %2, expiration: %3").arg(id).arg(trust).arg(val));
 				KListViewItem *sub= new KListViewItem(item,i18n("Expiration:"),val);
@@ -407,19 +407,19 @@ KeyView::KeyView( QWidget *parent, const char *name )
         pixRevoke=loader->loadIcon("stop",KIcon::Small,20);
 	QPixmap blankFrame;
 	blankFrame.load(locate("appdata", "pics/kgpg_blank.png"));
-        
+
 	trustunknown.load(locate("appdata", "pics/kgpg_fill.png"));
 	trustunknown.fill(KGpgSettings::colorUnknown());
 	bitBlt(&trustunknown,0,0,&blankFrame,0,0,50,15);
-	
+
 	trustbad.load(locate("appdata", "pics/kgpg_fill.png"));
 	trustbad.fill(KGpgSettings::colorBad());//QColor(172,0,0));
 	bitBlt(&trustbad,0,0,&blankFrame,0,0,50,15);
-        
+
 	trustrevoked.load(locate("appdata", "pics/kgpg_fill.png"));
 	trustrevoked.fill(KGpgSettings::colorRev());//QColor(30,30,30));
 	bitBlt(&trustrevoked,0,0,&blankFrame,0,0,50,15);
-        
+
 	trustgood.load(locate("appdata", "pics/kgpg_fill.png"));
 	trustgood.fill(KGpgSettings::colorGood());//QColor(144,255,0));
 	bitBlt(&trustgood,0,0,&blankFrame,0,0,50,15);
@@ -461,13 +461,13 @@ void  KeyView::startDrag()
         QString keyid=currentItem()->text(6);
         if (!keyid.startsWith("0x"))
                 return;
-        QString gpgcmd="gpg --no-tty --export --armor "+KShellProcess::quote(keyid.local8Bit());
+        QString gpgcmd="gpg --display-charset=utf-8 --no-tty --export --armor "+KShellProcess::quote(keyid.local8Bit());
 
         QString keytxt;
         fp=popen(QFile::encodeName(gpgcmd),"r");
         while ( fgets( line, sizeof(line), fp))    /// read output
                 if (!QString(line).startsWith("gpg:"))
-                        keytxt+=line;
+                        keytxt+=QString::fromUtf8(line);
         pclose(fp);
 
         QDragObject *d = new QTextDrag( keytxt, this );
@@ -506,7 +506,7 @@ void mySearchLine::updateSearch(const QString& s)
 	{
 	    if (item->isVisible() && !(item->text(6).isEmpty()))
 	    {
-		if (searchListView->displayOnlySecret && searchListView->secretList.find(item->text(6))==-1) 
+		if (searchListView->displayOnlySecret && searchListView->secretList.find(item->text(6))==-1)
                     item->setVisible(false);
 		if (!searchListView->displayDisabled && item->pixmap(2))
 		    if (item->pixmap(2)->serialNumber()==disabledSerial)
@@ -579,7 +579,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
         (void) new KToggleAction(i18n("&Show only Secret Keys"), "kgpg_show", 0,this, SLOT(slotToggleSecret()),actionCollection(),"show_secret");
         keysList2->displayOnlySecret=false;
-	
+
 	(void) new KToggleAction(i18n("&Hide Expired/Disabled Keys"),0, 0,this, SLOT(slotToggleDisabled()),actionCollection(),"hide_disabled");
 	keysList2->displayDisabled=true;
 
@@ -668,7 +668,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         popuporphan=new QPopupMenu();
         regeneratePublic->plug(popuporphan);
         deleteKeyPair->plug(popuporphan);
-	
+
 	editCurrentGroup->setEnabled(false);
 	delGroup->setEnabled(false);
 	createGroup->setEnabled(false);
@@ -692,10 +692,10 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 
         ///////////////    get all keys data
 	keyStatusBar=statusBar();
-	
+
 	setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "listkeys.rc");
         toolBar()->insertLineSeparator();
-	
+
 	QToolButton *clearSearch = new QToolButton(toolBar());
 	clearSearch->setTextLabel(i18n("Clear Search"), true);
 	clearSearch->setIconSet(SmallIconSet(QApplication::reverseLayout() ? "clear_left"
@@ -703,8 +703,8 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
 	(void) new QLabel(i18n("Search: "),toolBar());
 	listViewSearch = new mySearchLine(toolBar(),keysList2);
 	connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
-	
-	
+
+
 	(void)new KAction(i18n("Filter Search"), Qt::Key_F6, listViewSearch, SLOT(setFocus()),actionCollection(), "search_focus");
 
         sTrust->setChecked(KGpgSettings::showTrust());
@@ -713,7 +713,7 @@ listKeys::listKeys(QWidget *parent, const char *name) : DCOPObject( "KeyInterfac
         sExpi->setChecked(KGpgSettings::showExpi());
 
         statusbarTimer = new QTimer(this);
-        
+
         keyStatusBar->insertItem("",0,1);
         keyStatusBar->insertFixedItem(i18n("00000 Keys, 000 Groups"),1,true);
         keyStatusBar->setItemAlignment(0, AlignLeft);
@@ -905,11 +905,11 @@ void listKeys::slotregenerate()
         FILE *fp;
         QString tst;
         char line[300];
-        QString cmd="gpg --no-secmem-warning --export-secret-key "+keysList2->currentItem()->text(6)+" | gpgsplit --no-split --secret-to-public | gpg --import";
+        QString cmd="gpg --display-charset=utf-8 --no-secmem-warning --export-secret-key "+keysList2->currentItem()->text(6)+" | gpgsplit --no-split --secret-to-public | gpg --import";
 
-        fp = popen(cmd.ascii(), "r");
+        fp = popen(QFile::encodeName(cmd), "r");
         while ( fgets( line, sizeof(line), fp)) {
-                tst+=line;
+                tst+=QString::fromUtf8(line);
         }
         pclose(fp);
         QString regID=keysList2->currentItem()->text(6);
@@ -1064,7 +1064,7 @@ void listKeys::findFirstKey()
         delete m_find;
 
         if (foundItem) {
-                
+
                 keysList2->clearSelection();
                 keysList2->setCurrentItem(item);
                 keysList2->setSelected(item,true);
@@ -1129,7 +1129,7 @@ void listKeys::addToKAB()
                 KMessageBox::sorry(this,i18n("Unable to contact the address book. Please check your installation."));
                 return;
         }
-	
+
 	KABC::Addressee::List addresseeList = ab->findByEmail(email);
   	kapp->startServiceByDesktopName( "kaddressbook" );
   	DCOPRef call( "kaddressbook", "KAddressBookIface" );
@@ -1226,7 +1226,7 @@ void listKeys::checkList()
                         stateChanged("group_selected");
                 else
 		  stateChanged("single_selected");
-		
+
         }
         int serial=keysList2->currentItem()->pixmap(0)->serialNumber();
         if (serial==keysList2->pixkeySingle.serialNumber()) {
@@ -1323,7 +1323,7 @@ void listKeys::slotSetDefaultKey(QListViewItem *newdef)
         //kdDebug(2100)<<KGpgSettings::defaultKey()<<endl;
         if (newdef->text(6)==KGpgSettings::defaultKey())
                 return;
-        if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) {        
+        if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) {
                 KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted."));
                 return;
         }
@@ -1473,7 +1473,7 @@ void listKeys::slotexportsec()
                 if (fgpg.exists())
                         fgpg.remove();
 
-                KProcIO *p=new KProcIO();
+                KProcIO *p=new KProcIO(QTextCodec::codecForLocale());
                 *p<<"gpg"<<"--no-tty"<<"--output"<<QFile::encodeName(url.path())<<"--armor"<<"--export-secret-keys"<<keysList2->currentItem()->text(6);
                 p->start(KProcess::Block);
 
@@ -1534,7 +1534,7 @@ void listKeys::slotexport()
                         expServer->slotExport(exportKeysList);
                         return;
                 }
-                KProcIO *p=new KProcIO();
+                KProcIO *p=new KProcIO(QTextCodec::codecForLocale());
                 *p<<"gpg"<<"--no-tty";
                 if (page->checkFile->isChecked()) {
                         expname=page->newFilename->url().stripWhiteSpace();
@@ -1609,7 +1609,7 @@ void listKeys::slotShowPhoto()
         KTrader::OfferList offers = KTrader::self()->query("image/jpeg", "Type == 'Application'");
         KService::Ptr ptr = offers.first();
         //KMessageBox::sorry(0,ptr->desktopEntryName());
-        KProcIO *p=new KProcIO();
+        KProcIO *p=new KProcIO(QTextCodec::codecForLocale());
         *p<<"gpg"<<"--no-tty"<<"--photo-viewer"<<QFile::encodeName(ptr->desktopEntryName()+" %i")<<"--edit-key"<<keysList2->currentItem()->parent()->text(6)<<"uid"<<keysList2->currentItem()->text(6)<<"showphoto"<<"quit";
         p->start(KProcess::DontCare,true);
 }
@@ -1809,14 +1809,14 @@ void listKeys::editGroup()
 	gEdit->availableKeys->setColumnWidthMode(0,QListView::Manual);
 	gEdit->availableKeys->setColumnWidthMode(1,QListView::Manual);
 	gEdit->availableKeys->setColumnWidthMode(2,QListView::Manual);
-	
+
 	gEdit->groupKeys->setColumnWidth(0,200);
 	gEdit->groupKeys->setColumnWidth(1,200);
 	gEdit->groupKeys->setColumnWidth(2,100);
 	gEdit->groupKeys->setColumnWidthMode(0,QListView::Manual);
 	gEdit->groupKeys->setColumnWidthMode(1,QListView::Manual);
 	gEdit->groupKeys->setColumnWidthMode(2,QListView::Manual);
-        
+
         gEdit->setMinimumSize(gEdit->sizeHint());
         gEdit->show();
         if (dialogGroupEdit->exec()==QDialog::Accepted)
@@ -1848,10 +1848,10 @@ void listKeys::signkey()
                 FILE *pass;
                 char line[200]="";
                 QString opt,fingervalue;
-                QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --fingerprint "+KShellProcess::quote(keysList2->currentItem()->text(6));
+                QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colons --fingerprint "+KShellProcess::quote(keysList2->currentItem()->text(6));
                 pass=popen(QFile::encodeName(gpgcmd),"r");
                 while ( fgets( line, sizeof(line), pass)) {
-                        opt=line;
+                        opt=QString::fromUtf8(line);
                         if (opt.startsWith("fpr")) {
                                 fingervalue=opt.section(':',9,9);
                                 // format fingervalue in 4-digit groups
@@ -2103,6 +2103,7 @@ void listKeys::slotedit()
         kp<<"-e"
         <<"gpg"
         <<"--no-secmem-warning"
+        <<"--utf8-strings"
         <<"--edit-key"
         <<keysList2->currentItem()->text(6)
         <<"help";
@@ -2173,10 +2174,10 @@ void listKeys::slotgenkey()
                         int iYpos=qRect.height()/2-pop->height()/2;
                         pop->move(iXpos,iYpos);
                         pop->setAutoDelete(false);
-                        KProcIO *proc=new KProcIO();
+                        KProcIO *proc=new KProcIO(QTextCodec::codecForLocale());
                         message=QString::null;
                         //*proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--batch"<<"--passphrase-fd"<<res<<"--gen-key"<<"-a"<<"kgpg.tmp";
-                        *proc<<"gpg"<<"--no-tty"<<"--status-fd=2"<<"--no-secmem-warning"<<"--batch"<<"--gen-key";
+                        *proc<<"gpg"<<"--no-tty"<<"--status-fd=2"<<"--no-secmem-warning"<<"--batch"<<"--gen-key"<<"--utf8-strings";
                         /////////  when process ends, update dialog infos
                         QObject::connect(proc, SIGNAL(processExited(KProcess *)),this, SLOT(genover(KProcess *)));
                         proc->start(KProcess::NotifyOnExit,true);
@@ -2191,11 +2192,11 @@ void listKeys::slotgenkey()
                         }
                         proc->writeStdin(QString("Passphrase:%1").arg(password));
                         proc->writeStdin(QString("Key-Length:%1").arg(ksize));
-                        proc->writeStdin(QString("Name-Real:%1").arg(newKeyName.utf8()));
+                        proc->writeStdin(QString("Name-Real:%1").arg(newKeyName));
                         if (!newKeyMail.isEmpty())
                                 proc->writeStdin(QString("Name-Email:%1").arg(newKeyMail));
                         if (!kcomment.isEmpty())
-                                proc->writeStdin(QString("Name-Comment:%1").arg(kcomment.utf8()));
+                                proc->writeStdin(QString("Name-Comment:%1").arg(kcomment));
                         if (kexp==0)
                                 proc->writeStdin(QString("Expire-Date:0"));
                         if (kexp==1)
@@ -2243,9 +2244,9 @@ void listKeys::genover(KProcess *)
 {
         newkeyID=QString::null;
         continueSearch=true;
-        KProcIO *conprocess=new KProcIO();
+        KProcIO *conprocess=new KProcIO(QTextCodec::codecForLocale());
         *conprocess<< "gpg";
-        *conprocess<<"--no-secmem-warning"<<"--with-colon"<<"--fingerprint"<<"--list-keys"<<newKeyName;
+        *conprocess<<"--no-secmem-warning"<<"--with-colons"<<"--fingerprint"<<"--list-keys"<<newKeyName;
         QObject::connect(conprocess,SIGNAL(readReady(KProcIO *)),this,SLOT(slotReadFingerProcess(KProcIO *)));
         QObject::connect(conprocess, SIGNAL(processExited(KProcess *)),this, SLOT(newKeyDone(KProcess *)));
         conprocess->start(KProcess::NotifyOnExit,true);
@@ -2366,9 +2367,9 @@ void listKeys::reloadSecretKeys()
         FILE *fp;
         char line[300];
         keysList2->secretList=QString::null;
-        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+        fp = popen("gpg --no-secmem-warning --no-tty --with-colons --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
-                QString lineRead=line;
+                QString lineRead=QString::fromUtf8(line);
                 if (lineRead.startsWith("sec"))
                         keysList2->secretList+="0x"+lineRead.section(':',4,4).right(8)+",";
         }
@@ -2516,7 +2517,7 @@ QPixmap KeyView::slotGetPhoto(QString photoId,bool mini)
 {
         KTempFile *phototmp=new KTempFile();
         QString popt="cp %i "+phototmp->name();
-        KProcIO *p=new KProcIO();
+        KProcIO *p=new KProcIO(QTextCodec::codecForLocale());
         *p<<"gpg"<<"--show-photos"<<"--photo-viewer"<<QFile::encodeName(popt)<<"--list-keys"<<photoId;
         p->start(KProcess::Block);
 
@@ -2542,7 +2543,7 @@ void KeyView::expandKey(QListViewItem *item)
         FILE *fp;
         QString cycle;
         QStringList tst;
-        char line[300];
+        char tmpline[300];
         UpdateViewItem *itemsub=NULL;
         UpdateViewItem *itemuid=NULL;
         UpdateViewItem *itemsig=NULL;
@@ -2555,9 +2556,10 @@ void KeyView::expandKey(QListViewItem *item)
 
         cycle="pub";
         bool noID=false;
-        fp = popen(QFile::encodeName(QString("gpg --no-secmem-warning --no-tty --with-colon --list-sigs "+item->text(6))), "r");
+        fp = popen(QFile::encodeName(QString("gpg --no-secmem-warning --no-tty --with-colons --list-sigs "+item->text(6))), "r");
 
-        while ( fgets( line, sizeof(line), fp)) {
+        while ( fgets( tmpline, sizeof(tmpline), fp)) {
+                QString line = QString::fromUtf8( tmpline );
                 tst=QStringList::split(":",line,true);
                 if ((tst[0]=="pub") && (tst[9].isEmpty())) /// Primary User Id is separated from public key
                         uidNumber=1;
@@ -2574,7 +2576,7 @@ void KeyView::expandKey(QListViewItem *item)
                                                 kgpgphototmp=new KTempFile();
                                                 kgpgphototmp->setAutoDelete(true);
                                                 QString pgpgOutput="cp %i "+kgpgphototmp->name();
-                                                KProcIO *p=new KProcIO();
+                                                KProcIO *p=new KProcIO(QTextCodec::codecForLocale());
                                                 *p<<"gpg"<<"--no-tty"<<"--photo-viewer"<<QFile::encodeName(pgpgOutput);
                                                 *p<<"--edit-key"<<item->text(6)<<"uid"<<QString::number(uidNumber)<<"showphoto"<<"quit";
                                                 p->start(KProcess::Block);
@@ -2680,18 +2682,20 @@ void KeyView::refreshkeylist()
         QStringList issec;
         secretList=QString::null;
         orphanList=QString::null;
-        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colons --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp2)) {
-                QString lineRead=line;
+                QString lineRead=QString::fromUtf8(line);
+                kdDebug(2100) << k_funcinfo << "Read one secret key line: " << lineRead << endl;
                 if (lineRead.startsWith("sec"))
                         issec<<lineRead.section(':',4,4).right(8);
         }
         pclose(fp2);
 
         QString defaultKey = KGpgSettings::defaultKey();
-        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8", "r");
+        fp = popen("gpg --no-secmem-warning --no-tty --with-colons --list-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
-                tst=line;
+                tst=QString::fromUtf8(line);
+                kdDebug(2100) << k_funcinfo << "Read one public key line: " << tst << endl;
                 if (tst.startsWith("pub")) {
                         emptyList=false;
                         noID=false;
@@ -2705,7 +2709,7 @@ void KeyView::refreshkeylist()
                                 isexpired=true;
                         if (pubKey.gpgkeyname.isEmpty())
                                 noID=true;
-				
+
                         item=new UpdateViewItem(this,pubKey.gpgkeyname,pubKey.gpgkeymail,QString::null,pubKey.gpgkeyexpiration,pubKey.gpgkeysize,pubKey.gpgkeycreation,pubKey.gpgkeyid,isbold,isexpired);
 
                         item->setPixmap(2,pubKey.trustpic);
@@ -2774,9 +2778,9 @@ void KeyView::insertOrphan(QString currentID)
         char line[300];
         UpdateViewItem *item=NULL;
         bool keyFound=false;
-        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+        fp = popen("gpg --no-secmem-warning --no-tty --with-colons --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
-                QString lineRead=line;
+                QString lineRead=QString::fromUtf8(line);
                 if ((lineRead.startsWith("sec")) && (lineRead.section(':',4,4).right(8))==currentID.right(8)) {
                         gpgKey orphanedKey=extractKey(lineRead);
                         keyFound=true;
@@ -2808,9 +2812,9 @@ void KeyView::insertOrphanedKeys(QStringList orphans)
 {
         FILE *fp;
         char line[300];
-        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+        fp = popen("gpg --no-secmem-warning --no-tty --with-colons --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
-                QString lineRead=line;
+                QString lineRead=QString::fromUtf8(line);
                 if ((lineRead.startsWith("sec")) && (orphans.find(lineRead.section(':',4,4).right(8))!=orphans.end())) {
                         gpgKey orphanedKey=extractKey(lineRead);
 
@@ -2887,17 +2891,17 @@ void KeyView::slotReloadOrphaned()
         FILE *fp,*fp2;
         char line[300];
 
-        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colons --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp2)) {
-                QString lineRead=line;
+                QString lineRead=QString::fromUtf8(line);
                 if (lineRead.startsWith("sec"))
                         issec<<"0x"+lineRead.section(':',4,4).right(8);
         }
         pclose(fp2);
 
-        fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-keys", "r");
+        fp = popen("gpg --no-secmem-warning --no-tty --with-colons --list-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
-                QString lineRead=line;
+                QString lineRead=QString::fromUtf8(line);
                 if (lineRead.startsWith("pub"))
                         issec.remove("0x"+lineRead.section(':',4,4).right(8));
         }
@@ -2924,9 +2928,9 @@ void KeyView::refreshcurrentkey(QString currentID)
         FILE *fp,*fp2;
         char line[300];
 
-        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
+        fp2 = popen("gpg --no-secmem-warning --no-tty --with-colons --list-secret-keys", "r");
         while ( fgets( line, sizeof(line), fp2)) {
-                QString lineRead=line;
+                QString lineRead=QString::fromUtf8(line);
                 if (lineRead.startsWith("sec"))
                         issec+=lineRead.section(':',4,4);
         }
@@ -2936,10 +2940,10 @@ void KeyView::refreshcurrentkey(QString currentID)
 
         QString tst;
         bool keyFound=false;
-        QString cmd="gpg --no-secmem-warning --no-tty --with-colon --list-keys --charset utf8 "+currentID;
+        QString cmd="gpg --no-secmem-warning --no-tty --with-colons --list-keys "+currentID;
         fp = popen(QFile::encodeName(cmd), "r");
         while ( fgets( line, sizeof(line), fp)) {
-                tst=line;
+                tst=QString::fromUtf8(line);
                 if (tst.startsWith("pub")) {
                         gpgKey pubKey=extractKey(tst);
                         keyFound=true;
@@ -3065,7 +3069,7 @@ gpgKey KeyView::extractKey(QString keyColon)
                 //ret.gpgkeyname=fullname.section('(',0,0);
         }
 
-        ret.gpgkeyname=KgpgInterface::checkForUtf8(ret.gpgkeyname);
+        //ret.gpgkeyname=KgpgInterface::checkForUtf8(ret.gpgkeyname); // FIXME lukas
 
         QString algo=keyString[3];
         if (!algo.isEmpty())

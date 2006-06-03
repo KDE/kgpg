@@ -263,8 +263,8 @@ void KgpgView::clearSign()
 		KgpgInterface *verifyProcess=new KgpgInterface();
 		connect(verifyProcess,SIGNAL(missingSignature(QString)),this,SLOT(slotAskForImport(QString)));
 		connect(verifyProcess,SIGNAL(verifyOver(QString,QString)),this,SLOT(slotVerifyResult(QString,QString)));
-		verifyProcess->KgpgVerifyText(mess);                                                
-        	} 
+		verifyProcess->KgpgVerifyText(mess);
+        	}
 		else {
                 /////    Sign the text in Editor
 		QString signKeyID;
@@ -278,7 +278,7 @@ void KgpgView::clearSign()
                         return;
                 }
                 delete opts;
-		
+
 		KgpgInterface *signProcess=new KgpgInterface();
 		connect(signProcess,SIGNAL(txtSignOver(QString)),this,SLOT(slotSignResult(QString)));
 		QStringList options=NULL;
@@ -295,16 +295,9 @@ if (signResult.isEmpty())
 KMessageBox::sorry(this,i18n("Signing not possible: bad passphrase or missing key"));
 else
 {
-	if (checkForUtf8(signResult))
-	{
-	editor->setText(QString::fromUtf8(signResult.ascii()));
-	emit resetEncoding(true);
-	}
-	else
-	{
 	editor->setText(signResult);
 	emit resetEncoding(false);
-	}
+
 	KgpgApp *win=(KgpgApp *) parent();
 	win->editRedo->setEnabled(false);
 	win->editUndo->setEnabled(false);
@@ -352,23 +345,15 @@ void KgpgView::slotdecode()
 void KgpgView::updateDecryptedtxt(QString newtxt)
 {
 	//kdDebug(2100)<<"UTF8 Test Result--------------"<<KgpgView::checkForUtf8()<<endl;
-	if (checkForUtf8(newtxt))
-	{
-	editor->setText(QString::fromUtf8(newtxt.ascii()));
-	emit resetEncoding(true);
-	}
-	else
-	{
 	editor->setText(newtxt);
 	emit resetEncoding(false);
-	}
 }
 
 bool KgpgView::checkForUtf8(QString text)
 {  //// try to guess if the decrypted text uses utf-8 encoding
-QTextCodec *codec =QTextCodec::codecForLocale ();
-		if (!codec->canEncode(text)) return true;
-return false;
+    QTextCodec *codec =QTextCodec::codecForLocale ();
+    if (codec->canEncode(text)) return true;
+    return false;
 }
 
 void KgpgView::failedDecryptedtxt(QString newtxt)

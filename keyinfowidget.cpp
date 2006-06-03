@@ -34,7 +34,7 @@
 #include <qlayout.h>
 #include <kactivelabel.h>
 #include <klineedit.h>
-#include <ktrader.h> 
+#include <ktrader.h>
 #include <kservice.h>
 #include <kmessagebox.h>
 
@@ -45,14 +45,14 @@
 
 KgpgKeyInfo::KgpgKeyInfo(QWidget *parent, const char *name,QString sigkey):KDialogBase( Swallow, i18n("Key Properties"), Close, Close, parent, name,true)
 {
-	
+
         FILE *pass;
         char line[200]="";
         QString gpgOutput,fullID;
         hasPhoto=false;
 	bool isSecret=false;
 	keyWasChanged=false;
-	
+
 	prop=new KeyProperties();
 	setMainWidget(prop);
 	QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --list-secret-key "+KShellProcess::quote(sigkey);
@@ -116,7 +116,7 @@ QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint
 
         pass=popen(QFile::encodeName(gpgcmd),"r");
         while ( fgets( line, sizeof(line), pass)) {
-                gpgOutput=line;
+                gpgOutput=QString::fromUtf8(line);
                 if (gpgOutput.startsWith("uat"))
                         hasPhoto=true;
                 if (gpgOutput.startsWith("pub")) {
@@ -187,14 +187,14 @@ QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint
 				trustColor=KGpgSettings::colorUnknown();
                                 break;
                         }
-			
+
 			if (gpgOutput.section(':',11,11).find("D",0,true)!=-1)  // disabled key
 			{
 				tr=i18n("Disabled");
 				trustColor=KGpgSettings::colorBad();
-				prop->cbDisabled->setChecked(true);	
+				prop->cbDisabled->setChecked(true);
 			}
-			
+
                         prop->kLTrust->setText(tr);
                         prop->pixmapTrust->setPaletteBackgroundColor(trustColor);
 
@@ -219,9 +219,9 @@ QString gpgcmd="gpg --no-tty --no-secmem-warning --with-colon --with-fingerprint
 
                         const QString otrust=gpgOutput.section(':',8,8);
 			int ownerTrust=0;
-			
+
 			/*	Don't know=1; Do NOT trust=2; Marginally=3; Fully=4; Ultimately=5;   */
-			
+
                         switch( otrust[0] ) {
                         case 'f':
                                 ownerTrust=3;
@@ -392,12 +392,12 @@ KgpgInterface *KeyExpirationProcess=new KgpgInterface();
 
 void KgpgKeyInfo::slotEnableDate(bool isOn)
 {
-if (isOn) 
+if (isOn)
 {
 kdt->setEnabled(false);
 chdate->enableButtonOK(true);
 }
-else 
+else
 {
 kdt->setEnabled(true);
 chdate->enableButtonOK(kdt->date()>=QDate::currentDate ());
@@ -425,8 +425,8 @@ void KgpgKeyInfo::slotChangeTrust(int newTrust)
                 KeyTrustProcess->KgpgTrustExpire(displayedKeyID,newTrust);
                 connect(KeyTrustProcess,SIGNAL(trustfinished()),this,SLOT(slotInfoTrustChanged()));
 }
-		
-		
+
+
 void KgpgKeyInfo::slotInfoPasswordChanged()
 {
 KPassivePopup::message(i18n("Passphrase for the key was changed"),QString::null,KGlobal::iconLoader()->loadIcon("kgpg",KIcon::Desktop),this);
@@ -442,7 +442,7 @@ loadKey(displayedKeyID);
 void KgpgKeyInfo::slotInfoExpirationChanged(int res)
 {
 QString infoMessage,infoText;
-if (res==3) 
+if (res==3)
 {
 keyWasChanged=true;
 if (kb->isChecked()) prop->tLExpiration->setText(i18n("Unlimited"));

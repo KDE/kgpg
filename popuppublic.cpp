@@ -26,6 +26,7 @@
 #include <qcheckbox.h>
 #include <qhbuttongroup.h>
 #include <qtoolbutton.h>
+#include <qtextcodec.h>
 
 #include <kdeversion.h>
 #include <klistview.h>
@@ -106,12 +107,12 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 	keyGroup=loader->loadIcon("kgpg_key3",KIcon::Small,20);
 
         if (filemode) setCaption(i18n("Select Public Key for %1").arg(sfile));
-        fmode=filemode;	
-	
+        fmode=filemode;
+
 	QHButtonGroup *hBar=new QHButtonGroup(page);
 	//hBar->setFrameStyle(QFrame::NoFrame);
 	hBar->setMargin(0);
-	
+
 #if KDE_IS_VERSION( 3, 2, 90 )
 	QToolButton *clearSearch = new QToolButton(hBar);
 	clearSearch->setTextLabel(i18n("Clear Search"), true);
@@ -121,12 +122,12 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 	KListViewSearchLine* listViewSearch = new KListViewSearchLine(hBar);
 	connect(clearSearch, SIGNAL(pressed()), listViewSearch, SLOT(clear()));
 #endif
-	
+
         keysList = new KListView( page );
 	 keysList->addColumn(i18n("Name"));
 	 keysList->addColumn(i18n("Email"));
 	 keysList->addColumn(i18n("ID"));
-	 
+
 #if KDE_IS_VERSION( 3, 2, 90 )
 	 listViewSearch->setListView(keysList);
 #endif
@@ -143,11 +144,11 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 	keysList->setColumnWidth(1,210);
 
         boutonboxoptions=new QButtonGroup(5,Qt::Vertical ,page,0);
-	
+
 	KActionCollection *actcol=new KActionCollection(this);
 	(void) new KAction(i18n("&Go to Default Key"),goDefaultKey, this, SLOT(slotGotoDefaultKey()),actcol,"go_default_key");
-	
-	
+
+
         CBarmor=new QCheckBox(i18n("ASCII armored encryption"),boutonboxoptions);
         CBuntrusted=new QCheckBox(i18n("Allow encryption with untrusted keys"),boutonboxoptions);
         CBhideid=new QCheckBox(i18n("Hide user id"),boutonboxoptions);
@@ -173,7 +174,7 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
 	       CBshred=new QCheckBox(i18n("Shred source file"),parentBox);
                 QWhatsThis::add
                         (CBshred,i18n("<b>Shred source file</b>: permanently remove source file. No recovery will be possible"));
-			
+
 		QString shredWhatsThis = i18n( "<qt><b>Shred source file:</b><br /><p>Checking this option will shred (overwrite several times before erasing) the files you have encrypted. This way, it is almost impossible that the source file is recovered.</p><p><b>But you must be aware that this is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>");
 		  KActiveLabel *warn= new KActiveLabel( i18n("<a href=\"whatsthis:%1\">Read this before using shredding</a>").arg(shredWhatsThis),parentBox );
 		  shredBox->addWidget(CBshred);
@@ -212,9 +213,9 @@ KDialogBase( Plain, i18n("Select Public Key"), Details | Ok | Cancel, Ok, parent
         fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys ", "r");
         while ( fgets( line, sizeof(line), fp2))
         {
-	QString readLine=line;
-	if (readLine.startsWith("sec")) seclist+=", 0x"+readLine.section(":",4,4).right(8);
-	}
+            QString readLine=QString::fromUtf8(line);
+            if (readLine.startsWith("sec")) seclist+=", 0x"+readLine.section(":",4,4).right(8);
+        }
         pclose(fp2);
 
         trusted=CBuntrusted->isChecked();
@@ -333,7 +334,7 @@ void popupPublic::refreshkeys()
 			}
 		}
 	}
-        KProcIO *encid=new KProcIO();
+        KProcIO *encid=new KProcIO(QTextCodec::codecForLocale());
         *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--with-colon"<<"--list-keys";
         /////////  when process ends, update dialog infos
         QObject::connect(encid, SIGNAL(processExited(KProcess *)),this, SLOT(slotpreselect()));
@@ -348,13 +349,13 @@ if (!keysList->firstChild()) return;
         if (fmode) it=keysList->findItem(KGpgSettings::defaultKey(),2);
 if (!trusted)
               sort();
-if (fmode) 
+if (fmode)
 {
   	keysList->clearSelection();
 	keysList->setSelected(it,true);
 	keysList->setCurrentItem(it);
 	keysList->ensureItemVisible(it);
-}	
+}
 emit keyListFilled();
 }
 
@@ -426,9 +427,6 @@ void popupPublic::slotprocread(KProcIO *p)
                 keymail=QString::null;
                 keyname=tst;//.section('(',0,0);
         }
-
-	keyname=KgpgInterface::checkForUtf8(keyname);
-
                         if ((!dead) && (!tst.isEmpty())) {
 				bool isDefaultKey=false;
                                 if (id.right(8)==defaultKey) isDefaultKey=true;

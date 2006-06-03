@@ -82,7 +82,7 @@ keyServer::keyServer(QWidget *parent, const char *name,bool modal,bool autoClose
         }
 
 
-        KProcIO *encid=new KProcIO();
+        KProcIO *encid=new KProcIO(QTextCodec::codecForLocale());
         *encid << "gpg"<<"--no-secmem-warning"<<"--no-tty"<<"--with-colon"<<"--list-keys";
         QObject::connect(encid, SIGNAL(readReady(KProcIO *)),this, SLOT(slotprocread(KProcIO *)));
         encid->start(KProcess::NotifyOnExit,true);
@@ -142,7 +142,7 @@ void keyServer::slotprocread(KProcIO *p)
                                 dead=false;
                                 break;
                         }
-                        tst=KgpgInterface::checkForUtf8(tst.section(':',9,9));
+                        tst=tst.section(':',9,9);
                         if (tst.length()>35) {
                                 tst.remove(35,tst.length());
                                 tst+="...";
@@ -185,15 +185,15 @@ void keyServer::slotSearch()
         count=0;
         cycle=false;
         readmessage=QString::null;
-        searchproc=new KProcIO();
+        searchproc=new KProcIO(QTextCodec::codecForLocale());
         QString keyserv=page->kCBimportks->currentText();
-        *searchproc<<"gpg";
+        *searchproc<<"gpg"<<"--utf8-strings";
         if (page->cBproxyI->isChecked()) {
                 searchproc->setEnvironment("http_proxy",page->kLEproxyI->text());
                 *searchproc<<	"--keyserver-options"<<"honor-http-proxy";
         } else
                 *searchproc<<	"--keyserver-options"<<"no-honor-http-proxy";
-        *searchproc<<"--keyserver"<<keyserv<<"--command-fd=0"<<"--status-fd=2"<<"--search-keys"<<page->kLEimportid->text().stripWhiteSpace().local8Bit();
+        *searchproc<<"--keyserver"<<keyserv<<"--command-fd=0"<<"--status-fd=2"<<"--search-keys"<<page->kLEimportid->text().stripWhiteSpace();
 
         keyNumbers=0;
         QObject::connect(searchproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotsearchresult(KProcess *)));
@@ -323,7 +323,7 @@ void keyServer::slotsearchread(KProcIO *p)
 			kitem->setText(2,creation);
 			cycle=false;
 			}
-			else 
+			else
 			{
 			if (subkey.find("<")!=-1) {
 	                keymail=subkey.section('<',-1,-1);
@@ -351,10 +351,10 @@ void keyServer::slotExport(QString keyId)
         if (page->kCBexportks->currentText().isEmpty())
                 return;
         readmessage=QString::null;
-        exportproc=new KProcIO();
+        exportproc=new KProcIO(QTextCodec::codecForLocale());
         QString keyserv=page->kCBexportks->currentText();
 
-        *exportproc<<"gpg";
+        *exportproc<<"gpg"<<"--utf8-strings";
 	if (!page->exportAttributes->isChecked())
                 *exportproc<<"--export-options"<<"no-include-attributes";
 
@@ -411,10 +411,10 @@ void keyServer::slotImport()
                 return;
         }
         readmessage=QString::null;
-        importproc=new KProcIO();
+        importproc=new KProcIO(QTextCodec::codecForLocale());
         QString keyserv=page->kCBimportks->currentText();
-	
-        *importproc<<"gpg";
+
+        *importproc<<"gpg"<<"--utf8-strings";
         if (page->cBproxyI->isChecked()) {
                 importproc->setEnvironment("http_proxy",page->kLEproxyI->text());
                 *importproc<<	"--keyserver-options"<<"honor-http-proxy";

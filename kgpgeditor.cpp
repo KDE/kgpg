@@ -60,7 +60,7 @@ KgpgApp::KgpgApp(QWidget *parent, const char *name, WFlags f,KShortcut goHome,bo
         readOptions();
 	goDefaultKey=goHome;
         // call inits to invoke all other construction parts
-	
+
         initActions();
         initView();
 
@@ -91,9 +91,9 @@ kdDebug(2100) <<"there was some error using DCOP."<<endl;
 
 void KgpgApp::closeEvent ( QCloseEvent * e )
 {
-        if (!isMainWindow) 
+        if (!isMainWindow)
 	{
-	 kapp->ref();	
+	 kapp->ref();
 	KMainWindow::closeEvent( e );
 	}
   else e->accept();
@@ -151,7 +151,8 @@ void KgpgApp::initActions()
         (void) new KAction(i18n("&Check MD5 Sum..."), 0,this, SLOT(slotCheckMd5()), actionCollection(), "sign_check");
 	KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
 
-	encodingAction=new KToggleAction(i18n("&Unicode (utf-8) Encoding"), 0, 0,this, SLOT(slotSetCharset()),actionCollection(),"charsets");
+    // comment out for now, only confusing
+	//encodingAction=new KToggleAction(i18n("&Unicode (utf-8) Encoding"), 0, 0,this, SLOT(slotSetCharset()),actionCollection(),"charsets");
 }
 
 void KgpgApp::slotSetFont(QFont myFont)
@@ -286,7 +287,7 @@ void KgpgApp::slotFileOpen()
 	loadResult=KEncodingFileDialog::getOpenURLAndEncoding(QString::null,QString::null,QString::null,this);
 	KURL url=loadResult.URLs.first();
 	textEncoding=loadResult.encoding;
-	
+
         if(!url.isEmpty()) {
                 openDocumentFile(url,textEncoding);
                 Docname=url;

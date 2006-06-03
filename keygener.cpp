@@ -91,16 +91,16 @@ keyGenerate::keyGenerate(QWidget *parent, const char *name):KDialogBase( parent,
 void keyGenerate::slotOk()
 {
         if (QString(kname->text()).stripWhiteSpace().isEmpty()) {
-                KMessageBox::sorry(0,i18n("You must give a name."));
+                KMessageBox::sorry(this,i18n("You must give a name."));
                 return;
         }
         QString vmail=mail->text();
-	if (vmail.isEmpty()) 
+	if (vmail.isEmpty())
 	{
 	if (KMessageBox::warningContinueCancel(this,i18n("You are about to create a key with no email address"))!=KMessageBox::Continue) return;
         }
 	else if ((vmail.find(" ")!=-1) || (vmail.find(".")==-1) || (vmail.find("@")==-1)) {
-                KMessageBox::sorry(0,i18n("Email address not valid"));
+                KMessageBox::sorry(this,i18n("Email address not valid"));
                 return;
         }
         accept();

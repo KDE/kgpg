@@ -74,7 +74,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 	keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
 
 	if (!keyServer.isEmpty()) serverList.prepend(keyServer+" "+i18n("(Default)"));
-	
+
 	defaultHomePath=QDir::homeDirPath()+"/.gnupg/";
 	if (QFile(defaultHomePath+"options").exists()) defaultConfigPath="options";
 	else
@@ -82,7 +82,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
                 if (QFile(defaultHomePath+"gpg.conf").exists()) defaultConfigPath="gpg.conf";
 		else defaultConfigPath=QString::null;
 		}
-	
+
 kdDebug(2100)<<"Adding pages"<<endl;
         page1=new Encryption();
         page2=new Decryption();
@@ -107,7 +107,7 @@ kdDebug(2100)<<"Adding pages"<<endl;
 
 	page1->clear_akey->setIconSet(QIconSet(QPixmap(SmallIcon("clear_left"))));
 	page1->clear_fkey->setIconSet(QIconSet(QPixmap(SmallIcon("clear_left"))));
-	
+
         // The following widgets are managed manually.
         connect(page1->change_fkey, SIGNAL(clicked()), this, SLOT(insertFileKey()));
 	connect(page1->clear_fkey, SIGNAL(clicked()), page1->kcfg_FileKey, SLOT(clear()));
@@ -191,7 +191,7 @@ if (!gpgHome.endsWith("/")) gpgHome.append("/");
 	QString confPath="options";
         if (!QFile(gpgHome+confPath).exists()) {
                 confPath="gpg.conf";
-		if (!QFile(gpgHome+confPath).exists()) 
+		if (!QFile(gpgHome+confPath).exists())
 		{
 		if (KMessageBox::questionYesNo(this,i18n("No configuration file was found in the selected location.\nDo you want to create it now ?\n\nWithout configuration file, neither KGpg nor Gnupg will work properly."),i18n("No Configuration File Found"),i18n("Create"),i18n("Ignore"))==KMessageBox::Yes) //////////   Try to create config File by running gpg once
 		{
@@ -204,7 +204,7 @@ if (!gpgHome.endsWith("/")) gpgHome.append("/");
 		{KMessageBox::sorry(this,i18n("Cannot create configuration file. Please check if destination media is mounted and if you have write access"));
 		return;
 		}
-		else 
+		else
 		{
 		QTextStream stream( &confFile );
 		stream<<"#  Config file created by KGpg\n\n";
@@ -225,7 +225,7 @@ QString pubKeyring,privKeyring;
         gpgConfigPath = KGpgSettings::gpgConfigPath();
 	page4->gpg_conf_path->setText(KURL(gpgConfigPath).fileName());
 	page4->gpg_home_path->setText(KURL(gpgConfigPath).directory(false));
-	
+
 	pubKeyring=KgpgInterface::getGpgSetting("keyring", gpgConfigPath);
 	if (pubKeyring!="")
 	{
@@ -262,8 +262,8 @@ QString pubKeyring,privKeyring;
 
 	page6->ServerBox->clear();
 	page6->ServerBox->insertStringList(serverList);
-	
-	
+
+
 	kdDebug(2100)<<"Finishing options"<<endl;
 }
 
@@ -273,8 +273,8 @@ void kgpgOptions::updateWidgetsDefault()
 	page1->alwaysKey->clear();
 	page1->kcfg_FileKey->clear();
 
-        page4->use_agent->setChecked( defaultUseAgent );	
-	
+        page4->use_agent->setChecked( defaultUseAgent );
+
 	page4->gpg_conf_path->setText(defaultConfigPath);
 	page4->gpg_home_path->setText(defaultHomePath);
 
@@ -284,7 +284,7 @@ void kgpgOptions::updateWidgetsDefault()
 	page4->kcfg_PrivKeyring->setChecked(false);
 	page4->kcfg_OnlyAdditional->setChecked(false);
 
-	
+
 	page6->ServerBox->clear();
 	page6->ServerBox->insertStringList(QStringList::split(",",defaultServerList));
 
@@ -298,19 +298,19 @@ bool kgpgOptions::isDefault()
 
         if (page4->gpg_conf_path->text()!=defaultConfigPath)
 		return false;
-		
+
 	if (page4->gpg_home_path->text()!=defaultHomePath)
 		return false;
 
 	if (page4->use_agent->isChecked() != defaultUseAgent)
-		return false;		
+		return false;
 
 	QString currList;
 	for (uint i=0;i<page6->ServerBox->count();i++)
 	currList+=page6->ServerBox->text(i)+",";
 	currList.truncate(currList.length()-1);
 	if (currList!=defaultServerList) return false;
-			
+
 	return true;
 }
 
@@ -324,13 +324,13 @@ bool kgpgOptions::hasChanged()
 		return true;
 	if (page4->gpg_home_path->text() != KURL(gpgConfigPath).directory(false))
 		return true;
-	   
+
 	if (page4->use_agent->isChecked() != useAgent)
 		return true;
-		
+
 	QStringList currList;
 	for (uint i=0;i<page6->ServerBox->count();i++)
-	currList.append(page6->ServerBox->text(i));	
+	currList.append(page6->ServerBox->text(i));
 	if (currList!=serverList) return true;
 
 	return false;
@@ -339,13 +339,13 @@ bool kgpgOptions::hasChanged()
 void kgpgOptions::updateSettings()
 {
         // Update config path first!
-	
+
 	KGpgSettings::setGpgConfigPath( page4->gpg_home_path->text()+page4->gpg_conf_path->text() );
 	KGpgSettings::writeConfig();	//Don't forget to write the config file
 	if (page4->gpg_home_path->text()!=KURL(gpgConfigPath).directory(false))
 	{
 	if (page4->gpg_home_path->text()!=defaultHomePath)
-	setenv("GNUPGHOME",page4->gpg_home_path->text().ascii(),1);
+	setenv("GNUPGHOME", QFile::encodeName(page4->gpg_home_path->text()), 1);
 	else setenv("GNUPGHOME","",1);
 	emit homeChanged();
 	gpgConfigPath = KGpgSettings::gpgConfigPath();
@@ -361,7 +361,7 @@ void kgpgOptions::updateSettings()
 	if (page4->kcfg_PubKeyringUrl->url()!=KgpgInterface::getGpgSetting("keyring", gpgConfigPath)) emitReload=true;
 	KgpgInterface::setGpgSetting("keyring",page4->kcfg_PubKeyringUrl->url(), gpgConfigPath);
 	}
-	else 
+	else
 	{
 	if (KgpgInterface::getGpgSetting("keyring", gpgConfigPath)!="") emitReload=true;
 	KgpgInterface::setGpgSetting("keyring",QString::null, gpgConfigPath);
@@ -394,7 +394,7 @@ void kgpgOptions::updateSettings()
 
 	KgpgInterface::setGpgMultiSetting("encrypt-to",QStringList::split(" ",page1->alwaysKey->text()),KGpgSettings::gpgConfigPath());
 	alwaysKeyID = page1->alwaysKey->text();
-	
+
         useAgent = page4->use_agent->isChecked();
 
 	if (useAgent)
@@ -407,7 +407,7 @@ void kgpgOptions::updateSettings()
 	//	KgpgInterface::setGpgBoolSetting("no-use-agent",true, KGpgSettings::gpgConfigPath());
 		KgpgInterface::setGpgBoolSetting("use-agent",false, KGpgSettings::gpgConfigPath());
 	}
-	
+
 	//////////////////  save key servers
 
 
@@ -521,7 +521,7 @@ void kgpgOptions::listkey()
         QString tst,name,trustedvals="idre-",issec;
         int counter=0;
         char line[300];
-	
+
 	FILE *fp2;
 
         fp2 = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
@@ -532,7 +532,7 @@ void kgpgOptions::listkey()
         }
         pclose(fp2);
 
-	
+
         fp = popen("gpg --no-tty --with-colon --list-keys", "r");
         while ( fgets( line, sizeof(line), fp)) {
                 tst=line;
@@ -570,7 +570,7 @@ void kgpgOptions::listkey()
 void kgpgOptions::slotAddKeyServer()
 {
 QString newServer=KInputDialog::getText(i18n("Add New Key Server"),i18n("Server URL:"));
-if (!newServer.isEmpty()) 
+if (!newServer.isEmpty())
 page6->ServerBox->insertItem(newServer.stripWhiteSpace());
 page6->ServerBox->setSelected(page6->ServerBox->findItem(newServer.stripWhiteSpace()),true);
 }
