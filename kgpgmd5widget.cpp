@@ -24,7 +24,6 @@
 Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
          : KDialog(parent, i18n("MD5 Checksum"), Apply | Close)
 {
-    setModal(true);
     setButtonText(Apply, i18n("Compare MD5 with Clipboard"));
 
     QFile f(url.path());
@@ -67,7 +66,6 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     dialoglayout->addLayout(ledlayout);
     dialoglayout->addStretch();
 
-    page->show();
     setMainWidget(page);
 
     connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
