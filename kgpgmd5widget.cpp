@@ -7,17 +7,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QApplication>
 #include <QHBoxLayout>
 #include <QClipboard>
 #include <QLabel>
 #include <QFile>
 
+#include <kapplication.h>
 #include <kmessagebox.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kcodecs.h>
-#include <kdebug.h>
 #include <kled.h>
 
 #include "kgpgmd5widget.h"
@@ -76,7 +75,7 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
 
 void Md5Widget::slotApply()
 {
-    QString text = QApplication::clipboard()->text(QClipboard::Clipboard).remove(' ');
+    QString text = KApplication::clipboard()->text().remove(' ');
     if (!text.isEmpty())
     {
         if (text.length() != m_md5sum.length())

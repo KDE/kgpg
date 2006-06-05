@@ -11,10 +11,11 @@
 #define KGPGMD5WIDGET_H
 
 #include <QString>
-#include <QLabel>
 
 #include <kdialog.h>
 #include <kurl.h>
+
+class QLabel;
 
 class KLed;
 
