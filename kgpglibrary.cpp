@@ -32,6 +32,7 @@
 
 #include "kgpglibrary.h"
 #include "popuppublic.h"
+#include "kgpgsettings.h"
 #include "kgpginterface.h"
 
 KgpgLibrary::KgpgLibrary(QWidget *parent, const bool &pgpExtension)
@@ -56,11 +57,22 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, c
             if (urls.count() > 1)
                 fileNames += ",...";
 
-            KgpgSelectPublicKeyDlg *dialogue = new KgpgSelectPublicKeyDlg(0, fileNames, true, true, goDefaultKey);
-            connect(dialogue, SIGNAL(selectedKey(QStringList, QStringList, bool, bool)), this, SLOT(startEncode(QStringList, QStringList, bool, bool)));
-            dialogue->exec();
+            KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, fileNames, true, true, goDefaultKey);
+            if (dialog->exec() == KDialog::Accepted)
+            {
+                QStringList options;
+                if (dialog->getUntrusted()) options << "--always-trust";
+                if (dialog->getArmor())     options << "--armor";
+                if (dialog->getHideId())    options << "--throw-keyid";
 
-            //delete dialogue;
+                if (!dialog->getCustomOptions().isEmpty())
+                    if (KGpgSettings::allowCustomEncryptionOptions())
+                        options << dialog->getCustomOptions().split(" ");
+
+                startEncode(dialog->selectedKeys(), options, dialog->getShred(), dialog->getSymmetric());
+            }
+
+            delete dialog;
         }
         else
             startEncode(defaultKey, opts, false, false);

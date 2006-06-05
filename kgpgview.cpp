@@ -244,8 +244,20 @@ void KgpgView::slotEncode()
 {
     // dialog to select public key for encryption
     KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, 0, false, true, (static_cast<KgpgEditor*>(parent()))->m_godefaultkey);
-    connect(dialog, SIGNAL(selectedKey(QStringList, QStringList, bool, bool)), this, SLOT(encodeTxt(QStringList, QStringList, bool, bool)));
-    dialog->exec();
+    if (dialog->exec() == KDialog::Accepted)
+    {
+        QStringList options;
+        if (dialog->getUntrusted()) options << "--always-trust";
+        if (dialog->getArmor())     options << "--armor";
+        if (dialog->getHideId())    options << "--throw-keyid";
+
+        QString customoptions = dialog->getCustomOptions();
+        if (!customoptions.isEmpty())
+            if (KGpgSettings::allowCustomEncryptionOptions())
+                options << customoptions.split(" ");
+
+        encodeTxt(dialog->selectedKeys(), options, dialog->getShred(), dialog->getSymmetric());
+    }
     delete dialog;
 }
 

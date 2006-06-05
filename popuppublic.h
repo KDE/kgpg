@@ -21,19 +21,18 @@
 #include <QKeySequence>
 #include <QStringList>
 #include <QString>
-#include <QPixmap>
 
-#include <kdialogbase.h>
 #include <kshortcut.h>
+#include <kdialog.h>
 
 #include "kgpgkey.h"
 
-class QPushButton;
 class QCheckBox;
-class QWidget;
 
+class K3ListViewSearchLine;
 class K3ListView;
-class KProcIO;
+class KLineEdit;
+class KHBox;
 
 class KgpgInterface;
 
@@ -45,14 +44,12 @@ public:
     KgpgSelectPublicKeyDlg(QWidget *parent = 0, const QString &sfile = "", const bool &filemode = false, const bool &enabledshred = true, const KShortcut &goDefaultKey = QKeySequence(Qt::CTRL + Qt::Key_Home));
 
     QStringList selectedKeys() const;
+    QString getCustomOptions() const;
     bool getSymmetric() const;
     bool getUntrusted() const;
-    bool getArmor() const;
     bool getHideId() const;
+    bool getArmor() const;
     bool getShred() const;
-
-signals:
-    void selectedKey(QStringList, QStringList, bool, bool);
 
 private slots:
     void slotOk();
@@ -60,7 +57,6 @@ private slots:
     void slotFillKeysListReady(KgpgListKeys keys, KgpgInterface *interface);
     void slotPreSelect();
     void slotSelectionChanged();
-    void slotCustomOpts(const QString &str);
     void slotSymmetric(const bool &state);
     void slotUntrusted(const bool &state);
     void slotShowAllKeys();
@@ -68,21 +64,16 @@ private slots:
     void slotGotoDefaultKey();
 
 private:
-    QPixmap m_keysingle;
-    QPixmap m_keypair;
-    QPixmap m_keygroup;
-
     QCheckBox *m_cbarmor;
     QCheckBox *m_cbuntrusted;
     QCheckBox *m_cbhideid;
     QCheckBox *m_cbshred;
     QCheckBox *m_cbsymmetric;
 
-    QString m_customoptions;
-    QString m_seclist; // list of IDs of secret keys
-    QStringList m_untrustedlist; // list of keys that are untrusted
-
+    KHBox *m_searchbar;
+    KLineEdit *m_customoptions;
     K3ListView *m_keyslist;
+    K3ListViewSearchLine *m_searchlineedit;
 
     bool m_fmode;
 };

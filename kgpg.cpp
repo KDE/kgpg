@@ -148,10 +148,22 @@ void MyView::clipEncrypt()
         KPassivePopup::message(i18n("Clipboard is empty."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop), this);
     else
     {
-        KgpgSelectPublicKeyDlg *dialoguec = new KgpgSelectPublicKeyDlg(0, 0, false, true, goDefaultKey);
-        connect(dialoguec, SIGNAL(selectedKey(QStringList, QStringList, bool, bool)), this, SLOT(encryptClipboard(QStringList, QStringList, bool, bool)));
-        dialoguec->exec();
-        delete dialoguec;
+        KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, true, goDefaultKey);
+        if (dialog->exec() == KDialog::Accepted)
+        {
+            QStringList options;
+            if (dialog->getUntrusted()) options << "--always-trust";
+            if (dialog->getArmor())     options << "--armor";
+            if (dialog->getHideId())    options << "--throw-keyid";
+
+            if (!dialog->getCustomOptions().isEmpty())
+                if (KGpgSettings::allowCustomEncryptionOptions())
+                    options << dialog->getCustomOptions().split(" ");
+
+            encryptClipboard(dialog->selectedKeys(), options, dialog->getShred(), dialog->getSymmetric());
+        }
+
+        delete dialog;
     }
 }
 
