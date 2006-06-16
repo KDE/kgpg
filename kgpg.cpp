@@ -225,6 +225,26 @@ void MyView::encryptDroppedFolder()
     if (KMessageBox::warningContinueCancel(0, i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>", kgpgfoldertmp->name()), i18n("Temporary File Creation"), KStdGuiItem::cont(), "FolderTmpFile") == KMessageBox::Cancel)
         return;
 
+    /*
+    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, true, goDefaultKey);
+    if (dialog->exec() == KDialog::Accepted)
+    {
+        QStringList options;
+        if (dialog->getUntrusted()) options << "--always-trust";
+        if (dialog->getArmor())     options << "--armor";
+        if (dialog->getHideId())    options << "--throw-keyid";
+
+        if (!dialog->getCustomOptions().isEmpty())
+            if (KGpgSettings::allowCustomEncryptionOptions())
+                options << dialog->getCustomOptions().split(" ");
+
+        encryptClipboard(dialog->selectedKeys(), options, dialog->getShred(), dialog->getSymmetric());
+    }
+    */
+
+
+
+    // TODO !!! CHANGE dialogue, remove connect
     dialogue = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), true, false, goDefaultKey);
 
     QGroupBox *bGroup = new QGroupBox(dialogue->mainWidget());

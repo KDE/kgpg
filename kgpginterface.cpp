@@ -405,12 +405,6 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcIO *process, const b
 
     process->writeStdin(passphrase, true);
 
-    // This will erase the password in the memory
-    // If passphrase contains "password", after that line, it will contains "xxxxxxxx".
-    // This is more secure.
-    passphrase.fill('x');
-    passphrase = QByteArray();
-
     return 0;
 }
 
@@ -1033,7 +1027,7 @@ void KgpgInterface::encryptTextProcess(KProcIO *p)
                 emit txtEncryptionStarted();
                 p->writeStdin(message, false);
                 p->closeWhenDone();
-                message.fill('x');
+                //message.fill('x');
                 message = QString::null;
             }
             else
@@ -1059,11 +1053,7 @@ void KgpgInterface::encryptTextFin(KProcess *p)
 {
     delete p;
     if (!message.isEmpty())
-    {
         emit txtEncryptionFinished(QString::fromUtf8(message.toAscii()).trimmed(), this);
-        message.fill('x');
-        message = QString::null;
-    }
     else
         emit txtEncryptionFinished(QString::null, this);
 }
