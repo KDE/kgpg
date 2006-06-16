@@ -23,8 +23,6 @@
 KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, const int &countkey)
                    : KDialog(parent, i18n("Private Key List"), Ok | Cancel)
 {
-    setModal(true);
-
     QWidget *page = new QWidget(this);
 
     KIconLoader *loader = KGlobal::iconLoader();

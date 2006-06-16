@@ -15,7 +15,7 @@
  ***************************************************************************/
 //(C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
 
-void newKey::CBsave_toggled( bool isOn)
+void newKey::CBsave_toggled(bool isOn)
 {
     kURLRequester1->setEnabled(isOn);
 }
