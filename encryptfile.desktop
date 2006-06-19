@@ -50,6 +50,7 @@ Name[tr]=Dosya Şifrele
 Name[uk]=Зашифрувати файл
 Name[wa]=Ecripter fitchî
 Name[zh_CN]=加密文件
+Name[zh_TW]=加密檔案
 Icon=kgpg
 Exec=kgpg -e %F
 
