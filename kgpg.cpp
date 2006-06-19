@@ -74,7 +74,7 @@
 #include "selectsecretkey.h"
 #include "kgpgeditor.h"
 #include "kgpg.h"
-#include "kgpgsettings.h"   // automaticaly created by compilation
+#include "kgpgsettings.h"   // automatically created by compilation
 #include "listkeys.h"
 #include "keyserver.h"
 #include "keyservers.h"
@@ -244,7 +244,7 @@ void MyView::encryptDroppedFolder()
 
 
 
-    // TODO !!! CHANGE dialogue, remove connect
+    // TODO !!! CHANGE dialog, remove connect
     dialogue = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), true, false, goDefaultKey);
 
     QGroupBox *bGroup = new QGroupBox(dialogue->mainWidget());

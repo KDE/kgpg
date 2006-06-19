@@ -1846,7 +1846,7 @@ void listKeys::delsignkey()
     QString signMail;
     QString parentMail;
 
-    // open a key selection dialog (KgpgSelectSecretKey, see begining of this file)
+    // open a key selection dialog (KgpgSelectSecretKey, see beginning of this file)
     parentKey = keysList2->currentItem()->parent()->text(6);
     signID = keysList2->currentItem()->text(6);
     parentMail = keysList2->currentItem()->parent()->text(0) + " (" + keysList2->currentItem()->parent()->text(1) + ")";
