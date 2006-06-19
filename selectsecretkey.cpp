@@ -169,7 +169,7 @@ bool KgpgSelectSecretKey::isTerminalSign() const
 
 void KgpgSelectSecretKey::slotSelectionChanged()
 {
-    enableButtonOK(!m_keyslist->selectedItems().isEmpty());
+    enableButtonOk(!m_keyslist->selectedItems().isEmpty());
 }
 
 void KgpgSelectSecretKey::slotOk(Q3ListViewItem *item)

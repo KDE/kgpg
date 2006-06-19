@@ -678,7 +678,7 @@ void listKeys::slotregenerate()
 void listKeys::slotAddUid()
 {
     addUidWidget = new KDialogBase(KDialogBase::Swallow, i18n("Add New User Id"),  KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, 0, true);
-    addUidWidget->enableButtonOK(false);
+    addUidWidget->enableButtonOk(false);
     AddUid *keyUid = new AddUid();
     addUidWidget->setMainWidget(keyUid);
     //keyUid->setMinimumSize(keyUid->sizeHint());
@@ -702,7 +702,7 @@ void listKeys::slotAddUidFin(int res, KgpgInterface *interface)
 
 void listKeys::slotAddUidEnable(const QString & name)
 {
-    addUidWidget->enableButtonOK(name.length() > 4);
+    addUidWidget->enableButtonOk(name.length() > 4);
 }
 
 void listKeys::slotAddPhoto()

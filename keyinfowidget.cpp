@@ -186,7 +186,7 @@ void KgpgKeyInfo::slotChangeExp()
 
 void KgpgKeyInfo::slotCheckDate(const QDate &date)
 {
-    m_chdate->enableButtonOK(date >= QDate::currentDate());
+    m_chdate->enableButtonOk(date >= QDate::currentDate());
 }
 
 void KgpgKeyInfo::slotChangeDate()
@@ -205,12 +205,12 @@ void KgpgKeyInfo::slotEnableDate(const bool &ison)
     if (ison)
     {
         m_kdt->setEnabled(false);
-        m_chdate->enableButtonOK(true);
+        m_chdate->enableButtonOk(true);
     }
     else
     {
         m_kdt->setEnabled(true);
-        m_chdate->enableButtonOK(m_kdt->date() >= QDate::currentDate());
+        m_chdate->enableButtonOk(m_kdt->date() >= QDate::currentDate());
     }
 }
 

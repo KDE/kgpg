@@ -405,9 +405,9 @@ void KgpgSelectPublicKeyDlg::slotPreSelect()
 void KgpgSelectPublicKeyDlg::slotSelectionChanged()
 {
     if (m_cbsymmetric->isChecked())
-        enableButtonOK(true);
+        enableButtonOk(true);
     else
-        enableButtonOK(!m_keyslist->selectedItems().isEmpty());
+        enableButtonOk(!m_keyslist->selectedItems().isEmpty());
 }
 
 void KgpgSelectPublicKeyDlg::slotSymmetric(const bool &state)

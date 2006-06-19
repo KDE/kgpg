@@ -46,8 +46,6 @@ kde4_add_ui3_files(kgpg_SRCS
    conf_ui2.ui 
    conf_misc.ui )
 
-kde4_add_dcop_skels(kgpg_SRCS dcopiface.h )
-
 kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
 kde4_add_executable(kgpg ${kgpg_SRCS})

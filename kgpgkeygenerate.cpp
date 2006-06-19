@@ -176,7 +176,7 @@ void KgpgKeyGenerate::slotActivateExp(const int &state)
 
 void KgpgKeyGenerate::slotEnableOk()
 {
-    enableButtonOK(!QString(m_kname->text()).simplified().isEmpty());
+    enableButtonOk(!QString(m_kname->text()).simplified().isEmpty());
 }
 
 bool KgpgKeyGenerate::getMode() const

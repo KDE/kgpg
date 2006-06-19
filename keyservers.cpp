@@ -366,7 +366,7 @@ void keyServer::slotSearch()
     m_dialogserver = new KDialogBase(KDialogBase::Swallow, i18n("Import Key From Keyserver"),  KDialogBase::Ok | KDialogBase::Close, KDialogBase::Ok, this, 0, true);
 
     m_dialogserver->setButtonText(KDialogBase::Ok, i18n("&Import"));
-    m_dialogserver->enableButtonOK(false);
+    m_dialogserver->enableButtonOk(false);
     m_listpop = new searchRes();
     //m_listpop->setMinimumWidth(250);
     //m_listpop->adjustSize();
@@ -467,7 +467,7 @@ void keyServer::slotSearchRead(KProcIO *p)
 void keyServer::slotSearchResult(KProcess *)
 {
     QString nb;
-    m_dialogserver->enableButtonOK(true);
+    m_dialogserver->enableButtonOk(true);
     QApplication::restoreOverrideCursor();
     nb = nb.setNum(m_keynumbers);
     //m_listpop->kLVsearch->setColumnText(0,i18n("Found %1 matching keys").arg(nb));
