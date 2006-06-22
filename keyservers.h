@@ -18,7 +18,7 @@
 #ifndef KEYSERVERS_H
 #define KEYSERVERS_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "kgpginterface.h"
 
@@ -31,7 +31,7 @@ class KProcess;
 class keyServerWidget;
 class searchRes;
 
-class keyServer : public KDialogBase
+class keyServer : public KDialog
 {
     Q_OBJECT
 
@@ -76,7 +76,7 @@ private:
     QString m_readmessage;
     Q3ListViewItem *m_kitem;
 
-    KDialogBase *m_dialogserver;
+    KDialog *m_dialogserver;
     KSimpleConfig *m_config;
     KProcIO *m_importproc;
     KProcIO *m_exportproc;

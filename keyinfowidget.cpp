@@ -32,8 +32,12 @@
 #include "kgpginterface.h"
 
 KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent, const char *name)
-           : KDialogBase(Swallow, i18n("Key Properties"), Close, Close, parent, name, true)
+           : KDialog(parent)
 {
+    setCaption( i18n("Key Properties") );
+    setButtons( Close );
+    setDefaultButton( Close );
+    setModal( true );
     m_hasphoto = false;
     m_keywaschanged = false;
     m_isunlimited = false;

@@ -22,7 +22,7 @@
 #include <QString>
 #include <QDate>
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 class QCheckBox;
 
@@ -31,7 +31,7 @@ class KDatePicker;
 class KgpgInterface;
 class KeyProperties;
 
-class KgpgKeyInfo : public KDialogBase
+class KgpgKeyInfo : public KDialog
 {
     Q_OBJECT
 

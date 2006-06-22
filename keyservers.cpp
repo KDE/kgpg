@@ -40,8 +40,12 @@
 #include "keyservers.h"
 
 keyServer::keyServer(QWidget *parent, const char *name, const bool &modal, const bool &autoClose)
-         : KDialogBase(Swallow, i18n("Key Server"), Close, Close, parent, name, modal)
+         : KDialog(parent)
 {
+    setCaption( i18n("Key Server") );
+    setButtons( Close );
+    setDefaultButton( Close );
+    setModal( modal );
     m_autoclosewindow = autoClose;
     m_config = new KSimpleConfig("kgpgrc");
 

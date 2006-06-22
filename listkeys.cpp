@@ -68,7 +68,6 @@
 #include <kmessagebox.h>
 #include <kfinddialog.h>
 #include <kstatusbar.h>
-#include <dcopclient.h>
 #include <kservice.h>
 #include <kservicetypetrader.h>
 #include <ktempfile.h>
@@ -79,7 +78,6 @@
 #include <kprocess.h>
 #include <kprinter.h>
 #include <klocale.h>
-#include <dcopref.h>
 #include <kprocio.h>
 #include <kaction.h>
 #include <kdebug.h>
@@ -113,10 +111,14 @@
 #include "keyinfowidget.h"
 #include "kgpglibrary.h"
 #include "keylistview.h"
-
+#include "keyadaptor.h"
+#include <dbus/qdbus.h>
 listKeys::listKeys(QWidget *parent, const char *name)
-        : DCOPObject("KeyInterface"), KMainWindow(parent, name, 0)
+        : KMainWindow(parent, name, 0)
 {
+    new KeyAdaptor(this);
+    QDBus::sessionBus().registerObject("/KeyInterface", this);
+
     setWindowTitle(i18n("Key Management"));
 
     m_statusbartimer = new QTimer(this);
@@ -476,7 +478,10 @@ void listKeys::slotGenerateKeyDone(int res, KgpgInterface *interface, const QStr
     {
         changeMessage(i18n("%1 Keys, %2 Groups", keysList2->childCount() - keysList2->groupNb, keysList2->groupNb), 1);
 
-        KDialog *keyCreated = new KDialog(this, i18n("New Key Pair Created"), KDialogBase::Ok);
+        KDialog *keyCreated = new KDialog(this );
+        keyCreated->setCaption( i18n("New Key Pair Created") );
+        keyCreated->setButtons( KDialog::Ok);
+        keyCreated->setDefaultButton( KDialog::Ok);
         keyCreated->setModal(true);
 
         newKey *page = new newKey(keyCreated);
@@ -677,7 +682,11 @@ void listKeys::slotregenerate()
 
 void listKeys::slotAddUid()
 {
-    addUidWidget = new KDialogBase(KDialogBase::Swallow, i18n("Add New User Id"),  KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, 0, true);
+    addUidWidget = new KDialog(this );
+    addUidWidget->setCaption( i18n("Add New User Id") );
+    addUidWidget->setButtons(  KDialog::Ok | KDialog::Cancel );
+    addUidWidget->setDefaultButton(  KDialog::Ok );
+    addUidWidget->setModal( true );
     addUidWidget->enableButtonOk(false);
     AddUid *keyUid = new AddUid();
     addUidWidget->setMainWidget(keyUid);
@@ -918,11 +927,12 @@ void listKeys::addToKAB()
 
     KABC::Addressee::List addresseeList = ab->findByEmail(email);
     KToolInvocation::startServiceByDesktopName("kaddressbook");
-    DCOPRef call("kaddressbook", "KAddressBookIface");
+#warning "kde4: dbus verify when kadressbook will port";
+    QDBusInterfacePtr kaddressbook("org.kde.kaddressbook", "/KAdressBook", "org.kde.kaddressbook.KAdressBook");
     if(!addresseeList.isEmpty())
-        call.send("showContactEditor(QString)", addresseeList.first().uid());
+        kaddressbook->call( "showContactEditor", addresseeList.first().uid());
     else
-        call.send("addEmail(QString)", QString (keysList2->currentItem()->text(0)) + " <" + email + ">");
+        kaddressbook->call( "addEmail", QString (keysList2->currentItem()->text(0)) + " <" + email + ">");
 }
 
 /*
@@ -1208,7 +1218,11 @@ void listKeys::slotrevoke(QString keyID, QString revokeUrl, int reason, QString 
 
 void listKeys::revokeWidget()
 {
-    KDialogBase *keyRevokeWidget = new KDialogBase(KDialogBase::Swallow, i18n("Create Revocation Certificate"),  KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, 0, true);
+    KDialog *keyRevokeWidget = new KDialog(this );
+    keyRevokeWidget->setCaption(  i18n("Create Revocation Certificate") );
+    keyRevokeWidget->setButtons(  KDialog::Ok | KDialog::Cancel );
+    keyRevokeWidget->setDefaultButton(  KDialog::Ok );
+    keyRevokeWidget->setModal( true );
     KgpgRevokeWidget *keyRevoke = new KgpgRevokeWidget();
 
     keyRevoke->keyID->setText(keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ") " + i18n("ID: ") + keysList2->currentItem()->text(6));
@@ -1314,7 +1328,11 @@ void listKeys::slotexport()
     sname.append(".asc");
     sname.prepend(QDir::homePath() + "/");
 
-    KDialogBase *dial = new KDialogBase(KDialogBase::Swallow, i18n("Public Key Export"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "key_export",true);
+    KDialog *dial = new KDialog(this );
+    dial->setCaption(  i18n("Public Key Export") );
+    dial->setButtons( KDialog::Ok | KDialog::Cancel );
+    dial->setDefaultButton( KDialog::Ok );
+    dial->setModal( true );
 
     KeyExport *page = new KeyExport(dial);
     dial->setMainWidget(page);
@@ -1600,7 +1618,11 @@ void listKeys::editGroup()
         return;
     QStringList keysGroup;
     //KDialogBase *dialogGroupEdit=new KDialogBase( this, "edit_group", true,i18n("Group Properties"),KDialogBase::Ok | KDialogBase::Cancel);
-    KDialogBase *dialogGroupEdit = new KDialogBase(KDialogBase::Swallow, i18n("Group Properties"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, 0, true);
+    KDialog *dialogGroupEdit = new KDialog(this );
+    dialogGroupEdit->setCaption( i18n("Group Properties") );
+    dialogGroupEdit->setButtons( KDialog::Ok | KDialog::Cancel );
+    dialogGroupEdit->setDefaultButton(  KDialog::Ok );
+    dialogGroupEdit->setModal( true );
 
     gEdit = new groupEdit();
     gEdit->buttonAdd->setIcon(KGlobal::iconLoader()->loadIconSet("down", K3Icon::Small, 20));
@@ -1801,13 +1823,15 @@ void listKeys::dcopImportFinished()
 {
     if (kServer)
         kServer = 0L;
-
+#warning "kde4 dbus port it"
+#if 0
     QByteArray params;
     QDataStream stream(&params, QIODevice::WriteOnly);
 
     stream.setVersion(QDataStream::Qt_3_1);
     stream << true;
     kapp->dcopClient()->emitDCOPSignal("keyImported(bool)", params);
+#endif
     refreshkey();
 }
 
@@ -2077,7 +2101,11 @@ void listKeys::deletekey()
 
 void listKeys::slotPreImportKey()
 {
-    KDialogBase *dial = new KDialogBase(KDialogBase::Swallow, i18n("Key Import"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "key_import", true);
+    KDialog *dial = new KDialog(this );
+    dial->setCaption(  i18n("Key Import") );
+    dial->setButtons( KDialog::Ok | KDialog::Cancel );
+    dial->setDefaultButton( KDialog::Ok );
+    dial->setModal( true );
 
     SrcSelect *page = new SrcSelect();
     dial->setMainWidget(page);

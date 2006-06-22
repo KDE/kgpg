@@ -25,8 +25,11 @@
 #include "detailedconsole.h"
 
 KgpgDetailedConsole::KgpgDetailedConsole(QWidget *parent, const QString &boxLabel, const QString &errormessage)
-                   : KDialog(parent, i18n("Sorry"), Details | Yes | No)
+    : KDialog(parent)
 {
+    setCaption( i18n("Sorry") );
+    setButtons( Details | Yes | No);
+    setDefaultButton( No );
     setModal(true);
     setDefaultButton(Yes);
 
@@ -49,8 +52,12 @@ KgpgDetailedConsole::KgpgDetailedConsole(QWidget *parent, const QString &boxLabe
 }
 
 KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const char *name, const QString &boxLabel, const QString &errormessage, const QStringList &keysList)
-                : KDialogBase(Swallow, i18n("Info"), Details | Ok, Ok, parent, name, true)
+                : KDialog(parent)
 {
+    setCaption( i18n("Info") );
+    setButtons( Details | Ok );
+    setDefaultButton( Ok );
+    setModal( true );
     bool checkboxResult;
     KMessageBox::createKMessageBox(this, QMessageBox::Information, boxLabel, keysList, QString::null, &checkboxResult, 0, errormessage);
 }

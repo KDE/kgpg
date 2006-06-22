@@ -120,8 +120,11 @@ private:
 };
 
 KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &sfile, const bool &filemode, const bool &enabledshred, const KShortcut &goDefaultKey)
-                      : KDialog(parent, i18n("Select Public Key"), Details | Ok | Cancel)
+                      : KDialog(parent)
 {
+    setCaption( i18n("Select Public Key") );
+    setButtons( Details | Ok | Cancel );
+    setDefaultButton( Ok );
     setButtonText(Details, i18n("O&ptions"));
 
     m_fmode = filemode;

@@ -28,11 +28,10 @@
 #include <k3listviewsearchline.h>
 #include <kactionclasses.h>
 #include <kmainwindow.h>
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <k3listview.h>
 #include <kurl.h>
 
-#include "dcopiface.h"
 #include "kgpgkey.h"
 #include "keylistview.h"
 
@@ -57,7 +56,7 @@ class groupEdit;
 class keyServer;
 class KgpgEditor;
 
-class listKeys : public KMainWindow, virtual public KeyInterface
+class listKeys : public KMainWindow
 {
     Q_OBJECT
 
@@ -204,7 +203,7 @@ private:
     KStatusBar *m_statusbar;
 
     KeyListViewSearchLine* listViewSearch;
-    KDialogBase *addUidWidget;
+    KDialog *addUidWidget;
 
     KAction *importSignatureKey;
     KAction *importAllSignKeys;
