@@ -160,7 +160,10 @@ void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface)
 
 void KgpgKeyInfo::slotChangeExp()
 {
-    m_chdate = new KDialog(this, i18n("Choose New Expiration"), Ok | Cancel);
+    m_chdate = new KDialog(this );
+    m_chdate->setCaption( i18n("Choose New Expiration") );
+    m_chdate->setButtons(  Ok | Cancel);
+    m_chdate->setDefaultButton( Ok );
     m_chdate->setModal(true);
     QWidget *page = new QWidget(m_chdate);
     m_kb = new QCheckBox(i18n("Unlimited"), page);

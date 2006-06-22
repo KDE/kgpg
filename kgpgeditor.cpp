@@ -21,13 +21,13 @@
 #include <QPainter>
 #include <ktoggleaction.h>
 #include <kstdaction.h>
+#include <dbus/qdbus.h>
 
 #include <kencodingfiledialog.h>
 #include <kio/netaccess.h>
 #include <kio/renamedlg.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
-#include <dcopclient.h>
 #include <ktempfile.h>
 #include <kprinter.h>
 #include <kaction.h>
@@ -348,7 +348,11 @@ void KgpgEditor::slotFilePreDec()
         oldname.append(".clear");
     oldname.prepend(url.directory(KUrl::IgnoreTrailingSlash));
 
-    KDialogBase *popn = new KDialogBase(KDialogBase::Swallow, i18n("Decrypt File To"), KDialogBase::Ok | KDialogBase::Cancel, KDialogBase::Ok, this, "file_decrypt", true);
+    KDialog *popn = new KDialog(this );
+    popn->setCaption(  i18n("Decrypt File To") );
+    popn->setButtons( KDialog::Ok | KDialog::Cancel );
+    popn->setDefaultButton( KDialog::Ok );
+    popn->setModal( true );
 
     SrcSelect *page = new SrcSelect();
     popn->setMainWidget(page);
@@ -396,15 +400,17 @@ void KgpgEditor::slotFilePreDec()
 
 void KgpgEditor::slotKeyManager()
 {
-    QByteArray data;
-    if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showKeyManager()", data))
-        kDebug(2100) << "there was some error using DCOP." << endl;
+    QDBusInterfacePtr kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
+    QDBusReply<void> reply =kgpg->call( "showKeyManager" );
+    if (!reply.isSuccess())
+        kDebug(2100) << "there was some error using dbus." << endl;
 }
 
 void KgpgEditor::slotFileQuit()
 {
     saveOptions();
-    KApplication::quit();
+#warning "kde4: port it"
+    //KApplication::quit();
 }
 
 void KgpgEditor::slotundo()
@@ -554,9 +560,10 @@ void KgpgEditor::importSignatureKey(QString id)
 
 void KgpgEditor::slotOptions()
 {
-    QByteArray data;
-    if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showOptions()", data))
-        kDebug(2100) << "there was some error using DCOP." << endl;
+    QDBusInterfacePtr kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
+    QDBusReply<void> reply =kgpg->call( "showOptions" );
+    if (!reply.isSuccess())
+        kDebug(2100) << "there was some error using dbus." << endl;
 }
 
 void KgpgEditor::modified()

@@ -50,7 +50,6 @@
 #include <kiconloader.h>
 #include <kfiledialog.h>
 #include <kdeversion.h>
-#include <dcopclient.h>
 #include <kshortcut.h>
 #include <kcombobox.h>
 #include <klineedit.h>
@@ -70,7 +69,7 @@
 #include <klistbox.h>
 #include <kactioncollection.h>
 #include <kstdaction.h>
-
+#include <dbus/qdbus.h>
 #include "selectsecretkey.h"
 #include "kgpgeditor.h"
 #include "kgpg.h"
@@ -385,7 +384,10 @@ void MyView::encryptFiles(KUrl::List urls)
 
 void MyView::shredDroppedFile()
 {
-    KDialog *shredConfirm = new KDialog(this, i18n("Shred Files"), KDialogBase::Ok | KDialogBase::Cancel);
+    KDialog *shredConfirm = new KDialog(this );
+    shredConfirm->setCaption( i18n("Shred Files") );
+    shredConfirm->setButtons( KDialog::Ok | KDialog::Cancel);
+    shredConfirm->setDefaultButton( KDialog::Ok );
     shredConfirm->setModal(true);
     QWidget *page = new QWidget(shredConfirm);
     shredConfirm->setMainWidget(page);
@@ -990,23 +992,26 @@ kgpgapplet::kgpgapplet(QWidget *parent)
 
 void kgpgapplet::showOptions()
 {
-    QByteArray data;
-    if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showOptions()", data))
-        kDebug(2100) << "there was some error using DCOP." << endl;
+    QDBusInterfacePtr kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
+    QDBusReply<void> reply =kgpg->call( "showOptions" );
+    if (!reply.isSuccess())
+        kDebug(2100) << "there was some error using dbus." << endl;
 }
 
 void kgpgapplet::slotOpenKeyManager()
 {
-    QByteArray data;
-    if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showKeyManager()", data))
-        kDebug(2100) << "there was some error using DCOP." << endl;
+    QDBusInterfacePtr kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
+    QDBusReply<void> reply =kgpg->call( "showKeyManager" );
+    if (!reply.isSuccess())
+        kDebug(2100) << "there was some error using dbus." << endl;
 }
 
 void kgpgapplet::slotOpenServerDialog()
 {
-    QByteArray data;
-    if (!kapp->dcopClient()->send("kgpg", "KeyInterface", "showKeyServer()", data))
-        kDebug(2100) << "there was some error using DCOP." << endl;
+    QDBusInterfacePtr kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
+    QDBusReply<void> reply =kgpg->call( "showKeyServer" );
+    if (!reply.isSuccess())
+        kDebug(2100) << "there was some error using dbus." << endl;
 }
 
 kgpgapplet::~kgpgapplet()

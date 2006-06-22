@@ -7,7 +7,7 @@ add_subdirectory( icons )
 
 ########### next target ###############
 
-set(kgpg_SRCS 
+set(kgpg_SRCS keyadaptor.cpp 
    kgpgoptions.cpp 
    listkeys.cpp 
    popuppublic.cpp 

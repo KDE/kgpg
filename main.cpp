@@ -19,7 +19,6 @@
 
 #include <kuniqueapplication.h>
 #include <kcmdlineargs.h>
-#include <dcopclient.h>
 #include <kaboutdata.h>
 #include <klocale.h>
 

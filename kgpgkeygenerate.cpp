@@ -31,13 +31,15 @@
 #include "kgpgkeygenerate.h"
 
 KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
-               : KDialog(parent, i18n("Key Generation"), User1 | Ok | Cancel)
+    : KDialog(parent)
 {
+    setCaption( i18n("Key Generation") );
+    setButtons( User1 | Ok | Cancel);
     setModal(true);
     setDefaultButton(Cancel);
 
     setButtonText(User1, i18n("&Expert mode"));
-    setButtonTip(User1, i18n("Go to the expert mode"));
+    setButtonToolTip(User1, i18n("Go to the expert mode"));
     setButtonWhatsThis(User1, "If you go to the expert mode, you will use the command line to create your key.");
 
     m_expert = false;

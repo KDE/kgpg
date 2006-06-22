@@ -367,9 +367,13 @@ void keyServer::slotSearch()
 
     //m_listpop = new KeyServer( this,"result",WType_Dialog | WShowModal);
 
-    m_dialogserver = new KDialogBase(KDialogBase::Swallow, i18n("Import Key From Keyserver"),  KDialogBase::Ok | KDialogBase::Close, KDialogBase::Ok, this, 0, true);
+    m_dialogserver = new KDialog(this );
+    m_dialogserver->setCaption( i18n("Import Key From Keyserver") );
+    m_dialogserver->setButtons( KDialog::Ok | KDialog::Close );
+    m_dialogserver->setDefaultButton( KDialog::Ok);
+    m_dialogserver->setModal( true );
 
-    m_dialogserver->setButtonText(KDialogBase::Ok, i18n("&Import"));
+    m_dialogserver->setButtonText(KDialog::Ok, i18n("&Import"));
     m_dialogserver->enableButtonOk(false);
     m_listpop = new searchRes();
     //m_listpop->setMinimumWidth(250);
