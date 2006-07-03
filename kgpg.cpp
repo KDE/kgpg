@@ -69,7 +69,7 @@
 #include <klistbox.h>
 #include <kactioncollection.h>
 #include <kstdaction.h>
-#include <dbus/qdbus.h>
+#include <QtDBus>
 #include "selectsecretkey.h"
 #include "kgpgeditor.h"
 #include "kgpg.h"

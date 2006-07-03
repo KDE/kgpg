@@ -112,7 +112,7 @@
 #include "kgpglibrary.h"
 #include "keylistview.h"
 #include "keyadaptor.h"
-#include <dbus/qdbus.h>
+#include <QtDBus>
 listKeys::listKeys(QWidget *parent, const char *name)
         : KMainWindow(parent, name, 0)
 {

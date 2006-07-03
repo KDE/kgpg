@@ -21,7 +21,7 @@
 #include <QPainter>
 #include <ktoggleaction.h>
 #include <kstdaction.h>
-#include <dbus/qdbus.h>
+#include <QtDBus>
 
 #include <kencodingfiledialog.h>
 #include <kio/netaccess.h>
