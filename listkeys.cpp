@@ -429,7 +429,7 @@ void listKeys::slotGenerateKeyProcess(KgpgInterface *)
 
     KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop), 0);
 
-    QMovie anim(locate("appdata", "pics/kgpg_anim.gif"));
+    QMovie anim(KStandardDirs::locate("appdata", "pics/kgpg_anim.gif"));
     QLabel *text1 = new QLabel(passiveBox);
     text1->setAlignment(Qt::AlignHCenter);
     text1->setMovie(&anim);

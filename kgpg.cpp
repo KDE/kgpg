@@ -359,7 +359,7 @@ void MyView::busyMessage(QString mssge, bool reset)
         openTasks++;
         this->setToolTip(mssge);
 
-        QMovie *movie = new QMovie(locate("appdata", "pics/kgpg_docked.gif"));
+        QMovie *movie = new QMovie(KStandardDirs::locate("appdata", "pics/kgpg_docked.gif"));
         setMovie(movie);
         delete movie;
     }

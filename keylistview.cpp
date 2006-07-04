@@ -222,7 +222,7 @@ KeyListView::KeyListView(QWidget *parent)
     pixuserphoto = loader->loadIcon("kgpg_photo", K3Icon::Small, 20);
     pixRevoke = loader->loadIcon("stop", K3Icon::Small, 20);
 
-    QPixmap blankFrame(locate("appdata", "pics/kgpg_blank.png"));
+    QPixmap blankFrame(KStandardDirs::locate("appdata", "pics/kgpg_blank.png"));
     QRect rect(0, 0, 50, 15);
 
     trustunknown.load(locate("appdata", "pics/kgpg_fill.png"));
@@ -592,7 +592,7 @@ void KeyListView::refreshTrust(int color, QColor newColor)
     QPixmap newtrust;
     int trustFinger = 0;
 
-    blankFrame.load(locate("appdata", "pics/kgpg_blank.png"));
+    blankFrame.load(KStandardDirs::locate("appdata", "pics/kgpg_blank.png"));
     newtrust.load(locate("appdata", "pics/kgpg_fill.png"));
     newtrust.fill(newColor);
 
