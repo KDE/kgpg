@@ -928,11 +928,11 @@ void listKeys::addToKAB()
     KABC::Addressee::List addresseeList = ab->findByEmail(email);
     KToolInvocation::startServiceByDesktopName("kaddressbook");
 #warning "kde4: dbus verify when kadressbook will port";
-    QDBusInterfacePtr kaddressbook("org.kde.kaddressbook", "/KAdressBook", "org.kde.kaddressbook.KAdressBook");
+    QDBusInterface kaddressbook("org.kde.kaddressbook", "/KAdressBook", "org.kde.kaddressbook.KAdressBook");
     if(!addresseeList.isEmpty())
-        kaddressbook->call( "showContactEditor", addresseeList.first().uid());
+        kaddressbook.call( "showContactEditor", addresseeList.first().uid());
     else
-        kaddressbook->call( "addEmail", QString (keysList2->currentItem()->text(0)) + " <" + email + ">");
+        kaddressbook.call( "addEmail", QString (keysList2->currentItem()->text(0)) + " <" + email + ">");
 }
 
 /*
@@ -1282,7 +1282,7 @@ void listKeys::slotexportsec()
         sname = keysList2->currentItem()->text(0).section(' ', 0, 0);
     sname.append(".asc");
     sname.prepend(QDir::homePath() + "/");
-    KUrl url = KFileDialog::getSaveURL(sname, "*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As"));
+    KUrl url = KFileDialog::getSaveUrl(sname, "*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As"));
 
     if(!url.isEmpty())
     {

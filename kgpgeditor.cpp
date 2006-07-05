@@ -327,7 +327,7 @@ void KgpgEditor::slotFilePrint()
 void KgpgEditor::slotFilePreEnc()
 {
     QStringList opts;
-    KUrl::List urls = KFileDialog::getOpenURLs(QString::null, i18n("*|All Files"), this, i18n("Open File to Encode"));
+    KUrl::List urls = KFileDialog::getOpenUrls(KUrl(), i18n("*|All Files"), this, i18n("Open File to Encode"));
     if (urls.isEmpty())
         return;
     emit encryptFiles(urls);
@@ -335,7 +335,7 @@ void KgpgEditor::slotFilePreEnc()
 
 void KgpgEditor::slotFilePreDec()
 {
-    KUrl url = KFileDialog::getOpenURL(QString::null, i18n("*|All Files"), this, i18n("Open File to Decode"));
+    KUrl url = KFileDialog::getOpenUrl(KUrl(), i18n("*|All Files"), this, i18n("Open File to Decode"));
     if (url.isEmpty())
         return;
 
@@ -400,9 +400,9 @@ void KgpgEditor::slotFilePreDec()
 
 void KgpgEditor::slotKeyManager()
 {
-    QDBusInterfacePtr kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
-    QDBusReply<void> reply =kgpg->call( "showKeyManager" );
-    if (!reply.isSuccess())
+    QDBusInterface kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
+    QDBusReply<void> reply =kgpg.call( "showKeyManager" );
+    if (!reply.isValid())
         kDebug(2100) << "there was some error using dbus." << endl;
 }
 
@@ -468,7 +468,7 @@ void KgpgEditor::slotResetEncoding(bool enc)
 void KgpgEditor::slotPreSignFile()
 {
     // create a detached signature for a chosen file
-    KUrl url = KFileDialog::getOpenURL(QString::null, i18n("*|All Files"), this, i18n("Open File to Sign"));
+    KUrl url = KFileDialog::getOpenUrl(KUrl(), i18n("*|All Files"), this, i18n("Open File to Sign"));
     if (!url.isEmpty())
         slotSignFile(url);
 }
@@ -509,7 +509,7 @@ void KgpgEditor::slotSignFileFin(KgpgInterface *interface)
 
 void KgpgEditor::slotPreVerifyFile()
 {
-    KUrl url = KFileDialog::getOpenURL(QString::null, i18n("*|All Files"), this, i18n("Open File to Verify"));
+    KUrl url = KFileDialog::getOpenUrl(KUrl(), i18n("*|All Files"), this, i18n("Open File to Verify"));
     slotVerifyFile(url);
 }
 
@@ -542,7 +542,7 @@ void KgpgEditor::slotVerifyFile(KUrl url)
 void KgpgEditor::slotCheckMd5()
 {
     // display md5 sum for a chosen file
-    KUrl url = KFileDialog::getOpenURL(QString::null, i18n("*|All Files"), this, i18n("Open File to Verify"));
+    KUrl url = KFileDialog::getOpenUrl(KUrl(), i18n("*|All Files"), this, i18n("Open File to Verify"));
     if (!url.isEmpty())
     {
         Md5Widget *mdwidget = new Md5Widget(this, url);
@@ -560,9 +560,9 @@ void KgpgEditor::importSignatureKey(QString id)
 
 void KgpgEditor::slotOptions()
 {
-    QDBusInterfacePtr kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
-    QDBusReply<void> reply =kgpg->call( "showOptions" );
-    if (!reply.isSuccess())
+    QDBusInterface kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
+    QDBusReply<void> reply =kgpg.call( "showOptions" );
+    if (!reply.isValid())
         kDebug(2100) << "there was some error using dbus." << endl;
 }
 

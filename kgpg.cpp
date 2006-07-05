@@ -992,24 +992,24 @@ kgpgapplet::kgpgapplet(QWidget *parent)
 
 void kgpgapplet::showOptions()
 {
-    QDBusInterfacePtr kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
-    QDBusReply<void> reply =kgpg->call( "showOptions" );
+    QDBusInterface kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
+    QDBusReply<void> reply =kgpg.call( "showOptions" );
     if (!reply.isSuccess())
         kDebug(2100) << "there was some error using dbus." << endl;
 }
 
 void kgpgapplet::slotOpenKeyManager()
 {
-    QDBusInterfacePtr kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
-    QDBusReply<void> reply =kgpg->call( "showKeyManager" );
+    QDBusInterface kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
+    QDBusReply<void> reply =kgpg.call( "showKeyManager" );
     if (!reply.isSuccess())
         kDebug(2100) << "there was some error using dbus." << endl;
 }
 
 void kgpgapplet::slotOpenServerDialog()
 {
-    QDBusInterfacePtr kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
-    QDBusReply<void> reply =kgpg->call( "showKeyServer" );
+    QDBusInterface kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
+    QDBusReply<void> reply =kgpg.call( "showKeyServer" );
     if (!reply.isSuccess())
         kDebug(2100) << "there was some error using dbus." << endl;
 }

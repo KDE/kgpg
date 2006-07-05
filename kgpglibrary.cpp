@@ -282,7 +282,7 @@ void KgpgLibrary::addPhoto(QString keyid)
     if (KMessageBox::warningContinueCancel(0, mess) != KMessageBox::Continue)
         return;
 
-    QString imagepath = KFileDialog::getOpenFileName(QString::null, "image/jpeg", 0);
+    QString imagepath = KFileDialog::getOpenFileName(KUrl(), "image/jpeg", 0);
     if (imagepath.isEmpty())
         return;
 

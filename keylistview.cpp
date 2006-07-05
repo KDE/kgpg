@@ -225,19 +225,19 @@ KeyListView::KeyListView(QWidget *parent)
     QPixmap blankFrame(KStandardDirs::locate("appdata", "pics/kgpg_blank.png"));
     QRect rect(0, 0, 50, 15);
 
-    trustunknown.load(locate("appdata", "pics/kgpg_fill.png"));
+    trustunknown.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
     trustunknown.fill(KGpgSettings::colorUnknown());
     QPainter(&trustunknown).drawPixmap(rect, blankFrame);
 
-    trustbad.load(locate("appdata", "pics/kgpg_fill.png"));
+    trustbad.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
     trustbad.fill(KGpgSettings::colorBad());
     QPainter(&trustbad).drawPixmap(rect, blankFrame);
 
-    trustrevoked.load(locate("appdata", "pics/kgpg_fill.png"));
+    trustrevoked.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
     trustrevoked.fill(KGpgSettings::colorRev());
     QPainter(&trustrevoked).drawPixmap(rect, blankFrame);
 
-    trustgood.load(locate("appdata", "pics/kgpg_fill.png"));
+    trustgood.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
     trustgood.fill(KGpgSettings::colorGood());
     QPainter(&trustgood).drawPixmap(rect, blankFrame);
 
@@ -593,7 +593,7 @@ void KeyListView::refreshTrust(int color, QColor newColor)
     int trustFinger = 0;
 
     blankFrame.load(KStandardDirs::locate("appdata", "pics/kgpg_blank.png"));
-    newtrust.load(locate("appdata", "pics/kgpg_fill.png"));
+    newtrust.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
     newtrust.fill(newColor);
 
     bitBlt(&newtrust, 0, 0, &blankFrame, 0, 0, 50, 15);
