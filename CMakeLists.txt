@@ -7,7 +7,7 @@ add_subdirectory( icons )
 
 ########### next target ###############
 
-set(kgpg_SRCS keyadaptor.cpp 
+set(kgpg_SRCS  
    kgpgoptions.cpp 
    listkeys.cpp 
    popuppublic.cpp 
@@ -25,6 +25,8 @@ set(kgpg_SRCS keyadaptor.cpp
    kgpgkey.cpp 
    kgpgmd5widget.cpp 
    keylistview.cpp )
+
+qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml listkeys.h listKeys)
 
 kde4_automoc(${kgpg_SRCS})
 
