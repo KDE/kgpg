@@ -54,17 +54,17 @@ kde4_add_executable(kgpg ${kgpg_SRCS})
 
 target_link_libraries(kgpg  ${KDE4_KIO_LIBS} kabc kutils kdeprint )
 
-install_targets(/bin kgpg )
+install(TARGETS kgpg  DESTINATION ${BIN_INSTALL_DIR} )
 
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/kgpg FILES kgpg.rc listkeys.rc tips )
-install_files( ${XDG_APPS_DIR} FILES kgpg.desktop )
-install_files( ${KCFG_INSTALL_DIR} FILES kgpg.kcfg )
-install_files( /share/autostart FILES kgpg.desktop )
-install_files( ${DATA_INSTALL_DIR}/kgpg/pics FILES kgpg_anim.gif kgpg_docked.png  kgpg_docked.gif kgpg_blank.png  kgpg_fill.png )
-install_files( ${DATA_INSTALL_DIR}/konqueror/servicemenus FILES encryptfile.desktop encryptfolder.desktop )
+install( FILES kgpg.rc listkeys.rc tips  DESTINATION ${DATA_INSTALL_DIR}/kgpg)
+install( FILES kgpg.desktop  DESTINATION ${XDG_APPS_DIR})
+install( FILES kgpg.kcfg  DESTINATION ${KCFG_INSTALL_DIR})
+install( FILES kgpg.desktop  DESTINATION /share/autostart)
+install( FILES kgpg_anim.gif kgpg_docked.png  kgpg_docked.gif kgpg_blank.png  kgpg_fill.png  DESTINATION ${DATA_INSTALL_DIR}/kgpg/pics)
+install( FILES encryptfile.desktop encryptfolder.desktop  DESTINATION ${DATA_INSTALL_DIR}/konqueror/servicemenus)
 
 kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
 
