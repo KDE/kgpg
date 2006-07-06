@@ -89,13 +89,15 @@ public slots:
     void findFirstKey();
     void findNextKey();
     void slotSetDefaultKey(QString newID);
-
+    void showKeyManager();
+    bool importRemoteKey(QString keyID);
+    void showKeyServer();
+    void showOptions();
 protected:
     void closeEvent(QCloseEvent *e);
     bool eventFilter(QObject *, QEvent *e);
 
 private slots:
-    void showKeyManager();
     void slotOpenEditor();
 
     void statusBarTimeout();
@@ -131,11 +133,9 @@ private slots:
     void signLoop();
     void slotManpage();
     void slotTip();
-    void showKeyServer();
     void slotProcessExportMail(QString keys);
     void slotProcessExportClip(QString keys);
     void readOptions();
-    void showOptions();
     void slotSetDefKey();
     void slotSetDefaultKey(K3ListViewItem *newdef);
     void annule();
@@ -145,7 +145,6 @@ private slots:
     void signkey();
     void delsignkey();
     void preimportsignkey();
-    bool importRemoteKey(QString keyID);
     void importsignkey(QString importKeyId);
     void importallsignkey();
     void importfinished();
