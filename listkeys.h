@@ -24,9 +24,9 @@
 #include <QPixmap>
 
 #include <Q3ListViewItem>
+#include <ktoggleaction.h>
 
 #include <k3listviewsearchline.h>
-#include <kactionclasses.h>
 #include <kmainwindow.h>
 #include <kdialog.h>
 #include <k3listview.h>

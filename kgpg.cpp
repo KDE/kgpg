@@ -70,6 +70,8 @@
 #include <kactioncollection.h>
 #include <kstdaction.h>
 #include <QtDBus>
+#include <kselectaction.h>
+#include <ktoggleaction.h>
 #include "selectsecretkey.h"
 #include "kgpgeditor.h"
 #include "kgpg.h"

@@ -90,6 +90,7 @@
 #include <ktoolbar.h>
 #include <kactioncollection.h>
 #include <kstdaction.h>
+#include <kselectaction.h>
 
 #include "selectsecretkey.h"
 #include "newkey.h"
@@ -113,6 +114,7 @@
 #include "keylistview.h"
 #include "keyadaptor.h"
 #include <QtDBus>
+#include <ktoggleaction.h>
 listKeys::listKeys(QWidget *parent, const char *name)
         : KMainWindow(parent, name, 0)
 {
