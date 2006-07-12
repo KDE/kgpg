@@ -1496,7 +1496,7 @@ void KgpgInterface::fileReadEncProcess(KProcIO *p)
                 else
                 if (line.contains("passphrase.enter"))
                 {
-                    if (sendPassphrase(i18n("Enter passphrase for your file (symmetrical encryption):"), p));
+                    if (sendPassphrase(i18n("Enter passphrase for your file (symmetrical encryption):"), p))
                     {
                         delete p;
                         emit processaborted(true);
