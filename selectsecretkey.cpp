@@ -21,11 +21,11 @@
 #include "selectsecretkey.h"
 
 KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, const int &countkey)
-    : KDialog(parent)
+                   : KDialog(parent)
 {
-    setCaption( i18n("Private Key List") );
-    setButtons( Ok | Cancel);
-    setDefaultButton( Ok );
+    setCaption(i18n("Private Key List"));
+    setButtons(Ok | Cancel);
+    setDefaultButton(Ok);
     QWidget *page = new QWidget(this);
 
     KIconLoader *loader = KGlobal::iconLoader();
