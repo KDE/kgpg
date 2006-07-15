@@ -36,7 +36,7 @@ class KgpgKeyInfo : public KDialog
     Q_OBJECT
 
 public:
-    KgpgKeyInfo(const QString &sigkey, QWidget *parent = 0, const char *name = 0);
+    KgpgKeyInfo(const QString &sigkey, QWidget *parent = 0);
 
 signals:
     void changeMainPhoto(const QPixmap&);

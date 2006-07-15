@@ -31,13 +31,14 @@
 #include "keyproperties.h"
 #include "kgpginterface.h"
 
-KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent, const char *name)
+KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent)
            : KDialog(parent)
 {
-    setCaption( i18n("Key Properties") );
-    setButtons( Close );
-    setDefaultButton( Close );
-    setModal( true );
+    setCaption(i18n("Key Properties"));
+    setButtons(Close);
+    setDefaultButton(Close);
+    setModal(true);
+
     m_hasphoto = false;
     m_keywaschanged = false;
     m_isunlimited = false;
@@ -58,6 +59,7 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent, const char *nam
         m_prop->changeExp->hide();
         m_prop->changePass->hide();
     }
+
     loadKey(sigkey);
     if (!m_hasphoto)
         m_prop->comboId->setEnabled(false);
