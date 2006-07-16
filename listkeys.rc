@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="listkeys" version="33">
+<kpartgui name="KeysManager" version="33">
 
 <MenuBar>
     <Menu name="managekeys"><text>&amp;Keys</text>
@@ -17,7 +17,7 @@
     <Menu name="edit">
     	<Action name="go_default_key"/>
     </Menu>
-    
+
     <Menu name="view"><text>&amp;View</text>
     	<Action name="show_secret"/>
     	<Action name="hide_disabled"/>
@@ -30,7 +30,7 @@
     	<Action name="photo_settings" />
     	<Action name="key_refresh"/>
     </Menu>
-    
+
     <Menu name="groups"><text>&amp;Groups</text>
     	<Action name="create_group"/>
     	<Action name="edit_group"/>
@@ -38,14 +38,14 @@
     </Menu>
 
 
-    
 
-    
+
+
     <Menu name="file">
 	<Action name="key_server"/>
 	<Action name="kgpg_editor"/>
     </Menu>
-    
+
     <Menu name="help">
     	<Action name="help_tipofday"/>
     	<Action name="gpg_man"/>

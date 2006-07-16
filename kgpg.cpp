@@ -1070,7 +1070,7 @@ int KgpgAppletApp::newInstance()
         kDebug(2100) << "Starting KGpg" << endl;
         running = true;
 
-        s_keyManager = new listKeys(0);
+        s_keyManager = new KeysManager();
 
         QString gpgPath = KGpgSettings::gpgConfigPath();
         if (!gpgPath.isEmpty())

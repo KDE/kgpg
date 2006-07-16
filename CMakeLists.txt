@@ -1,51 +1,51 @@
 project(kgpg)
 
-add_subdirectory( icons ) 
+add_subdirectory( icons )
 
 
 
 
 ########### next target ###############
 
-set(kgpg_SRCS  
-   kgpgoptions.cpp 
-   listkeys.cpp 
-   popuppublic.cpp 
-   kgpgview.cpp 
-   selectsecretkey.cpp 
-   kgpg.cpp 
-   main.cpp 
-   kgpgkeygenerate.cpp 
-   kgpginterface.cpp 
-   keyservers.cpp 
-   kgpgeditor.cpp 
-   detailedconsole.cpp 
-   kgpglibrary.cpp 
-   keyinfowidget.cpp 
-   kgpgkey.cpp 
-   kgpgmd5widget.cpp 
+set(kgpg_SRCS
+   kgpgoptions.cpp
+   listkeys.cpp
+   popuppublic.cpp
+   kgpgview.cpp
+   selectsecretkey.cpp
+   kgpg.cpp
+   main.cpp
+   kgpgkeygenerate.cpp
+   kgpginterface.cpp
+   keyservers.cpp
+   kgpgeditor.cpp
+   detailedconsole.cpp
+   kgpglibrary.cpp
+   keyinfowidget.cpp
+   kgpgkey.cpp
+   kgpgmd5widget.cpp
    keylistview.cpp )
 
-qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml listkeys.h listKeys)
+qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml listkeys.h KeysManager)
 
 kde4_automoc(${kgpg_SRCS})
 
-kde4_add_ui3_files(kgpg_SRCS 
-   keyserver.ui 
-   searchres.ui 
-   kgpgwizard.ui 
-   keyproperties.ui 
-   conf_encryption.ui 
-   conf_decryption.ui 
-   conf_gpg.ui 
-   groupedit.ui 
-   kgpgrevokewidget.ui 
-   newkey.ui 
-   adduid.ui 
-   keyexport.ui 
-   sourceselect.ui 
-   conf_servers.ui 
-   conf_ui2.ui 
+kde4_add_ui3_files(kgpg_SRCS
+   keyserver.ui
+   searchres.ui
+   kgpgwizard.ui
+   keyproperties.ui
+   conf_encryption.ui
+   conf_decryption.ui
+   conf_gpg.ui
+   groupedit.ui
+   kgpgrevokewidget.ui
+   newkey.ui
+   adduid.ui
+   keyexport.ui
+   sourceselect.ui
+   conf_servers.ui
+   conf_ui2.ui
    conf_misc.ui )
 
 kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )

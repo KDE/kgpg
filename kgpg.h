@@ -43,7 +43,7 @@ class KAction;
 
 class KgpgSelectPublicKeyDlg;
 class KgpgInterface;
-class listKeys;
+class KeysManager;
 
 class MyView : public QLabel
 {
@@ -172,7 +172,7 @@ protected:
 
 private:
     kgpgapplet *kgpg_applet;
-    listKeys *s_keyManager;
+    KeysManager *s_keyManager;
 
 private slots:
     void slotHandleQuit();

@@ -70,7 +70,7 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(KeyListViewItem::ItemType)
 class KeyListView : public K3ListView
 {
     Q_OBJECT
-    friend class listKeys;
+    friend class KeysManager;
 
 public:
     KeyListView(QWidget *parent = 0);

@@ -56,12 +56,12 @@ class groupEdit;
 class keyServer;
 class KgpgEditor;
 
-class listKeys : public KMainWindow
+class KeysManager : public KMainWindow
 {
     Q_OBJECT
 
 public:
-    listKeys(QWidget *parent = 0);
+    KeysManager(QWidget *parent = 0);
 
     KeyListView *keysList2;
 
