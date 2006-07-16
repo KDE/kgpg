@@ -60,7 +60,7 @@ private slots:
     void processDecOver();
     void processDecError(const QString &mssge);
     void slotShredResult(KJob *job);
-    void processEncPopup(const QString &fileName);
+    void processEncPopup(const KUrl &url);
     void processPopup2(const QString &fileName);
 
     void slotAddPhotoFinished(int res, KgpgInterface *interface);

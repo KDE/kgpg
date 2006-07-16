@@ -605,6 +605,35 @@ private:
 /********************************************/
 
 
+/************** decrypt file **************/
+signals:
+    /**
+     * 0 = Unknown error
+     * 1 = Bad passphrase
+     * 2 = Uid Added
+     * 3 = Aborted
+     * 5 = email is not valid
+     */
+    void decryptFileStarted(KUrl url);
+    void decryptFileFinished(int, KgpgInterface*);
+
+public slots:
+    /**
+     * Decrypt file function
+     * @param src Kurl of the file to decrypt.
+     * @param dest Kurl for the decrypted file.
+     * @param Options String List with the wanted gpg options
+     */
+    void decryptFile(const KUrl &src, const KUrl &dest, QStringList Options = QStringList());
+
+private slots:
+    void decryptFileProcess(KProcIO *p);
+    void decryptFileFin(KProcess *p);
+
+private:
+    KUrl decryptFileUrl;
+
+/******************************************/
 
 
 
@@ -626,13 +655,6 @@ private:
 
 
 public slots:
-    /**
-     * Decrypt file function
-     * @param srcUrl Kurl of the file to decrypt.
-     * @param destUrl Kurl for the decrypted file.
-     * @param Options String List with the wanted gpg options
-     */
-    void KgpgDecryptFile(KUrl srcUrl, KUrl destUrl, QStringList Options = QStringList());
 
     /**
      * Decrypt File to text function
@@ -669,11 +691,6 @@ public slots:
 
 private slots:
     /**
-     * Checks if the decrypted file was saved.
-     */
-    void decryptfin(KProcess *);
-
-    /**
      * Checks if the signing was successful.
      */
     void signfin(KProcess *p);
@@ -704,11 +721,6 @@ private slots:
     void readsignprocess(KProcIO *p);
 
     /**
-     * Reads output of the current decryption process + allow overwriting of a file
-     */
-    void readdecprocess(KProcIO *p);
-
-    /**
      * Checks output of the verify process
      */
     void verifyfin(KProcess *p);
@@ -723,11 +735,6 @@ signals:
      *  emitted when user cancels process
      */
     void processaborted(bool);
-
-    /**
-     *  true if decryption successful, false on error.
-     */
-    void decryptionfinished();
 
     /**
      * emitted if bad passphrase was giver

@@ -31,11 +31,10 @@
 #include "kgpgkeygenerate.h"
 
 KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
-    : KDialog(parent)
+               : KDialog(parent)
 {
-    setCaption( i18n("Key Generation") );
-    setButtons( User1 | Ok | Cancel);
-    setModal(true);
+    setCaption(i18n("Key Generation"));
+    setButtons(User1 | Ok | Cancel);
     setDefaultButton(Cancel);
 
     setButtonText(User1, i18n("&Expert mode"));
@@ -65,9 +64,9 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     hgroup->setFrameShape(QFrame::StyledPanel);
     hgroup->setMargin(marginHint());
     hgroup->setSpacing(spacingHint());
-    m_numb = new KLineEdit("0", hgroup);
-    m_numb->setMaxLength(4);
-    m_numb->setDisabled(true);
+    m_days = new KLineEdit("0", hgroup);
+    m_days->setMaxLength(4);
+    m_days->setDisabled(true);
 
     m_keyexp = new KComboBox(hgroup);
     m_keyexp->addItem(i18n("Never"), 0);
@@ -76,7 +75,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     m_keyexp->addItem(i18n("Months"), 3);
     m_keyexp->addItem(i18n("Years"), 4);
     m_keyexp->setMinimumSize(m_keyexp->sizeHint());
-    connect(m_keyexp, SIGNAL(activated(int)), this, SLOT(slotActivateExp(int)));
+    connect(m_keyexp, SIGNAL(activated(int)), this, SLOT(slotEnableDays(int)));
 
     QLabel *sizeLabel = new QLabel(i18n("&Key size:"), vgroup);
     m_keysize = new KComboBox(vgroup);
@@ -168,12 +167,12 @@ void KgpgKeyGenerate::slotUser1()
     accept();
 }
 
-void KgpgKeyGenerate::slotActivateExp(const int &state)
+void KgpgKeyGenerate::slotEnableDays(const int &state)
 {
     if (state == 0)
-        m_numb->setDisabled(true);
+        m_days->setDisabled(true);
     else
-        m_numb->setDisabled(false);
+        m_days->setDisabled(false);
 }
 
 void KgpgKeyGenerate::slotEnableOk()
@@ -181,12 +180,12 @@ void KgpgKeyGenerate::slotEnableOk()
     enableButtonOk(!QString(m_kname->text()).simplified().isEmpty());
 }
 
-bool KgpgKeyGenerate::getMode() const
+bool KgpgKeyGenerate::isExpertMode() const
 {
     return m_expert;
 }
 
-Kgpg::KeyAlgo KgpgKeyGenerate::getKeyAlgo() const
+Kgpg::KeyAlgo KgpgKeyGenerate::algo() const
 {
     if (m_keykind->currentText() == "RSA")
         return Kgpg::RSA;
@@ -194,25 +193,25 @@ Kgpg::KeyAlgo KgpgKeyGenerate::getKeyAlgo() const
         return Kgpg::DSA_ELGAMAL;
 }
 
-uint KgpgKeyGenerate::getKeySize() const
+uint KgpgKeyGenerate::size() const
 {
     return m_keysize->currentText().toUInt();
 }
 
-uint KgpgKeyGenerate::getKeyExp() const
+uint KgpgKeyGenerate::expiration() const
 {
     return m_keyexp->currentIndex();
 }
 
-uint KgpgKeyGenerate::getKeyNumber() const
+uint KgpgKeyGenerate::days() const
 {
-    if (m_numb->text() != QString::null)
-        return m_numb->text().toUInt();
+    if (m_days->text() != QString::null)
+        return m_days->text().toUInt();
     else
         return 0;
 }
 
-QString KgpgKeyGenerate::getKeyName() const
+QString KgpgKeyGenerate::name() const
 {
     if (m_kname->text() != QString::null)
         return(m_kname->text());
@@ -220,7 +219,7 @@ QString KgpgKeyGenerate::getKeyName() const
         return QString();
 }
 
-QString KgpgKeyGenerate::getKeyEmail() const
+QString KgpgKeyGenerate::email() const
 {
     if (m_mail->text() != QString::null)
         return(m_mail->text());
@@ -228,7 +227,7 @@ QString KgpgKeyGenerate::getKeyEmail() const
         return QString();
 }
 
-QString KgpgKeyGenerate::getKeyComment() const
+QString KgpgKeyGenerate::comment() const
 {
     if (m_comment->text() != QString::null)
         return(m_comment->text());

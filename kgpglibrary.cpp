@@ -167,18 +167,16 @@ void KgpgLibrary::processEncError(const QString &mssge, KgpgInterface *i)
     KMessageBox::detailedSorry(m_panel, i18n("<b>Process halted</b>.<br>Not all files were encrypted."), mssge);
 }
 
-void KgpgLibrary::slotFileDec(const KUrl &srcUrl, const KUrl &destUrl, const QStringList &customDecryptOption)
+void KgpgLibrary::slotFileDec(const KUrl &src, const KUrl &dest, const QStringList &customDecryptOption)
 {
     // decode file from konqueror or menu
     m_pop = new KPassivePopup();
-    m_urlselected = srcUrl;
+    m_urlselected = src;
 
     KgpgInterface *decryptFileProcess = new KgpgInterface();
-    decryptFileProcess->KgpgDecryptFile(srcUrl, destUrl, customDecryptOption);
-    connect(decryptFileProcess, SIGNAL(processaborted(bool)), this, SLOT(processdecover()));
-    connect(decryptFileProcess, SIGNAL(processstarted(QString)), this, SLOT(processEncPopup(QString)));
-    connect(decryptFileProcess, SIGNAL(decryptionfinished()), this, SLOT(processdecover()));
-    connect(decryptFileProcess, SIGNAL(errormessage(QString)), this, SLOT(processdecerror(QString)));
+    decryptFileProcess->decryptFile(src, dest, customDecryptOption);
+    connect(decryptFileProcess, SIGNAL(decryptFileStarted(KUrl)), this, SLOT(processEncPopup(KUrl)));
+    connect(decryptFileProcess, SIGNAL(decryptFileFinished(int, KgpgInterface*)), this, SLOT(processdecover(int, KgpgInterface*)));
 }
 
 void KgpgLibrary::processDecOver()
@@ -229,9 +227,9 @@ void KgpgLibrary::processDecError(const QString &mssge)
     KMessageBox::detailedSorry(0, i18n("Decryption failed."), mssge);
 }
 
-void KgpgLibrary::processEncPopup(const QString &fileName)
+void KgpgLibrary::processEncPopup(const KUrl &url)
 {
-    emit systemMessage(i18n("Decrypting %1", fileName));
+    emit systemMessage(i18n("Decrypting %1", url));
 
     m_pop->setTimeout(0);
     m_pop->setView(i18n("Processing decryption"), i18n("Please wait..."), KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop));

@@ -33,29 +33,27 @@ class KgpgKeyGenerate : public KDialog
 public:
     KgpgKeyGenerate(QWidget *parent = 0);
 
-    bool getMode() const;
-    QString getKeyName() const;
-    QString getKeyEmail() const;
-    QString getKeyComment() const;
-    Kgpg::KeyAlgo getKeyAlgo() const;
-    uint getKeySize() const;
-    uint getKeyExp() const;
-    uint getKeyNumber() const;
-
-public slots:
-    void slotButtonClicked(int button);
-    void slotOk();
-    void slotUser1();
-    void slotActivateExp(const int &state);
+    bool isExpertMode() const;
+    QString name() const;
+    QString email() const;
+    QString comment() const;
+    Kgpg::KeyAlgo algo() const;
+    uint size() const;
+    uint expiration() const;
+    uint days() const;
 
 private slots:
+    void slotOk();
+    void slotUser1();
+    void slotButtonClicked(int button);
     void slotEnableOk();
+    void slotEnableDays(const int &state);
 
 private:
     KComboBox *m_keykind;
     KComboBox *m_keysize;
     KComboBox *m_keyexp;
-    KLineEdit *m_numb;
+    KLineEdit *m_days;
     KLineEdit *m_comment;
     KLineEdit *m_kname;
     KLineEdit *m_mail;

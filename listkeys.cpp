@@ -355,16 +355,16 @@ void listKeys::slotGenerateKey()
     KgpgKeyGenerate *genkey = new KgpgKeyGenerate(this);
     if (genkey->exec() == QDialog::Accepted)
     {
-        if (!genkey->getMode()) // normal mode (not expert)
+        if (!genkey->isExpertMode())
         {
             // extract data from genkey
-            QString newKeyName = genkey->getKeyName();
-            QString newKeyMail = genkey->getKeyEmail();
-            QString keycomment = genkey->getKeyComment();
-            Kgpg::KeyAlgo keyalgo = genkey->getKeyAlgo();
-            uint keysize = genkey->getKeySize();
-            uint keyexp = genkey->getKeyExp();
-            uint keynumber = genkey->getKeyNumber();
+            QString newKeyName = genkey->name();
+            QString newKeyMail = genkey->email();
+            QString keycomment = genkey->comment();
+            Kgpg::KeyAlgo keyalgo = genkey->algo();
+            uint keysize = genkey->size();
+            uint keyexp = genkey->expiration();
+            uint keynumber = genkey->days();
             delete genkey;
 
             KgpgInterface *interface = new KgpgInterface();

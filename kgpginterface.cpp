@@ -2695,90 +2695,181 @@ void KgpgInterface::generateKeyFin(KProcess *p)
     emit generateKeyFinished(m_success, this, m_keyname, m_keyemail, m_newkeyid, m_newfingerprint);
 }
 
-void KgpgInterface::KgpgDecryptFile(KUrl srcUrl, KUrl destUrl, QStringList Options)
+void KgpgInterface::decryptFile(const KUrl &src, const KUrl &dest, QStringList Options)
 {
-    message = QString::null;
-    step=3;
-    decryptUrl = srcUrl.path();
-    userIDs = QString::null;
+    m_partialline = QString::null;
+    m_ispartial = false;
     anonymous = false;
+    step = 3;
+    m_success = 0;
+    decryptFileUrl = src;
 
-    KProcIO *process = new KProcIO();
-    *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0";
+    KProcIO *process = new KProcIO(QTextCodec::codecForName("utf8"));
+    process->setParent(this);
+    *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0" << "--no-verbose" << "--no-greeting";
 
     for (QStringList::Iterator it = Options.begin(); it != Options.end(); ++it)
-        if (!QFile::encodeName(*it).isEmpty())
-            *process << QFile::encodeName(*it);
+        *process << *it;
 
-    if (!destUrl.fileName().isEmpty())
-        *process << "-o" << QFile::encodeName(destUrl.path());
+    if (!dest.fileName().isEmpty())
+        *process << "-o" << dest.path();
+    *process << "-d" << src.path();
 
-    *process << "-d" << QFile::encodeName(srcUrl.path());
-
-    connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(readdecprocess(KProcIO *)));
-    connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(decryptfin(KProcess *)));
+    kDebug(2100) << "(KgpgInterface::decryptFile) Decrypt a file" << endl;
+    connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(decryptFileProcess(KProcIO *)));
+    connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(decryptFileFin(KProcess *)));
     process->start(KProcess::NotifyOnExit, true);
 }
 
-void KgpgInterface::decryptfin(KProcess *)
+void KgpgInterface::decryptFileProcess(KProcIO *p)
 {
-    if (message.contains("DECRYPTION_OKAY") && message.contains("END_DECRYPTION"))
-        emit decryptionfinished();
-    else
-        emit errorMessage(message, this);
-}
-
-void KgpgInterface::readdecprocess(KProcIO *p)
-{
-    QString required;
-    while (p->readln(required, true) != -1)
+    QString line;
+    bool partial = false;
+    while (p->readln(line, false, &partial) != -1)
     {
-        if (required.contains("BEGIN_DECRYPTION", Qt::CaseInsensitive))
-            emit processstarted(decryptUrl);
-
-        if (required.contains("USERID_HINT", Qt::CaseInsensitive) )
-            updateIDs(required);
-
-        if ((required.contains("ENC_TO")) && required.contains("0000000000000000"))
-            anonymous = true;
-
-        if (required.contains("GET_"))
+        if (partial == true)
         {
-            if (required.contains("openfile.overwrite.okay"))
-                p->writeStdin(QByteArray("Yes"));
-            else
-            if ((required.contains("passphrase.enter")))
+            m_partialline += line;
+            m_ispartial = true;
+            partial = false;
+        }
+        else
+        {
+            if (m_ispartial)
             {
-                if (userIDs.isEmpty())
-                    userIDs = i18n("[No user id found]");
-                userIDs.replace(QRegExp("<"), "&lt;");
+                m_partialline += line;
+                line = m_partialline;
 
-                QString passdlgmessage;
-                if (anonymous)
-                    passdlgmessage = i18n("<b>No user id found</b>. Trying all secret keys.<br>");
-                if ((step < 3) && (!anonymous))
-                    passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>", step);
-                passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
-
-                if (sendPassphrase(passdlgmessage, p))
-                {
-                    delete p;
-                    emit processaborted(true);
-                    return;
-                }
-
-                userIDs = QString::null;
-                step--;
+                m_partialline = "";
+                m_ispartial = false;
             }
-            else
+
+            if (line.contains("BEGIN_DECRYPTION", Qt::CaseInsensitive))
+                emit decryptFileStarted(decryptFileUrl);
+
+            if (line.contains("USERID_HINT", Qt::CaseInsensitive))
+                updateIDs(line);
+
+            if ((line.contains("ENC_TO")) && line.contains("0000000000000000"))
+                anonymous = true;
+
+            if (line.contains("GET_"))
             {
-                p->writeStdin(QByteArray("quit"));
-                p->closeWhenDone();
+                if (line.contains("openfile.overwrite.okay"))
+                    p->writeStdin(QByteArray("Yes"));
+                else
+                if ((line.contains("passphrase.enter")))
+                {
+                    if (userIDs.isEmpty())
+                        userIDs = i18n("[No user id found]");
+                    userIDs.replace(QRegExp("<"), "&lt;");
+
+                    QString passdlgmessage;
+                    if (anonymous)
+                        passdlgmessage = i18n("<b>No user id found</b>. Trying all secret keys.<br>");
+                    if ((step < 3) && (!anonymous))
+                        passdlgmessage = i18n("<b>Bad passphrase</b>. You have %1 tries left.<br>", step);
+                    passdlgmessage += i18n("Enter passphrase for <b>%1</b>", userIDs);
+
+                    if (sendPassphrase(passdlgmessage, p))
+                    {
+                        delete p;
+                        emit decryptFileFinished(3, this);
+                        return;
+                    }
+                    step--;
+                }
+                else
+                {
+                    p->writeStdin(QByteArray("quit"));
+                    p->closeWhenDone();
+                }
             }
         }
-        message += required + "\n";
     }
+
+    p->ackRead();
 }
+
+void KgpgInterface::decryptFileFin(KProcess *p)
+{
+    delete p;
+    if (message.contains("DECRYPTION_OKAY") && message.contains("END_DECRYPTION"))
+        emit decryptFileFinished(5, this);
+    else
+        emit decryptFileFinished(0, this);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // decrypt file to text
 void KgpgInterface::KgpgDecryptFileToText(KUrl srcUrl, QStringList Options)
