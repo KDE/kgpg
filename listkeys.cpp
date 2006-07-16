@@ -115,8 +115,8 @@
 #include "keyadaptor.h"
 #include <QtDBus>
 #include <ktoggleaction.h>
-listKeys::listKeys(QWidget *parent, const char *name)
-        : KMainWindow(parent, name, 0)
+listKeys::listKeys(QWidget *parent)
+        : KMainWindow(parent)
 {
     new KeyAdaptor(this);
     QDBus::sessionBus().registerObject("/KeyInterface", this);
@@ -318,8 +318,7 @@ listKeys::listKeys(QWidget *parent, const char *name)
 
     // get all keys data
     setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "listkeys.rc");
-#warning "kde4: port it toolBar()->insertLineSeparator();"
-    //toolBar()->insertLineSeparator();
+    toolBar()->addSeparator();
 
     QToolButton *clearSearch = new QToolButton(toolBar());
     clearSearch->setText(i18n("Clear Search"));

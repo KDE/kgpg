@@ -61,7 +61,7 @@ class listKeys : public KMainWindow
     Q_OBJECT
 
 public:
-    listKeys(QWidget *parent = 0, const char *name = 0);
+    listKeys(QWidget *parent = 0);
 
     KeyListView *keysList2;
 
