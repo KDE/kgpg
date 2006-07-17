@@ -39,6 +39,7 @@
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "popuppublic.h"
+#include "core.h"
 
 class KeyViewItem : public K3ListViewItem
 {
@@ -308,17 +309,6 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgListKeys keys, KgpgInterf
 {
     delete interface;
 
-    /* TODO : move to a static core method */
-    QPixmap m_keysingle;
-    QPixmap m_keypair;
-    QPixmap m_keygroup;
-
-    KIconLoader *loader = KGlobal::iconLoader();
-    m_keypair = loader->loadIcon("kgpg_key2", K3Icon::Small, 20);
-    m_keysingle = loader->loadIcon("kgpg_key1", K3Icon::Small, 20);
-    m_keygroup = loader->loadIcon("kgpg_key3", K3Icon::Small, 20);
-    /* */
-
     /* Add groups */
     QStringList groups = KGpgSettings::groups().split(",");
     if (!groups.isEmpty())
@@ -326,7 +316,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgListKeys keys, KgpgInterf
             if (!QString(*it).isEmpty())
             {
                 KeyViewItem *item = new KeyViewItem(m_keyslist, QString(*it), QString::null, QString::null, false, true);
-                item->setPixmap(0, m_keygroup);
+                item->setPixmap(0, Core::getKeyGroupImage());
             }
     /* */
 
@@ -371,9 +361,9 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgListKeys keys, KgpgInterf
             KeyViewItem *item = new KeyViewItem(m_keyslist, keyname, key.email(), id, isDefaultKey, istrusted);
 
             if (m_seclist.contains(id, Qt::CaseInsensitive))
-                item->setPixmap(0, m_keypair);
+                item->setPixmap(0, Core::getKeyPairImage());
             else
-                item->setPixmap(0, m_keysingle);
+                item->setPixmap(0, Core::getKeySingleImage());
         }
     }
 

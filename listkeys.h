@@ -93,6 +93,7 @@ public slots:
     bool importRemoteKey(QString keyID);
     void showKeyServer();
     void showOptions();
+
 protected:
     void closeEvent(QCloseEvent *e);
     bool eventFilter(QObject *, QEvent *e);
@@ -153,7 +154,9 @@ private slots:
     void listsigns();
     void slotexport();
     void slotexportsec();
-    void slotmenu(Q3ListViewItem *, const QPoint &, int);
+
+    void slotMenu(Q3ListViewItem *, const QPoint &, int);
+
     void slotPreImportKey();
     void slotedit();
     void addToKAB();
@@ -181,27 +184,22 @@ private:
     QList<Q3ListViewItem*> signList;
     QList<Q3ListViewItem*> keysList;
 
-    /*
-    QList<K3ListViewItem> signList;
-    QList<K3ListViewItem> keysList;
-    */
-
-    QClipboard::Mode clipboardMode;
+    QClipboard::Mode m_clipboardmode;
     QTimer *m_statusbartimer;
 
-    KMenu *popup;
-    KMenu *popupsec;
-    KMenu *popupout;
-    KMenu *popupsig;
-    KMenu *popupgroup;
-    KMenu *popupphoto;
-    KMenu *popupuid;
-    KMenu *popuporphan;
+    KMenu *m_popuppub;          // popup on a public key
+    KMenu *m_popupsec;          // popup on a secret key
+    KMenu *m_popupgroup;        // popup on a group
+    KMenu *m_popupout;          // popup there is no key or when the user don't right-click on a key
+    KMenu *m_popupsig;          // popup on a signature
+    KMenu *m_popupphoto;        // popup on a photo
+    KMenu *m_popupuid;          // popup on an user id
+    KMenu *m_popuporphan;       // popup on an orphan key
 
     KPassivePopup *pop;
     KStatusBar *m_statusbar;
 
-    KeyListViewSearchLine* listViewSearch;
+    KeyListViewSearchLine* m_listviewsearch;
     KDialog *addUidWidget;
 
     KAction *importSignatureKey;

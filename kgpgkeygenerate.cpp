@@ -133,13 +133,13 @@ void KgpgKeyGenerate::slotOk()
 {
     if (QString(m_kname->text()).simplified().isEmpty())
     {
-        KMessageBox::sorry(0, i18n("You must give a name."));
+        KMessageBox::sorry(this, i18n("You must give a name."));
         return;
     }
 
     if (QString(m_kname->text()).simplified().length() < 5)
     {
-        KMessageBox::sorry(0, i18n("The name must have at least 5 characters"));
+        KMessageBox::sorry(this, i18n("The name must have at least 5 characters"));
         return;
     }
 
@@ -154,7 +154,7 @@ void KgpgKeyGenerate::slotOk()
     else
     if (vmail.contains(' ') || !vmail.contains('.') || !vmail.contains('@'))
     {
-        KMessageBox::sorry(0, i18n("Email address not valid"));
+        KMessageBox::sorry(this, i18n("Email address not valid"));
         return;
     }
 
