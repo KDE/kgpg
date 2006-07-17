@@ -23,9 +23,9 @@
 class Core
 {
 public:
-    static QPixmap getKeySingleImage();
-    static QPixmap getKeyPairImage();
-    static QPixmap getKeyGroupImage();
+    static QPixmap singleImage();
+    static QPixmap pairImage();
+    static QPixmap groupImage();
 
 private:
     static QPixmap m_keysingle;

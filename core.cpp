@@ -23,21 +23,21 @@ QPixmap Core::m_keysingle;
 QPixmap Core::m_keypair;
 QPixmap Core::m_keygroup;
 
-QPixmap Core::getKeySingleImage()
+QPixmap Core::singleImage()
 {
     if (m_keysingle.isNull())
         m_keysingle = KGlobal::iconLoader()->loadIcon("kgpg_key1", K3Icon::Small, 20);
     return m_keysingle;
 }
 
-QPixmap Core::getKeyPairImage()
+QPixmap Core::pairImage()
 {
     if (m_keypair.isNull())
         m_keypair = KGlobal::iconLoader()->loadIcon("kgpg_key2", K3Icon::Small, 20);
     return m_keypair;
 }
 
-QPixmap Core::getKeyGroupImage()
+QPixmap Core::groupImage()
 {
     if (m_keygroup.isNull())
         m_keygroup = KGlobal::iconLoader()->loadIcon("kgpg_key3", K3Icon::Small, 20);

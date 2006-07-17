@@ -316,7 +316,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgListKeys keys, KgpgInterf
             if (!QString(*it).isEmpty())
             {
                 KeyViewItem *item = new KeyViewItem(m_keyslist, QString(*it), QString::null, QString::null, false, true);
-                item->setPixmap(0, Core::getKeyGroupImage());
+                item->setPixmap(0, Core::groupImage());
             }
     /* */
 
@@ -361,9 +361,9 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgListKeys keys, KgpgInterf
             KeyViewItem *item = new KeyViewItem(m_keyslist, keyname, key.email(), id, isDefaultKey, istrusted);
 
             if (m_seclist.contains(id, Qt::CaseInsensitive))
-                item->setPixmap(0, Core::getKeyPairImage());
+                item->setPixmap(0, Core::pairImage());
             else
-                item->setPixmap(0, Core::getKeySingleImage());
+                item->setPixmap(0, Core::singleImage());
         }
     }
 

@@ -11,7 +11,6 @@
 #include <QCheckBox>
 #include <QLabel>
 
-#include <kiconloader.h>
 #include <k3listview.h>
 #include <kcombobox.h>
 #include <klocale.h>
@@ -19,6 +18,7 @@
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "selectsecretkey.h"
+#include "core.h"
 
 KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, const int &countkey)
                    : KDialog(parent)
@@ -27,9 +27,6 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     setButtons(Ok | Cancel);
     setDefaultButton(Ok);
     QWidget *page = new QWidget(this);
-
-    KIconLoader *loader = KGlobal::iconLoader();
-    QPixmap keyPair = loader->loadIcon("kgpg_key2", K3Icon::Small, 20);
 
     QLabel *label = new QLabel(i18n("Choose secret key for signing:"), page);
 
@@ -109,7 +106,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
             Q3ListViewItem *item = new Q3ListViewItem(m_keyslist, keyName, key.email(), id);
             Q3ListViewItem *sub = new Q3ListViewItem(item, i18n("Expiration:"), key.expiration());
             sub->setSelectable(false);
-            item->setPixmap(0, keyPair);
+            item->setPixmap(0, Core::pairImage());
             if (!defaultKeyID.isEmpty() && id == defaultKeyID)
             {
                 m_keyslist->setSelected(item, true);
