@@ -123,17 +123,9 @@ private:
     QStringList orphanList;
     QString photoKeysList;
 
-    QPixmap pixkeyPair;
-    QPixmap pixkeySingle;
-    QPixmap pixkeyGroup;
-    QPixmap pixsignature;
-    QPixmap pixuserid;
-    QPixmap pixuserphoto;
     QPixmap trustunknown;
     QPixmap trustrevoked;
     QPixmap trustgood;
-    QPixmap pixRevoke;
-    QPixmap pixkeyOrphan;
 
     int groupNb;
     int m_previewsize;

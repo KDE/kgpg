@@ -26,6 +26,7 @@
 #include "kgpgsettings.h"
 #include "keylistview.h"
 #include "kgpgoptions.h"
+#include "core.h"
 
 KeyListViewItem::KeyListViewItem(K3ListView *parent, QString name, QString email, QString trust, QString expiration, QString size, QString creation, QString id, bool isdefault, bool isexpired, ItemType type)
                : K3ListViewItem(parent)
@@ -211,16 +212,6 @@ KeyListView::KeyListView(QWidget *parent)
     setFullWidth(true);
     setAcceptDrops(true) ;
     setSelectionModeExt(Extended);
-
-    KIconLoader *loader = KGlobal::iconLoader();
-    pixkeyOrphan = loader->loadIcon("kgpg_key4", K3Icon::Small, 20);
-    pixkeyGroup = loader->loadIcon("kgpg_key3", K3Icon::Small, 20);
-    pixkeyPair = loader->loadIcon("kgpg_key2", K3Icon::Small, 20);
-    pixkeySingle = loader->loadIcon("kgpg_key1", K3Icon::Small, 20);
-    pixsignature = loader->loadIcon("signature", K3Icon::Small, 20);
-    pixuserid = loader->loadIcon("kgpg_identity", K3Icon::Small, 20);
-    pixuserphoto = loader->loadIcon("kgpg_photo", K3Icon::Small, 20);
-    pixRevoke = loader->loadIcon("stop", K3Icon::Small, 20);
 
     QPixmap blankFrame(KStandardDirs::locate("appdata", "pics/kgpg_blank.png"));
     QRect rect(0, 0, 50, 15);
@@ -430,12 +421,12 @@ bool KeyListView::refreshKeys(QStringList ids)
         int index = issec.indexOf(key.id());
         if (index != -1)
         {
-            item->setPixmap(0, pixkeyPair);
+            item->setPixmap(0, Core::pairImage());
             item->setItemType(item->itemType() | KeyListViewItem::Secret);
             issec.removeAt(index);
         }
         else
-            item->setPixmap(0, pixkeySingle);
+            item->setPixmap(0, Core::singleImage());
     }
 
     if (!issec.isEmpty())
@@ -533,7 +524,7 @@ void KeyListView::insertOrphans(QStringList ids)
         orphanList << key.id();
 
         item = new KeyListViewItem(this, key.name(), key.email(), QString::null, key.expiration(), key.size(), key.creation(), key.id(), isbold, isexpired, KeyListViewItem::Secret);
-        item->setPixmap(0, pixkeyOrphan);
+        item->setPixmap(0, Core::orphanImage());
     }
 
     if (ids.size() == 1)
@@ -575,7 +566,7 @@ void KeyListView::refreshGroups()
         if (!QString(*it).isEmpty())
         {
             item = new KeyListViewItem(this, QString(*it), "-", "-", "-", "-", "-", "-", false, false, KeyListViewItem::Group);
-            item->setPixmap(0, pixkeyGroup);
+            item->setPixmap(0, Core::groupImage());
             item->setExpandable(false);
         }
 
@@ -653,7 +644,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
 
         QString algo = i18n("%1 subkey", KgpgKey::algorithmeToString(sub.algorithme()));
         tmpitem = new KeyListViewItem(item, algo, QString::null, QString::null, sub.expiration(), QString::number(sub.size()), sub.creation(), sub.id(), false, false, KeyListViewItem::Sub);
-        tmpitem->setPixmap(0, pixkeySingle);
+        tmpitem->setPixmap(0, Core::singleImage());
         tmpitem->setPixmap(2, getTrustPix(sub.trust(), sub.valide()));
         insertSigns(tmpitem, sub.signList());
     }
@@ -667,7 +658,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
 
         tmpitem = new KeyListViewItem(item, uid.name(), uid.email(), QString::null, "-", "-", "-", "-", false, false, KeyListViewItem::Uid);
         tmpitem->setPixmap(2, getTrustPix(key.trust(), key.valide()));
-        tmpitem->setPixmap(0, pixuserid);
+        tmpitem->setPixmap(0, Core::userIdImage());
         insertSigns(tmpitem, uid.signList());
     }
     /****************************************/
@@ -686,7 +677,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
             tmpitem->setPixmap(0, pixmap.scaled(m_previewsize + 5, m_previewsize, Qt::KeepAspectRatio));
         }
         else
-            tmpitem->setPixmap(0, pixuserphoto);
+            tmpitem->setPixmap(0, Core::photoImage());
 
         KgpgKeyUat uat = key.uatList()->at(i);
         insertSigns(tmpitem, uat.signList());
@@ -720,12 +711,12 @@ void KeyListView::insertSigns(K3ListViewItem *item, const KgpgKeySignList &list)
         {
             tmpemail += i18n(" [Revocation signature]");
             newitem = new KeyListViewItem(item, tmpname, tmpemail, "-", "-", "-", sign.creation(), sign.id(), false, false, KeyListViewItem::Rev);
-            newitem->setPixmap(0, pixRevoke);
+            newitem->setPixmap(0, Core::revokeImage());
         }
         else
         {
             newitem = new KeyListViewItem(item, tmpname, tmpemail, "-", sign.expiration(), "-", sign.creation(), sign.id(), false, false, KeyListViewItem::Sign);
-            newitem->setPixmap(0, pixsignature);
+            newitem->setPixmap(0, Core::signatureImage());
         }
     }
 }
@@ -739,7 +730,7 @@ void KeyListView::expandGroup(K3ListViewItem *item)
     for (QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
     {
         KeyListViewItem *item2 = new KeyListViewItem(item, QString(*it), QString::null, QString::null, QString::null, QString::null, QString::null, QString::null);
-        item2->setPixmap(0, pixkeyGroup);
+        item2->setPixmap(0, Core::groupImage());
         item2->setExpandable(false);
     }
 }

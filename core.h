@@ -26,11 +26,21 @@ public:
     static QPixmap singleImage();
     static QPixmap pairImage();
     static QPixmap groupImage();
+    static QPixmap orphanImage();
+    static QPixmap signatureImage();
+    static QPixmap userIdImage();
+    static QPixmap photoImage();
+    static QPixmap revokeImage();
 
 private:
     static QPixmap m_keysingle;
     static QPixmap m_keypair;
     static QPixmap m_keygroup;
+    static QPixmap m_keyoprpan;
+    static QPixmap m_signature;
+    static QPixmap m_userid;
+    static QPixmap m_userphoto;
+    static QPixmap m_revoke;
 };
 
 #endif // CORE_H

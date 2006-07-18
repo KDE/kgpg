@@ -115,6 +115,7 @@
 #include "keyadaptor.h"
 #include <QtDBus>
 #include <ktoggleaction.h>
+#include "core.h"
 
 KeysManager::KeysManager(QWidget *parent)
            : KMainWindow(parent)
@@ -1026,7 +1027,7 @@ void KeysManager::checkList()
     }
 
     int serial = keysList2->currentItem()->pixmap(0)->serialNumber();
-    if (serial == keysList2->pixkeySingle.serialNumber())
+    if (serial == Core::singleImage().serialNumber())
     {
         if (keysList2->currentItem()->depth() == 0)
             changeMessage(i18n("Public Key"), 0);
@@ -1034,25 +1035,25 @@ void KeysManager::checkList()
             changeMessage(i18n("Sub Key"), 0);
     }
     else
-    if (serial == keysList2->pixkeyPair.serialNumber())
+    if (serial == Core::pairImage().serialNumber())
         changeMessage(i18n("Secret Key Pair"), 0);
     else
-    if (serial == keysList2->pixkeyGroup.serialNumber())
+    if (serial == Core::groupImage().serialNumber())
         changeMessage(i18n("Key Group"), 0);
     else
-    if (serial == keysList2->pixsignature.serialNumber())
+    if (serial == Core::signatureImage().serialNumber())
         changeMessage(i18n("Signature"), 0);
     else
-    if (serial == keysList2->pixuserid.serialNumber())
+    if (serial == Core::userIdImage().serialNumber())
         changeMessage(i18n("User ID"), 0);
     else
     if (keysList2->currentItem()->text(0) == i18n("Photo id"))
         changeMessage(i18n("Photo ID"), 0);
     else
-    if (serial == keysList2->pixRevoke.serialNumber())
+    if (serial == Core::revokeImage().serialNumber())
         changeMessage(i18n("Revocation Signature"), 0);
     else
-    if (serial == keysList2->pixkeyOrphan.serialNumber())
+    if (serial == Core::orphanImage().serialNumber())
         changeMessage(i18n("Orphaned Secret Key"), 0);
 }
 
@@ -1455,7 +1456,7 @@ void KeysManager::listsigns()
         return;
     }
 
-    if (keysList2->currentItem()->pixmap(0)->serialNumber() == keysList2->pixkeyOrphan.serialNumber())
+    if (keysList2->currentItem()->pixmap(0)->serialNumber() == Core::orphanImage().serialNumber())
     {
         if (KMessageBox::questionYesNo(this, i18n("This key is an orphaned secret key (secret key without public key.) It is currently not usable.\n\n"
                                                "Would you like to regenerate the public key?"), QString::null, i18n("Generate"), i18n("Do Not Generate")) == KMessageBox::Yes)

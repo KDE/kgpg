@@ -22,6 +22,11 @@
 QPixmap Core::m_keysingle;
 QPixmap Core::m_keypair;
 QPixmap Core::m_keygroup;
+QPixmap Core::m_keyoprpan;
+QPixmap Core::m_signature;
+QPixmap Core::m_userid;
+QPixmap Core::m_userphoto;
+QPixmap Core::m_revoke;
 
 QPixmap Core::singleImage()
 {
@@ -42,4 +47,39 @@ QPixmap Core::groupImage()
     if (m_keygroup.isNull())
         m_keygroup = KGlobal::iconLoader()->loadIcon("kgpg_key3", K3Icon::Small, 20);
     return m_keygroup;
+}
+
+QPixmap Core::orphanImage()
+{
+    if (m_keyoprpan.isNull())
+        m_keyoprpan = KGlobal::iconLoader()->loadIcon("kgpg_key4", K3Icon::Small, 20);
+    return m_keyoprpan;
+}
+
+QPixmap Core::signatureImage()
+{
+    if (m_signature.isNull())
+        m_signature = KGlobal::iconLoader()->loadIcon("signature", K3Icon::Small, 20);
+    return m_signature;
+}
+
+QPixmap Core::userIdImage()
+{
+    if (m_userid.isNull())
+        m_userid = KGlobal::iconLoader()->loadIcon("kgpg_identity", K3Icon::Small, 20);
+    return m_userid;
+}
+
+QPixmap Core::photoImage()
+{
+    if (m_userphoto.isNull())
+        m_userphoto = KGlobal::iconLoader()->loadIcon("kgpg_photo", K3Icon::Small, 20);
+    return m_userphoto;
+}
+
+QPixmap Core::revokeImage()
+{
+    if (m_revoke.isNull())
+        m_revoke = KGlobal::iconLoader()->loadIcon("stop", K3Icon::Small, 20);
+    return m_revoke;
 }
