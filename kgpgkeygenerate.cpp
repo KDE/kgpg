@@ -83,7 +83,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     m_keysize->addItem("1024");
     m_keysize->addItem("2048");
     m_keysize->addItem("4096");
-    m_keysize->setCurrentItem("1024");
+    m_keysize->setCurrentIndex(1); // 1024
     m_keysize->setMinimumSize(m_keysize->sizeHint());
     sizeLabel->setBuddy(m_keysize);
 
