@@ -550,7 +550,7 @@ void MyView::unArchive()
 
     const KArchiveDirectory *archiveDirectory = compressedFolder.directory();
     //KUrl savePath=KUrl::getURL(droppedUrl,this,i18n(""));
-    KUrlRequesterDlg *savePath = new KUrlRequesterDlg(droppedUrl.directory(false), i18n("Extract to: "),0);
+    KUrlRequesterDlg *savePath = new KUrlRequesterDlg(droppedUrl.directory(KUrl::AppendTrailingSlash), i18n("Extract to: "),0);
     savePath->fileDialog()->setMode(KFile::Directory);
     if (!savePath->exec() == QDialog::Accepted)
     {
@@ -1074,8 +1074,8 @@ int KgpgAppletApp::newInstance()
 
         QString gpgPath = KGpgSettings::gpgConfigPath();
         if (!gpgPath.isEmpty())
-            if (KUrl::fromPath(gpgPath).directory(false) != (QDir::homePath() + "/.gnupg/"))
-                setenv("GNUPGHOME", KUrl::fromPath(gpgPath).directory(false).toAscii(), 1);
+            if (KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash) != (QDir::homePath() + "/.gnupg/"))
+                setenv("GNUPGHOME", KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash).toAscii(), 1);
 
         s_keyManager->refreshkey();
 
