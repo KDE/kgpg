@@ -39,7 +39,7 @@
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "images.h"
-#include "popuppublic.h"
+#include "selectpublickeydialog.h"
 
 using namespace KgpgCore;
 
@@ -494,4 +494,4 @@ void KgpgSelectPublicKeyDlg::slotGotoDefaultKey()
     m_keyslist->ensureItemVisible(myDefaulKey);
 }
 
-#include "popuppublic.moc"
+#include "selectpublickeydialog.moc"

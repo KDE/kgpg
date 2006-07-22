@@ -31,7 +31,7 @@
 #include <kio/job.h>
 
 #include "kgpglibrary.h"
-#include "popuppublic.h"
+#include "selectpublickeydialog.h"
 #include "kgpgsettings.h"
 #include "kgpginterface.h"
 

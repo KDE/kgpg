@@ -79,7 +79,7 @@
 #include "listkeys.h"
 #include "keyserver.h"
 #include "keyservers.h"
-#include "popuppublic.h"
+#include "selectpublickeydialog.h"
 #include "kgpgview.h"
 #include "kgpglibrary.h"
 #include "kgpgwizard.h"

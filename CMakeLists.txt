@@ -17,7 +17,7 @@ set(core_SRCS
 set(kgpg_SRCS ${core_SRCS}
    kgpgoptions.cpp
    listkeys.cpp
-   popuppublic.cpp
+   selectpublickeydialog.cpp
    kgpgview.cpp
    selectsecretkey.cpp
    kgpg.cpp

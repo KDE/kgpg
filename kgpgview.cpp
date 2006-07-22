@@ -34,7 +34,7 @@
 #include "kgpginterface.h"
 #include "keyservers.h"
 #include "kgpgeditor.h"
-#include "popuppublic.h"
+#include "selectpublickeydialog.h"
 #include "detailedconsole.h"
 #include "kgpgview.h"
 
