@@ -63,7 +63,12 @@ public:
     static void setGpgBoolSetting(const QString &name, const bool &enable, const QString &url);
 
     static int checkUID(const QString &keyid);
-    static Kgpg::KeyAlgo intToAlgo(const uint &v);
+
+    static KgpgCore::KeyAlgo intToAlgo(const uint &v);
+    static KgpgCore::KeyTrust toTrust(const QChar &c);
+    static KgpgCore::KeyTrust toTrust(const QString &s);
+    static KgpgCore::KeyOwnerTrust toOwnerTrust(const QChar &c);
+    static KgpgCore::KeyOwnerTrust toOwnerTrust(const QString &s);
 
 
 /************** function to send a passphrase to gpg **************/
@@ -93,10 +98,10 @@ private:
 /************** extract public keys **************/
 signals:
     void readPublicKeysStarted(KgpgInterface*);
-    void readPublicKeysFinished(KgpgListKeys, KgpgInterface*);
+    void readPublicKeysFinished(KgpgCore::KeyList, KgpgInterface*);
 
 public slots:
-    KgpgListKeys readPublicKeys(const bool &block = false, const QStringList &ids = QStringList(), const bool &withsigs = false);
+    KgpgCore::KeyList readPublicKeys(const bool &block = false, const QStringList &ids = QStringList(), const bool &withsigs = false);
 
 private slots:
     void readPublicKeysProcess(KProcIO *p);
@@ -105,8 +110,8 @@ private slots:
 private:
     int m_numberid;
     QString cycle;
-    KgpgKey m_publickey;
-    KgpgListKeys m_publiclistkeys;
+    KgpgCore::Key m_publickey;
+    KgpgCore::KeyList m_publiclistkeys;
 
 /*************************************************/
 
@@ -114,10 +119,10 @@ private:
 /************** extract secret keys **************/
 signals:
     void readSecretKeysStarted(KgpgInterface*);
-    void readSecretKeysFinished(KgpgListKeys, KgpgInterface*);
+    void readSecretKeysFinished(KgpgCore::KeyList, KgpgInterface*);
 
 public slots:
-    KgpgListKeys readSecretKeys(const bool &block = false, const QStringList &ids = QStringList());
+    KgpgCore::KeyList readSecretKeys(const bool &block = false, const QStringList &ids = QStringList());
 
 private slots:
     void readSecretKeysProcess(KProcIO *p);
@@ -125,8 +130,8 @@ private slots:
 
 private:
     bool m_secretactivate;
-    KgpgKey m_secretkey;
-    KgpgListKeys m_secretlistkeys;
+    KgpgCore::Key m_secretkey;
+    KgpgCore::KeyList m_secretlistkeys;
 
 /*************************************************/
 
@@ -585,7 +590,7 @@ public slots:
      * 4 = year
      * @param keyexpnumber is the number of X (see keyexp for X) while the key will be valid.
      */
-    void generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const Kgpg::KeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber);
+    void generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const KgpgCore::KeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber);
 
 private slots:
     void generateKeyProcess(KProcIO *p);
@@ -597,7 +602,7 @@ private:
     QString m_keyname;
     QString m_keyemail;
     QString m_keycomment;
-    Kgpg::KeyAlgo m_keyalgo;
+    KgpgCore::KeyAlgo m_keyalgo;
     uint m_keysize;
     uint m_keyexpnumber;
     uint m_keyexp;

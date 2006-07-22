@@ -38,8 +38,10 @@
 
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
+#include "images.h"
 #include "popuppublic.h"
-#include "core.h"
+
+using namespace KgpgCore;
 
 class KeyViewItem : public K3ListViewItem
 {
@@ -305,7 +307,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysList()
     interface->readPublicKeys();
 }
 
-void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgListKeys keys, KgpgInterface *interface)
+void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KeyList keys, KgpgInterface *interface)
 {
     delete interface;
 
@@ -316,13 +318,13 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgListKeys keys, KgpgInterf
             if (!QString(*it).isEmpty())
             {
                 KeyViewItem *item = new KeyViewItem(m_keyslist, QString(*it), QString::null, QString::null, false, true);
-                item->setPixmap(0, Core::groupImage());
+                item->setPixmap(0, Images::group());
             }
     /* */
 
     /* Get the secret keys list */
     interface = new KgpgInterface();
-    KgpgListKeys list = interface->readSecretKeys(true);
+    KeyList list = interface->readSecretKeys(true);
     delete interface;
 
     QString m_seclist = QString::null;
@@ -333,18 +335,18 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgListKeys keys, KgpgInterf
     for (int i = 0; i < keys.size(); ++i)
     {
         bool dead = false;
-        KgpgKey key = keys.at(i);
+        Key key = keys.at(i);
         QString id = QString("0x" + key.id());
 
-        QChar c = key.trust();
+        KeyTrust c = key.trust();
         bool istrusted = true;
-        if (c == 'o' || c == 'q' || c == 'n' || c == 'm')
+        if (c == TRUST_UNKNOWN || c == TRUST_UNDEFINED || c == TRUST_NONE || c == TRUST_MARGINAL)
             istrusted = false;
         else
-        if (c == 'i' || c == 'd' || c == 'r' || c == 'e')
+        if (c == TRUST_INVALID || c == TRUST_DISABLED || c == TRUST_REVOKED || c == TRUST_EXPIRED)
             dead = true;
         else
-        if (c != 'f' && c != 'u')
+        if (c != TRUST_FULL && c != TRUST_ULTIMATE)
             istrusted = false;
 
         if (key.valide() == false)
@@ -361,9 +363,9 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgListKeys keys, KgpgInterf
             KeyViewItem *item = new KeyViewItem(m_keyslist, keyname, key.email(), id, isDefaultKey, istrusted);
 
             if (m_seclist.contains(id, Qt::CaseInsensitive))
-                item->setPixmap(0, Core::pairImage());
+                item->setPixmap(0, Images::pair());
             else
-                item->setPixmap(0, Core::singleImage());
+                item->setPixmap(0, Images::single());
         }
     }
 

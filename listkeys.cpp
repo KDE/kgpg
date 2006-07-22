@@ -115,7 +115,9 @@
 #include "keyadaptor.h"
 #include <QtDBus>
 #include <ktoggleaction.h>
-#include "core.h"
+#include "images.h"
+
+using namespace KgpgCore;
 
 KeysManager::KeysManager(QWidget *parent)
            : KMainWindow(parent)
@@ -636,7 +638,7 @@ void KeysManager::refreshKeyFromServer()
         return;
     }
 
-    kServer = new keyServer(0, "server_dialog", false);
+    kServer = new keyServer(0, false);
     connect(kServer, SIGNAL(importFinished(QString)), this, SLOT(refreshFinished()));
     kServer->slotSetText(keyIDS);
     kServer->slotImport();
@@ -1027,7 +1029,7 @@ void KeysManager::checkList()
     }
 
     int serial = keysList2->currentItem()->pixmap(0)->serialNumber();
-    if (serial == Core::singleImage().serialNumber())
+    if (serial == Images::single().serialNumber())
     {
         if (keysList2->currentItem()->depth() == 0)
             changeMessage(i18n("Public Key"), 0);
@@ -1035,25 +1037,25 @@ void KeysManager::checkList()
             changeMessage(i18n("Sub Key"), 0);
     }
     else
-    if (serial == Core::pairImage().serialNumber())
+    if (serial == Images::pair().serialNumber())
         changeMessage(i18n("Secret Key Pair"), 0);
     else
-    if (serial == Core::groupImage().serialNumber())
+    if (serial == Images::group().serialNumber())
         changeMessage(i18n("Key Group"), 0);
     else
-    if (serial == Core::signatureImage().serialNumber())
+    if (serial == Images::signature().serialNumber())
         changeMessage(i18n("Signature"), 0);
     else
-    if (serial == Core::userIdImage().serialNumber())
+    if (serial == Images::userId().serialNumber())
         changeMessage(i18n("User ID"), 0);
     else
     if (keysList2->currentItem()->text(0) == i18n("Photo id"))
         changeMessage(i18n("Photo ID"), 0);
     else
-    if (serial == Core::revokeImage().serialNumber())
+    if (serial == Images::revoke().serialNumber())
         changeMessage(i18n("Revocation Signature"), 0);
     else
-    if (serial == Core::orphanImage().serialNumber())
+    if (serial == Images::orphan().serialNumber())
         changeMessage(i18n("Orphaned Secret Key"), 0);
 }
 
@@ -1456,7 +1458,7 @@ void KeysManager::listsigns()
         return;
     }
 
-    if (keysList2->currentItem()->pixmap(0)->serialNumber() == Core::orphanImage().serialNumber())
+    if (keysList2->currentItem()->pixmap(0)->serialNumber() == Images::orphan().serialNumber())
     {
         if (KMessageBox::questionYesNo(this, i18n("This key is an orphaned secret key (secret key without public key.) It is currently not usable.\n\n"
                                                "Would you like to regenerate the public key?"), QString::null, i18n("Generate"), i18n("Do Not Generate")) == KMessageBox::Yes)
@@ -1705,7 +1707,7 @@ void KeysManager::signkey()
 
         QStringList list(keysList2->currentItem()->text(6));
         KgpgInterface *interface = new KgpgInterface();
-        KgpgListKeys listkeys = interface->readPublicKeys(true, list);
+        KeyList listkeys = interface->readPublicKeys(true, list);
         delete interface;
         fingervalue = listkeys.at(0).fingerprint();
 
@@ -1812,7 +1814,7 @@ void KeysManager::preimportsignkey()
 
 bool KeysManager::importRemoteKey(QString keyID)
 {
-    kServer = new keyServer(0, "server_dialog", false, true);
+    kServer = new keyServer(0, false, true);
     kServer->slotSetText(keyID);
     //kServer->page->Buttonimport->setDefault(true);
     //kServer->page->tabWidget2->setTabEnabled(kServer->page->tabWidget2->page(1),false);

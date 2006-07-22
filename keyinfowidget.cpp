@@ -30,6 +30,9 @@
 #include "keyinfowidget.h"
 #include "keyproperties.h"
 #include "kgpginterface.h"
+#include "convert.h"
+
+using namespace KgpgCore;
 
 KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent)
            : KDialog(parent)
@@ -47,7 +50,7 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent)
     setMainWidget(m_prop);
 
     KgpgInterface *interface = new KgpgInterface();
-    KgpgListKeys keys = interface->readSecretKeys(true, QStringList(sigkey));
+    KeyList keys = interface->readSecretKeys(true, QStringList(sigkey));
     delete interface;
 
     bool issecret = false;
@@ -78,20 +81,20 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent)
 void KgpgKeyInfo::loadKey(const QString &Keyid)
 {
     KgpgInterface *interface = new KgpgInterface();
-    KgpgListKeys listkeys = interface->readPublicKeys(true, QStringList(Keyid));
+    KeyList listkeys = interface->readPublicKeys(true, QStringList(Keyid));
     delete interface;
-    KgpgKey key = listkeys.at(0);
+    Key key = listkeys.at(0);
 
-    m_prop->tLAlgo->setText(KgpgKey::algorithmeToString(key.algorithme()));
+    m_prop->tLAlgo->setText(Convert::toString(key.algorithme()));
 
-    QString tr = KgpgKey::trustToString(key.trust());
-    QColor trustcolor = KgpgKey::color(key.trust());
-    if (key.trust() == 'd')
+    QString tr = Convert::toString(key.trust());
+    QColor trustcolor = Convert::toColor(key.trust());
+    if (key.trust() == TRUST_DISABLED)
         m_prop->cbDisabled->setChecked(true);
     if (!key.valide())
     {
-        tr = KgpgKey::trustToString('d');
-        trustcolor = KgpgKey::color('d');
+        tr = Convert::toString(TRUST_DISABLED);
+        trustcolor = Convert::toColor(TRUST_DISABLED);
         m_prop->cbDisabled->setChecked(true);
     }
     m_prop->kLTrust->setText(tr);
@@ -123,7 +126,7 @@ void KgpgKeyInfo::loadKey(const QString &Keyid)
     }
 
     m_prop->tLLength->setText(key.size());
-    m_prop->kCOwnerTrust->setCurrentIndex(KgpgKey::ownerTrustIndex(key.ownerTrust()));
+    //m_prop->kCOwnerTrust->setCurrentIndex(KgpgKey::ownerTrustIndex(key.ownerTrust())); // FIXME
 
     if (!key.email().isEmpty())
         m_prop->tLMail->setPlainText("<qt><a href=mailto:" + key.email() + ">" + key.email() + "</a></qt>");

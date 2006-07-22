@@ -54,7 +54,7 @@ public:
 private slots:
     void slotOk();
     void slotFillKeysList();
-    void slotFillKeysListReady(KgpgListKeys keys, KgpgInterface *interface);
+    void slotFillKeysListReady(KgpgCore::KeyList keys, KgpgInterface *interface);
     void slotPreSelect();
     void slotSelectionChanged();
     void slotSymmetric(const bool &state);

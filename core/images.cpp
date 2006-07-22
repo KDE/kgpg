@@ -17,69 +17,73 @@
 
 #include <kiconloader.h>
 
-#include "core.h"
+#include "images.h"
 
-QPixmap Core::m_keysingle;
-QPixmap Core::m_keypair;
-QPixmap Core::m_keygroup;
-QPixmap Core::m_keyoprpan;
-QPixmap Core::m_signature;
-QPixmap Core::m_userid;
-QPixmap Core::m_userphoto;
-QPixmap Core::m_revoke;
-
-QPixmap Core::singleImage()
+namespace KgpgCore
 {
+
+QPixmap Images::single()
+{
+    static QPixmap m_keysingle;
     if (m_keysingle.isNull())
         m_keysingle = KGlobal::iconLoader()->loadIcon("kgpg_key1", K3Icon::Small, 20);
     return m_keysingle;
 }
 
-QPixmap Core::pairImage()
+QPixmap Images::pair()
 {
+    static QPixmap m_keypair;
     if (m_keypair.isNull())
         m_keypair = KGlobal::iconLoader()->loadIcon("kgpg_key2", K3Icon::Small, 20);
     return m_keypair;
 }
 
-QPixmap Core::groupImage()
+QPixmap Images::group()
 {
+    static QPixmap m_keygroup;
     if (m_keygroup.isNull())
         m_keygroup = KGlobal::iconLoader()->loadIcon("kgpg_key3", K3Icon::Small, 20);
     return m_keygroup;
 }
 
-QPixmap Core::orphanImage()
+QPixmap Images::orphan()
 {
+    static QPixmap m_keyoprpan;
     if (m_keyoprpan.isNull())
         m_keyoprpan = KGlobal::iconLoader()->loadIcon("kgpg_key4", K3Icon::Small, 20);
     return m_keyoprpan;
 }
 
-QPixmap Core::signatureImage()
+QPixmap Images::signature()
 {
+    static QPixmap m_signature;
     if (m_signature.isNull())
         m_signature = KGlobal::iconLoader()->loadIcon("signature", K3Icon::Small, 20);
     return m_signature;
 }
 
-QPixmap Core::userIdImage()
+QPixmap Images::userId()
 {
+    static QPixmap m_userid;
     if (m_userid.isNull())
         m_userid = KGlobal::iconLoader()->loadIcon("kgpg_identity", K3Icon::Small, 20);
     return m_userid;
 }
 
-QPixmap Core::photoImage()
+QPixmap Images::photo()
 {
+    static QPixmap m_userphoto;
     if (m_userphoto.isNull())
         m_userphoto = KGlobal::iconLoader()->loadIcon("kgpg_photo", K3Icon::Small, 20);
     return m_userphoto;
 }
 
-QPixmap Core::revokeImage()
+QPixmap Images::revoke()
 {
+    static QPixmap m_revoke;
     if (m_revoke.isNull())
         m_revoke = KGlobal::iconLoader()->loadIcon("stop", K3Icon::Small, 20);
     return m_revoke;
 }
+
+} // namespace KgpgCore

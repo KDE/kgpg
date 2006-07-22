@@ -34,6 +34,8 @@
 #include "kgpginterface.h"
 #include "detailedconsole.h"
 
+using namespace KgpgCore;
+
 KgpgInterface::KgpgInterface()
 {
 }
@@ -383,12 +385,65 @@ int KgpgInterface::checkUID(const QString &keyid)
     return uidcnt;
 }
 
-Kgpg::KeyAlgo KgpgInterface::intToAlgo(const uint &v)
+KeyAlgo KgpgInterface::intToAlgo(const uint &v)
 {
-    if (v == 1) return Kgpg::RSA;
-    if ((v == 16) || (v == 20)) return Kgpg::ELGAMAL;
-    if (v == 17) return Kgpg::DSA;
-    return Kgpg::UNKNOWN;
+    if (v == 1) return ALGO_RSA;
+    if ((v == 16) || (v == 20)) return ALGO_ELGAMAL;
+    if (v == 17) return ALGO_DSA;
+    return ALGO_UNKNOWN;
+}
+
+KgpgCore::KeyTrust KgpgInterface::toTrust(const QChar &c)
+{
+    if (c == 'o')
+        return TRUST_UNKNOWN;
+    if (c == 'i')
+        return TRUST_INVALID;
+    if (c == 'd')
+        return TRUST_DISABLED;
+    if (c == 'r')
+        return TRUST_REVOKED;
+    if (c == 'e')
+        return TRUST_EXPIRED;
+    if (c == 'q')
+        return TRUST_UNDEFINED;
+    if (c == 'n')
+        return TRUST_NONE;
+    if (c == 'm')
+        return TRUST_MARGINAL;
+    if (c == 'f')
+        return TRUST_FULL;
+    if (c == 'u')
+        return TRUST_ULTIMATE;
+
+    return TRUST_UNKNOWN;
+}
+
+KgpgCore::KeyTrust KgpgInterface::toTrust(const QString &s)
+{
+    if (s.length() == 0)
+        return TRUST_UNKNOWN;
+    return toTrust(s[0]);
+}
+
+KgpgCore::KeyOwnerTrust KgpgInterface::toOwnerTrust(const QChar &c)
+{
+    if (c == 'n')
+        return OWTRUST_NONE;
+    if (c == 'm')
+        return OWTRUST_MARGINAL;
+    if (c == 'u')
+        return OWTRUST_ULTIMATE;
+    if (c == 'f')
+        return OWTRUST_FULL;
+    return OWTRUST_UNDEFINED;
+}
+
+KgpgCore::KeyOwnerTrust KgpgInterface::toOwnerTrust(const QString &s)
+{
+    if (s.length() == 0)
+        return OWTRUST_UNDEFINED;
+    return toOwnerTrust(s[0]);
 }
 
 int KgpgInterface::sendPassphrase(const QString &text, KProcIO *process, const bool isnew)
@@ -426,12 +481,12 @@ void KgpgInterface::updateIDs(QString txt)
     }
 }
 
-KgpgListKeys KgpgInterface::readPublicKeys(const bool &block, const QStringList &ids, const bool &withsigs)
+KeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &ids, const bool &withsigs)
 {
     m_partialline = QString::null;
     m_ispartial = false;
-    m_publiclistkeys = KgpgListKeys();
-    m_publickey = KgpgKey();
+    m_publiclistkeys = KeyList();
+    m_publickey = Key();
     m_numberid = 1;
     cycle = "none";
 
@@ -453,7 +508,7 @@ KgpgListKeys KgpgInterface::readPublicKeys(const bool &block, const QStringList 
         connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(readPublicKeysFin(KProcess *)));
         process->start(KProcess::NotifyOnExit, false);
         emit readPublicKeysStarted(this);
-        return KgpgListKeys();
+        return KeyList();
     }
     else
     {
@@ -496,17 +551,17 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
                     m_publiclistkeys << m_publickey;
                 }
 
-                m_publickey = KgpgKey();
+                m_publickey = Key();
 
                 QStringList lsp = line.split(":");
 
-                m_publickey.setTrust(lsp.at(1));
+                m_publickey.setTrust(toTrust(lsp.at(1)));
                 m_publickey.setSize(lsp.at(2));
                 m_publickey.setAlgorithme(intToAlgo(lsp.at(3).toInt()));
                 m_publickey.setFullId(lsp.at(4));
                 m_publickey.setId(lsp.at(4).right(8));
                 m_publickey.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
-                m_publickey.setOwnerTrust(lsp.at(8));
+                m_publickey.setOwnerTrust(toOwnerTrust(lsp.at(8)));
 
                 if (lsp.at(6).isEmpty())
                 {
@@ -575,11 +630,11 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
             else
             if (line.startsWith("sub"))
             {
-                KgpgKeySub sub;
+                KeySub sub;
 
                 QStringList lsp = line.split(":");
                 sub.setId(lsp.at(4).right(8));
-                sub.setTrust(lsp.at(1));
+                sub.setTrust(toTrust(lsp.at(1)));
                 sub.setSize(lsp.at(2).toUInt());
                 sub.setAlgorithme(intToAlgo(lsp.at(3).toInt()));
                 sub.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
@@ -608,7 +663,7 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
             if (line.startsWith("uat"))
             {
                 m_numberid++;
-                KgpgKeyUat uat;
+                KeyUat uat;
                 uat.setId(QString::number(m_numberid));
                 m_publickey.uatList()->append(uat);
 
@@ -617,9 +672,9 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
             else
             if (line.startsWith("uid"))
             {
-                KgpgKeyUid uid;
+                KeyUid uid;
 
-                uid.setTrust(line.section(":", 1, 1));
+                uid.setTrust(toTrust(line.section(":", 1, 1)));
                 if (line.section(":", 11, 11).contains('D'))
                     uid.setValide(false);
                 else
@@ -668,7 +723,7 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
             else
             if (line.startsWith("sig") || line.startsWith("rev"))
             {
-                KgpgKeySign signature;
+                KeySign signature;
                 QStringList lsp = line.split(":");
 
                 signature.setId(lsp.at(4).right(8));
@@ -756,12 +811,12 @@ void KgpgInterface::readPublicKeysFin(KProcess *p, const bool &block)
 }
 
 
-KgpgListKeys KgpgInterface::readSecretKeys(const bool &block, const QStringList &ids)
+KeyList KgpgInterface::readSecretKeys(const bool &block, const QStringList &ids)
 {
     m_partialline = QString::null;
     m_ispartial = false;
-    m_secretlistkeys = KgpgListKeys();
-    m_secretkey = KgpgKey();
+    m_secretlistkeys = KeyList();
+    m_secretkey = Key();
     m_secretactivate = false;
 
     KProcIO *process = new KProcIO(QTextCodec::codecForName("utf8"));
@@ -778,7 +833,7 @@ KgpgListKeys KgpgInterface::readSecretKeys(const bool &block, const QStringList 
         connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(readSecretKeysFin(KProcess *)));
         process->start(KProcess::NotifyOnExit, false);
         emit readSecretKeysStarted(this);
-        return KgpgListKeys();
+        return KeyList();
     }
     else
     {
@@ -819,11 +874,11 @@ void KgpgInterface::readSecretKeysProcess(KProcIO *p)
                     m_secretlistkeys << m_secretkey;
 
                 m_secretactivate = true;
-                m_secretkey = KgpgKey();
+                m_secretkey = Key();
 
                 QStringList lsp = line.split(":");
 
-                m_secretkey.setTrust(lsp.at(1));
+                m_secretkey.setTrust(toTrust(lsp.at(1)));
                 m_secretkey.setSize(lsp.at(2));
                 m_secretkey.setAlgorithme(intToAlgo(lsp.at(3).toInt()));
                 m_secretkey.setFullId(lsp.at(4));
@@ -2546,7 +2601,7 @@ void KgpgInterface::addUidFin(KProcess *p)
     emit addUidFinished(m_success, this);
 }
 
-void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const Kgpg::KeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber)
+void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const KeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber)
 {
     m_partialline = QString::null;
     m_ispartial = false;
@@ -2614,7 +2669,7 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
             else
             if (line.contains("keygen.algo"))
             {
-                if (m_keyalgo == Kgpg::RSA)
+                if (m_keyalgo == ALGO_RSA)
                     p->writeStdin(QString("5"), true);
                 else
                     p->writeStdin(QString("1"), true);

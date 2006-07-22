@@ -18,7 +18,9 @@
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "selectsecretkey.h"
-#include "core.h"
+#include "images.h"
+
+using namespace KgpgCore;
 
 KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, const int &countkey)
                    : KDialog(parent)
@@ -78,20 +80,20 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
 
     bool selectedok = false;
     KgpgInterface *interface = new KgpgInterface();
-    KgpgListKeys list1 = interface->readSecretKeys(true);
+    KeyList list1 = interface->readSecretKeys(true);
 
     for (int i = 0; i < list1.size(); ++i)
     {
-        KgpgKey key = list1.at(i);
+        Key key = list1.at(i);
         QString id = key.id();
 
         bool dead = true;
 
         /* Public key */
-        KgpgListKeys list2 = interface->readPublicKeys(true, QStringList(id));
-        KgpgKey key2 = list2.at(0);
+        KeyList list2 = interface->readPublicKeys(true, QStringList(id));
+        Key key2 = list2.at(0);
 
-        if (key2.trust() == 'f' || key2.trust() == 'u')
+        if (key2.trust() == TRUST_FULL || key2.trust() == TRUST_ULTIMATE)
             dead = false;
 
         if (!key2.valide())
@@ -106,7 +108,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
             Q3ListViewItem *item = new Q3ListViewItem(m_keyslist, keyName, key.email(), id);
             Q3ListViewItem *sub = new Q3ListViewItem(item, i18n("Expiration:"), key.expiration());
             sub->setSelectable(false);
-            item->setPixmap(0, Core::pairImage());
+            item->setPixmap(0, Images::pair());
             if (!defaultKeyID.isEmpty() && id == defaultKeyID)
             {
                 m_keyslist->setSelected(item, true);

@@ -39,7 +39,7 @@
 #include "keyserver.h"
 #include "keyservers.h"
 
-keyServer::keyServer(QWidget *parent, const char *name, const bool &modal, const bool &autoClose)
+keyServer::keyServer(QWidget *parent, const bool &modal, const bool &autoClose)
          : KDialog(parent)
 {
     setCaption( i18n("Key Server") );
@@ -84,12 +84,12 @@ keyServer::keyServer(QWidget *parent, const char *name, const bool &modal, const
     setMinimumSize(sizeHint());
 }
 
-void keyServer::slotReadKeys(KgpgListKeys list, KgpgInterface *interface)
+void keyServer::slotReadKeys(KgpgCore::KeyList list, KgpgInterface *interface)
 {
     delete interface;
     for (int i = 0; i < list.size(); ++i)
     {
-        const KgpgKey key = list.at(i);
+        const KgpgCore::Key key = list.at(i);
 
         bool dead = false;
         if ((key.trust() == 'i') || (key.trust() == 'd') || (key.trust() == 'r') || (key.trust() == 'e'))

@@ -36,7 +36,7 @@ class keyServer : public KDialog
     Q_OBJECT
 
 public:
-    keyServer(QWidget *parent = 0, const char *name = 0, const bool &modal = false, const bool &autoClose = false);
+    keyServer(QWidget *parent = 0, const bool &modal = false, const bool &autoClose = false);
 
 signals:
     void importFinished(QString);
@@ -63,7 +63,7 @@ public slots:
     void handleQuit();
 
 private slots:
-    void slotReadKeys(KgpgListKeys list, KgpgInterface *interface);
+    void slotReadKeys(KgpgCore::KeyList list, KgpgInterface *interface);
 
     void slotImportRead(KProcIO *p);
     void slotImportResult(KProcess *p);

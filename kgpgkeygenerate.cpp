@@ -185,12 +185,12 @@ bool KgpgKeyGenerate::isExpertMode() const
     return m_expert;
 }
 
-Kgpg::KeyAlgo KgpgKeyGenerate::algo() const
+KgpgCore::KeyAlgo KgpgKeyGenerate::algo() const
 {
     if (m_keykind->currentText() == "RSA")
-        return Kgpg::RSA;
+        return KgpgCore::ALGO_RSA;
     else
-        return Kgpg::DSA_ELGAMAL;
+        return KgpgCore::ALGO_DSA_ELGAMAL;
 }
 
 uint KgpgKeyGenerate::size() const

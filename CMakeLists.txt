@@ -1,14 +1,20 @@
 project(kgpg)
 
 add_subdirectory( icons )
-
+add_subdirectory( core )
+include_directories( ${CMAKE_SOURCE_DIR}/kgpg/core  )
 
 
 
 ########### next target ###############
 
-set(kgpg_SRCS
-   core.cpp
+set(core_SRCS
+   ${CMAKE_SOURCE_DIR}/kgpg/core/convert.cpp
+   ${CMAKE_SOURCE_DIR}/kgpg/core/emailvalidator.cpp
+   ${CMAKE_SOURCE_DIR}/kgpg/core/images.cpp
+   ${CMAKE_SOURCE_DIR}/kgpg/core/kgpgkey.cpp )
+
+set(kgpg_SRCS ${core_SRCS}
    kgpgoptions.cpp
    listkeys.cpp
    popuppublic.cpp
@@ -23,7 +29,6 @@ set(kgpg_SRCS
    detailedconsole.cpp
    kgpglibrary.cpp
    keyinfowidget.cpp
-   kgpgkey.cpp
    kgpgmd5widget.cpp
    keylistview.cpp )
 

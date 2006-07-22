@@ -21,6 +21,8 @@
 
 #include "kgpgkey.h"
 
+using namespace KgpgCore;
+
 class Q3ListViewItem;
 class QDragMoveEvent;
 class QDropEvent;
@@ -114,10 +116,10 @@ private slots:
 
     void expandKey(Q3ListViewItem *item);
     void expandGroup(K3ListViewItem *item);
-    void insertSigns(K3ListViewItem *item, const KgpgKeySignList &list);
+    void insertSigns(K3ListViewItem *item, const KgpgCore::KeySignList &list);
 
 private:
-    QPixmap getTrustPix(const QChar &c, const bool &isvalid);
+    QPixmap getTrustPix(const KgpgCore::KeyTrust &trust, const bool &isvalid);
 
 private:
     QStringList orphanList;
