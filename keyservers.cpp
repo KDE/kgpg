@@ -39,6 +39,8 @@
 #include "keyserver.h"
 #include "keyservers.h"
 
+using namespace KgpgCore;
+
 keyServer::keyServer(QWidget *parent, const bool &modal, const bool &autoClose)
          : KDialog(parent)
 {
@@ -76,7 +78,7 @@ keyServer::keyServer(QWidget *parent, const bool &modal, const bool &autoClose)
     }
 
     KgpgInterface *interface = new KgpgInterface();
-    connect (interface, SIGNAL(readPublicKeysFinished(KgpgListKeys, KgpgInterface*)), this, SLOT(slotReadKeys(KgpgListKeys, KgpgInterface*)));
+    connect (interface, SIGNAL(readPublicKeysFinished(KeyList, KgpgInterface*)), this, SLOT(slotReadKeys(KeyList, KgpgInterface*)));
     interface->readPublicKeys();
 
     page->Buttonimport->setEnabled(!page->kLEimportid->text().isEmpty());
@@ -84,12 +86,12 @@ keyServer::keyServer(QWidget *parent, const bool &modal, const bool &autoClose)
     setMinimumSize(sizeHint());
 }
 
-void keyServer::slotReadKeys(KgpgCore::KeyList list, KgpgInterface *interface)
+void keyServer::slotReadKeys(KeyList list, KgpgInterface *interface)
 {
     delete interface;
     for (int i = 0; i < list.size(); ++i)
     {
-        const KgpgCore::Key key = list.at(i);
+        const Key key = list.at(i);
 
         bool dead = false;
         if ((key.trust() == 'i') || (key.trust() == 'd') || (key.trust() == 'r') || (key.trust() == 'e'))
