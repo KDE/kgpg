@@ -1,5 +1,5 @@
 /***************************************************************************
-                          listkeys.cpp  -  description
+                          keysmanager.cpp  -  description
                              -------------------
     begin                : Thu Jul 4 2002
     copyright          : (C) 2002 by Jean-Baptiste Mardelle
@@ -97,7 +97,7 @@
 #include "kgpg.h"
 #include "kgpgeditor.h"
 #include "kgpgview.h"
-#include "listkeys.h"
+#include "keysmanager.h"
 #include "keyexport.h"
 #include "sourceselect.h"
 #include "adduid.h"
@@ -332,7 +332,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
 
     // get all keys data
-    setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "listkeys.rc");
+    setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "keysmanager.rc");
     toolBar()->addSeparator();
 
     QToolButton *clearSearch = new QToolButton(toolBar());
@@ -2156,4 +2156,4 @@ void KeysManager::refreshkey()
     m_listviewsearch->updateSearch(m_listviewsearch->text());
 }
 
-#include "listkeys.moc"
+#include "keysmanager.moc"

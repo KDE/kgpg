@@ -15,11 +15,12 @@ set(core_SRCS
    ${CMAKE_SOURCE_DIR}/kgpg/core/kgpgkey.cpp )
 
 set(kgpg_SRCS ${core_SRCS}
-   kgpgoptions.cpp
-   listkeys.cpp
+   kgpgmd5widget.cpp
    selectpublickeydialog.cpp
-   kgpgview.cpp
    selectsecretkey.cpp
+   kgpgoptions.cpp
+   keysmanager.cpp
+   kgpgview.cpp
    kgpg.cpp
    main.cpp
    kgpgkeygenerate.cpp
@@ -29,10 +30,9 @@ set(kgpg_SRCS ${core_SRCS}
    detailedconsole.cpp
    kgpglibrary.cpp
    keyinfodialog.cpp
-   kgpgmd5widget.cpp
    keylistview.cpp )
 
-qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml listkeys.h KeysManager)
+qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)
 
 kde4_automoc(${kgpg_SRCS})
 
@@ -65,7 +65,7 @@ install(TARGETS kgpg  DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### install files ###############
 
-install( FILES kgpg.rc listkeys.rc tips  DESTINATION ${DATA_INSTALL_DIR}/kgpg)
+install( FILES kgpg.rc keysmanager.rc tips  DESTINATION ${DATA_INSTALL_DIR}/kgpg)
 install( FILES kgpg.desktop  DESTINATION ${XDG_APPS_DIR})
 install( FILES kgpg.kcfg  DESTINATION ${KCFG_INSTALL_DIR})
 install( FILES kgpg.desktop  DESTINATION ${CMAKE_INSTALL_PREFIX}/share/autostart)

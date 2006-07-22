@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LISTKEYS_H
-#define LISTKEYS_H
+#ifndef KEYSMANAGER_H
+#define KEYSMANAGER_H
 
 #include <QStringList>
 #include <QDropEvent>
@@ -224,4 +224,4 @@ private:
     long searchOptions;
 };
 
-#endif // LISTKEYS_H
+#endif // KEYSMANAGER_H

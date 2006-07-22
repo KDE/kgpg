@@ -76,7 +76,7 @@
 #include "kgpgeditor.h"
 #include "kgpg.h"
 #include "kgpgsettings.h"   // automatically created by compilation
-#include "listkeys.h"
+#include "keysmanager.h"
 #include "keyserver.h"
 #include "keyservers.h"
 #include "selectpublickeydialog.h"
