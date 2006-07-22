@@ -638,7 +638,7 @@ void KeysManager::refreshKeyFromServer()
         return;
     }
 
-    kServer = new keyServer(0, false);
+    kServer = new KeyServer(0, false);
     connect(kServer, SIGNAL(importFinished(QString)), this, SLOT(refreshFinished()));
     kServer->slotSetText(keyIDS);
     kServer->slotImport();
@@ -1002,7 +1002,7 @@ void KeysManager::closeEvent (QCloseEvent *e)
 
 void KeysManager::showKeyServer()
 {
-    keyServer *ks = new keyServer(this);
+    KeyServer *ks = new KeyServer(this);
     connect(ks, SIGNAL(importFinished(QString)), keysList2, SLOT(refreshcurrentkey(QString)));
     ks->exec();
     delete ks;
@@ -1355,7 +1355,7 @@ void KeysManager::slotexport()
         bool exportAttr = page->exportAttributes->isChecked();
         if (page->checkServer->isChecked())
         {
-            keyServer *expServer = new keyServer(0, "server_export", false);
+            KeyServer *expServer = new KeyServer(0, false);
             expServer->slotSetExportAttribute(exportAttr);
             QString exportKeysList;
             for (int i = 0; i < exportList.count(); ++i)
@@ -1814,7 +1814,7 @@ void KeysManager::preimportsignkey()
 
 bool KeysManager::importRemoteKey(QString keyID)
 {
-    kServer = new keyServer(0, false, true);
+    kServer = new KeyServer(0, false, true);
     kServer->slotSetText(keyID);
     //kServer->page->Buttonimport->setDefault(true);
     //kServer->page->tabWidget2->setTabEnabled(kServer->page->tabWidget2->page(1),false);
@@ -1844,7 +1844,7 @@ void KeysManager::dcopImportFinished()
 void KeysManager::importsignkey(QString importKeyId)
 {
     // sign a key
-    kServer = new keyServer(0, "server_dialog", false);
+    kServer = new KeyServer(0, false);
     kServer->slotSetText(importKeyId);
     //kServer->Buttonimport->setDefault(true);
     kServer->slotImport();

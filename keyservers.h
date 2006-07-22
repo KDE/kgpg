@@ -31,12 +31,12 @@ class KProcess;
 class keyServerWidget;
 class searchRes;
 
-class keyServer : public KDialog
+class KeyServer : public KDialog
 {
     Q_OBJECT
 
 public:
-    keyServer(QWidget *parent = 0, const bool &modal = false, const bool &autoClose = false);
+    KeyServer(QWidget *parent = 0, const bool &modal = false, const bool &autoClose = false);
 
 signals:
     void importFinished(QString);

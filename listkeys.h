@@ -53,7 +53,7 @@ class KMenu;
 
 class KgpgInterface;
 class groupEdit;
-class keyServer;
+class KeyServer;
 class KgpgEditor;
 
 class KeysManager : public KMainWindow
@@ -207,7 +207,7 @@ private:
     KAction *signKey;
     KAction *refreshKey;
 
-    keyServer *kServer;
+    KeyServer *kServer;
     groupEdit *gEdit;
     KgpgInterface *revKeyProcess;
 

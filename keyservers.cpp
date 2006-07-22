@@ -41,13 +41,13 @@
 
 using namespace KgpgCore;
 
-keyServer::keyServer(QWidget *parent, const bool &modal, const bool &autoClose)
+KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoClose)
          : KDialog(parent)
 {
-    setCaption( i18n("Key Server") );
-    setButtons( Close );
-    setDefaultButton( Close );
-    setModal( modal );
+    setCaption(i18n("Key Server"));
+    setButtons(Close);
+    setDefaultButton(Close);
+    setModal(modal);
     m_autoclosewindow = autoClose;
     m_config = new KSimpleConfig("kgpgrc");
 
@@ -86,7 +86,7 @@ keyServer::keyServer(QWidget *parent, const bool &modal, const bool &autoClose)
     setMinimumSize(sizeHint());
 }
 
-void keyServer::slotReadKeys(KeyList list, KgpgInterface *interface)
+void KeyServer::slotReadKeys(KeyList list, KgpgInterface *interface)
 {
     delete interface;
     for (int i = 0; i < list.size(); ++i)
@@ -114,7 +114,7 @@ void keyServer::slotReadKeys(KeyList list, KgpgInterface *interface)
     }
 }
 
-void keyServer::slotImport()
+void KeyServer::slotImport()
 {
     if (page->kCBimportks->currentText().isEmpty())
         return;
@@ -176,7 +176,7 @@ void keyServer::slotImport()
     m_importpop->show();
 }
 
-void keyServer::slotAbortImport()
+void KeyServer::slotAbortImport()
 {
     QApplication::restoreOverrideCursor();
     if (m_importproc->isRunning())
@@ -190,14 +190,14 @@ void keyServer::slotAbortImport()
         close();
 }
 
-void keyServer::slotImportRead(KProcIO *p)
+void KeyServer::slotImportRead(KProcIO *p)
 {
     QString required;
     while (p->readln(required, true) != -1)
         m_readmessage += required + "\n";
 }
 
-void keyServer::slotImportResult(KProcess *p)
+void KeyServer::slotImportResult(KProcess *p)
 {
     QApplication::restoreOverrideCursor();
     QString importedNb;
@@ -292,7 +292,7 @@ void keyServer::slotImportResult(KProcess *p)
         close();
 }
 
-void keyServer::slotExport(const QString &keyId)
+void KeyServer::slotExport(const QString &keyId)
 {
     if (page->kCBexportks->currentText().isEmpty())
         return;
@@ -339,7 +339,7 @@ void keyServer::slotExport(const QString &keyId)
     m_importpop->show();
 }
 
-void keyServer::slotAbortExport()
+void KeyServer::slotAbortExport()
 {
     QApplication::restoreOverrideCursor();
     if (m_exportproc->isRunning())
@@ -349,14 +349,14 @@ void keyServer::slotAbortExport()
     }
 }
 
-void keyServer::slotExportResult(KProcess*)
+void KeyServer::slotExportResult(KProcess*)
 {
     QApplication::restoreOverrideCursor();
     KMessageBox::information(0, m_readmessage);
     delete m_importpop;
 }
 
-void keyServer::slotSearch()
+void KeyServer::slotSearch()
 {
     if (page->kCBimportks->currentText().isEmpty())
         return;
@@ -417,7 +417,7 @@ void keyServer::slotSearch()
     m_dialogserver->exec();
 }
 
-void keyServer::slotAbortSearch()
+void KeyServer::slotAbortSearch()
 {
     if (m_dialogserver)
     {
@@ -426,7 +426,7 @@ void keyServer::slotAbortSearch()
     }
 }
 
-void keyServer::slotSearchRead(KProcIO *p)
+void KeyServer::slotSearchRead(KProcIO *p)
 {
     QString required;
     while (p->readln(required, true) != -1)
@@ -474,7 +474,7 @@ void keyServer::slotSearchRead(KProcIO *p)
     }
 }
 
-void keyServer::slotSearchResult(KProcess *)
+void KeyServer::slotSearchResult(KProcess *)
 {
     QString nb;
     m_dialogserver->enableButtonOk(true);
@@ -490,33 +490,33 @@ void keyServer::slotSearchResult(KProcess *)
     }
 }
 
-void keyServer::slotSetText(const QString &text)
+void KeyServer::slotSetText(const QString &text)
 {
     page->kLEimportid->setText(text);
 }
 
-void keyServer::slotTextChanged(const QString &text)
+void KeyServer::slotTextChanged(const QString &text)
 {
     page->Buttonimport->setEnabled(!text.isEmpty());
     page->Buttonsearch->setEnabled(!text.isEmpty());
 }
 
-void keyServer::slotSetExportAttribute(const bool &state)
+void KeyServer::slotSetExportAttribute(const bool &state)
 {
     page->exportAttributes->setChecked(state);
 }
 
-void keyServer::slotEnableProxyI(const bool &on)
+void KeyServer::slotEnableProxyI(const bool &on)
 {
     page->kLEproxyI->setEnabled(on);
 }
 
-void keyServer::slotEnableProxyE(const bool &on)
+void KeyServer::slotEnableProxyE(const bool &on)
 {
     page->kLEproxyE->setEnabled(on);
 }
 
-void keyServer::transferKeyID()
+void KeyServer::transferKeyID()
 {
     if (!m_listpop->kLVsearch->firstChild())
         return;
@@ -545,7 +545,7 @@ void keyServer::transferKeyID()
     m_listpop->kLEID->setText(keysToSearch.simplified());
 }
 
-void keyServer::slotPreImport()
+void KeyServer::slotPreImport()
 {
     transferKeyID();
     if (m_listpop->kLEID->text().isEmpty())
@@ -559,17 +559,17 @@ void keyServer::slotPreImport()
     slotImport();
 }
 
-void keyServer::slotPreExport()
+void KeyServer::slotPreExport()
 {
     slotExport(page->kCBexportkey->currentText().section(':', 0, 0));
 }
 
-void keyServer::slotOk()
+void KeyServer::slotOk()
 {
     accept();
 }
 
-void keyServer::syncCombobox()
+void KeyServer::syncCombobox()
 {
     m_config->setGroup("Servers");
     QString serverList = m_config->readEntry("Server_List");
@@ -588,7 +588,7 @@ void keyServer::syncCombobox()
     page->kCBimportks->addItems(serverList.split(","));
 }
 
-void keyServer::handleQuit()
+void KeyServer::handleQuit()
 {
     if (m_searchproc->isRunning())
     {

@@ -553,7 +553,7 @@ void KgpgEditor::slotCheckMd5()
 
 void KgpgEditor::importSignatureKey(QString id)
 {
-    keyServer *kser = new keyServer(0, "server_dialog", false);
+    KeyServer *kser = new KeyServer(0, false);
     kser->slotSetText(id);
     kser->slotImport();
 }

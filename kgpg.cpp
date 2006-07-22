@@ -446,7 +446,7 @@ void MyView::slotVerifyFile()
 
 void MyView::importSignature(QString ID)
 {
-    keyServer *kser = new keyServer(0, "server_dialog", false);
+    KeyServer *kser = new KeyServer(0, false);
     kser->slotSetText(ID);
     kser->slotImport();
 }
@@ -1011,7 +1011,7 @@ void kgpgapplet::slotOpenKeyManager()
 void kgpgapplet::slotOpenServerDialog()
 {
     QDBusInterface kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.KeyInterface" );
-    QDBusReply<void> reply =kgpg.call( "showKeyServer" );
+    QDBusReply<void> reply = kgpg.call("showKeyServer");
     if (!reply.isValid())
         kDebug(2100) << "there was some error using dbus." << endl;
 }
