@@ -32,7 +32,6 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <kaction.h>
-#include <kdebug.h>
 #include <khbox.h>
 #include <kvbox.h>
 
@@ -294,7 +293,7 @@ bool KgpgSelectPublicKeyDlg::getShred() const
 
 void KgpgSelectPublicKeyDlg::slotOk()
 {
-    if (!getSymmetric())
+    if (!getSymmetric() && !m_keyslist->selectedItems().isEmpty())
         slotButtonClicked(Ok);
 }
 
@@ -399,7 +398,7 @@ void KgpgSelectPublicKeyDlg::slotPreSelect()
 
 void KgpgSelectPublicKeyDlg::slotSelectionChanged()
 {
-    if (m_cbsymmetric->isChecked())
+    if (getSymmetric())
         enableButtonOk(true);
     else
         enableButtonOk(!m_keyslist->selectedItems().isEmpty());
