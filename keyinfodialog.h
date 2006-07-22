@@ -1,5 +1,5 @@
 /***************************************************************************
-                          keyinfowidget.h  -  description
+                          keyinfodialog.h  -  description
                              -------------------
     begin                : Thu Jul 4 2002
     copyright          : (C) 2002 by Jean-Baptiste Mardelle
@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KGPGKEYINFOWIDGET_H
-#define KGPGKEYINFOWIDGET_H
+#ifndef KGPGKEYINFODIALOG_H
+#define KGPGKEYINFODIALOG_H
 
 #include <QPixmap>
 #include <QString>
@@ -82,4 +82,4 @@ private:
     bool m_isunlimited;
 };
 
-#endif // KGPGKEYINFOWIDGET_H
+#endif // KGPGKEYINFODIALOG_H

@@ -109,7 +109,7 @@
 #include "kgpgsettings.h"
 #include "kgpgkeygenerate.h"
 #include "kgpgoptions.h"
-#include "keyinfowidget.h"
+#include "keyinfodialog.h"
 #include "kgpglibrary.h"
 #include "keylistview.h"
 #include "keyadaptor.h"

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          keyinfowidget.cpp  -  description
+                          keyinfodialog.cpp  -  description
                              -------------------
     begin                : Mon Nov 18 2002
     copyright          : (C) 2002 by Jean-Baptiste Mardelle
@@ -27,7 +27,7 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 
-#include "keyinfowidget.h"
+#include "keyinfodialog.h"
 #include "keyproperties.h"
 #include "kgpginterface.h"
 #include "convert.h"
@@ -307,4 +307,4 @@ void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap)
     m_prop->pLPhoto->setPixmap(dup2);
 }
 
-#include "keyinfowidget.moc"
+#include "keyinfodialog.moc"

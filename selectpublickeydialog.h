@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KGPGSELECTPUBLICKEYDLG_H
-#define KGPGSELECTPUBLICKEYDLG_H
+#ifndef SELECTPUBLICKEYDIALOG_H
+#define SELECTPUBLICKEYDIALOG_H
 
 #include <QKeySequence>
 #include <QStringList>
@@ -78,4 +78,4 @@ private:
     bool m_fmode;
 };
 
-#endif // KGPGSELECTPUBLICKEYDLG_H
+#endif // SELECTPUBLICKEYDIALOG_H

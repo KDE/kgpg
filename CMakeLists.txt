@@ -28,7 +28,7 @@ set(kgpg_SRCS ${core_SRCS}
    kgpgeditor.cpp
    detailedconsole.cpp
    kgpglibrary.cpp
-   keyinfowidget.cpp
+   keyinfodialog.cpp
    kgpgmd5widget.cpp
    keylistview.cpp )
 
