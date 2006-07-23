@@ -119,7 +119,7 @@ MyView::MyView(QWidget *parent, const char *name)
 
     readOptions();
     resize(24,24);
-    setPixmap(KSystemTray::loadIcon("kgpg_docked").pixmap());
+    setPixmap(KSystemTrayIcon::loadIcon("kgpg_docked").pixmap());
     setAcceptDrops(true);
 
     droppopup = new KMenu();
@@ -372,7 +372,7 @@ void MyView::busyMessage(QString mssge, bool reset)
 
     if (openTasks <= 0)
     {
-        setPixmap(KSystemTray::loadIcon("kgpg_docked").pixmap());
+        setPixmap(KSystemTrayIcon::loadIcon("kgpg_docked").pixmap());
         this->setToolTip(i18n("KGpg - encryption tool"));
         openTasks = 0;
     }
@@ -954,7 +954,7 @@ void MyView::slotSetClip(QString newtxt)
 
 
 kgpgapplet::kgpgapplet(QWidget *parent)
-          : KSystemTray(parent)
+          : KSystemTrayIcon(parent)
 {
     w = new MyView(parent);
     w->show();
