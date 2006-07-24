@@ -27,7 +27,7 @@
 #include <QLabel>
 
 #include <kuniqueapplication.h>
-#include <ksystemtray.h>
+#include <ksystemtrayicon.h>
 #include <kshortcut.h>
 #include <kurl.h>
 
@@ -133,7 +133,7 @@ private slots:
     void decryptNextFile();
 };
 
-class kgpgapplet : public KSystemTray
+class kgpgapplet : public KSystemTrayIcon
 {
     Q_OBJECT
 
@@ -143,7 +143,7 @@ public:
     MyView *w;
 
 private:
-    KSystemTray *kgpgapp;
+    KSystemTrayIcon *kgpgapp;
 
 private slots:
     void slotOpenKeyManager();
