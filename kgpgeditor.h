@@ -104,7 +104,7 @@ public slots:
 private:
 
         QStringList customDecrypt;
-	KToggleAction *encodingAction ;
+	//KToggleAction *encodingAction ;
         KURL urlselected;
         KAction* fileSave, *editUndo, *editRedo;
 	KComboBox *fontCombo;

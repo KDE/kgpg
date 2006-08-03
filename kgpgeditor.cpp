@@ -164,9 +164,9 @@ view->editor->setFont (myFont);
 void KgpgApp::slotSetCharset()
 {
 ////////  work in progress
-if (encodingAction->isChecked())
-view->editor->setText(QString::fromUtf8(view->editor->text().ascii()));
-else
+//if (encodingAction->isChecked())
+//view->editor->setText(QString::fromUtf8(view->editor->text().ascii()));
+//else
 {
 if (checkEncoding(QTextCodec::codecForLocale ())) return;
 view->editor->setText(view->editor->text().utf8());
@@ -196,7 +196,7 @@ void KgpgApp::slotFileQuit()
 void KgpgApp::slotResetEncoding(bool enc)
 {
 //kdDebug(2100)<<"Resetting encoding--------------------"<<endl;
-encodingAction->setChecked(enc);
+//encodingAction->setChecked(enc);
 //if (enc) slotSetCharset();
 }
 
