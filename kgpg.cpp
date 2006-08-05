@@ -83,6 +83,7 @@
 #include "kgpgview.h"
 #include "kgpglibrary.h"
 #include "kgpgwizard.h"
+#include <kicon.h>
 
 static QString getGpgHome()
 {

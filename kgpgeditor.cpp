@@ -22,6 +22,7 @@
 #include <ktoggleaction.h>
 #include <kstdaction.h>
 #include <QtDBus>
+#include <kicon.h>
 
 #include <kencodingfiledialog.h>
 #include <kio/netaccess.h>
