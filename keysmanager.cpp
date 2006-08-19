@@ -373,13 +373,13 @@ void KeysManager::slotGenerateKey()
     {
         if (!kg->isExpertMode())
         {
-            delete kg;
 
             KgpgInterface *interface = new KgpgInterface();
             connect(interface, SIGNAL(generateKeyStarted(KgpgInterface*)), this, SLOT(slotGenerateKeyProcess(KgpgInterface*)));
             connect(interface, SIGNAL(generateKeyFinished(int, KgpgInterface*, QString, QString, QString, QString)), this, SLOT(slotGenerateKeyDone(int, KgpgInterface*, QString, QString, QString, QString)));
             interface->generateKey(kg->name(), kg->email(), kg->comment(), kg->algo(), kg->size(), kg->expiration(), kg->days());
 
+            delete kg;
             return;
         }
         else
