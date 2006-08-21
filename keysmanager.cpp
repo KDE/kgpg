@@ -124,7 +124,7 @@ KeysManager::KeysManager(QWidget *parent)
            : KMainWindow(parent)
 {
     new KeyAdaptor(this);
-    QDBus::sessionBus().registerObject("/KeyInterface", this);
+    QDBusConnection::sessionBus().registerObject("/KeyInterface", this);
 
     setWindowTitle(i18n("Key Management"));
 
