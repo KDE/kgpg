@@ -103,7 +103,10 @@ protected:
     virtual bool itemMatches (const Q3ListViewItem *listitem, const QString &s) const
     {
         const KeyViewItem *item = dynamic_cast<const KeyViewItem*>(listitem);
-        if (m_dialog != 0 && item != 0)
+	if (!item)
+		return false;
+
+        if (m_dialog != 0)
         {
             if (m_dialog->getUntrusted())
                 return K3ListViewSearchLine::itemMatches(item, s);
