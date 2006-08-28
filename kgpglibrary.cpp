@@ -118,7 +118,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
             return;
         }
 
-        dest = over->newDestURL();
+        dest = over->newDestUrl();
         delete over;
     }
 

@@ -302,7 +302,7 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
             delete over;
             return;
         }
-        encryptedFile = over->newDestURL();
+        encryptedFile = over->newDestUrl();
         delete over;
         dialogue->show(); // strange, but if dialogue is hidden, the passive popup is not displayed...
     }
@@ -518,7 +518,7 @@ void MyView::decryptDroppedFile()
                     return;
                 }
 
-                swapname=over->newDestURL();
+                swapname=over->newDestUrl();
                 delete over;
             }
         }
@@ -558,7 +558,7 @@ void MyView::unArchive()
         delete kgpgFolderExtract;
         return;
     }
-    archiveDirectory->KArchiveDirectory::copyTo(savePath->selectedURL().path());
+    archiveDirectory->KArchiveDirectory::copyTo(savePath->selectedUrl().path());
     compressedFolder.close();
     delete savePath;
     delete kgpgFolderExtract;
@@ -581,7 +581,7 @@ void MyView::droppedfile (KUrl::List url)
 {
     droppedUrls = url;
     droppedUrl = url.first();
-    if (KMimeType::findByURL(droppedUrl)->name() == "inode/directory")
+    if (KMimeType::findByUrl(droppedUrl)->name() == "inode/directory")
     {
         encryptDroppedFolder();
         //KMessageBox::sorry(0,i18n("Sorry, only file operations are currently supported."));
@@ -1135,7 +1135,7 @@ int KgpgAppletApp::newInstance()
         bool directoryInside = false;
         QStringList lst = urlList.toStringList();
         for (QStringList::Iterator it = lst.begin(); it != lst.end(); ++it)
-            if (KMimeType::findByURL(KUrl(*it))->name() == "inode/directory")
+            if (KMimeType::findByUrl(KUrl(*it))->name() == "inode/directory")
                 directoryInside = true;
 
         if ((directoryInside) && (lst.count() > 1))

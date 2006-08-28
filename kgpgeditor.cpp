@@ -215,7 +215,7 @@ void KgpgEditor::slotFileOpen()
     if (saveBeforeClear())
     {
         KEncodingFileDialog::Result loadResult;
-        loadResult = KEncodingFileDialog::getOpenURLAndEncoding(QString::null, QString::null, QString::null, this);
+        loadResult = KEncodingFileDialog::getOpenUrlAndEncoding(QString::null, QString::null, QString::null, this);
         KUrl url = loadResult.URLs.first();
         m_textencoding = loadResult.encoding;
 
@@ -277,7 +277,7 @@ bool KgpgEditor::slotFileSave()
 bool KgpgEditor::slotFileSaveAs()
 {
     KEncodingFileDialog::Result saveResult;
-    saveResult = KEncodingFileDialog::getSaveURLAndEncoding(QString::null, QString::null, QString::null, this);
+    saveResult = KEncodingFileDialog::getSaveUrlAndEncoding(QString::null, QString::null, QString::null, this);
     KUrl url = saveResult.URLs.first();
     QString selectedEncoding = saveResult.encoding;
 
@@ -387,7 +387,7 @@ void KgpgEditor::slotFilePreDec()
                 delete over;
                 return;
             }
-            newname = over->newDestURL().path();
+            newname = over->newDestUrl().path();
             delete over;
         }
 
