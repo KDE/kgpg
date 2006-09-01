@@ -381,14 +381,12 @@ void KgpgEditor::slotFilePreDec()
         QFile fgpg(newname);
         if (fgpg.exists())
         {
-            KIO::RenameDlg *over = new KIO::RenameDlg(0, i18n("File Already Exists"), QString::null, newname, KIO::M_OVERWRITE);
-            if (over->exec() == QDialog::Rejected)
+            KIO::RenameDlg over(0, i18n("File Already Exists"), KUrl(), KUrl::fromPath(newname), KIO::M_OVERWRITE);
+            if (over.exec() == QDialog::Rejected)
             {
-                delete over;
                 return;
             }
-            newname = over->newDestUrl().path();
-            delete over;
+            newname = over.newDestUrl().path();
         }
 
         KgpgLibrary *lib = new KgpgLibrary(this);

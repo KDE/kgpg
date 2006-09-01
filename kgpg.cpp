@@ -296,14 +296,12 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
     if (encryptedFolder.exists())
     {
         dialogue->hide();
-        KIO::RenameDlg *over = new KIO::RenameDlg(0, i18n("File Already Exists"), QString::null, encryptedFile.path(), KIO::M_OVERWRITE);
-        if (over->exec() == QDialog::Rejected)
+        KIO::RenameDlg over(0, i18n("File Already Exists"), KUrl(), encryptedFile, KIO::M_OVERWRITE);
+        if (over.exec() == QDialog::Rejected)
         {
-            delete over;
             return;
         }
-        encryptedFile = over->newDestUrl();
-        delete over;
+        encryptedFile = over.newDestUrl();
         dialogue->show(); // strange, but if dialogue is hidden, the passive popup is not displayed...
     }
 
@@ -510,16 +508,14 @@ void MyView::decryptDroppedFile()
             QFile fgpg(swapname.path());
             if (fgpg.exists())
             {
-                KIO::RenameDlg *over=new KIO::RenameDlg(0,i18n("File Already Exists"),QString::null,swapname.path(),KIO::M_OVERWRITE);
-                if (over->exec()==QDialog::Rejected)
+                KIO::RenameDlg over(0,i18n("File Already Exists"),KUrl(),swapname,KIO::M_OVERWRITE);
+                if (over.exec()==QDialog::Rejected)
                 {
-                    delete over;
                     decryptNextFile();
                     return;
                 }
 
-                swapname=over->newDestUrl();
-                delete over;
+                swapname=over.newDestUrl();
             }
         }
 
