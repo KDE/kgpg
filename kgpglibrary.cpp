@@ -229,7 +229,7 @@ void KgpgLibrary::processDecError(const QString &mssge)
 
 void KgpgLibrary::processEncPopup(const KUrl &url)
 {
-    emit systemMessage(i18n("Decrypting %1", url));
+    emit systemMessage(i18n("Decrypting %1", url.pathOrUrl()));
 
     m_pop->setTimeout(0);
     m_pop->setView(i18n("Processing decryption"), i18n("Please wait..."), KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop));
