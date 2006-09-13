@@ -290,7 +290,7 @@ bool KgpgEditor::slotFileSaveAs()
             if (f.exists())
             {
                 QString message = i18n("Overwrite existing file %1?", url.fileName());
-                int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), i18n("Overwrite"));
+                int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), KStdGuiItem::overwrite());
                 if (result == KMessageBox::Cancel)
                     return false;
             }
@@ -300,7 +300,7 @@ bool KgpgEditor::slotFileSaveAs()
         if (KIO::NetAccess::exists(url, false, this))
         {
             QString message = i18n("Overwrite existing file %1?", url.fileName());
-            int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), i18n("Overwrite"));
+            int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), KStdGuiItem::overwrite());
             if (result == KMessageBox::Cancel)
                 return false;
         }

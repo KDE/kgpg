@@ -142,7 +142,7 @@ void kgpgOptions::slotChangeHome()
         confPath = "gpg.conf";
         if (!QFile(gpgHome + confPath).exists())
         {
-            if (KMessageBox::questionYesNo(this, i18n("No configuration file was found in the selected location.\nDo you want to create it now ?\n\nWithout configuration file, neither KGpg nor Gnupg will work properly."), i18n("No Configuration File Found"), i18n("Create"), i18n("Ignore")) == KMessageBox::Yes) // Try to create config File by running gpg once
+            if (KMessageBox::questionYesNo(this, i18n("No configuration file was found in the selected location.\nDo you want to create it now ?\n\nWithout configuration file, neither KGpg nor Gnupg will work properly."), i18n("No Configuration File Found"), KGuiItem(i18n("Create")), KGuiItem(i18n("Ignore"))) == KMessageBox::Yes) // Try to create config File by running gpg once
             {
                 // start gnupg so that it will create a config file
                 KProcIO *p = new KProcIO();

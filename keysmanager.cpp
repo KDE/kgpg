@@ -1280,7 +1280,7 @@ void KeysManager::slotexportsec()
     // export secret key
     QString warn = i18n("Secret keys SHOULD NOT be saved in an unsafe place.\n"
                         "If someone else can access this file, encryption with this key will be compromised!\nContinue key export?");
-    int result = KMessageBox::questionYesNo(this, warn, i18n("Warning"), i18n("Export"), i18n("Do Not Export"));
+    int result = KMessageBox::questionYesNo(this, warn, i18n("Warning"), KGuiItem(i18n("Export")), KGuiItem(i18n("Do Not Export")));
     if (result != KMessageBox::Yes)
         return;
 
@@ -1462,7 +1462,7 @@ void KeysManager::listsigns()
     if (keysList2->currentItem()->pixmap(0)->serialNumber() == Images::orphan().serialNumber())
     {
         if (KMessageBox::questionYesNo(this, i18n("This key is an orphaned secret key (secret key without public key.) It is currently not usable.\n\n"
-                                               "Would you like to regenerate the public key?"), QString::null, i18n("Generate"), i18n("Do Not Generate")) == KMessageBox::Yes)
+                                               "Would you like to regenerate the public key?"), QString::null, KGuiItem(i18n("Generate")), KGuiItem(i18n("Do Not Generate"))) == KMessageBox::Yes)
             slotregenerate();
             return;
     }

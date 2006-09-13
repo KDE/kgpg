@@ -302,7 +302,7 @@ void KeyListView::startDrag()
 
 void KeyListView::droppedFile(const KUrl &url)
 {
-    if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>", url.path()), QString::null, i18n("Import"), i18n("Do Not Import")) != KMessageBox::Yes)
+    if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>", url.path()), QString::null, KGuiItem(i18n("Import")), KGuiItem(i18n("Do Not Import"))) != KMessageBox::Yes)
         return;
 
     KgpgInterface *interface = new KgpgInterface();
