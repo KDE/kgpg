@@ -2118,6 +2118,7 @@ QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const
     m_pixmap = QPixmap();
 
     m_kgpginfotmp = new KTemporaryFile();
+    m_kgpginfotmp->open();
 
     QString pgpgoutput = "cp %i " + m_kgpginfotmp->fileName();
 
