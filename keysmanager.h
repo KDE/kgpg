@@ -46,7 +46,6 @@ class QEvent;
 class KSelectAction;
 class KPassivePopup;
 class KStatusBar;
-class KTempFile;
 class KProcess;
 class KProcIO;
 class KMenu;

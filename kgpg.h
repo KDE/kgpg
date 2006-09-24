@@ -38,7 +38,7 @@ class QMenu;
 class KPassivePopup;
 class KgpgWizard;
 class KAboutData;
-class KTempFile;
+class KTemporaryFile;
 class KAction;
 
 class KgpgSelectPublicKeyDlg;
@@ -55,7 +55,7 @@ public:
 
     KUrl droppedUrl;
     KUrl::List droppedUrls;
-    KTempFile *kgpgfoldertmp;
+    KTemporaryFile *kgpgfoldertmp;
     KShortcut goDefaultKey;
 
 signals:
@@ -106,7 +106,7 @@ private:
     QStringList customDecrypt;
     KgpgWizard *wiz;
     KPassivePopup *pop;
-    KTempFile *kgpgFolderExtract;
+    KTemporaryFile *kgpgFolderExtract;
     int compressionScheme;
     int openTasks;
     KgpgSelectPublicKeyDlg *dialogue;

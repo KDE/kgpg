@@ -29,7 +29,7 @@
 #include <kio/renamedlg.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kprinter.h>
 #include <kaction.h>
 #include <klocale.h>
@@ -254,19 +254,17 @@ bool KgpgEditor::slotFileSave()
     }
     else
     {
-        KTempFile tmpfile;
-        QTextStream *stream = tmpfile.textStream();
-        stream->setCodec(cod);
-        *stream << view->editor->toPlainText();
-        tmpfile.close();
+        KTemporaryFile tmpfile;
+        tmpfile.open();
+        QTextStream stream(&tmpfile);
+        stream.setCodec(cod);
+        stream << view->editor->toPlainText();
 
-        if(!KIO::NetAccess::upload(tmpfile.name(), m_docname, this))
+        if(!KIO::NetAccess::upload(tmpfile.fileName(), m_docname, this))
         {
             KMessageBox::sorry(this, i18n("The document could not be saved, please check your permissions and disk space."));
-            tmpfile.unlink();
             return false;
         }
-        tmpfile.unlink();
     }
 
     m_textchanged = false;

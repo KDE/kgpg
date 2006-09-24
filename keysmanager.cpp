@@ -70,7 +70,6 @@
 #include <kstatusbar.h>
 #include <kservice.h>
 #include <kservicetypetrader.h>
-#include <ktempfile.h>
 #include <klineedit.h>
 #include <kmimetype.h>
 #include <kshortcut.h>

@@ -23,7 +23,7 @@
 
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kpassworddialog.h>
 #include <klocale.h>
 #include <kcodecs.h>
@@ -2117,10 +2117,9 @@ QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const
     m_ispartial = false;
     m_pixmap = QPixmap();
 
-    m_kgpginfotmp = new KTempFile();
-    m_kgpginfotmp->setAutoDelete(true);
+    m_kgpginfotmp = new KTemporaryFile();
 
-    QString pgpgoutput = "cp %i " + m_kgpginfotmp->name();
+    QString pgpgoutput = "cp %i " + m_kgpginfotmp->fileName();
 
     KProcIO *process = new KProcIO();
     process->setParent(this);
@@ -2147,8 +2146,9 @@ void KgpgInterface::loadPhotoFin(KProcess *p, const bool &block)
 {
     delete p;
 
-    m_pixmap.load(m_kgpginfotmp->name());
-    m_kgpginfotmp->unlink();
+    m_pixmap.load(m_kgpginfotmp->fileName());
+    delete m_kgpginfotmp;
+    m_kgpginfotmp = 0;
 
     if (!block)
         emit loadPhotoFinished(m_pixmap, this);

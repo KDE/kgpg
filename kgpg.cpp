@@ -53,7 +53,7 @@
 #include <kshortcut.h>
 #include <kcombobox.h>
 #include <klineedit.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kprocess.h>
 #include <kglobal.h>
 #include <klocale.h>
@@ -221,10 +221,10 @@ void MyView::encryptDroppedFile()
 void MyView::encryptDroppedFolder()
 {
     compressionScheme = 0;
-    kgpgfoldertmp = new KTempFile(QString::null);
-    kgpgfoldertmp->setAutoDelete(true);
+    kgpgfoldertmp = new KTemporaryFile();
+    kgpgfoldertmp->open();
 
-    if (KMessageBox::warningContinueCancel(0, i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>", kgpgfoldertmp->name()), i18n("Temporary File Creation"), KStdGuiItem::cont(), "FolderTmpFile") == KMessageBox::Cancel)
+    if (KMessageBox::warningContinueCancel(0, i18n("<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>", kgpgfoldertmp->fileName()), i18n("Temporary File Creation"), KStdGuiItem::cont(), "FolderTmpFile") == KMessageBox::Cancel)
         return;
 
     /*
@@ -315,12 +315,12 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
 
     KArchive *arch;
     if (compressionScheme == 0)
-        arch = new KZip(kgpgfoldertmp->name());
+        arch = new KZip(kgpgfoldertmp->fileName());
     else
     if (compressionScheme == 1)
-        arch = new KTar(kgpgfoldertmp->name(), "application/x-gzip");
+        arch = new KTar(kgpgfoldertmp->fileName(), "application/x-gzip");
     else
-        arch = new KTar(kgpgfoldertmp->name(), "application/x-bzip2");
+        arch = new KTar(kgpgfoldertmp->fileName(), "application/x-bzip2");
 
     if (!arch->open(QIODevice::WriteOnly))
     {
@@ -334,7 +334,7 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
     KgpgInterface *folderprocess = new KgpgInterface();
     connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl)), this, SLOT(slotFolderFinished(KUrl, KgpgInterface*)));
     connect(folderprocess, SIGNAL(errorMessage(QString)), this, SLOT(slotFolderFinishedError(QString, KgpgInterface*)));
-    folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->name()), encryptedFile, encryptOptions, symetric);
+    folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric);
 }
 
 void MyView::slotFolderFinished(KUrl, KgpgInterface*)
@@ -497,10 +497,11 @@ void MyView::decryptDroppedFile()
     /*
         if (oldname.endsWith(".tar.gz")) {
                 isFolder=true;
-                kgpgFolderExtract=new KTempFile(QString::null,".tar.gz");
-                kgpgFolderExtract->setAutoDelete(true);
-                swapname=KUrl(kgpgFolderExtract->name());
-                if (KMessageBox::warningContinueCancel(0,i18n("<qt>The file to decrypt is an archive. KGpg will create a temporary unencrypted archive file:<br><b>%1</b> before processing the archive extraction. This temporary file will be deleted after the decryption is finished.</qt>").arg(kgpgFolderExtract->name()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpDecFile")==KMessageBox::Cancel)
+                kgpgFolderExtract=new KTemporaryFile();
+                kgpgFolderExtract->setSuffix(".tar.gz");
+                kgpgFolderExtract->open();
+                swapname=KUrl(kgpgFolderExtract->fileName());
+                if (KMessageBox::warningContinueCancel(0,i18n("<qt>The file to decrypt is an archive. KGpg will create a temporary unencrypted archive file:<br><b>%1</b> before processing the archive extraction. This temporary file will be deleted after the decryption is finished.</qt>").arg(kgpgFolderExtract->fileName()),i18n("Temporary File Creation"),KStdGuiItem::cont(),"FolderTmpDecFile")==KMessageBox::Cancel)
                         return;
         } else*/
         {
