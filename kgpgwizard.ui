@@ -63,7 +63,10 @@
 This wizard will first setup some basic configuration options required for KGpg to work properly. Next, it will allow you to create your own key pair, enabling you to encrypt your files and emails.</string>
                 </property>
                 <property name="alignment">
-                    <set>Qt::TextWordWrap|Qt::AlignTop</set>
+                    <set>Qt::AlignTop</set>
+                </property>
+                <property name="wordWrap">
+                    <bool>true</bool>
                 </property>
             </widget>
             <spacer row="2" column="1">
@@ -267,7 +270,10 @@ Remember that if you download a file or open one in an editor, parts of the file
 &lt;br&gt;&lt;b&gt;Shredding may not be 100% secure if you use a journaling file system.&lt;/b&gt;&lt;/qt&gt;</string>
                 </property>
                 <property name="alignment">
-                    <set>Qt::TextWordWrap|Qt::AlignJustify|Qt::AlignTop</set>
+                    <set>Qt::AlignJustify|Qt::AlignTop</set>
+                </property>
+                <property name="wordWrap">
+                    <bool>true</bool>
                 </property>
             </widget>
         </grid>
