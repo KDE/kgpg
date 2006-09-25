@@ -63,7 +63,7 @@
                 <cstring>textLabel1</cstring>
             </property>
             <property name="text">
-                <string>Qt::Key to import:</string>
+                <string>Key to import:</string>
             </property>
         </widget>
         <widget class="KLineEdit" row="2" column="1">

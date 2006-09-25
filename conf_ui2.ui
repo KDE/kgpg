@@ -28,7 +28,7 @@
                     <cstring>tab</cstring>
                 </property>
                 <attribute name="title">
-                    <string>Qt::Key Colors</string>
+                    <string>Key Colors</string>
                 </attribute>
                 <grid>
                     <property name="name">
