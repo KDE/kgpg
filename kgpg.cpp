@@ -988,6 +988,7 @@ kgpgapplet::kgpgapplet(QWidget *parent)
     conf_menu->addAction( KgpgOpenServer );
     conf_menu->addSeparator();
     conf_menu->addAction( KgpgPreferences );
+    setIcon( loadIcon("kgpg_docked") );
 }
 
 void kgpgapplet::showOptions()
