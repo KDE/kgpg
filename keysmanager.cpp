@@ -935,8 +935,7 @@ void KeysManager::addToKAB()
 
     KABC::Addressee::List addresseeList = ab->findByEmail(email);
     KToolInvocation::startServiceByDesktopName("kaddressbook");
-#warning "kde4: dbus verify when kadressbook will port";
-    QDBusInterface kaddressbook("org.kde.kaddressbook", "/KAdressBook", "org.kde.kaddressbook.KAdressBook");
+    QDBusInterface kaddressbook("org.kde.kaddressbook", "/KAddressBook", "org.kde.kaddressbook.KAddressBook");
     if(!addresseeList.isEmpty())
         kaddressbook.call( "showContactEditor", addresseeList.first().uid());
     else
