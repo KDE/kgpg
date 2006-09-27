@@ -24,7 +24,6 @@
 #include <kurl.h>
 
 class KPassivePopup;
-class KIO::Job;
 
 class KgpgInterface;
 
