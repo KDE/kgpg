@@ -115,8 +115,11 @@ This wizard will first setup some basic configuration options required for KGpg 
                     <string>Unless you want to try some unusual settings, just click on the "next" button.</string>
                 </property>
                 <property name="alignment">
-                    <set>Qt::TextWordWrap|Qt::AlignTop</set>
+                    <set>Qt::AlignTop</set>
                 </property>
+               <property name="wordWrap" >
+                    <bool>true</bool>
+               </property>
             </widget>
             <widget class="QLabel" row="0" column="1">
                 <property name="name">
@@ -126,8 +129,11 @@ This wizard will first setup some basic configuration options required for KGpg 
                     <string>KGpg needs to know where your GnuPG configuration file is stored.</string>
                 </property>
                 <property name="alignment">
-                    <set>Qt::TextWordWrap|Qt::AlignTop</set>
+                    <set>Qt::AlignTop</set>
                 </property>
+               <property name="wordWrap" >
+                    <bool>true</bool>
+               </property>
             </widget>
             <spacer row="4" column="1">
                 <property name="name">
@@ -159,8 +165,11 @@ This wizard will first setup some basic configuration options required for KGpg 
                     <string>&lt;br&gt;Path to your GnuPG options file:</string>
                 </property>
                 <property name="alignment">
-                    <set>Qt::TextWordWrap|Qt::AlignVCenter</set>
+                    <set>Qt::AlignVCenter</set>
                 </property>
+               <property name="wordWrap" >
+                    <bool>true</bool>
+               </property>
             </widget>
             <widget class="QLabel" row="0" column="0" rowspan="5" colspan="1">
                 <property name="name">
@@ -356,8 +365,11 @@ Remember that if you download a file or open one in an editor, parts of the file
                     <string>KGpg will now launch the key generation dialog to create your own key pair for encryption and decryption.</string>
                 </property>
                 <property name="alignment">
-                    <set>Qt::TextWordWrap|Qt::AlignTop</set>
+                    <set>Qt::AlignTop</set>
                 </property>
+               <property name="wordWrap" >
+                    <bool>true</bool>
+               </property>
             </widget>
             <widget class="QLabel" row="0" column="0" rowspan="4" colspan="1">
                 <property name="name">

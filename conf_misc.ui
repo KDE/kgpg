@@ -133,7 +133,10 @@ files you drop on it, making it almost impossible to recover
 the original file.</string>
                                 </property>
                                 <property name="alignment">
-                                    <set>Qt::TextWordWrap|Qt::AlignJustify|Qt::AlignTop</set>
+                                    <set>Qt::AlignJustify|Qt::AlignTop</set>
+                                </property>
+                                <property name="wordWrap" >
+            			   <bool>true</bool>
                                 </property>
                             </widget>
                             <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
