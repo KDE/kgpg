@@ -64,9 +64,9 @@
                     </property>
                     <property name="paletteBackgroundColor">
                         <color>
-                            <Qt::red>200</Qt::red>
-                            <Qt::green>200</Qt::green>
-                            <Qt::blue>200</Qt::blue>
+                            <red>200</red>
+                            <green>200</green>
+                            <blue>200</blue>
                         </color>
                     </property>
                     <property name="frameShape">
@@ -497,11 +497,6 @@
 </customwidgets>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
-    <includehint>kactivelabel.h</includehint>
     <includehint>kactivelabel.h</includehint>
 </includehints>
 </UI>
