@@ -34,7 +34,6 @@
 #include <kdebug.h>
 
 #include "kgpgsettings.h"
-#include "searchres.h"
 #include "detailedconsole.h"
 #include "keyserver.h"
 #include "keyservers.h"
@@ -377,7 +376,7 @@ void KeyServer::slotSearch()
 
     m_dialogserver->setButtonText(KDialog::Ok, i18n("&Import"));
     m_dialogserver->enableButtonOk(false);
-    m_listpop = new searchRes();
+    m_listpop = new searchRes(0);
     //m_listpop->setMinimumWidth(250);
     //m_listpop->adjustSize();
     m_listpop->statusText->setText(i18n("Connecting to the server..."));

@@ -79,9 +79,9 @@
             </property>
             <property name="alternateBackground">
                 <color>
-                    <Qt::red>238</Qt::red>
-                    <Qt::green>246</Qt::green>
-                    <Qt::blue>255</Qt::blue>
+                    <red>238</red>
+                    <green>246</green>
+                    <blue>255</blue>
                 </color>
             </property>
         </widget>

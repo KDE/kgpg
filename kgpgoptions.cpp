@@ -44,7 +44,6 @@
 
 #include "conf_decryption.h"
 #include "conf_encryption.h"
-#include "conf_gpg.h"
 #include "conf_servers.h"
 #include "conf_ui2.h"
 #include "conf_misc.h"
@@ -79,7 +78,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     m_page1 = new Encryption();
     m_page2 = new Decryption();
     m_page3 = new UIConf();
-    m_page4 = new GPGConf();
+    m_page4 = new GPGConf(0);
     m_page6 = new ServerConf();
     m_page7 = new MiscConf();
 

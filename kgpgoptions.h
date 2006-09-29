@@ -20,6 +20,7 @@
 #include <QPixmap>
 
 #include <kconfigdialog.h>
+#include "ui_conf_gpg.h"
 
 class KSimpleConfig;
 class KFontChooser;
@@ -28,10 +29,18 @@ class KConfig;
 class Encryption;
 class Decryption;
 class UIConf;
-class GPGConf;
 class ServerConf;
 class ColorsConf;
 class MiscConf;
+
+class GPGConf : public QWidget, public Ui::GPGConf
+{
+public:
+  GPGConf( QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
+
 
 class kgpgOptions : public KConfigDialog
 {

@@ -21,6 +21,7 @@
 #include <kdialog.h>
 
 #include "kgpginterface.h"
+#include "ui_searchres.h"
 
 class Q3ListViewItem;
 
@@ -29,7 +30,16 @@ class KProcIO;
 class KProcess;
 
 class keyServerWidget;
-class searchRes;
+
+class searchRes : public QWidget, public Ui::searchRes
+{
+public:
+  searchRes( QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
+
+
 
 class KeyServer : public KDialog
 {

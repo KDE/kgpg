@@ -100,7 +100,6 @@
 #include "keysmanager.h"
 #include "keyexport.h"
 #include "sourceselect.h"
-#include "adduid.h"
 #include "groupedit.h"
 #include "kgpgrevokewidget.h"
 #include "keyservers.h"
@@ -696,7 +695,7 @@ void KeysManager::slotAddUid()
     addUidWidget->setDefaultButton(  KDialog::Ok );
     addUidWidget->setModal( true );
     addUidWidget->enableButtonOk(false);
-    AddUid *keyUid = new AddUid();
+    AddUid *keyUid = new AddUid(0);
     addUidWidget->setMainWidget(keyUid);
     //keyUid->setMinimumSize(keyUid->sizeHint());
     keyUid->setMinimumWidth(300);
