@@ -2,7 +2,7 @@ project(kgpg)
 
 add_subdirectory( icons )
 add_subdirectory( core )
-include_directories( ${CMAKE_SOURCE_DIR}/kgpg/core  )
+include_directories( core  )
 
 
 
