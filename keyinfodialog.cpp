@@ -28,7 +28,6 @@
 #include <klocale.h>
 
 #include "keyinfodialog.h"
-#include "keyproperties.h"
 #include "kgpginterface.h"
 #include "convert.h"
 

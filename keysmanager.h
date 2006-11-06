@@ -35,6 +35,7 @@
 #include "kgpgkey.h"
 #include "keylistview.h"
 #include "ui_adduid.h"
+#include "ui_groupedit.h"
 
 class QDragMoveEvent;
 class QVBoxLayout;
@@ -55,6 +56,15 @@ class KgpgInterface;
 class groupEdit;
 class KeyServer;
 class KgpgEditor;
+
+
+class groupEdit : public QWidget, public Ui::groupEdit
+{
+public:
+  groupEdit( QWidget *parent = 0 ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
 
 
 class AddUid : public QWidget, public Ui::AddUid

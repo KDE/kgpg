@@ -23,13 +23,21 @@
 #include <QDate>
 
 #include <kdialog.h>
-
+#include "ui_keyproperties.h"
 class QCheckBox;
 
 class KDatePicker;
 
 class KgpgInterface;
-class KeyProperties;
+
+class KeyProperties : public QWidget, public Ui::KeyProperties
+{
+public:
+  KeyProperties( QWidget *parent=0 ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
+
 
 class KgpgKeyInfo : public KDialog
 {

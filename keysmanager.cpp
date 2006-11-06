@@ -100,7 +100,6 @@
 #include "keysmanager.h"
 #include "keyexport.h"
 #include "sourceselect.h"
-#include "groupedit.h"
 #include "kgpgrevokewidget.h"
 #include "keyservers.h"
 #include "keyserver.h"
