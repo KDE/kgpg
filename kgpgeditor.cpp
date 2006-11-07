@@ -406,7 +406,9 @@ void KgpgEditor::slotKeyManager()
 void KgpgEditor::slotFileQuit()
 {
     saveOptions();
+#ifdef __GNUC__
 #warning "kde4: port it"
+#endif    
     //KApplication::quit();
 }
 

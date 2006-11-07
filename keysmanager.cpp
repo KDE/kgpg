@@ -1826,7 +1826,9 @@ void KeysManager::dcopImportFinished()
 {
     if (kServer)
         kServer = 0L;
+#ifdef __GNUC__
 #warning "kde4 dbus port it"
+#endif    
 #if 0
     QByteArray params;
     QDataStream stream(&params, QIODevice::WriteOnly);
