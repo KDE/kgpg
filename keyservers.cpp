@@ -559,7 +559,9 @@ void keyServer::syncCombobox()
 		page->kCBexportks->insertItem(optionsServer);
 		page->kCBimportks->insertItem(optionsServer);
 	}
-
+	else if ( serverList.isEmpty() )
+		serverList = "hkp://wwwkeys.eu.pgp.net,hkp://search.keyserver.net,hkp://wwwkeys.pgp.net,hkp://pgp.dtype.org,hkp://wwwkeys.us.pgp.net"; // same as ini kgpgoptions.cpp
+	
 	page->kCBexportks->insertStringList(QStringList::split(",",serverList));
 	page->kCBimportks->insertStringList(QStringList::split(",",serverList));
 }
