@@ -44,9 +44,6 @@
 
 #include "conf_decryption.h"
 #include "conf_encryption.h"
-#include "conf_servers.h"
-#include "conf_ui2.h"
-#include "conf_misc.h"
 
 //   main window
 kgpgOptions::kgpgOptions(QWidget *parent, const char *name)

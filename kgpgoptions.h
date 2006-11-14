@@ -21,17 +21,42 @@
 
 #include <kconfigdialog.h>
 #include "ui_conf_gpg.h"
-
+#include "ui_conf_ui2.h"
+#include "ui_conf_servers.h"
+#include "ui_conf_misc.h"
 class KSimpleConfig;
 class KFontChooser;
 class KConfig;
 
 class Encryption;
 class Decryption;
-class UIConf;
-class ServerConf;
 class ColorsConf;
-class MiscConf;
+
+class MiscConf : public QWidget, public Ui::MiscConf
+{
+public:
+  MiscConf( QWidget *parent=0 ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
+
+
+class UIConf : public QWidget, public Ui::UIConf
+{
+public:
+  UIConf( QWidget *parent=0 ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
+
+class ServerConf : public QWidget, public Ui::ServerConf
+{
+public:
+  ServerConf( QWidget *parent=0 ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
+
 
 class GPGConf : public QWidget, public Ui::GPGConf
 {

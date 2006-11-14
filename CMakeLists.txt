@@ -36,7 +36,7 @@ qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)
 
 kde4_automoc(${kgpg_SRCS})
 
-kde4_add_ui_files(kgpg_SRCS adduid.ui conf_gpg.ui searchres.ui keyproperties.ui groupedit.ui)
+kde4_add_ui_files(kgpg_SRCS adduid.ui conf_gpg.ui searchres.ui keyproperties.ui groupedit.ui conf_ui2.ui conf_servers.ui conf_misc.ui)
 kde4_add_ui3_files(kgpg_SRCS
    keyserver.ui
    kgpgwizard.ui
@@ -46,9 +46,7 @@ kde4_add_ui3_files(kgpg_SRCS
    newkey.ui
    keyexport.ui
    sourceselect.ui
-   conf_servers.ui
-   conf_ui2.ui
-   conf_misc.ui )
+   )
 
 kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
