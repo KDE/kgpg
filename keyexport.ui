@@ -1,142 +1,116 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
-<class>KeyExport</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>KeyExport</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>KeyExport</class>
+  <widget class="QWidget" name="KeyExport" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>370</width>
+        <height>167</height>
+      </rect>
     </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>370</width>
-            <height>167</height>
-        </rect>
+    <property name="sizePolicy" >
+      <sizepolicy>
+        <hsizetype>5</hsizetype>
+        <vsizetype>5</vsizetype>
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+      </sizepolicy>
     </property>
-    <property name="sizePolicy">
-        <sizepolicy>
-            <hsizetype>5</hsizetype>
-            <vsizetype>5</vsizetype>
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-        </sizepolicy>
+    <property name="minimumSize" >
+      <size>
+        <width>350</width>
+        <height>0</height>
+      </size>
     </property>
-    <property name="minimumSize">
-        <size>
-            <width>350</width>
-            <height>0</height>
-        </size>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <property name="margin">
-            <number>0</number>
-        </property>
-        <widget class="QCheckBox" row="1" column="0">
-            <property name="name">
-                <cstring>exportAttributes</cstring>
-            </property>
-            <property name="text">
-                <string>Export attributes (photo id)</string>
-            </property>
-            <property name="checked">
-                <bool>true</bool>
-            </property>
+    <layout class="QGridLayout" >
+      <property name="margin" >
+        <number>0</number>
+      </property>
+      <item row="1" column="0" >
+        <widget class="QCheckBox" name="exportAttributes" >
+          <property name="text" >
+            <string>Export attributes (photo id)</string>
+          </property>
+          <property name="checked" >
+            <bool>true</bool>
+          </property>
         </widget>
-        <spacer row="2" column="0">
-            <property name="name">
-                <cstring>spacer1</cstring>
-            </property>
-            <property name="orientation">
-                <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-                <enum>Expanding</enum>
-            </property>
-            <property name="sizeHint">
-                <size>
-                    <width>20</width>
-                    <height>16</height>
-                </size>
-            </property>
+      </item>
+      <item row="2" column="0" >
+        <spacer name="spacer1" >
+          <property name="sizeHint" >
+            <size>
+              <width>20</width>
+              <height>16</height>
+            </size>
+          </property>
+          <property name="sizeType" >
+            <enum>Expanding</enum>
+          </property>
+          <property name="orientation" >
+            <enum>Qt::Vertical</enum>
+          </property>
         </spacer>
-        <widget class="QButtonGroup" row="0" column="0">
-            <property name="name">
-                <cstring>buttonGroup2</cstring>
+      </item>
+      <item row="0" column="0" >
+        <widget class="Q3ButtonGroup" name="buttonGroup2" >
+          <property name="title" >
+            <string/>
+          </property>
+          <layout class="QGridLayout" >
+            <property name="margin" >
+              <number>0</number>
             </property>
-            <property name="title">
-                <string></string>
-            </property>
-            <grid>
-                <property name="name">
-                    <cstring>unnamed</cstring>
+            <item rowspan="1" row="0" column="0" colspan="2" >
+              <widget class="QRadioButton" name="checkMail" >
+                <property name="text" >
+                  <string>Email</string>
                 </property>
-                <widget class="QRadioButton" row="0" column="0" rowspan="1" colspan="2">
-                    <property name="name">
-                        <cstring>checkMail</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Email</string>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="2" column="0" rowspan="1" colspan="2">
-                    <property name="name">
-                        <cstring>checkServer</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Default key server</string>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="1" column="0" rowspan="1" colspan="2">
-                    <property name="name">
-                        <cstring>checkClipboard</cstring>
-                    </property>
-                    <property name="text">
-                        <string>Clipboard</string>
-                    </property>
-                </widget>
-                <widget class="KUrlRequester" row="3" column="1">
-                    <property name="name">
-                        <cstring>newFilename</cstring>
-                    </property>
-                    <property name="enabled">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-                <widget class="QRadioButton" row="3" column="0">
-                    <property name="name">
-                        <cstring>checkFile</cstring>
-                    </property>
-                    <property name="text">
-                        <string>File:</string>
-                    </property>
-                    <property name="checked">
-                        <bool>true</bool>
-                    </property>
-                </widget>
-            </grid>
+              </widget>
+            </item>
+            <item rowspan="1" row="2" column="0" colspan="2" >
+              <widget class="QRadioButton" name="checkServer" >
+                <property name="text" >
+                  <string>Default key server</string>
+                </property>
+              </widget>
+            </item>
+            <item rowspan="1" row="1" column="0" colspan="2" >
+              <widget class="QRadioButton" name="checkClipboard" >
+                <property name="text" >
+                  <string>Clipboard</string>
+                </property>
+              </widget>
+            </item>
+            <item row="3" column="1" >
+              <widget class="KUrlRequester" name="newFilename" >
+                <property name="enabled" >
+                  <bool>true</bool>
+                </property>
+              </widget>
+            </item>
+            <item row="3" column="0" >
+              <widget class="QRadioButton" name="checkFile" >
+                <property name="text" >
+                  <string>File:</string>
+                </property>
+                <property name="checked" >
+                  <bool>true</bool>
+                </property>
+              </widget>
+            </item>
+          </layout>
         </widget>
-    </grid>
-</widget>
-<customwidgets>
-</customwidgets>
-<connections>
-    <connection>
-        <sender>checkFile</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>KeyExport</receiver>
-        <slot>checkFile_toggled(bool)</slot>
-    </connection>
-</connections>
-<includes>
-    <include location="local" impldecl="in implementation">keyexport.ui.h</include>
-</includes>
-<slots>
-    <slot>checkFile_toggled( bool isOn )</slot>
-</slots>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kpushbutton.h</includehint>
-</includehints>
-</UI>
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <includes>
+    <include location="local" >kpushbutton.h</include>
+  </includes>
+</ui>

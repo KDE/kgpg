@@ -1,152 +1,134 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
-<class>KgpgRevokeWidget</class>
-<widget class="QWidget">
-    <property name="name">
-        <cstring>KgpgRevokeWidget</cstring>
+<ui version="4.0" stdsetdef="1" >
+  <author></author>
+  <comment></comment>
+  <exportmacro></exportmacro>
+  <class>KgpgRevokeWidget</class>
+  <widget class="QWidget" name="KgpgRevokeWidget" >
+    <property name="geometry" >
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>459</width>
+        <height>230</height>
+      </rect>
     </property>
-    <property name="geometry">
-        <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>459</width>
-            <height>230</height>
-        </rect>
-    </property>
-    <grid>
-        <property name="name">
-            <cstring>unnamed</cstring>
-        </property>
-        <property name="margin">
-            <number>0</number>
-        </property>
-        <widget class="QLabel" row="0" column="1">
-            <property name="name">
-                <cstring>keyID</cstring>
-            </property>
-            <property name="text">
-                <string>key id</string>
-            </property>
-            <property name="alignment">
-                <set>Qt::AlignVCenter</set>
-            </property>
+    <layout class="QGridLayout" >
+      <property name="margin" >
+        <number>0</number>
+      </property>
+      <item row="0" column="1" >
+        <widget class="QLabel" name="keyID" >
+          <property name="text" >
+            <string>key id</string>
+          </property>
+          <property name="alignment" >
+            <set>Qt::AlignVCenter</set>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
         </widget>
-        <widget class="QCheckBox" row="5" column="0">
-            <property name="name">
-                <cstring>cbPrint</cstring>
-            </property>
-            <property name="text">
-                <string>Print certificate</string>
-            </property>
+      </item>
+      <item row="5" column="0" >
+        <widget class="QCheckBox" name="cbPrint" >
+          <property name="text" >
+            <string>Print certificate</string>
+          </property>
         </widget>
-        <widget class="QLabel" row="0" column="0">
-            <property name="name">
-                <cstring>textLabel1</cstring>
-            </property>
-            <property name="text">
-                <string>Create revocation certificate for</string>
-            </property>
+      </item>
+      <item row="0" column="0" >
+        <widget class="QLabel" name="textLabel1" >
+          <property name="text" >
+            <string>Create revocation certificate for</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
         </widget>
-        <widget class="QLabel" row="2" column="0">
-            <property name="name">
-                <cstring>textLabel4</cstring>
-            </property>
-            <property name="text">
-                <string>Description:</string>
-            </property>
+      </item>
+      <item row="2" column="0" >
+        <widget class="QLabel" name="textLabel4" >
+          <property name="text" >
+            <string>Description:</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
         </widget>
-        <widget class="QComboBox" row="1" column="1">
-            <item>
-                <property name="text">
-                    <string>No Reason</string>
-                </property>
-            </item>
-            <item>
-                <property name="text">
-                    <string>Key Has Been Compromised</string>
-                </property>
-            </item>
-            <item>
-                <property name="text">
-                    <string>Key is Superseded</string>
-                </property>
-            </item>
-            <item>
-                <property name="text">
-                    <string>Key is No Longer Used</string>
-                </property>
-            </item>
-            <property name="name">
-                <cstring>comboBox1</cstring>
+      </item>
+      <item row="1" column="1" >
+        <widget class="QComboBox" name="comboBox1" >
+          <item>
+            <property name="text" >
+              <string>No Reason</string>
             </property>
+          </item>
+          <item>
+            <property name="text" >
+              <string>Key Has Been Compromised</string>
+            </property>
+          </item>
+          <item>
+            <property name="text" >
+              <string>Key is Superseded</string>
+            </property>
+          </item>
+          <item>
+            <property name="text" >
+              <string>Key is No Longer Used</string>
+            </property>
+          </item>
         </widget>
-        <widget class="QLabel" row="1" column="0">
-            <property name="name">
-                <cstring>textLabel3</cstring>
-            </property>
-            <property name="text">
-                <string>Reason for revocation:</string>
-            </property>
+      </item>
+      <item row="1" column="0" >
+        <widget class="QLabel" name="textLabel3" >
+          <property name="text" >
+            <string>Reason for revocation:</string>
+          </property>
+          <property name="wordWrap" >
+            <bool>false</bool>
+          </property>
         </widget>
-        <widget class="QCheckBox" row="4" column="0">
-            <property name="name">
-                <cstring>cbSave</cstring>
-            </property>
-            <property name="text">
-                <string>Save certificate:</string>
-            </property>
-            <property name="checked">
-                <bool>true</bool>
-            </property>
+      </item>
+      <item row="4" column="0" >
+        <widget class="QCheckBox" name="cbSave" >
+          <property name="text" >
+            <string>Save certificate:</string>
+          </property>
+          <property name="checked" >
+            <bool>true</bool>
+          </property>
         </widget>
-        <widget class="QCheckBox" row="7" column="0">
-            <property name="name">
-                <cstring>cbImport</cstring>
-            </property>
-            <property name="enabled">
-                <bool>true</bool>
-            </property>
-            <property name="text">
-                <string>Import into keyring</string>
-            </property>
+      </item>
+      <item row="7" column="0" >
+        <widget class="QCheckBox" name="cbImport" >
+          <property name="enabled" >
+            <bool>true</bool>
+          </property>
+          <property name="text" >
+            <string>Import into keyring</string>
+          </property>
         </widget>
-        <widget class="QTextEdit" row="3" column="0" rowspan="1" colspan="2">
-            <property name="name">
-                <cstring>textDescription</cstring>
-            </property>
-        </widget>
-        <widget class="KUrlRequester" row="4" column="1">
-            <property name="name">
-                <cstring>kURLRequester1</cstring>
-            </property>
-        </widget>
-    </grid>
-</widget>
-<customwidgets>
-</customwidgets>
-<connections>
-    <connection>
-        <sender>cbSave</sender>
-        <signal>toggled(bool)</signal>
-        <receiver>KgpgRevokeWidget</receiver>
-        <slot>cbSave_toggled(bool)</slot>
-    </connection>
-</connections>
-<tabstops>
+      </item>
+      <item rowspan="1" row="3" column="0" colspan="2" >
+        <widget class="Q3TextEdit" name="textDescription" />
+      </item>
+      <item row="4" column="1" >
+        <widget class="KUrlRequester" name="kURLRequester1" />
+      </item>
+    </layout>
+  </widget>
+  <layoutdefault spacing="6" margin="11" />
+  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+  <tabstops>
     <tabstop>comboBox1</tabstop>
     <tabstop>textDescription</tabstop>
     <tabstop>cbSave</tabstop>
     <tabstop>cbPrint</tabstop>
     <tabstop>cbImport</tabstop>
     <tabstop>kURLRequester1</tabstop>
-</tabstops>
-<includes>
-    <include location="local" impldecl="in implementation">kgpgrevokewidget.ui.h</include>
-</includes>
-<slots>
-    <slot>cbSave_toggled( bool isOn )</slot>
-</slots>
-<layoutdefaults spacing="6" margin="11"/>
-<includehints>
-    <includehint>kpushbutton.h</includehint>
-</includehints>
-</UI>
+  </tabstops>
+  <includes>
+    <include location="local" >kpushbutton.h</include>
+  </includes>
+</ui>
