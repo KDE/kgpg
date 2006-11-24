@@ -170,7 +170,7 @@ KeysManager::KeysManager(QWidget *parent)
 
     KAction *infoKey = new KAction(KIcon("kgpg_info"), i18n("&Edit Key"), actionCollection(), "key_info");
     connect(infoKey, SIGNAL(triggered(bool)), SLOT(listsigns()));
-    infoKey->setShortcut(Qt::Key_Return);
+    infoKey->setShortcut(QKeySequence(Qt::Key_Return));
 
     KAction *editKey = new KAction(KIcon("kgpg_term"), i18n("Edit Key in &Terminal"), actionCollection(), "key_edit");
     connect(editKey, SIGNAL(triggered(bool)), SLOT(slotedit()));
@@ -202,7 +202,7 @@ KeysManager::KeysManager(QWidget *parent)
 
     KAction *deleteKey = new KAction(KIcon("editdelete"), i18n("&Delete Keys"), actionCollection(), "key_delete");
     connect(deleteKey, SIGNAL(triggered(bool)), SLOT(confirmdeletekey()));
-    deleteKey->setShortcut(Qt::Key_Delete);
+    deleteKey->setShortcut(QKeySequence(Qt::Key_Delete));
 
     KAction *setDefaultKey = new KAction(i18n("Set as De&fault Key"), actionCollection(), "key_default");
     connect(setDefaultKey, SIGNAL(triggered(bool)), SLOT(slotSetDefKey()));
@@ -342,7 +342,7 @@ KeysManager::KeysManager(QWidget *parent)
 
     action = new KAction(i18n("Filter Search"), actionCollection(), "search_focus");
     connect(action, SIGNAL(triggered(bool) ), m_listviewsearch, SLOT(setFocus()));
-    action->setShortcut(Qt::Key_F6);
+    action->setShortcut(QKeySequence(Qt::Key_F6));
 
     sTrust->setChecked(KGpgSettings::showTrust());
     sSize->setChecked(KGpgSettings::showSize());
