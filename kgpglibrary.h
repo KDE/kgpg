@@ -45,7 +45,7 @@ signals:
     void photoAdded();
 
 public slots:
-    void slotFileEnc(const KUrl::List &urls = KUrl(""), const QStringList &opts = QStringList(), const QStringList &defaultKey = QStringList(), const KShortcut &goDefaultKey = QKeySequence(Qt::CTRL + Qt::Key_Home));
+    void slotFileEnc(const KUrl::List &urls = KUrl(""), const QStringList &opts = QStringList(), const QStringList &defaultKey = QStringList(), const KShortcut &goDefaultKey = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)));
     void slotFileDec(const KUrl &srcUrl, const KUrl &destUrl, const QStringList &customDecryptOption = QStringList());
     void shredProcessEnc(const KUrl::List &filesToShred);
 

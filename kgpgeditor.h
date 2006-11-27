@@ -37,7 +37,7 @@ class KgpgEditor : public KMainWindow
     friend class KgpgView;
 
 public:
-    KgpgEditor(QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0, KShortcut gohome = QKeySequence(Qt::CTRL + Qt::Key_Home), bool mainwindow = false);
+    KgpgEditor(QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0, KShortcut gohome = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), bool mainwindow = false);
     ~KgpgEditor();
 
     void openDocumentFile(const KUrl& url, QString encoding = QString::null);
