@@ -1106,7 +1106,7 @@ int KgpgAppletApp::newInstance()
         }
     }
 
-    goHome = s_keyManager->actionCollection()->action("go_default_key")->shortcut();
+    goHome = qobject_cast<KAction *>(s_keyManager->actionCollection()->action("go_default_key"))->shortcut();
     kgpg_applet->w->goDefaultKey = goHome;
 
     // parsing of command line args
