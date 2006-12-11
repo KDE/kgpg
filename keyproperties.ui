@@ -318,7 +318,7 @@
         </widget>
       </item>
       <item rowspan="1" row="2" column="1" colspan="2" >
-        <widget class="KActiveLabel" name="tLComment" >
+        <widget class="K3ActiveLabel" name="tLComment" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -351,7 +351,7 @@
         </widget>
       </item>
       <item rowspan="1" row="1" column="1" colspan="2" >
-        <widget class="KActiveLabel" name="tLMail" >
+        <widget class="K3ActiveLabel" name="tLMail" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -363,7 +363,7 @@
         </widget>
       </item>
       <item rowspan="1" row="7" column="1" colspan="2" >
-        <widget class="KActiveLabel" name="tLID" >
+        <widget class="K3ActiveLabel" name="tLID" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -375,7 +375,7 @@
         </widget>
       </item>
       <item rowspan="1" row="4" column="1" colspan="2" >
-        <widget class="KActiveLabel" name="tLExpiration" >
+        <widget class="K3ActiveLabel" name="tLExpiration" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -470,7 +470,7 @@
         </widget>
       </item>
       <item rowspan="1" row="3" column="1" colspan="2" >
-        <widget class="KActiveLabel" name="tLCreation" >
+        <widget class="K3ActiveLabel" name="tLCreation" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -482,7 +482,7 @@
         </widget>
       </item>
       <item rowspan="1" row="0" column="1" colspan="2" >
-        <widget class="KActiveLabel" name="tLName" >
+        <widget class="K3ActiveLabel" name="tLName" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -505,6 +505,6 @@
     </customwidget>
   </customwidgets>
   <includes>
-    <include location="local" >kactivelabel.h</include>
+    <include location="local" >k3activelabel.h</include>
   </includes>
 </ui>

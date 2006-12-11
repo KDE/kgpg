@@ -43,7 +43,7 @@
 #include <kurlrequester.h>
 #include <kstandarddirs.h>
 #include <kdesktopfile.h>
-#include <kactivelabel.h>
+#include <k3activelabel.h>
 #include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <kmessagebox.h>
@@ -397,7 +397,7 @@ void MyView::shredDroppedFile()
     QString mess = i18n("Do you really want to <a href=\"whatsthis:%1\">shred</a> these files?",
                         i18n("<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>"));
 
-    KActiveLabel* label = new KActiveLabel(mess, page);
+    K3ActiveLabel* label = new K3ActiveLabel(mess, page);
     layout->addWidget(label);
     KListBox *lb = new KListBox(page);
     layout->addWidget(lb);

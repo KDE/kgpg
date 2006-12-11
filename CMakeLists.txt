@@ -53,7 +53,7 @@ kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
 kde4_add_executable(kgpg ${kgpg_SRCS})
 
-target_link_libraries(kgpg  ${KDE4_KIO_LIBS} ${KDE4_KABC_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KDEPRINT_LIBS} )
+target_link_libraries(kgpg  ${KDE4_KIO_LIBS} ${KDE4_KABC_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KDEPRINT_LIBS} kde3support)
 
 install(TARGETS kgpg  DESTINATION ${BIN_INSTALL_DIR} )
 

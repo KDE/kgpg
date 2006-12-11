@@ -130,7 +130,7 @@
         </spacer>
       </item>
       <item row="2" column="0" >
-        <widget class="KActiveLabel" name="kActiveLabel1" >
+        <widget class="K3ActiveLabel" name="kActiveLabel1" >
           <property name="text" >
             <string>&lt;b>Keys in the Group&lt;/b></string>
           </property>
@@ -206,6 +206,6 @@
     </customwidget>
   </customwidgets>
   <includes>
-    <include location="local" >kactivelabel.h</include>
+    <include location="local" >k3activelabel.h</include>
   </includes>
 </ui>
