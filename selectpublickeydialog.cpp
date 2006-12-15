@@ -141,9 +141,6 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     m_searchbar->setSpacing(spacingHint());
     m_searchbar->setFrameShape(QFrame::StyledPanel);
 
-    QToolButton *clearsearch = new QToolButton(m_searchbar);
-    clearsearch->setText(i18n("Clear Search"));
-    clearsearch->setIcon(SmallIconSet(QApplication::isRightToLeft() ? "clear_left" : "locationbar_erase"));
 
     QLabel *searchlabel = new QLabel(i18n("&Search: "), m_searchbar);
 
@@ -229,7 +226,6 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     action->setShortcut(goDefaultKey);
 
     connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
-    connect(clearsearch, SIGNAL(pressed()), m_searchlineedit, SLOT(clear()));
     connect(m_cbsymmetric, SIGNAL(toggled(bool)), this, SLOT(slotSymmetric(bool)));
     connect(m_cbuntrusted, SIGNAL(toggled(bool)), this, SLOT(slotUntrusted(bool)));
     connect(m_keyslist, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
