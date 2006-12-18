@@ -30,6 +30,7 @@
 #include <kprocio.h>
 #include <kconfig.h>
 #include <kdebug.h>
+#include <kglobal.h>
 
 #include "kgpginterface.h"
 #include "detailedconsole.h"
