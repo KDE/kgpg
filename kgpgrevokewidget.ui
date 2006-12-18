@@ -111,7 +111,7 @@
         </widget>
       </item>
       <item rowspan="1" row="3" column="0" colspan="2" >
-        <widget class="Q3TextEdit" name="textDescription" />
+        <widget class="QTextEdit" name="textDescription" />
       </item>
       <item row="4" column="1" >
         <widget class="KUrlRequester" name="kURLRequester1" />
