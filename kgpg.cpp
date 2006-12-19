@@ -68,7 +68,7 @@
 #include <kzip.h>
 #include <klistbox.h>
 #include <kactioncollection.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <QtDBus>
 #include <kselectaction.h>
 #include <ktoggleaction.h>
@@ -980,7 +980,7 @@ kgpgapplet::kgpgapplet(QWidget *parent)
 
     KAction *KgpgOpenServer = new KAction(KIcon("network"), i18n("&Key Server Dialog"), actionCollection(), "kgpg_server");
     connect(KgpgOpenServer, SIGNAL(triggered(bool)), SLOT(slotOpenServerDialog()));
-    KAction *KgpgPreferences = KStdAction::preferences(this, SLOT(showOptions()), actionCollection());
+    KAction *KgpgPreferences = KStandardAction::preferences(this, SLOT(showOptions()), actionCollection());
 
     conf_menu->addAction( KgpgEncryptClipboard );
     conf_menu->addAction( KgpgDecryptClipboard );

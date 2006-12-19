@@ -20,7 +20,7 @@
 #include <QTextCodec>
 #include <QPainter>
 #include <ktoggleaction.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <QtDBus>
 #include <kicon.h>
 
@@ -115,20 +115,20 @@ void KgpgEditor::saveOptions()
 
 void KgpgEditor::initActions()
 {
-    KStdAction::openNew(this, SLOT(slotFileNew()), actionCollection());
-    KStdAction::open(this, SLOT(slotFileOpen()), actionCollection());
-    KStdAction::save(this, SLOT(slotFileSave()), actionCollection());
-    KStdAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
-    KStdAction::quit(this, SLOT(slotFileQuit()), actionCollection());
-    KStdAction::paste(this, SLOT(slotEditPaste()), actionCollection());
-    KStdAction::print(this, SLOT(slotFilePrint()), actionCollection());
-    KStdAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
-    KStdAction::preferences(this, SLOT(slotOptions()), actionCollection(), "kgpg_config");
+    KStandardAction::openNew(this, SLOT(slotFileNew()), actionCollection());
+    KStandardAction::open(this, SLOT(slotFileOpen()), actionCollection());
+    KStandardAction::save(this, SLOT(slotFileSave()), actionCollection());
+    KStandardAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
+    KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
+    KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
+    KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
+    KStandardAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
+    KStandardAction::preferences(this, SLOT(slotOptions()), actionCollection(), "kgpg_config");
 
-    m_editundo = KStdAction::undo(this, SLOT(slotundo()), actionCollection());
-    m_editredo = KStdAction::redo(this, SLOT(slotredo()), actionCollection());
-    m_editcopy = KStdAction::copy(this, SLOT(slotEditCopy()), actionCollection());
-    m_editcut  = KStdAction::cut(this, SLOT(slotEditCut()), actionCollection());
+    m_editundo = KStandardAction::undo(this, SLOT(slotundo()), actionCollection());
+    m_editredo = KStandardAction::redo(this, SLOT(slotredo()), actionCollection());
+    m_editcopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
+    m_editcut  = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
 
     KAction *action = new KAction(KIcon("encrypted"), i18n("&Encrypt File..."), actionCollection(), "file_encrypt");
     connect(action, SIGNAL(triggered(bool)), SLOT(slotFilePreEnc()));

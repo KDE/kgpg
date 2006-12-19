@@ -88,7 +88,7 @@
 #include <kwin.h>
 #include <ktoolbar.h>
 #include <kactioncollection.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <kselectaction.h>
 #include <kicon.h>
 
@@ -135,10 +135,10 @@ KeysManager::KeysManager(QWidget *parent)
     if (showTipOfDay)
         installEventFilter(this);
 
-    KStdAction::quit(this, SLOT(quitApp()), actionCollection());
-    KStdAction::find(this, SLOT(findKey()), actionCollection());
-    KStdAction::findNext(this, SLOT(findNextKey()), actionCollection());
-    KStdAction::preferences(this, SLOT(showOptions()), actionCollection(),"options_configure");
+    KStandardAction::quit(this, SLOT(quitApp()), actionCollection());
+    KStandardAction::find(this, SLOT(findKey()), actionCollection());
+    KStandardAction::findNext(this, SLOT(findNextKey()), actionCollection());
+    KStandardAction::preferences(this, SLOT(showOptions()), actionCollection(),"options_configure");
 
     KAction *action = 0;
 
