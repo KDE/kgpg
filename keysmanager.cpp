@@ -73,7 +73,7 @@
 #include <klineedit.h>
 #include <kmimetype.h>
 #include <kshortcut.h>
-#include <kstdaccel.h>
+#include <kstandardshortcut.h>
 #include <kprocess.h>
 #include <kprinter.h>
 #include <klocale.h>
@@ -160,7 +160,7 @@ KeysManager::KeysManager(QWidget *parent)
 
     action = new KAction(KIcon("reload"), i18n("&Refresh List"), actionCollection(), "key_refresh");
     connect(action, SIGNAL(triggered(bool)), SLOT(refreshkey()));
-    action->setShortcut(KStdAccel::reload());
+    action->setShortcut(KStandardShortcut::reload());
 
     action = new KToggleAction(KIcon("kgpg_show"), i18n("&Show only Secret Keys"), actionCollection(), "show_secret");
     connect(action, SIGNAL(triggered(bool)), SLOT(slotToggleSecret()));
@@ -178,15 +178,15 @@ KeysManager::KeysManager(QWidget *parent)
 
     KAction *generateKey = new KAction(KIcon("kgpg_gen"), i18n("&Generate Key Pair..."), actionCollection(), "key_gener");
     connect(generateKey, SIGNAL(triggered(bool)), SLOT(slotGenerateKey()));
-    generateKey->setShortcut(KStdAccel::shortcut(KStdAccel::New));
+    generateKey->setShortcut(KStandardShortcut::shortcut(KStandardShortcut::New));
 
     KAction *exportPublicKey = new KAction(KIcon("kgpg_export"), i18n("E&xport Public Keys..."), actionCollection(), "key_export");
     connect(exportPublicKey, SIGNAL(triggered(bool)), SLOT(slotexport()));
-    exportPublicKey->setShortcut(KStdAccel::shortcut(KStdAccel::Copy));
+    exportPublicKey->setShortcut(KStandardShortcut::shortcut(KStandardShortcut::Copy));
 
     KAction *importKey = new KAction(KIcon("kgpg_import"), i18n("&Import Key..."), actionCollection(), "key_import");
     connect(importKey, SIGNAL(triggered(bool)), SLOT(slotPreImportKey()));
-    importKey->setShortcut(KStdAccel::shortcut(KStdAccel::Paste));
+    importKey->setShortcut(KStandardShortcut::shortcut(KStandardShortcut::Paste));
 
     KAction *newContact = new KAction(KIcon("kaddressbook"), i18n("&Create New Contact in Address Book"), actionCollection(), "add_kab");
     connect(newContact, SIGNAL(triggered(bool)), SLOT(addToKAB()));
@@ -1889,7 +1889,7 @@ void KeysManager::delsignkey()
 
     QString ask = i18n("<qt>Are you sure you want to delete signature<br><b>%1</b> from key:<br><b>%2</b>?</qt>", signMail, parentMail);
 
-    if (KMessageBox::questionYesNo(this, ask, QString::null, KStdGuiItem::del(), KStdGuiItem::cancel()) != KMessageBox::Yes)
+    if (KMessageBox::questionYesNo(this, ask, QString::null, KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::Yes)
         return;
 
     KgpgInterface *delSignKeyProcess = new KgpgInterface();
@@ -2039,7 +2039,7 @@ void KeysManager::confirmdeletekey()
         if (keysToDelete.isEmpty())
             return;
 
-        int result = KMessageBox::warningContinueCancelList(this, i18np("<qt><b>Delete the following public key?</b></qt>", "<qt><b>Delete the following %n public keys?</b></qt>", keysToDelete.count()), keysToDelete, i18n("Warning"), KStdGuiItem::del());
+        int result = KMessageBox::warningContinueCancelList(this, i18np("<qt><b>Delete the following public key?</b></qt>", "<qt><b>Delete the following %n public keys?</b></qt>", keysToDelete.count()), keysToDelete, i18n("Warning"), KStandardGuiItem::del());
         if (result != KMessageBox::Continue)
             return;
         else

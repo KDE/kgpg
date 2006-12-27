@@ -188,7 +188,7 @@ bool KgpgEditor::saveBeforeClear()
 
         QString msg = i18n("The document \"%1\" has changed.\nDo you want to save it?", fname);
         QString caption = i18n("Close the document");
-        int res = KMessageBox::warningYesNoCancel(this, msg, caption, KStdGuiItem::save(), KStdGuiItem::discard());
+        int res = KMessageBox::warningYesNoCancel(this, msg, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
         if (res == KMessageBox::Yes)
             return slotFileSave();
         else
@@ -288,7 +288,7 @@ bool KgpgEditor::slotFileSaveAs()
             if (f.exists())
             {
                 QString message = i18n("Overwrite existing file %1?", url.fileName());
-                int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), KStdGuiItem::overwrite());
+                int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), KStandardGuiItem::overwrite());
                 if (result == KMessageBox::Cancel)
                     return false;
             }
@@ -298,7 +298,7 @@ bool KgpgEditor::slotFileSaveAs()
         if (KIO::NetAccess::exists(url, false, this))
         {
             QString message = i18n("Overwrite existing file %1?", url.fileName());
-            int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), KStdGuiItem::overwrite());
+            int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), KStandardGuiItem::overwrite());
             if (result == KMessageBox::Cancel)
                 return false;
         }

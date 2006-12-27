@@ -85,7 +85,7 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
         m_tempfile = url.path();
     else
     {
-        if (KMessageBox::warningContinueCancel(this, i18n("<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"), QString::null, KStdGuiItem::cont(), "RemoteFileWarning") != KMessageBox::Continue)
+        if (KMessageBox::warningContinueCancel(this, i18n("<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"), QString::null, KStandardGuiItem::cont(), "RemoteFileWarning") != KMessageBox::Continue)
             return;
 
         if (!KIO::NetAccess::download(url, m_tempfile, this))
@@ -295,11 +295,11 @@ void KgpgView::failedDecryptedtxt(const QString &newtxt, KgpgInterface *interfac
 void KgpgView::slotAskForImport(const QString &id, KgpgInterface *interface)
 {
     delete interface;
-    KGuiItem importitem = KStdGuiItem::yes();
+    KGuiItem importitem = KStandardGuiItem::yes();
     importitem.setText(i18n("&Import"));
     importitem.setToolTip(i18n("Import key in your list"));
 
-    KGuiItem noimportitem = KStdGuiItem::no();
+    KGuiItem noimportitem = KStandardGuiItem::no();
     noimportitem.setText(i18n("Do &Not Import"));
     noimportitem.setToolTip(i18n("Will not import this key in your list"));
 
