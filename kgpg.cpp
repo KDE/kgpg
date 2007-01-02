@@ -36,9 +36,9 @@
 #include <Q3TextDrag>
 
 #include <kaboutapplication.h>
-#include <kurlrequesterdlg.h>
+#include <kurlrequesterdialog.h>
 #include <ktoolinvocation.h>
-#include <kio/renamedlg.h>
+#include <kio/renamedialog.h>
 #include <kpassivepopup.h>
 #include <kurlrequester.h>
 #include <kstandarddirs.h>
@@ -296,7 +296,7 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
     if (encryptedFolder.exists())
     {
         dialogue->hide();
-        KIO::RenameDlg over(0, i18n("File Already Exists"), KUrl(), encryptedFile, KIO::M_OVERWRITE);
+        KIO::RenameDialog over(0, i18n("File Already Exists"), KUrl(), encryptedFile, KIO::M_OVERWRITE);
         if (over.exec() == QDialog::Rejected)
         {
             return;
@@ -510,7 +510,7 @@ void MyView::decryptDroppedFile()
             QFile fgpg(swapname.path());
             if (fgpg.exists())
             {
-                KIO::RenameDlg over(0,i18n("File Already Exists"),KUrl(),swapname,KIO::M_OVERWRITE);
+                KIO::RenameDialog over(0,i18n("File Already Exists"),KUrl(),swapname,KIO::M_OVERWRITE);
                 if (over.exec()==QDialog::Rejected)
                 {
                     decryptNextFile();
@@ -549,7 +549,7 @@ void MyView::unArchive()
 
     const KArchiveDirectory *archiveDirectory = compressedFolder.directory();
     //KUrl savePath=KUrl::getURL(droppedUrl,this,i18n(""));
-    KUrlRequesterDlg *savePath = new KUrlRequesterDlg(droppedUrl.directory(KUrl::AppendTrailingSlash), i18n("Extract to: "),0);
+    KUrlRequesterDialog *savePath = new KUrlRequesterDialog(droppedUrl.directory(KUrl::AppendTrailingSlash), i18n("Extract to: "),0);
     savePath->fileDialog()->setMode(KFile::Directory);
     if (!savePath->exec() == QDialog::Accepted)
     {

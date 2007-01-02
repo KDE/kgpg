@@ -21,7 +21,7 @@
 
 #include <kfiledialog.h>
 #include <kpassivepopup.h>
-#include <kio/renamedlg.h>
+#include <kio/renamedialog.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
@@ -111,7 +111,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
     QFile fgpg(dest.path());
     if (fgpg.exists())
     {
-        KIO::RenameDlg over(0, i18n("File Already Exists"), KUrl(), dest, KIO::M_OVERWRITE);
+        KIO::RenameDialog over(0, i18n("File Already Exists"), KUrl(), dest, KIO::M_OVERWRITE);
         if (over.exec() == QDialog::Rejected)
         {
             emit systemMessage(QString::null, true);
