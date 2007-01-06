@@ -21,6 +21,7 @@
 #include <QColor>
 #include <QImage>
 
+#include <kapplication.h>
 #include <kpassivepopup.h>
 #include <kdatepicker.h>
 #include <kiconloader.h>
@@ -266,7 +267,7 @@ void KgpgKeyInfo::slotInfoPasswordChanged(const int &res, KgpgInterface *interfa
     delete interface;
 
     if (res == 2)
-        KPassivePopup::message(i18n("Passphrase for the key was changed"), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop), this);
+        KPassivePopup::message(i18n("Passphrase for the key was changed"), QString::null, kapp->iconLoader()->loadIcon("kgpg", K3Icon::Desktop), this);
 
     if (res == 1)
         KMessageBox::error(this, i18n("Bad old passphrase, the passphrase for the key was not changed"), i18n("Could not change passphrase"));

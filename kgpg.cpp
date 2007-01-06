@@ -36,9 +36,9 @@
 #include <Q3TextDrag>
 
 #include <kaboutapplication.h>
-#include <kurlrequesterdlg.h>
+#include <kurlrequesterdialog.h>
 #include <ktoolinvocation.h>
-#include <kio/renamedlg.h>
+#include <kio/renamedialog.h>
 #include <kpassivepopup.h>
 #include <kurlrequester.h>
 #include <kstandarddirs.h>
@@ -147,7 +147,7 @@ MyView::~MyView()
 void MyView::clipEncrypt()
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
-        KPassivePopup::message(i18n("Clipboard is empty."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop), this);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString::null, kapp->iconLoader()->loadIcon("kgpg", K3Icon::Desktop), this);
     else
     {
         KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, true, goDefaultKey);
@@ -192,7 +192,7 @@ void MyView::clipSign(bool openEditor)
         kgpgtxtedit->show();
     }
     else
-        KPassivePopup::message(i18n("Clipboard is empty."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop), this);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString::null, kapp->iconLoader()->loadIcon("kgpg", K3Icon::Desktop), this);
 }
 
 void MyView::encryptDroppedFile()
@@ -296,7 +296,7 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
     if (encryptedFolder.exists())
     {
         dialogue->hide();
-        KIO::RenameDlg over(0, i18n("File Already Exists"), KUrl(), encryptedFile, KIO::M_OVERWRITE);
+        KIO::RenameDialog over(0, i18n("File Already Exists"), KUrl(), encryptedFile, KIO::M_OVERWRITE);
         if (over.exec() == QDialog::Rejected)
         {
             return;
@@ -306,7 +306,7 @@ void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool
     }
 
     pop = new KPassivePopup();
-    pop->setView(i18n("Processing folder compression and encryption"),i18n("Please wait..."), KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop));
+    pop->setView(i18n("Processing folder compression and encryption"),i18n("Please wait..."), kapp->iconLoader()->loadIcon("kgpg", K3Icon::Desktop));
     pop->setAutoDelete(false);
     pop->show();
     kapp->processEvents();
@@ -510,7 +510,7 @@ void MyView::decryptDroppedFile()
             QFile fgpg(swapname.path());
             if (fgpg.exists())
             {
-                KIO::RenameDlg over(0,i18n("File Already Exists"),KUrl(),swapname,KIO::M_OVERWRITE);
+                KIO::RenameDialog over(0,i18n("File Already Exists"),KUrl(),swapname,KIO::M_OVERWRITE);
                 if (over.exec()==QDialog::Rejected)
                 {
                     decryptNextFile();
@@ -549,7 +549,7 @@ void MyView::unArchive()
 
     const KArchiveDirectory *archiveDirectory = compressedFolder.directory();
     //KUrl savePath=KUrl::getURL(droppedUrl,this,i18n(""));
-    KUrlRequesterDlg *savePath = new KUrlRequesterDlg(droppedUrl.directory(KUrl::AppendTrailingSlash), i18n("Extract to: "),0);
+    KUrlRequesterDialog *savePath = new KUrlRequesterDialog(droppedUrl.directory(KUrl::AppendTrailingSlash), i18n("Extract to: "),0);
     savePath->fileDialog()->setMode(KFile::Directory);
     if (!savePath->exec() == QDialog::Accepted)
     {
@@ -905,7 +905,7 @@ void MyView::encryptClipboard(QStringList selec,QStringList encryptOptions,bool,
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
     {
-        KPassivePopup::message(i18n("Clipboard is empty."), QString::null, KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop), this);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString::null, kapp->iconLoader()->loadIcon("kgpg", K3Icon::Desktop), this);
         return;
     }
 
@@ -933,7 +933,7 @@ void MyView::slotPassiveClip()
     newtxt.replace(QRegExp("\n"), "<br>");
 
     pop = new KPassivePopup( this);
-    pop->setView(i18n("Encrypted following text:"), newtxt, KGlobal::iconLoader()->loadIcon("kgpg", K3Icon::Desktop));
+    pop->setView(i18n("Encrypted following text:"), newtxt, kapp->iconLoader()->loadIcon("kgpg", K3Icon::Desktop));
     pop->setTimeout(3200);
     pop->show();
     QRect qRect(QApplication::desktop()->screenGeometry());

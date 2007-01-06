@@ -26,7 +26,7 @@
 
 #include <kencodingfiledialog.h>
 #include <kio/netaccess.h>
-#include <kio/renamedlg.h>
+#include <kio/renamedialog.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
 #include <ktemporaryfile.h>
@@ -379,7 +379,7 @@ void KgpgEditor::slotFilePreDec()
         QFile fgpg(newname);
         if (fgpg.exists())
         {
-            KIO::RenameDlg over(0, i18n("File Already Exists"), KUrl(), KUrl::fromPath(newname), KIO::M_OVERWRITE);
+            KIO::RenameDialog over(0, i18n("File Already Exists"), KUrl(), KUrl::fromPath(newname), KIO::M_OVERWRITE);
             if (over.exec() == QDialog::Rejected)
             {
                 return;
