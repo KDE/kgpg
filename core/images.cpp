@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kapplication.h>
 #include <kiconloader.h>
 
 #include "images.h"
@@ -27,7 +26,7 @@ QPixmap Images::single()
 {
     static QPixmap m_keysingle;
     if (m_keysingle.isNull())
-        m_keysingle = kapp->iconLoader()->loadIcon("kgpg_key1", K3Icon::Small, 20);
+        m_keysingle = KIconLoader::global()->loadIcon("kgpg_key1", K3Icon::Small, 20);
     return m_keysingle;
 }
 
@@ -35,7 +34,7 @@ QPixmap Images::pair()
 {
     static QPixmap m_keypair;
     if (m_keypair.isNull())
-        m_keypair = kapp->iconLoader()->loadIcon("kgpg_key2", K3Icon::Small, 20);
+        m_keypair = KIconLoader::global()->loadIcon("kgpg_key2", K3Icon::Small, 20);
     return m_keypair;
 }
 
@@ -43,7 +42,7 @@ QPixmap Images::group()
 {
     static QPixmap m_keygroup;
     if (m_keygroup.isNull())
-        m_keygroup = kapp->iconLoader()->loadIcon("kgpg_key3", K3Icon::Small, 20);
+        m_keygroup = KIconLoader::global()->loadIcon("kgpg_key3", K3Icon::Small, 20);
     return m_keygroup;
 }
 
@@ -51,7 +50,7 @@ QPixmap Images::orphan()
 {
     static QPixmap m_keyoprpan;
     if (m_keyoprpan.isNull())
-        m_keyoprpan = kapp->iconLoader()->loadIcon("kgpg_key4", K3Icon::Small, 20);
+        m_keyoprpan = KIconLoader::global()->loadIcon("kgpg_key4", K3Icon::Small, 20);
     return m_keyoprpan;
 }
 
@@ -59,7 +58,7 @@ QPixmap Images::signature()
 {
     static QPixmap m_signature;
     if (m_signature.isNull())
-        m_signature = kapp->iconLoader()->loadIcon("signature", K3Icon::Small, 20);
+        m_signature = KIconLoader::global()->loadIcon("signature", K3Icon::Small, 20);
     return m_signature;
 }
 
@@ -67,7 +66,7 @@ QPixmap Images::userId()
 {
     static QPixmap m_userid;
     if (m_userid.isNull())
-        m_userid = kapp->iconLoader()->loadIcon("kgpg_identity", K3Icon::Small, 20);
+        m_userid = KIconLoader::global()->loadIcon("kgpg_identity", K3Icon::Small, 20);
     return m_userid;
 }
 
@@ -75,7 +74,7 @@ QPixmap Images::photo()
 {
     static QPixmap m_userphoto;
     if (m_userphoto.isNull())
-        m_userphoto = kapp->iconLoader()->loadIcon("kgpg_photo", K3Icon::Small, 20);
+        m_userphoto = KIconLoader::global()->loadIcon("kgpg_photo", K3Icon::Small, 20);
     return m_userphoto;
 }
 
@@ -83,7 +82,7 @@ QPixmap Images::revoke()
 {
     static QPixmap m_revoke;
     if (m_revoke.isNull())
-        m_revoke = kapp->iconLoader()->loadIcon("stop", K3Icon::Small, 20);
+        m_revoke = KIconLoader::global()->loadIcon("stop", K3Icon::Small, 20);
     return m_revoke;
 }
 
