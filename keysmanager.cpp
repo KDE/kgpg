@@ -140,15 +140,21 @@ KeysManager::KeysManager(QWidget *parent)
     KStandardAction::findNext(this, SLOT(findNextKey()), actionCollection());
     KStandardAction::preferences(this, SLOT(showOptions()), actionCollection(),"options_configure");
 
-    KAction *action = 0;
+    QAction *action = 0;
 
-    action = new KAction(KIcon("network"), i18n("&Key Server Dialog"), actionCollection(), "key_server");
+    action = actionCollection()->addAction( "key_server" );
+    action->setText( i18n("&Key Server Dialog") );
+    action->setIcon( KIcon("network") );
     connect(action, SIGNAL(triggered(bool)), SLOT(showKeyServer()));
 
-    action = new KAction(KIcon("idea"), i18n("Tip of the &Day"), actionCollection(), "help_tipofday");
+    action =  actionCollection()->addAction( "help_tipofday");
+    action->setIcon( KIcon("idea") );
+    action->setText( i18n("Tip of the &Day") );
     connect(action, SIGNAL(triggered(bool)), SLOT(slotTip()));
 
-    action = new KAction(KIcon("contents"), i18n("View GnuPG Manual"), actionCollection(), "gpg_man");
+    action = actionCollection()->addAction( "gpg_man");
+    action->setText( i18n("View GnuPG Manual") );
+    action->setIcon( KIcon("contents") );
     connect(action, SIGNAL(triggered(bool)), SLOT(slotManpage()));
 
     action = new KAction(KIcon("edit"), i18n("&Open Editor"), actionCollection(), "kgpg_editor");
@@ -1828,7 +1834,7 @@ void KeysManager::dcopImportFinished()
         kServer = 0L;
 #ifdef __GNUC__
 #warning "kde4 dbus port it"
-#endif    
+#endif
 #if 0
     QByteArray params;
     QDataStream stream(&params, QIODevice::WriteOnly);
