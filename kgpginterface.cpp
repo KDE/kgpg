@@ -25,6 +25,7 @@
 #include <kmessagebox.h>
 #include <ktemporaryfile.h>
 #include <kpassworddialog.h>
+#include <knewpassworddialog.h>
 #include <klocale.h>
 #include <kcodecs.h>
 #include <kprocio.h>
@@ -452,9 +453,19 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcIO *process, const b
     QByteArray passphrase;
     int code;
     if (isnew)
-        code = KPasswordDialog::getNewPassword(0, passphrase, text);
+    {
+        KNewPasswordDialog dlg;
+        dlg.setPrompt(text);
+        code = dlg.exec();
+        passphrase = dlg.password().toLocal8Bit();
+    }
     else
-        code = KPasswordDialog::getPassword(0, passphrase, text);
+    {
+        KPasswordDialog dlg;
+        dlg.setPrompt(text);
+        code = dlg.exec();
+        passphrase = dlg.password().toLocal8Bit();
+    }
 
     if (code != KPasswordDialog::Accepted)
         return 1;
