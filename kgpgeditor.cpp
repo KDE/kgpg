@@ -21,6 +21,7 @@
 #include <QPainter>
 #include <ktoggleaction.h>
 #include <kstandardaction.h>
+#include <kactioncollection.h>
 #include <QtDBus>
 #include <kicon.h>
 
@@ -123,27 +124,38 @@ void KgpgEditor::initActions()
     KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
     KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
     KStandardAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
-    KStandardAction::preferences(this, SLOT(slotOptions()), actionCollection(), "kgpg_config");
+    actionCollection()->addAction(KStandardAction::Preferences, "kgpg_config",
+                                  this, SLOT(slotOptions()));
 
     m_editundo = KStandardAction::undo(this, SLOT(slotundo()), actionCollection());
     m_editredo = KStandardAction::redo(this, SLOT(slotredo()), actionCollection());
     m_editcopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     m_editcut  = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
 
-    KAction *action = new KAction(KIcon("encrypted"), i18n("&Encrypt File..."), actionCollection(), "file_encrypt");
+    QAction *action = actionCollection()->addAction("file_encrypt");
+    action->setIcon(KIcon("encrypted"));
+    action->setText(i18n("&Encrypt File..."));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotFilePreEnc()));
-    action = new KAction(KIcon("decrypted"), i18n("&Decrypt File..."), actionCollection(), "file_decrypt");
+    action = actionCollection()->addAction("file_decrypt");
+    action->setIcon(KIcon("decrypted"));
+    action->setText(i18n("&Decrypt File..."));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotFilePreDec()));
-    action = new KAction(KIcon("kgpg"), i18n("&Open Key Manager"), actionCollection(), "key_manage");
+    action = actionCollection()->addAction("key_manage");
+    action->setIcon(KIcon("kgpg"));
+    action->setText(i18n("&Open Key Manager"));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotKeyManager()));
-    action = new KAction(i18n("&Generate Signature..."), actionCollection(), "sign_generate");
+    action = actionCollection()->addAction("sign_generate");
+    action->setText(i18n("&Generate Signature..."));
     connect(action, SIGNAL(triggered(bool) ), SLOT(slotPreSignFile()));
-    action = new KAction(i18n("&Verify Signature..."), actionCollection(), "sign_verify");
+    action = actionCollection()->addAction("sign_verify");
+    action->setText(i18n("&Verify Signature..."));
     connect(action, SIGNAL(triggered(bool) ), SLOT(slotPreVerifyFile()));
-    action = new KAction(i18n("&Check MD5 Sum..."), actionCollection(), "sign_check");
+    action = actionCollection()->addAction("sign_check");
+    action->setText(i18n("&Check MD5 Sum..."));
     connect(action, SIGNAL(triggered(bool) ), SLOT(slotCheckMd5()));
 
-    m_encodingaction = new KToggleAction(i18n("&Unicode (utf-8) Encoding"), actionCollection(), "charsets");
+    m_encodingaction = actionCollection()->add<KToggleAction>("charsets");
+    m_encodingaction->setText(i18n("&Unicode (utf-8) Encoding"));
     connect(m_encodingaction, SIGNAL(triggered(bool) ), SLOT(slotSetCharset()));
 }
 
@@ -408,7 +420,7 @@ void KgpgEditor::slotFileQuit()
     saveOptions();
 #ifdef __GNUC__
 #warning "kde4: port it"
-#endif    
+#endif
     //KApplication::quit();
 }
 
