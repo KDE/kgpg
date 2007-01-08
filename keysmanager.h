@@ -221,10 +221,10 @@ private:
     KeyListViewSearchLine* m_listviewsearch;
     KDialog *addUidWidget;
 
-    KAction *importSignatureKey;
-    KAction *importAllSignKeys;
-    KAction *signKey;
-    KAction *refreshKey;
+    QAction *importSignatureKey;
+    QAction *importAllSignKeys;
+    QAction *signKey;
+    QAction *refreshKey;
 
     KeyServer *kServer;
     groupEdit *gEdit;

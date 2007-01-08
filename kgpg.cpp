@@ -109,13 +109,17 @@ MyView::MyView(QWidget *parent, const char *name)
     //setBackgroundMode( X11ParentRelative );
     openTasks = 0;
 
-    saveDecrypt = new KAction(KIcon(QString("decrypted")), i18n("&Decrypt && Save File"), 0, "decrypt_file");
+    saveDecrypt = new KAction(KIcon(QString("decrypted")), i18n("&Decrypt && Save File"), this);
+    saveDecrypt->setObjectName("decrypt_file");
     connect(saveDecrypt, SIGNAL(triggered(bool)), SLOT(decryptDroppedFile()));
-    showDecrypt = new KAction(KIcon(QString("edit")), i18n("&Show Decrypted File"), 0, "show_file");
+    showDecrypt = new KAction(KIcon(QString("edit")), i18n("&Show Decrypted File"), this);
+    showDecrypt->setObjectName("show_file");
     connect(showDecrypt, SIGNAL(triggered(bool)), SLOT(showDroppedFile()));
-    encrypt = new KAction(KIcon(QString("encrypted")), i18n("&Encrypt File"), 0, "encrypt_file");
+    encrypt = new KAction(KIcon(QString("encrypted")), i18n("&Encrypt File"), this);
+    encrypt->setObjectName("encrypt_file");
     connect(encrypt, SIGNAL(triggered(bool)), SLOT(encryptDroppedFile()));
-    sign = new KAction(KIcon(QString("signature")), i18n("&Sign File"), 0, "sign_file");
+    sign = new KAction(KIcon(QString("signature")), i18n("&Sign File"), this);
+    sign->setObjectName("sign_file");
     connect(sign, SIGNAL(triggered(bool)), SLOT(signDroppedFile()));
 
     readOptions();
@@ -960,27 +964,36 @@ kgpgapplet::kgpgapplet(QWidget *parent)
 
     QMenu *conf_menu = contextMenu();
 
-    KAction *KgpgOpenEditor;
+    QAction *KgpgOpenEditor;
 
     if (KGpgSettings::leftClick() == KGpgSettings::EnumLeftClick::KeyManager)
     {
-        KgpgOpenEditor = new KAction(KIcon("edit"), i18n("&Open Editor"), actionCollection(), "kgpg_editor");
+        KgpgOpenEditor = actionCollection()->addAction("kgpg_editor");
+        KgpgOpenEditor->setIcon(KIcon("edit"));
+        KgpgOpenEditor->setText(i18n("&Open Editor"));
         connect(KgpgOpenEditor, SIGNAL(triggered(bool)), parent, SLOT(slotOpenEditor()));
     } else {
-        KgpgOpenEditor = new KAction(KIcon("kgpg"), i18n("&Open Key Manager"), actionCollection(), "kgpg_editor");
+        KgpgOpenEditor = actionCollection()->addAction("kgpg_editor");
+        KgpgOpenEditor->setIcon(KIcon("kgpg"));
+        KgpgOpenEditor->setText(i18n("&Open Key Manager"));
         connect(KgpgOpenEditor, SIGNAL(triggered(bool)), SLOT(slotOpenKeyManager()));
     }
 
-    KAction *KgpgEncryptClipboard = new KAction(i18n("&Encrypt Clipboard"), actionCollection(), "clip_encrypt");
+    QAction *KgpgEncryptClipboard = actionCollection()->addAction("clip_encrypt");
+    KgpgEncryptClipboard->setText(i18n("&Encrypt Clipboard"));
     connect(KgpgEncryptClipboard, SIGNAL(triggered(bool)), w, SLOT(clipEncrypt()));
-    KAction *KgpgDecryptClipboard = new KAction(i18n("&Decrypt Clipboard"), actionCollection(), "clip_decrypt");
+    QAction *KgpgDecryptClipboard = actionCollection()->addAction("clip_decrypt");
+    KgpgDecryptClipboard->setText(i18n("&Decrypt Clipboard"));
     connect(KgpgDecryptClipboard, SIGNAL(triggered(bool)), w, SLOT(clipDecrypt()));
-    KAction *KgpgSignClipboard = new KAction(i18n("&Sign/Verify Clipboard"), actionCollection(), "clip_sign");
+    QAction *KgpgSignClipboard = actionCollection()->addAction("clip_sign");
+    KgpgSignClipboard->setText(i18n("&Sign/Verify Clipboard"));
     connect(KgpgSignClipboard, SIGNAL(triggered(bool)), w, SLOT(clipSign()));
 
-    KAction *KgpgOpenServer = new KAction(KIcon("network"), i18n("&Key Server Dialog"), actionCollection(), "kgpg_server");
+    QAction *KgpgOpenServer = actionCollection()->addAction("kgpg_server");
+    KgpgOpenServer->setIcon(KIcon("network"));
+    KgpgOpenServer->setText(i18n("&Key Server Dialog"));
     connect(KgpgOpenServer, SIGNAL(triggered(bool)), SLOT(slotOpenServerDialog()));
-    KAction *KgpgPreferences = KStandardAction::preferences(this, SLOT(showOptions()), actionCollection());
+    QAction *KgpgPreferences = KStandardAction::preferences(this, SLOT(showOptions()), actionCollection());
 
     conf_menu->addAction( KgpgEncryptClipboard );
     conf_menu->addAction( KgpgDecryptClipboard );
@@ -1113,10 +1126,10 @@ int KgpgAppletApp::newInstance()
     if (args->isSet("k") != 0)
     {
         s_keyManager->show();
-#ifdef Q_OS_UNIX	
+#ifdef Q_OS_UNIX
         KWin::setOnDesktop(s_keyManager->winId(), KWin::currentDesktop());  //set on the current desktop
         KWin::deIconifyWindow(s_keyManager->winId());  //de-iconify window
-#endif	
+#endif
         s_keyManager->raise();  // set on top
     }
     else

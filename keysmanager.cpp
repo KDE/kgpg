@@ -138,114 +138,174 @@ KeysManager::KeysManager(QWidget *parent)
     KStandardAction::quit(this, SLOT(quitApp()), actionCollection());
     KStandardAction::find(this, SLOT(findKey()), actionCollection());
     KStandardAction::findNext(this, SLOT(findNextKey()), actionCollection());
-    KStandardAction::preferences(this, SLOT(showOptions()), actionCollection(),"options_configure");
+    actionCollection()->addAction(KStandardAction::Preferences, "options_configure", this, SLOT(showOptions()));
 
-    KAction *action = 0;
+    QAction *action = 0;
 
-    action = new KAction(KIcon("network"), i18n("&Key Server Dialog"), actionCollection(), "key_server");
+    action = actionCollection()->addAction( "key_server" );
+    action->setText( i18n("&Key Server Dialog") );
+    action->setIcon( KIcon("network") );
     connect(action, SIGNAL(triggered(bool)), SLOT(showKeyServer()));
 
-    action = new KAction(KIcon("idea"), i18n("Tip of the &Day"), actionCollection(), "help_tipofday");
+    action =  actionCollection()->addAction( "help_tipofday");
+    action->setIcon( KIcon("idea") );
+    action->setText( i18n("Tip of the &Day") );
     connect(action, SIGNAL(triggered(bool)), SLOT(slotTip()));
 
-    action = new KAction(KIcon("contents"), i18n("View GnuPG Manual"), actionCollection(), "gpg_man");
+    action = actionCollection()->addAction( "gpg_man");
+    action->setText( i18n("View GnuPG Manual") );
+    action->setIcon( KIcon("contents") );
     connect(action, SIGNAL(triggered(bool)), SLOT(slotManpage()));
 
-    action = new KAction(KIcon("edit"), i18n("&Open Editor"), actionCollection(), "kgpg_editor");
+    action = actionCollection()->addAction("kgpg_editor");
+    action->setIcon(KIcon("edit"));
+    action->setText(i18n("&Open Editor"));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotOpenEditor()));
 
-    action = new KAction(KIcon("gohome"), i18n("&Go to Default Key"), actionCollection(), "go_default_key");
+    action = actionCollection()->addAction("go_default_key");
+    action->setIcon(KIcon("gohome"));
+    action->setText(i18n("&Go to Default Key"));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
     action->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home));
 
-    action = new KAction(KIcon("reload"), i18n("&Refresh List"), actionCollection(), "key_refresh");
+    action = actionCollection()->addAction("key_refresh");
+    action->setIcon(KIcon("reload"));
+    action->setText(i18n("&Refresh List"));
     connect(action, SIGNAL(triggered(bool)), SLOT(refreshkey()));
-    action->setShortcut(KStandardShortcut::reload());
+    action->setShortcuts(KStandardShortcut::reload());
 
-    action = new KToggleAction(KIcon("kgpg_show"), i18n("&Show only Secret Keys"), actionCollection(), "show_secret");
+    action = actionCollection()->add<KToggleAction>("show_secret");
+    action->setIcon(KIcon("kgpg_show"));
+    action->setText(i18n("&Show only Secret Keys"));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotToggleSecret()));
 
-    action = new KToggleAction(i18n("&Hide Expired/Disabled Keys"), actionCollection(), "hide_disabled");
+    action = actionCollection()->add<KToggleAction>("hide_disabled");
+    action->setText(i18n("&Hide Expired/Disabled Keys"));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotToggleDisabled()));
 
-    KAction *infoKey = new KAction(KIcon("kgpg_info"), i18n("&Edit Key"), actionCollection(), "key_info");
+    QAction *infoKey = actionCollection()->addAction("key_info");
+    infoKey->setIcon(KIcon("kgpg_info"));
+    infoKey->setText(i18n("&Edit Key"));
     connect(infoKey, SIGNAL(triggered(bool)), SLOT(listsigns()));
     infoKey->setShortcut(QKeySequence(Qt::Key_Return));
 
-    KAction *editKey = new KAction(KIcon("kgpg_term"), i18n("Edit Key in &Terminal"), actionCollection(), "key_edit");
+    QAction *editKey = actionCollection()->addAction("key_edit");
+    editKey->setIcon(KIcon("kgpg_term"));
+    editKey->setText(i18n("Edit Key in &Terminal"));
     connect(editKey, SIGNAL(triggered(bool)), SLOT(slotedit()));
     editKey->setShortcut(QKeySequence(Qt::ALT+Qt::Key_Return));
 
-    KAction *generateKey = new KAction(KIcon("kgpg_gen"), i18n("&Generate Key Pair..."), actionCollection(), "key_gener");
+    QAction *generateKey = actionCollection()->addAction("key_gener");
+    generateKey->setIcon(KIcon("kgpg_gen"));
+    generateKey->setText(i18n("&Generate Key Pair..."));
     connect(generateKey, SIGNAL(triggered(bool)), SLOT(slotGenerateKey()));
-    generateKey->setShortcut(KStandardShortcut::shortcut(KStandardShortcut::New));
+    generateKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::New));
 
-    KAction *exportPublicKey = new KAction(KIcon("kgpg_export"), i18n("E&xport Public Keys..."), actionCollection(), "key_export");
+    QAction *exportPublicKey = actionCollection()->addAction("key_export");
+    exportPublicKey->setIcon(KIcon("kgpg_export"));
+    exportPublicKey->setText(i18n("E&xport Public Keys..."));
     connect(exportPublicKey, SIGNAL(triggered(bool)), SLOT(slotexport()));
-    exportPublicKey->setShortcut(KStandardShortcut::shortcut(KStandardShortcut::Copy));
+    exportPublicKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Copy));
 
-    KAction *importKey = new KAction(KIcon("kgpg_import"), i18n("&Import Key..."), actionCollection(), "key_import");
+    QAction *importKey = actionCollection()->addAction("key_import");
+    importKey->setIcon(KIcon("kgpg_import"));
+    importKey->setText(i18n("&Import Key..."));
     connect(importKey, SIGNAL(triggered(bool)), SLOT(slotPreImportKey()));
-    importKey->setShortcut(KStandardShortcut::shortcut(KStandardShortcut::Paste));
+    importKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Paste));
 
-    KAction *newContact = new KAction(KIcon("kaddressbook"), i18n("&Create New Contact in Address Book"), actionCollection(), "add_kab");
+    QAction *newContact = actionCollection()->addAction("add_kab");
+    newContact->setIcon(KIcon("kaddressbook"));
+    newContact->setText(i18n("&Create New Contact in Address Book"));
     connect(newContact, SIGNAL(triggered(bool)), SLOT(addToKAB()));
 
-    KAction *createGroup = new KAction(i18n("&Create Group with Selected Keys..."), actionCollection(), "create_group");
+    QAction *createGroup = actionCollection()->addAction("create_group");
+    createGroup->setText(i18n("&Create Group with Selected Keys..."));
     connect(createGroup, SIGNAL(triggered(bool)), SLOT(createNewGroup()));
 
-    KAction *editCurrentGroup = new KAction(i18n("&Edit Group"), actionCollection(), "edit_group");
+    QAction *editCurrentGroup = actionCollection()->addAction("edit_group");
+    editCurrentGroup->setText(i18n("&Edit Group"));
     connect(editCurrentGroup, SIGNAL(triggered(bool)), SLOT(editGroup()));
 
-    KAction *delGroup = new KAction(i18n("&Delete Group"), actionCollection(), "delete_group");
+    QAction *delGroup = actionCollection()->addAction("delete_group");
+    delGroup->setText(i18n("&Delete Group"));
     connect(delGroup, SIGNAL(triggered(bool)), SLOT(deleteGroup()));
 
-    KAction *deleteKey = new KAction(KIcon("editdelete"), i18n("&Delete Keys"), actionCollection(), "key_delete");
+    QAction *deleteKey = actionCollection()->addAction("key_delete");
+    deleteKey->setIcon(KIcon("editdelete"));
+    deleteKey->setText(i18n("&Delete Keys"));
     connect(deleteKey, SIGNAL(triggered(bool)), SLOT(confirmdeletekey()));
     deleteKey->setShortcut(QKeySequence(Qt::Key_Delete));
 
-    KAction *setDefaultKey = new KAction(i18n("Set as De&fault Key"), actionCollection(), "key_default");
+    QAction *setDefaultKey = actionCollection()->addAction("key_default");
+    setDefaultKey->setText(i18n("Set as De&fault Key"));
     connect(setDefaultKey, SIGNAL(triggered(bool)), SLOT(slotSetDefKey()));
-    KAction *addPhoto = new KAction(i18n("&Add Photo"), actionCollection(), "add_photo");
+    QAction *addPhoto = actionCollection()->addAction("add_photo");
+    addPhoto->setText(i18n("&Add Photo"));
     connect(addPhoto, SIGNAL(triggered(bool)), SLOT(slotAddPhoto()));
-    KAction *addUid = new KAction(i18n("&Add User Id"), actionCollection(), "add_uid");
+    QAction *addUid = actionCollection()->addAction("add_uid");
+    addUid->setText(i18n("&Add User Id"));
     connect(addUid, SIGNAL(triggered(bool)), SLOT(slotAddUid()));
-    KAction *exportSecretKey = new KAction(i18n("Export Secret Key..."), actionCollection(), "key_sexport");
+    QAction *exportSecretKey = actionCollection()->addAction("key_sexport");
+    exportSecretKey->setText(i18n("Export Secret Key..."));
     connect(exportSecretKey, SIGNAL(triggered(bool)), SLOT(slotexportsec()));
-    KAction *deleteKeyPair = new KAction(i18n("Delete Key Pair"), actionCollection(), "key_pdelete");
+    QAction *deleteKeyPair = actionCollection()->addAction("key_pdelete");
+    deleteKeyPair->setText(i18n("Delete Key Pair"));
     connect(deleteKeyPair, SIGNAL(triggered(bool)), SLOT(deleteseckey()));
-    KAction *revokeKey = new KAction(i18n("Revoke Key..."), actionCollection(), "key_revoke");
+    QAction *revokeKey = actionCollection()->addAction("key_revoke");
+    revokeKey->setText(i18n("Revoke Key..."));
     connect(revokeKey, SIGNAL(triggered(bool)), SLOT(revokeWidget()));
-    KAction *regeneratePublic = new KAction(i18n("&Regenerate Public Key"), actionCollection(), "key_regener");
+    QAction *regeneratePublic = actionCollection()->addAction("key_regener");
+    regeneratePublic->setText(i18n("&Regenerate Public Key"));
     connect(regeneratePublic, SIGNAL(triggered(bool)), SLOT(slotregenerate()));
-    KAction *delUid = new KAction(i18n("&Delete User Id"), actionCollection(), "del_uid");
+    QAction *delUid = actionCollection()->addAction("del_uid");
+    delUid->setText(i18n("&Delete User Id"));
     connect(delUid, SIGNAL(triggered(bool)), SLOT(slotDelUid()));
-    KAction *openPhoto = new KAction(KIcon("image"), i18n("&Open Photo"), actionCollection(), "key_photo");
+    QAction *openPhoto = actionCollection()->addAction("key_photo");
+    openPhoto->setIcon(KIcon("image"));
+    openPhoto->setText(i18n("&Open Photo"));
     connect(openPhoto, SIGNAL(triggered(bool)), SLOT(slotShowPhoto()));
-    KAction *deletePhoto = new KAction(KIcon("delete"), i18n("&Delete Photo"), actionCollection(), "delete_photo");
+    QAction *deletePhoto = actionCollection()->addAction("delete_photo");
+    deletePhoto->setIcon(KIcon("delete"));
+    deletePhoto->setText(i18n("&Delete Photo"));
     connect(deletePhoto, SIGNAL(triggered(bool)), SLOT(slotDeletePhoto()));
-    KAction *delSignKey = new KAction(KIcon("editdelete"), i18n("Delete Sign&ature"), actionCollection(), "key_delsign");
+    QAction *delSignKey = actionCollection()->addAction("key_delsign");
+    delSignKey->setIcon(KIcon("editdelete"));
+    delSignKey->setText(i18n("Delete Sign&ature"));
     connect(delSignKey, SIGNAL(triggered(bool)), SLOT(delsignkey()));
 
-    importAllSignKeys = new KAction(KIcon("network"), i18n("Import &Missing Signatures From Keyserver"), actionCollection(), "key_importallsign");
+    importAllSignKeys = actionCollection()->addAction("key_importallsign");
+    importAllSignKeys->setIcon(KIcon("network"));
+    importAllSignKeys->setText(i18n("Import &Missing Signatures From Keyserver"));
     connect(importAllSignKeys, SIGNAL(triggered(bool)), SLOT(importallsignkey()));
-    refreshKey = new KAction(KIcon("reload"), i18n("&Refresh Keys From Keyserver"), actionCollection(), "key_server_refresh");
+    refreshKey = actionCollection()->addAction("key_server_refresh");
+    refreshKey->setIcon(KIcon("reload"));
+    refreshKey->setText(i18n("&Refresh Keys From Keyserver"));
     connect(refreshKey, SIGNAL(triggered(bool)), SLOT(refreshKeyFromServer()));
-    signKey = new KAction(KIcon("kgpg_sign"), i18n("&Sign Keys..."), actionCollection(), "key_sign");
+    signKey = actionCollection()->addAction("key_sign");
+    signKey->setIcon(KIcon("kgpg_sign"));
+    signKey->setText(i18n("&Sign Keys..."));
     connect(signKey, SIGNAL(triggered(bool)), SLOT(signkey()));
-    importSignatureKey = new KAction(KIcon("network"), i18n("Import Key From Keyserver"), actionCollection(), "key_importsign");
+    importSignatureKey = actionCollection()->addAction("key_importsign");
+    importSignatureKey->setIcon(KIcon("network"));
+    importSignatureKey->setText(i18n("Import Key From Keyserver"));
     connect(importSignatureKey, SIGNAL(triggered(bool)), SLOT(preimportsignkey()));
 
-    sTrust = new KToggleAction(i18n("Trust"), actionCollection(), "show_trust");
+    sTrust = actionCollection()->add<KToggleAction>("show_trust");
+    sTrust->setText(i18n("Trust"));
     connect(sTrust, SIGNAL(triggered(bool) ), SLOT(slotShowTrust()));
-    sSize = new KToggleAction(i18n("Size"), actionCollection(), "show_size");
+    sSize = actionCollection()->add<KToggleAction>("show_size");
+    sSize->setText(i18n("Size"));
     connect(sSize, SIGNAL(triggered(bool) ), SLOT(slotShowSize()));
-    sCreat = new KToggleAction(i18n("Creation"), actionCollection(), "show_creat");
+    sCreat = actionCollection()->add<KToggleAction>("show_creat");
+    sCreat->setText(i18n("Creation"));
     connect(sCreat, SIGNAL(triggered(bool) ), SLOT(slotShowCreation()));
-    sExpi = new KToggleAction(i18n("Expiration"), actionCollection(), "show_expi");
+    sExpi = actionCollection()->add<KToggleAction>("show_expi");
+    sExpi->setText(i18n("Expiration"));
     connect(sExpi, SIGNAL(triggered(bool) ), SLOT(slotShowExpiration()));
 
-    photoProps = new KSelectAction(KIcon("kgpg_photo"),i18n("&Photo ID's"), actionCollection(), "photo_settings");
+    photoProps = actionCollection()->add<KSelectAction>("photo_settings");
+    photoProps->setIcon(KIcon("kgpg_photo"));
+    photoProps->setText(i18n("&Photo ID's"));
 
     // Keep the list in kgpg.kcfg in sync with this one!
     QStringList list;
@@ -340,7 +400,8 @@ KeysManager::KeysManager(QWidget *parent)
     m_listviewsearch = new KeyListViewSearchLine(toolBar(), keysList2);
     connect(clearSearch, SIGNAL(pressed()), m_listviewsearch, SLOT(clear()));
 
-    action = new KAction(i18n("Filter Search"), actionCollection(), "search_focus");
+    action = actionCollection()->addAction("search_focus");
+    action->setText(i18n("Filter Search"));
     connect(action, SIGNAL(triggered(bool) ), m_listviewsearch, SLOT(setFocus()));
     action->setShortcut(QKeySequence(Qt::Key_F6));
 
@@ -1828,7 +1889,7 @@ void KeysManager::dcopImportFinished()
         kServer = 0L;
 #ifdef __GNUC__
 #warning "kde4 dbus port it"
-#endif    
+#endif
 #if 0
     QByteArray params;
     QDataStream stream(&params, QIODevice::WriteOnly);
