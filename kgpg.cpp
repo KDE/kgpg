@@ -544,7 +544,7 @@ void MyView::decryptNextFile()
 
 void MyView::unArchive()
 {
-    KTar compressedFolder(kgpgFolderExtract->name(), "application/x-gzip");
+    KTar compressedFolder(kgpgFolderExtract->fileName(), "application/x-gzip");
     if (!compressedFolder.open(QIODevice::ReadOnly))
     {
         KMessageBox::sorry(0, i18n("Unable to read temporary archive file"));
