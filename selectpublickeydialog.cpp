@@ -224,7 +224,9 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     KActionCollection *actcol = new KActionCollection(this);
     QAction *action = actcol->addAction("go_default_key");
     action->setText(i18n("&Go to Default Key"));
+#ifdef __GNUC__
 #warning "port it"    
+#endif
     //action->setShortcut(goDefaultKey);
 
     connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
