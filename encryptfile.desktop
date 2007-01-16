@@ -5,6 +5,7 @@ Actions=encrypt
 
 [Desktop Action encrypt]
 Name=Encrypt File
+Name[el]=Κρυπτογράφηση αρχείου
 Name[fr]=Chiffrer le fichier
 Name[x-test]=xxEncrypt Filexx
 Icon=kgpg

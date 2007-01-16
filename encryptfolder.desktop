@@ -4,6 +4,7 @@ Actions=encrypt
 
 [Desktop Action encrypt]
 Name=Archive & Encrypt Folder
+Name[el]=Αρχειοθέτηση & κρυπτογράφηση φακέλου
 Name[fr]=Archiver puis chiffrer le dossier
 Name[x-test]=xxArchive & Encrypt Folderxx
 Icon=kgpg
