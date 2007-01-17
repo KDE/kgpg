@@ -91,6 +91,7 @@
 #include <kstandardaction.h>
 #include <kselectaction.h>
 #include <kicon.h>
+#include <kvbox.h>
 
 #include "selectsecretkey.h"
 #include "newkey.h"
