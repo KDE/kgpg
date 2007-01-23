@@ -108,7 +108,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     connect(m_page4->changeHome, SIGNAL(clicked()), this, SLOT(slotChangeHome()));
     connect(m_page6->server_add, SIGNAL(clicked()), this, SLOT(slotAddKeyServer()));
     connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
-    //connect(m_page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
+    connect(m_page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
     connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
     connect(m_page6->ServerBox, SIGNAL(currentChanged(Q3ListBoxItem *)), this, SLOT(updateButtons()));
     connect(m_page7->pushShredder, SIGNAL(clicked ()), this, SIGNAL(installShredder()));
