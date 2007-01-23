@@ -346,12 +346,12 @@ void kgpgOptions::updateSettings()
             serverList.append(currItem);
     }
 
+    KgpgInterface::setGpgSetting("keyserver", keyServer, KGpgSettings::gpgConfigPath());
+    serverList.prepend(keyServer + " " + i18n("(Default)"));
+
     currList = serverList.join(",");
     m_config->setGroup("Servers");
     m_config->writeEntry("Server_List", currList);
-
-    KgpgInterface::setGpgSetting("keyserver", keyServer, KGpgSettings::gpgConfigPath());
-    serverList.prepend(keyServer + " " + i18n("(Default)"));
 
     if (keyGood != m_page3->kcfg_ColorGood->color())
         emit refreshTrust(GoodColor, m_page3->kcfg_ColorGood->color());
