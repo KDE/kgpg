@@ -381,7 +381,7 @@ KeysManager::KeysManager(QWidget *parent)
     newContact->setEnabled(false);
 
     setCentralWidget(keysList2);
-    keysList2->restoreLayout(KGlobal::config(), "KeyView");
+    keysList2->restoreLayout(KGlobal::config().data(), "KeyView");
 
     connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(listsigns()));
     connect(keysList2, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(listsigns()));
@@ -444,7 +444,7 @@ void KeysManager::slotGenerateKey()
         else
         {
             KProcess kp;
-            KConfig *config = KGlobal::config();
+            KSharedConfig::Ptr config = KGlobal::config();
             config->setGroup("General");
             kp << config->readPathEntry("TerminalApplication", "konsole");
             kp << "-e" << "gpg" << "--gen-key";
@@ -721,7 +721,7 @@ void KeysManager::slotDelUid()
         item = static_cast<K3ListViewItem*>(item->parent());
 
     KProcess *process = new KProcess();
-    KConfig *config = KGlobal::config();
+    KSharedConfig::Ptr config = KGlobal::config();
     config->setGroup("General");
     *process << config->readPathEntry("TerminalApplication", "konsole");
     *process << "-e" << "gpg";
@@ -1984,7 +1984,7 @@ void KeysManager::slotedit()
         return;
 
     KProcess kp;
-    KConfig *config = KGlobal::config();
+    KSharedConfig::Ptr config = KGlobal::config();
     config->setGroup("General");
     kp << config->readPathEntry("TerminalApplication","konsole");
     kp << "-e" << "gpg" <<"--no-secmem-warning" <<"--edit-key" << keysList2->currentItem()->text(6) << "help";
@@ -2029,7 +2029,7 @@ void KeysManager::deleteseckey()
         return;
 
     KProcess *conprocess = new KProcess();
-    KConfig *config = KGlobal::config();
+    KSharedConfig::Ptr config = KGlobal::config();
     config->setGroup("General");
     *conprocess<< config->readPathEntry("TerminalApplication","konsole");
     *conprocess<<"-e"<<"gpg"

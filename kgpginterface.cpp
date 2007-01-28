@@ -1747,7 +1747,7 @@ void KgpgInterface::signKeyFin(KProcess *p)
 
 void KgpgInterface::signKeyOpenConsole()
 {
-    KConfig *config = KGlobal::config();
+    KSharedConfig::Ptr config = KGlobal::config();
     config->setGroup("General");
 
     KProcess process;
