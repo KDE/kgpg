@@ -896,7 +896,7 @@ void MyView::slotGenKey()
 
 void MyView::about()
 {
-    KAboutApplication dialog(kapp->aboutData());//_aboutData);
+    KAboutApplication dialog(KGlobal::mainComponent().aboutData());//_aboutData);
     dialog.exec();
 }
 
@@ -1048,7 +1048,7 @@ KgpgAppletApp::~KgpgAppletApp()
 
 void KgpgAppletApp::slotHandleQuit()
 {
-    s_keyManager->keysList2->saveLayout(KGlobal::config(), "KeyView");
+    s_keyManager->keysList2->saveLayout(KGlobal::config().data(), "KeyView");
     KGpgSettings::setPhotoProperties(s_keyManager->photoProps->currentItem());
     KGpgSettings::setShowTrust(s_keyManager->sTrust->isChecked());
     KGpgSettings::setShowExpi(s_keyManager->sExpi->isChecked());
