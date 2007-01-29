@@ -36,7 +36,7 @@
 
 #include <Q3TextDrag>
 
-#include <kaboutapplication.h>
+#include <kaboutapplicationdialog.h>
 #include <kurlrequesterdialog.h>
 #include <ktoolinvocation.h>
 #include <kio/renamedialog.h>
@@ -896,7 +896,7 @@ void MyView::slotGenKey()
 
 void MyView::about()
 {
-    KAboutApplication dialog(KGlobal::mainComponent().aboutData());//_aboutData);
+    KAboutApplicationDialog dialog(KGlobal::mainComponent().aboutData());//_aboutData);
     dialog.exec();
 }
 
