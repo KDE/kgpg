@@ -28,7 +28,7 @@
 #include <klocale.h>
 #include <kconfig.h>
 #include <kprocio.h>
-#include <kio/job.h>
+#include <kio/deletejob.h>
 #include <kio/jobuidelegate.h>
 
 #include "kgpglibrary.h"
