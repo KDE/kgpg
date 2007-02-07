@@ -18,10 +18,6 @@
 #ifndef KGPGAPPLET_H
 #define KGPGAPPLET_H
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <QStringList>
 #include <QClipboard>
 #include <QLabel>
