@@ -243,31 +243,31 @@ void KeyServer::slotImportResult(KProcess *p)
         dupNbSec = importedNb.section(" ", 11, 11);
         notImportesNbSec = importedNb.section(" ", 12, 12);
 
-        resultMessage = i18np("<qt>%n key processed.<br></qt>", "<qt>%n keys processed.<br></qt>", importedNbProcess.toULong());
+        resultMessage = i18np("<qt>%1 key processed.<br></qt>", "<qt>%1 keys processed.<br></qt>", importedNbProcess.toULong());
         if (importedNbUnchanged != "0")
-            resultMessage += i18np("<qt>One key unchanged.<br></qt>", "<qt>%n keys unchanged.<br></qt>", importedNbUnchanged.toULong());
+            resultMessage += i18np("<qt>One key unchanged.<br></qt>", "<qt>%1 keys unchanged.<br></qt>", importedNbUnchanged.toULong());
         if (importedNbSig != "0")
-            resultMessage += i18np("<qt>One signature imported.<br></qt>", "<qt>%n signatures imported.<br></qt>", importedNbSig.toULong());
+            resultMessage += i18np("<qt>One signature imported.<br></qt>", "<qt>%1 signatures imported.<br></qt>", importedNbSig.toULong());
         if (importedNbMissing != "0")
-            resultMessage += i18np("<qt>One key without ID.<br></qt>", "<qt>%n keys without ID.<br></qt>", importedNbMissing.toULong());
+            resultMessage += i18np("<qt>One key without ID.<br></qt>", "<qt>%1 keys without ID.<br></qt>", importedNbMissing.toULong());
         if (importedNbRSA != "0")
-            resultMessage += i18np("<qt>One RSA key imported.<br></qt>", "<qt>%n RSA keys imported.<br></qt>", importedNbRSA.toULong());
+            resultMessage += i18np("<qt>One RSA key imported.<br></qt>", "<qt>%1 RSA keys imported.<br></qt>", importedNbRSA.toULong());
         if (importedNbUid != "0")
-            resultMessage += i18np("<qt>One user ID imported.<br></qt>", "<qt>%n user IDs imported.<br></qt>", importedNbUid.toULong());
+            resultMessage += i18np("<qt>One user ID imported.<br></qt>", "<qt>%1 user IDs imported.<br></qt>", importedNbUid.toULong());
         if (importedNbSub != "0")
-            resultMessage += i18np("<qt>One subkey imported.<br></qt>", "<qt>%n subkeys imported.<br></qt>", importedNbSub.toULong());
+            resultMessage += i18np("<qt>One subkey imported.<br></qt>", "<qt>%1 subkeys imported.<br></qt>", importedNbSub.toULong());
         if (importedNbRev != "0")
-            resultMessage += i18np("<qt>One revocation certificate imported.<br></qt>", "<qt>%n revocation certificates imported.<br></qt>", importedNbRev.toULong());
+            resultMessage += i18np("<qt>One revocation certificate imported.<br></qt>", "<qt>%1 revocation certificates imported.<br></qt>", importedNbRev.toULong());
         if (readNbSec != "0")
-            resultMessage += i18np("<qt>One secret key processed.<br></qt>", "<qt>%n secret keys processed.<br></qt>", readNbSec.toULong());
+            resultMessage += i18np("<qt>One secret key processed.<br></qt>", "<qt>%1 secret keys processed.<br></qt>", readNbSec.toULong());
         if (importedNbSec != "0")
-            resultMessage += i18np("<qt><b>One secret key imported.</b><br></qt>", "<qt><b>%n secret keys imported.</b><br></qt>", importedNbSec.toULong());
+            resultMessage += i18np("<qt><b>One secret key imported.</b><br></qt>", "<qt><b>%1 secret keys imported.</b><br></qt>", importedNbSec.toULong());
         if (dupNbSec != "0")
-            resultMessage += i18np("<qt>One secret key unchanged.<br></qt>", "<qt>%n secret keys unchanged.<br></qt>", dupNbSec.toULong());
+            resultMessage += i18np("<qt>One secret key unchanged.<br></qt>", "<qt>%1 secret keys unchanged.<br></qt>", dupNbSec.toULong());
         if (notImportesNbSec != "0")
-            resultMessage += i18np("<qt>One secret key not imported.<br></qt>", "<qt>%n secret keys not imported.<br></qt>", notImportesNbSec.toULong());
+            resultMessage += i18np("<qt>One secret key not imported.<br></qt>", "<qt>%1 secret keys not imported.<br></qt>", notImportesNbSec.toULong());
         if (importedNbSucess != "0")
-            resultMessage += i18np("<qt><b>One key imported:</b><br></qt>", "<qt><b>%n keys imported:</b><br></qt>", importedNbSucess.toULong());
+            resultMessage += i18np("<qt><b>One key imported:</b><br></qt>", "<qt><b>%1 keys imported:</b><br></qt>", importedNbSucess.toULong());
     }
     else
         resultMessage = i18n("No key imported... \nCheck detailed log for more infos");

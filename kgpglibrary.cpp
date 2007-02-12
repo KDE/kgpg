@@ -125,7 +125,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
     if (filesToEncode > 1)
         emit systemMessage(i18n("<b>%1 Files left.</b>\nEncrypting </b>%2", filesToEncode, m_urlselecteds.first().path()));
     else
-        emit systemMessage(i18n("<b>Encrypting </b>%2", m_urlselecteds.first().path()));
+        emit systemMessage(i18n("<b>Encrypting </b>%1", m_urlselecteds.first().path()));
 
     m_pop = new KPassivePopup(m_panel);
 
@@ -242,7 +242,7 @@ void KgpgLibrary::processEncPopup(const KUrl &url)
 
 void KgpgLibrary::shredProcessEnc(const KUrl::List &filestoshred)
 {
-    emit systemMessage(i18np("Shredding %n file", "Shredding %n files", filestoshred.count()));
+    emit systemMessage(i18np("Shredding %1 file", "Shredding %1 files", filestoshred.count()));
     KIO::Job *job = KIO::del(filestoshred, true, true);
     job->ui()->setWindow(static_cast<QWidget *>(parent()));
     connect(job, SIGNAL(result(KJob *)), SLOT(slotShredResult(KJob *)));
