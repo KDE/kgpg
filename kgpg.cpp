@@ -66,7 +66,7 @@
 #include <ktip.h>
 #include <ktar.h>
 #include <kzip.h>
-#include <klistbox.h>
+#include <k3listbox.h>
 #include <kactioncollection.h>
 #include <kstandardaction.h>
 #include <QtDBus>
@@ -403,7 +403,7 @@ void MyView::shredDroppedFile()
 
     K3ActiveLabel* label = new K3ActiveLabel(mess, page);
     layout->addWidget(label);
-    KListBox *lb = new KListBox(page);
+    K3ListBox *lb = new K3ListBox(page);
     layout->addWidget(lb);
     lb->insertStringList(droppedUrls.toStringList());
     if (shredConfirm->exec() == QDialog::Accepted)

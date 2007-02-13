@@ -33,7 +33,7 @@
         </spacer>
       </item>
       <item rowspan="3" row="0" column="0" colspan="1" >
-        <widget class="KListBox" name="ServerBox" />
+        <widget class="K3ListBox" name="ServerBox" />
       </item>
       <item row="3" column="0" >
         <widget class="QLabel" name="textLabel1_4" >
@@ -104,9 +104,9 @@ all others will be stored for use by KGpg only.</string>
   <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
   <customwidgets>
     <customwidget>
-      <class>KListBox</class>
+      <class>K3ListBox</class>
       <extends>Q3ListBox</extends>
-      <header>klistbox.h</header>
+      <header>k3listbox.h</header>
     </customwidget>
   </customwidgets>
 </ui>
