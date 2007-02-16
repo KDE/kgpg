@@ -26,7 +26,7 @@
 
 #include <Q3ListViewItem>
 
-#include <ksimpleconfig.h>
+#include <kconfig.h>
 #include <kmessagebox.h>
 #include <kcombobox.h>
 #include <klocale.h>
