@@ -1055,7 +1055,6 @@ void KgpgAppletApp::slotHandleQuit()
     KGpgSettings::setShowCreat(s_keyManager->sCreat->isChecked());
     KGpgSettings::setShowSize(s_keyManager->sSize->isChecked());
     KGpgSettings::writeConfig();
-    KSimpleConfig ("kgpgrc").sync();
     quit();
 }
 
