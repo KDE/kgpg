@@ -435,7 +435,7 @@ void kgpgOptions::listKeys()
 void kgpgOptions::slotInstallDecrypt(QString mimetype)
 {
     QString path = KStandardDirs::locateLocal("data", "konqueror/servicemenus/decryptfile.desktop");
-    KDesktopFile configl2(path, false);
+    KDesktopFile configl2(path);
     if (configl2.isImmutable() == false)
     {
         configl2.setGroup("Desktop Entry");
@@ -452,7 +452,7 @@ void kgpgOptions::slotInstallDecrypt(QString mimetype)
 void kgpgOptions::slotInstallSign(QString mimetype)
 {
     QString path = KStandardDirs::locateLocal("data", "konqueror/servicemenus/signfile.desktop");
-    KDesktopFile configl2(path, false);
+    KDesktopFile configl2(path);
     if (configl2.isImmutable() ==false)
     {
         configl2.setGroup("Desktop Entry");

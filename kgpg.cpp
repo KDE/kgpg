@@ -851,7 +851,7 @@ void MyView::installShred()
     KUrl path;
     path.setPath(KGlobalSettings::desktopPath());
     path.addPath("shredder.desktop");
-    KDesktopFile configl2(path.path(), false);
+    KDesktopFile configl2(path.path());
     if (configl2.isImmutable() == false)
     {
         configl2.setGroup("Desktop Entry");
