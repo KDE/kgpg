@@ -130,7 +130,7 @@ private:
     QColor keyRev;
 
     KFontChooser *m_fontchooser;
-    KSimpleConfig *m_config;
+    KConfig *m_config;
 
     Encryption *m_page1;
     Decryption *m_page2;
