@@ -24,7 +24,7 @@
 #include "ui_conf_ui2.h"
 #include "ui_conf_servers.h"
 #include "ui_conf_misc.h"
-class KSimpleConfig;
+class KConfig;
 class KFontChooser;
 class KConfig;
 

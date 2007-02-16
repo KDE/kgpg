@@ -25,7 +25,7 @@
 
 class Q3ListViewItem;
 
-class KSimpleConfig;
+class KConfig;
 class KProcIO;
 class KProcess;
 

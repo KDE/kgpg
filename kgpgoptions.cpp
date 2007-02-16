@@ -49,7 +49,7 @@
 kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
            : KConfigDialog(parent, name, KGpgSettings::self())
 {
-    m_config = new KSimpleConfig("kgpgrc");
+    m_config = new KConfig("kgpgrc", KConfig::OnlyLocal);
 
     defaultServerList = "hkp://wwwkeys.eu.pgp.net ";
     defaultServerList += i18n("(Default)");

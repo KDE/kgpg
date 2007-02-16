@@ -48,7 +48,7 @@ KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoClose)
     setDefaultButton(Close);
     setModal(modal);
     m_autoclosewindow = autoClose;
-    m_config = new KSimpleConfig("kgpgrc");
+    m_config = new KConfig("kgpgrc", KConfig::OnlyLocal);
 
     page = new keyServerWidget();
     setMainWidget(page);
