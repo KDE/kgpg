@@ -444,9 +444,8 @@ void KeysManager::slotGenerateKey()
         else
         {
             KProcess kp;
-            KSharedConfig::Ptr config = KGlobal::config();
-            config->setGroup("General");
-            kp << config->readPathEntry("TerminalApplication", "konsole");
+            KConfigGroup config(KGlobal::config(), "General");
+            kp << config.readPathEntry("TerminalApplication", "konsole");
             kp << "-e" << "gpg" << "--gen-key";
             kp.start(KProcess::Block);
             refreshkey();
@@ -721,9 +720,8 @@ void KeysManager::slotDelUid()
         item = static_cast<K3ListViewItem*>(item->parent());
 
     KProcess *process = new KProcess();
-    KSharedConfig::Ptr config = KGlobal::config();
-    config->setGroup("General");
-    *process << config->readPathEntry("TerminalApplication", "konsole");
+    KConfigGroup config(KGlobal::config(), "General");
+    *process << config.readPathEntry("TerminalApplication", "konsole");
     *process << "-e" << "gpg";
     *process << "--edit-key" << item->text(6) << "uid";
     process->start(KProcess::Block);
