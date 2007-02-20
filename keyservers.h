@@ -25,7 +25,7 @@
 
 class Q3ListViewItem;
 
-class KSimpleConfig;
+class KConfig;
 class KProcIO;
 class KProcess;
 
@@ -87,7 +87,7 @@ private:
     Q3ListViewItem *m_kitem;
 
     KDialog *m_dialogserver;
-    KSimpleConfig *m_config;
+    KConfig *m_config;
     KProcIO *m_importproc;
     KProcIO *m_exportproc;
     KProcIO *m_searchproc;

@@ -24,7 +24,7 @@
 #include "ui_conf_ui2.h"
 #include "ui_conf_servers.h"
 #include "ui_conf_misc.h"
-class KSimpleConfig;
+class KConfig;
 class KFontChooser;
 class KConfig;
 
@@ -130,7 +130,7 @@ private:
     QColor keyRev;
 
     KFontChooser *m_fontchooser;
-    KSimpleConfig *m_config;
+    KConfig *m_config;
 
     Encryption *m_page1;
     Decryption *m_page2;

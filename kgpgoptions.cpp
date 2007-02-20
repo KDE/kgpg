@@ -49,7 +49,7 @@
 kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
            : KConfigDialog(parent, name, KGpgSettings::self())
 {
-    m_config = new KSimpleConfig("kgpgrc");
+    m_config = new KConfig("kgpgrc", KConfig::OnlyLocal);
 
     defaultServerList = "hkp://wwwkeys.eu.pgp.net ";
     defaultServerList += i18n("(Default)");
@@ -435,7 +435,7 @@ void kgpgOptions::listKeys()
 void kgpgOptions::slotInstallDecrypt(QString mimetype)
 {
     QString path = KStandardDirs::locateLocal("data", "konqueror/servicemenus/decryptfile.desktop");
-    KDesktopFile configl2(path, false);
+    KDesktopFile configl2(path);
     if (configl2.isImmutable() == false)
     {
         configl2.setGroup("Desktop Entry");
@@ -452,7 +452,7 @@ void kgpgOptions::slotInstallDecrypt(QString mimetype)
 void kgpgOptions::slotInstallSign(QString mimetype)
 {
     QString path = KStandardDirs::locateLocal("data", "konqueror/servicemenus/signfile.desktop");
-    KDesktopFile configl2(path, false);
+    KDesktopFile configl2(path);
     if (configl2.isImmutable() ==false)
     {
         configl2.setGroup("Desktop Entry");

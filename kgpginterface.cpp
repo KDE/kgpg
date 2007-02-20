@@ -1747,11 +1747,10 @@ void KgpgInterface::signKeyFin(KProcess *p)
 
 void KgpgInterface::signKeyOpenConsole()
 {
-    KSharedConfig::Ptr config = KGlobal::config();
-    config->setGroup("General");
+    KConfigGroup config(KGlobal::config(), "General");
 
     KProcess process;
-    process << config->readPathEntry("TerminalApplication", "konsole");
+    process << config.readPathEntry("TerminalApplication", "konsole");
     process << "-e" << "gpg" << "--no-secmem-warning" << "--expert" << "-u" << m_signkey;
 
     if (!m_local)
