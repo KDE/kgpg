@@ -95,7 +95,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     addPage(m_page2, i18n("Decryption"), "decrypted");
     addPage(m_page3, i18n("Appearance"), "looknfeel");
     addPage(m_page4, i18n("GnuPG Settings"), "kgpg");
-    addPage(m_page6, i18n("Key Servers"), "network");
+    addPage(m_page6, i18n("Key Servers"), "network-wired");
     addPage(m_page7, i18n("Misc"), "misc");
 
     // The following widgets are managed manually.

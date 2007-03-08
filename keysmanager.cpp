@@ -145,7 +145,7 @@ KeysManager::KeysManager(QWidget *parent)
 
     action = actionCollection()->addAction( "key_server" );
     action->setText( i18n("&Key Server Dialog") );
-    action->setIcon( KIcon("network") );
+    action->setIcon( KIcon("network-wired") );
     connect(action, SIGNAL(triggered(bool)), SLOT(showKeyServer()));
 
     action =  actionCollection()->addAction( "help_tipofday");
@@ -155,7 +155,7 @@ KeysManager::KeysManager(QWidget *parent)
 
     action = actionCollection()->addAction( "gpg_man");
     action->setText( i18n("View GnuPG Manual") );
-    action->setIcon( KIcon("contents") );
+    action->setIcon( KIcon("help-contents") );
     connect(action, SIGNAL(triggered(bool)), SLOT(slotManpage()));
 
     action = actionCollection()->addAction("kgpg_editor");
@@ -164,13 +164,13 @@ KeysManager::KeysManager(QWidget *parent)
     connect(action, SIGNAL(triggered(bool)), SLOT(slotOpenEditor()));
 
     action = actionCollection()->addAction("go_default_key");
-    action->setIcon(KIcon("gohome"));
+    action->setIcon(KIcon("go-home"));
     action->setText(i18n("&Go to Default Key"));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
     action->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home));
 
     action = actionCollection()->addAction("key_refresh");
-    action->setIcon(KIcon("reload"));
+    action->setIcon(KIcon("view-refresh"));
     action->setText(i18n("&Refresh List"));
     connect(action, SIGNAL(triggered(bool)), SLOT(refreshkey()));
     action->setShortcuts(KStandardShortcut::reload());
@@ -232,7 +232,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(delGroup, SIGNAL(triggered(bool)), SLOT(deleteGroup()));
 
     QAction *deleteKey = actionCollection()->addAction("key_delete");
-    deleteKey->setIcon(KIcon("editdelete"));
+    deleteKey->setIcon(KIcon("edit-delete"));
     deleteKey->setText(i18n("&Delete Keys"));
     connect(deleteKey, SIGNAL(triggered(bool)), SLOT(confirmdeletekey()));
     deleteKey->setShortcut(QKeySequence(Qt::Key_Delete));
@@ -270,16 +270,16 @@ KeysManager::KeysManager(QWidget *parent)
     deletePhoto->setText(i18n("&Delete Photo"));
     connect(deletePhoto, SIGNAL(triggered(bool)), SLOT(slotDeletePhoto()));
     QAction *delSignKey = actionCollection()->addAction("key_delsign");
-    delSignKey->setIcon(KIcon("editdelete"));
+    delSignKey->setIcon(KIcon("edit-delete"));
     delSignKey->setText(i18n("Delete Sign&ature"));
     connect(delSignKey, SIGNAL(triggered(bool)), SLOT(delsignkey()));
 
     importAllSignKeys = actionCollection()->addAction("key_importallsign");
-    importAllSignKeys->setIcon(KIcon("network"));
+    importAllSignKeys->setIcon(KIcon("network-wired"));
     importAllSignKeys->setText(i18n("Import &Missing Signatures From Keyserver"));
     connect(importAllSignKeys, SIGNAL(triggered(bool)), SLOT(importallsignkey()));
     refreshKey = actionCollection()->addAction("key_server_refresh");
-    refreshKey->setIcon(KIcon("reload"));
+    refreshKey->setIcon(KIcon("view-refresh"));
     refreshKey->setText(i18n("&Refresh Keys From Keyserver"));
     connect(refreshKey, SIGNAL(triggered(bool)), SLOT(refreshKeyFromServer()));
     signKey = actionCollection()->addAction("key_sign");
@@ -287,7 +287,7 @@ KeysManager::KeysManager(QWidget *parent)
     signKey->setText(i18n("&Sign Keys..."));
     connect(signKey, SIGNAL(triggered(bool)), SLOT(signkey()));
     importSignatureKey = actionCollection()->addAction("key_importsign");
-    importSignatureKey->setIcon(KIcon("network"));
+    importSignatureKey->setIcon(KIcon("network-wired"));
     importSignatureKey->setText(i18n("Import Key From Keyserver"));
     connect(importSignatureKey, SIGNAL(triggered(bool)), SLOT(preimportsignkey()));
 
@@ -795,7 +795,7 @@ void KeysManager::slotDeletePhoto()
                         keysList2->currentItem()->parent()->text(1));
 
     /*
-    if (KMessageBox::warningContinueCancel(this, mess, i18n("Warning"), KGuiItem(i18n("Delete"), "editdelete")) != KMessageBox::Continue)
+    if (KMessageBox::warningContinueCancel(this, mess, i18n("Warning"), KGuiItem(i18n("Delete"), "edit-delete")) != KMessageBox::Continue)
         return;
     */
 
@@ -1556,7 +1556,7 @@ void KeysManager::deleteGroup()
     if (!keysList2->currentItem() || !keysList2->currentItem()->text(6).isEmpty())
         return;
 
-    int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>", keysList2->currentItem()->text(0)), i18n("Warning"), KGuiItem(i18n("Delete"), "editdelete"));
+    int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>", keysList2->currentItem()->text(0)), i18n("Warning"), KGuiItem(i18n("Delete"), "edit-delete"));
     if (result != KMessageBox::Continue)
         return;
 
@@ -1689,8 +1689,8 @@ void KeysManager::editGroup()
     dialogGroupEdit->setModal( true );
 
     gEdit = new groupEdit();
-    gEdit->buttonAdd->setIcon(KIconLoader::global()->loadIconSet("down", K3Icon::Small, 20));
-    gEdit->buttonRemove->setIcon(KIconLoader::global()->loadIconSet("up", K3Icon::Small, 20));
+    gEdit->buttonAdd->setIcon(KIconLoader::global()->loadIconSet("go-down", K3Icon::Small, 20));
+    gEdit->buttonRemove->setIcon(KIconLoader::global()->loadIconSet("go-up", K3Icon::Small, 20));
 
     connect(gEdit->buttonAdd, SIGNAL(clicked()), this, SLOT(groupAdd()));
     connect(gEdit->buttonRemove, SIGNAL(clicked()), this, SLOT(groupRemove()));
@@ -2021,7 +2021,7 @@ void KeysManager::deleteseckey()
     int result = KMessageBox::warningContinueCancel(this,
                         i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.", res),
                         i18n("Warning"),
-                        KGuiItem(i18n("Delete"),"editdelete"));
+                        KGuiItem(i18n("Delete"),"edit-delete"));
     if (result != KMessageBox::Continue)
         return;
 

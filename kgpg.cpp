@@ -990,7 +990,7 @@ kgpgapplet::kgpgapplet(QWidget *parent)
     connect(KgpgSignClipboard, SIGNAL(triggered(bool)), w, SLOT(clipSign()));
 
     QAction *KgpgOpenServer = actionCollection()->addAction("kgpg_server");
-    KgpgOpenServer->setIcon(KIcon("network"));
+    KgpgOpenServer->setIcon(KIcon("network-wired"));
     KgpgOpenServer->setText(i18n("&Key Server Dialog"));
     connect(KgpgOpenServer, SIGNAL(triggered(bool)), SLOT(slotOpenServerDialog()));
     QAction *KgpgPreferences = KStandardAction::preferences(this, SLOT(showOptions()), actionCollection());

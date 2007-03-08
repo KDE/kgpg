@@ -82,7 +82,7 @@ QPixmap Images::revoke()
 {
     static QPixmap m_revoke;
     if (m_revoke.isNull())
-        m_revoke = KIconLoader::global()->loadIcon("stop", K3Icon::Small, 20);
+        m_revoke = KIconLoader::global()->loadIcon("process-stop", K3Icon::Small, 20);
     return m_revoke;
 }
 
