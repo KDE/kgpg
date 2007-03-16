@@ -1233,7 +1233,7 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
 
         if (sel->depth() != 0)
         {
-            if ((sel->text(4) == "-") && (sel->text(6).startsWith("0x")))
+            if ((sel->text(4) == "-") && (sel->text(6) != "-"))
             {
                 if ((sel->text(2) == "-") || (sel->text(2) == i18n("Revoked")))
                 {
