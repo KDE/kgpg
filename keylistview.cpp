@@ -288,6 +288,7 @@ void  KeyListView::contentsDropEvent(QDropEvent *o)
 void KeyListView::startDrag()
 {
     QString keyid = currentItem()->text(6);
+    // FIXME: keys don't have "0x" anymore
     if (!keyid.startsWith("0x"))
         return;
 
@@ -403,16 +404,9 @@ bool KeyListView::refreshKeys(QStringList ids)
     for (int i = 0; i < publiclist.size(); ++i)
     {
         Key key = publiclist.at(i);
-        bool isbold = false;
-        bool isexpired = false;
-        bool noid = false;
 
-        if (key.id() == defaultkey)
-            isbold = true;
-        if (key.trust() == 'e')
-            isexpired = true;
-        if (key.name().isEmpty())
-            noid = true;
+        bool isbold = (key.id() == defaultkey);
+        bool isexpired = (key.trust() == 'e');
 
         item = new KeyListViewItem(this, key.name(), key.email(), QString::null, key.expiration(), key.size(), key.creation(), key.id(), isbold, isexpired, KeyListViewItem::Public);
         item->setPixmap(2, getTrustPix(key.trust(), key.valide()));
@@ -451,13 +445,10 @@ void KeyListView::refreshcurrentkey(K3ListViewItem *current)
     if (!current)
         return;
 
-    bool keyIsOpen = false;
-
     QString keyUpdate = current->text(6);
     if (keyUpdate.isEmpty())
         return;
-    if (current->isOpen())
-        keyIsOpen = true;
+    bool keyIsOpen = current->isOpen();
 
     delete current;
 
@@ -516,15 +507,12 @@ void KeyListView::insertOrphans(QStringList ids)
     for (int i = 0; i < keys.count(); ++i)
     {
         Key key = keys.at(i);
-        bool isbold = false;
-        bool isexpired = false;
 
-        if (key.trust() == 'e')
-            isexpired = true;
+        bool isexpired = (key.trust() == 'e');
 
         orphanList << key.id();
 
-        item = new KeyListViewItem(this, key.name(), key.email(), QString::null, key.expiration(), key.size(), key.creation(), key.id(), isbold, isexpired, KeyListViewItem::Secret);
+        item = new KeyListViewItem(this, key.name(), key.email(), QString::null, key.expiration(), key.size(), key.creation(), key.id(), false, isexpired, KeyListViewItem::Secret);
         item->setPixmap(0, Images::orphan());
     }
 
