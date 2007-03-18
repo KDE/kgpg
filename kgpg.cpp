@@ -103,8 +103,8 @@ static QString getGpgHome()
     return gpgHome;
 }
 
-MyView::MyView(QWidget *parent, const char *name)
-      : QLabel(parent, name)
+MyView::MyView(QWidget *parent)
+      : QLabel(parent)
 {
     //setBackgroundMode( X11ParentRelative );
     openTasks = 0;

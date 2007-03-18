@@ -46,7 +46,7 @@ class MyView : public QLabel
     Q_OBJECT
 
 public:
-    MyView(QWidget *parent = 0, const char *name = 0);
+    MyView(QWidget *parent = 0);
     ~MyView();
 
     KUrl droppedUrl;
