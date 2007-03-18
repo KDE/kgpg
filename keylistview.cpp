@@ -390,7 +390,7 @@ void KeyListView::refreshAll()
 bool KeyListView::refreshKeys(QStringList ids)
 {
     KgpgInterface *interface = new KgpgInterface();
-    KeyList secretlist = interface->readSecretKeys(true);
+    KeyList secretlist = interface->readSecretKeys();
 
     QStringList issec;
     for (int i = 0; i < secretlist.size(); ++i)
@@ -474,7 +474,7 @@ void KeyListView::slotReloadOrphaned()
     KgpgInterface *interface = new KgpgInterface();
     KeyList listkeys;
 
-    listkeys = interface->readSecretKeys(true);
+    listkeys = interface->readSecretKeys();
     for (int i = 0; i < listkeys.size(); ++i)
         issec << listkeys.at(i).id();
     listkeys = interface->readPublicKeys(true);
@@ -500,7 +500,7 @@ void KeyListView::slotReloadOrphaned()
 void KeyListView::insertOrphans(QStringList ids)
 {
     KgpgInterface *interface = new KgpgInterface();
-    KeyList keys = interface->readSecretKeys(true, ids);
+    KeyList keys = interface->readSecretKeys(ids);
     delete interface;
 
     KeyListViewItem *item = 0;

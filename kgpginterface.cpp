@@ -823,7 +823,7 @@ void KgpgInterface::readPublicKeysFin(KProcess *p, const bool &block)
 }
 
 
-KeyList KgpgInterface::readSecretKeys(const bool &block, const QStringList &ids)
+KeyList KgpgInterface::readSecretKeys(const QStringList &ids)
 {
     m_partialline = QString::null;
     m_ispartial = false;
@@ -838,23 +838,15 @@ KeyList KgpgInterface::readSecretKeys(const bool &block, const QStringList &ids)
     for (int i = 0; i < ids.count(); ++i)
         *process << ids.at(i);
 
-    if (!block)
-    {
-        kDebug(2100) << "(KgpgInterface::readSecretKeys) Extract secret keys with KProcess::NotifyOnExit" << endl;
-        connect(process, SIGNAL(readReady(KProcIO *)), this, SLOT(readSecretKeysProcess(KProcIO *)));
-        connect(process, SIGNAL(processExited(KProcess *)), this, SLOT(readSecretKeysFin(KProcess *)));
-        process->start(KProcess::NotifyOnExit, false);
-        emit readSecretKeysStarted(this);
-        return KeyList();
-    }
-    else
-    {
-        kDebug(2100) << "(KgpgInterface::readSecretKeys) Extract secret keys with KProcess::Block" << endl;
         process->start(KProcess::Block, false);
         readSecretKeysProcess(process);
-        readSecretKeysFin(process, true);
+
+	if (m_secretactivate)
+		m_secretlistkeys << m_secretkey;
+
+	delete process;
+
         return m_secretlistkeys;
-    }
 }
 
 void KgpgInterface::readSecretKeysProcess(KProcIO *p)
@@ -947,16 +939,6 @@ void KgpgInterface::readSecretKeysProcess(KProcIO *p)
     }
 
     p->ackRead();
-}
-
-void KgpgInterface::readSecretKeysFin(KProcess *p, const bool &block)
-{
-    if (m_secretactivate)
-        m_secretlistkeys << m_secretkey;
-
-    delete p;
-    if (!block)
-        emit readSecretKeysFinished(m_secretlistkeys, this);
 }
 
 QString KgpgInterface::getKeys(const bool &block, const bool &attributes, const QStringList &ids)

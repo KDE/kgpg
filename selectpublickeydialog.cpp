@@ -328,7 +328,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KeyList keys, KgpgInterface *
 
     /* Get the secret keys list */
     interface = new KgpgInterface();
-    KeyList list = interface->readSecretKeys(true);
+    KeyList list = interface->readSecretKeys();
     delete interface;
 
     QString m_seclist = QString::null;

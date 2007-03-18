@@ -80,7 +80,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
 
     bool selectedok = false;
     KgpgInterface *interface = new KgpgInterface();
-    KeyList list1 = interface->readSecretKeys(true);
+    KeyList list1 = interface->readSecretKeys();
 
     for (int i = 0; i < list1.size(); ++i)
     {

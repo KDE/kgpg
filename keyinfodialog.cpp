@@ -49,7 +49,7 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent)
     setMainWidget(m_prop);
 
     KgpgInterface *interface = new KgpgInterface();
-    KeyList keys = interface->readSecretKeys(true, QStringList(sigkey));
+    KeyList keys = interface->readSecretKeys(QStringList(sigkey));
     delete interface;
 
     bool issecret = false;

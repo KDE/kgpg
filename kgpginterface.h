@@ -117,16 +117,11 @@ private:
 
 
 /************** extract secret keys **************/
-signals:
-    void readSecretKeysStarted(KgpgInterface*);
-    void readSecretKeysFinished(KgpgCore::KeyList, KgpgInterface*);
-
 public slots:
-    KgpgCore::KeyList readSecretKeys(const bool &block = false, const QStringList &ids = QStringList());
+    KgpgCore::KeyList readSecretKeys(const QStringList &ids = QStringList());
 
 private slots:
     void readSecretKeysProcess(KProcIO *p);
-    void readSecretKeysFin(KProcess *p, const bool &block = false);
 
 private:
     bool m_secretactivate;
