@@ -570,8 +570,8 @@ void KeyServer::slotOk()
 
 void KeyServer::syncCombobox()
 {
-    m_config->setGroup("Servers");
-    QString serverList = m_config->readEntry("Server_List");
+    KConfigGroup gr = m_config->group("Servers");
+    QString serverList = gr.readEntry("Server_List");
 
     QString optionsServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
 

@@ -55,8 +55,8 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     defaultServerList += i18n("(Default)");
     defaultServerList += ",hkp://search.keyserver.net,hkp://wwwkeys.pgp.net,hkp://pgp.dtype.org,hkp://wwwkeys.us.pgp.net";
 
-    m_config->setGroup("Servers");
-    serverList = m_config->readEntry("Server_List", defaultServerList).split(",");
+	KConfigGroup gr = m_config->group("Servers");
+	serverList = gr.readEntry("Server_List", defaultServerList).split(",");
     keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
 
     if (!keyServer.isEmpty())
@@ -350,8 +350,8 @@ void kgpgOptions::updateSettings()
     serverList.prepend(keyServer + " " + i18n("(Default)"));
 
     currList = serverList.join(",");
-    m_config->setGroup("Servers");
-    m_config->writeEntry("Server_List", currList);
+    KConfigGroup gr = m_config->group("Servers");
+    gr.writeEntry("Server_List", currList);
 
     if (keyGood != m_page3->kcfg_ColorGood->color())
         emit refreshTrust(GoodColor, m_page3->kcfg_ColorGood->color());
@@ -438,13 +438,14 @@ void kgpgOptions::slotInstallDecrypt(QString mimetype)
     KDesktopFile configl2(path);
     if (configl2.isImmutable() == false)
     {
-        configl2.setGroup("Desktop Entry");
-        configl2.writeEntry("ServiceTypes", mimetype);
-        configl2.writeEntry("Actions", "decrypt");
-        configl2.setGroup("Desktop Action decrypt");
-        configl2.writeEntry("Name", i18n("Decrypt File"));
-        //configl2.writeEntry("Icon", "decrypt_file");
-        configl2.writeEntry("Exec", "kgpg %U");
+	KConfigGroup gr = configl2.group("Desktop Entry");
+	gr.writeEntry("ServiceTypes", mimetype);
+	gr.writeEntry("Actions", "decrypt");
+
+	gr = configl2.group("Desktop Action decrypt");
+	gr.writeEntry("Name", i18n("Decrypt File"));
+	//gr.writeEntry("Icon", "decrypt_file");
+	gr.writeEntry("Exec", "kgpg %U");
         //KMessageBox::information(this,i18n("Decrypt file option is now added in Konqueror's menu."));
     }
 }
@@ -455,13 +456,14 @@ void kgpgOptions::slotInstallSign(QString mimetype)
     KDesktopFile configl2(path);
     if (configl2.isImmutable() ==false)
     {
-        configl2.setGroup("Desktop Entry");
-        configl2.writeEntry("ServiceTypes", mimetype);
-        configl2.writeEntry("Actions", "sign");
-        configl2.setGroup("Desktop Action sign");
-        configl2.writeEntry("Name", i18n("Sign File"));
-        //configl2.writeEntry("Icon", "sign_file");
-        configl2.writeEntry("Exec","kgpg -S %F");
+	KConfigGroup gr = configl2.group("Desktop Entry");
+	gr.writeEntry("ServiceTypes", mimetype);
+	gr.writeEntry("Actions", "sign");
+
+	gr = configl2.group("Desktop Action sign");
+	gr.writeEntry("Name", i18n("Sign File"));
+	//gr.writeEntry("Icon", "sign_file");
+	gr.writeEntry("Exec","kgpg -S %F");
         //KMessageBox::information(this,i18n("Decrypt file option is now added in Konqueror's menu."));
     }
 }

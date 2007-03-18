@@ -854,11 +854,11 @@ void MyView::installShred()
     KDesktopFile configl2(path.path());
     if (configl2.isImmutable() == false)
     {
-        configl2.setGroup("Desktop Entry");
-        configl2.writeEntry("Type", "Application");
-        configl2.writeEntry("Name", i18n("Shredder"));
-        configl2.writeEntry("Icon", "editshred");
-        configl2.writeEntry("Exec", "kgpg -X %U");
+        KConfigGroup gr = configl2.group("Desktop Entry");
+        gr.writeEntry("Type", "Application");
+        gr.writeEntry("Name", i18n("Shredder"));
+        gr.writeEntry("Icon", "editshred");
+        gr.writeEntry("Exec", "kgpg -X %U");
     }
 }
 
