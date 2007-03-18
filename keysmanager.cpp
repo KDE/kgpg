@@ -680,22 +680,16 @@ void KeysManager::refreshKeyFromServer()
 
     QString keyIDS;
     keysList = keysList2->selectedItems();
-    bool keyDepth = true;
 
     for (int i = 0; i < keysList.count(); ++i)
         if (keysList.at(i))
         {
-            if ((keysList.at(i)->depth() != 0) || (keysList.at(i)->text(6).isEmpty()))
-                keyDepth = false;
-            else
+            if ((keysList.at(i)->depth() != 0) || (keysList.at(i)->text(6).isEmpty())) {
+			KMessageBox::sorry(this, i18n("You can only refresh primary keys. Please check your selection."));
+			return;
+            } else
                 keyIDS += keysList.at(i)->text(6) + " ";
         }
-
-    if (!keyDepth)
-    {
-        KMessageBox::sorry(this, i18n("You can only refresh primary keys. Please check your selection."));
-        return;
-    }
 
     kServer = new KeyServer(0, false);
     connect(kServer, SIGNAL(importFinished(QString)), this, SLOT(refreshFinished()));
@@ -1201,6 +1195,26 @@ void KeysManager::slotSetDefaultKey(K3ListViewItem *newdef)
     keysList2->ensureItemVisible(keysList2->currentItem());
 }
 
+bool KeysManager::isSignature(Q3ListViewItem *item)
+{
+	// signatures don't have a size
+	if (item->text(4) != "-")
+		return false;
+	// they do have an id
+	if (item->text(6) == "-")
+		return false;
+	// and they also have a date
+	return (item->text(5) != "-");
+}
+
+bool KeysManager::isSignatureUnknown(Q3ListViewItem *item)
+{
+	Q_ASSERT(isSignature(item));
+
+	// ugly hack to detect unknown keys
+	return (item->text(0).startsWith("[") && item->text(0).endsWith("]"));
+}
+
 void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
 {
     K3ListViewItem *sel = static_cast<K3ListViewItem*>(sel2);
@@ -1233,11 +1247,12 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
 
         if (sel->depth() != 0)
         {
-            if ((sel->text(4) == "-") && (sel->text(6) != "-"))
+            if (isSignature(sel))
             {
+		// isn't this always true?
                 if ((sel->text(2) == "-") || (sel->text(2) == i18n("Revoked")))
                 {
-                    if ((sel->text(0).startsWith("[")) && (sel->text(0).endsWith("]"))) // ugly hack to detect unknown keys
+                    if (isSignatureUnknown(sel))
                         importSignatureKey->setEnabled(true);
                     else
                         importSignatureKey->setEnabled(false);
@@ -1850,7 +1865,7 @@ void KeysManager::importallsignkey()
     K3ListViewItem *current = static_cast<K3ListViewItem*>(keysList2->currentItem()->firstChild());
     while (current)
     {
-        if ((current->text(0).startsWith("[")) && (current->text(0).endsWith("]"))) // ugly hack to detect unknown keys
+        if (isSignatureUnknown(current))
             missingKeysList += current->text(6) + " ";
         current = static_cast<K3ListViewItem*>(current->nextSibling());
     }
@@ -2053,6 +2068,7 @@ void KeysManager::reloadSecretKeys()
 
 void KeysManager::confirmdeletekey()
 {
+#warning FIXME this will never work: text(6) is never empty and doesn't start with "0x" anymore
     if (keysList2->currentItem()->depth() != 0)
     {
         if ((keysList2->currentItem()->depth() == 1) && (keysList2->currentItem()->text(4) == "-") && (keysList2->currentItem()->text(6).startsWith("0x")))
