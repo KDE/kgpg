@@ -401,7 +401,7 @@ void MyView::shredDroppedFile()
     QString mess = i18n("Do you really want to <a href=\"whatsthis:%1\">shred</a> these files?",
                         i18n("<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>"));
 
-    K3ActiveLabel* label = new K3ActiveLabel(mess, page);
+    QLabel* label = new QLabel(mess, page);
     layout->addWidget(label);
     K3ListBox *lb = new K3ListBox(page);
     layout->addWidget(lb);
@@ -756,9 +756,9 @@ void MyView::startWizard()
 
     int gpgVersion = KgpgInterface::getGpgVersion();
     if (gpgVersion < 120)
-        wiz->txtGpgVersion->setPlainText(i18n("Your GnuPG version seems to be older than 1.2.0. Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG (http://gnupg.org)."));
+        wiz->txtGpgVersion->setText(i18n("Your GnuPG version seems to be older than 1.2.0. Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG (http://gnupg.org)."));
     else
-        wiz->txtGpgVersion->setPlainText(QString::null);
+        wiz->txtGpgVersion->setText(QString::null);
 
     wiz->kURLRequester1->setUrl(confPath);
         /*

@@ -86,7 +86,7 @@ This wizard will first setup some basic configuration options required for KGpg 
                     </size>
                 </property>
             </spacer>
-            <widget class="K3ActiveLabel" row="1" column="1">
+            <widget class="QLabel" row="1" column="1">
                 <property name="name">
                     <cstring>txtGpgVersion</cstring>
                 </property>

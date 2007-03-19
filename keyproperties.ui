@@ -318,7 +318,7 @@
         </widget>
       </item>
       <item rowspan="1" row="2" column="1" colspan="2" >
-        <widget class="K3ActiveLabel" name="tLComment" >
+        <widget class="QLabel" name="tLComment" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -327,6 +327,9 @@
               <verstretch>0</verstretch>
             </sizepolicy>
           </property>
+	  <property name="textInteractionFlags">
+	    <flags>Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard</flags>
+	  </property>
         </widget>
       </item>
       <item row="5" column="2" >
@@ -363,7 +366,7 @@
         </widget>
       </item>
       <item rowspan="1" row="7" column="1" colspan="2" >
-        <widget class="K3ActiveLabel" name="tLID" >
+        <widget class="QLabel" name="tLID" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -372,10 +375,13 @@
               <verstretch>0</verstretch>
             </sizepolicy>
           </property>
+	  <property name="textInteractionFlags">
+	    <flags>Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard</flags>
+	  </property>
         </widget>
       </item>
       <item rowspan="1" row="4" column="1" colspan="2" >
-        <widget class="K3ActiveLabel" name="tLExpiration" >
+        <widget class="QLabel" name="tLExpiration" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -384,6 +390,9 @@
               <verstretch>0</verstretch>
             </sizepolicy>
           </property>
+	  <property name="textInteractionFlags">
+	    <flags>Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard</flags>
+	  </property>
         </widget>
       </item>
       <item rowspan="1" row="6" column="1" colspan="2" >
@@ -470,7 +479,7 @@
         </widget>
       </item>
       <item rowspan="1" row="3" column="1" colspan="2" >
-        <widget class="K3ActiveLabel" name="tLCreation" >
+        <widget class="QLabel" name="tLCreation" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -479,10 +488,13 @@
               <verstretch>0</verstretch>
             </sizepolicy>
           </property>
+	  <property name="textInteractionFlags">
+	    <flags>Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard</flags>
+	  </property>
         </widget>
       </item>
       <item rowspan="1" row="0" column="1" colspan="2" >
-        <widget class="K3ActiveLabel" name="tLName" >
+        <widget class="QLabel" name="tLName" >
           <property name="sizePolicy" >
             <sizepolicy>
               <hsizetype>7</hsizetype>
@@ -491,6 +503,14 @@
               <verstretch>0</verstretch>
             </sizepolicy>
           </property>
+	  <property name="textInteractionFlags">
+	    <flags>Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard</flags>
+	  </property>
+	  <property name="font">
+	    <font>
+	      <bold>true</bold>
+	    </font>
+	  </property>
         </widget>
       </item>
     </layout>

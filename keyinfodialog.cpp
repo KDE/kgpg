@@ -109,18 +109,18 @@ void KgpgKeyInfo::loadKey(const QString &Keyid)
         m_prop->comboId->addItems(photolist);
     }
 
-    m_prop->tLID->setPlainText(key.fullId());
+    m_prop->tLID->setText(key.fullId());
     m_displayedkeyid = key.id();
-    m_prop->tLCreation->setPlainText(key.creation());
+    m_prop->tLCreation->setText(key.creation());
     if (key.unlimited())
     {
         m_isunlimited = true;
-        m_prop->tLExpiration->setPlainText(i18n("Unlimited"));
+        m_prop->tLExpiration->setText(i18n("Unlimited"));
     }
     else
     {
         m_isunlimited = false;
-        m_prop->tLExpiration->setPlainText(key.expiration());
+        m_prop->tLExpiration->setText(key.expiration());
         m_date = key.expirationDate();
     }
 
@@ -133,11 +133,11 @@ void KgpgKeyInfo::loadKey(const QString &Keyid)
         m_prop->tLMail->setPlainText(i18n("none"));
 
     if (!key.comment().isEmpty())
-        m_prop->tLComment->setPlainText(KgpgInterface::checkForUtf8(key.comment()));
+        m_prop->tLComment->setText(KgpgInterface::checkForUtf8(key.comment()));
     else
-        m_prop->tLComment->setPlainText(i18n("none"));
+        m_prop->tLComment->setText(i18n("none"));
 
-    m_prop->tLName->setHtml("<qt><b>" + KgpgInterface::checkForUtf8(key.name()) + "</b></qt>");
+    m_prop->tLName->setText(KgpgInterface::checkForUtf8(key.name()));
     m_prop->lEFinger->setText(key.fingerprint());
 }
 
@@ -236,13 +236,13 @@ void KgpgKeyInfo::slotInfoExpirationChanged(const int &res, KgpgInterface *inter
         {
             m_isunlimited = true;
             m_date = QDate::currentDate();
-            m_prop->tLExpiration->setPlainText(i18n("Unlimited"));
+            m_prop->tLExpiration->setText(i18n("Unlimited"));
         }
         else
         {
             m_isunlimited = false;
             m_date = m_kdt->date();
-            m_prop->tLExpiration->setPlainText(KGlobal::locale()->formatDate(m_kdt->date()));
+            m_prop->tLExpiration->setText(KGlobal::locale()->formatDate(m_kdt->date()));
         }
     }
 

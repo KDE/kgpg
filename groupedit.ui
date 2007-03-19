@@ -130,10 +130,15 @@
         </spacer>
       </item>
       <item row="2" column="0" >
-        <widget class="K3ActiveLabel" name="kActiveLabel1" >
+        <widget class="QLabel" name="kActiveLabel1" >
           <property name="text" >
-            <string>&lt;b>Keys in the Group&lt;/b></string>
+            <string>Keys in the Group</string>
           </property>
+	  <property name="font">
+	    <font>
+	      <bold>true</bold>
+	    </font>
+	  </property>
         </widget>
       </item>
       <item rowspan="1" row="3" column="0" colspan="4" >
