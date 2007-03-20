@@ -321,7 +321,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KeyList keys, KgpgInterface *
         for (QStringList::Iterator it = groups.begin(); it != groups.end(); ++it)
             if (!QString(*it).isEmpty())
             {
-                KeyViewItem *item = new KeyViewItem(m_keyslist, QString(*it), QString::null, QString::null, false, true);
+                KeyViewItem *item = new KeyViewItem(m_keyslist, QString(*it), QString(), QString(), false, true);
                 item->setPixmap(0, Images::group());
             }
     /* */
@@ -331,7 +331,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KeyList keys, KgpgInterface *
     KeyList list = interface->readSecretKeys();
     delete interface;
 
-    QString m_seclist = QString::null;
+    QString m_seclist = QString();
     for (int i = 0; i < list.size(); ++i)
         m_seclist += ", 0x" + list.at(i).id();
     /* */

@@ -303,7 +303,7 @@ void KeyListView::startDrag()
 
 void KeyListView::droppedFile(const KUrl &url)
 {
-    if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>", url.path()), QString::null, KGuiItem(i18n("Import")), KGuiItem(i18n("Do Not Import"))) != KMessageBox::Yes)
+    if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>", url.path()), QString(), KGuiItem(i18n("Import")), KGuiItem(i18n("Do Not Import"))) != KMessageBox::Yes)
         return;
 
     KgpgInterface *interface = new KgpgInterface();
@@ -408,7 +408,7 @@ bool KeyListView::refreshKeys(QStringList ids)
         bool isbold = (key.id() == defaultkey);
         bool isexpired = (key.trust() == 'e');
 
-        item = new KeyListViewItem(this, key.name(), key.email(), QString::null, key.expiration(), key.size(), key.creation(), key.id(), isbold, isexpired, KeyListViewItem::Public);
+        item = new KeyListViewItem(this, key.name(), key.email(), QString(), key.expiration(), key.size(), key.creation(), key.id(), isbold, isexpired, KeyListViewItem::Public);
         item->setPixmap(2, getTrustPix(key.trust(), key.valide()));
         item->setVisible(true);
         item->setExpandable(true);
@@ -512,7 +512,7 @@ void KeyListView::insertOrphans(QStringList ids)
 
         orphanList << key.id();
 
-        item = new KeyListViewItem(this, key.name(), key.email(), QString::null, key.expiration(), key.size(), key.creation(), key.id(), false, isexpired, KeyListViewItem::Secret);
+        item = new KeyListViewItem(this, key.name(), key.email(), QString(), key.expiration(), key.size(), key.creation(), key.id(), false, isexpired, KeyListViewItem::Secret);
         item->setPixmap(0, Images::orphan());
     }
 
@@ -632,7 +632,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
         KeySub sub = key.subList()->at(i);
 
         QString algo = i18n("%1 subkey", Convert::toString(sub.algorithme()));
-        tmpitem = new KeyListViewItem(item, algo, QString::null, QString::null, sub.expiration(), QString::number(sub.size()), sub.creation(), sub.id(), false, false, KeyListViewItem::Sub);
+        tmpitem = new KeyListViewItem(item, algo, QString(), QString(), sub.expiration(), QString::number(sub.size()), sub.creation(), sub.id(), false, false, KeyListViewItem::Sub);
         tmpitem->setPixmap(0, Images::single());
         tmpitem->setPixmap(2, getTrustPix(sub.trust(), sub.valide()));
         insertSigns(tmpitem, sub.signList());
@@ -645,7 +645,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
     {
         KeyUid uid = key.uidList()->at(i);
 
-        tmpitem = new KeyListViewItem(item, uid.name(), uid.email(), QString::null, "-", "-", "-", "-", false, false, KeyListViewItem::Uid);
+        tmpitem = new KeyListViewItem(item, uid.name(), uid.email(), QString(), "-", "-", "-", "-", false, false, KeyListViewItem::Uid);
         tmpitem->setPixmap(2, getTrustPix(key.trust(), key.valide()));
         tmpitem->setPixmap(0, Images::userId());
         insertSigns(tmpitem, uid.signList());
@@ -657,7 +657,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
     QStringList photolist = key.photoList();
     for (int i = 0; i < photolist.size(); ++i)
     {
-        tmpitem = new KeyListViewItem(item, i18n("Photo id"), QString::null, QString::null, "-", "-", "-", photolist.at(i), false, false, KeyListViewItem::Uat);
+        tmpitem = new KeyListViewItem(item, i18n("Photo id"), QString(), QString(), "-", "-", "-", photolist.at(i), false, false, KeyListViewItem::Uat);
         tmpitem->setPixmap(2, getTrustPix(key.trust(), key.valide()));
 
         if (m_displayphoto)
@@ -718,7 +718,7 @@ void KeyListView::expandGroup(K3ListViewItem *item)
 
     for (QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
     {
-        KeyListViewItem *item2 = new KeyListViewItem(item, QString(*it), QString::null, QString::null, QString::null, QString::null, QString::null, QString::null);
+        KeyListViewItem *item2 = new KeyListViewItem(item, QString(*it));
         item2->setPixmap(0, Images::group());
         item2->setExpandable(false);
     }

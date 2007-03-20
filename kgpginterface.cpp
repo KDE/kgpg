@@ -76,7 +76,7 @@ QString KgpgInterface::checkForUtf8(QString txt)
     /* Make sure the encoding is UTF-8.
      * Test structure suggested by Werner Koch */
     if (txt.isEmpty())
-        return QString::null;
+        return QString();
 
     for (s = txt.toAscii(); *s && !(*s & 0x80); s++)
                 ;
@@ -228,7 +228,7 @@ void KgpgInterface::delGpgGroup(const QString &name, const QString &configfile)
                 result2.remove(0, 6);
                 result2 = result2.simplified();
                 if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith("=")))
-                    result = QString::null;
+                    result.clear();
             }
 
             texttowrite += result + "\n";
@@ -268,7 +268,7 @@ QString KgpgInterface::getGpgSetting(QString name, const QString &configfile)
         qfile.close();
     }
 
-    return QString::null;
+    return QString();
 }
 
 void KgpgInterface::setGpgSetting(const QString &name, const QString &value, const QString &url)
@@ -290,7 +290,7 @@ void KgpgInterface::setGpgSetting(const QString &name, const QString &value, con
                 if (!value.isEmpty())
                     result = temp + " " + value;
                 else
-                    result = QString::null;
+                    result.clear();
                 found = true;
             }
 
@@ -349,7 +349,7 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool &enable, c
                 if (enable)
                     result = name;
                 else
-                    result = QString::null;
+                    result.clear();
 
                 found = true;
             }
@@ -495,7 +495,7 @@ void KgpgInterface::updateIDs(QString txt)
 
 KeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &ids, const bool &withsigs)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
     m_publiclistkeys = KeyList();
     m_publickey = Key();
@@ -551,7 +551,7 @@ void KgpgInterface::readPublicKeysProcess(KProcIO *p)
                 m_partialline += line;
                 line = m_partialline;
 
-                m_partialline = "";
+                m_partialline.clear();
                 m_ispartial = false;
             }
 
@@ -825,7 +825,7 @@ void KgpgInterface::readPublicKeysFin(KProcess *p, const bool &block)
 
 KeyList KgpgInterface::readSecretKeys(const QStringList &ids)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
     m_secretlistkeys = KeyList();
     m_secretkey = Key();
@@ -868,7 +868,7 @@ void KgpgInterface::readSecretKeysProcess(KProcIO *p)
                 m_partialline += line;
                 line = m_partialline;
 
-                m_partialline = "";
+                m_partialline.clear();
                 m_ispartial = false;
             }
 
@@ -943,9 +943,9 @@ void KgpgInterface::readSecretKeysProcess(KProcIO *p)
 
 QString KgpgInterface::getKeys(const bool &block, const bool &attributes, const QStringList &ids)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
-    m_keystring = QString::null;
+    m_keystring.clear();
 
     KProcIO *process = new KProcIO();
     process->setParent(this);
@@ -996,7 +996,7 @@ void KgpgInterface::getKeysProcess(KProcIO *p)
                 m_partialline += line;
                 line = m_partialline;
 
-                m_partialline = "";
+                m_partialline.clear();
                 m_ispartial = false;
             }
 
@@ -1015,9 +1015,9 @@ void KgpgInterface::getKeysFin(KProcess *p)
 
 void KgpgInterface::encryptText(const QString &text, const QStringList &userids, const QStringList &options)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
-    message = QString::null;
+    message.clear();
 
     QTextCodec *codec = QTextCodec::codecForLocale();
     if (codec->canEncode(text))
@@ -1067,7 +1067,7 @@ void KgpgInterface::encryptTextProcess(KProcIO *p)
                 m_partialline += line;
                 line = m_partialline;
 
-                m_partialline = "";
+                m_partialline.clear();
                 m_ispartial = false;
             }
 
@@ -1077,7 +1077,7 @@ void KgpgInterface::encryptTextProcess(KProcIO *p)
                 p->writeStdin(message, false);
                 p->closeWhenDone();
                 //message.fill('x');
-                message = QString::null;
+                message.clear();
             }
             else
             if (line.contains("passphrase.enter"))
@@ -1104,16 +1104,16 @@ void KgpgInterface::encryptTextFin(KProcess *p)
     if (!message.isEmpty())
         emit txtEncryptionFinished(QString::fromUtf8(message.toAscii()).trimmed(), this);
     else
-        emit txtEncryptionFinished(QString::null, this);
+        emit txtEncryptionFinished(QString(), this);
 }
 
 // FIXME Check if it works well
 void KgpgInterface::decryptText(const QString &text, const QStringList &options)
 {
-    m_partialline = QString::null;
-    message = QString::null;
-    userIDs = QString::null;
-    log = QString::null;
+    m_partialline.clear();
+    message.clear();
+    userIDs.clear();
+    log.clear();
     m_ispartial = false;
     anonymous = false;
     badmdc = false;
@@ -1186,7 +1186,7 @@ void KgpgInterface::decryptTextStdOut(KProcess *p, char *data, int)
                         return;
                     }
 
-                    userIDs = QString::null;
+                    userIDs.clear();
 
                     if (step > 1)
                         step--;
@@ -1239,7 +1239,7 @@ void KgpgInterface::decryptTextFin(KProcess *p)
     {
         emit txtDecryptionFinished(message, this);
         message.fill('x');
-        message = QString::null;
+        message.clear();
     }
     else
     if (badmdc)
@@ -1253,9 +1253,9 @@ void KgpgInterface::decryptTextFin(KProcess *p)
 
 void KgpgInterface::signText(const QString &text, const QString &userid, const QStringList &options)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
-    message = QString::null;
+    message.clear();
     badpassword = false;
     step = 3;
 
@@ -1310,7 +1310,7 @@ void KgpgInterface::signTextProcess(KProcIO *p)
             if (line.contains("BAD_PASSPHRASE"))
             {
                 message.fill('x');
-                message = QString::null;
+                message.clear();
                 badpassword = true;
             }
             else
@@ -1320,7 +1320,7 @@ void KgpgInterface::signTextProcess(KProcIO *p)
                 p->writeStdin(message, true);
                 p->closeWhenDone();
                 message.fill('x');
-                message = QString::null;
+                message.clear();
             }
             else
             if (line.contains("passphrase.enter"))
@@ -1356,22 +1356,22 @@ void KgpgInterface::signTextFin(KProcess *p)
     if (badpassword)
     {
         emit txtSigningFailed(message, this);
-        message = QString::null;
+        message.clear();
     }
     else
     if (!message.isEmpty())
     {
         emit txtSigningFinished(message.trimmed(), this);
         message.fill('x');
-        message = QString::null;
+        message.clear();
     }
     else
-        emit txtSigningFinished(QString::null, this);
+        emit txtSigningFinished(QString(), this);
 }
 
 void KgpgInterface::verifyText(const QString &text)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
     QString temp;
     QTextCodec *codec = QTextCodec::codecForLocale();
@@ -1381,8 +1381,8 @@ void KgpgInterface::verifyText(const QString &text)
         temp = text.toUtf8();
 
     signmiss = false;
-    signID = QString::null;
-    message = QString::null;
+    signID.clear();
+    message.clear();
 
     KProcIO *process = new KProcIO();
     process->setParent(this);
@@ -1477,11 +1477,11 @@ void KgpgInterface::verifyTextFin(KProcess *p)
 
 void KgpgInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options, const bool &symetrical)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
     encok = false;
     sourceFile = srcurl;
-    message = QString::null;
+    message.clear();
 
     KProcIO *process = new KProcIO();
     process->setParent(this);
@@ -1581,9 +1581,9 @@ void KgpgInterface::fileEncryptFin(KProcess *p)
 
 void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
-    log = QString::null;
+    log.clear();
     m_signkey = signkeyid;
     m_keyid = keyid;
     m_checking = checking;
@@ -1746,9 +1746,9 @@ void KgpgInterface::signKeyOpenConsole()
 
 void KgpgInterface::keyExpire(const QString &keyid, const QDate &date, const bool &unlimited)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
-    log = QString::null;
+    log.clear();
     m_success = 0;
     step = 3;
 
@@ -1873,7 +1873,7 @@ void KgpgInterface::keyExpireFin(KProcess *p)
 
 void KgpgInterface::changePass(const QString &keyid)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
     m_success = 1;
     step = 3;
@@ -1976,7 +1976,7 @@ void KgpgInterface::changePassFin(KProcess *p)
 
 void KgpgInterface::changeTrust(const QString &keyid, const int &keytrust)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
     m_trustvalue = keytrust + 1;
 
@@ -2045,7 +2045,7 @@ void KgpgInterface::changeTrustFin(KProcess *p)
 
 void KgpgInterface::changeDisable(const QString &keyid, const bool &ison)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
 
     KProcIO *process = new KProcIO();
@@ -2106,7 +2106,7 @@ void KgpgInterface::changeDisableFin(KProcess *p)
 
 QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool &block)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
     m_pixmap = QPixmap();
 
@@ -2150,7 +2150,7 @@ void KgpgInterface::loadPhotoFin(KProcess *p, const bool &block)
 
 void KgpgInterface::addPhoto(const QString &keyid, const QString &imagepath)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
 
     photoUrl = imagepath;
@@ -2204,7 +2204,7 @@ void KgpgInterface::addPhotoProcess(KProcIO *p)
             else
             if (line.contains("photoid.jpeg.size"))
             {
-                if (KMessageBox::questionYesNo(0, i18n("This image is very large. Use it anyway?"), QString::null, KGuiItem(i18n("Use Anyway")), KGuiItem(i18n("Do Not Use"))) == KMessageBox::Yes)
+                if (KMessageBox::questionYesNo(0, i18n("This image is very large. Use it anyway?"), QString(), KGuiItem(i18n("Use Anyway")), KGuiItem(i18n("Do Not Use"))) == KMessageBox::Yes)
                     p->writeStdin(QByteArray("Yes"), true);
                 else
                 {
@@ -2253,7 +2253,7 @@ void KgpgInterface::addPhotoFin(KProcess *p)
 
 void KgpgInterface::deletePhoto(const QString &keyid, const QString &uid)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
 
     m_success = 0;
@@ -2341,9 +2341,9 @@ void KgpgInterface::deletePhotoFin(KProcess *p)
 
 void KgpgInterface::importKey(QString keystr)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
-    message = QString::null;
+    message.clear();
 
     KProcIO *process = new KProcIO();
     process->setParent(this);
@@ -2361,9 +2361,9 @@ void KgpgInterface::importKey(QString keystr)
 
 void KgpgInterface::importKey(KUrl url)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
-    message = QString::null;
+    message.clear();
 
     if(KIO::NetAccess::download(url, m_tempkeyfile, 0))
     {
@@ -2492,7 +2492,7 @@ void KgpgInterface::importKeyFinished(KProcess *p)
 
 void KgpgInterface::addUid(const QString &keyid, const QString &name, const QString &email, const QString &comment)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
     step = 3;
     m_success = 0;
@@ -2597,19 +2597,19 @@ void KgpgInterface::addUidFin(KProcess *p)
 
 void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const KeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
     step = 3;
     m_success = 0;
 
     if ((!keyemail.isEmpty()) && ((keyemail.contains(" ")) || !keyemail.contains('.') || !keyemail.contains('@')))
     {
-        emit generateKeyFinished(4, this, keyname, keyemail, QString::null, QString::null);
+        emit generateKeyFinished(4, this, keyname, keyemail, QString(), QString());
         return;
     }
 
-    m_newkeyid = QString::null;
-    m_newfingerprint = QString::null;
+    m_newkeyid.clear();
+    m_newfingerprint.clear();
     m_keyname = keyname;
     m_keyemail = keyemail;
     m_keycomment = keycomment;
@@ -2713,7 +2713,7 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
                 if (sendPassphrase(passdlgmessage, p, true))
                 {
                     delete p;
-                    emit generateKeyFinished(3, this, m_keyname, m_keyemail, QString::null, QString::null);
+                    emit generateKeyFinished(3, this, m_keyname, m_keyemail, QString(), QString());
                     return;
                 }
                 step--;
@@ -2746,7 +2746,7 @@ void KgpgInterface::generateKeyFin(KProcess *p)
 
 void KgpgInterface::decryptFile(const KUrl &src, const KUrl &dest, QStringList Options)
 {
-    m_partialline = QString::null;
+    m_partialline.clear();
     m_ispartial = false;
     anonymous = false;
     step = 3;
@@ -2849,82 +2849,11 @@ void KgpgInterface::decryptFileFin(KProcess *p)
         emit decryptFileFinished(0, this);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // decrypt file to text
 void KgpgInterface::KgpgDecryptFileToText(KUrl srcUrl, QStringList Options)
 {
-    message = QString::null;
-    userIDs = QString::null;
+    message.clear();
+    userIDs.clear();
     step = 3;
     anonymous = false;
     decfinished = false;
@@ -2949,7 +2878,7 @@ void KgpgInterface::KgpgDecryptFileToText(KUrl srcUrl, QStringList Options)
 // signatures
 void KgpgInterface::KgpgSignFile(QString keyID, KUrl srcUrl, QStringList Options)
 {
-    message = QString::null;
+    message.clear();
     step = 3;
 
     keyID = keyID.simplified();
@@ -3014,7 +2943,7 @@ void KgpgInterface::readsignprocess(KProcIO *p)
                     return;
                 }
 
-                userIDs = QString::null;
+                userIDs.clear();
                 step--;
             }
             else
@@ -3029,8 +2958,8 @@ void KgpgInterface::readsignprocess(KProcIO *p)
 
 void KgpgInterface::KgpgVerifyFile(KUrl sigUrl, KUrl srcUrl)
 {
-    message = QString::null;
-    signID = QString::null;
+    message.clear();
+    signID.clear();
     signmiss = false;
 
     file = sigUrl;
@@ -3143,7 +3072,7 @@ void KgpgInterface::KgpgDelSignature(QString keyID,QString signKeyID)
 void KgpgInterface::delsigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
 {
 
-        QString required=QString::null;
+        QString required = QString();
         while (p->readln(required,true)!=-1)
         {
                 if (required.contains("keyedit.delsig")){
@@ -3154,11 +3083,11 @@ void KgpgInterface::delsigprocess(KProcIO *p)//ess *p,char *buf, int buflen)
                         } else
                                 p->writeStdin(QByteArray("n"));
                         sigsearch++;
-                        required=QString::null;
+                        required.clear();
                 }
                 if ((step==1) && required.contains("keyedit.prompt")) {
                         p->writeStdin(QByteArray("save"));
-                        required=QString::null;
+                        required.clear();
                         deleteSuccess=true;
                 }
                 if (required.contains("GET_LINE")) {
@@ -3182,7 +3111,7 @@ void KgpgInterface::KgpgRevokeKey(QString keyID,QString revokeUrl,int reason,QSt
         revokeSuccess=false;
         revokeDescription=description;
         certificateUrl=revokeUrl;
-        output=QString::null;
+        output.clear();
         KProcIO *conprocess=new KProcIO();
         *conprocess<< "gpg"<<"--no-tty"<<"--status-fd=2"<<"--logger-fd=2"<<"--command-fd=0";
         if (!revokeUrl.isEmpty())
@@ -3209,7 +3138,7 @@ void KgpgInterface::revokeover(KProcess *)
 
 void KgpgInterface::revokeprocess(KProcIO *p)
 {
-        QString required=QString::null;
+        QString required = QString();
         while (p->readln(required,true)!=-1) {
                 output+=required+"\n";
 
@@ -3221,12 +3150,12 @@ void KgpgInterface::revokeprocess(KProcIO *p)
 
                 if (required.contains("gen_revoke.okay") || required.contains("ask_revocation_reason.okay") || required.contains("openfile.overwrite.okay")) {
                         p->writeStdin(QByteArray("YES"));
-                        required=QString::null;
+                        required.clear();
                 }
 
                 if (required.contains("ask_revocation_reason.code")) {
                         p->writeStdin(QString::number(revokeReason));
-                        required=QString::null;
+                        required.clear();
                 }
 
                 if (required.contains("passphrase.enter"))
@@ -3238,14 +3167,14 @@ void KgpgInterface::revokeprocess(KProcIO *p)
                                 p->closeWhenDone();
                                 return;
                         }
-                        required=QString::null;
+                        required.clear();
 
                 }
                 if (required.contains("ask_revocation_reason.text")) {
                         //      kDebug(2100)<<"description"<<endl;
                         p->writeStdin(revokeDescription);
-                        revokeDescription=QString::null;
-                        required=QString::null;
+                        revokeDescription.clear();
+                        required.clear();
                 }
                 if ((required.contains("GET_"))) /////// gpg asks for something unusal, turn to konsole mode
                 {

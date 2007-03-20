@@ -128,7 +128,7 @@ KeysManager::KeysManager(QWidget *parent)
 
     m_statusbartimer = new QTimer(this);
     keysList2 = new KeyListView(this);
-    keysList2->photoKeysList = QString::null;
+    keysList2->photoKeysList = QString();
     keysList2->groupNb = 0;
     m_statusbar = 0;
     readOptions();
@@ -494,7 +494,7 @@ void KeysManager::slotGenerateKeyProcess(KgpgInterface *)
     pop = new KPassivePopup(this);
     pop->setTimeout(0);
 
-    KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString::null, KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), 0);
+    KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), 0);
 
     QMovie anim(KStandardDirs::locate("appdata", "pics/kgpg_anim.gif"));
     QLabel *text1 = new QLabel(passiveBox);
@@ -594,7 +594,7 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
         else
         if (page->CBprint->isChecked())
         {
-            slotrevoke(id, QString::null, 0, i18n("backup copy"));
+            slotrevoke(id, QString(), 0, i18n("backup copy"));
             connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
         }
         keysList2->refreshKeys(QStringList(id));
@@ -1324,7 +1324,7 @@ void KeysManager::revokeWidget()
     }
     else
     {
-        slotrevoke(keysList2->currentItem()->text(6), QString::null, keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->text());
+        slotrevoke(keysList2->currentItem()->text(6), QString(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->text());
         if (keyRevoke->cbPrint->isChecked())
             connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
         if (keyRevoke->cbImport->isChecked())
@@ -1490,7 +1490,7 @@ void KeysManager::slotexport()
 void KeysManager::slotProcessExportMail(QString keys)
 {
     // start default Mail application
-    KToolInvocation::invokeMailer(QString::null, QString::null, QString::null, QString::null, keys);
+    KToolInvocation::invokeMailer(QString(), QString(), QString(), QString(), keys);
 }
 
 void KeysManager::slotProcessExportClip(QString keys)
@@ -1533,7 +1533,7 @@ void KeysManager::listsigns()
     if (keysList2->currentItem()->pixmap(0)->serialNumber() == Images::orphan().serialNumber())
     {
         if (KMessageBox::questionYesNo(this, i18n("This key is an orphaned secret key (secret key without public key.) It is currently not usable.\n\n"
-                                               "Would you like to regenerate the public key?"), QString::null, KGuiItem(i18n("Generate")), KGuiItem(i18n("Do Not Generate"))) == KMessageBox::Yes)
+                                               "Would you like to regenerate the public key?"), QString(), KGuiItem(i18n("Generate")), KGuiItem(i18n("Do Not Generate"))) == KMessageBox::Yes)
             slotregenerate();
             return;
     }
@@ -1636,7 +1636,7 @@ void KeysManager::createNewGroup()
             return;
         }
 
-        QString groupName = KInputDialog::getText(i18n("Create New Group"), i18n("Enter new group name:"), QString::null, 0, this);
+        QString groupName = KInputDialog::getText(i18n("Create New Group"), i18n("Enter new group name:"), QString(), 0, this);
         if (groupName.isEmpty())
             return;
         if (!keysGroup.isEmpty())
@@ -1964,7 +1964,7 @@ void KeysManager::delsignkey()
 
     QString ask = i18n("<qt>Are you sure you want to delete signature<br><b>%1</b> from key:<br><b>%2</b>?</qt>", signMail, parentMail);
 
-    if (KMessageBox::questionYesNo(this, ask, QString::null, KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::Yes)
+    if (KMessageBox::questionYesNo(this, ask, QString(), KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::Yes)
         return;
 
     KgpgInterface *delSignKeyProcess = new KgpgInterface();
@@ -2054,7 +2054,7 @@ void KeysManager::reloadSecretKeys()
 {
     FILE *fp;
     char line[300];
-    keysList2->secretList = QString::null;
+    keysList2->secretList.clear();
     fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
     while (fgets(line, sizeof(line), fp))
     {

@@ -124,7 +124,7 @@ void KeyServer::slotImport()
         return;
     }
 
-    m_readmessage = QString::null;
+    m_readmessage.clear();
     QString keyserv = page->kCBimportks->currentText();
 
     m_importproc = new KProcIO();
@@ -182,7 +182,7 @@ void KeyServer::slotAbortImport()
     {
         disconnect(m_importproc, 0, 0, 0);
         m_importproc->kill();
-        emit importFinished(QString::null);
+        emit importFinished(QString());
     }
 
     if (m_autoclosewindow)
@@ -296,7 +296,7 @@ void KeyServer::slotExport(const QString &keyId)
     if (page->kCBexportks->currentText().isEmpty())
         return;
 
-    m_readmessage = QString::null;
+    m_readmessage.clear();
     m_exportproc = new KProcIO();
     QString keyserv = page->kCBexportks->currentText();
 
@@ -390,7 +390,7 @@ void KeyServer::slotSearch()
 
     m_count = 0;
     m_cycle = false;
-    m_readmessage = QString::null;
+    m_readmessage.clear();
     QString keyserv = page->kCBimportks->currentText();
 
     m_searchproc = new KProcIO();
@@ -441,13 +441,13 @@ void KeyServer::slotSearchRead(KProcIO *p)
                 p->closeWhenDone();
             }
 
-            required = QString::null;
+            required.clear();
         }
 
         if (required.contains("GOT_IT"))
         {
             m_count++;
-            required = QString::null;
+            required.clear();
         }
 
         if ((m_cycle) && (!required.isEmpty()))
@@ -457,7 +457,7 @@ void KeyServer::slotSearchRead(KProcIO *p)
             kid = kid.section("key", 1, 1);
             kid = kid.simplified();
             kid = kid.left(8);
-            required = QString::null;
+            required.clear();
         }
 
         m_cycle = false;
@@ -468,7 +468,7 @@ void KeyServer::slotSearchRead(KProcIO *p)
             m_kitem = new Q3ListViewItem(m_listpop->kLVsearch, required.remove(0, required.indexOf(')') + 1).simplified());
             m_keynumbers++;
             m_count = 0;
-            required = QString::null;
+            required.clear();
         }
     }
 }

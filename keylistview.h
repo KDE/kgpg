@@ -45,8 +45,8 @@ public:
     };
     Q_DECLARE_FLAGS(ItemType, ItemTypeFlag)
 
-    KeyListViewItem(K3ListView *parent = 0, QString name = QString::null, QString email = QString::null, QString trust = QString::null, QString expiration = QString::null, QString size = QString::null, QString creation = QString::null, QString id = QString::null, bool isdefault = false, bool isexpired = false, ItemType type = Public);
-    KeyListViewItem(K3ListViewItem *parent = 0, QString name = QString::null, QString email = QString::null, QString trust = QString::null, QString expiration = QString::null, QString size = QString::null, QString creation = QString::null, QString id = QString::null, bool isdefault = false, bool isexpired = false, ItemType type = Public);
+    KeyListViewItem(K3ListView *parent = 0, QString name = QString(), QString email = QString(), QString trust = QString(), QString expiration = QString(), QString size = QString(), QString creation = QString(), QString id = QString() , bool isdefault = false, bool isexpired = false, ItemType type = Public);
+    KeyListViewItem(K3ListViewItem *parent = 0, QString name = QString(), QString email = QString(), QString trust = QString(), QString expiration = QString(), QString size = QString(), QString creation = QString(), QString id = QString(), bool isdefault = false, bool isexpired = false, ItemType type = Public);
 
     void setItemType(const ItemType &type);
     ItemType itemType() const;
@@ -150,7 +150,7 @@ public:
     bool hideDisabled() const;
 
 public slots:
-    virtual void updateSearch(const QString &s = QString::null);
+    virtual void updateSearch(const QString &s = QString());
 
 protected:
     virtual bool itemMatches(const Q3ListViewItem *item, const QString &s)  const;

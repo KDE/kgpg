@@ -563,7 +563,7 @@ signals:
      * @param KgpgInterface give a pointer to \em this Interface
      * @param QString the first QString is the name (keyname)
      * @param QString the seconde QString is the email (keyemail)
-     * @param QString the third QString is the id of the new key if it is created or QString::null otherwise
+     * @param QString the third QString is the id of the new key if it is created or QString() otherwise
      * @param QString the last QString is the fingerprint
      */
     void generateKeyFinished(int, KgpgInterface*, QString, QString, QString, QString);

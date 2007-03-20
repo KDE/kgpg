@@ -50,7 +50,7 @@ KgpgEditor::KgpgEditor(QWidget *parent, const char *name, Qt::WFlags f, KShortcu
           : KMainWindow(parent, name, f)
 {
     m_ismainwindow = mainwindow;
-    m_textencoding = QString::null;
+    m_textencoding = QString();
     m_godefaultkey = gohome;
 
     // call inits to invoke all other construction parts
@@ -227,7 +227,7 @@ void KgpgEditor::slotFileOpen()
     if (saveBeforeClear())
     {
         KEncodingFileDialog::Result loadResult;
-        loadResult = KEncodingFileDialog::getOpenUrlAndEncoding(QString::null, QString::null, QString::null, this);
+        loadResult = KEncodingFileDialog::getOpenUrlAndEncoding(QString(), QString(), QString(), this);
         KUrl url = loadResult.URLs.first();
         m_textencoding = loadResult.encoding;
 
@@ -287,7 +287,7 @@ bool KgpgEditor::slotFileSave()
 bool KgpgEditor::slotFileSaveAs()
 {
     KEncodingFileDialog::Result saveResult;
-    saveResult = KEncodingFileDialog::getSaveUrlAndEncoding(QString::null, QString::null, QString::null, this);
+    saveResult = KEncodingFileDialog::getSaveUrlAndEncoding(QString(), QString(), QString(), this);
     KUrl url = saveResult.URLs.first();
     QString selectedEncoding = saveResult.encoding;
 
@@ -528,7 +528,7 @@ void KgpgEditor::slotVerifyFile(KUrl url)
 {
     if (!url.isEmpty())
     {
-        QString sigfile = QString::null;
+        QString sigfile = QString();
         if (!url.fileName().endsWith(".sig"))
         {
             sigfile = url.path() + ".sig";
@@ -539,7 +539,7 @@ void KgpgEditor::slotVerifyFile(KUrl url)
                 QFile fsig(sigfile);
                 // if no .asc or .sig signature file included, assume the file is internally signed
                 if (!fsig.exists())
-                    sigfile = QString::null;
+                    sigfile.clear();
             }
         }
 
@@ -608,7 +608,7 @@ void KgpgEditor::slotCopyAvailable(const bool &v)
 void KgpgEditor::newText()
 {
     m_textchanged = false;
-    m_docname = QString::null;
+    m_docname.clear();
     setCaption(i18n("Untitled"), false);
     slotResetEncoding(false);
 }

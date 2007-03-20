@@ -132,7 +132,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
 QString KgpgSelectSecretKey::getKeyID() const
 {
     if (m_keyslist->currentItem() == 0)
-        return QString::null;
+        return QString();
 
     return m_keyslist->currentItem()->text(2);
 }
@@ -140,7 +140,7 @@ QString KgpgSelectSecretKey::getKeyID() const
 QString KgpgSelectSecretKey::getKeyMail() const
 {
     if (m_keyslist->currentItem() == 0)
-        return QString::null;
+        return QString();
 
     QString username;
     username = m_keyslist->currentItem()->text(0);

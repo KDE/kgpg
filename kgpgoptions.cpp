@@ -69,7 +69,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     if (QFile(defaultHomePath + "gpg.conf").exists())
         defaultConfigPath = "gpg.conf";
     else
-        defaultConfigPath = QString::null;
+        defaultConfigPath = QString();
 
     kDebug(2100) << "Adding pages" << endl;
     m_page1 = new Encryption();
@@ -162,7 +162,7 @@ void kgpgOptions::slotChangeHome()
                 }
             }
             else
-                confPath = QString::null;
+                confPath = QString();
         }
     }
 
@@ -292,7 +292,7 @@ void kgpgOptions::updateSettings()
     if (m_page1->kcfg_EncryptFilesTo->isChecked())
         fileEncryptionKey = m_page1->file_key->currentText();
     else
-        fileEncryptionKey = QString::null;
+        fileEncryptionKey.clear();
 
     if (fileEncryptionKey != KGpgSettings::fileEncryptionKey())
         KGpgSettings::setFileEncryptionKey(fileEncryptionKey);
@@ -302,7 +302,7 @@ void kgpgOptions::updateSettings()
     if (m_encrypttoalways)
         alwaysKeyID = m_page1->always_key->currentText().section(':', 0, 0);
     else
-        alwaysKeyID = QString::null;
+        alwaysKeyID.clear();
 
     KgpgInterface::setGpgSetting("encrypt-to", alwaysKeyID, KGpgSettings::gpgConfigPath());
 

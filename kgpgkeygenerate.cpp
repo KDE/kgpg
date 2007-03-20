@@ -208,7 +208,7 @@ uint KgpgKeyGenerate::expiration() const
 
 uint KgpgKeyGenerate::days() const
 {
-    if (m_days->text() != QString::null)
+    if (!m_days->text().isEmpty())
         return m_days->text().toUInt();
     else
         return 0;
@@ -216,7 +216,7 @@ uint KgpgKeyGenerate::days() const
 
 QString KgpgKeyGenerate::name() const
 {
-    if (m_kname->text() != QString::null)
+    if (!m_kname->text().isEmpty())
         return(m_kname->text());
     else
         return QString();
@@ -224,7 +224,7 @@ QString KgpgKeyGenerate::name() const
 
 QString KgpgKeyGenerate::email() const
 {
-    if (m_mail->text() != QString::null)
+    if (!m_mail->text().isEmpty())
         return(m_mail->text());
     else
         return QString();
@@ -232,7 +232,7 @@ QString KgpgKeyGenerate::email() const
 
 QString KgpgKeyGenerate::comment() const
 {
-    if (m_comment->text() != QString::null)
+    if (!m_comment->text().isEmpty())
         return(m_comment->text());
     else
         return QString();

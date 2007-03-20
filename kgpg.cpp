@@ -151,7 +151,7 @@ MyView::~MyView()
 void MyView::clipEncrypt()
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
-        KPassivePopup::message(i18n("Clipboard is empty."), QString::null, KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), this);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), this);
     else
     {
         KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, true, goDefaultKey);
@@ -196,7 +196,7 @@ void MyView::clipSign(bool openEditor)
         kgpgtxtedit->show();
     }
     else
-        KPassivePopup::message(i18n("Clipboard is empty."), QString::null, KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), this);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), this);
 }
 
 void MyView::encryptDroppedFile()
@@ -421,7 +421,7 @@ void MyView::slotVerifyFile()
     if (droppedUrl.isEmpty())
         return;
 
-    QString sigfile = QString::null;
+    QString sigfile = QString();
     // try to find detached signature.
     if (!droppedUrl.fileName().endsWith(".sig"))
     {
@@ -433,7 +433,7 @@ void MyView::slotVerifyFile()
             QFile fsig(sigfile);
             // if no .asc or .sig signature file included, assume the file is internally signed
             if (!fsig.exists())
-                sigfile = QString::null;
+                sigfile.clear();
         }
     }
     else
@@ -701,7 +701,7 @@ void MyView::readOptions()
         QString path = KGpgSettings::gpgConfigPath();
         if (path.isEmpty())
         {
-            if (KMessageBox::questionYesNo(0,i18n("<qt>You have not set a path to your GnuPG config file.<br>This may cause some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem?</qt>"),QString::null,KGuiItem(i18n("Start Wizard")),KGuiItem(i18n("Do Not Start")))==KMessageBox::Yes)
+            if (KMessageBox::questionYesNo(0,i18n("<qt>You have not set a path to your GnuPG config file.<br>This may cause some surprising results in KGpg's execution.<br>Would you like to start KGpg's Wizard to fix this problem?</qt>"), QString(), KGuiItem(i18n("Start Wizard")), KGuiItem(i18n("Do Not Start"))) == KMessageBox::Yes)
                 startWizard();
         }
         else
@@ -735,7 +735,7 @@ void MyView::startWizard()
         confPath = gpgHome + "gpg.conf";
         if (!QFile(confPath).exists())
         {
-            if (KMessageBox::questionYesNo(this, i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"), QString::null, KGuiItem(i18n("Create Config")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes)
+            if (KMessageBox::questionYesNo(this, i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"), QString(), KGuiItem(i18n("Create Config")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes)
             {
                 confPath = gpgHome + "options";
                 QFile file(confPath);
@@ -749,7 +749,7 @@ void MyView::startWizard()
             else
             {
                 wiz->text_optionsfound->setText(i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed and give the path to the config file.</qt>"));
-                confPath = QString::null;
+                confPath.clear();
             }
         }
     }
@@ -758,7 +758,7 @@ void MyView::startWizard()
     if (gpgVersion < 120)
         wiz->txtGpgVersion->setText(i18n("Your GnuPG version seems to be older than 1.2.0. Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG (http://gnupg.org)."));
     else
-        wiz->txtGpgVersion->setText(QString::null);
+        wiz->txtGpgVersion->setText(QString());
 
     wiz->kURLRequester1->setUrl(confPath);
         /*
@@ -770,7 +770,7 @@ void MyView::startWizard()
     QString tst2;
     QString name;
     QString trustedvals = "idre-";
-    QString firstKey = QString::null;
+    QString firstKey = QString();
     char line[300];
     bool counter = false;
 
@@ -909,7 +909,7 @@ void MyView::encryptClipboard(QStringList selec,QStringList encryptOptions,bool,
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
     {
-        KPassivePopup::message(i18n("Clipboard is empty."), QString::null, KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), this);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), this);
         return;
     }
 

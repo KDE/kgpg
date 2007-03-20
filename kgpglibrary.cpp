@@ -114,7 +114,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
         KIO::RenameDialog over(0, i18n("File Already Exists"), KUrl(), dest, KIO::M_OVERWRITE);
         if (over.exec() == QDialog::Rejected)
         {
-            emit systemMessage(QString::null, true);
+            emit systemMessage(QString(), true);
             return;
         }
 
@@ -145,7 +145,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
 void KgpgLibrary::processEnc(KUrl, KgpgInterface *i)
 {
     delete i;
-    emit systemMessage(QString::null);
+    emit systemMessage(QString());
 
     if (m_shred)
         shredProcessEnc(m_urlselecteds.first());
@@ -162,7 +162,7 @@ void KgpgLibrary::processEncError(const QString &mssge, KgpgInterface *i)
 {
     delete i;
     m_popisactive = false;
-    emit systemMessage(QString::null, true);
+    emit systemMessage(QString(), true);
     KMessageBox::detailedSorry(m_panel, i18n("<b>Process halted</b>.<br>Not all files were encrypted."), mssge);
 }
 
@@ -180,7 +180,7 @@ void KgpgLibrary::slotFileDec(const KUrl &src, const KUrl &dest, const QStringLi
 
 void KgpgLibrary::processDecOver()
 {
-    emit systemMessage(QString::null);
+    emit systemMessage(QString());
     delete m_pop;
     emit decryptionOver();
 }
@@ -188,7 +188,7 @@ void KgpgLibrary::processDecOver()
 void KgpgLibrary::processDecError(const QString &mssge)
 {
     delete m_pop;
-    emit systemMessage(QString::null);
+    emit systemMessage(QString());
 
     // test if file is a public key
     QFile qfile(QFile::encodeName(m_urlselected.path()));
@@ -250,11 +250,11 @@ void KgpgLibrary::shredProcessEnc(const KUrl::List &filestoshred)
 
 void KgpgLibrary::slotShredResult(KJob *job)
 {
-    emit systemMessage(QString::null);
+    emit systemMessage(QString());
     if (job && job->error())
     {
         static_cast<KIO::Job*>(job)->ui()->showErrorMessage();
-        emit systemMessage(QString::null, true);
+        emit systemMessage(QString(), true);
 
         KPassivePopup::message(i18n("KGpg Error"), i18n("Process halted, not all files were shredded."), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), m_panel, 0);
     }
