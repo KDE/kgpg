@@ -77,10 +77,10 @@ public slots:
     void showDroppedFile();
     void shredDroppedFile();
 
-    void busyMessage(QString mssge, bool reset = false);
+    void busyMessage(const QString &mssge, bool reset = false);
     void slotVerifyFile();
     void encryptDroppedFolder();
-    void startFolderEncode(QStringList selec, QStringList encryptOptions, bool, bool symetric);
+    void startFolderEncode(const QStringList &selec, const QStringList &encryptOptions, bool, bool symetric);
     void slotFolderFinished(KUrl, KgpgInterface*);
     void slotFolderFinishedError(QString errmsge, KgpgInterface*);
     void encryptFiles(KUrl::List urls);
@@ -114,8 +114,8 @@ private slots:
     void slotWizardChange();
     void slotSaveOptionsPath();
     void slotGenKey();
-    void importSignature(QString ID);
-    void slotSetClip(QString newtxt);
+    void importSignature(const QString &ID);
+    void slotSetClip(const QString &newtxt);
     void slotPassiveClip();
     void encryptClipboard(QStringList selec, QStringList encryptOptions, bool, bool symmetric);
     void help();
@@ -123,7 +123,7 @@ private slots:
     void firstRun();
     void readOptions();
     void droppedfile(KUrl::List);
-    void droppedtext(QString inputText, bool allowEncrypt = true);
+    void droppedtext(const QString &inputText, bool allowEncrypt = true);
     void unArchive();
     void slotSetCompression(int cp);
     void decryptNextFile();

@@ -684,7 +684,7 @@ public slots:
      */
     void KgpgDelSignature(QString keyID, QString signKeyID);
 
-    void KgpgRevokeKey(QString keyID, QString revokeUrl, int reason, QString description);
+    void KgpgRevokeKey(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description);
     void revokeover(KProcess *);
     void revokeprocess(KProcIO *p);
 

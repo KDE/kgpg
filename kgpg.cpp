@@ -275,7 +275,7 @@ void MyView::slotSetCompression(int cp)
     compressionScheme = cp;
 }
 
-void MyView::startFolderEncode(QStringList selec,QStringList encryptOptions,bool ,bool symetric)
+void MyView::startFolderEncode(const QStringList &selec, const QStringList &encryptOptions,bool ,bool symetric)
 {
     QString extension;
 
@@ -354,7 +354,7 @@ void MyView::slotFolderFinishedError(QString errmsge, KgpgInterface*)
     KMessageBox::sorry(0, errmsge);
 }
 
-void MyView::busyMessage(QString mssge, bool reset)
+void MyView::busyMessage(const QString &mssge, bool reset)
 {
     if (reset)
         openTasks = 0;
@@ -448,7 +448,7 @@ void MyView::slotVerifyFile()
     verifyFileProcess->KgpgVerifyFile(droppedUrl, KUrl(sigfile));
 }
 
-void MyView::importSignature(QString ID)
+void MyView::importSignature(const QString &ID)
 {
     KeyServer *kser = new KeyServer(0, false);
     kser->slotSetText(ID);
@@ -630,7 +630,7 @@ void MyView::droppedfile (KUrl::List url)
         }
 }
 
-void MyView::droppedtext (QString inputText, bool allowEncrypt)
+void MyView::droppedtext (const QString &inputText, bool allowEncrypt)
 {
     if (inputText.startsWith("-----BEGIN PGP MESSAGE"))
     {
@@ -905,7 +905,7 @@ void MyView::help()
     KToolInvocation::invokeHelp(0, "kgpg");
 }
 
-void MyView::encryptClipboard(QStringList selec,QStringList encryptOptions,bool,bool symmetric)
+void MyView::encryptClipboard(QStringList selec, QStringList encryptOptions,bool,bool symmetric)
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
     {
@@ -946,13 +946,13 @@ void MyView::slotPassiveClip()
     pop->move(iXpos, iYpos);
 }
 
-void MyView::slotSetClip(QString newtxt)
+void MyView::slotSetClip(const QString &newtxt)
 {
     if (newtxt.isEmpty())
         return;
 
     kDebug(2100) << "Encrypted is " << newtxt << endl;
-    kapp->clipboard()->setText(newtxt, clipboardMode); //,QClipboard::Clipboard);    QT 3.1 only
+    kapp->clipboard()->setText(newtxt, clipboardMode);
 }
 
 

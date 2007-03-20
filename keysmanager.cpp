@@ -478,7 +478,7 @@ void KeysManager::statusBarTimeout()
         m_statusbar->changeItem("", 0);
 }
 
-void KeysManager::changeMessage(QString msg, int nb, bool keep)
+void KeysManager::changeMessage(const QString &msg, const int nb, const bool keep)
 {
     m_statusbartimer->stop();
     if (m_statusbar)
@@ -1163,7 +1163,7 @@ void KeysManager::slotSetDefKey()
     slotSetDefaultKey(static_cast<K3ListViewItem*>(keysList2->currentItem()));
 }
 
-void KeysManager::slotSetDefaultKey(QString newID)
+void KeysManager::slotSetDefaultKey(const QString &newID)
 {
     K3ListViewItem *newdef = static_cast<K3ListViewItem*>(keysList2->findItem(newID, 6));
     if (newdef)
@@ -1289,7 +1289,7 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
         m_popupout->exec(pos);
 }
 
-void KeysManager::slotrevoke(QString keyID, QString revokeUrl, int reason, QString description)
+void KeysManager::slotrevoke(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description)
 {
     revKeyProcess = new KgpgInterface();
     revKeyProcess->KgpgRevokeKey(keyID, revokeUrl, reason, description);

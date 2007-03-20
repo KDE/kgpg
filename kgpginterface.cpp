@@ -3105,7 +3105,7 @@ void KgpgInterface::delsignover(KProcess *)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  key revocation
 
-void KgpgInterface::KgpgRevokeKey(QString keyID,QString revokeUrl,int reason,QString description)
+void KgpgInterface::KgpgRevokeKey(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description)
 {
         revokeReason=reason;
         revokeSuccess=false;

@@ -107,7 +107,7 @@ public slots:
     void findKey();
     void findFirstKey();
     void findNextKey();
-    void slotSetDefaultKey(QString newID);
+    void slotSetDefaultKey(const QString &newID);
     void showKeyManager();
     bool importRemoteKey(QString keyID);
     void showKeyServer();
@@ -123,7 +123,7 @@ private slots:
     void slotOpenEditor();
 
     void statusBarTimeout();
-    void changeMessage(QString msg, int nb, bool keep = false);
+    void changeMessage(const QString &msg, const int nb, const bool keep = false);
 
     void slotGenerateKeyProcess(KgpgInterface *);
     void slotGenerateKeyDone(int res, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint);
@@ -147,7 +147,7 @@ private slots:
     void slotAddPhoto();
     void slotSetPhotoSize(int size);
     void slotShowPhoto();
-    void slotrevoke(QString keyID, QString revokeUrl, int reason, QString description);
+    void slotrevoke(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description);
     void revokeWidget();
     void doFilePrint(QString url);
     void doPrint(QString txt);
