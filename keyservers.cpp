@@ -99,8 +99,8 @@ void KeyServer::slotReadKeys(KeyList list, KgpgInterface *interface)
         if (!dead)
         {
             QString line = key.name();
-            if (!key.comment().isEmpty()) line += " (" + key.comment() + ")";
-            if (!key.email().isEmpty())    line += " <" + key.email() + ">";
+            if (!key.comment().isEmpty()) line += " (" + key.comment() + ')';
+            if (!key.email().isEmpty())    line += " <" + key.email() + '>';
             if (line.length() > 35)
             {
                 line.remove(35, line.length());
@@ -193,7 +193,7 @@ void KeyServer::slotImportRead(KProcIO *p)
 {
     QString required;
     while (p->readln(required, true) != -1)
-        m_readmessage += required + "\n";
+        m_readmessage += required + '\n';
 }
 
 void KeyServer::slotImportResult(KProcess *p)

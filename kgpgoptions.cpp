@@ -60,7 +60,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
 
     if (!keyServer.isEmpty())
-        serverList.prepend(keyServer + " " + i18n("(Default)"));
+        serverList.prepend(keyServer + ' ' + i18n("(Default)"));
 
     defaultHomePath = QDir::homePath() + "/.gnupg/";
     if (QFile(defaultHomePath + "options").exists())
@@ -189,7 +189,7 @@ void kgpgOptions::slotDelKeyServer()
     m_page6->ServerBox->setSelected(0, true);
 
     if (defaultDeleted)
-        m_page6->ServerBox->changeItem(m_page6->ServerBox->currentText().section(" ", 0, 0) + " " + i18n("(Default)"), 0);
+        m_page6->ServerBox->changeItem(m_page6->ServerBox->currentText().section(" ", 0, 0) + ' ' + i18n("(Default)"), 0);
 }
 
 void kgpgOptions::slotEditKeyServer()
@@ -205,14 +205,14 @@ void kgpgOptions::slotEditKeyServer()
 	if (newServer.isEmpty())
 		return;
 	if (isDefault)
-		newServer = newServer + " " + i18n("(Default)");
+		newServer = newServer + ' ' + i18n("(Default)");
 	m_page6->ServerBox->changeItem(newServer, m_page6->ServerBox->currentItem());
 }
 
 void kgpgOptions::slotDefaultKeyServer()
 {
     uint curr = m_page6->ServerBox->currentItem();
-    m_page6->ServerBox->changeItem(m_page6->ServerBox->currentText().section(" ", 0, 0) + " " + i18n("(Default)"), curr);
+    m_page6->ServerBox->changeItem(m_page6->ServerBox->currentText().section(" ", 0, 0) + ' ' + i18n("(Default)"), curr);
 
     for (uint i = 0; i < m_page6->ServerBox->count(); i++)
         if (i != curr)
@@ -347,7 +347,7 @@ void kgpgOptions::updateSettings()
     }
 
     KgpgInterface::setGpgSetting("keyserver", keyServer, KGpgSettings::gpgConfigPath());
-    serverList.prepend(keyServer + " " + i18n("(Default)"));
+    serverList.prepend(keyServer + ' ' + i18n("(Default)"));
 
     currList = serverList.join(",");
     KConfigGroup gr = m_config->group("Servers");
@@ -406,17 +406,17 @@ void kgpgOptions::listKeys()
                 names += name;
                 ids += line.section(':', 4, 4);
                 if (line.section(':', 4, 4).right(8) == alwaysKeyID)
-                    alwaysKeyName = line.section(':', 4, 4).right(8) + ":" + name;
+                    alwaysKeyName = line.section(':', 4, 4).right(8) + ':' + name;
 
                 if (issec.contains(line.section(':', 4, 4).right(8), Qt::CaseInsensitive ) )
                 {
-                    m_page1->file_key->addItem(pixkeyDouble, line.section(':', 4, 4).right(8) + ":" + name);
-                    m_page1->always_key->addItem(pixkeyDouble, line.section(':', 4, 4).right(8) + ":" + name);
+                    m_page1->file_key->addItem(pixkeyDouble, line.section(':', 4, 4).right(8) + ':' + name);
+                    m_page1->always_key->addItem(pixkeyDouble, line.section(':', 4, 4).right(8) + ':' + name);
                 }
                 else
                 {
-                    m_page1->file_key->addItem(pixkeySingle, line.section(':', 4, 4).right(8) + ":" + name);
-                    m_page1->always_key->addItem(pixkeySingle, line.section(':', 4, 4).right(8) + ":" + name);
+                    m_page1->file_key->addItem(pixkeySingle, line.section(':', 4, 4).right(8) + ':' + name);
+                    m_page1->always_key->addItem(pixkeySingle, line.section(':', 4, 4).right(8) + ':' + name);
                 }
             }
         }
@@ -527,7 +527,7 @@ bool kgpgOptions::isDefault()
 
     QString currList;
     for (uint i = 0; i < m_page6->ServerBox->count(); i++)
-        currList += m_page6->ServerBox->text(i) + ",";
+        currList += m_page6->ServerBox->text(i) + ',';
     currList.truncate(currList.length() - 1);
 
     if (currList != defaultServerList)

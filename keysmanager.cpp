@@ -485,7 +485,7 @@ void KeysManager::changeMessage(QString msg, int nb, bool keep)
     {
         if ((nb == 0) && (!keep))
             m_statusbartimer->start(10000);
-        m_statusbar->changeItem(" " + msg + " ", nb);
+        m_statusbar->changeItem(' ' + msg + ' ', nb);
     }
 }
 
@@ -556,9 +556,9 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
         page->TLemail->setText("<b>" + email + "</b>");
 
         if (!email.isEmpty())
-            page->kURLRequester1->setUrl(QDir::homePath() + "/" + email.section("@", 0, 0) + ".revoke");
+            page->kURLRequester1->setUrl(QDir::homePath() + '/' + email.section("@", 0, 0) + ".revoke");
         else
-            page->kURLRequester1->setUrl(QDir::homePath() + "/" + email.section(" ", 0, 0) + ".revoke");
+            page->kURLRequester1->setUrl(QDir::homePath() + '/' + email.section(" ", 0, 0) + ".revoke");
 
         page->TLid->setText("<b>" + id + "</b>");
         page->LEfinger->setText(fingerprint);
@@ -688,7 +688,7 @@ void KeysManager::refreshKeyFromServer()
 			KMessageBox::sorry(this, i18n("You can only refresh primary keys. Please check your selection."));
 			return;
             } else
-                keyIDS += keysList.at(i)->text(6) + " ";
+                keyIDS += keysList.at(i)->text(6) + ' ';
         }
 
     kServer = new KeyServer(0, false);
@@ -886,7 +886,7 @@ void KeysManager::findFirstKey()
     K3ListViewItem *item = static_cast<K3ListViewItem*>(keysList2->firstChild());
     if (!item)
         return;
-    QString searchText = item->text(0) + " " + item->text(1) + " " + item->text(6);
+    QString searchText = item->text(0) + ' ' + item->text(1) + ' ' + item->text(6);
 
     KFind *m_find = new KFind(searchString, searchOptions, this);
     m_find->setData(searchText);
@@ -900,7 +900,7 @@ void KeysManager::findFirstKey()
         else
         {
             item = static_cast<K3ListViewItem*>(item->nextSibling());
-            searchText = item->text(0) + " " + item->text(1) + " " + item->text(6);
+            searchText = item->text(0) + ' ' + item->text(1) + ' ' + item->text(6);
             m_find->setData(searchText);
         }
     }
@@ -935,7 +935,7 @@ void KeysManager::findNextKey()
         item = static_cast<K3ListViewItem*>(item->parent());
     item=static_cast<K3ListViewItem*>(item->nextSibling());
 
-    QString searchText = item->text(0) + " " + item->text(1) + " " + item->text(6);
+    QString searchText = item->text(0) + ' ' + item->text(1) + ' ' + item->text(6);
     //kDebug(2100) << "Next string:" << searchText << endl;
     //kDebug(2100) << "Search:" << searchString << endl;
     //kDebug(2100) << "OPts:" << searchOptions << endl;
@@ -951,7 +951,7 @@ void KeysManager::findNextKey()
         else
         {
             item = static_cast<K3ListViewItem*>(item->nextSibling());
-            searchText = item->text(0) + " " + item->text(1) + " " + item->text(6);
+            searchText = item->text(0) + ' ' + item->text(1) + ' ' + item->text(6);
             m_find->setData(searchText);
             //kDebug(2100) << "Next string:" << searchText << endl;
         }
@@ -991,7 +991,7 @@ void KeysManager::addToKAB()
     if(!addresseeList.isEmpty())
         kaddressbook.call( "showContactEditor", addresseeList.first().uid());
     else
-        kaddressbook.call( "addEmail", QString (keysList2->currentItem()->text(0)) + " <" + email + ">");
+        kaddressbook.call( "addEmail", QString (keysList2->currentItem()->text(0)) + " <" + email + '>');
 }
 
 /*
@@ -1305,7 +1305,7 @@ void KeysManager::revokeWidget()
     KgpgRevokeWidget *keyRevoke = new KgpgRevokeWidget();
 
     keyRevoke->keyID->setText(keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ") " + i18n("ID: ") + keysList2->currentItem()->text(6));
-    keyRevoke->kURLRequester1->setUrl(QDir::homePath() + "/" + keysList2->currentItem()->text(1).section('@', 0, 0) + ".revoke");
+    keyRevoke->kURLRequester1->setUrl(QDir::homePath() + '/' + keysList2->currentItem()->text(1).section('@', 0, 0) + ".revoke");
     keyRevoke->kURLRequester1->setMode(KFile::File);
 
     keyRevoke->setMinimumSize(keyRevoke->sizeHint());
@@ -1360,7 +1360,7 @@ void KeysManager::slotexportsec()
     if (sname.isEmpty())
         sname = keysList2->currentItem()->text(0).section(' ', 0, 0);
     sname.append(".asc");
-    sname.prepend(QDir::homePath() + "/");
+    sname.prepend(QDir::homePath() + '/');
     KUrl url = KFileDialog::getSaveUrl(sname, "*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As"));
 
     if(!url.isEmpty())
@@ -1405,7 +1405,7 @@ void KeysManager::slotexport()
         sname = "keyring";
 
     sname.append(".asc");
-    sname.prepend(QDir::homePath() + "/");
+    sname.prepend(QDir::homePath() + '/');
 
     KDialog *dial = new KDialog(this );
     dial->setCaption(  i18n("Public Key Export") );
@@ -1785,7 +1785,7 @@ void KeysManager::signkey()
 
         opt = i18n("<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>%3</b>.<br><br>"
                    "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-                   "is not trying to intercept your communications</qt>", keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ")", keysList2->currentItem()->text(6), fingervalue);
+                   "is not trying to intercept your communications</qt>", keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ')', keysList2->currentItem()->text(6), fingervalue);
 
         if (KMessageBox::warningContinueCancel(this, opt) != KMessageBox::Continue)
             return;
@@ -1795,7 +1795,7 @@ void KeysManager::signkey()
         QStringList signKeyList;
         for (int i = 0; i < signList.count(); ++i)
             if (signList.at(i))
-                signKeyList += signList.at(i)->text(0) + " (" + signList.at(i)->text(1) + ")" + ": " + signList.at(i)->text(6);
+                signKeyList += signList.at(i)->text(0) + " (" + signList.at(i)->text(1) + "): " + signList.at(i)->text(6);
 
         if (KMessageBox::warningContinueCancelList(this, i18n("<qt>You are about to sign the following keys in one pass.<br><b>If you have not carefully checked all fingerprints, the security of your communications may be compromised.</b></qt>"), signKeyList) != KMessageBox::Continue)
             return;
@@ -1866,7 +1866,7 @@ void KeysManager::importallsignkey()
     while (current)
     {
         if (isSignatureUnknown(current))
-            missingKeysList += current->text(6) + " ";
+            missingKeysList += current->text(6) + ' ';
         current = static_cast<K3ListViewItem*>(current->nextSibling());
     }
 
@@ -1953,8 +1953,8 @@ void KeysManager::delsignkey()
     // open a key selection dialog (KgpgSelectSecretKey, see beginning of this file)
     parentKey = keysList2->currentItem()->parent()->text(6);
     signID = keysList2->currentItem()->text(6);
-    parentMail = keysList2->currentItem()->parent()->text(0) + " (" + keysList2->currentItem()->parent()->text(1) + ")";
-    signMail = keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ")";
+    parentMail = keysList2->currentItem()->parent()->text(0) + " (" + keysList2->currentItem()->parent()->text(1) + ')';
+    signMail = keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ')';
 
     if (parentKey == signID)
     {
@@ -2032,7 +2032,7 @@ void KeysManager::doPrint(QString txt)
 void KeysManager::deleteseckey()
 {
     // delete a key
-    QString res = keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ")";
+    QString res = keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ')';
     int result = KMessageBox::warningContinueCancel(this,
                         i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.", res),
                         i18n("Warning"),
@@ -2060,7 +2060,7 @@ void KeysManager::reloadSecretKeys()
     {
         QString lineRead = line;
         if (lineRead.startsWith("sec"))
-            keysList2->secretList += "0x" + lineRead.section(':', 4, 4).right(8) + ",";
+            keysList2->secretList += "0x" + lineRead.section(':', 4, 4).right(8) + ',';
         }
     pclose(fp);
     deletekey();
@@ -2100,7 +2100,7 @@ void KeysManager::confirmdeletekey()
                     exportList.at(i)->setSelected(false);
                 }
                 else
-                    keysToDelete += exportList.at(i)->text(0) + " (" + exportList.at(i)->text(1) + ")";
+                    keysToDelete += exportList.at(i)->text(0) + " (" + exportList.at(i)->text(1) + ')';
             }
 
         if (secretKeyInside)

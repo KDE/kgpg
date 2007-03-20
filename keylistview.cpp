@@ -690,7 +690,7 @@ void KeyListView::insertSigns(K3ListViewItem *item, const KeySignList &list)
 
         QString tmpname = sign.name();
         if (!sign.comment().isEmpty())
-            tmpname += " (" + sign.comment() + ")";
+            tmpname += " (" + sign.comment() + ')';
 
         QString tmpemail = sign.email();
         if (sign.local())

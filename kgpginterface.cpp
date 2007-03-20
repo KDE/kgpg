@@ -247,7 +247,7 @@ void KgpgInterface::delGpgGroup(const QString &name, const QString &configfile)
 
 QString KgpgInterface::getGpgSetting(QString name, const QString &configfile)
 {
-    name = name.simplified() + " ";
+    name = name.simplified() + ' ';
     QFile qfile(QFile::encodeName(configfile));
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
@@ -273,7 +273,7 @@ QString KgpgInterface::getGpgSetting(QString name, const QString &configfile)
 
 void KgpgInterface::setGpgSetting(const QString &name, const QString &value, const QString &url)
 {
-    QString temp = name + " ";
+    QString temp = name + ' ';
     QString texttowrite;
     bool found = false;
     QFile qfile(QFile::encodeName(url));
@@ -288,19 +288,19 @@ void KgpgInterface::setGpgSetting(const QString &name, const QString &value, con
             if (result.simplified().startsWith(temp))
             {
                 if (!value.isEmpty())
-                    result = temp + " " + value;
+                    result = temp + ' ' + value;
                 else
                     result.clear();
                 found = true;
             }
 
-            texttowrite += result + "\n";
+            texttowrite += result + '\n';
             result = t.readLine();
         }
 
         qfile.close();
         if ((!found) && (!value.isEmpty()))
-            texttowrite += "\n" + temp + " " + value;
+            texttowrite += '\n' + temp + ' ' + value;
 
         if (qfile.open(QIODevice::WriteOnly))
         {

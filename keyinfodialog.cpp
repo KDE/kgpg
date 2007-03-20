@@ -128,7 +128,7 @@ void KgpgKeyInfo::loadKey(const QString &Keyid)
     //m_prop->kCOwnerTrust->setCurrentIndex(KgpgKey::ownerTrustIndex(key.ownerTrust())); // FIXME
 
     if (!key.email().isEmpty())
-        m_prop->tLMail->setHtml("<qt><a href=mailto:" + key.email() + ">" + key.email() + "</a></qt>");
+        m_prop->tLMail->setHtml("<qt><a href=mailto:" + key.email() + '>' + key.email() + "</a></qt>");
     else
         m_prop->tLMail->setPlainText(i18n("none"));
 
