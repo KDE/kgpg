@@ -1432,7 +1432,7 @@ void KeysManager::slotexport()
             QString exportKeysList;
             for (int i = 0; i < exportList.count(); ++i)
                 if (exportList.at(i))
-                    exportKeysList.append(" " + exportList.at(i)->text(6).simplified());
+                    exportKeysList.append(' ' + exportList.at(i)->text(6).simplified());
 
                 expServer->slotExport(exportKeysList);
                 return;

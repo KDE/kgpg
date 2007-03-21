@@ -536,7 +536,7 @@ void KeyServer::transferKeyID()
 
             kid = kid.section("key", 1, 1);
             kid = kid.simplified();
-            keysToSearch.append(" " + kid.left(8));
+            keysToSearch.append(' ' + kid.left(8));
         }
     }
 

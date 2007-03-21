@@ -194,13 +194,13 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
                     found = true;
                 }
             }
-            texttowrite += result + "\n";
+            texttowrite += result + '\n';
             result = t.readLine();
         }
         qfile.close();
 
         if (!found)
-            texttowrite += "\n" + QString("group %1=%2").arg(name).arg(values.join(" "));
+            texttowrite += '\n' + QString("group %1=%2").arg(name).arg(values.join(" "));
 
         if (qfile.open(QIODevice::WriteOnly))
         {
@@ -231,7 +231,7 @@ void KgpgInterface::delGpgGroup(const QString &name, const QString &configfile)
                     result.clear();
             }
 
-            texttowrite += result + "\n";
+            texttowrite += result + '\n';
             result = t.readLine();
         }
 
@@ -354,7 +354,7 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool &enable, c
                 found = true;
             }
 
-            texttowrite += result+"\n";
+            texttowrite += result + '\n';
             result = t.readLine();
         }
         qfile.close();
@@ -1001,7 +1001,7 @@ void KgpgInterface::getKeysProcess(KProcIO *p)
             }
 
             if (!line.startsWith("gpg:"))
-                m_keystring += line + "\n";
+                m_keystring += line + '\n';
         }
     }
     p->ackRead();
@@ -1091,7 +1091,7 @@ void KgpgInterface::encryptTextProcess(KProcIO *p)
             }
             else
             if (!line.startsWith("[GNUPG:]"))
-                message += line + "\n";
+                message += line + '\n';
         }
     }
 
@@ -1343,7 +1343,7 @@ void KgpgInterface::signTextProcess(KProcIO *p)
             }
             else
             if (!line.startsWith("[GNUPG:]"))
-                message += line + "\n";
+                message += line + '\n';
         }
     }
 
@@ -1423,7 +1423,7 @@ void KgpgInterface::verifyTextProcess(KProcIO *p)
             }
 
             if (!line.startsWith("[GNUPG:]"))
-                message += line + "\n";
+                message += line + '\n';
             else
             {
                 line = line.section("]", 1, -1).simplified();
@@ -1563,7 +1563,7 @@ void KgpgInterface::fileReadEncProcess(KProcIO *p)
                 encok = true;
             else
             if (!line.startsWith("[GNUPG:]"))
-                message += line + "\n";
+                message += line + '\n';
         }
     }
 
@@ -1705,7 +1705,7 @@ void KgpgInterface::signKeyProcess(KProcIO *p)
                 }
             }
             else
-                log += line + "\n";
+                log += line + '\n';
         }
     }
 
@@ -1792,7 +1792,7 @@ void KgpgInterface::keyExpireProcess(KProcIO *p)
             }
 
             if (!line.startsWith("[GNUPG:]"))
-                log += line + "\n";
+                log += line + '\n';
             else
             if (m_success == 3)
             {
@@ -2410,7 +2410,7 @@ void KgpgInterface::importKeyProcess(KProcIO *p)
             }
 
             if (line.contains("http-proxy"))
-                message += line + "\n";
+                message += line + '\n';
         }
     }
     p->ackRead();
@@ -2706,7 +2706,7 @@ void KgpgInterface::generateKeyProcess(KProcIO *p)
             {
                 QString keyid;
                 if (!m_keyemail.isEmpty())
-                    keyid = m_keyname + " <" + m_keyemail + ">";
+                    keyid = m_keyname + " <" + m_keyemail + '>';
                 else
                     keyid = m_keyname;
                 QString passdlgmessage = i18n("<b>Enter passphrase for %1</b>:<br>Passphrase should include non alphanumeric characters and random sequences", keyid);
@@ -2952,7 +2952,7 @@ void KgpgInterface::readsignprocess(KProcIO *p)
                 p->closeWhenDone();
             }
         }
-        message += required + "\n";
+        message += required + '\n';
     }
 }
 
@@ -2980,7 +2980,7 @@ void KgpgInterface::readprocess(KProcIO *p)
     QString required;
     while (p->readln(required,true) != -1)
     {
-        message += required + "\n";
+        message += required + '\n';
         if (required.contains("GET_"))
         {
             p->writeStdin(QByteArray("quit"));
@@ -3140,7 +3140,7 @@ void KgpgInterface::revokeprocess(KProcIO *p)
 {
         QString required = QString();
         while (p->readln(required,true)!=-1) {
-                output+=required+"\n";
+                output += required + '\n';
 
                 if (required.contains("USERID_HINT",Qt::CaseInsensitive))
                     updateIDs(required);
