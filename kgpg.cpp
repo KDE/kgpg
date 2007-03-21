@@ -324,7 +324,7 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     if (compressionScheme == 1)
         arch = new KTar(kgpgfoldertmp->fileName(), "application/x-gzip");
     else
-        arch = new KTar(kgpgfoldertmp->fileName(), "application/x-bzip2");
+        arch = new KTar(kgpgfoldertmp->fileName(), "application/x-bzip");
 
     if (!arch->open(QIODevice::WriteOnly))
     {
