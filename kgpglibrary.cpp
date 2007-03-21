@@ -142,7 +142,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
 
 }
 
-void KgpgLibrary::processEnc(KUrl, KgpgInterface *i)
+void KgpgLibrary::processEnc(const KUrl &, KgpgInterface *i)
 {
     delete i;
     emit systemMessage(QString());

@@ -1332,14 +1332,14 @@ void KeysManager::revokeWidget()
     }
 }
 
-void KeysManager::slotImportRevoke(QString url)
+void KeysManager::slotImportRevoke(const QString &url)
 {
     KgpgInterface *importKeyProcess = new KgpgInterface();
     connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), keysList2, SLOT(refreshselfkey()));
     importKeyProcess->importKey(KUrl(url));
 }
 
-void KeysManager::slotImportRevokeTxt(QString revokeText)
+void KeysManager::slotImportRevokeTxt(const QString &revokeText)
 {
     KgpgInterface *importKeyProcess = new KgpgInterface();
     connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), keysList2, SLOT(refreshselfkey()));
@@ -1487,18 +1487,18 @@ void KeysManager::slotexport()
     delete dial;
 }
 
-void KeysManager::slotProcessExportMail(QString keys)
+void KeysManager::slotProcessExportMail(const QString &keys)
 {
     // start default Mail application
     KToolInvocation::invokeMailer(QString(), QString(), QString(), QString(), keys);
 }
 
-void KeysManager::slotProcessExportClip(QString keys)
+void KeysManager::slotProcessExportClip(const QString &keys)
 {
     kapp->clipboard()->setText(keys, m_clipboardmode);
 }
 
-void KeysManager::showKeyInfo(QString keyID)
+void KeysManager::showKeyInfo(const QString &keyID)
 {
     KgpgKeyInfo *opts = new KgpgKeyInfo(keyID, this);
     opts->show();
@@ -1662,13 +1662,13 @@ void KeysManager::createNewGroup()
     }
 }
 
-void KeysManager::groupInit(QStringList keysGroup)
+void KeysManager::groupInit(const QStringList &keysGroup)
 {
     kDebug(2100) << "preparing group" << endl;
     QStringList lostKeys;
     bool foundId;
 
-    for (QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
+    for (QStringList::ConstIterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
     {
         K3ListViewItem *item = static_cast<K3ListViewItem*>(gEdit->availableKeys->firstChild());
         foundId = false;
@@ -1884,7 +1884,7 @@ void KeysManager::preimportsignkey()
         importsignkey(keysList2->currentItem()->text(6));
 }
 
-bool KeysManager::importRemoteKey(QString keyID)
+bool KeysManager::importRemoteKey(const QString &keyID)
 {
     kServer = new KeyServer(0, false, true);
     kServer->slotSetText(keyID);
@@ -1915,7 +1915,7 @@ void KeysManager::dcopImportFinished()
     refreshkey();
 }
 
-void KeysManager::importsignkey(QString importKeyId)
+void KeysManager::importsignkey(const QString &importKeyId)
 {
     // sign a key
     kServer = new KeyServer(0, false);
@@ -2004,7 +2004,7 @@ void KeysManager::slotedit()
     keysList2->refreshcurrentkey(static_cast<K3ListViewItem*>(keysList2->currentItem()));
 }
 
-void KeysManager::doFilePrint(QString url)
+void KeysManager::doFilePrint(const QString &url)
 {
     QFile qfile(url);
     if (qfile.open(QIODevice::ReadOnly))
@@ -2016,7 +2016,7 @@ void KeysManager::doFilePrint(QString url)
         KMessageBox::sorry(this, i18n("<qt>Cannot open file <b>%1</b> for printing...</qt>", url));
 }
 
-void KeysManager::doPrint(QString txt)
+void KeysManager::doPrint(const QString &txt)
 {
     KPrinter prt;
     //kDebug(2100) << "Printing..." << endl;

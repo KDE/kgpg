@@ -54,7 +54,7 @@ public slots:
 private slots:
     void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &shred, const bool &symetric);
     void fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
-    void processEnc(KUrl, KgpgInterface*);
+    void processEnc(const KUrl &, KgpgInterface*);
     void processEncError(const QString &mssge, KgpgInterface*);
     void processDecOver();
     void processDecError(const QString &mssge);

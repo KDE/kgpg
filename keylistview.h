@@ -45,8 +45,8 @@ public:
     };
     Q_DECLARE_FLAGS(ItemType, ItemTypeFlag)
 
-    KeyListViewItem(K3ListView *parent = 0, QString name = QString(), QString email = QString(), QString trust = QString(), QString expiration = QString(), QString size = QString(), QString creation = QString(), QString id = QString() , bool isdefault = false, bool isexpired = false, ItemType type = Public);
-    KeyListViewItem(K3ListViewItem *parent = 0, QString name = QString(), QString email = QString(), QString trust = QString(), QString expiration = QString(), QString size = QString(), QString creation = QString(), QString id = QString(), bool isdefault = false, bool isexpired = false, ItemType type = Public);
+    KeyListViewItem(K3ListView *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString() , const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
+    KeyListViewItem(K3ListViewItem *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString(), const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
 
     void setItemType(const ItemType &type);
     ItemType itemType() const;

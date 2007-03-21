@@ -29,7 +29,7 @@
 #include "convert.h"
 #include "images.h"
 
-KeyListViewItem::KeyListViewItem(K3ListView *parent, QString name, QString email, QString trust, QString expiration, QString size, QString creation, QString id, bool isdefault, bool isexpired, ItemType type)
+KeyListViewItem::KeyListViewItem(K3ListView *parent, const QString &name, const QString &email, const QString &trust, const QString &expiration, const QString &size, const QString &creation, const QString &id, const bool isdefault, bool isexpired, ItemType type)
                : K3ListViewItem(parent)
 {
     m_def = isdefault;
@@ -44,7 +44,7 @@ KeyListViewItem::KeyListViewItem(K3ListView *parent, QString name, QString email
     setText(6, id);
 }
 
-KeyListViewItem::KeyListViewItem(K3ListViewItem *parent, QString name, QString email, QString trust, QString expiration, QString size, QString creation, QString id, bool isdefault, bool isexpired, ItemType type)
+KeyListViewItem::KeyListViewItem(K3ListViewItem *parent, const QString &name, const QString &email, const QString &trust, const QString &expiration, const QString &size, const QString &creation, const QString &id, const bool isdefault, const bool isexpired, ItemType type)
                : K3ListViewItem(parent)
 {
     m_def = isdefault;
