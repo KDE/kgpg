@@ -101,9 +101,9 @@ private slots:
     void updateWidgetsDefault();
     void updateSettings();
     void listKeys();
-    void slotInstallDecrypt(QString mimetype);
-    void slotInstallSign(QString mimetype);
-    void slotRemoveMenu(QString menu);
+    void slotInstallDecrypt(const QString &mimetype);
+    void slotInstallSign(const QString &mimetype);
+    void slotRemoveMenu(const QString &menu);
 
 private:
     bool hasChanged();

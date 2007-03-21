@@ -2339,7 +2339,7 @@ void KgpgInterface::deletePhotoFin(KProcess *p)
     emit deletePhotoFinished(m_success, this);
 }
 
-void KgpgInterface::importKey(QString keystr)
+void KgpgInterface::importKey(const QString &keystr)
 {
     m_partialline.clear();
     m_ispartial = false;
@@ -2359,7 +2359,7 @@ void KgpgInterface::importKey(QString keystr)
     process->closeWhenDone();
 }
 
-void KgpgInterface::importKey(KUrl url)
+void KgpgInterface::importKey(const KUrl &url)
 {
     m_partialline.clear();
     m_ispartial = false;
@@ -2744,7 +2744,7 @@ void KgpgInterface::generateKeyFin(KProcess *p)
     emit generateKeyFinished(m_success, this, m_keyname, m_keyemail, m_newkeyid, m_newfingerprint);
 }
 
-void KgpgInterface::decryptFile(const KUrl &src, const KUrl &dest, QStringList Options)
+void KgpgInterface::decryptFile(const KUrl &src, const KUrl &dest, const QStringList &Options)
 {
     m_partialline.clear();
     m_ispartial = false;
@@ -2757,7 +2757,7 @@ void KgpgInterface::decryptFile(const KUrl &src, const KUrl &dest, QStringList O
     process->setParent(this);
     *process << "gpg" << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0" << "--no-verbose" << "--no-greeting";
 
-    for (QStringList::Iterator it = Options.begin(); it != Options.end(); ++it)
+    for (QStringList::ConstIterator it = Options.begin(); it != Options.end(); ++it)
         *process << *it;
 
     if (!dest.fileName().isEmpty())
@@ -2850,7 +2850,7 @@ void KgpgInterface::decryptFileFin(KProcess *p)
 }
 
 // decrypt file to text
-void KgpgInterface::KgpgDecryptFileToText(KUrl srcUrl, QStringList Options)
+void KgpgInterface::KgpgDecryptFileToText(KUrl srcUrl, const QStringList &Options)
 {
     message.clear();
     userIDs.clear();
@@ -2863,7 +2863,7 @@ void KgpgInterface::KgpgDecryptFileToText(KUrl srcUrl, QStringList Options)
     KProcIO *process = new KProcIO();
     *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--command-fd=0" << "--status-fd=1" << "--no-batch" << "-o" << "-";
 
-    for (QStringList::Iterator it = Options.begin(); it != Options.end(); ++it)
+    for (QStringList::ConstIterator it = Options.begin(); it != Options.end(); ++it)
         if (!QFile::encodeName(*it).isEmpty())
             *process << QFile::encodeName(*it);
 
@@ -2876,7 +2876,7 @@ void KgpgInterface::KgpgDecryptFileToText(KUrl srcUrl, QStringList Options)
 }
 
 // signatures
-void KgpgInterface::KgpgSignFile(QString keyID, KUrl srcUrl, QStringList Options)
+void KgpgInterface::KgpgSignFile(QString keyID, const KUrl &srcUrl, const QStringList &Options)
 {
     message.clear();
     step = 3;
@@ -2886,7 +2886,7 @@ void KgpgInterface::KgpgSignFile(QString keyID, KUrl srcUrl, QStringList Options
     KProcIO *process = new KProcIO();
     *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0" << "-u" << keyID.toLocal8Bit();
 
-    for (QStringList::Iterator it = Options.begin(); it != Options.end(); ++it)
+    for (QStringList::ConstIterator it = Options.begin(); it != Options.end(); ++it)
         if (!QFile::encodeName(*it).isEmpty())
             *process << QFile::encodeName(*it);
 

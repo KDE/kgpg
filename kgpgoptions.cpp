@@ -432,7 +432,7 @@ void kgpgOptions::listKeys()
     }
 }
 
-void kgpgOptions::slotInstallDecrypt(QString mimetype)
+void kgpgOptions::slotInstallDecrypt(const QString &mimetype)
 {
     QString path = KStandardDirs::locateLocal("data", "konqueror/servicemenus/decryptfile.desktop");
     KDesktopFile configl2(path);
@@ -450,7 +450,7 @@ void kgpgOptions::slotInstallDecrypt(QString mimetype)
     }
 }
 
-void kgpgOptions::slotInstallSign(QString mimetype)
+void kgpgOptions::slotInstallSign(const QString &mimetype)
 {
     QString path = KStandardDirs::locateLocal("data", "konqueror/servicemenus/signfile.desktop");
     KDesktopFile configl2(path);
@@ -468,7 +468,7 @@ void kgpgOptions::slotInstallSign(QString mimetype)
     }
 }
 
-void kgpgOptions::slotRemoveMenu(QString menu)
+void kgpgOptions::slotRemoveMenu(const QString &menu)
 {
     QString path = KStandardDirs::locateLocal("data", "konqueror/servicemenus/" + menu);
     QFile qfile(path);

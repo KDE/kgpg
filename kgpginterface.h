@@ -499,13 +499,13 @@ public slots:
      * Import key function
      * @param url Kurl the url of the key file. Allows public & secret key import.
      */
-    void importKey(KUrl url);
+    void importKey(const KUrl &url);
 
     /**
      * Import key function
      * @param keystr QString containing th key. Allows public & secret key import.
      */
-    void importKey(QString keystr);
+    void importKey(const QString &keystr);
 
 private slots:
     /**
@@ -624,7 +624,7 @@ public slots:
      * @param dest Kurl for the decrypted file.
      * @param Options String List with the wanted gpg options
      */
-    void decryptFile(const KUrl &src, const KUrl &dest, QStringList Options = QStringList());
+    void decryptFile(const KUrl &src, const KUrl &dest, const QStringList &Options = QStringList());
 
 private slots:
     void decryptFileProcess(KProcIO *p);
@@ -661,7 +661,7 @@ public slots:
      * @param srcUrl Kurl of the file to decrypt.
      * @param Options StringList with the wanted gpg options.
      */
-    void KgpgDecryptFileToText(KUrl srcUrl, QStringList Options);
+    void KgpgDecryptFileToText(KUrl srcUrl, const QStringList &Options);
 
     /**
      * Sign file function
@@ -669,7 +669,7 @@ public slots:
      * @param srcUrl Kurl of the file to sign.
      * @param Options String with the wanted gpg options. ex: "--armor"
      */
-    void KgpgSignFile(QString keyID, KUrl srcUrl, QStringList Options = QStringList());
+    void KgpgSignFile(QString keyID, const KUrl &srcUrl, const QStringList &Options = QStringList());
 
     /**Verify file function
      * @param sigUrl Kurl of the signature file.
