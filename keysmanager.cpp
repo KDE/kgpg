@@ -420,7 +420,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(keysList2, SIGNAL(statusMessage(QString, int, bool)), this, SLOT(changeMessage(QString, int, bool)));
     connect(m_statusbartimer, SIGNAL(timeout()), this, SLOT(statusBarTimeout()));
 
-    s_kgpgEditor = new KgpgEditor(parent, "editor", Qt::WType_Dialog, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut(), true);
+    s_kgpgEditor = new KgpgEditor(parent, Qt::WType_Dialog, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut(), true);
     connect(s_kgpgEditor, SIGNAL(refreshImported(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
     connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
 }
@@ -462,7 +462,7 @@ void KeysManager::showKeyManager()
 
 void KeysManager::slotOpenEditor()
 {
-    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, "editor", Qt::Window, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut());
+    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, Qt::Window, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut());
     kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));

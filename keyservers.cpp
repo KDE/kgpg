@@ -155,7 +155,7 @@ void KeyServer::slotImport()
 
 
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-    m_importpop = new QDialog(this, 0, true, Qt::WDestructiveClose);
+    m_importpop = new QDialog(this, Qt::WShowModal | Qt::WDestructiveClose | Qt::Dialog);
 
     QLabel *tex = new QLabel(m_importpop);
     tex->setText(i18n("<b>Connecting to the server...</b>"));
@@ -319,7 +319,7 @@ void KeyServer::slotExport(const QString &keyId)
     m_exportproc->start(KProcess::NotifyOnExit, true);
 
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-    m_importpop = new QDialog(this, 0, true, Qt::WDestructiveClose);
+    m_importpop = new QDialog(this, Qt::WShowModal | Qt::WDestructiveClose | Qt::Dialog);
     QVBoxLayout *vbox = new QVBoxLayout(m_importpop);
     vbox->setSpacing(3);
 

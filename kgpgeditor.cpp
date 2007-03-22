@@ -46,8 +46,8 @@
 #include "kgpgview.h"
 #include "kgpg.h"
 
-KgpgEditor::KgpgEditor(QWidget *parent, const char *name, Qt::WFlags f, KShortcut gohome, bool mainwindow)
-          : KMainWindow(parent, name, f)
+KgpgEditor::KgpgEditor(QWidget *parent, Qt::WFlags f, KShortcut gohome, bool mainwindow)
+          : KMainWindow(parent, f)
 {
     m_ismainwindow = mainwindow;
     m_textencoding = QString();
@@ -57,6 +57,7 @@ KgpgEditor::KgpgEditor(QWidget *parent, const char *name, Qt::WFlags f, KShortcu
     initActions();
     initView();
 
+    setObjectName("editor");
     slotSetFont(KGpgSettings::font());
     setupGUI((ToolBar | Keys | StatusBar | Save | Create), "kgpg.rc");
     setAutoSaveSettings("Editor", true);

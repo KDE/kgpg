@@ -184,7 +184,7 @@ void MyView::clipSign(bool openEditor)
     QString clippie = kapp->clipboard()->text(clipboardMode).simplified();
     if (!clippie.isEmpty())
     {
-        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, "editor", Qt::WDestructiveClose, goDefaultKey);
+        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, Qt::WDestructiveClose, goDefaultKey);
         connect(this,SIGNAL(setFont(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
         connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
 
@@ -570,7 +570,7 @@ void MyView::showDroppedFile()
 {
     kDebug(2100) << "------Show dropped file" << endl;
 
-    KgpgEditor *kgpgtxtedit = new KgpgEditor(0, "editor", Qt::WDestructiveClose, goDefaultKey);
+    KgpgEditor *kgpgtxtedit = new KgpgEditor(0, Qt::WDestructiveClose, goDefaultKey);
     kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
 
     connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
@@ -634,7 +634,7 @@ void MyView::droppedtext (const QString &inputText, bool allowEncrypt)
 {
     if (inputText.startsWith("-----BEGIN PGP MESSAGE"))
     {
-        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, "editor", Qt::WDestructiveClose, goDefaultKey);
+        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, Qt::WDestructiveClose, goDefaultKey);
         connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
         connect(this, SIGNAL(setFont(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
         kgpgtxtedit->view->editor->setPlainText(inputText);
