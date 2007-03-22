@@ -2850,7 +2850,7 @@ void KgpgInterface::decryptFileFin(KProcess *p)
 }
 
 // decrypt file to text
-void KgpgInterface::KgpgDecryptFileToText(KUrl srcUrl, const QStringList &Options)
+void KgpgInterface::KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList &Options)
 {
     message.clear();
     userIDs.clear();
@@ -2876,15 +2876,13 @@ void KgpgInterface::KgpgDecryptFileToText(KUrl srcUrl, const QStringList &Option
 }
 
 // signatures
-void KgpgInterface::KgpgSignFile(QString keyID, const KUrl &srcUrl, const QStringList &Options)
+void KgpgInterface::KgpgSignFile(const QString &keyID, const KUrl &srcUrl, const QStringList &Options)
 {
     message.clear();
     step = 3;
 
-    keyID = keyID.simplified();
-
     KProcIO *process = new KProcIO();
-    *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0" << "-u" << keyID.toLocal8Bit();
+    *process << "gpg" << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0" << "-u" << keyID.simplified().toLocal8Bit();
 
     for (QStringList::ConstIterator it = Options.begin(); it != Options.end(); ++it)
         if (!QFile::encodeName(*it).isEmpty())
@@ -2956,7 +2954,7 @@ void KgpgInterface::readsignprocess(KProcIO *p)
     }
 }
 
-void KgpgInterface::KgpgVerifyFile(KUrl sigUrl, KUrl srcUrl)
+void KgpgInterface::KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl)
 {
     message.clear();
     signID.clear();
@@ -3029,7 +3027,7 @@ void KgpgInterface::verifyfin(KProcess *)
 }
 
 // delete signature
-void KgpgInterface::KgpgDelSignature(QString keyID,QString signKeyID)
+void KgpgInterface::KgpgDelSignature(const QString &keyID, QString signKeyID)
 {
     if (checkUID(keyID) > 0)
     {

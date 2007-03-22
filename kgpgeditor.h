@@ -40,7 +40,7 @@ public:
     KgpgEditor(QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0, KShortcut gohome = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), bool mainwindow = false);
     ~KgpgEditor();
 
-    void openDocumentFile(const KUrl& url, QString encoding = QString());
+    void openDocumentFile(const KUrl& url, const QString &encoding = QString());
     void openEncryptedDocumentFile(const KUrl& url);
 
     KgpgView *view;
@@ -90,12 +90,12 @@ private slots:
 
     // Signing menu
     void slotPreSignFile();
-    void slotSignFile(KUrl url);
+    void slotSignFile(const KUrl &url);
     void slotSignFileFin(KgpgInterface *interface);
     void slotPreVerifyFile();
-    void slotVerifyFile(KUrl url);
+    void slotVerifyFile(const KUrl &url);
     void slotCheckMd5();
-    void importSignatureKey(QString id);
+    void importSignatureKey(const QString &id);
 
     // Options menu
     void slotOptions();

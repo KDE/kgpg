@@ -81,8 +81,8 @@ public slots:
     void slotVerifyFile();
     void encryptDroppedFolder();
     void startFolderEncode(const QStringList &selec, const QStringList &encryptOptions, bool, bool symetric);
-    void slotFolderFinished(KUrl, KgpgInterface*);
-    void slotFolderFinishedError(QString errmsge, KgpgInterface*);
+    void slotFolderFinished(const KUrl &, const KgpgInterface*);
+    void slotFolderFinishedError(const QString &errmsge, const KgpgInterface*);
     void encryptFiles(KUrl::List urls);
     void installShred();
 
@@ -117,7 +117,7 @@ private slots:
     void importSignature(const QString &ID);
     void slotSetClip(const QString &newtxt);
     void slotPassiveClip();
-    void encryptClipboard(QStringList selec, QStringList encryptOptions, bool, bool symmetric);
+    void encryptClipboard(QStringList selec, QStringList encryptOptions, const bool, const bool symmetric);
     void help();
     void about();
     void firstRun();
@@ -172,7 +172,7 @@ private:
 
 private slots:
     void slotHandleQuit();
-    void wizardOver(QString defaultKeyId);
+    void wizardOver(const QString &defaultKeyId);
 };
 
 #endif // KGPGAPPLET_H

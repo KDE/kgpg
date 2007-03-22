@@ -73,7 +73,7 @@ KgpgEditor::~KgpgEditor()
     delete view;
 }
 
-void KgpgEditor::openDocumentFile(const KUrl& url, QString encoding)
+void KgpgEditor::openDocumentFile(const KUrl& url, const QString &encoding)
 {
     QString tempopenfile;
     if(KIO::NetAccess::download(url, tempopenfile, this))
@@ -484,7 +484,7 @@ void KgpgEditor::slotPreSignFile()
         slotSignFile(url);
 }
 
-void KgpgEditor::slotSignFile(KUrl url)
+void KgpgEditor::slotSignFile(const KUrl &url)
 {
     // create a detached signature for a chosen file
     if (!url.isEmpty())
@@ -524,7 +524,7 @@ void KgpgEditor::slotPreVerifyFile()
     slotVerifyFile(url);
 }
 
-void KgpgEditor::slotVerifyFile(KUrl url)
+void KgpgEditor::slotVerifyFile(const KUrl &url)
 {
     if (!url.isEmpty())
     {
@@ -562,7 +562,7 @@ void KgpgEditor::slotCheckMd5()
     }
 }
 
-void KgpgEditor::importSignatureKey(QString id)
+void KgpgEditor::importSignatureKey(const QString &id)
 {
     KeyServer *kser = new KeyServer(0, false);
     kser->slotSetText(id);

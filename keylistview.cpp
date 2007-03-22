@@ -387,7 +387,7 @@ void KeyListView::refreshAll()
     kDebug(2100) << "Refresh Finished" << endl;
 }
 
-bool KeyListView::refreshKeys(QStringList ids)
+bool KeyListView::refreshKeys(const QStringList &ids)
 {
     KgpgInterface *interface = new KgpgInterface();
     KeyList secretlist = interface->readSecretKeys();
@@ -497,7 +497,7 @@ void KeyListView::slotReloadOrphaned()
     emit statusMessage(i18n("Ready"), 0);
 }
 
-void KeyListView::insertOrphans(QStringList ids)
+void KeyListView::insertOrphans(const QStringList &ids)
 {
     KgpgInterface *interface = new KgpgInterface();
     KeyList keys = interface->readSecretKeys(ids);

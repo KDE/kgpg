@@ -271,7 +271,7 @@ void KgpgLibrary::processPopup2(const QString &fileName)
     m_pop->move(iXpos,iYpos);*/
 }
 
-void KgpgLibrary::addPhoto(QString keyid)
+void KgpgLibrary::addPhoto(const QString &keyid)
 {
     QString mess = i18n("The image must be a JPEG file. Remember that the image is stored within your public key."
                         "If you use a very large picture, your key will become very large as well! Keeping the image "

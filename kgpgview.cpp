@@ -340,7 +340,7 @@ void KgpgView::slotSignResult(const QString &signResult, KgpgInterface*)
     }
 }
 
-void KgpgView::encodeTxt(QStringList selec, QStringList encryptoptions, bool, bool symmetric)
+void KgpgView::encodeTxt(QStringList selec, QStringList encryptoptions, const bool, const bool symmetric)
 {
     // encode from editor
     if (KGpgSettings::pgpCompatibility())

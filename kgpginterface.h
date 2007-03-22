@@ -661,7 +661,7 @@ public slots:
      * @param srcUrl Kurl of the file to decrypt.
      * @param Options StringList with the wanted gpg options.
      */
-    void KgpgDecryptFileToText(KUrl srcUrl, const QStringList &Options);
+    void KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList &Options);
 
     /**
      * Sign file function
@@ -669,20 +669,20 @@ public slots:
      * @param srcUrl Kurl of the file to sign.
      * @param Options String with the wanted gpg options. ex: "--armor"
      */
-    void KgpgSignFile(QString keyID, const KUrl &srcUrl, const QStringList &Options = QStringList());
+    void KgpgSignFile(const QString &keyID, const KUrl &srcUrl, const QStringList &Options = QStringList());
 
     /**Verify file function
      * @param sigUrl Kurl of the signature file.
      * @param srcUrl Kurl of the file to be verified. If empty, gpg will try to find it using the signature file name (by removing the .sig extensio)
      */
-    void KgpgVerifyFile(KUrl sigUrl, KUrl srcUrl = KUrl()) ;
+    void KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl = KUrl()) ;
 
     /**
      * Key signature deletion function
      * @param keyID QString the ID of the key
      * @param signKeyID QString the ID of the signature key
      */
-    void KgpgDelSignature(QString keyID, QString signKeyID);
+    void KgpgDelSignature(const QString &keyID, QString signKeyID);
 
     void KgpgRevokeKey(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description);
     void revokeover(KProcess *);

@@ -104,12 +104,12 @@ private slots:
     void slotReloadKeys(const QStringList &keyids);
     void refreshAll();
 
-    bool refreshKeys(QStringList ids = QStringList());
+    bool refreshKeys(const QStringList &ids = QStringList());
     void refreshcurrentkey(K3ListViewItem *current);
     void refreshselfkey();
 
     void slotReloadOrphaned();
-    void insertOrphans(QStringList ids);
+    void insertOrphans(const QStringList &ids);
 
     void refreshGroups();
     void refreshTrust(int color, QColor newColor);

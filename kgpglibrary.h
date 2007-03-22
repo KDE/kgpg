@@ -49,7 +49,7 @@ public slots:
     void slotFileDec(const KUrl &srcUrl, const KUrl &destUrl, const QStringList &customDecryptOption = QStringList());
     void shredProcessEnc(const KUrl::List &filesToShred);
 
-    void addPhoto(QString keyid);
+    void addPhoto(const QString &keyid);
 
 private slots:
     void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &shred, const bool &symetric);

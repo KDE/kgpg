@@ -341,13 +341,13 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric);
 }
 
-void MyView::slotFolderFinished(KUrl, KgpgInterface*)
+void MyView::slotFolderFinished(const KUrl &, const KgpgInterface*)
 {
     delete pop;
     delete kgpgfoldertmp;
 }
 
-void MyView::slotFolderFinishedError(QString errmsge, KgpgInterface*)
+void MyView::slotFolderFinishedError(const QString &errmsge, const KgpgInterface*)
 {
     delete pop;
     delete kgpgfoldertmp;
@@ -905,7 +905,7 @@ void MyView::help()
     KToolInvocation::invokeHelp(0, "kgpg");
 }
 
-void MyView::encryptClipboard(QStringList selec, QStringList encryptOptions,bool,bool symmetric)
+void MyView::encryptClipboard(QStringList selec, QStringList encryptOptions, const bool, const bool symmetric)
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
     {
@@ -1058,7 +1058,7 @@ void KgpgAppletApp::slotHandleQuit()
     quit();
 }
 
-void KgpgAppletApp::wizardOver(QString defaultKeyId)
+void KgpgAppletApp::wizardOver(const QString &defaultKeyId)
 {
     if (defaultKeyId.length() == 10)
         s_keyManager->slotSetDefaultKey(defaultKeyId);

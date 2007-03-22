@@ -87,7 +87,7 @@ private slots:
     void slotVerifyResult(const QString &mssge, const QString &log, KgpgInterface *interface);
     void slotSignResult(const QString &signResult, KgpgInterface *interface);
 
-    void encodeTxt(QStringList selec, QStringList encryptoptions, bool, bool symmetric);
+    void encodeTxt(QStringList selec, QStringList encryptoptions, const bool, const bool symmetric);
     void updateTxt(const QString &newtxt, KgpgInterface *interface);
 
 private:
