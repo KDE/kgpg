@@ -2061,21 +2061,23 @@ void KeysManager::reloadSecretKeys()
 
 void KeysManager::confirmdeletekey()
 {
-#warning FIXME this will never work: text(6) is never empty and doesn't start with "0x" anymore
-    if (keysList2->currentItem()->depth() != 0)
+    KeyListViewItem *ki = static_cast<KeyListViewItem *>(keysList2->currentItem());
+
+    if (ki->depth() != 0)
     {
-        if ((keysList2->currentItem()->depth() == 1) && (keysList2->currentItem()->text(4) == "-") && (keysList2->currentItem()->text(6).startsWith("0x")))
+	// this is only a public key
+        if ((ki->depth() == 1) && !(ki->itemType() & KeyListViewItem::Secret) && (ki->itemType() & KeyListViewItem::Public))
             delsignkey();
         return;
     }
 
-    if (keysList2->currentItem()->text(6).isEmpty())
+    if (ki->itemType() & KeyListViewItem::Group)
     {
         deleteGroup();
         return;
     }
 
-    if ((keysList2->secretList.contains(keysList2->currentItem()->text(6)) || keysList2->orphanList.contains(keysList2->currentItem()->text(6))) && (keysList2->selectedItems().count() == 1))
+    if ((ki->itemType() & KeyListViewItem::Secret) && (keysList2->selectedItems().count() == 1))
         deleteseckey();
     else
     {
@@ -2083,18 +2085,21 @@ void KeysManager::confirmdeletekey()
         QString secList;
         QList<Q3ListViewItem*> exportList = keysList2->selectedItems();
         bool secretKeyInside = false;
-        for (int i = 0; i < exportList.count(); ++i)
-            if (exportList.at(i))
+        for (int i = 0; i < exportList.count(); ++i) {
+	    KeyListViewItem *ki = static_cast<KeyListViewItem *>(exportList.at(i));
+
+            if (ki)
             {
-                if (keysList2->secretList.contains(exportList.at(i)->text(6)))
+                if (ki->itemType() & KeyListViewItem::Secret)
                 {
                     secretKeyInside = true;
-                    secList += exportList.at(i)->text(0) + " (" + exportList.at(i)->text(1) + ")<br>";
-                    exportList.at(i)->setSelected(false);
+                    secList += ki->text(0) + " (" + ki->text(1) + ")<br>";
+                    ki->setSelected(false);
                 }
                 else
-                    keysToDelete += exportList.at(i)->text(0) + " (" + exportList.at(i)->text(1) + ')';
+                    keysToDelete += ki->text(0) + " (" + ki->text(1) + ')';
             }
+	}
 
         if (secretKeyInside)
         {
