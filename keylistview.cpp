@@ -287,10 +287,11 @@ void  KeyListView::contentsDropEvent(QDropEvent *o)
 
 void KeyListView::startDrag()
 {
-    QString keyid = currentItem()->text(6);
-    // FIXME: keys don't have "0x" anymore
-    if (!keyid.startsWith("0x"))
-        return;
+    KeyListViewItem *ki = static_cast<KeyListViewItem *>(currentItem());
+    QString keyid = ki->text(6);
+
+	if (!(ki->itemType() & KeyListViewItem::Public))
+		return;
 
     KgpgInterface *interface = new KgpgInterface();
     QString keytxt = interface->getKeys(true, true, QStringList(keyid));
