@@ -1195,19 +1195,12 @@ void KeysManager::slotSetDefaultKey(K3ListViewItem *newdef)
     keysList2->ensureItemVisible(keysList2->currentItem());
 }
 
-bool KeysManager::isSignature(Q3ListViewItem *item)
+bool KeysManager::isSignature(KeyListViewItem *item)
 {
-	// signatures don't have a size
-	if (item->text(4) != "-")
-		return false;
-	// they do have an id
-	if (item->text(6) == "-")
-		return false;
-	// and they also have a date
-	return (item->text(5) != "-");
+	return (item->itemType() & KeyListViewItem::Sign);
 }
 
-bool KeysManager::isSignatureUnknown(Q3ListViewItem *item)
+bool KeysManager::isSignatureUnknown(KeyListViewItem *item)
 {
 	Q_ASSERT(isSignature(item));
 
@@ -1247,12 +1240,12 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
 
         if (sel->depth() != 0)
         {
-            if (isSignature(sel))
+            if (isSignature(static_cast<KeyListViewItem *>(sel)))
             {
 		// isn't this always true?
                 if ((sel->text(2) == "-") || (sel->text(2) == i18n("Revoked")))
                 {
-                    if (isSignatureUnknown(sel))
+                    if (isSignatureUnknown(static_cast<KeyListViewItem *>(sel)))
                         importSignatureKey->setEnabled(true);
                     else
                         importSignatureKey->setEnabled(false);
@@ -1865,7 +1858,7 @@ void KeysManager::importallsignkey()
     K3ListViewItem *current = static_cast<K3ListViewItem*>(keysList2->currentItem()->firstChild());
     while (current)
     {
-        if (isSignatureUnknown(current))
+        if (isSignatureUnknown(static_cast<KeyListViewItem *>(current)))
             missingKeysList += current->text(6) + ' ';
         current = static_cast<K3ListViewItem*>(current->nextSibling());
     }
