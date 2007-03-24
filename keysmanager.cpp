@@ -1210,7 +1210,7 @@ bool KeysManager::isSignatureUnknown(KeyListViewItem *item)
 
 void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
 {
-    K3ListViewItem *sel = static_cast<K3ListViewItem*>(sel2);
+    KeyListViewItem *sel = static_cast<KeyListViewItem*>(sel2);
 
     // popup a different menu depending on which key is selected
     if (sel != 0)
@@ -1240,7 +1240,7 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
 
         if (sel->depth() != 0)
         {
-            if (isSignature(static_cast<KeyListViewItem *>(sel)))
+            if (isSignature(sel))
             {
 		// isn't this always true?
                 if ((sel->text(2) == "-") || (sel->text(2) == i18n("Revoked")))
@@ -1267,10 +1267,10 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
                 m_popupgroup->exec(pos);
             else
             {
-                if (keysList2->secretList.contains(sel->text(6)) && (keysList2->selectedItems().count() == 1))
+                if ((sel->itemType() & KeyListViewItem::Pair) && (keysList2->selectedItems().count() == 1))
                     m_popupsec->exec(pos);
                 else
-                if (keysList2->orphanList.contains(sel->text(6)) && (keysList2->selectedItems().count() == 1))
+                if ((sel->itemType() & KeyListViewItem::Secret) && (keysList2->selectedItems().count() == 1))
                     m_popuporphan->exec(pos);
                 else
                     m_popuppub->exec(pos);
@@ -2045,18 +2045,6 @@ void KeysManager::deleteseckey()
 
 void KeysManager::reloadSecretKeys()
 {
-    FILE *fp;
-    char line[300];
-    keysList2->secretList.clear();
-    fp = popen("gpg --no-secmem-warning --no-tty --with-colon --list-secret-keys", "r");
-    while (fgets(line, sizeof(line), fp))
-    {
-        QString lineRead = line;
-        if (lineRead.startsWith("sec"))
-            keysList2->secretList += "0x" + lineRead.section(':', 4, 4).right(8) + ',';
-        }
-    pclose(fp);
-    deletekey();
 }
 
 void KeysManager::confirmdeletekey()

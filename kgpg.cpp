@@ -879,7 +879,7 @@ void MyView::slotSaveOptionsPath()
         }*/
 
     KGpgSettings::writeConfig();
-    emit updateDefault("0x" + defaultID);
+    emit updateDefault(defaultID);
     delete wiz;
 }
 
@@ -1060,7 +1060,7 @@ void KgpgAppletApp::slotHandleQuit()
 
 void KgpgAppletApp::wizardOver(const QString &defaultKeyId)
 {
-    if (defaultKeyId.length() == 10)
+    if (defaultKeyId.length() == 8)
         s_keyManager->slotSetDefaultKey(defaultKeyId);
 
     s_keyManager->show();

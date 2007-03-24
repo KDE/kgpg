@@ -333,14 +333,14 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KeyList keys, KgpgInterface *
 
     QString m_seclist = QString();
     for (int i = 0; i < list.size(); ++i)
-        m_seclist += ", 0x" + list.at(i).id();
+        m_seclist += ", " + list.at(i).fullId();
     /* */
 
     for (int i = 0; i < keys.size(); ++i)
     {
         bool dead = false;
         Key key = keys.at(i);
-        QString id = QString("0x" + key.id());
+        QString id = key.id();
 
         KeyTrust c = key.trust();
         bool istrusted = true;
@@ -366,7 +366,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KeyList keys, KgpgInterface *
 
             KeyViewItem *item = new KeyViewItem(m_keyslist, keyname, key.email(), id, isDefaultKey, istrusted);
 
-            if (m_seclist.contains(id, Qt::CaseInsensitive))
+            if (m_seclist.contains(key.fullId(), Qt::CaseInsensitive))
                 item->setPixmap(0, Images::pair());
             else
                 item->setPixmap(0, Images::single());

@@ -1432,17 +1432,17 @@ void KgpgInterface::verifyTextProcess(KProcIO *p)
                 {
                     QString userName = line.section(" ", 2, -1).replace(QRegExp("<"), "&lt;");
                     userName = checkForUtf8(userName);
-                    signID = i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>", userName, "0x" + line.section(" ", 1, 1).right(8));
+                    signID = i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>", userName, line.section(" ", 1, 1).right(8));
                 }
                 else
                 if (line.startsWith("BADSIG"))
                 {
-                    signID = i18n("<qt><b>Bad signature</b> from:<br>%1<br>Key ID: %2<br><br><b>Text is corrupted.</b></qt>", line.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), "0x" + line.section(" ", 1, 1).right(8));
+                    signID = i18n("<qt><b>Bad signature</b> from:<br>%1<br>Key ID: %2<br><br><b>Text is corrupted.</b></qt>", line.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), line.section(" ", 1, 1).right(8));
                 }
                 else
                 if (line.startsWith("NO_PUBKEY"))
                 {
-                    signID = "0x" + line.section(" ", 1, 1).right(8);
+                    signID = line.section(" ", 1, 1).right(8);
                     signmiss = true;
                 }
                 else
@@ -2990,15 +2990,15 @@ void KgpgInterface::readprocess(KProcIO *p)
             signID = i18n("No signature found.");
 
         if (required.startsWith("GOODSIG"))
-            signID = i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>", required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), "0x" + required.section(" ", 1, 1).right(8));
+            signID = i18n("<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>", required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), required.section(" ", 1, 1).right(8));
 
         if (required.startsWith("BADSIG"))
-    signID=i18n("<qt><b>BAD signature</b> from:<br> %1<br>Key id: %2<br><br><b>The file is corrupted</b></qt>", required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), "0x" + required.section(" ", 1, 1).right(8));
+    signID=i18n("<qt><b>BAD signature</b> from:<br> %1<br>Key id: %2<br><br><b>The file is corrupted</b></qt>", required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), required.section(" ", 1, 1).right(8));
 
         if (required.startsWith("NO_PUBKEY"))
         {
             signmiss = true;
-            signID = "0x" + required.section(" ", 1, 1).right(8);
+            signID = required.section(" ", 1, 1).right(8);
         }
 
         if (required.startsWith("TRUST_UNDEFINED"))

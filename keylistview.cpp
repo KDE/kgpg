@@ -325,7 +325,7 @@ void KeyListView::slotReloadKeys(const QStringList &keyids)
 
     refreshKeys(keyids);
 
-    ensureItemVisible(this->findItem((keyids.last()).right(8).prepend("0x"), 6));
+    ensureItemVisible(this->findItem((keyids.last()).right(8), Q3ListView::BeginsWith | Q3ListView::EndsWith));
     emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
     emit statusMessage(i18n("Ready"), 0);
 }

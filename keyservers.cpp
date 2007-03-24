@@ -272,7 +272,7 @@ void KeyServer::slotImportResult(KProcess *p)
     else
         resultMessage = i18n("No key imported... \nCheck detailed log for more infos");
 
-    QString lastID = QString("0x" + importedKeys.last().section(" ", 0, 0).right(8));
+    QString lastID = importedKeys.last().section(" ", 0, 0).right(8);
     if (!lastID.isEmpty())
     {
         //kDebug(2100)<<"++++++++++imported key"<<lastID<<endl;

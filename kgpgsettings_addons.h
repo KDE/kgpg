@@ -22,8 +22,6 @@ public:
      if (self()->mDefaultKey.isEmpty())
      {
         self()->mDefaultKey = KgpgInterface::getGpgSetting("default-key", gpgConfigPath());
-        if (!self()->mDefaultKey.isEmpty())
-           self()->mDefaultKey.prepend("0x");
      }
      return self()->mDefaultKey;
    }
@@ -33,8 +31,6 @@ public:
    {
      self()->mDefaultKey = _defaultKey;
      KgpgInterface::setGpgSetting("default-key",_defaultKey.right(8),gpgConfigPath());
-     if (!_defaultKey.startsWith("0x"))
-        self()->mDefaultKey.prepend("0x");
    }
    
 private:

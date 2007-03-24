@@ -84,7 +84,6 @@ public:
     bool displayPhoto() const;
 
     QPixmap trustbad;
-    QString secretList;
 
 signals:
     void statusMessage(QString, int, bool keep = false);
