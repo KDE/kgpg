@@ -1267,7 +1267,7 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
                 m_popupgroup->exec(pos);
             else
             {
-                if ((sel->itemType() & KeyListViewItem::Pair) && (keysList2->selectedItems().count() == 1))
+                if (((sel->itemType() & KeyListViewItem::Pair) == KeyListViewItem::Pair) && (keysList2->selectedItems().count() == 1))
                     m_popupsec->exec(pos);
                 else
                 if ((sel->itemType() & KeyListViewItem::Secret) && (keysList2->selectedItems().count() == 1))
