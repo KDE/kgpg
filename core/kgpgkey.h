@@ -75,7 +75,8 @@ public:
     bool    gpgsignlocal;
 
     bool operator==(const KgpgKeySignPrivate &other) const;
-    bool operator!=(const KgpgKeySignPrivate &other) const;
+    inline bool operator!=(const KgpgKeySignPrivate &other) const
+    { return !operator==(other); }
 };
 
 class KgpgKeySign : public QObject
@@ -108,7 +109,8 @@ public:
     QString creation() const;
 
     bool operator==(const KgpgKeySign &other) const;
-    bool operator!=(const KgpgKeySign &other) const;
+    inline bool operator!=(const KgpgKeySign &other) const
+    { return !operator==(other); }
     KgpgKeySign& operator=(const KgpgKeySign &other);
 
 private:
@@ -151,7 +153,8 @@ public:
     KgpgKeySignList gpgsignlist;
 
     bool operator==(const KgpgKeyUatPrivate &other) const;
-    bool operator!=(const KgpgKeyUatPrivate &other) const;
+    inline bool operator!=(const KgpgKeyUatPrivate &other) const
+    { return !operator==(other); }
 };
 
 class KgpgKeyUat : public QObject
@@ -167,7 +170,8 @@ public:
     KgpgKeySignList signList();
 
     bool operator==(const KgpgKeyUat &other) const;
-    bool operator!=(const KgpgKeyUat &other) const;
+    inline bool operator!=(const KgpgKeyUat &other) const
+    { return !operator==(other); }
     KgpgKeyUat& operator=(const KgpgKeyUat &other);
 
 private:
@@ -214,7 +218,8 @@ public:
     KgpgKeySignList gpgsignlist;
 
     bool operator==(const KgpgKeyUidPrivate &other) const;
-    bool operator!=(const KgpgKeyUidPrivate &other) const;
+    inline bool operator!=(const KgpgKeyUidPrivate &other) const
+    { return !operator==(other); }
 };
 
 class KgpgKeyUid : public QObject
@@ -239,7 +244,8 @@ public:
     KgpgKeySignList signList();
 
     bool operator==(const KgpgKeyUid &other) const;
-    bool operator!=(const KgpgKeyUid &other) const;
+    inline bool operator!=(const KgpgKeyUid &other) const
+    { return !operator==(other); }
     KgpgKeyUid& operator=(const KgpgKeyUid &other);
 
 private:
@@ -289,7 +295,8 @@ public:
     KgpgKeySignList gpgsignlist;
 
     bool operator==(const KgpgKeySubPrivate &other) const;
-    bool operator!=(const KgpgKeySubPrivate &other) const;
+    inline bool operator!=(const KgpgKeySubPrivate &other) const
+    { return !operator==(other); }
 };
 
 class KgpgKeySub : public QObject
@@ -323,7 +330,8 @@ public:
     KgpgKeySignList signList();
 
     bool operator==(const KgpgKeySub &other) const;
-    bool operator!=(const KgpgKeySub &other) const;
+    inline bool operator!=(const KgpgKeySub &other) const
+    { return !operator==(other); }
     KgpgKeySub& operator=(const KgpgKeySub &other);
 
 private:
@@ -386,7 +394,8 @@ public:
     KgpgKeySubListPtr gpgsublist;
 
     bool operator==(const KgpgKeyPrivate &other) const;
-    bool operator!=(const KgpgKeyPrivate &other) const;
+    inline bool operator!=(const KgpgKeyPrivate &other) const
+    { return !operator==(other); }
 };
 
 class KgpgKey : public QObject
@@ -441,7 +450,8 @@ public:
     KgpgKeySubListPtr subList();
 
     bool operator==(const KgpgKey &other) const;
-    bool operator!=(const KgpgKey &other) const;
+    inline bool operator!=(const KgpgKey &other) const
+    { return !operator==(other); }
     KgpgKey& operator=(const KgpgKey &other);
 
 private:

@@ -29,20 +29,6 @@ bool KgpgKeySignPrivate::operator==(const KgpgKeySignPrivate &other) const
     return true;
 }
 
-bool KgpgKeySignPrivate::operator!=(const KgpgKeySignPrivate &other) const
-{
-    if (gpgsignrevocation != other.gpgsignrevocation) return true;
-    if (gpgsignunlimited != other.gpgsignunlimited) return true;
-    if (gpgsignlocal != other.gpgsignlocal) return true;
-    if (gpgsignid != other.gpgsignid) return true;
-    if (gpgsignname != other.gpgsignname) return true;
-    if (gpgsignemail != other.gpgsignemail) return true;
-    if (gpgsigncomment != other.gpgsigncomment) return true;
-    if (gpgsignexpiration != other.gpgsignexpiration) return true;
-    if (gpgsigncreation != other.gpgsigncreation) return true;
-    return false;
-}
-
 KgpgKeySign::KgpgKeySign()
 {
     d = new KgpgKeySignPrivate;
@@ -164,13 +150,6 @@ bool KgpgKeySign::operator==(const KgpgKeySign &other) const
     return false;
 }
 
-bool KgpgKeySign::operator!=(const KgpgKeySign &other) const
-{
-    if (d == other.d) return false;
-    if ((*d) == (*(other.d))) return false;
-    return true;
-}
-
 KgpgKeySign& KgpgKeySign::operator=(const KgpgKeySign &other)
 {
     d = other.d;
@@ -182,13 +161,6 @@ bool KgpgKeyUatPrivate::operator==(const KgpgKeyUatPrivate &other) const
     if (gpguatid != other.gpguatid) return false;
     if (gpgsignlist != other.gpgsignlist) return false;
     return true;
-}
-
-bool KgpgKeyUatPrivate::operator!=(const KgpgKeyUatPrivate &other) const
-{
-    if (gpguatid != other.gpguatid) return true;
-    if (gpgsignlist != other.gpgsignlist) return true;
-    return false;
 }
 
 KgpgKeyUat::KgpgKeyUat()
@@ -230,13 +202,6 @@ bool KgpgKeyUat::operator==(const KgpgKeyUat &other) const
     return false;
 }
 
-bool KgpgKeyUat::operator!=(const KgpgKeyUat &other) const
-{
-    if (d == other.d) return false;
-    if ((*d) == (*(other.d))) return false;
-    return true;
-}
-
 KgpgKeyUat& KgpgKeyUat::operator=(const KgpgKeyUat &other)
 {
     d = other.d;
@@ -252,17 +217,6 @@ bool KgpgKeyUidPrivate::operator==(const KgpgKeyUidPrivate &other) const
     if (gpguidcomment != other.gpguidcomment) return false;
     if (gpgsignlist != other.gpgsignlist) return false;
     return true;
-}
-
-bool KgpgKeyUidPrivate::operator!=(const KgpgKeyUidPrivate &other) const
-{
-    if (gpguidvalide != other.gpguidvalide) return true;
-    if (gpguidtrust != other.gpguidtrust) return true;
-    if (gpguidname != other.gpguidname) return true;
-    if (gpguidemail != other.gpguidemail) return true;
-    if (gpguidcomment != other.gpguidcomment) return true;
-    if (gpgsignlist != other.gpgsignlist) return true;
-    return false;
 }
 
 KgpgKeyUid::KgpgKeyUid()
@@ -344,13 +298,6 @@ bool KgpgKeyUid::operator==(const KgpgKeyUid &other) const
     return false;
 }
 
-bool KgpgKeyUid::operator!=(const KgpgKeyUid &other) const
-{
-    if (d == other.d) return false;
-    if ((*d) == (*(other.d))) return false;
-    return true;
-}
-
 KgpgKeyUid& KgpgKeyUid::operator=(const KgpgKeyUid &other)
 {
     d = other.d;
@@ -369,20 +316,6 @@ bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
     if (gpgsubtrust != other.gpgsubtrust) return false;
     if (gpgsignlist != other.gpgsignlist) return false;
     return true;
-}
-
-bool KgpgKeySubPrivate::operator!=(const KgpgKeySubPrivate &other) const
-{
-    if (gpgsubvalide != other.gpgsubvalide) return true;
-    if (gpgsubunlimited != other.gpgsubunlimited) return true;
-    if (gpgsubalgo != other.gpgsubalgo) return true;
-    if (gpgsubid != other.gpgsubid) return true;
-    if (gpgsubsize != other.gpgsubsize) return true;
-    if (gpgsubexpiration != other.gpgsubexpiration) return true;
-    if (gpgsubcreation != other.gpgsubcreation) return true;
-    if (gpgsubtrust != other.gpgsubtrust) return true;
-    if (gpgsignlist != other.gpgsignlist) return true;
-    return false;
 }
 
 KgpgKeySub::KgpgKeySub()
@@ -505,13 +438,6 @@ bool KgpgKeySub::operator==(const KgpgKeySub &other) const
     return false;
 }
 
-bool KgpgKeySub::operator!=(const KgpgKeySub &other) const
-{
-    if (d == other.d) return false;
-    if ((*d) == (*(other.d))) return false;
-    return true;
-}
-
 KgpgKeySub& KgpgKeySub::operator=(const KgpgKeySub &other)
 {
     d = other.d;
@@ -554,30 +480,6 @@ bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
     if (gpguidlist != other.gpguidlist) return false;
     if (gpgsublist != other.gpgsublist) return false;
     return true;
-}
-
-bool KgpgKeyPrivate::operator!=(const KgpgKeyPrivate &other) const
-{
-    if (gpgkeysecret != other.gpgkeysecret) return true;
-    if (gpgkeyvalide != other.gpgkeyvalide) return true;
-    if (gpgkeyid != other.gpgkeyid) return true;
-    if (gpgfullid != other.gpgfullid) return true;
-    if (gpgkeymail != other.gpgkeymail) return true;
-    if (gpgkeyname != other.gpgkeyname) return true;
-    if (gpgkeycomment != other.gpgkeycomment) return true;
-    if (gpgkeyfingerprint != other.gpgkeyfingerprint) return true;
-    if (gpgkeysize != other.gpgkeysize) return true;
-    if (gpgkeyownertrust != other.gpgkeyownertrust) return true;
-    if (gpgkeytrust != other.gpgkeytrust) return true;
-    if (gpgkeycreation != other.gpgkeycreation) return true;
-    if (gpgkeyunlimited != other.gpgkeyunlimited) return true;
-    if (gpgkeyexpiration != other.gpgkeyexpiration) return true;
-    if (gpgkeyalgo != other.gpgkeyalgo) return true;
-    if (gpgsignlist != other.gpgsignlist) return true;
-    if (gpguatlist != other.gpguatlist) return true;
-    if (gpguidlist != other.gpguidlist) return true;
-    if (gpgsublist != other.gpgsublist) return true;
-    return false;
 }
 
 KgpgKey::KgpgKey()
@@ -795,13 +697,6 @@ bool KgpgKey::operator==(const KgpgKey &other) const
     if (d == other.d) return true;
     if ((*d) == (*(other.d))) return true;
     return false;
-}
-
-bool KgpgKey::operator!=(const KgpgKey &other) const
-{
-    if (d == other.d) return false;
-    if ((*d) == (*(other.d))) return false;
-    return true;
 }
 
 KgpgKey& KgpgKey::operator=(const KgpgKey &other)
