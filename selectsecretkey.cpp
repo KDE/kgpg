@@ -80,18 +80,18 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
 
     bool selectedok = false;
     KgpgInterface *interface = new KgpgInterface();
-    KeyList list1 = interface->readSecretKeys();
+    KgpgKeyList list1 = interface->readSecretKeys();
 
     for (int i = 0; i < list1.size(); ++i)
     {
-        Key key = list1.at(i);
+        KgpgKey key = list1.at(i);
         QString id = key.id();
 
         bool dead = true;
 
         /* Public key */
-        KeyList list2 = interface->readPublicKeys(true, QStringList(id));
-        Key key2 = list2.at(0);
+        KgpgKeyList list2 = interface->readPublicKeys(true, QStringList(id));
+        KgpgKey key2 = list2.at(0);
 
         if (key2.trust() == TRUST_FULL || key2.trust() == TRUST_ULTIMATE)
             dead = false;

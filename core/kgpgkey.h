@@ -18,12 +18,10 @@
 #include <QList>
 #include <QDate>
 
-class KgpgKey;
-
 namespace KgpgCore
 {
 
-enum KeyAlgoFlag
+enum KgpgKeyAlgoFlag
 {
     ALGO_UNKNOWN = 0,
     ALGO_RSA = 1,
@@ -31,10 +29,10 @@ enum KeyAlgoFlag
     ALGO_ELGAMAL = 4,
     ALGO_DSA_ELGAMAL = ALGO_DSA | ALGO_ELGAMAL
 };
-Q_DECLARE_FLAGS(KeyAlgo, KeyAlgoFlag)
-Q_DECLARE_OPERATORS_FOR_FLAGS(KeyAlgo)
+Q_DECLARE_FLAGS(KgpgKeyAlgo, KgpgKeyAlgoFlag)
+Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyAlgo)
 
-enum KeyTrustFlag
+enum KgpgKeyTrustFlag
 {
     TRUST_UNKNOWN = 0,
     TRUST_INVALID = 1,
@@ -47,10 +45,10 @@ enum KeyTrustFlag
     TRUST_FULL = 8,
     TRUST_ULTIMATE = 9
 };
-Q_DECLARE_FLAGS(KeyTrust, KeyTrustFlag)
-Q_DECLARE_OPERATORS_FOR_FLAGS(KeyTrust)
+Q_DECLARE_FLAGS(KgpgKeyTrust, KgpgKeyTrustFlag)
+Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyTrust)
 
-enum KeyOwnerTrustFlag
+enum KgpgKeyOwnerTrustFlag
 {
     OWTRUST_UNKNOWN = 0,
     OWTRUST_UNDEFINED = 1,
@@ -59,11 +57,11 @@ enum KeyOwnerTrustFlag
     OWTRUST_FULL = 4,
     OWTRUST_ULTIMATE = 5
 };
-Q_DECLARE_FLAGS(KeyOwnerTrust, KeyOwnerTrustFlag)
-Q_DECLARE_OPERATORS_FOR_FLAGS(KeyOwnerTrust)
+Q_DECLARE_FLAGS(KgpgKeyOwnerTrust, KgpgKeyOwnerTrustFlag)
+Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyOwnerTrust)
 
 
-class KeySignPrivate : public QSharedData
+class KgpgKeySignPrivate : public QSharedData
 {
 public:
     bool    gpgsignrevocation;
@@ -76,15 +74,15 @@ public:
     QDate   gpgsigncreation;
     bool    gpgsignlocal;
 
-    bool operator==(const KeySignPrivate &other) const;
-    bool operator!=(const KeySignPrivate &other) const;
+    bool operator==(const KgpgKeySignPrivate &other) const;
+    bool operator!=(const KgpgKeySignPrivate &other) const;
 };
 
-class KeySign : public QObject
+class KgpgKeySign : public QObject
 {
 public:
-    KeySign();
-    KeySign(const KeySign &other);
+    KgpgKeySign();
+    KgpgKeySign(const KgpgKeySign &other);
 
     void setId(const QString &id);
     void setName(const QString &name);
@@ -109,175 +107,175 @@ public:
     QString expiration() const;
     QString creation() const;
 
-    bool operator==(const KeySign &other) const;
-    bool operator!=(const KeySign &other) const;
-    KeySign& operator=(const KeySign &other);
+    bool operator==(const KgpgKeySign &other) const;
+    bool operator!=(const KgpgKeySign &other) const;
+    KgpgKeySign& operator=(const KgpgKeySign &other);
 
 private:
-    QSharedDataPointer<KeySignPrivate> d;
+    QSharedDataPointer<KgpgKeySignPrivate> d;
 };
 
-class KeySignList : public QList<KeySign>
+class KgpgKeySignList : public QList<KgpgKeySign>
 {
 public:
-    inline KeySignList() { }
-    inline explicit KeySignList(const KeySign &sign) { append(sign); }
-    inline KeySignList(const KeySignList &other) : QList<KeySign>(other) { }
-    inline KeySignList(const QList<KeySign> &other) : QList<KeySign>(other) { }
+    inline KgpgKeySignList() { }
+    inline explicit KgpgKeySignList(const KgpgKeySign &sign) { append(sign); }
+    inline KgpgKeySignList(const KgpgKeySignList &other) : QList<KgpgKeySign>(other) { }
+    inline KgpgKeySignList(const QList<KgpgKeySign> &other) : QList<KgpgKeySign>(other) { }
 
-    inline KeySignList operator+(const KeySignList &other) const
+    inline KgpgKeySignList operator+(const KgpgKeySignList &other) const
     {
-        KeySignList n = *this;
+        KgpgKeySignList n = *this;
         n += other;
         return n;
     }
 
-    inline KeySignList &operator<<(KeySign sign)
+    inline KgpgKeySignList &operator<<(KgpgKeySign sign)
     {
         append(sign);
         return *this;
     }
 
-    inline KeySignList &operator<<(const KeySignList &l)
+    inline KgpgKeySignList &operator<<(const KgpgKeySignList &l)
     {
         *this += l;
         return *this;
     }
 };
-typedef QPointer<KeySignList> KeySignListPtr;
+//typedef QPointer<KgpgKeySignList> KgpgKeySignListPtr;
 
-class KeyUatPrivate : public QSharedData
+class KgpgKeyUatPrivate : public QSharedData
 {
 public:
     QString gpguatid;
-    KeySignList gpgsignlist;
+    KgpgKeySignList gpgsignlist;
 
-    bool operator==(const KeyUatPrivate &other) const;
-    bool operator!=(const KeyUatPrivate &other) const;
+    bool operator==(const KgpgKeyUatPrivate &other) const;
+    bool operator!=(const KgpgKeyUatPrivate &other) const;
 };
 
-class KeyUat : public QObject
+class KgpgKeyUat : public QObject
 {
 public:
-    KeyUat();
-    KeyUat(const KeyUat &other);
+    KgpgKeyUat();
+    KgpgKeyUat(const KgpgKeyUat &other);
 
     void setId(const QString &id);
     QString id() const;
 
-    void addSign(const KeySign &sign);
-    KeySignList signList();
+    void addSign(const KgpgKeySign &sign);
+    KgpgKeySignList signList();
 
-    bool operator==(const KeyUat &other) const;
-    bool operator!=(const KeyUat &other) const;
-    KeyUat& operator=(const KeyUat &other);
+    bool operator==(const KgpgKeyUat &other) const;
+    bool operator!=(const KgpgKeyUat &other) const;
+    KgpgKeyUat& operator=(const KgpgKeyUat &other);
 
 private:
-    QSharedDataPointer<KeyUatPrivate> d;
+    QSharedDataPointer<KgpgKeyUatPrivate> d;
 };
 
-class KeyUatList : public QList<KeyUat>, public QObject
+class KgpgKeyUatList : public QList<KgpgKeyUat>, public QObject
 {
 public:
-    inline KeyUatList() { }
-    inline explicit KeyUatList(const KeyUat &uat) { append(uat); }
-    inline KeyUatList(const KeyUatList &other) : QList<KeyUat>(other), QObject() { }
-    inline KeyUatList(const QList<KeyUat> &other) : QList<KeyUat>(other), QObject() { }
+    inline KgpgKeyUatList() { }
+    inline explicit KgpgKeyUatList(const KgpgKeyUat &uat) { append(uat); }
+    inline KgpgKeyUatList(const KgpgKeyUatList &other) : QList<KgpgKeyUat>(other), QObject() { }
+    inline KgpgKeyUatList(const QList<KgpgKeyUat> &other) : QList<KgpgKeyUat>(other), QObject() { }
 
-    inline KeyUatList operator+(const KeyUatList &other) const
+    inline KgpgKeyUatList operator+(const KgpgKeyUatList &other) const
     {
-        KeyUatList n = *this;
+        KgpgKeyUatList n = *this;
         n += other;
         return n;
     }
 
-    inline KeyUatList &operator<<(KeyUat uat)
+    inline KgpgKeyUatList &operator<<(KgpgKeyUat uat)
     {
         append(uat);
         return *this;
     }
 
-    inline KeyUatList &operator<<(const KeyUatList &l)
+    inline KgpgKeyUatList &operator<<(const KgpgKeyUatList &l)
     {
         *this += l;
         return *this;
     }
 };
-typedef QPointer<KeyUatList> KeyUatListPtr;
+typedef QPointer<KgpgKeyUatList> KgpgKeyUatListPtr;
 
-class KeyUidPrivate : public QSharedData
+class KgpgKeyUidPrivate : public QSharedData
 {
 public:
     bool     gpguidvalide;
-    KeyTrust gpguidtrust;
+    KgpgKeyTrust gpguidtrust;
     QString  gpguidname;
     QString  gpguidemail;
     QString  gpguidcomment;
-    KeySignList gpgsignlist;
+    KgpgKeySignList gpgsignlist;
 
-    bool operator==(const KeyUidPrivate &other) const;
-    bool operator!=(const KeyUidPrivate &other) const;
+    bool operator==(const KgpgKeyUidPrivate &other) const;
+    bool operator!=(const KgpgKeyUidPrivate &other) const;
 };
 
-class KeyUid : public QObject
+class KgpgKeyUid : public QObject
 {
 public:
-    KeyUid();
-    KeyUid(const KeyUid &other);
+    KgpgKeyUid();
+    KgpgKeyUid(const KgpgKeyUid &other);
 
     void setName(const QString &name);
     void setEmail(const QString &email);
     void setComment(const QString &comment);
     void setValide(const bool &valide);
-    void setTrust(const KeyTrust &trust);
+    void setTrust(const KgpgKeyTrust &trust);
 
     QString name() const;
     QString email() const;
     QString comment() const;
     bool valide() const;
-    KeyTrust trust() const;
+    KgpgKeyTrust trust() const;
 
-    void addSign(const KeySign &sign);
-    KeySignList signList();
+    void addSign(const KgpgKeySign &sign);
+    KgpgKeySignList signList();
 
-    bool operator==(const KeyUid &other) const;
-    bool operator!=(const KeyUid &other) const;
-    KeyUid& operator=(const KeyUid &other);
+    bool operator==(const KgpgKeyUid &other) const;
+    bool operator!=(const KgpgKeyUid &other) const;
+    KgpgKeyUid& operator=(const KgpgKeyUid &other);
 
 private:
-    QSharedDataPointer<KeyUidPrivate> d;
+    QSharedDataPointer<KgpgKeyUidPrivate> d;
 };
 
-class KeyUidList : public QList<KeyUid>, public QObject
+class KgpgKeyUidList : public QList<KgpgKeyUid>, public QObject
 {
 public:
-    inline KeyUidList() { }
-    inline explicit KeyUidList(const KeyUid &uid) { append(uid); }
-    inline KeyUidList(const KeyUidList &other) : QList<KeyUid>(other), QObject() { }
-    inline KeyUidList(const QList<KeyUid> &other) : QList<KeyUid>(other), QObject() { }
+    inline KgpgKeyUidList() { }
+    inline explicit KgpgKeyUidList(const KgpgKeyUid &uid) { append(uid); }
+    inline KgpgKeyUidList(const KgpgKeyUidList &other) : QList<KgpgKeyUid>(other), QObject() { }
+    inline KgpgKeyUidList(const QList<KgpgKeyUid> &other) : QList<KgpgKeyUid>(other), QObject() { }
 
-    inline KeyUidList operator+(const KeyUidList &other) const
+    inline KgpgKeyUidList operator+(const KgpgKeyUidList &other) const
     {
-        KeyUidList n = *this;
+        KgpgKeyUidList n = *this;
         n += other;
         return n;
     }
 
-    inline KeyUidList &operator<<(KeyUid uid)
+    inline KgpgKeyUidList &operator<<(KgpgKeyUid uid)
     {
         append(uid);
         return *this;
     }
 
-    inline KeyUidList &operator<<(const KeyUidList &l)
+    inline KgpgKeyUidList &operator<<(const KgpgKeyUidList &l)
     {
         *this += l;
         return *this;
     }
 };
-typedef QPointer<KeyUidList> KeyUidListPtr;
+typedef QPointer<KgpgKeyUidList> KgpgKeyUidListPtr;
 
-class KeySubPrivate : public QSharedData
+class KgpgKeySubPrivate : public QSharedData
 {
 public:
     bool            gpgsubvalide;
@@ -286,27 +284,27 @@ public:
     bool            gpgsubunlimited;
     QDate           gpgsubexpiration;
     QDate           gpgsubcreation;
-    KeyTrust        gpgsubtrust;
-    KeyAlgo         gpgsubalgo;
-    KeySignList     gpgsignlist;
+    KgpgKeyTrust    gpgsubtrust;
+    KgpgKeyAlgo     gpgsubalgo;
+    KgpgKeySignList gpgsignlist;
 
-    bool operator==(const KeySubPrivate &other) const;
-    bool operator!=(const KeySubPrivate &other) const;
+    bool operator==(const KgpgKeySubPrivate &other) const;
+    bool operator!=(const KgpgKeySubPrivate &other) const;
 };
 
-class KeySub : public QObject
+class KgpgKeySub : public QObject
 {
 public:
-    KeySub();
-    KeySub(const KeySub &other);
+    KgpgKeySub();
+    KgpgKeySub(const KgpgKeySub &other);
 
     void setId(const QString &id);
     void setSize(const uint &size);
     void setUnlimited(const bool &unlimited);
     void setExpiration(const QDate &date);
     void setCreation(const QDate &date);
-    void setTrust(const KeyTrust &trust);
-    void setAlgorithme(const KeyAlgo &algo);
+    void setTrust(const KgpgKeyTrust &trust);
+    void setAlgorithme(const KgpgKeyAlgo &algo);
     void setValide(const bool &valide);
 
     QString id() const;
@@ -314,57 +312,57 @@ public:
     bool unlimited() const;
     QDate expirationDate() const;
     QDate creationDate() const;
-    KeyTrust trust() const;
-    KeyAlgo algorithme() const;
+    KgpgKeyTrust trust() const;
+    KgpgKeyAlgo algorithme() const;
     bool valide() const;
 
     QString creation() const;
     QString expiration() const;
 
-    void addSign(const KeySign &sign);
-    KeySignList signList();
+    void addSign(const KgpgKeySign &sign);
+    KgpgKeySignList signList();
 
-    bool operator==(const KeySub &other) const;
-    bool operator!=(const KeySub &other) const;
-    KeySub& operator=(const KeySub &other);
+    bool operator==(const KgpgKeySub &other) const;
+    bool operator!=(const KgpgKeySub &other) const;
+    KgpgKeySub& operator=(const KgpgKeySub &other);
 
 private:
-    QSharedDataPointer<KeySubPrivate> d;
+    QSharedDataPointer<KgpgKeySubPrivate> d;
 };
 
-class KeySubList : public QList<KeySub>, public QObject
+class KgpgKeySubList : public QList<KgpgKeySub>, public QObject
 {
 public:
-    inline KeySubList() { }
-    inline explicit KeySubList(const KeySub &sub) { append(sub); }
-    inline KeySubList(const KeySubList &other) : QList<KeySub>(other), QObject() { }
-    inline KeySubList(const QList<KeySub> &other) : QList<KeySub>(other), QObject() { }
+    inline KgpgKeySubList() { }
+    inline explicit KgpgKeySubList(const KgpgKeySub &sub) { append(sub); }
+    inline KgpgKeySubList(const KgpgKeySubList &other) : QList<KgpgKeySub>(other), QObject() { }
+    inline KgpgKeySubList(const QList<KgpgKeySub> &other) : QList<KgpgKeySub>(other), QObject() { }
 
-    inline KeySubList operator+(const KeySubList &other) const
+    inline KgpgKeySubList operator+(const KgpgKeySubList &other) const
     {
-        KeySubList n = *this;
+        KgpgKeySubList n = *this;
         n += other;
         return n;
     }
 
-    inline KeySubList &operator<<(KeySub sub)
+    inline KgpgKeySubList &operator<<(KgpgKeySub sub)
     {
         append(sub);
         return *this;
     }
 
-    inline KeySubList &operator<<(const KeySubList &l)
+    inline KgpgKeySubList &operator<<(const KgpgKeySubList &l)
     {
         *this += l;
         return *this;
     }
 };
-typedef QPointer<KeySubList> KeySubListPtr;
+typedef QPointer<KgpgKeySubList> KgpgKeySubListPtr;
 
-class KeyPrivate : public QSharedData
+class KgpgKeyPrivate : public QSharedData
 {
 public:
-    KeyPrivate();
+    KgpgKeyPrivate();
 
     bool          gpgkeysecret;
     bool          gpgkeyvalide;
@@ -375,29 +373,29 @@ public:
     QString       gpgkeycomment;
     QString       gpgkeyfingerprint;
     QString       gpgkeysize;
-    KeyOwnerTrust gpgkeyownertrust;
-    KeyTrust      gpgkeytrust;
+    KgpgKeyOwnerTrust gpgkeyownertrust;
+    KgpgKeyTrust  gpgkeytrust;
     QDate         gpgkeycreation;
     bool          gpgkeyunlimited;
     QDate         gpgkeyexpiration;
-    KeyAlgo       gpgkeyalgo;
+    KgpgKeyAlgo   gpgkeyalgo;
 
-    KeySignList gpgsignlist;
-    KeyUatListPtr gpguatlist;
-    KeyUidListPtr gpguidlist;
-    KeySubListPtr gpgsublist;
+    KgpgKeySignList   gpgsignlist;
+    KgpgKeyUatListPtr gpguatlist;
+    KgpgKeyUidListPtr gpguidlist;
+    KgpgKeySubListPtr gpgsublist;
 
-    bool operator==(const KeyPrivate &other) const;
-    bool operator!=(const KeyPrivate &other) const;
+    bool operator==(const KgpgKeyPrivate &other) const;
+    bool operator!=(const KgpgKeyPrivate &other) const;
 };
 
-class Key : public QObject
+class KgpgKey : public QObject
 {
 public:
     static QString expiration(const QDate &date, const bool &unlimited);
 
-    Key();
-    Key(const Key &other);
+    KgpgKey();
+    KgpgKey(const KgpgKey &other);
 
     void setSecret(const bool &secret);
     void setValide(const bool &valide);
@@ -408,12 +406,12 @@ public:
     void setComment(const QString &comment);
     void setFingerprint(const QString &fingerprint);
     void setSize(const QString &size);
-    void setOwnerTrust(const KeyOwnerTrust &owtrust);
-    void setTrust(const KeyTrust &trust);
+    void setOwnerTrust(const KgpgKeyOwnerTrust &owtrust);
+    void setTrust(const KgpgKeyTrust &trust);
     void setCreation(const QDate &date);
     void setExpiration(const QDate &date);
     void setUnlimited(const bool &unlimited);
-    void setAlgorithme(const KeyAlgo &algo);
+    void setAlgorithme(const KgpgKeyAlgo &algo);
 
     bool secret() const;
     bool valide() const;
@@ -424,66 +422,66 @@ public:
     QString comment() const;
     QString fingerprint() const;
     QString size() const;
-    KeyOwnerTrust ownerTrust() const;
-    KeyTrust trust() const;
+    KgpgKeyOwnerTrust ownerTrust() const;
+    KgpgKeyTrust trust() const;
     QDate creationDate() const;
     QDate expirationDate() const;
     bool unlimited() const;
-    KeyAlgo algorithme() const;
+    KgpgKeyAlgo algorithme() const;
 
     QString creation() const;
     QString expiration() const;
     QStringList photoList() const;
 
-    void addSign(const KeySign &sign);
-    KeySignList signList();
+    void addSign(const KgpgKeySign &sign);
+    KgpgKeySignList signList();
 
-    KeyUatListPtr uatList();
-    KeyUidListPtr uidList();
-    KeySubListPtr subList();
+    KgpgKeyUatListPtr uatList();
+    KgpgKeyUidListPtr uidList();
+    KgpgKeySubListPtr subList();
 
-    bool operator==(const Key &other) const;
-    bool operator!=(const Key &other) const;
-    Key& operator=(const Key &other);
+    bool operator==(const KgpgKey &other) const;
+    bool operator!=(const KgpgKey &other) const;
+    KgpgKey& operator=(const KgpgKey &other);
 
 private:
-    QSharedDataPointer<KeyPrivate> d;
+    QSharedDataPointer<KgpgKeyPrivate> d;
 };
 
-class KeyList : public QList<Key>, public QObject
+class KgpgKeyList : public QList<KgpgKey>, public QObject
 {
 public:
-    inline KeyList() { }
-    inline explicit KeyList(const Key &key) { append(key); }
-    inline KeyList(const KeyList &other) : QList<Key>(other), QObject() { }
-    inline KeyList(const QList<Key> &other) : QList<Key>(other), QObject() { }
+    inline KgpgKeyList() { }
+    inline explicit KgpgKeyList(const KgpgKey &key) { append(key); }
+    inline KgpgKeyList(const KgpgKeyList &other) : QList<KgpgKey>(other), QObject() { }
+    inline KgpgKeyList(const QList<KgpgKey> &other) : QList<KgpgKey>(other), QObject() { }
 
-    inline KeyList& operator=(const KeyList &other)
+    inline KgpgKeyList& operator=(const KgpgKeyList &other)
     {
-        QList<Key>::operator=(static_cast<const QList<Key> >(other));
+        QList<KgpgKey>::operator=(static_cast<const QList<KgpgKey> >(other));
         return *this;
     }
 
-    inline KeyList operator+(const KeyList &other) const
+    inline KgpgKeyList operator+(const KgpgKeyList &other) const
     {
-        KeyList n = *this;
+        KgpgKeyList n = *this;
         n += other;
         return n;
     }
 
-    inline KeyList &operator<<(Key key)
+    inline KgpgKeyList &operator<<(KgpgKey key)
     {
         append(key);
         return *this;
     }
 
-    inline KeyList &operator<<(const KeyList &l)
+    inline KgpgKeyList &operator<<(const KgpgKeyList &l)
     {
         *this += l;
         return *this;
     }
 };
-typedef QPointer<KeyList> KeyListPtr;
+//typedef QPointer<KgpgKeyList> KgpgKeyListPtr;
 
 } // namespace
 

@@ -311,7 +311,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysList()
     interface->readPublicKeys();
 }
 
-void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KeyList keys, KgpgInterface *interface)
+void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgKeyList keys, KgpgInterface *interface)
 {
     delete interface;
 
@@ -328,7 +328,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KeyList keys, KgpgInterface *
 
     /* Get the secret keys list */
     interface = new KgpgInterface();
-    KeyList list = interface->readSecretKeys();
+    KgpgKeyList list = interface->readSecretKeys();
     delete interface;
 
     QString m_seclist = QString();
@@ -339,10 +339,10 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KeyList keys, KgpgInterface *
     for (int i = 0; i < keys.size(); ++i)
     {
         bool dead = false;
-        Key key = keys.at(i);
+        KgpgKey key = keys.at(i);
         QString id = key.id();
 
-        KeyTrust c = key.trust();
+        KgpgKeyTrust c = key.trust();
         bool istrusted = true;
         if (c == TRUST_UNKNOWN || c == TRUST_UNDEFINED || c == TRUST_NONE || c == TRUST_MARGINAL)
             istrusted = false;

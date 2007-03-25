@@ -32,11 +32,11 @@ namespace KgpgCore
 class Convert
 {
 public:
-    static QString toString(const KeyAlgo &algorithme);
-    static QString toString(const KeyOwnerTrust &ownertrust);
-    static QString toString(const KeyTrust &trust);
+    static QString toString(const KgpgKeyAlgo &algorithme);
+    static QString toString(const KgpgKeyOwnerTrust &ownertrust);
+    static QString toString(const KgpgKeyTrust &trust);
     static QString toString(const QDate &date);
-    static QColor toColor(const KeyTrust &trust);
+    static QColor toColor(const KgpgKeyTrust &trust);
 };
 
 } // namespace KgpgCore

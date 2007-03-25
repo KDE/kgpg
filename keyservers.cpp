@@ -77,7 +77,7 @@ KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoClose)
     }
 
     KgpgInterface *interface = new KgpgInterface();
-    connect (interface, SIGNAL(readPublicKeysFinished(KeyList, KgpgInterface*)), this, SLOT(slotReadKeys(KeyList, KgpgInterface*)));
+    connect (interface, SIGNAL(readPublicKeysFinished(KgpgKeyList, KgpgInterface*)), this, SLOT(slotReadKeys(KgpgKeyList, KgpgInterface*)));
     interface->readPublicKeys();
 
     page->Buttonimport->setEnabled(!page->kLEimportid->text().isEmpty());
@@ -85,12 +85,12 @@ KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoClose)
     setMinimumSize(sizeHint());
 }
 
-void KeyServer::slotReadKeys(KeyList list, KgpgInterface *interface)
+void KeyServer::slotReadKeys(KgpgKeyList list, KgpgInterface *interface)
 {
     delete interface;
     for (int i = 0; i < list.size(); ++i)
     {
-        const Key key = list.at(i);
+        const KgpgKey key = list.at(i);
 
         bool dead = false;
         if ((key.trust() == 'i') || (key.trust() == 'd') || (key.trust() == 'r') || (key.trust() == 'e'))

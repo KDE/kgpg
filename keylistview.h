@@ -115,10 +115,10 @@ private slots:
 
     void expandKey(Q3ListViewItem *item);
     void expandGroup(K3ListViewItem *item);
-    void insertSigns(K3ListViewItem *item, const KgpgCore::KeySignList &list);
+    void insertSigns(K3ListViewItem *item, const KgpgCore::KgpgKeySignList &list);
 
 private:
-    QPixmap getTrustPix(const KgpgCore::KeyTrust &trust, const bool &isvalid);
+    QPixmap getTrustPix(const KgpgCore::KgpgKeyTrust &trust, const bool &isvalid);
 
 private:
     QStringList orphanList;

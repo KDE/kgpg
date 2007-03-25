@@ -27,7 +27,7 @@
 namespace KgpgCore
 {
 
-QString Convert::toString(const KeyAlgo &algorithme)
+QString Convert::toString(const KgpgKeyAlgo &algorithme)
 {
     if (algorithme == ALGO_UNKNOWN)
         return QString("Unknown");
@@ -43,7 +43,7 @@ QString Convert::toString(const KeyAlgo &algorithme)
     return i18n("Unknown");
 }
 
-QString Convert::toString(const KeyOwnerTrust &ownertrust)
+QString Convert::toString(const KgpgKeyOwnerTrust &ownertrust)
 {
     if (ownertrust == OWTRUST_UNKNOWN)
         return i18n("Unknown");
@@ -61,7 +61,7 @@ QString Convert::toString(const KeyOwnerTrust &ownertrust)
     return i18n("Unknown");
 }
 
-QString Convert::toString(const KeyTrust &trust)
+QString Convert::toString(const KgpgKeyTrust &trust)
 {
     if (trust == TRUST_UNKNOWN)
         return i18n("Unknown");
@@ -87,7 +87,7 @@ QString Convert::toString(const KeyTrust &trust)
     return i18n("Unknown");
 }
 
-QColor Convert::toColor(const KeyTrust &trust)
+QColor Convert::toColor(const KgpgKeyTrust &trust)
 {
     if (trust == TRUST_UNKNOWN)
         return KGpgSettings::colorUnknown();

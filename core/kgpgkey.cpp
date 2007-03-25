@@ -15,7 +15,7 @@
 namespace KgpgCore
 {
 
-bool KeySignPrivate::operator==(const KeySignPrivate &other) const
+bool KgpgKeySignPrivate::operator==(const KgpgKeySignPrivate &other) const
 {
     if (gpgsignrevocation != other.gpgsignrevocation) return false;
     if (gpgsignunlimited != other.gpgsignunlimited) return false;
@@ -29,7 +29,7 @@ bool KeySignPrivate::operator==(const KeySignPrivate &other) const
     return true;
 }
 
-bool KeySignPrivate::operator!=(const KeySignPrivate &other) const
+bool KgpgKeySignPrivate::operator!=(const KgpgKeySignPrivate &other) const
 {
     if (gpgsignrevocation != other.gpgsignrevocation) return true;
     if (gpgsignunlimited != other.gpgsignunlimited) return true;
@@ -43,207 +43,207 @@ bool KeySignPrivate::operator!=(const KeySignPrivate &other) const
     return false;
 }
 
-KeySign::KeySign()
+KgpgKeySign::KgpgKeySign()
 {
-    d = new KeySignPrivate;
+    d = new KgpgKeySignPrivate;
     d->gpgsignunlimited = false;
     d->gpgsignrevocation = false;
     d->gpgsignlocal = false;
 }
 
-KeySign::KeySign(const KeySign &other)
+KgpgKeySign::KgpgKeySign(const KgpgKeySign &other)
        : QObject()
 {
     d = other.d;
 }
 
-void KeySign::setId(const QString &id)
+void KgpgKeySign::setId(const QString &id)
 {
     d->gpgsignid = id;
 }
 
-void KeySign::setName(const QString &name)
+void KgpgKeySign::setName(const QString &name)
 {
     d->gpgsignname = name;
 }
 
-void KeySign::setEmail(const QString &email)
+void KgpgKeySign::setEmail(const QString &email)
 {
     d->gpgsignemail = email;
 }
 
-void KeySign::setComment(const QString &comment)
+void KgpgKeySign::setComment(const QString &comment)
 {
     d->gpgsigncomment = comment;
 }
 
-void KeySign::setUnlimited(const bool &unlimited)
+void KgpgKeySign::setUnlimited(const bool &unlimited)
 {
     d->gpgsignunlimited = unlimited;
 }
 
-void KeySign::setExpiration(const QDate &date)
+void KgpgKeySign::setExpiration(const QDate &date)
 {
     d->gpgsignexpiration = date;
 }
 
-void KeySign::setCreation(const QDate &date)
+void KgpgKeySign::setCreation(const QDate &date)
 {
     d->gpgsigncreation = date;
 }
 
-void KeySign::setLocal(const bool &local)
+void KgpgKeySign::setLocal(const bool &local)
 {
     d->gpgsignlocal = local;
 }
 
-void KeySign::setRevocation(const bool &revoc)
+void KgpgKeySign::setRevocation(const bool &revoc)
 {
     d->gpgsignrevocation = revoc;
 }
 
-QString KeySign::id() const
+QString KgpgKeySign::id() const
 {
     return d->gpgsignid;
 }
 
-QString KeySign::name() const
+QString KgpgKeySign::name() const
 {
     return d->gpgsignname;
 }
 
-QString KeySign::email() const
+QString KgpgKeySign::email() const
 {
     return d->gpgsignemail;
 }
 
-QString KeySign::comment() const
+QString KgpgKeySign::comment() const
 {
     return d->gpgsigncomment;
 }
 
-bool KeySign::unlimited() const
+bool KgpgKeySign::unlimited() const
 {
     return d->gpgsignunlimited;
 }
 
-QDate KeySign::expirationDate() const
+QDate KgpgKeySign::expirationDate() const
 {
     return d->gpgsignexpiration;
 }
 
-QDate KeySign::creationDate() const
+QDate KgpgKeySign::creationDate() const
 {
     return d->gpgsigncreation;
 }
 
-bool KeySign::local() const
+bool KgpgKeySign::local() const
 {
     return d->gpgsignlocal;
 }
 
-bool KeySign::revocation() const
+bool KgpgKeySign::revocation() const
 {
     return d->gpgsignrevocation;
 }
 
-QString KeySign::expiration() const
+QString KgpgKeySign::expiration() const
 {
-    return Key::expiration(d->gpgsignexpiration, d->gpgsignunlimited);
+    return KgpgKey::expiration(d->gpgsignexpiration, d->gpgsignunlimited);
 }
 
-QString KeySign::creation() const
+QString KgpgKeySign::creation() const
 {
     return Convert::toString(d->gpgsigncreation);
 }
 
-bool KeySign::operator==(const KeySign &other) const
+bool KgpgKeySign::operator==(const KgpgKeySign &other) const
 {
     if (d == other.d) return true;
     if ((*d) == (*(other.d))) return true;
     return false;
 }
 
-bool KeySign::operator!=(const KeySign &other) const
+bool KgpgKeySign::operator!=(const KgpgKeySign &other) const
 {
     if (d == other.d) return false;
     if ((*d) == (*(other.d))) return false;
     return true;
 }
 
-KeySign& KeySign::operator=(const KeySign &other)
+KgpgKeySign& KgpgKeySign::operator=(const KgpgKeySign &other)
 {
     d = other.d;
     return *this;
 }
 
-bool KeyUatPrivate::operator==(const KeyUatPrivate &other) const
+bool KgpgKeyUatPrivate::operator==(const KgpgKeyUatPrivate &other) const
 {
     if (gpguatid != other.gpguatid) return false;
     if (gpgsignlist != other.gpgsignlist) return false;
     return true;
 }
 
-bool KeyUatPrivate::operator!=(const KeyUatPrivate &other) const
+bool KgpgKeyUatPrivate::operator!=(const KgpgKeyUatPrivate &other) const
 {
     if (gpguatid != other.gpguatid) return true;
     if (gpgsignlist != other.gpgsignlist) return true;
     return false;
 }
 
-KeyUat::KeyUat()
+KgpgKeyUat::KgpgKeyUat()
       : QObject()
 {
-    d = new KeyUatPrivate;
+    d = new KgpgKeyUatPrivate;
 }
 
-KeyUat::KeyUat(const KeyUat &other)
+KgpgKeyUat::KgpgKeyUat(const KgpgKeyUat &other)
       : QObject()
 {
     d = other.d;
 }
 
-void KeyUat::setId(const QString &id)
+void KgpgKeyUat::setId(const QString &id)
 {
     d->gpguatid = id;
 }
 
-QString KeyUat::id() const
+QString KgpgKeyUat::id() const
 {
     return d->gpguatid;
 }
 
-void KeyUat::addSign(const KeySign &sign)
+void KgpgKeyUat::addSign(const KgpgKeySign &sign)
 {
     d->gpgsignlist << sign;
 }
 
-KeySignList KeyUat::signList()
+KgpgKeySignList KgpgKeyUat::signList()
 {
     return d->gpgsignlist;
 }
 
-bool KeyUat::operator==(const KeyUat &other) const
+bool KgpgKeyUat::operator==(const KgpgKeyUat &other) const
 {
     if (d == other.d) return true;
     if ((*d) == (*(other.d))) return true;
     return false;
 }
 
-bool KeyUat::operator!=(const KeyUat &other) const
+bool KgpgKeyUat::operator!=(const KgpgKeyUat &other) const
 {
     if (d == other.d) return false;
     if ((*d) == (*(other.d))) return false;
     return true;
 }
 
-KeyUat& KeyUat::operator=(const KeyUat &other)
+KgpgKeyUat& KgpgKeyUat::operator=(const KgpgKeyUat &other)
 {
     d = other.d;
     return *this;
 }
 
-bool KeyUidPrivate::operator==(const KeyUidPrivate &other) const
+bool KgpgKeyUidPrivate::operator==(const KgpgKeyUidPrivate &other) const
 {
     if (gpguidvalide != other.gpguidvalide) return false;
     if (gpguidtrust != other.gpguidtrust) return false;
@@ -254,7 +254,7 @@ bool KeyUidPrivate::operator==(const KeyUidPrivate &other) const
     return true;
 }
 
-bool KeyUidPrivate::operator!=(const KeyUidPrivate &other) const
+bool KgpgKeyUidPrivate::operator!=(const KgpgKeyUidPrivate &other) const
 {
     if (gpguidvalide != other.gpguidvalide) return true;
     if (gpguidtrust != other.gpguidtrust) return true;
@@ -265,99 +265,99 @@ bool KeyUidPrivate::operator!=(const KeyUidPrivate &other) const
     return false;
 }
 
-KeyUid::KeyUid()
+KgpgKeyUid::KgpgKeyUid()
       : QObject()
 {
-    d = new KeyUidPrivate;
+    d = new KgpgKeyUidPrivate;
 }
 
-KeyUid::KeyUid(const KeyUid &other)
+KgpgKeyUid::KgpgKeyUid(const KgpgKeyUid &other)
       : QObject()
 {
     d = other.d;
 }
 
-void KeyUid::setName(const QString &name)
+void KgpgKeyUid::setName(const QString &name)
 {
     d->gpguidname = name;
 }
 
-void KeyUid::setEmail(const QString &email)
+void KgpgKeyUid::setEmail(const QString &email)
 {
     d->gpguidemail = email;
 }
 
-void KeyUid::setComment(const QString &comment)
+void KgpgKeyUid::setComment(const QString &comment)
 {
     d->gpguidcomment = comment;
 }
 
-void KeyUid::setValide(const bool &valide)
+void KgpgKeyUid::setValide(const bool &valide)
 {
     d->gpguidvalide = valide;
 }
 
-void KeyUid::setTrust(const KeyTrust &trust)
+void KgpgKeyUid::setTrust(const KgpgKeyTrust &trust)
 {
     d->gpguidtrust = trust;
 }
 
-QString KeyUid::name() const
+QString KgpgKeyUid::name() const
 {
     return d->gpguidname;
 }
 
-QString KeyUid::email() const
+QString KgpgKeyUid::email() const
 {
     return d->gpguidemail;
 }
 
-QString KeyUid::comment() const
+QString KgpgKeyUid::comment() const
 {
     return d->gpguidcomment;
 }
 
-bool KeyUid::valide() const
+bool KgpgKeyUid::valide() const
 {
     return d->gpguidvalide;
 }
 
-KeyTrust KeyUid::trust() const
+KgpgKeyTrust KgpgKeyUid::trust() const
 {
     return d->gpguidtrust;
 }
 
-void KeyUid::addSign(const KeySign &sign)
+void KgpgKeyUid::addSign(const KgpgKeySign &sign)
 {
     d->gpgsignlist << sign;
 }
 
-KeySignList KeyUid::signList()
+KgpgKeySignList KgpgKeyUid::signList()
 {
     return d->gpgsignlist;
 }
 
-bool KeyUid::operator==(const KeyUid &other) const
+bool KgpgKeyUid::operator==(const KgpgKeyUid &other) const
 {
     if (d == other.d) return true;
     if ((*d) == (*(other.d))) return true;
     return false;
 }
 
-bool KeyUid::operator!=(const KeyUid &other) const
+bool KgpgKeyUid::operator!=(const KgpgKeyUid &other) const
 {
     if (d == other.d) return false;
     if ((*d) == (*(other.d))) return false;
     return true;
 }
 
-KeyUid& KeyUid::operator=(const KeyUid &other)
+KgpgKeyUid& KgpgKeyUid::operator=(const KgpgKeyUid &other)
 {
     d = other.d;
     return *this;
 }
 
-bool KeySubPrivate::operator==(const KeySubPrivate &other) const
+bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
 {
     if (gpgsubvalide != other.gpgsubvalide) return false;
     if (gpgsubunlimited != other.gpgsubunlimited) return false;
@@ -371,7 +371,7 @@ bool KeySubPrivate::operator==(const KeySubPrivate &other) const
     return true;
 }
 
-bool KeySubPrivate::operator!=(const KeySubPrivate &other) const
+bool KgpgKeySubPrivate::operator!=(const KgpgKeySubPrivate &other) const
 {
     if (gpgsubvalide != other.gpgsubvalide) return true;
     if (gpgsubunlimited != other.gpgsubunlimited) return true;
@@ -385,154 +385,154 @@ bool KeySubPrivate::operator!=(const KeySubPrivate &other) const
     return false;
 }
 
-KeySub::KeySub()
+KgpgKeySub::KgpgKeySub()
       : QObject()
 {
-    d = new KeySubPrivate;
+    d = new KgpgKeySubPrivate;
     d->gpgsubsize = 0;
 }
 
-KeySub::KeySub(const KeySub &other)
+KgpgKeySub::KgpgKeySub(const KgpgKeySub &other)
       : QObject()
 {
     d = other.d;
 }
 
-void KeySub::setId(const QString &id)
+void KgpgKeySub::setId(const QString &id)
 {
     d->gpgsubid = id;
 }
 
-void KeySub::setSize(const uint &size)
+void KgpgKeySub::setSize(const uint &size)
 {
     d->gpgsubsize = size;
 }
 
-void KeySub::setUnlimited(const bool &unlimited)
+void KgpgKeySub::setUnlimited(const bool &unlimited)
 {
     d->gpgsubunlimited = unlimited;
 }
 
-void KeySub::setExpiration(const QDate &date)
+void KgpgKeySub::setExpiration(const QDate &date)
 {
     d->gpgsubexpiration = date;
 }
 
-void KeySub::setCreation(const QDate &date)
+void KgpgKeySub::setCreation(const QDate &date)
 {
     d->gpgsubcreation = date;
 }
 
-void KeySub::setTrust(const KeyTrust &trust)
+void KgpgKeySub::setTrust(const KgpgKeyTrust &trust)
 {
     d->gpgsubtrust = trust;
 }
 
-void KeySub::setAlgorithme(const KeyAlgo &algo)
+void KgpgKeySub::setAlgorithme(const KgpgKeyAlgo &algo)
 {
     d->gpgsubalgo = algo;
 }
 
-void KeySub::setValide(const bool &valide)
+void KgpgKeySub::setValide(const bool &valide)
 {
     d->gpgsubvalide = valide;
 }
 
-QString KeySub::id() const
+QString KgpgKeySub::id() const
 {
     return d->gpgsubid;
 }
 
-uint KeySub::size() const
+uint KgpgKeySub::size() const
 {
     return d->gpgsubsize;
 }
 
-bool KeySub::unlimited() const
+bool KgpgKeySub::unlimited() const
 {
     return d->gpgsubunlimited;
 }
 
-QDate KeySub::expirationDate() const
+QDate KgpgKeySub::expirationDate() const
 {
     return d->gpgsubexpiration;
 }
 
-QDate KeySub::creationDate() const
+QDate KgpgKeySub::creationDate() const
 {
     return d->gpgsubcreation;
 }
 
-KeyTrust KeySub::trust() const
+KgpgKeyTrust KgpgKeySub::trust() const
 {
     return d->gpgsubtrust;
 }
 
-KeyAlgo KeySub::algorithme() const
+KgpgKeyAlgo KgpgKeySub::algorithme() const
 {
     return d->gpgsubalgo;
 }
 
-bool KeySub::valide() const
+bool KgpgKeySub::valide() const
 {
     return d->gpgsubvalide;
 }
 
-QString KeySub::creation() const
+QString KgpgKeySub::creation() const
 {
     return Convert::toString(d->gpgsubcreation);
 }
 
-QString KeySub::expiration() const
+QString KgpgKeySub::expiration() const
 {
-    return Key::expiration(d->gpgsubexpiration, d->gpgsubunlimited);
+    return KgpgKey::expiration(d->gpgsubexpiration, d->gpgsubunlimited);
 }
 
-void KeySub::addSign(const KeySign &sign)
+void KgpgKeySub::addSign(const KgpgKeySign &sign)
 {
     d->gpgsignlist << sign;
 }
 
-KeySignList KeySub::signList()
+KgpgKeySignList KgpgKeySub::signList()
 {
     return d->gpgsignlist;
 }
 
-bool KeySub::operator==(const KeySub &other) const
+bool KgpgKeySub::operator==(const KgpgKeySub &other) const
 {
     if (d == other.d) return true;
     if ((*d) == (*(other.d))) return true;
     return false;
 }
 
-bool KeySub::operator!=(const KeySub &other) const
+bool KgpgKeySub::operator!=(const KgpgKeySub &other) const
 {
     if (d == other.d) return false;
     if ((*d) == (*(other.d))) return false;
     return true;
 }
 
-KeySub& KeySub::operator=(const KeySub &other)
+KgpgKeySub& KgpgKeySub::operator=(const KgpgKeySub &other)
 {
     d = other.d;
     return *this;
 }
 
-QString Key::expiration(const QDate &date, const bool &unlimited)
+QString KgpgKey::expiration(const QDate &date, const bool &unlimited)
 {
     if (unlimited)
         return i18n("Unlimited");
     return Convert::toString(date);
 }
 
-KeyPrivate::KeyPrivate()
+KgpgKeyPrivate::KgpgKeyPrivate()
 {
-    gpguatlist = new KeyUatList;
-    gpguidlist = new KeyUidList;
-    gpgsublist = new KeySubList;
+    gpguatlist = new KgpgKeyUatList;
+    gpguidlist = new KgpgKeyUidList;
+    gpgsublist = new KgpgKeySubList;
 }
 
-bool KeyPrivate::operator==(const KeyPrivate &other) const
+bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
 {
     if (gpgkeysecret != other.gpgkeysecret) return false;
     if (gpgkeyvalide != other.gpgkeyvalide) return false;
@@ -556,7 +556,7 @@ bool KeyPrivate::operator==(const KeyPrivate &other) const
     return true;
 }
 
-bool KeyPrivate::operator!=(const KeyPrivate &other) const
+bool KgpgKeyPrivate::operator!=(const KgpgKeyPrivate &other) const
 {
     if (gpgkeysecret != other.gpgkeysecret) return true;
     if (gpgkeyvalide != other.gpgkeyvalide) return true;
@@ -580,182 +580,182 @@ bool KeyPrivate::operator!=(const KeyPrivate &other) const
     return false;
 }
 
-Key::Key()
+KgpgKey::KgpgKey()
    : QObject()
 {
-    d = new KeyPrivate;
+    d = new KgpgKeyPrivate;
     d->gpgkeyunlimited = false;
     d->gpgkeyalgo = ALGO_UNKNOWN;
     d->gpgkeyvalide = false;
 }
 
-Key::Key(const Key &other)
+KgpgKey::KgpgKey(const KgpgKey &other)
    : QObject()
 {
     d = other.d;
 }
 
-void Key::setSecret(const bool &secret)
+void KgpgKey::setSecret(const bool &secret)
 {
     d->gpgkeysecret = secret;
 }
 
-void Key::setValide(const bool &valide)
+void KgpgKey::setValide(const bool &valide)
 {
     d->gpgkeyvalide = valide;
 }
 
-void Key::setId(const QString &id)
+void KgpgKey::setId(const QString &id)
 {
     d->gpgkeyid = id;
 }
 
-void Key::setFullId(const QString &fullid)
+void KgpgKey::setFullId(const QString &fullid)
 {
     d->gpgfullid = fullid;
 }
 
-void Key::setName(const QString &name)
+void KgpgKey::setName(const QString &name)
 {
     d->gpgkeyname = name;
 }
 
-void Key::setEmail(const QString &email)
+void KgpgKey::setEmail(const QString &email)
 {
     d->gpgkeymail = email;
 }
 
-void Key::setComment(const QString &comment)
+void KgpgKey::setComment(const QString &comment)
 {
     d->gpgkeycomment = comment;
 }
 
-void Key::setFingerprint(const QString &fingerprint)
+void KgpgKey::setFingerprint(const QString &fingerprint)
 {
     d->gpgkeyfingerprint = fingerprint;
 }
 
-void Key::setSize(const QString &size)
+void KgpgKey::setSize(const QString &size)
 {
     d->gpgkeysize = size;
 }
 
-void Key::setOwnerTrust(const KeyOwnerTrust &owtrust)
+void KgpgKey::setOwnerTrust(const KgpgKeyOwnerTrust &owtrust)
 {
     d->gpgkeyownertrust = owtrust;
 }
 
-void Key::setTrust(const KeyTrust &trust)
+void KgpgKey::setTrust(const KgpgKeyTrust &trust)
 {
     d->gpgkeytrust = trust;
 }
 
-void Key::setCreation(const QDate &date)
+void KgpgKey::setCreation(const QDate &date)
 {
     d->gpgkeycreation = date;
 }
 
-void Key::setExpiration(const QDate &date)
+void KgpgKey::setExpiration(const QDate &date)
 {
     d->gpgkeyexpiration = date;
 }
 
-void Key::setUnlimited(const bool &unlimited)
+void KgpgKey::setUnlimited(const bool &unlimited)
 {
     d->gpgkeyunlimited = unlimited;
 }
 
-void Key::setAlgorithme(const KeyAlgo &algo)
+void KgpgKey::setAlgorithme(const KgpgKeyAlgo &algo)
 {
     d->gpgkeyalgo = algo;
 }
 
-bool Key::secret() const
+bool KgpgKey::secret() const
 {
     return d->gpgkeysecret;
 }
 
-bool Key::valide() const
+bool KgpgKey::valide() const
 {
     return d->gpgkeyvalide;
 }
 
-QString Key::id() const
+QString KgpgKey::id() const
 {
     return d->gpgkeyid;
 }
 
-QString Key::fullId() const
+QString KgpgKey::fullId() const
 {
     return d->gpgfullid;
 }
 
-QString Key::name() const
+QString KgpgKey::name() const
 {
     return d->gpgkeyname;
 }
 
-QString Key::email() const
+QString KgpgKey::email() const
 {
     return d->gpgkeymail;
 }
 
-QString Key::comment() const
+QString KgpgKey::comment() const
 {
     return d->gpgkeycomment;
 }
 
-QString Key::fingerprint() const
+QString KgpgKey::fingerprint() const
 {
     return d->gpgkeyfingerprint;
 }
 
-QString Key::size() const
+QString KgpgKey::size() const
 {
     return d->gpgkeysize;
 }
 
-KeyOwnerTrust Key::ownerTrust() const
+KgpgKeyOwnerTrust KgpgKey::ownerTrust() const
 {
     return d->gpgkeyownertrust;
 }
 
-KeyTrust Key::trust() const
+KgpgKeyTrust KgpgKey::trust() const
 {
     return d->gpgkeytrust;
 }
 
-QDate Key::creationDate() const
+QDate KgpgKey::creationDate() const
 {
     return d->gpgkeycreation;
 }
 
-QDate Key::expirationDate() const
+QDate KgpgKey::expirationDate() const
 {
     return d->gpgkeyexpiration;
 }
 
-bool Key::unlimited() const
+bool KgpgKey::unlimited() const
 {
     return d->gpgkeyunlimited;
 }
 
-KeyAlgo Key::algorithme() const
+KgpgKeyAlgo KgpgKey::algorithme() const
 {
     return d->gpgkeyalgo;
 }
 
-QString Key::creation() const
+QString KgpgKey::creation() const
 {
     return Convert::toString(d->gpgkeycreation);
 }
 
-QString Key::expiration() const
+QString KgpgKey::expiration() const
 {
     return expiration(d->gpgkeyexpiration, d->gpgkeyunlimited);
 }
 
-QStringList Key::photoList() const
+QStringList KgpgKey::photoList() const
 {
     QStringList result;
 
@@ -765,46 +765,46 @@ QStringList Key::photoList() const
     return result;
 }
 
-void Key::addSign(const KeySign &sign)
+void KgpgKey::addSign(const KgpgKeySign &sign)
 {
     d->gpgsignlist << sign;
 }
 
-KeySignList Key::signList()
+KgpgKeySignList KgpgKey::signList()
 {
     return d->gpgsignlist;
 }
 
-KeyUatListPtr Key::uatList()
+KgpgKeyUatListPtr KgpgKey::uatList()
 {
     return d->gpguatlist;
 }
 
-KeyUidListPtr Key::uidList()
+KgpgKeyUidListPtr KgpgKey::uidList()
 {
     return d->gpguidlist;
 }
 
-KeySubListPtr Key::subList()
+KgpgKeySubListPtr KgpgKey::subList()
 {
     return d->gpgsublist;
 }
 
-bool Key::operator==(const Key &other) const
+bool KgpgKey::operator==(const KgpgKey &other) const
 {
     if (d == other.d) return true;
     if ((*d) == (*(other.d))) return true;
     return false;
 }
 
-bool Key::operator!=(const Key &other) const
+bool KgpgKey::operator!=(const KgpgKey &other) const
 {
     if (d == other.d) return false;
     if ((*d) == (*(other.d))) return false;
     return true;
 }
 
-Key& Key::operator=(const Key &other)
+KgpgKey& KgpgKey::operator=(const KgpgKey &other)
 {
     d = other.d;
     return *this;

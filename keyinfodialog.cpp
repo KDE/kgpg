@@ -49,7 +49,7 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent)
     setMainWidget(m_prop);
 
     KgpgInterface *interface = new KgpgInterface();
-    KeyList keys = interface->readSecretKeys(QStringList(sigkey));
+    KgpgKeyList keys = interface->readSecretKeys(QStringList(sigkey));
     delete interface;
 
     bool issecret = false;
@@ -80,9 +80,9 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent)
 void KgpgKeyInfo::loadKey(const QString &Keyid)
 {
     KgpgInterface *interface = new KgpgInterface();
-    KeyList listkeys = interface->readPublicKeys(true, QStringList(Keyid));
+    KgpgKeyList listkeys = interface->readPublicKeys(true, QStringList(Keyid));
     delete interface;
-    Key key = listkeys.at(0);
+    KgpgKey key = listkeys.at(0);
 
     m_prop->tLAlgo->setText(Convert::toString(key.algorithme()));
 

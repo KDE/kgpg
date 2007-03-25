@@ -73,7 +73,7 @@ public slots:
     void handleQuit();
 
 private slots:
-    void slotReadKeys(KgpgCore::KeyList list, KgpgInterface *interface);
+    void slotReadKeys(KgpgCore::KgpgKeyList list, KgpgInterface *interface);
 
     void slotImportRead(KProcIO *p);
     void slotImportResult(KProcess *p);

@@ -37,7 +37,7 @@ public:
     QString name() const;
     QString email() const;
     QString comment() const;
-    KgpgCore::KeyAlgo algo() const;
+    KgpgCore::KgpgKeyAlgo algo() const;
     uint size() const;
     uint expiration() const;
     uint days() const;
