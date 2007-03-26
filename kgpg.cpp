@@ -54,11 +54,11 @@
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <ktemporaryfile.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <kglobal.h>
 #include <klocale.h>
 #include <kconfig.h>
-#include <kprocio.h>
+#include <k3procio.h>
 #include <kaction.h>
 #include <kdebug.h>
 #include <kmenu.h>
@@ -715,9 +715,9 @@ void MyView::readOptions()
 
 void MyView::firstRun()
 {
-    KProcIO *p = new KProcIO();
+    K3ProcIO *p = new K3ProcIO();
     *p << "gpg" << "--no-tty" << "--list-secret-keys";
-    p->start(KProcess::Block); // start gnupg so that it will create a config file
+    p->start(K3Process::Block); // start gnupg so that it will create a config file
     startWizard();
 }
 

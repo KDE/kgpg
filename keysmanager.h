@@ -48,8 +48,8 @@ class QEvent;
 class KSelectAction;
 class KPassivePopup;
 class KStatusBar;
-class KProcess;
-class KProcIO;
+class K3Process;
+class K3ProcIO;
 class KMenu;
 
 class KgpgInterface;

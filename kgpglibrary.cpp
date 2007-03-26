@@ -27,7 +27,7 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kconfig.h>
-#include <kprocio.h>
+#include <k3procio.h>
 #include <kio/deletejob.h>
 #include <kio/jobuidelegate.h>
 

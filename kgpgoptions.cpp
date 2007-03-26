@@ -37,7 +37,7 @@
 #include <kcombobox.h>
 #include <kconfig.h>
 #include <klocale.h>
-#include <kprocio.h>
+#include <k3procio.h>
 
 #include "kgpgsettings.h"
 #include "kgpgoptions.h"
@@ -141,9 +141,9 @@ void kgpgOptions::slotChangeHome()
             if (KMessageBox::questionYesNo(this, i18n("No configuration file was found in the selected location.\nDo you want to create it now ?\n\nWithout configuration file, neither KGpg nor Gnupg will work properly."), i18n("No Configuration File Found"), KGuiItem(i18n("Create")), KGuiItem(i18n("Ignore"))) == KMessageBox::Yes) // Try to create config File by running gpg once
             {
                 // start gnupg so that it will create a config file
-                KProcIO *p = new KProcIO();
+                K3ProcIO *p = new K3ProcIO();
                 *p << "gpg" << "--homedir" << gpgHome << "--no-tty" << "--list-secret-keys";
-                p->start(KProcess::Block);
+                p->start(K3Process::Block);
                 delete p;
                 // end of creating config file
 
@@ -379,9 +379,9 @@ void kgpgOptions::listKeys()
     QString issec;
     int counter = 0;
 
-    KProcIO *p = new KProcIO();
+    K3ProcIO *p = new K3ProcIO();
     *p << "gpg" << "--no-secmem-warning" << "--no-tty" << "--with-colon" << "--list-secret-keys";
-    p->start(KProcess::Block, true);
+    p->start(K3Process::Block, true);
 
     while (p->readln(line) != -1)
         if (line.startsWith("sec"))
@@ -389,9 +389,9 @@ void kgpgOptions::listKeys()
 
     delete p;
 
-    p = new KProcIO();
+    p = new K3ProcIO();
     *p << "gpg" << "--no-tty" << "--with-colon" << "--list-keys";
-    p->start(KProcess::Block, true);
+    p->start(K3Process::Block, true);
 
     while (p->readln(line) != -1)
     {

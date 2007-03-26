@@ -30,7 +30,7 @@
 #include <kmessagebox.h>
 #include <kcombobox.h>
 #include <klocale.h>
-#include <kprocio.h>
+#include <k3procio.h>
 #include <kdebug.h>
 
 #include "kgpgsettings.h"
@@ -127,7 +127,7 @@ void KeyServer::slotImport()
     m_readmessage.clear();
     QString keyserv = page->kCBimportks->currentText();
 
-    m_importproc = new KProcIO();
+    m_importproc = new K3ProcIO();
     *m_importproc << "gpg";
     if (page->cBproxyI->isChecked())
     {
@@ -148,9 +148,9 @@ void KeyServer::slotImport()
         keyNames = keyNames.simplified();
     }
 
-    connect(m_importproc, SIGNAL(processExited(KProcess *)), this, SLOT(slotImportResult(KProcess *)));
-    connect(m_importproc, SIGNAL(readReady(KProcIO *)), this, SLOT(slotImportRead(KProcIO *)));
-    m_importproc->start(KProcess::NotifyOnExit, true);
+    connect(m_importproc, SIGNAL(processExited(K3Process *)), this, SLOT(slotImportResult(K3Process *)));
+    connect(m_importproc, SIGNAL(readReady(K3ProcIO *)), this, SLOT(slotImportRead(K3ProcIO *)));
+    m_importproc->start(K3Process::NotifyOnExit, true);
     m_importproc->closeWhenDone();
 
 
@@ -189,14 +189,14 @@ void KeyServer::slotAbortImport()
         close();
 }
 
-void KeyServer::slotImportRead(KProcIO *p)
+void KeyServer::slotImportRead(K3ProcIO *p)
 {
     QString required;
     while (p->readln(required, true) != -1)
         m_readmessage += required + '\n';
 }
 
-void KeyServer::slotImportResult(KProcess *p)
+void KeyServer::slotImportResult(K3Process *p)
 {
     QApplication::restoreOverrideCursor();
     QString importedNb;
@@ -297,7 +297,7 @@ void KeyServer::slotExport(const QString &keyId)
         return;
 
     m_readmessage.clear();
-    m_exportproc = new KProcIO();
+    m_exportproc = new K3ProcIO();
     QString keyserv = page->kCBexportks->currentText();
 
     *m_exportproc << "gpg";
@@ -314,9 +314,9 @@ void KeyServer::slotExport(const QString &keyId)
 
     *m_exportproc << "--status-fd=2" << "--keyserver" << keyserv << "--send-keys" << keyId;
 
-    connect(m_exportproc, SIGNAL(processExited(KProcess *)), this, SLOT(slotExportResult(KProcess *)));
-    connect(m_exportproc, SIGNAL(readReady(KProcIO *)), this, SLOT(slotImportRead(KProcIO *)));
-    m_exportproc->start(KProcess::NotifyOnExit, true);
+    connect(m_exportproc, SIGNAL(processExited(K3Process *)), this, SLOT(slotExportResult(K3Process *)));
+    connect(m_exportproc, SIGNAL(readReady(K3ProcIO *)), this, SLOT(slotImportRead(K3ProcIO *)));
+    m_exportproc->start(K3Process::NotifyOnExit, true);
 
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
     m_importpop = new QDialog(this, Qt::WShowModal | Qt::WDestructiveClose | Qt::Dialog);
@@ -348,7 +348,7 @@ void KeyServer::slotAbortExport()
     }
 }
 
-void KeyServer::slotExportResult(KProcess*)
+void KeyServer::slotExportResult(K3Process*)
 {
     QApplication::restoreOverrideCursor();
     KMessageBox::information(0, m_readmessage);
@@ -393,7 +393,7 @@ void KeyServer::slotSearch()
     m_readmessage.clear();
     QString keyserv = page->kCBimportks->currentText();
 
-    m_searchproc = new KProcIO();
+    m_searchproc = new K3ProcIO();
     *m_searchproc << "gpg";
     if (page->cBproxyI->isChecked())
     {
@@ -406,9 +406,9 @@ void KeyServer::slotSearch()
     *m_searchproc << "--keyserver" << keyserv << "--command-fd=0" << "--status-fd=2" << "--search-keys" << page->kLEimportid->text().simplified().toLocal8Bit();
 
     m_keynumbers = 0;
-    connect(m_searchproc, SIGNAL(processExited(KProcess *)), this, SLOT(slotSearchResult(KProcess *)));
-    connect(m_searchproc, SIGNAL(readReady(KProcIO *)), this, SLOT(slotSearchRead(KProcIO *)));
-    m_searchproc->start(KProcess::NotifyOnExit, true);
+    connect(m_searchproc, SIGNAL(processExited(K3Process *)), this, SLOT(slotSearchResult(K3Process *)));
+    connect(m_searchproc, SIGNAL(readReady(K3ProcIO *)), this, SLOT(slotSearchRead(K3ProcIO *)));
+    m_searchproc->start(K3Process::NotifyOnExit, true);
 
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
     m_dialogserver->setMainWidget(m_listpop);
@@ -425,7 +425,7 @@ void KeyServer::slotAbortSearch()
     }
 }
 
-void KeyServer::slotSearchRead(KProcIO *p)
+void KeyServer::slotSearchRead(K3ProcIO *p)
 {
     QString required;
     while (p->readln(required, true) != -1)
@@ -473,7 +473,7 @@ void KeyServer::slotSearchRead(KProcIO *p)
     }
 }
 
-void KeyServer::slotSearchResult(KProcess *)
+void KeyServer::slotSearchResult(K3Process *)
 {
     QString nb;
     m_dialogserver->enableButtonOk(true);

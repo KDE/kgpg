@@ -28,8 +28,8 @@
 #include <kgpgkey.h>
 
 class KTemporaryFile;
-class KProcess;
-class KProcIO;
+class K3Process;
+class K3ProcIO;
 
 /**
  * This class is the interface for gpg.
@@ -84,7 +84,7 @@ private:
      * @return 0 if there is no error
      * @return 1 if there is an error
      */
-    int sendPassphrase(const QString &text, KProcIO *process, const bool isnew = true);
+    int sendPassphrase(const QString &text, K3ProcIO *process, const bool isnew = true);
 /******************************************************************/
 
 
@@ -104,8 +104,8 @@ public slots:
     KgpgCore::KgpgKeyList readPublicKeys(const bool &block = false, const QStringList &ids = QStringList(), const bool &withsigs = false);
 
 private slots:
-    void readPublicKeysProcess(KProcIO *p);
-    void readPublicKeysFin(KProcess *p, const bool &block = false);
+    void readPublicKeysProcess(K3ProcIO *p);
+    void readPublicKeysFin(K3Process *p, const bool &block = false);
 
 private:
     int m_numberid;
@@ -121,7 +121,7 @@ public slots:
     KgpgCore::KgpgKeyList readSecretKeys(const QStringList &ids = QStringList());
 
 private slots:
-    void readSecretKeysProcess(KProcIO *p);
+    void readSecretKeysProcess(K3ProcIO *p);
 
 private:
     bool m_secretactivate;
@@ -140,8 +140,8 @@ public slots:
     QString getKeys(const bool &block = false, const bool &attributes = true, const QStringList &ids = QStringList());
 
 private slots:
-    void getKeysProcess(KProcIO *p);
-    void getKeysFin(KProcess *p);
+    void getKeysProcess(K3ProcIO *p);
+    void getKeysFin(K3Process *p);
 
 private:
     QString m_keystring;
@@ -171,8 +171,8 @@ public slots:
     void encryptText(const QString &text, const QStringList &userids, const QStringList &options = QStringList());
 
 private slots:
-    void encryptTextProcess(KProcIO *p);
-    void encryptTextFin(KProcess *p);
+    void encryptTextProcess(K3ProcIO *p);
+    void encryptTextFin(K3Process *p);
 
 /********************************************/
 
@@ -203,9 +203,9 @@ public slots:
     void decryptText(const QString &text, const QStringList &options = QStringList());
 
 private slots:
-    void decryptTextStdOut(KProcess *p, char *data, int);
-    void decryptTextStdErr(KProcess *, char *data, int);
-    void decryptTextFin(KProcess *p);
+    void decryptTextStdOut(K3Process *p, char *data, int);
+    void decryptTextStdErr(K3Process *, char *data, int);
+    void decryptTextFin(K3Process *p);
 
 private:
     int m_textlength;
@@ -229,8 +229,8 @@ public slots:
     void signText(const QString &text, const QString &userid, const QStringList &options);
 
 private slots:
-    void signTextProcess(KProcIO *p);
-    void signTextFin(KProcess *p);
+    void signTextProcess(K3ProcIO *p);
+    void signTextFin(K3Process *p);
 
 /*****************************************/
 
@@ -249,8 +249,8 @@ public slots:
     void verifyText(const QString &text);
 
 private slots:
-    void verifyTextProcess(KProcIO *p);
-    void verifyTextFin(KProcess*);
+    void verifyTextProcess(K3ProcIO *p);
+    void verifyTextFin(K3Process*);
 
 /*******************************************/
 
@@ -287,12 +287,12 @@ private slots:
     /**
      * Reads output of the current encryption process + allow overwriting of a file
      */
-    void fileReadEncProcess(KProcIO *p);
+    void fileReadEncProcess(K3ProcIO *p);
 
     /**
      * Checks if the encrypted file was saved.
      */
-    void fileEncryptFin(KProcess *p);
+    void fileEncryptFin(K3Process *p);
 
 /********************************************/
 
@@ -326,12 +326,12 @@ private slots:
     /**
      * Read output of the signature process
      */
-    void signKeyProcess(KProcIO *p);
+    void signKeyProcess(K3ProcIO *p);
 
     /**
      * Checks output of the signature process
      */
-    void signKeyFin(KProcess *p);
+    void signKeyFin(K3Process *p);
 
     /**
      * Opens the console when the user want to sign
@@ -364,8 +364,8 @@ public slots:
     void keyExpire(const QString &keyid, const QDate &date, const bool &unlimited);
 
 private slots:
-    void keyExpireProcess(KProcIO *p);
-    void keyExpireFin(KProcess *p);
+    void keyExpireProcess(K3ProcIO *p);
+    void keyExpireFin(K3Process *p);
 
 /***************************************************/
 
@@ -384,8 +384,8 @@ public slots:
     void changePass(const QString &keyid);
 
 private slots:
-    void changePassProcess(KProcIO *p);
-    void changePassFin(KProcess *p);
+    void changePassProcess(K3ProcIO *p);
+    void changePassFin(K3Process *p);
 
 /*************************************************/
 
@@ -408,8 +408,8 @@ public slots:
     void changeTrust(const QString &keyid, const int &keytrust);
 
 private slots:
-    void changeTrustProcess(KProcIO *p);
-    void changeTrustFin(KProcess *p);
+    void changeTrustProcess(K3ProcIO *p);
+    void changeTrustFin(K3Process *p);
 
 private:
     int m_trustvalue;
@@ -425,8 +425,8 @@ public slots:
     void changeDisable(const QString &keyid, const bool &ison);
 
 private slots:
-    void changeDisableProcess(KProcIO *p);
-    void changeDisableFin(KProcess *p);
+    void changeDisableProcess(K3ProcIO *p);
+    void changeDisableFin(K3Process *p);
 
 /************************************************/
 
@@ -439,7 +439,7 @@ public slots:
     QPixmap loadPhoto(const QString &keyid, const QString &uid, const bool &block = false);
 
 private slots:
-    void loadPhotoFin(KProcess *p, const bool &block = false);
+    void loadPhotoFin(K3Process *p, const bool &block = false);
 
 private:
     QPixmap m_pixmap;
@@ -462,8 +462,8 @@ public slots:
     void addPhoto(const QString &keyid, const QString &imagepath);
 
 private slots:
-    void addPhotoProcess(KProcIO *p);
-    void addPhotoFin(KProcess *p);
+    void addPhotoProcess(K3ProcIO *p);
+    void addPhotoFin(K3Process *p);
 
 /**************************************************/
 
@@ -482,8 +482,8 @@ public slots:
     void deletePhoto(const QString &keyid, const QString &uid);
 
 private slots:
-    void deletePhotoProcess(KProcIO *p);
-    void deletePhotoFin(KProcess *p);
+    void deletePhotoProcess(K3ProcIO *p);
+    void deletePhotoFin(K3Process *p);
 
 /*****************************************************/
 
@@ -511,8 +511,8 @@ private slots:
     /**
      * Read output of the import process
      */
-    void importKeyProcess(KProcIO *p);
-    void importKeyFinished(KProcess *p);
+    void importKeyProcess(K3ProcIO *p);
+    void importKeyFinished(K3Process *p);
 
 private:
     QString m_tempkeyfile;
@@ -538,8 +538,8 @@ public slots:
     void addUid(const QString &keyid, const QString &name, const QString &email, const QString &comment);
 
 private slots:
-    void addUidProcess(KProcIO *p);
-    void addUidFin(KProcess *p);
+    void addUidProcess(K3ProcIO *p);
+    void addUidFin(K3Process *p);
 
 private:
     QString uidName;
@@ -588,8 +588,8 @@ public slots:
     void generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const KgpgCore::KgpgKeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber);
 
 private slots:
-    void generateKeyProcess(KProcIO *p);
-    void generateKeyFin(KProcess *p);
+    void generateKeyProcess(K3ProcIO *p);
+    void generateKeyFin(K3Process *p);
 
 private:
     QString m_newkeyid;
@@ -627,8 +627,8 @@ public slots:
     void decryptFile(const KUrl &src, const KUrl &dest, const QStringList &Options = QStringList());
 
 private slots:
-    void decryptFileProcess(KProcIO *p);
-    void decryptFileFin(KProcess *p);
+    void decryptFileProcess(K3ProcIO *p);
+    void decryptFileFin(K3Process *p);
 
 private:
     KUrl decryptFileUrl;
@@ -685,45 +685,45 @@ public slots:
     void KgpgDelSignature(const QString &keyID, QString signKeyID);
 
     void KgpgRevokeKey(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description);
-    void revokeover(KProcess *);
-    void revokeprocess(KProcIO *p);
+    void revokeover(K3Process *);
+    void revokeprocess(K3ProcIO *p);
 
 
 private slots:
     /**
      * Checks if the signing was successful.
      */
-    void signfin(KProcess *p);
+    void signfin(K3Process *p);
 
     /**
      * Reads output of the delete signature process
      */
-    void delsigprocess(KProcIO *p);
+    void delsigprocess(K3ProcIO *p);
 
     /**
      * Checks output of the delete signature process
      */
-    void delsignover(KProcess *p);
+    void delsignover(K3Process *p);
 
     /**
      * Checks output of the import process
      */
-    void importURLover(KProcess *p);
+    void importURLover(K3Process *p);
 
     /**
      * Reads output of the current process + allow overwriting of a file
      */
-    void readprocess(KProcIO *p);
+    void readprocess(K3ProcIO *p);
 
     /**
      * Reads output of the current signing process + allow overwriting of a file
      */
-    void readsignprocess(KProcIO *p);
+    void readsignprocess(K3ProcIO *p);
 
     /**
      * Checks output of the verify process
      */
-    void verifyfin(KProcess *p);
+    void verifyfin(K3Process *p);
 
 signals:
     /**

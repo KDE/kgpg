@@ -74,10 +74,10 @@
 #include <kmimetype.h>
 #include <kshortcut.h>
 #include <kstandardshortcut.h>
-#include <kprocess.h>
+#include <k3process.h>
 #include <kprinter.h>
 #include <klocale.h>
-#include <kprocio.h>
+#include <k3procio.h>
 #include <kaction.h>
 #include <kdebug.h>
 #include <kfind.h>
@@ -443,11 +443,11 @@ void KeysManager::slotGenerateKey()
         }
         else
         {
-            KProcess kp;
+            K3Process kp;
             KConfigGroup config(KGlobal::config(), "General");
             kp << config.readPathEntry("TerminalApplication", "konsole");
             kp << "-e" << "gpg" << "--gen-key";
-            kp.start(KProcess::Block);
+            kp.start(K3Process::Block);
             refreshkey();
         }
     }
@@ -713,12 +713,12 @@ void KeysManager::slotDelUid()
     while (item->depth()>0)
         item = static_cast<K3ListViewItem*>(item->parent());
 
-    KProcess *process = new KProcess();
+    K3Process *process = new K3Process();
     KConfigGroup config(KGlobal::config(), "General");
     *process << config.readPathEntry("TerminalApplication", "konsole");
     *process << "-e" << "gpg";
     *process << "--edit-key" << item->text(6) << "uid";
-    process->start(KProcess::Block);
+    process->start(K3Process::Block);
     keysList2->refreshselfkey();
 }
 
@@ -1362,9 +1362,9 @@ void KeysManager::slotexportsec()
         if (fgpg.exists())
             fgpg.remove();
 
-        KProcIO *p = new KProcIO();
+        K3ProcIO *p = new K3ProcIO();
         *p << "gpg" << "--no-tty" << "--output" << QFile::encodeName(url.path()) << "--armor" << "--export-secret-keys" << keysList2->currentItem()->text(6);
-        p->start(KProcess::Block);
+        p->start(K3Process::Block);
 
         if (fgpg.exists())
             KMessageBox::information(this, i18n("Your PRIVATE key \"%1\" was successfully exported.\nDO NOT leave it in an insecure place.", url.path()));
@@ -1433,7 +1433,7 @@ void KeysManager::slotexport()
         else
         if (page->checkFile->isChecked())
         {
-            KProcIO *p = new KProcIO();
+            K3ProcIO *p = new K3ProcIO();
             *p << "gpg" << "--no-tty";
 
             expname = page->newFilename->url().url().simplified();
@@ -1451,7 +1451,7 @@ void KeysManager::slotexport()
                     if (exportList.at(i))
                         *p << (exportList.at(i)->text(6)).simplified();
 
-                p->start(KProcess::Block);
+                p->start(K3Process::Block);
 
                 if (fgpg.exists())
                     KMessageBox::information(this, i18n("Your public key \"%1\" was successfully exported\n", expname));
@@ -1502,9 +1502,9 @@ void KeysManager::slotShowPhoto()
     KService::List list = KServiceTypeTrader::self()->query("image/jpeg", "Type == 'Application'");
     KService::Ptr ptr = list.first();
     //KMessageBox::sorry(0,ptr->desktopEntryName());
-    KProcIO *p = new KProcIO();
+    K3ProcIO *p = new K3ProcIO();
     *p << "gpg" << "--no-tty" << "--photo-viewer" << QFile::encodeName(ptr->desktopEntryName() + " %i") << "--edit-key" << keysList2->currentItem()->parent()->text(6) << "uid" << keysList2->currentItem()->text(6) << "showphoto" << "quit";
-    p->start(KProcess::DontCare, true);
+    p->start(K3Process::DontCare, true);
 }
 
 void KeysManager::listsigns()
@@ -1989,11 +1989,11 @@ void KeysManager::slotedit()
     if (keysList2->currentItem()->text(6).isEmpty())
         return;
 
-    KProcess kp;
+    K3Process kp;
     KConfigGroup config(KGlobal::config(), "General");
     kp << config.readPathEntry("TerminalApplication","konsole");
     kp << "-e" << "gpg" <<"--no-secmem-warning" <<"--edit-key" << keysList2->currentItem()->text(6) << "help";
-    kp.start(KProcess::Block);
+    kp.start(K3Process::Block);
     keysList2->refreshcurrentkey(static_cast<K3ListViewItem*>(keysList2->currentItem()));
 }
 
@@ -2033,14 +2033,14 @@ void KeysManager::deleteseckey()
     if (result != KMessageBox::Continue)
         return;
 
-    KProcess *conprocess = new KProcess();
+    K3Process *conprocess = new K3Process();
     KConfigGroup config(KGlobal::config(), "General");
     *conprocess<< config.readPathEntry("TerminalApplication","konsole");
     *conprocess<<"-e"<<"gpg"
     <<"--no-secmem-warning"
     <<"--delete-secret-key"<<keysList2->currentItem()->text(6);
-    connect(conprocess, SIGNAL(processExited(KProcess *)), this, SLOT(reloadSecretKeys()));
-    conprocess->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+    connect(conprocess, SIGNAL(processExited(K3Process *)), this, SLOT(reloadSecretKeys()));
+    conprocess->start(K3Process::NotifyOnExit, K3Process::AllOutput);
 }
 
 void KeysManager::reloadSecretKeys()
@@ -2113,7 +2113,7 @@ void KeysManager::deletekey()
     if (exportList.count() == 0)
         return;
 
-    KProcess gp;
+    K3Process gp;
     gp << "gpg"
     << "--no-tty"
     << "--no-secmem-warning"
@@ -2125,7 +2125,7 @@ void KeysManager::deletekey()
         if (exportList.at(i))
             gp << (exportList.at(i)->text(6)).simplified();
 
-    gp.start(KProcess::Block);
+    gp.start(K3Process::Block);
 
     for (int i = 0; i < exportList.count(); ++i)
         if (exportList.at(i))

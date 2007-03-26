@@ -26,8 +26,8 @@
 class Q3ListViewItem;
 
 class KConfig;
-class KProcIO;
-class KProcess;
+class K3ProcIO;
+class K3Process;
 
 class keyServerWidget;
 
@@ -75,11 +75,11 @@ public slots:
 private slots:
     void slotReadKeys(KgpgCore::KgpgKeyList list, KgpgInterface *interface);
 
-    void slotImportRead(KProcIO *p);
-    void slotImportResult(KProcess *p);
-    void slotExportResult(KProcess *p);
-    void slotSearchRead(KProcIO *p);
-    void slotSearchResult(KProcess *p);
+    void slotImportRead(K3ProcIO *p);
+    void slotImportResult(K3Process *p);
+    void slotExportResult(K3Process *p);
+    void slotSearchRead(K3ProcIO *p);
+    void slotSearchResult(K3Process *p);
 
 private:
     QDialog *m_importpop;
@@ -88,9 +88,9 @@ private:
 
     KDialog *m_dialogserver;
     KConfig *m_config;
-    KProcIO *m_importproc;
-    KProcIO *m_exportproc;
-    KProcIO *m_searchproc;
+    K3ProcIO *m_importproc;
+    K3ProcIO *m_exportproc;
+    K3ProcIO *m_searchproc;
 
     keyServerWidget *page;
     searchRes *m_listpop;
