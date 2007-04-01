@@ -85,7 +85,7 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
         m_tempfile = url.path();
     else
     {
-        if (KMessageBox::warningContinueCancel(this, i18n("<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"), QString(), KStandardGuiItem::cont(), "RemoteFileWarning") != KMessageBox::Continue)
+        if (KMessageBox::warningContinueCancel(this, i18n("<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"), QString(), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "RemoteFileWarning") != KMessageBox::Continue)
             return;
 
         if (!KIO::NetAccess::download(url, m_tempfile, this))
