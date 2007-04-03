@@ -85,7 +85,6 @@
 #include <kurl.h>
 #include <ktip.h>
 #include <krun.h>
-#include <kwin.h>
 #include <ktoolbar.h>
 #include <kactioncollection.h>
 #include <kstandardaction.h>
