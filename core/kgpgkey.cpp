@@ -489,6 +489,7 @@ KgpgKey::KgpgKey()
     d->gpgkeyunlimited = false;
     d->gpgkeyalgo = ALGO_UNKNOWN;
     d->gpgkeyvalide = false;
+    d->gpgkeysecret = false;
 }
 
 KgpgKey::KgpgKey(const KgpgKey &other)
