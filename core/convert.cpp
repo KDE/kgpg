@@ -115,7 +115,7 @@ QColor Convert::toColor(const KgpgKeyTrust &trust)
 
 QString Convert::toString(const QDate &date)
 {
-    return KGlobal::locale()->formatDate(date, true);
+    return KGlobal::locale()->formatDate(date, KLocale::ShortDate);
 }
 
 } // namespace KgpgCore
