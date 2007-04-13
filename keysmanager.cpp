@@ -393,12 +393,9 @@ KeysManager::KeysManager(QWidget *parent)
     setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "keysmanager.rc");
     toolBar()->addSeparator();
 
-    QToolButton *clearSearch = new QToolButton(toolBar());
-    clearSearch->setText(i18n("Clear Search"));
-    clearSearch->setIcon(SmallIcon(QApplication::isRightToLeft() ? "clear-left" : "locationbar-erase"));
     (void) new QLabel(i18n("Search: "), toolBar());
     m_listviewsearch = new KeyListViewSearchLine(toolBar(), keysList2);
-    connect(clearSearch, SIGNAL(pressed()), m_listviewsearch, SLOT(clear()));
+    m_listviewsearch->setClearButtonShown(true);
 
     action = actionCollection()->addAction("search_focus");
     action->setText(i18n("Filter Search"));
