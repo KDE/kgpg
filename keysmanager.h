@@ -27,7 +27,7 @@
 #include <ktoggleaction.h>
 
 #include <k3listviewsearchline.h>
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 #include <kdialog.h>
 #include <k3listview.h>
 #include <kurl.h>
@@ -75,7 +75,7 @@ public:
   }
 };
 
-class KeysManager : public KMainWindow
+class KeysManager : public KXmlGuiWindow
 {
     Q_OBJECT
 

@@ -47,7 +47,7 @@
 #include "kgpg.h"
 
 KgpgEditor::KgpgEditor(QWidget *parent, Qt::WFlags f, KShortcut gohome, bool mainwindow)
-          : KMainWindow(parent, f)
+          : KXmlGuiWindow(parent, f)
 {
     m_ismainwindow = mainwindow;
     m_textencoding = QString();
@@ -178,7 +178,7 @@ void KgpgEditor::closeEvent (QCloseEvent *e)
     if (!m_ismainwindow)
     {
         KGlobal::ref();
-        KMainWindow::closeEvent(e);
+        KXmlGuiWindow::closeEvent(e);
     }
     else
         e->accept();

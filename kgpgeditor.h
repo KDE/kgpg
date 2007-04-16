@@ -20,7 +20,7 @@
 
 #include <QStringList>
 
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 #include <kurl.h>
 
 class QCloseEvent;
@@ -31,7 +31,7 @@ class KAction;
 class KgpgInterface;
 class KgpgView;
 
-class KgpgEditor : public KMainWindow
+class KgpgEditor : public KXmlGuiWindow
 {
     Q_OBJECT
     friend class KgpgView;

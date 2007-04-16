@@ -118,7 +118,7 @@
 using namespace KgpgCore;
 
 KeysManager::KeysManager(QWidget *parent)
-           : KMainWindow(parent)
+           : KXmlGuiWindow(parent)
 {
     new KeyAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KeyInterface", this);
@@ -390,7 +390,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
 
     // get all keys data
-    setupGUI(KMainWindow::Create | Save | ToolBar | StatusBar | Keys, "keysmanager.rc");
+    setupGUI(KXmlGuiWindow::Create | Save | ToolBar | StatusBar | Keys, "keysmanager.rc");
     toolBar()->addSeparator();
 
     (void) new QLabel(i18n("Search: "), toolBar());
@@ -1040,8 +1040,8 @@ void KeysManager::slotTip()
 
 void KeysManager::closeEvent (QCloseEvent *e)
 {
-    // kapp->ref(); // prevent KMainWindow from closing the app
-    // KMainWindow::closeEvent(e);
+    // kapp->ref(); // prevent KXmlGuiWindow from closing the app
+    // KXmlGuiWindow::closeEvent(e);
     e->accept();
     // hide();
     // e->ignore();
