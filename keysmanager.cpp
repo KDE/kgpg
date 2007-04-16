@@ -184,13 +184,13 @@ KeysManager::KeysManager(QWidget *parent)
     connect(action, SIGNAL(triggered(bool)), SLOT(slotToggleDisabled()));
 
     QAction *infoKey = actionCollection()->addAction("key_info");
-    infoKey->setIcon(KIcon("kgpg_info"));
+    infoKey->setIcon(KIcon("kgpg-info-kgpg"));
     infoKey->setText(i18n("&Edit Key"));
     connect(infoKey, SIGNAL(triggered(bool)), SLOT(listsigns()));
     infoKey->setShortcut(QKeySequence(Qt::Key_Return));
 
     QAction *editKey = actionCollection()->addAction("key_edit");
-    editKey->setIcon(KIcon("kgpg_term"));
+    editKey->setIcon(KIcon("kgpg-term-kgpg"));
     editKey->setText(i18n("Edit Key in &Terminal"));
     connect(editKey, SIGNAL(triggered(bool)), SLOT(slotedit()));
     editKey->setShortcut(QKeySequence(Qt::ALT+Qt::Key_Return));
@@ -208,7 +208,7 @@ KeysManager::KeysManager(QWidget *parent)
     exportPublicKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Copy));
 
     QAction *importKey = actionCollection()->addAction("key_import");
-    importKey->setIcon(KIcon("kgpg_import"));
+    importKey->setIcon(KIcon("kgpg-import-kgpg"));
     importKey->setText(i18n("&Import Key..."));
     connect(importKey, SIGNAL(triggered(bool)), SLOT(slotPreImportKey()));
     importKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Paste));
@@ -282,7 +282,7 @@ KeysManager::KeysManager(QWidget *parent)
     refreshKey->setText(i18n("&Refresh Keys From Keyserver"));
     connect(refreshKey, SIGNAL(triggered(bool)), SLOT(refreshKeyFromServer()));
     signKey = actionCollection()->addAction("key_sign");
-    signKey->setIcon(KIcon("kgpg_sign"));
+    signKey->setIcon(KIcon("kgpg-sign-kgpg"));
     signKey->setText(i18n("&Sign Keys..."));
     connect(signKey, SIGNAL(triggered(bool)), SLOT(signkey()));
     importSignatureKey = actionCollection()->addAction("key_importsign");
