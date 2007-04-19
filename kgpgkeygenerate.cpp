@@ -37,7 +37,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     setButtons(User1 | Ok | Cancel);
     setDefaultButton(Cancel);
 
-    setButtonText(User1, i18n("&Expert mode"));
+    setButtonText(User1, i18n("&Expert Mode"));
     setButtonToolTip(User1, i18n("Go to the expert mode"));
     setButtonWhatsThis(User1, "If you go to the expert mode, you will use the command line to create your key.");
 
