@@ -14,7 +14,7 @@
 #include <QSharedData>
 #include <QPointer>
 #include <QObject>
-#include <QString>
+
 #include <QList>
 #include <QDate>
 

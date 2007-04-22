@@ -21,7 +21,7 @@
 #ifndef CONVERT_H
 #define CONVERT_H
 
-#include <QString>
+
 #include <QColor>
 
 #include "kgpgkey.h"

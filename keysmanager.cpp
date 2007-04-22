@@ -37,7 +37,7 @@
 #include <QVariant>
 #include <QPainter>
 
-#include <QString>
+
 #include <QPixmap>
 #include <QLayout>
 #include <QRegExp>

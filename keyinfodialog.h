@@ -19,7 +19,7 @@
 #define KGPGKEYINFODIALOG_H
 
 #include <QPixmap>
-#include <QString>
+
 #include <QDate>
 
 #include <kdialog.h>

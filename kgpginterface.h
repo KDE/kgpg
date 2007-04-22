@@ -21,7 +21,7 @@
 #include <QStringList>
 #include <QDateTime>
 #include <QPixmap>
-#include <QString>
+
 
 #include <kurl.h>
 

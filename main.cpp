@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QString>
+
 
 #include <kuniqueapplication.h>
 #include <kcmdlineargs.h>

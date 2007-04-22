@@ -10,7 +10,7 @@
 #ifndef KGPGSELECTSECRETKEY_H
 #define KGPGSELECTSECRETKEY_H
 
-#include <QString>
+
 
 #include <kdialog.h>
 

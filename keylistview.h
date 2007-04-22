@@ -13,7 +13,7 @@
 #include <QStringList>
 #include <QColorGroup>
 #include <QPixmap>
-#include <QString>
+
 
 #include <k3listviewsearchline.h>
 #include <k3listview.h>

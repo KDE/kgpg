@@ -17,7 +17,7 @@
 #ifndef KGPGKEYGENERATE_H
 #define KGPGKEYGENERATE_H
 
-#include <QString>
+
 
 #include <kdialog.h>
 

@@ -20,7 +20,7 @@
 
 #include <QKeySequence>
 #include <QStringList>
-#include <QString>
+
 
 #include <kshortcut.h>
 #include <kdialog.h>
