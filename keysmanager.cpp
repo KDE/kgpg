@@ -36,7 +36,7 @@
 #include <QComboBox>
 #include <QVariant>
 #include <QPainter>
-#include <QToolTip>
+
 #include <QString>
 #include <QPixmap>
 #include <QLayout>

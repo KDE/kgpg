@@ -25,7 +25,7 @@
 #include <QBoxLayout>
 #include <QClipboard>
 #include <QCheckBox>
-#include <QToolTip>
+
 #include <QWidget>
 #include <QRegExp>
 #include <QLayout>
