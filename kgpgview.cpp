@@ -25,7 +25,7 @@
 
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
-#include <kbuttonbox.h>
+#include <k3buttonbox.h>
 #include <klocale.h>
 #include <kaction.h>
 
@@ -182,7 +182,7 @@ KgpgView::KgpgView(QWidget *parent)
 
     setAcceptDrops(true);
 
-    KButtonBox *boutonbox = new KButtonBox(this, Qt::Horizontal, 15, 12);
+    K3ButtonBox *boutonbox = new K3ButtonBox(this, Qt::Horizontal, 15, 12);
     boutonbox->addStretch(1);
     boutonbox->addButton(i18n("S&ign/Verify"), this, SLOT(slotSignVerify()), true);
     boutonbox->addButton(i18n("En&crypt"), this, SLOT(slotEncode()), true);
