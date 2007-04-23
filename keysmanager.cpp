@@ -864,7 +864,7 @@ void KeysManager::slotSetPhotoSize(int size)
 
 void KeysManager::findKey()
 {
-    KFindDialog fd(this, "find_dialog");
+    KFindDialog fd(this);
     if (fd.exec() != QDialog::Accepted)
         return;
 
