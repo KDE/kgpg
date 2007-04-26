@@ -159,7 +159,7 @@ private slots:
     void slotProcessExportClip(const QString &keys);
     void readOptions();
     void slotSetDefKey();
-    void slotSetDefaultKey(K3ListViewItem *newdef);
+    void slotSetDefaultKey(KeyListViewItem *newdef);
     void annule();
     void confirmdeletekey();
     void deletekey();
@@ -176,7 +176,7 @@ private slots:
     void slotexport();
     void slotexportsec();
 
-    void slotMenu(Q3ListViewItem *, const QPoint &, int);
+    void slotMenu(KeyListViewItem *, const QPoint &, int);
 
     void slotPreImportKey();
     void slotedit();
@@ -202,8 +202,8 @@ private:
     QString globalkeyID;
     QString searchString;
 
-    QList<Q3ListViewItem*> signList;
-    QList<Q3ListViewItem*> keysList;
+    QList<KeyListViewItem*> signList;
+    QList<KeyListViewItem*> keysList;
 
     QClipboard::Mode m_clipboardmode;
     QTimer *m_statusbartimer;

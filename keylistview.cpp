@@ -29,7 +29,7 @@
 #include "convert.h"
 #include "images.h"
 
-KeyListViewItem::KeyListViewItem(K3ListView *parent, const QString &name, const QString &email, const QString &trust, const QString &expiration, const QString &size, const QString &creation, const QString &id, const bool isdefault, bool isexpired, ItemType type)
+KeyListViewItem::KeyListViewItem(KeyListView *parent, const QString &name, const QString &email, const QString &trust, const QString &expiration, const QString &size, const QString &creation, const QString &id, const bool isdefault, bool isexpired, ItemType type)
                : K3ListViewItem(parent)
 {
     m_def = isdefault;
@@ -44,7 +44,7 @@ KeyListViewItem::KeyListViewItem(K3ListView *parent, const QString &name, const 
     setText(6, id);
 }
 
-KeyListViewItem::KeyListViewItem(K3ListViewItem *parent, const QString &name, const QString &email, const QString &trust, const QString &expiration, const QString &size, const QString &creation, const QString &id, const bool isdefault, const bool isexpired, ItemType type)
+KeyListViewItem::KeyListViewItem(KeyListViewItem *parent, const QString &name, const QString &email, const QString &trust, const QString &expiration, const QString &size, const QString &creation, const QString &id, const bool isdefault, const bool isexpired, ItemType type)
                : K3ListViewItem(parent)
 {
     m_def = isdefault;
@@ -119,10 +119,8 @@ void KeyListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, 
     K3ListViewItem::paintCell(p, _cg, column, width, alignment);
 }
 
-int KeyListViewItem::compare(Q3ListViewItem *item2, int c, bool ascending) const
+int KeyListViewItem::compare(KeyListViewItem *item, int c, bool ascending) const
 {
-    KeyListViewItem *item = static_cast<KeyListViewItem*>(item2);
-
     if (c == 0)
     {
         ItemType item1 = itemType();
@@ -233,7 +231,7 @@ KeyListView::KeyListView(QWidget *parent)
     trustgood.fill(KGpgSettings::colorGood());
     QPainter(&trustgood).drawPixmap(rect, blankFrame);
 
-    connect(this, SIGNAL(expanded(Q3ListViewItem*)), this, SLOT(expandKey(Q3ListViewItem *)));
+    connect(this, SIGNAL(expanded(KeyListViewItem*)), this, SLOT(expandKey(KeyListViewItem *)));
 
     header()->setMovingEnabled(false);
     setAcceptDrops(true);
@@ -287,7 +285,7 @@ void  KeyListView::contentsDropEvent(QDropEvent *o)
 
 void KeyListView::startDrag()
 {
-    KeyListViewItem *ki = static_cast<KeyListViewItem *>(currentItem());
+    KeyListViewItem *ki = currentItem();
     QString keyid = ki->text(6);
 
 	if (!(ki->itemType() & KeyListViewItem::Public))
@@ -339,11 +337,11 @@ void KeyListView::refreshAll()
     kDebug(2100) << "Refreshing All" << endl;
 
     // get current position.
-    K3ListViewItem *current = static_cast<K3ListViewItem*>(currentItem());
+    KeyListViewItem *current = currentItem();
     if(current != 0)
     {
         while(current->depth() > 0)
-            current = static_cast<K3ListViewItem*>(current->parent());
+            current = current->parent();
         takeItem(current);
     }
 
@@ -360,18 +358,18 @@ void KeyListView::refreshAll()
 
     refreshGroups();
 
-    K3ListViewItem *newPos = 0L;
+    KeyListViewItem *newPos = NULL;
     if(current != 0)
     {
         // select previous selected
         if (!current->text(6).isEmpty())
-            newPos = static_cast<K3ListViewItem*>(findItem(current->text(6), 6));
+            newPos = findItem(current->text(6), 6);
         else
-            newPos = static_cast<K3ListViewItem*>(findItem(current->text(0), 0));
+            newPos = findItem(current->text(0), 0);
         delete current;
     }
 
-    if (newPos != 0L)
+    if (newPos != NULL)
     {
         setCurrentItem(newPos);
         setSelected(newPos, true);
@@ -441,7 +439,7 @@ bool KeyListView::refreshKeys(const QStringList &ids)
     }
 }
 
-void KeyListView::refreshcurrentkey(K3ListViewItem *current)
+void KeyListView::refreshcurrentkey(KeyListViewItem *current)
 {
     if (!current)
         return;
@@ -463,9 +461,9 @@ void KeyListView::refreshcurrentkey(K3ListViewItem *current)
 void KeyListView::refreshselfkey()
 {
     if (currentItem()->depth() == 0)
-        refreshcurrentkey(static_cast<K3ListViewItem*>(currentItem()));
+        refreshcurrentkey(currentItem());
     else
-        refreshcurrentkey(static_cast<K3ListViewItem*>(currentItem()->parent()));
+        refreshcurrentkey(currentItem()->parent());
 }
 
 void KeyListView::slotReloadOrphaned()
@@ -536,17 +534,17 @@ void KeyListView::insertOrphans(const QStringList &ids)
 void KeyListView::refreshGroups()
 {
     kDebug(2100) << "Refreshing groups..." << endl;
-    KeyListViewItem *item = static_cast<KeyListViewItem*>(firstChild());
+    KeyListViewItem *item = firstChild();
     while (item)
     {
         if (item->itemType() == KeyListViewItem::Group)
         {
-            KeyListViewItem *item2 = static_cast<KeyListViewItem*>(item->nextSibling());
+            KeyListViewItem *item2 = item->nextSibling();
             delete item;
             item = item2;
         }
         else
-            item = static_cast<KeyListViewItem*>(item->nextSibling());
+            item = item->nextSibling();
     }
 
     QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
@@ -602,19 +600,18 @@ void KeyListView::refreshTrust(int color, QColor newColor)
             break;
     }
 
-    K3ListViewItem *item = static_cast<K3ListViewItem*>(firstChild());
+    KeyListViewItem *item = firstChild();
     while (item)
     {
         if (item->pixmap(2))
             if (item->pixmap(2)->serialNumber() == trustFinger)
                 item->setPixmap(2, newtrust);
-        item = static_cast<K3ListViewItem*>(item->nextSibling());
+        item = item->nextSibling();
     }
 }
 
-void KeyListView::expandKey(Q3ListViewItem *item2)
+void KeyListView::expandKey(KeyListViewItem *item)
 {
-    K3ListViewItem *item = static_cast<K3ListViewItem*>(item2);
     if (item->childCount() != 0)
         return;   // key has already been expanded
 
@@ -682,7 +679,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
     delete interface;
 }
 
-void KeyListView::insertSigns(K3ListViewItem *item, const KgpgKeySignList &list)
+void KeyListView::insertSigns(KeyListViewItem *item, const KgpgKeySignList &list)
 {
     KeyListViewItem *newitem;
     for (int i = 0; i < list.size(); ++i)
@@ -711,7 +708,7 @@ void KeyListView::insertSigns(K3ListViewItem *item, const KgpgKeySignList &list)
     }
 }
 
-void KeyListView::expandGroup(K3ListViewItem *item)
+void KeyListView::expandGroup(KeyListViewItem *item)
 {
     QStringList keysGroup = KgpgInterface::getGpgGroupSetting(item->text(0), KGpgSettings::gpgConfigPath());
 
@@ -752,6 +749,18 @@ QPixmap KeyListView::getTrustPix(const KgpgKeyTrust &trust, const bool &isvalid)
     return trustunknown;
 }
 
+QList<KeyListViewItem *> KeyListView::selectedItems(void)
+{
+	QList<KeyListViewItem *> list;
+
+	Q3ListViewItemIterator it(this, Q3ListViewItemIterator::Selected);
+
+	for(; it.current(); ++it)
+		list.append(static_cast<KeyListViewItem*>(it.current()));
+
+	return list;
+}
+
 KeyListViewSearchLine::KeyListViewSearchLine(QWidget *parent, KeyListView *listView)
                      : K3ListViewSearchLine(parent, listView)
 {
@@ -787,7 +796,7 @@ void KeyListViewSearchLine::updateSearch(const QString& s)
 
     if (m_hidepublic || m_hidedisabled)
     {
-        KeyListViewItem *item = static_cast<KeyListViewItem*>(m_searchlistview->firstChild());
+        KeyListViewItem *item = m_searchlistview->firstChild();
         while (item)
         {
             if (item->isVisible())
@@ -800,7 +809,7 @@ void KeyListViewSearchLine::updateSearch(const QString& s)
                     if (item->isExpired())
                         item->setVisible(false);
             }
-            item = static_cast<KeyListViewItem*>(item->nextSibling());
+            item = item->nextSibling();
         }
     }
 }

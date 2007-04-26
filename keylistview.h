@@ -28,6 +28,8 @@ class QDragMoveEvent;
 class QDropEvent;
 class QPainter;
 
+class KeyListView;
+
 class KeyListViewItem : public K3ListViewItem
 {
 public:
@@ -45,8 +47,8 @@ public:
     };
     Q_DECLARE_FLAGS(ItemType, ItemTypeFlag)
 
-    KeyListViewItem(K3ListView *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString() , const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
-    KeyListViewItem(K3ListViewItem *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString(), const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
+    KeyListViewItem(KeyListView *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString() , const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
+    KeyListViewItem(KeyListViewItem *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString(), const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
 
     void setItemType(const ItemType &type);
     ItemType itemType() const;
@@ -58,8 +60,11 @@ public:
     bool isExpired() const;
 
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int col, int width, int align);
-    virtual int compare(Q3ListViewItem *item, int c, bool ascending) const;
+    virtual int compare(KeyListViewItem *item, int c, bool ascending) const;
     virtual QString key(int column, bool) const;
+    virtual KeyListViewItem *parent() const { return static_cast<KeyListViewItem*>(parent()); }
+    virtual KeyListViewItem *nextSibling() const { return static_cast<KeyListViewItem*>(nextSibling()); }
+    virtual KeyListViewItem *firstChild() const { return static_cast<KeyListViewItem*>(firstChild()); }
 
 private:
     bool m_def; /// Is set to \em true if it is the default key, \em false otherwise.
@@ -91,11 +96,17 @@ signals:
 public slots:
     void slotAddColumn(const int &c);
     void slotRemoveColumn(const int &c);
+    virtual KeyListViewItem *firstChild() { return static_cast<KeyListViewItem*>(firstChild()); }
 
 protected:
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void startDrag();
+    virtual KeyListViewItem *currentItem() const { return static_cast<KeyListViewItem*>(currentItem()); }
+    virtual KeyListViewItem *findItem (const QString &text, int column, ComparisonFlags compare = ExactMatch | Qt::CaseSensitive) const
+		{ return static_cast<KeyListViewItem *>(findItem(text, column, compare)); }
+    virtual QList<KeyListViewItem *> selectedItems(void);
+    virtual KeyListViewItem *lastChild() const { return static_cast<KeyListViewItem*>(lastChild()); }
 
 private slots:
     void droppedFile(const KUrl &url);
@@ -104,7 +115,7 @@ private slots:
     void refreshAll();
 
     bool refreshKeys(const QStringList &ids = QStringList());
-    void refreshcurrentkey(K3ListViewItem *current);
+    void refreshcurrentkey(KeyListViewItem *current);
     void refreshselfkey();
 
     void slotReloadOrphaned();
@@ -113,9 +124,9 @@ private slots:
     void refreshGroups();
     void refreshTrust(int color, QColor newColor);
 
-    void expandKey(Q3ListViewItem *item);
-    void expandGroup(K3ListViewItem *item);
-    void insertSigns(K3ListViewItem *item, const KgpgCore::KgpgKeySignList &list);
+    void expandKey(KeyListViewItem *item);
+    void expandGroup(KeyListViewItem *item);
+    void insertSigns(KeyListViewItem *item, const KgpgCore::KgpgKeySignList &list);
 
 private:
     QPixmap getTrustPix(const KgpgCore::KgpgKeyTrust &trust, const bool &isvalid);
