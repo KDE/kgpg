@@ -29,7 +29,7 @@ public:
 class KgpgDetailedInfo : public KDialog
 {
 public:
-    KgpgDetailedInfo(QWidget *parent = 0, const char *name = 0,const QString &boxLabel = QString(), const QString &errormessage = QString(), const QStringList &keysList = QStringList());
+    KgpgDetailedInfo(QWidget *parent = 0, const QString &boxLabel = QString(), const QString &errormessage = QString(), const QStringList &keysList = QStringList());
 };
 
 #endif // KGPGDETAILEDCONSOLE_H

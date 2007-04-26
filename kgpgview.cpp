@@ -317,7 +317,7 @@ void KgpgView::slotVerifyResult(const QString &mssge, const QString &log, KgpgIn
 {
     delete interface;
     emit verifyFinished();
-    (void) new KgpgDetailedInfo(0, "verify_result", mssge, log);
+    (void) new KgpgDetailedInfo(0, mssge, log);
 }
 
 void KgpgView::slotSignResult(const QString &signResult, KgpgInterface*)

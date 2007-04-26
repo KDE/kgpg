@@ -2486,8 +2486,8 @@ void KgpgInterface::importKeyFinished(K3Process *p)
 
     emit importKeyFinished(importedKeysIds);
 
-    // TODO : a supprimer d'une manière ou d'une autre
-    (void) new KgpgDetailedInfo(0, "import_result", resultMessage, message, importedKeys);
+    // TODO : a supprimer d'une manière ou d'une autre (wtf??)
+    (void) new KgpgDetailedInfo(0, resultMessage, message, importedKeys);
 }
 
 void KgpgInterface::addUid(const QString &keyid, const QString &name, const QString &email, const QString &comment)
@@ -3016,7 +3016,7 @@ void KgpgInterface::verifyfin(K3Process *)
         if (signID.isEmpty())
             signID = i18n("No signature found.");
 
-        (void) new KgpgDetailedInfo(0, "verify_result", signID,message);
+        (void) new KgpgDetailedInfo(0, signID, message);
     }
     else
     {

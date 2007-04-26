@@ -282,7 +282,7 @@ void KeyServer::slotImportResult(K3Process *p)
     if (m_importpop)
         m_importpop->hide();
 
-    (void) new KgpgDetailedInfo(0, "import_result", resultMessage, m_readmessage, importedKeys);
+    (void) new KgpgDetailedInfo(0, resultMessage, m_readmessage, importedKeys);
 
     delete m_importpop;
     delete p;

@@ -51,7 +51,7 @@ KgpgDetailedConsole::KgpgDetailedConsole(QWidget *parent, const QString &boxLabe
     vbox->addWidget(lab1);
 }
 
-KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const char *name, const QString &boxLabel, const QString &errormessage, const QStringList &keysList)
+KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, const QString &errormessage, const QStringList &keysList)
                 : KDialog(parent)
 {
     setCaption( i18n("Info") );
