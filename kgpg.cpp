@@ -62,7 +62,7 @@
 #include <kaction.h>
 #include <kdebug.h>
 #include <kmenu.h>
-#include <kwm.h>
+#include <kwindowsystem.h>
 #include <ktip.h>
 #include <ktar.h>
 #include <kzip.h>
@@ -1126,8 +1126,8 @@ int KgpgAppletApp::newInstance()
     {
         s_keyManager->show();
 #ifdef Q_OS_UNIX
-        KWM::setOnDesktop(s_keyManager->winId(), KWM::currentDesktop());  //set on the current desktop
-        KWM::unminimizeWindow(s_keyManager->winId());  //de-iconify window
+        KWindowSystem::setOnDesktop(s_keyManager->winId(), KWindowSystem::currentDesktop());  //set on the current desktop
+        KWindowSystem::unminimizeWindow(s_keyManager->winId());  //de-iconify window
 #endif
         s_keyManager->raise();  // set on top
     }
