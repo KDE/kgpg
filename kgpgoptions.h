@@ -108,6 +108,7 @@ private slots:
 private:
     bool hasChanged();
     bool isDefault();
+    bool isValidKeyserver(const QString &);
 
 private:
     QStringList serverList;

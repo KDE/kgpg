@@ -51,7 +51,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 {
     m_config = new KConfig("kgpgrc", KConfig::OnlyLocal);
 
-    defaultServerList = "hkp://wwwkeys.eu.pgp.net ";
+    defaultServerList = "hkp://subkeys.pgp.net ";
     defaultServerList += i18n("(Default)");
     defaultServerList += ",hkp://search.keyserver.net,hkp://wwwkeys.pgp.net,hkp://pgp.dtype.org,hkp://wwwkeys.us.pgp.net";
 
@@ -59,17 +59,16 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 	serverList = gr.readEntry("Server_List", defaultServerList).split(",");
     keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
 
-    if (!keyServer.isEmpty())
-        serverList.prepend(keyServer + ' ' + i18n("(Default)"));
+	if (!keyServer.isEmpty()) {
+		/* Remove everything after a whitespace. This will normally be
+		 * ' (Default)' from KDE 3.x.x */
+		serverList.replaceInStrings(QRegExp(" .*"), "");
+		serverList.removeAll(keyServer);
+		serverList.prepend(keyServer + ' ' + i18n("(Default)"));
+	}
 
-    defaultHomePath = QDir::homePath() + "/.gnupg/";
-    if (QFile(defaultHomePath + "options").exists())
-        defaultConfigPath = "options";
-    else
-    if (QFile(defaultHomePath + "gpg.conf").exists())
-        defaultConfigPath = "gpg.conf";
-    else
-        defaultConfigPath = QString();
+	defaultConfigPath = KUrl::fromPath(gpgConfigPath).fileName();
+	defaultHomePath = KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash);
 
     kDebug(2100) << "Adding pages" << endl;
     m_page1 = new Encryption();
@@ -170,13 +169,27 @@ void kgpgOptions::slotChangeHome()
     m_page4->gpg_home_path->setText(gpgHome);
 }
 
+bool kgpgOptions::isValidKeyserver(const QString &server)
+{
+	if (server.isEmpty())
+		return false;
+	if (server.contains(' ')) {
+		KMessageBox::sorry(this, i18n("Key server URLs may not contain whitespace."));
+		return false;
+	}
+	return true;
+}
+
 void kgpgOptions::slotAddKeyServer()
 {
     QString newServer = KInputDialog::getText(i18n("Add New Key Server"), i18n("Server URL:"));
-    if (!newServer.isEmpty())
-        m_page6->ServerBox->insertItem(newServer.simplified());
 
-    m_page6->ServerBox->setSelected(m_page6->ServerBox->findItem(newServer.simplified()), true);
+    if (!isValidKeyserver(newServer))
+	return;
+
+    m_page6->ServerBox->insertItem(newServer);
+
+    m_page6->ServerBox->setSelected(m_page6->ServerBox->findItem(newServer), true);
 }
 
 void kgpgOptions::slotDelKeyServer()
@@ -202,7 +215,7 @@ void kgpgOptions::slotEditKeyServer()
 	}
 
 	QString newServer = KInputDialog::getText(i18n("Edit Key Server"), i18n("Server URL:"), oldServer).simplified();
-	if (newServer.isEmpty())
+	if (!isValidKeyserver(newServer))
 		return;
 	if (isDefault)
 		newServer = newServer + ' ' + i18n("(Default)");
@@ -347,7 +360,7 @@ void kgpgOptions::updateSettings()
     }
 
     KgpgInterface::setGpgSetting("keyserver", keyServer, KGpgSettings::gpgConfigPath());
-    serverList.prepend(keyServer + ' ' + i18n("(Default)"));
+    serverList.prepend(keyServer);
 
     currList = serverList.join(",");
     KConfigGroup gr = m_config->group("Servers");
