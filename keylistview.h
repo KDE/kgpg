@@ -62,9 +62,9 @@ public:
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int col, int width, int align);
     virtual int compare(KeyListViewItem *item, int c, bool ascending) const;
     virtual QString key(int column, bool) const;
-    virtual KeyListViewItem *parent() const { return static_cast<KeyListViewItem*>(parent()); }
-    virtual KeyListViewItem *nextSibling() const { return static_cast<KeyListViewItem*>(nextSibling()); }
-    virtual KeyListViewItem *firstChild() const { return static_cast<KeyListViewItem*>(firstChild()); }
+    virtual KeyListViewItem *parent() const { return static_cast<KeyListViewItem*>(K3ListViewItem::parent()); }
+    virtual KeyListViewItem *nextSibling() const { return static_cast<KeyListViewItem*>(K3ListViewItem::nextSibling()); }
+    virtual KeyListViewItem *firstChild() const { return static_cast<KeyListViewItem*>(K3ListViewItem::firstChild()); }
 
 private:
     bool m_def; /// Is set to \em true if it is the default key, \em false otherwise.
@@ -96,17 +96,17 @@ signals:
 public slots:
     void slotAddColumn(const int &c);
     void slotRemoveColumn(const int &c);
-    virtual KeyListViewItem *firstChild() { return static_cast<KeyListViewItem*>(firstChild()); }
+    virtual KeyListViewItem *firstChild() { return static_cast<KeyListViewItem*>(K3ListView::firstChild()); }
 
 protected:
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void startDrag();
-    virtual KeyListViewItem *currentItem() const { return static_cast<KeyListViewItem*>(currentItem()); }
+    virtual KeyListViewItem *currentItem() const { return static_cast<KeyListViewItem*>(K3ListView::currentItem()); }
     virtual KeyListViewItem *findItem (const QString &text, int column, ComparisonFlags compare = ExactMatch | Qt::CaseSensitive) const
-		{ return static_cast<KeyListViewItem *>(findItem(text, column, compare)); }
+		{ return static_cast<KeyListViewItem *>(K3ListView::findItem(text, column, compare)); }
     virtual QList<KeyListViewItem *> selectedItems(void);
-    virtual KeyListViewItem *lastChild() const { return static_cast<KeyListViewItem*>(lastChild()); }
+    virtual KeyListViewItem *lastChild() const { return static_cast<KeyListViewItem*>(K3ListView::lastChild()); }
 
 private slots:
     void droppedFile(const KUrl &url);
