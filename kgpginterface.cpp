@@ -119,18 +119,15 @@ QStringList KgpgInterface::getGpgGroupNames(const QString &configfile)
     QFile qfile(QFile::encodeName(configfile));
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
-        QString result;
         QTextStream t(&qfile);
-        result = t.readLine();
-        while (result != NULL)
+        while (!t.atEnd())
         {
-            result = result.simplified();
+            QString result = t.readLine().simplified();
             if (result.startsWith("group "))
             {
                 result.remove(0, 6);
                 groups << result.section("=", 0, 0).simplified();
             }
-            result = t.readLine();
         }
         qfile.close();
     }
@@ -142,12 +139,11 @@ QStringList KgpgInterface::getGpgGroupSetting(const QString &name, const QString
     QFile qfile(QFile::encodeName(configfile));
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
-        QString result;
         QTextStream t(&qfile);
-        result = t.readLine();
-        while (result != NULL)
+        while (!t.atEnd())
         {
-            result = result.simplified();
+    	    QString result = t.readLine().simplified();
+
             if (result.startsWith("group "))
             {
                 kDebug(2100) << "Found 1 group" << endl;
@@ -160,7 +156,6 @@ QStringList KgpgInterface::getGpgGroupSetting(const QString &name, const QString
                     return result.split(" ");
                 }
             }
-            result = t.readLine();
         }
         qfile.close();
     }
@@ -176,11 +171,10 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
     kDebug(2100) << "Changing group: " << name << endl;
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
-        QString result;
         QTextStream t(&qfile);
-        result = t.readLine();
-        while (result != NULL)
+        while (!t.atEnd())
         {
+	    QString result = t.readLine();
             if (result.simplified().startsWith("group "))
             {
                 QString result2 = result.simplified();
@@ -195,7 +189,6 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
                 }
             }
             texttowrite += result + '\n';
-            result = t.readLine();
         }
         qfile.close();
 
@@ -217,11 +210,10 @@ void KgpgInterface::delGpgGroup(const QString &name, const QString &configfile)
     QFile qfile(QFile::encodeName(configfile));
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
-        QString result;
         QTextStream t(&qfile);
-        result = t.readLine();
-        while (result != NULL)
+        while (!t.atEnd())
         {
+	    QString result = t.readLine();
             if (result.simplified().startsWith("group "))
             {
                 QString result2 = result.simplified();
@@ -232,7 +224,6 @@ void KgpgInterface::delGpgGroup(const QString &name, const QString &configfile)
             }
 
             texttowrite += result + '\n';
-            result = t.readLine();
         }
 
         qfile.close();
@@ -251,11 +242,10 @@ QString KgpgInterface::getGpgSetting(QString name, const QString &configfile)
     QFile qfile(QFile::encodeName(configfile));
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
-        QString result;
         QTextStream t(&qfile);
-        result = t.readLine();
-        while (result != NULL)
+        while (!t.atEnd())
         {
+            QString result = t.readLine();
             if (result.simplified().startsWith(name))
             {
                 result = result.simplified();
@@ -263,7 +253,6 @@ QString KgpgInterface::getGpgSetting(QString name, const QString &configfile)
                 result = result.simplified();
                 return result.section(" ", 0, 0);
             }
-            result = t.readLine();
         }
         qfile.close();
     }
@@ -280,11 +269,10 @@ void KgpgInterface::setGpgSetting(const QString &name, const QString &value, con
 
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
-        QString result;
         QTextStream t(&qfile);
-        result = t.readLine();
-        while (result != NULL)
+        while (!t.atEnd())
         {
+	    QString result = t.readLine();
             if (result.simplified().startsWith(temp))
             {
                 if (!value.isEmpty())
@@ -295,7 +283,6 @@ void KgpgInterface::setGpgSetting(const QString &name, const QString &value, con
             }
 
             texttowrite += result + '\n';
-            result = t.readLine();
         }
 
         qfile.close();
@@ -316,14 +303,11 @@ bool KgpgInterface::getGpgBoolSetting(const QString &name, const QString &config
     QFile qfile(QFile::encodeName(configfile));
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
-        QString result;
         QTextStream t(&qfile);
-        result = t.readLine();
-        while (result != NULL)
+        while (!t.atEnd())
         {
-            if (result.simplified().startsWith(name))
+            if (t.readLine().simplified().startsWith(name))
                 return true;
-            result = t.readLine();
         }
         qfile.close();
     }
@@ -338,12 +322,12 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool &enable, c
 
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
-        QString result;
         QTextStream t(&qfile);
-        result = t.readLine();
 
-        while (result != NULL)
+        while (!t.atEnd())
         {
+	    QString result = t.readLine();
+
             if (result.simplified().startsWith(name))
             {
                 if (enable)
@@ -355,7 +339,6 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool &enable, c
             }
 
             texttowrite += result + '\n';
-            result = t.readLine();
         }
         qfile.close();
 
@@ -510,8 +493,8 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
     else
         *process << "--list-sigs";
 
-    for (int i = 0; i < ids.count(); ++i)
-        *process << ids.at(i);
+    for (QStringList::ConstIterator it = ids.begin(); it != ids.end(); ++it)
+        *process << *it;
 
     if (!block)
     {
@@ -835,8 +818,9 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
     process->setParent(this);
     *process << "gpg" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--with-colon" << "--list-secret-keys";
-    for (int i = 0; i < ids.count(); ++i)
-        *process << ids.at(i);
+
+    for (QStringList::ConstIterator it = ids.begin(); it != ids.end(); ++it)
+        *process << *it;
 
         process->start(K3Process::Block, false);
         readSecretKeysProcess(process);
