@@ -22,10 +22,12 @@
 #include <QClipboard>
 #include <QLabel>
 
-#include <kuniqueapplication.h>
-#include <ksystemtrayicon.h>
-#include <kshortcut.h>
-#include <kurl.h>
+#include <KUniqueApplication>
+#include <KSystemTrayIcon>
+#include <KShortcut>
+#include <KUrl>
+
+#include "ui_kgpgwizard.h"
 
 class QDragEnterEvent;
 class QDropEvent;
@@ -40,6 +42,15 @@ class KAction;
 class KgpgSelectPublicKeyDlg;
 class KgpgInterface;
 class KeysManager;
+
+class KgpgWizard : public Q3Wizard, public Ui::KgpgWizard
+{
+public:
+    KgpgWizard(QWidget *parent = 0) : Q3Wizard(parent)
+    {
+        setupUi(this);
+    }
+};
 
 class MyView : public QLabel
 {
@@ -63,7 +74,7 @@ signals:
 
 public slots:
     /**
-     * When you clic on "encrypt the clipboard" in the systray,
+     * When you click on "encrypt the clipboard" in the systray,
      * this slot will open the dialog to choose a key and encrypt the
      * clipboard.
      */

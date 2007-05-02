@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "selectpublickeydialog.h"
+
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -24,20 +26,20 @@
 #include <QPixmap>
 #include <QLabel>
 
-#include <k3listviewsearchline.h>
-#include <kactioncollection.h>
-#include <kiconloader.h>
-#include <k3listview.h>
-#include <klineedit.h>
-#include <klocale.h>
-#include <kaction.h>
-#include <khbox.h>
-#include <kvbox.h>
+#include <K3ListViewSearchLine>
+#include <KActionCollection>
+#include <KIconLoader>
+#include <K3ListView>
+#include <KLineEdit>
+#include <KLocale>
+#include <KAction>
+#include <KHBox>
+#include <KVBox>
 
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "images.h"
-#include "selectpublickeydialog.h"
+
 
 using namespace KgpgCore;
 

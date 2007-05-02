@@ -5,7 +5,6 @@ add_subdirectory( core )
 include_directories( core  )
 
 
-
 ########### next target ###############
 
 set(core_SRCS
@@ -40,14 +39,24 @@ qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)
 
 kde4_automoc(${kgpg_SRCS})
 
-kde4_add_ui_files(kgpg_SRCS adduid.ui conf_gpg.ui searchres.ui keyproperties.ui groupedit.ui conf_ui2.ui conf_servers.ui conf_misc.ui newkey.ui keyexport.ui conf_encryption.ui kgpgrevokewidget.ui)
-
-kde4_add_ui3_files(kgpg_SRCS
-   keyserver.ui
-   kgpgwizard.ui
-   conf_decryption.ui
-   sourceselect.ui
-   )
+kde4_add_ui_files(kgpg_SRCS
+    adduid.ui
+    conf_gpg.ui
+    searchres.ui
+    keyproperties.ui
+    groupedit.ui
+    conf_ui2.ui
+    conf_servers.ui
+    conf_misc.ui
+    newkey.ui
+    keyexport.ui
+    conf_encryption.ui
+    kgpgrevokewidget.ui
+    keyserver.ui
+    kgpgwizard.ui
+    conf_decryption.ui
+    sourceselect.ui
+)
 
 kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
@@ -56,7 +65,6 @@ kde4_add_executable(kgpg ${kgpg_SRCS})
 target_link_libraries(kgpg  ${KDE4_KIO_LIBS} ${KDE4_KABC_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KDE3SUPPORT_LIBS})
 
 install(TARGETS kgpg  DESTINATION ${BIN_INSTALL_DIR} )
-
 
 ########### install files ###############
 
@@ -69,5 +77,3 @@ install( FILES encryptfile.desktop encryptfolder.desktop  DESTINATION ${DATA_INS
 install( FILES org.kde.kgpg.Key.xml DESTINATION ${DBUS_INTERFACES_DIR})
 
 kde4_install_icons( ${ICON_INSTALL_DIR}   )
-
-

@@ -22,15 +22,14 @@
 #include <QDropEvent>
 #include <QClipboard>
 #include <QPixmap>
-
 #include <Q3ListViewItem>
-#include <ktoggleaction.h>
 
-#include <k3listviewsearchline.h>
-#include <kxmlguiwindow.h>
-#include <kdialog.h>
-#include <k3listview.h>
-#include <kurl.h>
+#include <KToggleAction>
+#include <K3ListViewSearchLine>
+#include <KXmlGuiWindow>
+#include <KDialog>
+#include <K3ListView>
+#include <KUrl>
 
 #include "kgpgkey.h"
 #include "keylistview.h"
@@ -56,7 +55,6 @@ class KgpgInterface;
 class groupEdit;
 class KeyServer;
 class KgpgEditor;
-
 
 class groupEdit : public QWidget, public Ui::groupEdit
 {

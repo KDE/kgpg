@@ -18,9 +18,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "emailvalidator.h"
+
 #include <QRegExp>
 
-#include "emailvalidator.h"
+
 
 namespace KgpgCore
 {

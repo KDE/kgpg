@@ -12,7 +12,7 @@
 
 
 
-#include <kdialog.h>
+#include <KDialog>
 
 class QCheckBox;
 

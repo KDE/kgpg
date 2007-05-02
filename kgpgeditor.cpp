@@ -15,36 +15,39 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kgpgeditor.h"
+
 #include <QTextStream>
 #include <QCloseEvent>
 #include <QTextCodec>
 #include <QPainter>
-#include <ktoggleaction.h>
-#include <kstandardaction.h>
-#include <kactioncollection.h>
 #include <QtDBus>
-#include <kicon.h>
 
-#include <kencodingfiledialog.h>
+#include <KToggleAction>
+#include <KStandardAction>
+#include <KActionCollection>
+#include <KIcon>
+#include <KShortcut>
+#include <KEncodingFileDialog>
 #include <kio/netaccess.h>
 #include <kio/renamedialog.h>
-#include <kapplication.h>
-#include <kmessagebox.h>
-#include <ktemporaryfile.h>
-#include <kprinter.h>
-#include <kaction.h>
-#include <klocale.h>
-#include <kdebug.h>
+#include <KApplication>
+#include <KMessageBox>
+#include <KTemporaryFile>
+#include <KPrinter>
+#include <KAction>
+#include <KLocale>
+#include <KDebug>
 
 #include "selectsecretkey.h"
 #include "kgpgmd5widget.h"
 #include "kgpgsettings.h"
-#include "sourceselect.h"
 #include "kgpglibrary.h"
-#include "kgpgeditor.h"
 #include "keyservers.h"
+#include "sourceselect.h"
 #include "kgpgview.h"
 #include "kgpg.h"
+
 
 KgpgEditor::KgpgEditor(QWidget *parent, Qt::WFlags f, KShortcut gohome, bool mainwindow)
           : KXmlGuiWindow(parent, f)

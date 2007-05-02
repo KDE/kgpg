@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "keysmanager.h"
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
@@ -36,8 +38,6 @@
 #include <QComboBox>
 #include <QVariant>
 #include <QPainter>
-
-
 #include <QPixmap>
 #include <QLayout>
 #include <QRegExp>
@@ -50,59 +50,57 @@
 #include <QList>
 #include <QFile>
 #include <QDir>
-
+#include <QtDBus>
 #include <Q3TextDrag>
+#include <QProcess>
 
 #include <kabc/addresseedialog.h>
 #include <kabc/stdaddressbook.h>
-#include <kpassworddialog.h>
-#include <ktoolinvocation.h>
-#include <kurlrequester.h>
+#include <KPasswordDialog>
+#include <KToolInvocation>
+#include <KUrlRequester>
 #include <kio/netaccess.h>
-#include <kstandarddirs.h>
-#include <kpassivepopup.h>
-#include <kdesktopfile.h>
-#include <kinputdialog.h>
-#include <kfiledialog.h>
-#include <kiconloader.h>
-#include <kmessagebox.h>
-#include <kfinddialog.h>
-#include <kstatusbar.h>
-#include <kservice.h>
-#include <kservicetypetrader.h>
-#include <klineedit.h>
-#include <kmimetype.h>
-#include <kshortcut.h>
-#include <kstandardshortcut.h>
-#include <k3process.h>
-#include <kprinter.h>
-#include <klocale.h>
-#include <k3procio.h>
-#include <kaction.h>
-#include <kdebug.h>
-#include <kfind.h>
-#include <kmenu.h>
-#include <kurl.h>
+#include <KStandardDirs>
+#include <KPassivePopup>
+#include <KDesktopFile>
+#include <KInputDialog>
+#include <KFileDialog>
+#include <KIconLoader>
+#include <KMessageBox>
+#include <KFindDialog>
+#include <KStatusBar>
+#include <KService>
+#include <KServiceTypeTrader>
+#include <KLineEdit>
+#include <KMimeType>
+#include <KShortcut>
+#include <KStandardShortcut>
+#include <KPrinter>
+#include <KLocale>
+#include <K3ProcIO>
+#include <KAction>
+#include <KDebug>
+#include <KFind>
+#include <KMenu>
+#include <KUrl>
 #include <ktip.h>
-#include <krun.h>
-#include <ktoolbar.h>
-#include <kactioncollection.h>
-#include <kstandardaction.h>
-#include <kselectaction.h>
-#include <kicon.h>
-#include <kvbox.h>
+#include <KRun>
+#include <KToolBar>
+#include <KActionCollection>
+#include <KStandardAction>
+#include <KSelectAction>
+#include <KIcon>
+#include <KVBox>
+#include <KToggleAction>
 
 #include "selectsecretkey.h"
 #include "newkey.h"
 #include "kgpg.h"
 #include "kgpgeditor.h"
 #include "kgpgview.h"
-#include "keysmanager.h"
 #include "keyexport.h"
-#include "sourceselect.h"
 #include "kgpgrevokewidget.h"
 #include "keyservers.h"
-#include "keyserver.h"
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "kgpgkeygenerate.h"
@@ -111,9 +109,10 @@
 #include "kgpglibrary.h"
 #include "keylistview.h"
 #include "keyadaptor.h"
-#include <QtDBus>
-#include <ktoggleaction.h>
 #include "images.h"
+#include "sourceselect.h"
+
+
 
 using namespace KgpgCore;
 
@@ -439,11 +438,15 @@ void KeysManager::slotGenerateKey()
         }
         else
         {
-            K3Process kp;
             KConfigGroup config(KGlobal::config(), "General");
-            kp << config.readPathEntry("TerminalApplication", "konsole");
-            kp << "-e" << "gpg" << "--gen-key";
-            kp.start(K3Process::Block);
+            
+            QString terminalApp = config.readPathEntry("TerminalApplication", "konsole");
+            QStringList args;
+            args << "-e" << "gpg" << "--gen-key";
+            
+            QProcess *genKeyProc = new QProcess(this);
+            genKeyProc->start(terminalApp, args);
+            genKeyProc->waitForFinished();
             refreshkey();
         }
     }
@@ -709,12 +712,14 @@ void KeysManager::slotDelUid()
     while (item->depth()>0)
         item = item->parent();
 
-    K3Process *process = new K3Process();
+    QProcess *process = new QProcess(this);
     KConfigGroup config(KGlobal::config(), "General");
-    *process << config.readPathEntry("TerminalApplication", "konsole");
-    *process << "-e" << "gpg";
-    *process << "--edit-key" << item->text(6) << "uid";
-    process->start(K3Process::Block);
+    QString terminalApp = config.readPathEntry("TerminalApplication", "konsole");
+    QStringList args;
+    args << "-e" << "gpg";
+    args << "--edit-key" << item->text(6) << "uid";
+    process->start(terminalApp, args);
+    process->waitForFinished();
     keysList2->refreshselfkey();
 }
 
@@ -1303,7 +1308,7 @@ void KeysManager::revokeWidget()
         return;
     if (keyRevoke->cbSave->isChecked())
     {
-        slotrevoke(keysList2->currentItem()->text(6), keyRevoke->kURLRequester1->url().path(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->text());
+        slotrevoke(keysList2->currentItem()->text(6), keyRevoke->kURLRequester1->url().path(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->toPlainText());
         if (keyRevoke->cbPrint->isChecked())
             connect(revKeyProcess, SIGNAL(revokeurl(QString)), this, SLOT(doFilePrint(QString)));
         if (keyRevoke->cbImport->isChecked())
@@ -1311,7 +1316,7 @@ void KeysManager::revokeWidget()
     }
     else
     {
-        slotrevoke(keysList2->currentItem()->text(6), QString(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->text());
+        slotrevoke(keysList2->currentItem()->text(6), QString(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->toPlainText());
         if (keyRevoke->cbPrint->isChecked())
             connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
         if (keyRevoke->cbImport->isChecked())
@@ -1895,10 +1900,12 @@ void KeysManager::dcopImportFinished()
     QByteArray params;
     QDataStream stream(&params, QIODevice::WriteOnly);
 
-    stream.setVersion(QDataStream::Qt_3_1);
+    stream.setVersion(QDataStream::Qt_4_3);
     stream << true;
+
     kapp->dcopClient()->emitDCOPSignal("keyImported(bool)", params);
 #endif
+
     refreshkey();
 }
 
@@ -1983,11 +1990,13 @@ void KeysManager::slotedit()
     if (keysList2->currentItem()->text(6).isEmpty())
         return;
 
-    K3Process kp;
+    QProcess *kp = new QProcess(this);
     KConfigGroup config(KGlobal::config(), "General");
-    kp << config.readPathEntry("TerminalApplication","konsole");
-    kp << "-e" << "gpg" <<"--no-secmem-warning" <<"--edit-key" << keysList2->currentItem()->text(6) << "help";
-    kp.start(K3Process::Block);
+    QString terminalApp = config.readPathEntry("TerminalApplication","konsole");
+    QStringList args;
+    args << "-e" << "gpg" <<"--no-secmem-warning" <<"--edit-key" << keysList2->currentItem()->text(6) << "help";
+    kp->start(terminalApp, args);
+    kp->waitForFinished();
     keysList2->refreshcurrentkey(keysList2->currentItem());
 }
 
@@ -2027,14 +2036,13 @@ void KeysManager::deleteseckey()
     if (result != KMessageBox::Continue)
         return;
 
-    K3Process *conprocess = new K3Process();
+    QProcess *conprocess = new QProcess();
     KConfigGroup config(KGlobal::config(), "General");
-    *conprocess<< config.readPathEntry("TerminalApplication","konsole");
-    *conprocess<<"-e"<<"gpg"
-    <<"--no-secmem-warning"
-    <<"--delete-secret-key"<<keysList2->currentItem()->text(6);
-    connect(conprocess, SIGNAL(processExited(K3Process *)), this, SLOT(reloadSecretKeys()));
-    conprocess->start(K3Process::NotifyOnExit, K3Process::AllOutput);
+    QString terminalApp = config.readPathEntry("TerminalApplication","konsole");
+    QStringList args;
+    args << "-e" << "gpg" <<"--no-secmem-warning" << "--delete-secret-key" << keysList2->currentItem()->text(6);
+    connect(conprocess, SIGNAL(finished()), this, SLOT(reloadSecretKeys()));
+    conprocess->start(terminalApp, args);
 }
 
 void KeysManager::reloadSecretKeys()

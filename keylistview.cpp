@@ -7,6 +7,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "keylistview.h"
+
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QPainter>
@@ -17,14 +19,13 @@
 #include <Q3Header>
 
 #include <kabc/stdaddressbook.h>
-#include <kstandarddirs.h>
-#include <kapplication.h>
-#include <kiconloader.h>
-#include <kmessagebox.h>
-#include <klocale.h>
+#include <KStandardDirs>
+#include <KApplication>
+#include <KIconLoader>
+#include <KMessageBox>
+#include <KLocale>
 
 #include "kgpgsettings.h"
-#include "keylistview.h"
 #include "kgpgoptions.h"
 #include "convert.h"
 #include "images.h"

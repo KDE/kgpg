@@ -20,11 +20,15 @@
 
 #include <QObject>
 
-#include <kshortcut.h>
-#include <kurl.h>
+#include <KShortcut>
+#include <KUrl>
+
+
+#include <QString>
+#include <QStringList>
 
 class KPassivePopup;
-
+class KJob;
 class KgpgInterface;
 
 class KgpgLibrary : public QObject

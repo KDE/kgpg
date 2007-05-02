@@ -15,23 +15,29 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kgpglibrary.h"
+
 #include <QDesktopWidget>
 #include <QApplication>
 #include <QTextStream>
 #include <QFile>
+#include <QString>
+#include <QStringList>
 
-#include <kfiledialog.h>
-#include <kpassivepopup.h>
+#include <KJob>
+#include <KFileDialog>
+#include <KPassivePopup>
 #include <kio/renamedialog.h>
-#include <kmessagebox.h>
-#include <kiconloader.h>
-#include <klocale.h>
-#include <kconfig.h>
-#include <k3procio.h>
+#include <KMessageBox>
+#include <KIconLoader>
+#include <KLocale>
+#include <KConfig>
+#include <K3ProcIO>
 #include <kio/deletejob.h>
 #include <kio/jobuidelegate.h>
+#include <KShortcut>
+#include <KUrl>
 
-#include "kgpglibrary.h"
 #include "selectpublickeydialog.h"
 #include "kgpgsettings.h"
 #include "kgpginterface.h"

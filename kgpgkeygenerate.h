@@ -19,9 +19,10 @@
 
 
 
-#include <kdialog.h>
+#include <KDialog>
 
 #include "kgpgkey.h"
+
 
 class KComboBox;
 class KLineEdit;

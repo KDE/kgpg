@@ -18,11 +18,12 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <kglobal.h>
-#include <klocale.h>
+#include "convert.h"
+
+#include <KGlobal>
+#include <KLocale>
 
 #include "kgpgsettings.h"
-#include "convert.h"
 
 namespace KgpgCore
 {
@@ -48,7 +49,7 @@ QString Convert::toString(const KgpgKeyOwnerTrust &ownertrust)
     if (ownertrust == OWTRUST_UNKNOWN)
         return i18n("Unknown");
     if (ownertrust == OWTRUST_UNDEFINED)
-        return i18n("Don't Know");
+        return i18n("Do not Know");
     if (ownertrust == OWTRUST_NONE)
         return i18n("Do NOT Trust");
     if (ownertrust == OWTRUST_MARGINAL)

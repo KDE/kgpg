@@ -18,8 +18,8 @@
 #ifndef KGPGVIEW_H
 #define KGPGVIEW_H
 
-#include <ktextedit.h>
-#include <kurl.h>
+#include <KTextEdit>
+#include <KUrl>
 
 class QDragEnterEvent;
 class QDropEvent;

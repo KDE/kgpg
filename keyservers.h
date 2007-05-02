@@ -18,10 +18,11 @@
 #ifndef KEYSERVERS_H
 #define KEYSERVERS_H
 
-#include <kdialog.h>
+#include <KDialog>
 
 #include "kgpginterface.h"
 #include "ui_searchres.h"
+#include "ui_keyserver.h"
 
 class Q3ListViewItem;
 
@@ -29,7 +30,14 @@ class KConfig;
 class K3ProcIO;
 class K3Process;
 
-class keyServerWidget;
+class keyServerWidget : public QWidget, public Ui::keyServerWidget
+{
+public:
+    keyServerWidget(QWidget *parent=0) : QWidget(parent)
+    {
+        setupUi(this);
+    }
+};
 
 class searchRes : public QWidget, public Ui::searchRes
 {
@@ -82,7 +90,7 @@ private slots:
     void slotSearchResult(K3Process *p);
 
 private:
-    QDialog *m_importpop;
+    KDialog *m_importpop;
     QString m_readmessage;
     Q3ListViewItem *m_kitem;
 

@@ -23,7 +23,7 @@
 #include <QPixmap>
 
 
-#include <kurl.h>
+#include <KUrl>
 
 #include <kgpgkey.h>
 

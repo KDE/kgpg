@@ -15,9 +15,9 @@
 #include <QPixmap>
 
 
-#include <k3listviewsearchline.h>
-#include <k3listview.h>
-#include <kurl.h>
+#include <K3ListViewSearchLine>
+#include <K3ListView>
+#include <KUrl>
 
 #include "kgpgkey.h"
 

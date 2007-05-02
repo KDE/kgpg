@@ -18,7 +18,7 @@
 #ifndef KGPGDETAILEDCONSOLE_H
 #define KGPGDETAILEDCONSOLE_H
 
-#include <kdialog.h>
+#include <KDialog>
 
 class KgpgDetailedConsole : public KDialog
 {

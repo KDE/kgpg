@@ -15,9 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kiconloader.h>
-
 #include "images.h"
+
+#include <KIconLoader>
+
+
 
 namespace KgpgCore
 {

@@ -7,17 +7,18 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "selectsecretkey.h"
+
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QLabel>
 
-#include <k3listview.h>
-#include <kcombobox.h>
-#include <klocale.h>
+#include <K3ListView>
+#include <KComboBox>
+#include <KLocale>
 
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
-#include "selectsecretkey.h"
 #include "images.h"
 
 using namespace KgpgCore;

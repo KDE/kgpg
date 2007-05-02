@@ -17,10 +17,10 @@
 
 
 
-#include <kuniqueapplication.h>
-#include <kcmdlineargs.h>
-#include <kaboutdata.h>
-#include <klocale.h>
+#include <KUniqueApplication>
+#include <KCmdLineArgs>
+#include <KAboutData>
+#include <KLocale>
 
 #include "kgpg.h"
 

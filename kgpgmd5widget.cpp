@@ -7,19 +7,20 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kgpgmd5widget.h"
+
 #include <QHBoxLayout>
 #include <QClipboard>
 #include <QLabel>
 #include <QFile>
 
-#include <kapplication.h>
-#include <kmessagebox.h>
-#include <klineedit.h>
-#include <klocale.h>
-#include <kcodecs.h>
-#include <kled.h>
+#include <KApplication>
+#include <KMessageBox>
+#include <KLineEdit>
+#include <KLocale>
+#include <KCodecs>
+#include <KLed>
 
-#include "kgpgmd5widget.h"
 
 Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
          : KDialog(parent)

@@ -19,11 +19,12 @@
 #define KGPGKEYINFODIALOG_H
 
 #include <QPixmap>
-
 #include <QDate>
 
-#include <kdialog.h>
+#include <KDialog>
+
 #include "ui_keyproperties.h"
+
 class QCheckBox;
 
 class KDatePicker;

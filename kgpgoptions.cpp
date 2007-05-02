@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kgpgoptions.h"
+
 // code for the option dialog box
 #include <stdlib.h>
 
@@ -25,24 +27,23 @@
 #include <QFile>
 #include <QFont>
 
-#include <kstandarddirs.h>
-#include <kinputdialog.h>
-#include <kdesktopfile.h>
-#include <kcolorbutton.h>
-#include <kmessagebox.h>
-#include <kiconloader.h>
-#include <kfiledialog.h>
-#include <kfontdialog.h>
-#include <klineedit.h>
-#include <kcombobox.h>
-#include <kconfig.h>
-#include <klocale.h>
-#include <k3procio.h>
+#include <KStandardDirs>
+#include <KInputDialog>
+#include <KDesktopFile>
+#include <KColorButton>
+#include <KMessageBox>
+#include <KIconLoader>
+#include <KFileDialog>
+#include <KFontDialog>
+#include <KLineEdit>
+#include <KComboBox>
+#include <KConfig>
+#include <KLocale>
+#include <K3ProcIO>
 
 #include "kgpgsettings.h"
-#include "kgpgoptions.h"
 
-#include "conf_decryption.h"
+// #include "conf_decryption.h"
 #include "conf_encryption.h"
 
 //   main window

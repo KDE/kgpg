@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kgpgview.h"
+
 #include <QDragEnterEvent>
 #include <QVBoxLayout>
 #include <QTextStream>
@@ -24,10 +26,10 @@
 #include <Q3TextDrag>
 
 #include <kio/netaccess.h>
-#include <kmessagebox.h>
-#include <k3buttonbox.h>
-#include <klocale.h>
-#include <kaction.h>
+#include <KMessageBox>
+#include <KDialogButtonBox>
+#include <KLocale>
+#include <KAction>
 
 #include "selectsecretkey.h"
 #include "kgpgsettings.h"
@@ -36,7 +38,6 @@
 #include "kgpgeditor.h"
 #include "selectpublickeydialog.h"
 #include "detailedconsole.h"
-#include "kgpgview.h"
 
 KgpgTextEdit::KgpgTextEdit(QWidget *parent, const char *name)
             : KTextEdit(name, parent)
@@ -182,11 +183,10 @@ KgpgView::KgpgView(QWidget *parent)
 
     setAcceptDrops(true);
 
-    K3ButtonBox *boutonbox = new K3ButtonBox(this, Qt::Horizontal, 15, 12);
-    boutonbox->addStretch(1);
-    boutonbox->addButton(i18n("S&ign/Verify"), this, SLOT(slotSignVerify()), true);
-    boutonbox->addButton(i18n("En&crypt"), this, SLOT(slotEncode()), true);
-    boutonbox->addButton(i18n("&Decrypt"), this, SLOT(slotDecode()), true);
+    KDialogButtonBox *buttonbox = new KDialogButtonBox(this, Qt::Horizontal);
+    buttonbox->addButton(i18n("S&ign/Verify"), KDialogButtonBox::ActionRole, this, SLOT(slotSignVerify()));
+    buttonbox->addButton(i18n("En&crypt"), KDialogButtonBox::ActionRole, this, SLOT(slotEncode()));
+    buttonbox->addButton(i18n("&Decrypt"), KDialogButtonBox::ActionRole, this, SLOT(slotDecode()));
 
     connect(editor, SIGNAL(textChanged()), this, SIGNAL(textChanged()));
 
@@ -195,7 +195,7 @@ KgpgView::KgpgView(QWidget *parent)
     QVBoxLayout *vbox = new QVBoxLayout(this);
     vbox->setSpacing(3);
     vbox->addWidget(editor);
-    vbox->addWidget(boutonbox);
+    vbox->addWidget(buttonbox);
 }
 
 KgpgView::~KgpgView()

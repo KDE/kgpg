@@ -20,8 +20,10 @@
 
 #include <QStringList>
 
-#include <kxmlguiwindow.h>
-#include <kurl.h>
+#include <KXmlGuiWindow>
+#include <KUrl>
+#include <KShortcut>
+
 
 class QCloseEvent;
 
@@ -30,6 +32,7 @@ class KAction;
 
 class KgpgInterface;
 class KgpgView;
+
 
 class KgpgEditor : public KXmlGuiWindow
 {

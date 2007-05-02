@@ -1,62 +1,78 @@
-<ui version="4.0" stdsetdef="1" >
-  <author></author>
-  <comment></comment>
-  <exportmacro></exportmacro>
-  <class>AddUid</class>
-  <widget class="QWidget" name="AddUid" >
-    <property name="geometry" >
-      <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>357</width>
-        <height>170</height>
-      </rect>
-    </property>
-    <layout class="QGridLayout" >
-      <property name="margin" >
-        <number>0</number>
-      </property>
-      <item row="1" column="0" >
-        <widget class="KLineEdit" name="kLineEdit1" />
-      </item>
-      <item row="3" column="0" >
-        <widget class="KLineEdit" name="kLineEdit2" />
-      </item>
-      <item row="5" column="0" >
-        <widget class="KLineEdit" name="kLineEdit3" />
-      </item>
-      <item row="0" column="0" >
-        <widget class="QLabel" name="textLabel1" >
-          <property name="text" >
-            <string>Name (minimum 5 characters):</string>
-          </property>
-          <property name="wordWrap" >
-            <bool>false</bool>
-          </property>
-        </widget>
-      </item>
-      <item row="2" column="0" >
-        <widget class="QLabel" name="textLabel2" >
-          <property name="text" >
-            <string>Email:</string>
-          </property>
-          <property name="wordWrap" >
-            <bool>false</bool>
-          </property>
-        </widget>
-      </item>
-      <item row="4" column="0" >
-        <widget class="QLabel" name="textLabel3" >
-          <property name="text" >
-            <string>Comment (optional):</string>
-          </property>
-          <property name="wordWrap" >
-            <bool>false</bool>
-          </property>
-        </widget>
-      </item>
-    </layout>
-  </widget>
-  <layoutdefault spacing="6" margin="11" />
-  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+<ui version="4.0" >
+ <class>AddUid</class>
+ <widget class="QWidget" name="AddUid" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>408</width>
+    <height>283</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" >
+   <item>
+    <widget class="QLabel" name="textLabel1" >
+     <property name="text" >
+      <string>Name (minimum 5 characters):</string>
+     </property>
+     <property name="wordWrap" >
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="KLineEdit" name="kLineEdit1" />
+   </item>
+   <item>
+    <widget class="QLabel" name="textLabel2" >
+     <property name="text" >
+      <string>Email:</string>
+     </property>
+     <property name="wordWrap" >
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="KLineEdit" name="kLineEdit2" />
+   </item>
+   <item>
+    <widget class="QLabel" name="textLabel3" >
+     <property name="text" >
+      <string>Comment (optional):</string>
+     </property>
+     <property name="wordWrap" >
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="KLineEdit" name="kLineEdit3" />
+   </item>
+   <item>
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
 </ui>

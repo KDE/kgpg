@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kgpginterface.h"
+
 #include <QApplication>
 #include <QTextStream>
 #include <QTextCodec>
@@ -22,18 +24,18 @@
 #include <QFile>
 
 #include <kio/netaccess.h>
-#include <kmessagebox.h>
-#include <ktemporaryfile.h>
-#include <kpassworddialog.h>
+#include <KMessageBox>
+#include <KTemporaryFile>
+#include <KPasswordDialog>
 #include <knewpassworddialog.h>
-#include <klocale.h>
-#include <kcodecs.h>
-#include <k3procio.h>
-#include <kconfig.h>
-#include <kdebug.h>
-#include <kglobal.h>
+#include <KLocale>
+#include <KCodecs>
+#include <K3ProcIO>
+#include <KConfig>
+#include <KDebug>
+#include <KGlobal>
+#include <KUrl>
 
-#include "kgpginterface.h"
 #include "detailedconsole.h"
 
 using namespace KgpgCore;

@@ -15,7 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdlib.h>
+#include "kgpg.h"
+
 
 #include <QApplication>
 #include <QDragEnterEvent>
@@ -25,7 +26,6 @@
 #include <QBoxLayout>
 #include <QClipboard>
 #include <QCheckBox>
-
 #include <QWidget>
 #include <QRegExp>
 #include <QLayout>
@@ -33,57 +33,55 @@
 #include <QLabel>
 #include <QMovie>
 #include <QFile>
-
 #include <Q3TextDrag>
-
-#include <kaboutapplicationdialog.h>
-#include <kurlrequesterdialog.h>
-#include <ktoolinvocation.h>
-#include <kio/renamedialog.h>
-#include <kpassivepopup.h>
-#include <kurlrequester.h>
-#include <kstandarddirs.h>
-#include <kdesktopfile.h>
-#include <k3activelabel.h>
-#include <kcmdlineargs.h>
-#include <kmessagebox.h>
-#include <kiconloader.h>
-#include <kfiledialog.h>
-#include <kdeversion.h>
-#include <kshortcut.h>
-#include <kcombobox.h>
-#include <klineedit.h>
-#include <ktemporaryfile.h>
-#include <k3process.h>
-#include <kglobal.h>
-#include <klocale.h>
-#include <kconfig.h>
-#include <k3procio.h>
-#include <kaction.h>
-#include <kdebug.h>
-#include <kmenu.h>
-#include <kwindowsystem.h>
-#include <ktip.h>
-#include <ktar.h>
-#include <kzip.h>
-#include <k3listbox.h>
-#include <kactioncollection.h>
-#include <kstandardaction.h>
 #include <QtDBus>
-#include <kselectaction.h>
-#include <ktoggleaction.h>
+#include <QProcess>
+
+#include <KAboutApplicationDialog>
+#include <KUrlRequesterDialog>
+#include <KToolInvocation>
+#include <kio/renamedialog.h>
+#include <KPassivePopup>
+#include <KUrlRequester>
+#include <KStandardDirs>
+#include <KDesktopFile>
+#include <k3activelabel.h>
+#include <KCmdLineArgs>
+#include <KMessageBox>
+#include <KIconLoader>
+#include <KFileDialog>
+#include <kdeversion.h>
+#include <KShortcut>
+#include <KComboBox>
+#include <KLineEdit>
+#include <KTemporaryFile>
+#include <KGlobal>
+#include <KLocale>
+#include <KConfig>
+#include <KAction>
+#include <KDebug>
+#include <KMenu>
+#include <KWindowSystem>
+#include <ktip.h>
+#include <KTar>
+#include <KZip>
+#include <K3ListBox>
+#include <KActionCollection>
+#include <KStandardAction>
+#include <KSelectAction>
+#include <KToggleAction>
+#include <KIcon>
+
 #include "selectsecretkey.h"
 #include "kgpgeditor.h"
-#include "kgpg.h"
 #include "kgpgsettings.h"   // automatically created by compilation
 #include "keysmanager.h"
-#include "keyserver.h"
 #include "keyservers.h"
 #include "selectpublickeydialog.h"
 #include "kgpgview.h"
 #include "kgpglibrary.h"
-#include "kgpgwizard.h"
-#include <kicon.h>
+
+
 
 static QString getGpgHome()
 {
@@ -106,7 +104,6 @@ static QString getGpgHome()
 MyView::MyView(QWidget *parent)
       : QLabel(parent)
 {
-    //setBackgroundMode( X11ParentRelative );
     openTasks = 0;
 
     saveDecrypt = new KAction(KIcon(QString("decrypted")), i18n("&Decrypt && Save File"), this);
@@ -715,9 +712,11 @@ void MyView::readOptions()
 
 void MyView::firstRun()
 {
-    K3ProcIO *p = new K3ProcIO();
-    *p << "gpg" << "--no-tty" << "--list-secret-keys";
-    p->start(K3Process::Block); // start gnupg so that it will create a config file
+    QProcess *createConfigProc = new QProcess(this);
+    QStringList args;
+    args << "--no-tty" << "--list-secret-keys";
+    createConfigProc->start("gpg", args);// start gnupg so that it will create a config file
+    createConfigProc->waitForFinished(); 
     startWizard();
 }
 
@@ -725,8 +724,8 @@ void MyView::startWizard()
 {
     kDebug(2100) << "Starting Wizard" << endl;
 
-    wiz = new KgpgWizard(0, "wizard");
-
+    wiz = new KgpgWizard(this);
+    
     QString gpgHome(getGpgHome());
     QString confPath = gpgHome + "options";
 

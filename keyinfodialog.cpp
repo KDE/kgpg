@@ -15,19 +15,20 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "keyinfodialog.h"
+
 #include <QVBoxLayout>
 #include <QStringList>
 #include <QCheckBox>
 #include <QColor>
 #include <QImage>
 
-#include <kpassivepopup.h>
-#include <kdatepicker.h>
-#include <kiconloader.h>
-#include <kmessagebox.h>
-#include <klocale.h>
+#include <KPassivePopup>
+#include <KDatePicker>
+#include <KIconLoader>
+#include <KMessageBox>
+#include <KLocale>
 
-#include "keyinfodialog.h"
 #include "kgpginterface.h"
 #include "convert.h"
 

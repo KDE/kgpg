@@ -15,14 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "detailedconsole.h"
+
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <QLabel>
 
-#include <kmessagebox.h>
-#include <klocale.h>
+#include <KMessageBox>
+#include <KLocale>
 
-#include "detailedconsole.h"
 
 KgpgDetailedConsole::KgpgDetailedConsole(QWidget *parent, const QString &boxLabel, const QString &errormessage)
     : KDialog(parent)

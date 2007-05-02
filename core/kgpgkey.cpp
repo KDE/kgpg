@@ -7,10 +7,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h>
+#include "kgpgkey.h"
+
+#include <KLocale>
 
 #include "convert.h"
-#include "kgpgkey.h"
+
 
 namespace KgpgCore
 {

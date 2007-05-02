@@ -15,20 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kgpgkeygenerate.h"
+
 #include <QVBoxLayout>
 #include <QWhatsThis>
 #include <QGroupBox>
 #include <QWidget>
 #include <QLabel>
 
-#include <kmessagebox.h>
-#include <kcombobox.h>
-#include <klineedit.h>
-#include <klocale.h>
-#include <kdebug.h>
-#include <khbox.h>
+#include <KMessageBox>
+#include <KComboBox>
+#include <KLineEdit>
+#include <KLocale>
+#include <KDebug>
+#include <KHBox>
 
-#include "kgpgkeygenerate.h"
 
 KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
                : KDialog(parent)

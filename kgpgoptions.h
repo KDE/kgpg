@@ -19,18 +19,29 @@
 
 #include <QPixmap>
 
-#include <kconfigdialog.h>
+#include <KConfigDialog>
+
+
 #include "ui_conf_gpg.h"
 #include "ui_conf_ui2.h"
 #include "ui_conf_servers.h"
 #include "ui_conf_misc.h"
+#include "ui_conf_decryption.h"
+
 class KConfig;
 class KFontChooser;
 class KConfig;
 
 class Encryption;
-class Decryption;
 class ColorsConf;
+
+class Decryption : public QWidget, public Ui::Decryption
+{
+public:
+  Decryption( QWidget *parent=0 ) : QWidget( parent) {
+    setupUi(this);
+  }
+};
 
 class MiscConf : public QWidget, public Ui::MiscConf
 {

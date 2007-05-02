@@ -22,8 +22,8 @@
 #include <QStringList>
 
 
-#include <kshortcut.h>
-#include <kdialog.h>
+#include <KShortcut>
+#include <KDialog>
 
 #include "kgpgkey.h"
 

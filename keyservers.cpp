@@ -15,7 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <stdlib.h>
+#include "keyservers.h"
+
 
 #include <QPushButton>
 #include <QTextCodec>
@@ -26,17 +27,17 @@
 
 #include <Q3ListViewItem>
 
-#include <kconfig.h>
-#include <kmessagebox.h>
-#include <kcombobox.h>
-#include <klocale.h>
-#include <k3procio.h>
-#include <kdebug.h>
+#include <KConfig>
+#include <KMessageBox>
+#include <KComboBox>
+#include <KLocale>
+#include <K3ProcIO>
+#include <KDebug>
 
 #include "kgpgsettings.h"
 #include "detailedconsole.h"
-#include "keyserver.h"
-#include "keyservers.h"
+
+
 
 using namespace KgpgCore;
 
@@ -155,7 +156,7 @@ void KeyServer::slotImport()
 
 
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-    m_importpop = new QDialog(this, Qt::WShowModal | Qt::WDestructiveClose | Qt::Dialog);
+    m_importpop = new KDialog(this, Qt::WShowModal | Qt::WDestructiveClose | Qt::Dialog);
 
     QLabel *tex = new QLabel(m_importpop);
     tex->setText(i18n("<b>Connecting to the server...</b>"));
@@ -319,7 +320,7 @@ void KeyServer::slotExport(const QString &keyId)
     m_exportproc->start(K3Process::NotifyOnExit, true);
 
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-    m_importpop = new QDialog(this, Qt::WShowModal | Qt::WDestructiveClose | Qt::Dialog);
+    m_importpop = new KDialog(this, Qt::WShowModal | Qt::WDestructiveClose | Qt::Dialog);
     QVBoxLayout *vbox = new QVBoxLayout(m_importpop);
     vbox->setSpacing(3);
 
