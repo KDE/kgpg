@@ -23,13 +23,13 @@
 class KgpgDetailedConsole : public KDialog
 {
 public:
-    KgpgDetailedConsole(QWidget *parent = 0, const QString &boxLabel = QString(), const QString &errormessage = QString());
+    explicit KgpgDetailedConsole(QWidget *parent = 0, const QString &boxLabel = QString(), const QString &errormessage = QString());
 };
 
 class KgpgDetailedInfo : public KDialog
 {
 public:
-    KgpgDetailedInfo(QWidget *parent = 0, const QString &boxLabel = QString(), const QString &errormessage = QString(), const QStringList &keysList = QStringList());
+    explicit KgpgDetailedInfo(QWidget *parent = 0, const QString &boxLabel = QString(), const QString &errormessage = QString(), const QStringList &keysList = QStringList());
 };
 
 #endif // KGPGDETAILEDCONSOLE_H

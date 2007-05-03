@@ -91,7 +91,7 @@ public:
         RevColor = 3
     };
 
-    kgpgOptions(QWidget *parent = 0, const char *name = 0);
+    explicit kgpgOptions(QWidget *parent = 0, const char *name = 0);
     ~kgpgOptions();
 
 signals:

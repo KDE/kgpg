@@ -39,7 +39,7 @@ public:
     /**
      * Initialize the class
      */
-    KgpgLibrary(QWidget *parent = 0, const bool &pgpExtension = false);
+    explicit KgpgLibrary(QWidget *parent = 0, const bool &pgpExtension = false);
 
 signals:
     void encryptionOver();

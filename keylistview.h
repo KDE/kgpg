@@ -47,7 +47,7 @@ public:
     };
     Q_DECLARE_FLAGS(ItemType, ItemTypeFlag)
 
-    KeyListViewItem(KeyListView *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString() , const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
+    explicit KeyListViewItem(KeyListView *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString() , const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
     KeyListViewItem(KeyListViewItem *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString(), const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
 
     void setItemType(const ItemType &type);
@@ -150,7 +150,7 @@ class KeyListViewSearchLine : public K3ListViewSearchLine
     Q_OBJECT
 
 public:
-    KeyListViewSearchLine(QWidget *parent = 0, KeyListView *listView = 0);
+    explicit KeyListViewSearchLine(QWidget *parent = 0, KeyListView *listView = 0);
     virtual ~KeyListViewSearchLine() { }
 
     void setHidePublic(const bool &hidepublic = true);

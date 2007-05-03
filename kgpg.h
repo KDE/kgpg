@@ -52,12 +52,12 @@ public:
     }
 };
 
-class MyView : public QLabel
+class MyView : public QObject
 {
     Q_OBJECT
 
 public:
-    MyView(QWidget *parent = 0);
+    explicit MyView(QWidget *parent = 0, KSystemTrayIcon *parentTrayIcon = 0);
     ~MyView();
 
     KUrl droppedUrl;
@@ -116,8 +116,9 @@ private:
     KTemporaryFile *kgpgFolderExtract;
     int compressionScheme;
     int openTasks;
-    KgpgSelectPublicKeyDlg *dialogue;
+    KgpgSelectPublicKeyDlg *dialog;
     QClipboard::Mode clipboardMode;
+    KSystemTrayIcon *trayIcon;
 
 private slots:
     void slotWizardClose();

@@ -392,9 +392,21 @@ KeysManager::KeysManager(QWidget *parent)
     setupGUI(KXmlGuiWindow::Create | Save | ToolBar | StatusBar | Keys, "keysmanager.rc");
     toolBar()->addSeparator();
 
-    (void) new QLabel(i18n("Search: "), toolBar());
-    m_listviewsearch = new KeyListViewSearchLine(toolBar(), keysList2);
+    QLabel *searchLabel = new QLabel(i18n("Search: "), this);
+    m_listviewsearch = new KeyListViewSearchLine(this, keysList2);
     m_listviewsearch->setClearButtonShown(true);
+
+    QWidget *searchWidget = new QWidget(this);
+    QHBoxLayout *searchLayout = new QHBoxLayout(searchWidget);
+    searchLayout->addWidget(searchLabel);
+    searchLayout->addWidget(m_listviewsearch);
+    searchLayout->addStretch();
+
+    KAction *serchLineAction = new KAction(i18n("Search Line"), this);
+    actionCollection()->addAction("search_line", serchLineAction);
+    serchLineAction->setDefaultWidget(searchWidget);
+
+    toolBar()->addAction(actionCollection()->action("search_line"));
 
     action = actionCollection()->addAction("search_focus");
     action->setText(i18n("Filter Search"));
@@ -1696,8 +1708,8 @@ void KeysManager::editGroup()
     dialogGroupEdit->setModal( true );
 
     gEdit = new groupEdit();
-    gEdit->buttonAdd->setIcon(KIconLoader::global()->loadIconSet("go-down", K3Icon::Small, 20));
-    gEdit->buttonRemove->setIcon(KIconLoader::global()->loadIconSet("go-up", K3Icon::Small, 20));
+    gEdit->buttonAdd->setIcon(KIcon("go-down"));
+    gEdit->buttonRemove->setIcon(KIcon("go-up"));
 
     connect(gEdit->buttonAdd, SIGNAL(clicked()), this, SLOT(groupAdd()));
     connect(gEdit->buttonRemove, SIGNAL(clicked()), this, SLOT(groupRemove()));

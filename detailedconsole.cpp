@@ -60,5 +60,5 @@ KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, con
     setDefaultButton( Ok );
     setModal( true );
     bool checkboxResult;
-    KMessageBox::createKMessageBox(this, QMessageBox::Information, boxLabel, keysList, QString(), &checkboxResult, 0, errormessage);
+    KMessageBox::createKMessageBox(this, QMessageBox::Information, boxLabel, keysList, QString(), &checkboxResult, 0, errormessage); // krazy:exclude=qtclasses
 }

@@ -34,7 +34,7 @@ public:
      * @param countkey if \em signkey is set to \em true, \em countkey is the
      * number of keys that you are going to sign. Default is 1.
      */
-    KgpgSelectSecretKey(QWidget *parent = 0, const bool &signkey = false, const int &countkey = 1);
+    explicit KgpgSelectSecretKey(QWidget *parent = 0, const bool &signkey = false, const int &countkey = 1);
 
     QString getKeyID() const;
     QString getKeyMail() const;

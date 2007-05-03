@@ -31,7 +31,7 @@ class KgpgTextEdit : public KTextEdit
     Q_OBJECT
 
 public:
-    KgpgTextEdit(QWidget *parent = 0, const char *name = 0);
+    explicit KgpgTextEdit(QWidget *parent = 0);
     ~KgpgTextEdit();
 
 public slots:

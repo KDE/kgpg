@@ -40,7 +40,7 @@ class KgpgEditor : public KXmlGuiWindow
     friend class KgpgView;
 
 public:
-    KgpgEditor(QWidget *parent = 0, Qt::WFlags f = 0, KShortcut gohome = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), bool mainwindow = false);
+    explicit KgpgEditor(QWidget *parent = 0, Qt::WFlags f = 0, KShortcut gohome = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), bool mainwindow = false);
     ~KgpgEditor();
 
     void openDocumentFile(const KUrl& url, const QString &encoding = QString());

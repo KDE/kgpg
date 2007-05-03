@@ -39,8 +39,8 @@
 #include "selectpublickeydialog.h"
 #include "detailedconsole.h"
 
-KgpgTextEdit::KgpgTextEdit(QWidget *parent, const char *name)
-            : KTextEdit(name, parent)
+KgpgTextEdit::KgpgTextEdit(QWidget *parent)
+            : KTextEdit(parent)
 {
     //setTextFormat(Qt::PlainText);
     setCheckSpellingEnabled(true);

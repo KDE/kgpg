@@ -440,7 +440,7 @@ void kgpgOptions::listKeys()
 
     if (counter == 0)
     {
-        ids += "0";
+        ids += QString("0");
         m_page1->file_key->addItem(i18n("none"));
         m_page1->always_key->addItem(i18n("none"));
     }

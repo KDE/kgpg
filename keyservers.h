@@ -54,7 +54,7 @@ class KeyServer : public KDialog
     Q_OBJECT
 
 public:
-    KeyServer(QWidget *parent = 0, const bool &modal = false, const bool &autoClose = false);
+    explicit KeyServer(QWidget *parent = 0, const bool &modal = false, const bool &autoClose = false);
 
 signals:
     void importFinished(QString);

@@ -101,9 +101,11 @@ static QString getGpgHome()
     return gpgHome;
 }
 
-MyView::MyView(QWidget *parent)
-      : QLabel(parent)
+MyView::MyView(QWidget *parent, KSystemTrayIcon *parentTrayIcon)
+      : QObject(parent)
 {
+    trayIcon = parentTrayIcon;
+
     openTasks = 0;
 
     saveDecrypt = new KAction(KIcon(QString("decrypted")), i18n("&Decrypt && Save File"), this);
@@ -120,9 +122,6 @@ MyView::MyView(QWidget *parent)
     connect(sign, SIGNAL(triggered(bool)), SLOT(signDroppedFile()));
 
     readOptions();
-    resize(24,24);
-    setPixmap(KSystemTrayIcon::loadIcon("kgpg_docked").pixmap());
-    setAcceptDrops(true);
 
     droppopup = new KMenu();
     droppopup->addAction( showDecrypt );
@@ -132,7 +131,7 @@ MyView::MyView(QWidget *parent)
     udroppopup->addAction( encrypt );
     udroppopup->addAction( sign );
 
-    this->setToolTip( i18n("KGpg - encryption tool"));
+    trayIcon->setToolTip( i18n("KGpg - encryption tool"));
 }
 
 MyView::~MyView()
@@ -148,7 +147,7 @@ MyView::~MyView()
 void MyView::clipEncrypt()
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
-        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), this);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), trayIcon);
     else
     {
         KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, true, goDefaultKey);
@@ -193,13 +192,13 @@ void MyView::clipSign(bool openEditor)
         kgpgtxtedit->show();
     }
     else
-        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), this);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), trayIcon);
 }
 
 void MyView::encryptDroppedFile()
 {
     QStringList opts;
-    KgpgLibrary *lib = new KgpgLibrary(this, KGpgSettings::pgpExtension());
+    KgpgLibrary *lib = new KgpgLibrary(0, KGpgSettings::pgpExtension());
     connect(lib, SIGNAL(systemMessage(QString, bool)), this, SLOT(busyMessage(QString, bool)));
 
     if (KGpgSettings::encryptFilesTo())
@@ -248,9 +247,9 @@ void MyView::encryptDroppedFolder()
 
 
     // TODO !!! CHANGE dialog, remove connect
-    dialogue = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), true, false, goDefaultKey);
+    dialog = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), true, false, goDefaultKey);
 
-    QGroupBox *bGroup = new QGroupBox(dialogue->mainWidget());
+    QGroupBox *bGroup = new QGroupBox(dialog->mainWidget());
 
     (void) new QLabel(i18n("Compression method for archive:"),bGroup);
 
@@ -261,10 +260,10 @@ void MyView::encryptDroppedFolder()
 
     bGroup->show();
     connect(optionbx,SIGNAL(activated (int)),this,SLOT(slotSetCompression(int)));
-    connect(dialogue,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startFolderEncode(QStringList,QStringList,bool,bool)));
+    connect(dialog,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startFolderEncode(QStringList,QStringList,bool,bool)));
 
-    dialogue->exec();
-    dialogue=0L;
+    dialog->exec();
+    dialog=0L;
 }
 
 void MyView::slotSetCompression(int cp)
@@ -296,14 +295,14 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     QFile encryptedFolder(droppedUrls.first().path() + extension);
     if (encryptedFolder.exists())
     {
-        dialogue->hide();
+        dialog->hide();
         KIO::RenameDialog over(0, i18n("File Already Exists"), KUrl(), encryptedFile, KIO::M_OVERWRITE);
         if (over.exec() == QDialog::Rejected)
         {
             return;
         }
         encryptedFile = over.newDestUrl();
-        dialogue->show(); // strange, but if dialogue is hidden, the passive popup is not displayed...
+        dialog->show(); // strange, but if dialog is hidden, the passive popup is not displayed...
     }
 
     pop = new KPassivePopup();
@@ -311,8 +310,8 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     pop->setAutoDelete(false);
     pop->show();
     kapp->processEvents();
-    dialogue->accept();
-    dialogue = 0L;
+    dialog->accept();
+    dialog = 0L;
 
     KArchive *arch;
     if (compressionScheme == 0)
@@ -359,11 +358,14 @@ void MyView::busyMessage(const QString &mssge, bool reset)
     if (!mssge.isEmpty())
     {
         openTasks++;
-        this->setToolTip(mssge);
+        trayIcon->setToolTip(mssge);
 
+#if 0
+//TODO: is it necessary?
         QMovie *movie = new QMovie(KStandardDirs::locate("appdata", "pics/kgpg_docked.gif"));
         setMovie(movie);
         delete movie;
+#endif
     }
     else
         openTasks--;
@@ -372,8 +374,8 @@ void MyView::busyMessage(const QString &mssge, bool reset)
 
     if (openTasks <= 0)
     {
-        setPixmap(KSystemTrayIcon::loadIcon("kgpg_docked").pixmap());
-        this->setToolTip(i18n("KGpg - encryption tool"));
+        trayIcon->setIcon(KIcon("kgpg_docked"));
+        trayIcon->setToolTip(i18n("KGpg - encryption tool"));
         openTasks = 0;
     }
 }
@@ -386,7 +388,7 @@ void MyView::encryptFiles(KUrl::List urls)
 
 void MyView::shredDroppedFile()
 {
-    KDialog *shredConfirm = new KDialog(this );
+    KDialog *shredConfirm = new KDialog(0);
     shredConfirm->setCaption( i18n("Shred Files") );
     shredConfirm->setButtons( KDialog::Ok | KDialog::Cancel);
     shredConfirm->setDefaultButton( KDialog::Ok );
@@ -405,7 +407,7 @@ void MyView::shredDroppedFile()
     lb->insertStringList(droppedUrls.toStringList());
     if (shredConfirm->exec() == QDialog::Accepted)
     {
-        KgpgLibrary *lib = new KgpgLibrary(this);
+        KgpgLibrary *lib = new KgpgLibrary(0);
         connect(lib, SIGNAL(systemMessage(QString, bool)), this, SLOT(busyMessage(QString, bool)));
         lib->shredProcessEnc(droppedUrls);
     }
@@ -522,7 +524,7 @@ void MyView::decryptDroppedFile()
             }
         }
 
-        KgpgLibrary *lib=new KgpgLibrary(this);
+        KgpgLibrary *lib=new KgpgLibrary(0);
         lib->slotFileDec(droppedUrls.first(), swapname, QStringList(KGpgSettings::customDecrypt()));
         connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(importedKeys(QStringList)));
         connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
@@ -663,7 +665,7 @@ void MyView::droppedtext (const QString &inputText, bool allowEncrypt)
     if (allowEncrypt)
         clipEncrypt();
     else
-        KMessageBox::sorry(this, i18n("No encrypted text found."));
+        KMessageBox::sorry(0, i18n("No encrypted text found."));
 }
 
 void MyView::dragEnterEvent(QDragEnterEvent *e)
@@ -724,7 +726,7 @@ void MyView::startWizard()
 {
     kDebug(2100) << "Starting Wizard" << endl;
 
-    wiz = new KgpgWizard(this);
+    wiz = new KgpgWizard(0);
     
     QString gpgHome(getGpgHome());
     QString confPath = gpgHome + "options";
@@ -734,7 +736,7 @@ void MyView::startWizard()
         confPath = gpgHome + "gpg.conf";
         if (!QFile(confPath).exists())
         {
-            if (KMessageBox::questionYesNo(this, i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"), QString(), KGuiItem(i18n("Create Config")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes)
+            if (KMessageBox::questionYesNo(0, i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"), QString(), KGuiItem(i18n("Create Config")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes)
             {
                 confPath = gpgHome + "options";
                 QFile file(confPath);
@@ -908,7 +910,7 @@ void MyView::encryptClipboard(QStringList selec, QStringList encryptOptions, con
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
     {
-        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), this);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), trayIcon);
         return;
     }
 
@@ -935,7 +937,7 @@ void MyView::slotPassiveClip()
     newtxt.replace(QRegExp("<"), "&lt;"); // disable html tags
     newtxt.replace(QRegExp("\n"), "<br>");
 
-    pop = new KPassivePopup( this);
+    pop = new KPassivePopup();
     pop->setView(i18n("Encrypted following text:"), newtxt, KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop));
     pop->setTimeout(3200);
     pop->show();
@@ -958,8 +960,7 @@ void MyView::slotSetClip(const QString &newtxt)
 kgpgapplet::kgpgapplet(QWidget *parent)
           : KSystemTrayIcon(parent)
 {
-    w = new MyView(parent);
-    w->show();
+    w = new MyView(parent, this);
 
     QMenu *conf_menu = contextMenu();
 
@@ -1001,7 +1002,7 @@ kgpgapplet::kgpgapplet(QWidget *parent)
     conf_menu->addAction( KgpgOpenServer );
     conf_menu->addSeparator();
     conf_menu->addAction( KgpgPreferences );
-    setIcon( loadIcon("kgpg_docked") );
+    setIcon( KIcon("kgpg_docked") );
 }
 
 void kgpgapplet::showOptions()
