@@ -36,6 +36,7 @@ KeyListViewItem::KeyListViewItem(KeyListView *parent, const QString &name, const
     m_def = isdefault;
     m_exp = isexpired;
     m_type = type;
+    m_key = NULL;
     setText(0, name);
     setText(1, email);
     setText(2, trust);
@@ -51,6 +52,7 @@ KeyListViewItem::KeyListViewItem(KeyListViewItem *parent, const QString &name, c
     m_def = isdefault;
     m_exp = isexpired;
     m_type = type;
+    m_key = NULL;
     setText(0, name);
     setText(1, email);
     setText(2, trust);
@@ -58,6 +60,29 @@ KeyListViewItem::KeyListViewItem(KeyListViewItem *parent, const QString &name, c
     setText(4, size);
     setText(5, creation);
     setText(6, id);
+}
+
+KeyListViewItem::KeyListViewItem(K3ListView *parent, const KgpgKey &key, const bool isbold)
+		: K3ListViewItem(parent)
+{
+	m_def = isbold;
+	m_exp = (key.trust() == 'e');
+	m_type = Public;
+	m_key = new KgpgKey(key);
+	if (key.secret())
+		m_type |= Secret;
+	setText(0, key.name());
+	setText(1, key.email());
+	setText(2, QString());
+	setText(3, key.expiration());
+	setText(4, key.size());
+	setText(5, key.creation());
+	setText(6, key.id());
+}
+
+KeyListViewItem::~KeyListViewItem()
+{
+	delete m_key;
 }
 
 void KeyListViewItem::setItemType(const ItemType &type)
@@ -393,7 +418,7 @@ bool KeyListView::refreshKeys(const QStringList &ids)
 
     QStringList issec;
     for (int i = 0; i < secretlist.size(); ++i)
-        issec << secretlist.at(i).id();
+        issec << secretlist.at(i).fullId();
 
     KgpgKeyList publiclist = interface->readPublicKeys(true, ids);
     delete interface;
@@ -404,21 +429,20 @@ bool KeyListView::refreshKeys(const QStringList &ids)
     {
         KgpgKey key = publiclist.at(i);
 
-        bool isbold = (key.id() == defaultkey);
-        bool isexpired = (key.trust() == 'e');
+	bool isbold = (key.id() == defaultkey);
+	int index = issec.indexOf(key.fullId());
+	if (index != -1) {
+		key.setSecret(true);
+		issec.removeAt(index);
+	}
 
-        item = new KeyListViewItem(this, key.name(), key.email(), QString(), key.expiration(), key.size(), key.creation(), key.id(), isbold, isexpired, KeyListViewItem::Public);
+	item = new KeyListViewItem(this, key, isbold);
         item->setPixmap(2, getTrustPix(key.trust(), key.valide()));
         item->setVisible(true);
         item->setExpandable(true);
 
-        int index = issec.indexOf(key.id());
-        if (index != -1)
-        {
+        if (key.secret())
             item->setPixmap(0, Images::pair());
-            item->setItemType(item->itemType() | KeyListViewItem::Secret);
-            issec.removeAt(index);
-        }
         else
             item->setPixmap(0, Images::single());
     }
@@ -508,11 +532,10 @@ void KeyListView::insertOrphans(const QStringList &ids)
     {
         KgpgKey key = keys.at(i);
 
-        bool isexpired = (key.trust() == 'e');
+        orphanList << key.fullId();
 
-        orphanList << key.id();
-
-        item = new KeyListViewItem(this, key.name(), key.email(), QString(), key.expiration(), key.size(), key.creation(), key.id(), false, isexpired, KeyListViewItem::Secret);
+        item = new KeyListViewItem(this, key, false);
+	item->setItemType(KeyListViewItem::Secret);
         item->setPixmap(0, Images::orphan());
     }
 
@@ -618,7 +641,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
     if (item->childCount() != 0)
         return;   // key has already been expanded
 
-    QString keyid = item->text(6);
+    QString keyid = item->keyId();
 
     KgpgInterface *interface = new KgpgInterface();
     KgpgKeyList keys = interface->readPublicKeys(true, QStringList(keyid), true);

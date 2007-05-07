@@ -874,6 +874,7 @@ void KgpgInterface::readSecretKeysProcess(K3ProcIO *p)
                 m_secretkey.setFullId(lsp.at(4));
                 m_secretkey.setId(lsp.at(4).right(8));
                 m_secretkey.setCreation(QDate::fromString(lsp[5], Qt::ISODate));
+		m_secretkey.setSecret(true);
 
                 if (lsp.at(6).isEmpty())
                 {
