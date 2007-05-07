@@ -124,7 +124,7 @@ private slots:
     void refreshGroups();
     void refreshTrust(int color, QColor newColor);
 
-    void expandKey(KeyListViewItem *item);
+    void expandKey(Q3ListViewItem *item);
     void expandGroup(KeyListViewItem *item);
     void insertSigns(KeyListViewItem *item, const KgpgCore::KgpgKeySignList &list);
 

@@ -232,7 +232,7 @@ KeyListView::KeyListView(QWidget *parent)
     trustgood.fill(KGpgSettings::colorGood());
     QPainter(&trustgood).drawPixmap(rect, blankFrame);
 
-    connect(this, SIGNAL(expanded(KeyListViewItem*)), this, SLOT(expandKey(KeyListViewItem *)));
+    connect(this, SIGNAL(expanded(Q3ListViewItem *)), this, SLOT(expandKey(Q3ListViewItem *)));
 
     header()->setMovingEnabled(false);
     setAcceptDrops(true);
@@ -611,8 +611,10 @@ void KeyListView::refreshTrust(int color, QColor newColor)
     }
 }
 
-void KeyListView::expandKey(KeyListViewItem *item)
+void KeyListView::expandKey(Q3ListViewItem *item2)
 {
+    KeyListViewItem *item = static_cast<KeyListViewItem *>(item2);
+
     if (item->childCount() != 0)
         return;   // key has already been expanded
 

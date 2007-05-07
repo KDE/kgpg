@@ -381,10 +381,10 @@ KeysManager::KeysManager(QWidget *parent)
     setCentralWidget(keysList2);
     keysList2->restoreLayout(KGlobal::config().data(), "KeyView");
 
-    connect(keysList2, SIGNAL(returnPressed(KeyListViewItem *)), this, SLOT(listsigns()));
-    connect(keysList2, SIGNAL(doubleClicked(KeyListViewItem *, const QPoint &, int)), this, SLOT(listsigns()));
+    connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(listsigns()));
+    connect(keysList2, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(listsigns()));
     connect(keysList2, SIGNAL(selectionChanged ()), this, SLOT(checkList()));
-    connect(keysList2, SIGNAL(contextMenuRequested(KeyListViewItem *, const QPoint &, int)), this, SLOT(slotMenu(KeyListViewItem *, const QPoint &, int)));
+    connect(keysList2, SIGNAL(contextMenuRequested(Q3ListViewItem *, const QPoint &, int)), this, SLOT(slotMenu(Q3ListViewItem *, const QPoint &, int)));
     connect(keysList2, SIGNAL(destroyed()), this, SLOT(annule()));
     connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
 
@@ -1067,7 +1067,7 @@ void KeysManager::closeEvent (QCloseEvent *e)
 void KeysManager::showKeyServer()
 {
     KeyServer *ks = new KeyServer(this);
-    connect(ks, SIGNAL(importFinished(QString)), keysList2, SLOT(refreshcurrentkey(QString)));
+    connect(ks, SIGNAL(importFinished(KeyListViewItem *)), keysList2, SLOT(refreshcurrentkey(KeyListViewItem *)));
     ks->exec();
     delete ks;
     refreshkey();
@@ -1221,8 +1221,10 @@ bool KeysManager::isSignatureUnknown(KeyListViewItem *item)
 	return (item->text(0).startsWith("[") && item->text(0).endsWith("]"));
 }
 
-void KeysManager::slotMenu(KeyListViewItem *sel, const QPoint &pos, int)
+void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
 {
+    KeyListViewItem *sel = static_cast<KeyListViewItem *>(sel2);
+
     // popup a different menu depending on which key is selected
     if (sel != 0)
     {

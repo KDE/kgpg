@@ -235,7 +235,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     connect(m_cbsymmetric, SIGNAL(toggled(bool)), this, SLOT(slotSymmetric(bool)));
     connect(m_cbuntrusted, SIGNAL(toggled(bool)), this, SLOT(slotUntrusted(bool)));
     connect(m_keyslist, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
-    connect(m_keyslist, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(slotOk()));
+    connect(m_keyslist, SIGNAL(doubleClicked(KeyListViewItem *, const QPoint &, int)), this, SLOT(slotOk()));
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
 
     slotFillKeysList();
