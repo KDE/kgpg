@@ -349,7 +349,6 @@ void KeyListView::refreshAll()
     // clear the list
     clear();
 
-    orphanList = QStringList();
     if (refreshKeys())
     {
         kDebug(2100) << "No key found" << endl;
@@ -502,6 +501,7 @@ void KeyListView::insertOrphans(const QStringList &ids)
     KgpgInterface *interface = new KgpgInterface();
     KgpgKeyList keys = interface->readSecretKeys(ids);
     delete interface;
+    QStringList orphanList;
 
     KeyListViewItem *item = 0;
     for (int i = 0; i < keys.count(); ++i)
@@ -674,12 +674,11 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
     }
     /****************************************/
 
+    delete interface;
 
     /******** insertion of signature ********/
     insertSigns(item, key.signList());
     /****************************************/
-
-    delete interface;
 }
 
 void KeyListView::insertSigns(KeyListViewItem *item, const KgpgKeySignList &list)

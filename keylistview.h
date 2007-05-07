@@ -132,7 +132,6 @@ private:
     QPixmap getTrustPix(const KgpgCore::KgpgKeyTrust &trust, const bool &isvalid);
 
 private:
-    QStringList orphanList;
     QString photoKeysList;
 
     QPixmap trustunknown;
