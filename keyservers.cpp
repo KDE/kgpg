@@ -78,7 +78,7 @@ KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoClose)
     }
 
     KgpgInterface *interface = new KgpgInterface();
-    connect (interface, SIGNAL(readPublicKeysFinished(KgpgKeyList, KgpgInterface*)), this, SLOT(slotReadKeys(KgpgKeyList, KgpgInterface*)));
+    connect (interface, SIGNAL(readPublicKeysFinished(KgpgCore::KgpgKeyList, KgpgInterface*)), this, SLOT(slotReadKeys(KgpgCore::KgpgKeyList, KgpgInterface*)));
     interface->readPublicKeys();
 
     page->Buttonimport->setEnabled(!page->kLEimportid->text().isEmpty());
@@ -114,6 +114,40 @@ void KeyServer::slotReadKeys(KgpgKeyList list, KgpgInterface *interface)
     }
 }
 
+void KeyServer::refreshKeys(QStringList *keys)
+{
+	QString keyserv = page->kCBimportks->currentText();
+
+	keys->insert(0, "--refresh-keys");
+
+	m_importproc = createGPGProc(keys);
+
+	connect(m_importproc, SIGNAL(processExited(K3Process *)), this, SLOT(slotImportResult(K3Process *)));
+	connect(m_importproc, SIGNAL(readReady(K3ProcIO *)), this, SLOT(slotImportRead(K3ProcIO *)));
+	m_importproc->start(K3Process::NotifyOnExit, true);
+	m_importproc->closeWhenDone();
+
+	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
+	m_importpop = new KDialog(this, Qt::WShowModal | Qt::WDestructiveClose | Qt::Dialog);
+
+	QLabel *tex = new QLabel(m_importpop);
+	tex->setText(i18n("<b>Connecting to the server...</b>"));
+
+	QPushButton *buttonabort = new QPushButton(i18n("&Abort"), m_importpop);
+
+	QVBoxLayout *vbox = new QVBoxLayout(m_importpop);
+	vbox->setSpacing(3);
+	vbox->addWidget(tex);
+	vbox->addWidget(buttonabort);
+
+	connect(buttonabort, SIGNAL(clicked()), m_importpop, SLOT(close()));
+	connect(m_importpop, SIGNAL(destroyed()), this, SLOT(slotAbortImport()));
+
+	m_importpop->setMinimumWidth(250);
+	m_importpop->adjustSize();
+	m_importpop->show();
+}
+
 void KeyServer::slotImport()
 {
     if (page->kCBimportks->currentText().isEmpty())
@@ -127,33 +161,16 @@ void KeyServer::slotImport()
 
     m_readmessage.clear();
     QString keyserv = page->kCBimportks->currentText();
+    QStringList *args = new QStringList("--recv-keys");
 
-    m_importproc = new K3ProcIO();
-    *m_importproc << "gpg";
-    if (page->cBproxyI->isChecked())
-    {
-        m_importproc->setEnvironment("http_proxy", page->kLEproxyI->text());
-        *m_importproc << "--keyserver-options" << "honor-http-proxy";
-    }
-    else
-        *m_importproc << "--keyserver-options" << "no-honor-http-proxy";
+    *args << page->kLEimportid->text().simplified().split(" ");
 
-    *m_importproc << "--status-fd=2" << "--keyserver" << keyserv << "--recv-keys";
-
-    QString keyNames = page->kLEimportid->text().simplified();
-    while (!keyNames.isEmpty())
-    {
-        QString fkeyNames = keyNames.section(' ', 0, 0);
-        *m_importproc << QFile::encodeName(fkeyNames);
-        keyNames.remove(0, fkeyNames.length());
-        keyNames = keyNames.simplified();
-    }
+    m_importproc = createGPGProc(args);
 
     connect(m_importproc, SIGNAL(processExited(K3Process *)), this, SLOT(slotImportResult(K3Process *)));
     connect(m_importproc, SIGNAL(readReady(K3ProcIO *)), this, SLOT(slotImportRead(K3ProcIO *)));
     m_importproc->start(K3Process::NotifyOnExit, true);
     m_importproc->closeWhenDone();
-
 
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
     m_importpop = new KDialog(this, Qt::WShowModal | Qt::WDestructiveClose | Qt::Dialog);
@@ -226,10 +243,15 @@ void KeyServer::slotImportResult(K3Process *p)
         importedKeys += parsedOutput.section("\n", 0, 0).simplified();
     }
 
-    if (m_readmessage.contains("IMPORT_RES"))
+    while (parsedOutput.contains("IMPORT_OK"))
     {
-        importedNb = m_readmessage.section("IMPORT_RES", -1, -1);
-        importedNb = importedNb.simplified();
+        parsedOutput.remove(0, parsedOutput.indexOf("IMPORT_OK") + 9);
+        importedKeys += parsedOutput.section("\n", 0, 0).simplified().right(16);
+    }
+
+    importedNb = m_readmessage.section("IMPORT_RES", -1, -1).simplified();
+    if (m_readmessage.contains("IMPORT_RES") && (importedNb.left(27) != "0 0 0 0 0 0 0 0 0 0 0 0 0 0"))
+    {
         importedNbProcess = importedNb.section(" ", 0, 0);
         importedNbMissing = importedNb.section(" ", 1, 1);
         importedNbSucess = importedNb.section(" ", 2, 2);
@@ -273,7 +295,7 @@ void KeyServer::slotImportResult(K3Process *p)
     else
         resultMessage = i18n("No key imported... \nCheck detailed log for more infos");
 
-    QString lastID = importedKeys.last().section(" ", 0, 0).right(8);
+    QString lastID = importedKeys.count() == 0 ? QString() : importedKeys.last();
     if (!lastID.isEmpty())
     {
         //kDebug(2100)<<"++++++++++imported key"<<lastID<<endl;
@@ -298,22 +320,14 @@ void KeyServer::slotExport(const QString &keyId)
         return;
 
     m_readmessage.clear();
-    m_exportproc = new K3ProcIO();
-    QString keyserv = page->kCBexportks->currentText();
+    QStringList *args = new QStringList();
 
-    *m_exportproc << "gpg";
     if (!page->exportAttributes->isChecked())
-        *m_exportproc << "--export-options" << "no-include-attributes";
+        *args << "--export-options" << "no-include-attributes";
 
-    if (page->cBproxyE->isChecked())
-    {
-        m_exportproc->setEnvironment("http_proxy", page->kLEproxyE->text());
-        *m_exportproc << "--keyserver-options" << "honor-http-proxy";
-    }
-    else
-        *m_exportproc << "--keyserver-options" << "no-honor-http-proxy";
+    *args << "--send-keys" << keyId;
 
-    *m_exportproc << "--status-fd=2" << "--keyserver" << keyserv << "--send-keys" << keyId;
+    m_exportproc = createGPGProc(args);
 
     connect(m_exportproc, SIGNAL(processExited(K3Process *)), this, SLOT(slotExportResult(K3Process *)));
     connect(m_exportproc, SIGNAL(readReady(K3ProcIO *)), this, SLOT(slotImportRead(K3ProcIO *)));
@@ -392,19 +406,13 @@ void KeyServer::slotSearch()
     m_count = 0;
     m_cycle = false;
     m_readmessage.clear();
+
     QString keyserv = page->kCBimportks->currentText();
+    QStringList *args = new QStringList();
 
-    m_searchproc = new K3ProcIO();
-    *m_searchproc << "gpg";
-    if (page->cBproxyI->isChecked())
-    {
-        m_searchproc->setEnvironment("http_proxy", page->kLEproxyI->text());
-        *m_searchproc << "--keyserver-options" << "honor-http-proxy";
-    }
-    else
-        *m_searchproc << "--keyserver-options" << "no-honor-http-proxy";
+    *args << "--command-fd=0" << "--search-keys" << page->kLEimportid->text().simplified().toLocal8Bit();
 
-    *m_searchproc << "--keyserver" << keyserv << "--command-fd=0" << "--status-fd=2" << "--search-keys" << page->kLEimportid->text().simplified().toLocal8Bit();
+    m_searchproc = createGPGProc(args);
 
     m_keynumbers = 0;
     connect(m_searchproc, SIGNAL(processExited(K3Process *)), this, SLOT(slotSearchResult(K3Process *)));
@@ -597,6 +605,34 @@ void KeyServer::handleQuit()
         m_searchproc->kill();
     }
     m_dialogserver->close();
+}
+
+/**
+ * createGPGProc - create ProcIO object for keyserver connection
+ * @args: extra arguments passed to GPG. Object will be deleted here.
+ */
+K3ProcIO *KeyServer::createGPGProc(QStringList *args)
+{
+	K3ProcIO *gp = new K3ProcIO();
+
+	QString keyserv = page->kCBimportks->currentText();
+	bool useproxy = page->cBproxyI->isChecked();
+	QString proxy = page->kLEproxyI->text();
+
+	*gp << "gpg";
+
+	if (useproxy) {
+		gp->setEnvironment("http_proxy", proxy);
+		*gp << "--keyserver-options" << "honor-http-proxy";
+	} else {
+		*gp << "--keyserver-options" << "no-honor-http-proxy";
+	}
+	*gp << "--keyserver" << keyserv << "--status-fd=2";
+
+	*gp << *args;
+	delete args;
+
+	return gp;
 }
 
 #include "keyservers.moc"

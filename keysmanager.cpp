@@ -689,7 +689,7 @@ void KeysManager::refreshKeyFromServer()
     if (keysList2->currentItem() == NULL)
         return;
 
-    QString keyIDS;
+    QStringList *keyIDS = new QStringList();
     keysList = keysList2->selectedItems();
 
     for (int i = 0; i < keysList.count(); ++i) {
@@ -703,15 +703,14 @@ void KeysManager::refreshKeyFromServer()
 			KMessageBox::sorry(this, i18n("You can only refresh primary keys. Please check your selection."));
 			return;
 		} else {
-			keyIDS += key->fullId();
+			*keyIDS << key->fullId();
 		}
         }
     }
 
     kServer = new KeyServer(0, false);
     connect(kServer, SIGNAL(importFinished(QString)), this, SLOT(refreshFinished()));
-    kServer->slotSetText(keyIDS);
-    kServer->slotImport();
+    kServer->refreshKeys(keyIDS);
 }
 
 void KeysManager::refreshFinished()
@@ -1077,7 +1076,7 @@ void KeysManager::closeEvent (QCloseEvent *e)
 void KeysManager::showKeyServer()
 {
     KeyServer *ks = new KeyServer(this);
-    connect(ks, SIGNAL(importFinished(KeyListViewItem *)), keysList2, SLOT(refreshcurrentkey(KeyListViewItem *)));
+    connect(ks, SIGNAL(importFinished(QString)), keysList2, SLOT(refreshcurrentkey(QString())));
     ks->exec();
     delete ks;
     refreshkey();

@@ -55,6 +55,7 @@ class KeyServer : public KDialog
 
 public:
     explicit KeyServer(QWidget *parent = 0, const bool &modal = false, const bool &autoClose = false);
+    void refreshKeys(QStringList *keys);
 
 signals:
     void importFinished(QString);
@@ -107,6 +108,8 @@ private:
     uint m_keynumbers;
     bool m_cycle;
     bool m_autoclosewindow;
+
+    K3ProcIO *createGPGProc(QStringList *keys);
 };
 
 #endif // KEYSERVERS_H

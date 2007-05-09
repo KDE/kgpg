@@ -309,7 +309,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysList()
     m_keyslist->clear();
 
     KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(readPublicKeysFinished(KgpgCore::KeyList, KgpgInterface*)), this, SLOT(slotFillKeysListReady(KgpgCore::KeyList, KgpgInterface*)));
+    connect(interface, SIGNAL(readPublicKeysFinished(KgpgCore::KgpgKeyList, KgpgInterface*)), this, SLOT(slotFillKeysListReady(KgpgCore::KeyList, KgpgInterface*)));
     interface->readPublicKeys();
 }
 
