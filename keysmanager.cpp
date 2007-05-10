@@ -454,7 +454,7 @@ void KeysManager::slotGenerateKey()
             
             QString terminalApp = config.readPathEntry("TerminalApplication", "konsole");
             QStringList args;
-            args << "-e" << "gpg" << "--gen-key";
+            args << "-e" << KGpgSettings::gpgBinaryPath() << "--gen-key";
             
             QProcess *genKeyProc = new QProcess(this);
             genKeyProc->start(terminalApp, args);
@@ -733,7 +733,7 @@ void KeysManager::slotDelUid()
     KConfigGroup config(KGlobal::config(), "General");
     QString terminalApp = config.readPathEntry("TerminalApplication", "konsole");
     QStringList args;
-    args << "-e" << "gpg";
+    args << "-e" << KGpgSettings::gpgBinaryPath();
     args << "--edit-key" << item->keyId() << "uid";
     process->start(terminalApp, args);
     process->waitForFinished();
@@ -1389,7 +1389,7 @@ void KeysManager::slotexportsec()
             fgpg.remove();
 
         K3ProcIO *p = new K3ProcIO();
-        *p << "gpg" << "--no-tty" << "--output" << QFile::encodeName(url.path()) << "--armor" << "--export-secret-keys" << item->keyId();
+        *p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--output" << QFile::encodeName(url.path()) << "--armor" << "--export-secret-keys" << item->keyId();
         p->start(K3Process::Block);
 
         if (fgpg.exists())
@@ -1467,7 +1467,7 @@ void KeysManager::slotexport()
         if (page->checkFile->isChecked())
         {
             K3ProcIO *p = new K3ProcIO();
-            *p << "gpg" << "--no-tty";
+            *p << KGpgSettings::gpgBinaryPath() << "--no-tty";
 
             expname = page->newFilename->url().url().simplified();
             if (!expname.isEmpty())
@@ -1531,7 +1531,7 @@ void KeysManager::slotShowPhoto()
     KService::Ptr ptr = list.first();
     //KMessageBox::sorry(0,ptr->desktopEntryName());
     K3ProcIO *p = new K3ProcIO();
-    *p << "gpg" << "--no-tty" << "--photo-viewer" << QFile::encodeName(ptr->desktopEntryName() + " %i") << "--edit-key" << item->keyId() << "uid" << keysList2->currentItem()->text(6) << "showphoto" << "quit";
+    *p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--photo-viewer" << QFile::encodeName(ptr->desktopEntryName() + " %i") << "--edit-key" << item->keyId() << "uid" << keysList2->currentItem()->text(6) << "showphoto" << "quit";
     p->start(K3Process::DontCare, true);
 }
 
@@ -2030,7 +2030,7 @@ void KeysManager::slotedit()
     KConfigGroup config(KGlobal::config(), "General");
     QString terminalApp = config.readPathEntry("TerminalApplication","konsole");
     QStringList args;
-    args << "-e" << "gpg" <<"--no-secmem-warning" <<"--edit-key" << keysList2->currentItem()->keyId() << "help";
+    args << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" <<"--edit-key" << keysList2->currentItem()->keyId() << "help";
     kp->start(terminalApp, args);
     kp->waitForFinished();
     keysList2->refreshcurrentkey(keysList2->currentItem());
@@ -2076,7 +2076,7 @@ void KeysManager::deleteseckey()
     KConfigGroup config(KGlobal::config(), "General");
     QString terminalApp = config.readPathEntry("TerminalApplication","konsole");
     QStringList args;
-    args << "-e" << "gpg" <<"--no-secmem-warning" << "--delete-secret-key" << keysList2->currentItem()->keyId();
+    args << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" << "--delete-secret-key" << keysList2->currentItem()->keyId();
     connect(conprocess, SIGNAL(finished()), this, SLOT(reloadSecretKeys()));
     conprocess->start(terminalApp, args);
 }
@@ -2152,7 +2152,7 @@ void KeysManager::deletekey()
         return;
 
     K3Process gp;
-    gp << "gpg"
+    gp << KGpgSettings::gpgBinaryPath()
     << "--no-tty"
     << "--no-secmem-warning"
     << "--batch"

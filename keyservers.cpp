@@ -619,7 +619,7 @@ K3ProcIO *KeyServer::createGPGProc(QStringList *args)
 	bool useproxy = page->cBproxyI->isChecked();
 	QString proxy = page->kLEproxyI->text();
 
-	*gp << "gpg";
+	*gp << KGpgSettings::gpgBinaryPath();
 
 	if (useproxy) {
 		gp->setEnvironment("http_proxy", proxy);

@@ -60,22 +60,25 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 	serverList = gr.readEntry("Server_List", defaultServerList).split(",");
     keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
 
+	/* Remove everything after a whitespace. This will normally be
+	 * ' (Default)' from KDE 3.x.x */
+	serverList.replaceInStrings(QRegExp(" .*"), "");
 	if (!keyServer.isEmpty()) {
-		/* Remove everything after a whitespace. This will normally be
-		 * ' (Default)' from KDE 3.x.x */
-		serverList.replaceInStrings(QRegExp(" .*"), "");
 		serverList.removeAll(keyServer);
 		serverList.prepend(keyServer + ' ' + i18n("(Default)"));
+	} else {
+		serverList.replace(0, serverList.at(0) + ' ' + i18n("(Default)"));
 	}
 
 	defaultConfigPath = KUrl::fromPath(gpgConfigPath).fileName();
 	defaultHomePath = KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash);
+	defaultBinPath = KGpgSettings::gpgBinaryPath();
 
     kDebug(2100) << "Adding pages" << endl;
     m_page1 = new Encryption();
     m_page2 = new Decryption();
     m_page3 = new UIConf();
-    m_page4 = new GPGConf(0);
+    m_page4 = new GPGConf();
     m_page6 = new ServerConf();
     m_page7 = new MiscConf();
 
@@ -104,6 +107,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     connect(m_page1->always_key, SIGNAL(activated(int)), this, SLOT(updateButtons()));
     connect(m_page4->gpg_conf_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
     connect(m_page4->gpg_home_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
+    connect(m_page4->gpg_bin_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
     connect(m_page4->use_agent, SIGNAL(toggled(bool)), this, SLOT(updateButtons()));
     connect(m_page4->changeHome, SIGNAL(clicked()), this, SLOT(slotChangeHome()));
     connect(m_page6->server_add, SIGNAL(clicked()), this, SLOT(slotAddKeyServer()));
@@ -142,7 +146,11 @@ void kgpgOptions::slotChangeHome()
             {
                 // start gnupg so that it will create a config file
                 K3ProcIO *p = new K3ProcIO();
-                *p << "gpg" << "--homedir" << gpgHome << "--no-tty" << "--list-secret-keys";
+                QString gpgbin = m_page4->gpg_bin_path->text();
+                if (!QFile::exists(gpgbin))
+                    gpgbin = "gpg";
+
+                *p << gpgbin << "--homedir" << gpgHome << "--no-tty" << "--list-secret-keys";
                 p->start(K3Process::Block);
                 delete p;
                 // end of creating config file
@@ -255,6 +263,8 @@ void kgpgOptions::updateWidgets()
     gpgConfigPath = KGpgSettings::gpgConfigPath();
     m_page4->gpg_conf_path->setText(KUrl::fromPath(gpgConfigPath).fileName());
     m_page4->gpg_home_path->setText(KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash));
+    gpgBinPath = KGpgSettings::gpgBinaryPath();
+    m_page4->gpg_bin_path->setText(gpgBinPath);
 
     m_useagent = KgpgInterface::getGpgBoolSetting("use-agent", KGpgSettings::gpgConfigPath());
     m_defaultuseagent = false;
@@ -280,6 +290,7 @@ void kgpgOptions::updateWidgetsDefault()
 
     m_page4->gpg_conf_path->setText(defaultConfigPath);
     m_page4->gpg_home_path->setText(defaultHomePath);
+    m_page4->gpg_bin_path->setText(defaultBinPath);
 
     m_page6->ServerBox->clear();
     m_page6->ServerBox->insertStringList(defaultServerList.split(","));
@@ -301,6 +312,8 @@ void kgpgOptions::updateSettings()
 
         gpgConfigPath = KGpgSettings::gpgConfigPath();
     }
+    KGpgSettings::setGpgBinaryPath(m_page4->gpg_bin_path->text());
+    gpgBinPath = KGpgSettings::gpgBinaryPath();
 
     // save selected keys for file encryption & always encrypt with
     if (m_page1->kcfg_EncryptFilesTo->isChecked())
@@ -394,7 +407,7 @@ void kgpgOptions::listKeys()
     int counter = 0;
 
     K3ProcIO *p = new K3ProcIO();
-    *p << "gpg" << "--no-secmem-warning" << "--no-tty" << "--with-colon" << "--list-secret-keys";
+    *p << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--with-colon" << "--list-secret-keys";
     p->start(K3Process::Block, true);
 
     while (p->readln(line) != -1)
@@ -404,7 +417,7 @@ void kgpgOptions::listKeys()
     delete p;
 
     p = new K3ProcIO();
-    *p << "gpg" << "--no-tty" << "--with-colon" << "--list-keys";
+    *p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--with-colon" << "--list-keys";
     p->start(K3Process::Block, true);
 
     while (p->readln(line) != -1)
@@ -512,6 +525,9 @@ bool kgpgOptions::hasChanged()
     if (m_page4->gpg_home_path->text() != KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash))
         return true;
 
+    if (m_page4->gpg_bin_path->text() != gpgBinPath)
+        return true;
+
     if (m_page4->use_agent->isChecked() != m_useagent)
         return true;
 
@@ -534,6 +550,9 @@ bool kgpgOptions::isDefault()
         return false;
 
     if (m_page4->gpg_home_path->text() != defaultHomePath)
+        return false;
+
+    if (m_page4->gpg_bin_path->text() != defaultBinPath)
         return false;
 
     if (m_page4->use_agent->isChecked() != m_defaultuseagent)

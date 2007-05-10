@@ -72,7 +72,7 @@ public:
 class GPGConf : public QWidget, public Ui::GPGConf
 {
 public:
-  GPGConf( QWidget *parent ) : QWidget( parent ) {
+  GPGConf( QWidget *parent=0 ) : QWidget( parent ) {
     setupUi( this );
   }
 };
@@ -129,11 +129,13 @@ private:
     QString alwaysKeyName;
     QString fileEncryptionKey;
     QString gpgConfigPath;
+    QString gpgBinPath;
     QString keyServer;
     QString defaultServerList;
     QString defaultKeyServer;
     QString defaultConfigPath;
     QString defaultHomePath;
+    QString defaultBinPath;
     QPixmap pixkeySingle;
     QPixmap pixkeyDouble;
     QColor keyGood;

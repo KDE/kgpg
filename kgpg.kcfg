@@ -54,6 +54,10 @@
     <entry name="GpgConfigPath" type="Path" key="gpg_config_path">
       <label>The path of the gpg configuration file.</label>
     </entry>
+    <entry name="GpgBinaryPath" type="Path" key="gpg_bin_path">
+      <label>The path of the gpg binary used by Kgpg.</label>
+      <default>gpg</default>
+    </entry>
     <entry name="Groups" type="String">
       <label>GPG groups</label>
     </entry>
