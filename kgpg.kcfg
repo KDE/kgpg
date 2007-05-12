@@ -177,6 +177,18 @@
       <label>Color used for untrusted keys.</label>
       <default>172,0,0</default>
     </entry>
+    <entry name="ColorUltimate" type="Color" key="color_ultimate">
+      <label>Color used for ulitmately trusted keys.</label>
+      <default>68,0,255</default>
+    </entry>
+    <entry name="ColorMarginal" type="Color" key="color_marginal">
+      <label>Color used for marginally trusted keys.</label>
+      <default>255,255,0</default>
+    </entry>
+    <entry name="ColorExpired" type="Color" key="color_expired">
+      <label>Color used for expired keys.</label>
+      <default>150,150,150</default>
+    </entry>
     </group>
 
   <group name="Text Font">

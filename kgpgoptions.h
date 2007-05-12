@@ -88,7 +88,10 @@ public:
         GoodColor = 0,
         BadColor = 1,
         UnknownColor = 2,
-        RevColor = 3
+        RevColor = 3,
+        UltimateColor = 4,
+        MarginalColor = 5,
+        ExpiredColor = 6
     };
 
     explicit kgpgOptions(QWidget *parent = 0, const char *name = 0);
@@ -138,7 +141,10 @@ private:
     QString defaultBinPath;
     QPixmap pixkeySingle;
     QPixmap pixkeyDouble;
+    QColor keyUltimate;
     QColor keyGood;
+    QColor keyExpired;
+    QColor keyMarginal;
     QColor keyBad;
     QColor keyUnknown;
     QColor keyRev;

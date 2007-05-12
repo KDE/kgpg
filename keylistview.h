@@ -146,6 +146,9 @@ private:
     QPixmap trustunknown;
     QPixmap trustrevoked;
     QPixmap trustgood;
+    QPixmap trustultimate;
+    QPixmap trustexpired;
+    QPixmap trustmarginal;
 
     int groupNb;
     int m_previewsize;

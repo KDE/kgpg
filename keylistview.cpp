@@ -257,6 +257,18 @@ KeyListView::KeyListView(QWidget *parent)
     trustgood.fill(KGpgSettings::colorGood());
     QPainter(&trustgood).drawPixmap(rect, blankFrame);
 
+    trustultimate.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
+    trustultimate.fill(KGpgSettings::colorUltimate());
+    QPainter(&trustultimate).drawPixmap(rect, blankFrame);
+
+    trustmarginal.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
+    trustmarginal.fill(KGpgSettings::colorMarginal());
+    QPainter(&trustmarginal).drawPixmap(rect, blankFrame);
+
+    trustexpired.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
+    trustexpired.fill(KGpgSettings::colorExpired());
+    QPainter(&trustexpired).drawPixmap(rect, blankFrame);
+
     connect(this, SIGNAL(expanded(Q3ListViewItem *)), this, SLOT(expandKey(Q3ListViewItem *)));
 
     header()->setMovingEnabled(false);
@@ -603,9 +615,24 @@ void KeyListView::refreshTrust(int color, QColor newColor)
 
     switch (color)
     {
+        case kgpgOptions::UltimateColor:
+            trustFinger = trustultimate.serialNumber();
+            trustultimate = newtrust;
+            break;
+
         case kgpgOptions::GoodColor:
             trustFinger = trustgood.serialNumber();
             trustgood = newtrust;
+            break;
+
+        case kgpgOptions::MarginalColor:
+            trustFinger = trustmarginal.serialNumber();
+            trustmarginal = newtrust;
+            break;
+
+        case kgpgOptions::ExpiredColor:
+            trustFinger = trustexpired.serialNumber();
+            trustexpired = newtrust;
             break;
 
         case kgpgOptions::BadColor:
@@ -751,27 +778,21 @@ QPixmap KeyListView::getTrustPix(const KgpgKeyTrust &trust, const bool &isvalid)
 {
     if (!isvalid)
         return trustbad;
-    if (trust == 'o')
-        return trustunknown;
-    if (trust == 'i')
-        return trustbad;
-    if (trust == 'd')
-        return trustbad;
-    if (trust == 'r')
-        return trustrevoked;
-    if (trust == 'e')
-        return trustbad;
-    if (trust == 'q')
-        return trustunknown;
-    if (trust == 'n')
-        return trustunknown;
-    if (trust == 'm')
-        return trustbad;
-    if (trust == 'f')
-        return trustgood;
-    if (trust == 'u')
-        return trustgood;
-    return trustunknown;
+    switch (trust) {
+	case TRUST_ULTIMATE:	return trustultimate;
+	case TRUST_FULL:	return trustgood;
+	case TRUST_REVOKED:	return trustrevoked;
+	case TRUST_INVALID:
+	case TRUST_DISABLED:	return trustbad;
+	case TRUST_EXPIRED:	return trustexpired;
+	case TRUST_MARGINAL:	return trustmarginal;
+	case TRUST_UNKNOWN:
+	case TRUST_UNDEFINED:
+	case TRUST_NONE:	return trustunknown;
+	default:		
+kDebug(3125) << "Oops, unmatched trust value " << trust << endl;
+				return trustunknown;
+    }
 }
 
 QList<KeyListViewItem *> KeyListView::selectedItems(void)

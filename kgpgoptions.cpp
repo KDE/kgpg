@@ -117,7 +117,10 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     connect(m_page6->ServerBox, SIGNAL(currentChanged(Q3ListBoxItem *)), this, SLOT(updateButtons()));
     connect(m_page7->pushShredder, SIGNAL(clicked ()), this, SIGNAL(installShredder()));
 
+    keyUltimate = KGpgSettings::colorUltimate();
     keyGood = KGpgSettings::colorGood();
+    keyMarginal = KGpgSettings::colorMarginal();
+    keyExpired = KGpgSettings::colorExpired();
     keyUnknown = KGpgSettings::colorUnknown();
     keyRev = KGpgSettings::colorRev();
     keyBad = KGpgSettings::colorBad();
@@ -380,8 +383,17 @@ void kgpgOptions::updateSettings()
     KConfigGroup gr = m_config->group("Servers");
     gr.writeEntry("Server_List", currList);
 
+    if (keyUltimate != m_page3->kcfg_ColorUltimate->color())
+        emit refreshTrust(UltimateColor, m_page3->kcfg_ColorUltimate->color());
+
     if (keyGood != m_page3->kcfg_ColorGood->color())
         emit refreshTrust(GoodColor, m_page3->kcfg_ColorGood->color());
+
+    if (keyExpired != m_page3->kcfg_ColorExpired->color())
+        emit refreshTrust(ExpiredColor, m_page3->kcfg_ColorExpired->color());
+
+    if (keyMarginal != m_page3->kcfg_ColorMarginal->color())
+        emit refreshTrust(MarginalColor, m_page3->kcfg_ColorMarginal->color());
 
     if (keyBad != m_page3->kcfg_ColorBad->color())
         emit refreshTrust(BadColor, m_page3->kcfg_ColorBad->color());
