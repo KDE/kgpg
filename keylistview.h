@@ -62,13 +62,13 @@ public:
     bool isExpired() const;
 
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int col, int width, int align);
-    virtual int compare(KeyListViewItem *item, int c, bool ascending) const;
+    virtual int compare(Q3ListViewItem *item, int c, bool ascending) const;
     virtual QString key(int column, bool) const;
     virtual KeyListViewItem *parent() const { return static_cast<KeyListViewItem*>(K3ListViewItem::parent()); }
     virtual KeyListViewItem *nextSibling() const { return static_cast<KeyListViewItem*>(K3ListViewItem::nextSibling()); }
     virtual KeyListViewItem *firstChild() const { return static_cast<KeyListViewItem*>(K3ListViewItem::firstChild()); }
     virtual KgpgKey* getKey() { return m_key; }
-    virtual QString keyId(void) { return m_key ? m_key->fullId() : text(6); }
+    virtual QString keyId(void) const { return m_key ? m_key->fullId() : text(6); }
 
 private:
     bool m_def; /// Is set to \em true if it is the default key, \em false otherwise.

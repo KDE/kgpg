@@ -145,8 +145,10 @@ void KeyListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, 
     K3ListViewItem::paintCell(p, _cg, column, width, alignment);
 }
 
-int KeyListViewItem::compare(KeyListViewItem *item, int c, bool ascending) const
+int KeyListViewItem::compare(Q3ListViewItem *itemx, int c, bool ascending) const
 {
+    KeyListViewItem *item = static_cast<KeyListViewItem *>(itemx);
+
     if (c == 0)
     {
         ItemType item1 = itemType();
