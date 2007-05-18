@@ -701,6 +701,7 @@ void KeysManager::refreshKeyFromServer()
 
 		if ((item->depth() != 0) || !key) {
 			KMessageBox::sorry(this, i18n("You can only refresh primary keys. Please check your selection."));
+                        delete keyIDS;
 			return;
 		} else {
 			*keyIDS << key->fullId();
