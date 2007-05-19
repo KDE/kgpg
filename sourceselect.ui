@@ -98,22 +98,4 @@
   <include location="local" >kpushbutton.h</include>
  </includes>
  <resources/>
- <connections>
-  <connection>
-   <sender>checkFile</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>SrcSelect</receiver>
-   <slot>checkFile_toggled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
 </ui>
