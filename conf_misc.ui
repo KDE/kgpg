@@ -86,7 +86,7 @@
         </layout>
        </item>
        <item>
-        <widget class="Q3GroupBox" name="groupShred" >
+        <widget class="QGroupBox" name="groupShred" >
          <property name="title" >
           <string>Shredder</string>
          </property>
@@ -219,7 +219,7 @@
         </layout>
        </item>
        <item>
-        <widget class="Q3GroupBox" name="groupBox11" >
+        <widget class="QGroupBox" name="groupBox11" >
          <property name="title" >
           <string>Konqueror Service Menus</string>
          </property>
@@ -317,7 +317,7 @@
         </widget>
        </item>
        <item>
-        <widget class="Q3GroupBox" name="groupBox3" >
+        <widget class="QGroupBox" name="groupBox3" >
          <property name="title" >
           <string>System Tray Applet</string>
          </property>
@@ -423,12 +423,6 @@
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
-  <customwidget>
-   <class>Q3GroupBox</class>
-   <extends>QGroupBox</extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
