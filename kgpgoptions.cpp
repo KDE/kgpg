@@ -404,7 +404,7 @@ void kgpgOptions::updateSettings()
     if (keyRev != m_page3->kcfg_ColorRev->color())
         emit refreshTrust(RevColor, m_page3->kcfg_ColorRev->color());
 
-    KGpgSettings::writeConfig();
+    KGpgSettings::self()->writeConfig();
     m_config->sync();
     emit settingsUpdated();
 }

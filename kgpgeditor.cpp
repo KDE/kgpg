@@ -115,7 +115,7 @@ void KgpgEditor::closeWindow()
 void KgpgEditor::saveOptions()
 {
     KGpgSettings::setFirstRun(false);
-    KGpgSettings::writeConfig();
+    KGpgSettings::self()->writeConfig();
 }
 
 void KgpgEditor::initActions()

@@ -879,7 +879,7 @@ void MyView::slotSaveOptionsPath()
             KGpgSettings::setDefaultKey(defaultID);
         }*/
 
-    KGpgSettings::writeConfig();
+    KGpgSettings::self()->writeConfig();
     emit updateDefault(defaultID);
     delete wiz;
 }
@@ -1054,7 +1054,7 @@ void KgpgAppletApp::slotHandleQuit()
     KGpgSettings::setShowExpi(s_keyManager->sExpi->isChecked());
     KGpgSettings::setShowCreat(s_keyManager->sCreat->isChecked());
     KGpgSettings::setShowSize(s_keyManager->sSize->isChecked());
-    KGpgSettings::writeConfig();
+    KGpgSettings::self()->writeConfig();
     quit();
 }
 
