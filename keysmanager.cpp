@@ -1010,7 +1010,7 @@ void KeysManager::addToKAB()
 
     KABC::Addressee::List addresseeList = ab->findByEmail(email);
     KToolInvocation::startServiceByDesktopName("kaddressbook");
-    QDBusInterface kaddressbook("org.kde.kaddressbook", "/KAddressBook", "org.kde.kaddressbook.KAddressBook");
+    QDBusInterface kaddressbook("org.kde.kaddressbook", "/KAddressBook", "org.kde.KAddressbook.Core");
     if(!addresseeList.isEmpty())
         kaddressbook.call( "showContactEditor", addresseeList.first().uid());
     else
