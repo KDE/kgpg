@@ -47,6 +47,7 @@
 #include "sourceselect.h"
 #include "kgpgview.h"
 #include "kgpg.h"
+#include "kgpg_interface.h"
 
 
 KgpgEditor::KgpgEditor(QWidget *parent, Qt::WFlags f, KShortcut gohome, bool mainwindow)
@@ -413,8 +414,8 @@ void KgpgEditor::slotFilePreDec()
 
 void KgpgEditor::slotKeyManager()
 {
-    QDBusInterface kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.Key" );
-    QDBusReply<void> reply =kgpg.call( "showKeyManager" );
+    OrgKdeKgpgKeyInterface kgpg("org.kde.kgpg", "/KeyInterface",QDBusConnection::sessionBus());
+    QDBusReply<void> reply =kgpg.showKeyManager();
     if (!reply.isValid())
         kDebug(2100) << "there was some error using dbus." << endl;
 }
@@ -575,8 +576,8 @@ void KgpgEditor::importSignatureKey(const QString &id)
 
 void KgpgEditor::slotOptions()
 {
-    QDBusInterface kgpg( "org.kde.kgpg", "/KeyInterface", "org.kde.kgpg.Key" );
-    QDBusReply<void> reply =kgpg.call( "showOptions" );
+    OrgKdeKgpgKeyInterface kgpg("org.kde.kgpg", "/KeyInterface",QDBusConnection::sessionBus());
+    QDBusReply<void> reply =kgpg.showOptions();
     if (!reply.isValid())
         kDebug(2100) << "there was some error using dbus." << endl;
 }
