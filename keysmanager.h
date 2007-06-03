@@ -36,19 +36,12 @@
 #include "ui_adduid.h"
 #include "ui_groupedit.h"
 
-class QDragMoveEvent;
-class QVBoxLayout;
-class QPushButton;
 class QCloseEvent;
-class QCheckbox;
-class QLabel;
 class QEvent;
 
 class KSelectAction;
 class KPassivePopup;
 class KStatusBar;
-class K3Process;
-class K3ProcIO;
 class KMenu;
 
 class KgpgInterface;

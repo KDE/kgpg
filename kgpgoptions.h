@@ -33,7 +33,6 @@ class KFontChooser;
 class KConfig;
 
 class Encryption;
-class ColorsConf;
 
 class Decryption : public QWidget, public Ui::Decryption
 {
