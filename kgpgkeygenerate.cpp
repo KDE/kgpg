@@ -22,6 +22,7 @@
 #include <QGroupBox>
 #include <QWidget>
 #include <QLabel>
+#include <QIntValidator>
 
 #include <KMessageBox>
 #include <KComboBox>
@@ -66,6 +67,9 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     hgroup->setMargin(marginHint());
     hgroup->setSpacing(spacingHint());
     m_days = new KLineEdit("0", hgroup);
+    QIntValidator *validator = new QIntValidator(m_days);
+    validator->setBottom(0);
+    m_days->setValidator(validator);
     m_days->setMaxLength(4);
     m_days->setDisabled(true);
 
