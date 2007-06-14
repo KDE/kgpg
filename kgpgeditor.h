@@ -18,7 +18,6 @@
 #ifndef KGPGEDITOR_H
 #define KGPGEDITOR_H
 
-#include <QStringList>
 
 #include <KXmlGuiWindow>
 #include <KUrl>

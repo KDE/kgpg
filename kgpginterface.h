@@ -18,7 +18,6 @@
 #ifndef KGPGINTERFACE_H
 #define KGPGINTERFACE_H
 
-#include <QStringList>
 #include <QDateTime>
 #include <QPixmap>
 

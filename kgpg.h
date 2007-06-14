@@ -18,7 +18,6 @@
 #ifndef KGPGAPPLET_H
 #define KGPGAPPLET_H
 
-#include <QStringList>
 #include <QClipboard>
 #include <QLabel>
 

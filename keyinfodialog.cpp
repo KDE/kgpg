@@ -18,7 +18,6 @@
 #include "keyinfodialog.h"
 
 #include <QVBoxLayout>
-#include <QStringList>
 #include <QCheckBox>
 #include <QColor>
 #include <QImage>

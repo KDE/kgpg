@@ -19,7 +19,6 @@
 #define SELECTPUBLICKEYDIALOG_H
 
 #include <QKeySequence>
-#include <QStringList>
 
 
 #include <KShortcut>

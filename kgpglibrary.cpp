@@ -22,7 +22,6 @@
 #include <QTextStream>
 #include <QFile>
 #include <QString>
-#include <QStringList>
 
 #include <KJob>
 #include <KFileDialog>

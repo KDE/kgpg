@@ -18,7 +18,6 @@
 #ifndef KEYSMANAGER_H
 #define KEYSMANAGER_H
 
-#include <QStringList>
 #include <QDropEvent>
 #include <QClipboard>
 #include <QPixmap>

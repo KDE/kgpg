@@ -10,7 +10,6 @@
 #ifndef KEYLISTVIEW_H
 #define KEYLISTVIEW_H
 
-#include <QStringList>
 #include <QColorGroup>
 #include <QPixmap>
 
