@@ -1,6 +1,7 @@
 [Desktop Entry]
+Encoding=UTF-8
 ServiceTypes=inode/directory
-Actions=encrypt
+Actions=encrypt;
 
 [Desktop Action encrypt]
 Name=Archive & Encrypt Folder

@@ -1,7 +1,8 @@
 [Desktop Entry]
+Encoding=UTF-8
 ServiceTypes=all/allfiles
 ExcludeServiceTypes=kdedevice/*
-Actions=encrypt
+Actions=encrypt;
 
 [Desktop Action encrypt]
 Name=Encrypt File
