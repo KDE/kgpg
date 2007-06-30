@@ -6,7 +6,6 @@ Actions=encrypt;
 
 [Desktop Action encrypt]
 Name=Encrypt File
-Name[ar]=تشفير ملف
 Name[ca]=Xifra fitxer
 Name[cs]=Zašifrovat soubor
 Name[cy]=Cêl-ysgrifo Ffeil
