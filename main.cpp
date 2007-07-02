@@ -29,26 +29,22 @@ static const char description[] =
 
 static const char version[] = "1.2.1";
 
-static KCmdLineOptions options[] =
-        {
-                { "e", I18N_NOOP("Encrypt file"), 0 },
-                { "k", I18N_NOOP("Open key manager"), 0 },
-                { "s", I18N_NOOP("Show encrypted file"), 0 },
-                { "S", I18N_NOOP("Sign file"), 0 },
-                { "V", I18N_NOOP("Verify signature"), 0 },
-                { "X", I18N_NOOP("Shred file"), 0 },
-                { "+[File]", I18N_NOOP("File to open"), 0 },
-                KCmdLineLastOption
-                // INSERT YOUR COMMANDLINE OPTIONS HERE
-        };
-
 int main(int argc, char *argv[])
 {
-    KAboutData about("kgpg", I18N_NOOP("KGpg"), version, description, KAboutData::License_GPL, "(C) 2003 Jean-Baptiste Mardelle");
-    about.addAuthor("Jean-Baptiste Mardelle", 0, "bj@altern.org");
-    about.addAuthor("Jimmy Gilles", 0, "jimmygilles@gmail.com");
+    KAboutData about("kgpg", 0, ki18n("KGpg"), version, ki18n(description), KAboutData::License_GPL, ki18n("(C) 2003 Jean-Baptiste Mardelle"));
+    about.addAuthor(ki18n("Jean-Baptiste Mardelle"), KLocalizedString(), "bj@altern.org");
+    about.addAuthor(ki18n("Jimmy Gilles"), KLocalizedString(), "jimmygilles@gmail.com");
 
     KCmdLineArgs::init(argc, argv, &about);
+
+    KCmdLineOptions options;
+    options.add("e", ki18n("Encrypt file"));
+    options.add("k", ki18n("Open key manager"));
+    options.add("s", ki18n("Show encrypted file"));
+    options.add("S", ki18n("Sign file"));
+    options.add("V", ki18n("Verify signature"));
+    options.add("X", ki18n("Shred file"));
+    options.add("+[File]", ki18n("File to open"));
     KCmdLineArgs::addCmdLineOptions(options);
     KUniqueApplication::addCmdLineOptions();
 
