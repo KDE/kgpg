@@ -77,7 +77,7 @@
 #include <KStandardShortcut>
 #include <KPrinter>
 #include <KLocale>
-#include <K3ProcIO>
+#include <KProcess>
 #include <KAction>
 #include <KDebug>
 #include <KFind>
@@ -1389,9 +1389,9 @@ void KeysManager::slotexportsec()
         if (fgpg.exists())
             fgpg.remove();
 
-        K3ProcIO *p = new K3ProcIO();
-        *p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--output" << QFile::encodeName(url.path()) << "--armor" << "--export-secret-keys" << item->keyId();
-        p->start(K3Process::Block);
+        KProcess p;
+        p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--output" << QFile::encodeName(url.path()) << "--armor" << "--export-secret-keys" << item->keyId();
+        p.execute();
 
         if (fgpg.exists())
             KMessageBox::information(this, i18n("Your PRIVATE key \"%1\" was successfully exported.\nDO NOT leave it in an insecure place.", url.path()));
@@ -1467,9 +1467,6 @@ void KeysManager::slotexport()
         else
         if (page->checkFile->isChecked())
         {
-            K3ProcIO *p = new K3ProcIO();
-            *p << KGpgSettings::gpgBinaryPath() << "--no-tty";
-
             expname = page->newFilename->url().url().simplified();
             if (!expname.isEmpty())
             {
@@ -1477,14 +1474,16 @@ void KeysManager::slotexport()
                 if (fgpg.exists())
                     fgpg.remove();
 
-                *p << "--output" << QFile::encodeName(expname) << "--export" << "--armor";
+                KProcess p;
+                p << KGpgSettings::gpgBinaryPath() << "--no-tty";
+
+                p << "--output" << expname << "--export" << "--armor";
                 if (!exportAttr)
-                    *p << "--export-options" << "no-include-attributes";
+                    p << "--export-options" << "no-include-attributes";
 
-		for (QStringList::ConstIterator it = klist.begin(); it != klist.end(); it++)
-			*p << QString(*it);
+                p << klist;
 
-                p->start(K3Process::Block);
+                p.execute();
 
                 if (fgpg.exists())
                     KMessageBox::information(this, i18n("Your public key \"%1\" was successfully exported\n", expname));
@@ -1531,9 +1530,9 @@ void KeysManager::slotShowPhoto()
     KeyListViewItem *item = keysList2->currentItem()->parent();
     KService::Ptr ptr = list.first();
     //KMessageBox::sorry(0,ptr->desktopEntryName());
-    K3ProcIO *p = new K3ProcIO();
-    *p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--photo-viewer" << QFile::encodeName(ptr->desktopEntryName() + " %i") << "--edit-key" << item->keyId() << "uid" << keysList2->currentItem()->text(6) << "showphoto" << "quit";
-    p->start(K3Process::DontCare, true);
+    KProcess p;
+    p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--photo-viewer" << (ptr->desktopEntryName() + " %i") << "--edit-key" << item->keyId() << "uid" << keysList2->currentItem()->text(6) << "showphoto" << "quit";
+    p.startDetached();
 }
 
 void KeysManager::listsigns()
@@ -2152,7 +2151,7 @@ void KeysManager::deletekey()
     if (exportList.count() == 0)
         return;
 
-    K3Process gp;
+    KProcess gp;
     gp << KGpgSettings::gpgBinaryPath()
     << "--no-tty"
     << "--no-secmem-warning"
@@ -2167,7 +2166,7 @@ void KeysManager::deletekey()
 	gp << item->keyId();
     }
 
-    gp.start(K3Process::Block);
+    gp.execute();
 
     for (int i = 0; i < exportList.count(); ++i)
         if (exportList.at(i))

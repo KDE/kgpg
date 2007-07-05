@@ -40,6 +40,7 @@
 #include <KConfig>
 #include <KLocale>
 #include <K3ProcIO>
+#include <KProcess>
 
 #include "kgpgsettings.h"
 
@@ -148,21 +149,20 @@ void kgpgOptions::slotChangeHome()
             if (KMessageBox::questionYesNo(this, i18n("No configuration file was found in the selected location.\nDo you want to create it now ?\n\nWithout configuration file, neither KGpg nor Gnupg will work properly."), i18n("No Configuration File Found"), KGuiItem(i18n("Create")), KGuiItem(i18n("Ignore"))) == KMessageBox::Yes) // Try to create config File by running gpg once
             {
                 // start gnupg so that it will create a config file
-                K3ProcIO *p = new K3ProcIO();
                 QString gpgbin = m_page4->gpg_bin_path->text();
                 if (!QFile::exists(gpgbin))
                     gpgbin = "gpg";
 
-                *p << gpgbin << "--homedir" << gpgHome << "--no-tty" << "--list-secret-keys";
-                p->start(K3Process::Block);
-                delete p;
+                KProcess p;
+                p << gpgbin << "--homedir" << gpgHome << "--no-tty" << "--list-secret-keys";
+                p.execute();
                 // end of creating config file
 
                 confPath = "gpg.conf";
                 QFile confFile(gpgHome + confPath);
                 if (!confFile.open(QIODevice::WriteOnly))
                 {
-                    KMessageBox::sorry(this, i18n("Cannot create configuration file. Please check if destination media is mounted and if you have write access"));
+                    KMessageBox::sorry(this, i18n("Cannot create configuration file. Please check if destination media is mounted and if you have write access."));
                     return;
                 }
                 else

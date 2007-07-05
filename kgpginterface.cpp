@@ -31,6 +31,7 @@
 #include <KLocale>
 #include <KCodecs>
 #include <K3ProcIO>
+#include <KProcess>
 #include <KConfig>
 #include <KDebug>
 #include <KGlobal>
@@ -822,8 +823,7 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
     *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--with-colon" << "--list-secret-keys";
 
-    for (QStringList::ConstIterator it = ids.begin(); it != ids.end(); ++it)
-        *process << *it;
+        *process << ids;
 
         process->start(K3Process::Block, false);
         readSecretKeysProcess(process);
@@ -1719,7 +1719,7 @@ void KgpgInterface::signKeyOpenConsole()
 {
     KConfigGroup config(KGlobal::config(), "General");
 
-    K3Process process;
+    KProcess process;
     process << config.readPathEntry("TerminalApplication", "konsole");
     process << "-e" << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--expert" << "-u" << m_signkey;
 
@@ -1728,7 +1728,7 @@ void KgpgInterface::signKeyOpenConsole()
     else
         process << "--lsign-key" << m_keyid;
 
-    process.start(K3Process::Block);
+    process.execute();
     emit signKeyFinished(2, this);
 }
 
