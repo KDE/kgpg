@@ -194,7 +194,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
 
         QString shredWhatsThis = i18n("<qt><b>Shred source file:</b><br /><p>Checking this option will shred (overwrite several times before erasing) the files you have encrypted. This way, it is almost impossible that the source file is recovered.</p><p><b>But you must be aware that this is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>");
 
-        QLabel *labelshredwt = new QLabel(i18n("<a href=\"whalinehis:%1\">Read this before using shredding</a>", shredWhatsThis), shredbox);
+        QLabel *labelshredwt = new QLabel(i18n("<a href=\"whatsthis:%1\">Read this before using shredding</a>", shredWhatsThis), shredbox);
         labelshredwt->setOpenExternalLinks(true);
         labelshredwt->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
     }
