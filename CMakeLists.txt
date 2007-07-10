@@ -40,8 +40,6 @@ qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)
 
 QT4_ADD_DBUS_INTERFACE(kgpg_SRCS org.kde.kgpg.Key.xml kgpg_interface )
 
-kde4_automoc(${kgpg_SRCS})
-
 kde4_add_ui_files(kgpg_SRCS
     adduid.ui
     conf_gpg.ui
