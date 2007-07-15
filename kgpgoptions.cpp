@@ -39,7 +39,6 @@
 #include <KComboBox>
 #include <KConfig>
 #include <KLocale>
-#include <K3ProcIO>
 #include <KProcess>
 
 #include "kgpgsettings.h"
@@ -418,22 +417,28 @@ void kgpgOptions::listKeys()
     QString issec;
     int counter = 0;
 
-    K3ProcIO *p = new K3ProcIO();
+    KProcess *p = new KProcess();
     *p << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--with-colon" << "--list-secret-keys";
-    p->start(K3Process::Block, true);
+    p->setOutputChannelMode(KProcess::MergedChannels);
+    p->execute();
 
-    while (p->readln(line) != -1)
+    while (p->canReadLine())
+    {
+        line = QString::fromLocal8Bit(p->readLine());
         if (line.startsWith("sec"))
             issec += line.section(':', 4, 4);
+    }
 
     delete p;
 
-    p = new K3ProcIO();
+    p = new KProcess();
     *p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--with-colon" << "--list-keys";
-    p->start(K3Process::Block, true);
+    p->setOutputChannelMode(KProcess::MergedChannels);
+    p->execute();
 
-    while (p->readln(line) != -1)
+    while (p->canReadLine())
     {
+        line = QString::fromLocal8Bit(p->readLine());
         if (line.startsWith("pub"))
         {
             name = KgpgInterface::checkForUtf8(line.section(':', 9, 9));
