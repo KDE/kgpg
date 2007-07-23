@@ -70,11 +70,11 @@ install(TARGETS kgpg  DESTINATION ${BIN_INSTALL_DIR} )
 ########### install files ###############
 
 install( FILES kgpg.rc keysmanager.rc tips  DESTINATION ${DATA_INSTALL_DIR}/kgpg)
-install( FILES kgpg.desktop  DESTINATION ${XDG_APPS_DIR})
+install( FILES kgpg.desktop  DESTINATION ${XDG_APPS_INSTALL_DIR})
 install( FILES kgpg.kcfg  DESTINATION ${KCFG_INSTALL_DIR})
 install( FILES kgpg.desktop  DESTINATION ${AUTOSTART_INSTALL_DIR} )
 install( FILES kgpg_anim.gif kgpg_docked.png  kgpg_docked.gif kgpg_blank.png  kgpg_fill.png  DESTINATION ${DATA_INSTALL_DIR}/kgpg/pics)
 install( FILES encryptfile.desktop encryptfolder.desktop  DESTINATION ${DATA_INSTALL_DIR}/konqueror/servicemenus)
-install( FILES org.kde.kgpg.Key.xml DESTINATION ${DBUS_INTERFACES_DIR})
+install( FILES org.kde.kgpg.Key.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
 
 kde4_install_icons( ${ICON_INSTALL_DIR}   )
