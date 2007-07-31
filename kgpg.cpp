@@ -71,6 +71,7 @@
 #include <KSelectAction>
 #include <KToggleAction>
 #include <KIcon>
+#include <kdefakes.h>
 
 #include "selectsecretkey.h"
 #include "kgpgeditor.h"

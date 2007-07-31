@@ -40,6 +40,7 @@
 #include <KConfig>
 #include <KLocale>
 #include <KProcess>
+#include <kdefakes.h>
 
 #include "kgpgsettings.h"
 
