@@ -371,7 +371,7 @@ void MyView::busyMessage(const QString &mssge, bool reset)
     else
         openTasks--;
 
-    //kDebug(2100) << "Emit message: " << openTasks << endl;
+    //kDebug(2100) << "Emit message: " << openTasks ;
 
     if (openTasks <= 0)
     {
@@ -568,7 +568,7 @@ void MyView::unArchive()
 
 void MyView::showDroppedFile()
 {
-    kDebug(2100) << "------Show dropped file" << endl;
+    kDebug(2100) << "------Show dropped file" ;
 
     KgpgEditor *kgpgtxtedit = new KgpgEditor(0, Qt::WDestructiveClose, goDefaultKey);
     kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
@@ -608,7 +608,7 @@ void MyView::droppedfile (KUrl::List url)
                 break;
             case KGpgSettings::EnumEncryptedDropEvent::Ask:
                 droppopup->exec(QCursor::pos ());
-                kDebug(2100)<<"Drop menu--------"<<endl;
+                kDebug(2100)<<"Drop menu--------";
                 break;
         }
     }
@@ -725,7 +725,7 @@ void MyView::firstRun()
 
 void MyView::startWizard()
 {
-    kDebug(2100) << "Starting Wizard" << endl;
+    kDebug(2100) << "Starting Wizard" ;
 
     wiz = new KgpgWizard(0);
     
@@ -953,7 +953,7 @@ void MyView::slotSetClip(const QString &newtxt)
     if (newtxt.isEmpty())
         return;
 
-    kDebug(2100) << "Encrypted is " << newtxt << endl;
+    kDebug(2100) << "Encrypted is " << newtxt ;
     kapp->clipboard()->setText(newtxt, clipboardMode);
 }
 
@@ -1011,7 +1011,7 @@ void kgpgapplet::showOptions()
     OrgKdeKgpgKeyInterface kgpg("org.kde.kgpg", "/KeyInterface",QDBusConnection::sessionBus());
     QDBusReply<void> reply =kgpg.showOptions();
     if (!reply.isValid())
-        kDebug(2100) << "there was some error using dbus." << endl;
+        kDebug(2100) << "there was some error using dbus." ;
 }
 
 void kgpgapplet::slotOpenKeyManager()
@@ -1019,7 +1019,7 @@ void kgpgapplet::slotOpenKeyManager()
     OrgKdeKgpgKeyInterface kgpg("org.kde.kgpg", "/KeyInterface",QDBusConnection::sessionBus());
     QDBusReply<void> reply =kgpg.showKeyManager();
     if (!reply.isValid())
-        kDebug(2100) << "there was some error using dbus." << endl;
+        kDebug(2100) << "there was some error using dbus." ;
 }
 
 void kgpgapplet::slotOpenServerDialog()
@@ -1027,7 +1027,7 @@ void kgpgapplet::slotOpenServerDialog()
     OrgKdeKgpgKeyInterface kgpg("org.kde.kgpg", "/KeyInterface",QDBusConnection::sessionBus());
     QDBusReply<void> reply = kgpg.showKeyServer();
     if (!reply.isValid())
-        kDebug(2100) << "there was some error using dbus." << endl;
+        kDebug(2100) << "there was some error using dbus." ;
 }
 
 kgpgapplet::~kgpgapplet()
@@ -1070,17 +1070,17 @@ void KgpgAppletApp::wizardOver(const QString &defaultKeyId)
 
 int KgpgAppletApp::newInstance()
 {
-    kDebug(2100) << "New instance" << endl;
+    kDebug(2100) << "New instance" ;
 
     args = KCmdLineArgs::parsedArgs();
     if (running)
     {
-        kDebug(2100) << "Already running" << endl;
+        kDebug(2100) << "Already running" ;
         kgpg_applet->show();
     }
     else
     {
-        kDebug(2100) << "Starting KGpg" << endl;
+        kDebug(2100) << "Starting KGpg" ;
         running = true;
 
         s_keyManager = new KeysManager();
@@ -1135,7 +1135,7 @@ int KgpgAppletApp::newInstance()
     else
     if (args->count() > 0)
     {
-        kDebug(2100) << "KGpg: found files" << endl;
+        kDebug(2100) << "KGpg: found files" ;
 
         urlList.clear();
         for (int ct = 0; ct < args->count(); ct++)

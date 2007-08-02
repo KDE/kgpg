@@ -75,7 +75,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 	defaultHomePath = KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash);
 	defaultBinPath = KGpgSettings::gpgBinaryPath();
 
-    kDebug(2100) << "Adding pages" << endl;
+    kDebug(2100) << "Adding pages" ;
     m_page1 = new Encryption();
     m_page2 = new Decryption();
     m_page3 = new UIConf();
@@ -283,7 +283,7 @@ void kgpgOptions::updateWidgets()
     m_page6->ServerBox->clear();
     m_page6->ServerBox->insertStringList(serverList);
 
-    kDebug(2100) << "Finishing options" << endl;
+    kDebug(2100) << "Finishing options" ;
 }
 
 void kgpgOptions::updateWidgetsDefault()
@@ -298,7 +298,7 @@ void kgpgOptions::updateWidgetsDefault()
     m_page6->ServerBox->clear();
     m_page6->ServerBox->insertStringList(defaultServerList.split(","));
 
-    kDebug(2100) << "Finishing default options" << endl;
+    kDebug(2100) << "Finishing default options" ;
 }
 
 void kgpgOptions::updateSettings()

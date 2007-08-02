@@ -150,11 +150,11 @@ QStringList KgpgInterface::getGpgGroupSetting(const QString &name, const QString
 
             if (result.startsWith("group "))
             {
-                kDebug(2100) << "Found 1 group" << endl;
+                kDebug(2100) << "Found 1 group" ;
                 result.remove(0, 6);
                 if (result.simplified().startsWith(name))
                 {
-                    kDebug(2100) << "Found group: " << name << endl;
+                    kDebug(2100) << "Found group: " << name ;
                     result = result.section('=', 1);
                     result = result.section('#', 0, 0);
                     return result.split(" ");
@@ -172,7 +172,7 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
     bool found = false;
     QFile qfile(QFile::encodeName(configfile));
 
-    kDebug(2100) << "Changing group: " << name << endl;
+    kDebug(2100) << "Changing group: " << name ;
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
         QTextStream t(&qfile);
@@ -186,8 +186,8 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
                 result2 = result2.simplified();
                 if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith("=")))
                 {
-                    // kDebug(2100) << "Found group: " << name << endl;
-                    // kDebug(2100) << "New values: " << values << endl;
+                    // kDebug(2100) << "Found group: " << name ;
+                    // kDebug(2100) << "New values: " << values ;
                     result = QString("group %1=%2").arg(name).arg(values.join(" "));
                     found = true;
                 }
@@ -502,7 +502,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
 
     if (!block)
     {
-        kDebug(2100) << "(KgpgInterface::readPublicKeys) Extract public keys with K3Process::NotifyOnExit" << endl;
+        kDebug(2100) << "(KgpgInterface::readPublicKeys) Extract public keys with K3Process::NotifyOnExit" ;
         connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(readPublicKeysProcess(K3ProcIO *)));
         connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(readPublicKeysFin(K3Process *)));
         process->start(K3Process::NotifyOnExit, false);
@@ -511,7 +511,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
     }
     else
     {
-        kDebug(2100) << "(KgpgInterface::readPublicKeys) Extract public keys with K3Process::Block" << endl;
+        kDebug(2100) << "(KgpgInterface::readPublicKeys) Extract public keys with K3Process::Block" ;
         process->start(K3Process::Block, false);
         readPublicKeysProcess(process);
         readPublicKeysFin(process, true);
@@ -948,7 +948,7 @@ QString KgpgInterface::getKeys(const bool &block, const bool &attributes, const 
 
     if (!block)
     {
-        kDebug(2100) << "(KgpgInterface::getKeys) Get a key with K3Process::NotifyOnExit" << endl;
+        kDebug(2100) << "(KgpgInterface::getKeys) Get a key with K3Process::NotifyOnExit" ;
         connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(getKeysProcess(K3ProcIO *)));
         connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(getKeysFin(K3Process *)));
         process->start(K3Process::NotifyOnExit, false);
@@ -957,7 +957,7 @@ QString KgpgInterface::getKeys(const bool &block, const bool &attributes, const 
     }
     else
     {
-        kDebug(2100) << "(KgpgInterface::getKeys) Get a key with K3Process::Block" << endl;
+        kDebug(2100) << "(KgpgInterface::getKeys) Get a key with K3Process::Block" ;
         process->start(K3Process::Block, false);
         getKeysProcess(process);
         delete process;
@@ -1030,7 +1030,7 @@ void KgpgInterface::encryptText(const QString &text, const QStringList &userids,
     else
         *process << "-c";
 
-    kDebug(2100) << "(KgpgInterface::encryptText) Encrypt a text" << endl;
+    kDebug(2100) << "(KgpgInterface::encryptText) Encrypt a text" ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(encryptTextProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(encryptTextFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, false);
@@ -1119,7 +1119,7 @@ void KgpgInterface::decryptText(const QString &text, const QStringList &options)
 
     *process << "-d";
 
-    kDebug(2100) << "(KgpgInterface::decryptText) Decrypt a text" << endl;
+    kDebug(2100) << "(KgpgInterface::decryptText) Decrypt a text" ;
     connect(process, SIGNAL(receivedStdout(K3Process *, char *, int)), this, SLOT(decryptTextStdOut(K3Process *, char *, int)));
     connect(process, SIGNAL(receivedStderr(K3Process *, char *, int)), this, SLOT(decryptTextStdErr(K3Process *, char *, int)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(decryptTextFin(K3Process *)));
@@ -1263,7 +1263,7 @@ void KgpgInterface::signText(const QString &text, const QString &userid, const Q
 
     *process << "--clearsign" << "-u" << userid;
 
-    kDebug(2100) << "(KgpgInterface::signText) Sign a text" << endl;
+    kDebug(2100) << "(KgpgInterface::signText) Sign a text" ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(signTextProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(signTextFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -1376,7 +1376,7 @@ void KgpgInterface::verifyText(const QString &text)
     process->setParent(this);
     *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0" << "--verify";
 
-    kDebug(2100) << "(KgpgInterface::verifyText) Verify a text" << endl;
+    kDebug(2100) << "(KgpgInterface::verifyText) Verify a text" ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(verifyTextProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(verifyTextFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -1492,7 +1492,7 @@ void KgpgInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcu
 
     *process << QFile::encodeName(srcurl.path());
 
-    kDebug(2100) << "(KgpgInterface::encryptFile) Encrypt a file" << endl;
+    kDebug(2100) << "(KgpgInterface::encryptFile) Encrypt a file" ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(fileReadEncProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(fileEncryptFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -1522,7 +1522,7 @@ void KgpgInterface::fileReadEncProcess(K3ProcIO *p)
                 m_ispartial = false;
             }
 
-            kDebug(2100) << line << endl;
+            kDebug(2100) << line ;
             if (line.contains("BEGIN_ENCRYPTION"))
                 emit processstarted(sourceFile.path());
             else
@@ -1596,7 +1596,7 @@ void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, cons
     else
         *process << "sign";
 
-    kDebug(2100) << "(KgpgInterface::signKey) Sign a key" << endl;
+    kDebug(2100) << "(KgpgInterface::signKey) Sign a key" ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(signKeyProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(signKeyFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -1750,7 +1750,7 @@ void KgpgInterface::keyExpire(const QString &keyid, const QDate &date, const boo
     *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid << "expire";
 
-    kDebug(2100) << "(KgpgInterface::keyExpire) Change expiration of the key " << keyid << endl;
+    kDebug(2100) << "(KgpgInterface::keyExpire) Change expiration of the key " << keyid ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(keyExpireProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(keyExpireFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -1871,7 +1871,7 @@ void KgpgInterface::changePass(const QString &keyid)
     *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--no-use-agent" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid << "passwd";
 
-    kDebug(2100) << "(KgpgInterface::changePass) Change passphrase of the key " << keyid << endl;
+    kDebug(2100) << "(KgpgInterface::changePass) Change passphrase of the key " << keyid ;
     connect(process,SIGNAL(readReady(K3ProcIO *)), this, SLOT(changePassProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(changePassFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -1973,7 +1973,7 @@ void KgpgInterface::changeTrust(const QString &keyid, const int &keytrust)
     *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid << "trust";
 
-    kDebug(2100) << "(KgpgInterface::changeTrust) Change trust of the key " << keyid << " to " << keytrust << endl;
+    kDebug(2100) << "(KgpgInterface::changeTrust) Change trust of the key " << keyid << " to " << keytrust ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(changeTrustProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(changeTrustFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -2046,7 +2046,7 @@ void KgpgInterface::changeDisable(const QString &keyid, const bool &ison)
     else
         *process << "enable";
 
-    kDebug(2100) << "(KgpgInterface::changeDisable) Change disable of the key " << keyid << " to " << ison << endl;
+    kDebug(2100) << "(KgpgInterface::changeDisable) Change disable of the key " << keyid << " to " << ison ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(changeDisableProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(changeDisableFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -2110,14 +2110,14 @@ QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const
 
     if (!block)
     {
-        kDebug(2100) << "(KgpgInterface::loadPhoto) Load a photo for the key " << keyid << " uid " << uid << endl;
+        kDebug(2100) << "(KgpgInterface::loadPhoto) Load a photo for the key " << keyid << " uid " << uid ;
         connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(loadPhotoFin(K3Process *)));
         process->start(K3Process::NotifyOnExit, true);
         return QPixmap();
     }
     else
     {
-        kDebug(2100) << "(KgpgInterface::loadPhoto) Load a photo for the key " << keyid << " uid " << uid << endl;
+        kDebug(2100) << "(KgpgInterface::loadPhoto) Load a photo for the key " << keyid << " uid " << uid ;
         process->start(K3Process::Block, true);
         loadPhotoFin(process, true);
         return m_pixmap;
@@ -2150,7 +2150,7 @@ void KgpgInterface::addPhoto(const QString &keyid, const QString &imagepath)
     *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0";
     *process << "--edit-key" << keyid << "addphoto";
 
-    kDebug(2100) << "(KgpgInterface::addPhoto) Add the photo " << imagepath << " to the key " << keyid << endl;
+    kDebug(2100) << "(KgpgInterface::addPhoto) Add the photo " << imagepath << " to the key " << keyid ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(addPhotoProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(addPhotoFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -2252,7 +2252,7 @@ void KgpgInterface::deletePhoto(const QString &keyid, const QString &uid)
     *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--edit-key" << keyid << "uid" << uid << "deluid";
 
-    kDebug(2100) << "(KgpgInterface::deletePhoto) Delete a photo from the key " << keyid << endl;
+    kDebug(2100) << "(KgpgInterface::deletePhoto) Delete a photo from the key " << keyid ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(deletePhotoProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(deletePhotoFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -2338,7 +2338,7 @@ void KgpgInterface::importKey(const QString &keystr)
     *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--import";
     *process << "--allow-secret-key-import";
 
-    kDebug(2100) << "(KgpgInterface::importKey) Import a key (text)" << endl;
+    kDebug(2100) << "(KgpgInterface::importKey) Import a key (text)" ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(importKeyProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(importKeyFinished(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -2361,7 +2361,7 @@ void KgpgInterface::importKey(const KUrl &url)
         *process << "--allow-secret-key-import";
         *process << m_tempkeyfile;
 
-        kDebug(2100) << "(KgpgInterface::importKey) Import a key (file)" << endl;
+        kDebug(2100) << "(KgpgInterface::importKey) Import a key (file)" ;
         connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(importKeyProcess(K3ProcIO *)));
         connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(importURLover(K3Process *)));
         process->start(K3Process::NotifyOnExit, true);
@@ -2500,7 +2500,7 @@ void KgpgInterface::addUid(const QString &keyid, const QString &name, const QStr
     *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--edit-key" << keyid << "adduid";
 
-    kDebug(2100) << "(KgpgInterface::addUid) Add Uid " << name << ", " << email << ", " << comment << " to key " << keyid << endl;
+    kDebug(2100) << "(KgpgInterface::addUid) Add Uid " << name << ", " << email << ", " << comment << " to key " << keyid ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(addUidProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(addUidFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -2611,7 +2611,7 @@ void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail,
     *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0" << "--no-verbose" << "--no-greeting";
     *process << "--gen-key";
 
-    kDebug(2100) << "(KgpgInterface::generateKey) Generate a new key-pair" << endl;
+    kDebug(2100) << "(KgpgInterface::generateKey) Generate a new key-pair" ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(generateKeyProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(generateKeyFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -2752,7 +2752,7 @@ void KgpgInterface::decryptFile(const KUrl &src, const KUrl &dest, const QString
         *process << "-o" << dest.path();
     *process << "-d" << src.path();
 
-    kDebug(2100) << "(KgpgInterface::decryptFile) Decrypt a file" << endl;
+    kDebug(2100) << "(KgpgInterface::decryptFile) Decrypt a file" ;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(decryptFileProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(decryptFileFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);
@@ -3157,14 +3157,14 @@ void KgpgInterface::revokeprocess(K3ProcIO *p)
 
                 }
                 if (required.contains("ask_revocation_reason.text")) {
-                        //      kDebug(2100)<<"description"<<endl;
+                        //      kDebug(2100)<<"description";
                         p->writeStdin(revokeDescription);
                         revokeDescription.clear();
                         required.clear();
                 }
                 if ((required.contains("GET_"))) /////// gpg asks for something unusal, turn to konsole mode
                 {
-                        kDebug(2100)<<"unknown request"<<endl;
+                        kDebug(2100)<<"unknown request";
                         expSuccess=1;  /////  switching to console mode
                         p->writeStdin(QByteArray("quit"));
                         p->closeWhenDone();

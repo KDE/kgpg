@@ -417,7 +417,7 @@ void KgpgEditor::slotKeyManager()
     OrgKdeKgpgKeyInterface kgpg("org.kde.kgpg", "/KeyInterface",QDBusConnection::sessionBus());
     QDBusReply<void> reply =kgpg.showKeyManager();
     if (!reply.isValid())
-        kDebug(2100) << "there was some error using dbus." << endl;
+        kDebug(2100) << "there was some error using dbus." ;
 }
 
 void KgpgEditor::slotFileQuit()
@@ -579,7 +579,7 @@ void KgpgEditor::slotOptions()
     OrgKdeKgpgKeyInterface kgpg("org.kde.kgpg", "/KeyInterface",QDBusConnection::sessionBus());
     QDBusReply<void> reply =kgpg.showOptions();
     if (!reply.isValid())
-        kDebug(2100) << "there was some error using dbus." << endl;
+        kDebug(2100) << "there was some error using dbus." ;
 }
 
 void KgpgEditor::modified()

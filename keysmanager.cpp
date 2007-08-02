@@ -786,7 +786,7 @@ void KeysManager::slotAddUid()
 void KeysManager::slotAddUidFin(int res, KgpgInterface *interface)
 {
     // TODO tester les res
-    kDebug(2100) << "Resultat : " << res << endl;
+    kDebug(2100) << "Resultat : " << res ;
     delete interface;
     keysList2->refreshselfkey();
 }
@@ -942,7 +942,7 @@ void KeysManager::findFirstKey()
 
 void KeysManager::findNextKey()
 {
-    //kDebug(2100)<<"find next"<<endl;
+    //kDebug(2100)<<"find next";
     if (searchString.isEmpty())
     {
         findKey();
@@ -959,9 +959,9 @@ void KeysManager::findNextKey()
     item = item->nextSibling();
 
     QString searchText = item->text(0) + ' ' + item->text(1) + ' ' + item->text(6);
-    //kDebug(2100) << "Next string:" << searchText << endl;
-    //kDebug(2100) << "Search:" << searchString << endl;
-    //kDebug(2100) << "OPts:" << searchOptions << endl;
+    //kDebug(2100) << "Next string:" << searchText ;
+    //kDebug(2100) << "Search:" << searchString ;
+    //kDebug(2100) << "OPts:" << searchOptions ;
     KFind *m_find = new KFind(searchString, searchOptions, this);
     m_find->setData(searchText);
     while (m_find->find() == KFind::NoMatch)
@@ -976,7 +976,7 @@ void KeysManager::findNextKey()
             item = item->nextSibling();
             searchText = item->text(0) + ' ' + item->text(1) + ' ' + item->text(6);
             m_find->setData(searchText);
-            //kDebug(2100) << "Next string:" << searchText << endl;
+            //kDebug(2100) << "Next string:" << searchText ;
         }
     }
     delete m_find;
@@ -1195,11 +1195,11 @@ void KeysManager::slotSetDefaultKey(const QString &newID)
 
 void KeysManager::slotSetDefaultKey(KeyListViewItem *newdef)
 {
-    //kDebug(2100)<<"------------------start ------------"<<endl;
+    //kDebug(2100)<<"------------------start ------------";
     if ((!newdef) || (newdef->pixmap(2)==NULL))
         return;
-    //kDebug(2100)<<newdef->text(6)<<endl;
-    //kDebug(2100)<<KGpgSettings::defaultKey()<<endl;
+    //kDebug(2100)<<newdef->text(6);
+    //kDebug(2100)<<KGpgSettings::defaultKey();
     if (newdef->text(6)==KGpgSettings::defaultKey())
         return;
     if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber())
@@ -1537,7 +1537,7 @@ void KeysManager::slotShowPhoto()
 
 void KeysManager::listsigns()
 {
-    // kDebug(2100) << "Edit -------------------------------" << endl;
+    // kDebug(2100) << "Edit -------------------------------" ;
     if (keysList2->currentItem() == 0)
         return;
 
@@ -1685,7 +1685,7 @@ void KeysManager::createNewGroup()
 
 void KeysManager::groupInit(const QStringList &keysGroup)
 {
-    kDebug(2100) << "preparing group" << endl;
+    kDebug(2100) << "preparing group" ;
     QStringList lostKeys;
     bool foundId;
 
@@ -1695,7 +1695,7 @@ void KeysManager::groupInit(const QStringList &keysGroup)
         foundId = false;
         while (item)
         {
-            kDebug(2100) << "Searching in key: " << item->text(0) << endl;
+            kDebug(2100) << "Searching in key: " << item->text(0) ;
             if (QString(*it).right(8).toLower() == item->text(2).right(8).toLower())
             {
                 gEdit->groupKeys->insertItem(item);
@@ -1848,7 +1848,7 @@ void KeysManager::signLoop()
 {
     if (keyCount < globalCount)
     {
-        kDebug(2100) << "Sign process for key: " << keyCount + 1 << " on a total of " << signList.count() << endl;
+        kDebug(2100) << "Sign process for key: " << keyCount + 1 << " on a total of " << signList.count() ;
         if (signList.at(keyCount))
         {
             KgpgInterface *interface = new KgpgInterface();
@@ -2051,7 +2051,7 @@ void KeysManager::doFilePrint(const QString &url)
 void KeysManager::doPrint(const QString &txt)
 {
     KPrinter prt;
-    //kDebug(2100) << "Printing..." << endl;
+    //kDebug(2100) << "Printing..." ;
     if (prt.setup(this))
     {
         QPainter painter(&prt);

@@ -298,7 +298,7 @@ void KeyServer::slotImportResult(K3Process *p)
     QString lastID = importedKeys.count() == 0 ? QString() : importedKeys.last();
     if (!lastID.isEmpty())
     {
-        //kDebug(2100)<<"++++++++++imported key"<<lastID<<endl;
+        //kDebug(2100)<<"++++++++++imported key"<<lastID;
         emit importFinished(lastID);
     }
 
@@ -549,7 +549,7 @@ void KeyServer::transferKeyID()
         }
     }
 
-    kDebug(2100) << keysToSearch << endl;
+    kDebug(2100) << keysToSearch ;
     m_listpop->kLEID->setText(keysToSearch.simplified());
 }
 

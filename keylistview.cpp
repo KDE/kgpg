@@ -374,7 +374,7 @@ void KeyListView::refreshAll()
     kapp->processEvents();
 
     // update display of keys in main management window
-    kDebug(2100) << "Refreshing All" << endl;
+    kDebug(2100) << "Refreshing All" ;
 
     // get current position.
     KeyListViewItem *current = currentItem();
@@ -390,7 +390,7 @@ void KeyListView::refreshAll()
 
     if (refreshKeys())
     {
-        kDebug(2100) << "No key found" << endl;
+        kDebug(2100) << "No key found" ;
         emit statusMessage(i18n("Ready"), 0);
         return;
     }
@@ -422,7 +422,7 @@ void KeyListView::refreshAll()
 
     emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
     emit statusMessage(i18n("Ready"),0);
-    kDebug(2100) << "Refresh Finished" << endl;
+    kDebug(2100) << "Refresh Finished" ;
 }
 
 bool KeyListView::refreshKeys(const QStringList &ids)
@@ -571,7 +571,7 @@ void KeyListView::insertOrphans(const QStringList &ids)
 
 void KeyListView::refreshGroups()
 {
-    kDebug(2100) << "Refreshing groups..." << endl;
+    kDebug(2100) << "Refreshing groups..." ;
     KeyListViewItem *item = firstChild();
     while (item)
     {
@@ -766,7 +766,7 @@ void KeyListView::expandGroup(KeyListViewItem *item)
 {
     QStringList keysGroup = KgpgInterface::getGpgGroupSetting(item->text(0), KGpgSettings::gpgConfigPath());
 
-    kDebug(2100) << keysGroup << endl;
+    kDebug(2100) << keysGroup ;
 
     for (QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
     {
@@ -792,7 +792,7 @@ QPixmap KeyListView::getTrustPix(const KgpgKeyTrust &trust, const bool &isvalid)
 	case TRUST_UNDEFINED:
 	case TRUST_NONE:	return trustunknown;
 	default:		
-kDebug(3125) << "Oops, unmatched trust value " << trust << endl;
+kDebug(3125) << "Oops, unmatched trust value " << trust ;
 				return trustunknown;
     }
 }
