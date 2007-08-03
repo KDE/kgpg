@@ -4,6 +4,7 @@ add_subdirectory( icons )
 add_subdirectory( core )
 include_directories( core  )
 
+add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
 ########### next target ###############
 
