@@ -57,7 +57,7 @@ QString Convert::toString(const KgpgKeyOwnerTrust &ownertrust)
     if (ownertrust == OWTRUST_FULL)
         return i18n("Fully");
     if (ownertrust == OWTRUST_ULTIMATE)
-        return i18n("Utlimately");
+        return i18n("Ultimately");
 
     return i18n("Unknown");
 }
