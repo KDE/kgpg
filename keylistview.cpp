@@ -66,7 +66,7 @@ KeyListViewItem::KeyListViewItem(K3ListView *parent, const KgpgKey &key, const b
 		: K3ListViewItem(parent)
 {
 	m_def = isbold;
-	m_exp = (key.trust() == 'e');
+	m_exp = (key.trust() == TRUST_EXPIRED);
 	m_type = Public;
 	m_key = new KgpgKey(key);
 	if (key.secret())
@@ -850,12 +850,15 @@ void KeyListViewSearchLine::updateSearch(const QString& s)
             if (item->isVisible())
             {
                 if (m_hidepublic)
-                    if ((item->itemType() == KeyListViewItem::Public) && (item->itemType() != KeyListViewItem::Secret))
+                    if ((item->itemType() == KeyListViewItem::Public) && (item->itemType() != KeyListViewItem::Secret)) {
                         item->setVisible(false);
+                        continue;
+                    }
 
                 if (m_hidedisabled)
-                    if (item->isExpired())
+                    if (item->isExpired() || (item->getKey()->trust() == TRUST_REVOKED))
                         item->setVisible(false);
+
             }
             item = item->nextSibling();
         }
