@@ -37,7 +37,6 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
 {
     setCaption(i18n("Key Generation"));
     setButtons(User1 | Ok | Cancel);
-    setDefaultButton(Cancel);
 
     setButtonText(User1, i18n("&Expert Mode"));
     setButtonToolTip(User1, i18n("Go to the expert mode"));
@@ -148,6 +147,12 @@ void KgpgKeyGenerate::slotOk()
     if (QString(m_kname->text()).simplified().length() < 5)
     {
         KMessageBox::sorry(this, i18n("The name must have at least 5 characters"));
+        return;
+    }
+
+    if ((QString(m_kname->text()).simplified().at(0) >= '0') && (QString(m_kname->text()).simplified().at(0) <= '9'))
+    {
+        KMessageBox::sorry(this, i18n("The name must not start with a digit"));
         return;
     }
 

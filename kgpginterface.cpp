@@ -2621,6 +2621,7 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
 {
     QString line;
     bool partial = false;
+
     while (p->readln(line, false, &partial) != -1)
     {
         if (partial == true)
@@ -2640,7 +2641,7 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
                 m_ispartial = false;
             }
 
-            if (line.indexOf("BAD_PASSPHRASE"))
+            if (line.contains("BAD_PASSPHRASE"))
                 m_success = 1;
             else
             if ((m_success == 5) && line.contains("PROGRESS"))
@@ -2681,16 +2682,21 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
                 p->writeStdin(output, true);
             }
             else
-            if (line.indexOf("keygen.name") != -1)
-                p->writeStdin(m_keyname, true);
-            else
-            if (line.indexOf("keygen.email") != -1)
+            if (line.contains("keygen.name")) {
+		if (m_success == 10) {
+			p->kill();
+		} else {
+			m_success = 10;
+			p->writeStdin(m_keyname, true);
+		}
+            } else
+            if (line.contains("keygen.email"))
                 p->writeStdin(m_keyemail, true);
             else
-            if (line.indexOf("keygen.comment") != -1)
+            if (line.contains("keygen.comment"))
                 p->writeStdin(m_keycomment, true);
             else
-            if (line.indexOf("passphrase.enter") != -1)
+            if (line.contains("passphrase.enter"))
             {
                 QString keyid;
                 if (!m_keyemail.isEmpty())
@@ -2708,14 +2714,17 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
                 m_success = 5;
             }
             else
-            if (line.indexOf("KEY_CREATED") != -1)
+            if (line.contains("GOOD_PASSPHRASE"))
+		m_success = 5;
+            else
+            if (line.contains("KEY_CREATED"))
             {
                 m_newfingerprint = line.right(40);
                 m_newkeyid = line.right(8);
                 m_success = 2;
             }
             else
-            if (line.indexOf("GET_") != -1)
+            if (line.contains("GET_"))
             {
                 p->writeStdin(QByteArray("quit"), true);
                 p->closeWhenDone();

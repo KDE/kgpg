@@ -443,23 +443,19 @@ void KeysManager::slotGenerateKey()
     {
         if (!kg->isExpertMode())
         {
-
             KgpgInterface *interface = new KgpgInterface();
             connect(interface, SIGNAL(generateKeyStarted(KgpgInterface*)), this, SLOT(slotGenerateKeyProcess(KgpgInterface*)));
             connect(interface, SIGNAL(generateKeyFinished(int, KgpgInterface*, QString, QString, QString, QString)), this, SLOT(slotGenerateKeyDone(int, KgpgInterface*, QString, QString, QString, QString)));
             interface->generateKey(kg->name(), kg->email(), kg->comment(), kg->algo(), kg->size(), kg->expiration(), kg->days());
-
-            delete kg;
-            return;
         }
         else
         {
             KConfigGroup config(KGlobal::config(), "General");
-            
+
             QString terminalApp = config.readPathEntry("TerminalApplication", "konsole");
             QStringList args;
             args << "-e" << KGpgSettings::gpgBinaryPath() << "--gen-key";
-            
+
             QProcess *genKeyProc = new QProcess(this);
             genKeyProc->start(terminalApp, args);
             genKeyProc->waitForFinished();
@@ -557,6 +553,20 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
         KMessageBox::error(this, infotext, infomessage);
     }
     else
+    if (res == 10)
+    {
+        QString infomessage = i18n("Generating new key pair");
+        QString infotext = i18n("The name is not accepted by gpg. Cannot generate a new key pair.");
+        KMessageBox::error(this, infotext, infomessage);
+    }
+    else
+    if (res != 2)
+    {
+        QString infomessage = i18n("Generating new key pair");
+        QString infotext = i18n("gpg process did not finish. Cannot generate a new key pair.");
+        KMessageBox::error(this, infotext, infomessage);
+    }
+    else
     {
         changeMessage(i18n("%1 Keys, %2 Groups", keysList2->childCount() - keysList2->groupNb, keysList2->groupNb), 1);
 
@@ -570,10 +580,17 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
         page->TLname->setText("<b>" + name + "</b>");
         page->TLemail->setText("<b>" + email + "</b>");
 
+	QString revurl;
+        QString gpgPath = KGpgSettings::gpgConfigPath();
+        if (!gpgPath.isEmpty())
+            revurl = KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash);
+	else
+            revurl = QDir::homePath() + '/';
+
         if (!email.isEmpty())
-            page->kURLRequester1->setUrl(QDir::homePath() + '/' + email.section("@", 0, 0) + ".revoke");
+            page->kURLRequester1->setUrl(revurl + email.section("@", 0, 0) + ".revoke");
         else
-            page->kURLRequester1->setUrl(QDir::homePath() + '/' + email.section(" ", 0, 0) + ".revoke");
+            page->kURLRequester1->setUrl(revurl + email.section(" ", 0, 0) + ".revoke");
 
         page->TLid->setText("<b>" + id + "</b>");
         page->LEfinger->setText(fingerprint);
