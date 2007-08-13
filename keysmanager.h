@@ -133,6 +133,7 @@ private slots:
     void slotToggleDisabled();
     void slotGotoDefaultKey();
     void slotDelUid();
+    void slotPrimUid();
     void slotAddUid();
     void slotAddUidEnable(const QString &name);
     void slotUpdatePhoto();
@@ -220,6 +221,7 @@ private:
     QAction *importAllSignKeys;
     QAction *signKey;
     QAction *refreshKey;
+    QAction *setPrimUid;
 
     KeyServer *kServer;
     groupEdit *gEdit;

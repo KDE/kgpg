@@ -690,8 +690,11 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
     for (int i = 0; i < key.uidList()->size(); ++i)
     {
         KgpgKeyUid uid = key.uidList()->at(i);
+        QString index;
 
-        tmpitem = new KeyListViewItem(item, uid.name(), uid.email(), QString(), "-", "-", "-", "-", false, false, KeyListViewItem::Uid);
+        index.setNum(uid.index);
+
+        tmpitem = new KeyListViewItem(item, uid.name(), uid.email(), QString(), "-", "-", "-", index, false, false, KeyListViewItem::Uid);
         tmpitem->setPixmap(2, getTrustPix(key.trust(), key.valide()));
         tmpitem->setPixmap(0, Images::userId());
         insertSigns(tmpitem, uid.signList());

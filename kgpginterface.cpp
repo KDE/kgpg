@@ -523,6 +523,8 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
 {
     QString line;
     bool partial = false;
+    unsigned int uidnum = 0;
+
     while (p->readln(line, false, &partial) != -1)
     {
         if (partial == true)
@@ -614,6 +616,8 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 m_publickey.setName(kname);
 
                 cycle = "pub";
+		// the first uid is merged into the public key
+		uidnum = 1;
             }
             else
             if (line.startsWith("fpr"))
@@ -679,6 +683,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 else
                     uid.setValide(true);
 
+		uid.index = ++uidnum;
                 QString fullname = line.section(':', 9, 9);
                 if (fullname.contains('<') )
                 {

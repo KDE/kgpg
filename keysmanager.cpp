@@ -261,6 +261,9 @@ KeysManager::KeysManager(QWidget *parent)
     QAction *delUid = actionCollection()->addAction("del_uid");
     delUid->setText(i18n("&Delete User Id"));
     connect(delUid, SIGNAL(triggered(bool)), SLOT(slotDelUid()));
+    setPrimUid = actionCollection()->addAction("prim_uid");
+    setPrimUid->setText(i18n("Set User Id as &primary"));
+    connect(setPrimUid, SIGNAL(triggered(bool)), SLOT(slotPrimUid()));
     QAction *openPhoto = actionCollection()->addAction("key_photo");
     openPhoto->setIcon(KIcon("image"));
     openPhoto->setText(i18n("&Open Photo"));
@@ -365,6 +368,7 @@ KeysManager::KeysManager(QWidget *parent)
 
     m_popupuid = new KMenu();
     m_popupuid->addAction(delUid);
+    m_popupuid->addAction(setPrimUid);
 
     m_popuporphan = new KMenu();
     m_popuporphan->addAction(regeneratePublic);
@@ -747,7 +751,8 @@ void KeysManager::refreshFinished()
 
 void KeysManager::slotDelUid()
 {
-    KeyListViewItem *item = keysList2->currentItem();
+    KeyListViewItem *uitem = keysList2->currentItem();
+    KeyListViewItem *item = uitem;
     while (item->depth()>0)
         item = item->parent();
 
@@ -756,7 +761,25 @@ void KeysManager::slotDelUid()
     QString terminalApp = config.readPathEntry("TerminalApplication", "konsole");
     QStringList args;
     args << "-e" << KGpgSettings::gpgBinaryPath();
-    args << "--edit-key" << item->keyId() << "uid";
+    args << "--edit-key" << item->keyId() << "uid" << uitem->text(6) << "deluid";
+    process->start(terminalApp, args);
+    process->waitForFinished();
+    keysList2->refreshselfkey();
+}
+
+void KeysManager::slotPrimUid()
+{
+    KeyListViewItem *uitem = keysList2->currentItem();
+    KeyListViewItem *item = uitem;
+    while (item->depth()>0)
+        item = item->parent();
+
+    QProcess *process = new QProcess(this);
+    KConfigGroup config(KGlobal::config(), "General");
+    QString terminalApp = config.readPathEntry("TerminalApplication", "konsole");
+    QStringList args;
+    args << "-e" << KGpgSettings::gpgBinaryPath();
+    args << "--edit-key" << item->keyId() << "uid" << uitem->text(6) << "primary" << "save";
     process->start(terminalApp, args);
     process->waitForFinished();
     keysList2->refreshselfkey();
@@ -1315,8 +1338,11 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
             if (sel->text(0) == i18n("Photo id"))
                 m_popupphoto->exec(pos);
             else
-            if (sel->text(6) == ("-"))
+            if (sel->pixmap(0)->serialNumber() == Images::userId().serialNumber()) {
+                KeyListViewItem *parent = sel->parent();
+                setPrimUid->setVisible(parent->itemType() & KeyListViewItem::Secret);
                 m_popupuid->exec(pos);
+            }
         }
         else
         {

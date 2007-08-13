@@ -231,6 +231,7 @@ KgpgKeyUid::KgpgKeyUid(const KgpgKeyUid &other)
       : QObject()
 {
     d = other.d;
+    index = other.index;
 }
 
 void KgpgKeyUid::setName(const QString &name)

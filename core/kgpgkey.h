@@ -239,6 +239,7 @@ public:
     QString comment() const;
     bool valide() const;
     KgpgKeyTrust trust() const;
+    unsigned int index;
 
     void addSign(const KgpgKeySign &sign);
     KgpgKeySignList signList();
