@@ -186,7 +186,7 @@ KeysManager::KeysManager(QWidget *parent)
 
     QAction *infoKey = actionCollection()->addAction("key_info");
     infoKey->setIcon(KIcon("kgpg-info-kgpg"));
-    infoKey->setText(i18n("&Edit Key"));
+    infoKey->setText(i18n("K&ey properties"));
     connect(infoKey, SIGNAL(triggered(bool)), SLOT(listsigns()));
     infoKey->setShortcut(QKeySequence(Qt::Key_Return));
 
