@@ -78,9 +78,12 @@ public:
     KToggleAction *sCreat;
     KToggleAction *sExpi;
     KToggleAction *sSize;
+    KToggleAction *hPublic;
+    KToggleAction *hExRev;
     KSelectAction *photoProps;
     KgpgEditor *s_kgpgEditor;
 
+    void saveToggleOpts(void);
 signals:
     void readAgainOptions();
     void certificate(QString);

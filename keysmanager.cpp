@@ -173,14 +173,16 @@ KeysManager::KeysManager(QWidget *parent)
     connect(action, SIGNAL(triggered(bool)), SLOT(refreshkey()));
     action->setShortcuts(KStandardShortcut::reload());
 
-    action = actionCollection()->add<KToggleAction>("show_secret");
-    action->setIcon(KIcon("kgpg_show"));
-    action->setText(i18n("&Show only Secret Keys"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(slotToggleSecret()));
+    hPublic = actionCollection()->add<KToggleAction>("show_secret");
+    hPublic->setIcon(KIcon("kgpg_show"));
+    hPublic->setText(i18n("&Show only Secret Keys"));
+    hPublic->setChecked(KGpgSettings::showSecret());
+    connect(hPublic, SIGNAL(triggered(bool)), SLOT(slotToggleSecret()));
 
-    action = actionCollection()->add<KToggleAction>("hide_disabled");
-    action->setText(i18n("&Hide Expired/Disabled Keys"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(slotToggleDisabled()));
+    hExRev = actionCollection()->add<KToggleAction>("hide_disabled");
+    hExRev->setText(i18n("&Hide Expired/Disabled Keys"));
+    hExRev->setChecked(KGpgSettings::hideExRev());
+    connect(hExRev, SIGNAL(triggered(bool)), SLOT(slotToggleDisabled()));
 
     QAction *infoKey = actionCollection()->addAction("key_info");
     infoKey->setIcon(KIcon("kgpg-info-kgpg"));
@@ -417,6 +419,8 @@ KeysManager::KeysManager(QWidget *parent)
     sSize->setChecked(KGpgSettings::showSize());
     sCreat->setChecked(KGpgSettings::showCreat());
     sExpi->setChecked(KGpgSettings::showExpi());
+    m_listviewsearch->setHideDisabled(KGpgSettings::hideExRev());
+    m_listviewsearch->setHidePublic(KGpgSettings::showSecret());
 
     m_statusbar = statusBar();
     m_statusbar->insertItem("", 0, 1);
@@ -1142,7 +1146,21 @@ void KeysManager::annule()
 void KeysManager::quitApp()
 {
     // close window
+    saveToggleOpts();
     qApp->quit();
+}
+
+void KeysManager::saveToggleOpts(void)
+{
+    keysList2->saveLayout(KGlobal::config().data(), "KeyView");
+    KGpgSettings::setPhotoProperties(photoProps->currentItem());
+    KGpgSettings::setShowTrust(sTrust->isChecked());
+    KGpgSettings::setShowExpi(sExpi->isChecked());
+    KGpgSettings::setShowCreat(sCreat->isChecked());
+    KGpgSettings::setShowSize(sSize->isChecked());
+    KGpgSettings::setHideExRev(hExRev->isChecked());
+    KGpgSettings::setShowSecret(hPublic->isChecked());
+    KGpgSettings::self()->writeConfig();
 }
 
 void KeysManager::readOptions()

@@ -1049,13 +1049,7 @@ KgpgAppletApp::~KgpgAppletApp()
 
 void KgpgAppletApp::slotHandleQuit()
 {
-    s_keyManager->keysList2->saveLayout(KGlobal::config().data(), "KeyView");
-    KGpgSettings::setPhotoProperties(s_keyManager->photoProps->currentItem());
-    KGpgSettings::setShowTrust(s_keyManager->sTrust->isChecked());
-    KGpgSettings::setShowExpi(s_keyManager->sExpi->isChecked());
-    KGpgSettings::setShowCreat(s_keyManager->sCreat->isChecked());
-    KGpgSettings::setShowSize(s_keyManager->sSize->isChecked());
-    KGpgSettings::self()->writeConfig();
+    s_keyManager->saveToggleOpts();
     quit();
 }
 

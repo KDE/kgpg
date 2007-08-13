@@ -98,6 +98,14 @@
       <label>Show the creation value in key manager.</label>
       <default>true</default>
     </entry>
+    <entry name="ShowSecret" type="Bool" key="show_secret">
+      <label>Show only secret keys in key manager.</label>
+      <default>false</default>
+    </entry>
+    <entry name="HideExRev" type="Bool" key="hide_disabled">
+      <label>Hide revoked and disabled keys in key manager.</label>
+      <default>true</default>
+    </entry>
   </group>
   <group name="User Interface">
     <entry name="UseMouseSelection" type="Bool" key="selection_clipboard">
