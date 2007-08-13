@@ -149,73 +149,66 @@ int KeyListViewItem::compare(Q3ListViewItem *itemx, int c, bool ascending) const
 {
     KeyListViewItem *item = static_cast<KeyListViewItem *>(itemx);
 
-    if (c == 0)
-    {
-        ItemType item1 = itemType();
-        ItemType item2 = item->itemType();
+	switch (c) {
+	case 3:		// expiration date
+	case 5: {	// creation date
+		QDate d = KGlobal::locale()->readDate(text(c));
+		QDate itemDate = KGlobal::locale()->readDate(item->text(c));
 
-        bool test1 = (item1 & KeyListViewItem::Public) && !(item1 & KeyListViewItem::Secret); // only a public key
-        bool test2 = (item2 & KeyListViewItem::Public) && !(item2 & KeyListViewItem::Secret); // only a public key
+		bool thisDateValid = d.isValid();
+		bool itemDateValid = itemDate.isValid();
 
-        // key-pair goes before simple public key
-        if (item1 == KeyListViewItem::Pair && test2) return -1;
-        if (item2 == KeyListViewItem::Pair && test1) return 1;
+		if (thisDateValid) {
+			if (itemDateValid) {
+				if (d < itemDate) return -1;
+				if (d > itemDate) return  1;
+			} else
+				return -1;
+		} else if (itemDateValid)
+			return 1;
 
-        if (item1 < item2) return -1;
-        if (item1 > item2) return 1;
+		return 0;
+	}
+	case 2: {	// pixmap
+		const QPixmap* pix = pixmap(c);
+		const QPixmap* itemPix = item->pixmap(c);
 
-        return K3ListViewItem::compare(item, c, ascending);
-    }
+		int serial;
+		int itemSerial;
 
-    if ((c == 3) || (c == 5))  // by (3) expiration date or (5) creation date
-    {
-        QDate d = KGlobal::locale()->readDate(text(c));
-        QDate itemDate = KGlobal::locale()->readDate(item->text(c));
+		if (!pix)
+			serial = 0;
+		else
+			serial = pix->serialNumber();
 
-        bool thisDateValid = d.isValid();
-        bool itemDateValid = itemDate.isValid();
+		if (!itemPix)
+			itemSerial = 0;
+		else
+			itemSerial = itemPix->serialNumber();
 
-        if (thisDateValid)
-        {
-            if (itemDateValid)
-            {
-                if (d < itemDate) return -1;
-                if (d > itemDate) return  1;
-            }
-            else
-                return -1;
-        }
-        else
-        if (itemDateValid)
-            return 1;
+		if (serial < itemSerial) return -1;
+		if (serial > itemSerial) return  1;
+		return 0;
+	}
+	case 0: {
+		ItemType item1 = itemType();
+		ItemType item2 = item->itemType();
+	
+		bool test1 = (item1 & KeyListViewItem::Public) && !(item1 & KeyListViewItem::Secret); // only a public key
+		bool test2 = (item2 & KeyListViewItem::Public) && !(item2 & KeyListViewItem::Secret); // only a public key
 
-        return 0;
-    }
+		// key-pair goes before simple public key
+		if (item1 == KeyListViewItem::Pair && test2) return -1;
+		if (item2 == KeyListViewItem::Pair && test1) return 1;
 
-    if (c == 2)  // sorting by pixmap
-    {
-        const QPixmap* pix = pixmap(c);
-        const QPixmap* itemPix = item->pixmap(c);
+		if (item1 < item2) return -1;
+		if (item1 > item2) return 1;
 
-        int serial;
-        int itemSerial;
-
-        if (!pix)
-            serial = 0;
-        else
-            serial = pix->serialNumber();
-
-        if (!itemPix)
-            itemSerial = 0;
-        else
-            itemSerial = itemPix->serialNumber();
-
-        if (serial < itemSerial) return -1;
-        if (serial > itemSerial) return  1;
-        return 0;
-    }
-
-    return K3ListViewItem::compare(item, c, ascending);
+		// fallthrough
+		}
+	default:
+		return K3ListViewItem::compare(item, c, ascending);
+	}
 }
 
 QString KeyListViewItem::key(int column, bool) const
