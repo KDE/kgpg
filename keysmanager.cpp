@@ -272,9 +272,9 @@ KeysManager::KeysManager(QWidget *parent)
     deletePhoto->setIcon(KIcon("delete"));
     deletePhoto->setText(i18n("&Delete Photo"));
     connect(deletePhoto, SIGNAL(triggered(bool)), SLOT(slotDeletePhoto()));
-    QAction *delSignKey = actionCollection()->addAction("key_delsign");
+    delSignKey = actionCollection()->addAction("key_delsign");
     delSignKey->setIcon(KIcon("edit-delete"));
-    delSignKey->setText(i18n("Delete Sign&ature"));
+    delSignKey->setText(i18n("Delete sign&ature(s)"));
     connect(delSignKey, SIGNAL(triggered(bool)), SLOT(delsignkey()));
 
     importAllSignKeys = actionCollection()->addAction("key_importallsign");
@@ -291,7 +291,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(signKey, SIGNAL(triggered(bool)), SLOT(signkey()));
     importSignatureKey = actionCollection()->addAction("key_importsign");
     importSignatureKey->setIcon(KIcon("network-wired"));
-    importSignatureKey->setText(i18n("Import Key From Keyserver"));
+    importSignatureKey->setText(i18n("Import key(s) from keyserver"));
     connect(importSignatureKey, SIGNAL(triggered(bool)), SLOT(preimportsignkey()));
 
     sTrust = actionCollection()->add<KToggleAction>("show_trust");
@@ -356,7 +356,6 @@ KeysManager::KeysManager(QWidget *parent)
 
     m_popupout = new KMenu();
     m_popupout->addAction(importKey);
-    m_popupout->addAction(generateKey);
 
     m_popupsig = new KMenu();
     m_popupsig->addAction(importSignatureKey);
@@ -1283,8 +1282,8 @@ bool KeysManager::isSignature(KeyListViewItem *item)
 
 bool KeysManager::isSignatureUnknown(KeyListViewItem *item)
 {
-	Q_ASSERT(isSignature(item));
-
+	if (!isSignature(item))
+		return false;
 	// ugly hack to detect unknown keys
 	return (item->text(0).startsWith("[") && item->text(0).endsWith("]"));
 }
@@ -1300,12 +1299,26 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
         {
             QList<KeyListViewItem*> exportList = keysList2->selectedItems();
             bool keyDepth = true;
+            bool allunksig = true;
+            bool allsig = true;
+
             for (int i = 0; i < exportList.count(); ++i)
                 if (exportList.at(i))
-                    if (exportList.at(i)->depth() != 0)
+                    if (exportList.at(i)->depth() != 0) {
                         keyDepth = false;
+                        allsig &= isSignature(exportList.at(i));
+                        allunksig &= isSignatureUnknown(exportList.at(i));
+                    } else {
+                      allunksig = false;
+                      allsig = false;
+                    }
 
-            if (!keyDepth)
+            if (allsig) {
+                importSignatureKey->setEnabled(allunksig);
+                delSignKey->setEnabled(false);
+                m_popupsig->exec(pos);
+                return;
+            } else if (!keyDepth)
             {
                 signKey->setEnabled(false);
                 refreshKey->setEnabled(false);
@@ -1330,6 +1343,7 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
                         importSignatureKey->setEnabled(true);
                     else
                         importSignatureKey->setEnabled(false);
+                    delSignKey->setEnabled(true);
                     m_popupsig->exec(pos);
                     return;
                 }
@@ -1946,27 +1960,33 @@ void KeysManager::importallsignkey()
         keysList2->currentItem()->setOpen(false);
     }
 
-    QString missingKeysList;
+    QStringList missingKeys;
     KeyListViewItem *current = keysList2->currentItem()->firstChild();
     while (current)
     {
         if (isSignatureUnknown(current))
-            missingKeysList += current->text(6) + ' ';
+            missingKeys << current->text(6);
         current = current->nextSibling();
     }
 
-    if (!missingKeysList.isEmpty())
-        importsignkey(missingKeysList);
+    if (!missingKeys.isEmpty())
+        importsignkey(missingKeys);
     else
         KMessageBox::information(this, i18n("All signatures for this key are already in your keyring"));
 }
 
 void KeysManager::preimportsignkey()
 {
-    if (keysList2->currentItem() == NULL)
-        return;
-    else
-        importsignkey(keysList2->currentItem()->text(6));
+    QList<KeyListViewItem*> exportList = keysList2->selectedItems();
+    QStringList idlist;
+
+    if (exportList.empty())
+      return;
+
+    for (int i = 0; i < exportList.count(); ++i)
+      idlist << exportList.at(i)->text(6);
+
+    importsignkey(idlist);
 }
 
 bool KeysManager::importRemoteKey(const QString &keyID)
@@ -2002,11 +2022,11 @@ void KeysManager::dcopImportFinished()
     refreshkey();
 }
 
-void KeysManager::importsignkey(const QString &importKeyId)
+void KeysManager::importsignkey(const QStringList &importKeyId)
 {
     // sign a key
     kServer = new KeyServer(0, false);
-    kServer->slotSetText(importKeyId);
+    kServer->slotSetText(importKeyId.join(" "));
     //kServer->Buttonimport->setDefault(true);
     kServer->slotImport();
     //kServer->show();

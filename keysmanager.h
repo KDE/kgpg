@@ -161,7 +161,7 @@ private slots:
     void signkey();
     void delsignkey();
     void preimportsignkey();
-    void importsignkey(const QString &importKeyId);
+    void importsignkey(const QStringList &importKeyId);
     void importallsignkey();
     void importfinished();
     void signatureResult(int success, KgpgInterface*);
@@ -222,6 +222,7 @@ private:
     QAction *signKey;
     QAction *refreshKey;
     QAction *setPrimUid;
+    QAction *delSignKey;
 
     KeyServer *kServer;
     groupEdit *gEdit;
