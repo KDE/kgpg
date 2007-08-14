@@ -360,8 +360,8 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool &enable, c
 
 int KgpgInterface::checkUID(const QString &keyid)
 {
-    K3ProcIO *process = new K3ProcIO();
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--with-colon" << "--list-sigs" << keyid;
+    K3ProcIO *process = gpgProc();
+    *process << "--with-colon" << "--list-sigs" << keyid;
     process->start(K3Process::Block, false);
 
     int  uidcnt = 0;
@@ -489,9 +489,9 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
     m_numberid = 1;
     cycle = "none";
 
-    K3ProcIO *process = new K3ProcIO(QTextCodec::codecForName("utf8"));
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--status-fd=2" << "--command-fd=0" << "--with-colon" << "--with-fingerprint";
+    *process << "--with-colon" << "--with-fingerprint";
     if (!withsigs)
         *process << "--list-keys";
     else
@@ -823,9 +823,8 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
     m_secretkey = KgpgKey();
     m_secretactivate = false;
 
-    K3ProcIO *process = new K3ProcIO(QTextCodec::codecForName("utf8"));
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--with-colon" << "--list-secret-keys";
 
         *process << ids;
@@ -940,9 +939,8 @@ QString KgpgInterface::getKeys(const bool &block, const bool &attributes, const 
     m_ispartial = false;
     m_keystring.clear();
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0";
     *process << "--export" << "--armor";
 
     if (!attributes)
@@ -1018,9 +1016,8 @@ void KgpgInterface::encryptText(const QString &text, const QStringList &userids,
     else
         message = text.toUtf8();
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(1, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--command-fd=0" << "--status-fd=1";
 
     for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
         if (!QFile::encodeName(*it).isEmpty())
@@ -1114,9 +1111,9 @@ void KgpgInterface::decryptText(const QString &text, const QStringList &options)
     m_textlength = 0;
     step = 3;
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(1, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--command-fd=0" << "--status-fd=1"; // << "--no-batch";
+    //*process << "--no-batch";
 
     for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
         if (!QFile::encodeName(*it).isEmpty())
@@ -1258,9 +1255,8 @@ void KgpgInterface::signText(const QString &text, const QString &userid, const Q
     else
         message = text.toUtf8();
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(1, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--command-fd=0" << "--status-fd=1";
 
     for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
         if (!QFile::encodeName(*it).isEmpty())
@@ -1476,9 +1472,8 @@ void KgpgInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcu
     sourceFile = srcurl;
     message.clear();
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0";
 
     for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
         if (!QFile::encodeName(*it).isEmpty())
@@ -1591,9 +1586,9 @@ void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, cons
 
     m_success = 0;
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2" << "-u" << signkeyid;
+    *process << "-u" << signkeyid;
     *process << "--edit-key" << keyid;
 
     if (local)
@@ -1750,9 +1745,8 @@ void KgpgInterface::keyExpire(const QString &keyid, const QDate &date, const boo
     else
         expirationDelay = QDate::currentDate().daysTo(date);
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid << "expire";
 
     kDebug(2100) << "(KgpgInterface::keyExpire) Change expiration of the key " << keyid ;
@@ -1871,9 +1865,9 @@ void KgpgInterface::changePass(const QString &keyid)
     m_success = 1;
     step = 3;
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--no-use-agent" << "--command-fd=0" << "--status-fd=2";
+    *process << "--no-use-agent";
     *process << "--edit-key" << keyid << "passwd";
 
     kDebug(2100) << "(KgpgInterface::changePass) Change passphrase of the key " << keyid ;
@@ -1973,9 +1967,8 @@ void KgpgInterface::changeTrust(const QString &keyid, const int &keytrust)
     m_ispartial = false;
     m_trustvalue = keytrust + 1;
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid << "trust";
 
     kDebug(2100) << "(KgpgInterface::changeTrust) Change trust of the key " << keyid << " to " << keytrust ;
@@ -2041,9 +2034,8 @@ void KgpgInterface::changeDisable(const QString &keyid, const bool &ison)
     m_partialline.clear();
     m_ispartial = false;
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *process << "--edit-key" << keyid;
 
     if (ison)
@@ -2108,9 +2100,8 @@ QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const
 
     QString pgpgoutput = "cp %i " + m_kgpginfotmp->fileName();
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
     *process << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
 
     if (!block)
@@ -2150,9 +2141,8 @@ void KgpgInterface::addPhoto(const QString &keyid, const QString &imagepath)
     m_success = 0;
     step = 3;
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0";
     *process << "--edit-key" << keyid << "addphoto";
 
     kDebug(2100) << "(KgpgInterface::addPhoto) Add the photo " << imagepath << " to the key " << keyid ;
@@ -2252,9 +2242,8 @@ void KgpgInterface::deletePhoto(const QString &keyid, const QString &uid)
     m_success = 0;
     step = 3;
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--edit-key" << keyid << "uid" << uid << "deluid";
 
     kDebug(2100) << "(KgpgInterface::deletePhoto) Delete a photo from the key " << keyid ;
@@ -2338,9 +2327,9 @@ void KgpgInterface::importKey(const QString &keystr)
     m_ispartial = false;
     message.clear();
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(2);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--import";
+    *process << "--import";
     *process << "--allow-secret-key-import";
 
     kDebug(2100) << "(KgpgInterface::importKey) Import a key (text)" ;
@@ -2360,9 +2349,9 @@ void KgpgInterface::importKey(const KUrl &url)
 
     if(KIO::NetAccess::download(url, m_tempkeyfile, 0))
     {
-        K3ProcIO *process = new K3ProcIO();
+        K3ProcIO *process = gpgProc(2);
         process->setParent(this);
-        *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--import";
+        *process << "--import";
         *process << "--allow-secret-key-import";
         *process << m_tempkeyfile;
 
@@ -2500,9 +2489,8 @@ void KgpgInterface::addUid(const QString &keyid, const QString &name, const QStr
     uidComment = comment;
     uidEmail = email;
 
-    K3ProcIO *process = new K3ProcIO();
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0";
     *process << "--edit-key" << keyid << "adduid";
 
     kDebug(2100) << "(KgpgInterface::addUid) Add Uid " << name << ", " << email << ", " << comment << " to key " << keyid ;
@@ -2611,9 +2599,9 @@ void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail,
     m_keyexp = keyexp;
     m_keyexpnumber = keyexpnumber;
 
-    K3ProcIO *process = new K3ProcIO(QTextCodec::codecForName("utf8"));
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0" << "--no-verbose" << "--no-greeting";
+    *process << "--no-verbose" << "--no-greeting";
     *process << "--gen-key";
 
     kDebug(2100) << "(KgpgInterface::generateKey) Generate a new key-pair" ;
@@ -2755,9 +2743,9 @@ void KgpgInterface::decryptFile(const KUrl &src, const KUrl &dest, const QString
     m_success = 0;
     decryptFileUrl = src;
 
-    K3ProcIO *process = new K3ProcIO(QTextCodec::codecForName("utf8"));
+    K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--status-fd=2" << "--command-fd=0" << "--no-verbose" << "--no-greeting";
+    *process << "--no-verbose" << "--no-greeting";
 
     for (QStringList::ConstIterator it = Options.begin(); it != Options.end(); ++it)
         *process << *it;
@@ -2862,8 +2850,8 @@ void KgpgInterface::KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList 
     decok = false;
     badmdc = false;
 
-    K3ProcIO *process = new K3ProcIO();
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--command-fd=0" << "--status-fd=1" << "--no-batch" << "-o" << "-";
+    K3ProcIO *process = gpgProc(1, 0);
+    *process << "--no-batch" << "-o" << "-";
 
     for (QStringList::ConstIterator it = Options.begin(); it != Options.end(); ++it)
         if (!QFile::encodeName(*it).isEmpty())
@@ -2883,8 +2871,8 @@ void KgpgInterface::KgpgSignFile(const QString &keyID, const KUrl &srcUrl, const
     message.clear();
     step = 3;
 
-    K3ProcIO *process = new K3ProcIO();
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0" << "-u" << keyID.simplified().toLocal8Bit();
+    K3ProcIO *process = gpgProc(2, 0);
+    *process << "-u" << keyID.simplified().toLocal8Bit();
 
     for (QStringList::ConstIterator it = Options.begin(); it != Options.end(); ++it)
         if (!QFile::encodeName(*it).isEmpty())
@@ -2964,8 +2952,8 @@ void KgpgInterface::KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl)
 
     file = sigUrl;
 
-    K3ProcIO *process = new K3ProcIO();
-    *process << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-secmem-warning" << "--status-fd=2" << "--verify";
+    K3ProcIO *process = gpgProc(2);
+    *process << "--verify";
     if (!srcUrl.isEmpty())
         *process << QFile::encodeName(srcUrl.path());
     *process << QFile::encodeName(sigUrl.path());
@@ -3060,8 +3048,7 @@ void KgpgInterface::KgpgDelSignature(const QString &keyID, QString signKeyID)
                         signb++;
         }
         pclose(fp);
-        K3ProcIO *conprocess=new K3ProcIO();
-        *conprocess << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--command-fd=0" << "--status-fd=2";
+        K3ProcIO *conprocess = gpgProc(2, 0);
         *conprocess<<"--edit-key"<<keyID<<"uid 1"<<"delsig";
         connect(conprocess,SIGNAL(readReady(K3ProcIO *)),this,SLOT(delsigprocess(K3ProcIO *)));
         connect(conprocess, SIGNAL(processExited(K3Process *)),this, SLOT(delsignover(K3Process *)));
@@ -3112,8 +3099,8 @@ void KgpgInterface::KgpgRevokeKey(const QString &keyID, const QString &revokeUrl
         revokeDescription=description;
         certificateUrl=revokeUrl;
         output.clear();
-        K3ProcIO *conprocess=new K3ProcIO();
-        *conprocess << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--status-fd=2" << "--logger-fd=2" << "--command-fd=0";
+        K3ProcIO *conprocess = gpgProc(2, 0);
+        *conprocess << "--logger-fd=2";
         if (!revokeUrl.isEmpty())
                 *conprocess<<"-o"<<revokeUrl;
         *conprocess<<"--gen-revoke"<<keyID;
@@ -3185,6 +3172,26 @@ void KgpgInterface::revokeprocess(K3ProcIO *p)
 
                 }
         }
+}
+
+K3ProcIO *KgpgInterface::gpgProc(const int statusfd, const int cmdfd)
+{
+	K3ProcIO *process = new K3ProcIO(QTextCodec::codecForName("utf8"));
+	*process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty";
+	if (statusfd >= 0) {
+		QString fd;
+		fd.setNum(statusfd);
+		fd = "--status-fd=" + fd;
+		*process << fd;
+	}
+	if (cmdfd >= 0) {
+		QString fd;
+		fd.setNum(statusfd);
+		fd = "--command-fd=" + fd;
+		*process << fd;
+	}
+
+	return process;
 }
 
 #include "kgpginterface.moc"

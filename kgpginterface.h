@@ -770,6 +770,7 @@ private:
     bool decok;                 // decrypt ok
     bool badmdc;                // bad mdc
     bool badpassword;           // bad password
+    static K3ProcIO *gpgProc(const int statusfd = -1, const int cmdfd = -1);
 
     /**
      * @internal structure for communication
