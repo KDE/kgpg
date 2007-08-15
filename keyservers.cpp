@@ -322,8 +322,10 @@ void KeyServer::slotExport(const QString &keyId)
     m_readmessage.clear();
     QStringList *args = new QStringList();
 
-    if (!page->exportAttributes->isChecked())
-        *args << "--export-options" << "no-include-attributes";
+    if (expattr != QString())
+        *args << "--export-options" << expattr;
+    else if (!page->exportAttributes->isChecked())
+        *args << "--export-options" << "no-export-attributes";
 
     *args << "--send-keys" << keyId;
 
@@ -509,9 +511,12 @@ void KeyServer::slotTextChanged(const QString &text)
     page->Buttonsearch->setEnabled(!text.isEmpty());
 }
 
-void KeyServer::slotSetExportAttribute(const bool &state)
+void KeyServer::slotSetExportAttribute(const QString *state)
 {
-    page->exportAttributes->setChecked(state);
+	if (state != NULL)
+		expattr = QString(*state);
+	else
+		expattr = QString();
 }
 
 void KeyServer::slotEnableProxyI(const bool &on)
@@ -633,6 +638,11 @@ K3ProcIO *KeyServer::createGPGProc(QStringList *args)
 	delete args;
 
 	return gp;
+}
+
+void KeyServer::slotSetKeyserver(const QString &server)
+{
+	page->kCBimportks->setCurrentText(server);
 }
 
 #include "keyservers.moc"

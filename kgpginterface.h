@@ -136,7 +136,7 @@ signals:
     void getKeysFinished(QString, KgpgInterface*);
 
 public slots:
-    QString getKeys(const bool &block = false, const bool &attributes = true, const QStringList &ids = QStringList());
+    QString getKeys(const bool &block = false, const QString *attributes = NULL, const QStringList &ids = QStringList());
 
 private slots:
     void getKeysProcess(K3ProcIO *p);

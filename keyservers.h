@@ -69,9 +69,10 @@ public slots:
     void slotAbortSearch();
     void slotSetText(const QString &text);
     void slotTextChanged(const QString &text);
-    void slotSetExportAttribute(const bool &state);
+    void slotSetExportAttribute(const QString *attr);
     void slotEnableProxyI(const bool &on);
     void slotEnableProxyE(const bool &on);
+    void slotSetKeyserver(const QString &server);
 
     void transferKeyID();
     void slotPreImport();
@@ -108,6 +109,7 @@ private:
     uint m_keynumbers;
     bool m_cycle;
     bool m_autoclosewindow;
+    QString expattr;
 
     K3ProcIO *createGPGProc(QStringList *keys);
 };

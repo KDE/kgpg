@@ -1516,7 +1516,16 @@ void KeysManager::slotexport()
     dial->setDefaultButton( KDialog::Ok );
     dial->setModal( true );
 
-    KeyExport *page = new KeyExport(dial);
+    KConfig *m_config = new KConfig("kgpgrc", KConfig::OnlyLocal);
+    KConfigGroup gr = m_config->group("Servers");
+    QString servers = gr.readEntry("Server_List");
+    delete m_config;
+
+    QStringList *serverList = new QStringList(servers.split(","));
+
+    KeyExport *page = new KeyExport(dial, serverList);
+    delete serverList;
+
     dial->setMainWidget(page);
     page->newFilename->setUrl(sname);
     page->newFilename->setWindowTitle(i18n("Save File"));
@@ -1526,23 +1535,26 @@ void KeysManager::slotexport()
     if (dial->exec() == QDialog::Accepted)
     {
         // export to file
-        QString expname;
-        bool exportAttr = page->exportAttributes->isChecked();
+        QString *exportAttr;
+
+	if (page->checkAttrAll->isChecked())
+		exportAttr = NULL;
+	else if (page->checkAttrPhoto->isChecked())
+		exportAttr = new QString("no-export-attributes");
+	else
+		exportAttr = new QString("export-minimal");
         if (page->checkServer->isChecked())
         {
             KeyServer *expServer = new KeyServer(0, false);
             expServer->slotSetExportAttribute(exportAttr);
+            expServer->slotSetKeyserver(page->destServer->currentText());
 
-		QString exportKeysList;
-		for (QStringList::ConstIterator it = klist.begin(); it != klist.end(); it++)
-			exportKeysList.append(' ' + QString(*it));
-                expServer->slotExport(exportKeysList);
-                return;
+            expServer->slotExport(klist.join(" "));
         }
         else
         if (page->checkFile->isChecked())
         {
-            expname = page->newFilename->url().url().simplified();
+            QString expname = page->newFilename->url().path().simplified();
             if (!expname.isEmpty())
             {
                 QFile fgpg(expname);
@@ -1553,8 +1565,8 @@ void KeysManager::slotexport()
                 p << KGpgSettings::gpgBinaryPath() << "--no-tty";
 
                 p << "--output" << expname << "--export" << "--armor";
-                if (!exportAttr)
-                    p << "--export-options" << "no-include-attributes";
+                if (exportAttr != NULL)
+                    p << "--export-options" << *exportAttr;
 
                 p << klist;
 
@@ -1577,6 +1589,7 @@ void KeysManager::slotexport()
             else
                 slotProcessExportMail(result);
         }
+        delete exportAttr;
     }
 
     delete dial;

@@ -933,7 +933,7 @@ void KgpgInterface::readSecretKeysProcess(K3ProcIO *p)
     p->ackRead();
 }
 
-QString KgpgInterface::getKeys(const bool &block, const bool &attributes, const QStringList &ids)
+QString KgpgInterface::getKeys(const bool &block, const QString *attributes, const QStringList &ids)
 {
     m_partialline.clear();
     m_ispartial = false;
@@ -943,8 +943,8 @@ QString KgpgInterface::getKeys(const bool &block, const bool &attributes, const 
     process->setParent(this);
     *process << "--export" << "--armor";
 
-    if (!attributes)
-        *process << "--export-options" << "no-include-attributes";
+    if (attributes)
+	*process << "--export-options" << *attributes;
 
     for (QStringList::ConstIterator it = ids.begin(); it != ids.end(); ++it)
         *process << *it;

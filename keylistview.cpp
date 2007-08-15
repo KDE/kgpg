@@ -325,7 +325,7 @@ void KeyListView::startDrag()
 		return;
 
     KgpgInterface *interface = new KgpgInterface();
-    QString keytxt = interface->getKeys(true, true, QStringList(keyid));
+    QString keytxt = interface->getKeys(true, NULL, QStringList(keyid));
     delete interface;
 
     Q3DragObject *d = new Q3TextDrag(keytxt, this);
