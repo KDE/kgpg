@@ -31,11 +31,11 @@ namespace KgpgCore
 QString Convert::toString(const KgpgKeyAlgo &algorithm)
 {
 	switch (algorithm) {
-	case ALGO_UNKNOWN:	return i18n("Unknown");
 	case ALGO_RSA:		return QString("RSA");
 	case ALGO_DSA:		return QString("DSA");
 	case ALGO_ELGAMAL:	return QString("ElGamal");
 	case ALGO_DSA_ELGAMAL:	return QString("DSA - ElGamal");
+	case ALGO_UNKNOWN:
 	default:		return i18n("Unknown");
 	}
 }
@@ -43,12 +43,12 @@ QString Convert::toString(const KgpgKeyAlgo &algorithm)
 QString Convert::toString(const KgpgKeyOwnerTrust &ownertrust)
 {
 	switch (ownertrust) {
-	case OWTRUST_UNKNOWN:	return i18n("Unknown");
 	case OWTRUST_UNDEFINED:	return i18n("Do not Know");
 	case OWTRUST_NONE:	return i18n("Do NOT Trust");
 	case OWTRUST_MARGINAL:	return i18n("Marginally");
 	case OWTRUST_FULL:	return i18n("Fully");
 	case OWTRUST_ULTIMATE:	return i18n("Ultimately");
+	case OWTRUST_UNKNOWN:
 	default:		return i18n("Unknown");
 	}
 }
@@ -56,7 +56,6 @@ QString Convert::toString(const KgpgKeyOwnerTrust &ownertrust)
 QString Convert::toString(const KgpgKeyTrust &trust)
 {
 	switch (trust) {
-	case TRUST_UNKNOWN:	return i18n("Unknown");
 	case TRUST_INVALID:	return i18n("Invalid");
 	case TRUST_DISABLED:	return i18n("Disabled");
 	case TRUST_REVOKED:	return i18n("Revoked");
@@ -66,6 +65,7 @@ QString Convert::toString(const KgpgKeyTrust &trust)
 	case TRUST_MARGINAL:	return i18n("Marginal");
 	case TRUST_FULL:	return i18n("Full");
 	case TRUST_ULTIMATE:	return i18n("Ultimate");
+	case TRUST_UNKNOWN:
 	default:		return i18n("Unknown");
 	}
 }
@@ -73,16 +73,16 @@ QString Convert::toString(const KgpgKeyTrust &trust)
 QColor Convert::toColor(const KgpgKeyTrust &trust)
 {
 	switch (trust) {
-	case TRUST_UNKNOWN:	return KGpgSettings::colorUnknown();
-	case TRUST_INVALID:	return KGpgSettings::colorBad();
-	case TRUST_DISABLED:	return KGpgSettings::colorBad();
-	case TRUST_REVOKED:	return KGpgSettings::colorRev();
-	case TRUST_EXPIRED:	return KGpgSettings::colorBad();
-	case TRUST_UNDEFINED:	return KGpgSettings::colorUnknown();
-	case TRUST_NONE:	return KGpgSettings::colorUnknown();
+	case TRUST_INVALID:
+	case TRUST_DISABLED:
+	case TRUST_EXPIRED:
 	case TRUST_MARGINAL:	return KGpgSettings::colorBad();
-	case TRUST_FULL:	return KGpgSettings::colorGood();
+	case TRUST_REVOKED:	return KGpgSettings::colorRev();
+	case TRUST_UNDEFINED:
+	case TRUST_NONE:	return KGpgSettings::colorUnknown();
+	case TRUST_FULL:
 	case TRUST_ULTIMATE:	return KGpgSettings::colorGood();
+	case TRUST_UNKNOWN:
 	default:		return KGpgSettings::colorUnknown();
 	}
 }
