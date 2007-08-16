@@ -30,7 +30,7 @@ namespace KgpgCore
 
 QString Convert::toString(const KgpgKeyAlgo &algorithm)
 {
-	switch (algorithm)
+    switch (algorithm)
     {
         case ALGO_RSA:          return QString("RSA");
         case ALGO_DSA:          return QString("DSA");
@@ -38,12 +38,12 @@ QString Convert::toString(const KgpgKeyAlgo &algorithm)
         case ALGO_DSA_ELGAMAL:  return QString("DSA - ElGamal");
         case ALGO_UNKNOWN:
         default:                return i18n("Unknown");
-	}
+    }
 }
 
 QString Convert::toString(const KgpgKeyOwnerTrust &ownertrust)
 {
-	switch (ownertrust)
+    switch (ownertrust)
     {
         case OWTRUST_UNDEFINED: return i18n("Do not Know");
         case OWTRUST_NONE:      return i18n("Do NOT Trust");
@@ -52,12 +52,12 @@ QString Convert::toString(const KgpgKeyOwnerTrust &ownertrust)
         case OWTRUST_ULTIMATE:  return i18n("Ultimately");
         case OWTRUST_UNKNOWN:
         default:                return i18n("Unknown");
-	}
+    }
 }
 
 QString Convert::toString(const KgpgKeyTrust &trust)
 {
-	switch (trust)
+    switch (trust)
     {
         case TRUST_INVALID:     return i18n("Invalid");
         case TRUST_DISABLED:    return i18n("Disabled");
@@ -70,12 +70,12 @@ QString Convert::toString(const KgpgKeyTrust &trust)
         case TRUST_ULTIMATE:    return i18n("Ultimate");
         case TRUST_UNKNOWN:
         default:                return i18n("Unknown");
-	}
+    }
 }
 
 QColor Convert::toColor(const KgpgKeyTrust &trust)
 {
-	switch (trust)
+    switch (trust)
     {
         case TRUST_INVALID:
         case TRUST_DISABLED:
@@ -88,7 +88,7 @@ QColor Convert::toColor(const KgpgKeyTrust &trust)
         case TRUST_ULTIMATE:    return KGpgSettings::colorGood();
         case TRUST_UNKNOWN:
         default:                return KGpgSettings::colorUnknown();
-	}
+    }
 }
 
 QString Convert::toString(const QDate &date)
