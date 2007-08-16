@@ -105,17 +105,11 @@ void KgpgKeyInfo::loadKey(const QString &keyid)
     m_prop->tLID->setText(key.fullId());
     m_displayedkeyid = key.id();
     m_prop->tLCreation->setText(key.creation());
-    if (key.unlimited())
-    {
-        m_isunlimited = true;
-        m_prop->tLExpiration->setText(i18n("Unlimited"));
-    }
-    else
-    {
-        m_isunlimited = false;
-        m_prop->tLExpiration->setText(key.expiration());
+    m_prop->tLExpiration->setText(key.expiration());
+
+    m_isunlimited = key.unlimited();
+    if (!m_isunlimited)
         m_date = key.expirationDate();
-    }
 
     m_prop->tLLength->setText(key.size());
 
