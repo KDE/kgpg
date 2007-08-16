@@ -52,11 +52,7 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent)
     KgpgKeyList keys = interface->readSecretKeys(QStringList(sigkey));
     delete interface;
 
-    bool issecret = false;
-    if (keys.size() > 0)
-        issecret = true;
-
-    if (!issecret)
+    if (keys.size() == 0)    // if "sigkey" is not a secret key...
     {
         m_prop->changeExp->hide();
         m_prop->changePass->hide();
@@ -77,25 +73,22 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &sigkey, QWidget *parent)
     connect(this, SIGNAL(changeMainPhoto(const QPixmap&)), this, SLOT(slotSetPhoto(const QPixmap&)));
 }
 
-void KgpgKeyInfo::loadKey(const QString &Keyid)
+void KgpgKeyInfo::loadKey(const QString &keyid)
 {
     KgpgInterface *interface = new KgpgInterface();
-    KgpgKeyList listkeys = interface->readPublicKeys(true, QStringList(Keyid));
+    KgpgKeyList listkeys = interface->readPublicKeys(true, QStringList(keyid));
     delete interface;
     KgpgKey key = listkeys.at(0);
 
     m_prop->tLAlgo->setText(Convert::toString(key.algorithm()));
 
-    QString tr = Convert::toString(key.trust());
-    QColor trustcolor = Convert::toColor(key.trust());
-    if (key.trust() == TRUST_DISABLED)
+    KgpgKeyTrust keytrust = key.valide() ? key.trust() : TRUST_DISABLED;
+    QString tr = Convert::toString(keytrust);
+    QColor trustcolor = Convert::toColor(keytrust);
+
+    if (keytrust == TRUST_DISABLED)
         m_prop->cbDisabled->setChecked(true);
-    if (!key.valide())
-    {
-        tr = Convert::toString(TRUST_DISABLED);
-        trustcolor = Convert::toColor(TRUST_DISABLED);
-        m_prop->cbDisabled->setChecked(true);
-    }
+
     m_prop->kLTrust->setText(tr);
 
     QPalette palette;
@@ -188,9 +181,9 @@ void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface)
 void KgpgKeyInfo::slotChangeExp()
 {
     m_chdate = new KDialog(this );
-    m_chdate->setCaption( i18n("Choose New Expiration") );
-    m_chdate->setButtons(  Ok | Cancel);
-    m_chdate->setDefaultButton( Ok );
+    m_chdate->setCaption(i18n("Choose New Expiration"));
+    m_chdate->setButtons(Ok | Cancel);
+    m_chdate->setDefaultButton(Ok);
     m_chdate->setModal(true);
     QWidget *page = new QWidget(m_chdate);
     m_kb = new QCheckBox(i18n("Unlimited"), page);

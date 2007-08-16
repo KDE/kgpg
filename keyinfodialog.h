@@ -34,9 +34,10 @@ class KgpgInterface;
 class KeyProperties : public QWidget, public Ui::KeyProperties
 {
 public:
-  KeyProperties( QWidget *parent=0 ) : QWidget( parent ) {
-    setupUi( this );
-  }
+    KeyProperties(QWidget *parent = 0) : QWidget(parent)
+    {
+        setupUi(this);
+    }
 };
 
 
