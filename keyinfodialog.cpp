@@ -102,8 +102,8 @@ void KgpgKeyInfo::loadKey(const QString &keyid)
         m_prop->comboId->addItems(photolist);
     }
 
-    m_prop->tLID->setText(key.fullId());
     m_displayedkeyid = key.id();
+    m_prop->tLID->setText(key.fullId());
     m_prop->tLCreation->setText(key.creation());
     m_prop->tLExpiration->setText(key.expiration());
 
@@ -212,13 +212,13 @@ void KgpgKeyInfo::slotCheckDate(const QDate &date)
 
 void KgpgKeyInfo::slotChangeDate()
 {
-    KgpgInterface *KeyExpirationProcess = new KgpgInterface();
-    connect(KeyExpirationProcess, SIGNAL(keyExpireFinished(int, KgpgInterface*)), this, SLOT(slotInfoExpirationChanged(int, KgpgInterface*)));
+    KgpgInterface *keyexpirationprocess = new KgpgInterface();
+    connect(keyexpirationprocess, SIGNAL(keyExpireFinished(int, KgpgInterface*)), this, SLOT(slotInfoExpirationChanged(int, KgpgInterface*)));
 
     if (m_kb->isChecked())
-        KeyExpirationProcess->keyExpire(m_displayedkeyid, QDate::currentDate(), true);
+        keyexpirationprocess->keyExpire(m_displayedkeyid, QDate::currentDate(), true);
     else
-        KeyExpirationProcess->keyExpire(m_displayedkeyid, m_kdt->date(), false);
+        keyexpirationprocess->keyExpire(m_displayedkeyid, m_kdt->date(), false);
 }
 
 void KgpgKeyInfo::slotEnableDate(const bool &ison)
@@ -242,18 +242,7 @@ void KgpgKeyInfo::slotInfoExpirationChanged(const int &res, KgpgInterface *inter
     if (res == 2)
     {
         m_keywaschanged = true;
-        if (m_kb->isChecked())
-        {
-            m_isunlimited = true;
-            m_date = QDate::currentDate();
-            m_prop->tLExpiration->setText(i18n("Unlimited"));
-        }
-        else
-        {
-            m_isunlimited = false;
-            m_date = m_kdt->date();
-            m_prop->tLExpiration->setText(KGlobal::locale()->formatDate(m_kdt->date()));
-        }
+        loadKey(m_displayedkeyid);
     }
 
     if (res == 1)
