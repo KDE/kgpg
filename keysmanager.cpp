@@ -851,7 +851,7 @@ void KeysManager::slotDeletePhoto()
     KeyListViewItem *item = keysList2->currentItem();
     KeyListViewItem *parent = item->parent();
 
-    QString mess = i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 &lt;%3&gt;</b>?</qt>",
+    QString mess = i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 &lt;%3&gt;</b>?</qt>",
                         item->text(6), parent->text(0), parent->text(1));
 
     /*
@@ -980,7 +980,7 @@ void KeysManager::findFirstKey()
         keysList2->ensureItemVisible(item);
     }
     else
-        KMessageBox::sorry(this, i18n("<qt>Search string '<b>%1</b>' not found.", searchString));
+        KMessageBox::sorry(this, i18n("<qt>Search string '<b>%1</b>' not found.</qt>", searchString));
 }
 
 void KeysManager::findNextKey()
@@ -1909,7 +1909,7 @@ void KeysManager::signkey()
 				signKeyList += item->text(0) + " (" + item->text(1) + "): " + item->keyId();
 		}
 
-        if (KMessageBox::warningContinueCancelList(this, i18n("<qt>You are about to sign the following keys in one pass.<br><b>If you have not carefully checked all fingerprints, the security of your communications may be compromised.</b></qt>"), signKeyList) != KMessageBox::Continue)
+        if (KMessageBox::warningContinueCancelList(this, i18n("<qt>You are about to sign the following keys in one pass.<br/><b>If you have not carefully checked all fingerprints, the security of your communications may be compromised.</b></qt>"), signKeyList) != KMessageBox::Continue)
             return;
     }
 
@@ -2213,7 +2213,7 @@ void KeysManager::confirmdeletekey()
                 if (ki->itemType() & KeyListViewItem::Secret)
                 {
                     secretKeyInside = true;
-                    secList += ki->text(0) + " (" + ki->text(1) + ")<br>";
+                    secList += ki->text(0) + " (" + ki->text(1) + ")<br/>";
                     ki->setSelected(false);
                 }
                 else
@@ -2223,7 +2223,7 @@ void KeysManager::confirmdeletekey()
 
         if (secretKeyInside)
         {
-            int result = KMessageBox::warningContinueCancel(this, i18n("<qt>The following are secret key pairs:<br><b>%1</b>They will not be deleted.<br></qt>", secList));
+            int result = KMessageBox::warningContinueCancel(this, i18n("<qt>The following are secret key pairs:<br/><b>%1</b>They will not be deleted.</qt>", secList));
             if (result != KMessageBox::Continue)
                 return;
         }
