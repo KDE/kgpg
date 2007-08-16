@@ -227,7 +227,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     QAction *action = actcol->addAction("go_default_key");
     action->setText(i18n("&Go to Default Key"));
 #ifdef __GNUC__
-#warning "port it"    
+#warning "port it"
 #endif
     //action->setShortcut(goDefaultKey);
 
@@ -355,7 +355,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgCore::KgpgKeyList keys, K
         if (c != TRUST_FULL && c != TRUST_ULTIMATE)
             istrusted = false;
 
-        if (key.valide() == false)
+        if (key.valid() == false)
             dead = true;
 
         QString keyname = KgpgInterface::checkForUtf8(key.name());

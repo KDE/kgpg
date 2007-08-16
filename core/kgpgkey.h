@@ -210,7 +210,7 @@ typedef QPointer<KgpgKeyUatList> KgpgKeyUatListPtr;
 class KgpgKeyUidPrivate : public QSharedData
 {
 public:
-    bool     gpguidvalide;
+    bool     gpguidvalid;
     unsigned int gpguidindex;
     KgpgKeyTrust gpguidtrust;
     QString  gpguidname;
@@ -232,14 +232,14 @@ public:
     void setName(const QString &name);
     void setEmail(const QString &email);
     void setComment(const QString &comment);
-    void setValide(const bool &valide);
+    void setValid(const bool &valid);
     void setTrust(const KgpgKeyTrust &trust);
     void setIndex(const unsigned int &index);
 
     QString name() const;
     QString email() const;
     QString comment() const;
-    bool valide() const;
+    bool valid() const;
     KgpgKeyTrust trust() const;
     unsigned int index() const;
 
@@ -287,7 +287,7 @@ typedef QPointer<KgpgKeyUidList> KgpgKeyUidListPtr;
 class KgpgKeySubPrivate : public QSharedData
 {
 public:
-    bool            gpgsubvalide;
+    bool            gpgsubvalid;
     QString         gpgsubid;
     uint            gpgsubsize;
     bool            gpgsubunlimited;
@@ -315,7 +315,7 @@ public:
     void setCreation(const QDate &date);
     void setTrust(const KgpgKeyTrust &trust);
     void setAlgorithm(const KgpgKeyAlgo &algo);
-    void setValide(const bool &valide);
+    void setValid(const bool &valid);
 
     QString id() const;
     uint size() const;
@@ -324,7 +324,7 @@ public:
     QDate creationDate() const;
     KgpgKeyTrust trust() const;
     KgpgKeyAlgo algorithm() const;
-    bool valide() const;
+    bool valid() const;
 
     QString creation() const;
     QString expiration() const;
@@ -376,7 +376,7 @@ public:
     KgpgKeyPrivate();
 
     bool          gpgkeysecret;
-    bool          gpgkeyvalide;
+    bool          gpgkeyvalid;
     QString       gpgkeyid;
     QString       gpgfullid;
     QString       gpgkeymail;
@@ -410,7 +410,7 @@ public:
     KgpgKey(const KgpgKey &other);
 
     void setSecret(const bool &secret);
-    void setValide(const bool &valide);
+    void setValid(const bool &valid);
     void setId(const QString &id);
     void setFullId(const QString &fullid);
     void setName(const QString &name);
@@ -426,7 +426,7 @@ public:
     void setAlgorithm(const KgpgKeyAlgo &algo);
 
     bool secret() const;
-    bool valide() const;
+    bool valid() const;
     QString id() const;
     QString fullId() const;
     QString name() const;

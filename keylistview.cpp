@@ -445,7 +445,7 @@ bool KeyListView::refreshKeys(const QStringList &ids)
         }
 
         item = new KeyListViewItem(this, key, isbold);
-        item->setPixmap(2, getTrustPix(key.trust(), key.valide()));
+        item->setPixmap(2, getTrustPix(key.trust(), key.valid()));
         item->setVisible(true);
         item->setExpandable(true);
 
@@ -681,7 +681,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
         QString algo = i18n("%1 subkey", Convert::toString(sub.algorithm()));
         tmpitem = new KeyListViewItem(item, algo, QString(), QString(), sub.expiration(), QString::number(sub.size()), sub.creation(), sub.id(), false, false, KeyListViewItem::Sub);
         tmpitem->setPixmap(0, Images::single());
-        tmpitem->setPixmap(2, getTrustPix(sub.trust(), sub.valide()));
+        tmpitem->setPixmap(2, getTrustPix(sub.trust(), sub.valid()));
         insertSigns(tmpitem, sub.signList());
     }
     /****************************************/
@@ -696,7 +696,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
         index.setNum(uid.index());
 
         tmpitem = new KeyListViewItem(item, uid.name(), uid.email(), QString(), "-", "-", "-", index, false, false, KeyListViewItem::Uid);
-        tmpitem->setPixmap(2, getTrustPix(key.trust(), key.valide()));
+        tmpitem->setPixmap(2, getTrustPix(key.trust(), key.valid()));
         tmpitem->setPixmap(0, Images::userId());
         insertSigns(tmpitem, uid.signList());
     }
@@ -708,7 +708,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
     for (int i = 0; i < photolist.size(); ++i)
     {
         tmpitem = new KeyListViewItem(item, i18n("Photo id"), QString(), QString(), "-", "-", "-", photolist.at(i), false, false, KeyListViewItem::Uat);
-        tmpitem->setPixmap(2, getTrustPix(key.trust(), key.valide()));
+        tmpitem->setPixmap(2, getTrustPix(key.trust(), key.valid()));
 
         if (m_displayphoto)
         {

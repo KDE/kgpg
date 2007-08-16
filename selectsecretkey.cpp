@@ -97,7 +97,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
         if (key2.trust() == TRUST_FULL || key2.trust() == TRUST_ULTIMATE)
             dead = false;
 
-        if (!key2.valide())
+        if (!key2.valid())
             dead = true;
         /**************/
 

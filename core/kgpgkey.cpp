@@ -212,7 +212,7 @@ KgpgKeyUat& KgpgKeyUat::operator=(const KgpgKeyUat &other)
 
 bool KgpgKeyUidPrivate::operator==(const KgpgKeyUidPrivate &other) const
 {
-    if (gpguidvalide != other.gpguidvalide) return false;
+    if (gpguidvalid != other.gpguidvalid) return false;
     if (gpguidtrust != other.gpguidtrust) return false;
     if (gpguidname != other.gpguidname) return false;
     if (gpguidemail != other.gpguidemail) return false;
@@ -249,9 +249,9 @@ void KgpgKeyUid::setComment(const QString &comment)
     d->gpguidcomment = comment;
 }
 
-void KgpgKeyUid::setValide(const bool &valide)
+void KgpgKeyUid::setValid(const bool &valid)
 {
-    d->gpguidvalide = valide;
+    d->gpguidvalid = valid;
 }
 
 void KgpgKeyUid::setTrust(const KgpgKeyTrust &trust)
@@ -279,9 +279,9 @@ QString KgpgKeyUid::comment() const
     return d->gpguidcomment;
 }
 
-bool KgpgKeyUid::valide() const
+bool KgpgKeyUid::valid() const
 {
-    return d->gpguidvalide;
+    return d->gpguidvalid;
 }
 
 KgpgKeyTrust KgpgKeyUid::trust() const
@@ -319,7 +319,7 @@ KgpgKeyUid& KgpgKeyUid::operator=(const KgpgKeyUid &other)
 
 bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
 {
-    if (gpgsubvalide != other.gpgsubvalide) return false;
+    if (gpgsubvalid != other.gpgsubvalid) return false;
     if (gpgsubunlimited != other.gpgsubunlimited) return false;
     if (gpgsubalgo != other.gpgsubalgo) return false;
     if (gpgsubid != other.gpgsubid) return false;
@@ -379,9 +379,9 @@ void KgpgKeySub::setAlgorithm(const KgpgKeyAlgo &algo)
     d->gpgsubalgo = algo;
 }
 
-void KgpgKeySub::setValide(const bool &valide)
+void KgpgKeySub::setValid(const bool &valid)
 {
-    d->gpgsubvalide = valide;
+    d->gpgsubvalid = valid;
 }
 
 QString KgpgKeySub::id() const
@@ -419,9 +419,9 @@ KgpgKeyAlgo KgpgKeySub::algorithm() const
     return d->gpgsubalgo;
 }
 
-bool KgpgKeySub::valide() const
+bool KgpgKeySub::valid() const
 {
-    return d->gpgsubvalide;
+    return d->gpgsubvalid;
 }
 
 QString KgpgKeySub::creation() const
@@ -474,7 +474,7 @@ KgpgKeyPrivate::KgpgKeyPrivate()
 bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
 {
     if (gpgkeysecret != other.gpgkeysecret) return false;
-    if (gpgkeyvalide != other.gpgkeyvalide) return false;
+    if (gpgkeyvalid != other.gpgkeyvalid) return false;
     if (gpgkeyid != other.gpgkeyid) return false;
     if (gpgfullid != other.gpgfullid) return false;
     if (gpgkeymail != other.gpgkeymail) return false;
@@ -501,7 +501,7 @@ KgpgKey::KgpgKey()
     d = new KgpgKeyPrivate;
     d->gpgkeyunlimited = false;
     d->gpgkeyalgo = ALGO_UNKNOWN;
-    d->gpgkeyvalide = false;
+    d->gpgkeyvalid = false;
     d->gpgkeysecret = false;
 }
 
@@ -516,9 +516,9 @@ void KgpgKey::setSecret(const bool &secret)
     d->gpgkeysecret = secret;
 }
 
-void KgpgKey::setValide(const bool &valide)
+void KgpgKey::setValid(const bool &valid)
 {
-    d->gpgkeyvalide = valide;
+    d->gpgkeyvalid = valid;
 }
 
 void KgpgKey::setId(const QString &id)
@@ -591,9 +591,9 @@ bool KgpgKey::secret() const
     return d->gpgkeysecret;
 }
 
-bool KgpgKey::valide() const
+bool KgpgKey::valid() const
 {
-    return d->gpgkeyvalide;
+    return d->gpgkeyvalid;
 }
 
 QString KgpgKey::id() const

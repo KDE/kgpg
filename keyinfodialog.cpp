@@ -82,7 +82,7 @@ void KgpgKeyInfo::loadKey(const QString &keyid)
 
     m_prop->tLAlgo->setText(Convert::toString(key.algorithm()));
 
-    KgpgKeyTrust keytrust = key.valide() ? key.trust() : TRUST_DISABLED;
+    KgpgKeyTrust keytrust = key.valid() ? key.trust() : TRUST_DISABLED;
     QString tr = Convert::toString(keytrust);
     QColor trustcolor = Convert::toColor(keytrust);
 

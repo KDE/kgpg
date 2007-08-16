@@ -576,9 +576,9 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 }
 
                 if (lsp.at(11).contains("D", Qt::CaseSensitive))  // disabled key
-                    m_publickey.setValide(false);
+                    m_publickey.setValid(false);
                 else
-                    m_publickey.setValide(true);
+                    m_publickey.setValid(true);
 
                 QString fullname = lsp.at(9);
                 if (fullname.contains("<"))
@@ -644,9 +644,9 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 sub.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
 
                 if (lsp.at(11).contains('D'))
-                    sub.setValide(false);
+                    sub.setValid(false);
                 else
-                    sub.setValide(true);
+                    sub.setValid(true);
 
 
                 if (lsp.at(6).isEmpty())
@@ -680,9 +680,9 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
 
                 uid.setTrust(toTrust(line.section(":", 1, 1)));
                 if (line.section(":", 11, 11).contains('D'))
-                    uid.setValide(false);
+                    uid.setValid(false);
                 else
-                    uid.setValide(true);
+                    uid.setValid(true);
 
                 uid.setIndex(++uidnum);
                 QString fullname = line.section(':', 9, 9);
