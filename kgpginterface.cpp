@@ -616,8 +616,9 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 m_publickey.setName(kname);
 
                 cycle = "pub";
-		// the first uid is merged into the public key
-		uidnum = 1;
+
+                // the first uid is merged into the public key
+                uidnum = 1;
             }
             else
             if (line.startsWith("fpr"))
@@ -683,7 +684,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 else
                     uid.setValide(true);
 
-		uid.index = ++uidnum;
+                uid.setIndex(++uidnum);
                 QString fullname = line.section(':', 9, 9);
                 if (fullname.contains('<') )
                 {

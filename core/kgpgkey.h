@@ -211,6 +211,7 @@ class KgpgKeyUidPrivate : public QSharedData
 {
 public:
     bool     gpguidvalide;
+    unsigned int gpguidindex;
     KgpgKeyTrust gpguidtrust;
     QString  gpguidname;
     QString  gpguidemail;
@@ -233,13 +234,14 @@ public:
     void setComment(const QString &comment);
     void setValide(const bool &valide);
     void setTrust(const KgpgKeyTrust &trust);
+    void setIndex(const unsigned int &index);
 
     QString name() const;
     QString email() const;
     QString comment() const;
     bool valide() const;
     KgpgKeyTrust trust() const;
-    unsigned int index;
+    unsigned int index() const;
 
     void addSign(const KgpgKeySign &sign);
     KgpgKeySignList signList();

@@ -193,7 +193,7 @@ int KeyListViewItem::compare(Q3ListViewItem *itemx, int c, bool ascending) const
 	case 0: {
 		ItemType item1 = itemType();
 		ItemType item2 = item->itemType();
-	
+
 		bool test1 = (item1 & KeyListViewItem::Public) && !(item1 & KeyListViewItem::Secret); // only a public key
 		bool test2 = (item2 & KeyListViewItem::Public) && !(item2 & KeyListViewItem::Secret); // only a public key
 
@@ -436,14 +436,15 @@ bool KeyListView::refreshKeys(const QStringList &ids)
     {
         KgpgKey key = publiclist.at(i);
 
-	bool isbold = (key.id() == defaultkey);
-	int index = issec.indexOf(key.fullId());
-	if (index != -1) {
-		key.setSecret(true);
-		issec.removeAt(index);
-	}
+        bool isbold = (key.id() == defaultkey);
+        int index = issec.indexOf(key.fullId());
+        if (index != -1)
+        {
+            key.setSecret(true);
+            issec.removeAt(index);
+        }
 
-	item = new KeyListViewItem(this, key, isbold);
+        item = new KeyListViewItem(this, key, isbold);
         item->setPixmap(2, getTrustPix(key.trust(), key.valide()));
         item->setVisible(true);
         item->setExpandable(true);
@@ -692,7 +693,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
         KgpgKeyUid uid = key.uidList()->at(i);
         QString index;
 
-        index.setNum(uid.index);
+        index.setNum(uid.index());
 
         tmpitem = new KeyListViewItem(item, uid.name(), uid.email(), QString(), "-", "-", "-", index, false, false, KeyListViewItem::Uid);
         tmpitem->setPixmap(2, getTrustPix(key.trust(), key.valide()));
@@ -787,7 +788,7 @@ QPixmap KeyListView::getTrustPix(const KgpgKeyTrust &trust, const bool &isvalid)
 	case TRUST_UNKNOWN:
 	case TRUST_UNDEFINED:
 	case TRUST_NONE:	return trustunknown;
-	default:		
+	default:
 kDebug(3125) << "Oops, unmatched trust value " << trust ;
 				return trustunknown;
     }
