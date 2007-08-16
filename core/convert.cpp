@@ -31,7 +31,7 @@ namespace KgpgCore
 QString Convert::toString(const KgpgKeyAlgo &algorithme)
 {
     if (algorithme == ALGO_UNKNOWN)
-        return QString("Unknown");
+        return i18n("Unknown");
     if (algorithme == ALGO_RSA)
         return QString("RSA");
     if (algorithme == ALGO_DSA)
