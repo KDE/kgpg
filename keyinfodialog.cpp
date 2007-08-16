@@ -125,7 +125,30 @@ void KgpgKeyInfo::loadKey(const QString &Keyid)
     }
 
     m_prop->tLLength->setText(key.size());
-    //m_prop->kCOwnerTrust->setCurrentIndex(KgpgKey::ownerTrustIndex(key.ownerTrust())); // FIXME
+
+    switch (key.ownerTrust())
+    {
+        case OWTRUST_NONE:
+            m_prop->kCOwnerTrust->setCurrentIndex(1);
+            break;
+
+        case OWTRUST_MARGINAL:
+            m_prop->kCOwnerTrust->setCurrentIndex(2);
+            break;
+
+        case OWTRUST_FULL:
+            m_prop->kCOwnerTrust->setCurrentIndex(3);
+            break;
+
+        case OWTRUST_ULTIMATE:
+            m_prop->kCOwnerTrust->setCurrentIndex(4);
+            break;
+
+        case OWTRUST_UNDEFINED:
+        default:
+            m_prop->kCOwnerTrust->setCurrentIndex(0);
+            break;
+    }
 
     if (!key.email().isEmpty())
         m_prop->tLMail->setHtml("<qt><a href=mailto:" + key.email() + '>' + key.email() + "</a></qt>");
