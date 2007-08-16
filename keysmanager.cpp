@@ -1285,7 +1285,7 @@ bool KeysManager::isSignatureUnknown(KeyListViewItem *item)
 	if (!isSignature(item))
 		return false;
 	// ugly hack to detect unknown keys
-	return (item->text(0).startsWith("[") && item->text(0).endsWith("]"));
+	return (item->text(0).startsWith('[') && item->text(0).endsWith(']'));
 }
 
 void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)

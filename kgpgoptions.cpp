@@ -137,8 +137,8 @@ void kgpgOptions::slotChangeHome()
     if (gpgHome.isEmpty())
         return;
 
-    if (!gpgHome.endsWith("/"))
-        gpgHome.append("/");
+    if (!gpgHome.endsWith('/'))
+        gpgHome.append('/');
 
     QString confPath = "options";
     if (!QFile(gpgHome + confPath).exists())

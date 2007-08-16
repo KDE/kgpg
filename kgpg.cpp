@@ -95,7 +95,7 @@ static QString getGpgHome()
 
     gpgHome.replace("//", "/");
 
-    if(!gpgHome.endsWith("/"))
+    if(!gpgHome.endsWith('/'))
         gpgHome.append('/');
 
     KStandardDirs::makeDir(gpgHome, 0700);

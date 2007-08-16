@@ -184,7 +184,7 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
                 QString result2 = result.simplified();
                 result2.remove(0, 6);
                 result2 = result2.simplified();
-                if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith("=")))
+                if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith('=')))
                 {
                     // kDebug(2100) << "Found group: " << name ;
                     // kDebug(2100) << "New values: " << values ;
@@ -223,7 +223,7 @@ void KgpgInterface::delGpgGroup(const QString &name, const QString &configfile)
                 QString result2 = result.simplified();
                 result2.remove(0, 6);
                 result2 = result2.simplified();
-                if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith("=")))
+                if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith('=')))
                     result.clear();
             }
 
@@ -779,7 +779,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                     signature.setComment(QString());
                 signature.setName(kname);
 
-                if (lsp.at(10).endsWith("l"))
+                if (lsp.at(10).endsWith('l'))
                     signature.setLocal(true);
 
                 if (line.startsWith("rev"))
