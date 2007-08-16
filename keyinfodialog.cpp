@@ -174,7 +174,7 @@ void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface)
 
 void KgpgKeyInfo::slotChangeExp()
 {
-    m_chdate = new KDialog(this );
+    m_chdate = new KDialog(this);
     m_chdate->setCaption(i18n("Choose New Expiration"));
     m_chdate->setButtons(Ok | Cancel);
     m_chdate->setDefaultButton(Ok);
