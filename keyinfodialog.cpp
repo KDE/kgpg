@@ -84,7 +84,7 @@ void KgpgKeyInfo::loadKey(const QString &Keyid)
     delete interface;
     KgpgKey key = listkeys.at(0);
 
-    m_prop->tLAlgo->setText(Convert::toString(key.algorithme()));
+    m_prop->tLAlgo->setText(Convert::toString(key.algorithm()));
 
     QString tr = Convert::toString(key.trust());
     QColor trustcolor = Convert::toColor(key.trust());

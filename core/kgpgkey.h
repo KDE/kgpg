@@ -314,7 +314,7 @@ public:
     void setExpiration(const QDate &date);
     void setCreation(const QDate &date);
     void setTrust(const KgpgKeyTrust &trust);
-    void setAlgorithme(const KgpgKeyAlgo &algo);
+    void setAlgorithm(const KgpgKeyAlgo &algo);
     void setValide(const bool &valide);
 
     QString id() const;
@@ -323,7 +323,7 @@ public:
     QDate expirationDate() const;
     QDate creationDate() const;
     KgpgKeyTrust trust() const;
-    KgpgKeyAlgo algorithme() const;
+    KgpgKeyAlgo algorithm() const;
     bool valide() const;
 
     QString creation() const;
@@ -423,7 +423,7 @@ public:
     void setCreation(const QDate &date);
     void setExpiration(const QDate &date);
     void setUnlimited(const bool &unlimited);
-    void setAlgorithme(const KgpgKeyAlgo &algo);
+    void setAlgorithm(const KgpgKeyAlgo &algo);
 
     bool secret() const;
     bool valide() const;
@@ -439,7 +439,7 @@ public:
     QDate creationDate() const;
     QDate expirationDate() const;
     bool unlimited() const;
-    KgpgKeyAlgo algorithme() const;
+    KgpgKeyAlgo algorithm() const;
 
     QString creation() const;
     QString expiration() const;

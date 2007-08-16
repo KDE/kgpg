@@ -558,7 +558,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
 
                 m_publickey.setTrust(toTrust(lsp.at(1)));
                 m_publickey.setSize(lsp.at(2));
-                m_publickey.setAlgorithme(intToAlgo(lsp.at(3).toInt()));
+                m_publickey.setAlgorithm(intToAlgo(lsp.at(3).toInt()));
                 m_publickey.setFullId(lsp.at(4));
                 m_publickey.setId(lsp.at(4).right(8));
                 m_publickey.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
@@ -640,7 +640,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 sub.setId(lsp.at(4).right(8));
                 sub.setTrust(toTrust(lsp.at(1)));
                 sub.setSize(lsp.at(2).toUInt());
-                sub.setAlgorithme(intToAlgo(lsp.at(3).toInt()));
+                sub.setAlgorithm(intToAlgo(lsp.at(3).toInt()));
                 sub.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
 
                 if (lsp.at(11).contains('D'))
@@ -876,7 +876,7 @@ void KgpgInterface::readSecretKeysProcess(K3ProcIO *p)
 
                 m_secretkey.setTrust(toTrust(lsp.at(1)));
                 m_secretkey.setSize(lsp.at(2));
-                m_secretkey.setAlgorithme(intToAlgo(lsp.at(3).toInt()));
+                m_secretkey.setAlgorithm(intToAlgo(lsp.at(3).toInt()));
                 m_secretkey.setFullId(lsp.at(4));
                 m_secretkey.setId(lsp.at(4).right(8));
                 m_secretkey.setCreation(QDate::fromString(lsp[5], Qt::ISODate));

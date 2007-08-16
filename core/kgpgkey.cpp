@@ -374,7 +374,7 @@ void KgpgKeySub::setTrust(const KgpgKeyTrust &trust)
     d->gpgsubtrust = trust;
 }
 
-void KgpgKeySub::setAlgorithme(const KgpgKeyAlgo &algo)
+void KgpgKeySub::setAlgorithm(const KgpgKeyAlgo &algo)
 {
     d->gpgsubalgo = algo;
 }
@@ -414,7 +414,7 @@ KgpgKeyTrust KgpgKeySub::trust() const
     return d->gpgsubtrust;
 }
 
-KgpgKeyAlgo KgpgKeySub::algorithme() const
+KgpgKeyAlgo KgpgKeySub::algorithm() const
 {
     return d->gpgsubalgo;
 }
@@ -581,7 +581,7 @@ void KgpgKey::setUnlimited(const bool &unlimited)
     d->gpgkeyunlimited = unlimited;
 }
 
-void KgpgKey::setAlgorithme(const KgpgKeyAlgo &algo)
+void KgpgKey::setAlgorithm(const KgpgKeyAlgo &algo)
 {
     d->gpgkeyalgo = algo;
 }
@@ -656,7 +656,7 @@ bool KgpgKey::unlimited() const
     return d->gpgkeyunlimited;
 }
 
-KgpgKeyAlgo KgpgKey::algorithme() const
+KgpgKeyAlgo KgpgKey::algorithm() const
 {
     return d->gpgkeyalgo;
 }
