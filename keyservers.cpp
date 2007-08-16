@@ -535,7 +535,7 @@ void KeyServer::transferKeyID()
         return;
 
     QString kid;
-    QString keysToSearch;
+    QStringList keysToSearch;
     m_listpop->kLEID->clear();
     QList<Q3ListViewItem*>searchList = m_listpop->kLVsearch->selectedItems();
 
@@ -549,13 +549,13 @@ void KeyServer::transferKeyID()
                 kid = searchList.at(i)->text(0).simplified();
 
             kid = kid.section("key", 1, 1);
-            kid = kid.simplified();
-            keysToSearch.append(' ' + kid.left(8));
+            kid = kid.simplified().section(",", 0, 0);
+            keysToSearch << kid.right(16);
         }
     }
 
-    kDebug(2100) << keysToSearch ;
-    m_listpop->kLEID->setText(keysToSearch.simplified());
+    kDebug(2100) << keysToSearch;
+    m_listpop->kLEID->setText(keysToSearch.join(" "));
 }
 
 void KeyServer::slotPreImport()
