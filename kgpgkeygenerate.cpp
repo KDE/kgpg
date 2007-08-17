@@ -119,9 +119,9 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     slotEnableOk();
     updateGeometry();
     show();
+
     connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
     connect(this,SIGNAL(user1Clicked()),this,SLOT(slotUser1()));
-
 }
 
 void KgpgKeyGenerate::slotButtonClicked(int button)
@@ -138,19 +138,19 @@ void KgpgKeyGenerate::slotButtonClicked(int button)
 
 void KgpgKeyGenerate::slotOk()
 {
-    if (QString(m_kname->text()).simplified().isEmpty())
+    if (m_kname->text().simplified().isEmpty())
     {
         KMessageBox::sorry(this, i18n("You must give a name."));
         return;
     }
 
-    if (QString(m_kname->text()).simplified().length() < 5)
+    if (m_kname->text().simplified().length() < 5)
     {
         KMessageBox::sorry(this, i18n("The name must have at least 5 characters"));
         return;
     }
 
-    if ((QString(m_kname->text()).simplified().at(0) >= '0') && (QString(m_kname->text()).simplified().at(0) <= '9'))
+    if (m_kname->text().simplified().at(0).isDigit())
     {
         KMessageBox::sorry(this, i18n("The name must not start with a digit"));
         return;
@@ -159,8 +159,7 @@ void KgpgKeyGenerate::slotOk()
     QString vmail = m_mail->text();
     if (vmail.isEmpty())
     {
-        int result;
-        result = KMessageBox::warningContinueCancel(this, i18n("You are about to create a key with no email address"));
+        int result = KMessageBox::warningContinueCancel(this, i18n("You are about to create a key with no email address"));
         if (result != KMessageBox::Continue)
             return;
     }
@@ -182,10 +181,7 @@ void KgpgKeyGenerate::slotUser1()
 
 void KgpgKeyGenerate::slotEnableDays(const int &state)
 {
-    if (state == 0)
-        m_days->setDisabled(true);
-    else
-        m_days->setDisabled(false);
+    m_days->setDisabled(state == 0);
 }
 
 void KgpgKeyGenerate::slotEnableOk()
@@ -218,34 +214,30 @@ uint KgpgKeyGenerate::expiration() const
 
 uint KgpgKeyGenerate::days() const
 {
-    if (!m_days->text().isEmpty())
-        return m_days->text().toUInt();
-    else
+    if (m_days->text().isEmpty())
         return 0;
+    return m_days->text().toUInt();
 }
 
 QString KgpgKeyGenerate::name() const
 {
-    if (!m_kname->text().isEmpty())
-        return(m_kname->text());
-    else
+    if (m_kname->text().isEmpty())
         return QString();
+    return m_kname->text();
 }
 
 QString KgpgKeyGenerate::email() const
 {
-    if (!m_mail->text().isEmpty())
-        return(m_mail->text());
-    else
+    if (m_mail->text().isEmpty())
         return QString();
+    return m_mail->text();
 }
 
 QString KgpgKeyGenerate::comment() const
 {
-    if (!m_comment->text().isEmpty())
-        return(m_comment->text());
-    else
+    if (m_comment->text().isEmpty())
         return QString();
+    return m_comment->text();
 }
 
 #include "kgpgkeygenerate.moc"
