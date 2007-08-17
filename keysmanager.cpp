@@ -1257,9 +1257,10 @@ void KeysManager::slotSetDefaultKey(KeyListViewItem *newdef)
         return;
     //kDebug(2100)<<newdef->text(6);
     //kDebug(2100)<<KGpgSettings::defaultKey();
-    if (newdef->text(6)==KGpgSettings::defaultKey())
+    if ((newdef->text(6)==KGpgSettings::defaultKey()) || (newdef->keyId() == KGpgSettings::defaultKey()))
         return;
-    if (newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber())
+    if ((newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) &&
+        (newdef->pixmap(2)->serialNumber()!=keysList2->trustultimate.serialNumber()))
     {
         KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted."));
         return;

@@ -436,7 +436,11 @@ bool KeyListView::refreshKeys(const QStringList &ids)
     {
         KgpgKey key = publiclist.at(i);
 
-        bool isbold = (key.id() == defaultkey);
+        bool isbold;
+        if (defaultkey.length() == 16)
+          isbold = (key.fullId() == defaultkey);
+        else
+          isbold = (key.id() == defaultkey);
         int index = issec.indexOf(key.fullId());
         if (index != -1)
         {
