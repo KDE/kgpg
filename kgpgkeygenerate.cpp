@@ -120,8 +120,8 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     updateGeometry();
     show();
 
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
-    connect(this,SIGNAL(user1Clicked()),this,SLOT(slotUser1()));
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    connect(this, SIGNAL(user1Clicked()), this, SLOT(slotUser1()));
 }
 
 void KgpgKeyGenerate::slotButtonClicked(int button)
