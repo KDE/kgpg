@@ -186,7 +186,7 @@ void KgpgKeyGenerate::slotEnableDays(const int &state)
 
 void KgpgKeyGenerate::slotEnableOk()
 {
-    enableButtonOk(!QString(m_kname->text()).simplified().isEmpty());
+    enableButtonOk(!m_kname->text().simplified().isEmpty());
 }
 
 bool KgpgKeyGenerate::isExpertMode() const
