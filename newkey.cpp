@@ -17,10 +17,10 @@
 
 #include "newkey.h"
 
-newKey::newKey( QWidget* parent )
-    : QWidget( parent ), Ui_newKey()
+newKey::newKey(QWidget* parent)
+      : QWidget(parent), Ui_newKey()
 {
-    setupUi( this );
+    setupUi(this);
     connect(CBsave, SIGNAL(toggled(bool)), this, SLOT(CBsave_toggled(bool)));
 }
 

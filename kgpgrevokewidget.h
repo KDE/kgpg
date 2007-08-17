@@ -25,11 +25,11 @@ class KgpgRevokeWidget : public QWidget, public Ui_KgpgRevokeWidget
     Q_OBJECT
 
 public:
-    KgpgRevokeWidget( QWidget* parent = 0 );
-    
+    KgpgRevokeWidget(QWidget* parent = 0);
+
 
 public slots:
-   virtual void cbSave_toggled( bool isOn );
+   virtual void cbSave_toggled(bool isOn);
 };
 
 #endif

@@ -27,10 +27,10 @@ class KeyExport : public QWidget, public Ui_KeyExport
     Q_OBJECT
 
 public:
-    explicit KeyExport( QWidget* parent = 0, const QStringList *keyservers = 0 );
+    explicit KeyExport(QWidget* parent = 0, const QStringList *keyservers = 0);
 
 public slots:
-   virtual void checkFile_toggled(bool);
+    virtual void checkFile_toggled(bool);
 };
 
 #endif

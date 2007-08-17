@@ -33,7 +33,7 @@ class K3Process;
 class keyServerWidget : public QWidget, public Ui::keyServerWidget
 {
 public:
-    keyServerWidget(QWidget *parent=0) : QWidget(parent)
+    keyServerWidget(QWidget *parent = 0) : QWidget(parent)
     {
         setupUi(this);
     }
@@ -42,9 +42,10 @@ public:
 class searchRes : public QWidget, public Ui::searchRes
 {
 public:
-  searchRes( QWidget *parent ) : QWidget( parent ) {
-    setupUi( this );
-  }
+    searchRes(QWidget *parent) : QWidget(parent)
+    {
+        setupUi(this);
+    }
 };
 
 

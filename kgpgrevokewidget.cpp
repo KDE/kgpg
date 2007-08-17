@@ -16,14 +16,14 @@
 
 #include "kgpgrevokewidget.h"
 
-KgpgRevokeWidget::KgpgRevokeWidget( QWidget* parent )
-    : QWidget( parent ), Ui_KgpgRevokeWidget()
+KgpgRevokeWidget::KgpgRevokeWidget(QWidget* parent)
+                : QWidget(parent), Ui_KgpgRevokeWidget()
 {
-    setupUi( this );
+    setupUi(this);
     connect(cbSave, SIGNAL(toggled(bool)), this, SLOT(cbSave_toggled(bool)));
 }
 
-void KgpgRevokeWidget::cbSave_toggled( bool isOn)
+void KgpgRevokeWidget::cbSave_toggled(bool isOn)
 {
     kURLRequester1->setEnabled(isOn);
 }

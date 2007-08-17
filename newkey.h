@@ -26,8 +26,8 @@ class newKey : public QWidget, public Ui_newKey
     Q_OBJECT
 
 public:
-    newKey( QWidget* parent = 0 );
-    
+    newKey(QWidget* parent = 0);
+
 
 public slots:
    void CBsave_toggled(bool);
