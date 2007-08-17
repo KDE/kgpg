@@ -543,7 +543,7 @@ void KeyServer::transferKeyID()
     {
         if (searchList.at(i))
         {
-            if (searchList.at(i)->depth() == 0)
+            if ((searchList.at(i)->depth() == 0) && (searchList.at(i)->firstChild() != NULL))
                 kid = searchList.at(i)->firstChild()->text(0).simplified();
             else
                 kid = searchList.at(i)->text(0).simplified();
