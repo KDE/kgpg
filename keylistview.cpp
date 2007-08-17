@@ -421,7 +421,7 @@ void KeyListView::refreshAll()
 bool KeyListView::refreshKeys(const QStringList &ids)
 {
     KgpgInterface *interface = new KgpgInterface();
-    KgpgKeyList secretlist = interface->readSecretKeys();
+    KgpgKeyList secretlist = interface->readSecretKeys(ids);
 
     QStringList issec;
     for (int i = 0; i < secretlist.size(); ++i)
