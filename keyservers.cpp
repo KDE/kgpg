@@ -642,7 +642,7 @@ K3ProcIO *KeyServer::createGPGProc(QStringList *args)
 
 void KeyServer::slotSetKeyserver(const QString &server)
 {
-	page->kCBimportks->setCurrentIndex(page->kCBimportks->find(server));
+	page->kCBimportks->setCurrentIndex(page->kCBimportks->findItem(server));
 }
 
 #include "keyservers.moc"
