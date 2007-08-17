@@ -312,7 +312,7 @@ bool KgpgEditor::slotFileSaveAs()
             f.close();
         }
         else
-        if (KIO::NetAccess::exists(url, false, this))
+        if (KIO::NetAccess::exists(url, KIO::NetAccess::DestinationSide, this))
         {
             QString message = i18n("Overwrite existing file %1?", url.fileName());
             int result = KMessageBox::warningContinueCancel(this, QString(message), i18n("Warning"), KStandardGuiItem::overwrite());
