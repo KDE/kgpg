@@ -134,7 +134,6 @@ QString KgpgSelectSecretKey::getKeyID() const
 {
     if (m_keyslist->currentItem() == 0)
         return QString();
-
     return m_keyslist->currentItem()->text(2);
 }
 
@@ -142,11 +141,7 @@ QString KgpgSelectSecretKey::getKeyMail() const
 {
     if (m_keyslist->currentItem() == 0)
         return QString();
-
-    QString username;
-    username = m_keyslist->currentItem()->text(0);
-    username = username.simplified();
-    return username;
+    return m_keyslist->currentItem()->text(0).simplified();
 }
 
 int KgpgSelectSecretKey::getSignTrust() const
