@@ -153,16 +153,12 @@ int KgpgSelectSecretKey::getSignTrust() const
 
 bool KgpgSelectSecretKey::isLocalSign() const
 {
-    if (m_signkey)
-        return m_localsign->isChecked();
-    return false;
+    return m_signkey && m_localsign->isChecked();
 }
 
 bool KgpgSelectSecretKey::isTerminalSign() const
 {
-    if (m_signkey)
-        return m_terminalsign->isChecked();
-    return false;
+    return m_signkey && m_terminalsign->isChecked();
 }
 
 void KgpgSelectSecretKey::slotSelectionChanged()

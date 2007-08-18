@@ -39,7 +39,19 @@ public:
     QString getKeyID() const;
     QString getKeyMail() const;
     int getSignTrust() const;
+
+    /**
+     * @return true if the constructor is called with \em signkey to true
+     * and if the user checked \em localsign
+     * @return false otherwise
+     */
     bool isLocalSign() const;
+
+    /**
+     * @return true if the constructor is called with \em signkey to true
+     * and if the user checked \em terminalsign
+     * @return false otherwise
+     */
     bool isTerminalSign() const;
 
 private slots:

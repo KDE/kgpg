@@ -18,15 +18,14 @@
 #include "sourceselect.h"
 #include "sourceselect.moc"
 
-SrcSelect::SrcSelect( QWidget *parent) 
-: QWidget( parent)
+SrcSelect::SrcSelect(QWidget *parent)
+         : QWidget(parent)
 {
-      setupUi(this);
-      connect(checkFile, SIGNAL(toggled(bool)), this,SLOT(checkFile_toggled(bool)));
+    setupUi(this);
+    connect(checkFile, SIGNAL(toggled(bool)), this, SLOT(checkFile_toggled(bool)));
 }
 
 void SrcSelect::checkFile_toggled(bool isOn)
 {
-   newFilename->setEnabled(isOn);
+    newFilename->setEnabled(isOn);
 }
-
