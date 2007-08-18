@@ -1722,7 +1722,8 @@ void KgpgInterface::signKeyOpenConsole()
 
     KProcess process;
     process << config.readPathEntry("TerminalApplication", "konsole");
-    process << "-e" << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--expert" << "-u" << m_signkey;
+    process << "-e" << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "-u" << m_signkey;
+    process << "--default-cert-level" << QString(m_checking);
 
     if (!m_local)
         process << "--sign-key" << m_keyid;
