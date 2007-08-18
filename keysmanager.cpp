@@ -1629,20 +1629,30 @@ void KeysManager::slotShowPhoto()
 void KeysManager::listsigns()
 {
     // kDebug(2100) << "Edit -------------------------------" ;
-    if (keysList2->currentItem() == 0)
+    KeyListViewItem *cur = keysList2->currentItem();
+    if (cur == NULL)
         return;
 
-    if (keysList2->currentItem()->depth() != 0)
+    if (cur->depth() != 0)
     {
-        if (keysList2->currentItem()->text(0) == i18n("Photo id"))
+        if (cur->text(0) == i18n("Photo id"))
         {
             // display photo
             slotShowPhoto();
         }
+        if (isSignatureUnknown(cur))
+          return;
+        KeyListViewItem *tgt = keysList2->findItemByKeyId(cur->keyId());
+        if (tgt == NULL)
+          return;
+        keysList2->clearSelection();
+        keysList2->setCurrentItem(tgt);
+        keysList2->setSelected(tgt, true);
+        keysList2->ensureItemVisible(tgt);
         return;
     }
 
-    if (keysList2->currentItem()->pixmap(0)->serialNumber() == Images::orphan().serialNumber())
+    if (cur->pixmap(0)->serialNumber() == Images::orphan().serialNumber())
     {
         if (KMessageBox::questionYesNo(this, i18n("This key is an orphaned secret key (secret key without public key.) It is currently not usable.\n\n"
                                                "Would you like to regenerate the public key?"), QString(), KGuiItem(i18n("Generate")), KGuiItem(i18n("Do Not Generate"))) == KMessageBox::Yes)
@@ -1650,7 +1660,7 @@ void KeysManager::listsigns()
             return;
     }
 
-    QString key = keysList2->currentItem()->keyId();
+    QString key = cur->keyId();
     if (!key.isEmpty())
     {
         KgpgKeyInfo *opts = new KgpgKeyInfo(key, this);

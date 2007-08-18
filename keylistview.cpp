@@ -37,6 +37,7 @@ KeyListViewItem::KeyListViewItem(KeyListView *parent, const QString &name, const
     m_exp = isexpired;
     m_type = type;
     m_key = NULL;
+    m_sig = NULL;
     setText(0, name);
     setText(1, email);
     setText(2, trust);
@@ -53,6 +54,7 @@ KeyListViewItem::KeyListViewItem(KeyListViewItem *parent, const QString &name, c
     m_exp = isexpired;
     m_type = type;
     m_key = NULL;
+    m_sig = NULL;
     setText(0, name);
     setText(1, email);
     setText(2, trust);
@@ -69,6 +71,7 @@ KeyListViewItem::KeyListViewItem(K3ListView *parent, const KgpgKey &key, const b
 	m_exp = (key.trust() == TRUST_EXPIRED);
 	m_type = Public;
 	m_key = new KgpgKey(key);
+	m_sig = NULL;
 	if (key.secret())
 		m_type |= Secret;
 	setText(0, key.name());
@@ -80,9 +83,43 @@ KeyListViewItem::KeyListViewItem(K3ListView *parent, const KgpgKey &key, const b
 	setText(6, key.id());
 }
 
+KeyListViewItem::KeyListViewItem(K3ListViewItem *parent, const KgpgKeySign &sig)
+		: K3ListViewItem(parent)
+{
+	m_def = false;
+	m_exp = false;	// TODO: sign expiration
+	m_type = Sign;
+	m_key = NULL;
+	m_sig = new KgpgKeySign(sig);
+
+	QString tmpname = sig.name();
+	if (!sig.comment().isEmpty())
+		tmpname += " (" + sig.comment() + ')';
+
+	setText(0, tmpname);
+
+	QString tmpemail = sig.email();
+	if (sig.local())
+		tmpemail += i18n(" [local]");
+
+	if (sig.revocation()) {
+		tmpemail += i18n(" [Revocation signature]");
+		setPixmap(0, Images::revoke());
+	} else
+		setPixmap(0, Images::signature());
+
+	setText(1, tmpemail);
+	setText(2, "-");
+	setText(3, sig.expiration());
+	setText(4, "-");
+	setText(5, sig.creation());
+	setText(6, sig.id());
+}
+
 KeyListViewItem::~KeyListViewItem()
 {
 	delete m_key;
+	delete m_sig;
 }
 
 void KeyListViewItem::setItemType(const ItemType &type)
@@ -736,30 +773,9 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
 
 void KeyListView::insertSigns(KeyListViewItem *item, const KgpgKeySignList &list)
 {
-    KeyListViewItem *newitem;
     for (int i = 0; i < list.size(); ++i)
     {
-        const KgpgKeySign sign = list.at(i);
-
-        QString tmpname = sign.name();
-        if (!sign.comment().isEmpty())
-            tmpname += " (" + sign.comment() + ')';
-
-        QString tmpemail = sign.email();
-        if (sign.local())
-            tmpemail += i18n(" [local]");
-
-        if (sign.revocation())
-        {
-            tmpemail += i18n(" [Revocation signature]");
-            newitem = new KeyListViewItem(item, tmpname, tmpemail, "-", "-", "-", sign.creation(), sign.id(), false, false, KeyListViewItem::Rev);
-            newitem->setPixmap(0, Images::revoke());
-        }
-        else
-        {
-            newitem = new KeyListViewItem(item, tmpname, tmpemail, "-", sign.expiration(), "-", sign.creation(), sign.id(), false, false, KeyListViewItem::Sign);
-            newitem->setPixmap(0, Images::signature());
-        }
+        (void) new KeyListViewItem(item, list.at(i));
     }
 }
 
@@ -829,8 +845,10 @@ KeyListViewItem *KeyListView::findItemByKeyId(const QString &id)
 		return cur;
 
 	// The first hit doesn't match the full id. Do deep scanning.
-	for (int i = 0; i < childCount(); i++) {
-		cur = itemAtIndex(i);
+	Q3ListViewItemIterator it(this);
+
+	for(; it.current(); ++it) {
+		cur = static_cast<KeyListViewItem*>(it.current());
 		key = cur->getKey();
 		if (key == NULL)
 			continue;

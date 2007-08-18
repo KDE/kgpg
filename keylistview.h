@@ -49,6 +49,7 @@ public:
     explicit KeyListViewItem(KeyListView *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString() , const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
     explicit KeyListViewItem(KeyListViewItem *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString(), const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
     KeyListViewItem(K3ListView *parent, const KgpgKey &key, const bool isbold);
+    KeyListViewItem(K3ListViewItem *parent, const KgpgKeySign &sig);
     ~KeyListViewItem();
 
     void setItemType(const ItemType &type);
@@ -67,13 +68,14 @@ public:
     virtual KeyListViewItem *nextSibling() const { return static_cast<KeyListViewItem*>(K3ListViewItem::nextSibling()); }
     virtual KeyListViewItem *firstChild() const { return static_cast<KeyListViewItem*>(K3ListViewItem::firstChild()); }
     virtual KgpgKey* getKey() { return m_key; }
-    virtual QString keyId(void) const { return m_key ? m_key->fullId() : text(6); }
+    virtual QString keyId(void) const { return m_key ? m_key->fullId() : m_sig ? m_sig->fullId() : text(6); }
 
 private:
     bool m_def; /// Is set to \em true if it is the default key, \em false otherwise.
     bool m_exp; /// Is set to \em true if the key is expired, \em false otherwise.
     ItemType m_type;
     KgpgKey *m_key;
+    KgpgKeySign *m_sig;
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(KeyListViewItem::ItemType)
 
