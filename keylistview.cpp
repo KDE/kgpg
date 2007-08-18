@@ -356,7 +356,7 @@ void KeyListView::slotReloadKeys(const QStringList &keyids)
 
     refreshKeys(keyids);
 
-    ensureItemVisible(this->findItem((keyids.last()).right(8), Q3ListView::BeginsWith | Q3ListView::EndsWith));
+    ensureItemVisible(this->findItemByKeyId(keyids.last()));
     emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
     emit statusMessage(i18n("Ready"), 0);
 }
@@ -395,7 +395,7 @@ void KeyListView::refreshAll()
     {
         // select previous selected
         if (!current->text(6).isEmpty())
-            newPos = findItem(current->text(6), 6);
+            newPos = findItemByKeyId(current->keyId());
         else
             newPos = findItem(current->text(0), 0);
         delete current;
@@ -521,13 +521,13 @@ void KeyListView::slotReloadOrphaned()
     QStringList::Iterator it;
     QStringList list;
     for (it = issec.begin(); it != issec.end(); ++it)
-        if (findItem(*it, 6) == 0)
+        if (findItemByKeyId(*it) == NULL)
             list += *it;
 
     if (list.size() != 0)
         insertOrphans(list);
 
-    setSelected(findItem(*it, 6), true);
+    setSelected(findItemByKeyId(*it), true);
     emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
     emit statusMessage(i18n("Ready"), 0);
 }
@@ -808,6 +808,36 @@ QList<KeyListViewItem *> KeyListView::selectedItems(void)
 		list.append(static_cast<KeyListViewItem*>(it.current()));
 
 	return list;
+}
+
+/**
+ * Find the item that is a primary key with the given id. Match will be
+ * by full id if possible, else by short id. Passing a fingerprint is
+ * explicitely allowed (forward compatibility) but currently matching
+ * is only done by full id.
+ */
+KeyListViewItem *KeyListView::findItemByKeyId(const QString &id)
+{
+	QString fullid = id.right(16);
+	KeyListViewItem *cur = findItem(fullid.right(8), 6);
+
+	if ((cur == NULL) || ((fullid.length() < 16) && (cur->getKey() != NULL)))
+		return cur;
+
+	KgpgKey *key = cur->getKey();
+	if ((key != NULL) && (key->fullId() == id))
+		return cur;
+
+	// The first hit doesn't match the full id. Do deep scanning.
+	for (int i = 0; i < childCount(); i++) {
+		cur = itemAtIndex(i);
+		key = cur->getKey();
+		if (key == NULL)
+			continue;
+		if (key->fullId() == fullid)
+			return cur;
+	}
+	return NULL;
 }
 
 KeyListViewSearchLine::KeyListViewSearchLine(QWidget *parent, KeyListView *listView)

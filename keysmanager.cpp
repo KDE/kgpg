@@ -606,7 +606,7 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
 
         keyCreated->exec();
 
-        KeyListViewItem *newdef = keysList2->findItem(id, 6);
+        KeyListViewItem *newdef = keysList2->findItemByKeyId(fingerprint);
         if (newdef)
         {
             if (page->CBdefault->isChecked())
@@ -701,7 +701,7 @@ bool KeysManager::eventFilter(QObject *, QEvent *e)
 
 void KeysManager::slotGotoDefaultKey()
 {
-    KeyListViewItem *myDefaulKey = keysList2->findItem(KGpgSettings::defaultKey(), 6);
+    KeyListViewItem *myDefaulKey = keysList2->findItemByKeyId(KGpgSettings::defaultKey());
     keysList2->clearSelection();
     keysList2->setCurrentItem(myDefaulKey);
     keysList2->setSelected(myDefaulKey, true);
@@ -1245,30 +1245,32 @@ void KeysManager::slotSetDefKey()
 
 void KeysManager::slotSetDefaultKey(const QString &newID)
 {
-    KeyListViewItem *newdef = keysList2->findItem(newID, 6);
-    if (newdef)
-        slotSetDefaultKey(newdef);
+    if (newID == KGpgSettings::defaultKey())
+      return;
+
+    KeyListViewItem *newdef = keysList2->findItemByKeyId(newID);
+    if (newdef == NULL) {
+      kDebug(3125) << "key with id" << newID << "not found in keys list";
+      return;
+    }
+
+    return slotSetDefaultKey(newdef);
 }
 
 void KeysManager::slotSetDefaultKey(KeyListViewItem *newdef)
 {
-    //kDebug(2100)<<"------------------start ------------";
-    if ((!newdef) || (newdef->pixmap(2)==NULL))
-        return;
-    //kDebug(2100)<<newdef->text(6);
-    //kDebug(2100)<<KGpgSettings::defaultKey();
-    if ((newdef->text(6)==KGpgSettings::defaultKey()) || (newdef->keyId() == KGpgSettings::defaultKey()))
-        return;
+    Q_ASSERT(newdef->pixmap(2) != NULL);
+
     if ((newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) &&
         (newdef->pixmap(2)->serialNumber()!=keysList2->trustultimate.serialNumber()))
     {
-        KMessageBox::sorry(this,i18n("Sorry, this key is not valid for encryption or not trusted."));
+        KMessageBox::sorry(this, i18n("<qt>Sorry, the key <b>%1</b> is not valid for encryption or not trusted.</qt>", newdef->keyId()));
         return;
     }
 
-    KeyListViewItem *olddef = keysList2->findItem(KGpgSettings::defaultKey(), 6);
+    KeyListViewItem *olddef = keysList2->findItemByKeyId(KGpgSettings::defaultKey());
 
-    KGpgSettings::setDefaultKey(newdef->text(6));
+    KGpgSettings::setDefaultKey(newdef->keyId());
     KGpgSettings::self()->writeConfig();
     if (olddef)
         keysList2->refreshcurrentkey(olddef);

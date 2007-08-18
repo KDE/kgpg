@@ -115,6 +115,8 @@ protected:
 		{ return static_cast<KeyListViewItem *>(K3ListView::findItem(text, column, compare)); }
     virtual QList<KeyListViewItem *> selectedItems(void);
     virtual KeyListViewItem *lastChild() const { return static_cast<KeyListViewItem*>(K3ListView::lastChild()); }
+    virtual KeyListViewItem *itemAtIndex(int index) { return static_cast<KeyListViewItem*>(K3ListView::itemAtIndex(index)); }
+    virtual KeyListViewItem *findItemByKeyId(const QString &id);
 
 private slots:
     void droppedFile(const KUrl &url);

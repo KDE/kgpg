@@ -30,7 +30,7 @@ public:
    void setDefaultKey(const QString &_defaultKey)
    {
      self()->mDefaultKey = _defaultKey;
-     KgpgInterface::setGpgSetting("default-key",_defaultKey.right(8),gpgConfigPath());
+     KgpgInterface::setGpgSetting("default-key", _defaultKey, gpgConfigPath());
    }
    
 private:

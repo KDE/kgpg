@@ -1055,7 +1055,7 @@ void KgpgAppletApp::slotHandleQuit()
 
 void KgpgAppletApp::wizardOver(const QString &defaultKeyId)
 {
-    if (defaultKeyId.length() == 8)
+    if (defaultKeyId.length() >= 8)
         s_keyManager->slotSetDefaultKey(defaultKeyId);
 
     s_keyManager->show();
