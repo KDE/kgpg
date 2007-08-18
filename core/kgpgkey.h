@@ -96,6 +96,7 @@ public:
     void setRevocation(const bool &revoc);
 
     QString id() const;
+    QString fullId() const;
     QString name() const;
     QString email() const;
     QString comment() const;

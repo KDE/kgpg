@@ -92,6 +92,11 @@ void KgpgKeySign::setRevocation(const bool &revoc)
 
 QString KgpgKeySign::id() const
 {
+    return d->gpgsignid.right(8);
+}
+
+QString KgpgKeySign::fullId() const
+{
     return d->gpgsignid;
 }
 

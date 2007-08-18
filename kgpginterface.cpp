@@ -731,7 +731,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 KgpgKeySign signature;
                 QStringList lsp = line.split(":");
 
-                signature.setId(lsp.at(4).right(8));
+                signature.setId(lsp.at(4));
                 signature.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
 
                 if (lsp.at(6).isEmpty())
