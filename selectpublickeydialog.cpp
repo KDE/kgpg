@@ -140,7 +140,6 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     m_searchbar->setSpacing(spacingHint());
     m_searchbar->setFrameShape(QFrame::StyledPanel);
 
-
     QLabel *searchlabel = new QLabel(i18n("&Search: "), m_searchbar);
 
     m_searchlineedit = new KgpgListViewSearchLine(m_searchbar, this);
@@ -232,8 +231,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     connect(m_cbsymmetric, SIGNAL(toggled(bool)), this, SLOT(slotSymmetric(bool)));
     connect(m_cbuntrusted, SIGNAL(toggled(bool)), this, SLOT(slotUntrusted(bool)));
     connect(m_keyslist, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
-    connect(m_keyslist, SIGNAL(doubleClicked(KeyListViewItem *, const QPoint &, int)), this, SLOT(slotOk()));
-    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(m_keyslist, SIGNAL(executed(Q3ListViewItem *)), this, SLOT(slotOk()));
 
     slotFillKeysList();
 
@@ -297,7 +295,7 @@ bool KgpgSelectPublicKeyDlg::getShred() const
 
 void KgpgSelectPublicKeyDlg::slotOk()
 {
-    if (!getSymmetric() && !m_keyslist->selectedItems().isEmpty())
+    if (getSymmetric() || !m_keyslist->selectedItems().isEmpty())
         slotButtonClicked(Ok);
 }
 
@@ -402,10 +400,7 @@ void KgpgSelectPublicKeyDlg::slotPreSelect()
 
 void KgpgSelectPublicKeyDlg::slotSelectionChanged()
 {
-    if (getSymmetric())
-        enableButtonOk(true);
-    else
-        enableButtonOk(!m_keyslist->selectedItems().isEmpty());
+    enableButtonOk(getSymmetric() || !m_keyslist->selectedItems().isEmpty());
 }
 
 void KgpgSelectPublicKeyDlg::slotSymmetric(const bool &state)
