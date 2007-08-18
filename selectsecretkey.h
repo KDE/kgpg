@@ -64,8 +64,6 @@ private:
 
     KComboBox *m_signtrust;
     K3ListView *m_keyslist;
-
-    bool m_signkey;
 };
 
 #endif // KGPGSELECTSECRETKEY_H

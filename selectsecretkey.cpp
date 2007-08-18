@@ -46,11 +46,10 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     vbox->addWidget(label);
     vbox->addWidget(m_keyslist);
 
-    m_signkey = signkey;
-    m_localsign = 0;
-    m_terminalsign = 0;
-    m_signtrust = 0;
-    if (m_signkey)
+    m_localsign = 0;        // must be set to 0 if signkey is false
+    m_terminalsign = 0;     // must be set to 0 if signkey is false
+    m_signtrust = 0;        // must be set to 0 if signkey is false
+    if (signkey)
     {
         QLabel *signchecklabel = new QLabel("<qt>" + i18np("How carefully have you checked that the key really "
                                            "belongs to the person with whom you wish to communicate:",
@@ -146,19 +145,19 @@ QString KgpgSelectSecretKey::getKeyMail() const
 
 int KgpgSelectSecretKey::getSignTrust() const
 {
-    if (m_signkey)
+    if (m_signtrust)
         return m_signtrust->currentIndex();
     return -1;
 }
 
 bool KgpgSelectSecretKey::isLocalSign() const
 {
-    return m_signkey && m_localsign->isChecked();
+    return m_localsign && m_localsign->isChecked();
 }
 
 bool KgpgSelectSecretKey::isTerminalSign() const
 {
-    return m_signkey && m_terminalsign->isChecked();
+    return m_terminalsign && m_terminalsign->isChecked();
 }
 
 void KgpgSelectSecretKey::slotSelectionChanged()
