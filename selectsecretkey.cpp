@@ -36,6 +36,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     m_keyslist = new K3ListView(page);
     m_keyslist->addColumn(i18n("Name"), 200);
     m_keyslist->addColumn(i18n("Email"), 200);
+    m_keyslist->addColumn(i18n("Expiration"), 100);
     m_keyslist->addColumn(i18n("ID"), 100);
     m_keyslist->setFullWidth(true);
     m_keyslist->setRootIsDecorated(true);
@@ -105,9 +106,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
             QString keyName = key.name();
 
             keyName = KgpgInterface::checkForUtf8(keyName);
-            Q3ListViewItem *item = new Q3ListViewItem(m_keyslist, keyName, key.email(), id);
-            Q3ListViewItem *sub = new Q3ListViewItem(item, i18n("Expiration:"), key.expiration());
-            sub->setSelectable(false);
+            Q3ListViewItem *item = new Q3ListViewItem(m_keyslist, keyName, key.email(), key.expiration(), id);
             item->setPixmap(0, Images::pair());
             if (!defaultKeyID.isEmpty() && id == defaultKeyID)
             {
@@ -167,7 +166,7 @@ void KgpgSelectSecretKey::slotSelectionChanged()
 
 void KgpgSelectSecretKey::slotOk(Q3ListViewItem *item)
 {
-    if (item != 0 && item->depth() == 0)
+    if (item)
         slotButtonClicked(Ok);
 }
 
