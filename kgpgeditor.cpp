@@ -417,13 +417,7 @@ void KgpgEditor::slotFindText()
                 slotFindText();
             }
             else
-            {
-                // FIXME The program crashes when this line is called... why ?????
-                // BUT, if i click on the close button (in the find next dialog) before
-                // calling this line, there is no problem.
-
-                //m_find->closeFindNextDialog();
-            }
+                m_find->closeFindNextDialog();
         }
     }
 }
