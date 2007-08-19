@@ -28,6 +28,7 @@ class QCloseEvent;
 
 class KToggleAction;
 class KAction;
+class KFind;
 
 class KgpgInterface;
 class KgpgView;
@@ -84,6 +85,10 @@ private slots:
     void slotEditCopy();
     void slotEditPaste();
     void slotSelectAll();
+    void slotFind();
+    void slotFindNext();
+    void slotFindPrev();
+    void slotFindText();
 
     // Coding menu
     void slotSetCharset();
@@ -119,6 +124,7 @@ private:
     KAction *m_editcopy;
     KAction *m_editcut;
     KShortcut m_godefaultkey;
+    KFind *m_find;
     KUrl m_docname;
 
     bool m_textchanged;

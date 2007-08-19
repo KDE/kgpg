@@ -27,6 +27,8 @@
 #include <KStandardAction>
 #include <KActionCollection>
 #include <KIcon>
+#include <KFindDialog>
+#include <KFind>
 #include <KShortcut>
 #include <KEncodingFileDialog>
 #include <kio/netaccess.h>
@@ -56,6 +58,7 @@ KgpgEditor::KgpgEditor(QWidget *parent, Qt::WFlags f, KShortcut gohome, bool mai
     m_ismainwindow = mainwindow;
     m_textencoding = QString();
     m_godefaultkey = gohome;
+    m_find = 0;
 
     // call inits to invoke all other construction parts
     initActions();
@@ -129,6 +132,9 @@ void KgpgEditor::initActions()
     KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
     KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
     KStandardAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
+    KStandardAction::find(this, SLOT(slotFind()), actionCollection());
+    KStandardAction::findNext(this, SLOT(slotFindNext()), actionCollection());
+    KStandardAction::findPrev(this, SLOT(slotFindPrev()), actionCollection());
     actionCollection()->addAction(KStandardAction::Preferences, "kgpg_config",
                                   this, SLOT(slotOptions()));
 
@@ -337,6 +343,88 @@ void KgpgEditor::slotFilePrint()
         int height = prt.height();
         QPainter painter(&prt);
         painter.drawText(0, 0, width, height, Qt::AlignLeft | Qt::AlignTop | Qt::TextDontClip, view->editor->toPlainText());
+    }
+}
+
+void KgpgEditor::slotFind()
+{
+    KFindDialog fd(this);
+
+    if (m_find)
+    {
+        fd.setOptions(m_find->options());
+        fd.setPattern(m_find->pattern());
+    }
+
+    if (fd.exec() != QDialog::Accepted)
+        return;
+
+    if (!m_find)
+    {
+        m_find = new KFind(fd.pattern(), fd.options(), this);
+        if (m_find->options() & KFind::FromCursor)
+            m_find->setData(view->editor->toPlainText(), view->editor->cursorPosition());
+        else
+            m_find->setData(view->editor->toPlainText());
+        connect(m_find, SIGNAL(highlight(QString, int, int)), view, SLOT(slotHighlightText(QString, int, int)));
+        connect(m_find, SIGNAL(findNext()), this, SLOT(slotFindText()));
+    }
+    else
+    {
+        m_find->setPattern(fd.pattern());
+        m_find->setOptions(fd.options());
+        m_find->resetCounts();
+    }
+
+    slotFindText();
+}
+
+void KgpgEditor::slotFindNext()
+{
+    slotFindText();
+}
+
+void KgpgEditor::slotFindPrev()
+{
+    long oldopt = m_find->options();
+    long newopt = oldopt ^ KFind::FindBackwards;
+    m_find->setOptions(newopt);
+    slotFindText();
+    m_find->setOptions(oldopt);
+}
+
+void KgpgEditor::slotFindText()
+{
+    if (!m_find)
+    {
+        slotFind();
+        return;
+    }
+
+    if (m_find->find() == KFind::NoMatch)
+    {
+        if (m_find->numMatches() == 0)
+        {
+            m_find->displayFinalDialog();
+            delete m_find;
+            m_find = 0;
+        }
+        else
+        {
+            if (m_find->shouldRestart(true, false))
+            {
+                m_find->setData(view->editor->toPlainText());
+                slotFindText();
+            }
+            else
+            {
+                // FIXME The program crashes when this line is called... why ?????
+                // BUT, if i click on the close button (in the find next dialog) before
+                // calling this line, there is no problem.
+
+                //m_find->closeFindNextDialog();
+            }
+        }
     }
 }
 

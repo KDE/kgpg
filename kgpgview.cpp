@@ -56,6 +56,11 @@ KgpgTextEdit::~KgpgTextEdit()
     }
 }
 
+int KgpgTextEdit::cursorPosition() const
+{
+    return textCursor().position();
+}
+
 void KgpgTextEdit::contentsDragEnterEvent(QDragEnterEvent *e)
 {
     // if a file is dragged into editor ...
@@ -268,6 +273,11 @@ void KgpgView::slotDecode()
     connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(updateDecryptedtxt(QString, KgpgInterface*)));
     connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(failedDecryptedtxt(QString, KgpgInterface*)));
     interface->decryptText(editor->toPlainText(), KGpgSettings::customDecrypt().simplified().split(" "));
+}
+
+void KgpgView::slotHighlightText(const QString &, const int &matchingindex, const int &matchedlength)
+{
+    editor->highlightWord(matchedlength, matchingindex);
 }
 
 void KgpgView::updateDecryptedtxt(const QString &newtxt, KgpgInterface *interface)

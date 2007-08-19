@@ -34,6 +34,8 @@ public:
     explicit KgpgTextEdit(QWidget *parent = 0);
     ~KgpgTextEdit();
 
+    int cursorPosition() const;
+
 public slots:
     void slotDroppedFile(const KUrl &url);
     bool slotCheckContent(const QString &filetocheck, const bool &checkforpgpmessage = true);
@@ -86,6 +88,8 @@ private slots:
     void slotAskForImport(const QString &id, KgpgInterface *interface);
     void slotVerifyResult(const QString &mssge, const QString &log, KgpgInterface *interface);
     void slotSignResult(const QString &signResult, KgpgInterface *interface);
+
+    void slotHighlightText(const QString &, const int &matchingindex, const int &matchedlength);
 
     void encodeTxt(QStringList selec, QStringList encryptoptions, const bool, const bool symmetric);
     void updateTxt(const QString &newtxt, KgpgInterface *interface);
