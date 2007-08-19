@@ -81,6 +81,8 @@ public:
 
 class KgpgKeySign : public QObject
 {
+    Q_OBJECT
+
 public:
     KgpgKeySign();
     KgpgKeySign(const KgpgKeySign &other);
@@ -160,6 +162,8 @@ public:
 
 class KgpgKeyUat : public QObject
 {
+    Q_OBJECT
+
 public:
     KgpgKeyUat();
     KgpgKeyUat(const KgpgKeyUat &other);
@@ -226,6 +230,8 @@ public:
 
 class KgpgKeyUid : public QObject
 {
+    Q_OBJECT
+
 public:
     KgpgKeyUid();
     KgpgKeyUid(const KgpgKeyUid &other);
@@ -305,6 +311,8 @@ public:
 
 class KgpgKeySub : public QObject
 {
+    Q_OBJECT
+
 public:
     KgpgKeySub();
     KgpgKeySub(const KgpgKeySub &other);
@@ -404,6 +412,8 @@ public:
 
 class KgpgKey : public QObject
 {
+    Q_OBJECT
+
 public:
     static QString expiration(const QDate &date, const bool &unlimited);
 

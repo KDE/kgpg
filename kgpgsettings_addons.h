@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef KGPGSETTINGS_ADDONS_H
+#define KGPGSETTINGS_ADDONS_H
+
 public:
    static
    QString defaultKey()
@@ -35,3 +38,5 @@ public:
    
 private:
    QString mDefaultKey;
+
+#endif //KGPGSETTINGS_ADDONS_H

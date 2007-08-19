@@ -86,7 +86,7 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
         m_tempfile = url.path();
     else
     {
-        if (KMessageBox::warningContinueCancel(this, i18n("<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"), QString(), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "RemoteFileWarning") != KMessageBox::Continue)
+        if (KMessageBox::warningContinueCancel(this, i18n("<p><qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt></p>"), QString(), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "RemoteFileWarning") != KMessageBox::Continue)
             return;
 
         if (!KIO::NetAccess::download(url, m_tempfile, this))
@@ -303,7 +303,7 @@ void KgpgView::slotAskForImport(const QString &id, KgpgInterface *interface)
     noimportitem.setText(i18n("Do &Not Import"));
     noimportitem.setToolTip(i18n("Will not import this key in your list"));
 
-    if (KMessageBox::questionYesNo(this, i18n("<qt><b>Missing signature:</b><br>Key id: %1<br><br>Do you want to import this key from a keyserver?</qt>", id), i18n("Missing Key"), importitem, noimportitem) == KMessageBox::Yes)
+    if (KMessageBox::questionYesNo(this, i18n("<p><qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt></p>", id), i18n("Missing Key"), importitem, noimportitem) == KMessageBox::Yes)
     {
         KeyServer *kser = new KeyServer(0, false, true);
         kser->slotSetText(id);

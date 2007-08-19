@@ -128,7 +128,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
 
     int filesToEncode = m_urlselecteds.count();
     if (filesToEncode > 1)
-        emit systemMessage(i18n("<b>%1 Files left.</b>\nEncrypting </b>%2", filesToEncode, m_urlselecteds.first().path()));
+        emit systemMessage(i18n("<p><b>%1 Files left.</b><br /><b>Encrypting </b>%2</p>", filesToEncode, m_urlselecteds.first().path()));
     else
         emit systemMessage(i18n("<b>Encrypting </b>%1", m_urlselecteds.first().path()));
 
@@ -168,7 +168,7 @@ void KgpgLibrary::processEncError(const QString &mssge, KgpgInterface *i)
     delete i;
     m_popisactive = false;
     emit systemMessage(QString(), true);
-    KMessageBox::detailedSorry(m_panel, i18n("<b>Process halted</b>.<br>Not all files were encrypted."), mssge);
+    KMessageBox::detailedSorry(m_panel, i18n("<p><b>Process halted</b>.<br />Not all files were encrypted.</p>"), mssge);
 }
 
 void KgpgLibrary::slotFileDec(const KUrl &src, const KUrl &dest, const QStringList &customDecryptOption)
@@ -207,7 +207,7 @@ void KgpgLibrary::processDecError(const QString &mssge)
         if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK"))
         {
             // dropped file is a public key, ask for import
-            int result = KMessageBox::warningContinueCancel(0, i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>", m_urlselected.path()), i18n("Warning"));
+            int result = KMessageBox::warningContinueCancel(0, i18n("<p>The file <b>%1</b> is a public key.<br />Do you want to import it ?</p>", m_urlselected.path()), i18n("Warning"));
             if (result == KMessageBox::Cancel)
                 return;
             else
