@@ -1400,7 +1400,7 @@ void KeysManager::revokeWidget()
     keyRevokeWidget->setModal( true );
     KgpgRevokeWidget *keyRevoke = new KgpgRevokeWidget();
 
-    keyRevoke->keyID->setText(keysList2->currentItem()->text(0) + " (" + item->text(1) + ") " + i18n("ID: ") + item->text(6));
+    keyRevoke->keyID->setText(keysList2->currentItem()->text(0) + " (" + item->text(1) + ") " + i18n("ID: ") + item->keyId());
     keyRevoke->kURLRequester1->setUrl(QDir::homePath() + '/' + item->text(1).section('@', 0, 0) + ".revoke");
     keyRevoke->kURLRequester1->setMode(KFile::File);
 
@@ -1737,18 +1737,17 @@ void KeysManager::createNewGroup()
         for (int i = 0; i < groupList.count(); ++i)
             if (groupList.at(i))
             {
-                if (groupList.at(i)->depth() != 0)
+                if ((groupList.at(i)->depth() != 0) || (groupList.at(i)->text(6).isEmpty())) {
                     keyDepth = false;
-                else
-                if (groupList.at(i)->text(6).isEmpty())
-                    keyDepth = false;
-                else
+                    break;
+                } else
                 if (groupList.at(i)->pixmap(2))
                 {
-                    if (groupList.at(i)->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber())
-                        keysGroup += groupList.at(i)->text(6);
+                    if ((groupList.at(i)->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber()) ||
+                        (groupList.at(i)->pixmap(2)->serialNumber() == keysList2->trustultimate.serialNumber()))
+                        keysGroup += groupList.at(i)->keyId();
                     else
-                        badkeys += groupList.at(i)->text(0) + " (" + groupList.at(i)->text(1) + ") " + groupList.at(i)->text(6);
+                        badkeys += groupList.at(i)->text(0) + " (" + groupList.at(i)->text(1) + ") " + groupList.at(i)->keyId();
                 }
             }
 
@@ -1839,14 +1838,16 @@ void KeysManager::editGroup()
         return;
 
     if (item->pixmap(2))
-        if (item->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber())
+        if ((item->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber()) ||
+            (item->pixmap(2)->serialNumber() == keysList2->trustultimate.serialNumber()))
             (void) new K3ListViewItem(gEdit->availableKeys, item->text(0), item->text(1), item->text(6));
 
     while (item->nextSibling())
     {
         item = item->nextSibling();
         if (item->pixmap(2))
-            if (item->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber())
+            if ((item->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber()) ||
+                (item->pixmap(2)->serialNumber() == keysList2->trustultimate.serialNumber()))
                 (void) new K3ListViewItem(gEdit->availableKeys, item->text(0), item->text(1), item->text(6));
     }
 
@@ -1953,7 +1954,7 @@ void KeysManager::signLoop()
         if (signList.at(keyCount))
         {
             KgpgInterface *interface = new KgpgInterface();
-            interface->signKey(signList.at(keyCount)->text(6), globalkeyID, globalisLocal, globalChecked, m_isterminal);
+            interface->signKey(signList.at(keyCount)->keyId(), globalkeyID, globalisLocal, globalChecked, m_isterminal);
             connect(interface, SIGNAL(signKeyFinished(int, KgpgInterface*)), this, SLOT(signatureResult(int, KgpgInterface*)));
         }
     }
@@ -1991,7 +1992,7 @@ void KeysManager::importallsignkey()
     while (current)
     {
         if (isSignatureUnknown(current))
-            missingKeys << current->text(6);
+            missingKeys << current->keyId();
         current = current->nextSibling();
     }
 
@@ -2010,7 +2011,7 @@ void KeysManager::preimportsignkey()
       return;
 
     for (int i = 0; i < exportList.count(); ++i)
-      idlist << exportList.at(i)->text(6);
+      idlist << exportList.at(i)->keyId();
 
     importsignkey(idlist);
 }
