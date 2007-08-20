@@ -225,7 +225,7 @@ void MyView::encryptDroppedFolder()
     kgpgfoldertmp = new KTemporaryFile();
     kgpgfoldertmp->open();
 
-    if (KMessageBox::warningContinueCancel(0, i18n("<p><qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt></p>", kgpgfoldertmp->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "FolderTmpFile") == KMessageBox::Cancel)
+    if (KMessageBox::warningContinueCancel(0, i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>", kgpgfoldertmp->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "FolderTmpFile") == KMessageBox::Cancel)
         return;
 
     /*
@@ -701,7 +701,7 @@ void MyView::readOptions()
         QString path = KGpgSettings::gpgConfigPath();
         if (path.isEmpty())
         {
-            if (KMessageBox::questionYesNo(0,i18n("<p><qt>You have not set a path to your GnuPG config file.<br />This may cause some surprising results in KGpg's execution.<br />Would you like to start KGpg's Wizard to fix this problem?</qt></p>"), QString(), KGuiItem(i18n("Start Wizard")), KGuiItem(i18n("Do Not Start"))) == KMessageBox::Yes)
+            if (KMessageBox::questionYesNo(0,i18n("<qt>You have not set a path to your GnuPG config file.<br />This may cause some surprising results in KGpg's execution.<br />Would you like to start KGpg's Wizard to fix this problem?</qt>"), QString(), KGuiItem(i18n("Start Wizard")), KGuiItem(i18n("Do Not Start"))) == KMessageBox::Yes)
                 startWizard();
         }
         else
@@ -1107,9 +1107,9 @@ int KgpgAppletApp::newInstance()
         if (!gpgPath.isEmpty())
         {
             if ((KgpgInterface::getGpgBoolSetting("use-agent",gpgPath)) && (!getenv("GPG_AGENT_INFO")))
-                KMessageBox::sorry(0,i18n("<p><qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br />"
+                KMessageBox::sorry(0,i18n("<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br />"
                         "However, the agent does not seem to be running. This could result in problems with signing/decryption.<br />"
-                        "Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt></p>", gpgPath));
+                        "Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>", gpgPath));
         }
     }
 

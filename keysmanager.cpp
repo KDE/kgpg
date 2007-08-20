@@ -1906,9 +1906,9 @@ void KeysManager::signkey()
         delete interface;
         fingervalue = listkeys.at(0).fingerprint();
 
-        opt = i18n("<p><qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
+        opt = i18n("<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
                    "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-                   "is not trying to intercept your communications</qt></p>", item->text(0) + " (" + item->text(1) + ')', item->text(6), fingervalue);
+                   "is not trying to intercept your communications</qt>", item->text(0) + " (" + item->text(1) + ')', item->text(6), fingervalue);
 
         if (KMessageBox::warningContinueCancel(this, opt) != KMessageBox::Continue)
             return;
@@ -2098,7 +2098,7 @@ void KeysManager::delsignkey()
         return;
     }
 
-    QString ask = i18n("<p><qt>Are you sure you want to delete signature<br /><b>%1</b> from key:<br /><b>%2</b>?</qt></p>", signMail, parentMail);
+    QString ask = i18n("<qt>Are you sure you want to delete signature<br /><b>%1</b> from key:<br /><b>%2</b>?</qt>", signMail, parentMail);
 
     if (KMessageBox::questionYesNo(this, ask, QString(), KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::Yes)
         return;

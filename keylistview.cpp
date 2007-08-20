@@ -829,7 +829,7 @@ QList<KeyListViewItem *> KeyListView::selectedItems(void)
 /**
  * Find the item that is a primary key with the given id. Match will be
  * by full id if possible, else by short id. Passing a fingerprint is
- * explicitely allowed (forward compatibility) but currently matching
+ * explicitly allowed (forward compatibility) but currently matching
  * is only done by full id.
  */
 KeyListViewItem *KeyListView::findItemByKeyId(const QString &id)
