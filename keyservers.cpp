@@ -406,13 +406,13 @@ void KeyServer::slotSearch()
     connect(m_listpop, SIGNAL(destroyed()), this, SLOT(slotAbortSearch()));
 
     m_count = 0;
-    m_cycle = false;
+    m_keyid = QString();
     m_readmessage.clear();
 
     QString keyserv = page->kCBimportks->currentText();
     QStringList *args = new QStringList();
 
-    *args << "--command-fd=0" << "--search-keys" << page->kLEimportid->text().simplified().toLocal8Bit();
+    *args << "--command-fd=0" << "--with-colons"<< "--search-keys"  << page->kLEimportid->text().simplified().toLocal8Bit();
 
     m_searchproc = createGPGProc(args);
 
@@ -459,25 +459,21 @@ void KeyServer::slotSearchRead(K3ProcIO *p)
         {
             m_count++;
             required.clear();
-        }
+        } else if (required.startsWith("pub")) {
+            if (m_keyid.length() > 0)
+              CreateUidEntry();
+            m_keyid = required;
+            m_kitem = NULL;
+        } else if (required.startsWith("uid")) {
+            QString kid = required.section(':', 1, 1);
 
-        if ((m_cycle) && (!required.isEmpty()))
-        {
-            QString kid = required.simplified();
-            (void) new Q3ListViewItem(m_kitem, kid);
-            kid = kid.section("key", 1, 1);
-            kid = kid.simplified();
-            kid = kid.left(8);
-            required.clear();
-        }
-
-        m_cycle = false;
-
-        if (required.contains('(') && !required.isEmpty())
-        {
-            m_cycle = true;
-            m_kitem = new Q3ListViewItem(m_listpop->kLVsearch, required.remove(0, required.indexOf(')') + 1).simplified());
-            m_keynumbers++;
+            if (m_kitem != NULL) {
+              Q3ListViewItem *k = new Q3ListViewItem(m_kitem, kid);
+              k->setSelectable(false);
+            } else {
+              m_kitem = new Q3ListViewItem(m_listpop->kLVsearch, kid);
+              m_keynumbers++;
+            }
             m_count = 0;
             required.clear();
         }
@@ -486,6 +482,10 @@ void KeyServer::slotSearchRead(K3ProcIO *p)
 
 void KeyServer::slotSearchResult(K3Process *)
 {
+    // add last key id
+    if (m_kitem != NULL)
+      CreateUidEntry();
+
     QString nb;
     m_dialogserver->enableButtonOk(true);
     QApplication::restoreOverrideCursor();
@@ -548,13 +548,13 @@ void KeyServer::transferKeyID()
             else
                 kid = searchList.at(i)->text(0).simplified();
 
-            kid = kid.section("key", 1, 1);
+            kid = kid.section(i18n("Key") + ' ', 1, 1);
             kid = kid.simplified().section(",", 0, 0);
             keysToSearch << kid.right(16);
         }
     }
 
-    kDebug(2100) << keysToSearch;
+//     kDebug(2100) << keysToSearch;
     m_listpop->kLEID->setText(keysToSearch.join(" "));
 }
 
@@ -566,7 +566,6 @@ void KeyServer::slotPreImport()
         KMessageBox::sorry(this, i18n("You must choose a key."));
         return;
     }
-
     page->kLEimportid->setText(m_listpop->kLEID->text());
     m_dialogserver->close();
     slotImport();
@@ -643,6 +642,19 @@ K3ProcIO *KeyServer::createGPGProc(QStringList *args)
 void KeyServer::slotSetKeyserver(const QString &server)
 {
 	page->kCBimportks->setCurrentIndex(page->kCBimportks->findText(server));
+}
+
+void KeyServer::CreateUidEntry(void)
+{
+	Q_ASSERT(m_keyid.section(':', 1, 1).length() > 0);
+	QString id = m_keyid.section(':', 1, 1);
+
+	Q3ListViewItem *k = new Q3ListViewItem(m_kitem, i18n("Key") + ' ' + id);
+	k->setSelectable(false);
+// TODO: add more information (Key type, key size, creation date)
+	if (m_keyid.section(':', 6, 6) == "r") {
+		m_kitem->setText(0, m_kitem->text(0) + ' ' + i18n("revoked"));
+	}
 }
 
 #include "keyservers.moc"

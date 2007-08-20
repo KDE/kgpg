@@ -108,10 +108,11 @@ private:
 
     int m_count;
     uint m_keynumbers;
-    bool m_cycle;
     bool m_autoclosewindow;
+    QString m_keyid;
     QString expattr;
 
+    void CreateUidEntry(void);
     K3ProcIO *createGPGProc(QStringList *keys);
 };
 
