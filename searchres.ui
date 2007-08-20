@@ -23,7 +23,7 @@
    <item>
     <widget class="K3ListView" name="kLVsearch" >
      <property name="selectionMode" >
-      <enum>Q3ListView::Single</enum>
+      <enum>Q3ListView::Extended</enum>
      </property>
      <property name="allColumnsShowFocus" >
       <bool>true</bool>
