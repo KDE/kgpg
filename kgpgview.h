@@ -34,15 +34,19 @@ public:
     explicit KgpgTextEdit(QWidget *parent = 0);
     ~KgpgTextEdit();
 
+signals:
+    void newText();
+
 public slots:
     void slotDroppedFile(const KUrl &url);
 
-    /**
-     * This method checks the content of a file.
-     * If it is an encrypted message, it decodes the message and inserts it in the editor.
-     */
     bool slotCheckFile(const QString &filetocheck, const bool &checkforpgpmessage = true);
     void slotDecodeFile(const QString &fname);
+
+    void slotEncode();
+    void slotDecode();
+    void slotSign();
+    void slotVerify();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *e);
@@ -50,10 +54,18 @@ protected:
 
 private:
     void deleteFile();
+    bool checkForUtf8(const QString &text);
 
 private slots:
-    void editorUpdateDecryptedtxt(const QString &newtxt, KgpgInterface *interface);
-    void editorFailedDecryptedtxt(const QString &newtxt, KgpgInterface *interface);
+    void editorUpdateDecryptedtxt(const QString &content, KgpgInterface *interface);
+    void editorFailedDecryptedtxt(const QString &content, KgpgInterface *interface);
+
+    void slotEncodeUpdate(const QString &content, KgpgInterface *interface);
+    void slotDecodeUpdateSuccess(const QString &content, KgpgInterface *interface);
+    void slotDecodeUpdateFailed(const QString &content, KgpgInterface *interface);
+    void slotSignUpdate(const QString &content, KgpgInterface *interface);
+    void slotVerifySuccess(const QString &content, const QString &log, KgpgInterface *interface);
+    void slotVerifyKeyNeeded(const QString &id, KgpgInterface *interface);
 
 private:
     QString m_tempfile;
