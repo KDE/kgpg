@@ -39,6 +39,7 @@
 
 #include "detailedconsole.h"
 #include "kgpgsettings.h"
+#include "core/convert.h"
 
 using namespace KgpgCore;
 
@@ -374,67 +375,6 @@ int KgpgInterface::checkUID(const QString &keyid)
     return uidcnt;
 }
 
-KgpgKeyAlgo KgpgInterface::intToAlgo(const uint &v)
-{
-    if (v == 1) return ALGO_RSA;
-    if ((v == 16) || (v == 20)) return ALGO_ELGAMAL;
-    if (v == 17) return ALGO_DSA;
-    return ALGO_UNKNOWN;
-}
-
-KgpgCore::KgpgKeyTrust KgpgInterface::toTrust(const QChar &c)
-{
-    if (c == 'o')
-        return TRUST_UNKNOWN;
-    if (c == 'i')
-        return TRUST_INVALID;
-    if (c == 'd')
-        return TRUST_DISABLED;
-    if (c == 'r')
-        return TRUST_REVOKED;
-    if (c == 'e')
-        return TRUST_EXPIRED;
-    if (c == 'q')
-        return TRUST_UNDEFINED;
-    if (c == 'n')
-        return TRUST_NONE;
-    if (c == 'm')
-        return TRUST_MARGINAL;
-    if (c == 'f')
-        return TRUST_FULL;
-    if (c == 'u')
-        return TRUST_ULTIMATE;
-
-    return TRUST_UNKNOWN;
-}
-
-KgpgCore::KgpgKeyTrust KgpgInterface::toTrust(const QString &s)
-{
-    if (s.length() == 0)
-        return TRUST_UNKNOWN;
-    return toTrust(s[0]);
-}
-
-KgpgCore::KgpgKeyOwnerTrust KgpgInterface::toOwnerTrust(const QChar &c)
-{
-    if (c == 'n')
-        return OWTRUST_NONE;
-    if (c == 'm')
-        return OWTRUST_MARGINAL;
-    if (c == 'u')
-        return OWTRUST_ULTIMATE;
-    if (c == 'f')
-        return OWTRUST_FULL;
-    return OWTRUST_UNDEFINED;
-}
-
-KgpgCore::KgpgKeyOwnerTrust KgpgInterface::toOwnerTrust(const QString &s)
-{
-    if (s.length() == 0)
-        return OWTRUST_UNDEFINED;
-    return toOwnerTrust(s[0]);
-}
-
 int KgpgInterface::sendPassphrase(const QString &text, K3ProcIO *process, const bool isnew)
 {
     QByteArray passphrase;
@@ -556,13 +496,13 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
 
                 QStringList lsp = line.split(":");
 
-                m_publickey.setTrust(toTrust(lsp.at(1)));
+                m_publickey.setTrust(Convert::toTrust(lsp.at(1)));
                 m_publickey.setSize(lsp.at(2));
-                m_publickey.setAlgorithm(intToAlgo(lsp.at(3).toInt()));
+                m_publickey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
                 m_publickey.setFullId(lsp.at(4));
                 m_publickey.setId(lsp.at(4).right(8));
                 m_publickey.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
-                m_publickey.setOwnerTrust(toOwnerTrust(lsp.at(8)));
+                m_publickey.setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
 
                 if (lsp.at(6).isEmpty())
                 {
@@ -638,9 +578,9 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
 
                 QStringList lsp = line.split(":");
                 sub.setId(lsp.at(4).right(8));
-                sub.setTrust(toTrust(lsp.at(1)));
+                sub.setTrust(Convert::toTrust(lsp.at(1)));
                 sub.setSize(lsp.at(2).toUInt());
-                sub.setAlgorithm(intToAlgo(lsp.at(3).toInt()));
+                sub.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
                 sub.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
 
                 if (lsp.at(11).contains('D'))
@@ -678,7 +618,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
             {
                 KgpgKeyUid uid;
 
-                uid.setTrust(toTrust(line.section(":", 1, 1)));
+                uid.setTrust(Convert::toTrust(line.section(":", 1, 1)));
                 if (line.section(":", 11, 11).contains('D'))
                     uid.setValid(false);
                 else
@@ -874,9 +814,9 @@ void KgpgInterface::readSecretKeysProcess(K3ProcIO *p)
 
                 QStringList lsp = line.split(":");
 
-                m_secretkey.setTrust(toTrust(lsp.at(1)));
+                m_secretkey.setTrust(Convert::toTrust(lsp.at(1)));
                 m_secretkey.setSize(lsp.at(2));
-                m_secretkey.setAlgorithm(intToAlgo(lsp.at(3).toInt()));
+                m_secretkey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
                 m_secretkey.setFullId(lsp.at(4));
                 m_secretkey.setId(lsp.at(4).right(8));
                 m_secretkey.setCreation(QDate::fromString(lsp[5], Qt::ISODate));

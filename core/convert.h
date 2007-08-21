@@ -37,6 +37,12 @@ public:
     static QString toString(const KgpgKeyTrust &trust);
     static QString toString(const QDate &date);
     static QColor toColor(const KgpgKeyTrust &trust);
+    static KgpgKeyAlgo toAlgo(const uint &v);
+    static KgpgKeyAlgo toAlgo(const QString &s);
+    static KgpgKeyTrust toTrust(const QChar &c);
+    static KgpgKeyTrust toTrust(const QString &s);
+    static KgpgKeyOwnerTrust toOwnerTrust(const QChar &c);
+    static KgpgKeyOwnerTrust toOwnerTrust(const QString &s);
 };
 
 } // namespace KgpgCore

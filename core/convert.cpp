@@ -96,4 +96,70 @@ QString Convert::toString(const QDate &date)
     return KGlobal::locale()->formatDate(date, KLocale::ShortDate);
 }
 
+KgpgKeyAlgo Convert::toAlgo(const uint &v)
+{
+    switch (v)
+    {
+        case 1:      return ALGO_RSA;
+        case 16:
+        case 20:     return ALGO_ELGAMAL;
+        case 17:     return ALGO_DSA;
+        default:     return ALGO_UNKNOWN;
+    }
+}
+
+KgpgKeyAlgo Convert::toAlgo(const QString &s)
+{
+    bool b;
+    unsigned int u = s.toUInt(&b);
+
+    if (!b)
+      return ALGO_UNKNOWN;
+    return toAlgo(u);
+}
+
+KgpgKeyTrust Convert::toTrust(const QChar &c)
+{
+    switch (c.toAscii())
+    {
+        case 'o':    return TRUST_UNKNOWN;
+        case 'i':    return TRUST_INVALID;
+        case 'd':    return TRUST_DISABLED;
+        case 'r':    return TRUST_REVOKED;
+        case 'e':    return TRUST_EXPIRED;
+        case 'q':    return TRUST_UNDEFINED;
+        case 'n':    return TRUST_NONE;
+        case 'm':    return TRUST_MARGINAL;
+        case 'f':    return TRUST_FULL;
+        case 'u':    return TRUST_ULTIMATE;
+        default:     return TRUST_UNKNOWN;
+    }
+}
+
+KgpgKeyTrust Convert::toTrust(const QString &s)
+{
+    if (s.length() == 0)
+        return TRUST_UNKNOWN;
+    return toTrust(s[0]);
+}
+
+KgpgKeyOwnerTrust Convert::toOwnerTrust(const QChar &c)
+{
+    switch (c.toAscii())
+    {
+        case 'n':     return OWTRUST_NONE;
+        case 'm':     return OWTRUST_MARGINAL;
+        case 'u':     return OWTRUST_ULTIMATE;
+        case 'f':     return OWTRUST_FULL;
+        default:      return OWTRUST_UNDEFINED;
+    }
+}
+
+KgpgKeyOwnerTrust Convert::toOwnerTrust(const QString &s)
+{
+    if (s.length() == 0)
+        return OWTRUST_UNDEFINED;
+    return toOwnerTrust(s[0]);
+}
+
 } // namespace KgpgCore

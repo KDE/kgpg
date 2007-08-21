@@ -63,13 +63,6 @@ public:
 
     static int checkUID(const QString &keyid);
 
-    static KgpgCore::KgpgKeyAlgo intToAlgo(const uint &v);
-    static KgpgCore::KgpgKeyTrust toTrust(const QChar &c);
-    static KgpgCore::KgpgKeyTrust toTrust(const QString &s);
-    static KgpgCore::KgpgKeyOwnerTrust toOwnerTrust(const QChar &c);
-    static KgpgCore::KgpgKeyOwnerTrust toOwnerTrust(const QString &s);
-
-
 /************** function to send a passphrase to gpg **************/
 private:
     /**
