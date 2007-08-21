@@ -409,6 +409,7 @@ void KeyServer::slotSearch()
     m_count = 0;
     m_keyid = QString();
     m_readmessage.clear();
+    m_kitem = NULL;
 
     QString keyserv = page->kCBimportks->currentText();
     QStringList *args = new QStringList();
