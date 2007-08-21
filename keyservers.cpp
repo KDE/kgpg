@@ -33,10 +33,11 @@
 #include <KLocale>
 #include <K3ProcIO>
 #include <KDebug>
+#include <KDateTime>
 
 #include "kgpgsettings.h"
 #include "detailedconsole.h"
-
+#include "core/convert.h"
 
 
 using namespace KgpgCore;
@@ -647,11 +648,15 @@ void KeyServer::slotSetKeyserver(const QString &server)
 void KeyServer::CreateUidEntry(void)
 {
 	Q_ASSERT(m_keyid.section(':', 1, 1).length() > 0);
-	QString id = m_keyid.section(':', 1, 1);
+	QString id = m_keyid.section(':', 1, 1).right(16);
+	KDateTime kd;
+	kd.setTime_t(m_keyid.section(':', 4, 4).toULongLong());
 
-	Q3ListViewItem *k = new Q3ListViewItem(m_kitem, i18n("Key") + ' ' + id);
+	Q3ListViewItem *k = new Q3ListViewItem(m_kitem,
+		i18n("ID %1, %2 bit %3 key, created %4", id, m_keyid.section(':', 3, 3),
+				Convert::toString(Convert::toAlgo(m_keyid.section(':', 2, 2))),
+				kd.toString(KDateTime::LocalDate)));
 	k->setSelectable(false);
-// TODO: add more information (Key type, key size, creation date)
 	if (m_keyid.section(':', 6, 6) == "r") {
 		m_kitem->setText(0, m_kitem->text(0) + ' ' + i18n("revoked"));
 	}
