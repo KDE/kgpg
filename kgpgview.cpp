@@ -21,9 +21,8 @@
 #include <QVBoxLayout>
 #include <QTextStream>
 #include <QDropEvent>
+#include <QMimeData>
 #include <QFile>
-
-#include <Q3TextDrag>
 
 #include <kio/netaccess.h>
 #include <KMessageBox>
@@ -42,50 +41,36 @@
 KgpgTextEdit::KgpgTextEdit(QWidget *parent)
             : KTextEdit(parent)
 {
-    //setTextFormat(Qt::PlainText);
     setCheckSpellingEnabled(true);
     setAcceptDrops(true);
 }
 
 KgpgTextEdit::~KgpgTextEdit()
 {
-    if (!m_tempfile.isEmpty())
-    {
-        KIO::NetAccess::removeTempFile(m_tempfile);
-        m_tempfile.clear();
-    }
+    deleteFile();
 }
 
-int KgpgTextEdit::cursorPosition() const
-{
-    return textCursor().position();
-}
-
-void KgpgTextEdit::contentsDragEnterEvent(QDragEnterEvent *e)
+void KgpgTextEdit::dragEnterEvent(QDragEnterEvent *e)
 {
     // if a file is dragged into editor ...
-    e->setAccepted(KUrl::List::canDecode(e->mimeData()) || Q3TextDrag::canDecode(e));
+    if (KUrl::List::canDecode(e->mimeData()) || e->mimeData()->hasText())
+        e->acceptProposedAction();
 }
 
-void KgpgTextEdit::contentsDropEvent(QDropEvent *e)
+void KgpgTextEdit::dropEvent(QDropEvent *e)
 {
     // decode dropped file
-    QString text;
     KUrl::List uriList = KUrl::List::fromMimeData(e->mimeData());
     if (!uriList.isEmpty())
         slotDroppedFile(uriList.first());
     else
-    if (Q3TextDrag::decode(e, text))
-        insertPlainText(text);
+    if (e->mimeData()->hasText())
+        insertPlainText(e->mimeData()->text());
 }
 
 void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 {
-    if (!m_tempfile.isEmpty())
-    {
-        KIO::NetAccess::removeTempFile(m_tempfile);
-        m_tempfile.clear();
-    }
+    deleteFile();
 
     if (url.isLocalFile())
         m_tempfile = url.path();
@@ -105,9 +90,73 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
     if ((m_tempfile.endsWith(".gpg")) || (m_tempfile.endsWith(".asc")) || (m_tempfile.endsWith(".pgp")))
         slotDecodeFile(m_tempfile);
     else
-        slotCheckContent(m_tempfile);
+        slotCheckFile(m_tempfile);
 }
 
+bool KgpgTextEdit::slotCheckFile(const QString &filetocheck, const bool &checkforpgpmessage)
+{
+    QString result;
+
+    QFile qfile(filetocheck);
+    if (qfile.open(QIODevice::ReadOnly))
+    {
+        QTextStream t(&qfile);
+        result = t.readAll();
+        qfile.close();
+    }
+
+    if (result.isEmpty())
+        return false;
+
+    if (checkforpgpmessage && result.startsWith("-----BEGIN PGP MESSAGE"))
+    {
+        // if pgp data found, decode it
+        slotDecodeFile(filetocheck);
+        return true;
+    }
+
+    if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK") || result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK"))
+    {
+        // dropped file is a public key or a private key
+        bool ispublickey = false;
+        QString tmpinfo;
+        if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK"))
+        {
+            ispublickey = true;
+            tmpinfo = i18n("<qt>This file is a <b>public</b> key.\nPlease use kgpg key management to import it.</qt>");
+        }
+
+        if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK"))
+        {
+            ispublickey = false;
+            tmpinfo = i18n("<qt>This file is a <b>private</b> key.\nPlease use kgpg key management to import it.</qt>");
+        }
+
+        KMessageBox::information(this, tmpinfo);
+
+        /*
+        if (ispublickey)
+        {
+            int result = KMessageBox::warningContinueCancel(this, i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(filetocheck), i18n("Warning"), KGuiItem (i18n("Import"), QString(), i18n("Import the public key"), i18n("Import the public key in your keyring")));
+            if (result == KMessageBox::Continue)
+            {
+                //TODO : import key
+            }
+        }
+        else
+            KMessageBox::information(this, i18n("This file is a private key.\nPlease use kgpg key management to import it."));
+        */
+
+        deleteFile();
+        return true;
+    }
+
+    setPlainText(result);
+    deleteFile();
+    return false;
+}
+
+/*
 bool KgpgTextEdit::slotCheckContent(const QString &filetocheck, const bool &checkforpgpmessage)
 {
     QFile qfile(filetocheck);
@@ -149,6 +198,7 @@ bool KgpgTextEdit::slotCheckContent(const QString &filetocheck, const bool &chec
 
     return false;
 }
+*/
 
 void KgpgTextEdit::slotDecodeFile(const QString &fname)
 {
@@ -165,6 +215,15 @@ void KgpgTextEdit::slotDecodeFile(const QString &fname)
         KMessageBox::sorry(this, i18n("Unable to read file."));
 }
 
+void KgpgTextEdit::deleteFile()
+{
+    if (!m_tempfile.isEmpty())
+    {
+        KIO::NetAccess::removeTempFile(m_tempfile);     // TODO shred the file
+        m_tempfile.clear();
+    }
+}
+
 void KgpgTextEdit::editorUpdateDecryptedtxt(const QString &newtxt, KgpgInterface *interface)
 {
     delete interface;
@@ -174,9 +233,14 @@ void KgpgTextEdit::editorUpdateDecryptedtxt(const QString &newtxt, KgpgInterface
 void KgpgTextEdit::editorFailedDecryptedtxt(const QString &newtxt, KgpgInterface *interface)
 {
     delete interface;
-    if (!slotCheckContent(m_tempfile, false))
+    if (!slotCheckFile(m_tempfile, false))
         KMessageBox::detailedSorry(this, i18n("Decryption failed."), newtxt);
 }
+
+
+
+
+
 
 // main view configuration
 KgpgView::KgpgView(QWidget *parent)

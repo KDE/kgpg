@@ -363,7 +363,7 @@ void KgpgEditor::slotFind()
     {
         m_find = new KFind(fd.pattern(), fd.options(), this);
         if (m_find->options() & KFind::FromCursor)
-            m_find->setData(view->editor->toPlainText(), view->editor->cursorPosition());
+            m_find->setData(view->editor->toPlainText(), view->editor->textCursor().selectionStart());
         else
             m_find->setData(view->editor->toPlainText());
         connect(m_find, SIGNAL(highlight(QString, int, int)), view, SLOT(slotHighlightText(QString, int, int)));

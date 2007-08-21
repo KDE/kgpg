@@ -34,16 +34,22 @@ public:
     explicit KgpgTextEdit(QWidget *parent = 0);
     ~KgpgTextEdit();
 
-    int cursorPosition() const;
-
 public slots:
     void slotDroppedFile(const KUrl &url);
-    bool slotCheckContent(const QString &filetocheck, const bool &checkforpgpmessage = true);
+
+    /**
+     * This method checks the content of a file.
+     * If it is an encrypted message, it decodes the message and inserts it in the editor.
+     */
+    bool slotCheckFile(const QString &filetocheck, const bool &checkforpgpmessage = true);
     void slotDecodeFile(const QString &fname);
 
 protected:
-    void contentsDragEnterEvent(QDragEnterEvent *e);
-    void contentsDropEvent(QDropEvent *e);
+    void dragEnterEvent(QDragEnterEvent *e);
+    void dropEvent(QDropEvent *e);
+
+private:
+    void deleteFile();
 
 private slots:
     void editorUpdateDecryptedtxt(const QString &newtxt, KgpgInterface *interface);
