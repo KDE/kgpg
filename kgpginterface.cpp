@@ -2792,7 +2792,7 @@ void KgpgInterface::KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList 
     *process << "-d" << QFile::encodeName(srcUrl.path());
 
     // when process ends, update dialog infos
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(txtdecryptfin(K3Process *)));
+    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(decryptTextFin(K3Process *)));
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(txtreaddecprocess(K3ProcIO *)));
     process->start(K3Process::NotifyOnExit, false);
 }
