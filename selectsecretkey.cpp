@@ -132,7 +132,7 @@ QString KgpgSelectSecretKey::getKeyID() const
 {
     if (m_keyslist->currentItem() == 0)
         return QString();
-    return m_keyslist->currentItem()->text(2);
+    return m_keyslist->currentItem()->text(3);
 }
 
 QString KgpgSelectSecretKey::getKeyMail() const
