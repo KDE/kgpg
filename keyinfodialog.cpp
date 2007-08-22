@@ -82,7 +82,7 @@ void KgpgKeyInfo::loadKey(const QString &keyid)
 
     m_prop->tLAlgo->setText(Convert::toString(key.algorithm()));
 
-    KgpgKeyTrust keytrust = key.valid() ? key.trust() : TRUST_DISABLED;
+    KgpgKeyTrust keytrust = key.valid() ? key.trust() : TRUST_INVALID;
     QString tr = Convert::toString(keytrust);
     QColor trustcolor = Convert::toColor(keytrust);
 
@@ -92,7 +92,7 @@ void KgpgKeyInfo::loadKey(const QString &keyid)
     m_prop->kLTrust->setText(tr);
 
     QPalette palette;
-    palette.setColor(m_prop->pixmapTrust->backgroundRole(), trustcolor);
+    palette.setColor(m_prop->pixmapTrust->foregroundRole(), trustcolor);
     m_prop->pixmapTrust->setPalette(palette);
 
     QStringList photolist = key.photoList();

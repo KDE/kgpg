@@ -257,11 +257,11 @@ KeyListView::KeyListView(QWidget *parent)
            : K3ListView(parent)
 {
     setRootIsDecorated(true);
-    addColumn(i18n("Name"), 200);
-    addColumn(i18n("Email"), 200);
+    addColumn(i18n("Name"), 230);
+    addColumn(i18n("Email"), 220);
     addColumn(i18n("Trust"), 60);
     addColumn(i18n("Expiration"), 100);
-    addColumn(i18n("Size"), 100);
+    addColumn(i18n("Size"), 50);
     addColumn(i18n("Creation"), 100);
     addColumn(i18n("Id"), 100);
     setShowSortIndicator(true);
@@ -274,31 +274,31 @@ KeyListView::KeyListView(QWidget *parent)
     QRect rect(0, 0, 50, 15);
 
     trustunknown.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
-    trustunknown.fill(KGpgSettings::colorUnknown());
+    trustunknown.fill(Convert::toColor(TRUST_UNKNOWN));
     QPainter(&trustunknown).drawPixmap(rect, blankFrame);
 
     trustbad.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
-    trustbad.fill(KGpgSettings::colorBad());
+    trustbad.fill(Convert::toColor(TRUST_DISABLED));
     QPainter(&trustbad).drawPixmap(rect, blankFrame);
 
     trustrevoked.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
-    trustrevoked.fill(KGpgSettings::colorRev());
+    trustrevoked.fill(Convert::toColor(TRUST_REVOKED));
     QPainter(&trustrevoked).drawPixmap(rect, blankFrame);
 
     trustgood.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
-    trustgood.fill(KGpgSettings::colorGood());
+    trustgood.fill(Convert::toColor(TRUST_FULL));
     QPainter(&trustgood).drawPixmap(rect, blankFrame);
 
     trustultimate.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
-    trustultimate.fill(KGpgSettings::colorUltimate());
+    trustultimate.fill(Convert::toColor(TRUST_ULTIMATE));
     QPainter(&trustultimate).drawPixmap(rect, blankFrame);
 
     trustmarginal.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
-    trustmarginal.fill(KGpgSettings::colorMarginal());
+    trustmarginal.fill(Convert::toColor(TRUST_MARGINAL));
     QPainter(&trustmarginal).drawPixmap(rect, blankFrame);
 
     trustexpired.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
-    trustexpired.fill(KGpgSettings::colorExpired());
+    trustexpired.fill(Convert::toColor(TRUST_EXPIRED));
     QPainter(&trustexpired).drawPixmap(rect, blankFrame);
 
     connect(this, SIGNAL(expanded(Q3ListViewItem *)), this, SLOT(expandKey(Q3ListViewItem *)));

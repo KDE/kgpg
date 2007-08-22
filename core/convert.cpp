@@ -78,14 +78,14 @@ QColor Convert::toColor(const KgpgKeyTrust &trust)
     switch (trust)
     {
         case TRUST_INVALID:
-        case TRUST_DISABLED:
-        case TRUST_EXPIRED:
-        case TRUST_MARGINAL:    return KGpgSettings::colorBad();
+        case TRUST_DISABLED:    return KGpgSettings::colorBad();
+        case TRUST_EXPIRED:     return KGpgSettings::colorExpired();
+        case TRUST_MARGINAL:    return KGpgSettings::colorMarginal();
         case TRUST_REVOKED:     return KGpgSettings::colorRev();
         case TRUST_UNDEFINED:
         case TRUST_NONE:        return KGpgSettings::colorUnknown();
-        case TRUST_FULL:
-        case TRUST_ULTIMATE:    return KGpgSettings::colorGood();
+        case TRUST_FULL:        return KGpgSettings::colorGood();
+        case TRUST_ULTIMATE:    return KGpgSettings::colorUltimate();
         case TRUST_UNKNOWN:
         default:                return KGpgSettings::colorUnknown();
     }
