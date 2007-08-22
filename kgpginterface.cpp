@@ -3128,7 +3128,7 @@ K3ProcIO *KgpgInterface::gpgProc(const int statusfd, const int cmdfd)
 	}
 	if (cmdfd >= 0) {
 		QString fd;
-		fd.setNum(statusfd);
+		fd.setNum(cmdfd);
 		fd = "--command-fd=" + fd;
 		*process << fd;
 	}
