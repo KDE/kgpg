@@ -1007,7 +1007,6 @@ void KgpgInterface::encryptTextProcess(K3ProcIO *p)
                 emit txtEncryptionStarted();
                 p->writeStdin(message, false);
                 p->closeWhenDone();
-                //message.fill('x');
                 message.clear();
             }
             else
@@ -1167,11 +1166,7 @@ void KgpgInterface::decryptTextFin(K3Process *p)
 {
     delete p;
     if ((decok) && (!badmdc))
-    {
         emit txtDecryptionFinished(message, this);
-        message.fill('x');
-        message.clear();
-    }
     else
     if (badmdc)
     {
@@ -1249,7 +1244,6 @@ void KgpgInterface::signTextProcess(K3ProcIO *p)
                 emit txtSigningStarted();
                 p->writeStdin(message, true);
                 p->closeWhenDone();
-                message.fill('x');
                 message.clear();
             }
             else
@@ -1290,11 +1284,7 @@ void KgpgInterface::signTextFin(K3Process *p)
     }
     else
     if (!message.isEmpty())
-    {
         emit txtSigningFinished(message.trimmed(), this);
-        message.fill('x');
-        message.clear();
-    }
     else
         emit txtSigningFinished(QString(), this);
 }

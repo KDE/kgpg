@@ -39,10 +39,6 @@ signals:
 
 public slots:
     void slotDroppedFile(const KUrl &url);
-
-    bool slotCheckFile(const QString &filetocheck, const bool &checkforpgpmessage = true);
-    void slotDecodeFile(const QString &fname);
-
     void slotEncode();
     void slotDecode();
     void slotSign();
@@ -57,6 +53,9 @@ private:
     bool checkForUtf8(const QString &text);
 
 private slots:
+    void slotDecodeFile();
+    bool slotCheckFile(const bool &checkforpgpmessage = true);
+
     void editorUpdateDecryptedtxt(const QString &content, KgpgInterface *interface);
     void editorFailedDecryptedtxt(const QString &content, KgpgInterface *interface);
 
@@ -69,6 +68,9 @@ private slots:
 
 private:
     QString m_tempfile;
+
+    int m_posstart;
+    int m_posend;
 };
 
 class KgpgView : public QWidget
@@ -98,22 +100,7 @@ public slots:
     void slotSignVerify();
     void slotEncode();
     void slotDecode();
-
-private slots:
-    void updateDecryptedtxt(const QString &newtxt, KgpgInterface *interface);
-    void failedDecryptedtxt(const QString &newtxt, KgpgInterface *interface);
-
-    void slotAskForImport(const QString &id, KgpgInterface *interface);
-    void slotVerifyResult(const QString &mssge, const QString &log, KgpgInterface *interface);
-    void slotSignResult(const QString &signResult, KgpgInterface *interface);
-
     void slotHighlightText(const QString &, const int &matchingindex, const int &matchedlength);
-
-    void encodeTxt(QStringList selec, QStringList encryptoptions, const bool, const bool symmetric);
-    void updateTxt(const QString &newtxt, KgpgInterface *interface);
-
-private:
-    bool checkForUtf8(const QString &text);
 };
 
 #endif // KGPGVIEW_H

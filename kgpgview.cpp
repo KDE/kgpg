@@ -87,89 +87,10 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
     }
 
     // if dropped filename ends with gpg, pgp or asc, try to decode it
-    if ((m_tempfile.endsWith(".gpg")) || (m_tempfile.endsWith(".asc")) || (m_tempfile.endsWith(".pgp")))
-        slotDecodeFile(m_tempfile);
+    if (m_tempfile.endsWith(".gpg") || m_tempfile.endsWith(".asc") || m_tempfile.endsWith(".pgp"))
+        slotDecodeFile();
     else
-        slotCheckFile(m_tempfile);
-}
-
-bool KgpgTextEdit::slotCheckFile(const QString &filetocheck, const bool &checkforpgpmessage)
-{
-    QString result;
-
-    QFile qfile(filetocheck);
-    if (qfile.open(QIODevice::ReadOnly))
-    {
-        QTextStream t(&qfile);
-        result = t.readAll();
-        qfile.close();
-    }
-
-    if (result.isEmpty())
-        return false;
-
-    if (checkforpgpmessage && result.startsWith("-----BEGIN PGP MESSAGE"))
-    {
-        // if pgp data found, decode it
-        slotDecodeFile(filetocheck);
-        return true;
-    }
-
-    if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK") || result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK"))
-    {
-        // dropped file is a public key or a private key
-        bool ispublickey = false;
-        QString tmpinfo;
-        if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK"))
-        {
-            ispublickey = true;
-            tmpinfo = i18n("<qt>This file is a <b>public</b> key.\nPlease use kgpg key management to import it.</qt>");
-        }
-
-        if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK"))
-        {
-            ispublickey = false;
-            tmpinfo = i18n("<qt>This file is a <b>private</b> key.\nPlease use kgpg key management to import it.</qt>");
-        }
-
-        KMessageBox::information(this, tmpinfo);
-
-        /*
-        if (ispublickey)
-        {
-            int result = KMessageBox::warningContinueCancel(this, i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(filetocheck), i18n("Warning"), KGuiItem (i18n("Import"), QString(), i18n("Import the public key"), i18n("Import the public key in your keyring")));
-            if (result == KMessageBox::Continue)
-            {
-                //TODO : import key
-            }
-        }
-        else
-            KMessageBox::information(this, i18n("This file is a private key.\nPlease use kgpg key management to import it."));
-        */
-
-        deleteFile();
-        return true;
-    }
-
-    setPlainText(result);
-    deleteFile();
-    emit newText();
-    return false;
-}
-
-void KgpgTextEdit::slotDecodeFile(const QString &fname)
-{
-    // decode file from given url into editor
-    QFile qfile(QFile::encodeName(fname));
-    if (qfile.open(QIODevice::ReadOnly))
-    {
-        KgpgInterface *interface = new KgpgInterface();
-        connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(editorUpdateDecryptedtxt(QString, KgpgInterface*)));
-        connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(editorFailedDecryptedtxt(QString, KgpgInterface*)));
-        interface->KgpgDecryptFileToText(KUrl(fname), KGpgSettings::customDecrypt().simplified().split(" "));
-    }
-    else
-        KMessageBox::sorry(this, i18n("Unable to read file."));
+        slotCheckFile();
 }
 
 void KgpgTextEdit::slotEncode()
@@ -193,7 +114,7 @@ void KgpgTextEdit::slotEncode()
             options << "--pgp6";
 
         QStringList listkeys;
-        if (dialog->getSymmetric())
+        if (!dialog->getSymmetric())
             listkeys = dialog->selectedKeys();
 
         KgpgInterface *interface = new KgpgInterface();
@@ -265,16 +186,98 @@ bool KgpgTextEdit::checkForUtf8(const QString &text)
     return false;
 }
 
+void KgpgTextEdit::slotDecodeFile()
+{
+    // decode file from given url into editor
+    QFile qfile(QFile::encodeName(m_tempfile));
+    if (!qfile.open(QIODevice::ReadOnly))
+    {
+        KMessageBox::sorry(this, i18n("Unable to read file."));
+        return;
+    }
+    qfile.close();
+
+    KgpgInterface *interface = new KgpgInterface();
+    connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(editorUpdateDecryptedtxt(QString, KgpgInterface*)));
+    connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(editorFailedDecryptedtxt(QString, KgpgInterface*)));
+    interface->KgpgDecryptFileToText(KUrl(m_tempfile), KGpgSettings::customDecrypt().simplified().split(" "));
+}
+
+bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)
+{
+    QString result;
+
+    QFile qfile(m_tempfile);
+    if (qfile.open(QIODevice::ReadOnly))
+    {
+        QTextStream t(&qfile);
+        result = t.readAll();
+        qfile.close();
+    }
+
+    if (result.isEmpty())
+        return false;
+
+    if (checkforpgpmessage && result.startsWith("-----BEGIN PGP MESSAGE"))
+    {
+        // if pgp data found, decode it
+        slotDecodeFile();
+        return true;
+    }
+
+    if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK") || result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK"))
+    {
+        // dropped file is a public key or a private key
+        bool ispublickey = false;
+        QString tmpinfo;
+        if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK"))
+        {
+            ispublickey = true;
+            tmpinfo = i18n("<qt>This file is a <b>public</b> key.\nPlease use kgpg key management to import it.</qt>");
+        }
+
+        if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK"))
+        {
+            ispublickey = false;
+            tmpinfo = i18n("<qt>This file is a <b>private</b> key.\nPlease use kgpg key management to import it.</qt>");
+        }
+
+        KMessageBox::information(this, tmpinfo);
+
+        /*
+        if (ispublickey)
+        {
+            int result = KMessageBox::warningContinueCancel(this, i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(filetocheck), i18n("Warning"), KGuiItem (i18n("Import"), QString(), i18n("Import the public key"), i18n("Import the public key in your keyring")));
+            if (result == KMessageBox::Continue)
+            {
+                //TODO : import key
+            }
+        }
+        else
+            KMessageBox::information(this, i18n("This file is a private key.\nPlease use kgpg key management to import it."));
+        */
+
+        deleteFile();
+        return true;
+    }
+
+    setPlainText(result);
+    deleteFile();
+    emit newText();
+    return false;
+}
+
 void KgpgTextEdit::editorUpdateDecryptedtxt(const QString &content, KgpgInterface *interface)
 {
     delete interface;
+    emit newText();
     setPlainText(content);
 }
 
 void KgpgTextEdit::editorFailedDecryptedtxt(const QString &content, KgpgInterface *interface)
 {
     delete interface;
-    if (!slotCheckFile(m_tempfile, false))
+    if (!slotCheckFile(false))
         KMessageBox::detailedSorry(this, i18n("Decryption failed."), content);
 }
 
@@ -385,6 +388,9 @@ KgpgView::KgpgView(QWidget *parent)
     buttonbox->addButton(i18n("&Decrypt"), KDialogButtonBox::ActionRole, this, SLOT(slotDecode()));
 
     connect(editor, SIGNAL(textChanged()), this, SIGNAL(textChanged()));
+    connect(editor, SIGNAL(newText()), this, SIGNAL(newText()));
+    // TODO reset encoding
+    // TODO verify
 
     editor->resize(editor->maximumSize());
 
@@ -403,177 +409,24 @@ void KgpgView::slotSignVerify()
 {
     QString mess = editor->toPlainText();
     if (mess.startsWith("-----BEGIN PGP SIGNED"))
-    {
-        // this is a signed message, verify it
-        KgpgInterface *interface = new KgpgInterface();
-        connect(interface, SIGNAL(txtVerifyMissingSignature(QString, KgpgInterface*)), this, SLOT(slotAskForImport(QString, KgpgInterface*)));
-        connect(interface, SIGNAL(txtVerifyFinished(QString, QString, KgpgInterface*)), this, SLOT(slotVerifyResult(QString, QString, KgpgInterface*)));
-        interface->verifyText(mess);
-    }
+        editor->slotVerify();
     else
-    {
-        // Sign the text in Editor
-        QString signkeyid;
-
-        // open key selection dialog
-        KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this);
-        if (opts->exec() == QDialog::Accepted)
-            signkeyid = opts->getKeyID();
-        else
-        {
-            delete opts;
-            return;
-        }
-
-        delete opts;
-
-        KgpgInterface *interface = new KgpgInterface();
-        connect(interface, SIGNAL(txtSigningFinished(QString, KgpgInterface*)), this, SLOT(slotSignResult(QString, KgpgInterface*)));
-        QStringList options = QStringList();
-        if (KGpgSettings::pgpCompatibility())
-            options << "--pgp6";
-        interface->signText(mess, signkeyid, options);
-    }
+        editor->slotSign();
 }
 
 void KgpgView::slotEncode()
 {
-    // dialog to select public key for encryption
-    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, 0, false, true, (static_cast<KgpgEditor*>(parent()))->m_godefaultkey);
-    if (dialog->exec() == KDialog::Accepted)
-    {
-        QStringList options;
-        if (dialog->getUntrusted()) options << "--always-trust";
-        if (dialog->getArmor())     options << "--armor";
-        if (dialog->getHideId())    options << "--throw-keyid";
-
-        QString customoptions = dialog->getCustomOptions();
-        if (!customoptions.isEmpty())
-            if (KGpgSettings::allowCustomEncryptionOptions())
-                options << customoptions.split(" ");
-
-        encodeTxt(dialog->selectedKeys(), options, dialog->getShred(), dialog->getSymmetric());
-    }
-    delete dialog;
+    editor->slotEncode();
 }
 
 void KgpgView::slotDecode()
 {
-    // decode data from the editor. triggered by the decode button
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(updateDecryptedtxt(QString, KgpgInterface*)));
-    connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(failedDecryptedtxt(QString, KgpgInterface*)));
-    interface->decryptText(editor->toPlainText(), KGpgSettings::customDecrypt().simplified().split(" "));
+    editor->slotDecode();
 }
 
 void KgpgView::slotHighlightText(const QString &, const int &matchingindex, const int &matchedlength)
 {
     editor->highlightWord(matchedlength, matchingindex);
-}
-
-void KgpgView::updateDecryptedtxt(const QString &newtxt, KgpgInterface *interface)
-{
-    delete interface;
-    if (checkForUtf8(newtxt))
-    {
-        editor->setPlainText(QString::fromUtf8(newtxt.toAscii()));
-        emit resetEncoding(true);
-    }
-    else
-    {
-        editor->setPlainText(newtxt);
-        emit resetEncoding(false);
-    }
-    emit newText();
-}
-
-void KgpgView::failedDecryptedtxt(const QString &newtxt, KgpgInterface *interface)
-{
-    delete interface;
-    KMessageBox::detailedSorry(this, i18n("Decryption failed."), newtxt);
-}
-
-void KgpgView::slotAskForImport(const QString &id, KgpgInterface *interface)
-{
-    delete interface;
-    KGuiItem importitem = KStandardGuiItem::yes();
-    importitem.setText(i18n("&Import"));
-    importitem.setToolTip(i18n("Import key in your list"));
-
-    KGuiItem noimportitem = KStandardGuiItem::no();
-    noimportitem.setText(i18n("Do &Not Import"));
-    noimportitem.setToolTip(i18n("Will not import this key in your list"));
-
-    if (KMessageBox::questionYesNo(this, i18n("<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt>", id), i18n("Missing Key"), importitem, noimportitem) == KMessageBox::Yes)
-    {
-        KeyServer *kser = new KeyServer(0, false, true);
-        kser->slotSetText(id);
-        kser->slotImport();
-    }
-    else
-        emit verifyFinished();
-}
-
-void KgpgView::slotVerifyResult(const QString &mssge, const QString &log, KgpgInterface *interface)
-{
-    delete interface;
-    emit verifyFinished();
-    (void) new KgpgDetailedInfo(0, mssge, log);
-}
-
-void KgpgView::slotSignResult(const QString &signResult, KgpgInterface*)
-{
-    if (signResult.isEmpty())
-        KMessageBox::sorry(this, i18n("Signing not possible: bad passphrase or missing key"));
-    else
-    {
-        if (checkForUtf8(signResult))
-        {
-            editor->setPlainText(QString::fromUtf8(signResult.toAscii()));
-            emit resetEncoding(true);
-        }
-        else
-        {
-            editor->setPlainText(signResult);
-            emit resetEncoding(false);
-        }
-        emit newText();
-    }
-}
-
-void KgpgView::encodeTxt(QStringList selec, QStringList encryptoptions, const bool, const bool symmetric)
-{
-    // encode from editor
-    if (KGpgSettings::pgpCompatibility())
-        encryptoptions << "--pgp6";
-
-    if (symmetric)
-        selec.clear();
-
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(txtEncryptionFinished(QString, KgpgInterface*)), this, SLOT(updateTxt(QString, KgpgInterface*)));
-    interface->encryptText(editor->toPlainText(), selec, encryptoptions);
-}
-
-void KgpgView::updateTxt(const QString &newtxt, KgpgInterface *interface)
-{
-    delete interface;
-    if (!newtxt.isEmpty())
-    {
-        editor->setPlainText(newtxt);
-        emit newText();
-    }
-    else
-        KMessageBox::sorry(this, i18n("Encryption failed."));
-}
-
-bool KgpgView::checkForUtf8(const QString &text)
-{
-    // try to guess if the decrypted text uses utf-8 encoding
-    QTextCodec *codec = QTextCodec::codecForLocale();
-    if (!codec->canEncode(text))
-        return true;
-    return false;
 }
 
 #include "kgpgview.moc"
