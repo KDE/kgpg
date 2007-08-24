@@ -46,7 +46,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
 
     QGroupBox *vgroup = new QGroupBox(i18n("Generate Key Pair"), this);
 
-    QLabel *nameLabel = new QLabel(i18n("&Name:"), vgroup);
+    QLabel *nameLabel = new QLabel(i18nc("Name of key owner", "&Name:"), vgroup);
     m_kname = new KLineEdit("", vgroup);
     nameLabel->setBuddy(m_kname);
     m_kname->setFocus();
@@ -73,7 +73,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     m_days->setDisabled(true);
 
     m_keyexp = new KComboBox(hgroup);
-    m_keyexp->addItem(i18n("Never"), 0);
+    m_keyexp->addItem(i18nc("Key will not expire", "Never"), 0);
     m_keyexp->addItem(i18n("Days"), 1);
     m_keyexp->addItem(i18n("Weeks"), 2);
     m_keyexp->addItem(i18n("Months"), 3);

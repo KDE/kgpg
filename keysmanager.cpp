@@ -314,9 +314,9 @@ KeysManager::KeysManager(QWidget *parent)
     // Keep the list in kgpg.kcfg in sync with this one!
     QStringList list;
     list.append(i18n("Disable"));
-    list.append(i18n("Small"));
-    list.append(i18n("Medium"));
-    list.append(i18n("Large"));
+    list.append(i18nc("small picture", "Small"));
+    list.append(i18nc("medium picture", "Medium"));
+    list.append(i18nc("large picture", "Large"));
     photoProps->setItems(list);
 
     int psize = KGpgSettings::photoProperties();
@@ -533,7 +533,7 @@ void KeysManager::slotGenerateKeyProcess(KgpgInterface *)
 void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint)
 {
     delete interface;
-    changeMessage(i18n("Ready"), 0);
+    changeMessage(i18nc("Application ready for user input", "Ready"), 0);
 
     if (res == 1)
     {

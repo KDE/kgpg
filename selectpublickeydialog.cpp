@@ -150,7 +150,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     m_keyslist->setRootIsDecorated(false);
     m_keyslist->setShowSortIndicator(true);
     m_keyslist->setAllColumnsShowFocus(true);
-    m_keyslist->addColumn(i18n("Name"));
+    m_keyslist->addColumn(i18nc("Name of key owner", "Name"));
     m_keyslist->addColumn(i18n("Email"));
     m_keyslist->addColumn(i18n("ID"));
     m_keyslist->setSelectionModeExt(K3ListView::Extended);

@@ -465,7 +465,7 @@ KgpgKeySub& KgpgKeySub::operator=(const KgpgKeySub &other)
 QString KgpgKey::expiration(const QDate &date, const bool &unlimited)
 {
     if (unlimited)
-        return i18n("Unlimited");
+        return i18nc("Unlimited key lifetime", "Unlimited");
     return Convert::toString(date);
 }
 

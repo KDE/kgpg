@@ -37,7 +37,7 @@ QString Convert::toString(const KgpgKeyAlgo &algorithm)
         case ALGO_ELGAMAL:      return QString("ElGamal");
         case ALGO_DSA_ELGAMAL:  return QString("DSA - ElGamal");
         case ALGO_UNKNOWN:
-        default:                return i18n("Unknown");
+        default:                return i18nc("Unknown algorithm", "Unknown");
     }
 }
 
@@ -51,7 +51,7 @@ QString Convert::toString(const KgpgKeyOwnerTrust &ownertrust)
         case OWTRUST_FULL:      return i18n("Fully");
         case OWTRUST_ULTIMATE:  return i18n("Ultimately");
         case OWTRUST_UNKNOWN:
-        default:                return i18n("Unknown");
+        default:                return i18nc("Unkown trust in key owner", "Unknown");
     }
 }
 
@@ -59,17 +59,17 @@ QString Convert::toString(const KgpgKeyTrust &trust)
 {
     switch (trust)
     {
-        case TRUST_INVALID:     return i18n("Invalid");
-        case TRUST_DISABLED:    return i18n("Disabled");
+        case TRUST_INVALID:     return i18nc("Invalid key", "Invalid");
+        case TRUST_DISABLED:    return i18nc("Disabled key", "Disabled");
         case TRUST_REVOKED:     return i18n("Revoked");
-        case TRUST_EXPIRED:     return i18n("Expired");
-        case TRUST_UNDEFINED:   return i18n("Undefined");
-        case TRUST_NONE:        return i18n("None");
-        case TRUST_MARGINAL:    return i18n("Marginal");
-        case TRUST_FULL:        return i18n("Full");
-        case TRUST_ULTIMATE:    return i18n("Ultimate");
+        case TRUST_EXPIRED:     return i18nc("Expired key", "Expired");
+        case TRUST_UNDEFINED:   return i18nc("Undefined key trust", "Undefined");
+        case TRUST_NONE:        return i18nc("No trust in key", "None");
+        case TRUST_MARGINAL:    return i18nc("Marginal trust in key", "Marginal");
+        case TRUST_FULL:        return i18nc("Full trust in key", "Full");
+        case TRUST_ULTIMATE:    return i18nc("Ultimate trust in key", "Ultimate");
         case TRUST_UNKNOWN:
-        default:                return i18n("Unknown");
+        default:                return i18nc("Unknown trust in key", "Unknown");
     }
 }
 

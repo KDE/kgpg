@@ -86,7 +86,7 @@ KeyListViewItem::KeyListViewItem(K3ListViewItem *parent, const KgpgKeySign &sig)
 
 	QString tmpemail = sig.email();
 	if (sig.local())
-		tmpemail += i18n(" [local]");
+		tmpemail += i18n(" [local signature]");
 
 	if (sig.revocation()) {
 		tmpemail += i18n(" [Revocation signature]");
@@ -243,7 +243,7 @@ KeyListView::KeyListView(QWidget *parent)
            : K3ListView(parent)
 {
     setRootIsDecorated(true);
-    addColumn(i18n("Name"), 230);
+    addColumn(i18nc("Name of key owner", "Name"), 230);
     addColumn(i18n("Email"), 220);
     addColumn(i18n("Trust"), 60);
     addColumn(i18n("Expiration"), 100);
