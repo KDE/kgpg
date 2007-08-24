@@ -31,37 +31,23 @@
 #include "images.h"
 
 KeyListViewItem::KeyListViewItem(KeyListView *parent, const QString &name, const QString &email, const QString &trust, const QString &expiration, const QString &size, const QString &creation, const QString &id, const bool isdefault, bool isexpired, ItemType type)
-               : K3ListViewItem(parent)
+               : K3ListViewItem(parent, name, email, trust, expiration, size, creation, id)
 {
     m_def = isdefault;
     m_exp = isexpired;
     m_type = type;
     m_key = NULL;
     m_sig = NULL;
-    setText(0, name);
-    setText(1, email);
-    setText(2, trust);
-    setText(3, expiration);
-    setText(4, size);
-    setText(5, creation);
-    setText(6, id);
 }
 
 KeyListViewItem::KeyListViewItem(KeyListViewItem *parent, const QString &name, const QString &email, const QString &trust, const QString &expiration, const QString &size, const QString &creation, const QString &id, const bool isdefault, const bool isexpired, ItemType type)
-               : K3ListViewItem(parent)
+               : K3ListViewItem(parent, name, email, trust, expiration, size, creation, id)
 {
     m_def = isdefault;
     m_exp = isexpired;
     m_type = type;
     m_key = NULL;
     m_sig = NULL;
-    setText(0, name);
-    setText(1, email);
-    setText(2, trust);
-    setText(3, expiration);
-    setText(4, size);
-    setText(5, creation);
-    setText(6, id);
 }
 
 KeyListViewItem::KeyListViewItem(K3ListView *parent, const KgpgKey &key, const bool isbold)
