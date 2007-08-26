@@ -36,6 +36,8 @@ public:
 
 signals:
     void newText();
+    void resetEncoding(bool);
+    void verifyFinished();
 
 public slots:
     void slotDroppedFile(const KUrl &url);
@@ -78,14 +80,7 @@ class KgpgView : public QWidget
     Q_OBJECT
 
 public:
-    /**
-     * Constructor for the main view
-     */
-    KgpgView(QWidget *parent = 0);
-
-    /**
-     * Destructor for the main view
-     */
+    explicit KgpgView(QWidget *parent = 0);
     ~KgpgView();
 
     KgpgTextEdit *editor;

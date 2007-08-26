@@ -24,9 +24,9 @@
 #include <QMimeData>
 #include <QFile>
 
+#include <KDialogButtonBox>
 #include <kio/netaccess.h>
 #include <KMessageBox>
-#include <KDialogButtonBox>
 #include <KLocale>
 #include <KAction>
 
@@ -126,11 +126,25 @@ void KgpgTextEdit::slotEncode()
 
 void KgpgTextEdit::slotDecode()
 {
+    QString startmsg = QString("-----BEGIN PGP MESSAGE-----");
+    QString endmsg = QString("-----END PGP MESSAGE-----");
+
+    QString fullcontent = toPlainText();
+
+    m_posstart = fullcontent.indexOf(startmsg);
+    if (m_posstart == -1)
+        return;
+
+    m_posend = fullcontent.indexOf(endmsg, m_posstart);
+    if (m_posend == -1)
+        return;
+    m_posend += endmsg.length();
+
     // decode data from the editor. triggered by the decode button
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(slotDecodeUpdateSuccess(QString, KgpgInterface*)));
     connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(slotDecodeUpdateFailed(QString, KgpgInterface*)));
-    interface->decryptText(toPlainText(), KGpgSettings::customDecrypt().simplified().split(" "));
+    interface->decryptText(fullcontent.mid(m_posstart, m_posend - m_posstart), KGpgSettings::customDecrypt().simplified().split(" "));
 }
 
 void KgpgTextEdit::slotSign()
@@ -161,11 +175,25 @@ void KgpgTextEdit::slotSign()
 
 void KgpgTextEdit::slotVerify()
 {
+    QString startmsg = QString("-----BEGIN PGP SIGNED MESSAGE-----");
+    QString endmsg = QString("-----END PGP SIGNATURE-----");
+
+    QString fullcontent = toPlainText();
+
+    int posstart = fullcontent.indexOf(startmsg);
+    if (posstart == -1)
+        return;
+
+    int posend = fullcontent.indexOf(endmsg, posstart);
+    if (posend == -1)
+        return;
+    posend += endmsg.length();
+
     // this is a signed message, verify it
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(txtVerifyMissingSignature(QString, KgpgInterface*)), this, SLOT(slotVerifyKeyNeeded(QString, KgpgInterface*)));
     connect(interface, SIGNAL(txtVerifyFinished(QString, QString, KgpgInterface*)), this, SLOT(slotVerifySuccess(QString, QString, KgpgInterface*)));
-    interface->verifyText(toPlainText());
+    interface->verifyText(fullcontent.mid(posstart, posend - posstart));
 }
 
 void KgpgTextEdit::deleteFile()
@@ -270,8 +298,8 @@ bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)
 void KgpgTextEdit::editorUpdateDecryptedtxt(const QString &content, KgpgInterface *interface)
 {
     delete interface;
-    emit newText();
     setPlainText(content);
+    emit newText();
 }
 
 void KgpgTextEdit::editorFailedDecryptedtxt(const QString &content, KgpgInterface *interface)
@@ -296,16 +324,23 @@ void KgpgTextEdit::slotEncodeUpdate(const QString &content, KgpgInterface *inter
 void KgpgTextEdit::slotDecodeUpdateSuccess(const QString &content, KgpgInterface *interface)
 {
     delete interface;
+
+    QString decryptedcontent;
     if (checkForUtf8(content))
     {
-        setPlainText(QString::fromUtf8(content.toAscii()));
-        //emit resetEncoding(true);
+        decryptedcontent = QString::fromUtf8(content.toAscii());
+        emit resetEncoding(true);
     }
     else
     {
-        setPlainText(content);
-        //emit resetEncoding(false);
+        decryptedcontent = content;
+        emit resetEncoding(false);
     }
+
+    QString fullcontent = toPlainText();
+    fullcontent.replace(m_posstart, m_posend - m_posstart, decryptedcontent);
+    setPlainText(fullcontent);
+
     emit newText();
 }
 
@@ -327,12 +362,12 @@ void KgpgTextEdit::slotSignUpdate(const QString &content, KgpgInterface *interfa
     if (checkForUtf8(content))
     {
         setPlainText(QString::fromUtf8(content.toAscii()));
-        //emit resetEncoding(true);
+        emit resetEncoding(true);
     }
     else
     {
         setPlainText(content);
-        //emit resetEncoding(false);
+        emit resetEncoding(false);
     }
 
     emit newText();
@@ -341,7 +376,7 @@ void KgpgTextEdit::slotSignUpdate(const QString &content, KgpgInterface *interfa
 void KgpgTextEdit::slotVerifySuccess(const QString &content, const QString &log, KgpgInterface *interface)
 {
     delete interface;
-    //emit verifyFinished();
+    emit verifyFinished();
     (void) new KgpgDetailedInfo(this, content, log);
 }
 
@@ -363,8 +398,8 @@ void KgpgTextEdit::slotVerifyKeyNeeded(const QString &id, KgpgInterface *interfa
         kser->slotSetText(id);
         kser->slotImport();
     }
-/*    else
-        emit verifyFinished();*/
+    else
+        emit verifyFinished();
 }
 
 
@@ -389,8 +424,8 @@ KgpgView::KgpgView(QWidget *parent)
 
     connect(editor, SIGNAL(textChanged()), this, SIGNAL(textChanged()));
     connect(editor, SIGNAL(newText()), this, SIGNAL(newText()));
-    // TODO reset encoding
-    // TODO verify
+    connect(editor, SIGNAL(resetEncoding(bool)), this, SIGNAL(resetEncoding(bool)));
+    connect(editor, SIGNAL(verifyFinished()), this, SIGNAL(verifyFinished()));
 
     editor->resize(editor->maximumSize());
 
@@ -408,7 +443,7 @@ KgpgView::~KgpgView()
 void KgpgView::slotSignVerify()
 {
     QString mess = editor->toPlainText();
-    if (mess.startsWith("-----BEGIN PGP SIGNED"))
+    if (mess.contains("-----BEGIN PGP SIGNED"))
         editor->slotVerify();
     else
         editor->slotSign();
