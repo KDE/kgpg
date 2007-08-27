@@ -142,9 +142,11 @@ void KeyListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, 
 {
     QColorGroup _cg(cg);
 
-    if (itemType() & Group)
-        return;
-
+    if (itemType() & Group) {
+        if (column > 0)
+           return;
+    }
+    else
     if (itemType() & Public)
     {
         if (m_def && (column < 2))

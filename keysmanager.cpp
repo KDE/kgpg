@@ -330,6 +330,7 @@ KeysManager::KeysManager(QWidget *parent)
     m_popuppub->addAction(infoKey);
     m_popuppub->addAction(editKey);
     m_popuppub->addAction(refreshKey);
+    m_popuppub->addAction(createGroup);
     m_popuppub->addAction(setDefaultKey);
     m_popuppub->addSeparator();
     m_popuppub->addAction(importAllSignKeys);
@@ -1138,7 +1139,7 @@ void KeysManager::checkList()
     }
     else
     {
-        if (keysList2->currentItem()->text(6).isEmpty())
+        if (keysList2->currentItem()->itemType() == KeyListViewItem::Group)
             stateChanged("group_selected");
         else
             stateChanged("single_selected");
@@ -1364,7 +1365,7 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
         else
         {
             keysList2->setSelected(sel, true);
-            if (keysList2->currentItem()->text(6).isEmpty())
+            if (sel->itemType() & KeyListViewItem::Group)
                 m_popupgroup->exec(pos);
             else
             {
@@ -1376,7 +1377,6 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
                 else
                     m_popuppub->exec(pos);
             }
-            return;
         }
     }
     else
@@ -1690,7 +1690,7 @@ void KeysManager::groupRemove()
 
 void KeysManager::deleteGroup()
 {
-    if (!keysList2->currentItem() || !keysList2->currentItem()->text(6).isEmpty())
+    if (!keysList2->currentItem() || (keysList2->currentItem()->itemType() != KeyListViewItem::Group))
         return;
 
     int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>", keysList2->currentItem()->text(0)), i18n("Warning"), KGuiItem(i18n("Delete"), "edit-delete"));
@@ -1814,7 +1814,7 @@ void KeysManager::groupInit(const QStringList &keysGroup)
 
 void KeysManager::editGroup()
 {
-    if (!keysList2->currentItem() || !keysList2->currentItem()->text(6).isEmpty())
+    if (!keysList2->currentItem() || (keysList2->currentItem()->itemType() != KeyListViewItem::Group))
         return;
     QStringList keysGroup;
     //KDialogBase *dialogGroupEdit=new KDialogBase( this, "edit_group", true,i18n("Group Properties"),KDialogBase::Ok | KDialogBase::Cancel);
