@@ -1366,6 +1366,26 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
             else
             {
                 QList<KeyListViewItem*> exportList = keysList2->selectedItems();
+                bool unksig = false;
+
+                // find out if an item has unknown signatures. Only check if the item has been
+                // expanded before as expansion is very expensive and can take several seconds
+                // that will freeze the UI meanwhile.
+                for (int i = 0; i < exportList.count(); i++) {
+                   KeyListViewItem *k = exportList.at(i);
+                   QStringList l;
+
+                   if (k->firstChild() == NULL) {
+                      unksig = true;
+                      break;
+                   }
+                   getMissingSigs(&l, k);
+                   if (!l.isEmpty()) {
+                      unksig = true;
+                      break;
+                   }
+                }
+                importAllSignKeys->setEnabled(unksig);
 
                 if (((sel->itemType() & KeyListViewItem::Pair) == KeyListViewItem::Pair) && (exportList.count() == 1))
                     m_popupsec->exec(pos);
