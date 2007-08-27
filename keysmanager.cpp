@@ -1340,17 +1340,13 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
         {
             if (isSignature(sel))
             {
-		// isn't this always true?
-                if ((sel->text(2) == "-") || (sel->text(2) == i18n("Revoked")))
-                {
-                    if (isSignatureUnknown(sel))
-                        importSignatureKey->setEnabled(true);
-                    else
-                        importSignatureKey->setEnabled(false);
-                    delSignKey->setEnabled(true);
-                    m_popupsig->exec(pos);
-                    return;
-                }
+                 if (isSignatureUnknown(sel))
+                     importSignatureKey->setEnabled(true);
+                 else
+                     importSignatureKey->setEnabled(false);
+                 delSignKey->setEnabled(true);
+                 m_popupsig->exec(pos);
+                 return;
             }
             else
             if (sel->text(0) == i18n("Photo id"))
@@ -1369,10 +1365,12 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
                 m_popupgroup->exec(pos);
             else
             {
-                if (((sel->itemType() & KeyListViewItem::Pair) == KeyListViewItem::Pair) && (keysList2->selectedItems().count() == 1))
+                QList<KeyListViewItem*> exportList = keysList2->selectedItems();
+
+                if (((sel->itemType() & KeyListViewItem::Pair) == KeyListViewItem::Pair) && (exportList.count() == 1))
                     m_popupsec->exec(pos);
                 else
-                if ((sel->itemType() & KeyListViewItem::Secret) && (keysList2->selectedItems().count() == 1))
+                if ((sel->itemType() == KeyListViewItem::Secret) && (exportList.count() == 1))
                     m_popuporphan->exec(pos);
                 else
                     m_popuppub->exec(pos);
