@@ -108,7 +108,6 @@
         <Action name="key_default"/>
         <Action name="key_edit"/>
         <Action name="key_info"/>
-        <Action name="key_importallsign"/>
     </disable>
 
     <enable>
@@ -116,6 +115,7 @@
         <Action name="key_sign"/>
         <Action name="key_export"/>
         <Action name="key_import"/>
+        <Action name="key_importallsign"/>
         <Action name="create_group"/>
     </enable>
 </State>

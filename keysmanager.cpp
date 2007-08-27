@@ -1976,30 +1976,57 @@ void KeysManager::signatureResult(int success, KgpgInterface *interface)
     signLoop();
 }
 
+void KeysManager::getMissingSigs(QStringList *missingKeys, KeyListViewItem *item)
+{
+	while (item) {
+		if (isSignatureUnknown(item))
+			*missingKeys << item->keyId();
+		if (item->firstChild() != NULL)
+			getMissingSigs(missingKeys, item->firstChild());
+		item = item->nextSibling();
+	}
+}
+
 void KeysManager::importallsignkey()
 {
-    if (keysList2->currentItem() == 0)
-        return;
+	QList<KeyListViewItem *> sel = keysList2->selectedItems();
+	QStringList missingKeys;
+	int i;
 
-    if (!keysList2->currentItem()->firstChild())
-    {
-        keysList2->currentItem()->setOpen(true);
-        keysList2->currentItem()->setOpen(false);
-    }
+	if (sel.isEmpty())
+		return;
 
-    QStringList missingKeys;
-    KeyListViewItem *current = keysList2->currentItem()->firstChild();
-    while (current)
-    {
-        if (isSignatureUnknown(current))
-            missingKeys << current->keyId();
-        current = current->nextSibling();
-    }
+	for (i = 0; i < sel.count(); i++) {
+		KeyListViewItem *cur = sel.at(i);
+		KeyListViewItem *item = cur->firstChild();
+		
+		if (item == NULL) {
+			cur->setOpen(true);
+			cur->setOpen(false);
+			item = cur->firstChild();
+		}
 
-    if (!missingKeys.isEmpty())
-        importsignkey(missingKeys);
-    else
-        KMessageBox::information(this, i18n("All signatures for this key are already in your keyring"));
+		getMissingSigs(&missingKeys, item);
+	}
+
+	if (missingKeys.isEmpty()) {
+		KMessageBox::information(this,
+			i18np("All signatures for this key are already in your keyring",
+			"All signatures for this keys are already in your keyring", sel.count()));
+		return;
+	}
+
+	// remove duplicate entries. TODO: Is there a standard function for this?
+	missingKeys.sort();
+	i = 0;
+	while (i < missingKeys.count() - 1) {
+		if (missingKeys[i] == missingKeys[i + 1])
+			missingKeys.removeAt(i + 1);
+		else
+			i++;
+	}
+
+	importsignkey(missingKeys);
 }
 
 void KeysManager::preimportsignkey()

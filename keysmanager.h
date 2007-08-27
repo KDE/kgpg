@@ -189,6 +189,7 @@ private slots:
     void slotregenerate();
     void reloadSecretKeys();
     void dcopImportFinished();
+    void getMissingSigs(QStringList *missingKeys, KeyListViewItem *item);
 
 private:
     QString message;
