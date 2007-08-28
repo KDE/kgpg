@@ -893,9 +893,11 @@ void KeyListViewSearchLine::updateSearch(const QString& s)
                         continue;
                     }
 
-                if (m_hidedisabled)
-                    if (item->isExpired() || (item->getKey()->trust() == TRUST_REVOKED))
+                if (m_hidedisabled) {
+                    KgpgKey *key = item->getKey();
+                    if (item->isExpired() || (key && (key->trust() == TRUST_REVOKED)))
                         item->setVisible(false);
+                }
 
             }
             item = item->nextSibling();
