@@ -2336,7 +2336,6 @@ void KgpgInterface::importKeyFinished(K3Process *p)
 
     QStringList importedKeysIds;
     QStringList importedKeys;
-    QStringList messageList;
     QString resultMessage;
     bool secretImport = false;
 
@@ -2352,7 +2351,7 @@ void KgpgInterface::importKeyFinished(K3Process *p)
     if (message.contains("IMPORT_RES"))
     {
         parsedOutput = message.section("IMPORT_RES", -1, -1).simplified();
-        messageList = parsedOutput.split(" ");
+        QStringList messageList = parsedOutput.split(" ");
 
         resultMessage = i18np("<qt>%1 key processed.</qt>", "<qt>%1 keys processed.</qt>", messageList[0].toULong());
 
@@ -2371,11 +2370,16 @@ void KgpgInterface::importKeyFinished(K3Process *p)
         if (messageList[7] != "0")
             resultMessage += i18np("<qt>One signature imported.</qt>", "<qt>%1 signatures imported.</qt>", messageList[7].toULong());
         if (messageList[8] != "0")
+        {
             resultMessage += i18np("<qt>One revocation certificate imported.</qt>", "<qt>%1 revocation certificates imported.</qt>", messageList[8].toULong());
+            importedKeysIds = QStringList("ALL");
+        }
         if (messageList[9] != "0")
         {
             resultMessage += i18np("<qt>One secret key processed.</qt>", "<qt>%1 secret keys processed.</qt>", messageList[9].toULong());
             secretImport = true;
+            if (importedKeysIds.isEmpty()) // orphaned secret key imported
+               emit importKeyOrphaned();
         }
         if (messageList[10] != "0")
             resultMessage += i18np("<qt><b>One secret key imported.</b></qt>", "<qt><b>%1 secret keys imported.</b></qt>", messageList[10].toULong());
@@ -2388,15 +2392,10 @@ void KgpgInterface::importKeyFinished(K3Process *p)
             resultMessage += i18n("<qt><br /><b>You have imported a secret key.</b> <br />"
                                   "Please note that imported secret keys are not trusted by default.<br />"
                                   "To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</qt>");
+
     }
     else
         resultMessage = i18n("No key imported... \nCheck detailed log for more infos");
-
-    if (messageList[8] != "0")
-        importedKeysIds = QStringList("ALL");
-
-    if ((messageList[9] != "0") && (importedKeysIds.isEmpty())) // orphaned secret key imported
-        emit importKeyOrphaned();
 
     emit importKeyFinished(importedKeysIds);
 
