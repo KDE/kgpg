@@ -91,6 +91,7 @@ KeyListViewItem::KeyListViewItem(K3ListViewItem *parent, const KgpgKeySign &sig)
 	if (sig.revocation()) {
 		tmpemail += i18n(" [Revocation signature]");
 		setPixmap(0, Images::revoke());
+		m_type = RevSign;
 	} else
 		setPixmap(0, Images::signature());
 

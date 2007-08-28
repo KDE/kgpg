@@ -914,7 +914,7 @@ void KeysManager::slotSetPhotoSize(int size)
             KeyListViewItem *newdefChild = newdef->firstChild();
             while (newdefChild)
             {
-                if (newdefChild->text(0) == i18n("Photo id"))
+                if (newdefChild->itemType() == KeyListViewItem::Uat)
                 {
                     hasphoto = true;
                     break;
@@ -1146,35 +1146,28 @@ void KeysManager::checkList()
 
     }
 
-    int serial = keysList2->currentItem()->pixmap(0)->serialNumber();
-    if (serial == Images::single().serialNumber())
-    {
-        if (keysList2->currentItem()->depth() == 0)
-            changeMessage(i18n("Public Key"), 0);
-        else
-            changeMessage(i18n("Sub Key"), 0);
+    switch (keysList2->currentItem()->itemType()) {
+    case KeyListViewItem::Public:   changeMessage(i18n("Public Key"), 0);
+                                    break;
+    case KeyListViewItem::Sub:      changeMessage(i18n("Sub Key"), 0);
+                                    break;
+    case KeyListViewItem::Pair:     changeMessage(i18n("Secret Key Pair"), 0);
+                                    break;
+    case KeyListViewItem::Group:    changeMessage(i18n("Key Group"), 0);
+                                    break;
+    case KeyListViewItem::Sign:     changeMessage(i18n("Signature"), 0);
+                                    break;
+    case KeyListViewItem::Uid:      changeMessage(i18n("User ID"), 0);
+                                    break;
+    case KeyListViewItem::RevSign:  changeMessage(i18n("Revocation Signature"), 0);
+                                    break;
+    case KeyListViewItem::Uat:      changeMessage(i18n("Photo ID"), 0);
+                                    break;
+    case KeyListViewItem::Secret:   changeMessage(i18n("Orphaned Secret Key"), 0);
+                                    break;
+    default:
+kDebug(3125) << "Oops, unmatched type value" << keysList2->currentItem()->itemType();
     }
-    else
-    if (serial == Images::pair().serialNumber())
-        changeMessage(i18n("Secret Key Pair"), 0);
-    else
-    if (serial == Images::group().serialNumber())
-        changeMessage(i18n("Key Group"), 0);
-    else
-    if (serial == Images::signature().serialNumber())
-        changeMessage(i18n("Signature"), 0);
-    else
-    if (serial == Images::userId().serialNumber())
-        changeMessage(i18n("User ID"), 0);
-    else
-    if (keysList2->currentItem()->text(0) == i18n("Photo id"))
-        changeMessage(i18n("Photo ID"), 0);
-    else
-    if (serial == Images::revoke().serialNumber())
-        changeMessage(i18n("Revocation Signature"), 0);
-    else
-    if (serial == Images::orphan().serialNumber())
-        changeMessage(i18n("Orphaned Secret Key"), 0);
 }
 
 void KeysManager::annule()
@@ -1349,10 +1342,10 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
                  return;
             }
             else
-            if (sel->text(0) == i18n("Photo id"))
+            if (sel->itemType() == KeyListViewItem::Uat)
                 m_popupphoto->exec(pos);
             else
-            if (sel->pixmap(0)->serialNumber() == Images::userId().serialNumber()) {
+            if (sel->itemType() == KeyListViewItem::Uid) {
                 KeyListViewItem *parent = sel->parent();
                 setPrimUid->setVisible(parent->itemType() & KeyListViewItem::Secret);
                 m_popupuid->exec(pos);
@@ -1651,9 +1644,14 @@ void KeysManager::listsigns()
     if (cur == NULL)
         return;
 
+    if (cur->itemType() == KeyListViewItem::Group) {
+        editGroup();
+        return;
+    }
+
     if (cur->depth() != 0)
     {
-        if (cur->text(0) == i18n("Photo id"))
+        if (cur->itemType() == KeyListViewItem::Uat)
         {
             // display photo
             slotShowPhoto();
@@ -1670,7 +1668,7 @@ void KeysManager::listsigns()
         return;
     }
 
-    if (cur->pixmap(0)->serialNumber() == Images::orphan().serialNumber())
+    if (cur->itemType() == KeyListViewItem::Secret)
     {
         if (KMessageBox::questionYesNo(this, i18n("This key is an orphaned secret key (secret key without public key.) It is currently not usable.\n\n"
                                                "Would you like to regenerate the public key?"), QString(), KGuiItem(i18n("Generate")), KGuiItem(i18n("Do Not Generate"))) == KMessageBox::Yes)
@@ -1686,8 +1684,6 @@ void KeysManager::listsigns()
         opts->exec();
         delete opts;
     }
-    else
-        editGroup();
 }
 
 void KeysManager::groupAdd()
