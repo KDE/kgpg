@@ -58,8 +58,8 @@ private slots:
     void slotDecodeFile();
     bool slotCheckFile(const bool &checkforpgpmessage = true);
 
-    void editorUpdateDecryptedtxt(const QString &content, KgpgInterface *interface);
-    void editorFailedDecryptedtxt(const QString &content, KgpgInterface *interface);
+    void slotDecodeFileSuccess(const QString &content, KgpgInterface *interface);
+    void slotDecodeFileFailed(const QString &content, KgpgInterface *interface);
 
     void slotEncodeUpdate(const QString &content, KgpgInterface *interface);
     void slotDecodeUpdateSuccess(const QString &content, KgpgInterface *interface);

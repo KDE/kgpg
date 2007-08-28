@@ -38,6 +38,15 @@
 #include "selectpublickeydialog.h"
 #include "detailedconsole.h"
 
+#define ENCODEDMESSAGE_BEGIN "-----BEGIN PGP MESSAGE-----"
+#define ENCODEDMESSAGE_END   "-----END PGP MESSAGE-----"
+#define SIGNEDMESSAGE_BEGIN  "-----BEGIN PGP SIGNED MESSAGE-----"
+#define SIGNEDMESSAGE_END    "-----END PGP SIGNATURE-----"
+#define PUBLICKEY_BEGIN      "-----BEGIN PGP PUBLIC KEY BLOCK-----"
+#define PUBLICKEY_END        "-----END PGP PUBLIC KEY BLOCK-----"
+#define PRIVATEKEY_BEGIN     "-----BEGIN PGP PRIVATE KEY BLOCK-----"
+#define PRIVATEKEY_END       "-----END PGP PRIVATE KEY BLOCK-----"
+
 KgpgTextEdit::KgpgTextEdit(QWidget *parent)
             : KTextEdit(parent)
 {
@@ -126,8 +135,8 @@ void KgpgTextEdit::slotEncode()
 
 void KgpgTextEdit::slotDecode()
 {
-    QString startmsg = QString("-----BEGIN PGP MESSAGE-----");
-    QString endmsg = QString("-----END PGP MESSAGE-----");
+    QString startmsg = ENCODEDMESSAGE_BEGIN;
+    QString endmsg = ENCODEDMESSAGE_END;
 
     QString fullcontent = toPlainText();
 
@@ -140,7 +149,6 @@ void KgpgTextEdit::slotDecode()
         return;
     m_posend += endmsg.length();
 
-    // decode data from the editor. triggered by the decode button
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(slotDecodeUpdateSuccess(QString, KgpgInterface*)));
     connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(slotDecodeUpdateFailed(QString, KgpgInterface*)));
@@ -149,10 +157,8 @@ void KgpgTextEdit::slotDecode()
 
 void KgpgTextEdit::slotSign()
 {
-    // Sign the text in Editor
     QString signkeyid;
 
-    // open key selection dialog
     KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this);
     if (opts->exec() == QDialog::Accepted)
         signkeyid = opts->getKeyID();
@@ -175,8 +181,8 @@ void KgpgTextEdit::slotSign()
 
 void KgpgTextEdit::slotVerify()
 {
-    QString startmsg = QString("-----BEGIN PGP SIGNED MESSAGE-----");
-    QString endmsg = QString("-----END PGP SIGNATURE-----");
+    QString startmsg = QString(SIGNEDMESSAGE_BEGIN);
+    QString endmsg = QString(SIGNEDMESSAGE_END);
 
     QString fullcontent = toPlainText();
 
@@ -189,7 +195,6 @@ void KgpgTextEdit::slotVerify()
         return;
     posend += endmsg.length();
 
-    // this is a signed message, verify it
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(txtVerifyMissingSignature(QString, KgpgInterface*)), this, SLOT(slotVerifyKeyNeeded(QString, KgpgInterface*)));
     connect(interface, SIGNAL(txtVerifyFinished(QString, QString, KgpgInterface*)), this, SLOT(slotVerifySuccess(QString, QString, KgpgInterface*)));
@@ -226,8 +231,8 @@ void KgpgTextEdit::slotDecodeFile()
     qfile.close();
 
     KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(editorUpdateDecryptedtxt(QString, KgpgInterface*)));
-    connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(editorFailedDecryptedtxt(QString, KgpgInterface*)));
+    connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(slotDecodeFileSuccess(QString, KgpgInterface*)));
+    connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(slotDecodeFileFailed(QString, KgpgInterface*)));
     interface->KgpgDecryptFileToText(KUrl(m_tempfile), KGpgSettings::customDecrypt().simplified().split(" "));
 }
 
@@ -246,25 +251,25 @@ bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)
     if (result.isEmpty())
         return false;
 
-    if (checkforpgpmessage && result.startsWith("-----BEGIN PGP MESSAGE"))
+    if (checkforpgpmessage && result.startsWith(ENCODEDMESSAGE_BEGIN))
     {
         // if pgp data found, decode it
         slotDecodeFile();
         return true;
     }
 
-    if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK") || result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK"))
+    if (result.startsWith(PUBLICKEY_BEGIN) || result.startsWith(PRIVATEKEY_BEGIN))
     {
         // dropped file is a public key or a private key
         bool ispublickey = false;
         QString tmpinfo;
-        if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK"))
+        if (result.startsWith(PUBLICKEY_BEGIN))
         {
             ispublickey = true;
             tmpinfo = i18n("<qt>This file is a <b>public</b> key.\nPlease use kgpg key management to import it.</qt>");
         }
 
-        if (result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK"))
+        if (result.startsWith(PRIVATEKEY_BEGIN))
         {
             ispublickey = false;
             tmpinfo = i18n("<qt>This file is a <b>private</b> key.\nPlease use kgpg key management to import it.</qt>");
@@ -295,14 +300,14 @@ bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)
     return false;
 }
 
-void KgpgTextEdit::editorUpdateDecryptedtxt(const QString &content, KgpgInterface *interface)
+void KgpgTextEdit::slotDecodeFileSuccess(const QString &content, KgpgInterface *interface)
 {
     delete interface;
     setPlainText(content);
     emit newText();
 }
 
-void KgpgTextEdit::editorFailedDecryptedtxt(const QString &content, KgpgInterface *interface)
+void KgpgTextEdit::slotDecodeFileFailed(const QString &content, KgpgInterface *interface)
 {
     delete interface;
     if (!slotCheckFile(false))
@@ -407,7 +412,6 @@ void KgpgTextEdit::slotVerifyKeyNeeded(const QString &id, KgpgInterface *interfa
 
 
 
-// main view configuration
 KgpgView::KgpgView(QWidget *parent)
         : QWidget(parent)
 {
