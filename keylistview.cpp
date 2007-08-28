@@ -624,7 +624,7 @@ void KeyListView::refreshGroups()
     emit statusMessage(i18n("Ready"), 0);
 }
 
-void KeyListView::refreshTrust(int color, QColor newColor)
+void KeyListView::refreshTrust(int color, const QColor &newColor)
 {
     if (!newColor.isValid())
         return;
@@ -637,7 +637,8 @@ void KeyListView::refreshTrust(int color, QColor newColor)
     newtrust.load(KStandardDirs::locate("appdata", "pics/kgpg_fill.png"));
     newtrust.fill(newColor);
 
-    bitBlt(&newtrust, 0, 0, &blankFrame, 0, 0, 50, 15);
+    QPainter p(&newtrust);
+    p.drawPixmap(QPoint(0, 0), blankFrame, QRect(0, 0, 50, 15));
 
     switch (color)
     {

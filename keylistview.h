@@ -134,7 +134,7 @@ private slots:
     void insertOrphans(const QStringList &ids);
 
     void refreshGroups();
-    void refreshTrust(int color, QColor newColor);
+    void refreshTrust(int color, const QColor &newColor);
 
     void expandKey(Q3ListViewItem *item);
     void expandGroup(KeyListViewItem *item);
