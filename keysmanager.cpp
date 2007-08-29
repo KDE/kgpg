@@ -753,16 +753,16 @@ void KeysManager::refreshKeyFromServer()
     }
 
     kServer = new KeyServer(0, false);
-    connect(kServer, SIGNAL(importFinished(QString)), this, SLOT(refreshFinished()));
+    connect(kServer, SIGNAL(importFinished(QStringList)), this, SLOT(refreshFinished(QStringList)));
     kServer->refreshKeys(keyIDS);
 }
 
-void KeysManager::refreshFinished()
+void KeysManager::refreshFinished(const QStringList &ids)
 {
     if (kServer)
         kServer = 0L;
 
-    for (int i = 0; i < keysList.count(); ++i)
+    for (int i = 0; i < ids.count(); ++i)
         if (keysList.at(i))
             keysList2->refreshcurrentkey(keysList.at(i));
 }
