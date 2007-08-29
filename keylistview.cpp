@@ -38,6 +38,7 @@ KeyListViewItem::KeyListViewItem(KeyListView *parent, const QString &name, const
     m_type = type;
     m_key = NULL;
     m_sig = NULL;
+    groupId = NULL;
 }
 
 KeyListViewItem::KeyListViewItem(KeyListViewItem *parent, const QString &name, const QString &email, const QString &trust, const QString &expiration, const QString &size, const QString &creation, const QString &id, const bool isdefault, const bool isexpired, ItemType type)
@@ -48,6 +49,7 @@ KeyListViewItem::KeyListViewItem(KeyListViewItem *parent, const QString &name, c
     m_type = type;
     m_key = NULL;
     m_sig = NULL;
+    groupId = NULL;
 }
 
 KeyListViewItem::KeyListViewItem(K3ListView *parent, const KgpgKey &key, const bool isbold)
@@ -58,6 +60,7 @@ KeyListViewItem::KeyListViewItem(K3ListView *parent, const KgpgKey &key, const b
 	m_type = Public;
 	m_key = new KgpgKey(key);
 	m_sig = NULL;
+	groupId = NULL;
 	if (key.secret())
 		m_type |= Secret;
 	setText(0, key.name());
@@ -76,6 +79,7 @@ KeyListViewItem::KeyListViewItem(K3ListViewItem *parent, const KgpgKeySign &sig)
 	m_exp = false;	// TODO: sign expiration
 	m_type = Sign;
 	m_key = NULL;
+	groupId = NULL;
 	m_sig = new KgpgKeySign(sig);
 
 	QString tmpname = sig.name();
@@ -107,6 +111,7 @@ KeyListViewItem::~KeyListViewItem()
 {
 	delete m_key;
 	delete m_sig;
+	delete groupId;
 }
 
 void KeyListViewItem::setItemType(const ItemType &type)
@@ -143,11 +148,6 @@ void KeyListViewItem::paintCell(QPainter *p, const QColorGroup &cg, int column, 
 {
     QColorGroup _cg(cg);
 
-    if (itemType() & Group) {
-        if (column > 0)
-           return;
-    }
-    else
     if (itemType() & Public)
     {
         if (m_def && (column < 2))
@@ -615,9 +615,10 @@ void KeyListView::refreshGroups()
     for (QStringList::Iterator it = groups.begin(); it != groups.end(); ++it)
         if (!QString(*it).isEmpty())
         {
-            item = new KeyListViewItem(this, QString(*it), "-", "-", "-", "-", "-", "-", false, false, KeyListViewItem::Group);
+            QStringList keys = KgpgInterface::getGpgGroupSetting(QString(*it), KGpgSettings::gpgConfigPath());
+            item = new KeyListViewItem(this, QString(*it), "-", "-", "-", i18np("%1 key", "%1 keys", keys.count()), "-", "-", false, false, KeyListViewItem::Group);
             item->setPixmap(0, Images::group());
-            item->setExpandable(false);
+            item->setExpandable(true);
         }
 
     emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
@@ -694,6 +695,11 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
 
     if (item->childCount() != 0)
         return;   // key has already been expanded
+
+    if (item->itemType() == KeyListViewItem::Group) {
+        expandGroup(item);
+        return;
+    }
 
     QString keyid = item->keyId();
 
@@ -778,7 +784,18 @@ void KeyListView::expandGroup(KeyListViewItem *item)
     for (QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
     {
         KeyListViewItem *item2 = new KeyListViewItem(item, QString(*it));
-        item2->setPixmap(0, Images::group());
+        KeyListViewItem *target = findItemByKeyId(QString(*it));
+
+        if (target == NULL) {
+          item2->setPixmap(0, Images::single());
+          item2->setItemType(KeyListViewItem::GPublic);
+        } else {
+          item2->setPixmap(0, *target->pixmap(0));
+          item2->setText(0, target->text(0));
+          item2->setItemType(target->itemType() | KeyListViewItem::Group);
+          item2->setGroupId(QString(*it));
+        }
+        item2->setText(6, QString(*it).right(8));
         item2->setExpandable(false);
     }
 }

@@ -38,6 +38,9 @@ public:
         Secret = 2,
         Public = 4,
         Pair = Secret | Public,
+        GSecret = Group | Secret,
+        GPublic = Group | Public,
+        GPair = Group | Pair,
         Sub = 8,
         Uid = 16,
         Uat = 32,
@@ -61,6 +64,8 @@ public:
     void setExpired(const bool &exp);
     bool isExpired() const;
 
+    void setGroupId(const QString &nid) { delete groupId; groupId = new QString(nid); }
+
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int col, int width, int align);
     virtual int compare(Q3ListViewItem *item, int c, bool ascending) const;
     virtual QString key(int column, bool) const;
@@ -68,7 +73,7 @@ public:
     virtual KeyListViewItem *nextSibling() const { return static_cast<KeyListViewItem*>(K3ListViewItem::nextSibling()); }
     virtual KeyListViewItem *firstChild() const { return static_cast<KeyListViewItem*>(K3ListViewItem::firstChild()); }
     virtual KgpgKey* getKey() { return m_key; }
-    virtual QString keyId(void) const { return m_key ? m_key->fullId() : m_sig ? m_sig->fullId() : text(6); }
+    virtual QString keyId(void) const { return m_key ? m_key->fullId() : m_sig ? m_sig->fullId() : groupId ? *groupId : text(6); }
 
 private:
     bool m_def; /// Is set to \em true if it is the default key, \em false otherwise.
@@ -76,6 +81,7 @@ private:
     ItemType m_type;
     KgpgKey *m_key;
     KgpgKeySign *m_sig;
+    QString *groupId;
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(KeyListViewItem::ItemType)
 

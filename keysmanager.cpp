@@ -1165,6 +1165,10 @@ void KeysManager::checkList()
                                     break;
     case KeyListViewItem::Secret:   changeMessage(i18n("Orphaned Secret Key"), 0);
                                     break;
+    case KeyListViewItem::GPublic:
+    case KeyListViewItem::GSecret:
+    case KeyListViewItem::GPair:    changeMessage(i18n("Group member"), 0);
+                                    break;
     default:
 kDebug(3125) << "Oops, unmatched type value" << keysList2->currentItem()->itemType();
     }
@@ -1656,7 +1660,7 @@ void KeysManager::listsigns()
             // display photo
             slotShowPhoto();
         }
-        if (isSignatureUnknown(cur))
+        if (isSignatureUnknown(cur) && !(cur->itemType() & KeyListViewItem::Group))
           return;
         KeyListViewItem *tgt = keysList2->findItemByKeyId(cur->keyId());
         if (tgt == NULL)
@@ -1799,27 +1803,17 @@ void KeysManager::createNewGroup()
 
 void KeysManager::groupInit(const QStringList &keysGroup)
 {
-    kDebug(2100) << "preparing group" ;
+    kDebug(2100) << "preparing group" << keysGroup;
     QStringList lostKeys;
-    bool foundId;
 
     for (QStringList::ConstIterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
     {
-        KeyListViewItem *item = static_cast<KeyListViewItem*>(gEdit->availableKeys->firstChild());
-        foundId = false;
-        while (item)
-        {
-            kDebug(2100) << "Searching in key: " << item->text(0) ;
-            if (QString(*it).right(8).toLower() == item->text(2).right(8).toLower())
-            {
-                gEdit->groupKeys->insertItem(item);
-                foundId = true;
-                break;
-            }
-            item = item->nextSibling();
-        }
-        if (!foundId)
+        KeyListViewItem *item = keysList2->findItemByKeyId(QString(*it));
+        if (item != NULL)
+            gEdit->groupKeys->insertItem(item);
+        else
             lostKeys += QString(*it);
+
     }
 
     if (!lostKeys.isEmpty())
