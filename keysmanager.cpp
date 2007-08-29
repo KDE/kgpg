@@ -1139,7 +1139,7 @@ void KeysManager::closeEvent (QCloseEvent *e)
 void KeysManager::showKeyServer()
 {
     KeyServer *ks = new KeyServer(this);
-    connect(ks, SIGNAL(importFinished(QStringList)), keysList2, SLOT(refreshKeys(QStringList())));
+    connect(ks, SIGNAL(importFinished(QStringList)), keysList2, SLOT(refreshKeys(QStringList)));
     ks->exec();
     delete ks;
     refreshkey();
