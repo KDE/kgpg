@@ -722,6 +722,9 @@ void KeysManager::refreshKeyFromServer()
 
         if (item)
         {
+		if (item->itemType() == KeyListViewItem::Group)
+			continue;
+
 		KgpgKey *key = item->getKey();
 
 		if ((item->depth() != 0) || !key) {
