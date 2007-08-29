@@ -59,7 +59,7 @@ public:
     void refreshKeys(QStringList *keys);
 
 signals:
-    void importFinished(QString);
+    void importFinished(QStringList);
 
 public slots:
     void slotImport();

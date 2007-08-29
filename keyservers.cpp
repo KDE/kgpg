@@ -201,7 +201,7 @@ void KeyServer::slotAbortImport()
     {
         disconnect(m_importproc, 0, 0, 0);
         m_importproc->kill();
-        emit importFinished(QString());
+//         emit importFinished(QStringList());
     }
 
     if (m_autoclosewindow)
@@ -296,12 +296,8 @@ void KeyServer::slotImportResult(K3Process *p)
     else
         resultMessage = i18n("No key imported... \nCheck detailed log for more infos");
 
-    QString lastID = importedKeys.count() == 0 ? QString() : importedKeys.last();
-    if (!lastID.isEmpty())
-    {
-        //kDebug(2100)<<"++++++++++imported key"<<lastID;
-        emit importFinished(lastID);
-    }
+    if (!importedKeys.empty())
+        emit importFinished(importedKeys);
 
     if (m_importpop)
         m_importpop->hide();
