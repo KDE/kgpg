@@ -965,20 +965,14 @@ kgpgapplet::kgpgapplet(QWidget *parent)
 
     QMenu *conf_menu = contextMenu();
 
-    QAction *KgpgOpenEditor;
-
-    if (KGpgSettings::leftClick() == KGpgSettings::EnumLeftClick::KeyManager)
-    {
-        KgpgOpenEditor = actionCollection()->addAction("kgpg_editor");
-        KgpgOpenEditor->setIcon(KIcon("edit"));
-        KgpgOpenEditor->setText(i18n("&Open Editor"));
-        connect(KgpgOpenEditor, SIGNAL(triggered(bool)), parent, SLOT(slotOpenEditor()));
-    } else {
-        KgpgOpenEditor = actionCollection()->addAction("kgpg_editor");
-        KgpgOpenEditor->setIcon(KIcon("kgpg"));
-        KgpgOpenEditor->setText(i18n("&Open Key Manager"));
-        connect(KgpgOpenEditor, SIGNAL(triggered(bool)), SLOT(slotOpenKeyManager()));
-    }
+    QAction *KgpgOpenEditor = actionCollection()->addAction("kgpg_editor");
+    KgpgOpenEditor->setIcon(KIcon("edit"));
+    KgpgOpenEditor->setText(i18n("E&ditor"));
+    connect(KgpgOpenEditor, SIGNAL(triggered(bool)), parent, SLOT(slotOpenEditor()));
+    QAction *KgpgOpenManager = actionCollection()->addAction("kgpg_manager");
+    KgpgOpenManager->setIcon(KIcon("kgpg"));
+    KgpgOpenManager->setText(i18n("Ke&y Manager"));
+    connect(KgpgOpenManager, SIGNAL(triggered(bool)), SLOT(slotOpenKeyManager()));
 
     QAction *KgpgEncryptClipboard = actionCollection()->addAction("clip_encrypt");
     KgpgEncryptClipboard->setText(i18n("&Encrypt Clipboard"));
@@ -999,6 +993,7 @@ kgpgapplet::kgpgapplet(QWidget *parent)
     conf_menu->addAction( KgpgEncryptClipboard );
     conf_menu->addAction( KgpgDecryptClipboard );
     conf_menu->addAction( KgpgSignClipboard );
+    conf_menu->addAction( KgpgOpenManager );
     conf_menu->addAction( KgpgOpenEditor );
     conf_menu->addAction( KgpgOpenServer );
     conf_menu->addSeparator();
