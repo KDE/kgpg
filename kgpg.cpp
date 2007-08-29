@@ -1122,6 +1122,11 @@ int KgpgAppletApp::newInstance()
         s_keyManager->raise();  // set on top
     }
     else
+    if (args->isSet("d") != 0)
+    {
+       s_keyManager->slotOpenEditor();
+    }
+    else
     if (args->count() > 0)
     {
         kDebug(2100) << "KGpg: found files" ;

@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
     KCmdLineOptions options;
     options.add("e", ki18n("Encrypt file"));
     options.add("k", ki18n("Open key manager"));
+    options.add("d", ki18n("Open editor"));
     options.add("s", ki18n("Show encrypted file"));
     options.add("S", ki18n("Sign file"));
     options.add("V", ki18n("Verify signature"));

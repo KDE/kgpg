@@ -105,6 +105,7 @@ public slots:
     bool importRemoteKey(const QString &keyID);
     void showKeyServer();
     void showOptions();
+    void slotOpenEditor();
 
 protected:
     void closeEvent(QCloseEvent *e);
@@ -113,8 +114,6 @@ protected:
     bool isSignatureUnknown(KeyListViewItem *);
 
 private slots:
-    void slotOpenEditor();
-
     void statusBarTimeout();
     void changeMessage(const QString &msg, const int nb, const bool keep = false);
 
