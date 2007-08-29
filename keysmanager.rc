@@ -66,11 +66,11 @@
     <enable>
         <Action name="edit_group"/>
         <Action name="delete_group"/>
+        <Action name="key_server_refresh"/>
     </enable>
 
     <disable>
         <Action name="add_kab"/>
-        <Action name="key_server_refresh"/>
         <Action name="create_group"/>
         <Action name="key_info"/>
         <Action name="key_sign"/>

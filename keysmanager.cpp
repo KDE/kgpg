@@ -354,6 +354,7 @@ KeysManager::KeysManager(QWidget *parent)
     m_popupgroup = new KMenu();
     m_popupgroup->addAction(editCurrentGroup);
     m_popupgroup->addAction(delGroup);
+    m_popupgroup->addAction(refreshKey);
 
     m_popupout = new KMenu();
     m_popupout->addAction(importKey);
@@ -722,7 +723,21 @@ void KeysManager::refreshKeyFromServer()
 
         if (item)
         {
-		if (item->itemType() == KeyListViewItem::Group)
+		if (item->itemType() == KeyListViewItem::Group) {
+			KeyListViewItem *cur = item->firstChild();
+
+			if (!cur) {
+				item->setOpen(true);
+				item->setOpen(false);
+				cur = item->firstChild();
+			}
+			while (cur) {
+				*keyIDS << cur->keyId();
+				cur = cur->nextSibling();
+			}
+			continue;
+		}
+		if (item->itemType() & KeyListViewItem::Group)
 			continue;
 
 		KgpgKey *key = item->getKey();
@@ -1306,16 +1321,19 @@ void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
             bool allunksig = true;
             bool allsig = true;
 
-            for (int i = 0; i < exportList.count(); ++i)
-                if (exportList.at(i))
-                    if (exportList.at(i)->depth() != 0) {
-                        keyDepth = false;
+            for (int i = 0; i < exportList.count(); ++i) {
+                KeyListViewItem *cur = exportList.at(i);
+                if (cur)
+                    if (cur->depth() != 0) {
+                        if (!(cur->itemType() & KeyListViewItem::Group))
+                            keyDepth = false;
                         allsig &= isSignature(exportList.at(i));
                         allunksig &= isSignatureUnknown(exportList.at(i));
                     } else {
                       allunksig = false;
                       allsig = false;
                     }
+            }
 
             if (allsig) {
                 importSignatureKey->setEnabled(allunksig);
