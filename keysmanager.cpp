@@ -129,6 +129,7 @@ KeysManager::KeysManager(QWidget *parent)
     keysList2->photoKeysList = QString();
     keysList2->groupNb = 0;
     m_statusbar = 0;
+    terminalkey = NULL;
     readOptions();
 
     if (showTipOfDay)
@@ -2189,15 +2190,25 @@ void KeysManager::slotedit()
         return;
     if (item->keyId() == NULL)
         return;
+    if (terminalkey != NULL)
+        return;
 
-    QProcess *kp = new QProcess(this);
+    KProcess *kp = new KProcess(this);
     KConfigGroup config(KGlobal::config(), "General");
-    QString terminalApp = config.readPathEntry("TerminalApplication","konsole");
-    QStringList args;
-    args << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" <<"--edit-key" << keysList2->currentItem()->keyId() << "help";
-    kp->start(terminalApp, args);
-    kp->waitForFinished();
-    keysList2->refreshcurrentkey(keysList2->currentItem());
+    *kp << config.readPathEntry("TerminalApplication","konsole");
+    *kp << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" <<"--edit-key" << keysList2->currentItem()->keyId() << "help";
+    terminalkey = keysList2->currentItem();
+
+    connect(kp, SIGNAL(finished(int)), SLOT(slotEditDone(int)));
+    kp->start();
+}
+
+void KeysManager::slotEditDone(int exitcode)
+{
+    if (exitcode == 0)
+        keysList2->refreshcurrentkey(terminalkey);
+
+    terminalkey = NULL;
 }
 
 void KeysManager::doFilePrint(const QString &url)
@@ -2253,6 +2264,10 @@ void KeysManager::confirmdeletekey()
 {
     KeyListViewItem *ki = keysList2->currentItem();
 
+    // do not delete a key currently edited in terminal
+    if ((ki == terminalkey) && (keysList2->selectedItems().count() == 1))
+        return;
+
     if (ki->depth() != 0)
     {
 	// this is only a public key
@@ -2286,7 +2301,7 @@ void KeysManager::confirmdeletekey()
                     secList += ki->text(0) + " (" + ki->text(1) + ")<br/>";
                     ki->setSelected(false);
                 }
-                else
+                else if (ki != terminalkey)
                     keysToDelete += ki->text(0) + " (" + ki->text(1) + ')';
             }
 	}

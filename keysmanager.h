@@ -189,6 +189,7 @@ private slots:
     void reloadSecretKeys();
     void dcopImportFinished();
     void getMissingSigs(QStringList *missingKeys, KeyListViewItem *item);
+    void slotEditDone(int exitcode);
 
 private:
     QString message;
@@ -239,6 +240,8 @@ private:
     int globalChecked;
 
     long searchOptions;
+
+    KeyListViewItem *terminalkey; // the key currently edited in a terminal
 };
 
 #endif // KEYSMANAGER_H
