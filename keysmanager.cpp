@@ -1759,7 +1759,7 @@ void KeysManager::groupChange()
     KeyListViewItem *item = static_cast<KeyListViewItem*>(gEdit->groupKeys->firstChild());
     while (item)
     {
-        selected += item->text(2);
+        selected += item->keyId();
         item = item->nextSibling();
     }
     KgpgInterface::setGpgGroupSetting(keysList2->currentItem()->text(0), selected,KGpgSettings::gpgConfigPath());
@@ -1834,6 +1834,15 @@ void KeysManager::groupInit(const QStringList &keysGroup)
         if (item != NULL) {
             KeyListViewItem *n = new KeyListViewItem(gEdit->groupKeys, *item->getKey(), item->isDefault());
             n->setText(2, item->text(6));
+
+            n = static_cast<KeyListViewItem *>(gEdit->availableKeys->firstChild());
+            while (n) {
+               if (*n->getKey() == *item->getKey()) {
+                   delete n;
+                   break;
+               }
+               n = n->nextSibling();
+            }
         }
         else
             lostKeys += QString(*it);
