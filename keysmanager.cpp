@@ -1834,7 +1834,6 @@ void KeysManager::groupInit(const QStringList &keysGroup)
         if (item != NULL) {
             KeyListViewItem *n = new KeyListViewItem(gEdit->groupKeys, *item->getKey(), item->isDefault());
             n->setText(2, item->text(6));
-            gEdit->groupKeys->insertItem(n);
         }
         else
             lostKeys += QString(*it);
@@ -1870,18 +1869,16 @@ void KeysManager::editGroup()
     if (!item)
         return;
 
-    if (item->pixmap(2))
-        if ((item->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber()) ||
-            (item->pixmap(2)->serialNumber() == keysList2->trustultimate.serialNumber()))
-            (void) new K3ListViewItem(gEdit->availableKeys, item->text(0), item->text(1), item->text(6));
-
-    while (item->nextSibling())
+    while (item)
     {
-        item = item->nextSibling();
         if (item->pixmap(2))
             if ((item->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber()) ||
-                (item->pixmap(2)->serialNumber() == keysList2->trustultimate.serialNumber()))
-                (void) new K3ListViewItem(gEdit->availableKeys, item->text(0), item->text(1), item->text(6));
+                (item->pixmap(2)->serialNumber() == keysList2->trustultimate.serialNumber())) {
+                     KeyListViewItem *n = new KeyListViewItem(gEdit->availableKeys, *item->getKey(), item->isDefault());
+                     n->setText(2, item->text(6));
+            }
+
+        item = item->nextSibling();
     }
 
     keysGroup = KgpgInterface::getGpgGroupSetting(keysList2->currentItem()->text(0), KGpgSettings::gpgConfigPath());
