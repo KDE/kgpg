@@ -1831,8 +1831,11 @@ void KeysManager::groupInit(const QStringList &keysGroup)
     for (QStringList::ConstIterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
     {
         KeyListViewItem *item = keysList2->findItemByKeyId(QString(*it));
-        if (item != NULL)
-            gEdit->groupKeys->insertItem(item);
+        if (item != NULL) {
+            KeyListViewItem *n = new KeyListViewItem(gEdit->groupKeys, *item->getKey(), item->isDefault());
+            n->setText(2, item->text(6));
+            gEdit->groupKeys->insertItem(n);
+        }
         else
             lostKeys += QString(*it);
 
