@@ -1763,6 +1763,20 @@ void KeysManager::groupChange()
         item = item->nextSibling();
     }
     KgpgInterface::setGpgGroupSetting(keysList2->currentItem()->text(0), selected,KGpgSettings::gpgConfigPath());
+    keysList2->currentItem()->setText(4, i18np("%1 key", "%1 keys", selected.count()));
+    item = keysList2->currentItem()->firstChild();
+    if (item)
+    {
+         bool o = keysList2->currentItem()->isOpen();
+
+         while (item) {
+             delete item;
+             item = keysList2->currentItem()->firstChild();
+        }
+        keysList2->expandGroup(keysList2->currentItem());
+        if (o)
+           keysList2->currentItem()->setOpen(true);
+    }
 }
 
 void KeysManager::createNewGroup()
