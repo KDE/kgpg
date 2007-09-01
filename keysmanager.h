@@ -192,7 +192,6 @@ private slots:
     void slotEditDone(int exitcode);
 
 private:
-    QString message;
     QString globalkeyMail;
     QString globalkeyID;
     QString searchString;
