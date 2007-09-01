@@ -2364,9 +2364,7 @@ void KeysManager::deletekey()
 
     gp.execute();
 
-    for (int i = 0; i < exportList.count(); ++i)
-        if (exportList.at(i))
-            keysList2->refreshcurrentkey(exportList.at(i));
+    keysList2->refreshAll();
 
     if (keysList2->currentItem())
     {
