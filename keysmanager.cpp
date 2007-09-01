@@ -2288,8 +2288,10 @@ void KeysManager::confirmdeletekey()
     KeyListViewItem *ki = keysList2->currentItem();
 
     // do not delete a key currently edited in terminal
-    if ((ki == terminalkey) && (keysList2->selectedItems().count() == 1))
+    if ((ki == terminalkey) && (keysList2->selectedItems().count() == 1)) {
+        KMessageBox::error(this, i18n("Can not delete key <b>%1</b> while it is edited in terminal.", terminalkey->keyId()), i18n("Delete key"));
         return;
+    }
 
     if (ki->depth() != 0)
     {
