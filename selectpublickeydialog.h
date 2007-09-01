@@ -40,7 +40,10 @@ class KgpgSelectPublicKeyDlg : public KDialog
     Q_OBJECT
 
 public:
-    explicit KgpgSelectPublicKeyDlg(QWidget *parent = 0, const QString &sfile = "", const bool &filemode = false, const bool &enabledshred = true, const KShortcut &goDefaultKey = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)));
+    /* TODO: the goDefaultKey shortcut should be stored in a way it can be accessed from everywhere. So we don't have to pass it as an argument.
+     */
+
+    explicit KgpgSelectPublicKeyDlg(QWidget *parent = 0, const QString &sfile = "", const bool &filemode = false, const bool &enabledshred = true, const KShortcut &goDefaultKey = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), const bool &hideasciioption = false);
 
     QStringList selectedKeys() const;
     QString getCustomOptions() const;
@@ -74,6 +77,7 @@ private:
     K3ListView *m_keyslist;
     K3ListViewSearchLine *m_searchlineedit;
 
+    bool m_hideasciioption;
     bool m_fmode;
 };
 

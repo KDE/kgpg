@@ -104,13 +104,12 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 
 void KgpgTextEdit::slotEncode()
 {
-    //KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, 0, false, true, (static_cast<KgpgEditor*>(parent()))->m_godefaultkey);
-    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this);  // TODO default key
+    // TODO : goDefaultKey shortcut
+    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, 0, false, true, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), true);
     if (dialog->exec() == KDialog::Accepted)
     {
         QStringList options;
-        options << "--armor";
-
+        if (dialog->getArmor())     options << "--armor";
         if (dialog->getUntrusted()) options << "--always-trust";
         if (dialog->getHideId())    options << "--throw-keyid";
 

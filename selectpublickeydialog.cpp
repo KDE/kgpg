@@ -122,7 +122,7 @@ private:
     KgpgSelectPublicKeyDlg *m_dialog;
 };
 
-KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &sfile, const bool &filemode, const bool &enabledshred, const KShortcut &goDefaultKey)
+KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &sfile, const bool &filemode, const bool &enabledshred, const KShortcut &goDefaultKey, const bool &hideasciioption)
                       : KDialog(parent)
 {
     setCaption(i18n("Select Public Key"));
@@ -161,9 +161,15 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     optionsbox->setFrameShape(QFrame::StyledPanel);
     setDetailsWidget(optionsbox);
 
-    m_cbarmor = new QCheckBox(i18n("ASCII armored encryption"), optionsbox);
-    m_cbarmor->setChecked(KGpgSettings::asciiArmor());
-    m_cbarmor->setWhatsThis(i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));
+    m_hideasciioption = hideasciioption;
+    if (m_hideasciioption)
+        m_cbarmor = 0;
+    else
+    {
+        m_cbarmor = new QCheckBox(i18n("ASCII armored encryption"), optionsbox);
+        m_cbarmor->setChecked(KGpgSettings::asciiArmor());
+        m_cbarmor->setWhatsThis(i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));
+    }
 
     m_cbuntrusted = new QCheckBox(i18n("Allow encryption with untrusted keys"), optionsbox);
     m_cbuntrusted->setChecked(KGpgSettings::allowUntrustedKeys());
@@ -280,7 +286,7 @@ bool KgpgSelectPublicKeyDlg::getUntrusted() const
 
 bool KgpgSelectPublicKeyDlg::getArmor() const
 {
-    return m_cbarmor->isChecked();
+    return m_hideasciioption || m_cbarmor->isChecked();
 }
 
 bool KgpgSelectPublicKeyDlg::getHideId() const
