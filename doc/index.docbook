@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
 "dtd/kdex.dtd" [
-  <!ENTITY kgpg "<application>Kgpg</application>">
+  <!ENTITY kgpg "<application>KGpg</application>">
   <!ENTITY package "kdeutils">
   <!ENTITY kappname "&kgpg;">
   <!ENTITY % addindex "IGNORE">
@@ -21,20 +21,28 @@
 <address><email>bj@altern.org</email></address>
 </affiliation>
 </author>
+<author>
+<firstname>Rolf Eike</firstname>
+<surname>Beer</surname>
+<affiliation>
+<address><email>kde@opensource.sf-tec.de</email></address>
+</affiliation>
+</author>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 
 </authorgroup>
 
 <copyright>
-<year>2002</year>
+<year>2002,2007</year>
 <holder>Jean-Baptiste Mardelle</holder>
+<holder>Rolf Eike Beer</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2002-03-01</date>
-<releaseinfo>0.02.00</releaseinfo>
+<date>2007-09-01</date>
+<releaseinfo>0.03.00</releaseinfo>
 
 <abstract>
 <para>
@@ -108,8 +116,8 @@ You can also drop files or text on the applet icon to encrypt or decrypt it.
 </mediaobject>
 </screenshot>
 
-<para>That's the central place to manage your keys. To open the Key Manager window, &LMB; on &kgpg;'s applet.
-You can import, export, sign and edit your keys. Most actions can be performed with a &LMB; click on a key.
+<para>That's the central place to manage your keys. To open the <link linkend="keymanager">Key Manager window</link>, &LMB; on &kgpg;'s applet.
+You can import, export, sign and edit your keys. Most actions can be performed with a &RMB; click on a key.
 </para>
 </listitem>
 </varlistentry>
@@ -180,6 +188,9 @@ Pair</guimenuitem></menuchoice>.</para>
 <guibutton>Ok</guibutton>. This will generate a standard gpg key. If
 you want more options, you can click on the Expert mode button, which
 will bring up a &konsole; window with all of gpg's options.</para>
+<para>If you create a public key for the first time it's usually a good idea
+to limit the lifetime to some 12 month. You can modify the lifetime of your
+secret keys later using the <link linkend="keyproperties">key properties window</link>.</para>
 
 </sect1>
 
@@ -288,6 +299,9 @@ Most options are available with a <mousebutton>right</mousebutton> click on a ke
 To import/export public keys, you can use drag
 and drop or the Copy/Paste keyboard shortcuts.</para>
 
+<sect2 id="keymanager">
+<title>Key Manager</title>
+
 <screenshot>
 <screeninfo>Here's a screen shot of key management</screeninfo>
 <mediaobject>
@@ -296,15 +310,54 @@ and drop or the Copy/Paste keyboard shortcuts.</para>
 </mediaobject>
 </screenshot>
 
+<para>In this example you see a key group containing two keys, two key pairs and three public keys. The third column shows the trust you have in the keys. The first key pair is ultimately trusted and is also set as the default key (bold font) while the second one has expired. Two of the public keys are fully trusted while the trust of the last key is marginal. The last key is expanded, showing it's ElGamal subkey, a additional user id, both also with marginal trust, and some of it's signatures.</para>
+<para>Signatures allow navigating through your keyring. Double clicking on a signature or a key shown as member of a group will jump directly to the corresponding primary key.</para>
+</sect2>
+
+<sect2 id="keyproperties">
+<title>Key properties</title>
+
+<screenshot>
+<screeninfo>The key properties window</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="keyprop.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para>While the key manager allows you to do general actions with one or multiple keys, key groups or signatures, the key properties window gives you access to a single key. You can reach it by pressing enter in the key manager or double clicking the key.</para>
+<para>In this window you can change the key passphrase and expiration of your secret keys. For all keys you can also set the owner trust value.</para>
+<para>This value indicates how much you trust the owner of this key to correctly verify the identity of the keys he signs. Taking the owner trust into account gpg creates your own web of trust. You trust the keys you signed. If you assign owner trust to these persons you will also trust the keys they have signed without the need that you first have to sign there keys too.</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="keyserver">
+<title>Communication with key servers</title>
+
+<para>The public part of a key pair is usually stored on a key server. These servers allow anyone to search for a key belonging to a specific person or mail address. The signatures are also stored on this servers.</para>
+
+<screenshot>
+<screeninfo>Here's a screen shot of keyserver window.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="keyserver.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para>This dialog gives you access to the keyservers. You can search and import keys from a keyserver as well as export keys to a server. An example of searching and importing is when you want to write a mail to someone new. If you would like to encrypt your mail to your contact you can search if he or she has a public key on the key servers. If you have created a new key pair or have signed someone else's key you might want to export the public key (possibly with new signatures) to a keyserver.</para>
+<para>Most keyservers synchronize their data between each others so you will get similar search results regardless which server you use. Since there are exceptions of this rule you can choose the keyserver to use in this dialog. It's usually a good idea to choose a default keyserver that is located close to you (i.e. in your country or on your continent) as they usually respond faster to your queries.</para>
+
 </sect1>
 
 <sect1 id="options">
 <title>Configuring &kgpg;</title>
 
 <para>Configuration is accessible through the &kgpg; applet menu (&RMB;
-click on the applet). You can set default parameters for encryption,
-decryption, user interface and applet.  Most encryption options are
-directly related to gpg and are documented in it's man page. </para>
+click on the applet) or through the main menu (
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure KGpg</guimenuitem></menuchoice>).
+You can set default parameters for encryption, decryption, user interface and applet.
+Most encryption options are directly related to gpg and are documented in it's man page.</para>
 
 <screenshot>
 <screeninfo>Here's a screen shot of the option dialog</screeninfo>
@@ -329,6 +382,13 @@ directly related to gpg and are documented in it's man page. </para>
 
 <para>Program copyright &copy; 2002-2003 Jean-Baptiste Mardelle
 <email>bj@altern.org</email>.</para>
+
+<para>&copy; 2006-2007 Jimmy Gilles
+<email>jimmygilles@gmail.com</email></para>
+
+<para>&copy; 2006-2007 Rolf Eike Beer
+<email>kde@opensource.sf-tec.de</email>
+</para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
