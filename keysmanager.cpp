@@ -2421,8 +2421,8 @@ void KeysManager::slotPreImportKey()
     dial->setMainWidget(page);
     page->newFilename->setWindowTitle(i18n("Open File"));
     page->newFilename->setMode(KFile::File);
-    page->resize(page->minimumSize());
-    dial->resize(dial->minimumSize());
+//     page->resize(page->minimumSize());
+//     dial->resize(dial->minimumSize());
 
     if (dial->exec() == QDialog::Accepted)
     {
