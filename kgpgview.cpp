@@ -447,7 +447,7 @@ KgpgView::~KgpgView()
 void KgpgView::slotSignVerify()
 {
     QString mess = editor->toPlainText();
-    if (mess.contains("-----BEGIN PGP SIGNED"))
+    if (mess.contains(SIGNEDMESSAGE_BEGIN))
         editor->slotVerify();
     else
         editor->slotSign();
