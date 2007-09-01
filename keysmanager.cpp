@@ -2293,14 +2293,6 @@ void KeysManager::confirmdeletekey()
         return;
     }
 
-    if (ki->depth() != 0)
-    {
-	// this is only a public key
-        if ((ki->depth() == 1) && !(ki->itemType() & KeyListViewItem::Secret) && (ki->itemType() & KeyListViewItem::Public))
-            delsignkey();
-        return;
-    }
-
     if (ki->itemType() & KeyListViewItem::Group)
     {
         deleteGroup();
