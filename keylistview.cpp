@@ -492,6 +492,7 @@ bool KeyListView::refreshKeys(const QStringList &ids)
         return 1;
     else
     {
+        sort();
         if (publiclist.size() == 1)
         {
             clearSelection();
