@@ -116,7 +116,7 @@ You can also drop files or text on the applet icon to encrypt or decrypt it.
 </mediaobject>
 </screenshot>
 
-<para>That's the central place to manage your keys. To open the <link linkend="keymanager">Key Manager window</link>, &LMB; on &kgpg;'s applet.
+<para>That's the central place to manage your keys. To open the <link linkend="keymanager">Key Manager window</link>, click with the &LMB; on &kgpg;'s applet.
 You can import, export, sign and edit your keys. Most actions can be performed with a &RMB; click on a key.
 </para>
 </listitem>
@@ -134,7 +134,7 @@ You can import, export, sign and edit your keys. Most actions can be performed w
 </mediaobject>
 </screenshot>
 
-<para>It's a simple text editor, where you can type or paste text to encrypt/decrypt it. To open the editor, &RMB; on &kgpg;'s applet.
+<para>It's a simple text editor, where you can type or paste text to encrypt/decrypt it. To open the editor, click with the &RMB; on &kgpg;'s applet.
 </para>
 </listitem>
 </varlistentry>
