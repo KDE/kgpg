@@ -383,7 +383,7 @@ void KeyListView::slotReloadKeys(const QStringList &keyids)
     refreshKeys(keyids);
 
     ensureItemVisible(this->findItemByKeyId(keyids.last()));
-    emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
+    emit statusMessage(statusCountMessage(), 1);
     emit statusMessage(i18n("Ready"), 0);
 }
 
@@ -439,7 +439,7 @@ void KeyListView::refreshAll()
         setSelected(firstChild(), true);
     }
 
-    emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
+    emit statusMessage(statusCountMessage(), 1);
     emit statusMessage(i18n("Ready"),0);
     kDebug(2100) << "Refresh Finished" ;
 }
@@ -555,7 +555,7 @@ void KeyListView::slotReloadOrphaned()
         insertOrphans(list);
 
     setSelected(findItemByKeyId(*it), true);
-    emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
+    emit statusMessage(statusCountMessage(), 1);
     emit statusMessage(i18n("Ready"), 0);
 }
 
@@ -622,7 +622,7 @@ void KeyListView::refreshGroups()
             item->setExpandable(true);
         }
 
-    emit statusMessage(i18n("%1 Keys, %2 Groups", childCount() - groupNb, groupNb), 1);
+    emit statusMessage(statusCountMessage(), 1);
     emit statusMessage(i18n("Ready"), 0);
 }
 
@@ -864,6 +864,19 @@ KeyListViewItem *KeyListView::findItemByKeyId(const QString &id)
 			return cur;
 	}
 	return NULL;
+}
+
+QString KeyListView::statusCountMessage(void)
+{
+	QString kmsg = i18np("1 Key", "%1 Keys", childCount() - groupNb);
+
+	if (groupNb == 0) {
+		return kmsg;
+	} else {
+		QString gmsg = i18np("1 Group", "%1 Groups", groupNb);
+	
+		return kmsg + ", " + gmsg;
+	}
 }
 
 KeyListViewSearchLine::KeyListViewSearchLine(QWidget *parent, KeyListView *listView)

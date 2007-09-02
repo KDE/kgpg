@@ -113,6 +113,7 @@ public slots:
     void slotAddColumn(const int &c);
     void slotRemoveColumn(const int &c);
     virtual KeyListViewItem *firstChild() { return static_cast<KeyListViewItem*>(K3ListView::firstChild()); }
+    QString statusCountMessage(void);
 
 protected:
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);

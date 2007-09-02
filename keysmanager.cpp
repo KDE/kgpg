@@ -574,7 +574,7 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
     }
     else
     {
-        changeMessage(i18n("%1 Keys, %2 Groups", keysList2->childCount() - keysList2->groupNb, keysList2->groupNb), 1);
+        changeMessage(keysList2->statusCountMessage(), 1);
 
         KDialog *keyCreated = new KDialog(this);
         keyCreated->setCaption(i18n("New Key Pair Created"));
@@ -1229,7 +1229,7 @@ void KeysManager::readOptions()
     QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
     KGpgSettings::setGroups(groups.join(","));
     keysList2->groupNb = groups.count();
-    changeMessage(i18n("%1 Keys, %2 Groups", keysList2->childCount() - keysList2->groupNb, keysList2->groupNb), 1);
+    changeMessage(keysList2->statusCountMessage(), 1);
 
     showTipOfDay = KGpgSettings::showTipOfDay();
 }
@@ -1750,7 +1750,7 @@ void KeysManager::deleteGroup()
     QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
     KGpgSettings::setGroups(groups.join(","));
     keysList2->groupNb = groups.count();
-    changeMessage(i18n("%1 Keys, %2 Groups", keysList2->childCount()-keysList2->groupNb, keysList2->groupNb), 1);
+    changeMessage(keysList2->statusCountMessage(), 1);
 }
 
 void KeysManager::groupChange()
@@ -1830,7 +1830,7 @@ void KeysManager::createNewGroup()
             keysList2->setSelected(newgrp, true);
             keysList2->ensureItemVisible(newgrp);
             keysList2->groupNb = groups.count();
-            changeMessage(i18n("%1 Keys, %2 Groups", keysList2->childCount() - keysList2->groupNb, keysList2->groupNb), 1);
+            changeMessage(keysList2->statusCountMessage(), 1);
         }
         else
             KMessageBox::sorry(this, i18n("<qt>No valid or trusted key was selected. The group <b>%1</b> will not be created.</qt>", groupName));
@@ -2396,7 +2396,7 @@ void KeysManager::deletekey()
     else
         stateChanged("empty_list");
 
-    changeMessage(i18n("%1 Keys, %2 Groups", keysList2->childCount() - keysList2->groupNb, keysList2->groupNb), 1);
+    changeMessage(keysList2->statusCountMessage(), 1);
 }
 
 void KeysManager::slotPreImportKey()
