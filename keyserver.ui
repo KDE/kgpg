@@ -25,7 +25,7 @@
    <item row="0" column="0" >
     <widget class="QTabWidget" name="tabWidget2" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab" >
       <attribute name="title" >
@@ -113,7 +113,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
           <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeType" >
-          <enum>QSizePolicy::Minimum</enum>
+          <enum>QSizePolicy::MinimumExpanding</enum>
          </property>
          <property name="sizeHint" >
           <size>
@@ -244,7 +244,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
           <enum>Qt::Vertical</enum>
          </property>
          <property name="sizeType" >
-          <enum>QSizePolicy::Minimum</enum>
+          <enum>QSizePolicy::MinimumExpanding</enum>
          </property>
          <property name="sizeHint" >
           <size>
