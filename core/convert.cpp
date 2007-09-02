@@ -51,7 +51,7 @@ QString Convert::toString(const KgpgKeyOwnerTrust &ownertrust)
         case OWTRUST_FULL:      return i18n("Fully");
         case OWTRUST_ULTIMATE:  return i18n("Ultimately");
         case OWTRUST_UNKNOWN:
-        default:                return i18nc("Unkown trust in key owner", "Unknown");
+        default:                return i18nc("Unknown trust in key owner", "Unknown");
     }
 }
 
