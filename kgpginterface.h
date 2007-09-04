@@ -757,6 +757,7 @@ private:
     QString m_partialline;
     bool m_ispartial;
     QString message;
+    QString tmp_message;
     QString userIDs;
     QString log;
     bool encok;                 // encrypt ok

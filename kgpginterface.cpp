@@ -1042,6 +1042,7 @@ void KgpgInterface::decryptText(const QString &text, const QStringList &options)
 {
     m_partialline.clear();
     message.clear();
+    tmp_message.clear();
     userIDs.clear();
     log.clear();
     m_ispartial = false;
@@ -1138,11 +1139,15 @@ void KgpgInterface::decryptTextStdOut(K3Process *p, char *data, int)
             else
             if (line.contains("PLAINTEXT_LENGTH"))
                 m_textlength = line.mid(line.indexOf("[GNUPG:] PLAINTEXT_LENGTH") + 25).toInt();
+            else
             if (line.contains("DECRYPTION_OKAY"))
                 decok = true;
             else
             if (line.contains("BADMDC"))
                 badmdc = true;
+            else
+            if (!line.contains("[GNUPG:]"))
+                tmp_message.append(line + '\n');
         }
         else
         {
@@ -1165,8 +1170,12 @@ void KgpgInterface::decryptTextStdOut(K3Process *p, char *data, int)
 void KgpgInterface::decryptTextFin(K3Process *p)
 {
     delete p;
-    if ((decok) && (!badmdc))
-        emit txtDecryptionFinished(message, this);
+    if ((decok) && (!badmdc)) {
+        if (message.length() == 0)
+            emit txtDecryptionFinished(tmp_message, this);
+        else
+            emit txtDecryptionFinished(message, this);
+    }
     else
     if (badmdc)
     {
