@@ -767,46 +767,34 @@ void MyView::startWizard()
     wiz->kURLRequester2->setURL(KGlobalSettings::desktopPath());
         wiz->kURLRequester2->setMode(2);*/
 
-    FILE *fp,*fp2;
-    QString tst;
-    QString tst2;
-    QString name;
-    QString trustedvals = "idre-";
     QString firstKey = QString();
-    char line[300];
-    bool counter = false;
 
-    fp = popen("gpg --no-tty --with-colon --list-secret-keys", "r");
-    while (fgets(line, sizeof(line), fp))
-    {
-        tst = line;
-        if (tst.startsWith("sec"))
-        {
-            name = KgpgInterface::checkForUtf8(tst.section(':', 9, 9));
-            if (!name.isEmpty())
-            {
-                fp2 = popen("gpg --no-tty --with-colon --list-keys " + QFile::encodeName(tst.section(':',4,4)), "r");
-                while (fgets( line, sizeof(line), fp2))
-                {
-                    tst2 = line;
-                    if (tst2.startsWith("pub") && !trustedvals.contains(tst2.section(':',1,1)))
-                    {
-                        counter = true;
-                        wiz->CBdefault->addItem(tst.section(':', 4, 4).right(8) + ": " + name);
-                        if (firstKey.isEmpty())
-                            firstKey=tst.section(':',4,4).right(8)+": "+name;
-                        break;
-                    }
-                }
-                pclose(fp2);
-            }
+    KgpgInterface *interface = new KgpgInterface();
+    KgpgKeyList secretlist = interface->readSecretKeys();
+
+    QStringList issec;
+    int i;
+    for (i = 0; i < secretlist.size(); ++i)
+        issec << secretlist.at(i).fullId();
+
+    KgpgKeyList publiclist = interface->readPublicKeys(true, issec);
+    delete interface;
+
+    for (i = 0; i < publiclist.size(); ++i)
+        if (publiclist.at(i).trust() >= TRUST_FULL) {
+            KgpgKey k = publiclist.at(i);
+
+            QString s = k.fullId().right(8) + ": " + k.name() + " <" + k.email() + '>';
+
+            wiz->CBdefault->addItem(s);
+            if (firstKey.isEmpty())
+                firstKey = s;
         }
-    }
-    pclose(fp);
+
     wiz->CBdefault->setCurrentItem(firstKey);
 
     //connect(wiz->pushButton4,SIGNAL(clicked()),this,SLOT(slotGenKey()));
-    if (!counter)
+    if (!firstKey.isEmpty())
         connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotGenKey()));
     else
     {
