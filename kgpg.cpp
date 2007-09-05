@@ -739,7 +739,7 @@ void MyView::startWizard()
         {
             if (KMessageBox::questionYesNo(0, i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"), QString(), KGuiItem(i18n("Create Config")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes)
             {
-                confPath = gpgHome + "options";
+                confPath = gpgHome + "gpg.conf";
                 QFile file(confPath);
                 if (file.open(QIODevice::WriteOnly))
                 {
