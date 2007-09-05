@@ -542,7 +542,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 else
                     m_publickey.setEmail(QString());
 
-                QString kname = fullname.section('<', 0, 0);
+                QString kname = fullname.section(" <", 0, 0);
                 if (fullname.contains('(') )
                 {
                     kname = kname.section('(', 0, 0);
@@ -647,7 +647,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 else
                     uid.setEmail(QString());
 
-                QString kname = fullname.section('<', 0, 0);
+                QString kname = fullname.section(" <", 0, 0);
                 if (fullname.contains('(') )
                 {
                     kname = kname.section('(', 0, 0);
@@ -707,7 +707,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 else
                     signature.setEmail(QString());
 
-                QString kname = fullname.section('<', 0, 0);
+                QString kname = fullname.section(" <", 0, 0);
                 if (fullname.contains('(' ))
                 {
                     kname = kname.section('(', 0, 0);
@@ -855,7 +855,7 @@ void KgpgInterface::readSecretKeysProcess(K3ProcIO *p)
                 else
                     m_secretkey.setEmail(QString());
 
-                QString kname = fullname.section('<', 0, 0);
+                QString kname = fullname.section(" <", 0, 0);
                 if (fullname.contains('(' ))
                 {
                     kname = kname.section('(', 0, 0);
