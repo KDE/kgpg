@@ -2959,40 +2959,27 @@ void KgpgInterface::verifyfin(K3Process *)
 // delete signature
 void KgpgInterface::KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID)
 {
-    message = signKeyID.remove(0, 2);
     deleteSuccess = false;
     step = 0;
 
-    FILE *fp;
     QString encResult;
-    char buffer[200];
     signb = 0;
     sigsearch = 0;
-    int curuid = 1;
-    int tgtuid = uid.toInt();
+    QList<int> signoff;
 
-    QString gpgcmd = "gpg --no-tty --no-secmem-warning --with-colon --list-sigs " + keyID;
-    fp = popen(QFile::encodeName(gpgcmd), "r");
-    while (fgets( buffer, sizeof(buffer), fp))
-    {
-        encResult = buffer;
-                if (encResult.startsWith("uid"))
-                        curuid++;
-                else if (encResult.startsWith("sig") && (curuid == tgtuid)) {
-                        if (encResult.contains(message))
-                                break;
-                        signb++;
-                } else if (encResult.startsWith("rev"))
-                        signb++;
-        }
-        pclose(fp);
+    findSigns(keyID, QStringList(signKeyID), uid, &signoff);
+
+    if (signoff.count() == 0)
+        return;
+
+    signb = signoff.at(0);
+
         K3ProcIO *conprocess = gpgProc(2, 0);
         *conprocess << "--edit-key" << keyID << "uid" << uid << "delsig";
         connect(conprocess,SIGNAL(readReady(K3ProcIO *)),this,SLOT(delsigprocess(K3ProcIO *)));
         connect(conprocess, SIGNAL(processExited(K3Process *)),this, SLOT(delsignover(K3Process *)));
         conprocess->start(K3Process::NotifyOnExit,true);
 }
-
 
 void KgpgInterface::delsigprocess(K3ProcIO *p)//ess *p,char *buf, int buflen)
 {
@@ -3128,6 +3115,28 @@ K3ProcIO *KgpgInterface::gpgProc(const int statusfd, const int cmdfd)
 	}
 
 	return process;
+}
+
+void KgpgInterface::findSigns(const QString &keyID, const QStringList &ids, const QString &uid, QList<int> *res)
+{
+	K3ProcIO* listproc = gpgProc(1);
+	*listproc << "--with-colons" << "--list-sigs" << keyID;
+	listproc->start(K3Process::Block, false);
+
+	QString line;
+	int curuid = 1;
+	int signs = 0;
+	int tgtuid = uid.toInt();
+
+	while (listproc->readln(line, true) != -1) {
+		if (line.startsWith("sig:") && (tgtuid == curuid)) {
+			if (ids.contains(line.section(':', 4, 4), Qt::CaseInsensitive))
+				*res << signs;
+			signs++;
+		} else if (line.startsWith("uid:")) {
+			curuid++;
+		}
+	}
 }
 
 #include "kgpginterface.moc"

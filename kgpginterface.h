@@ -698,6 +698,11 @@ private slots:
     void delsignover(K3Process *p);
 
     /**
+     * Finds the offset of the given signatures to a uid
+     */
+    void findSigns(const QString &keyID, const QStringList &ids, const QString &uid, QList<int> *res);
+
+    /**
      * Checks output of the import process
      */
     void importURLover(K3Process *p);
