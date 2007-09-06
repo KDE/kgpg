@@ -2153,10 +2153,13 @@ void KeysManager::delsignkey()
     if (keysList2->currentItem() == 0)
         return;
 
-    if (keysList2->currentItem()->depth() > 1)
-    {
-        KMessageBox::sorry(this, i18n("Edit key manually to delete this signature."));
-        return;
+    QString uid;
+    KeyListViewItem *parent = keysList2->currentItem()->parent();
+    if (parent->itemType() == KeyListViewItem::Public)
+        uid = '1';
+    else {
+        Q_ASSERT(parent->itemType() == KeyListViewItem::Uid);
+        uid = parent->text(6);
     }
 
     QString signID;
@@ -2164,13 +2167,21 @@ void KeysManager::delsignkey()
     QString signMail;
     QString parentMail;
     KeyListViewItem *sitem = keysList2->currentItem();
-    KeyListViewItem *pitem = sitem->parent();
 
-    // open a key selection dialog (KgpgSelectSecretKey, see beginning of this file)
-    parentKey = pitem->keyId();
+    if (parent->depth() == 1)
+        parentKey = parent->parent()->keyId();
+    else
+        parentKey = parent->keyId();
     signID = sitem->keyId();
     parentMail = keysList2->currentItem()->parent()->text(0) + " (" + keysList2->currentItem()->parent()->text(1) + ')';
     signMail = keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ')';
+
+    parentMail = parent->text(0);
+    if (!parent->text(1).isEmpty())
+       parentMail += " &lt;" + parent->text(1) + "&gt;";
+    signMail = keysList2->currentItem()->text(0);
+    if (!keysList2->currentItem()->text(1).isEmpty())
+       signMail += " &lt;" + keysList2->currentItem()->text(1) + "&gt;";
 
     if (parentKey == signID)
     {
@@ -2178,14 +2189,14 @@ void KeysManager::delsignkey()
         return;
     }
 
-    QString ask = i18n("<qt>Are you sure you want to delete signature<br /><b>%1</b> from key:<br /><b>%2</b>?</qt>", signMail, parentMail);
+    QString ask = i18n("<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user id <b>%2</b><br />of key: <b>%3</b>?</qt>", signMail, parentMail, parentKey);
 
     if (KMessageBox::questionYesNo(this, ask, QString(), KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::Yes)
         return;
 
     KgpgInterface *delSignKeyProcess = new KgpgInterface();
     connect(delSignKeyProcess, SIGNAL(delsigfinished(bool)), this, SLOT(delsignatureResult(bool)));
-    delSignKeyProcess->KgpgDelSignature(parentKey, signID);
+    delSignKeyProcess->KgpgDelSignature(parentKey, uid, signID);
 }
 
 void KeysManager::delsignatureResult(bool success)

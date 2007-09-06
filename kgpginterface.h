@@ -674,7 +674,7 @@ public slots:
      * @param keyID QString the ID of the key
      * @param signKeyID QString the ID of the signature key
      */
-    void KgpgDelSignature(const QString &keyID, QString signKeyID);
+    void KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID);
 
     void KgpgRevokeKey(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description);
     void revokeover(K3Process *);

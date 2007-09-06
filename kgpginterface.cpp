@@ -2957,14 +2957,8 @@ void KgpgInterface::verifyfin(K3Process *)
 }
 
 // delete signature
-void KgpgInterface::KgpgDelSignature(const QString &keyID, QString signKeyID)
+void KgpgInterface::KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID)
 {
-    if (checkUID(keyID) > 0)
-    {
-        KMessageBox::sorry(0, i18n("This key has more than one user ID.\nEdit the key manually to delete signature."));
-        return;
-    }
-
     message = signKeyID.remove(0, 2);
     deleteSuccess = false;
     step = 0;
@@ -2974,13 +2968,17 @@ void KgpgInterface::KgpgDelSignature(const QString &keyID, QString signKeyID)
     char buffer[200];
     signb = 0;
     sigsearch = 0;
+    int curuid = 1;
+    int tgtuid = uid.toInt();
 
     QString gpgcmd = "gpg --no-tty --no-secmem-warning --with-colon --list-sigs " + keyID;
     fp = popen(QFile::encodeName(gpgcmd), "r");
     while (fgets( buffer, sizeof(buffer), fp))
     {
         encResult = buffer;
-                if (encResult.startsWith("sig")) {
+                if (encResult.startsWith("uid"))
+                        curuid++;
+                else if (encResult.startsWith("sig") && (curuid == tgtuid)) {
                         if (encResult.contains(message))
                                 break;
                         signb++;
@@ -2989,7 +2987,7 @@ void KgpgInterface::KgpgDelSignature(const QString &keyID, QString signKeyID)
         }
         pclose(fp);
         K3ProcIO *conprocess = gpgProc(2, 0);
-        *conprocess<<"--edit-key"<<keyID<<"uid 1"<<"delsig";
+        *conprocess << "--edit-key" << keyID << "uid" << uid << "delsig";
         connect(conprocess,SIGNAL(readReady(K3ProcIO *)),this,SLOT(delsigprocess(K3ProcIO *)));
         connect(conprocess, SIGNAL(processExited(K3Process *)),this, SLOT(delsignover(K3Process *)));
         conprocess->start(K3Process::NotifyOnExit,true);
@@ -3005,20 +3003,18 @@ void KgpgInterface::delsigprocess(K3ProcIO *p)//ess *p,char *buf, int buflen)
                 if (required.contains("keyedit.delsig")){
 
                         if ((sigsearch==signb) && (step==0)) {
-                                p->writeStdin(QByteArray("Y"));
+                                p->writeStdin(QByteArray("Y\n"));
                                 step=1;
                         } else
-                                p->writeStdin(QByteArray("n"));
+                                p->writeStdin(QByteArray("n\n"));
                         sigsearch++;
                         required.clear();
-                }
-                if ((step==1) && required.contains("keyedit.prompt")) {
-                        p->writeStdin(QByteArray("save"));
+                } else if ((step==1) && required.contains("keyedit.prompt")) {
+                        p->writeStdin(QByteArray("save\n"));
                         required.clear();
                         deleteSuccess=true;
-                }
-                if (required.contains("GET_LINE")) {
-                        p->writeStdin(QByteArray("quit"));
+                } else if (required.contains("GET_LINE")) {
+                        p->writeStdin(QByteArray("quit\n"));
                         p->closeWhenDone();
                         deleteSuccess=false;
                 }
