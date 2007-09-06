@@ -61,8 +61,6 @@ public:
     static bool getGpgBoolSetting(const QString &name, const QString &configfile);
     static void setGpgBoolSetting(const QString &name, const bool &enable, const QString &url);
 
-    static int checkUID(const QString &keyid);
-
 /************** function to send a passphrase to gpg **************/
 private:
     /**

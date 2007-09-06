@@ -359,22 +359,6 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool &enable, c
     }
 }
 
-int KgpgInterface::checkUID(const QString &keyid)
-{
-    K3ProcIO *process = gpgProc();
-    *process << "--with-colon" << "--list-sigs" << keyid;
-    process->start(K3Process::Block, false);
-
-    int  uidcnt = 0;
-    QString line;
-    while (process->readln(line, true) != -1)
-        if (line.startsWith("uid"))
-            uidcnt++;
-
-    delete process;
-    return uidcnt;
-}
-
 int KgpgInterface::sendPassphrase(const QString &text, K3ProcIO *process, const bool isnew)
 {
     QByteArray passphrase;
