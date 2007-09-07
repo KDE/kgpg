@@ -2763,6 +2763,99 @@ void KgpgInterface::decryptFileFin(K3Process *p)
         emit decryptFileFinished(0, this);
 }
 
+void KgpgInterface::downloadKeys(const QStringList &keys, const QString &keyserver, const bool &refresh, const QString &proxy)
+{
+    m_partialline.clear();
+    m_ispartial = false;
+
+    K3ProcIO *process = gpgProc(1, 0);
+
+    if (proxy.isEmpty())
+        *process << "--keyserver-options" << "no-honor-http-proxy";
+    else
+    {
+        *process << "--keyserver-options" << "honor-http-proxy";
+        process->setEnvironment("http_proxy", proxy);
+    }
+
+    *process << "--keyserver" << keyserver;
+    if (refresh)
+        *process << "--refresh-keys";
+    else
+        *process << "--recv-keys";
+    *process << keys;
+
+    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(downloadKeysFin(K3Process *)));
+    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(downloadKeysProcess(K3ProcIO *)));
+    process->start(K3Process::NotifyOnExit, false);
+}
+
+void KgpgInterface::downloadKeysProcess(K3ProcIO *p)
+{
+    QString line;
+    bool partial = false;
+    while (p->readln(line, false, &partial) != -1)
+    {
+        if (partial == true)
+        {
+            m_partialline += line;
+            m_ispartial = true;
+            partial = false;
+        }
+        else
+        {
+            if (m_ispartial)
+            {
+                m_partialline += line;
+                line = m_partialline;
+
+                m_partialline = "";
+                m_ispartial = false;
+            }
+
+            m_downloadkeys += line + '\n';
+        }
+    }
+
+    p->ackRead();
+}
+
+void KgpgInterface::downloadKeysFin(K3Process *p)
+{
+    delete p;
+
+    QStringList importedkeys;
+    QString parsedoutput = m_downloadkeys;
+    while (parsedoutput.contains("IMPORTED"))
+    {
+        parsedoutput.remove(0, parsedoutput.indexOf("IMPORTED") + 8);
+        importedkeys += parsedoutput.section("\n", 0, 0).simplified();
+    }
+
+    while (parsedoutput.contains("IMPORT_OK"))
+    {
+        parsedoutput.remove(0, parsedoutput.indexOf("IMPORT_OK") + 9);
+        importedkeys += parsedoutput.section("\n", 0, 0).simplified().right(16);
+    }
+
+    QStringList nbs;
+    if (m_downloadkeys.contains("IMPORT_RES"))
+        nbs = m_downloadkeys.section("IMPORT_RES", -1, -1).simplified().split(' ');
+    else
+        nbs = QString("0 0 0 0 0 0 0 0 0 0 0 0 0 0").split(' ');
+
+    QList<int> result;
+    bool key = false;
+    for(int i = 0; i < nbs.count(); ++i)
+    {
+        result.append(nbs[i].toInt());
+        if (!key && result[i] != 0)
+            key = true;
+    }
+
+    emit downloadKeysFinished(result, importedkeys, key, this);
+}
+
 // decrypt file to text
 void KgpgInterface::KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList &Options)
 {

@@ -626,7 +626,36 @@ private:
 /******************************************/
 
 
+/************** download keys from server**************/
+signals:
+    /*
+    0 : keys processed
+    1 : keys without id
+    2 : keys imported
+    3 : RSA keys
+    4 : unchanged
+    5 : Uid imported
+    6 : Subkey imported
+    7 : Sign imported
+    8 : Revocation imported
+    9 : secret keys processed
+    10 : secret keys imported
+    11 : secret keys unchanged
+    12 : secret keys not imported
+    */
+    void downloadKeysFinished(QList<int>, QStringList, bool, KgpgInterface*);
 
+public slots:
+    void downloadKeys(const QStringList &keys, const QString &keyserver, const bool &refresh, const QString &proxy = "");
+
+private slots:
+    void downloadKeysProcess(K3ProcIO *p);
+    void downloadKeysFin(K3Process *p);
+
+private:
+    QString m_downloadkeys;
+
+/*****************************************************/
 
 
 
