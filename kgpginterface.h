@@ -626,7 +626,7 @@ private:
 /******************************************/
 
 
-/************** download keys from server**************/
+/************** download keys from keys server **************/
 signals:
     /*
     0 : keys processed
@@ -659,7 +659,7 @@ private:
     QString m_downloadkeys;
     QString m_downloadkeys_log;
 
-/*****************************************************/
+/***********************************************************/
 
 
 

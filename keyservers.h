@@ -48,14 +48,21 @@ public:
     }
 };
 
+class ConnectionDialog : public KDialog
+{
+    Q_OBJECT
 
+public:
+    ConnectionDialog(QWidget *parent = 0);
+};
 
 class KeyServer : public KDialog
 {
     Q_OBJECT
 
 public:
-    explicit KeyServer(QWidget *parent = 0, const bool &modal = false, const bool &autoClose = false);
+    explicit KeyServer(QWidget *parent = 0, const bool &modal = false, const bool &autoclose = false);
+
     void refreshKeys(QStringList *keys);
 
 signals:
@@ -63,7 +70,8 @@ signals:
 
 public slots:
     void slotImport();
-    void slotAbortImport();
+    void slotAbortDownload(KgpgInterface *interface);
+
     void slotExport(const QString &keyId);
     void slotAbortExport();
     void slotSearch();
@@ -80,17 +88,23 @@ public slots:
     void slotPreExport();
 
     void slotOk();
-    void syncCombobox();
     void handleQuit();
 
 private slots:
     void slotReadKeys(KgpgCore::KgpgKeyList list, KgpgInterface *interface);
+    void slotDownloadKeysFinished(QList<int> results, QStringList keys, bool imported, QString log, KgpgInterface *interface);
 
     void slotImportRead(K3ProcIO *p);
-    void slotImportResult(K3Process *p);
     void slotExportResult(K3Process *p);
     void slotSearchRead(K3ProcIO *p);
     void slotSearchResult(K3Process *p);
+
+private:
+    /**
+     * Returns the server list.
+     * The first item is the server configured in gpg.
+     */
+    static QStringList getServerList();
 
 private:
     KDialog *m_importpop;
@@ -98,7 +112,6 @@ private:
     Q3ListViewItem *m_kitem;
 
     KDialog *m_dialogserver;
-    KConfig *m_config;
     K3ProcIO *m_importproc;
     K3ProcIO *m_exportproc;
     K3ProcIO *m_searchproc;
@@ -108,7 +121,7 @@ private:
 
     int m_count;
     uint m_keynumbers;
-    bool m_autoclosewindow;
+    bool m_autoclose;
     QString m_keyid;
     QString expattr;
 
