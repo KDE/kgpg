@@ -2427,12 +2427,12 @@ void KeysManager::slotPreImportKey()
 
     if (dial->exec() == QDialog::Accepted)
     {
-        changeMessage(i18n("Importing..."), 0, true);
         if (page->checkFile->isChecked())
         {
             QString impname = page->newFilename->url().url().simplified();
             if (!impname.isEmpty())
             {
+                changeMessage(i18n("Importing..."), 0, true);
                 // import from file
                 KgpgInterface *importKeyProcess = new KgpgInterface();
                 connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
@@ -2445,6 +2445,7 @@ void KeysManager::slotPreImportKey()
             QString keystr = kapp->clipboard()->text(m_clipboardmode);
             if (!keystr.isEmpty())
             {
+                changeMessage(i18n("Importing..."), 0, true);
                 KgpgInterface *importKeyProcess = new KgpgInterface();
                 connect(importKeyProcess,SIGNAL(importKeyFinished(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
                 connect(importKeyProcess,SIGNAL(importKeyOrphaned()),keysList2,SLOT(slotReloadOrphaned()));
