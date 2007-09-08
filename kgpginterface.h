@@ -644,15 +644,18 @@ signals:
     12 : secret keys not imported
     */
     void downloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*);
+    void downloadKeysAborted(KgpgInterface*);
 
 public slots:
     void downloadKeys(const QStringList &keys, const QString &keyserver, const bool &refresh, const QString &proxy = "");
+    void downloadKeysAbort();
 
 private slots:
     void downloadKeysProcess(K3ProcIO *p);
     void downloadKeysFin(K3Process *p);
 
 private:
+    K3ProcIO *m_downloadprocess;
     QString m_downloadkeys;
     QString m_downloadkeys_log;
 

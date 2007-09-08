@@ -2770,26 +2770,40 @@ void KgpgInterface::downloadKeys(const QStringList &keys, const QString &keyserv
     m_downloadkeys.clear();
     m_downloadkeys_log.clear();
 
-    K3ProcIO *process = gpgProc(1, 0);
+    m_downloadprocess = gpgProc(1, 0);
 
     if (proxy.isEmpty())
-        *process << "--keyserver-options" << "no-honor-http-proxy";
+        *m_downloadprocess << "--keyserver-options" << "no-honor-http-proxy";
     else
     {
-        *process << "--keyserver-options" << "honor-http-proxy";
-        process->setEnvironment("http_proxy", proxy);
+        *m_downloadprocess << "--keyserver-options" << "honor-http-proxy";
+        m_downloadprocess->setEnvironment("http_proxy", proxy);
     }
 
-    *process << "--keyserver" << keyserver;
+    *m_downloadprocess << "--keyserver" << keyserver;
     if (refresh)
-        *process << "--refresh-keys";
+        *m_downloadprocess << "--refresh-keys";
     else
-        *process << "--recv-keys";
-    *process << keys;
+        *m_downloadprocess << "--recv-keys";
+    *m_downloadprocess << keys;
 
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(downloadKeysFin(K3Process *)));
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(downloadKeysProcess(K3ProcIO *)));
-    process->start(K3Process::NotifyOnExit, false);
+    connect(m_downloadprocess, SIGNAL(processExited(K3Process *)), this, SLOT(downloadKeysFin(K3Process *)));
+    connect(m_downloadprocess, SIGNAL(readReady(K3ProcIO *)), this, SLOT(downloadKeysProcess(K3ProcIO *)));
+    m_downloadprocess->start(K3Process::NotifyOnExit, false);
+}
+
+void KgpgInterface::downloadKeysAbort()
+{
+    if (m_downloadprocess && m_downloadprocess->isRunning())
+    {
+        disconnect(m_downloadprocess, 0, 0, 0);
+        m_downloadprocess->kill();
+
+        delete m_downloadprocess;
+        m_downloadprocess = 0;
+
+        emit downloadKeysAborted(this);
+    }
 }
 
 void KgpgInterface::downloadKeysProcess(K3ProcIO *p)
@@ -2832,6 +2846,7 @@ void KgpgInterface::downloadKeysProcess(K3ProcIO *p)
 void KgpgInterface::downloadKeysFin(K3Process *p)
 {
     delete p;
+    m_downloadprocess = 0;
 
     QStringList importedkeys;
     QString parsedoutput = m_downloadkeys;
