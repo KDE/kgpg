@@ -716,44 +716,50 @@ void KeysManager::refreshKeyFromServer()
     if (keysList2->currentItem() == NULL)
         return;
 
-    QStringList *keyIDS = new QStringList();
+    QStringList keyIDS;
     keysList = keysList2->selectedItems();
 
-    for (int i = 0; i < keysList.count(); ++i) {
-	KeyListViewItem *item = keysList.at(i);
+    for (int i = 0; i < keysList.count(); ++i)
+    {
+        KeyListViewItem *item = keysList.at(i);
 
         if (item)
         {
-		if (item->itemType() == KeyListViewItem::Group) {
-			KeyListViewItem *cur = item->firstChild();
+            if (item->itemType() == KeyListViewItem::Group)
+            {
+                KeyListViewItem *cur = item->firstChild();
 
-			if (!cur) {
-				item->setOpen(true);
-				item->setOpen(false);
-				cur = item->firstChild();
-			}
-			while (cur) {
-				*keyIDS << cur->keyId();
-				cur = cur->nextSibling();
-			}
-			continue;
-		}
-		if (item->itemType() & KeyListViewItem::Group)
-			continue;
+                if (!cur)
+                {
+                    item->setOpen(true);
+                    item->setOpen(false);
+                    cur = item->firstChild();
+                }
 
-		KgpgKey *key = item->getKey();
+                while (cur)
+                {
+                    keyIDS << cur->keyId();
+                    cur = cur->nextSibling();
+                }
 
-		if ((item->depth() != 0) || !key) {
-			KMessageBox::sorry(this, i18n("You can only refresh primary keys. Please check your selection."));
-                        delete keyIDS;
-			return;
-		} else {
-			*keyIDS << key->fullId();
-		}
+                continue;
+            }
+
+            if (item->itemType() & KeyListViewItem::Group)
+                continue;
+
+            KgpgKey *key = item->getKey();
+            if (key && item->depth() == 0)
+                keyIDS << key->fullId();
+            else
+            {
+                KMessageBox::sorry(this, i18n("You can only refresh primary keys. Please check your selection."));
+                return;
+            }
         }
     }
 
-    kServer = new KeyServer(0, false);
+    kServer = new KeyServer(this, false);
     connect(kServer, SIGNAL(importFinished(QStringList)), this, SLOT(refreshFinished(QStringList)));
     kServer->refreshKeys(keyIDS);
 }
@@ -1542,7 +1548,7 @@ void KeysManager::slotexport()
 	QStringList klist;
 	for (int i = 0; i < exportList.count(); ++i) {
 		KeyListViewItem *item = static_cast<KeyListViewItem *>(exportList.at(i));
-	
+
 		if (item)
 			klist.append(item->keyId());
 	}
@@ -2052,7 +2058,7 @@ void KeysManager::importallsignkey()
 	for (i = 0; i < sel.count(); i++) {
 		KeyListViewItem *cur = sel.at(i);
 		KeyListViewItem *item = cur->firstChild();
-		
+
 		if (item == NULL) {
 			cur->setOpen(true);
 			cur->setOpen(false);

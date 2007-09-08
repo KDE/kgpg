@@ -63,7 +63,7 @@ class KeyServer : public KDialog
 public:
     explicit KeyServer(QWidget *parent = 0, const bool &modal = false, const bool &autoclose = false);
 
-    void refreshKeys(QStringList *keys);
+    void refreshKeys(QStringList keys);
 
 signals:
     void importFinished(QStringList);

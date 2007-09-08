@@ -141,7 +141,7 @@ void KeyServer::slotReadKeys(KgpgKeyList list, KgpgInterface *interface)
     }
 }
 
-void KeyServer::refreshKeys(QStringList *keys)
+void KeyServer::refreshKeys(QStringList keys)
 {
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 
@@ -158,7 +158,7 @@ void KeyServer::refreshKeys(QStringList *keys)
     m_importpop = new ConnectionDialog(this);
     connect(m_importpop, SIGNAL(cancelClicked()), interface, SLOT(downloadKeysAbort()));
 
-    interface->downloadKeys(*keys, keyserv, true, proxy);
+    interface->downloadKeys(keys, keyserv, true, proxy);
 }
 
 void KeyServer::slotImport()
@@ -396,10 +396,10 @@ void KeyServer::slotTextChanged(const QString &text)
 
 void KeyServer::slotSetExportAttribute(const QString *state)
 {
-	if (state != NULL)
-		expattr = QString(*state);
-	else
-		expattr = QString();
+    if (state != 0)
+        expattr = QString(*state);
+    else
+        expattr = QString();
 }
 
 void KeyServer::slotEnableProxyI(const bool &on)
