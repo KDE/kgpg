@@ -153,7 +153,7 @@ void KeyServer::refreshKeys(QStringList *keys)
 
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(downloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)), this, SLOT(slotDownloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)));
-    connect(interface, SIGNAL(downloadKeysAborted(KgpgInterface*)), this, SLOT(slotAbortDownload(KgpgInterface*)));
+    connect(interface, SIGNAL(downloadKeysAborted(KgpgInterface*)), this, SLOT(slotAbort(KgpgInterface*)));
 
     m_importpop = new ConnectionDialog(this);
     connect(m_importpop, SIGNAL(cancelClicked()), interface, SLOT(downloadKeysAbort()));
@@ -176,7 +176,7 @@ void KeyServer::slotImport()
 
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(downloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)), this, SLOT(slotDownloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)));
-    connect(interface, SIGNAL(downloadKeysAborted(KgpgInterface*)), this, SLOT(slotAbortDownload(KgpgInterface*)));
+    connect(interface, SIGNAL(downloadKeysAborted(KgpgInterface*)), this, SLOT(slotAbort(KgpgInterface*)));
 
     m_importpop = new ConnectionDialog(this);
     connect(m_importpop, SIGNAL(cancelClicked()), interface, SLOT(downloadKeysAbort()));
@@ -218,7 +218,7 @@ void KeyServer::slotDownloadKeysFinished(QList<int> result, QStringList keys, bo
     (void) new KgpgDetailedInfo(0, resultmessage, log, keys);
 }
 
-void KeyServer::slotAbortDownload(KgpgInterface *interface)
+void KeyServer::slotAbort(KgpgInterface *interface)
 {
     delete interface;
     QApplication::restoreOverrideCursor();
@@ -226,69 +226,32 @@ void KeyServer::slotAbortDownload(KgpgInterface *interface)
         close();
 }
 
-void KeyServer::slotImportRead(K3ProcIO *p)
-{
-    QString required;
-    while (p->readln(required, true) != -1)
-        m_readmessage += required + '\n';
-}
-
 void KeyServer::slotExport(const QString &keyId)
 {
     if (page->kCBexportks->currentText().isEmpty())
         return;
 
-    m_readmessage.clear();
-    QStringList *args = new QStringList();
-
-    if (expattr != QString())
-        *args << "--export-options" << expattr;
-    else if (!page->exportAttributes->isChecked())
-        *args << "--export-options" << "no-export-attributes";
-
-    *args << "--send-keys" << keyId;
-
-    m_exportproc = createGPGProc(args);
-
-    connect(m_exportproc, SIGNAL(processExited(K3Process *)), this, SLOT(slotExportResult(K3Process *)));
-    connect(m_exportproc, SIGNAL(readReady(K3ProcIO *)), this, SLOT(slotImportRead(K3ProcIO *)));
-    m_exportproc->start(K3Process::NotifyOnExit, true);
-
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-    m_importpop = new KDialog(this, Qt::WShowModal | Qt::WDestructiveClose | Qt::Dialog);
-    QVBoxLayout *vbox = new QVBoxLayout(m_importpop);
-    vbox->setSpacing(3);
 
-    QLabel *tex = new QLabel(m_importpop);
-    tex->setText(i18n("<b>Connecting to the server...</b>"));
+    KgpgInterface *interface = new KgpgInterface();
+    connect(interface, SIGNAL(uploadKeysFinished(QString, KgpgInterface*)), this, SLOT(slotUploadKeysFinished(QString, KgpgInterface*)));
+    connect(interface, SIGNAL(uploadKeysAborted(KgpgInterface*)), this, SLOT(slotAbort(KgpgInterface*)));
 
-    QPushButton *Buttonabort = new QPushButton(i18n("&Abort"), m_importpop);
-    vbox->addWidget(tex);
-    vbox->addWidget(Buttonabort);
-    m_importpop->setMinimumWidth(250);
-    m_importpop->adjustSize();
+    m_importpop = new ConnectionDialog(this);
+    connect(m_importpop, SIGNAL(cancelClicked()), interface, SLOT(uploadKeysAbort()));
 
-    connect(m_importpop, SIGNAL(destroyed()), this, SLOT(slotAbortExport()));
-    connect(Buttonabort, SIGNAL(clicked()), m_importpop, SLOT(close()));
-
-    m_importpop->show();
+    interface->uploadKeys(keyId.simplified().split(' '), page->kCBimportks->currentText(), expattr, page->kLEproxyI->text());
 }
 
-void KeyServer::slotAbortExport()
+void KeyServer::slotUploadKeysFinished(QString message, KgpgInterface *interface)
 {
-    QApplication::restoreOverrideCursor();
-    if (m_exportproc->isRunning())
-    {
-        disconnect(m_exportproc, 0, 0, 0);
-        m_exportproc->kill();
-    }
-}
-
-void KeyServer::slotExportResult(K3Process*)
-{
-    QApplication::restoreOverrideCursor();
-    KMessageBox::information(0, m_readmessage);
     delete m_importpop;
+    m_importpop = 0;
+    delete interface;
+
+    QApplication::restoreOverrideCursor();
+
+    KMessageBox::information(this, message);
 }
 
 void KeyServer::slotSearch()

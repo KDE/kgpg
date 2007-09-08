@@ -70,10 +70,10 @@ signals:
 
 public slots:
     void slotImport();
-    void slotAbortDownload(KgpgInterface *interface);
+    void slotAbort(KgpgInterface *interface);
 
     void slotExport(const QString &keyId);
-    void slotAbortExport();
+
     void slotSearch();
     void slotAbortSearch();
     void slotSetText(const QString &text);
@@ -93,9 +93,8 @@ public slots:
 private slots:
     void slotReadKeys(KgpgCore::KgpgKeyList list, KgpgInterface *interface);
     void slotDownloadKeysFinished(QList<int> results, QStringList keys, bool imported, QString log, KgpgInterface *interface);
+    void slotUploadKeysFinished(QString message, KgpgInterface *interface);
 
-    void slotImportRead(K3ProcIO *p);
-    void slotExportResult(K3Process *p);
     void slotSearchRead(K3ProcIO *p);
     void slotSearchResult(K3Process *p);
 
@@ -112,8 +111,6 @@ private:
     Q3ListViewItem *m_kitem;
 
     KDialog *m_dialogserver;
-    K3ProcIO *m_importproc;
-    K3ProcIO *m_exportproc;
     K3ProcIO *m_searchproc;
 
     keyServerWidget *page;

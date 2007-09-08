@@ -663,7 +663,24 @@ private:
 
 
 
+/************** upload keys to keys server **************/
+signals:
+    void uploadKeysFinished(QString, KgpgInterface*);
+    void uploadKeysAborted(KgpgInterface*);
 
+public slots:
+    void uploadKeys(const QStringList &keys, const QString &keyserver, const QString &attributes, const QString &proxy = "");
+    void uploadKeysAbort();
+
+private slots:
+    void uploadKeysProcess(K3ProcIO *p);
+    void uploadKeysFin(K3Process *p);
+
+private:
+    K3ProcIO *m_uploadprocess;
+    QString m_uploadkeys_log;
+
+/********************************************************/
 
 
 
@@ -800,7 +817,7 @@ private:
     bool decok;                 // decrypt ok
     bool badmdc;                // bad mdc
     bool badpassword;           // bad password
-    static K3ProcIO *gpgProc(const int statusfd = -1, const int cmdfd = -1);
+    static K3ProcIO *gpgProc(const int &statusfd = -1, const int &cmdfd = -1);
 
     /**
      * @internal structure for communication

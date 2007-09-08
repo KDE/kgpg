@@ -2829,7 +2829,6 @@ void KgpgInterface::downloadKeysProcess(K3ProcIO *p)
                 m_ispartial = false;
             }
 
-            kDebug(2100) << line;
             if (line.startsWith("[GNUPG:]"))
                 m_downloadkeys += line + '\n';
             else
@@ -2878,6 +2877,89 @@ void KgpgInterface::downloadKeysFin(K3Process *p)
     }
 
     emit downloadKeysFinished(result, importedkeys, key, m_downloadkeys_log, this);
+}
+
+void KgpgInterface::uploadKeys(const QStringList &keys, const QString &keyserver, const QString &attributes, const QString &proxy)
+{
+    m_partialline.clear();
+    m_ispartial = false;
+    m_uploadkeys_log.clear();
+
+    m_uploadprocess = gpgProc(1, 0);
+
+    if (proxy.isEmpty())
+        *m_uploadprocess << "--keyserver-options" << "no-honor-http-proxy";
+    else
+    {
+        *m_uploadprocess << "--keyserver-options" << "honor-http-proxy";
+        m_uploadprocess->setEnvironment("http_proxy", proxy);
+    }
+
+    *m_uploadprocess << "--keyserver" << keyserver;
+    *m_uploadprocess << "--export-options";
+    if (attributes.isEmpty())
+        *m_uploadprocess << "no-export-attributes";
+    else
+        *m_uploadprocess << attributes;
+    *m_uploadprocess << "--send-keys";
+    *m_uploadprocess << keys;
+
+    connect(m_uploadprocess, SIGNAL(processExited(K3Process *)), this, SLOT(uploadKeysFin(K3Process *)));
+    connect(m_uploadprocess, SIGNAL(readReady(K3ProcIO *)), this, SLOT(uploadKeysProcess(K3ProcIO *)));
+    m_uploadprocess->start(K3Process::NotifyOnExit, true);
+}
+
+void KgpgInterface::uploadKeysAbort()
+{
+    if (m_uploadprocess && m_uploadprocess->isRunning())
+    {
+        disconnect(m_uploadprocess, 0, 0, 0);
+        m_uploadprocess->kill();
+
+        delete m_uploadprocess;
+        m_uploadprocess = 0;
+
+        emit uploadKeysAborted(this);
+    }
+}
+
+void KgpgInterface::uploadKeysProcess(K3ProcIO *p)
+{
+    QString line;
+    bool partial = false;
+    while (p->readln(line, false, &partial) != -1)
+    {
+        if (partial == true)
+        {
+            m_partialline += line;
+            m_ispartial = true;
+            partial = false;
+        }
+        else
+        {
+            if (m_ispartial)
+            {
+                m_partialline += line;
+                line = m_partialline;
+
+                m_partialline = "";
+                m_ispartial = false;
+            }
+
+            if (line.startsWith("gpg: "))
+                m_uploadkeys_log += line.mid(5) + '\n';
+        }
+    }
+
+    p->ackRead();
+}
+
+void KgpgInterface::uploadKeysFin(K3Process *p)
+{
+    delete p;
+    m_uploadprocess = 0;
+
+    emit uploadKeysFinished(m_uploadkeys_log, this);
 }
 
 // decrypt file to text
@@ -3198,24 +3280,18 @@ void KgpgInterface::revokeprocess(K3ProcIO *p)
         }
 }
 
-K3ProcIO *KgpgInterface::gpgProc(const int statusfd, const int cmdfd)
+K3ProcIO *KgpgInterface::gpgProc(const int &statusfd, const int &cmdfd)
 {
-	K3ProcIO *process = new K3ProcIO(QTextCodec::codecForName("utf8"));
-	*process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty";
-	if (statusfd >= 0) {
-		QString fd;
-		fd.setNum(statusfd);
-		fd = "--status-fd=" + fd;
-		*process << fd;
-	}
-	if (cmdfd >= 0) {
-		QString fd;
-		fd.setNum(cmdfd);
-		fd = "--command-fd=" + fd;
-		*process << fd;
-	}
+    K3ProcIO *process = new K3ProcIO(QTextCodec::codecForName("utf8"));
+    *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty";
 
-	return process;
+    if (statusfd >= 0)
+        *process << "--status-fd=" + QString::number(statusfd);
+
+    if (cmdfd >= 0)
+        *process << "--command-fd=" + QString::number(cmdfd);
+
+    return process;
 }
 
 void KgpgInterface::findSigns(const QString &keyID, const QStringList &ids, const QString &uid, QList<int> *res)
