@@ -643,7 +643,7 @@ signals:
     11 : secret keys unchanged
     12 : secret keys not imported
     */
-    void downloadKeysFinished(QList<int>, QStringList, bool, KgpgInterface*);
+    void downloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*);
 
 public slots:
     void downloadKeys(const QStringList &keys, const QString &keyserver, const bool &refresh, const QString &proxy = "");
@@ -654,6 +654,7 @@ private slots:
 
 private:
     QString m_downloadkeys;
+    QString m_downloadkeys_log;
 
 /*****************************************************/
 

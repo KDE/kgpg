@@ -2767,6 +2767,8 @@ void KgpgInterface::downloadKeys(const QStringList &keys, const QString &keyserv
 {
     m_partialline.clear();
     m_ispartial = false;
+    m_downloadkeys.clear();
+    m_downloadkeys_log.clear();
 
     K3ProcIO *process = gpgProc(1, 0);
 
@@ -2813,7 +2815,14 @@ void KgpgInterface::downloadKeysProcess(K3ProcIO *p)
                 m_ispartial = false;
             }
 
-            m_downloadkeys += line + '\n';
+            kDebug(2100) << line;
+            if (line.startsWith("[GNUPG:]"))
+                m_downloadkeys += line + '\n';
+            else
+            if  (line.startsWith("gpgkeys: "))
+                m_downloadkeys_log += line.mid(9) + '\n';
+            else
+                m_downloadkeys_log += line + '\n';
         }
     }
 
@@ -2853,7 +2862,7 @@ void KgpgInterface::downloadKeysFin(K3Process *p)
             key = true;
     }
 
-    emit downloadKeysFinished(result, importedkeys, key, this);
+    emit downloadKeysFinished(result, importedkeys, key, m_downloadkeys_log, this);
 }
 
 // decrypt file to text
