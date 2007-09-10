@@ -93,6 +93,7 @@
 #include <KVBox>
 #include <KToggleAction>
 
+#include "core/kgpgkey.h"
 #include "selectsecretkey.h"
 #include "newkey.h"
 #include "kgpg.h"
@@ -1282,10 +1283,8 @@ void KeysManager::slotSetDefaultKey(const QString &newID)
 
 void KeysManager::slotSetDefaultKey(KeyListViewItem *newdef)
 {
-    Q_ASSERT(newdef->pixmap(2) != NULL);
-
-    if ((newdef->pixmap(2)->serialNumber()!=keysList2->trustgood.serialNumber()) &&
-        (newdef->pixmap(2)->serialNumber()!=keysList2->trustultimate.serialNumber()))
+    if ((newdef->trust() != TRUST_FULL) &&
+        (newdef->trust() != TRUST_ULTIMATE))
     {
         KMessageBox::sorry(this, i18n("<qt>Sorry, the key <b>%1</b> is not valid for encryption or not trusted.</qt>", newdef->keyId()));
         return;
@@ -1803,8 +1802,8 @@ void KeysManager::createNewGroup()
                 } else
                 if (groupList.at(i)->pixmap(2))
                 {
-                    if ((groupList.at(i)->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber()) ||
-                        (groupList.at(i)->pixmap(2)->serialNumber() == keysList2->trustultimate.serialNumber()))
+                    if ((groupList.at(i)->trust() == TRUST_FULL) ||
+                        (groupList.at(i)->trust() == TRUST_ULTIMATE))
                         keysGroup += groupList.at(i)->keyId();
                     else
                         badkeys += groupList.at(i)->text(0) + " (" + groupList.at(i)->text(1) + ") " + groupList.at(i)->keyId();
@@ -1901,8 +1900,8 @@ void KeysManager::editGroup()
     while (item)
     {
         if (item->pixmap(2))
-            if ((item->pixmap(2)->serialNumber() == keysList2->trustgood.serialNumber()) ||
-                (item->pixmap(2)->serialNumber() == keysList2->trustultimate.serialNumber())) {
+            if ((item->trust() == TRUST_FULL) ||
+                (item->trust() == TRUST_ULTIMATE)) {
                      KeyListViewItem *n = new KeyListViewItem(gEdit->availableKeys, *item->getKey(), item->isDefault());
                      n->setText(2, item->text(6));
             }
