@@ -75,23 +75,9 @@ int KgpgInterface::getGpgVersion()
 
 QString KgpgInterface::checkForUtf8(QString txt)
 {
-    // code borrowed from gpa
-    const char *s;
-
-    /* Make sure the encoding is UTF-8.
-     * Test structure suggested by Werner Koch */
-    if (txt.isEmpty())
-        return QString();
-
-    for (s = txt.toAscii(); *s && !(*s & 0x80); s++)
-                ;
-        if (*s && !strchr (txt.toAscii(), 0xc3) && !txt.contains("\\x"))
-                return txt;
-
     /* The string is not in UTF-8 */
-    //if (strchr (txt.toAscii(), 0xc3)) return (txt+" +++");
     if (!txt.contains("\\x"))
-        return QString::fromUtf8(txt.toAscii());
+        return txt;
 
     // if (!strchr (txt.toAscii(), 0xc3) || (txt.find("\\x")!=-1)) {
     for (int idx = 0; (idx = txt.indexOf( "\\x", idx )) >= 0 ; ++idx)
@@ -100,10 +86,8 @@ QString KgpgInterface::checkForUtf8(QString txt)
         str[0] = (char) QString(txt.mid(idx + 2, 2)).toShort(0, 16);
         txt.replace(idx, 4, str);
     }
-//  if (!strchr (txt.toAscii(), 0xc3))
+
     return QString::fromUtf8(txt.toAscii());
-//        else
-//                return QString::fromUtf8(QString::fromUtf8(txt.toAscii()).ascii());  // perform Utf8 twice, or some keys display badly
 }
 
 QString KgpgInterface::checkForUtf8bis(QString txt)
@@ -504,7 +488,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 else
                     m_publickey.setValid(true);
 
-                QString fullname = lsp.at(9);
+                QString fullname = checkForUtf8(lsp.at(9));
                 if (fullname.contains("<"))
                 {
                     QString kmail = fullname;
@@ -609,7 +593,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                     uid.setValid(true);
 
                 uid.setIndex(++uidnum);
-                QString fullname = line.section(':', 9, 9);
+                QString fullname = checkForUtf8(line.section(':', 9, 9));
                 if (fullname.contains('<') )
                 {
                     QString kmail = fullname;
@@ -669,7 +653,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                     signature.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
                 }
 
-                QString fullname = lsp.at(9);
+                QString fullname = checkForUtf8(lsp.at(9));
                 if (fullname.contains('<') )
                 {
                     QString kmail = fullname;
@@ -817,7 +801,7 @@ void KgpgInterface::readSecretKeysProcess(K3ProcIO *p)
                     m_secretkey.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
                 }
 
-                QString fullname = lsp.at(9);
+                QString fullname = checkForUtf8(lsp.at(9));
                 if (fullname.contains('<' ))
                 {
                     QString kmail = fullname;
