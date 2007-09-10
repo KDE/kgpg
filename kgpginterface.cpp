@@ -513,7 +513,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 QString kname = fullname.section(" <", 0, 0);
                 if (fullname.contains('(') )
                 {
-                    kname = kname.section('(', 0, 0);
+                    kname = kname.section(" (", 0, 0);
                     QString comment = fullname.section('(', 1, 1);
                     comment = comment.section(')', 0, 0);
 
@@ -618,7 +618,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 QString kname = fullname.section(" <", 0, 0);
                 if (fullname.contains('(') )
                 {
-                    kname = kname.section('(', 0, 0);
+                    kname = kname.section(" (", 0, 0);
                     QString comment = fullname.section('(', 1, 1);
                     comment = comment.section(')', 0, 0);
 
@@ -678,7 +678,7 @@ void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
                 QString kname = fullname.section(" <", 0, 0);
                 if (fullname.contains('(' ))
                 {
-                    kname = kname.section('(', 0, 0);
+                    kname = kname.section(" (", 0, 0);
                     QString comment = fullname.section('(', 1, 1);
                     comment = comment.section(')', 0, 0);
 
@@ -826,7 +826,7 @@ void KgpgInterface::readSecretKeysProcess(K3ProcIO *p)
                 QString kname = fullname.section(" <", 0, 0);
                 if (fullname.contains('(' ))
                 {
-                    kname = kname.section('(', 0, 0);
+                    kname = kname.section(" (", 0, 0);
                     QString comment = fullname.section('(', 1, 1);
                     comment = comment.section(')', 0, 0);
 
