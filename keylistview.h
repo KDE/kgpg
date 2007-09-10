@@ -73,7 +73,8 @@ public:
     virtual KeyListViewItem *nextSibling() const { return static_cast<KeyListViewItem*>(K3ListViewItem::nextSibling()); }
     virtual KeyListViewItem *firstChild() const { return static_cast<KeyListViewItem*>(K3ListViewItem::firstChild()); }
     virtual KgpgKey* getKey() { return m_key; }
-    virtual QString keyId(void) const { return m_key ? m_key->fullId() : m_sig ? m_sig->fullId() : groupId ? *groupId : text(6); }
+    virtual const QString keyId(void) const { return m_key ? m_key->fullId() : m_sig ? m_sig->fullId() : groupId ? *groupId : text(6); }
+    KgpgKeyTrust trust(void) const { return m_key ? m_key->trust() : TRUST_NOKEY; }
 
 private:
     bool m_def; /// Is set to \em true if it is the default key, \em false otherwise.

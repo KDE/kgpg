@@ -195,25 +195,9 @@ int KeyListViewItem::compare(Q3ListViewItem *itemx, int c, bool ascending) const
 
 		return 0;
 	}
-	case 2: {	// pixmap
-		const QPixmap* pix = pixmap(c);
-		const QPixmap* itemPix = item->pixmap(c);
-
-		int serial;
-		int itemSerial;
-
-		if (!pix)
-			serial = 0;
-		else
-			serial = pix->serialNumber();
-
-		if (!itemPix)
-			itemSerial = 0;
-		else
-			itemSerial = itemPix->serialNumber();
-
-		if (serial < itemSerial) return -1;
-		if (serial > itemSerial) return  1;
+	case 2: {       // trust
+		if (trust() < item->trust()) return -1;
+		if (trust() > item->trust()) return 1;
 		return 0;
 	}
 	case 0: {

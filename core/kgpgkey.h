@@ -42,7 +42,8 @@ enum KgpgKeyTrustFlag
     TRUST_NONE = 6,
     TRUST_MARGINAL = 7,
     TRUST_FULL = 8,
-    TRUST_ULTIMATE = 9
+    TRUST_ULTIMATE = 9,
+    TRUST_NOKEY = 10	// item is not a key
 };
 Q_DECLARE_FLAGS(KgpgKeyTrust, KgpgKeyTrustFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyTrust)
