@@ -784,7 +784,7 @@ void MyView::startWizard()
         if (publiclist.at(i).trust() >= TRUST_FULL) {
             KgpgKey k = publiclist.at(i);
 
-            QString s = k.fullId().right(8) + ": " + k.name() + " <" + k.email() + '>';
+            QString s = k.id() + ": " + k.name() + " <" + k.email() + '>';
 
             wiz->CBdefault->addItem(s);
             if (firstKey.isEmpty())
@@ -813,26 +813,25 @@ void MyView::startWizard()
 
 void MyView::slotWizardChange()
 {
-    QString tst,name;
-    char line[300];
-    FILE *fp;
-
     if (wiz->indexOf(wiz->currentPage()) == 2)
     {
-        QString defaultID = KgpgInterface::getGpgSetting("default-key", wiz->kURLRequester1->url().path());
-        if (defaultID.isEmpty())
+        QString tst,name;
+        KgpgInterface *iface = new KgpgInterface();
+        QString defaultID = iface->getGpgSetting("default-key", wiz->kURLRequester1->url().path());
+
+        if (defaultID.isEmpty()) {
+            delete iface;
             return;
-        fp = popen("gpg --no-tty --with-colon --list-secret-keys " + QFile::encodeName(defaultID), "r");
-        while (fgets( line, sizeof(line), fp))
-        {
-            tst = line;
-            if (tst.startsWith("sec"))
-            {
-                name = KgpgInterface::checkForUtf8(tst.section(':', 9, 9));
-                wiz->CBdefault->setCurrentItem(tst.section(':', 4, 4).right(8) + ": " + name);
-            }
         }
-        pclose(fp);
+        KgpgKeyList secl = iface->readSecretKeys(QStringList(defaultID));
+        delete iface;
+
+        if (secl.isEmpty())
+            return;
+
+        KgpgKey k = secl.at(0);
+
+        wiz->CBdefault->setCurrentItem(k.id() + ": " + k.name() + " <" + k.email() + '>');
     }
 }
 
