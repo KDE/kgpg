@@ -29,6 +29,7 @@
 class KTemporaryFile;
 class K3Process;
 class K3ProcIO;
+class GPGProc;
 
 /**
  * This class is the interface for gpg.
@@ -94,7 +95,7 @@ public slots:
     KgpgCore::KgpgKeyList readPublicKeys(const bool &block = false, const QStringList &ids = QStringList(), const bool &withsigs = false);
 
 private slots:
-    void readPublicKeysProcess(K3ProcIO *p);
+    void readPublicKeysProcess(GPGProc *p);
     void readPublicKeysFin(K3Process *p, const bool &block = false);
 
 private:
@@ -111,7 +112,7 @@ public slots:
     KgpgCore::KgpgKeyList readSecretKeys(const QStringList &ids = QStringList());
 
 private slots:
-    void readSecretKeysProcess(K3ProcIO *p);
+    void readSecretKeysProcess(GPGProc *p);
 
 private:
     bool m_secretactivate;

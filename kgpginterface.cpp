@@ -40,6 +40,7 @@
 #include "detailedconsole.h"
 #include "kgpgsettings.h"
 #include "core/convert.h"
+#include "gpgproc.h"
 
 using namespace KgpgCore;
 
@@ -397,9 +398,11 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
     m_numberid = 1;
     cycle = "none";
 
-    K3ProcIO *process = gpgProc(2, 0);
+    GPGProc *process = new GPGProc();
+    *process << "--status-fd=2" << "--command-fd=0";
+
     process->setParent(this);
-    *process << "--with-colon" << "--with-fingerprint";
+    *process << "--with-fingerprint";
     if (!withsigs)
         *process << "--list-keys";
     else
@@ -411,7 +414,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
     if (!block)
     {
         kDebug(2100) << "(KgpgInterface::readPublicKeys) Extract public keys with K3Process::NotifyOnExit" ;
-        connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(readPublicKeysProcess(K3ProcIO *)));
+        connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(readPublicKeysProcess(GPGProc *)));
         connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(readPublicKeysFin(K3Process *)));
         process->start(K3Process::NotifyOnExit, false);
         emit readPublicKeysStarted(this);
@@ -427,7 +430,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
     }
 }
 
-void KgpgInterface::readPublicKeysProcess(K3ProcIO *p)
+void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 {
     QString line;
     bool partial = false;
@@ -732,9 +735,8 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
     m_secretkey = KgpgKey();
     m_secretactivate = false;
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--with-colon" << "--list-secret-keys";
+        GPGProc *process = new GPGProc();
+        *process << "--status-fd=2" << "--command-fd=0" << "--list-secret-keys";
 
         *process << ids;
 
@@ -749,7 +751,7 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
         return m_secretlistkeys;
 }
 
-void KgpgInterface::readSecretKeysProcess(K3ProcIO *p)
+void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 {
     QString line;
     bool partial = false;
