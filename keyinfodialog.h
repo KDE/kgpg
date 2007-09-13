@@ -19,53 +19,90 @@
 #define KGPGKEYINFODIALOG_H
 
 #include <QPixmap>
+#include <QString>
+#include <QLabel>
+#include <QColor>
 #include <QDate>
 
+#include <KComboBox>
 #include <KDialog>
 
-#include "ui_keyproperties.h"
-
 class QCheckBox;
+class QGroupBox;
 
 class KDatePicker;
+class KUrlLabel;
 
 class KgpgInterface;
 
-class KeyProperties : public QWidget, public Ui::KeyProperties
+class KgpgTrustLabel : public QWidget
 {
+    Q_OBJECT
+
 public:
-    KeyProperties(QWidget *parent = 0) : QWidget(parent)
-    {
-        setupUi(this);
-    }
+    explicit KgpgTrustLabel(QWidget *parent = 0, const QString &text = QString(), const QColor &color = QColor());
+
+    void setText(const QString &text);
+    void setColor(const QColor &color);
+
+    QString text() const;
+    QColor color() const;
+
+private:
+    void change();
+
+    QLabel *m_text_w;
+
+    QString m_text;
+    QColor m_color;
 };
 
+class KgpgDateDialog : public KDialog
+{
+    Q_OBJECT
+
+public:
+    explicit KgpgDateDialog(QWidget *parent = 0, const bool &unlimited = false, QDate date = QDate::currentDate());
+
+    QDate date() const;
+    bool unlimited() const;
+
+private slots:
+    void slotCheckDate(const QDate &date);
+    void slotEnableDate(const bool &ison);
+
+private:
+    QCheckBox *m_unlimited;
+    KDatePicker *m_datepicker;
+};
 
 class KgpgKeyInfo : public KDialog
 {
     Q_OBJECT
 
 public:
-    explicit KgpgKeyInfo(const QString &sigkey, QWidget *parent = 0);
+    explicit KgpgKeyInfo(const QString &keyid, QWidget *parent = 0);
 
 signals:
-    void changeMainPhoto(const QPixmap&);
-    void keyNeedsRefresh();
+    void keyNeedsRefresh(); // TODO add the keyid parameter
 
 private:
-    void loadKey(const QString &Keyid);
+    QGroupBox *_keypropertiesGroup(QWidget *parent);
+    QGroupBox *_photoGroup(QWidget *parent);
+    QGroupBox *_buttonsGroup(QWidget *parent);
+    QGroupBox *_fingerprintGroup(QWidget *parent);
+
+    void loadKey();
 
 private slots:
     void slotPreOk();
+    void slotOpenUrl(const QString &url) const;
+
+    void slotChangeDate();
+    void slotInfoExpirationChanged(const int &res, KgpgInterface *interface);
 
     void slotDisableKey(const bool &ison);
     void slotDisableKeyFinished(KgpgInterface *interface);
-
-    void slotChangeExp();
-    void slotCheckDate(const QDate &date);
-    void slotChangeDate();
-    void slotEnableDate(const bool &ison);
-    void slotInfoExpirationChanged(const int &res, KgpgInterface *interface);
 
     void slotChangePass();
     void slotInfoPasswordChanged(const int &res, KgpgInterface *interface);
@@ -73,23 +110,33 @@ private slots:
     void slotChangeTrust(const int &newtrust);
     void slotInfoTrustChanged(KgpgInterface *interface);
 
-    void slotReloadMainPhoto(const QString &uid);
-    void slotMainImageRead(const QPixmap &pixmap, KgpgInterface *interface);
-    void slotSetPhoto(const QPixmap &pixmap);
+    void slotLoadPhoto(const QString &uid);
+    void slotSetPhoto(const QPixmap &pixmap, KgpgInterface *interface);
 
 private:
-    QString m_displayedkeyid;
-    QCheckBox *m_kb;
-    QDate m_date;
+    QString m_keyid;
+    QDate m_expirationdate;
 
-    KDatePicker *m_kdt;
-    KDialog *m_chdate;
+    QCheckBox *m_disable;
+    QLabel *m_name;
+    QLabel *m_id;
+    QLabel *m_comment;
+    QLabel *m_creation;
+    QLabel *m_expiration;
+    QLabel *m_algorithm;
+    QLabel *m_length;
+    QLabel *m_fingerprint;
+    QLabel *m_photo;
 
-    KeyProperties *m_prop;
+    KUrlLabel *m_email;
+    KComboBox *m_photoid;
+    KComboBox *m_owtrust;
+
+    KgpgTrustLabel *m_trust;
 
     bool m_hasphoto;
-    bool m_keywaschanged;
     bool m_isunlimited;
+    bool m_keywaschanged;
 };
 
 #endif // KGPGKEYINFODIALOG_H

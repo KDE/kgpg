@@ -34,6 +34,9 @@ public:
     static QPixmap userId();
     static QPixmap photo();
     static QPixmap revoke();
+
+    /* Desktop image */
+    static QPixmap kgpg();
 };
 
 } // namespace KgpgCore

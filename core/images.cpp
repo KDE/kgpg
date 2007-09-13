@@ -88,4 +88,12 @@ QPixmap Images::revoke()
     return m_revoke;
 }
 
+QPixmap Images::kgpg()
+{
+    static QPixmap m_kgpg;
+    if (m_kgpg.isNull())
+        m_kgpg = KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop);
+    return m_kgpg;
+}
+
 } // namespace KgpgCore
