@@ -31,10 +31,10 @@ set(kgpg_SRCS ${core_SRCS}
    detailedconsole.cpp
    kgpglibrary.cpp
    keyinfodialog.cpp
-   keylistview.cpp 
-   newkey.cpp 
-   keyexport.cpp 
-   conf_encryption.cpp 
+   keylistview.cpp
+   newkey.cpp
+   keyexport.cpp
+   conf_encryption.cpp
    kgpgrevokewidget.cpp
    sourceselect.cpp)
 
@@ -46,7 +46,6 @@ kde4_add_ui_files(kgpg_SRCS
     adduid.ui
     conf_gpg.ui
     searchres.ui
-    keyproperties.ui
     groupedit.ui
     conf_ui2.ui
     conf_servers.ui
