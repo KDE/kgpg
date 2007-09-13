@@ -163,7 +163,6 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &keyid, QWidget *parent)
     setModal(true);
 
     m_keyid = keyid;
-    m_hasphoto = false;
     m_keywaschanged = false;
 
     QWidget *page = new QWidget(this);
@@ -197,6 +196,7 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &keyid, QWidget *parent)
 
     connect(m_owtrust, SIGNAL(activated(int)), this, SLOT(slotChangeTrust(int)));
     connect(m_photoid, SIGNAL(activated (const QString &)), this, SLOT(slotLoadPhoto(const QString &)));
+    connect(m_email, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
     connect(this, SIGNAL(closeClicked()), this, SLOT(slotPreOk()));
 
     loadKey();
@@ -382,12 +382,14 @@ void KgpgKeyInfo::loadKey()
     m_name->setText("<qt><b>" + name + "</b></qt>");
 
     if (key.email().isEmpty())
+    {
         m_email->setText(i18n("none"));
+        m_email->setUrl("");
+    }
     else
     {
         m_email->setText("<qt><b>&lt;" + key.email() + "&gt;</b></qt>");
         m_email->setUrl("mailto:" + key.email());
-        connect (m_email, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
     }
 
     KgpgKeyTrust keytrust = key.valid() ? key.trust() : TRUST_INVALID;
@@ -409,7 +411,10 @@ void KgpgKeyInfo::loadKey()
         m_comment->setText(KgpgInterface::checkForUtf8(key.comment()));
 
     QStringList photolist = key.photoList();
-    if (!photolist.isEmpty())
+    m_photoid->clear();
+    if (photolist.isEmpty())
+        m_hasphoto = false;
+    else
     {
         m_hasphoto = true;
         m_photoid->addItems(photolist);
@@ -444,12 +449,6 @@ void KgpgKeyInfo::loadKey()
 
     m_isunlimited = key.unlimited();
     m_expirationdate = key.expirationDate();
-
-/*
-    QPalette palette;
-    palette.setColor(QPalette::Window, trustcolor);
-    m_trust->setPalette(palette);
-*/
 }
 
 void KgpgKeyInfo::slotOpenUrl(const QString &url) const
