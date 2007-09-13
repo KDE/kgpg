@@ -444,7 +444,7 @@ void KgpgKeyInfo::loadKey()
             break;
     }
 
-    if (keytrust == TRUST_DISABLED)
+    if (!key.valid())
         m_disable->setChecked(true);
 
     m_isunlimited = key.unlimited();
