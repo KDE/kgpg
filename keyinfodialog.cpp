@@ -413,9 +413,13 @@ void KgpgKeyInfo::loadKey()
     QStringList photolist = key.photoList();
     m_photoid->clear();
     if (photolist.isEmpty())
+    {
+        m_photoid->setVisible(false);
         m_hasphoto = false;
+    }
     else
     {
+        m_photoid->setVisible(true);
         m_hasphoto = true;
         m_photoid->addItems(photolist);
     }
