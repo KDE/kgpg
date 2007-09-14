@@ -414,7 +414,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
     if (!block)
     {
         kDebug(2100) << "(KgpgInterface::readPublicKeys) Extract public keys with K3Process::NotifyOnExit" ;
-        connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(readPublicKeysProcess(GPGProc *)));
+        connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(readPublicKeysProcess(GPGProc *)));
         connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(readPublicKeysFin(K3Process *)));
         process->start(K3Process::NotifyOnExit, false);
         emit readPublicKeysStarted(this);
