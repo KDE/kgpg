@@ -162,7 +162,7 @@ File</guimenuitem></menuchoice> to encrypt a file. You can decrypt a file with a
 There are two ways to encrypt your data:
 <itemizedlist>
 <listitem><para>Symmetrical encryption: your data is just encrypted with a password. Anybody who has a computer with gpg can decrypt your message if you give him/her the password. To perform a symmetrical encryption, choose "symmetrical encryption" in the options box when asked to choose an encryption key.</para></listitem>
-<listitem><para>Key encryption: you must first create your key pair (secret key and public key) and give a passphrase. Keep your secret key in a safe plece, and exchange your public key with your friends. Then, if you want to send an encrypted message to Alex, you must encrypt the message with Alex's public key. To decrypt the message, the recipient will need Alex's secret key and passphrase.</para></listitem>
+<listitem><para>Key encryption: you must first create your key pair (secret key and public key) and give a passphrase. Keep your secret key in a safe place, and exchange your public key with your friends. Then, if you want to send an encrypted message to Alex, you must encrypt the message with Alex's public key. To decrypt the message, the recipient will need Alex's secret key and passphrase.</para></listitem>
 </itemizedlist>
 </para>
 <para>Key encryption is a bit more complicated (you must exchange keys with your friends) but safer. Remember that if you encrypt a key with someone else's key, you will not be able to decrypt it. You can only decrypt messages that have been encrypted with your public key.</para>
