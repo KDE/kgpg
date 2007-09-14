@@ -377,7 +377,7 @@ void KgpgKeyInfo::loadKey()
 
     KgpgKey key = listkeys.at(0);
 
-    QString name = KgpgInterface::checkForUtf8(key.name());
+    QString name = key.name();
     setCaption(name);
     m_name->setText("<qt><b>" + name + "</b></qt>");
 
@@ -408,7 +408,7 @@ void KgpgKeyInfo::loadKey()
     if (key.comment().isEmpty())
         m_comment->setText(i18n("none"));
     else
-        m_comment->setText(KgpgInterface::checkForUtf8(key.comment()));
+        m_comment->setText(key.comment());
 
     QStringList photolist = key.photoList();
     m_photoid->clear();
