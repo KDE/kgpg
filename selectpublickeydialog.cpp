@@ -316,8 +316,6 @@ void KgpgSelectPublicKeyDlg::slotFillKeysList()
 
 void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgCore::KgpgKeyList keys, KgpgInterface *interface)
 {
-    delete interface;
-
     /* Add groups */
     QStringList groups = KGpgSettings::groups().split(",");
     if (!groups.isEmpty())
@@ -330,13 +328,12 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgCore::KgpgKeyList keys, K
     /* */
 
     /* Get the secret keys list */
-    interface = new KgpgInterface();
     KgpgKeyList list = interface->readSecretKeys();
     delete interface;
 
-    QString m_seclist = QString();
+    QStringList m_seclist = QStringList();
     for (int i = 0; i < list.size(); ++i)
-        m_seclist += ", " + list.at(i).fullId();
+        m_seclist << list.at(i).fullId();
     /* */
 
     for (int i = 0; i < keys.size(); ++i)
@@ -359,7 +356,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgCore::KgpgKeyList keys, K
         if (key.valid() == false)
             dead = true;
 
-        QString keyname = KgpgInterface::checkForUtf8(key.name());
+        QString keyname = key.name();
         if (!dead && !keyname.isEmpty())
         {
             QString defaultKey = KGpgSettings::defaultKey().right(8);
