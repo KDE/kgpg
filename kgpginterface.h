@@ -88,7 +88,6 @@ private:
 
 /************** extract public keys **************/
 signals:
-    void readPublicKeysStarted(KgpgInterface*);
     void readPublicKeysFinished(KgpgCore::KgpgKeyList, KgpgInterface*);
 
 public slots:
