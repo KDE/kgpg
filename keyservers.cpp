@@ -45,7 +45,7 @@ using namespace KgpgCore;
 ConnectionDialog::ConnectionDialog(QWidget *parent)
                 : KDialog(parent)
 {
-    setCaption(i18n("Keys server"));
+    setCaption(i18n("Keyserver"));
     setModal(true);
 
     setButtons(Cancel);
