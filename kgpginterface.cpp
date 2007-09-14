@@ -408,8 +408,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
     else
         *process << "--list-sigs";
 
-    for (QStringList::ConstIterator it = ids.begin(); it != ids.end(); ++it)
-        *process << *it;
+    *process << ids;
 
     if (!block)
     {
