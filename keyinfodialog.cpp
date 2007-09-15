@@ -30,7 +30,6 @@
 #include <KDatePicker>
 #include <KMessageBox>
 #include <KUrlLabel>
-#include <KGlobale>
 #include <KLocale>
 
 #include "kgpginterface.h"
@@ -42,17 +41,6 @@ using namespace KgpgCore;
 KgpgTrustLabel::KgpgTrustLabel(QWidget *parent, const QString &text, const QColor &color)
               : QWidget(parent)
 {
-    static const QImage trustLabelLeft  = locate("data", "trustLabel_left.png");
-    static const QImage trustLabelMid   = locate("data", "trustLabel_mid.png");
-    static const QImage trustLabelRight = locate("data", "trustLabel_right.png");
-
-    QPixmap buf(100, 100);
-    QPainter p(&buf, true);
-
-    QImage tmpImage = trustLabelLeft.copy();
-    KIconEffect::colorize(tmpImage, color, 0.8);
-    p.drawImage(0, 0, tmpImage);
-
     m_text_w = new QLabel(this);
     m_text_w->setAlignment(Qt::AlignCenter);
 
