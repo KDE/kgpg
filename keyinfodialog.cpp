@@ -392,7 +392,7 @@ void KgpgKeyInfo::loadKey()
         m_email->setUrl("mailto:" + key.email());
     }
 
-    KgpgKeyTrust keytrust = key.valid() ? key.trust() : TRUST_INVALID;
+    KgpgKeyTrust keytrust = key.valid() ? key.trust() : TRUST_DISABLED;
     QString tr = Convert::toString(keytrust);
     QColor trustcolor = Convert::toColor(keytrust);
 
