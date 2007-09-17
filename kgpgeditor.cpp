@@ -386,6 +386,11 @@ void KgpgEditor::slotFindNext()
 
 void KgpgEditor::slotFindPrev()
 {
+    if(!m_find)
+    { 
+       slotFind();
+       return;
+    }
     long oldopt = m_find->options();
     long newopt = oldopt ^ KFind::FindBackwards;
     m_find->setOptions(newopt);
