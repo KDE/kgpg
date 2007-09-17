@@ -855,8 +855,7 @@ QString KgpgInterface::getKeys(const bool &block, const QString *attributes, con
     if (attributes)
 	*process << "--export-options" << *attributes;
 
-    for (QStringList::ConstIterator it = ids.begin(); it != ids.end(); ++it)
-        *process << *it;
+    *process << ids;
 
     if (!block)
     {
@@ -929,8 +928,7 @@ void KgpgInterface::encryptText(const QString &text, const QStringList &userids,
     process->setParent(this);
 
     for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
-        if (!QFile::encodeName(*it).isEmpty())
-            *process << QFile::encodeName(*it);
+        *process << QFile::encodeName(*it);
 
     if (!userids.isEmpty())
     {
@@ -1025,8 +1023,7 @@ void KgpgInterface::decryptText(const QString &text, const QStringList &options)
     //*process << "--no-batch";
 
     for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
-        if (!QFile::encodeName(*it).isEmpty())
-            *process << QFile::encodeName(*it);
+        *process << QFile::encodeName(*it);
 
     *process << "-d";
 
@@ -1172,8 +1169,7 @@ void KgpgInterface::signText(const QString &text, const QString &userid, const Q
     process->setParent(this);
 
     for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
-        if (!QFile::encodeName(*it).isEmpty())
-            *process << QFile::encodeName(*it);
+        *process << QFile::encodeName(*it);
 
     *process << "--clearsign" << "-u" << userid;
 
@@ -1384,8 +1380,7 @@ void KgpgInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcu
     process->setParent(this);
 
     for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
-        if (!QFile::encodeName(*it).isEmpty())
-            *process << QFile::encodeName(*it);
+        *process << QFile::encodeName(*it);
 
     *process << "--output" << QFile::encodeName(desturl.path());
 
@@ -2655,8 +2650,7 @@ void KgpgInterface::decryptFile(const KUrl &src, const KUrl &dest, const QString
     process->setParent(this);
     *process << "--no-verbose" << "--no-greeting";
 
-    for (QStringList::ConstIterator it = Options.begin(); it != Options.end(); ++it)
-        *process << *it;
+    *process << Options;
 
     if (!dest.fileName().isEmpty())
         *process << "-o" << dest.path();
@@ -2961,8 +2955,7 @@ void KgpgInterface::KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList 
     *process << "--no-batch" << "-o" << "-";
 
     for (QStringList::ConstIterator it = Options.begin(); it != Options.end(); ++it)
-        if (!QFile::encodeName(*it).isEmpty())
-            *process << QFile::encodeName(*it);
+        *process << QFile::encodeName(*it);
 
     *process << "-d" << QFile::encodeName(srcUrl.path());
 
@@ -2982,8 +2975,7 @@ void KgpgInterface::KgpgSignFile(const QString &keyID, const KUrl &srcUrl, const
     *process << "-u" << keyID.simplified().toLocal8Bit();
 
     for (QStringList::ConstIterator it = Options.begin(); it != Options.end(); ++it)
-        if (!QFile::encodeName(*it).isEmpty())
-            *process << QFile::encodeName(*it);
+        *process << QFile::encodeName(*it);
 
     *process << "--output" << QFile::encodeName(srcUrl.path() + ".sig");
     *process << "--detach-sig" << QFile::encodeName(srcUrl.path());

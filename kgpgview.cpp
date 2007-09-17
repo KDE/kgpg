@@ -116,7 +116,7 @@ void KgpgTextEdit::slotEncode()
         QString customoptions = dialog->getCustomOptions();
         if (!customoptions.isEmpty())
             if (KGpgSettings::allowCustomEncryptionOptions())
-                options << customoptions.split(" ");
+                options << customoptions.split(" ", QString::SkipEmptyParts);
 
         if (KGpgSettings::pgpCompatibility())
             options << "--pgp6";
@@ -151,7 +151,7 @@ void KgpgTextEdit::slotDecode()
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(slotDecodeUpdateSuccess(QString, KgpgInterface*)));
     connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(slotDecodeUpdateFailed(QString, KgpgInterface*)));
-    interface->decryptText(fullcontent.mid(m_posstart, m_posend - m_posstart), KGpgSettings::customDecrypt().simplified().split(" "));
+    interface->decryptText(fullcontent.mid(m_posstart, m_posend - m_posstart), KGpgSettings::customDecrypt().simplified().split(" ", QString::SkipEmptyParts));
 }
 
 void KgpgTextEdit::slotSign()
@@ -232,7 +232,7 @@ void KgpgTextEdit::slotDecodeFile()
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(slotDecodeFileSuccess(QString, KgpgInterface*)));
     connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(slotDecodeFileFailed(QString, KgpgInterface*)));
-    interface->KgpgDecryptFileToText(KUrl(m_tempfile), KGpgSettings::customDecrypt().simplified().split(" "));
+    interface->KgpgDecryptFileToText(KUrl(m_tempfile), KGpgSettings::customDecrypt().simplified().split(" ", QString::SkipEmptyParts));
 }
 
 bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)

@@ -161,7 +161,7 @@ void MyView::clipEncrypt()
 
             if (!dialog->getCustomOptions().isEmpty())
                 if (KGpgSettings::allowCustomEncryptionOptions())
-                    options << dialog->getCustomOptions().split(" ");
+                    options << dialog->getCustomOptions().split(" ", QString::SkipEmptyParts);
 
             encryptClipboard(dialog->selectedKeys(), options, dialog->getShred(), dialog->getSymmetric());
         }
@@ -239,7 +239,7 @@ void MyView::encryptDroppedFolder()
 
         if (!dialog->getCustomOptions().isEmpty())
             if (KGpgSettings::allowCustomEncryptionOptions())
-                options << dialog->getCustomOptions().split(" ");
+                options << dialog->getCustomOptions().split(" ", QString::SkipEmptyParts);
 
         encryptClipboard(dialog->selectedKeys(), options, dialog->getShred(), dialog->getSymmetric());
     }
