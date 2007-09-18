@@ -44,6 +44,7 @@ Name[ta]=காப்பகம் மாற்றும் மறையாக்
 Name[tr]=Arşiv ve Klasör Şifrele
 Name[uk]=Зробити архів теки і зашифрувати
 Name[x-test]=xxArchive & Encrypt Folderxx
+Name[zh_CN]=存档并加密文件夹
 Name[zh_TW]=壓縮並加密資料夾
 Icon=kgpg
 Exec=kgpg -e %F
