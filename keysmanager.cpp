@@ -2280,7 +2280,7 @@ void KeysManager::deleteseckey()
     // delete a key
     QString res = keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ')';
     int result = KMessageBox::warningContinueCancel(this,
-                        i18n("<p>Delete <b>SECRET KEY</b> pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.", res),
+                        i18n("<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.", res),
                         i18n("Warning"),
                         KGuiItem(i18n("Delete"),"edit-delete"));
     if (result != KMessageBox::Continue)
