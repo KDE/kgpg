@@ -812,8 +812,11 @@ QList<KeyListViewItem *> KeyListView::selectedItems(void)
 
 	Q3ListViewItemIterator it(this, Q3ListViewItemIterator::Selected);
 
-	for(; it.current(); ++it)
+	for(; it.current(); ++it) {
+		if ((Q3ListViewItem(*it).depth() > 0) && !Q3ListViewItem(*it).parent()->isOpen())
+			continue;
 		list.append(static_cast<KeyListViewItem*>(it.current()));
+	}
 
 	return list;
 }
