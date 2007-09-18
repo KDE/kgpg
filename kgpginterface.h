@@ -95,7 +95,7 @@ public slots:
 
 private slots:
     void readPublicKeysProcess(GPGProc *p);
-    void readPublicKeysFin(K3Process *p, const bool &block = false);
+    void readPublicKeysFin(GPGProc *p, const bool &block = false);
 
 private:
     int m_numberid;

@@ -398,10 +398,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
     m_numberid = 1;
     cycle = "none";
 
-    GPGProc *process = new GPGProc();
-    *process << "--status-fd=2" << "--command-fd=0";
-
-    process->setParent(this);
+    GPGProc *process = new GPGProc(this);
     *process << "--with-fingerprint";
     if (!withsigs)
         *process << "--list-keys";
@@ -412,16 +409,15 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
 
     if (!block)
     {
-        kDebug(2100) << "(KgpgInterface::readPublicKeys) Extract public keys with K3Process::NotifyOnExit" ;
         connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(readPublicKeysProcess(GPGProc *)));
-        connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(readPublicKeysFin(K3Process *)));
-        process->start(K3Process::NotifyOnExit, false);
+        connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(readPublicKeysFin(GPGProc *)));
+        process->start();
         return KgpgKeyList();
     }
     else
     {
-        kDebug(2100) << "(KgpgInterface::readPublicKeys) Extract public keys with K3Process::Block" ;
-        process->start(K3Process::Block, false);
+        process->start();
+        process->waitForFinished();
         readPublicKeysProcess(process);
         readPublicKeysFin(process, true);
         return m_publiclistkeys;
@@ -430,30 +426,13 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
 
 void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 {
-    QString line;
-    bool partial = false;
+    QStringList lsp;
+    int items;
     unsigned int uidnum = 0;
 
-    while (p->readln(line, false, &partial) != -1)
+    while ( (items = p->readln(lsp)) >= 0)
     {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
-
-                m_partialline.clear();
-                m_ispartial = false;
-            }
-
-            if (line.startsWith("pub"))
+            if ((lsp.at(0) == "pub") && (items >= 10))
             {
                 if (cycle != "none")
                 {
@@ -462,8 +441,6 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                 }
 
                 m_publickey = KgpgKey();
-
-                QStringList lsp = line.split(":");
 
                 m_publickey.setTrust(Convert::toTrust(lsp.at(1)));
                 m_publickey.setSize(lsp.at(2));
@@ -489,7 +466,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                 else
                     m_publickey.setValid(true);
 
-                QString fullname = checkForUtf8(lsp.at(9));
+                QString fullname = lsp.at(9);
                 if (fullname.contains("<"))
                 {
                     QString kmail = fullname;
@@ -530,9 +507,9 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                 uidnum = 1;
             }
             else
-            if (line.startsWith("fpr"))
+            if ((lsp.at(0) == "fpr") && (items >= 10))
             {
-                QString fingervalue = line.section(':', 9, 9);
+                QString fingervalue = lsp.at(9);
                 uint len = fingervalue.length();
                 if ((len > 0) && (len % 4 == 0))
                     for (uint n = 0; 4 * (n + 1) < len; ++n)
@@ -541,11 +518,10 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                 m_publickey.setFingerprint(fingervalue);
             }
             else
-            if (line.startsWith("sub"))
+            if ((lsp.at(0) == "sub") && (items >= 7))
             {
                 KgpgKeySub sub;
 
-                QStringList lsp = line.split(":");
                 sub.setId(lsp.at(4).right(8));
                 sub.setTrust(Convert::toTrust(lsp.at(1)));
                 sub.setSize(lsp.at(2).toUInt());
@@ -573,7 +549,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                 cycle = "sub";
             }
             else
-            if (line.startsWith("uat"))
+            if (lsp.at(0) == "uat")
             {
                 m_numberid++;
                 KgpgKeyUat uat;
@@ -583,18 +559,18 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                 cycle = "uat";
             }
             else
-            if (line.startsWith("uid"))
+            if ((lsp.at(0) == "uid") && (items >= 10))
             {
                 KgpgKeyUid uid;
 
-                uid.setTrust(Convert::toTrust(line.section(":", 1, 1)));
-                if (line.section(":", 11, 11).contains('D'))
+                uid.setTrust(Convert::toTrust(lsp.at(1)));
+                if ((items > 11) && lsp.at(11).contains('D'))
                     uid.setValid(false);
                 else
                     uid.setValid(true);
 
                 uid.setIndex(++uidnum);
-                QString fullname = checkForUtf8(line.section(':', 9, 9));
+                QString fullname = lsp.at(9);
                 if (fullname.contains('<') )
                 {
                     QString kmail = fullname;
@@ -635,10 +611,9 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                 cycle = "uid";
             }
             else
-            if (line.startsWith("sig") || line.startsWith("rev"))
+            if (((lsp.at(0) == "sig") || (lsp.at(0) == "rev")) && (items >= 11))
             {
                 KgpgKeySign signature;
-                QStringList lsp = line.split(":");
 
                 signature.setId(lsp.at(4));
                 signature.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
@@ -654,7 +629,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                     signature.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
                 }
 
-                QString fullname = checkForUtf8(lsp.at(9));
+                QString fullname = lsp.at(9);
                 if (fullname.contains('<') )
                 {
                     QString kmail = fullname;
@@ -692,7 +667,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                 if (lsp.at(10).endsWith('l'))
                     signature.setLocal(true);
 
-                if (line.startsWith("rev"))
+                if (lsp.at(0) == "rev")
                     signature.setRevocation(true);
 
                 if (cycle == "pub")
@@ -707,13 +682,10 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                 if (cycle == "sub")
                     m_publickey.subList()->last().addSign(signature);
             }
-        }
     }
-
-    p->ackRead();
 }
 
-void KgpgInterface::readPublicKeysFin(K3Process *p, const bool &block)
+void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool &block)
 {
     // insert the last key
     if (cycle != "none")
@@ -733,12 +705,13 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
     m_secretkey = KgpgKey();
     m_secretactivate = false;
 
-        GPGProc *process = new GPGProc();
-        *process << "--status-fd=2" << "--command-fd=0" << "--list-secret-keys";
+        GPGProc *process = new GPGProc(this);
+        *process << "--list-secret-keys";
 
         *process << ids;
 
-        process->start(K3Process::Block, false);
+        process->start();
+        process->waitForFinished();
         readSecretKeysProcess(process);
 
 	if (m_secretactivate)
@@ -751,36 +724,18 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
 
 void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 {
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
+    QStringList lsp;
+    int items;
+
+    while ( (items = p->readln(lsp)) >= 0 )
     {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
-
-                m_partialline.clear();
-                m_ispartial = false;
-            }
-
-            if (line.startsWith("sec"))
+            if ((lsp.at(0) == "sec") && (items >= 10))
             {
                 if (m_secretactivate)
                     m_secretlistkeys << m_secretkey;
 
                 m_secretactivate = true;
                 m_secretkey = KgpgKey();
-
-                QStringList lsp = line.split(":");
 
                 m_secretkey.setTrust(Convert::toTrust(lsp.at(1)));
                 m_secretkey.setSize(lsp.at(2));
@@ -801,7 +756,7 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
                     m_secretkey.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
                 }
 
-                QString fullname = checkForUtf8(lsp.at(9));
+                QString fullname = lsp.at(9);
                 if (fullname.contains('<' ))
                 {
                     QString kmail = fullname;
@@ -836,10 +791,7 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
                     m_secretkey.setComment(QString());
                 m_secretkey.setName(kname);
             }
-        }
     }
-
-    p->ackRead();
 }
 
 QString KgpgInterface::getKeys(const bool &block, const QString *attributes, const QStringList &ids)
