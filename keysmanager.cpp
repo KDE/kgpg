@@ -2025,10 +2025,10 @@ void KeysManager::signatureResult(int success, KgpgInterface *interface)
         keysList2->refreshcurrentkey(signList.at(keyCount));
     else
     if (success == 1)
-        KMessageBox::sorry(this, i18n("<qt>Bad passphrase, key <b>%1</b> not signed.</qt>", signList.at(keyCount)->text(0) + i18n(" (") + signList.at(keyCount)->text(1) + i18n(")")));
+        KMessageBox::sorry(this, i18n("<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>", signList.at(keyCount)->text(0), signList.at(keyCount)->text(1)));
     else
     if (success == 4)
-        KMessageBox::sorry(this, i18n("<qt>The key <b>%1</b> is already signed.</qt>", signList.at(keyCount)->text(0) + i18n(" (") + signList.at(keyCount)->text(1) + i18n(")")));
+        KMessageBox::sorry(this, i18n("<qt>The key <b>%1 (%2)</b> is already signed.</qt>", signList.at(keyCount)->text(0), signList.at(keyCount)->text(1)));
 
     keyCount++;
     signLoop();
