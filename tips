@@ -11,34 +11,45 @@ This works in <strong>konqueror</strong> or on your Desktop!</p>
 </tip>
 <tip category="KGpg|app">
 <html>
-<p>If you want to encrypt a message for several persons, just select several encryption keys by pressing the "Ctrl" key.</p>
+<p>If you want to encrypt a message for several persons, just select several encryption keys by pressing the &quot;Ctrl&quot; key.</p>
 </html>
 </tip>
 <tip category="KGpg|app">
 <html>
 <p><strong>You don't know anything about encryption?</strong><br>
-No problem, simply create yourself a key pair in the key management window. Then, export your public key & mail it to your friends.<br>
-Ask them to do the same & import their public keys. Finally, to send an encrypted message, type it in the KGpg editor, then click "encrypt". Choose 
-your friend key and click "encrypt" again. The message will be encrypted, ready to be sent by email.</p>
+No problem, simply create yourself a key pair in the key management window. Then, export your public key and mail it to your friends.<br>
+Ask them to do the same and import their public keys. Finally, to send an encrypted message, type it in the KGpg editor, then click &quot;encrypt&quot;. Choose
+your friend key and click &quot;encrypt&quot; again. The message will be encrypted, ready to be sent by email.</p>
 </html>
 </tip>
 <tip category="KGpg|app">
 <html>
-<p>To perform an operation on a key, open the key management window & right click on the key. A popup menu with all available options will appear.</p>
+<p>To perform an operation on a key, open the key management window and right click on the key. A popup menu with all available options will appear.</p>
 </html>
 </tip>
 <tip category="KGpg|app">
 <html>
-<p>Decrypt a file with a single mouse click on it. You will then be prompted for password & that's all!</p>
+<p>Decrypt a file with a single mouse click on it. You will then be prompted for password and that's all!</p>
 </html>
 </tip>
 <tip category="KGpg|app">
 <html>
-<p>If you only want to open the key manager, type "kgpg -k" in the command line prompt.</p>
+<p>If you only want to open the key manager, type this in the command line prompt: <pre>kgpg -k</pre>
+The editor can be reached by: <pre>kgpg -d</pre></p>
 </html>
 </tip>
 <tip category="KGpg|app">
 <html>
-<p>Typing "kgpg -s filename" will decrypt the file filename and open it in KGpg's editor.</p>
+<p>To open a file in the KGpg's editor and immediately decrypt it type: <pre>kgpg -s filename</pre></p>
+</html>
+</tip>
+<tip category="KGpg|app">
+<html>
+<p>If you want to change the password or expiration of a secret key simply double click on it to get the key properties dialog.</p>
+</html>
+</tip>
+<tip category="KGpg|app">
+<html>
+<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the key manager.</p>
 </html>
 </tip>
