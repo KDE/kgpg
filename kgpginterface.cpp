@@ -417,7 +417,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
     else
     {
         process->start();
-        process->waitForFinished();
+        process->waitForFinished(-1);
         readPublicKeysProcess(process);
         readPublicKeysFin(process, true);
         return m_publiclistkeys;
@@ -711,7 +711,7 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
         *process << ids;
 
         process->start();
-        process->waitForFinished();
+        process->waitForFinished(-1);
         readSecretKeysProcess(process);
 
 	if (m_secretactivate)
