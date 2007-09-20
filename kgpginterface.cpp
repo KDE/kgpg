@@ -794,6 +794,32 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
     }
 }
 
+KgpgKeyList KgpgInterface::readJoinedKeys(const KgpgKeyTrust &trust, const QStringList &ids)
+{
+	KgpgKeyList secretkeys = readSecretKeys(ids);
+	KgpgKeyList publickeys = readPublicKeys(true, ids, false);
+	int i, j;
+
+	for (i = publickeys.size() - 1; i >= 0; i--)
+		if (publickeys.at(i).trust() < trust)
+			publickeys.removeAt(i);
+
+	for (i = 0; i < secretkeys.size(); i++) {
+		for (j = 0; j < publickeys.size(); j++)
+			if (secretkeys.at(i).fullId() == publickeys.at(j).fullId()) {
+				publickeys[j].setSecret(true);
+				break;
+			}
+	}
+
+	// move the secret keys to the top of the list
+	for (j = 1; j < publickeys.size(); j++)
+		if (publickeys.at(j).secret())
+			publickeys.move(j, 0);
+
+	return publickeys;
+}
+
 QString KgpgInterface::getKeys(const bool &block, const QString *attributes, const QStringList &ids)
 {
     m_partialline.clear();

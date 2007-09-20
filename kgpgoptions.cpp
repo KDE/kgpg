@@ -411,70 +411,33 @@ void kgpgOptions::updateSettings()
 
 void kgpgOptions::listKeys()
 {
-    // update display of keys in ComboBox
-    QString line;
-    QString name;
-    QString trustedvals = "idre-";
-    QString issec;
-    int counter = 0;
+	KgpgInterface *iface = new KgpgInterface;
+	KgpgCore::KgpgKeyList keys = iface->readJoinedKeys(KgpgCore::TRUST_MARGINAL);
+	delete iface;
 
-    KProcess *p = new KProcess();
-    *p << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty" << "--with-colon" << "--list-secret-keys";
-    p->setOutputChannelMode(KProcess::MergedChannels);
-    p->execute();
+	if (keys.size() == 0) {
+		ids += QString("0");
+		m_page1->file_key->addItem(i18nc("no key available", "none"));
+		m_page1->always_key->addItem(i18nc("no key available", "none"));
+	} else {
+		for (int i = 0; i < keys.size(); i++) {
+			KgpgCore::KgpgKey key = keys.at(i);
 
-    while (p->canReadLine())
-    {
-        line = QString::fromLocal8Bit(p->readLine());
-        if (line.startsWith("sec"))
-            issec += line.section(':', 4, 4);
-    }
+			names += key.name();
+			ids += key.id();
+			QString text = key.id() + ": " + key.name() + " <" + key.email() + '>';
+			if (key.id() == alwaysKeyID)
+				alwaysKeyName = text;
 
-    delete p;
-
-    p = new KProcess();
-    *p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--with-colon" << "--list-keys";
-    p->setOutputChannelMode(KProcess::MergedChannels);
-    p->execute();
-
-    while (p->canReadLine())
-    {
-        line = QString::fromLocal8Bit(p->readLine());
-        if (line.startsWith("pub"))
-        {
-            name = KgpgInterface::checkForUtf8(line.section(':', 9, 9));
-            if ((!name.isEmpty()) && !trustedvals.contains(line.section(':', 1, 1) ) )
-            {
-                counter++;
-                //name=name.section('<',-1,-1);
-                //  name=name.section('>',0,0);
-                names += name;
-                ids += line.section(':', 4, 4);
-                if (line.section(':', 4, 4).right(8) == alwaysKeyID)
-                    alwaysKeyName = line.section(':', 4, 4).right(8) + ':' + name;
-
-                if (issec.contains(line.section(':', 4, 4).right(8), Qt::CaseInsensitive ) )
-                {
-                    m_page1->file_key->addItem(pixkeyDouble, line.section(':', 4, 4).right(8) + ':' + name);
-                    m_page1->always_key->addItem(pixkeyDouble, line.section(':', 4, 4).right(8) + ':' + name);
-                }
-                else
-                {
-                    m_page1->file_key->addItem(pixkeySingle, line.section(':', 4, 4).right(8) + ':' + name);
-                    m_page1->always_key->addItem(pixkeySingle, line.section(':', 4, 4).right(8) + ':' + name);
-                }
-            }
-        }
-    }
-
-    delete p;
-
-    if (counter == 0)
-    {
-        ids += QString("0");
-        m_page1->file_key->addItem(i18nc("no key available", "none"));
-        m_page1->always_key->addItem(i18nc("no key available", "none"));
-    }
+			if (key.secret()) {
+				m_page1->file_key->addItem(pixkeyDouble, text);
+				m_page1->always_key->addItem(pixkeyDouble, text);
+			} else {
+				m_page1->file_key->addItem(pixkeySingle, text);
+				m_page1->always_key->addItem(pixkeySingle, text);
+			}
+		}
+	}
 }
 
 void kgpgOptions::slotInstallDecrypt(const QString &mimetype)
