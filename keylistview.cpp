@@ -63,7 +63,10 @@ KeyListViewItem::KeyListViewItem(K3ListView *parent, const KgpgKey &key, const b
 	groupId = NULL;
 	if (key.secret())
 		m_type |= Secret;
-	setText(0, key.name());
+	if (key.comment().isEmpty())
+		setText(0, key.name());
+	else
+		setText(0, i18nc("Name (Comment)", "%1 (%2)", key.name(), key.comment()));
 	setText(1, key.email());
 	setText(2, QString());
 	setText(3, key.expiration());
