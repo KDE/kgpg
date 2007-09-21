@@ -328,10 +328,10 @@ void KeyServer::slotSearchRead(K3ProcIO *p)
         if (required.contains("keysearch.prompt"))
         {
             if (m_count < 4)
-                p->writeStdin(QByteArray("N\n"));
+                p->writeStdin(QByteArray("N"), true);
             else
             {
-                p->writeStdin(QByteArray("Q\n"));
+                p->writeStdin(QByteArray("Q"), true);
                 p->closeWhenDone();
             }
 

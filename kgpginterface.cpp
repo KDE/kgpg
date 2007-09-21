@@ -1266,7 +1266,6 @@ void KgpgInterface::verifyText(const QString &text)
     emit txtVerifyStarted();
 
     process->writeStdin(temp);
-    temp.fill('x');
     process->closeWhenDone();
 }
 
@@ -3127,18 +3126,18 @@ void KgpgInterface::delsigprocess(K3ProcIO *p)//ess *p,char *buf, int buflen)
                 if (required.contains("keyedit.delsig")){
 
                         if ((sigsearch==signb) && (step==0)) {
-                                p->writeStdin(QByteArray("Y\n"));
+                                p->writeStdin(QByteArray("Y"), true);
                                 step=1;
                         } else
-                                p->writeStdin(QByteArray("n\n"));
+                                p->writeStdin(QByteArray("n"), true);
                         sigsearch++;
                         required.clear();
                 } else if ((step==1) && required.contains("keyedit.prompt")) {
-                        p->writeStdin(QByteArray("save\n"));
+                        p->writeStdin(QByteArray("save"), true);
                         required.clear();
                         deleteSuccess=true;
                 } else if (required.contains("GET_LINE")) {
-                        p->writeStdin(QByteArray("quit\n"));
+                        p->writeStdin(QByteArray("quit"), true);
                         p->closeWhenDone();
                         deleteSuccess=false;
                 }
