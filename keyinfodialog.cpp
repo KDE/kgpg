@@ -23,6 +23,8 @@
 #include <QPushButton>
 #include <QGroupBox>
 #include <QCheckBox>
+#include <QPainter>
+#include <QPixmap>
 #include <QImage>
 
 #include <KToolInvocation>
@@ -30,6 +32,8 @@
 #include <KDatePicker>
 #include <KMessageBox>
 #include <KUrlLabel>
+#include <KStandardDirs>
+#include <KIconEffect>
 #include <KLocale>
 
 #include "kgpginterface.h"
@@ -42,12 +46,18 @@ KgpgTrustLabel::KgpgTrustLabel(QWidget *parent, const QString &text, const QColo
               : QWidget(parent)
 {
     m_text_w = new QLabel(this);
-    m_text_w->setAlignment(Qt::AlignCenter);
+    m_text_w->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
+    m_color_w = new QLabel(this);
+    m_color_w->setLineWidth(1);
+    m_color_w->setFrameShape(QFrame::Box);
+    m_color_w->setAutoFillBackground(true);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setSpacing(0);
     layout->setMargin(2);
     layout->addWidget(m_text_w);
+    layout->addWidget(m_color_w);
 
     m_text = text;
     m_color = color;
@@ -56,7 +66,7 @@ KgpgTrustLabel::KgpgTrustLabel(QWidget *parent, const QString &text, const QColo
 
 void KgpgTrustLabel::setText(const QString &text)
 {
-    m_text = "<qt><b>" + text + "</b></qt>";
+    m_text = text;
     change();
 }
 
@@ -78,18 +88,11 @@ QColor KgpgTrustLabel::color() const
 
 void KgpgTrustLabel::change()
 {
-    QPalette palette;
-
-    palette = this->palette();
-    palette.setColor(this->backgroundRole(), m_color);
-    this->setPalette(palette);
-    this->setAutoFillBackground(true);
-
     m_text_w->setText(m_text);
-    palette = m_text_w->palette();
-    palette.setColor(m_text_w->backgroundRole(), QColor(Qt::white));
-    m_text_w->setPalette(palette);
-    m_text_w->setAutoFillBackground(true);
+
+    QPalette palette = m_color_w->palette();
+    palette.setColor(m_color_w->backgroundRole(), m_color);
+    m_color_w->setPalette(palette);
 }
 
 KgpgDateDialog::KgpgDateDialog(QWidget *parent, const bool &unlimited, QDate date)
@@ -255,7 +258,6 @@ QGroupBox* KgpgKeyInfo::_keypropertiesGroup(QWidget *parent)
     m_comment->setTextInteractionFlags(Qt::TextSelectableByMouse);
     m_creation->setTextInteractionFlags(Qt::TextSelectableByMouse);
     m_expiration->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    //m_trust->setTextInteractionFlags(Qt::TextSelectableByMouse);
     m_algorithm->setTextInteractionFlags(Qt::TextSelectableByMouse);
     m_length->setTextInteractionFlags(Qt::TextSelectableByMouse);
 

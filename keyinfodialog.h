@@ -52,6 +52,7 @@ private:
     void change();
 
     QLabel *m_text_w;
+    QLabel *m_color_w;
 
     QString m_text;
     QColor m_color;
