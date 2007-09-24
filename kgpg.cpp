@@ -772,15 +772,10 @@ void MyView::startWizard()
     KgpgInterface *interface = new KgpgInterface();
     KgpgKeyList secretlist = interface->readSecretKeys();
 
-    QStringList issec;
-    int i;
-    for (i = 0; i < secretlist.size(); ++i)
-        issec << secretlist.at(i).fullId();
-
-    KgpgKeyList publiclist = interface->readPublicKeys(true, issec);
+    KgpgKeyList publiclist = interface->readPublicKeys(true, secretlist);
     delete interface;
 
-    for (i = 0; i < publiclist.size(); ++i) {
+    for (int i = 0; i < publiclist.size(); ++i) {
         KgpgKey k = publiclist.at(i);
 
         QString s = k.id() + ": " + k.name() + " <" + k.email() + '>';

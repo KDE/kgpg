@@ -436,9 +436,7 @@ bool KeyListView::refreshKeys(const QStringList &ids)
     KgpgInterface *interface = new KgpgInterface();
     KgpgKeyList secretlist = interface->readSecretKeys(ids);
 
-    QStringList issec;
-    for (int i = 0; i < secretlist.size(); ++i)
-        issec << secretlist.at(i).fullId();
+    QStringList issec = secretlist;
 
     KgpgKeyList publiclist = interface->readPublicKeys(true, ids);
     delete interface;
@@ -523,9 +521,7 @@ void KeyListView::slotReloadOrphaned()
     KgpgInterface *interface = new KgpgInterface();
     KgpgKeyList listkeys;
 
-    listkeys = interface->readSecretKeys();
-    for (int i = 0; i < listkeys.size(); ++i)
-        issec << listkeys.at(i).id();
+    issec = interface->readSecretKeys();
     listkeys = interface->readPublicKeys(true);
     for (int i = 0; i < listkeys.size(); ++i)
         issec.removeAll(listkeys.at(i).id());
