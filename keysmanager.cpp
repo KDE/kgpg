@@ -2270,17 +2270,17 @@ void KeysManager::deleteseckey()
     if (result != KMessageBox::Continue)
         return;
 
-    QProcess *conprocess = new QProcess();
+    KProcess *conprocess = new KProcess();
     KConfigGroup config(KGlobal::config(), "General");
-    QString terminalApp = config.readPathEntry("TerminalApplication","konsole");
-    QStringList args;
-    args << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" << "--delete-secret-key" << keysList2->currentItem()->keyId();
-    connect(conprocess, SIGNAL(finished()), this, SLOT(reloadSecretKeys()));
-    conprocess->start(terminalApp, args);
+    *conprocess << config.readPathEntry("TerminalApplication","konsole");
+    *conprocess << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" << "--delete-secret-and-public-key" << keysList2->currentItem()->keyId();
+    connect(conprocess, SIGNAL(finished(int)), this, SLOT(reloadSecretKeys()));
+    conprocess->start();
 }
 
 void KeysManager::reloadSecretKeys()
 {
+	refreshkey();
 }
 
 void KeysManager::confirmdeletekey()
