@@ -780,16 +780,15 @@ void MyView::startWizard()
     KgpgKeyList publiclist = interface->readPublicKeys(true, issec);
     delete interface;
 
-    for (i = 0; i < publiclist.size(); ++i)
-        if (publiclist.at(i).trust() >= TRUST_FULL) {
-            KgpgKey k = publiclist.at(i);
+    for (i = 0; i < publiclist.size(); ++i) {
+        KgpgKey k = publiclist.at(i);
 
-            QString s = k.id() + ": " + k.name() + " <" + k.email() + '>';
+        QString s = k.id() + ": " + k.name() + " <" + k.email() + '>';
 
-            wiz->CBdefault->addItem(s);
-            if (firstKey.isEmpty())
-                firstKey = s;
-        }
+        wiz->CBdefault->addItem(s);
+        if (firstKey.isEmpty())
+            firstKey = s;
+    }
 
     wiz->CBdefault->setCurrentItem(firstKey);
 
