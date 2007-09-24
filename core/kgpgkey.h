@@ -15,6 +15,7 @@
 #include <QPointer>
 #include <QObject>
 #include <QList>
+#include <QStringList>
 #include <QDate>
 
 namespace KgpgCore
@@ -504,8 +505,17 @@ public:
         *this += l;
         return *this;
     }
+
+    operator QStringList()
+    {
+        QStringList res;
+
+        for (int i = 0; i < count(); i++)
+            res << at(i).fullId();
+
+        return res;
+    }
 };
-//typedef QPointer<KgpgKeyList> KgpgKeyListPtr;
 
 } // namespace
 
