@@ -279,7 +279,7 @@ bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)
         /*
         if (ispublickey)
         {
-            int result = KMessageBox::warningContinueCancel(this, i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(filetocheck), i18n("Warning"), KGuiItem (i18n("Import"), QString(), i18n("Import the public key"), i18n("Import the public key in your keyring")));
+            int result = KMessageBox::warningContinueCancel(this, i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(filetocheck), QString(), KGuiItem (i18n("Import"), QString(), i18n("Import the public key"), i18n("Import the public key in your keyring")));
             if (result == KMessageBox::Continue)
             {
                 //TODO : import key

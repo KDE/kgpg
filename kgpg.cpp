@@ -645,7 +645,7 @@ void MyView::droppedtext (const QString &inputText, bool allowEncrypt)
 
     if (inputText.startsWith("-----BEGIN PGP PUBLIC KEY"))
     {
-        int result = KMessageBox::warningContinueCancel(0,i18n("<p>The dropped text is a public key.<br />Do you want to import it ?</p>"), i18n("Warning"));
+        int result = KMessageBox::warningContinueCancel(0,i18n("<p>The dropped text is a public key.<br />Do you want to import it ?</p>"));
         if (result == KMessageBox::Cancel)
             return;
         else

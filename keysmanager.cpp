@@ -880,7 +880,7 @@ void KeysManager::slotDeletePhoto()
                         item->text(6), parent->text(0), parent->text(1));
 
     /*
-    if (KMessageBox::warningContinueCancel(this, mess, i18n("Warning"), KGuiItem(i18n("Delete"), "edit-delete")) != KMessageBox::Continue)
+    if (KMessageBox::warningContinueCancel(this, mess, QString(), KGuiItem(i18n("Delete"), "edit-delete")) != KMessageBox::Continue)
         return;
     */
 
@@ -1488,7 +1488,7 @@ void KeysManager::slotexportsec()
     // export secret key
     QString warn = i18n("Secret keys SHOULD NOT be saved in an unsafe place.\n"
                         "If someone else can access this file, encryption with this key will be compromised!\nContinue key export?");
-    int result = KMessageBox::questionYesNo(this, warn, i18n("Warning"), KGuiItem(i18n("Export")), KGuiItem(i18n("Do Not Export")));
+    int result = KMessageBox::warningContinueCancel(this, warn);
     if (result != KMessageBox::Yes)
         return;
     KeyListViewItem *item = keysList2->currentItem();
@@ -1736,7 +1736,7 @@ void KeysManager::deleteGroup()
     if (!keysList2->currentItem() || (keysList2->currentItem()->itemType() != KeyListViewItem::Group))
         return;
 
-    int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>", keysList2->currentItem()->text(0)), i18n("Warning"), KGuiItem(i18n("Delete"), "edit-delete"));
+    int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>", keysList2->currentItem()->text(0)), QString(), KGuiItem(i18n("Delete"), "edit-delete"));
     if (result != KMessageBox::Continue)
         return;
 
@@ -2265,7 +2265,7 @@ void KeysManager::deleteseckey()
     QString res = keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ')';
     int result = KMessageBox::warningContinueCancel(this,
                         i18n("<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.", res),
-                        i18n("Warning"),
+                        QString(),
                         KGuiItem(i18n("Delete"),"edit-delete"));
     if (result != KMessageBox::Continue)
         return;
@@ -2333,7 +2333,7 @@ void KeysManager::confirmdeletekey()
         if (keysToDelete.isEmpty())
             return;
 
-        int result = KMessageBox::warningContinueCancelList(this, i18np("<qt><b>Delete the following public key?</b></qt>", "<qt><b>Delete the following %1 public keys?</b></qt>", keysToDelete.count()), keysToDelete, i18n("Warning"), KStandardGuiItem::del());
+        int result = KMessageBox::warningContinueCancelList(this, i18np("<qt><b>Delete the following public key?</b></qt>", "<qt><b>Delete the following %1 public keys?</b></qt>", keysToDelete.count()), keysToDelete, QString(), KStandardGuiItem::del());
         if (result != KMessageBox::Continue)
             return;
         else

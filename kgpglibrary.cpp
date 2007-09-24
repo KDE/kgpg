@@ -207,7 +207,7 @@ void KgpgLibrary::processDecError(const QString &mssge)
         if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK"))
         {
             // dropped file is a public key, ask for import
-            int result = KMessageBox::warningContinueCancel(0, i18n("<p>The file <b>%1</b> is a public key.<br />Do you want to import it ?</p>", m_urlselected.path()), i18n("Warning"));
+            int result = KMessageBox::warningContinueCancel(0, i18n("<p>The file <b>%1</b> is a public key.<br />Do you want to import it ?</p>", m_urlselected.path()));
             if (result == KMessageBox::Cancel)
                 return;
             else
