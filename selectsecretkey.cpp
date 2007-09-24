@@ -83,21 +83,21 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     KgpgInterface *interface = new KgpgInterface();
     KgpgKeyList list1 = interface->readSecretKeys();
 
-    for (int i = 0; i < list1.size(); ++i)
+    KgpgKeyList list2 = interface->readPublicKeys(true, list1);
+    delete interface;
+
+    for (int i = 0; i < list2.size(); ++i)
     {
-        KgpgKey key = list1.at(i);
+        KgpgKey key = list2.at(i);
         QString id = key.id();
 
         bool dead = true;
 
         /* Public key */
-        KgpgKeyList list2 = interface->readPublicKeys(true, QStringList(id));
-        KgpgKey key2 = list2.at(0);
-
-        if (key2.trust() == TRUST_FULL || key2.trust() == TRUST_ULTIMATE)
+        if (key.trust() == TRUST_FULL || key.trust() == TRUST_ULTIMATE)
             dead = false;
 
-        if (!key2.valid())
+        if (!key.valid())
             dead = true;
         /**************/
 
@@ -105,7 +105,6 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
         {
             QString keyName = key.name();
 
-            keyName = KgpgInterface::checkForUtf8(keyName);
             Q3ListViewItem *item = new Q3ListViewItem(m_keyslist, keyName, key.email(), key.expiration(), id);
             item->setPixmap(0, Images::pair());
             if (!defaultKeyID.isEmpty() && id == defaultKeyID)
@@ -115,7 +114,6 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
             }
         }
     }
-    delete interface;
 
     if (!selectedok)
         m_keyslist->setSelected(m_keyslist->firstChild(), true);
