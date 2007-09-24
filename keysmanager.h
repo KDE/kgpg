@@ -34,6 +34,7 @@
 #include "keylistview.h"
 #include "ui_adduid.h"
 #include "ui_groupedit.h"
+#include "kgpginterface.h"
 
 class QCloseEvent;
 class QEvent;
@@ -47,6 +48,8 @@ class KgpgInterface;
 class groupEdit;
 class KeyServer;
 class KgpgEditor;
+class KeyServer;
+class KGpgTransaction;
 
 class groupEdit : public QWidget, public Ui::groupEdit
 {
@@ -102,7 +105,7 @@ public slots:
     void findNextKey();
     void slotSetDefaultKey(const QString &newID);
     void showKeyManager();
-    bool importRemoteKey(const QString &keyID);
+    bool importRemoteKey(const QString &keyIDs);
     void showKeyServer();
     void showOptions();
     void slotOpenEditor();
@@ -187,9 +190,9 @@ private slots:
     void refreshFinished(const QStringList &ids);
     void slotregenerate();
     void reloadSecretKeys();
-    void dcopImportFinished();
     void getMissingSigs(QStringList *missingKeys, KeyListViewItem *item);
     void slotEditDone(int exitcode);
+    void importRemoteFinished(KGpgTransaction *);
 
 private:
     QString globalkeyMail;
@@ -241,6 +244,28 @@ private:
     long searchOptions;
 
     KeyListViewItem *terminalkey; // the key currently edited in a terminal
+};
+
+class KGpgTransaction : public QObject
+{
+
+	Q_OBJECT
+
+public:
+	KgpgInterface *iface;
+
+	explicit KGpgTransaction();
+
+	~KGpgTransaction()
+	{
+		delete iface;
+	}
+
+private slots:
+	void slotDownloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*);
+
+signals:
+	void receiveComplete(KGpgTransaction *);
 };
 
 #endif // KEYSMANAGER_H

@@ -65,6 +65,12 @@ public:
 
     void refreshKeys(QStringList keys);
 
+    /**
+     * Returns the server list.
+     * The first item is the server configured in gpg.
+     */
+    static QStringList getServerList();
+
 signals:
     void importFinished(QStringList);
 
@@ -97,13 +103,6 @@ private slots:
 
     void slotSearchRead(K3ProcIO *p);
     void slotSearchResult(K3Process *p);
-
-private:
-    /**
-     * Returns the server list.
-     * The first item is the server configured in gpg.
-     */
-    static QStringList getServerList();
 
 private:
     KDialog *m_importpop;

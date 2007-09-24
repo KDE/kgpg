@@ -113,8 +113,6 @@
 #include "images.h"
 #include "sourceselect.h"
 
-
-
 using namespace KgpgCore;
 
 KeysManager::KeysManager(QWidget *parent)
@@ -2101,37 +2099,23 @@ void KeysManager::preimportsignkey()
     importsignkey(idlist);
 }
 
-bool KeysManager::importRemoteKey(const QString &keyID)
+bool KeysManager::importRemoteKey(const QString &keyIDs)
 {
-    kServer = new KeyServer(0, false, true);
-    kServer->slotSetText(keyID);
-    //kServer->page->Buttonimport->setDefault(true);
-    //kServer->page->tabWidget2->setTabEnabled(kServer->page->tabWidget2->page(1),false);
-    kServer->show();
-    kServer->raise();
-    connect(kServer, SIGNAL(importFinished(QString)), this, SLOT( dcopImportFinished()));
+	KGpgTransaction *xact = new KGpgTransaction();
 
-    return true;
+	QStringList kservers = KeyServer::getServerList();
+	if (kservers.isEmpty())
+		return false;
+	connect(xact, SIGNAL(receiveComplete(KGpgTransaction *)), this, SLOT(importRemoteFinished(KGpgTransaction *)));
+	xact->iface->downloadKeys(keyIDs.split(' '), kservers.first(), false, getenv("http_proxy"));
+
+	return true;
 }
 
-void KeysManager::dcopImportFinished()
+void KeysManager::importRemoteFinished(KGpgTransaction *t)
 {
-    if (kServer)
-        kServer = 0L;
-#ifdef __GNUC__
-#warning "kde4 dbus port it"
-#endif
-#if 0
-    QByteArray params;
-    QDataStream stream(&params, QIODevice::WriteOnly);
-
-    stream.setVersion(QDataStream::Qt_4_3);
-    stream << true;
-
-    kapp->dcopClient()->emitDCOPSignal("keyImported(bool)", params);
-#endif
-
-    refreshkey();
+	delete t;
+	keysList2->refreshAll();
 }
 
 void KeysManager::importsignkey(const QStringList &importKeyId)
@@ -2465,6 +2449,17 @@ void KeysManager::refreshkey()
 {
     keysList2->refreshAll();
     m_listviewsearch->updateSearch(m_listviewsearch->text());
+}
+
+KGpgTransaction::KGpgTransaction()
+	: iface(new KgpgInterface())
+{
+	connect(iface, SIGNAL(downloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)), this, SLOT(slotDownloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)));
+}
+
+void KGpgTransaction::slotDownloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)
+{
+	emit receiveComplete(this);
 }
 
 #include "keysmanager.moc"
