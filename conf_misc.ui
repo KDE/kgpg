@@ -323,6 +323,20 @@
          </property>
          <layout class="QVBoxLayout" >
           <item>
+           <widget class="QCheckBox" name="kcfg_ShowSystray" >
+            <property name="whatsThis" >
+             <string>&lt;qt>&lt;b>Show system tray icon:&lt;/b>&lt;br />
+&lt;p>If checked KGpg will minimize to an icon in the system tray.&lt;/p>&lt;/qt></string>
+            </property>
+            <property name="text" >
+             <string>Show system tray icon</string>
+            </property>
+            <property name="checked" >
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
            <layout class="QHBoxLayout" >
             <item>
              <widget class="QLabel" name="textLabel1_3_2" >

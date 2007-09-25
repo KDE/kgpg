@@ -710,6 +710,8 @@ void MyView::readOptions()
             if (!groups.isEmpty())
                     KGpgSettings::setGroups(groups.join(","));
         }
+
+        trayIcon->setVisible(KGpgSettings::showSystray());
     }
 }
 
@@ -1015,6 +1017,7 @@ KgpgAppletApp::KgpgAppletApp()
              : KUniqueApplication()
 {
     running = false;
+    kgpg_applet = NULL;
 }
 
 KgpgAppletApp::~KgpgAppletApp()
@@ -1077,8 +1080,13 @@ int KgpgAppletApp::newInstance()
         connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotGenerateKey()));
         connect(s_keyManager,SIGNAL(fontChanged(QFont)),kgpg_applet->w,SIGNAL(setFont(QFont)));
         connect(kgpg_applet->w,SIGNAL(importedKeys(QStringList)),s_keyManager->keysList2,SLOT(slotReloadKeys(QStringList)));
-        kgpg_applet->show();
 
+        if (KGpgSettings::showSystray()) {
+            kgpg_applet->show();
+        } else {
+            kgpg_applet->setVisible(false);
+            kgpg_applet->parentWidget()->show();
+        }
 
         if (!gpgPath.isEmpty())
         {

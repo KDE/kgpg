@@ -163,6 +163,10 @@
             </choices>
             <default>Disabled</default>
         </entry>
+        <entry name="ShowSystray" type="Bool" key="systray_icon">
+            <label>Show the systray icon</label>
+            <default>true</default>
+        </entry>
     </group>
 
     <group name="TipOfDay">

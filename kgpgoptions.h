@@ -162,6 +162,7 @@ private:
     bool m_defaultuseagent;
     bool m_encrypttoalways;
     bool m_defaultencrypttoalways;
+    bool m_showsystray;
 };
 
 #endif // KGPGOPTIONS_H

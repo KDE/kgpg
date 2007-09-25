@@ -75,6 +75,8 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 	defaultHomePath = KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash);
 	defaultBinPath = KGpgSettings::gpgBinaryPath();
 
+	m_showsystray = KGpgSettings::showSystray();
+
     kDebug(2100) << "Adding pages" ;
     m_page1 = new Encryption();
     m_page2 = new Decryption();
@@ -117,6 +119,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
     connect(m_page6->ServerBox, SIGNAL(currentChanged(Q3ListBoxItem *)), this, SLOT(updateButtons()));
     connect(m_page7->pushShredder, SIGNAL(clicked ()), this, SIGNAL(installShredder()));
+    connect(m_page7->kcfg_ShowSystray, SIGNAL(toggled(bool)), this, SLOT(updateButtons()));
 
     keyUltimate = KGpgSettings::colorUltimate();
     keyGood = KGpgSettings::colorGood();
@@ -404,6 +407,9 @@ void kgpgOptions::updateSettings()
     if (keyRev != m_page3->kcfg_ColorRev->color())
         emit refreshTrust(RevColor, m_page3->kcfg_ColorRev->color());
 
+    m_showsystray = m_page7->kcfg_ShowSystray->isChecked();
+    KGpgSettings::setShowSystray(m_showsystray);
+
     KGpgSettings::self()->writeConfig();
     m_config->sync();
     emit settingsUpdated();
@@ -519,6 +525,9 @@ bool kgpgOptions::hasChanged()
     if (currList != serverList)
         return true;
 
+    if (m_page7->kcfg_ShowSystray->isChecked() != m_showsystray)
+        return true;
+
     return false;
 }
 
@@ -545,6 +554,9 @@ bool kgpgOptions::isDefault()
     currList.truncate(currList.length() - 1);
 
     if (currList != defaultServerList)
+        return false;
+
+    if (m_page7->kcfg_ShowSystray->isChecked() != m_showsystray)
         return false;
 
     return true;
