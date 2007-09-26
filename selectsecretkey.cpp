@@ -56,6 +56,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
                                            "belongs to the person with whom you wish to communicate:",
                                            "How carefully have you checked that the %1 keys really "
                                            "belong to the people with whom you wish to communicate:", countkey), page);
+        signchecklabel->setWordWrap(true);
 
         m_signtrust = new KComboBox(page);
         m_signtrust->addItem(i18n("I Will Not Answer"));
