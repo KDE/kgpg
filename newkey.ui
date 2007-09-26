@@ -133,8 +133,7 @@
          <widget class="QCheckBox" name="CBdefault" >
           <property name="whatsThis" >
            <string>&lt;qt>&lt;b>Set as your default key:&lt;/b>&lt;br />
-			&lt;p>Checking this option sets the newly created key pair as the default key pair.&lt;/p>
-			&lt;/qt></string>
+&lt;p>Checking this option sets the newly created key pair as the default key pair.&lt;/p>&lt;/qt></string>
           </property>
           <property name="text" >
            <string>Set as your default key</string>

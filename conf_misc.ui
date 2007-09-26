@@ -57,8 +57,8 @@
             </size>
            </property>
            <property name="whatsThis" >
-            <string>&lt;qt>&lt;b>Use mouse selection instead of clipboard:&lt;/b> &lt;br />
-			&lt;p>If checked, clipboard operations in KGpg will use the selection clipboard, that means highlighting a text to copy, and middle button (or right+left together) to paste. If this option is not checked, the clipboard will work with Key shortcuts (Ctrl-c, Ctrl-v).&lt;/p>&lt;/qt> </string>
+            <string>&lt;qt>&lt;b>Use mouse selection instead of clipboard:&lt;/b>&lt;br />
+&lt;p>If checked, clipboard operations in KGpg will use the selection clipboard, that means highlighting a text to copy, and middle button (or right+left together) to paste. If this option is not checked, the clipboard will work with Key shortcuts (Ctrl-c, Ctrl-v).&lt;/p>&lt;/qt> </string>
            </property>
            <property name="text" >
             <string>Use mouse selection instead of clipboard</string>
@@ -75,7 +75,7 @@
            </property>
            <property name="whatsThis" >
             <string>&lt;qt>&lt;b>Display warning before creating temporary files:&lt;/b>&lt;br />
-			&lt;p>&lt;/p>&lt;/qt></string>
+&lt;p>&lt;/p>&lt;/qt></string>
            </property>
            <property name="text" >
             <string>Display warning before creating temporary files
@@ -236,8 +236,8 @@
               </property>
               <property name="whatsThis" >
                <string>&lt;qt>&lt;b>Sign file service menu:&lt;/b>&lt;br />
-					&lt;p>&lt;/p>
-					&lt;/qt></string>
+&lt;p>&lt;/p>
+&lt;/qt></string>
               </property>
               <property name="text" >
                <string>Sign file service menu:</string>
@@ -281,8 +281,8 @@
               </property>
               <property name="whatsThis" >
                <string>&lt;qt>&lt;b>Decrypt file service menu:&lt;/b>&lt;br />
-					&lt;p>&lt;/p>
-					&lt;/qt></string>
+&lt;p>&lt;/p>
+&lt;/qt></string>
               </property>
               <property name="text" >
                <string>Decrypt file service menu:</string>
@@ -342,8 +342,8 @@
              <widget class="QLabel" name="textLabel1_3_2" >
               <property name="whatsThis" >
                <string>&lt;qt>&lt;b>Event on unencrypted file drop:&lt;/b>&lt;br />
-					&lt;p>&lt;/p>
-					&lt;/qt></string>
+&lt;p>&lt;/p>
+&lt;/qt></string>
               </property>
               <property name="text" >
                <string>Event on unencrypted file drop:</string>
@@ -380,8 +380,8 @@
              <widget class="QLabel" name="textLabel1_2_2" >
               <property name="whatsThis" >
                <string>&lt;qt>&lt;b>Event on encrypted file drop:&lt;/b>&lt;br />
-					&lt;p>&lt;/p>
-					&lt;/qt></string>
+&lt;p>&lt;/p>
+&lt;/qt></string>
               </property>
               <property name="text" >
                <string>Event on encrypted file drop:</string>

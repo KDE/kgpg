@@ -49,8 +49,7 @@
     <widget class="QLabel" name="textLabel1_4_2" >
      <property name="whatsThis" >
       <string>&lt;qt>&lt;b>Custom Decryption Command:&lt;/b>&lt;br />
-		&lt;p>This option allows the user to specify a custom command to be executed by GPG when decryption occurs. (This is recommended for advanced users only).&lt;/p>
-		&lt;/qt></string>
+&lt;p>This option allows the user to specify a custom command to be executed by GPG when decryption occurs. (This is recommended for advanced users only).&lt;/p>&lt;/qt></string>
      </property>
      <property name="text" >
       <string>Custom decryption command:</string>

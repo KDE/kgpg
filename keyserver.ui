@@ -57,8 +57,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
         <widget class="QLabel" name="textLabel2" >
          <property name="whatsThis" >
           <string>&lt;qt>&lt;b>Text to search or ID of the key to import:&lt;/b>&lt;br />
-				&lt;p>There are multiple ways to search for a key, you can use a text or partial text search (example: entering Phil or Zimmerman will bring up all keys in which Phil or Zimmerman shows up) or you can search by the ID's of the key. Key ID's are strings of letters and numbers that uniquely identify a key (example: searching for 0xED7585F4 would bring up the key associated with that ID).&lt;/p>
-				&lt;/qt></string>
+&lt;p>There are multiple ways to search for a key, you can use a text or partial text search (example: entering Phil or Zimmerman will bring up all keys in which Phil or Zimmerman shows up) or you can search by the ID's of the key. Key ID's are strings of letters and numbers that uniquely identify a key (example: searching for 0xED7585F4 would bring up the key associated with that ID).&lt;/p>&lt;/qt></string>
          </property>
          <property name="frameShape" >
           <enum>QFrame::NoFrame</enum>
@@ -184,8 +183,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
         <widget class="QLabel" name="textLabel4" >
          <property name="whatsThis" >
           <string>&lt;qt>&lt;b>Key to be exported:&lt;/b>&lt;br />
-				&lt;p>This allows the user to specify the key from the drop down list that will be exported to the key server selected.&lt;/p>
-				&lt;/qt></string>
+&lt;p>This allows the user to specify the key from the drop down list that will be exported to the key server selected.&lt;/p>&lt;/qt></string>
          </property>
          <property name="text" >
           <string>Key to be exported:</string>
@@ -260,8 +258,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
           <widget class="QPushButton" name="Buttonexport" >
            <property name="whatsThis" >
             <string>&lt;qt>&lt;b>Export:&lt;/b>&lt;br />
-				&lt;p>Depressing this key will export the specified key to the specified server.&lt;/p>
-				&lt;/qt></string>
+&lt;p>Pushing this button will export the specified key to the specified server.&lt;/p>&lt;/qt></string>
            </property>
            <property name="text" >
             <string>&amp;Export</string>
