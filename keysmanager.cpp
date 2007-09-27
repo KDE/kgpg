@@ -744,12 +744,8 @@ void KeysManager::refreshKeyFromServer()
                 continue;
             }
 
-            if (item->itemType() & KeyListViewItem::Group)
-                continue;
-
-            KgpgKey *key = item->getKey();
-            if (key && item->depth() == 0)
-                keyIDS << key->fullId();
+            if (item->itemType() & KeyListViewItem::Pair)
+                keyIDS << item->keyId();
             else
             {
                 KMessageBox::sorry(this, i18n("You can only refresh primary keys. Please check your selection."));
