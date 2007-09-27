@@ -769,8 +769,7 @@ void KeysManager::refreshFinished(const QStringList &ids)
         kServer = 0L;
 
     for (int i = 0; i < ids.count(); ++i)
-        if (keysList.at(i))
-            keysList2->refreshcurrentkey(keysList.at(i));
+        keysList2->refreshcurrentkey(keysList2->findItemByKeyId(ids.at(i)));
 }
 
 void KeysManager::slotDelUid()
