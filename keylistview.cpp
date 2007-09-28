@@ -487,6 +487,11 @@ bool KeyListView::refreshKeys(const QStringList &ids)
     }
 }
 
+void KeyListView::refreshcurrentkey(const QString &id)
+{
+	refreshcurrentkey(findItemByKeyId(id));
+}
+
 void KeyListView::refreshcurrentkey(KeyListViewItem *current)
 {
     if (!current)
