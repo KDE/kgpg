@@ -223,15 +223,15 @@ KeysManager::KeysManager(QWidget *parent)
     createGroup->setText(i18n("&Create Group with Selected Keys..."));
     connect(createGroup, SIGNAL(triggered(bool)), SLOT(createNewGroup()));
 
-    QAction *editCurrentGroup = actionCollection()->addAction("edit_group");
+    editCurrentGroup = actionCollection()->addAction("edit_group");
     editCurrentGroup->setText(i18n("&Edit Group"));
     connect(editCurrentGroup, SIGNAL(triggered(bool)), SLOT(editGroup()));
 
-    QAction *delGroup = actionCollection()->addAction("delete_group");
+    delGroup = actionCollection()->addAction("delete_group");
     delGroup->setText(i18n("&Delete Group"));
     connect(delGroup, SIGNAL(triggered(bool)), SLOT(deleteGroup()));
 
-    QAction *deleteKey = actionCollection()->addAction("key_delete");
+    deleteKey = actionCollection()->addAction("key_delete");
     deleteKey->setIcon(KIcon("edit-delete"));
     deleteKey->setText(i18n("&Delete Keys"));
     connect(deleteKey, SIGNAL(triggered(bool)), SLOT(confirmdeletekey()));
@@ -1308,114 +1308,73 @@ bool KeysManager::isSignatureUnknown(KeyListViewItem *item)
 
 void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
 {
-    KeyListViewItem *sel = static_cast<KeyListViewItem *>(sel2);
+	KeyListViewItem *sel = static_cast<KeyListViewItem *>(sel2);
 
-    // popup a different menu depending on which key is selected
-    if (sel != 0)
-    {
-        if (keysList2->selectedItems().count() > 1)
-        {
-            QList<KeyListViewItem*> exportList = keysList2->selectedItems();
-            bool keyDepth = true;
-            bool allunksig = true;
-            bool allsig = true;
+	if (sel == NULL) {
+		m_popupout->exec(pos);
+		return;
+	}
 
-            for (int i = 0; i < exportList.count(); ++i) {
-                KeyListViewItem *cur = exportList.at(i);
-                if (cur)
-                    if (cur->depth() != 0) {
-                        if (!(cur->itemType() & KeyListViewItem::Group))
-                            keyDepth = false;
-                        allsig &= isSignature(exportList.at(i));
-                        allunksig &= isSignatureUnknown(exportList.at(i));
-                    } else {
-                      allunksig = false;
-                      allsig = false;
-                    }
-            }
+	KeyListViewItem::ItemType t = 0;
+	QList<KeyListViewItem*> exportList = keysList2->selectedItems();
+	int i;
+	bool allunksig = true;
+	int cnt = exportList.count();
+	bool unksig = false;
 
-            if (allsig) {
-                importSignatureKey->setEnabled(allunksig);
-                delSignKey->setEnabled(false);
-                m_popupsig->exec(pos);
-                return;
-            } else if (!keyDepth)
-            {
-                signKey->setEnabled(false);
-                refreshKey->setEnabled(false);
-                m_popupout->exec(pos);
-                return;
-            }
-            else
-            {
-                signKey->setEnabled(true);
-                refreshKey->setEnabled(true);
-            }
-        }
+	for (i = 0; i < cnt; ++i) {
+		KeyListViewItem *n = exportList.at(i);
 
-        if (sel->depth() != 0)
-        {
-            if (isSignature(sel))
-            {
-                 if (isSignatureUnknown(sel))
-                     importSignatureKey->setEnabled(true);
-                 else
-                     importSignatureKey->setEnabled(false);
-                 delSignKey->setEnabled(true);
-                 m_popupsig->exec(pos);
-                 return;
-            }
-            else
-            if (sel->itemType() == KeyListViewItem::Uat)
-                m_popupphoto->exec(pos);
-            else
-            if (sel->itemType() == KeyListViewItem::Uid) {
-                KeyListViewItem *parent = sel->parent();
-                setPrimUid->setVisible(parent->itemType() & KeyListViewItem::Secret);
-                m_popupuid->exec(pos);
-            }
-        }
-        else
-        {
-            keysList2->setSelected(sel, true);
-            if (sel->itemType() & KeyListViewItem::Group)
-                m_popupgroup->exec(pos);
-            else
-            {
-                QList<KeyListViewItem*> exportList = keysList2->selectedItems();
-                bool unksig = false;
+		t |= n->itemType();
+		allunksig &= isSignatureUnknown(n);
+	}
 
-                // find out if an item has unknown signatures. Only check if the item has been
-                // expanded before as expansion is very expensive and can take several seconds
-                // that will freeze the UI meanwhile.
-                for (int i = 0; i < exportList.count(); i++) {
-                   KeyListViewItem *k = exportList.at(i);
-                   QStringList l;
+	if (t & KeyListViewItem::Pair) {
+		// find out if an item has unknown signatures. Only check if the item has been
+		// expanded before as expansion is very expensive and can take several seconds
+		// that will freeze the UI meanwhile.
+		for (int i = 0; i < exportList.count(); i++) {
+			KeyListViewItem *k = exportList.at(i);
+			QStringList l;
 
-                   if (k->firstChild() == NULL) {
-                      unksig = true;
-                      break;
-                   }
-                   getMissingSigs(&l, k);
-                   if (!l.isEmpty()) {
-                      unksig = true;
-                      break;
-                   }
-                }
-                importAllSignKeys->setEnabled(unksig);
+			if (k->firstChild() == NULL) {
+				unksig = true;
+				break;
+			}
+			getMissingSigs(&l, k);
+			if (!l.isEmpty()) {
+				unksig = true;
+				break;
+			}
+		}
+		importAllSignKeys->setEnabled(unksig);
+	}
 
-                if (((sel->itemType() & KeyListViewItem::Pair) == KeyListViewItem::Pair) && (exportList.count() == 1))
-                    m_popupsec->exec(pos);
-                else
-                if ((sel->itemType() == KeyListViewItem::Secret) && (exportList.count() == 1))
-                    m_popuporphan->exec(pos);
-                else
-                    m_popuppub->exec(pos);
-            }
-        }
-    }
-    else
-        m_popupout->exec(pos);
+	if (t == KeyListViewItem::Sign) {
+		importSignatureKey->setEnabled(allunksig);
+		delSignKey->setEnabled( (cnt == 1) );
+		m_popupsig->exec(pos);
+	} else if ((t == KeyListViewItem::Uid) && (cnt == 1)) {
+		KeyListViewItem *parent = exportList.at(0)->parent();
+		setPrimUid->setVisible(parent->itemType() & KeyListViewItem::Secret);
+		m_popupuid->exec(pos);
+	} else if ((t == KeyListViewItem::Uat) && (cnt == 1)) {
+		m_popupphoto->exec(pos);
+	} else if ((t == KeyListViewItem::Pair) && (cnt == 1)) {
+		m_popupsec->exec(pos);
+	} else if ((t == KeyListViewItem::Secret) && (cnt == 1)) {
+		m_popuporphan->exec(pos);
+	} else if (t == KeyListViewItem::Group) {
+		delGroup->setEnabled( (cnt == 1) );
+		editCurrentGroup->setEnabled( (cnt == 1) );
+		m_popupgroup->exec(pos);
+	} else if (!(t & ~(KeyListViewItem::Pair | KeyListViewItem::Group))) {
+		signKey->setEnabled(!(t & KeyListViewItem::Group));
+		deleteKey->setEnabled(!(t & KeyListViewItem::Group));
+		m_popuppub->exec(pos);
+	} else {
+		m_popupout->exec(pos);
+	}
 }
 
 void KeysManager::slotrevoke(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description)

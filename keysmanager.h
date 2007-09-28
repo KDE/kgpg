@@ -226,6 +226,9 @@ private:
     QAction *refreshKey;
     QAction *setPrimUid;
     QAction *delSignKey;
+    QAction *deleteKey;
+    QAction *editCurrentGroup;
+    QAction *delGroup;
 
     KeyServer *kServer;
     groupEdit *gEdit;
