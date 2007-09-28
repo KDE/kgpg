@@ -2163,9 +2163,7 @@ void KeysManager::slotedit()
 
     if (item == NULL)
         return;
-    if (item->depth() != 0)
-        return;
-    if (item->keyId() == NULL)
+    if (!(item->itemType() & KeyListViewItem::Pair))
         return;
     if (terminalkey != NULL)
         return;
