@@ -246,7 +246,7 @@ private:
 
     long searchOptions;
 
-    KeyListViewItem *terminalkey; // the key currently edited in a terminal
+    QString terminalkey; // the id of the key currently edited in a terminal
 };
 
 class KGpgTransaction : public QObject

@@ -128,7 +128,6 @@ KeysManager::KeysManager(QWidget *parent)
     keysList2->photoKeysList = QString();
     keysList2->groupNb = 0;
     m_statusbar = 0;
-    terminalkey = NULL;
     readOptions();
 
     if (showTipOfDay)
@@ -2165,14 +2164,14 @@ void KeysManager::slotedit()
         return;
     if (!(item->itemType() & KeyListViewItem::Pair))
         return;
-    if (terminalkey != NULL)
+    if (!terminalkey.isEmpty())
         return;
 
     KProcess *kp = new KProcess(this);
     KConfigGroup config(KGlobal::config(), "General");
     *kp << config.readPathEntry("TerminalApplication","konsole");
     *kp << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" <<"--edit-key" << keysList2->currentItem()->keyId() << "help";
-    terminalkey = keysList2->currentItem();
+    terminalkey = keysList2->currentItem()->keyId();
 
     connect(kp, SIGNAL(finished(int)), SLOT(slotEditDone(int)));
     kp->start();
@@ -2183,7 +2182,7 @@ void KeysManager::slotEditDone(int exitcode)
     if (exitcode == 0)
         keysList2->refreshcurrentkey(terminalkey);
 
-    terminalkey = NULL;
+    terminalkey.clear();
 }
 
 void KeysManager::doFilePrint(const QString &url)
@@ -2240,8 +2239,8 @@ void KeysManager::confirmdeletekey()
     KeyListViewItem *ki = keysList2->currentItem();
 
     // do not delete a key currently edited in terminal
-    if ((ki == terminalkey) && (keysList2->selectedItems().count() == 1)) {
-        KMessageBox::error(this, i18n("Can not delete key <b>%1</b> while it is edited in terminal.", terminalkey->keyId()), i18n("Delete key"));
+    if ((ki->keyId() == terminalkey) && (keysList2->selectedItems().count() == 1)) {
+        KMessageBox::error(this, i18n("Can not delete key <b>%1</b> while it is edited in terminal.", terminalkey), i18n("Delete key"));
         return;
     }
 
@@ -2270,7 +2269,7 @@ void KeysManager::confirmdeletekey()
                     secList += ki->text(0) + " (" + ki->text(1) + ")<br/>";
                     ki->setSelected(false);
                 }
-                else if (ki != terminalkey)
+                else if (ki->keyId() != terminalkey)
                     keysToDelete += ki->text(0) + " (" + ki->text(1) + ')';
             }
 	}
