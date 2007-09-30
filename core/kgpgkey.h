@@ -67,7 +67,7 @@ enum KgpgSubKeyTypeFlag
     SKT_SIGNATURE = 1
 };
 Q_DECLARE_FLAGS(KgpgSubKeyType, KgpgSubKeyTypeFlag)
-Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgSubKeyType);
+Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgSubKeyType)
 
 class KgpgKeySignPrivate : public QSharedData
 {
