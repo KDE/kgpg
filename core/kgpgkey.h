@@ -509,10 +509,8 @@ public:
     operator QStringList()
     {
         QStringList res;
-
-        for (int i = 0; i < count(); i++)
-            res << at(i).fullId();
-
+        foreach(KgpgKey key, *this)
+            res << key.fullId();
         return res;
     }
 };
