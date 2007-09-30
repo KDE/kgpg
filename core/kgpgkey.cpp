@@ -333,6 +333,7 @@ bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
     if (gpgsubcreation != other.gpgsubcreation) return false;
     if (gpgsubtrust != other.gpgsubtrust) return false;
     if (gpgsignlist != other.gpgsignlist) return false;
+    if (gpgsubtype != other.gpgsubtype) return false;
     return true;
 }
 
@@ -389,6 +390,11 @@ void KgpgKeySub::setValid(const bool &valid)
     d->gpgsubvalid = valid;
 }
 
+void KgpgKeySub::setType(const KgpgSubKeyType &type)
+{
+    d->gpgsubtype = type;
+}
+
 QString KgpgKeySub::id() const
 {
     return d->gpgsubid;
@@ -427,6 +433,11 @@ KgpgKeyAlgo KgpgKeySub::algorithm() const
 bool KgpgKeySub::valid() const
 {
     return d->gpgsubvalid;
+}
+
+KgpgSubKeyType KgpgKeySub::type() const
+{
+    return d->gpgsubtype;
 }
 
 QString KgpgKeySub::creation() const

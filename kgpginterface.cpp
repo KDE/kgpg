@@ -533,6 +533,11 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                 else
                     sub.setValid(true);
 
+                if (lsp.at(11).contains('s'))
+                    sub.setType(SKT_SIGNATURE);
+                else
+                if (lsp.at(11).contains('s'))
+                    sub.setType(SKT_ENCRYPTION);
 
                 if (lsp.at(6).isEmpty())
                 {

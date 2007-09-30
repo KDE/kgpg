@@ -61,6 +61,13 @@ enum KgpgKeyOwnerTrustFlag
 Q_DECLARE_FLAGS(KgpgKeyOwnerTrust, KgpgKeyOwnerTrustFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyOwnerTrust)
 
+enum KgpgSubKeyTypeFlag
+{
+    SKT_ENCRYPTION = 0,
+    SKT_SIGNATURE = 1
+};
+Q_DECLARE_FLAGS(KgpgSubKeyType, KgpgSubKeyTypeFlag)
+Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgSubKeyType);
 
 class KgpgKeySignPrivate : public QSharedData
 {
@@ -148,7 +155,6 @@ public:
         return *this;
     }
 };
-//typedef QPointer<KgpgKeySignList> KgpgKeySignListPtr;
 
 class KgpgKeyUatPrivate : public QSharedData
 {
@@ -304,6 +310,7 @@ public:
     KgpgKeyTrust    gpgsubtrust;
     KgpgKeyAlgo     gpgsubalgo;
     KgpgKeySignList gpgsignlist;
+    KgpgSubKeyType  gpgsubtype;
 
     bool operator==(const KgpgKeySubPrivate &other) const;
     inline bool operator!=(const KgpgKeySubPrivate &other) const
@@ -325,7 +332,8 @@ public:
     void setCreation(const QDate &date);
     void setTrust(const KgpgKeyTrust &trust);
     void setAlgorithm(const KgpgKeyAlgo &algo);
-    void setValid(const bool &valid);
+    void setValid(const bool &valid); // FIXME : is it possible to have a subkey that is not valid (disabled)? Please give an example. Thx. If not, this method should be removed.
+    void setType(const KgpgSubKeyType &type); // a sub key can be a signature key or a encryption key
 
     QString id() const;
     uint size() const;
@@ -335,6 +343,7 @@ public:
     KgpgKeyTrust trust() const;
     KgpgKeyAlgo algorithm() const;
     bool valid() const;
+    KgpgSubKeyType type() const;
 
     QString creation() const;
     QString expiration() const;
