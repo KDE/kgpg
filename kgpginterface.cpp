@@ -2348,7 +2348,8 @@ void KgpgInterface::importKeyFinished(K3Process *p)
 
     emit importKeyFinished(importedKeysIds);
 
-    // TODO : a supprimer d'une manière ou d'une autre (wtf??)
+    // TODO : should be deleted. KgpgInterface should not show any dialog (but password).
+    // When a message should be shown, it should be passed by parameter in a SIGNAL.
     (void) new KgpgDetailedInfo(0, resultMessage, message, importedKeys);
 }
 
