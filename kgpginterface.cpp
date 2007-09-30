@@ -528,6 +528,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                 sub.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
                 sub.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
 
+                // FIXME: Please see kgpgkey.h, KgpgSubKey class
                 if (lsp.at(11).contains('D'))
                     sub.setValid(false);
                 else
