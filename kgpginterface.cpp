@@ -443,7 +443,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                 m_publickey = KgpgKey();
 
                 m_publickey.setTrust(Convert::toTrust(lsp.at(1)));
-                m_publickey.setSize(lsp.at(2));
+                m_publickey.setSize(lsp.at(2).toUInt());
                 m_publickey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
                 m_publickey.setFullId(lsp.at(4));
                 m_publickey.setId(lsp.at(4).right(8));
@@ -744,12 +744,12 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
                 m_secretkey = KgpgKey();
 
                 m_secretkey.setTrust(Convert::toTrust(lsp.at(1)));
-                m_secretkey.setSize(lsp.at(2));
+                m_secretkey.setSize(lsp.at(2).toUInt());
                 m_secretkey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
                 m_secretkey.setFullId(lsp.at(4));
                 m_secretkey.setId(lsp.at(4).right(8));
                 m_secretkey.setCreation(QDate::fromString(lsp[5], Qt::ISODate));
-		m_secretkey.setSecret(true);
+                m_secretkey.setSecret(true);
 
                 if (lsp.at(6).isEmpty())
                 {

@@ -70,7 +70,7 @@ KeyListViewItem::KeyListViewItem(K3ListView *parent, const KgpgKey &key, const b
 	setText(1, key.email());
 	setText(2, QString());
 	setText(3, key.expiration());
-	setText(4, key.size());
+	setText(4, QString::number(key.size()));
 	setText(5, key.creation());
 	setText(6, key.id());
 }
@@ -866,7 +866,7 @@ QString KeyListView::statusCountMessage(void)
 		return kmsg;
 	} else {
 		QString gmsg = i18np("1 Group", "%1 Groups", groupNb);
-	
+
 		return kmsg + ", " + gmsg;
 	}
 }

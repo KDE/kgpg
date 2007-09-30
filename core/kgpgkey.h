@@ -402,7 +402,7 @@ public:
     QString       gpgkeyname;
     QString       gpgkeycomment;
     QString       gpgkeyfingerprint;
-    QString       gpgkeysize;
+    uint          gpgkeysize;
     KgpgKeyOwnerTrust gpgkeyownertrust;
     KgpgKeyTrust  gpgkeytrust;
     QDate         gpgkeycreation;
@@ -438,7 +438,7 @@ public:
     void setEmail(const QString &email);
     void setComment(const QString &comment);
     void setFingerprint(const QString &fingerprint);
-    void setSize(const QString &size);
+    void setSize(const uint &size);
     void setOwnerTrust(const KgpgKeyOwnerTrust &owtrust);
     void setTrust(const KgpgKeyTrust &trust);
     void setCreation(const QDate &date);
@@ -454,7 +454,7 @@ public:
     QString email() const;
     QString comment() const;
     QString fingerprint() const;
-    QString size() const;
+    uint size() const;
     KgpgKeyOwnerTrust ownerTrust() const;
     KgpgKeyTrust trust() const;
     QDate creationDate() const;

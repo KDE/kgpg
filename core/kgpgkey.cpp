@@ -519,6 +519,7 @@ KgpgKey::KgpgKey()
     d->gpgkeyalgo = ALGO_UNKNOWN;
     d->gpgkeyvalid = false;
     d->gpgkeysecret = false;
+    d->gpgkeysize = 0;
 }
 
 KgpgKey::KgpgKey(const KgpgKey &other)
@@ -567,7 +568,7 @@ void KgpgKey::setFingerprint(const QString &fingerprint)
     d->gpgkeyfingerprint = fingerprint;
 }
 
-void KgpgKey::setSize(const QString &size)
+void KgpgKey::setSize(const uint &size)
 {
     d->gpgkeysize = size;
 }
@@ -642,7 +643,7 @@ QString KgpgKey::fingerprint() const
     return d->gpgkeyfingerprint;
 }
 
-QString KgpgKey::size() const
+uint KgpgKey::size() const
 {
     return d->gpgkeysize;
 }

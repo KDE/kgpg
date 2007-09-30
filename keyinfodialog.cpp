@@ -418,7 +418,7 @@ void KgpgKeyInfo::loadKey()
     m_expiration->setText(key.expiration());
     m_trust->setText(tr);
     m_trust->setColor(trustcolor);
-    m_length->setText(key.size() + " / " + QString::number(subkey.size()));
+    m_length->setText(QString::number(key.size()) + " / " + QString::number(subkey.size()));
     m_length->setWhatsThis("<qt>The left part is the size of the <b>signature</b> key. The right part is the size of the <b>encryption</b> key.</qt>");
     m_fingerprint->setText(key.fingerprint());
 
