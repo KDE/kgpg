@@ -378,6 +378,19 @@ void KgpgKeyInfo::loadKey()
     delete interface;
 
     KgpgKey key = listkeys.at(0);
+    KgpgKeySub subkey;
+
+    // Get the first encryption subkey
+    KgpgKeySubListPtr sublist = key.subList();
+    for (int i = 0; i < sublist->count(); ++i)
+    {
+        KgpgKeySub temp = sublist->at(i);
+        if (temp.type() == SKT_ENCRYPTION)
+        {
+            subkey = temp;
+            break;
+        }
+    }
 
     QString name = key.name();
     setCaption(name);
@@ -399,12 +412,14 @@ void KgpgKeyInfo::loadKey()
     QColor trustcolor = Convert::toColor(keytrust);
 
     m_id->setText(key.fullId());
-    m_algorithm->setText(Convert::toString(key.algorithm()));
+    m_algorithm->setText(Convert::toString(key.algorithm()) + " / " + Convert::toString(subkey.algorithm()));
+    m_algorithm->setWhatsThis("<qt>The left part is the algorithm used by the <b>signature</b> key. The right part is the algorithm used by the <b>encryption</b> key.</qt>");
     m_creation->setText(key.creation());
     m_expiration->setText(key.expiration());
     m_trust->setText(tr);
     m_trust->setColor(trustcolor);
-    m_length->setText(key.size());
+    m_length->setText(key.size() + " / " + QString::number(subkey.size()));
+    m_length->setWhatsThis("<qt>The left part is the size of the <b>signature</b> key. The right part is the size of the <b>encryption</b> key.</qt>");
     m_fingerprint->setText(key.fingerprint());
 
     if (key.comment().isEmpty())
