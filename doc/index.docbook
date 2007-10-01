@@ -328,6 +328,7 @@ and drop or the Copy/Paste keyboard shortcuts.</para>
 <para>While the key manager allows you to do general actions with one or multiple keys, key groups or signatures, the key properties window gives you access to a single key. You can reach it by pressing enter in the key manager or double clicking the key.</para>
 <para>In this window you can change the key passphrase and expiration of your secret keys. For all keys you can also set the owner trust value.</para>
 <para>This value indicates how much you trust the owner of this key to correctly verify the identity of the keys he signs. Taking the owner trust into account gpg creates your own web of trust. You trust the keys you signed. If you assign owner trust to these persons you will also trust the keys they have signed without the need that you first have to sign there keys too.</para>
+<para>All changes you make in this dialog are immediately applied to your keyring.</para>
 </sect2>
 
 </sect1>
