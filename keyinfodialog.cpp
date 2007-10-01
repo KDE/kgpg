@@ -533,11 +533,11 @@ void KgpgKeyInfo::slotInfoExpirationChanged(const int &res, KgpgInterface *inter
 void KgpgKeyInfo::slotDisableKey(const bool &ison)
 {
     KgpgInterface *interface = new KgpgInterface;
-    connect (interface, SIGNAL(changeDisableFinished(KgpgInterface*)), this, SLOT(slotDisableKeyFinished(KgpgInterface*)));
+    connect (interface, SIGNAL(changeDisableFinished(KgpgInterface*, int)), this, SLOT(slotDisableKeyFinished(KgpgInterface*, int)));
     interface->changeDisable(m_keyid, ison);
 }
 
-void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface)
+void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface, int)
 {
     delete interface;
     loadKey();

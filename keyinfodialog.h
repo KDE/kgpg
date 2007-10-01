@@ -103,7 +103,7 @@ private slots:
     void slotInfoExpirationChanged(const int &res, KgpgInterface *interface);
 
     void slotDisableKey(const bool &ison);
-    void slotDisableKeyFinished(KgpgInterface *interface);
+    void slotDisableKeyFinished(KgpgInterface *interface, int);
 
     void slotChangePass();
     void slotInfoPasswordChanged(const int &res, KgpgInterface *interface);

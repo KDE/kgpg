@@ -45,11 +45,17 @@
 using namespace KgpgCore;
 
 KgpgInterface::KgpgInterface()
+    : editprocess(NULL)
 {
 }
 
 KgpgInterface::~KgpgInterface()
 {
+    if (editprocess != NULL) {
+	editprocess->kill();
+	delete editprocess;
+    }
+
     const QObjectList &list = children();
     // First, we block all signals
     for (int i = 0; i < list.size(); ++i)
@@ -1921,59 +1927,26 @@ void KgpgInterface::changeDisable(const QString &keyid, const bool &ison)
     m_partialline.clear();
     m_ispartial = false;
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--edit-key" << keyid;
+    editprocess = new KProcess(this);
+    *editprocess << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--no-greeting" << "--edit-key" << keyid;
 
     if (ison)
-        *process << "disable";
+        *editprocess << "disable";
     else
-        *process << "enable";
+        *editprocess << "enable";
 
-    kDebug(2100) << "(KgpgInterface::changeDisable) Change disable of the key " << keyid << " to " << ison ;
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(changeDisableProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(changeDisableFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+    *editprocess << "save";
+
+    kDebug(2100) << "Change disable of the key" << keyid << "to" << ison;
+    connect(editprocess, SIGNAL(finished(int)), this, SLOT(changeDisableFin(int)));
+    editprocess->start();
 }
 
-void KgpgInterface::changeDisableProcess(K3ProcIO *p)
+void KgpgInterface::changeDisableFin(int res)
 {
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
-
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
-            if (line.contains("keyedit.prompt"))
-            {
-                p->writeStdin(QByteArray("save"), true);
-                p->closeWhenDone();
-            }
-        }
-    }
-
-    p->ackRead();
-}
-
-void KgpgInterface::changeDisableFin(K3Process *p)
-{
-    delete p;
-    changeDisableFinished(this);
+    delete editprocess;
+    editprocess = NULL;
+    changeDisableFinished(this, res);
 }
 
 QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool &block)

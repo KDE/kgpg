@@ -29,6 +29,7 @@
 class KTemporaryFile;
 class K3Process;
 class K3ProcIO;
+class KProcess;
 class GPGProc;
 
 /**
@@ -410,14 +411,13 @@ private:
 
 /************** change disable key **************/
 signals:
-    void changeDisableFinished(KgpgInterface*);
+    void changeDisableFinished(KgpgInterface*, int res);
 
 public slots:
     void changeDisable(const QString &keyid, const bool &ison);
 
 private slots:
-    void changeDisableProcess(K3ProcIO *p);
-    void changeDisableFin(K3Process *p);
+    void changeDisableFin(int res);
 
 /************************************************/
 
@@ -818,6 +818,7 @@ private:
     bool decok;                 // decrypt ok
     bool badmdc;                // bad mdc
     bool badpassword;           // bad password
+    KProcess *editprocess;
     static K3ProcIO *gpgProc(const int &statusfd = -1, const int &cmdfd = -1);
 
     /**
