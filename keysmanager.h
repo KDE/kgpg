@@ -168,7 +168,8 @@ private slots:
     void importfinished();
     void signatureResult(int success, KgpgInterface*);
     void delsignatureResult(bool);
-    void listsigns();
+    void defaultAction();
+    void keyproperties();
     void slotexport();
     void slotexportsec();
 

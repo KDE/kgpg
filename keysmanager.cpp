@@ -186,7 +186,7 @@ KeysManager::KeysManager(QWidget *parent)
     QAction *infoKey = actionCollection()->addAction("key_info");
     infoKey->setIcon(KIcon("kgpg-info-kgpg"));
     infoKey->setText(i18n("K&ey properties"));
-    connect(infoKey, SIGNAL(triggered(bool)), SLOT(listsigns()));
+    connect(infoKey, SIGNAL(triggered(bool)), SLOT(keyproperties()));
     infoKey->setShortcut(QKeySequence(Qt::Key_Return));
 
     QAction *editKey = actionCollection()->addAction("key_edit");
@@ -387,8 +387,8 @@ KeysManager::KeysManager(QWidget *parent)
     setCentralWidget(keysList2);
     keysList2->restoreLayout(KGlobal::config().data(), "KeyView");
 
-    connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(listsigns()));
-    connect(keysList2, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(listsigns()));
+    connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(defaultAction()));
+    connect(keysList2, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(defaultAction()));
     connect(keysList2, SIGNAL(selectionChanged ()), this, SLOT(checkList()));
     connect(keysList2, SIGNAL(contextMenuRequested(Q3ListViewItem *, const QPoint &, int)), this, SLOT(slotMenu(Q3ListViewItem *, const QPoint &, int)));
     connect(keysList2, SIGNAL(destroyed()), this, SLOT(annule()));
@@ -1619,7 +1619,7 @@ void KeysManager::slotShowPhoto()
     p.startDetached();
 }
 
-void KeysManager::listsigns()
+void KeysManager::defaultAction()
 {
     // kDebug(2100) << "Edit -------------------------------" ;
     KeyListViewItem *cur = keysList2->currentItem();
@@ -1649,6 +1649,16 @@ void KeysManager::listsigns()
         keysList2->ensureItemVisible(tgt);
         return;
     }
+
+    if (cur->itemType() & KeyListViewItem::Pair)
+        keyproperties();
+}
+
+void KeysManager::keyproperties()
+{
+    KeyListViewItem *cur = keysList2->currentItem();
+    if (cur == NULL)
+        return;
 
     if (cur->itemType() == KeyListViewItem::Secret)
     {
