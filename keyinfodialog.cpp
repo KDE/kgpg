@@ -565,7 +565,7 @@ void KgpgKeyInfo::slotInfoPasswordChanged(const int &res, KgpgInterface *interfa
 void KgpgKeyInfo::slotChangeTrust(const int &newtrust)
 {
     KgpgInterface *interface = new KgpgInterface();
-    interface->changeTrust(m_keyid, newtrust);
+    interface->changeTrust(m_keyid, KgpgKeyOwnerTrust(newtrust + 1));
     connect(interface, SIGNAL(changeTrustFinished(KgpgInterface*)), this, SLOT(slotInfoTrustChanged(KgpgInterface*)));
 }
 

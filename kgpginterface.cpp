@@ -1854,17 +1854,17 @@ void KgpgInterface::changePassFin(K3Process *p)
     emit changePassFinished(m_success, this);
 }
 
-void KgpgInterface::changeTrust(const QString &keyid, const int &keytrust)
+void KgpgInterface::changeTrust(const QString &keyid, const KgpgKeyOwnerTrust &keytrust)
 {
     m_partialline.clear();
     m_ispartial = false;
-    m_trustvalue = keytrust + 1;
+    m_trustvalue = keytrust;
 
     K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
     *process << "--edit-key" << keyid << "trust";
 
-    kDebug(2100) << "(KgpgInterface::changeTrust) Change trust of the key " << keyid << " to " << keytrust ;
+    kDebug(2100) << "Change trust of the key" << keyid << "to" << keytrust;
     connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(changeTrustProcess(K3ProcIO *)));
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(changeTrustFin(K3Process *)));
     process->start(K3Process::NotifyOnExit, true);

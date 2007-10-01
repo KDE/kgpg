@@ -390,14 +390,9 @@ public slots:
     /**
      * This method changes the trust of a key
      * @param keyid the id of the key
-     * @param keytrust the new trust,
-     * Don't know = 1,
-     * Do NOT trust = 2,
-     * Marginally = 3,
-     * Fully = 4,
-     * Ultimately = 5.
+     * @param keytrust the new trust
      */
-    void changeTrust(const QString &keyid, const int &keytrust);
+    void changeTrust(const QString &keyid, const KgpgCore::KgpgKeyOwnerTrust &keytrust);
 
 private slots:
     void changeTrustProcess(K3ProcIO *p);
