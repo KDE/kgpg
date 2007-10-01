@@ -148,7 +148,7 @@ MyView::~MyView()
 void MyView::clipEncrypt()
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
-        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), trayIcon);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop), trayIcon);
     else
     {
         KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, true, goDefaultKey);
@@ -193,7 +193,7 @@ void MyView::clipSign(bool openEditor)
         kgpgtxtedit->show();
     }
     else
-        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), trayIcon);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop), trayIcon);
 }
 
 void MyView::encryptDroppedFile()
@@ -307,7 +307,7 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     }
 
     pop = new KPassivePopup();
-    pop->setView(i18n("Processing folder compression and encryption"),i18n("Please wait..."), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop));
+    pop->setView(i18n("Processing folder compression and encryption"),i18n("Please wait..."), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop));
     pop->setAutoDelete(false);
     pop->show();
     kapp->processEvents();
@@ -894,7 +894,7 @@ void MyView::encryptClipboard(QStringList selec, QStringList encryptOptions, con
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
     {
-        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), trayIcon);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop), trayIcon);
         return;
     }
 
@@ -922,7 +922,7 @@ void MyView::slotPassiveClip()
     newtxt.replace(QRegExp("\n"), "<br>");
 
     pop = new KPassivePopup();
-    pop->setView(i18n("Encrypted following text:"), newtxt, KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop));
+    pop->setView(i18n("Encrypted following text:"), newtxt, KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop));
     pop->setTimeout(3200);
     pop->show();
     QRect qRect(QApplication::desktop()->screenGeometry());

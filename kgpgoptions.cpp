@@ -95,8 +95,8 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     m_page7->shredInfo->setText(i18n( "<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>"));
     m_page7->groupShred->adjustSize();
 
-    pixkeySingle = KIconLoader::global()->loadIcon("kgpg_key1", K3Icon::Small, 20);
-    pixkeyDouble = KIconLoader::global()->loadIcon("kgpg_key2", K3Icon::Small, 20);
+    pixkeySingle = KIconLoader::global()->loadIcon("kgpg_key1", KIconLoader::Small, 20);
+    pixkeyDouble = KIconLoader::global()->loadIcon("kgpg_key2", KIconLoader::Small, 20);
     addPage(m_page1, i18n("Encryption"), "encrypted");
     addPage(m_page2, i18n("Decryption"), "decrypted");
     addPage(m_page3, i18n("Appearance"), "looknfeel");

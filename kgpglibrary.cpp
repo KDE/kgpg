@@ -236,7 +236,7 @@ void KgpgLibrary::processEncPopup(const KUrl &url)
     emit systemMessage(i18n("Decrypting %1", url.pathOrUrl()));
 
     m_pop->setTimeout(0);
-    m_pop->setView(i18n("Processing decryption"), i18n("Please wait..."), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop));
+    m_pop->setView(i18n("Processing decryption"), i18n("Please wait..."), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop));
     m_pop->show();
 
     QRect qRect(QApplication::desktop()->screenGeometry());
@@ -261,14 +261,14 @@ void KgpgLibrary::slotShredResult(KJob *job)
         static_cast<KIO::Job*>(job)->ui()->showErrorMessage();
         emit systemMessage(QString(), true);
 
-        KPassivePopup::message(i18n("KGpg Error"), i18n("Process halted, not all files were shredded."), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop), m_panel, 0);
+        KPassivePopup::message(i18n("KGpg Error"), i18n("Process halted, not all files were shredded."), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop), m_panel, 0);
     }
 }
 
 void KgpgLibrary::processPopup2(const QString &fileName)
 {
     //m_pop->setTimeout(0);
-    m_pop->setView(i18n("Processing encryption (%1)", fileName),i18n("Please wait..."), KIconLoader::global()->loadIcon("kgpg", K3Icon::Desktop));
+    m_pop->setView(i18n("Processing encryption (%1)", fileName),i18n("Please wait..."), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop));
     m_pop->show();
     /*QRect qRect(QApplication::desktop()->screenGeometry());
     int iXpos=qRect.width()/2-m_pop->width()/2;
