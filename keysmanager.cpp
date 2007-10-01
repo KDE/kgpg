@@ -1442,7 +1442,7 @@ void KeysManager::slotexportsec()
     QString warn = i18n("Secret keys SHOULD NOT be saved in an unsafe place.\n"
                         "If someone else can access this file, encryption with this key will be compromised!\nContinue key export?");
     int result = KMessageBox::warningContinueCancel(this, warn);
-    if (result != KMessageBox::Yes)
+    if (result != KMessageBox::Continue)
         return;
     KeyListViewItem *item = keysList2->currentItem();
 
