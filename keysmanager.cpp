@@ -1439,8 +1439,8 @@ void KeysManager::slotImportRevokeTxt(const QString &revokeText)
 void KeysManager::slotexportsec()
 {
     // export secret key
-    QString warn = i18n("Secret keys SHOULD NOT be saved in an unsafe place.\n"
-                        "If someone else can access this file, encryption with this key will be compromised!\nContinue key export?");
+    QString warn = i18n("<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>"
+                        "If someone else can access this file, encryption with this key will be compromised!<br/>Continue key export?</qt>");
     int result = KMessageBox::warningContinueCancel(this, warn);
     if (result != KMessageBox::Continue)
         return;
@@ -1465,7 +1465,8 @@ void KeysManager::slotexportsec()
         p.execute();
 
         if (fgpg.exists())
-            KMessageBox::information(this, i18n("Your PRIVATE key \"%1\" was successfully exported.\nDO NOT leave it in an insecure place.", url.path()));
+            KMessageBox::information(this, i18n("<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2 .<br/>"
+                                                "<b>Do not</b> leave it in an insecure place.</qt>", item->keyId(), url.path()));
         else
             KMessageBox::sorry(this, i18n("Your secret key could not be exported.\nCheck the key."));
     }

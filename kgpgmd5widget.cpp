@@ -91,7 +91,7 @@ void Md5Widget::slotApply()
         }
         else
         {
-            m_label->setText(i18n("<b>Wrong checksum, FILE CORRUPTED</b>"));
+            m_label->setText(i18n("<b>Wrong checksum, <em>file corrupted</em></b>"));
             m_led->setColor(QColor(Qt::red));
             m_led->on();
         }
