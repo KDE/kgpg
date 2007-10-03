@@ -805,21 +805,37 @@ void KeysManager::slotPrimUid()
 
 void KeysManager::slotregenerate()
 {
-    FILE *fp;
-    QString tst;
-    char line[300];
-    QString regID = keysList2->currentItem()->keyId();
+	QString regID = keysList2->currentItem()->keyId();
+	KProcess *p1, *p2, *p3;
 
-    QString cmd = "gpg --no-secmem-warning --export-secret-key " + regID + " | gpgsplit --no-split --secret-to-public | gpg --import";
+	p1 = new KProcess(this);
+	*p1 << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--export-secret-key" << regID;
+	p1->setOutputChannelMode(KProcess::OnlyStdoutChannel);
 
-    fp = popen(cmd.toAscii(), "r");
-    while (fgets(line, sizeof(line), fp))
-    {
-        tst += line;
-    }
-    pclose(fp);
-    keysList2->takeItem(keysList2->currentItem());
-    keysList2->refreshKeys(QStringList(regID));
+	p2 = new KProcess(this);
+	*p2 << "gpgsplit" << "--no-split" << "--secret-to-public";
+	p2->setOutputChannelMode(KProcess::OnlyStdoutChannel);
+
+	p3 = new KProcess(this);
+	*p3 << KGpgSettings::gpgBinaryPath() << "--import";
+
+	p1->setStandardOutputProcess(p2);
+	p2->setStandardOutputProcess(p3);
+
+	p1->start();
+	p2->start();
+	p3->start();
+
+	p1->waitForFinished();
+	p2->waitForFinished();
+	p3->waitForFinished();
+
+	delete p1;
+	delete p2;
+	delete p3;
+
+	keysList2->takeItem(keysList2->currentItem());
+	keysList2->refreshKeys(QStringList(regID));
 }
 
 void KeysManager::slotAddUid()

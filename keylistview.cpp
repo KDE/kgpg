@@ -457,6 +457,7 @@ bool KeyListView::refreshKeys(const QStringList &ids)
         {
             key.setSecret(true);
             issec.removeAt(index);
+            secretlist.removeAt(index);
         }
 
         item = new KeyListViewItem(this, key, isbold);
@@ -471,7 +472,7 @@ bool KeyListView::refreshKeys(const QStringList &ids)
     }
 
     if (!issec.isEmpty())
-        insertOrphans(issec);
+        insertOrphans(secretlist);
 
     if (publiclist.size() == 0)
         return 1;
@@ -524,12 +525,13 @@ void KeyListView::slotReloadOrphaned()
     QStringList issec;
 
     KgpgInterface *interface = new KgpgInterface();
-    KgpgKeyList listkeys;
+    KgpgKeyList listkeys, seckeys;
 
-    issec = interface->readSecretKeys();
-    listkeys = interface->readPublicKeys(true);
+    seckeys = interface->readSecretKeys();
+    issec = seckeys;
+    listkeys = interface->readPublicKeys(true, issec);
     for (int i = 0; i < listkeys.size(); ++i)
-        issec.removeAll(listkeys.at(i).id());
+        issec.removeAll(listkeys.at(i).fullId());
 
     delete interface;
 
@@ -540,18 +542,15 @@ void KeyListView::slotReloadOrphaned()
             list += *it;
 
     if (list.size() != 0)
-        insertOrphans(list);
+        insertOrphans(seckeys);
 
     setSelected(findItemByKeyId(*it), true);
     emit statusMessage(statusCountMessage(), 1);
     emit statusMessage(i18n("Ready"), 0);
 }
 
-void KeyListView::insertOrphans(const QStringList &ids)
+void KeyListView::insertOrphans(const KgpgKeyList &keys)
 {
-    KgpgInterface *interface = new KgpgInterface();
-    KgpgKeyList keys = interface->readSecretKeys(ids);
-    delete interface;
     QStringList orphanList;
 
     KeyListViewItem *item = 0;
@@ -566,19 +565,11 @@ void KeyListView::insertOrphans(const QStringList &ids)
         item->setPixmap(0, Images::orphan());
     }
 
-    if (ids.size() == 1)
+    if (keys.size() == 1)
     {
-        if (keys.isEmpty())
-        {
-            orphanList.removeAll(ids.at(0));
-            setSelected(currentItem(), true);
-        }
-        else
-        {
-            clearSelection();
-            setCurrentItem(item);
-            setSelected(item, true);
-        }
+        clearSelection();
+        setCurrentItem(item);
+        setSelected(item, true);
     }
 }
 

@@ -140,7 +140,7 @@ private slots:
     void refreshselfkey();
 
     void slotReloadOrphaned();
-    void insertOrphans(const QStringList &ids);
+    void insertOrphans(const KgpgKeyList &keys);
 
     void refreshGroups();
     void refreshTrust(int color, const QColor &newColor);
