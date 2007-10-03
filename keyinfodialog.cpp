@@ -496,7 +496,7 @@ void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap, KgpgInterface *interface)
 void KgpgKeyInfo::slotPreOk()
 {
     if (m_keywaschanged)
-        emit keyNeedsRefresh();
+        emit keyNeedsRefresh(m_keyid);
     accept();
 }
 

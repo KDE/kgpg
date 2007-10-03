@@ -85,7 +85,7 @@ public:
     explicit KgpgKeyInfo(const QString &keyid, QWidget *parent = 0);
 
 signals:
-    void keyNeedsRefresh(); // TODO add the keyid parameter
+    void keyNeedsRefresh(const QString &keyid);
 
 private:
     QGroupBox *_keypropertiesGroup(QWidget *parent);

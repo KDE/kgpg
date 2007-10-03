@@ -782,7 +782,7 @@ void KeysManager::slotDelUid()
     args << "--edit-key" << item->keyId() << "uid" << uitem->text(6) << "deluid";
     process->start(terminalApp, args);
     process->waitForFinished();
-    keysList2->refreshselfkey();
+    keysList2->refreshcurrentkey(item);
 }
 
 void KeysManager::slotPrimUid()
@@ -800,7 +800,7 @@ void KeysManager::slotPrimUid()
     args << "--edit-key" << item->keyId() << "uid" << uitem->text(6) << "primary" << "save";
     process->start(terminalApp, args);
     process->waitForFinished();
-    keysList2->refreshselfkey();
+    keysList2->refreshcurrentkey(item);
 }
 
 void KeysManager::slotregenerate()
@@ -1689,7 +1689,7 @@ void KeysManager::keyproperties()
     if (!key.isEmpty())
     {
         KgpgKeyInfo *opts = new KgpgKeyInfo(key, this);
-        connect(opts, SIGNAL(keyNeedsRefresh()), keysList2, SLOT(refreshselfkey()));
+        connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), keysList2, SLOT(refreshcurrentkey(const QString &)));
         opts->exec();
         delete opts;
     }
