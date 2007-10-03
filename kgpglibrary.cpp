@@ -247,14 +247,19 @@ void KgpgLibrary::processEncPopup(const KUrl &url)
 
 void KgpgLibrary::shredProcessEnc(const KUrl::List &filestoshred)
 {
+    // ####### Shredding has been removed from kdelibs long ago.
+    // Remove the feature completely, or re-implement it in kgpg?
+#if 0
     emit systemMessage(i18np("Shredding %1 file", "Shredding %1 files", filestoshred.count()));
-    KIO::Job *job = KIO::del(filestoshred, true, true);
+    KIO::Job *job = KIO::del(filestoshred, true);
     job->ui()->setWindow(static_cast<QWidget *>(parent()));
     connect(job, SIGNAL(result(KJob *)), SLOT(slotShredResult(KJob *)));
+#endif
 }
 
 void KgpgLibrary::slotShredResult(KJob *job)
 {
+#if 0
     emit systemMessage(QString());
     if (job && job->error())
     {
@@ -263,6 +268,7 @@ void KgpgLibrary::slotShredResult(KJob *job)
 
         KPassivePopup::message(i18n("KGpg Error"), i18n("Process halted, not all files were shredded."), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop), m_panel, 0);
     }
+#endif
 }
 
 void KgpgLibrary::processPopup2(const QString &fileName)
