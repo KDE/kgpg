@@ -1586,7 +1586,9 @@ void KeysManager::slotexport()
                 p.execute();
 
                 if (fgpg.exists())
-                    KMessageBox::information(this, i18n("Your public key \"%1\" was successfully exported\n", expname));
+                    KMessageBox::information(this, i18np("<qt>The public key was successfully exported to<br/>%2</qt>",
+                                                         "<qt>The %1 public keys were successfully exported to<br/>%2</qt>",
+                                                         klist.count(), expname));
                 else
                     KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
             }
