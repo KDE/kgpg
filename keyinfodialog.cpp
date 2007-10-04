@@ -37,8 +37,8 @@
 #include <KLocale>
 
 #include "kgpginterface.h"
-#include "core/images.h"
 #include "convert.h"
+#include "images.h"
 
 using namespace KgpgCore;
 
