@@ -17,18 +17,13 @@
 
 #include "selectpublickeydialog.h"
 
-#include <QApplication>
-#include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QToolButton>
 #include <QCheckBox>
 #include <QPainter>
-#include <QPixmap>
 #include <QLabel>
 
 #include <K3ListViewSearchLine>
 #include <KActionCollection>
-#include <KIconLoader>
 #include <K3ListView>
 #include <KLineEdit>
 #include <KLocale>
