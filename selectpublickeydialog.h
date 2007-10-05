@@ -20,7 +20,6 @@
 
 #include <QKeySequence>
 
-
 #include <KShortcut>
 #include <KDialog>
 
