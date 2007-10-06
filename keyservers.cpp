@@ -37,7 +37,7 @@
 
 #include "kgpgsettings.h"
 #include "detailedconsole.h"
-#include "core/convert.h"
+#include "convert.h"
 
 
 using namespace KgpgCore;

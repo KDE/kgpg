@@ -39,7 +39,7 @@
 
 #include "detailedconsole.h"
 #include "kgpgsettings.h"
-#include "core/convert.h"
+#include "convert.h"
 #include "gpgproc.h"
 
 using namespace KgpgCore;

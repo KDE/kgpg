@@ -92,7 +92,7 @@
 #include <KVBox>
 #include <KToggleAction>
 
-#include "core/kgpgkey.h"
+#include "kgpgkey.h"
 #include "selectsecretkey.h"
 #include "newkey.h"
 #include "kgpg.h"
