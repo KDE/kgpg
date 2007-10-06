@@ -21,25 +21,23 @@
 #include <QApplication>
 #include <QTextStream>
 #include <QFile>
-#include <QString>
 
 #include <KJob>
 #include <KFileDialog>
 #include <KPassivePopup>
 #include <kio/renamedialog.h>
 #include <KMessageBox>
-#include <KIconLoader>
 #include <KLocale>
 #include <KConfig>
-#include <K3ProcIO>
 #include <kio/deletejob.h>
 #include <kio/jobuidelegate.h>
-#include <KShortcut>
-#include <KUrl>
 
+#include "images.h"
 #include "selectpublickeydialog.h"
 #include "kgpgsettings.h"
 #include "kgpginterface.h"
+
+using namespace KgpgCore;
 
 KgpgLibrary::KgpgLibrary(QWidget *parent, const bool &pgpExtension)
 {
@@ -236,7 +234,7 @@ void KgpgLibrary::processEncPopup(const KUrl &url)
     emit systemMessage(i18n("Decrypting %1", url.pathOrUrl()));
 
     m_pop->setTimeout(0);
-    m_pop->setView(i18n("Processing decryption"), i18n("Please wait..."), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop));
+    m_pop->setView(i18n("Processing decryption"), i18n("Please wait..."), Images::kgpg());
     m_pop->show();
 
     QRect qRect(QApplication::desktop()->screenGeometry());
@@ -266,7 +264,7 @@ void KgpgLibrary::slotShredResult(KJob *job)
         static_cast<KIO::Job*>(job)->ui()->showErrorMessage();
         emit systemMessage(QString(), true);
 
-        KPassivePopup::message(i18n("KGpg Error"), i18n("Process halted, not all files were shredded."), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop), m_panel, 0);
+        KPassivePopup::message(i18n("KGpg Error"), i18n("Process halted, not all files were shredded."), Images::kgpg(), m_panel, 0);
     }
 #endif
 }
@@ -274,7 +272,7 @@ void KgpgLibrary::slotShredResult(KJob *job)
 void KgpgLibrary::processPopup2(const QString &fileName)
 {
     //m_pop->setTimeout(0);
-    m_pop->setView(i18n("Processing encryption (%1)", fileName),i18n("Please wait..."), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop));
+    m_pop->setView(i18n("Processing encryption (%1)", fileName),i18n("Please wait..."), Images::kgpg());
     m_pop->show();
     /*QRect qRect(QApplication::desktop()->screenGeometry());
     int iXpos=qRect.width()/2-m_pop->width()/2;

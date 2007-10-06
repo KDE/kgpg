@@ -65,7 +65,6 @@
 #include <KDesktopFile>
 #include <KInputDialog>
 #include <KFileDialog>
-#include <KIconLoader>
 #include <KMessageBox>
 #include <KFindDialog>
 #include <KStatusBar>
@@ -509,7 +508,7 @@ void KeysManager::slotGenerateKeyProcess(KgpgInterface *)
     pop = new KPassivePopup(this);
     pop->setTimeout(0);
 
-    KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString(), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop), 0);
+    KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString(), Images::kgpg(), 0);
 
     QMovie anim(KStandardDirs::locate("appdata", "pics/kgpg_anim.gif"));
     QLabel *text1 = new QLabel(passiveBox);

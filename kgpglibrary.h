@@ -23,9 +23,8 @@
 #include <KShortcut>
 #include <KUrl>
 
-
-#include <QString>
 #include <QStringList>
+#include <QString>
 
 class KPassivePopup;
 class KJob;

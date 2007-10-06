@@ -48,7 +48,6 @@
 #include <k3activelabel.h>
 #include <KCmdLineArgs>
 #include <KMessageBox>
-#include <KIconLoader>
 #include <KFileDialog>
 #include <kdeversion.h>
 #include <KShortcut>
@@ -73,6 +72,7 @@
 #include <KIcon>
 #include <kdefakes.h>
 
+#include "images.h"
 #include "selectsecretkey.h"
 #include "kgpgeditor.h"
 #include "kgpgsettings.h"   // automatically created by compilation
@@ -83,6 +83,7 @@
 #include "kgpglibrary.h"
 #include "kgpg_interface.h"
 
+using namespace KgpgCore;
 
 static QString getGpgHome()
 {
@@ -148,7 +149,7 @@ MyView::~MyView()
 void MyView::clipEncrypt()
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
-        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop), trayIcon);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString(), Images::kgpg(), trayIcon);
     else
     {
         KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, true, goDefaultKey);
@@ -193,7 +194,7 @@ void MyView::clipSign(bool openEditor)
         kgpgtxtedit->show();
     }
     else
-        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop), trayIcon);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString(), Images::kgpg(), trayIcon);
 }
 
 void MyView::encryptDroppedFile()
@@ -307,7 +308,7 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     }
 
     pop = new KPassivePopup();
-    pop->setView(i18n("Processing folder compression and encryption"),i18n("Please wait..."), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop));
+    pop->setView(i18n("Processing folder compression and encryption"),i18n("Please wait..."), Images::kgpg());
     pop->setAutoDelete(false);
     pop->show();
     kapp->processEvents();
@@ -721,7 +722,7 @@ void MyView::firstRun()
     QStringList args;
     args << "--no-tty" << "--list-secret-keys";
     createConfigProc->start("gpg", args);// start gnupg so that it will create a config file
-    createConfigProc->waitForFinished(); 
+    createConfigProc->waitForFinished();
     startWizard();
 }
 
@@ -730,7 +731,7 @@ void MyView::startWizard()
     kDebug(2100) << "Starting Wizard" ;
 
     wiz = new KgpgWizard(0);
-    
+
     QString gpgHome(getGpgHome());
     QString confPath = gpgHome + "options";
 
@@ -894,7 +895,7 @@ void MyView::encryptClipboard(QStringList selec, QStringList encryptOptions, con
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
     {
-        KPassivePopup::message(i18n("Clipboard is empty."), QString(), KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop), trayIcon);
+        KPassivePopup::message(i18n("Clipboard is empty."), QString(), Images::kgpg(), trayIcon);
         return;
     }
 
@@ -922,7 +923,7 @@ void MyView::slotPassiveClip()
     newtxt.replace(QRegExp("\n"), "<br>");
 
     pop = new KPassivePopup();
-    pop->setView(i18n("Encrypted following text:"), newtxt, KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop));
+    pop->setView(i18n("Encrypted following text:"), newtxt, Images::kgpg());
     pop->setTimeout(3200);
     pop->show();
     QRect qRect(QApplication::desktop()->screenGeometry());

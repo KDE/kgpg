@@ -21,7 +21,6 @@
 #include <kabc/stdaddressbook.h>
 #include <KStandardDirs>
 #include <KApplication>
-#include <KIconLoader>
 #include <KMessageBox>
 #include <KLocale>
 
