@@ -1115,6 +1115,7 @@ int KgpgAppletApp::newInstance()
     if (args->isSet("d") != 0)
     {
        s_keyManager->slotOpenEditor();
+       s_keyManager->hide();
     }
     else
     if (args->count() > 0)
