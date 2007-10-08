@@ -9,10 +9,10 @@ add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 ########### next target ###############
 
 set(core_SRCS
-   ${CMAKE_SOURCE_DIR}/kgpg/core/convert.cpp
-   ${CMAKE_SOURCE_DIR}/kgpg/core/emailvalidator.cpp
-   ${CMAKE_SOURCE_DIR}/kgpg/core/images.cpp
-   ${CMAKE_SOURCE_DIR}/kgpg/core/kgpgkey.cpp )
+   core/convert.cpp
+   core/emailvalidator.cpp
+   core/images.cpp
+   core/kgpgkey.cpp )
 
 set(kgpg_SRCS ${core_SRCS}
    kgpgmd5widget.cpp
