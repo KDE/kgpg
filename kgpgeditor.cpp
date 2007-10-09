@@ -128,7 +128,7 @@ void KgpgEditor::initActions()
     KStandardAction::open(this, SLOT(slotFileOpen()), actionCollection());
     KStandardAction::save(this, SLOT(slotFileSave()), actionCollection());
     KStandardAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
-    KStandardAction::quit(this, SLOT(slotFileQuit()), actionCollection());
+    KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
     KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
     KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
     KStandardAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
@@ -507,13 +507,10 @@ void KgpgEditor::slotKeyManager()
         kDebug(2100) << "there was some error using dbus." ;
 }
 
-void KgpgEditor::slotFileQuit()
+void KgpgEditor::slotFileClose()
 {
     saveOptions();
-#ifdef __GNUC__
-#warning "kde4: port it"
-#endif
-    //KApplication::quit();
+    close();
 }
 
 void KgpgEditor::slotundo()

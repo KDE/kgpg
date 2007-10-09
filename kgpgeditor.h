@@ -76,7 +76,7 @@ private slots:
     void slotFilePreEnc();
     void slotFilePreDec();
     void slotKeyManager();
-    void slotFileQuit();
+    void slotFileClose();
 
     // Edit menu
     void slotundo();
