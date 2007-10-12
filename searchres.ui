@@ -21,20 +21,11 @@
     </widget>
    </item>
    <item>
-    <widget class="K3ListView" name="kLVsearch" >
-     <property name="selectionMode" >
-      <enum>Q3ListView::Extended</enum>
-     </property>
+    <widget class="QTreeWidget" name="kLVsearch" >
      <property name="allColumnsShowFocus" >
       <bool>true</bool>
      </property>
-     <property name="showSortIndicator" >
-      <bool>true</bool>
-     </property>
      <property name="rootIsDecorated" >
-      <bool>true</bool>
-     </property>
-     <property name="fullWidth" >
       <bool>true</bool>
      </property>
      <column>

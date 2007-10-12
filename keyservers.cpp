@@ -25,8 +25,6 @@
 #include <QLabel>
 #include <QFile>
 
-#include <Q3ListViewItem>
-
 #include <KConfig>
 #include <KMessageBox>
 #include <KComboBox>
@@ -280,9 +278,9 @@ void KeyServer::slotSearch()
     //m_listpop->adjustSize();
     m_listpop->statusText->setText(i18n("Connecting to the server..."));
 
-    connect(m_listpop->kLVsearch, SIGNAL(selectionChanged()), this, SLOT(transferKeyID()));
+    connect(m_listpop->kLVsearch, SIGNAL(itemSelectionChanged()), this, SLOT(transferKeyID()));
     connect(m_dialogserver, SIGNAL(okClicked()), this, SLOT(slotPreImport()));
-    connect(m_listpop->kLVsearch, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), m_dialogserver, SIGNAL(okClicked()));
+    connect(m_listpop->kLVsearch, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), m_dialogserver, SIGNAL(okClicked()));
     //connect(m_listpop->kLVsearch,SIGNAL(returnPressed ( Q3ListViewItem * )),this,SLOT(slotPreImport()));
     connect(m_dialogserver, SIGNAL(closeClicked()), this, SLOT(handleQuit()));
     connect(m_listpop, SIGNAL(destroyed()), this, SLOT(slotAbortSearch()));
@@ -351,10 +349,11 @@ void KeyServer::slotSearchRead(K3ProcIO *p)
             QString kid = required.section(':', 1, 1);
 
             if (m_kitem != NULL) {
-              Q3ListViewItem *k = new Q3ListViewItem(m_kitem, kid);
-              k->setSelectable(false);
+              QTreeWidgetItem *k = new QTreeWidgetItem(m_kitem);
+              k->setText(0, kid);
             } else {
-              m_kitem = new Q3ListViewItem(m_listpop->kLVsearch, kid);
+              m_kitem = new QTreeWidgetItem(m_listpop->kLVsearch);
+              m_kitem->setText(0, kid);
               m_keynumbers++;
             }
             m_count = 0;
@@ -376,9 +375,9 @@ void KeyServer::slotSearchResult(K3Process *)
     //m_listpop->kLVsearch->setColumnText(0,i18n("Found %1 matching keys").arg(nb));
     m_listpop->statusText->setText(i18n("Found %1 matching keys", nb));
 
-    if (m_listpop->kLVsearch->firstChild() != NULL)
+    if (m_listpop->kLVsearch->topLevelItemCount() > 0)
     {
-        m_listpop->kLVsearch->setSelected(m_listpop->kLVsearch->firstChild(), true);
+        m_listpop->kLVsearch->setCurrentItem(m_listpop->kLVsearch->topLevelItem(0));
         transferKeyID();
     }
 }
@@ -414,26 +413,24 @@ void KeyServer::slotEnableProxyE(const bool &on)
 
 void KeyServer::transferKeyID()
 {
-    if (!m_listpop->kLVsearch->firstChild())
+    if (m_listpop->kLVsearch->topLevelItemCount() == 0)
         return;
 
-    QString kid;
+    QTreeWidgetItem *child;
     QStringList keysToSearch;
     m_listpop->kLEID->clear();
-    QList<Q3ListViewItem*>searchList = m_listpop->kLVsearch->selectedItems();
+    const QList<QTreeWidgetItem*> &searchList = m_listpop->kLVsearch->selectedItems();
 
-    for (int i = 0; i < searchList.count(); ++i)
+    foreach (QTreeWidgetItem *searchItem, searchList)
     {
-        if (searchList.at(i))
+        if (searchItem)
         {
-            if ((searchList.at(i)->depth() == 0) && (searchList.at(i)->firstChild() != NULL))
-                kid = searchList.at(i)->firstChild()->text(0).simplified();
+            if ((searchItem->parent() == NULL) && (searchItem->childCount() > 0))
+                child = searchItem->child(0);
             else
-                kid = searchList.at(i)->text(0).simplified();
+                child = searchItem;
 
-            kid = kid.section(i18n("Key") + ' ', 1, 1);
-            kid = kid.simplified().section(",", 0, 0);
-            keysToSearch << kid.right(16);
+            keysToSearch << child->data(0, Qt::UserRole).toString();
         }
     }
 
@@ -529,13 +526,20 @@ void KeyServer::CreateUidEntry(void)
     KDateTime kd;
     kd.setTime_t(m_keyid.section(':', 4, 4).toULongLong());
 
-    Q3ListViewItem *k = new Q3ListViewItem(m_kitem,
-        i18n("ID %1, %2 bit %3 key, created %4", id, m_keyid.section(':', 3, 3),
+    QTreeWidgetItem *k = new QTreeWidgetItem(m_kitem);
+    if (m_keyid.section(':', 6, 6) == "r")
+    {
+        k->setText(0, i18n("ID %1, %2 bit %3 key, created %4 revoked", id, m_keyid.section(':', 3, 3),
             Convert::toString(Convert::toAlgo(m_keyid.section(':', 2, 2))),
             kd.toString(KDateTime::LocalDate)));
-    k->setSelectable(false);
-    if (m_keyid.section(':', 6, 6) == "r")
-        m_kitem->setText(0, m_kitem->text(0) + ' ' + i18n("revoked"));
+    }
+    else
+    {
+        k->setText(0, i18n("ID %1, %2 bit %3 key, created %4", id, m_keyid.section(':', 3, 3),
+            Convert::toString(Convert::toAlgo(m_keyid.section(':', 2, 2))),
+            kd.toString(KDateTime::LocalDate)));
+    }
+    k->setData(0, Qt::UserRole, id);
 }
 
 #include "keyservers.moc"

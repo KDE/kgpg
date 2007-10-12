@@ -24,8 +24,6 @@
 #include "ui_searchres.h"
 #include "ui_keyserver.h"
 
-class Q3ListViewItem;
-
 class KConfig;
 class K3ProcIO;
 class K3Process;
@@ -107,7 +105,7 @@ private slots:
 private:
     KDialog *m_importpop;
     QString m_readmessage;
-    Q3ListViewItem *m_kitem;
+    QTreeWidgetItem *m_kitem;
 
     KDialog *m_dialogserver;
     K3ProcIO *m_searchproc;
