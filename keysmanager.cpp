@@ -2107,7 +2107,7 @@ void KeysManager::importsignkey(const QStringList &importKeyId)
     //kServer->Buttonimport->setDefault(true);
     kServer->slotImport();
     //kServer->show();
-    connect(kServer, SIGNAL(importFinished(QString)), this, SLOT(importfinished()));
+    connect(kServer, SIGNAL(importFinished(QStringList)), this, SLOT(importfinished()));
 }
 
 void KeysManager::importfinished()
