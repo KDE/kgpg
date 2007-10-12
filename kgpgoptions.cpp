@@ -107,21 +107,12 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     addPage(m_page7, i18n("Misc"), "misc");
 
     // The following widgets are managed manually.
-    connect(m_page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(updateButtons()));
-    connect(m_page1->file_key, SIGNAL(activated(int)), this, SLOT(updateButtons()));
-    connect(m_page1->always_key, SIGNAL(activated(int)), this, SLOT(updateButtons()));
-    connect(m_page4->gpg_conf_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
-    connect(m_page4->gpg_home_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
-    connect(m_page4->gpg_bin_path, SIGNAL(textChanged(const QString&)), this, SLOT(updateButtons()));
-    connect(m_page4->use_agent, SIGNAL(toggled(bool)), this, SLOT(updateButtons()));
     connect(m_page4->changeHome, SIGNAL(clicked()), this, SLOT(slotChangeHome()));
     connect(m_page6->server_add, SIGNAL(clicked()), this, SLOT(slotAddKeyServer()));
     connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
     connect(m_page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
     connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
-    connect(m_page6->ServerBox, SIGNAL(currentChanged(Q3ListBoxItem *)), this, SLOT(updateButtons()));
     connect(m_page7->pushShredder, SIGNAL(clicked ()), this, SIGNAL(installShredder()));
-    connect(m_page7->kcfg_ShowSystray, SIGNAL(toggled(bool)), this, SLOT(updateButtons()));
 
     keyUltimate = KGpgSettings::colorUltimate();
     keyGood = KGpgSettings::colorGood();
