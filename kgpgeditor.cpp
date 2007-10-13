@@ -22,6 +22,8 @@
 #include <QTextCodec>
 #include <QPainter>
 #include <QtDBus>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintDialog>
 
 #include <KToggleAction>
 #include <KStandardAction>
@@ -36,7 +38,6 @@
 #include <KApplication>
 #include <KMessageBox>
 #include <KTemporaryFile>
-#include <KPrinter>
 #include <KAction>
 #include <KLocale>
 #include <KDebug>
@@ -336,8 +337,9 @@ bool KgpgEditor::slotFileSaveAs()
 
 void KgpgEditor::slotFilePrint()
 {
-    KPrinter prt;
-    if (prt.setup(this))
+    QPrinter prt;
+    QPrintDialog printDialog(&prt, this);
+    if (printDialog.exec())
     {
         int width = prt.width();
         int height = prt.height();

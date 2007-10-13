@@ -38,6 +38,8 @@
 #include <QComboBox>
 #include <QVariant>
 #include <QPainter>
+#include <QtGui/QPrinter>
+#include <QtGui/QPrintDialog>
 #include <QPixmap>
 #include <QLayout>
 #include <QRegExp>
@@ -74,7 +76,6 @@
 #include <KMimeType>
 #include <KShortcut>
 #include <KStandardShortcut>
-#include <KPrinter>
 #include <KLocale>
 #include <KProcess>
 #include <KAction>
@@ -2227,9 +2228,10 @@ void KeysManager::doFilePrint(const QString &url)
 
 void KeysManager::doPrint(const QString &txt)
 {
-    KPrinter prt;
+    QPrinter prt;
     //kDebug(2100) << "Printing..." ;
-    if (prt.setup(this))
+    QPrintDialog printDialog(&prt, this);
+    if (printDialog.exec())
     {
         QPainter painter(&prt);
         int width = painter.device()->width();
