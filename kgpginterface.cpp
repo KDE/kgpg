@@ -2907,6 +2907,7 @@ void KgpgInterface::KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList 
     decfinished = false;
     decok = false;
     badmdc = false;
+    m_textlength = 0;
 
     K3ProcIO *process = gpgProc(1, 0);
     *process << "--no-batch" << "-o" << "-";
@@ -2918,7 +2919,8 @@ void KgpgInterface::KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList 
 
     // when process ends, update dialog infos
     connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(decryptTextFin(K3Process *)));
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(txtreaddecprocess(K3ProcIO *)));
+    connect(process, SIGNAL(receivedStdout(K3Process *, char *, int)), this, SLOT(decryptTextStdOut(K3Process *, char *, int)));
+    connect(process, SIGNAL(receivedStderr(K3Process *, char *, int)), this, SLOT(decryptTextStdErr(K3Process *, char *, int)));
     process->start(K3Process::NotifyOnExit, false);
 }
 
