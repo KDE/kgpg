@@ -416,7 +416,6 @@ void KeyServer::transferKeyID()
     if (m_listpop->kLVsearch->topLevelItemCount() == 0)
         return;
 
-    QTreeWidgetItem *child;
     QStringList keysToSearch;
     m_listpop->kLEID->clear();
     const QList<QTreeWidgetItem*> &searchList = m_listpop->kLVsearch->selectedItems();
@@ -425,12 +424,12 @@ void KeyServer::transferKeyID()
     {
         if (searchItem)
         {
-            if ((searchItem->parent() == NULL) && (searchItem->childCount() > 0))
-                child = searchItem->child(0);
-            else
-                child = searchItem;
+            QTreeWidgetItem *item = searchItem->parent();
 
-            keysToSearch << child->data(0, Qt::UserRole).toString();
+            if (item == NULL)
+                item = searchItem;
+
+            keysToSearch << item->data(0, Qt::UserRole).toString();
         }
     }
 
@@ -539,7 +538,7 @@ void KeyServer::CreateUidEntry(void)
             Convert::toString(Convert::toAlgo(m_keyid.section(':', 2, 2))),
             kd.toString(KDateTime::LocalDate)));
     }
-    k->setData(0, Qt::UserRole, id);
+    m_kitem->setData(0, Qt::UserRole, id);
 }
 
 #include "keyservers.moc"
