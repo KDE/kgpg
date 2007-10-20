@@ -22,81 +22,79 @@
 
 #include <KIconLoader>
 
-
-
 namespace KgpgCore
 {
 
 QPixmap Images::single()
 {
-    static QPixmap m_keysingle;
-    if (m_keysingle.isNull())
-        m_keysingle = KIconLoader::global()->loadIcon("kgpg_key1", KIconLoader::Small, 20);
-    return m_keysingle;
+    static QPixmap single;
+    if (single.isNull())
+        single = KIconLoader::global()->loadIcon("kgpg_key1", KIconLoader::Small, 20);
+    return single;
 }
 
 QPixmap Images::pair()
 {
-    static QPixmap m_keypair;
-    if (m_keypair.isNull())
-        m_keypair = KIconLoader::global()->loadIcon("kgpg_key2", KIconLoader::Small, 20);
-    return m_keypair;
+    static QPixmap pair;
+    if (pair.isNull())
+        pair = KIconLoader::global()->loadIcon("kgpg_key2", KIconLoader::Small, 20);
+    return pair;
 }
 
 QPixmap Images::group()
 {
-    static QPixmap m_keygroup;
-    if (m_keygroup.isNull())
-        m_keygroup = KIconLoader::global()->loadIcon("kgpg_key3", KIconLoader::Small, 20);
-    return m_keygroup;
+    static QPixmap group;
+    if (group.isNull())
+        group = KIconLoader::global()->loadIcon("kgpg_key3", KIconLoader::Small, 20);
+    return group;
 }
 
 QPixmap Images::orphan()
 {
-    static QPixmap m_keyoprpan;
-    if (m_keyoprpan.isNull())
-        m_keyoprpan = KIconLoader::global()->loadIcon("kgpg_key4", KIconLoader::Small, 20);
-    return m_keyoprpan;
+    static QPixmap oprpan;
+    if (oprpan.isNull())
+        oprpan = KIconLoader::global()->loadIcon("kgpg_key4", KIconLoader::Small, 20);
+    return oprpan;
 }
 
 QPixmap Images::signature()
 {
-    static QPixmap m_signature;
-    if (m_signature.isNull())
-        m_signature = KIconLoader::global()->loadIcon("signature", KIconLoader::Small, 20);
-    return m_signature;
+    static QPixmap signature;
+    if (signature.isNull())
+        signature = KIconLoader::global()->loadIcon("signature", KIconLoader::Small, 20);
+    return signature;
 }
 
 QPixmap Images::userId()
 {
-    static QPixmap m_userid;
-    if (m_userid.isNull())
-        m_userid = KIconLoader::global()->loadIcon("kgpg-identity-kgpg", KIconLoader::Small, 20);
-    return m_userid;
+    static QPixmap userid;
+    if (userid.isNull())
+        userid = KIconLoader::global()->loadIcon("kgpg-identity-kgpg", KIconLoader::Small, 20);
+    return userid;
 }
 
 QPixmap Images::photo()
 {
-    static QPixmap m_userphoto;
-    if (m_userphoto.isNull())
-        m_userphoto = KIconLoader::global()->loadIcon("kgpg_photo", KIconLoader::Small, 20);
-    return m_userphoto;
+    static QPixmap photo;
+    if (photo.isNull())
+        photo = KIconLoader::global()->loadIcon("kgpg_photo", KIconLoader::Small, 20);
+    return photo;
 }
 
 QPixmap Images::revoke()
 {
-    static QPixmap m_revoke;
-    if (m_revoke.isNull())
-        m_revoke = KIconLoader::global()->loadIcon("process-stop", KIconLoader::Small, 20);
-    return m_revoke;
+    static QPixmap revoke;
+    if (revoke.isNull())
+        revoke = KIconLoader::global()->loadIcon("process-stop", KIconLoader::Small, 20);
+    return revoke;
 }
 
 QPixmap Images::kgpg()
 {
-    static QPixmap m_kgpg;
-    if (m_kgpg.isNull())
-        m_kgpg = KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop);
-    return m_kgpg;
+    static QPixmap kgpg;
+    if (kgpg.isNull())
+        kgpg = KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop);
+    return kgpg;
 }
 
 } // namespace KgpgCore
