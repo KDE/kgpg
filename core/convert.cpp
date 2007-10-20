@@ -112,10 +112,7 @@ KgpgKeyAlgo Convert::toAlgo(const QString &s)
 {
     bool b;
     unsigned int u = s.toUInt(&b);
-
-    if (!b)
-      return ALGO_UNKNOWN;
-    return toAlgo(u);
+    return b ? toAlgo(u) : ALGO_UNKNOWN;
 }
 
 KgpgKeyTrust Convert::toTrust(const QChar &c)
@@ -138,9 +135,7 @@ KgpgKeyTrust Convert::toTrust(const QChar &c)
 
 KgpgKeyTrust Convert::toTrust(const QString &s)
 {
-    if (s.length() == 0)
-        return TRUST_UNKNOWN;
-    return toTrust(s[0]);
+    return s.isEmpty() ? TRUST_UNKNOWN : toTrust(s[0]);
 }
 
 KgpgKeyOwnerTrust Convert::toOwnerTrust(const QChar &c)
@@ -157,9 +152,7 @@ KgpgKeyOwnerTrust Convert::toOwnerTrust(const QChar &c)
 
 KgpgKeyOwnerTrust Convert::toOwnerTrust(const QString &s)
 {
-    if (s.length() == 0)
-        return OWTRUST_UNDEFINED;
-    return toOwnerTrust(s[0]);
+    return s.isEmpty() ? OWTRUST_UNDEFINED : toOwnerTrust(s[0]);
 }
 
 } // namespace KgpgCore
