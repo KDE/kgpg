@@ -204,7 +204,7 @@ void KgpgTextEdit::deleteFile()
 {
     if (!m_tempfile.isEmpty())
     {
-        KIO::NetAccess::removeTempFile(m_tempfile);     // TODO shred the file
+        KIO::NetAccess::removeTempFile(m_tempfile);
         m_tempfile.clear();
     }
 }
