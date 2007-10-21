@@ -12,14 +12,16 @@
 
 #include <QSharedDataPointer>
 #include <QSharedData>
+#include <QStringList>
 #include <QPointer>
 #include <QObject>
 #include <QList>
-#include <QStringList>
 #include <QDate>
 
 namespace KgpgCore
 {
+
+//BEGIN Enums
 
 enum KgpgKeyAlgoFlag
 {
@@ -44,7 +46,7 @@ enum KgpgKeyTrustFlag
     TRUST_MARGINAL = 7,
     TRUST_FULL = 8,
     TRUST_ULTIMATE = 9,
-    TRUST_NOKEY = 10	// item is not a key
+    TRUST_NOKEY = 10    // item is not a key
 };
 Q_DECLARE_FLAGS(KgpgKeyTrust, KgpgKeyTrustFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyTrust)
@@ -68,6 +70,11 @@ enum KgpgSubKeyTypeFlag
 };
 Q_DECLARE_FLAGS(KgpgSubKeyType, KgpgSubKeyTypeFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgSubKeyType)
+
+//END Enums
+
+
+//BEGIN KeySign
 
 class KgpgKeySignPrivate : public QSharedData
 {
@@ -128,13 +135,13 @@ private:
     QSharedDataPointer<KgpgKeySignPrivate> d;
 };
 
-class KgpgKeySignList : public QList<KgpgKeySign>
+class KgpgKeySignList : public QList<KgpgKeySign>, QObject
 {
 public:
     inline KgpgKeySignList() { }
     inline explicit KgpgKeySignList(const KgpgKeySign &sign) { append(sign); }
-    inline KgpgKeySignList(const KgpgKeySignList &other) : QList<KgpgKeySign>(other) { }
-    inline KgpgKeySignList(const QList<KgpgKeySign> &other) : QList<KgpgKeySign>(other) { }
+    inline KgpgKeySignList(const KgpgKeySignList &other) : QList<KgpgKeySign>(other), QObject() { }
+    inline KgpgKeySignList(const QList<KgpgKeySign> &other) : QList<KgpgKeySign>(other), QObject() { }
 
     inline KgpgKeySignList operator+(const KgpgKeySignList &other) const
     {
@@ -155,6 +162,11 @@ public:
         return *this;
     }
 };
+
+//END KeySign
+
+
+//BEGIN KeyUat
 
 class KgpgKeyUatPrivate : public QSharedData
 {
@@ -179,7 +191,7 @@ public:
     QString id() const;
 
     void addSign(const KgpgKeySign &sign);
-    KgpgKeySignList signList();
+    KgpgKeySignList signList() const;
 
     bool operator==(const KgpgKeyUat &other) const;
     inline bool operator!=(const KgpgKeyUat &other) const
@@ -218,6 +230,11 @@ public:
     }
 };
 typedef QPointer<KgpgKeyUatList> KgpgKeyUatListPtr;
+
+//END KeyUat
+
+
+//BEGIN KeyUid
 
 class KgpgKeyUidPrivate : public QSharedData
 {
@@ -258,7 +275,7 @@ public:
     unsigned int index() const;
 
     void addSign(const KgpgKeySign &sign);
-    KgpgKeySignList signList();
+    KgpgKeySignList signList() const;
 
     bool operator==(const KgpgKeyUid &other) const;
     inline bool operator!=(const KgpgKeyUid &other) const
@@ -297,6 +314,11 @@ public:
     }
 };
 typedef QPointer<KgpgKeyUidList> KgpgKeyUidListPtr;
+
+//END KeyUid
+
+
+//BEGIN KeySub
 
 class KgpgKeySubPrivate : public QSharedData
 {
@@ -349,7 +371,7 @@ public:
     QString expiration() const;
 
     void addSign(const KgpgKeySign &sign);
-    KgpgKeySignList signList();
+    KgpgKeySignList signList() const;
 
     bool operator==(const KgpgKeySub &other) const;
     inline bool operator!=(const KgpgKeySub &other) const
@@ -388,6 +410,11 @@ public:
     }
 };
 typedef QPointer<KgpgKeySubList> KgpgKeySubListPtr;
+
+//END KeySub
+
+
+//BEGIN Key
 
 class KgpgKeyPrivate : public QSharedData
 {
@@ -467,7 +494,7 @@ public:
     QStringList photoList() const;
 
     void addSign(const KgpgKeySign &sign);
-    KgpgKeySignList signList();
+    KgpgKeySignList signList() const;
 
     KgpgKeyUatListPtr uatList();
     KgpgKeyUidListPtr uidList();
@@ -515,7 +542,7 @@ public:
         return *this;
     }
 
-    operator QStringList()
+    operator QStringList() const
     {
         QStringList res;
         foreach(KgpgKey key, *this)
@@ -523,6 +550,8 @@ public:
         return res;
     }
 };
+
+//END Key
 
 } // namespace
 

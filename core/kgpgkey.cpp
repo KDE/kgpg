@@ -13,9 +13,10 @@
 
 #include "convert.h"
 
-
 namespace KgpgCore
 {
+
+//BEGIN KeySign
 
 bool KgpgKeySignPrivate::operator==(const KgpgKeySignPrivate &other) const
 {
@@ -32,6 +33,7 @@ bool KgpgKeySignPrivate::operator==(const KgpgKeySignPrivate &other) const
 }
 
 KgpgKeySign::KgpgKeySign()
+           : QObject()
 {
     d = new KgpgKeySignPrivate;
     d->gpgsignunlimited = false;
@@ -40,7 +42,7 @@ KgpgKeySign::KgpgKeySign()
 }
 
 KgpgKeySign::KgpgKeySign(const KgpgKeySign &other)
-       : QObject()
+           : QObject()
 {
     d = other.d;
 }
@@ -163,6 +165,11 @@ KgpgKeySign& KgpgKeySign::operator=(const KgpgKeySign &other)
     return *this;
 }
 
+//END KeySign
+
+
+//BEGIN KeyUat
+
 bool KgpgKeyUatPrivate::operator==(const KgpgKeyUatPrivate &other) const
 {
     if (gpguatid != other.gpguatid) return false;
@@ -171,13 +178,13 @@ bool KgpgKeyUatPrivate::operator==(const KgpgKeyUatPrivate &other) const
 }
 
 KgpgKeyUat::KgpgKeyUat()
-      : QObject()
+          : QObject()
 {
     d = new KgpgKeyUatPrivate;
 }
 
 KgpgKeyUat::KgpgKeyUat(const KgpgKeyUat &other)
-      : QObject()
+          : QObject()
 {
     d = other.d;
 }
@@ -197,7 +204,7 @@ void KgpgKeyUat::addSign(const KgpgKeySign &sign)
     d->gpgsignlist << sign;
 }
 
-KgpgKeySignList KgpgKeyUat::signList()
+KgpgKeySignList KgpgKeyUat::signList() const
 {
     return d->gpgsignlist;
 }
@@ -215,6 +222,11 @@ KgpgKeyUat& KgpgKeyUat::operator=(const KgpgKeyUat &other)
     return *this;
 }
 
+//END KeyUat
+
+
+//BEGIN KeyUid
+
 bool KgpgKeyUidPrivate::operator==(const KgpgKeyUidPrivate &other) const
 {
     if (gpguidvalid != other.gpguidvalid) return false;
@@ -231,6 +243,8 @@ KgpgKeyUid::KgpgKeyUid()
           : QObject()
 {
     d = new KgpgKeyUidPrivate;
+    d->gpguidvalid = false;
+    d->gpguidindex = 0;
 }
 
 KgpgKeyUid::KgpgKeyUid(const KgpgKeyUid &other)
@@ -304,7 +318,7 @@ void KgpgKeyUid::addSign(const KgpgKeySign &sign)
     d->gpgsignlist << sign;
 }
 
-KgpgKeySignList KgpgKeyUid::signList()
+KgpgKeySignList KgpgKeyUid::signList() const
 {
     return d->gpgsignlist;
 }
@@ -321,6 +335,11 @@ KgpgKeyUid& KgpgKeyUid::operator=(const KgpgKeyUid &other)
     d = other.d;
     return *this;
 }
+
+//END KeyUid
+
+
+//BEGIN KeySub
 
 bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
 {
@@ -342,6 +361,8 @@ KgpgKeySub::KgpgKeySub()
 {
     d = new KgpgKeySubPrivate;
     d->gpgsubsize = 0;
+    d->gpgsubvalid = false;
+    d->gpgsubunlimited = false;
 }
 
 KgpgKeySub::KgpgKeySub(const KgpgKeySub &other)
@@ -455,7 +476,7 @@ void KgpgKeySub::addSign(const KgpgKeySign &sign)
     d->gpgsignlist << sign;
 }
 
-KgpgKeySignList KgpgKeySub::signList()
+KgpgKeySignList KgpgKeySub::signList() const
 {
     return d->gpgsignlist;
 }
@@ -472,6 +493,11 @@ KgpgKeySub& KgpgKeySub::operator=(const KgpgKeySub &other)
     d = other.d;
     return *this;
 }
+
+//END KeySub
+
+
+//BEGIN Key
 
 QString KgpgKey::expiration(const QDate &date, const bool &unlimited)
 {
@@ -691,10 +717,8 @@ QString KgpgKey::expiration() const
 QStringList KgpgKey::photoList() const
 {
     QStringList result;
-
     for (int i = 0; i < d->gpguatlist->size(); ++i)
         result << d->gpguatlist->at(i).id();
-
     return result;
 }
 
@@ -703,7 +727,7 @@ void KgpgKey::addSign(const KgpgKeySign &sign)
     d->gpgsignlist << sign;
 }
 
-KgpgKeySignList KgpgKey::signList()
+KgpgKeySignList KgpgKey::signList() const
 {
     return d->gpgsignlist;
 }
@@ -735,5 +759,7 @@ KgpgKey& KgpgKey::operator=(const KgpgKey &other)
     d = other.d;
     return *this;
 }
+
+//END Key
 
 } // namespace KgpgCore
