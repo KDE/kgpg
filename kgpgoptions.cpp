@@ -94,9 +94,6 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 	m_fontchooser->setObjectName("kcfg_Font");
     fontlayout->addWidget(m_fontchooser);
 
-    m_page7->shredInfo->setText(i18n( "<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>"));
-    m_page7->groupShred->adjustSize();
-
     pixkeySingle = Images::single();
     pixkeyDouble = Images::pair();
     addPage(m_page1, i18n("Encryption"), "encrypted");
@@ -112,7 +109,6 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
     connect(m_page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
     connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
-    connect(m_page7->pushShredder, SIGNAL(clicked ()), this, SIGNAL(installShredder()));
 
     keyUltimate = KGpgSettings::colorUltimate();
     keyGood = KGpgSettings::colorGood();

@@ -93,7 +93,6 @@ signals:
     void closeAsked();
     void fontChanged(QFont);
     void encryptFiles(KUrl::List);
-    void installShredder();
 
 public slots:
     void slotGenerateKey();

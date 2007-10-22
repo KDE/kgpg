@@ -1259,7 +1259,6 @@ void KeysManager::showOptions()
     connect(optionsDialog, SIGNAL(homeChanged()), this, SLOT(refreshkey()));
     connect(optionsDialog, SIGNAL(refreshTrust(int, QColor)), keysList2, SLOT(refreshTrust(int, QColor)));
     connect(optionsDialog, SIGNAL(changeFont(QFont)), this, SIGNAL(fontChanged(QFont)));
-    connect(optionsDialog, SIGNAL(installShredder()), this, SIGNAL(installShredder()));
     optionsDialog->exec();
     delete optionsDialog;
 }

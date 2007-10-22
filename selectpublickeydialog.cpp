@@ -117,7 +117,7 @@ private:
     KgpgSelectPublicKeyDlg *m_dialog;
 };
 
-KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &sfile, const bool &filemode, const bool &enabledshred, const KShortcut &goDefaultKey, const bool &hideasciioption)
+KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &sfile, const bool &filemode, const KShortcut &goDefaultKey, const bool &hideasciioption)
                       : KDialog(parent)
 {
     setCaption(i18n("Select Public Key"));
@@ -177,24 +177,6 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     m_cbhideid->setWhatsThis(i18n("<b>Hide user ID</b>: Do not put the keyid into encrypted packets. This option hides the receiver "
                     "of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because "
                     "all available secret keys are tried."));
-
-    m_cbshred = 0;
-    if (filemode)
-    {
-        KHBox *shredbox = new KHBox(optionsbox);
-        shredbox->setMargin(0);
-
-        m_cbshred = new QCheckBox(i18n("Shred source file"), shredbox);
-        m_cbshred->setWhatsThis(i18n("<b>Shred source file</b>: permanently remove source file. No recovery will be possible"));
-        m_cbshred->setEnabled(enabledshred);
-        m_cbshred->setChecked(KGpgSettings::shredSource());
-
-        QString shredWhatsThis = i18n("<qt><b>Shred source file:</b><br /><p>Checking this option will shred (overwrite several times before erasing) the files you have encrypted. This way, it is almost impossible that the source file is recovered.</p><p><b>But you must be aware that this is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>");
-
-        QLabel *labelshredwt = new QLabel(i18n("<a href=\"whatsthis:%1\">Read this before using shredding</a>", shredWhatsThis), shredbox);
-        labelshredwt->setOpenExternalLinks(true);
-        labelshredwt->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
-    }
 
     m_cbsymmetric = new QCheckBox(i18n("Symmetrical encryption"), optionsbox);
     m_cbsymmetric->setWhatsThis(i18n("<b>Symmetrical encryption</b>: encryption does not use keys. You just need to give a password "
@@ -287,11 +269,6 @@ bool KgpgSelectPublicKeyDlg::getArmor() const
 bool KgpgSelectPublicKeyDlg::getHideId() const
 {
     return m_cbhideid->isChecked();
-}
-
-bool KgpgSelectPublicKeyDlg::getShred() const
-{
-    return m_fmode && m_cbshred->isChecked();
 }
 
 void KgpgSelectPublicKeyDlg::slotOk()

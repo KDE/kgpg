@@ -85,7 +85,6 @@ public slots:
     void decryptDroppedFile();
     void signDroppedFile();
     void showDroppedFile();
-    void shredDroppedFile();
 
     void busyMessage(const QString &mssge, bool reset = false);
     void slotVerifyFile();
@@ -94,7 +93,6 @@ public slots:
     void slotFolderFinished(const KUrl &, const KgpgInterface*);
     void slotFolderFinishedError(const QString &errmsge, const KgpgInterface*);
     void encryptFiles(KUrl::List urls);
-    void installShred();
 
 protected:
     virtual void dragEnterEvent(QDragEnterEvent *);
@@ -128,7 +126,7 @@ private slots:
     void importSignature(const QString &ID);
     void slotSetClip(const QString &newtxt);
     void slotPassiveClip();
-    void encryptClipboard(QStringList selec, QStringList encryptOptions, const bool, const bool symmetric);
+    void encryptClipboard(QStringList selec, QStringList encryptOptions, const bool symmetric);
     void help();
     void about();
     void firstRun();

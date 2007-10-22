@@ -102,7 +102,6 @@ signals:
     void changeFont(QFont);
     void homeChanged();
     void refreshTrust(int, QColor);
-    void installShredder();
 
 private slots:
     void slotChangeHome();

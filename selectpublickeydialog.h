@@ -42,7 +42,7 @@ public:
     /* TODO: the goDefaultKey shortcut should be stored in a way it can be accessed from everywhere. So we don't have to pass it as an argument.
      */
 
-    explicit KgpgSelectPublicKeyDlg(QWidget *parent = 0, const QString &sfile = "", const bool &filemode = false, const bool &enabledshred = true, const KShortcut &goDefaultKey = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), const bool &hideasciioption = false);
+    explicit KgpgSelectPublicKeyDlg(QWidget *parent = 0, const QString &sfile = "", const bool &filemode = false, const KShortcut &goDefaultKey = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), const bool &hideasciioption = false);
 
     QStringList selectedKeys() const;
     QString getCustomOptions() const;
@@ -50,7 +50,6 @@ public:
     bool getUntrusted() const;
     bool getHideId() const;
     bool getArmor() const;
-    bool getShred() const;
 
 private slots:
     void slotOk();
@@ -68,7 +67,6 @@ private:
     QCheckBox *m_cbarmor;
     QCheckBox *m_cbuntrusted;
     QCheckBox *m_cbhideid;
-    QCheckBox *m_cbshred;
     QCheckBox *m_cbsymmetric;
 
     KHBox *m_searchbar;

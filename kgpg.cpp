@@ -152,7 +152,7 @@ void MyView::clipEncrypt()
         KPassivePopup::message(i18n("Clipboard is empty."), QString(), Images::kgpg(), trayIcon);
     else
     {
-        KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, true, goDefaultKey);
+        KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, goDefaultKey);
         if (dialog->exec() == KDialog::Accepted)
         {
             QStringList options;
@@ -164,7 +164,7 @@ void MyView::clipEncrypt()
                 if (KGpgSettings::allowCustomEncryptionOptions())
                     options << dialog->getCustomOptions().split(" ", QString::SkipEmptyParts);
 
-            encryptClipboard(dialog->selectedKeys(), options, dialog->getShred(), dialog->getSymmetric());
+            encryptClipboard(dialog->selectedKeys(), options, dialog->getSymmetric());
         }
 
         delete dialog;
@@ -242,14 +242,14 @@ void MyView::encryptDroppedFolder()
             if (KGpgSettings::allowCustomEncryptionOptions())
                 options << dialog->getCustomOptions().split(" ", QString::SkipEmptyParts);
 
-        encryptClipboard(dialog->selectedKeys(), options, dialog->getShred(), dialog->getSymmetric());
+        encryptClipboard(dialog->selectedKeys(), options, dialog->getSymmetric());
     }
     */
 
 
 
     // TODO !!! CHANGE dialog, remove connect
-    dialog = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), true, false, goDefaultKey);
+    dialog = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), true, goDefaultKey);
 
     QGroupBox *bGroup = new QGroupBox(dialog->mainWidget());
 
@@ -386,34 +386,6 @@ void MyView::encryptFiles(KUrl::List urls)
 {
     droppedUrls = urls;
     encryptDroppedFile();
-}
-
-void MyView::shredDroppedFile()
-{
-    KDialog *shredConfirm = new KDialog(0);
-    shredConfirm->setCaption( i18n("Shred Files") );
-    shredConfirm->setButtons( KDialog::Ok | KDialog::Cancel);
-    shredConfirm->setDefaultButton( KDialog::Ok );
-    shredConfirm->setModal(true);
-    QWidget *page = new QWidget(shredConfirm);
-    shredConfirm->setMainWidget(page);
-    QBoxLayout *layout = new QBoxLayout(QBoxLayout::TopToBottom, page);
-
-    QString mess = i18n("Do you really want to <a href=\"whatsthis:%1\">shred</a> these files?",
-                        i18n("<qt><p>You must be aware that <b>shredding is not secure</b> on all file systems, and that parts of the file may have been saved in a temporary file or in the spooler of your printer if you previously opened it in an editor or tried to print it. Only works on files (not on folders).</p></qt>"));
-
-    QLabel* label = new QLabel(mess, page);
-    layout->addWidget(label);
-    K3ListBox *lb = new K3ListBox(page);
-    layout->addWidget(lb);
-    lb->insertStringList(droppedUrls.toStringList());
-    if (shredConfirm->exec() == QDialog::Accepted)
-    {
-        KgpgLibrary *lib = new KgpgLibrary(0);
-        connect(lib, SIGNAL(systemMessage(QString, bool)), this, SLOT(busyMessage(QString, bool)));
-        lib->shredProcessEnc(droppedUrls);
-    }
-    delete shredConfirm;
 }
 
 void MyView::slotVerifyFile()
@@ -796,7 +768,7 @@ void MyView::startWizard()
     else
     {
         wiz->textGenerate->hide();
-        wiz->setTitle(wiz->page3, i18n("Step Three: Select your Default Private Key"));
+        wiz->setTitle(wiz->page2, i18n("Step Three: Select your Default Private Key"));
         connect(wiz->finishButton(), SIGNAL(clicked()), this, SLOT(slotSaveOptionsPath()));
     }
 
@@ -804,7 +776,7 @@ void MyView::startWizard()
     connect(wiz, SIGNAL(destroyed()), this, SLOT(slotWizardClose()));
     connect(wiz, SIGNAL(helpClicked()), this, SLOT(help()));
 
-    wiz->setFinishEnabled(wiz->page3, true);
+    wiz->setFinishEnabled(wiz->page2, true);
     wiz->show();
 }
 
@@ -832,27 +804,9 @@ void MyView::slotWizardChange()
     }
 }
 
-void MyView::installShred()
-{
-    KUrl path;
-    path.setPath(KGlobalSettings::desktopPath());
-    path.addPath("shredder.desktop");
-    KDesktopFile configl2(path.path());
-    if (configl2.isImmutable() == false)
-    {
-        KConfigGroup gr = configl2.group("Desktop Entry");
-        gr.writeEntry("Type", "Application");
-        gr.writeEntry("Name", i18n("Shredder"));
-        gr.writeEntry("Icon", "editshred");
-        gr.writeEntry("Exec", "kgpg -X %U");
-    }
-}
-
 void MyView::slotSaveOptionsPath()
 {
     qWarning("Save wizard settings...");
-    if (wiz->checkBox1->isChecked())
-        installShred();
 
     KGpgSettings::setAutoStart(wiz->checkBox2->isChecked());
     KGpgSettings::setGpgConfigPath(wiz->kURLRequester1->url().path());
@@ -891,7 +845,7 @@ void MyView::help()
     KToolInvocation::invokeHelp(0, "kgpg");
 }
 
-void MyView::encryptClipboard(QStringList selec, QStringList encryptOptions, const bool, const bool symmetric)
+void MyView::encryptClipboard(QStringList selec, QStringList encryptOptions, const bool symmetric)
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
     {
@@ -1072,7 +1026,6 @@ int KgpgAppletApp::newInstance()
             kgpg_applet = new kgpgapplet(s_keyManager->s_kgpgEditor);
 
         connect(s_keyManager,SIGNAL(encryptFiles(KUrl::List)),kgpg_applet->w,SLOT(encryptFiles(KUrl::List)));
-        connect(s_keyManager,SIGNAL(installShredder()),kgpg_applet->w,SLOT(installShred()));
         connect(s_keyManager->s_kgpgEditor,SIGNAL(encryptFiles(KUrl::List)),kgpg_applet->w,SLOT(encryptFiles(KUrl::List)));
 
         connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
@@ -1151,14 +1104,6 @@ int KgpgAppletApp::newInstance()
                 kgpg_applet->w->encryptDroppedFile();
             else
                 kgpg_applet->w->encryptDroppedFolder();
-        }
-        else
-        if (args->isSet("X") != 0)
-        {
-            if (!directoryInside)
-                kgpg_applet->w->shredDroppedFile();
-            else
-                KMessageBox::sorry(0, i18n("Cannot shred folder."));
         }
         else
         if (args->isSet("s") != 0)

@@ -40,10 +40,6 @@
             <label>Hide the user ID.</label>
             <default>false</default>
         </entry>
-        <entry name="ShredSource" type="Bool" key="shred_source">
-            <label>Shred the source file after encryption.</label>
-            <default>false</default>
-        </entry>
         <entry name="PgpCompatibility" type="Bool" key="PGP_compatibility">
             <label>Enable PGP 6 compatibility.</label>
             <default>false</default>
@@ -94,7 +90,7 @@
         </entry>
         <entry name="ShowSize" type="Bool" key="show_size">
             <label>Show the size value in key manager.</label>
-            <default>true</default>
+xe            <default>true</default>
         </entry>
         <entry name="ShowCreat" type="Bool" key="show_creat">
             <label>Show the creation value in key manager.</label>

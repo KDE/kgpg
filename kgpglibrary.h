@@ -50,18 +50,16 @@ signals:
 public slots:
     void slotFileEnc(const KUrl::List &urls = KUrl(""), const QStringList &opts = QStringList(), const QStringList &defaultKey = QStringList(), const KShortcut &goDefaultKey = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)));
     void slotFileDec(const KUrl &srcUrl, const KUrl &destUrl, const QStringList &customDecryptOption = QStringList());
-    void shredProcessEnc(const KUrl::List &filesToShred);
 
     void addPhoto(const QString &keyid);
 
 private slots:
-    void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &shred, const bool &symetric);
+    void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
     void fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
     void processEnc(const KUrl &, KgpgInterface*);
     void processEncError(const QString &mssge, KgpgInterface*);
     void processDecOver();
     void processDecError(const QString &mssge);
-    void slotShredResult(KJob *job);
     void processEncPopup(const KUrl &url);
     void processPopup2(const QString &fileName);
 
@@ -78,7 +76,6 @@ private:
     KPassivePopup *m_pop;
 
     bool m_popisactive;
-    bool m_shred;
     bool m_symetric;
 };
 

@@ -61,7 +61,7 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, c
             if (urls.count() > 1)
                 fileNames += ",...";
 
-            KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, fileNames, true, true, goDefaultKey);
+            KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, fileNames, true, goDefaultKey);
             if (dialog->exec() == KDialog::Accepted)
             {
                 QStringList options;
@@ -73,24 +73,23 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, c
                     if (KGpgSettings::allowCustomEncryptionOptions())
                         options << dialog->getCustomOptions().split(" ");
 
-                startEncode(dialog->selectedKeys(), options, dialog->getShred(), dialog->getSymmetric());
+                startEncode(dialog->selectedKeys(), options, dialog->getSymmetric());
             }
 
             delete dialog;
         }
         else
-            startEncode(defaultKey, opts, false, false);
+            startEncode(defaultKey, opts, false);
     }
 }
 
-void KgpgLibrary::startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &shred, const bool &symetric)
+void KgpgLibrary::startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric)
 {
     m_popisactive = false;
     //KUrl::List::iterator it;
     //filesToEncode=m_urlselecteds.count();
     m_encryptkeys = encryptkeys;
     m_encryptoptions = encryptoptions;
-    m_shred = shred;
     m_symetric = symetric;
     fastEncode(m_urlselecteds.first(), encryptkeys, encryptoptions, symetric);
 }
@@ -149,9 +148,6 @@ void KgpgLibrary::processEnc(const KUrl &, KgpgInterface *i)
 {
     delete i;
     emit systemMessage(QString());
-
-    if (m_shred)
-        shredProcessEnc(m_urlselecteds.first());
 
     m_urlselecteds.pop_front();
 
@@ -241,32 +237,6 @@ void KgpgLibrary::processEncPopup(const KUrl &url)
     int iXpos = qRect.width() / 2 - m_pop->width() / 2;
     int iYpos = qRect.height() / 2 - m_pop->height() / 2;
     m_pop->move(iXpos, iYpos);
-}
-
-void KgpgLibrary::shredProcessEnc(const KUrl::List &filestoshred)
-{
-    // ####### Shredding has been removed from kdelibs long ago.
-    // Remove the feature completely, or re-implement it in kgpg?
-#if 0
-    emit systemMessage(i18np("Shredding %1 file", "Shredding %1 files", filestoshred.count()));
-    KIO::Job *job = KIO::del(filestoshred, true);
-    job->ui()->setWindow(static_cast<QWidget *>(parent()));
-    connect(job, SIGNAL(result(KJob *)), SLOT(slotShredResult(KJob *)));
-#endif
-}
-
-void KgpgLibrary::slotShredResult(KJob *job)
-{
-#if 0
-    emit systemMessage(QString());
-    if (job && job->error())
-    {
-        static_cast<KIO::Job*>(job)->ui()->showErrorMessage();
-        emit systemMessage(QString(), true);
-
-        KPassivePopup::message(i18n("KGpg Error"), i18n("Process halted, not all files were shredded."), Images::kgpg(), m_panel, 0);
-    }
-#endif
 }
 
 void KgpgLibrary::processPopup2(const QString &fileName)

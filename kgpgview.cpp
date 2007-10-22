@@ -105,7 +105,7 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 void KgpgTextEdit::slotEncode()
 {
     // TODO : goDefaultKey shortcut
-    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, 0, false, true, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), true);
+    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, 0, false, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), true);
     if (dialog->exec() == KDialog::Accepted)
     {
         QStringList options;
