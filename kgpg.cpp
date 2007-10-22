@@ -110,13 +110,13 @@ MyView::MyView(QWidget *parent, KSystemTrayIcon *parentTrayIcon)
 
     openTasks = 0;
 
-    saveDecrypt = new KAction(KIcon(QString("decrypted")), i18n("&Decrypt && Save File"), this);
+    saveDecrypt = new KAction(KIcon(QString("document-decrypt")), i18n("&Decrypt && Save File"), this);
     saveDecrypt->setObjectName("decrypt_file");
     connect(saveDecrypt, SIGNAL(triggered(bool)), SLOT(decryptDroppedFile()));
     showDecrypt = new KAction(KIcon(QString("edit")), i18n("&Show Decrypted File"), this);
     showDecrypt->setObjectName("show_file");
     connect(showDecrypt, SIGNAL(triggered(bool)), SLOT(showDroppedFile()));
-    encrypt = new KAction(KIcon(QString("encrypted")), i18n("&Encrypt File"), this);
+    encrypt = new KAction(KIcon(QString("document-encrypt")), i18n("&Encrypt File"), this);
     encrypt->setObjectName("encrypt_file");
     connect(encrypt, SIGNAL(triggered(bool)), SLOT(encryptDroppedFile()));
     sign = new KAction(KIcon(QString("signature")), i18n("&Sign File"), this);

@@ -145,11 +145,11 @@ void KgpgEditor::initActions()
     m_editcut  = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
 
     QAction *action = actionCollection()->addAction("file_encrypt");
-    action->setIcon(KIcon("encrypted"));
+    action->setIcon(KIcon("document-encrypt"));
     action->setText(i18n("&Encrypt File..."));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotFilePreEnc()));
     action = actionCollection()->addAction("file_decrypt");
-    action->setIcon(KIcon("decrypted"));
+    action->setIcon(KIcon("document-decrypt"));
     action->setText(i18n("&Decrypt File..."));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotFilePreDec()));
     action = actionCollection()->addAction("key_manage");

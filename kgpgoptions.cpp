@@ -96,8 +96,8 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 
     pixkeySingle = Images::single();
     pixkeyDouble = Images::pair();
-    addPage(m_page1, i18n("Encryption"), "encrypted");
-    addPage(m_page2, i18n("Decryption"), "decrypted");
+    addPage(m_page1, i18n("Encryption"), "document-encrypt");
+    addPage(m_page2, i18n("Decryption"), "document-decrypt");
     addPage(m_page3, i18n("Appearance"), "looknfeel");
     addPage(m_page4, i18n("GnuPG Settings"), "kgpg");
     addPage(m_page6, i18n("Key Servers"), "network-wired");
