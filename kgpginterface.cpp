@@ -397,8 +397,6 @@ void KgpgInterface::updateIDs(QString txt)
 
 KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &ids, const bool &withsigs)
 {
-    m_partialline.clear();
-    m_ispartial = false;
     m_publiclistkeys = KgpgKeyList();
     m_publickey = KgpgKey();
     m_numberid = 1;
@@ -436,264 +434,264 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
     int items;
     unsigned int uidnum = 0;
 
-    while ( (items = p->readln(lsp)) >= 0)
+    while ((items = p->readln(lsp)) >= 0)
     {
-            if ((lsp.at(0) == "pub") && (items >= 10))
+        if ((lsp.at(0) == "pub") && (items >= 10))
+        {
+            if (cycle != "none")
             {
-                if (cycle != "none")
-                {
-                    cycle = "none";
-                    m_publiclistkeys << m_publickey;
-                }
+                cycle = "none";
+                m_publiclistkeys << m_publickey;
+            }
 
-                m_publickey = KgpgKey();
+            m_publickey = KgpgKey();
 
-                m_publickey.setTrust(Convert::toTrust(lsp.at(1)));
-                m_publickey.setSize(lsp.at(2).toUInt());
-                m_publickey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-                m_publickey.setFullId(lsp.at(4));
-                m_publickey.setId(lsp.at(4).right(8));
-                m_publickey.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
-                m_publickey.setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
+            m_publickey.setTrust(Convert::toTrust(lsp.at(1)));
+            m_publickey.setSize(lsp.at(2).toUInt());
+            m_publickey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
+            m_publickey.setFullId(lsp.at(4));
+            m_publickey.setId(lsp.at(4).right(8));
+            m_publickey.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
+            m_publickey.setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
 
-                if (lsp.at(6).isEmpty())
-                {
-                    m_publickey.setUnlimited(true);
-                    m_publickey.setExpiration(QDate());
-                }
-                else
-                {
-                    m_publickey.setUnlimited(false);
-                    m_publickey.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
-                }
-
-                if (lsp.at(11).contains("D", Qt::CaseSensitive))  // disabled key
-                    m_publickey.setValid(false);
-                else
-                    m_publickey.setValid(true);
-
-                QString fullname = lsp.at(9);
-                if (fullname.contains("<"))
-                {
-                    QString kmail = fullname;
-
-                    if (fullname.contains(')') )
-                        kmail = kmail.section(')', 1);
-
-                    kmail = kmail.section('<', 1);
-                    kmail.truncate(kmail.length() - 1);
-
-                    if (kmail.contains('<') ) // several email addresses in the same key
-                    {
-                        kmail = kmail.replace(">", ";");
-                        kmail.remove("<");
-                    }
-
-                    m_publickey.setEmail(kmail);
-                }
-                else
-                    m_publickey.setEmail(QString());
-
-                QString kname = fullname.section(" <", 0, 0);
-                if (fullname.contains('(') )
-                {
-                    kname = kname.section(" (", 0, 0);
-                    QString comment = fullname.section('(', 1, 1);
-                    comment = comment.section(')', 0, 0);
-
-                    m_publickey.setComment(comment);
-                }
-                else
-                    m_publickey.setComment(QString());
-                m_publickey.setName(kname);
-
-                cycle = "pub";
-
-                // the first uid is merged into the public key
-                uidnum = 1;
+            if (lsp.at(6).isEmpty())
+            {
+                m_publickey.setUnlimited(true);
+                m_publickey.setExpiration(QDate());
             }
             else
-            if ((lsp.at(0) == "fpr") && (items >= 10))
             {
-                QString fingervalue = lsp.at(9);
-                uint len = fingervalue.length();
-                if ((len > 0) && (len % 4 == 0))
-                    for (uint n = 0; 4 * (n + 1) < len; ++n)
-                        fingervalue.insert(5 * n + 4, ' ');
+                m_publickey.setUnlimited(false);
+                m_publickey.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
+            }
 
-                m_publickey.setFingerprint(fingervalue);
+            if (lsp.at(11).contains("D", Qt::CaseSensitive))  // disabled key
+                m_publickey.setValid(false);
+            else
+                m_publickey.setValid(true);
+
+            QString fullname = lsp.at(9);
+            if (fullname.contains("<"))
+            {
+                QString kmail = fullname;
+
+                if (fullname.contains(')') )
+                    kmail = kmail.section(')', 1);
+
+                kmail = kmail.section('<', 1);
+                kmail.truncate(kmail.length() - 1);
+
+                if (kmail.contains('<') ) // several email addresses in the same key
+                {
+                    kmail = kmail.replace(">", ";");
+                    kmail.remove("<");
+                }
+
+                m_publickey.setEmail(kmail);
             }
             else
-            if ((lsp.at(0) == "sub") && (items >= 7))
+                m_publickey.setEmail(QString());
+
+            QString kname = fullname.section(" <", 0, 0);
+            if (fullname.contains('(') )
             {
-                KgpgKeySub sub;
+                kname = kname.section(" (", 0, 0);
+                QString comment = fullname.section('(', 1, 1);
+                comment = comment.section(')', 0, 0);
 
-                sub.setId(lsp.at(4).right(8));
-                sub.setTrust(Convert::toTrust(lsp.at(1)));
-                sub.setSize(lsp.at(2).toUInt());
-                sub.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-                sub.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
-
-                // FIXME: Please see kgpgkey.h, KgpgSubKey class
-                if (lsp.at(11).contains('D'))
-                    sub.setValid(false);
-                else
-                    sub.setValid(true);
-
-                if (lsp.at(11).contains('s'))
-                    sub.setType(SKT_SIGNATURE);
-                else
-                if (lsp.at(11).contains('e'))
-                    sub.setType(SKT_ENCRYPTION);
-
-                if (lsp.at(6).isEmpty())
-                {
-                    sub.setUnlimited(true);
-                    sub.setExpiration(QDate());
-                }
-                else
-                {
-                    sub.setUnlimited(false);
-                    sub.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
-                }
-
-                m_publickey.subList()->append(sub);
-                cycle = "sub";
+                m_publickey.setComment(comment);
             }
             else
-            if (lsp.at(0) == "uat")
-            {
-                m_numberid++;
-                KgpgKeyUat uat;
-                uat.setId(QString::number(m_numberid));
-                m_publickey.uatList()->append(uat);
+                m_publickey.setComment(QString());
+            m_publickey.setName(kname);
 
-                cycle = "uat";
+            cycle = "pub";
+
+            // the first uid is merged into the public key
+            uidnum = 1;
+        }
+        else
+        if ((lsp.at(0) == "fpr") && (items >= 10))
+        {
+            QString fingervalue = lsp.at(9);
+            uint len = fingervalue.length();
+            if ((len > 0) && (len % 4 == 0))
+                for (uint n = 0; 4 * (n + 1) < len; ++n)
+                    fingervalue.insert(5 * n + 4, ' ');
+
+            m_publickey.setFingerprint(fingervalue);
+        }
+        else
+        if ((lsp.at(0) == "sub") && (items >= 7))
+        {
+            KgpgKeySub sub;
+
+            sub.setId(lsp.at(4).right(8));
+            sub.setTrust(Convert::toTrust(lsp.at(1)));
+            sub.setSize(lsp.at(2).toUInt());
+            sub.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
+            sub.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
+
+            // FIXME: Please see kgpgkey.h, KgpgSubKey class
+            if (lsp.at(11).contains('D'))
+                sub.setValid(false);
+            else
+                sub.setValid(true);
+
+            if (lsp.at(11).contains('s'))
+                sub.setType(SKT_SIGNATURE);
+            else
+            if (lsp.at(11).contains('e'))
+                sub.setType(SKT_ENCRYPTION);
+
+            if (lsp.at(6).isEmpty())
+            {
+                sub.setUnlimited(true);
+                sub.setExpiration(QDate());
             }
             else
-            if ((lsp.at(0) == "uid") && (items >= 10))
             {
-                KgpgKeyUid uid;
+                sub.setUnlimited(false);
+                sub.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
+            }
 
-                uid.setTrust(Convert::toTrust(lsp.at(1)));
-                if ((items > 11) && lsp.at(11).contains('D'))
-                    uid.setValid(false);
-                else
-                    uid.setValid(true);
+            m_publickey.subList()->append(sub);
+            cycle = "sub";
+        }
+        else
+        if (lsp.at(0) == "uat")
+        {
+            m_numberid++;
+            KgpgKeyUat uat;
+            uat.setId(QString::number(m_numberid));
+            m_publickey.uatList()->append(uat);
 
-                uid.setIndex(++uidnum);
-                QString fullname = lsp.at(9);
-                if (fullname.contains('<') )
+            cycle = "uat";
+        }
+        else
+        if ((lsp.at(0) == "uid") && (items >= 10))
+        {
+            KgpgKeyUid uid;
+
+            uid.setTrust(Convert::toTrust(lsp.at(1)));
+            if ((items > 11) && lsp.at(11).contains('D'))
+                uid.setValid(false);
+            else
+                uid.setValid(true);
+
+            uid.setIndex(++uidnum);
+            QString fullname = lsp.at(9);
+            if (fullname.contains('<') )
+            {
+                QString kmail = fullname;
+
+                if (fullname.contains(')') )
+                    kmail = kmail.section(')', 1);
+
+                kmail = kmail.section('<', 1);
+                kmail.truncate(kmail.length() - 1);
+
+                if ( kmail.contains('<') ) // several email addresses in the same key
                 {
-                    QString kmail = fullname;
-
-                    if (fullname.contains(')') )
-                        kmail = kmail.section(')', 1);
-
-                    kmail = kmail.section('<', 1);
-                    kmail.truncate(kmail.length() - 1);
-
-                    if ( kmail.contains('<') ) // several email addresses in the same key
-                    {
-                        kmail = kmail.replace(">", ";");
-                        kmail.remove("<");
-                    }
-
-                    uid.setEmail(kmail);
+                    kmail = kmail.replace(">", ";");
+                    kmail.remove("<");
                 }
-                else
-                    uid.setEmail(QString());
 
-                QString kname = fullname.section(" <", 0, 0);
-                if (fullname.contains('(') )
-                {
-                    kname = kname.section(" (", 0, 0);
-                    QString comment = fullname.section('(', 1, 1);
-                    comment = comment.section(')', 0, 0);
-
-                    uid.setComment(comment);
-                }
-                else
-                    uid.setComment(QString());
-                uid.setName(kname);
-
-                m_publickey.uidList()->append(uid);
-
-                m_numberid++;
-                cycle = "uid";
+                uid.setEmail(kmail);
             }
             else
-            if (((lsp.at(0) == "sig") || (lsp.at(0) == "rev")) && (items >= 11))
+                uid.setEmail(QString());
+
+            QString kname = fullname.section(" <", 0, 0);
+            if (fullname.contains('(') )
             {
-                KgpgKeySign signature;
+                kname = kname.section(" (", 0, 0);
+                QString comment = fullname.section('(', 1, 1);
+                comment = comment.section(')', 0, 0);
 
-                signature.setId(lsp.at(4));
-                signature.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
-
-                if (lsp.at(6).isEmpty())
-                {
-                    signature.setUnlimited(true);
-                    signature.setExpiration(QDate());
-                }
-                else
-                {
-                    signature.setUnlimited(false);
-                    signature.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
-                }
-
-                QString fullname = lsp.at(9);
-                if (fullname.contains('<') )
-                {
-                    QString kmail = fullname;
-
-                    if (fullname.contains(')') )
-                        kmail = kmail.section(')', 1);
-
-                    kmail = kmail.section('<', 1);
-                    kmail.truncate(kmail.length() - 1);
-
-                    if (kmail.contains('<' )) // several email addresses in the same key
-                    {
-                        kmail = kmail.replace(">", ";");
-                        kmail.remove("<");
-                    }
-
-                    signature.setEmail(kmail);
-                }
-                else
-                    signature.setEmail(QString());
-
-                QString kname = fullname.section(" <", 0, 0);
-                if (fullname.contains('(' ))
-                {
-                    kname = kname.section(" (", 0, 0);
-                    QString comment = fullname.section('(', 1, 1);
-                    comment = comment.section(')', 0, 0);
-
-                    signature.setComment(comment);
-                }
-                else
-                    signature.setComment(QString());
-                signature.setName(kname);
-
-                if (lsp.at(10).endsWith('l'))
-                    signature.setLocal(true);
-
-                if (lsp.at(0) == "rev")
-                    signature.setRevocation(true);
-
-                if (cycle == "pub")
-                    m_publickey.addSign(signature);
-                else
-                if (cycle == "uat")
-                    m_publickey.uatList()->last().addSign(signature);
-                else
-                if (cycle == "uid")
-                    m_publickey.uidList()->last().addSign(signature);
-                else
-                if (cycle == "sub")
-                    m_publickey.subList()->last().addSign(signature);
+                uid.setComment(comment);
             }
+            else
+                uid.setComment(QString());
+            uid.setName(kname);
+
+            m_publickey.uidList()->append(uid);
+
+            m_numberid++;
+            cycle = "uid";
+        }
+        else
+        if (((lsp.at(0) == "sig") || (lsp.at(0) == "rev")) && (items >= 11))
+        {
+            KgpgKeySign signature;
+
+            signature.setId(lsp.at(4));
+            signature.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
+
+            if (lsp.at(6).isEmpty())
+            {
+                signature.setUnlimited(true);
+                signature.setExpiration(QDate());
+            }
+            else
+            {
+                signature.setUnlimited(false);
+                signature.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
+            }
+
+            QString fullname = lsp.at(9);
+            if (fullname.contains('<') )
+            {
+                QString kmail = fullname;
+
+                if (fullname.contains(')') )
+                    kmail = kmail.section(')', 1);
+
+                kmail = kmail.section('<', 1);
+                kmail.truncate(kmail.length() - 1);
+
+                if (kmail.contains('<' )) // several email addresses in the same key
+                {
+                    kmail = kmail.replace(">", ";");
+                    kmail.remove("<");
+                }
+
+                signature.setEmail(kmail);
+            }
+            else
+                signature.setEmail(QString());
+
+            QString kname = fullname.section(" <", 0, 0);
+            if (fullname.contains('(' ))
+            {
+                kname = kname.section(" (", 0, 0);
+                QString comment = fullname.section('(', 1, 1);
+                comment = comment.section(')', 0, 0);
+
+                signature.setComment(comment);
+            }
+            else
+                signature.setComment(QString());
+            signature.setName(kname);
+
+            if (lsp.at(10).endsWith('l'))
+                signature.setLocal(true);
+
+            if (lsp.at(0) == "rev")
+                signature.setRevocation(true);
+
+            if (cycle == "pub")
+                m_publickey.addSign(signature);
+            else
+            if (cycle == "uat")
+                m_publickey.uatList()->last().addSign(signature);
+            else
+            if (cycle == "uid")
+                m_publickey.uidList()->last().addSign(signature);
+            else
+            if (cycle == "sub")
+                m_publickey.subList()->last().addSign(signature);
+        }
     }
 }
 
