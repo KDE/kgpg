@@ -13,10 +13,10 @@
 #ifndef GPGPROC_H
 #define GPGPROC_H
 
-#include <kprocess.h>
+#include <QString>
+#include <QStringList>
 
-#include <QtCore/QString>
-#include <QtCore/QStringList>
+#include <KProcess>
 
 class GPGProcPrivate;
 
@@ -33,77 +33,75 @@ class GPGProcPrivate;
  *
  * @author Rolf Eike Beer
  * @short A interface to GnuPG handling UTF8 recoding correctly
- **/
-
-
+ */
 class GPGProc : public KProcess
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  /**
-   * Constructor
-   */
-   explicit GPGProc(QObject *parent = NULL);
+    /**
+     * Constructor
+     */
+    explicit GPGProc(QObject *parent = 0);
 
-  /**
-   * Destructor
-   */
-  ~GPGProc();
+    /**
+     * Destructor
+     */
+    ~GPGProc();
 
-  /**
-   *  Starts the process
-   **/
-  void start();
+    /**
+     *  Starts the process
+     */
+    void start();
 
-  /**
-   * Reads a line of text (excluding '\\n').
-   *
-   * Use readln() in response to a readReady() signal.
-   * You may use it multiple times if more than one line of data is
-   *  available.
-   *
-   * readln() never blocks.
-   *
-   * @param line is used to store the line that was read.
-   * @return the number of characters read, or -1 if no data is available.
-   **/
-  int readln(QString &line);
+    /**
+     * Reads a line of text (excluding '\\n').
+     *
+     * Use readln() in response to a readReady() signal.
+     * You may use it multiple times if more than one line of data is
+     * available.
+     *
+     * readln() never blocks.
+     *
+     * @param line is used to store the line that was read.
+     * @return the number of characters read, or -1 if no data is available.
+     */
+    int readln(QString &line);
 
-  /**
-   * Reads a line of text and splits it into parts.
-   *
-   * Use readln() in response to a readReady() signal.
-   * You may use it multiple times if more than one line of data is
-   *  available.
-   *
-   * readln() never blocks.
-   *
-   * @param l is used to store the parts of the line that was read.
-   * @return the number of characters read, or -1 if no data is available.
-   **/
-  int readln(QStringList &l);
+    /**
+     * Reads a line of text and splits it into parts.
+     *
+     * Use readln() in response to a readReady() signal.
+     * You may use it multiple times if more than one line of data is
+     * available.
+     *
+     * readln() never blocks.
+     *
+     * @param l is used to store the parts of the line that was read.
+     * @return the number of characters read, or -1 if no data is available.
+     */
+    int readln(QStringList &l);
 
-Q_SIGNALS:
-  /**
-   * Emitted when the process is ready for reading.
-   * The signal is only emitted if at least one complete line of data is ready.
-   * @param pio the process that emitted the signal
-   */
-  void readReady(GPGProc *p);
+signals:
+    /**
+     * Emitted when the process is ready for reading.
+     * The signal is only emitted if at least one complete line of data is ready.
+     * @param pio the process that emitted the signal
+     */
+    void readReady(GPGProc *p);
 
-  /**
-   * Emitted when the process has finished
-   * @param pio the process that emitted the signal
-   */
-  void processExited(GPGProc *p);
+    /**
+     * Emitted when the process has finished
+     * @param pio the process that emitted the signal
+     */
+    void processExited(GPGProc *p);
 
-protected Q_SLOTS:
-	void finished();
-	void received();
+protected slots:
+    void finished();
+    void received();
 
 private:
-  GPGProcPrivate* const d;
+    GPGProcPrivate* const d;
 };
 
 #endif // GPGPROC_H
