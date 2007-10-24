@@ -285,6 +285,8 @@ void KeyServer::slotSearch()
     connect(m_dialogserver, SIGNAL(closeClicked()), this, SLOT(handleQuit()));
     connect(m_listpop, SIGNAL(destroyed()), this, SLOT(slotAbortSearch()));
 
+    m_listpop->kLVsearch->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
     m_count = 0;
     m_keyid = QString();
     m_readmessage.clear();
@@ -429,7 +431,9 @@ void KeyServer::transferKeyID()
             if (item == NULL)
                 item = searchItem;
 
-            keysToSearch << item->data(0, Qt::UserRole).toString();
+            QString id = item->data(0, Qt::UserRole).toString();
+            if (!keysToSearch.contains(id))
+                keysToSearch << id;
         }
     }
 
