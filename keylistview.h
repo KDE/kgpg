@@ -49,8 +49,8 @@ public:
     };
     Q_DECLARE_FLAGS(ItemType, ItemTypeFlag)
 
-    explicit KeyListViewItem(KeyListView *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString() , const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
-    explicit KeyListViewItem(KeyListViewItem *parent = 0, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString(), const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
+    explicit KeyListViewItem(KeyListView *parent, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString() , const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
+    explicit KeyListViewItem(KeyListViewItem *parent, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString(), const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
     KeyListViewItem(K3ListView *parent, const KgpgKey &key, const bool isbold);
     KeyListViewItem(K3ListViewItem *parent, const KgpgKeySign &sig);
     ~KeyListViewItem();
