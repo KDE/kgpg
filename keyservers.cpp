@@ -462,7 +462,7 @@ void KeyServer::slotOk()
 
 QStringList KeyServer::getServerList()
 {
-    KConfig config("kgpgrc", KConfig::OnlyLocal);
+    KConfig config("kgpgrc", KConfig::SimpleConfig);
     KConfigGroup group = config.group("Servers");
 
     QStringList serverlist;

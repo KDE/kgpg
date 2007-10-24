@@ -53,7 +53,7 @@ using namespace KgpgCore;
 kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
            : KConfigDialog(parent, name, KGpgSettings::self())
 {
-    m_config = new KConfig("kgpgrc", KConfig::OnlyLocal);
+    m_config = new KConfig("kgpgrc", KConfig::SimpleConfig);
 
     defaultServerList = "hkp://subkeys.pgp.net ";
     defaultServerList += i18n("(Default)");

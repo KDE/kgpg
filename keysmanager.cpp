@@ -1528,7 +1528,7 @@ void KeysManager::slotexport()
     dial->setDefaultButton( KDialog::Ok );
     dial->setModal( true );
 
-    KConfig *m_config = new KConfig("kgpgrc", KConfig::OnlyLocal);
+    KConfig *m_config = new KConfig("kgpgrc", KConfig::SimpleConfig);
     KConfigGroup gr = m_config->group("Servers");
     QString servers = gr.readEntry("Server_List");
     delete m_config;
