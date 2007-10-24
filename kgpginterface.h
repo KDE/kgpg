@@ -47,7 +47,7 @@ public:
 
     ~KgpgInterface();
 
-    static int getGpgVersion();
+    static int gpgVersion();
 
     static QString checkForUtf8(QString txt);
     static QString checkForUtf8bis(QString txt);

@@ -731,7 +731,7 @@ void MyView::startWizard()
         }
     }
 
-    int gpgVersion = KgpgInterface::getGpgVersion();
+    int gpgVersion = KgpgInterface::gpgVersion();
     if (gpgVersion < 120)
         wiz->txtGpgVersion->setText(i18n("Your GnuPG version seems to be older than 1.2.0. Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG (http://gnupg.org)."));
     else

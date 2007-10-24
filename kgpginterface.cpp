@@ -51,9 +51,10 @@ KgpgInterface::KgpgInterface()
 
 KgpgInterface::~KgpgInterface()
 {
-    if (editprocess != NULL) {
-	editprocess->kill();
-	delete editprocess;
+    if (editprocess != 0)
+    {
+        editprocess->kill();
+        delete editprocess;
     }
 
     const QObjectList &list = children();
@@ -66,18 +67,19 @@ KgpgInterface::~KgpgInterface()
         delete list.at(i);
 }
 
-int KgpgInterface::getGpgVersion()
+int KgpgInterface::gpgVersion()
 {
-    K3ProcIO p;
-    QString line;
-    QString gpgString;
-
-    p << KGpgSettings::gpgBinaryPath() << "--version";
+    GPGProc p;
+    p << "--version";
     p.start();
-    if (p.readln(line) != -1)
-        gpgString = line.simplified().section(' ', -1);
+    p.waitForFinished(-1);
 
-    return (100 * gpgString.section('.', 0, 0).toInt() + 10 * gpgString.section('.', 1, 1).toInt() + gpgString.section('.', 2, 2).toInt());
+    QString line;
+    if (p.readln(line) != -1)
+        line = line.simplified().section(' ', -1);
+
+    QStringList values = line.split('.');
+    return (100 * values[0].toInt() + 10 * values[1].toInt() + values[2].toInt());
 }
 
 QString KgpgInterface::checkForUtf8(QString txt)
