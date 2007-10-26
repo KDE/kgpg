@@ -44,13 +44,12 @@ public:
      * Initialize the class
      */
     KgpgInterface();
-
     ~KgpgInterface();
-
-    static int gpgVersion();
 
     static QString checkForUtf8(QString txt);
     static QString checkForUtf8bis(QString txt);
+
+    static int gpgVersion();
 
     static QStringList getGpgGroupNames(const QString &configfile);
     static QStringList getGpgGroupSetting(const QString &name, const QString &configfile);
@@ -66,13 +65,9 @@ public:
 /************** function to send a passphrase to gpg **************/
 private:
     /**
-     * This is a secure method to send the passphrase to gpg.
-     * It will shred (1 pass) the memory before deleting the object
-     * that contains the passphrase. The password is securely send
-     * to gpg.
      * @param text text is the message that must be displayed in the MessageBox
-     * @param process process is the process where we must send the password
-     * @param isnew if the password is a \e new password that must be confirmed.
+     * @param process gnupg process
+     * @param isnew if the password is a \e new password that must be confirmed. Default is true
      * @return 0 if there is no error
      * @return 1 if there is an error
      */

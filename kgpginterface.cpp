@@ -44,8 +44,7 @@
 
 using namespace KgpgCore;
 
-KgpgInterface::KgpgInterface()
-    : editprocess(NULL)
+KgpgInterface::KgpgInterface() : editprocess(0)
 {
 }
 
@@ -65,21 +64,6 @@ KgpgInterface::~KgpgInterface()
     // Then, we delete objects
     for (int i = 0; i < list.size(); ++i)
         delete list.at(i);
-}
-
-int KgpgInterface::gpgVersion()
-{
-    GPGProc p;
-    p << "--version";
-    p.start();
-    p.waitForFinished(-1);
-
-    QString line;
-    if (p.readln(line) != -1)
-        line = line.simplified().section(' ', -1);
-
-    QStringList values = line.split('.');
-    return (100 * values[0].toInt() + 10 * values[1].toInt() + values[2].toInt());
 }
 
 QString KgpgInterface::checkForUtf8(QString txt)
@@ -109,6 +93,21 @@ QString KgpgInterface::checkForUtf8bis(QString txt)
         txt = QString::fromUtf8(txt.toAscii());
     }
     return txt;
+}
+
+int KgpgInterface::gpgVersion()
+{
+    GPGProc process;
+    process << "--version";
+    process.start();
+    process.waitForFinished(-1);
+
+    QString line;
+    if (process.readln(line) != -1)
+        line = line.simplified().section(' ', -1);
+
+    QStringList values = line.split('.');
+    return (100 * values[0].toInt() + 10 * values[1].toInt() + values[2].toInt());
 }
 
 QStringList KgpgInterface::getGpgGroupNames(const QString &configfile)
@@ -406,10 +405,10 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
 
     GPGProc *process = new GPGProc(this);
     *process << "--with-fingerprint";
-    if (!withsigs)
-        *process << "--list-keys";
-    else
+    if (withsigs)
         *process << "--list-sigs";
+    else
+        *process << "--list-keys";
 
     *process << ids;
 
@@ -1945,7 +1944,7 @@ void KgpgInterface::changeDisable(const QString &keyid, const bool &ison)
 void KgpgInterface::changeDisableFin(int res)
 {
     delete editprocess;
-    editprocess = NULL;
+    editprocess = 0;
     changeDisableFinished(this, res);
 }
 
