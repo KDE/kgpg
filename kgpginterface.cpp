@@ -1034,15 +1034,16 @@ void KgpgInterface::decryptTextStdErr(K3Process *, char *data, int)
 // try to change K3Process by K3ProcIO
 void KgpgInterface::decryptTextStdOut(K3Process *p, char *data, int)
 {
-    m_partialline.append(data);
+    QTextCodec *codec = QTextCodec::codecForName("utf8");
+    m_readin.append(data);
 
     int pos;
-    while ((pos = m_partialline.indexOf("\n")) != -1)
+    while ((pos = m_readin.indexOf("\n")) != -1)
     {
         if (m_textlength == 0)
         {
-            QString line = m_partialline.left(pos);
-            m_partialline.remove(0, pos + 1);
+            QString line = codec->toUnicode(m_readin.left(pos));
+            m_readin.remove(0, pos + 1);
 
             if (line.contains("USERID_HINT"))
                 updateIDs(line);
@@ -1105,16 +1106,16 @@ void KgpgInterface::decryptTextStdOut(K3Process *p, char *data, int)
         }
         else
         {
-            if (m_partialline.length() <= m_textlength)
+            if (m_readin.length() <= m_textlength)
             {
-                message.append(m_partialline);
-                m_textlength -= m_partialline.length();
-                m_partialline.clear();
+                message.append(codec->toUnicode(m_readin));
+                m_textlength -= m_readin.length();
+                m_readin.clear();
             }
             else
             {
-                message.append(m_partialline.left(m_textlength));
-                m_partialline.remove(0, m_textlength);
+                message.append(codec->toUnicode(m_readin.left(m_textlength)));
+                m_readin.remove(0, m_textlength);
                 m_textlength = 0;
             }
         }

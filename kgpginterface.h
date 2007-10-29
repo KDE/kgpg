@@ -799,6 +799,7 @@ private:
     // Globals private
     int m_success;
     QString m_partialline;
+    QByteArray m_readin;
     bool m_ispartial;
     QString message;
     QString tmp_message;
