@@ -1939,7 +1939,7 @@ void KeysManager::signkey()
         QString opt;
 
         KgpgInterface *interface = new KgpgInterface();
-        KgpgKeyList listkeys = interface->readPublicKeys(true, QStringList(item->keyId()));
+        KgpgKeyList listkeys = interface->readPublicKeys(true, item->keyId());
         delete interface;
         fingervalue = listkeys.at(0).fingerprint();
 

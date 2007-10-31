@@ -88,6 +88,8 @@ signals:
 
 public slots:
     KgpgCore::KgpgKeyList readPublicKeys(const bool &block = false, const QStringList &ids = QStringList(), const bool &withsigs = false);
+    KgpgCore::KgpgKeyList readPublicKeys(const bool &block, const QString &ids, const bool &withsigs = false)
+	{ return readPublicKeys(block, QStringList(ids), withsigs); }
 
 private slots:
     void readPublicKeysProcess(GPGProc *p);

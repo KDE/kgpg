@@ -374,7 +374,7 @@ QGroupBox* KgpgKeyInfo::_fingerprintGroup(QWidget *parent)
 void KgpgKeyInfo::loadKey()
 {
     KgpgInterface *interface = new KgpgInterface();
-    KgpgKeyList listkeys = interface->readPublicKeys(true, QStringList(m_keyid));
+    KgpgKeyList listkeys = interface->readPublicKeys(true, m_keyid);
     delete interface;
 
     KgpgKey key = listkeys.at(0);

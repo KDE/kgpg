@@ -683,7 +683,7 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
     QString keyid = item->keyId();
 
     KgpgInterface *interface = new KgpgInterface();
-    KgpgKeyList keys = interface->readPublicKeys(true, QStringList(keyid), true);
+    KgpgKeyList keys = interface->readPublicKeys(true, keyid, true);
     KgpgKey key = keys.at(0);
 
     KeyListViewItem *tmpitem;
