@@ -69,7 +69,7 @@ QPixmap Images::userId()
 {
     static QPixmap userid;
     if (userid.isNull())
-        userid = KIconLoader::global()->loadIcon("kgpg-identity-kgpg", KIconLoader::Small, 20);
+        userid = KIconLoader::global()->loadIcon("kgpg_identity", KIconLoader::Small, 20);
     return userid;
 }
 
