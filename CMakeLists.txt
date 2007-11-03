@@ -11,6 +11,7 @@ add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 set(core_SRCS
    core/convert.cpp
    core/images.cpp
+   core/emailvalidator.cpp
    core/kgpgkey.cpp )
 
 set(kgpg_SRCS ${core_SRCS}

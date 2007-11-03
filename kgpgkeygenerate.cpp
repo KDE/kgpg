@@ -31,6 +31,9 @@
 #include <KDebug>
 #include <KHBox>
 
+#include "emailvalidator.h"
+
+using namespace KgpgCore;
 
 KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
                : KDialog(parent)
@@ -163,8 +166,9 @@ void KgpgKeyGenerate::slotOk()
         if (result != KMessageBox::Continue)
             return;
     }
-    else
-    if (vmail.contains(' ') || !vmail.contains('.') || !vmail.contains('@'))
+
+    int pos = 0;
+    if (EmailValidator().validate(vmail, pos) == QValidator::Invalid)
     {
         KMessageBox::sorry(this, i18n("Email address not valid"));
         return;

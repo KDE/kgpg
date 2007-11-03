@@ -17,12 +17,9 @@
 #ifndef KGPGKEYGENERATE_H
 #define KGPGKEYGENERATE_H
 
-
-
 #include <KDialog>
 
 #include "kgpgkey.h"
-
 
 class KComboBox;
 class KLineEdit;
