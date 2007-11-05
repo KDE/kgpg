@@ -1033,7 +1033,6 @@ int KgpgAppletApp::newInstance()
         connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));
         connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotGenerateKey()));
         connect(s_keyManager,SIGNAL(fontChanged(QFont)),kgpg_applet->w,SIGNAL(setFont(QFont)));
-        connect(kgpg_applet->w,SIGNAL(importedKeys(QStringList)),s_keyManager->keysList2,SLOT(slotReloadKeys(QStringList)));
 
         if (KGpgSettings::showSystray()) {
             kgpg_applet->show();

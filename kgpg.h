@@ -69,7 +69,6 @@ signals:
     void readAgain2();
     void createNewKey();
     void updateDefault(QString);
-    void importedKeys(QStringList);
 
 public slots:
     /**
