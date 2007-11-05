@@ -565,6 +565,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             m_numberid++;
             KgpgKeyUat uat;
             uat.setId(QString::number(m_numberid));
+            uat.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
             m_publickey.uatList()->append(uat);
 
             cycle = "uat";

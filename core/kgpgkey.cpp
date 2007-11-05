@@ -199,6 +199,21 @@ QString KgpgKeyUat::id() const
     return d->gpguatid;
 }
 
+void KgpgKeyUat::setCreation(const QDate &date)
+{
+    d->creation = date;
+}
+
+QDate KgpgKeyUat::creationDate() const
+{
+    return d->creation;
+}
+
+QString KgpgKeyUat::creation() const
+{
+    return Convert::toString(d->creation);
+}
+
 void KgpgKeyUat::addSign(const KgpgKeySign &sign)
 {
     d->gpgsignlist << sign;

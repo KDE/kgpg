@@ -723,7 +723,8 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
     QStringList photolist = key.photoList();
     for (int i = 0; i < photolist.size(); ++i)
     {
-        tmpitem = new KeyListViewItem(item, i18n("Photo id"), QString(), QString(), "-", "-", "-", photolist.at(i), false, false, KeyListViewItem::Uat);
+        KgpgKeyUat uat = key.uatList()->at(i);
+        tmpitem = new KeyListViewItem(item, i18n("Photo id"), QString(), QString(), "-", "-", uat.creation(), photolist.at(i), false, false, KeyListViewItem::Uat);
         tmpitem->setPixmap(2, getTrustPix(key.trust(), key.valid()));
 
         if (m_displayphoto)
@@ -734,7 +735,6 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
         else
             tmpitem->setPixmap(0, Images::photo());
 
-        KgpgKeyUat uat = key.uatList()->at(i);
         insertSigns(tmpitem, uat.signList());
     }
     /****************************************/
