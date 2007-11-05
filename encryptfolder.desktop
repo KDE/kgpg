@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Type=Service
-ServiceTypes=inode/directory
+ServiceTypes=inode/directory,KonqPopupMenu/Plugin
 Actions=encrypt;
 
 [Desktop Action encrypt]
