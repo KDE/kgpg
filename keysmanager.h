@@ -75,8 +75,6 @@ class KeysManager : public KXmlGuiWindow
 public:
     KeysManager(QWidget *parent = 0);
 
-    KeyListView *keysList2;
-
     KToggleAction *sTrust;
     KToggleAction *sCreat;
     KToggleAction *sExpi;
@@ -195,6 +193,8 @@ private slots:
     void importRemoteFinished(KGpgTransaction *);
 
 private:
+    KeyListView *keysList2;
+
     QString globalkeyMail;
     QString globalkeyID;
     QString searchString;
