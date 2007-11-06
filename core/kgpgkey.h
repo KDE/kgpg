@@ -172,7 +172,7 @@ class KgpgKeyUatPrivate : public QSharedData
 {
 public:
     QString gpguatid;
-    QDate creation;
+    QDate   gpguatcreation;
     KgpgKeySignList gpgsignlist;
 
     bool operator==(const KgpgKeyUatPrivate &other) const;

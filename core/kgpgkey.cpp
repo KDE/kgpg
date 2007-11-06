@@ -173,6 +173,7 @@ KgpgKeySign& KgpgKeySign::operator=(const KgpgKeySign &other)
 bool KgpgKeyUatPrivate::operator==(const KgpgKeyUatPrivate &other) const
 {
     if (gpguatid != other.gpguatid) return false;
+    if (gpguatcreation != other.gpguatcreation) return false;
     if (gpgsignlist != other.gpgsignlist) return false;
     return true;
 }
@@ -194,24 +195,24 @@ void KgpgKeyUat::setId(const QString &id)
     d->gpguatid = id;
 }
 
+void KgpgKeyUat::setCreation(const QDate &date)
+{
+    d->gpguatcreation = date;
+}
+
 QString KgpgKeyUat::id() const
 {
     return d->gpguatid;
 }
 
-void KgpgKeyUat::setCreation(const QDate &date)
-{
-    d->creation = date;
-}
-
 QDate KgpgKeyUat::creationDate() const
 {
-    return d->creation;
+    return d->gpguatcreation;
 }
 
 QString KgpgKeyUat::creation() const
 {
-    return Convert::toString(d->creation);
+    return Convert::toString(d->gpguatcreation);
 }
 
 void KgpgKeyUat::addSign(const KgpgKeySign &sign)
