@@ -27,7 +27,6 @@
 #include <QString>
 
 class KPassivePopup;
-class KJob;
 class KgpgInterface;
 
 class KgpgLibrary : public QObject

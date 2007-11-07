@@ -24,7 +24,6 @@
 #include "ui_searchres.h"
 #include "ui_keyserver.h"
 
-class KConfig;
 class K3ProcIO;
 class K3Process;
 
