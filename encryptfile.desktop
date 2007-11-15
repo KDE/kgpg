@@ -1,7 +1,6 @@
 [Desktop Entry]
-Encoding=UTF-8
 Type=Service
-ServiceTypes=all/allfiles,KonqPopupMenu/Plugin
+X-KDE-ServiceTypes=all/allfiles,KonqPopupMenu/Plugin
 ExcludeServiceTypes=kdedevice/*
 Actions=encrypt;
 
