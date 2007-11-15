@@ -2980,7 +2980,7 @@ void KgpgInterface::readsignprocess(K3ProcIO *p)
 
                 QString passdlgmessage;
                 if (step < 3)
-                    passdlgmessage = i18n("<p><b>Bad passphrase</b>. you have %1 tries left.</p>", step);
+                    passdlgmessage = i18n("<p><b>Bad passphrase</b>. You have %1 tries left.</p>", step);
                 passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
                 if (sendPassphrase(passdlgmessage, p))
