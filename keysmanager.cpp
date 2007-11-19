@@ -318,6 +318,17 @@ KeysManager::KeysManager(QWidget *parent)
     list.append(i18nc("large picture", "Large"));
     photoProps->setItems(list);
 
+    imodel = new KGpgItemModel(this);
+
+    iview = new QTreeView(this);
+    iview->setModel(imodel);
+    iview->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    setCentralWidget(iview);
+    for (int i = 0; i < 7; i++)
+       iview->resizeColumnToContents(i);
+    iview->setColumnHidden(7, true);
+    iview->setAlternatingRowColors(true);
+
     int psize = KGpgSettings::photoProperties();
     photoProps->setCurrentItem(psize);
     slotSetPhotoSize(psize);
@@ -384,7 +395,7 @@ KeysManager::KeysManager(QWidget *parent)
     exportPublicKey->setEnabled(false);
     newContact->setEnabled(false);
 
-    setCentralWidget(keysList2);
+//     setCentralWidget(keysList2);
     keysList2->restoreLayout(KGlobal::config().data(), "KeyView");
 
     connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(defaultAction()));
@@ -420,9 +431,13 @@ KeysManager::KeysManager(QWidget *parent)
     action->setShortcut(QKeySequence(Qt::Key_F6));
 
     sTrust->setChecked(KGpgSettings::showTrust());
+    iview->setColumnHidden(2, !KGpgSettings::showTrust());
     sSize->setChecked(KGpgSettings::showSize());
+    iview->setColumnHidden(3, !KGpgSettings::showSize());
     sCreat->setChecked(KGpgSettings::showCreat());
+    iview->setColumnHidden(4, !KGpgSettings::showCreat());
     sExpi->setChecked(KGpgSettings::showExpi());
+    iview->setColumnHidden(5, !KGpgSettings::showExpi());
     m_listviewsearch->setHideDisabled(KGpgSettings::hideExRev());
     m_listviewsearch->setHidePublic(KGpgSettings::showSecret());
 
@@ -438,6 +453,12 @@ KeysManager::KeysManager(QWidget *parent)
     s_kgpgEditor = new KgpgEditor(parent, Qt::WType_Dialog, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut(), true);
     connect(s_kgpgEditor, SIGNAL(refreshImported(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
     connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
+}
+
+KeysManager::~KeysManager()
+{
+    delete imodel;
+    delete iview;
 }
 
 void KeysManager::slotGenerateKey()
@@ -643,6 +664,7 @@ void KeysManager::slotShowTrust()
         keysList2->slotAddColumn(2);
     else
         keysList2->slotRemoveColumn(2);
+    iview->setColumnHidden(2, !sTrust->isChecked());
 }
 
 void KeysManager::slotShowExpiration()
@@ -651,6 +673,7 @@ void KeysManager::slotShowExpiration()
         keysList2->slotAddColumn(3);
     else
         keysList2->slotRemoveColumn(3);
+    iview->setColumnHidden(3, !sExpi->isChecked());
 }
 
 void KeysManager::slotShowSize()
@@ -659,6 +682,7 @@ void KeysManager::slotShowSize()
         keysList2->slotAddColumn(4);
     else
         keysList2->slotRemoveColumn(4);
+    iview->setColumnHidden(4, !sSize->isChecked());
 }
 
 void KeysManager::slotShowCreation()
@@ -667,6 +691,7 @@ void KeysManager::slotShowCreation()
         keysList2->slotAddColumn(5);
     else
         keysList2->slotRemoveColumn(5);
+    iview->setColumnHidden(5, !sCreat->isChecked());
 }
 
 void KeysManager::slotToggleSecret()
@@ -922,17 +947,21 @@ void KeysManager::slotSetPhotoSize(int size)
         case 1:
             showPhoto = true;
             keysList2->setPreviewSize(22);
+            imodel->setPreviewSize(22);
             break;
         case 2:
             showPhoto = true;
             keysList2->setPreviewSize(42);
+            imodel->setPreviewSize(42);
             break;
         case 3:
             showPhoto = true;
             keysList2->setPreviewSize(65);
+            imodel->setPreviewSize(65);
             break;
         default:
             showPhoto = false;
+            imodel->setPreviewSize(0);
             break;
     }
     keysList2->setDisplayPhoto(showPhoto);

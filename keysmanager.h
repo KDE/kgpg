@@ -22,6 +22,7 @@
 #include <QClipboard>
 #include <QPixmap>
 #include <Q3ListViewItem>
+#include <QTreeView>
 
 #include <KToggleAction>
 #include <K3ListViewSearchLine>
@@ -35,6 +36,7 @@
 #include "ui_adduid.h"
 #include "ui_groupedit.h"
 #include "kgpginterface.h"
+#include "kgpgitemmodel.h"
 
 class QCloseEvent;
 class QEvent;
@@ -74,6 +76,7 @@ class KeysManager : public KXmlGuiWindow
 
 public:
     KeysManager(QWidget *parent = 0);
+    ~KeysManager();
 
     KToggleAction *sTrust;
     KToggleAction *sCreat;
@@ -193,6 +196,8 @@ private slots:
     void importRemoteFinished(KGpgTransaction *);
 
 private:
+    KGpgItemModel *imodel;
+    QTreeView *iview;
     KeyListView *keysList2;
 
     QString globalkeyMail;

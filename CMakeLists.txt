@@ -36,6 +36,8 @@ set(kgpg_SRCS ${core_SRCS}
    keyexport.cpp
    conf_encryption.cpp
    kgpgrevokewidget.cpp
+   kgpgitemmodel.cpp
+   kgpgitemnode.cpp
    sourceselect.cpp)
 
 qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)

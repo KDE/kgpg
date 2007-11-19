@@ -21,10 +21,11 @@
 #ifndef CONVERT_H
 #define CONVERT_H
 
-
-#include <QColor>
-
 #include "kgpgkey.h"
+
+class QColor;
+class QString;
+class QPixmap;
 
 namespace KgpgCore
 {
@@ -43,6 +44,7 @@ public:
     static KgpgKeyTrust toTrust(const QString &s);
     static KgpgKeyOwnerTrust toOwnerTrust(const QChar &c);
     static KgpgKeyOwnerTrust toOwnerTrust(const QString &s);
+    static QPixmap toPixmap(const KgpgItemType &t);
 };
 
 } // namespace KgpgCore

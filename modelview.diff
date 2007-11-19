@@ -1,0 +1,257 @@
+Index: keysmanager.cpp
+===================================================================
+--- keysmanager.cpp	(Revision 738842)
++++ keysmanager.cpp	(Arbeitskopie)
+@@ -318,6 +318,17 @@
+     list.append(i18nc("large picture", "Large"));
+     photoProps->setItems(list);
+ 
++    imodel = new KGpgItemModel(this);
++
++    iview = new QTreeView(this);
++    iview->setModel(imodel);
++    iview->setSelectionMode(QAbstractItemView::ExtendedSelection);
++    setCentralWidget(iview);
++    for (int i = 0; i < 7; i++)
++       iview->resizeColumnToContents(i);
++    iview->setColumnHidden(7, true);
++    iview->setAlternatingRowColors(true);
++
+     int psize = KGpgSettings::photoProperties();
+     photoProps->setCurrentItem(psize);
+     slotSetPhotoSize(psize);
+@@ -384,7 +395,7 @@
+     exportPublicKey->setEnabled(false);
+     newContact->setEnabled(false);
+ 
+-    setCentralWidget(keysList2);
++//     setCentralWidget(keysList2);
+     keysList2->restoreLayout(KGlobal::config().data(), "KeyView");
+ 
+     connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(defaultAction()));
+@@ -420,9 +431,13 @@
+     action->setShortcut(QKeySequence(Qt::Key_F6));
+ 
+     sTrust->setChecked(KGpgSettings::showTrust());
++    iview->setColumnHidden(2, !KGpgSettings::showTrust());
+     sSize->setChecked(KGpgSettings::showSize());
++    iview->setColumnHidden(3, !KGpgSettings::showSize());
+     sCreat->setChecked(KGpgSettings::showCreat());
++    iview->setColumnHidden(4, !KGpgSettings::showCreat());
+     sExpi->setChecked(KGpgSettings::showExpi());
++    iview->setColumnHidden(5, !KGpgSettings::showExpi());
+     m_listviewsearch->setHideDisabled(KGpgSettings::hideExRev());
+     m_listviewsearch->setHidePublic(KGpgSettings::showSecret());
+ 
+@@ -440,6 +455,12 @@
+     connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
+ }
+ 
++KeysManager::~KeysManager()
++{
++    delete imodel;
++    delete iview;
++}
++
+ void KeysManager::slotGenerateKey()
+ {
+     KgpgKeyGenerate *kg = new KgpgKeyGenerate(this);
+@@ -643,6 +664,7 @@
+         keysList2->slotAddColumn(2);
+     else
+         keysList2->slotRemoveColumn(2);
++    iview->setColumnHidden(2, !sTrust->isChecked());
+ }
+ 
+ void KeysManager::slotShowExpiration()
+@@ -651,6 +673,7 @@
+         keysList2->slotAddColumn(3);
+     else
+         keysList2->slotRemoveColumn(3);
++    iview->setColumnHidden(3, !sExpi->isChecked());
+ }
+ 
+ void KeysManager::slotShowSize()
+@@ -659,6 +682,7 @@
+         keysList2->slotAddColumn(4);
+     else
+         keysList2->slotRemoveColumn(4);
++    iview->setColumnHidden(4, !sSize->isChecked());
+ }
+ 
+ void KeysManager::slotShowCreation()
+@@ -667,6 +691,7 @@
+         keysList2->slotAddColumn(5);
+     else
+         keysList2->slotRemoveColumn(5);
++    iview->setColumnHidden(5, !sCreat->isChecked());
+ }
+ 
+ void KeysManager::slotToggleSecret()
+@@ -922,17 +947,21 @@
+         case 1:
+             showPhoto = true;
+             keysList2->setPreviewSize(22);
++            imodel->setPreviewSize(22);
+             break;
+         case 2:
+             showPhoto = true;
+             keysList2->setPreviewSize(42);
++            imodel->setPreviewSize(42);
+             break;
+         case 3:
+             showPhoto = true;
+             keysList2->setPreviewSize(65);
++            imodel->setPreviewSize(65);
+             break;
+         default:
+             showPhoto = false;
++            imodel->setPreviewSize(0);
+             break;
+     }
+     keysList2->setDisplayPhoto(showPhoto);
+Index: core/convert.cpp
+===================================================================
+--- core/convert.cpp	(Revision 738842)
++++ core/convert.cpp	(Arbeitskopie)
+@@ -24,6 +24,7 @@
+ #include <KLocale>
+ 
+ #include "kgpgsettings.h"
++#include "images.h"
+ 
+ namespace KgpgCore
+ {
+@@ -155,4 +156,25 @@
+     return s.isEmpty() ? OWTRUST_UNDEFINED : toOwnerTrust(s[0]);
+ }
+ 
++QPixmap Convert::toPixmap(const KgpgItemType &t)
++{
++    switch (t)
++    {
++        case ITYPE_GROUP:	return Images::group();
++        case ITYPE_GSECRET:
++        case ITYPE_SECRET:	return Images::orphan();
++        case ITYPE_GPUBLIC:
++        case ITYPE_SUB:
++        case ITYPE_PUBLIC:	return Images::single();
++        case ITYPE_GPAIR:
++        case ITYPE_PAIR:	return Images::pair();
++        case ITYPE_UID:		return Images::userId();
++        case ITYPE_UAT:		return Images::photo();
++        case ITYPE_REVSIGN:	return Images::revoke();
++        case ITYPE_SIGN:	return Images::signature();
++	default:		Q_ASSERT(1);
++				return NULL;
++    }
++}
++
+ } // namespace KgpgCore
+Index: core/convert.h
+===================================================================
+--- core/convert.h	(Revision 738842)
++++ core/convert.h	(Arbeitskopie)
+@@ -21,11 +21,12 @@
+ #ifndef CONVERT_H
+ #define CONVERT_H
+ 
++#include "kgpgkey.h"
+ 
+-#include <QColor>
++class QColor;
++class QString;
++class QPixmap;
+ 
+-#include "kgpgkey.h"
+-
+ namespace KgpgCore
+ {
+ 
+@@ -43,6 +44,7 @@
+     static KgpgKeyTrust toTrust(const QString &s);
+     static KgpgKeyOwnerTrust toOwnerTrust(const QChar &c);
+     static KgpgKeyOwnerTrust toOwnerTrust(const QString &s);
++    static QPixmap toPixmap(const KgpgItemType &t);
+ };
+ 
+ } // namespace KgpgCore
+Index: core/kgpgkey.h
+===================================================================
+--- core/kgpgkey.h	(Revision 738842)
++++ core/kgpgkey.h	(Arbeitskopie)
+@@ -71,6 +71,24 @@
+ Q_DECLARE_FLAGS(KgpgSubKeyType, KgpgSubKeyTypeFlag)
+ Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgSubKeyType)
+ 
++enum KgpgItemTypeFlag
++{
++    ITYPE_GROUP = 1,
++    ITYPE_SECRET = 2,
++    ITYPE_PUBLIC = 4,
++    ITYPE_PAIR = ITYPE_SECRET | ITYPE_PUBLIC,
++    ITYPE_GSECRET = ITYPE_GROUP | ITYPE_SECRET,
++    ITYPE_GPUBLIC = ITYPE_GROUP | ITYPE_PUBLIC,
++    ITYPE_GPAIR = ITYPE_GROUP | ITYPE_PAIR,
++    ITYPE_SUB = 8,
++    ITYPE_UID = 16,
++    ITYPE_UAT = 32,
++    ITYPE_REVSIGN = 64,
++    ITYPE_SIGN = 128
++};
++Q_DECLARE_FLAGS(KgpgItemType, KgpgItemTypeFlag)
++Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgItemType)
++
+ //END Enums
+ 
+ 
+Index: keysmanager.h
+===================================================================
+--- keysmanager.h	(Revision 738842)
++++ keysmanager.h	(Arbeitskopie)
+@@ -22,6 +22,7 @@
+ #include <QClipboard>
+ #include <QPixmap>
+ #include <Q3ListViewItem>
++#include <QTreeView>
+ 
+ #include <KToggleAction>
+ #include <K3ListViewSearchLine>
+@@ -35,6 +36,7 @@
+ #include "ui_adduid.h"
+ #include "ui_groupedit.h"
+ #include "kgpginterface.h"
++#include "kgpgitemmodel.h"
+ 
+ class QCloseEvent;
+ class QEvent;
+@@ -74,6 +76,7 @@
+ 
+ public:
+     KeysManager(QWidget *parent = 0);
++    ~KeysManager();
+ 
+     KToggleAction *sTrust;
+     KToggleAction *sCreat;
+@@ -193,6 +196,8 @@
+     void importRemoteFinished(KGpgTransaction *);
+ 
+ private:
++    KGpgItemModel *imodel;
++    QTreeView *iview;
+     KeyListView *keysList2;
+ 
+     QString globalkeyMail;
+Index: CMakeLists.txt
+===================================================================
+--- CMakeLists.txt	(Revision 738842)
++++ CMakeLists.txt	(Arbeitskopie)
+@@ -36,6 +36,8 @@
+    keyexport.cpp
+    conf_encryption.cpp
+    kgpgrevokewidget.cpp
++   kgpgitemmodel.cpp
++   kgpgitemnode.cpp
+    sourceselect.cpp)
+ 
+ qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)
