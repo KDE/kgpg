@@ -21,6 +21,9 @@
      <height>332</height>
     </rect>
    </property>
+   <attribute name="title">
+    <string>Welcome</string>
+   </attribute>
    <layout class="QGridLayout" >
     <item rowspan="3" row="0" column="0" >
      <widget class="QLabel" name="pixmapLabel1" >
@@ -101,6 +104,9 @@ This wizard will first setup some basic configuration options required for KGpg 
      <height>338</height>
     </rect>
    </property>
+   <attribute name="title">
+    <string>Configuration file</string>
+   </attribute>
    <layout class="QGridLayout" >
     <item row="1" column="1" >
      <widget class="QLabel" name="text_optionsfound" >
@@ -199,6 +205,9 @@ This wizard will first setup some basic configuration options required for KGpg 
      <height>275</height>
     </rect>
    </property>
+   <attribute name="title">
+    <string>Default key</string>
+   </attribute>
    <layout class="QGridLayout" >
     <item row="0" column="1" >
      <widget class="QCheckBox" name="checkBox2" >
