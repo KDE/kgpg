@@ -6,3 +6,4 @@
 -mailto: link in key properties should also pass the name
 -mailto: link as context action for every user id
 -make character encoding in decryptText choosable
+-r716170 is probably wrong: imported secret keys are not trusted by default :(
