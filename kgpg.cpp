@@ -49,7 +49,6 @@
 #include <KCmdLineArgs>
 #include <KMessageBox>
 #include <KFileDialog>
-#include <kdeversion.h>
 #include <KShortcut>
 #include <KComboBox>
 #include <KLineEdit>
