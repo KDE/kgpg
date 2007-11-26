@@ -152,7 +152,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     m_keyslist->setWhatsThis(i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
     m_searchlineedit->setListView(m_keyslist);
 
-    KVBox *optionsbox = new KVBox();
+    optionsbox = new KVBox();
     optionsbox->setFrameShape(QFrame::StyledPanel);
     setDetailsWidget(optionsbox);
 
