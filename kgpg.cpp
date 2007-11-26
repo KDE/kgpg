@@ -70,6 +70,7 @@
 #include <KToggleAction>
 #include <KIcon>
 #include <kdefakes.h>
+#include <KHBox>
 
 #include "images.h"
 #include "selectsecretkey.h"
@@ -250,7 +251,7 @@ void MyView::encryptDroppedFolder()
     // TODO !!! CHANGE dialog, remove connect
     dialog = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), true, goDefaultKey);
 
-    QGroupBox *bGroup = new QGroupBox(dialog->mainWidget());
+    KHBox *bGroup = new KHBox(dialog->optionsbox);
 
     (void) new QLabel(i18n("Compression method for archive:"),bGroup);
 
@@ -259,7 +260,6 @@ void MyView::encryptDroppedFolder()
     optionbx->addItem(i18n("Gzip"));
     optionbx->addItem(i18n("Bzip2"));
 
-    bGroup->show();
     connect(optionbx,SIGNAL(activated (int)),this,SLOT(slotSetCompression(int)));
     connect(dialog,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startFolderEncode(QStringList,QStringList,bool,bool)));
 

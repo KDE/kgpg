@@ -22,6 +22,7 @@
 
 #include <KShortcut>
 #include <KDialog>
+#include <KVBox>
 
 #include "kgpgkey.h"
 
@@ -50,6 +51,8 @@ public:
     bool getUntrusted() const;
     bool getHideId() const;
     bool getArmor() const;
+
+    KVBox *optionsbox;
 
 private slots:
     void slotOk();
