@@ -113,7 +113,7 @@ MyView::MyView(QWidget *parent, KSystemTrayIcon *parentTrayIcon)
     saveDecrypt = new KAction(KIcon(QString("document-decrypt")), i18n("&Decrypt && Save File"), this);
     saveDecrypt->setObjectName("decrypt_file");
     connect(saveDecrypt, SIGNAL(triggered(bool)), SLOT(decryptDroppedFile()));
-    showDecrypt = new KAction(KIcon(QString("edit")), i18n("&Show Decrypted File"), this);
+    showDecrypt = new KAction(KIcon(QString("object-edit")), i18n("&Show Decrypted File"), this);
     showDecrypt->setObjectName("show_file");
     connect(showDecrypt, SIGNAL(triggered(bool)), SLOT(showDroppedFile()));
     encrypt = new KAction(KIcon(QString("document-encrypt")), i18n("&Encrypt File"), this);
@@ -904,7 +904,7 @@ kgpgapplet::kgpgapplet(QWidget *parent)
     QMenu *conf_menu = contextMenu();
 
     QAction *KgpgOpenEditor = actionCollection()->addAction("kgpg_editor");
-    KgpgOpenEditor->setIcon(KIcon("edit"));
+    KgpgOpenEditor->setIcon(KIcon("object-edit"));
     KgpgOpenEditor->setText(i18n("E&ditor"));
     connect(KgpgOpenEditor, SIGNAL(triggered(bool)), parent, SLOT(slotOpenEditor()));
     QAction *KgpgOpenManager = actionCollection()->addAction("kgpg_manager");
