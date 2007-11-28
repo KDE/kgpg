@@ -223,13 +223,14 @@ pop = new KPassivePopup();
 
 		if (!arch->open( IO_WriteOnly )) {
                 KMessageBox::sorry(0,i18n("Unable to create temporary file"));
+		delete arch;
                 return;
         	}
         arch->addLocalDirectory (droppedUrls.first().path(),droppedUrls.first().fileName());
         arch->close();
 
         KgpgInterface *folderprocess=new KgpgInterface();
-        folderprocess->KgpgEncryptFile(selec,KURL(kgpgfoldertmp->name()),encryptedFile,encryptOptions,symetric);
+        folderprocess->KgpgEncryptFile(selec,KURL(kgpgfoldertmp->name()),encryptedFile,encryptOptions,symetric, arch);
         connect(folderprocess,SIGNAL(encryptionfinished(KURL)),this,SLOT(slotFolderFinished(KURL)));
         connect(folderprocess,SIGNAL(errormessage(QString)),this,SLOT(slotFolderFinishedError(QString)));
 }
