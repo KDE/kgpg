@@ -326,6 +326,7 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     if (!arch->open(QIODevice::WriteOnly))
     {
         KMessageBox::sorry(0,i18n("Unable to create temporary file"));
+	delete arch;
         return;
     }
 
@@ -335,7 +336,7 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     KgpgInterface *folderprocess = new KgpgInterface();
     connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl)), this, SLOT(slotFolderFinished(KUrl, KgpgInterface*)));
     connect(folderprocess, SIGNAL(errorMessage(QString)), this, SLOT(slotFolderFinishedError(QString, KgpgInterface*)));
-    folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric);
+    folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric, arch);
 }
 
 void MyView::slotFolderFinished(const KUrl &, const KgpgInterface*)

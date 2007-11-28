@@ -36,6 +36,7 @@
 #include <KDebug>
 #include <KGlobal>
 #include <KUrl>
+#include <KArchive>
 
 #include "detailedconsole.h"
 #include "kgpgsettings.h"
@@ -1358,7 +1359,7 @@ void KgpgInterface::verifyTextFin(K3Process *p)
     }
 }
 
-void KgpgInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options, const bool &symetrical)
+void KgpgInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options, const bool &symetrical, KArchive *ar)
 {
     m_partialline.clear();
     m_ispartial = false;
@@ -1366,6 +1367,7 @@ void KgpgInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcu
     sourceFile = srcurl;
     message.clear();
 
+    arch = ar;
     K3ProcIO *process = gpgProc(2, 0);
     process->setParent(this);
 
@@ -1454,6 +1456,7 @@ void KgpgInterface::fileReadEncProcess(K3ProcIO *p)
 void KgpgInterface::fileEncryptFin(K3Process *p)
 {
     delete p;
+    delete arch;
     if (encok)
         emit fileEncryptionFinished(sourceFile, this);
     else

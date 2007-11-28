@@ -31,6 +31,7 @@ class K3Process;
 class K3ProcIO;
 class KProcess;
 class GPGProc;
+class KArchive;
 
 /**
  * This class is the interface for gpg.
@@ -261,6 +262,9 @@ signals:
      */
     void fileEncryptionFinished(KUrl, KgpgInterface*);
 
+private:
+    KArchive *arch;
+
 public slots:
     /**
      * Encrypt file function
@@ -270,7 +274,7 @@ public slots:
      * @param Options String List with the wanted gpg options. ex: "--armor"
      * @param symetrical bool whether the encryption should be symmetrical.
      */
-    void encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options = QStringList(), const bool &symetrical = false);
+    void encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options = QStringList(), const bool &symetrical = false, KArchive *ar = NULL);
 
 private slots:
     /**
