@@ -282,7 +282,7 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     case 1:	extension = ".tar.gz"; break;
     case 2:	extension = ".tar.bz2"; break;
     case 3:	extension = ".tar"; break;
-    default:	Q_ASSERT();
+    default:	Q_ASSERT(1);
     }
 
     if (encryptOptions.contains("armor"))
@@ -320,8 +320,8 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     case 0:	arch = new KZip(kgpgfoldertmp->fileName()); break;
     case 1:	arch = new KTar(kgpgfoldertmp->fileName(), "application/x-gzip"); break;
     case 2:	arch = new KTar(kgpgfoldertmp->fileName(), "application/x-bzip"); break;
-    case 2:	arch = new KTar(kgpgfoldertmp->fileName(), "application/x-tar"); break;
-    default:	Q_ASSERT();
+    case 3:	arch = new KTar(kgpgfoldertmp->fileName(), "application/x-tar"); break;
+    default:	Q_ASSERT(1);
     }
 
     if (!arch->open(QIODevice::WriteOnly))
