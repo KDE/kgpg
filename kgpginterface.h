@@ -255,7 +255,7 @@ signals:
     /**
      *  emitted when an error occurred
      */
-    void errorMessage(QString, KgpgInterface*);
+    void errorMessage(const QString &, KgpgInterface*);
 
     /**
      *  true if encryption successful, false on error.
