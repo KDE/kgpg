@@ -261,10 +261,15 @@ void MyView::encryptDroppedFolder()
     optionbx->addItem(i18n("Bzip2"));
 
     connect(optionbx,SIGNAL(activated (int)),this,SLOT(slotSetCompression(int)));
-    connect(dialog,SIGNAL(selectedKey(QStringList,QStringList,bool,bool)),this,SLOT(startFolderEncode(QStringList,QStringList,bool,bool)));
+    connect(dialog, SIGNAL(okClicked()), this, SLOT(startFolderEncode()));
+    connect(dialog, SIGNAL(cancelClicked()), this, SLOT(slotAbortEnc()));
 
     dialog->exec();
-    dialog=0L;
+}
+
+void MyView::slotAbortEnc()
+{
+    dialog = NULL;
 }
 
 void MyView::slotSetCompression(int cp)
@@ -272,8 +277,11 @@ void MyView::slotSetCompression(int cp)
     compressionScheme = cp;
 }
 
-void MyView::startFolderEncode(const QStringList &selec, const QStringList &encryptOptions,bool ,bool symetric)
+void MyView::startFolderEncode()
 {
+    QStringList selec = dialog->selectedKeys();
+    QStringList encryptOptions = dialog->getCustomOptions().split(' ',  QString::SkipEmptyParts);
+    bool symetric = dialog->getSymmetric();
     QString extension;
 
     if (compressionScheme == 0)
@@ -284,7 +292,7 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     else
         extension = ".tar.bz2";
 
-    if (encryptOptions.contains("armor"))
+    if (dialog->getArmor())
         extension += ".asc";
     else
     if (KGpgSettings::pgpExtension())
@@ -292,14 +300,23 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     else
         extension += ".gpg";
 
-    KUrl encryptedFile(droppedUrls.first().path() + extension);
-    QFile encryptedFolder(droppedUrls.first().path() + extension);
+    if (dialog->getArmor())
+	encryptOptions << "--armor";
+    if (dialog->getHideId())
+	encryptOptions << "--throw-keyids";
+
+    QString fname = droppedUrls.first().path();
+    if (fname.endsWith('/'))
+	fname.remove(fname.length() - 1, 1);
+    KUrl encryptedFile = KUrl::fromPath(fname + extension);
+    QFile encryptedFolder(encryptedFile.path());
     if (encryptedFolder.exists())
     {
         dialog->hide();
         KIO::RenameDialog over(0, i18n("File Already Exists"), KUrl(), encryptedFile, KIO::M_OVERWRITE);
         if (over.exec() == QDialog::Rejected)
         {
+	    dialog = NULL;
             return;
         }
         encryptedFile = over.newDestUrl();
@@ -334,21 +351,23 @@ void MyView::startFolderEncode(const QStringList &selec, const QStringList &encr
     arch->close();
 
     KgpgInterface *folderprocess = new KgpgInterface();
-    connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl)), this, SLOT(slotFolderFinished(KUrl, KgpgInterface*)));
-    connect(folderprocess, SIGNAL(errorMessage(QString)), this, SLOT(slotFolderFinishedError(QString, KgpgInterface*)));
+    connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl, KGpgInterface*)), this, SLOT(slotFolderFinished(KUrl, KgpgInterface*)));
+    connect(folderprocess, SIGNAL(errorMessage(const QString &, KgpgInterface*)), this, SLOT(slotFolderFinishedError(const QString &, KgpgInterface*)));
     folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric, arch);
 }
 
-void MyView::slotFolderFinished(const KUrl &, const KgpgInterface*)
+void MyView::slotFolderFinished(const KUrl &, KgpgInterface *iface)
 {
     delete pop;
     delete kgpgfoldertmp;
+    delete iface;
 }
 
-void MyView::slotFolderFinishedError(const QString &errmsge, const KgpgInterface*)
+void MyView::slotFolderFinishedError(const QString &errmsge, KgpgInterface *iface)
 {
     delete pop;
     delete kgpgfoldertmp;
+    delete iface;
     KMessageBox::sorry(0, errmsge);
 }
 

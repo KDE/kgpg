@@ -88,10 +88,11 @@ public slots:
     void busyMessage(const QString &mssge, bool reset = false);
     void slotVerifyFile();
     void encryptDroppedFolder();
-    void startFolderEncode(const QStringList &selec, const QStringList &encryptOptions, bool, bool symetric);
-    void slotFolderFinished(const KUrl &, const KgpgInterface*);
-    void slotFolderFinishedError(const QString &errmsge, const KgpgInterface*);
+    void startFolderEncode();
+    void slotFolderFinished(const KUrl &, KgpgInterface *);
+    void slotFolderFinishedError(const QString &errmsge, KgpgInterface *);
     void encryptFiles(KUrl::List urls);
+    void slotAbortEnc();
 
 protected:
     virtual void dragEnterEvent(QDragEnterEvent *);
