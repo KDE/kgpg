@@ -156,7 +156,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(action, SIGNAL(triggered(bool)), SLOT(slotManpage()));
 
     action = actionCollection()->addAction("kgpg_editor");
-    action->setIcon(KIcon("edit"));
+    action->setIcon(KIcon("object-edit"));
     action->setText(i18n("&Open Editor"));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotOpenEditor()));
 
