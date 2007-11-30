@@ -351,7 +351,7 @@ void MyView::startFolderEncode()
     arch->close();
 
     KgpgInterface *folderprocess = new KgpgInterface();
-    connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl, KGpgInterface*)), this, SLOT(slotFolderFinished(KUrl, KgpgInterface*)));
+    connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl, KgpgInterface*)), this, SLOT(slotFolderFinished(KUrl, KgpgInterface*)));
     connect(folderprocess, SIGNAL(errorMessage(const QString &, KgpgInterface*)), this, SLOT(slotFolderFinishedError(const QString &, KgpgInterface*)));
     folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric, arch);
 }
