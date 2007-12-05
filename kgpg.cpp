@@ -350,11 +350,12 @@ void MyView::startFolderEncode()
 
     arch->addLocalDirectory(droppedUrls.first().path(), droppedUrls.first().fileName());
     arch->close();
+    delete arch;
 
     KgpgInterface *folderprocess = new KgpgInterface();
     connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl, KgpgInterface*)), this, SLOT(slotFolderFinished(KUrl, KgpgInterface*)));
     connect(folderprocess, SIGNAL(errorMessage(const QString &, KgpgInterface*)), this, SLOT(slotFolderFinishedError(const QString &, KgpgInterface*)));
-    folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric, arch);
+    folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric);
 }
 
 void MyView::slotFolderFinished(const KUrl &, KgpgInterface *iface)
