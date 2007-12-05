@@ -44,7 +44,6 @@
 #include <kled.h>
 #include <kdebug.h>
 #include <ktempfile.h>
-#include <karchive.h>
 
 #include "kgpginterface.h"
 #include "listkeys.h"
@@ -90,11 +89,10 @@ void KgpgInterface::updateIDs(QString txtString)
             }
 }
 
-void KgpgInterface::KgpgEncryptFile(QStringList encryptKeys,KURL srcUrl,KURL destUrl, QStringList Options, bool symetrical, KArchive *ar)
+void KgpgInterface::KgpgEncryptFile(QStringList encryptKeys,KURL srcUrl,KURL destUrl, QStringList Options, bool symetrical)
 {
         sourceFile=srcUrl;
         message=QString::null;
-	arch = ar;
 
         KProcIO *proc=new KProcIO(QTextCodec::codecForLocale());
 	*proc<<"gpg"<<"--no-tty"<<"--no-secmem-warning"<<"--status-fd=2"<<"--command-fd=0"<<"--utf8-strings";
@@ -125,7 +123,6 @@ KgpgInterface::~KgpgInterface()
 
 void KgpgInterface::encryptfin(KProcess *)
 {
-	delete arch;
         if (message.find("END_ENCRYPTION")!=-1)
                 emit encryptionfinished(sourceFile);
         else {

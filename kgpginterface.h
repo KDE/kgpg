@@ -28,7 +28,6 @@ class QLabel;
 class KProcIO;
 class KProcess;
 class KLed;
-class KArchive;
 
 /**
  * Encrypt a file using gpg.
@@ -59,7 +58,7 @@ public slots:
          * @param Options String with the wanted gpg options. ex: "--armor"
          * @param symetrical bool whether the encryption should be symmetrical.
          */
-        void KgpgEncryptFile(QStringList encryptKeys,KURL srcUrl,KURL destUrl,QStringList Options=QString::null,bool symetrical=false, KArchive *ar = NULL);
+        void KgpgEncryptFile(QStringList encryptKeys,KURL srcUrl,KURL destUrl,QStringList Options=QString::null,bool symetrical=false);
 
         /**Encrypt file function
          * @param userIDs the key user identification.
@@ -384,7 +383,7 @@ private:
          * @internal structure for the file information
          */
         KURL file;
-	KArchive *arch;
+
 };
 
 class  Md5Widget :public KDialogBase

@@ -221,16 +221,17 @@ pop = new KPassivePopup();
 	else
 	arch=new KTar(kgpgfoldertmp->name(), "application/x-bzip2");
 
-		if (!arch->open( IO_WriteOnly )) {
+        if (!arch->open( IO_WriteOnly )) {
                 KMessageBox::sorry(0,i18n("Unable to create temporary file"));
 		delete arch;
                 return;
-        	}
+        }
         arch->addLocalDirectory (droppedUrls.first().path(),droppedUrls.first().fileName());
         arch->close();
+        delete arch;
 
         KgpgInterface *folderprocess=new KgpgInterface();
-        folderprocess->KgpgEncryptFile(selec,KURL(kgpgfoldertmp->name()),encryptedFile,encryptOptions,symetric, arch);
+        folderprocess->KgpgEncryptFile(selec,KURL(kgpgfoldertmp->name()),encryptedFile,encryptOptions,symetric);
         connect(folderprocess,SIGNAL(encryptionfinished(KURL)),this,SLOT(slotFolderFinished(KURL)));
         connect(folderprocess,SIGNAL(errormessage(QString)),this,SLOT(slotFolderFinishedError(QString)));
 }
