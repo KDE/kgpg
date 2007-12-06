@@ -1328,6 +1328,9 @@ void KeysManager::slotSetDefaultKey(KeyListViewItem *newdef)
 
     KeyListViewItem *olddef = keysList2->findItemByKeyId(KGpgSettings::defaultKey());
 
+    if (olddef == newdef)
+        return;
+
     KGpgSettings::setDefaultKey(newdef->keyId());
     KGpgSettings::self()->writeConfig();
     if (olddef)
