@@ -64,11 +64,11 @@ kde4_add_ui_files(kgpg_SRCS
 
 kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
-kde4_add_executable(kgpg ${kgpg_SRCS})
+kde4_add_executable(kgpg2 ${kgpg_SRCS})
 
-target_link_libraries(kgpg   ${KDE4_KABC_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KDE3SUPPORT_LIBS})
+target_link_libraries(kgpg2 ${KDE4_KABC_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KDE3SUPPORT_LIBS})
 
-install(TARGETS kgpg  DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS kgpg2 DESTINATION ${BIN_INSTALL_DIR} )
 
 ########### install files ###############
 
