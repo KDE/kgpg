@@ -550,14 +550,10 @@ void KeyListView::slotReloadOrphaned()
 
 void KeyListView::insertOrphans(const KgpgKeyList &keys)
 {
-    QStringList orphanList;
-
     KeyListViewItem *item = 0;
     for (int i = 0; i < keys.count(); ++i)
     {
         KgpgKey key = keys.at(i);
-
-        orphanList << key.fullId();
 
         item = new KeyListViewItem(this, key, false);
 	item->setItemType(KeyListViewItem::Secret);
