@@ -32,9 +32,9 @@ public:
 
 	void setPreviewSize(const unsigned int &n)
 		{ m_previewsize = n; }
+	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 
 protected:
-	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 	int rowForNode(KGpgNode *node) const;
 };
 

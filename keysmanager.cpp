@@ -321,6 +321,7 @@ KeysManager::KeysManager(QWidget *parent)
     imodel = new KGpgItemModel(this);
 
     iview = new QTreeView(this);
+    connect(iview, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(showProperties(const QModelIndex &)));
     iview->setModel(imodel);
     iview->setSelectionMode(QAbstractItemView::ExtendedSelection);
     setCentralWidget(iview);
@@ -1702,6 +1703,28 @@ void KeysManager::defaultAction()
 
     if (cur->itemType() & KeyListViewItem::Pair)
         keyproperties();
+}
+
+void
+KeysManager::showProperties(const QModelIndex &index)
+{
+	KGpgNode *n = imodel->nodeForIndex(index);
+
+	switch (n->getType()) {
+	case ITYPE_UAT:
+		return;
+	case ITYPE_PUBLIC:
+	case ITYPE_PAIR:
+		{
+			KGpgKeyNode *k = static_cast<KGpgKeyNode *>(n);
+			KgpgKeyInfo *opts = new KgpgKeyInfo(k->getKeyId(), this);
+			connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), keysList2, SLOT(refreshcurrentkey(const QString &)));
+			opts->exec();
+			delete opts;
+		}
+	default:
+		return;
+	}
 }
 
 void KeysManager::keyproperties()
