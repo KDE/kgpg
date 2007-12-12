@@ -21,6 +21,8 @@ public:
 
 	virtual KgpgItemType getType() const = 0;
 	virtual QVariant getData(const int &column) const = 0;
+	virtual bool hasChildren() const
+		{ return false; }
 	virtual KgpgKeyTrust getTrust() const
 		{ return TRUST_NOKEY; }
 	// this can't be "const" as it triggers loading the children
@@ -53,6 +55,8 @@ public:
 	explicit KGpgExpandableNode(KGpgExpandableNode *parent = 0);
 	virtual ~KGpgExpandableNode();
 
+	virtual bool hasChildren() const
+		{ return (children.count() != 0); }
 	virtual int getChildCount();
 	virtual KGpgNode *getChild(const int &index) const
 		{ return children.at(index); }
@@ -78,6 +82,8 @@ public:
 
 	virtual KgpgItemType getType() const;
 	virtual QVariant getData(const int &column) const;
+	virtual bool hasChildren() const
+		{ return true; }
 	virtual KgpgKeyTrust getTrust() const
 		{ return m_key->trust(); }
 	QString getKeyId() const

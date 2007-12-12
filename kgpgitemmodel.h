@@ -29,6 +29,7 @@ public:
 			{ return 8; }
 
 	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+	virtual bool hasChildren(const QModelIndex &parent) const;
 
 	void setPreviewSize(const unsigned int &n)
 		{ m_previewsize = n; }

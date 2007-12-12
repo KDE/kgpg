@@ -9,10 +9,6 @@ Some things to keep in mind:
  project. We can argue about that when it's time to merge back to trunk. 
  Until then keep it this way.
 
--the startup time is currently much longer than before. This is because the 
- keys get loaded when they are first displayed in keysmanager and not when 
- they get expanded. This needs to be fixed.
-
 -I have much things put into the model that _really_ belongs into the view. 
  I know this. It's just I don't have time to play around with another toy 
  currently. If you want to write a KGpgKeyView just ask me. Or wait until 

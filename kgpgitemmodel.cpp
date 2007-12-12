@@ -52,6 +52,14 @@ KGpgItemModel::rowCount(const QModelIndex &parent) const
 	return parentNode->getChildCount();
 }
 
+bool
+KGpgItemModel::hasChildren(const QModelIndex &parent) const
+{
+	KGpgNode *parentNode = nodeForIndex(parent);
+
+	return parentNode->hasChildren();
+}
+
 QVariant
 KGpgItemModel::data(const QModelIndex &index, int role) const
 {
