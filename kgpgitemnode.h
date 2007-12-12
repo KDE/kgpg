@@ -112,7 +112,7 @@ public:
 		}
 
 	unsigned int addGroups();
-	unsigned int addKeys();
+	void addKeys();
 	KGpgKeyNode *findKey(const QString &keyId);
 };
 
@@ -233,6 +233,23 @@ public:
 	virtual KgpgItemType getType() const
 		{ return KGpgKeyNode::getType(m_key) | ITYPE_GROUP; }
 	virtual QVariant getData(const int &column) const;
+};
+
+class KGpgOrphanNode : public KGpgNode
+{
+private:
+	KgpgKey *m_key;
+
+public:
+	explicit KGpgOrphanNode(KGpgExpandableNode *parent, const KgpgKey &k);
+	virtual ~KGpgOrphanNode();
+
+	virtual KgpgItemType getType() const;
+	virtual QVariant getData(const int &column) const;
+	virtual KgpgKeyTrust getTrust() const
+		{ return m_key->trust(); }
+	QString getKeyId() const
+		{ return m_key->fullId(); }
 };
 
 #endif

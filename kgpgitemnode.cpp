@@ -53,14 +53,16 @@ KGpgRootNode::addGroups()
 	return groups.count();
 }
 
-unsigned int
+void
 KGpgRootNode::addKeys()
 {
 	KgpgInterface *interface = new KgpgInterface();
+
+	KgpgKeyList publiclist = interface->readPublicKeys(true);
+
 	KgpgKeyList secretlist = interface->readSecretKeys();
 	QStringList issec = secretlist;
 
-	KgpgKeyList publiclist = interface->readPublicKeys(true);
 	delete interface;
 
 	for (int i = 0; i < publiclist.size(); ++i)
@@ -78,7 +80,12 @@ KGpgRootNode::addKeys()
 		new KGpgKeyNode(this, key);
 	}
 
-	return publiclist.size();
+	for (int i = 0; i < secretlist.count(); ++i)
+	{
+		KgpgKey key = secretlist.at(i);
+
+		new KGpgOrphanNode(this, key);
+	}
 }
 
 KGpgKeyNode *
@@ -315,3 +322,36 @@ KGpgGroupMemberNode::getData(const int &column) const
 	default: return QVariant();
 	}
 }
+
+KGpgOrphanNode::KGpgOrphanNode(KGpgExpandableNode *parent, const KgpgKey &k)
+	: KGpgNode(parent), m_key(new KgpgKey(k))
+{
+}
+
+KGpgOrphanNode::~KGpgOrphanNode()
+{
+	delete m_key;
+}
+
+KgpgItemType
+KGpgOrphanNode::getType() const
+{
+	return ITYPE_SECRET;
+}
+
+QVariant
+KGpgOrphanNode::getData(const int &column) const
+{
+	switch (column) {
+		case 0:	return m_key->name();
+		case 1:	return m_key->email();
+	// case 2: key trust
+		case 3: return m_key->expirationDate();
+		case 4: return m_key->size();
+		case 5: return m_key->creationDate();
+		case 6:	return m_key->id();
+		case 7: return m_key->fullId();
+		default: return QVariant();
+	}
+}
+
