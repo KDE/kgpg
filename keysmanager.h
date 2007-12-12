@@ -169,6 +169,7 @@ private slots:
     void signatureResult(int success, KgpgInterface*);
     void delsignatureResult(bool);
     void defaultAction();
+    void showProperties(const QModelIndex &);
     void keyproperties();
     void slotexport();
     void slotexportsec();
