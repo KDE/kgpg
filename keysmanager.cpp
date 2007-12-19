@@ -661,37 +661,21 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
 
 void KeysManager::slotShowTrust()
 {
-    if (sTrust->isChecked())
-        keysList2->slotAddColumn(2);
-    else
-        keysList2->slotRemoveColumn(2);
     iview->setColumnHidden(2, !sTrust->isChecked());
 }
 
 void KeysManager::slotShowExpiration()
 {
-    if (sExpi->isChecked())
-        keysList2->slotAddColumn(3);
-    else
-        keysList2->slotRemoveColumn(3);
     iview->setColumnHidden(3, !sExpi->isChecked());
 }
 
 void KeysManager::slotShowSize()
 {
-    if (sSize->isChecked())
-        keysList2->slotAddColumn(4);
-    else
-        keysList2->slotRemoveColumn(4);
     iview->setColumnHidden(4, !sSize->isChecked());
 }
 
 void KeysManager::slotShowCreation()
 {
-    if (sCreat->isChecked())
-        keysList2->slotAddColumn(5);
-    else
-        keysList2->slotRemoveColumn(5);
     iview->setColumnHidden(5, !sCreat->isChecked());
 }
 
