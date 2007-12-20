@@ -340,6 +340,7 @@ KGpgUatNode::getCreation() const
 KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name)
 	: KGpgExpandableNode(parent), m_name(name)
 {
+	readChildren();
 }
 
 QString
@@ -351,13 +352,15 @@ KGpgGroupNode::getName() const
 QString
 KGpgGroupNode::getSize() const
 {
-	return QString::number(children.count());
+	return i18np("1 key", "%1 keys", children.count());
 }
 
 void
 KGpgGroupNode::readChildren()
 {
 	QStringList keys = KgpgInterface::getGpgGroupSetting(m_name, KGpgSettings::gpgConfigPath());
+
+	children.clear();
 
 	for (QStringList::Iterator it = keys.begin(); it != keys.end(); ++it)
 		new KGpgGroupMemberNode(this, QString(*it));
