@@ -68,36 +68,51 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 
 	KGpgNode *node = nodeForIndex(index);
 
-	if (index.column() == 2) {
+	if (role == Qt::FontRole) {
+		QFont f;
+		f.setBold(node == m_default);
+		return f;
+	}
+
+	switch (index.column()) {
+	case 0:	switch (role) {
+		case Qt::DisplayRole:
+			return node->getName();
+		case Qt::DecorationRole:
+			if ((node->getType() == ITYPE_UAT) && (m_previewsize > 0)) {
+				KGpgUatNode *nd = static_cast<KGpgUatNode *>(node);
+				return nd->getPixmap().scaled(m_previewsize + 5, m_previewsize, Qt::KeepAspectRatio);
+			}
+			return Convert::toPixmap(node->getType());
+		}
+		break;
+	case 1:	if (role == Qt::DisplayRole)
+			return node->getEmail();
+		break;
+	case 2:	{
 		KgpgKeyTrust t = node->getTrust();
 
 		switch (role) {
 		case Qt::BackgroundColorRole:	return Convert::toColor(t);
 		case Qt::AccessibleTextRole:	return Convert::toString(t);
-		default:	return QVariant();
 		}
+		break;
+		}
+	case 3:	if (role == Qt::DisplayRole)
+			return node->getExpiration();
+		break;
+	case 4:	if (role == Qt::DisplayRole)
+			return node->getSize();
+		break;
+	case 5:	if (role == Qt::DisplayRole)
+			return node->getCreation();
+		break;
+	case 6:	if (role == Qt::DisplayRole)
+			return node->getId().right(8);
+		break;
 	}
 
-	switch (role) {
-	case Qt::FontRole: {
-			QFont f;
-			f.setBold(node == m_default);
-			return f;
-	}
-	case Qt::DecorationRole:
-			if (index.column() == 0) {
-				if ((node->getType() == ITYPE_UAT) && (m_previewsize > 0)) {
-					KGpgUatNode *nd = static_cast<KGpgUatNode *>(node);
-					return nd->getPixmap().scaled(m_previewsize + 5, m_previewsize, Qt::KeepAspectRatio);
-				}
-				return Convert::toPixmap(node->getType());
-			} else {
-				return QVariant();
-			}
-	case Qt::DisplayRole:
-			return node->getData(index.column());
-	default:	return QVariant();
-	}
+	return QVariant();
 }
 
 KGpgNode *

@@ -19,12 +19,8 @@ public:
 	explicit KGpgNode(KGpgNode *parent = 0);
 	virtual ~KGpgNode();
 
-	virtual KgpgItemType getType() const = 0;
-	virtual QVariant getData(const int &column) const = 0;
 	virtual bool hasChildren() const
 		{ return false; }
-	virtual KgpgKeyTrust getTrust() const
-		{ return TRUST_NOKEY; }
 	// this can't be "const" as it triggers loading the children
 	virtual int getChildCount()
 		{ return 0; }
@@ -38,6 +34,22 @@ public:
 			Q_UNUSED(node);
 			return NULL;
 		}
+
+	virtual KgpgItemType getType() const = 0;
+	virtual KgpgKeyTrust getTrust() const
+		{ return TRUST_NOKEY; }
+	virtual QString getSize() const
+		{ return QString(); }
+	virtual QString getName() const
+		{ return QString(); }
+	virtual QString getEmail() const
+		{ return QString(); }
+	virtual QDate getExpiration() const
+		{ return QDate(); }
+	virtual QDate getCreation() const
+		{ return QDate(); }
+	virtual QString getId() const
+		{ return QString(); }
 };
 
 class KGpgExpandableNode : public KGpgNode
@@ -80,16 +92,22 @@ public:
 	explicit KGpgKeyNode(KGpgExpandableNode *parent, const KgpgKey &k);
 	virtual ~KGpgKeyNode();
 
-	virtual KgpgItemType getType() const;
-	virtual QVariant getData(const int &column) const;
 	virtual bool hasChildren() const
 		{ return true; }
+
+	static KgpgItemType getType(const KgpgKey *k);
+
+	virtual KgpgItemType getType() const;
 	virtual KgpgKeyTrust getTrust() const
 		{ return m_key->trust(); }
 	QString getKeyId() const
 		{ return m_key->fullId(); }
-
-	static KgpgItemType getType(const KgpgKey *k);
+	virtual QString getSize() const;
+	virtual QString getName() const;
+	virtual QString getEmail() const;
+	virtual QDate getExpiration() const;
+	virtual QDate getCreation() const;
+	virtual QString getId() const;
 };
 
 class KGpgRootNode : public KGpgExpandableNode
@@ -105,11 +123,6 @@ public:
 
 	virtual KgpgItemType getType() const
 		{ return 0; }
-	virtual QVariant getData(const int &column) const
-		{
-			Q_UNUSED(column)
-			return QVariant();
-		}
 
 	unsigned int addGroups();
 	void addKeys();
@@ -132,9 +145,11 @@ public:
 
 	virtual KgpgItemType getType() const
 		{ return ITYPE_UID; }
-	virtual QVariant getData(const int &column) const;
 	virtual KgpgKeyTrust getTrust() const
 		{ return m_uid->trust(); }
+	virtual QString getSize() const;
+	virtual QString getName() const;
+	virtual QString getEmail() const;
 };
 
 class KGpgSignNode : public KGpgNode
@@ -149,7 +164,11 @@ public:
 
 	virtual KgpgItemType getType() const
 		{ return ITYPE_SIGN; }
-	virtual QVariant getData(const int &column) const;
+	virtual QString getName() const;
+	virtual QString getEmail() const;
+	virtual QDate getExpiration() const;
+	virtual QDate getCreation() const;
+	virtual QString getId() const;
 };
 
 class KGpgSubkeyNode : public KGpgExpandableNode
@@ -170,7 +189,11 @@ public:
 		{ return ITYPE_SUB; }
 	virtual KgpgKeyTrust getTrust() const
 		{ return m_skey.trust(); }
-	virtual QVariant getData(const int &column) const;
+	virtual QString getSize() const;
+	virtual QString getName() const;
+	virtual QDate getExpiration() const;
+	virtual QDate getCreation() const;
+	virtual QString getId() const;
 };
 
 class KGpgUatNode : public KGpgExpandableNode
@@ -192,11 +215,13 @@ public:
 
 	virtual KgpgItemType getType() const
 		{ return ITYPE_UAT; }
-	virtual QVariant getData(const int &column) const;
 	virtual KgpgKeyTrust getTrust() const
 		{ return TRUST_NOKEY; }
 	QPixmap getPixmap() const
 		{ return m_pic; }
+	virtual QString getSize() const;
+	virtual QString getName() const;
+	virtual QDate getCreation() const;
 };
 
 class KGpgGroupNode : public KGpgExpandableNode
@@ -214,7 +239,8 @@ public:
 
 	virtual KgpgItemType getType() const
 		{ return ITYPE_GROUP; }
-	virtual QVariant getData(const int &column) const;
+	virtual QString getSize() const;
+	virtual QString getName() const;
 };
 
 class KGpgGroupMemberNode : public KGpgNode
@@ -232,7 +258,12 @@ public:
 		{ return m_key->trust(); }
 	virtual KgpgItemType getType() const
 		{ return KGpgKeyNode::getType(m_key) | ITYPE_GROUP; }
-	virtual QVariant getData(const int &column) const;
+	virtual QString getSize() const;
+	virtual QString getName() const;
+	virtual QString getEmail() const;
+	virtual QDate getExpiration() const;
+	virtual QDate getCreation() const;
+	virtual QString getId() const;
 };
 
 class KGpgOrphanNode : public KGpgNode
@@ -245,11 +276,16 @@ public:
 	virtual ~KGpgOrphanNode();
 
 	virtual KgpgItemType getType() const;
-	virtual QVariant getData(const int &column) const;
 	virtual KgpgKeyTrust getTrust() const
 		{ return m_key->trust(); }
 	QString getKeyId() const
 		{ return m_key->fullId(); }
+	virtual QString getSize() const;
+	virtual QString getName() const;
+	virtual QString getEmail() const;
+	virtual QDate getExpiration() const;
+	virtual QDate getCreation() const;
+	virtual QString getId() const;
 };
 
 #endif

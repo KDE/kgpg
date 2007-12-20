@@ -129,20 +129,40 @@ KGpgKeyNode::getType(const KgpgKey *k)
 	return ITYPE_PUBLIC;
 }
 
-QVariant
-KGpgKeyNode::getData(const int &column) const
+QString
+KGpgKeyNode::getSize() const
 {
-	switch (column) {
-	case 0:	return m_key->name();
-	case 1:	return m_key->email();
-	// case 2: key trust
-	case 3: return m_key->expirationDate();
-	case 4: return m_key->size();
-	case 5: return m_key->creationDate();
-	case 6:	return m_key->id();
-	case 7: return m_key->fullId();
-	default: return QVariant();
-	}
+	return QString::number(m_key->size());
+}
+
+QString
+KGpgKeyNode::getName() const
+{
+	return m_key->name();
+}
+
+QString
+KGpgKeyNode::getEmail() const
+{
+	return m_key->email();
+}
+
+QDate
+KGpgKeyNode::getExpiration() const
+{
+	return m_key->expirationDate();
+}
+
+QDate
+KGpgKeyNode::getCreation() const
+{
+	return m_key->creationDate();
+}
+
+QString
+KGpgKeyNode::getId() const
+{
+	return m_key->fullId();
 }
 
 void
@@ -200,17 +220,22 @@ KGpgUidNode::KGpgUidNode(KGpgKeyNode *parent, const KgpgKeyUid &u)
 {
 }
 
-QVariant
-KGpgUidNode::getData(const int &column) const
+QString
+KGpgUidNode::getName() const
 {
-	switch (column) {
-	case 0:	return m_uid->name();
-	case 1:	return m_uid->email();
-	case 5: return QVariant();	// FIXME: Creation currently not supported by KgpgKeyUid
-	case 6:	return QVariant();	// FIXME: id currently not supported by KgpgKeyUid
-	case 7: return QVariant();	// FIXME: id currently not supported by KgpgKeyUid
-	default: return QVariant();
-	}
+	return m_uid->name();
+}
+
+QString
+KGpgUidNode::getEmail() const
+{
+	return m_uid->email();
+}
+
+QString
+KGpgUidNode::getSize() const
+{
+	return i18np("1 signature", "%1 signatures", children.count());
 }
 
 KGpgSignNode::KGpgSignNode(KGpgExpandableNode *parent, const KgpgKeySign &s)
@@ -220,18 +245,34 @@ KGpgSignNode::KGpgSignNode(KGpgExpandableNode *parent, const KgpgKeySign &s)
 	parent->children.append(this);
 }
 
-QVariant
-KGpgSignNode::getData(const int &column) const
+QString
+KGpgSignNode::getName() const
 {
-	switch (column) {
-	case 0:	return m_sign->name();
-	case 1:	return m_sign->email();
-	case 3: return m_sign->expirationDate();
-	case 5: return m_sign->creationDate();
-	case 6:	return m_sign->id();
-	case 7: return m_sign->fullId();
-	default: return QVariant();
-	}
+	return m_sign->name();
+}
+
+QString
+KGpgSignNode::getEmail() const
+{
+	return m_sign->email();
+}
+
+QDate
+KGpgSignNode::getExpiration() const
+{
+	return m_sign->expirationDate();
+}
+
+QDate
+KGpgSignNode::getCreation() const
+{
+	return m_sign->creationDate();
+}
+
+QString
+KGpgSignNode::getId() const
+{
+	return m_sign->fullId();
 }
 
 KGpgSubkeyNode::KGpgSubkeyNode(KGpgKeyNode *parent, const KgpgKeySub &k)
@@ -240,17 +281,34 @@ KGpgSubkeyNode::KGpgSubkeyNode(KGpgKeyNode *parent, const KgpgKeySub &k)
 	Q_ASSERT(parent != NULL);
 }
 
-QVariant
-KGpgSubkeyNode::getData(const int &column) const
+QDate
+KGpgSubkeyNode::getExpiration() const
 {
-	switch (column) {
-	case 0:	return i18n("%1 subkey", Convert::toString(m_skey.algorithm()));
-	case 3:	return m_skey.expirationDate();
-	case 4:	return m_skey.size();
-	case 5:	return m_skey.creationDate();
-	case 6:	return m_skey.id();
-	default:return QVariant();
-	}
+	return m_skey.expirationDate();
+}
+
+QDate
+KGpgSubkeyNode::getCreation() const
+{
+	return m_skey.creationDate();
+}
+
+QString
+KGpgSubkeyNode::getId() const
+{
+	return m_skey.id();
+}
+
+QString
+KGpgSubkeyNode::getName() const
+{
+	return i18n("%1 subkey", Convert::toString(m_skey.algorithm()));
+}
+
+QString
+KGpgSubkeyNode::getSize() const
+{
+	return QString::number(m_skey.size());
 }
 
 KGpgUatNode::KGpgUatNode(KGpgKeyNode *parent, const KgpgKeyUat &k, const QString &index)
@@ -261,15 +319,22 @@ KGpgUatNode::KGpgUatNode(KGpgKeyNode *parent, const KgpgKeyUat &k, const QString
 	m_pic = iface.loadPhoto(parent->getKeyId(), index, true);
 }
 
-QVariant
-KGpgUatNode::getData(const int &column) const
+QString
+KGpgUatNode::getName() const
 {
-	switch (column) {
-	case 0:	return i18n("Photo id");
-	case 4:	return QString::number(m_pic.width()) + "x" + QString::number(m_pic.height());
-	case 5:	return m_uat.creationDate();
-	default:return QVariant();
-	}
+	return i18n("Photo id");
+}
+
+QString
+KGpgUatNode::getSize() const
+{
+	return QString::number(m_pic.width()) + "x" + QString::number(m_pic.height());
+}
+
+QDate
+KGpgUatNode::getCreation() const
+{
+	return m_uat.creationDate();
 }
 
 KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name)
@@ -277,14 +342,16 @@ KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name)
 {
 }
 
-QVariant
-KGpgGroupNode::getData(const int &column) const
+QString
+KGpgGroupNode::getName() const
 {
-	switch (column) {
-	case 0:	return m_name;
-	case 4: return children.count();
-	default: return QVariant();
-	}
+	return m_name;
+}
+
+QString
+KGpgGroupNode::getSize() const
+{
+	return QString::number(children.count());
 }
 
 void
@@ -308,19 +375,40 @@ KGpgGroupMemberNode::KGpgGroupMemberNode(KGpgGroupNode *parent, const QString &k
 	parent->children.append(this);
 }
 
-QVariant
-KGpgGroupMemberNode::getData(const int &column) const
+QString
+KGpgGroupMemberNode::getName() const
 {
-	switch (column) {
-	case 0:	return m_key->name();
-	case 1:	return m_key->email();
-	case 3: return m_key->expirationDate();
-	case 4: return m_key->size();
-	case 5: return m_key->creationDate();
-	case 6:	return m_key->id();
-	case 7: return m_key->fullId();
-	default: return QVariant();
-	}
+	return m_key->name();
+}
+
+QString
+KGpgGroupMemberNode::getEmail() const
+{
+	return m_key->email();
+}
+
+QString
+KGpgGroupMemberNode::getSize() const
+{
+	return QString::number(m_key->size());
+}
+
+QDate
+KGpgGroupMemberNode::getExpiration() const
+{
+	return m_key->expirationDate();
+}
+
+QDate
+KGpgGroupMemberNode::getCreation() const
+{
+	return m_key->creationDate();
+}
+
+QString
+KGpgGroupMemberNode::getId() const
+{
+	return m_key->fullId();
 }
 
 KGpgOrphanNode::KGpgOrphanNode(KGpgExpandableNode *parent, const KgpgKey &k)
@@ -339,19 +427,39 @@ KGpgOrphanNode::getType() const
 	return ITYPE_SECRET;
 }
 
-QVariant
-KGpgOrphanNode::getData(const int &column) const
+QString
+KGpgOrphanNode::getName() const
 {
-	switch (column) {
-		case 0:	return m_key->name();
-		case 1:	return m_key->email();
-	// case 2: key trust
-		case 3: return m_key->expirationDate();
-		case 4: return m_key->size();
-		case 5: return m_key->creationDate();
-		case 6:	return m_key->id();
-		case 7: return m_key->fullId();
-		default: return QVariant();
-	}
+	return m_key->name();
+}
+
+QString
+KGpgOrphanNode::getEmail() const
+{
+	return m_key->email();
+}
+
+QString
+KGpgOrphanNode::getSize() const
+{
+	return QString::number(m_key->size());
+}
+
+QDate
+KGpgOrphanNode::getExpiration() const
+{
+	return m_key->expirationDate();
+}
+
+QDate
+KGpgOrphanNode::getCreation() const
+{
+	return m_key->creationDate();
+}
+
+QString
+KGpgOrphanNode::getId() const
+{
+	return m_key->fullId();
 }
 
