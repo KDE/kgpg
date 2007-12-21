@@ -1,11 +1,14 @@
 #include "keylistproxymodel.h"
 #include "kgpgitemnode.h"
 #include "kgpgitemmodel.h"
+#include "core/kgpgkey.h"
 
 #include <KDebug>
 
+using namespace KgpgCore;
+
 KeyListProxyModel::KeyListProxyModel(QObject *parent)
-	: QSortFilterProxyModel(parent)
+	: QSortFilterProxyModel(parent), m_onlysecret(false), m_showexpired(false)
 {
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 	setFilterKeyColumn(-1);
@@ -86,6 +89,21 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 	QModelIndex idx = m_model->index(source_row, 0, source_parent);
 	KGpgNode *l = m_model->nodeForIndex(idx);
 
+	if (m_onlysecret) {
+		switch (l->getType()) {
+		case ITYPE_PAIR:
+		case ITYPE_SECRET:
+			break;
+		default:
+			return false;
+		}
+	}
+
+	if (!m_showexpired) {
+		if ((l->getTrust() <= TRUST_EXPIRED) && (l->getTrust() != TRUST_UNKNOWN))
+			return false;
+	}
+
 	if (l->getName().contains(filterRegExp()))
 		return true;
 
@@ -96,4 +114,18 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 		return true;
 
 	return false;
+}
+
+void
+KeyListProxyModel::setOnlySecret(const bool &b)
+{
+	m_onlysecret = b;
+	invalidateFilter();
+}
+
+void
+KeyListProxyModel::setShowExpired(const bool &b)
+{
+	m_showexpired = b;
+	invalidateFilter();
 }

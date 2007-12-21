@@ -52,6 +52,7 @@ class KeyServer;
 class KgpgEditor;
 class KeyServer;
 class KGpgTransaction;
+class KeyListProxyModel;
 
 class groupEdit : public QWidget, public Ui::groupEdit
 {
@@ -198,6 +199,7 @@ private slots:
 
 private:
     KGpgItemModel *imodel;
+    KeyListProxyModel *iproxy;
     QTreeView *iview;
     KeyListView *keysList2;
 

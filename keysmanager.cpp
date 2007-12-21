@@ -321,12 +321,12 @@ KeysManager::KeysManager(QWidget *parent)
 
     imodel = new KGpgItemModel(this);
 
-    KeyListProxyModel *proxy = new KeyListProxyModel(this);
-    proxy->setKeyModel(imodel);
+    iproxy = new KeyListProxyModel(this);
+    iproxy->setKeyModel(imodel);
 
     iview = new QTreeView(this);
     connect(iview, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(showProperties(const QModelIndex &)));
-    iview->setModel(proxy);
+    iview->setModel(iproxy);
     iview->setSelectionMode(QAbstractItemView::ExtendedSelection);
     setCentralWidget(iview);
     for (int i = 0; i < 7; i++)
@@ -434,7 +434,7 @@ KeysManager::KeysManager(QWidget *parent)
     action->setText(i18n("Filter Search"));
     connect(action, SIGNAL(triggered(bool) ), m_listviewsearch, SLOT(setFocus()));
     action->setShortcut(QKeySequence(Qt::Key_F6));
-    connect(m_listviewsearch, SIGNAL(textChanged(const QString &)), proxy, SLOT(setFilterFixedString(const QString &)));
+    connect(m_listviewsearch, SIGNAL(textChanged(const QString &)), iproxy, SLOT(setFilterFixedString(const QString &)));
 
     sTrust->setChecked(KGpgSettings::showTrust());
     iview->setColumnHidden(2, !KGpgSettings::showTrust());
@@ -446,6 +446,8 @@ KeysManager::KeysManager(QWidget *parent)
     iview->setColumnHidden(5, !KGpgSettings::showExpi());
     m_listviewsearch->setHideDisabled(KGpgSettings::hideExRev());
     m_listviewsearch->setHidePublic(KGpgSettings::showSecret());
+    iproxy->setOnlySecret(KGpgSettings::showSecret());
+    iproxy->setShowExpired(KGpgSettings::hideExRev());
 
     m_statusbar = statusBar();
     m_statusbar->insertItem("", 0, 1);
@@ -692,6 +694,7 @@ void KeysManager::slotToggleSecret()
 
     m_listviewsearch->setHidePublic(!m_listviewsearch->hidePublic());
     m_listviewsearch->updateSearch(m_listviewsearch->text());
+    iproxy->setOnlySecret(m_listviewsearch->hidePublic());
 }
 
 void KeysManager::slotToggleDisabled()
@@ -702,6 +705,7 @@ void KeysManager::slotToggleDisabled()
 
     m_listviewsearch->setHideDisabled(!m_listviewsearch->hideDisabled());
     m_listviewsearch->updateSearch(m_listviewsearch->text());
+    iproxy->setShowExpired(!m_listviewsearch->hideDisabled());
 }
 
 bool KeysManager::eventFilter(QObject *, QEvent *e)
