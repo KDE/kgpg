@@ -79,3 +79,21 @@ KeyListProxyModel::lessThan(const KGpgNode *left, const KGpgNode *right) const
 	}
 	return false;
 }
+
+bool
+KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+{
+	QModelIndex idx = m_model->index(source_row, 0, source_parent);
+	KGpgNode *l = m_model->nodeForIndex(idx);
+
+	if (l->getName().contains(filterRegExp()))
+		return true;
+
+	if (l->getEmail().contains(filterRegExp()))
+		return true;
+
+	if (l->getId().contains(filterRegExp()))
+		return true;
+
+	return false;
+}

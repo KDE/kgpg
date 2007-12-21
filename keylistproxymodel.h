@@ -13,6 +13,7 @@ public:
 
 protected:
 	virtual bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
+	virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
 
 private:
 	bool lessThan(const KGpgNode *left, const KGpgNode *right) const;
