@@ -128,3 +128,9 @@ KGpgItemModel::rowForNode(KGpgNode *node) const
 {
 	return node->m_parent->getChildIndex(node);
 }
+
+KGpgRootNode *
+KGpgItemModel::getRootNode() const
+{
+	return m_root;
+}

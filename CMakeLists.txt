@@ -38,6 +38,7 @@ set(kgpg_SRCS ${core_SRCS}
    kgpgrevokewidget.cpp
    kgpgitemmodel.cpp
    kgpgitemnode.cpp
+   keylistproxymodel.cpp
    sourceselect.cpp)
 
 qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)

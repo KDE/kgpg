@@ -50,6 +50,8 @@ public:
 		{ return QDate(); }
 	virtual QString getId() const
 		{ return QString(); }
+	KGpgNode *getParentKeyNode() const
+		{ return m_parent; }
 };
 
 class KGpgExpandableNode : public KGpgNode

@@ -35,6 +35,7 @@ public:
 		{ m_previewsize = n; }
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 
+	KGpgRootNode *getRootNode() const;
 protected:
 	int rowForNode(KGpgNode *node) const;
 };
