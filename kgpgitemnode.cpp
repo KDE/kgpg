@@ -12,7 +12,7 @@ KGpgNode::KGpgNode(KGpgNode *parent)
 
 KGpgNode::~KGpgNode()
 {
-};
+}
 
 KGpgExpandableNode::KGpgExpandableNode(KGpgExpandableNode *parent)
 	: KGpgNode(parent)
