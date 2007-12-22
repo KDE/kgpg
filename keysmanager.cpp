@@ -408,7 +408,6 @@ KeysManager::KeysManager(QWidget *parent)
     connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(defaultAction()));
     connect(keysList2, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(defaultAction()));
     connect(keysList2, SIGNAL(selectionChanged ()), this, SLOT(checkList()));
-    connect(keysList2, SIGNAL(contextMenuRequested(Q3ListViewItem *, const QPoint &, int)), this, SLOT(slotMenu(Q3ListViewItem *, const QPoint &, int)));
     connect(keysList2, SIGNAL(destroyed()), this, SLOT(annule()));
     connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
 
@@ -718,46 +717,31 @@ void KeysManager::slotGotoDefaultKey()
 
 void KeysManager::refreshKeyFromServer()
 {
-    if (keysList2->currentItem() == NULL)
+    QList<KGpgNode *> keysList = iview->selectedNodes();
+    if (keysList.isEmpty())
         return;
 
     QStringList keyIDS;
-    keysList = keysList2->selectedItems();
 
     for (int i = 0; i < keysList.count(); ++i)
     {
-        KeyListViewItem *item = keysList.at(i);
+        KGpgNode *item = keysList.at(i);
 
-        if (item)
-        {
-            if (item->itemType() == KeyListViewItem::Group)
+            if (item->getType() == ITYPE_GROUP)
             {
-                KeyListViewItem *cur = item->firstChild();
-
-                if (!cur)
-                {
-                    item->setOpen(true);
-                    item->setOpen(false);
-                    cur = item->firstChild();
-                }
-
-                while (cur)
-                {
-                    keyIDS << cur->keyId();
-                    cur = cur->nextSibling();
-                }
+                for (int j = 0; j < item->getChildCount(); j++)
+                    keyIDS << item->getChild(j)->getId();
 
                 continue;
             }
 
-            if (item->itemType() & KeyListViewItem::Pair)
-                keyIDS << item->keyId();
+            if (item->getType() & ITYPE_PAIR)
+                keyIDS << item->getId();
             else
             {
                 KMessageBox::sorry(this, i18n("You can only refresh primary keys. Please check your selection."));
                 return;
             }
-        }
     }
 
     kServer = new KeyServer(this, false);
@@ -858,14 +842,13 @@ void KeysManager::slotAddUid()
     //keyUid->setMinimumSize(keyUid->sizeHint());
     keyUid->setMinimumWidth(300);
 
-    KgpgKey *key = keysList2->currentItem()->getKey();
     connect(keyUid->kLineEdit1, SIGNAL(textChanged(const QString & )), this, SLOT(slotAddUidEnable(const QString & )));
     if (addUidWidget->exec() != QDialog::Accepted)
         return;
 
     KgpgInterface *addUidProcess = new KgpgInterface();
     connect(addUidProcess,SIGNAL(addUidFinished(int, KgpgInterface*)), this ,SLOT(slotAddUidFin(int, KgpgInterface*)));
-    addUidProcess->addUid(key->fullId(), keyUid->kLineEdit1->text(), keyUid->kLineEdit2->text(), keyUid->kLineEdit3->text());
+    addUidProcess->addUid(iview->selectedNode()->getId(), keyUid->kLineEdit1->text(), keyUid->kLineEdit2->text(), keyUid->kLineEdit3->text());
 }
 
 void KeysManager::slotAddUidFin(int res, KgpgInterface *interface)
@@ -885,16 +868,18 @@ void KeysManager::slotAddPhoto()
 {
     KgpgLibrary *lib = new KgpgLibrary();
     connect (lib, SIGNAL(photoAdded()), this, SLOT(slotUpdatePhoto()));
-    lib->addPhoto(keysList2->currentItem()->keyId());
+    lib->addPhoto(iview->selectedNode()->getId());
 }
 
 void KeysManager::slotDeletePhoto()
 {
-    KeyListViewItem *item = keysList2->currentItem();
-    KeyListViewItem *parent = item->parent();
+    KGpgNode *nd = iview->selectedNode();
+    Q_ASSERT(nd->getType() == ITYPE_UAT);
+    KGpgUatNode *und = static_cast<KGpgUatNode *>(nd);
+    KGpgKeyNode *parent = und->getParentKeyNode();
 
     QString mess = i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 &lt;%3&gt;</b>?</qt>",
-                        item->text(6), parent->text(0), parent->text(1));
+                        und->getId(), parent->getName(), parent->getEmail());
 
     /*
     if (KMessageBox::warningContinueCancel(this, mess, QString(), KGuiItem(i18n("Delete"), "edit-delete")) != KMessageBox::Continue)
@@ -903,7 +888,7 @@ void KeysManager::slotDeletePhoto()
 
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(delPhotoFinished(int, KgpgInterface*)), this, SLOT(slotDelPhotoFinished(int, KgpgInterface*)));
-    interface->deletePhoto(parent->keyId(), item->text(6));
+    interface->deletePhoto(parent->getId(), und->getId());
 }
 
 void KeysManager::slotDelPhotoFinished(int res, KgpgInterface *interface)
@@ -1084,11 +1069,11 @@ void KeysManager::findNextKey()
 void KeysManager::addToKAB()
 {
     KABC::Key key;
-    if (!keysList2->currentItem())
+    KGpgNode *nd = iview->selectedNode();
+    if (nd == NULL)
         return;
 
-    //QString email = extractKeyMail(keysList2->currentItem()).simplified();
-    QString email = keysList2->currentItem()->text(1);
+    QString email = nd->getEmail();
 
     KABC::AddressBook *ab = KABC::StdAddressBook::self();
     if (!ab->load())
@@ -1103,7 +1088,7 @@ void KeysManager::addToKAB()
     if(!addresseeList.isEmpty())
         kaddressbook.call( "showContactEditor", addresseeList.first().uid());
     else
-        kaddressbook.call( "addEmail", QString (keysList2->currentItem()->text(0)) + " <" + email + '>');
+        kaddressbook.call( "addEmail", nd->getName() + " <" + email + '>');
 }
 
 /*
@@ -1174,48 +1159,55 @@ void KeysManager::showKeyServer()
 
 void KeysManager::checkList()
 {
-    QList<KeyListViewItem*> exportList = keysList2->selectedItems();
+    QList<KGpgNode *> exportList = iview->selectedNodes();
     if (exportList.count() > 1)
     {
         stateChanged("multi_selected");
-        for (int i = 0; i < exportList.count(); ++i)
-            if (exportList.at(i) && !(exportList.at(i)->isVisible()))
-                exportList.at(i)->setSelected(false);
     }
     else
     {
-        if (keysList2->currentItem()->itemType() == KeyListViewItem::Group)
+        if (exportList.at(0)->getType() == ITYPE_GROUP)
             stateChanged("group_selected");
         else
             stateChanged("single_selected");
 
     }
 
-    switch (keysList2->currentItem()->itemType()) {
-    case KeyListViewItem::Public:   changeMessage(i18n("Public Key"), 0);
-                                    break;
-    case KeyListViewItem::Sub:      changeMessage(i18n("Sub Key"), 0);
-                                    break;
-    case KeyListViewItem::Pair:     changeMessage(i18n("Secret Key Pair"), 0);
-                                    break;
-    case KeyListViewItem::Group:    changeMessage(i18n("Key Group"), 0);
-                                    break;
-    case KeyListViewItem::Sign:     changeMessage(i18n("Signature"), 0);
-                                    break;
-    case KeyListViewItem::Uid:      changeMessage(i18n("User ID"), 0);
-                                    break;
-    case KeyListViewItem::RevSign:  changeMessage(i18n("Revocation Signature"), 0);
-                                    break;
-    case KeyListViewItem::Uat:      changeMessage(i18n("Photo ID"), 0);
-                                    break;
-    case KeyListViewItem::Secret:   changeMessage(i18n("Orphaned Secret Key"), 0);
-                                    break;
-    case KeyListViewItem::GPublic:
-    case KeyListViewItem::GSecret:
-    case KeyListViewItem::GPair:    changeMessage(i18n("Group member"), 0);
-                                    break;
+    switch (exportList.at(0)->getType()) {
+    case ITYPE_PUBLIC:
+		changeMessage(i18n("Public Key"), 0);
+		break;
+    case ITYPE_SUB:
+		changeMessage(i18n("Sub Key"), 0);
+		break;
+    case ITYPE_PAIR:
+		changeMessage(i18n("Secret Key Pair"), 0);
+		break;
+    case ITYPE_GROUP:
+		changeMessage(i18n("Key Group"), 0);
+		break;
+    case ITYPE_SIGN:
+		changeMessage(i18n("Signature"), 0);
+		break;
+    case ITYPE_UID:
+		changeMessage(i18n("User ID"), 0);
+		break;
+    case ITYPE_REVSIGN:
+		changeMessage(i18n("Revocation Signature"), 0);
+		break;
+    case ITYPE_UAT:
+		changeMessage(i18n("Photo ID"), 0);
+		break;
+    case ITYPE_SECRET:
+		changeMessage(i18n("Orphaned Secret Key"), 0);
+		break;
+    case ITYPE_GPUBLIC:
+    case ITYPE_GSECRET:
+    case ITYPE_GPAIR:
+		changeMessage(i18n("Group member"), 0);
+		break;
     default:
-kDebug(3125) << "Oops, unmatched type value" << keysList2->currentItem()->itemType();
+kDebug(3125) << "Oops, unmatched type value" << exportList.at(0)->getType();
     }
 }
 
@@ -1282,7 +1274,7 @@ void KeysManager::readAllOptions()
 
 void KeysManager::slotSetDefKey()
 {
-    slotSetDefaultKey(keysList2->currentItem());
+    slotSetDefaultKey(iview->selectedNode()->getId());
 }
 
 void KeysManager::slotSetDefaultKey(const QString &newID)
@@ -1396,77 +1388,6 @@ KeysManager::slotMenu(const QPoint &pos)
 	}
 }
 
-void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
-{
-	KeyListViewItem *sel = static_cast<KeyListViewItem *>(sel2);
-
-	if (sel == NULL) {
-		m_popupout->exec(pos);
-		return;
-	}
-
-	KeyListViewItem::ItemType t = 0;
-	QList<KeyListViewItem*> exportList = keysList2->selectedItems();
-	int i;
-	bool allunksig = true;
-	int cnt = exportList.count();
-	bool unksig = false;
-
-	for (i = 0; i < cnt; ++i) {
-		KeyListViewItem *n = exportList.at(i);
-
-		t |= n->itemType();
-		allunksig &= isSignatureUnknown(n);
-	}
-
-	if (t & KeyListViewItem::Pair) {
-		// find out if an item has unknown signatures. Only check if the item has been
-		// expanded before as expansion is very expensive and can take several seconds
-		// that will freeze the UI meanwhile.
-		for (int i = 0; i < exportList.count(); i++) {
-			KeyListViewItem *k = exportList.at(i);
-			QStringList l;
-
-			if (k->firstChild() == NULL) {
-				unksig = true;
-				break;
-			}
-			getMissingSigs(&l, k);
-			if (!l.isEmpty()) {
-				unksig = true;
-				break;
-			}
-		}
-		importAllSignKeys->setEnabled(unksig);
-	}
-
-	if (t == KeyListViewItem::Sign) {
-		importSignatureKey->setEnabled(allunksig);
-		delSignKey->setEnabled( (cnt == 1) );
-		m_popupsig->exec(pos);
-	} else if ((t == KeyListViewItem::Uid) && (cnt == 1)) {
-		KeyListViewItem *parent = exportList.at(0)->parent();
-		setPrimUid->setVisible(parent->itemType() & KeyListViewItem::Secret);
-		m_popupuid->exec(pos);
-	} else if ((t == KeyListViewItem::Uat) && (cnt == 1)) {
-		m_popupphoto->exec(pos);
-	} else if ((t == KeyListViewItem::Pair) && (cnt == 1)) {
-		m_popupsec->exec(pos);
-	} else if ((t == KeyListViewItem::Secret) && (cnt == 1)) {
-		m_popuporphan->exec(pos);
-	} else if (t == KeyListViewItem::Group) {
-		delGroup->setEnabled( (cnt == 1) );
-		editCurrentGroup->setEnabled( (cnt == 1) );
-		m_popupgroup->exec(pos);
-	} else if (!(t & ~(KeyListViewItem::Pair | KeyListViewItem::Group))) {
-		signKey->setEnabled(!(t & KeyListViewItem::Group));
-		deleteKey->setEnabled(!(t & KeyListViewItem::Group));
-		m_popuppub->exec(pos);
-	} else {
-		m_popupout->exec(pos);
-	}
-}
-
 void KeysManager::slotrevoke(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description)
 {
     revKeyProcess = new KgpgInterface();
@@ -1475,8 +1396,8 @@ void KeysManager::slotrevoke(const QString &keyID, const QString &revokeUrl, con
 
 void KeysManager::revokeWidget()
 {
-    KDialog *keyRevokeWidget = new KDialog(this );
-    KeyListViewItem *item = keysList2->currentItem();
+    KDialog *keyRevokeWidget = new KDialog(this);
+    KGpgNode *nd = iview->selectedNode();
 
     keyRevokeWidget->setCaption(  i18n("Create Revocation Certificate") );
     keyRevokeWidget->setButtons(  KDialog::Ok | KDialog::Cancel );
@@ -1484,8 +1405,8 @@ void KeysManager::revokeWidget()
     keyRevokeWidget->setModal( true );
     KgpgRevokeWidget *keyRevoke = new KgpgRevokeWidget();
 
-    keyRevoke->keyID->setText(keysList2->currentItem()->text(0) + " (" + item->text(1) + ") " + i18n("ID: ") + item->keyId());
-    keyRevoke->kURLRequester1->setUrl(QDir::homePath() + '/' + item->text(1).section('@', 0, 0) + ".revoke");
+    keyRevoke->keyID->setText(i18nc("<Name> (<Email>) ID: <KeyId>", "%1 (%2) ID: %3", nd->getName(), nd->getEmail(), nd->getId()));
+    keyRevoke->kURLRequester1->setUrl(QDir::homePath() + '/' + nd->getEmail().section('@', 0, 0) + ".revoke");
     keyRevoke->kURLRequester1->setMode(KFile::File);
 
     keyRevoke->setMinimumSize(keyRevoke->sizeHint());
@@ -1497,7 +1418,7 @@ void KeysManager::revokeWidget()
 
     if (keyRevoke->cbSave->isChecked())
     {
-        slotrevoke(item->keyId(), keyRevoke->kURLRequester1->url().path(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->toPlainText());
+        slotrevoke(nd->getId(), keyRevoke->kURLRequester1->url().path(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->toPlainText());
         if (keyRevoke->cbPrint->isChecked())
             connect(revKeyProcess, SIGNAL(revokeurl(QString)), this, SLOT(doFilePrint(QString)));
         if (keyRevoke->cbImport->isChecked())
@@ -1505,7 +1426,7 @@ void KeysManager::revokeWidget()
     }
     else
     {
-        slotrevoke(item->keyId(), QString(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->toPlainText());
+        slotrevoke(nd->getId(), QString(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->toPlainText());
         if (keyRevoke->cbPrint->isChecked())
             connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
         if (keyRevoke->cbImport->isChecked())
@@ -1535,12 +1456,11 @@ void KeysManager::slotexportsec()
     int result = KMessageBox::warningContinueCancel(this, warn);
     if (result != KMessageBox::Continue)
         return;
-    KeyListViewItem *item = keysList2->currentItem();
+    KGpgNode *nd = iview->selectedNode();
 
-    QString sname = item->text(1).section('@', 0, 0);
-    sname = sname.section('.', 0, 0);
+    QString sname = nd->getEmail().section('@', 0, 0).section('.', 0, 0);
     if (sname.isEmpty())
-        sname = item->text(0).section(' ', 0, 0);
+        sname = nd->getName().section(' ', 0, 0);
     sname.append(".asc");
     sname.prepend(QDir::homePath() + '/');
     KUrl url = KFileDialog::getSaveUrl(sname, "*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As"));
@@ -1552,12 +1472,12 @@ void KeysManager::slotexportsec()
             fgpg.remove();
 
         KProcess p;
-        p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--output" << QFile::encodeName(url.path()) << "--armor" << "--export-secret-keys" << item->keyId();
+        p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--output" << QFile::encodeName(url.path()) << "--armor" << "--export-secret-keys" << nd->getId();
         p.execute();
 
         if (fgpg.exists())
             KMessageBox::information(this, i18n("<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2 .<br/>"
-                                                "<b>Do not</b> leave it in an insecure place.</qt>", item->keyId(), url.path()));
+                                                "<b>Do not</b> leave it in an insecure place.</qt>", nd->getId(), url.path()));
         else
             KMessageBox::sorry(this, i18n("Your secret key could not be exported.\nCheck the key."));
     }
@@ -1565,34 +1485,29 @@ void KeysManager::slotexportsec()
 
 void KeysManager::slotexport()
 {
-    // export key
-    if (keysList2->currentItem() == 0)
-        return;
-    if (keysList2->currentItem()->depth() != 0)
-        return;
+    bool same;
+    KgpgItemType tp;
 
-    QList<KeyListViewItem*> exportList = keysList2->selectedItems();
-    if (exportList.count() == 0)
+    QList<KGpgNode *> ndlist = iview->selectedNodes(&same, &tp);
+    if (ndlist.isEmpty())
+        return;
+    if (!(tp & ITYPE_PUBLIC) || (tp & ~ITYPE_GPAIR))
         return;
 
     QString sname;
 
-    if (exportList.count() == 1)
+    if (ndlist.count() == 1)
     {
-        sname = keysList2->currentItem()->text(1).section('@', 0, 0);
-        sname = sname.section('.', 0, 0);
+        sname = ndlist.at(0)->getEmail().section('@', 0, 0).section('.', 0, 0);
         if (sname.isEmpty())
-            sname = keysList2->currentItem()->text(0).section(' ', 0, 0);
+            sname = ndlist.at(0)->getName().section(' ', 0, 0);
     }
     else
         sname = "keyring";
 
 	QStringList klist;
-	for (int i = 0; i < exportList.count(); ++i) {
-		KeyListViewItem *item = static_cast<KeyListViewItem *>(exportList.at(i));
-
-		if (item)
-			klist.append(item->keyId());
+	for (int i = 0; i < ndlist.count(); ++i) {
+		klist << ndlist.at(i)->getId();
 	}
 
     sname.append(".asc");
@@ -1705,11 +1620,14 @@ void KeysManager::showKeyInfo(const QString &keyID)
 void KeysManager::slotShowPhoto()
 {
     KService::List list = KServiceTypeTrader::self()->query("image/jpeg", "Type == 'Application'");
-    KeyListViewItem *item = keysList2->currentItem()->parent();
+    KGpgNode *nd = iview->selectedNode();
+    Q_ASSERT(nd->getType() == ITYPE_UAT);
+    KGpgUatNode *und = static_cast<KGpgUatNode *>(nd);
+    KGpgKeyNode *parent = und->getParentKeyNode();
     KService::Ptr ptr = list.first();
     //KMessageBox::sorry(0,ptr->desktopEntryName());
     KProcess p;
-    p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--photo-viewer" << (ptr->desktopEntryName() + " %i") << "--edit-key" << item->keyId() << "uid" << keysList2->currentItem()->text(6) << "showphoto" << "quit";
+    p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--photo-viewer" << (ptr->desktopEntryName() + " %i") << "--edit-key" << parent->getId() << "uid" << und->getId() << "showphoto" << "quit";
     p.startDetached();
 }
 
@@ -1812,22 +1730,17 @@ void KeysManager::groupRemove()
 
 void KeysManager::deleteGroup()
 {
-    if (!keysList2->currentItem() || (keysList2->currentItem()->itemType() != KeyListViewItem::Group))
+    KGpgNode *nd = iview->selectedNode();
+    if (!nd || (nd->getType() != ITYPE_GROUP))
         return;
 
-    int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>", keysList2->currentItem()->text(0)), QString(), KGuiItem(i18n("Delete"), "edit-delete"));
+    int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>", nd->getName()), QString(), KGuiItem(i18n("Delete"), "edit-delete"));
     if (result != KMessageBox::Continue)
         return;
 
-    KgpgInterface::delGpgGroup(keysList2->currentItem()->text(0), KGpgSettings::gpgConfigPath());
-    KeyListViewItem *item = keysList2->currentItem()->nextSibling();
-    delete keysList2->currentItem();
-
-    if (!item)
-        item = keysList2->lastChild();
-
-    keysList2->setCurrentItem(item);
-    keysList2->setSelected(item,true);
+    KgpgInterface::delGpgGroup(nd->getName(), KGpgSettings::gpgConfigPath());
+    delete nd;
+#warning FIXME: trigger model changed
 
     QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
     KGpgSettings::setGroups(groups.join(","));

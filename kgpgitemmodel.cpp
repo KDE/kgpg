@@ -3,6 +3,7 @@
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "convert.h"
+#include <KLocale>
 
 KGpgItemModel::KGpgItemModel(QObject *parent)
 	: QAbstractItemModel(parent), m_root(new KGpgRootNode()), m_default(NULL), m_previewsize(0)
@@ -141,4 +142,19 @@ KGpgRootNode *
 KGpgItemModel::getRootNode() const
 {
 	return m_root;
+}
+
+QString
+KGpgItemModel::statusCountMessage() const
+{
+	int groupNb = m_root->groupChildren();
+	QString kmsg = i18np("1 Key", "%1 Keys", m_root->getChildCount() - groupNb);
+
+	if (groupNb == 0) {
+		return kmsg;
+	} else {
+		QString gmsg = i18np("1 Group", "%1 Groups", groupNb);
+
+		return kmsg + ", " + gmsg;
+	}
 }

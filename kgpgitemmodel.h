@@ -44,6 +44,7 @@ public:
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 
 	KGpgRootNode *getRootNode() const;
+	QString statusCountMessage() const;
 protected:
 	int rowForNode(KGpgNode *node) const;
 };

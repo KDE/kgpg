@@ -177,7 +177,6 @@ private slots:
     void slotexport();
     void slotexportsec();
 
-    void slotMenu(Q3ListViewItem *, const QPoint &, int);
     void slotMenu(const QPoint &);
 
     void slotPreImportKey();

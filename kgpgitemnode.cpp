@@ -12,6 +12,8 @@ KGpgNode::KGpgNode(KGpgNode *parent)
 
 KGpgNode::~KGpgNode()
 {
+	if (m_parent != NULL)
+		m_parent->deleteChild(this);
 }
 
 KGpgExpandableNode::KGpgExpandableNode(KGpgExpandableNode *parent)
@@ -50,7 +52,8 @@ KGpgRootNode::addGroups()
 	for (QStringList::Iterator it = groups.begin(); it != groups.end(); ++it)
 		new KGpgGroupNode(this, QString(*it));
 
-	return groups.count();
+	m_groups = groups.count();
+	return m_groups;
 }
 
 void
@@ -319,7 +322,7 @@ KGpgSubkeyNode::getSize() const
 }
 
 KGpgUatNode::KGpgUatNode(KGpgKeyNode *parent, const KgpgKeyUat &k, const QString &index)
-	: KGpgExpandableNode(parent), m_uat(k)
+	: KGpgExpandableNode(parent), m_uat(k), m_idx(index)
 {
 	KgpgInterface iface;
 

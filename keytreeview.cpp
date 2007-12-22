@@ -46,3 +46,14 @@ KeyTreeView::selectedNodes(bool *psame, KgpgCore::KgpgItemType *pt) const
 		*psame = sametype;
 	return ndlist;
 }
+
+KGpgNode *
+KeyTreeView::selectedNode() const
+{
+	QModelIndexList selidx = selectedIndexes();
+
+	if (selidx.isEmpty())
+		return NULL;
+
+	return m_proxy->nodeForIndex(selidx[0]);
+}

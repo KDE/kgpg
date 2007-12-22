@@ -52,6 +52,10 @@ public:
 		{ return QString(); }
 	KGpgNode *getParentKeyNode() const
 		{ return m_parent; }
+	virtual void deleteChild(KGpgNode *child)
+		{
+			Q_UNUSED(child)
+		}
 };
 
 class KGpgExpandableNode : public KGpgNode
@@ -80,6 +84,8 @@ public:
 		{ return children.indexOf(node); }
 	virtual KGpgExpandableNode *getParentKeyNode() const
 		{ return static_cast<KGpgExpandableNode *>(m_parent); }
+	virtual void deleteChild(KGpgNode *child)
+		{ children.removeAll(child); }
 };
 
 class KGpgKeyNode : public KGpgExpandableNode
@@ -116,6 +122,9 @@ public:
 
 class KGpgRootNode : public KGpgExpandableNode
 {
+private:
+	int m_groups;
+
 protected:
 	virtual void readChildren()
 		{};
@@ -131,6 +140,9 @@ public:
 	unsigned int addGroups();
 	void addKeys();
 	KGpgKeyNode *findKey(const QString &keyId);
+
+	int groupChildren() const
+		{ return m_groups; }
 };
 
 class KGpgUidNode : public KGpgExpandableNode
@@ -211,6 +223,7 @@ class KGpgUatNode : public KGpgExpandableNode
 private:
 	KgpgKeyUat m_uat;
 	QPixmap m_pic;
+	QString m_idx;
 
 // 	void insertSigns(KGpgExpandableNode *node, const KgpgKeySignList &list);
 
@@ -229,6 +242,8 @@ public:
 		{ return TRUST_NOKEY; }
 	QPixmap getPixmap() const
 		{ return m_pic; }
+	virtual QString getId() const
+		{ return m_idx; }
 	virtual QString getSize() const;
 	virtual QString getName() const;
 	virtual QDate getCreation() const;

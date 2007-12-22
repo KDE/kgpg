@@ -18,6 +18,7 @@ public:
 	explicit KeyTreeView(QWidget *parent = 0, KeyListProxyModel *model = 0);
 
 	QList<KGpgNode *> selectedNodes(bool *psame = NULL, KgpgCore::KgpgItemType *pt = NULL) const;
+	KGpgNode *selectedNode() const;
 };
 
 #endif
