@@ -1,4 +1,4 @@
-project(kgpg)
+project(kgpg2)
 
 add_subdirectory( icons )
 add_subdirectory( core )
@@ -39,6 +39,7 @@ set(kgpg_SRCS ${core_SRCS}
    kgpgitemmodel.cpp
    kgpgitemnode.cpp
    keylistproxymodel.cpp
+   keytreeview.cpp
    sourceselect.cpp)
 
 qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)

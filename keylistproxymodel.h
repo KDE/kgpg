@@ -16,6 +16,8 @@ public:
 	void setOnlySecret(const bool &b);
 	void setShowExpired(const bool &b);
 
+	KGpgNode *nodeForIndex(const QModelIndex &index) const;
+
 protected:
 	virtual bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
 	virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;

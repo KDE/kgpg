@@ -54,6 +54,7 @@ class KgpgEditor;
 class KeyServer;
 class KGpgTransaction;
 class KeyListProxyModel;
+class KeyTreeView;
 
 class groupEdit : public QWidget, public Ui::groupEdit
 {
@@ -177,6 +178,7 @@ private slots:
     void slotexportsec();
 
     void slotMenu(Q3ListViewItem *, const QPoint &, int);
+    void slotMenu(const QPoint &);
 
     void slotPreImportKey();
     void slotedit();
@@ -195,13 +197,14 @@ private slots:
     void slotregenerate();
     void reloadSecretKeys();
     void getMissingSigs(QStringList *missingKeys, KeyListViewItem *item);
+    void getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *nd);
     void slotEditDone(int exitcode);
     void importRemoteFinished(KGpgTransaction *);
 
 private:
     KGpgItemModel *imodel;
     KeyListProxyModel *iproxy;
-    QTreeView *iview;
+    KeyTreeView *iview;
     KeyListView *keysList2;
 
     QString globalkeyMail;

@@ -275,6 +275,13 @@ KGpgSignNode::getId() const
 	return m_sign->fullId();
 }
 
+bool
+KGpgSignNode::isUnknown() const
+{
+	// ugly hack to detect unknown keys
+	return (m_sign->name().startsWith('[') && m_sign->name().endsWith(']'));
+}
+
 KGpgSubkeyNode::KGpgSubkeyNode(KGpgKeyNode *parent, const KgpgKeySub &k)
 	: KGpgExpandableNode(parent), m_skey(k)
 {

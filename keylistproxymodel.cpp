@@ -156,3 +156,9 @@ KeyListProxyModel::setShowExpired(const bool &b)
 	m_showexpired = b;
 	invalidateFilter();
 }
+
+KGpgNode *
+KeyListProxyModel::nodeForIndex(const QModelIndex &index) const
+{
+	return m_model->nodeForIndex(mapToSource(index));
+}

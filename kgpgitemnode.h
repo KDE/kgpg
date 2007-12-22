@@ -71,6 +71,8 @@ public:
 
 	virtual bool hasChildren() const
 		{ return (children.count() != 0); }
+	virtual bool wasExpanded() const
+		{ return (children.count() != 0); }
 	virtual int getChildCount();
 	virtual KGpgNode *getChild(const int &index) const
 		{ return children.at(index); }
@@ -173,6 +175,8 @@ public:
 	virtual QDate getExpiration() const;
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
+
+	bool isUnknown() const;
 };
 
 class KGpgSubkeyNode : public KGpgExpandableNode

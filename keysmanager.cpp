@@ -113,6 +113,7 @@
 #include "images.h"
 #include "sourceselect.h"
 #include "keylistproxymodel.h"
+#include "keytreeview.h"
 
 using namespace KgpgCore;
 
@@ -324,15 +325,16 @@ KeysManager::KeysManager(QWidget *parent)
     iproxy = new KeyListProxyModel(this);
     iproxy->setKeyModel(imodel);
 
-    iview = new QTreeView(this);
+    iview = new KeyTreeView(this, iproxy);
     connect(iview, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(showProperties(const QModelIndex &)));
-    iview->setModel(iproxy);
     iview->setSelectionMode(QAbstractItemView::ExtendedSelection);
     setCentralWidget(iview);
     for (int i = 0; i < 7; i++)
        iview->resizeColumnToContents(i);
     iview->setAlternatingRowColors(true);
     iview->setSortingEnabled(true);
+    connect(iview, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(slotMenu(const QPoint &)));
+    iview->setContextMenuPolicy(Qt::CustomContextMenu);
 
     int psize = KGpgSettings::photoProperties();
     photoProps->setCurrentItem(psize);
@@ -1332,6 +1334,67 @@ bool KeysManager::isSignatureUnknown(KeyListViewItem *item)
 	return (item->text(0).startsWith('[') && item->text(0).endsWith(']'));
 }
 
+void
+KeysManager::slotMenu(const QPoint &pos)
+{
+	QPoint globpos = iview->mapToGlobal(pos);
+	bool sametype;
+	KgpgItemType itype;
+	QList<KGpgNode *> ndlist = iview->selectedNodes(&sametype, &itype);
+	bool unksig = false;
+	QStringList l;
+	int cnt = ndlist.count();
+
+	// find out if an item has unknown signatures. Only check if the item has been
+	// expanded before as expansion is very expensive and can take several seconds
+	// that will freeze the UI meanwhile.
+	for (int i = 0; i < cnt; i++) {
+		KGpgNode *nd = ndlist.at(i);
+
+		if (!nd->hasChildren())
+			continue;
+
+		KGpgExpandableNode *exnd = static_cast<KGpgExpandableNode *>(nd);
+		if (!exnd->wasExpanded()) {
+			unksig = true;
+			break;
+		}
+		getMissingSigs(&l, exnd);
+		if (!l.isEmpty()) {
+			unksig = true;
+			break;
+		}
+	}
+	importAllSignKeys->setEnabled(unksig);
+
+	if (itype == ITYPE_SIGN) {
+#warning port me
+// 		importSignatureKey->setEnabled(allunksig);
+		delSignKey->setEnabled( (cnt == 1) );
+		m_popupsig->exec(globpos);
+	} else if ((itype == ITYPE_UID) && (cnt == 1)) {
+		KGpgKeyNode *knd = static_cast<KGpgUidNode *>(ndlist.at(0))->getParentKeyNode();
+		setPrimUid->setVisible(knd->getType() & ITYPE_SECRET);
+		m_popupuid->exec(globpos);
+	} else if ((itype == ITYPE_UAT) && (cnt == 1)) {
+		m_popupphoto->exec(globpos);
+	} else if ((itype == ITYPE_PAIR) && (cnt == 1)) {
+		m_popupsec->exec(globpos);
+	} else if ((itype == ITYPE_SECRET) && (cnt == 1)) {
+		m_popuporphan->exec(globpos);
+	} else if (itype == ITYPE_GROUP) {
+		delGroup->setEnabled( (cnt == 1) );
+		editCurrentGroup->setEnabled( (cnt == 1) );
+		m_popupgroup->exec(globpos);
+	} else if (!(itype & ~(ITYPE_PAIR | ITYPE_GROUP))) {
+		signKey->setEnabled(!(itype & ITYPE_GROUP));
+		deleteKey->setEnabled(!(itype & ITYPE_GROUP));
+		m_popuppub->exec(globpos);
+	} else {
+		m_popupout->exec(globpos);
+	}
+}
+
 void KeysManager::slotMenu(Q3ListViewItem *sel2, const QPoint &pos, int)
 {
 	KeyListViewItem *sel = static_cast<KeyListViewItem *>(sel2);
@@ -2055,6 +2118,22 @@ void KeysManager::getMissingSigs(QStringList *missingKeys, KeyListViewItem *item
 		if (item->firstChild() != NULL)
 			getMissingSigs(missingKeys, item->firstChild());
 		item = item->nextSibling();
+	}
+}
+
+void KeysManager::getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *nd)
+{
+	for (int i = nd->getChildCount() - 1; i >= 0; i--) {
+		KGpgNode *ch = nd->getChild(i);
+		if (ch->hasChildren()) {
+			getMissingSigs(missingKeys, static_cast<KGpgExpandableNode *>(ch));
+			continue;
+		}
+
+		if (ch->getType() == ITYPE_SIGN) {
+			if (static_cast<KGpgSignNode *>(ch)->isUnknown())
+				*missingKeys << ch->getId();
+		}
 	}
 }
 
