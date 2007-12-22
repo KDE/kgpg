@@ -1,3 +1,6 @@
+#ifndef KEYLISTPROXYMODEL_H
+#define KEYLISTPROXYMODEL_H
+
 #include <QSortFilterProxyModel>
 
 class KGpgNode;
@@ -24,3 +27,5 @@ private:
 	bool m_onlysecret;
 	bool m_showexpired;
 };
+
+#endif
