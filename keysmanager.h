@@ -241,6 +241,7 @@ private:
     QAction *deleteKey;
     QAction *editCurrentGroup;
     QAction *delGroup;
+    QAction *setDefaultKey;
 
     KeyServer *kServer;
     groupEdit *gEdit;

@@ -238,7 +238,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(deleteKey, SIGNAL(triggered(bool)), SLOT(confirmdeletekey()));
     deleteKey->setShortcut(QKeySequence(Qt::Key_Delete));
 
-    QAction *setDefaultKey = actionCollection()->addAction("key_default");
+    setDefaultKey = actionCollection()->addAction("key_default");
     setDefaultKey->setText(i18n("Set as De&fault Key"));
     connect(setDefaultKey, SIGNAL(triggered(bool)), SLOT(slotSetDefKey()));
     QAction *addPhoto = actionCollection()->addAction("add_photo");
@@ -1389,6 +1389,7 @@ KeysManager::slotMenu(const QPoint &pos)
 	} else if (!(itype & ~(ITYPE_PAIR | ITYPE_GROUP))) {
 		signKey->setEnabled(!(itype & ITYPE_GROUP));
 		deleteKey->setEnabled(!(itype & ITYPE_GROUP));
+		setDefaultKey->setEnabled( (cnt == 1) );
 		m_popuppub->exec(globpos);
 	} else {
 		m_popupout->exec(globpos);
