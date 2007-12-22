@@ -48,7 +48,8 @@ KeyListProxyModel::lessThan(const KGpgNode *left, const KGpgNode *right, const i
 					return left->getName() < right->getName();
 				else
 					return true;
-			}
+			} else if (right->getType() == ITYPE_GROUP)
+				return false;
 
 			bool test1 = (left->getType() & ITYPE_PUBLIC) && !(left->getType() & ITYPE_SECRET); // only a public key
 			bool test2 = (right->getType() & ITYPE_PUBLIC) && !(right->getType() & ITYPE_SECRET); // only a public key
