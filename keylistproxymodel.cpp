@@ -82,7 +82,7 @@ KeyListProxyModel::nodeLessThan(const KGpgNode *left, const KGpgNode *right, con
 	Q_ASSERT(left->getType() == right->getType());
 
 	switch (column) {
-	case 0:
+	case KEYCOLUMN_NAME:
 		if (left->getType() == ITYPE_SIGN) {
 			if (left->getName().startsWith('[') && !right->getName().startsWith('['))
 				return false;
@@ -92,18 +92,18 @@ KeyListProxyModel::nodeLessThan(const KGpgNode *left, const KGpgNode *right, con
 				return (left->getId() < right->getId());
 		}
 		return (left->getName() < right->getName());
-	case 1:
+	case KEYCOLUMN_EMAIL:
 		return (left->getEmail() < right->getEmail());
-	case 2:
+	case KEYCOLUMN_TRUST:
 		return (left->getTrust() < right->getTrust());
-	case 3:
+	case KEYCOLUMN_EXPIR:
 		return (left->getExpiration() < right->getExpiration());
-	case 4:
+	case KEYCOLUMN_SIZE:
 		return (left->getSize() < right->getSize());
-	case 5:
+	case KEYCOLUMN_CREAT:
 		return (left->getCreation() < right->getCreation());
 	default:
-		Q_ASSERT(column == 6);
+		Q_ASSERT(column == KEYCOLUMN_ID);
 		return (left->getId() < right->getId());
 	}
 }

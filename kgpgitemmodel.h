@@ -3,6 +3,14 @@
 
 #include <QAbstractItemModel>
 
+#define KEYCOLUMN_NAME	0
+#define KEYCOLUMN_EMAIL	1
+#define KEYCOLUMN_TRUST	2
+#define KEYCOLUMN_EXPIR	3
+#define KEYCOLUMN_SIZE	4
+#define KEYCOLUMN_CREAT	5
+#define KEYCOLUMN_ID	6
+
 #include "kgpgitemnode.h"
 #include "keyinfodialog.h"
 
@@ -26,7 +34,7 @@ public:
 
 	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	virtual int columnCount(const QModelIndex & /*parent = QModelIndex()*/ ) const
-			{ return 8; }
+			{ return 7; }
 
 	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 	virtual bool hasChildren(const QModelIndex &parent) const;

@@ -75,7 +75,8 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 	}
 
 	switch (index.column()) {
-	case 0:	switch (role) {
+	case KEYCOLUMN_NAME:
+		switch (role) {
 		case Qt::DisplayRole:
 			return node->getName();
 		case Qt::DecorationRole:
@@ -86,10 +87,12 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 			return Convert::toPixmap(node->getType());
 		}
 		break;
-	case 1:	if (role == Qt::DisplayRole)
+	case KEYCOLUMN_EMAIL:
+		if (role == Qt::DisplayRole)
 			return node->getEmail();
 		break;
-	case 2:	{
+	case KEYCOLUMN_TRUST:
+		{
 		KgpgKeyTrust t = node->getTrust();
 
 		switch (role) {
@@ -98,20 +101,25 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		}
 		break;
 		}
-	case 3:	if (role == Qt::DisplayRole)
+	case KEYCOLUMN_EXPIR:
+		if (role == Qt::DisplayRole)
 			return node->getExpiration();
 		break;
-	case 4:	if (role == Qt::DisplayRole)
+	case KEYCOLUMN_SIZE:
+		if (role == Qt::DisplayRole)
 			return node->getSize();
 		break;
-	case 5:	if (role == Qt::DisplayRole)
+	case KEYCOLUMN_CREAT:
+		if (role == Qt::DisplayRole)
 			return node->getCreation();
 		break;
-	case 6:	if (role == Qt::DisplayRole)
+	case KEYCOLUMN_ID:
+		if (role == Qt::DisplayRole)
 			return node->getId().right(8);
 		break;
 	}
 
+	Q_ASSERT(1);
 	return QVariant();
 }
 
