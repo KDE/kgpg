@@ -447,7 +447,7 @@ KeysManager::KeysManager(QWidget *parent)
     m_listviewsearch->setHideDisabled(KGpgSettings::hideExRev());
     m_listviewsearch->setHidePublic(KGpgSettings::showSecret());
     iproxy->setOnlySecret(KGpgSettings::showSecret());
-    iproxy->setShowExpired(KGpgSettings::hideExRev());
+    iproxy->setShowExpired(!KGpgSettings::hideExRev());
 
     m_statusbar = statusBar();
     m_statusbar->insertItem("", 0, 1);
