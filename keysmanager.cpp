@@ -666,22 +666,22 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
 
 void KeysManager::slotShowTrust()
 {
-    iview->setColumnHidden(2, !sTrust->isChecked());
+    iview->setColumnHidden(KEYCOLUMN_TRUST, !sTrust->isChecked());
 }
 
 void KeysManager::slotShowExpiration()
 {
-    iview->setColumnHidden(3, !sExpi->isChecked());
+    iview->setColumnHidden(KEYCOLUMN_EXPIR, !sExpi->isChecked());
 }
 
 void KeysManager::slotShowSize()
 {
-    iview->setColumnHidden(4, !sSize->isChecked());
+    iview->setColumnHidden(KEYCOLUMN_SIZE, !sSize->isChecked());
 }
 
 void KeysManager::slotShowCreation()
 {
-    iview->setColumnHidden(5, !sCreat->isChecked());
+    iview->setColumnHidden(KEYCOLUMN_CREAT, !sCreat->isChecked());
 }
 
 void KeysManager::slotToggleSecret(bool b)
