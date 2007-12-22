@@ -75,9 +75,9 @@ public:
 	virtual KGpgNode *getChild(const int &index) const
 		{ return children.at(index); }
 	virtual int getChildIndex(KGpgNode *node) const
-		{
-			return children.indexOf(node);
-		}
+		{ return children.indexOf(node); }
+	virtual KGpgExpandableNode *getParentKeyNode() const
+		{ return static_cast<KGpgExpandableNode *>(m_parent); }
 };
 
 class KGpgKeyNode : public KGpgExpandableNode
@@ -152,6 +152,8 @@ public:
 	virtual QString getSize() const;
 	virtual QString getName() const;
 	virtual QString getEmail() const;
+	virtual KGpgKeyNode *getParentKeyNode() const
+		{ return static_cast<KGpgKeyNode *>(m_parent); }
 };
 
 class KGpgSignNode : public KGpgNode
@@ -196,6 +198,8 @@ public:
 	virtual QDate getExpiration() const;
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
+	virtual KGpgKeyNode *getParentKeyNode() const
+		{ return static_cast<KGpgKeyNode *>(m_parent); }
 };
 
 class KGpgUatNode : public KGpgExpandableNode
@@ -224,6 +228,8 @@ public:
 	virtual QString getSize() const;
 	virtual QString getName() const;
 	virtual QDate getCreation() const;
+	virtual KGpgKeyNode *getParentKeyNode() const
+		{ return static_cast<KGpgKeyNode *>(m_parent); }
 };
 
 class KGpgGroupNode : public KGpgExpandableNode
@@ -266,6 +272,8 @@ public:
 	virtual QDate getExpiration() const;
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
+	virtual KGpgGroupNode *getParentKeyNode() const
+		{ return static_cast<KGpgGroupNode *>(m_parent); }
 };
 
 class KGpgOrphanNode : public KGpgNode
