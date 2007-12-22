@@ -45,6 +45,7 @@ class KSelectAction;
 class KPassivePopup;
 class KStatusBar;
 class KMenu;
+class KLineEdit;
 
 class KgpgInterface;
 class groupEdit;
@@ -132,8 +133,8 @@ private slots:
     void slotAddUidFin(int res, KgpgInterface *interface);
     void slotDelPhotoFinished(int res, KgpgInterface *interface);
     void quitApp();
-    void slotToggleSecret();
-    void slotToggleDisabled();
+    void slotToggleSecret(bool);
+    void slotToggleDisabled(bool);
     void slotGotoDefaultKey();
     void slotDelUid();
     void slotPrimUid();
@@ -225,7 +226,7 @@ private:
     KPassivePopup *pop;
     KStatusBar *m_statusbar;
 
-    KeyListViewSearchLine* m_listviewsearch;
+    KLineEdit *m_listviewsearch;
     KDialog *addUidWidget;
 
     QAction *importSignatureKey;

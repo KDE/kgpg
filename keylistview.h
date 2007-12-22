@@ -167,31 +167,4 @@ private:
     bool m_displayphoto;
 };
 
-
-class KeyListViewSearchLine : public K3ListViewSearchLine
-{
-    Q_OBJECT
-
-public:
-    explicit KeyListViewSearchLine(QWidget *parent = 0, KeyListView *listView = 0);
-    virtual ~KeyListViewSearchLine() { }
-
-    void setHidePublic(const bool &hidepublic = true);
-    bool hidePublic() const;
-
-    void setHideDisabled(const bool &hidedisabled = true);
-    bool hideDisabled() const;
-
-public slots:
-    virtual void updateSearch(const QString &s = QString());
-
-protected:
-    virtual bool itemMatches(const Q3ListViewItem *item, const QString &s)  const;
-
-private:
-    KeyListView *m_searchlistview;
-    bool m_hidepublic;
-    bool m_hidedisabled;
-};
-
 #endif // KEYLISTVIEW_H

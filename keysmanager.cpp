@@ -177,12 +177,12 @@ KeysManager::KeysManager(QWidget *parent)
     hPublic->setIcon(KIcon("kgpg_show"));
     hPublic->setText(i18n("&Show only Secret Keys"));
     hPublic->setChecked(KGpgSettings::showSecret());
-    connect(hPublic, SIGNAL(triggered(bool)), SLOT(slotToggleSecret()));
+    connect(hPublic, SIGNAL(triggered(bool)), SLOT(slotToggleSecret(bool)));
 
     hExRev = actionCollection()->add<KToggleAction>("hide_disabled");
     hExRev->setText(i18n("&Hide Expired/Disabled Keys"));
     hExRev->setChecked(KGpgSettings::hideExRev());
-    connect(hExRev, SIGNAL(triggered(bool)), SLOT(slotToggleDisabled()));
+    connect(hExRev, SIGNAL(triggered(bool)), SLOT(slotToggleDisabled(bool)));
 
     QAction *infoKey = actionCollection()->addAction("key_info");
     infoKey->setIcon(KIcon("kgpg-info-kgpg"));
@@ -415,7 +415,7 @@ KeysManager::KeysManager(QWidget *parent)
     toolBar()->addSeparator();
 
     QLabel *searchLabel = new QLabel(i18n("Search: "), this);
-    m_listviewsearch = new KeyListViewSearchLine(this, keysList2);
+    m_listviewsearch = new KLineEdit(this);
     m_listviewsearch->setClearButtonShown(true);
 
     QWidget *searchWidget = new QWidget(this);
@@ -444,8 +444,6 @@ KeysManager::KeysManager(QWidget *parent)
     iview->setColumnHidden(4, !KGpgSettings::showCreat());
     sExpi->setChecked(KGpgSettings::showExpi());
     iview->setColumnHidden(5, !KGpgSettings::showExpi());
-    m_listviewsearch->setHideDisabled(KGpgSettings::hideExRev());
-    m_listviewsearch->setHidePublic(KGpgSettings::showSecret());
     iproxy->setOnlySecret(KGpgSettings::showSecret());
     iproxy->setShowExpired(!KGpgSettings::hideExRev());
 
@@ -686,26 +684,14 @@ void KeysManager::slotShowCreation()
     iview->setColumnHidden(5, !sCreat->isChecked());
 }
 
-void KeysManager::slotToggleSecret()
+void KeysManager::slotToggleSecret(bool b)
 {
-    KeyListViewItem *item = keysList2->firstChild();
-    if (!item)
-        return;
-
-    m_listviewsearch->setHidePublic(!m_listviewsearch->hidePublic());
-    m_listviewsearch->updateSearch(m_listviewsearch->text());
-    iproxy->setOnlySecret(m_listviewsearch->hidePublic());
+    iproxy->setOnlySecret(b);
 }
 
-void KeysManager::slotToggleDisabled()
+void KeysManager::slotToggleDisabled(bool b)
 {
-    KeyListViewItem *item = keysList2->firstChild();
-    if (!item)
-        return;
-
-    m_listviewsearch->setHideDisabled(!m_listviewsearch->hideDisabled());
-    m_listviewsearch->updateSearch(m_listviewsearch->text());
-    iproxy->setShowExpired(!m_listviewsearch->hideDisabled());
+    iproxy->setShowExpired(!b);
 }
 
 bool KeysManager::eventFilter(QObject *, QEvent *e)
@@ -2476,7 +2462,7 @@ void KeysManager::slotPreImportKey()
 void KeysManager::refreshkey()
 {
     keysList2->refreshAll();
-    m_listviewsearch->updateSearch(m_listviewsearch->text());
+#warning FIXME: refresh model items
 }
 
 KGpgTransaction::KGpgTransaction()
