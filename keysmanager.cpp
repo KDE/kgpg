@@ -1701,7 +1701,7 @@ void KeysManager::defaultAction()
 void
 KeysManager::showProperties(const QModelIndex &index)
 {
-	KGpgNode *n = imodel->nodeForIndex(index);
+	KGpgNode *n = imodel->nodeForIndex(iproxy->mapToSource(index));
 
 	switch (n->getType()) {
 	case ITYPE_UAT:
