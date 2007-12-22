@@ -33,11 +33,11 @@ KeyListProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) c
 	KGpgNode *l = m_model->nodeForIndex(left);
 	KGpgNode *r = m_model->nodeForIndex(right);
 
-	return lessThan(l, r);
+	return lessThan(l, r, left.column());
 }
 
 bool
-KeyListProxyModel::lessThan(const KGpgNode *left, const KGpgNode *right) const
+KeyListProxyModel::lessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const
 {
 	KGpgRootNode *r = m_model->getRootNode();
 
@@ -57,30 +57,55 @@ KeyListProxyModel::lessThan(const KGpgNode *left, const KGpgNode *right) const
 			if (left->getType() == ITYPE_PAIR && test2) return true;
 			if (right->getType() == ITYPE_PAIR && test1) return false;
 
-			return (left->getName() < right->getName());
+			return nodeLessThan(left, right, column);
 		} else {
-			lessThan(left, right->getParentKeyNode());
+			lessThan(left, right->getParentKeyNode(), column);
 		}
 	} else {
 		if (r == right->getParentKeyNode()) {
-			return lessThan(left->getParentKeyNode(), right);
+			return lessThan(left->getParentKeyNode(), right, column);
 		} else if (left->getParentKeyNode() == right->getParentKeyNode()) {
 			if (left->getType() != right->getType())
 				return (left->getType() < right->getType());
 
+			return nodeLessThan(left, right, column);
+		} else {
+			return lessThan(left->getParentKeyNode(), right->getParentKeyNode(), column);
+		}
+	}
+	return false;
+}
+
+bool
+KeyListProxyModel::nodeLessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const
+{
+	Q_ASSERT(left->getType() == right->getType());
+
+	switch (column) {
+	case 0:
+		if (left->getType() == ITYPE_SIGN) {
 			if (left->getName().startsWith('[') && !right->getName().startsWith('['))
 				return false;
 			else if (!left->getName().startsWith('[') && right->getName().startsWith('['))
 				return true;
 			else if (left->getName().startsWith('[') && right->getName().startsWith('['))
 				return (left->getId() < right->getId());
-			else
-				return (left->getName() < right->getName());
-		} else {
-			return lessThan(left->getParentKeyNode(), right->getParentKeyNode());
 		}
+		return (left->getName() < right->getName());
+	case 1:
+		return (left->getEmail() < right->getEmail());
+	case 2:
+		return (left->getTrust() < right->getTrust());
+	case 3:
+		return (left->getExpiration() < right->getExpiration());
+	case 4:
+		return (left->getSize() < right->getSize());
+	case 5:
+		return (left->getCreation() < right->getCreation());
+	default:
+		Q_ASSERT(column == 6);
+		return (left->getId() < right->getId());
 	}
-	return false;
 }
 
 bool

@@ -18,7 +18,8 @@ protected:
 	virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
 
 private:
-	bool lessThan(const KGpgNode *left, const KGpgNode *right) const;
+	bool lessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const;
+	bool nodeLessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const;
 	KGpgItemModel *m_model;
 	bool m_onlysecret;
 	bool m_showexpired;
