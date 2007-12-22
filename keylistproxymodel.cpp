@@ -51,6 +51,7 @@ KeyListProxyModel::lessThan(const KGpgNode *left, const KGpgNode *right, const i
 			} else if (right->getType() == ITYPE_GROUP)
 				return false;
 
+			// we don't need to care about group members here because they will never have root as parent
 			bool test1 = (left->getType() & ITYPE_PUBLIC) && !(left->getType() & ITYPE_SECRET); // only a public key
 			bool test2 = (right->getType() & ITYPE_PUBLIC) && !(right->getType() & ITYPE_SECRET); // only a public key
 
