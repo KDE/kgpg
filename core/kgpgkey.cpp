@@ -533,8 +533,6 @@ bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
 {
     if (gpgkeysecret != other.gpgkeysecret) return false;
     if (gpgkeyvalid != other.gpgkeyvalid) return false;
-    if (gpgkeyid != other.gpgkeyid) return false;
-    if (gpgfullid != other.gpgfullid) return false;
     if (gpgkeymail != other.gpgkeymail) return false;
     if (gpgkeyname != other.gpgkeyname) return false;
     if (gpgkeycomment != other.gpgkeycomment) return false;
@@ -578,16 +576,6 @@ void KgpgKey::setSecret(const bool &secret)
 void KgpgKey::setValid(const bool &valid)
 {
     d->gpgkeyvalid = valid;
-}
-
-void KgpgKey::setId(const QString &id)
-{
-    d->gpgkeyid = id;
-}
-
-void KgpgKey::setFullId(const QString &fullid)
-{
-    d->gpgfullid = fullid;
 }
 
 void KgpgKey::setName(const QString &name)
@@ -657,12 +645,12 @@ bool KgpgKey::valid() const
 
 QString KgpgKey::id() const
 {
-    return d->gpgkeyid;
+    return d->gpgkeyfingerprint.right(8);
 }
 
 QString KgpgKey::fullId() const
 {
-    return d->gpgfullid;
+    return d->gpgkeyfingerprint.right(16);
 }
 
 QString KgpgKey::name() const
@@ -683,6 +671,16 @@ QString KgpgKey::comment() const
 QString KgpgKey::fingerprint() const
 {
     return d->gpgkeyfingerprint;
+}
+
+QString KgpgKey::fingerprintBeautified() const
+{
+    QString fingervalue =d->gpgkeyfingerprint;
+    uint len = fingervalue.length();
+    if ((len > 0) && (len % 4 == 0))
+      for (uint n = 0; 4 * (n + 1) < len; ++n)
+        fingervalue.insert(5 * n + 4, ' ');
+    return fingervalue;
 }
 
 uint KgpgKey::size() const

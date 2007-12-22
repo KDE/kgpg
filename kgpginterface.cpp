@@ -450,8 +450,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             m_publickey.setTrust(Convert::toTrust(lsp.at(1)));
             m_publickey.setSize(lsp.at(2).toUInt());
             m_publickey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-            m_publickey.setFullId(lsp.at(4));
-            m_publickey.setId(lsp.at(4).right(8));
+            m_publickey.setFingerprint(lsp.at(4));
             m_publickey.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
             m_publickey.setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
 
@@ -515,10 +514,6 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
         if ((lsp.at(0) == "fpr") && (items >= 10))
         {
             QString fingervalue = lsp.at(9);
-            uint len = fingervalue.length();
-            if ((len > 0) && (len % 4 == 0))
-                for (uint n = 0; 4 * (n + 1) < len; ++n)
-                    fingervalue.insert(5 * n + 4, ' ');
 
             m_publickey.setFingerprint(fingervalue);
         }
@@ -718,7 +713,7 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
     m_secretactivate = false;
 
         GPGProc *process = new GPGProc(this);
-        *process << "--list-secret-keys";
+        *process << "--list-secret-keys" << "--with-fingerprint";
 
         *process << ids;
 
@@ -752,8 +747,7 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
                 m_secretkey.setTrust(Convert::toTrust(lsp.at(1)));
                 m_secretkey.setSize(lsp.at(2).toUInt());
                 m_secretkey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-                m_secretkey.setFullId(lsp.at(4));
-                m_secretkey.setId(lsp.at(4).right(8));
+                m_secretkey.setFingerprint(lsp.at(4));
                 m_secretkey.setCreation(QDate::fromString(lsp[5], Qt::ISODate));
                 m_secretkey.setSecret(true);
 

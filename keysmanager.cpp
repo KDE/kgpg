@@ -1989,7 +1989,7 @@ void KeysManager::signkey()
         KgpgInterface *interface = new KgpgInterface();
         KgpgKeyList listkeys = interface->readPublicKeys(true, item->keyId());
         delete interface;
-        fingervalue = listkeys.at(0).fingerprint();
+        fingervalue = listkeys.at(0).fingerprintBeautified();
 
         opt = i18n("<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
                    "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "

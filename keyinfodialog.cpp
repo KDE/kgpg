@@ -420,7 +420,7 @@ void KgpgKeyInfo::loadKey()
     m_trust->setColor(trustcolor);
     m_length->setText(QString::number(key.size()) + " / " + QString::number(subkey.size()));
     m_length->setWhatsThis("<qt>The left part is the size of the <b>signature</b> key. The right part is the size of the <b>encryption</b> key.</qt>");
-    m_fingerprint->setText(key.fingerprint());
+    m_fingerprint->setText(key.fingerprintBeautified());
 
     if (key.comment().isEmpty())
         m_comment->setText(i18n("none"));

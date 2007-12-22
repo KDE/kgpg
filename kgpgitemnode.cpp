@@ -162,7 +162,7 @@ KGpgKeyNode::getCreation() const
 QString
 KGpgKeyNode::getId() const
 {
-	return m_key->fullId();
+	return m_key->fingerprint();
 }
 
 void

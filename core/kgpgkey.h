@@ -445,8 +445,6 @@ public:
 
     bool          gpgkeysecret;
     bool          gpgkeyvalid;
-    QString       gpgkeyid;
-    QString       gpgfullid;
     QString       gpgkeymail;
     QString       gpgkeyname;
     QString       gpgkeycomment;
@@ -481,8 +479,6 @@ public:
 
     void setSecret(const bool &secret);
     void setValid(const bool &valid);
-    void setId(const QString &id);
-    void setFullId(const QString &fullid);
     void setName(const QString &name);
     void setEmail(const QString &email);
     void setComment(const QString &comment);
@@ -503,6 +499,7 @@ public:
     QString email() const;
     QString comment() const;
     QString fingerprint() const;
+    QString fingerprintBeautified() const;
     uint size() const;
     KgpgKeyOwnerTrust ownerTrust() const;
     KgpgKeyTrust trust() const;
