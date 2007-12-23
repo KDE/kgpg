@@ -413,7 +413,7 @@ void KeyListView::refreshAll()
         delete current;
     }
 
-    if (newPos != NULL)
+/*    if (newPos != NULL)
     {
         setCurrentItem(newPos);
         setSelected(newPos, true);
@@ -423,7 +423,7 @@ void KeyListView::refreshAll()
     {
         setCurrentItem(firstChild());
         setSelected(firstChild(), true);
-    }
+    }*/
 
     emit statusMessage(statusCountMessage(), 1);
     emit statusMessage(i18n("Ready"),0);
