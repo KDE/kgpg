@@ -158,3 +158,19 @@ KGpgItemModel::statusCountMessage() const
 		return kmsg + ", " + gmsg;
 	}
 }
+
+void
+KGpgItemModel::addGroup(const QString &name, const KGpgKeyNodeList &keys)
+{
+	emit layoutAboutToBeChanged();
+	new KGpgGroupNode(m_root, name);
+	emit layoutChanged();
+}
+
+void
+KGpgItemModel::delGroup(const KGpgNode *node)
+{
+	emit layoutAboutToBeChanged();
+	delete node;
+	emit layoutChanged();
+}

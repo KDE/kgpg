@@ -1329,6 +1329,7 @@ bool KeysManager::isSignatureUnknown(KeyListViewItem *item)
 void
 KeysManager::slotMenu(const QPoint &pos)
 {
+	checkList();
 	QPoint globpos = iview->mapToGlobal(pos);
 	bool sametype;
 	KgpgItemType itype;
@@ -1739,13 +1740,11 @@ void KeysManager::deleteGroup()
         return;
 
     KgpgInterface::delGpgGroup(nd->getName(), KGpgSettings::gpgConfigPath());
-    delete nd;
-#warning FIXME: trigger model changed
+    imodel->delGroup(nd);
 
     QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
     KGpgSettings::setGroups(groups.join(","));
-    keysList2->groupNb = groups.count();
-    changeMessage(keysList2->statusCountMessage(), 1);
+    changeMessage(imodel->statusCountMessage(), 1);
 }
 
 void KeysManager::groupChange()
@@ -1778,33 +1777,27 @@ void KeysManager::createNewGroup()
 {
     QStringList badkeys;
     QStringList keysGroup;
+    KGpgKeyNodeList keysList;
+    KgpgItemType tp;
+    QList<KGpgNode *> ndlist = iview->selectedNodes(NULL, &tp);
 
-    if (keysList2->selectedItems().count() > 0)
-    {
-        QList<KeyListViewItem*> groupList = keysList2->selectedItems();
-        bool keyDepth = true;
-        for (int i = 0; i < groupList.count(); ++i)
-            if (groupList.at(i))
+    if (ndlist.isEmpty())
+       return;
+    if (tp & ~ITYPE_PAIR) {
+       KMessageBox::sorry(this, i18n("<qt>You cannot create a group containing signatures, subkeys or other groups.</qt>"));
+       return;
+    }
+
+        for (int i = 0; i < ndlist.count(); ++i)
             {
-                if ((groupList.at(i)->depth() != 0) || (groupList.at(i)->text(6).isEmpty())) {
-                    keyDepth = false;
-                    break;
-                } else
-                if (groupList.at(i)->pixmap(2))
-                {
-                    if ((groupList.at(i)->trust() == TRUST_FULL) ||
-                        (groupList.at(i)->trust() == TRUST_ULTIMATE))
-                        keysGroup += groupList.at(i)->keyId();
-                    else
-                        badkeys += groupList.at(i)->text(0) + " (" + groupList.at(i)->text(1) + ") " + groupList.at(i)->keyId();
-                }
+                KGpgNode *nd = ndlist.at(i);
+                    if ((nd->getTrust() == TRUST_FULL) ||
+                        (nd->getTrust() == TRUST_ULTIMATE)) {
+                        keysGroup += nd->getId();
+                        keysList.append(static_cast<KGpgKeyNode *>(nd));
+                    } else
+                        badkeys += i18nc("<Name> (<Email>) ID: <KeyId>", "%1 (%2) ID: %3", nd->getName(), nd->getEmail(), nd->getId());
             }
-
-        if (!keyDepth)
-        {
-            KMessageBox::sorry(this, i18n("<qt>You cannot create a group containing signatures, subkeys or other groups.</qt>"));
-            return;
-        }
 
         QString groupName = KInputDialog::getText(i18n("Create New Group"), i18n("Enter new group name:"), QString(), 0, this);
         if (groupName.isEmpty())
@@ -1816,20 +1809,13 @@ void KeysManager::createNewGroup()
 
             KgpgInterface::setGpgGroupSetting(groupName, keysGroup, KGpgSettings::gpgConfigPath());
             QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
-            KGpgSettings::setGroups(groups.join(","));
-            keysList2->refreshGroups();
-            KeyListViewItem *newgrp = keysList2->findItem(groupName, 0);
 
-            keysList2->clearSelection();
-            keysList2->setCurrentItem(newgrp);
-            keysList2->setSelected(newgrp, true);
-            keysList2->ensureItemVisible(newgrp);
-            keysList2->groupNb = groups.count();
-            changeMessage(keysList2->statusCountMessage(), 1);
+#warning FIXME: scroll to new group
+            imodel->addGroup(groupName, keysList);
+            changeMessage(imodel->statusCountMessage(), 1);
         }
         else
             KMessageBox::sorry(this, i18n("<qt>No valid or trusted key was selected. The group <b>%1</b> will not be created.</qt>", groupName));
-    }
 }
 
 void KeysManager::groupInit(const QStringList &keysGroup)

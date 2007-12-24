@@ -90,6 +90,8 @@ public:
 
 class KGpgKeyNode : public KGpgExpandableNode
 {
+	friend class KGpgGroupMemberNode;
+
 private:
 	KgpgKey *m_key;
 
@@ -120,8 +122,12 @@ public:
 	virtual QString getId() const;
 };
 
+typedef QList<KGpgKeyNode *> KGpgKeyNodeList;
+
 class KGpgRootNode : public KGpgExpandableNode
 {
+	friend class KGpgGroupNode;
+
 private:
 	int m_groups;
 
@@ -137,7 +143,7 @@ public:
 	virtual KgpgItemType getType() const
 		{ return 0; }
 
-	unsigned int addGroups();
+	void addGroups();
 	void addKeys();
 	KGpgKeyNode *findKey(const QString &keyId);
 
@@ -261,8 +267,8 @@ protected:
 
 public:
 	explicit KGpgGroupNode(KGpgRootNode *parent, const QString &name);
-	virtual ~KGpgGroupNode()
-		{}
+	explicit KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KGpgKeyNodeList &members);
+	virtual ~KGpgGroupNode();
 
 	virtual KgpgItemType getType() const
 		{ return ITYPE_GROUP; }
@@ -278,6 +284,7 @@ private:
 
 public:
 	explicit KGpgGroupMemberNode(KGpgGroupNode *parent, const QString &k);
+	explicit KGpgGroupMemberNode(KGpgGroupNode *parent, const KGpgKeyNode *k);
 	virtual ~KGpgGroupMemberNode()
 		{ delete m_key; }
 

@@ -39,21 +39,18 @@ KGpgExpandableNode::getChildCount()
 }
 
 KGpgRootNode::KGpgRootNode()
-	: KGpgExpandableNode(NULL)
+	: KGpgExpandableNode(NULL), m_groups(0)
 {
 	addGroups();
 }
 
-unsigned int
+void
 KGpgRootNode::addGroups()
 {
 	QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
 
 	for (QStringList::Iterator it = groups.begin(); it != groups.end(); ++it)
 		new KGpgGroupNode(this, QString(*it));
-
-	m_groups = groups.count();
-	return m_groups;
 }
 
 void
@@ -351,6 +348,21 @@ KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name)
 	: KGpgExpandableNode(parent), m_name(name)
 {
 	readChildren();
+	parent->m_groups++;
+}
+
+KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KGpgKeyNodeList &members)
+	: KGpgExpandableNode(parent), m_name(name)
+{
+	Q_ASSERT(members.count() > 0);
+	for (int i = 0; i < members.count(); i++)
+		new KGpgGroupMemberNode(this, members.at(i));
+	parent->m_groups++;
+}
+
+KGpgGroupNode::~KGpgGroupNode()
+{
+	static_cast<KGpgRootNode *>(m_parent)->m_groups--;
 }
 
 QString
@@ -384,6 +396,14 @@ KGpgGroupMemberNode::KGpgGroupMemberNode(KGpgGroupNode *parent, const QString &k
 	delete iface;
 
 	m_key = new KgpgKey(l.at(0));
+
+	parent->children.append(this);
+}
+
+KGpgGroupMemberNode::KGpgGroupMemberNode(KGpgGroupNode *parent, const KGpgKeyNode *k)
+	: KGpgNode(parent)
+{
+	m_key = new KgpgKey(*k->m_key);
 
 	parent->children.append(this);
 }
