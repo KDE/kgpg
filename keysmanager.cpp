@@ -1715,18 +1715,21 @@ void KeysManager::keyproperties()
 
 void KeysManager::groupAdd()
 {
-    QList<Q3ListViewItem*> addList = gEdit->availableKeys->selectedItems();
+#warning FIXME
+/*    QList<Q3ListViewItem*> addList = gEdit->availableKeys->selectedItems();
     for (int i = 0; i < addList.count(); ++i)
         if (addList.at(i))
-            gEdit->groupKeys->insertItem(addList.at(i));
+            gEdit->groupKeys->insertItem(addList.at(i));*/
 }
 
 void KeysManager::groupRemove()
 {
-    QList<Q3ListViewItem*> remList = gEdit->groupKeys->selectedItems();
+	Q_ASSERT(!gEdit->members->isEmpty());
+#warning FIXME
+/*    QList<Q3ListViewItem*> remList = gEdit->groupKeys->selectedItems();
     for (int i = 0; i < remList.count(); ++i)
         if (remList.at(i))
-            gEdit->availableKeys->insertItem(remList.at(i));
+            gEdit->availableKeys->insertItem(remList.at(i));*/
 }
 
 void KeysManager::deleteGroup()
@@ -1745,32 +1748,6 @@ void KeysManager::deleteGroup()
     QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
     KGpgSettings::setGroups(groups.join(","));
     changeMessage(imodel->statusCountMessage(), 1);
-}
-
-void KeysManager::groupChange()
-{
-    QStringList selected;
-    KeyListViewItem *item = static_cast<KeyListViewItem*>(gEdit->groupKeys->firstChild());
-    while (item)
-    {
-        selected += item->keyId();
-        item = item->nextSibling();
-    }
-    KgpgInterface::setGpgGroupSetting(keysList2->currentItem()->text(0), selected,KGpgSettings::gpgConfigPath());
-    keysList2->currentItem()->setText(4, i18np("%1 key", "%1 keys", selected.count()));
-    item = keysList2->currentItem()->firstChild();
-    if (item)
-    {
-         bool o = keysList2->currentItem()->isOpen();
-
-         while (item) {
-             delete item;
-             item = keysList2->currentItem()->firstChild();
-        }
-        keysList2->expandGroup(keysList2->currentItem());
-        if (o)
-           keysList2->currentItem()->setOpen(true);
-    }
 }
 
 void KeysManager::createNewGroup()
@@ -1818,94 +1795,44 @@ void KeysManager::createNewGroup()
             KMessageBox::sorry(this, i18n("<qt>No valid or trusted key was selected. The group <b>%1</b> will not be created.</qt>", groupName));
 }
 
-void KeysManager::groupInit(const QStringList &keysGroup)
-{
-    kDebug(2100) << "preparing group" << keysGroup;
-    QStringList lostKeys;
-
-    for (QStringList::ConstIterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
-    {
-        KeyListViewItem *item = keysList2->findItemByKeyId(QString(*it));
-        if (item != NULL) {
-            KeyListViewItem *n = new KeyListViewItem(gEdit->groupKeys, *item->getKey(), item->isDefault());
-            n->setText(2, item->text(6));
-
-            n = static_cast<KeyListViewItem *>(gEdit->availableKeys->firstChild());
-            while (n) {
-               if (*n->getKey() == *item->getKey()) {
-                   delete n;
-                   break;
-               }
-               n = n->nextSibling();
-            }
-        }
-        else
-            lostKeys += QString(*it);
-
-    }
-
-    if (!lostKeys.isEmpty())
-        KMessageBox::informationList(this, i18n("Following keys are in the group but are not valid or not in your keyring. They will be removed from the group."), lostKeys);
-}
-
 void KeysManager::editGroup()
 {
-    if (!keysList2->currentItem() || (keysList2->currentItem()->itemType() != KeyListViewItem::Group))
+    KGpgNode *nd = iview->selectedNode();
+    if (!nd || (nd->getType() != ITYPE_GROUP))
         return;
-    QStringList keysGroup;
-    //KDialogBase *dialogGroupEdit=new KDialogBase( this, "edit_group", true,i18n("Group Properties"),KDialogBase::Ok | KDialogBase::Cancel);
     KDialog *dialogGroupEdit = new KDialog(this );
     dialogGroupEdit->setCaption( i18n("Group Properties") );
     dialogGroupEdit->setButtons( KDialog::Ok | KDialog::Cancel );
     dialogGroupEdit->setDefaultButton(  KDialog::Ok );
     dialogGroupEdit->setModal( true );
 
-    gEdit = new groupEdit();
+    QList<KGpgNode *> members;
+    for (int i = 0; i < nd->getChildCount(); i++)
+        members << nd->getChild(i);
+
+    gEdit = new groupEdit(this, &members);
     gEdit->buttonAdd->setIcon(KIcon("go-down"));
     gEdit->buttonRemove->setIcon(KIcon("go-up"));
+    gEdit->setModel(imodel);
 
     connect(gEdit->buttonAdd, SIGNAL(clicked()), this, SLOT(groupAdd()));
     connect(gEdit->buttonRemove, SIGNAL(clicked()), this, SLOT(groupRemove()));
-    // connect(dialogGroupEdit->okClicked(),SIGNAL(clicked()),this,SLOT(groupChange()));
     connect(gEdit->availableKeys, SIGNAL(doubleClicked (Q3ListViewItem *, const QPoint &, int)), this, SLOT(groupAdd()));
     connect(gEdit->groupKeys, SIGNAL(doubleClicked (Q3ListViewItem *, const QPoint &, int)), this, SLOT(groupRemove()));
-    KeyListViewItem *item = keysList2->firstChild();
-    if (!item)
-        return;
 
-    while (item)
-    {
-        if (item->pixmap(2))
-            if ((item->trust() == TRUST_FULL) ||
-                (item->trust() == TRUST_ULTIMATE)) {
-                     KeyListViewItem *n = new KeyListViewItem(gEdit->availableKeys, *item->getKey(), item->isDefault());
-                     n->setText(2, item->text(6));
-            }
-
-        item = item->nextSibling();
-    }
-
-    keysGroup = KgpgInterface::getGpgGroupSetting(keysList2->currentItem()->text(0), KGpgSettings::gpgConfigPath());
-    groupInit(keysGroup);
     dialogGroupEdit->setMainWidget(gEdit);
     gEdit->availableKeys->setColumnWidth(0, 200);
     gEdit->availableKeys->setColumnWidth(1, 200);
     gEdit->availableKeys->setColumnWidth(2, 100);
-    gEdit->availableKeys->setColumnWidthMode(0, K3ListView::Manual);
-    gEdit->availableKeys->setColumnWidthMode(1, K3ListView::Manual);
-    gEdit->availableKeys->setColumnWidthMode(2, K3ListView::Manual);
 
     gEdit->groupKeys->setColumnWidth(0, 200);
     gEdit->groupKeys->setColumnWidth(1, 200);
     gEdit->groupKeys->setColumnWidth(2, 100);
-    gEdit->groupKeys->setColumnWidthMode(0, K3ListView::Manual);
-    gEdit->groupKeys->setColumnWidthMode(1, K3ListView::Manual);
-    gEdit->groupKeys->setColumnWidthMode(2, K3ListView::Manual);
 
     gEdit->setMinimumSize(gEdit->sizeHint());
     gEdit->show();
     if (dialogGroupEdit->exec() == QDialog::Accepted)
-        groupChange();
+        imodel->changeGroup(static_cast<KGpgGroupNode *>(nd), members);
     delete dialogGroupEdit;
 }
 

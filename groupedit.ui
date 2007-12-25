@@ -27,31 +27,18 @@
     </widget>
    </item>
    <item>
-    <widget class="K3ListView" name="availableKeys" >
+    <widget class="QTableView" name="availableKeys" >
      <property name="acceptDrops" >
       <bool>true</bool>
      </property>
      <property name="selectionMode" >
-      <enum>Q3ListView::Single</enum>
+      <enum>QAbstractItemView::SingleSelection</enum>
      </property>
-     <property name="allColumnsShowFocus" >
-      <bool>true</bool>
-     </property>
-     <property name="showSortIndicator" >
-      <bool>true</bool>
-     </property>
-     <property name="fullWidth" >
+     <property name="sortingEnabled" >
       <bool>true</bool>
      </property>
      <property name="dragEnabled" >
       <bool>false</bool>
-     </property>
-     <property name="alternateBackground" >
-      <color>
-       <red>238</red>
-       <green>246</green>
-       <blue>255</blue>
-      </color>
      </property>
      <column>
       <property name="text" >
@@ -118,23 +105,14 @@
     </layout>
    </item>
    <item>
-    <widget class="K3ListView" name="groupKeys" >
+    <widget class="QTableView" name="groupKeys" >
      <property name="acceptDrops" >
       <bool>true</bool>
      </property>
      <property name="selectionMode" >
-      <enum>Q3ListView::Single</enum>
+      <enum>QAbstractItemView::SingleSelection</enum>
      </property>
-     <property name="allColumnsShowFocus" >
-      <bool>true</bool>
-     </property>
-     <property name="showSortIndicator" >
-      <bool>true</bool>
-     </property>
-     <property name="itemMargin" >
-      <number>1</number>
-     </property>
-     <property name="fullWidth" >
+     <property name="sortingEnabled" >
       <bool>true</bool>
      </property>
      <property name="dragEnabled" >

@@ -49,6 +49,7 @@ public:
 public Q_SLOTS:
 	void addGroup(const QString &name, const KGpgKeyNodeList &keys);
 	void delGroup(const KGpgNode *node);
+	void changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys);
 
 protected:
 	int rowForNode(KGpgNode *node) const;

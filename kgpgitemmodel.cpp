@@ -174,3 +174,36 @@ KGpgItemModel::delGroup(const KGpgNode *node)
 	delete node;
 	emit layoutChanged();
 }
+
+void
+KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
+{
+	emit layoutAboutToBeChanged();
+	for (int i = 0; i < keys.count(); i++) {
+		bool found = false;
+		int j;
+
+		for (j = 0; j < node->getChildCount(); j++) {
+			found = (node->getChild(j)->getId() == keys.at(i)->getId());
+			if (found)
+				break;
+		}
+		if (found)
+			continue;
+		delete node->getChild(j);
+	}
+
+	for (int i = 0; i < keys.count(); i++) {
+		bool found = false;
+		for (int j = 0; j < node->getChildCount(); j++) {
+			found = (node->getChild(j)->getId() == keys.at(i)->getId());
+			if (found)
+				break;
+		}
+		if (found)
+			continue;
+		Q_ASSERT(!(keys.at(i)->getType() & ITYPE_GROUP));
+		new KGpgGroupMemberNode(node, static_cast<KGpgKeyNode *>(keys.at(i)));
+	}
+	emit layoutChanged();
+}
