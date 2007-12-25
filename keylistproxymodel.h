@@ -9,7 +9,7 @@ class KGpgItemModel;
 class KeyListProxyModel: public QSortFilterProxyModel
 {
 public:
-	KeyListProxyModel(QObject * parent = 0);
+	explicit KeyListProxyModel(QObject * parent = 0);
 
 	virtual bool hasChildren(const QModelIndex &idx) const;
 	void setKeyModel(KGpgItemModel *);
