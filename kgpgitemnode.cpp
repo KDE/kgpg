@@ -441,7 +441,7 @@ KGpgGroupMemberNode::getCreation() const
 QString
 KGpgGroupMemberNode::getId() const
 {
-	return m_key->fullId();
+	return m_key->fingerprint();
 }
 
 KGpgOrphanNode::KGpgOrphanNode(KGpgExpandableNode *parent, const KgpgKey &k)
