@@ -3,7 +3,6 @@
 #include "kgpgitemmodel.h"
 
 #include <QHeaderView>
-#include <KDebug>
 
 groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
 	: QWidget( parent ), members(ids)
@@ -51,22 +50,34 @@ groupEdit::setModel(KGpgItemModel *md)
 void
 groupEdit::groupAdd()
 {
-#warning FIXME
-/*    QList<Q3ListViewItem*> addList = gEdit->availableKeys->selectedItems();
-    for (int i = 0; i < addList.count(); ++i)
-        if (addList.at(i))
-            gEdit->groupKeys->insertItem(addList.at(i));*/
+	QModelIndexList sel = availableKeys->selectionModel()->selectedIndexes();
+	for (int i = 0; i < sel.count(); i++) {
+		if (sel.at(i).column() != 0)
+			continue;
+		KGpgNode *nd = m_out->nodeForIndex(sel.at(i));
+		members->append(nd);
+	}
+	m_in->invalidate();
+	m_out->invalidate();
 }
 
 void
 groupEdit::groupRemove()
 {
 	Q_ASSERT(!members->isEmpty());
-#warning FIXME
-/*    QList<Q3ListViewItem*> remList = gEdit->groupKeys->selectedItems();
-    for (int i = 0; i < remList.count(); ++i)
-        if (remList.at(i))
-            gEdit->availableKeys->insertItem(remList.at(i));*/
+	QModelIndexList sel = groupKeys->selectionModel()->selectedIndexes();
+	for (int i = 0; i < sel.count(); i++) {
+		if (sel.at(i).column() != 0)
+			continue;
+		KGpgNode *nd = m_in->nodeForIndex(sel.at(i));
+		for (int j = 0; j < members->count(); j++)
+			if (members->at(j)->getId() == nd->getId()) {
+				members->removeAt(j);
+				break;
+			}
+	}
+	m_in->invalidate();
+	m_out->invalidate();
 }
 
 void
