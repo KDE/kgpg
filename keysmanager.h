@@ -34,11 +34,9 @@
 #include "kgpgkey.h"
 #include "keylistview.h"
 #include "ui_adduid.h"
-#include "ui_groupedit.h"
 #include "kgpginterface.h"
 #include "kgpgitemmodel.h"
 #include "kgpgitemnode.h"
-#include "groupeditproxymodel.h"
 
 class QCloseEvent;
 class QEvent;
@@ -58,39 +56,6 @@ class KGpgTransaction;
 class KeyListProxyModel;
 class GroupEditProxyModel;
 class KeyTreeView;
-
-class groupEdit : public QWidget, public Ui::groupEdit
-{
-private:
-	GroupEditProxyModel *m_in;
-	GroupEditProxyModel *m_out;
-
-public:
-	QList<KGpgNode *> *members;
-
-	explicit groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
-		: QWidget( parent ), members(ids)
-		{
-			setupUi( this );
-			m_in = new GroupEditProxyModel(this, true, members);
-			m_out = new GroupEditProxyModel(this, false, members);
-			availableKeys->setModel(m_out);
-			groupKeys->setModel(m_in);
-		}
-
-	~groupEdit()
-		{
-			delete m_in;
-			delete m_out;
-		}
-
-	void setModel(KGpgItemModel *md)
-		{
-			m_in->setKeyModel(md);
-			m_out->setKeyModel(md);
-		}
-};
-
 
 class AddUid : public QWidget, public Ui::AddUid
 {
@@ -210,8 +175,6 @@ private slots:
     void slotedit();
     void addToKAB();
     void editGroup();
-    void groupAdd();
-    void groupRemove();
     void createNewGroup();
     void deleteGroup();
     void slotImportRevoke(const QString &url);
@@ -268,7 +231,6 @@ private:
     QAction *setDefaultKey;
 
     KeyServer *kServer;
-    groupEdit *gEdit;
     KgpgInterface *revKeyProcess;
 
     bool continueSearch;

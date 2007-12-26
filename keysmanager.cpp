@@ -114,6 +114,7 @@
 #include "sourceselect.h"
 #include "keylistproxymodel.h"
 #include "keytreeview.h"
+#include "groupedit.h"
 
 using namespace KgpgCore;
 
@@ -1713,25 +1714,6 @@ void KeysManager::keyproperties()
     }
 }
 
-void KeysManager::groupAdd()
-{
-#warning FIXME
-/*    QList<Q3ListViewItem*> addList = gEdit->availableKeys->selectedItems();
-    for (int i = 0; i < addList.count(); ++i)
-        if (addList.at(i))
-            gEdit->groupKeys->insertItem(addList.at(i));*/
-}
-
-void KeysManager::groupRemove()
-{
-	Q_ASSERT(!gEdit->members->isEmpty());
-#warning FIXME
-/*    QList<Q3ListViewItem*> remList = gEdit->groupKeys->selectedItems();
-    for (int i = 0; i < remList.count(); ++i)
-        if (remList.at(i))
-            gEdit->availableKeys->insertItem(remList.at(i));*/
-}
-
 void KeysManager::deleteGroup()
 {
     KGpgNode *nd = iview->selectedNode();
@@ -1810,26 +1792,11 @@ void KeysManager::editGroup()
     for (int i = 0; i < nd->getChildCount(); i++)
         members << nd->getChild(i);
 
-    gEdit = new groupEdit(this, &members);
-    gEdit->buttonAdd->setIcon(KIcon("go-down"));
-    gEdit->buttonRemove->setIcon(KIcon("go-up"));
+    groupEdit *gEdit = new groupEdit(this, &members);
     gEdit->setModel(imodel);
 
-    connect(gEdit->buttonAdd, SIGNAL(clicked()), this, SLOT(groupAdd()));
-    connect(gEdit->buttonRemove, SIGNAL(clicked()), this, SLOT(groupRemove()));
-    connect(gEdit->availableKeys, SIGNAL(doubleClicked (Q3ListViewItem *, const QPoint &, int)), this, SLOT(groupAdd()));
-    connect(gEdit->groupKeys, SIGNAL(doubleClicked (Q3ListViewItem *, const QPoint &, int)), this, SLOT(groupRemove()));
-
     dialogGroupEdit->setMainWidget(gEdit);
-    gEdit->availableKeys->setColumnWidth(0, 200);
-    gEdit->availableKeys->setColumnWidth(1, 200);
-    gEdit->availableKeys->setColumnWidth(2, 100);
 
-    gEdit->groupKeys->setColumnWidth(0, 200);
-    gEdit->groupKeys->setColumnWidth(1, 200);
-    gEdit->groupKeys->setColumnWidth(2, 100);
-
-    gEdit->setMinimumSize(gEdit->sizeHint());
     gEdit->show();
     if (dialogGroupEdit->exec() == QDialog::Accepted)
         imodel->changeGroup(static_cast<KGpgGroupNode *>(nd), members);
