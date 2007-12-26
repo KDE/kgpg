@@ -159,12 +159,16 @@ KGpgItemModel::statusCountMessage() const
 	}
 }
 
-void
+KGpgGroupNode *
 KGpgItemModel::addGroup(const QString &name, const KGpgKeyNodeList &keys)
 {
+	KGpgGroupNode *nd;
+
 	emit layoutAboutToBeChanged();
-	new KGpgGroupNode(m_root, name);
+	nd = new KGpgGroupNode(m_root, name);
 	emit layoutChanged();
+
+	return nd;
 }
 
 void

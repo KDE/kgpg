@@ -1747,8 +1747,7 @@ void KeysManager::createNewGroup()
             KgpgInterface::setGpgGroupSetting(groupName, keysGroup, KGpgSettings::gpgConfigPath());
             QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
 
-#warning FIXME: scroll to new group
-            imodel->addGroup(groupName, keysList);
+            iview->selectNode(imodel->addGroup(groupName, keysList));
             changeMessage(imodel->statusCountMessage(), 1);
         }
         else
