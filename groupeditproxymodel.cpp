@@ -9,7 +9,7 @@
 using namespace KgpgCore;
 
 GroupEditProxyModel::GroupEditProxyModel(QObject *parent, const bool &invert, QList<KGpgNode *> *ids)
-	: QSortFilterProxyModel(parent), m_invert(invert), m_ids(ids)
+	: QSortFilterProxyModel(parent), m_invert(invert), m_ids(ids), m_model(NULL)
 {
 }
 
@@ -76,10 +76,13 @@ GroupEditProxyModel::headerData(int section, Qt::Orientation orientation, int ro
 	if (orientation != Qt::Horizontal)
 		return QVariant();
 
+	if (m_model == NULL)
+		return QVariant();
+
 	switch (section) {
-		case 0:	return QString(i18n("Name"));
-		case 1:	return QString(i18n("Email"));
-		case 2:	return QString(i18n("ID"));
-		default:	return QVariant();
+	case 0:	return m_model->headerData(KEYCOLUMN_NAME, orientation, role);
+	case 1:	return m_model->headerData(KEYCOLUMN_EMAIL, orientation, role);
+	case 2:	return m_model->headerData(KEYCOLUMN_ID, orientation, role);
+	default:	return QVariant();
 	}
 }

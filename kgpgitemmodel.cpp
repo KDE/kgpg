@@ -207,3 +207,24 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 	}
 	emit layoutChanged();
 }
+
+QVariant
+KGpgItemModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+	if (role != Qt::DisplayRole)
+		return QVariant();
+
+	if (orientation != Qt::Horizontal)
+		return QVariant();
+
+	switch (section) {
+	case KEYCOLUMN_NAME:	return QString(i18n("Name"));
+	case KEYCOLUMN_EMAIL:	return QString(i18n("Email"));
+	case KEYCOLUMN_TRUST:	return QString(i18n("Trust"));
+	case KEYCOLUMN_SIZE:	return QString(i18n("Size"));
+	case KEYCOLUMN_EXPIR:	return QString(i18n("Expiration"));
+	case KEYCOLUMN_CREAT:	return QString(i18n("Creation"));
+	case KEYCOLUMN_ID:	return QString(i18n("ID"));
+	default:	return QVariant();
+	}
+}
