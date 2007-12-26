@@ -9,7 +9,7 @@
 using namespace KgpgCore;
 
 GroupEditProxyModel::GroupEditProxyModel(QObject *parent, const bool &invert, QList<KGpgNode *> *ids)
-	: QSortFilterProxyModel(parent), m_invert(invert), m_ids(ids), m_model(NULL)
+	: QSortFilterProxyModel(parent), m_model(NULL), m_invert(invert), m_ids(ids)
 {
 }
 
