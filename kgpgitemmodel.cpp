@@ -179,18 +179,17 @@ void
 KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 {
 	emit layoutAboutToBeChanged();
-	for (int i = 0; i < keys.count(); i++) {
+	for (int i = node->getChildCount() - 1; i >= 0; i--) {
 		bool found = false;
-		int j;
 
-		for (j = 0; j < node->getChildCount(); j++) {
-			found = (node->getChild(j)->getId() == keys.at(i)->getId());
+		for (int j = 0; j < keys.count(); j++) {
+			found = (node->getChild(i)->getId() == keys.at(j)->getId());
 			if (found)
 				break;
 		}
 		if (found)
 			continue;
-		delete node->getChild(j);
+		delete node->getChild(i);
 	}
 
 	for (int i = 0; i < keys.count(); i++) {
