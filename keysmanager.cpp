@@ -214,7 +214,7 @@ KeysManager::KeysManager(QWidget *parent)
     importKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Paste));
 
     QAction *newContact = actionCollection()->addAction("add_kab");
-    newContact->setIcon(KIcon("office-addressbook"));
+    newContact->setIcon(KIcon("office-address-book"));
     newContact->setText(i18n("&Create New Contact in Address Book"));
     connect(newContact, SIGNAL(triggered(bool)), SLOT(addToKAB()));
 
