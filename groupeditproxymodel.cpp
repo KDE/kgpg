@@ -4,6 +4,7 @@
 #include "core/kgpgkey.h"
 
 #include <KDebug>
+#include <KLocale>
 
 using namespace KgpgCore;
 
@@ -66,14 +67,19 @@ GroupEditProxyModel::data(const QModelIndex &index, int role) const
 	return QVariant();
 }
 
-void
-GroupEditProxyModel::beginChange()
+QVariant
+GroupEditProxyModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-	emit layoutAboutToBeChanged();
-}
+	if (role != Qt::DisplayRole)
+		return QVariant();
 
-void
-GroupEditProxyModel::endChange()
-{
-	emit layoutChanged();
+	if (orientation != Qt::Horizontal)
+		return QVariant();
+
+	switch (section) {
+		case 0:	return QString(i18n("Name"));
+		case 1:	return QString(i18n("Email"));
+		case 2:	return QString(i18n("ID"));
+		default:	return QVariant();
+	}
 }

@@ -18,6 +18,7 @@ public:
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 
 	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
 protected:
 	virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
@@ -27,10 +28,6 @@ private:
 	KGpgItemModel *m_model;
 	bool m_invert;
 	QList<KGpgNode *> *m_ids;
-
-public Q_SLOTS:
-	void beginChange();
-	void endChange();
 };
 
 #endif
