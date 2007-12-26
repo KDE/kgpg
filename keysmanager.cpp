@@ -145,11 +145,11 @@ KeysManager::KeysManager(QWidget *parent)
 
     action = actionCollection()->addAction( "key_server" );
     action->setText( i18n("&Key Server Dialog") );
-    action->setIcon( KIcon("network-wired") );
+    action->setIcon( KIcon("network-server") );
     connect(action, SIGNAL(triggered(bool)), SLOT(showKeyServer()));
 
     action =  actionCollection()->addAction( "help_tipofday");
-    action->setIcon( KIcon("idea") );
+    action->setIcon( KIcon("help-hint") );
     action->setText( i18n("Tip of the &Day") );
     connect(action, SIGNAL(triggered(bool)), SLOT(slotTip()));
 
@@ -159,7 +159,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(action, SIGNAL(triggered(bool)), SLOT(slotManpage()));
 
     action = actionCollection()->addAction("kgpg_editor");
-    action->setIcon(KIcon("object-edit"));
+    action->setIcon(KIcon("document-properties"));
     action->setText(i18n("&Open Editor"));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotOpenEditor()));
 
@@ -217,7 +217,7 @@ KeysManager::KeysManager(QWidget *parent)
     importKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Paste));
 
     QAction *newContact = actionCollection()->addAction("add_kab");
-    newContact->setIcon(KIcon("kaddressbook"));
+    newContact->setIcon(KIcon("office-addressbook"));
     newContact->setText(i18n("&Create New Contact in Address Book"));
     connect(newContact, SIGNAL(triggered(bool)), SLOT(addToKAB()));
 
@@ -267,11 +267,11 @@ KeysManager::KeysManager(QWidget *parent)
     setPrimUid->setText(i18n("Set User Id as &primary"));
     connect(setPrimUid, SIGNAL(triggered(bool)), SLOT(slotPrimUid()));
     QAction *openPhoto = actionCollection()->addAction("key_photo");
-    openPhoto->setIcon(KIcon("image"));
+    openPhoto->setIcon(KIcon("image-x-generic"));
     openPhoto->setText(i18n("&Open Photo"));
     connect(openPhoto, SIGNAL(triggered(bool)), SLOT(slotShowPhoto()));
     QAction *deletePhoto = actionCollection()->addAction("delete_photo");
-    deletePhoto->setIcon(KIcon("delete"));
+    deletePhoto->setIcon(KIcon("edit-delete"));
     deletePhoto->setText(i18n("&Delete Photo"));
     connect(deletePhoto, SIGNAL(triggered(bool)), SLOT(slotDeletePhoto()));
     delSignKey = actionCollection()->addAction("key_delsign");
@@ -280,7 +280,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(delSignKey, SIGNAL(triggered(bool)), SLOT(delsignkey()));
 
     importAllSignKeys = actionCollection()->addAction("key_importallsign");
-    importAllSignKeys->setIcon(KIcon("network-wired"));
+    importAllSignKeys->setIcon(KIcon("document-import"));
     importAllSignKeys->setText(i18n("Import &Missing Signatures From Keyserver"));
     connect(importAllSignKeys, SIGNAL(triggered(bool)), SLOT(importallsignkey()));
     refreshKey = actionCollection()->addAction("key_server_refresh");
@@ -292,7 +292,7 @@ KeysManager::KeysManager(QWidget *parent)
     signKey->setText(i18n("&Sign Keys..."));
     connect(signKey, SIGNAL(triggered(bool)), SLOT(signkey()));
     importSignatureKey = actionCollection()->addAction("key_importsign");
-    importSignatureKey->setIcon(KIcon("network-wired"));
+    importSignatureKey->setIcon(KIcon("document-import"));
     importSignatureKey->setText(i18n("Import key(s) from keyserver"));
     connect(importSignatureKey, SIGNAL(triggered(bool)), SLOT(preimportsignkey()));
 
