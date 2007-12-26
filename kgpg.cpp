@@ -113,7 +113,7 @@ MyView::MyView(QWidget *parent, KSystemTrayIcon *parentTrayIcon)
     saveDecrypt = new KAction(KIcon(QString("document-decrypt")), i18n("&Decrypt && Save File"), this);
     saveDecrypt->setObjectName("decrypt_file");
     connect(saveDecrypt, SIGNAL(triggered(bool)), SLOT(decryptDroppedFile()));
-    showDecrypt = new KAction(KIcon(QString("object-edit")), i18n("&Show Decrypted File"), this);
+    showDecrypt = new KAction(KIcon(QString("document-preview")), i18n("&Show Decrypted File"), this);
     showDecrypt->setObjectName("show_file");
     connect(showDecrypt, SIGNAL(triggered(bool)), SLOT(showDroppedFile()));
     encrypt = new KAction(KIcon(QString("document-encrypt")), i18n("&Encrypt File"), this);
@@ -924,7 +924,7 @@ kgpgapplet::kgpgapplet(QWidget *parent)
     QMenu *conf_menu = contextMenu();
 
     QAction *KgpgOpenEditor = actionCollection()->addAction("kgpg_editor");
-    KgpgOpenEditor->setIcon(KIcon("object-edit"));
+    KgpgOpenEditor->setIcon(KIcon("document-properties"));
     KgpgOpenEditor->setText(i18n("E&ditor"));
     connect(KgpgOpenEditor, SIGNAL(triggered(bool)), parent, SLOT(slotOpenEditor()));
     QAction *KgpgOpenManager = actionCollection()->addAction("kgpg_manager");
@@ -943,7 +943,7 @@ kgpgapplet::kgpgapplet(QWidget *parent)
     connect(KgpgSignClipboard, SIGNAL(triggered(bool)), w, SLOT(clipSign()));
 
     QAction *KgpgOpenServer = actionCollection()->addAction("kgpg_server");
-    KgpgOpenServer->setIcon(KIcon("network-wired"));
+    KgpgOpenServer->setIcon(KIcon("network-server"));
     KgpgOpenServer->setText(i18n("&Key Server Dialog"));
     connect(KgpgOpenServer, SIGNAL(triggered(bool)), SLOT(slotOpenServerDialog()));
     QAction *KgpgPreferences = KStandardAction::preferences(this, SLOT(showOptions()), actionCollection());
