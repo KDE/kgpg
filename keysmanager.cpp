@@ -327,7 +327,7 @@ KeysManager::KeysManager(QWidget *parent)
     iproxy->setKeyModel(imodel);
 
     iview = new KeyTreeView(this, iproxy);
-    connect(iview, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(showProperties(const QModelIndex &)));
+    connect(iview, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(defaultAction(const QModelIndex &)));
     iview->setSelectionMode(QAbstractItemView::ExtendedSelection);
     setCentralWidget(iview);
     for (int i = 0; i < 7; i++)
@@ -336,6 +336,7 @@ KeysManager::KeysManager(QWidget *parent)
     iview->setSortingEnabled(true);
     connect(iview, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(slotMenu(const QPoint &)));
     iview->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(iview->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this, SLOT(checkList()));
 
     int psize = KGpgSettings::photoProperties();
     photoProps->setCurrentItem(psize);
@@ -408,7 +409,6 @@ KeysManager::KeysManager(QWidget *parent)
 
     connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(defaultAction()));
     connect(keysList2, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(defaultAction()));
-    connect(keysList2, SIGNAL(selectionChanged ()), this, SLOT(checkList()));
     connect(keysList2, SIGNAL(destroyed()), this, SLOT(annule()));
     connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
 
@@ -636,19 +636,10 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
 
         keyCreated->exec();
 
-        KeyListViewItem *newdef = keysList2->findItemByKeyId(fingerprint);
-        if (newdef)
-        {
             if (page->CBdefault->isChecked())
-                slotSetDefaultKey(newdef);
-            else
-            {
-                keysList2->clearSelection();
-                keysList2->setCurrentItem(newdef);
-                keysList2->setSelected(newdef, true);
-                keysList2->ensureItemVisible(newdef);
-            }
-        }
+                imodel->setDefaultKey(fingerprint);
+
+            iview->selectNode(imodel->getRootNode()->findKey(fingerprint));
 
         if (page->CBsave->isChecked())
         {
@@ -1326,7 +1317,6 @@ bool KeysManager::isSignatureUnknown(KeyListViewItem *item)
 void
 KeysManager::slotMenu(const QPoint &pos)
 {
-	checkList();
 	QPoint globpos = iview->mapToGlobal(pos);
 	bool sametype;
 	KgpgItemType itype;
@@ -1629,39 +1619,31 @@ void KeysManager::slotShowPhoto()
     p.startDetached();
 }
 
-void KeysManager::defaultAction()
+void KeysManager::defaultAction(const QModelIndex &index)
 {
-    // kDebug(2100) << "Edit -------------------------------" ;
-    KeyListViewItem *cur = keysList2->currentItem();
-    if (cur == NULL)
-        return;
+	KGpgNode *nd = iproxy->nodeForIndex(index);
 
-    if (cur->itemType() == KeyListViewItem::Group) {
-        editGroup();
-        return;
-    }
-
-    if (cur->depth() != 0)
-    {
-        if (cur->itemType() == KeyListViewItem::Uat)
-        {
-            // display photo
-            slotShowPhoto();
+	switch (nd->getType()) {
+	case ITYPE_GROUP:
+		editGroup();
+		break;
+	case ITYPE_UAT:
+		slotShowPhoto();
+		break;
+	case ITYPE_SIGN:
+	case ITYPE_GPUBLIC:
+	case ITYPE_GSECRET:
+	case ITYPE_GPAIR:
+		iview->selectNode(imodel->getRootNode()->findKey(nd->getId()));
+		break;
+	case ITYPE_SECRET:
+#warning FIXME: orphan
+		break;
+	case ITYPE_PAIR:
+	case ITYPE_PUBLIC:
+		showProperties(index);
+		return;
         }
-        if (isSignatureUnknown(cur) && !(cur->itemType() & KeyListViewItem::Group))
-          return;
-        KeyListViewItem *tgt = keysList2->findItemByKeyId(cur->keyId());
-        if (tgt == NULL)
-          return;
-        keysList2->clearSelection();
-        keysList2->setCurrentItem(tgt);
-        keysList2->setSelected(tgt, true);
-        keysList2->ensureItemVisible(tgt);
-        return;
-    }
-
-    if (cur->itemType() & KeyListViewItem::Pair)
-        keyproperties();
 }
 
 void
