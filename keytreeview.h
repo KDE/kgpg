@@ -19,6 +19,9 @@ public:
 
 	QList<KGpgNode *> selectedNodes(bool *psame = NULL, KgpgCore::KgpgItemType *pt = NULL) const;
 	KGpgNode *selectedNode() const;
+
+public Q_SLOTS:
+	void selectNode(KGpgNode *nd);
 };
 
 #endif

@@ -17,6 +17,7 @@ public:
 	void setShowExpired(const bool &b);
 
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
+	QModelIndex nodeIndex(KGpgNode *node);
 
 protected:
 	virtual bool lessThan(const QModelIndex &left, const QModelIndex &right) const;

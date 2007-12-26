@@ -98,7 +98,7 @@ KGpgRootNode::findKey(const QString &keyId)
 
 		KGpgKeyNode *key = static_cast<KGpgKeyNode *>(node);
 
-		if (keyId == key->getKeyId().mid(0, keyId.length()))
+		if (keyId == key->getKeyId().right(keyId.length()))
 			return key;
 	}
 

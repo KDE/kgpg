@@ -162,3 +162,9 @@ KeyListProxyModel::nodeForIndex(const QModelIndex &index) const
 {
 	return m_model->nodeForIndex(mapToSource(index));
 }
+
+QModelIndex
+KeyListProxyModel::nodeIndex(KGpgNode *node)
+{
+	return mapFromSource(m_model->nodeIndex(node));
+}

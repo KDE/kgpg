@@ -709,11 +709,7 @@ bool KeysManager::eventFilter(QObject *, QEvent *e)
 
 void KeysManager::slotGotoDefaultKey()
 {
-    KeyListViewItem *myDefaulKey = keysList2->findItemByKeyId(KGpgSettings::defaultKey());
-    keysList2->clearSelection();
-    keysList2->setCurrentItem(myDefaulKey);
-    keysList2->setSelected(myDefaulKey, true);
-    keysList2->ensureItemVisible(myDefaulKey);
+    iview->selectNode(imodel->getRootNode()->findKey(KGpgSettings::defaultKey()));
 }
 
 void KeysManager::refreshKeyFromServer()

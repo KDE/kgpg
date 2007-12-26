@@ -57,3 +57,12 @@ KeyTreeView::selectedNode() const
 
 	return m_proxy->nodeForIndex(selidx[0]);
 }
+
+void
+KeyTreeView::selectNode(KGpgNode *nd)
+{
+	QModelIndex idx = m_proxy->nodeIndex(nd);
+
+	selectionModel()->select(idx, QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
+	selectionModel()->setCurrentIndex(idx, QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
+}

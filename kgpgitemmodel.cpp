@@ -227,3 +227,28 @@ KGpgItemModel::headerData(int section, Qt::Orientation orientation, int role) co
 	default:	return QVariant();
 	}
 }
+
+void
+KGpgItemModel::setDefaultKey(const QString &def)
+{
+	KGpgKeyNode *n_def = m_root->findKey(def);
+	if (n_def == m_default)
+		return;
+
+	emit layoutAboutToBeChanged();
+	m_default = n_def;
+	emit layoutChanged();
+}
+
+QModelIndex
+KGpgItemModel::nodeIndex(KGpgNode *node)
+{
+	KGpgNode *p = node->getParentKeyNode();
+
+	for (int i = 0; i < p->getChildCount(); i++)
+		if (p->getChild(i) == node)
+			return createIndex(i, 0, node);
+
+	Q_ASSERT(1);
+	return QModelIndex();
+}
