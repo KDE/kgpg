@@ -40,6 +40,9 @@
      <property name="dragEnabled" >
       <bool>false</bool>
      </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
      <column>
       <property name="text" >
        <string>Name</string>
@@ -117,6 +120,9 @@
      </property>
      <property name="dragEnabled" >
       <bool>false</bool>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
      </property>
      <column>
       <property name="text" >
