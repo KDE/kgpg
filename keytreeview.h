@@ -8,6 +8,7 @@
 class KGpgNode;
 class KGpgItemModel;
 class KeyListProxyModel;
+class KConfigGroup;
 
 class KeyTreeView: public QTreeView
 {
@@ -19,6 +20,9 @@ public:
 
 	QList<KGpgNode *> selectedNodes(bool *psame = NULL, KgpgCore::KgpgItemType *pt = NULL) const;
 	KGpgNode *selectedNode() const;
+
+	void restoreLayout(KConfigGroup &cg);
+	void saveLayout(KConfigGroup &cg) const;
 
 public Q_SLOTS:
 	void selectNode(KGpgNode *nd);

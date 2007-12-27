@@ -405,7 +405,9 @@ KeysManager::KeysManager(QWidget *parent)
     newContact->setEnabled(false);
 
 //     setCentralWidget(keysList2);
-    keysList2->restoreLayout(KGlobal::config().data(), "KeyView");
+    KConfigGroup cg = KConfigGroup(KGlobal::config().data(), "KeyView");
+    keysList2->restoreLayout(cg);
+    iview->restoreLayout(cg);
 
     connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(defaultAction()));
     connect(keysList2, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(defaultAction()));

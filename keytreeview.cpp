@@ -66,3 +66,36 @@ KeyTreeView::selectNode(KGpgNode *nd)
 	selectionModel()->select(idx, QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
 	selectionModel()->setCurrentIndex(idx, QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
 }
+
+void
+KeyTreeView::restoreLayout(KConfigGroup & cg)
+{
+	QStringList cols = cg.readEntry("ColumnWidths", QStringList());
+	int i = 0;
+
+	QStringList::ConstIterator it = cols.constBegin();
+	const QStringList::ConstIterator itEnd = cols.constEnd();
+	for (; it != itEnd; ++it)
+		setColumnWidth(i++, (*it).toInt());
+
+	if (cg.hasKey("SortColumn")) {
+		Qt::SortOrder order = cg.readEntry("SortAscending", true) ? Qt::AscendingOrder : Qt::DescendingOrder;
+		sortByColumn(cg.readEntry("SortColumn", 0), order);
+	}
+}
+
+void
+KeyTreeView::saveLayout(KConfigGroup &cg) const
+{
+	QStringList widths;
+
+	const int colCount = model()->columnCount();
+
+	for (int i = 0; i < colCount; ++i) {
+		widths << QString::number(columnWidth(i));
+	}
+	cg.writeEntry("ColumnWidths", widths);
+#warning port me
+/*	cg.writeEntry("SortColumn", d->sortColumn);
+	cg.writeEntry("SortAscending", d->sortAscending);*/
+}
