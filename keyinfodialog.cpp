@@ -398,7 +398,7 @@ void KgpgKeyInfo::loadKey()
 
     if (key.email().isEmpty())
     {
-        m_email->setText(i18n("no email address", "none"));
+        m_email->setText(i18nc("no email address", "none"));
         m_email->setUrl("");
     }
     else
