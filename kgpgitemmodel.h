@@ -50,9 +50,13 @@ public Q_SLOTS:
 	void changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys);
 	void setDefaultKey(const QString &def);
 	QModelIndex nodeIndex(KGpgNode *node);
+	void refreshKey(const QString &id);
+	void refreshKeys(const QStringList &ids = QStringList());
+	void refreshGroups();
 
 protected:
 	int rowForNode(KGpgNode *node) const;
+	void refreshKeyIds(const QStringList &id);
 };
 
 #endif

@@ -140,7 +140,7 @@ public:
 		{ return 0; }
 
 	void addGroups();
-	void addKeys();
+	void addKeys(const QStringList &ids = QStringList());
 	KGpgKeyNode *findKey(const QString &keyId);
 
 	int groupChildren() const

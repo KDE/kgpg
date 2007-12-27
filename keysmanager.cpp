@@ -461,7 +461,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(m_statusbartimer, SIGNAL(timeout()), this, SLOT(statusBarTimeout()));
 
     s_kgpgEditor = new KgpgEditor(parent, Qt::WType_Dialog, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut(), true);
-    connect(s_kgpgEditor, SIGNAL(refreshImported(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
+    connect(s_kgpgEditor, SIGNAL(refreshImported(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
     connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
 }
 
@@ -511,7 +511,7 @@ void KeysManager::slotOpenEditor()
     KgpgEditor *kgpgtxtedit = new KgpgEditor(this, Qt::Window, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut());
     kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 
-    connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
+    connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
     connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SIGNAL(encryptFiles(KUrl::List)));
     connect(this, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
 
@@ -655,7 +655,7 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
             slotrevoke(id, QString(), 0, i18n("backup copy"));
             connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
         }
-        keysList2->refreshKeys(QStringList(id));
+        imodel->refreshKeys(QStringList(id));
     }
 }
 
@@ -735,17 +735,8 @@ void KeysManager::refreshKeyFromServer()
     }
 
     kServer = new KeyServer(this, false);
-    connect(kServer, SIGNAL(importFinished(QStringList)), this, SLOT(refreshFinished(QStringList)));
+    connect(kServer, SIGNAL(importFinished(QStringList)), imodel, SLOT(refreshKeys(const QStringList &)));
     kServer->refreshKeys(keyIDS);
-}
-
-void KeysManager::refreshFinished(const QStringList &ids)
-{
-    if (kServer)
-        kServer = 0L;
-
-    for (int i = 0; i < ids.count(); ++i)
-        keysList2->refreshcurrentkey(ids.at(i));
 }
 
 void KeysManager::slotDelUid()
@@ -761,8 +752,7 @@ void KeysManager::slotDelUid()
     args << "--edit-key" << nd->getParentKeyNode()->getId() << "uid" << nd->getId() << "deluid";
     process->start(terminalApp, args);
     process->waitForFinished();
-#warning port me
-//     keysList2->refreshcurrentkey(item);
+    imodel->refreshKey(nd->getParentKeyNode()->getId());
 }
 
 void KeysManager::slotPrimUid()
@@ -778,13 +768,12 @@ void KeysManager::slotPrimUid()
     args << "--edit-key" << nd->getParentKeyNode()->getId() << "uid" << nd->getId() << "primary" << "save";
     process->start(terminalApp, args);
     process->waitForFinished();
-#warning port me
-//     keysList2->refreshcurrentkey(item);
+    imodel->refreshKey(nd->getParentKeyNode()->getId());
 }
 
 void KeysManager::slotregenerate()
 {
-	QString regID = keysList2->currentItem()->keyId();
+	QString regID = iview->selectedNode()->getId();
 	KProcess *p1, *p2, *p3;
 
 	p1 = new KProcess(this);
@@ -813,8 +802,7 @@ void KeysManager::slotregenerate()
 	delete p2;
 	delete p3;
 
-	keysList2->takeItem(keysList2->currentItem());
-	keysList2->refreshKeys(QStringList(regID));
+	imodel->refreshKey(regID);
 }
 
 void KeysManager::slotAddUid()
@@ -1131,7 +1119,7 @@ void KeysManager::closeEvent (QCloseEvent *e)
 void KeysManager::showKeyServer()
 {
     KeyServer *ks = new KeyServer(this);
-    connect(ks, SIGNAL(importFinished(QStringList)), keysList2, SLOT(refreshKeys(QStringList)));
+    connect(ks, SIGNAL(importFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
     ks->exec();
     delete ks;
     refreshkey();
@@ -1239,7 +1227,7 @@ void KeysManager::showOptions()
 
     kgpgOptions *optionsDialog = new kgpgOptions(this, "settings");
     connect(optionsDialog, SIGNAL(settingsUpdated()), this, SLOT(readAllOptions()));
-    connect(optionsDialog, SIGNAL(homeChanged()), this, SLOT(refreshkey()));
+    connect(optionsDialog, SIGNAL(homeChanged()), imodel, SLOT(refreshKeys()));
     connect(optionsDialog, SIGNAL(refreshTrust(int, QColor)), keysList2, SLOT(refreshTrust(int, QColor)));
     connect(optionsDialog, SIGNAL(changeFont(QFont)), this, SIGNAL(fontChanged(QFont)));
     optionsDialog->exec();
@@ -1651,7 +1639,7 @@ KeysManager::showProperties(const QModelIndex &index)
 		{
 			KGpgKeyNode *k = static_cast<KGpgKeyNode *>(n);
 			KgpgKeyInfo *opts = new KgpgKeyInfo(k->getKeyId(), this);
-			connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), keysList2, SLOT(refreshcurrentkey(const QString &)));
+			connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
 			opts->exec();
 			delete opts;
 		}
@@ -1678,7 +1666,7 @@ void KeysManager::keyproperties()
     if (!key.isEmpty())
     {
         KgpgKeyInfo *opts = new KgpgKeyInfo(key, this);
-        connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), keysList2, SLOT(refreshcurrentkey(const QString &)));
+        connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
         opts->exec();
         delete opts;
     }
@@ -1972,7 +1960,7 @@ bool KeysManager::importRemoteKey(const QString &keyIDs)
 void KeysManager::importRemoteFinished(KGpgTransaction *t)
 {
 	delete t;
-	keysList2->refreshAll();
+	imodel->refreshKeys();
 }
 
 void KeysManager::importsignkey(const QStringList &importKeyId)
@@ -2049,12 +2037,7 @@ void KeysManager::delsignatureResult(bool success)
 {
     if (success)
     {
-        KeyListViewItem *top = keysList2->currentItem();
-        while (top->depth() != 0)
-            top = top->parent();
-        while (top->firstChild() != 0)
-            delete top->firstChild();
-        keysList2->refreshcurrentkey(top);
+        imodel->refreshKey(iview->selectedNode()->getId());
     }
     else
         KMessageBox::sorry(this, i18n("Requested operation was unsuccessful, please edit the key manually."));
@@ -2084,7 +2067,7 @@ void KeysManager::slotedit()
 void KeysManager::slotEditDone(int exitcode)
 {
     if (exitcode == 0)
-        keysList2->refreshcurrentkey(terminalkey);
+        imodel->refreshKey(terminalkey);
 
     terminalkey.clear();
 }
@@ -2199,6 +2182,7 @@ void KeysManager::confirmdeletekey()
 
 void KeysManager::deletekey()
 {
+    QList<KGpgNode *> ndlist = iview->selectedNodes();
     QList<KeyListViewItem*> exportList = keysList2->selectedItems();
     if (exportList.count() == 0)
         return;
@@ -2220,7 +2204,7 @@ void KeysManager::deletekey()
 
     gp.execute();
 
-    keysList2->refreshAll();
+    imodel->refreshKeys();
 
     if (keysList2->currentItem())
     {
@@ -2252,7 +2236,7 @@ void KeysManager::deletekey()
     else
         stateChanged("empty_list");
 
-    changeMessage(keysList2->statusCountMessage(), 1);
+    changeMessage(imodel->statusCountMessage(), 1);
 }
 
 void KeysManager::slotPreImportKey()
@@ -2280,7 +2264,7 @@ void KeysManager::slotPreImportKey()
                 changeMessage(i18n("Importing..."), 0, true);
                 // import from file
                 KgpgInterface *importKeyProcess = new KgpgInterface();
-                connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), keysList2, SLOT(slotReloadKeys(QStringList)));
+                connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
                 connect(importKeyProcess, SIGNAL(importKeyOrphaned()), keysList2, SLOT(slotReloadOrphaned()));
                 importKeyProcess->importKey(KUrl(impname));
             }
@@ -2303,8 +2287,7 @@ void KeysManager::slotPreImportKey()
 
 void KeysManager::refreshkey()
 {
-    keysList2->refreshAll();
-#warning FIXME: refresh model items
+	imodel->refreshKeys();
 }
 
 KGpgTransaction::KGpgTransaction()

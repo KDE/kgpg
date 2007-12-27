@@ -8,8 +8,6 @@
 KGpgItemModel::KGpgItemModel(QObject *parent)
 	: QAbstractItemModel(parent), m_root(new KGpgRootNode()), m_default(NULL)
 {
-	m_root->addKeys();
-
 	QString defaultkey = KGpgSettings::defaultKey();
 	m_default = m_root->findKey(defaultkey);
 }
@@ -256,4 +254,50 @@ KGpgItemModel::nodeIndex(KGpgNode *node)
 
 	Q_ASSERT(1);
 	return QModelIndex();
+}
+
+void
+KGpgItemModel::refreshKey(const QString &id)
+{
+	emit layoutAboutToBeChanged();
+	refreshKeyIds(QStringList(id));
+	emit layoutChanged();
+}
+
+void
+KGpgItemModel::refreshKeys(const QStringList &ids)
+{
+	emit layoutAboutToBeChanged();
+	refreshKeyIds(ids);
+	emit layoutChanged();
+}
+
+void
+KGpgItemModel::refreshKeyIds(const QStringList &ids)
+{
+	QStringList::ConstIterator it = ids.constBegin();
+	const QStringList::ConstIterator itEnd = ids.constEnd();
+
+	for (; it != itEnd; ++it) {
+		KGpgKeyNode *nd = m_root->findKey(*it);
+		delete nd;
+	}
+
+	m_root->addKeys(ids);
+	QString defaultkey = KGpgSettings::defaultKey();
+	m_default = m_root->findKey(defaultkey);
+}
+
+void
+KGpgItemModel::refreshGroups()
+{
+	emit layoutAboutToBeChanged();
+	for (int i = m_root->getChildCount() - 1; i >= 0; i--) {
+		KGpgNode *nd = m_root->getChild(i);
+		if (nd->getType() == ITYPE_GROUP)
+			delete nd;
+	}
+
+	m_root->addGroups();
+	emit layoutChanged();
 }

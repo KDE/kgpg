@@ -180,7 +180,6 @@ private slots:
     void slotImportRevoke(const QString &url);
     void slotImportRevokeTxt(const QString &revokeText);
     void refreshKeyFromServer();
-    void refreshFinished(const QStringList &ids);
     void slotregenerate();
     void reloadSecretKeys();
     void getMissingSigs(QStringList *missingKeys, KeyListViewItem *item);

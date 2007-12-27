@@ -54,11 +54,11 @@ KGpgRootNode::addGroups()
 }
 
 void
-KGpgRootNode::addKeys()
+KGpgRootNode::addKeys(const QStringList &ids)
 {
 	KgpgInterface *interface = new KgpgInterface();
 
-	KgpgKeyList publiclist = interface->readPublicKeys(true);
+	KgpgKeyList publiclist = interface->readPublicKeys(true, ids);
 
 	KgpgKeyList secretlist = interface->readSecretKeys();
 	QStringList issec = secretlist;
