@@ -5,7 +5,7 @@
 #include "kgpgsettings.h"
 #include "convert.h"
 
-KGpgNode::KGpgNode(KGpgNode *parent)
+KGpgNode::KGpgNode(KGpgExpandableNode *parent)
 	: QObject(), m_parent(parent)
 {
 }

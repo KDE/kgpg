@@ -7,6 +7,8 @@
 
 using namespace KgpgCore;
 
+class KGpgExpandableNode;
+
 class KGpgNode : public QObject
 {
 	Q_OBJECT
@@ -14,9 +16,9 @@ class KGpgNode : public QObject
 	friend class KGpgItemModel;
 
 protected:
-	KGpgNode *m_parent;
+	KGpgExpandableNode *m_parent;
 public:
-	explicit KGpgNode(KGpgNode *parent = 0);
+	explicit KGpgNode(KGpgExpandableNode *parent = 0);
 	virtual ~KGpgNode();
 
 	virtual bool hasChildren() const
@@ -50,12 +52,8 @@ public:
 		{ return QDate(); }
 	virtual QString getId() const
 		{ return QString(); }
-	KGpgNode *getParentKeyNode() const
+	KGpgExpandableNode *getParentKeyNode() const
 		{ return m_parent; }
-	virtual void deleteChild(KGpgNode *child)
-		{
-			Q_UNUSED(child)
-		}
 };
 
 class KGpgExpandableNode : public KGpgNode
@@ -82,8 +80,6 @@ public:
 		{ return children.at(index); }
 	virtual int getChildIndex(KGpgNode *node) const
 		{ return children.indexOf(node); }
-	virtual KGpgExpandableNode *getParentKeyNode() const
-		{ return static_cast<KGpgExpandableNode *>(m_parent); }
 	virtual void deleteChild(KGpgNode *child)
 		{ children.removeAll(child); }
 };
