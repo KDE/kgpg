@@ -56,7 +56,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     m_config = new KConfig("kgpgrc", KConfig::SimpleConfig);
 
     defaultServerList = "hkp://subkeys.pgp.net ";
-    defaultServerList += i18n("(Default)");
+    defaultServerList += i18nc("Mark default keyserver in GUI", "(Default)");
     defaultServerList += ",hkp://search.keyserver.net,hkp://wwwkeys.pgp.net,hkp://pgp.dtype.org,hkp://wwwkeys.us.pgp.net";
 
 	KConfigGroup gr = m_config->group("Servers");
@@ -68,9 +68,9 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 	serverList.replaceInStrings(QRegExp(" .*"), "");
 	if (!keyServer.isEmpty()) {
 		serverList.removeAll(keyServer);
-		serverList.prepend(keyServer + ' ' + i18n("(Default)"));
+		serverList.prepend(keyServer + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
 	} else {
-		serverList.replace(0, serverList.at(0) + ' ' + i18n("(Default)"));
+		serverList.replace(0, serverList.at(0) + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
 	}
 
 	defaultConfigPath = KUrl::fromPath(gpgConfigPath).fileName();
@@ -206,7 +206,7 @@ void kgpgOptions::slotDelKeyServer()
     m_page6->ServerBox->setSelected(0, true);
 
     if (defaultDeleted)
-        m_page6->ServerBox->changeItem(m_page6->ServerBox->currentText().section(" ", 0, 0) + ' ' + i18n("(Default)"), 0);
+        m_page6->ServerBox->changeItem(m_page6->ServerBox->currentText().section(" ", 0, 0) + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"), 0);
 }
 
 void kgpgOptions::slotEditKeyServer()
@@ -222,14 +222,14 @@ void kgpgOptions::slotEditKeyServer()
 	if (!isValidKeyserver(newServer))
 		return;
 	if (isDefault)
-		newServer = newServer + ' ' + i18n("(Default)");
+		newServer = newServer + ' ' + i18nc("Mark default keyserver in GUI", "(Default)");
 	m_page6->ServerBox->changeItem(newServer, m_page6->ServerBox->currentItem());
 }
 
 void kgpgOptions::slotDefaultKeyServer()
 {
     uint curr = m_page6->ServerBox->currentItem();
-    m_page6->ServerBox->changeItem(m_page6->ServerBox->currentText().section(" ", 0, 0) + ' ' + i18n("(Default)"), curr);
+    m_page6->ServerBox->changeItem(m_page6->ServerBox->currentText().section(" ", 0, 0) + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"), curr);
 
     for (uint i = 0; i < m_page6->ServerBox->count(); i++)
         if (i != curr)

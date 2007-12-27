@@ -28,7 +28,7 @@
 KgpgDetailedConsole::KgpgDetailedConsole(QWidget *parent, const QString &boxLabel, const QString &errormessage)
     : KDialog(parent)
 {
-    setCaption( i18n("Sorry") );
+    setCaption( i18nc("see kdeui/dialogs/kmessagebox.cpp", "Sorry") );
     setButtons( Details | Yes | No);
     setDefaultButton( No );
     setModal(true);

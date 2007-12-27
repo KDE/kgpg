@@ -35,7 +35,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
 
     m_keyslist = new K3ListView(page);
     m_keyslist->addColumn(i18nc("Name of key owner", "Name"), 200);
-    m_keyslist->addColumn(i18n("Email"), 200);
+    m_keyslist->addColumn(i18nc("Email address of key owner", "Email"), 200);
     m_keyslist->addColumn(i18n("Expiration"), 100);
     m_keyslist->addColumn(i18n("ID"), 100);
     m_keyslist->setFullWidth(true);
