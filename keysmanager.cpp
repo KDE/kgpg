@@ -750,38 +750,36 @@ void KeysManager::refreshFinished(const QStringList &ids)
 
 void KeysManager::slotDelUid()
 {
-    KeyListViewItem *uitem = keysList2->currentItem();
-    KeyListViewItem *item = uitem;
-    while (item->depth()>0)
-        item = item->parent();
+    KGpgNode *nd = iview->selectedNode();
+    Q_ASSERT(nd->getType() == ITYPE_UAT);
 
     QProcess *process = new QProcess(this);
     KConfigGroup config(KGlobal::config(), "General");
     QString terminalApp = config.readPathEntry("TerminalApplication", "konsole");
     QStringList args;
     args << "-e" << KGpgSettings::gpgBinaryPath();
-    args << "--edit-key" << item->keyId() << "uid" << uitem->text(6) << "deluid";
+    args << "--edit-key" << nd->getParentKeyNode()->getId() << "uid" << nd->getId() << "deluid";
     process->start(terminalApp, args);
     process->waitForFinished();
-    keysList2->refreshcurrentkey(item);
+#warning port me
+//     keysList2->refreshcurrentkey(item);
 }
 
 void KeysManager::slotPrimUid()
 {
-    KeyListViewItem *uitem = keysList2->currentItem();
-    KeyListViewItem *item = uitem;
-    while (item->depth()>0)
-        item = item->parent();
+    KGpgNode *nd = iview->selectedNode();
+    Q_ASSERT(nd->getType() == ITYPE_UAT);
 
     QProcess *process = new QProcess(this);
     KConfigGroup config(KGlobal::config(), "General");
     QString terminalApp = config.readPathEntry("TerminalApplication", "konsole");
     QStringList args;
     args << "-e" << KGpgSettings::gpgBinaryPath();
-    args << "--edit-key" << item->keyId() << "uid" << uitem->text(6) << "primary" << "save";
+    args << "--edit-key" << nd->getParentKeyNode()->getId() << "uid" << nd->getId() << "primary" << "save";
     process->start(terminalApp, args);
     process->waitForFinished();
-    keysList2->refreshcurrentkey(item);
+#warning port me
+//     keysList2->refreshcurrentkey(item);
 }
 
 void KeysManager::slotregenerate()
