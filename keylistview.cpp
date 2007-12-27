@@ -233,7 +233,7 @@ KeyListView::KeyListView(QWidget *parent)
 {
     setRootIsDecorated(true);
     addColumn(i18nc("Name of key owner", "Name"), 230);
-    addColumn(i18n("Email"), 220);
+    addColumn(i18nc("Email address of key owner", "Email"), 220);
     addColumn(i18n("Trust"), 60);
     addColumn(i18n("Expiration"), 100);
     addColumn(i18n("Size"), 50);
@@ -370,7 +370,7 @@ void KeyListView::slotReloadKeys(const QStringList &keyids)
 
     ensureItemVisible(this->findItemByKeyId(keyids.last()));
     emit statusMessage(statusCountMessage(), 1);
-    emit statusMessage(i18n("Ready"), 0);
+    emit statusMessage(i18nc("No operation in progress", "Ready"), 0);
 }
 
 void KeyListView::refreshAll()
@@ -396,7 +396,7 @@ void KeyListView::refreshAll()
     if (refreshKeys())
     {
         kDebug(2100) << "No key found" ;
-        emit statusMessage(i18n("Ready"), 0);
+        emit statusMessage(i18nc("No operation in progress", "Ready"), 0);
         return;
     }
 
@@ -426,7 +426,7 @@ void KeyListView::refreshAll()
     }*/
 
     emit statusMessage(statusCountMessage(), 1);
-    emit statusMessage(i18n("Ready"),0);
+    emit statusMessage(i18nc("No operation in progress", "Ready"),0);
     kDebug(2100) << "Refresh Finished" ;
 }
 
@@ -545,7 +545,7 @@ void KeyListView::slotReloadOrphaned()
 
     setSelected(findItemByKeyId(*it), true);
     emit statusMessage(statusCountMessage(), 1);
-    emit statusMessage(i18n("Ready"), 0);
+    emit statusMessage(i18nc("No operation in progress", "Ready"), 0);
 }
 
 void KeyListView::insertOrphans(const KgpgKeyList &keys)
@@ -601,7 +601,7 @@ void KeyListView::refreshGroups()
         }
 
     emit statusMessage(statusCountMessage(), 1);
-    emit statusMessage(i18n("Ready"), 0);
+    emit statusMessage(i18nc("No operation in progress", "Ready"), 0);
 }
 
 void KeyListView::refreshTrust(int color, const QColor &newColor)

@@ -146,7 +146,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     m_keyslist->setShowSortIndicator(true);
     m_keyslist->setAllColumnsShowFocus(true);
     m_keyslist->addColumn(i18nc("Name of key owner", "Name"));
-    m_keyslist->addColumn(i18n("Email"));
+    m_keyslist->addColumn(i18nc("Email address of key owner", "Email"));
     m_keyslist->addColumn(i18n("ID"));
     m_keyslist->setSelectionModeExt(K3ListView::Extended);
     m_keyslist->setWhatsThis(i18n("<b>Public keys list</b>: select the key that will be used for encryption."));

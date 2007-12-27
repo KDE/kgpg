@@ -104,7 +104,7 @@ KgpgDateDialog::KgpgDateDialog(QWidget *parent, const bool &unlimited, QDate dat
     setModal(true);
 
     QWidget *page = new QWidget(this);
-    m_unlimited = new QCheckBox(i18n("Unlimited"), page);
+    m_unlimited = new QCheckBox(i18nc("Key has unlimited lifetime", "Unlimited"), page);
 
     if (unlimited)
         date = QDate::currentDate();
@@ -398,7 +398,7 @@ void KgpgKeyInfo::loadKey()
 
     if (key.email().isEmpty())
     {
-        m_email->setText(i18n("none"));
+        m_email->setText(i18n("no email address", "none"));
         m_email->setUrl("");
     }
     else
@@ -423,7 +423,7 @@ void KgpgKeyInfo::loadKey()
     m_fingerprint->setText(key.fingerprintBeautified());
 
     if (key.comment().isEmpty())
-        m_comment->setText(i18n("none"));
+        m_comment->setText(i18nc("no key comment", "none"));
     else
         m_comment->setText(key.comment());
 
