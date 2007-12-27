@@ -25,7 +25,7 @@ KGpgExpandableNode::KGpgExpandableNode(KGpgExpandableNode *parent)
 
 KGpgExpandableNode::~KGpgExpandableNode()
 {
-	for (int i = 0; i < children.count(); i++)
+	for (int i = children.count() - 1; i >= 0; i--)
 		delete children[i];
 }
 
