@@ -12,12 +12,14 @@ public:
 	explicit KeyListProxyModel(QObject * parent = 0);
 
 	virtual bool hasChildren(const QModelIndex &idx) const;
+	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 	void setKeyModel(KGpgItemModel *);
 	void setOnlySecret(const bool &b);
 	void setShowExpired(const bool &b);
 
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 	QModelIndex nodeIndex(KGpgNode *node);
+	void setPreviewSize(const int &pixel);
 
 protected:
 	virtual bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
@@ -29,6 +31,7 @@ private:
 	KGpgItemModel *m_model;
 	bool m_onlysecret;
 	bool m_showexpired;
+	int m_previewsize;
 };
 
 #endif

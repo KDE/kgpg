@@ -6,7 +6,7 @@
 #include <KLocale>
 
 KGpgItemModel::KGpgItemModel(QObject *parent)
-	: QAbstractItemModel(parent), m_root(new KGpgRootNode()), m_default(NULL), m_previewsize(0)
+	: QAbstractItemModel(parent), m_root(new KGpgRootNode()), m_default(NULL)
 {
 	m_root->addKeys();
 
@@ -81,11 +81,12 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		case Qt::DisplayRole:
 			return node->getName();
 		case Qt::DecorationRole:
-			if ((node->getType() == ITYPE_UAT) && (m_previewsize > 0)) {
+			if (node->getType() == ITYPE_UAT) {
 				KGpgUatNode *nd = static_cast<KGpgUatNode *>(node);
-				return nd->getPixmap().scaled(m_previewsize + 5, m_previewsize, Qt::KeepAspectRatio);
+				return nd->getPixmap();
+			} else {
+				return Convert::toPixmap(node->getType());
 			}
-			return Convert::toPixmap(node->getType());
 		}
 		break;
 	case KEYCOLUMN_EMAIL:

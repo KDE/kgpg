@@ -2,13 +2,14 @@
 #include "kgpgitemnode.h"
 #include "kgpgitemmodel.h"
 #include "core/kgpgkey.h"
+#include "core/convert.h"
 
 #include <KDebug>
 
 using namespace KgpgCore;
 
 KeyListProxyModel::KeyListProxyModel(QObject *parent)
-	: QSortFilterProxyModel(parent), m_onlysecret(false), m_showexpired(false)
+	: QSortFilterProxyModel(parent), m_onlysecret(false), m_showexpired(false), m_previewsize(22)
 {
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 	setFilterKeyColumn(-1);
@@ -167,4 +168,31 @@ QModelIndex
 KeyListProxyModel::nodeIndex(KGpgNode *node)
 {
 	return mapFromSource(m_model->nodeIndex(node));
+}
+
+void
+KeyListProxyModel::setPreviewSize(const int &pixel)
+{
+	emit layoutAboutToBeChanged();
+	m_previewsize = pixel;
+	emit layoutChanged();
+}
+
+QVariant
+KeyListProxyModel::data(const QModelIndex &index, int role) const
+{
+	if (!index.isValid())
+		return QVariant();
+
+	KGpgNode *node = nodeForIndex(index);
+
+	if ((node->getType() == ITYPE_UAT) && (role == Qt::DecorationRole) && (index.column() == 0)) {
+		if (m_previewsize > 0) {
+			KGpgUatNode *nd = static_cast<KGpgUatNode *>(node);
+			return nd->getPixmap().scaled(m_previewsize + 5, m_previewsize, Qt::KeepAspectRatio);
+		} else {
+			return Convert::toPixmap(ITYPE_UAT);
+		}
+	}
+	return m_model->data(mapToSource(index), role);
 }

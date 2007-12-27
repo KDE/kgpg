@@ -234,7 +234,6 @@ private:
     KgpgInterface *revKeyProcess;
 
     bool continueSearch;
-    bool showPhoto;
     bool globalisLocal;
     bool showTipOfDay;
     bool m_isterminal;

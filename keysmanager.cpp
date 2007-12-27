@@ -900,26 +900,18 @@ void KeysManager::slotSetPhotoSize(int size)
     switch(size)
     {
         case 1:
-            showPhoto = true;
-            keysList2->setPreviewSize(22);
-            imodel->setPreviewSize(22);
+            iproxy->setPreviewSize(22);
             break;
         case 2:
-            showPhoto = true;
-            keysList2->setPreviewSize(42);
-            imodel->setPreviewSize(42);
+            iproxy->setPreviewSize(42);
             break;
         case 3:
-            showPhoto = true;
-            keysList2->setPreviewSize(65);
-            imodel->setPreviewSize(65);
+            iproxy->setPreviewSize(65);
             break;
         default:
-            showPhoto = false;
-            imodel->setPreviewSize(0);
+            iproxy->setPreviewSize(0);
             break;
     }
-    keysList2->setDisplayPhoto(showPhoto);
 
     // refresh keys with photo id
     KeyListViewItem *newdef = keysList2->firstChild();
