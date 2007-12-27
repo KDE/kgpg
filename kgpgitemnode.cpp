@@ -238,6 +238,12 @@ KGpgUidNode::getSize() const
 	return i18np("1 signature", "%1 signatures", children.count());
 }
 
+QString
+KGpgUidNode::getId() const
+{
+	return QString::number(m_uid->index());
+}
+
 KGpgSignNode::KGpgSignNode(KGpgExpandableNode *parent, const KgpgKeySign &s)
 	: KGpgNode(parent), m_sign(new KgpgKeySign(s))
 {

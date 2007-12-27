@@ -168,6 +168,7 @@ public:
 	virtual QString getSize() const;
 	virtual QString getName() const;
 	virtual QString getEmail() const;
+	virtual QString getId() const;
 	virtual KGpgKeyNode *getParentKeyNode() const
 		{ return static_cast<KGpgKeyNode *>(m_parent); }
 };
