@@ -267,31 +267,38 @@ KGpgItemModel::nodeIndex(KGpgNode *node)
 void
 KGpgItemModel::refreshKey(const QString &id)
 {
-	emit layoutAboutToBeChanged();
 	refreshKeyIds(QStringList(id));
-	emit layoutChanged();
 }
 
 void
 KGpgItemModel::refreshKeys(const QStringList &ids)
 {
-	emit layoutAboutToBeChanged();
 	refreshKeyIds(ids);
-	emit layoutChanged();
 }
 
 void
 KGpgItemModel::refreshKeyIds(const QStringList &ids)
 {
-	QStringList::ConstIterator it = ids.constBegin();
-	const QStringList::ConstIterator itEnd = ids.constEnd();
-
-	for (; it != itEnd; ++it) {
-		KGpgKeyNode *nd = m_root->findKey(*it);
-		delete nd;
+	emit layoutAboutToBeChanged();
+	if (ids.isEmpty()) {
+		for (int i = m_root->getChildCount() - 1; i >= 0; i--) {
+			KGpgNode *nd = m_root->getChild(i);
+			if (nd->getType() == ITYPE_GROUP)
+				continue;
+			delete nd;
+		}
+	} else {
+		QStringList::ConstIterator it = ids.constBegin();
+		const QStringList::ConstIterator itEnd = ids.constEnd();
+	
+		for (; it != itEnd; ++it) {
+			KGpgKeyNode *nd = m_root->findKey(*it);
+			delete nd;
+		}
 	}
 
 	m_root->addKeys(ids);
+	emit layoutChanged();
 }
 
 void
