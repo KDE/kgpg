@@ -29,6 +29,14 @@ KGpgExpandableNode::~KGpgExpandableNode()
 		delete children[i];
 }
 
+KGpgNode *
+KGpgExpandableNode::getChild(const int &index) const
+{
+	if ((index < 0) || (index > children.count()))
+		return NULL;
+	return children.at(index);
+}
+
 int
 KGpgExpandableNode::getChildCount()
 {
@@ -91,6 +99,19 @@ KGpgRootNode::addKeys(const QStringList &ids)
 KGpgKeyNode *
 KGpgRootNode::findKey(const QString &keyId)
 {
+	int i = findKeyRow(keyId);
+	if (i >= 0) {
+		KGpgNode *nd = children[i];
+		Q_ASSERT(!(nd->getType() & ~ITYPE_PAIR));
+		return static_cast<KGpgKeyNode *>(nd);
+	}
+
+	return NULL;
+}
+
+int
+KGpgRootNode::findKeyRow(const QString &keyId)
+{
 	for (int i = 0; i < children.count(); i++) {
 		KGpgNode *node = children[i];
 		if ((node->getType() & ITYPE_PAIR) == 0)
@@ -98,11 +119,10 @@ KGpgRootNode::findKey(const QString &keyId)
 
 		KGpgKeyNode *key = static_cast<KGpgKeyNode *>(node);
 
-		if (keyId == key->getKeyId().right(keyId.length()))
-			return key;
+		if (keyId == key->getId().right(keyId.length()))
+			return i;
 	}
-
-	return NULL;
+	return -1;
 }
 
 KGpgKeyNode::KGpgKeyNode(KGpgExpandableNode *parent, const KgpgKey &k)

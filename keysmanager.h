@@ -150,7 +150,6 @@ private slots:
     void slotProcessExportClip(const QString &keys);
     void readOptions();
     void slotSetDefKey();
-    void slotSetDefaultKey(KeyListViewItem *newdef);
     void annule();
     void confirmdeletekey();
     void deletekey();

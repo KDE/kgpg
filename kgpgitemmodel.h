@@ -20,7 +20,7 @@ class KGpgItemModel : public QAbstractItemModel
 
 private:
 	KGpgRootNode *m_root;
-	KGpgKeyNode *m_default;
+	QString m_default;
 
 public:
 
@@ -57,6 +57,7 @@ public Q_SLOTS:
 protected:
 	int rowForNode(KGpgNode *node) const;
 	void refreshKeyIds(const QStringList &id);
+	bool isDefaultKey(const KGpgNode *node) const;
 };
 
 #endif

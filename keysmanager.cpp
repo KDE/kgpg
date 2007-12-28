@@ -1250,35 +1250,10 @@ void KeysManager::slotSetDefaultKey(const QString &newID)
     if (newID == KGpgSettings::defaultKey())
       return;
 
-    KeyListViewItem *newdef = keysList2->findItemByKeyId(newID);
-    if (newdef == NULL) {
-      kDebug(3125) << "key with id" << newID << "not found in keys list";
-      return;
-    }
-
-    return slotSetDefaultKey(newdef);
-}
-
-void KeysManager::slotSetDefaultKey(KeyListViewItem *newdef)
-{
-    if ((newdef->trust() != TRUST_FULL) &&
-        (newdef->trust() != TRUST_ULTIMATE))
-    {
-        KMessageBox::sorry(this, i18n("<qt>Sorry, the key <b>%1</b> is not valid for encryption or not trusted.</qt>", newdef->keyId()));
-        return;
-    }
-
-    KeyListViewItem *olddef = keysList2->findItemByKeyId(KGpgSettings::defaultKey());
-
-    if (olddef == newdef)
-        return;
-
-    KGpgSettings::setDefaultKey(newdef->keyId());
+    KGpgSettings::setDefaultKey(newID);
     KGpgSettings::self()->writeConfig();
-    if (olddef)
-        keysList2->refreshcurrentkey(olddef);
-    keysList2->refreshcurrentkey(newdef);
-    keysList2->ensureItemVisible(keysList2->currentItem());
+
+    imodel->setDefaultKey(newID);
 }
 
 bool KeysManager::isSignature(KeyListViewItem *item)

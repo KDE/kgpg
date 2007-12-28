@@ -76,8 +76,7 @@ public:
 	virtual bool wasExpanded() const
 		{ return (children.count() != 0); }
 	virtual int getChildCount();
-	virtual KGpgNode *getChild(const int &index) const
-		{ return children.at(index); }
+	virtual KGpgNode *getChild(const int &index) const;
 	virtual int getChildIndex(KGpgNode *node) const
 		{ return children.indexOf(node); }
 	virtual void deleteChild(KGpgNode *child)
@@ -142,6 +141,7 @@ public:
 	void addGroups();
 	void addKeys(const QStringList &ids = QStringList());
 	KGpgKeyNode *findKey(const QString &keyId);
+	int findKeyRow(const QString &keyId);
 
 	int groupChildren() const
 		{ return m_groups; }

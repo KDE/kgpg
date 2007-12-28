@@ -6,10 +6,9 @@
 #include <KLocale>
 
 KGpgItemModel::KGpgItemModel(QObject *parent)
-	: QAbstractItemModel(parent), m_root(new KGpgRootNode()), m_default(NULL)
+	: QAbstractItemModel(parent), m_root(new KGpgRootNode())
 {
-	QString defaultkey = KGpgSettings::defaultKey();
-	m_default = m_root->findKey(defaultkey);
+	m_default = KGpgSettings::defaultKey();
 }
 
 KGpgItemModel::~KGpgItemModel()
@@ -31,6 +30,7 @@ KGpgItemModel::index(int row, int column, const QModelIndex &parent) const
 QModelIndex
 KGpgItemModel::parent(const QModelIndex &child) const
 {
+	Q_ASSERT(child.isValid());
 	KGpgNode *childNode = nodeForIndex(child);
 	KGpgNode *parentNode = childNode->m_parent;
 
@@ -69,7 +69,7 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 
 	if (role == Qt::FontRole) {
 		QFont f;
-		f.setBold(node == m_default);
+		f.setBold(isDefaultKey(node));
 		return f;
 	}
 
@@ -234,13 +234,21 @@ KGpgItemModel::headerData(int section, Qt::Orientation orientation, int role) co
 void
 KGpgItemModel::setDefaultKey(const QString &def)
 {
-	KGpgKeyNode *n_def = m_root->findKey(def);
-	if (n_def == m_default)
+	int defrow = m_root->findKeyRow(def);
+	int odefrow = m_root->findKeyRow(m_default);
+	if (defrow == odefrow)
 		return;
 
-	emit layoutAboutToBeChanged();
-	m_default = n_def;
-	emit layoutChanged();
+	KGpgNode *n_def = m_root->getChild(defrow);
+
+	int lastcol = columnCount(QModelIndex()) - 1;
+	if (odefrow >= 0) {
+		KGpgNode *nd = m_root->getChild(odefrow);
+		emit dataChanged(createIndex(odefrow, 0, nd), createIndex(odefrow, lastcol, nd));
+	}
+
+	m_default = def;
+	emit dataChanged(createIndex(defrow, 0, n_def), createIndex(defrow, lastcol, n_def));
 }
 
 QModelIndex
@@ -284,8 +292,6 @@ KGpgItemModel::refreshKeyIds(const QStringList &ids)
 	}
 
 	m_root->addKeys(ids);
-	QString defaultkey = KGpgSettings::defaultKey();
-	m_default = m_root->findKey(defaultkey);
 }
 
 void
@@ -300,4 +306,10 @@ KGpgItemModel::refreshGroups()
 
 	m_root->addGroups();
 	emit layoutChanged();
+}
+
+bool
+KGpgItemModel::isDefaultKey(const KGpgNode *node) const
+{
+	return (m_default == node->getId().right(m_default.length()));
 }
