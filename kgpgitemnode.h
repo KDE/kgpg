@@ -118,6 +118,8 @@ public:
 	virtual QDate getExpiration() const;
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
+	virtual QString getBeautifiedFingerprint() const
+		{ return m_key->fingerprintBeautified(); }
 };
 
 typedef QList<KGpgKeyNode *> KGpgKeyNodeList;

@@ -1591,14 +1591,14 @@ void KgpgInterface::signKeyFin(K3Process *p)
 {
     delete p;
     if ((m_success != 0) && (m_success != 5))
-        emit signKeyFinished(m_success, this); // signature successful or bad passphrase or aborted or already signed
+        emit signKeyFinished(m_success, m_keyid, this); // signature successful or bad passphrase or aborted or already signed
     else
     {
         KgpgDetailedConsole *q = new KgpgDetailedConsole(0, i18n("<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try signing the key in console mode?</qt>", m_keyid, m_signkey), log);
         if (q->exec() == QDialog::Accepted)
             signKeyOpenConsole();
         else
-            emit signKeyFinished(3, this);
+            emit signKeyFinished(3, m_keyid, this);
     }
 }
 
@@ -1617,7 +1617,7 @@ void KgpgInterface::signKeyOpenConsole()
         process << "--lsign-key" << m_keyid;
 
     process.execute();
-    emit signKeyFinished(2, this);
+    emit signKeyFinished(2, m_keyid, this);
 }
 
 void KgpgInterface::keyExpire(const QString &keyid, const QDate &date, const bool &unlimited)

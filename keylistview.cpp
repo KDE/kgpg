@@ -511,14 +511,6 @@ void KeyListView::refreshcurrentkey(KeyListViewItem *current)
             currentItem()->setOpen(keyIsOpen);
 }
 
-void KeyListView::refreshselfkey()
-{
-    if (currentItem()->depth() == 0)
-        refreshcurrentkey(currentItem());
-    else
-        refreshcurrentkey(currentItem()->parent());
-}
-
 void KeyListView::slotReloadOrphaned()
 {
     QStringList issec;

@@ -832,7 +832,9 @@ void KeysManager::slotAddUidFin(int res, KgpgInterface *interface)
     // TODO tester les res
     kDebug(2100) << "Resultat : " << res ;
     delete interface;
-    keysList2->refreshselfkey();
+    KGpgNode *nd = iview->selectedNode();
+    Q_ASSERT(!(nd->getType() & ~ITYPE_PAIR));
+    imodel->refreshKey(static_cast<KGpgKeyNode *>(nd));
 }
 
 void KeysManager::slotAddUidEnable(const QString & name)
@@ -880,7 +882,9 @@ void KeysManager::slotDelPhotoFinished(int res, KgpgInterface *interface)
 
 void KeysManager::slotUpdatePhoto()
 {
-    keysList2->refreshselfkey();
+	KGpgNode *nd = iview->selectedNode();
+	Q_ASSERT(!(nd->getType() & ~ITYPE_PAIR));
+	imodel->refreshKey(static_cast<KGpgKeyNode *>(nd));
 }
 
 void KeysManager::slotSetPhotoSize(int size)
@@ -1380,14 +1384,14 @@ void KeysManager::revokeWidget()
 void KeysManager::slotImportRevoke(const QString &url)
 {
     KgpgInterface *importKeyProcess = new KgpgInterface();
-    connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), keysList2, SLOT(refreshselfkey()));
+    connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
     importKeyProcess->importKey(KUrl(url));
 }
 
 void KeysManager::slotImportRevokeTxt(const QString &revokeText)
 {
     KgpgInterface *importKeyProcess = new KgpgInterface();
-    connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), keysList2, SLOT(refreshselfkey()));
+    connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
     importKeyProcess->importKey(revokeText);
 }
 
@@ -1737,19 +1741,12 @@ void KeysManager::editGroup()
 
 void KeysManager::signkey()
 {
-    if (keysList2->currentItem() == 0)
-        return;
-    if (keysList2->currentItem()->depth() != 0)
+    KgpgItemType tp;
+    signList = iview->selectedNodes(NULL, &tp);
+    if (signList.isEmpty())
         return;
 
-    signList = keysList2->selectedItems();
-    bool keyDepth = true;
-    for (int i = 0; i < signList.count(); ++i)
-        if (signList.at(i))
-            if (signList.at(i)->depth() != 0)
-                keyDepth = false;
-
-    if (!keyDepth)
+    if (tp & ~ITYPE_PAIR)
     {
         KMessageBox::sorry(this, i18n("You can only sign primary keys. Please check your selection."));
         return;
@@ -1757,30 +1754,37 @@ void KeysManager::signkey()
 
     if (signList.count() == 1)
     {
-        KeyListViewItem *item = keysList2->currentItem();
-        QString fingervalue;
+        KGpgKeyNode *nd = static_cast<KGpgKeyNode *>(signList.at(0));
         QString opt;
 
         KgpgInterface *interface = new KgpgInterface();
-        KgpgKeyList listkeys = interface->readPublicKeys(true, item->keyId());
+        KgpgKeyList listkeys = interface->readPublicKeys(true, nd->getId());
         delete interface;
-        fingervalue = listkeys.at(0).fingerprintBeautified();
 
-        opt = i18n("<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
+        if (nd->getEmail().isEmpty())
+            opt = i18n("<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
                    "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-                   "is not trying to intercept your communications</qt>", item->text(0) + " (" + item->text(1) + ')', item->text(6), fingervalue);
+                   "is not trying to intercept your communications</qt>", nd->getName(), nd->getId().right(8), nd->getBeautifiedFingerprint());
+        else
+            opt = i18n("<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br />Fingerprint: <br /><b>%4</b>.<br /><br />"
+                   "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
+                   "is not trying to intercept your communications</qt>", nd->getName(), nd->getEmail(), nd->getId().right(8), nd->getBeautifiedFingerprint());
 
-        if (KMessageBox::warningContinueCancel(this, opt) != KMessageBox::Continue)
+        if (KMessageBox::warningContinueCancel(this, opt) != KMessageBox::Continue) {
+            signList.clear();
             return;
+        }
     }
     else
     {
         QStringList signKeyList;
 		for (int i = 0; i < signList.count(); ++i) {
-			KeyListViewItem *item = static_cast<KeyListViewItem *>(signList.at(i));
+			KGpgKeyNode *nd = static_cast<KGpgKeyNode *>(signList.at(i));
 
-			if (item)
-				signKeyList += item->text(0) + " (" + item->text(1) + "): " + item->keyId();
+			if (nd->getEmail().isEmpty())
+				signKeyList += i18nc("Name: ID", "%1: %2", nd->getName(), nd->getBeautifiedFingerprint());
+			else
+				signKeyList += i18nc("Name (Email): ID", "%1 (%2): %3", nd->getName(), nd->getEmail(), nd->getBeautifiedFingerprint());
 		}
 
         if (KMessageBox::warningContinueCancelList(this, i18n("<qt>You are about to sign the following keys in one pass.<br/><b>If you have not carefully checked all fingerprints, the security of your communications may be compromised.</b></qt>"), signKeyList) != KMessageBox::Continue)
@@ -1795,10 +1799,8 @@ void KeysManager::signkey()
     }
 
     globalkeyID = QString(opts->getKeyID());
-    globalkeyMail = QString(opts->getKeyMail());
     globalisLocal = opts->isLocalSign();
     globalChecked = opts->getSignTrust();
-    globalCount = signList.count();
     m_isterminal = opts->isTerminalSign();
     keyCount = 0;
     delete opts;
@@ -1808,29 +1810,32 @@ void KeysManager::signkey()
 
 void KeysManager::signLoop()
 {
-    if (keyCount < globalCount)
+    if (keyCount < signList.count())
     {
-        kDebug(2100) << "Sign process for key: " << keyCount + 1 << " on a total of " << signList.count() ;
-        if (signList.at(keyCount))
-        {
+		KGpgKeyNode *nd = static_cast<KGpgKeyNode *>(signList.at(keyCount));
+		kDebug(3125) << "Sign process for key:" << keyCount + 1 << "on a total of" << signList.count() << "id" << nd->getId();
+
             KgpgInterface *interface = new KgpgInterface();
-            interface->signKey(signList.at(keyCount)->keyId(), globalkeyID, globalisLocal, globalChecked, m_isterminal);
-            connect(interface, SIGNAL(signKeyFinished(int, KgpgInterface*)), this, SLOT(signatureResult(int, KgpgInterface*)));
-        }
-    }
+		interface->signKey(nd->getId(), globalkeyID, globalisLocal, globalChecked, m_isterminal);
+		connect(interface, SIGNAL(signKeyFinished(int, QString, KgpgInterface*)), this, SLOT(signatureResult(int, QString, KgpgInterface*)));
+	} else
+		signList.clear();
 }
 
-void KeysManager::signatureResult(int success, KgpgInterface *interface)
+void KeysManager::signatureResult(int success, const QString &keyId, KgpgInterface *interface)
 {
     delete interface;
+
+	KGpgKeyNode *nd = imodel->getRootNode()->findKey(keyId);
+
     if (success == 2)
-        keysList2->refreshcurrentkey(signList.at(keyCount));
+        imodel->refreshKey(nd);
     else
     if (success == 1)
-        KMessageBox::sorry(this, i18n("<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>", signList.at(keyCount)->text(0), signList.at(keyCount)->text(1)));
+		KMessageBox::sorry(this, i18n("<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>", nd->getName(), nd->getEmail()));
     else
     if (success == 4)
-        KMessageBox::sorry(this, i18n("<qt>The key <b>%1 (%2)</b> is already signed.</qt>", signList.at(keyCount)->text(0), signList.at(keyCount)->text(1)));
+		KMessageBox::sorry(this, i18n("<qt>The key <b>%1 (%2)</b> is already signed.</qt>", nd->getName(), nd->getEmail()));
 
     keyCount++;
     signLoop();

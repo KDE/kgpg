@@ -160,7 +160,7 @@ private slots:
     void importsignkey(const QStringList &importKeyId);
     void importallsignkey();
     void importfinished();
-    void signatureResult(int success, KgpgInterface*);
+    void signatureResult(int success, const QString &keyId, KgpgInterface*);
     void delsignatureResult(bool);
     void defaultAction(const QModelIndex &);
     void showProperties(const QModelIndex &);
@@ -192,11 +192,10 @@ private:
     KeyTreeView *iview;
     KeyListView *keysList2;
 
-    QString globalkeyMail;
     QString globalkeyID;
     QString searchString;
 
-    QList<KeyListViewItem*> signList;
+    QList<KGpgNode *> signList;
     QList<KeyListViewItem*> keysList;
 
     QClipboard::Mode m_clipboardmode;
@@ -236,8 +235,7 @@ private:
     bool showTipOfDay;
     bool m_isterminal;
 
-    uint globalCount;
-    uint keyCount;
+    int keyCount;
     int globalChecked;
 
     long searchOptions;

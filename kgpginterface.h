@@ -298,7 +298,7 @@ signals:
      * 3 = Aborted by user
      * 4 = Already signed
      */
-    void signKeyFinished(int, KgpgInterface*);
+    void signKeyFinished(int, const QString &, KgpgInterface*);
 
 public slots:
     /**

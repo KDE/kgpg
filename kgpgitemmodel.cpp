@@ -270,22 +270,39 @@ KGpgItemModel::nodeIndex(KGpgNode *node)
 }
 
 void
+KGpgItemModel::refreshKey(KGpgKeyNode *nd)
+{
+	QList<KGpgNode *> nodes;
+
+	nodes.append(nd);
+
+	refreshKeyIds(QStringList(nd->getId()), nodes);
+}
+
+void
 KGpgItemModel::refreshKey(const QString &id)
 {
-	refreshKeyIds(QStringList(id));
+	QList<KGpgNode *> nodes;
+
+	refreshKeyIds(QStringList(id), nodes);
 }
 
 void
 KGpgItemModel::refreshKeys(const QStringList &ids)
 {
-	refreshKeyIds(ids);
+	QList<KGpgNode *> nodes;
+
+	refreshKeyIds(ids, nodes);
 }
 
 void
-KGpgItemModel::refreshKeyIds(const QStringList &ids)
+KGpgItemModel::refreshKeyIds(const QStringList &ids, QList<KGpgNode *> &nodes)
 {
 	emit layoutAboutToBeChanged();
-	if (ids.isEmpty()) {
+	if (!nodes.isEmpty()) {
+		for (int i = 0; i < nodes.count(); i++)
+			delete nodes.at(i);
+	} else if (ids.isEmpty()) {
 		for (int i = m_root->getChildCount() - 1; i >= 0; i--) {
 			KGpgNode *nd = m_root->getChild(i);
 			if (nd->getType() == ITYPE_GROUP)

@@ -137,7 +137,6 @@ private slots:
     bool refreshKeys(const QStringList &ids = QStringList());
     void refreshcurrentkey(const QString &id);
     void refreshcurrentkey(KeyListViewItem *current);
-    void refreshselfkey();
 
     void slotReloadOrphaned();
     void insertOrphans(const KgpgKeyList &keys);
