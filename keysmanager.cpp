@@ -1937,13 +1937,8 @@ void KeysManager::signkey()
     if (signList.count() == 1)
     {
         KeyListViewItem *item = keysList2->currentItem();
-        QString fingervalue;
+        QString fingervalue = item->getKey()->fingerprint();
         QString opt;
-
-        KgpgInterface *interface = new KgpgInterface();
-        KgpgKeyList listkeys = interface->readPublicKeys(true, item->keyId());
-        delete interface;
-        fingervalue = listkeys.at(0).fingerprint();
 
         opt = i18n("<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
                    "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
