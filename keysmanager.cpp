@@ -1758,10 +1758,6 @@ void KeysManager::signkey()
         KGpgKeyNode *nd = static_cast<KGpgKeyNode *>(signList.at(0));
         QString opt;
 
-        KgpgInterface *interface = new KgpgInterface();
-        KgpgKeyList listkeys = interface->readPublicKeys(true, nd->getId());
-        delete interface;
-
         if (nd->getEmail().isEmpty())
             opt = i18n("<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
                    "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
