@@ -165,13 +165,13 @@ void KgpgKeyGenerate::slotOk()
         int result = KMessageBox::warningContinueCancel(this, i18n("You are about to create a key with no email address"));
         if (result != KMessageBox::Continue)
             return;
-    }
-
-    int pos = 0;
-    if (EmailValidator().validate(vmail, pos) == QValidator::Invalid)
-    {
-        KMessageBox::sorry(this, i18n("Email address not valid"));
-        return;
+    } else {
+        int pos = 0;
+        if (EmailValidator().validate(vmail, pos) == QValidator::Invalid)
+        {
+            KMessageBox::sorry(this, i18n("Email address not valid"));
+            return;
+        }
     }
 
     accept();
