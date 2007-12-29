@@ -638,6 +638,7 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
 
         keyCreated->exec();
 
+            imodel->refreshKey(fingerprint);
             if (page->CBdefault->isChecked())
                 imodel->setDefaultKey(fingerprint);
 
