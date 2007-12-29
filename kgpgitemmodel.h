@@ -53,11 +53,13 @@ public Q_SLOTS:
 	void refreshKey(const QString &id);
 	void refreshKeys(const QStringList &ids = QStringList());
 	void refreshGroups();
+	void invalidateIndexes(KGpgNode *nd);
 
 protected:
 	int rowForNode(KGpgNode *node) const;
 	void refreshKeyIds(const QStringList &id);
 	bool isDefaultKey(const KGpgNode *node) const;
+	void fixPersistentIndexes();
 };
 
 #endif

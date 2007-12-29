@@ -1,17 +1,25 @@
-#include <KDebug>
-#include <KLocale>
 #include "kgpgitemnode.h"
+
+#include <KLocale>
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "convert.h"
+#include "kgpgitemmodel.h"
 
 KGpgNode::KGpgNode(KGpgExpandableNode *parent)
 	: QObject(), m_parent(parent)
 {
+	if (parent == NULL)
+		m_model = NULL;
+	else
+		m_model = parent->m_model;
 }
 
 KGpgNode::~KGpgNode()
 {
+	Q_ASSERT(m_model);
+	m_model->invalidateIndexes(this);
+
 	if (m_parent != NULL)
 		m_parent->deleteChild(this);
 }
@@ -46,9 +54,10 @@ KGpgExpandableNode::getChildCount()
 	return children.count();
 }
 
-KGpgRootNode::KGpgRootNode()
+KGpgRootNode::KGpgRootNode(KGpgItemModel *model)
 	: KGpgExpandableNode(NULL), m_groups(0)
 {
+	m_model = model;
 	addGroups();
 }
 

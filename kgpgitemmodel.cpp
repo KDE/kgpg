@@ -6,8 +6,9 @@
 #include <KLocale>
 
 KGpgItemModel::KGpgItemModel(QObject *parent)
-	: QAbstractItemModel(parent), m_root(new KGpgRootNode())
+	: QAbstractItemModel(parent)
 {
+	m_root = new KGpgRootNode(this);
 	m_default = KGpgSettings::defaultKey();
 }
 
@@ -37,6 +38,7 @@ KGpgItemModel::parent(const QModelIndex &child) const
 	if (parentNode == m_root)
 		return QModelIndex();
 
+	Q_ASSERT(parentNode != NULL);
 	int row = rowForNode(parentNode);
 	int column = 0;
 	
@@ -165,6 +167,7 @@ KGpgItemModel::addGroup(const QString &name, const KGpgKeyNodeList &keys)
 
 	emit layoutAboutToBeChanged();
 	nd = new KGpgGroupNode(m_root, name);
+	fixPersistentIndexes();
 	emit layoutChanged();
 
 	return nd;
@@ -175,6 +178,7 @@ KGpgItemModel::delGroup(const KGpgNode *node)
 {
 	emit layoutAboutToBeChanged();
 	delete node;
+	fixPersistentIndexes();
 	emit layoutChanged();
 }
 
@@ -207,6 +211,7 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 		Q_ASSERT(!(keys.at(i)->getType() & ITYPE_GROUP));
 		new KGpgGroupMemberNode(node, static_cast<KGpgKeyNode *>(keys.at(i)));
 	}
+	fixPersistentIndexes();
 	emit layoutChanged();
 }
 
@@ -298,6 +303,7 @@ KGpgItemModel::refreshKeyIds(const QStringList &ids)
 	}
 
 	m_root->addKeys(ids);
+	fixPersistentIndexes();
 	emit layoutChanged();
 }
 
@@ -312,6 +318,7 @@ KGpgItemModel::refreshGroups()
 	}
 
 	m_root->addGroups();
+	fixPersistentIndexes();
 	emit layoutChanged();
 }
 
@@ -319,4 +326,48 @@ bool
 KGpgItemModel::isDefaultKey(const KGpgNode *node) const
 {
 	return (m_default == node->getId().right(m_default.length()));
+}
+
+void
+KGpgItemModel::fixPersistentIndexes()
+{
+	if (persistentIndexList().isEmpty())
+		return;
+
+	QModelIndexList newidx;
+
+	for (int i = 0; i < persistentIndexList().count(); i++) {
+		QModelIndex idx = persistentIndexList().at(i);
+
+		if (!idx.isValid())
+			continue;
+
+		KGpgNode *nd = nodeForIndex(idx);
+		int j = rowForNode(nd);
+		if (j == idx.row())
+			continue;
+
+// find out if this code is ever hit
+kDebug(3125) << i << nd << idx.column() << "row" << idx.row() << "new row" << j;
+
+		if (j >= 0)
+			changePersistentIndex(idx, createIndex(j, idx.column(), nd));
+		else
+			changePersistentIndex(idx, QModelIndex());
+	}
+}
+
+void 
+KGpgItemModel::invalidateIndexes(KGpgNode *nd)
+{
+	for (int i = 0; i < persistentIndexList().count(); i++) {
+		QModelIndex idx = persistentIndexList().at(i);
+
+		KGpgNode *n = nodeForIndex(idx);
+
+		if (n != nd)
+			continue;
+
+		changePersistentIndex(idx, QModelIndex());
+	}
 }

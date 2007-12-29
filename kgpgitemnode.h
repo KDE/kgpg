@@ -8,6 +8,7 @@
 using namespace KgpgCore;
 
 class KGpgExpandableNode;
+class KGpgItemModel;
 
 class KGpgNode : public QObject
 {
@@ -17,6 +18,8 @@ class KGpgNode : public QObject
 
 protected:
 	KGpgExpandableNode *m_parent;
+	KGpgItemModel *m_model;
+
 public:
 	explicit KGpgNode(KGpgExpandableNode *parent = 0);
 	virtual ~KGpgNode();
@@ -131,7 +134,7 @@ protected:
 		{};
 
 public:
-	explicit KGpgRootNode();
+	explicit KGpgRootNode(KGpgItemModel *model);
 	virtual ~KGpgRootNode()
 		{}
 
