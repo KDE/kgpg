@@ -166,7 +166,7 @@ KGpgItemModel::addGroup(const QString &name, const KGpgKeyNodeList &keys)
 	KGpgGroupNode *nd;
 
 	emit layoutAboutToBeChanged();
-	nd = new KGpgGroupNode(m_root, name);
+	nd = new KGpgGroupNode(m_root, name, keys);
 	fixPersistentIndexes();
 	emit layoutChanged();
 
@@ -357,7 +357,7 @@ kDebug(3125) << i << nd << idx.column() << "row" << idx.row() << "new row" << j;
 	}
 }
 
-void 
+void
 KGpgItemModel::invalidateIndexes(KGpgNode *nd)
 {
 	for (int i = 0; i < persistentIndexList().count(); i++) {
