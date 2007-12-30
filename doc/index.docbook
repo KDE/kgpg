@@ -310,7 +310,7 @@ and drop or the Copy/Paste keyboard shortcuts.</para>
 </mediaobject>
 </screenshot>
 
-<para>In this example you see a key group containing two keys, two key pairs and three public keys. The third column shows the trust you have in the keys. The first key pair is ultimately trusted and is also set as the default key (bold font) while the second one has expired. Two of the public keys are fully trusted while the trust of the last key is marginal. The last key is expanded, showing it's ElGamal subkey, a additional user id, both also with marginal trust, and some of it's signatures.</para>
+<para>In this example you see a key group containing two keys, two key pairs and three public keys. The third column shows the trust you have in the keys. The first key pair is ultimately trusted and is also set as the default key (bold font) while the second one has expired. Two of the public keys are fully trusted while the trust of the last key is marginal. The last key is expanded, showing it's ElGamal subkey, an additional user id, both also with marginal trust, and some of it's signatures.</para>
 <para>Signatures allow navigating through your keyring. Double clicking on a signature or a key shown as member of a group will jump directly to the corresponding primary key.</para>
 </sect2>
 
