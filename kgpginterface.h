@@ -72,6 +72,7 @@ private:
      * @return 1 if there is an error
      */
     int sendPassphrase(const QString &text, K3ProcIO *process, const bool isnew = true);
+    int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true);
 /******************************************************************/
 
 
@@ -288,8 +289,6 @@ private slots:
 
 /************** sign a key **************/
 signals:
-    void signKeyStarted();
-
     /**
      * Signature process result:
      * 0 = Unknown error
@@ -315,12 +314,12 @@ private slots:
     /**
      * Read output of the signature process
      */
-    void signKeyProcess(K3ProcIO *p);
+    void signKeyProcess();
 
     /**
      * Checks output of the signature process
      */
-    void signKeyFin(K3Process *p);
+    void signKeyFin();
 
     /**
      * Opens the console when the user want to sign
@@ -676,6 +675,7 @@ private:
 /********************************************************/
 
 
+    KProcess *m_signProcess;
 
 
 
