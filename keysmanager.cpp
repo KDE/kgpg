@@ -646,17 +646,16 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
 
         if (page->CBsave->isChecked())
         {
-            slotrevoke(id, page->kURLRequester1->url().path(), 0, i18n("backup copy"));
+            slotrevoke(fingerprint, page->kURLRequester1->url().path(), 0, i18n("backup copy"));
             if (page->CBprint->isChecked())
                 connect(revKeyProcess, SIGNAL(revokeurl(QString)), this, SLOT(doFilePrint(QString)));
         }
         else
         if (page->CBprint->isChecked())
         {
-            slotrevoke(id, QString(), 0, i18n("backup copy"));
+            slotrevoke(fingerprint, QString(), 0, i18n("backup copy"));
             connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
         }
-        imodel->refreshKeys(QStringList(id));
     }
 }
 
