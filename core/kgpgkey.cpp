@@ -21,7 +21,6 @@ namespace KgpgCore
 bool KgpgKeySignPrivate::operator==(const KgpgKeySignPrivate &other) const
 {
     if (gpgsignrevocation != other.gpgsignrevocation) return false;
-    if (gpgsignunlimited != other.gpgsignunlimited) return false;
     if (gpgsignlocal != other.gpgsignlocal) return false;
     if (gpgsignid != other.gpgsignid) return false;
     if (gpgsignname != other.gpgsignname) return false;
@@ -36,7 +35,6 @@ KgpgKeySign::KgpgKeySign()
            : QObject()
 {
     d = new KgpgKeySignPrivate;
-    d->gpgsignunlimited = false;
     d->gpgsignrevocation = false;
     d->gpgsignlocal = false;
 }
@@ -65,11 +63,6 @@ void KgpgKeySign::setEmail(const QString &email)
 void KgpgKeySign::setComment(const QString &comment)
 {
     d->gpgsigncomment = comment;
-}
-
-void KgpgKeySign::setUnlimited(const bool &unlimited)
-{
-    d->gpgsignunlimited = unlimited;
 }
 
 void KgpgKeySign::setExpiration(const QDate &date)
@@ -119,7 +112,7 @@ QString KgpgKeySign::comment() const
 
 bool KgpgKeySign::unlimited() const
 {
-    return d->gpgsignunlimited;
+    return d->gpgsignexpiration.isNull();
 }
 
 QDate KgpgKeySign::expirationDate() const
@@ -144,7 +137,7 @@ bool KgpgKeySign::revocation() const
 
 QString KgpgKeySign::expiration() const
 {
-    return KgpgKey::expiration(d->gpgsignexpiration, d->gpgsignunlimited);
+    return KgpgKey::expiration(d->gpgsignexpiration);
 }
 
 QString KgpgKeySign::creation() const
@@ -360,7 +353,6 @@ KgpgKeyUid& KgpgKeyUid::operator=(const KgpgKeyUid &other)
 bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
 {
     if (gpgsubvalid != other.gpgsubvalid) return false;
-    if (gpgsubunlimited != other.gpgsubunlimited) return false;
     if (gpgsubalgo != other.gpgsubalgo) return false;
     if (gpgsubid != other.gpgsubid) return false;
     if (gpgsubsize != other.gpgsubsize) return false;
@@ -378,7 +370,6 @@ KgpgKeySub::KgpgKeySub()
     d = new KgpgKeySubPrivate;
     d->gpgsubsize = 0;
     d->gpgsubvalid = false;
-    d->gpgsubunlimited = false;
 }
 
 KgpgKeySub::KgpgKeySub(const KgpgKeySub &other)
@@ -395,11 +386,6 @@ void KgpgKeySub::setId(const QString &id)
 void KgpgKeySub::setSize(const uint &size)
 {
     d->gpgsubsize = size;
-}
-
-void KgpgKeySub::setUnlimited(const bool &unlimited)
-{
-    d->gpgsubunlimited = unlimited;
 }
 
 void KgpgKeySub::setExpiration(const QDate &date)
@@ -444,7 +430,7 @@ uint KgpgKeySub::size() const
 
 bool KgpgKeySub::unlimited() const
 {
-    return d->gpgsubunlimited;
+    return d->gpgsubexpiration.isNull();
 }
 
 QDate KgpgKeySub::expirationDate() const
@@ -484,7 +470,7 @@ QString KgpgKeySub::creation() const
 
 QString KgpgKeySub::expiration() const
 {
-    return KgpgKey::expiration(d->gpgsubexpiration, d->gpgsubunlimited);
+    return KgpgKey::expiration(d->gpgsubexpiration);
 }
 
 void KgpgKeySub::addSign(const KgpgKeySign &sign)
@@ -515,9 +501,9 @@ KgpgKeySub& KgpgKeySub::operator=(const KgpgKeySub &other)
 
 //BEGIN Key
 
-QString KgpgKey::expiration(const QDate &date, const bool &unlimited)
+QString KgpgKey::expiration(const QDate &date)
 {
-    if (unlimited)
+    if (date.isNull())
         return i18nc("Unlimited key lifetime", "Unlimited");
     return Convert::toString(date);
 }
@@ -541,7 +527,6 @@ bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
     if (gpgkeyownertrust != other.gpgkeyownertrust) return false;
     if (gpgkeytrust != other.gpgkeytrust) return false;
     if (gpgkeycreation != other.gpgkeycreation) return false;
-    if (gpgkeyunlimited != other.gpgkeyunlimited) return false;
     if (gpgkeyexpiration != other.gpgkeyexpiration) return false;
     if (gpgkeyalgo != other.gpgkeyalgo) return false;
     if (gpgsignlist != other.gpgsignlist) return false;
@@ -555,7 +540,6 @@ KgpgKey::KgpgKey()
        : QObject()
 {
     d = new KgpgKeyPrivate;
-    d->gpgkeyunlimited = false;
     d->gpgkeyalgo = ALGO_UNKNOWN;
     d->gpgkeyvalid = false;
     d->gpgkeysecret = false;
@@ -621,11 +605,6 @@ void KgpgKey::setCreation(const QDate &date)
 void KgpgKey::setExpiration(const QDate &date)
 {
     d->gpgkeyexpiration = date;
-}
-
-void KgpgKey::setUnlimited(const bool &unlimited)
-{
-    d->gpgkeyunlimited = unlimited;
 }
 
 void KgpgKey::setAlgorithm(const KgpgKeyAlgo &algo)
@@ -710,7 +689,7 @@ QDate KgpgKey::expirationDate() const
 
 bool KgpgKey::unlimited() const
 {
-    return d->gpgkeyunlimited;
+    return d->gpgkeyexpiration.isNull();
 }
 
 KgpgKeyAlgo KgpgKey::algorithm() const
@@ -725,7 +704,7 @@ QString KgpgKey::creation() const
 
 QString KgpgKey::expiration() const
 {
-    return expiration(d->gpgkeyexpiration, d->gpgkeyunlimited);
+    return expiration(d->gpgkeyexpiration);
 }
 
 QStringList KgpgKey::photoList() const

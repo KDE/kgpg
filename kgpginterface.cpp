@@ -479,12 +479,10 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
             if (lsp.at(6).isEmpty())
             {
-                m_publickey.setUnlimited(true);
                 m_publickey.setExpiration(QDate());
             }
             else
             {
-                m_publickey.setUnlimited(false);
                 m_publickey.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
             }
 
@@ -565,12 +563,10 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
             if (lsp.at(6).isEmpty())
             {
-                sub.setUnlimited(true);
                 sub.setExpiration(QDate());
             }
             else
             {
-                sub.setUnlimited(false);
                 sub.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
             }
 
@@ -649,12 +645,10 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
             if (lsp.at(6).isEmpty())
             {
-                signature.setUnlimited(true);
                 signature.setExpiration(QDate());
             }
             else
             {
-                signature.setUnlimited(false);
                 signature.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
             }
 
@@ -775,12 +769,10 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 
                 if (lsp.at(6).isEmpty())
                 {
-                    m_secretkey.setUnlimited(true);
                     m_secretkey.setExpiration(QDate());
                 }
                 else
                 {
-                    m_secretkey.setUnlimited(false);
                     m_secretkey.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
                 }
 
