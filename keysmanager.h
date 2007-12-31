@@ -150,7 +150,6 @@ private slots:
     void slotProcessExportClip(const QString &keys);
     void readOptions();
     void slotSetDefKey();
-    void annule();
     void confirmdeletekey();
     void deletekey();
     void deleteseckey();
@@ -181,7 +180,6 @@ private slots:
     void refreshKeyFromServer();
     void slotregenerate();
     void reloadSecretKeys();
-    void getMissingSigs(QStringList *missingKeys, KeyListViewItem *item);
     void getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *nd);
     void slotEditDone(int exitcode);
     void importRemoteFinished(KGpgTransaction *);

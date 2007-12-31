@@ -131,6 +131,7 @@ KeysManager::KeysManager(QWidget *parent)
     keysList2->photoKeysList = QString();
     keysList2->groupNb = 0;
     m_statusbar = 0;
+    imodel = NULL;
     readOptions();
 
     if (showTipOfDay)
@@ -406,12 +407,9 @@ KeysManager::KeysManager(QWidget *parent)
 
 //     setCentralWidget(keysList2);
     KConfigGroup cg = KConfigGroup(KGlobal::config().data(), "KeyView");
-    keysList2->restoreLayout(cg);
     iview->restoreLayout(cg);
 
     connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(defaultAction()));
-    connect(keysList2, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(defaultAction()));
-    connect(keysList2, SIGNAL(destroyed()), this, SLOT(annule()));
     connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
 
     // get all keys data
@@ -603,7 +601,7 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
     }
     else
     {
-        changeMessage(keysList2->statusCountMessage(), 1);
+        changeMessage(imodel->statusCountMessage(), 1);
 
         KDialog *keyCreated = new KDialog(this);
         keyCreated->setCaption(i18n("New Key Pair Created"));
@@ -1154,12 +1152,6 @@ kDebug(3125) << "Oops, unmatched type value" << exportList.at(0)->getType();
     }
 }
 
-void KeysManager::annule()
-{
-    // close window
-    close();
-}
-
 void KeysManager::quitApp()
 {
     // close window
@@ -1169,7 +1161,8 @@ void KeysManager::quitApp()
 
 void KeysManager::saveToggleOpts(void)
 {
-    keysList2->saveLayout(KGlobal::config().data(), "KeyView");
+	KConfigGroup cg = KConfigGroup(KGlobal::config().data(), "KeyView");
+	iview->saveLayout(cg);
     KGpgSettings::setPhotoProperties(photoProps->currentItem());
     KGpgSettings::setShowTrust(sTrust->isChecked());
     KGpgSettings::setShowExpi(sExpi->isChecked());
@@ -1189,8 +1182,8 @@ void KeysManager::readOptions()
     // re-read groups in case the config file location was changed
     QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
     KGpgSettings::setGroups(groups.join(","));
-    keysList2->groupNb = groups.count();
-    changeMessage(keysList2->statusCountMessage(), 1);
+    if (imodel != NULL)
+	changeMessage(imodel->statusCountMessage(), 1);
 
     showTipOfDay = KGpgSettings::showTipOfDay();
 }
@@ -1600,26 +1593,31 @@ KeysManager::showProperties(const QModelIndex &index)
 
 void KeysManager::keyproperties()
 {
-    KeyListViewItem *cur = keysList2->currentItem();
-    if (cur == NULL)
-        return;
+	KGpgNode *cur = iview->selectedNode();
+	if (cur == NULL)
+		return;
 
-    if (cur->itemType() == KeyListViewItem::Secret)
-    {
-        if (KMessageBox::questionYesNo(this, i18n("This key is an orphaned secret key (secret key without public key.) It is currently not usable.\n\n"
-                                               "Would you like to regenerate the public key?"), QString(), KGuiItem(i18n("Generate")), KGuiItem(i18n("Do Not Generate"))) == KMessageBox::Yes)
-            slotregenerate();
-            return;
-    }
-
-    QString key = cur->keyId();
-    if (!key.isEmpty())
-    {
-        KgpgKeyInfo *opts = new KgpgKeyInfo(key, this);
-        connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
-        opts->exec();
-        delete opts;
-    }
+	switch (cur->getType()) {
+	case ITYPE_SECRET:
+	case ITYPE_GSECRET:
+		if (KMessageBox::questionYesNo(this,
+			i18n("<p>This key is an orphaned secret key (secret key without public key.) It is currently not usable.</p>"
+				"<p>Would you like to regenerate the public key?</p>"), QString(), KGuiItem(i18n("Generate")), KGuiItem(i18n("Do Not Generate"))) == KMessageBox::Yes)
+		slotregenerate();
+		break;
+	case ITYPE_PAIR:
+	case ITYPE_PUBLIC:
+	case ITYPE_GPAIR:
+	case ITYPE_GPUBLIC: {
+		KgpgKeyInfo *opts = new KgpgKeyInfo(cur->getId(), this);
+		connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
+		opts->exec();
+		delete opts;
+		break;
+	}
+	default:
+		kDebug(3125) << "Oops, called with invalid item type" << cur->getType();
+	}
 }
 
 void KeysManager::deleteGroup()
@@ -1808,17 +1806,6 @@ void KeysManager::signatureResult(int success, const QString &keyId, KgpgInterfa
     signLoop();
 }
 
-void KeysManager::getMissingSigs(QStringList *missingKeys, KeyListViewItem *item)
-{
-	while (item) {
-		if (isSignatureUnknown(item))
-			*missingKeys << item->keyId();
-		if (item->firstChild() != NULL)
-			getMissingSigs(missingKeys, item->firstChild());
-		item = item->nextSibling();
-	}
-}
-
 void KeysManager::getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *nd)
 {
 	for (int i = nd->getChildCount() - 1; i >= 0; i--) {
@@ -1837,7 +1824,7 @@ void KeysManager::getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *n
 
 void KeysManager::importallsignkey()
 {
-	QList<KeyListViewItem *> sel = keysList2->selectedItems();
+	QList<KGpgNode *> sel = iview->selectedNodes();
 	QStringList missingKeys;
 	int i;
 
@@ -1845,16 +1832,17 @@ void KeysManager::importallsignkey()
 		return;
 
 	for (i = 0; i < sel.count(); i++) {
-		KeyListViewItem *cur = sel.at(i);
-		KeyListViewItem *item = cur->firstChild();
+		KGpgNode *nd = sel.at(i);
 
-		if (item == NULL) {
-			cur->setOpen(true);
-			cur->setOpen(false);
-			item = cur->firstChild();
+		if (nd->hasChildren()) {
+			KGpgExpandableNode *en = static_cast<KGpgExpandableNode *>(nd);
+			getMissingSigs(&missingKeys, en);
+		} else if (nd->getType() == ITYPE_SIGN) {
+			KGpgSignNode *sn = static_cast<KGpgSignNode *>(nd);
+
+			if (sn->isUnknown())
+				missingKeys << sn->getId();
 		}
-
-		getMissingSigs(&missingKeys, item);
 	}
 
 	if (missingKeys.isEmpty()) {
