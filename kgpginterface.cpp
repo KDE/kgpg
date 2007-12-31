@@ -1833,65 +1833,49 @@ void KgpgInterface::changeTrust(const QString &keyid, const KgpgKeyOwnerTrust &k
     m_ispartial = false;
     m_trustvalue = keytrust;
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--edit-key" << keyid << "trust";
+	m_workProcess = new KProcess(this);
+	m_workProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
+	*m_workProcess << KGpgSettings::gpgBinaryPath();
+	*m_workProcess << "--no-secmem-warning" << "--no-tty" << "--status-fd=1" << "--command-fd=0";
+	*m_workProcess << "--edit-key" << keyid << "trust";
 
-    kDebug(2100) << "Change trust of the key" << keyid << "to" << keytrust;
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(changeTrustProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(changeTrustFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+	kDebug(2100) << "Change trust of the key" << keyid << "to" << keytrust;
+	connect(m_workProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(changeTrustProcess()));
+	connect(m_workProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(changeTrustFin()));
+
+	m_workProcess->start();
 }
 
-void KgpgInterface::changeTrustProcess(K3ProcIO *p)
+void KgpgInterface::changeTrustProcess()
 {
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
+        QString buffer = m_partialline + m_workProcess->readAllStandardOutput();
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
+        while (buffer.contains('\n')) {
+            int pos = buffer.indexOf('\n');
+            QString line = buffer.left(pos);
+            buffer.remove(0, pos + 1);
 
             if (line.contains("edit_ownertrust.set_ultimate.okay"))
-                p->writeStdin(QByteArray("YES"), true);
+                m_workProcess->write("YES\n");
             else
             if (line.contains("edit_ownertrust.value"))
-                p->writeStdin(QString::number(m_trustvalue), true);
+                m_workProcess->write(QString::number(m_trustvalue).toAscii() + '\n');
             else
             if (line.contains("keyedit.prompt"))
             {
-                p->writeStdin(QByteArray("save"), true);
-                p->closeWhenDone();
+                m_workProcess->write(QByteArray("save"), true);
             }
             else
             if (line.contains("GET_")) // gpg asks for something unusal
             {
-                p->writeStdin(QByteArray("quit"), true);
-                p->closeWhenDone();
+                m_workProcess->write(QByteArray("quit"), true);
             }
-        }
     }
-
-    p->ackRead();
 }
 
-void KgpgInterface::changeTrustFin(K3Process *p)
+void KgpgInterface::changeTrustFin()
 {
-    delete p;
+    delete m_workProcess;
     emit changeTrustFinished(this);
 }
 

@@ -391,8 +391,8 @@ public slots:
     void changeTrust(const QString &keyid, const KgpgCore::KgpgKeyOwnerTrust &keytrust);
 
 private slots:
-    void changeTrustProcess(K3ProcIO *p);
-    void changeTrustFin(K3Process *p);
+    void changeTrustProcess();
+    void changeTrustFin();
 
 private:
     int m_trustvalue;
