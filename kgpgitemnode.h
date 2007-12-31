@@ -55,6 +55,8 @@ public:
 		{ return QDate(); }
 	virtual QString getId() const
 		{ return QString(); }
+	virtual QString getComment() const
+		{ return QString(); }
 	KGpgExpandableNode *getParentKeyNode() const
 		{ return m_parent; }
 };
@@ -120,6 +122,8 @@ public:
 	virtual QString getId() const;
 	virtual QString getBeautifiedFingerprint() const
 		{ return m_key->fingerprintBeautified(); }
+	virtual QString getComment() const
+		{ return m_key->comment(); }
 };
 
 typedef QList<KGpgKeyNode *> KGpgKeyNodeList;
@@ -176,6 +180,8 @@ public:
 	virtual QString getId() const;
 	virtual KGpgKeyNode *getParentKeyNode() const
 		{ return static_cast<KGpgKeyNode *>(m_parent); }
+	virtual QString getComment() const
+		{ return m_uid->comment(); }
 };
 
 class KGpgSignNode : public KGpgNode
@@ -195,6 +201,8 @@ public:
 	virtual QDate getExpiration() const;
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
+	virtual QString getComment() const
+		{ return m_sign->comment(); }
 
 	bool isUnknown() const;
 };

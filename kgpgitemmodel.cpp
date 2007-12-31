@@ -87,6 +87,8 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 			} else {
 				return Convert::toPixmap(node->getType());
 			}
+		case Qt::ToolTipRole:
+			return node->getComment();
 		}
 		break;
 	case KEYCOLUMN_EMAIL:
