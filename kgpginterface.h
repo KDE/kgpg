@@ -64,6 +64,8 @@ public:
 
 /************** function to send a passphrase to gpg **************/
 private:
+    KProcess *m_workProcess;
+
     /**
      * @param text text is the message that must be displayed in the MessageBox
      * @param process gnupg process
@@ -338,8 +340,6 @@ private:
 
 /************** change key expiration **************/
 signals:
-    void keyExpireStarted();
-
     /**
      * 0 = Unknown error
      * 1 = Bad Passphrase
@@ -352,8 +352,8 @@ public slots:
     void keyExpire(const QString &keyid, const QDate &date);
 
 private slots:
-    void keyExpireProcess(K3ProcIO *p);
-    void keyExpireFin(K3Process *p);
+    void keyExpireProcess();
+    void keyExpireFin();
 
 /***************************************************/
 
@@ -675,7 +675,6 @@ private:
 /********************************************************/
 
 
-    KProcess *m_signProcess;
 
 
 

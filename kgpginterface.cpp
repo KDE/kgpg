@@ -1497,29 +1497,29 @@ void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, cons
 
     m_success = 0;
 
-	m_signProcess = new KProcess(this);
-	m_signProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
-	*m_signProcess << KGpgSettings::gpgBinaryPath();
-	*m_signProcess << "--no-secmem-warning" << "--no-tty" << "--status-fd=1" << "--command-fd=0";
+	m_workProcess = new KProcess(this);
+	m_workProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
+	*m_workProcess << KGpgSettings::gpgBinaryPath();
+	*m_workProcess << "--no-secmem-warning" << "--no-tty" << "--status-fd=1" << "--command-fd=0";
 
-	*m_signProcess << "-u" << signkeyid;
-	*m_signProcess << "--edit-key" << keyid;
+	*m_workProcess << "-u" << signkeyid;
+	*m_workProcess << "--edit-key" << keyid;
 
 	if (local)
-		*m_signProcess << "lsign";
+		*m_workProcess << "lsign";
 	else
-		*m_signProcess << "sign";
+		*m_workProcess << "sign";
 
 	kDebug(3125) << "Signing key" << keyid << "with key" << signkeyid;
-	connect(m_signProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(signKeyProcess()));
-	connect(m_signProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(signKeyFin()));
+	connect(m_workProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(signKeyProcess()));
+	connect(m_workProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(signKeyFin()));
 
-	m_signProcess->start();
+	m_workProcess->start();
 }
 
 void KgpgInterface::signKeyProcess()
 {
-        QString buffer = m_partialline + m_signProcess->readAllStandardOutput();
+        QString buffer = m_partialline + m_workProcess->readAllStandardOutput();
 
         while (buffer.contains('\n')) {
             int pos = buffer.indexOf('\n');
@@ -1535,7 +1535,7 @@ void KgpgInterface::signKeyProcess()
                 {
                     // user has aborted the process and don't want to sign the key
                     if (line.contains("GET_"))
-                        m_signProcess->write("quit\n");
+                        m_workProcess->write("quit\n");
                     return;
                 }
                 else
@@ -1547,16 +1547,16 @@ void KgpgInterface::signKeyProcess()
                 }
                 else
                 if (line.contains("sign_uid.expire"))
-                    m_signProcess->write("Never\n");
+                    m_workProcess->write("Never\n");
                 else
                 if (line.contains("sign_uid.class"))
-                    m_signProcess->write(QString::number(m_checking).toAscii() + '\n');
+                    m_workProcess->write(QString::number(m_checking).toAscii() + '\n');
                 else
                 if (line.contains("sign_uid.okay"))
-                    m_signProcess->write("Y\n");
+                    m_workProcess->write("Y\n");
                 else
                 if (line.contains("sign_all.okay"))
-                    m_signProcess->write("Y\n");
+                    m_workProcess->write("Y\n");
                 else
                 if (line.contains("passphrase.enter"))
                 {
@@ -1565,10 +1565,10 @@ void KgpgInterface::signKeyProcess()
                         passdlgmessage = i18n("<p><b>Bad passphrase</b>. You have %1 tries left.</p>", step);
                     passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
-                    if (sendPassphrase(passdlgmessage, m_signProcess, false))
+                    if (sendPassphrase(passdlgmessage, m_workProcess, false))
                     {
                         m_success = 3;
-                        m_signProcess->write("quit\n");
+                        m_workProcess->write("quit\n");
                         return;
                     }
 
@@ -1579,7 +1579,7 @@ void KgpgInterface::signKeyProcess()
                 }
                 else
                 if ((m_success != 1) && line.contains("keyedit.prompt"))
-                    m_signProcess->write("save\n");
+                    m_workProcess->write("save\n");
                 else
                 if (line.contains("BAD_PASSPHRASE"))
                     m_success = 1;
@@ -1588,7 +1588,7 @@ void KgpgInterface::signKeyProcess()
                 {
                     if (m_success != 1)
                         m_success = 5; // switching to console mode
-                    m_signProcess->write("quit\n");
+                    m_workProcess->write("quit\n");
                 }
             }
             else
@@ -1599,7 +1599,7 @@ void KgpgInterface::signKeyProcess()
 
 void KgpgInterface::signKeyFin()
 {
-    delete m_signProcess;
+    delete m_workProcess;
     if ((m_success != 0) && (m_success != 5))
         emit signKeyFinished(m_success, m_keyid, this); // signature successful or bad passphrase or aborted or already signed
     else
@@ -1643,38 +1643,27 @@ void KgpgInterface::keyExpire(const QString &keyid, const QDate &date)
     else
         expirationDelay = QDate::currentDate().daysTo(date);
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--edit-key" << keyid << "expire";
+	m_workProcess = new KProcess(this);
+	m_workProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
+	*m_workProcess << KGpgSettings::gpgBinaryPath();
+	*m_workProcess << "--no-secmem-warning" << "--no-tty" << "--status-fd=1" << "--command-fd=0";
+	*m_workProcess << "--edit-key" << keyid << "expire";
 
-    kDebug(2100) << "Change expiration of the key" << keyid;
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(keyExpireProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(keyExpireFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+	kDebug(2100) << "Change expiration of the key" << keyid << "to" << expirationDelay << "days";
+	connect(m_workProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(keyExpireProcess()));
+	connect(m_workProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(keyExpireFin()));
+
+	m_workProcess->start();
 }
 
-void KgpgInterface::keyExpireProcess(K3ProcIO *p)
+void KgpgInterface::keyExpireProcess()
 {
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
+        QString buffer = m_partialline + m_workProcess->readAllStandardOutput();
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
+        while (buffer.contains('\n')) {
+            int pos = buffer.indexOf('\n');
+            QString line = buffer.left(pos);
+            buffer.remove(0, pos + 1);
 
             if (!line.startsWith("[GNUPG:]"))
                 log += line + '\n';
@@ -1682,8 +1671,7 @@ void KgpgInterface::keyExpireProcess(K3ProcIO *p)
             if (m_success == 3)
             {
                 if (line.contains("GET_" ))
-                    p->writeStdin(QByteArray("quit"), true);
-                p->closeWhenDone();
+                    m_workProcess->write("quit\n");
                 return;
             }
             else
@@ -1693,11 +1681,10 @@ void KgpgInterface::keyExpireProcess(K3ProcIO *p)
             if (line.contains("GOOD_PASSPHRASE"))
             {
                 m_success = 2;
-                emit keyExpireStarted();
             }
             else
             if (line.contains("keygen.valid"))
-                p->writeStdin(QString::number(expirationDelay), true);
+                m_workProcess->write(QString::number(expirationDelay).toAscii() + '\n');
             else
             if (line.contains("passphrase.enter"))
             {
@@ -1706,43 +1693,40 @@ void KgpgInterface::keyExpireProcess(K3ProcIO *p)
                     passdlgmessage = i18n("<p><b>Bad passphrase</b>. You have %1 tries left.</p>", step);
                 passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
-                if (sendPassphrase(passdlgmessage, p, false))
+                if (sendPassphrase(passdlgmessage, m_workProcess, false))
                 {
                     m_success = 3;  // aborted by user mode
-                    p->writeStdin(QByteArray("quit"), true);
-                    p->closeWhenDone();
+                    m_workProcess->write("quit\n");
                     return;
                 }
                 --step;
             }
             else
             if ((m_success == 2) && line.contains("keyedit.prompt"))
-                p->writeStdin(QByteArray("save"), true);
+                m_workProcess->write("save\n");
             else
             if ((m_success == 2) && line.contains("keyedit.save.okay"))
-                p->writeStdin(QByteArray("YES"), true);
+                m_workProcess->write("YES\n");
             else
             if (line.contains("BAD_PASSPHRASE"))
             {
                 m_success = 1; // bad passphrase
-                p->writeStdin(QByteArray("quit"), true);
+                m_workProcess->write("quit\n");
             }
             else
             if (line.contains("GET_")) // gpg asks for something unusal, turn to konsole mode
             {
                 if (m_success != 1)
                     m_success = 4; // switching to console mode
-                p->writeStdin(QByteArray("quit"), true);
+                m_workProcess->write("quit\n");
             }
         }
-    }
 
-    p->ackRead();
 }
 
-void KgpgInterface::keyExpireFin(K3Process *p)
+void KgpgInterface::keyExpireFin()
 {
-    delete p;
+    delete m_workProcess;
     if (m_success < 4)
         emit keyExpireFinished(m_success, this); // signature successful or bad passphrase
     else
