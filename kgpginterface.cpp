@@ -1758,28 +1758,14 @@ void KgpgInterface::changePass(const QString &keyid)
     process->start(K3Process::NotifyOnExit, true);
 }
 
-void KgpgInterface::changePassProcess(K3ProcIO *p)
+void KgpgInterface::changePassProcess()
 {
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
+        QString buffer = m_partialline + m_workProcess->readAllStandardOutput();
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
+        while (buffer.contains('\n')) {
+            int pos = buffer.indexOf('\n');
+            QString line = buffer.left(pos);
+            buffer.remove(0, pos + 1);
 
             if (line.contains("USERID_HINT"))
                 updateIDs(line);
@@ -1787,7 +1773,7 @@ void KgpgInterface::changePassProcess(K3ProcIO *p)
             if ((m_success == 4) && line.contains("keyedit.prompt"))
             {
                 m_success = 2;
-                p->writeStdin(QByteArray("save"), true);
+                m_workProcess->write("save\n");
             }
             else
             if (line.contains("GOOD_PASSPHRASE"))
@@ -1806,9 +1792,9 @@ void KgpgInterface::changePassProcess(K3ProcIO *p)
                         passdlgmessage = i18n("<p><b>Bad passphrase</b>. You have %1 tries left.</p>", step);
                     passdlgmessage += i18n("Enter old passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
-                    if (sendPassphrase(passdlgmessage, p, false))
+                    if (sendPassphrase(passdlgmessage, m_workProcess, false))
                     {
-                        delete p;
+                        delete m_workProcess;
                         emit changePassFinished(3, this);
                         return;
                     }
@@ -1817,9 +1803,9 @@ void KgpgInterface::changePassProcess(K3ProcIO *p)
                 else
                 if (m_success == 4)
                 {
-                    if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase all your encrypted files and messages will be inaccessible<br /></qt>", userIDs), p))
+                    if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase all your encrypted files and messages will be inaccessible<br /></qt>", userIDs), m_workProcess))
                     {
-                        delete p;
+                        delete m_workProcess;
                         emit changePassFinished(3, this);
                         return;
                     }
@@ -1828,18 +1814,14 @@ void KgpgInterface::changePassProcess(K3ProcIO *p)
             else
             if (line.contains("GET_")) // gpg asks for something unusal, turn to konsole mode
             {
-                p->writeStdin(QByteArray("quit"), true);
-                p->closeWhenDone();
+                m_workProcess->write("quit\n");
             }
-        }
     }
-
-    p->ackRead();
 }
 
-void KgpgInterface::changePassFin(K3Process *p)
+void KgpgInterface::changePassFin()
 {
-    delete p;
+    delete m_workProcess;
     emit changePassFinished(m_success, this);
 }
 

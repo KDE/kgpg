@@ -372,8 +372,8 @@ public slots:
     void changePass(const QString &keyid);
 
 private slots:
-    void changePassProcess(K3ProcIO *p);
-    void changePassFin(K3Process *p);
+    void changePassProcess();
+    void changePassFin();
 
 /*************************************************/
 
