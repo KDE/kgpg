@@ -1597,7 +1597,7 @@ void KeysManager::defaultAction(const QModelIndex &index)
 		iview->selectNode(imodel->getRootNode()->findKey(nd->getId()));
 		break;
 	case ITYPE_SECRET:
-#warning FIXME: orphan
+		slotregenerate();
 		break;
 	case ITYPE_PAIR:
 	case ITYPE_PUBLIC:
