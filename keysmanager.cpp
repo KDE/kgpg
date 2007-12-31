@@ -2122,11 +2122,16 @@ void KeysManager::delsignkey()
 
     QString uid;
     KeyListViewItem *parent = keysList2->currentItem()->parent();
-    if (parent->itemType() == KeyListViewItem::Public)
+    switch (parent->itemType()) {
+    case KeyListViewItem::Public:
+    case KeyListViewItem::Pair:
         uid = '1';
-    else {
-        Q_ASSERT(parent->itemType() == KeyListViewItem::Uid);
+        break;
+    case KeyListViewItem::Uid:
         uid = parent->text(6);
+        break;
+    default:
+        Q_ASSERT(1);
     }
 
     QString signID;
