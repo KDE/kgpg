@@ -904,35 +904,6 @@ void KeysManager::slotSetPhotoSize(int size)
             iproxy->setPreviewSize(0);
             break;
     }
-
-    // refresh keys with photo id
-    KeyListViewItem *newdef = keysList2->firstChild();
-    while (newdef)
-    {
-        //if ((keysList2->photoKeysList.find(newdef->text(6))!=-1) && (newdef->childCount ()>0))
-        if (newdef->childCount() > 0)
-        {
-            bool hasphoto = false;
-            KeyListViewItem *newdefChild = newdef->firstChild();
-            while (newdefChild)
-            {
-                if (newdefChild->itemType() == KeyListViewItem::Uat)
-                {
-                    hasphoto = true;
-                    break;
-                }
-                newdefChild = newdefChild->nextSibling();
-            }
-
-            if (hasphoto)
-            {
-                while (newdef->firstChild())
-                    delete newdef->firstChild();
-                keysList2->expandKey(newdef);
-            }
-        }
-        newdef = newdef->nextSibling();
-    }
 }
 
 void KeysManager::findKey()
