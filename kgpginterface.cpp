@@ -1747,15 +1747,17 @@ void KgpgInterface::changePass(const QString &keyid)
     m_success = 1;
     step = 3;
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--no-use-agent";
-    *process << "--edit-key" << keyid << "passwd";
+	m_workProcess = new KProcess(this);
+	m_workProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
+	*m_workProcess << KGpgSettings::gpgBinaryPath();
+	*m_workProcess << "--no-secmem-warning" << "--no-tty" << "--status-fd=1" << "--command-fd=0";
+	*m_workProcess << "--edit-key" << keyid << "passwd";
 
-    kDebug(2100) << "Cange passphrase of the key" << keyid;
-    connect(process,SIGNAL(readReady(K3ProcIO *)), this, SLOT(changePassProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(changePassFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+	kDebug(2100) << "Change passphrase of the key" << keyid;
+	connect(m_workProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(changePassProcess()));
+	connect(m_workProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(changePassFin()));
+
+	m_workProcess->start();
 }
 
 void KgpgInterface::changePassProcess()
