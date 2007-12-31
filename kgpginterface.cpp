@@ -457,7 +457,6 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 {
     QStringList lsp;
     int items;
-    unsigned int uidnum = 0;
 
     while ((items = p->readln(lsp)) >= 0)
     {
@@ -533,7 +532,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             cycle = "pub";
 
             // the first uid is merged into the public key
-            uidnum = 1;
+            m_numberid = 1;
         }
         else
         if ((lsp.at(0) == "fpr") && (items >= 10))
@@ -605,7 +604,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             else
                 uid.setValid(true);
 
-            uid.setIndex(++uidnum);
+            uid.setIndex(++m_numberid);
             QString fullname = lsp.at(9);
             if (fullname.contains('<') )
             {
@@ -643,7 +642,6 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
             m_publickey.uidList()->append(uid);
 
-            m_numberid++;
             cycle = "uid";
         }
         else
