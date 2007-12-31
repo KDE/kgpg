@@ -1630,7 +1630,7 @@ void KgpgInterface::signKeyOpenConsole()
     emit signKeyFinished(2, m_keyid, this);
 }
 
-void KgpgInterface::keyExpire(const QString &keyid, const QDate &date, const bool &unlimited)
+void KgpgInterface::keyExpire(const QString &keyid, const QDate &date)
 {
     m_partialline.clear();
     m_ispartial = false;
@@ -1638,7 +1638,7 @@ void KgpgInterface::keyExpire(const QString &keyid, const QDate &date, const boo
     m_success = 0;
     step = 3;
 
-    if (unlimited)
+    if (date.isNull())
         expirationDelay = 0;
     else
         expirationDelay = QDate::currentDate().daysTo(date);

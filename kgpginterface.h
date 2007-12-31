@@ -349,7 +349,7 @@ signals:
     void keyExpireFinished(int, KgpgInterface*);
 
 public slots:
-    void keyExpire(const QString &keyid, const QDate &date, const bool &unlimited);
+    void keyExpire(const QString &keyid, const QDate &date);
 
 private slots:
     void keyExpireProcess(K3ProcIO *p);

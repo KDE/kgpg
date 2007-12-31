@@ -509,9 +509,9 @@ void KgpgKeyInfo::slotChangeDate()
         connect(process, SIGNAL(keyExpireFinished(int, KgpgInterface*)), this, SLOT(slotInfoExpirationChanged(int, KgpgInterface*)));
 
         if (dialog->unlimited())
-            process->keyExpire(m_keyid, QDate::currentDate(), true);
+            process->keyExpire(m_keyid, QDate());
         else
-            process->keyExpire(m_keyid, dialog->date(), false);
+            process->keyExpire(m_keyid, dialog->date());
     }
     delete dialog;
 }
