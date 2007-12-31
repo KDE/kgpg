@@ -1867,14 +1867,14 @@ void KeysManager::importallsignkey()
 
 void KeysManager::preimportsignkey()
 {
-    QList<KeyListViewItem*> exportList = keysList2->selectedItems();
+    QList<KGpgNode *> exportList = iview->selectedNodes();
     QStringList idlist;
 
     if (exportList.empty())
       return;
 
     for (int i = 0; i < exportList.count(); ++i)
-      idlist << exportList.at(i)->keyId();
+      idlist << exportList.at(i)->getId();
 
     importsignkey(idlist);
 }
@@ -1918,39 +1918,41 @@ void KeysManager::importfinished()
 
 void KeysManager::delsignkey()
 {
-    // sign a key
-    if (keysList2->currentItem() == 0)
-        return;
+	KGpgNode *nd = iview->selectedNode();
+	Q_ASSERT(nd != NULL);
 
-    QString uid;
-    KeyListViewItem *parent = keysList2->currentItem()->parent();
-    if (parent->itemType() == KeyListViewItem::Public)
-        uid = '1';
-    else {
-        Q_ASSERT(parent->itemType() == KeyListViewItem::Uid);
-        uid = parent->text(6);
-    }
+	QString uid;
+	QString parentKey;
+
+	KGpgExpandableNode *parent = nd->getParentKeyNode();
+	switch (parent->getType()) {
+	case ITYPE_PAIR:
+	case ITYPE_PUBLIC:
+		uid = '1';
+		parentKey = parent->getId();
+		break;
+	case ITYPE_SIGN:
+		uid = parent->getId();
+		parentKey = parent->getParentKeyNode()->getId();
+		break;
+	default:
+		Q_ASSERT(1);
+	}
 
     QString signID;
-    QString parentKey;
     QString signMail;
     QString parentMail;
-    KeyListViewItem *sitem = keysList2->currentItem();
 
-    if (parent->depth() == 1)
-        parentKey = parent->parent()->keyId();
-    else
-        parentKey = parent->keyId();
-    signID = sitem->keyId();
-    parentMail = keysList2->currentItem()->parent()->text(0) + " (" + keysList2->currentItem()->parent()->text(1) + ')';
-    signMail = keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ')';
+    signID = nd->getId();
+    parentMail = parent->getName() + " (" + parent->getEmail() + ')';
+    signMail = nd->getName() + " (" + nd->getEmail() + ')';
 
-    parentMail = parent->text(0);
-    if (!parent->text(1).isEmpty())
-       parentMail += " &lt;" + parent->text(1) + "&gt;";
+    parentMail = parent->getName();
+    if (!parent->getEmail().isEmpty())
+       parentMail += " &lt;" + parent->getEmail() + "&gt;";
     signMail = keysList2->currentItem()->text(0);
-    if (!keysList2->currentItem()->text(1).isEmpty())
-       signMail += " &lt;" + keysList2->currentItem()->text(1) + "&gt;";
+    if (!nd->getEmail().isEmpty())
+       signMail += " &lt;" + nd->getEmail() + "&gt;";
 
     if (parentKey == signID)
     {
