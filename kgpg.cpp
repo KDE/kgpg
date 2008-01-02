@@ -119,7 +119,7 @@ MyView::MyView(QWidget *parent, KSystemTrayIcon *parentTrayIcon)
     encrypt = new KAction(KIcon(QString("document-encrypt")), i18n("&Encrypt File"), this);
     encrypt->setObjectName("encrypt_file");
     connect(encrypt, SIGNAL(triggered(bool)), SLOT(encryptDroppedFile()));
-    sign = new KAction(KIcon(QString("signature")), i18n("&Sign File"), this);
+    sign = new KAction(KIcon(QString("document-sign")), i18n("&Sign File"), this);
     sign->setObjectName("sign_file");
     connect(sign, SIGNAL(triggered(bool)), SLOT(signDroppedFile()));
 

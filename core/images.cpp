@@ -61,7 +61,7 @@ QPixmap Images::signature()
 {
     static QPixmap signature;
     if (signature.isNull())
-        signature = KIconLoader::global()->loadIcon("signature", KIconLoader::Small, 20);
+        signature = KIconLoader::global()->loadIcon("application-pgp-signature", KIconLoader::Small, 20);
     return signature;
 }
 
@@ -69,7 +69,7 @@ QPixmap Images::userId()
 {
     static QPixmap userid;
     if (userid.isNull())
-        userid = KIconLoader::global()->loadIcon("kgpg_identity", KIconLoader::Small, 20);
+        userid = KIconLoader::global()->loadIcon("x-office-contact", KIconLoader::Small, 20);
     return userid;
 }
 
@@ -77,7 +77,7 @@ QPixmap Images::photo()
 {
     static QPixmap photo;
     if (photo.isNull())
-        photo = KIconLoader::global()->loadIcon("kgpg_photo", KIconLoader::Small, 20);
+        photo = KIconLoader::global()->loadIcon("image-x-generic", KIconLoader::Small, 20);
     return photo;
 }
 
@@ -85,7 +85,7 @@ QPixmap Images::revoke()
 {
     static QPixmap revoke;
     if (revoke.isNull())
-        revoke = KIconLoader::global()->loadIcon("process-stop", KIconLoader::Small, 20);
+        revoke = KIconLoader::global()->loadIcon("dialog-error", KIconLoader::Small, 20);
     return revoke;
 }
 
