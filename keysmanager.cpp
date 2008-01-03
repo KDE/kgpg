@@ -156,7 +156,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(action, SIGNAL(triggered(bool)), SLOT(slotManpage()));
 
     action = actionCollection()->addAction("kgpg_editor");
-    action->setIcon(KIcon("document-properties"));
+    action->setIcon(KIcon("accessories-text-editor"));
     action->setText(i18n("&Open Editor"));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotOpenEditor()));
 
@@ -173,7 +173,7 @@ KeysManager::KeysManager(QWidget *parent)
     action->setShortcuts(KStandardShortcut::reload());
 
     hPublic = actionCollection()->add<KToggleAction>("show_secret");
-    hPublic->setIcon(KIcon("kgpg_show"));
+    hPublic->setIcon(KIcon("view-key-secret"));
     hPublic->setText(i18n("&Show only Secret Keys"));
     hPublic->setChecked(KGpgSettings::showSecret());
     connect(hPublic, SIGNAL(triggered(bool)), SLOT(slotToggleSecret()));
@@ -184,37 +184,37 @@ KeysManager::KeysManager(QWidget *parent)
     connect(hExRev, SIGNAL(triggered(bool)), SLOT(slotToggleDisabled()));
 
     QAction *infoKey = actionCollection()->addAction("key_info");
-    infoKey->setIcon(KIcon("kgpg-info-kgpg"));
+    infoKey->setIcon(KIcon("document-properties-key"));
     infoKey->setText(i18n("K&ey properties"));
     connect(infoKey, SIGNAL(triggered(bool)), SLOT(keyproperties()));
     infoKey->setShortcut(QKeySequence(Qt::Key_Return));
 
     QAction *editKey = actionCollection()->addAction("key_edit");
-    editKey->setIcon(KIcon("kgpg-term-kgpg"));
+    editKey->setIcon(KIcon("utilities-terminal"));
     editKey->setText(i18n("Edit Key in &Terminal"));
     connect(editKey, SIGNAL(triggered(bool)), SLOT(slotedit()));
     editKey->setShortcut(QKeySequence(Qt::ALT+Qt::Key_Return));
 
     QAction *generateKey = actionCollection()->addAction("key_gener");
-    generateKey->setIcon(KIcon("kgpg_gen"));
+    generateKey->setIcon(KIcon("key-generate-pair"));
     generateKey->setText(i18n("&Generate Key Pair..."));
     connect(generateKey, SIGNAL(triggered(bool)), SLOT(slotGenerateKey()));
     generateKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::New));
 
     QAction *exportPublicKey = actionCollection()->addAction("key_export");
-    exportPublicKey->setIcon(KIcon("kgpg_export"));
+    exportPublicKey->setIcon(KIcon("document-export-key"));
     exportPublicKey->setText(i18n("E&xport Public Keys..."));
     connect(exportPublicKey, SIGNAL(triggered(bool)), SLOT(slotexport()));
     exportPublicKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Copy));
 
     QAction *importKey = actionCollection()->addAction("key_import");
-    importKey->setIcon(KIcon("kgpg-import-kgpg"));
+    importKey->setIcon(KIcon("document-import-key"));
     importKey->setText(i18n("&Import Key..."));
     connect(importKey, SIGNAL(triggered(bool)), SLOT(slotPreImportKey()));
     importKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Paste));
 
     QAction *newContact = actionCollection()->addAction("add_kab");
-    newContact->setIcon(KIcon("office-address-book"));
+    newContact->setIcon(KIcon("contact-new"));
     newContact->setText(i18n("&Create New Contact in Address Book"));
     connect(newContact, SIGNAL(triggered(bool)), SLOT(addToKAB()));
 
@@ -285,11 +285,11 @@ KeysManager::KeysManager(QWidget *parent)
     refreshKey->setText(i18n("&Refresh Keys From Keyserver"));
     connect(refreshKey, SIGNAL(triggered(bool)), SLOT(refreshKeyFromServer()));
     signKey = actionCollection()->addAction("key_sign");
-    signKey->setIcon(KIcon("kgpg-sign-kgpg"));
+    signKey->setIcon(KIcon("document-sign-key"));
     signKey->setText(i18n("&Sign Keys..."));
     connect(signKey, SIGNAL(triggered(bool)), SLOT(signkey()));
     importSignatureKey = actionCollection()->addAction("key_importsign");
-    importSignatureKey->setIcon(KIcon("document-import"));
+    importSignatureKey->setIcon(KIcon("document-import-key"));
     importSignatureKey->setText(i18n("Import key(s) from keyserver"));
     connect(importSignatureKey, SIGNAL(triggered(bool)), SLOT(preimportsignkey()));
 
@@ -307,7 +307,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(sExpi, SIGNAL(triggered(bool) ), SLOT(slotShowExpiration()));
 
     photoProps = actionCollection()->add<KSelectAction>("photo_settings");
-    photoProps->setIcon(KIcon("kgpg_photo"));
+    photoProps->setIcon(KIcon("image-x-generic"));
     photoProps->setText(i18n("&Photo ID's"));
 
     // Keep the list in kgpg.kcfg in sync with this one!
@@ -1866,8 +1866,8 @@ void KeysManager::editGroup()
     dialogGroupEdit->setModal( true );
 
     gEdit = new groupEdit();
-    gEdit->buttonAdd->setIcon(KIcon("go-down"));
-    gEdit->buttonRemove->setIcon(KIcon("go-up"));
+    gEdit->buttonAdd->setIcon(KIcon("list-add"));
+    gEdit->buttonRemove->setIcon(KIcon("list-remove"));
 
     connect(gEdit->buttonAdd, SIGNAL(clicked()), this, SLOT(groupAdd()));
     connect(gEdit->buttonRemove, SIGNAL(clicked()), this, SLOT(groupRemove()));

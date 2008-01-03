@@ -29,7 +29,7 @@ QPixmap Images::single()
 {
     static QPixmap single;
     if (single.isNull())
-        single = KIconLoader::global()->loadIcon("kgpg_key1", KIconLoader::Small, 20);
+        single = KIconLoader::global()->loadIcon("key-single", KIconLoader::Small, 20);
     return single;
 }
 
@@ -37,7 +37,7 @@ QPixmap Images::pair()
 {
     static QPixmap pair;
     if (pair.isNull())
-        pair = KIconLoader::global()->loadIcon("kgpg_key2", KIconLoader::Small, 20);
+        pair = KIconLoader::global()->loadIcon("key-pair", KIconLoader::Small, 20);
     return pair;
 }
 
@@ -45,7 +45,7 @@ QPixmap Images::group()
 {
     static QPixmap group;
     if (group.isNull())
-        group = KIconLoader::global()->loadIcon("kgpg_key3", KIconLoader::Small, 20);
+        group = KIconLoader::global()->loadIcon("key-group", KIconLoader::Small, 20);
     return group;
 }
 
@@ -53,7 +53,7 @@ QPixmap Images::orphan()
 {
     static QPixmap oprpan;
     if (oprpan.isNull())
-        oprpan = KIconLoader::global()->loadIcon("kgpg_key4", KIconLoader::Small, 20);
+        oprpan = KIconLoader::global()->loadIcon("key-orphan", KIconLoader::Small, 20);
     return oprpan;
 }
 

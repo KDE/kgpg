@@ -383,7 +383,8 @@ void MyView::busyMessage(const QString &mssge, bool reset)
         trayIcon->setToolTip(mssge);
 
 #if 0
-//TODO: is it necessary?
+//TODO: kgpg_docked.gif is gone, replace this with the
+//     "kgpg" icon overlayed by "user-busy", if necessary at all.
         QMovie *movie = new QMovie(KStandardDirs::locate("appdata", "pics/kgpg_docked.gif"));
         setMovie(movie);
         delete movie;
@@ -396,7 +397,7 @@ void MyView::busyMessage(const QString &mssge, bool reset)
 
     if (openTasks <= 0)
     {
-        trayIcon->setIcon(KIcon("kgpg_docked"));
+        trayIcon->setIcon(KIcon("kgpg"));
         trayIcon->setToolTip(i18n("KGpg - encryption tool"));
         openTasks = 0;
     }
@@ -924,7 +925,7 @@ kgpgapplet::kgpgapplet(QWidget *parent)
     QMenu *conf_menu = contextMenu();
 
     QAction *KgpgOpenEditor = actionCollection()->addAction("kgpg_editor");
-    KgpgOpenEditor->setIcon(KIcon("document-properties"));
+    KgpgOpenEditor->setIcon(KIcon("accessories-text-editor"));
     KgpgOpenEditor->setText(i18n("E&ditor"));
     connect(KgpgOpenEditor, SIGNAL(triggered(bool)), parent, SLOT(slotOpenEditor()));
     QAction *KgpgOpenManager = actionCollection()->addAction("kgpg_manager");
@@ -956,7 +957,7 @@ kgpgapplet::kgpgapplet(QWidget *parent)
     conf_menu->addAction( KgpgOpenServer );
     conf_menu->addSeparator();
     conf_menu->addAction( KgpgPreferences );
-    setIcon( KIcon("kgpg_docked") );
+    setIcon( KIcon("kgpg") );
 }
 
 void kgpgapplet::showOptions()
