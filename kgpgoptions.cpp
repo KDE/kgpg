@@ -332,12 +332,12 @@ void kgpgOptions::updateSettings()
 
     // install service menus
     if (m_page7->kcfg_SignMenu->currentIndex() == KGpgSettings::EnumSignMenu::AllFiles)
-        slotInstallSign("all/allfiles");
+        slotInstallSign("application/octet-stream");
     else
         slotRemoveMenu("signfile.desktop");
 
     if (m_page7->kcfg_DecryptMenu->currentIndex() == KGpgSettings::EnumDecryptMenu::AllFiles)
-        slotInstallDecrypt("all/allfiles");
+        slotInstallDecrypt("application/octet-stream");
     else
     if (m_page7->kcfg_DecryptMenu->currentIndex() == KGpgSettings::EnumDecryptMenu::EncryptedFiles)
         slotInstallDecrypt("application/pgp-encrypted,application/pgp-signature,application/pgp-keys");
@@ -442,7 +442,9 @@ void kgpgOptions::slotInstallDecrypt(const QString &mimetype)
     if (configl2.isImmutable() == false)
     {
 	KConfigGroup gr = configl2.group("Desktop Entry");
-	gr.writeEntry("ServiceTypes", mimetype);
+
+	gr.writeXdgListEntry("MimeType", QStringList() << mimetype);
+	gr.writeEntry("X-KDE-ServiceTypes", "KonqPopupMenu/Plugin");
 	gr.writeEntry("Actions", "decrypt");
 
 	gr = configl2.group("Desktop Action decrypt");
@@ -455,12 +457,13 @@ void kgpgOptions::slotInstallDecrypt(const QString &mimetype)
 
 void kgpgOptions::slotInstallSign(const QString &mimetype)
 {
-    QString path = KStandardDirs::locateLocal("data", "konqueror/servicemenus/signfile.desktop");
+    QString path = KStandardDirs::locateLocal("services", "ServiceMenus/signfile.desktop");
     KDesktopFile configl2(path);
     if (configl2.isImmutable() ==false)
     {
 	KConfigGroup gr = configl2.group("Desktop Entry");
-	gr.writeEntry("ServiceTypes", mimetype);
+	gr.writeXdgListEntry("MimeType", QStringList() << mimetype);
+	gr.writeEntry("X-KDE-ServiceTypes", "KonqPopupMenu/Plugin");
 	gr.writeEntry("Actions", "sign");
 
 	gr = configl2.group("Desktop Action sign");
@@ -473,7 +476,7 @@ void kgpgOptions::slotInstallSign(const QString &mimetype)
 
 void kgpgOptions::slotRemoveMenu(const QString &menu)
 {
-    QString path = KStandardDirs::locateLocal("data", "konqueror/servicemenus/" + menu);
+    QString path = KStandardDirs::locateLocal("services", "ServiceMenus/" + menu);
     QFile qfile(path);
     if (qfile.exists())
         qfile.remove();
