@@ -25,6 +25,7 @@ set(kgpg_SRCS ${core_SRCS}
    main.cpp
    kgpgkeygenerate.cpp
    kgpginterface.cpp
+   kgpgtextinterface.cpp
    gpgproc.cpp
    keyservers.cpp
    kgpgeditor.cpp

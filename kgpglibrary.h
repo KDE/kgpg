@@ -28,6 +28,7 @@
 
 class KPassivePopup;
 class KgpgInterface;
+class KGpgTextInterface;
 
 class KgpgLibrary : public QObject
 {
@@ -55,8 +56,8 @@ public slots:
 private slots:
     void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
     void fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
-    void processEnc(const KUrl &, KgpgInterface*);
-    void processEncError(const QString &mssge, KgpgInterface*);
+    void processEnc(const KUrl &, KGpgTextInterface*);
+    void processEncError(const QString &mssge, KGpgTextInterface*);
     void processDecOver();
     void processDecError(const QString &mssge);
     void processEncPopup(const KUrl &url);

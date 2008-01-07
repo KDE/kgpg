@@ -82,6 +82,7 @@
 #include "kgpgview.h"
 #include "kgpglibrary.h"
 #include "kgpg_interface.h"
+#include "kgpgtextinterface.h"
 
 using namespace KgpgCore;
 
@@ -352,20 +353,20 @@ void MyView::startFolderEncode()
     arch->close();
     delete arch;
 
-    KgpgInterface *folderprocess = new KgpgInterface();
-    connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl, KgpgInterface*)), this, SLOT(slotFolderFinished(KUrl, KgpgInterface*)));
-    connect(folderprocess, SIGNAL(errorMessage(const QString &, KgpgInterface*)), this, SLOT(slotFolderFinishedError(const QString &, KgpgInterface*)));
+    KGpgTextInterface *folderprocess = new KGpgTextInterface();
+    connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl, KGpgTextInterface*)), this, SLOT(slotFolderFinished(KUrl, KGpgTextInterface*)));
+    connect(folderprocess, SIGNAL(errorMessage(const QString &, KGpgTextInterface*)), this, SLOT(slotFolderFinishedError(const QString &, KGpgTextInterface*)));
     folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric);
 }
 
-void MyView::slotFolderFinished(const KUrl &, KgpgInterface *iface)
+void MyView::slotFolderFinished(const KUrl &, KGpgTextInterface *iface)
 {
     delete pop;
     delete kgpgfoldertmp;
     delete iface;
 }
 
-void MyView::slotFolderFinishedError(const QString &errmsge, KgpgInterface *iface)
+void MyView::slotFolderFinishedError(const QString &errmsge, KGpgTextInterface *iface)
 {
     delete pop;
     delete kgpgfoldertmp;
@@ -437,7 +438,7 @@ void MyView::slotVerifyFile()
     }
 
     // pipe gpg command
-    KgpgInterface *verifyFileProcess=new KgpgInterface();
+    KGpgTextInterface *verifyFileProcess = new KGpgTextInterface();
     connect (verifyFileProcess, SIGNAL(verifyquerykey(QString)), this, SLOT(importSignature(QString)));
     verifyFileProcess->KgpgVerifyFile(droppedUrl, KUrl(sigfile));
 }
@@ -473,7 +474,7 @@ void MyView::signDroppedFile()
     if (KGpgSettings::pgpCompatibility())
         Options << "--pgp6";
 
-    KgpgInterface *signFileProcess = new KgpgInterface();
+    KGpgTextInterface *signFileProcess = new KGpgTextInterface();
     signFileProcess->KgpgSignFile(signKeyID, droppedUrl, Options);
 }
 
@@ -882,7 +883,7 @@ void MyView::encryptClipboard(QStringList selec, QStringList encryptOptions, con
     if (symmetric)
         selec.clear();
 
-    KgpgInterface *txtEncrypt = new KgpgInterface();
+    KGpgTextInterface *txtEncrypt = new KGpgTextInterface();
     connect (txtEncrypt, SIGNAL(txtEncryptionFinished(QString)), this, SLOT(slotSetClip(QString)));
     connect (txtEncrypt, SIGNAL(txtEncryptionStarted()), this, SLOT(slotPassiveClip()));
     txtEncrypt->encryptText(kapp->clipboard()->text(clipboardMode), selec, encryptOptions);

@@ -69,6 +69,20 @@ public:
     int readln(QString &line);
 
     /**
+     * Reads a line of text (excluding '\\n').
+     *
+     * Use readRawLine() in response to a readReady() signal.
+     * You may use it multiple times if more than one line of data is
+     * available. This does not alter the the line in any way.
+     *
+     * readln() never blocks.
+     *
+     * @param line is used to store the line that was read.
+     * @return the number of characters read, or -1 if no data is available.
+     */
+    int readRawLine(QByteArray &line);
+
+    /**
      * Reads a line of text and splits it into parts.
      *
      * Use readln() in response to a readReady() signal.
@@ -81,6 +95,14 @@ public:
      * @return the number of characters read, or -1 if no data is available.
      */
     int readln(QStringList &l);
+
+    /**
+    * Recode a line from GnuPG encoding to UTF8
+    *
+    * @param colons recode also colons
+    * @return recoded string
+    */
+    static QString recode(QByteArray a, const bool colons = true);
 
 signals:
     /**

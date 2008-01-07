@@ -62,6 +62,8 @@ public:
     static bool getGpgBoolSetting(const QString &name, const QString &configfile);
     static void setGpgBoolSetting(const QString &name, const bool &enable, const QString &url);
 
+    static int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true);
+
 /************** function to send a passphrase to gpg **************/
 private:
     KProcess *m_workProcess;
@@ -74,12 +76,10 @@ private:
      * @return 1 if there is an error
      */
     int sendPassphrase(const QString &text, K3ProcIO *process, const bool isnew = true);
-    int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true);
 /******************************************************************/
 
 
 /************** function update the userIDs variable **************/
-private:
     void updateIDs(QString txt);
 
 /******************************************************************/
@@ -139,154 +139,6 @@ private:
     QString m_keystring;
 
 /************************************************/
-
-
-/************** encrypt a text **************/
-signals:
-    /**
-     *  emitted when a txt encryption starts.
-     */
-    void txtEncryptionStarted();
-
-    /**
-     *  emitted when a txt encryption finished. returns encrypted text
-     */
-    void txtEncryptionFinished(QString, KgpgInterface*);
-
-public slots:
-    /**
-     * Encrypt text function
-     * @param text text to be encrypted.
-     * @param userIDs the recipients key id's.
-     * @param Options a list of string with the wanted gpg options. ex: "--armor"
-     */
-    void encryptText(const QString &text, const QStringList &userids, const QStringList &options = QStringList());
-
-private slots:
-    void encryptTextProcess(K3ProcIO *p);
-    void encryptTextFin(K3Process *p);
-
-/********************************************/
-
-
-/************** decrypt a text **************/
-signals:
-    /**
-     *  emitted when a txt decryption starts.
-     */
-    void txtDecryptionStarted();
-
-    /**
-     *  emitted when a txt decryption finished. returns decrypted text
-     */
-    void txtDecryptionFinished(QString, KgpgInterface*);
-
-    /**
-     *  emitted when a txt decryption failed. returns log output
-     */
-    void txtDecryptionFailed(QString, KgpgInterface*);
-
-public slots:
-    /**
-     * Decrypt text function
-     * @param text QString text to be decrypted.
-     * @param Options StringList with the wanted gpg options.
-     */
-    void decryptText(const QString &text, const QStringList &options = QStringList());
-
-private slots:
-    void decryptTextStdOut(K3Process *p, char *data, int);
-    void decryptTextStdErr(K3Process *, char *data, int);
-    void decryptTextFin(K3Process *p);
-
-private:
-    int m_textlength;
-
-/********************************************/
-
-
-/************** sign a text **************/
-signals:
-    void txtSigningStarted();
-    void txtSigningFinished(QString, KgpgInterface*);
-    void txtSigningFailed(QString, KgpgInterface*);
-
-public slots:
-    /**
-     * Sign text function
-     * @param text QString text to sign.
-     * @param userIDs the recipient key id's.
-     * @param Options StringList with the wanted gpg options.
-     */
-    void signText(const QString &text, const QString &userid, const QStringList &options);
-
-private slots:
-    void signTextProcess(K3ProcIO *p);
-    void signTextFin(K3Process *p);
-
-/*****************************************/
-
-
-/************** verify a text **************/
-signals:
-    void txtVerifyStarted();
-    void txtVerifyMissingSignature(QString, KgpgInterface*);
-    void txtVerifyFinished(QString, QString, KgpgInterface*);
-
-public slots:
-    /**
-     * Verify text function
-     * @param text QString text to be verified.
-     */
-    void verifyText(const QString &text);
-
-private slots:
-    void verifyTextProcess(K3ProcIO *p);
-    void verifyTextFin(K3Process*);
-
-/*******************************************/
-
-
-/************** encrypt a file **************/
-signals:
-    /**
-     *  emitted when the process starts
-     */
-    void processstarted(QString);
-
-    /**
-     *  emitted when an error occurred
-     */
-    void errorMessage(const QString &, KgpgInterface*);
-
-    /**
-     *  true if encryption successful, false on error.
-     */
-    void fileEncryptionFinished(KUrl, KgpgInterface*);
-
-public slots:
-    /**
-     * Encrypt file function
-     * @param encryptKeys the recipients key id's.
-     * @param srcUrl Kurl of the file to encrypt.
-     * @param destUrl Kurl for the encrypted file.
-     * @param Options String List with the wanted gpg options. ex: "--armor"
-     * @param symetrical bool whether the encryption should be symmetrical.
-     */
-    void encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options = QStringList(), const bool &symetrical = false);
-
-private slots:
-    /**
-     * Reads output of the current encryption process + allow overwriting of a file
-     */
-    void fileReadEncProcess(K3ProcIO *p);
-
-    /**
-     * Checks if the encrypted file was saved.
-     */
-    void fileEncryptFin(K3Process *p);
-
-/********************************************/
 
 
 /************** sign a key **************/
@@ -586,38 +438,6 @@ private:
 
 /********************************************/
 
-
-/************** decrypt file **************/
-signals:
-    /**
-     * 0 = Unknown error
-     * 1 = Bad passphrase
-     * 2 = Uid Added
-     * 3 = Aborted
-     * 5 = email is not valid
-     */
-    void decryptFileStarted(KUrl url);
-    void decryptFileFinished(int, KgpgInterface*);
-
-public slots:
-    /**
-     * Decrypt file function
-     * @param src Kurl of the file to decrypt.
-     * @param dest Kurl for the decrypted file.
-     * @param Options String List with the wanted gpg options
-     */
-    void decryptFile(const KUrl &src, const KUrl &dest, const QStringList &Options = QStringList());
-
-private slots:
-    void decryptFileProcess(K3ProcIO *p);
-    void decryptFileFin(K3Process *p);
-
-private:
-    KUrl decryptFileUrl;
-
-/******************************************/
-
-
 /************** download keys from keys server **************/
 signals:
     /*
@@ -689,27 +509,6 @@ private:
 public slots:
 
     /**
-     * Decrypt File to text function
-     * @param srcUrl Kurl of the file to decrypt.
-     * @param Options StringList with the wanted gpg options.
-     */
-    void KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList &Options);
-
-    /**
-     * Sign file function
-     * @param keyID QString the signing key ID.
-     * @param srcUrl Kurl of the file to sign.
-     * @param Options String with the wanted gpg options. ex: "--armor"
-     */
-    void KgpgSignFile(const QString &keyID, const KUrl &srcUrl, const QStringList &Options = QStringList());
-
-    /**Verify file function
-     * @param sigUrl Kurl of the signature file.
-     * @param srcUrl Kurl of the file to be verified. If empty, gpg will try to find it using the signature file name (by removing the .sig extensio)
-     */
-    void KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl = KUrl()) ;
-
-    /**
      * Key signature deletion function
      * @param keyID QString the ID of the key
      * @param signKeyID QString the ID of the signature key
@@ -722,11 +521,6 @@ public slots:
 
 
 private slots:
-    /**
-     * Checks if the signing was successful.
-     */
-    void signfin(K3Process *p);
-
     /**
      * Reads output of the delete signature process
      */
@@ -747,51 +541,11 @@ private slots:
      */
     void importURLover(K3Process *p);
 
-    /**
-     * Reads output of the current process + allow overwriting of a file
-     */
-    void readprocess(K3ProcIO *p);
-
-    /**
-     * Reads output of the current signing process + allow overwriting of a file
-     */
-    void readsignprocess(K3ProcIO *p);
-
-    /**
-     * Checks output of the verify process
-     */
-    void verifyfin(K3Process *p);
-
 signals:
     /**
      *  true if key signature deletion successful, false on error.
      */
     void delsigfinished(bool);
-
-    /**
-     *  emitted when user cancels process
-     */
-    void processaborted(bool);
-
-    /**
-     * emitted if bad passphrase was giver
-     */
-    void badpassphrase(bool);
-
-    /**
-     *  true if verify successful, false on error.
-     */
-    void verifyfinished();
-
-    /**
-     *  emmitted if signature key is missing & user want to import it from keyserver
-     */
-    void verifyquerykey(QString ID);
-
-    /**
-     *  true if signature successful, false on error.
-     */
-    void signfinished();
 
     void revokecertificate(QString);
     void revokeurl(QString);
@@ -800,16 +554,10 @@ private:
     // Globals private
     int m_success;
     QString m_partialline;
-    QByteArray m_readin;
     bool m_ispartial;
     QString message;
-    QString tmp_message;
     QString userIDs;
     QString log;
-    bool encok;                 // encrypt ok
-    bool decok;                 // decrypt ok
-    bool badmdc;                // bad mdc
-    bool badpassword;           // bad password
     KProcess *editprocess;
     static K3ProcIO *gpgProc(const int &statusfd = -1, const int &cmdfd = -1);
 
@@ -819,14 +567,10 @@ private:
     QString output;
 
     bool deleteSuccess;
-    bool anonymous;
-    bool decfinished;
     bool revokeSuccess;
     bool addSuccess;
     bool delSuccess;
-    bool signmiss;
 
-    QString signID;
     int expSuccess;
     int step;
     int signb;
@@ -837,15 +581,9 @@ private:
     QString revokeDescription;
     QString certificateUrl;
     QString photoUrl;
-    KUrl sourceFile;
     QString decryptUrl;
 
     QString gpgOutput;
-
-    /**
-     * @internal structure for the file information
-     */
-    KUrl file;
 };
 
 #endif // KGPGINTERFACE_H
