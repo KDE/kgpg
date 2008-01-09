@@ -64,6 +64,8 @@ public:
 
 /************** function to send a passphrase to gpg **************/
 private:
+    KProcess *m_workProcess;
+
     /**
      * @param text text is the message that must be displayed in the MessageBox
      * @param process gnupg process
@@ -297,7 +299,7 @@ signals:
      * 3 = Aborted by user
      * 4 = Already signed
      */
-    void signKeyFinished(int, KgpgInterface*);
+    void signKeyFinished(int, const QString &, KgpgInterface*);
 
 public slots:
     /**
@@ -338,8 +340,6 @@ private:
 
 /************** change key expiration **************/
 signals:
-    void keyExpireStarted();
-
     /**
      * 0 = Unknown error
      * 1 = Bad Passphrase
@@ -349,11 +349,11 @@ signals:
     void keyExpireFinished(int, KgpgInterface*);
 
 public slots:
-    void keyExpire(const QString &keyid, const QDate &date, const bool &unlimited);
+    void keyExpire(const QString &keyid, const QDate &date);
 
 private slots:
-    void keyExpireProcess(K3ProcIO *p);
-    void keyExpireFin(K3Process *p);
+    void keyExpireProcess();
+    void keyExpireFin();
 
 /***************************************************/
 
@@ -372,8 +372,8 @@ public slots:
     void changePass(const QString &keyid);
 
 private slots:
-    void changePassProcess(K3ProcIO *p);
-    void changePassFin(K3Process *p);
+    void changePassProcess();
+    void changePassFin();
 
 /*************************************************/
 
@@ -391,8 +391,8 @@ public slots:
     void changeTrust(const QString &keyid, const KgpgCore::KgpgKeyOwnerTrust &keytrust);
 
 private slots:
-    void changeTrustProcess(K3ProcIO *p);
-    void changeTrustFin(K3Process *p);
+    void changeTrustProcess();
+    void changeTrustFin();
 
 private:
     int m_trustvalue;
@@ -675,7 +675,6 @@ private:
 /********************************************************/
 
 
-    KProcess *m_signProcess;
 
 
 

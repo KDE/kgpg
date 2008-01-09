@@ -420,7 +420,7 @@ void KgpgKeyInfo::loadKey()
     m_trust->setColor(trustcolor);
     m_length->setText(QString::number(key.size()) + " / " + QString::number(subkey.size()));
     m_length->setWhatsThis("<qt>The left part is the size of the <b>signature</b> key. The right part is the size of the <b>encryption</b> key.</qt>");
-    m_fingerprint->setText(key.fingerprint());
+    m_fingerprint->setText(key.fingerprintBeautified());
 
     if (key.comment().isEmpty())
         m_comment->setText(i18nc("no key comment", "none"));
@@ -509,9 +509,9 @@ void KgpgKeyInfo::slotChangeDate()
         connect(process, SIGNAL(keyExpireFinished(int, KgpgInterface*)), this, SLOT(slotInfoExpirationChanged(int, KgpgInterface*)));
 
         if (dialog->unlimited())
-            process->keyExpire(m_keyid, QDate::currentDate(), true);
+            process->keyExpire(m_keyid, QDate());
         else
-            process->keyExpire(m_keyid, dialog->date(), false);
+            process->keyExpire(m_keyid, dialog->date());
     }
     delete dialog;
 }

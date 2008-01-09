@@ -84,7 +84,6 @@ public:
     QString gpgsignname;
     QString gpgsignemail;
     QString gpgsigncomment;
-    bool    gpgsignunlimited;
     QDate   gpgsignexpiration;
     QDate   gpgsigncreation;
     bool    gpgsignlocal;
@@ -106,7 +105,6 @@ public:
     void setName(const QString &name);
     void setEmail(const QString &email);
     void setComment(const QString &comment);
-    void setUnlimited(const bool &unlimited);
     void setExpiration(const QDate &date);
     void setCreation(const QDate &date);
     void setLocal(const bool &local);
@@ -330,7 +328,6 @@ public:
     bool            gpgsubvalid;
     QString         gpgsubid;
     uint            gpgsubsize;
-    bool            gpgsubunlimited;
     QDate           gpgsubexpiration;
     QDate           gpgsubcreation;
     KgpgKeyTrust    gpgsubtrust;
@@ -353,7 +350,6 @@ public:
 
     void setId(const QString &id);
     void setSize(const uint &size);
-    void setUnlimited(const bool &unlimited);
     void setExpiration(const QDate &date);
     void setCreation(const QDate &date);
     void setTrust(const KgpgKeyTrust &trust);
@@ -427,8 +423,6 @@ public:
 
     bool          gpgkeysecret;
     bool          gpgkeyvalid;
-    QString       gpgkeyid;
-    QString       gpgfullid;
     QString       gpgkeymail;
     QString       gpgkeyname;
     QString       gpgkeycomment;
@@ -437,7 +431,6 @@ public:
     KgpgKeyOwnerTrust gpgkeyownertrust;
     KgpgKeyTrust  gpgkeytrust;
     QDate         gpgkeycreation;
-    bool          gpgkeyunlimited;
     QDate         gpgkeyexpiration;
     KgpgKeyAlgo   gpgkeyalgo;
 
@@ -456,15 +449,13 @@ class KgpgKey : public QObject
     Q_OBJECT
 
 public:
-    static QString expiration(const QDate &date, const bool &unlimited);
+    static QString expiration(const QDate &date);
 
     KgpgKey();
     KgpgKey(const KgpgKey &other);
 
     void setSecret(const bool &secret);
     void setValid(const bool &valid);
-    void setId(const QString &id);
-    void setFullId(const QString &fullid);
     void setName(const QString &name);
     void setEmail(const QString &email);
     void setComment(const QString &comment);
@@ -474,7 +465,6 @@ public:
     void setTrust(const KgpgKeyTrust &trust);
     void setCreation(const QDate &date);
     void setExpiration(const QDate &date);
-    void setUnlimited(const bool &unlimited);
     void setAlgorithm(const KgpgKeyAlgo &algo);
 
     bool secret() const;
@@ -485,6 +475,7 @@ public:
     QString email() const;
     QString comment() const;
     QString fingerprint() const;
+    QString fingerprintBeautified() const;
     uint size() const;
     KgpgKeyOwnerTrust ownerTrust() const;
     KgpgKeyTrust trust() const;

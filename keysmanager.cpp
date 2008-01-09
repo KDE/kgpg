@@ -1937,7 +1937,7 @@ void KeysManager::signkey()
     if (signList.count() == 1)
     {
         KeyListViewItem *item = keysList2->currentItem();
-        QString fingervalue = item->getKey()->fingerprint();
+        QString fingervalue = item->getKey()->fingerprintBeautified();
         QString opt;
 
         opt = i18n("<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
