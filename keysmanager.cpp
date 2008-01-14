@@ -895,7 +895,7 @@ void KeysManager::slotDeletePhoto()
     */
 
     KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(delPhotoFinished(int, KgpgInterface*)), this, SLOT(slotDelPhotoFinished(int, KgpgInterface*)));
+    connect(interface, SIGNAL(delelePhotoFinished(int, KgpgInterface*)), this, SLOT(slotDelPhotoFinished(int, KgpgInterface*)));
     interface->deletePhoto(parent->keyId(), item->text(6));
 }
 
