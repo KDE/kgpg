@@ -125,15 +125,14 @@ private:
 
 /************** get keys as a text **************/
 signals:
-    void getKeysStarted(KgpgInterface*);
     void getKeysFinished(QString, KgpgInterface*);
 
 public slots:
-    QString getKeys(const bool &block = false, const QString *attributes = NULL, const QStringList &ids = QStringList());
+    QString getKeys(const QString *attributes = NULL, const QStringList &ids = QStringList());
 
 private slots:
-    void getKeysProcess(K3ProcIO *p);
-    void getKeysFin(K3Process *p);
+    void getKeysProcess(GPGProc *);
+    void getKeysFin(GPGProc *);
 
 private:
     QString m_keystring;
@@ -273,7 +272,7 @@ public slots:
     QPixmap loadPhoto(const QString &keyid, const QString &uid, const bool &block = false);
 
 private slots:
-    void loadPhotoFin(K3Process *p, const bool &block = false);
+    void loadPhotoFin(int exitCode);
 
 private:
     QPixmap m_pixmap;
@@ -296,8 +295,8 @@ public slots:
     void addPhoto(const QString &keyid, const QString &imagepath);
 
 private slots:
-    void addPhotoProcess(K3ProcIO *p);
-    void addPhotoFin(K3Process *p);
+    void addPhotoProcess(GPGProc *p);
+    void addPhotoFin(GPGProc *p);
 
 /**************************************************/
 
@@ -316,8 +315,8 @@ public slots:
     void deletePhoto(const QString &keyid, const QString &uid);
 
 private slots:
-    void deletePhotoProcess(K3ProcIO *p);
-    void deletePhotoFin(K3Process *p);
+    void deletePhotoProcess(GPGProc *p);
+    void deletePhotoFin(GPGProc *p);
 
 /*****************************************************/
 
@@ -372,8 +371,8 @@ public slots:
     void addUid(const QString &keyid, const QString &name, const QString &email, const QString &comment);
 
 private slots:
-    void addUidProcess(K3ProcIO *p);
-    void addUidFin(K3Process *p);
+    void addUidProcess(GPGProc *p);
+    void addUidFin(GPGProc *p);
 
 private:
     QString uidName;
@@ -422,8 +421,8 @@ public slots:
     void generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const KgpgCore::KgpgKeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber);
 
 private slots:
-    void generateKeyProcess(K3ProcIO *p);
-    void generateKeyFin(K3Process *p);
+    void generateKeyProcess(GPGProc *p);
+    void generateKeyFin(GPGProc *p);
 
 private:
     QString m_newkeyid;
@@ -524,12 +523,12 @@ private slots:
     /**
      * Reads output of the delete signature process
      */
-    void delsigprocess(K3ProcIO *p);
+    void delsigprocess(GPGProc *p);
 
     /**
      * Checks output of the delete signature process
      */
-    void delsignover(K3Process *p);
+    void delsignover(GPGProc *p);
 
     /**
      * Finds the offset of the given signatures to a uid

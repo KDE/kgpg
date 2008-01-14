@@ -64,9 +64,10 @@ public:
      * readln() never blocks.
      *
      * @param line is used to store the line that was read.
+     * @param colons recode also colons
      * @return the number of characters read, or -1 if no data is available.
      */
-    int readln(QString &line);
+    int readln(QString &line, const bool &colons = false);
 
     /**
      * Reads a line of text (excluding '\\n').
@@ -99,6 +100,7 @@ public:
     /**
     * Recode a line from GnuPG encoding to UTF8
     *
+    * @param colons a data to recode
     * @param colons recode also colons
     * @return recoded string
     */

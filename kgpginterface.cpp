@@ -38,6 +38,7 @@
 #include <KUrl>
 
 #include "detailedconsole.h"
+#include "emailvalidator.h"
 #include "kgpgsettings.h"
 #include "convert.h"
 #include "gpgproc.h"
@@ -840,74 +841,39 @@ KgpgKeyList KgpgInterface::readJoinedKeys(const KgpgKeyTrust &trust, const QStri
 	return publickeys;
 }
 
-QString KgpgInterface::getKeys(const bool &block, const QString *attributes, const QStringList &ids)
+QString KgpgInterface::getKeys(const QString *attributes, const QStringList &ids)
 {
-    m_partialline.clear();
-    m_ispartial = false;
-    m_keystring.clear();
+	m_keystring.clear();
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--export" << "--armor";
+	GPGProc *gpgProcess = new GPGProc(this);
+	*gpgProcess << "--export" << "--armor" << "--status-fd=1" << "--command-fd=0";
 
-    if (attributes)
-	*process << "--export-options" << *attributes;
+	if (attributes)
+		*gpgProcess << "--export-options" << *attributes;
 
-    *process << ids;
+	*gpgProcess << ids;
 
-    if (!block)
-    {
-        kDebug(2100) << "Get a key with K3Process::NotifyOnExit";
-        connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(getKeysProcess(K3ProcIO *)));
-        connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(getKeysFin(K3Process *)));
-        process->start(K3Process::NotifyOnExit, false);
-        emit getKeysStarted(this);
-        return QString();
-    }
-    else
-    {
-        kDebug(2100) << "Get a key with K3Process::Block";
-        process->start(K3Process::Block, false);
-        getKeysProcess(process);
-        delete process;
-        return m_keystring;
-    }
+	connect(gpgProcess, SIGNAL(readReady(GPGProc *)), this, SLOT(getKeysProcess(GPGProc *)));
+	gpgProcess->start();
+	gpgProcess->waitForFinished(-1);
+	delete gpgProcess;
+	return m_keystring;
 }
 
-void KgpgInterface::getKeysProcess(K3ProcIO *p)
+void KgpgInterface::getKeysProcess(GPGProc *gpgProcess)
 {
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
+	QString line;
 
-                m_partialline.clear();
-                m_ispartial = false;
-            }
-
-            if (!line.startsWith("gpg:"))
-                m_keystring += line + '\n';
-        }
-    }
-    p->ackRead();
+	while (gpgProcess->readln(line, true) >= 0) {
+		if (!line.startsWith("gpg:"))
+			m_keystring += line + '\n';
+	}
 }
 
-void KgpgInterface::getKeysFin(K3Process *p)
+void KgpgInterface::getKeysFin(GPGProc *gpgProcess)
 {
-    delete p;
-    emit getKeysFinished(m_keystring, this);
+	delete gpgProcess;
+	emit getKeysFinished(m_keystring, this);
 }
 
 void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal)
@@ -1340,88 +1306,56 @@ void KgpgInterface::changeDisableFin(int res)
 
 QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool &block)
 {
-    m_partialline.clear();
-    m_ispartial = false;
-    m_pixmap = QPixmap();
+	QString pgpgoutput = "cat %i";
 
-    m_kgpginfotmp = new KTemporaryFile();
-    m_kgpginfotmp->open();
+	m_workProcess = new KProcess(this);
+	m_workProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
+	*m_workProcess << KGpgSettings::gpgBinaryPath();
+	*m_workProcess << "--no-secmem-warning" << "--no-tty" << "--status-fd=2";
+	*m_workProcess << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
 
-    QString pgpgoutput = "cp %i " + m_kgpginfotmp->fileName();
-
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
-
-    if (!block)
-    {
-        kDebug(2100) << "Load a photo for the key" << keyid << "uid" << uid;
-        connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(loadPhotoFin(K3Process *)));
-        process->start(K3Process::NotifyOnExit, true);
-        return QPixmap();
-    }
-    else
-    {
-        kDebug(2100) << "Load a photo for the key" << keyid << "uid" << uid;
-        process->start(K3Process::Block, true);
-        loadPhotoFin(process, true);
-        return m_pixmap;
-    }
+	connect(m_workProcess, SIGNAL(finished(int)), this, SLOT(loadPhotoFin(int)));
+	m_workProcess->start();
+	if (!block) {
+		return QPixmap();
+	} else {
+		m_workProcess->waitForFinished();
+		return m_pixmap;
+	}
 }
 
-void KgpgInterface::loadPhotoFin(K3Process *p, const bool &block)
+void KgpgInterface::loadPhotoFin(int exitCode)
 {
-    delete p;
+	m_pixmap = QPixmap();
 
-    m_pixmap.load(m_kgpginfotmp->fileName());
-    delete m_kgpginfotmp;
-    m_kgpginfotmp = 0;
+	if (exitCode == 0) {
+		QByteArray pic = m_workProcess->readAllStandardOutput();
+		m_pixmap.loadFromData(pic);
+	}
 
-    if (!block)
-        emit loadPhotoFinished(m_pixmap, this);
+	emit loadPhotoFinished(m_pixmap, this);
 }
 
 void KgpgInterface::addPhoto(const QString &keyid, const QString &imagepath)
 {
-    m_partialline.clear();
-    m_ispartial = false;
+	photoUrl = imagepath;
+	m_success = 0;
+	step = 3;
 
-    photoUrl = imagepath;
-    m_success = 0;
-    step = 3;
+	GPGProc *process = new GPGProc(this);
+	*process << "--status-fd=1" << "--command-fd=0" << "--edit-key" << keyid << "addphoto";
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--edit-key" << keyid << "addphoto";
-
-    kDebug(2100) << "Add the photo" << imagepath << "to the key" << keyid;
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(addPhotoProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(addPhotoFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+	kDebug(2100) << "Add the photo" << imagepath << "to the key" << keyid;
+	connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(addPhotoProcess(GPGProc *)));
+	connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(addPhotoFin(GPGProc *)));
+	process->start();
 }
 
-void KgpgInterface::addPhotoProcess(K3ProcIO *p)
+void KgpgInterface::addPhotoProcess(GPGProc *p)
 {
     QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
+    while (p->readln(line, true) >= 0) {
 
             if (line.contains("USERID_HINT"))
                 updateIDs(line);
@@ -1432,12 +1366,12 @@ void KgpgInterface::addPhotoProcess(K3ProcIO *p)
             if (line.contains("GOOD_PASSPHRASE"))
                 m_success = 2;
             if (line.contains("photoid.jpeg.add"))
-                p->writeStdin(photoUrl, true);
+                p->write(photoUrl.toAscii() + '\n');
             else
             if (line.contains("photoid.jpeg.size"))
             {
                 if (KMessageBox::questionYesNo(0, i18n("This image is very large. Use it anyway?"), QString(), KGuiItem(i18n("Use Anyway")), KGuiItem(i18n("Do Not Use"))) == KMessageBox::Yes)
-                    p->writeStdin(QByteArray("Yes"), true);
+                    p->write("Yes\n");
                 else
                 {
                     delete p;
@@ -1464,20 +1398,16 @@ void KgpgInterface::addPhotoProcess(K3ProcIO *p)
             }
             else
             if ((m_success == 2) && (line.contains("keyedit.prompt")))
-                p->writeStdin(QByteArray("save"), true);
+                p->write("save\n");
             else
             if ((line.contains("GET_"))) // gpg asks for something unusal, turn to konsole mode
             {
-                p->writeStdin(QByteArray("quit"), true);
-                p->closeWhenDone();
+                p->write("quit\n");
             }
-        }
     }
-
-    p->ackRead();
 }
 
-void KgpgInterface::addPhotoFin(K3Process *p)
+void KgpgInterface::addPhotoFin(GPGProc *p)
 {
     delete p;
     emit addPhotoFinished(m_success, this);
@@ -1485,45 +1415,23 @@ void KgpgInterface::addPhotoFin(K3Process *p)
 
 void KgpgInterface::deletePhoto(const QString &keyid, const QString &uid)
 {
-    m_partialline.clear();
-    m_ispartial = false;
-
     m_success = 0;
     step = 3;
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--edit-key" << keyid << "uid" << uid << "deluid";
+    GPGProc *process = new GPGProc(this);
+    *process << "--status-fd=1" << "--command-fd=0" << "--edit-key" << keyid << "uid" << uid << "deluid";
 
     kDebug(2100) << "Delete a photo from the key" << keyid;
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(deletePhotoProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(deletePhotoFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+    connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(deletePhotoProcess(GPGProc *)));
+    connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(deletePhotoFin(GPGProc *)));
+    process->start();
 }
 
-void KgpgInterface::deletePhotoProcess(K3ProcIO *p)
+void KgpgInterface::deletePhotoProcess(GPGProc *p)
 {
     QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
+    while (p->readln(line, true) >= 0) {
             if (line.contains("USERID_HINT"))
                 updateIDs(line);
             else
@@ -1534,7 +1442,7 @@ void KgpgInterface::deletePhotoProcess(K3ProcIO *p)
                 m_success = 2;
             else
             if (line.contains("keyedit.remove.uid.okay"))
-                p->writeStdin(QByteArray("YES"), true);
+                p->write("YES\n");
             else
             if (line.contains("passphrase.enter"))
             {
@@ -1552,19 +1460,16 @@ void KgpgInterface::deletePhotoProcess(K3ProcIO *p)
             }
             else
             if (line.contains("keyedit.prompt"))
-                p->writeStdin(QByteArray("save"), true);
+                p->write("save\n");
             else
             if (line.contains("GET_")) // gpg asks for something unusal, turn to konsole mode
             {
-                p->writeStdin(QByteArray("quit"), true);
-                p->closeWhenDone();
+                p->write("quit\n");
             }
-        }
     }
-    p->ackRead();
 }
 
-void KgpgInterface::deletePhotoFin(K3Process *p)
+void KgpgInterface::deletePhotoFin(GPGProc *p)
 {
     delete p;
     emit deletePhotoFinished(m_success, this);
@@ -1723,54 +1628,34 @@ void KgpgInterface::importKeyFinished(K3Process *p)
 
 void KgpgInterface::addUid(const QString &keyid, const QString &name, const QString &email, const QString &comment)
 {
-    m_partialline.clear();
-    m_ispartial = false;
-    step = 3;
-    m_success = 0;
+	step = 3;
+	m_success = 0;
+	// why the heck does QValidator don't take const arguments?
+	QString Email = email;
 
-    if ((!email.isEmpty()) && ((email.contains(" ")) || !email.contains('.') || !email.contains('@')))
-    {
-        emit addUidFinished(4, this);
-        return;
-    }
+	int pos = 0;
+	if (!email.isEmpty() && (EmailValidator().validate(Email, pos) == QValidator::Invalid)) {
+		emit addUidFinished(4, this);
+		return;
+	}
 
-    uidName = name;
-    uidComment = comment;
-    uidEmail = email;
+	uidName = name;
+	uidComment = comment;
+	uidEmail = email;
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--edit-key" << keyid << "adduid";
+	GPGProc *process = new GPGProc(this);
+	*process << "--status-fd=1" << "--command-fd=0" << "--edit-key" << keyid << "adduid";
 
-    kDebug(2100) << "Add Uid" << name << "," << email << "," << comment << "to key" << keyid;
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(addUidProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(addUidFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+	connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(addUidProcess(GPGProc *)));
+	connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(addUidFin(GPGProc *)));
+	process->start();
 }
 
-void KgpgInterface::addUidProcess(K3ProcIO *p)
+void KgpgInterface::addUidProcess(GPGProc *p)
 {
     QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
+    while (p->readln(line, true) >= 0) {
             if (line.contains("USERID_HINT"))
                 updateIDs(line);
             else
@@ -1781,13 +1666,13 @@ void KgpgInterface::addUidProcess(K3ProcIO *p)
                 m_success = 2;
             else
             if (line.contains("keygen.name"))
-                p->writeStdin(uidName, true);
+                p->write(uidName.toAscii() + '\n');
             else
             if (line.contains("keygen.email"))
-                p->writeStdin(uidEmail, true);
+                p->write(uidEmail.toAscii() + '\n');
             else
             if (line.contains("keygen.comment"))
-                p->writeStdin(uidComment, true);
+                p->write(uidComment.toAscii() + '\n');
             else
             if (line.contains("passphrase.enter"))
             {
@@ -1806,20 +1691,16 @@ void KgpgInterface::addUidProcess(K3ProcIO *p)
             }
             else
             if (line.contains("keyedit.prompt"))
-                p->writeStdin(QByteArray("save"), true);
+                p->write("save\n");
             else
             if (line.contains("GET_")) // gpg asks for something unusal, turn to konsole mode
             {
-                p->writeStdin(QByteArray("quit"), true);
-                p->closeWhenDone();
+                p->write("quit\n");
             }
-        }
     }
-
-    p->ackRead();
 }
 
-void KgpgInterface::addUidFin(K3Process *p)
+void KgpgInterface::addUidFin(GPGProc *p)
 {
     delete p;
     emit addUidFinished(m_success, this);
@@ -1827,16 +1708,15 @@ void KgpgInterface::addUidFin(K3Process *p)
 
 void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const KgpgKeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber)
 {
-    m_partialline.clear();
-    m_ispartial = false;
     step = 3;
     m_success = 0;
+    QString Email = keyemail;
 
-    if ((!keyemail.isEmpty()) && ((keyemail.contains(" ")) || !keyemail.contains('.') || !keyemail.contains('@')))
-    {
-        emit generateKeyFinished(4, this, keyname, keyemail, QString(), QString());
-        return;
-    }
+	int pos = 0;
+	if (!keyemail.isEmpty() && (EmailValidator().validate(Email, pos) == QValidator::Invalid)) {
+		emit generateKeyFinished(4, this, keyname, keyemail, QString(), QString());
+		return;
+	}
 
     m_newkeyid.clear();
     m_newfingerprint.clear();
@@ -1848,40 +1728,21 @@ void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail,
     m_keyexp = keyexp;
     m_keyexpnumber = keyexpnumber;
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--no-verbose" << "--no-greeting";
+    GPGProc *process = new GPGProc(this);
+    *process << "--command-fd=0" << "--status-fd=1" << "--no-verbose" << "--no-greeting";
     *process << "--gen-key";
 
     kDebug(2100) << "Generate a new key-pair";
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(generateKeyProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(generateKeyFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+    connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(generateKeyProcess(GPGProc *)));
+    connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(generateKeyFin(GPGProc *)));
+    process->start();
 }
 
-void KgpgInterface::generateKeyProcess(K3ProcIO *p)
+void KgpgInterface::generateKeyProcess(GPGProc *p)
 {
     QString line;
-    bool partial = false;
 
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
-
-                m_partialline = "";
-                m_ispartial = false;
-            }
+    while (p->readln(line, true) >= 0) {
 
             if (line.contains("BAD_PASSPHRASE"))
                 m_success = 1;
@@ -1895,13 +1756,13 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
             if (line.contains("keygen.algo"))
             {
                 if (m_keyalgo == ALGO_RSA)
-                    p->writeStdin(QString("5"), true);
+                    p->write("5\n");
                 else
-                    p->writeStdin(QString("1"), true);
+                    p->write("1\n");
             }
             else
             if (line.contains("keygen.size"))
-                p->writeStdin(QString::number(m_keysize), true);
+                p->write(QString::number(m_keysize).toAscii() + '\n');
             else
             if (line.contains("keygen.valid"))
             {
@@ -1921,7 +1782,7 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
                 else
                   output = QString("0");
 
-                p->writeStdin(output, true);
+                p->write(output.toAscii() + '\n');
             }
             else
             if (line.contains("keygen.name")) {
@@ -1929,14 +1790,14 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
 			p->kill();
 		} else {
 			m_success = 10;
-			p->writeStdin(m_keyname, true);
+			p->write(m_keyname.toAscii() + '\n');
 		}
             } else
             if (line.contains("keygen.email"))
-                p->writeStdin(m_keyemail, true);
+                p->write(m_keyemail.toAscii() + '\n');
             else
             if (line.contains("keygen.comment"))
-                p->writeStdin(m_keycomment, true);
+                p->write(m_keycomment.toAscii() + '\n');
             else
             if (line.contains("passphrase.enter"))
             {
@@ -1968,16 +1829,12 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
             else
             if (line.contains("GET_"))
             {
-                p->writeStdin(QByteArray("quit"), true);
-                p->closeWhenDone();
+                p->write("quit\n");
             }
-        }
     }
-
-    p->ackRead();
 }
 
-void KgpgInterface::generateKeyFin(K3Process *p)
+void KgpgInterface::generateKeyFin(GPGProc *p)
 {
     delete p;
     emit generateKeyFinished(m_success, this, m_keyname, m_keyemail, m_newkeyid, m_newfingerprint);
@@ -2200,43 +2057,41 @@ void KgpgInterface::KgpgDelSignature(const QString &keyID, const QString &uid, Q
 
     signb = signoff.at(0);
 
-        K3ProcIO *conprocess = gpgProc(2, 0);
-        *conprocess << "--edit-key" << keyID << "uid" << uid << "delsig";
-        connect(conprocess,SIGNAL(readReady(K3ProcIO *)),this,SLOT(delsigprocess(K3ProcIO *)));
-        connect(conprocess, SIGNAL(processExited(K3Process *)),this, SLOT(delsignover(K3Process *)));
-        conprocess->start(K3Process::NotifyOnExit,true);
+	GPGProc *conprocess = new GPGProc(this);
+	*conprocess << "--command-fd=0" << "--status-fd=1" << "--edit-key" << keyID << "uid" << uid << "delsig";
+	connect(conprocess,SIGNAL(readReady(GPGProc *)),this,SLOT(delsigprocess(GPGProc *)));
+	connect(conprocess, SIGNAL(processExited(GPGProc *)),this, SLOT(delsignover(GPGProc *)));
+	conprocess->start();
 }
 
-void KgpgInterface::delsigprocess(K3ProcIO *p)//ess *p,char *buf, int buflen)
+void KgpgInterface::delsigprocess(GPGProc *p)
 {
+	QString required;
 
-        QString required = QString();
-        while (p->readln(required,true)!=-1)
-        {
-                if (required.contains("keyedit.delsig")){
-
-                        if ((sigsearch==signb) && (step==0)) {
-                                p->writeStdin(QByteArray("Y"), true);
-                                step=1;
-                        } else
-                                p->writeStdin(QByteArray("n"), true);
-                        sigsearch++;
-                        required.clear();
-                } else if ((step==1) && required.contains("keyedit.prompt")) {
-                        p->writeStdin(QByteArray("save"), true);
-                        required.clear();
-                        deleteSuccess=true;
-                } else if (required.contains("GET_LINE")) {
-                        p->writeStdin(QByteArray("quit"), true);
-                        p->closeWhenDone();
-                        deleteSuccess=false;
-                }
-        }
+	while (p->readln(required, true) >= 0) {
+		if (required.contains("keyedit.delsig")){
+			if ((sigsearch == signb) && (step == 0)) {
+				p->write("Y\n");
+				step = 1;
+			} else
+				p->write("n\n");
+			sigsearch++;
+			required.clear();
+		} else if ((step == 1) && required.contains("keyedit.prompt")) {
+			p->write("save\n");
+			required.clear();
+			deleteSuccess = true;
+		} else if (required.contains("GET_LINE")) {
+			p->write("quit\n");
+			deleteSuccess = false;
+		}
+	}
 }
 
-void KgpgInterface::delsignover(K3Process *)
+void KgpgInterface::delsignover(GPGProc *p)
 {
-        emit delsigfinished(deleteSuccess);
+	delete p;
+	emit delsigfinished(deleteSuccess);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  key revocation

@@ -59,7 +59,7 @@ void GPGProc::finished()
     emit processExited(this);
 }
 
-int GPGProc::readln(QString &line)
+int GPGProc::readln(QString &line, const bool &colons)
 {
     int len = d->recvbuffer.indexOf('\n');
     if (len < 0)
@@ -69,7 +69,7 @@ int GPGProc::readln(QString &line)
     QByteArray a = d->recvbuffer.mid(0, len);
     d->recvbuffer.remove(0, len + 1);
 
-    line = recode(a, false);
+    line = recode(a, colons);
 
     return line.length();
 }

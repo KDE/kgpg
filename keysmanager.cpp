@@ -740,7 +740,7 @@ void KeysManager::refreshKeyFromServer()
 void KeysManager::slotDelUid()
 {
     KGpgNode *nd = iview->selectedNode();
-    Q_ASSERT(nd->getType() == ITYPE_UAT);
+    Q_ASSERT(nd->getType() == ITYPE_UID);
 
     QProcess *process = new QProcess(this);
     KConfigGroup config(KGlobal::config(), "General");
@@ -1497,7 +1497,7 @@ void KeysManager::slotexport()
         else
         {
             KgpgInterface *kexp = new KgpgInterface();
-            QString result = kexp->getKeys(true, exportAttr, klist);
+            QString result = kexp->getKeys(exportAttr, klist);
             delete kexp;
 
             if (page->checkClipboard->isChecked())
