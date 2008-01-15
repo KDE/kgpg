@@ -462,11 +462,11 @@ public slots:
     void downloadKeysAbort();
 
 private slots:
-    void downloadKeysProcess(K3ProcIO *p);
-    void downloadKeysFin(K3Process *p);
+    void downloadKeysProcess(GPGProc *p);
+    void downloadKeysFin(GPGProc *p);
 
 private:
-    K3ProcIO *m_downloadprocess;
+    GPGProc *m_downloadprocess;
     QString m_downloadkeys;
     QString m_downloadkeys_log;
 

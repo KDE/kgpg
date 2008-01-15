@@ -1842,19 +1842,18 @@ void KgpgInterface::generateKeyFin(GPGProc *p)
 
 void KgpgInterface::downloadKeys(const QStringList &keys, const QString &keyserver, const bool &refresh, const QString &proxy)
 {
-    m_partialline.clear();
-    m_ispartial = false;
     m_downloadkeys.clear();
     m_downloadkeys_log.clear();
 
-    m_downloadprocess = gpgProc(1, 0);
+    m_downloadprocess = new GPGProc(this);
+    *m_downloadprocess << "--command-fd=0" << "--status-fd=1";
 
     if (proxy.isEmpty())
         *m_downloadprocess << "--keyserver-options" << "no-honor-http-proxy";
     else
     {
         *m_downloadprocess << "--keyserver-options" << "honor-http-proxy";
-        m_downloadprocess->setEnvironment("http_proxy", proxy);
+        m_downloadprocess->setEnvironment(QStringList("http_proxy=" + proxy));
     }
 
     *m_downloadprocess << "--keyserver" << keyserver;
@@ -1864,14 +1863,14 @@ void KgpgInterface::downloadKeys(const QStringList &keys, const QString &keyserv
         *m_downloadprocess << "--recv-keys";
     *m_downloadprocess << keys;
 
-    connect(m_downloadprocess, SIGNAL(processExited(K3Process *)), this, SLOT(downloadKeysFin(K3Process *)));
-    connect(m_downloadprocess, SIGNAL(readReady(K3ProcIO *)), this, SLOT(downloadKeysProcess(K3ProcIO *)));
-    m_downloadprocess->start(K3Process::NotifyOnExit, false);
+    connect(m_downloadprocess, SIGNAL(processExited(GPGProc *)), this, SLOT(downloadKeysFin(GPGProc *)));
+    connect(m_downloadprocess, SIGNAL(readReady(GPGProc *)), this, SLOT(downloadKeysProcess(GPGProc *)));
+    m_downloadprocess->start();
 }
 
 void KgpgInterface::downloadKeysAbort()
 {
-    if (m_downloadprocess && m_downloadprocess->isRunning())
+    if (m_downloadprocess && (m_downloadprocess->state() == QProcess::Running))
     {
         disconnect(m_downloadprocess, 0, 0, 0);
         m_downloadprocess->kill();
@@ -1883,29 +1882,11 @@ void KgpgInterface::downloadKeysAbort()
     }
 }
 
-void KgpgInterface::downloadKeysProcess(K3ProcIO *p)
+void KgpgInterface::downloadKeysProcess(GPGProc *p)
 {
     QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
+    while (p->readln(line, true) >= 0) {
             if (line.startsWith("[GNUPG:]"))
                 m_downloadkeys += line + '\n';
             else
@@ -1913,13 +1894,10 @@ void KgpgInterface::downloadKeysProcess(K3ProcIO *p)
                 m_downloadkeys_log += line.mid(9) + '\n';
             else
                 m_downloadkeys_log += line + '\n';
-        }
     }
-
-    p->ackRead();
 }
 
-void KgpgInterface::downloadKeysFin(K3Process *p)
+void KgpgInterface::downloadKeysFin(GPGProc *p)
 {
     delete p;
     m_downloadprocess = 0;
