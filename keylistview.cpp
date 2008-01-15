@@ -242,7 +242,6 @@ KeyListView::KeyListView(QWidget *parent)
     setShowSortIndicator(true);
     setAllColumnsShowFocus(true);
     setFullWidth(true);
-    setAcceptDrops(true) ;
     setSelectionModeExt(Extended);
 
     QPixmap blankFrame(KStandardDirs::locate("appdata", "pics/kgpg_blank.png"));
