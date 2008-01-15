@@ -259,6 +259,7 @@ void MyView::encryptDroppedFolder()
     optionbx->addItem(i18n("Zip"));
     optionbx->addItem(i18n("Gzip"));
     optionbx->addItem(i18n("Bzip2"));
+    optionbx->addItem(i18n("Tar"));
 
     connect(optionbx,SIGNAL(activated (int)),this,SLOT(slotSetCompression(int)));
     connect(dialog, SIGNAL(okClicked()), this, SLOT(startFolderEncode()));
@@ -284,13 +285,13 @@ void MyView::startFolderEncode()
     bool symetric = dialog->getSymmetric();
     QString extension;
 
-    if (compressionScheme == 0)
-        extension = ".zip";
-    else
-    if (compressionScheme == 1)
-        extension = ".tar.gz";
-    else
-        extension = ".tar.bz2";
+    switch (compressionScheme) {
+    case 0:	extension = ".zip"; break;
+    case 1:	extension = ".tar.gz"; break;
+    case 2:	extension = ".tar.bz2"; break;
+    case 3:	extension = ".tar"; break;
+    default:	Q_ASSERT(1); return;
+    }
 
     if (dialog->getArmor())
         extension += ".asc";
@@ -332,13 +333,13 @@ void MyView::startFolderEncode()
     dialog = 0L;
 
     KArchive *arch;
-    if (compressionScheme == 0)
-        arch = new KZip(kgpgfoldertmp->fileName());
-    else
-    if (compressionScheme == 1)
-        arch = new KTar(kgpgfoldertmp->fileName(), "application/x-gzip");
-    else
-        arch = new KTar(kgpgfoldertmp->fileName(), "application/x-bzip");
+    switch (compressionScheme) {
+    case 0:	arch = new KZip(kgpgfoldertmp->fileName()); break;
+    case 1:	arch = new KTar(kgpgfoldertmp->fileName(), "application/x-gzip"); break;
+    case 2:	arch = new KTar(kgpgfoldertmp->fileName(), "application/x-bzip"); break;
+    case 3:	arch = new KTar(kgpgfoldertmp->fileName(), "application/x-tar"); break;
+    default:	Q_ASSERT(1); return;
+    }
 
     if (!arch->open(QIODevice::WriteOnly))
     {
