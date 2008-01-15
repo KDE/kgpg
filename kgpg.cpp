@@ -291,7 +291,8 @@ void MyView::startFolderEncode()
     case 1:	extension = ".tar.gz"; break;
     case 2:	extension = ".tar.bz2"; break;
     case 3:	extension = ".tar"; break;
-    default:	Q_ASSERT(1);
+    default:	Q_ASSERT(compressionScheme);
+		return;
     }
 
     if (dialog->getArmor())

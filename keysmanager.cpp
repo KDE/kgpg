@@ -1937,6 +1937,7 @@ void KeysManager::delsignkey()
 		break;
 	default:
 		Q_ASSERT(1);
+		return;
 	}
 
     QString signID;
