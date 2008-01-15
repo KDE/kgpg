@@ -57,6 +57,7 @@ public:
 		{ return QString(); }
 	virtual QString getComment() const
 		{ return QString(); }
+	virtual QString getNameComment() const;
 	KGpgExpandableNode *getParentKeyNode() const
 		{ return m_parent; }
 };

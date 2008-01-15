@@ -24,6 +24,15 @@ KGpgNode::~KGpgNode()
 		m_parent->deleteChild(this);
 }
 
+QString
+KGpgNode::getNameComment() const
+{
+	if (getComment().isEmpty())
+		return getName();
+	else
+		return i18nc("Name of uid (comment)", "%1 (%2)", getName(), getComment());
+}
+
 KGpgExpandableNode::KGpgExpandableNode(KGpgExpandableNode *parent)
 	: KGpgNode(parent)
 {

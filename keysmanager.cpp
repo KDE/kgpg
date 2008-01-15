@@ -1945,13 +1945,11 @@ void KeysManager::delsignkey()
     QString parentMail;
 
     signID = nd->getId();
-    parentMail = parent->getName() + " (" + parent->getEmail() + ')';
-    signMail = nd->getName() + " (" + nd->getEmail() + ')';
+    parentMail = parent->getNameComment();
+    signMail = nd->getNameComment();
 
-    parentMail = parent->getName();
     if (!parent->getEmail().isEmpty())
        parentMail += " &lt;" + parent->getEmail() + "&gt;";
-    signMail = keysList2->currentItem()->text(0);
     if (!nd->getEmail().isEmpty())
        signMail += " &lt;" + nd->getEmail() + "&gt;";
 
