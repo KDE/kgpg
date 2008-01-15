@@ -22,7 +22,7 @@
     </rect>
    </property>
    <attribute name="title">
-    <string></string>
+    <string>Welcome</string>
    </attribute>
    <layout class="QGridLayout" >
     <item rowspan="3" row="0" column="0" >
@@ -105,7 +105,7 @@ This wizard will first setup some basic configuration options required for KGpg 
     </rect>
    </property>
    <attribute name="title">
-    <string></string>
+    <string>Configuration file</string>
    </attribute>
    <layout class="QGridLayout" >
     <item row="1" column="1" >
@@ -206,7 +206,7 @@ This wizard will first setup some basic configuration options required for KGpg 
     </rect>
    </property>
    <attribute name="title">
-    <string></string>
+    <string>Default key</string>
    </attribute>
    <layout class="QGridLayout" >
     <item row="0" column="1" >
