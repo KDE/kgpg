@@ -1,7 +1,8 @@
 [Desktop Entry]
 Type=Service
-X-KDE-ServiceTypes=all/allfiles,KonqPopupMenu/Plugin
-ExcludeServiceTypes=kdedevice/*
+# all files inherit from application/octet-stream
+MimeType=application/octet-stream;
+X-KDE-ServiceTypes=KonqPopupMenu/Plugin
 Actions=encrypt;
 
 [Desktop Action encrypt]
