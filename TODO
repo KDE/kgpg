@@ -8,3 +8,4 @@
 -make character encoding in decryptText choosable
 -r716170 is probably wrong: imported secret keys are not trusted by default :(
 -remove the KMessageBox from KGpgTextInterface::verifyfin() and let the caller do this
+-bring back markers for local and revocation signatures
