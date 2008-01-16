@@ -218,6 +218,7 @@ private:
     QAction *importAllSignKeys;
     QAction *signKey;
     QAction *refreshKey;
+    QAction *editKey;
     QAction *setPrimUid;
     QAction *delSignKey;
     QAction *deleteKey;

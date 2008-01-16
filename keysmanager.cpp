@@ -193,7 +193,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(infoKey, SIGNAL(triggered(bool)), SLOT(keyproperties()));
     infoKey->setShortcut(QKeySequence(Qt::Key_Return));
 
-    QAction *editKey = actionCollection()->addAction("key_edit");
+    editKey = actionCollection()->addAction("key_edit");
     editKey->setIcon(KIcon("kgpg-term-kgpg"));
     editKey->setText(i18n("Edit Key in &Terminal"));
     connect(editKey, SIGNAL(triggered(bool)), SLOT(slotedit()));
@@ -1109,8 +1109,11 @@ void KeysManager::checkList()
     {
         if (exportList.at(0)->getType() == ITYPE_GROUP)
             stateChanged("group_selected");
-        else
+        else {
             stateChanged("single_selected");
+            if (!terminalkey.isEmpty())
+                 editKey->setEnabled(false);
+        }
 
     }
 
@@ -1981,20 +1984,20 @@ void KeysManager::delsignatureResult(bool success)
 
 void KeysManager::slotedit()
 {
-    KeyListViewItem *item = keysList2->currentItem();
+	KGpgNode *nd = iview->selectedNode();
+	Q_ASSERT(nd != NULL);
 
-    if (item == NULL)
-        return;
-    if (!(item->itemType() & KeyListViewItem::Pair))
-        return;
-    if (!terminalkey.isEmpty())
-        return;
+	if (!(nd->getType() & ITYPE_PAIR))
+		return;
+	if (!terminalkey.isEmpty())
+		return;
 
     KProcess *kp = new KProcess(this);
     KConfigGroup config(KGlobal::config(), "General");
     *kp << config.readPathEntry("TerminalApplication","konsole");
-    *kp << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" <<"--edit-key" << keysList2->currentItem()->keyId() << "help";
-    terminalkey = keysList2->currentItem()->keyId();
+    *kp << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" <<"--edit-key" << nd->getId() << "help";
+    terminalkey = nd->getId();
+    editKey->setEnabled(false);
 
     connect(kp, SIGNAL(finished(int)), SLOT(slotEditDone(int)));
     kp->start();
@@ -2006,6 +2009,7 @@ void KeysManager::slotEditDone(int exitcode)
         imodel->refreshKey(terminalkey);
 
     terminalkey.clear();
+    editKey->setEnabled(true);
 }
 
 void KeysManager::doFilePrint(const QString &url)
