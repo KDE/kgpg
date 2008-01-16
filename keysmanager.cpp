@@ -2040,10 +2040,12 @@ void KeysManager::doPrint(const QString &txt)
 
 void KeysManager::deleteseckey()
 {
+	KGpgNode *nd = iview->selectedNode();
+	Q_ASSERT(nd != NULL);
+
     // delete a key
-    QString res = keysList2->currentItem()->text(0) + " (" + keysList2->currentItem()->text(1) + ')';
     int result = KMessageBox::warningContinueCancel(this,
-                        i18n("<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.", res),
+                        i18n("<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.", nd->getNameComment()),
                         QString(),
                         KGuiItem(i18n("Delete"),"edit-delete"));
     if (result != KMessageBox::Continue)
@@ -2052,7 +2054,7 @@ void KeysManager::deleteseckey()
     KProcess *conprocess = new KProcess();
     KConfigGroup config(KGlobal::config(), "General");
     *conprocess << config.readPathEntry("TerminalApplication","konsole");
-    *conprocess << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" << "--delete-secret-and-public-key" << keysList2->currentItem()->keyId();
+    *conprocess << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" << "--delete-secret-and-public-key" << nd->getId();
     connect(conprocess, SIGNAL(finished(int)), this, SLOT(reloadSecretKeys()));
     conprocess->start();
 }
