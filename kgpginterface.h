@@ -325,7 +325,6 @@ private slots:
 /************** import a key **************/
 signals:
     void importKeyFinished(QStringList);
-    void importKeyOrphaned();
 
 public slots:
     /**

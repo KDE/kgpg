@@ -1600,8 +1600,6 @@ void KgpgInterface::importKeyFinished(K3Process *p)
         {
             resultMessage += i18np("<qt>One secret key processed.</qt>", "<qt>%1 secret keys processed.</qt>", messageList[9].toULong());
             secretImport = true;
-            if (importedKeysIds.isEmpty()) // orphaned secret key imported
-               emit importKeyOrphaned();
         }
         if (messageList[10] != "0")
             resultMessage += i18np("<qt><b>One secret key imported.</b></qt>", "<qt><b>%1 secret keys imported.</b></qt>", messageList[10].toULong());
