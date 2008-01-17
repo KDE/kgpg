@@ -127,9 +127,6 @@ KeysManager::KeysManager(QWidget *parent)
     setWindowTitle(i18n("Key Management"));
 
     m_statusbartimer = new QTimer(this);
-    keysList2 = new KeyListView(this);
-    keysList2->photoKeysList = QString();
-    keysList2->groupNb = 0;
     m_statusbar = 0;
     imodel = NULL;
     readOptions();
@@ -405,11 +402,11 @@ KeysManager::KeysManager(QWidget *parent)
     exportPublicKey->setEnabled(false);
     newContact->setEnabled(false);
 
-//     setCentralWidget(keysList2);
     KConfigGroup cg = KConfigGroup(KGlobal::config().data(), "KeyView");
     iview->restoreLayout(cg);
 
-    connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(defaultAction()));
+#warning port me
+//     connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(defaultAction()));
     connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
 
     // get all keys data
@@ -455,7 +452,8 @@ KeysManager::KeysManager(QWidget *parent)
     m_statusbar->setItemAlignment(0, Qt::AlignLeft);
     m_statusbar->changeItem("", 1);
 
-    connect(keysList2, SIGNAL(statusMessage(QString, int, bool)), this, SLOT(changeMessage(QString, int, bool)));
+#warning port me
+//     connect(keysList2, SIGNAL(statusMessage(QString, int, bool)), this, SLOT(changeMessage(QString, int, bool)));
     connect(m_statusbartimer, SIGNAL(timeout()), this, SLOT(statusBarTimeout()));
 
     s_kgpgEditor = new KgpgEditor(parent, Qt::WType_Dialog, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut(), true);
@@ -920,6 +918,8 @@ void KeysManager::findFirstKey()
     if (searchString.isEmpty())
         return;
 
+return;
+#warning port me
     bool foundItem = true;
     KeyListViewItem *item = keysList2->firstChild();
     if (!item)
@@ -963,7 +963,9 @@ void KeysManager::findNextKey()
         findKey();
         return;
     }
+return;
 
+#warning port me
     bool foundItem = true;
     KeyListViewItem *item = keysList2->currentItem();
     if (!item)
