@@ -1594,7 +1594,8 @@ void KgpgInterface::importKeyFinished(K3Process *p)
         if (messageList[8] != "0")
         {
             resultMessage += i18np("<qt>One revocation certificate imported.</qt>", "<qt>%1 revocation certificates imported.</qt>", messageList[8].toULong());
-            importedKeysIds = QStringList("ALL");
+            // empty list means "reload all"
+            importedKeysIds.clear();
         }
         if (messageList[9] != "0")
         {
@@ -1613,11 +1614,10 @@ void KgpgInterface::importKeyFinished(K3Process *p)
                                   "Please note that imported secret keys are not trusted by default.<br />"
                                   "To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</qt>");
 
-    }
+        emit importKeyFinished(importedKeysIds);
+   }
     else
         resultMessage = i18n("No key imported... \nCheck detailed log for more infos");
-
-    emit importKeyFinished(importedKeysIds);
 
     // TODO : should be deleted. KgpgInterface should not show any dialog (but password).
     // When a message should be shown, it should be passed by parameter in a SIGNAL.

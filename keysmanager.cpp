@@ -2170,7 +2170,7 @@ void KeysManager::slotPreImportKey()
             {
                 changeMessage(i18n("Importing..."), 0, true);
                 KgpgInterface *importKeyProcess = new KgpgInterface();
-                connect(importKeyProcess,SIGNAL(importKeyFinished(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
+                connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
                 importKeyProcess->importKey(keystr);
             }
         }
