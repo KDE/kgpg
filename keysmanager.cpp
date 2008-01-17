@@ -2066,46 +2066,41 @@ void KeysManager::reloadSecretKeys()
 
 void KeysManager::confirmdeletekey()
 {
-    KeyListViewItem *ki = keysList2->currentItem();
+	KgpgCore::KgpgItemType pt;
+	bool same;
+	QList<KGpgNode *> ndlist = iview->selectedNodes(&same, &pt);
+	Q_ASSERT(!ndlist.isEmpty());
 
-    // do not delete a key currently edited in terminal
-    if ((ki->keyId() == terminalkey) && (keysList2->selectedItems().count() == 1)) {
-        KMessageBox::error(this, i18n("Can not delete key <b>%1</b> while it is edited in terminal.", terminalkey), i18n("Delete key"));
-        return;
-    }
-
-    if (ki->itemType() & KeyListViewItem::Group)
-    {
-        deleteGroup();
-        return;
-    }
-
-    if ((ki->itemType() & KeyListViewItem::Secret) && (keysList2->selectedItems().count() == 1))
-        deleteseckey();
-    else
-    {
-        QStringList keysToDelete;
-        QString secList;
-        QList<KeyListViewItem*> exportList = keysList2->selectedItems();
-        bool secretKeyInside = false;
-        for (int i = 0; i < exportList.count(); ++i) {
-	    KeyListViewItem *ki = exportList.at(i);
-
-            if (ki)
-            {
-                if (ki->itemType() & KeyListViewItem::Secret)
-                {
-                    secretKeyInside = true;
-                    secList += ki->text(0) + " (" + ki->text(1) + ")<br/>";
-                    ki->setSelected(false);
-                }
-                else if (ki->keyId() != terminalkey)
-                    keysToDelete += ki->text(0) + " (" + ki->text(1) + ')';
-            }
+	// do not delete a key currently edited in terminal
+	if (((pt == ITYPE_PUBLIC) || (pt == ITYPE_PAIR)) && (ndlist.at(0)->getId() == terminalkey) && (ndlist.count() == 1)) {
+		KMessageBox::error(this, i18n("Can not delete key <b>%1</b> while it is edited in terminal.", terminalkey), i18n("Delete key"));
+		return;
+	} else if (pt == ITYPE_GROUP) {
+		deleteGroup();
+		return;
+	} else if (!(pt & ITYPE_GROUP) && (pt & ITYPE_SECRET) && (ndlist.count() == 1)) {
+		deleteseckey();
 	}
 
-        if (secretKeyInside)
-        {
+	if (pt & ~ITYPE_PAIR) {
+		KMessageBox::error(this, i18n("You have selected items that are not keys. They can not be deleted with this menu entry.", terminalkey), i18n("Delete key"));
+		return;
+	}
+
+	QStringList keysToDelete;
+	QString secList;
+
+	bool secretKeyInside = (pt & ITYPE_SECRET);
+	for (int i = 0; i < ndlist.count(); ++i) {
+		KGpgKeyNode *ki = static_cast<KGpgKeyNode *>(ndlist.at(i));
+
+		if (ki->getType() & KeyListViewItem::Secret) {
+			secList += ki->getNameComment();
+		} else if (ki->getId() != terminalkey)
+			keysToDelete += ki->getNameComment();
+	}
+
+        if (secretKeyInside) {
             int result = KMessageBox::warningContinueCancel(this, i18n("<qt>The following are secret key pairs:<br/><b>%1</b>They will not be deleted.</qt>", secList));
             if (result != KMessageBox::Continue)
                 return;
@@ -2118,65 +2113,23 @@ void KeysManager::confirmdeletekey()
         if (result != KMessageBox::Continue)
             return;
         else
-            deletekey();
-    }
+            deletekey(keysToDelete);
 }
 
-void KeysManager::deletekey()
+void KeysManager::deletekey(const QStringList &keysToDelete)
 {
-    QList<KGpgNode *> ndlist = iview->selectedNodes();
-    QList<KeyListViewItem*> exportList = keysList2->selectedItems();
-    if (exportList.count() == 0)
-        return;
-
     KProcess gp;
     gp << KGpgSettings::gpgBinaryPath()
     << "--no-tty"
     << "--no-secmem-warning"
     << "--batch"
     << "--yes"
-    << "--delete-key";
-
-    for (int i = 0; i < exportList.count(); ++i) {
-	KeyListViewItem *item = exportList.at(i);
-	if (!item)
-		continue;
-	gp << item->keyId();
-    }
+    << "--delete-key"
+    << keysToDelete;
 
     gp.execute();
 
     imodel->refreshKeys();
-
-    if (keysList2->currentItem())
-    {
-        KeyListViewItem * myChild = keysList2->currentItem();
-        while(!myChild->isVisible())
-        {
-            myChild = myChild->nextSibling();
-            if (!myChild)
-                break;
-        }
-
-        if (!myChild)
-        {
-            KeyListViewItem * myChild = keysList2->firstChild();
-            while(!myChild->isVisible())
-            {
-                myChild = myChild->nextSibling();
-                if (!myChild)
-                    break;
-            }
-        }
-
-        if (myChild)
-        {
-            myChild->setSelected(true);
-            keysList2->setCurrentItem(myChild);
-        }
-    }
-    else
-        stateChanged("empty_list");
 
     changeMessage(imodel->statusCountMessage(), 1);
 }
