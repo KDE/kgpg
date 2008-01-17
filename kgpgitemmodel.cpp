@@ -390,3 +390,27 @@ KGpgItemModel::invalidateIndexes(KGpgNode *nd)
 		changePersistentIndex(idx, QModelIndex());
 	}
 }
+
+void
+KGpgItemModel::refreshTrust(const KgpgCore::KgpgKeyTrust &trust, const QColor &color)
+{
+	updateNodeTrustColor(m_root, trust, color);
+}
+
+void
+KGpgItemModel::updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::KgpgKeyTrust &trust, const QColor &color)
+{
+	for (int i = 0; i < node->getChildCount(); i++) {
+		KGpgNode *child = node->getChild(i);
+
+		if (child->getTrust() == trust)
+			emit dataChanged(createIndex(i, KEYCOLUMN_TRUST, child), createIndex(i, KEYCOLUMN_TRUST, child));
+
+		if (!child->hasChildren())
+			continue;
+
+		KGpgExpandableNode *echild = static_cast<KGpgExpandableNode *>(child);
+		if (echild->wasExpanded())
+			updateNodeTrustColor(echild, trust, color);
+	}
+}

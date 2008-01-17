@@ -13,6 +13,9 @@
 
 #include "kgpgitemnode.h"
 #include "keyinfodialog.h"
+#include "kgpgkey.h"
+
+class QColor;
 
 class KGpgItemModel : public QAbstractItemModel
 {
@@ -55,12 +58,14 @@ public Q_SLOTS:
 	void refreshKeys(const QStringList &ids = QStringList());
 	void refreshGroups();
 	void invalidateIndexes(KGpgNode *nd);
+	void refreshTrust(const KgpgCore::KgpgKeyTrust &trust, const QColor &color);
 
 protected:
 	int rowForNode(KGpgNode *node) const;
 	void refreshKeyIds(const QStringList &id, QList<KGpgNode *> &nodes);
 	bool isDefaultKey(const KGpgNode *node) const;
 	void fixPersistentIndexes();
+	void updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::KgpgKeyTrust &trust, const QColor &color);
 };
 
 #endif

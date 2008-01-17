@@ -141,7 +141,6 @@ private slots:
     void insertOrphans(const KgpgKeyList &keys);
 
     void refreshGroups();
-    void refreshTrust(int color, const QColor &newColor);
 
     void expandKey(Q3ListViewItem *item);
     void expandGroup(KeyListViewItem *item);
