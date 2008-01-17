@@ -71,7 +71,7 @@
 #include <KFindDialog>
 #include <KStatusBar>
 #include <KService>
-#include <KServiceTypeTrader>
+#include <KMimeTypeTrader>
 #include <KLineEdit>
 #include <KMimeType>
 #include <KShortcut>
@@ -1630,7 +1630,9 @@ void KeysManager::showKeyInfo(const QString &keyID)
 
 void KeysManager::slotShowPhoto()
 {
-    KService::List list = KServiceTypeTrader::self()->query("image/jpeg", "Type == 'Application'");
+    KService::List list = KMimeTypeTrader::self()->query("image/jpeg");
+    if (list.isEmpty())
+       return;
     KeyListViewItem *item = keysList2->currentItem()->parent();
     KService::Ptr ptr = list.first();
     //KMessageBox::sorry(0,ptr->desktopEntryName());
