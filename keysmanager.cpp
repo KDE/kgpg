@@ -2160,7 +2160,6 @@ void KeysManager::slotPreImportKey()
                 // import from file
                 KgpgInterface *importKeyProcess = new KgpgInterface();
                 connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
-                connect(importKeyProcess, SIGNAL(importKeyOrphaned()), keysList2, SLOT(slotReloadOrphaned()));
                 importKeyProcess->importKey(KUrl(impname));
             }
         }
@@ -2172,7 +2171,6 @@ void KeysManager::slotPreImportKey()
                 changeMessage(i18n("Importing..."), 0, true);
                 KgpgInterface *importKeyProcess = new KgpgInterface();
                 connect(importKeyProcess,SIGNAL(importKeyFinished(QStringList)),keysList2,SLOT(slotReloadKeys(QStringList)));
-                connect(importKeyProcess,SIGNAL(importKeyOrphaned()),keysList2,SLOT(slotReloadOrphaned()));
                 importKeyProcess->importKey(keystr);
             }
         }

@@ -511,35 +511,6 @@ void KeyListView::refreshcurrentkey(KeyListViewItem *current)
             currentItem()->setOpen(keyIsOpen);
 }
 
-void KeyListView::slotReloadOrphaned()
-{
-    QStringList issec;
-
-    KgpgInterface *interface = new KgpgInterface();
-    KgpgKeyList listkeys, seckeys;
-
-    seckeys = interface->readSecretKeys();
-    issec = seckeys;
-    listkeys = interface->readPublicKeys(true, issec);
-    for (int i = 0; i < listkeys.size(); ++i)
-        issec.removeAll(listkeys.at(i).fullId());
-
-    delete interface;
-
-    QStringList::Iterator it;
-    QStringList list;
-    for (it = issec.begin(); it != issec.end(); ++it)
-        if (findItemByKeyId(*it) == NULL)
-            list += *it;
-
-    if (list.size() != 0)
-        insertOrphans(seckeys);
-
-    setSelected(findItemByKeyId(*it), true);
-    emit statusMessage(statusCountMessage(), 1);
-    emit statusMessage(i18nc("No operation in progress", "Ready"), 0);
-}
-
 void KeyListView::insertOrphans(const KgpgKeyList &keys)
 {
     QStringList orphanList;
