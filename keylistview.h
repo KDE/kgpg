@@ -95,12 +95,6 @@ class KeyListView : public K3ListView
 public:
     KeyListView(QWidget *parent = 0);
 
-    void setPreviewSize(const int &size);
-    int previewSize() const;
-
-    void setDisplayPhoto(const bool &display);
-    bool displayPhoto() const;
-
     QPixmap trustbad;
 
 signals:
@@ -135,15 +129,8 @@ private slots:
     void refreshAll();
 
     bool refreshKeys(const QStringList &ids = QStringList());
-    void refreshcurrentkey(const QString &id);
-    void refreshcurrentkey(KeyListViewItem *current);
-
-    void insertOrphans(const KgpgKeyList &keys);
-
-    void refreshGroups();
 
     void expandKey(Q3ListViewItem *item);
-    void expandGroup(KeyListViewItem *item);
     void insertSigns(KeyListViewItem *item, const KgpgCore::KgpgKeySignList &list);
 
 private:

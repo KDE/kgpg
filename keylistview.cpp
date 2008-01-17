@@ -283,26 +283,6 @@ KeyListView::KeyListView(QWidget *parent)
     setDragEnabled(true);
 }
 
-void KeyListView::setPreviewSize(const int &size)
-{
-    m_previewsize = size;
-}
-
-int KeyListView::previewSize() const
-{
-    return m_previewsize;
-}
-
-void KeyListView::setDisplayPhoto(const bool &display)
-{
-    m_displayphoto = display;
-}
-
-bool KeyListView::displayPhoto() const
-{
-    return m_displayphoto;
-}
-
 void KeyListView::slotAddColumn(const int &c)
 {
     header()->setResizeEnabled(true, c);
@@ -400,8 +380,6 @@ void KeyListView::refreshAll()
         return;
     }
 
-    refreshGroups();
-
     KeyListViewItem *newPos = NULL;
     if(current != 0)
     {
@@ -470,9 +448,6 @@ bool KeyListView::refreshKeys(const QStringList &ids)
             item->setPixmap(0, Images::single());
     }
 
-    if (!issec.isEmpty())
-        insertOrphans(secretlist);
-
     if (publiclist.size() == 0)
         return 1;
     else
@@ -487,86 +462,6 @@ bool KeyListView::refreshKeys(const QStringList &ids)
     }
 }
 
-void KeyListView::refreshcurrentkey(const QString &id)
-{
-	refreshcurrentkey(findItemByKeyId(id));
-}
-
-void KeyListView::refreshcurrentkey(KeyListViewItem *current)
-{
-    if (!current)
-        return;
-
-    QString keyUpdate = current->text(6);
-    if (keyUpdate.isEmpty())
-        return;
-    bool keyIsOpen = current->isOpen();
-
-    delete current;
-
-    refreshKeys(QStringList(keyUpdate));
-
-    if (currentItem())
-        if (currentItem()->text(6) == keyUpdate)
-            currentItem()->setOpen(keyIsOpen);
-}
-
-void KeyListView::insertOrphans(const KgpgKeyList &keys)
-{
-    QStringList orphanList;
-
-    KeyListViewItem *item = 0;
-    for (int i = 0; i < keys.count(); ++i)
-    {
-        KgpgKey key = keys.at(i);
-
-        orphanList << key.fullId();
-
-        item = new KeyListViewItem(this, key, false);
-	item->setItemType(KeyListViewItem::Secret);
-        item->setPixmap(0, Images::orphan());
-    }
-
-    if (keys.size() == 1)
-    {
-        clearSelection();
-        setCurrentItem(item);
-        setSelected(item, true);
-    }
-}
-
-void KeyListView::refreshGroups()
-{
-    kDebug(2100) << "Refreshing groups..." ;
-    KeyListViewItem *item = firstChild();
-    while (item)
-    {
-        if (item->itemType() == KeyListViewItem::Group)
-        {
-            KeyListViewItem *item2 = item->nextSibling();
-            delete item;
-            item = item2;
-        }
-        else
-            item = item->nextSibling();
-    }
-
-    QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
-    groupNb = groups.count();
-
-    for (QStringList::Iterator it = groups.begin(); it != groups.end(); ++it)
-        if (!QString(*it).isEmpty())
-        {
-            QStringList keys = KgpgInterface::getGpgGroupSetting(QString(*it), KGpgSettings::gpgConfigPath());
-            item = new KeyListViewItem(this, QString(*it), "-", "-", "-", i18np("%1 key", "%1 keys", keys.count()), "-", "-", false, false, KeyListViewItem::Group);
-            item->setPixmap(0, Images::group());
-            item->setExpandable(true);
-        }
-
-    emit statusMessage(statusCountMessage(), 1);
-    emit statusMessage(i18nc("No operation in progress", "Ready"), 0);
-}
-
 void KeyListView::expandKey(Q3ListViewItem *item2)
 {
     KeyListViewItem *item = static_cast<KeyListViewItem *>(item2);
@@ -575,7 +470,6 @@ void KeyListView::expandKey(Q3ListViewItem *item2)
         return;   // key has already been expanded
 
     if (item->itemType() == KeyListViewItem::Group) {
-        expandGroup(item);
         return;
     }
 
@@ -650,31 +544,6 @@ void KeyListView::insertSigns(KeyListViewItem *item, const KgpgKeySignList &list
     for (int i = 0; i < list.size(); ++i)
     {
         (void) new KeyListViewItem(item, list.at(i));
-    }
-}
-
-void KeyListView::expandGroup(KeyListViewItem *item)
-{
-    QStringList keysGroup = KgpgInterface::getGpgGroupSetting(item->text(0), KGpgSettings::gpgConfigPath());
-
-    kDebug(2100) << keysGroup ;
-
-    for (QStringList::Iterator it = keysGroup.begin(); it != keysGroup.end(); ++it)
-    {
-        KeyListViewItem *item2 = new KeyListViewItem(item, QString(*it));
-        KeyListViewItem *target = findItemByKeyId(QString(*it));
-
-        if (target == NULL) {
-          item2->setPixmap(0, Images::single());
-          item2->setItemType(KeyListViewItem::GPublic);
-        } else {
-          item2->setPixmap(0, *target->pixmap(0));
-          item2->setText(0, target->text(0));
-          item2->setItemType(target->itemType() | KeyListViewItem::Group);
-          item2->setGroupId(QString(*it));
-        }
-        item2->setText(6, QString(*it).right(8));
-        item2->setExpandable(false);
     }
 }
 
