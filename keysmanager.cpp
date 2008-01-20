@@ -71,7 +71,7 @@
 #include <KFindDialog>
 #include <KStatusBar>
 #include <KService>
-#include <KServiceTypeTrader>
+#include <KMimeTypeTrader>
 #include <KLineEdit>
 #include <KMimeType>
 #include <KShortcut>
@@ -1535,13 +1535,17 @@ void KeysManager::showKeyInfo(const QString &keyID)
 
 void KeysManager::slotShowPhoto()
 {
-    KService::List list = KServiceTypeTrader::self()->query("image/jpeg", "Type == 'Application'");
+    KService::List list = KMimeTypeTrader::self()->query("image/jpeg");
+    if (list.isEmpty()) {
+       KMessageBox::sorry(NULL, i18n("A viewer for JPEG images is not specified.<br/>Please check your installation."), i18n("Show photo"));
+       return;
+    }
     KGpgNode *nd = iview->selectedNode();
     Q_ASSERT(nd->getType() == ITYPE_UAT);
     KGpgUatNode *und = static_cast<KGpgUatNode *>(nd);
     KGpgKeyNode *parent = und->getParentKeyNode();
     KService::Ptr ptr = list.first();
-    //KMessageBox::sorry(0,ptr->desktopEntryName());
+
     KProcess p;
     p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--photo-viewer" << (ptr->desktopEntryName() + " %i") << "--edit-key" << parent->getId() << "uid" << und->getId() << "showphoto" << "quit";
     p.startDetached();
