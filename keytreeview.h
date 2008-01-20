@@ -5,6 +5,9 @@
 
 #include "core/kgpgkey.h"
 
+class QDragMoveEvent;
+class QDropEvent;
+
 class KGpgNode;
 class KGpgItemModel;
 class KeyListProxyModel;
@@ -26,6 +29,11 @@ public:
 
 public Q_SLOTS:
 	void selectNode(KGpgNode *nd);
+
+protected:
+	virtual void contentsDragMoveEvent(QDragMoveEvent *e);
+	virtual void contentsDropEvent(QDropEvent *e);
+	virtual void startDrag(Qt::DropActions);
 };
 
 #endif

@@ -20,6 +20,8 @@ public:
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 	QModelIndex nodeIndex(KGpgNode *node);
 	void setPreviewSize(const int &pixel);
+	inline KGpgItemModel *getModel() const
+		{ return m_model; }
 
 protected:
 	virtual bool lessThan(const QModelIndex &left, const QModelIndex &right) const;

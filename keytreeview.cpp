@@ -1,12 +1,23 @@
 #include "keytreeview.h"
+
+#include <QDragMoveEvent>
+#include <QDropEvent>
+
+#include <KMessageBox>
+#include <KLocale>
+
 #include "kgpgitemmodel.h"
 #include "keylistproxymodel.h"
 #include "kgpgitemnode.h"
+#include "kgpginterface.h"
 
 KeyTreeView::KeyTreeView(QWidget *parent, KeyListProxyModel *model)
 	: QTreeView(parent), m_proxy(model)
 {
 	setModel(model);
+	setDragEnabled(true);
+	setDragDropMode(DragDrop);
+	setAcceptDrops(true);
 }
 
 QList<KGpgNode *>
@@ -68,7 +79,7 @@ KeyTreeView::selectNode(KGpgNode *nd)
 }
 
 void
-KeyTreeView::restoreLayout(KConfigGroup & cg)
+KeyTreeView::restoreLayout(KConfigGroup &cg)
 {
 	QStringList cols = cg.readEntry("ColumnWidths", QStringList());
 	int i = 0;
@@ -98,4 +109,52 @@ KeyTreeView::saveLayout(KConfigGroup &cg) const
 #warning port me
 /*	cg.writeEntry("SortColumn", d->sortColumn);
 	cg.writeEntry("SortAscending", d->sortAscending);*/
+}
+
+void
+KeyTreeView::contentsDragMoveEvent(QDragMoveEvent *e)
+{
+	e->setAccepted(KUrl::List::canDecode(e->mimeData()));
+}
+
+void
+KeyTreeView::contentsDropEvent(QDropEvent *o)
+{
+	KUrl::List uriList = KUrl::List::fromMimeData(o->mimeData());
+	if (!uriList.isEmpty()) {
+		if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>",
+					uriList.first().path()), QString(), KGuiItem(i18n("Import")),
+					KGuiItem(i18n("Do Not Import"))) != KMessageBox::Yes)
+			return;
+
+		KgpgInterface *interface = new KgpgInterface();
+		connect(interface, SIGNAL(importKeyFinished(QStringList)), m_proxy->getModel(), SLOT(refreshKeys(QStringList)));
+		interface->importKey(uriList.first());
+	}
+}
+
+void
+KeyTreeView::startDrag(Qt::DropActions supportedActions)
+{
+	QList<KGpgNode *> nodes = selectedNodes();
+
+	if (nodes.isEmpty())
+		return;
+
+	KGpgNode *nd = nodes.first();
+	QString keyid = nd->getId();
+
+	if (!(nd->getType() & ITYPE_PUBLIC))
+		return;
+
+	KgpgInterface *interface = new KgpgInterface();
+	QString keytxt = interface->getKeys(NULL, QStringList(keyid));
+	delete interface;
+
+	QMimeData *m = new QMimeData();
+	m->setText(keytxt);
+	QDrag *d = new QDrag(this);
+	d->setMimeData(m);
+	d->exec(supportedActions, Qt::IgnoreAction);
+	// do NOT delete d.
 }
