@@ -49,30 +49,18 @@ public:
     };
     Q_DECLARE_FLAGS(ItemType, ItemTypeFlag)
 
-    explicit KeyListViewItem(KeyListView *parent, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString() , const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
-    explicit KeyListViewItem(KeyListViewItem *parent, const QString &name = QString(), const QString &email = QString(), const QString &trust = QString(), const QString &expiration = QString(), const QString &size = QString(), const QString &creation = QString(), const QString &id = QString(), const bool isdefault = false, const bool isexpired = false, ItemType type = Public);
     KeyListViewItem(K3ListView *parent, const KgpgKey &key, const bool isbold);
     KeyListViewItem(K3ListViewItem *parent, const KgpgKeySign &sig);
     ~KeyListViewItem();
 
-    void setItemType(const ItemType &type);
     ItemType itemType() const;
 
-    void setDefault(const bool &def);
     bool isDefault() const;
 
-    void setExpired(const bool &exp);
-    bool isExpired() const;
-
-    void setGroupId(const QString &nid) { delete groupId; groupId = new QString(nid); }
-
-    virtual void paintCell(QPainter *p, const QColorGroup &cg, int col, int width, int align);
-    virtual int compare(Q3ListViewItem *item, int c, bool ascending) const;
     virtual QString key(int column, bool) const;
     virtual KeyListViewItem *parent() const { return static_cast<KeyListViewItem*>(K3ListViewItem::parent()); }
     virtual KeyListViewItem *nextSibling() const { return static_cast<KeyListViewItem*>(K3ListViewItem::nextSibling()); }
     virtual KeyListViewItem *firstChild() const { return static_cast<KeyListViewItem*>(K3ListViewItem::firstChild()); }
-    virtual KgpgKey* getKey() { return m_key; }
     virtual const QString keyId(void) const { return m_key ? m_key->fullId() : m_sig ? m_sig->fullId() : groupId ? *groupId : text(6); }
     KgpgKeyTrust trust(void) const { return m_key ? m_key->trust() : TRUST_NOKEY; }
 
@@ -99,46 +87,20 @@ public:
 
 signals:
     void statusMessage(QString, int, bool keep = false);
-/*    void expanded(KeyListViewItem *);
-    void returnPressed(KeyListViewItem *);
-    void doubleClicked(KeyListViewItem *, QPoint, int);
-    void contextMenuRequested(KeyListViewItem*, QPoint, int);*/
 
 public slots:
-    void slotAddColumn(const int &c);
-    void slotRemoveColumn(const int &c);
     virtual KeyListViewItem *firstChild() { return static_cast<KeyListViewItem*>(K3ListView::firstChild()); }
     QString statusCountMessage(void);
 
 protected:
-    virtual void contentsDragMoveEvent(QDragMoveEvent *e);
-    virtual void contentsDropEvent(QDropEvent *e);
-    virtual void startDrag();
     virtual KeyListViewItem *currentItem() const { return static_cast<KeyListViewItem*>(K3ListView::currentItem()); }
     virtual KeyListViewItem *findItem (const QString &text, int column, ComparisonFlags compare = ExactMatch | Qt::CaseSensitive) const
 		{ return static_cast<KeyListViewItem *>(K3ListView::findItem(text, column, compare)); }
     virtual QList<KeyListViewItem *> selectedItems(void);
     virtual KeyListViewItem *lastChild() const { return static_cast<KeyListViewItem*>(K3ListView::lastChild()); }
     virtual KeyListViewItem *itemAtIndex(int index) { return static_cast<KeyListViewItem*>(K3ListView::itemAtIndex(index)); }
-    virtual KeyListViewItem *findItemByKeyId(const QString &id);
-
-private slots:
-    void droppedFile(const KUrl &url);
-
-    void slotReloadKeys(const QStringList &keyids);
-    void refreshAll();
-
-    bool refreshKeys(const QStringList &ids = QStringList());
-
-    void expandKey(Q3ListViewItem *item);
-    void insertSigns(KeyListViewItem *item, const KgpgCore::KgpgKeySignList &list);
 
 private:
-    QPixmap getTrustPix(const KgpgCore::KgpgKeyTrust &trust, const bool &isvalid);
-
-private:
-    QString photoKeysList;
-
     QPixmap trustunknown;
     QPixmap trustrevoked;
     QPixmap trustgood;
