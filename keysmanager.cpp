@@ -17,54 +17,32 @@
 
 #include "keysmanager.h"
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/wait.h>
-
 #include <QApplication>
-#include <QDragMoveEvent>
 #include <QDesktopWidget>
-#include <QRadioButton>
 #include <QKeySequence>
 #include <QTextStream>
-#include <QVBoxLayout>
 #include <QCloseEvent>
-#include <QToolButton>
 #include <QClipboard>
-#include <QTextCodec>
-#include <QTabWidget>
-#include <QDropEvent>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QVariant>
 #include <QPainter>
-#include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
-#include <QPixmap>
-#include <QLayout>
+#include <QPrinter>
+#include <QPrintDialog>
 #include <QRegExp>
 #include <QWidget>
 #include <QLabel>
 #include <QTimer>
 #include <QEvent>
-#include <QFlags>
 #include <QMovie>
 #include <QList>
 #include <QFile>
 #include <QDir>
 #include <QtDBus>
-#include <Q3TextDrag>
 #include <QProcess>
 
 #include <kabc/addresseedialog.h>
 #include <kabc/stdaddressbook.h>
-#include <KPasswordDialog>
 #include <KToolInvocation>
-#include <KUrlRequester>
-#include <kio/netaccess.h>
 #include <KStandardDirs>
 #include <KPassivePopup>
-#include <KDesktopFile>
 #include <KInputDialog>
 #include <KFileDialog>
 #include <KMessageBox>
@@ -84,7 +62,6 @@
 #include <KMenu>
 #include <KUrl>
 #include <ktip.h>
-#include <KRun>
 #include <KToolBar>
 #include <KActionCollection>
 #include <KStandardAction>

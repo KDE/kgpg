@@ -17,10 +17,6 @@
 
 #include "keyservers.h"
 
-
-#include <QPushButton>
-#include <QTextCodec>
-#include <QCheckBox>
 #include <QCursor>
 #include <QLabel>
 #include <QFile>
