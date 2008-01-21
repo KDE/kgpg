@@ -1168,19 +1168,6 @@ void KeysManager::slotSetDefaultKey(const QString &newID)
     imodel->setDefaultKey(newID);
 }
 
-bool KeysManager::isSignature(KeyListViewItem *item)
-{
-	return (item->itemType() & KeyListViewItem::Sign);
-}
-
-bool KeysManager::isSignatureUnknown(KeyListViewItem *item)
-{
-	if (!isSignature(item))
-		return false;
-	// ugly hack to detect unknown keys
-	return (item->text(0).startsWith('[') && item->text(0).endsWith(']'));
-}
-
 void
 KeysManager::slotMenu(const QPoint &pos)
 {
@@ -2039,7 +2026,7 @@ void KeysManager::confirmdeletekey()
 	for (int i = 0; i < ndlist.count(); ++i) {
 		KGpgKeyNode *ki = static_cast<KGpgKeyNode *>(ndlist.at(i));
 
-		if (ki->getType() & KeyListViewItem::Secret) {
+		if (ki->getType() & ITYPE_SECRET) {
 			secList += ki->getNameComment();
 		} else if (ki->getId() != terminalkey)
 			keysToDelete += ki->getNameComment();

@@ -108,8 +108,6 @@ public slots:
 protected:
     void closeEvent(QCloseEvent *e);
     bool eventFilter(QObject *, QEvent *e);
-    bool isSignature(KeyListViewItem *);
-    bool isSignatureUnknown(KeyListViewItem *);
 
 private slots:
     void statusBarTimeout();
