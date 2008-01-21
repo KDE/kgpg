@@ -153,7 +153,7 @@ void MyView::clipEncrypt()
         KPassivePopup::message(i18n("Clipboard is empty."), QString(), Images::kgpg(), trayIcon);
     else
     {
-        KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, goDefaultKey);
+        KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, goDefaultKey);
         if (dialog->exec() == KDialog::Accepted)
         {
             QStringList options;
@@ -231,7 +231,7 @@ void MyView::encryptDroppedFolder()
         return;
 
     /*
-    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, true, goDefaultKey);
+    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, true, goDefaultKey);
     if (dialog->exec() == KDialog::Accepted)
     {
         QStringList options;
@@ -250,7 +250,7 @@ void MyView::encryptDroppedFolder()
 
 
     // TODO !!! CHANGE dialog, remove connect
-    dialog = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), true, goDefaultKey);
+    dialog = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), goDefaultKey);
 
     KHBox *bGroup = new KHBox(dialog->optionsbox);
 

@@ -43,7 +43,7 @@ public:
     /* TODO: the goDefaultKey shortcut should be stored in a way it can be accessed from everywhere. So we don't have to pass it as an argument.
      */
 
-    explicit KgpgSelectPublicKeyDlg(QWidget *parent = 0, const QString &sfile = "", const bool &filemode = false, const KShortcut &goDefaultKey = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), const bool &hideasciioption = false);
+    explicit KgpgSelectPublicKeyDlg(QWidget *parent = 0, const QString &sfile = "", const KShortcut &goDefaultKey = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), const bool &hideasciioption = false);
 
     QStringList selectedKeys() const;
     QString getCustomOptions() const;

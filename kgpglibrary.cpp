@@ -62,7 +62,7 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, c
             if (urls.count() > 1)
                 fileNames += ",...";
 
-            KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, fileNames, true, goDefaultKey);
+            KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, fileNames, goDefaultKey);
             if (dialog->exec() == KDialog::Accepted)
             {
                 QStringList options;
