@@ -1011,44 +1011,6 @@ void KeysManager::addToKAB()
         kaddressbook.call( "addEmail", nd->getName() + " <" + email + '>');
 }
 
-/*
-void KeysManager::allToKAB()
-{
-        KABC::Key key;
-        QString email;
-        QStringList keylist;
-        KABC::Addressee a;
-
-        KABC::AddressBook *ab = KABC::StdAddressBook::self();
-        if ( !ab->load() ) {
-                KMessageBox::sorry(this,i18n("Unable to contact the address book. Please check your installation."));
-                return;
-        }
-
-        KeyListViewItem * myChild = keysList2->firstChild();
-        while( myChild ) {
-                //email=extractKeyMail(myChild).simplified();
-                email=myChild->text(1);
-                KABC::Addressee::List addressees = ab->findByEmail( email );
-                if (addressees.count()==1) {
-                        a=addressees.first();
-                        KgpgInterface *ks=new KgpgInterface();
-                        key.setTextData(ks->getKey(myChild->text(6),true));
-                        a.insertKey(key);
-                        ab->insertAddressee(a);
-                        keylist<<myChild->text(6)+": "+email;
-                }
-                //            doSomething( myChild );
-                myChild = myChild->nextSibling();
-        }
-        KABC::StdAddressBook::save();
-        if (!keylist.isEmpty())
-                KMessageBox::informationList(this,i18n("The following keys were exported to the address book:"),keylist);
-        else
-                KMessageBox::sorry(this,i18n("No entry matching your keys were found in the address book."));
-}
-*/
-
 void KeysManager::slotManpage()
 {
     KToolInvocation::startServiceByDesktopName("khelpcenter", QString("man:/gpg"), 0, 0, 0, "", true);

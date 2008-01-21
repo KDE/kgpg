@@ -31,7 +31,6 @@
 #include <QLayout>
 #include <QCursor>
 #include <QLabel>
-#include <QMovie>
 #include <QFile>
 #include <Q3TextDrag>
 #include <QtDBus>
@@ -230,26 +229,6 @@ void MyView::encryptDroppedFolder()
     if (KMessageBox::warningContinueCancel(0, i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>", kgpgfoldertmp->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "FolderTmpFile") == KMessageBox::Cancel)
         return;
 
-    /*
-    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, true, goDefaultKey);
-    if (dialog->exec() == KDialog::Accepted)
-    {
-        QStringList options;
-        if (dialog->getUntrusted()) options << "--always-trust";
-        if (dialog->getArmor())     options << "--armor";
-        if (dialog->getHideId())    options << "--throw-keyid";
-
-        if (!dialog->getCustomOptions().isEmpty())
-            if (KGpgSettings::allowCustomEncryptionOptions())
-                options << dialog->getCustomOptions().split(" ", QString::SkipEmptyParts);
-
-        encryptClipboard(dialog->selectedKeys(), options, dialog->getSymmetric());
-    }
-    */
-
-
-
-    // TODO !!! CHANGE dialog, remove connect
     dialog = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), goDefaultKey);
 
     KHBox *bGroup = new KHBox(dialog->optionsbox);
@@ -384,18 +363,9 @@ void MyView::busyMessage(const QString &mssge, bool reset)
     {
         openTasks++;
         trayIcon->setToolTip(mssge);
-
-#if 0
-//TODO: is it necessary?
-        QMovie *movie = new QMovie(KStandardDirs::locate("appdata", "pics/kgpg_docked.gif"));
-        setMovie(movie);
-        delete movie;
-#endif
     }
     else
         openTasks--;
-
-    //kDebug(2100) << "Emit message: " << openTasks ;
 
     if (openTasks <= 0)
     {
