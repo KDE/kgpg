@@ -21,7 +21,7 @@
 #include <QCloseEvent>
 #include <QTextCodec>
 #include <QPainter>
-#include <QtDBus>
+#include <QtDBus/QtDBus>
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
 

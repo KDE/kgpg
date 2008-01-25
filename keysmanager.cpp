@@ -52,7 +52,7 @@
 #include <QList>
 #include <QFile>
 #include <QDir>
-#include <QtDBus>
+#include <QtDBus/QtDBus>
 #include <Q3TextDrag>
 #include <QProcess>
 

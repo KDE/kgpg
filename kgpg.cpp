@@ -34,7 +34,7 @@
 #include <QMovie>
 #include <QFile>
 #include <Q3TextDrag>
-#include <QtDBus>
+#include <QtDBus/QtDBus>
 #include <QProcess>
 
 #include <KAboutApplicationDialog>
