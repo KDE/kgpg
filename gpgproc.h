@@ -76,7 +76,7 @@ public:
      * You may use it multiple times if more than one line of data is
      * available. This does not alter the the line in any way.
      *
-     * readln() never blocks.
+     * readRawLine() never blocks.
      *
      * @param line is used to store the line that was read.
      * @return the number of characters read, or -1 if no data is available.
