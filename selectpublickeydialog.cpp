@@ -80,17 +80,7 @@ private:
 class KgpgListViewSearchLine : public K3ListViewSearchLine
 {
 public:
-    KgpgListViewSearchLine (QWidget *parent = 0, KgpgSelectPublicKeyDlg *dialog = 0, K3ListView *listView = 0) : K3ListViewSearchLine(parent, listView)
-    {
-        setDialog(dialog);
-    }
-
-    KgpgListViewSearchLine (QWidget *parent, const QList<K3ListView*> &listViews, KgpgSelectPublicKeyDlg *dialog = 0) : K3ListViewSearchLine(parent, listViews)
-    {
-        setDialog(dialog);
-    }
-
-    void setDialog(KgpgSelectPublicKeyDlg *dialog)
+    KgpgListViewSearchLine (QWidget *parent = 0, KgpgSelectPublicKeyDlg *dialog = 0) : K3ListViewSearchLine(parent, 0)
     {
         m_dialog = dialog;
     }
@@ -117,7 +107,7 @@ private:
     KgpgSelectPublicKeyDlg *m_dialog;
 };
 
-KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &sfile, const bool &filemode, const KShortcut &goDefaultKey, const bool &hideasciioption)
+KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &sfile, const KShortcut &goDefaultKey, const bool &hideasciioption)
                       : KDialog(parent)
 {
     setCaption(i18n("Select Public Key"));
@@ -125,7 +115,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     setDefaultButton(Ok);
     setButtonText(Details, i18n("O&ptions"));
 
-    m_fmode = filemode;
+    m_fmode = (sfile != NULL);
     if (m_fmode)
         setCaption(i18n("Select Public Key for %1", sfile));
 

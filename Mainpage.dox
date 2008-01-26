@@ -3,9 +3,6 @@
  * This section describes the internal classes used to create KGpg.
  * It should not be used as a public API.
  *
- * Please note that there will be a major change of these classes in the 
- * near future.
- *
  * @authors
  * Jean-Baptiste Mardelle \<bj@altern.org\>
  * Jimmy Gilles \<jimmygilles@gmail.com\>

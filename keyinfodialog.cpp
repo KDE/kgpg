@@ -23,7 +23,6 @@
 #include <QPushButton>
 #include <QGroupBox>
 #include <QCheckBox>
-#include <QPainter>
 #include <QPixmap>
 #include <QImage>
 
@@ -32,8 +31,6 @@
 #include <KDatePicker>
 #include <KMessageBox>
 #include <KUrlLabel>
-#include <KStandardDirs>
-#include <KIconEffect>
 #include <KLocale>
 
 #include "kgpginterface.h"

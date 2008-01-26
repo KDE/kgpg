@@ -31,7 +31,6 @@
 #include <QLayout>
 #include <QCursor>
 #include <QLabel>
-#include <QMovie>
 #include <QFile>
 #include <Q3TextDrag>
 #include <QtDBus/QtDBus>
@@ -82,6 +81,7 @@
 #include "kgpgview.h"
 #include "kgpglibrary.h"
 #include "kgpg_interface.h"
+#include "kgpgtextinterface.h"
 
 using namespace KgpgCore;
 
@@ -152,7 +152,7 @@ void MyView::clipEncrypt()
         KPassivePopup::message(i18n("Clipboard is empty."), QString(), Images::kgpg(), trayIcon);
     else
     {
-        KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, goDefaultKey);
+        KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, goDefaultKey);
         if (dialog->exec() == KDialog::Accepted)
         {
             QStringList options;
@@ -229,27 +229,7 @@ void MyView::encryptDroppedFolder()
     if (KMessageBox::warningContinueCancel(0, i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>", kgpgfoldertmp->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "FolderTmpFile") == KMessageBox::Cancel)
         return;
 
-    /*
-    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, false, true, goDefaultKey);
-    if (dialog->exec() == KDialog::Accepted)
-    {
-        QStringList options;
-        if (dialog->getUntrusted()) options << "--always-trust";
-        if (dialog->getArmor())     options << "--armor";
-        if (dialog->getHideId())    options << "--throw-keyid";
-
-        if (!dialog->getCustomOptions().isEmpty())
-            if (KGpgSettings::allowCustomEncryptionOptions())
-                options << dialog->getCustomOptions().split(" ", QString::SkipEmptyParts);
-
-        encryptClipboard(dialog->selectedKeys(), options, dialog->getSymmetric());
-    }
-    */
-
-
-
-    // TODO !!! CHANGE dialog, remove connect
-    dialog = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), true, goDefaultKey);
+    dialog = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), goDefaultKey);
 
     KHBox *bGroup = new KHBox(dialog->optionsbox);
 
@@ -259,6 +239,7 @@ void MyView::encryptDroppedFolder()
     optionbx->addItem(i18n("Zip"));
     optionbx->addItem(i18n("Gzip"));
     optionbx->addItem(i18n("Bzip2"));
+    optionbx->addItem(i18n("Tar"));
 
     connect(optionbx,SIGNAL(activated (int)),this,SLOT(slotSetCompression(int)));
     connect(dialog, SIGNAL(okClicked()), this, SLOT(startFolderEncode()));
@@ -284,13 +265,14 @@ void MyView::startFolderEncode()
     bool symetric = dialog->getSymmetric();
     QString extension;
 
-    if (compressionScheme == 0)
-        extension = ".zip";
-    else
-    if (compressionScheme == 1)
-        extension = ".tar.gz";
-    else
-        extension = ".tar.bz2";
+    switch (compressionScheme) {
+    case 0:	extension = ".zip"; break;
+    case 1:	extension = ".tar.gz"; break;
+    case 2:	extension = ".tar.bz2"; break;
+    case 3:	extension = ".tar"; break;
+    default:	Q_ASSERT(compressionScheme);
+		return;
+    }
 
     if (dialog->getArmor())
         extension += ".asc";
@@ -332,13 +314,13 @@ void MyView::startFolderEncode()
     dialog = 0L;
 
     KArchive *arch;
-    if (compressionScheme == 0)
-        arch = new KZip(kgpgfoldertmp->fileName());
-    else
-    if (compressionScheme == 1)
-        arch = new KTar(kgpgfoldertmp->fileName(), "application/x-gzip");
-    else
-        arch = new KTar(kgpgfoldertmp->fileName(), "application/x-bzip");
+    switch (compressionScheme) {
+    case 0:	arch = new KZip(kgpgfoldertmp->fileName()); break;
+    case 1:	arch = new KTar(kgpgfoldertmp->fileName(), "application/x-gzip"); break;
+    case 2:	arch = new KTar(kgpgfoldertmp->fileName(), "application/x-bzip"); break;
+    case 3:	arch = new KTar(kgpgfoldertmp->fileName(), "application/x-tar"); break;
+    default:	Q_ASSERT(1);
+    }
 
     if (!arch->open(QIODevice::WriteOnly))
     {
@@ -351,20 +333,20 @@ void MyView::startFolderEncode()
     arch->close();
     delete arch;
 
-    KgpgInterface *folderprocess = new KgpgInterface();
-    connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl, KgpgInterface*)), this, SLOT(slotFolderFinished(KUrl, KgpgInterface*)));
-    connect(folderprocess, SIGNAL(errorMessage(const QString &, KgpgInterface*)), this, SLOT(slotFolderFinishedError(const QString &, KgpgInterface*)));
+    KGpgTextInterface *folderprocess = new KGpgTextInterface();
+    connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl, KGpgTextInterface*)), this, SLOT(slotFolderFinished(KUrl, KGpgTextInterface*)));
+    connect(folderprocess, SIGNAL(errorMessage(const QString &, KGpgTextInterface*)), this, SLOT(slotFolderFinishedError(const QString &, KGpgTextInterface*)));
     folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric);
 }
 
-void MyView::slotFolderFinished(const KUrl &, KgpgInterface *iface)
+void MyView::slotFolderFinished(const KUrl &, KGpgTextInterface *iface)
 {
     delete pop;
     delete kgpgfoldertmp;
     delete iface;
 }
 
-void MyView::slotFolderFinishedError(const QString &errmsge, KgpgInterface *iface)
+void MyView::slotFolderFinishedError(const QString &errmsge, KGpgTextInterface *iface)
 {
     delete pop;
     delete kgpgfoldertmp;
@@ -381,19 +363,9 @@ void MyView::busyMessage(const QString &mssge, bool reset)
     {
         openTasks++;
         trayIcon->setToolTip(mssge);
-
-#if 0
-//TODO: kgpg_docked.gif is gone, replace this with the
-//     "kgpg" icon overlayed by "user-busy", if necessary at all.
-        QMovie *movie = new QMovie(KStandardDirs::locate("appdata", "pics/kgpg_docked.gif"));
-        setMovie(movie);
-        delete movie;
-#endif
     }
     else
         openTasks--;
-
-    //kDebug(2100) << "Emit message: " << openTasks ;
 
     if (openTasks <= 0)
     {
@@ -437,7 +409,7 @@ void MyView::slotVerifyFile()
     }
 
     // pipe gpg command
-    KgpgInterface *verifyFileProcess=new KgpgInterface();
+    KGpgTextInterface *verifyFileProcess = new KGpgTextInterface();
     connect (verifyFileProcess, SIGNAL(verifyquerykey(QString)), this, SLOT(importSignature(QString)));
     verifyFileProcess->KgpgVerifyFile(droppedUrl, KUrl(sigfile));
 }
@@ -473,7 +445,7 @@ void MyView::signDroppedFile()
     if (KGpgSettings::pgpCompatibility())
         Options << "--pgp6";
 
-    KgpgInterface *signFileProcess = new KgpgInterface();
+    KGpgTextInterface *signFileProcess = new KGpgTextInterface();
     signFileProcess->KgpgSignFile(signKeyID, droppedUrl, Options);
 }
 
@@ -882,7 +854,7 @@ void MyView::encryptClipboard(QStringList selec, QStringList encryptOptions, con
     if (symmetric)
         selec.clear();
 
-    KgpgInterface *txtEncrypt = new KgpgInterface();
+    KGpgTextInterface *txtEncrypt = new KGpgTextInterface();
     connect (txtEncrypt, SIGNAL(txtEncryptionFinished(QString)), this, SLOT(slotSetClip(QString)));
     connect (txtEncrypt, SIGNAL(txtEncryptionStarted()), this, SLOT(slotPassiveClip()));
     txtEncrypt->encryptText(kapp->clipboard()->text(clipboardMode), selec, encryptOptions);

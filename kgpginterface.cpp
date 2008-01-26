@@ -38,6 +38,7 @@
 #include <KUrl>
 
 #include "detailedconsole.h"
+#include "emailvalidator.h"
 #include "kgpgsettings.h"
 #include "convert.h"
 #include "gpgproc.h"
@@ -428,7 +429,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
     cycle = "none";
 
     GPGProc *process = new GPGProc(this);
-    *process << "--with-fingerprint";
+    *process << "--with-colons" << "--with-fingerprint";
     if (withsigs)
         *process << "--list-sigs";
     else
@@ -729,7 +730,7 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
     m_secretactivate = false;
 
         GPGProc *process = new GPGProc(this);
-        *process << "--list-secret-keys" << "--with-fingerprint";
+        *process << "--with-colons" << "--list-secret-keys" << "--with-fingerprint";
 
         *process << ids;
 
@@ -840,632 +841,39 @@ KgpgKeyList KgpgInterface::readJoinedKeys(const KgpgKeyTrust &trust, const QStri
 	return publickeys;
 }
 
-QString KgpgInterface::getKeys(const bool &block, const QString *attributes, const QStringList &ids)
+QString KgpgInterface::getKeys(const QString *attributes, const QStringList &ids)
 {
-    m_partialline.clear();
-    m_ispartial = false;
-    m_keystring.clear();
+	m_keystring.clear();
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--export" << "--armor";
+	GPGProc *gpgProcess = new GPGProc(this);
+	*gpgProcess << "--export" << "--armor" << "--status-fd=1" << "--command-fd=0";
 
-    if (attributes)
-	*process << "--export-options" << *attributes;
+	if (attributes)
+		*gpgProcess << "--export-options" << *attributes;
 
-    *process << ids;
+	*gpgProcess << ids;
 
-    if (!block)
-    {
-        kDebug(2100) << "Get a key with K3Process::NotifyOnExit";
-        connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(getKeysProcess(K3ProcIO *)));
-        connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(getKeysFin(K3Process *)));
-        process->start(K3Process::NotifyOnExit, false);
-        emit getKeysStarted(this);
-        return QString();
-    }
-    else
-    {
-        kDebug(2100) << "Get a key with K3Process::Block";
-        process->start(K3Process::Block, false);
-        getKeysProcess(process);
-        delete process;
-        return m_keystring;
-    }
+	connect(gpgProcess, SIGNAL(readReady(GPGProc *)), this, SLOT(getKeysProcess(GPGProc *)));
+	gpgProcess->start();
+	gpgProcess->waitForFinished(-1);
+	delete gpgProcess;
+	return m_keystring;
 }
 
-void KgpgInterface::getKeysProcess(K3ProcIO *p)
+void KgpgInterface::getKeysProcess(GPGProc *gpgProcess)
 {
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
+	QString line;
 
-                m_partialline.clear();
-                m_ispartial = false;
-            }
-
-            if (!line.startsWith("gpg:"))
-                m_keystring += line + '\n';
-        }
-    }
-    p->ackRead();
+	while (gpgProcess->readln(line, true) >= 0) {
+		if (!line.startsWith("gpg:"))
+			m_keystring += line + '\n';
+	}
 }
 
-void KgpgInterface::getKeysFin(K3Process *p)
+void KgpgInterface::getKeysFin(GPGProc *gpgProcess)
 {
-    delete p;
-    emit getKeysFinished(m_keystring, this);
-}
-
-void KgpgInterface::encryptText(const QString &text, const QStringList &userids, const QStringList &options)
-{
-    m_partialline.clear();
-    m_ispartial = false;
-    message.clear();
-
-    QTextCodec *codec = QTextCodec::codecForLocale();
-    if (codec->canEncode(text))
-        message = text;
-    else
-        message = text.toUtf8();
-
-    K3ProcIO *process = gpgProc(1, 0);
-    process->setParent(this);
-
-    for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
-        *process << QFile::encodeName(*it);
-
-    if (!userids.isEmpty())
-    {
-        *process << "-e";
-        for (QStringList::ConstIterator it = userids.begin(); it != userids.end(); ++it)
-            *process << "--recipient" << *it;
-    }
-    else
-        *process << "-c";
-
-    kDebug(2100) << "Encrypt a text";
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(encryptTextProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(encryptTextFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, false);
-}
-
-void KgpgInterface::encryptTextProcess(K3ProcIO *p)
-{
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
-
-                m_partialline.clear();
-                m_ispartial = false;
-            }
-
-            if (line.contains("BEGIN_ENCRYPTION"))
-            {
-                emit txtEncryptionStarted();
-                p->writeStdin(message, false);
-                p->closeWhenDone();
-                message.clear();
-            }
-            else
-            if (line.contains("passphrase.enter"))
-            {
-                if (sendPassphrase(i18n("Enter passphrase (symmetrical encryption)"), p))
-                {
-                    delete p;
-                    emit processaborted(true);
-                    return;
-                }
-            }
-            else
-            if (!line.startsWith("[GNUPG:]"))
-                message += line + '\n';
-        }
-    }
-
-    p->ackRead();
-}
-
-void KgpgInterface::encryptTextFin(K3Process *p)
-{
-    delete p;
-    if (!message.isEmpty())
-        emit txtEncryptionFinished(QString::fromUtf8(message.toAscii()).trimmed(), this);
-    else
-        emit txtEncryptionFinished(QString(), this);
-}
-
-// FIXME Check if it works well
-void KgpgInterface::decryptText(const QString &text, const QStringList &options)
-{
-    m_partialline.clear();
-    message.clear();
-    tmp_message.clear();
-    userIDs.clear();
-    log.clear();
-    m_ispartial = false;
-    anonymous = false;
-    badmdc = false;
-    decok = false;
-    m_textlength = 0;
-    step = 3;
-
-    K3ProcIO *process = gpgProc(1, 0);
-    process->setParent(this);
-    //*process << "--no-batch";
-
-    for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
-        *process << QFile::encodeName(*it);
-
-    *process << "-d";
-
-    kDebug(2100) << "Decrypt a text";
-    connect(process, SIGNAL(receivedStdout(K3Process *, char *, int)), this, SLOT(decryptTextStdOut(K3Process *, char *, int)));
-    connect(process, SIGNAL(receivedStderr(K3Process *, char *, int)), this, SLOT(decryptTextStdErr(K3Process *, char *, int)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(decryptTextFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, K3Process::All);
-
-    // send the encrypted text to gpg
-    process->writeStdin(text);
-}
-
-void KgpgInterface::decryptTextStdErr(K3Process *, char *data, int)
-{
-    log.append(data);
-}
-
-// try to change K3Process by K3ProcIO
-void KgpgInterface::decryptTextStdOut(K3Process *p, char *data, int)
-{
-    QTextCodec *codec = QTextCodec::codecForName("utf8");
-    m_readin.append(data);
-
-    int pos;
-    while ((pos = m_readin.indexOf("\n")) != -1)
-    {
-        if (m_textlength == 0)
-        {
-            QString line = codec->toUnicode(m_readin.left(pos));
-            m_readin.remove(0, pos + 1);
-
-            if (line.contains("USERID_HINT"))
-                updateIDs(line);
-            else
-            if (line.contains("ENC_TO") && line.contains("0000000000000000"))
-                anonymous = true;
-            else
-            if (line.contains("GET_"))
-            {
-                if ((line.contains("passphrase.enter")))
-                {
-                    if (userIDs.isEmpty())
-                        userIDs = i18n("[No user id found]");
-
-                    QString passdlgmessage;
-                    if (anonymous)
-                        passdlgmessage = i18n("<p><b>No user id found</b>. Trying all secret keys.</p>");
-                    if ((step < 3) && (!anonymous))
-                        passdlgmessage = i18n("<p><b>Bad passphrase</b>. You have %1 tries left.</p>", step);
-                    passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
-
-                    if (sendPassphrase(passdlgmessage, static_cast<K3ProcIO*>(p), false))
-                    {
-                        delete p;
-                        emit processaborted(true);
-                        return;
-                    }
-
-                    userIDs.clear();
-
-                    if (step > 1)
-                        step--;
-                    else
-                        step = 3;
-                }
-                else
-                {
-                    p->writeStdin("quit", 5);
-                    p->closeStdin();
-                }
-            }
-            else
-            if (line.contains("BEGIN_DECRYPTION"))
-            {
-                emit txtDecryptionStarted();
-                p->closeStdin();
-            }
-            else
-            if (line.contains("PLAINTEXT_LENGTH"))
-                m_textlength = line.mid(line.indexOf("[GNUPG:] PLAINTEXT_LENGTH") + 25).toInt();
-            else
-            if (line.contains("DECRYPTION_OKAY"))
-                decok = true;
-            else
-            if (line.contains("BADMDC"))
-                badmdc = true;
-            else
-            if (!line.contains("[GNUPG:]"))
-                tmp_message.append(line + '\n');
-        }
-        else
-        {
-            if (m_readin.length() <= m_textlength)
-            {
-                message.append(codec->toUnicode(m_readin));
-                m_textlength -= m_readin.length();
-                m_readin.clear();
-            }
-            else
-            {
-                message.append(codec->toUnicode(m_readin.left(m_textlength)));
-                m_readin.remove(0, m_textlength);
-                m_textlength = 0;
-            }
-        }
-    }
-}
-
-void KgpgInterface::decryptTextFin(K3Process *p)
-{
-    delete p;
-    if ((decok) && (!badmdc)) {
-        if (message.length() == 0)
-            emit txtDecryptionFinished(tmp_message, this);
-        else
-            emit txtDecryptionFinished(message, this);
-    }
-    else
-    if (badmdc)
-    {
-        KMessageBox::sorry(0, i18n("Bad MDC detected. The encrypted text has been manipulated."));
-        emit txtDecryptionFailed(log, this);
-    }
-    else
-        emit txtDecryptionFailed(log, this);
-}
-
-void KgpgInterface::signText(const QString &text, const QString &userid, const QStringList &options)
-{
-    m_partialline.clear();
-    m_ispartial = false;
-    message.clear();
-    badpassword = false;
-    step = 3;
-
-    QTextCodec *codec = QTextCodec::codecForLocale();
-    if (codec->canEncode(text))
-        message = text;
-    else
-        message = text.toUtf8();
-
-    K3ProcIO *process = gpgProc(1, 0);
-    process->setParent(this);
-
-    for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
-        *process << QFile::encodeName(*it);
-
-    *process << "--clearsign" << "-u" << userid;
-
-    kDebug(2100) << "Sign a text";
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(signTextProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(signTextFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
-}
-
-void KgpgInterface::signTextProcess(K3ProcIO *p)
-{
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
-
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
-            if (line.contains("USERID_HINT"))
-                updateIDs(line);
-            else
-            if (line.contains("BAD_PASSPHRASE"))
-            {
-                message.fill('x');
-                message.clear();
-                badpassword = true;
-            }
-            else
-            if (line.contains("GOOD_PASSPHRASE"))
-            {
-                emit txtSigningStarted();
-                p->writeStdin(message, true);
-                p->closeWhenDone();
-                message.clear();
-            }
-            else
-            if (line.contains("passphrase.enter"))
-            {
-                if (userIDs.isEmpty())
-                    userIDs = i18n("[No user id found]");
-
-                QString passdlgmessage;
-                if (step < 3)
-                    passdlgmessage = i18n("<p><b>Bad passphrase</b>. You have %1 tries left.</p>", step);
-                passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
-
-                if (sendPassphrase(passdlgmessage, p, false))
-                {
-                    delete p;
-                    emit processaborted(true);
-                    return;
-                }
-                step--;
-            }
-            else
-            if (!line.startsWith("[GNUPG:]"))
-                message += line + '\n';
-        }
-    }
-
-    p->ackRead();
-}
-
-void KgpgInterface::signTextFin(K3Process *p)
-{
-    delete p;
-    if (badpassword)
-    {
-        emit txtSigningFailed(message, this);
-        message.clear();
-    }
-    else
-    if (!message.isEmpty())
-        emit txtSigningFinished(message.trimmed(), this);
-    else
-        emit txtSigningFinished(QString(), this);
-}
-
-void KgpgInterface::verifyText(const QString &text)
-{
-    m_partialline.clear();
-    m_ispartial = false;
-    QString temp;
-    QTextCodec *codec = QTextCodec::codecForLocale();
-    if (codec->canEncode(text))
-        temp = text;
-    else
-        temp = text.toUtf8();
-
-    signmiss = false;
-    signID.clear();
-    message.clear();
-
-    K3ProcIO *process = new K3ProcIO();
-    process->setParent(this);
-    *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--status-fd=2" << "--command-fd=0" << "--verify";
-
-    kDebug(2100) << "Verify a text";
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(verifyTextProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(verifyTextFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
-    emit txtVerifyStarted();
-
-    process->writeStdin(temp);
-    process->closeWhenDone();
-}
-
-void KgpgInterface::verifyTextProcess(K3ProcIO *p)
-{
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
-
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
-            if (!line.startsWith("[GNUPG:]"))
-                message += line + '\n';
-            else
-            {
-                line = line.section("]", 1, -1).simplified();
-
-                if (line.startsWith("GOODSIG"))
-                {
-                    QString userName = line.section(" ", 2, -1).replace(QRegExp("<"), "&lt;");
-                    userName = checkForUtf8(userName);
-                    signID = i18n("<qt>Good signature from:<br /><b>%1</b><br />Key ID: %2</qt>", userName, line.section(" ", 1, 1).right(8));
-                }
-                else
-                if (line.startsWith("BADSIG"))
-                {
-                    signID = i18n("<qt><b>Bad signature</b> from:<br />%1<br />Key ID: %2<br /><br /><b>Text is corrupted.</b></qt>", line.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), line.section(" ", 1, 1).right(8));
-                }
-                else
-                if (line.startsWith("NO_PUBKEY"))
-                {
-                    signID = line.section(" ", 1, 1).right(8);
-                    signmiss = true;
-                }
-                else
-                if (line.startsWith("UNEXPECTED") || line.startsWith("NODATA"))
-                    signID = i18n("No signature found.");
-                else
-                if (line.startsWith("TRUST_UNDEFINED"))
-                    signID += i18n("The signature is valid, but the key is untrusted");
-                else
-                if (line.startsWith("TRUST_ULTIMATE"))
-                    signID += i18n("The signature is valid, and the key is ultimately trusted");
-            }
-        }
-    }
-
-    p->ackRead();
-}
-
-void KgpgInterface::verifyTextFin(K3Process *p)
-{
-    delete p;
-    if (signmiss)
-        emit txtVerifyMissingSignature(signID, this);
-    else
-    {
-        if (signID.isEmpty())
-            signID = i18n("No signature found.");
-
-        emit txtVerifyFinished(signID, message, this);
-    }
-}
-
-void KgpgInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options, const bool &symetrical)
-{
-    m_partialline.clear();
-    m_ispartial = false;
-    encok = false;
-    sourceFile = srcurl;
-    message.clear();
-
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-
-    for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
-        *process << QFile::encodeName(*it);
-
-    *process << "--output" << QFile::encodeName(desturl.path());
-
-    if (!symetrical)
-    {
-        *process << "-e";
-        for (QStringList::ConstIterator it = encryptkeys.begin(); it != encryptkeys.end(); ++it)
-            *process << "--recipient" << *it;
-    }
-    else  // symetrical encryption, prompt for password
-        *process << "-c";
-
-    *process << QFile::encodeName(srcurl.path());
-
-    kDebug(2100) << "Encrypt a file";
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(fileReadEncProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(fileEncryptFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
-}
-
-// TODO : there is a bug when we want to encrypt a file
-void KgpgInterface::fileReadEncProcess(K3ProcIO *p)
-{
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
-
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
-            kDebug(2100) << line ;
-            if (line.contains("BEGIN_ENCRYPTION"))
-                emit processstarted(sourceFile.path());
-            else
-            if (line.contains("GET_" ))
-            {
-                if (line.contains("openfile.overwrite.okay"))
-                    p->writeStdin(QByteArray("Yes"));
-                else
-                if (line.contains("passphrase.enter"))
-                {
-                    if (sendPassphrase(i18n("Enter passphrase for your file (symmetrical encryption):"), p))
-                    {
-                        delete p;
-                        emit processaborted(true);
-                        return;
-                    }
-                }
-                else
-                {
-                    p->writeStdin(QByteArray("quit"));
-                    p->closeWhenDone();
-                }
-            }
-            else
-            if (line.contains("END_ENCRYPTION"))
-                encok = true;
-            else
-            if (!line.startsWith("[GNUPG:]"))
-                message += line + '\n';
-        }
-    }
-
-    p->ackRead();
-}
-
-void KgpgInterface::fileEncryptFin(K3Process *p)
-{
-    delete p;
-    if (encok)
-        emit fileEncryptionFinished(sourceFile, this);
-    else
-        emit errorMessage(message, this);
+	delete gpgProcess;
+	emit getKeysFinished(m_keystring, this);
 }
 
 void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal)
@@ -1898,88 +1306,56 @@ void KgpgInterface::changeDisableFin(int res)
 
 QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool &block)
 {
-    m_partialline.clear();
-    m_ispartial = false;
-    m_pixmap = QPixmap();
+	QString pgpgoutput = "cat %i";
 
-    m_kgpginfotmp = new KTemporaryFile();
-    m_kgpginfotmp->open();
+	m_workProcess = new KProcess(this);
+	m_workProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
+	*m_workProcess << KGpgSettings::gpgBinaryPath();
+	*m_workProcess << "--no-secmem-warning" << "--no-tty" << "--status-fd=2";
+	*m_workProcess << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
 
-    QString pgpgoutput = "cp %i " + m_kgpginfotmp->fileName();
-
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
-
-    if (!block)
-    {
-        kDebug(2100) << "Load a photo for the key" << keyid << "uid" << uid;
-        connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(loadPhotoFin(K3Process *)));
-        process->start(K3Process::NotifyOnExit, true);
-        return QPixmap();
-    }
-    else
-    {
-        kDebug(2100) << "Load a photo for the key" << keyid << "uid" << uid;
-        process->start(K3Process::Block, true);
-        loadPhotoFin(process, true);
-        return m_pixmap;
-    }
+	connect(m_workProcess, SIGNAL(finished(int)), this, SLOT(loadPhotoFin(int)));
+	m_workProcess->start();
+	if (!block) {
+		return QPixmap();
+	} else {
+		m_workProcess->waitForFinished();
+		return m_pixmap;
+	}
 }
 
-void KgpgInterface::loadPhotoFin(K3Process *p, const bool &block)
+void KgpgInterface::loadPhotoFin(int exitCode)
 {
-    delete p;
+	m_pixmap = QPixmap();
 
-    m_pixmap.load(m_kgpginfotmp->fileName());
-    delete m_kgpginfotmp;
-    m_kgpginfotmp = 0;
+	if (exitCode == 0) {
+		QByteArray pic = m_workProcess->readAllStandardOutput();
+		m_pixmap.loadFromData(pic);
+	}
 
-    if (!block)
-        emit loadPhotoFinished(m_pixmap, this);
+	emit loadPhotoFinished(m_pixmap, this);
 }
 
 void KgpgInterface::addPhoto(const QString &keyid, const QString &imagepath)
 {
-    m_partialline.clear();
-    m_ispartial = false;
+	photoUrl = imagepath;
+	m_success = 0;
+	step = 3;
 
-    photoUrl = imagepath;
-    m_success = 0;
-    step = 3;
+	GPGProc *process = new GPGProc(this);
+	*process << "--status-fd=1" << "--command-fd=0" << "--edit-key" << keyid << "addphoto";
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--edit-key" << keyid << "addphoto";
-
-    kDebug(2100) << "Add the photo" << imagepath << "to the key" << keyid;
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(addPhotoProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(addPhotoFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+	kDebug(2100) << "Add the photo" << imagepath << "to the key" << keyid;
+	connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(addPhotoProcess(GPGProc *)));
+	connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(addPhotoFin(GPGProc *)));
+	process->start();
 }
 
-void KgpgInterface::addPhotoProcess(K3ProcIO *p)
+void KgpgInterface::addPhotoProcess(GPGProc *p)
 {
     QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
+    while (p->readln(line, true) >= 0) {
 
             if (line.contains("USERID_HINT"))
                 updateIDs(line);
@@ -1990,12 +1366,12 @@ void KgpgInterface::addPhotoProcess(K3ProcIO *p)
             if (line.contains("GOOD_PASSPHRASE"))
                 m_success = 2;
             if (line.contains("photoid.jpeg.add"))
-                p->writeStdin(photoUrl, true);
+                p->write(photoUrl.toAscii() + '\n');
             else
             if (line.contains("photoid.jpeg.size"))
             {
                 if (KMessageBox::questionYesNo(0, i18n("This image is very large. Use it anyway?"), QString(), KGuiItem(i18n("Use Anyway")), KGuiItem(i18n("Do Not Use"))) == KMessageBox::Yes)
-                    p->writeStdin(QByteArray("Yes"), true);
+                    p->write("Yes\n");
                 else
                 {
                     delete p;
@@ -2022,20 +1398,16 @@ void KgpgInterface::addPhotoProcess(K3ProcIO *p)
             }
             else
             if ((m_success == 2) && (line.contains("keyedit.prompt")))
-                p->writeStdin(QByteArray("save"), true);
+                p->write("save\n");
             else
             if ((line.contains("GET_"))) // gpg asks for something unusal, turn to konsole mode
             {
-                p->writeStdin(QByteArray("quit"), true);
-                p->closeWhenDone();
+                p->write("quit\n");
             }
-        }
     }
-
-    p->ackRead();
 }
 
-void KgpgInterface::addPhotoFin(K3Process *p)
+void KgpgInterface::addPhotoFin(GPGProc *p)
 {
     delete p;
     emit addPhotoFinished(m_success, this);
@@ -2043,45 +1415,23 @@ void KgpgInterface::addPhotoFin(K3Process *p)
 
 void KgpgInterface::deletePhoto(const QString &keyid, const QString &uid)
 {
-    m_partialline.clear();
-    m_ispartial = false;
-
     m_success = 0;
     step = 3;
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--edit-key" << keyid << "uid" << uid << "deluid";
+    GPGProc *process = new GPGProc(this);
+    *process << "--status-fd=1" << "--command-fd=0" << "--edit-key" << keyid << "uid" << uid << "deluid";
 
     kDebug(2100) << "Delete a photo from the key" << keyid;
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(deletePhotoProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(deletePhotoFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+    connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(deletePhotoProcess(GPGProc *)));
+    connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(deletePhotoFin(GPGProc *)));
+    process->start();
 }
 
-void KgpgInterface::deletePhotoProcess(K3ProcIO *p)
+void KgpgInterface::deletePhotoProcess(GPGProc *p)
 {
     QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
+    while (p->readln(line, true) >= 0) {
             if (line.contains("USERID_HINT"))
                 updateIDs(line);
             else
@@ -2092,7 +1442,7 @@ void KgpgInterface::deletePhotoProcess(K3ProcIO *p)
                 m_success = 2;
             else
             if (line.contains("keyedit.remove.uid.okay"))
-                p->writeStdin(QByteArray("YES"), true);
+                p->write("YES\n");
             else
             if (line.contains("passphrase.enter"))
             {
@@ -2110,19 +1460,16 @@ void KgpgInterface::deletePhotoProcess(K3ProcIO *p)
             }
             else
             if (line.contains("keyedit.prompt"))
-                p->writeStdin(QByteArray("save"), true);
+                p->write("save\n");
             else
             if (line.contains("GET_")) // gpg asks for something unusal, turn to konsole mode
             {
-                p->writeStdin(QByteArray("quit"), true);
-                p->closeWhenDone();
+                p->write("quit\n");
             }
-        }
     }
-    p->ackRead();
 }
 
-void KgpgInterface::deletePhotoFin(K3Process *p)
+void KgpgInterface::deletePhotoFin(GPGProc *p)
 {
     delete p;
     emit deletePhotoFinished(m_success, this);
@@ -2247,14 +1594,13 @@ void KgpgInterface::importKeyFinished(K3Process *p)
         if (messageList[8] != "0")
         {
             resultMessage += i18np("<qt>One revocation certificate imported.</qt>", "<qt>%1 revocation certificates imported.</qt>", messageList[8].toULong());
-            importedKeysIds = QStringList("ALL");
+            // empty list means "reload all"
+            importedKeysIds.clear();
         }
         if (messageList[9] != "0")
         {
             resultMessage += i18np("<qt>One secret key processed.</qt>", "<qt>%1 secret keys processed.</qt>", messageList[9].toULong());
             secretImport = true;
-            if (importedKeysIds.isEmpty()) // orphaned secret key imported
-               emit importKeyOrphaned();
         }
         if (messageList[10] != "0")
             resultMessage += i18np("<qt><b>One secret key imported.</b></qt>", "<qt><b>%1 secret keys imported.</b></qt>", messageList[10].toULong());
@@ -2268,11 +1614,10 @@ void KgpgInterface::importKeyFinished(K3Process *p)
                                   "Please note that imported secret keys are not trusted by default.<br />"
                                   "To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</qt>");
 
-    }
+        emit importKeyFinished(importedKeysIds);
+   }
     else
         resultMessage = i18n("No key imported... \nCheck detailed log for more infos");
-
-    emit importKeyFinished(importedKeysIds);
 
     // TODO : should be deleted. KgpgInterface should not show any dialog (but password).
     // When a message should be shown, it should be passed by parameter in a SIGNAL.
@@ -2281,54 +1626,34 @@ void KgpgInterface::importKeyFinished(K3Process *p)
 
 void KgpgInterface::addUid(const QString &keyid, const QString &name, const QString &email, const QString &comment)
 {
-    m_partialline.clear();
-    m_ispartial = false;
-    step = 3;
-    m_success = 0;
+	step = 3;
+	m_success = 0;
+	// why the heck does QValidator don't take const arguments?
+	QString Email = email;
 
-    if ((!email.isEmpty()) && ((email.contains(" ")) || !email.contains('.') || !email.contains('@')))
-    {
-        emit addUidFinished(4, this);
-        return;
-    }
+	int pos = 0;
+	if (!email.isEmpty() && (EmailValidator().validate(Email, pos) == QValidator::Invalid)) {
+		emit addUidFinished(4, this);
+		return;
+	}
 
-    uidName = name;
-    uidComment = comment;
-    uidEmail = email;
+	uidName = name;
+	uidComment = comment;
+	uidEmail = email;
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--edit-key" << keyid << "adduid";
+	GPGProc *process = new GPGProc(this);
+	*process << "--status-fd=1" << "--command-fd=0" << "--edit-key" << keyid << "adduid";
 
-    kDebug(2100) << "Add Uid" << name << "," << email << "," << comment << "to key" << keyid;
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(addUidProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(addUidFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+	connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(addUidProcess(GPGProc *)));
+	connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(addUidFin(GPGProc *)));
+	process->start();
 }
 
-void KgpgInterface::addUidProcess(K3ProcIO *p)
+void KgpgInterface::addUidProcess(GPGProc *p)
 {
     QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
+    while (p->readln(line, true) >= 0) {
             if (line.contains("USERID_HINT"))
                 updateIDs(line);
             else
@@ -2339,13 +1664,13 @@ void KgpgInterface::addUidProcess(K3ProcIO *p)
                 m_success = 2;
             else
             if (line.contains("keygen.name"))
-                p->writeStdin(uidName, true);
+                p->write(uidName.toAscii() + '\n');
             else
             if (line.contains("keygen.email"))
-                p->writeStdin(uidEmail, true);
+                p->write(uidEmail.toAscii() + '\n');
             else
             if (line.contains("keygen.comment"))
-                p->writeStdin(uidComment, true);
+                p->write(uidComment.toAscii() + '\n');
             else
             if (line.contains("passphrase.enter"))
             {
@@ -2364,20 +1689,16 @@ void KgpgInterface::addUidProcess(K3ProcIO *p)
             }
             else
             if (line.contains("keyedit.prompt"))
-                p->writeStdin(QByteArray("save"), true);
+                p->write("save\n");
             else
             if (line.contains("GET_")) // gpg asks for something unusal, turn to konsole mode
             {
-                p->writeStdin(QByteArray("quit"), true);
-                p->closeWhenDone();
+                p->write("quit\n");
             }
-        }
     }
-
-    p->ackRead();
 }
 
-void KgpgInterface::addUidFin(K3Process *p)
+void KgpgInterface::addUidFin(GPGProc *p)
 {
     delete p;
     emit addUidFinished(m_success, this);
@@ -2385,16 +1706,15 @@ void KgpgInterface::addUidFin(K3Process *p)
 
 void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const KgpgKeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber)
 {
-    m_partialline.clear();
-    m_ispartial = false;
     step = 3;
     m_success = 0;
+    QString Email = keyemail;
 
-    if ((!keyemail.isEmpty()) && ((keyemail.contains(" ")) || !keyemail.contains('.') || !keyemail.contains('@')))
-    {
-        emit generateKeyFinished(4, this, keyname, keyemail, QString(), QString());
-        return;
-    }
+	int pos = 0;
+	if (!keyemail.isEmpty() && (EmailValidator().validate(Email, pos) == QValidator::Invalid)) {
+		emit generateKeyFinished(4, this, keyname, keyemail, QString(), QString());
+		return;
+	}
 
     m_newkeyid.clear();
     m_newfingerprint.clear();
@@ -2406,40 +1726,21 @@ void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail,
     m_keyexp = keyexp;
     m_keyexpnumber = keyexpnumber;
 
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--no-verbose" << "--no-greeting";
+    GPGProc *process = new GPGProc(this);
+    *process << "--command-fd=0" << "--status-fd=1" << "--no-verbose" << "--no-greeting";
     *process << "--gen-key";
 
     kDebug(2100) << "Generate a new key-pair";
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(generateKeyProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(generateKeyFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+    connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(generateKeyProcess(GPGProc *)));
+    connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(generateKeyFin(GPGProc *)));
+    process->start();
 }
 
-void KgpgInterface::generateKeyProcess(K3ProcIO *p)
+void KgpgInterface::generateKeyProcess(GPGProc *p)
 {
     QString line;
-    bool partial = false;
 
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
-
-                m_partialline = "";
-                m_ispartial = false;
-            }
+    while (p->readln(line, true) >= 0) {
 
             if (line.contains("BAD_PASSPHRASE"))
                 m_success = 1;
@@ -2453,13 +1754,13 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
             if (line.contains("keygen.algo"))
             {
                 if (m_keyalgo == ALGO_RSA)
-                    p->writeStdin(QString("5"), true);
+                    p->write("5\n");
                 else
-                    p->writeStdin(QString("1"), true);
+                    p->write("1\n");
             }
             else
             if (line.contains("keygen.size"))
-                p->writeStdin(QString::number(m_keysize), true);
+                p->write(QString::number(m_keysize).toAscii() + '\n');
             else
             if (line.contains("keygen.valid"))
             {
@@ -2479,7 +1780,7 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
                 else
                   output = QString("0");
 
-                p->writeStdin(output, true);
+                p->write(output.toAscii() + '\n');
             }
             else
             if (line.contains("keygen.name")) {
@@ -2487,14 +1788,14 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
 			p->kill();
 		} else {
 			m_success = 10;
-			p->writeStdin(m_keyname, true);
+			p->write(m_keyname.toAscii() + '\n');
 		}
             } else
             if (line.contains("keygen.email"))
-                p->writeStdin(m_keyemail, true);
+                p->write(m_keyemail.toAscii() + '\n');
             else
             if (line.contains("keygen.comment"))
-                p->writeStdin(m_keycomment, true);
+                p->write(m_keycomment.toAscii() + '\n');
             else
             if (line.contains("passphrase.enter"))
             {
@@ -2526,140 +1827,31 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
             else
             if (line.contains("GET_"))
             {
-                p->writeStdin(QByteArray("quit"), true);
-                p->closeWhenDone();
+                p->write("quit\n");
             }
-        }
     }
-
-    p->ackRead();
 }
 
-void KgpgInterface::generateKeyFin(K3Process *p)
+void KgpgInterface::generateKeyFin(GPGProc *p)
 {
     delete p;
     emit generateKeyFinished(m_success, this, m_keyname, m_keyemail, m_newkeyid, m_newfingerprint);
 }
 
-void KgpgInterface::decryptFile(const KUrl &src, const KUrl &dest, const QStringList &Options)
-{
-    m_partialline.clear();
-    m_ispartial = false;
-    anonymous = false;
-    step = 3;
-    m_success = 0;
-    decryptFileUrl = src;
-
-    K3ProcIO *process = gpgProc(2, 0);
-    process->setParent(this);
-    *process << "--no-verbose" << "--no-greeting";
-
-    *process << Options;
-
-    if (!dest.fileName().isEmpty())
-        *process << "-o" << dest.path();
-    *process << "-d" << src.path();
-
-    kDebug(2100) << "Decrypt a file";
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(decryptFileProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(decryptFileFin(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
-}
-
-void KgpgInterface::decryptFileProcess(K3ProcIO *p)
-{
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
-
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
-            if (line.contains("BEGIN_DECRYPTION", Qt::CaseInsensitive))
-                emit decryptFileStarted(decryptFileUrl);
-
-            if (line.contains("USERID_HINT", Qt::CaseInsensitive))
-                updateIDs(line);
-
-            if ((line.contains("ENC_TO")) && line.contains("0000000000000000"))
-                anonymous = true;
-
-            if (line.contains("GET_"))
-            {
-                if (line.contains("openfile.overwrite.okay"))
-                    p->writeStdin(QByteArray("Yes"));
-                else
-                if ((line.contains("passphrase.enter")))
-                {
-                    if (userIDs.isEmpty())
-                        userIDs = i18n("[No user id found]");
-                    userIDs.replace(QRegExp("<"), "&lt;");
-
-                    QString passdlgmessage;
-                    if (anonymous)
-                        passdlgmessage = i18n("<p><b>No user id found</b>. Trying all secret keys.</p>");
-                    if ((step < 3) && (!anonymous))
-                        passdlgmessage = i18n("<p><b>Bad passphrase</b>. You have %1 tries left.</p>", step);
-                    passdlgmessage += i18n("Enter passphrase for <b>%1</b>", userIDs);
-
-                    if (sendPassphrase(passdlgmessage, p))
-                    {
-                        delete p;
-                        emit decryptFileFinished(3, this);
-                        return;
-                    }
-                    step--;
-                }
-                else
-                {
-                    p->writeStdin(QByteArray("quit"));
-                    p->closeWhenDone();
-                }
-            }
-        }
-    }
-
-    p->ackRead();
-}
-
-void KgpgInterface::decryptFileFin(K3Process *p)
-{
-    delete p;
-    if (message.contains("DECRYPTION_OKAY") && message.contains("END_DECRYPTION"))
-        emit decryptFileFinished(5, this);
-    else
-        emit decryptFileFinished(0, this);
-}
-
 void KgpgInterface::downloadKeys(const QStringList &keys, const QString &keyserver, const bool &refresh, const QString &proxy)
 {
-    m_partialline.clear();
-    m_ispartial = false;
     m_downloadkeys.clear();
     m_downloadkeys_log.clear();
 
-    m_downloadprocess = gpgProc(1, 0);
+    m_downloadprocess = new GPGProc(this);
+    *m_downloadprocess << "--command-fd=0" << "--status-fd=1";
 
     if (proxy.isEmpty())
         *m_downloadprocess << "--keyserver-options" << "no-honor-http-proxy";
     else
     {
         *m_downloadprocess << "--keyserver-options" << "honor-http-proxy";
-        m_downloadprocess->setEnvironment("http_proxy", proxy);
+        m_downloadprocess->setEnvironment(QStringList("http_proxy=" + proxy));
     }
 
     *m_downloadprocess << "--keyserver" << keyserver;
@@ -2669,14 +1861,14 @@ void KgpgInterface::downloadKeys(const QStringList &keys, const QString &keyserv
         *m_downloadprocess << "--recv-keys";
     *m_downloadprocess << keys;
 
-    connect(m_downloadprocess, SIGNAL(processExited(K3Process *)), this, SLOT(downloadKeysFin(K3Process *)));
-    connect(m_downloadprocess, SIGNAL(readReady(K3ProcIO *)), this, SLOT(downloadKeysProcess(K3ProcIO *)));
-    m_downloadprocess->start(K3Process::NotifyOnExit, false);
+    connect(m_downloadprocess, SIGNAL(processExited(GPGProc *)), this, SLOT(downloadKeysFin(GPGProc *)));
+    connect(m_downloadprocess, SIGNAL(readReady(GPGProc *)), this, SLOT(downloadKeysProcess(GPGProc *)));
+    m_downloadprocess->start();
 }
 
 void KgpgInterface::downloadKeysAbort()
 {
-    if (m_downloadprocess && m_downloadprocess->isRunning())
+    if (m_downloadprocess && (m_downloadprocess->state() == QProcess::Running))
     {
         disconnect(m_downloadprocess, 0, 0, 0);
         m_downloadprocess->kill();
@@ -2688,29 +1880,11 @@ void KgpgInterface::downloadKeysAbort()
     }
 }
 
-void KgpgInterface::downloadKeysProcess(K3ProcIO *p)
+void KgpgInterface::downloadKeysProcess(GPGProc *p)
 {
     QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
+    while (p->readln(line, true) >= 0) {
             if (line.startsWith("[GNUPG:]"))
                 m_downloadkeys += line + '\n';
             else
@@ -2718,13 +1892,10 @@ void KgpgInterface::downloadKeysProcess(K3ProcIO *p)
                 m_downloadkeys_log += line.mid(9) + '\n';
             else
                 m_downloadkeys_log += line + '\n';
-        }
     }
-
-    p->ackRead();
 }
 
-void KgpgInterface::downloadKeysFin(K3Process *p)
+void KgpgInterface::downloadKeysFin(GPGProc *p)
 {
     delete p;
     m_downloadprocess = 0;
@@ -2844,183 +2015,6 @@ void KgpgInterface::uploadKeysFin(K3Process *p)
     emit uploadKeysFinished(m_uploadkeys_log, this);
 }
 
-// decrypt file to text
-void KgpgInterface::KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList &Options)
-{
-    message.clear();
-    userIDs.clear();
-    step = 3;
-    anonymous = false;
-    decfinished = false;
-    decok = false;
-    badmdc = false;
-    m_textlength = 0;
-
-    K3ProcIO *process = gpgProc(1, 0);
-    *process << "--no-batch" << "-o" << "-";
-
-    for (QStringList::ConstIterator it = Options.begin(); it != Options.end(); ++it)
-        *process << QFile::encodeName(*it);
-
-    *process << "-d" << QFile::encodeName(srcUrl.path());
-
-    // when process ends, update dialog infos
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(decryptTextFin(K3Process *)));
-    connect(process, SIGNAL(receivedStdout(K3Process *, char *, int)), this, SLOT(decryptTextStdOut(K3Process *, char *, int)));
-    connect(process, SIGNAL(receivedStderr(K3Process *, char *, int)), this, SLOT(decryptTextStdErr(K3Process *, char *, int)));
-    process->start(K3Process::NotifyOnExit, false);
-}
-
-// signatures
-void KgpgInterface::KgpgSignFile(const QString &keyID, const KUrl &srcUrl, const QStringList &Options)
-{
-    message.clear();
-    step = 3;
-
-    K3ProcIO *process = gpgProc(2, 0);
-    *process << "-u" << keyID.simplified().toLocal8Bit();
-
-    for (QStringList::ConstIterator it = Options.begin(); it != Options.end(); ++it)
-        *process << QFile::encodeName(*it);
-
-    *process << "--output" << QFile::encodeName(srcUrl.path() + ".sig");
-    *process << "--detach-sig" << QFile::encodeName(srcUrl.path());
-
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(signfin(K3Process *)));
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(readsignprocess(K3ProcIO *)));
-    process->start(K3Process::NotifyOnExit, true);
-}
-
-void KgpgInterface::signfin(K3Process *p)
-{
-    delete p;
-
-    if (message.contains("SIG_CREATED"))
-        KMessageBox::information(0, i18n("The signature file %1 was successfully created.", file.fileName()));
-    else
-    if (message.contains("BAD_PASSPHRASE"))
-        KMessageBox::sorry(0, i18n("Bad passphrase, signature was not created."));
-    else
-        KMessageBox::sorry(0,message);
-
-    emit signfinished();
-}
-
-void KgpgInterface::readsignprocess(K3ProcIO *p)
-{
-    QString required;
-    while (p->readln(required, true) != -1)
-    {
-        if (required.contains("USERID_HINT", Qt::CaseInsensitive))
-            updateIDs(required);
-
-        if (required.contains("GET_"))
-        {
-            if (required.contains("openfile.overwrite.okay"))
-                p->writeStdin(QByteArray("Yes"));
-            else
-            if ((required.contains("passphrase.enter")))
-            {
-                if (userIDs.isEmpty())
-                    userIDs = i18n("[No user id found]");
-
-                QString passdlgmessage;
-                if (step < 3)
-                    passdlgmessage = i18n("<p><b>Bad passphrase</b>. You have %1 tries left.</p>", step);
-                passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
-
-                if (sendPassphrase(passdlgmessage, p))
-                {
-                    delete p;
-                    emit signfinished();
-                    return;
-                }
-
-                userIDs.clear();
-                step--;
-            }
-            else
-            {
-                p->writeStdin(QByteArray("quit"));
-                p->closeWhenDone();
-            }
-        }
-        message += required + '\n';
-    }
-}
-
-void KgpgInterface::KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl)
-{
-    message.clear();
-    signID.clear();
-    signmiss = false;
-
-    file = sigUrl;
-
-    K3ProcIO *process = gpgProc(2);
-    *process << "--verify";
-    if (!srcUrl.isEmpty())
-        *process << QFile::encodeName(srcUrl.path());
-    *process << QFile::encodeName(sigUrl.path());
-
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(verifyfin(K3Process *)));
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(readprocess(K3ProcIO *)));
-    process->start(K3Process::NotifyOnExit,true);
-}
-
-void KgpgInterface::readprocess(K3ProcIO *p)
-{
-    QString required;
-    while (p->readln(required,true) != -1)
-    {
-        message += required + '\n';
-        if (required.contains("GET_"))
-        {
-            p->writeStdin(QByteArray("quit"));
-            p->closeWhenDone();
-        }
-
-        required = required.section("]", 1, -1).simplified();
-        if (required.startsWith("UNEXPECTED") || required.startsWith("NODATA"))
-            signID = i18n("No signature found.");
-
-        if (required.startsWith("GOODSIG"))
-            signID = i18n("<qt>Good signature from:<br /><b>%1</b><br />Key ID: %2</qt>", required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), required.section(" ", 1, 1).right(8));
-
-        if (required.startsWith("BADSIG"))
-    signID=i18n("<qt><b>BAD signature</b> from:<br /> %1<br />Key id: %2<br /><br /><b>The file is corrupted</b></qt>", required.section(" ", 2, -1).replace(QRegExp("<"), "&lt;"), required.section(" ", 1, 1).right(8));
-
-        if (required.startsWith("NO_PUBKEY"))
-        {
-            signmiss = true;
-            signID = required.section(" ", 1, 1).right(8);
-        }
-
-        if (required.startsWith("TRUST_UNDEFINED"))
-            signID += i18n("The signature is valid, but the key is untrusted");
-
-        if (required.startsWith("TRUST_ULTIMATE"))
-            signID += i18n("The signature is valid, and the key is ultimately trusted");
-    }
-}
-
-void KgpgInterface::verifyfin(K3Process *)
-{
-    if (!signmiss)
-    {
-        if (signID.isEmpty())
-            signID = i18n("No signature found.");
-
-        (void) new KgpgDetailedInfo(0, signID, message);
-    }
-    else
-    {
-        if (KMessageBox::questionYesNo(0, i18n("<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt>", signID), file.fileName(), KGuiItem(i18n("Import")), KGuiItem(i18n("Do Not Import"))) == KMessageBox::Yes)
-        emit verifyquerykey(signID);
-    }
-    emit verifyfinished();
-}
-
 // delete signature
 void KgpgInterface::KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID)
 {
@@ -3039,43 +2033,41 @@ void KgpgInterface::KgpgDelSignature(const QString &keyID, const QString &uid, Q
 
     signb = signoff.at(0);
 
-        K3ProcIO *conprocess = gpgProc(2, 0);
-        *conprocess << "--edit-key" << keyID << "uid" << uid << "delsig";
-        connect(conprocess,SIGNAL(readReady(K3ProcIO *)),this,SLOT(delsigprocess(K3ProcIO *)));
-        connect(conprocess, SIGNAL(processExited(K3Process *)),this, SLOT(delsignover(K3Process *)));
-        conprocess->start(K3Process::NotifyOnExit,true);
+	GPGProc *conprocess = new GPGProc(this);
+	*conprocess << "--command-fd=0" << "--status-fd=1" << "--edit-key" << keyID << "uid" << uid << "delsig";
+	connect(conprocess,SIGNAL(readReady(GPGProc *)),this,SLOT(delsigprocess(GPGProc *)));
+	connect(conprocess, SIGNAL(processExited(GPGProc *)),this, SLOT(delsignover(GPGProc *)));
+	conprocess->start();
 }
 
-void KgpgInterface::delsigprocess(K3ProcIO *p)//ess *p,char *buf, int buflen)
+void KgpgInterface::delsigprocess(GPGProc *p)
 {
+	QString required;
 
-        QString required = QString();
-        while (p->readln(required,true)!=-1)
-        {
-                if (required.contains("keyedit.delsig")){
-
-                        if ((sigsearch==signb) && (step==0)) {
-                                p->writeStdin(QByteArray("Y"), true);
-                                step=1;
-                        } else
-                                p->writeStdin(QByteArray("n"), true);
-                        sigsearch++;
-                        required.clear();
-                } else if ((step==1) && required.contains("keyedit.prompt")) {
-                        p->writeStdin(QByteArray("save"), true);
-                        required.clear();
-                        deleteSuccess=true;
-                } else if (required.contains("GET_LINE")) {
-                        p->writeStdin(QByteArray("quit"), true);
-                        p->closeWhenDone();
-                        deleteSuccess=false;
-                }
-        }
+	while (p->readln(required, true) >= 0) {
+		if (required.contains("keyedit.delsig")){
+			if ((sigsearch == signb) && (step == 0)) {
+				p->write("Y\n");
+				step = 1;
+			} else
+				p->write("n\n");
+			sigsearch++;
+			required.clear();
+		} else if ((step == 1) && required.contains("keyedit.prompt")) {
+			p->write("save\n");
+			required.clear();
+			deleteSuccess = true;
+		} else if (required.contains("GET_LINE")) {
+			p->write("quit\n");
+			deleteSuccess = false;
+		}
+	}
 }
 
-void KgpgInterface::delsignover(K3Process *)
+void KgpgInterface::delsignover(GPGProc *p)
 {
-        emit delsigfinished(deleteSuccess);
+	delete p;
+	emit delsigfinished(deleteSuccess);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  key revocation

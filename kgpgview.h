@@ -24,7 +24,7 @@
 class QDragEnterEvent;
 class QDropEvent;
 
-class KgpgInterface;
+class KGpgTextInterface;
 
 class KgpgTextEdit : public KTextEdit
 {
@@ -58,15 +58,15 @@ private slots:
     void slotDecodeFile();
     bool slotCheckFile(const bool &checkforpgpmessage = true);
 
-    void slotDecodeFileSuccess(const QString &content, KgpgInterface *interface);
-    void slotDecodeFileFailed(const QString &content, KgpgInterface *interface);
+    void slotDecodeFileSuccess(const QByteArray &content, KGpgTextInterface *interface);
+    void slotDecodeFileFailed(const QString &content, KGpgTextInterface *interface);
 
-    void slotEncodeUpdate(const QString &content, KgpgInterface *interface);
-    void slotDecodeUpdateSuccess(const QString &content, KgpgInterface *interface);
-    void slotDecodeUpdateFailed(const QString &content, KgpgInterface *interface);
-    void slotSignUpdate(const QString &content, KgpgInterface *interface);
-    void slotVerifySuccess(const QString &content, const QString &log, KgpgInterface *interface);
-    void slotVerifyKeyNeeded(const QString &id, KgpgInterface *interface);
+    void slotEncodeUpdate(const QString &content, KGpgTextInterface *interface);
+    void slotDecodeUpdateSuccess(const QByteArray &content, KGpgTextInterface *interface);
+    void slotDecodeUpdateFailed(const QString &content, KGpgTextInterface *interface);
+    void slotSignUpdate(const QString &content, KGpgTextInterface *interface);
+    void slotVerifySuccess(const QString &content, const QString &log, KGpgTextInterface *interface);
+    void slotVerifyKeyNeeded(const QString &id, KGpgTextInterface *interface);
 
 private:
     QString m_tempfile;

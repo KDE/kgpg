@@ -21,14 +21,14 @@
 
 #include <KConfigDialog>
 
-
 #include "ui_conf_gpg.h"
 #include "ui_conf_ui2.h"
 #include "ui_conf_servers.h"
 #include "ui_conf_misc.h"
 #include "ui_conf_decryption.h"
 
-class KConfig;
+#include "kgpgkey.h"
+
 class KFontChooser;
 class KConfig;
 
@@ -101,7 +101,7 @@ signals:
     void settingsUpdated();
     void changeFont(QFont);
     void homeChanged();
-    void refreshTrust(int, QColor);
+    void refreshTrust(KgpgCore::KgpgKeyTrust, QColor);
 
 private slots:
     void slotChangeHome();

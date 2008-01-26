@@ -51,6 +51,7 @@
 #include "kgpgview.h"
 #include "kgpg.h"
 #include "kgpg_interface.h"
+#include "kgpgtextinterface.h"
 
 
 KgpgEditor::KgpgEditor(QWidget *parent, Qt::WFlags f, KShortcut gohome, bool mainwindow)
@@ -598,7 +599,7 @@ void KgpgEditor::slotSignFile(const KUrl &url)
         if (KGpgSettings::pgpCompatibility())
             Options << QString::fromLocal8Bit("--pgp6");
 
-        KgpgInterface *interface = new KgpgInterface();
+        KGpgTextInterface *interface = new KGpgTextInterface();
         //TODO connect(interface, SIGNAL(...), this, SLOT(slotSignFileFin(KgpgInterface *interface)));
         interface->KgpgSignFile(signKeyID, url, Options);
     }
@@ -635,7 +636,7 @@ void KgpgEditor::slotVerifyFile(const KUrl &url)
         }
 
         // pipe gpg command
-        KgpgInterface *interface = new KgpgInterface();
+        KGpgTextInterface *interface = new KGpgTextInterface();
         interface->KgpgVerifyFile(url, KUrl(sigfile));
         connect(interface, SIGNAL(verifyquerykey(QString)), this, SLOT(importSignatureKey(QString)));
     }

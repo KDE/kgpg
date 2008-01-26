@@ -32,7 +32,7 @@
 
 #include "selectsecretkey.h"
 #include "kgpgsettings.h"
-#include "kgpginterface.h"
+#include "kgpgtextinterface.h"
 #include "keyservers.h"
 #include "kgpgeditor.h"
 #include "selectpublickeydialog.h"
@@ -105,7 +105,7 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 void KgpgTextEdit::slotEncode()
 {
     // TODO : goDefaultKey shortcut
-    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, 0, false, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), true);
+    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, 0, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), true);
     if (dialog->exec() == KDialog::Accepted)
     {
         QStringList options;
@@ -125,8 +125,8 @@ void KgpgTextEdit::slotEncode()
         if (!dialog->getSymmetric())
             listkeys = dialog->selectedKeys();
 
-        KgpgInterface *interface = new KgpgInterface();
-        connect(interface, SIGNAL(txtEncryptionFinished(QString, KgpgInterface*)), this, SLOT(slotEncodeUpdate(QString, KgpgInterface*)));
+        KGpgTextInterface *interface = new KGpgTextInterface();
+        connect(interface, SIGNAL(txtEncryptionFinished(QString, KGpgTextInterface*)), this, SLOT(slotEncodeUpdate(QString, KGpgTextInterface*)));
         interface->encryptText(toPlainText(), listkeys, options);
     }
     delete dialog;
@@ -148,9 +148,9 @@ void KgpgTextEdit::slotDecode()
         return;
     m_posend += endmsg.length();
 
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(slotDecodeUpdateSuccess(QString, KgpgInterface*)));
-    connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(slotDecodeUpdateFailed(QString, KgpgInterface*)));
+    KGpgTextInterface *interface = new KGpgTextInterface();
+    connect(interface, SIGNAL(txtDecryptionFinished(QByteArray, KGpgTextInterface*)), this, SLOT(slotDecodeUpdateSuccess(QByteArray, KGpgTextInterface*)));
+    connect(interface, SIGNAL(txtDecryptionFailed(QString, KGpgTextInterface*)), this, SLOT(slotDecodeUpdateFailed(QString, KGpgTextInterface*)));
     interface->decryptText(fullcontent.mid(m_posstart, m_posend - m_posstart), KGpgSettings::customDecrypt().simplified().split(" ", QString::SkipEmptyParts));
 }
 
@@ -173,8 +173,8 @@ void KgpgTextEdit::slotSign()
     if (KGpgSettings::pgpCompatibility())
         options << "--pgp6";
 
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(txtSigningFinished(QString, KgpgInterface*)), this, SLOT(slotSignUpdate(QString, KgpgInterface*)));
+    KGpgTextInterface *interface = new KGpgTextInterface();
+    connect(interface, SIGNAL(txtSigningFinished(QString, KGpgTextInterface*)), this, SLOT(slotSignUpdate(QString, KGpgTextInterface*)));
     interface->signText(toPlainText(), signkeyid, options);
 }
 
@@ -194,9 +194,9 @@ void KgpgTextEdit::slotVerify()
         return;
     posend += endmsg.length();
 
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(txtVerifyMissingSignature(QString, KgpgInterface*)), this, SLOT(slotVerifyKeyNeeded(QString, KgpgInterface*)));
-    connect(interface, SIGNAL(txtVerifyFinished(QString, QString, KgpgInterface*)), this, SLOT(slotVerifySuccess(QString, QString, KgpgInterface*)));
+    KGpgTextInterface *interface = new KGpgTextInterface();
+    connect(interface, SIGNAL(txtVerifyMissingSignature(QString, KGpgTextInterface*)), this, SLOT(slotVerifyKeyNeeded(QString, KGpgTextInterface*)));
+    connect(interface, SIGNAL(txtVerifyFinished(QString, QString, KGpgTextInterface*)), this, SLOT(slotVerifySuccess(QString, QString, KGpgTextInterface*)));
     interface->verifyText(fullcontent.mid(posstart, posend - posstart));
 }
 
@@ -229,9 +229,9 @@ void KgpgTextEdit::slotDecodeFile()
     }
     qfile.close();
 
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(txtDecryptionFinished(QString, KgpgInterface*)), this, SLOT(slotDecodeFileSuccess(QString, KgpgInterface*)));
-    connect(interface, SIGNAL(txtDecryptionFailed(QString, KgpgInterface*)), this, SLOT(slotDecodeFileFailed(QString, KgpgInterface*)));
+    KGpgTextInterface *interface = new KGpgTextInterface();
+    connect(interface, SIGNAL(txtDecryptionFinished(QByteArray, KGpgTextInterface*)), this, SLOT(slotDecodeFileSuccess(QByteArray, KGpgTextInterface*)));
+    connect(interface, SIGNAL(txtDecryptionFailed(QString, KGpgTextInterface*)), this, SLOT(slotDecodeFileFailed(QString, KGpgTextInterface*)));
     interface->KgpgDecryptFileToText(KUrl(m_tempfile), KGpgSettings::customDecrypt().simplified().split(" ", QString::SkipEmptyParts));
 }
 
@@ -299,21 +299,22 @@ bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)
     return false;
 }
 
-void KgpgTextEdit::slotDecodeFileSuccess(const QString &content, KgpgInterface *interface)
+void KgpgTextEdit::slotDecodeFileSuccess(const QByteArray &content, KGpgTextInterface *interface)
 {
     delete interface;
+#warning FIXME choose codec
     setPlainText(content);
     emit newText();
 }
 
-void KgpgTextEdit::slotDecodeFileFailed(const QString &content, KgpgInterface *interface)
+void KgpgTextEdit::slotDecodeFileFailed(const QString &content, KGpgTextInterface *interface)
 {
     delete interface;
     if (!slotCheckFile(false))
         KMessageBox::detailedSorry(this, i18n("Decryption failed."), content);
 }
 
-void KgpgTextEdit::slotEncodeUpdate(const QString &content, KgpgInterface *interface)
+void KgpgTextEdit::slotEncodeUpdate(const QString &content, KGpgTextInterface *interface)
 {
     delete interface;
     if (!content.isEmpty())
@@ -325,14 +326,14 @@ void KgpgTextEdit::slotEncodeUpdate(const QString &content, KgpgInterface *inter
         KMessageBox::sorry(this, i18n("Encryption failed."));
 }
 
-void KgpgTextEdit::slotDecodeUpdateSuccess(const QString &content, KgpgInterface *interface)
+void KgpgTextEdit::slotDecodeUpdateSuccess(const QByteArray &content, KGpgTextInterface *interface)
 {
     delete interface;
 
     QString decryptedcontent;
     if (checkForUtf8(content))
     {
-        decryptedcontent = QString::fromUtf8(content.toAscii());
+        decryptedcontent = QString::fromUtf8(content);
         emit resetEncoding(true);
     }
     else
@@ -348,13 +349,13 @@ void KgpgTextEdit::slotDecodeUpdateSuccess(const QString &content, KgpgInterface
     emit newText();
 }
 
-void KgpgTextEdit::slotDecodeUpdateFailed(const QString &content, KgpgInterface *interface)
+void KgpgTextEdit::slotDecodeUpdateFailed(const QString &content, KGpgTextInterface *interface)
 {
     delete interface;
     KMessageBox::detailedSorry(this, i18n("Decryption failed."), content);
 }
 
-void KgpgTextEdit::slotSignUpdate(const QString &content, KgpgInterface *interface)
+void KgpgTextEdit::slotSignUpdate(const QString &content, KGpgTextInterface *interface)
 {
     delete interface;
     if (content.isEmpty())
@@ -377,14 +378,14 @@ void KgpgTextEdit::slotSignUpdate(const QString &content, KgpgInterface *interfa
     emit newText();
 }
 
-void KgpgTextEdit::slotVerifySuccess(const QString &content, const QString &log, KgpgInterface *interface)
+void KgpgTextEdit::slotVerifySuccess(const QString &content, const QString &log, KGpgTextInterface *interface)
 {
     delete interface;
     emit verifyFinished();
     (void) new KgpgDetailedInfo(this, content, log);
 }
 
-void KgpgTextEdit::slotVerifyKeyNeeded(const QString &id, KgpgInterface *interface)
+void KgpgTextEdit::slotVerifyKeyNeeded(const QString &id, KGpgTextInterface *interface)
 {
     delete interface;
 

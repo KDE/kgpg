@@ -39,7 +39,7 @@ class KTemporaryFile;
 class KAction;
 
 class KgpgSelectPublicKeyDlg;
-class KgpgInterface;
+class KGpgTextInterface;
 class KeysManager;
 
 class KgpgWizard : public Q3Wizard, public Ui::KgpgWizard
@@ -89,8 +89,8 @@ public slots:
     void slotVerifyFile();
     void encryptDroppedFolder();
     void startFolderEncode();
-    void slotFolderFinished(const KUrl &, KgpgInterface *);
-    void slotFolderFinishedError(const QString &errmsge, KgpgInterface *);
+    void slotFolderFinished(const KUrl &, KGpgTextInterface *);
+    void slotFolderFinishedError(const QString &errmsge, KGpgTextInterface *);
     void encryptFiles(KUrl::List urls);
     void slotAbortEnc();
 

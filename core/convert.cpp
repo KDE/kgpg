@@ -24,6 +24,7 @@
 #include <KLocale>
 
 #include "kgpgsettings.h"
+#include "images.h"
 
 namespace KgpgCore
 {
@@ -153,6 +154,27 @@ KgpgKeyOwnerTrust Convert::toOwnerTrust(const QChar &c)
 KgpgKeyOwnerTrust Convert::toOwnerTrust(const QString &s)
 {
     return s.isEmpty() ? OWTRUST_UNDEFINED : toOwnerTrust(s[0]);
+}
+
+QPixmap Convert::toPixmap(const KgpgItemType &t)
+{
+    switch (t)
+    {
+        case ITYPE_GROUP:	return Images::group();
+        case ITYPE_GSECRET:
+        case ITYPE_SECRET:	return Images::orphan();
+        case ITYPE_GPUBLIC:
+        case ITYPE_SUB:
+        case ITYPE_PUBLIC:	return Images::single();
+        case ITYPE_GPAIR:
+        case ITYPE_PAIR:	return Images::pair();
+        case ITYPE_UID:		return Images::userId();
+        case ITYPE_UAT:		return Images::photo();
+        case ITYPE_REVSIGN:	return Images::revoke();
+        case ITYPE_SIGN:	return Images::signature();
+	default:		Q_ASSERT(1);
+				return NULL;
+    }
 }
 
 } // namespace KgpgCore

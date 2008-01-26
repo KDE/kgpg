@@ -22,6 +22,7 @@
 #include <QClipboard>
 #include <QPixmap>
 #include <Q3ListViewItem>
+#include <QTreeView>
 
 #include <KToggleAction>
 #include <K3ListViewSearchLine>
@@ -33,8 +34,9 @@
 #include "kgpgkey.h"
 #include "keylistview.h"
 #include "ui_adduid.h"
-#include "ui_groupedit.h"
 #include "kgpginterface.h"
+#include "kgpgitemmodel.h"
+#include "kgpgitemnode.h"
 
 class QCloseEvent;
 class QEvent;
@@ -43,6 +45,7 @@ class KSelectAction;
 class KPassivePopup;
 class KStatusBar;
 class KMenu;
+class KLineEdit;
 
 class KgpgInterface;
 class groupEdit;
@@ -50,15 +53,9 @@ class KeyServer;
 class KgpgEditor;
 class KeyServer;
 class KGpgTransaction;
-
-class groupEdit : public QWidget, public Ui::groupEdit
-{
-public:
-  groupEdit( QWidget *parent = 0 ) : QWidget( parent ) {
-    setupUi( this );
-  }
-};
-
+class KeyListProxyModel;
+class GroupEditProxyModel;
+class KeyTreeView;
 
 class AddUid : public QWidget, public Ui::AddUid
 {
@@ -74,6 +71,7 @@ class KeysManager : public KXmlGuiWindow
 
 public:
     KeysManager(QWidget *parent = 0);
+    ~KeysManager();
 
     KToggleAction *sTrust;
     KToggleAction *sCreat;
@@ -110,8 +108,6 @@ public slots:
 protected:
     void closeEvent(QCloseEvent *e);
     bool eventFilter(QObject *, QEvent *e);
-    bool isSignature(KeyListViewItem *);
-    bool isSignatureUnknown(KeyListViewItem *);
 
 private slots:
     void statusBarTimeout();
@@ -128,8 +124,8 @@ private slots:
     void slotAddUidFin(int res, KgpgInterface *interface);
     void slotDelPhotoFinished(int res, KgpgInterface *interface);
     void quitApp();
-    void slotToggleSecret();
-    void slotToggleDisabled();
+    void slotToggleSecret(bool);
+    void slotToggleDisabled(bool);
     void slotGotoDefaultKey();
     void slotDelUid();
     void slotPrimUid();
@@ -152,10 +148,8 @@ private slots:
     void slotProcessExportClip(const QString &keys);
     void readOptions();
     void slotSetDefKey();
-    void slotSetDefaultKey(KeyListViewItem *newdef);
-    void annule();
     void confirmdeletekey();
-    void deletekey();
+    void deletekey(const QStringList &keysToDelete);
     void deleteseckey();
     void signkey();
     void delsignkey();
@@ -163,43 +157,41 @@ private slots:
     void importsignkey(const QStringList &importKeyId);
     void importallsignkey();
     void importfinished();
-    void signatureResult(int success, KgpgInterface*);
+    void signatureResult(int success, const QString &keyId, KgpgInterface*);
     void delsignatureResult(bool);
-    void defaultAction();
+    void defaultAction(const QModelIndex &);
+    void showProperties(const QModelIndex &);
     void keyproperties();
     void slotexport();
     void slotexportsec();
 
-    void slotMenu(Q3ListViewItem *, const QPoint &, int);
+    void slotMenu(const QPoint &);
 
     void slotPreImportKey();
     void slotedit();
     void addToKAB();
     void editGroup();
-    void groupAdd();
-    void groupRemove();
-    void groupInit(const QStringList &keysGroup);
-    void groupChange();
     void createNewGroup();
     void deleteGroup();
     void slotImportRevoke(const QString &url);
     void slotImportRevokeTxt(const QString &revokeText);
     void refreshKeyFromServer();
-    void refreshFinished(const QStringList &ids);
     void slotregenerate();
     void reloadSecretKeys();
-    void getMissingSigs(QStringList *missingKeys, KeyListViewItem *item);
+    void getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *nd);
     void slotEditDone(int exitcode);
     void importRemoteFinished(KGpgTransaction *);
 
 private:
+    KGpgItemModel *imodel;
+    KeyListProxyModel *iproxy;
+    KeyTreeView *iview;
     KeyListView *keysList2;
 
-    QString globalkeyMail;
     QString globalkeyID;
     QString searchString;
 
-    QList<KeyListViewItem*> signList;
+    QList<KGpgNode *> signList;
     QList<KeyListViewItem*> keysList;
 
     QClipboard::Mode m_clipboardmode;
@@ -217,31 +209,30 @@ private:
     KPassivePopup *pop;
     KStatusBar *m_statusbar;
 
-    KeyListViewSearchLine* m_listviewsearch;
+    KLineEdit *m_listviewsearch;
     KDialog *addUidWidget;
 
     QAction *importSignatureKey;
     QAction *importAllSignKeys;
     QAction *signKey;
     QAction *refreshKey;
+    QAction *editKey;
     QAction *setPrimUid;
     QAction *delSignKey;
     QAction *deleteKey;
     QAction *editCurrentGroup;
     QAction *delGroup;
+    QAction *setDefaultKey;
 
     KeyServer *kServer;
-    groupEdit *gEdit;
     KgpgInterface *revKeyProcess;
 
     bool continueSearch;
-    bool showPhoto;
     bool globalisLocal;
     bool showTipOfDay;
     bool m_isterminal;
 
-    uint globalCount;
-    uint keyCount;
+    int keyCount;
     int globalChecked;
 
     long searchOptions;

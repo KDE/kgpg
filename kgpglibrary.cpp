@@ -36,6 +36,7 @@
 #include "selectpublickeydialog.h"
 #include "kgpgsettings.h"
 #include "kgpginterface.h"
+#include "kgpgtextinterface.h"
 
 using namespace KgpgCore;
 
@@ -61,7 +62,7 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, c
             if (urls.count() > 1)
                 fileNames += ",...";
 
-            KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, fileNames, true, goDefaultKey);
+            KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, fileNames, goDefaultKey);
             if (dialog->exec() == KDialog::Accepted)
             {
                 QStringList options;
@@ -131,9 +132,9 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
 
     m_pop = new KPassivePopup(m_panel);
 
-    KgpgInterface *cryptFileProcess = new KgpgInterface();
-    connect(cryptFileProcess, SIGNAL(fileEncryptionFinished(KUrl, KgpgInterface*)), this, SLOT(processEnc(KUrl, KgpgInterface*)));
-    connect(cryptFileProcess, SIGNAL(errorMessage(QString, KgpgInterface*)), this, SLOT(processEncError(QString, KgpgInterface*)));
+    KGpgTextInterface *cryptFileProcess = new KGpgTextInterface();
+    connect(cryptFileProcess, SIGNAL(fileEncryptionFinished(KUrl, KGpgTextInterface*)), this, SLOT(processEnc(KUrl, KGpgTextInterface*)));
+    connect(cryptFileProcess, SIGNAL(errorMessage(QString, KGpgTextInterface*)), this, SLOT(processEncError(QString, KGpgTextInterface*)));
     cryptFileProcess->encryptFile(encryptkeys, m_urlselected, dest, encryptoptions, symetric);
 
     if (!m_popisactive)
@@ -144,7 +145,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
 
 }
 
-void KgpgLibrary::processEnc(const KUrl &, KgpgInterface *i)
+void KgpgLibrary::processEnc(const KUrl &, KGpgTextInterface *i)
 {
     delete i;
     emit systemMessage(QString());
@@ -157,7 +158,7 @@ void KgpgLibrary::processEnc(const KUrl &, KgpgInterface *i)
         emit encryptionOver();
 }
 
-void KgpgLibrary::processEncError(const QString &mssge, KgpgInterface *i)
+void KgpgLibrary::processEncError(const QString &mssge, KGpgTextInterface *i)
 {
     delete i;
     m_popisactive = false;
@@ -171,7 +172,7 @@ void KgpgLibrary::slotFileDec(const KUrl &src, const KUrl &dest, const QStringLi
     m_pop = new KPassivePopup();
     m_urlselected = src;
 
-    KgpgInterface *decryptFileProcess = new KgpgInterface();
+    KGpgTextInterface *decryptFileProcess = new KGpgTextInterface();
     decryptFileProcess->decryptFile(src, dest, customDecryptOption);
     connect(decryptFileProcess, SIGNAL(decryptFileStarted(KUrl)), this, SLOT(processEncPopup(KUrl)));
     connect(decryptFileProcess, SIGNAL(decryptFileFinished(int, KgpgInterface*)), this, SLOT(processDecOver()));
