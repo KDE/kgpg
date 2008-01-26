@@ -731,7 +731,7 @@ void KeysManager::slotDelUid()
 void KeysManager::slotPrimUid()
 {
     KGpgNode *nd = iview->selectedNode();
-    Q_ASSERT(nd->getType() == ITYPE_UAT);
+    Q_ASSERT(nd->getType() == ITYPE_UID);
 
     QProcess *process = new QProcess(this);
     KConfigGroup config(KGlobal::config(), "General");
