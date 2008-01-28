@@ -1477,82 +1477,65 @@ void KgpgInterface::deletePhotoFin(GPGProc *p)
 
 void KgpgInterface::importKey(const QString &keystr)
 {
-    m_partialline.clear();
-    m_ispartial = false;
     message.clear();
 
-    K3ProcIO *process = gpgProc(2);
-    process->setParent(this);
+    GPGProc *process = new GPGProc(this);
+    *process << "--status-fd=1";
     *process << "--import";
     *process << "--allow-secret-key-import";
 
-    kDebug(2100) << "Import a key (text)";
-    connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(importKeyProcess(K3ProcIO *)));
-    connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(importKeyFinished(K3Process *)));
-    process->start(K3Process::NotifyOnExit, true);
+    connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(importKeyProcess(GPGProc *)));
+    connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(importKeyFinished(GPGProc *)));
+    process->start();
 
-    process->writeStdin(keystr, true);
-    process->closeWhenDone();
+    process->write(keystr.toAscii() + '\n');
+    process->closeWriteChannel();
 }
 
 void KgpgInterface::importKey(const KUrl &url)
 {
-    m_partialline.clear();
-    m_ispartial = false;
-    message.clear();
+	message.clear();
 
-    if(KIO::NetAccess::download(url, m_tempkeyfile, 0))
-    {
-        K3ProcIO *process = gpgProc(2);
-        process->setParent(this);
-        *process << "--import";
-        *process << "--allow-secret-key-import";
-        *process << m_tempkeyfile;
+	GPGProc *process = new GPGProc(this);
+	*process << "--status-fd=1";
+	*process << "--import";
+	*process << "--allow-secret-key-import";
+	connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(importKeyProcess(GPGProc *)));
 
-        kDebug(2100) << "Import a key (file)";
-        connect(process, SIGNAL(readReady(K3ProcIO *)), this, SLOT(importKeyProcess(K3ProcIO *)));
-        connect(process, SIGNAL(processExited(K3Process *)), this, SLOT(importURLover(K3Process *)));
-        process->start(K3Process::NotifyOnExit, true);
-    }
+	if ( url.isLocalFile() ) {
+		*process << url.path();
+		connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(importKeyFinished(GPGProc *)));
+	} else {
+		if (KIO::NetAccess::download(url, m_tempkeyfile, 0)) {
+			*process << m_tempkeyfile;
+
+			connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(importURLover(GPGProc *)));
+		} else {
+			delete process;
+			KMessageBox::error(0, KIO::NetAccess::lastErrorString() );
+			return;
+		}
+	}
+	process->start();
 }
 
-void KgpgInterface::importURLover(K3Process *p)
+void KgpgInterface::importURLover(GPGProc *p)
 {
     KIO::NetAccess::removeTempFile(m_tempkeyfile);
     importKeyFinished(p);
 }
 
-void KgpgInterface::importKeyProcess(K3ProcIO *p)
+void KgpgInterface::importKeyProcess(GPGProc *p)
 {
     QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
-            if (line.contains("http-proxy"))
+    while (p->readln(line, true) >= 0) {
+            if (!line.contains("http-proxy"))
                 message += line + '\n';
-        }
     }
-    p->ackRead();
 }
 
-void KgpgInterface::importKeyFinished(K3Process *p)
+void KgpgInterface::importKeyFinished(GPGProc *p)
 {
     delete p;
 

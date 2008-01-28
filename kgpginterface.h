@@ -343,8 +343,8 @@ private slots:
     /**
      * Read output of the import process
      */
-    void importKeyProcess(K3ProcIO *p);
-    void importKeyFinished(K3Process *p);
+    void importKeyProcess(GPGProc *p);
+    void importKeyFinished(GPGProc *p);
 
 private:
     QString m_tempkeyfile;
@@ -537,7 +537,7 @@ private slots:
     /**
      * Checks output of the import process
      */
-    void importURLover(K3Process *p);
+    void importURLover(GPGProc *p);
 
 signals:
     /**
