@@ -245,6 +245,8 @@ void KeyServer::slotUploadKeysFinished(QString message, KgpgInterface *interface
 
     QApplication::restoreOverrideCursor();
 
+    if (message.isEmpty())
+	message = i18n("Upload to keyserver finished without errors");
     KMessageBox::information(this, message);
 }
 

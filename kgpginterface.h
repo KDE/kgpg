@@ -480,11 +480,11 @@ public slots:
     void uploadKeysAbort();
 
 private slots:
-    void uploadKeysProcess(K3ProcIO *p);
-    void uploadKeysFin(K3Process *p);
+    void uploadKeysProcess(GPGProc *p);
+    void uploadKeysFin(GPGProc *p);
 
 private:
-    K3ProcIO *m_uploadprocess;
+    GPGProc *m_uploadprocess;
     QString m_uploadkeys_log;
 
 /********************************************************/

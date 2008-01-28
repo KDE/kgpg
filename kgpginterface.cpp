@@ -1890,18 +1890,17 @@ void KgpgInterface::downloadKeysFin(GPGProc *p)
 
 void KgpgInterface::uploadKeys(const QStringList &keys, const QString &keyserver, const QString &attributes, const QString &proxy)
 {
-    m_partialline.clear();
-    m_ispartial = false;
     m_uploadkeys_log.clear();
 
-    m_uploadprocess = gpgProc(1, 0);
+    m_uploadprocess = new GPGProc(this);
+    *m_uploadprocess << "--status-fd=1";
 
     if (proxy.isEmpty())
         *m_uploadprocess << "--keyserver-options" << "no-honor-http-proxy";
     else
     {
         *m_uploadprocess << "--keyserver-options" << "honor-http-proxy";
-        m_uploadprocess->setEnvironment("http_proxy", proxy);
+        m_uploadprocess->setEnvironment(QStringList("http_proxy=" + proxy));
     }
 
     *m_uploadprocess << "--keyserver" << keyserver;
@@ -1913,14 +1912,14 @@ void KgpgInterface::uploadKeys(const QStringList &keys, const QString &keyserver
     *m_uploadprocess << "--send-keys";
     *m_uploadprocess << keys;
 
-    connect(m_uploadprocess, SIGNAL(processExited(K3Process *)), this, SLOT(uploadKeysFin(K3Process *)));
-    connect(m_uploadprocess, SIGNAL(readReady(K3ProcIO *)), this, SLOT(uploadKeysProcess(K3ProcIO *)));
-    m_uploadprocess->start(K3Process::NotifyOnExit, true);
+    connect(m_uploadprocess, SIGNAL(processExited(GPGProc *)), this, SLOT(uploadKeysFin(GPGProc *)));
+    connect(m_uploadprocess, SIGNAL(readReady(GPGProc *)), this, SLOT(uploadKeysProcess(GPGProc *)));
+    m_uploadprocess->start();
 }
 
 void KgpgInterface::uploadKeysAbort()
 {
-    if (m_uploadprocess && m_uploadprocess->isRunning())
+    if (m_uploadprocess && (m_uploadprocess->state() == QProcess::Running))
     {
         disconnect(m_uploadprocess, 0, 0, 0);
         m_uploadprocess->kill();
@@ -1932,38 +1931,17 @@ void KgpgInterface::uploadKeysAbort()
     }
 }
 
-void KgpgInterface::uploadKeysProcess(K3ProcIO *p)
+void KgpgInterface::uploadKeysProcess(GPGProc *p)
 {
-    QString line;
-    bool partial = false;
-    while (p->readln(line, false, &partial) != -1)
-    {
-        if (partial == true)
-        {
-            m_partialline += line;
-            m_ispartial = true;
-            partial = false;
-        }
-        else
-        {
-            if (m_ispartial)
-            {
-                m_partialline += line;
-                line = m_partialline;
+	QString line;
 
-                m_partialline = "";
-                m_ispartial = false;
-            }
-
-            if (line.startsWith("gpg: "))
-                m_uploadkeys_log += line.mid(5) + '\n';
-        }
-    }
-
-    p->ackRead();
+	while (p->readln(line, true) >= 0) {
+		if (line.startsWith("gpg: "))
+			m_uploadkeys_log += line.mid(5) + '\n';
+	}
 }
 
-void KgpgInterface::uploadKeysFin(K3Process *p)
+void KgpgInterface::uploadKeysFin(GPGProc *p)
 {
     delete p;
     m_uploadprocess = 0;
