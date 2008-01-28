@@ -27,8 +27,6 @@
 #include <kgpgkey.h>
 
 class KTemporaryFile;
-class K3Process;
-class K3ProcIO;
 class KProcess;
 class GPGProc;
 
@@ -554,7 +552,6 @@ private:
     QString userIDs;
     QString log;
     KProcess *editprocess;
-    static K3ProcIO *gpgProc(const int &statusfd = -1, const int &cmdfd = -1);
 
     /**
      * @internal structure for communication

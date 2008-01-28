@@ -30,7 +30,6 @@
 #include <knewpassworddialog.h>
 #include <KLocale>
 #include <KCodecs>
-#include <K3ProcIO>
 #include <KProcess>
 #include <KConfig>
 #include <KDebug>
@@ -2075,20 +2074,6 @@ void KgpgInterface::revokeprocess(GPGProc *p)
 
 		}
 	}
-}
-
-K3ProcIO *KgpgInterface::gpgProc(const int &statusfd, const int &cmdfd)
-{
-    K3ProcIO *process = new K3ProcIO(QTextCodec::codecForName("utf8"));
-    *process << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--no-tty";
-
-    if (statusfd >= 0)
-        *process << "--status-fd=" + QString::number(statusfd);
-
-    if (cmdfd >= 0)
-        *process << "--command-fd=" + QString::number(cmdfd);
-
-    return process;
 }
 
 void KgpgInterface::findSigns(const QString &keyID, const QStringList &ids, const QString &uid, QList<int> *res)
