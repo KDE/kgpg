@@ -62,12 +62,7 @@ public:
     static bool getGpgBoolSetting(const QString &name, const QString &configfile);
     static void setGpgBoolSetting(const QString &name, const bool &enable, const QString &url);
 
-    static int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true);
-
 /************** function to send a passphrase to gpg **************/
-private:
-    KProcess *m_workProcess;
-
     /**
      * @param text text is the message that must be displayed in the MessageBox
      * @param process gnupg process
@@ -75,8 +70,10 @@ private:
      * @return 0 if there is no error
      * @return 1 if there is an error
      */
-    int sendPassphrase(const QString &text, K3ProcIO *process, const bool isnew = true);
-/******************************************************************/
+    static int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true);
+
+private:
+    KProcess *m_workProcess;
 
 
 /************** function update the userIDs variable **************/
