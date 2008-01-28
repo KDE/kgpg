@@ -717,8 +717,8 @@ public slots:
     void KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID);
 
     void KgpgRevokeKey(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description);
-    void revokeover(K3Process *);
-    void revokeprocess(K3ProcIO *p);
+    void revokeover(GPGProc *);
+    void revokeprocess(GPGProc *p);
 
 
 private slots:

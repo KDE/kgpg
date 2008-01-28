@@ -3082,22 +3082,24 @@ void KgpgInterface::delsignover(K3Process *)
 
 void KgpgInterface::KgpgRevokeKey(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description)
 {
-        revokeReason=reason;
-        revokeSuccess=false;
-        revokeDescription=description;
-        certificateUrl=revokeUrl;
-        output.clear();
-        K3ProcIO *conprocess = gpgProc(2, 0);
-        *conprocess << "--logger-fd=2";
-        if (!revokeUrl.isEmpty())
-                *conprocess<<"-o"<<revokeUrl;
-        *conprocess<<"--gen-revoke"<<keyID;
-        QObject::connect(conprocess, SIGNAL(processExited(K3Process *)),this, SLOT(revokeover(K3Process *)));
-        QObject::connect(conprocess, SIGNAL(readReady(K3ProcIO *)),this, SLOT(revokeprocess(K3ProcIO *)));
-        conprocess->start(K3Process::NotifyOnExit,true);
+	revokeReason=reason;
+	revokeSuccess=false;
+	revokeDescription=description;
+	certificateUrl=revokeUrl;
+	output.clear();
+
+	GPGProc *process = new GPGProc(this);
+	*process << "--status-fd=1" << "--command-fd=0";
+
+	if (!revokeUrl.isEmpty())
+		*process << "-o" << revokeUrl;
+	*process << "--gen-revoke" << keyID;
+	QObject::connect(process, SIGNAL(processExited(GPGProc *)),this, SLOT(revokeover(GPGProc *)));
+	QObject::connect(process, SIGNAL(readReady(GPGProc *)),this, SLOT(revokeprocess(GPGProc *)));
+	process->start();
 }
 
-void KgpgInterface::revokeover(K3Process *)
+void KgpgInterface::revokeover(GPGProc *)
 {
         if (!revokeSuccess)
                 KMessageBox::detailedSorry(0,i18n("Creation of the revocation certificate failed..."),output);
@@ -3111,55 +3113,42 @@ void KgpgInterface::revokeover(K3Process *)
         }
 }
 
-void KgpgInterface::revokeprocess(K3ProcIO *p)
+void KgpgInterface::revokeprocess(GPGProc *p)
 {
-        QString required = QString();
-        while (p->readln(required,true)!=-1) {
-                output += required + '\n';
+	QString required = QString();
 
-                if (required.contains("USERID_HINT",Qt::CaseInsensitive))
-                    updateIDs(required);
+	while (p->readln(required) >= 0) {
+		output += required + '\n';
 
-                if (required.contains("GOOD_PASSPHRASE"))
-                        revokeSuccess=true;
+		if (required.contains("USERID_HINT",Qt::CaseInsensitive)) {
+			updateIDs(required);
 
-                if (required.contains("gen_revoke.okay") || required.contains("ask_revocation_reason.okay") || required.contains("openfile.overwrite.okay")) {
-                        p->writeStdin(QByteArray("YES"));
-                        required.clear();
-                }
+		} else if (required.contains("GOOD_PASSPHRASE")) {
+			revokeSuccess=true;
 
-                if (required.contains("ask_revocation_reason.code")) {
-                        p->writeStdin(QString::number(revokeReason));
-                        required.clear();
-                }
+		} else if (required.contains("gen_revoke.okay") ||
+					required.contains("ask_revocation_reason.okay") ||
+					required.contains("openfile.overwrite.okay")) {
+			p->write("YES\n");
+		} else if (required.contains("ask_revocation_reason.code")) {
+			p->write(QString::number(revokeReason).toAscii() + '\n');
+		} else if (required.contains("passphrase.enter")) {
+			if (sendPassphrase(i18n("<qt>Enter passphrase for <b>%1</b>:</qt>", checkForUtf8bis(userIDs)), p)) {
+				expSuccess=3;  //  aborted by user mode
+				p->write("quit\n");
+				return;
+			}
+		} else if (required.contains("ask_revocation_reason.text")) {
+			p->write(revokeDescription.toAscii() + '\n');
+			revokeDescription.clear();
+		} else if ((required.contains("GET_"))) {
+			// gpg asks for something unusal, turn to konsole mode
+			kDebug(2100) << "unknown request:" << required;
+			expSuccess=1;  /////  switching to console mode
+			p->write("quit\n");
 
-                if (required.contains("passphrase.enter"))
-                {
-                    if (sendPassphrase(i18n("<qt>Enter passphrase for <b>%1</b>:</qt>", checkForUtf8bis(userIDs)), p))
-                    {
-                                expSuccess=3;  /////  aborted by user mode
-                                p->writeStdin(QByteArray("quit"));
-                                p->closeWhenDone();
-                                return;
-                        }
-                        required.clear();
-
-                }
-                if (required.contains("ask_revocation_reason.text")) {
-                        //      kDebug(2100)<<"description";
-                        p->writeStdin(revokeDescription);
-                        revokeDescription.clear();
-                        required.clear();
-                }
-                if ((required.contains("GET_"))) /////// gpg asks for something unusal, turn to konsole mode
-                {
-                        kDebug(2100)<<"unknown request";
-                        expSuccess=1;  /////  switching to console mode
-                        p->writeStdin(QByteArray("quit"));
-                        p->closeWhenDone();
-
-                }
-        }
+		}
+	}
 }
 
 K3ProcIO *KgpgInterface::gpgProc(const int &statusfd, const int &cmdfd)
