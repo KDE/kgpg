@@ -100,7 +100,7 @@ public:
     /**
     * Recode a line from GnuPG encoding to UTF8
     *
-    * @param colons a data to recode
+    * @param a data to recode
     * @param colons recode also colons
     * @return recoded string
     */
@@ -110,13 +110,13 @@ signals:
     /**
      * Emitted when the process is ready for reading.
      * The signal is only emitted if at least one complete line of data is ready.
-     * @param pio the process that emitted the signal
+     * @param p the process that emitted the signal
      */
     void readReady(GPGProc *p);
 
     /**
      * Emitted when the process has finished
-     * @param pio the process that emitted the signal
+     * @param p the process that emitted the signal
      */
     void processExited(GPGProc *p);
 
