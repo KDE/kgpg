@@ -2093,16 +2093,18 @@ K3ProcIO *KgpgInterface::gpgProc(const int &statusfd, const int &cmdfd)
 
 void KgpgInterface::findSigns(const QString &keyID, const QStringList &ids, const QString &uid, QList<int> *res)
 {
-	K3ProcIO* listproc = gpgProc(1);
+	GPGProc *listproc = new GPGProc(this);
+	*listproc << "--status-fd=1";
 	*listproc << "--with-colons" << "--list-sigs" << keyID;
-	listproc->start(K3Process::Block, false);
+	listproc->start();
+	listproc->waitForFinished(-1);
 
 	QString line;
 	int curuid = 1;
 	int signs = 0;
 	int tgtuid = uid.toInt();
 
-	while (listproc->readln(line, true) != -1) {
+	while (listproc->readln(line, true) >= 0) {
 		if (line.startsWith("sig:") && (tgtuid == curuid)) {
 			if (ids.contains(line.section(':', 4, 4), Qt::CaseInsensitive))
 				*res << signs;
@@ -2111,6 +2113,8 @@ void KgpgInterface::findSigns(const QString &keyID, const QStringList &ids, cons
 			curuid++;
 		}
 	}
+
+	delete listproc;
 }
 
 #include "kgpginterface.moc"
