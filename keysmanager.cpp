@@ -118,6 +118,10 @@ KeysManager::KeysManager(QWidget *parent)
 
     QAction *action = 0;
 
+    action = actionCollection()->addAction( "default" );
+    connect(action, SIGNAL(triggered(bool)), SLOT(slotDefaultAction()));
+    action->setShortcut(QKeySequence(Qt::Key_Return));
+
     action = actionCollection()->addAction( "key_server" );
     action->setText( i18n("&Key Server Dialog") );
     action->setIcon( KIcon("network-server") );
@@ -165,7 +169,6 @@ KeysManager::KeysManager(QWidget *parent)
     infoKey->setIcon(KIcon("document-properties-key"));
     infoKey->setText(i18n("K&ey properties"));
     connect(infoKey, SIGNAL(triggered(bool)), SLOT(keyproperties()));
-    infoKey->setShortcut(QKeySequence(Qt::Key_Return));
 
     editKey = actionCollection()->addAction("key_edit");
     editKey->setIcon(KIcon("utilities-terminal"));
@@ -382,8 +385,6 @@ KeysManager::KeysManager(QWidget *parent)
     KConfigGroup cg = KConfigGroup(KGlobal::config().data(), "KeyView");
     iview->restoreLayout(cg);
 
-#warning port me
-//     connect(keysList2, SIGNAL(returnPressed(Q3ListViewItem *)), this, SLOT(defaultAction()));
     connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
 
     // get all keys data
@@ -1481,6 +1482,16 @@ void KeysManager::defaultAction(const QModelIndex &index)
 {
 	KGpgNode *nd = iproxy->nodeForIndex(index);
 
+	defaultAction(nd);
+}
+
+void KeysManager::slotDefaultAction()
+{
+	defaultAction(iview->selectedNode());
+}
+
+void KeysManager::defaultAction(KGpgNode *nd)
+{
 	switch (nd->getType()) {
 	case ITYPE_GROUP:
 		editGroup();
@@ -1499,16 +1510,14 @@ void KeysManager::defaultAction(const QModelIndex &index)
 		break;
 	case ITYPE_PAIR:
 	case ITYPE_PUBLIC:
-		showProperties(index);
+		showProperties(nd);
 		return;
         }
 }
 
 void
-KeysManager::showProperties(const QModelIndex &index)
+KeysManager::showProperties(KGpgNode *n)
 {
-	KGpgNode *n = imodel->nodeForIndex(iproxy->mapToSource(index));
-
 	switch (n->getType()) {
 	case ITYPE_UAT:
 		return;
