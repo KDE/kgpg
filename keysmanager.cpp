@@ -2010,7 +2010,8 @@ void KeysManager::confirmdeletekey()
 	KgpgCore::KgpgItemType pt;
 	bool same;
 	QList<KGpgNode *> ndlist = iview->selectedNodes(&same, &pt);
-	Q_ASSERT(!ndlist.isEmpty());
+	if (ndlist.isEmpty())
+		return;
 
 	// do not delete a key currently edited in terminal
 	if (((pt == ITYPE_PUBLIC) || (pt == ITYPE_PAIR)) && (ndlist.at(0)->getId() == terminalkey) && (ndlist.count() == 1)) {
