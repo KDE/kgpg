@@ -24,8 +24,7 @@
 #include "ui_searchres.h"
 #include "ui_keyserver.h"
 
-class K3ProcIO;
-class K3Process;
+class GPGProc;
 
 class keyServerWidget : public QWidget, public Ui::keyServerWidget
 {
@@ -77,8 +76,6 @@ public slots:
 
     void slotExport(const QString &keyId);
 
-    void slotSearch();
-    void slotAbortSearch();
     void slotSetText(const QString &text);
     void slotTextChanged(const QString &text);
     void slotSetExportAttribute(const QString *attr);
@@ -98,8 +95,10 @@ private slots:
     void slotDownloadKeysFinished(QList<int> results, QStringList keys, bool imported, QString log, KgpgInterface *interface);
     void slotUploadKeysFinished(QString message, KgpgInterface *interface);
 
-    void slotSearchRead(K3ProcIO *p);
-    void slotSearchResult(K3Process *p);
+    void slotSearchRead(GPGProc *p);
+    void slotSearchResult(GPGProc *p);
+    void slotSearch();
+    void slotAbortSearch();
 
 private:
     KDialog *m_importpop;
@@ -107,7 +106,7 @@ private:
     QTreeWidgetItem *m_kitem;
 
     KDialog *m_dialogserver;
-    K3ProcIO *m_searchproc;
+    GPGProc *m_searchproc;
 
     keyServerWidget *page;
     searchRes *m_listpop;
@@ -119,7 +118,6 @@ private:
     QString expattr;
 
     void CreateUidEntry(void);
-    K3ProcIO *createGPGProc(QStringList *keys);
 };
 
 #endif // KEYSERVERS_H

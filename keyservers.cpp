@@ -25,13 +25,13 @@
 #include <KMessageBox>
 #include <KComboBox>
 #include <KLocale>
-#include <K3ProcIO>
 #include <KDebug>
 #include <KDateTime>
 
 #include "kgpgsettings.h"
 #include "detailedconsole.h"
 #include "convert.h"
+#include "gpgproc.h"
 
 
 using namespace KgpgCore;
@@ -63,6 +63,8 @@ ConnectionDialog::ConnectionDialog(QWidget *parent)
 KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoclose)
          : KDialog(parent)
 {
+    m_searchproc = NULL;
+
     setCaption(i18n("Key Server"));
     setButtons(Close);
     setDefaultButton(Close);
@@ -261,6 +263,10 @@ void KeyServer::slotSearch()
         return;
     }
 
+	page->Buttonsearch->setEnabled(false);
+	if (m_searchproc)
+		return;
+
     //m_listpop = new KeyServer( this,"result",WType_Dialog | WShowModal);
 
     m_dialogserver = new KDialog(this );
@@ -291,16 +297,24 @@ void KeyServer::slotSearch()
     m_kitem = NULL;
 
     QString keyserv = page->kCBimportks->currentText();
-    QStringList *args = new QStringList();
 
-    *args << "--command-fd=0" << "--with-colons"<< "--search-keys"  << page->kLEimportid->text().simplified().toLocal8Bit();
+	bool useproxy = page->cBproxyI->isChecked();
+	QString proxy = page->kLEproxyI->text();
 
-    m_searchproc = createGPGProc(args);
+	m_searchproc = new GPGProc(this);
 
-    m_keynumbers = 0;
-    connect(m_searchproc, SIGNAL(processExited(K3Process *)), this, SLOT(slotSearchResult(K3Process *)));
-    connect(m_searchproc, SIGNAL(readReady(K3ProcIO *)), this, SLOT(slotSearchRead(K3ProcIO *)));
-    m_searchproc->start(K3Process::NotifyOnExit, true);
+	if (useproxy) {
+		m_searchproc->setEnvironment(QStringList("http_proxy=" + proxy));
+		*m_searchproc << "--keyserver-options" << "honor-http-proxy";
+	} else
+		*m_searchproc << "--keyserver-options" << "no-honor-http-proxy";
+	*m_searchproc << "--keyserver" << keyserv << "--status-fd=1" << "--command-fd=0";
+	*m_searchproc << "--with-colons"<< "--search-keys"  << page->kLEimportid->text().simplified().toLocal8Bit();
+
+	m_keynumbers = 0;
+	connect(m_searchproc, SIGNAL(processExited(GPGProc *)), this, SLOT(slotSearchResult(GPGProc *)));
+	connect(m_searchproc, SIGNAL(readReady(GPGProc *)), this, SLOT(slotSearchRead(GPGProc *)));
+	m_searchproc->start();
 
     QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
     m_dialogserver->setMainWidget(m_listpop);
@@ -310,6 +324,16 @@ void KeyServer::slotSearch()
 
 void KeyServer::slotAbortSearch()
 {
+	if (m_searchproc != NULL) {
+		if (m_searchproc->state() == QProcess::Running) {
+			QApplication::restoreOverrideCursor();
+			disconnect(m_searchproc, 0, 0, 0);
+			m_searchproc->kill();
+		}
+		delete m_searchproc;
+		m_searchproc = NULL;
+	}
+
     if (m_dialogserver)
     {
         delete m_dialogserver;
@@ -317,27 +341,17 @@ void KeyServer::slotAbortSearch()
     }
 }
 
-void KeyServer::slotSearchRead(K3ProcIO *p)
+void KeyServer::slotSearchRead(GPGProc *p)
 {
     QString required;
-    while (p->readln(required, true) != -1)
-    {
-        //required=QString::fromUtf8(required);
-        if (required.contains("keysearch.prompt"))
-        {
+
+    while (p->readln(required, true) >= 0) {
+        if (required.contains("keysearch.prompt")) {
             if (m_count < 4)
-                p->writeStdin(QByteArray("N"), true);
+                p->write("N\n");
             else
-            {
-                p->writeStdin(QByteArray("Q"), true);
-                p->closeWhenDone();
-            }
-
-            required.clear();
-        }
-
-        if (required.contains("GOT_IT"))
-        {
+                p->write("Q\n");
+        } else if (required.contains("GOT_IT")) {
             m_count++;
             required.clear();
         } else if (required.startsWith("pub")) {
@@ -357,17 +371,19 @@ void KeyServer::slotSearchRead(K3ProcIO *p)
               m_keynumbers++;
             }
             m_count = 0;
-            required.clear();
         }
     }
 }
 
-void KeyServer::slotSearchResult(K3Process *)
+void KeyServer::slotSearchResult(GPGProc *p)
 {
     // add last key id
     if (m_kitem != NULL)
       CreateUidEntry();
 
+	delete m_searchproc;
+	m_searchproc = NULL;
+	page->Buttonsearch->setEnabled(true);
     QString nb;
     m_dialogserver->enableButtonOk(true);
     QApplication::restoreOverrideCursor();
@@ -476,42 +492,16 @@ QStringList KeyServer::getServerList()
 
 void KeyServer::handleQuit()
 {
-    if (m_searchproc->isRunning())
-    {
-        QApplication::restoreOverrideCursor();
-        disconnect(m_searchproc, 0, 0, 0);
-        m_searchproc->kill();
-    }
+	if (m_searchproc != NULL) {
+		if (m_searchproc->state() == QProcess::Running) {
+			QApplication::restoreOverrideCursor();
+			disconnect(m_searchproc, 0, 0, 0);
+			m_searchproc->kill();
+		}
+		delete m_searchproc;
+		m_searchproc = NULL;
+	}
     m_dialogserver->close();
-}
-
-/**
- * createGPGProc - create ProcIO object for keyserver connection
- * @args: extra arguments passed to GPG. Object will be deleted here.
- */
-K3ProcIO *KeyServer::createGPGProc(QStringList *args)
-{
-    K3ProcIO *gp = new K3ProcIO();
-
-    QString keyserv = page->kCBimportks->currentText();
-    bool useproxy = page->cBproxyI->isChecked();
-    QString proxy = page->kLEproxyI->text();
-
-    *gp << KGpgSettings::gpgBinaryPath();
-
-    if (useproxy)
-    {
-        gp->setEnvironment("http_proxy", proxy);
-        *gp << "--keyserver-options" << "honor-http-proxy";
-    }
-    else
-        *gp << "--keyserver-options" << "no-honor-http-proxy";
-    *gp << "--keyserver" << keyserv << "--status-fd=2";
-
-    *gp << *args;
-    delete args;
-
-    return gp;
 }
 
 void KeyServer::slotSetKeyserver(const QString &server)
