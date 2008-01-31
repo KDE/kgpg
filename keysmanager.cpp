@@ -429,7 +429,9 @@ KeysManager::KeysManager(QWidget *parent)
     m_statusbar->setItemAlignment(0, Qt::AlignLeft);
     m_statusbar->changeItem("", 1);
 
+#ifndef _MSC_VER
 #warning port me
+#endif
 //     connect(keysList2, SIGNAL(statusMessage(QString, int, bool)), this, SLOT(changeMessage(QString, int, bool)));
     connect(m_statusbartimer, SIGNAL(timeout()), this, SLOT(statusBarTimeout()));
 
