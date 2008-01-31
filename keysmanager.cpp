@@ -898,7 +898,9 @@ void KeysManager::findFirstKey()
         return;
 
 return;
+#ifndef_MSC_VER
 #warning port me
+#endif
     bool foundItem = true;
     KeyListViewItem *item = keysList2->firstChild();
     if (!item)
@@ -944,7 +946,9 @@ void KeysManager::findNextKey()
     }
 return;
 
+#ifndef _MSC_VER
 #warning port me
+#endif
     bool foundItem = true;
     KeyListViewItem *item = keysList2->currentItem();
     if (!item)
@@ -1204,7 +1208,9 @@ KeysManager::slotMenu(const QPoint &pos)
 	importAllSignKeys->setEnabled(unksig);
 
 	if (itype == ITYPE_SIGN) {
+#ifndef _MSC_VER
 #warning port me
+#endif
 // 		importSignatureKey->setEnabled(allunksig);
 		delSignKey->setEnabled( (cnt == 1) );
 		m_popupsig->exec(globpos);
