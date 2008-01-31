@@ -106,7 +106,7 @@ KeyTreeView::saveLayout(KConfigGroup &cg) const
 		widths << QString::number(columnWidth(i));
 	}
 	cg.writeEntry("ColumnWidths", widths);
-#ifndef _MSC_VER
+#ifdef __GNUC__
 #warning port me
 #endif
 /*	cg.writeEntry("SortColumn", d->sortColumn);

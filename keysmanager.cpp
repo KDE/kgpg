@@ -429,7 +429,7 @@ KeysManager::KeysManager(QWidget *parent)
     m_statusbar->setItemAlignment(0, Qt::AlignLeft);
     m_statusbar->changeItem("", 1);
 
-#ifndef _MSC_VER
+#ifdef __GNUC__
 #warning port me
 #endif
 //     connect(keysList2, SIGNAL(statusMessage(QString, int, bool)), this, SLOT(changeMessage(QString, int, bool)));
@@ -898,7 +898,7 @@ void KeysManager::findFirstKey()
         return;
 
 return;
-#ifndef _MSC_VER
+#ifdef __GNUC__
 #warning port me
 #endif
     bool foundItem = true;
@@ -946,7 +946,7 @@ void KeysManager::findNextKey()
     }
 return;
 
-#ifndef _MSC_VER
+#ifdef __GNUC__
 #warning port me
 #endif
     bool foundItem = true;
@@ -1208,7 +1208,7 @@ KeysManager::slotMenu(const QPoint &pos)
 	importAllSignKeys->setEnabled(unksig);
 
 	if (itype == ITYPE_SIGN) {
-#ifndef _MSC_VER
+#ifdef __GNUC__
 #warning port me
 #endif
 // 		importSignatureKey->setEnabled(allunksig);
