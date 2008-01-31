@@ -898,7 +898,7 @@ void KeysManager::findFirstKey()
         return;
 
 return;
-#ifndef_MSC_VER
+#ifndef _MSC_VER
 #warning port me
 #endif
     bool foundItem = true;

@@ -300,7 +300,9 @@ bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)
 void KgpgTextEdit::slotDecodeFileSuccess(const QByteArray &content, KGpgTextInterface *interface)
 {
     delete interface;
+#ifndef _MSC_VER
 #warning FIXME choose codec
+#endif
     setPlainText(content);
     emit newText();
 }
