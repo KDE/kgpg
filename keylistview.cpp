@@ -9,19 +9,14 @@
 
 #include "keylistview.h"
 
-#include <QDragMoveEvent>
-#include <QDropEvent>
 #include <QPainter>
 #include <QRect>
 
 #include <Q3ListViewItem>
-#include <Q3TextDrag>
 #include <Q3Header>
 
 #include <kabc/stdaddressbook.h>
 #include <KStandardDirs>
-#include <KApplication>
-#include <KMessageBox>
 #include <KLocale>
 
 #include "kgpgsettings.h"

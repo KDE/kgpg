@@ -22,13 +22,11 @@
 #include <QTextStream>
 #include <QFile>
 
-#include <KJob>
 #include <KFileDialog>
 #include <KPassivePopup>
 #include <kio/renamedialog.h>
 #include <KMessageBox>
 #include <KLocale>
-#include <KConfig>
 #include <kio/deletejob.h>
 #include <kio/jobuidelegate.h>
 

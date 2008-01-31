@@ -10,22 +10,16 @@
 #ifndef KEYLISTVIEW_H
 #define KEYLISTVIEW_H
 
-#include <QColorGroup>
 #include <QPixmap>
 
 
 #include <K3ListViewSearchLine>
 #include <K3ListView>
-#include <KUrl>
 
 #include "kgpgkey.h"
 
 using namespace KgpgCore;
 
-class Q3ListViewItem;
-class QDragMoveEvent;
-class QDropEvent;
-class QPainter;
 
 class KeyListView;
 

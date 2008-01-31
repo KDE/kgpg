@@ -1,7 +1,6 @@
 #ifndef KGPGITEMNODE_H
 #define KGPGITEMNODE_H
 
-#include <QVariant>
 #include <QPixmap>
 #include "kgpgkey.h"
 

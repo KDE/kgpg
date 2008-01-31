@@ -17,19 +17,14 @@
 
 #include "kgpginterface.h"
 
-#include <QApplication>
 #include <QTextStream>
-#include <QTextCodec>
-#include <QClipboard>
 #include <QFile>
 
 #include <kio/netaccess.h>
 #include <KMessageBox>
-#include <KTemporaryFile>
 #include <KPasswordDialog>
 #include <knewpassworddialog.h>
 #include <KLocale>
-#include <KCodecs>
 #include <KProcess>
 #include <KConfig>
 #include <KDebug>

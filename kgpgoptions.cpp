@@ -23,23 +23,18 @@
 #include <QTextStream>
 #include <QVBoxLayout>
 #include <QCheckBox>
-#include <QLabel>
 #include <QFile>
-#include <QFont>
 
 #include <KStandardDirs>
 #include <KInputDialog>
 #include <KDesktopFile>
-#include <KColorButton>
 #include <KMessageBox>
 #include <KFileDialog>
-#include <KFontDialog>
-#include <KLineEdit>
-#include <KComboBox>
 #include <KConfig>
 #include <KLocale>
 #include <KProcess>
 #include <kdefakes.h>
+#include <KFontChooser>
 
 #include "images.h"
 #include "kgpgsettings.h"

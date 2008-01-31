@@ -6,7 +6,6 @@
 
 #include <KUrl>
 
-class GPGProc;
 class KGpgTextInterfacePrivate;
 
 class KGpgTextInterface : public QObject

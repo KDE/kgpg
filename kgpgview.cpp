@@ -21,14 +21,12 @@
 #include <QVBoxLayout>
 #include <QTextStream>
 #include <QDropEvent>
-#include <QMimeData>
 #include <QFile>
 
 #include <KDialogButtonBox>
 #include <kio/netaccess.h>
 #include <KMessageBox>
 #include <KLocale>
-#include <KAction>
 
 #include "selectsecretkey.h"
 #include "kgpgsettings.h"

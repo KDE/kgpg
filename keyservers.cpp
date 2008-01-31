@@ -19,11 +19,9 @@
 
 #include <QCursor>
 #include <QLabel>
-#include <QFile>
 
 #include <KConfig>
 #include <KMessageBox>
-#include <KComboBox>
 #include <KLocale>
 #include <KDebug>
 #include <KDateTime>

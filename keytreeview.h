@@ -9,7 +9,6 @@ class QDragMoveEvent;
 class QDropEvent;
 
 class KGpgNode;
-class KGpgItemModel;
 class KeyListProxyModel;
 class KConfigGroup;
 

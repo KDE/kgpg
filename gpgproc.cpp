@@ -16,7 +16,6 @@
 #include <ctype.h>
 
 #include <QTextCodec>
-#include <QFile>
 
 #include "kgpgsettings.h"
 

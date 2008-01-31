@@ -1,8 +1,8 @@
+#include <QHeaderView>
 #include "groupedit.h"
 #include "groupeditproxymodel.h"
 #include "kgpgitemmodel.h"
 
-#include <QHeaderView>
 
 groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
 	: QWidget( parent ), members(ids)

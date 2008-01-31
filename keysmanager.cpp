@@ -26,7 +26,6 @@
 #include <QPainter>
 #include <QPrinter>
 #include <QPrintDialog>
-#include <QRegExp>
 #include <QWidget>
 #include <QLabel>
 #include <QTimer>
@@ -47,7 +46,6 @@
 #include <KFileDialog>
 #include <KMessageBox>
 #include <KFindDialog>
-#include <KStatusBar>
 #include <KService>
 #include <KMimeTypeTrader>
 #include <KLineEdit>
@@ -62,13 +60,14 @@
 #include <KMenu>
 #include <KUrl>
 #include <ktip.h>
-#include <KToolBar>
 #include <KActionCollection>
 #include <KStandardAction>
 #include <KSelectAction>
 #include <KIcon>
 #include <KVBox>
 #include <KToggleAction>
+#include <KStatusBar>
+#include <KToolBar>
 
 #include "kgpgkey.h"
 #include "selectsecretkey.h"

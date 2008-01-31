@@ -4,7 +4,6 @@
 #include "core/kgpgkey.h"
 
 #include <KDebug>
-#include <KLocale>
 
 using namespace KgpgCore;
 

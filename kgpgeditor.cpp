@@ -35,7 +35,6 @@
 #include <KEncodingFileDialog>
 #include <kio/netaccess.h>
 #include <kio/renamedialog.h>
-#include <KApplication>
 #include <KMessageBox>
 #include <KTemporaryFile>
 #include <KAction>

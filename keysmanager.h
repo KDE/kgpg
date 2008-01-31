@@ -18,11 +18,7 @@
 #ifndef KEYSMANAGER_H
 #define KEYSMANAGER_H
 
-#include <QDropEvent>
 #include <QClipboard>
-#include <QPixmap>
-#include <Q3ListViewItem>
-#include <QTreeView>
 
 #include <KToggleAction>
 #include <K3ListViewSearchLine>
@@ -48,13 +44,11 @@ class KMenu;
 class KLineEdit;
 
 class KgpgInterface;
-class groupEdit;
 class KeyServer;
 class KgpgEditor;
 class KeyServer;
 class KGpgTransaction;
 class KeyListProxyModel;
-class GroupEditProxyModel;
 class KeyTreeView;
 
 class AddUid : public QWidget, public Ui::AddUid

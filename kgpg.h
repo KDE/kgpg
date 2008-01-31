@@ -19,7 +19,6 @@
 #define KGPGAPPLET_H
 
 #include <QClipboard>
-#include <QLabel>
 
 #include <KUniqueApplication>
 #include <KSystemTrayIcon>

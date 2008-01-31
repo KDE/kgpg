@@ -2,10 +2,8 @@
 #define GROUPEDITPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
-#include <QStringList>
 
 class KGpgNode;
-class KGpgGroupNode;
 class KGpgItemModel;
 
 class GroupEditProxyModel: public QSortFilterProxyModel
