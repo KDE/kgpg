@@ -119,7 +119,7 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		break;
 	case KEYCOLUMN_ID:
 		if (role == Qt::DisplayRole)
-			return node->getId().right(8);
+			return node->getId();
 		break;
 	}
 

@@ -13,6 +13,7 @@ KeyListProxyModel::KeyListProxyModel(QObject *parent)
 {
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 	setFilterKeyColumn(-1);
+	m_idLength = 8;
 }
 
 bool
@@ -193,6 +194,42 @@ KeyListProxyModel::data(const QModelIndex &index, int role) const
 		} else {
 			return Convert::toPixmap(ITYPE_UAT);
 		}
+	} else if ((role == Qt::DisplayRole) && (index.column() == KEYCOLUMN_ID)) {
+		QString id = m_model->data(mapToSource(index), Qt::DisplayRole).toString();
+		return id.right(m_idLength);
+	} else if ((role == Qt::ToolTipRole) && (index.column() == KEYCOLUMN_ID)) {
+		QString id = m_model->data(mapToSource(index), Qt::DisplayRole).toString();
+		return id;
 	}
 	return m_model->data(mapToSource(index), role);
+}
+
+void
+KeyListProxyModel::setIdLength(const int &length)
+{
+	if (length == m_idLength)
+		return;
+
+	m_idLength = length;
+	invalidateColumn(m_model->getRootNode(), KEYCOLUMN_ID);
+}
+
+void
+KeyListProxyModel::invalidateColumn(KGpgExpandableNode *node, const int &column)
+{
+// TODO: test me!
+
+	for (int i = 0; i < node->getChildCount(); i++) {
+		KGpgNode *child = node->getChild(i);
+
+		QModelIndex idx = createIndex(i, column, child);
+
+		emit dataChanged(idx, idx);
+		if (!child->hasChildren())
+			continue;
+
+		KGpgExpandableNode *echild = static_cast<KGpgExpandableNode *>(child);
+		if (echild->wasExpanded())
+			invalidateColumn(echild, column);
+	}
 }
