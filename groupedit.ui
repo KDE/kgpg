@@ -31,9 +31,6 @@
      <property name="acceptDrops" >
       <bool>true</bool>
      </property>
-     <property name="selectionMode" >
-      <enum>QAbstractItemView::SingleSelection</enum>
-     </property>
      <property name="sortingEnabled" >
       <bool>true</bool>
      </property>
@@ -117,9 +114,6 @@
     <widget class="QTableView" name="groupKeys" >
      <property name="acceptDrops" >
       <bool>true</bool>
-     </property>
-     <property name="selectionMode" >
-      <enum>QAbstractItemView::SingleSelection</enum>
      </property>
      <property name="sortingEnabled" >
       <bool>true</bool>
