@@ -384,7 +384,7 @@ KeysManager::KeysManager(QWidget *parent)
     KConfigGroup cg = KConfigGroup(KGlobal::config().data(), "KeyView");
     iview->restoreLayout(cg);
 
-    connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
+    connect(photoProps, SIGNAL(triggered(int)), this, SLOT(slotSetPhotoSize(int)));
 
     // get all keys data
     setupGUI(KXmlGuiWindow::Create | Save | ToolBar | StatusBar | Keys, "keysmanager.rc");
