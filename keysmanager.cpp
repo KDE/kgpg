@@ -392,7 +392,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(keysList2, SIGNAL(selectionChanged ()), this, SLOT(checkList()));
     connect(keysList2, SIGNAL(contextMenuRequested(Q3ListViewItem *, const QPoint &, int)), this, SLOT(slotMenu(Q3ListViewItem *, const QPoint &, int)));
     connect(keysList2, SIGNAL(destroyed()), this, SLOT(annule()));
-    connect(photoProps, SIGNAL(activated(int)), this, SLOT(slotSetPhotoSize(int)));
+    connect(photoProps, SIGNAL(triggered(int)), this, SLOT(slotSetPhotoSize(int)));
 
     // get all keys data
     setupGUI(KXmlGuiWindow::Create | Save | ToolBar | StatusBar | Keys, "keysmanager.rc");
