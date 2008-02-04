@@ -12,18 +12,20 @@
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QLabel>
+#include <QTableView>
 
-#include <K3ListView>
 #include <KComboBox>
 #include <KLocale>
 
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "images.h"
+#include "selectkeyproxymodel.h"
+#include "kgpgitemmodel.h"
 
 using namespace KgpgCore;
 
-KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, const int &countkey)
+KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, const int &countkey, KGpgItemModel *model)
                    : KDialog(parent)
 {
     setCaption(i18n("Private Key List"));
@@ -33,15 +35,22 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
 
     QLabel *label = new QLabel(i18n("Choose secret key for signing:"), page);
 
-    m_keyslist = new K3ListView(page);
-    m_keyslist->addColumn(i18nc("Name of key owner", "Name"), 200);
-    m_keyslist->addColumn(i18nc("Email address of key owner", "Email"), 200);
-    m_keyslist->addColumn(i18n("Expiration"), 100);
-    m_keyslist->addColumn(i18n("ID"), 100);
-    m_keyslist->setFullWidth(true);
-    m_keyslist->setRootIsDecorated(true);
-    m_keyslist->setShowSortIndicator(true);
-    m_keyslist->setAllColumnsShowFocus(true);
+    KGpgItemModel *md;
+    if (model == NULL) {
+       md = new KGpgItemModel(this);
+       md->refreshKeys();
+    } else
+       md = model;
+
+    m_proxy = new SelectSecretKeyProxyModel(this);
+    m_proxy->setKeyModel(md);
+
+    m_keyslist = new QTableView(page);
+    m_keyslist->setModel(m_proxy);
+    m_keyslist->setSortingEnabled(true);
+    m_keyslist->setSelectionBehavior(QAbstractItemView::SelectRows);
+    for (int i = 0; i < 4; i++)
+       m_keyslist->resizeColumnToContents(i);
 
     QVBoxLayout *vbox = new QVBoxLayout(page);
     vbox->addWidget(label);
@@ -80,65 +89,37 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     QString fullname;
     QString line;
 
-    bool selectedok = false;
-    KgpgInterface *interface = new KgpgInterface();
-    KgpgKeyList list1 = interface->readSecretKeys();
-
-    KgpgKeyList list2 = interface->readPublicKeys(true, list1);
-    delete interface;
-
-    for (int i = 0; i < list2.size(); ++i)
-    {
-        KgpgKey key = list2.at(i);
-        QString id = key.id();
-
-        bool dead = true;
-
-        /* Public key */
-        if (key.trust() == TRUST_FULL || key.trust() == TRUST_ULTIMATE)
-            dead = false;
-
-        if (!key.valid())
-            dead = true;
-        /**************/
-
-        if (!dead && !(key.name().isEmpty()))
-        {
-            QString keyName = key.name();
-
-            Q3ListViewItem *item = new Q3ListViewItem(m_keyslist, keyName, key.email(), key.expiration(), id);
-            item->setPixmap(0, Images::pair());
-            if (!defaultKeyID.isEmpty() && id == defaultKeyID)
-            {
-                m_keyslist->setSelected(item, true);
-                selectedok = true;
-            }
-        }
-    }
-
-    if (!selectedok)
-        m_keyslist->setSelected(m_keyslist->firstChild(), true);
+	KGpgNode *nd = md->getRootNode()->findKey(KGpgSettings::defaultKey());
+	if (nd != NULL) {
+		QModelIndex sidx = md->nodeIndex(nd);
+		QModelIndex pidx = m_proxy->mapFromSource(sidx);
+		m_keyslist->selectionModel()->setCurrentIndex(pidx, QItemSelectionModel::Clear | QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
+	}
 
     setMinimumSize(550, 200);
     slotSelectionChanged();
     setMainWidget(page);
 
-    connect(m_keyslist, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)), this, SLOT(slotOk(Q3ListViewItem *)));
-    connect(m_keyslist, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
+    connect(m_keyslist->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(slotSelectionChanged()));
+    connect(m_keyslist, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotOk()));
+}
+
+KgpgSelectSecretKey::~KgpgSelectSecretKey()
+{
 }
 
 QString KgpgSelectSecretKey::getKeyID() const
 {
-    if (m_keyslist->currentItem() == 0)
+    if (!m_keyslist->selectionModel()->hasSelection())
         return QString();
-    return m_keyslist->currentItem()->text(3);
+    return m_proxy->nodeForIndex(m_keyslist->selectionModel()->selectedIndexes().at(0))->getId();
 }
 
 QString KgpgSelectSecretKey::getKeyMail() const
 {
-    if (m_keyslist->currentItem() == 0)
+    if (!m_keyslist->selectionModel()->hasSelection())
         return QString();
-    return m_keyslist->currentItem()->text(0).simplified();
+    return m_proxy->nodeForIndex(m_keyslist->selectionModel()->selectedIndexes().at(0))->getEmail();
 }
 
 int KgpgSelectSecretKey::getSignTrust() const
@@ -160,12 +141,12 @@ bool KgpgSelectSecretKey::isTerminalSign() const
 
 void KgpgSelectSecretKey::slotSelectionChanged()
 {
-    enableButtonOk(!m_keyslist->selectedItems().isEmpty());
+    enableButtonOk(m_keyslist->selectionModel()->hasSelection());
 }
 
-void KgpgSelectSecretKey::slotOk(Q3ListViewItem *item)
+void KgpgSelectSecretKey::slotOk()
 {
-    if (item)
+    if (m_keyslist->selectionModel()->hasSelection())
         slotButtonClicked(Ok);
 }
 

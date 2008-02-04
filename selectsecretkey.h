@@ -10,16 +10,15 @@
 #ifndef KGPGSELECTSECRETKEY_H
 #define KGPGSELECTSECRETKEY_H
 
-
-
 #include <KDialog>
 
 class QCheckBox;
-
-class Q3ListViewItem;
+class QTableView;
 
 class KComboBox;
-class K3ListView;
+
+class KGpgItemModel;
+class SelectSecretKeyProxyModel;
 
 class KgpgSelectSecretKey : public KDialog
 {
@@ -33,8 +32,11 @@ public:
      * to \em false if you are going to sign a message. Default is \em false
      * @param countkey if \em signkey is set to \em true, \em countkey is the
      * number of keys that you are going to sign. Default is 1.
+     * @param model pass a pointer to a KGpgItemModel here if you alredy have
+     * one around. Default is NULL which means to create a new one.
      */
-    explicit KgpgSelectSecretKey(QWidget *parent = 0, const bool &signkey = false, const int &countkey = 1);
+    explicit KgpgSelectSecretKey(QWidget *parent = 0, const bool &signkey = false, const int &countkey = 1, KGpgItemModel *model = NULL);
+    ~KgpgSelectSecretKey();
 
     QString getKeyID() const;
     QString getKeyMail() const;
@@ -55,7 +57,7 @@ public:
     bool isTerminalSign() const;
 
 private slots:
-    void slotOk(Q3ListViewItem *item);
+    void slotOk();
     void slotSelectionChanged();
 
 private:
@@ -63,7 +65,8 @@ private:
     QCheckBox *m_terminalsign;
 
     KComboBox *m_signtrust;
-    K3ListView *m_keyslist;
+    QTableView *m_keyslist;
+    SelectSecretKeyProxyModel *m_proxy;
 };
 
 #endif // KGPGSELECTSECRETKEY_H

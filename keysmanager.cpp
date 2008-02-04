@@ -1707,7 +1707,7 @@ void KeysManager::signkey()
             return;
     }
 
-    KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, true, signList.count());
+    KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, true, signList.count(), imodel);
     if (opts->exec() != QDialog::Accepted)
     {
         delete opts;

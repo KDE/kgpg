@@ -28,9 +28,23 @@ protected:
 	virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
 	virtual int columnCount(const QModelIndex &) const;
 
-private:
 	KGpgItemModel *m_model;
+
+private:
 	bool m_showUntrusted;
+};
+
+class SelectSecretKeyProxyModel: public SelectKeyProxyModel
+{
+public:
+	explicit SelectSecretKeyProxyModel(QObject *parent);
+
+	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+
+protected:
+	virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+	virtual int columnCount(const QModelIndex &) const;
 };
 
 #endif

@@ -115,3 +115,73 @@ SelectKeyProxyModel::setShowUntrusted(const bool &b)
 	m_showUntrusted = b;
 	invalidate();
 }
+
+SelectSecretKeyProxyModel::SelectSecretKeyProxyModel(QObject *parent)
+	: SelectKeyProxyModel(parent)
+{
+}
+
+bool
+SelectSecretKeyProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
+{
+	QModelIndex idx = m_model->index(source_row, 0, source_parent);
+	KGpgNode *l = m_model->nodeForIndex(idx);
+
+	return ((l->getType() == ITYPE_PAIR) && !(l->getTrust() == TRUST_EXPIRED) && !(l->getTrust() == TRUST_DISABLED));
+}
+
+int
+SelectSecretKeyProxyModel::columnCount(const QModelIndex &) const
+{
+	return 4;
+}
+
+QVariant
+SelectSecretKeyProxyModel::data(const QModelIndex &index, int role) const
+{
+	if (index.column() >= 4)
+		return QVariant();
+
+	QModelIndex sidx = mapToSource(index);
+	KGpgNode *nd = m_model->nodeForIndex(sidx);
+
+	if ((index.column() == 3) && (role == Qt::ToolTipRole))
+		return nd->getId();
+
+	if ((role != Qt::DisplayRole) && (index.column() <= 1))
+		return m_model->data(sidx, role);
+
+	if (role != Qt::DisplayRole)
+		return QVariant();
+
+	switch (index.column()) {
+		case 0:	return nd->getName();
+		case 1:	return nd->getEmail();
+		case 2:	return nd->getExpiration();
+		case 3:	return nd->getId().right(8);
+	}
+
+	return QVariant();
+}
+
+QVariant
+SelectSecretKeyProxyModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+	if (role != Qt::DisplayRole)
+		return QVariant();
+
+	if (orientation != Qt::Horizontal)
+		return QVariant();
+
+	if (m_model == NULL)
+		return QVariant();
+
+	switch (section) {
+	case 0:	return m_model->headerData(KEYCOLUMN_NAME, orientation, role);
+	case 1:	return m_model->headerData(KEYCOLUMN_EMAIL, orientation, role);
+	case 2:	return m_model->headerData(KEYCOLUMN_EXPIR, orientation, role);
+	case 3:	return m_model->headerData(KEYCOLUMN_ID, orientation, role);
+	default:	return QVariant();
+	}
+}
+
