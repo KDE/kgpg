@@ -27,13 +27,14 @@
 #include "kgpgkey.h"
 
 class QCheckBox;
+class QTableView;
 
-class K3ListViewSearchLine;
-class K3ListView;
 class KLineEdit;
 class KHBox;
 
 class KgpgInterface;
+class SelectKeyProxyModel;
+class KGpgItemModel;
 
 class KgpgSelectPublicKeyDlg : public KDialog
 {
@@ -56,13 +57,9 @@ public:
 
 private slots:
     void slotOk();
-    void slotFillKeysList();
-    void slotFillKeysListReady(KgpgCore::KgpgKeyList keys, KgpgInterface *interface);
-    void slotPreSelect();
     void slotSelectionChanged();
     void slotSymmetric(const bool &state);
     void slotUntrusted(const bool &state);
-    void slotShowAllKeys();
     void slotHideUntrustedKeys();
     void slotGotoDefaultKey();
 
@@ -74,8 +71,10 @@ private:
 
     KHBox *m_searchbar;
     KLineEdit *m_customoptions;
-    K3ListView *m_keyslist;
-    K3ListViewSearchLine *m_searchlineedit;
+    QTableView *m_keyslist;
+    KLineEdit *m_searchlineedit;
+    SelectKeyProxyModel *iproxy;
+    KGpgItemModel *imodel;
 
     bool m_hideasciioption;
     bool m_fmode;

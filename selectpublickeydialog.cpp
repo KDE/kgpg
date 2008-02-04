@@ -21,10 +21,9 @@
 #include <QCheckBox>
 #include <QPainter>
 #include <QLabel>
+#include <QTableView>
 
-#include <K3ListViewSearchLine>
 #include <KActionCollection>
-#include <K3ListView>
 #include <KLineEdit>
 #include <KLocale>
 #include <KAction>
@@ -34,78 +33,11 @@
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "images.h"
+#include "selectkeyproxymodel.h"
+#include "kgpgitemmodel.h"
 
 
 using namespace KgpgCore;
-
-class KeyViewItem : public K3ListViewItem
-{
-public:
-    KeyViewItem(K3ListView *parent, const QString &name, const QString &mail, const QString &id, const bool &isDefault, const bool &isTrusted) : K3ListViewItem(parent)
-    {
-        m_default = isDefault;
-        m_istrusted = isTrusted;
-        setText(0, name);
-        setText(1, mail);
-        setText(2, id);
-    }
-
-    virtual void paintCell(QPainter *p, const QColorGroup &cg, const int &column, const int &width, const int &alignment)
-    {
-        if (m_default && column < 2)
-        {
-            QFont font(p->font());
-            font.setBold(true);
-            p->setFont(font);
-        }
-
-        K3ListViewItem::paintCell(p, cg, column, width, alignment);
-    }
-
-    virtual QString key(const int &c) const
-    {
-        return text(c).toLower();
-    }
-
-    virtual bool isTrusted() const
-    {
-        return m_istrusted;
-    }
-
-private:
-    bool m_default;
-    bool m_istrusted;
-};
-
-class KgpgListViewSearchLine : public K3ListViewSearchLine
-{
-public:
-    KgpgListViewSearchLine (QWidget *parent = 0, KgpgSelectPublicKeyDlg *dialog = 0) : K3ListViewSearchLine(parent, 0)
-    {
-        m_dialog = dialog;
-    }
-
-protected:
-    virtual bool itemMatches (const Q3ListViewItem *listitem, const QString &s) const
-    {
-        const KeyViewItem *item = dynamic_cast<const KeyViewItem*>(listitem);
-        if (!item)
-            return false;
-
-        if (m_dialog != 0)
-        {
-            /* The item must be a trusted key or the user wants to view untrusted keys */
-            if (item->isTrusted() || m_dialog->getUntrusted())
-                return K3ListViewSearchLine::itemMatches(item, s);
-            return false;
-        }
-
-        return K3ListViewSearchLine::itemMatches(item, s);
-    }
-
-private:
-    KgpgSelectPublicKeyDlg *m_dialog;
-};
 
 KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &sfile, const KShortcut &goDefaultKey, const bool &hideasciioption)
                       : KDialog(parent)
@@ -127,20 +59,25 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
 
     QLabel *searchlabel = new QLabel(i18n("&Search: "), m_searchbar);
 
-    m_searchlineedit = new KgpgListViewSearchLine(m_searchbar, this);
+    m_searchlineedit = new KLineEdit(m_searchbar);
+    m_searchlineedit->setClearButtonShown(true);
     searchlabel->setBuddy(m_searchlineedit);
 
-    m_keyslist = new K3ListView(page);
-    m_keyslist->setFullWidth(true);
-    m_keyslist->setRootIsDecorated(false);
-    m_keyslist->setShowSortIndicator(true);
-    m_keyslist->setAllColumnsShowFocus(true);
-    m_keyslist->addColumn(i18nc("Name of key owner", "Name"));
-    m_keyslist->addColumn(i18nc("Email address of key owner", "Email"));
-    m_keyslist->addColumn(i18n("ID"));
-    m_keyslist->setSelectionModeExt(K3ListView::Extended);
+    imodel = new KGpgItemModel(this);
+    imodel->refreshKeys();
+
+    iproxy = new SelectKeyProxyModel(this);
+    iproxy->setKeyModel(imodel);
+
+    m_keyslist = new QTableView(page);
+    m_keyslist->setSortingEnabled(true);
+    m_keyslist->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    m_keyslist->setSelectionBehavior(QAbstractItemView::SelectRows);
+    m_keyslist->setModel(iproxy);
+    for (int i = 0; i < 3; i++)
+       m_keyslist->resizeColumnToContents(i);
     m_keyslist->setWhatsThis(i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
-    m_searchlineedit->setListView(m_keyslist);
+    connect(m_searchlineedit, SIGNAL(textChanged(const QString &)), iproxy, SLOT(setFilterFixedString(const QString &)));
 
     optionsbox = new KVBox();
     optionsbox->setFrameShape(QFrame::StyledPanel);
@@ -203,15 +140,17 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
     connect(m_cbsymmetric, SIGNAL(toggled(bool)), this, SLOT(slotSymmetric(bool)));
     connect(m_cbuntrusted, SIGNAL(toggled(bool)), this, SLOT(slotUntrusted(bool)));
-    connect(m_keyslist, SIGNAL(selectionChanged()), this, SLOT(slotSelectionChanged()));
-    connect(m_keyslist, SIGNAL(executed(Q3ListViewItem *)), this, SLOT(slotOk()));
-
-    slotFillKeysList();
+    connect(m_keyslist->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(slotSelectionChanged()));
+    connect(m_keyslist, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotOk()));
 
     setMinimumSize(550, 200);
     updateGeometry();
 
     setMainWidget(page);
+    slotSelectionChanged();
+
+    if (m_fmode)
+        slotGotoDefaultKey();
 }
 
 QStringList KgpgSelectPublicKeyDlg::selectedKeys() const
@@ -221,15 +160,16 @@ QStringList KgpgSelectPublicKeyDlg::selectedKeys() const
 
     QStringList selectedKeys;
 
-    QList<Q3ListViewItem*> list = m_keyslist->selectedItems();
-    for (int i = 0; i < list.count(); ++i)
-        if (list.at(i) && list.at(i)->isVisible())
-        {
-            if (!list.at(i)->text(2).isEmpty())
-                selectedKeys << list.at(i)->text(2); // get the id
-            else
-                selectedKeys << list.at(i)->text(0); // get the name
-        }
+	QModelIndexList sel = m_keyslist->selectionModel()->selectedIndexes();
+	for (int i = 0; i < sel.count(); i++) {
+		if (sel.at(i).column() != 0)
+			continue;
+		KGpgNode *nd = iproxy->nodeForIndex(sel.at(i));
+		if (nd->getType() == ITYPE_GROUP)
+			selectedKeys << nd->getName();
+		else
+			selectedKeys << nd->getId();
+	}
 
     return selectedKeys;
 }
@@ -263,106 +203,13 @@ bool KgpgSelectPublicKeyDlg::getHideId() const
 
 void KgpgSelectPublicKeyDlg::slotOk()
 {
-    if (getSymmetric() || !m_keyslist->selectedItems().isEmpty())
+    if (getSymmetric() || m_keyslist->selectionModel()->hasSelection())
         slotButtonClicked(Ok);
-}
-
-void KgpgSelectPublicKeyDlg::slotFillKeysList()
-{
-    m_keyslist->clear();
-
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(readPublicKeysFinished(KgpgCore::KgpgKeyList, KgpgInterface*)), this, SLOT(slotFillKeysListReady(KgpgCore::KgpgKeyList, KgpgInterface*)));
-    interface->readPublicKeys();
-}
-
-void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgCore::KgpgKeyList keys, KgpgInterface *interface)
-{
-    /* Add groups */
-    QStringList groups = KGpgSettings::groups().split(",");
-    if (!groups.isEmpty())
-        for (QStringList::Iterator it = groups.begin(); it != groups.end(); ++it)
-            if (!QString(*it).isEmpty())
-            {
-                KeyViewItem *item = new KeyViewItem(m_keyslist, QString(*it), QString(), QString(), false, true);
-                item->setPixmap(0, Images::group());
-            }
-    /* */
-
-    /* Get the secret keys list */
-    QStringList m_seclist = interface->readSecretKeys();
-    delete interface;
-
-    /* */
-
-    for (int i = 0; i < keys.size(); ++i)
-    {
-        bool dead = false;
-        KgpgKey key = keys.at(i);
-        QString id = key.id();
-
-        KgpgKeyTrust c = key.trust();
-        bool istrusted = true;
-        if (c == TRUST_UNKNOWN || c == TRUST_UNDEFINED || c == TRUST_NONE || c == TRUST_MARGINAL)
-            istrusted = false;
-        else
-        if (c == TRUST_INVALID || c == TRUST_DISABLED || c == TRUST_REVOKED || c == TRUST_EXPIRED)
-            dead = true;
-        else
-        if (c != TRUST_FULL && c != TRUST_ULTIMATE)
-            istrusted = false;
-
-        if (key.valid() == false)
-            dead = true;
-
-        QString keyname = key.name();
-        if (!dead && !keyname.isEmpty())
-        {
-            QString defaultKey = KGpgSettings::defaultKey().right(8);
-            bool isDefaultKey = false;
-            if (key.id() == defaultKey)
-                isDefaultKey = true;
-
-            KeyViewItem *item = new KeyViewItem(m_keyslist, keyname, key.email(), id, isDefaultKey, istrusted);
-
-            if (m_seclist.contains(key.fullId(), Qt::CaseInsensitive))
-                item->setPixmap(0, Images::pair());
-            else
-                item->setPixmap(0, Images::single());
-        }
-    }
-
-    slotPreSelect();
-    slotSelectionChanged();
-    slotUntrusted(m_cbuntrusted->checkState() == Qt::Checked);
-}
-
-void KgpgSelectPublicKeyDlg::slotPreSelect()
-{
-    Q3ListViewItem *it = 0;
-    if (!m_keyslist->firstChild())
-        return;
-
-    if (m_fmode)
-        it = m_keyslist->findItem(KGpgSettings::defaultKey(), 2);
-
-    if (!m_cbuntrusted->isChecked())
-        slotShowAllKeys();
-
-    if (m_fmode)
-    {
-        m_keyslist->clearSelection();
-        m_keyslist->setSelected(it, true);
-        m_keyslist->setCurrentItem(it);
-        m_keyslist->ensureItemVisible(it);
-    }
-
-    m_keyslist->ensureItemVisible(m_keyslist->currentItem());
 }
 
 void KgpgSelectPublicKeyDlg::slotSelectionChanged()
 {
-    enableButtonOk(getSymmetric() || !m_keyslist->selectedItems().isEmpty());
+    enableButtonOk(getSymmetric() || m_keyslist->selectionModel()->hasSelection());
 }
 
 void KgpgSelectPublicKeyDlg::slotSymmetric(const bool &state)
@@ -376,82 +223,20 @@ void KgpgSelectPublicKeyDlg::slotSymmetric(const bool &state)
 
 void KgpgSelectPublicKeyDlg::slotUntrusted(const bool &state)
 {
-    if (state)
-    {
-        slotShowAllKeys();
-        m_searchlineedit->updateSearch();
-    }
-    else
-    {
-        m_searchlineedit->updateSearch();
-        slotHideUntrustedKeys();
-    }
-}
-
-void KgpgSelectPublicKeyDlg::slotShowAllKeys()
-{
-    Q3ListViewItem *current = m_keyslist->firstChild();
-    if (current == 0)
-        return;
-
-    current->setVisible(true);
-    while (current->nextSibling())
-    {
-        current = current->nextSibling();
-        current->setVisible(true);
-    }
-
-    m_keyslist->ensureItemVisible(m_keyslist->currentItem());
+	iproxy->setShowUntrusted(state);
 }
 
 void KgpgSelectPublicKeyDlg::slotHideUntrustedKeys()
 {
-    KeyViewItem *current = static_cast<KeyViewItem*>(m_keyslist->firstChild());
-    if (current == 0)
-        return;
-
-    bool reselect = false;
-
-    do
-    {
-        if (!current->isTrusted())
-        {
-            if (current->isSelected())
-            {
-                reselect = true;
-                current->setSelected(false);
-            }
-            current->setVisible(false);
-        }
-
-        current = static_cast<KeyViewItem*>(current->nextSibling());
-
-    } while (current);
-
-    bool itemvisible = (m_keyslist->currentItem() != 0) ? m_keyslist->currentItem()->isVisible() : false;
-    if (reselect && !itemvisible)
-    {
-        KeyViewItem *firstvisible = static_cast<KeyViewItem*>(m_keyslist->firstChild());
-        while (firstvisible->isVisible() != true)
-        {
-            firstvisible = static_cast<KeyViewItem*>(firstvisible->nextSibling());
-            if (firstvisible == 0)
-                return;
-        }
-
-        m_keyslist->setSelected(firstvisible, true);
-        m_keyslist->setCurrentItem(firstvisible);
-        m_keyslist->ensureItemVisible(firstvisible);
-    }
+	iproxy->setShowUntrusted(false);
 }
 
 void KgpgSelectPublicKeyDlg::slotGotoDefaultKey()
 {
-    Q3ListViewItem *myDefaulKey = m_keyslist->findItem(KGpgSettings::defaultKey(), 2);
-    m_keyslist->clearSelection();
-    m_keyslist->setCurrentItem(myDefaulKey);
-    m_keyslist->setSelected(myDefaulKey, true);
-    m_keyslist->ensureItemVisible(myDefaulKey);
+	KGpgNode *nd = imodel->getRootNode()->findKey(KGpgSettings::defaultKey());
+	QModelIndex sidx = imodel->nodeIndex(nd);
+	QModelIndex pidx = iproxy->mapFromSource(sidx);
+	m_keyslist->selectionModel()->setCurrentIndex(pidx, QItemSelectionModel::Clear | QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
 }
 
 #include "selectpublickeydialog.moc"

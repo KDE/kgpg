@@ -18,6 +18,7 @@ set(kgpg_SRCS ${core_SRCS}
    kgpgmd5widget.cpp
    selectpublickeydialog.cpp
    selectsecretkey.cpp
+   selectkeyproxymodel.cpp
    kgpgoptions.cpp
    keysmanager.cpp
    kgpgview.cpp
