@@ -116,9 +116,11 @@ private:
     QClipboard::Mode clipboardMode;
     KSystemTrayIcon *trayIcon;
 
+    int startWizard();
+    int firstRun();
+
 private slots:
     void slotWizardClose();
-    void startWizard();
     void slotWizardChange();
     void slotSaveOptionsPath();
     void slotGenKey();
@@ -128,7 +130,6 @@ private slots:
     void encryptClipboard(QStringList selec, QStringList encryptOptions, const bool symmetric);
     void help();
     void about();
-    void firstRun();
     void readOptions();
     void droppedfile(KUrl::List);
     void droppedtext(const QString &inputText, bool allowEncrypt = true);

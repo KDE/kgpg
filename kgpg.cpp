@@ -674,17 +674,17 @@ void MyView::readOptions()
     }
 }
 
-void MyView::firstRun()
+int MyView::firstRun()
 {
     QProcess *createConfigProc = new QProcess(this);
     QStringList args;
     args << "--no-tty" << "--list-secret-keys";
     createConfigProc->start("gpg", args);// start gnupg so that it will create a config file
     createConfigProc->waitForFinished();
-    startWizard();
+    return startWizard();
 }
 
-void MyView::startWizard()
+int MyView::startWizard()
 {
     kDebug(2100) << "Starting Wizard" ;
 
@@ -718,7 +718,11 @@ void MyView::startWizard()
     }
 
     int gpgVersion = KgpgInterface::gpgVersion();
-    if (gpgVersion < 120)
+    if (gpgVersion == -1) {
+// TODO: allow selection of binary if it is outside the path
+        KMessageBox::error(0, i18n("GnuPG was not found on your system. Please make sure to have the &quot;gpg&quot; binary in your application search path."));
+        return -1;
+    } else if (gpgVersion < 120)
         wiz->txtGpgVersion->setText(i18n("Your GnuPG version seems to be older than 1.2.0. Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG (http://gnupg.org)."));
     else
         wiz->txtGpgVersion->setText(QString());
@@ -764,6 +768,7 @@ void MyView::startWizard()
 
     wiz->setFinishEnabled(wiz->page2, true);
     wiz->show();
+    return 0;
 }
 
 void MyView::slotWizardChange()

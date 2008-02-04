@@ -97,11 +97,17 @@ int KgpgInterface::gpgVersion()
     process.start();
     process.waitForFinished(-1);
 
+    if (process.exitCode() == 255)
+       return -1;
+
     QString line;
     if (process.readln(line) != -1)
         line = line.simplified().section(' ', -1);
 
     QStringList values = line.split('.');
+    if (values.count() < 3)
+       return -2;
+
     return (100 * values[0].toInt() + 10 * values[1].toInt() + values[2].toInt());
 }
 
