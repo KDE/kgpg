@@ -74,8 +74,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     m_keyslist->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_keyslist->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_keyslist->setModel(iproxy);
-    for (int i = 0; i < 3; i++)
-       m_keyslist->resizeColumnToContents(i);
+    m_keyslist->resizeColumnsToContents();
     m_keyslist->setWhatsThis(i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
     connect(m_searchlineedit, SIGNAL(textChanged(const QString &)), iproxy, SLOT(setFilterFixedString(const QString &)));
 

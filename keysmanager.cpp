@@ -307,8 +307,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(iview, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(defaultAction(const QModelIndex &)));
     iview->setSelectionMode(QAbstractItemView::ExtendedSelection);
     setCentralWidget(iview);
-    for (int i = 0; i < 7; i++)
-       iview->resizeColumnToContents(i);
+    iview->resizeColumnsToContents();
     iview->setAlternatingRowColors(true);
     iview->setSortingEnabled(true);
     connect(iview, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(slotMenu(const QPoint &)));

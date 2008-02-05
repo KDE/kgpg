@@ -49,8 +49,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     m_keyslist->setModel(m_proxy);
     m_keyslist->setSortingEnabled(true);
     m_keyslist->setSelectionBehavior(QAbstractItemView::SelectRows);
-    for (int i = 0; i < 4; i++)
-       m_keyslist->resizeColumnToContents(i);
+    m_keyslist->resizeColumnsToContents();
 
     QVBoxLayout *vbox = new QVBoxLayout(page);
     vbox->addWidget(label);
