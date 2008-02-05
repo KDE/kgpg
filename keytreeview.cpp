@@ -160,3 +160,10 @@ KeyTreeView::startDrag(Qt::DropActions supportedActions)
 	d->exec(supportedActions, Qt::IgnoreAction);
 	// do NOT delete d.
 }
+
+void
+KeyTreeView::resizeColumnsToContents()
+{
+	for (int i = m_proxy->columnCount() - 1; i >= 0; i--)
+		resizeColumnToContents(i);
+}

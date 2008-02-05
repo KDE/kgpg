@@ -28,6 +28,7 @@ public:
 
 public Q_SLOTS:
 	void selectNode(KGpgNode *nd);
+	void resizeColumnsToContents();
 
 protected:
 	virtual void contentsDragMoveEvent(QDragMoveEvent *e);
