@@ -93,10 +93,10 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     pixkeyDouble = Images::pair();
     addPage(m_page1, i18n("Encryption"), "document-encrypt");
     addPage(m_page2, i18n("Decryption"), "document-decrypt");
-    addPage(m_page3, i18n("Appearance"), "looknfeel");
+    addPage(m_page3, i18n("Appearance"), "preferences-desktop-theme");
     addPage(m_page4, i18n("GnuPG Settings"), "kgpg");
     addPage(m_page6, i18n("Key Servers"), "network-wired");
-    addPage(m_page7, i18n("Misc"), "misc");
+    addPage(m_page7, i18n("Misc"), "preferences-other");
 
     // The following widgets are managed manually.
     connect(m_page4->changeHome, SIGNAL(clicked()), this, SLOT(slotChangeHome()));
