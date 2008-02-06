@@ -36,7 +36,7 @@ public:
 	virtual int getChildIndex(KGpgNode *node) const
 		{
 			Q_UNUSED(node);
-			return NULL;
+			return 0;
 		}
 
 	virtual KgpgItemType getType() const = 0;
