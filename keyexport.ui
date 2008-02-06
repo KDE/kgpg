@@ -23,7 +23,7 @@
   </property>
   <layout class="QVBoxLayout" >
    <item>
-    <widget class="Q3ButtonGroup" name="buttonGroup2" >
+    <widget class="QGroupBox" name="buttonGroup2" >
      <property name="title" >
       <string/>
      </property>
@@ -73,7 +73,7 @@
     </widget>
    </item>
    <item>
-    <widget class="Q3ButtonGroup" name="buttonGroup3" >
+    <widget class="QGroupBox" name="buttonGroup3" >
      <property name="title" >
       <string>Export settings</string>
      </property>
@@ -126,12 +126,6 @@
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
-  <customwidget>
-   <class>Q3ButtonGroup</class>
-   <extends>Q3GroupBox</extends>
-   <header>Qt3Support/Q3ButtonGroup</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
