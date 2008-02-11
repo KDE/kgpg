@@ -21,14 +21,11 @@
 #include <QClipboard>
 
 #include <KToggleAction>
-#include <K3ListViewSearchLine>
 #include <KXmlGuiWindow>
 #include <KDialog>
-#include <K3ListView>
 #include <KUrl>
 
 #include "kgpgkey.h"
-#include "keylistview.h"
 #include "ui_adduid.h"
 #include "kgpginterface.h"
 #include "kgpgitemmodel.h"
@@ -182,13 +179,11 @@ private:
     KGpgItemModel *imodel;
     KeyListProxyModel *iproxy;
     KeyTreeView *iview;
-    KeyListView *keysList2;
 
     QString globalkeyID;
     QString searchString;
 
     QList<KGpgNode *> signList;
-    QList<KeyListViewItem*> keysList;
 
     QClipboard::Mode m_clipboardmode;
     QTimer *m_statusbartimer;

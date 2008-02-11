@@ -33,7 +33,6 @@ set(kgpg_SRCS ${core_SRCS}
    detailedconsole.cpp
    kgpglibrary.cpp
    keyinfodialog.cpp
-   keylistview.cpp
    newkey.cpp
    keyexport.cpp
    conf_encryption.cpp

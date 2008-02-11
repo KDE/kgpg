@@ -84,7 +84,6 @@
 #include "kgpgoptions.h"
 #include "keyinfodialog.h"
 #include "kgpglibrary.h"
-#include "keylistview.h"
 #include "keyadaptor.h"
 #include "images.h"
 #include "sourceselect.h"
@@ -428,10 +427,6 @@ KeysManager::KeysManager(QWidget *parent)
     m_statusbar->setItemAlignment(0, Qt::AlignLeft);
     m_statusbar->changeItem("", 1);
 
-#ifdef __GNUC__
-#warning port me
-#endif
-//     connect(keysList2, SIGNAL(statusMessage(QString, int, bool)), this, SLOT(changeMessage(QString, int, bool)));
     connect(m_statusbartimer, SIGNAL(timeout()), this, SLOT(statusBarTimeout()));
 
     s_kgpgEditor = new KgpgEditor(parent, Qt::WType_Dialog, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut(), true);
@@ -900,6 +895,7 @@ return;
 #ifdef __GNUC__
 #warning port me
 #endif
+#if 0
     bool foundItem = true;
     KeyListViewItem *item = keysList2->firstChild();
     if (!item)
@@ -933,6 +929,7 @@ return;
     }
     else
         KMessageBox::sorry(this, i18n("<qt>Search string '<b>%1</b>' not found.</qt>", searchString));
+#endif
 }
 
 void KeysManager::findNextKey()
@@ -948,6 +945,7 @@ return;
 #ifdef __GNUC__
 #warning port me
 #endif
+#if 0
     bool foundItem = true;
     KeyListViewItem *item = keysList2->currentItem();
     if (!item)
@@ -989,6 +987,7 @@ return;
     }
     else
         findFirstKey();
+#endif
 }
 
 void KeysManager::addToKAB()
@@ -2129,6 +2128,7 @@ void KeysManager::slotPreImportKey()
 void KeysManager::refreshkey()
 {
 	imodel->refreshKeys();
+	changeMessage(imodel->statusCountMessage(), 1);
 }
 
 KGpgTransaction::KGpgTransaction()
