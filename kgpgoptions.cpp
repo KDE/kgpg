@@ -186,27 +186,32 @@ void kgpgOptions::slotAddKeyServer()
     if (!isValidKeyserver(newServer))
 	return;
 
-    m_page6->ServerBox->insertItem(newServer);
+    m_page6->ServerBox->addItem(newServer);
 
-    m_page6->ServerBox->setSelected(m_page6->ServerBox->findItem(newServer), true);
+    m_page6->ServerBox->findItems(newServer, Qt::MatchExactly).at(0)->setSelected(true);
 }
 
 void kgpgOptions::slotDelKeyServer()
 {
-    bool defaultDeleted = false;
-    if (m_page6->ServerBox->currentText().contains( ' ' ) )
-        defaultDeleted = true;
+	bool defaultDeleted = false;
+	if (m_page6->ServerBox->currentItem()->text().contains( ' ' ) )
+		defaultDeleted = true;
 
-    m_page6->ServerBox->removeItem(m_page6->ServerBox->currentItem());
-    m_page6->ServerBox->setSelected(0, true);
+	m_page6->ServerBox->removeItemWidget(m_page6->ServerBox->currentItem());
+	QListWidgetItem *cur = m_page6->ServerBox->currentItem();
+	if (cur == NULL)
+		return;
 
-    if (defaultDeleted)
-        m_page6->ServerBox->changeItem(m_page6->ServerBox->currentText().section(" ", 0, 0) + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"), 0);
+	cur->setSelected(true);
+
+	if (defaultDeleted)
+		cur->setText(cur->text() + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
 }
 
 void kgpgOptions::slotEditKeyServer()
 {
-	QString oldServer = m_page6->ServerBox->currentText();
+	QListWidgetItem *cur = m_page6->ServerBox->currentItem();
+	QString oldServer = cur->text();
 	bool isDefault = false;
 	if (oldServer.contains(' ')) {
 		isDefault = true;
@@ -218,19 +223,22 @@ void kgpgOptions::slotEditKeyServer()
 		return;
 	if (isDefault)
 		newServer = newServer + ' ' + i18nc("Mark default keyserver in GUI", "(Default)");
-	m_page6->ServerBox->changeItem(newServer, m_page6->ServerBox->currentItem());
+	cur->setText(newServer);
 }
 
 void kgpgOptions::slotDefaultKeyServer()
 {
-    uint curr = m_page6->ServerBox->currentItem();
-    m_page6->ServerBox->changeItem(m_page6->ServerBox->currentText().section(" ", 0, 0) + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"), curr);
+	QListWidgetItem *curr = m_page6->ServerBox->currentItem();
+	curr->setText(curr->text() + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
 
-    for (uint i = 0; i < m_page6->ServerBox->count(); i++)
-        if (i != curr)
-            m_page6->ServerBox->changeItem(m_page6->ServerBox->text(i).section(" ", 0, 0), i);
-
-    m_page6->ServerBox->setSelected(curr, true);
+	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
+		QListWidgetItem *cur = m_page6->ServerBox->item(i);
+		if (cur == curr)
+			continue;
+		if (cur->text().indexOf(' ') < 0)
+			continue;
+		cur->setText(cur->text().section(" ", 0, 0));
+	}
 }
 
 void kgpgOptions::updateWidgets()
@@ -268,7 +276,7 @@ void kgpgOptions::updateWidgets()
         keyServer = defaultKeyServer;
 
     m_page6->ServerBox->clear();
-    m_page6->ServerBox->insertStringList(serverList);
+    m_page6->ServerBox->addItems(serverList);
 
     kDebug(2100) << "Finishing options" ;
 }
@@ -283,7 +291,7 @@ void kgpgOptions::updateWidgetsDefault()
     m_page4->gpg_bin_path->setText(defaultBinPath);
 
     m_page6->ServerBox->clear();
-    m_page6->ServerBox->insertStringList(defaultServerList.split(","));
+    m_page6->ServerBox->addItems(defaultServerList.split(","));
 
     kDebug(2100) << "Finishing default options" ;
 }
@@ -354,14 +362,13 @@ void kgpgOptions::updateSettings()
 
     QString currList;
     serverList = QStringList();
-    for (uint i = 0; i < m_page6->ServerBox->count(); i++)
-    {
-        QString currItem = m_page6->ServerBox->text(i);
-        if (currItem.contains(' ')) // it is the default keyserver
-            keyServer = currItem.section(" ", 0, 0);
-        else
-            serverList.append(currItem);
-    }
+	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
+		QListWidgetItem *cur = m_page6->ServerBox->item(i);
+		if (cur->text().contains(' '))		// it is the default keyserver
+			keyServer = cur->text().section(" ", 0, 0);
+		else
+			serverList.append(cur->text());
+	}
 
     KgpgInterface::setGpgSetting("keyserver", keyServer, KGpgSettings::gpgConfigPath());
     serverList.prepend(keyServer);
@@ -511,8 +518,8 @@ bool kgpgOptions::hasChanged()
         return true;
 
     QStringList currList;
-    for (uint i = 0; i < m_page6->ServerBox->count(); i++)
-        currList.append(m_page6->ServerBox->text(i));
+    for (int i = 0; i < m_page6->ServerBox->count(); i++)
+        currList.append(m_page6->ServerBox->item(i)->text());
 
     if (currList != serverList)
         return true;
@@ -541,8 +548,8 @@ bool kgpgOptions::isDefault()
         return false;
 
     QString currList;
-    for (uint i = 0; i < m_page6->ServerBox->count(); i++)
-        currList += m_page6->ServerBox->text(i) + ',';
+    for (int i = 0; i < m_page6->ServerBox->count(); i++)
+        currList += m_page6->ServerBox->item(i)->text() + ',';
     currList.truncate(currList.length() - 1);
 
     if (currList != defaultServerList)

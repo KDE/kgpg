@@ -15,7 +15,7 @@
      <item>
       <layout class="QVBoxLayout" >
        <item>
-        <widget class="K3ListBox" name="ServerBox" />
+        <widget class="KListWidget" name="ServerBox" />
        </item>
        <item>
         <widget class="QLabel" name="textLabel1_4" >
@@ -112,9 +112,9 @@ all others will be stored for use by KGpg only.</string>
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>K3ListBox</class>
-   <extends>Q3ListBox</extends>
-   <header>k3listbox.h</header>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
