@@ -236,7 +236,7 @@ KeysManager::KeysManager(QWidget *parent)
     QAction *regeneratePublic = actionCollection()->addAction("key_regener");
     regeneratePublic->setText(i18n("&Regenerate Public Key"));
     connect(regeneratePublic, SIGNAL(triggered(bool)), SLOT(slotregenerate()));
-    QAction *delUid = actionCollection()->addAction("del_uid");
+    delUid = actionCollection()->addAction("del_uid");
     delUid->setText(i18n("&Delete User Id"));
     connect(delUid, SIGNAL(triggered(bool)), SLOT(slotDelUid()));
     setPrimUid = actionCollection()->addAction("prim_uid");
@@ -267,6 +267,10 @@ KeysManager::KeysManager(QWidget *parent)
     signKey->setIcon(KIcon("document-sign-key"));
     signKey->setText(i18n("&Sign Keys..."));
     connect(signKey, SIGNAL(triggered(bool)), SLOT(signkey()));
+    signUid = actionCollection()->addAction("key_uid");
+    signUid->setIcon(KIcon("document-sign-key"));
+    signUid->setText(i18n("&Sign User ID ..."));
+    connect(signUid, SIGNAL(triggered(bool)), SLOT(signuid()));
     importSignatureKey = actionCollection()->addAction("key_importsign");
     importSignatureKey->setIcon(KIcon("document-import-key"));
     importSignatureKey->setText(i18n("Import key(s) from keyserver"));
@@ -321,6 +325,7 @@ KeysManager::KeysManager(QWidget *parent)
     m_popuppub->addAction(exportPublicKey);
     m_popuppub->addAction(deleteKey);
     m_popuppub->addAction(signKey);
+    m_popuppub->addAction(signUid);
     m_popuppub->addAction(infoKey);
     m_popuppub->addAction(editKey);
     m_popuppub->addAction(refreshKey);
@@ -332,6 +337,7 @@ KeysManager::KeysManager(QWidget *parent)
     m_popupsec = new KMenu();
     m_popupsec->addAction(exportPublicKey);
     m_popupsec->addAction(signKey);
+    m_popupsec->addAction(signUid);
     m_popupsec->addAction(infoKey);
     m_popupsec->addAction(editKey);
     m_popupsec->addAction(refreshKey);
@@ -359,9 +365,11 @@ KeysManager::KeysManager(QWidget *parent)
 
     m_popupphoto = new KMenu();
     m_popupphoto->addAction(openPhoto);
+    m_popupphoto->addAction(signUid);
     m_popupphoto->addAction(deletePhoto);
 
     m_popupuid = new KMenu();
+    m_popupuid->addAction(signUid);
     m_popupuid->addAction(delUid);
     m_popupuid->addAction(setPrimUid);
 
@@ -375,6 +383,7 @@ KeysManager::KeysManager(QWidget *parent)
     infoKey->setEnabled(false);
     editKey->setEnabled(false);
     signKey->setEnabled(false);
+    signUid->setEnabled(false);
     refreshKey->setEnabled(false);
     exportPublicKey->setEnabled(false);
     newContact->setEnabled(false);
@@ -1212,11 +1221,15 @@ KeysManager::slotMenu(const QPoint &pos)
 // 		importSignatureKey->setEnabled(allunksig);
 		delSignKey->setEnabled( (cnt == 1) );
 		m_popupsig->exec(globpos);
-	} else if ((itype == ITYPE_UID) && (cnt == 1)) {
-		KGpgKeyNode *knd = static_cast<KGpgUidNode *>(ndlist.at(0))->getParentKeyNode();
-		setPrimUid->setVisible(knd->getType() & ITYPE_SECRET);
+	} else if (itype == ITYPE_UID) {
+		if (cnt == 1) {
+			KGpgKeyNode *knd = static_cast<KGpgUidNode *>(ndlist.at(0))->getParentKeyNode();
+			setPrimUid->setEnabled(knd->getType() & ITYPE_SECRET);
+		}
+		signUid->setEnabled(true);
 		m_popupuid->exec(globpos);
 	} else if ((itype == ITYPE_UAT) && (cnt == 1)) {
+		signUid->setEnabled(true);
 		m_popupphoto->exec(globpos);
 	} else if ((itype == ITYPE_PAIR) && (cnt == 1)) {
 		m_popupsec->exec(globpos);
@@ -1231,6 +1244,11 @@ KeysManager::slotMenu(const QPoint &pos)
 		deleteKey->setEnabled(!(itype & ITYPE_GROUP));
 		setDefaultKey->setEnabled( (cnt == 1) );
 		m_popuppub->exec(globpos);
+	} else if (!(itype & ~(ITYPE_UID | ITYPE_PAIR | ITYPE_UAT))) {
+		setPrimUid->setEnabled(false);
+		delUid->setEnabled(false);
+		signUid->setEnabled(true);
+		m_popupuid->exec(globpos);
 	} else {
 		m_popupout->exec(globpos);
 	}
@@ -1719,21 +1737,111 @@ void KeysManager::signkey()
     keyCount = 0;
     delete opts;
 
+    m_signuids = false;
     signLoop();
+}
+
+void KeysManager::signuid()
+{
+	KgpgItemType tp;
+	signList = iview->selectedNodes(NULL, &tp);
+	if (signList.isEmpty())
+		return;
+
+	if (tp & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)) {
+		KMessageBox::sorry(this, i18n("You can only sign user ids and photo ids. Please check your selection."));
+		return;
+	}
+
+	if (signList.count() == 1) {
+		KGpgNode *nd = signList.at(0);
+		KGpgKeyNode *pnd = static_cast<KGpgKeyNode *>(nd->getParentKeyNode());
+		QString opt;
+
+		if (nd->getEmail().isEmpty())
+			opt = i18n("<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
+			"You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
+			"is not trying to intercept your communications</qt>", nd->getName(), nd->getId(), pnd->getBeautifiedFingerprint());
+		else
+			opt = i18n("<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br />Fingerprint: <br /><b>%4</b>.<br /><br />"
+			"You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
+			"is not trying to intercept your communications</qt>", nd->getName(), nd->getEmail(), nd->getId(), pnd->getBeautifiedFingerprint());
+
+		if (KMessageBox::warningContinueCancel(this, opt) != KMessageBox::Continue) {
+			signList.clear();
+			return;
+		}
+	} else {
+		QStringList signKeyList;
+
+		for (int i = 0; i < signList.count(); ++i) {
+			KGpgNode *nd = static_cast<KGpgNode *>(signList.at(i));
+			KGpgKeyNode *pnd = (nd->getType() & (ITYPE_UID | ITYPE_UAT)) ?
+					static_cast<KGpgKeyNode *>(nd->getParentKeyNode()) :
+					static_cast<KGpgKeyNode *>(nd);
+
+
+			if (nd->getEmail().isEmpty())
+				signKeyList += i18nc("Name: ID", "%1: %2",
+					nd->getName(), pnd->getBeautifiedFingerprint());
+			else
+				signKeyList += i18nc("Name (Email): ID", "%1 (%2): %3",
+					nd->getName(), nd->getEmail(), pnd->getBeautifiedFingerprint());
+		}
+
+		if (KMessageBox::warningContinueCancelList(this, i18n("<qt>You are about to sign the following user ids in one pass.<br/><b>If you have not carefully checked all fingerprints, the security of your communications may be compromised.</b></qt>"),
+					signKeyList) != KMessageBox::Continue)
+			return;
+	}
+
+	KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, true, signList.count(), imodel);
+	if (opts->exec() != QDialog::Accepted) {
+		delete opts;
+		return;
+	}
+
+	globalkeyID = QString(opts->getKeyID());
+	globalisLocal = opts->isLocalSign();
+	globalChecked = opts->getSignTrust();
+	m_isterminal = opts->isTerminalSign();
+	keyCount = 0;
+	delete opts;
+
+	refreshList.clear();
+	m_signuids = true;
+	signLoop();
 }
 
 void KeysManager::signLoop()
 {
-    if (keyCount < signList.count())
-    {
-		KGpgKeyNode *nd = static_cast<KGpgKeyNode *>(signList.at(keyCount));
-		kDebug(3125) << "Sign process for key:" << keyCount + 1 << "on a total of" << signList.count() << "id" << nd->getId();
+	if (keyCount < signList.count()) {
+		KGpgNode *nd = signList.at(keyCount);
+		QString uid;
+		QString keyid;
+kDebug(3125) << keyCount << signList.count() << nd;
 
-            KgpgInterface *interface = new KgpgInterface();
-		interface->signKey(nd->getId(), globalkeyID, globalisLocal, globalChecked, m_isterminal);
+		switch (nd->getType()) {
+		case ITYPE_UID:
+		case ITYPE_UAT:
+			keyid = (static_cast<KGpgExpandableNode *>(nd))->getParentKeyNode()->getId();
+			uid = nd->getId();
+			break;
+		default:
+			keyid = nd->getId();
+			if (m_signuids)
+				uid = "1";
+		}
+
+		kDebug(3125) << "Sign process for key:" << keyCount + 1 << "on a total of" << signList.count() << "id" << keyid << "uid" << uid;
+
+		KgpgInterface *interface = new KgpgInterface();
+		interface->signKey(keyid, globalkeyID, globalisLocal, globalChecked, m_isterminal, uid);
 		connect(interface, SIGNAL(signKeyFinished(int, QString, KgpgInterface*)), this, SLOT(signatureResult(int, QString, KgpgInterface*)));
-	} else
+	} else {
 		signList.clear();
+		for (int i = 0; i < refreshList.count(); i++)
+			imodel->refreshKey(refreshList.at(i));
+	}
 }
 
 void KeysManager::signatureResult(int success, const QString &keyId, KgpgInterface *interface)
@@ -1742,10 +1850,13 @@ void KeysManager::signatureResult(int success, const QString &keyId, KgpgInterfa
 
 	KGpgKeyNode *nd = imodel->getRootNode()->findKey(keyId);
 
-    if (success == 2)
-        imodel->refreshKey(nd);
-    else
-    if (success == 1)
+	if (success == 2) {
+		KGpgKeyNode *knd = (nd->getType() & (ITYPE_UAT | ITYPE_UID)) ?
+				static_cast<KGpgKeyNode *>(nd->getParentKeyNode()) :
+				static_cast<KGpgKeyNode *>(nd);
+		if (refreshList.indexOf(knd) == -1)
+			refreshList.append(knd);
+	} else if (success == 1)
 		KMessageBox::sorry(this, i18n("<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>", nd->getName(), nd->getEmail()));
     else
     if (success == 4)

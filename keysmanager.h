@@ -143,6 +143,7 @@ private slots:
     void deletekey(const QStringList &keysToDelete);
     void deleteseckey();
     void signkey();
+    void signuid();
     void delsignkey();
     void preimportsignkey();
     void importsignkey(const QStringList &importKeyId);
@@ -184,6 +185,7 @@ private:
     QString searchString;
 
     QList<KGpgNode *> signList;
+    QList<KGpgKeyNode *> refreshList;
 
     QClipboard::Mode m_clipboardmode;
     QTimer *m_statusbartimer;
@@ -206,9 +208,11 @@ private:
     QAction *importSignatureKey;
     QAction *importAllSignKeys;
     QAction *signKey;
+    QAction *signUid;
     QAction *refreshKey;
     QAction *editKey;
     QAction *setPrimUid;
+    QAction *delUid;
     QAction *delSignKey;
     QAction *deleteKey;
     QAction *editCurrentGroup;
@@ -222,6 +226,7 @@ private:
     bool globalisLocal;
     bool showTipOfDay;
     bool m_isterminal;
+    bool m_signuids;
 
     int keyCount;
     int globalChecked;

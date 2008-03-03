@@ -849,7 +849,7 @@ void KgpgInterface::getKeysFin(GPGProc *gpgProcess)
 	emit getKeysFinished(m_keystring, this);
 }
 
-void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal)
+void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal, const QString &uid)
 {
     m_partialline.clear();
     m_ispartial = false;
@@ -876,12 +876,15 @@ void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, cons
 	*m_workProcess << "-u" << signkeyid;
 	*m_workProcess << "--edit-key" << keyid;
 
+	if (!uid.isEmpty())
+		*m_workProcess << "uid" << uid;
+
 	if (local)
 		*m_workProcess << "lsign";
 	else
 		*m_workProcess << "sign";
 
-	kDebug(3125) << "Signing key" << keyid << "with key" << signkeyid;
+	kDebug(3125) << "Signing key" << keyid << "uid" << uid << "with key" << signkeyid;
 	connect(m_workProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(signKeyProcess()));
 	connect(m_workProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(signKeyFin()));
 

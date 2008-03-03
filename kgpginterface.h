@@ -155,7 +155,7 @@ public slots:
      * @param checking
      * @param terminal if the user want to sign the key manually
      */
-    void signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal = false);
+    void signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal = false, const QString &uid = QString());
 
 private slots:
     /**
