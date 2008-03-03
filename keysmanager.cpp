@@ -1991,7 +1991,8 @@ void KeysManager::delsignkey()
 		uid = '1';
 		parentKey = parent->getId();
 		break;
-	case ITYPE_SIGN:
+	case ITYPE_UID:
+	case ITYPE_UAT:
 		uid = parent->getId();
 		parentKey = parent->getParentKeyNode()->getId();
 		break;
@@ -2031,12 +2032,14 @@ void KeysManager::delsignkey()
 
 void KeysManager::delsignatureResult(bool success)
 {
-    if (success)
-    {
-        imodel->refreshKey(iview->selectedNode()->getId());
-    }
-    else
-        KMessageBox::sorry(this, i18n("Requested operation was unsuccessful, please edit the key manually."));
+	if (success) {
+		KGpgNode *nd = iview->selectedNode()->getParentKeyNode();
+
+		while (nd->getType() & ~ITYPE_PAIR)
+			nd = nd->getParentKeyNode();
+		imodel->refreshKey(nd->getId());
+	} else
+		KMessageBox::sorry(this, i18n("Requested operation was unsuccessful, please edit the key manually."));
 }
 
 void KeysManager::slotedit()
