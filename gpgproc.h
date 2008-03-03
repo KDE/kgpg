@@ -106,6 +106,11 @@ public:
     */
     static QString recode(QByteArray a, const bool colons = true);
 
+    /**
+    * Reset the class to the state it had right after creation
+    */
+    void resetProcess();
+
 signals:
     /**
      * Emitted when the process is ready for reading.

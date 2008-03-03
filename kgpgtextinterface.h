@@ -76,6 +76,12 @@ Q_SIGNALS:
     void decryptFileStarted(KUrl url);
     void decryptFileFinished(int, KGpgTextInterface*);
 
+    /**
+     * Emitted when all files passed to KgpgSignFile() where processed.
+     * Passes as argument the files that failed.
+     */
+    void fileSignFinished(KGpgTextInterface *, KUrl::List &);
+
 public Q_SLOTS:
     /**
      * Encrypt text function
@@ -137,7 +143,8 @@ public Q_SLOTS:
      * @param srcUrl Kurl of the file to sign.
      * @param options String with the wanted gpg options. ex: "--armor"
      */
-    void KgpgSignFile(const QString &keyID, const KUrl &srcUrl, const QStringList &options = QStringList());
+    void signFiles(const QString &keyID, const KUrl::List &srcUrl, const QStringList &options = QStringList());
+    void signFilesBlocking(const QString &keyID, const KUrl::List &srcUrls, const QStringList &options);
 
     /**Verify file function
      * @param sigUrl Kurl of the signature file.
@@ -180,6 +187,9 @@ private Q_SLOTS:
 
     void decryptFileProcess();
     void decryptFileFin();
+
+	void slotSignFile(int);
+	void slotSignFinished(int);
 };
 
 #endif

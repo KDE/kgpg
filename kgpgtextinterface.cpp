@@ -28,13 +28,17 @@ public:
 	QString m_signID;
 	QString m_log;
 	QStringList m_userIDs;
+	QStringList m_gpgopts;
 	QByteArray m_tmpmessage;
 	QByteArray m_readin;
 	KUrl m_file;
+	KUrl::List m_files;
+	KUrl::List m_errfiles;
 
 	void updateIDs(QByteArray txt);
 	bool symPassphrase();
 	bool gpgPassphrase();
+	void signFile(const KUrl &);
 };
 
 KGpgTextInterfacePrivate::KGpgTextInterfacePrivate()
@@ -104,6 +108,20 @@ KGpgTextInterfacePrivate::gpgPassphrase()
 	m_step--;
 
 	return false;
+}
+
+void
+KGpgTextInterfacePrivate::signFile(const KUrl &file)
+{
+	*m_process << "--command-fd=0" << "-u" << m_signID.simplified().toLocal8Bit();
+
+	for (QStringList::ConstIterator it = m_gpgopts.begin(); it != m_gpgopts.end(); ++it)
+		*m_process << QFile::encodeName(*it);
+
+	*m_process << "--output" << QFile::encodeName(file.path() + ".sig");
+	*m_process << "--detach-sig" << QFile::encodeName(file.path());
+
+	m_process->start();
 }
 
 KGpgTextInterface::KGpgTextInterface(QObject *parent)
@@ -546,15 +564,51 @@ KGpgTextInterface::verifyfin()
 
 // signatures
 void
-KGpgTextInterface::KgpgSignFile(const QString &keyID, const KUrl &srcUrl, const QStringList &options)
+KGpgTextInterface::signFiles(const QString &keyID, const KUrl::List &srcUrls, const QStringList &options)
 {
-	*d->m_process << "-u" << keyID.simplified().toLocal8Bit();
+	d->m_files = srcUrls;
+	d->m_step = 0;
+	d->m_signID = keyID;
+	d->m_gpgopts = options;
 
-	for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
-		*d->m_process << QFile::encodeName(*it);
+	slotSignFile(0);
+}
 
-	*d->m_process << "--output" << QFile::encodeName(srcUrl.path() + ".sig");
-	*d->m_process << "--detach-sig" << QFile::encodeName(srcUrl.path());
+void
+KGpgTextInterface::signFilesBlocking(const QString &keyID, const KUrl::List &srcUrls, const QStringList &options)
+{
+	d->m_signID = keyID;
+	d->m_gpgopts = options;
+
+	for (int i = 0; i < srcUrls.count(); i++) {
+		d->signFile(srcUrls.at(i));
+		d->m_process->waitForFinished(-1);
+		d->m_process->resetProcess();
+	}
+}
+void
+KGpgTextInterface::slotSignFile(int err)
+{
+	if (err != 0)
+		d->m_errfiles << d->m_files.at(d->m_step);
+
+	d->m_process->resetProcess();
+	d->signFile(d->m_files.at(d->m_step));
+
+	if (++d->m_step == d->m_files.count()) {
+		connect(d->m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotSignFinished(int)));
+	} else {
+		connect(d->m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotSignFile(int)));
+	}
 
 	d->m_process->start();
+}
+
+void
+KGpgTextInterface::slotSignFinished(int err)
+{
+	if (err != 0)
+		d->m_errfiles << d->m_files.at(d->m_step - 1);
+
+	emit fileSignFinished(this, d->m_errfiles);
 }

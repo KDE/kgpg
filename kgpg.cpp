@@ -439,7 +439,8 @@ void MyView::signDroppedFile()
         Options << "--pgp6";
 
     KGpgTextInterface *signFileProcess = new KGpgTextInterface();
-    signFileProcess->KgpgSignFile(signKeyID, droppedUrl, Options);
+    signFileProcess->signFilesBlocking(signKeyID, droppedUrls, Options);
+    delete signFileProcess;
 }
 
 void MyView::decryptDroppedFile()

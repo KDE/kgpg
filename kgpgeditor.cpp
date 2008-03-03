@@ -600,7 +600,7 @@ void KgpgEditor::slotSignFile(const KUrl &url)
 
         KGpgTextInterface *interface = new KGpgTextInterface();
         //TODO connect(interface, SIGNAL(...), this, SLOT(slotSignFileFin(KgpgInterface *interface)));
-        interface->KgpgSignFile(signKeyID, url, Options);
+        interface->signFiles(signKeyID, url, Options);
     }
 }
 

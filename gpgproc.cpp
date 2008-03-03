@@ -28,15 +28,24 @@ public:
 GPGProc::GPGProc(QObject *parent)
        : KProcess(parent), d(new GPGProcPrivate())
 {
-    QStringList args;
-    args << "--no-secmem-warning" << "--no-tty";
-    setProgram(KGpgSettings::gpgBinaryPath(), args);
-    setOutputChannelMode(OnlyStdoutChannel);
+	resetProcess();
 }
 
 GPGProc::~GPGProc()
 {
     delete d;
+}
+
+void
+GPGProc::resetProcess()
+{
+	QStringList args;
+	args << "--no-secmem-warning" << "--no-tty";
+	setProgram(KGpgSettings::gpgBinaryPath(), args);
+	setOutputChannelMode(OnlyStdoutChannel);
+
+	d->recvbuffer.clear();
+	disconnect();
 }
 
 void GPGProc::start()
