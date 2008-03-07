@@ -233,6 +233,8 @@ void KgpgSelectPublicKeyDlg::slotHideUntrustedKeys()
 void KgpgSelectPublicKeyDlg::slotGotoDefaultKey()
 {
 	KGpgNode *nd = imodel->getRootNode()->findKey(KGpgSettings::defaultKey());
+	if (nd == NULL)
+		return;
 	QModelIndex sidx = imodel->nodeIndex(nd);
 	QModelIndex pidx = iproxy->mapFromSource(sidx);
 	m_keyslist->selectionModel()->setCurrentIndex(pidx, QItemSelectionModel::Clear | QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
