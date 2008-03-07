@@ -120,11 +120,11 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 
 	if (m_onlysecret) {
 		switch (l->getType()) {
-		case ITYPE_PAIR:
-		case ITYPE_SECRET:
-			break;
-		default:
+		case ITYPE_PUBLIC:
+		case ITYPE_GPUBLIC:
 			return false;
+		default:
+			break;
 		}
 	}
 
@@ -132,6 +132,9 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 		if ((l->getTrust() <= TRUST_EXPIRED) && (l->getTrust() != TRUST_UNKNOWN))
 			return false;
 	}
+
+	if (l->getParentKeyNode() != m_model->getRootNode())
+		return true;
 
 	if (l->getName().contains(filterRegExp()))
 		return true;
