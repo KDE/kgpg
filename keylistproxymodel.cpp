@@ -95,7 +95,7 @@ KeyListProxyModel::nodeLessThan(const KGpgNode *left, const KGpgNode *right, con
 			else if (left->getName().startsWith('[') && right->getName().startsWith('['))
 				return (left->getId() < right->getId());
 		}
-		return (left->getName() < right->getName());
+		return (left->getName().compare(right->getName().toLower(), Qt::CaseInsensitive) < 0);
 	case KEYCOLUMN_EMAIL:
 		return (left->getEmail() < right->getEmail());
 	case KEYCOLUMN_TRUST:
