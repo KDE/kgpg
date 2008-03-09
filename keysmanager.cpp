@@ -267,7 +267,7 @@ KeysManager::KeysManager(QWidget *parent)
     signKey->setIcon(KIcon("document-sign-key"));
     signKey->setText(i18n("&Sign Keys..."));
     connect(signKey, SIGNAL(triggered(bool)), SLOT(signkey()));
-    signUid = actionCollection()->addAction("key_uid");
+    signUid = actionCollection()->addAction("key_sign_uid");
     signUid->setIcon(KIcon("document-sign-key"));
     signUid->setText(i18n("&Sign User ID ..."));
     connect(signUid, SIGNAL(triggered(bool)), SLOT(signuid()));
@@ -1214,6 +1214,8 @@ KeysManager::slotMenu(const QPoint &pos)
 	}
 	importAllSignKeys->setEnabled(unksig);
 
+	signUid->setEnabled(!(itype & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)));
+
 	if (itype == ITYPE_SIGN) {
 #ifdef __GNUC__
 #warning port me
@@ -1226,10 +1228,8 @@ KeysManager::slotMenu(const QPoint &pos)
 			KGpgKeyNode *knd = static_cast<KGpgUidNode *>(ndlist.at(0))->getParentKeyNode();
 			setPrimUid->setEnabled(knd->getType() & ITYPE_SECRET);
 		}
-		signUid->setEnabled(true);
 		m_popupuid->exec(globpos);
 	} else if ((itype == ITYPE_UAT) && (cnt == 1)) {
-		signUid->setEnabled(true);
 		m_popupphoto->exec(globpos);
 	} else if ((itype == ITYPE_PAIR) && (cnt == 1)) {
 		m_popupsec->exec(globpos);
@@ -1247,7 +1247,6 @@ KeysManager::slotMenu(const QPoint &pos)
 	} else if (!(itype & ~(ITYPE_UID | ITYPE_PAIR | ITYPE_UAT))) {
 		setPrimUid->setEnabled(false);
 		delUid->setEnabled(false);
-		signUid->setEnabled(true);
 		m_popupuid->exec(globpos);
 	} else {
 		m_popupout->exec(globpos);

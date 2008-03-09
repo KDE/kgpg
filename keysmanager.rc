@@ -76,6 +76,7 @@
         <Action name="key_sign"/>
         <Action name="key_edit"/>
         <Action name="key_export"/>
+	<Action name="key_sign_uid"/>
     </disable>
 </State>
 
@@ -130,6 +131,7 @@
     <Action name="key_export"/>
     <Action name="create_group"/>
     <Action name="add_kab"/>
+    <Action name="key_sign_uid"/>
   </disable>
 </State>
 
