@@ -1486,7 +1486,7 @@ void KeysManager::slotShowPhoto()
 {
     KService::List list = KMimeTypeTrader::self()->query("image/jpeg");
     if (list.isEmpty()) {
-       KMessageBox::sorry(NULL, i18n("A viewer for JPEG images is not specified.<br/>Please check your installation."), i18n("Show photo"));
+       KMessageBox::sorry(NULL, i18n("<qt>A viewer for JPEG images is not specified.<br/>Please check your installation.</qt>"), i18n("Show photo"));
        return;
     }
     KGpgNode *nd = iview->selectedNode();
