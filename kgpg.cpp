@@ -505,7 +505,7 @@ void MyView::decryptDroppedFile()
                         return;
         } else*/
         {
-            swapname=KUrl(droppedUrls.first().directory(KUrl::IgnoreTrailingSlash)+oldname);
+            swapname = KUrl(droppedUrls.first().directory(KUrl::AppendTrailingSlash) + oldname);
             QFile fgpg(swapname.path());
             if (fgpg.exists())
             {
