@@ -521,7 +521,10 @@ void MyView::decryptDroppedFile()
         }
 
         KgpgLibrary *lib=new KgpgLibrary(0);
-        lib->slotFileDec(droppedUrls.first(), swapname, QStringList(KGpgSettings::customDecrypt()));
+	QStringList custdecr;
+	if (!KGpgSettings::customDecrypt().isEmpty())
+		custdecr = QStringList(KGpgSettings::customDecrypt());
+        lib->slotFileDec(droppedUrls.first(), swapname, custdecr);
         connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(importedKeys(QStringList)));
         connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
 //        if (isFolder)
