@@ -1217,10 +1217,13 @@ KeysManager::slotMenu(const QPoint &pos)
 	signUid->setEnabled(!(itype & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)));
 
 	if (itype == ITYPE_SIGN) {
-#ifdef __GNUC__
-#warning port me
-#endif
-// 		importSignatureKey->setEnabled(allunksig);
+		bool allunksig = true;
+		for (int i = 0; (i < cnt) && allunksig; i++) {
+			KGpgSignNode *nd = static_cast<KGpgSignNode *>(ndlist.at(i));
+			allunksig = nd->isUnknown();
+		}
+
+		importSignatureKey->setEnabled(allunksig);
 		delSignKey->setEnabled( (cnt == 1) );
 		m_popupsig->exec(globpos);
 	} else if (itype == ITYPE_UID) {
