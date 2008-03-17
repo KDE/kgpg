@@ -1817,7 +1817,6 @@ void KeysManager::signLoop()
 		KGpgNode *nd = signList.at(keyCount);
 		QString uid;
 		QString keyid;
-kDebug(3125) << keyCount << signList.count() << nd;
 
 		switch (nd->getType()) {
 		case ITYPE_UID:
