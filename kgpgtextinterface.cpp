@@ -204,7 +204,7 @@ KGpgTextInterface::decryptText(const QString &text, const QStringList &options)
 
 	d->m_process->setOutputChannelMode(KProcess::SeparateChannels);
 	connect(d->m_process, SIGNAL(readyReadStandardError()), this, SLOT(decryptTextStdErr()));
-	connect(d->m_process, SIGNAL(readReady(GPGProc *)), this, SLOT(decryptTextStdOut()));
+	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(decryptTextStdOut()));
 	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(decryptTextFin()));
 	d->m_process->start();
 
@@ -214,7 +214,10 @@ KGpgTextInterface::decryptText(const QString &text, const QStringList &options)
 void
 KGpgTextInterface::decryptTextStdErr()
 {
-	d->m_log.append(d->m_process->readAllStandardError());
+	QByteArray a;
+
+	while (d->m_process->readLineStandardError(&a))
+		d->m_log.append(a + '\n');
 }
 
 void
@@ -222,7 +225,7 @@ KGpgTextInterface::decryptTextStdOut()
 {
 	QByteArray line;
 
-	while (d->m_process->readRawLine(line) >= 0 ) {
+	while (!line.isEmpty() || d->m_process->readLineStandardOutput(&line)) {
 		if (line.startsWith("[GNUPG:] ")) {
 			line.remove(0, 9);
 			if (line.startsWith("USERID_HINT")) {
@@ -248,8 +251,18 @@ KGpgTextInterface::decryptTextStdOut()
 			} else if (line.startsWith("BAD_PASSPHRASE")) {
 				d->m_step--;
 			}
-		} else
-			d->m_tmpmessage.append(line + '\n');
+			line.clear();
+		} else {
+			if (d->m_textlength < line.length()) {
+				d->m_tmpmessage.append(line.left(d->m_textlength));
+				line.remove(0, d->m_textlength);
+				d->m_textlength = 0;
+			} else {
+				d->m_tmpmessage.append(line + '\n');
+				d->m_textlength -= line.length() + 1;
+				line.clear();
+			}
+		}
 	}
 }
 
@@ -279,7 +292,7 @@ KGpgTextInterface::signText(const QString &text, const QString &userid, const QS
 
 	*d->m_process << "--clearsign" << "-u" << userid;
 
-	connect(d->m_process, SIGNAL(readReady(GPGProc *)), this, SLOT(signTextProcess()));
+	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(signTextProcess()));
 	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(signTextFin()));
 	d->m_process->start();
 }
@@ -289,7 +302,7 @@ KGpgTextInterface::signTextProcess()
 {
 	QByteArray line;
 
-	while (d->m_process->readRawLine(line) >= 0) {
+	while (d->m_process->readLineStandardOutput(&line)) {
 		if (line.startsWith("[GNUPG:]")) {
 			if (line.contains("USERID_HINT")) {
 				d->updateIDs(line);
@@ -449,7 +462,7 @@ KGpgTextInterface::decryptFile(const KUrl &src, const KUrl &dest, const QStringL
 		*d->m_process << "-o" << dest.path();
 	*d->m_process << "-d" << src.path();
 
-	connect(d->m_process, SIGNAL(readReady(GPGProc *)), this, SLOT(decryptFileProcess()));
+	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(decryptFileProcess()));
 	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(decryptFileFin()));
 	d->m_process->start();
 }
@@ -459,7 +472,7 @@ KGpgTextInterface::decryptFileProcess()
 {
 	QByteArray line;
 
-	while (d->m_process->readRawLine(line) >= 0) {
+	while (d->m_process->readLineStandardOutput(&line)) {
 		if (line.startsWith("[GNUPG:] ")) {
 			line.remove(0, 9);
 			if (line.startsWith("BEGIN_DECRYPTION")) {
@@ -504,7 +517,7 @@ KGpgTextInterface::KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl)
 		*d->m_process << QFile::encodeName(srcUrl.path());
 	*d->m_process << QFile::encodeName(sigUrl.path());
 
-	connect(d->m_process, SIGNAL(readReady(GPGProc *)), this, SLOT(readVerify()));
+	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(readVerify()));
 	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(verifyfin()));
 	d->m_process->start();
 }
@@ -514,7 +527,7 @@ KGpgTextInterface::readVerify()
 {
 	QByteArray line;
 
-	while (d->m_process->readRawLine(line) >= 0) {
+	while (d->m_process->readLineStandardOutput(&line)) {
 		d->m_message += GPGProc::recode(line) + '\n';
 		if (line.contains("GET_"))
 			d->m_process->write("quit\n");

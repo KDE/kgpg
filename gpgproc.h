@@ -16,9 +16,7 @@
 #include <QString>
 #include <QStringList>
 
-#include <KProcess>
-
-class GPGProcPrivate;
+#include "klineprocess.h"
 
 /**
  * This class handles the GnuPG formatted UTF8 output correctly.
@@ -34,7 +32,7 @@ class GPGProcPrivate;
  * @author Rolf Eike Beer
  * @short A interface to GnuPG handling UTF8 recoding correctly
  */
-class GPGProc : public KProcess
+class GPGProc : public KLineBufferedProcess
 {
     Q_OBJECT
 
@@ -68,20 +66,6 @@ public:
      * @return the number of characters read, or -1 if no data is available.
      */
     int readln(QString &line, const bool &colons = false);
-
-    /**
-     * Reads a line of text (excluding '\\n').
-     *
-     * Use readRawLine() in response to a readReady() signal.
-     * You may use it multiple times if more than one line of data is
-     * available. This does not alter the the line in any way.
-     *
-     * readRawLine() never blocks.
-     *
-     * @param line is used to store the line that was read.
-     * @return the number of characters read, or -1 if no data is available.
-     */
-    int readRawLine(QByteArray &line);
 
     /**
      * Reads a line of text and splits it into parts.
@@ -128,9 +112,6 @@ signals:
 protected slots:
     void finished();
     void received();
-
-private:
-    GPGProcPrivate* const d;
 };
 
 #endif // GPGPROC_H

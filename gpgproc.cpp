@@ -19,21 +19,14 @@
 
 #include "kgpgsettings.h"
 
-class GPGProcPrivate
-{
-public:
-    QByteArray recvbuffer;
-};
-
 GPGProc::GPGProc(QObject *parent)
-       : KProcess(parent), d(new GPGProcPrivate())
+       : KLineBufferedProcess(parent)
 {
 	resetProcess();
 }
 
 GPGProc::~GPGProc()
 {
-    delete d;
 }
 
 void
@@ -44,22 +37,20 @@ GPGProc::resetProcess()
 	setProgram(KGpgSettings::gpgBinaryPath(), args);
 	setOutputChannelMode(OnlyStdoutChannel);
 
-	d->recvbuffer.clear();
-	disconnect();
+	disconnect(SIGNAL(finished(int, QProcess::ExitStatus)));
+	disconnect(SIGNAL(lineReadyStandardOutput()));
 }
 
 void GPGProc::start()
 {
     connect(this, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(finished()));
-    connect(this, SIGNAL(readyReadStandardOutput()), this, SLOT(received()));
+    connect(this, SIGNAL(lineReadyStandardOutput()), this, SLOT(received()));
     KProcess::start();
 }
 
 void GPGProc::received()
 {
-    d->recvbuffer.append(readAllStandardOutput());
-    if (d->recvbuffer.indexOf('\n') >= 0)
-        emit readReady(this);
+	emit readReady(this);
 }
 
 void GPGProc::finished()
@@ -69,30 +60,13 @@ void GPGProc::finished()
 
 int GPGProc::readln(QString &line, const bool &colons)
 {
-    int len = d->recvbuffer.indexOf('\n');
-    if (len < 0)
-        return -1;
+	QByteArray a;
+	if (!readLineStandardOutput(&a))
+		return -1;
 
-    // don't copy '\n'
-    QByteArray a = d->recvbuffer.mid(0, len);
-    d->recvbuffer.remove(0, len + 1);
+	line = recode(a, colons);
 
-    line = recode(a, colons);
-
-    return line.length();
-}
-
-int GPGProc::readRawLine(QByteArray &line)
-{
-    int len = d->recvbuffer.indexOf('\n');
-    if (len < 0)
-        return -1;
-
-    // don't copy '\n'
-    line = d->recvbuffer.left(len);
-    d->recvbuffer.remove(0, len + 1);
-
-    return line.length();
+	return line.length();
 }
 
 int GPGProc::readln(QStringList &l)
