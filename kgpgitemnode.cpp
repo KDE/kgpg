@@ -146,6 +146,7 @@ KGpgRootNode::findKeyRow(const QString &keyId)
 KGpgKeyNode::KGpgKeyNode(KGpgExpandableNode *parent, const KgpgKey &k)
 	: KGpgExpandableNode(parent), m_key(new KgpgKey(k))
 {
+	m_signs = 0;
 }
 
 KGpgKeyNode::~KGpgKeyNode()
@@ -243,6 +244,8 @@ KGpgKeyNode::readChildren()
 
 	/******** insertion of signature ********/
 	insertSigns(this, key.signList());
+
+	m_signs = key.signList().size();
 }
 
 void KGpgKeyNode::insertSigns(KGpgExpandableNode *node, const KgpgKeySignList &list)
@@ -251,6 +254,13 @@ void KGpgKeyNode::insertSigns(KGpgExpandableNode *node, const KgpgKeySignList &l
 	{
 		(void) new KGpgSignNode(node, list.at(i));
 	}
+}
+
+QString KGpgKeyNode::getSignCount() const
+{
+	if (!wasExpanded())
+		return QString();
+	return i18np("1 signature", "%1 signatures", m_signs);
 }
 
 KGpgUidNode::KGpgUidNode(KGpgKeyNode *parent, const KgpgKeyUid &u)
@@ -271,7 +281,7 @@ KGpgUidNode::getEmail() const
 }
 
 QString
-KGpgUidNode::getSize() const
+KGpgUidNode::getSignCount() const
 {
 	return i18np("1 signature", "%1 signatures", children.count());
 }
@@ -362,6 +372,12 @@ KGpgSubkeyNode::getSize() const
 	return QString::number(m_skey.size());
 }
 
+QString
+KGpgSubkeyNode::getSignCount() const
+{
+	return i18np("1 signature", "%1 signatures", children.count());
+}
+
 KGpgUatNode::KGpgUatNode(KGpgKeyNode *parent, const KgpgKeyUat &k, const QString &index)
 	: KGpgExpandableNode(parent), m_uat(k), m_idx(index)
 {
@@ -386,6 +402,12 @@ QDate
 KGpgUatNode::getCreation() const
 {
 	return m_uat.creationDate();
+}
+
+QString
+KGpgUatNode::getSignCount() const
+{
+	return i18np("1 signature", "%1 signatures", children.count());
 }
 
 KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name)

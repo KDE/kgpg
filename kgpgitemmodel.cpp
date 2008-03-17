@@ -110,8 +110,22 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 			return node->getExpiration();
 		break;
 	case KEYCOLUMN_SIZE:
-		if (role == Qt::DisplayRole)
+		switch (role) {
+		case Qt::DisplayRole:
 			return node->getSize();
+		case Qt::ToolTipRole:
+			switch (node->getType()) {
+			case ITYPE_PAIR:
+			case ITYPE_PUBLIC:
+				return static_cast<KGpgKeyNode *>(node)->getSignCount();
+			case ITYPE_UAT:
+				return static_cast<KGpgUatNode *>(node)->getSignCount();
+			case ITYPE_UID:
+				return static_cast<KGpgUidNode *>(node)->getSignCount();
+			case ITYPE_SUB:
+				return static_cast<KGpgSubkeyNode *>(node)->getSignCount();
+			}
+		}
 		break;
 	case KEYCOLUMN_CREAT:
 		if (role == Qt::DisplayRole)

@@ -94,6 +94,7 @@ class KGpgKeyNode : public KGpgExpandableNode
 
 private:
 	KgpgKey *m_key;
+	int m_signs;
 
 	void insertSigns(KGpgExpandableNode *node, const KgpgKeySignList &list);
 
@@ -124,6 +125,7 @@ public:
 		{ return m_key->fingerprintBeautified(); }
 	virtual QString getComment() const
 		{ return m_key->comment(); }
+	virtual QString getSignCount() const;
 };
 
 typedef QList<KGpgKeyNode *> KGpgKeyNodeList;
@@ -174,7 +176,6 @@ public:
 		{ return ITYPE_UID; }
 	virtual KgpgKeyTrust getTrust() const
 		{ return m_uid->trust(); }
-	virtual QString getSize() const;
 	virtual QString getName() const;
 	virtual QString getEmail() const;
 	virtual QString getId() const;
@@ -182,6 +183,7 @@ public:
 		{ return static_cast<KGpgKeyNode *>(m_parent); }
 	virtual QString getComment() const
 		{ return m_uid->comment(); }
+	virtual QString getSignCount() const;
 };
 
 class KGpgSignNode : public KGpgNode
@@ -232,6 +234,7 @@ public:
 	virtual QString getId() const;
 	virtual KGpgKeyNode *getParentKeyNode() const
 		{ return static_cast<KGpgKeyNode *>(m_parent); }
+	virtual QString getSignCount() const;
 };
 
 class KGpgUatNode : public KGpgExpandableNode
@@ -265,6 +268,7 @@ public:
 	virtual QDate getCreation() const;
 	virtual KGpgKeyNode *getParentKeyNode() const
 		{ return static_cast<KGpgKeyNode *>(m_parent); }
+	virtual QString getSignCount() const;
 };
 
 class KGpgGroupNode : public KGpgExpandableNode
