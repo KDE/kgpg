@@ -186,29 +186,6 @@ public:
 	virtual QString getSignCount() const;
 };
 
-class KGpgSignNode : public KGpgNode
-{
-private:
-	KgpgKeySign *m_sign;
-
-public:
-	explicit KGpgSignNode(KGpgExpandableNode *parent, const KgpgKeySign &s);
-	virtual ~KGpgSignNode()
-		{ delete m_sign; }
-
-	virtual KgpgItemType getType() const
-		{ return ITYPE_SIGN; }
-	virtual QString getName() const;
-	virtual QString getEmail() const;
-	virtual QDate getExpiration() const;
-	virtual QDate getCreation() const;
-	virtual QString getId() const;
-	virtual QString getComment() const
-		{ return m_sign->comment(); }
-
-	bool isUnknown() const;
-};
-
 class KGpgSubkeyNode : public KGpgExpandableNode
 {
 private:
@@ -314,6 +291,29 @@ public:
 	virtual QString getId() const;
 	virtual KGpgGroupNode *getParentKeyNode() const
 		{ return static_cast<KGpgGroupNode *>(m_parent); }
+};
+
+class KGpgSignNode : public KGpgNode
+{
+private:
+	KgpgKeySign *m_sign;
+
+public:
+	explicit KGpgSignNode(KGpgExpandableNode *parent, const KgpgKeySign &s);
+	virtual ~KGpgSignNode()
+		{ delete m_sign; }
+
+	virtual KgpgItemType getType() const
+		{ return ITYPE_SIGN; }
+	virtual QString getName() const;
+	virtual QString getEmail() const;
+	virtual QDate getExpiration() const;
+	virtual QDate getCreation() const;
+	virtual QString getId() const;
+	virtual QString getComment() const
+		{ return m_sign->comment(); }
+
+	bool isUnknown() const;
 };
 
 class KGpgOrphanNode : public KGpgNode
