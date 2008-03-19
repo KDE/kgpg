@@ -2145,7 +2145,7 @@ void KeysManager::confirmdeletekey()
 	}
 
 	if (pt & ~ITYPE_PAIR) {
-		KMessageBox::error(this, i18n("You have selected items that are not keys. They can not be deleted with this menu entry.", terminalkey), i18n("Delete key"));
+		KMessageBox::error(this, i18n("You have selected items that are not keys. They can not be deleted with this menu entry."), i18n("Delete key"));
 		return;
 	}
 
