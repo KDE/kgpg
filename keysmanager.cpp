@@ -1065,7 +1065,7 @@ void KeysManager::checkList()
             stateChanged("group_selected");
         else {
             stateChanged("single_selected");
-            if (!terminalkey.isEmpty())
+            if (terminalkey)
                  editKey->setEnabled(false);
         }
 
@@ -2050,14 +2050,14 @@ void KeysManager::slotedit()
 
 	if (!(nd->getType() & ITYPE_PAIR))
 		return;
-	if (!terminalkey.isEmpty())
+	if (terminalkey)
 		return;
 
     KProcess *kp = new KProcess(this);
     KConfigGroup config(KGlobal::config(), "General");
     *kp << config.readPathEntry("TerminalApplication","konsole");
     *kp << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" <<"--edit-key" << nd->getId() << "help";
-    terminalkey = nd->getId();
+    terminalkey = static_cast<KGpgKeyNode *>(nd);
     editKey->setEnabled(false);
 
     connect(kp, SIGNAL(finished(int)), SLOT(slotEditDone(int)));
@@ -2069,7 +2069,7 @@ void KeysManager::slotEditDone(int exitcode)
     if (exitcode == 0)
         imodel->refreshKey(terminalkey);
 
-    terminalkey.clear();
+    terminalkey = NULL;
     editKey->setEnabled(true);
 }
 
@@ -2134,8 +2134,8 @@ void KeysManager::confirmdeletekey()
 		return;
 
 	// do not delete a key currently edited in terminal
-	if (((pt == ITYPE_PUBLIC) || (pt == ITYPE_PAIR)) && (ndlist.at(0)->getId() == terminalkey) && (ndlist.count() == 1)) {
-		KMessageBox::error(this, i18n("Can not delete key <b>%1</b> while it is edited in terminal.", terminalkey), i18n("Delete key"));
+	if ((!(pt & ~ITYPE_PAIR)) && (ndlist.at(0) == terminalkey) && (ndlist.count() == 1)) {
+		KMessageBox::error(this, i18n("Can not delete key <b>%1</b> while it is edited in terminal.", terminalkey->getBeautifiedFingerprint()), i18n("Delete key"));
 		return;
 	} else if (pt == ITYPE_GROUP) {
 		deleteGroup();
@@ -2158,7 +2158,7 @@ void KeysManager::confirmdeletekey()
 
 		if (ki->getType() & ITYPE_SECRET) {
 			secList += ki->getNameComment();
-		} else if (ki->getId() != terminalkey)
+		} else if (ki != terminalkey)
 			keysToDelete += ki->getNameComment();
 	}
 

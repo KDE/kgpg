@@ -233,7 +233,7 @@ private:
 
     long searchOptions;
 
-    QString terminalkey; // the id of the key currently edited in a terminal
+    KGpgKeyNode *terminalkey; // the key currently edited in a terminal
 };
 
 class KGpgTransaction : public QObject
