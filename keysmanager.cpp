@@ -1528,7 +1528,7 @@ void KeysManager::defaultAction(KGpgNode *nd)
 	case ITYPE_GPUBLIC:
 	case ITYPE_GSECRET:
 	case ITYPE_GPAIR:
-		iview->selectNode(imodel->getRootNode()->findKey(nd->getId()));
+		iview->selectNode(static_cast<KGpgRefNode *>(nd)->getRefNode());
 		break;
 	case ITYPE_SECRET:
 		slotregenerate();
