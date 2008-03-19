@@ -72,6 +72,9 @@ KeyTreeView::selectedNode() const
 void
 KeyTreeView::selectNode(KGpgNode *nd)
 {
+	if (nd == NULL)
+		return;
+
 	QModelIndex idx = m_proxy->nodeIndex(nd);
 
 	selectionModel()->select(idx, QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
