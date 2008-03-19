@@ -63,8 +63,7 @@ public:
 
 class KGpgExpandableNode : public KGpgNode
 {
-	friend class KGpgSignNode;
-	friend class KGpgGroupMemberNode;
+	friend class KGpgRefNode;
 	friend class KGpgSubkeyNode;
 
 protected:
@@ -90,6 +89,8 @@ public:
 
 class KGpgKeyNode : public KGpgExpandableNode
 {
+	Q_OBJECT
+
 	friend class KGpgGroupMemberNode;
 
 private:
@@ -126,12 +127,17 @@ public:
 	virtual QString getComment() const
 		{ return m_key->comment(); }
 	virtual QString getSignCount() const;
+
+Q_SIGNALS:
+	void updated(KGpgKeyNode *);
 };
 
 typedef QList<KGpgKeyNode *> KGpgKeyNodeList;
 
 class KGpgRootNode : public KGpgExpandableNode
 {
+	Q_OBJECT
+
 	friend class KGpgGroupNode;
 
 private:
@@ -156,6 +162,9 @@ public:
 
 	int groupChildren() const
 		{ return m_groups; }
+
+Q_SIGNALS:
+	void newKeyNode(KGpgKeyNode *);
 };
 
 class KGpgUidNode : public KGpgExpandableNode
@@ -267,33 +276,53 @@ public:
 	virtual QString getName() const;
 };
 
-class KGpgGroupMemberNode : public KGpgNode
+class KGpgRefNode: public KGpgNode
 {
+	Q_OBJECT
+
 private:
-	// this is not what we want. We want a reference to the KGpgNode of that key id.
-	KgpgKey *m_key;
+	QString m_id;
+
+protected:
+	KGpgKeyNode *m_keynode;
+
+	explicit KGpgRefNode(KGpgExpandableNode *parent, KGpgKeyNode *key);
+	explicit KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid);
 
 public:
-	explicit KGpgGroupMemberNode(KGpgGroupNode *parent, const QString &k);
-	explicit KGpgGroupMemberNode(KGpgGroupNode *parent, const KGpgKeyNode *k);
-	virtual ~KGpgGroupMemberNode()
-		{ delete m_key; }
+	virtual ~KGpgRefNode()
+		{ }
 
-	virtual KgpgKeyTrust getTrust() const
-		{ return m_key->trust(); }
-	virtual KgpgItemType getType() const
-		{ return KGpgKeyNode::getType(m_key) | ITYPE_GROUP; }
-	virtual QString getSize() const;
+	virtual QString getId() const;
 	virtual QString getName() const;
 	virtual QString getEmail() const;
+	virtual KGpgKeyNode *getRefNode() const
+		{ return m_keynode; }
+
+	bool isUnknown() const;
+
+private Q_SLOTS:
+	void keyUpdated(KGpgKeyNode *);
+};
+
+class KGpgGroupMemberNode : public KGpgRefNode
+{
+public:
+	explicit KGpgGroupMemberNode(KGpgGroupNode *parent, const QString &k);
+	explicit KGpgGroupMemberNode(KGpgGroupNode *parent, KGpgKeyNode *k);
+	virtual ~KGpgGroupMemberNode()
+		{ }
+
+	virtual KgpgKeyTrust getTrust() const;
+	virtual KgpgItemType getType() const;
+	virtual QString getSize() const;
 	virtual QDate getExpiration() const;
 	virtual QDate getCreation() const;
-	virtual QString getId() const;
 	virtual KGpgGroupNode *getParentKeyNode() const
 		{ return static_cast<KGpgGroupNode *>(m_parent); }
 };
 
-class KGpgSignNode : public KGpgNode
+class KGpgSignNode : public KGpgRefNode
 {
 private:
 	KgpgKeySign *m_sign;
@@ -305,15 +334,11 @@ public:
 
 	virtual KgpgItemType getType() const
 		{ return ITYPE_SIGN; }
-	virtual QString getName() const;
-	virtual QString getEmail() const;
 	virtual QDate getExpiration() const;
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
 	virtual QString getComment() const
 		{ return m_sign->comment(); }
-
-	bool isUnknown() const;
 };
 
 class KGpgOrphanNode : public KGpgNode

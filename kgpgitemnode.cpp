@@ -103,7 +103,8 @@ KGpgRootNode::addKeys(const QStringList &ids)
 			secretlist.removeAt(index);
 		}
 
-		new KGpgKeyNode(this, key);
+		KGpgKeyNode *nd = new KGpgKeyNode(this, key);
+		emit newKeyNode(nd);
 	}
 
 	for (int i = 0; i < secretlist.count(); ++i)
@@ -151,6 +152,7 @@ KGpgKeyNode::KGpgKeyNode(KGpgExpandableNode *parent, const KgpgKey &k)
 
 KGpgKeyNode::~KGpgKeyNode()
 {
+	emit updated(NULL);
 }
 
 KgpgItemType
@@ -293,22 +295,8 @@ KGpgUidNode::getId() const
 }
 
 KGpgSignNode::KGpgSignNode(KGpgExpandableNode *parent, const KgpgKeySign &s)
-	: KGpgNode(parent), m_sign(new KgpgKeySign(s))
+	: KGpgRefNode(parent, s.fullId()), m_sign(new KgpgKeySign(s))
 {
-	Q_ASSERT(parent != NULL);
-	parent->children.append(this);
-}
-
-QString
-KGpgSignNode::getName() const
-{
-	return m_sign->name();
-}
-
-QString
-KGpgSignNode::getEmail() const
-{
-	return m_sign->email();
 }
 
 QDate
@@ -327,13 +315,6 @@ QString
 KGpgSignNode::getId() const
 {
 	return m_sign->fullId();
-}
-
-bool
-KGpgSignNode::isUnknown() const
-{
-	// ugly hack to detect unknown keys
-	return (m_sign->name().startsWith('[') && m_sign->name().endsWith(']'));
 }
 
 KGpgSubkeyNode::KGpgSubkeyNode(KGpgKeyNode *parent, const KgpgKeySub &k)
@@ -454,60 +435,134 @@ KGpgGroupNode::readChildren()
 		new KGpgGroupMemberNode(this, QString(*it));
 }
 
+KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
+	: KGpgNode(parent)
+{
+	KGpgExpandableNode *pt = parent->getParentKeyNode();
+	while (pt->getParentKeyNode() != NULL)
+		pt = pt->getParentKeyNode();
+
+	KGpgRootNode *root = static_cast<KGpgRootNode *>(pt);
+	m_keynode = root->findKey(keyid);
+	if (m_keynode != NULL) {
+		connect(m_keynode, SIGNAL(updated(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
+	} else {
+		m_id = keyid;
+		connect(root, SIGNAL(newKeyNode(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
+	}
+
+	parent->children.append(this);
+}
+
+KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, KGpgKeyNode *key)
+	: KGpgNode(parent)
+{
+	Q_ASSERT(key != NULL);
+	Q_ASSERT(parent != NULL);
+	m_keynode = key;
+
+	parent->children.append(this);
+}
+
+void
+KGpgRefNode::keyUpdated(KGpgKeyNode *nkey)
+{
+	KGpgExpandableNode *pt = m_parent->getParentKeyNode();
+	while (pt->getParentKeyNode() != NULL)
+		pt = pt->getParentKeyNode();
+
+	KGpgRootNode *root = static_cast<KGpgRootNode *>(pt);
+
+	if (nkey == NULL) {
+		m_id = m_keynode->getId();
+		disconnect(this, SLOT(keyUpdated(KGpgKeyNode *)));
+		connect(root, SIGNAL(newKeyNode(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
+		m_keynode = NULL;
+	} else if ((m_keynode == NULL) && (nkey->getId().right(m_id.length()) == m_id)) {
+		m_id.clear();
+		disconnect(this, SLOT(keyUpdated(KGpgKeyNode *)));
+		connect(nkey, SIGNAL(updated(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
+		m_keynode = nkey;
+	}
+}
+
+QString
+KGpgRefNode::getId() const
+{
+	if (m_keynode != NULL)
+		return m_keynode->getId();
+	else
+		return m_id;
+}
+
+QString
+KGpgRefNode::getName() const
+{
+	if (m_keynode != NULL)
+		return m_keynode->getName();
+	return i18n("[No user id found]");
+}
+
+QString
+KGpgRefNode::getEmail() const
+{
+	if (m_keynode != NULL)
+		return m_keynode->getEmail();
+	return QString();
+}
+
+bool
+KGpgRefNode::isUnknown() const
+{
+	return (m_keynode == NULL);
+}
+
 KGpgGroupMemberNode::KGpgGroupMemberNode(KGpgGroupNode *parent, const QString &k)
-	: KGpgNode(parent)
+	: KGpgRefNode(parent, k)
 {
-	KgpgInterface *iface = new KgpgInterface();
-	KgpgKeyList l = iface->readPublicKeys(true, k);
-	delete iface;
-
-	m_key = new KgpgKey(l.at(0));
-
-	parent->children.append(this);
 }
 
-KGpgGroupMemberNode::KGpgGroupMemberNode(KGpgGroupNode *parent, const KGpgKeyNode *k)
-	: KGpgNode(parent)
+KGpgGroupMemberNode::KGpgGroupMemberNode(KGpgGroupNode *parent, KGpgKeyNode *k)
+	: KGpgRefNode(parent, k)
 {
-	m_key = new KgpgKey(*k->m_key);
-
-	parent->children.append(this);
 }
 
-QString
-KGpgGroupMemberNode::getName() const
+KgpgKeyTrust KGpgGroupMemberNode::getTrust() const
 {
-	return m_key->name();
+	if (m_keynode != NULL)
+		return m_keynode->getTrust();
+	return TRUST_NOKEY;
 }
 
-QString
-KGpgGroupMemberNode::getEmail() const
+KgpgItemType KGpgGroupMemberNode::getType() const
 {
-	return m_key->email();
+	if (m_keynode != NULL)
+		return m_keynode->getType() | ITYPE_GROUP;
+	return ITYPE_PUBLIC | ITYPE_GROUP;
 }
 
 QString
 KGpgGroupMemberNode::getSize() const
 {
-	return QString::number(m_key->size());
+	if (m_keynode != NULL)
+		return m_keynode->getSize();
+	return QString();
 }
 
 QDate
 KGpgGroupMemberNode::getExpiration() const
 {
-	return m_key->expirationDate();
+	if (m_keynode != NULL)
+		return m_keynode->getExpiration();
+	return QDate();
 }
 
 QDate
 KGpgGroupMemberNode::getCreation() const
 {
-	return m_key->creationDate();
-}
-
-QString
-KGpgGroupMemberNode::getId() const
-{
-	return m_key->fingerprint();
+	if (m_keynode != NULL)
+		return m_keynode->getCreation();
+	return QDate();
 }
 
 KGpgOrphanNode::KGpgOrphanNode(KGpgExpandableNode *parent, const KgpgKey &k)
