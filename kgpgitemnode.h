@@ -39,6 +39,14 @@ public:
 			return 0;
 		}
 
+	/**
+	 * Returns the item type of this object
+	 *
+	 * Since every subclass returns a distinct value you can use the
+	 * result of this function to decide which cast to take. Note that
+	 * there are subclasses (KGpgKeyNode, KGpgGroupMemberNode) that
+	 * can return two different values.
+	 */
 	virtual KgpgItemType getType() const = 0;
 	virtual KgpgKeyTrust getTrust() const
 		{ return TRUST_NOKEY; }
@@ -57,6 +65,14 @@ public:
 	virtual QString getComment() const
 		{ return QString(); }
 	virtual QString getNameComment() const;
+	/**
+	 * Returns the parent node in the key hierarchy
+	 *
+	 * For all "primary" items like keys and key groups this will
+	 * return the (invisible) root node. Calling this function for
+	 * the root node will return %NULL. No other node but the root
+	 * node has a %NULL parent.
+	 */
 	KGpgExpandableNode *getParentKeyNode() const
 		{ return m_parent; }
 };
@@ -122,10 +138,31 @@ public:
 	virtual QDate getExpiration() const;
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
+	/**
+	 * Print the full key fingerprint with spaces inserted
+	 *
+	 * For display purposes you normally don't want to print the full
+	 * fingerprint as is because it's too many hex characters at once.
+	 * This function returns the fingerprint in the format usually used
+	 * for printing this out, i.e. with a space after each fourth hex
+	 * character.
+	 *
+	 * @return the full fingerprint with spaces inserted
+	 */
 	virtual QString getBeautifiedFingerprint() const
 		{ return m_key->fingerprintBeautified(); }
 	virtual QString getComment() const
 		{ return m_key->comment(); }
+	/**
+	 * Return the number of signatures of the primary user id
+	 *
+	 * This is different from the number of children of this node as there
+	 * is usually at least one subkey and there may also be additional
+	 * user ids or attributes. This does not count the signatures to those
+	 * slave objects, only the ones that are direct children of this node.
+	 *
+	 * @return the number of signatures to the primary user id
+	 */
 	virtual QString getSignCount() const;
 
 Q_SIGNALS:
@@ -157,7 +194,38 @@ public:
 
 	void addGroups();
 	void addKeys(const QStringList &ids = QStringList());
+	/**
+	 * Find a key node with the given id
+	 *
+	 * This scans the list of primary keys for a key with the given id
+	 * and returns the corresponding key node.
+	 *
+	 * The key id will be matched against the characters given in keyId.
+	 * If you give only 8 or 16 byte you will still find the key if it
+	 * exists. To be really sure to find the correct node you should pass
+	 * the complete fingerprint whenever possible.
+	 *
+	 * @param keyId the key id to find, any length is permitted
+	 * @return pointer to key node or %NULL if no such key
+	 */
 	KGpgKeyNode *findKey(const QString &keyId);
+	/**
+	 * Return the child number of the key with the given id
+	 *
+	 * This scans the list of direct children for a key with the given
+	 * key id. It returns the number in the internal list of children
+	 * which is identical to the row number in the item model. Since
+	 * proxy models may sort the items you should only call this function
+	 * from the primary model (i.e. KGpgItemModel).
+	 *
+	 * The key id will be matched against the characters given in keyId.
+	 * If you give only 8 or 16 byte you will still find the key if it
+	 * exists. To be really sure to find the correct node you should pass
+	 * the complete fingerprint whenever possible.
+	 *
+	 * @param keyId the key id to find, any length is permitted
+	 * @return the child number or -1 if there is no such key
+	 */
 	int findKeyRow(const QString &keyId);
 
 	int groupChildren() const
@@ -192,6 +260,11 @@ public:
 		{ return static_cast<KGpgKeyNode *>(m_parent); }
 	virtual QString getComment() const
 		{ return m_uid->comment(); }
+	/**
+	 * Return the number of signatures of this user id
+	 *
+	 * @return the number of signatures to this id
+	 */
 	virtual QString getSignCount() const;
 };
 
@@ -220,6 +293,11 @@ public:
 	virtual QString getId() const;
 	virtual KGpgKeyNode *getParentKeyNode() const
 		{ return static_cast<KGpgKeyNode *>(m_parent); }
+	/**
+	 * Return the number of signatures of this subkey
+	 *
+	 * @return the number of signatures to this subkey
+	 */
 	virtual QString getSignCount() const;
 };
 
@@ -254,6 +332,11 @@ public:
 	virtual QDate getCreation() const;
 	virtual KGpgKeyNode *getParentKeyNode() const
 		{ return static_cast<KGpgKeyNode *>(m_parent); }
+	/**
+	 * Return the number of signatures of this attribute
+	 *
+	 * @return the number of signatures to this attribute
+	 */
 	virtual QString getSignCount() const;
 };
 
@@ -272,10 +355,27 @@ public:
 
 	virtual KgpgItemType getType() const
 		{ return ITYPE_GROUP; }
+	/**
+	 * Return size of group
+	 *
+	 * @return the number of keys in this group
+	 */
 	virtual QString getSize() const;
 	virtual QString getName() const;
 };
 
+/**
+ * class for child objects that are only a reference to a primary key
+ *
+ * This is the base class for all type of objects that match these criteria:
+ * -they can not have child objects
+ * -they are only a reference to a primary key (which needs not to be in the
+ *  key ring)
+ *
+ * Do not create instances from this class. Use KGpgGroupMemberNode and
+ * KGpgSignNode as those represent the existing objects. This class exists
+ * only to get the hierarchy right.
+ */
 class KGpgRefNode: public KGpgNode
 {
 	Q_OBJECT
@@ -296,9 +396,23 @@ public:
 	virtual QString getId() const;
 	virtual QString getName() const;
 	virtual QString getEmail() const;
+	/**
+	 * Get the node of the primary key this node references to
+	 *
+	 * This will return the key node of the primary key this node
+	 * references. This may be %NULL if the primary key is not in the key
+	 * ring, e.g. if this is a signature of an unknown key.
+	 *
+	 * @return the node of the primary key or %NULL
+	 */
 	virtual KGpgKeyNode *getRefNode() const
 		{ return m_keynode; }
 
+	/**
+	 * Check if the referenced key exists
+	 *
+	 * @return if getRefNode() will return %NULL or not
+	 */
 	bool isUnknown() const;
 
 private Q_SLOTS:
