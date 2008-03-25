@@ -190,7 +190,7 @@ KGpgItemModel::addGroup(const QString &name, const KGpgKeyNodeList &keys)
 }
 
 void
-KGpgItemModel::delGroup(const KGpgNode *node)
+KGpgItemModel::delNode(const KGpgNode *node)
 {
 	emit layoutAboutToBeChanged();
 	delete node;

@@ -106,6 +106,9 @@ KeysManager::KeysManager(QWidget *parent)
     imodel = NULL;
     readOptions();
 
+    terminalkey = NULL;
+    delkey = NULL;
+
     if (showTipOfDay)
         installEventFilter(this);
 
@@ -1600,7 +1603,7 @@ void KeysManager::deleteGroup()
         return;
 
     KgpgInterface::delGpgGroup(nd->getName(), KGpgSettings::gpgConfigPath());
-    imodel->delGroup(nd);
+    imodel->delNode(nd);
 
     QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
     KGpgSettings::setGroups(groups.join(","));
@@ -2112,17 +2115,29 @@ void KeysManager::deleteseckey()
     if (result != KMessageBox::Continue)
         return;
 
+	if (delkey != NULL) {
+		KMessageBox::error(this, i18n("Another key is currently deleted. Please wait until the operation is finished."), i18n("Delete key"));
+		return;
+	}
+
+	delkey = static_cast<KGpgKeyNode *>(nd);
     KProcess *conprocess = new KProcess();
     KConfigGroup config(KGlobal::config(), "General");
     *conprocess << config.readPathEntry("TerminalApplication","konsole");
     *conprocess << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" << "--delete-secret-and-public-key" << nd->getId();
-    connect(conprocess, SIGNAL(finished(int)), this, SLOT(reloadSecretKeys()));
+    connect(conprocess, SIGNAL(finished(int)), this, SLOT(secretKeyDeleted(int)));
     conprocess->start();
 }
 
-void KeysManager::reloadSecretKeys()
+void KeysManager::secretKeyDeleted(int retcode)
 {
-	refreshkey();
+	if (retcode == 0) {
+		KMessageBox::information(this, i18n("Key <b>%1</b> deleted.", delkey->getBeautifiedFingerprint()), i18n("Delete key"));
+		imodel->delNode(delkey);
+	} else {
+		KMessageBox::error(this, i18n("Deleting key <b>%1</b> failed.", delkey->getBeautifiedFingerprint()), i18n("Delete key"));
+	}
+	delkey = NULL;
 }
 
 void KeysManager::confirmdeletekey()

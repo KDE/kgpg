@@ -171,7 +171,7 @@ private slots:
     void slotImportRevokeTxt(const QString &revokeText);
     void refreshKeyFromServer();
     void slotregenerate();
-    void reloadSecretKeys();
+    void secretKeyDeleted(int);
     void getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *nd);
     void slotEditDone(int exitcode);
     void importRemoteFinished(KGpgTransaction *);
@@ -234,6 +234,7 @@ private:
     long searchOptions;
 
     KGpgKeyNode *terminalkey; // the key currently edited in a terminal
+    KGpgKeyNode *delkey;	// key currently deleted
 };
 
 class KGpgTransaction : public QObject
