@@ -53,3 +53,8 @@ The editor can be reached by: <pre>kgpg -d</pre></p>
 <p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the key manager.</p>
 </html>
 </tip>
+<tip category="KGpg|app">
+<html>
+<p>The number of signatures is shown as a tooltip if you hover the mouse on the size column in key manager. A key has to be expanded once for this to work.</p>
+</html>
+</tip>
