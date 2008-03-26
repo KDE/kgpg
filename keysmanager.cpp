@@ -2055,6 +2055,8 @@ void KeysManager::slotedit()
 		return;
 	if (terminalkey)
 		return;
+	if (nd == delkey)
+		return;
 
     KProcess *kp = new KProcess(this);
     KConfigGroup config(KGlobal::config(), "General");
@@ -2115,6 +2117,8 @@ void KeysManager::deleteseckey()
     if (result != KMessageBox::Continue)
         return;
 
+	if (terminalkey == nd)
+		return;
 	if (delkey != NULL) {
 		KMessageBox::error(this, i18n("Another key is currently deleted. Please wait until the operation is finished."), i18n("Delete key"));
 		return;
