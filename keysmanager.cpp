@@ -2170,6 +2170,7 @@ void KeysManager::confirmdeletekey()
 
 	QStringList keysToDelete;
 	QString secList;
+	KGpgKeyNodeList delkeys;
 
 	bool secretKeyInside = (pt & ITYPE_SECRET);
 	for (int i = 0; i < ndlist.count(); ++i) {
@@ -2177,8 +2178,10 @@ void KeysManager::confirmdeletekey()
 
 		if (ki->getType() & ITYPE_SECRET) {
 			secList += ki->getNameComment();
-		} else if (ki != terminalkey)
+		} else if (ki != terminalkey) {
 			keysToDelete += ki->getNameComment();
+			delkeys << ki;
+		}
 	}
 
         if (secretKeyInside) {
@@ -2193,12 +2196,7 @@ void KeysManager::confirmdeletekey()
         int result = KMessageBox::warningContinueCancelList(this, i18np("<qt><b>Delete the following public key?</b></qt>", "<qt><b>Delete the following %1 public keys?</b></qt>", keysToDelete.count()), keysToDelete, QString(), KStandardGuiItem::del());
         if (result != KMessageBox::Continue)
             return;
-        else
-            deletekey(keysToDelete);
-}
 
-void KeysManager::deletekey(const QStringList &keysToDelete)
-{
     KProcess gp;
     gp << KGpgSettings::gpgBinaryPath()
     << "--no-tty"
@@ -2210,7 +2208,8 @@ void KeysManager::deletekey(const QStringList &keysToDelete)
 
     gp.execute();
 
-    imodel->refreshKeys();
+	for (int i = delkeys.count() - 1; i >= 0; i--)
+		imodel->delNode(delkeys.at(i));
 
     changeMessage(imodel->statusCountMessage(), 1);
 }

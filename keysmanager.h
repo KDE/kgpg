@@ -140,7 +140,6 @@ private slots:
     void readOptions();
     void slotSetDefKey();
     void confirmdeletekey();
-    void deletekey(const QStringList &keysToDelete);
     void deleteseckey();
     void signkey();
     void signuid();
