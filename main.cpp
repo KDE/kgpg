@@ -32,9 +32,9 @@ static const char version[] = "1.9.1";
 int main(int argc, char *argv[])
 {
     KAboutData about("kgpg", 0, ki18n("KGpg"), version, ki18n(description), KAboutData::License_GPL, ki18n("(C) 2003 Jean-Baptiste Mardelle"));
-    about.addAuthor(ki18n("Jean-Baptiste Mardelle"), KLocalizedString(), "bj@altern.org");
+    about.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("Original author"), "bj@altern.org");
     about.addAuthor(ki18n("Jimmy Gilles"), KLocalizedString(), "jimmygilles@gmail.com");
-    about.addAuthor(ki18n("Rolf Eike Beer"), KLocalizedString(), "kde@opensource.sf-tec.de");
+    about.addAuthor(ki18n("Rolf Eike Beer"), ki18n("Maintainer"), "kde@opensource.sf-tec.de");
 
     KCmdLineArgs::init(argc, argv, &about);
 
