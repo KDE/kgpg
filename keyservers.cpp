@@ -69,7 +69,6 @@ KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoclose)
 {
     setCaption(i18n("Key Server"));
     setButtons(Close);
-    setDefaultButton(Close);
     setModal(modal);
 
     m_autoclose = autoclose;
