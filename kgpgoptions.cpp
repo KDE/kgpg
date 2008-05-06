@@ -116,6 +116,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 
 kgpgOptions::~kgpgOptions()
 {
+    delete m_config;
 }
 
 void kgpgOptions::slotChangeHome()
