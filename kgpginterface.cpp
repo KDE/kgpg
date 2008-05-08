@@ -2198,7 +2198,7 @@ void KgpgInterface::importKeyProcess(K3ProcIO *p)
                 m_ispartial = false;
             }
 
-            if (line.contains("http-proxy"))
+            if (!line.contains("http-proxy"))
                 message += line + '\n';
         }
     }
