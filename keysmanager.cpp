@@ -116,7 +116,7 @@
 using namespace KgpgCore;
 
 KeysManager::KeysManager(QWidget *parent)
-           : KXmlGuiWindow(parent)
+           : KXmlGuiWindow(parent, 0)
 {
     new KeyAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KeyInterface", this);
@@ -1147,9 +1147,9 @@ void KeysManager::closeEvent (QCloseEvent *e)
 {
     // kapp->ref(); // prevent KXmlGuiWindow from closing the app
     // KXmlGuiWindow::closeEvent(e);
-    e->accept();
-    // hide();
-    // e->ignore();
+    // e->accept();
+    hide();
+    e->ignore();
 }
 
 void KeysManager::showKeyServer()
