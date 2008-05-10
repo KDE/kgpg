@@ -11,7 +11,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "klineprocess.h"
+#include "klinebufferedprocess.h"
 
 class KLineBufferedProcessPrivate
 {
@@ -120,4 +120,4 @@ bool KLineBufferedProcess::hasLineStandardError() const
     return d->m_newlineInStderr >= 0;
 }
 
-#include "klineprocess.moc"
+#include "klinebufferedprocess.moc"

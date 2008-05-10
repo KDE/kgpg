@@ -28,7 +28,7 @@ set(kgpg_SRCS ${core_SRCS}
    kgpginterface.cpp
    kgpgtextinterface.cpp
    gpgproc.cpp
-   klineprocess.cpp
+   klinebufferedprocess.cpp
    keyservers.cpp
    kgpgeditor.cpp
    detailedconsole.cpp

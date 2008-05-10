@@ -16,7 +16,7 @@
 #include <QString>
 #include <QStringList>
 
-#include "klineprocess.h"
+#include "klinebufferedprocess.h"
 
 /**
  * This class handles the GnuPG formatted UTF8 output correctly.
