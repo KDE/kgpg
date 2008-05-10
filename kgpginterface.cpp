@@ -788,7 +788,8 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
     }
 }
 
-KgpgKeyList KgpgInterface::readJoinedKeys(const KgpgKeyTrust &trust, const QStringList &ids)
+KgpgCore::KgpgKeyList
+KgpgInterface::readJoinedKeys(const KgpgKeyTrust &trust, const QStringList &ids)
 {
 	KgpgKeyList secretkeys = readSecretKeys(ids);
 	KgpgKeyList publickeys = readPublicKeys(true, ids, false);
@@ -1201,7 +1202,8 @@ void KgpgInterface::changePassFin()
     emit changePassFinished(m_success, this);
 }
 
-void KgpgInterface::changeTrust(const QString &keyid, const KgpgKeyOwnerTrust &keytrust)
+void
+KgpgInterface::changeTrust(const QString &keyid, const KgpgCore::KgpgKeyOwnerTrust &keytrust)
 {
     m_partialline.clear();
     m_ispartial = false;
@@ -1663,7 +1665,8 @@ void KgpgInterface::addUidFin(GPGProc *p)
     emit addUidFinished(m_success, this);
 }
 
-void KgpgInterface::generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const KgpgKeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber)
+void
+KgpgInterface::generateKey(const QString &keyname, const QString &keyemail, const QString &keycomment, const KgpgCore::KgpgKeyAlgo &keyalgo, const uint &keysize, const uint &keyexp, const uint &keyexpnumber)
 {
     step = 3;
     m_success = 0;
