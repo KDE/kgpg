@@ -86,7 +86,7 @@ public Q_SLOTS:
     /**
      * Encrypt text function
      * @param text text to be encrypted.
-     * @param userIDs the recipients key id's.
+     * @param userids the recipients key id's.
      * @param options a list of string with the wanted gpg options. ex: "--armor"
      */
     void encryptText(const QString &text, const QStringList &userids, const QStringList &options = QStringList());
@@ -101,7 +101,7 @@ public Q_SLOTS:
     /**
      * Sign text function
      * @param text QString text to sign.
-     * @param userIDs the recipient key id's.
+     * @param userid the recipient key id's.
      * @param options StringList with the wanted gpg options.
      */
     void signText(const QString &text, const QString &userid, const QStringList &options);
@@ -114,9 +114,9 @@ public Q_SLOTS:
 
     /**
      * Encrypt file function
-     * @param encryptKeys the recipients key id's.
-     * @param srcUrl Kurl of the file to encrypt.
-     * @param destUrl Kurl for the encrypted file.
+     * @param encryptkeys the recipients key id's.
+     * @param srcurl Kurl of the file to encrypt.
+     * @param desturl Kurl for the encrypted file.
      * @param options String List with the wanted gpg options. ex: "--armor"
      * @param symetrical bool whether the encryption should be symmetrical.
      */
