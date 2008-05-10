@@ -94,11 +94,12 @@
 using namespace KgpgCore;
 
 KeysManager::KeysManager(QWidget *parent)
-           : KXmlGuiWindow(parent, 0)
+           : KXmlGuiWindow(parent)
 {
     new KeyAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KeyInterface", this);
 
+    setAttribute(Qt::WA_DeleteOnClose, false);
     setWindowTitle(i18n("Key Management"));
 
     m_statusbartimer = new QTimer(this);
