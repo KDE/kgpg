@@ -376,7 +376,7 @@ KGpgUatNode::getName() const
 QString
 KGpgUatNode::getSize() const
 {
-	return QString::number(m_pic.width()) + "x" + QString::number(m_pic.height());
+	return QString::number(m_pic.width()) + 'x' + QString::number(m_pic.height());
 }
 
 QDate
