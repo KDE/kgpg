@@ -1,5 +1,5 @@
-#include <QHeaderView>
 #include "groupedit.h"
+#include <QHeaderView>
 #include "groupeditproxymodel.h"
 #include "kgpgitemmodel.h"
 
