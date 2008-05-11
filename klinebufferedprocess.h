@@ -45,7 +45,7 @@ class KLineBufferedProcessPrivate;
  *
  * Never use the read functionality of KProcess with this class. This class
  * needs to read all data from the process into an internal buffer first. If
- * you try to use the read funtions of the parent classes you would normally
+ * you try to use the read functions of the parent classes you would normally
  * get no output at all.
  *
  * The write functions of the parent classes are not effected. You can use
