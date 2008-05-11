@@ -80,9 +80,9 @@ using namespace KgpgCore;
 
 static QString getGpgHome()
 {
-    char *env = qgetenv("GNUPGHOME");
+    QByteArray env = qgetenv("GNUPGHOME");
     QString gpgHome;
-    if (env != 0)
+    if (!env.isEmpty())
         gpgHome = env;
     else
         gpgHome = QDir::homePath() + "/.gnupg/";
@@ -1038,7 +1038,7 @@ int KgpgAppletApp::newInstance()
 
         if (!gpgPath.isEmpty())
         {
-            if ((KgpgInterface::getGpgBoolSetting("use-agent",gpgPath)) && (!qgetenv("GPG_AGENT_INFO")))
+            if ((KgpgInterface::getGpgBoolSetting("use-agent",gpgPath)) && (qgetenv("GPG_AGENT_INFO").isEmpty()))
                 KMessageBox::sorry(0,i18n("<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br />"
                         "However, the agent does not seem to be running. This could result in problems with signing/decryption.<br />"
                         "Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>", gpgPath));
