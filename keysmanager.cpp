@@ -1952,7 +1952,7 @@ bool KeysManager::importRemoteKey(const QString &keyIDs)
 	if (kservers.isEmpty())
 		return false;
 	connect(xact, SIGNAL(receiveComplete(KGpgTransaction *)), this, SLOT(importRemoteFinished(KGpgTransaction *)));
-	xact->iface->downloadKeys(keyIDs.split(' '), kservers.first(), false, getenv("http_proxy"));
+	xact->iface->downloadKeys(keyIDs.split(' '), kservers.first(), false, qgetenv("http_proxy"));
 
 	return true;
 }

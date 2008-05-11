@@ -88,7 +88,7 @@ KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoclose)
     page->cBproxyI->setChecked(KGpgSettings::useProxy());
     page->cBproxyE->setChecked(KGpgSettings::useProxy());
 
-    QString httpproxy = getenv("http_proxy");
+    QString httpproxy = qgetenv("http_proxy");
     if (!httpproxy.isEmpty())
     {
         page->cBproxyI->setEnabled(true);
@@ -142,7 +142,7 @@ void KeyServer::refreshKeys(QStringList keys)
 
     QString proxy;
     if (KGpgSettings::useProxy())
-        proxy = getenv("http_proxy");
+        proxy = qgetenv("http_proxy");
 
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(downloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)), this, SLOT(slotDownloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)));
