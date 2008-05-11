@@ -462,7 +462,7 @@ void KeysManager::slotGenerateKey()
         {
             KgpgInterface *interface = new KgpgInterface();
             connect(interface, SIGNAL(generateKeyStarted(KgpgInterface*)), this, SLOT(slotGenerateKeyProcess(KgpgInterface*)));
-            connect(interface, SIGNAL(generateKeyFinished(int, KgpgInterface*, QString, QString, QString, QString)), this, SLOT(slotGenerateKeyDone(int, KgpgInterface*, QString, QString, QString, QString)));
+            connect(interface, SIGNAL(generateKeyFinished(int, KgpgInterface*, QString, QString, QString)), this, SLOT(slotGenerateKeyDone(int, KgpgInterface*, QString, QString, QString)));
             interface->generateKey(kg->name(), kg->email(), kg->comment(), kg->algo(), kg->size(), kg->expiration(), kg->days());
         }
         else
@@ -544,7 +544,7 @@ void KeysManager::slotGenerateKeyProcess(KgpgInterface *)
     changeMessage(i18n("Generating New Key..."), 0, true);
 }
 
-void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint)
+void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const QString &name, const QString &email, const QString &fingerprint)
 {
     delete interface;
     changeMessage(i18nc("Application ready for user input", "Ready"), 0);
@@ -609,7 +609,7 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
         else
             page->kURLRequester1->setUrl(revurl + email.section(" ", 0, 0) + ".revoke");
 
-        page->TLid->setText("<b>" + id + "</b>");
+        page->TLid->setText("<b>" + fingerprint.right(8) + "</b>");
         page->LEfinger->setText(fingerprint);
         page->CBdefault->setChecked(true);
         page->show();

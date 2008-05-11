@@ -59,8 +59,8 @@ public:
     static bool getGpgBoolSetting(const QString &name, const QString &configfile);
     static void setGpgBoolSetting(const QString &name, const bool &enable, const QString &url);
 
-/************** function to send a passphrase to gpg **************/
     /**
+     * \brief ask the user for a passphrase and send it to the given gpg process
      * @param text text is the message that must be displayed in the MessageBox
      * @param process gnupg process
      * @param isnew if the password is a \e new password that must be confirmed. Default is true
@@ -151,8 +151,8 @@ public slots:
      * Key signature function
      * @param keyid the ID of the key to be signed
      * @param signkeyid the ID of the signing key
-     * @param local bool should the signature be local
-     * @param checking
+     * @param local should the signature be local
+     * @param checking how careful the key was checked
      * @param terminal if the user want to sign the key manually
      */
     void signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal = false, const QString &uid = QString());
@@ -380,19 +380,18 @@ signals:
     /**
      * This signal is emitted when the key has been generated or when
      * there is an error.
-     * @param int
+     * @param result indicated if the generation was successful or not
      * 0 = Unknown error
      * 1 = Bad passphrase
      * 2 = Key generated
      * 3 = Aborted
      * 4 = email is not valid
-     * @param KgpgInterface give a pointer to \em this Interface
-     * @param QString the first QString is the name (keyname)
-     * @param QString the seconde QString is the email (keyemail)
-     * @param QString the third QString is the id of the new key if it is created or QString() otherwise
-     * @param QString the last QString is the fingerprint
+     * @param KgpgInterface iface give a pointer to \em this Interface
+     * @param QString keyname name of the key owner
+     * @param QString keyemail email of the key owner
+     * @param QString keyfingerprint fingerprint of the new key or QString() on error
      */
-    void generateKeyFinished(int, KgpgInterface*, QString, QString, QString, QString);
+    void generateKeyFinished(int error, KgpgInterface *iface, QString keyname, QString keyemail, QString keyfingerprint);
     void generateKeyStarted(KgpgInterface*);
 
 public slots:
@@ -418,7 +417,6 @@ private slots:
     void generateKeyFin(GPGProc *p);
 
 private:
-    QString m_newkeyid;
     QString m_newfingerprint;
     QString m_keyname;
     QString m_keyemail;

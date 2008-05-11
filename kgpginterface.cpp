@@ -1674,11 +1674,10 @@ KgpgInterface::generateKey(const QString &keyname, const QString &keyemail, cons
 
 	int pos = 0;
 	if (!keyemail.isEmpty() && (EmailValidator().validate(Email, pos) == QValidator::Invalid)) {
-		emit generateKeyFinished(4, this, keyname, keyemail, QString(), QString());
+		emit generateKeyFinished(4, this, keyname, keyemail, QString());
 		return;
 	}
 
-    m_newkeyid.clear();
     m_newfingerprint.clear();
     m_keyname = keyname;
     m_keyemail = keyemail;
@@ -1770,7 +1769,7 @@ void KgpgInterface::generateKeyProcess(GPGProc *p)
                 if (sendPassphrase(passdlgmessage, p, true))
                 {
                     delete p;
-                    emit generateKeyFinished(3, this, m_keyname, m_keyemail, QString(), QString());
+                    emit generateKeyFinished(3, this, m_keyname, m_keyemail, QString());
                     return;
                 }
                 step--;
@@ -1783,7 +1782,6 @@ void KgpgInterface::generateKeyProcess(GPGProc *p)
             if (line.contains("KEY_CREATED"))
             {
                 m_newfingerprint = line.right(40);
-                m_newkeyid = line.right(8);
                 m_success = 2;
             }
             else
@@ -1797,7 +1795,7 @@ void KgpgInterface::generateKeyProcess(GPGProc *p)
 void KgpgInterface::generateKeyFin(GPGProc *p)
 {
     delete p;
-    emit generateKeyFinished(m_success, this, m_keyname, m_keyemail, m_newkeyid, m_newfingerprint);
+    emit generateKeyFinished(m_success, this, m_keyname, m_keyemail, m_newfingerprint);
 }
 
 void KgpgInterface::downloadKeys(const QStringList &keys, const QString &keyserver, const bool &refresh, const QString &proxy)

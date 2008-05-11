@@ -105,7 +105,7 @@ private slots:
     void changeMessage(const QString &msg, const int nb, const bool keep = false);
 
     void slotGenerateKeyProcess(KgpgInterface *);
-    void slotGenerateKeyDone(int res, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint);
+    void slotGenerateKeyDone(int res, KgpgInterface *interface, const QString &name, const QString &email, const QString &fingerprint);
 
     void slotShowTrust();
     void slotShowSize();
