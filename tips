@@ -16,7 +16,7 @@ This works in <strong>konqueror</strong> or on your Desktop!</p>
 </tip>
 <tip category="KGpg|app">
 <html>
-<p><strong>You don't know anything about encryption?</strong><br>
+<p><strong>You do not know anything about encryption?</strong><br>
 No problem, simply create yourself a key pair in the key management window. Then, export your public key and mail it to your friends.<br>
 Ask them to do the same and import their public keys. Finally, to send an encrypted message, type it in the KGpg editor, then click &quot;encrypt&quot;. Choose
 your friend key and click &quot;encrypt&quot; again. The message will be encrypted, ready to be sent by email.</p>
