@@ -30,6 +30,7 @@
             <Action name="show_size"/>
             <Action name="show_creat"/>
         </Menu>
+        <Action name="trust_filter_settings" />
         <Action name="photo_settings" />
         <Action name="key_refresh"/>
     </Menu>

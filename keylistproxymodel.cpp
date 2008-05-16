@@ -27,7 +27,7 @@
 using namespace KgpgCore;
 
 KeyListProxyModel::KeyListProxyModel(QObject *parent)
-	: QSortFilterProxyModel(parent), m_onlysecret(false), m_showexpired(false), m_previewsize(22)
+	: QSortFilterProxyModel(parent), m_onlysecret(false), m_mintrust(TRUST_UNKNOWN), m_previewsize(22)
 {
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 	setFilterKeyColumn(-1);
@@ -146,10 +146,8 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 		}
 	}
 
-	if (!m_showexpired) {
-		if ((l->getTrust() <= TRUST_EXPIRED) && (l->getTrust() != TRUST_UNKNOWN))
-			return false;
-	}
+	if (l->getTrust() < m_mintrust)
+		return false;
 
 	if (l->getParentKeyNode() != m_model->getRootNode())
 		return true;
@@ -174,9 +172,9 @@ KeyListProxyModel::setOnlySecret(const bool &b)
 }
 
 void
-KeyListProxyModel::setShowExpired(const bool &b)
+KeyListProxyModel::setTrustFilter(const KgpgCore::KgpgKeyTrustFlag &t)
 {
-	m_showexpired = b;
+	m_mintrust = t;
 	invalidateFilter();
 }
 

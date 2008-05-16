@@ -69,8 +69,8 @@ public:
     KToggleAction *sExpi;
     KToggleAction *sSize;
     KToggleAction *hPublic;
-    KToggleAction *hExRev;
     KSelectAction *photoProps;
+    KSelectAction *trustProps;
     KgpgEditor *s_kgpgEditor;
 
     void saveToggleOpts(void);
@@ -116,7 +116,7 @@ private slots:
     void slotDelPhotoFinished(int res, KgpgInterface *interface);
     void quitApp();
     void slotToggleSecret(bool);
-    void slotToggleDisabled(bool);
+    void slotSetTrustFilter(int);
     void slotGotoDefaultKey();
     void slotDelUid();
     void slotPrimUid();

@@ -20,6 +20,7 @@
 #define KEYLISTPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
+#include "core/kgpgkey.h"
 
 class KGpgNode;
 class KGpgExpandableNode;
@@ -36,7 +37,14 @@ public:
 	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 	void setKeyModel(KGpgItemModel *);
 	void setOnlySecret(const bool &b);
-	void setShowExpired(const bool &b);
+	/**
+	 * \brief set the minimum trust level to be shown
+	 * @param t trust level
+	 *
+	 * This enables filtering by key trust. All keys that have a lower trust than
+	 * the given value will be hidden.
+	 */
+	void setTrustFilter(const KgpgCore::KgpgKeyTrustFlag &t);
 
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 	QModelIndex nodeIndex(KGpgNode *node);
@@ -56,6 +64,7 @@ private:
 	bool nodeLessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const;
 	KGpgItemModel *m_model;
 	bool m_onlysecret;
+	KgpgCore::KgpgKeyTrustFlag m_mintrust;
 	bool m_showexpired;
 	int m_previewsize;
 	void invalidateColumn(KGpgExpandableNode *node, const int &column);

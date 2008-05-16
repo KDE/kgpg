@@ -162,11 +162,6 @@ KeysManager::KeysManager(QWidget *parent)
     hPublic->setChecked(KGpgSettings::showSecret());
     connect(hPublic, SIGNAL(triggered(bool)), SLOT(slotToggleSecret(bool)));
 
-    hExRev = actionCollection()->add<KToggleAction>("hide_disabled");
-    hExRev->setText(i18n("&Hide Expired/Disabled Keys"));
-    hExRev->setChecked(KGpgSettings::hideExRev());
-    connect(hExRev, SIGNAL(triggered(bool)), SLOT(slotToggleDisabled(bool)));
-
     QAction *infoKey = actionCollection()->addAction("key_info");
     infoKey->setIcon(KIcon("document-properties-key"));
     infoKey->setText(i18n("K&ey properties"));
@@ -305,6 +300,18 @@ KeysManager::KeysManager(QWidget *parent)
     list.append(i18nc("large picture", "Large"));
     photoProps->setItems(list);
 
+    trustProps = actionCollection()->add<KSelectAction>("trust_filter_settings");
+    trustProps->setText(i18n("Minimum &trust"));
+
+    QStringList tlist;
+    tlist.append(i18nc("no filter: show all keys", "&None"));
+    tlist.append(i18nc("show only active keys", "&Active"));
+    tlist.append(i18nc("show only keys with at least marginal trust", "&Marginal"));
+    tlist.append(i18nc("show only keys with at least full trust", "&Full"));
+    tlist.append(i18nc("show only ultimately trusted keys", "&Ultimate"));
+
+    trustProps->setItems(tlist);
+
     imodel = new KGpgItemModel(this);
 
     iproxy = new KeyListProxyModel(this);
@@ -324,6 +331,9 @@ KeysManager::KeysManager(QWidget *parent)
     int psize = KGpgSettings::photoProperties();
     photoProps->setCurrentItem(psize);
     slotSetPhotoSize(psize);
+    psize = KGpgSettings::trustLevel();
+    trustProps->setCurrentItem(psize);
+    slotSetTrustFilter(psize);
 
     m_popuppub = new KMenu();
     m_popuppub->addAction(exportPublicKey);
@@ -396,6 +406,7 @@ KeysManager::KeysManager(QWidget *parent)
     iview->restoreLayout(cg);
 
     connect(photoProps, SIGNAL(triggered(int)), this, SLOT(slotSetPhotoSize(int)));
+    connect(trustProps, SIGNAL(triggered(int)), this, SLOT(slotSetTrustFilter(int)));
 
     // get all keys data
     setupGUI(KXmlGuiWindow::Create | Save | ToolBar | StatusBar | Keys, "keysmanager.rc");
@@ -432,7 +443,6 @@ KeysManager::KeysManager(QWidget *parent)
     sExpi->setChecked(KGpgSettings::showExpi());
     iview->setColumnHidden(5, !KGpgSettings::showExpi());
     iproxy->setOnlySecret(KGpgSettings::showSecret());
-    iproxy->setShowExpired(!KGpgSettings::hideExRev());
 
     m_statusbar = statusBar();
     m_statusbar->insertItem("", 0, 1);
@@ -441,6 +451,10 @@ KeysManager::KeysManager(QWidget *parent)
     m_statusbar->changeItem("", 1);
 
     connect(m_statusbartimer, SIGNAL(timeout()), this, SLOT(statusBarTimeout()));
+
+    cg = KConfigGroup(KGlobal::config().data(), "MainWindow");
+    setAutoSaveSettings(cg, true);
+    applyMainWindowSettings(cg);
 
     s_kgpgEditor = new KgpgEditor(parent, Qt::WType_Dialog, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut(), true);
     connect(s_kgpgEditor, SIGNAL(refreshImported(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
@@ -666,9 +680,29 @@ void KeysManager::slotToggleSecret(bool b)
     iproxy->setOnlySecret(b);
 }
 
-void KeysManager::slotToggleDisabled(bool b)
+void KeysManager::slotSetTrustFilter(int i)
 {
-    iproxy->setShowExpired(!b);
+	KgpgCore::KgpgKeyTrustFlag t;
+
+	Q_ASSERT((i >= 0) && (i < 5));
+	switch (i) {
+	case 0:
+		t = TRUST_UNKNOWN;
+		break;
+	case 1:
+		t = TRUST_UNDEFINED;
+		break;
+	case 2:
+		t = TRUST_MARGINAL;
+		break;
+	case 3:
+		t = TRUST_FULL;
+		break;
+	default:
+		t = TRUST_ULTIMATE;
+	}
+
+	iproxy->setTrustFilter(t);
 }
 
 bool KeysManager::eventFilter(QObject *, QEvent *e)
@@ -1129,7 +1163,7 @@ void KeysManager::saveToggleOpts(void)
     KGpgSettings::setShowExpi(sExpi->isChecked());
     KGpgSettings::setShowCreat(sCreat->isChecked());
     KGpgSettings::setShowSize(sSize->isChecked());
-    KGpgSettings::setHideExRev(hExRev->isChecked());
+    KGpgSettings::setTrustLevel(trustProps->currentItem());
     KGpgSettings::setShowSecret(hPublic->isChecked());
     KGpgSettings::self()->writeConfig();
 }
