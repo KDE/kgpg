@@ -90,7 +90,7 @@
         </entry>
         <entry name="ShowSize" type="Bool" key="show_size">
             <label>Show the size value in key manager.</label>
-xe            <default>true</default>
+            <default>true</default>
         </entry>
         <entry name="ShowCreat" type="Bool" key="show_creat">
             <label>Show the creation value in key manager.</label>
