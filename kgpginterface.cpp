@@ -1788,6 +1788,8 @@ void KgpgInterface::generateKeyProcess(GPGProc *p)
             if (line.contains("GET_"))
             {
                 p->write("quit\n");
+            } else if (line.contains("NEED_PASSPHRASE")) {
+		m_success = 3;
             }
     }
 }
