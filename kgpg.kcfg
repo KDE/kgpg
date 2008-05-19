@@ -100,6 +100,10 @@
             <label>Show only secret keys in key manager.</label>
             <default>false</default>
         </entry>
+	<entry name="ShowLongKeyId" type="Bool" key="show_long_keyid">
+		<label>Show long key id in key manager.</label>
+		<default>false</default>
+	</entry>
 	<entry name="TrustLevel" type="Enum" key="trust filter">
             <label>Show only keys with at least that trust level in key manager.</label>
 	    <choices>

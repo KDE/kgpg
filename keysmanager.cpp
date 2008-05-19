@@ -162,6 +162,11 @@ KeysManager::KeysManager(QWidget *parent)
     hPublic->setChecked(KGpgSettings::showSecret());
     connect(hPublic, SIGNAL(triggered(bool)), SLOT(slotToggleSecret(bool)));
 
+    longId = actionCollection()->add<KToggleAction>("show_long_keyid");
+    longId->setText(i18n("Show &long key id"));
+    longId->setChecked(KGpgSettings::showLongKeyId());
+    connect(longId, SIGNAL(triggered(bool)), SLOT(slotShowLongId(bool)));
+
     QAction *infoKey = actionCollection()->addAction("key_info");
     infoKey->setIcon(KIcon("document-properties-key"));
     infoKey->setText(i18n("K&ey properties"));
@@ -680,6 +685,11 @@ void KeysManager::slotToggleSecret(bool b)
     iproxy->setOnlySecret(b);
 }
 
+void KeysManager::slotShowLongId(bool b)
+{
+	iproxy->setIdLength(b ? 16 : 8);
+}
+
 void KeysManager::slotSetTrustFilter(int i)
 {
 	KgpgCore::KgpgKeyTrustFlag t;
@@ -1165,6 +1175,7 @@ void KeysManager::saveToggleOpts(void)
     KGpgSettings::setShowSize(sSize->isChecked());
     KGpgSettings::setTrustLevel(trustProps->currentItem());
     KGpgSettings::setShowSecret(hPublic->isChecked());
+    KGpgSettings::setShowLongKeyId(longId->isChecked());
     KGpgSettings::self()->writeConfig();
 }
 

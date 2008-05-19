@@ -22,6 +22,7 @@
     <Menu name="view">
         <text>&amp;View</text>
         <Action name="show_secret"/>
+        <Action name="show_long_keyid"/>
         <Action name="hide_disabled"/>
         <Menu name="show_details">
             <text>&amp;Show Details</text>

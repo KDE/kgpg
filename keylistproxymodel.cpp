@@ -230,25 +230,5 @@ KeyListProxyModel::setIdLength(const int &length)
 		return;
 
 	m_idLength = length;
-	invalidateColumn(m_model->getRootNode(), KEYCOLUMN_ID);
-}
-
-void
-KeyListProxyModel::invalidateColumn(KGpgExpandableNode *node, const int &column)
-{
-// TODO: test me!
-
-	for (int i = 0; i < node->getChildCount(); i++) {
-		KGpgNode *child = node->getChild(i);
-
-		QModelIndex idx = createIndex(i, column, child);
-
-		emit dataChanged(idx, idx);
-		if (!child->hasChildren())
-			continue;
-
-		KGpgExpandableNode *echild = static_cast<KGpgExpandableNode *>(child);
-		if (echild->wasExpanded())
-			invalidateColumn(echild, column);
-	}
+	invalidate();
 }

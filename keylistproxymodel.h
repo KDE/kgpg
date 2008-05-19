@@ -67,7 +67,6 @@ private:
 	KgpgCore::KgpgKeyTrustFlag m_mintrust;
 	bool m_showexpired;
 	int m_previewsize;
-	void invalidateColumn(KGpgExpandableNode *node, const int &column);
 	int m_idLength;
 };
 
