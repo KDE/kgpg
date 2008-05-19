@@ -541,7 +541,7 @@ void KeysManager::slotGenerateKeyProcess(KgpgInterface *)
     pop = new KPassivePopup(this);
     pop->setTimeout(0);
 
-    KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString(), Images::kgpg(), 0);
+    KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString(), Images::kgpg());
 
     QMovie anim(KStandardDirs::locate("appdata", "pics/kgpg_anim.gif"));
     QLabel *text1 = new QLabel(passiveBox);
@@ -567,6 +567,9 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
 {
     delete interface;
     changeMessage(i18nc("Application ready for user input", "Ready"), 0);
+
+    delete pop;
+    pop = NULL;
 
     if (res == 1)
     {
@@ -633,9 +636,6 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
         page->CBdefault->setChecked(true);
         page->show();
         keyCreated->setMainWidget(page);
-
-        delete pop;
-        pop = 0;
 
         keyCreated->exec();
 
