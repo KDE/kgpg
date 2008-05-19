@@ -246,7 +246,7 @@ QGroupBox* KgpgKeyInfo::_keypropertiesGroup(QWidget *parent)
     m_length = new QLabel(widget_properties);
 
     m_owtrust->addItem(i18n("I do not know"));
-    m_owtrust->addItem(i18n("I do <b>not</b> trust"));
+    m_owtrust->addItem(i18n("I do NOT trust"));
     m_owtrust->addItem(i18n("Marginally"));
     m_owtrust->addItem(i18n("Fully"));
     m_owtrust->addItem(i18n("Ultimately"));
