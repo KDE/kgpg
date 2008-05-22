@@ -126,7 +126,7 @@ KeyListProxyModel::nodeLessThan(const KGpgNode *left, const KGpgNode *right, con
 		return (left->getCreation() < right->getCreation());
 	default:
 		Q_ASSERT(column == KEYCOLUMN_ID);
-		return (left->getId() < right->getId());
+		return (left->getId().right(m_idLength) < right->getId().right(m_idLength));
 	}
 }
 
