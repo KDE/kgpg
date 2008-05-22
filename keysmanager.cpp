@@ -339,6 +339,7 @@ KeysManager::KeysManager(QWidget *parent)
     psize = KGpgSettings::trustLevel();
     trustProps->setCurrentItem(psize);
     slotSetTrustFilter(psize);
+    slotShowLongId(KGpgSettings::showLongKeyId());
 
     m_popuppub = new KMenu();
     m_popuppub->addAction(exportPublicKey);
