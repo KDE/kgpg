@@ -384,7 +384,7 @@ void KgpgInterface::updateIDs(QString txt)
     if (txt.contains('(', Qt::CaseInsensitive))
         txt = txt.section('(', 0, 0) + txt.section(')', -1);
 
-    txt.replace(QRegExp("<"), "&lt;");
+    txt.replace('<', "&lt;");
 
     if (!userIDs.contains(txt))
     {
@@ -478,8 +478,8 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
                 if (kmail.contains('<') ) // several email addresses in the same key
                 {
-                    kmail = kmail.replace(">", ";");
-                    kmail.remove("<");
+                    kmail = kmail.replace('>', ';');
+                    kmail.remove('<');
                 }
 
                 m_publickey.setEmail(kmail);
@@ -583,8 +583,8 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
                 if ( kmail.contains('<') ) // several email addresses in the same key
                 {
-                    kmail = kmail.replace(">", ";");
-                    kmail.remove("<");
+                    kmail = kmail.replace('>', ';');
+                    kmail.remove('<');
                 }
 
                 uid.setEmail(kmail);
@@ -639,8 +639,8 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
                 if (kmail.contains('<' )) // several email addresses in the same key
                 {
-                    kmail = kmail.replace(">", ";");
-                    kmail.remove("<");
+                    kmail = kmail.replace('>', ';');
+                    kmail.remove('<');
                 }
 
                 signature.setEmail(kmail);
@@ -763,8 +763,8 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 
                     if (kmail.contains('<' )) // several email addresses in the same key
                     {
-                        kmail = kmail.replace(">", ";");
-                        kmail.remove("<");
+                        kmail = kmail.replace('>', ';');
+                        kmail.remove('<');
                     }
 
                     m_secretkey.setEmail(kmail);
@@ -1160,7 +1160,7 @@ void KgpgInterface::changePassProcess()
             {
                 if (userIDs.isEmpty())
                     userIDs = i18n("[No user id found]");
-                userIDs.replace(QRegExp("<"), "&lt;");
+                userIDs.replace('<', "&lt;");
 
                 if (m_success == 1)
                 {
