@@ -376,7 +376,7 @@ KGpgItemModel::refreshGroups()
 bool
 KGpgItemModel::isDefaultKey(const KGpgNode *node) const
 {
-	return (m_default == node->getId().right(m_default.length()));
+	return !m_default.isEmpty() && (m_default == node->getId().right(m_default.length()));
 }
 
 void
