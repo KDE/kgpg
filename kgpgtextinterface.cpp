@@ -463,7 +463,7 @@ KGpgTextInterface::decryptFile(const KUrl &src, const KUrl &dest, const QStringL
 	*d->m_process << "-d" << src.path();
 
 	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(decryptFileProcess()));
-	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(decryptFileFin()));
+	connect(d->m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(decryptFileFin(int, QProcess::ExitStatus)));
 	d->m_process->start();
 }
 
@@ -487,7 +487,7 @@ KGpgTextInterface::decryptFileProcess()
 					d->m_process->write("Yes\n");
 				} else if ((line.contains("passphrase.enter"))) {
 					if (d->gpgPassphrase()) {
-						emit decryptFileFinished(3, this);
+						emit decryptFileFinished(1, this);
 						return;
 					}
 				} else {
@@ -499,12 +499,18 @@ KGpgTextInterface::decryptFileProcess()
 }
 
 void
-KGpgTextInterface::decryptFileFin()
+KGpgTextInterface::decryptFileFin(int res, QProcess::ExitStatus status)
 {
+	if (status == QProcess::CrashExit)
+		emit decryptFileFinished(2, this);
+
+	if (res != 0)
+		emit decryptFileFinished(3, this);
+
 	if (d->m_message.contains("DECRYPTION_OKAY") && d->m_message.contains("END_DECRYPTION"))
-		emit decryptFileFinished(5, this);
-	else
 		emit decryptFileFinished(0, this);
+	else
+		emit decryptFileFinished(4, this);
 }
 
 void

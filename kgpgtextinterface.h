@@ -3,6 +3,7 @@
 
 #include <QStringList>
 #include <QString>
+#include <QProcess>
 
 #include <KUrl>
 
@@ -66,15 +67,19 @@ Q_SIGNALS:
      */
     void fileEncryptionFinished(KUrl, KGpgTextInterface*);
 
-    /**
-     * 0 = Unknown error
-     * 1 = Bad passphrase
-     * 2 = Uid Added
-     * 3 = Aborted
-     * 5 = email is not valid
-     */
     void decryptFileStarted(KUrl url);
-    void decryptFileFinished(int, KGpgTextInterface*);
+    /**
+     * \brief emitted when the decryption has finished
+     *
+     * @param result decryption result
+     * 0 = decryption successful
+     * 1 = Bad passphrase
+     * 2 = the gpg process crashed or was killed
+     * 3 = gpg process returned with error
+     * 4 = gpg did not print successful status
+     * @param iface pointer to this class
+     */
+    void decryptFileFinished(int result, KGpgTextInterface *iface);
 
     /**
      * Emitted when all files passed to KgpgSignFile() where processed.
@@ -186,7 +191,7 @@ private Q_SLOTS:
     void fileEncryptFin();
 
     void decryptFileProcess();
-    void decryptFileFin();
+	void decryptFileFin(int, QProcess::ExitStatus);
 
 	void slotSignFile(int);
 	void slotSignFinished(int);

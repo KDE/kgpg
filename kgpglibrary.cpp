@@ -173,13 +173,14 @@ void KgpgLibrary::slotFileDec(const KUrl &src, const KUrl &dest, const QStringLi
     KGpgTextInterface *decryptFileProcess = new KGpgTextInterface();
     decryptFileProcess->decryptFile(src, dest, customDecryptOption);
     connect(decryptFileProcess, SIGNAL(decryptFileStarted(KUrl)), this, SLOT(processEncPopup(KUrl)));
-    connect(decryptFileProcess, SIGNAL(decryptFileFinished(int, KgpgInterface*)), this, SLOT(processDecOver()));
+    connect(decryptFileProcess, SIGNAL(decryptFileFinished(int, KGpgTextInterface*)), this, SLOT(processDecOver(int, KGpgTextInterface*)));
 }
 
-void KgpgLibrary::processDecOver()
+void KgpgLibrary::processDecOver(int ret, KGpgTextInterface *iface)
 {
     emit systemMessage(QString());
     delete m_pop;
+    delete iface;
     emit decryptionOver();
 }
 

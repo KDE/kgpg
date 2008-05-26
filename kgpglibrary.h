@@ -58,7 +58,7 @@ private slots:
     void fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
     void processEnc(const KUrl &, KGpgTextInterface*);
     void processEncError(const QString &mssge, KGpgTextInterface*);
-    void processDecOver();
+    void processDecOver(int, KGpgTextInterface*);
     void processDecError(const QString &mssge);
     void processEncPopup(const KUrl &url);
     void processPopup2(const QString &fileName);
