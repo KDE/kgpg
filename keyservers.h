@@ -19,6 +19,7 @@
 #define KEYSERVERS_H
 
 #include <KDialog>
+#include <KProgressDialog>
 
 #include "kgpginterface.h"
 #include "ui_searchres.h"
@@ -44,7 +45,7 @@ public:
     }
 };
 
-class ConnectionDialog : public KDialog
+class ConnectionDialog : public KProgressDialog
 {
     Q_OBJECT
 

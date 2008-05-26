@@ -35,26 +35,11 @@
 using namespace KgpgCore;
 
 ConnectionDialog::ConnectionDialog(QWidget *parent)
-                : KDialog(parent)
+                : KProgressDialog(parent, i18n("Keyserver"), i18n("<b>Connecting to the server...</b>"))
 {
-    setCaption(i18n("Keyserver"));
     setModal(true);
 
-    setButtons(Cancel);
-    setDefaultButton(Cancel);
-    setButtonText(Cancel, i18n("&Abort"));
-
-    QWidget *widget = new QWidget(this);
-    widget->setMinimumWidth(300);
-
-    QLabel *label = new QLabel(i18n("<b>Connecting to the server...</b>"), widget);
-
-    QVBoxLayout *vlayout = new QVBoxLayout(widget);
-    vlayout->addWidget(label);
-
-    setMainWidget(widget);
-    layout()->setSizeConstraint(QLayout::SetFixedSize);
-
+    progressBar()->setRange(0, 0);
     show();
 }
 
