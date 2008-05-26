@@ -1104,21 +1104,22 @@ void KeysManager::showKeyServer()
 void KeysManager::checkList()
 {
     QList<KGpgNode *> exportList = iview->selectedNodes();
-    if (exportList.count() > 1)
-    {
-        stateChanged("multi_selected");
-    }
-    else
-    {
-        if (exportList.at(0)->getType() == ITYPE_GROUP)
-            stateChanged("group_selected");
-        else {
-            stateChanged("single_selected");
-            if (terminalkey)
-                 editKey->setEnabled(false);
-        }
 
-    }
+	switch (exportList.count()) {
+	case 0:
+		return;
+	case 1:
+		if (exportList.at(0)->getType() == ITYPE_GROUP) {
+			stateChanged("group_selected");
+		} else {
+			stateChanged("single_selected");
+			if (terminalkey)
+				editKey->setEnabled(false);
+		}
+		break;
+	default:
+		stateChanged("multi_selected");
+	}
 
     switch (exportList.at(0)->getType()) {
     case ITYPE_PUBLIC:
