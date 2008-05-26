@@ -34,26 +34,26 @@
 </authorgroup>
 
 <copyright>
-<year>2002,2007</year>
+<year>2002,2007,2008</year>
 <holder>Jean-Baptiste Mardelle</holder>
 <holder>Rolf Eike Beer</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2007-09-01</date>
-<releaseinfo>0.03.00</releaseinfo>
+<date>2008-05-24</date>
+<releaseinfo>0.03.01</releaseinfo>
 
 <abstract>
 <para>
-&kgpg; is a simple graphical interface for GnuPG <ulink
-url="http://gnupg.org"> (http://gnupg.org)</ulink>
+&kgpg; is a simple graphical interface for GnuPG (<ulink
+url="http://gnupg.org">http://gnupg.org</ulink>).
 </para>
 </abstract>
 
 <keywordset>
 <keyword>KDE</keyword>
-<keyword>Kgpg</keyword>
+<keyword>KGpg</keyword>
 <keyword>encryption</keyword>
 <keyword>gpg</keyword>
 <keyword>pgp</keyword>
@@ -98,7 +98,6 @@ url="http://gnupg.org">http://gnupg.org</ulink>.</para>
 <para>
 When you start &kgpg;, a system tray icon will appear. A &LMB;
 click will open the Key Manager window, while a &RMB; click will open a menu allowing quick access to some important features.
-You can also drop files or text on the applet icon to encrypt or decrypt it.
 </para>
 </listitem>
 </varlistentry>
@@ -141,10 +140,10 @@ You can import, export, sign and edit your keys. Most actions can be performed w
 
 
 <varlistentry>
-<term>&konqueror; Integration</term>
+<term>File manager integration</term>
 <listitem>
 
-<para>&kgpg; is integrated in &konqueror;. It means that when you right click on a file, you can choose
+<para>&kgpg; is integrated in &konqueror; and Dolphin. It means that when you right click on a file, you can choose
  <menuchoice><guimenu>Actions</guimenu><guimenuitem>Encrypt
 File</guimenuitem></menuchoice> to encrypt a file. You can decrypt a file with a &LMB; click.
  </para>
@@ -199,7 +198,7 @@ secret keys later using the <link linkend="keyproperties">key properties window<
 
 <sect2 id="konqui">
 
-<title>Encrypting a File From &konqueror;</title>
+<title>Encrypting a file from &konqueror; or Dolphin</title>
 
 <para>Click on the file you want to
 encrypt with the &RMB;. Choose <menuchoice><guimenu>Actions</guimenu><guimenuitem>Encrypt
@@ -211,41 +210,38 @@ role="extension">.asc</literal> or <literal
 role="extension">.gpg</literal> extension depending on whether you
 chose ASCII encryption or not.</para>
 
-</sect2>
-
-<sect2 id="drop">
-<title>Encrypting a File or Text With &kgpg;'s Applet</title>
-
-<para>Simply drop your file on the &kgpg; system tray applet. If it is
-an unencrypted file, &kgpg; will pop up the key selection dialog (see
-below). Select the encryption key, and the encrypted file will be
-saved.  If you drop text, the encrypted text will be pasted to the
-clipboard.  You can also encrypt clipboard by selecting the
-<guimenuitem>Encrypt clipboard</guimenuitem> item in applet
-menu.</para>
-
 <screenshot>
-<screeninfo>Here's a screen shot of the key selection window</screeninfo>
+<screeninfo>Here is a screen shot of the key selection window</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="keys.png" format="PNG"/></imageobject>
 </mediaobject>
 </screenshot>
 
+</sect2>
+
+<sect2 id="drop">
+<title>Encrypting a text with &kgpg;'s applet</title>
+
+<para>You can encrypt the contents of the clipboard by selecting the
+<guimenuitem>Encrypt clipboard</guimenuitem> item in applet menu. When you
+choose <guimenuitem>Sign clipboard</guimenuitem> then the text will be signed
+instead.</para>
+
 <para>For more information on the encryption options <quote>ASCII
 armor</quote>, <quote>Allow encryption with untrusted keys</quote> and
 <quote>Symmetrical encryption</quote>, please refer to gpg's
-documentation or man pages.</para>
+documentation or <ulink url="man:gpg">man pages</ulink>.</para>
 
 </sect2>
 
 <sect2 id="editor">
-<title>Encrypting Text From &kgpg;'s editor</title>
+<title>Encrypting text from &kgpg;'s editor</title>
 
 <para>This is as simple as clicking on the
 <guibutton>Encrypt</guibutton> button. You will then be prompted with
 the Public key selection dialog. Choose your key and click
-<guibutton>Encrypt</guibutton> again. The encrypted message will
+<guibutton>Ok</guibutton>. The encrypted message will
 appear in the editor window.</para>
 </sect2>
 
@@ -256,7 +252,7 @@ appear in the editor window.</para>
 
 
 <sect2 id="konq-dec">
-<title>Decrypting a File From &konqueror;</title>
+<title>Decrypting a file from &konqueror; or Dolphin</title>
 <para><mousebutton>Left</mousebutton> click on the file you want to
 decrypt. Enter your passphrase and it will be decrypted. You can also
 drag an encrypted text file and drop it into &kgpg;'s editor window. It
@@ -268,14 +264,11 @@ File</guimenuitem></menuchoice> and choose a file to decrypt.</para>
 </sect2>
 
 <sect2 id="kicker-dec">
-<title>Decrypting Text or a File With the &kgpg; applet</title>
+<title>Decrypting text with &kgpg;'s applet</title>
 
-<para>You can drop an encrypted file or selected text on the &kgpg;
-system tray applet. You will then be prompted for passphrase, and the
-decrypted file/text will be saved or opened in the &kgpg; editor
-depending from how you configured the applet.  You can also decrypt
-clipboard with the <guimenuitem>decrypt clipboard</guimenuitem> menu
-entry of the &kgpg; applet </para>
+<para>You can also decrypt the contents of the clipboard with the
+<guimenuitem>decrypt clipboard</guimenuitem> menu
+entry of the &kgpg; applet.</para>
 
 </sect2>
 
@@ -294,7 +287,7 @@ passphrase.
 <title>Key Management</title>
 
 <para>All basic key management options can be performed through
-&kgpg;. To open the key management window &LMB; on &kgpg;'s applet.
+&kgpg;. To open the key management window click the &LMB; on &kgpg;'s applet.
 Most options are available with a <mousebutton>right</mousebutton> click on a key.
 To import/export public keys, you can use drag
 and drop or the Copy/Paste keyboard shortcuts.</para>
@@ -348,6 +341,7 @@ and drop or the Copy/Paste keyboard shortcuts.</para>
 
 <para>This dialog gives you access to the keyservers. You can search and import keys from a keyserver as well as export keys to a server. An example of searching and importing is when you want to write a mail to someone new. If you would like to encrypt your mail to your contact you can search if he or she has a public key on the key servers. If you have created a new key pair or have signed someone else's key you might want to export the public key (possibly with new signatures) to a keyserver.</para>
 <para>Most keyservers synchronize their data between each others so you will get similar search results regardless which server you use. Since there are exceptions of this rule you can choose the keyserver to use in this dialog. It's usually a good idea to choose a default keyserver that is located close to you (i.e. in your country or on your continent) as they usually respond faster to your queries.</para>
+<para>Please note that everything you upload to a keyserver usually stays there forever. This is one reason you should usually limit the lifetime of your keys. Also note that the keyservers are sometimes scanned by spammers for email addresses.</para>
 
 </sect1>
 
@@ -358,7 +352,7 @@ and drop or the Copy/Paste keyboard shortcuts.</para>
 click on the applet) or through the main menu (
 <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure KGpg</guimenuitem></menuchoice>).
 You can set default parameters for encryption, decryption, user interface and applet.
-Most encryption options are directly related to gpg and are documented in it's man page.</para>
+Most encryption options are directly related to gpg and are documented in it's <ulink url="man:gpg">man page</ulink>.</para>
 
 <screenshot>
 <screeninfo>Here's a screen shot of the option dialog</screeninfo>
@@ -387,7 +381,7 @@ Most encryption options are directly related to gpg and are documented in it's m
 <para>&copy; 2006-2007 Jimmy Gilles
 <email>jimmygilles@gmail.com</email></para>
 
-<para>&copy; 2006-2007 Rolf Eike Beer
+<para>&copy; 2006-2008 Rolf Eike Beer
 <email>kde@opensource.sf-tec.de</email>
 </para>
 
@@ -411,5 +405,3 @@ sgml-intent-step:0
 sgml-indent-data:nil
 End:
 -->
-
-
