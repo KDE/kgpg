@@ -107,7 +107,7 @@ void KeyServer::slotReadKeys(KgpgKeyList list, KgpgInterface *interface)
             QString line = key.name();
             if (!key.comment().isEmpty()) line += " (" + key.comment() + ')';
             if (!key.email().isEmpty())    line += " <" + key.email() + '>';
-            if (line.length() > 35)
+            if (line.length() > 37)
             {
                 line.remove(35, line.length());
                 line += "...";
