@@ -74,7 +74,7 @@ kde4_add_executable(kgpg ${kgpg_SRCS})
 
 target_link_libraries(kgpg   ${KDE4_KABC_LIBS} ${KDE4_KUTILS_LIBS} ${QT_QT3SUPPORT_LIBRARY})
 
-install(TARGETS kgpg  DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS kgpg  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
