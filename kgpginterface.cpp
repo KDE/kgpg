@@ -1239,12 +1239,12 @@ void KgpgInterface::changeTrustProcess()
             else
             if (line.contains("keyedit.prompt"))
             {
-                m_workProcess->write(QByteArray("save"), true);
+                m_workProcess->write(QByteArray("save\n"));
             }
             else
             if (line.contains("GET_")) // gpg asks for something unusal
             {
-                m_workProcess->write(QByteArray("quit"), true);
+                m_workProcess->write(QByteArray("quit\n"));
             }
     }
 }
