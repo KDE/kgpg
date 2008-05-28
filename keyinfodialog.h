@@ -96,7 +96,7 @@ private:
     QGroupBox *_buttonsGroup(QWidget *parent);
     QGroupBox *_fingerprintGroup(QWidget *parent);
 
-    void reloadKey();
+    void reloadKey(KgpgInterface *interface);
     void displayKey();
 
 private slots:

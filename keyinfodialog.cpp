@@ -368,11 +368,12 @@ QGroupBox* KgpgKeyInfo::_fingerprintGroup(QWidget *parent)
     return group;
 }
 
-void KgpgKeyInfo::reloadKey()
+void KgpgKeyInfo::reloadKey(KgpgInterface *interface)
 {
-    KgpgInterface *interface = new KgpgInterface();
     KgpgKeyList listkeys = interface->readPublicKeys(true, m_key->fullId());
     delete interface;
+
+    Q_ASSERT(listkeys.count() > 0);
 
     delete m_key;
     m_key = new KgpgKey(listkeys.at(0));
@@ -520,16 +521,17 @@ void KgpgKeyInfo::slotChangeDate()
 
 void KgpgKeyInfo::slotInfoExpirationChanged(const int &res, KgpgInterface *interface)
 {
-    delete interface;
-
     if (res == 2)
     {
         m_keywaschanged = true;
-        reloadKey();
+        reloadKey(interface);
+	interface = NULL;
     }
     else
     if (res == 1)
         KMessageBox::error(this, i18n("Could not change expiration"), i18n("Bad passphrase. Expiration of the key has not been changed."));
+
+    delete interface;
 }
 
 void KgpgKeyInfo::slotDisableKey(const bool &ison)
@@ -539,10 +541,9 @@ void KgpgKeyInfo::slotDisableKey(const bool &ison)
     interface->changeDisable(m_key->fullId(), ison);
 }
 
-void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface, int)
+void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface, int res)
 {
-    delete interface;
-    reloadKey();
+    reloadKey(interface);
     m_keywaschanged = true;
 }
 
@@ -573,9 +574,8 @@ void KgpgKeyInfo::slotChangeTrust(const int &newtrust)
 
 void KgpgKeyInfo::slotInfoTrustChanged(KgpgInterface *interface)
 {
-    delete interface;
     m_keywaschanged = true;
-    reloadKey();
+    reloadKey(interface);
 }
 
 #include "keyinfodialog.moc"
