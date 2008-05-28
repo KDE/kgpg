@@ -30,7 +30,6 @@
 #define KEYCOLUMN_ID	6
 
 #include "kgpgitemnode.h"
-#include "keyinfodialog.h"
 #include "kgpgkey.h"
 
 class QColor;

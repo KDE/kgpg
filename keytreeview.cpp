@@ -23,6 +23,7 @@
 
 #include <KMessageBox>
 #include <KLocale>
+#include <KConfigGroup>
 
 #include "kgpgitemmodel.h"
 #include "keylistproxymodel.h"
