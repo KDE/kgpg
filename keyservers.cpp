@@ -266,8 +266,7 @@ void KeyServer::slotSearch()
 
     connect(m_listpop->kLVsearch, SIGNAL(itemSelectionChanged()), this, SLOT(transferKeyID()));
     connect(m_dialogserver, SIGNAL(okClicked()), this, SLOT(slotPreImport()));
-    connect(m_listpop->kLVsearch, SIGNAL(itemDoubleClicked(QTreeWidgetItem *, int)), m_dialogserver, SIGNAL(okClicked()));
-    //connect(m_listpop->kLVsearch,SIGNAL(returnPressed ( Q3ListViewItem * )),this,SLOT(slotPreImport()));
+    connect(m_listpop->kLVsearch, SIGNAL(itemActivated(QTreeWidgetItem *, int)), m_dialogserver, SIGNAL(okClicked()));
     connect(m_dialogserver, SIGNAL(closeClicked()), this, SLOT(handleQuit()));
     connect(m_listpop, SIGNAL(destroyed()), this, SLOT(slotAbortSearch()));
 
