@@ -543,8 +543,10 @@ void KgpgKeyInfo::slotDisableKey(const bool &ison)
 
 void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface, int res)
 {
-    reloadKey(interface);
-    m_keywaschanged = true;
+	if (res == 0) {
+		reloadKey(interface);
+		m_keywaschanged = true;
+	}
 }
 
 void KgpgKeyInfo::slotChangePass()
