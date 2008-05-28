@@ -283,6 +283,11 @@ QString KGpgKeyNode::getSignCount() const
 	return i18np("1 signature", "%1 signatures", m_signs);
 }
 
+KgpgKey *KGpgKeyNode::copyKey() const
+{
+	return new KgpgKey(*m_key);
+}
+
 KGpgUidNode::KGpgUidNode(KGpgKeyNode *parent, const KgpgKeyUid &u)
 	: KGpgExpandableNode(parent), m_uid(new KgpgKeyUid(u))
 {

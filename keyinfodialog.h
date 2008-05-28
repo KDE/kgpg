@@ -27,6 +27,8 @@
 #include <KComboBox>
 #include <KDialog>
 
+#include "kgpgkey.h"
+
 class QCheckBox;
 class QGroupBox;
 
@@ -82,7 +84,8 @@ class KgpgKeyInfo : public KDialog
     Q_OBJECT
 
 public:
-    explicit KgpgKeyInfo(const QString &keyid, QWidget *parent = 0);
+    explicit KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent = 0);
+    ~KgpgKeyInfo();
 
 signals:
     void keyNeedsRefresh(const QString &keyid);
@@ -93,7 +96,8 @@ private:
     QGroupBox *_buttonsGroup(QWidget *parent);
     QGroupBox *_fingerprintGroup(QWidget *parent);
 
-    void loadKey();
+    void reloadKey();
+    void displayKey();
 
 private slots:
     void slotPreOk();
@@ -115,8 +119,7 @@ private slots:
     void slotSetPhoto(const QPixmap &pixmap, KgpgInterface *interface);
 
 private:
-    QString m_keyid;
-    QDate m_expirationdate;
+    KgpgCore::KgpgKey *m_key;
 
     QCheckBox *m_disable;
     QLabel *m_name;

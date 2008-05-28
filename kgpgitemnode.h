@@ -182,6 +182,10 @@ public:
 	 * @return the number of signatures to the primary user id
 	 */
 	virtual QString getSignCount() const;
+	/**
+	 * Creates a copy of the KgpgKey that belongs to this class
+	 */
+	virtual KgpgKey *copyKey() const;
 
 Q_SIGNALS:
 	void updated(KGpgKeyNode *);

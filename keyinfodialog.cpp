@@ -155,14 +155,14 @@ void KgpgDateDialog::slotEnableDate(const bool &ison)
     }
 }
 
-KgpgKeyInfo::KgpgKeyInfo(const QString &keyid, QWidget *parent)
+KgpgKeyInfo::KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent)
            : KDialog(parent)
 {
     setButtons(Close);
     setDefaultButton(Close);
     setModal(true);
 
-    m_keyid = keyid;
+    m_key = key;
     m_keywaschanged = false;
 
     QWidget *page = new QWidget(this);
@@ -199,11 +199,16 @@ KgpgKeyInfo::KgpgKeyInfo(const QString &keyid, QWidget *parent)
     connect(m_email, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
     connect(this, SIGNAL(closeClicked()), this, SLOT(slotPreOk()));
 
-    loadKey();
+    displayKey();
     if (!m_hasphoto)
         m_photoid->setEnabled(false);
     else
         slotLoadPhoto(m_photoid->currentText());
+}
+
+KgpgKeyInfo::~KgpgKeyInfo()
+{
+	delete m_key;
 }
 
 QGroupBox* KgpgKeyInfo::_keypropertiesGroup(QWidget *parent)
@@ -319,18 +324,13 @@ QGroupBox* KgpgKeyInfo::_photoGroup(QWidget *parent)
 
 QGroupBox* KgpgKeyInfo::_buttonsGroup(QWidget *parent)
 {
-    KgpgInterface *interface = new KgpgInterface();
-    KgpgKeyList keys = interface->readSecretKeys(QStringList(m_keyid));
-    delete interface;
-    bool isscretkey = keys.size() != 0;
-
     QPushButton *expiration = 0;
     QPushButton *password = 0;
 
     QGroupBox *group = new QGroupBox(parent);
     m_disable = new QCheckBox(i18n("Disable key"), group);
 
-    if (isscretkey)
+    if (m_key->secret())
     {
         expiration = new QPushButton(i18n("Change Expiration..."), group);
         password = new QPushButton(i18n("Change Passphrase..."), group);
@@ -345,7 +345,7 @@ QGroupBox* KgpgKeyInfo::_buttonsGroup(QWidget *parent)
     layout->setSpacing(spacingHint());
     layout->addWidget(m_disable);
 
-    if (isscretkey)
+    if (m_key->secret())
     {
         layout->addWidget(expiration);
         layout->addWidget(password);
@@ -368,17 +368,23 @@ QGroupBox* KgpgKeyInfo::_fingerprintGroup(QWidget *parent)
     return group;
 }
 
-void KgpgKeyInfo::loadKey()
+void KgpgKeyInfo::reloadKey()
 {
     KgpgInterface *interface = new KgpgInterface();
-    KgpgKeyList listkeys = interface->readPublicKeys(true, m_keyid);
+    KgpgKeyList listkeys = interface->readPublicKeys(true, m_key->fullId());
     delete interface;
 
-    KgpgKey key = listkeys.at(0);
+    delete m_key;
+    m_key = new KgpgKey(listkeys.at(0));
+    displayKey();
+}
+
+void KgpgKeyInfo::displayKey()
+{
     KgpgKeySub subkey;
 
     // Get the first encryption subkey
-    KgpgKeySubListPtr sublist = key.subList();
+    KgpgKeySubListPtr sublist = m_key->subList();
     for (int i = 0; i < sublist->count(); ++i)
     {
         KgpgKeySub temp = sublist->at(i);
@@ -389,42 +395,42 @@ void KgpgKeyInfo::loadKey()
         }
     }
 
-    QString name = key.name();
+    QString name = m_key->name();
     setCaption(name);
     m_name->setText("<qt><b>" + name + "</b></qt>");
 
-    if (key.email().isEmpty())
+    if (m_key->email().isEmpty())
     {
         m_email->setText(i18nc("no email address", "none"));
         m_email->setUrl("");
     }
     else
     {
-        m_email->setText("<qt><b>&lt;" + key.email() + "&gt;</b></qt>");
-        m_email->setUrl("mailto:" + key.email());
+        m_email->setText("<qt><b>&lt;" + m_key->email() + "&gt;</b></qt>");
+        m_email->setUrl("mailto:" + m_key->email());
     }
 
-    KgpgKeyTrust keytrust = key.valid() ? key.trust() : TRUST_DISABLED;
+    KgpgKeyTrust keytrust = m_key->valid() ? m_key->trust() : TRUST_DISABLED;
     QString tr = Convert::toString(keytrust);
     QColor trustcolor = Convert::toColor(keytrust);
 
-    m_id->setText(key.fullId());
-    m_algorithm->setText(Convert::toString(key.algorithm()) + " / " + Convert::toString(subkey.algorithm()));
+    m_id->setText(m_key->fullId());
+    m_algorithm->setText(Convert::toString(m_key->algorithm()) + " / " + Convert::toString(subkey.algorithm()));
     m_algorithm->setWhatsThis("<qt>The left part is the algorithm used by the <b>signature</b> key. The right part is the algorithm used by the <b>encryption</b> key.</qt>");
-    m_creation->setText(key.creation());
-    m_expiration->setText(key.expiration());
+    m_creation->setText(m_key->creation());
+    m_expiration->setText(m_key->expiration());
     m_trust->setText(tr);
     m_trust->setColor(trustcolor);
-    m_length->setText(QString::number(key.size()) + " / " + QString::number(subkey.size()));
+    m_length->setText(QString::number(m_key->size()) + " / " + QString::number(subkey.size()));
     m_length->setWhatsThis("<qt>The left part is the size of the <b>signature</b> key. The right part is the size of the <b>encryption</b> key.</qt>");
-    m_fingerprint->setText(key.fingerprintBeautified());
+    m_fingerprint->setText(m_key->fingerprintBeautified());
 
-    if (key.comment().isEmpty())
+    if (m_key->comment().isEmpty())
         m_comment->setText(i18nc("no key comment", "none"));
     else
-        m_comment->setText(key.comment());
+        m_comment->setText(m_key->comment());
 
-    QStringList photolist = key.photoList();
+    QStringList photolist = m_key->photoList();
     m_photoid->clear();
     if (photolist.isEmpty())
     {
@@ -438,7 +444,7 @@ void KgpgKeyInfo::loadKey()
         m_photoid->addItems(photolist);
     }
 
-    switch (key.ownerTrust())
+    switch (m_key->ownerTrust())
     {
         case OWTRUST_NONE:
             m_owtrust->setCurrentIndex(1);
@@ -462,11 +468,10 @@ void KgpgKeyInfo::loadKey()
             break;
     }
 
-    if (!key.valid())
+    if (!m_key->valid())
         m_disable->setChecked(true);
 
-    m_isunlimited = key.unlimited();
-    m_expirationdate = key.expirationDate();
+    m_isunlimited = m_key->unlimited();
 }
 
 void KgpgKeyInfo::slotOpenUrl(const QString &url) const
@@ -478,7 +483,7 @@ void KgpgKeyInfo::slotLoadPhoto(const QString &uid)
 {
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(loadPhotoFinished(QPixmap, KgpgInterface*)), this, SLOT(slotSetPhoto(QPixmap, KgpgInterface*)));
-    interface->loadPhoto(m_keyid, uid);
+    interface->loadPhoto(m_key->fullId(), uid);
 }
 
 void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap, KgpgInterface *interface)
@@ -493,22 +498,22 @@ void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap, KgpgInterface *interface)
 void KgpgKeyInfo::slotPreOk()
 {
     if (m_keywaschanged)
-        emit keyNeedsRefresh(m_keyid);
+        emit keyNeedsRefresh(m_key->fullId());
     accept();
 }
 
 void KgpgKeyInfo::slotChangeDate()
 {
-    KgpgDateDialog *dialog = new KgpgDateDialog(this, m_isunlimited, m_expirationdate);
+    KgpgDateDialog *dialog = new KgpgDateDialog(this, m_isunlimited, m_key->expirationDate());
     if (dialog->exec() == QDialog::Accepted)
     {
         KgpgInterface *process = new KgpgInterface();
         connect(process, SIGNAL(keyExpireFinished(int, KgpgInterface*)), this, SLOT(slotInfoExpirationChanged(int, KgpgInterface*)));
 
         if (dialog->unlimited())
-            process->keyExpire(m_keyid, QDate());
+            process->keyExpire(m_key->fullId(), QDate());
         else
-            process->keyExpire(m_keyid, dialog->date());
+            process->keyExpire(m_key->fullId(), dialog->date());
     }
     delete dialog;
 }
@@ -520,7 +525,7 @@ void KgpgKeyInfo::slotInfoExpirationChanged(const int &res, KgpgInterface *inter
     if (res == 2)
     {
         m_keywaschanged = true;
-        loadKey();
+        reloadKey();
     }
     else
     if (res == 1)
@@ -531,13 +536,13 @@ void KgpgKeyInfo::slotDisableKey(const bool &ison)
 {
     KgpgInterface *interface = new KgpgInterface;
     connect (interface, SIGNAL(changeDisableFinished(KgpgInterface*, int)), this, SLOT(slotDisableKeyFinished(KgpgInterface*, int)));
-    interface->changeDisable(m_keyid, ison);
+    interface->changeDisable(m_key->fullId(), ison);
 }
 
 void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface, int)
 {
     delete interface;
-    loadKey();
+    reloadKey();
     m_keywaschanged = true;
 }
 
@@ -545,7 +550,7 @@ void KgpgKeyInfo::slotChangePass()
 {
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(changePassFinished(int, KgpgInterface*)), this, SLOT(slotInfoPasswordChanged(int, KgpgInterface*)));
-    interface->changePass(m_keyid);
+    interface->changePass(m_key->fullId());
 }
 
 void KgpgKeyInfo::slotInfoPasswordChanged(const int &res, KgpgInterface *interface)
@@ -563,14 +568,14 @@ void KgpgKeyInfo::slotChangeTrust(const int &newtrust)
 {
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(changeTrustFinished(KgpgInterface*)), this, SLOT(slotInfoTrustChanged(KgpgInterface*)));
-    interface->changeTrust(m_keyid, KgpgKeyOwnerTrust(newtrust + 1));
+    interface->changeTrust(m_key->fullId(), KgpgKeyOwnerTrust(newtrust + 1));
 }
 
 void KgpgKeyInfo::slotInfoTrustChanged(KgpgInterface *interface)
 {
     delete interface;
     m_keywaschanged = true;
-    loadKey();
+    reloadKey();
 }
 
 #include "keyinfodialog.moc"

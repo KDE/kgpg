@@ -1532,8 +1532,16 @@ void KeysManager::slotProcessExportClip(const QString &keys)
 
 void KeysManager::showKeyInfo(const QString &keyID)
 {
-    KgpgKeyInfo *opts = new KgpgKeyInfo(keyID, this);
-    opts->show();
+	KgpgInterface *iface = new KgpgInterface;
+	KgpgKeyList listkeys = iface->readJoinedKeys(TRUST_UNKNOWN, QStringList(keyID));
+	delete iface;
+
+	if (listkeys.count() == 0)
+		return;
+
+	KgpgKey *k = new KgpgKey(listkeys.at(0));
+	KgpgKeyInfo *opts = new KgpgKeyInfo(k, this);
+	opts->show();
 }
 
 void KeysManager::slotShowPhoto()
@@ -1601,7 +1609,7 @@ KeysManager::showProperties(KGpgNode *n)
 	case ITYPE_PAIR:
 		{
 			KGpgKeyNode *k = static_cast<KGpgKeyNode *>(n);
-			KgpgKeyInfo *opts = new KgpgKeyInfo(k->getKeyId(), this);
+			KgpgKeyInfo *opts = new KgpgKeyInfo(k->copyKey(), this);
 			connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
 			opts->exec();
 			delete opts;
@@ -1629,7 +1637,8 @@ void KeysManager::keyproperties()
 	case ITYPE_PUBLIC:
 	case ITYPE_GPAIR:
 	case ITYPE_GPUBLIC: {
-		KgpgKeyInfo *opts = new KgpgKeyInfo(cur->getId(), this);
+		KGpgKeyNode *kn = static_cast<KGpgKeyNode *>(cur);
+		KgpgKeyInfo *opts = new KgpgKeyInfo(kn->copyKey(), this);
 		connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
 		opts->exec();
 		delete opts;
