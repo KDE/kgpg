@@ -1279,7 +1279,7 @@ void KgpgInterface::changeDisableFin(int res)
 {
     delete editprocess;
     editprocess = 0;
-    changeDisableFinished(this, res);
+    emit changeDisableFinished(this, res);
 }
 
 QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool &block)
@@ -1500,7 +1500,7 @@ void KgpgInterface::importKey(const KUrl &url)
 void KgpgInterface::importURLover(GPGProc *p)
 {
     KIO::NetAccess::removeTempFile(m_tempkeyfile);
-    importKeyFinished(p);
+    emit importKeyFinished(p);
 }
 
 void KgpgInterface::importKeyProcess(GPGProc *p)
