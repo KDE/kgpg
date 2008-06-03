@@ -354,13 +354,44 @@ click on the applet) or through the main menu (
 You can set default parameters for encryption, decryption, user interface and applet.
 Most encryption options are directly related to gpg and are documented in it's <ulink url="man:gpg">man page</ulink>.</para>
 
+<sect2 id="conf-encryption">
+<title>Encryption</title>
 <screenshot>
-<screeninfo>Here's a screen shot of the option dialog</screeninfo>
+<screeninfo>A screen shot of the option dialog with encryption tab opened</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="options.png" format="PNG"/></imageobject>
 </mediaobject>
 </screenshot>
+</sect2>
+
+<sect2 id="conf-decryption">
+<title>Decryption</title>
+
+<para>Here you can specify a custom decryption command. This option is seldomly needed and only useful for advanced users that know of GnuPGs command line options.</para>
+</sect2>
+
+<sect2 id="conf-appearance">
+<title>Appearance</title>
+<para>Here you can configure the way KGpg looks to you. Possible settings are the colors that reflect the different levels of key trust in the <link linkend="keymanager">key manager</link> and the font settings for the <link linkend="editor">editor</link>.</para>
+</sect2>
+
+<sect2 id="conf-gnupg">
+<title>GnuPG Settings</title>
+<para>Here you can configure which gpg binary and which <guibutton>configuration file</guibutton> and home directory are used. This values are autodetected on first start and should already work.</para>
+<para>Using the <ulink url="man:gpg-agent">GnuPG agent</ulink> makes work with GnuPG more comfortable as you do not need to type in your password for every action. It is cached in memory for a while so any operation that would require a password can immediately be done. Note that this may allow other people to use your private keys if you leave your session accessible to them.</para>
+</sect2>
+
+<sect2 id="conf-keyservers">
+<title>Key Servers</title>
+<para>Here you can create a list of keyservers that are shown to you when you open the <link linkend="keyserver">key server dialog</link>. If you run GnuPG from the command line only the key server you set as default here will be used.</para>
+<para>The protocol used for communication with the key servers is based on HTTP, so it makes sense in some environments to <guibutton>honor the HTTP proxy when available</guibutton>.</para>
+</sect2>
+
+<sect2 id="conf-misc">
+<title>Misc</title>
+<para></para>
+</sect2>
 
 </sect1>
 
