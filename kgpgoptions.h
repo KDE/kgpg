@@ -108,6 +108,7 @@ private slots:
     void slotAddKeyServer();
     void slotDelKeyServer();
     void slotEditKeyServer();
+    void slotEditKeyServer(QListWidgetItem *);
     void slotDefaultKeyServer();
     void updateWidgets();
     void updateWidgetsDefault();

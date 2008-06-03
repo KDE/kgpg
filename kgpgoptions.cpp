@@ -104,6 +104,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
     connect(m_page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
     connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
+    connect(m_page6->ServerBox, SIGNAL(executed(QListWidgetItem *)), this, SLOT(slotEditKeyServer(QListWidgetItem *)));
 
     keyUltimate = KGpgSettings::colorUltimate();
     keyGood = KGpgSettings::colorGood();
@@ -212,6 +213,14 @@ void kgpgOptions::slotDelKeyServer()
 void kgpgOptions::slotEditKeyServer()
 {
 	QListWidgetItem *cur = m_page6->ServerBox->currentItem();
+	slotEditKeyServer(cur);
+}
+
+void kgpgOptions::slotEditKeyServer(QListWidgetItem *cur)
+{
+	if (cur == NULL)
+		return;
+
 	QString oldServer = cur->text();
 	bool isDefault = false;
 	if (oldServer.contains(' ')) {
@@ -223,6 +232,7 @@ void kgpgOptions::slotEditKeyServer()
 	if (!isValidKeyserver(newServer))
 		return;
 	if (isDefault)
+	// FIXME: no i18n concatenation, make this a single i18n call
 		newServer = newServer + ' ' + i18nc("Mark default keyserver in GUI", "(Default)");
 	cur->setText(newServer);
 }
@@ -230,6 +240,7 @@ void kgpgOptions::slotEditKeyServer()
 void kgpgOptions::slotDefaultKeyServer()
 {
 	QListWidgetItem *curr = m_page6->ServerBox->currentItem();
+	// FIXME: no i18n concatenation, make this a single i18n call
 	curr->setText(curr->text() + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
 
 	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
