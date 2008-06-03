@@ -378,14 +378,14 @@ Most encryption options are directly related to gpg and are documented in it's <
 
 <sect2 id="conf-gnupg">
 <title>GnuPG Settings</title>
-<para>Here you can configure which gpg binary and which <guibutton>configuration file</guibutton> and home directory are used. This values are autodetected on first start and should already work.</para>
+<para>Here you can configure which gpg binary and which <guilabel>configuration file</guilabel> and home directory are used. This values are autodetected on first start and should already work.</para>
 <para>Using the <ulink url="man:gpg-agent">GnuPG agent</ulink> makes work with GnuPG more comfortable as you do not need to type in your password for every action. It is cached in memory for a while so any operation that would require a password can immediately be done. Note that this may allow other people to use your private keys if you leave your session accessible to them.</para>
 </sect2>
 
 <sect2 id="conf-keyservers">
 <title>Key Servers</title>
 <para>Here you can create a list of keyservers that are shown to you when you open the <link linkend="keyserver">key server dialog</link>. If you run GnuPG from the command line only the key server you set as default here will be used.</para>
-<para>The protocol used for communication with the key servers is based on HTTP, so it makes sense in some environments to <guibutton>honor the HTTP proxy when available</guibutton>.</para>
+<para>The protocol used for communication with the key servers is based on HTTP, so it makes sense in some environments to <guilabel>honor the HTTP proxy when available</guilabel>.</para>
 </sect2>
 
 <sect2 id="conf-misc">
