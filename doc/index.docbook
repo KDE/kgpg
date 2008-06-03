@@ -363,6 +363,17 @@ Most encryption options are directly related to gpg and are documented in it's <
 <imagedata fileref="options.png" format="PNG"/></imageobject>
 </mediaobject>
 </screenshot>
+<para>Here you can configure special options to be passed to GnuPG to change the encryption behaviour. For detailed description please have a look at the GnuPG manual.</para>
+<itemizedlist>
+<listitem><para><guilabel>ASCII armored encryption</guilabel>: this causes encrypted files to be stored in a format that uses only printable ASCII characters and has short lines. Files stored this way are bigger than the files in binary format but are easier to send e.g. by email.</para></listitem>
+<listitem><para><guilabel>Allow encryption with untrusted keys</guilabel>: this allows you to to encrypt files with keys that are not trusted by you.</para></listitem>
+<listitem><para><guilabel>PGP 6 compatibility</guilabel>: encrypted files are compatible with the older PGP6 standard. This disables certain features so you should only use this if really needed.</para></listitem>
+<listitem><para><guilabel>Hide user id</guilabel>: this removes all evidence of the receiver from the encrypted file. In case the transmission is intercepted noone could gain information about the recipient from the file. If the receiver has multiple keys he needs to try which one was used.</para></listitem>
+<listitem><para><guilabel>Always encrypt with</guilabel>: all encryptions are additionally encrypted with this key. If you set this to one of your private keys this makes sure you can read all data you encrypted by the price of bigger messages.</para></listitem>
+<listitem><para><guilabel>Encrypt files with</guilabel>: behaves like <guilabel>Always encrypt with</guilabel> for file encryption.</para></listitem>
+<listitem><para><guilabel>Custom encryption command</guilabel>: if you need to pass some unusual options to GnuPG you can specify the command line here. Most users will not need this.</para></listitem>
+<listitem><para><guilabel>Use *.pgp extension for encrypted files</guilabel>: if you check this option encrypted keys will be named as th input file with the extension <literal role="extension">.pgp</literal> added, otherwise the extension <literal role="extension">.gpg</literal> is used.</para></listitem>
+</itemizedlist>
 </sect2>
 
 <sect2 id="conf-decryption">
@@ -390,7 +401,8 @@ Most encryption options are directly related to gpg and are documented in it's <
 
 <sect2 id="conf-misc">
 <title>Misc</title>
-<para></para>
+<para>This section allows the setting of some different features that do not fit into the other sections. You can configure for example to <guilabel>start KGpg automatically at login</guilabel>. The option <guilabel>use mouse selection instead of clipboard</guilabel> changes happens by mouse and pasting by middle mouse button or if all operations are done by keyboard shortcuts.</para>
+<para>You can also change if the systray icon of KGpg is shown or not and what action happens if the icon is klicked with the &LMB;. If the applet is shown closing the KGpg window will minimize the application to tray. If the systray icon is not shown KGpg will exit when all windows are closed.</para>
 </sect2>
 
 </sect1>
