@@ -84,6 +84,12 @@ GroupEditProxyModel::data(const QModelIndex &index, int role) const
 	return QVariant();
 }
 
+bool
+GroupEditProxyModel::hasChildren(const QModelIndex &) const
+{
+	return false;
+}
+
 QVariant
 GroupEditProxyModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
