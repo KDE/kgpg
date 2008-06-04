@@ -229,6 +229,10 @@ KGpgKeyNode::readChildren()
 {
 	KgpgInterface *interface = new KgpgInterface();
 	KgpgKeyList keys = interface->readPublicKeys(true, m_key->fullId(), true);
+	if (keys.count() == 0) {
+		delete interface;
+		return;
+	}
 	KgpgKey key = keys.at(0);
 
 	/********* insertion of sub keys ********/
