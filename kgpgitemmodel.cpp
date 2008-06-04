@@ -49,7 +49,8 @@ KGpgItemModel::index(int row, int column, const QModelIndex &parent) const
 QModelIndex
 KGpgItemModel::parent(const QModelIndex &child) const
 {
-	Q_ASSERT(child.isValid());
+	if (!child.isValid())
+		return QModelIndex();
 	KGpgNode *childNode = nodeForIndex(child);
 	KGpgNode *parentNode = childNode->m_parent;
 
@@ -66,6 +67,9 @@ KGpgItemModel::parent(const QModelIndex &child) const
 int
 KGpgItemModel::rowCount(const QModelIndex &parent) const
 {
+	if (parent.column() > 0)
+		return 0;
+
 	KGpgNode *parentNode = nodeForIndex(parent);
 
 	return parentNode->getChildCount();
@@ -74,6 +78,9 @@ KGpgItemModel::rowCount(const QModelIndex &parent) const
 bool
 KGpgItemModel::hasChildren(const QModelIndex &parent) const
 {
+	if (parent.column() > 0)
+		return false;
+
 	KGpgNode *parentNode = nodeForIndex(parent);
 
 	return parentNode->hasChildren();

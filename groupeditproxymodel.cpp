@@ -71,7 +71,7 @@ GroupEditProxyModel::columnCount(const QModelIndex &) const
 QVariant
 GroupEditProxyModel::data(const QModelIndex &index, int role) const
 {
-	if ((index.column() >= 3) || (role != Qt::DisplayRole))
+	if (!index.isValid() || (index.column() >= 3) || (role != Qt::DisplayRole))
 		return QVariant();
 
 	KGpgNode *nd = m_model->nodeForIndex(mapToSource(index));
