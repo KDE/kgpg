@@ -80,6 +80,18 @@ SelectKeyProxyModel::columnCount(const QModelIndex &) const
 	return 3;
 }
 
+int
+SelectKeyProxyModel::rowCount(const QModelIndex &parent) const
+{
+	if (parent.column() > 0)
+		return 0;
+	if (parent.isValid())
+		return 0;
+	if (m_model == NULL)
+		return 0;
+	return QSortFilterProxyModel::rowCount(parent);
+}
+
 QVariant
 SelectKeyProxyModel::data(const QModelIndex &index, int role) const
 {
@@ -105,6 +117,14 @@ SelectKeyProxyModel::data(const QModelIndex &index, int role) const
 	}
 
 	return QVariant();
+}
+
+bool
+SelectKeyProxyModel::hasChildren(const QModelIndex &parent) const
+{
+	if (m_model == NULL)
+		return false;
+	return !parent.isValid();
 }
 
 QVariant
@@ -154,6 +174,18 @@ SelectSecretKeyProxyModel::columnCount(const QModelIndex &) const
 	return 4;
 }
 
+int
+SelectSecretKeyProxyModel::rowCount(const QModelIndex &parent) const
+{
+	if (parent.column() > 0)
+		return 0;
+	if (parent.isValid())
+		return 0;
+	if (m_model == NULL)
+		return 0;
+	return QSortFilterProxyModel::rowCount(parent);
+}
+
 QVariant
 SelectSecretKeyProxyModel::data(const QModelIndex &index, int role) const
 {
@@ -180,6 +212,14 @@ SelectSecretKeyProxyModel::data(const QModelIndex &index, int role) const
 	}
 
 	return QVariant();
+}
+
+bool
+SelectSecretKeyProxyModel::hasChildren(const QModelIndex &parent) const
+{
+	if (m_model == NULL)
+		return false;
+	return !parent.isValid();
 }
 
 QVariant

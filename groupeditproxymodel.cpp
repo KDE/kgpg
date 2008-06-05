@@ -68,6 +68,18 @@ GroupEditProxyModel::columnCount(const QModelIndex &) const
 	return 3;
 }
 
+int
+GroupEditProxyModel::rowCount(const QModelIndex &parent) const
+{
+	if (parent.column() > 0)
+		return 0;
+	if (parent.isValid())
+		return 0;
+	if (m_model == NULL)
+		return 0;
+	return QSortFilterProxyModel::rowCount(parent);
+}
+
 QVariant
 GroupEditProxyModel::data(const QModelIndex &index, int role) const
 {
@@ -85,9 +97,13 @@ GroupEditProxyModel::data(const QModelIndex &index, int role) const
 }
 
 bool
-GroupEditProxyModel::hasChildren(const QModelIndex &) const
+GroupEditProxyModel::hasChildren(const QModelIndex &parent) const
 {
-	return false;
+	if (m_model == NULL)
+		return false;
+	if (parent.column() > 0)
+		return false;
+	return !parent.isValid();
 }
 
 QVariant
