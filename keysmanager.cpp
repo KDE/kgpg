@@ -1817,7 +1817,11 @@ void KeysManager::signuid()
 
 	if (signList.count() == 1) {
 		KGpgNode *nd = signList.at(0);
-		KGpgKeyNode *pnd = static_cast<KGpgKeyNode *>(nd->getParentKeyNode());
+		KGpgKeyNode *pnd;
+		if (tp & ITYPE_PUBLIC)
+			pnd = static_cast<KGpgKeyNode *>(nd);
+		else
+			pnd = static_cast<KGpgKeyNode *>(nd->getParentKeyNode());
 		QString opt;
 
 		if (nd->getEmail().isEmpty())
@@ -1837,7 +1841,7 @@ void KeysManager::signuid()
 		QStringList signKeyList;
 
 		for (int i = 0; i < signList.count(); ++i) {
-			KGpgNode *nd = static_cast<KGpgNode *>(signList.at(i));
+			KGpgNode *nd = signList.at(i);
 			KGpgKeyNode *pnd = (nd->getType() & (ITYPE_UID | ITYPE_UAT)) ?
 					static_cast<KGpgKeyNode *>(nd->getParentKeyNode()) :
 					static_cast<KGpgKeyNode *>(nd);
