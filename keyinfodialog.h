@@ -1,10 +1,8 @@
-/***************************************************************************
-                          keyinfodialog.h  -  description
-                             -------------------
-    begin                : Thu Jul 4 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/**
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007 Jimmy Gilles <jimmygilles@gmail.com>
+ * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -23,6 +21,7 @@
 #include <QLabel>
 #include <QColor>
 #include <QDate>
+#include <QPushButton>
 
 #include <KComboBox>
 #include <KDialog>
@@ -98,6 +97,7 @@ private:
 
     void reloadKey(KgpgInterface *interface);
     void displayKey();
+    void setControlEnable(const bool &b);
 
 private slots:
     void slotPreOk();
@@ -131,6 +131,7 @@ private:
     QLabel *m_length;
     QLabel *m_fingerprint;
     QLabel *m_photo;
+    QPushButton *m_expirationbtn;
 
     KUrlLabel *m_email;
     KComboBox *m_photoid;
