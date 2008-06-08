@@ -143,7 +143,7 @@ void KgpgInterface::readencprocess(KProcIO *p)
                                 QCString passphrase;
                                 int code=KPasswordDialog::getNewPassword(passphrase,i18n("Enter passphrase for your file (symmetrical encryption):"));
                                 if (code!=QDialog::Accepted) {
-                                        delete p;
+                                        p->deleteLater();
                                         emit processaborted(true);
                                         return;
                                 }
@@ -224,7 +224,7 @@ void KgpgInterface::readdecprocess(KProcIO *p)
                                 passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(userIDs);
                                 int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
                                 if (code!=QDialog::Accepted) {
-                                        delete p;
+                                        p->deleteLater();
                                         emit processaborted(true);
                                         return;
                                 }
@@ -303,7 +303,7 @@ void KgpgInterface::txtreadencprocess(KProcIO *p)
               int code=KPasswordDialog::getNewPassword(passphrase,passdlgmessage);
 	      if (code!=QDialog::Accepted)
                 {
-                  delete p;
+                  p->deleteLater();
                   return;
                 }
               p->writeStdin(passphrase,true);
@@ -400,7 +400,7 @@ void KgpgInterface::getCmdOutput(KProcess *p, char *data, int )
 			int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
 			if (code!=QDialog::Accepted)
 			{
-				delete p;
+				p->deleteLater();
 				emit processaborted(true);
 				return;
 			}
@@ -506,7 +506,7 @@ void KgpgInterface::txtsignprocess(KProcIO *p)
               int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
 	      if (code!=QDialog::Accepted)
                 {
-                  delete p;
+                  p->deleteLater();
                   return;
                 }
               p->writeStdin(passphrase,true);
@@ -744,7 +744,7 @@ void KgpgInterface::readsignprocess(KProcIO *p)
                                 passdlgmessage+=i18n("Enter passphrase for <b>%1</b>").arg(userIDs);
                                 int code=KPasswordDialog::getPassword(passphrase,passdlgmessage);
                                 if (code!=QDialog::Accepted) {
-                                        delete p;
+                                        p->deleteLater();
                                         emit signfinished();
                                         return;
                                 }
@@ -1281,7 +1281,7 @@ void KgpgInterface::passprocess(KProcIO *p)
                                         p->writeStdin("quit");
                                         //				 p->closeWhenDone();
                                         emit processaborted(true);
-                                        delete p;
+                                        p->deleteLater();
                                         return;
                                 }
                                 p->writeStdin(passphrase,true);
