@@ -688,7 +688,7 @@ void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool &block)
     if (cycle != "none")
         m_publiclistkeys << m_publickey;
 
-    delete p;
+    p->deleteLater();
     if (!block)
         emit readPublicKeysFinished(m_publiclistkeys, this);
 }
@@ -846,7 +846,7 @@ void KgpgInterface::getKeysProcess(GPGProc *gpgProcess)
 
 void KgpgInterface::getKeysFin(GPGProc *gpgProcess)
 {
-	delete gpgProcess;
+	gpgProcess->deleteLater();
 	emit getKeysFinished(m_keystring, this);
 }
 
@@ -974,7 +974,7 @@ void KgpgInterface::signKeyProcess()
 
 void KgpgInterface::signKeyFin()
 {
-    delete m_workProcess;
+    m_workProcess->deleteLater();
     if ((m_success != 0) && (m_success != 5))
         emit signKeyFinished(m_success, m_keyid, this); // signature successful or bad passphrase or aborted or already signed
     else
@@ -1101,7 +1101,7 @@ void KgpgInterface::keyExpireProcess()
 
 void KgpgInterface::keyExpireFin()
 {
-    delete m_workProcess;
+    m_workProcess->deleteLater();
     if (m_success < 4)
         emit keyExpireFinished(m_success, this); // signature successful or bad passphrase
     else
@@ -1171,7 +1171,7 @@ void KgpgInterface::changePassProcess()
 
                     if (sendPassphrase(passdlgmessage, m_workProcess, false))
                     {
-                        delete m_workProcess;
+                        m_workProcess->deleteLater();
                         emit changePassFinished(3, this);
                         return;
                     }
@@ -1182,7 +1182,7 @@ void KgpgInterface::changePassProcess()
                 {
                     if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase all your encrypted files and messages will be inaccessible<br /></qt>", userIDs), m_workProcess))
                     {
-                        delete m_workProcess;
+                        m_workProcess->deleteLater();
                         emit changePassFinished(3, this);
                         return;
                     }
@@ -1198,7 +1198,7 @@ void KgpgInterface::changePassProcess()
 
 void KgpgInterface::changePassFin()
 {
-    delete m_workProcess;
+    m_workProcess->deleteLater();
     emit changePassFinished(m_success, this);
 }
 
@@ -1251,7 +1251,7 @@ void KgpgInterface::changeTrustProcess()
 
 void KgpgInterface::changeTrustFin()
 {
-    delete m_workProcess;
+    m_workProcess->deleteLater();
     emit changeTrustFinished(this);
 }
 
@@ -1277,7 +1277,7 @@ void KgpgInterface::changeDisable(const QString &keyid, const bool &ison)
 
 void KgpgInterface::changeDisableFin(int res)
 {
-    delete editprocess;
+    editprocess->deleteLater();
     editprocess = 0;
     emit changeDisableFinished(this, res);
 }
@@ -1352,7 +1352,7 @@ void KgpgInterface::addPhotoProcess(GPGProc *p)
                     p->write("Yes\n");
                 else
                 {
-                    delete p;
+                    p->deleteLater();
                     emit addPhotoFinished(3, this);
                     return;
                 }
@@ -1367,7 +1367,7 @@ void KgpgInterface::addPhotoProcess(GPGProc *p)
 
                 if (sendPassphrase(passdlgmessage, p, false))
                 {
-                    delete p;
+                    p->deleteLater();
                     emit addPhotoFinished(3, this);
                     return;
                 }
@@ -1387,7 +1387,7 @@ void KgpgInterface::addPhotoProcess(GPGProc *p)
 
 void KgpgInterface::addPhotoFin(GPGProc *p)
 {
-    delete p;
+    p->deleteLater();
     emit addPhotoFinished(m_success, this);
 }
 
@@ -1431,7 +1431,7 @@ void KgpgInterface::deletePhotoProcess(GPGProc *p)
 
                 if (sendPassphrase(passdlgmessage, p, false))
                 {
-                    delete p;
+                    p->deleteLater();
                     emit deletePhotoFinished(3, this);
                     return;
                 }
@@ -1449,7 +1449,7 @@ void KgpgInterface::deletePhotoProcess(GPGProc *p)
 
 void KgpgInterface::deletePhotoFin(GPGProc *p)
 {
-    delete p;
+    p->deleteLater();
     emit deletePhotoFinished(m_success, this);
 }
 
@@ -1515,7 +1515,7 @@ void KgpgInterface::importKeyProcess(GPGProc *p)
 
 void KgpgInterface::importKeyFinished(GPGProc *p)
 {
-    delete p;
+    p->deleteLater();
 
     QStringList importedKeysIds;
     QStringList importedKeys;
@@ -1642,7 +1642,7 @@ void KgpgInterface::addUidProcess(GPGProc *p)
 
                 if (sendPassphrase(passdlgmessage, p, false))
                 {
-                    delete p;
+                    p->deleteLater();
                     emit addUidFinished(3, this);
                     return;
                 }
@@ -1661,7 +1661,7 @@ void KgpgInterface::addUidProcess(GPGProc *p)
 
 void KgpgInterface::addUidFin(GPGProc *p)
 {
-    delete p;
+    p->deleteLater();
     emit addUidFinished(m_success, this);
 }
 
@@ -1768,7 +1768,7 @@ void KgpgInterface::generateKeyProcess(GPGProc *p)
                 QString passdlgmessage = i18n("<p><b>Enter passphrase for %1</b>:<br />Passphrase should include non alphanumeric characters and random sequences</p>", keyid);
                 if (sendPassphrase(passdlgmessage, p, true))
                 {
-                    delete p;
+                    p->deleteLater();
                     emit generateKeyFinished(3, this, m_keyname, m_keyemail, QString());
                     return;
                 }
@@ -1796,7 +1796,7 @@ void KgpgInterface::generateKeyProcess(GPGProc *p)
 
 void KgpgInterface::generateKeyFin(GPGProc *p)
 {
-    delete p;
+    p->deleteLater();
     emit generateKeyFinished(m_success, this, m_keyname, m_keyemail, m_newfingerprint);
 }
 
@@ -1859,7 +1859,7 @@ void KgpgInterface::downloadKeysProcess(GPGProc *p)
 
 void KgpgInterface::downloadKeysFin(GPGProc *p)
 {
-    delete p;
+    p->deleteLater();
     m_downloadprocess = 0;
 
     QStringList importedkeys;
@@ -1949,7 +1949,7 @@ void KgpgInterface::uploadKeysProcess(GPGProc *p)
 
 void KgpgInterface::uploadKeysFin(GPGProc *p)
 {
-    delete p;
+    p->deleteLater();
     m_uploadprocess = 0;
 
     emit uploadKeysFinished(m_uploadkeys_log, this);
@@ -2006,7 +2006,7 @@ void KgpgInterface::delsigprocess(GPGProc *p)
 
 void KgpgInterface::delsignover(GPGProc *p)
 {
-	delete p;
+	p->deleteLater();
 	emit delsigfinished(deleteSuccess);
 }
 

@@ -370,7 +370,7 @@ QGroupBox* KgpgKeyInfo::_fingerprintGroup(QWidget *parent)
 void KgpgKeyInfo::reloadKey(KgpgInterface *interface)
 {
     KgpgKeyList listkeys = interface->readPublicKeys(true, m_key->fullId());
-    delete interface;
+    interface->deleteLater();
 
     Q_ASSERT(listkeys.count() > 0);
 
@@ -488,7 +488,7 @@ void KgpgKeyInfo::slotLoadPhoto(const QString &uid)
 
 void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
 
     QImage img = pixmap.toImage();
     QPixmap pix = QPixmap::fromImage(img.scaled(m_photo->width(), m_photo->height(), Qt::KeepAspectRatio));
@@ -531,7 +531,7 @@ void KgpgKeyInfo::slotInfoExpirationChanged(const int &res, KgpgInterface *inter
     if (res == 1)
         KMessageBox::error(this, i18n("Could not change expiration"), i18n("Bad passphrase. Expiration of the key has not been changed."));
 
-    delete interface;
+    interface->deleteLater();
     setControlEnable(true);
 }
 
@@ -561,7 +561,7 @@ void KgpgKeyInfo::slotChangePass()
 
 void KgpgKeyInfo::slotInfoPasswordChanged(const int &res, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
 
     if (res == 2)
         KPassivePopup::message(i18n("Passphrase for the key was changed"), QString(), Images::kgpg(), this);
