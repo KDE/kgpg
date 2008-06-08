@@ -714,7 +714,7 @@ void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool &block)
     if (cycle != "none")
         m_publiclistkeys << m_publickey;
 
-    delete p;
+    p->deleteLater();
     if (!block)
         emit readPublicKeysFinished(m_publiclistkeys, this);
 }
@@ -906,7 +906,7 @@ void KgpgInterface::getKeysProcess(K3ProcIO *p)
 
 void KgpgInterface::getKeysFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     emit getKeysFinished(m_keystring, this);
 }
 
@@ -978,7 +978,7 @@ void KgpgInterface::encryptTextProcess(K3ProcIO *p)
             {
                 if (sendPassphrase(i18n("Enter passphrase (symmetrical encryption)"), p))
                 {
-                    delete p;
+                    p->deleteLater();
                     emit processaborted(true);
                     return;
                 }
@@ -994,7 +994,7 @@ void KgpgInterface::encryptTextProcess(K3ProcIO *p)
 
 void KgpgInterface::encryptTextFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     if (!message.isEmpty())
         emit txtEncryptionFinished(QString::fromUtf8(message.toAscii()).trimmed(), this);
     else
@@ -1076,7 +1076,7 @@ void KgpgInterface::decryptTextStdOut(K3Process *p, char *data, int)
 
                     if (sendPassphrase(passdlgmessage, static_cast<K3ProcIO*>(p), false))
                     {
-                        delete p;
+                        p->deleteLater();
                         emit processaborted(true);
                         return;
                     }
@@ -1133,7 +1133,7 @@ void KgpgInterface::decryptTextStdOut(K3Process *p, char *data, int)
 
 void KgpgInterface::decryptTextFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     if ((decok) && (!badmdc)) {
         if (message.length() == 0)
             emit txtDecryptionFinished(tmp_message, this);
@@ -1231,7 +1231,7 @@ void KgpgInterface::signTextProcess(K3ProcIO *p)
 
                 if (sendPassphrase(passdlgmessage, p, false))
                 {
-                    delete p;
+                    p->deleteLater();
                     emit processaborted(true);
                     return;
                 }
@@ -1248,7 +1248,7 @@ void KgpgInterface::signTextProcess(K3ProcIO *p)
 
 void KgpgInterface::signTextFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     if (badpassword)
     {
         emit txtSigningFailed(message, this);
@@ -1354,7 +1354,7 @@ void KgpgInterface::verifyTextProcess(K3ProcIO *p)
 
 void KgpgInterface::verifyTextFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     if (signmiss)
         emit txtVerifyMissingSignature(signID, this);
     else
@@ -1436,7 +1436,7 @@ void KgpgInterface::fileReadEncProcess(K3ProcIO *p)
                 {
                     if (sendPassphrase(i18n("Enter passphrase for your file (symmetrical encryption):"), p))
                     {
-                        delete p;
+                        p->deleteLater();
                         emit processaborted(true);
                         return;
                     }
@@ -1461,7 +1461,7 @@ void KgpgInterface::fileReadEncProcess(K3ProcIO *p)
 
 void KgpgInterface::fileEncryptFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     if (encok)
         emit fileEncryptionFinished(sourceFile, this);
     else
@@ -1589,7 +1589,7 @@ void KgpgInterface::signKeyProcess()
 
 void KgpgInterface::signKeyFin()
 {
-    delete m_workProcess;
+    m_workProcess->deleteLater();
     if ((m_success != 0) && (m_success != 5))
         emit signKeyFinished(m_success, m_keyid, this); // signature successful or bad passphrase or aborted or already signed
     else
@@ -1716,7 +1716,7 @@ void KgpgInterface::keyExpireProcess()
 
 void KgpgInterface::keyExpireFin()
 {
-    delete m_workProcess;
+    m_workProcess->deleteLater();
     if (m_success < 4)
         emit keyExpireFinished(m_success, this); // signature successful or bad passphrase
     else
@@ -1786,7 +1786,7 @@ void KgpgInterface::changePassProcess()
 
                     if (sendPassphrase(passdlgmessage, m_workProcess, false))
                     {
-                        delete m_workProcess;
+                        m_workProcess->deleteLater();
                         emit changePassFinished(3, this);
                         return;
                     }
@@ -1797,7 +1797,7 @@ void KgpgInterface::changePassProcess()
                 {
                     if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase all your encrypted files and messages will be inaccessible<br /></qt>", userIDs), m_workProcess))
                     {
-                        delete m_workProcess;
+                        m_workProcess->deleteLater();
                         emit changePassFinished(3, this);
                         return;
                     }
@@ -1813,7 +1813,7 @@ void KgpgInterface::changePassProcess()
 
 void KgpgInterface::changePassFin()
 {
-    delete m_workProcess;
+    m_workProcess->deleteLater();
     emit changePassFinished(m_success, this);
 }
 
@@ -1865,7 +1865,7 @@ void KgpgInterface::changeTrustProcess()
 
 void KgpgInterface::changeTrustFin()
 {
-    delete m_workProcess;
+    m_workProcess->deleteLater();
     emit changeTrustFinished(this);
 }
 
@@ -1891,7 +1891,7 @@ void KgpgInterface::changeDisable(const QString &keyid, const bool &ison)
 
 void KgpgInterface::changeDisableFin(int res)
 {
-    delete editprocess;
+    editprocess->deleteLater();
     editprocess = 0;
     changeDisableFinished(this, res);
 }
@@ -1929,7 +1929,7 @@ QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const
 
 void KgpgInterface::loadPhotoFin(K3Process *p, const bool &block)
 {
-    delete p;
+    p->deleteLater();
 
     m_pixmap.load(m_kgpginfotmp->fileName());
     delete m_kgpginfotmp;
@@ -1998,7 +1998,7 @@ void KgpgInterface::addPhotoProcess(K3ProcIO *p)
                     p->writeStdin(QByteArray("Yes"), true);
                 else
                 {
-                    delete p;
+                    p->deleteLater();
                     emit addPhotoFinished(3, this);
                     return;
                 }
@@ -2013,7 +2013,7 @@ void KgpgInterface::addPhotoProcess(K3ProcIO *p)
 
                 if (sendPassphrase(passdlgmessage, p, false))
                 {
-                    delete p;
+                    p->deleteLater();
                     emit addPhotoFinished(3, this);
                     return;
                 }
@@ -2037,7 +2037,7 @@ void KgpgInterface::addPhotoProcess(K3ProcIO *p)
 
 void KgpgInterface::addPhotoFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     emit addPhotoFinished(m_success, this);
 }
 
@@ -2103,7 +2103,7 @@ void KgpgInterface::deletePhotoProcess(K3ProcIO *p)
 
                 if (sendPassphrase(passdlgmessage, p, false))
                 {
-                    delete p;
+                    p->deleteLater();
                     emit deletePhotoFinished(3, this);
                     return;
                 }
@@ -2124,7 +2124,7 @@ void KgpgInterface::deletePhotoProcess(K3ProcIO *p)
 
 void KgpgInterface::deletePhotoFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     emit deletePhotoFinished(m_success, this);
 }
 
@@ -2207,7 +2207,7 @@ void KgpgInterface::importKeyProcess(K3ProcIO *p)
 
 void KgpgInterface::importKeyFinished(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
 
     QStringList importedKeysIds;
     QStringList importedKeys;
@@ -2356,7 +2356,7 @@ void KgpgInterface::addUidProcess(K3ProcIO *p)
 
                 if (sendPassphrase(passdlgmessage, p, false))
                 {
-                    delete p;
+                    p->deleteLater();
                     emit addUidFinished(3, this);
                     return;
                 }
@@ -2379,7 +2379,7 @@ void KgpgInterface::addUidProcess(K3ProcIO *p)
 
 void KgpgInterface::addUidFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     emit addUidFinished(m_success, this);
 }
 
@@ -2506,7 +2506,7 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
                 QString passdlgmessage = i18n("<p><b>Enter passphrase for %1</b>:<br />Passphrase should include non alphanumeric characters and random sequences</p>", keyid);
                 if (sendPassphrase(passdlgmessage, p, true))
                 {
-                    delete p;
+                    p->deleteLater();
                     emit generateKeyFinished(3, this, m_keyname, m_keyemail, QString(), QString());
                     return;
                 }
@@ -2537,7 +2537,7 @@ void KgpgInterface::generateKeyProcess(K3ProcIO *p)
 
 void KgpgInterface::generateKeyFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     emit generateKeyFinished(m_success, this, m_keyname, m_keyemail, m_newkeyid, m_newfingerprint);
 }
 
@@ -2618,7 +2618,7 @@ void KgpgInterface::decryptFileProcess(K3ProcIO *p)
 
                     if (sendPassphrase(passdlgmessage, p))
                     {
-                        delete p;
+                        p->deleteLater();
                         emit decryptFileFinished(3, this);
                         return;
                     }
@@ -2638,7 +2638,7 @@ void KgpgInterface::decryptFileProcess(K3ProcIO *p)
 
 void KgpgInterface::decryptFileFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     if (message.contains("DECRYPTION_OKAY") && message.contains("END_DECRYPTION"))
         emit decryptFileFinished(5, this);
     else
@@ -2726,7 +2726,7 @@ void KgpgInterface::downloadKeysProcess(K3ProcIO *p)
 
 void KgpgInterface::downloadKeysFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     m_downloadprocess = 0;
 
     QStringList importedkeys;
@@ -2838,7 +2838,7 @@ void KgpgInterface::uploadKeysProcess(K3ProcIO *p)
 
 void KgpgInterface::uploadKeysFin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
     m_uploadprocess = 0;
 
     emit uploadKeysFinished(m_uploadkeys_log, this);
@@ -2893,7 +2893,7 @@ void KgpgInterface::KgpgSignFile(const QString &keyID, const KUrl &srcUrl, const
 
 void KgpgInterface::signfin(K3Process *p)
 {
-    delete p;
+    p->deleteLater();
 
     if (message.contains("SIG_CREATED"))
         KMessageBox::information(0, i18n("The signature file %1 was successfully created.", file.fileName()));
@@ -2931,7 +2931,7 @@ void KgpgInterface::readsignprocess(K3ProcIO *p)
 
                 if (sendPassphrase(passdlgmessage, p))
                 {
-                    delete p;
+                    p->deleteLater();
                     emit signfinished();
                     return;
                 }

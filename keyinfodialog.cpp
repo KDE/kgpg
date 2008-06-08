@@ -486,7 +486,7 @@ void KgpgKeyInfo::slotLoadPhoto(const QString &uid)
 
 void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
 
     QImage img = pixmap.toImage();
     QPixmap pix = QPixmap::fromImage(img.scaled(m_photo->width(), m_photo->height(), Qt::KeepAspectRatio));
@@ -518,7 +518,7 @@ void KgpgKeyInfo::slotChangeDate()
 
 void KgpgKeyInfo::slotInfoExpirationChanged(const int &res, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
 
     if (res == 2)
     {
@@ -539,7 +539,7 @@ void KgpgKeyInfo::slotDisableKey(const bool &ison)
 
 void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface, int)
 {
-    delete interface;
+    interface->deleteLater();
     loadKey();
     m_keywaschanged = true;
 }
@@ -553,7 +553,7 @@ void KgpgKeyInfo::slotChangePass()
 
 void KgpgKeyInfo::slotInfoPasswordChanged(const int &res, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
 
     if (res == 2)
         KPassivePopup::message(i18n("Passphrase for the key was changed"), QString(), Images::kgpg(), this);
@@ -571,7 +571,7 @@ void KgpgKeyInfo::slotChangeTrust(const int &newtrust)
 
 void KgpgKeyInfo::slotInfoTrustChanged(KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
     m_keywaschanged = true;
     loadKey();
 }
