@@ -303,8 +303,9 @@ void KgpgKeyInfo::reloadMainPhoto(const QString &uid)
 }
 
 
-void KgpgKeyInfo::slotMainImageRead(KProcess *)
+void KgpgKeyInfo::slotMainImageRead(KProcess *p)
 {
+	p->deleteLater();
 	QPixmap pixmap;
         pixmap.load(kgpginfotmp->name());
 	emit changeMainPhoto(pixmap);
