@@ -531,7 +531,8 @@ void KgpgKeyInfo::slotInfoExpirationChanged(const int &res, KgpgInterface *inter
     if (res == 1)
         KMessageBox::error(this, i18n("Could not change expiration"), i18n("Bad passphrase. Expiration of the key has not been changed."));
 
-    interface->deleteLater();
+    if (interface)
+	interface->deleteLater();
     setControlEnable(true);
 }
 
