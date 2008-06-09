@@ -566,8 +566,7 @@ void KgpgKeyInfo::slotInfoPasswordChanged(const int &res, KgpgInterface *interfa
 
     if (res == 2)
         KPassivePopup::message(i18n("Passphrase for the key was changed"), QString(), Images::kgpg(), this);
-
-    if (res == 1)
+    else if (res == 1)
         KMessageBox::error(this, i18n("Bad old passphrase, the passphrase for the key was not changed"), i18n("Could not change passphrase"));
 }
 
