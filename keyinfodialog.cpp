@@ -411,7 +411,7 @@ void KgpgKeyInfo::displayKey()
     else
     {
         m_email->setText("<qt><b>&lt;" + m_key->email() + "&gt;</b></qt>");
-        m_email->setUrl("mailto:" + m_key->email());
+        m_email->setUrl("mailto:" + name + "<" + m_key->email() + ">");
     }
 
     KgpgKeyTrust keytrust = m_key->valid() ? m_key->trust() : TRUST_DISABLED;
