@@ -26,9 +26,11 @@
 
 #include <KToolInvocation>
 #include <KPassivePopup>
+#include <KPushButton>
 #include <KDatePicker>
 #include <KMessageBox>
 #include <KUrlLabel>
+#include <KComboBox>
 #include <KLocale>
 
 #include "kgpginterface.h"
@@ -322,21 +324,23 @@ QGroupBox* KgpgKeyInfo::_photoGroup(QWidget *parent)
 
 QGroupBox* KgpgKeyInfo::_buttonsGroup(QWidget *parent)
 {
-    QPushButton *password = 0;
-
     QGroupBox *group = new QGroupBox(parent);
     m_disable = new QCheckBox(i18n("Disable key"), group);
 
     if (m_key->secret())
     {
-	m_expirationbtn = new QPushButton(i18n("Change Expiration..."), group);
-        password = new QPushButton(i18n("Change Passphrase..."), group);
+        m_expirationbtn = new KPushButton(i18n("Change Expiration..."), group);
+        m_password = new KPushButton(i18n("Change Passphrase..."), group);
 
-	connect(m_expirationbtn, SIGNAL(clicked()), this, SLOT(slotChangeDate()));
-        connect(password, SIGNAL(clicked()), this, SLOT(slotChangePass()));
-    } else {
-	m_expirationbtn = NULL;
+        connect(m_expirationbtn, SIGNAL(clicked()), this, SLOT(slotChangeDate()));
+        connect(m_password, SIGNAL(clicked()), this, SLOT(slotChangePass()));
     }
+    else
+    {
+        m_password = 0;
+        m_expirationbtn = 0;
+    }
+
     connect(m_disable, SIGNAL(toggled(bool)), this, SLOT(slotDisableKey(bool)));
 
     QVBoxLayout *layout = new QVBoxLayout(group);
@@ -347,7 +351,7 @@ QGroupBox* KgpgKeyInfo::_buttonsGroup(QWidget *parent)
     if (m_key->secret())
     {
         layout->addWidget(m_expirationbtn);
-        layout->addWidget(password);
+        layout->addWidget(m_password);
     }
 
     return group;
@@ -507,7 +511,7 @@ void KgpgKeyInfo::slotChangeDate()
     KgpgDateDialog *dialog = new KgpgDateDialog(this, m_isunlimited, m_key->expirationDate());
     if (dialog->exec() == QDialog::Accepted)
     {
-	setControlEnable(false);
+        setControlEnable(false);
         KgpgInterface *process = new KgpgInterface();
         connect(process, SIGNAL(keyExpireFinished(int, KgpgInterface*)), this, SLOT(slotInfoExpirationChanged(int, KgpgInterface*)));
 
@@ -530,13 +534,13 @@ void KgpgKeyInfo::slotInfoExpirationChanged(const int &res, KgpgInterface *inter
     if (res == 1)
         KMessageBox::error(this, i18n("Could not change expiration"), i18n("Bad passphrase. Expiration of the key has not been changed."));
 
-	interface->deleteLater();
+    interface->deleteLater();
     setControlEnable(true);
 }
 
 void KgpgKeyInfo::slotDisableKey(const bool &ison)
 {
-	setControlEnable(false);
+    setControlEnable(false);
     KgpgInterface *interface = new KgpgInterface;
     connect (interface, SIGNAL(changeDisableFinished(KgpgInterface*, int)), this, SLOT(slotDisableKeyFinished(KgpgInterface*, int)));
     interface->changeDisable(m_key->fullId(), ison);
@@ -544,11 +548,12 @@ void KgpgKeyInfo::slotDisableKey(const bool &ison)
 
 void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface, int res)
 {
-	if (res == 0) {
-		reloadKey(interface);
-		m_keywaschanged = true;
-	}
-	setControlEnable(true);
+    if (res == 0)
+    {
+        reloadKey(interface);
+        m_keywaschanged = true;
+    }
+    setControlEnable(true);
 }
 
 void KgpgKeyInfo::slotChangePass()
@@ -570,7 +575,7 @@ void KgpgKeyInfo::slotInfoPasswordChanged(const int &res, KgpgInterface *interfa
 
 void KgpgKeyInfo::slotChangeTrust(const int &newtrust)
 {
-	setControlEnable(false);
+    setControlEnable(false);
     KgpgInterface *interface = new KgpgInterface();
     connect(interface, SIGNAL(changeTrustFinished(KgpgInterface*)), this, SLOT(slotInfoTrustChanged(KgpgInterface*)));
     interface->changeTrust(m_key->fullId(), KgpgKeyOwnerTrust(newtrust + 1));
@@ -580,21 +585,24 @@ void KgpgKeyInfo::slotInfoTrustChanged(KgpgInterface *interface)
 {
     m_keywaschanged = true;
     reloadKey(interface);
-	setControlEnable(true);
+    setControlEnable(true);
+    m_owtrust->setFocus();
 }
 
-void
-KgpgKeyInfo::setControlEnable(const bool &b)
+void KgpgKeyInfo::setControlEnable(const bool &b)
 {
-	m_owtrust->setEnabled(b);
-	m_disable->setEnabled(b);
-	if (m_expirationbtn)
-		m_expirationbtn->setEnabled(b);
-	if (b)
-		QApplication::restoreOverrideCursor();
-	else
-		QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
+    m_owtrust->setEnabled(b);
+    m_disable->setEnabled(b);
 
+    if (m_expirationbtn)
+        m_expirationbtn->setEnabled(b);
+    if (m_password)
+        m_password->setEnabled(b);
+
+    if (b)
+        QApplication::restoreOverrideCursor();
+    else
+        QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 }
 
 #include "keyinfodialog.moc"

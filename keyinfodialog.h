@@ -21,9 +21,7 @@
 #include <QLabel>
 #include <QColor>
 #include <QDate>
-#include <QPushButton>
 
-#include <KComboBox>
 #include <KDialog>
 
 #include "kgpgkey.h"
@@ -31,8 +29,10 @@
 class QCheckBox;
 class QGroupBox;
 
+class KPushButton;
 class KDatePicker;
 class KUrlLabel;
+class KComboBox;
 
 class KgpgInterface;
 
@@ -131,8 +131,9 @@ private:
     QLabel *m_length;
     QLabel *m_fingerprint;
     QLabel *m_photo;
-    QPushButton *m_expirationbtn;
 
+    KPushButton *m_expirationbtn;
+    KPushButton *m_password;
     KUrlLabel *m_email;
     KComboBox *m_photoid;
     KComboBox *m_owtrust;
