@@ -60,7 +60,7 @@ KGpgTextInterfacePrivate::KGpgTextInterfacePrivate()
 	m_anonymous = false;
 	m_badmdc = false;
 	m_ok = false;
-	m_textlength = 0;
+	m_textlength = -1;
 	m_step = 3;
 	m_badpassword = false;
 	m_signmiss = false;
@@ -267,7 +267,10 @@ KGpgTextInterface::decryptTextStdOut()
 			}
 			line.clear();
 		} else {
-			if (d->m_textlength < line.length()) {
+			if (d->m_textlength == -1) {
+				d->m_tmpmessage.append(line + '\n');
+				line.clear();
+			} else if (d->m_textlength < line.length()) {
 				d->m_tmpmessage.append(line.left(d->m_textlength));
 				line.remove(0, d->m_textlength);
 				d->m_textlength = 0;
@@ -507,6 +510,8 @@ KGpgTextInterface::decryptFileProcess()
 				} else {
 					d->m_process->write("quit\n");
 				}
+			} else {
+				d->m_message += line + '\n';
 			}
 		}
 	}
