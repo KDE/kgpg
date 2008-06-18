@@ -341,7 +341,7 @@ KeysManager::KeysManager(QWidget *parent)
     slotSetTrustFilter(psize);
     slotShowLongId(KGpgSettings::showLongKeyId());
 
-    m_popuppub = new KMenu();
+    m_popuppub = new KMenu(this);
     m_popuppub->addAction(exportPublicKey);
     m_popuppub->addAction(deleteKey);
     m_popuppub->addAction(signKey);
@@ -354,7 +354,7 @@ KeysManager::KeysManager(QWidget *parent)
     m_popuppub->addSeparator();
     m_popuppub->addAction(importAllSignKeys);
 
-    m_popupsec = new KMenu();
+    m_popupsec = new KMenu(this);
     m_popupsec->addAction(exportPublicKey);
     m_popupsec->addAction(signKey);
     m_popupsec->addAction(signUid);
@@ -371,29 +371,29 @@ KeysManager::KeysManager(QWidget *parent)
     m_popupsec->addAction(deleteKeyPair);
     m_popupsec->addAction(revokeKey);
 
-    m_popupgroup = new KMenu();
+    m_popupgroup = new KMenu(this);
     m_popupgroup->addAction(editCurrentGroup);
     m_popupgroup->addAction(delGroup);
     m_popupgroup->addAction(refreshKey);
 
-    m_popupout = new KMenu();
+    m_popupout = new KMenu(this);
     m_popupout->addAction(importKey);
 
     m_popupsig = new KMenu();
     m_popupsig->addAction(importSignatureKey);
     m_popupsig->addAction(delSignKey);
 
-    m_popupphoto = new KMenu();
+    m_popupphoto = new KMenu(this);
     m_popupphoto->addAction(openPhoto);
     m_popupphoto->addAction(signUid);
     m_popupphoto->addAction(deletePhoto);
 
-    m_popupuid = new KMenu();
+    m_popupuid = new KMenu(this);
     m_popupuid->addAction(signUid);
     m_popupuid->addAction(delUid);
     m_popupuid->addAction(setPrimUid);
 
-    m_popuporphan = new KMenu();
+    m_popuporphan = new KMenu(this);
     m_popuporphan->addAction(regeneratePublic);
     m_popuporphan->addAction(deleteKeyPair);
 
