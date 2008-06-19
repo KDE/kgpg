@@ -1109,7 +1109,7 @@ void KgpgInterface::keyExpireFin()
         KgpgDetailedConsole *q = new KgpgDetailedConsole(0, i18n("<qt><b>Changing expiration failed.</b><br />"
                                     "Do you want to try changing the key expiration in console mode?</qt>"),output);
         if (q->exec() == QDialog::Accepted)
-            KMessageBox::sorry(0, "work in progress...");
+            KMessageBox::sorry(0, i18n("work in progress..."));
         else
             emit keyExpireFinished(3, this);
     }
