@@ -46,6 +46,7 @@ public:
 	QByteArray m_tmpmessage;
 	QByteArray m_readin;
 	KUrl m_file;
+	KUrl m_dest;
 	KUrl::List m_files;
 	KUrl::List m_errfiles;
 
@@ -475,6 +476,7 @@ KGpgTextInterface::decryptFile(const KUrl &src, const KUrl &dest, const QStringL
 
 	*d->m_process << options;
 
+	d->m_dest = dest;
 	if (!dest.fileName().isEmpty())
 		*d->m_process << "-o" << dest.path();
 	*d->m_process << "-d" << src.path();
@@ -520,11 +522,19 @@ KGpgTextInterface::decryptFileProcess()
 void
 KGpgTextInterface::decryptFileFin(int res, QProcess::ExitStatus status)
 {
-	if (status == QProcess::CrashExit)
+	if (status == QProcess::CrashExit) {
+		if (d->m_dest.isLocalFile())
+			QFile(d->m_dest.toLocalFile()).remove();
 		emit decryptFileFinished(2, this);
+		return;
+	}
 
-	if (res != 0)
+	if (res != 0) {
+		if (d->m_dest.isLocalFile())
+			QFile(d->m_dest.toLocalFile()).remove();
 		emit decryptFileFinished(3, this);
+		return;
+	}
 
 	if (d->m_message.contains("DECRYPTION_OKAY") && d->m_message.contains("END_DECRYPTION"))
 		emit decryptFileFinished(0, this);

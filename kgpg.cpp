@@ -445,20 +445,26 @@ void MyView::signDroppedFile()
 
 void MyView::decryptDroppedFile()
 {
-    //bool isFolder=false;  // droppedUrls
-    KUrl swapname;
+	m_decryptionFailed.clear();
 
-    if (!droppedUrls.first().isLocalFile())
-    {
-        showDroppedFile();
-        decryptNextFile();
-    }
+	decryptFile(new KgpgLibrary(0));
+}
 
-    QString oldname = droppedUrls.first().fileName();
-    if (oldname.endsWith(".gpg") || oldname.endsWith(".asc") || oldname.endsWith(".pgp"))
-        oldname.truncate(oldname.length()-4);
-    else
-        oldname.append(".clear");
+void MyView::decryptFile(KgpgLibrary *lib)
+{
+	//bool isFolder=false;  // droppedUrls
+	KUrl swapname;
+
+	if (!droppedUrls.first().isLocalFile()) {
+		showDroppedFile();
+		decryptNextFile(lib, KUrl());
+	}
+
+	QString oldname = droppedUrls.first().fileName();
+	if (oldname.toLower().endsWith(".gpg") || oldname.toLower().endsWith(".asc") || oldname.toLower().endsWith(".pgp"))
+		oldname.truncate(oldname.length() - 4);
+	else
+		oldname.append(".clear");
     /*
         if (oldname.endsWith(".tar.gz")) {
                 isFolder=true;
@@ -477,7 +483,7 @@ void MyView::decryptDroppedFile()
                 KIO::RenameDialog over(0,i18n("File Already Exists"),KUrl(),swapname,KIO::M_OVERWRITE);
                 if (over.exec()==QDialog::Rejected)
                 {
-                    decryptNextFile();
+			decryptNextFile(lib, KUrl());
                     return;
                 }
 
@@ -485,24 +491,30 @@ void MyView::decryptDroppedFile()
             }
         }
 
-        KgpgLibrary *lib=new KgpgLibrary(0);
 	QStringList custdecr;
 	if (!KGpgSettings::customDecrypt().isEmpty())
 		custdecr = QStringList(KGpgSettings::customDecrypt());
-        lib->slotFileDec(droppedUrls.first(), swapname, custdecr);
-        connect(lib,SIGNAL(importOver(QStringList)),this,SIGNAL(importedKeys(QStringList)));
-        connect(lib,SIGNAL(systemMessage(QString,bool)),this,SLOT(busyMessage(QString,bool)));
-//        if (isFolder)
-        connect(lib,SIGNAL(decryptionOver()),this,SLOT(decryptNextFile()));
+	lib->slotFileDec(droppedUrls.first(), swapname, custdecr);
+	connect(lib, SIGNAL(importOver(QStringList)), this, SIGNAL(importedKeys(QStringList)));
+	connect(lib, SIGNAL(systemMessage(QString, bool)), this, SLOT(busyMessage(QString, bool)));
+	connect(lib, SIGNAL(decryptionOver(KgpgLibrary *, KUrl)), this, SLOT(decryptNextFile(KgpgLibrary *, KUrl)));
 }
 
-void MyView::decryptNextFile()
+void MyView::decryptNextFile(KgpgLibrary *lib, const KUrl &failed)
 {
-    if (droppedUrls.count() > 1)
-    {
-        droppedUrls.pop_front();
-        decryptDroppedFile();
-    }
+	if (!failed.isEmpty())
+		m_decryptionFailed << failed;
+
+	if (droppedUrls.count() > 1) {
+		droppedUrls.pop_front();
+		decryptFile(lib);
+	} else if ((droppedUrls.count() <= 1) && (m_decryptionFailed.count() > 0)) {
+		delete lib;
+		// FIXME: introduce better error message when string freeze is lifted
+		KMessageBox::errorList(NULL, i18n("Decryption failed."), m_decryptionFailed.toStringList(), i18n("Decryption failed."));
+	} else {
+		delete lib;
+	}
 }
 
 void MyView::unArchive()

@@ -181,7 +181,10 @@ void KgpgLibrary::processDecOver(int ret, KGpgTextInterface *iface)
     emit systemMessage(QString());
     delete m_pop;
     delete iface;
-    emit decryptionOver();
+    if (ret != 0)
+	emit decryptionOver(this, m_urlselected);
+    else
+	emit decryptionOver(this, KUrl());
 }
 
 void KgpgLibrary::processDecError(const QString &mssge)

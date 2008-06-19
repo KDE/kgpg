@@ -42,7 +42,7 @@ public:
 
 signals:
     void encryptionOver();
-    void decryptionOver();
+    void decryptionOver(KgpgLibrary *, KUrl);
     void importOver(QStringList);
     void systemMessage(QString, bool reset = false);
     void photoAdded();

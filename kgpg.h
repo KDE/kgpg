@@ -40,6 +40,7 @@ class KAction;
 class KgpgSelectPublicKeyDlg;
 class KGpgTextInterface;
 class KeysManager;
+class KgpgLibrary;
 
 class KgpgWizard : public Q3Wizard, public Ui::KgpgWizard
 {
@@ -119,6 +120,8 @@ private:
     int startWizard();
     int firstRun();
 
+    KUrl::List m_decryptionFailed;
+
 private slots:
     void slotWizardClose();
     void slotWizardChange();
@@ -135,7 +138,8 @@ private slots:
     void droppedtext(const QString &inputText, bool allowEncrypt = true);
     void unArchive();
     void slotSetCompression(int cp);
-    void decryptNextFile();
+    void decryptNextFile(KgpgLibrary *lib, const KUrl &failed);
+    void decryptFile(KgpgLibrary *lib);
 };
 
 class kgpgapplet : public KSystemTrayIcon
