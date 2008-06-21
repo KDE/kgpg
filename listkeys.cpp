@@ -1527,10 +1527,10 @@ void listKeys::slotexport()
                 if (page->checkServer->isChecked()) {
                         keyServer *expServer=new keyServer(0,"server_export",false);
                         expServer->page->exportAttributes->setChecked(exportAttr);
-                        QString exportKeysList;
+                        QStringList exportKeysList;
                         for ( uint i = 0; i < exportList.count(); ++i )
                                 if ( exportList.at(i) )
-                                        exportKeysList.append(" "+exportList.at(i)->text(6).stripWhiteSpace());
+                                        exportKeysList << exportList.at(i)->text(6).stripWhiteSpace();
                         expServer->slotExport(exportKeysList);
                         return;
                 }

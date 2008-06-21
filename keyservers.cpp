@@ -343,10 +343,10 @@ void keyServer::slotsearchread(KProcIO *p)
 
 void keyServer::slotPreExport()
 {
-slotExport(page->kCBexportkey->currentText().section(':',0,0));
+	slotExport(QStringList(page->kCBexportkey->currentText().section(':', 0, 0)));
 }
 
-void keyServer::slotExport(QString keyId)
+void keyServer::slotExport(QStringList keyIds)
 {
         if (page->kCBexportks->currentText().isEmpty())
                 return;
@@ -363,7 +363,7 @@ void keyServer::slotExport(QString keyId)
                 *exportproc<<	"--keyserver-options"<<"honor-http-proxy";
         } else
                 *exportproc<<	"--keyserver-options"<<"no-honor-http-proxy";
-        *exportproc<<"--status-fd=2"<<"--keyserver"<<keyserv<<"--send-keys"<<keyId;
+        *exportproc << "--status-fd=2" << "--keyserver" << keyserv << "--send-keys" << keyIds;
 
         QObject::connect(exportproc, SIGNAL(processExited(KProcess *)),this, SLOT(slotexportresult(KProcess *)));
         QObject::connect(exportproc, SIGNAL(readReady(KProcIO *)),this, SLOT(slotimportread(KProcIO *)));
