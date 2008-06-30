@@ -49,7 +49,6 @@ KLineBufferedProcess::~KLineBufferedProcess()
     delete d;
 }
 
-#include <KDebug>
 void KLineBufferedProcessPrivate::_k_receivedStdout()
 {
     QByteArray ndata = m_parent->readAllStandardOutput();
