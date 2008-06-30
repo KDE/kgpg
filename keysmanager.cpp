@@ -663,22 +663,34 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
 
 void KeysManager::slotShowTrust()
 {
-    iview->setColumnHidden(KEYCOLUMN_TRUST, !sTrust->isChecked());
+	bool b = !sTrust->isChecked();
+	iview->setColumnHidden(KEYCOLUMN_TRUST, b);
+	if (!b && (iview->columnWidth(KEYCOLUMN_TRUST) == 0))
+		iview->resizeColumnToContents(KEYCOLUMN_TRUST);
 }
 
 void KeysManager::slotShowExpiration()
 {
-    iview->setColumnHidden(KEYCOLUMN_EXPIR, !sExpi->isChecked());
+	bool b = !sExpi->isChecked();
+	iview->setColumnHidden(KEYCOLUMN_EXPIR, b);
+	if (!b && (iview->columnWidth(KEYCOLUMN_EXPIR) == 0))
+		iview->resizeColumnToContents(KEYCOLUMN_EXPIR);
 }
 
 void KeysManager::slotShowSize()
 {
-    iview->setColumnHidden(KEYCOLUMN_SIZE, !sSize->isChecked());
+	bool b = !sSize->isChecked();
+	iview->setColumnHidden(KEYCOLUMN_SIZE, b);
+	if (!b && (iview->columnWidth(KEYCOLUMN_SIZE) == 0))
+		iview->resizeColumnToContents(KEYCOLUMN_SIZE);
 }
 
 void KeysManager::slotShowCreation()
 {
-    iview->setColumnHidden(KEYCOLUMN_CREAT, !sCreat->isChecked());
+	bool b = !sCreat->isChecked();
+	iview->setColumnHidden(KEYCOLUMN_CREAT, b);
+	if (!b && (iview->columnWidth(KEYCOLUMN_CREAT) == 0))
+		iview->resizeColumnToContents(KEYCOLUMN_CREAT);
 }
 
 void KeysManager::slotToggleSecret(bool b)
