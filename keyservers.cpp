@@ -314,6 +314,7 @@ void KeyServer::slotAbortSearch()
 		delete m_searchproc;
 		m_searchproc = NULL;
 	}
+	page->Buttonsearch->setEnabled(true);
 
     if (m_dialogserver)
     {
@@ -362,7 +363,7 @@ void KeyServer::slotSearchResult(GPGProc *p)
     if (m_kitem != NULL)
       CreateUidEntry();
 
-	delete m_searchproc;
+	m_searchproc->deleteLater();
 	m_searchproc = NULL;
 	page->Buttonsearch->setEnabled(true);
     QString nb;
@@ -387,7 +388,7 @@ void KeyServer::slotSetText(const QString &text)
 void KeyServer::slotTextChanged(const QString &text)
 {
     page->Buttonimport->setEnabled(!text.isEmpty());
-    page->Buttonsearch->setEnabled(!text.isEmpty());
+    page->Buttonsearch->setEnabled(!text.isEmpty() && (m_searchproc == NULL));
 }
 
 void KeyServer::slotSetExportAttribute(const QString *state)
@@ -482,7 +483,8 @@ void KeyServer::handleQuit()
 		delete m_searchproc;
 		m_searchproc = NULL;
 	}
-    m_dialogserver->close();
+	m_dialogserver->close();
+	page->Buttonsearch->setEnabled(true);
 }
 
 void KeyServer::slotSetKeyserver(const QString &server)
