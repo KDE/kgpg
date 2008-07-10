@@ -1808,6 +1808,8 @@ void KgpgInterface::downloadKeys(const QStringList &keys, const QString &keyserv
     m_downloadprocess = new GPGProc(this);
     *m_downloadprocess << "--command-fd=0" << "--status-fd=1";
 
+    m_downloadprocess->setOutputChannelMode(KProcess::MergedChannels);
+
     if (proxy.isEmpty())
         *m_downloadprocess << "--keyserver-options" << "no-honor-http-proxy";
     else
