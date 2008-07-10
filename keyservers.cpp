@@ -314,9 +314,8 @@ void keyServer::slotsearchread(KProcIO *p)
                         QString subkey=required.stripWhiteSpace();
 			if (subkey.find(" key ")!=-1 && subkey.at(0).isDigit ())
 			{
-                        QString kid=subkey.section(" key ",1,1);
-                        kid=kid.stripWhiteSpace();
-                        kid=kid.left(8);
+                        QString kid=subkey.section(",",0,0).stripWhiteSpace();
+                        kid=kid.right(8);
 			kitem->setText(3,kid);
 			QString creation=subkey.section("created",1,1);
 			if (creation.startsWith(":")) creation=creation.right(creation.length()-1);
