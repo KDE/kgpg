@@ -401,7 +401,7 @@ Most encryption options are directly related to gpg and are documented in it's <
 
 <sect2 id="conf-misc">
 <title>Misc</title>
-<para>This section allows the setting of some different features that do not fit into the other sections. You can configure for example to <guilabel>start KGpg automatically at login</guilabel>. The option <guilabel>use mouse selection instead of clipboard</guilabel> changes happens by mouse and pasting by middle mouse button or if all operations are done by keyboard shortcuts.</para>
+<para>This section allows the setting of some different features that do not fit into the other sections. You can configure for example to <guilabel>start KGpg automatically at login</guilabel>. The option <guilabel>use mouse selection instead of clipboard</guilabel> changes if selection happens by mouse and pasting by middle mouse button or if all operations are done by keyboard shortcuts.</para>
 <para>You can also change if the systray icon of KGpg is shown or not and what action happens if the icon is klicked with the &LMB;. If the applet is shown closing the KGpg window will minimize the application to tray. If the systray icon is not shown KGpg will exit when all windows are closed.</para>
 </sect2>
 
