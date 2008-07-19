@@ -1588,6 +1588,9 @@ void KeysManager::slotDefaultAction()
 
 void KeysManager::defaultAction(KGpgNode *nd)
 {
+	if (nd == NULL)
+		return;
+
 	switch (nd->getType()) {
 	case ITYPE_GROUP:
 		editGroup();
