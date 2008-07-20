@@ -45,7 +45,6 @@ int main(int argc, char *argv[])
     options.add("s", ki18n("Show encrypted file"));
     options.add("S", ki18n("Sign file"));
     options.add("V", ki18n("Verify signature"));
-    options.add("X", ki18n("Shred file"));
     options.add("+[File]", ki18n("File to open"));
     KCmdLineArgs::addCmdLineOptions(options);
     KUniqueApplication::addCmdLineOptions();
