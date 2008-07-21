@@ -82,7 +82,7 @@ install( FILES kgpg.rc keysmanager.rc tips  DESTINATION ${DATA_INSTALL_DIR}/kgpg
 install( FILES kgpg.desktop  DESTINATION ${XDG_APPS_INSTALL_DIR})
 install( FILES kgpg.kcfg  DESTINATION ${KCFG_INSTALL_DIR})
 install( FILES kgpg.desktop  DESTINATION ${AUTOSTART_INSTALL_DIR} )
-install( FILES kgpg_anim.gif kgpg_blank.png  kgpg_fill.png  DESTINATION ${DATA_INSTALL_DIR}/kgpg/pics)
+install( FILES kgpg_anim.gif  DESTINATION ${DATA_INSTALL_DIR}/kgpg/pics)
 install( FILES encryptfile.desktop encryptfolder.desktop  DESTINATION
 ${SERVICES_INSTALL_DIR}/ServiceMenus)
 install( FILES org.kde.kgpg.Key.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
