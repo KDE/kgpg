@@ -68,6 +68,8 @@ kde4_add_ui_files(kgpg_SRCS
     sourceselect.ui
 )
 
+kde4_add_app_icon(kgpg_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app*-kgpg.png")
+
 kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
 kde4_add_executable(kgpg ${kgpg_SRCS})
