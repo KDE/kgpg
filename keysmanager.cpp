@@ -21,7 +21,6 @@
 #include <QDesktopWidget>
 #include <QKeySequence>
 #include <QTextStream>
-#include <QCloseEvent>
 #include <QClipboard>
 #include <QPainter>
 #include <QPrinter>
@@ -1093,15 +1092,6 @@ void KeysManager::slotManpage()
 void KeysManager::slotTip()
 {
     KTipDialog::showTip(this, QString("kgpg/tips"), true);
-}
-
-void KeysManager::closeEvent (QCloseEvent *e)
-{
-    // kapp->ref(); // prevent KXmlGuiWindow from closing the app
-    // KXmlGuiWindow::closeEvent(e);
-    // e->accept();
-    hide();
-    e->ignore();
 }
 
 void KeysManager::showKeyServer()

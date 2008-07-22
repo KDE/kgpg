@@ -31,7 +31,6 @@
 #include "kgpgitemmodel.h"
 #include "kgpgitemnode.h"
 
-class QCloseEvent;
 class QEvent;
 
 class KSelectAction;
@@ -98,7 +97,6 @@ public slots:
     void slotOpenEditor();
 
 protected:
-    void closeEvent(QCloseEvent *e);
     bool eventFilter(QObject *, QEvent *e);
 
 private slots:

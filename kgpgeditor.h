@@ -24,8 +24,6 @@
 #include <KShortcut>
 
 
-class QCloseEvent;
-
 class KToggleAction;
 class KAction;
 class KFind;
@@ -62,7 +60,6 @@ protected:
     void saveOptions();
     void initActions();
     void initView();
-    void closeEvent(QCloseEvent *e);
     bool queryClose();
     bool saveBeforeClear();
 

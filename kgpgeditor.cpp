@@ -18,7 +18,6 @@
 #include "kgpgeditor.h"
 
 #include <QTextStream>
-#include <QCloseEvent>
 #include <QTextCodec>
 #include <QPainter>
 #include <QtDBus/QtDBus>
@@ -61,6 +60,7 @@ KgpgEditor::KgpgEditor(QWidget *parent, Qt::WFlags f, KShortcut gohome, bool mai
     m_godefaultkey = gohome;
     m_find = 0;
 
+    setAttribute(Qt::WA_DeleteOnClose, false);
     // call inits to invoke all other construction parts
     initActions();
     initView();
@@ -182,17 +182,6 @@ void KgpgEditor::initView()
     m_editcopy->setEnabled(false);
     m_editcut->setEnabled(false);
     m_textchanged = false;
-}
-
-void KgpgEditor::closeEvent (QCloseEvent *e)
-{
-    if (!m_ismainwindow)
-    {
-        KGlobal::ref();
-        KXmlGuiWindow::closeEvent(e);
-    }
-    else
-        e->accept();
 }
 
 bool KgpgEditor::queryClose()

@@ -55,6 +55,7 @@ int main(int argc, char *argv[])
     //KgpgAppletApp *app;
     KApplication *app;
     app = new KgpgAppletApp;
+    app->setQuitOnLastWindowClosed(false);
     return app->exec();
 
     /*
