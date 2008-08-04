@@ -433,6 +433,8 @@ KGpgTextInterface::fileReadEncProcess()
 				}
 			} else if (line.contains("END_ENCRYPTION")) {
 				d->m_ok = true;
+			} else {
+				d->m_message += line + '\n';
 			}
 		} else {
 			d->m_message += line + '\n';
