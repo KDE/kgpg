@@ -22,20 +22,14 @@
 
 #include <QRegExp>
 
+#include "kpimutils/email.h"
+
 namespace KgpgCore
 {
 
 QValidator::State EmailValidator::validate(QString &input, int &) const
 {
-    static QString pattern = "^[a-z][a-z|0-9|\\-|_|\\.|%|\\+]*@[a-z][a-z|0-9|-]*\\.([a-z]"
-                             "[a-z|0-9|-]*(\\.[a-z][a-z|0-9|-]*)?)$";
-
-    static QRegExp regexp(pattern, Qt::CaseInsensitive);
-
-    if (input.contains(QString("..")))
-        return QValidator::Invalid;
-
-    if (regexp.exactMatch(input))
+    if (KPIMUtils::isValidSimpleAddress(input))
         return QValidator::Acceptable;
     else
         return QValidator::Invalid;
