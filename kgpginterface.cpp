@@ -1451,7 +1451,6 @@ void KgpgInterface::fileReadEncProcess(K3ProcIO *p)
             if (line.contains("END_ENCRYPTION"))
                 encok = true;
             else
-            if (!line.startsWith("[GNUPG:]"))
                 message += line + '\n';
         }
     }
