@@ -301,21 +301,21 @@ bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)
 
 void KgpgTextEdit::slotDecodeFileSuccess(const QString &content, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
     setPlainText(content);
     emit newText();
 }
 
 void KgpgTextEdit::slotDecodeFileFailed(const QString &content, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
     if (!slotCheckFile(false))
         KMessageBox::detailedSorry(this, i18n("Decryption failed."), content);
 }
 
 void KgpgTextEdit::slotEncodeUpdate(const QString &content, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
     if (!content.isEmpty())
     {
         setPlainText(content);
@@ -327,7 +327,7 @@ void KgpgTextEdit::slotEncodeUpdate(const QString &content, KgpgInterface *inter
 
 void KgpgTextEdit::slotDecodeUpdateSuccess(const QString &content, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
 
     QString decryptedcontent;
     if (checkForUtf8(content))
@@ -350,13 +350,13 @@ void KgpgTextEdit::slotDecodeUpdateSuccess(const QString &content, KgpgInterface
 
 void KgpgTextEdit::slotDecodeUpdateFailed(const QString &content, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
     KMessageBox::detailedSorry(this, i18n("Decryption failed."), content);
 }
 
 void KgpgTextEdit::slotSignUpdate(const QString &content, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
     if (content.isEmpty())
     {
         KMessageBox::sorry(this, i18n("Signing not possible: bad passphrase or missing key"));
@@ -379,14 +379,14 @@ void KgpgTextEdit::slotSignUpdate(const QString &content, KgpgInterface *interfa
 
 void KgpgTextEdit::slotVerifySuccess(const QString &content, const QString &log, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
     emit verifyFinished();
     (void) new KgpgDetailedInfo(this, content, log);
 }
 
 void KgpgTextEdit::slotVerifyKeyNeeded(const QString &id, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
 
     KGuiItem importitem = KStandardGuiItem::yes();
     importitem.setText(i18n("&Import"));
