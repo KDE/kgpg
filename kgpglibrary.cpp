@@ -145,7 +145,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
 
 void KgpgLibrary::processEnc(const KUrl &, KGpgTextInterface *i)
 {
-    delete i;
+    i->deleteLater();
     emit systemMessage(QString());
 
     m_urlselecteds.pop_front();
@@ -158,7 +158,7 @@ void KgpgLibrary::processEnc(const KUrl &, KGpgTextInterface *i)
 
 void KgpgLibrary::processEncError(const QString &mssge, KGpgTextInterface *i)
 {
-    delete i;
+    i->deleteLater();
     m_popisactive = false;
     emit systemMessage(QString(), true);
     KMessageBox::detailedSorry(m_panel, i18n("<p><b>Process halted</b>.<br />Not all files were encrypted.</p>"), mssge);
@@ -180,7 +180,7 @@ void KgpgLibrary::processDecOver(int ret, KGpgTextInterface *iface)
 {
     emit systemMessage(QString());
     delete m_pop;
-    delete iface;
+    iface->deleteLater();
     if (ret != 0)
 	emit decryptionOver(this, m_urlselected);
     else
@@ -273,7 +273,7 @@ void KgpgLibrary::addPhoto(const QString &keyid)
 
 void KgpgLibrary::slotAddPhotoFinished(int res, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
 
     // TODO : add res == 3 (bad passphrase)
 
