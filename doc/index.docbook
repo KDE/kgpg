@@ -1,7 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN"
 "dtd/kdex.dtd" [
-  <!ENTITY kgpg "<application>KGpg</application>">
   <!ENTITY package "kdeutils">
   <!ENTITY kappname "&kgpg;">
   <!ENTITY % addindex "IGNORE">
@@ -320,7 +319,7 @@ and drop or the Copy/Paste keyboard shortcuts.</para>
 
 <para>While the key manager allows you to do general actions with one or multiple keys, key groups or signatures, the key properties window gives you access to a single key. You can reach it by pressing enter in the key manager or double clicking the key.</para>
 <para>In this window you can change the key passphrase and expiration of your secret keys. For all keys you can also set the owner trust value.</para>
-<para>This value indicates how much you trust the owner of this key to correctly verify the identity of the keys he signs. Taking the owner trust into account gpg creates your own web of trust. You trust the keys you signed. If you assign owner trust to these persons you will also trust the keys they have signed without the need that you first have to sign there keys too.</para>
+<para>This value indicates how much you trust the owner of this key to correctly verify the identity of the keys he signs. Taking the owner trust into account gpg creates your own web of trust. You trust the keys you signed. If you assign owner trust to these persons you will also trust the keys they have signed without the need that you first have to sign their keys too.</para>
 <para>All changes you make in this dialog are immediately applied to your keyring.</para>
 </sect2>
 
@@ -329,7 +328,7 @@ and drop or the Copy/Paste keyboard shortcuts.</para>
 <sect1 id="keyserver">
 <title>Communication with key servers</title>
 
-<para>The public part of a key pair is usually stored on a key server. These servers allow anyone to search for a key belonging to a specific person or mail address. The signatures are also stored on this servers.</para>
+<para>The public part of a key pair is usually stored on a key server. These servers allow anyone to search for a key belonging to a specific person or mail address. The signatures are also stored on these servers.</para>
 
 <screenshot>
 <screeninfo>Here's a screen shot of keyserver window.</screeninfo>
@@ -365,14 +364,14 @@ Most encryption options are directly related to gpg and are documented in it's <
 </screenshot>
 <para>Here you can configure special options to be passed to GnuPG to change the encryption behaviour. For detailed description please have a look at the GnuPG manual.</para>
 <itemizedlist>
-<listitem><para><guilabel>ASCII armored encryption</guilabel>: this causes encrypted files to be stored in a format that uses only printable ASCII characters and has short lines. Files stored this way are bigger than the files in binary format but are easier to send e.g. by email.</para></listitem>
+<listitem><para><guilabel>ASCII armored encryption</guilabel>: this causes encrypted files to be stored in a format that uses only printable ASCII characters and has short lines. Files stored this way are bigger than the files in binary format but are easier to send &eg; by email.</para></listitem>
 <listitem><para><guilabel>Allow encryption with untrusted keys</guilabel>: this allows you to to encrypt files with keys that are not trusted by you.</para></listitem>
 <listitem><para><guilabel>PGP 6 compatibility</guilabel>: encrypted files are compatible with the older PGP6 standard. This disables certain features so you should only use this if really needed.</para></listitem>
 <listitem><para><guilabel>Hide user id</guilabel>: this removes all evidence of the receiver from the encrypted file. In case the transmission is intercepted noone could gain information about the recipient from the file. If the receiver has multiple keys he needs to try which one was used.</para></listitem>
 <listitem><para><guilabel>Always encrypt with</guilabel>: all encryptions are additionally encrypted with this key. If you set this to one of your private keys this makes sure you can read all data you encrypted by the price of bigger messages.</para></listitem>
 <listitem><para><guilabel>Encrypt files with</guilabel>: behaves like <guilabel>Always encrypt with</guilabel> for file encryption.</para></listitem>
 <listitem><para><guilabel>Custom encryption command</guilabel>: if you need to pass some unusual options to GnuPG you can specify the command line here. Most users will not need this.</para></listitem>
-<listitem><para><guilabel>Use *.pgp extension for encrypted files</guilabel>: if you check this option encrypted keys will be named as th input file with the extension <literal role="extension">.pgp</literal> added, otherwise the extension <literal role="extension">.gpg</literal> is used.</para></listitem>
+<listitem><para><guilabel>Use *.pgp extension for encrypted files</guilabel>: if you check this option encrypted keys will be named as the input file with the extension <literal role="extension">.pgp</literal> added, otherwise the extension <literal role="extension">.gpg</literal> is used.</para></listitem>
 </itemizedlist>
 </sect2>
 
@@ -384,25 +383,25 @@ Most encryption options are directly related to gpg and are documented in it's <
 
 <sect2 id="conf-appearance">
 <title>Appearance</title>
-<para>Here you can configure the way KGpg looks to you. Possible settings are the colors that reflect the different levels of key trust in the <link linkend="keymanager">key manager</link> and the font settings for the <link linkend="editor">editor</link>.</para>
+<para>Here you can configure the way &kgpg; looks to you. Possible settings are the colors that reflect the different levels of key trust in the <link linkend="keymanager">key manager</link> and the font settings for the <link linkend="editor">editor</link>.</para>
 </sect2>
 
 <sect2 id="conf-gnupg">
 <title>GnuPG Settings</title>
-<para>Here you can configure which gpg binary and which <guilabel>configuration file</guilabel> and home directory are used. This values are autodetected on first start and should already work.</para>
+<para>Here you can configure which gpg binary and which <guilabel>configuration file</guilabel> and home foldery are used. These values are autodetected on first start and should already work.</para>
 <para>Using the <ulink url="man:gpg-agent">GnuPG agent</ulink> makes work with GnuPG more comfortable as you do not need to type in your password for every action. It is cached in memory for a while so any operation that would require a password can immediately be done. Note that this may allow other people to use your private keys if you leave your session accessible to them.</para>
 </sect2>
 
 <sect2 id="conf-keyservers">
 <title>Key Servers</title>
 <para>Here you can create a list of keyservers that are shown to you when you open the <link linkend="keyserver">key server dialog</link>. If you run GnuPG from the command line only the key server you set as default here will be used.</para>
-<para>The protocol used for communication with the key servers is based on HTTP, so it makes sense in some environments to <guilabel>honor the HTTP proxy when available</guilabel>.</para>
+<para>The protocol used for communication with the key servers is based on &HTTP;, so it makes sense in some environments to <guilabel>honor the &HTTP; proxy when available</guilabel>.</para>
 </sect2>
 
 <sect2 id="conf-misc">
 <title>Misc</title>
 <para>This section allows the setting of some different features that do not fit into the other sections. You can configure for example to <guilabel>start KGpg automatically at login</guilabel>. The option <guilabel>use mouse selection instead of clipboard</guilabel> changes if selection happens by mouse and pasting by middle mouse button or if all operations are done by keyboard shortcuts.</para>
-<para>You can also change if the systray icon of KGpg is shown or not and what action happens if the icon is klicked with the &LMB;. If the applet is shown closing the KGpg window will minimize the application to tray. If the systray icon is not shown KGpg will exit when all windows are closed.</para>
+<para>You can also change if the systray icon of &kgpg; is shown or not and what action happens if the icon is klicked with the &LMB;. If the systray icon is shown closing the &kgpg; window will minimize the application to tray. If the systray icon is not shown &kgpg; will exit when all windows are closed.</para>
 </sect2>
 
 </sect1>
