@@ -30,7 +30,7 @@ class KFind;
 
 class KgpgInterface;
 class KgpgView;
-
+class KGpgItemModel;
 
 class KgpgEditor : public KXmlGuiWindow
 {
@@ -38,7 +38,7 @@ class KgpgEditor : public KXmlGuiWindow
     friend class KgpgView;
 
 public:
-    explicit KgpgEditor(QWidget *parent = 0, Qt::WFlags f = 0, KShortcut gohome = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), bool mainwindow = false);
+    KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f = 0, KShortcut gohome = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), bool mainwindow = false);
     ~KgpgEditor();
 
     void openDocumentFile(const KUrl& url, const QString &encoding = QString());
@@ -126,6 +126,8 @@ private:
 
     bool m_textchanged;
     bool m_ismainwindow;
+
+    KGpgItemModel *m_model;
 };
 
 #endif // KGPGEDITOR_H

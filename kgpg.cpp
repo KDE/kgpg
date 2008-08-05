@@ -96,7 +96,7 @@ static QString getGpgHome()
     return gpgHome;
 }
 
-MyView::MyView(QWidget *parent, KSystemTrayIcon *parentTrayIcon)
+MyView::MyView(QWidget *parent, KSystemTrayIcon *parentTrayIcon, KGpgItemModel *model)
       : QObject(parent)
 {
     trayIcon = parentTrayIcon;
@@ -127,6 +127,8 @@ MyView::MyView(QWidget *parent, KSystemTrayIcon *parentTrayIcon)
     udroppopup->addAction( sign );
 
     trayIcon->setToolTip( i18n("KGpg - encryption tool"));
+
+    m_model = model;
 }
 
 MyView::~MyView()
@@ -145,7 +147,7 @@ void MyView::clipEncrypt()
         KPassivePopup::message(i18n("Clipboard is empty."), QString(), Images::kgpg(), trayIcon);
     else
     {
-        KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, 0, goDefaultKey);
+        KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, m_model, goDefaultKey);
         if (dialog->exec() == KDialog::Accepted)
         {
             QStringList options;
@@ -175,7 +177,7 @@ void MyView::clipSign(bool openEditor)
     QString clippie = kapp->clipboard()->text(clipboardMode).simplified();
     if (!clippie.isEmpty())
     {
-        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, Qt::WDestructiveClose, goDefaultKey);
+        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, m_model, Qt::WDestructiveClose, goDefaultKey);
         connect(this,SIGNAL(setFont(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
         connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
 
@@ -193,7 +195,9 @@ void MyView::clipSign(bool openEditor)
 void MyView::encryptDroppedFile()
 {
     QStringList opts;
-    KgpgLibrary *lib = new KgpgLibrary(0, KGpgSettings::pgpExtension());
+    KgpgLibrary *lib = new KgpgLibrary(0);
+    if (KGpgSettings::pgpExtension())
+        lib->setFileExtension(".pgp");
     connect(lib, SIGNAL(systemMessage(QString, bool)), this, SLOT(busyMessage(QString, bool)));
 
     if (KGpgSettings::encryptFilesTo())
@@ -207,10 +211,10 @@ void MyView::encryptDroppedFile()
         if (KGpgSettings::pgpCompatibility())
             opts << QString::fromLocal8Bit("--pgp6");
 
-        lib->slotFileEnc(droppedUrls, opts, QStringList(KGpgSettings::fileEncryptionKey().left(8)), goDefaultKey);
+        lib->slotFileEnc(droppedUrls, opts, m_model, goDefaultKey, KGpgSettings::fileEncryptionKey());
     }
     else
-        lib->slotFileEnc(droppedUrls, opts, QStringList(), goDefaultKey);
+        lib->slotFileEnc(droppedUrls, opts, m_model, goDefaultKey);
 }
 
 void MyView::encryptDroppedFolder()
@@ -222,7 +226,7 @@ void MyView::encryptDroppedFolder()
     if (KMessageBox::warningContinueCancel(0, i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>", kgpgfoldertmp->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "FolderTmpFile") == KMessageBox::Cancel)
         return;
 
-    dialog = new KgpgSelectPublicKeyDlg(0, droppedUrls.first().fileName(), goDefaultKey);
+    dialog = new KgpgSelectPublicKeyDlg(0, m_model, goDefaultKey, droppedUrls.first().fileName());
 
     KHBox *bGroup = new KHBox(dialog->optionsbox);
 
@@ -422,7 +426,7 @@ void MyView::signDroppedFile()
 
     QString signKeyID;
     // select a private key to sign file --> listkeys.cpp
-    KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(0, "select_secret");
+    KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(0, m_model, false);
     if (opts->exec() == QDialog::Accepted)
         signKeyID = opts->getKeyID();
     else
@@ -545,7 +549,7 @@ void MyView::showDroppedFile()
 {
     kDebug(2100) << "------Show dropped file" ;
 
-    KgpgEditor *kgpgtxtedit = new KgpgEditor(0, Qt::WDestructiveClose, goDefaultKey);
+    KgpgEditor *kgpgtxtedit = new KgpgEditor(0, m_model, Qt::WDestructiveClose, goDefaultKey);
     kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
 
     connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
@@ -609,7 +613,7 @@ void MyView::droppedtext (const QString &inputText, bool allowEncrypt)
 {
     if (inputText.startsWith("-----BEGIN PGP MESSAGE"))
     {
-        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, Qt::WDestructiveClose, goDefaultKey);
+        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, m_model, Qt::WDestructiveClose, goDefaultKey);
         connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
         connect(this, SIGNAL(setFont(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
         kgpgtxtedit->view->editor->setPlainText(inputText);
@@ -903,10 +907,10 @@ void MyView::slotSetClip(const QString &newtxt)
 }
 
 
-kgpgapplet::kgpgapplet(QWidget *parent)
+kgpgapplet::kgpgapplet(QWidget *parent, KGpgItemModel *model)
           : KSystemTrayIcon(parent)
 {
-    w = new MyView(parent, this);
+    w = new MyView(parent, this, model);
 
     QMenu *conf_menu = contextMenu();
 
@@ -1028,9 +1032,9 @@ int KgpgAppletApp::newInstance()
         s_keyManager->refreshkey();
 
         if (KGpgSettings::leftClick() == KGpgSettings::EnumLeftClick::KeyManager)
-            kgpg_applet = new kgpgapplet(s_keyManager);
+            kgpg_applet = new kgpgapplet(s_keyManager, s_keyManager->getModel());
         else
-            kgpg_applet = new kgpgapplet(s_keyManager->s_kgpgEditor);
+            kgpg_applet = new kgpgapplet(s_keyManager->s_kgpgEditor, s_keyManager->getModel());
 
         connect(s_keyManager,SIGNAL(encryptFiles(KUrl::List)),kgpg_applet->w,SLOT(encryptFiles(KUrl::List)));
         connect(s_keyManager->s_kgpgEditor,SIGNAL(encryptFiles(KUrl::List)),kgpg_applet->w,SLOT(encryptFiles(KUrl::List)));

@@ -52,13 +52,14 @@
 #include "kgpgtextinterface.h"
 
 
-KgpgEditor::KgpgEditor(QWidget *parent, Qt::WFlags f, KShortcut gohome, bool mainwindow)
+KgpgEditor::KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f, KShortcut gohome, bool mainwindow)
           : KXmlGuiWindow(parent, f)
 {
     m_ismainwindow = mainwindow;
     m_textencoding = QString();
     m_godefaultkey = gohome;
     m_find = 0;
+    m_model = model;
 
     setAttribute(Qt::WA_DeleteOnClose, false);
     // call inits to invoke all other construction parts
@@ -173,7 +174,7 @@ void KgpgEditor::initActions()
 
 void KgpgEditor::initView()
 {
-    view = new KgpgView(this);
+    view = new KgpgView(this, m_model);
     connect(view, SIGNAL(resetEncoding(bool)), this, SLOT(slotResetEncoding(bool)));
     setCentralWidget(view);
     setCaption(i18n("Untitled"), false);
@@ -570,7 +571,7 @@ void KgpgEditor::slotSignFile(const KUrl &url)
     if (!url.isEmpty())
     {
         QString signKeyID;
-        KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, "select_secret");
+        KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, m_model, false);
         if (opts->exec() == QDialog::Accepted)
             signKeyID = opts->getKeyID();
         else

@@ -29,6 +29,7 @@
 class KPassivePopup;
 class KgpgInterface;
 class KGpgTextInterface;
+class KGpgItemModel;
 
 class KgpgLibrary : public QObject
 {
@@ -38,7 +39,12 @@ public:
     /**
      * Initialize the class
      */
-    explicit KgpgLibrary(QWidget *parent = 0, const bool &pgpExtension = false);
+    explicit KgpgLibrary(QWidget *parent = 0);
+
+    /**
+     * set the extension used for the encrypted file (including the '.')
+     */
+    void setFileExtension(const QString &extension);
 
 signals:
     void encryptionOver();
@@ -48,7 +54,7 @@ signals:
     void photoAdded();
 
 public slots:
-    void slotFileEnc(const KUrl::List &urls = KUrl(""), const QStringList &opts = QStringList(), const QStringList &defaultKey = QStringList(), const KShortcut &goDefaultKey = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)));
+    void slotFileEnc(const KUrl::List &urls, const QStringList &opts, KGpgItemModel *model, const KShortcut &goDefaultKey, const QString &defaultKey = QString());
     void slotFileDec(const KUrl &srcUrl, const KUrl &destUrl, const QStringList &customDecryptOption = QStringList());
 
     void addPhoto(const QString &keyid);

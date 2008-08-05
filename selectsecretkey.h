@@ -28,14 +28,13 @@ public:
     /**
      * Constructor.
      * @param parent is the parent object
-     * @param signkey set to \em true if you are going to sign a key, set
-     * to \em false if you are going to sign a message. Default is \em false
-     * @param countkey if \em signkey is set to \em true, \em countkey is the
-     * number of keys that you are going to sign. Default is 1.
-     * @param model pass a pointer to a KGpgItemModel here if you alredy have
-     * one around. Default is NULL which means to create a new one.
+     * @param model pass a pointer to a KGpgItemModel that stores the keys
+     * to select from
+     * @param signkey set to \em true if you are going to sign keys,
+     * \em countkey is the number of keys that you are going to sign. If you
+     * are going to sign a file, pass 0. Default is 0.
      */
-    explicit KgpgSelectSecretKey(QWidget *parent = 0, const bool &signkey = false, const int &countkey = 1, KGpgItemModel *model = NULL);
+    KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, const int &countkey = 0);
     ~KgpgSelectSecretKey();
 
     QString getKeyID() const;

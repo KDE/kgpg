@@ -461,7 +461,7 @@ KeysManager::KeysManager(QWidget *parent)
     setAutoSaveSettings(cg, true);
     applyMainWindowSettings(cg);
 
-    s_kgpgEditor = new KgpgEditor(parent, Qt::WType_Dialog, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut(), true);
+    s_kgpgEditor = new KgpgEditor(parent, imodel, Qt::WType_Dialog, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut(), true);
     connect(s_kgpgEditor, SIGNAL(refreshImported(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
     connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
 }
@@ -509,7 +509,7 @@ void KeysManager::showKeyManager()
 
 void KeysManager::slotOpenEditor()
 {
-    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, Qt::Window, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut());
+    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, Qt::Window, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut());
     kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
@@ -1790,7 +1790,7 @@ void KeysManager::signkey()
             return;
     }
 
-    KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, true, signList.count(), imodel);
+    KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, imodel, signList.count());
     if (opts->exec() != QDialog::Accepted)
     {
         delete opts;
@@ -1865,7 +1865,7 @@ void KeysManager::signuid()
 			return;
 	}
 
-	KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, true, signList.count(), imodel);
+	KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, imodel, signList.count());
 	if (opts->exec() != QDialog::Accepted) {
 		delete opts;
 		return;
@@ -2328,6 +2328,11 @@ void KeysManager::refreshkey()
 {
 	imodel->refreshKeys();
 	changeMessage(imodel->statusCountMessage(), 1);
+}
+
+KGpgItemModel *KeysManager::getModel()
+{
+	return imodel;
 }
 
 KGpgTransaction::KGpgTransaction()

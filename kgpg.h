@@ -41,6 +41,7 @@ class KgpgSelectPublicKeyDlg;
 class KGpgTextInterface;
 class KeysManager;
 class KgpgLibrary;
+class KGpgItemModel;
 
 class KgpgWizard : public Q3Wizard, public Ui::KgpgWizard
 {
@@ -56,7 +57,7 @@ class MyView : public QObject
     Q_OBJECT
 
 public:
-    explicit MyView(QWidget *parent = 0, KSystemTrayIcon *parentTrayIcon = 0);
+    MyView(QWidget *parent, KSystemTrayIcon *parentTrayIcon, KGpgItemModel *model);
     ~MyView();
 
     KUrl droppedUrl;
@@ -116,6 +117,7 @@ private:
     KgpgSelectPublicKeyDlg *dialog;
     QClipboard::Mode clipboardMode;
     KSystemTrayIcon *trayIcon;
+    KGpgItemModel *m_model;
 
     int startWizard();
     int firstRun();
@@ -147,7 +149,7 @@ class kgpgapplet : public KSystemTrayIcon
     Q_OBJECT
 
 public:
-    kgpgapplet(QWidget *parent = 0);
+    kgpgapplet(QWidget *parent, KGpgItemModel *model);
     ~kgpgapplet();
     MyView *w;
 

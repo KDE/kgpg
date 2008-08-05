@@ -25,7 +25,7 @@
 
 using namespace KgpgCore;
 
-KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, const int &countkey, KGpgItemModel *model)
+KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, const int &countkey)
                    : KDialog(parent)
 {
     setCaption(i18n("Private Key List"));
@@ -35,15 +35,8 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
 
     QLabel *label = new QLabel(i18n("Choose secret key for signing:"), page);
 
-    KGpgItemModel *md;
-    if (model == NULL) {
-       md = new KGpgItemModel(this);
-       md->refreshKeys();
-    } else
-       md = model;
-
     m_proxy = new SelectSecretKeyProxyModel(this);
-    m_proxy->setKeyModel(md);
+    m_proxy->setKeyModel(model);
 
     m_keyslist = new QTableView(page);
     m_keyslist->setModel(m_proxy);
@@ -55,11 +48,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
     vbox->addWidget(label);
     vbox->addWidget(m_keyslist);
 
-    m_localsign = 0;        // must be set to 0 if signkey is false
-    m_terminalsign = 0;     // must be set to 0 if signkey is false
-    m_signtrust = 0;        // must be set to 0 if signkey is false
-    if (signkey)
-    {
+    if (countkey > 0) {
         QLabel *signchecklabel = new QLabel(i18np("How carefully have you checked that the key really "
                                            "belongs to the person with whom you wish to communicate:",
                                            "How carefully have you checked that the %1 keys really "
@@ -82,15 +71,15 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, const bool &signkey, c
 
         if (countkey != 1)
             m_terminalsign->setEnabled(false);
-    }
+	} else {
+		m_localsign = 0;
+		m_terminalsign = 0;
+		m_signtrust = 0;
+	}
 
-    QString defaultKeyID = KGpgSettings::defaultKey().right(8);
-    QString fullname;
-    QString line;
-
-	KGpgNode *nd = md->getRootNode()->findKey(KGpgSettings::defaultKey());
+	KGpgNode *nd = model->getRootNode()->findKey(KGpgSettings::defaultKey());
 	if (nd != NULL) {
-		QModelIndex sidx = md->nodeIndex(nd);
+		QModelIndex sidx = model->nodeIndex(nd);
 		QModelIndex pidx = m_proxy->mapFromSource(sidx);
 		m_keyslist->selectionModel()->setCurrentIndex(pidx, QItemSelectionModel::Clear | QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
 	}

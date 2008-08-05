@@ -45,11 +45,13 @@
 #define PRIVATEKEY_BEGIN     "-----BEGIN PGP PRIVATE KEY BLOCK-----"
 #define PRIVATEKEY_END       "-----END PGP PRIVATE KEY BLOCK-----"
 
-KgpgTextEdit::KgpgTextEdit(QWidget *parent)
+KgpgTextEdit::KgpgTextEdit(QWidget *parent, KGpgItemModel *model)
             : KTextEdit(parent)
 {
     setCheckSpellingEnabled(true);
     setAcceptDrops(true);
+
+    m_model = model;
 }
 
 KgpgTextEdit::~KgpgTextEdit()
@@ -103,7 +105,7 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 void KgpgTextEdit::slotEncode()
 {
     // TODO : goDefaultKey shortcut
-    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, 0, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), true);
+    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, m_model, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), QString(), true);
     if (dialog->exec() == KDialog::Accepted)
     {
         QStringList options;
@@ -156,7 +158,7 @@ void KgpgTextEdit::slotSign()
 {
     QString signkeyid;
 
-    KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this);
+    KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, m_model);
     if (opts->exec() == QDialog::Accepted)
         signkeyid = opts->getKeyID();
     else
@@ -412,10 +414,10 @@ void KgpgTextEdit::slotVerifyKeyNeeded(const QString &id, KGpgTextInterface *int
 
 
 
-KgpgView::KgpgView(QWidget *parent)
+KgpgView::KgpgView(QWidget *parent, KGpgItemModel *model)
         : QWidget(parent)
 {
-    editor = new KgpgTextEdit(this);
+    editor = new KgpgTextEdit(this, model);
     editor->setReadOnly(false);
     editor->setUndoRedoEnabled(true);
 

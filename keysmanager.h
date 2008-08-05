@@ -63,6 +63,13 @@ public:
     KeysManager(QWidget *parent = 0);
     ~KeysManager();
 
+    KGpgItemModel *getModel();
+
+    KgpgEditor *s_kgpgEditor;
+
+    void saveToggleOpts(void);
+
+private:
     KToggleAction *sTrust;
     KToggleAction *sCreat;
     KToggleAction *sExpi;
@@ -71,9 +78,7 @@ public:
     KToggleAction *longId;
     KSelectAction *photoProps;
     KSelectAction *trustProps;
-    KgpgEditor *s_kgpgEditor;
 
-    void saveToggleOpts(void);
 signals:
     void readAgainOptions();
     void certificate(QString);

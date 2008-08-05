@@ -25,13 +25,14 @@ class QDragEnterEvent;
 class QDropEvent;
 
 class KGpgTextInterface;
+class KGpgItemModel;
 
 class KgpgTextEdit : public KTextEdit
 {
     Q_OBJECT
 
 public:
-    explicit KgpgTextEdit(QWidget *parent = 0);
+    explicit KgpgTextEdit(QWidget *parent, KGpgItemModel *model);
     ~KgpgTextEdit();
 
 signals:
@@ -73,6 +74,8 @@ private:
 
     int m_posstart;
     int m_posend;
+
+    KGpgItemModel *m_model;
 };
 
 class KgpgView : public QWidget
@@ -80,7 +83,7 @@ class KgpgView : public QWidget
     Q_OBJECT
 
 public:
-    explicit KgpgView(QWidget *parent = 0);
+    explicit KgpgView(QWidget *parent, KGpgItemModel *model);
     ~KgpgView();
 
     KgpgTextEdit *editor;

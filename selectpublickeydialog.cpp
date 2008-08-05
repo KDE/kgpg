@@ -36,7 +36,7 @@
 
 using namespace KgpgCore;
 
-KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &sfile, const KShortcut &goDefaultKey, const bool &hideasciioption)
+KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const KShortcut &goDefaultKey, const QString &sfile, const bool &hideasciioption)
                       : KDialog(parent)
 {
     setCaption(i18n("Select Public Key"));
@@ -60,8 +60,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, const QString &s
     m_searchlineedit->setClearButtonShown(true);
     searchlabel->setBuddy(m_searchlineedit);
 
-    imodel = new KGpgItemModel(this);
-    imodel->refreshKeys();
+    imodel = model;
 
     iproxy = new SelectKeyProxyModel(this);
     iproxy->setKeyModel(imodel);

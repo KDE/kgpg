@@ -35,32 +35,33 @@
 #include "kgpgsettings.h"
 #include "kgpginterface.h"
 #include "kgpgtextinterface.h"
+#include "kgpgitemmodel.h"
 
 using namespace KgpgCore;
 
-KgpgLibrary::KgpgLibrary(QWidget *parent, const bool &pgpExtension)
+KgpgLibrary::KgpgLibrary(QWidget *parent)
 {
-    if (pgpExtension)
-        m_extension = ".pgp";
-    else
-        m_extension = ".gpg";
+    m_extension = ".gpg";
 
     m_popisactive = false;
     m_panel = parent;
 }
 
-void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, const QStringList &defaultKey, const KShortcut &goDefaultKey)
+void KgpgLibrary::setFileExtension(const QString &ext)
+{
+    m_extension = ext;
+}
+
+void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, KGpgItemModel *model, const KShortcut &goDefaultKey, const QString &defaultKey)
 {
     if (!urls.empty())
     {
         m_urlselecteds = urls;
-        if (defaultKey.isEmpty())
-        {
             QString fileNames = urls.first().fileName();
             if (urls.count() > 1)
-                fileNames += ",...";
+                fileNames += ", ...";
 
-            KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, fileNames, goDefaultKey);
+            KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, model, goDefaultKey, fileNames);
             if (dialog->exec() == KDialog::Accepted)
             {
                 QStringList options;
@@ -72,13 +73,13 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, c
                     if (KGpgSettings::allowCustomEncryptionOptions())
                         options << dialog->getCustomOptions().split(" ");
 
-                startEncode(dialog->selectedKeys(), options, dialog->getSymmetric());
+                QStringList keys = dialog->selectedKeys();
+                if (!defaultKey.isEmpty() && !keys.contains(defaultKey))
+                    keys << defaultKey;
+                startEncode(keys, options, dialog->getSymmetric());
             }
 
             delete dialog;
-        }
-        else
-            startEncode(defaultKey, opts, false);
     }
 }
 
