@@ -788,7 +788,7 @@ void MyView::startWizard()
     wiz->CBdefault->setCurrentItem(firstKey);
 
     //connect(wiz->pushButton4,SIGNAL(clicked()),this,SLOT(slotGenKey()));
-    if (!firstKey.isEmpty())
+    if (firstKey.isEmpty())
         connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotGenKey()));
     else
     {
