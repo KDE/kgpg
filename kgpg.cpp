@@ -362,14 +362,14 @@ void MyView::slotFolderFinished(const KUrl &, KgpgInterface *iface)
 {
     delete pop;
     delete kgpgfoldertmp;
-    delete iface;
+    iface->deleteLater();
 }
 
 void MyView::slotFolderFinishedError(const QString &errmsge, KgpgInterface *iface)
 {
     delete pop;
     delete kgpgfoldertmp;
-    delete iface;
+    iface->deleteLater();
     KMessageBox::sorry(0, errmsge);
 }
 
@@ -845,7 +845,7 @@ void MyView::slotSaveOptionsPath()
 
     KGpgSettings::self()->writeConfig();
     emit updateDefault(defaultID);
-    delete wiz;
+    wiz->deleteLater();
 }
 
 void MyView::slotWizardClose()
