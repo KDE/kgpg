@@ -34,19 +34,27 @@ enum KgpgKeyAlgoFlag
 Q_DECLARE_FLAGS(KgpgKeyAlgo, KgpgKeyAlgoFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyAlgo)
 
+/*! \brief trust levels of keys, uids and uats
+ *
+ * This values represent the trust that you have in a public key or obe if it's
+ * user ids or attributes (i.e. photo ids). They are more or less ordered by
+ * the level of trust. Every value but the first and the last matches one trust
+ * value that is 
+ */
 enum KgpgKeyTrustFlag
 {
-    TRUST_UNKNOWN = 0,
-    TRUST_INVALID = 1,
-    TRUST_DISABLED = 2,
-    TRUST_REVOKED = 3,
-    TRUST_EXPIRED = 4,
-    TRUST_UNDEFINED = 5,
-    TRUST_NONE = 6,
-    TRUST_MARGINAL = 7,
-    TRUST_FULL = 8,
-    TRUST_ULTIMATE = 9,
-    TRUST_NOKEY = 10    // item is not a key
+    TRUST_MINIMUM = 0,		//!< internal value for use in filters
+    TRUST_INVALID = 1,		//!< key is invalid
+    TRUST_DISABLED = 2,		//!< key is disabled by user (not owner)
+    TRUST_REVOKED = 3,		//!< key is revoked by owner
+    TRUST_EXPIRED = 4,		//!< key is beyond it's expiry date
+    TRUST_UNDEFINED = 5,	//!< trust value unknown
+    TRUST_UNKNOWN = 6,		//!< trust value unknown (i.e. no entry in gpg's trust database)
+    TRUST_NONE = 7,		//!< there is no trusted path to this key
+    TRUST_MARGINAL = 8,		//!< there is a minimal level of trust
+    TRUST_FULL = 9,		//!< you can fully trust this key
+    TRUST_ULTIMATE = 10,	//!< this key has highest possible level of trust (e.g. your own secret keys)
+    TRUST_NOKEY = 11		//!< internal value, e.g. for key groups
 };
 Q_DECLARE_FLAGS(KgpgKeyTrust, KgpgKeyTrustFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyTrust)

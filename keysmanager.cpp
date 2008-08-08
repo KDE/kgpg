@@ -710,7 +710,7 @@ void KeysManager::slotSetTrustFilter(int i)
 	Q_ASSERT((i >= 0) && (i < 5));
 	switch (i) {
 	case 0:
-		t = TRUST_UNKNOWN;
+		t = TRUST_MINIMUM;
 		break;
 	case 1:
 		t = TRUST_UNDEFINED;
@@ -1545,7 +1545,7 @@ void KeysManager::slotProcessExportClip(const QString &keys)
 void KeysManager::showKeyInfo(const QString &keyID)
 {
 	KgpgInterface *iface = new KgpgInterface;
-	KgpgKeyList listkeys = iface->readJoinedKeys(TRUST_UNKNOWN, QStringList(keyID));
+	KgpgKeyList listkeys = iface->readJoinedKeys(TRUST_MINIMUM, QStringList(keyID));
 	delete iface;
 
 	if (listkeys.count() == 0)
