@@ -43,7 +43,6 @@ class KgpgInterface;
 class KeyServer;
 class KgpgEditor;
 class KeyServer;
-class KGpgTransaction;
 class KeyListProxyModel;
 class KeyTreeView;
 
@@ -178,7 +177,7 @@ private slots:
     void secretKeyDeleted(int);
     void getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *nd);
     void slotEditDone(int exitcode);
-    void importRemoteFinished(KGpgTransaction *);
+    void importRemoteFinished(QList<int>, QStringList, bool, QString, KgpgInterface *iface);
     void slotRefreshKeys(KgpgInterface *iface, const QStringList &keys);
 
 private:
@@ -240,28 +239,6 @@ private:
 
     KGpgKeyNode *terminalkey; // the key currently edited in a terminal
     KGpgKeyNode *delkey;	// key currently deleted
-};
-
-class KGpgTransaction : public QObject
-{
-
-	Q_OBJECT
-
-public:
-	KgpgInterface *iface;
-
-	explicit KGpgTransaction();
-
-	~KGpgTransaction()
-	{
-		delete iface;
-	}
-
-private slots:
-	void slotDownloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*);
-
-signals:
-	void receiveComplete(KGpgTransaction *);
 };
 
 #endif // KEYSMANAGER_H

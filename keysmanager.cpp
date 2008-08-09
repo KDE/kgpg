@@ -2011,20 +2011,21 @@ void KeysManager::preimportsignkey()
 
 bool KeysManager::importRemoteKey(const QString &keyIDs)
 {
-	KGpgTransaction *xact = new KGpgTransaction();
+	KgpgInterface *iface = new KgpgInterface();
 
 	QStringList kservers = KeyServer::getServerList();
 	if (kservers.isEmpty())
 		return false;
-	connect(xact, SIGNAL(receiveComplete(KGpgTransaction *)), this, SLOT(importRemoteFinished(KGpgTransaction *)));
-	xact->iface->downloadKeys(keyIDs.split(' '), kservers.first(), false, qgetenv("http_proxy"));
+	connect(iface, SIGNAL(downloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)), SLOT(importRemoteFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)));
+
+	iface->downloadKeys(keyIDs.split(' '), kservers.first(), false, qgetenv("http_proxy"));
 
 	return true;
 }
 
-void KeysManager::importRemoteFinished(KGpgTransaction *t)
+void KeysManager::importRemoteFinished(QList<int>, QStringList, bool, QString, KgpgInterface *iface)
 {
-	t->deleteLater();
+	iface->deleteLater();
 	imodel->refreshKeys();
 }
 
@@ -2341,18 +2342,6 @@ KeysManager::slotRefreshKeys(KgpgInterface *iface, const QStringList &keys)
 	iface->deleteLater();
 	if (!keys.isEmpty())
 		imodel->refreshKeys(keys);
-}
-
-
-KGpgTransaction::KGpgTransaction()
-	: iface(new KgpgInterface())
-{
-	connect(iface, SIGNAL(downloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)), this, SLOT(slotDownloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)));
-}
-
-void KGpgTransaction::slotDownloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)
-{
-	emit receiveComplete(this);
 }
 
 #include "keysmanager.moc"
