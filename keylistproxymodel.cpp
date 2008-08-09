@@ -140,6 +140,7 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 		switch (l->getType()) {
 		case ITYPE_PUBLIC:
 		case ITYPE_GPUBLIC:
+		case ITYPE_GROUP:
 			return false;
 		default:
 			break;
