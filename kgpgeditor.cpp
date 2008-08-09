@@ -53,7 +53,7 @@
 
 
 KgpgEditor::KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f, KShortcut gohome, bool mainwindow)
-          : KXmlGuiWindow(parent, f)
+          : KXmlGuiWindow(parent, f), view(new KgpgView(this, model))
 {
     m_ismainwindow = mainwindow;
     m_textencoding = QString();
@@ -64,7 +64,15 @@ KgpgEditor::KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f, KSho
     setAttribute(Qt::WA_DeleteOnClose, false);
     // call inits to invoke all other construction parts
     initActions();
-    initView();
+
+    connect(view, SIGNAL(resetEncoding(bool)), this, SLOT(slotResetEncoding(bool)));
+    setCentralWidget(view);
+    setCaption(i18n("Untitled"), false);
+    m_editredo->setEnabled(false);
+    m_editundo->setEnabled(false);
+    m_editcopy->setEnabled(false);
+    m_editcut->setEnabled(false);
+    m_textchanged = false;
 
     setObjectName("editor");
     slotSetFont(KGpgSettings::font());
@@ -170,19 +178,6 @@ void KgpgEditor::initActions()
     m_encodingaction = actionCollection()->add<KToggleAction>("charsets");
     m_encodingaction->setText(i18n("&Unicode (utf-8) Encoding"));
     connect(m_encodingaction, SIGNAL(triggered(bool) ), SLOT(slotSetCharset()));
-}
-
-void KgpgEditor::initView()
-{
-    view = new KgpgView(this, m_model);
-    connect(view, SIGNAL(resetEncoding(bool)), this, SLOT(slotResetEncoding(bool)));
-    setCentralWidget(view);
-    setCaption(i18n("Untitled"), false);
-    m_editredo->setEnabled(false);
-    m_editundo->setEnabled(false);
-    m_editcopy->setEnabled(false);
-    m_editcut->setEnabled(false);
-    m_textchanged = false;
 }
 
 bool KgpgEditor::queryClose()

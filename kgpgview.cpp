@@ -415,9 +415,8 @@ void KgpgTextEdit::slotVerifyKeyNeeded(const QString &id, KGpgTextInterface *int
 
 
 KgpgView::KgpgView(QWidget *parent, KGpgItemModel *model)
-        : QWidget(parent)
+        : QWidget(parent), editor(new KgpgTextEdit(this, model))
 {
-    editor = new KgpgTextEdit(this, model);
     editor->setReadOnly(false);
     editor->setUndoRedoEnabled(true);
 
@@ -443,7 +442,6 @@ KgpgView::KgpgView(QWidget *parent, KGpgItemModel *model)
 
 KgpgView::~KgpgView()
 {
-    delete editor;
 }
 
 void KgpgView::slotSignVerify()

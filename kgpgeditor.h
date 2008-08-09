@@ -59,7 +59,6 @@ public slots:
 protected:
     void saveOptions();
     void initActions();
-    void initView();
     bool queryClose();
     bool saveBeforeClear();
 
