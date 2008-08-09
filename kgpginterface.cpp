@@ -1890,7 +1890,7 @@ void KgpgInterface::downloadKeysFin(GPGProc *p)
     for(int i = 0; i < nbs.count(); ++i)
     {
         result.append(nbs[i].toInt());
-        if (!key && result[i] != 0)
+        if (result[i] != 0)
             key = true;
     }
 
