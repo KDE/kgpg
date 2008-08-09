@@ -112,7 +112,7 @@ KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoclose)
 
 void KeyServer::slotReadKeys(KgpgKeyList list, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
     for (int i = 0; i < list.size(); ++i)
     {
         const KgpgKey key = list.at(i);
@@ -185,7 +185,7 @@ void KeyServer::slotDownloadKeysFinished(QList<int> result, QStringList keys, bo
 {
     delete m_importpop;
     m_importpop = 0;
-    delete interface;
+    interface->deleteLater();
 
     QApplication::restoreOverrideCursor();
 
@@ -244,7 +244,7 @@ void KeyServer::slotUploadKeysFinished(QString message, KgpgInterface *interface
 {
     delete m_importpop;
     m_importpop = 0;
-    delete interface;
+    interface->deleteLater();
 
     QApplication::restoreOverrideCursor();
 
