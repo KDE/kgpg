@@ -1463,7 +1463,7 @@ void KgpgInterface::importKey(const QString &keystr)
     *process << "--allow-secret-key-import";
 
     connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(importKeyProcess(GPGProc *)));
-    connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(importKeyFinished(GPGProc *)));
+    connect(process, SIGNAL(processExited(GPGProc *)), SLOT(slotImportKeyFinished(GPGProc *)));
     process->start();
 
     process->write(keystr.toAscii() + '\n');
@@ -1482,7 +1482,7 @@ void KgpgInterface::importKey(const KUrl &url)
 
 	if ( url.isLocalFile() ) {
 		*process << url.path();
-		connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(importKeyFinished(GPGProc *)));
+		connect(process, SIGNAL(processExited(GPGProc *)), SLOT(slotImportKeyFinished(GPGProc *)));
 	} else {
 		if (KIO::NetAccess::download(url, m_tempkeyfile, 0)) {
 			*process << m_tempkeyfile;
@@ -1500,7 +1500,7 @@ void KgpgInterface::importKey(const KUrl &url)
 void KgpgInterface::importURLover(GPGProc *p)
 {
     KIO::NetAccess::removeTempFile(m_tempkeyfile);
-    emit importKeyFinished(p);
+    slotImportKeyFinished(p);
 }
 
 void KgpgInterface::importKeyProcess(GPGProc *p)
@@ -1513,7 +1513,7 @@ void KgpgInterface::importKeyProcess(GPGProc *p)
     }
 }
 
-void KgpgInterface::importKeyFinished(GPGProc *p)
+void KgpgInterface::slotImportKeyFinished(GPGProc *p)
 {
     p->deleteLater();
 
@@ -1575,10 +1575,11 @@ void KgpgInterface::importKeyFinished(GPGProc *p)
                                   "Please note that imported secret keys are not trusted by default.<br />"
                                   "To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</qt>");
 
-        emit importKeyFinished(importedKeysIds);
-   }
-    else
+        emit importKeyFinished(this, importedKeysIds);
+   } else {
         resultMessage = i18n("No key imported... \nCheck detailed log for more infos");
+        emit importKeyFinished(this, QStringList());
+   }
 
     // TODO : should be deleted. KgpgInterface should not show any dialog (but password).
     // When a message should be shown, it should be passed by parameter in a SIGNAL.

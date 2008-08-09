@@ -42,6 +42,7 @@ class KGpgTextInterface;
 class KeysManager;
 class KgpgLibrary;
 class KGpgItemModel;
+class KgpgInterface;
 
 class KgpgWizard : public Q3Wizard, public Ui::KgpgWizard
 {
@@ -142,6 +143,8 @@ private slots:
     void slotSetCompression(int cp);
     void decryptNextFile(KgpgLibrary *lib, const KUrl &failed);
     void decryptFile(KgpgLibrary *lib);
+    void slotImportedKeys(KgpgInterface *iface, const QStringList &);
+    void slotImportedKeys(KgpgLibrary *lib, const QStringList &);
 };
 
 class kgpgapplet : public KSystemTrayIcon

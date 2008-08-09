@@ -29,6 +29,7 @@ class QDropEvent;
 class KGpgNode;
 class KeyListProxyModel;
 class KConfigGroup;
+class KgpgInterface;
 
 class KeyTreeView: public QTreeView
 {
@@ -47,6 +48,9 @@ public:
 public Q_SLOTS:
 	void selectNode(KGpgNode *nd);
 	void resizeColumnsToContents();
+
+private Q_SLOTS:
+	void slotRefreshKeys(KgpgInterface *iface, const QStringList &keys);
 
 protected:
 	virtual void contentsDragMoveEvent(QDragMoveEvent *e);

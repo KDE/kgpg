@@ -212,7 +212,7 @@ void KgpgLibrary::processDecError(const QString &mssge)
             {
                 KgpgInterface *importKeyProcess = new KgpgInterface();
                 importKeyProcess->importKey(m_urlselected);
-                connect(importKeyProcess, SIGNAL(importfinished(QStringList)), this, SIGNAL(importOver(QStringList)));
+                connect(importKeyProcess, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SIGNAL(slotImportOver(KgpgInterface *, QStringList)));
                 return;
             }
         }
@@ -227,6 +227,12 @@ void KgpgLibrary::processDecError(const QString &mssge)
     }
 
     KMessageBox::detailedSorry(0, i18n("Decryption failed."), mssge);
+}
+
+void KgpgLibrary::slotImportOver(KgpgInterface *iface, const QStringList &keys)
+{
+    iface->deleteLater();
+    emit importOver(this, keys);
 }
 
 void KgpgLibrary::processEncPopup(const KUrl &url)

@@ -152,9 +152,17 @@ KeyTreeView::contentsDropEvent(QDropEvent *o)
 			return;
 
 		KgpgInterface *interface = new KgpgInterface();
-		connect(interface, SIGNAL(importKeyFinished(QStringList)), m_proxy->getModel(), SLOT(refreshKeys(QStringList)));
+		connect(interface, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SLOT(slotRefreshKeys(KgpgInterface *, QStringList)));
 		interface->importKey(uriList.first());
 	}
+}
+
+void
+KeyTreeView::slotRefreshKeys(KgpgInterface *iface, const QStringList &keys)
+{
+	iface->deleteLater();
+	if (!keys.isEmpty())
+		m_proxy->getModel()->refreshKeys(keys);
 }
 
 void

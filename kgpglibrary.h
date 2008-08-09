@@ -49,7 +49,7 @@ public:
 signals:
     void encryptionOver();
     void decryptionOver(KgpgLibrary *, KUrl);
-    void importOver(QStringList);
+    void importOver(KgpgLibrary *, QStringList);
     void systemMessage(QString, bool reset = false);
     void photoAdded();
 
@@ -70,6 +70,7 @@ private slots:
     void processPopup2(const QString &fileName);
 
     void slotAddPhotoFinished(int res, KgpgInterface *interface);
+    void slotImportOver(KgpgInterface *iface, const QStringList &keys);
 
 private:
     QWidget *m_panel;

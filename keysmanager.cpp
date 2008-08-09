@@ -773,7 +773,7 @@ void KeysManager::refreshKeyFromServer()
     }
 
     kServer = new KeyServer(this, false);
-    connect(kServer, SIGNAL(importFinished(QStringList)), imodel, SLOT(refreshKeys(const QStringList &)));
+    connect(kServer, SIGNAL(importFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
     kServer->refreshKeys(keyIDS);
 }
 
@@ -1358,14 +1358,14 @@ void KeysManager::revokeWidget()
 void KeysManager::slotImportRevoke(const QString &url)
 {
     KgpgInterface *importKeyProcess = new KgpgInterface();
-    connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
+    connect(importKeyProcess, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SLOT(slotRefreshKeys(KgpgInterface *, QStringList)));
     importKeyProcess->importKey(KUrl(url));
 }
 
 void KeysManager::slotImportRevokeTxt(const QString &revokeText)
 {
     KgpgInterface *importKeyProcess = new KgpgInterface();
-    connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
+    connect(importKeyProcess, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SLOT(slotRefreshKeys(KgpgInterface *, QStringList)));
     importKeyProcess->importKey(revokeText);
 }
 
@@ -2305,7 +2305,7 @@ void KeysManager::slotPreImportKey()
                 changeMessage(i18n("Importing..."), 0, true);
                 // import from file
                 KgpgInterface *importKeyProcess = new KgpgInterface();
-                connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
+                connect(importKeyProcess, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SLOT(slotRefreshKeys(KgpgInterface *, QStringList)));
                 importKeyProcess->importKey(KUrl(impname));
             }
         }
@@ -2316,7 +2316,7 @@ void KeysManager::slotPreImportKey()
             {
                 changeMessage(i18n("Importing..."), 0, true);
                 KgpgInterface *importKeyProcess = new KgpgInterface();
-                connect(importKeyProcess, SIGNAL(importKeyFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
+                connect(importKeyProcess, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SLOT(slotRefreshKeys(KgpgInterface *, QStringList)));
                 importKeyProcess->importKey(keystr);
             }
         }
@@ -2334,6 +2334,15 @@ KGpgItemModel *KeysManager::getModel()
 {
 	return imodel;
 }
+
+void
+KeysManager::slotRefreshKeys(KgpgInterface *iface, const QStringList &keys)
+{
+	iface->deleteLater();
+	if (!keys.isEmpty())
+		imodel->refreshKeys(keys);
+}
+
 
 KGpgTransaction::KGpgTransaction()
 	: iface(new KgpgInterface())

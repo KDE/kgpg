@@ -31,6 +31,7 @@ class KFind;
 class KgpgInterface;
 class KgpgView;
 class KGpgItemModel;
+class KgpgLibrary;
 
 class KgpgEditor : public KXmlGuiWindow
 {
@@ -110,6 +111,8 @@ private slots:
     void modified();
     void newText();
 
+    void slotRefreshImported(KgpgLibrary *lib, const QStringList &keys);
+    
 private:
     QStringList m_customdecrypt;
     QString m_textencoding;

@@ -499,7 +499,7 @@ void MyView::decryptFile(KgpgLibrary *lib)
 	if (!KGpgSettings::customDecrypt().isEmpty())
 		custdecr = QStringList(KGpgSettings::customDecrypt());
 	lib->slotFileDec(droppedUrls.first(), swapname, custdecr);
-	connect(lib, SIGNAL(importOver(QStringList)), this, SIGNAL(importedKeys(QStringList)));
+	connect(lib, SIGNAL(importOver(KgpgLibrary *, QStringList)), SLOT(slotImportedKeys(KgpgLibrary *, QStringList)));
 	connect(lib, SIGNAL(systemMessage(QString, bool)), this, SLOT(busyMessage(QString, bool)));
 	connect(lib, SIGNAL(decryptionOver(KgpgLibrary *, KUrl)), this, SLOT(decryptNextFile(KgpgLibrary *, KUrl)));
 }
@@ -631,7 +631,7 @@ void MyView::droppedtext (const QString &inputText, bool allowEncrypt)
         {
             KgpgInterface *importKeyProcess = new KgpgInterface();
             importKeyProcess->importKey(inputText);
-            connect(importKeyProcess, SIGNAL(importfinished(QStringList)), this, SIGNAL(importedKeys(QStringList)));
+            connect(importKeyProcess, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SLOT(slotImportedKeys(KgpgInterface *, QStringList)));
             return;
         }
     }
@@ -646,6 +646,16 @@ void MyView::droppedtext (const QString &inputText, bool allowEncrypt)
         clipEncrypt();
     else
         KMessageBox::sorry(0, i18n("No encrypted text found."));
+}
+
+void MyView::slotImportedKeys(KgpgInterface *iface, const QStringList &)
+{
+    iface->deleteLater();
+}
+
+void MyView::slotImportedKeys(KgpgLibrary *lib, const QStringList &)
+{
+    lib->deleteLater();
 }
 
 void MyView::dragEnterEvent(QDragEnterEvent *e)

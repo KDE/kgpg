@@ -179,6 +179,7 @@ private slots:
     void getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *nd);
     void slotEditDone(int exitcode);
     void importRemoteFinished(KGpgTransaction *);
+    void slotRefreshKeys(KgpgInterface *iface, const QStringList &keys);
 
 private:
     KGpgItemModel *imodel;

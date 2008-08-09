@@ -315,10 +315,9 @@ private slots:
 /*****************************************************/
 
 
-// TODO : ajouter KgpgInterface a importKeyFinished
 /************** import a key **************/
 signals:
-    void importKeyFinished(QStringList);
+    void importKeyFinished(KgpgInterface *, QStringList);
 
 public slots:
     /**
@@ -338,7 +337,7 @@ private slots:
      * Read output of the import process
      */
     void importKeyProcess(GPGProc *p);
-    void importKeyFinished(GPGProc *p);
+    void slotImportKeyFinished(GPGProc *p);
 
 private:
     QString m_tempkeyfile;
