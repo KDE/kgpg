@@ -2024,7 +2024,7 @@ bool KeysManager::importRemoteKey(const QString &keyIDs)
 
 void KeysManager::importRemoteFinished(KGpgTransaction *t)
 {
-	delete t;
+	t->deleteLater();
 	imodel->refreshKeys();
 }
 
