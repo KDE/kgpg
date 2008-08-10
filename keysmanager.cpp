@@ -494,8 +494,12 @@ void KeysManager::slotGenerateKey()
 
             QProcess *genKeyProc = new QProcess(this);
             genKeyProc->start(terminalApp, args);
-            genKeyProc->waitForFinished();
-            refreshkey();
+	    if (!genKeyProc->waitForStarted(-1)) {
+		KMessageBox::error(this, i18n("Generating new key pair"), i18n("Can not start \"konsole\" application for expert mode."));
+	    } else {
+		genKeyProc->waitForFinished(-1);
+		refreshkey();
+	    }
         }
     }
 
