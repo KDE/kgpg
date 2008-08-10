@@ -36,7 +36,7 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyAlgo)
 
 /*! \brief trust levels of keys, uids and uats
  *
- * This values represent the trust that you have in a public key or obe if it's
+ * These values represent the trust that you have in a public key or obe if it's
  * user ids or attributes (i.e. photo ids). They are more or less ordered by
  * the level of trust. Every value but the first and the last matches one trust
  * value that is 
@@ -48,7 +48,7 @@ enum KgpgKeyTrustFlag
     TRUST_DISABLED = 2,		//!< key is disabled by user (not owner)
     TRUST_REVOKED = 3,		//!< key is revoked by owner
     TRUST_EXPIRED = 4,		//!< key is beyond it's expiry date
-    TRUST_UNDEFINED = 5,	//!< trust value unknown
+    TRUST_UNDEFINED = 5,	//!< trust value undefined (i.e. you did not set a trust level)
     TRUST_UNKNOWN = 6,		//!< trust value unknown (i.e. no entry in gpg's trust database)
     TRUST_NONE = 7,		//!< there is no trusted path to this key
     TRUST_MARGINAL = 8,		//!< there is a minimal level of trust
@@ -59,14 +59,21 @@ enum KgpgKeyTrustFlag
 Q_DECLARE_FLAGS(KgpgKeyTrust, KgpgKeyTrustFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyTrust)
 
+/*! \brief trust levels for trust in other key owners
+ *
+ * These values represent the trust that you have in other people when they
+ * sign keys. Once you have signed someones keys you can benefit from the
+ * keys they have signed if you trust them to carefully check which keys they
+ * sign.
+ */
 enum KgpgKeyOwnerTrustFlag
 {
-    OWTRUST_UNKNOWN = 0,
-    OWTRUST_UNDEFINED = 1,
-    OWTRUST_NONE = 2,
-    OWTRUST_MARGINAL = 3,
-    OWTRUST_FULL = 4,
-    OWTRUST_ULTIMATE = 5
+    OWTRUST_UNKNOWN = 0,	//!< Trust value is unknown (e.g. no entry in trust database).
+    OWTRUST_UNDEFINED = 1,	//!< Trust value undefined (e.g. not trust level set).
+    OWTRUST_NONE = 2,		//!< You do not trust the key owner, keys signed by him are untrusted.
+    OWTRUST_MARGINAL = 3,	//!< You have a minimum level of trust in the key owner.
+    OWTRUST_FULL = 4,		//!< You believe the key owner does good checking. Keys signed by him are trusted by you, too.
+    OWTRUST_ULTIMATE = 5	//!< There is no doubt in this key owner. This level is used for your own secret keys.
 };
 Q_DECLARE_FLAGS(KgpgKeyOwnerTrust, KgpgKeyOwnerTrustFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyOwnerTrust)
@@ -79,20 +86,29 @@ enum KgpgSubKeyTypeFlag
 Q_DECLARE_FLAGS(KgpgSubKeyType, KgpgSubKeyTypeFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgSubKeyType)
 
+/*! \brief types of items in the item models
+ *
+ * Every item in the item models is of one of the following types. Some of the
+ * items can have properties of more than one basic type, e.g. a key pair can
+ * act both as a secret and a public key. Because of this the value for key
+ * pairs is a composite of the two "elementary" types for secret and public
+ * keys. Other compositions than the ones defined here must not be used to set
+ * an item type, but may of course be used as a mask for comparison.
+ */
 enum KgpgItemTypeFlag
 {
-    ITYPE_GROUP = 1,
-    ITYPE_SECRET = 2,
-    ITYPE_PUBLIC = 4,
-    ITYPE_PAIR = ITYPE_SECRET | ITYPE_PUBLIC,
-    ITYPE_GSECRET = ITYPE_GROUP | ITYPE_SECRET,
-    ITYPE_GPUBLIC = ITYPE_GROUP | ITYPE_PUBLIC,
-    ITYPE_GPAIR = ITYPE_GROUP | ITYPE_PAIR,
-    ITYPE_SUB = 8,
-    ITYPE_UID = 16,
-    ITYPE_UAT = 32,
-    ITYPE_REVSIGN = 64,
-    ITYPE_SIGN = 128
+    ITYPE_GROUP = 1,				//!< the element is a GnuPG key group
+    ITYPE_SECRET = 2,				//!< secret key
+    ITYPE_PUBLIC = 4,				//!< public key
+    ITYPE_PAIR = ITYPE_SECRET | ITYPE_PUBLIC,	//!< key pair
+    ITYPE_GSECRET = ITYPE_GROUP | ITYPE_SECRET,	//!< secret key as member of a key group
+    ITYPE_GPUBLIC = ITYPE_GROUP | ITYPE_PUBLIC,	//!< public key as member of a key group
+    ITYPE_GPAIR = ITYPE_GROUP | ITYPE_PAIR,	//!< key pair as member of a key group
+    ITYPE_SUB = 8,				//!< subkey of a public or secret key
+    ITYPE_UID = 16,				//!< additional user id
+    ITYPE_UAT = 32,				//!< user attribute to a key (i.e. photo id)
+    ITYPE_REVSIGN = 64,				//!< revokation signature
+    ITYPE_SIGN = 128				//!< signature (to a key, uid or uat)
 };
 Q_DECLARE_FLAGS(KgpgItemType, KgpgItemTypeFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgItemType)
