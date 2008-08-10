@@ -514,8 +514,7 @@ void MyView::decryptNextFile(KgpgLibrary *lib, const KUrl &failed)
 		decryptFile(lib);
 	} else if ((droppedUrls.count() <= 1) && (m_decryptionFailed.count() > 0)) {
 		lib->deleteLater();
-		// FIXME: introduce better error message when string freeze is lifted
-		KMessageBox::errorList(NULL, i18n("Decryption failed."), m_decryptionFailed.toStringList(), i18n("Decryption failed."));
+		KMessageBox::errorList(NULL, i18n("Decryption of this files failed:"), m_decryptionFailed.toStringList(), i18n("Decryption failed."));
 	} else {
 		lib->deleteLater();
 	}
