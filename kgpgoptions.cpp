@@ -241,7 +241,8 @@ void kgpgOptions::slotDefaultKeyServer()
 {
 	QListWidgetItem *curr = m_page6->ServerBox->currentItem();
 	// FIXME: no i18n concatenation, make this a single i18n call
-	curr->setText(curr->text() + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
+	if (!curr->text().contains(' '))
+		curr->setText(curr->text() + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
 
 	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
 		QListWidgetItem *cur = m_page6->ServerBox->item(i);
