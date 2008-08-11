@@ -6,6 +6,5 @@ Actions=decrypt-view;
 
 [Desktop Action decrypt-view]
 Name=View file decrypted
-Name[de]=Datei entschlüsselt anzeigen
 Icon=kgpg
 Exec=kgpg -s %F
