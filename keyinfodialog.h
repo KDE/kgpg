@@ -64,10 +64,9 @@ class KgpgDateDialog : public KDialog
     Q_OBJECT
 
 public:
-    explicit KgpgDateDialog(QWidget *parent = 0, const bool &unlimited = false, QDate date = QDate::currentDate());
+    explicit KgpgDateDialog(QWidget *parent = 0, QDate date = QDate());
 
     QDate date() const;
-    bool unlimited() const;
 
 private slots:
     void slotCheckDate(const QDate &date);
@@ -78,6 +77,8 @@ private:
     KDatePicker *m_datepicker;
 };
 
+class KGpgChangeKey;
+
 class KgpgKeyInfo : public KDialog
 {
     Q_OBJECT
@@ -85,6 +86,8 @@ class KgpgKeyInfo : public KDialog
 public:
     explicit KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent = 0);
     ~KgpgKeyInfo();
+
+    KGpgChangeKey *keychange;
 
 signals:
     void keyNeedsRefresh(const QString &keyid);
@@ -95,29 +98,30 @@ private:
     QGroupBox *_buttonsGroup(QWidget *parent);
     QGroupBox *_fingerprintGroup(QWidget *parent);
 
-    void reloadKey(KgpgInterface *interface);
+    void reloadKey();
     void displayKey();
     void setControlEnable(const bool &b);
 
 private slots:
     void slotPreOk();
+    void slotPreCancel();
     void slotOpenUrl(const QString &url) const;
 
     void slotChangeDate();
-    void slotInfoExpirationChanged(const int &res, KgpgInterface *interface);
 
     void slotDisableKey(const bool &ison);
-    void slotDisableKeyFinished(KgpgInterface *interface, int);
 
     void slotChangePass();
     void slotInfoPasswordChanged(const int &res, KgpgInterface *interface);
 
     void slotChangeTrust(const int &newtrust);
-    void slotInfoTrustChanged(KgpgInterface *interface);
 
     void slotLoadPhoto(const QString &uid);
     void slotSetPhoto(const QPixmap &pixmap, KgpgInterface *interface);
 
+    void slotApply();
+    void slotApplied(int result);
+    
 private:
     KgpgCore::KgpgKey *m_key;
 
@@ -141,7 +145,6 @@ private:
     KgpgTrustLabel *m_trust;
 
     bool m_hasphoto;
-    bool m_isunlimited;
     bool m_keywaschanged;
 };
 

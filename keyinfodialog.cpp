@@ -36,6 +36,7 @@
 #include "kgpginterface.h"
 #include "convert.h"
 #include "images.h"
+#include "kgpgchangekey.h"
 
 using namespace KgpgCore;
 
@@ -92,7 +93,7 @@ void KgpgTrustLabel::change()
     m_color_w->setPalette(palette);
 }
 
-KgpgDateDialog::KgpgDateDialog(QWidget *parent, const bool &unlimited, QDate date)
+KgpgDateDialog::KgpgDateDialog(QWidget *parent, QDate date)
               : KDialog(parent)
 {
     setCaption(i18n("Choose New Expiration"));
@@ -103,12 +104,11 @@ KgpgDateDialog::KgpgDateDialog(QWidget *parent, const bool &unlimited, QDate dat
     QWidget *page = new QWidget(this);
     m_unlimited = new QCheckBox(i18nc("Key has unlimited lifetime", "Unlimited"), page);
 
-    if (unlimited)
+    if (date.isNull())
         date = QDate::currentDate();
 
     m_datepicker = new KDatePicker(date, page);
-    if (unlimited)
-    {
+    if (date.isNull()) {
         m_datepicker->setEnabled(false);
         m_unlimited->setChecked(true);
     }
@@ -128,12 +128,10 @@ KgpgDateDialog::KgpgDateDialog(QWidget *parent, const bool &unlimited, QDate dat
 
 QDate KgpgDateDialog::date() const
 {
-    return m_datepicker->date();
-}
-
-bool KgpgDateDialog::unlimited() const
-{
-    return m_unlimited->isChecked();
+    if (m_unlimited->isChecked())
+        return QDate();
+    else
+        return m_datepicker->date();
 }
 
 void KgpgDateDialog::slotCheckDate(const QDate &date)
@@ -143,23 +141,18 @@ void KgpgDateDialog::slotCheckDate(const QDate &date)
 
 void KgpgDateDialog::slotEnableDate(const bool &ison)
 {
+    m_datepicker->setEnabled(!ison);
     if (ison)
-    {
-        m_datepicker->setEnabled(false);
         enableButtonOk(true);
-    }
     else
-    {
-        m_datepicker->setEnabled(true);
-        enableButtonOk(m_datepicker->date() >= QDate::currentDate());
-    }
+        slotCheckDate(m_datepicker->date());
 }
 
 KgpgKeyInfo::KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent)
-           : KDialog(parent)
+           : KDialog(parent), keychange(new KGpgChangeKey(key))
 {
-    setButtons(Close);
-    setDefaultButton(Close);
+    setButtons(Ok | Apply | Cancel);
+    setDefaultButton(Ok);
     setModal(true);
 
     m_key = key;
@@ -197,7 +190,10 @@ KgpgKeyInfo::KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent)
     connect(m_owtrust, SIGNAL(activated(int)), this, SLOT(slotChangeTrust(int)));
     connect(m_photoid, SIGNAL(activated (const QString &)), this, SLOT(slotLoadPhoto(const QString &)));
     connect(m_email, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
-    connect(this, SIGNAL(closeClicked()), this, SLOT(slotPreOk()));
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotPreOk()));
+    connect(this, SIGNAL(cancelClicked()), this, SLOT(slotPreCancel()));
+    connect(this, SIGNAL(applyClicked()), SLOT(slotApply()));
+    connect(keychange, SIGNAL(done(int)), SLOT(slotApplied(int)));
 
     displayKey();
     if (!m_hasphoto)
@@ -208,6 +204,8 @@ KgpgKeyInfo::KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent)
 
 KgpgKeyInfo::~KgpgKeyInfo()
 {
+	if (keychange)
+		keychange->selfdestruct(false);
 	delete m_key;
 }
 
@@ -371,16 +369,17 @@ QGroupBox* KgpgKeyInfo::_fingerprintGroup(QWidget *parent)
     return group;
 }
 
-void KgpgKeyInfo::reloadKey(KgpgInterface *interface)
+void KgpgKeyInfo::reloadKey()
 {
-    KgpgKeyList listkeys = interface->readPublicKeys(true, m_key->fullId());
-    interface->deleteLater();
+	KgpgInterface *interface = new KgpgInterface();
+	KgpgKeyList listkeys = interface->readPublicKeys(true, m_key->fullId());
+	delete interface;
 
-    Q_ASSERT(listkeys.count() > 0);
+	Q_ASSERT(listkeys.count() > 0);
 
-    delete m_key;
-    m_key = new KgpgKey(listkeys.at(0));
-    displayKey();
+	delete m_key;
+	m_key = new KgpgKey(listkeys.at(0));
+	displayKey();
 }
 
 void KgpgKeyInfo::displayKey()
@@ -474,8 +473,6 @@ void KgpgKeyInfo::displayKey()
 
     if (!m_key->valid())
         m_disable->setChecked(true);
-
-    m_isunlimited = m_key->unlimited();
 }
 
 void KgpgKeyInfo::slotOpenUrl(const QString &url) const
@@ -501,59 +498,27 @@ void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap, KgpgInterface *interface)
 
 void KgpgKeyInfo::slotPreOk()
 {
-    if (m_keywaschanged)
-        emit keyNeedsRefresh(m_key->fullId());
-    accept();
+	if (m_keywaschanged)
+		emit keyNeedsRefresh(m_key->fullId());
+	keychange->selfdestruct(true);
+	keychange = NULL;
+	accept();
 }
 
 void KgpgKeyInfo::slotChangeDate()
 {
-    KgpgDateDialog *dialog = new KgpgDateDialog(this, m_isunlimited, m_key->expirationDate());
-    if (dialog->exec() == QDialog::Accepted)
-    {
-        setControlEnable(false);
-        KgpgInterface *process = new KgpgInterface();
-        connect(process, SIGNAL(keyExpireFinished(int, KgpgInterface*)), this, SLOT(slotInfoExpirationChanged(int, KgpgInterface*)));
-
-        if (dialog->unlimited())
-            process->keyExpire(m_key->fullId(), QDate());
-        else
-            process->keyExpire(m_key->fullId(), dialog->date());
-    }
-    delete dialog;
-}
-
-void KgpgKeyInfo::slotInfoExpirationChanged(const int &res, KgpgInterface *interface)
-{
-    if (res == 2)
-    {
-        m_keywaschanged = true;
-        reloadKey(interface);
-    }
-    else
-    if (res == 1)
-        KMessageBox::error(this, i18n("Could not change expiration"), i18n("Bad passphrase. Expiration of the key has not been changed."));
-
-    interface->deleteLater();
-    setControlEnable(true);
+	KgpgDateDialog *dialog = new KgpgDateDialog(this, m_key->expirationDate());
+	if (dialog->exec() == QDialog::Accepted) {
+		keychange->setExpiration(dialog->date());
+		enableButtonApply(keychange->wasChanged());
+	}
+	delete dialog;
 }
 
 void KgpgKeyInfo::slotDisableKey(const bool &ison)
 {
-    setControlEnable(false);
-    KgpgInterface *interface = new KgpgInterface;
-    connect (interface, SIGNAL(changeDisableFinished(KgpgInterface*, int)), this, SLOT(slotDisableKeyFinished(KgpgInterface*, int)));
-    interface->changeDisable(m_key->fullId(), ison);
-}
-
-void KgpgKeyInfo::slotDisableKeyFinished(KgpgInterface *interface, int res)
-{
-    if (res == 0)
-    {
-        reloadKey(interface);
-        m_keywaschanged = true;
-    }
-    setControlEnable(true);
+	keychange->setDisable(ison);
+	enableButtonApply(keychange->wasChanged());
 }
 
 void KgpgKeyInfo::slotChangePass()
@@ -575,24 +540,15 @@ void KgpgKeyInfo::slotInfoPasswordChanged(const int &res, KgpgInterface *interfa
 
 void KgpgKeyInfo::slotChangeTrust(const int &newtrust)
 {
-    setControlEnable(false);
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(changeTrustFinished(KgpgInterface*)), this, SLOT(slotInfoTrustChanged(KgpgInterface*)));
-    interface->changeTrust(m_key->fullId(), KgpgKeyOwnerTrust(newtrust + 1));
-}
-
-void KgpgKeyInfo::slotInfoTrustChanged(KgpgInterface *interface)
-{
-    m_keywaschanged = true;
-    reloadKey(interface);
-    setControlEnable(true);
-    m_owtrust->setFocus();
+	keychange->setOwTrust(KgpgKeyOwnerTrust(newtrust + 1));
+	enableButtonApply(keychange->wasChanged());
 }
 
 void KgpgKeyInfo::setControlEnable(const bool &b)
 {
     m_owtrust->setEnabled(b);
     m_disable->setEnabled(b);
+    enableButtonApply(b && keychange->wasChanged());
 
     if (m_expirationbtn)
         m_expirationbtn->setEnabled(b);
@@ -603,6 +559,30 @@ void KgpgKeyInfo::setControlEnable(const bool &b)
         QApplication::restoreOverrideCursor();
     else
         QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
+}
+
+void KgpgKeyInfo::slotApply()
+{
+	setControlEnable(false);
+	keychange->apply();
+}
+
+void KgpgKeyInfo::slotApplied(int result)
+{
+	if (result) {
+		KMessageBox::error(this, i18n("Changing key properties failed."), i18n("Key properties"));
+	} else {
+		m_keywaschanged = true;
+		reloadKey();
+	}
+	setControlEnable(true);
+}
+
+void KgpgKeyInfo::slotPreCancel()
+{
+	if (m_keywaschanged)
+		emit keyNeedsRefresh(m_key->fullId());
+	reject();
 }
 
 #include "keyinfodialog.moc"

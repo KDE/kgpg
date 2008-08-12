@@ -1219,6 +1219,7 @@ KgpgInterface::changeTrust(const QString &keyid, const KgpgCore::KgpgKeyOwnerTru
 	connect(m_workProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(changeTrustProcess()));
 	connect(m_workProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(changeTrustFin()));
 
+	m_success = 0;
 	m_workProcess->start();
 }
 
@@ -1245,6 +1246,7 @@ void KgpgInterface::changeTrustProcess()
             if (line.contains("GET_")) // gpg asks for something unusal
             {
                 m_workProcess->write(QByteArray("quit\n"));
+		m_success = 1;
             }
     }
 }
@@ -1252,7 +1254,7 @@ void KgpgInterface::changeTrustProcess()
 void KgpgInterface::changeTrustFin()
 {
     m_workProcess->deleteLater();
-    emit changeTrustFinished(this);
+    emit changeTrustFinished(m_success, this);
 }
 
 void KgpgInterface::changeDisable(const QString &keyid, const bool &ison)
@@ -1279,7 +1281,7 @@ void KgpgInterface::changeDisableFin(int res)
 {
     editprocess->deleteLater();
     editprocess = 0;
-    emit changeDisableFinished(this, res);
+    emit changeDisableFinished(res, this);
 }
 
 QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool &block)

@@ -225,7 +225,7 @@ private slots:
 
 /************** change key trust **************/
 signals:
-    void changeTrustFinished(KgpgInterface*);
+    void changeTrustFinished(int result, KgpgInterface *iface);
 
 public slots:
     /**
@@ -247,7 +247,7 @@ private:
 
 /************** change disable key **************/
 signals:
-    void changeDisableFinished(KgpgInterface*, int res);
+    void changeDisableFinished(int result, KgpgInterface *);
 
 public slots:
     void changeDisable(const QString &keyid, const bool &ison);

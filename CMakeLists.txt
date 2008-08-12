@@ -44,7 +44,9 @@ set(kgpg_SRCS ${core_SRCS}
    keytreeview.cpp
    groupeditproxymodel.cpp
    groupedit.cpp
-   sourceselect.cpp)
+   sourceselect.cpp
+   kgpgchangekey.cpp
+)
 
 qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)
 

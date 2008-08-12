@@ -89,6 +89,7 @@
 #include "keylistproxymodel.h"
 #include "keytreeview.h"
 #include "groupedit.h"
+#include "kgpgchangekey.h"
 
 using namespace KgpgCore;
 
@@ -1620,6 +1621,7 @@ KeysManager::showProperties(KGpgNode *n)
 			KGpgKeyNode *k = static_cast<KGpgKeyNode *>(n);
 			KgpgKeyInfo *opts = new KgpgKeyInfo(k->copyKey(), this);
 			connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
+			connect(opts->keychange, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
 			opts->exec();
 			delete opts;
 		}
