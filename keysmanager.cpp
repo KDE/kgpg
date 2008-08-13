@@ -73,7 +73,6 @@
 #include "newkey.h"
 #include "kgpg.h"
 #include "kgpgeditor.h"
-#include "kgpgview.h"
 #include "keyexport.h"
 #include "kgpgrevokewidget.h"
 #include "keyservers.h"
