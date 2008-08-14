@@ -232,17 +232,15 @@ void kgpgOptions::slotEditKeyServer(QListWidgetItem *cur)
 	if (!isValidKeyserver(newServer))
 		return;
 	if (isDefault)
-	// FIXME: no i18n concatenation, make this a single i18n call
-		newServer = newServer + ' ' + i18nc("Mark default keyserver in GUI", "(Default)");
+		newServer = i18nc("Mark default keyserver in GUI", "%1 (Default)", newServer);
 	cur->setText(newServer);
 }
 
 void kgpgOptions::slotDefaultKeyServer()
 {
 	QListWidgetItem *curr = m_page6->ServerBox->currentItem();
-	// FIXME: no i18n concatenation, make this a single i18n call
 	if (!curr->text().contains(' '))
-		curr->setText(curr->text() + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
+		curr->setText(i18nc("Mark default keyserver in GUI", "%1 (Default)", curr->text()));
 
 	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
 		QListWidgetItem *cur = m_page6->ServerBox->item(i);
