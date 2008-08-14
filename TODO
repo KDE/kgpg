@@ -1,4 +1,3 @@
--switch to change between 8 and 16 byte keyid column
 -sign expire
 -delete multiple signatures at once
 -don't do anything in terminal when deleting a private key (?)
