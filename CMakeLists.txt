@@ -2,11 +2,9 @@ project(kgpg)
 
 add_subdirectory( icons )
 add_subdirectory( core )
-include_directories( core  )
+include_directories( core editor model )
 
 add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
-
-########### next target ###############
 
 set(core_SRCS
    core/convert.cpp
@@ -14,14 +12,25 @@ set(core_SRCS
    core/emailvalidator.cpp
    core/kgpgkey.cpp )
 
-set(kgpg_SRCS ${core_SRCS}
-   kgpgmd5widget.cpp
+set(kgpg_editor_SRCS
+   editor/kgpgmd5widget.cpp
+   editor/kgpgeditor.cpp
+   editor/kgpgview.cpp
+)
+
+set(kgpg_model_SRCS
+   model/kgpgitemmodel.cpp
+   model/kgpgitemnode.cpp
+   model/groupeditproxymodel.cpp
+   model/keylistproxymodel.cpp
+   model/selectkeyproxymodel.cpp
+)
+
+set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS}
    selectpublickeydialog.cpp
    selectsecretkey.cpp
-   selectkeyproxymodel.cpp
    kgpgoptions.cpp
    keysmanager.cpp
-   kgpgview.cpp
    kgpg.cpp
    main.cpp
    kgpgkeygenerate.cpp
@@ -30,7 +39,6 @@ set(kgpg_SRCS ${core_SRCS}
    gpgproc.cpp
    klinebufferedprocess.cpp
    keyservers.cpp
-   kgpgeditor.cpp
    detailedconsole.cpp
    kgpglibrary.cpp
    keyinfodialog.cpp
@@ -38,11 +46,7 @@ set(kgpg_SRCS ${core_SRCS}
    keyexport.cpp
    conf_encryption.cpp
    kgpgrevokewidget.cpp
-   kgpgitemmodel.cpp
-   kgpgitemnode.cpp
-   keylistproxymodel.cpp
    keytreeview.cpp
-   groupeditproxymodel.cpp
    groupedit.cpp
    sourceselect.cpp
    kgpgchangekey.cpp
