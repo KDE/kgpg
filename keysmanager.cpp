@@ -533,7 +533,7 @@ void KeysManager::slotGenerateKeyProcess(KgpgInterface *)
 
 void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const QString &name, const QString &email, const QString &id, const QString &fingerprint)
 {
-    delete interface;
+    interface->deleteLater();
     changeMessage(i18nc("Application ready for user input", "Ready"), 0);
 
     delete pop;
@@ -865,7 +865,7 @@ void KeysManager::slotAddUidFin(int res, KgpgInterface *interface)
 {
     // TODO tester les res
     kDebug(2100) << "Resultat : " << res ;
-    delete interface;
+    interface->deleteLater();
     keysList2->refreshselfkey();
 }
 
@@ -901,7 +901,7 @@ void KeysManager::slotDeletePhoto()
 
 void KeysManager::slotDelPhotoFinished(int res, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
 
     // TODO : add res == 3 (bad passphrase)
 
@@ -1998,7 +1998,7 @@ void KeysManager::signLoop()
 
 void KeysManager::signatureResult(int success, KgpgInterface *interface)
 {
-    delete interface;
+    interface->deleteLater();
     if (success == 2)
         keysList2->refreshcurrentkey(signList.at(keyCount));
     else
