@@ -6,10 +6,12 @@ Actions=decrypt-view;
 
 [Desktop Action decrypt-view]
 Name=View file decrypted
+Name[es]=Ver archivo descifrado
 Name[et]=Vaata faili lahtikrüptitult
+Name[gl]=Ver o ficheiro decifrado
 Name[nds]=Datei opslötelt ankieken
 Name[pt]=Ver o ficheiro descodificado
-Name[pt_BR]=Ver o ficheiro descodificado
+Name[pt_BR]=Exibir o arquivo descriptografado
 Name[sv]=Visa filen avkodad
 Name[uk]=Перегляньте розшифрований файл
 Name[zh_TW]=檢視解密後檔案
