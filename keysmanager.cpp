@@ -1883,7 +1883,6 @@ void KeysManager::signuid()
 	keyCount = 0;
 	delete opts;
 
-	refreshList.clear();
 	m_signuids = true;
 	signLoop();
 }
@@ -1916,6 +1915,7 @@ void KeysManager::signLoop()
 		signList.clear();
 		for (int i = 0; i < refreshList.count(); i++)
 			imodel->refreshKey(refreshList.at(i));
+		refreshList.clear();
 	}
 }
 
