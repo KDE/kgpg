@@ -313,7 +313,7 @@ KGpgItemModel::nodeIndex(KGpgNode *node)
 void
 KGpgItemModel::refreshKey(KGpgKeyNode *nd)
 {
-	QList<KGpgNode *> nodes;
+	KGpgKeyNodeList nodes;
 
 	nodes.append(nd);
 
@@ -323,21 +323,32 @@ KGpgItemModel::refreshKey(KGpgKeyNode *nd)
 void
 KGpgItemModel::refreshKey(const QString &id)
 {
-	QList<KGpgNode *> nodes;
+	KGpgKeyNodeList nd;
 
-	refreshKeyIds(QStringList(id), nodes);
+	refreshKeyIds(QStringList(id), nd);
+}
+
+void
+KGpgItemModel::refreshKeys(KGpgKeyNodeList keys)
+{
+	QStringList ids;
+
+	for (int i = 0; i < keys.count(); i++)
+		ids << keys.at(i)->getId();
+
+	refreshKeyIds(ids, keys);
 }
 
 void
 KGpgItemModel::refreshKeys(const QStringList &ids)
 {
-	QList<KGpgNode *> nodes;
+	KGpgKeyNodeList nd;
 
-	refreshKeyIds(ids, nodes);
+	refreshKeyIds(ids, nd);
 }
 
 void
-KGpgItemModel::refreshKeyIds(const QStringList &ids, QList<KGpgNode *> &nodes)
+KGpgItemModel::refreshKeyIds(const QStringList &ids, KGpgKeyNodeList &nodes)
 {
 	emit layoutAboutToBeChanged();
 	if (!nodes.isEmpty()) {

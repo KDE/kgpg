@@ -1913,8 +1913,7 @@ void KeysManager::signLoop()
 		connect(interface, SIGNAL(signKeyFinished(int, QString, KgpgInterface*)), this, SLOT(signatureResult(int, QString, KgpgInterface*)));
 	} else {
 		signList.clear();
-		for (int i = 0; i < refreshList.count(); i++)
-			imodel->refreshKey(refreshList.at(i));
+		imodel->refreshKeys(refreshList);
 		refreshList.clear();
 	}
 }
