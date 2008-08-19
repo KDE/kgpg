@@ -53,13 +53,13 @@ public:
     }
 };
 
-class MyView : public QObject
+class KGpgUserActions : public QObject
 {
     Q_OBJECT
 
 public:
-    MyView(QWidget *parent, KSystemTrayIcon *parentTrayIcon, KGpgItemModel *model);
-    ~MyView();
+    KGpgUserActions(QWidget *parent, KSystemTrayIcon *parentTrayIcon, KGpgItemModel *model);
+    ~KGpgUserActions();
 
     KUrl droppedUrl;
     KUrl::List droppedUrls;
@@ -154,7 +154,7 @@ class kgpgapplet : public KSystemTrayIcon
 public:
     kgpgapplet(QWidget *parent, KGpgItemModel *model);
     ~kgpgapplet();
-    MyView *w;
+    KGpgUserActions *w;
 
 private:
     KSystemTrayIcon *kgpgapp;

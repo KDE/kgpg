@@ -96,7 +96,7 @@ static QString getGpgHome()
     return gpgHome;
 }
 
-MyView::MyView(QWidget *parent, KSystemTrayIcon *parentTrayIcon, KGpgItemModel *model)
+KGpgUserActions::KGpgUserActions(QWidget *parent, KSystemTrayIcon *parentTrayIcon, KGpgItemModel *model)
       : QObject(parent)
 {
     trayIcon = parentTrayIcon;
@@ -131,7 +131,7 @@ MyView::MyView(QWidget *parent, KSystemTrayIcon *parentTrayIcon, KGpgItemModel *
     m_model = model;
 }
 
-MyView::~MyView()
+KGpgUserActions::~KGpgUserActions()
 {
     delete droppopup;
     delete udroppopup;
@@ -141,7 +141,7 @@ MyView::~MyView()
     delete sign;
 }
 
-void MyView::clipEncrypt()
+void KGpgUserActions::clipEncrypt()
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
         KPassivePopup::message(i18n("Clipboard is empty."), QString(), Images::kgpg(), trayIcon);
@@ -166,13 +166,13 @@ void MyView::clipEncrypt()
     }
 }
 
-void MyView::clipDecrypt()
+void KGpgUserActions::clipDecrypt()
 {
     QString clippie = kapp->clipboard()->text(clipboardMode).simplified();
     droppedtext(clippie, false);
 }
 
-void MyView::clipSign(bool openEditor)
+void KGpgUserActions::clipSign(bool openEditor)
 {
     QString clippie = kapp->clipboard()->text(clipboardMode).simplified();
     if (!clippie.isEmpty())
@@ -192,7 +192,7 @@ void MyView::clipSign(bool openEditor)
         KPassivePopup::message(i18n("Clipboard is empty."), QString(), Images::kgpg(), trayIcon);
 }
 
-void MyView::encryptDroppedFile()
+void KGpgUserActions::encryptDroppedFile()
 {
     QStringList opts;
     KgpgLibrary *lib = new KgpgLibrary(0);
@@ -217,7 +217,7 @@ void MyView::encryptDroppedFile()
         lib->slotFileEnc(droppedUrls, opts, m_model, goDefaultKey);
 }
 
-void MyView::encryptDroppedFolder()
+void KGpgUserActions::encryptDroppedFolder()
 {
     compressionScheme = 0;
     kgpgfoldertmp = new KTemporaryFile();
@@ -245,17 +245,17 @@ void MyView::encryptDroppedFolder()
     dialog->exec();
 }
 
-void MyView::slotAbortEnc()
+void KGpgUserActions::slotAbortEnc()
 {
     dialog = NULL;
 }
 
-void MyView::slotSetCompression(int cp)
+void KGpgUserActions::slotSetCompression(int cp)
 {
     compressionScheme = cp;
 }
 
-void MyView::startFolderEncode()
+void KGpgUserActions::startFolderEncode()
 {
     QStringList selec = dialog->selectedKeys();
     QStringList encryptOptions = dialog->getCustomOptions().split(' ',  QString::SkipEmptyParts);
@@ -336,14 +336,14 @@ void MyView::startFolderEncode()
     folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric);
 }
 
-void MyView::slotFolderFinished(const KUrl &, KGpgTextInterface *iface)
+void KGpgUserActions::slotFolderFinished(const KUrl &, KGpgTextInterface *iface)
 {
     delete pop;
     delete kgpgfoldertmp;
     iface->deleteLater();
 }
 
-void MyView::slotFolderFinishedError(const QString &errmsge, KGpgTextInterface *iface)
+void KGpgUserActions::slotFolderFinishedError(const QString &errmsge, KGpgTextInterface *iface)
 {
     delete pop;
     delete kgpgfoldertmp;
@@ -351,7 +351,7 @@ void MyView::slotFolderFinishedError(const QString &errmsge, KGpgTextInterface *
     KMessageBox::sorry(0, errmsge);
 }
 
-void MyView::busyMessage(const QString &mssge, bool reset)
+void KGpgUserActions::busyMessage(const QString &mssge, bool reset)
 {
     if (reset)
         openTasks = 0;
@@ -372,13 +372,13 @@ void MyView::busyMessage(const QString &mssge, bool reset)
     }
 }
 
-void MyView::encryptFiles(KUrl::List urls)
+void KGpgUserActions::encryptFiles(KUrl::List urls)
 {
     droppedUrls = urls;
     encryptDroppedFile();
 }
 
-void MyView::slotVerifyFile()
+void KGpgUserActions::slotVerifyFile()
 {
     // check file signature
     if (droppedUrl.isEmpty())
@@ -411,14 +411,14 @@ void MyView::slotVerifyFile()
     verifyFileProcess->KgpgVerifyFile(droppedUrl, KUrl(sigfile));
 }
 
-void MyView::importSignature(const QString &ID)
+void KGpgUserActions::importSignature(const QString &ID)
 {
     KeyServer *kser = new KeyServer(0, false);
     kser->slotSetText(ID);
     kser->slotImport();
 }
 
-void MyView::signDroppedFile()
+void KGpgUserActions::signDroppedFile()
 {
     // create a detached signature for a chosen file
     if (droppedUrl.isEmpty())
@@ -447,14 +447,14 @@ void MyView::signDroppedFile()
     delete signFileProcess;
 }
 
-void MyView::decryptDroppedFile()
+void KGpgUserActions::decryptDroppedFile()
 {
 	m_decryptionFailed.clear();
 
 	decryptFile(new KgpgLibrary(0));
 }
 
-void MyView::decryptFile(KgpgLibrary *lib)
+void KGpgUserActions::decryptFile(KgpgLibrary *lib)
 {
 	//bool isFolder=false;  // droppedUrls
 	KUrl swapname;
@@ -504,7 +504,7 @@ void MyView::decryptFile(KgpgLibrary *lib)
 	connect(lib, SIGNAL(decryptionOver(KgpgLibrary *, KUrl)), this, SLOT(decryptNextFile(KgpgLibrary *, KUrl)));
 }
 
-void MyView::decryptNextFile(KgpgLibrary *lib, const KUrl &failed)
+void KGpgUserActions::decryptNextFile(KgpgLibrary *lib, const KUrl &failed)
 {
 	if (!failed.isEmpty())
 		m_decryptionFailed << failed;
@@ -522,7 +522,7 @@ void MyView::decryptNextFile(KgpgLibrary *lib, const KUrl &failed)
 	}
 }
 
-void MyView::unArchive()
+void KGpgUserActions::unArchive()
 {
     KTar compressedFolder(kgpgFolderExtract->fileName(), "application/x-gzip");
     if (!compressedFolder.open(QIODevice::ReadOnly))
@@ -546,10 +546,8 @@ void MyView::unArchive()
     delete kgpgFolderExtract;
 }
 
-void MyView::showDroppedFile()
+void KGpgUserActions::showDroppedFile()
 {
-    kDebug(2100) << "------Show dropped file" ;
-
     KgpgEditor *kgpgtxtedit = new KgpgEditor(0, m_model, Qt::WDestructiveClose, goDefaultKey);
     kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
 
@@ -559,7 +557,7 @@ void MyView::showDroppedFile()
     kgpgtxtedit->show();
 }
 
-void MyView::droppedfile (KUrl::List url)
+void KGpgUserActions::droppedfile (KUrl::List url)
 {
     droppedUrls = url;
     droppedUrl = url.first();
@@ -610,7 +608,7 @@ void MyView::droppedfile (KUrl::List url)
         }
 }
 
-void MyView::droppedtext (const QString &inputText, bool allowEncrypt)
+void KGpgUserActions::droppedtext (const QString &inputText, bool allowEncrypt)
 {
     if (inputText.startsWith("-----BEGIN PGP MESSAGE"))
     {
@@ -649,22 +647,22 @@ void MyView::droppedtext (const QString &inputText, bool allowEncrypt)
         KMessageBox::sorry(0, i18n("No encrypted text found."));
 }
 
-void MyView::slotImportedKeys(KgpgInterface *iface, const QStringList &)
+void KGpgUserActions::slotImportedKeys(KgpgInterface *iface, const QStringList &)
 {
     iface->deleteLater();
 }
 
-void MyView::slotImportedKeys(KgpgLibrary *lib, const QStringList &)
+void KGpgUserActions::slotImportedKeys(KgpgLibrary *lib, const QStringList &)
 {
     lib->deleteLater();
 }
 
-void MyView::dragEnterEvent(QDragEnterEvent *e)
+void KGpgUserActions::dragEnterEvent(QDragEnterEvent *e)
 {
     e->setAccepted(KUrl::List::canDecode(e->mimeData()) || Q3TextDrag::canDecode(e));
 }
 
-void MyView::dropEvent(QDropEvent *o)
+void KGpgUserActions::dropEvent(QDropEvent *o)
 {
     QString text;
     KUrl::List uriList = KUrl::List::fromMimeData(o->mimeData());
@@ -678,7 +676,7 @@ void MyView::dropEvent(QDropEvent *o)
     }
 }
 
-void MyView::readOptions()
+void KGpgUserActions::readOptions()
 {
     clipboardMode = QClipboard::Clipboard;
     if (KGpgSettings::useMouseSelection() && kapp->clipboard()->supportsSelection())
@@ -705,7 +703,7 @@ void MyView::readOptions()
     }
 }
 
-int MyView::firstRun()
+int KGpgUserActions::firstRun()
 {
     QProcess *createConfigProc = new QProcess(this);
     QStringList args;
@@ -715,10 +713,8 @@ int MyView::firstRun()
     return startWizard();
 }
 
-int MyView::startWizard()
+int KGpgUserActions::startWizard()
 {
-    kDebug(2100) << "Starting Wizard" ;
-
     wiz = new KgpgWizard(0);
 
     QString gpgHome(getGpgHome());
@@ -802,7 +798,7 @@ int MyView::startWizard()
     return 0;
 }
 
-void MyView::slotWizardChange()
+void KGpgUserActions::slotWizardChange()
 {
     if (wiz->indexOf(wiz->currentPage()) == 2)
     {
@@ -826,7 +822,7 @@ void MyView::slotWizardChange()
     }
 }
 
-void MyView::slotSaveOptionsPath()
+void KGpgUserActions::slotSaveOptionsPath()
 {
     qWarning("Save wizard settings...");
 
@@ -845,29 +841,29 @@ void MyView::slotSaveOptionsPath()
     wiz->deleteLater();
 }
 
-void MyView::slotWizardClose()
+void KGpgUserActions::slotWizardClose()
 {
     wiz = 0L;
 }
 
-void MyView::slotGenKey()
+void KGpgUserActions::slotGenKey()
 {
     slotSaveOptionsPath();
     emit createNewKey();
 }
 
-void MyView::about()
+void KGpgUserActions::about()
 {
     KAboutApplicationDialog dialog(KGlobal::mainComponent().aboutData());//_aboutData);
     dialog.exec();
 }
 
-void MyView::help()
+void KGpgUserActions::help()
 {
     KToolInvocation::invokeHelp(0, "kgpg");
 }
 
-void MyView::encryptClipboard(QStringList selec, QStringList encryptOptions, const bool symmetric)
+void KGpgUserActions::encryptClipboard(QStringList selec, QStringList encryptOptions, const bool symmetric)
 {
     if (kapp->clipboard()->text(clipboardMode).isEmpty())
     {
@@ -889,7 +885,7 @@ void MyView::encryptClipboard(QStringList selec, QStringList encryptOptions, con
     txtEncrypt->encryptText(kapp->clipboard()->text(clipboardMode), selec, encryptOptions);
 }
 
-void MyView::slotPassiveClip()
+void KGpgUserActions::slotPassiveClip()
 {
     QString newtxt = kapp->clipboard()->text(clipboardMode);
     if (newtxt.length() > 300)
@@ -908,12 +904,11 @@ void MyView::slotPassiveClip()
     pop->move(iXpos, iYpos);
 }
 
-void MyView::slotSetClip(const QString &newtxt)
+void KGpgUserActions::slotSetClip(const QString &newtxt)
 {
     if (newtxt.isEmpty())
         return;
 
-    kDebug(2100) << "Encrypted is " << newtxt ;
     kapp->clipboard()->setText(newtxt, clipboardMode);
 }
 
@@ -921,7 +916,7 @@ void MyView::slotSetClip(const QString &newtxt)
 kgpgapplet::kgpgapplet(QWidget *parent, KGpgItemModel *model)
           : KSystemTrayIcon(parent)
 {
-    w = new MyView(parent, this, model);
+    w = new KGpgUserActions(parent, this, model);
 
     QMenu *conf_menu = contextMenu();
 
@@ -1020,17 +1015,13 @@ void KgpgAppletApp::wizardOver(const QString &defaultKeyId)
 
 int KgpgAppletApp::newInstance()
 {
-    kDebug(2100) << "New instance" ;
-
     args = KCmdLineArgs::parsedArgs();
     if (running)
     {
-        kDebug(2100) << "Already running" ;
         kgpg_applet->show();
     }
     else
     {
-        kDebug(2100) << "Starting KGpg" ;
         running = true;
 
         s_keyManager = new KeysManager();
@@ -1094,8 +1085,6 @@ int KgpgAppletApp::newInstance()
     else
     if (args->count() > 0)
     {
-        kDebug(2100) << "KGpg: found files" ;
-
         urlList.clear();
         for (int ct = 0; ct < args->count(); ct++)
             urlList.append(args->url(ct));
