@@ -1046,10 +1046,8 @@ int KgpgAppletApp::newInstance()
     if (args->isSet("k") != 0)
     {
         s_keyManager->show();
-#ifdef Q_OS_UNIX
         KWindowSystem::setOnDesktop(s_keyManager->winId(), KWindowSystem::currentDesktop());  //set on the current desktop
         KWindowSystem::unminimizeWindow(s_keyManager->winId());  //de-iconify window
-#endif
         s_keyManager->raise();  // set on top
     }
     else
