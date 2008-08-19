@@ -188,47 +188,6 @@ void KgpgLibrary::processDecOver(int ret, KGpgTextInterface *iface)
 	emit decryptionOver(this, KUrl());
 }
 
-void KgpgLibrary::processDecError(const QString &mssge)
-{
-    delete m_pop;
-    emit systemMessage(QString());
-
-    // test if file is a public key
-    QFile qfile(QFile::encodeName(m_urlselected.path()));
-    if (qfile.open(QIODevice::ReadOnly))
-    {
-        QTextStream t(&qfile);
-        QString result = t.readAll();
-        qfile.close();
-
-        // if pgp data found, decode it
-        if (result.startsWith("-----BEGIN PGP PUBLIC KEY BLOCK"))
-        {
-            // dropped file is a public key, ask for import
-            int result = KMessageBox::warningContinueCancel(0, i18n("<p>The file <b>%1</b> is a public key.<br />Do you want to import it ?</p>", m_urlselected.path()));
-            if (result == KMessageBox::Cancel)
-                return;
-            else
-            {
-                KgpgInterface *importKeyProcess = new KgpgInterface();
-                importKeyProcess->importKey(m_urlselected);
-                connect(importKeyProcess, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SIGNAL(slotImportOver(KgpgInterface *, QStringList)));
-                return;
-            }
-        }
-        else
-        if(result.startsWith("-----BEGIN PGP PRIVATE KEY BLOCK"))
-        {
-            // dropped file is a public key, ask for import
-            qfile.close();
-            KMessageBox::information(0, i18n("<p>The file <b>%1</b> is a private key block. Please use KGpg key manager to import it.</p>", m_urlselected.path()));
-            return;
-        }
-    }
-
-    KMessageBox::detailedSorry(0, i18n("Decryption failed."), mssge);
-}
-
 void KgpgLibrary::slotImportOver(KgpgInterface *iface, const QStringList &keys)
 {
     iface->deleteLater();

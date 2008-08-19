@@ -65,7 +65,6 @@ private slots:
     void processEnc(const KUrl &, KGpgTextInterface*);
     void processEncError(const QString &mssge, KGpgTextInterface*);
     void processDecOver(int, KGpgTextInterface*);
-    void processDecError(const QString &mssge);
     void processEncPopup(const KUrl &url);
     void processPopup2(const QString &fileName);
 
