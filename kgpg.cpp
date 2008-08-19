@@ -522,30 +522,6 @@ void KGpgUserActions::decryptNextFile(KgpgLibrary *lib, const KUrl &failed)
 	}
 }
 
-void KGpgUserActions::unArchive()
-{
-    KTar compressedFolder(kgpgFolderExtract->fileName(), "application/x-gzip");
-    if (!compressedFolder.open(QIODevice::ReadOnly))
-    {
-        KMessageBox::sorry(0, i18n("Unable to read temporary archive file"));
-        return;
-    }
-
-    const KArchiveDirectory *archiveDirectory = compressedFolder.directory();
-    //KUrl savePath=KUrl::getURL(droppedUrl,this,i18n(""));
-    KUrlRequesterDialog *savePath = new KUrlRequesterDialog(droppedUrl.directory(KUrl::AppendTrailingSlash), i18n("Extract to: "),0);
-    savePath->fileDialog()->setMode(KFile::Directory);
-    if (!savePath->exec() == QDialog::Accepted)
-    {
-        delete kgpgFolderExtract;
-        return;
-    }
-    archiveDirectory->KArchiveDirectory::copyTo(savePath->selectedUrl().path());
-    compressedFolder.close();
-    delete savePath;
-    delete kgpgFolderExtract;
-}
-
 void KGpgUserActions::showDroppedFile()
 {
     KgpgEditor *kgpgtxtedit = new KgpgEditor(0, m_model, Qt::WDestructiveClose, goDefaultKey);

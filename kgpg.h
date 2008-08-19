@@ -139,7 +139,6 @@ private slots:
     void readOptions();
     void droppedfile(KUrl::List);
     void droppedtext(const QString &inputText, bool allowEncrypt = true);
-    void unArchive();
     void slotSetCompression(int cp);
     void decryptNextFile(KgpgLibrary *lib, const KUrl &failed);
     void decryptFile(KgpgLibrary *lib);
