@@ -265,6 +265,10 @@ KGpgTextInterface::decryptTextStdOut()
 				d->m_badmdc = true;
 			} else if (line.startsWith("BAD_PASSPHRASE")) {
 				d->m_step--;
+			} else if (line.startsWith("END_DECRYPTION")) {
+				// workaround for GnuPG weirdness: DECRYPTION_OKAY is
+				// not written if message is signed *and* encrypted
+				d->m_ok = true;
 			}
 			line.clear();
 		} else {
