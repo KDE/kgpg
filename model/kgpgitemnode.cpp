@@ -335,6 +335,11 @@ void KGpgKeyNode::setKey(const KgpgKey &key)
 	m_key = new KgpgKey(key);
 }
 
+const KgpgKey *KGpgKeyNode::getKey() const
+{
+	return m_key;
+}
+
 KGpgUidNode::KGpgUidNode(KGpgKeyNode *parent, const KgpgKeyUid &u)
 	: KGpgExpandableNode(parent), m_uid(new KgpgKeyUid(u))
 {

@@ -37,6 +37,7 @@
 #include "convert.h"
 #include "images.h"
 #include "kgpgchangekey.h"
+#include "kgpgitemnode.h"
 
 using namespace KgpgCore;
 
@@ -148,14 +149,28 @@ void KgpgDateDialog::slotEnableDate(const bool &ison)
         slotCheckDate(m_datepicker->date());
 }
 
+KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, QWidget *parent)
+           : KDialog(parent), keychange(new KGpgChangeKey(node))
+{
+    m_node = node;
+    m_key = node->getKey();
+    init();
+}
+
 KgpgKeyInfo::KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent)
            : KDialog(parent), keychange(new KGpgChangeKey(key))
+{
+    m_node = NULL;
+    m_key = key;
+    init();
+}
+
+void KgpgKeyInfo::init()
 {
     setButtons(Ok | Apply | Cancel);
     setDefaultButton(Ok);
     setModal(true);
 
-    m_key = key;
     m_keywaschanged = false;
 
     QWidget *page = new QWidget(this);
@@ -206,7 +221,8 @@ KgpgKeyInfo::~KgpgKeyInfo()
 {
 	if (keychange)
 		keychange->selfdestruct(false);
-	delete m_key;
+	if (!m_node)
+		delete m_key;
 }
 
 QGroupBox* KgpgKeyInfo::_keypropertiesGroup(QWidget *parent)
@@ -498,8 +514,8 @@ void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap, KgpgInterface *interface)
 
 void KgpgKeyInfo::slotPreOk()
 {
-	if (m_keywaschanged)
-		emit keyNeedsRefresh(m_key->fullId());
+	if (m_keywaschanged && m_node)
+		emit keyNeedsRefresh(m_node);
 	keychange->selfdestruct(true);
 	keychange = NULL;
 	accept();
@@ -580,8 +596,8 @@ void KgpgKeyInfo::slotApplied(int result)
 
 void KgpgKeyInfo::slotPreCancel()
 {
-	if (m_keywaschanged)
-		emit keyNeedsRefresh(m_key->fullId());
+	if (m_keywaschanged && m_node)
+		emit keyNeedsRefresh(m_node);
 	reject();
 }
 

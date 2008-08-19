@@ -35,6 +35,7 @@ class KUrlLabel;
 class KComboBox;
 
 class KgpgInterface;
+class KGpgKeyNode;
 
 class KgpgTrustLabel : public QWidget
 {
@@ -84,13 +85,14 @@ class KgpgKeyInfo : public KDialog
     Q_OBJECT
 
 public:
-    explicit KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent = 0);
+    KgpgKeyInfo(KGpgKeyNode *node, QWidget *parent = 0);
+    KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent = 0);
     ~KgpgKeyInfo();
 
     KGpgChangeKey *keychange;
 
 signals:
-    void keyNeedsRefresh(const QString &keyid);
+    void keyNeedsRefresh(KGpgKeyNode *node);
 
 private:
     QGroupBox *_keypropertiesGroup(QWidget *parent);
@@ -123,7 +125,8 @@ private slots:
     void slotApplied(int result);
     
 private:
-    KgpgCore::KgpgKey *m_key;
+	const KgpgCore::KgpgKey *m_key;
+	KGpgKeyNode *m_node;
 
     QCheckBox *m_disable;
     QLabel *m_name;
@@ -146,6 +149,8 @@ private:
 
     bool m_hasphoto;
     bool m_keywaschanged;
+
+    void init();
 };
 
 #endif // KGPGKEYINFODIALOG_H

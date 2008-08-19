@@ -533,9 +533,9 @@ public:
     void addSign(const KgpgKeySign &sign);
     KgpgKeySignList signList() const;
 
-    KgpgKeyUatListPtr uatList();
-    KgpgKeyUidListPtr uidList();
-    KgpgKeySubListPtr subList();
+    KgpgKeyUatListPtr uatList() const;
+    KgpgKeyUidListPtr uidList() const;
+    KgpgKeySubListPtr subList() const;
 
     bool operator==(const KgpgKey &other) const;
     inline bool operator!=(const KgpgKey &other) const

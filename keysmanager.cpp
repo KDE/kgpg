@@ -794,7 +794,7 @@ void KeysManager::slotDelUid()
     args << "--edit-key" << nd->getParentKeyNode()->getId() << "uid" << nd->getId() << "deluid";
     process->start(terminalApp, args);
     process->waitForFinished();
-    imodel->refreshKey(nd->getParentKeyNode()->getId());
+    imodel->refreshKey(static_cast<KGpgKeyNode *>(nd->getParentKeyNode()));
 }
 
 void KeysManager::slotPrimUid()
@@ -810,7 +810,7 @@ void KeysManager::slotPrimUid()
     args << "--edit-key" << nd->getParentKeyNode()->getId() << "uid" << nd->getId() << "primary" << "save";
     process->start(terminalApp, args);
     process->waitForFinished();
-    imodel->refreshKey(nd->getParentKeyNode()->getId());
+    imodel->refreshKey(static_cast<KGpgKeyNode *>(nd->getParentKeyNode()));
 }
 
 void KeysManager::slotregenerate()
@@ -1618,9 +1618,9 @@ KeysManager::showProperties(KGpgNode *n)
 	case ITYPE_PAIR:
 		{
 			KGpgKeyNode *k = static_cast<KGpgKeyNode *>(n);
-			KgpgKeyInfo *opts = new KgpgKeyInfo(k->copyKey(), this);
-			connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
-			connect(opts->keychange, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
+			KgpgKeyInfo *opts = new KgpgKeyInfo(k, this);
+			connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
+			connect(opts->keychange, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
 			opts->exec();
 			delete opts;
 		}
@@ -1648,7 +1648,7 @@ void KeysManager::keyproperties()
 	case ITYPE_GPAIR:
 	case ITYPE_GPUBLIC: {
 		KGpgKeyNode *kn = static_cast<KGpgKeyNode *>(cur);
-		KgpgKeyInfo *opts = new KgpgKeyInfo(kn->copyKey(), this);
+		KgpgKeyInfo *opts = new KgpgKeyInfo(kn, this);
 		connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
 		opts->exec();
 		delete opts;

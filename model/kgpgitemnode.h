@@ -192,6 +192,11 @@ public:
 	 * used when the id of both new and old key is the same.
 	 */
 	void setKey(const KgpgKey &key);
+	/**
+	 * Returns a reference to the key used in this object. This allows
+	 * direct access to the values of the key e.g. for KgpgKeyInfo
+	 */
+	const KgpgKey *getKey() const;
 
 Q_SIGNALS:
 	void updated(KGpgKeyNode *);

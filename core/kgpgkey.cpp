@@ -725,17 +725,17 @@ KgpgKeySignList KgpgKey::signList() const
     return d->gpgsignlist;
 }
 
-KgpgKeyUatListPtr KgpgKey::uatList()
+KgpgKeyUatListPtr KgpgKey::uatList() const
 {
     return d->gpguatlist;
 }
 
-KgpgKeyUidListPtr KgpgKey::uidList()
+KgpgKeyUidListPtr KgpgKey::uidList() const
 {
     return d->gpguidlist;
 }
 
-KgpgKeySubListPtr KgpgKey::subList()
+KgpgKeySubListPtr KgpgKey::subList() const
 {
     return d->gpgsublist;
 }

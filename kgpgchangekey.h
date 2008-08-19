@@ -20,6 +20,7 @@
 #include "kgpgkey.h"
 
 class KgpgInterface;
+class KGpgKeyNode;
 
 /**
  * @short A class for changing several properties of a key at once
@@ -52,6 +53,16 @@ public:
 	 * key object you pass here may be savely deleted or changed.
 	 */
 	KGpgChangeKey(KgpgCore::KgpgKey *key);
+	/**
+	 * Creates a change object for a given key node
+	 *
+	 * @param node pointer to key node to take care of
+	 *
+	 * KGpgChangeKey stores a copy of the key object of the node
+	 * internally to track changes it made. Once everything is
+	 * finished the caller get notified that this node needs refresh.
+	 */
+	KGpgChangeKey(KGpgKeyNode *node);
 	/**
 	 * Destroys the object
 	 */
@@ -146,7 +157,7 @@ signals:
 	 * change and we want to avoid useless refreshes as they are rather
 	 * expensive.
 	 */
-	void keyNeedsRefresh(const QString &keyid);
+	void keyNeedsRefresh(KGpgKeyNode *node);
 
 private slots:
 	/**
@@ -159,10 +170,13 @@ private:
 	bool m_disable;
 	KgpgCore::KgpgKeyOwnerTrust m_owtrust;
 	KgpgCore::KgpgKey m_key;
+	KGpgKeyNode *m_node;
 	KgpgInterface *iface;
 	int m_step;
 	int m_failed;
 	bool m_autodestroy;
+
+	void init();
 };
 
 #endif // KGPGCHANGEKEY_H

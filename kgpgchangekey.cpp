@@ -14,14 +14,28 @@
 #include "kgpgchangekey.h"
 
 #include "kgpginterface.h"
+#include "kgpgitemnode.h"
+
+KGpgChangeKey::KGpgChangeKey(KGpgKeyNode *node)
+{
+	m_node = node;
+	m_key = *node->copyKey();
+	init();
+}
 
 KGpgChangeKey::KGpgChangeKey(KgpgCore::KgpgKey *key)
 {
+	m_node = NULL;
 	m_key = *key;
+	init();
+}
+
+void KGpgChangeKey::init()
+{
 	iface = NULL;
-	m_expiration = key->expirationDate();
-	m_disable = !key->valid();
-	m_owtrust = key->ownerTrust();
+	m_expiration = m_key.expirationDate();
+	m_disable = !m_key.valid();
+	m_owtrust = m_key.ownerTrust();
 	m_autodestroy = false;
 	m_step = 0;
 }
@@ -121,7 +135,8 @@ void KGpgChangeKey::nextStep(int result, KgpgInterface *)
 		m_step = 0;
 		emit done(m_failed);
 		if (m_autodestroy) {
-			emit keyNeedsRefresh(m_key.fullId());
+			if (m_node)
+				emit keyNeedsRefresh(m_node);
 			deleteLater();
 		}
 	}
