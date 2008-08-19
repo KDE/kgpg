@@ -103,19 +103,17 @@ KGpgRootNode::addKeys(const QStringList &ids)
 	KgpgInterface *interface = new KgpgInterface();
 
 	KgpgKeyList publiclist = interface->readPublicKeys(true, ids);
-
 	KgpgKeyList secretlist = interface->readSecretKeys();
-	QStringList issec = secretlist;
 
 	delete interface;
 
-	for (int i = 0; i < publiclist.size(); ++i)
-	{
+	QStringList issec = secretlist;
+
+	for (int i = 0; i < publiclist.size(); ++i) {
 		KgpgKey key = publiclist.at(i);
 
 		int index = issec.indexOf(key.fullId());
-		if (index != -1)
-		{
+		if (index != -1) {
 			key.setSecret(true);
 			issec.removeAt(index);
 			secretlist.removeAt(index);
@@ -125,8 +123,7 @@ KGpgRootNode::addKeys(const QStringList &ids)
 		emit newKeyNode(nd);
 	}
 
-	for (int i = 0; i < secretlist.count(); ++i)
-	{
+	for (int i = 0; i < secretlist.count(); ++i) {
 		KgpgKey key = secretlist.at(i);
 
 		new KGpgOrphanNode(this, key);
@@ -229,10 +226,10 @@ KGpgKeyNode::readChildren()
 {
 	KgpgInterface *interface = new KgpgInterface();
 	KgpgKeyList keys = interface->readPublicKeys(true, m_key->fullId(), true);
-	if (keys.count() == 0) {
-		delete interface;
+	delete interface;
+
+	if (keys.count() == 0)
 		return;
-	}
 	KgpgKey key = keys.at(0);
 
 	/********* insertion of sub keys ********/
@@ -263,8 +260,6 @@ KGpgKeyNode::readChildren()
 		insertSigns(n, uat.signList());
 	}
 	/****************************************/
-
-	delete interface;
 
 	/******** insertion of signature ********/
 	insertSigns(this, key.signList());
