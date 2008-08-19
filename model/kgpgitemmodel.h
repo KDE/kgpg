@@ -80,7 +80,8 @@ public Q_SLOTS:
 
 protected:
 	int rowForNode(KGpgNode *node) const;
-	void refreshKeyIds(const QStringList &id, KGpgKeyNodeList &nodes);
+	void refreshKeyIds(const QStringList &id);
+	void refreshKeyIds(KGpgKeyNodeList &nodes);
 	bool isDefaultKey(const KGpgNode *node) const;
 	void fixPersistentIndexes();
 	void updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::KgpgKeyTrust &trust, const QColor &color);

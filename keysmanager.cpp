@@ -2110,9 +2110,9 @@ void KeysManager::delsignatureResult(bool success)
 	if (success) {
 		KGpgNode *nd = iview->selectedNode()->getParentKeyNode();
 
-		while (nd->getType() & ~ITYPE_PAIR)
+		while (!(nd->getType() & ITYPE_PAIR))
 			nd = nd->getParentKeyNode();
-		imodel->refreshKey(nd->getId());
+		imodel->refreshKey(static_cast<KGpgKeyNode*>(nd));
 	} else
 		KMessageBox::sorry(this, i18n("Requested operation was unsuccessful, please edit the key manually."));
 }

@@ -130,6 +130,42 @@ KGpgRootNode::addKeys(const QStringList &ids)
 	}
 }
 
+void
+KGpgRootNode::refreshKeys(KGpgKeyNodeList nodes)
+{
+	QStringList ids;
+
+	for (int i = 0; i < nodes.count(); i++)
+		ids << nodes.at(i)->getId();
+
+	KgpgInterface *interface = new KgpgInterface();
+
+	KgpgKeyList publiclist = interface->readPublicKeys(true, ids);
+	QStringList issec = interface->readSecretKeys(ids);
+
+	delete interface;
+
+	for (int i = 0; i < publiclist.size(); ++i) {
+		KgpgKey key = publiclist.at(i);
+
+		int index = issec.indexOf(key.fullId());
+		if (index != -1) {
+			key.setSecret(true);
+			issec.removeAt(index);
+		}
+
+		for (int j = 0; j < nodes.count(); j++) {
+			KGpgKeyNode *nd = nodes.at(j);
+
+			if (nd->getId() == key.fingerprint()) {
+				nodes.removeAt(j);
+				nd->setKey(key);
+				break;
+			}
+		}
+	}
+}
+
 KGpgKeyNode *
 KGpgRootNode::findKey(const QString &keyId)
 {
@@ -225,7 +261,7 @@ void
 KGpgKeyNode::readChildren()
 {
 	KgpgInterface *interface = new KgpgInterface();
-	KgpgKeyList keys = interface->readPublicKeys(true, m_key->fullId(), true);
+	KgpgKeyList keys = interface->readPublicKeys(true, m_key->fingerprint(), true);
 	delete interface;
 
 	if (keys.count() == 0)
@@ -285,6 +321,18 @@ QString KGpgKeyNode::getSignCount() const
 KgpgKey *KGpgKeyNode::copyKey() const
 {
 	return new KgpgKey(*m_key);
+}
+
+void KGpgKeyNode::setKey(const KgpgKey &key)
+{
+	Q_ASSERT(m_key->fingerprint() == key.fingerprint());
+	delete m_key;
+
+	for (int i = 0; i < children.count(); i++)
+		delete children.at(i);
+	children.clear();
+
+	m_key = new KgpgKey(key);
 }
 
 KGpgUidNode::KGpgUidNode(KGpgKeyNode *parent, const KgpgKeyUid &u)

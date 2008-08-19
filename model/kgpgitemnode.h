@@ -186,6 +186,12 @@ public:
 	 * Creates a copy of the KgpgKey that belongs to this class
 	 */
 	virtual KgpgKey *copyKey() const;
+	/**
+	 * Replaces the current key information with the new one. All sub-items
+	 * (i.e. signatures, user ids ...) will be deleted. This must only be
+	 * used when the id of both new and old key is the same.
+	 */
+	void setKey(const KgpgKey &key);
 
 Q_SIGNALS:
 	void updated(KGpgKeyNode *);
@@ -216,6 +222,7 @@ public:
 
 	void addGroups();
 	void addKeys(const QStringList &ids = QStringList());
+	void refreshKeys(KGpgKeyNodeList nodes);
 	/**
 	 * Find a key node with the given id
 	 *
