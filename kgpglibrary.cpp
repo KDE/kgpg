@@ -64,7 +64,7 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, K
             KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, model, goDefaultKey, fileNames);
             if (dialog->exec() == KDialog::Accepted)
             {
-                QStringList options;
+                QStringList options = opts;
                 if (dialog->getUntrusted()) options << "--always-trust";
                 if (dialog->getArmor())     options << "--armor";
                 if (dialog->getHideId())    options << "--throw-keyid";
