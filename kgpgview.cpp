@@ -114,7 +114,7 @@ void KgpgTextEdit::slotEncode()
         QString customoptions = dialog->getCustomOptions();
         if (!customoptions.isEmpty())
             if (KGpgSettings::allowCustomEncryptionOptions())
-                options << customoptions.split(" ", QString::SkipEmptyParts);
+                options << customoptions.split(' ', QString::SkipEmptyParts);
 
         if (KGpgSettings::pgpCompatibility())
             options << "--pgp6";
@@ -149,7 +149,7 @@ void KgpgTextEdit::slotDecode()
     KGpgTextInterface *interface = new KGpgTextInterface();
     connect(interface, SIGNAL(txtDecryptionFinished(QByteArray, KGpgTextInterface*)), this, SLOT(slotDecodeUpdateSuccess(QByteArray, KGpgTextInterface*)));
     connect(interface, SIGNAL(txtDecryptionFailed(QString, KGpgTextInterface*)), this, SLOT(slotDecodeUpdateFailed(QString, KGpgTextInterface*)));
-    interface->decryptText(fullcontent.mid(m_posstart, m_posend - m_posstart), KGpgSettings::customDecrypt().simplified().split(" ", QString::SkipEmptyParts));
+    interface->decryptText(fullcontent.mid(m_posstart, m_posend - m_posstart), KGpgSettings::customDecrypt().simplified().split(' ', QString::SkipEmptyParts));
 }
 
 void KgpgTextEdit::slotSign()
@@ -167,7 +167,7 @@ void KgpgTextEdit::slotSign()
 
     delete opts;
 
-    QStringList options = QStringList();
+    QStringList options;
     if (KGpgSettings::pgpCompatibility())
         options << "--pgp6";
 
@@ -230,7 +230,7 @@ void KgpgTextEdit::slotDecodeFile()
     KGpgTextInterface *interface = new KGpgTextInterface();
     connect(interface, SIGNAL(txtDecryptionFinished(QByteArray, KGpgTextInterface*)), this, SLOT(slotDecodeFileSuccess(QByteArray, KGpgTextInterface*)));
     connect(interface, SIGNAL(txtDecryptionFailed(QString, KGpgTextInterface*)), this, SLOT(slotDecodeFileFailed(QString, KGpgTextInterface*)));
-    interface->KgpgDecryptFileToText(KUrl(m_tempfile), KGpgSettings::customDecrypt().simplified().split(" ", QString::SkipEmptyParts));
+    interface->KgpgDecryptFileToText(KUrl(m_tempfile), KGpgSettings::customDecrypt().simplified().split(' ', QString::SkipEmptyParts));
 }
 
 bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)

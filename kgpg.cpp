@@ -155,7 +155,7 @@ void MyView::clipEncrypt()
 
             if (!dialog->getCustomOptions().isEmpty())
                 if (KGpgSettings::allowCustomEncryptionOptions())
-                    options << dialog->getCustomOptions().split(" ", QString::SkipEmptyParts);
+                    options << dialog->getCustomOptions().split(' ', QString::SkipEmptyParts);
 
             encryptClipboard(dialog->selectedKeys(), options, dialog->getSymmetric());
         }
@@ -380,7 +380,7 @@ void MyView::slotVerifyFile()
     if (droppedUrl.isEmpty())
         return;
 
-    QString sigfile = QString();
+    QString sigfile;
     // try to find detached signature.
     if (!droppedUrl.fileName().endsWith(".sig"))
     {
@@ -748,7 +748,7 @@ int MyView::startWizard()
     wiz->kURLRequester2->setURL(KGlobalSettings::desktopPath());
         wiz->kURLRequester2->setMode(2);*/
 
-    QString firstKey = QString();
+    QString firstKey;
 
     KgpgInterface *interface = new KgpgInterface();
     KgpgKeyList secretlist = interface->readSecretKeys();
