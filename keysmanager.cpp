@@ -1449,7 +1449,7 @@ void KeysManager::slotexport()
     QString servers = gr.readEntry("Server_List");
     delete m_config;
 
-    QStringList *serverList = new QStringList(servers.split(","));
+    QStringList *serverList = new QStringList(servers.split(','));
 
     KeyExport *page = new KeyExport(dial, serverList);
     delete serverList;

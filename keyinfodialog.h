@@ -85,8 +85,8 @@ class KgpgKeyInfo : public KDialog
     Q_OBJECT
 
 public:
-    KgpgKeyInfo(KGpgKeyNode *node, QWidget *parent = 0);
-    KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent = 0);
+    explicit KgpgKeyInfo(KGpgKeyNode *node, QWidget *parent = 0);
+    explicit KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent = 0);
     ~KgpgKeyInfo();
 
     KGpgChangeKey *keychange;

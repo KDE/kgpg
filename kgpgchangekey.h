@@ -50,7 +50,7 @@ public:
 	 * @param key pointer to key to take care of
 	 *
 	 * KGpgChangeKey stores a copy of the key object internally so the
-	 * key object you pass here may be savely deleted or changed.
+	 * key object you pass here may be safely deleted or changed.
 	 */
 	KGpgChangeKey(KgpgCore::KgpgKey *key);
 	/**
@@ -121,7 +121,7 @@ public:
 	 *
 	 * @param applyChanges if pending changes should be applied or dropped
 	 *
-	 * This function may safely be called wheter apply() is running or not.
+	 * This function may safely be called whether apply() is running or not.
 	 * If applyChanges is set to yes apply() is called and the object
 	 * deletes itself once all changes are done. If apply() already runs
 	 * it is noticed to destruct afterwards. If applyChanges is set to
@@ -132,7 +132,7 @@ public:
 
 signals:
 	/**
-	 * This signal gets emitted everytime apply() has done all of it's work.
+	 * This signal gets emitted every time apply() has done all of it's work.
 	 *
 	 * The result argument will be 0 if everything went fine. If no work
 	 * had to be done that was fine, too. If anything goes wrong it will be

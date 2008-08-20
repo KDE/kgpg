@@ -55,7 +55,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     defaultServerList += ",hkp://search.keyserver.net,hkp://wwwkeys.pgp.net,hkp://pgp.dtype.org,hkp://wwwkeys.us.pgp.net";
 
 	KConfigGroup gr = m_config->group("Servers");
-	serverList = gr.readEntry("Server_List", defaultServerList).split(",");
+	serverList = gr.readEntry("Server_List", defaultServerList).split(',');
     keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
 
 	/* Remove everything after a whitespace. This will normally be
@@ -162,7 +162,7 @@ void kgpgOptions::slotChangeHome()
                 }
             }
             else
-                confPath = QString();
+                confPath.clear();
         }
     }
 
@@ -302,7 +302,7 @@ void kgpgOptions::updateWidgetsDefault()
     m_page4->gpg_bin_path->setText(defaultBinPath);
 
     m_page6->ServerBox->clear();
-    m_page6->ServerBox->addItems(defaultServerList.split(","));
+    m_page6->ServerBox->addItems(defaultServerList.split(','));
 
     kDebug(2100) << "Finishing default options" ;
 }
@@ -372,7 +372,7 @@ void kgpgOptions::updateSettings()
     }
 
     QString currList;
-    serverList = QStringList();
+    serverList.clear();
 	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
 		QListWidgetItem *cur = m_page6->ServerBox->item(i);
 		if (cur->text().contains(' '))		// it is the default keyserver

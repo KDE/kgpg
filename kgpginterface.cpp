@@ -151,7 +151,7 @@ QStringList KgpgInterface::getGpgGroupSetting(const QString &name, const QString
                     kDebug(2100) << "Found group: " << name ;
                     result = result.section('=', 1);
                     result = result.section('#', 0, 0);
-                    return result.split(" ");
+                    return result.split(' ');
                 }
             }
         }
@@ -1536,7 +1536,7 @@ void KgpgInterface::slotImportKeyFinished(GPGProc *p)
     if (message.contains("IMPORT_RES"))
     {
         parsedOutput = message.section("IMPORT_RES", -1, -1).simplified();
-        QStringList messageList = parsedOutput.split(" ");
+        QStringList messageList = parsedOutput.split(' ');
 
         resultMessage = i18np("<qt>%1 key processed.</qt>", "<qt>%1 keys processed.</qt>", messageList[0].toULong());
 
@@ -2052,7 +2052,7 @@ void KgpgInterface::revokeover(GPGProc *)
 
 void KgpgInterface::revokeprocess(GPGProc *p)
 {
-	QString required = QString();
+	QString required;
 
 	while (p->readln(required) >= 0) {
 		output += required + '\n';
