@@ -287,7 +287,7 @@ void KeyServer::slotSearch()
     m_listpop->kLVsearch->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     m_count = 0;
-    m_keyid = QString();
+    m_keyid.clear();
     m_readmessage.clear();
     m_kitem = NULL;
 
@@ -399,7 +399,7 @@ void KeyServer::slotSetExportAttribute(const QString *state)
     if (state != 0)
         expattr = QString(*state);
     else
-        expattr = QString();
+        expattr.clear();
 }
 
 void KeyServer::slotEnableProxyI(const bool &on)

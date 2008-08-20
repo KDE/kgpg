@@ -125,7 +125,6 @@ KeysManager::KeysManager(QWidget *parent)
 
     m_statusbartimer = new QTimer(this);
     keysList2 = new KeyListView(this);
-    keysList2->photoKeysList = QString();
     keysList2->groupNb = 0;
     m_statusbar = 0;
     readOptions();
@@ -1535,7 +1534,7 @@ void KeysManager::slotexport()
     QString servers = gr.readEntry("Server_List");
     delete m_config;
 
-    QStringList *serverList = new QStringList(servers.split(","));
+    QStringList *serverList = new QStringList(servers.split(','));
 
     KeyExport *page = new KeyExport(dial, serverList);
     delete serverList;

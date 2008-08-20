@@ -71,7 +71,7 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, c
 
                 if (!dialog->getCustomOptions().isEmpty())
                     if (KGpgSettings::allowCustomEncryptionOptions())
-                        options << dialog->getCustomOptions().split(" ");
+                        options << dialog->getCustomOptions().split(' ');
 
                 startEncode(dialog->selectedKeys(), options, dialog->getSymmetric());
             }

@@ -289,7 +289,7 @@ void KgpgSelectPublicKeyDlg::slotFillKeysList()
 void KgpgSelectPublicKeyDlg::slotFillKeysListReady(KgpgCore::KgpgKeyList keys, KgpgInterface *interface)
 {
     /* Add groups */
-    QStringList groups = KGpgSettings::groups().split(",");
+    QStringList groups = KGpgSettings::groups().split(',');
     if (!groups.isEmpty())
         for (QStringList::Iterator it = groups.begin(); it != groups.end(); ++it)
             if (!QString(*it).isEmpty())
