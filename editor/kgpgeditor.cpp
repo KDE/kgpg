@@ -56,7 +56,6 @@ KgpgEditor::KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f, KSho
           : KXmlGuiWindow(parent, f), view(new KgpgView(this, model))
 {
     m_ismainwindow = mainwindow;
-    m_textencoding = QString();
     m_godefaultkey = gohome;
     m_find = 0;
     m_model = model;
@@ -611,7 +610,7 @@ void KgpgEditor::slotVerifyFile(const KUrl &url)
 {
     if (!url.isEmpty())
     {
-        QString sigfile = QString();
+        QString sigfile;
         if (!url.fileName().endsWith(".sig"))
         {
             sigfile = url.path() + ".sig";
