@@ -20,6 +20,7 @@
 #include <QDragEnterEvent>
 #include <QVBoxLayout>
 #include <QTextStream>
+#include <QTextCodec>
 #include <QDropEvent>
 #include <QFile>
 

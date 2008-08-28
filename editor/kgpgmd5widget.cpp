@@ -49,7 +49,7 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     md5lineedit->setReadOnly(true);
 
     m_led = new KLed(QColor(80, 80, 80), KLed::Off, KLed::Sunken, KLed::Circular, page);
-    QSizePolicy policy((QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0);
+    QSizePolicy policy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     policy.setVerticalStretch(0);
     policy.setHorizontalStretch(0);
     policy.setHeightForWidth(m_led->sizePolicy().hasHeightForWidth());
