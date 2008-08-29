@@ -35,13 +35,9 @@
 #include <QProcess>
 
 #include <KAboutApplicationDialog>
-#include <KUrlRequesterDialog>
 #include <KToolInvocation>
 #include <kio/renamedialog.h>
 #include <KPassivePopup>
-#include <KUrlRequester>
-#include <KStandardDirs>
-#include <k3activelabel.h>
 #include <KCmdLineArgs>
 #include <KMessageBox>
 #include <KShortcut>
@@ -75,31 +71,15 @@
 #include "kgpglibrary.h"
 #include "kgpg_interface.h"
 #include "kgpgtextinterface.h"
+#include "kgpgfirstassistant.h"
 
 using namespace KgpgCore;
-
-static QString getGpgHome()
-{
-    QByteArray env = qgetenv("GNUPGHOME");
-    QString gpgHome;
-    if (!env.isEmpty())
-        gpgHome = env;
-    else
-        gpgHome = QDir::homePath() + "/.gnupg/";
-
-    gpgHome.replace("//", "/");
-
-    if(!gpgHome.endsWith('/'))
-        gpgHome.append('/');
-
-    KStandardDirs::makeDir(gpgHome, 0700);
-    return gpgHome;
-}
 
 KGpgUserActions::KGpgUserActions(QWidget *parent, KSystemTrayIcon *parentTrayIcon, KGpgItemModel *model)
       : QObject(parent)
 {
     trayIcon = parentTrayIcon;
+    m_parentWidget = parent;
 
     openTasks = 0;
 
@@ -665,8 +645,8 @@ void KGpgUserActions::readOptions()
         QString path = KGpgSettings::gpgConfigPath();
         if (path.isEmpty())
         {
-            if (KMessageBox::questionYesNo(0,i18n("<qt>You have not set a path to your GnuPG config file.<br />This may cause some surprising results in KGpg's execution.<br />Would you like to start KGpg's Wizard to fix this problem?</qt>"), QString(), KGuiItem(i18n("Start Wizard")), KGuiItem(i18n("Do Not Start"))) == KMessageBox::Yes)
-                startWizard();
+            if (KMessageBox::questionYesNo(0,i18n("<qt>You have not set a path to your GnuPG config file.<br />This may cause some surprising results in KGpg's execution.<br />Would you like to start KGpg's assistant to fix this problem?</qt>"), QString(), KGuiItem(i18n("Start Assistant")), KGuiItem(i18n("Do Not Start"))) == KMessageBox::Yes)
+                startAssistant();
         }
         else
         {
@@ -679,158 +659,50 @@ void KGpgUserActions::readOptions()
     }
 }
 
-int KGpgUserActions::firstRun()
+void KGpgUserActions::firstRun()
 {
     QProcess *createConfigProc = new QProcess(this);
     QStringList args;
     args << "--no-tty" << "--list-secret-keys";
     createConfigProc->start("gpg", args);// start gnupg so that it will create a config file
     createConfigProc->waitForFinished();
-    return startWizard();
+    startAssistant();
 }
 
-int KGpgUserActions::startWizard()
+void KGpgUserActions::startAssistant()
 {
-    wiz = new KgpgWizard(0);
+	m_assistant = new KGpgFirstAssistant(m_parentWidget);
 
-    QString gpgHome(getGpgHome());
-    QString confPath = gpgHome + "options";
+	connect(m_assistant, SIGNAL(accepted()), SLOT(slotSaveOptionsPath()));
+	connect(m_assistant, SIGNAL(destroyed()), SLOT(slotAssistantClose()));
+	connect(m_assistant, SIGNAL(helpClicked()), SLOT(help()));
 
-    if (!QFile(confPath).exists())
-    {
-        confPath = gpgHome + "gpg.conf";
-        if (!QFile(confPath).exists())
-        {
-            if (KMessageBox::questionYesNo(0, i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed. Should KGpg try to create a config file ?</qt>"), QString(), KGuiItem(i18n("Create Config")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes)
-            {
-                confPath = gpgHome + "gpg.conf";
-                QFile file(confPath);
-                if (file.open(QIODevice::WriteOnly))
-                {
-                    QTextStream stream(&file);
-                    stream << "# GnuPG config file created by KGpg" << "\n";
-                    file.close();
-                }
-            }
-            else
-            {
-                wiz->text_optionsfound->setText(i18n("<qt><b>The GnuPG configuration file was not found</b>. Please make sure you have GnuPG installed and give the path to the config file.</qt>"));
-                confPath.clear();
-            }
-        }
-    }
-
-    int gpgVersion = KgpgInterface::gpgVersion();
-    if (gpgVersion == -1) {
-// TODO: allow selection of binary if it is outside the path
-        KMessageBox::error(0, i18n("GnuPG was not found on your system. Please make sure to have the &quot;gpg&quot; binary in your application search path."));
-        return -1;
-    } else if (gpgVersion < 120)
-        wiz->txtGpgVersion->setText(i18n("Your GnuPG version seems to be older than 1.2.0. Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG (http://gnupg.org)."));
-    else
-        wiz->txtGpgVersion->setText(QString());
-
-    wiz->kURLRequester1->setUrl(confPath);
-        /*
-    wiz->kURLRequester2->setURL(KGlobalSettings::desktopPath());
-        wiz->kURLRequester2->setMode(2);*/
-
-    QString firstKey;
-
-    KgpgInterface *interface = new KgpgInterface();
-    KgpgKeyList secretlist = interface->readSecretKeys();
-
-    KgpgKeyList publiclist = interface->readPublicKeys(true, secretlist);
-    delete interface;
-
-    for (int i = 0; i < publiclist.size(); ++i) {
-        KgpgKey k = publiclist.at(i);
-
-        QString s = k.id() + ": " + k.name() + " <" + k.email() + '>';
-
-        wiz->CBdefault->addItem(s);
-        if (firstKey.isEmpty())
-            firstKey = s;
-    }
-
-    wiz->CBdefault->setCurrentItem(firstKey);
-
-    //connect(wiz->pushButton4,SIGNAL(clicked()),this,SLOT(slotGenKey()));
-    if (firstKey.isEmpty())
-        connect(wiz->finishButton(),SIGNAL(clicked()),this,SLOT(slotGenKey()));
-    else
-    {
-        wiz->textGenerate->hide();
-        wiz->setTitle(wiz->page2, i18n("Step Three: Select your Default Private Key"));
-        connect(wiz->finishButton(), SIGNAL(clicked()), this, SLOT(slotSaveOptionsPath()));
-    }
-
-    connect(wiz->nextButton(), SIGNAL(clicked()), this, SLOT(slotWizardChange()));
-    connect(wiz, SIGNAL(destroyed()), this, SLOT(slotWizardClose()));
-    connect(wiz, SIGNAL(helpClicked()), this, SLOT(help()));
-
-    wiz->setFinishEnabled(wiz->page2, true);
-    wiz->show();
-    return 0;
-}
-
-void KGpgUserActions::slotWizardChange()
-{
-    if (wiz->indexOf(wiz->currentPage()) == 2)
-    {
-        QString tst,name;
-        KgpgInterface *iface = new KgpgInterface();
-        QString defaultID = iface->getGpgSetting("default-key", wiz->kURLRequester1->url().path());
-
-        if (defaultID.isEmpty()) {
-            delete iface;
-            return;
-        }
-        KgpgKeyList secl = iface->readSecretKeys(QStringList(defaultID));
-        delete iface;
-
-        if (secl.isEmpty())
-            return;
-
-        KgpgKey k = secl.at(0);
-
-        wiz->CBdefault->setCurrentItem(k.id() + ": " + k.name() + " <" + k.email() + '>');
-    }
+	m_assistant->show();
 }
 
 void KGpgUserActions::slotSaveOptionsPath()
 {
-    qWarning("Save wizard settings...");
+	KGpgSettings::setAutoStart(m_assistant->getAutoStart());
+	KGpgSettings::setGpgConfigPath(m_assistant->getConfigPath());
+	KGpgSettings::setFirstRun(false);
 
-    KGpgSettings::setAutoStart(wiz->checkBox2->isChecked());
-    KGpgSettings::setGpgConfigPath(wiz->kURLRequester1->url().path());
-    KGpgSettings::setFirstRun(false);
+	QString defaultID = m_assistant->getDefaultKey();
 
-    QString defaultID = wiz->CBdefault->currentText().section(':', 0, 0);
-/* if (!defaultID.isEmpty())
-   {
-            KGpgSettings::setDefaultKey(defaultID);
-        }*/
-
-    KGpgSettings::self()->writeConfig();
-    emit updateDefault(defaultID);
-    wiz->deleteLater();
+	KGpgSettings::self()->writeConfig();
+	emit updateDefault(defaultID);
+	if (m_assistant->runKeyGenerate())
+		emit createNewKey();
+	m_assistant->deleteLater();
 }
 
-void KGpgUserActions::slotWizardClose()
+void KGpgUserActions::slotAssistantClose()
 {
-    wiz = 0L;
-}
-
-void KGpgUserActions::slotGenKey()
-{
-    slotSaveOptionsPath();
-    emit createNewKey();
+	m_assistant->deleteLater();
 }
 
 void KGpgUserActions::about()
 {
-    KAboutApplicationDialog dialog(KGlobal::mainComponent().aboutData());//_aboutData);
+    KAboutApplicationDialog dialog(KGlobal::mainComponent().aboutData());
     dialog.exec();
 }
 
@@ -980,7 +852,7 @@ void KgpgAppletApp::slotHandleQuit()
     quit();
 }
 
-void KgpgAppletApp::wizardOver(const QString &defaultKeyId)
+void KgpgAppletApp::assistantOver(const QString &defaultKeyId)
 {
     if (defaultKeyId.length() >= 8)
         s_keyManager->slotSetDefaultKey(defaultKeyId);
@@ -1019,7 +891,7 @@ int KgpgAppletApp::newInstance()
 
         connect( kgpg_applet, SIGNAL(quitSelected()), this, SLOT(slotHandleQuit()));
         connect(s_keyManager,SIGNAL(readAgainOptions()),kgpg_applet->w,SLOT(readOptions()));
-        connect(kgpg_applet->w,SIGNAL(updateDefault(QString)),this,SLOT(wizardOver(QString)));
+        connect(kgpg_applet->w, SIGNAL(updateDefault(QString)), SLOT(assistantOver(QString)));
         connect(kgpg_applet->w,SIGNAL(createNewKey()),s_keyManager,SLOT(slotGenerateKey()));
         connect(s_keyManager,SIGNAL(fontChanged(QFont)),kgpg_applet->w,SIGNAL(setFont(QFont)));
 

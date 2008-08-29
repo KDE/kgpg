@@ -50,6 +50,7 @@ set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS}
    groupedit.cpp
    sourceselect.cpp
    kgpgchangekey.cpp
+   kgpgfirstassistant.cpp
 )
 
 qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)
@@ -69,7 +70,6 @@ kde4_add_ui_files(kgpg_SRCS
     conf_encryption.ui
     kgpgrevokewidget.ui
     keyserver.ui
-    kgpgwizard.ui
     conf_decryption.ui
     sourceselect.ui
 )

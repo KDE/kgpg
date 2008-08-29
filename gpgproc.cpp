@@ -19,10 +19,10 @@
 
 #include "kgpgsettings.h"
 
-GPGProc::GPGProc(QObject *parent)
+GPGProc::GPGProc(QObject *parent, const QString &binary)
        : KLineBufferedProcess(parent)
 {
-	resetProcess();
+	resetProcess(binary);
 }
 
 GPGProc::~GPGProc()
@@ -30,11 +30,14 @@ GPGProc::~GPGProc()
 }
 
 void
-GPGProc::resetProcess()
+GPGProc::resetProcess(const QString &binary)
 {
 	QStringList args;
 	args << "--no-secmem-warning" << "--no-tty";
-	setProgram(KGpgSettings::gpgBinaryPath(), args);
+	if (binary.isEmpty())
+		setProgram(KGpgSettings::gpgBinaryPath(), args);
+	else
+		setProgram(binary, args);
 	setOutputChannelMode(OnlyStdoutChannel);
 
 	disconnect(SIGNAL(finished(int, QProcess::ExitStatus)));

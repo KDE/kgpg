@@ -17,6 +17,7 @@
 
 #include "kgpginterface.h"
 
+#include <QDir>
 #include <QTextStream>
 #include <QFile>
 
@@ -29,6 +30,7 @@
 #include <KConfig>
 #include <KDebug>
 #include <KGlobal>
+#include <KStandardDirs>
 #include <KUrl>
 
 #include "detailedconsole.h"
@@ -90,25 +92,90 @@ QString KgpgInterface::checkForUtf8bis(QString txt)
     return txt;
 }
 
-int KgpgInterface::gpgVersion()
+int KgpgInterface::gpgVersion(const QString &vstr)
 {
-    GPGProc process;
-    process << "--version";
-    process.start();
-    process.waitForFinished(-1);
+	if (vstr.isEmpty())
+		return -1;
 
-    if (process.exitCode() == 255)
-       return -1;
+	QStringList values = vstr.split('.');
+	if (values.count() < 3)
+		return -2;
 
-    QString line;
-    if (process.readln(line) != -1)
-        line = line.simplified().section(' ', -1);
+	return (0x10000 * values[0].toInt() + 0x100 * values[1].toInt() + values[2].toInt());
+}
 
-    QStringList values = line.split('.');
-    if (values.count() < 3)
-       return -2;
+QString KgpgInterface::gpgVersionString(const QString &binary)
+{
+	GPGProc process(0, binary);
+	process << "--version";
+	process.start();
+	process.waitForFinished(-1);
 
-    return (100 * values[0].toInt() + 10 * values[1].toInt() + values[2].toInt());
+	if (process.exitCode() == 255)
+		return QString();
+
+	QString line;
+	if (process.readln(line) != -1)
+		return line.simplified().section(' ', -1);
+	else
+		return QString();
+}
+
+QString KgpgInterface::getGpgProcessHome(const QString &binary)
+{
+	GPGProc process(0, binary);
+	process << "--version";
+	process.start();
+	process.waitForFinished(-1);
+
+	if (process.exitCode() == 255) {
+		return QString();
+	}
+
+	QString line;
+	while (process.readln(line) != -1) {
+		if (line.startsWith("Home: ")) {
+			line.remove(0, 6);
+			return line;
+		}
+	}
+
+	return QString();
+}
+
+QString KgpgInterface::getGpgHome(const QString &binary)
+{
+	// First try: if environment is set GnuPG will use that directory
+	// We can use this directly without starting a new process
+	QByteArray env = qgetenv("GNUPGHOME");
+	QString gpgHome;
+	if (!env.isEmpty()) {
+		gpgHome = env;
+	} else if (!binary.isEmpty()) {
+		// Second try: start GnuPG and ask what it is
+		gpgHome = getGpgProcessHome(binary);
+	}
+
+	// Third try: guess what it is.
+	if (gpgHome.isEmpty()) {
+#ifdef Q_OS_WIN32
+		gpgHome = qgetenv("APPDATA") + "/gnupg/";
+		gpgHome.replace('\\', '/');
+#else
+		gpgHome = QDir::homePath() + "/.gnupg/";
+#endif
+	}
+
+	gpgHome.replace("//", "/");
+
+	if (!gpgHome.endsWith('/'))
+		gpgHome.append('/');
+
+	if (gpgHome.startsWith('~'))
+		gpgHome.replace(0, 1, QDir::homePath());
+
+	KStandardDirs::makeDir(gpgHome, 0700);
+	return gpgHome;
 }
 
 QStringList KgpgInterface::getGpgGroupNames(const QString &configfile)
@@ -784,6 +851,10 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
                 else
                     m_secretkey.setComment(QString());
                 m_secretkey.setName(kname);
+            } else if ((lsp.at(0) == "fpr") && (items >= 10)) {
+                QString fingervalue = lsp.at(9);
+
+                m_secretkey.setFingerprint(fingervalue);
             }
     }
 }

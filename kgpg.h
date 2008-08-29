@@ -25,14 +25,12 @@
 #include <KShortcut>
 #include <KUrl>
 
-#include "ui_kgpgwizard.h"
-
 class QDragEnterEvent;
 class QDropEvent;
 class QMenu;
 
 class KPassivePopup;
-class KgpgWizard;
+class KGpgFirstAssistant;
 class KAboutData;
 class KTemporaryFile;
 class KAction;
@@ -43,15 +41,6 @@ class KeysManager;
 class KgpgLibrary;
 class KGpgItemModel;
 class KgpgInterface;
-
-class KgpgWizard : public Q3Wizard, public Ui::KgpgWizard
-{
-public:
-    KgpgWizard(QWidget *parent = 0) : Q3Wizard(parent)
-    {
-        setupUi(this);
-    }
-};
 
 class KGpgUserActions : public QObject
 {
@@ -108,9 +97,8 @@ private:
 
     QMenu *droppopup;
     QMenu *udroppopup;
-    KAboutData *_aboutData;
     QStringList customDecrypt;
-    KgpgWizard *wiz;
+    KGpgFirstAssistant *m_assistant;
     KPassivePopup *pop;
     KTemporaryFile *kgpgFolderExtract;
     int compressionScheme;
@@ -120,16 +108,15 @@ private:
     KSystemTrayIcon *trayIcon;
     KGpgItemModel *m_model;
 
-    int startWizard();
-    int firstRun();
+    void startAssistant();
+    void firstRun();
 
     KUrl::List m_decryptionFailed;
+    QWidget *m_parentWidget;
 
 private slots:
-    void slotWizardClose();
-    void slotWizardChange();
+    void slotAssistantClose();
     void slotSaveOptionsPath();
-    void slotGenKey();
     void importSignature(const QString &ID);
     void slotSetClip(const QString &newtxt);
     void slotPassiveClip();
@@ -189,7 +176,7 @@ private:
 
 private slots:
     void slotHandleQuit();
-    void wizardOver(const QString &defaultKeyId);
+    void assistantOver(const QString &defaultKeyId);
 };
 
 #endif // KGPGAPPLET_H

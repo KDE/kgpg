@@ -39,8 +39,10 @@ class GPGProc : public KLineBufferedProcess
 public:
     /**
      * Constructor
+     * @param parent parent object
+     * @param binary path to GnuPG binary or QString() if the configured one
      */
-    explicit GPGProc(QObject *parent = 0);
+    explicit GPGProc(QObject *parent = 0, const QString &binary = QString());
 
     /**
      * Destructor
@@ -82,18 +84,19 @@ public:
     int readln(QStringList &l);
 
     /**
-    * Recode a line from GnuPG encoding to UTF8
-    *
-    * @param a data to recode
-    * @param colons recode also colons
-    * @return recoded string
-    */
+     * Recode a line from GnuPG encoding to UTF8
+     *
+     * @param a data to recode
+     * @param colons recode also colons
+     * @return recoded string
+     */
     static QString recode(QByteArray a, const bool colons = true);
 
     /**
-    * Reset the class to the state it had right after creation
-    */
-    void resetProcess();
+     * Reset the class to the state it had right after creation
+     * @param binary path to GnuPG binary or empty string to use the configured one
+     */
+    void resetProcess(const QString &binary = QString());
 
 signals:
     /**
