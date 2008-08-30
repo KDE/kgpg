@@ -37,6 +37,7 @@
 #include "convert.h"
 #include "images.h"
 #include "kgpgchangekey.h"
+#include "kgpgchangepass.h"
 #include "kgpgitemnode.h"
 
 using namespace KgpgCore;
@@ -170,8 +171,11 @@ void KgpgKeyInfo::init()
     setButtons(Ok | Apply | Cancel);
     setDefaultButton(Ok);
     setModal(true);
+    enableButtonApply(false);
 
     m_keywaschanged = false;
+
+    m_changepass = NULL;
 
     QWidget *page = new QWidget(this);
     QWidget *top = new QWidget(page);
@@ -223,6 +227,7 @@ KgpgKeyInfo::~KgpgKeyInfo()
 		keychange->selfdestruct(false);
 	if (!m_node)
 		delete m_key;
+	delete m_changepass;
 }
 
 QGroupBox* KgpgKeyInfo::_keypropertiesGroup(QWidget *parent)
@@ -539,19 +544,23 @@ void KgpgKeyInfo::slotDisableKey(const bool &ison)
 
 void KgpgKeyInfo::slotChangePass()
 {
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(changePassFinished(int, KgpgInterface*)), this, SLOT(slotInfoPasswordChanged(int, KgpgInterface*)));
-    interface->changePass(m_key->fullId());
+	if (m_changepass == NULL) {
+		m_changepass = new KGpgChangePass(this, m_key->fingerprint());
+
+		connect(m_changepass, SIGNAL(done(int)), SLOT(slotInfoPasswordChanged(int)));
+	}
+
+	m_changepass->start();
+	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 }
 
-void KgpgKeyInfo::slotInfoPasswordChanged(const int &res, KgpgInterface *interface)
+void KgpgKeyInfo::slotInfoPasswordChanged(const int &res)
 {
-    interface->deleteLater();
-
     if (res == 2)
         KPassivePopup::message(i18n("Passphrase for the key was changed"), QString(), Images::kgpg(), this);
     else if (res == 1)
         KMessageBox::error(this, i18n("Bad old passphrase, the passphrase for the key was not changed"), i18n("Could not change passphrase"));
+    QApplication::restoreOverrideCursor();
 }
 
 void KgpgKeyInfo::slotChangeTrust(const int &newtrust)

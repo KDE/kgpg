@@ -19,8 +19,10 @@
 
 #include "kgpgkey.h"
 
-class KgpgInterface;
 class KGpgKeyNode;
+class KGpgChangeTrust;
+class KGpgChangeExpire;
+class KGpgChangeDisable;
 
 /**
  * @short A class for changing several properties of a key at once
@@ -163,7 +165,7 @@ private slots:
 	/**
 	 * @internal
 	 */
-	void nextStep(int result, KgpgInterface *);
+	void nextStep(int result);
 
 private:
 	QDate m_expiration;
@@ -171,7 +173,9 @@ private:
 	KgpgCore::KgpgKeyOwnerTrust m_owtrust;
 	KgpgCore::KgpgKey m_key;
 	KGpgKeyNode *m_node;
-	KgpgInterface *iface;
+	KGpgChangeTrust *m_changetrust;
+	KGpgChangeExpire *m_changeexpire;
+	KGpgChangeDisable *m_changedisable;
 	int m_step;
 	int m_failed;
 	bool m_autodestroy;

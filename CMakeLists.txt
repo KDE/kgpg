@@ -2,7 +2,7 @@ project(kgpg)
 
 add_subdirectory( icons )
 add_subdirectory( core )
-include_directories( core editor model )
+include_directories( core editor model transactions )
 
 add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
@@ -26,7 +26,15 @@ set(kgpg_model_SRCS
    model/selectkeyproxymodel.cpp
 )
 
-set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS}
+set(kgpg_transaction_SRCS
+   transactions/kgpgtransaction.cpp
+   transactions/kgpgchangedisable.cpp
+   transactions/kgpgchangeexpire.cpp
+   transactions/kgpgchangepass.cpp
+   transactions/kgpgchangetrust.cpp
+)
+
+set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transaction_SRCS}
    selectpublickeydialog.cpp
    selectsecretkey.cpp
    kgpgoptions.cpp

@@ -13,8 +13,10 @@
 
 #include "kgpgchangekey.h"
 
-#include "kgpginterface.h"
 #include "kgpgitemnode.h"
+#include "kgpgchangetrust.h"
+#include "kgpgchangeexpire.h"
+#include "kgpgchangedisable.h"
 
 KGpgChangeKey::KGpgChangeKey(KGpgKeyNode *node)
 {
@@ -32,7 +34,9 @@ KGpgChangeKey::KGpgChangeKey(KgpgCore::KgpgKey *key)
 
 void KGpgChangeKey::init()
 {
-	iface = NULL;
+	m_changetrust = NULL;
+	m_changeexpire = NULL;
+	m_changedisable = NULL;
 	m_expiration = m_key.expirationDate();
 	m_disable = !m_key.valid();
 	m_owtrust = m_key.ownerTrust();
@@ -42,7 +46,9 @@ void KGpgChangeKey::init()
 
 KGpgChangeKey::~KGpgChangeKey()
 {
-	delete iface;
+	delete m_changetrust;
+	delete m_changeexpire;
+	delete m_changedisable;
 }
 
 void KGpgChangeKey::setExpiration(const QDate &date)
@@ -70,48 +76,53 @@ bool KGpgChangeKey::apply()
 	if (m_step != 0)
 		return false;
 
-	if (iface == NULL) {
-		iface = new KgpgInterface();
-		connect(iface, SIGNAL(changeDisableFinished(int, KgpgInterface *)), SLOT(nextStep(int, KgpgInterface *)));
-		connect(iface, SIGNAL(changeTrustFinished(int, KgpgInterface *)), SLOT(nextStep(int, KgpgInterface *)));
-		connect(iface, SIGNAL(keyExpireFinished(int, KgpgInterface *)), SLOT(nextStep(int, KgpgInterface *)));
-	}
-
 	m_step = 0;
 	m_failed = 0;
 
-	nextStep(0, iface);
+	nextStep(0);
 
 	return true;
 }
 
-void KGpgChangeKey::nextStep(int result, KgpgInterface *)
+void KGpgChangeKey::nextStep(int result)
 {
 	m_step++;
 
 	switch (m_step) {
 	case 1:
 		if (m_expiration != m_key.expirationDate()) {
-			iface->keyExpire(m_key.fullId(), m_expiration);
+			if (m_changeexpire == NULL) {
+				m_changeexpire = new KGpgChangeExpire(this, m_key.fingerprint(), m_expiration);
+
+				connect(m_changeexpire, SIGNAL(done(int)), SLOT(nextStep(int)));
+			} else {
+				m_changeexpire->setDate(m_expiration);
+			}
+			m_changeexpire->start();
 			break;
 		} else {
 			m_step++;
 		}
-		result = 2;
 		// fall through
 	case 2:
-		if (result == 2) {
+		if (result == 0) {
 			m_key.setExpiration(m_expiration);
 		} else {
 			m_failed |= 1;
 		}
 		if (m_owtrust != m_key.ownerTrust()) {
-			iface->changeTrust(m_key.fullId(), m_owtrust);
+			if (m_changetrust == NULL) {
+				m_changetrust = new KGpgChangeTrust(this, m_key.fingerprint(), m_owtrust);
+
+				connect(m_changetrust, SIGNAL(done(int)), SLOT(nextStep(int)));
+			} else {
+				m_changetrust->setTrust(m_owtrust);
+			}
+			m_changetrust->start();
 			break;
 		} else {
 			m_step++;
 		}
-		result = 0;
 		// fall through
 	case 3:
 		if (result == 0) {
@@ -120,7 +131,14 @@ void KGpgChangeKey::nextStep(int result, KgpgInterface *)
 			m_failed |= 2;
 		}
 		if (m_key.valid() == m_disable) {
-			iface->changeDisable(m_key.fullId(), m_disable);
+			if (m_changedisable == NULL) {
+				m_changedisable = new KGpgChangeDisable(this, m_key.fingerprint(), m_disable);
+
+				connect(m_changedisable, SIGNAL(done(int)), SLOT(nextStep(int)));
+			} else {
+				m_changedisable->setDisable(m_disable);
+			}
+			m_changedisable->start();
 			break;
 		} else {
 			m_step++;

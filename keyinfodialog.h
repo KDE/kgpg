@@ -36,6 +36,8 @@ class KComboBox;
 
 class KgpgInterface;
 class KGpgKeyNode;
+class KGpgChangeKey;
+class KGpgChangePass;
 
 class KgpgTrustLabel : public QWidget
 {
@@ -78,7 +80,6 @@ private:
     KDatePicker *m_datepicker;
 };
 
-class KGpgChangeKey;
 
 class KgpgKeyInfo : public KDialog
 {
@@ -114,7 +115,7 @@ private slots:
     void slotDisableKey(const bool &ison);
 
     void slotChangePass();
-    void slotInfoPasswordChanged(const int &res, KgpgInterface *interface);
+    void slotInfoPasswordChanged(const int &res);
 
     void slotChangeTrust(const int &newtrust);
 
@@ -127,6 +128,7 @@ private slots:
 private:
 	const KgpgCore::KgpgKey *m_key;
 	KGpgKeyNode *m_node;
+	KGpgChangePass *m_changepass;
 
     QCheckBox *m_disable;
     QLabel *m_name;
