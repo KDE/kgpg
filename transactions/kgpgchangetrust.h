@@ -29,7 +29,7 @@ public:
 	void setTrust(const KgpgCore::KgpgKeyOwnerTrust &trust);
 
 protected:
-	virtual void nextLine(const QString &line);
+	virtual bool nextLine(const QString &line);
 
 private:
 	KgpgCore::KgpgKeyOwnerTrust m_trust;

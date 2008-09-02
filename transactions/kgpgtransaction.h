@@ -77,10 +77,13 @@ protected:
 	/**
 	 * \brief Called for every line the gpg process writes.
 	 * @param line the input from the process
+	 * @return true if "quit" should be sent to process
 	 *
 	 * You need to implement this member to get a usable subclass.
+	 *
+	 * When this function returns true "quit" is written to the process.
 	 */
-	virtual void nextLine(const QString &line) = 0;
+	virtual bool nextLine(const QString &line) = 0;
 	/**
 	 * \brief Called when the gpg process finishes.
 	 *
@@ -168,6 +171,17 @@ protected:
 	 * call this function from nextLine().
 	 */
 	void write(const QByteArray &a);
+	/**
+	 * \brief ask user for password
+	 * @param message message to display to the user. If message is empty
+	 * "Enter password for [UID]" will be used.
+	 * @return true if the authorization was successful
+	 *
+	 * This function handles user authorization for key changes. It will
+	 * take care to display the message asking the user for the password
+	 * and the number of tries left.
+	 */
+	 bool askPassphrase(const QString &message = QString());
 };
 
 #endif // KGPGTRANSACTION_H

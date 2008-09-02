@@ -26,11 +26,8 @@ public:
 	virtual ~KGpgChangePass();
 
 protected:
-	virtual void nextLine(const QString &line);
+	virtual bool nextLine(const QString &line);
 	virtual void preStart();
-
-private:
-	int m_tries;
 };
 
 #endif // KGPGCHANGEPASS_H

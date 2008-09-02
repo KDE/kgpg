@@ -47,17 +47,15 @@ KGpgChangeExpire::preStart()
  * 2 = Unknown error
  * 3 = Aborted
  */
-void
+bool
 KGpgChangeExpire::nextLine(const QString &line)
 {
 	if (!line.startsWith("[GNUPG:]"))
-		return;
+		return false;
 
 	if (getSuccess() == 3) {
 		if (line.contains("GET_" ))
-			write("quit");
-	} else if (line.contains("USERID_HINT")) {
-		addIdHint(line);
+			return true;
 	} else if (line.contains("GOOD_PASSPHRASE")) {
 		setSuccess(0);
 	} else if (line.contains("keygen.valid")) {
@@ -73,8 +71,7 @@ KGpgChangeExpire::nextLine(const QString &line)
 
 		if (sendPassphrase(passdlgmessage)) {
 			setSuccess(3);	// aborted by user mode
-			write("quit");
-			return;
+			return true;
 		}
 		--m_step;
 	} else if ((getSuccess() == 0) && line.contains("keyedit.prompt")) {
@@ -83,13 +80,15 @@ KGpgChangeExpire::nextLine(const QString &line)
 		write("YES");
 	} else if (line.contains("BAD_PASSPHRASE")) {
 		setSuccess(1);	// bad passphrase
-		write("quit");
+		return true;
 	} else if (line.contains("GET_")) {
 		// gpg asks for something unusal, turn to konsole mode
 		if (getSuccess() != 1)
 			setSuccess(4);	// switching to console mode
-		write("quit");
+		return true;
 	}
+
+	return false;
 }
 
 void

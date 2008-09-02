@@ -29,7 +29,7 @@ KGpgChangeTrust::~KGpgChangeTrust()
 {
 }
 
-void
+bool
 KGpgChangeTrust::nextLine(const QString &line)
 {
 	if (line.contains("edit_ownertrust.set_ultimate.okay")) {
@@ -40,9 +40,11 @@ KGpgChangeTrust::nextLine(const QString &line)
 		write("save");
 	} else if (line.contains("GET_")) {
 		// gpg asks for something unusal
-		write("quit");
 		setSuccess(1);
+		return true;
 	}
+
+	return false;
 }
 
 void

@@ -30,7 +30,7 @@ public:
 
 protected:
 	virtual void preStart();
-	virtual void nextLine(const QString &line);
+	virtual bool nextLine(const QString &line);
 	virtual void finish();
 
 private:

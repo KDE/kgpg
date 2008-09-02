@@ -28,7 +28,7 @@ public:
 	void setDisable(const bool &disable);
 
 protected:
-	virtual void nextLine(const QString &line);
+	virtual bool nextLine(const QString &line);
 
 private:
 	bool m_disable;

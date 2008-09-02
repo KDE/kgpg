@@ -27,6 +27,7 @@ public:
 	KGpgTransaction *m_parent;
 	GPGProc *m_process;
 	int m_success;
+	int m_tries;
 
 	QStringList m_idhints;
 
@@ -60,8 +61,13 @@ KGpgTransactionPrivate::slotReadReady(GPGProc *gpgProcess)
 {
 	QString line;
 
-	while (gpgProcess->readln(line, true) >= 0)
-		m_parent->nextLine(line);
+	while (gpgProcess->readln(line, true) >= 0) {
+		if (line.startsWith("[GNUPG:] USERID_HINT ")) {
+			m_parent->addIdHint(line);
+		} else if (m_parent->nextLine(line)) {
+			m_process->write("quit\n");
+		}
+	}
 }
 
 void
@@ -78,6 +84,7 @@ KGpgTransaction::start()
 {
 	setSuccess(0);
 	d->m_idhints.clear();
+	d->m_tries = 3;
 	preStart();
 	d->m_process->start();
 }
@@ -147,6 +154,29 @@ void
 KGpgTransaction::addArgument(const QString &arg)
 {
 	*d->m_process << arg;
+}
+
+bool
+KGpgTransaction::askPassphrase(const QString &message)
+{
+	QString passdlgmessage;
+	QString userIDs(getIdHints());
+	if (userIDs.isEmpty())
+		userIDs = i18n("[No user id found]");
+	else
+		userIDs.replace('<', "&lt;");
+
+	if (d->m_tries < 3)
+		passdlgmessage = i18np("<p><b>Bad passphrase</b>. You have 1 try left.</p>", "<p><b>Bad passphrase</b>. You have %1 tries left.</p>", d->m_tries);
+	if (message.isEmpty()) {
+		passdlgmessage += i18n("Enter passphrase for <b>%1</b>", userIDs);
+	} else {
+		passdlgmessage += message;
+	}
+
+	--d->m_tries;
+
+	return sendPassphrase(passdlgmessage, false);
 }
 
 #include "kgpgtransaction.moc"

@@ -26,10 +26,12 @@ KGpgChangeDisable::~KGpgChangeDisable()
 {
 }
 
-void
+bool
 KGpgChangeDisable::nextLine(const QString &line)
 {
 	Q_UNUSED(line)
+
+	return false;
 }
 
 void
