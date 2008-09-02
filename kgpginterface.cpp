@@ -1284,7 +1284,11 @@ void KgpgInterface::changeDisableFin(int res)
 
 QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool &block)
 {
-	QString pgpgoutput = "cat %i";
+#if Q_OS_WIN32
+	QString pgpgoutput("cmd /C \"echo %I\"");
+#else
+	QString pgpgoutput("echo %I");
+#endif
 
 	m_workProcess = new KProcess(this);
 	m_workProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
@@ -1308,7 +1312,15 @@ void KgpgInterface::loadPhotoFin(int exitCode)
 
 	if (exitCode == 0) {
 		QByteArray pic = m_workProcess->readAllStandardOutput();
-		m_pixmap.loadFromData(pic);
+
+		while (pic.endsWith('\r') || pic.endsWith('\n'))
+			pic.remove(pic.length() - 1, 1);
+
+		KUrl url(pic);
+		m_pixmap.load(url.path());
+		QFile::remove(url.path());
+		QDir dir;
+		dir.rmdir(url.directory());
 	}
 
 	emit loadPhotoFinished(m_pixmap, this);
