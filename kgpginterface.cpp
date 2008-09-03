@@ -19,6 +19,7 @@
 
 #include <QTextStream>
 #include <QFile>
+#include <QDir>
 
 #include <kio/netaccess.h>
 #include <KMessageBox>
