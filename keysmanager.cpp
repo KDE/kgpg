@@ -89,6 +89,8 @@
 #include "keytreeview.h"
 #include "groupedit.h"
 #include "kgpgchangekey.h"
+#include "kgpgdeluid.h"
+#include "kgpgaddphoto.h"
 
 using namespace KgpgCore;
 
@@ -786,15 +788,18 @@ void KeysManager::slotDelUid()
     KGpgNode *nd = iview->selectedNode();
     Q_ASSERT(nd->getType() == ITYPE_UID);
 
-    QProcess *process = new QProcess(this);
-    KConfigGroup config(KGlobal::config(), "General");
-    QString terminalApp = config.readPathEntry("TerminalApplication", "konsole");
-    QStringList args;
-    args << "-e" << KGpgSettings::gpgBinaryPath();
-    args << "--edit-key" << nd->getParentKeyNode()->getId() << "uid" << nd->getId() << "deluid";
-    process->start(terminalApp, args);
-    process->waitForFinished();
-    imodel->refreshKey(static_cast<KGpgKeyNode *>(nd->getParentKeyNode()));
+	m_deluid = new KGpgDelUid(this, nd->getParentKeyNode()->getId(), nd->getId());
+
+	connect(m_deluid, SIGNAL(done(int)), SLOT(slotDelUidDone(int)));
+	m_deluid->start();
+}
+
+void KeysManager::slotDelUidDone(int result)
+{
+	m_deluid->deleteLater();
+	m_deluid = NULL;
+	// FIXME: do something useful with result
+	Q_UNUSED(result)
 }
 
 void KeysManager::slotPrimUid()
@@ -886,9 +891,31 @@ void KeysManager::slotAddUidEnable(const QString & name)
 
 void KeysManager::slotAddPhoto()
 {
-    KgpgLibrary *lib = new KgpgLibrary();
-    connect (lib, SIGNAL(photoAdded()), this, SLOT(slotUpdatePhoto()));
-    lib->addPhoto(iview->selectedNode()->getId());
+	QString mess = i18n("The image must be a JPEG file. Remember that the image is stored within your public key. "
+	"If you use a very large picture, your key will become very large as well! Keeping the image "
+	"close to 240x288 is a good size to use.");
+
+	if (KMessageBox::warningContinueCancel(0, mess) != KMessageBox::Continue)
+		return;
+
+	QString imagepath = KFileDialog::getOpenFileName(KUrl(), "image/jpeg", 0);
+	if (imagepath.isEmpty())
+		return;
+
+kDebug(3125) << imagepath;
+	m_addphoto = new KGpgAddPhoto(this, iview->selectedNode()->getId(), imagepath);
+	connect(m_addphoto, SIGNAL(done(int)), SLOT(slotAddPhotoFinished(int)));
+	m_addphoto->start();
+}
+
+void KeysManager::slotAddPhotoFinished(int res)
+{
+	m_addphoto->deleteLater();
+
+	// TODO : add res == 3 (bad passphrase)
+
+	if (res == 0)
+		slotUpdatePhoto();
 }
 
 void KeysManager::slotDeletePhoto()
@@ -901,25 +928,20 @@ void KeysManager::slotDeletePhoto()
     QString mess = i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 &lt;%3&gt;</b>?</qt>",
                         und->getId(), parent->getName(), parent->getEmail());
 
-    /*
-    if (KMessageBox::warningContinueCancel(this, mess, QString(), KGuiItem(i18n("Delete"), "edit-delete")) != KMessageBox::Continue)
-        return;
-    */
+	m_deluid = new KGpgDelUid(this, parent->getId(), und->getId());
+	connect(m_deluid, SIGNAL(done(int)), SLOT(slotDelPhotoFinished(int)));
 
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(deletePhotoFinished(int, KgpgInterface*)), this, SLOT(slotDelPhotoFinished(int, KgpgInterface*)));
-    interface->deletePhoto(parent->getId(), und->getId());
+	m_deluid->start();
 }
 
-void KeysManager::slotDelPhotoFinished(int res, KgpgInterface *interface)
+void KeysManager::slotDelPhotoFinished(int res)
 {
-    interface->deleteLater();
+	m_deluid->deleteLater();
 
-    // TODO : add res == 3 (bad passphrase)
+	// TODO : add res == 3 (bad passphrase)
 
-    if (res == 2)
-        slotUpdatePhoto();
-
+	if (res == 0)
+		slotUpdatePhoto();
 }
 
 void KeysManager::slotUpdatePhoto()

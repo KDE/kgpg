@@ -219,32 +219,4 @@ void KgpgLibrary::processPopup2(const QString &fileName)
     m_pop->move(iXpos,iYpos);*/
 }
 
-void KgpgLibrary::addPhoto(const QString &keyid)
-{
-    QString mess = i18n("The image must be a JPEG file. Remember that the image is stored within your public key."
-                        "If you use a very large picture, your key will become very large as well! Keeping the image "
-                        "close to 240x288 is a good size to use.");
-
-    if (KMessageBox::warningContinueCancel(0, mess) != KMessageBox::Continue)
-        return;
-
-    QString imagepath = KFileDialog::getOpenFileName(KUrl(), "image/jpeg", 0);
-    if (imagepath.isEmpty())
-        return;
-
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(addPhotoFinished(int, KgpgInterface*)), this, SLOT(slotAddPhotoFinished(int, KgpgInterface*)));
-    interface->addPhoto(keyid, imagepath);
-}
-
-void KgpgLibrary::slotAddPhotoFinished(int res, KgpgInterface *interface)
-{
-    interface->deleteLater();
-
-    // TODO : add res == 3 (bad passphrase)
-
-    if (res == 2)
-        emit photoAdded();
-}
-
 #include "kgpglibrary.moc"

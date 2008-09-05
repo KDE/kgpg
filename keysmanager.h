@@ -45,6 +45,8 @@ class KgpgEditor;
 class KeyServer;
 class KeyListProxyModel;
 class KeyTreeView;
+class KGpgDelUid;
+class KGpgAddPhoto;
 
 class AddUid : public QWidget, public Ui::AddUid
 {
@@ -116,19 +118,21 @@ private slots:
     void slotShowExpiration();
 
     void slotAddUidFin(int res, KgpgInterface *interface);
-    void slotDelPhotoFinished(int res, KgpgInterface *interface);
+    void slotDelPhotoFinished(int res);
     void quitApp();
     void slotToggleSecret(bool);
     void slotShowLongId(bool);
     void slotSetTrustFilter(int);
     void slotGotoDefaultKey();
     void slotDelUid();
+    void slotDelUidDone(int);
     void slotPrimUid();
     void slotAddUid();
     void slotAddUidEnable(const QString &name);
     void slotUpdatePhoto();
     void slotDeletePhoto();
     void slotAddPhoto();
+    void slotAddPhotoFinished(int res);
     void slotSetPhotoSize(int size);
     void slotShowPhoto();
     void slotrevoke(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description);
@@ -184,6 +188,9 @@ private:
     KGpgItemModel *imodel;
     KeyListProxyModel *iproxy;
     KeyTreeView *iview;
+
+    KGpgDelUid *m_deluid;
+    KGpgAddPhoto *m_addphoto;
 
     QString globalkeyID;
     QString searchString;

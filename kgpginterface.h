@@ -227,46 +227,6 @@ private:
 /*******************************************************/
 
 
-/************** add a photo in a key **************/
-signals:
-    /**
-     * 0 = Unknown error
-     * 1 = Bad passphrase
-     * 2 = Photo added successfully
-     * 3 = Aborted
-     */
-    void addPhotoFinished(int, KgpgInterface*);
-
-public slots:
-    void addPhoto(const QString &keyid, const QString &imagepath);
-
-private slots:
-    void addPhotoProcess(GPGProc *p);
-    void addPhotoFin(GPGProc *p);
-
-/**************************************************/
-
-
-/************** delete a photo of a key **************/
-signals:
-    /**
-     * 0 = Unknown error
-     * 1 = Bad passphrase
-     * 2 = Photo deleted
-     * 3 = Aborted
-     */
-    void deletePhotoFinished(int, KgpgInterface*);
-
-public slots:
-    void deletePhoto(const QString &keyid, const QString &uid);
-
-private slots:
-    void deletePhotoProcess(GPGProc *p);
-    void deletePhotoFin(GPGProc *p);
-
-/*****************************************************/
-
-
 /************** import a key **************/
 signals:
     void importKeyFinished(KgpgInterface *, QStringList);

@@ -28,10 +28,13 @@ set(kgpg_model_SRCS
 
 set(kgpg_transaction_SRCS
    transactions/kgpgtransaction.cpp
+   transactions/kgpguidtransaction.cpp   
    transactions/kgpgchangedisable.cpp
    transactions/kgpgchangeexpire.cpp
    transactions/kgpgchangepass.cpp
    transactions/kgpgchangetrust.cpp
+   transactions/kgpgdeluid.cpp
+   transactions/kgpgaddphoto.cpp
 )
 
 set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transaction_SRCS}

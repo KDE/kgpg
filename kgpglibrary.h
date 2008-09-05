@@ -57,8 +57,6 @@ public slots:
     void slotFileEnc(const KUrl::List &urls, const QStringList &opts, KGpgItemModel *model, const KShortcut &goDefaultKey, const QString &defaultKey = QString());
     void slotFileDec(const KUrl &srcUrl, const KUrl &destUrl, const QStringList &customDecryptOption = QStringList());
 
-    void addPhoto(const QString &keyid);
-
 private slots:
     void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
     void fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
@@ -68,7 +66,6 @@ private slots:
     void processEncPopup(const KUrl &url);
     void processPopup2(const QString &fileName);
 
-    void slotAddPhotoFinished(int res, KgpgInterface *interface);
     void slotImportOver(KgpgInterface *iface, const QStringList &keys);
 
 private:
