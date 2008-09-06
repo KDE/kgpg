@@ -83,11 +83,6 @@
 </State>
 
 <State name="single_selected">
-    <disable>
-        <Action name="edit_group"/>
-        <Action name="delete_group"/>
-    </disable>
-
     <enable>
         <Action name="key_server_refresh"/>
         <Action name="add_kab"/>
@@ -99,9 +94,22 @@
         <Action name="key_importallsign"/>
         <Action name="create_group"/>
     </enable>
+
+    <disable>
+        <Action name="edit_group"/>
+        <Action name="delete_group"/>
+    </disable>
 </State>
 
 <State name="multi_selected">
+    <enable>
+        <Action name="key_server_refresh"/>
+        <Action name="key_sign"/>
+        <Action name="key_export"/>
+        <Action name="key_importallsign"/>
+        <Action name="create_group"/>
+    </enable>
+
     <disable>
         <Action name="add_kab"/>
         <Action name="edit_group"/>
@@ -110,14 +118,6 @@
         <Action name="key_edit"/>
         <Action name="key_info"/>
     </disable>
-
-    <enable>
-        <Action name="key_server_refresh"/>
-        <Action name="key_sign"/>
-        <Action name="key_export"/>
-        <Action name="key_importallsign"/>
-        <Action name="create_group"/>
-    </enable>
 </State>
 
 <State name="empty_list">
