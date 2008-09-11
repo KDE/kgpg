@@ -6,6 +6,7 @@ Actions=decrypt-view;
 
 [Desktop Action decrypt-view]
 Name=View file decrypted
+Name[el]=Προβολή αποκρυπτογραφημένου αρχείου
 Name[es]=Ver archivo descifrado
 Name[et]=Vaata faili lahtikrüptitult
 Name[gl]=Ver o ficheiro decifrado
