@@ -17,6 +17,7 @@ Name[pt_BR]=Exibir o arquivo descriptografado
 Name[sv]=Visa filen avkodad
 Name[tr]=Dosyayı şifrelemesi açılmış olarak göster
 Name[uk]=Перегляньте розшифрований файл
+Name[zh_CN]=查看解密文件
 Name[zh_TW]=檢視解密後檔案
 Icon=kgpg
 Exec=kgpg -s %F
