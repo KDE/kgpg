@@ -11,31 +11,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KGPGCHANGEEXPIRE_H
-#define KGPGCHANGEEXPIRE_H
+#ifndef KGPGDELKEY_H
+#define KGPGDELKEY_H
 
 #include <QObject>
-#include <QDate>
 
 #include "kgpgtransaction.h"
 
-class KGpgChangeExpire: public KGpgTransaction {
+class QString;
+class QStringList;
+
+/**
+ * \brief delete a public key
+ */
+class KGpgDelKey: public KGpgTransaction {
 	Q_OBJECT
 
 public:
-	KGpgChangeExpire(QObject *parent, const QString &keyid, const QDate &date);
-	virtual ~KGpgChangeExpire();
+	KGpgDelKey(QObject *parent, const QString &keyid);
+	KGpgDelKey(QObject *parent, const QStringList &keyids);
+	virtual ~KGpgDelKey();
 
-	void setDate(const QDate &date);
+	void setDelKey(const QString &keyid);
+	void setDelKeys(const QStringList &keyids);
 
 protected:
-	virtual bool preStart();
 	virtual bool nextLine(const QString &line);
+	virtual bool preStart();
 	virtual void finish();
-
+	
 private:
-	QDate m_date;
-	int m_step;
+	QStringList m_keyids;
+	int m_argscount;
+
+	void setCmdLine();
 };
 
-#endif // KGPGCHANGEEXPIRE_H
+#endif // KGPGDELKEY_H

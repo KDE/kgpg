@@ -38,14 +38,13 @@ KGpgAddPhoto::nextLine(const QString &line)
 	if (!line.startsWith("[GNUPG:] "))
 		return false;
 
-	if (line.contains("BAD_PASSPHRASE")) {
-		setSuccess(1);
-	} else if (line.contains("GOOD_PASSPHRASE")) {
+	if (line.contains("GOOD_PASSPHRASE")) {
 		setSuccess(2);
 	} else if (line.contains("passphrase.enter")) {
 		if (askPassphrase())
 			setSuccess(3);
 	} else if (line.contains("keyedit.prompt")) {
+		setSuccess(0);
 		write("save");
 	} else if (line.endsWith("photoid.jpeg.add")) {
 		write(m_photourl.toAscii());

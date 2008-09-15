@@ -27,7 +27,7 @@ public:
 
 protected:
 	virtual bool nextLine(const QString &line);
-	virtual void preStart();
+	virtual bool preStart();
 };
 
 #endif // KGPGCHANGEPASS_H

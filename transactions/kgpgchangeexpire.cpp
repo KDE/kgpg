@@ -34,11 +34,13 @@ KGpgChangeExpire::~KGpgChangeExpire()
 {
 }
 
-void
+bool
 KGpgChangeExpire::preStart()
 {
 	m_step = 3;
 	setSuccess(2);
+
+	return true;
 }
 
 /**
@@ -78,9 +80,6 @@ KGpgChangeExpire::nextLine(const QString &line)
 		write("save");
 	} else if ((getSuccess() == 0) && line.contains("keyedit.save.okay")) {
 		write("YES");
-	} else if (line.contains("BAD_PASSPHRASE")) {
-		setSuccess(1);	// bad passphrase
-		return true;
 	} else if (line.contains("GET_")) {
 		// gpg asks for something unusal, turn to konsole mode
 		if (getSuccess() != 1)

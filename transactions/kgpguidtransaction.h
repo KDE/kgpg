@@ -29,7 +29,7 @@ public:
 	void setUid(const QString &uid);
 
 protected:
-	virtual void preStart();
+	virtual bool preStart();
 
 	bool standardCommands(const QString &line);
 

@@ -47,6 +47,9 @@ class KeyListProxyModel;
 class KeyTreeView;
 class KGpgDelUid;
 class KGpgAddPhoto;
+class KGpgAddUid;
+class KGpgGenerateKey;
+class KGpgDelKey;
 
 class AddUid : public QWidget, public Ui::AddUid
 {
@@ -109,15 +112,15 @@ private slots:
     void statusBarTimeout();
     void changeMessage(const QString &msg, const int nb, const bool keep = false);
 
-    void slotGenerateKeyProcess(KgpgInterface *);
-    void slotGenerateKeyDone(int res, KgpgInterface *interface, const QString &name, const QString &email, const QString &fingerprint);
+    void slotGenerateKeyProcess();
+    void slotGenerateKeyDone(int res);
 
     void slotShowTrust();
     void slotShowSize();
     void slotShowCreation();
     void slotShowExpiration();
 
-    void slotAddUidFin(int res, KgpgInterface *interface);
+    void slotAddUidFin(int res);
     void slotDelPhotoFinished(int res);
     void quitApp();
     void slotToggleSecret(bool);
@@ -183,6 +186,7 @@ private slots:
     void slotEditDone(int exitcode);
     void importRemoteFinished(QList<int>, QStringList, bool, QString, KgpgInterface *iface);
     void slotRefreshKeys(KgpgInterface *iface, const QStringList &keys);
+    void slotDelKeyDone(int ret);
 
 private:
     KGpgItemModel *imodel;
@@ -191,6 +195,9 @@ private:
 
     KGpgDelUid *m_deluid;
     KGpgAddPhoto *m_addphoto;
+    KGpgAddUid *m_adduid;
+    KGpgGenerateKey *m_genkey;
+    KGpgDelKey *m_delkey;
 
     QString globalkeyID;
     QString searchString;
@@ -246,6 +253,7 @@ private:
 
     KGpgKeyNode *terminalkey; // the key currently edited in a terminal
     KGpgKeyNode *delkey;	// key currently deleted
+    KGpgKeyNodeList m_delkeys;
 };
 
 #endif // KEYSMANAGER_H

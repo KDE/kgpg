@@ -11,48 +11,43 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kgpguidtransaction.h"
+#include "kgpgadduid.h"
 
-#include "gpgproc.h"
+#include "kpimutils/email.h"
 
-KGpgUidTransaction::KGpgUidTransaction(QObject *parent, const QString &keyid, const QString &uid)
+KGpgAddUid::KGpgAddUid(QObject *parent, const QString &keyid, const QString &name, const QString &email, const QString &comment)
 	: KGpgTransaction(parent)
 {
 	addArgument("--status-fd=1");
 	addArgument("--command-fd=0");
 	addArgument("--edit-key");
 	addArgument(keyid);
-	addArgument("uid");
-	addArgument("-1");
+	addArgument("adduid");
 
-	GPGProc *proc = getProcess();
+	m_keyid = keyid;
 
-	QStringList args = proc->program();
-	m_uidpos = args.count() - 1;
-
-	setUid(uid);
+	setName(name);
+	setEmail(email);
+	setComment(comment);
 }
 
-KGpgUidTransaction::~KGpgUidTransaction()
+KGpgAddUid::~KGpgAddUid()
 {
 }
 
 bool
-KGpgUidTransaction::preStart()
+KGpgAddUid::preStart()
 {
-	setSuccess(2);
+	if (!m_email.isEmpty() && !KPIMUtils::isValidSimpleAddress(m_email)) {
+		setSuccess(4);
+		return false;
+	}
 
 	return true;
 }
 
-/**
- * 0 = success
- * 1 = Bad Passphrase
- * 2 = Unknown error
- * 3 = Aborted
- */
 bool
-KGpgUidTransaction::standardCommands(const QString &line)
+KGpgAddUid::nextLine(const QString &line)
 {
 	if (!line.startsWith("[GNUPG:] "))
 		return false;
@@ -63,7 +58,14 @@ KGpgUidTransaction::standardCommands(const QString &line)
 		if (askPassphrase())
 			setSuccess(3);
 	} else if (line.contains("keyedit.prompt")) {
+		setSuccess(0);
 		write("save");
+	} else if (line.contains("keygen.name")) {
+		write(m_name.toAscii());
+	} else if (line.contains("keygen.email")) {
+		write(m_email.toAscii());
+	} else if (line.contains("keygen.comment")) {
+		write(m_comment.toAscii());
 	} else if (line.contains("GET_")) {
 		// gpg asks for something unusal, turn to konsole mode
 		return true;
@@ -73,16 +75,25 @@ KGpgUidTransaction::standardCommands(const QString &line)
 }
 
 void
-KGpgUidTransaction::setUid(const QString &uid)
+KGpgAddUid::setName(const QString &name)
 {
-	m_uid = uid;
+	m_name = name;
+}
 
-	GPGProc *proc = getProcess();
+void
+KGpgAddUid::setEmail(const QString &email)
+{
+	m_email = email;
+}
 
-	QStringList args = proc->program();
-	proc->clearProgram();
+void
+KGpgAddUid::setComment(const QString &comment)
+{
+	m_comment = comment;
+}
 
-	args.replace(m_uidpos, uid);
-
-	proc->setProgram(args);
+QString
+KGpgAddUid::getKeyid() const
+{
+	return m_keyid;
 }

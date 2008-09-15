@@ -60,20 +60,30 @@ public:
 
 Q_SIGNALS:
 	/**
-	 * \brief Emitted when the operation was completed. On success result is 0.
+	 * \brief Emitted when the operation was completed.
+	 * On success result is 0. A result of 1 means the operation was
+	 * aborted because a bad password was entered. Other return values
+	 * depend on the transaction.
 	 */
 	void done(int result);
 
 protected:
 	/**
 	 * \brief Called before the gpg process is started.
+	 * @return true if the process should be started
 	 *
 	 * You may reimplement this member if you need to do some special
 	 * operations or cleanups before the process is started. Keep in mind
 	 * that start() may be called several times. If you have some internal
 	 * state you probably want to reset it here.
+	 *
+	 * When you notice that some values passed are invalid or the
+	 * transaction does not need to be run for some other reason you should
+	 * call setSuccess() to set the return value and return false. In this
+	 * case the process is not started but the value is immediately
+	 * returned.
 	 */
-	virtual void preStart();
+	virtual bool preStart();
 	/**
 	 * \brief Called for every line the gpg process writes.
 	 * @param line the input from the process

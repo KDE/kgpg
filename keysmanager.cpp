@@ -91,6 +91,9 @@
 #include "kgpgchangekey.h"
 #include "kgpgdeluid.h"
 #include "kgpgaddphoto.h"
+#include "kgpgadduid.h"
+#include "kgpggeneratekey.h"
+#include "kgpgdelkey.h"
 
 using namespace KgpgCore;
 
@@ -466,6 +469,11 @@ KeysManager::KeysManager(QWidget *parent)
     s_kgpgEditor = new KgpgEditor(parent, imodel, Qt::Dialog, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut(), true);
     connect(s_kgpgEditor, SIGNAL(refreshImported(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
     connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
+
+    pop = NULL;
+    m_genkey = NULL;
+    m_adduid = NULL;
+    m_delkey = NULL;
 }
 
 KeysManager::~KeysManager()
@@ -476,15 +484,20 @@ KeysManager::~KeysManager()
 
 void KeysManager::slotGenerateKey()
 {
+	if (m_genkey) {
+		KMessageBox::error(this, i18n("Another key generation operation is still in progress.\nPlease wait a moment until this operation is complete."), i18n("Generating new key pair"));
+		return;
+	}
+
     KgpgKeyGenerate *kg = new KgpgKeyGenerate(this);
     if (kg->exec() == QDialog::Accepted)
     {
         if (!kg->isExpertMode())
         {
-            KgpgInterface *interface = new KgpgInterface();
-            connect(interface, SIGNAL(generateKeyStarted(KgpgInterface*)), this, SLOT(slotGenerateKeyProcess(KgpgInterface*)));
-            connect(interface, SIGNAL(generateKeyFinished(int, KgpgInterface*, QString, QString, QString)), this, SLOT(slotGenerateKeyDone(int, KgpgInterface*, QString, QString, QString)));
-            interface->generateKey(kg->name(), kg->email(), kg->comment(), kg->algo(), kg->size(), kg->expiration(), kg->days());
+		m_genkey = new KGpgGenerateKey(this, kg->name(), kg->email(), kg->comment(), kg->algo(), kg->size(), kg->expiration(), kg->days());
+		connect(m_genkey, SIGNAL(generateKeyStarted()), SLOT(slotGenerateKeyProcess()));
+		connect(m_genkey, SIGNAL(done(int)), SLOT(slotGenerateKeyDone(int)));
+		m_genkey->start();
         }
         else
         {
@@ -542,7 +555,7 @@ void KeysManager::changeMessage(const QString &msg, const int nb, const bool kee
     }
 }
 
-void KeysManager::slotGenerateKeyProcess(KgpgInterface *)
+void KeysManager::slotGenerateKeyProcess()
 {
     pop = new KPassivePopup(this);
     pop->setTimeout(0);
@@ -569,9 +582,8 @@ void KeysManager::slotGenerateKeyProcess(KgpgInterface *)
     changeMessage(i18n("Generating New Key..."), 0, true);
 }
 
-void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const QString &name, const QString &email, const QString &fingerprint)
+void KeysManager::slotGenerateKeyDone(int res)
 {
-    interface->deleteLater();
     changeMessage(i18nc("Application ready for user input", "Ready"), 0);
 
     delete pop;
@@ -605,7 +617,7 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
         KMessageBox::error(this, infotext, infomessage);
     }
     else
-    if (res != 2)
+    if (res != 0)
     {
         QString infomessage = i18n("Generating new key pair");
         QString infotext = i18n("gpg process did not finish. Cannot generate a new key pair.");
@@ -622,7 +634,9 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
         keyCreated->setModal(true);
 
         newKey *page = new newKey(keyCreated);
-        page->TLname->setText("<b>" + name + "</b>");
+        page->TLname->setText("<b>" + m_genkey->getName() + "</b>");
+
+        QString email(m_genkey->getEmail());
         page->TLemail->setText("<b>" + email + "</b>");
 
 	QString revurl;
@@ -637,6 +651,7 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
         else
             page->kURLRequester1->setUrl(revurl + email.section(" ", 0, 0) + ".revoke");
 
+        QString fingerprint(m_genkey->getFingerprint());
         page->TLid->setText("<b>" + fingerprint.right(8) + "</b>");
         page->LEfinger->setText(fingerprint);
         page->CBdefault->setChecked(true);
@@ -664,6 +679,8 @@ void KeysManager::slotGenerateKeyDone(int res, KgpgInterface *interface, const Q
             connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
         }
     }
+    m_genkey->deleteLater();
+    m_genkey = NULL;
 }
 
 void KeysManager::slotShowTrust()
@@ -854,13 +871,18 @@ void KeysManager::slotregenerate()
 
 void KeysManager::slotAddUid()
 {
+	if (m_adduid) {
+		KMessageBox::error(this, i18n("Another operation is still in progress.\nPlease wait a moment until this operation is complete."), i18n("Add New User Id"));
+		return;
+	}
+
     addUidWidget = new KDialog(this );
     addUidWidget->setCaption( i18n("Add New User Id") );
     addUidWidget->setButtons(  KDialog::Ok | KDialog::Cancel );
     addUidWidget->setDefaultButton(  KDialog::Ok );
     addUidWidget->setModal( true );
     addUidWidget->enableButtonOk(false);
-    AddUid *keyUid = new AddUid(0);
+    AddUid *keyUid = new AddUid(addUidWidget);
     addUidWidget->setMainWidget(keyUid);
     //keyUid->setMinimumSize(keyUid->sizeHint());
     keyUid->setMinimumWidth(300);
@@ -869,19 +891,18 @@ void KeysManager::slotAddUid()
     if (addUidWidget->exec() != QDialog::Accepted)
         return;
 
-    KgpgInterface *addUidProcess = new KgpgInterface();
-    connect(addUidProcess,SIGNAL(addUidFinished(int, KgpgInterface*)), this ,SLOT(slotAddUidFin(int, KgpgInterface*)));
-    addUidProcess->addUid(iview->selectedNode()->getId(), keyUid->kLineEdit1->text(), keyUid->kLineEdit2->text(), keyUid->kLineEdit3->text());
+    m_adduid = new KGpgAddUid(this, iview->selectedNode()->getId(), keyUid->kLineEdit1->text(), keyUid->kLineEdit2->text(), keyUid->kLineEdit3->text());
+    connect(m_adduid, SIGNAL(done(int)), SLOT(slotAddUidFin(int)));
+    m_adduid->start();
 }
 
-void KeysManager::slotAddUidFin(int res, KgpgInterface *interface)
+void KeysManager::slotAddUidFin(int res)
 {
-    // TODO tester les res
-    kDebug(2100) << "Resultat : " << res ;
-    interface->deleteLater();
-    KGpgNode *nd = iview->selectedNode();
-    Q_ASSERT(!(nd->getType() & ~ITYPE_PAIR));
-    imodel->refreshKey(static_cast<KGpgKeyNode *>(nd));
+	// TODO error reporting
+	if (res == 0)
+		imodel->refreshKey(m_adduid->getKeyid());
+	m_adduid->deleteLater();
+	m_adduid = NULL;
 }
 
 void KeysManager::slotAddUidEnable(const QString & name)
@@ -902,7 +923,6 @@ void KeysManager::slotAddPhoto()
 	if (imagepath.isEmpty())
 		return;
 
-kDebug(3125) << imagepath;
 	m_addphoto = new KGpgAddPhoto(this, iview->selectedNode()->getId(), imagepath);
 	connect(m_addphoto, SIGNAL(done(int)), SLOT(slotAddPhotoFinished(int)));
 	m_addphoto->start();
@@ -2213,17 +2233,14 @@ void KeysManager::deleteseckey()
 	if (terminalkey == nd)
 		return;
 	if (delkey != NULL) {
-		KMessageBox::error(this, i18n("Another key is currently deleted. Please wait until the operation is finished."), i18n("Delete key"));
+		KMessageBox::error(this, i18n("Another key is currently deleted. Please wait until the operation is complete."), i18n("Delete key"));
 		return;
 	}
 
 	delkey = static_cast<KGpgKeyNode *>(nd);
-    KProcess *conprocess = new KProcess();
-    KConfigGroup config(KGlobal::config(), "General");
-    *conprocess << config.readPathEntry("TerminalApplication","konsole");
-    *conprocess << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" << "--delete-secret-and-public-key" << nd->getId();
-    connect(conprocess, SIGNAL(finished(int)), this, SLOT(secretKeyDeleted(int)));
-    conprocess->start();
+	m_delkey = new KGpgDelKey(this, nd->getId());
+	connect(m_delkey, SIGNAL(done(int)), SLOT(secretKeyDeleted(int)));
+	m_delkey->start();
 }
 
 void KeysManager::secretKeyDeleted(int retcode)
@@ -2235,10 +2252,17 @@ void KeysManager::secretKeyDeleted(int retcode)
 		KMessageBox::error(this, i18n("Deleting key <b>%1</b> failed.", delkey->getBeautifiedFingerprint()), i18n("Delete key"));
 	}
 	delkey = NULL;
+	m_delkey->deleteLater();
+	m_delkey = NULL;
 }
 
 void KeysManager::confirmdeletekey()
 {
+	if (m_delkey) {
+		KMessageBox::error(this, i18n("Another key delete operation is still in progress.\nPlease wait a moment until this operation is complete."), i18n("Delete key"));
+		return;
+	}
+
 	KgpgCore::KgpgItemType pt;
 	bool same;
 	QList<KGpgNode *> ndlist = iview->selectedNodes(&same, &pt);
@@ -2263,7 +2287,6 @@ void KeysManager::confirmdeletekey()
 
 	QStringList keysToDelete;
 	QString secList;
-	KGpgKeyNodeList delkeys;
 
 	bool secretKeyInside = (pt & ITYPE_SECRET);
 	for (int i = 0; i < ndlist.count(); ++i) {
@@ -2273,7 +2296,7 @@ void KeysManager::confirmdeletekey()
 			secList += ki->getNameComment();
 		} else if (ki != terminalkey) {
 			keysToDelete += ki->getNameComment();
-			delkeys << ki;
+			m_delkeys << ki;
 		}
 	}
 
@@ -2290,21 +2313,22 @@ void KeysManager::confirmdeletekey()
         if (result != KMessageBox::Continue)
             return;
 
-    KProcess gp;
-    gp << KGpgSettings::gpgBinaryPath()
-    << "--no-tty"
-    << "--no-secmem-warning"
-    << "--batch"
-    << "--yes"
-    << "--delete-key"
-    << keysToDelete;
+	m_delkey = new KGpgDelKey(this, keysToDelete);
+	connect(m_delkey, SIGNAL(done(int)), SLOT(slotDelKeyDone(int)));
+	m_delkey->start();
+}
 
-    gp.execute();
+void KeysManager::slotDelKeyDone(int res)
+{
+	m_delkey->deleteLater();
 
-	for (int i = delkeys.count() - 1; i >= 0; i--)
-		imodel->delNode(delkeys.at(i));
+	if (res != 0)
+		return;
 
-    changeMessage(imodel->statusCountMessage(), 1);
+	for (int i = m_delkeys.count() - 1; i >= 0; i--)
+		imodel->delNode(m_delkeys.at(i));
+
+	changeMessage(imodel->statusCountMessage(), 1);
 }
 
 void KeysManager::slotPreImportKey()

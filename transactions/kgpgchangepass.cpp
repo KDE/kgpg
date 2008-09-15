@@ -32,10 +32,12 @@ KGpgChangePass::~KGpgChangePass()
 {
 }
 
-void
+bool
 KGpgChangePass::preStart()
 {
 	setSuccess(2);
+
+	return true;
 }
 
 /**
@@ -62,7 +64,7 @@ KGpgChangePass::nextLine(const QString &line)
 			if (askPassphrase(i18n("Enter old passphrase for <b>%1</b>", userIDs)))
 				setSuccess(3);
 		} else if (getSuccess() == 4) {
-			if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase all your encrypted files and messages will be inaccessible!</qt>", userIDs))) {
+			if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase all your encrypted files and messages will be inaccessible!</qt>", userIDs), true)) {
 				setSuccess(3);
 			}
 		}

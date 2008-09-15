@@ -64,6 +64,8 @@ KGpgTransactionPrivate::slotReadReady(GPGProc *gpgProcess)
 	while (gpgProcess->readln(line, true) >= 0) {
 		if (line.startsWith("[GNUPG:] USERID_HINT ")) {
 			m_parent->addIdHint(line);
+		} else if (line.startsWith("[GNUPG:] BAD_PASSPHRASE ")) {
+			m_success = 1;
 		} else if (m_parent->nextLine(line)) {
 			m_process->write("quit\n");
 		}
@@ -85,8 +87,10 @@ KGpgTransaction::start()
 	setSuccess(0);
 	d->m_idhints.clear();
 	d->m_tries = 3;
-	preStart();
-	d->m_process->start();
+	if (preStart())
+		d->m_process->start();
+	else
+		emit done(d->m_success);
 }
 
 void
@@ -118,9 +122,10 @@ KGpgTransaction::finish()
 {
 }
 
-void
+bool
 KGpgTransaction::preStart()
 {
+	return true;
 }
 
 void

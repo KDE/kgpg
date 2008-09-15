@@ -11,31 +11,40 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KGPGCHANGEEXPIRE_H
-#define KGPGCHANGEEXPIRE_H
+#ifndef KGPGADDUID_H
+#define KGPGADDUID_H
 
 #include <QObject>
-#include <QDate>
 
 #include "kgpgtransaction.h"
 
-class KGpgChangeExpire: public KGpgTransaction {
+class QString;
+
+/**
+ * \brief add a new user id to a key pair
+ */
+class KGpgAddUid: public KGpgTransaction {
 	Q_OBJECT
 
 public:
-	KGpgChangeExpire(QObject *parent, const QString &keyid, const QDate &date);
-	virtual ~KGpgChangeExpire();
+	KGpgAddUid(QObject *parent, const QString &keyid, const QString &name, const QString &email = QString(), const QString &comment = QString());
+	virtual ~KGpgAddUid();
 
-	void setDate(const QDate &date);
+	void setName(const QString &name);
+	void setEmail(const QString &email);
+	void setComment(const QString &comment);
+
+	QString getKeyid() const;
 
 protected:
 	virtual bool preStart();
 	virtual bool nextLine(const QString &line);
-	virtual void finish();
 
 private:
-	QDate m_date;
-	int m_step;
+	QString m_name;
+	QString m_email;
+	QString m_comment;
+	QString m_keyid;
 };
 
-#endif // KGPGCHANGEEXPIRE_H
+#endif // KGPGADDPHOTO_H

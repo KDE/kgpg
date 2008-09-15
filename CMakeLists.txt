@@ -35,6 +35,9 @@ set(kgpg_transaction_SRCS
    transactions/kgpgchangetrust.cpp
    transactions/kgpgdeluid.cpp
    transactions/kgpgaddphoto.cpp
+   transactions/kgpgadduid.cpp
+   transactions/kgpggeneratekey.cpp
+   transactions/kgpgdelkey.cpp
 )
 
 set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transaction_SRCS}
