@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
@@ -19,6 +19,9 @@
 #include "kgpgtransaction.h"
 #include "kgpgkey.h"
 
+/**
+ * \brief change the owner trust level of a public key
+ */
 class KGpgChangeTrust: public KGpgTransaction {
 	Q_OBJECT
 

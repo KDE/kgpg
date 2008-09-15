@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
@@ -18,6 +18,9 @@
 
 #include "kgpgtransaction.h"
 
+/**
+ * \brief set a new passphrase for a key pair
+ */
 class KGpgChangePass: public KGpgTransaction {
 	Q_OBJECT
 

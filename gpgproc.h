@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2007 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
@@ -19,6 +19,8 @@
 #include "klinebufferedprocess.h"
 
 /**
+ * \brief A interface to GnuPG handling UTF8 recoding correctly
+ *
  * This class handles the GnuPG formatted UTF8 output correctly.
  * GnuPG recodes some characters as \\xnn where nn is the hex representation
  * of the character. This can't be fixed up simply when using QString as
@@ -30,7 +32,6 @@
  * problems after the line has been split into pieces.
  *
  * @author Rolf Eike Beer
- * @short A interface to GnuPG handling UTF8 recoding correctly
  */
 class GPGProc : public KLineBufferedProcess
 {

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
@@ -19,6 +19,9 @@
 
 #include "kgpgtransaction.h"
 
+/**
+ * \brief base class for transactions involving only one user id of a key
+ */
 class KGpgUidTransaction: public KGpgTransaction {
 	Q_OBJECT
 
