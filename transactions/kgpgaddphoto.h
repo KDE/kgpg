@@ -16,7 +16,7 @@
 
 #include <QObject>
 
-#include "kgpguidtransaction.h"
+#include "kgpgtransaction.h"
 
 class QString;
 
