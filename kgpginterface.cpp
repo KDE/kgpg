@@ -157,7 +157,7 @@ QString KgpgInterface::getGpgHome(const QString &binary)
 
 	// Third try: guess what it is.
 	if (gpgHome.isEmpty()) {
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN32	//krazy:exclude=cpp
 		gpgHome = qgetenv("APPDATA") + "/gnupg/";
 		gpgHome.replace('\\', '/');
 #else
@@ -1077,7 +1077,7 @@ void KgpgInterface::signKeyOpenConsole()
 
 QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool &block)
 {
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN32	//krazy:exclude=cpp
 	QString pgpgoutput("cmd /C \"echo %I\"");
 #else
 	QString pgpgoutput("echo %I");
