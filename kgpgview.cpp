@@ -293,7 +293,6 @@ bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)
 
     setPlainText(result);
     deleteFile();
-    emit newText();
     return false;
 }
 
@@ -304,7 +303,6 @@ void KgpgTextEdit::slotDecodeFileSuccess(const QByteArray &content, KGpgTextInte
 #warning FIXME choose codec
 #endif
     setPlainText(content);
-    emit newText();
 }
 
 void KgpgTextEdit::slotDecodeFileFailed(const QString &content, KGpgTextInterface *interface)
@@ -320,7 +318,6 @@ void KgpgTextEdit::slotEncodeUpdate(const QString &content, KGpgTextInterface *i
     if (!content.isEmpty())
     {
         setPlainText(content);
-        emit newText();
     }
     else
         KMessageBox::sorry(this, i18n("Encryption failed."));
@@ -345,8 +342,6 @@ void KgpgTextEdit::slotDecodeUpdateSuccess(const QByteArray &content, KGpgTextIn
     QString fullcontent = toPlainText();
     fullcontent.replace(m_posstart, m_posend - m_posstart, decryptedcontent);
     setPlainText(fullcontent);
-
-    emit newText();
 }
 
 void KgpgTextEdit::slotDecodeUpdateFailed(const QString &content, KGpgTextInterface *interface)
@@ -374,8 +369,6 @@ void KgpgTextEdit::slotSignUpdate(const QString &content, KGpgTextInterface *int
         setPlainText(content);
         emit resetEncoding(false);
     }
-
-    emit newText();
 }
 
 void KgpgTextEdit::slotVerifySuccess(const QString &content, const QString &log, KGpgTextInterface *interface)
