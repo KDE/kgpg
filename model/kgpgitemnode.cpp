@@ -93,7 +93,7 @@ KGpgRootNode::addGroups()
 {
 	QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
 
-	for (QStringList::Iterator it = groups.begin(); it != groups.end(); ++it)
+	for (QStringList::const_iterator it = groups.begin(); it != groups.end(); ++it)
 		new KGpgGroupNode(this, QString(*it));
 }
 
@@ -506,7 +506,7 @@ KGpgGroupNode::readChildren()
 
 	children.clear();
 
-	for (QStringList::Iterator it = keys.begin(); it != keys.end(); ++it)
+	for (QStringList::const_iterator it = keys.begin(); it != keys.end(); ++it)
 		new KGpgGroupMemberNode(this, QString(*it));
 }
 
