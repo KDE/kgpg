@@ -941,7 +941,7 @@ int KgpgAppletApp::newInstance()
         kgpg_applet->w->droppedUrl = urlList.first();
 
         bool directoryInside = false;
-        QStringList lst = urlList.toStringList();
+        const QStringList lst = urlList.toStringList();
         for (QStringList::const_iterator it = lst.begin(); it != lst.end(); ++it)
             if (KMimeType::findByUrl(KUrl(*it))->name() == "inode/directory")
                 directoryInside = true;

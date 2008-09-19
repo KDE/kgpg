@@ -91,7 +91,7 @@ KGpgRootNode::KGpgRootNode(KGpgItemModel *model)
 void
 KGpgRootNode::addGroups()
 {
-	QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
+	const QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
 
 	for (QStringList::const_iterator it = groups.begin(); it != groups.end(); ++it)
 		new KGpgGroupNode(this, QString(*it));
@@ -502,7 +502,7 @@ KGpgGroupNode::getSize() const
 void
 KGpgGroupNode::readChildren()
 {
-	QStringList keys = KgpgInterface::getGpgGroupSetting(m_name, KGpgSettings::gpgConfigPath());
+	const QStringList keys = KgpgInterface::getGpgGroupSetting(m_name, KGpgSettings::gpgConfigPath());
 
 	children.clear();
 
