@@ -30,7 +30,6 @@
 #include <QCursor>
 #include <QLabel>
 #include <QFile>
-#include <Q3TextDrag>
 #include <QtDBus/QtDBus>
 #include <QProcess>
 
@@ -157,7 +156,8 @@ void KGpgUserActions::clipSign(bool openEditor)
     QString clippie = kapp->clipboard()->text(clipboardMode).simplified();
     if (!clippie.isEmpty())
     {
-        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, m_model, Qt::WDestructiveClose, goDefaultKey);
+        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, m_model, 0, goDefaultKey);
+        kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
         connect(this,SIGNAL(setFont(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
         connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
 
@@ -290,7 +290,7 @@ void KGpgUserActions::startFolderEncode()
     dialog->accept();
     dialog = 0L;
 
-    KArchive *arch;
+    KArchive *arch = 0;
     switch (compressionScheme) {
     case 0:	arch = new KZip(kgpgfoldertmp->fileName()); break;
     case 1:	arch = new KTar(kgpgfoldertmp->fileName(), "application/x-gzip"); break;
@@ -504,7 +504,8 @@ void KGpgUserActions::decryptNextFile(KgpgLibrary *lib, const KUrl &failed)
 
 void KGpgUserActions::showDroppedFile()
 {
-    KgpgEditor *kgpgtxtedit = new KgpgEditor(0, m_model, Qt::WDestructiveClose, goDefaultKey);
+    KgpgEditor *kgpgtxtedit = new KgpgEditor(0, m_model, 0, goDefaultKey);
+    kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
     kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
 
     connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
@@ -568,7 +569,8 @@ void KGpgUserActions::droppedtext (const QString &inputText, bool allowEncrypt)
 {
     if (inputText.startsWith("-----BEGIN PGP MESSAGE"))
     {
-        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, m_model, Qt::WDestructiveClose, goDefaultKey);
+        KgpgEditor *kgpgtxtedit = new KgpgEditor(0, m_model, 0, goDefaultKey);
+        kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
         connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SLOT(encryptFiles(KUrl::List)));
         connect(this, SIGNAL(setFont(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
         kgpgtxtedit->view->editor->setPlainText(inputText);
@@ -615,7 +617,7 @@ void KGpgUserActions::slotImportedKeys(KgpgLibrary *lib, const QStringList &)
 
 void KGpgUserActions::dragEnterEvent(QDragEnterEvent *e)
 {
-    e->setAccepted(KUrl::List::canDecode(e->mimeData()) || Q3TextDrag::canDecode(e));
+    e->setAccepted(KUrl::List::canDecode(e->mimeData()) || e->mimeData()->hasText());
 }
 
 void KGpgUserActions::dropEvent(QDropEvent *o)
@@ -625,8 +627,9 @@ void KGpgUserActions::dropEvent(QDropEvent *o)
     if (!uriList.isEmpty())
         droppedfile(uriList);
     else
-    if (Q3TextDrag::decode(o, text))
+    if (o->mimeData()->hasText())
     {
+        text = o->mimeData()->text();
         QApplication::clipboard()->setText(text,clipboardMode);
         droppedtext(text);
     }

@@ -4,8 +4,6 @@ add_subdirectory( icons )
 add_subdirectory( core )
 include_directories( core editor model transactions )
 
-add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
-
 set(core_SRCS
    core/convert.cpp
    core/images.cpp
@@ -94,7 +92,7 @@ kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
 kde4_add_executable(kgpg ${kgpg_SRCS})
 
-target_link_libraries(kgpg   ${KDE4_KABC_LIBS} ${KDE4_KUTILS_LIBS} ${QT_QT3SUPPORT_LIBRARY} ${KDE4_KPIMUTILS_LIBRARY})
+target_link_libraries(kgpg   ${KDE4_KABC_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KPIMUTILS_LIBRARY})
 
 install(TARGETS kgpg  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
