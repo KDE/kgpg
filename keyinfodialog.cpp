@@ -405,20 +405,6 @@ void KgpgKeyInfo::reloadKey()
 
 void KgpgKeyInfo::displayKey()
 {
-    KgpgKeySub subkey;
-
-    // Get the first encryption subkey
-    KgpgKeySubListPtr sublist = m_key->subList();
-    for (int i = 0; i < sublist->count(); ++i)
-    {
-        KgpgKeySub temp = sublist->at(i);
-        if (temp.type() == SKT_ENCRYPTION)
-        {
-            subkey = temp;
-            break;
-        }
-    }
-
     QString name = m_key->name();
     setCaption(name);
     m_name->setText("<qt><b>" + name + "</b></qt>");
@@ -439,13 +425,13 @@ void KgpgKeyInfo::displayKey()
     QColor trustcolor = Convert::toColor(keytrust);
 
     m_id->setText(m_key->fullId());
-    m_algorithm->setText(Convert::toString(m_key->algorithm()) + " / " + Convert::toString(subkey.algorithm()));
+    m_algorithm->setText(Convert::toString(m_key->algorithm()) + " / " + Convert::toString(m_key->encryptionAlgorithm()));
     m_algorithm->setWhatsThis("<qt>The left part is the algorithm used by the <b>signature</b> key. The right part is the algorithm used by the <b>encryption</b> key.</qt>");
     m_creation->setText(m_key->creation());
     m_expiration->setText(m_key->expiration());
     m_trust->setText(tr);
     m_trust->setColor(trustcolor);
-    m_length->setText(QString::number(m_key->size()) + " / " + QString::number(subkey.size()));
+    m_length->setText(QString::number(m_key->size()) + " / " + QString::number(m_key->encryptionSize()));
     m_length->setWhatsThis("<qt>The left part is the size of the <b>signature</b> key. The right part is the size of the <b>encryption</b> key.</qt>");
     m_fingerprint->setText(m_key->fingerprintBeautified());
 

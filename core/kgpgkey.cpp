@@ -667,6 +667,18 @@ uint KgpgKey::size() const
     return d->gpgkeysize;
 }
 
+uint KgpgKey::encryptionSize() const
+{
+	// Get the first encryption subkey
+	for (int i = 0; i < d->gpgsublist->count(); ++i) {
+		KgpgKeySub temp = d->gpgsublist->at(i);
+		if (temp.type() == SKT_ENCRYPTION) {
+			return temp.size();
+		}
+	}
+	return 0;
+}
+
 KgpgKeyOwnerTrust KgpgKey::ownerTrust() const
 {
     return d->gpgkeyownertrust;
@@ -695,6 +707,18 @@ bool KgpgKey::unlimited() const
 KgpgKeyAlgo KgpgKey::algorithm() const
 {
     return d->gpgkeyalgo;
+}
+
+KgpgKeyAlgo KgpgKey::encryptionAlgorithm() const
+{
+	// Get the first encryption subkey
+	for (int i = 0; i < d->gpgsublist->count(); ++i) {
+		KgpgKeySub temp = d->gpgsublist->at(i);
+		if (temp.type() == SKT_ENCRYPTION) {
+			return temp.algorithm();
+		}
+	}
+	return ALGO_UNKNOWN;
 }
 
 QString KgpgKey::creation() const

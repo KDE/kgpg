@@ -519,12 +519,14 @@ public:
     QString fingerprint() const;
     QString fingerprintBeautified() const;
     uint size() const;
+    uint encryptionSize() const;
     KgpgKeyOwnerTrust ownerTrust() const;
     KgpgKeyTrust trust() const;
     QDate creationDate() const;
     QDate expirationDate() const;
     bool unlimited() const;
     KgpgKeyAlgo algorithm() const;
+    KgpgKeyAlgo encryptionAlgorithm() const;
 
     QString creation() const;
     QString expiration() const;

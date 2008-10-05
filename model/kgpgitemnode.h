@@ -198,6 +198,17 @@ public:
 	 */
 	const KgpgKey *getKey() const;
 
+	/**
+	 * Returns the size of the signing key.
+	 * @return signing key size in bits
+	 */
+	virtual unsigned int getSignKeySize() const;
+	/**
+	 * Returns the size of the first encryption subkey.
+	 * @return encryption key size in bits
+	 */
+	virtual unsigned int getEncryptionKeySize() const;
+
 Q_SIGNALS:
 	void updated(KGpgKeyNode *);
 };
@@ -468,6 +479,17 @@ public:
 	virtual QDate getCreation() const;
 	virtual KGpgGroupNode *getParentKeyNode() const
 		{ return static_cast<KGpgGroupNode *>(m_parent); }
+
+	/**
+	 * Returns the size of the signing key.
+	 * @return signing key size in bits
+	 */
+	virtual unsigned int getSignKeySize() const;
+	/**
+	 * Returns the size of the first encryption subkey.
+	 * @return encryption key size in bits
+	 */
+	virtual unsigned int getEncryptionKeySize() const;
 };
 
 class KGpgSignNode : public KGpgRefNode

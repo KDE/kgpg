@@ -224,7 +224,9 @@ KGpgKeyNode::getType(const KgpgKey *k)
 QString
 KGpgKeyNode::getSize() const
 {
-	return QString::number(m_key->size());
+	return i18nc("size of signing key / size of encryption key",
+			"%1 / %2", QString::number(getSignKeySize()),
+			QString::number(getEncryptionKeySize()));
 }
 
 QString
@@ -338,6 +340,18 @@ void KGpgKeyNode::setKey(const KgpgKey &key)
 const KgpgKey *KGpgKeyNode::getKey() const
 {
 	return m_key;
+}
+
+unsigned int
+KGpgKeyNode::getSignKeySize() const
+{
+	return m_key->size();
+}
+
+unsigned int
+KGpgKeyNode::getEncryptionKeySize() const
+{
+	return m_key->encryptionSize();
 }
 
 KGpgUidNode::KGpgUidNode(KGpgKeyNode *parent, const KgpgKeyUid &u)
@@ -638,6 +652,22 @@ KGpgGroupMemberNode::getCreation() const
 	if (m_keynode != NULL)
 		return m_keynode->getCreation();
 	return QDate();
+}
+
+unsigned int
+KGpgGroupMemberNode::getSignKeySize() const
+{
+	if (m_keynode != NULL)
+		return m_keynode->getSignKeySize();
+	return 0;
+}
+
+unsigned int
+KGpgGroupMemberNode::getEncryptionKeySize() const
+{
+	if (m_keynode != NULL)
+		return m_keynode->getEncryptionKeySize();
+	return 0;
 }
 
 KGpgOrphanNode::KGpgOrphanNode(KGpgExpandableNode *parent, const KgpgKey &k)

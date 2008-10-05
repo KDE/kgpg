@@ -121,7 +121,40 @@ KeyListProxyModel::nodeLessThan(const KGpgNode *left, const KGpgNode *right, con
 	case KEYCOLUMN_EXPIR:
 		return (left->getExpiration() < right->getExpiration());
 	case KEYCOLUMN_SIZE:
-		return (left->getSize() < right->getSize());
+		if ((left->getType() & ITYPE_PAIR) && (right->getType() & ITYPE_PAIR)) {
+			unsigned int lsign, lenc, rsign, renc;
+
+			if (left->getType() & ITYPE_GROUP) {
+				const KGpgGroupMemberNode *g = static_cast<const KGpgGroupMemberNode *>(left);
+
+				lsign = g->getSignKeySize();
+				lenc = g->getEncryptionKeySize();
+			} else {
+				const KGpgKeyNode *g = static_cast<const KGpgKeyNode *>(left);
+
+				lsign = g->getSignKeySize();
+				lenc = g->getEncryptionKeySize();
+			}
+
+			if (right->getType() & ITYPE_GROUP) {
+				const KGpgGroupMemberNode *g = static_cast<const KGpgGroupMemberNode *>(right);
+
+				rsign = g->getSignKeySize();
+				renc = g->getEncryptionKeySize();
+			} else {
+				const KGpgKeyNode *g = static_cast<const KGpgKeyNode *>(right);
+
+				rsign = g->getSignKeySize();
+				renc = g->getEncryptionKeySize();
+			}
+
+			if (lsign != rsign)
+				return lsign < rsign;
+			else
+				return lenc < renc;
+		} else {
+			return (left->getSize() < right->getSize());
+		}
 	case KEYCOLUMN_CREAT:
 		return (left->getCreation() < right->getCreation());
 	default:
