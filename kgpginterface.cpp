@@ -1285,7 +1285,7 @@ void KgpgInterface::changeDisableFin(int res)
 
 QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool &block)
 {
-#if Q_OS_WIN32
+#ifdef Q_OS_WIN32
 	QString pgpgoutput("cmd /C \"echo %I\"");
 #else
 	QString pgpgoutput("echo %I");
