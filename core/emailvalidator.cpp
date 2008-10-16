@@ -28,7 +28,7 @@ namespace KgpgCore
 QValidator::State EmailValidator::validate(QString &input, int &) const
 {
     static QString pattern = "^[a-z][a-z|0-9|\\-|_|\\.|%|\\+]*@"
-                             "([a-z0-9][a-z|0-9|\\-]*\\.)+[a-z]+$";
+                             "([a-z0-9][a-z|0-9|\\-]*\\.)+[a-z][a-z]+$";
 
     static QRegExp regexp(pattern, Qt::CaseInsensitive);
 
