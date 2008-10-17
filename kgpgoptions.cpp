@@ -104,6 +104,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
     connect(m_page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
     connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
+    connect(m_page6->ServerBox, SIGNAL(clicked(const QModelIndex &)), this, SLOT(slotEnableDeleteServer()));
     connect(m_page6->ServerBox, SIGNAL(executed(QListWidgetItem *)), this, SLOT(slotEditKeyServer(QListWidgetItem *)));
 
     keyUltimate = KGpgSettings::colorUltimate();
@@ -220,7 +221,7 @@ void kgpgOptions::slotEditKeyServer(QListWidgetItem *cur)
 {
 	if (cur == NULL)
 		return;
-
+  
 	QString oldServer = cur->text();
 	bool isDefault = false;
 	if (oldServer.contains(' ')) {
@@ -250,6 +251,12 @@ void kgpgOptions::slotDefaultKeyServer()
 			continue;
 		cur->setText(cur->text().section(" ", 0, 0));
 	}
+}
+
+void kgpgOptions::slotEnableDeleteServer()
+{
+  if (!m_page6->server_del->isEnabled())
+    m_page6->server_del->setEnabled(true);
 }
 
 void kgpgOptions::updateWidgets()
