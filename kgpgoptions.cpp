@@ -196,19 +196,29 @@ void kgpgOptions::slotAddKeyServer()
 
 void kgpgOptions::slotDelKeyServer()
 {
-	bool defaultDeleted = false;
-	if (m_page6->ServerBox->currentItem()->text().contains( ' ' ) )
-		defaultDeleted = true;
+  QListWidgetItem *cur = m_page6->ServerBox->takeItem(m_page6->ServerBox->currentRow());
+  
+  bool defaultDeleted = false;
+  if (cur->text().contains( ' ' ) )
+    defaultDeleted = true;
+  
+  // This doesn't seem to work -> Bug in QListWidget or KListWidget maybe?
+  //m_page6->ServerBox->removeItemWidget(cur);
+  
+  cur = m_page6->ServerBox->currentItem();
+  if (cur == NULL)
+  {
+    // The list is empty so disable the delete button.
+    m_page6->server_del->setEnabled(false);
+    return;
+  }
 
-	m_page6->ServerBox->removeItemWidget(m_page6->ServerBox->currentItem());
-	QListWidgetItem *cur = m_page6->ServerBox->currentItem();
-	if (cur == NULL)
-		return;
+  cur->setSelected(true);
 
-	cur->setSelected(true);
-
-	if (defaultDeleted)
-		cur->setText(cur->text() + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
+  if (defaultDeleted)
+    cur->setText(cur->text() + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
+  
+  enableButtonApply(true);
 }
 
 void kgpgOptions::slotEditKeyServer()
@@ -426,6 +436,7 @@ void kgpgOptions::updateSettings()
 
     KGpgSettings::self()->writeConfig();
     m_config->sync();
+    
     emit settingsUpdated();
 }
 
@@ -537,7 +548,12 @@ bool kgpgOptions::hasChanged()
 
     QStringList currList;
     for (int i = 0; i < m_page6->ServerBox->count(); i++)
-        currList.append(m_page6->ServerBox->item(i)->text());
+    {
+        QString server = m_page6->ServerBox->item(i)->text();
+        if (server.contains(' '))
+            server.remove(i18nc("Removes the default marker for keyserver in GUI", " (Default)"));
+        currList.append(server);
+    }
 
     if (currList != serverList)
         return true;
