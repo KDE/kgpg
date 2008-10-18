@@ -125,7 +125,6 @@ private:
     bool isValidKeyserver(const QString &);
 
 private:
-    QStringList serverList;
     QStringList names;
     QStringList ids;
     QString alwaysKeyID;
@@ -133,9 +132,10 @@ private:
     QString fileEncryptionKey;
     QString gpgConfigPath;
     QString gpgBinPath;
-    QString keyServer;
-    QString defaultServerList;
-    QString defaultKeyServer;
+    QString keyServer;              // Server stored in gnupg config
+    QStringList serverList;         // Servers stored in kgpgrc
+    QString defaultKeyServer;       // Default keyserver
+    QStringList defaultServerList;  // Default additional servers, not including default keyserver.
     QString defaultConfigPath;
     QString defaultHomePath;
     QString defaultBinPath;

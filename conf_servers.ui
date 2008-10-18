@@ -15,7 +15,11 @@
      <item>
       <layout class="QVBoxLayout" >
        <item>
-        <widget class="KListWidget" name="ServerBox" />
+        <widget class="KListWidget" name="ServerBox" >
+         <property name="sortingEnabled" >
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="textLabel1_4" >
@@ -87,22 +91,6 @@ all others will be stored for use by KGpg only.</string>
       </layout>
      </item>
     </layout>
-   </item>
-   <item>
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType" >
-      <enum>QSizePolicy::Minimum</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>624</width>
-       <height>81</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>

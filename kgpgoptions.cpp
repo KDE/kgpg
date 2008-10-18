@@ -49,30 +49,28 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
            : KConfigDialog(parent, name, KGpgSettings::self())
 {
     m_config = new KConfig("kgpgrc", KConfig::SimpleConfig);
+    
+    // Initialize the default server and default additional servers.
+    defaultKeyServer = "hkp://wwwkeys.pgp.net";
+    defaultServerList << "hkp://search.keyserver.net" << "hkp://pgp.dtype.org";
+    defaultServerList << "hkp://wwwkeys.us.pgp.net" << "hkp://subkeys.pgp.net";
 
-    defaultServerList = "hkp://subkeys.pgp.net ";
-    defaultServerList += i18nc("Mark default keyserver in GUI", "(Default)");
-    defaultServerList += ",hkp://search.keyserver.net,hkp://wwwkeys.pgp.net,hkp://pgp.dtype.org,hkp://wwwkeys.us.pgp.net";
-
-	KConfigGroup gr = m_config->group("Servers");
-	serverList = gr.readEntry("Server_List", defaultServerList).split(',');
+    // Read the default keyserver from the gnupg settings.
     keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
+    
+    // Read the aditional servers stored in kgpgrc
+    KConfigGroup gr = m_config->group("Servers");
+    serverList = gr.readEntry("additional_servers", defaultServerList);
 
-	/* Remove everything after a whitespace. This will normally be
-	 * ' (Default)' from KDE 3.x.x */
-	serverList.replaceInStrings(QRegExp(" .*"), "");
-	if (!keyServer.isEmpty()) {
-		serverList.removeAll(keyServer);
-		serverList.prepend(keyServer + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
-	} else {
-		serverList.replace(0, serverList.at(0) + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
-	}
+    // Remove everything after a whitespace. This will normally be
+    // ' (Default)' from KDE 3.x.x
+    serverList.replaceInStrings(QRegExp(" .*"), "");
 
-	defaultConfigPath = KUrl::fromPath(gpgConfigPath).fileName();
-	defaultHomePath = KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash);
-	defaultBinPath = KGpgSettings::gpgBinaryPath();
+    defaultConfigPath = KUrl::fromPath(gpgConfigPath).fileName();
+    defaultHomePath = KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash);
+    defaultBinPath = KGpgSettings::gpgBinaryPath();
 
-	m_showsystray = KGpgSettings::showSystray();
+    m_showsystray = KGpgSettings::showSystray();
 
     kDebug(2100) << "Adding pages" ;
     m_page1 = new Encryption();
@@ -86,7 +84,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     fontlayout->setSpacing(spacingHint());
 
     m_fontchooser = new KFontChooser(m_page3->tabWidget3->widget(1), false, QStringList(), false);
-	m_fontchooser->setObjectName("kcfg_Font");
+    m_fontchooser->setObjectName("kcfg_Font");
     fontlayout->addWidget(m_fontchooser);
 
     pixkeySingle = Images::single();
@@ -173,13 +171,20 @@ void kgpgOptions::slotChangeHome()
 
 bool kgpgOptions::isValidKeyserver(const QString &server)
 {
-	if (server.isEmpty())
-		return false;
-	if (server.contains(' ')) {
-		KMessageBox::sorry(this, i18n("Key server URLs may not contain whitespace."));
-		return false;
-	}
-	return true;
+    if (server.isEmpty())
+        return false;
+    if (server.contains(' ')) 
+    {
+        KMessageBox::sorry(this, i18n("Key server URLs may not contain whitespace."));
+        return false;
+    }
+    if (serverList.contains(server))
+    {
+        KMessageBox::sorry(this, i18n("Key server allready in the list."));
+        return false;
+    }
+        
+    return true;
 }
 
 void kgpgOptions::slotAddKeyServer()
@@ -187,11 +192,13 @@ void kgpgOptions::slotAddKeyServer()
     QString newServer = KInputDialog::getText(i18n("Add New Key Server"), i18n("Server URL:"));
 
     if (!isValidKeyserver(newServer))
-	return;
+        return;
 
-    m_page6->ServerBox->addItem(newServer);
-
-    m_page6->ServerBox->findItems(newServer, Qt::MatchExactly).at(0)->setSelected(true);
+    serverList << newServer;
+    QListWidgetItem *item = new QListWidgetItem(newServer, m_page6->ServerBox);
+    m_page6->ServerBox->setCurrentItem(item);
+    
+    enableButtonApply(true);
 }
 
 void kgpgOptions::slotDelKeyServer()
@@ -214,53 +221,63 @@ void kgpgOptions::slotDelKeyServer()
   }
 
   cur->setSelected(true);
-
-  if (defaultDeleted)
-    cur->setText(cur->text() + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
-  
+  slotDefaultKeyServer();
   enableButtonApply(true);
 }
 
 void kgpgOptions::slotEditKeyServer()
 {
-	QListWidgetItem *cur = m_page6->ServerBox->currentItem();
-	slotEditKeyServer(cur);
+    QListWidgetItem *cur = m_page6->ServerBox->currentItem();
+    slotEditKeyServer(cur);
 }
 
 void kgpgOptions::slotEditKeyServer(QListWidgetItem *cur)
 {
-	if (cur == NULL)
-		return;
+    if (cur == NULL)
+        return;
   
-	QString oldServer = cur->text();
-	bool isDefault = false;
-	if (oldServer.contains(' ')) {
-		isDefault = true;
-		oldServer = oldServer.section(" ", 0, 0);
-	}
+    QString oldServer = cur->text();
+    bool isDefault = false;
+    if (oldServer.contains(' ')) {
+        isDefault = true;
+        oldServer = oldServer.section(" ", 0, 0);
+    }
 
-	QString newServer = KInputDialog::getText(i18n("Edit Key Server"), i18n("Server URL:"), oldServer).simplified();
-	if (!isValidKeyserver(newServer))
-		return;
-	if (isDefault)
-		newServer = i18nc("Mark default keyserver in GUI", "%1 (Default)", newServer);
-	cur->setText(newServer);
+    QString newServer = KInputDialog::getText(i18n("Edit Key Server"), i18n("Server URL:"), oldServer).simplified();
+    if (!isValidKeyserver(newServer))
+        return;
+    if (isDefault)
+        newServer = i18nc("Mark default keyserver in GUI", "%1 (Default)", newServer);
+    cur->setText(newServer);
+
+    enableButtonApply(true);
 }
 
 void kgpgOptions::slotDefaultKeyServer()
 {
-	QListWidgetItem *curr = m_page6->ServerBox->currentItem();
-	if (!curr->text().contains(' '))
-		curr->setText(i18nc("Mark default keyserver in GUI", "%1 (Default)", curr->text()));
-
-	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
-		QListWidgetItem *cur = m_page6->ServerBox->item(i);
-		if (cur == curr)
-			continue;
-		if (cur->text().indexOf(' ') < 0)
-			continue;
-		cur->setText(cur->text().section(" ", 0, 0));
-	}
+    QListWidgetItem *curr = m_page6->ServerBox->currentItem();
+    if (!curr->text().contains(' '))
+    {
+        // The current item is not already the default one so a couple of things
+        // must be changed now:
+        // 1. The "(Default)" mark must be removed in the GUI list.
+        // 2. The current default server must be added to the additional server list.
+        // 3. keyServer must be updated to the new default server.
+        // 4. The new keyserver must be removed from the serverList.
+        // 5. The new default keyServer must have the "(Default)" mark in the GUI.
+        if (m_page6->ServerBox->findItems(keyServer, Qt::MatchContains).size() > 0)
+        {
+            QListWidgetItem *prev = m_page6->ServerBox->findItems(keyServer, Qt::MatchContains).first();
+            prev->setText(prev->text().remove(' ' + i18nc("Mark default keyserver in GUI", "(Default)"))); // 1
+            serverList << prev->text();     // 2
+        }
+        
+        keyServer = curr->text();           // 3
+        serverList.removeAll(curr->text()); // 4
+        curr->setText(i18nc("Mark default keyserver in GUI", "%1 (Default)", curr->text())); // 5
+        
+        enableButtonApply(true);
+    }
 }
 
 void kgpgOptions::slotEnableDeleteServer()
@@ -298,12 +315,17 @@ void kgpgOptions::updateWidgets()
     m_page4->use_agent->setChecked(m_useagent);
 
     keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
-    defaultKeyServer = "hkp://wwwkeys.pgp.net";
 
     if (keyServer.isEmpty())
+    {
         keyServer = defaultKeyServer;
+        serverList.removeAll(defaultKeyServer);
+    }
+    else if (keyServer != defaultKeyServer && not serverList.contains(defaultKeyServer))
+        serverList << defaultKeyServer;
 
     m_page6->ServerBox->clear();
+    m_page6->ServerBox->addItem(keyServer + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
     m_page6->ServerBox->addItems(serverList);
 
     kDebug(2100) << "Finishing options" ;
@@ -319,7 +341,9 @@ void kgpgOptions::updateWidgetsDefault()
     m_page4->gpg_bin_path->setText(defaultBinPath);
 
     m_page6->ServerBox->clear();
-    m_page6->ServerBox->addItems(defaultServerList.split(','));
+    m_page6->ServerBox->addItem(defaultKeyServer 
+      + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
+    m_page6->ServerBox->addItems(defaultServerList);
 
     kDebug(2100) << "Finishing default options" ;
 }
@@ -388,22 +412,22 @@ void kgpgOptions::updateSettings()
         KgpgInterface::setGpgBoolSetting("use-agent", false, KGpgSettings::gpgConfigPath());
     }
 
-    QString currList;
-    serverList.clear();
-	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
-		QListWidgetItem *cur = m_page6->ServerBox->item(i);
-		if (cur->text().contains(' '))		// it is the default keyserver
-			keyServer = cur->text().section(" ", 0, 0);
-		else
-			serverList.append(cur->text());
-	}
-
+    // Store the default server in ~/.gnupg
     KgpgInterface::setGpgSetting("keyserver", keyServer, KGpgSettings::gpgConfigPath());
-    serverList.prepend(keyServer);
+    
+    // Store additional servers in kgpgrc.
+    serverList.clear();
+    for (int i = 0; i < m_page6->ServerBox->count(); i++)
+    {
+        QString server = m_page6->ServerBox->item(i)->text();
+        
+        // Only store the additional servers in the config file.
+        if (not server.contains(' '))
+            serverList.append(server);
+    }
 
-    currList = serverList.join(",");
     KConfigGroup gr = m_config->group("Servers");
-    gr.writeEntry("Server_List", currList);
+    gr.writeEntry("additional_servers", serverList);
 
     if (keyUltimate != m_page3->kcfg_ColorUltimate->color())
         emit refreshTrust(TRUST_ULTIMATE, m_page3->kcfg_ColorUltimate->color());
@@ -546,18 +570,26 @@ bool kgpgOptions::hasChanged()
     if (m_page4->use_agent->isChecked() != m_useagent)
         return true;
 
-    QStringList currList;
+    // Did the number of servers change?
+    if (m_page6->ServerBox->count() != serverList.size() + 1)
+      return true;
+    
+    // Did the actual value of the servers change than?
     for (int i = 0; i < m_page6->ServerBox->count(); i++)
     {
         QString server = m_page6->ServerBox->item(i)->text();
+        
         if (server.contains(' '))
-            server.remove(i18nc("Removes the default marker for keyserver in GUI", " (Default)"));
-        currList.append(server);
+        {
+            // This is the current server marked as default in the GUI.
+            server.remove(' ' + i18nc( "Remove default marker from GUI if it is there", "(Default)"));
+            if (keyServer != server)
+                return true;
+        }
+        else if (not serverList.contains(server))
+            return true;
     }
-
-    if (currList != serverList)
-        return true;
-
+    
     if (m_page7->kcfg_ShowSystray->isChecked() != m_showsystray)
         return true;
 
@@ -580,14 +612,21 @@ bool kgpgOptions::isDefault()
 
     if (m_page4->use_agent->isChecked() != m_defaultuseagent)
         return false;
-
-    QString currList;
+    
     for (int i = 0; i < m_page6->ServerBox->count(); i++)
-        currList += m_page6->ServerBox->item(i)->text() + ',';
-    currList.truncate(currList.length() - 1);
-
-    if (currList != defaultServerList)
-        return false;
+    {
+        QString server = m_page6->ServerBox->item(i)->text();
+        
+        if (server.contains(' '))
+        {
+            // This is the current server marked as default in the GUI.
+            server.remove(' ' + i18nc( "Remove default marker from GUI if it is there", "(Default)"));
+            if (defaultKeyServer != server)
+                return false;
+        }
+        else if (not defaultServerList.contains(server))
+            return false;
+    }
 
     if (m_page7->kcfg_ShowSystray->isChecked() != m_showsystray)
         return false;
