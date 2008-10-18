@@ -18,19 +18,16 @@
 
 #include "keyexport.h"
 
-KeyExport::KeyExport(QWidget* parent, const QStringList *keyservers)
+KeyExport::KeyExport(QWidget* parent, const QStringList& keyservers)
          : QWidget(parent), Ui_KeyExport()
 {
     setupUi(this);
-    connect(checkFile, SIGNAL(toggled(bool)), this,SLOT(checkFile_toggled(bool)));
 
-    if (keyservers != NULL)
-        destServer->addItems(*keyservers);
-}
-
-void KeyExport::checkFile_toggled(bool isOn)
-{
-    newFilename->setEnabled(isOn);
+    if (keyservers.size() > 0)
+    {
+        checkServer->setEnabled(true); 
+        destServer->addItems(keyservers);
+    }
 }
 
 #include "keyexport.moc"

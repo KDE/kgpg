@@ -1487,14 +1487,16 @@ void KeysManager::slotexport()
     dial->setModal( true );
 
     KConfig *m_config = new KConfig("kgpgrc", KConfig::SimpleConfig);
-    KConfigGroup gr = m_config->group("Servers");
-    QString servers = gr.readEntry("Server_List");
+    KConfigGroup gr = m_config->group("Servers"); 
+
+    QStringList serverList = gr.readEntry("additional_servers", QStringList());
     delete m_config;
-
-    QStringList *serverList = new QStringList(servers.split(','));
-
+    
+    QString gpgConfServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
+    if (not gpgConfServer.isEmpty())
+      serverList << gpgConfServer;
+    qSort(serverList);
     KeyExport *page = new KeyExport(dial, serverList);
-    delete serverList;
 
     dial->setMainWidget(page);
     page->newFilename->setUrl(sname);

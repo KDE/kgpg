@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>626</width>
-    <height>320</height>
+    <height>411</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -44,13 +44,20 @@
       </item>
       <item>
        <widget class="QRadioButton" name="checkServer" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
         <property name="text" >
          <string>Key server</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="destServer" />
+       <widget class="QComboBox" name="destServer" >
+        <property name="enabled" >
+         <bool>false</bool>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="checkFile" >
@@ -113,7 +120,7 @@
      <property name="sizeType" >
       <enum>QSizePolicy::Minimum</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>602</width>
        <height>91</height>
@@ -136,5 +143,38 @@
   <include location="local" >kpushbutton.h</include>
  </includes>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>checkServer</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>destServer</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>72</x>
+     <y>69</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>95</x>
+     <y>106</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkFile</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>newFilename</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>39</x>
+     <y>133</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>48</x>
+     <y>159</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
