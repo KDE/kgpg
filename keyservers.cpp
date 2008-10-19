@@ -65,6 +65,7 @@ KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoclose)
     connect(page->Buttonimport, SIGNAL(clicked()), this, SLOT(slotImport()));
     connect(page->Buttonsearch, SIGNAL(clicked()), this, SLOT(slotSearch()));
     connect(page->Buttonexport, SIGNAL(clicked()), this, SLOT(slotPreExport()));
+    connect(page->kLEimportid,  SIGNAL(returnPressed()), this, SLOT(slotSearch()));
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(page->cBproxyI, SIGNAL(toggled(bool)), this, SLOT(slotEnableProxyI(bool)));
     connect(page->cBproxyE, SIGNAL(toggled(bool)), this, SLOT(slotEnableProxyE(bool)));
