@@ -180,7 +180,7 @@ bool kgpgOptions::isValidKeyserver(const QString &server)
     }
     if (serverList.contains(server))
     {
-        KMessageBox::sorry(this, i18n("Key server allready in the list."));
+        KMessageBox::sorry(this, i18n("Key server already in the list."));
         return false;
     }
         
