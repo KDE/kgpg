@@ -466,9 +466,9 @@ QStringList KeyServer::getServerList()
     KConfigGroup group = config.group("Servers");
 
     QStringList serverlist;
-    serverlist << KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());     // From gpg config
-    serverlist << group.readEntry("Server_List").split(',', QString::SkipEmptyParts);           // From kgpg config
-
+    serverlist << KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath()); // From gpg config
+    serverlist << group.readEntry("additional_servers",QStringList());                      // From kgpg config
+    qSort(serverlist);
     return serverlist;
 }
 
