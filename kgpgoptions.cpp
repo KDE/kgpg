@@ -321,7 +321,7 @@ void kgpgOptions::updateWidgets()
         keyServer = defaultKeyServer;
         serverList.removeAll(defaultKeyServer);
     }
-    else if (keyServer != defaultKeyServer && not serverList.contains(defaultKeyServer))
+    else if (keyServer != defaultKeyServer && !serverList.contains(defaultKeyServer))
         serverList << defaultKeyServer;
 
     m_page6->ServerBox->clear();
