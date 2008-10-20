@@ -689,6 +689,14 @@ void KGpgUserActions::slotSaveOptionsPath()
 	KGpgSettings::setGpgConfigPath(m_assistant->getConfigPath());
 	KGpgSettings::setFirstRun(false);
 
+	QString gpgConfServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
+	if (!gpgConfServer.isEmpty()) {
+		// The user allready had configured a keyserver, set this one as default.
+		QStringList serverList = KGpgSettings::keyServers();
+		serverList.prepend(gpgConfServer);
+		KGpgSettings::setKeyServers(serverList);
+	}
+
 	QString defaultID = m_assistant->getDefaultKey();
 
 	KGpgSettings::self()->writeConfig();

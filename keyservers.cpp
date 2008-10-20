@@ -463,19 +463,12 @@ void KeyServer::slotOk()
 
 QStringList KeyServer::getServerList()
 {
-	// TODO: Duplicate code in keysmanager and kgpgoptions maybe this should moved
-	//       to a central place.
-	KConfig config("kgpgrc", KConfig::SimpleConfig);
-	KConfigGroup group = config.group("Servers");
-
-	QStringList serverList = group.readEntry("Server_List",QStringList()); // From kgpg config
-	serverList.replaceInStrings(QRegExp(" .*"), "");
-	qSort(serverList);
-
-	QString gpgConfServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
-	if (!gpgConfServer.isEmpty()) {
-		serverList.removeAll(gpgConfServer);
-		serverList.prepend(gpgConfServer);
+	QStringList serverList = KGpgSettings::keyServers(); // From kgpg config
+	if (!serverList.isEmpty()) {
+		serverList.replaceInStrings(QRegExp(" .*"), "");     // Remove kde 3.5 (Default) tag.
+		QString defaultServer = serverList.takeFirst();
+		qSort(serverList);
+		serverList.prepend(defaultServer);
 	}
 
 	return serverList;

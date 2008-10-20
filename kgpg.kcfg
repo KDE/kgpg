@@ -221,6 +221,17 @@
         </entry>
     </group>
 
+	<!-- 
+		Should in future be merged with Key Servers, for compatibility reasons
+		with kde 3.5 it is now in a seperate group.
+	-->
+	<group name="Servers">
+		<entry name="KeyServers" type="StringList" key="Server_List">
+			<label>Key servers used by kgpg. The first server in the list is the default server.</label>
+			<default>hkp://wwwkeys.pgp.net,hkp://pgp.dtype.org,hkp://search.keyserver.net,hkp://subkeys.pgp.net,hkp://wwwkeys.pgp.net,hkp://wwwkeys.us.pgp.net</default>
+		</entry>
+	</group>
+
     <group name="Key Servers">
         <entry name="UseProxy" type="Bool" key="use_proxy">
             <label>Use HTTP proxy when available.</label>

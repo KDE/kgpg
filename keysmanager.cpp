@@ -1486,21 +1486,12 @@ void KeysManager::slotexport()
     dial->setDefaultButton( KDialog::Ok );
     dial->setModal( true );
 
-	// TODO: Duplicate code in keysmanager and kgpgoptions maybe this should moved
-	//       to a central place.
-    KConfig *m_config = new KConfig("kgpgrc", KConfig::SimpleConfig);
-    KConfigGroup gr = m_config->group("Servers"); 
-
-    QStringList serverList = gr.readEntry("Server_List", QStringList());
-	serverList.replaceInStrings(QRegExp(" .*"), "");
-    delete m_config;
-    
-	qSort(serverList);
-
-	QString gpgConfServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
-	if (!gpgConfServer.isEmpty()) {
-		serverList.removeAll(gpgConfServer);
-		serverList.prepend(gpgConfServer);
+	QStringList serverList = KGpgSettings::keyServers();
+	serverList.replaceInStrings(QRegExp(" .*"), ""); // Remove kde 3.5 (Default) tag.
+	if (!serverList.isEmpty()) {
+		QString defaultServer = serverList.takeFirst();
+		qSort(serverList);
+		serverList.prepend(defaultServer);
 	}
     
     KeyExport *page = new KeyExport(dial, serverList);

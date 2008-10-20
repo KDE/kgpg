@@ -59,8 +59,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
     
     // Read the servers stored in kgpgrc
-    KConfigGroup gr = m_config->group("Servers");
-    serverList = gr.readEntry("Server_List", defaultServerList);
+    serverList = KGpgSettings::keyServers();
 
     // Remove everything after a whitespace. This will normally be
     // ' (Default)' from KDE 3.x.x
@@ -413,10 +412,8 @@ void kgpgOptions::updateSettings()
 					server.replace(QRegExp(" .*"), ""); // Remove the " (Default)" section.
 					serverList.prepend(server);         // Make it the first item in the list.
 				}
-    }
-
-    KConfigGroup gr = m_config->group("Servers");
-    gr.writeEntry("Server_List", serverList);
+	}
+	KGpgSettings::setKeyServers(serverList);
 
     if (keyUltimate != m_page3->kcfg_ColorUltimate->color())
         emit refreshTrust(TRUST_ULTIMATE, m_page3->kcfg_ColorUltimate->color());
