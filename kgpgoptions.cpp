@@ -202,23 +202,21 @@ void kgpgOptions::slotAddKeyServer()
 
 void kgpgOptions::slotDelKeyServer()
 {
-  QListWidgetItem *cur = m_page6->ServerBox->takeItem(m_page6->ServerBox->currentRow());
-  
-  bool defaultDeleted = cur->text().contains(' ');
-  
-  // This doesn't seem to work -> Bug in QListWidget or KListWidget maybe?
-  //m_page6->ServerBox->removeItemWidget(cur);
-  
-  cur = m_page6->ServerBox->currentItem();
-  if (cur == NULL) {
-    // The list is empty so disable the delete button.
-    m_page6->server_del->setEnabled(false);
-    return;
-  }
+	QListWidgetItem *cur = m_page6->ServerBox->takeItem(m_page6->ServerBox->currentRow());
+	bool defaultDeleted = cur->text().contains(' ');
 
-  cur->setSelected(true);
-  slotDefaultKeyServer();
-  enableButtonApply(true);
+	// Are there any items left now we've took one out of the list?
+	cur = m_page6->ServerBox->currentItem();
+	if (cur == NULL) {
+		// The list is empty so disable the delete button.
+		m_page6->server_del->setEnabled(false);
+		return;
+	}
+
+	cur->setSelected(true);
+	if (defaultDeleted)
+		slotDefaultKeyServer();
+	enableButtonApply(true);
 }
 
 void kgpgOptions::slotEditKeyServer()
