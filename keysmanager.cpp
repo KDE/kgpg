@@ -1786,8 +1786,15 @@ void KeysManager::editGroup()
     dialogGroupEdit->setMainWidget(gEdit);
 
     gEdit->show();
-    if (dialogGroupEdit->exec() == QDialog::Accepted)
-        imodel->changeGroup(static_cast<KGpgGroupNode *>(nd), members);
+	if (dialogGroupEdit->exec() == QDialog::Accepted) {
+		QStringList memberids;
+
+		for (int i = 0; i < members.count(); i++)
+			memberids << members.at(i)->getId();
+
+		KgpgInterface::setGpgGroupSetting(nd->getName(), memberids, KGpgSettings::gpgConfigPath());
+		imodel->changeGroup(static_cast<KGpgGroupNode *>(nd), members);
+	}
     delete dialogGroupEdit;
 }
 
