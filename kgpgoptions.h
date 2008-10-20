@@ -106,6 +106,7 @@ signals:
 private slots:
     void slotChangeHome();
     void slotAddKeyServer();
+	void slotChangeEncryptTo();
     void slotDelKeyServer();
     void slotEditKeyServer();
     void slotEditKeyServer(QListWidgetItem *);

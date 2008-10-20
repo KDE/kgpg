@@ -96,6 +96,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     addPage(m_page7, i18n("Misc"), "preferences-other");
 
     // The following widgets are managed manually.
+	connect(m_page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(slotChangeEncryptTo()));
     connect(m_page4->changeHome, SIGNAL(clicked()), this, SLOT(slotChangeHome()));
     connect(m_page6->server_add, SIGNAL(clicked()), this, SLOT(slotAddKeyServer()));
     connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
@@ -198,6 +199,14 @@ void kgpgOptions::slotAddKeyServer()
     m_page6->ServerBox->setCurrentItem(item);
     
     enableButtonApply(true);
+}
+
+void kgpgOptions::slotChangeEncryptTo()
+{
+	if (m_page1->encrypt_to_always->isChecked() != m_encrypttoalways)
+		enableButtonApply(true);
+	else
+		enableButtonApply(false);
 }
 
 void kgpgOptions::slotDelKeyServer()
