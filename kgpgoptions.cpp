@@ -422,7 +422,7 @@ void kgpgOptions::updateSettings()
         QString server = m_page6->ServerBox->item(i)->text();
         
         // Only store the additional servers in the config file.
-        if (not server.contains(' '))
+        if (!server.contains(' '))
             serverList.append(server);
     }
 
@@ -586,7 +586,7 @@ bool kgpgOptions::hasChanged()
             if (keyServer != server)
                 return true;
         }
-        else if (not serverList.contains(server))
+        else if (!serverList.contains(server))
             return true;
     }
     
@@ -624,7 +624,7 @@ bool kgpgOptions::isDefault()
             if (defaultKeyServer != server)
                 return false;
         }
-        else if (not defaultServerList.contains(server))
+        else if (!defaultServerList.contains(server))
             return false;
     }
 
