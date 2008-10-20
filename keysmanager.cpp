@@ -2385,6 +2385,7 @@ void KeysManager::confirmdeletekey()
 void KeysManager::slotDelKeyDone(int res)
 {
 	m_delkey->deleteLater();
+	m_delkey = NULL;
 
 	if (res != 0)
 		return;
