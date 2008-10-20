@@ -463,14 +463,22 @@ void KeyServer::slotOk()
 
 QStringList KeyServer::getServerList()
 {
-    KConfig config("kgpgrc", KConfig::SimpleConfig);
-    KConfigGroup group = config.group("Servers");
+	// TODO: Duplicate code in keysmanager and kgpgoptions maybe this should moved
+	//       to a central place.
+	KConfig config("kgpgrc", KConfig::SimpleConfig);
+	KConfigGroup group = config.group("Servers");
 
-    QStringList serverlist;
-    serverlist << KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath()); // From gpg config
-    serverlist << group.readEntry("additional_servers",QStringList());                      // From kgpg config
-    qSort(serverlist);
-    return serverlist;
+	QStringList serverList = group.readEntry("Server_List",QStringList()); // From kgpg config
+	serverList.replaceInStrings(QRegExp(" .*"), "");
+	qSort(serverList);
+
+	QString gpgConfServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
+	if (!gpgConfServer.isEmpty()) {
+		serverList.removeAll(gpgConfServer);
+		serverList.prepend(gpgConfServer);
+	}
+
+	return serverList;
 }
 
 void KeyServer::handleQuit()

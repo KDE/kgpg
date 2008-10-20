@@ -1486,16 +1486,23 @@ void KeysManager::slotexport()
     dial->setDefaultButton( KDialog::Ok );
     dial->setModal( true );
 
+	// TODO: Duplicate code in keysmanager and kgpgoptions maybe this should moved
+	//       to a central place.
     KConfig *m_config = new KConfig("kgpgrc", KConfig::SimpleConfig);
     KConfigGroup gr = m_config->group("Servers"); 
 
-    QStringList serverList = gr.readEntry("additional_servers", QStringList());
+    QStringList serverList = gr.readEntry("Server_List", QStringList());
+	serverList.replaceInStrings(QRegExp(" .*"), "");
     delete m_config;
     
-    QString gpgConfServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
-    if (not gpgConfServer.isEmpty())
-      serverList << gpgConfServer;
-    qSort(serverList);
+	qSort(serverList);
+
+	QString gpgConfServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
+	if (!gpgConfServer.isEmpty()) {
+		serverList.removeAll(gpgConfServer);
+		serverList.prepend(gpgConfServer);
+	}
+    
     KeyExport *page = new KeyExport(dial, serverList);
 
     dial->setMainWidget(page);

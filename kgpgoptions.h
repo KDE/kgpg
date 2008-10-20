@@ -135,7 +135,7 @@ private:
     QString keyServer;              // Server stored in gnupg config
     QStringList serverList;         // Servers stored in kgpgrc
     QString defaultKeyServer;       // Default keyserver
-    QStringList defaultServerList;  // Default additional servers, not including default keyserver.
+    QStringList defaultServerList;  // Default list of servers including the default key server;
     QString defaultConfigPath;
     QString defaultHomePath;
     QString defaultBinPath;
