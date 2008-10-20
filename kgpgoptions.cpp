@@ -205,16 +205,13 @@ void kgpgOptions::slotDelKeyServer()
 {
   QListWidgetItem *cur = m_page6->ServerBox->takeItem(m_page6->ServerBox->currentRow());
   
-  bool defaultDeleted = false;
-  if (cur->text().contains( ' ' ) )
-    defaultDeleted = true;
+  bool defaultDeleted = cur->text().contains(' ');
   
   // This doesn't seem to work -> Bug in QListWidget or KListWidget maybe?
   //m_page6->ServerBox->removeItemWidget(cur);
   
   cur = m_page6->ServerBox->currentItem();
-  if (cur == NULL)
-  {
+  if (cur == NULL) {
     // The list is empty so disable the delete button.
     m_page6->server_del->setEnabled(false);
     return;
@@ -282,7 +279,6 @@ void kgpgOptions::slotDefaultKeyServer()
 
 void kgpgOptions::slotEnableDeleteServer()
 {
-  if (!m_page6->server_del->isEnabled())
     m_page6->server_del->setEnabled(true);
 }
 
