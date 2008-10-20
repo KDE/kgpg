@@ -256,6 +256,15 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 	emit layoutChanged();
 }
 
+void
+KGpgItemModel::deleteFromGroup(KGpgGroupNode *group, KGpgGroupMemberNode *member)
+{
+	emit layoutAboutToBeChanged();
+	delete member;
+	fixPersistentIndexes();
+	emit layoutChanged();
+}
+
 QVariant
 KGpgItemModel::headerData(int section, Qt::Orientation orientation, int role) const
 {

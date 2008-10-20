@@ -2226,9 +2226,59 @@ void KeysManager::doPrint(const QString &txt)
     }
 }
 
+void KeysManager::removeFromGroups(KGpgKeyNode *node)
+{
+	QList<KGpgGroupNode *> groups = node->getGroups();
+	if (groups.count() == 0)
+		return;
+
+	QStringList groupNames;
+
+	for (int i = 0; i < groups.count(); i++)
+		groupNames << groups.at(i)->getName();
+
+	QString ask = i18np("<qt>The key you are deleting is member of the following key group. Do you want to remove it from this group?</qt>",
+			"<qt>The key you are deleting is member of the following key groups. Do you want to remove it from this groups?</qt>",
+			groupNames.count());
+	
+	if (KMessageBox::questionYesNoList(this, ask, groupNames, i18n("Delete key")) != KMessageBox::Yes)
+		return;
+
+	QList<KGpgGroupMemberNode *> grefs = node->getGroupRefs();
+
+	bool groupDeleted = false;
+
+	for (int i = 0; i < grefs.count(); i++) {
+		QStringList memberids;
+		KGpgGroupMemberNode *gref = grefs.at(i);
+		KGpgGroupNode *group = gref->getParentKeyNode();
+
+		for (int j = group->getChildCount() - 1; j >= 0; j--) {
+			KGpgGroupMemberNode *rn = static_cast<KGpgGroupMemberNode *>(group->getChild(j));
+			if (rn != gref)
+				memberids << rn->getId();
+		}
+
+		if (memberids.isEmpty()) {
+			KgpgInterface::setGpgGroupSetting(group->getName(), memberids, KGpgSettings::gpgConfigPath());
+			imodel->deleteFromGroup(group, gref);
+		} else {
+			KgpgInterface::delGpgGroup(group->getName(), KGpgSettings::gpgConfigPath());
+			imodel->delNode(group);
+			groupDeleted = true;
+		}
+	}
+
+	if (groupDeleted) {
+		QStringList groupnames = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
+		KGpgSettings::setGroups(groupnames.join(","));
+		changeMessage(imodel->statusCountMessage(), 1);
+	}
+}
+
 void KeysManager::deleteseckey()
 {
-	KGpgNode *nd = iview->selectedNode();
+	KGpgKeyNode *nd = static_cast<KGpgKeyNode *>(iview->selectedNode());
 	Q_ASSERT(nd != NULL);
 
     // delete a key
@@ -2246,7 +2296,9 @@ void KeysManager::deleteseckey()
 		return;
 	}
 
-	delkey = static_cast<KGpgKeyNode *>(nd);
+	removeFromGroups(nd);
+
+	delkey = nd;
 	m_delkey = new KGpgDelKey(this, nd->getId());
 	connect(m_delkey, SIGNAL(done(int)), SLOT(secretKeyDeleted(int)));
 	m_delkey->start();
@@ -2321,6 +2373,9 @@ void KeysManager::confirmdeletekey()
         int result = KMessageBox::warningContinueCancelList(this, i18np("<qt><b>Delete the following public key?</b></qt>", "<qt><b>Delete the following %1 public keys?</b></qt>", keysToDelete.count()), keysToDelete, QString(), KStandardGuiItem::del());
         if (result != KMessageBox::Continue)
             return;
+
+	for (int i = 0; i < ndlist.count(); i++)
+		removeFromGroups(static_cast<KGpgKeyNode *>(ndlist.at(i)));
 
 	m_delkey = new KGpgDelKey(this, keysToDelete);
 	connect(m_delkey, SIGNAL(done(int)), SLOT(slotDelKeyDone(int)));

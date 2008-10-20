@@ -107,6 +107,7 @@ public slots:
 
 protected:
     bool eventFilter(QObject *, QEvent *e);
+    void removeFromGroups(KGpgKeyNode *nd);
 
 private slots:
     void statusBarTimeout();

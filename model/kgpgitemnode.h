@@ -26,6 +26,9 @@ using namespace KgpgCore;
 
 class KGpgExpandableNode;
 class KGpgItemModel;
+class KGpgRefNode;
+class KGpgGroupNode;
+class KGpgGroupMemberNode;
 
 class KGpgNode : public QObject
 {
@@ -136,6 +139,8 @@ private:
 protected:
 	virtual void readChildren();
 
+	QList<KGpgRefNode *> m_refs;
+
 public:
 	explicit KGpgKeyNode(KGpgExpandableNode *parent, const KgpgKey &k);
 	virtual ~KGpgKeyNode();
@@ -208,6 +213,27 @@ public:
 	 * @return encryption key size in bits
 	 */
 	virtual unsigned int getEncryptionKeySize() const;
+	/**
+	 * Notify this key that a KGpgRefNode now references this key.
+	 * @param node object that takes the reference
+	 */
+	void addRef(KGpgRefNode *node);
+	/**
+	 * Remove a reference to this object
+	 * @param node node that no longer has the reference
+	 *
+	 * Note that this must not be called as reply when this object
+	 * emits updated(NULL)
+	 */
+	void delRef(KGpgRefNode *node);
+	/**
+	 * returns a list of all groups this key is member of
+	 */
+	QList <KGpgGroupNode *> getGroups(void) const;
+	/**
+	 * returns a list of all group member nodes that reference this key
+	 */
+	QList <KGpgGroupMemberNode *> getGroupRefs(void) const;
 
 Q_SIGNALS:
 	void updated(KGpgKeyNode *);
@@ -435,8 +461,7 @@ protected:
 	explicit KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid);
 
 public:
-	virtual ~KGpgRefNode()
-		{ }
+	virtual ~KGpgRefNode();
 
 	virtual QString getId() const;
 	virtual QString getName() const;

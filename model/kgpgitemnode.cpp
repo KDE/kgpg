@@ -354,6 +354,44 @@ KGpgKeyNode::getEncryptionKeySize() const
 	return m_key->encryptionSize();
 }
 
+void
+KGpgKeyNode::addRef(KGpgRefNode *node)
+{
+	Q_ASSERT(m_refs.indexOf(node) == -1);
+	m_refs.append(node);
+}
+
+void
+KGpgKeyNode::delRef(KGpgRefNode *node)
+{
+	Q_ASSERT(m_refs.indexOf(node) != -1);
+	m_refs.removeOne(node);
+}
+
+QList <KGpgGroupNode *>
+KGpgKeyNode::getGroups(void) const
+{
+	QList<KGpgGroupNode *> ret;
+	QList<KGpgGroupMemberNode *> gnodes = getGroupRefs();
+
+	for (int i = 0; i < gnodes.count(); i++)
+		ret.append(gnodes.at(i)->getParentKeyNode());
+	return ret;
+}
+
+QList <KGpgGroupMemberNode *>
+KGpgKeyNode::getGroupRefs(void) const
+{
+	QList<KGpgGroupMemberNode *> ret;
+
+	for (int i = 0; i < m_refs.count(); i++) {
+		KGpgRefNode *nd = m_refs.at(i);
+		if (nd->getType() & ITYPE_GROUP)
+			ret.append(static_cast<KGpgGroupMemberNode *>(nd));
+	}
+	return ret;
+}
+
 KGpgUidNode::KGpgUidNode(KGpgKeyNode *parent, const KgpgKeyUid &u)
 	: KGpgExpandableNode(parent), m_uid(new KgpgKeyUid(u))
 {
@@ -535,6 +573,7 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
 	m_keynode = root->findKey(keyid);
 	if (m_keynode != NULL) {
 		connect(m_keynode, SIGNAL(updated(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
+		m_keynode->addRef(this);
 	} else {
 		m_id = keyid;
 		connect(root, SIGNAL(newKeyNode(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
@@ -543,12 +582,20 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
 	parent->children.append(this);
 }
 
+KGpgRefNode::~KGpgRefNode()
+{
+	if (m_keynode)
+		m_keynode->delRef(this);
+}
+
 KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, KGpgKeyNode *key)
 	: KGpgNode(parent)
 {
 	Q_ASSERT(key != NULL);
 	Q_ASSERT(parent != NULL);
 	m_keynode = key;
+	connect(m_keynode, SIGNAL(updated(KGpgKeyNode *)), SLOT(keyUpdated(KGpgKeyNode *)));
+	m_keynode->addRef(this);
 
 	parent->children.append(this);
 }
@@ -572,6 +619,7 @@ KGpgRefNode::keyUpdated(KGpgKeyNode *nkey)
 		disconnect(this, SLOT(keyUpdated(KGpgKeyNode *)));
 		connect(nkey, SIGNAL(updated(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
 		m_keynode = nkey;
+		m_keynode->addRef(this);
 	}
 }
 
