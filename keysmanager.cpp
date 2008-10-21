@@ -2236,7 +2236,7 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 		groupNames << groups.at(i)->getName();
 
 	QString ask = i18np("<qt>The key you are deleting is member of the following key group. Do you want to remove it from this group?</qt>",
-			"<qt>The key you are deleting is member of the following key groups. Do you want to remove it from this groups?</qt>",
+			"<qt>The key you are deleting is member of the following key groups. Do you want to remove it from these groups?</qt>",
 			groupNames.count());
 	
 	if (KMessageBox::questionYesNoList(this, ask, groupNames, i18n("Delete key")) != KMessageBox::Yes)
