@@ -203,10 +203,8 @@ void kgpgOptions::slotAddKeyServer()
 
 void kgpgOptions::slotChangeEncryptTo()
 {
-	if (m_page1->encrypt_to_always->isChecked() != m_encrypttoalways)
-		enableButtonApply(true);
-	else
-		enableButtonApply(false);
+	bool enable = (m_page1->encrypt_to_always->isChecked() != m_encrypttoalways);
+	enableButtonApply(enable);
 }
 
 void kgpgOptions::slotDelKeyServer()
