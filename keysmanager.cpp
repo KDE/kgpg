@@ -2257,7 +2257,7 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 				memberids << rn->getId();
 		}
 
-		if (memberids.isEmpty()) {
+		if (!memberids.isEmpty()) {
 			KgpgInterface::setGpgGroupSetting(group->getName(), memberids, KGpgSettings::gpgConfigPath());
 			imodel->deleteFromGroup(group, gref);
 		} else {
