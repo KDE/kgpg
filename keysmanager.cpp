@@ -2345,6 +2345,7 @@ void KeysManager::confirmdeletekey()
 	}
 
 	QStringList keysToDelete;
+	QStringList deleteIds;
 	QString secList;
 
 	bool secretKeyInside = (pt & ITYPE_SECRET);
@@ -2355,6 +2356,7 @@ void KeysManager::confirmdeletekey()
 			secList += ki->getNameComment();
 		} else if (ki != terminalkey) {
 			keysToDelete += ki->getNameComment();
+			deleteIds << ki->getId();
 			m_delkeys << ki;
 		}
 	}
@@ -2375,7 +2377,7 @@ void KeysManager::confirmdeletekey()
 	for (int i = 0; i < ndlist.count(); i++)
 		removeFromGroups(static_cast<KGpgKeyNode *>(ndlist.at(i)));
 
-	m_delkey = new KGpgDelKey(this, keysToDelete);
+	m_delkey = new KGpgDelKey(this, deleteIds);
 	connect(m_delkey, SIGNAL(done(int)), SLOT(slotDelKeyDone(int)));
 	m_delkey->start();
 }
