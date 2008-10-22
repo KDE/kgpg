@@ -2390,6 +2390,7 @@ void KeysManager::slotDelKeyDone(int res)
 
 	for (int i = m_delkeys.count() - 1; i >= 0; i--)
 		imodel->delNode(m_delkeys.at(i));
+	m_delkeys.clear();
 
 	changeMessage(imodel->statusCountMessage(), 1);
 }
