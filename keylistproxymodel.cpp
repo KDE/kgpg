@@ -76,9 +76,10 @@ KeyListProxyModel::lessThan(const KGpgNode *left, const KGpgNode *right, const i
 			bool test2 = (right->getType() & ITYPE_PUBLIC) && !(right->getType() & ITYPE_SECRET); // only a public key
 
 			// key-pair goes before simple public key
-			if (left->getType() == ITYPE_PAIR && test2) return true;
-			if (right->getType() == ITYPE_PAIR && test1) return false;
-
+			// extra check needed to get sorting by trust right
+			if (left->getType() == ITYPE_PAIR && test2) return (column != KEYCOLUMN_TRUST);
+			if (right->getType() == ITYPE_PAIR && test1) return (column == KEYCOLUMN_TRUST);
+			
 			return nodeLessThan(left, right, column);
 		} else {
 			lessThan(left, right->getParentKeyNode(), column);
