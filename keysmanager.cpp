@@ -1681,10 +1681,17 @@ void KeysManager::keyproperties()
 		slotregenerate();
 		break;
 	case ITYPE_PAIR:
-	case ITYPE_PUBLIC:
+	case ITYPE_PUBLIC: {
+		KGpgKeyNode *kn = cur->toKeyNode();
+		KgpgKeyInfo *opts = new KgpgKeyInfo(kn, this);
+		connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
+		opts->exec();
+		delete opts;
+		break;
+	}
 	case ITYPE_GPAIR:
 	case ITYPE_GPUBLIC: {
-		KGpgKeyNode *kn = cur->toKeyNode();
+		KGpgKeyNode *kn = cur->toGroupMemberNode()->getRefNode();
 		KgpgKeyInfo *opts = new KgpgKeyInfo(kn, this);
 		connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
 		opts->exec();
