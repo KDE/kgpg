@@ -51,6 +51,96 @@ KGpgNode::getNameComment() const
 		return i18nc("Name of uid (comment)", "%1 (%2)", getName(), getComment());
 }
 
+KGpgExpandableNode *
+KGpgNode::toExpandableNode()
+{
+	Q_ASSERT(((getType() & ITYPE_GROUP) && !(getType() & ITYPE_PAIR)) ||
+			(getType() & (ITYPE_PAIR | ITYPE_SUB | ITYPE_UID | ITYPE_UAT)));
+
+	return static_cast<KGpgExpandableNode *>(this);
+}
+
+KGpgKeyNode *
+KGpgNode::toKeyNode()
+{
+	Q_ASSERT(getType() & ITYPE_PAIR);
+	Q_ASSERT(!(getType() & ITYPE_GROUP));
+
+	return static_cast<KGpgKeyNode *>(this);
+}
+
+KGpgRootNode *
+KGpgNode::toRootNode()
+{
+	Q_ASSERT(m_parent == NULL);
+
+	return static_cast<KGpgRootNode *>(this);
+}
+
+KGpgUidNode *
+KGpgNode::toUidNode()
+{
+	Q_ASSERT(getType() & ITYPE_UID);
+
+	return static_cast<KGpgUidNode *>(this);
+}
+
+KGpgSubkeyNode *
+KGpgNode::toSubkeyNode()
+{
+	Q_ASSERT(getType() & ITYPE_SUB);
+
+	return static_cast<KGpgSubkeyNode *>(this);
+}
+
+KGpgUatNode *
+KGpgNode::toUatNode()
+{
+	Q_ASSERT(getType() & ITYPE_UAT);
+
+	return static_cast<KGpgUatNode *>(this);
+}
+
+KGpgGroupNode *
+KGpgNode::toGroupNode()
+{
+	Q_ASSERT((getType() & ITYPE_GROUP) && !(getType() & ITYPE_PAIR));
+
+	return static_cast<KGpgGroupNode *>(this);
+}
+
+KGpgRefNode *
+KGpgNode::toRefNode()
+{
+	Q_ASSERT(((getType() & ITYPE_GROUP) && (getType() & ITYPE_PAIR)) || (getType() & ITYPE_SIGN));
+
+	return static_cast<KGpgRefNode *>(this);
+}
+
+KGpgGroupMemberNode *
+KGpgNode::toGroupMemberNode()
+{
+	Q_ASSERT((getType() & ITYPE_GROUP) && (getType() & ITYPE_PAIR));
+
+	return static_cast<KGpgGroupMemberNode *>(this);
+}
+
+KGpgSignNode *
+KGpgNode::toSignNode()
+{
+	Q_ASSERT(getType() & ITYPE_SIGN);
+
+	return static_cast<KGpgSignNode *>(this);
+}
+
+KGpgOrphanNode *
+KGpgNode::toOrphanNode()
+{
+	Q_ASSERT((getType() & ITYPE_SECRET) && !(getType() & ITYPE_GPUBLIC));
+
+	return static_cast<KGpgOrphanNode *>(this);
+}
+
 KGpgExpandableNode::KGpgExpandableNode(KGpgExpandableNode *parent)
 	: KGpgNode(parent)
 {
@@ -171,9 +261,7 @@ KGpgRootNode::findKey(const QString &keyId)
 {
 	int i = findKeyRow(keyId);
 	if (i >= 0) {
-		KGpgNode *nd = children[i];
-		Q_ASSERT(!(nd->getType() & ~ITYPE_PAIR));
-		return static_cast<KGpgKeyNode *>(nd);
+		return children[i]->toKeyNode();
 	}
 
 	return NULL;
@@ -187,7 +275,7 @@ KGpgRootNode::findKeyRow(const QString &keyId)
 		if ((node->getType() & ITYPE_PAIR) == 0)
 			continue;
 
-		KGpgKeyNode *key = static_cast<KGpgKeyNode *>(node);
+		KGpgKeyNode *key = node->toKeyNode();
 
 		if (keyId == key->getId().right(keyId.length()))
 			return i;
@@ -387,7 +475,7 @@ KGpgKeyNode::getGroupRefs(void) const
 	for (int i = 0; i < m_refs.count(); i++) {
 		KGpgRefNode *nd = m_refs.at(i);
 		if (nd->getType() & ITYPE_GROUP)
-			ret.append(static_cast<KGpgGroupMemberNode *>(nd));
+			ret.append(nd->toGroupMemberNode());
 	}
 	return ret;
 }
@@ -419,6 +507,12 @@ QString
 KGpgUidNode::getId() const
 {
 	return QString::number(m_uid->index());
+}
+
+KGpgKeyNode *
+KGpgUidNode::getParentKeyNode() const
+{
+	return m_parent->toKeyNode();
 }
 
 KGpgSignNode::KGpgSignNode(KGpgExpandableNode *parent, const KgpgKeySign &s)
@@ -486,6 +580,12 @@ KGpgSubkeyNode::getSignCount() const
 	return i18np("1 signature", "%1 signatures", children.count());
 }
 
+KGpgKeyNode *
+KGpgSubkeyNode::getParentKeyNode() const
+{
+	return m_parent->toKeyNode();
+}
+
 KGpgUatNode::KGpgUatNode(KGpgKeyNode *parent, const KgpgKeyUat &k, const QString &index)
 	: KGpgExpandableNode(parent), m_uat(k), m_idx(index)
 {
@@ -518,6 +618,12 @@ KGpgUatNode::getSignCount() const
 	return i18np("1 signature", "%1 signatures", children.count());
 }
 
+KGpgKeyNode *
+KGpgUatNode::getParentKeyNode() const
+{
+	return m_parent->toKeyNode();
+}
+
 KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name)
 	: KGpgExpandableNode(parent), m_name(name)
 {
@@ -536,7 +642,7 @@ KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KG
 
 KGpgGroupNode::~KGpgGroupNode()
 {
-	static_cast<KGpgRootNode *>(m_parent)->m_groups--;
+	m_parent->toRootNode()->m_groups--;
 }
 
 QString
@@ -569,7 +675,8 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
 	while (pt->getParentKeyNode() != NULL)
 		pt = pt->getParentKeyNode();
 
-	KGpgRootNode *root = static_cast<KGpgRootNode *>(pt);
+	KGpgRootNode *root = pt->toRootNode();
+
 	m_keynode = root->findKey(keyid);
 	if (m_keynode != NULL) {
 		connect(m_keynode, SIGNAL(updated(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
@@ -607,7 +714,7 @@ KGpgRefNode::keyUpdated(KGpgKeyNode *nkey)
 	while (pt->getParentKeyNode() != NULL)
 		pt = pt->getParentKeyNode();
 
-	KGpgRootNode *root = static_cast<KGpgRootNode *>(pt);
+	KGpgRootNode *root = pt->toRootNode();
 
 	if (nkey == NULL) {
 		m_id = m_keynode->getId();
@@ -664,14 +771,16 @@ KGpgGroupMemberNode::KGpgGroupMemberNode(KGpgGroupNode *parent, KGpgKeyNode *k)
 {
 }
 
-KgpgKeyTrust KGpgGroupMemberNode::getTrust() const
+KgpgKeyTrust
+KGpgGroupMemberNode::getTrust() const
 {
 	if (m_keynode != NULL)
 		return m_keynode->getTrust();
 	return TRUST_NOKEY;
 }
 
-KgpgItemType KGpgGroupMemberNode::getType() const
+KgpgItemType
+KGpgGroupMemberNode::getType() const
 {
 	if (m_keynode != NULL)
 		return m_keynode->getType() | ITYPE_GROUP;
@@ -716,6 +825,12 @@ KGpgGroupMemberNode::getEncryptionKeySize() const
 	if (m_keynode != NULL)
 		return m_keynode->getEncryptionKeySize();
 	return 0;
+}
+
+KGpgGroupNode *
+KGpgGroupMemberNode::getParentKeyNode() const
+{
+	return m_parent->toGroupNode();
 }
 
 KGpgOrphanNode::KGpgOrphanNode(KGpgExpandableNode *parent, const KgpgKey &k)

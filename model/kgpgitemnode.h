@@ -25,10 +25,17 @@
 using namespace KgpgCore;
 
 class KGpgExpandableNode;
-class KGpgItemModel;
-class KGpgRefNode;
+class KGpgKeyNode;
+class KGpgRootNode;
+class KGpgUidNode;
+class KGpgSubkeyNode;
+class KGpgUatNode;
 class KGpgGroupNode;
+class KGpgRefNode;
 class KGpgGroupMemberNode;
+class KGpgSignNode;
+class KGpgOrphanNode;
+class KGpgItemModel;
 
 class KGpgNode : public QObject
 {
@@ -96,6 +103,18 @@ public:
 	 */
 	KGpgExpandableNode *getParentKeyNode() const
 		{ return m_parent; }
+
+	KGpgExpandableNode *toExpandableNode();
+	KGpgKeyNode *toKeyNode();
+	KGpgRootNode *toRootNode();
+	KGpgUidNode *toUidNode();
+	KGpgSubkeyNode *toSubkeyNode();
+	KGpgUatNode *toUatNode();
+	KGpgGroupNode *toGroupNode();
+	KGpgRefNode *toRefNode();
+	KGpgGroupMemberNode *toGroupMemberNode();
+	KGpgSignNode *toSignNode();
+	KGpgOrphanNode *toOrphanNode();
 };
 
 class KGpgExpandableNode : public KGpgNode
@@ -327,8 +346,7 @@ public:
 	virtual QString getName() const;
 	virtual QString getEmail() const;
 	virtual QString getId() const;
-	virtual KGpgKeyNode *getParentKeyNode() const
-		{ return static_cast<KGpgKeyNode *>(m_parent); }
+	virtual KGpgKeyNode *getParentKeyNode() const;
 	virtual QString getComment() const
 		{ return m_uid->comment(); }
 	/**
@@ -362,8 +380,7 @@ public:
 	virtual QDate getExpiration() const;
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
-	virtual KGpgKeyNode *getParentKeyNode() const
-		{ return static_cast<KGpgKeyNode *>(m_parent); }
+	virtual KGpgKeyNode *getParentKeyNode() const;
 	/**
 	 * Return the number of signatures of this subkey
 	 *
@@ -401,8 +418,7 @@ public:
 	virtual QString getSize() const;
 	virtual QString getName() const;
 	virtual QDate getCreation() const;
-	virtual KGpgKeyNode *getParentKeyNode() const
-		{ return static_cast<KGpgKeyNode *>(m_parent); }
+	virtual KGpgKeyNode *getParentKeyNode() const;
 	/**
 	 * Return the number of signatures of this attribute
 	 *
@@ -502,8 +518,7 @@ public:
 	virtual QString getSize() const;
 	virtual QDate getExpiration() const;
 	virtual QDate getCreation() const;
-	virtual KGpgGroupNode *getParentKeyNode() const
-		{ return static_cast<KGpgGroupNode *>(m_parent); }
+	virtual KGpgGroupNode *getParentKeyNode() const;
 
 	/**
 	 * Returns the size of the signing key.

@@ -243,7 +243,7 @@ KeyListProxyModel::data(const QModelIndex &index, int role) const
 
 	if ((node->getType() == ITYPE_UAT) && (role == Qt::DecorationRole) && (index.column() == 0)) {
 		if (m_previewsize > 0) {
-			KGpgUatNode *nd = static_cast<KGpgUatNode *>(node);
+			KGpgUatNode *nd = node->toUatNode();
 			return nd->getPixmap().scaled(m_previewsize + 5, m_previewsize, Qt::KeepAspectRatio);
 		} else {
 			return Convert::toPixmap(ITYPE_UAT);

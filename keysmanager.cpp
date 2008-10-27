@@ -802,8 +802,7 @@ void KeysManager::refreshKeyFromServer()
 
 void KeysManager::slotDelUid()
 {
-    KGpgNode *nd = iview->selectedNode();
-    Q_ASSERT(nd->getType() == ITYPE_UID);
+	KGpgUidNode *nd = iview->selectedNode()->toUidNode();
 
 	m_deluid = new KGpgDelUid(this, nd->getParentKeyNode()->getId(), nd->getId());
 
@@ -821,8 +820,7 @@ void KeysManager::slotDelUidDone(int result)
 
 void KeysManager::slotPrimUid()
 {
-    KGpgNode *nd = iview->selectedNode();
-    Q_ASSERT(nd->getType() == ITYPE_UID);
+    KGpgUidNode *nd = iview->selectedNode()->toUidNode();
 
     QProcess *process = new QProcess(this);
     KConfigGroup config(KGlobal::config(), "General");
@@ -832,7 +830,7 @@ void KeysManager::slotPrimUid()
     args << "--edit-key" << nd->getParentKeyNode()->getId() << "uid" << nd->getId() << "primary" << "save";
     process->start(terminalApp, args);
     process->waitForFinished();
-    imodel->refreshKey(static_cast<KGpgKeyNode *>(nd->getParentKeyNode()));
+    imodel->refreshKey(nd->getParentKeyNode()->toKeyNode());
 }
 
 void KeysManager::slotregenerate()
@@ -941,8 +939,7 @@ void KeysManager::slotAddPhotoFinished(int res)
 void KeysManager::slotDeletePhoto()
 {
     KGpgNode *nd = iview->selectedNode();
-    Q_ASSERT(nd->getType() == ITYPE_UAT);
-    KGpgUatNode *und = static_cast<KGpgUatNode *>(nd);
+    KGpgUatNode *und = nd->toUatNode();
     KGpgKeyNode *parent = und->getParentKeyNode();
 
     QString mess = i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 &lt;%3&gt;</b>?</qt>",
@@ -967,8 +964,7 @@ void KeysManager::slotDelPhotoFinished(int res)
 void KeysManager::slotUpdatePhoto()
 {
 	KGpgNode *nd = iview->selectedNode();
-	Q_ASSERT(!(nd->getType() & ~ITYPE_PAIR));
-	imodel->refreshKey(static_cast<KGpgKeyNode *>(nd));
+	imodel->refreshKey(nd->toKeyNode());
 }
 
 void KeysManager::slotSetPhotoSize(int size)
@@ -1300,7 +1296,7 @@ KeysManager::slotMenu(const QPoint &pos)
 		if (!nd->hasChildren())
 			continue;
 
-		KGpgExpandableNode *exnd = static_cast<KGpgExpandableNode *>(nd);
+		KGpgExpandableNode *exnd = nd->toExpandableNode();
 		if (!exnd->wasExpanded()) {
 			unksig = true;
 			break;
@@ -1318,7 +1314,7 @@ KeysManager::slotMenu(const QPoint &pos)
 	if (itype == ITYPE_SIGN) {
 		bool allunksig = true;
 		for (int i = 0; (i < cnt) && allunksig; i++) {
-			KGpgSignNode *nd = static_cast<KGpgSignNode *>(ndlist.at(i));
+			KGpgSignNode *nd = ndlist.at(i)->toSignNode();
 			allunksig = nd->isUnknown();
 		}
 
@@ -1327,7 +1323,7 @@ KeysManager::slotMenu(const QPoint &pos)
 		m_popupsig->exec(globpos);
 	} else if (itype == ITYPE_UID) {
 		if (cnt == 1) {
-			KGpgKeyNode *knd = static_cast<KGpgUidNode *>(ndlist.at(0))->getParentKeyNode();
+			KGpgKeyNode *knd = ndlist.at(0)->toUidNode()->getParentKeyNode();
 			setPrimUid->setEnabled(knd->getType() & ITYPE_SECRET);
 		}
 		m_popupuid->exec(globpos);
@@ -1600,8 +1596,7 @@ void KeysManager::slotShowPhoto()
        return;
     }
     KGpgNode *nd = iview->selectedNode();
-    Q_ASSERT(nd->getType() == ITYPE_UAT);
-    KGpgUatNode *und = static_cast<KGpgUatNode *>(nd);
+    KGpgUatNode *und = nd->toUatNode();
     KGpgKeyNode *parent = und->getParentKeyNode();
     KService::Ptr ptr = list.first();
 
@@ -1638,7 +1633,7 @@ void KeysManager::defaultAction(KGpgNode *nd)
 	case ITYPE_GPUBLIC:
 	case ITYPE_GSECRET:
 	case ITYPE_GPAIR:
-		iview->selectNode(static_cast<KGpgRefNode *>(nd)->getRefNode());
+		iview->selectNode(nd->toRefNode()->getRefNode());
 		break;
 	case ITYPE_SECRET:
 		slotregenerate();
@@ -1659,7 +1654,7 @@ KeysManager::showProperties(KGpgNode *n)
 	case ITYPE_PUBLIC:
 	case ITYPE_PAIR:
 		{
-			KGpgKeyNode *k = static_cast<KGpgKeyNode *>(n);
+			KGpgKeyNode *k = n->toKeyNode();
 			KgpgKeyInfo *opts = new KgpgKeyInfo(k, this);
 			connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
 			connect(opts->keychange, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
@@ -1689,7 +1684,7 @@ void KeysManager::keyproperties()
 	case ITYPE_PUBLIC:
 	case ITYPE_GPAIR:
 	case ITYPE_GPUBLIC: {
-		KGpgKeyNode *kn = static_cast<KGpgKeyNode *>(cur);
+		KGpgKeyNode *kn = cur->toKeyNode();
 		KgpgKeyInfo *opts = new KgpgKeyInfo(kn, this);
 		connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
 		opts->exec();
@@ -1740,7 +1735,7 @@ void KeysManager::createNewGroup()
                     if ((nd->getTrust() == TRUST_FULL) ||
                         (nd->getTrust() == TRUST_ULTIMATE)) {
                         keysGroup += nd->getId();
-                        keysList.append(static_cast<KGpgKeyNode *>(nd));
+                        keysList.append(nd->toKeyNode());
                     } else
                         badkeys += i18nc("<Name> (<Email>) ID: <KeyId>", "%1 (%2) ID: %3", nd->getName(), nd->getEmail(), nd->getId());
             }
@@ -1791,7 +1786,7 @@ void KeysManager::editGroup()
 			memberids << members.at(i)->getId();
 
 		KgpgInterface::setGpgGroupSetting(nd->getName(), memberids, KGpgSettings::gpgConfigPath());
-		imodel->changeGroup(static_cast<KGpgGroupNode *>(nd), members);
+		imodel->changeGroup(nd->toGroupNode(), members);
 	}
     delete dialogGroupEdit;
 }
@@ -1811,7 +1806,7 @@ void KeysManager::signkey()
 
     if (signList.count() == 1)
     {
-        KGpgKeyNode *nd = static_cast<KGpgKeyNode *>(signList.at(0));
+        KGpgKeyNode *nd = signList.at(0)->toKeyNode();
         QString opt;
 
         if (nd->getEmail().isEmpty())
@@ -1832,7 +1827,7 @@ void KeysManager::signkey()
     {
         QStringList signKeyList;
 		for (int i = 0; i < signList.count(); ++i) {
-			KGpgKeyNode *nd = static_cast<KGpgKeyNode *>(signList.at(i));
+			KGpgKeyNode *nd = signList.at(i)->toKeyNode();
 
 			if (nd->getEmail().isEmpty())
 				signKeyList += i18nc("Name: ID", "%1: %2", nd->getName(), nd->getBeautifiedFingerprint());
@@ -1878,9 +1873,9 @@ void KeysManager::signuid()
 		KGpgNode *nd = signList.at(0);
 		KGpgKeyNode *pnd;
 		if (tp & ITYPE_PUBLIC)
-			pnd = static_cast<KGpgKeyNode *>(nd);
+			pnd = nd->toKeyNode();
 		else
-			pnd = static_cast<KGpgKeyNode *>(nd->getParentKeyNode());
+			pnd = nd->getParentKeyNode()->toKeyNode();
 		QString opt;
 
 		if (nd->getEmail().isEmpty())
@@ -1902,9 +1897,7 @@ void KeysManager::signuid()
 		for (int i = 0; i < signList.count(); ++i) {
 			KGpgNode *nd = signList.at(i);
 			KGpgKeyNode *pnd = (nd->getType() & (ITYPE_UID | ITYPE_UAT)) ?
-					static_cast<KGpgKeyNode *>(nd->getParentKeyNode()) :
-					static_cast<KGpgKeyNode *>(nd);
-
+					nd->getParentKeyNode()->toKeyNode() : nd->toKeyNode();
 
 			if (nd->getEmail().isEmpty())
 				signKeyList += i18nc("Name: ID", "%1: %2",
@@ -1946,7 +1939,7 @@ void KeysManager::signLoop()
 		switch (nd->getType()) {
 		case ITYPE_UID:
 		case ITYPE_UAT:
-			keyid = (static_cast<KGpgExpandableNode *>(nd))->getParentKeyNode()->getId();
+			keyid = nd->toExpandableNode()->getParentKeyNode()->getId();
 			uid = nd->getId();
 			break;
 		default:
@@ -1975,8 +1968,7 @@ void KeysManager::signatureResult(int success, const QString &keyId, KgpgInterfa
 
 	if (success == 2) {
 		KGpgKeyNode *knd = (nd->getType() & (ITYPE_UAT | ITYPE_UID)) ?
-				static_cast<KGpgKeyNode *>(nd->getParentKeyNode()) :
-				static_cast<KGpgKeyNode *>(nd);
+				nd->getParentKeyNode()->toKeyNode() : nd->toKeyNode();
 		if (refreshList.indexOf(knd) == -1)
 			refreshList.append(knd);
 	} else if (success == 1)
@@ -1994,12 +1986,10 @@ void KeysManager::getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *n
 	for (int i = nd->getChildCount() - 1; i >= 0; i--) {
 		KGpgNode *ch = nd->getChild(i);
 		if (ch->hasChildren()) {
-			getMissingSigs(missingKeys, static_cast<KGpgExpandableNode *>(ch));
+			getMissingSigs(missingKeys, ch->toExpandableNode());
 			continue;
-		}
-
-		if (ch->getType() == ITYPE_SIGN) {
-			if (static_cast<KGpgSignNode *>(ch)->isUnknown())
+		} else if (ch->getType() == ITYPE_SIGN) {
+			if (ch->toSignNode()->isUnknown())
 				*missingKeys << ch->getId();
 		}
 	}
@@ -2018,10 +2008,10 @@ void KeysManager::importallsignkey()
 		KGpgNode *nd = sel.at(i);
 
 		if (nd->hasChildren()) {
-			KGpgExpandableNode *en = static_cast<KGpgExpandableNode *>(nd);
+			KGpgExpandableNode *en = nd->toExpandableNode();
 			getMissingSigs(&missingKeys, en);
 		} else if (nd->getType() == ITYPE_SIGN) {
-			KGpgSignNode *sn = static_cast<KGpgSignNode *>(nd);
+			KGpgSignNode *sn = nd->toSignNode();
 
 			if (sn->isUnknown())
 				missingKeys << sn->getId();
@@ -2161,7 +2151,7 @@ void KeysManager::delsignatureResult(bool success)
 
 		while (!(nd->getType() & ITYPE_PAIR))
 			nd = nd->getParentKeyNode();
-		imodel->refreshKey(static_cast<KGpgKeyNode*>(nd));
+		imodel->refreshKey(nd->toKeyNode());
 	} else
 		KMessageBox::sorry(this, i18n("Requested operation was unsuccessful, please edit the key manually."));
 }
@@ -2182,7 +2172,7 @@ void KeysManager::slotedit()
     KConfigGroup config(KGlobal::config(), "General");
     *kp << config.readPathEntry("TerminalApplication","konsole");
     *kp << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" <<"--edit-key" << nd->getId() << "help";
-    terminalkey = static_cast<KGpgKeyNode *>(nd);
+    terminalkey = nd->toKeyNode();
     editKey->setEnabled(false);
 
     connect(kp, SIGNAL(finished(int)), SLOT(slotEditDone(int)));
@@ -2252,7 +2242,7 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 		KGpgGroupNode *group = gref->getParentKeyNode();
 
 		for (int j = group->getChildCount() - 1; j >= 0; j--) {
-			KGpgGroupMemberNode *rn = static_cast<KGpgGroupMemberNode *>(group->getChild(j));
+			KGpgGroupMemberNode *rn = group->getChild(j)->toGroupMemberNode();
 			if (rn != gref)
 				memberids << rn->getId();
 		}
@@ -2276,7 +2266,7 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 
 void KeysManager::deleteseckey()
 {
-	KGpgKeyNode *nd = static_cast<KGpgKeyNode *>(iview->selectedNode());
+	KGpgKeyNode *nd = iview->selectedNode()->toKeyNode();
 	Q_ASSERT(nd != NULL);
 
     // delete a key
@@ -2350,7 +2340,7 @@ void KeysManager::confirmdeletekey()
 
 	bool secretKeyInside = (pt & ITYPE_SECRET);
 	for (int i = 0; i < ndlist.count(); ++i) {
-		KGpgKeyNode *ki = static_cast<KGpgKeyNode *>(ndlist.at(i));
+		KGpgKeyNode *ki = ndlist.at(i)->toKeyNode();
 
 		if (ki->getType() & ITYPE_SECRET) {
 			secList += ki->getNameComment();
@@ -2375,7 +2365,7 @@ void KeysManager::confirmdeletekey()
             return;
 
 	for (int i = 0; i < ndlist.count(); i++)
-		removeFromGroups(static_cast<KGpgKeyNode *>(ndlist.at(i)));
+		removeFromGroups(ndlist.at(i)->toKeyNode());
 
 	m_delkey = new KGpgDelKey(this, deleteIds);
 	connect(m_delkey, SIGNAL(done(int)), SLOT(slotDelKeyDone(int)));

@@ -107,8 +107,7 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 			return node->getName();
 		case Qt::DecorationRole:
 			if (node->getType() == ITYPE_UAT) {
-				KGpgUatNode *nd = static_cast<KGpgUatNode *>(node);
-				return nd->getPixmap();
+				return node->toUatNode()->getPixmap();
 			} else {
 				return Convert::toPixmap(node->getType());
 			}
@@ -142,13 +141,13 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 			switch (node->getType()) {
 			case ITYPE_PAIR:
 			case ITYPE_PUBLIC:
-				return static_cast<KGpgKeyNode *>(node)->getSignCount();
+				return node->toKeyNode()->getSignCount();
 			case ITYPE_UAT:
-				return static_cast<KGpgUatNode *>(node)->getSignCount();
+				return node->toUatNode()->getSignCount();
 			case ITYPE_UID:
-				return static_cast<KGpgUidNode *>(node)->getSignCount();
+				return node->toUidNode()->getSignCount();
 			case ITYPE_SUB:
-				return static_cast<KGpgSubkeyNode *>(node)->getSignCount();
+				return node->toSubkeyNode()->getSignCount();
 			}
 		}
 		break;
@@ -249,8 +248,7 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 		}
 		if (found)
 			continue;
-		Q_ASSERT(!(keys.at(i)->getType() & ITYPE_GROUP));
-		new KGpgGroupMemberNode(node, static_cast<KGpgKeyNode *>(keys.at(i)));
+		new KGpgGroupMemberNode(node, keys.at(i)->toKeyNode());
 	}
 	fixPersistentIndexes();
 	emit layoutChanged();
@@ -467,7 +465,7 @@ KGpgItemModel::updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::Kg
 		if (!child->hasChildren())
 			continue;
 
-		KGpgExpandableNode *echild = static_cast<KGpgExpandableNode *>(child);
+		KGpgExpandableNode *echild = child->toExpandableNode();
 		if (echild->wasExpanded())
 			updateNodeTrustColor(echild, trust, color);
 	}
