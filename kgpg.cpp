@@ -691,7 +691,7 @@ void KGpgUserActions::slotSaveOptionsPath()
 
 	QString gpgConfServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
 	if (!gpgConfServer.isEmpty()) {
-		// The user allready had configured a keyserver, set this one as default.
+		// The user already had configured a keyserver, set this one as default.
 		QStringList serverList = KGpgSettings::keyServers();
 		serverList.prepend(gpgConfServer);
 		KGpgSettings::setKeyServers(serverList);

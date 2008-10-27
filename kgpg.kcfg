@@ -223,7 +223,7 @@
 
 	<!-- 
 		Should in future be merged with Key Servers, for compatibility reasons
-		with kde 3.5 it is now in a seperate group.
+		with kde 3.5 it is now in a separate group.
 	-->
 	<group name="Servers">
 		<entry name="KeyServers" type="StringList" key="Server_List">
