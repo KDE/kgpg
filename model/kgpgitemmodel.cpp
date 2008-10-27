@@ -257,6 +257,8 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 void
 KGpgItemModel::deleteFromGroup(KGpgGroupNode *group, KGpgGroupMemberNode *member)
 {
+	Q_ASSERT(group == member->getParentKeyNode());
+
 	emit layoutAboutToBeChanged();
 	delete member;
 	fixPersistentIndexes();
