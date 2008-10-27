@@ -38,6 +38,7 @@ class KPassivePopup;
 class KStatusBar;
 class KMenu;
 class KLineEdit;
+class KAction;
 
 class KgpgInterface;
 class KeyServer;
@@ -229,11 +230,11 @@ private:
     QAction *signKey;
     QAction *signUid;
     QAction *refreshKey;
-    QAction *editKey;
+    KAction *editKey;
     QAction *setPrimUid;
     QAction *delUid;
     QAction *delSignKey;
-    QAction *deleteKey;
+    KAction *deleteKey;
     QAction *editCurrentGroup;
     QAction *delGroup;
     QAction *setDefaultKey;

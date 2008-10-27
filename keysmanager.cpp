@@ -122,7 +122,7 @@ KeysManager::KeysManager(QWidget *parent)
     KStandardAction::findNext(this, SLOT(findNextKey()), actionCollection());
     actionCollection()->addAction(KStandardAction::Preferences, "options_configure", this, SLOT(showOptions()));
 
-    QAction *action = 0;
+    KAction *action = 0;
 
     action = actionCollection()->addAction( "default" );
     connect(action, SIGNAL(triggered(bool)), SLOT(slotDefaultAction()));
@@ -182,19 +182,19 @@ KeysManager::KeysManager(QWidget *parent)
     connect(editKey, SIGNAL(triggered(bool)), SLOT(slotedit()));
     editKey->setShortcut(QKeySequence(Qt::ALT+Qt::Key_Return));
 
-    QAction *generateKey = actionCollection()->addAction("key_gener");
+    KAction *generateKey = actionCollection()->addAction("key_gener");
     generateKey->setIcon(KIcon("key-generate-pair"));
     generateKey->setText(i18n("&Generate Key Pair..."));
     connect(generateKey, SIGNAL(triggered(bool)), SLOT(slotGenerateKey()));
     generateKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::New));
 
-    QAction *exportPublicKey = actionCollection()->addAction("key_export");
+    KAction *exportPublicKey = actionCollection()->addAction("key_export");
     exportPublicKey->setIcon(KIcon("document-export-key"));
     exportPublicKey->setText(i18n("E&xport Public Keys..."));
     connect(exportPublicKey, SIGNAL(triggered(bool)), SLOT(slotexport()));
     exportPublicKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Copy));
 
-    QAction *importKey = actionCollection()->addAction("key_import");
+    KAction *importKey = actionCollection()->addAction("key_import");
     importKey->setIcon(KIcon("document-import-key"));
     importKey->setText(i18n("&Import Key..."));
     connect(importKey, SIGNAL(triggered(bool)), SLOT(slotPreImportKey()));
