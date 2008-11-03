@@ -37,6 +37,8 @@ class KGpgSignNode;
 class KGpgOrphanNode;
 class KGpgItemModel;
 
+typedef QList<KGpgSignNode *> KGpgSignNodeList;
+
 class KGpgNode : public QObject
 {
 	Q_OBJECT
@@ -127,6 +129,8 @@ protected:
 
 	virtual void readChildren() = 0;
 
+	KGpgSignNodeList getSignatures(void) const;
+
 public:
 	explicit KGpgExpandableNode(KGpgExpandableNode *parent = 0);
 	virtual ~KGpgExpandableNode();
@@ -159,6 +163,7 @@ protected:
 	virtual void readChildren();
 
 	QList<KGpgRefNode *> m_refs;
+	QList<KGpgRefNode *> getRefsOfType(const KgpgItemType &type) const;
 
 public:
 	explicit KGpgKeyNode(KGpgExpandableNode *parent, const KgpgKey &k);
@@ -248,17 +253,27 @@ public:
 	/**
 	 * returns a list of all groups this key is member of
 	 */
-	QList <KGpgGroupNode *> getGroups(void) const;
+	QList<KGpgGroupNode *> getGroups(void) const;
 	/**
 	 * returns a list of all group member nodes that reference this key
 	 */
-	QList <KGpgGroupMemberNode *> getGroupRefs(void) const;
+	QList<KGpgGroupMemberNode *> getGroupRefs(void) const;
+	/**
+	 * returns a list of all sign nodes that reference this key
+	 */
+	KGpgSignNodeList getSignRefs(void) const;
+	/**
+	 * returns a list of signatures to this key
+	 * @param subkeys if signatures on subkeys should be included
+	 */
+	KGpgSignNodeList getSignatures(const bool &subkeys) const;
 
 Q_SIGNALS:
 	void updated(KGpgKeyNode *);
 };
 
 typedef QList<KGpgKeyNode *> KGpgKeyNodeList;
+typedef QList<const KGpgKeyNode *> KGpgKeyConstNodeList;
 
 class KGpgRootNode : public KGpgExpandableNode
 {
@@ -355,6 +370,8 @@ public:
 	 * @return the number of signatures to this id
 	 */
 	virtual QString getSignCount() const;
+
+	KGpgSignNodeList getSignatures(void) const;
 };
 
 class KGpgSubkeyNode : public KGpgExpandableNode
@@ -425,6 +442,8 @@ public:
 	 * @return the number of signatures to this attribute
 	 */
 	virtual QString getSignCount() const;
+
+	KGpgSignNodeList getSignatures(void) const;
 };
 
 class KGpgGroupNode : public KGpgExpandableNode

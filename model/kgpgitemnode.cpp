@@ -171,6 +171,21 @@ KGpgExpandableNode::getChildCount()
 	return children.count();
 }
 
+KGpgSignNodeList
+KGpgExpandableNode::getSignatures(void) const
+{
+	KGpgSignNodeList ret;
+	
+	for (int i = 0; i < children.count(); i++) {
+		KGpgNode *kn = children.at(i);
+		
+		if (kn->getType() == ITYPE_SIGN)
+			ret << kn->toSignNode();
+	}
+	
+	return ret;
+}
+
 KGpgRootNode::KGpgRootNode(KGpgItemModel *model)
 	: KGpgExpandableNode(NULL), m_groups(0)
 {
@@ -456,7 +471,7 @@ KGpgKeyNode::delRef(KGpgRefNode *node)
 	m_refs.removeOne(node);
 }
 
-QList <KGpgGroupNode *>
+QList<KGpgGroupNode *>
 KGpgKeyNode::getGroups(void) const
 {
 	QList<KGpgGroupNode *> ret;
@@ -467,16 +482,78 @@ KGpgKeyNode::getGroups(void) const
 	return ret;
 }
 
-QList <KGpgGroupMemberNode *>
+QList<KGpgRefNode *>
+KGpgKeyNode::getRefsOfType(const KgpgItemType &type) const
+{
+	QList<KGpgRefNode *> ret;
+
+	for (int i = 0; i < m_refs.count(); i++) {
+		KGpgRefNode *nd = m_refs.at(i);
+		if (nd->getType() & type)
+			ret.append(nd);
+	}
+	return ret;
+}
+
+QList<KGpgGroupMemberNode *>
 KGpgKeyNode::getGroupRefs(void) const
 {
 	QList<KGpgGroupMemberNode *> ret;
 
-	for (int i = 0; i < m_refs.count(); i++) {
-		KGpgRefNode *nd = m_refs.at(i);
-		if (nd->getType() & ITYPE_GROUP)
-			ret.append(nd->toGroupMemberNode());
+	QList<KGpgRefNode *> refs = getRefsOfType(ITYPE_GROUP);
+
+	for (int i = 0; i < refs.count(); i++)
+		ret.append(refs.at(i)->toGroupMemberNode());
+
+	return ret;
+}
+
+KGpgSignNodeList
+KGpgKeyNode::getSignRefs(void) const
+{
+	KGpgSignNodeList ret;
+
+	QList<KGpgRefNode *> refs = getRefsOfType(ITYPE_SIGN);
+
+	for (int i = 0; i < refs.count(); i++)
+		ret.append(refs.at(i)->toSignNode());
+
+	return ret;
+}
+
+KGpgSignNodeList
+KGpgKeyNode::getSignatures(const bool &subkeys) const
+{
+	KGpgSignNodeList ret = KGpgExpandableNode::getSignatures();
+
+	if (!subkeys)
+		return ret;
+
+	for (int i = 0; i < children.count(); i++) {
+		KGpgNode *child = children.at(i);
+		KGpgSignNodeList tmp;
+
+		if (child->getType() == ITYPE_UID) {
+			tmp = child->toUidNode()->getSignatures();
+		} else if (child->getType() == ITYPE_UAT) {
+			tmp = child->toUatNode()->getSignatures();
+		}
+
+		for (int j = 0; j < tmp.count(); j++) {
+			bool found = false;
+			KGpgSignNode *sn = tmp.at(j);
+
+			for (int k = 0; k < ret.count(); k++) {
+				found = (ret.at(k)->getId() == sn->getId());
+				if (found)
+					break;
+			}
+
+			if (!found)
+				ret << sn;
+		}
 	}
+
 	return ret;
 }
 
@@ -513,6 +590,12 @@ KGpgKeyNode *
 KGpgUidNode::getParentKeyNode() const
 {
 	return m_parent->toKeyNode();
+}
+
+KGpgSignNodeList
+KGpgUidNode::getSignatures(void) const
+{
+	return KGpgExpandableNode::getSignatures();
 }
 
 KGpgSignNode::KGpgSignNode(KGpgExpandableNode *parent, const KgpgKeySign &s)
@@ -622,6 +705,12 @@ KGpgKeyNode *
 KGpgUatNode::getParentKeyNode() const
 {
 	return m_parent->toKeyNode();
+}
+
+KGpgSignNodeList
+KGpgUatNode::getSignatures(void) const
+{
+	return KGpgExpandableNode::getSignatures();
 }
 
 KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name)
