@@ -20,6 +20,7 @@
 #define GROUPEDITPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
+#include "kgpgkey.h"
 
 class KGpgNode;
 class KGpgItemModel;
@@ -27,7 +28,7 @@ class KGpgItemModel;
 class GroupEditProxyModel: public QSortFilterProxyModel
 {
 public:
-	explicit GroupEditProxyModel(QObject * parent, const bool &invert, QList<KGpgNode *> *ids);
+	explicit GroupEditProxyModel(QObject * parent, const bool &invert, QList<KGpgNode *> *ids, const KgpgCore::KgpgKeyTrust &mintrust = KgpgCore::TRUST_FULL);
 
 	void setKeyModel(KGpgItemModel *);
 
@@ -47,6 +48,7 @@ private:
 	KGpgItemModel *m_model;
 	bool m_invert;
 	QList<KGpgNode *> *m_ids;
+	KgpgCore::KgpgKeyTrust m_mintrust;
 };
 
 #endif
