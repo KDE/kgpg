@@ -130,7 +130,7 @@ KGpgTextInterfacePrivate::signFile(const KUrl &file)
 {
 	*m_process << "--command-fd=0" << "-u" << m_signID.simplified().toLocal8Bit();
 
-	for (QStringList::ConstIterator it = m_gpgopts.begin(); it != m_gpgopts.end(); ++it)
+	for (QStringList::ConstIterator it = m_gpgopts.constBegin(); it != m_gpgopts.constEnd(); ++it)
 		*m_process << QFile::encodeName(*it);
 
 	*m_process << "--output" << QFile::encodeName(file.path() + ".sig");
