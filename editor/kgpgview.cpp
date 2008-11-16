@@ -350,7 +350,8 @@ void KgpgTextEdit::slotDecodeUpdateSuccess(const QByteArray &content, KGpgTextIn
 void KgpgTextEdit::slotDecodeUpdateFailed(const QString &content, KGpgTextInterface *interface)
 {
     interface->deleteLater();
-    KMessageBox::detailedSorry(this, i18n("Decryption failed."), content);
+    if (!content.contains("gpg: cancelled by user"))
+        KMessageBox::detailedSorry(this, i18n("Decryption failed."), content);
 }
 
 void KgpgTextEdit::slotSignUpdate(const QString &content, KGpgTextInterface *interface)

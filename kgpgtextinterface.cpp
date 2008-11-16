@@ -36,6 +36,7 @@ public:
 	bool m_badpassword;
 	bool m_anonymous;
 	bool m_signmiss;
+	bool m_forcefail;
 	int m_step;
 	int m_textlength;
 	QString m_message;
@@ -65,6 +66,7 @@ KGpgTextInterfacePrivate::KGpgTextInterfacePrivate()
 	m_step = 3;
 	m_badpassword = false;
 	m_signmiss = false;
+	m_forcefail = false;
 }
 
 void
@@ -268,7 +270,11 @@ KGpgTextInterface::decryptTextStdOut()
 			} else if (line.startsWith("END_DECRYPTION")) {
 				// workaround for GnuPG weirdness: DECRYPTION_OKAY is
 				// not written if message is signed *and* encrypted
-				d->m_ok = true;
+				if (!d->m_forcefail)
+					d->m_ok = true;
+			} else if (line.startsWith("DECRYPTION_FAILED")) {
+				d->m_ok = false;
+				d->m_forcefail = true;
 			}
 			line.clear();
 		} else {
