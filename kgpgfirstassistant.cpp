@@ -71,7 +71,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	gridLayout->addItem(spacerItem, 1, 1, 1, 1);
 
-	page_welcome = addPage(page, "Welcome to the KGpg assistant");
+	page_welcome = addPage(page, i18n("Welcome to the KGpg assistant"));
 
 	page = new QWidget(this);
 
@@ -104,7 +104,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 	gridLayout->addWidget(txtGpgVersion, 3, 1, 1, 1);
 
 	binURL = new KUrlRequester(page);
-	binURL->setFilter("gpg|GnuPG binary\n*|All files");
+	binURL->setFilter(i18nc("search filter for gpg binary", "gpg|GnuPG binary\n*|All files"));
 	binURL->setUrl(KUrl("gpg"));
 
 	connect(binURL, SIGNAL(textChanged(const QString &)), SLOT(slotBinaryChanged(const QString &)));
@@ -270,11 +270,15 @@ KGpgFirstAssistant::findConfigPath()
 	generateCB->setChecked(false);
 	setAppropriate(page_defaultkey, true);
 
-	QStringList comboitems;
+	CBdefault->clear();
 	for (int i = 0; i < publiclist.size(); ++i) {
 		KgpgKey k = publiclist.at(i);
+		QString s;
 
-		QString s = k.id() + ": " + k.name() + " <" + k.email() + '>';
+		if (k.email().isEmpty())
+			s = i18nc("Name: ID", "%1: %2", k.name(), k.id());
+		else
+			s = i18nc("Name (Email): ID", "%1 (%2): %3", k.name(), k.email(), k.id());
 
 		CBdefault->addItem(s, k.fingerprint());
 	}

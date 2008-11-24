@@ -2287,7 +2287,7 @@ void KeysManager::deleteseckey()
 	if (terminalkey == nd)
 		return;
 	if (delkey != NULL) {
-		KMessageBox::error(this, i18n("Another key is currently deleted. Please wait until the operation is complete."), i18n("Delete key"));
+		KMessageBox::error(this, i18n("Another key delete operation is still in progress.\nPlease wait a moment until this operation is complete."), i18n("Delete key"));
 		return;
 	}
 
