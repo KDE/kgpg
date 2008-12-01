@@ -126,8 +126,9 @@ private:
     KFind *m_find;
     KUrl m_docname;
 
-    bool m_textchanged;
+    bool m_textchanged;		//< text was changed since last save
     bool m_ismainwindow;
+    bool m_emptytext;		//< this was not saved to a file ever
 
     KGpgItemModel *m_model;
 };
