@@ -59,6 +59,7 @@ KgpgEditor::KgpgEditor(QWidget *parent, Qt::WFlags f, KShortcut gohome, bool mai
     m_ismainwindow = mainwindow;
     m_godefaultkey = gohome;
     m_find = 0;
+    m_emptytext = true;
 
     // call inits to invoke all other construction parts
     initActions();
@@ -95,6 +96,7 @@ void KgpgEditor::openDocumentFile(const KUrl& url, const QString &encoding)
             qfile.close();
             m_docname = url;
             m_textchanged = false;
+            m_emptytext = false;
             setCaption(url.fileName(), false);
         }
         KIO::NetAccess::removeTempFile(tempopenfile);
@@ -291,6 +293,7 @@ bool KgpgEditor::slotFileSave()
     }
 
     m_textchanged = false;
+    m_emptytext = false;
     setCaption(m_docname.fileName(), false);
     return true;
 }
@@ -669,14 +672,16 @@ void KgpgEditor::slotOptions()
 
 void KgpgEditor::modified()
 {
-    if (!m_textchanged)
-    {
-        QString capt = m_docname.fileName();
-        if (capt.isEmpty())
-            capt = i18n("Untitled");
-        setCaption(capt, true);
-        m_textchanged = true;
-    }
+	QString capt = m_docname.fileName();
+	if (m_emptytext) {
+		m_textchanged = !view->editor->toPlainText().isEmpty();
+		if (capt.isEmpty())
+			capt = i18n("Untitled");
+	} else if (!m_textchanged) {
+		m_textchanged = true;
+	}
+	setCaption(capt, m_textchanged);
+	view->editor->document()->setModified(m_textchanged);
 }
 
 void KgpgEditor::slotUndoAvailable(const bool &v)
@@ -698,6 +703,7 @@ void KgpgEditor::slotCopyAvailable(const bool &v)
 void KgpgEditor::newText()
 {
     m_textchanged = false;
+    m_emptytext = true;
     m_docname.clear();
     setCaption(i18n("Untitled"), false);
     slotResetEncoding(false);
