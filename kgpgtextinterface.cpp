@@ -164,14 +164,14 @@ KGpgTextInterface::encryptText(const QString &text, const QStringList &userids, 
 	else
 		d->m_message = text.toUtf8();
 
-	for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
+	for (QStringList::ConstIterator it = options.constBegin(); it != options.constEnd(); ++it)
 		*d->m_process << QFile::encodeName(*it);
 
 	if (userids.isEmpty()) {
 		*d->m_process << "-c";
 	} else {
 		*d->m_process << "-e";
-		for (QStringList::ConstIterator it = userids.begin(); it != userids.end(); ++it)
+		for (QStringList::ConstIterator it = userids.constBegin(); it != userids.constEnd(); ++it)
 			*d->m_process << "--recipient" << *it;
 	}
 
@@ -214,7 +214,7 @@ KGpgTextInterface::encryptTextFin()
 void
 KGpgTextInterface::decryptText(const QString &text, const QStringList &options)
 {
-	for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
+	for (QStringList::ConstIterator it = options.constBegin(); it != options.constEnd(); ++it)
 		*d->m_process << QFile::encodeName(*it);
 
 	*d->m_process << "-d";
@@ -315,7 +315,7 @@ KGpgTextInterface::signText(const QString &text, const QString &userid, const QS
 	else
 		d->m_message = text.toUtf8();
 
-	for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
+	for (QStringList::ConstIterator it = options.constBegin(); it != options.constEnd(); ++it)
 		*d->m_process << QFile::encodeName(*it);
 
 	*d->m_process << "--clearsign" << "-u" << userid;
@@ -402,14 +402,14 @@ KGpgTextInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcur
 {
 	d->m_file = srcurl;
 
-	for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
+	for (QStringList::ConstIterator it = options.constBegin(); it != options.constEnd(); ++it)
 		*d->m_process << QFile::encodeName(*it);
 
 	*d->m_process << "--output" << QFile::encodeName(desturl.path());
 
 	if (!symetrical) {
 		*d->m_process << "-e";
-		for (QStringList::ConstIterator it = encryptkeys.begin(); it != encryptkeys.end(); ++it)
+		for (QStringList::ConstIterator it = encryptkeys.constBegin(); it != encryptkeys.constEnd(); ++it)
 		*d->m_process << "--recipient" << *it;
 	} else
 		*d->m_process << "-c";
@@ -467,7 +467,7 @@ KGpgTextInterface::KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList &
 {
 	*d->m_process << "--no-batch" << "-o" << "-";
 
-	for (QStringList::ConstIterator it = options.begin(); it != options.end(); ++it)
+	for (QStringList::ConstIterator it = options.constBegin(); it != options.constEnd(); ++it)
 		*d->m_process << QFile::encodeName(*it);
 
 	*d->m_process << "-d" << QFile::encodeName(srcUrl.path());
