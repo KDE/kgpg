@@ -20,6 +20,7 @@
 
 #include <QDragMoveEvent>
 #include <QDropEvent>
+#include <QHeaderView>
 
 #include <KMessageBox>
 #include <KLocale>
@@ -128,11 +129,8 @@ KeyTreeView::saveLayout(KConfigGroup &cg) const
 		widths << QString::number(columnWidth(i));
 	}
 	cg.writeEntry("ColumnWidths", widths);
-#ifdef __GNUC__
-#warning port me
-#endif
-/*	cg.writeEntry("SortColumn", d->sortColumn);
-	cg.writeEntry("SortAscending", d->sortAscending);*/
+        cg.writeEntry( "SortColumn", header ()->sortIndicatorSection () );
+        cg.writeEntry( "SortAscending", ( header()->sortIndicatorOrder () == Qt::AscendingOrder ) );
 }
 
 void
