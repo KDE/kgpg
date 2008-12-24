@@ -135,8 +135,9 @@ KGpgTextInterfacePrivate::signFile(const KUrl &file)
 	for (QStringList::ConstIterator it = m_gpgopts.constBegin(); it != m_gpgopts.constEnd(); ++it)
 		*m_process << QFile::encodeName(*it);
 
-	*m_process << "--output" << QFile::encodeName(file.path() + ".sig");
-	*m_process << "--detach-sig" << QFile::encodeName(file.path());
+	if (m_gpgopts.contains("--detach-sign"))
+		*m_process << "--output" << QFile::encodeName(file.path() + ".sig");
+	*m_process << QFile::encodeName(file.path());
 
 	m_process->start();
 }

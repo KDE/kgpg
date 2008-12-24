@@ -421,6 +421,7 @@ void KGpgUserActions::signDroppedFile()
         Options << "--armor";
     if (KGpgSettings::pgpCompatibility())
         Options << "--pgp6";
+    Options << "--detach-sign";
 
     KGpgTextInterface *signFileProcess = new KGpgTextInterface();
     signFileProcess->signFilesBlocking(signKeyID, droppedUrls, Options);
