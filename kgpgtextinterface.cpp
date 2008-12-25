@@ -135,7 +135,7 @@ KGpgTextInterfacePrivate::signFile(const KUrl &file)
 	for (QStringList::ConstIterator it = m_gpgopts.constBegin(); it != m_gpgopts.constEnd(); ++it)
 		*m_process << QFile::encodeName(*it);
 
-	if (m_gpgopts.contains("--detach-sign"))
+	if (m_gpgopts.contains("--detach-sign") && !m_gpgopts.contains("--output"))
 		*m_process << "--output" << QFile::encodeName(file.path() + ".sig");
 	*m_process << QFile::encodeName(file.path());
 
@@ -406,7 +406,8 @@ KGpgTextInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcur
 	for (QStringList::ConstIterator it = options.constBegin(); it != options.constEnd(); ++it)
 		*d->m_process << QFile::encodeName(*it);
 
-	*d->m_process << "--output" << QFile::encodeName(desturl.path());
+	if (!options.contains("--output"))
+		*d->m_process << "--output" << QFile::encodeName(desturl.path());
 
 	if (!symetrical) {
 		*d->m_process << "-e";

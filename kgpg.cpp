@@ -182,12 +182,6 @@ void KGpgUserActions::encryptDroppedFile()
 
     if (KGpgSettings::encryptFilesTo())
     {
-        if (KGpgSettings::allowUntrustedKeys())
-            opts << QString::fromLocal8Bit("--always-trust");
-        if (KGpgSettings::asciiArmor())
-            opts << QString::fromLocal8Bit("--armor");
-        if (KGpgSettings::hideUserID())
-            opts << QString::fromLocal8Bit("--throw-keyid");
         if (KGpgSettings::pgpCompatibility())
             opts << QString::fromLocal8Bit("--pgp6");
 
