@@ -418,10 +418,6 @@ KeysManager::KeysManager(QWidget *parent)
     connect(photoProps, SIGNAL(triggered(int)), this, SLOT(slotSetPhotoSize(int)));
     connect(trustProps, SIGNAL(triggered(int)), this, SLOT(slotSetTrustFilter(int)));
 
-    // get all keys data
-    setupGUI(KXmlGuiWindow::Create | Save | ToolBar | StatusBar | Keys, "keysmanager.rc");
-    toolBar()->addSeparator();
-
     QLabel *searchLabel = new QLabel(i18n("Search: "), this);
     m_listviewsearch = new KLineEdit(this);
     m_listviewsearch->setClearButtonShown(true);
@@ -436,13 +432,14 @@ KeysManager::KeysManager(QWidget *parent)
     actionCollection()->addAction("search_line", serchLineAction);
     serchLineAction->setDefaultWidget(searchWidget);
 
-    toolBar()->addAction(actionCollection()->action("search_line"));
-
     action = actionCollection()->addAction("search_focus");
     action->setText(i18nc("Name of the action that gives the focus to the search line", "Focus Search Line"));
     connect(action, SIGNAL(triggered(bool) ), m_listviewsearch, SLOT(setFocus()));
     action->setShortcut(QKeySequence(Qt::Key_F6));
     connect(m_listviewsearch, SIGNAL(textChanged(const QString &)), iproxy, SLOT(setFilterFixedString(const QString &)));
+
+    // get all keys data
+    setupGUI(KXmlGuiWindow::Create | Save | ToolBar | StatusBar | Keys, "keysmanager.rc");
 
     sTrust->setChecked(KGpgSettings::showTrust());
     iview->setColumnHidden(2, !KGpgSettings::showTrust());

@@ -62,6 +62,8 @@
     <Action name="key_import"/>
     <Action name="key_export"/>
     <Action name="key_server"/>
+    <Separator/>
+    <Action name="search_line"/>
 </ToolBar>
 
 <State name="group_selected">
