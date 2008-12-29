@@ -432,14 +432,14 @@ KeysManager::KeysManager(QWidget *parent)
     searchLayout->addWidget(m_listviewsearch);
     searchLayout->addStretch();
 
-    KAction *serchLineAction = new KAction(i18n("Search Line"), this);
+    KAction *serchLineAction = new KAction(i18nc("Name of the action that is a search line, shown for example in the toolbar configuration dialog", "Search Line"), this);
     actionCollection()->addAction("search_line", serchLineAction);
     serchLineAction->setDefaultWidget(searchWidget);
 
     toolBar()->addAction(actionCollection()->action("search_line"));
 
     action = actionCollection()->addAction("search_focus");
-    action->setText(i18n("Filter Search"));
+    action->setText(i18nc("Name of the action that gives the focus to the search line", "Focus Search Line"));
     connect(action, SIGNAL(triggered(bool) ), m_listviewsearch, SLOT(setFocus()));
     action->setShortcut(QKeySequence(Qt::Key_F6));
     connect(m_listviewsearch, SIGNAL(textChanged(const QString &)), iproxy, SLOT(setFilterFixedString(const QString &)));

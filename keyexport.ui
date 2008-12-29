@@ -31,7 +31,7 @@
       <item>
        <widget class="QRadioButton" name="checkMail" >
         <property name="text" >
-         <string>Email</string>
+         <string comment="Export a key via email" >Email</string>
         </property>
        </widget>
       </item>
@@ -105,7 +105,7 @@
       <item>
        <widget class="QRadioButton" name="checkAttrClean" >
         <property name="text" >
-         <string>Clean key</string>
+         <string comment="@option:radio Exports the smallest key possible. Maps to export-minimal option of gpg" >Clean key</string>
         </property>
        </widget>
       </item>

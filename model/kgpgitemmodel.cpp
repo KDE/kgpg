@@ -276,7 +276,7 @@ KGpgItemModel::headerData(int section, Qt::Orientation orientation, int role) co
 
 	switch (section) {
 	case KEYCOLUMN_NAME:	return QString(i18n("Name"));
-	case KEYCOLUMN_EMAIL:	return QString(i18n("Email"));
+	case KEYCOLUMN_EMAIL:	return QString(i18nc("@title:column Title of a column of emails", "Email"));
 	case KEYCOLUMN_TRUST:	return QString(i18n("Trust"));
 	case KEYCOLUMN_SIZE:	return QString(i18n("Size"));
 	case KEYCOLUMN_EXPIR:	return QString(i18n("Expiration"));

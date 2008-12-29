@@ -53,7 +53,7 @@
      </column>
      <column>
       <property name="text" >
-       <string>Email</string>
+       <string comment="@title:column Title of a column of emails" >Email</string>
       </property>
      </column>
      <column>
@@ -137,7 +137,7 @@
      </column>
      <column>
       <property name="text" >
-       <string>Email</string>
+       <string comment="@title:column Title of a column of emails" >Email</string>
       </property>
      </column>
      <column>
