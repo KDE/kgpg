@@ -222,7 +222,7 @@ bool KgpgTextEdit::checkForUtf8(const QString &text)
 void KgpgTextEdit::slotDecodeFile()
 {
     // decode file from given url into editor
-    QFile qfile(QFile::encodeName(m_tempfile));
+    QFile qfile(m_tempfile);
     if (!qfile.open(QIODevice::ReadOnly))
     {
         KMessageBox::sorry(this, i18n("Unable to read file."));

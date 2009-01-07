@@ -180,7 +180,7 @@ QString KgpgInterface::getGpgHome(const QString &binary)
 QStringList KgpgInterface::getGpgGroupNames(const QString &configfile)
 {
     QStringList groups;
-    QFile qfile(QFile::encodeName(configfile));
+    QFile qfile(configfile);
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
         QTextStream t(&qfile);
@@ -200,7 +200,7 @@ QStringList KgpgInterface::getGpgGroupNames(const QString &configfile)
 
 QStringList KgpgInterface::getGpgGroupSetting(const QString &name, const QString &configfile)
 {
-    QFile qfile(QFile::encodeName(configfile));
+    QFile qfile(configfile);
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
         QTextStream t(&qfile);
@@ -230,7 +230,7 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
 {
     QString texttowrite;
     bool found = false;
-    QFile qfile(QFile::encodeName(configfile));
+    QFile qfile(configfile);
 
     kDebug(2100) << "Changing group: " << name ;
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
@@ -271,7 +271,7 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
 void KgpgInterface::delGpgGroup(const QString &name, const QString &configfile)
 {
     QString texttowrite;
-    QFile qfile(QFile::encodeName(configfile));
+    QFile qfile(configfile);
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
         QTextStream t(&qfile);
@@ -303,7 +303,7 @@ void KgpgInterface::delGpgGroup(const QString &name, const QString &configfile)
 QString KgpgInterface::getGpgSetting(QString name, const QString &configfile)
 {
     name = name.simplified() + ' ';
-    QFile qfile(QFile::encodeName(configfile));
+    QFile qfile(configfile);
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
         QTextStream t(&qfile);
@@ -329,7 +329,7 @@ void KgpgInterface::setGpgSetting(const QString &name, const QString &value, con
     QString temp = name + ' ';
     QString texttowrite;
     bool found = false;
-    QFile qfile(QFile::encodeName(url));
+    QFile qfile(url);
 
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
@@ -364,7 +364,7 @@ void KgpgInterface::setGpgSetting(const QString &name, const QString &value, con
 
 bool KgpgInterface::getGpgBoolSetting(const QString &name, const QString &configfile)
 {
-    QFile qfile(QFile::encodeName(configfile));
+    QFile qfile(configfile);
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
         QTextStream t(&qfile);
@@ -382,7 +382,7 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool &enable, c
 {
     QString texttowrite;
     bool found = false;
-    QFile qfile(QFile::encodeName(url));
+    QFile qfile(url);
 
     if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
     {
