@@ -264,6 +264,10 @@ KGpgTextInterface::decryptTextStdOut()
 				d->m_textlength = line.mid(line.indexOf("PLAINTEXT_LENGTH") + 16).toInt();
 			} else if (line.startsWith("DECRYPTION_OKAY")) {
 				d->m_ok = true;
+				// this happens if the encrypted text does not end with '\n'
+				// 25 is strlen('[GNUPG:] DECRYPTION_OKAY')
+				if (d->m_tmpmessage.endsWith("[GNUPG:] DECRYPTION_OKAY\n"))
+					d->m_tmpmessage.chop(25);
 			} else if (line.startsWith("BADMDC")) {
 				d->m_badmdc = true;
 			} else if (line.startsWith("BAD_PASSPHRASE")) {
