@@ -86,18 +86,18 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
 
     QLabel *sizeLabel = new QLabel(i18n("&Key size:"), vgroup);
     m_keysize = new KComboBox(vgroup);
-    m_keysize->addItem("768");
-    m_keysize->addItem("1024");
-    m_keysize->addItem("2048");
-    m_keysize->addItem("4096");
+    m_keysize->addItem(i18n("768"));
+    m_keysize->addItem(i18n("1024"));
+    m_keysize->addItem(i18n("2048"));
+    m_keysize->addItem(i18n("4096"));
     m_keysize->setCurrentIndex(1); // 1024
     m_keysize->setMinimumSize(m_keysize->sizeHint());
     sizeLabel->setBuddy(m_keysize);
 
     QLabel *algoLabel = new QLabel(i18n("&Algorithm:"), vgroup);
     m_keykind = new KComboBox(vgroup);
-    m_keykind->addItem("DSA & ElGamal");
-    m_keykind->addItem("RSA");
+    m_keykind->addItem(i18n("DSA & ElGamal"));
+    m_keykind->addItem(i18n("RSA"));
     m_keykind->setMinimumSize(m_keykind->sizeHint());
     algoLabel->setBuddy(m_keykind);
 
