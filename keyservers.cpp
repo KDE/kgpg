@@ -505,13 +505,15 @@ void KeyServer::CreateUidEntry(void)
     QTreeWidgetItem *k = new QTreeWidgetItem(m_kitem);
     if (m_keyid.section(':', 6, 6) == "r")
     {
-        k->setText(0, i18n("ID %1, %2 bit %3 key, created %4 revoked", id, m_keyid.section(':', 3, 3),
+        k->setText(0, i18nc("example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked",
+                            "ID %1, %2-bit %3 key, created %4, revoked", id, m_keyid.section(':', 3, 3),
             Convert::toString(Convert::toAlgo(m_keyid.section(':', 2, 2))),
             kd.toString(KDateTime::LocalDate)));
     }
     else
     {
-        k->setText(0, i18n("ID %1, %2 bit %3 key, created %4", id, m_keyid.section(':', 3, 3),
+        k->setText(0, i18nc("example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009",
+                            "ID %1, %2-bit %3 key, created %4", id, m_keyid.section(':', 3, 3),
             Convert::toString(Convert::toAlgo(m_keyid.section(':', 2, 2))),
             kd.toString(KDateTime::LocalDate)));
     }

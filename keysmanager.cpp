@@ -1436,7 +1436,7 @@ void KeysManager::slotexportsec()
         p.execute();
 
         if (fgpg.exists())
-            KMessageBox::information(this, i18n("<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2 .<br/>"
+            KMessageBox::information(this, i18n("<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/>"
                                                 "<b>Do not</b> leave it in an insecure place.</qt>", nd->getId(), url.path()));
         else
             KMessageBox::sorry(this, i18n("Your secret key could not be exported.\nCheck the key."));

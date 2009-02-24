@@ -36,7 +36,7 @@ QString Convert::toString(const KgpgKeyAlgo &algorithm)
         case ALGO_RSA:          return i18nc("Encryption algorithm", "RSA");
         case ALGO_DSA:          return i18nc("Encryption algorithm", "DSA");
         case ALGO_ELGAMAL:      return i18nc("Encryption algorithm", "ElGamal");
-        case ALGO_DSA_ELGAMAL:  return i18nc("Encryption algorithm", "DSA - ElGamal");
+        case ALGO_DSA_ELGAMAL:  return i18nc("Encryption algorithm", "DSA & ElGamal");
         case ALGO_UNKNOWN:
         default:                return i18nc("Unknown algorithm", "Unknown");
     }

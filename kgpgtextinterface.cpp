@@ -111,7 +111,8 @@ KGpgTextInterfacePrivate::gpgPassphrase()
 	if (m_anonymous)
 		passdlgmessage = i18n("<p><b>No user id found</b>. Trying all secret keys.</p>");
 	if ((m_step < 3) && !m_anonymous)
-		passdlgmessage = i18n("<p><b>Bad passphrase</b>. You have %1 tries left.</p>", m_step);
+		passdlgmessage = i18np("<p><b>Bad passphrase</b>. You have 1 try left.</p>",
+		                       "<p><b>Bad passphrase</b>. You have %1 tries left.</p>", m_step);
 	if (m_userIDs.isEmpty())
 		passdlgmessage += i18n("Enter passphrase");
 	else

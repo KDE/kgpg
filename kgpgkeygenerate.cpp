@@ -96,8 +96,8 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
 
     QLabel *algoLabel = new QLabel(i18n("&Algorithm:"), vgroup);
     m_keykind = new KComboBox(vgroup);
-    m_keykind->addItem(i18n("DSA & ElGamal"));
-    m_keykind->addItem(i18n("RSA"));
+    m_keykind->addItem(i18nc("Encryption algorithm", "DSA & ElGamal"));
+    m_keykind->addItem(i18nc("Encryption algorithm", "RSA"));
     m_keykind->setMinimumSize(m_keykind->sizeHint());
     algoLabel->setBuddy(m_keykind);
 
