@@ -68,7 +68,7 @@ KGpgChangeExpire::nextLine(const QString &line)
 	} else if (line.contains("passphrase.enter")) {
 		QString passdlgmessage;
 		if (m_step < 3)
-			passdlgmessage = i18n("<p><b>Bad passphrase</b>. You have %1 tries left.</p>", m_step);
+			passdlgmessage = i18np("<p><b>Bad passphrase</b>. You have 1 try left.</p>", "<p><b>Bad passphrase</b>. You have %1 tries left.</p>", m_step);
 		passdlgmessage += i18n("Enter passphrase for <b>%1</b>", getIdHints());
 
 		if (sendPassphrase(passdlgmessage)) {
@@ -98,7 +98,7 @@ KGpgChangeExpire::finish()
 		KgpgDetailedConsole *q = new KgpgDetailedConsole(0, i18n("<qt><b>Changing expiration failed.</b><br />"
 					"Do you want to try changing the key expiration in console mode?</qt>"), output);
 		if (q->exec() == QDialog::Accepted) {
-			KMessageBox::sorry(0, i18n("work in progress..."));
+			KMessageBox::sorry(0, i18n("Work in progress...."));
 			setSuccess(0);
 		} else
 			setSuccess(3);

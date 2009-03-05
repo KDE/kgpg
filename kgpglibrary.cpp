@@ -124,10 +124,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
     }
 
     int filesToEncode = m_urlselecteds.count();
-    if (filesToEncode > 1)
-        emit systemMessage(i18n("<p><b>%1 Files left.</b><br /><b>Encrypting </b>%2</p>", filesToEncode, m_urlselecteds.first().path()));
-    else
-        emit systemMessage(i18n("<b>Encrypting </b>%1", m_urlselecteds.first().path()));
+    emit systemMessage(i18np("<p><b>Encrypting </b>%2</p>", "<p><b>%1 Files left.</b><br /><b>Encrypting </b>%2</p>", filesToEncode, m_urlselecteds.first().path()));
 
     m_pop = new KPassivePopup(m_panel);
 

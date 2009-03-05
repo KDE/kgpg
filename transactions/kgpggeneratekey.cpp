@@ -110,9 +110,9 @@ KGpgGenerateKey::nextLine(const QString &line)
 		QString passdlgmessage;
 
 		if (!m_email.isEmpty()) {
-			passdlgmessage = i18n("<p><b>Enter passphrase for %1 &lt;%2&gt;</b>:<br />Passphrase should include non alphanumeric characters and random sequences</p>", m_name, m_email);
+			passdlgmessage = i18n("<p><b>Enter passphrase for %1 &lt;%2&gt;</b>:<br />Passphrase should include non alphanumeric characters and random sequences.</p>", m_name, m_email);
 		} else {
-			passdlgmessage = i18n("<p><b>Enter passphrase for %1</b>:<br />Passphrase should include non alphanumeric characters and random sequences</p>", m_name);
+			passdlgmessage = i18n("<p><b>Enter passphrase for %1</b>:<br />Passphrase should include non alphanumeric characters and random sequences.</p>", m_name);
 		}
 
 		if (sendPassphrase(passdlgmessage, true)) {

@@ -162,7 +162,7 @@
           </property>
           <property name="whatsThis" stdset="0" >
             <string>&lt;qt>&lt;b>Allow encryption with untrusted keys:&lt;/b>&lt;br />
-&lt;p>When importing a public key, the key is usually marked as untrusted and as such cannot be used unless it is signed by the default key (Thus, making it 'trusted'). Checking this box enables any key to be used even if it is untrusted.&lt;/p>&lt;/qt></string>
+&lt;p>When importing a public key, the key is usually marked as untrusted and as such cannot be used unless it is signed by the default key (thus making it 'trusted'). Checking this box enables any key to be used even if it is untrusted.&lt;/p>&lt;/qt></string>
           </property>
         </widget>
       </item>

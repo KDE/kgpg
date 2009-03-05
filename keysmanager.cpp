@@ -907,9 +907,9 @@ void KeysManager::slotAddUidEnable(const QString & name)
 
 void KeysManager::slotAddPhoto()
 {
-	QString mess = i18n("The image must be a JPEG file. Remember that the image is stored within your public key. "
-	"If you use a very large picture, your key will become very large as well! Keeping the image "
-	"close to 240x288 is a good size to use.");
+	QString mess = i18n("The image must be a JPEG file. Remember that the image is stored within your public key, so "
+	"if you use a very large picture, your key will become very large as well. An image size of "
+	"around 240x288 is a good size to use.");
 
 	if (KMessageBox::warningContinueCancel(0, mess) != KMessageBox::Continue)
 		return;
@@ -1412,7 +1412,7 @@ void KeysManager::slotexportsec()
 {
     // export secret key
     QString warn = i18n("<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>"
-                        "If someone else can access this file, encryption with this key will be compromised!<br/>Continue key export?</qt>");
+                        "If someone else can access this file, encryption with this key will be compromised.<br/>Continue key export?</qt>");
     int result = KMessageBox::warningContinueCancel(this, warn);
     if (result != KMessageBox::Continue)
         return;
@@ -1816,11 +1816,11 @@ void KeysManager::signkey()
         if (nd->getEmail().isEmpty())
             opt = i18n("<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
                    "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-                   "is not trying to intercept your communications</qt>", nd->getName(), nd->getId().right(8), nd->getBeautifiedFingerprint());
+                   "is not trying to intercept your communications.</qt>", nd->getName(), nd->getId().right(8), nd->getBeautifiedFingerprint());
         else
             opt = i18n("<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br />Fingerprint: <br /><b>%4</b>.<br /><br />"
                    "You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-                   "is not trying to intercept your communications</qt>", nd->getName(), nd->getEmail(), nd->getId().right(8), nd->getBeautifiedFingerprint());
+                   "is not trying to intercept your communications.</qt>", nd->getName(), nd->getEmail(), nd->getId().right(8), nd->getBeautifiedFingerprint());
 
         if (KMessageBox::warningContinueCancel(this, opt) != KMessageBox::Continue) {
             signList.clear();
@@ -1885,11 +1885,11 @@ void KeysManager::signuid()
 		if (nd->getEmail().isEmpty())
 			opt = i18n("<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
 			"You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-			"is not trying to intercept your communications</qt>", nd->getName(), nd->getId(), pnd->getBeautifiedFingerprint());
+			"is not trying to intercept your communications.</qt>", nd->getName(), nd->getId(), pnd->getBeautifiedFingerprint());
 		else
 			opt = i18n("<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br />Fingerprint: <br /><b>%4</b>.<br /><br />"
 			"You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-			"is not trying to intercept your communications</qt>", nd->getName(), nd->getEmail(), nd->getId(), pnd->getBeautifiedFingerprint());
+			"is not trying to intercept your communications.</qt>", nd->getName(), nd->getEmail(), nd->getId(), pnd->getBeautifiedFingerprint());
 
 		if (KMessageBox::warningContinueCancel(this, opt) != KMessageBox::Continue) {
 			signList.clear();
