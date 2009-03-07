@@ -119,6 +119,7 @@ private:
     QString expattr;
 
     void CreateUidEntry(void);
+    QString urlDecode(const QString &line);
 };
 
 #endif // KEYSERVERS_H

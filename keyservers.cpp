@@ -19,6 +19,7 @@
 
 #include <QCursor>
 #include <QLabel>
+#include <QTextCodec>
 
 #include <KConfig>
 #include <KMessageBox>
@@ -326,36 +327,63 @@ void KeyServer::slotAbortSearch()
 
 void KeyServer::slotSearchRead(GPGProc *p)
 {
-    QString required;
+	QString line;
 
-    while (p->readln(required, true) >= 0) {
-        if (required.contains("keysearch.prompt")) {
-            if (m_count < 4)
-                p->write("N\n");
-            else
-                p->write("Q\n");
-        } else if (required.contains("GOT_IT")) {
-            m_count++;
-            required.clear();
-        } else if (required.startsWith("pub")) {
-            if (m_keyid.length() > 0)
-              CreateUidEntry();
-            m_keyid = required;
-            m_kitem = NULL;
-        } else if (required.startsWith("uid")) {
-            QString kid = required.section(':', 1, 1);
+	while (p->readln(line, true) >= 0) {
+		if (line.startsWith("[GNUPG:] GET_LINE keysearch.prompt")) {
+		if (m_count < 4)
+			p->write("N\n");
+		else
+			p->write("Q\n");
+		} else if (line.contains("GOT_IT")) {
+			m_count++;
+			line.clear();
+		} else if (line.startsWith("pub")) {
+			if (m_keyid.length() > 0)
+				CreateUidEntry();
+			m_keyid = line;
+			m_kitem = NULL;
+		} else if (line.startsWith("uid")) {
+			QString kid = urlDecode(line.section(':', 1, 1));
 
-            if (m_kitem != NULL) {
-              QTreeWidgetItem *k = new QTreeWidgetItem(m_kitem);
-              k->setText(0, kid);
-            } else {
-              m_kitem = new QTreeWidgetItem(m_listpop->kLVsearch);
-              m_kitem->setText(0, kid);
-              m_keynumbers++;
-            }
-            m_count = 0;
-        }
-    }
+			if (m_kitem != NULL) {
+				QTreeWidgetItem *k = new QTreeWidgetItem(m_kitem);
+				k->setText(0, kid);
+			} else {
+				m_kitem = new QTreeWidgetItem(m_listpop->kLVsearch);
+				m_kitem->setText(0, kid);
+				m_keynumbers++;
+			}
+			m_count = 0;
+		}
+	}
+}
+
+QString KeyServer::urlDecode(const QString &line)
+{
+	if (!line.contains('%'))
+		return line;
+
+	QByteArray tmp(line.toAscii());
+	const QRegExp hex("[A-Z0-9]{2}");	// URL-encoding uses only uppercase
+
+	int pos = -1;	// avoid error if '%' is URL-encoded
+	while ((pos = tmp.indexOf("%", pos + 1)) >= 0) {
+		const QByteArray hexnum(tmp.mid(pos + 1, 2));
+
+		// the input is not properly URL-encoded, so assume it's already correct
+		if (!hex.exactMatch(hexnum))
+			return line;
+
+		char n[2];
+		// this must work as we checked the regexp before
+		n[0] = hexnum.toUShort(NULL, 16);
+		n[1] = '\0';	// to use n as a 0-terminated string
+
+		tmp.replace(pos, 3, n);
+	}
+
+	return QTextCodec::codecForName("utf8")->toUnicode(tmp);
 }
 
 void KeyServer::slotSearchResult(GPGProc *p)
