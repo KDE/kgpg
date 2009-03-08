@@ -1744,7 +1744,7 @@ void KeysManager::createNewGroup()
                         badkeys += i18nc("<Name> (<Email>) ID: <KeyId>", "%1 (%2) ID: %3", nd->getName(), nd->getEmail(), nd->getId());
             }
 
-        QString groupName = KInputDialog::getText(i18n("Create New Group"), i18n("Enter new group name:"), QString(), 0, this);
+        QString groupName = KInputDialog::getText(i18n("Create New Group"), i18nc("Enter the name of the group you are creating now", "Enter new group name:"), QString(), 0, this);
         if (groupName.isEmpty())
             return;
         if (!keysGroup.isEmpty())
