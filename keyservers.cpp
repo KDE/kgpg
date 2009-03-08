@@ -339,6 +339,7 @@ void KeyServer::slotSearchRead(GPGProc *p)
 			m_count++;
 			line.clear();
 		} else if (line.startsWith("pub")) {
+			// "pub" is the last line of an entry
 			if (m_keyid.length() > 0)
 				CreateUidEntry();
 			m_keyid = line;
@@ -350,6 +351,7 @@ void KeyServer::slotSearchRead(GPGProc *p)
 				QTreeWidgetItem *k = new QTreeWidgetItem(m_kitem);
 				k->setText(0, kid);
 			} else {
+				// a new search result just started
 				m_kitem = new QTreeWidgetItem(m_listpop->kLVsearch);
 				m_kitem->setText(0, kid);
 				m_keynumbers++;
@@ -525,6 +527,9 @@ void KeyServer::slotSetKeyserver(const QString &server)
 void KeyServer::CreateUidEntry(void)
 {
     Q_ASSERT(m_keyid.section(':', 1, 1).length() > 0);
+    // this is just a quick hack to avoid a crash
+    if (m_kitem == NULL)
+		return;
 
     QString id = m_keyid.section(':', 1, 1).right(16);
     KDateTime kd;
