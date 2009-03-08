@@ -496,6 +496,8 @@ void KeyServer::slotSetKeyserver(const QString &server)
 void KeyServer::CreateUidEntry(void)
 {
     Q_ASSERT(m_keyid.section(':', 1, 1).length() > 0);
+    if (m_kitem == NULL)
+	return;
 
     QString id = m_keyid.section(':', 1, 1).right(16);
     KDateTime kd;
