@@ -201,7 +201,7 @@
             <default>172,0,0</default>
         </entry>
         <entry name="ColorUltimate" type="Color" key="color_ultimate">
-            <label>Color used for ulitmately trusted keys.</label>
+            <label>Color used for ultimately trusted keys.</label>
             <default>68,0,255</default>
         </entry>
         <entry name="ColorMarginal" type="Color" key="color_marginal">
