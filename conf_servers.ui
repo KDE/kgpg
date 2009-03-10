@@ -95,8 +95,7 @@ all others will be stored for use by KGpg only.</string>
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
+  <customwidgets>
   <customwidget>
    <class>KListWidget</class>
    <extends>QListWidget</extends>
