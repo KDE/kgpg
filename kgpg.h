@@ -138,7 +138,7 @@ class kgpgapplet : public KSystemTrayIcon
     Q_OBJECT
 
 public:
-    kgpgapplet(QWidget *parent, KGpgItemModel *model);
+    kgpgapplet(QWidget *parent, KeysManager *keysmanager, KGpgItemModel *model);
     ~kgpgapplet();
     KGpgUserActions *w;
 
