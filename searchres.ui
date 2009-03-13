@@ -21,8 +21,32 @@
     </widget>
    </item>
    <item>
-    <widget class="QTreeWidget" name="kLVsearch" >
+    <layout class="QHBoxLayout" >
+     <item>
+      <widget class="QLabel" name="filterEditLabel" >
+       <property name="text" >
+        <string>Search:</string>
+       </property>
+       <property name="wordWrap" >
+        <bool>true</bool>
+       </property>
+       </widget>
+     </item>
+     <item>
+      <widget class="KLineEdit" name="filterEdit">
+       <property name="clearButtonShown" >
+        <bool>true</bool>
+       </property>
+      </widget>
+      </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTreeView" name="kLVsearch" >
      <property name="allColumnsShowFocus" >
+      <bool>true</bool>
+     </property>
+     <property name="sortingEnabled" >
       <bool>true</bool>
      </property>
      <property name="rootIsDecorated" >
@@ -48,8 +72,12 @@
       </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="kLEID" />
-     </item>
+      <widget class="KLineEdit" name="kLEID" >
+       <property name="clearButtonShown" >
+        <bool>true</bool>
+       </property>
+      </widget>
+      </item>
     </layout>
    </item>
   </layout>

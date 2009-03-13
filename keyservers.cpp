@@ -27,11 +27,12 @@
 #include <KDebug>
 #include <KDateTime>
 
+#include "kgpginterface.h"
+#include "kgpgsearchresultmodel.h"
 #include "kgpgsettings.h"
 #include "detailedconsole.h"
 #include "convert.h"
 #include "gpgproc.h"
-
 
 using namespace KgpgCore;
 
@@ -45,7 +46,7 @@ ConnectionDialog::ConnectionDialog(QWidget *parent)
 }
 
 KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoclose)
-         : KDialog(parent)
+         : KDialog(parent), m_resultmodel(NULL)
 {
     m_searchproc = NULL;
 
@@ -54,6 +55,9 @@ KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoclose)
     setModal(modal);
 
     m_autoclose = autoclose;
+    m_filtermodel.setSortCaseSensitivity(Qt::CaseInsensitive);
+    m_filtermodel.setDynamicSortFilter(true);
+    m_filtermodel.setFilterKeyColumn(-1);
 
     page = new keyServerWidget();
     setMainWidget(page);
@@ -251,6 +255,11 @@ void KeyServer::slotSearch()
 	if (m_searchproc)
 		return;
 
+	if (m_resultmodel != NULL)
+		m_resultmodel->deleteLater();
+	m_resultmodel = new KGpgSearchResultModel(this);
+	m_filtermodel.setSourceModel(m_resultmodel);
+
     //m_listpop = new KeyServer( this,"result",WType_Dialog | WShowModal);
 
     m_dialogserver = new KDialog(this );
@@ -262,22 +271,22 @@ void KeyServer::slotSearch()
     m_dialogserver->setButtonText(KDialog::Ok, i18n("&Import"));
     m_dialogserver->enableButtonOk(false);
     m_listpop = new searchRes(0);
+	m_listpop->kLVsearch->setModel(&m_filtermodel);
     //m_listpop->setMinimumWidth(250);
     //m_listpop->adjustSize();
     m_listpop->statusText->setText(i18n("Connecting to the server..."));
 
-    connect(m_listpop->kLVsearch, SIGNAL(itemSelectionChanged()), this, SLOT(transferKeyID()));
+    connect(m_listpop->filterEdit, SIGNAL(textChanged(const QString &)), SLOT(slotSetFilterString(const QString &)));
+    connect(m_listpop->kLVsearch->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), SLOT(transferKeyID()));
     connect(m_dialogserver, SIGNAL(okClicked()), this, SLOT(slotPreImport()));
-    connect(m_listpop->kLVsearch, SIGNAL(itemActivated(QTreeWidgetItem *, int)), m_dialogserver, SIGNAL(okClicked()));
+    connect(m_listpop->kLVsearch, SIGNAL(activated(const QModelIndex &)), m_dialogserver, SIGNAL(okClicked()));
     connect(m_dialogserver, SIGNAL(closeClicked()), this, SLOT(handleQuit()));
     connect(m_listpop, SIGNAL(destroyed()), this, SLOT(slotAbortSearch()));
 
     m_listpop->kLVsearch->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     m_count = 0;
-    m_keyid.clear();
     m_readmessage.clear();
-    m_kitem = NULL;
 
     QString keyserv = page->kCBimportks->currentText();
 
@@ -294,7 +303,6 @@ void KeyServer::slotSearch()
 	*m_searchproc << "--keyserver" << keyserv << "--status-fd=1" << "--command-fd=0";
 	*m_searchproc << "--with-colons"<< "--search-keys"  << page->kLEimportid->text().simplified().toLocal8Bit();
 
-	m_keynumbers = 0;
 	connect(m_searchproc, SIGNAL(processExited(GPGProc *)), this, SLOT(slotSearchResult(GPGProc *)));
 	connect(m_searchproc, SIGNAL(readReady(GPGProc *)), this, SLOT(slotSearchRead(GPGProc *)));
 	m_searchproc->start();
@@ -331,84 +339,35 @@ void KeyServer::slotSearchRead(GPGProc *p)
 
 	while (p->readln(line, true) >= 0) {
 		if (line.startsWith("[GNUPG:] GET_LINE keysearch.prompt")) {
-		if (m_count < 4)
-			p->write("N\n");
-		else
-			p->write("Q\n");
-		} else if (line.contains("GOT_IT")) {
+			if (m_count < 4)
+				p->write("N\n");
+			else
+				p->write("Q\n");
+		} else if (line.startsWith("[GNUPG:] GOT_IT")) {
 			m_count++;
 			line.clear();
-		} else if (line.startsWith("pub")) {
-			// "pub" is the last line of an entry
-			if (m_keyid.length() > 0)
-				CreateUidEntry();
-			m_keyid = line;
-			m_kitem = NULL;
-		} else if (line.startsWith("uid")) {
-			QString kid = urlDecode(line.section(':', 1, 1));
-
-			if (m_kitem != NULL) {
-				QTreeWidgetItem *k = new QTreeWidgetItem(m_kitem);
-				k->setText(0, kid);
-			} else {
-				// a new search result just started
-				m_kitem = new QTreeWidgetItem(m_listpop->kLVsearch);
-				m_kitem->setText(0, kid);
-				m_keynumbers++;
-			}
-			m_count = 0;
+		} else if (!line.isEmpty() && !line.startsWith("[GNUPG:] ")) {
+			m_resultmodel->addResultLine(line);
 		}
 	}
 }
 
-QString KeyServer::urlDecode(const QString &line)
+void KeyServer::slotSearchResult(GPGProc *)
 {
-	if (!line.contains('%'))
-		return line;
-
-	QByteArray tmp(line.toAscii());
-	const QRegExp hex("[A-Z0-9]{2}");	// URL-encoding uses only uppercase
-
-	int pos = -1;	// avoid error if '%' is URL-encoded
-	while ((pos = tmp.indexOf("%", pos + 1)) >= 0) {
-		const QByteArray hexnum(tmp.mid(pos + 1, 2));
-
-		// the input is not properly URL-encoded, so assume it's already correct
-		if (!hex.exactMatch(hexnum))
-			return line;
-
-		char n[2];
-		// this must work as we checked the regexp before
-		n[0] = hexnum.toUShort(NULL, 16);
-		n[1] = '\0';	// to use n as a 0-terminated string
-
-		tmp.replace(pos, 3, n);
-	}
-
-	return QTextCodec::codecForName("utf8")->toUnicode(tmp);
-}
-
-void KeyServer::slotSearchResult(GPGProc *p)
-{
-    // add last key id
-    if (m_kitem != NULL)
-      CreateUidEntry();
-
 	m_searchproc->deleteLater();
 	m_searchproc = NULL;
 	page->Buttonsearch->setEnabled(true);
-    QString nb;
-    m_dialogserver->enableButtonOk(true);
-    QApplication::restoreOverrideCursor();
-    nb = nb.setNum(m_keynumbers);
-    //m_listpop->kLVsearch->setColumnText(0,i18n("Found %1 matching keys").arg(nb));
-    m_listpop->statusText->setText(i18n("Found %1 matching keys", nb));
 
-    if (m_listpop->kLVsearch->topLevelItemCount() > 0)
-    {
-        m_listpop->kLVsearch->setCurrentItem(m_listpop->kLVsearch->topLevelItem(0));
-        transferKeyID();
-    }
+	m_resultmodel->addResultLine(QString());
+
+	m_dialogserver->enableButtonOk(true);
+	QApplication::restoreOverrideCursor();
+
+	int keys = m_resultmodel->rowCount(QModelIndex());
+	m_listpop->statusText->setText(i18np("Found 1 matching key", "Found %1 matching keys", keys));
+
+	if (keys > 0)
+		m_listpop->kLVsearch->selectionModel()->setCurrentIndex(m_resultmodel->index(0,0), QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
 }
 
 void KeyServer::slotSetText(const QString &text)
@@ -442,30 +401,13 @@ void KeyServer::slotEnableProxyE(const bool &on)
 
 void KeyServer::transferKeyID()
 {
-    if (m_listpop->kLVsearch->topLevelItemCount() == 0)
-        return;
+	QSet<QString> ids;
 
-    QStringList keysToSearch;
-    m_listpop->kLEID->clear();
-    const QList<QTreeWidgetItem*> &searchList = m_listpop->kLVsearch->selectedItems();
+	foreach (QModelIndex index, m_listpop->kLVsearch->selectionModel()->selectedIndexes())
+		ids << m_resultmodel->idForIndex(m_filtermodel.mapToSource(index));
 
-    foreach (QTreeWidgetItem *searchItem, searchList)
-    {
-        if (searchItem)
-        {
-            QTreeWidgetItem *item = searchItem->parent();
-
-            if (item == NULL)
-                item = searchItem;
-
-            QString id = item->data(0, Qt::UserRole).toString();
-            if (!keysToSearch.contains(id))
-                keysToSearch << id;
-        }
-    }
-
-//     kDebug(2100) << keysToSearch;
-    m_listpop->kLEID->setText(keysToSearch.join(" "));
+	const QStringList idlist(ids.toList());
+	m_listpop->kLEID->setText(idlist.join(" "));
 }
 
 void KeyServer::slotPreImport()
@@ -524,33 +466,9 @@ void KeyServer::slotSetKeyserver(const QString &server)
     page->kCBimportks->setCurrentIndex(page->kCBimportks->findText(server));
 }
 
-void KeyServer::CreateUidEntry(void)
+void KeyServer::slotSetFilterString(const QString &expression)
 {
-    Q_ASSERT(m_keyid.section(':', 1, 1).length() > 0);
-    // this is just a quick hack to avoid a crash
-    if (m_kitem == NULL)
-		return;
-
-    QString id = m_keyid.section(':', 1, 1).right(16);
-    KDateTime kd;
-    kd.setTime_t(m_keyid.section(':', 4, 4).toULongLong());
-
-    QTreeWidgetItem *k = new QTreeWidgetItem(m_kitem);
-    if (m_keyid.section(':', 6, 6) == "r")
-    {
-        k->setText(0, i18nc("example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked",
-                            "ID %1, %2-bit %3 key, created %4, revoked", id, m_keyid.section(':', 3, 3),
-            Convert::toString(Convert::toAlgo(m_keyid.section(':', 2, 2))),
-            kd.toString(KDateTime::LocalDate)));
-    }
-    else
-    {
-        k->setText(0, i18nc("example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009",
-                            "ID %1, %2-bit %3 key, created %4", id, m_keyid.section(':', 3, 3),
-            Convert::toString(Convert::toAlgo(m_keyid.section(':', 2, 2))),
-            kd.toString(KDateTime::LocalDate)));
-    }
-    m_kitem->setData(0, Qt::UserRole, id);
+	m_filtermodel.setFilterRegExp(QRegExp(expression, Qt::CaseInsensitive, QRegExp::RegExp2));
 }
 
 #include "keyservers.moc"

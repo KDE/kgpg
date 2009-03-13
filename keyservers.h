@@ -18,14 +18,18 @@
 #ifndef KEYSERVERS_H
 #define KEYSERVERS_H
 
+#include <QSortFilterProxyModel>
+
 #include <KDialog>
 #include <KProgressDialog>
 
-#include "kgpginterface.h"
+#include "core/kgpgkey.h"
 #include "ui_searchres.h"
 #include "ui_keyserver.h"
 
 class GPGProc;
+class KgpgInterface;
+class KGpgSearchResultModel;
 
 class keyServerWidget : public QWidget, public Ui::keyServerWidget
 {
@@ -100,11 +104,11 @@ private slots:
     void slotSearchResult(GPGProc *p);
     void slotSearch();
     void slotAbortSearch();
+    void slotSetFilterString(const QString &expression);
 
 private:
     KDialog *m_importpop;
     QString m_readmessage;
-    QTreeWidgetItem *m_kitem;
 
     KDialog *m_dialogserver;
     GPGProc *m_searchproc;
@@ -113,13 +117,11 @@ private:
     searchRes *m_listpop;
 
     int m_count;
-    uint m_keynumbers;
     bool m_autoclose;
-    QString m_keyid;
     QString expattr;
 
-    void CreateUidEntry(void);
-    QString urlDecode(const QString &line);
+    KGpgSearchResultModel *m_resultmodel;
+    QSortFilterProxyModel m_filtermodel;
 };
 
 #endif // KEYSERVERS_H

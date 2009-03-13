@@ -24,6 +24,7 @@ set(kgpg_model_SRCS
    model/kgpgitemnode.cpp
    model/groupeditproxymodel.cpp
    model/keylistproxymodel.cpp
+   model/kgpgsearchresultmodel.cpp
    model/selectkeyproxymodel.cpp
 )
 
