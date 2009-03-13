@@ -371,8 +371,7 @@ void KeyServer::slotSearchResult(GPGProc *p)
     m_dialogserver->enableButtonOk(true);
     QApplication::restoreOverrideCursor();
     nb = nb.setNum(m_keynumbers);
-    //m_listpop->kLVsearch->setColumnText(0,i18n("Found %1 matching keys").arg(nb));
-    m_listpop->statusText->setText(i18n("Found %1 matching keys", nb));
+	m_listpop->statusText->setText(i18np("Found 1 matching key", "Found %1 matching keys", nb));
 
     if (m_listpop->kLVsearch->topLevelItemCount() > 0)
     {
