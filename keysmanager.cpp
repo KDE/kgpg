@@ -418,7 +418,7 @@ KeysManager::KeysManager(QWidget *parent)
     connect(photoProps, SIGNAL(triggered(int)), this, SLOT(slotSetPhotoSize(int)));
     connect(trustProps, SIGNAL(triggered(int)), this, SLOT(slotSetTrustFilter(int)));
 
-    QLabel *searchLabel = new QLabel(i18n("Search: "), this);
+    QLabel *searchLabel = new QLabel(i18n("Search:"), this);
     m_listviewsearch = new KLineEdit(this);
     m_listviewsearch->setClearButtonShown(true);
 
