@@ -753,7 +753,7 @@ void KGpgUserActions::slotSetClip(const QString &newtxt)
 }
 
 
-kgpgapplet::kgpgapplet(QWidget *parent, KGpgItemModel *model)
+kgpgapplet::kgpgapplet(QWidget *parent, KeysManager *keysmanager, KGpgItemModel *model)
           : KSystemTrayIcon(parent)
 {
 	w = new KGpgUserActions(parent, this, model);
@@ -763,7 +763,7 @@ kgpgapplet::kgpgapplet(QWidget *parent, KGpgItemModel *model)
 	QAction *KgpgOpenEditor = actionCollection()->addAction("kgpg_editor");
 	KgpgOpenEditor->setIcon(KIcon("accessories-text-editor"));
 	KgpgOpenEditor->setText(i18n("E&ditor"));
-	connect(KgpgOpenEditor, SIGNAL(triggered(bool)), parent, SLOT(slotOpenEditor()));
+	connect(KgpgOpenEditor, SIGNAL(triggered(bool)), keysmanager, SLOT(slotOpenEditor()));
 	QAction *KgpgOpenManager = actionCollection()->addAction("kgpg_manager");
 	KgpgOpenManager->setIcon(KIcon("kgpg"));
 	KgpgOpenManager->setText(i18n("Ke&y Manager"));
@@ -871,9 +871,9 @@ int KgpgAppletApp::newInstance()
 		s_keyManager->refreshkey();
 
 		if (KGpgSettings::leftClick() == KGpgSettings::EnumLeftClick::KeyManager)
-			kgpg_applet = new kgpgapplet(s_keyManager, s_keyManager->getModel());
+			kgpg_applet = new kgpgapplet(s_keyManager, s_keyManager, s_keyManager->getModel());
 		else
-			kgpg_applet = new kgpgapplet(s_keyManager->s_kgpgEditor, s_keyManager->getModel());
+			kgpg_applet = new kgpgapplet(s_keyManager->s_kgpgEditor, s_keyManager, s_keyManager->getModel());
 
 		connect(s_keyManager, SIGNAL(encryptFiles(KUrl::List)), kgpg_applet->w, SLOT(encryptFiles(KUrl::List)));
 		connect(s_keyManager->s_kgpgEditor, SIGNAL(encryptFiles(KUrl::List)), kgpg_applet->w, SLOT(encryptFiles(KUrl::List)));
