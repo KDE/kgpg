@@ -19,6 +19,7 @@
 #define KEYSMANAGER_H
 
 #include <QClipboard>
+#include <QSet>
 
 #include <KToggleAction>
 #include <KXmlGuiWindow>
@@ -184,7 +185,7 @@ private slots:
     void refreshKeyFromServer();
     void slotregenerate();
     void secretKeyDeleted(int);
-    void getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *nd);
+    void getMissingSigs(QSet<QString> &missingKeys, KGpgExpandableNode *nd);
     void slotEditDone(int exitcode);
     void importRemoteFinished(QList<int>, QStringList, bool, QString, KgpgInterface *iface);
     void slotRefreshKeys(KgpgInterface *iface, const QStringList &keys);

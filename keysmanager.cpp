@@ -1281,7 +1281,7 @@ KeysManager::slotMenu(const QPoint &pos)
 	KgpgItemType itype;
 	QList<KGpgNode *> ndlist = iview->selectedNodes(&sametype, &itype);
 	bool unksig = false;
-	QStringList l;
+	QSet<QString> l;
 	int cnt = ndlist.count();
 
 	// find out if an item has unknown signatures. Only check if the item has been
@@ -1298,7 +1298,7 @@ KeysManager::slotMenu(const QPoint &pos)
 			unksig = true;
 			break;
 		}
-		getMissingSigs(&l, exnd);
+		getMissingSigs(l, exnd);
 		if (!l.isEmpty()) {
 			unksig = true;
 			break;
@@ -1985,7 +1985,7 @@ void KeysManager::signatureResult(int success, const QString &keyId, KgpgInterfa
     signLoop();
 }
 
-void KeysManager::getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *nd)
+void KeysManager::getMissingSigs(QSet<QString> &missingKeys, KGpgExpandableNode *nd)
 {
 	for (int i = nd->getChildCount() - 1; i >= 0; i--) {
 		KGpgNode *ch = nd->getChild(i);
@@ -1994,7 +1994,7 @@ void KeysManager::getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *n
 			continue;
 		} else if (ch->getType() == ITYPE_SIGN) {
 			if (ch->toSignNode()->isUnknown())
-				*missingKeys << ch->getId();
+				missingKeys << ch->getId();
 		}
 	}
 }
@@ -2002,7 +2002,7 @@ void KeysManager::getMissingSigs(QStringList *missingKeys, KGpgExpandableNode *n
 void KeysManager::importallsignkey()
 {
 	QList<KGpgNode *> sel = iview->selectedNodes();
-	QStringList missingKeys;
+	QSet<QString> missingKeys;
 	int i;
 
 	if (sel.isEmpty())
@@ -2013,7 +2013,7 @@ void KeysManager::importallsignkey()
 
 		if (nd->hasChildren()) {
 			KGpgExpandableNode *en = nd->toExpandableNode();
-			getMissingSigs(&missingKeys, en);
+			getMissingSigs(missingKeys, en);
 		} else if (nd->getType() == ITYPE_SIGN) {
 			KGpgSignNode *sn = nd->toSignNode();
 
@@ -2029,17 +2029,7 @@ void KeysManager::importallsignkey()
 		return;
 	}
 
-	// remove duplicate entries. TODO: Is there a standard function for this?
-	missingKeys.sort();
-	i = 0;
-	while (i < missingKeys.count() - 1) {
-		if (missingKeys[i] == missingKeys[i + 1])
-			missingKeys.removeAt(i + 1);
-		else
-			i++;
-	}
-
-	importsignkey(missingKeys);
+	importsignkey(missingKeys.toList());
 }
 
 void KeysManager::preimportsignkey()
