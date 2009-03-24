@@ -424,9 +424,6 @@ KGpgItemModel::fixPersistentIndexes()
 		if (j == idx.row())
 			continue;
 
-// find out if this code is ever hit
-kDebug(3125) << i << nd << idx.column() << "row" << idx.row() << "new row" << j;
-
 		if (j >= 0)
 			changePersistentIndex(idx, createIndex(j, idx.column(), nd));
 		else
