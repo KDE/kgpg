@@ -754,7 +754,7 @@ void KGpgUserActions::slotSetClip(const QString &newtxt)
 
 
 kgpgapplet::kgpgapplet(QWidget *parent, KeysManager *keysmanager, KGpgItemModel *model)
-          : KSystemTrayIcon(parent)
+          : KSystemTrayIcon("kgpg",parent)
 {
 	w = new KGpgUserActions(parent, this, model);
 
@@ -793,7 +793,6 @@ kgpgapplet::kgpgapplet(QWidget *parent, KeysManager *keysmanager, KGpgItemModel 
 	conf_menu->addAction( KgpgOpenServer );
 	conf_menu->addSeparator();
 	conf_menu->addAction( KgpgPreferences );
-	setIcon( KIcon("kgpg") );
 }
 
 void kgpgapplet::showOptions()
