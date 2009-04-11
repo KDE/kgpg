@@ -464,11 +464,11 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
 {
     m_publiclistkeys = KgpgKeyList();
     m_publickey = KgpgKey();
-    m_numberid = 1;
+    m_numberid = 0;
     cycle = "none";
 
     GPGProc *process = new GPGProc(this);
-    *process << "--with-colons" << "--with-fingerprint";
+    *process << "--with-colons" << "--with-fingerprint" << "--fixed-list-mode";
     if (withsigs)
         *process << "--list-sigs";
     else
@@ -514,7 +514,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             m_publickey.setSize(lsp.at(2).toUInt());
             m_publickey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
             m_publickey.setFingerprint(lsp.at(4));
-            m_publickey.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
+            m_publickey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
             m_publickey.setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
 
             if (lsp.at(6).isEmpty())
@@ -523,7 +523,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             }
             else
             {
-                m_publickey.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
+                m_publickey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
             }
 
             if (lsp.at(11).contains("D", Qt::CaseSensitive))  // disabled key
@@ -531,45 +531,9 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             else
                 m_publickey.setValid(true);
 
-            QString fullname = lsp.at(9);
-            if (fullname.contains("<"))
-            {
-                QString kmail = fullname;
-
-                if (fullname.contains(')') )
-                    kmail = kmail.section(')', 1);
-
-                kmail = kmail.section('<', 1);
-                kmail.truncate(kmail.length() - 1);
-
-                if (kmail.contains('<') ) // several email addresses in the same key
-                {
-                    kmail = kmail.replace('>', ';');
-                    kmail.remove('<');
-                }
-
-                m_publickey.setEmail(kmail);
-            }
-            else
-                m_publickey.setEmail(QString());
-
-            QString kname = fullname.section(" <", 0, 0);
-            if (fullname.contains('(') )
-            {
-                kname = kname.section(" (", 0, 0);
-                QString comment = fullname.section('(', 1, 1);
-                comment = comment.section(')', 0, 0);
-
-                m_publickey.setComment(comment);
-            }
-            else
-                m_publickey.setComment(QString());
-            m_publickey.setName(kname);
-
             cycle = "pub";
 
-            // the first uid is merged into the public key
-            m_numberid = 1;
+            m_numberid = 0;
         }
         else
         if ((lsp.at(0) == "fpr") && (items >= 10))
@@ -587,7 +551,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             sub.setTrust(Convert::toTrust(lsp.at(1)));
             sub.setSize(lsp.at(2).toUInt());
             sub.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-            sub.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
+            sub.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
 
             // FIXME: Please see kgpgkey.h, KgpgSubKey class
             if (lsp.at(11).contains('D'))
@@ -607,7 +571,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             }
             else
             {
-                sub.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
+                sub.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
             }
 
             m_publickey.subList()->append(sub);
@@ -619,7 +583,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             m_numberid++;
             KgpgKeyUat uat;
             uat.setId(QString::number(m_numberid));
-            uat.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
+            uat.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
             m_publickey.uatList()->append(uat);
 
             cycle = "uat";
@@ -627,19 +591,11 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
         else
         if ((lsp.at(0) == "uid") && (items >= 10))
         {
-            KgpgKeyUid uid;
-
-            uid.setTrust(Convert::toTrust(lsp.at(1)));
-            if ((items > 11) && lsp.at(11).contains('D'))
-                uid.setValid(false);
-            else
-                uid.setValid(true);
-
-            uid.setIndex(++m_numberid);
             QString fullname = lsp.at(9);
+            QString kmail;
             if (fullname.contains('<') )
             {
-                QString kmail = fullname;
+                kmail = fullname;
 
                 if (fullname.contains(')') )
                     kmail = kmail.section(')', 1);
@@ -652,28 +608,40 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
                     kmail = kmail.replace('>', ';');
                     kmail.remove('<');
                 }
-
-                uid.setEmail(kmail);
             }
-            else
-                uid.setEmail(QString());
 
             QString kname = fullname.section(" <", 0, 0);
+            QString comment;
             if (fullname.contains('(') )
             {
                 kname = kname.section(" (", 0, 0);
-                QString comment = fullname.section('(', 1, 1);
+                comment = fullname.section('(', 1, 1);
                 comment = comment.section(')', 0, 0);
-
-                uid.setComment(comment);
             }
-            else
-                uid.setComment(QString());
-            uid.setName(kname);
 
-            m_publickey.uidList()->append(uid);
+		if (m_numberid == 0) {
+			m_numberid++;
+			m_publickey.setEmail(kmail);
+			m_publickey.setComment(comment);
+			m_publickey.setName(kname);
+		} else {
+			KgpgKeyUid uid;
 
-            cycle = "uid";
+			uid.setEmail(kmail);
+			uid.setComment(comment);
+			uid.setName(kname);
+			uid.setTrust(Convert::toTrust(lsp.at(1)));
+			if ((items > 11) && lsp.at(11).contains('D'))
+				uid.setValid(false);
+			else
+				uid.setValid(true);
+
+			uid.setIndex(++m_numberid);
+
+			m_publickey.uidList()->append(uid);
+
+			cycle = "uid";
+		}
         }
         else
         if (((lsp.at(0) == "sig") || (lsp.at(0) == "rev")) && (items >= 11))
@@ -681,7 +649,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             KgpgKeySign signature;
 
             signature.setId(lsp.at(4));
-            signature.setCreation(QDate::fromString(lsp.at(5), Qt::ISODate));
+            signature.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
 
             if (lsp.at(6).isEmpty())
             {
@@ -689,43 +657,8 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             }
             else
             {
-                signature.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
+                signature.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
             }
-
-            QString fullname = lsp.at(9);
-            if (fullname.contains('<') )
-            {
-                QString kmail = fullname;
-
-                if (fullname.contains(')') )
-                    kmail = kmail.section(')', 1);
-
-                kmail = kmail.section('<', 1);
-                kmail.truncate(kmail.length() - 1);
-
-                if (kmail.contains('<' )) // several email addresses in the same key
-                {
-                    kmail = kmail.replace('>', ';');
-                    kmail.remove('<');
-                }
-
-                signature.setEmail(kmail);
-            }
-            else
-                signature.setEmail(QString());
-
-            QString kname = fullname.section(" <", 0, 0);
-            if (fullname.contains('(' ))
-            {
-                kname = kname.section(" (", 0, 0);
-                QString comment = fullname.section('(', 1, 1);
-                comment = comment.section(')', 0, 0);
-
-                signature.setComment(comment);
-            }
-            else
-                signature.setComment(QString());
-            signature.setName(kname);
 
             if (lsp.at(10).endsWith('l'))
                 signature.setLocal(true);
@@ -769,7 +702,7 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
     m_secretactivate = false;
 
         GPGProc *process = new GPGProc(this);
-        *process << "--with-colons" << "--list-secret-keys" << "--with-fingerprint";
+        *process << "--with-colons" << "--list-secret-keys" << "--with-fingerprint" << "--fixed-list-mode";
 
         *process << ids;
 
@@ -789,6 +722,7 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 {
     QStringList lsp;
     int items;
+    bool hasuid = true;
 
     while ( (items = p->readln(lsp)) >= 0 )
     {
@@ -804,7 +738,7 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
                 m_secretkey.setSize(lsp.at(2).toUInt());
                 m_secretkey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
                 m_secretkey.setFingerprint(lsp.at(4));
-                m_secretkey.setCreation(QDate::fromString(lsp[5], Qt::ISODate));
+                m_secretkey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
                 m_secretkey.setSecret(true);
 
                 if (lsp.at(6).isEmpty())
@@ -813,8 +747,14 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
                 }
                 else
                 {
-                    m_secretkey.setExpiration(QDate::fromString(lsp.at(6), Qt::ISODate));
+                    m_secretkey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
                 }
+                hasuid = true;
+            } else if ((lsp.at(0) == "uid") && (items >= 10)) {
+                if (hasuid)
+                   continue;
+
+                hasuid = true;
 
                 QString fullname = lsp.at(9);
                 if (fullname.contains('<' ))
@@ -1542,12 +1482,12 @@ void KgpgInterface::findSigns(const QString &keyID, const QStringList &ids, cons
 {
 	GPGProc *listproc = new GPGProc(this);
 	*listproc << "--status-fd=1";
-	*listproc << "--with-colons" << "--list-sigs" << keyID;
+	*listproc << "--with-colons" << "--list-sigs" << "--fixed-list-mode" << keyID;
 	listproc->start();
 	listproc->waitForFinished(-1);
 
 	QString line;
-	int curuid = 1;
+	int curuid = 0;
 	int signs = 0;
 	int tgtuid = uid.toInt();
 
