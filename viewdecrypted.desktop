@@ -6,6 +6,7 @@ Actions=decrypt-view;
 
 [Desktop Action decrypt-view]
 Name=View file decrypted
+Name[bg]=Дешифровани файлове
 Name[ca]=Mostra el fitxer desencriptat
 Name[da]=Se filen dekrypteret
 Name[de]=Datei entschlüsselt anzeigen
