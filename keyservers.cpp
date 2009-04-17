@@ -57,7 +57,7 @@ KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoclose)
     m_autoclose = autoclose;
     m_filtermodel.setSortCaseSensitivity(Qt::CaseInsensitive);
     m_filtermodel.setDynamicSortFilter(true);
-    m_filtermodel.setFilterKeyColumn(-1);
+    m_filtermodel.setFilterKeyColumn(0);
 
     page = new keyServerWidget();
     setMainWidget(page);
