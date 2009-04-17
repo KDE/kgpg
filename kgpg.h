@@ -60,6 +60,7 @@ signals:
     void readAgain2();
     void createNewKey();
     void updateDefault(QString);
+    void importDrop(const QString &);
 
 public slots:
     /**
@@ -129,8 +130,6 @@ private slots:
     void slotSetCompression(int cp);
     void decryptNextFile(KgpgLibrary *lib, const KUrl &failed);
     void decryptFile(KgpgLibrary *lib);
-    void slotImportedKeys(KgpgInterface *iface, const QStringList &);
-    void slotImportedKeys(KgpgLibrary *lib, const QStringList &);
 };
 
 class kgpgapplet : public KSystemTrayIcon

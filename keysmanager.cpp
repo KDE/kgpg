@@ -94,6 +94,8 @@
 #include "kgpgadduid.h"
 #include "kgpggeneratekey.h"
 #include "kgpgdelkey.h"
+#include "kgpgimport.h"
+#include "detailedconsole.h"
 
 using namespace KgpgCore;
 
@@ -328,6 +330,7 @@ KeysManager::KeysManager(QWidget *parent)
 
     iview = new KeyTreeView(this, iproxy);
     connect(iview, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(defaultAction(const QModelIndex &)));
+    connect(iview, SIGNAL(importDrop(const KUrl::List &)), SLOT(slotImport(const KUrl::List &)));
     iview->setSelectionMode(QAbstractItemView::ExtendedSelection);
     setCentralWidget(iview);
     iview->resizeColumnsToContents();
@@ -667,7 +670,7 @@ void KeysManager::slotGenerateKeyDone(int res)
         {
             slotrevoke(fingerprint, page->kURLRequester1->url().path(), 0, i18n("backup copy"));
             if (page->CBprint->isChecked())
-                connect(revKeyProcess, SIGNAL(revokeurl(QString)), this, SLOT(doFilePrint(QString)));
+                connect(revKeyProcess, SIGNAL(revokeurl(KUrl)), SLOT(doFilePrint(KUrl)));
         }
         else
         if (page->CBprint->isChecked())
@@ -1348,7 +1351,7 @@ KeysManager::slotMenu(const QPoint &pos)
 	}
 }
 
-void KeysManager::slotrevoke(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description)
+void KeysManager::slotrevoke(const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description)
 {
     revKeyProcess = new KgpgInterface();
     revKeyProcess->KgpgRevokeKey(keyID, revokeUrl, reason, description);
@@ -1380,32 +1383,32 @@ void KeysManager::revokeWidget()
     {
         slotrevoke(nd->getId(), keyRevoke->kURLRequester1->url().path(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->toPlainText());
         if (keyRevoke->cbPrint->isChecked())
-            connect(revKeyProcess, SIGNAL(revokeurl(QString)), this, SLOT(doFilePrint(QString)));
+            connect(revKeyProcess, SIGNAL(revokeurl(const KUrl &)), SLOT(doFilePrint(const KUrl &)));
         if (keyRevoke->cbImport->isChecked())
-            connect(revKeyProcess, SIGNAL(revokeurl(QString)), this, SLOT(slotImportRevoke(QString)));
+            connect(revKeyProcess, SIGNAL(revokeurl(const KUrl &)), SLOT(slotImportRevoke(const KUrl &)));
     }
     else
     {
         slotrevoke(nd->getId(), QString(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->toPlainText());
         if (keyRevoke->cbPrint->isChecked())
-            connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
+            connect(revKeyProcess, SIGNAL(revokecertificate(const QString &)), this, SLOT(doPrint(const QString &)));
         if (keyRevoke->cbImport->isChecked())
-            connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(slotImportRevokeTxt(QString)));
+            connect(revKeyProcess, SIGNAL(revokecertificate(const QString &)), this, SLOT(slotImportRevokeTxt(const QString &)));
     }
 }
 
-void KeysManager::slotImportRevoke(const QString &url)
+void KeysManager::slotImportRevoke(const KUrl &url)
 {
-    KgpgInterface *importKeyProcess = new KgpgInterface();
-    connect(importKeyProcess, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SLOT(slotRefreshKeys(KgpgInterface *, QStringList)));
-    importKeyProcess->importKey(KUrl(url));
+	KGpgImport *import = new KGpgImport(this, KUrl::List(url));
+	connect(import, SIGNAL(done(int)), SLOT(slotImportDone(int)));
+	import->start();
 }
 
 void KeysManager::slotImportRevokeTxt(const QString &revokeText)
 {
-    KgpgInterface *importKeyProcess = new KgpgInterface();
-    connect(importKeyProcess, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SLOT(slotRefreshKeys(KgpgInterface *, QStringList)));
-    importKeyProcess->importKey(revokeText);
+	KGpgImport *import = new KGpgImport(this, revokeText);
+	connect(import, SIGNAL(done(int)), SLOT(slotImportDone(int)));
+	import->start();
 }
 
 void KeysManager::slotexportsec()
@@ -2182,16 +2185,16 @@ void KeysManager::slotEditDone(int exitcode)
     editKey->setEnabled(true);
 }
 
-void KeysManager::doFilePrint(const QString &url)
+void KeysManager::doFilePrint(const KUrl &url)
 {
-    QFile qfile(url);
-    if (qfile.open(QIODevice::ReadOnly))
-    {
-        QTextStream t(&qfile);
-        doPrint(t.readAll());
-    }
-    else
-        KMessageBox::sorry(this, i18n("<qt>Cannot open file <b>%1</b> for printing...</qt>", url));
+	QFile qfile(url.toLocalFile());
+
+	if (qfile.open(QIODevice::ReadOnly)) {
+		QTextStream t(&qfile);
+		doPrint(t.readAll());
+	} else {
+		KMessageBox::sorry(this, i18n("<qt>Cannot open file <b>%1</b> for printing...</qt>", url.toLocalFile()));
+	}
 }
 
 void KeysManager::doPrint(const QString &txt)
@@ -2396,33 +2399,65 @@ void KeysManager::slotPreImportKey()
 //     page->resize(page->minimumSize());
 //     dial->resize(dial->minimumSize());
 
-    if (dial->exec() == QDialog::Accepted)
-    {
-        if (page->checkFile->isChecked())
-        {
-            QString impname = page->newFilename->url().url().simplified();
-            if (!impname.isEmpty())
-            {
-                changeMessage(i18n("Importing..."), 0, true);
-                // import from file
-                KgpgInterface *importKeyProcess = new KgpgInterface();
-                connect(importKeyProcess, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SLOT(slotRefreshKeys(KgpgInterface *, QStringList)));
-                importKeyProcess->importKey(KUrl(impname));
-            }
-        }
-        else
-        {
-            QString keystr = kapp->clipboard()->text(m_clipboardmode);
-            if (!keystr.isEmpty())
-            {
-                changeMessage(i18n("Importing..."), 0, true);
-                KgpgInterface *importKeyProcess = new KgpgInterface();
-                connect(importKeyProcess, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SLOT(slotRefreshKeys(KgpgInterface *, QStringList)));
-                importKeyProcess->importKey(keystr);
-            }
-        }
-    }
-    delete dial;
+	if (dial->exec() == QDialog::Accepted) {
+		if (page->checkFile->isChecked()) {
+			KUrl impname = page->newFilename->url();
+			if (!impname.isEmpty())
+				slotImport(KUrl::List(impname));
+		} else {
+			slotImport(kapp->clipboard()->text(m_clipboardmode));
+		}
+
+	}
+	delete dial;
+}
+
+void KeysManager::slotImport(const QString &text)
+{
+	if (text.isEmpty())
+		return;
+
+	startImport(new KGpgImport(this, text));
+}
+
+void KeysManager::slotImport(const KUrl::List &files)
+{
+	startImport(new KGpgImport(this, KUrl::List(files)));
+}
+
+void KeysManager::startImport(KGpgImport *import)
+{
+	changeMessage(i18n("Importing..."), 0, true);
+	connect(import, SIGNAL(done(int)), SLOT(slotImportDone(int)));
+	import->start();
+}
+
+void KeysManager::slotImportDone(int result)
+{
+	KGpgImport *import = qobject_cast<KGpgImport *>(sender());
+
+	slotImportDone(import, result);
+}
+
+void KeysManager::slotImportDone(KGpgImport *import, int result)
+{
+	const QStringList rawmsgs(import->getMessages());
+
+	if (result != 0) {
+		KMessageBox::errorList(this, i18n("Key importing failed. Please see the detailed log for more information."), rawmsgs, i18n("Key Import"));
+		import->deleteLater();
+		
+	}
+
+	const QStringList keys(import->getImportedIds(0x1f));
+	const QString msg(import->getImportMessage());
+	const QStringList keynames(import->getImportedKeys());
+	import->deleteLater();
+
+	new KgpgDetailedInfo(this, msg, rawmsgs.join("\n"), keynames);
+
+	if (!keys.isEmpty())
+		imodel->refreshKeys(keys);
 }
 
 void KeysManager::refreshkey()

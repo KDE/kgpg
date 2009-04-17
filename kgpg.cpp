@@ -71,6 +71,7 @@
 #include "kgpg_interface.h"
 #include "kgpgtextinterface.h"
 #include "kgpgfirstassistant.h"
+#include "kgpgimport.h"
 
 using namespace KgpgCore;
 
@@ -480,7 +481,6 @@ void KGpgUserActions::decryptFile(KgpgLibrary *lib)
 	if (!KGpgSettings::customDecrypt().isEmpty())
 		custdecr = QStringList(KGpgSettings::customDecrypt());
 	lib->slotFileDec(droppedUrls.first(), swapname, custdecr);
-	connect(lib, SIGNAL(importOver(KgpgLibrary *, QStringList)), SLOT(slotImportedKeys(KgpgLibrary *, QStringList)));
 	connect(lib, SIGNAL(systemMessage(QString, bool)), this, SLOT(busyMessage(QString, bool)));
 	connect(lib, SIGNAL(decryptionOver(KgpgLibrary *, KUrl)), this, SLOT(decryptNextFile(KgpgLibrary *, KUrl)));
 }
@@ -576,9 +576,7 @@ void KGpgUserActions::droppedtext (const QString &inputText, bool allowEncrypt)
 		if (result == KMessageBox::Cancel) {
 			return;
 		} else {
-			KgpgInterface *importKeyProcess = new KgpgInterface();
-			importKeyProcess->importKey(inputText);
-			connect(importKeyProcess, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SLOT(slotImportedKeys(KgpgInterface *, QStringList)));
+			emit importDrop(inputText);
 			return;
 		}
 	} else if (inputText.startsWith("-----BEGIN PGP SIGNED MESSAGE")) {
@@ -590,16 +588,6 @@ void KGpgUserActions::droppedtext (const QString &inputText, bool allowEncrypt)
 		clipEncrypt();
 	else
 		KMessageBox::sorry(0, i18n("No encrypted text found."));
-}
-
-void KGpgUserActions::slotImportedKeys(KgpgInterface *iface, const QStringList &)
-{
-	iface->deleteLater();
-}
-
-void KGpgUserActions::slotImportedKeys(KgpgLibrary *lib, const QStringList &)
-{
-	lib->deleteLater();
 }
 
 void KGpgUserActions::dragEnterEvent(QDragEnterEvent *e)
@@ -757,6 +745,7 @@ kgpgapplet::kgpgapplet(QWidget *parent, KeysManager *keysmanager, KGpgItemModel 
           : KSystemTrayIcon("kgpg",parent)
 {
 	w = new KGpgUserActions(parent, this, model);
+	connect(w, SIGNAL(importDrop(const QString &)), keysmanager, SLOT(slotImport(const QString &)));
 
 	QMenu *conf_menu = contextMenu();
 

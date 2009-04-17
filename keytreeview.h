@@ -21,6 +21,8 @@
 
 #include <QTreeView>
 
+#include <KUrl>
+
 #include "core/kgpgkey.h"
 
 class QDragMoveEvent;
@@ -33,6 +35,7 @@ class KgpgInterface;
 
 class KeyTreeView: public QTreeView
 {
+	Q_OBJECT
 private:
 	KeyListProxyModel *m_proxy;
 
@@ -45,12 +48,12 @@ public:
 	void restoreLayout(KConfigGroup &cg);
 	void saveLayout(KConfigGroup &cg) const;
 
-public Q_SLOTS:
+signals:
+	void importDrop(const KUrl::List &urls);
+
+public slots:
 	void selectNode(KGpgNode *nd);
 	void resizeColumnsToContents();
-
-private Q_SLOTS:
-	void slotRefreshKeys(KgpgInterface *iface, const QStringList &keys);
 
 protected:
 	virtual void contentsDragMoveEvent(QDragMoveEvent *e);

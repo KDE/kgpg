@@ -40,6 +40,7 @@ set(kgpg_transaction_SRCS
    transactions/kgpgadduid.cpp
    transactions/kgpggeneratekey.cpp
    transactions/kgpgdelkey.cpp
+   transactions/kgpgimport.cpp
 )
 
 set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transaction_SRCS}

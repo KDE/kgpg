@@ -52,6 +52,7 @@ class KGpgAddPhoto;
 class KGpgAddUid;
 class KGpgGenerateKey;
 class KGpgDelKey;
+class KGpgImport;
 
 class AddUid : public QWidget, public Ui::AddUid
 {
@@ -106,6 +107,8 @@ public slots:
     void showKeyServer();
     void showOptions();
     void slotOpenEditor();
+    void slotImport(const QString &text);
+    void slotImport(const KUrl::List &files);
 
 protected:
     bool eventFilter(QObject *, QEvent *e);
@@ -141,9 +144,9 @@ private slots:
     void slotAddPhotoFinished(int res);
     void slotSetPhotoSize(int size);
     void slotShowPhoto();
-    void slotrevoke(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description);
+    void slotrevoke(const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description);
     void revokeWidget();
-    void doFilePrint(const QString &url);
+    void doFilePrint(const KUrl &url);
     void doPrint(const QString &txt);
     void checkList();
     void signLoop();
@@ -180,7 +183,7 @@ private slots:
     void editGroup();
     void createNewGroup();
     void deleteGroup();
-    void slotImportRevoke(const QString &url);
+    void slotImportRevoke(const KUrl &url);
     void slotImportRevokeTxt(const QString &revokeText);
     void refreshKeyFromServer();
     void slotregenerate();
@@ -190,7 +193,9 @@ private slots:
     void importRemoteFinished(QList<int>, QStringList, bool, QString, KgpgInterface *iface);
     void slotRefreshKeys(KgpgInterface *iface, const QStringList &keys);
     void slotDelKeyDone(int ret);
-
+    void slotImportDone(int ret);
+    void slotImportDone(KGpgImport *import, int ret);
+    
 private:
     KGpgItemModel *imodel;
     KeyListProxyModel *iproxy;
@@ -257,6 +262,8 @@ private:
     KGpgKeyNode *terminalkey; // the key currently edited in a terminal
     KGpgKeyNode *delkey;	// key currently deleted
     KGpgKeyNodeList m_delkeys;
+
+    void startImport(KGpgImport *import);
 };
 
 #endif // KEYSMANAGER_H

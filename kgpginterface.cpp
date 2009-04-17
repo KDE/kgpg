@@ -1060,139 +1060,6 @@ void KgpgInterface::loadPhotoFin(int exitCode)
 	emit loadPhotoFinished(m_pixmap, this);
 }
 
-void KgpgInterface::importKey(const QString &keystr)
-{
-    message.clear();
-
-    GPGProc *process = new GPGProc(this);
-    *process << "--status-fd=1";
-    *process << "--import";
-    *process << "--allow-secret-key-import";
-
-    connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(importKeyProcess(GPGProc *)));
-    connect(process, SIGNAL(processExited(GPGProc *)), SLOT(slotImportKeyFinished(GPGProc *)));
-    process->start();
-
-    process->write(keystr.toAscii() + '\n');
-    process->closeWriteChannel();
-}
-
-void KgpgInterface::importKey(const KUrl &url)
-{
-	message.clear();
-
-	GPGProc *process = new GPGProc(this);
-	*process << "--status-fd=1";
-	*process << "--import";
-	*process << "--allow-secret-key-import";
-	connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(importKeyProcess(GPGProc *)));
-
-	if ( url.isLocalFile() ) {
-		*process << url.path();
-		connect(process, SIGNAL(processExited(GPGProc *)), SLOT(slotImportKeyFinished(GPGProc *)));
-	} else {
-		if (KIO::NetAccess::download(url, m_tempkeyfile, 0)) {
-			*process << m_tempkeyfile;
-
-			connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(importURLover(GPGProc *)));
-		} else {
-			delete process;
-			KMessageBox::error(0, KIO::NetAccess::lastErrorString() );
-			return;
-		}
-	}
-	process->start();
-}
-
-void KgpgInterface::importURLover(GPGProc *p)
-{
-    KIO::NetAccess::removeTempFile(m_tempkeyfile);
-    slotImportKeyFinished(p);
-}
-
-void KgpgInterface::importKeyProcess(GPGProc *p)
-{
-    QString line;
-
-    while (p->readln(line, true) >= 0) {
-            if (!line.contains("http-proxy"))
-                message += line + '\n';
-    }
-}
-
-void KgpgInterface::slotImportKeyFinished(GPGProc *p)
-{
-    p->deleteLater();
-
-    QStringList importedKeysIds;
-    QStringList importedKeys;
-    QString resultMessage;
-    bool secretImport = false;
-
-    QString parsedOutput = message;
-
-    while (parsedOutput.contains("IMPORTED"))
-    {
-        parsedOutput.remove(0, parsedOutput.indexOf("IMPORTED") + 8);
-        importedKeys << parsedOutput.section("\n", 0, 0).simplified();
-        importedKeysIds << parsedOutput.simplified().section(' ', 0, 0);
-    }
-
-    if (message.contains("IMPORT_RES"))
-    {
-        parsedOutput = message.section("IMPORT_RES", -1, -1).simplified();
-        QStringList messageList = parsedOutput.split(' ');
-
-        resultMessage = i18np("<qt>%1 key processed.</qt>", "<qt>%1 keys processed.</qt>", messageList[0].toULong());
-
-        if (messageList[1] != "0")
-            resultMessage += i18np("<qt>One key without ID.</qt>", "<qt>%1 keys without ID.</qt>", messageList[1].toULong());
-        if (messageList[2] != "0")
-            resultMessage += i18np("<qt><b>One key imported:</b></qt>", "<qt><b>%1 keys imported:</b></qt>", messageList[2].toULong());
-        if (messageList[3] != "0")
-            resultMessage += i18np("<qt>One RSA key imported.</qt>", "<qt>%1 RSA keys imported.</qt>", messageList[3].toULong());
-        if (messageList[4] != "0")
-            resultMessage += i18np("<qt>One key unchanged.</qt>", "<qt>%1 keys unchanged.</qt>", messageList[4].toULong());
-        if (messageList[5] != "0")
-            resultMessage += i18np("<qt>One user ID imported.</qt>", "<qt>%1 user IDs imported.</qt>", messageList[5].toULong());
-        if (messageList[6] != "0")
-            resultMessage += i18np("<qt>One subkey imported.</qt>", "<qt>%1 subkeys imported.</qt>", messageList[6].toULong());
-        if (messageList[7] != "0")
-            resultMessage += i18np("<qt>One signature imported.</qt>", "<qt>%1 signatures imported.</qt>", messageList[7].toULong());
-        if (messageList[8] != "0")
-        {
-            resultMessage += i18np("<qt>One revocation certificate imported.</qt>", "<qt>%1 revocation certificates imported.</qt>", messageList[8].toULong());
-            // empty list means "reload all"
-            importedKeysIds.clear();
-        }
-        if (messageList[9] != "0")
-        {
-            resultMessage += i18np("<qt>One secret key processed.</qt>", "<qt>%1 secret keys processed.</qt>", messageList[9].toULong());
-            secretImport = true;
-        }
-        if (messageList[10] != "0")
-            resultMessage += i18np("<qt><b>One secret key imported.</b></qt>", "<qt><b>%1 secret keys imported.</b></qt>", messageList[10].toULong());
-        if (messageList[11] != "0")
-            resultMessage += i18np("<qt>One secret key unchanged.</qt>", "<qt>%1 secret keys unchanged.</qt>", messageList[11].toULong());
-        if (messageList[12] != "0")
-            resultMessage += i18np("<qt>One secret key not imported.</qt>", "<qt>%1 secret keys not imported.</qt>", messageList[12].toULong());
-
-        if (secretImport)
-            resultMessage += i18n("<qt><br /><b>You have imported a secret key.</b> <br />"
-                                  "Please note that imported secret keys are not trusted by default.<br />"
-                                  "To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</qt>");
-
-        emit importKeyFinished(this, importedKeysIds);
-   } else {
-        resultMessage = i18n("No key imported... \nCheck detailed log for more infos");
-        emit importKeyFinished(this, QStringList());
-   }
-
-    // TODO : should be deleted. KgpgInterface should not show any dialog (but password).
-    // When a message should be shown, it should be passed by parameter in a SIGNAL.
-    (void) new KgpgDetailedInfo(0, resultMessage, message, importedKeys);
-}
-
 void KgpgInterface::downloadKeys(const QStringList &keys, const QString &keyserver, const bool &refresh, const QString &proxy)
 {
     m_downloadkeys.clear();
@@ -1407,7 +1274,7 @@ void KgpgInterface::delsignover(GPGProc *p)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  key revocation
 
-void KgpgInterface::KgpgRevokeKey(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description)
+void KgpgInterface::KgpgRevokeKey(const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description)
 {
 	revokeReason=reason;
 	revokeSuccess=false;
@@ -1419,7 +1286,7 @@ void KgpgInterface::KgpgRevokeKey(const QString &keyID, const QString &revokeUrl
 	*process << "--status-fd=1" << "--command-fd=0";
 
 	if (!revokeUrl.isEmpty())
-		*process << "-o" << revokeUrl;
+		*process << "-o" << revokeUrl.toLocalFile();
 	*process << "--gen-revoke" << keyID;
 	QObject::connect(process, SIGNAL(processExited(GPGProc *)),this, SLOT(revokeover(GPGProc *)));
 	QObject::connect(process, SIGNAL(readReady(GPGProc *)),this, SLOT(revokeprocess(GPGProc *)));

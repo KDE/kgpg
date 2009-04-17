@@ -52,6 +52,9 @@
           <property name="enabled" >
            <bool>true</bool>
           </property>
+          <property name="mode" >
+           <flags>KFile::File | KFile::ExistingOnly</flags>
+          </property>
          </widget>
         </item>
        </layout>

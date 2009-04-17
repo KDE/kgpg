@@ -30,6 +30,7 @@
 #include "keylistproxymodel.h"
 #include "kgpgitemnode.h"
 #include "kgpginterface.h"
+#include "kgpgimport.h"
 
 KeyTreeView::KeyTreeView(QWidget *parent, KeyListProxyModel *model)
 	: QTreeView(parent), m_proxy(model)
@@ -149,18 +150,8 @@ KeyTreeView::contentsDropEvent(QDropEvent *o)
 					KGuiItem(i18n("Do Not Import"))) != KMessageBox::Yes)
 			return;
 
-		KgpgInterface *interface = new KgpgInterface();
-		connect(interface, SIGNAL(importKeyFinished(KgpgInterface *, QStringList)), SLOT(slotRefreshKeys(KgpgInterface *, QStringList)));
-		interface->importKey(uriList.first());
+		emit importDrop(uriList);
 	}
-}
-
-void
-KeyTreeView::slotRefreshKeys(KgpgInterface *iface, const QStringList &keys)
-{
-	iface->deleteLater();
-	if (!keys.isEmpty())
-		m_proxy->getModel()->refreshKeys(keys);
 }
 
 void
@@ -195,3 +186,5 @@ KeyTreeView::resizeColumnsToContents()
 	for (int i = m_proxy->columnCount() - 1; i >= 0; i--)
 		resizeColumnToContents(i);
 }
+
+#include "keytreeview.moc"

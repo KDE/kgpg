@@ -226,37 +226,6 @@ private:
 
 /*******************************************************/
 
-
-/************** import a key **************/
-signals:
-    void importKeyFinished(KgpgInterface *, QStringList);
-
-public slots:
-    /**
-     * Import key function
-     * @param url Kurl the url of the key file. Allows public & secret key import.
-     */
-    void importKey(const KUrl &url);
-
-    /**
-     * Import key function
-     * @param keystr QString containing th key. Allows public & secret key import.
-     */
-    void importKey(const QString &keystr);
-
-private slots:
-    /**
-     * Read output of the import process
-     */
-    void importKeyProcess(GPGProc *p);
-    void slotImportKeyFinished(GPGProc *p);
-
-private:
-    QString m_tempkeyfile;
-
-/******************************************/
-
-
 /************** download keys from keys server **************/
 signals:
     /*
@@ -334,7 +303,7 @@ public slots:
      */
     void KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID);
 
-    void KgpgRevokeKey(const QString &keyID, const QString &revokeUrl, const int reason, const QString &description);
+    void KgpgRevokeKey(const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description);
     void revokeover(GPGProc *);
     void revokeprocess(GPGProc *p);
 
@@ -355,19 +324,14 @@ private slots:
      */
     void findSigns(const QString &keyID, const QStringList &ids, const QString &uid, QList<int> *res);
 
-    /**
-     * Checks output of the import process
-     */
-    void importURLover(GPGProc *p);
-
 signals:
     /**
      *  true if key signature deletion successful, false on error.
      */
     void delsigfinished(bool);
 
-    void revokecertificate(QString);
-    void revokeurl(QString);
+    void revokecertificate(const QString &);
+    void revokeurl(const KUrl &);
 
 private:
     // Globals private
@@ -397,7 +361,7 @@ private:
     int revokeReason;
     int photoCount;
     QString revokeDescription;
-    QString certificateUrl;
+    KUrl certificateUrl;
     QString photoUrl;
     QString decryptUrl;
 
