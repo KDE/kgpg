@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -28,6 +28,9 @@ class KGpgGenerateKey: public KGpgTransaction {
 	Q_OBJECT
 
 public:
+	enum ts_generatekey {
+		TS_INVALID_NAME = TS_COMMON_END + 1	///< the owners name is not accepted by GnuPG
+	};
 	/**
 	 * \brief KGpgGenerateKey's constructor
 	 * @param name the name of the key, it is also the user's name.
@@ -77,6 +80,7 @@ private:
 	unsigned int m_expireunit;
 	QString m_fingerprint;
 	bool m_started;
+	bool m_namesent;
 
 Q_SIGNALS:
 	void generateKeyStarted();

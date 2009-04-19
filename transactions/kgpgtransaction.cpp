@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -41,7 +41,7 @@ KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent)
 	m_parent = parent;
 
 	m_process = new GPGProc;
-	m_success = 0;
+	m_success = KGpgTransaction::TS_OK;
 }
 
 KGpgTransaction::KGpgTransaction(QObject *parent)
@@ -65,7 +65,7 @@ KGpgTransactionPrivate::slotReadReady(GPGProc *gpgProcess)
 		if (line.startsWith("[GNUPG:] USERID_HINT ")) {
 			m_parent->addIdHint(line);
 		} else if (line.startsWith("[GNUPG:] BAD_PASSPHRASE ")) {
-			m_success = 1;
+			m_success = KGpgTransaction::TS_BAD_PASSPHRASE;
 		} else if (m_parent->nextLine(line)) {
 			m_process->write("quit\n");
 		}
@@ -84,7 +84,7 @@ KGpgTransactionPrivate::slotProcessExited(GPGProc *gpgProcess)
 void
 KGpgTransaction::start()
 {
-	setSuccess(0);
+	setSuccess(TS_OK);
 	d->m_idhints.clear();
 	d->m_tries = 3;
 	if (preStart())
@@ -112,7 +112,7 @@ KGpgTransaction::getSuccess() const
 }
 
 void
-KGpgTransaction::setSuccess(const int &v)
+KGpgTransaction::setSuccess(const int v)
 {
 	d->m_success = v;
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -39,7 +39,7 @@ bool
 KGpgAddUid::preStart()
 {
 	if (!m_email.isEmpty() && !KPIMUtils::isValidSimpleAddress(m_email)) {
-		setSuccess(4);
+		setSuccess(TS_INVALID_EMAIL);
 		return false;
 	}
 
@@ -53,12 +53,12 @@ KGpgAddUid::nextLine(const QString &line)
 		return false;
 
 	if (line.contains("GOOD_PASSPHRASE")) {
-		setSuccess(2);
+		setSuccess(TS_MSG_SEQUENCE);
 	} else if (line.contains("passphrase.enter")) {
 		if (askPassphrase())
-			setSuccess(3);
+			setSuccess(TS_USER_ABORTED);
 	} else if (line.contains("keyedit.prompt")) {
-		setSuccess(0);
+		setSuccess(TS_OK);
 		write("save");
 	} else if (line.contains("keygen.name")) {
 		write(m_name.toAscii());
@@ -67,7 +67,7 @@ KGpgAddUid::nextLine(const QString &line)
 	} else if (line.contains("keygen.comment")) {
 		write(m_comment.toAscii());
 	} else if (line.contains("GET_")) {
-		// gpg asks for something unusal, turn to konsole mode
+		setSuccess(TS_MSG_SEQUENCE);
 		return true;
 	}
 

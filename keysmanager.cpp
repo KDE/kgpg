@@ -584,103 +584,83 @@ void KeysManager::slotGenerateKeyProcess()
 
 void KeysManager::slotGenerateKeyDone(int res)
 {
-    changeMessage(i18nc("Application ready for user input", "Ready"), 0);
+	changeMessage(i18nc("Application ready for user input", "Ready"), 0);
 
-    delete pop;
-    pop = NULL;
+	delete pop;
+	pop = NULL;
 
-    if (res == 1)
-    {
-        QString infomessage = i18n("Generating new key pair");
-        QString infotext = i18n("Bad passphrase. Cannot generate a new key pair.");
-        KMessageBox::error(this, infotext, infomessage);
-    }
-    else
-    if (res == 3)
-    {
-        QString infomessage = i18n("Generating new key pair");
-        QString infotext = i18n("Aborted by the user. Cannot generate a new key pair.");
-        KMessageBox::error(this, infotext, infomessage);
-    }
-    else
-    if (res == 4)
-    {
-        QString infomessage = i18n("Generating new key pair");
-        QString infotext = i18n("The email address is not valid. Cannot generate a new key pair.");
-        KMessageBox::error(this, infotext, infomessage);
-    }
-    else
-    if (res == 10)
-    {
-        QString infomessage = i18n("Generating new key pair");
-        QString infotext = i18n("The name is not accepted by gpg. Cannot generate a new key pair.");
-        KMessageBox::error(this, infotext, infomessage);
-    }
-    else
-    if (res != 0)
-    {
-        QString infomessage = i18n("Generating new key pair");
-        QString infotext = i18n("gpg process did not finish. Cannot generate a new key pair.");
-        KMessageBox::error(this, infotext, infomessage);
-    }
-    else
-    {
-        changeMessage(imodel->statusCountMessage(), 1);
+	const QString infomessage(i18n("Generating new key pair"));
 
-        KDialog *keyCreated = new KDialog(this);
-        keyCreated->setCaption(i18n("New Key Pair Created"));
-        keyCreated->setButtons(KDialog::Ok);
-        keyCreated->setDefaultButton(KDialog::Ok);
-        keyCreated->setModal(true);
+	switch (res) {
+	case KGpgTransaction::TS_BAD_PASSPHRASE:
+		KMessageBox::error(this, i18n("Bad passphrase. Cannot generate a new key pair."), infomessage);
+		break;
+	case KGpgTransaction::TS_USER_ABORTED:
+		KMessageBox::error(this, i18n("Aborted by the user. Cannot generate a new key pair."), infomessage);
+		break;
+	case KGpgTransaction::TS_INVALID_EMAIL:
+		KMessageBox::error(this, i18n("The email address is not valid. Cannot generate a new key pair."), infomessage);
+		break;
+	case KGpgGenerateKey::TS_INVALID_NAME:
+		KMessageBox::error(this, i18n("The name is not accepted by gpg. Cannot generate a new key pair."), infomessage);
+		break;
+	case KGpgTransaction::TS_OK: {
+		changeMessage(imodel->statusCountMessage(), 1);
 
-        newKey *page = new newKey(keyCreated);
-        page->TLname->setText("<b>" + m_genkey->getName() + "</b>");
+		KDialog *keyCreated = new KDialog(this);
+		keyCreated->setCaption(i18n("New Key Pair Created"));
+		keyCreated->setButtons(KDialog::Ok);
+		keyCreated->setDefaultButton(KDialog::Ok);
+		keyCreated->setModal(true);
 
-        QString email(m_genkey->getEmail());
-        page->TLemail->setText("<b>" + email + "</b>");
+		newKey *page = new newKey(keyCreated);
+		page->TLname->setText("<b>" + m_genkey->getName() + "</b>");
 
-	QString revurl;
-        QString gpgPath = KGpgSettings::gpgConfigPath();
-        if (!gpgPath.isEmpty())
-            revurl = KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash);
-	else
-            revurl = QDir::homePath() + '/';
+		const QString email(m_genkey->getEmail());
+		page->TLemail->setText("<b>" + email + "</b>");
 
-        if (!email.isEmpty())
-            page->kURLRequester1->setUrl(revurl + email.section("@", 0, 0) + ".revoke");
-        else
-            page->kURLRequester1->setUrl(revurl + email.section(" ", 0, 0) + ".revoke");
+		QString revurl;
+		const QString gpgPath(KGpgSettings::gpgConfigPath());
+		if (!gpgPath.isEmpty())
+			revurl = KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash);
+		else
+			revurl = QDir::homePath() + '/';
 
-        QString fingerprint(m_genkey->getFingerprint());
-        page->TLid->setText("<b>" + fingerprint.right(8) + "</b>");
-        page->LEfinger->setText(fingerprint);
-        page->CBdefault->setChecked(true);
-        page->show();
-        keyCreated->setMainWidget(page);
+		if (!email.isEmpty())
+			page->kURLRequester1->setUrl(revurl + email.section("@", 0, 0) + ".revoke");
+		else
+			page->kURLRequester1->setUrl(revurl + email.section(" ", 0, 0) + ".revoke");
 
-        keyCreated->exec();
+		const QString fingerprint(m_genkey->getFingerprint());
+		page->TLid->setText("<b>" + fingerprint.right(8) + "</b>");
+		page->LEfinger->setText(fingerprint);
+		page->CBdefault->setChecked(true);
+		page->show();
+		keyCreated->setMainWidget(page);
 
-            imodel->refreshKey(fingerprint);
-            if (page->CBdefault->isChecked())
-                imodel->setDefaultKey(fingerprint);
+		keyCreated->exec();
 
-            iview->selectNode(imodel->getRootNode()->findKey(fingerprint));
+		imodel->refreshKey(fingerprint);
+		if (page->CBdefault->isChecked())
+			imodel->setDefaultKey(fingerprint);
 
-        if (page->CBsave->isChecked())
-        {
-            slotrevoke(fingerprint, page->kURLRequester1->url().path(), 0, i18n("backup copy"));
-            if (page->CBprint->isChecked())
-                connect(revKeyProcess, SIGNAL(revokeurl(KUrl)), SLOT(doFilePrint(KUrl)));
-        }
-        else
-        if (page->CBprint->isChecked())
-        {
-            slotrevoke(fingerprint, QString(), 0, i18n("backup copy"));
-            connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
-        }
-    }
-    m_genkey->deleteLater();
-    m_genkey = NULL;
+		iview->selectNode(imodel->getRootNode()->findKey(fingerprint));
+
+		if (page->CBsave->isChecked()) {
+			slotrevoke(fingerprint, page->kURLRequester1->url().path(), 0, i18n("backup copy"));
+			if (page->CBprint->isChecked())
+				connect(revKeyProcess, SIGNAL(revokeurl(KUrl)), SLOT(doFilePrint(KUrl)));
+		} else if (page->CBprint->isChecked()) {
+			slotrevoke(fingerprint, QString(), 0, i18n("backup copy"));
+			connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
+		}
+	}
+	default:
+		KMessageBox::error(this, i18n("gpg process did not finish. Cannot generate a new key pair."), infomessage);
+	}
+
+	m_genkey->deleteLater();
+	m_genkey = NULL;
 }
 
 void KeysManager::slotShowTrust()

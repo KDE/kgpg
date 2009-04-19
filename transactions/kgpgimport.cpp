@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/**
+ * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -67,7 +67,7 @@ KGpgImport::preStart()
 			} else {
 				m_messages.append(KIO::NetAccess::lastErrorString());
 				cleanUrls();
-				setSuccess(2);
+				setSuccess(TS_IMPORT_KIO_FAILED);
 				return false;
 			}
 		}
@@ -214,5 +214,5 @@ KGpgImport::getImportMessage() const
 		return resultMessage;
 	}
 
-	return i18n("No key imported... \nCheck detailed log for more infos");
+	return i18n("No key imported...<br />Check detailed log for more infos");
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -38,28 +38,22 @@ bool
 KGpgChangeExpire::preStart()
 {
 	m_step = 3;
-	setSuccess(2);
+	setSuccess(TS_MSG_SEQUENCE);
 
 	return true;
 }
 
-/**
- * 0 = success
- * 1 = Bad Passphrase
- * 2 = Unknown error
- * 3 = Aborted
- */
 bool
 KGpgChangeExpire::nextLine(const QString &line)
 {
 	if (!line.startsWith("[GNUPG:]"))
 		return false;
 
-	if (getSuccess() == 3) {
+	if (getSuccess() == TS_USER_ABORTED) {
 		if (line.contains("GET_" ))
 			return true;
 	} else if (line.contains("GOOD_PASSPHRASE")) {
-		setSuccess(0);
+		setSuccess(TS_OK);
 	} else if (line.contains("keygen.valid")) {
 		if (m_date.isNull())
 			write("0");
@@ -72,18 +66,17 @@ KGpgChangeExpire::nextLine(const QString &line)
 		passdlgmessage += i18n("Enter passphrase for <b>%1</b>", getIdHints());
 
 		if (sendPassphrase(passdlgmessage)) {
-			setSuccess(3);	// aborted by user mode
+			setSuccess(TS_USER_ABORTED);
 			return true;
 		}
 		--m_step;
-	} else if ((getSuccess() == 0) && line.contains("keyedit.prompt")) {
+	} else if ((getSuccess() == TS_OK) && line.contains("keyedit.prompt")) {
 		write("save");
-	} else if ((getSuccess() == 0) && line.contains("keyedit.save.okay")) {
+	} else if ((getSuccess() == TS_OK) && line.contains("keyedit.save.okay")) {
 		write("YES");
 	} else if (line.contains("GET_")) {
-		// gpg asks for something unusal, turn to konsole mode
-		if (getSuccess() != 1)
-			setSuccess(4);	// switching to console mode
+		if (getSuccess() != TS_BAD_PASSPHRASE)
+			setSuccess(TS_MSG_SEQUENCE);
 		return true;
 	}
 
@@ -93,15 +86,15 @@ KGpgChangeExpire::nextLine(const QString &line)
 void
 KGpgChangeExpire::finish()
 {
-	if (getSuccess() == 4) {
+	if (getSuccess() == TS_MSG_SEQUENCE) {
 		QString output;
 		KgpgDetailedConsole *q = new KgpgDetailedConsole(0, i18n("<qt><b>Changing expiration failed.</b><br />"
 					"Do you want to try changing the key expiration in console mode?</qt>"), output);
 		if (q->exec() == QDialog::Accepted) {
 			KMessageBox::sorry(0, i18n("Work in progress...."));
-			setSuccess(0);
+			setSuccess(TS_OK);
 		} else
-			setSuccess(3);
+			setSuccess(TS_USER_ABORTED);
 	}
 }
 

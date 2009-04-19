@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -30,6 +30,14 @@ KGpgChangeTrust::~KGpgChangeTrust()
 }
 
 bool
+KGpgChangeTrust::preStart()
+{
+	setSuccess(TS_MSG_SEQUENCE);
+
+	return true;
+}
+
+bool
 KGpgChangeTrust::nextLine(const QString &line)
 {
 	if (line.contains("edit_ownertrust.set_ultimate.okay")) {
@@ -37,10 +45,10 @@ KGpgChangeTrust::nextLine(const QString &line)
 	} else if (line.contains("edit_ownertrust.value")) {
 		write(QString::number(m_trust).toAscii());
 	} else if (line.contains("keyedit.prompt")) {
+		setSuccess(TS_OK);
 		write("save");
 	} else if (line.contains("GET_")) {
-		// gpg asks for something unusal
-		setSuccess(1);
+		setSuccess(TS_MSG_SEQUENCE);
 		return true;
 	}
 

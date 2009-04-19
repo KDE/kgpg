@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -35,41 +35,38 @@ KGpgChangePass::~KGpgChangePass()
 bool
 KGpgChangePass::preStart()
 {
-	setSuccess(2);
+	setSuccess(TS_MSG_SEQUENCE);
+
+	m_seenold = false;
 
 	return true;
 }
 
-/**
- * 0 = success
- * 1 = Bad Passphrase
- * 2 = Unknown error
- * 3 = Aborted
- */
 bool
 KGpgChangePass::nextLine(const QString &line)
 {
 	if (!line.startsWith("[GNUPG:] "))
 		return false;
 
-	if ((getSuccess() == 4) && line.contains("keyedit.prompt")) {
-		setSuccess(0);
+	if (m_seenold && line.contains("keyedit.prompt")) {
+		setSuccess(TS_OK);
 		write("save");
 	} else if (line.contains("GOOD_PASSPHRASE")) {
-		setSuccess(4);
+		setSuccess(TS_MSG_SEQUENCE);
+		m_seenold = true;
 	} else if (line.contains("passphrase.enter")) {
 		QString userIDs(getIdHints());
 
-		if (getSuccess() == 1) {
+		if (!m_seenold) {
 			if (askPassphrase(i18n("Enter old passphrase for <b>%1</b>", userIDs)))
-				setSuccess(3);
-		} else if (getSuccess() == 4) {
+				setSuccess(TS_USER_ABORTED);
+		} else {
 			if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase all your encrypted files and messages will be inaccessible.</qt>", userIDs), true)) {
-				setSuccess(3);
+				setSuccess(TS_USER_ABORTED);
 			}
 		}
 	} else if (line.contains("GET_")) {
-		// gpg asks for something unusal, turn to konsole mode
+		setSuccess(TS_MSG_SEQUENCE);
 		return true;
 	}
 

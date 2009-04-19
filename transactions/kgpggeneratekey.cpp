@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -45,12 +45,15 @@ bool
 KGpgGenerateKey::preStart()
 {
 	if (!m_email.isEmpty() && !KPIMUtils::isValidSimpleAddress(m_email)) {
-		setSuccess(4);
+		setSuccess(TS_INVALID_EMAIL);
 		return false;
 	}
 
 	m_fingerprint.clear();
 	m_started = false;
+	m_namesent = false;
+
+	setSuccess(TS_MSG_SEQUENCE);
 
 	return true;
 }
@@ -95,11 +98,12 @@ KGpgGenerateKey::nextLine(const QString &line)
 			write("0");
 		}
 	} else if (line.contains("keygen.name")) {
-		if (getSuccess() == 10) {
+		if (m_namesent) {
+			setSuccess(TS_INVALID_NAME);
 			return true;
 //			p->kill();
 		} else {
-			setSuccess(10);
+			m_namesent = true;
 			write(m_name.toAscii());
 		}
 	} else if (line.contains("keygen.email")) {
@@ -116,19 +120,19 @@ KGpgGenerateKey::nextLine(const QString &line)
 		}
 
 		if (sendPassphrase(passdlgmessage, true)) {
-			setSuccess(3);
+			setSuccess(TS_USER_ABORTED);
 		} else {
-			setSuccess(5);
+			setSuccess(TS_MSG_SEQUENCE);
 		}
 	} else if (line.contains("GOOD_PASSPHRASE")) {
-		setSuccess(5);
+		setSuccess(TS_MSG_SEQUENCE);
 	} else if (line.contains("KEY_CREATED")) {
 		m_fingerprint = line.right(40);
-		setSuccess(0);
+		setSuccess(TS_OK);
 	} else if (line.contains("NEED_PASSPHRASE")) {
-		setSuccess(3);
+		setSuccess(TS_USER_ABORTED);
 	} else if (line.contains("GET_")) {
-		// gpg asks for something unusal, turn to konsole mode
+		setSuccess(TS_MSG_SEQUENCE);
 		return true;
 	}
 

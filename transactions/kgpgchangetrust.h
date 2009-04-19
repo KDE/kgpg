@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/**
+ * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -33,6 +33,7 @@ public:
 
 protected:
 	virtual bool nextLine(const QString &line);
+	virtual bool preStart();
 
 private:
 	KgpgCore::KgpgKeyOwnerTrust m_trust;

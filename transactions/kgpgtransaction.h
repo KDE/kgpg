@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -45,6 +45,21 @@ class KGpgTransaction: public QObject {
 
 public:
 	/**
+	 * \brief return codes common to many transactions
+	 *
+	 * Every transaction may define additional return codes, which
+	 * should start at TS_COMMON_END + 1.
+	 */
+	enum ts_transaction {
+		TS_OK = 0,			///< everything went fine
+		TS_BAD_PASSPHRASE = 1,		///< the passphrase was not correct
+		TS_MSG_SEQUENCE = 2,		///< unexpected sequence of GnuPG messages
+		TS_USER_ABORTED = 3,		///< the user aborted the transaction
+		TS_INVALID_EMAIL = 4,		///< the given email address is invalid
+		TS_COMMON_END = 100		///< placeholder for return values of derived classes
+	};
+
+	/**
 	 * \brief KGpgTransaction constructor
 	 */
 	explicit KGpgTransaction(QObject *parent = 0);
@@ -61,9 +76,10 @@ public:
 Q_SIGNALS:
 	/**
 	 * \brief Emitted when the operation was completed.
-	 * On success result is 0. A result of 1 means the operation was
-	 * aborted because a bad password was entered. Other return values
-	 * depend on the transaction.
+	 * @param result return status of the transaction
+	 *
+	 * \see estatus for the common status codes. Each transaction
+	 * may define additional status codes.
 	 */
 	void done(int result);
 
@@ -134,7 +150,7 @@ protected:
 	 *
 	 * You should use 0 as success value. Other values can be defined as needed.
 	 */
-	void setSuccess(const int &v);
+	void setSuccess(const int v);
 
 	/**
 	 * \brief add a userid hint

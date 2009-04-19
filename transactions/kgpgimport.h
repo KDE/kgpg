@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/**
+ * Copyright (C) 2009,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -29,6 +29,13 @@ class KGpgImport: public KGpgTransaction {
 	Q_OBJECT
 
 public:
+	/**
+	 * \brief additional status codes for KGpgImport
+	 */
+	enum ts_import {
+		TS_IMPORT_KIO_FAILED = TS_COMMON_END + 1	///< download of remote file failed
+	};
+
 	/**
 	 * \brief import given text
 	 * @param parent parent object

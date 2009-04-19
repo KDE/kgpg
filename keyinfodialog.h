@@ -115,7 +115,7 @@ private slots:
     void slotDisableKey(const bool &ison);
 
     void slotChangePass();
-    void slotInfoPasswordChanged(const int &res);
+    void slotInfoPasswordChanged(int result);
 
     void slotChangeTrust(const int &newtrust);
 

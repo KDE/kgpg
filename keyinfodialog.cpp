@@ -540,13 +540,22 @@ void KgpgKeyInfo::slotChangePass()
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 }
 
-void KgpgKeyInfo::slotInfoPasswordChanged(const int &res)
+void KgpgKeyInfo::slotInfoPasswordChanged(int result)
 {
-    if (res == 2)
-        KPassivePopup::message(i18n("Passphrase for the key was changed"), QString(), Images::kgpg(), this);
-    else if (res == 1)
-        KMessageBox::error(this, i18n("Bad old passphrase, the passphrase for the key was not changed"), i18n("Could not change passphrase"));
-    QApplication::restoreOverrideCursor();
+	switch (result) {
+	case KGpgTransaction::TS_OK:
+		KPassivePopup::message(i18n("Passphrase for the key was changed"), QString(), Images::kgpg(), this);
+		break;
+	case KGpgTransaction::TS_BAD_PASSPHRASE:
+		KMessageBox::error(this, i18n("Bad old passphrase, the passphrase for the key was not changed"), i18n("Could not change passphrase"));
+		break;
+	case KGpgTransaction::TS_USER_ABORTED:
+		break;
+	default:
+		KMessageBox::error(this, i18n("KGpg was unable to change the passphrase.<br />Please see the detailed log for more information."));
+	}
+
+	QApplication::restoreOverrideCursor();
 }
 
 void KgpgKeyInfo::slotChangeTrust(const int &newtrust)

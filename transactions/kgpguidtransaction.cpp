@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,6 +14,12 @@
 #include "kgpguidtransaction.h"
 
 #include "gpgproc.h"
+
+KGpgUidTransaction::KGpgUidTransaction(QObject *parent)
+	: KGpgTransaction(parent)
+{
+	Q_ASSERT(false);
+}
 
 KGpgUidTransaction::KGpgUidTransaction(QObject *parent, const QString &keyid, const QString &uid)
 	: KGpgTransaction(parent)
@@ -40,17 +46,11 @@ KGpgUidTransaction::~KGpgUidTransaction()
 bool
 KGpgUidTransaction::preStart()
 {
-	setSuccess(2);
+	setSuccess(TS_MSG_SEQUENCE);
 
 	return true;
 }
 
-/**
- * 0 = success
- * 1 = Bad Passphrase
- * 2 = Unknown error
- * 3 = Aborted
- */
 bool
 KGpgUidTransaction::standardCommands(const QString &line)
 {
@@ -58,13 +58,15 @@ KGpgUidTransaction::standardCommands(const QString &line)
 		return false;
 
 	if (line.contains("GOOD_PASSPHRASE")) {
-		setSuccess(2);
+		setSuccess(TS_MSG_SEQUENCE);
 	} else if (line.contains("passphrase.enter")) {
 		if (askPassphrase())
-			setSuccess(3);
+			setSuccess(TS_USER_ABORTED);
 	} else if (line.contains("keyedit.prompt")) {
 		write("save");
+		setSuccess(TS_OK);
 	} else if (line.contains("GET_")) {
+		setSuccess(TS_MSG_SEQUENCE);
 		// gpg asks for something unusal, turn to konsole mode
 		return true;
 	}
@@ -85,4 +87,10 @@ KGpgUidTransaction::setUid(const QString &uid)
 	args.replace(m_uidpos, uid);
 
 	proc->setProgram(args);
+}
+
+void
+KGpgUidTransaction::setUid(const unsigned int uid)
+{
+	setUid(QString::number(uid));
 }
