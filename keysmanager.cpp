@@ -491,7 +491,7 @@ void KeysManager::slotGenerateKey()
     {
         if (!kg->isExpertMode())
         {
-		m_genkey = new KGpgGenerateKey(this, kg->name(), kg->email(), kg->comment(), kg->algo(), kg->size(), kg->expiration(), kg->days());
+		m_genkey = new KGpgGenerateKey(this, kg->name(), kg->email(), kg->comment(), kg->algo(), kg->size(), kg->days(), kg->expiration());
 		connect(m_genkey, SIGNAL(generateKeyStarted()), SLOT(slotGenerateKeyProcess()));
 		connect(m_genkey, SIGNAL(done(int)), SLOT(slotGenerateKeyDone(int)));
 		m_genkey->start();
