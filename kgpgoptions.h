@@ -82,17 +82,6 @@ class kgpgOptions : public KConfigDialog
     Q_OBJECT
 
 public:
-    enum KeyColors
-    {
-        GoodColor = 0,
-        BadColor = 1,
-        UnknownColor = 2,
-        RevColor = 3,
-        UltimateColor = 4,
-        MarginalColor = 5,
-        ExpiredColor = 6
-    };
-
     explicit kgpgOptions(QWidget *parent = 0, const char *name = 0);
     ~kgpgOptions();
 
