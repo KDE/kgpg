@@ -654,6 +654,7 @@ void KeysManager::slotGenerateKeyDone(int res)
 			slotrevoke(fingerprint, QString(), 0, i18n("backup copy"));
 			connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
 		}
+		break;
 	}
 	default:
 		KMessageBox::error(this, i18n("gpg process did not finish. Cannot generate a new key pair."), infomessage);
