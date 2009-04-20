@@ -214,5 +214,5 @@ KGpgImport::getImportMessage() const
 		return resultMessage;
 	}
 
-	return i18n("No key imported...<br />Check detailed log for more infos");
+	return i18n("No key imported.<br />Please see the detailed log for more information.");
 }
