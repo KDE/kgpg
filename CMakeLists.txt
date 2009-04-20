@@ -97,7 +97,7 @@ kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
 kde4_add_executable(kgpg ${kgpg_SRCS})
 
-target_link_libraries(kgpg  ${KDE4_KIO_LIBS} ${KDE4_KABC_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KPIMUTILS_LIBRARY})
+target_link_libraries(kgpg  ${KDE4_KIO_LIBS} ${KDE4_KABC_LIBS} ${KDE4_KUTILS_LIBS} ${KDE4_KPIMUTILS_LIBRARY} ${KDE4_SOLID_LIBS})
 
 install(TARGETS kgpg  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 

@@ -26,6 +26,8 @@
 #include <KDialog>
 #include <KUrl>
 
+#include <solid/networking.h>
+
 #include "kgpgkey.h"
 #include "ui_adduid.h"
 #include "kgpginterface.h"
@@ -195,7 +197,10 @@ private slots:
     void slotDelKeyDone(int ret);
     void slotImportDone(int ret);
     void slotImportDone(KGpgImport *import, int ret);
-    
+
+    void slotNetworkUp();
+    void slotNetworkDown();
+
 private:
     KGpgItemModel *imodel;
     KeyListProxyModel *iproxy;
@@ -244,6 +249,7 @@ private:
     QAction *editCurrentGroup;
     QAction *delGroup;
     QAction *setDefaultKey;
+    KAction *kserver;
 
     KeyServer *kServer;
     KgpgInterface *revKeyProcess;
@@ -264,6 +270,11 @@ private:
     KGpgKeyNodeList m_delkeys;
 
     void startImport(KGpgImport *import);
+
+    // react to network status changes
+    bool m_online;
+    Solid::Networking::Notifier *m_netnote;
+    void toggleNetworkActions(bool online);    
 };
 
 #endif // KEYSMANAGER_H

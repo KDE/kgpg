@@ -38,6 +38,7 @@
 
 #include <kabc/addresseedialog.h>
 #include <kabc/stdaddressbook.h>
+#include <solid/networking.h>
 #include <KToolInvocation>
 #include <KStandardDirs>
 #include <KPassivePopup>
@@ -130,10 +131,10 @@ KeysManager::KeysManager(QWidget *parent)
     connect(action, SIGNAL(triggered(bool)), SLOT(slotDefaultAction()));
     action->setShortcut(QKeySequence(Qt::Key_Return));
 
-    action = actionCollection()->addAction( "key_server" );
-    action->setText( i18n("&Key Server Dialog") );
-    action->setIcon( KIcon("network-server") );
-    connect(action, SIGNAL(triggered(bool)), SLOT(showKeyServer()));
+    kserver = actionCollection()->addAction( "key_server" );
+    kserver->setText( i18n("&Key Server Dialog") );
+    kserver->setIcon( KIcon("network-server") );
+    connect(kserver, SIGNAL(triggered(bool)), SLOT(showKeyServer()));
 
     action =  actionCollection()->addAction( "help_tipofday");
     action->setIcon( KIcon("help-hint") );
@@ -474,6 +475,12 @@ KeysManager::KeysManager(QWidget *parent)
     m_genkey = NULL;
     m_adduid = NULL;
     m_delkey = NULL;
+
+    m_netnote = Solid::Networking::notifier();
+    connect(m_netnote, SIGNAL(shouldConnect()), SLOT(slotNetworkUp()));
+    connect(m_netnote, SIGNAL(shouldDisconnect()), SLOT(slotNetworkDown()));
+
+    toggleNetworkActions(Solid::Networking::status() == Solid::Networking::Connected);
 }
 
 KeysManager::~KeysManager()
@@ -1145,6 +1152,8 @@ void KeysManager::checkList()
 	default:
 		stateChanged("multi_selected");
 	}
+	if (!m_online)
+		refreshKey->setEnabled(false);
 
     switch (exportList.at(0)->getType()) {
     case ITYPE_PUBLIC:
@@ -1288,7 +1297,7 @@ KeysManager::slotMenu(const QPoint &pos)
 			break;
 		}
 	}
-	importAllSignKeys->setEnabled(unksig);
+	importAllSignKeys->setEnabled(unksig && m_online);
 
 	signUid->setEnabled(!(itype & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)));
 
@@ -1299,7 +1308,7 @@ KeysManager::slotMenu(const QPoint &pos)
 			allunksig = nd->isUnknown();
 		}
 
-		importSignatureKey->setEnabled(allunksig);
+		importSignatureKey->setEnabled(allunksig && m_online);
 		delSignKey->setEnabled( (cnt == 1) );
 		m_popupsig->exec(globpos);
 	} else if (itype == ITYPE_UID) {
@@ -1477,6 +1486,10 @@ void KeysManager::slotexport()
     page->newFilename->setUrl(sname);
     page->newFilename->setWindowTitle(i18n("Save File"));
     page->newFilename->setMode(KFile::File);
+
+	if (!m_online)
+		page->checkServer->setEnabled(false);
+
     page->show();
 
     if (dial->exec() == QDialog::Accepted)
@@ -2458,6 +2471,28 @@ KeysManager::slotRefreshKeys(KgpgInterface *iface, const QStringList &keys)
 	iface->deleteLater();
 	if (!keys.isEmpty())
 		imodel->refreshKeys(keys);
+}
+
+void
+KeysManager::slotNetworkUp()
+{
+	toggleNetworkActions(true);
+}
+
+void
+KeysManager::slotNetworkDown()
+{
+	toggleNetworkActions(false);
+}
+
+void
+KeysManager::toggleNetworkActions(bool online)
+{
+	m_online = online;
+	kserver->setEnabled(online);
+	importSignatureKey->setEnabled(online);
+	importAllSignKeys->setEnabled(online);
+	refreshKey->setEnabled(online);
 }
 
 #include "keysmanager.moc"
