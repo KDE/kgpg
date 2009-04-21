@@ -94,7 +94,6 @@ all others will be stored for use by KGpg only.</string>
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
   <customwidgets>
   <customwidget>
    <class>KListWidget</class>

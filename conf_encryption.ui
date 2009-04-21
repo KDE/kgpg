@@ -1,7 +1,5 @@
 <ui version="4.0" stdsetdef="1" >
   <author>bj@altern.org</author>
-  <comment></comment>
-  <exportmacro></exportmacro>
   <class>Encryption</class>
   <widget class="QWidget" name="Encryption" >
     <property name="geometry" >
@@ -168,7 +166,6 @@
       </item>
     </layout>
   </widget>
-  <layoutdefault spacing="6" margin="11" />
     <customwidgets>
     <customwidget>
       <class>KComboBox</class>

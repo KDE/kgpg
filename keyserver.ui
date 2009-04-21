@@ -289,7 +289,6 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
   <customwidgets>
   <customwidget>
    <class>KComboBox</class>
