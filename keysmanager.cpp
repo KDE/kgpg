@@ -1678,7 +1678,7 @@ void KeysManager::keyproperties()
 	case ITYPE_PUBLIC: {
 		KGpgKeyNode *kn = cur->toKeyNode();
 		KgpgKeyInfo *opts = new KgpgKeyInfo(kn, this);
-		connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
+		connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
 		opts->exec();
 		delete opts;
 		break;
@@ -1687,7 +1687,7 @@ void KeysManager::keyproperties()
 	case ITYPE_GPUBLIC: {
 		KGpgKeyNode *kn = cur->toGroupMemberNode()->getRefNode();
 		KgpgKeyInfo *opts = new KgpgKeyInfo(kn, this);
-		connect(opts, SIGNAL(keyNeedsRefresh(const QString &)), imodel, SLOT(refreshKey(const QString &)));
+		connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
 		opts->exec();
 		delete opts;
 		break;
