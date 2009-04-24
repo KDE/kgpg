@@ -60,7 +60,7 @@ KGpgItemModel::parent(const QModelIndex &child) const
 	Q_ASSERT(parentNode != NULL);
 	int row = rowForNode(parentNode);
 	int column = 0;
-	
+
 	return createIndex(row, column, parentNode);
 }
 
@@ -214,7 +214,7 @@ KGpgItemModel::addGroup(const QString &name, const KGpgKeyNodeList &keys)
 }
 
 void
-KGpgItemModel::delNode(const KGpgNode *node)
+KGpgItemModel::delNode(KGpgNode *node)
 {
 	emit layoutAboutToBeChanged();
 	delete node;
@@ -408,19 +408,13 @@ KGpgItemModel::isDefaultKey(const KGpgNode *node) const
 void
 KGpgItemModel::fixPersistentIndexes()
 {
-	if (persistentIndexList().isEmpty())
-		return;
-
-	QModelIndexList newidx;
-
-	for (int i = 0; i < persistentIndexList().count(); i++) {
-		QModelIndex idx = persistentIndexList().at(i);
-
+	foreach (const QModelIndex idx, persistentIndexList()) {
 		if (!idx.isValid())
 			continue;
 
 		KGpgNode *nd = nodeForIndex(idx);
 		int j = rowForNode(nd);
+
 		if (j == idx.row())
 			continue;
 
@@ -434,9 +428,7 @@ KGpgItemModel::fixPersistentIndexes()
 void
 KGpgItemModel::invalidateIndexes(KGpgNode *nd)
 {
-	for (int i = 0; i < persistentIndexList().count(); i++) {
-		QModelIndex idx = persistentIndexList().at(i);
-
+	foreach (const QModelIndex idx, persistentIndexList()) {
 		KGpgNode *n = nodeForIndex(idx);
 
 		if (n != nd)

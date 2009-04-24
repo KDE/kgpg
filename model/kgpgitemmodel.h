@@ -66,7 +66,7 @@ public:
 
 public Q_SLOTS:
 	KGpgGroupNode *addGroup(const QString &name, const KGpgKeyNodeList &keys);
-	void delNode(const KGpgNode *node);
+	void delNode(KGpgNode *node);
 	void changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys);
 	void deleteFromGroup(KGpgGroupNode *group, KGpgGroupMemberNode *member);
 	void setDefaultKey(const QString &def);
