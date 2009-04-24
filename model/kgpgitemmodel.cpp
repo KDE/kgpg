@@ -408,14 +408,7 @@ KGpgItemModel::isDefaultKey(const KGpgNode *node) const
 void
 KGpgItemModel::fixPersistentIndexes()
 {
-	if (persistentIndexList().isEmpty())
-		return;
-
-	QModelIndexList newidx;
-
-	for (int i = 0; i < persistentIndexList().count(); i++) {
-		QModelIndex idx = persistentIndexList().at(i);
-
+	foreach (const QModelIndex idx, persistentIndexList()) {
 		if (!idx.isValid())
 			continue;
 
@@ -434,9 +427,7 @@ KGpgItemModel::fixPersistentIndexes()
 void
 KGpgItemModel::invalidateIndexes(KGpgNode *nd)
 {
-	for (int i = 0; i < persistentIndexList().count(); i++) {
-		QModelIndex idx = persistentIndexList().at(i);
-
+	foreach (const QModelIndex idx, persistentIndexList()) {
 		KGpgNode *n = nodeForIndex(idx);
 
 		if (n != nd)
