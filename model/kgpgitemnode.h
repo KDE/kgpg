@@ -107,16 +107,27 @@ public:
 		{ return m_parent; }
 
 	KGpgExpandableNode *toExpandableNode();
+	const KGpgExpandableNode *toExpandableNode() const;
 	KGpgKeyNode *toKeyNode();
+	const KGpgKeyNode *toKeyNode() const;
 	KGpgRootNode *toRootNode();
+	const KGpgRootNode *toRootNode() const;
 	KGpgUidNode *toUidNode();
+	const KGpgUidNode *toUidNode() const;
 	KGpgSubkeyNode *toSubkeyNode();
+	const KGpgSubkeyNode *toSubkeyNode() const;
 	KGpgUatNode *toUatNode();
+	const KGpgUatNode *toUatNode() const;
 	KGpgGroupNode *toGroupNode();
+	const KGpgGroupNode *toGroupNode() const;
 	KGpgRefNode *toRefNode();
+	const KGpgRefNode *toRefNode() const;
 	KGpgGroupMemberNode *toGroupMemberNode();
+	const KGpgGroupMemberNode *toGroupMemberNode() const;
 	KGpgSignNode *toSignNode();
+	const KGpgSignNode *toSignNode() const;
 	KGpgOrphanNode *toOrphanNode();
+	const KGpgOrphanNode *toOrphanNode() const;
 };
 
 class KGpgExpandableNode : public KGpgNode
