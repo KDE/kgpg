@@ -760,11 +760,7 @@ KGpgGroupNode::readChildren()
 KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
 	: KGpgNode(parent)
 {
-	KGpgExpandableNode *pt = parent->getParentKeyNode();
-	while (pt->getParentKeyNode() != NULL)
-		pt = pt->getParentKeyNode();
-
-	KGpgRootNode *root = pt->toRootNode();
+	KGpgRootNode *root = getRootNode();
 
 	m_keynode = root->findKey(keyid);
 	if (m_keynode != NULL) {
@@ -796,14 +792,24 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, KGpgKeyNode *key)
 	parent->children.append(this);
 }
 
+KGpgRootNode *
+KGpgRefNode::getRootNode() const
+{
+	KGpgExpandableNode *root;
+	KGpgExpandableNode *pt = m_parent;
+
+	do {
+		root = pt;
+		pt = pt->getParentKeyNode();
+	} while (pt != NULL);
+
+	return root->toRootNode();
+}
+
 void
 KGpgRefNode::keyUpdated(KGpgKeyNode *nkey)
 {
-	KGpgExpandableNode *pt = m_parent->getParentKeyNode();
-	while (pt->getParentKeyNode() != NULL)
-		pt = pt->getParentKeyNode();
-
-	KGpgRootNode *root = pt->toRootNode();
+	KGpgRootNode *root = getRootNode();
 
 	if (nkey == NULL) {
 		m_id = m_keynode->getId();

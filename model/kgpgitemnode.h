@@ -495,6 +495,8 @@ protected:
 	explicit KGpgRefNode(KGpgExpandableNode *parent, KGpgKeyNode *key);
 	explicit KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid);
 
+	KGpgRootNode *getRootNode() const;
+
 public:
 	virtual ~KGpgRefNode();
 
