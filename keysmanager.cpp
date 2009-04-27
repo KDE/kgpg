@@ -784,6 +784,7 @@ void KeysManager::refreshKeyFromServer()
     }
 
     kServer = new KeyServer(this, false);
+    kServer->setItemModel(imodel);
     connect(kServer, SIGNAL(importFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
     kServer->refreshKeys(keyIDS);
 }
@@ -1127,6 +1128,7 @@ void KeysManager::slotTip()
 void KeysManager::showKeyServer()
 {
     KeyServer *ks = new KeyServer(this);
+    ks->setItemModel(imodel);
     connect(ks, SIGNAL(importFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
     ks->exec();
     delete ks;
@@ -1506,6 +1508,7 @@ void KeysManager::slotexport()
         if (page->checkServer->isChecked())
         {
             KeyServer *expServer = new KeyServer(0, false);
+	    expServer->setItemModel(imodel);
             expServer->slotSetExportAttribute(exportAttr);
             expServer->slotSetKeyserver(page->destServer->currentText());
 
@@ -2067,6 +2070,7 @@ void KeysManager::importsignkey(const QStringList &importKeyId)
 {
     // sign a key
     kServer = new KeyServer(0, false);
+    kServer->setItemModel(imodel);
     kServer->slotSetText(importKeyId.join(" "));
     //kServer->Buttonimport->setDefault(true);
     kServer->slotImport();

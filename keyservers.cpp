@@ -27,7 +27,9 @@
 #include <KDebug>
 #include <KDateTime>
 
+#include "keylistproxymodel.h"
 #include "kgpginterface.h"
+#include "kgpgitemmodel.h"
 #include "kgpgsearchresultmodel.h"
 #include "kgpgsettings.h"
 #include "detailedconsole.h"
@@ -46,7 +48,9 @@ ConnectionDialog::ConnectionDialog(QWidget *parent)
 }
 
 KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoclose)
-         : KDialog(parent), m_resultmodel(NULL)
+         : KDialog(parent),
+	 m_resultmodel(NULL),
+	 m_itemmodel(NULL)
 {
     m_searchproc = NULL;
 
@@ -88,41 +92,17 @@ KeyServer::KeyServer(QWidget *parent, const bool &modal, const bool &autoclose)
         page->kLEproxyE->setText(httpproxy);
     }
 
-    KgpgInterface *interface = new KgpgInterface();
-    connect (interface, SIGNAL(readPublicKeysFinished(KgpgCore::KgpgKeyList, KgpgInterface*)), this, SLOT(slotReadKeys(KgpgCore::KgpgKeyList, KgpgInterface*)));
-    interface->readPublicKeys();
-
     page->Buttonimport->setEnabled(!page->kLEimportid->text().isEmpty());
     page->Buttonsearch->setEnabled(!page->kLEimportid->text().isEmpty());
     setMinimumSize(sizeHint());
 }
 
-void KeyServer::slotReadKeys(KgpgKeyList list, KgpgInterface *interface)
+void KeyServer::setItemModel(KGpgItemModel *model)
 {
-    interface->deleteLater();
-    for (int i = 0; i < list.size(); ++i)
-    {
-        const KgpgKey key = list.at(i);
-
-        bool dead = false;
-        if ((key.trust() == 'i') || (key.trust() == 'd') || (key.trust() == 'r') || (key.trust() == 'e'))
-            dead = true;
-
-        if (!dead)
-        {
-            QString line = key.name();
-            if (!key.comment().isEmpty()) line += " (" + key.comment() + ')';
-            if (!key.email().isEmpty())    line += " <" + key.email() + '>';
-            if (line.length() > 37)
-            {
-                line.remove(35, line.length());
-                line += "...";
-            }
-
-            if (!line.isEmpty())
-                page->kCBexportkey->addItem(key.id() + ": " + line);
-        }
-    }
+	m_itemmodel = new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst);
+	m_itemmodel->setKeyModel(model);
+	m_itemmodel->setTrustFilter(KgpgCore::TRUST_UNDEFINED);
+	page->kCBexportkey->setModel(m_itemmodel);
 }
 
 void KeyServer::refreshKeys(QStringList keys)

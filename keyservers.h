@@ -28,7 +28,9 @@
 #include "ui_keyserver.h"
 
 class GPGProc;
+class KeyListProxyModel;
 class KgpgInterface;
+class KGpgItemModel;
 class KGpgSearchResultModel;
 
 class keyServerWidget : public QWidget, public Ui::keyServerWidget
@@ -72,6 +74,8 @@ public:
      */
     static QStringList getServerList();
 
+    void setItemModel(KGpgItemModel *model);
+
 signals:
     void importFinished(QStringList);
 
@@ -96,7 +100,6 @@ public slots:
     void handleQuit();
 
 private slots:
-    void slotReadKeys(KgpgCore::KgpgKeyList list, KgpgInterface *interface);
     void slotDownloadKeysFinished(QList<int> results, QStringList keys, bool imported, QString log, KgpgInterface *interface);
     void slotUploadKeysFinished(QString message, KgpgInterface *interface);
 
@@ -122,6 +125,8 @@ private:
 
     KGpgSearchResultModel *m_resultmodel;
     QSortFilterProxyModel m_filtermodel;
+
+    KeyListProxyModel *m_itemmodel;
 };
 
 #endif // KEYSERVERS_H

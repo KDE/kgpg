@@ -25,13 +25,23 @@
 class KGpgNode;
 class KGpgExpandableNode;
 class KGpgItemModel;
+class KeyListProxyModelPrivate;
 
 class KeyListProxyModel: public QSortFilterProxyModel
 {
 	Q_PROPERTY(int idLength READ idLength WRITE setIdLength)
+	Q_DECLARE_PRIVATE(KeyListProxyModel)
+
+	KeyListProxyModelPrivate * const d_ptr;
 
 public:
-	explicit KeyListProxyModel(QObject * parent = 0);
+	enum DisplayMode {
+		MultiColumn = 0,
+		SingleColumnIdFirst = 1,
+		SingleColumnIdLast = 2
+	};
+
+	explicit KeyListProxyModel(QObject * parent = 0, const DisplayMode mode = MultiColumn);
 
 	virtual bool hasChildren(const QModelIndex &idx) const;
 	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
@@ -49,25 +59,13 @@ public:
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 	QModelIndex nodeIndex(KGpgNode *node);
 	void setPreviewSize(const int &pixel);
-	inline KGpgItemModel *getModel() const
-		{ return m_model; }
-	inline int idLength() const
-		 { return m_idLength; }
+	KGpgItemModel *getModel() const;
+	int idLength() const;
 	void setIdLength(const int &length);
 
 protected:
 	virtual bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
 	virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
-
-private:
-	bool lessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const;
-	bool nodeLessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const;
-	KGpgItemModel *m_model;
-	bool m_onlysecret;
-	KgpgCore::KgpgKeyTrustFlag m_mintrust;
-	bool m_showexpired;
-	int m_previewsize;
-	int m_idLength;
 };
 
 #endif

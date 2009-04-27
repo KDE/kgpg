@@ -396,6 +396,7 @@ void KGpgUserActions::slotVerifyFile()
 void KGpgUserActions::importSignature(const QString &ID)
 {
 	KeyServer *kser = new KeyServer(0, false);
+	kser->setItemModel(m_model);
 	kser->slotSetText(ID);
 	kser->slotImport();
 }

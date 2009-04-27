@@ -651,6 +651,7 @@ void KgpgEditor::slotCheckMd5()
 void KgpgEditor::importSignatureKey(const QString &id)
 {
     KeyServer *kser = new KeyServer(0, false);
+    kser->setItemModel(m_model);
     kser->slotSetText(id);
     kser->slotImport();
 }

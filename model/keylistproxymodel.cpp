@@ -22,16 +22,119 @@
 #include "core/kgpgkey.h"
 #include "core/convert.h"
 
-#include <KDebug>
+#include <KLocale>
 
 using namespace KgpgCore;
 
-KeyListProxyModel::KeyListProxyModel(QObject *parent)
-	: QSortFilterProxyModel(parent), m_onlysecret(false), m_mintrust(TRUST_UNKNOWN), m_previewsize(22)
+class KeyListProxyModelPrivate {
+	KeyListProxyModel * const q_ptr;
+
+	Q_DECLARE_PUBLIC(KeyListProxyModel)
+public:
+	KeyListProxyModelPrivate(KeyListProxyModel *parent, const KeyListProxyModel::DisplayMode mode);
+
+	bool lessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const;
+	bool nodeLessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const;
+	KGpgItemModel *m_model;
+	bool m_onlysecret;
+	KgpgCore::KgpgKeyTrustFlag m_mintrust;
+	bool m_showexpired;
+	int m_previewsize;
+	int m_idLength;
+	KeyListProxyModel::DisplayMode m_displaymode;
+
+	QVariant dataSingleColumn(const QModelIndex &index, int role, const KGpgNode *node) const;
+	QVariant dataMultiColumn(const QModelIndex &index, int role, const KGpgNode *node) const;
+};
+
+KeyListProxyModelPrivate::KeyListProxyModelPrivate(KeyListProxyModel *parent, const KeyListProxyModel::DisplayMode mode)
+	: q_ptr(parent),
+	m_onlysecret(false),
+	m_mintrust(TRUST_UNKNOWN),
+	m_previewsize(22),
+	m_idLength(8),
+	m_displaymode(mode)
+{
+}
+
+QVariant
+KeyListProxyModelPrivate::dataSingleColumn(const QModelIndex &index, int role, const KGpgNode *node) const
+{
+	Q_Q(const KeyListProxyModel);
+
+	if (index.column() != 0)
+		return QVariant();
+
+	switch (role) {
+	case Qt::DecorationRole:
+		if (node->getType() == ITYPE_UAT) {
+			if (m_previewsize > 0) {
+				const KGpgUatNode *nd = node->toUatNode();
+				return nd->getPixmap().scaled(m_previewsize + 5, m_previewsize, Qt::KeepAspectRatio);
+			} else {
+				return Convert::toPixmap(ITYPE_UAT);
+			}
+		} else {
+			return m_model->data(q->mapToSource(index), Qt::DecorationRole);
+		}
+	case Qt::DisplayRole: {
+		const QModelIndex srcidx(q->mapToSource(index));
+		const int srcrow = srcidx.row();
+
+		const QModelIndex ididx(srcidx.sibling(srcrow, KEYCOLUMN_ID));
+		const QString id(m_model->data(ididx, Qt::DisplayRole).toString().right(m_idLength));
+
+		const QModelIndex mailidx(srcidx.sibling(srcrow, KEYCOLUMN_EMAIL));
+		const QString mail(m_model->data(mailidx, Qt::DisplayRole).toString());
+
+		const QModelIndex nameidx(srcidx.sibling(srcrow, KEYCOLUMN_NAME));
+		const QString name(m_model->data(nameidx, Qt::DisplayRole).toString());
+
+		if (m_displaymode == KeyListProxyModel::SingleColumnIdFirst) {
+			if (mail.isEmpty())
+				return i18nc("ID: Name", "%1: %2", id, name);
+			else
+				return i18nc("ID: Name <Email>", "%1: %2 &lt;%3&gt;", id, name, mail);
+		} else {
+			if (mail.isEmpty())
+				return i18nc("Name: ID", "%1: %2", name, id);
+			else
+				return i18nc("Name <Email>: ID", "%1 &lt;%2&gt;: %3", name, mail, id);
+		}
+		}
+	default:
+		return QVariant();
+	}
+}
+
+QVariant
+KeyListProxyModelPrivate::dataMultiColumn(const QModelIndex &index, int role, const KGpgNode *node) const
+{
+	Q_Q(const KeyListProxyModel);
+
+	if ((node->getType() == ITYPE_UAT) && (role == Qt::DecorationRole) && (index.column() == 0)) {
+		if (m_previewsize > 0) {
+			const KGpgUatNode *nd = node->toUatNode();
+			return nd->getPixmap().scaled(m_previewsize + 5, m_previewsize, Qt::KeepAspectRatio);
+		} else {
+			return Convert::toPixmap(ITYPE_UAT);
+		}
+	} else if ((role == Qt::DisplayRole) && (index.column() == KEYCOLUMN_ID)) {
+		QString id = m_model->data(q->mapToSource(index), Qt::DisplayRole).toString();
+		return id.right(m_idLength);
+	} else if ((role == Qt::ToolTipRole) && (index.column() == KEYCOLUMN_ID)) {
+		QString id = m_model->data(q->mapToSource(index), Qt::DisplayRole).toString();
+		return id;
+	}
+	return m_model->data(q->mapToSource(index), role);
+}
+
+KeyListProxyModel::KeyListProxyModel(QObject *parent, const DisplayMode mode)
+	: QSortFilterProxyModel(parent),
+	d_ptr(new KeyListProxyModelPrivate(this, mode))
 {
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 	setFilterKeyColumn(-1);
-	m_idLength = 8;
 }
 
 bool
@@ -43,21 +146,25 @@ KeyListProxyModel::hasChildren(const QModelIndex &idx) const
 void
 KeyListProxyModel::setKeyModel(KGpgItemModel *md)
 {
-	m_model = md;
+	Q_D(KeyListProxyModel);
+
+	d->m_model = md;
 	setSourceModel(md);
 }
 
 bool
 KeyListProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
-	KGpgNode *l = m_model->nodeForIndex(left);
-	KGpgNode *r = m_model->nodeForIndex(right);
+	Q_D(const KeyListProxyModel);
 
-	return lessThan(l, r, left.column());
+	KGpgNode *l = d->m_model->nodeForIndex(left);
+	KGpgNode *r = d->m_model->nodeForIndex(right);
+
+	return d->lessThan(l, r, left.column());
 }
 
 bool
-KeyListProxyModel::lessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const
+KeyListProxyModelPrivate::lessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const
 {
 	KGpgRootNode *r = m_model->getRootNode();
 
@@ -82,7 +189,7 @@ KeyListProxyModel::lessThan(const KGpgNode *left, const KGpgNode *right, const i
 
 			return nodeLessThan(left, right, column);
 		} else {
-			lessThan(left, right->getParentKeyNode(), column);
+			return lessThan(left, right->getParentKeyNode(), column);
 		}
 	} else {
 		if (r == right->getParentKeyNode()) {
@@ -100,7 +207,7 @@ KeyListProxyModel::lessThan(const KGpgNode *left, const KGpgNode *right, const i
 }
 
 bool
-KeyListProxyModel::nodeLessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const
+KeyListProxyModelPrivate::nodeLessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const
 {
 	Q_ASSERT(left->getType() == right->getType());
 
@@ -167,10 +274,11 @@ KeyListProxyModel::nodeLessThan(const KGpgNode *left, const KGpgNode *right, con
 bool
 KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_parent) const
 {
-	QModelIndex idx = m_model->index(source_row, 0, source_parent);
-	KGpgNode *l = m_model->nodeForIndex(idx);
+	Q_D(const KeyListProxyModel);
+	QModelIndex idx = d->m_model->index(source_row, 0, source_parent);
+	KGpgNode *l = d->m_model->nodeForIndex(idx);
 
-	if (m_onlysecret) {
+	if (d->m_onlysecret) {
 		switch (l->getType()) {
 		case ITYPE_PUBLIC:
 		case ITYPE_GPUBLIC:
@@ -181,10 +289,19 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 		}
 	}
 
-	if (l->getTrust() < m_mintrust)
+	switch (d->m_displaymode) {
+	case SingleColumnIdFirst:
+	case SingleColumnIdLast:
+		if (l->getType() == ITYPE_GROUP)
+			return false;
+	default:
+		break;
+	}
+
+	if (l->getTrust() < d->m_mintrust)
 		return false;
 
-	if (l->getParentKeyNode() != m_model->getRootNode())
+	if (l->getParentKeyNode() != d->m_model->getRootNode())
 		return true;
 
 	if (l->getName().contains(filterRegExp()))
@@ -202,68 +319,94 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 void
 KeyListProxyModel::setOnlySecret(const bool &b)
 {
-	m_onlysecret = b;
+	Q_D(KeyListProxyModel);
+
+	d->m_onlysecret = b;
 	invalidateFilter();
 }
 
 void
 KeyListProxyModel::setTrustFilter(const KgpgCore::KgpgKeyTrustFlag &t)
 {
-	m_mintrust = t;
+	Q_D(KeyListProxyModel);
+
+	d->m_mintrust = t;
 	invalidateFilter();
 }
 
 KGpgNode *
 KeyListProxyModel::nodeForIndex(const QModelIndex &index) const
 {
-	return m_model->nodeForIndex(mapToSource(index));
+	Q_D(const KeyListProxyModel);
+
+	return d->m_model->nodeForIndex(mapToSource(index));
 }
 
 QModelIndex
 KeyListProxyModel::nodeIndex(KGpgNode *node)
 {
-	return mapFromSource(m_model->nodeIndex(node));
+	Q_D(KeyListProxyModel);
+
+	return mapFromSource(d->m_model->nodeIndex(node));
 }
 
 void
 KeyListProxyModel::setPreviewSize(const int &pixel)
 {
+	Q_D(KeyListProxyModel);
+
 	emit layoutAboutToBeChanged();
-	m_previewsize = pixel;
+	d->m_previewsize = pixel;
 	emit layoutChanged();
 }
 
 QVariant
 KeyListProxyModel::data(const QModelIndex &index, int role) const
 {
+	Q_D(const KeyListProxyModel);
+
 	if (!index.isValid())
 		return QVariant();
 
-	KGpgNode *node = nodeForIndex(index);
+	const KGpgNode *node = nodeForIndex(index);
 
-	if ((node->getType() == ITYPE_UAT) && (role == Qt::DecorationRole) && (index.column() == 0)) {
-		if (m_previewsize > 0) {
-			KGpgUatNode *nd = node->toUatNode();
-			return nd->getPixmap().scaled(m_previewsize + 5, m_previewsize, Qt::KeepAspectRatio);
-		} else {
-			return Convert::toPixmap(ITYPE_UAT);
-		}
-	} else if ((role == Qt::DisplayRole) && (index.column() == KEYCOLUMN_ID)) {
-		QString id = m_model->data(mapToSource(index), Qt::DisplayRole).toString();
-		return id.right(m_idLength);
-	} else if ((role == Qt::ToolTipRole) && (index.column() == KEYCOLUMN_ID)) {
-		QString id = m_model->data(mapToSource(index), Qt::DisplayRole).toString();
-		return id;
+	switch (d->m_displaymode) {
+	case MultiColumn:
+		return d->dataMultiColumn(index, role, node);
+	case SingleColumnIdFirst:
+	case SingleColumnIdLast:
+		return d->dataSingleColumn(index, role, node);
 	}
-	return m_model->data(mapToSource(index), role);
+
+	Q_ASSERT(0);
+
+	return QVariant();
+}
+
+KGpgItemModel *
+KeyListProxyModel::getModel() const
+{
+	Q_D(const KeyListProxyModel);
+
+	return d->m_model;
+}
+
+int
+KeyListProxyModel::idLength() const
+{
+	Q_D(const KeyListProxyModel);
+
+	return d->m_idLength;
 }
 
 void
 KeyListProxyModel::setIdLength(const int &length)
 {
-	if (length == m_idLength)
+	Q_D(KeyListProxyModel);
+
+	if (length == d->m_idLength)
 		return;
 
-	m_idLength = length;
+	d->m_idLength = length;
 	invalidate();
 }
