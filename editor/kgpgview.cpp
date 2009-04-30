@@ -155,7 +155,7 @@ void KgpgTextEdit::slotDecode()
     interface->decryptText(fullcontent.mid(m_posstart, m_posend - m_posstart), KGpgSettings::customDecrypt().simplified().split(' ', QString::SkipEmptyParts));
 }
 
-void KgpgTextEdit::slotSign()
+void KgpgTextEdit::slotSign(const QString &message)
 {
     QString signkeyid;
 
@@ -170,27 +170,25 @@ void KgpgTextEdit::slotSign()
 
     delete opts;
 
-    QStringList options = QStringList();
+    QStringList options;
     if (KGpgSettings::pgpCompatibility())
         options << "--pgp6";
 
     KGpgTextInterface *interface = new KGpgTextInterface();
     connect(interface, SIGNAL(txtSigningFinished(QString, KGpgTextInterface*)), this, SLOT(slotSignUpdate(QString, KGpgTextInterface*)));
-    interface->signText(toPlainText(), signkeyid, options);
+    interface->signText(message, signkeyid, options);
 }
 
-void KgpgTextEdit::slotVerify()
+void KgpgTextEdit::slotVerify(const QString &message)
 {
-    QString startmsg = QString(SIGNEDMESSAGE_BEGIN);
-    QString endmsg = QString(SIGNEDMESSAGE_END);
+    const QString startmsg(SIGNEDMESSAGE_BEGIN);
+    const QString endmsg(SIGNEDMESSAGE_END);
 
-    QString fullcontent = toPlainText();
-
-    int posstart = fullcontent.indexOf(startmsg);
+    int posstart = message.indexOf(startmsg);
     if (posstart == -1)
         return;
 
-    int posend = fullcontent.indexOf(endmsg, posstart);
+    int posend = message.indexOf(endmsg, posstart);
     if (posend == -1)
         return;
     posend += endmsg.length();
@@ -198,7 +196,7 @@ void KgpgTextEdit::slotVerify()
     KGpgTextInterface *interface = new KGpgTextInterface();
     connect(interface, SIGNAL(txtVerifyMissingSignature(QString, KGpgTextInterface*)), this, SLOT(slotVerifyKeyNeeded(QString, KGpgTextInterface*)));
     connect(interface, SIGNAL(txtVerifyFinished(QString, QString, KGpgTextInterface*)), this, SLOT(slotVerifySuccess(QString, QString, KGpgTextInterface*)));
-    interface->verifyText(fullcontent.mid(posstart, posend - posstart));
+    interface->verifyText(message.mid(posstart, posend - posstart));
 }
 
 void KgpgTextEdit::deleteFile()
@@ -442,11 +440,11 @@ KgpgView::~KgpgView()
 
 void KgpgView::slotSignVerify()
 {
-    QString mess = editor->toPlainText();
-    if (mess.contains(SIGNEDMESSAGE_BEGIN))
-        editor->slotVerify();
-    else
-        editor->slotSign();
+	const QString message(editor->toPlainText());
+	if (message.contains(SIGNEDMESSAGE_BEGIN))
+		editor->slotVerify(message);
+	else
+		editor->slotSign(message);
 }
 
 void KgpgView::slotEncode()

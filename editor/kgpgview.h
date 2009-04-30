@@ -44,8 +44,8 @@ public slots:
     void slotDroppedFile(const KUrl &url);
     void slotEncode();
     void slotDecode();
-    void slotSign();
-    void slotVerify();
+    void slotSign(const QString &message);
+    void slotVerify(const QString &message);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *e);
