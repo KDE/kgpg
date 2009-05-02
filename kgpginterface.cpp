@@ -475,6 +475,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &
         *process << "--list-keys";
 
     *process << ids;
+    process->setOutputChannelMode(KProcess::MergedChannels);
 
     if (!block)
     {
@@ -678,6 +679,10 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
             if (cycle == "sub")
                 m_publickey.subList()->last().addSign(signature);
         }
+	else
+	{
+		log += lsp.join(QString(':')) + '\n';
+	}
     }
 }
 
@@ -686,6 +691,11 @@ void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool &block)
     // insert the last key
     if (cycle != "none")
         m_publiclistkeys << m_publickey;
+
+	if (p->exitCode() != 0) {
+		KMessageBox::detailedError(NULL, i18n("An error occured while scanning your keyring"), log);
+		log.clear();
+	}
 
     p->deleteLater();
     if (!block)
