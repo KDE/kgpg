@@ -58,7 +58,7 @@ class KGpgImport;
 
 namespace Experimental {
 	class KNotificationItem;
-};
+}
 
 class AddUid : public QWidget, public Ui::AddUid
 {
