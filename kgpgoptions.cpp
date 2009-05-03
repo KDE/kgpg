@@ -320,7 +320,7 @@ void kgpgOptions::updateWidgets()
 
 	if (!servers.isEmpty()) {
 		QString defaultServer = servers.takeFirst();
-		servers.prepend(defaultServer + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
+		servers.prepend(i18nc("Mark default keyserver in GUI", "%1 (Default)", defaultServer));
 		m_page6->ServerBox->addItems(servers);
 	}
     
@@ -337,8 +337,7 @@ void kgpgOptions::updateWidgetsDefault()
     m_page4->gpg_bin_path->setText(defaultBinPath);
 
     m_page6->ServerBox->clear();
-    m_page6->ServerBox->addItem(defaultKeyServer 
-      + ' ' + i18nc("Mark default keyserver in GUI", "(Default)"));
+    m_page6->ServerBox->addItem(i18nc("Mark default keyserver in GUI", "%1 (Default)", defaultKeyServer));
     m_page6->ServerBox->addItems(defaultServerList);
 
     kDebug(2100) << "Finishing default options" ;
