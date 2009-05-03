@@ -610,7 +610,7 @@ void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool &block)
 		m_publiclistkeys << m_publickey;
 
 	if (p->exitCode() != 0) {
-		KMessageBox::detailedError(NULL, i18n("An error occured while scanning your keyring"), log);
+		KMessageBox::detailedError(NULL, i18n("An error occurred while scanning your keyring"), log);
 		log.clear();
 	}
 
