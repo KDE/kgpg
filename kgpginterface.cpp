@@ -40,55 +40,39 @@
 
 using namespace KgpgCore;
 
-KgpgInterface::KgpgInterface() : editprocess(0)
+KgpgInterface::KgpgInterface()
 {
 }
 
 KgpgInterface::~KgpgInterface()
 {
-    if (editprocess != 0)
-    {
-        editprocess->kill();
-        delete editprocess;
-    }
-
-    const QObjectList &list = children();
-    // First, we block all signals
-    for (int i = 0; i < list.size(); ++i)
-        list.at(i)->blockSignals(true);
-
-    // Then, we delete objects
-    for (int i = 0; i < list.size(); ++i)
-        delete list.at(i);
 }
 
 QString KgpgInterface::checkForUtf8(QString txt)
 {
-    /* The string is not in UTF-8 */
-    if (!txt.contains("\\x"))
-        return txt;
+	/* The string is not in UTF-8 */
+	if (!txt.contains("\\x"))
+		return txt;
 
-    // if (!strchr (txt.toAscii(), 0xc3) || (txt.find("\\x")!=-1)) {
-    for (int idx = 0; (idx = txt.indexOf( "\\x", idx )) >= 0 ; ++idx)
-    {
-        char str[2] = "x";
-        str[0] = (char) QString(txt.mid(idx + 2, 2)).toShort(0, 16);
-        txt.replace(idx, 4, str);
-    }
+	// if (!strchr (txt.toAscii(), 0xc3) || (txt.find("\\x")!=-1)) {
+	for (int idx = 0; (idx = txt.indexOf( "\\x", idx )) >= 0 ; ++idx) {
+		char str[2] = "x";
+		str[0] = (char) QString(txt.mid(idx + 2, 2)).toShort(0, 16);
+		txt.replace(idx, 4, str);
+	}
 
-    return QString::fromUtf8(txt.toAscii());
+	return QString::fromUtf8(txt.toAscii());
 }
 
 QString KgpgInterface::checkForUtf8bis(QString txt)
 {
-    if (strchr(txt.toAscii(), 0xc3) || txt.contains("\\x"))
-        txt = checkForUtf8(txt);
-    else
-    {
-        txt = checkForUtf8(txt);
-        txt = QString::fromUtf8(txt.toAscii());
-    }
-    return txt;
+	if (strchr(txt.toAscii(), 0xc3) || txt.contains("\\x")) {
+		txt = checkForUtf8(txt);
+	} else {
+		txt = checkForUtf8(txt);
+		txt = QString::fromUtf8(txt.toAscii());
+	}
+	return txt;
 }
 
 int KgpgInterface::gpgVersion(const QString &vstr)
@@ -96,7 +80,7 @@ int KgpgInterface::gpgVersion(const QString &vstr)
 	if (vstr.isEmpty())
 		return -1;
 
-	QStringList values = vstr.split('.');
+	QStringList values(vstr.split('.'));
 	if (values.count() < 3)
 		return -2;
 
@@ -146,7 +130,7 @@ QString KgpgInterface::getGpgHome(const QString &binary)
 {
 	// First try: if environment is set GnuPG will use that directory
 	// We can use this directly without starting a new process
-	QByteArray env = qgetenv("GNUPGHOME");
+	QByteArray env(qgetenv("GNUPGHOME"));
 	QString gpgHome;
 	if (!env.isEmpty()) {
 		gpgHome = env;
@@ -179,243 +163,217 @@ QString KgpgInterface::getGpgHome(const QString &binary)
 
 QStringList KgpgInterface::getGpgGroupNames(const QString &configfile)
 {
-    QStringList groups;
-    QFile qfile(configfile);
-    if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
-    {
-        QTextStream t(&qfile);
-        while (!t.atEnd())
-        {
-            QString result = t.readLine().simplified();
-            if (result.startsWith("group "))
-            {
-                result.remove(0, 6);
-                groups << result.section("=", 0, 0).simplified();
-            }
-        }
-        qfile.close();
-    }
-    return groups;
+	QStringList groups;
+	QFile qfile(configfile);
+
+	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+		QTextStream t(&qfile);
+		while (!t.atEnd()) {
+			QString result(t.readLine().simplified());
+			if (result.startsWith("group ")) {
+				result.remove(0, 6);
+				groups.append(result.section("=", 0, 0).simplified());
+			}
+		}
+		qfile.close();
+	}
+	return groups;
 }
 
 QStringList KgpgInterface::getGpgGroupSetting(const QString &name, const QString &configfile)
 {
-    QFile qfile(configfile);
-    if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
-    {
-        QTextStream t(&qfile);
-        while (!t.atEnd())
-        {
-    	    QString result = t.readLine().simplified();
+	QFile qfile(configfile);
+	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+		QTextStream t(&qfile);
+		while (!t.atEnd()) {
+			QString result(t.readLine().simplified());
 
-            if (result.startsWith("group "))
-            {
-                kDebug(2100) << "Found 1 group" ;
-                result.remove(0, 6);
-                if (result.simplified().startsWith(name))
-                {
-                    kDebug(2100) << "Found group: " << name ;
-                    result = result.section('=', 1);
-                    result = result.section('#', 0, 0);
-                    return result.split(' ');
-                }
-            }
-        }
-        qfile.close();
-    }
-    return QStringList();
+			if (result.startsWith("group ")) {
+				kDebug(2100) << "Found 1 group";
+				result.remove(0, 6);
+				if (result.simplified().startsWith(name)) {
+					kDebug(2100) << "Found group: " << name;
+					result = result.section('=', 1);
+					result = result.section('#', 0, 0);
+					return result.split(' ');
+				}
+			}
+		}
+		qfile.close();
+	}
+	return QStringList();
 }
 
 void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &values, const QString &configfile)
 {
-    QString texttowrite;
-    bool found = false;
-    QFile qfile(configfile);
+	QFile qfile(configfile);
 
-    kDebug(2100) << "Changing group: " << name ;
-    if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
-    {
-        QTextStream t(&qfile);
-        while (!t.atEnd())
-        {
-	    QString result = t.readLine();
-            if (result.simplified().startsWith("group "))
-            {
-                QString result2 = result.simplified();
-                result2.remove(0, 6);
-                result2 = result2.simplified();
-                if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith('=')))
-                {
-                    // kDebug(2100) << "Found group: " << name ;
-                    // kDebug(2100) << "New values: " << values ;
-                    result = QString("group %1=%2").arg(name).arg(values.join(" "));
-                    found = true;
-                }
-            }
-            texttowrite += result + '\n';
-        }
-        qfile.close();
+	kDebug(2100) << "Changing group: " << name ;
+	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+		QTextStream t(&qfile);
+		QString texttowrite;
+		bool found = false;
 
-        if (!found)
-            texttowrite += '\n' + QString("group %1=%2").arg(name).arg(values.join(" "));
+		while (!t.atEnd()) {
+			QString result(t.readLine());
+			QString result2(result.simplified());
 
-        if (qfile.open(QIODevice::WriteOnly))
-        {
-            QTextStream t(&qfile);
-            t << texttowrite;
-            qfile.close();
-        }
-    }
+			if (result2.startsWith("group ")) {
+				result2 = result2.remove(0, 6).simplified();
+				if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith('='))) {
+					result = QString("group %1=%2").arg(name).arg(values.join(QString(' ')));
+					found = true;
+				}
+			}
+			texttowrite += result + '\n';
+		}
+		qfile.close();
+
+		if (!found)
+			texttowrite += '\n' + QString("group %1=%2").arg(name).arg(values.join(" "));
+
+		if (qfile.open(QIODevice::WriteOnly)) {
+			QTextStream t(&qfile);
+			t << texttowrite;
+			qfile.close();
+		}
+	}
 }
 
 void KgpgInterface::delGpgGroup(const QString &name, const QString &configfile)
 {
-    QString texttowrite;
-    QFile qfile(configfile);
-    if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
-    {
-        QTextStream t(&qfile);
-        while (!t.atEnd())
-        {
-	    QString result = t.readLine();
-            if (result.simplified().startsWith("group "))
-            {
-                QString result2 = result.simplified();
-                result2.remove(0, 6);
-                result2 = result2.simplified();
-                if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith('=')))
-                    result.clear();
-            }
+	QFile qfile(configfile);
 
-            texttowrite += result + '\n';
-        }
+	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+		QTextStream t(&qfile);
+		QString texttowrite;
 
-        qfile.close();
-        if (qfile.open(QIODevice::WriteOnly))
-        {
-            QTextStream t(&qfile);
-            t << texttowrite;
-            qfile.close();
-        }
-    }
+		while (!t.atEnd()) {
+			const QString result(t.readLine());
+			QString result2(result.simplified());
+
+			if (result2.startsWith("group ")) {
+				result2 = result2.remove(0, 6).simplified();
+				if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith('=')))
+					continue;
+			}
+
+			texttowrite += result + '\n';
+		}
+
+		qfile.close();
+
+		if (qfile.open(QIODevice::WriteOnly)) {
+			QTextStream t(&qfile);
+			t << texttowrite;
+			qfile.close();
+		}
+	}
 }
 
-QString KgpgInterface::getGpgSetting(QString name, const QString &configfile)
+QString KgpgInterface::getGpgSetting(const QString &name, const QString &configfile)
 {
-    name = name.simplified() + ' ';
-    QFile qfile(configfile);
-    if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
-    {
-        QTextStream t(&qfile);
-        while (!t.atEnd())
-        {
-            QString result = t.readLine();
-            if (result.simplified().startsWith(name))
-            {
-                result = result.simplified();
-                result.remove(0, name.length());
-                result = result.simplified();
-                return result.section(" ", 0, 0);
-            }
-        }
-        qfile.close();
-    }
+	const QString tmp(name.simplified() + ' ');
+	QFile qfile(configfile);
 
-    return QString();
+	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+		QTextStream t(&qfile);
+		while (!t.atEnd()) {
+			QString result(t.readLine().simplified());
+			if (result.startsWith(tmp)) {
+				result = result.mid(tmp.length()).simplified();
+				return result.section(" ", 0, 0);
+			}
+		}
+		qfile.close();
+	}
+
+	return QString();
 }
 
 void KgpgInterface::setGpgSetting(const QString &name, const QString &value, const QString &url)
 {
-    QString temp = name + ' ';
-    QString texttowrite;
-    bool found = false;
-    QFile qfile(url);
+	QFile qfile(url);
 
-    if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
-    {
-        QTextStream t(&qfile);
-        while (!t.atEnd())
-        {
-	    QString result = t.readLine();
-            if (result.simplified().startsWith(temp))
-            {
-                if (!value.isEmpty())
-                    result = temp + ' ' + value;
-                else
-                    result.clear();
-                found = true;
-            }
+	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+		const QString temp(name + ' ');
+		QString texttowrite;
+		bool found = false;
+		QTextStream t(&qfile);
 
-            texttowrite += result + '\n';
-        }
+		while (!t.atEnd()) {
+			QString result = t.readLine();
+			if (result.simplified().startsWith(temp)) {
+				if (!value.isEmpty())
+					result = temp + ' ' + value;
+				else
+					result.clear();
+				found = true;
+			}
 
-        qfile.close();
-        if ((!found) && (!value.isEmpty()))
-            texttowrite += '\n' + temp + ' ' + value;
+			texttowrite += result + '\n';
+		}
 
-        if (qfile.open(QIODevice::WriteOnly))
-        {
-            QTextStream t(&qfile);
-            t << texttowrite;
-            qfile.close();
-        }
-    }
+		qfile.close();
+		if ((!found) && (!value.isEmpty()))
+			texttowrite += '\n' + temp + ' ' + value;
+
+		if (qfile.open(QIODevice::WriteOnly)) {
+			QTextStream t(&qfile);
+			t << texttowrite;
+			qfile.close();
+		}
+	}
 }
 
 bool KgpgInterface::getGpgBoolSetting(const QString &name, const QString &configfile)
 {
-    QFile qfile(configfile);
-    if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
-    {
-        QTextStream t(&qfile);
-        while (!t.atEnd())
-        {
-            if (t.readLine().simplified().startsWith(name))
-                return true;
-        }
-        qfile.close();
-    }
-    return false;
+	QFile qfile(configfile);
+	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+		QTextStream t(&qfile);
+		while (!t.atEnd()) {
+			if (t.readLine().simplified().startsWith(name))
+				return true;
+		}
+		qfile.close();
+	}
+	return false;
 }
 
 void KgpgInterface::setGpgBoolSetting(const QString &name, const bool &enable, const QString &url)
 {
-    QString texttowrite;
-    bool found = false;
-    QFile qfile(url);
+	QFile qfile(url);
 
-    if (qfile.open(QIODevice::ReadOnly) && (qfile.exists()))
-    {
-        QTextStream t(&qfile);
+	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+		QString texttowrite;
+		bool found = false;
+		QTextStream t(&qfile);
 
-        while (!t.atEnd())
-        {
-	    QString result = t.readLine();
+		while (!t.atEnd()) {
+			QString result(t.readLine());
 
-            if (result.simplified().startsWith(name))
-            {
-                if (enable)
-                    result = name;
-                else
-                    result.clear();
+			if (result.simplified().startsWith(name)) {
+				if (enable)
+					result = name;
+				else
+					result.clear();
 
-                found = true;
-            }
+				found = true;
+			}
 
-            texttowrite += result + '\n';
-        }
-        qfile.close();
+			texttowrite += result + '\n';
+		}
+		qfile.close();
 
-        if ((!found) && (enable))
-            texttowrite += name;
+		if ((!found) && (enable))
+			texttowrite += name;
 
-        if (qfile.open(QIODevice::WriteOnly))
-        {
-            QTextStream t(&qfile);
-            t << texttowrite;
-            qfile.close();
-        }
-    }
+		if (qfile.open(QIODevice::WriteOnly)) {
+			QTextStream t(&qfile);
+			t << texttowrite;
+			qfile.close();
+		}
+	}
 }
 
 int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const bool isnew)
@@ -444,368 +402,318 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const 
 
 void KgpgInterface::updateIDs(QString txt)
 {
-    int cut = txt.indexOf(' ', 22, Qt::CaseInsensitive);
-    txt.remove(0, cut);
+	int cut = txt.indexOf(' ', 22, Qt::CaseInsensitive);
+	txt.remove(0, cut);
 
-    if (txt.contains('(', Qt::CaseInsensitive))
-        txt = txt.section('(', 0, 0) + txt.section(')', -1);
+	if (txt.contains('(', Qt::CaseInsensitive))
+		txt = txt.section('(', 0, 0) + txt.section(')', -1);
 
-    txt.replace('<', "&lt;");
+	txt.replace('<', "&lt;");
 
-    if (!userIDs.contains(txt))
-    {
-        if (!userIDs.isEmpty())
-            userIDs += i18n(" or ");
-        userIDs += txt;
-    }
+	if (!userIDs.contains(txt)) {
+		if (!userIDs.isEmpty())
+			userIDs += i18n(" or ");
+		userIDs += txt;
+	}
 }
 
 KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &ids, const bool &withsigs)
 {
-    m_publiclistkeys = KgpgKeyList();
-    m_publickey = KgpgKey();
-    m_numberid = 0;
-    cycle = "none";
+	m_publiclistkeys = KgpgKeyList();
+	m_publickey = KgpgKey();
+	m_numberid = 0;
+	cycle = "none";
 
-    GPGProc *process = new GPGProc(this);
-    *process << "--with-colons" << "--with-fingerprint" << "--fixed-list-mode";
-    if (withsigs)
-        *process << "--list-sigs";
-    else
-        *process << "--list-keys";
+	GPGProc *process = new GPGProc(this);
+	*process << "--with-colons" << "--with-fingerprint" << "--fixed-list-mode";
+	if (withsigs)
+		*process << "--list-sigs";
+	else
+		*process << "--list-keys";
 
-    *process << ids;
-    process->setOutputChannelMode(KProcess::MergedChannels);
+	*process << ids;
+	process->setOutputChannelMode(KProcess::MergedChannels);
 
-    if (!block)
-    {
-        connect(process, SIGNAL(readReady(GPGProc *)), this, SLOT(readPublicKeysProcess(GPGProc *)));
-        connect(process, SIGNAL(processExited(GPGProc *)), this, SLOT(readPublicKeysFin(GPGProc *)));
-        process->start();
-        return KgpgKeyList();
-    }
-    else
-    {
-        process->start();
-        process->waitForFinished(-1);
-        readPublicKeysProcess(process);
-        readPublicKeysFin(process, true);
-        return m_publiclistkeys;
-    }
+	if (!block) {
+		connect(process, SIGNAL(readReady(GPGProc *)), SLOT(readPublicKeysProcess(GPGProc *)));
+		connect(process, SIGNAL(processExited(GPGProc *)), SLOT(readPublicKeysFin(GPGProc *)));
+		process->start();
+		return KgpgKeyList();
+	} else {
+		process->start();
+		process->waitForFinished(-1);
+		readPublicKeysProcess(process);
+		readPublicKeysFin(process, true);
+		return m_publiclistkeys;
+	}
 }
 
 void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 {
-    QStringList lsp;
-    int items;
+	QStringList lsp;
+	int items;
 
-    while ((items = p->readln(lsp)) >= 0)
-    {
-        if ((lsp.at(0) == "pub") && (items >= 10))
-        {
-            if (cycle != "none")
-            {
-                cycle = "none";
-                m_publiclistkeys << m_publickey;
-            }
+	while ((items = p->readln(lsp)) >= 0) {
+		if ((lsp.at(0) == "pub") && (items >= 10)) {
+			if (cycle != "none") {
+				cycle = "none";
+				m_publiclistkeys << m_publickey;
+			}
 
-            m_publickey = KgpgKey();
+			m_publickey = KgpgKey();
 
-            m_publickey.setTrust(Convert::toTrust(lsp.at(1)));
-            m_publickey.setSize(lsp.at(2).toUInt());
-            m_publickey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-            m_publickey.setFingerprint(lsp.at(4));
-            m_publickey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
-            m_publickey.setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
+			m_publickey.setTrust(Convert::toTrust(lsp.at(1)));
+			m_publickey.setSize(lsp.at(2).toUInt());
+			m_publickey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
+			m_publickey.setFingerprint(lsp.at(4));
+			m_publickey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
+			m_publickey.setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
 
-            if (lsp.at(6).isEmpty())
-            {
-                m_publickey.setExpiration(QDate());
-            }
-            else
-            {
-                m_publickey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
-            }
-
-            if (lsp.at(11).contains("D", Qt::CaseSensitive))  // disabled key
-                m_publickey.setValid(false);
-            else
-                m_publickey.setValid(true);
-
-            cycle = "pub";
-
-            m_numberid = 0;
-        }
-        else
-        if ((lsp.at(0) == "fpr") && (items >= 10))
-        {
-            QString fingervalue = lsp.at(9);
-
-            m_publickey.setFingerprint(fingervalue);
-        }
-        else
-        if ((lsp.at(0) == "sub") && (items >= 7))
-        {
-            KgpgKeySub sub;
-
-            sub.setId(lsp.at(4).right(8));
-            sub.setTrust(Convert::toTrust(lsp.at(1)));
-            sub.setSize(lsp.at(2).toUInt());
-            sub.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-            sub.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
-
-            // FIXME: Please see kgpgkey.h, KgpgSubKey class
-            if (lsp.at(11).contains('D'))
-                sub.setValid(false);
-            else
-                sub.setValid(true);
-
-            if (lsp.at(11).contains('s'))
-                sub.setType(SKT_SIGNATURE);
-            else
-            if (lsp.at(11).contains('e'))
-                sub.setType(SKT_ENCRYPTION);
-
-            if (lsp.at(6).isEmpty())
-            {
-                sub.setExpiration(QDate());
-            }
-            else
-            {
-                sub.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
-            }
-
-            m_publickey.subList()->append(sub);
-            cycle = "sub";
-        }
-        else
-        if (lsp.at(0) == "uat")
-        {
-            m_numberid++;
-            KgpgKeyUat uat;
-            uat.setId(QString::number(m_numberid));
-            uat.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
-            m_publickey.uatList()->append(uat);
-
-            cycle = "uat";
-        }
-        else
-        if ((lsp.at(0) == "uid") && (items >= 10))
-        {
-            QString fullname = lsp.at(9);
-            QString kmail;
-            if (fullname.contains('<') )
-            {
-                kmail = fullname;
-
-                if (fullname.contains(')') )
-                    kmail = kmail.section(')', 1);
-
-                kmail = kmail.section('<', 1);
-                kmail.truncate(kmail.length() - 1);
-
-                if ( kmail.contains('<') ) // several email addresses in the same key
-                {
-                    kmail = kmail.replace('>', ';');
-                    kmail.remove('<');
-                }
-            }
-
-            QString kname = fullname.section(" <", 0, 0);
-            QString comment;
-            if (fullname.contains('(') )
-            {
-                kname = kname.section(" (", 0, 0);
-                comment = fullname.section('(', 1, 1);
-                comment = comment.section(')', 0, 0);
-            }
-
-		if (m_numberid == 0) {
-			m_numberid++;
-			m_publickey.setEmail(kmail);
-			m_publickey.setComment(comment);
-			m_publickey.setName(kname);
-		} else {
-			KgpgKeyUid uid;
-
-			uid.setEmail(kmail);
-			uid.setComment(comment);
-			uid.setName(kname);
-			uid.setTrust(Convert::toTrust(lsp.at(1)));
-			if ((items > 11) && lsp.at(11).contains('D'))
-				uid.setValid(false);
+			if (lsp.at(6).isEmpty())
+				m_publickey.setExpiration(QDate());
 			else
-				uid.setValid(true);
+				m_publickey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
 
-			uid.setIndex(++m_numberid);
+			if (lsp.at(11).contains("D", Qt::CaseSensitive))  // disabled key
+				m_publickey.setValid(false);
+			else
+				m_publickey.setValid(true);
 
-			m_publickey.uidList()->append(uid);
+			cycle = "pub";
 
-			cycle = "uid";
+			m_numberid = 0;
+		} else if ((lsp.at(0) == "fpr") && (items >= 10)) {
+			const QString fingervalue(lsp.at(9));
+
+			m_publickey.setFingerprint(fingervalue);
+		} else if ((lsp.at(0) == "sub") && (items >= 7)) {
+			KgpgKeySub sub;
+
+			sub.setId(lsp.at(4).right(8));
+			sub.setTrust(Convert::toTrust(lsp.at(1)));
+			sub.setSize(lsp.at(2).toUInt());
+			sub.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
+			sub.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
+
+			// FIXME: Please see kgpgkey.h, KgpgSubKey class
+			if (lsp.at(11).contains('D'))
+				sub.setValid(false);
+			else
+				sub.setValid(true);
+
+			if (lsp.at(11).contains('s'))
+				sub.setType(SKT_SIGNATURE);
+			else
+			if (lsp.at(11).contains('e'))
+				sub.setType(SKT_ENCRYPTION);
+
+			if (lsp.at(6).isEmpty())
+				sub.setExpiration(QDate());
+			else
+				sub.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
+
+			m_publickey.subList()->append(sub);
+			cycle = "sub";
+		} else if (lsp.at(0) == "uat") {
+			m_numberid++;
+			KgpgKeyUat uat;
+			uat.setId(QString::number(m_numberid));
+			uat.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
+			m_publickey.uatList()->append(uat);
+
+			cycle = "uat";
+		} else if ((lsp.at(0) == "uid") && (items >= 10)) {
+			QString fullname(lsp.at(9));
+			QString kmail;
+			if (fullname.contains('<') ) {
+				kmail = fullname;
+
+				if (fullname.contains(')') )
+				kmail = kmail.section(')', 1);
+
+				kmail = kmail.section('<', 1);
+				kmail.truncate(kmail.length() - 1);
+
+				if ( kmail.contains('<') ) // several email addresses in the same key
+				{
+				kmail = kmail.replace('>', ';');
+				kmail.remove('<');
+				}
+			}
+
+			QString kname(fullname.section(" <", 0, 0));
+			QString comment;
+			if (fullname.contains('(') ) {
+				kname = kname.section(" (", 0, 0);
+				comment = fullname.section('(', 1, 1);
+				comment = comment.section(')', 0, 0);
+			}
+
+			if (m_numberid == 0) {
+				m_numberid++;
+				m_publickey.setEmail(kmail);
+				m_publickey.setComment(comment);
+				m_publickey.setName(kname);
+			} else {
+				KgpgKeyUid uid;
+
+				uid.setEmail(kmail);
+				uid.setComment(comment);
+				uid.setName(kname);
+				uid.setTrust(Convert::toTrust(lsp.at(1)));
+				if ((items > 11) && lsp.at(11).contains('D'))
+					uid.setValid(false);
+				else
+					uid.setValid(true);
+
+				uid.setIndex(++m_numberid);
+
+				m_publickey.uidList()->append(uid);
+
+				cycle = "uid";
+			}
+		} else if (((lsp.at(0) == "sig") || (lsp.at(0) == "rev")) && (items >= 11)) {
+			KgpgKeySign signature;
+
+			signature.setId(lsp.at(4));
+			signature.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
+
+			if (lsp.at(6).isEmpty())
+				signature.setExpiration(QDate());
+			else
+				signature.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
+
+			if (lsp.at(10).endsWith('l'))
+				signature.setLocal(true);
+
+			if (lsp.at(0) == "rev")
+				signature.setRevocation(true);
+
+			if (cycle == "pub")
+				m_publickey.addSign(signature);
+			else if (cycle == "uat")
+				m_publickey.uatList()->last().addSign(signature);
+			else if (cycle == "uid")
+				m_publickey.uidList()->last().addSign(signature);
+			else if (cycle == "sub")
+				m_publickey.subList()->last().addSign(signature);
+		} else {
+			log += lsp.join(QString(':')) + '\n';
 		}
-        }
-        else
-        if (((lsp.at(0) == "sig") || (lsp.at(0) == "rev")) && (items >= 11))
-        {
-            KgpgKeySign signature;
-
-            signature.setId(lsp.at(4));
-            signature.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
-
-            if (lsp.at(6).isEmpty())
-            {
-                signature.setExpiration(QDate());
-            }
-            else
-            {
-                signature.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
-            }
-
-            if (lsp.at(10).endsWith('l'))
-                signature.setLocal(true);
-
-            if (lsp.at(0) == "rev")
-                signature.setRevocation(true);
-
-            if (cycle == "pub")
-                m_publickey.addSign(signature);
-            else
-            if (cycle == "uat")
-                m_publickey.uatList()->last().addSign(signature);
-            else
-            if (cycle == "uid")
-                m_publickey.uidList()->last().addSign(signature);
-            else
-            if (cycle == "sub")
-                m_publickey.subList()->last().addSign(signature);
-        }
-	else
-	{
-		log += lsp.join(QString(':')) + '\n';
 	}
-    }
 }
 
 void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool &block)
 {
-    // insert the last key
-    if (cycle != "none")
-        m_publiclistkeys << m_publickey;
+	// insert the last key
+	if (cycle != "none")
+		m_publiclistkeys << m_publickey;
 
 	if (p->exitCode() != 0) {
 		KMessageBox::detailedError(NULL, i18n("An error occured while scanning your keyring"), log);
 		log.clear();
 	}
 
-    p->deleteLater();
-    if (!block)
-        emit readPublicKeysFinished(m_publiclistkeys, this);
+	p->deleteLater();
+	if (!block)
+		emit readPublicKeysFinished(m_publiclistkeys, this);
 }
 
 
 KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
 {
-    m_partialline.clear();
-    m_ispartial = false;
-    m_secretlistkeys = KgpgKeyList();
-    m_secretkey = KgpgKey();
-    m_secretactivate = false;
+	m_partialline.clear();
+	m_ispartial = false;
+	m_secretlistkeys = KgpgKeyList();
+	m_secretkey = KgpgKey();
+	m_secretactivate = false;
 
-        GPGProc *process = new GPGProc(this);
-        *process << "--with-colons" << "--list-secret-keys" << "--with-fingerprint" << "--fixed-list-mode";
+	GPGProc *process = new GPGProc(this);
+	*process << "--with-colons" << "--list-secret-keys" << "--with-fingerprint" << "--fixed-list-mode";
 
-        *process << ids;
+	*process << ids;
 
-        process->start();
-        process->waitForFinished(-1);
-        readSecretKeysProcess(process);
+	process->start();
+	process->waitForFinished(-1);
+	readSecretKeysProcess(process);
 
 	if (m_secretactivate)
 		m_secretlistkeys << m_secretkey;
 
 	delete process;
 
-        return m_secretlistkeys;
+	return m_secretlistkeys;
 }
 
 void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 {
-    QStringList lsp;
-    int items;
-    bool hasuid = true;
+	QStringList lsp;
+	int items;
+	bool hasuid = true;
 
-    while ( (items = p->readln(lsp)) >= 0 )
-    {
-            if ((lsp.at(0) == "sec") && (items >= 10))
-            {
-                if (m_secretactivate)
-                    m_secretlistkeys << m_secretkey;
+	while ( (items = p->readln(lsp)) >= 0 ) {
+		if ((lsp.at(0) == "sec") && (items >= 10)) {
+			if (m_secretactivate)
+			m_secretlistkeys << m_secretkey;
 
-                m_secretactivate = true;
-                m_secretkey = KgpgKey();
+			m_secretactivate = true;
+			m_secretkey = KgpgKey();
 
-                m_secretkey.setTrust(Convert::toTrust(lsp.at(1)));
-                m_secretkey.setSize(lsp.at(2).toUInt());
-                m_secretkey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-                m_secretkey.setFingerprint(lsp.at(4));
-                m_secretkey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
-                m_secretkey.setSecret(true);
+			m_secretkey.setTrust(Convert::toTrust(lsp.at(1)));
+			m_secretkey.setSize(lsp.at(2).toUInt());
+			m_secretkey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
+			m_secretkey.setFingerprint(lsp.at(4));
+			m_secretkey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
+			m_secretkey.setSecret(true);
 
-                if (lsp.at(6).isEmpty())
-                {
-                    m_secretkey.setExpiration(QDate());
-                }
-                else
-                {
-                    m_secretkey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
-                }
-                hasuid = true;
-            } else if ((lsp.at(0) == "uid") && (items >= 10)) {
-                if (hasuid)
-                   continue;
+			if (lsp.at(6).isEmpty())
+				m_secretkey.setExpiration(QDate());
+			else
+				m_secretkey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
+			hasuid = true;
+		} else if ((lsp.at(0) == "uid") && (items >= 10)) {
+			if (hasuid)
+				continue;
 
-                hasuid = true;
+			hasuid = true;
 
-                QString fullname = lsp.at(9);
-                if (fullname.contains('<' ))
-                {
-                    QString kmail = fullname;
+			const QString fullname(lsp.at(9));
+			if (fullname.contains('<' )) {
+				QString kmail(fullname);
 
-                    if (fullname.contains(')' ))
-                        kmail = kmail.section(')', 1);
+				if (fullname.contains(')' ))
+					kmail = kmail.section(')', 1);
 
-                    kmail = kmail.section('<', 1);
-                    kmail.truncate(kmail.length() - 1);
+				kmail = kmail.section('<', 1);
+				kmail.truncate(kmail.length() - 1);
 
-                    if (kmail.contains('<' )) // several email addresses in the same key
-                    {
-                        kmail = kmail.replace('>', ';');
-                        kmail.remove('<');
-                    }
+				if (kmail.contains('<' )) { // several email addresses in the same key
+					kmail = kmail.replace('>', ';');
+					kmail.remove('<');
+				}
 
-                    m_secretkey.setEmail(kmail);
-                }
-                else
-                    m_secretkey.setEmail(QString());
+				m_secretkey.setEmail(kmail);
+			} else {
+				m_secretkey.setEmail(QString());
+			}
 
-                QString kname = fullname.section(" <", 0, 0);
-                if (fullname.contains('(' ))
-                {
-                    kname = kname.section(" (", 0, 0);
-                    QString comment = fullname.section('(', 1, 1);
-                    comment = comment.section(')', 0, 0);
+			QString kname(fullname.section(" <", 0, 0));
+			if (fullname.contains('(' )) {
+				kname = kname.section(" (", 0, 0);
+				QString comment = fullname.section('(', 1, 1);
+				comment = comment.section(')', 0, 0);
 
-                    m_secretkey.setComment(comment);
-                }
-                else
-                    m_secretkey.setComment(QString());
-                m_secretkey.setName(kname);
-            } else if ((lsp.at(0) == "fpr") && (items >= 10)) {
-                QString fingervalue = lsp.at(9);
+				m_secretkey.setComment(comment);
+			} else {
+				m_secretkey.setComment(QString());
+			}
+			m_secretkey.setName(kname);
+		} else if ((lsp.at(0) == "fpr") && (items >= 10)) {
+			const QString fingervalue(lsp.at(9));
 
-                m_secretkey.setFingerprint(fingervalue);
-            }
-    }
+			m_secretkey.setFingerprint(fingervalue);
+		}
+	}
 }
 
 KgpgCore::KgpgKeyList
@@ -835,19 +743,19 @@ KgpgInterface::readJoinedKeys(const KgpgKeyTrust &trust, const QStringList &ids)
 	return publickeys;
 }
 
-QString KgpgInterface::getKeys(const QString *attributes, const QStringList &ids)
+QString KgpgInterface::getKeys(const QString &attributes, const QStringList &ids)
 {
 	m_keystring.clear();
 
 	GPGProc *gpgProcess = new GPGProc(this);
 	*gpgProcess << "--export" << "--armor" << "--status-fd=1" << "--command-fd=0";
 
-	if (attributes)
-		*gpgProcess << "--export-options" << *attributes;
+	if (!attributes.isEmpty())
+		*gpgProcess << "--export-options" << attributes;
 
 	*gpgProcess << ids;
 
-	connect(gpgProcess, SIGNAL(readReady(GPGProc *)), this, SLOT(getKeysProcess(GPGProc *)));
+	connect(gpgProcess, SIGNAL(readReady(GPGProc *)), SLOT(getKeysProcess(GPGProc *)));
 	gpgProcess->start();
 	gpgProcess->waitForFinished(-1);
 	delete gpgProcess;
@@ -872,22 +780,21 @@ void KgpgInterface::getKeysFin(GPGProc *gpgProcess)
 
 void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal, const QString &uid)
 {
-    m_partialline.clear();
-    m_ispartial = false;
-    log.clear();
-    m_signkey = signkeyid;
-    m_keyid = keyid;
-    m_checking = checking;
-    m_local = local;
-    step = 3;
+	m_partialline.clear();
+	m_ispartial = false;
+	log.clear();
+	m_signkey = signkeyid;
+	m_keyid = keyid;
+	m_checking = checking;
+	m_local = local;
+	step = 3;
 
-    if (terminal)
-    {
-        signKeyOpenConsole();
-        return;
-    }
+	if (terminal) {
+		signKeyOpenConsole();
+		return;
+	}
 
-    m_success = 0;
+	m_success = 0;
 
 	m_workProcess = new KProcess(this);
 	m_workProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
@@ -914,124 +821,108 @@ void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, cons
 
 void KgpgInterface::signKeyProcess()
 {
-        QString buffer = m_partialline + m_workProcess->readAllStandardOutput();
+	QString buffer(m_partialline + m_workProcess->readAllStandardOutput());
 
-        while (buffer.contains('\n')) {
-            int pos = buffer.indexOf('\n');
-            QString line = buffer.left(pos);
-            buffer.remove(0, pos + 1);
+	while (buffer.contains('\n')) {
+		int pos = buffer.indexOf('\n');
+		QString line(buffer.left(pos));
+		buffer.remove(0, pos + 1);
 
-            if (line.startsWith("[GNUPG:]"))
-            {
-                if (line.contains("USERID_HINT"))
-                    updateIDs(line);
-                else
-                if (m_success == 3)
-                {
-                    // user has aborted the process and don't want to sign the key
-                    if (line.contains("GET_"))
-                        m_workProcess->write("quit\n");
-                    return;
-                }
-                else
-                if (line.contains("ALREADY_SIGNED"))
-                    m_success = 4;
-                if (line.contains("GOOD_PASSPHRASE"))
-                {
-                    m_success = 2;
-                }
-                else
-                if (line.contains("sign_uid.expire"))
-                    m_workProcess->write("Never\n");
-                else
-                if (line.contains("sign_uid.class"))
-                    m_workProcess->write(QString::number(m_checking).toAscii() + '\n');
-                else
-                if (line.contains("sign_uid.okay"))
-                    m_workProcess->write("Y\n");
-                else
-                if (line.contains("sign_all.okay"))
-                    m_workProcess->write("Y\n");
-                else
-                if (line.contains("passphrase.enter"))
-                {
-                    QString passdlgmessage;
-                    if (step < 3)
-                        passdlgmessage = i18np("<p><b>Bad passphrase</b>. You have 1 try left.</p>",
-                                               "<p><b>Bad passphrase</b>. You have %1 tries left.</p>", step);
-                    passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
+		if (line.startsWith("[GNUPG:]")) {
+			if (line.contains("USERID_HINT")) {
+				updateIDs(line);
+			} else if (m_success == 3) {
+				// user has aborted the process and don't want to sign the key
+				if (line.contains("GET_"))
+					m_workProcess->write("quit\n");
+				return;
+			} else if (line.contains("ALREADY_SIGNED")) {
+				m_success = 4;
+			} else  if (line.contains("GOOD_PASSPHRASE")) {
+				m_success = 2;
+			} else if (line.contains("sign_uid.expire")) {
+				m_workProcess->write("Never\n");
+			} else if (line.contains("sign_uid.class")) {
+				m_workProcess->write(QString::number(m_checking).toAscii() + '\n');
+			} else if (line.contains("sign_uid.okay")) {
+				m_workProcess->write("Y\n");
+			} else if (line.contains("sign_all.okay")) {
+				m_workProcess->write("Y\n");
+			} else if (line.contains("passphrase.enter")) {
+				QString passdlgmessage;
+				if (step < 3)
+					passdlgmessage = i18np("<p><b>Bad passphrase</b>. You have 1 try left.</p>",
+							"<p><b>Bad passphrase</b>. You have %1 tries left.</p>", step);
+				passdlgmessage += i18n("Enter passphrase for <b>%1</b>", checkForUtf8bis(userIDs));
 
-                    if (sendPassphrase(passdlgmessage, m_workProcess, false))
-                    {
-                        m_success = 3;
-                        m_workProcess->write("quit\n");
-                        return;
-                    }
+				if (sendPassphrase(passdlgmessage, m_workProcess, false)) {
+					m_success = 3;
+					m_workProcess->write("quit\n");
+					return;
+				}
 
-                    if (step > 1)
-                        step--;
-                    else
-                        step = 3;
-                }
-                else
-                if ((m_success != 1) && line.contains("keyedit.prompt"))
-                    m_workProcess->write("save\n");
-                else
-                if (line.contains("BAD_PASSPHRASE"))
-                    m_success = 1;
-                else
-                if (line.contains("GET_")) // gpg asks for something unusal, turn to konsole mode
-                {
-                    if (m_success != 1)
-                        m_success = 5; // switching to console mode
-                    m_workProcess->write("quit\n");
-                }
-            }
-            else
-                log += line + '\n';
-        }
-        m_partialline = buffer;
+				if (step > 1)
+					step--;
+				else
+					step = 3;
+			} else if ((m_success != 1) && line.contains("keyedit.prompt")) {
+				m_workProcess->write("save\n");
+			} else if (line.contains("BAD_PASSPHRASE")) {
+				m_success = 1;
+			} else if (line.contains("GET_")) {
+				// gpg asks for something unusal, turn to konsole mode
+				if (m_success != 1)
+					m_success = 5; // switching to console mode
+				m_workProcess->write("quit\n");
+			}
+		} else {
+			log += line + '\n';
+		}
+	}
+	m_partialline = buffer;
 }
 
 void KgpgInterface::signKeyFin()
 {
-    m_workProcess->deleteLater();
-    if ((m_success != 0) && (m_success != 5))
-        emit signKeyFinished(m_success, m_keyid, this); // signature successful or bad passphrase or aborted or already signed
-    else
-    {
-        KgpgDetailedConsole *q = new KgpgDetailedConsole(0, i18n("<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try signing the key in console mode?</qt>", m_keyid, m_signkey), log);
-        if (q->exec() == QDialog::Accepted)
-            signKeyOpenConsole();
-        else
-            emit signKeyFinished(3, m_keyid, this);
-    }
+	m_workProcess->deleteLater();
+	if ((m_success != 0) && (m_success != 5)) {
+		// signature successful or bad passphrase or aborted or already signed
+		emit signKeyFinished(m_success, m_keyid, this);
+	} else {
+		KgpgDetailedConsole *q = new KgpgDetailedConsole(0,
+				i18n("<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try signing the key in console mode?</qt>", m_keyid, m_signkey),
+				log);
+		if (q->exec() == QDialog::Accepted)
+			signKeyOpenConsole();
+		else
+			emit signKeyFinished(3, m_keyid, this);
+	}
 }
 
 void KgpgInterface::signKeyOpenConsole()
 {
-    KConfigGroup config(KGlobal::config(), "General");
+	KConfigGroup config(KGlobal::config(), "General");
 
-    KProcess process;
-    process << config.readPathEntry("TerminalApplication", "konsole");
-    process << "-e" << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "-u" << m_signkey;
-    process << "--default-cert-level" << QString(m_checking);
+	KProcess process;
+	process << config.readPathEntry("TerminalApplication", "konsole");
+	process << "-e" << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "-u" << m_signkey;
+	process << "--default-cert-level" << QString(m_checking);
 
-    if (!m_local)
-        process << "--sign-key" << m_keyid;
-    else
-        process << "--lsign-key" << m_keyid;
+	if (!m_local)
+		process << "--sign-key" << m_keyid;
+	else
+		process << "--lsign-key" << m_keyid;
 
-    process.execute();
-    emit signKeyFinished(2, m_keyid, this);
+	process.execute();
+	emit signKeyFinished(2, m_keyid, this);
 }
 
 QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool &block)
 {
 #ifdef Q_OS_WIN32	//krazy:exclude=cpp
-	QString pgpgoutput("cmd /C \"echo %I\"");
+	const QString pgpgoutput("cmd /C \"echo %I\"");
 #else
-	QString pgpgoutput("echo %I");
+	const QString pgpgoutput("echo %I");
 #endif
 
 	m_workProcess = new KProcess(this);
@@ -1040,7 +931,7 @@ QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const
 	*m_workProcess << "--no-secmem-warning" << "--no-tty" << "--status-fd=2";
 	*m_workProcess << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
 
-	connect(m_workProcess, SIGNAL(finished(int)), this, SLOT(loadPhotoFin(int)));
+	connect(m_workProcess, SIGNAL(finished(int)), SLOT(loadPhotoFin(int)));
 	m_workProcess->start();
 	if (!block) {
 		return QPixmap();
@@ -1055,10 +946,10 @@ void KgpgInterface::loadPhotoFin(int exitCode)
 	m_pixmap = QPixmap();
 
 	if (exitCode == 0) {
-		QByteArray pic = m_workProcess->readAllStandardOutput();
+		QByteArray pic(m_workProcess->readAllStandardOutput());
 
 		while (pic.endsWith('\r') || pic.endsWith('\n'))
-			pic.remove(pic.length() - 1, 1);
+			pic.chop(1);
 
 		KUrl url(pic);
 		m_pixmap.load(url.path());
@@ -1072,141 +963,136 @@ void KgpgInterface::loadPhotoFin(int exitCode)
 
 void KgpgInterface::downloadKeys(const QStringList &keys, const QString &keyserver, const bool &refresh, const QString &proxy)
 {
-    m_downloadkeys.clear();
-    m_downloadkeys_log.clear();
+	m_downloadkeys.clear();
+	m_downloadkeys_log.clear();
 
-    m_downloadprocess = new GPGProc(this);
-    *m_downloadprocess << "--command-fd=0" << "--status-fd=1";
+	m_downloadprocess = new GPGProc(this);
+	*m_downloadprocess << "--command-fd=0" << "--status-fd=1";
 
-    m_downloadprocess->setOutputChannelMode(KProcess::MergedChannels);
+	m_downloadprocess->setOutputChannelMode(KProcess::MergedChannels);
 
-    if (proxy.isEmpty())
-        *m_downloadprocess << "--keyserver-options" << "no-honor-http-proxy";
-    else
-    {
-        *m_downloadprocess << "--keyserver-options" << "honor-http-proxy";
-        m_downloadprocess->setEnvironment(QStringList("http_proxy=" + proxy));
-    }
+	if (proxy.isEmpty()) {
+		*m_downloadprocess << "--keyserver-options" << "no-honor-http-proxy";
+	} else {
+		*m_downloadprocess << "--keyserver-options" << "honor-http-proxy";
+		m_downloadprocess->setEnvironment(QStringList("http_proxy=" + proxy));
+	}
 
-    *m_downloadprocess << "--keyserver" << keyserver;
-    if (refresh)
-        *m_downloadprocess << "--refresh-keys";
-    else
-        *m_downloadprocess << "--recv-keys";
-    *m_downloadprocess << keys;
+	*m_downloadprocess << "--keyserver" << keyserver;
+	if (refresh)
+		*m_downloadprocess << "--refresh-keys";
+	else
+		*m_downloadprocess << "--recv-keys";
+	*m_downloadprocess << keys;
 
-    connect(m_downloadprocess, SIGNAL(processExited(GPGProc *)), this, SLOT(downloadKeysFin(GPGProc *)));
-    connect(m_downloadprocess, SIGNAL(readReady(GPGProc *)), this, SLOT(downloadKeysProcess(GPGProc *)));
-    m_downloadprocess->start();
+	connect(m_downloadprocess, SIGNAL(processExited(GPGProc *)), SLOT(downloadKeysFin(GPGProc *)));
+	connect(m_downloadprocess, SIGNAL(readReady(GPGProc *)), SLOT(downloadKeysProcess(GPGProc *)));
+	m_downloadprocess->start();
 }
 
 void KgpgInterface::downloadKeysAbort()
 {
-    if (m_downloadprocess && (m_downloadprocess->state() == QProcess::Running))
-    {
-        disconnect(m_downloadprocess, 0, 0, 0);
-        m_downloadprocess->kill();
+	if (m_downloadprocess && (m_downloadprocess->state() == QProcess::Running)) {
+		disconnect(m_downloadprocess, 0, 0, 0);
+		m_downloadprocess->kill();
 
-        delete m_downloadprocess;
-        m_downloadprocess = 0;
+		delete m_downloadprocess;
+		m_downloadprocess = 0;
 
-        emit downloadKeysAborted(this);
-    }
+		emit downloadKeysAborted(this);
+	}
 }
 
 void KgpgInterface::downloadKeysProcess(GPGProc *p)
 {
-    QString line;
+	QString line;
 
-    while (p->readln(line, true) >= 0) {
-            if (line.startsWith("[GNUPG:]"))
-                m_downloadkeys += line + '\n';
-            else
-            if  (line.startsWith("gpgkeys: "))
-                m_downloadkeys_log += line.mid(9) + '\n';
-            else
-                m_downloadkeys_log += line + '\n';
-    }
+	while (p->readln(line, true) >= 0) {
+		if (line.startsWith("[GNUPG:]")) {
+			m_downloadkeys += line + '\n';
+		} else if  (line.startsWith("gpgkeys: ")) {
+			m_downloadkeys_log += line.mid(9) + '\n';
+		} else {
+			m_downloadkeys_log += line + '\n';
+		}
+	}
 }
 
 void KgpgInterface::downloadKeysFin(GPGProc *p)
 {
-    p->deleteLater();
-    m_downloadprocess = 0;
+	p->deleteLater();
+	m_downloadprocess = 0;
 
-    QStringList importedkeys;
-    QString parsedoutput = m_downloadkeys;
-    while (parsedoutput.contains("IMPORTED"))
-    {
-        parsedoutput.remove(0, parsedoutput.indexOf("IMPORTED") + 8);
-        importedkeys += parsedoutput.section("\n", 0, 0).simplified();
-    }
+	QStringList importedkeys;
+	QString parsedoutput = m_downloadkeys;
+	while (parsedoutput.contains("IMPORTED")) {
+		parsedoutput.remove(0, parsedoutput.indexOf("IMPORTED") + 8);
+		importedkeys += parsedoutput.section('\n', 0, 0).simplified();
+	}
 
-    while (parsedoutput.contains("IMPORT_OK"))
-    {
-        parsedoutput.remove(0, parsedoutput.indexOf("IMPORT_OK") + 9);
-        importedkeys += parsedoutput.section("\n", 0, 0).simplified().right(16);
-    }
+	while (parsedoutput.contains("IMPORT_OK")) {
+		parsedoutput.remove(0, parsedoutput.indexOf("IMPORT_OK") + 9);
+		importedkeys += parsedoutput.section('\n', 0, 0).simplified().right(16);
+	}
 
-    QStringList nbs;
-    if (m_downloadkeys.contains("IMPORT_RES"))
-        nbs = m_downloadkeys.section("IMPORT_RES", -1, -1).simplified().split(' ');
-    else
-        nbs = QString("0 0 0 0 0 0 0 0 0 0 0 0 0 0").split(' ');
+	QList<int> result;
+	bool key = false;
+	if (m_downloadkeys.contains("IMPORT_RES")) {
+		const QStringList nbs(m_downloadkeys.section("IMPORT_RES", -1, -1).simplified().split(' '));
 
-    QList<int> result;
-    bool key = false;
-    for(int i = 0; i < nbs.count(); ++i)
-    {
-        result.append(nbs[i].toInt());
-        if (result[i] != 0)
-            key = true;
-    }
+		foreach (const QString nb, nbs) {
+			int r = nb.toInt();
+			result.append(r);
+			if (r != 0)
+				key = true;
+		}
+	} else {
+		for (int i = 0; i < 14; i++)
+			result.append(0);
+	}
 
-    emit downloadKeysFinished(result, importedkeys, key, m_downloadkeys_log, this);
+	emit downloadKeysFinished(result, importedkeys, key, m_downloadkeys_log, this);
 }
 
 void KgpgInterface::uploadKeys(const QStringList &keys, const QString &keyserver, const QString &attributes, const QString &proxy)
 {
-    m_uploadkeys_log.clear();
+	m_uploadkeys_log.clear();
 
-    m_uploadprocess = new GPGProc(this);
-    *m_uploadprocess << "--status-fd=1";
+	m_uploadprocess = new GPGProc(this);
+	*m_uploadprocess << "--status-fd=1";
 
-    if (proxy.isEmpty())
-        *m_uploadprocess << "--keyserver-options" << "no-honor-http-proxy";
-    else
-    {
-        *m_uploadprocess << "--keyserver-options" << "honor-http-proxy";
-        m_uploadprocess->setEnvironment(QStringList("http_proxy=" + proxy));
-    }
+	if (proxy.isEmpty()) {
+		*m_uploadprocess << "--keyserver-options" << "no-honor-http-proxy";
+	} else {
+		*m_uploadprocess << "--keyserver-options" << "honor-http-proxy";
+		m_uploadprocess->setEnvironment(QStringList("http_proxy=" + proxy));
+	}
 
-    *m_uploadprocess << "--keyserver" << keyserver;
-    *m_uploadprocess << "--export-options";
-    if (attributes.isEmpty())
-        *m_uploadprocess << "no-export-attributes";
-    else
-        *m_uploadprocess << attributes;
-    *m_uploadprocess << "--send-keys";
-    *m_uploadprocess << keys;
+	*m_uploadprocess << "--keyserver" << keyserver;
+	*m_uploadprocess << "--export-options";
+	if (attributes.isEmpty())
+		*m_uploadprocess << "no-export-attributes";
+	else
+		*m_uploadprocess << attributes;
+	*m_uploadprocess << "--send-keys";
+	*m_uploadprocess << keys;
 
-    connect(m_uploadprocess, SIGNAL(processExited(GPGProc *)), this, SLOT(uploadKeysFin(GPGProc *)));
-    connect(m_uploadprocess, SIGNAL(readReady(GPGProc *)), this, SLOT(uploadKeysProcess(GPGProc *)));
-    m_uploadprocess->start();
+	connect(m_uploadprocess, SIGNAL(processExited(GPGProc *)), SLOT(uploadKeysFin(GPGProc *)));
+	connect(m_uploadprocess, SIGNAL(readReady(GPGProc *)), SLOT(uploadKeysProcess(GPGProc *)));
+	m_uploadprocess->start();
 }
 
 void KgpgInterface::uploadKeysAbort()
 {
-    if (m_uploadprocess && (m_uploadprocess->state() == QProcess::Running))
-    {
-        disconnect(m_uploadprocess, 0, 0, 0);
-        m_uploadprocess->kill();
+	if (m_uploadprocess && (m_uploadprocess->state() == QProcess::Running)) {
+		disconnect(m_uploadprocess, 0, 0, 0);
+		m_uploadprocess->kill();
 
-        delete m_uploadprocess;
-        m_uploadprocess = 0;
+		delete m_uploadprocess;
+		m_uploadprocess = 0;
 
-        emit uploadKeysAborted(this);
-    }
+		emit uploadKeysAborted(this);
+	}
 }
 
 void KgpgInterface::uploadKeysProcess(GPGProc *p)
@@ -1221,34 +1107,33 @@ void KgpgInterface::uploadKeysProcess(GPGProc *p)
 
 void KgpgInterface::uploadKeysFin(GPGProc *p)
 {
-    p->deleteLater();
-    m_uploadprocess = 0;
+	p->deleteLater();
+	m_uploadprocess = 0;
 
-    emit uploadKeysFinished(m_uploadkeys_log, this);
+	emit uploadKeysFinished(m_uploadkeys_log, this);
 }
 
 // delete signature
 void KgpgInterface::KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID)
 {
-    deleteSuccess = false;
-    step = 0;
+	deleteSuccess = false;
+	step = 0;
 
-    QString encResult;
-    signb = 0;
-    sigsearch = 0;
-    QList<int> signoff;
+	signb = 0;
+	sigsearch = 0;
+	QList<int> signoff;
 
-    findSigns(keyID, QStringList(signKeyID), uid, &signoff);
+	findSigns(keyID, QStringList(signKeyID), uid, &signoff);
 
-    if (signoff.count() == 0)
-        return;
+	if (signoff.count() == 0)
+		return;
 
-    signb = signoff.at(0);
+	signb = signoff.at(0);
 
 	GPGProc *conprocess = new GPGProc(this);
 	*conprocess << "--command-fd=0" << "--status-fd=1" << "--edit-key" << keyID << "uid" << uid << "delsig";
-	connect(conprocess,SIGNAL(readReady(GPGProc *)),this,SLOT(delsigprocess(GPGProc *)));
-	connect(conprocess, SIGNAL(processExited(GPGProc *)),this, SLOT(delsignover(GPGProc *)));
+	connect(conprocess, SIGNAL(readReady(GPGProc *)), SLOT(delsigprocess(GPGProc *)));
+	connect(conprocess, SIGNAL(processExited(GPGProc *)), SLOT(delsignover(GPGProc *)));
 	conprocess->start();
 }
 
@@ -1286,10 +1171,10 @@ void KgpgInterface::delsignover(GPGProc *p)
 
 void KgpgInterface::KgpgRevokeKey(const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description)
 {
-	revokeReason=reason;
-	revokeSuccess=false;
-	revokeDescription=description;
-	certificateUrl=revokeUrl;
+	revokeReason = reason;
+	revokeSuccess = false;
+	revokeDescription = description;
+	certificateUrl = revokeUrl;
 	output.clear();
 
 	GPGProc *process = new GPGProc(this);
@@ -1298,23 +1183,23 @@ void KgpgInterface::KgpgRevokeKey(const QString &keyID, const KUrl &revokeUrl, c
 	if (!revokeUrl.isEmpty())
 		*process << "-o" << revokeUrl.toLocalFile();
 	*process << "--gen-revoke" << keyID;
-	QObject::connect(process, SIGNAL(processExited(GPGProc *)),this, SLOT(revokeover(GPGProc *)));
-	QObject::connect(process, SIGNAL(readReady(GPGProc *)),this, SLOT(revokeprocess(GPGProc *)));
+	QObject::connect(process, SIGNAL(processExited(GPGProc *)), SLOT(revokeover(GPGProc *)));
+	QObject::connect(process, SIGNAL(readReady(GPGProc *)), SLOT(revokeprocess(GPGProc *)));
 	process->start();
 }
 
 void KgpgInterface::revokeover(GPGProc *)
 {
-        if (!revokeSuccess)
-                KMessageBox::detailedSorry(0,i18n("Creation of the revocation certificate failed..."),output);
-        else {
-                output=output.section("-----BEGIN",1);
-                output.prepend("-----BEGIN");
-                output=output.section("BLOCK-----",0);
-                emit revokecertificate(output);
-                if (!certificateUrl.isEmpty())
-                        emit revokeurl(certificateUrl);
-        }
+	if (!revokeSuccess) {
+		KMessageBox::detailedSorry(0,i18n("Creation of the revocation certificate failed..."), output);
+	} else {
+		output = output.section("-----BEGIN", 1);
+		output.prepend("-----BEGIN");
+		output = output.section("BLOCK-----", 0);
+		emit revokecertificate(output);
+		if (!certificateUrl.isEmpty())
+			emit revokeurl(certificateUrl);
+	}
 }
 
 void KgpgInterface::revokeprocess(GPGProc *p)
@@ -1350,7 +1235,6 @@ void KgpgInterface::revokeprocess(GPGProc *p)
 			kDebug(2100) << "unknown request:" << required;
 			expSuccess=1;  /////  switching to console mode
 			p->write("quit\n");
-
 		}
 	}
 }

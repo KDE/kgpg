@@ -79,7 +79,7 @@ public:
     static void setGpgGroupSetting(const QString &name, const QStringList &values, const QString &configfile);
     static void delGpgGroup(const QString &name, const QString &configfile);
 
-    static QString getGpgSetting(QString name, const QString &configfile);
+    static QString getGpgSetting(const QString &name, const QString &configfile);
     static void setGpgSetting(const QString &name, const QString &value, const QString &url);
 
     static bool getGpgBoolSetting(const QString &name, const QString &configfile);
@@ -149,7 +149,7 @@ signals:
     void getKeysFinished(QString, KgpgInterface*);
 
 public slots:
-    QString getKeys(const QString *attributes = NULL, const QStringList &ids = QStringList());
+    QString getKeys(const QString &attributes, const QStringList &ids = QStringList());
 
 private slots:
     void getKeysProcess(GPGProc *);
@@ -341,7 +341,6 @@ private:
     QString message;
     QString userIDs;
     QString log;
-    KProcess *editprocess;
 
     /**
      * @internal structure for communication

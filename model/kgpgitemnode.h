@@ -50,6 +50,8 @@ protected:
 	KGpgItemModel *m_model;
 
 public:
+	typedef QList<KGpgNode *> List;
+
 	explicit KGpgNode(KGpgExpandableNode *parent = 0);
 	virtual ~KGpgNode();
 
@@ -136,7 +138,7 @@ class KGpgExpandableNode : public KGpgNode
 	friend class KGpgSubkeyNode;
 
 protected:
-	QList<KGpgNode *> children;
+	List children;
 
 	virtual void readChildren() = 0;
 
@@ -151,6 +153,8 @@ public:
 	virtual bool wasExpanded() const
 		{ return (children.count() != 0); }
 	virtual int getChildCount();
+	virtual const List &getChildren() const
+		{ return children; }
 	virtual KGpgNode *getChild(const int &index) const;
 	virtual int getChildIndex(KGpgNode *node) const
 		{ return children.indexOf(node); }

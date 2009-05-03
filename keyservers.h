@@ -61,72 +61,71 @@ public:
 
 class KeyServer : public KDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit KeyServer(QWidget *parent = 0, const bool &modal = false, const bool &autoclose = false);
+	explicit KeyServer(QWidget *parent = 0, KGpgItemModel *model = 0, const bool autoclose = false);
+	~KeyServer();
 
-    void refreshKeys(QStringList keys);
+	void refreshKeys(QStringList keys);
 
-    /**
-     * Returns the server list.
-     * The first item is the server configured in gpg.
-     */
-    static QStringList getServerList();
-
-    void setItemModel(KGpgItemModel *model);
+	/**
+	 * Returns the server list.
+	 * The first item is the server configured in gpg.
+	 */
+	static QStringList getServerList();
 
 signals:
-    void importFinished(QStringList);
+	void importFinished(QStringList);
 
 public slots:
-    void slotImport();
-    void slotAbort(KgpgInterface *interface);
+	void slotImport();
+	void slotAbort(KgpgInterface *interface);
 
-    void slotExport(const QString &keyId);
+	void slotExport(const QString &keyId);
 
-    void slotSetText(const QString &text);
-    void slotTextChanged(const QString &text);
-    void slotSetExportAttribute(const QString *attr);
-    void slotEnableProxyI(const bool &on);
-    void slotEnableProxyE(const bool &on);
-    void slotSetKeyserver(const QString &server);
+	void slotSetText(const QString &text);
+	void slotTextChanged(const QString &text);
+	void slotSetExportAttribute(const QString &attr);
+	void slotEnableProxyI(const bool &on);
+	void slotEnableProxyE(const bool &on);
+	void slotSetKeyserver(const QString &server);
 
-    void transferKeyID();
-    void slotPreImport();
-    void slotPreExport();
+	void transferKeyID();
+	void slotPreImport();
+	void slotPreExport();
 
-    void slotOk();
-    void handleQuit();
+	void slotOk();
+	void handleQuit();
 
 private slots:
-    void slotDownloadKeysFinished(QList<int> results, QStringList keys, bool imported, QString log, KgpgInterface *interface);
-    void slotUploadKeysFinished(QString message, KgpgInterface *interface);
+	void slotDownloadKeysFinished(QList<int> results, QStringList keys, bool imported, QString log, KgpgInterface *interface);
+	void slotUploadKeysFinished(QString message, KgpgInterface *interface);
 
-    void slotSearchRead(GPGProc *p);
-    void slotSearchResult(GPGProc *p);
-    void slotSearch();
-    void slotAbortSearch();
-    void slotSetFilterString(const QString &expression);
+	void slotSearchRead(GPGProc *p);
+	void slotSearchResult(GPGProc *p);
+	void slotSearch();
+	void slotAbortSearch();
+	void slotSetFilterString(const QString &expression);
 
 private:
-    KDialog *m_importpop;
-    QString m_readmessage;
+	KDialog *m_importpop;
+	QString m_readmessage;
 
-    KDialog *m_dialogserver;
-    GPGProc *m_searchproc;
+	KDialog *m_dialogserver;
+	GPGProc *m_searchproc;
 
-    keyServerWidget *page;
-    searchRes *m_listpop;
+	keyServerWidget *page;
+	searchRes *m_listpop;
 
-    int m_count;
-    bool m_autoclose;
-    QString expattr;
+	int m_count;
+	bool m_autoclose;
+	QString expattr;
 
-    KGpgSearchResultModel *m_resultmodel;
-    QSortFilterProxyModel m_filtermodel;
+	KGpgSearchResultModel *m_resultmodel;
+	QSortFilterProxyModel m_filtermodel;
 
-    KeyListProxyModel *m_itemmodel;
+	KeyListProxyModel *m_itemmodel;
 };
 
 #endif // KEYSERVERS_H

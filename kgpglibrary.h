@@ -64,7 +64,6 @@ private slots:
     void processEncError(const QString &mssge, KGpgTextInterface*);
     void processDecOver(int, KGpgTextInterface*);
     void processEncPopup(const KUrl &url);
-    void processPopup2(const QString &fileName);
 
     void slotImportOver(KgpgInterface *iface, const QStringList &keys);
 
