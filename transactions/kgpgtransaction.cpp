@@ -13,6 +13,7 @@
 
 #include "kgpgtransaction.h"
 
+#include <QByteArray>
 #include <QStringList>
 
 #include <KLocale>
@@ -155,10 +156,35 @@ KGpgTransaction::getProcess()
 	return d->m_process;
 }
 
-void
+int
 KGpgTransaction::addArgument(const QString &arg)
 {
+	int r = d->m_process->program().count();
+
 	*d->m_process << arg;
+
+	return r;
+}
+
+int
+KGpgTransaction::addArguments(const QStringList &args)
+{
+	int r = d->m_process->program().count();
+
+	*d->m_process << args;
+
+	return r;
+}
+
+void
+KGpgTransaction::replaceArgument(const int pos, const QString &arg)
+{
+	QStringList args(d->m_process->program());
+	d->m_process->clearProgram();
+
+	args.replace(pos, arg);
+
+	d->m_process->setProgram(args);
 }
 
 bool

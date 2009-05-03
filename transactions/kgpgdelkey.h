@@ -15,6 +15,7 @@
 #define KGPGDELKEY_H
 
 #include <QObject>
+#include <QStringList>
 
 #include "kgpgtransaction.h"
 

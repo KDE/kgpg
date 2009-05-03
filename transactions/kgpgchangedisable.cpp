@@ -12,12 +12,14 @@
  ***************************************************************************/
 
 #include "kgpgchangedisable.h"
-#include "gpgproc.h"
 
 KGpgChangeDisable::KGpgChangeDisable(QObject *parent, const QString &keyid, const bool &disable)
 	: KGpgTransaction(parent)
 {
-	*getProcess() << "--edit-key" << keyid << "disable" << "save";
+	addArgument("--edit-key");
+	addArgument(keyid);
+	m_disablepos = addArgument(QString());
+	addArgument("save");
 
 	setDisable(disable);
 }
@@ -39,18 +41,11 @@ KGpgChangeDisable::setDisable(const bool &disable)
 {
 	m_disable = disable;
 
-	GPGProc *proc = getProcess();
-
-	QStringList args = proc->program();
-	proc->clearProgram();
-
 	QString cmd;
 	if (disable)
 		cmd = "disable";
 	else
 		cmd = "enable";
 
-	args.replace(args.count() - 2, cmd);
-
-	proc->setProgram(args);
+	replaceArgument(m_disablepos, cmd);
 }

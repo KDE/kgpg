@@ -61,7 +61,7 @@ bool
 KGpgDelKey::preStart()
 {
 	GPGProc *proc = getProcess();
-	QStringList args = proc->program();
+	QStringList args(proc->program());
 
 	int num = args.count();
 	while (num > m_argscount)

@@ -14,13 +14,12 @@
 #ifndef KGPGTRANSACTION_H
 #define KGPGTRANSACTION_H
 
-#include <QByteArray>
 #include <QObject>
 #include <QString>
-#include <QStringList>
 
 class GPGProc;
 class KGpgTransactionPrivate;
+class QByteArray;
 
 /**
  * \brief Process one GnuPG operation
@@ -182,12 +181,29 @@ protected:
 	GPGProc *getProcess();
 	/**
 	 * \brief add a command line argument to gpg process
+	 * @param arg new argument
+	 * @returns the position of the new argument
 	 * This is a convenience function that allows adding one additional
 	 * argument to the command line of the process. This must be called
 	 * before start() is called. Usually you will call this from your
 	 * constructor.
 	 */
-	void addArgument(const QString &arg);
+	int addArgument(const QString &arg);
+	/**
+	 * \brief add command line arguments to gpg process
+	 * @param args new arguments
+	 * @returns the position of the first argument added
+	 * This is a convenience function that allows adding additional
+	 * arguments to the command line of the process. This must be called
+	 * before start() is called.
+	 */
+	int addArguments(const QStringList &args);
+	/**
+	 * \brief replace the argument at the given position
+	 * @param pos position of old argument
+	 * @param arg new argument
+	 */
+	void replaceArgument(const int pos, const QString &arg);
 	/**
 	 * \brief write data to standard input of gpg process
 	 * @param a data to write

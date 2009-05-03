@@ -35,6 +35,7 @@ protected:
 
 private:
 	bool m_disable;
+	int m_disablepos;
 };
 
 #endif // KGPGCHANGEDISABLE_H

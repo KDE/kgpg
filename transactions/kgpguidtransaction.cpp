@@ -13,8 +13,6 @@
 
 #include "kgpguidtransaction.h"
 
-#include "gpgproc.h"
-
 KGpgUidTransaction::KGpgUidTransaction(QObject *parent)
 	: KGpgTransaction(parent)
 {
@@ -29,12 +27,7 @@ KGpgUidTransaction::KGpgUidTransaction(QObject *parent, const QString &keyid, co
 	addArgument("--edit-key");
 	addArgument(keyid);
 	addArgument("uid");
-	addArgument("-1");
-
-	GPGProc *proc = getProcess();
-
-	QStringList args = proc->program();
-	m_uidpos = args.count() - 1;
+	m_uidpos = addArgument(QString());
 
 	setUid(uid);
 }
@@ -79,14 +72,7 @@ KGpgUidTransaction::setUid(const QString &uid)
 {
 	m_uid = uid;
 
-	GPGProc *proc = getProcess();
-
-	QStringList args = proc->program();
-	proc->clearProgram();
-
-	args.replace(m_uidpos, uid);
-
-	proc->setProgram(args);
+	replaceArgument(m_uidpos, uid);
 }
 
 void
