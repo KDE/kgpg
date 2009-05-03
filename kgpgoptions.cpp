@@ -121,7 +121,6 @@ kgpgOptions::~kgpgOptions()
     delete m_page2;
     delete m_page3;
     delete m_page4;
-    delete m_page5;
     delete m_page6;
     delete m_page7;
 }
