@@ -108,6 +108,7 @@ private slots:
     void slotInstallDecrypt(const QString &mimetype);
     void slotInstallSign(const QString &mimetype);
     void slotRemoveMenu(const QString &menu);
+    void slotSystrayEnable();
 
 private:
     bool hasChanged();
@@ -154,6 +155,7 @@ private:
     bool m_encrypttoalways;
     bool m_defaultencrypttoalways;
     bool m_showsystray;
+    int m_trayaction;
 };
 
 #endif // KGPGOPTIONS_H

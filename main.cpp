@@ -52,20 +52,7 @@ int main(int argc, char *argv[])
     if (!KUniqueApplication::start())
         return 0;
 
-    //KgpgAppletApp *app;
-    KApplication *app;
-    app = new KgpgAppletApp;
+    KApplication *app = new KGpgApp();
     app->setQuitOnLastWindowClosed(false);
     return app->exec();
-
-    /*
-    KUniqueApplication app;
-
-    // register ourselves as a dcop client
-    // app.dcopClient()->registerAs(app.name(), false);
-
-    kgpgapplet widget;// = new kgpgapplet("kgpg");
-    widget.show();
-    return app.exec();
-    */
 }

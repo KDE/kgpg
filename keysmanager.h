@@ -56,6 +56,10 @@ class KGpgGenerateKey;
 class KGpgDelKey;
 class KGpgImport;
 
+namespace Experimental {
+	class KNotificationItem;
+};
+
 class AddUid : public QWidget, public Ui::AddUid
 {
 public:
@@ -77,6 +81,7 @@ public:
     KgpgEditor *s_kgpgEditor;
 
     void saveToggleOpts(void);
+    void showTrayMessage(const QString &message);
 
 private:
     KToggleAction *sTrust;
@@ -111,7 +116,15 @@ public slots:
     void slotOpenEditor();
     void slotImport(const QString &text);
     void slotImport(const KUrl::List &files);
-
+    /**
+     * When you click on "encrypt the clipboard" in the systray,
+     * this slot will open the dialog to choose a key and encrypt the
+     * clipboard.
+     */
+    void clipEncrypt();
+    void clipDecrypt();
+    void clipSign();
+    
 protected:
     bool eventFilter(QObject *, QEvent *e);
     void removeFromGroups(KGpgKeyNode *nd);
@@ -197,6 +210,7 @@ private slots:
     void slotDelKeyDone(int ret);
     void slotImportDone(int ret);
     void slotImportDone(KGpgImport *import, int ret);
+    void slotSetClip(const QString &newtxt);
 
     void slotNetworkUp();
     void slotNetworkDown();
@@ -236,20 +250,22 @@ private:
     KLineEdit *m_listviewsearch;
     KDialog *addUidWidget;
 
-    QAction *importSignatureKey;
-    QAction *importAllSignKeys;
-    QAction *signKey;
-    QAction *signUid;
-    QAction *refreshKey;
+    KAction *importSignatureKey;
+    KAction *importAllSignKeys;
+    KAction *signKey;
+    KAction *signUid;
+    KAction *refreshKey;
     KAction *editKey;
-    QAction *setPrimUid;
-    QAction *delUid;
-    QAction *delSignKey;
+    KAction *setPrimUid;
+    KAction *delUid;
+    KAction *delSignKey;
     KAction *deleteKey;
-    QAction *editCurrentGroup;
-    QAction *delGroup;
-    QAction *setDefaultKey;
+    KAction *editCurrentGroup;
+    KAction *delGroup;
+    KAction *setDefaultKey;
     KAction *kserver;
+    KAction *openEditor;
+    KAction *goToDefaultKey;
 
     KeyServer *kServer;
     KgpgInterface *revKeyProcess;
@@ -274,7 +290,10 @@ private:
     // react to network status changes
     bool m_online;
     Solid::Networking::Notifier *m_netnote;
-    void toggleNetworkActions(bool online);    
+    void toggleNetworkActions(bool online);
+
+    Experimental::KNotificationItem *m_trayicon;
+    void setupTrayIcon();
 };
 
 #endif // KEYSMANAGER_H

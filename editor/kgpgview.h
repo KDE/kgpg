@@ -18,6 +18,8 @@
 #ifndef KGPGVIEW_H
 #define KGPGVIEW_H
 
+#include <QString>
+
 #include <KTextEdit>
 #include <KUrl>
 
@@ -95,7 +97,7 @@ signals:
     void verifyFinished();
 
 public slots:
-    void slotSignVerify();
+    void slotSignVerify(const QString &text = QString());
     void slotEncode();
     void slotDecode();
     void slotHighlightText(const QString &, const int &matchingindex, const int &matchedlength);

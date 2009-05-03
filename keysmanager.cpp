@@ -35,6 +35,7 @@
 #include <QDir>
 #include <QtDBus/QtDBus>
 #include <QProcess>
+#include <QClipboard>
 
 #include <kabc/addresseedialog.h>
 #include <kabc/stdaddressbook.h>
@@ -58,6 +59,7 @@
 #include <KDebug>
 #include <KFind>
 #include <KMenu>
+#include <KUniqueApplication>
 #include <KUrl>
 #include <ktip.h>
 #include <KActionCollection>
@@ -97,6 +99,10 @@
 #include "kgpgdelkey.h"
 #include "kgpgimport.h"
 #include "detailedconsole.h"
+#include "../../../extragear/libs/libknotificationitem/knotificationitem.h"
+#include "selectpublickeydialog.h"
+#include "kgpgtextinterface.h"
+#include "kgpgview.h"
 
 using namespace KgpgCore;
 
@@ -112,6 +118,25 @@ KeysManager::KeysManager(QWidget *parent)
     m_statusbartimer = new QTimer(this);
     m_statusbar = 0;
     imodel = NULL;
+    m_trayicon = NULL;
+
+    KStandardAction::quit(this, SLOT(quitApp()), actionCollection());
+    KStandardAction::find(this, SLOT(findKey()), actionCollection());
+    KStandardAction::findNext(this, SLOT(findNextKey()), actionCollection());
+    actionCollection()->addAction(KStandardAction::Preferences, "options_configure", this, SLOT(showOptions()));
+
+    openEditor = actionCollection()->addAction("kgpg_editor");
+    openEditor->setIcon(KIcon("accessories-text-editor"));
+    openEditor->setText(i18n("&Open Editor"));
+    connect(openEditor, SIGNAL(triggered(bool)), SLOT(slotOpenEditor()));
+    
+    kserver = actionCollection()->addAction( "key_server" );
+    kserver->setText( i18n("&Key Server Dialog") );
+    kserver->setIcon( KIcon("network-server") );
+    connect(kserver, SIGNAL(triggered(bool)), SLOT(showKeyServer()));
+
+    // this must come after kserver, preferences, and openEditor are created
+    // because they are used to set up the tray icon context menu
     readOptions();
 
     terminalkey = NULL;
@@ -120,21 +145,11 @@ KeysManager::KeysManager(QWidget *parent)
     if (showTipOfDay)
         installEventFilter(this);
 
-    KStandardAction::quit(this, SLOT(quitApp()), actionCollection());
-    KStandardAction::find(this, SLOT(findKey()), actionCollection());
-    KStandardAction::findNext(this, SLOT(findNextKey()), actionCollection());
-    actionCollection()->addAction(KStandardAction::Preferences, "options_configure", this, SLOT(showOptions()));
-
     KAction *action = 0;
 
     action = actionCollection()->addAction( "default" );
     connect(action, SIGNAL(triggered(bool)), SLOT(slotDefaultAction()));
     action->setShortcut(QKeySequence(Qt::Key_Return));
-
-    kserver = actionCollection()->addAction( "key_server" );
-    kserver->setText( i18n("&Key Server Dialog") );
-    kserver->setIcon( KIcon("network-server") );
-    connect(kserver, SIGNAL(triggered(bool)), SLOT(showKeyServer()));
 
     action =  actionCollection()->addAction( "help_tipofday");
     action->setIcon( KIcon("help-hint") );
@@ -146,16 +161,11 @@ KeysManager::KeysManager(QWidget *parent)
     action->setIcon( KIcon("help-contents") );
     connect(action, SIGNAL(triggered(bool)), SLOT(slotManpage()));
 
-    action = actionCollection()->addAction("kgpg_editor");
-    action->setIcon(KIcon("accessories-text-editor"));
-    action->setText(i18n("&Open Editor"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(slotOpenEditor()));
-
-    action = actionCollection()->addAction("go_default_key");
-    action->setIcon(KIcon("go-home"));
-    action->setText(i18n("&Go to Default Key"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
-    action->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home));
+    goToDefaultKey = actionCollection()->addAction("go_default_key");
+    goToDefaultKey->setIcon(KIcon("go-home"));
+    goToDefaultKey->setText(i18n("&Go to Default Key"));
+    connect(goToDefaultKey, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
+    goToDefaultKey->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home));
 
     action = actionCollection()->addAction("key_refresh");
     action->setIcon(KIcon("view-refresh"));
@@ -467,7 +477,7 @@ KeysManager::KeysManager(QWidget *parent)
     setAutoSaveSettings(cg, true);
     applyMainWindowSettings(cg);
 
-    s_kgpgEditor = new KgpgEditor(parent, imodel, Qt::Dialog, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut(), true);
+    s_kgpgEditor = new KgpgEditor(parent, imodel, Qt::Dialog, goToDefaultKey->shortcut(), true);
     connect(s_kgpgEditor, SIGNAL(refreshImported(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
     connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
 
@@ -535,7 +545,7 @@ void KeysManager::showKeyManager()
 
 void KeysManager::slotOpenEditor()
 {
-    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, Qt::Window, qobject_cast<KAction *>(actionCollection()->action("go_default_key"))->shortcut());
+    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, Qt::Window, goToDefaultKey->shortcut());
     kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
@@ -1230,6 +1240,13 @@ void KeysManager::readOptions()
 	changeMessage(imodel->statusCountMessage(), 1);
 
     showTipOfDay = KGpgSettings::showTipOfDay();
+
+	if (KGpgSettings::showSystray()) {
+		setupTrayIcon();
+	} else {
+		delete m_trayicon;
+		m_trayicon = NULL;
+	}
 }
 
 void KeysManager::showOptions()
@@ -2497,6 +2514,164 @@ KeysManager::toggleNetworkActions(bool online)
 	importSignatureKey->setEnabled(online);
 	importAllSignKeys->setEnabled(online);
 	refreshKey->setEnabled(online);
+}
+
+void
+KeysManager::setupTrayIcon()
+{
+	bool newtray = (m_trayicon == NULL);
+
+	if (newtray) {
+		m_trayicon = new Experimental::KNotificationItem(this);
+		m_trayicon->setCategory(Experimental::KNotificationItem::ApplicationStatus);
+		m_trayicon->setIcon("kgpg");
+		m_trayicon->setToolTip("kgpg", i18n("KGpg - encryption tool"), QString());
+	}
+
+	switch (KGpgSettings::leftClick()) {
+	case KGpgSettings::EnumLeftClick::Editor:
+		m_trayicon->setAssociatedWidget(s_kgpgEditor);
+		break;
+	case KGpgSettings::EnumLeftClick::KeyManager:
+		m_trayicon->setAssociatedWidget(this);
+		break;
+	}
+
+	if (!newtray)
+		return;
+
+	m_trayicon->setCategory(Experimental::KNotificationItem::ApplicationStatus);
+
+	KMenu *conf_menu = m_trayicon->contextMenu();
+
+	QAction *KgpgOpenManager = actionCollection()->addAction("kgpg_manager");
+	KgpgOpenManager->setIcon(KIcon("kgpg"));
+	KgpgOpenManager->setText(i18n("Ke&y Manager"));
+	connect(KgpgOpenManager, SIGNAL(triggered(bool)), SLOT(show()));
+
+	QAction *KgpgEncryptClipboard = actionCollection()->addAction("clip_encrypt");
+	KgpgEncryptClipboard->setText(i18n("&Encrypt Clipboard"));
+	connect(KgpgEncryptClipboard, SIGNAL(triggered(bool)), SLOT(clipEncrypt()));
+	QAction *KgpgDecryptClipboard = actionCollection()->addAction("clip_decrypt");
+	KgpgDecryptClipboard->setText(i18n("&Decrypt Clipboard"));
+	connect(KgpgDecryptClipboard, SIGNAL(triggered(bool)), SLOT(clipDecrypt()));
+	QAction *KgpgSignClipboard = actionCollection()->addAction("clip_sign");
+	KgpgSignClipboard->setText(i18n("&Sign/Verify Clipboard"));
+	connect(KgpgSignClipboard, SIGNAL(triggered(bool)), SLOT(clipSign()));
+
+	QAction *KgpgPreferences = KStandardAction::preferences(this, SLOT(showOptions()), actionCollection());
+
+	conf_menu->addAction( KgpgEncryptClipboard );
+	conf_menu->addAction( KgpgDecryptClipboard );
+	conf_menu->addAction( KgpgSignClipboard );
+	conf_menu->addAction( KgpgOpenManager );
+	conf_menu->addAction( openEditor );
+	conf_menu->addAction( kserver );
+	conf_menu->addSeparator();
+	conf_menu->addAction( KgpgPreferences );
+}
+
+void
+KeysManager::showTrayMessage(const QString &message)
+{
+	if (m_trayicon == NULL)
+		return;
+
+	m_trayicon->showMessage(QString(), message, "kgpg");
+}
+
+void
+KeysManager::clipEncrypt()
+{
+	const QString cliptext(kapp->clipboard()->text(m_clipboardmode));
+
+	if (cliptext.isEmpty()) {
+		Q_ASSERT(m_trayicon != NULL);
+		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), "kgpg");
+		return;
+	}
+
+	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, imodel, goToDefaultKey->shortcut());
+	if (dialog->exec() == KDialog::Accepted) {
+		QStringList options;
+
+		if (!dialog->getCustomOptions().isEmpty() && KGpgSettings::allowCustomEncryptionOptions())
+			options = dialog->getCustomOptions().split(' ', QString::SkipEmptyParts);
+
+		if (dialog->getUntrusted())
+			options.append("--always-trust");
+		if (dialog->getArmor())
+			options.append("--armor");
+		if (dialog->getHideId())
+			options.append("--throw-keyid");
+
+		if (KGpgSettings::pgpCompatibility())
+			options.append("--pgp6");
+
+		options.append("--armor");
+
+		QStringList selec;
+		if (!dialog->getSymmetric())
+			selec = dialog->selectedKeys();
+
+		KGpgTextInterface *txtEncrypt = new KGpgTextInterface();
+		connect (txtEncrypt, SIGNAL(txtEncryptionFinished(QString)), SLOT(slotSetClip(QString)));
+		m_trayicon->setStatus(Experimental::KNotificationItem::Active);
+		txtEncrypt->encryptText(cliptext, selec, options);
+	}
+
+	delete dialog;
+}
+
+void
+KeysManager::slotSetClip(const QString &newtxt)
+{
+	m_trayicon->setStatus(Experimental::KNotificationItem::Passive);
+
+	if (newtxt.isEmpty())
+		return;
+	
+	kapp->clipboard()->setText(newtxt, m_clipboardmode);
+
+	Q_ASSERT(m_trayicon != NULL);
+	m_trayicon->showMessage(QString(), i18n("Text successfully encrypted."), "kgpg");
+}
+
+void
+KeysManager::clipDecrypt()
+{
+	const QString cliptext(kapp->clipboard()->text(m_clipboardmode).trimmed());
+
+	if (cliptext.isEmpty()) {
+		Q_ASSERT(m_trayicon != NULL);
+		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), "kgpg");
+		return;
+	}
+
+	KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, 0, goToDefaultKey->shortcut());
+	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
+	connect(this, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
+	kgpgtxtedit->view->editor->setPlainText(cliptext);
+	kgpgtxtedit->view->slotDecode();
+	kgpgtxtedit->show();
+}
+
+void
+KeysManager::clipSign()
+{
+	QString cliptext = kapp->clipboard()->text(m_clipboardmode);
+	if (cliptext.isEmpty()) {
+		Q_ASSERT(m_trayicon != NULL);
+		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), "kgpg");
+		return;
+	}
+
+	KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, 0, goToDefaultKey->shortcut());
+	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
+	connect(kgpgtxtedit->view, SIGNAL(verifyFinished()), kgpgtxtedit, SLOT(closeWindow()));
+
+	kgpgtxtedit->view->slotSignVerify(cliptext);
+	kgpgtxtedit->show();
 }
 
 #include "keysmanager.moc"

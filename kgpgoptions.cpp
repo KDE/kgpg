@@ -70,6 +70,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     defaultBinPath = KGpgSettings::gpgBinaryPath();
 
     m_showsystray = KGpgSettings::showSystray();
+    m_trayaction = KGpgSettings::leftClick();
 
     kDebug(2100) << "Adding pages" ;
     m_page1 = new Encryption();
@@ -104,6 +105,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
     connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
     connect(m_page6->ServerBox, SIGNAL(clicked(const QModelIndex &)), this, SLOT(slotEnableDeleteServer()));
     connect(m_page6->ServerBox, SIGNAL(executed(QListWidgetItem *)), this, SLOT(slotEditKeyServer(QListWidgetItem *)));
+    connect(m_page7->kcfg_ShowSystray, SIGNAL(clicked()), SLOT(slotSystrayEnable()));
 
     keyUltimate = KGpgSettings::colorUltimate();
     keyGood = KGpgSettings::colorGood();
@@ -449,6 +451,9 @@ void kgpgOptions::updateSettings()
     m_showsystray = m_page7->kcfg_ShowSystray->isChecked();
     KGpgSettings::setShowSystray(m_showsystray);
 
+    m_trayaction = m_page7->kcfg_LeftClick->currentIndex();
+    KGpgSettings::setLeftClick(m_trayaction);
+
     KGpgSettings::self()->writeConfig();
     m_config->sync();
     
@@ -584,6 +589,9 @@ bool kgpgOptions::hasChanged()
     if (m_page7->kcfg_ShowSystray->isChecked() != m_showsystray)
         return true;
 
+    if (m_page7->kcfg_LeftClick->currentIndex() != m_trayaction)
+        return true;
+    
     return false;
 }
 
@@ -622,7 +630,15 @@ bool kgpgOptions::isDefault()
     if (m_page7->kcfg_ShowSystray->isChecked() != m_showsystray)
         return false;
 
+    if (m_page7->kcfg_LeftClick->currentIndex() != KGpgSettings::EnumLeftClick::KeyManager)
+        return false;
+
     return true;
+}
+
+void kgpgOptions::slotSystrayEnable()
+{
+	m_page7->kcfg_LeftClick->setEnabled(m_page7->kcfg_ShowSystray->isChecked());
 }
 
 #include "kgpgoptions.moc"

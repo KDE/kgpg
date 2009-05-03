@@ -438,13 +438,19 @@ KgpgView::~KgpgView()
 {
 }
 
-void KgpgView::slotSignVerify()
+void KgpgView::slotSignVerify(const QString &message)
 {
-	const QString message(editor->toPlainText());
-	if (message.contains(SIGNEDMESSAGE_BEGIN))
-		editor->slotVerify(message);
+	QString msg;
+
+	if (message.isEmpty())
+		msg = editor->toPlainText();
 	else
-		editor->slotSign(message);
+		msg = message;
+
+	if (msg.contains(SIGNEDMESSAGE_BEGIN))
+		editor->slotVerify(msg);
+	else
+		editor->slotSign(msg);
 }
 
 void KgpgView::slotEncode()
