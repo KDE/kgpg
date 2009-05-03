@@ -99,10 +99,11 @@
 #include "kgpgdelkey.h"
 #include "kgpgimport.h"
 #include "detailedconsole.h"
-#include "../../../extragear/libs/libknotificationitem/knotificationitem.h"
+#include "knotificationitem-1/knotificationitem.h"
 #include "selectpublickeydialog.h"
 #include "kgpgtextinterface.h"
 #include "kgpgview.h"
+#include "kgpgkeyservergettransaction.h"
 
 using namespace KgpgCore;
 
@@ -2030,22 +2031,25 @@ void KeysManager::preimportsignkey()
 
 bool KeysManager::importRemoteKey(const QString &keyIDs)
 {
-	KgpgInterface *iface = new KgpgInterface();
-
-	QStringList kservers = KeyServer::getServerList();
+	QStringList kservers(KeyServer::getServerList());
 	if (kservers.isEmpty())
 		return false;
-	connect(iface, SIGNAL(downloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)), SLOT(importRemoteFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)));
 
-	iface->downloadKeys(keyIDs.split(' '), kservers.first(), false, qgetenv("http_proxy"));
+	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, kservers.first(), keyIDs.simplified().split(' '), qgetenv("http_proxy"));
+	connect(proc, SIGNAL(done(int)), SLOT(importRemoteFinished(int)));
+
+	proc->start();
 
 	return true;
 }
 
-void KeysManager::importRemoteFinished(QList<int>, QStringList, bool, QString, KgpgInterface *iface)
+void KeysManager::importRemoteFinished(int result)
 {
-	iface->deleteLater();
-	imodel->refreshKeys();
+	sender()->deleteLater();
+
+	// FIXME: only refresh when keys were changed
+	if (result == KGpgTransaction::TS_OK)
+		imodel->refreshKeys();
 }
 
 void KeysManager::importsignkey(const QStringList &importKeyId)

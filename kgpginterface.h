@@ -226,43 +226,6 @@ private:
 
 /*******************************************************/
 
-/************** download keys from keys server **************/
-signals:
-    /*
-    0 : keys processed
-    1 : keys without id
-    2 : keys imported
-    3 : RSA keys
-    4 : unchanged
-    5 : Uid imported
-    6 : Subkey imported
-    7 : Sign imported
-    8 : Revocation imported
-    9 : secret keys processed
-    10 : secret keys imported
-    11 : secret keys unchanged
-    12 : secret keys not imported
-    */
-    void downloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*);
-    void downloadKeysAborted(KgpgInterface*);
-
-public slots:
-    void downloadKeys(const QStringList &keys, const QString &keyserver, const bool &refresh, const QString &proxy = "");
-    void downloadKeysAbort();
-
-private slots:
-    void downloadKeysProcess(GPGProc *p);
-    void downloadKeysFin(GPGProc *p);
-
-private:
-    GPGProc *m_downloadprocess;
-    QString m_downloadkeys;
-    QString m_downloadkeys_log;
-
-/***********************************************************/
-
-
-
 /************** upload keys to keys server **************/
 signals:
     void uploadKeysFinished(QString, KgpgInterface*);

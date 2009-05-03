@@ -205,7 +205,7 @@ private slots:
     void secretKeyDeleted(int);
     void getMissingSigs(QSet<QString> &missingKeys, const KGpgExpandableNode *nd);
     void slotEditDone(int exitcode);
-    void importRemoteFinished(QList<int>, QStringList, bool, QString, KgpgInterface *iface);
+    void importRemoteFinished(int result);
     void slotRefreshKeys(KgpgInterface *iface, const QStringList &keys);
     void slotDelKeyDone(int ret);
     void slotImportDone(int ret);

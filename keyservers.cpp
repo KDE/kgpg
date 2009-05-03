@@ -35,6 +35,7 @@
 #include "detailedconsole.h"
 #include "convert.h"
 #include "gpgproc.h"
+#include "kgpgkeyservergettransaction.h"
 
 using namespace KgpgCore;
 
@@ -104,7 +105,7 @@ KeyServer::~KeyServer()
 	delete page;
 }
 
-void KeyServer::refreshKeys(QStringList keys)
+void KeyServer::refreshKeys(const QStringList &keys)
 {
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 
@@ -114,14 +115,13 @@ void KeyServer::refreshKeys(QStringList keys)
 	if (KGpgSettings::useProxy())
 		proxy = qgetenv("http_proxy");
 
-	KgpgInterface *interface = new KgpgInterface();
-	connect(interface, SIGNAL(downloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)), SLOT(slotDownloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)));
-	connect(interface, SIGNAL(downloadKeysAborted(KgpgInterface*)), SLOT(slotAbort(KgpgInterface*)));
+	KGpgRefreshKeys *proc = new KGpgRefreshKeys(this, keyserv, keys, proxy);
+	connect(proc, SIGNAL(done(int)), SLOT(slotDownloadKeysFinished(int)));
 
 	m_importpop = new ConnectionDialog(this);
-	connect(m_importpop, SIGNAL(cancelClicked()), interface, SLOT(downloadKeysAbort()));
+	connect(m_importpop, SIGNAL(cancelClicked()), proc, SLOT(slotAbort()));
 
-	interface->downloadKeys(keys, keyserv, true, proxy);
+	proc->start();
 }
 
 void KeyServer::slotImport()
@@ -136,26 +136,45 @@ void KeyServer::slotImport()
 
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 
-	KgpgInterface *interface = new KgpgInterface();
-	connect(interface, SIGNAL(downloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)), SLOT(slotDownloadKeysFinished(QList<int>, QStringList, bool, QString, KgpgInterface*)));
-	connect(interface, SIGNAL(downloadKeysAborted(KgpgInterface*)), SLOT(slotAbort(KgpgInterface*)));
+	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, page->kCBimportks->currentText(), page->kLEimportid->text().simplified().split(' '), page->kLEproxyI->text());
+	connect(proc, SIGNAL(done(int)), SLOT(slotDownloadKeysFinished(int)));
 
 	m_importpop = new ConnectionDialog(this);
-	connect(m_importpop, SIGNAL(cancelClicked()), interface, SLOT(downloadKeysAbort()));
+	connect(m_importpop, SIGNAL(cancelClicked()), proc, SLOT(slotAbort()));
 
-	interface->downloadKeys(page->kLEimportid->text().simplified().split(' '), page->kCBimportks->currentText(), false, page->kLEproxyI->text());
+	proc->start();
 }
 
-void KeyServer::slotDownloadKeysFinished(QList<int> result, QStringList keys, bool imported, QString log, KgpgInterface *interface)
+void KeyServer::slotDownloadKeysFinished(int resultcode)
 {
 	delete m_importpop;
 	m_importpop = 0;
-	interface->deleteLater();
 
 	QApplication::restoreOverrideCursor();
 
+	KGpgKeyserverGetTransaction *t = qobject_cast<KGpgKeyserverGetTransaction *>(sender());
+	const QStringList log(t->getLog());
+
+	t->deleteLater();
+
+	if (resultcode == KGpgTransaction::TS_USER_ABORTED)
+		return;
+
+	QStringList keys;
+	QList<int> result;
+
+	foreach (const QString msg, log) {
+		if (msg.startsWith("[GNUPG:] IMPORT_OK ")) {
+			keys.append(msg.section(' ', 3));
+		} else if (msg.startsWith("[GNUPG:] IMPORT_RES ")) {
+			QStringList importresult(msg.mid(20).split(' '));
+			foreach (const QString n, importresult)
+				result.append(n.toInt());
+		}
+	}
+
 	QString resultmessage;
-	if (imported) {
+	if ((resultcode == KGpgTransaction::TS_OK) && (result.count() >= 13)) {
 		if (result[0]  != 0)
 			resultmessage += i18np("<qt>%1 key processed.<br/></qt>", "<qt>%1 keys processed.<br/></qt>", result[0]);
 		if (result[4]  != 0)
@@ -189,7 +208,7 @@ void KeyServer::slotDownloadKeysFinished(QList<int> result, QStringList keys, bo
 	if (!keys.empty())
 		emit importFinished(keys);
 
-	(void) new KgpgDetailedInfo(0, resultmessage, log, keys);
+	(void) new KgpgDetailedInfo(0, resultmessage, log.join(QString('\n')), keys);
 }
 
 void KeyServer::slotAbort(KgpgInterface *interface)

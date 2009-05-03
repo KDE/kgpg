@@ -5,7 +5,7 @@ find_package( KdepimLibs REQUIRED )
 
 add_subdirectory( icons )
 add_subdirectory( core )
-include_directories( ${KDEPIMLIBS_INCLUDE_DIR} core editor model transactions )
+include_directories( ${KDEPIMLIBS_INCLUDE_DIR} core editor model transactions ${CMAKE_INSTALL_PREFIX}/include)
 
 set(core_SRCS
    core/convert.cpp
@@ -41,6 +41,8 @@ set(kgpg_transaction_SRCS
    transactions/kgpggeneratekey.cpp
    transactions/kgpgdelkey.cpp
    transactions/kgpgimport.cpp
+   transactions/kgpgkeyservertransaction.cpp
+   transactions/kgpgkeyservergettransaction.cpp
 )
 
 set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transaction_SRCS}

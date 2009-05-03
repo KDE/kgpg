@@ -67,7 +67,7 @@ public:
 	explicit KeyServer(QWidget *parent = 0, KGpgItemModel *model = 0, const bool autoclose = false);
 	~KeyServer();
 
-	void refreshKeys(QStringList keys);
+	void refreshKeys(const QStringList &keys);
 
 	/**
 	 * Returns the server list.
@@ -99,7 +99,7 @@ public slots:
 	void handleQuit();
 
 private slots:
-	void slotDownloadKeysFinished(QList<int> results, QStringList keys, bool imported, QString log, KgpgInterface *interface);
+	void slotDownloadKeysFinished(int resultcode);
 	void slotUploadKeysFinished(QString message, KgpgInterface *interface);
 
 	void slotSearchRead(GPGProc *p);
