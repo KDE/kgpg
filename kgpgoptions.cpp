@@ -117,6 +117,13 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 kgpgOptions::~kgpgOptions()
 {
     delete m_config;
+    delete m_page1;
+    delete m_page2;
+    delete m_page3;
+    delete m_page4;
+    delete m_page5;
+    delete m_page6;
+    delete m_page7;
 }
 
 void kgpgOptions::slotChangeHome()
