@@ -80,6 +80,7 @@ public:
 
 	/**
 	 * \brief get the full fingerprints of the imported keys
+	 * @param log transaction log to scan
 	 * @param reason key import reason
 	 * @return list of ids that were imported
 	 *
@@ -92,13 +93,33 @@ public:
 	 * any other value a key is returned if one of his status bits matched
 	 * one of the bits in reason (i.e. (reason & status) != 0).
 	 */
+	static QStringList getImportedIds(const QStringList &log, const int reason = -1);
+	/**
+	 * \brief get the full fingerprints of the imported keys
+	 *
+	 * This is an overloaded member. It calls the static function with the
+	 * result log from this transaction object.
+	 */
 	QStringList getImportedIds(const int reason = -1) const;
 
 	/**
 	 * \brief get textual summary of the import events
 	 * @return messages describing what was imported
+	 *
+	 * This is an overloaded member. It calls the static function with the
+	 * result log from this transaction object.
 	 */
 	QString getImportMessage() const;
+
+	/**
+	 * \brief get textual summary of the import events
+	 * @param message import log
+	 * @return messages describing what was imported
+	 *
+	 * The log must contain a "IMPORT_RES" line. If this is not present
+	 * the result string will contain an error message.
+	 */
+	static QString getImportMessage(const QStringList &log);
 
 protected:
 	virtual bool preStart();

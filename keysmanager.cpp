@@ -783,9 +783,38 @@ void KeysManager::refreshKeyFromServer()
 		}
 	}
 
-	kServer = new KeyServer(this, imodel);
-	connect(kServer, SIGNAL(importFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
-	kServer->refreshKeys(keyIDS);
+	QString proxy;
+	if (KGpgSettings::useProxy())
+		proxy = qgetenv("http_proxy");
+
+	KGpgRefreshKeys *t = new KGpgRefreshKeys(this, KGpgSettings::keyServers().first(), keyIDS, true, proxy);
+	connect(t, SIGNAL(done(int)), SLOT(slotKeyRefreshDone(int)));
+	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
+	t->start();
+}
+
+void KeysManager::slotKeyRefreshDone(int result)
+{
+	KGpgRefreshKeys *t = qobject_cast<KGpgRefreshKeys *>(sender());
+	Q_ASSERT(t != NULL);
+
+	if (result == KGpgTransaction::TS_USER_ABORTED) {
+		t->deleteLater();
+		QApplication::restoreOverrideCursor();
+		return;
+	}
+
+	const QStringList log(t->getLog());
+	const QStringList keys(KGpgImport::getImportedIds(log));
+	const QStringList message(KGpgImport::getImportMessage(log));
+
+	t->deleteLater();
+
+	if (!keys.empty())
+		imodel->refreshKeys(keys);
+
+	QApplication::restoreOverrideCursor();
+	(void) new KgpgDetailedInfo(this, message.join(QString('\n')), log.join(QString('\n')), keys);
 }
 
 void KeysManager::slotDelUid()
@@ -2012,7 +2041,7 @@ void KeysManager::importallsignkey()
 		return;
 	}
 
-	importsignkey(missingKeys.toList());
+	importRemoteKeys(missingKeys.toList());
 }
 
 void KeysManager::preimportsignkey()
@@ -2026,16 +2055,21 @@ void KeysManager::preimportsignkey()
 	foreach (const KGpgNode *nd, exportList)
 		idlist << nd->getId();
 
-	importsignkey(idlist);
+	importRemoteKeys(idlist);
 }
 
 bool KeysManager::importRemoteKey(const QString &keyIDs)
+{
+	return importRemoteKeys(keyIDs.simplified().split(' '));
+}
+
+bool KeysManager::importRemoteKeys(const QStringList &keyIDs)
 {
 	QStringList kservers(KeyServer::getServerList());
 	if (kservers.isEmpty())
 		return false;
 
-	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, kservers.first(), keyIDs.simplified().split(' '), false, qgetenv("http_proxy"));
+	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, kservers.first(), keyIDs, false, qgetenv("http_proxy"));
 	connect(proc, SIGNAL(done(int)), SLOT(importRemoteFinished(int)));
 
 	proc->start();
@@ -2050,23 +2084,6 @@ void KeysManager::importRemoteFinished(int result)
 	// FIXME: only refresh when keys were changed
 	if (result == KGpgTransaction::TS_OK)
 		imodel->refreshKeys();
-}
-
-void KeysManager::importsignkey(const QStringList &importKeyId)
-{
-	kServer = new KeyServer(0, imodel);
-	kServer->slotSetText(importKeyId.join(QString(' ')));
-	//kServer->Buttonimport->setDefault(true);
-	kServer->slotImport();
-	//kServer->show();
-	connect(kServer, SIGNAL(importFinished(QStringList)), this, SLOT(importfinished()));
-}
-
-void KeysManager::importfinished()
-{
-	if (kServer)
-		kServer = NULL;
-	refreshkey();
 }
 
 void KeysManager::delsignkey()

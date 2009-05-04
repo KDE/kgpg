@@ -58,8 +58,6 @@ public:
 	explicit KeyServer(QWidget *parent = 0, KGpgItemModel *model = 0, const bool autoclose = false);
 	~KeyServer();
 
-	void refreshKeys(const QStringList &keys);
-
 	/**
 	 * Returns the server list.
 	 * The first item is the server configured in gpg.

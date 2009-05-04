@@ -127,11 +127,11 @@ KGpgImport::getImportedKeys() const
 }
 
 QStringList
-KGpgImport::getImportedIds(const int reason) const
+KGpgImport::getImportedIds(const QStringList &log, const int reason)
 {
 	QStringList res;
 
-	foreach (QString str, m_messages) {
+	foreach (const QString str, log) {
 		if (!str.startsWith("[GNUPG:] IMPORT_OK "))
 			continue;
 
@@ -151,16 +151,28 @@ KGpgImport::getImportedIds(const int reason) const
 		}
 
 		if ((reason == -1) || ((reason == 0) && (code == 0)) || ((reason & code) != 0))
-			res << str.mid(space + 1);
+			res << tmpstr.mid(space + 1);
 	}
 
 	return res;
 }
 
+QStringList
+KGpgImport::getImportedIds(const int reason) const
+{
+	return getImportedIds(m_messages, reason);
+}
+
 QString
 KGpgImport::getImportMessage() const
 {
-	foreach (QString str, m_messages) {
+	return getImportMessage(m_messages);
+}
+
+QString
+KGpgImport::getImportMessage(const QStringList &log)
+{
+	foreach (QString str, log) {
 		if (!str.startsWith("[GNUPG:] IMPORT_RES "))
 			continue;
 

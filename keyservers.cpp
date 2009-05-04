@@ -37,6 +37,7 @@
 #include "gpgproc.h"
 #include "kgpgkeyservergettransaction.h"
 #include "kgpgsendkeys.h"
+#include "kgpgimport.h"
 
 using namespace KgpgCore;
 
@@ -97,22 +98,6 @@ KeyServer::~KeyServer()
 	delete page;
 }
 
-void KeyServer::refreshKeys(const QStringList &keys)
-{
-	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-
-	const QString keyserv(getServerList().first());
-
-	QString proxy;
-	if (KGpgSettings::useProxy())
-		proxy = qgetenv("http_proxy");
-
-	KGpgRefreshKeys *proc = new KGpgRefreshKeys(this, keyserv, keys, true, proxy);
-	connect(proc, SIGNAL(done(int)), SLOT(slotDownloadKeysFinished(int)));
-
-	proc->start();
-}
-
 void KeyServer::slotImport()
 {
 	if (page->kCBimportks->currentText().isEmpty())
@@ -143,50 +128,8 @@ void KeyServer::slotDownloadKeysFinished(int resultcode)
 	if (resultcode == KGpgTransaction::TS_USER_ABORTED)
 		return;
 
-	QStringList keys;
-	QList<int> result;
-
-	foreach (const QString msg, log) {
-		if (msg.startsWith("[GNUPG:] IMPORT_OK ")) {
-			keys.append(msg.section(' ', 3));
-		} else if (msg.startsWith("[GNUPG:] IMPORT_RES ")) {
-			QStringList importresult(msg.mid(20).split(' '));
-			foreach (const QString n, importresult)
-				result.append(n.toInt());
-		}
-	}
-
-	QString resultmessage;
-	if ((resultcode == KGpgTransaction::TS_OK) && (result.count() >= 13)) {
-		if (result[0]  != 0)
-			resultmessage += i18np("<qt>%1 key processed.<br/></qt>", "<qt>%1 keys processed.<br/></qt>", result[0]);
-		if (result[4]  != 0)
-			resultmessage += i18np("<qt>%1 key unchanged.<br/></qt>", "<qt>%1 keys unchanged.<br/></qt>", result[4]);
-		if (result[7]  != 0)
-			resultmessage += i18np("<qt>%1 signature imported.<br/></qt>", "<qt>%1 signatures imported.<br/></qt>", result[7]);
-		if (result[1]  != 0)
-			resultmessage += i18np("<qt>%1 key without ID.<br/></qt>", "<qt>%1 keys without ID.<br/></qt>", result[1]);
-		if (result[3]  != 0)
-			resultmessage += i18np("<qt>%1 RSA key imported.<br/></qt>", "<qt>%1 RSA keys imported.<br/></qt>", result[3]);
-		if (result[5]  != 0)
-			resultmessage += i18np("<qt>%1 user ID imported.<br/></qt>", "<qt>%1 user IDs imported.<br/></qt>", result[5]);
-		if (result[6]  != 0)
-			resultmessage += i18np("<qt>%1 subkey imported.<br/></qt>", "<qt>%1 subkeys imported.<br/></qt>", result[6]);
-		if (result[8]  != 0)
-			resultmessage += i18np("<qt>%1 revocation certificate imported.<br/></qt>", "<qt>%1 revocation certificates imported.<br/></qt>", result[8]);
-		if (result[9]  != 0)
-			resultmessage += i18np("<qt>%1 secret key processed.<br/></qt>", "<qt>%1 secret keys processed.<br/></qt>", result[9]);
-		if (result[10] != 0)
-			resultmessage += i18np("<qt><b>%1 secret key imported.</b><br/></qt>", "<qt><b>%1 secret keys imported.</b><br/></qt>", result[10]);
-		if (result[11] != 0)
-			resultmessage += i18np("<qt>%1 secret key unchanged.<br/></qt>", "<qt>%1 secret keys unchanged.<br/></qt>", result[11]);
-		if (result[12] != 0)
-			resultmessage += i18np("<qt>%1 secret key not imported.<br/></qt>", "<qt>%1 secret keys not imported.<br/></qt>", result[12]);
-		if (result[2]  != 0)
-			resultmessage += i18np("<qt><b>%1 key imported:</b><br/></qt>", "<qt><b>%1 keys imported:</b><br/></qt>", result[2]);
-	} else {
-		resultmessage = i18n("No key imported... \nCheck detailed log for more infos");
-	}
+	const QStringList keys(KGpgImport::getImportedIds(log));
+	const QString resultmessage(KGpgImport::getImportMessage(log));
 
 	if (!keys.empty())
 		emit importFinished(keys);

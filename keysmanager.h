@@ -111,6 +111,7 @@ public slots:
     void slotSetDefaultKey(const QString &newID);
     void showKeyManager();
     bool importRemoteKey(const QString &keyIDs);
+    bool importRemoteKeys(const QStringList &keyIDs);
     void showKeyServer();
     void showOptions();
     void slotOpenEditor();
@@ -177,9 +178,7 @@ private slots:
     void signuid();
     void delsignkey();
     void preimportsignkey();
-    void importsignkey(const QStringList &importKeyId);
     void importallsignkey();
-    void importfinished();
     void signatureResult(int success, const QString &keyId, KgpgInterface*);
     void delsignatureResult(bool);
     void defaultAction(const QModelIndex &);
@@ -201,6 +200,7 @@ private slots:
     void slotImportRevoke(const KUrl &url);
     void slotImportRevokeTxt(const QString &revokeText);
     void refreshKeyFromServer();
+    void slotKeyRefreshDone(int result);
     void slotregenerate();
     void secretKeyDeleted(int);
     void getMissingSigs(QSet<QString> &missingKeys, const KGpgExpandableNode *nd);
