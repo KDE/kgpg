@@ -1506,11 +1506,11 @@ void KeysManager::slotexport()
 			exportAttr = "export-minimal";
 		}
 		if (page->checkServer->isChecked()) {
-		KeyServer *expServer = new KeyServer(0, imodel);
-		expServer->slotSetExportAttribute(exportAttr);
-		expServer->slotSetKeyserver(page->destServer->currentText());
+			KeyServer *expServer = new KeyServer(0, imodel);
+			expServer->slotSetExportAttribute(exportAttr);
+			expServer->slotSetKeyserver(page->destServer->currentText());
 
-		expServer->slotExport(klist.join(" "));
+			expServer->slotExport(klist);
 		} else if (page->checkFile->isChecked()) {
 			const QString expname(page->newFilename->url().path().simplified());
 			if (!expname.isEmpty()) {

@@ -194,14 +194,14 @@ void KeyServer::slotDownloadKeysFinished(int resultcode)
 	(void) new KgpgDetailedInfo(0, resultmessage, log.join(QString('\n')), keys);
 }
 
-void KeyServer::slotExport(const QString &keyId)
+void KeyServer::slotExport(const QStringList &keyIds)
 {
 	if (page->kCBexportks->currentText().isEmpty())
 		return;
 
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 
-	KGpgSendKeys *nk = new KGpgSendKeys(this, page->kCBimportks->currentText(), keyId.simplified().split(' '), expattr, true, page->kLEproxyI->text());
+	KGpgSendKeys *nk = new KGpgSendKeys(this, page->kCBimportks->currentText(), keyIds, expattr, true, page->kLEproxyI->text());
 	connect(nk, SIGNAL(done(int)), SLOT(slotUploadKeysFinished(int)));
 
 	nk->start();
@@ -217,7 +217,6 @@ void KeyServer::slotUploadKeysFinished(int resultcode)
 
 	QApplication::restoreOverrideCursor();
 
-kDebug(3125) << resultcode << message;
 	QString title;
 	if (resultcode == KGpgTransaction::TS_OK)
 		title = i18n("Upload to keyserver finished without errors");
@@ -405,7 +404,7 @@ void KeyServer::slotPreImport()
 
 void KeyServer::slotPreExport()
 {
-	slotExport(page->kCBexportkey->currentText().section(':', 0, 0));
+	slotExport(QStringList(page->kCBexportkey->currentText().section(':', 0, 0)));
 }
 
 void KeyServer::slotOk()

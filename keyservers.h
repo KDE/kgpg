@@ -72,7 +72,7 @@ signals:
 public slots:
 	void slotImport();
 
-	void slotExport(const QString &keyId);
+	void slotExport(const QStringList &keyIds);
 
 	void slotSetText(const QString &text);
 	void slotTextChanged(const QString &text);
