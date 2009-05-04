@@ -62,7 +62,7 @@ private:
 	 * \brief forbidden
 	 */
 	KGpgKeyserverTransaction();
-	Q_DISABLE_COPY(KGpgKeyserverTransaction);
+	Q_DISABLE_COPY(KGpgKeyserverTransaction)
 
 	QString m_keyserver;
 	int m_keyserverpos;

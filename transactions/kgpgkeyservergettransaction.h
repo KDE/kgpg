@@ -54,7 +54,7 @@ private:
 	 * \brief forbidden
 	 */
 	KGpgKeyserverGetTransaction();
-	Q_DISABLE_COPY(KGpgKeyserverGetTransaction);
+	Q_DISABLE_COPY(KGpgKeyserverGetTransaction)
 
 	int m_cmdpos;
 	QStringList m_keys;
