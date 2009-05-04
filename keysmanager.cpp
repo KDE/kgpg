@@ -2060,16 +2060,16 @@ void KeysManager::preimportsignkey()
 
 bool KeysManager::importRemoteKey(const QString &keyIDs)
 {
-	return importRemoteKeys(keyIDs.simplified().split(' '));
+	return importRemoteKeys(keyIDs.simplified().split(' '), false);
 }
 
-bool KeysManager::importRemoteKeys(const QStringList &keyIDs)
+bool KeysManager::importRemoteKeys(const QStringList &keyIDs, const bool dialog)
 {
 	QStringList kservers(KeyServer::getServerList());
 	if (kservers.isEmpty())
 		return false;
 
-	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, kservers.first(), keyIDs, false, qgetenv("http_proxy"));
+	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, kservers.first(), keyIDs, dialog, qgetenv("http_proxy"));
 	connect(proc, SIGNAL(done(int)), SLOT(importRemoteFinished(int)));
 
 	proc->start();
@@ -2079,11 +2079,15 @@ bool KeysManager::importRemoteKeys(const QStringList &keyIDs)
 
 void KeysManager::importRemoteFinished(int result)
 {
-	sender()->deleteLater();
+	KGpgReceiveKeys *t = qobject_cast<KGpgReceiveKeys *>(sender());
+	Q_ASSERT(t != NULL);
 
-	// FIXME: only refresh when keys were changed
+	const QStringList keys(KGpgImport::getImportedIds(t->getLog()));
+
+	t->deleteLater();
+
 	if (result == KGpgTransaction::TS_OK)
-		imodel->refreshKeys();
+		imodel->refreshKeys(keys);
 }
 
 void KeysManager::delsignkey()
@@ -2394,6 +2398,10 @@ void KeysManager::slotPreImportKey()
 			KUrl impname = page->newFilename->url();
 			if (!impname.isEmpty())
 				slotImport(KUrl::List(impname));
+		} else if (page->checkServer->isChecked()) {
+			const QString ids(page->keyIds->text().simplified());
+			if (!ids.isEmpty())
+				importRemoteKeys(ids.split(' '));
 		} else {
 			slotImport(kapp->clipboard()->text(m_clipboardmode));
 		}

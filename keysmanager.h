@@ -111,7 +111,7 @@ public slots:
     void slotSetDefaultKey(const QString &newID);
     void showKeyManager();
     bool importRemoteKey(const QString &keyIDs);
-    bool importRemoteKeys(const QStringList &keyIDs);
+    bool importRemoteKeys(const QStringList &keyIDs, const bool dialog = true);
     void showKeyServer();
     void showOptions();
     void slotOpenEditor();

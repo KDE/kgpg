@@ -19,13 +19,19 @@
 #include "sourceselect.moc"
 
 SrcSelect::SrcSelect(QWidget *parent)
-         : QWidget(parent)
+	: QWidget(parent)
 {
-    setupUi(this);
-    connect(checkFile, SIGNAL(toggled(bool)), this, SLOT(checkFile_toggled(bool)));
+	setupUi(this);
+	connect(checkFile, SIGNAL(toggled(bool)), this, SLOT(checkFile_toggled(bool)));
+	connect(checkServer, SIGNAL(toggled(bool)), this, SLOT(checkServer_toggled(bool)));
 }
 
 void SrcSelect::checkFile_toggled(bool isOn)
 {
-    newFilename->setEnabled(isOn);
+	newFilename->setEnabled(isOn);
+}
+
+void SrcSelect::checkServer_toggled(bool isOn)
+{
+	keyIds->setEnabled(isOn);
 }

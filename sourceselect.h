@@ -22,13 +22,14 @@
 
 class SrcSelect : public QWidget, public Ui::SrcSelect
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    SrcSelect(QWidget *parent = 0);
+	SrcSelect(QWidget *parent = 0);
 
-public slots:
-    void checkFile_toggled(bool);
+private slots:
+	void checkFile_toggled(bool isOn);
+	void checkServer_toggled(bool isOn);
 };
 
 #endif  // SOURCESELECT_H

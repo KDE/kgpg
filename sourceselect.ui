@@ -59,6 +59,30 @@
         </item>
        </layout>
       </item>
+      <item>
+       <layout class="QHBoxLayout" >
+        <item>
+         <widget class="QRadioButton" name="checkServer" >
+          <property name="text" >
+           <string>Keyserver:</string>
+          </property>
+          <property name="checked" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="KLineEdit" name="keyIds" >
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="toolTip">
+           <string>Enter the ids or fingerprints of the keys to import as space separated list.</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
      </layout>
     </widget>
    </item>
@@ -86,11 +110,17 @@
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
   </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
  </customwidgets>
  <includes>
   <include location="local" >kurlrequester.h</include>
   <include location="local" >klineedit.h</include>
   <include location="local" >kpushbutton.h</include>
+  <include location="local" >kcombobox.h</include>
  </includes>
  <resources/>
 </ui>
