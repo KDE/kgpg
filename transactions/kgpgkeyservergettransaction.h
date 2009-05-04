@@ -32,12 +32,13 @@ public:
 	 * @param parent object that own the transaction
 	 * @param server keyserver to work with
 	 * @param keys the key ids to get
+	 * @param withProgress show a progress window with cancel button
 	 * @param proxy http proxy to use
 	 *
 	 * You should call this from the childrens constructor to set up
 	 * everything properly
 	 */
-	KGpgKeyserverGetTransaction(QObject *parent, const QString &keyserver, const QStringList &keys, const QString &proxy = QString());
+	KGpgKeyserverGetTransaction(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress = false, const QString &proxy = QString());
 	virtual ~KGpgKeyserverGetTransaction();
 
 	void setKeyIds(const QStringList &keys);
@@ -73,12 +74,13 @@ public:
 	* @param parent object that own the transaction
 	* @param server keyserver to work with
 	* @param keys the key ids to get
+	* @param withProgress show a progress window with cancel button
 	* @param proxy http proxy to use
 	*
 	* You should call this from the childrens constructor to set up
 	* everything properly
 	*/
-	KGpgReceiveKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const QString &proxy = QString());
+	KGpgReceiveKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress = false, const QString &proxy = QString());
 	virtual ~KGpgReceiveKeys();
 
 protected:
@@ -97,12 +99,13 @@ public:
 	* @param parent object that own the transaction
 	* @param server keyserver to work with
 	* @param keys the key ids to get
+	* @param withProgress show a progress window with cancel button
 	* @param proxy http proxy to use
 	*
 	* You should call this from the childrens constructor to set up
 	* everything properly
 	*/
-	KGpgRefreshKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const QString &proxy = QString());
+	KGpgRefreshKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress = false, const QString &proxy = QString());
 	virtual ~KGpgRefreshKeys();
 
 protected:

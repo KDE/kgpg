@@ -15,8 +15,8 @@
 
 #include "gpgproc.h"
 
-KGpgKeyserverGetTransaction::KGpgKeyserverGetTransaction(QObject *parent, const QString &keyserver, const QStringList &keys, const QString &proxy)
-	: KGpgKeyserverTransaction(parent, keyserver, proxy)
+KGpgKeyserverGetTransaction::KGpgKeyserverGetTransaction(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress, const QString &proxy)
+	: KGpgKeyserverTransaction(parent, keyserver, withProgress, proxy)
 {
 	m_cmdpos = addArgument(QString());
 	setKeyIds(keys);
@@ -42,17 +42,13 @@ KGpgKeyserverGetTransaction::preStart()
 
 	setSuccess(TS_MSG_SEQUENCE);
 
-	return true;
+	return KGpgKeyserverTransaction::preStart();
 }
 
 bool
 KGpgKeyserverGetTransaction::nextLine(const QString &line)
 {
-	if  (line.startsWith("gpgkeys: ")) {
-		m_log.append(line.mid(9));
-	} else {
-		m_log.append(line);
-	}
+	m_log.append(line);
 	setSuccess(TS_OK);
 
 	return false;
@@ -70,8 +66,8 @@ KGpgKeyserverGetTransaction::setKeyIds(const QStringList &keys)
 	m_keys = keys;
 }
 
-KGpgReceiveKeys::KGpgReceiveKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const QString &proxy)
-	: KGpgKeyserverGetTransaction(parent, keyserver, keys, proxy)
+KGpgReceiveKeys::KGpgReceiveKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress, const QString &proxy)
+	: KGpgKeyserverGetTransaction(parent, keyserver, keys, withProgress, proxy)
 {
 }
 
@@ -85,8 +81,8 @@ KGpgReceiveKeys::getGpgCommand() const
 	return "--recv-keys";
 }
 
-KGpgRefreshKeys::KGpgRefreshKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const QString &proxy)
-	: KGpgKeyserverGetTransaction(parent, keyserver, keys, proxy)
+KGpgRefreshKeys::KGpgRefreshKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress, const QString &proxy)
+	: KGpgKeyserverGetTransaction(parent, keyserver, keys, withProgress, proxy)
 {
 }
 

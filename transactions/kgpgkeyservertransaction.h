@@ -19,6 +19,8 @@
 
 #include "kgpgtransaction.h"
 
+class KProgressDialog;
+
 /**
  * \brief base class for transactions involving key servers
  */
@@ -30,12 +32,16 @@ public:
 	 * \brief construct a new transaction for the given keyserver
 	 * @param parent object that own the transaction
 	 * @param server keyserver to work with
+	 * @param withProgress show a progress window with cancel button
 	 * @param proxy http proxy to use
 	 *
 	 * You should call this from the childrens constructor to set up
-	 * everything properly
+	 * everything properly.
+	 *
+	 * If the progress window is enabled and parent is an QWidget it is
+	 * set as the parent of the progress window.
 	 */
-	KGpgKeyserverTransaction(QObject *parent, const QString &keyserver, const QString &proxy = QString());
+	KGpgKeyserverTransaction(QObject *parent, const QString &keyserver, const bool withProgress = false, const QString &proxy = QString());
 	virtual ~KGpgKeyserverTransaction();
 
 	/**
@@ -50,8 +56,17 @@ public:
 	 * If the server is set to an empty value no proxy is used.
 	 */
 	void setProxy(const QString &proxy);
+	/**
+	 * \brief activate the progress window
+	 * @param b new activation status
+	 */
+	void setProgressEnable(const bool b);
 
-public slots:
+protected:
+	virtual void finish();
+	virtual bool preStart();
+
+private slots:
 	/**
 	 * \brief abort the current operation
 	 */
@@ -68,6 +83,8 @@ private:
 	int m_keyserverpos;
 	QString m_proxy;
 	int m_proxypos;
+	KProgressDialog *m_progress;
+	bool m_showprogress;
 };
 
 #endif // KGPGUIDTRANSACTION_H

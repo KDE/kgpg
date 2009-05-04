@@ -21,7 +21,6 @@
 #include <QSortFilterProxyModel>
 
 #include <KDialog>
-#include <KProgressDialog>
 
 #include "core/kgpgkey.h"
 #include "ui_searchres.h"
@@ -51,14 +50,6 @@ public:
     }
 };
 
-class ConnectionDialog : public KProgressDialog
-{
-    Q_OBJECT
-
-public:
-    ConnectionDialog(QWidget *parent = 0);
-};
-
 class KeyServer : public KDialog
 {
 	Q_OBJECT
@@ -80,7 +71,6 @@ signals:
 
 public slots:
 	void slotImport();
-	void slotAbort(KgpgInterface *interface);
 
 	void slotExport(const QString &keyId);
 
@@ -100,7 +90,7 @@ public slots:
 
 private slots:
 	void slotDownloadKeysFinished(int resultcode);
-	void slotUploadKeysFinished(QString message, KgpgInterface *interface);
+	void slotUploadKeysFinished(int resultcode);
 
 	void slotSearchRead(GPGProc *p);
 	void slotSearchResult(GPGProc *p);
@@ -109,7 +99,6 @@ private slots:
 	void slotSetFilterString(const QString &expression);
 
 private:
-	KDialog *m_importpop;
 	QString m_readmessage;
 
 	KDialog *m_dialogserver;

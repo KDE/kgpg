@@ -36,17 +36,9 @@
 #include "convert.h"
 #include "gpgproc.h"
 #include "kgpgkeyservergettransaction.h"
+#include "kgpgsendkeys.h"
 
 using namespace KgpgCore;
-
-ConnectionDialog::ConnectionDialog(QWidget *parent)
-                : KProgressDialog(parent, i18n("Keyserver"), i18n("<b>Connecting to the server...</b>"))
-{
-	setModal(true);
-
-	progressBar()->setRange(0, 0);
-	show();
-}
 
 KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose)
 	: KDialog(parent),
@@ -115,11 +107,8 @@ void KeyServer::refreshKeys(const QStringList &keys)
 	if (KGpgSettings::useProxy())
 		proxy = qgetenv("http_proxy");
 
-	KGpgRefreshKeys *proc = new KGpgRefreshKeys(this, keyserv, keys, proxy);
+	KGpgRefreshKeys *proc = new KGpgRefreshKeys(this, keyserv, keys, true, proxy);
 	connect(proc, SIGNAL(done(int)), SLOT(slotDownloadKeysFinished(int)));
-
-	m_importpop = new ConnectionDialog(this);
-	connect(m_importpop, SIGNAL(cancelClicked()), proc, SLOT(slotAbort()));
 
 	proc->start();
 }
@@ -136,20 +125,14 @@ void KeyServer::slotImport()
 
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 
-	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, page->kCBimportks->currentText(), page->kLEimportid->text().simplified().split(' '), page->kLEproxyI->text());
+	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, page->kCBimportks->currentText(), page->kLEimportid->text().simplified().split(' '), true, page->kLEproxyI->text());
 	connect(proc, SIGNAL(done(int)), SLOT(slotDownloadKeysFinished(int)));
-
-	m_importpop = new ConnectionDialog(this);
-	connect(m_importpop, SIGNAL(cancelClicked()), proc, SLOT(slotAbort()));
 
 	proc->start();
 }
 
 void KeyServer::slotDownloadKeysFinished(int resultcode)
 {
-	delete m_importpop;
-	m_importpop = 0;
-
 	QApplication::restoreOverrideCursor();
 
 	KGpgKeyserverGetTransaction *t = qobject_cast<KGpgKeyserverGetTransaction *>(sender());
@@ -211,14 +194,6 @@ void KeyServer::slotDownloadKeysFinished(int resultcode)
 	(void) new KgpgDetailedInfo(0, resultmessage, log.join(QString('\n')), keys);
 }
 
-void KeyServer::slotAbort(KgpgInterface *interface)
-{
-	interface->deleteLater();
-	QApplication::restoreOverrideCursor();
-	if (m_autoclose)
-		close();
-}
-
 void KeyServer::slotExport(const QString &keyId)
 {
 	if (page->kCBexportks->currentText().isEmpty())
@@ -226,27 +201,29 @@ void KeyServer::slotExport(const QString &keyId)
 
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 
-	KgpgInterface *interface = new KgpgInterface();
-	connect(interface, SIGNAL(uploadKeysFinished(QString, KgpgInterface*)), this, SLOT(slotUploadKeysFinished(QString, KgpgInterface*)));
-	connect(interface, SIGNAL(uploadKeysAborted(KgpgInterface*)), this, SLOT(slotAbort(KgpgInterface*)));
+	KGpgSendKeys *nk = new KGpgSendKeys(this, page->kCBimportks->currentText(), keyId.simplified().split(' '), expattr, true, page->kLEproxyI->text());
+	connect(nk, SIGNAL(done(int)), SLOT(slotUploadKeysFinished(int)));
 
-	m_importpop = new ConnectionDialog(this);
-	connect(m_importpop, SIGNAL(cancelClicked()), interface, SLOT(uploadKeysAbort()));
-
-	interface->uploadKeys(keyId.simplified().split(' '), page->kCBimportks->currentText(), expattr, page->kLEproxyI->text());
+	nk->start();
 }
 
-void KeyServer::slotUploadKeysFinished(QString message, KgpgInterface *interface)
+void KeyServer::slotUploadKeysFinished(int resultcode)
 {
-	delete m_importpop;
-	m_importpop = 0;
-	interface->deleteLater();
+	KGpgSendKeys *nk = qobject_cast<KGpgSendKeys *>(sender());
+	Q_ASSERT(nk != NULL);
+
+	const QStringList message(nk->getLog());
+	nk->deleteLater();
 
 	QApplication::restoreOverrideCursor();
 
-	if (message.isEmpty())
-		message = i18n("Upload to keyserver finished without errors");
-	KMessageBox::information(this, message);
+kDebug(3125) << resultcode << message;
+	QString title;
+	if (resultcode == KGpgTransaction::TS_OK)
+		title = i18n("Upload to keyserver finished without errors");
+	else
+		title = i18n("Upload to keyserver failed");
+	KMessageBox::informationList(this, title, message);
 }
 
 void KeyServer::slotSearch()

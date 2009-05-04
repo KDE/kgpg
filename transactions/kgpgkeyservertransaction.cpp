@@ -13,10 +13,15 @@
 
 #include "kgpgkeyservertransaction.h"
 
+#include <KLocale>
+#include <KProgressDialog>
+
 #include "gpgproc.h"
 
-KGpgKeyserverTransaction::KGpgKeyserverTransaction(QObject *parent, const QString &keyserver, const QString &proxy)
-	: KGpgTransaction(parent)
+KGpgKeyserverTransaction::KGpgKeyserverTransaction(QObject *parent, const QString &keyserver, const bool withProgress, const QString &proxy)
+	: KGpgTransaction(parent),
+	m_progress(NULL),
+	m_showprogress(false)
 {
 	addArgument("--status-fd=1");
 	addArgument("--command-fd=0");
@@ -27,10 +32,13 @@ KGpgKeyserverTransaction::KGpgKeyserverTransaction(QObject *parent, const QStrin
 
 	setKeyserver(keyserver);
 	setProxy(proxy);
+
+	setProgressEnable(withProgress);
 }
 
 KGpgKeyserverTransaction::~KGpgKeyserverTransaction()
 {
+	delete m_progress;
 }
 
 void
@@ -50,9 +58,44 @@ KGpgKeyserverTransaction::setProxy(const QString &proxy)
 }
 
 void
+KGpgKeyserverTransaction::finish()
+{
+	if (m_progress != NULL)
+		m_progress->hide();
+}
+
+bool
+KGpgKeyserverTransaction::preStart()
+{
+	if (m_showprogress) {
+		Q_ASSERT(m_progress != NULL);
+		m_progress->show();
+	}
+
+	return true;
+}
+
+void
 KGpgKeyserverTransaction::slotAbort()
 {
-	// no idea if this works on Windows
+	// no idea if this works on Windows, maybe we need ->kill() there
 	getProcess()->terminate();
 	setSuccess(TS_USER_ABORTED);
+}
+
+void
+KGpgKeyserverTransaction::setProgressEnable(const bool b)
+{
+	m_showprogress = b;
+
+	if (b && (m_progress == NULL)) {
+		m_progress = new KProgressDialog(qobject_cast<QWidget *>(parent()),
+				i18n("Keyserver"), i18n("<b>Connecting to the server...</b>"));
+
+		m_progress->hide();
+		m_progress->setModal(true);
+		m_progress->progressBar()->setRange(0, 0);
+
+		connect(m_progress, SIGNAL(cancelClicked()), SLOT(slotAbort()));
+	}
 }

@@ -961,65 +961,6 @@ void KgpgInterface::loadPhotoFin(int exitCode)
 	emit loadPhotoFinished(m_pixmap, this);
 }
 
-void KgpgInterface::uploadKeys(const QStringList &keys, const QString &keyserver, const QString &attributes, const QString &proxy)
-{
-	m_uploadkeys_log.clear();
-
-	m_uploadprocess = new GPGProc(this);
-	*m_uploadprocess << "--status-fd=1";
-
-	if (proxy.isEmpty()) {
-		*m_uploadprocess << "--keyserver-options" << "no-honor-http-proxy";
-	} else {
-		*m_uploadprocess << "--keyserver-options" << "honor-http-proxy";
-		m_uploadprocess->setEnvironment(QStringList("http_proxy=" + proxy));
-	}
-
-	*m_uploadprocess << "--keyserver" << keyserver;
-	*m_uploadprocess << "--export-options";
-	if (attributes.isEmpty())
-		*m_uploadprocess << "no-export-attributes";
-	else
-		*m_uploadprocess << attributes;
-	*m_uploadprocess << "--send-keys";
-	*m_uploadprocess << keys;
-
-	connect(m_uploadprocess, SIGNAL(processExited(GPGProc *)), SLOT(uploadKeysFin(GPGProc *)));
-	connect(m_uploadprocess, SIGNAL(readReady(GPGProc *)), SLOT(uploadKeysProcess(GPGProc *)));
-	m_uploadprocess->start();
-}
-
-void KgpgInterface::uploadKeysAbort()
-{
-	if (m_uploadprocess && (m_uploadprocess->state() == QProcess::Running)) {
-		disconnect(m_uploadprocess, 0, 0, 0);
-		m_uploadprocess->kill();
-
-		delete m_uploadprocess;
-		m_uploadprocess = 0;
-
-		emit uploadKeysAborted(this);
-	}
-}
-
-void KgpgInterface::uploadKeysProcess(GPGProc *p)
-{
-	QString line;
-
-	while (p->readln(line, true) >= 0) {
-		if (line.startsWith("gpg: "))
-			m_uploadkeys_log += line.mid(5) + '\n';
-	}
-}
-
-void KgpgInterface::uploadKeysFin(GPGProc *p)
-{
-	p->deleteLater();
-	m_uploadprocess = 0;
-
-	emit uploadKeysFinished(m_uploadkeys_log, this);
-}
-
 // delete signature
 void KgpgInterface::KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID)
 {

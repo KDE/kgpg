@@ -2035,7 +2035,7 @@ bool KeysManager::importRemoteKey(const QString &keyIDs)
 	if (kservers.isEmpty())
 		return false;
 
-	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, kservers.first(), keyIDs.simplified().split(' '), qgetenv("http_proxy"));
+	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, kservers.first(), keyIDs.simplified().split(' '), false, qgetenv("http_proxy"));
 	connect(proc, SIGNAL(done(int)), SLOT(importRemoteFinished(int)));
 
 	proc->start();

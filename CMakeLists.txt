@@ -43,6 +43,7 @@ set(kgpg_transaction_SRCS
    transactions/kgpgimport.cpp
    transactions/kgpgkeyservertransaction.cpp
    transactions/kgpgkeyservergettransaction.cpp
+   transactions/kgpgsendkeys.cpp
 )
 
 set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transaction_SRCS}

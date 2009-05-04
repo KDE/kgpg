@@ -226,37 +226,8 @@ private:
 
 /*******************************************************/
 
-/************** upload keys to keys server **************/
-signals:
-    void uploadKeysFinished(QString, KgpgInterface*);
-    void uploadKeysAborted(KgpgInterface*);
-
-public slots:
-    void uploadKeys(const QStringList &keys, const QString &keyserver, const QString &attributes, const QString &proxy = "");
-    void uploadKeysAbort();
-
-private slots:
-    void uploadKeysProcess(GPGProc *p);
-    void uploadKeysFin(GPGProc *p);
-
-private:
-    GPGProc *m_uploadprocess;
-    QString m_uploadkeys_log;
 
 /********************************************************/
-
-
-
-
-
-
-
-
-
-
-
-
-
 public slots:
 
     /**
