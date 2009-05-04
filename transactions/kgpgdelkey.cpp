@@ -15,7 +15,6 @@
 #include <QString>
 #include <QStringList>
 #include "gpgproc.h"
-#include <KDebug>
 
 KGpgDelKey::KGpgDelKey(QObject *parent, const QString &keyid)
 	: KGpgTransaction(parent)
