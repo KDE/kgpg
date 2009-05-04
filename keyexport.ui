@@ -48,7 +48,7 @@
          <bool>false</bool>
         </property>
         <property name="text" >
-         <string>Key server</string>
+         <string>Key server:</string>
         </property>
        </widget>
       </item>
@@ -82,7 +82,7 @@
    <item>
     <widget class="QGroupBox" name="buttonGroup3" >
      <property name="title" >
-      <string>Export settings</string>
+      <string>Export Settings</string>
      </property>
      <layout class="QVBoxLayout" >
       <item>
