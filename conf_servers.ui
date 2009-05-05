@@ -71,7 +71,7 @@ all others will be stored for use by KGpg only.</string>
        <item>
         <widget class="KPushButton" name="server_edit" >
          <property name="text" >
-          <string>&amp;Edit</string>
+          <string>&amp;Edit...</string>
          </property>
         </widget>
        </item>

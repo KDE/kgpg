@@ -38,7 +38,7 @@ using namespace KgpgCore;
 KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 		: KAssistantDialog(parent)
 {
-	setCaption(i18n("KGpg assistant"));
+	setCaption(i18n("KGpg Assistant"));
 
 	QWidget *page = new QWidget(this);
 	QGridLayout *gridLayout = new QGridLayout(page);
@@ -71,7 +71,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	gridLayout->addItem(spacerItem, 1, 1, 1, 1);
 
-	page_welcome = addPage(page, i18n("Welcome to the KGpg assistant"));
+	page_welcome = addPage(page, i18n("Welcome to the KGpg Assistant"));
 
 	page = new QWidget(this);
 
@@ -112,7 +112,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	gridLayout->addWidget(binURL, 2, 1, 1, 1);
 
-	page_binary = addPage(page, i18n("GnuPG binary"));
+	page_binary = addPage(page, i18n("GnuPG Binary"));
 
 	page = new QWidget(this);
 
@@ -159,7 +159,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 	label->setWordWrap(false);
 
 	gridLayout->addWidget(label, 0, 0, 5, 1);
-	page_config = addPage(page, i18n("Configuration file"));
+	page_config = addPage(page, i18n("Configuration File"));
 
 	page = new QWidget(this);
 	gridLayout = new QGridLayout(page);
@@ -189,7 +189,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	gridLayout->addItem(spacerItem, 1, 1, 1, 1);
 
-	page_defaultkey = addPage(page, i18n("Default key"));
+	page_defaultkey = addPage(page, i18n("Default Key"));
 
 	page = new QWidget();
 

@@ -178,18 +178,18 @@ KeysManager::KeysManager(QWidget *parent)
 
 	hPublic = actionCollection()->add<KToggleAction>("show_secret");
 	hPublic->setIcon(KIcon("view-key-secret"));
-	hPublic->setText(i18n("&Show only Secret Keys"));
+	hPublic->setText(i18n("&Show Only Secret Keys"));
 	hPublic->setChecked(KGpgSettings::showSecret());
 	connect(hPublic, SIGNAL(triggered(bool)), SLOT(slotToggleSecret(bool)));
 
 	longId = actionCollection()->add<KToggleAction>("show_long_keyid");
-	longId->setText(i18n("Show &long key id"));
+	longId->setText(i18n("Show &Long Key Id"));
 	longId->setChecked(KGpgSettings::showLongKeyId());
 	connect(longId, SIGNAL(triggered(bool)), SLOT(slotShowLongId(bool)));
 
 	QAction *infoKey = actionCollection()->addAction("key_info");
 	infoKey->setIcon(KIcon("document-properties-key"));
-	infoKey->setText(i18n("K&ey properties"));
+	infoKey->setText(i18n("K&ey Properties"));
 	connect(infoKey, SIGNAL(triggered(bool)), SLOT(keyproperties()));
 
 	editKey = actionCollection()->addAction("key_edit");
@@ -226,7 +226,7 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(createGroup, SIGNAL(triggered(bool)), SLOT(createNewGroup()));
 
 	editCurrentGroup = actionCollection()->addAction("edit_group");
-	editCurrentGroup->setText(i18n("&Edit Group"));
+	editCurrentGroup->setText(i18n("&Edit Group..."));
 	connect(editCurrentGroup, SIGNAL(triggered(bool)), SLOT(editGroup()));
 
 	delGroup = actionCollection()->addAction("delete_group");
@@ -243,10 +243,10 @@ KeysManager::KeysManager(QWidget *parent)
 	setDefaultKey->setText(i18n("Set as De&fault Key"));
 	connect(setDefaultKey, SIGNAL(triggered(bool)), SLOT(slotSetDefKey()));
 	QAction *addPhoto = actionCollection()->addAction("add_photo");
-	addPhoto->setText(i18n("&Add Photo"));
+	addPhoto->setText(i18n("&Add Photo..."));
 	connect(addPhoto, SIGNAL(triggered(bool)), SLOT(slotAddPhoto()));
 	QAction *addUid = actionCollection()->addAction("add_uid");
-	addUid->setText(i18n("&Add User Id"));
+	addUid->setText(i18n("&Add User Id..."));
 	connect(addUid, SIGNAL(triggered(bool)), SLOT(slotAddUid()));
 	QAction *exportSecretKey = actionCollection()->addAction("key_sexport");
 	exportSecretKey->setText(i18n("Export Secret Key..."));
@@ -264,7 +264,7 @@ KeysManager::KeysManager(QWidget *parent)
 	delUid->setText(i18n("&Delete User Id"));
 	connect(delUid, SIGNAL(triggered(bool)), SLOT(slotDelUid()));
 	setPrimUid = actionCollection()->addAction("prim_uid");
-	setPrimUid->setText(i18n("Set User Id as &primary"));
+	setPrimUid->setText(i18n("Set User Id as &Primary"));
 	connect(setPrimUid, SIGNAL(triggered(bool)), SLOT(slotPrimUid()));
 	QAction *openPhoto = actionCollection()->addAction("key_photo");
 	openPhoto->setIcon(KIcon("image-x-generic"));
@@ -276,7 +276,7 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(deletePhoto, SIGNAL(triggered(bool)), SLOT(slotDeletePhoto()));
 	delSignKey = actionCollection()->addAction("key_delsign");
 	delSignKey->setIcon(KIcon("edit-delete"));
-	delSignKey->setText(i18n("Delete sign&ature(s)"));
+	delSignKey->setText(i18n("Delete Sign&ature(s)"));
 	connect(delSignKey, SIGNAL(triggered(bool)), SLOT(delsignkey()));
 
 	importAllSignKeys = actionCollection()->addAction("key_importallsign");
@@ -297,7 +297,7 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(signUid, SIGNAL(triggered(bool)), SLOT(signuid()));
 	importSignatureKey = actionCollection()->addAction("key_importsign");
 	importSignatureKey->setIcon(KIcon("document-import-key"));
-	importSignatureKey->setText(i18n("Import key(s) from keyserver"));
+	importSignatureKey->setText(i18n("Import Key(s) From Keyserver"));
 	connect(importSignatureKey, SIGNAL(triggered(bool)), SLOT(preimportsignkey()));
 
 	sTrust = actionCollection()->add<KToggleAction>("show_trust");
@@ -326,7 +326,7 @@ KeysManager::KeysManager(QWidget *parent)
 	photoProps->setItems(list);
 
 	trustProps = actionCollection()->add<KSelectAction>("trust_filter_settings");
-	trustProps->setText(i18n("Minimum &trust"));
+	trustProps->setText(i18n("Minimum &Trust"));
 
 	QStringList tlist;
 	tlist.append(i18nc("no filter: show all keys", "&None"));
