@@ -99,7 +99,7 @@
 #include "kgpgdelkey.h"
 #include "kgpgimport.h"
 #include "detailedconsole.h"
-#include "knotificationitem-1/knotificationitem.h"
+#include "knotificationitem.h"
 #include "selectpublickeydialog.h"
 #include "kgpgtextinterface.h"
 #include "kgpgview.h"
