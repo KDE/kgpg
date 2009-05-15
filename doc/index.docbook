@@ -33,15 +33,15 @@
 </authorgroup>
 
 <copyright>
-<year>2002,2007,2008</year>
+<year>2002,2007,2008,2009</year>
 <holder>Jean-Baptiste Mardelle</holder>
 <holder>Rolf Eike Beer</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2008-06-03</date>
-<releaseinfo>0.04.00</releaseinfo>
+<date>2009-05-15</date>
+<releaseinfo>0.05.00</releaseinfo>
 
 <abstract>
 <para>
@@ -96,7 +96,7 @@ url="http://gnupg.org">http://gnupg.org</ulink>.</para>
 
 <para>
 When you start &kgpg;, a system tray icon will appear. A &LMB;
-click will open the Key Manager window, while a &RMB; click will open a menu allowing quick access to some important features.
+click will open the Key Manager window, while a &RMB; click will open a menu allowing quick access to some important features. If you prefer other options you can change the &LMB; action to show the editor or completely disable the system tray icon using the <link linked="conf-misc">settings dialog</link>.
 </para>
 </listitem>
 </varlistentry>
@@ -132,7 +132,7 @@ You can import, export, sign and edit your keys. Most actions can be performed w
 </mediaobject>
 </screenshot>
 
-<para>It's a simple text editor, where you can type or paste text to encrypt/decrypt it. To open the editor, click with the &RMB; on &kgpg;'s applet.
+<para>It's a simple text editor, where you can type or paste text to encrypt/decrypt it. To open the <link linkend="editor">editor</link>, click with the &RMB; on &kgpg;'s applet.
 </para>
 </listitem>
 </varlistentry>
@@ -186,7 +186,9 @@ Pair</guimenuitem></menuchoice>.</para>
 <guibutton>Ok</guibutton>. This will generate a standard gpg key. If
 you want more options, you can click on the Expert mode button, which
 will bring up a &konsole; window with all of gpg's options.</para>
-<para>If you create a public key for the first time it's usually a good idea
+<para>Many people play around with their first
+key, generate bad user ids, add comments they later regret or simply forget their
+passphrase. To avoid such keys to stay valid forever it's usually a good idea
 to limit the lifetime to some 12 month. You can modify the lifetime of your
 secret keys later using the <link linkend="keyproperties">key properties window</link>.</para>
 
@@ -207,7 +209,9 @@ dialog. Choose the key of the recipient and click <guibutton>Encrypt</guibutton>
 encrypted file will be saved with a <literal
 role="extension">.asc</literal> or <literal
 role="extension">.gpg</literal> extension depending on whether you
-chose ASCII encryption or not.</para>
+chose ASCII encryption or not. ASCII encrypted files only use readable characters to
+represent the data resulting in files that are more robust when copied around or sent by
+mail but are one third larger.</para>
 
 <screenshot>
 <screeninfo>Here is a screen shot of the key selection window</screeninfo>
@@ -225,12 +229,9 @@ chose ASCII encryption or not.</para>
 <para>You can encrypt the contents of the clipboard by selecting the
 <guimenuitem>Encrypt clipboard</guimenuitem> item in applet menu. When you
 choose <guimenuitem>Sign clipboard</guimenuitem> then the text will be signed
-instead.</para>
-
-<para>For more information on the encryption options <quote>ASCII
-armor</quote>, <quote>Allow encryption with untrusted keys</quote> and
-<quote>Symmetrical encryption</quote>, please refer to gpg's
-documentation or <ulink url="man:gpg">man pages</ulink>.</para>
+instead. Both actions will import the current clipboard contents into an
+<link linkend="editor">editor window</link>, perform the requested action and
+paste the contents back into the editor.</para>
 
 </sect2>
 
@@ -242,6 +243,21 @@ documentation or <ulink url="man:gpg">man pages</ulink>.</para>
 the Public key selection dialog. Choose your key and click
 <guibutton>Ok</guibutton>. The encrypted message will
 appear in the editor window.</para>
+
+<para>Usually you can only encrypt files with keys that are trusted by
+you. Since you sometimes want to just send a confident note to some random
+people you are aware of having a GPG key you can set the option
+<guilabel>Allow encryption with untrusted keys</guilabel>.</para>
+
+<para>To make sure that you can decrypt every file you have encrypted even if
+they are encrypted with someone else's key you can use the options
+<guilabel>Always encrypt with</guilabel> and <guilabel>Encrypt files with</guilabel>
+which are available in the <link linkend="conf-encryption">KGpg configuration</link>.</para>
+
+<para>For more information on the encryption options <guilabel>ASCII
+armor</guilabel>, <guilabel>Allow encryption with untrusted keys</guilabel> and
+<guilabel>Symmetrical encryption</guilabel>, please refer to gpg's
+documentation or <ulink url="man:gpg">man pages</ulink>.</para>
 </sect2>
 
 </sect1>
@@ -267,7 +283,8 @@ File</guimenuitem></menuchoice> and choose a file to decrypt.</para>
 
 <para>You can also decrypt the contents of the clipboard with the
 <guimenuitem>decrypt clipboard</guimenuitem> menu
-entry of the &kgpg; applet.</para>
+entry of the &kgpg; applet. An <link linkend="editor">editor window</link>
+will show up with the decrypted text.</para>
 
 </sect2>
 
@@ -320,7 +337,6 @@ and drop or the Copy/Paste keyboard shortcuts.</para>
 <para>While the key manager allows you to do general actions with one or multiple keys, key groups or signatures, the key properties window gives you access to a single key. You can reach it by pressing enter in the key manager or double clicking the key.</para>
 <para>In this window you can change the key passphrase and expiration of your secret keys. For all keys you can also set the owner trust value.</para>
 <para>This value indicates how much you trust the owner of this key to correctly verify the identity of the keys he signs. Taking the owner trust into account gpg creates your own web of trust. You trust the keys you signed. If you assign owner trust to these persons you will also trust the keys they have signed without the need that you first have to sign their keys too.</para>
-<para>All changes you make in this dialog are immediately applied to your keyring.</para>
 </sect2>
 
 </sect1>
