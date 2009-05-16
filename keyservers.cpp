@@ -225,7 +225,7 @@ void KeyServer::slotSearch()
 		*m_searchproc << "--keyserver-options" << "no-honor-http-proxy";
 	}
 	*m_searchproc << "--keyserver" << keyserv << "--status-fd=1" << "--command-fd=0";
-	*m_searchproc << "--with-colons"<< "--search-keys"  << page->kLEimportid->text().simplified().toLocal8Bit();
+	*m_searchproc << "--with-colons"<< "--search-keys"  << page->kLEimportid->text().simplified();
 
 	connect(m_searchproc, SIGNAL(processExited(GPGProc *)), this, SLOT(slotSearchResult(GPGProc *)));
 	connect(m_searchproc, SIGNAL(readReady(GPGProc *)), this, SLOT(slotSearchRead(GPGProc *)));
