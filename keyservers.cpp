@@ -195,7 +195,7 @@ void KeyServer::slotSearch()
 
 	m_dialogserver->setButtonText(KDialog::Ok, i18n("&Import"));
 	m_dialogserver->enableButtonOk(false);
-	m_listpop = new searchRes(0);
+	m_listpop = new searchRes(this);
 	m_listpop->kLVsearch->setModel(&m_filtermodel);
 	m_listpop->statusText->setText(i18n("Connecting to the server..."));
 
