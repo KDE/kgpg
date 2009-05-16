@@ -96,7 +96,7 @@ url="http://gnupg.org">http://gnupg.org</ulink>.</para>
 
 <para>
 When you start &kgpg;, a system tray icon will appear. A &LMB;
-click will open the Key Manager window, while a &RMB; click will open a menu allowing quick access to some important features. If you prefer other options you can change the &LMB; action to show the editor or completely disable the system tray icon using the <link linked="conf-misc">settings dialog</link>.
+click will open the Key Manager window, while a &RMB; click will open a menu allowing quick access to some important features. If you prefer other options you can change the &LMB; action to show the editor or completely disable the system tray icon using the <link linkend="conf-misc">settings dialog</link>.
 </para>
 </listitem>
 </varlistentry>
