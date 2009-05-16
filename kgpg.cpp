@@ -32,6 +32,7 @@
 #include "keysmanager.h"
 #include "kgpg_interface.h"
 #include "kgpgexternalactions.h"
+#include "kgpgview.h"
 
 using namespace KgpgCore;
 
@@ -153,10 +154,30 @@ int KGpgApp::newInstance()
 			else
 				KMessageBox::sorry(0, i18n("Cannot verify folder."));
 		} else {
-			if (w->droppedUrl.fileName().endsWith(".sig"))
+			if (w->droppedUrl.fileName().endsWith(".sig")) {
 				w->slotVerifyFile();
-			else
-				w->decryptDroppedFile();
+			} else {
+				bool haskeys = false;
+				bool hastext = false;
+				foreach (const KUrl url, urlList) {
+					QFile qfile(url.path());
+					if (qfile.open(QIODevice::ReadOnly)) {
+						QTextStream t(&qfile);
+						QString result(t.read(1024));
+						qfile.close();
+
+						if (KgpgTextEdit::checkForKey(result))
+							haskeys = true;
+						else
+							hastext = true;
+					}
+				}
+
+				if (hastext)
+					w->decryptDroppedFile();
+				else
+					s_keyManager->slotImport(urlList);
+			}
 		}
 	}
 	return 0;

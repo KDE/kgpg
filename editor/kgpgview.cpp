@@ -256,45 +256,36 @@ bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)
         return true;
     }
 
-    if (result.startsWith(PUBLICKEY_BEGIN) || result.startsWith(PRIVATEKEY_BEGIN))
-    {
-        // dropped file is a public key or a private key
-        bool ispublickey = false;
-        QString tmpinfo;
-        if (result.startsWith(PUBLICKEY_BEGIN))
-        {
-            ispublickey = true;
-            tmpinfo = i18n("<qt>This file is a <b>public</b> key.\nPlease use kgpg key management to import it.</qt>");
+	QString tmpinfo;
+
+	switch (checkForKey(result)) {
+	case 1:
+		tmpinfo = i18n("<qt>This file is a <b>public</b> key.\nPlease use kgpg key management to import it.</qt>");
+		break;
+	case 2:
+		tmpinfo = i18n("<qt>This file is a <b>private</b> key.\nPlease use kgpg key management to import it.</qt>");
+		break;
         }
 
-        if (result.startsWith(PRIVATEKEY_BEGIN))
-        {
-            ispublickey = false;
-            tmpinfo = i18n("<qt>This file is a <b>private</b> key.\nPlease use kgpg key management to import it.</qt>");
-        }
+	if (!tmpinfo.isEmpty())
+		KMessageBox::information(this, tmpinfo);
+	else
+		setPlainText(result);
 
-        KMessageBox::information(this, tmpinfo);
+	deleteFile();
 
-        /*
-        if (ispublickey)
-        {
-            int result = KMessageBox::warningContinueCancel(this, i18n("<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>").arg(filetocheck), QString(), KGuiItem (i18n("Import"), QString(), i18n("Import the public key"), i18n("Import the public key in your keyring")));
-            if (result == KMessageBox::Continue)
-            {
-                //TODO : import key
-            }
-        }
-        else
-            KMessageBox::information(this, i18n("This file is a private key.\nPlease use kgpg key management to import it."));
-        */
+	return tmpinfo.isEmpty();
+}
 
-        deleteFile();
-        return true;
-    }
-
-    setPlainText(result);
-    deleteFile();
-    return false;
+int KgpgTextEdit::checkForKey(const QString &message)
+{
+	if (message.startsWith(PUBLICKEY_BEGIN)) {
+		return 1;
+	} else if (message.startsWith(PRIVATEKEY_BEGIN)) {
+		return 2;
+	} else {
+		return 0;
+	}
 }
 
 void KgpgTextEdit::slotDecodeFileSuccess(const QByteArray &content, KGpgTextInterface *interface)
