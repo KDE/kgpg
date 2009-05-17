@@ -246,14 +246,14 @@ void KeyServer::slotAbortSearch()
 			disconnect(m_searchproc, 0, 0, 0);
 			m_searchproc->kill();
 		}
-		delete m_searchproc;
+		m_searchproc->deleteLater();
 		m_searchproc = NULL;
 	}
 	page->Buttonsearch->setEnabled(true);
 
 	if (m_dialogserver) {
 		delete m_dialogserver;
-		m_dialogserver = 0L;
+		m_dialogserver = NULL;
 	}
 }
 
