@@ -186,6 +186,7 @@ void KeyServer::slotSearch()
 		m_resultmodel->deleteLater();
 	m_resultmodel = new KGpgSearchResultModel(this);
 	m_filtermodel.setSourceModel(m_resultmodel);
+	m_filtermodel.setFilterRegExp(QRegExp());
 
 	m_dialogserver = new KDialog(this );
 	m_dialogserver->setCaption( i18n("Import Key From Keyserver") );
