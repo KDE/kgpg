@@ -2506,7 +2506,6 @@ KeysManager::setupTrayIcon()
 
 	if (newtray) {
 		m_trayicon = new Experimental::KNotificationItem(this);
-		m_trayicon->setCategory(Experimental::KNotificationItem::ApplicationStatus);
 		m_trayicon->setIcon("kgpg");
 		m_trayicon->setToolTip("kgpg", i18n("KGpg - encryption tool"), QString());
 	}
@@ -2520,10 +2519,10 @@ KeysManager::setupTrayIcon()
 		break;
 	}
 
+	m_trayicon->setCategory(Experimental::KNotificationItem::ApplicationStatus);
+
 	if (!newtray)
 		return;
-
-	m_trayicon->setCategory(Experimental::KNotificationItem::ApplicationStatus);
 
 	KMenu *conf_menu = m_trayicon->contextMenu();
 
