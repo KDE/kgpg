@@ -374,7 +374,6 @@ void KGpgExternalActions::showDroppedFile()
 
 	connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), SLOT(encryptFiles(KUrl::List)));
 	connect(m_keysmanager, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
-	connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), SIGNAL(importedKeys(QStringList)));
 	kgpgtxtedit->show();
 }
 
