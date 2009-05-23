@@ -206,6 +206,7 @@ void KeyServer::slotSearch()
 	connect(m_listpop->kLVsearch, SIGNAL(activated(const QModelIndex &)), m_dialogserver, SIGNAL(okClicked()));
 	connect(m_dialogserver, SIGNAL(closeClicked()), this, SLOT(handleQuit()));
 	connect(m_listpop, SIGNAL(destroyed()), this, SLOT(slotAbortSearch()));
+	connect(m_listpop->kLEID, SIGNAL(clearButtonClicked()), m_listpop->kLVsearch->selectionModel(), SLOT(clearSelection()));
 
 	m_listpop->kLVsearch->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
