@@ -86,7 +86,7 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, K
 	delete dialog;
 }
 
-void KgpgLibrary::startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric)
+void KgpgLibrary::startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool symetric)
 {
 	m_popisactive = false;
 	m_encryptkeys = encryptkeys;
@@ -95,7 +95,7 @@ void KgpgLibrary::startEncode(const QStringList &encryptkeys, const QStringList 
 	fastEncode(m_urlselecteds.first(), encryptkeys, encryptoptions, symetric);
 }
 
-void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric)
+void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool symetric)
 {
 	if ((encryptkeys.isEmpty()) && (!symetric)) {
 		KMessageBox::sorry(0, i18n("You have not chosen an encryption key."));

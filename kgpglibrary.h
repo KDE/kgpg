@@ -58,8 +58,6 @@ public slots:
     void slotFileDec(const KUrl &srcUrl, const KUrl &destUrl, const QStringList &customDecryptOption = QStringList());
 
 private slots:
-    void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
-    void fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool &symetric);
     void processEnc(const KUrl &, KGpgTextInterface*);
     void processEncError(const QString &mssge, KGpgTextInterface*);
     void processDecOver(int, KGpgTextInterface*);
@@ -68,6 +66,8 @@ private slots:
     void slotImportOver(KgpgInterface *iface, const QStringList &keys);
 
 private:
+    void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool symetric);
+    void fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool symetric);
     QWidget *m_panel;
     QString m_extension;
     QStringList m_encryptkeys;
