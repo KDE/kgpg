@@ -342,6 +342,9 @@ and drop or the Copy/Paste keyboard shortcuts.</para>
 </sect1>
 
 <sect1 id="keyserver">
+<title>Working with key servers</title>
+
+<sect2>
 <title>Communication with key servers</title>
 
 <para>The public part of a key pair is usually stored on a key server. These servers allow anyone to search for a key belonging to a specific person or mail address. The signatures are also stored on these servers.</para>
@@ -357,6 +360,23 @@ and drop or the Copy/Paste keyboard shortcuts.</para>
 <para>This dialog gives you access to the keyservers. You can search and import keys from a keyserver as well as export keys to a server. An example of searching and importing is when you want to write a mail to someone new. If you would like to encrypt your mail to your contact you can search if he or she has a public key on the key servers. If you have created a new key pair or have signed someone else's key you might want to export the public key (possibly with new signatures) to a keyserver.</para>
 <para>Most keyservers synchronize their data between each others so you will get similar search results regardless which server you use. Since there are exceptions of this rule you can choose the keyserver to use in this dialog. It's usually a good idea to choose a default keyserver that is located close to you (i.e. in your country or on your continent) as they usually respond faster to your queries.</para>
 <para>Please note that everything you upload to a keyserver usually stays there forever. This is one reason you should usually limit the lifetime of your keys. Also note that the keyservers are sometimes scanned by spammers for email addresses.</para>
+</sect2>
+
+<sect2 id="keyserver-results">
+<title>Key server search results</title>
+<screenshot>
+<screeninfo>This is an example of the results of a keyserver search.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="keyserver-search.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para>All results of a search are displayed in this window. This picture shows a search for &quot;@kde.org&quot; addresses which showed up 244 results. Using the search field the displayed list was reduced to a single key. This key has two matches: the primary user id itself matches the search string as well as one of the other user ids.</para>
+
+<para>You can select one or more keys to import. The ids of those keys are shown in the <guilabel>Keys to import</guilabel> field at the bottom of the window. When you click on <guibutton>Import</guibutton> the key server is contacted again and the keys are fetched into your keyring.</para>
+
+</sect2>
 
 </sect1>
 
