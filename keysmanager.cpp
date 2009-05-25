@@ -109,7 +109,7 @@ using namespace KgpgCore;
 
 KeysManager::KeysManager(QWidget *parent)
            : KXmlGuiWindow(parent),
-	   imodel(NULL),
+	   imodel(new KGpgItemModel(this)),
 	   m_adduid(NULL),
 	   m_genkey(NULL),
 	   m_delkey(NULL),
@@ -141,6 +141,14 @@ KeysManager::KeysManager(QWidget *parent)
 	kserver->setIcon( KIcon("network-server") );
 	connect(kserver, SIGNAL(triggered(bool)), SLOT(showKeyServer()));
 
+	goToDefaultKey = actionCollection()->addAction("go_default_key");
+	goToDefaultKey->setIcon(KIcon("go-home"));
+	goToDefaultKey->setText(i18n("&Go to Default Key"));
+	connect(goToDefaultKey, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
+	goToDefaultKey->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home));
+
+	s_kgpgEditor = new KgpgEditor(parent, imodel, Qt::Dialog, goToDefaultKey->shortcut(), true);
+
 	// this must come after kserver, preferences, and openEditor are created
 	// because they are used to set up the tray icon context menu
 	readOptions();
@@ -163,12 +171,6 @@ KeysManager::KeysManager(QWidget *parent)
 	action->setText( i18n("View GnuPG Manual") );
 	action->setIcon( KIcon("help-contents") );
 	connect(action, SIGNAL(triggered(bool)), SLOT(slotManpage()));
-
-	goToDefaultKey = actionCollection()->addAction("go_default_key");
-	goToDefaultKey->setIcon(KIcon("go-home"));
-	goToDefaultKey->setText(i18n("&Go to Default Key"));
-	connect(goToDefaultKey, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
-	goToDefaultKey->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home));
 
 	action = actionCollection()->addAction("key_refresh");
 	action->setIcon(KIcon("view-refresh"));
@@ -337,8 +339,6 @@ KeysManager::KeysManager(QWidget *parent)
 
 	trustProps->setItems(tlist);
 
-	imodel = new KGpgItemModel(this);
-
 	iproxy = new KeyListProxyModel(this);
 	iproxy->setKeyModel(imodel);
 
@@ -480,7 +480,6 @@ KeysManager::KeysManager(QWidget *parent)
 	setAutoSaveSettings(cg, true);
 	applyMainWindowSettings(cg);
 
-	s_kgpgEditor = new KgpgEditor(parent, imodel, Qt::Dialog, goToDefaultKey->shortcut(), true);
 	connect(s_kgpgEditor, SIGNAL(refreshImported(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
 	connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
 
