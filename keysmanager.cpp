@@ -2505,7 +2505,7 @@ KeysManager::setupTrayIcon()
 
 	if (newtray) {
 		m_trayicon = new Experimental::KNotificationItem(this);
-		m_trayicon->setIcon("kgpg");
+		m_trayicon->setIconByName("kgpg");
 		m_trayicon->setToolTip("kgpg", i18n("KGpg - encryption tool"), QString());
 	}
 
