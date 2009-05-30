@@ -581,6 +581,7 @@ public:
 	virtual KgpgItemType getType() const
 		{ return ITYPE_SIGN; }
 	virtual QDate getExpiration() const;
+	virtual QString getName() const;
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
 	virtual QString getComment() const

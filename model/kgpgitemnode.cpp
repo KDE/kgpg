@@ -711,6 +711,20 @@ KGpgSignNode::getId() const
 	return m_sign->fullId();
 }
 
+QString
+KGpgSignNode::getName() const
+{
+	QString name(KGpgRefNode::getName());
+
+	if (m_keynode == NULL)
+		return name;
+
+	if (!m_sign->local())
+		return name;
+
+	return i18n("%1 [local signature]", name);
+}
+
 KGpgSubkeyNode::KGpgSubkeyNode(KGpgKeyNode *parent, const KgpgKeySub &k)
 	: KGpgExpandableNode(parent), m_skey(k)
 {
