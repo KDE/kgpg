@@ -198,7 +198,10 @@ void KgpgEditor::closeEvent (QCloseEvent *e)
 
 bool KgpgEditor::queryClose()
 {
-    return saveBeforeClear();
+	bool b = saveBeforeClear();
+	if (b)
+		view->editor->clear();
+	return b;
 }
 
 bool KgpgEditor::saveBeforeClear()
