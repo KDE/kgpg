@@ -183,7 +183,10 @@ void KgpgEditor::initActions()
 
 bool KgpgEditor::queryClose()
 {
-    return saveBeforeClear();
+	bool b = saveBeforeClear();
+	if (b)
+		view->editor->clear();
+	return b;
 }
 
 bool KgpgEditor::saveBeforeClear()
