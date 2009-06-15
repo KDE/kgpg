@@ -772,12 +772,6 @@ void KgpgInterface::getKeysProcess(GPGProc *gpgProcess)
 	}
 }
 
-void KgpgInterface::getKeysFin(GPGProc *gpgProcess)
-{
-	gpgProcess->deleteLater();
-	emit getKeysFinished(m_keystring, this);
-}
-
 void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal, const QString &uid)
 {
 	m_partialline.clear();
