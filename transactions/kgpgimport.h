@@ -51,7 +51,7 @@ public:
 	KGpgImport(QObject *parent, const KUrl::List &keys);
 
 	/**
-	 * \brief desctrucor
+	 * \brief destructor
 	 */
 	virtual ~KGpgImport();
 
