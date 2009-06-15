@@ -26,7 +26,7 @@ KGpgDelUid::~KGpgDelUid()
 bool
 KGpgDelUid::nextLine(const QString &line)
 {
-	if (line.startsWith("[GNUPG:] keyedit.remove.uid.okay")) {
+	if (line.contains("keyedit.remove.uid.okay")) {
 		write("YES");
 	} else {
 		return standardCommands(line);
