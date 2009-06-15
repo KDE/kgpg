@@ -145,15 +145,11 @@ private:
 
 
 /************** get keys as a text **************/
-signals:
-    void getKeysFinished(QString, KgpgInterface*);
-
 public slots:
     QString getKeys(const QString *attributes = NULL, const QStringList &ids = QStringList());
 
 private slots:
     void getKeysProcess(GPGProc *);
-    void getKeysFin(GPGProc *);
 
 private:
     QString m_keystring;
