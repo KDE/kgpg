@@ -340,7 +340,7 @@ bool KgpgInterface::getGpgBoolSetting(const QString &name, const QString &config
 	return false;
 }
 
-void KgpgInterface::setGpgBoolSetting(const QString &name, const bool &enable, const QString &url)
+void KgpgInterface::setGpgBoolSetting(const QString &name, const bool enable, const QString &url)
 {
 	QFile qfile(url);
 
@@ -417,7 +417,7 @@ void KgpgInterface::updateIDs(QString txt)
 	}
 }
 
-KgpgKeyList KgpgInterface::readPublicKeys(const bool &block, const QStringList &ids, const bool &withsigs)
+KgpgKeyList KgpgInterface::readPublicKeys(const bool block, const QStringList &ids, const bool withsigs)
 {
 	m_publiclistkeys = KgpgKeyList();
 	m_publickey = KgpgKey();
@@ -603,7 +603,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 	}
 }
 
-void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool &block)
+void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool block)
 {
 	// insert the last key
 	if (cycle != "none")
@@ -772,7 +772,7 @@ void KgpgInterface::getKeysProcess(GPGProc *gpgProcess)
 	}
 }
 
-void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal, const QString &uid)
+void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, const bool local, const int checking, const bool terminal, const QString &uid)
 {
 	m_partialline.clear();
 	m_ispartial = false;
@@ -911,7 +911,7 @@ void KgpgInterface::signKeyOpenConsole()
 	emit signKeyFinished(2, m_keyid, this);
 }
 
-QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool &block)
+QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool block)
 {
 #ifdef Q_OS_WIN32	//krazy:exclude=cpp
 	const QString pgpgoutput("cmd /C \"echo %I\"");

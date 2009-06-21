@@ -83,7 +83,7 @@ public:
     static void setGpgSetting(const QString &name, const QString &value, const QString &url);
 
     static bool getGpgBoolSetting(const QString &name, const QString &configfile);
-    static void setGpgBoolSetting(const QString &name, const bool &enable, const QString &url);
+    static void setGpgBoolSetting(const QString &name, const bool enable, const QString &url);
 
     /**
      * \brief ask the user for a passphrase and send it to the given gpg process
@@ -110,14 +110,14 @@ private:
 signals:
     void readPublicKeysFinished(KgpgCore::KgpgKeyList, KgpgInterface*);
 
-public slots:
-    KgpgCore::KgpgKeyList readPublicKeys(const bool &block = false, const QStringList &ids = QStringList(), const bool &withsigs = false);
-    KgpgCore::KgpgKeyList readPublicKeys(const bool &block, const QString &ids, const bool &withsigs = false)
+public:
+    KgpgCore::KgpgKeyList readPublicKeys(const bool block = false, const QStringList &ids = QStringList(), const bool withsigs = false);
+    KgpgCore::KgpgKeyList readPublicKeys(const bool block, const QString &ids, const bool withsigs = false)
 	{ return readPublicKeys(block, QStringList(ids), withsigs); }
 
 private slots:
     void readPublicKeysProcess(GPGProc *p);
-    void readPublicKeysFin(GPGProc *p, const bool &block = false);
+    void readPublicKeysFin(GPGProc *p, const bool block = false);
 
 private:
     int m_numberid;
@@ -178,7 +178,7 @@ public slots:
      * @param checking how careful the key was checked
      * @param terminal if the user want to sign the key manually
      */
-    void signKey(const QString &keyid, const QString &signkeyid, const bool &local, const int &checking, const bool &terminal = false, const QString &uid = QString());
+    void signKey(const QString &keyid, const QString &signkeyid, const bool local, const int checking, const bool terminal = false, const QString &uid = QString());
 
 private slots:
     /**
@@ -211,7 +211,7 @@ signals:
     void loadPhotoFinished(QPixmap, KgpgInterface*);
 
 public slots:
-    QPixmap loadPhoto(const QString &keyid, const QString &uid, const bool &block = false);
+    QPixmap loadPhoto(const QString &keyid, const QString &uid, const bool block = false);
 
 private slots:
     void loadPhotoFin(int exitCode);
