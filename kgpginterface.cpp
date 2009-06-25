@@ -474,10 +474,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			else
 				m_publickey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
 
-			if (lsp.at(11).contains("D", Qt::CaseSensitive))  // disabled key
-				m_publickey.setValid(false);
-			else
-				m_publickey.setValid(true);
+			m_publickey.setValid((items <= 11) || !lsp.at(11).contains('D', Qt::CaseSensitive));  // disabled key
 
 			cycle = "pub";
 
@@ -496,16 +493,17 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			sub.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
 
 			// FIXME: Please see kgpgkey.h, KgpgSubKey class
-			if (lsp.at(11).contains('D'))
-				sub.setValid(false);
-			else
+			if (items <= 11) {
 				sub.setValid(true);
+			} else {
+				sub.setValid(!lsp.at(11).contains('D'));
 
-			if (lsp.at(11).contains('s'))
-				sub.setType(SKT_SIGNATURE);
-			else
-			if (lsp.at(11).contains('e'))
-				sub.setType(SKT_ENCRYPTION);
+				if (lsp.at(11).contains('s'))
+					sub.setType(SKT_SIGNATURE);
+				else
+				if (lsp.at(11).contains('e'))
+					sub.setType(SKT_ENCRYPTION);
+			}
 
 			if (lsp.at(6).isEmpty())
 				sub.setExpiration(QDate());
@@ -561,10 +559,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 				uid.setComment(comment);
 				uid.setName(kname);
 				uid.setTrust(Convert::toTrust(lsp.at(1)));
-				if ((items > 11) && lsp.at(11).contains('D'))
-					uid.setValid(false);
-				else
-					uid.setValid(true);
+				uid.setValid((items <= 11) || !lsp.at(11).contains('D'));
 
 				uid.setIndex(++m_numberid);
 
