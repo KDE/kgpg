@@ -13,22 +13,17 @@
 
 #include "kgpguidtransaction.h"
 
-KGpgUidTransaction::KGpgUidTransaction(QObject *parent)
-	: KGpgTransaction(parent)
-{
-	Q_ASSERT(false);
-}
-
 KGpgUidTransaction::KGpgUidTransaction(QObject *parent, const QString &keyid, const QString &uid)
 	: KGpgTransaction(parent)
 {
 	addArgument("--status-fd=1");
 	addArgument("--command-fd=0");
 	addArgument("--edit-key");
-	addArgument(keyid);
+	m_keyidpos = addArgument(QString());
 	addArgument("uid");
 	m_uidpos = addArgument(QString());
 
+	setKeyId(keyid);
 	setUid(uid);
 }
 
@@ -58,6 +53,7 @@ KGpgUidTransaction::standardCommands(const QString &line)
 	} else if (line.contains("keyedit.prompt")) {
 		write("save");
 		setSuccess(TS_OK);
+		return true;
 	} else if (line.contains("GET_")) {
 		setSuccess(TS_MSG_SEQUENCE);
 		// gpg asks for something unusal, turn to konsole mode
@@ -65,6 +61,14 @@ KGpgUidTransaction::standardCommands(const QString &line)
 	}
 
 	return false;
+}
+
+void
+KGpgUidTransaction::setKeyId(const QString &keyid)
+{
+	m_keyid = keyid;
+
+	replaceArgument(m_keyidpos, keyid);
 }
 
 void

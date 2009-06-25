@@ -35,9 +35,14 @@ public:
 	 * You should call this from the childrens constructor to set up
 	 * everything properly
 	 */
-	KGpgUidTransaction(QObject *parent, const QString &keyid, const QString &uid);
+	explicit KGpgUidTransaction(QObject *parent, const QString &keyid = QString(), const QString &uid = QString());
 	virtual ~KGpgUidTransaction();
 
+	/**
+	 * \brief set the key id of the transaction to the given value
+	 * @param keyid fingerprint of the key to work with
+	 */
+	void setKeyId(const QString &keyid);
 	/**
 	 * \brief set the uid number of the transaction to the given value
 	 * @param uid the number of the user id to work with
@@ -65,13 +70,12 @@ protected:
 	bool standardCommands(const QString &line);
 
 private:
-	/**
-	 * \brief forbidden
-	 */
-	explicit KGpgUidTransaction(QObject *parent = 0);
+	Q_DISABLE_COPY(KGpgUidTransaction)
 
 	QString m_uid;
 	int m_uidpos;
+	QString m_keyid;
+	int m_keyidpos;
 };
 
 #endif // KGPGUIDTRANSACTION_H
