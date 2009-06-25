@@ -820,7 +820,7 @@ void KeysManager::slotDelUid()
 {
 	KGpgUidNode *nd = iview->selectedNode()->toUidNode();
 
-	m_deluid = new KGpgDelUid(this, nd->getParentKeyNode()->getId(), nd->getId());
+	m_deluid = new KGpgDelUid(this, nd);
 
 	connect(m_deluid, SIGNAL(done(int)), SLOT(slotDelUidDone(int)));
 	m_deluid->start();
@@ -963,7 +963,7 @@ void KeysManager::slotDeletePhoto()
 	QString mess = i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 &lt;%3&gt;</b>?</qt>",
 				und->getId(), parent->getName(), parent->getEmail());
 
-	m_deluid = new KGpgDelUid(this, parent->getId(), und->getId());
+	m_deluid = new KGpgDelUid(this, und);
 	connect(m_deluid, SIGNAL(done(int)), SLOT(slotDelPhotoFinished(int)));
 
 	m_deluid->start();
