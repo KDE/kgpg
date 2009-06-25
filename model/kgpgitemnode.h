@@ -28,6 +28,7 @@ class KGpgExpandableNode;
 class KGpgKeyNode;
 class KGpgRootNode;
 class KGpgUidNode;
+class KGpgSignableNode;
 class KGpgSubkeyNode;
 class KGpgUatNode;
 class KGpgGroupNode;
@@ -52,7 +53,7 @@ protected:
 public:
 	typedef QList<KGpgNode *> List;
 
-	explicit KGpgNode(KGpgExpandableNode *parent = 0);
+	explicit KGpgNode(KGpgExpandableNode *parent = NULL);
 	virtual ~KGpgNode();
 
 	virtual bool hasChildren() const
@@ -110,6 +111,8 @@ public:
 
 	KGpgExpandableNode *toExpandableNode();
 	const KGpgExpandableNode *toExpandableNode() const;
+	KGpgSignableNode *toSignableNode();
+	const KGpgSignableNode *toSignableNode() const;
 	KGpgKeyNode *toKeyNode();
 	const KGpgKeyNode *toKeyNode() const;
 	KGpgRootNode *toRootNode();
@@ -142,10 +145,8 @@ protected:
 
 	virtual void readChildren() = 0;
 
-	KGpgSignNodeList getSignatures(void) const;
-
 public:
-	explicit KGpgExpandableNode(KGpgExpandableNode *parent = 0);
+	explicit KGpgExpandableNode(KGpgExpandableNode *parent = NULL);
 	virtual ~KGpgExpandableNode();
 
 	virtual bool hasChildren() const
@@ -162,7 +163,34 @@ public:
 		{ children.removeAll(child); }
 };
 
-class KGpgKeyNode : public KGpgExpandableNode
+/**
+ * \brief an object that may have KGpgSignNode children
+ *
+ * This class represents an object that may be signed, i.e. key nodes,
+ * user ids, user attributes, and subkeys.
+ */
+class KGpgSignableNode : public KGpgExpandableNode
+{
+	Q_OBJECT
+
+public:
+	KGpgSignableNode(KGpgExpandableNode *parent = NULL);
+	virtual ~KGpgSignableNode();
+
+	KGpgSignNodeList getSignatures(void) const;
+	/**
+	 * \brief count signatures
+	 * @return the number of signatures to this object
+	 *
+	 * This does not include the number of signatures to child objects.
+	 */
+	virtual QString getSignCount() const;
+
+	bool operator<(const KGpgSignableNode &other) const;
+	bool operator<(const KGpgSignableNode *other) const;
+};
+
+class KGpgKeyNode : public KGpgSignableNode
 {
 	Q_OBJECT
 
@@ -201,7 +229,7 @@ public:
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
 	/**
-	 * Print the full key fingerprint with spaces inserted
+	 * \brief Print the full key fingerprint with spaces inserted
 	 *
 	 * For display purposes you normally don't want to print the full
 	 * fingerprint as is because it's too many hex characters at once.
@@ -216,7 +244,7 @@ public:
 	virtual QString getComment() const
 		{ return m_key->comment(); }
 	/**
-	 * Return the number of signatures of the primary user id
+	 * \brief Return the number of signatures of the primary user id
 	 *
 	 * This is different from the number of children of this node as there
 	 * is usually at least one subkey and there may also be additional
@@ -227,38 +255,38 @@ public:
 	 */
 	virtual QString getSignCount() const;
 	/**
-	 * Creates a copy of the KgpgKey that belongs to this class
+	 * \brief Creates a copy of the KgpgKey that belongs to this class
 	 */
 	virtual KgpgKey *copyKey() const;
 	/**
-	 * Replaces the current key information with the new one. All sub-items
-	 * (i.e. signatures, user ids ...) will be deleted. This must only be
-	 * used when the id of both new and old key is the same.
+	 * \brief Replaces the current key information with the new one.
+	 * All sub-items (i.e. signatures, user ids ...) will be deleted. This must
+	 * only be used when the id of both new and old key is the same.
 	 */
 	void setKey(const KgpgKey &key);
 	/**
-	 * Returns a reference to the key used in this object. This allows
-	 * direct access to the values of the key e.g. for KgpgKeyInfo
+	 * \brief Returns a reference to the key used in this object.
+	 * This allows direct access to the values of the key e.g. for KgpgKeyInfo.
 	 */
 	const KgpgKey *getKey() const;
 
 	/**
-	 * Returns the size of the signing key.
+	 * \brief Returns the size of the signing key.
 	 * @return signing key size in bits
 	 */
 	virtual unsigned int getSignKeySize() const;
 	/**
-	 * Returns the size of the first encryption subkey.
+	 * \brief Returns the size of the first encryption subkey.
 	 * @return encryption key size in bits
 	 */
 	virtual unsigned int getEncryptionKeySize() const;
 	/**
-	 * Notify this key that a KGpgRefNode now references this key.
+	 * \brief Notify this key that a KGpgRefNode now references this key.
 	 * @param node object that takes the reference
 	 */
 	void addRef(KGpgRefNode *node);
 	/**
-	 * Remove a reference to this object
+	 * \brief Remove a reference to this object
 	 * @param node node that no longer has the reference
 	 *
 	 * Note that this must not be called as reply when this object
@@ -266,22 +294,32 @@ public:
 	 */
 	void delRef(KGpgRefNode *node);
 	/**
-	 * returns a list of all groups this key is member of
+	 * \brief returns a list of all groups this key is member of
 	 */
 	QList<KGpgGroupNode *> getGroups(void) const;
 	/**
-	 * returns a list of all group member nodes that reference this key
+	 * \brief returns a list of all group member nodes that reference this key
 	 */
 	QList<KGpgGroupMemberNode *> getGroupRefs(void) const;
 	/**
-	 * returns a list of all sign nodes that reference this key
+	 * \brief returns a list of all sign nodes that reference this key
 	 */
 	KGpgSignNodeList getSignRefs(void) const;
 	/**
-	 * returns a list of signatures to this key
+	 * \brief returns a list of signatures to this key
 	 * @param subkeys if signatures on subkeys should be included
 	 */
-	KGpgSignNodeList getSignatures(const bool &subkeys) const;
+	KGpgSignNodeList getSignatures(const bool subkeys) const;
+	/**
+	 * \brief get the user id or user attribute with the given number
+	 * @param index the index of the user id to return
+	 * @return the requested subitem or NULL if that is not present
+	 *
+	 * User ids indexes are 1-based, so 0 is not a valid index. Passing
+	 * 1 as index will return the object itself, representing the primary
+	 * user id.
+	 */
+	const KGpgSignableNode *getUid(const unsigned int index) const;
 
 Q_SIGNALS:
 	void updated(KGpgKeyNode *);
@@ -355,7 +393,7 @@ Q_SIGNALS:
 	void newKeyNode(KGpgKeyNode *);
 };
 
-class KGpgUidNode : public KGpgExpandableNode
+class KGpgUidNode : public KGpgSignableNode
 {
 private:
 	KgpgKeyUid *m_uid;
@@ -379,17 +417,9 @@ public:
 	virtual KGpgKeyNode *getParentKeyNode() const;
 	virtual QString getComment() const
 		{ return m_uid->comment(); }
-	/**
-	 * Return the number of signatures of this user id
-	 *
-	 * @return the number of signatures to this id
-	 */
-	virtual QString getSignCount() const;
-
-	KGpgSignNodeList getSignatures(void) const;
 };
 
-class KGpgSubkeyNode : public KGpgExpandableNode
+class KGpgSubkeyNode : public KGpgSignableNode
 {
 private:
 	KgpgKeySub m_skey;
@@ -413,15 +443,9 @@ public:
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
 	virtual KGpgKeyNode *getParentKeyNode() const;
-	/**
-	 * Return the number of signatures of this subkey
-	 *
-	 * @return the number of signatures to this subkey
-	 */
-	virtual QString getSignCount() const;
 };
 
-class KGpgUatNode : public KGpgExpandableNode
+class KGpgUatNode : public KGpgSignableNode
 {
 private:
 	KgpgKeyUat m_uat;
@@ -451,14 +475,6 @@ public:
 	virtual QString getName() const;
 	virtual QDate getCreation() const;
 	virtual KGpgKeyNode *getParentKeyNode() const;
-	/**
-	 * Return the number of signatures of this attribute
-	 *
-	 * @return the number of signatures to this attribute
-	 */
-	virtual QString getSignCount() const;
-
-	KGpgSignNodeList getSignatures(void) const;
 };
 
 class KGpgGroupNode : public KGpgExpandableNode

@@ -69,6 +69,22 @@ KGpgNode::toExpandableNode() const
 	return static_cast<const KGpgExpandableNode *>(this);
 }
 
+KGpgSignableNode *
+KGpgNode::toSignableNode()
+{
+	Q_ASSERT(getType() & (ITYPE_PAIR | ITYPE_SUB | ITYPE_UID | ITYPE_UAT));
+	
+	return static_cast<KGpgSignableNode *>(this);
+}
+
+const KGpgSignableNode *
+KGpgNode::toSignableNode() const
+{
+	Q_ASSERT(getType() & (ITYPE_PAIR | ITYPE_SUB | ITYPE_UID | ITYPE_UAT));
+	
+	return static_cast<const KGpgSignableNode *>(this);
+}
+
 KGpgKeyNode *
 KGpgNode::toKeyNode()
 {
@@ -261,8 +277,17 @@ KGpgExpandableNode::getChildCount()
 	return children.count();
 }
 
+KGpgSignableNode::KGpgSignableNode(KGpgExpandableNode *parent)
+	: KGpgExpandableNode(parent)
+{
+}
+
+KGpgSignableNode::~KGpgSignableNode()
+{
+}
+
 KGpgSignNodeList
-KGpgExpandableNode::getSignatures(void) const
+KGpgSignableNode::getSignatures(void) const
 {
 	KGpgSignNodeList ret;
 	
@@ -274,6 +299,59 @@ KGpgExpandableNode::getSignatures(void) const
 	}
 	
 	return ret;
+}
+
+QString
+KGpgSignableNode::getSignCount() const
+{
+	return i18np("1 signature", "%1 signatures", children.count());
+}
+
+bool
+KGpgSignableNode::operator<(const KGpgSignableNode &other) const
+{
+	return operator<(&other);
+}
+
+bool
+KGpgSignableNode::operator<(const KGpgSignableNode *other) const
+{
+	switch (getType()) {
+	case ITYPE_PUBLIC:
+	case ITYPE_PAIR: {
+		const QString myid(getId());
+
+		switch (other->getType()) {
+		case ITYPE_PUBLIC:
+		case ITYPE_PAIR:
+			return (myid < other->getId());
+		default: {
+			const QString otherid(other->getParentKeyNode()->getId());
+
+			if (myid == otherid)
+				return true;
+			return (myid < otherid);
+		}
+		}
+	}
+	default: {
+		const QString myp(getParentKeyNode()->getId());
+
+		switch (other->getType()) {
+		case ITYPE_PAIR:
+		case ITYPE_PUBLIC:
+			return (myp < other->getId());
+		default: {
+			const QString otherp(other->getParentKeyNode()->getId());
+
+			if (otherp == myp)
+				return (getId().toInt() < other->getId().toInt());
+
+			return (myp < otherp);
+		}
+		}
+	}
+	}
 }
 
 KGpgRootNode::KGpgRootNode(KGpgItemModel *model)
@@ -389,9 +467,10 @@ KGpgRootNode::findKeyRow(const QString &keyId)
 }
 
 KGpgKeyNode::KGpgKeyNode(KGpgExpandableNode *parent, const KgpgKey &k)
-	: KGpgExpandableNode(parent), m_key(new KgpgKey(k))
+	: KGpgSignableNode(parent),
+	m_key(new KgpgKey(k)),
+	m_signs(0)
 {
-	m_signs = 0;
 }
 
 KGpgKeyNode::~KGpgKeyNode()
@@ -612,9 +691,9 @@ KGpgKeyNode::getSignRefs(void) const
 }
 
 KGpgSignNodeList
-KGpgKeyNode::getSignatures(const bool &subkeys) const
+KGpgKeyNode::getSignatures(const bool subkeys) const
 {
-	KGpgSignNodeList ret = KGpgExpandableNode::getSignatures();
+	KGpgSignNodeList ret = KGpgSignableNode::getSignatures();
 
 	if (!subkeys)
 		return ret;
@@ -623,10 +702,13 @@ KGpgKeyNode::getSignatures(const bool &subkeys) const
 		KGpgNode *child = children.at(i);
 		KGpgSignNodeList tmp;
 
-		if (child->getType() == ITYPE_UID) {
-			tmp = child->toUidNode()->getSignatures();
-		} else if (child->getType() == ITYPE_UAT) {
-			tmp = child->toUatNode()->getSignatures();
+		switch (child->getType()) {
+		case ITYPE_UID:
+		case ITYPE_UAT:
+			tmp = child->toSignableNode()->getSignatures();
+			break;
+		default:
+			continue;
 		}
 
 		for (int j = 0; j < tmp.count(); j++) {
@@ -647,8 +729,37 @@ KGpgKeyNode::getSignatures(const bool &subkeys) const
 	return ret;
 }
 
+const KGpgSignableNode *
+KGpgKeyNode::getUid(const unsigned int index) const
+{
+	Q_ASSERT(index > 0);
+
+	if (index == 1)
+		return this;
+
+	const QString idxstr(QString::number(index));
+
+	for (unsigned int i = 0; i < static_cast<unsigned int>(children.count()); i++) {
+		const KGpgNode *child = children.at(i);
+		KGpgSignNodeList tmp;
+
+		switch (child->getType()) {
+		case ITYPE_UID:
+		case ITYPE_UAT:
+			if (child->getId() == idxstr)
+				return child->toSignableNode();
+			break;
+		default:
+			continue;
+		}
+	}
+
+	return NULL;
+}
+
 KGpgUidNode::KGpgUidNode(KGpgKeyNode *parent, const KgpgKeyUid &u)
-	: KGpgExpandableNode(parent), m_uid(new KgpgKeyUid(u))
+	: KGpgSignableNode(parent),
+	m_uid(new KgpgKeyUid(u))
 {
 }
 
@@ -665,12 +776,6 @@ KGpgUidNode::getEmail() const
 }
 
 QString
-KGpgUidNode::getSignCount() const
-{
-	return i18np("1 signature", "%1 signatures", children.count());
-}
-
-QString
 KGpgUidNode::getId() const
 {
 	return QString::number(m_uid->index());
@@ -680,12 +785,6 @@ KGpgKeyNode *
 KGpgUidNode::getParentKeyNode() const
 {
 	return m_parent->toKeyNode();
-}
-
-KGpgSignNodeList
-KGpgUidNode::getSignatures(void) const
-{
-	return KGpgExpandableNode::getSignatures();
 }
 
 KGpgSignNode::KGpgSignNode(KGpgExpandableNode *parent, const KgpgKeySign &s)
@@ -726,7 +825,8 @@ KGpgSignNode::getName() const
 }
 
 KGpgSubkeyNode::KGpgSubkeyNode(KGpgKeyNode *parent, const KgpgKeySub &k)
-	: KGpgExpandableNode(parent), m_skey(k)
+	: KGpgSignableNode(parent),
+	m_skey(k)
 {
 	Q_ASSERT(parent != NULL);
 }
@@ -761,12 +861,6 @@ KGpgSubkeyNode::getSize() const
 	return QString::number(m_skey.size());
 }
 
-QString
-KGpgSubkeyNode::getSignCount() const
-{
-	return i18np("1 signature", "%1 signatures", children.count());
-}
-
 KGpgKeyNode *
 KGpgSubkeyNode::getParentKeyNode() const
 {
@@ -774,7 +868,9 @@ KGpgSubkeyNode::getParentKeyNode() const
 }
 
 KGpgUatNode::KGpgUatNode(KGpgKeyNode *parent, const KgpgKeyUat &k, const QString &index)
-	: KGpgExpandableNode(parent), m_uat(k), m_idx(index)
+	: KGpgSignableNode(parent),
+	m_uat(k),
+	m_idx(index)
 {
 	KgpgInterface iface;
 
@@ -799,22 +895,10 @@ KGpgUatNode::getCreation() const
 	return m_uat.creationDate();
 }
 
-QString
-KGpgUatNode::getSignCount() const
-{
-	return i18np("1 signature", "%1 signatures", children.count());
-}
-
 KGpgKeyNode *
 KGpgUatNode::getParentKeyNode() const
 {
 	return m_parent->toKeyNode();
-}
-
-KGpgSignNodeList
-KGpgUatNode::getSignatures(void) const
-{
-	return KGpgExpandableNode::getSignatures();
 }
 
 KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name)
