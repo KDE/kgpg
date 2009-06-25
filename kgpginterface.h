@@ -144,19 +144,6 @@ private:
 /*************************************************/
 
 
-/************** get keys as a text **************/
-public slots:
-    QString getKeys(const QString &attributes, const QStringList &ids = QStringList());
-
-private slots:
-    void getKeysProcess(GPGProc *);
-
-private:
-    QString m_keystring;
-
-/************************************************/
-
-
 /************** sign a key **************/
 signals:
     /**

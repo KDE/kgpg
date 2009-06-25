@@ -168,8 +168,9 @@ private slots:
     void signLoop();
     void slotManpage();
     void slotTip();
-    void slotProcessExportMail(const QString &keys);
-    void slotProcessExportClip(const QString &keys);
+    void slotExportFinished(int result);
+    void slotProcessExportMail(int result);
+    void slotProcessExportClip(int result);
     void readOptions();
     void slotSetDefKey();
     void confirmdeletekey();
@@ -188,6 +189,7 @@ private slots:
     void keyproperties();
     void slotexport();
     void slotexportsec();
+    void slotExportSecFinished(int result);
 
     void slotMenu(const QPoint &);
 

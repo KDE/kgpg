@@ -30,12 +30,13 @@ set(kgpg_model_SRCS
 
 set(kgpg_transaction_SRCS
    transactions/kgpgtransaction.cpp
-   transactions/kgpguidtransaction.cpp   
+   transactions/kgpguidtransaction.cpp
    transactions/kgpgchangedisable.cpp
    transactions/kgpgchangeexpire.cpp
    transactions/kgpgchangepass.cpp
    transactions/kgpgchangetrust.cpp
    transactions/kgpgdeluid.cpp
+   transactions/kgpgexport.cpp
    transactions/kgpgaddphoto.cpp
    transactions/kgpgadduid.cpp
    transactions/kgpggeneratekey.cpp

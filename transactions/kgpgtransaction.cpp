@@ -210,4 +210,21 @@ KGpgTransaction::askPassphrase(const QString &message)
 	return sendPassphrase(passdlgmessage, false);
 }
 
+void
+KGpgTransaction::setGnuPGHome(const QString &home)
+{
+	d->m_process->setEnv("GNUPGHOME", home);
+}
+
+int
+KGpgTransaction::waitForFinished(const int msecs)
+{
+	bool b = d->m_process->waitForFinished(msecs);
+
+	if (!b)
+		return TS_USER_ABORTED;
+	else
+		return getSuccess();
+}
+
 #include "kgpgtransaction.moc"

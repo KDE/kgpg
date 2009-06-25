@@ -95,6 +95,7 @@
 #include "kgpgdeluid.h"
 #include "kgpgaddphoto.h"
 #include "kgpgadduid.h"
+#include "kgpgexport.h"
 #include "kgpggeneratekey.h"
 #include "kgpgdelkey.h"
 #include "kgpgimport.h"
@@ -1452,19 +1453,25 @@ void KeysManager::slotexportsec()
 	KUrl url(KFileDialog::getSaveUrl(sname, "*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As")));
 
 	if(!url.isEmpty()) {
-		QFile fgpg(url.path());
-		if (fgpg.exists())
-			fgpg.remove();
+		KGpgExport *exp = new KGpgExport(this, QStringList(nd->getId()), url.path(), QStringList("--armor"), true);
 
-		KProcess p;
-		p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--output" << QFile::encodeName(url.path()) << "--armor" << "--export-secret-keys" << nd->getId();
-		p.execute();
+		connect(exp, SIGNAL(done(int)), SLOT(slotExportSecFinished(int)));
 
-		if (fgpg.exists())
-			KMessageBox::information(this,
-					i18n("<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/><b>Do not</b> leave it in an insecure place.</qt>", nd->getId(), url.path()));
-		else
-			KMessageBox::sorry(this, i18n("Your secret key could not be exported.\nCheck the key."));
+		exp->start();
+	}
+}
+
+void KeysManager::slotExportSecFinished(int result)
+{
+	KGpgExport *exp = qobject_cast<KGpgExport *>(sender());
+	Q_ASSERT(exp != NULL);
+
+	if (result == KGpgTransaction::TS_OK) {
+		KMessageBox::information(this,
+				i18n("<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/><b>Do not</b> leave it in an insecure place.</qt>",
+				exp->getKeyIds().first(), exp->getOutputFile()));
+	} else {
+		KMessageBox::sorry(this, i18n("Your secret key could not be exported.\nCheck the key."));
 	}
 }
 
@@ -1533,6 +1540,11 @@ void KeysManager::slotexport()
 		} else {
 			exportAttr = "export-minimal";
 		}
+		QStringList expopts;
+
+		if (!exportAttr.isEmpty())
+			expopts << "--export-options" << exportAttr;
+
 		if (page->checkServer->isChecked()) {
 			KeyServer *expServer = new KeyServer(0, imodel);
 			expServer->slotSetExportAttribute(exportAttr);
@@ -1542,52 +1554,74 @@ void KeysManager::slotexport()
 		} else if (page->checkFile->isChecked()) {
 			const QString expname(page->newFilename->url().path().simplified());
 			if (!expname.isEmpty()) {
-				QFile fgpg(expname);
-				if (fgpg.exists())
-					fgpg.remove();
 
-				KProcess p;
-				p << KGpgSettings::gpgBinaryPath() << "--no-tty";
+				expopts.append("--armor");
 
-				p << "--output" << expname << "--export" << "--armor";
-				if (!exportAttr.isEmpty())
-					p << "--export-options" << exportAttr;
+				KGpgExport *exp = new KGpgExport(this, klist, expname, expopts);
 
-				p << klist;
+				connect(exp, SIGNAL(done(int)), SLOT(slotExportFinished(int)));
 
-				p.execute();
-
-				if (fgpg.exists())
-				KMessageBox::information(this, i18np("<qt>The public key was successfully exported to<br/>%2</qt>",
-									"<qt>The %1 public keys were successfully exported to<br/>%2</qt>",
-									klist.count(), expname));
-				else
-				KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
+				exp->start();
 			}
 		} else {
-			KgpgInterface *kexp = new KgpgInterface();
-			QString result(kexp->getKeys(exportAttr, klist));
-			delete kexp;
+			KGpgExport *exp = new KGpgExport(this, klist, expopts);
 
 			if (page->checkClipboard->isChecked())
-				slotProcessExportClip(result);
+				connect(exp, SIGNAL(done(int)), SLOT(slotProcessExportClip(int)));
 			else
-				slotProcessExportMail(result);
+				connect(exp, SIGNAL(done(int)), SLOT(slotProcessExportMail(int)));
+
+			exp->start();
 		}
 	}
 
 	delete dial;
 }
 
-void KeysManager::slotProcessExportMail(const QString &keys)
+void KeysManager::slotExportFinished(int result)
 {
-    // start default Mail application
-    KToolInvocation::invokeMailer(QString(), QString(), QString(), QString(), keys);
+	KGpgExport *exp = qobject_cast<KGpgExport *>(sender());
+	Q_ASSERT(exp != NULL);
+
+	if (result == KGpgTransaction::TS_OK) {
+		KMessageBox::information(this,
+				i18np("<qt>The public key was successfully exported to<br/>%2</qt>",
+						"<qt>The %1 public keys were successfully exported to<br/>%2</qt>",
+						exp->getKeyIds().count(), exp->getOutputFile()));
+	} else {
+		KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
+	}
+
+	exp->deleteLater();
 }
 
-void KeysManager::slotProcessExportClip(const QString &keys)
+void KeysManager::slotProcessExportMail(int result)
 {
-    kapp->clipboard()->setText(keys, m_clipboardmode);
+	KGpgExport *exp = qobject_cast<KGpgExport *>(sender());
+	Q_ASSERT(exp != NULL);
+
+	// start default Mail application
+	if (result == KGpgTransaction::TS_OK) {
+		KToolInvocation::invokeMailer(QString(), QString(), QString(), QString(), exp->getOutputData());
+	} else {
+		KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
+	}
+
+	exp->deleteLater();
+}
+
+void KeysManager::slotProcessExportClip(int result)
+{
+	KGpgExport *exp = qobject_cast<KGpgExport *>(sender());
+	Q_ASSERT(exp != NULL);
+
+	if (result == KGpgTransaction::TS_OK) {
+		kapp->clipboard()->setText(exp->getOutputData(), m_clipboardmode);
+	} else {
+		KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
+	}
+
+	exp->deleteLater();
 }
 
 void KeysManager::showKeyInfo(const QString &keyID)

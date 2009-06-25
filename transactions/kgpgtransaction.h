@@ -72,6 +72,17 @@ public:
 	 */
 	void start();
 
+	/**
+	 * \brief sets the GNUPGHOME of the transaction
+	 */
+	void setGnuPGHome(const QString &home);
+
+	/**
+	 * \brief blocks until the transaction is complete
+	 * @return the result of the transaction like done() would
+	 */
+	int waitForFinished(const int msecs = -1);
+
 Q_SIGNALS:
 	/**
 	 * \brief Emitted when the operation was completed.

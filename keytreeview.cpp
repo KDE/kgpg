@@ -31,6 +31,7 @@
 #include "kgpgitemnode.h"
 #include "kgpginterface.h"
 #include "kgpgimport.h"
+#include "kgpgexport.h"
 
 KeyTreeView::KeyTreeView(QWidget *parent, KeyListProxyModel *model)
 	: QTreeView(parent), m_proxy(model)
@@ -168,16 +169,21 @@ KeyTreeView::startDrag(Qt::DropActions supportedActions)
 	if (!(nd->getType() & ITYPE_PUBLIC))
 		return;
 
-	KgpgInterface *interface = new KgpgInterface();
-	QString keytxt = interface->getKeys(NULL, QStringList(keyid));
-	delete interface;
+	KGpgExport *exp = new KGpgExport(this, QStringList(keyid));
+	exp->start();
 
-	QMimeData *m = new QMimeData();
-	m->setText(keytxt);
-	QDrag *d = new QDrag(this);
-	d->setMimeData(m);
-	d->exec(supportedActions, Qt::IgnoreAction);
-	// do NOT delete d.
+	int result = exp->waitForFinished();
+
+	if (result == KGpgTransaction::TS_OK) {
+		QMimeData *m = new QMimeData();
+		m->setText(exp->getOutputData());
+		QDrag *drag = new QDrag(this);
+		drag->setMimeData(m);
+		drag->exec(supportedActions, Qt::IgnoreAction);
+		// do NOT delete drag.
+	}
+
+	delete exp;
 }
 
 void

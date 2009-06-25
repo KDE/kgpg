@@ -738,35 +738,6 @@ KgpgInterface::readJoinedKeys(const KgpgKeyTrust &trust, const QStringList &ids)
 	return publickeys;
 }
 
-QString KgpgInterface::getKeys(const QString &attributes, const QStringList &ids)
-{
-	m_keystring.clear();
-
-	GPGProc *gpgProcess = new GPGProc(this);
-	*gpgProcess << "--export" << "--armor" << "--status-fd=1" << "--command-fd=0";
-
-	if (!attributes.isEmpty())
-		*gpgProcess << "--export-options" << attributes;
-
-	*gpgProcess << ids;
-
-	connect(gpgProcess, SIGNAL(readReady(GPGProc *)), SLOT(getKeysProcess(GPGProc *)));
-	gpgProcess->start();
-	gpgProcess->waitForFinished(-1);
-	delete gpgProcess;
-	return m_keystring;
-}
-
-void KgpgInterface::getKeysProcess(GPGProc *gpgProcess)
-{
-	QString line;
-
-	while (gpgProcess->readln(line, true) >= 0) {
-		if (!line.startsWith("gpg:"))
-			m_keystring += line + '\n';
-	}
-}
-
 void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, const bool local, const int checking, const bool terminal, const QString &uid)
 {
 	m_partialline.clear();
