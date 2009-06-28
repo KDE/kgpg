@@ -527,15 +527,15 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 				kmail = fullname;
 
 				if (fullname.contains(')') )
-				kmail = kmail.section(')', 1);
+					kmail = kmail.section(')', 1);
 
 				kmail = kmail.section('<', 1);
 				kmail.truncate(kmail.length() - 1);
 
-				if ( kmail.contains('<') ) // several email addresses in the same key
-				{
-				kmail = kmail.replace('>', ';');
-				kmail.remove('<');
+				if (kmail.contains('<')) {
+					// several email addresses in the same key
+					kmail = kmail.replace('>', ';');
+					kmail.remove('<');
 				}
 			}
 
@@ -581,8 +581,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			if (lsp.at(10).endsWith('l'))
 				signature.setLocal(true);
 
-			if (lsp.at(0) == "rev")
-				signature.setRevocation(true);
+			signature.setRevocation(lsp.at(0) == "rev");
 
 			if (cycle == "pub")
 				m_publickey.addSign(signature);
