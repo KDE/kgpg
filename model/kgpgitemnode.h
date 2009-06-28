@@ -40,6 +40,9 @@ class KGpgItemModel;
 
 typedef QList<KGpgSignNode *> KGpgSignNodeList;
 
+/**
+ * \brief The abstract base class for all classes representing keyring data
+ */
 class KGpgNode : public QObject
 {
 	Q_OBJECT
@@ -135,6 +138,13 @@ public:
 	const KGpgOrphanNode *toOrphanNode() const;
 };
 
+/**
+ * \brief The abstract base class for all classes that may have child objects
+ *
+ * Every class that represents something in the keyring that may have
+ * child objects inherits from this class. That does not mean that every
+ * child object always has children, but every child \em may have children.
+ */
 class KGpgExpandableNode : public KGpgNode
 {
 	friend class KGpgRefNode;
@@ -143,14 +153,41 @@ class KGpgExpandableNode : public KGpgNode
 protected:
 	List children;
 
+	/**
+	 * reimplemented in every base class to read in the child data
+	 *
+	 * This allows the child objects to delay the loading of the
+	 * child objects until they are really needed to avoid time
+	 * consuming operations for data never used.
+	 */
 	virtual void readChildren() = 0;
 
 public:
 	explicit KGpgExpandableNode(KGpgExpandableNode *parent = NULL);
 	virtual ~KGpgExpandableNode();
 
+	/**
+	 * check if there are any child nodes
+	 *
+	 * The default implementation returns true if any child nodes were loaded.
+	 * This may be reimplemented by child classes so they can indicate that
+	 * there are child nodes before actually loading them.
+	 *
+	 * This method indicates if there are children if this node is expanded.
+	 * In contrast wasExpanded() will only return true if the child nodes
+	 * are actually present in memory.
+	 */
 	virtual bool hasChildren() const
 		{ return (children.count() != 0); }
+	/**
+	 * check if there are any child nodes present in memory
+	 *
+	 * Returns true if any child nodes were loaded.
+	 *
+	 * This method indicates if the children of this node are already loaded
+	 * into memory. In contrast hasChildren() may return true even if the child
+	 * objects are not present in memory.
+	 */
 	virtual bool wasExpanded() const
 		{ return (children.count() != 0); }
 	virtual int getChildCount();
@@ -164,7 +201,7 @@ public:
 };
 
 /**
- * \brief an object that may have KGpgSignNode children
+ * \brief An object that may have KGpgSignNode children
  *
  * This class represents an object that may be signed, i.e. key nodes,
  * user ids, user attributes, and subkeys.
@@ -190,6 +227,9 @@ public:
 	bool operator<(const KGpgSignableNode *other) const;
 };
 
+/**
+ * \brief A public key with or without corresponding secret key
+ */
 class KGpgKeyNode : public KGpgSignableNode
 {
 	Q_OBJECT
@@ -328,6 +368,15 @@ Q_SIGNALS:
 typedef QList<KGpgKeyNode *> KGpgKeyNodeList;
 typedef QList<const KGpgKeyNode *> KGpgKeyConstNodeList;
 
+/**
+ * \brief The parent of all key data objects
+ *
+ * This object is invisible to the user but acts as the internal base object for
+ * everything in the keyring. It is anchestor of all other KGpgNode objects and
+ * the only one that will ever return NULL when calling getParentKeyNode() on it.
+ *
+ * There is only one object of this type around at any time.
+ */
 class KGpgRootNode : public KGpgExpandableNode
 {
 	Q_OBJECT
@@ -393,6 +442,9 @@ Q_SIGNALS:
 	void newKeyNode(KGpgKeyNode *);
 };
 
+/**
+ * \brief A user id of a public key or key pair
+ */
 class KGpgUidNode : public KGpgSignableNode
 {
 private:
@@ -419,6 +471,9 @@ public:
 		{ return m_uid->comment(); }
 };
 
+/**
+ * \brief a subkey of a public key or key pair
+ */
 class KGpgSubkeyNode : public KGpgSignableNode
 {
 private:
@@ -445,6 +500,9 @@ public:
 	virtual KGpgKeyNode *getParentKeyNode() const;
 };
 
+/**
+ * \brief A user attribute (i.e. photo id) of a public key or key pair
+ */
 class KGpgUatNode : public KGpgSignableNode
 {
 private:
@@ -477,6 +535,9 @@ public:
 	virtual KGpgKeyNode *getParentKeyNode() const;
 };
 
+/**
+ * \brief A GnuPG group of public keys
+ */
 class KGpgGroupNode : public KGpgExpandableNode
 {
 private:
@@ -502,7 +563,7 @@ public:
 };
 
 /**
- * class for child objects that are only a reference to a primary key
+ * \brief Class for child objects that are only a reference to a primary key
  *
  * This is the base class for all type of objects that match these criteria:
  * -they can not have child objects
@@ -557,6 +618,9 @@ private Q_SLOTS:
 	void keyUpdated(KGpgKeyNode *);
 };
 
+/**
+ * \brief A member of a GnuPG group
+ */
 class KGpgGroupMemberNode : public KGpgRefNode
 {
 public:
@@ -584,6 +648,9 @@ public:
 	virtual unsigned int getEncryptionKeySize() const;
 };
 
+/**
+ * \brief A signature to another key object
+ */
 class KGpgSignNode : public KGpgRefNode
 {
 private:
@@ -604,6 +671,9 @@ public:
 		{ return m_sign->comment(); }
 };
 
+/**
+ * \brief A lone secret key without public key
+ */
 class KGpgOrphanNode : public KGpgNode
 {
 private:
