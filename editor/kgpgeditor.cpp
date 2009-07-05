@@ -184,8 +184,10 @@ void KgpgEditor::initActions()
 bool KgpgEditor::queryClose()
 {
 	bool b = saveBeforeClear();
-	if (b)
+	if (b) {
 		view->editor->clear();
+		newText();
+	}
 	return b;
 }
 
