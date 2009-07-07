@@ -102,8 +102,6 @@ kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
 kde4_add_executable(kgpg ${kgpg_SRCS})
 
-message(STATUS ${LIBKNOTIFICATIONITEM-1_LIBRARIES})
-
 target_link_libraries(kgpg
 	${KDE4_KIO_LIBS}
 	${KDE4_KABC_LIBS}
