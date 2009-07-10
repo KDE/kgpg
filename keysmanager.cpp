@@ -2596,7 +2596,7 @@ KeysManager::clipEncrypt()
 			selec = dialog->selectedKeys();
 
 		KGpgTextInterface *txtEncrypt = new KGpgTextInterface();
-		connect (txtEncrypt, SIGNAL(txtEncryptionFinished(QString)), SLOT(slotSetClip(QString)));
+		connect (txtEncrypt, SIGNAL(txtEncryptionFinished(QString, KGpgTextInterface *)), SLOT(slotSetClip(QString, KGpgTextInterface *)));
 		m_trayicon->setStatus(Experimental::KNotificationItem::Active);
 		txtEncrypt->encryptText(cliptext, selec, options);
 	}
@@ -2605,8 +2605,10 @@ KeysManager::clipEncrypt()
 }
 
 void
-KeysManager::slotSetClip(const QString &newtxt)
+KeysManager::slotSetClip(const QString &newtxt, KGpgTextInterface *iface)
 {
+	iface->deleteLater();
+
 	m_trayicon->setStatus(Experimental::KNotificationItem::Passive);
 
 	if (newtxt.isEmpty())

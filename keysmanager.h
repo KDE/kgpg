@@ -55,6 +55,7 @@ class KGpgAddUid;
 class KGpgGenerateKey;
 class KGpgDelKey;
 class KGpgImport;
+class KGpgTextInterface;
 
 namespace Experimental {
 	class KNotificationItem;
@@ -210,7 +211,7 @@ private slots:
     void slotDelKeyDone(int ret);
     void slotImportDone(int ret);
     void slotImportDone(KGpgImport *import, int ret);
-    void slotSetClip(const QString &newtxt);
+    void slotSetClip(const QString &newtxt, KGpgTextInterface *iface);
 
     void slotNetworkUp();
     void slotNetworkDown();
