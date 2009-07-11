@@ -24,10 +24,10 @@
 #include <KLocale>
 
 KGpgItemModel::KGpgItemModel(QObject *parent)
-	: QAbstractItemModel(parent)
+	: QAbstractItemModel(parent),
+	m_root(new KGpgRootNode(this)),
+	m_default(KGpgSettings::defaultKey())
 {
-	m_root = new KGpgRootNode(this);
-	m_default = KGpgSettings::defaultKey();
 }
 
 KGpgItemModel::~KGpgItemModel()
