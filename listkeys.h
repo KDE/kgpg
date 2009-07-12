@@ -51,7 +51,7 @@ class groupEdit;
 class KgpgInterface;
 class KSelectAction;
 
-typedef struct gpgKey
+struct gpgKey
 {
         QString gpgkeymail;
         QString gpgkeyname;
