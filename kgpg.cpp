@@ -66,10 +66,7 @@ void KGpgApp::assistantOver(const QString &defaultKeyId)
 
 int KGpgApp::newInstance()
 {
-	args = KCmdLineArgs::parsedArgs();
-	if (running) {
-		s_keyManager->show();
-	} else {
+	if (!running) {
 		running = true;
 
 		s_keyManager = new KeysManager();
@@ -97,6 +94,8 @@ int KGpgApp::newInstance()
 					"Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>", gpgPath));
 		}
 	}
+
+	args = KCmdLineArgs::parsedArgs();
 
 	goHome = qobject_cast<KAction *>(s_keyManager->actionCollection()->action("go_default_key"))->shortcut();
 	w->goDefaultKey = goHome;
