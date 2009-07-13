@@ -69,14 +69,13 @@ int KGpgApp::newInstance()
 	if (!running) {
 		running = true;
 
-		s_keyManager = new KeysManager();
-
 		const QString gpgPath(KGpgSettings::gpgConfigPath());
 		if (!gpgPath.isEmpty())
 			if (KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash) != (QDir::homePath() + "/.gnupg/"))
 				setenv("GNUPGHOME", KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash).toAscii(), 1);
 
-		s_keyManager->refreshkey();
+		s_keyManager = new KeysManager();
+
 		w = new KGpgExternalActions(s_keyManager, s_keyManager->getModel());
 		connect(w, SIGNAL(importDrop(const QString &)), s_keyManager, SLOT(slotImport(const QString &)));
 
