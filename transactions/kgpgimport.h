@@ -134,6 +134,9 @@ private:
 	QStringList m_messages;
 
 	void cleanUrls();
+
+private slots:
+	void postStart();
 };
 
 #endif // KGPGIMPORT_H
