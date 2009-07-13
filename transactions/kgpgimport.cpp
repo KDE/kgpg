@@ -76,11 +76,23 @@ KGpgImport::preStart()
 	GPGProc *proc = getProcess();
 	QStringList args(proc->program().at(0));
 
+	disconnect(proc, SIGNAL(started()), this, SLOT(postStart()));
+	if (!m_text.isEmpty())
+		connect(proc, SIGNAL(started()), SLOT(postStart()));
+
 	args << "--status-fd=1" << "--import" << "--allow-secret-key-import" << locfiles << m_tempfiles;
 
 	proc->setProgram(args);
 
 	return true;
+}
+
+void
+KGpgImport::postStart()
+{
+	GPGProc *proc = getProcess();
+	proc->write(m_text.toAscii());
+	proc->closeWriteChannel();
 }
 
 bool
