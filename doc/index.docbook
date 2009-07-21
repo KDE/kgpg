@@ -401,7 +401,7 @@ Most encryption options are directly related to gpg and are documented in it's <
 <para>Here you can configure special options to be passed to GnuPG to change the encryption behaviour. For detailed description please have a look at the GnuPG manual.</para>
 <itemizedlist>
 <listitem><para><guilabel>ASCII armored encryption</guilabel>: this causes encrypted files to be stored in a format that uses only printable ASCII characters and has short lines. Files stored this way are bigger than the files in binary format but are easier to send &eg; by email.</para></listitem>
-<listitem><para><guilabel>Allow encryption with untrusted keys</guilabel>: this allows you to to encrypt files with keys that are not trusted by you.</para></listitem>
+<listitem><para><guilabel>Allow encryption with untrusted keys</guilabel>: this allows you to encrypt files with keys that are not trusted by you.</para></listitem>
 <listitem><para><guilabel>PGP 6 compatibility</guilabel>: encrypted files are compatible with the older PGP6 standard. This disables certain features so you should only use this if really needed.</para></listitem>
 <listitem><para><guilabel>Hide user id</guilabel>: this removes all evidence of the receiver from the encrypted file. In case the transmission is intercepted noone could gain information about the recipient from the file. If the receiver has multiple keys he needs to try which one was used.</para></listitem>
 <listitem><para><guilabel>Always encrypt with</guilabel>: all encryptions are additionally encrypted with this key. If you set this to one of your private keys this makes sure you can read all data you encrypted by the price of bigger messages.</para></listitem>
