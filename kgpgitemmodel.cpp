@@ -21,6 +21,7 @@
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "convert.h"
+#include <KGlobal>
 #include <KLocale>
 
 KGpgItemModel::KGpgItemModel(QObject *parent)
@@ -132,7 +133,7 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		}
 	case KEYCOLUMN_EXPIR:
 		if (role == Qt::DisplayRole)
-			return node->getExpiration();
+			return KGlobal::locale()->formatDate(node->getExpiration(), KLocale::ShortDate);
 		break;
 	case KEYCOLUMN_SIZE:
 		switch (role) {
@@ -154,7 +155,7 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		break;
 	case KEYCOLUMN_CREAT:
 		if (role == Qt::DisplayRole)
-			return node->getCreation();
+			return KGlobal::locale()->formatDate(node->getCreation(), KLocale::ShortDate);
 		break;
 	case KEYCOLUMN_ID:
 		if (role == Qt::DisplayRole)
