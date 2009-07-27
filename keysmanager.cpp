@@ -207,9 +207,8 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(generateKey, SIGNAL(triggered(bool)), SLOT(slotGenerateKey()));
 	generateKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::New));
 
-	KAction *exportPublicKey = actionCollection()->addAction("key_export");
+	exportPublicKey = actionCollection()->addAction("key_export");
 	exportPublicKey->setIcon(KIcon("document-export-key"));
-	exportPublicKey->setText(i18n("E&xport Public Keys..."));
 	connect(exportPublicKey, SIGNAL(triggered(bool)), SLOT(slotexport()));
 	exportPublicKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Copy));
 
@@ -224,8 +223,8 @@ KeysManager::KeysManager(QWidget *parent)
 	newContact->setText(i18n("&Create New Contact in Address Book"));
 	connect(newContact, SIGNAL(triggered(bool)), SLOT(addToKAB()));
 
-	QAction *createGroup = actionCollection()->addAction("create_group");
-	createGroup->setText(i18n("&Create Group with Selected Keys..."));
+	createGroup = actionCollection()->addAction("create_group");
+	createGroup->setIcon(Images::group());
 	connect(createGroup, SIGNAL(triggered(bool)), SLOT(createNewGroup()));
 
 	editCurrentGroup = actionCollection()->addAction("edit_group");
@@ -234,11 +233,11 @@ KeysManager::KeysManager(QWidget *parent)
 
 	delGroup = actionCollection()->addAction("delete_group");
 	delGroup->setText(i18n("&Delete Group"));
+	delGroup->setIcon(KIcon("edit-delete"));
 	connect(delGroup, SIGNAL(triggered(bool)), SLOT(deleteGroup()));
 
 	deleteKey = actionCollection()->addAction("key_delete");
 	deleteKey->setIcon(KIcon("edit-delete"));
-	deleteKey->setText(i18n("&Delete Keys"));
 	connect(deleteKey, SIGNAL(triggered(bool)), SLOT(confirmdeletekey()));
 	deleteKey->setShortcut(QKeySequence(Qt::Key_Delete));
 
@@ -256,6 +255,7 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(exportSecretKey, SIGNAL(triggered(bool)), SLOT(slotexportsec()));
 	QAction *deleteKeyPair = actionCollection()->addAction("key_pdelete");
 	deleteKeyPair->setText(i18n("Delete Key Pair"));
+	deleteKeyPair->setIcon(KIcon("edit-delete"));
 	connect(deleteKeyPair, SIGNAL(triggered(bool)), SLOT(deleteseckey()));
 	QAction *revokeKey = actionCollection()->addAction("key_revoke");
 	revokeKey->setText(i18n("Revoke Key..."));
@@ -264,7 +264,7 @@ KeysManager::KeysManager(QWidget *parent)
 	regeneratePublic->setText(i18n("&Regenerate Public Key"));
 	connect(regeneratePublic, SIGNAL(triggered(bool)), SLOT(slotregenerate()));
 	delUid = actionCollection()->addAction("del_uid");
-	delUid->setText(i18n("&Delete User Id"));
+	delUid->setIcon(KIcon("edit-delete"));
 	connect(delUid, SIGNAL(triggered(bool)), SLOT(slotDelUid()));
 	setPrimUid = actionCollection()->addAction("prim_uid");
 	setPrimUid->setText(i18n("Set User Id as &Primary"));
@@ -279,7 +279,6 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(deletePhoto, SIGNAL(triggered(bool)), SLOT(slotDeletePhoto()));
 	delSignKey = actionCollection()->addAction("key_delsign");
 	delSignKey->setIcon(KIcon("edit-delete"));
-	delSignKey->setText(i18n("Delete Sign&ature(s)"));
 	connect(delSignKey, SIGNAL(triggered(bool)), SLOT(delsignkey()));
 
 	importAllSignKeys = actionCollection()->addAction("key_importallsign");
@@ -288,19 +287,15 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(importAllSignKeys, SIGNAL(triggered(bool)), SLOT(importallsignkey()));
 	refreshKey = actionCollection()->addAction("key_server_refresh");
 	refreshKey->setIcon(KIcon("view-refresh"));
-	refreshKey->setText(i18n("&Refresh Keys From Keyserver"));
 	connect(refreshKey, SIGNAL(triggered(bool)), SLOT(refreshKeyFromServer()));
 	signKey = actionCollection()->addAction("key_sign");
 	signKey->setIcon(KIcon("document-sign-key"));
-	signKey->setText(i18n("&Sign Keys..."));
 	connect(signKey, SIGNAL(triggered(bool)), SLOT(signkey()));
 	signUid = actionCollection()->addAction("key_sign_uid");
 	signUid->setIcon(KIcon("document-sign-key"));
-	signUid->setText(i18n("&Sign User ID ..."));
 	connect(signUid, SIGNAL(triggered(bool)), SLOT(signuid()));
 	importSignatureKey = actionCollection()->addAction("key_importsign");
 	importSignatureKey->setIcon(KIcon("document-import-key"));
-	importSignatureKey->setText(i18n("Import Key(s) From Keyserver"));
 	connect(importSignatureKey, SIGNAL(triggered(bool)), SLOT(preimportsignkey()));
 
 	sTrust = actionCollection()->add<KToggleAction>("show_trust");
@@ -1337,6 +1332,12 @@ KeysManager::slotMenu(const QPoint &pos)
 	importAllSignKeys->setEnabled(unksig && m_online);
 
 	signUid->setEnabled(!(itype & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)));
+	signUid->setText(i18np("&Sign User ID ...", "&Sign User IDs ...", cnt));
+	exportPublicKey->setText(i18np("E&xport Public Key...", "E&xport Public Keys...", cnt));
+	refreshKey->setText(i18np("&Refresh Key From Keyserver", "&Refresh Keys From Keyserver", cnt));
+	createGroup->setText(i18np("&Create Group with Selected Key...", "&Create Group with Selected Keys...", cnt));
+	signKey->setText(i18np("&Sign Key...", "&Sign Keys...", cnt));
+	delUid->setText(i18np("&Delete User ID", "&Delete User IDs", cnt));
 
 	if (itype == ITYPE_SIGN) {
 		bool allunksig = true;
@@ -1347,7 +1348,9 @@ KeysManager::slotMenu(const QPoint &pos)
 		}
 
 		importSignatureKey->setEnabled(allunksig && m_online);
+		importSignatureKey->setText(i18np("Import Key From Keyserver", "Import Keys From Keyserver", cnt));
 		delSignKey->setEnabled( (cnt == 1) );
+		delSignKey->setText(i18np("Delete Sign&ature", "Delete Sign&atures", cnt));
 		m_popupsig->exec(globpos);
 	} else if (itype == ITYPE_UID) {
 		if (cnt == 1) {
@@ -1368,6 +1371,7 @@ KeysManager::slotMenu(const QPoint &pos)
 	} else if (!(itype & ~(ITYPE_PAIR | ITYPE_GROUP))) {
 		signKey->setEnabled(!(itype & ITYPE_GROUP));
 		deleteKey->setEnabled(!(itype & ITYPE_GROUP));
+		deleteKey->setText(i18np("&Delete Key", "&Delete Keys", cnt));
 		setDefaultKey->setEnabled( (cnt == 1) );
 		m_popuppub->exec(globpos);
 	} else if (!(itype & ~(ITYPE_UID | ITYPE_PAIR | ITYPE_UAT))) {

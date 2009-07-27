@@ -269,6 +269,8 @@ private:
     KAction *kserver;
     KAction *openEditor;
     KAction *goToDefaultKey;
+    KAction *exportPublicKey;
+    KAction *createGroup;
 
     KeyServer *kServer;
     KgpgInterface *revKeyProcess;
