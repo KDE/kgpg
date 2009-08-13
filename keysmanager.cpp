@@ -483,7 +483,7 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(m_netnote, SIGNAL(shouldConnect()), SLOT(slotNetworkUp()));
 	connect(m_netnote, SIGNAL(shouldDisconnect()), SLOT(slotNetworkDown()));
 
-	toggleNetworkActions(Solid::Networking::status() == Solid::Networking::Connected);
+	toggleNetworkActions(Solid::Networking::status() == Solid::Networking::Unknown || Solid::Networking::status() == Solid::Networking::Connected);
 
 	QTimer::singleShot(0, this, SLOT(refreshkey()));
 }
