@@ -487,7 +487,8 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(m_netnote, SIGNAL(shouldConnect()), SLOT(slotNetworkUp()));
 	connect(m_netnote, SIGNAL(shouldDisconnect()), SLOT(slotNetworkDown()));
 
-	toggleNetworkActions(Solid::Networking::status() == Solid::Networking::Connected);
+	toggleNetworkActions((Solid::Networking::status() == Solid::Networking::Connected) ||
+			(Solid::Networking::status() == Solid::Networking::Unknown));
 }
 
 KeysManager::~KeysManager()
