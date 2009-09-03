@@ -2544,7 +2544,7 @@ KeysManager::setupTrayIcon()
 	bool newtray = (m_trayicon == NULL);
 
 	if (newtray) {
-		m_trayicon = new Experimental::KNotificationItem(this);
+		m_trayicon = new KNotificationItem(this);
 		m_trayicon->setIconByName("kgpg");
 		m_trayicon->setToolTip("kgpg", i18n("KGpg - encryption tool"), QString());
 	}
@@ -2558,7 +2558,7 @@ KeysManager::setupTrayIcon()
 		break;
 	}
 
-	m_trayicon->setCategory(Experimental::KNotificationItem::ApplicationStatus);
+	m_trayicon->setCategory(KNotificationItem::ApplicationStatus);
 
 	if (!newtray)
 		return;
@@ -2637,7 +2637,7 @@ KeysManager::clipEncrypt()
 
 		KGpgTextInterface *txtEncrypt = new KGpgTextInterface();
 		connect (txtEncrypt, SIGNAL(txtEncryptionFinished(QString, KGpgTextInterface *)), SLOT(slotSetClip(QString, KGpgTextInterface *)));
-		m_trayicon->setStatus(Experimental::KNotificationItem::Active);
+		m_trayicon->setStatus(KNotificationItem::Active);
 		txtEncrypt->encryptText(cliptext, selec, options);
 	}
 
@@ -2649,7 +2649,7 @@ KeysManager::slotSetClip(const QString &newtxt, KGpgTextInterface *iface)
 {
 	iface->deleteLater();
 
-	m_trayicon->setStatus(Experimental::KNotificationItem::Passive);
+	m_trayicon->setStatus(KNotificationItem::Passive);
 
 	if (newtxt.isEmpty())
 		return;

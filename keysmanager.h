@@ -57,9 +57,8 @@ class KGpgDelKey;
 class KGpgImport;
 class KGpgTextInterface;
 
-namespace Experimental {
-	class KNotificationItem;
-}
+class KNotificationItem;
+
 
 class AddUid : public QWidget, public Ui::AddUid
 {
@@ -297,7 +296,7 @@ private:
     Solid::Networking::Notifier *m_netnote;
     void toggleNetworkActions(bool online);
 
-    Experimental::KNotificationItem *m_trayicon;
+    KNotificationItem *m_trayicon;
     void setupTrayIcon();
 };
 
