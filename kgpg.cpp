@@ -100,7 +100,7 @@ int KGpgApp::newInstance()
 	w->goDefaultKey = goHome;
 
 	// parsing of command line args
-	if (args->isSet("k")) {
+	if (args->isSet("k") || (!KGpgSettings::showSystray() && (args->count() == 0))) {
 		s_keyManager->show();
 		KWindowSystem::setOnDesktop(s_keyManager->winId(), KWindowSystem::currentDesktop());  //set on the current desktop
 		KWindowSystem::unminimizeWindow(s_keyManager->winId());  //de-iconify window
