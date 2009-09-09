@@ -60,7 +60,6 @@ KgpgEditor::KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f, KSho
     m_find = 0;
     m_model = model;
 
-    setAttribute(Qt::WA_DeleteOnClose, false);
     // call inits to invoke all other construction parts
     initActions();
 
