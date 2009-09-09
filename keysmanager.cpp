@@ -148,6 +148,7 @@ KeysManager::KeysManager(QWidget *parent)
 	goToDefaultKey->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home));
 
 	s_kgpgEditor = new KgpgEditor(parent, imodel, Qt::Dialog, goToDefaultKey->shortcut(), true);
+	s_kgpgEditor->setAttribute(Qt::WA_DeleteOnClose, false);
 
 	// this must come after kserver, preferences, and openEditor are created
 	// because they are used to set up the tray icon context menu
@@ -537,7 +538,6 @@ void KeysManager::showKeyManager()
 void KeysManager::slotOpenEditor()
 {
 	KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, Qt::Window, goToDefaultKey->shortcut());
-	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 
 	connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
 	connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SIGNAL(encryptFiles(KUrl::List)));
