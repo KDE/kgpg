@@ -38,6 +38,7 @@
 using namespace KgpgCore;
 
 KgpgLibrary::KgpgLibrary(QWidget *parent)
+	: m_pop(NULL)
 {
 	m_extension = ".gpg";
 
@@ -171,6 +172,7 @@ void KgpgLibrary::processDecOver(int ret, KGpgTextInterface *iface)
 {
 	emit systemMessage(QString());
 	delete m_pop;
+	m_pop = NULL;
 	iface->deleteLater();
 	if (ret != 0)
 		emit decryptionOver(this, m_urlselected);
