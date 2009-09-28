@@ -147,6 +147,8 @@ public:
  */
 class KGpgExpandableNode : public KGpgNode
 {
+	Q_OBJECT
+
 	friend class KGpgRefNode;
 	friend class KGpgSubkeyNode;
 
@@ -385,6 +387,7 @@ class KGpgRootNode : public KGpgExpandableNode
 
 private:
 	int m_groups;
+	int m_deleting;
 
 protected:
 	virtual void readChildren()
@@ -392,8 +395,7 @@ protected:
 
 public:
 	explicit KGpgRootNode(KGpgItemModel *model);
-	virtual ~KGpgRootNode()
-		{}
+	virtual ~KGpgRootNode();
 
 	virtual KgpgItemType getType() const
 		{ return 0; }
@@ -437,6 +439,16 @@ public:
 
 	int groupChildren() const
 		{ return m_groups; }
+
+	/**
+	 * Return a pointer to this object or NULL
+	 *
+	 * This returns a pointer to this object if the object will persist,
+	 * i.e. is not currently in destruction. If the object is already
+	 * cleaning up NULL is returned.
+	 */
+	KGpgRootNode *asRootNode();
+	const KGpgRootNode *asRootNode() const;
 
 Q_SIGNALS:
 	void newKeyNode(KGpgKeyNode *);

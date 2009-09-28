@@ -57,7 +57,7 @@ KGpgNode::toExpandableNode()
 	Q_ASSERT(((getType() & ITYPE_GROUP) && !(getType() & ITYPE_PAIR)) ||
 			(getType() & (ITYPE_PAIR | ITYPE_SUB | ITYPE_UID | ITYPE_UAT)));
 
-	return static_cast<KGpgExpandableNode *>(this);
+	return qobject_cast<KGpgExpandableNode *>(this);
 }
 
 const KGpgExpandableNode *
@@ -66,7 +66,7 @@ KGpgNode::toExpandableNode() const
 	Q_ASSERT(((getType() & ITYPE_GROUP) && !(getType() & ITYPE_PAIR)) ||
 	(getType() & (ITYPE_PAIR | ITYPE_SUB | ITYPE_UID | ITYPE_UAT)));
 
-	return static_cast<const KGpgExpandableNode *>(this);
+	return qobject_cast<const KGpgExpandableNode *>(this);
 }
 
 KGpgSignableNode *
@@ -74,7 +74,7 @@ KGpgNode::toSignableNode()
 {
 	Q_ASSERT(getType() & (ITYPE_PAIR | ITYPE_SUB | ITYPE_UID | ITYPE_UAT));
 	
-	return static_cast<KGpgSignableNode *>(this);
+	return qobject_cast<KGpgSignableNode *>(this);
 }
 
 const KGpgSignableNode *
@@ -82,7 +82,7 @@ KGpgNode::toSignableNode() const
 {
 	Q_ASSERT(getType() & (ITYPE_PAIR | ITYPE_SUB | ITYPE_UID | ITYPE_UAT));
 	
-	return static_cast<const KGpgSignableNode *>(this);
+	return qobject_cast<const KGpgSignableNode *>(this);
 }
 
 KGpgKeyNode *
@@ -91,7 +91,7 @@ KGpgNode::toKeyNode()
 	Q_ASSERT(getType() & ITYPE_PAIR);
 	Q_ASSERT(!(getType() & ITYPE_GROUP));
 
-	return static_cast<KGpgKeyNode *>(this);
+	return qobject_cast<KGpgKeyNode *>(this);
 }
 
 const KGpgKeyNode *
@@ -100,7 +100,7 @@ KGpgNode::toKeyNode() const
 	Q_ASSERT(getType() & ITYPE_PAIR);
 	Q_ASSERT(!(getType() & ITYPE_GROUP));
 
-	return static_cast<const KGpgKeyNode *>(this);
+	return qobject_cast<const KGpgKeyNode *>(this);
 }
 
 KGpgRootNode *
@@ -108,7 +108,7 @@ KGpgNode::toRootNode()
 {
 	Q_ASSERT(m_parent == NULL);
 
-	return static_cast<KGpgRootNode *>(this);
+	return static_cast<KGpgRootNode *>(this)->asRootNode();
 }
 
 const KGpgRootNode *
@@ -116,7 +116,7 @@ KGpgNode::toRootNode() const
 {
 	Q_ASSERT(m_parent == NULL);
 
-	return static_cast<const KGpgRootNode *>(this);
+	return static_cast<const KGpgRootNode *>(this)->asRootNode();
 }
 
 KGpgUidNode *
@@ -188,7 +188,7 @@ KGpgNode::toRefNode()
 {
 	Q_ASSERT(((getType() & ITYPE_GROUP) && (getType() & ITYPE_PAIR)) || (getType() & ITYPE_SIGN));
 
-	return static_cast<KGpgRefNode *>(this);
+	return qobject_cast<KGpgRefNode *>(this);
 }
 
 const KGpgRefNode *
@@ -196,7 +196,7 @@ KGpgNode::toRefNode() const
 {
 	Q_ASSERT(((getType() & ITYPE_GROUP) && (getType() & ITYPE_PAIR)) || (getType() & ITYPE_SIGN));
 
-	return static_cast<const KGpgRefNode *>(this);
+	return qobject_cast<const KGpgRefNode *>(this);
 }
 
 KGpgGroupMemberNode *
@@ -355,10 +355,17 @@ KGpgSignableNode::operator<(const KGpgSignableNode *other) const
 }
 
 KGpgRootNode::KGpgRootNode(KGpgItemModel *model)
-	: KGpgExpandableNode(NULL), m_groups(0)
+	: KGpgExpandableNode(NULL),
+	m_groups(0),
+	m_deleting(false)
 {
 	m_model = model;
 	addGroups();
+}
+
+KGpgRootNode::~KGpgRootNode()
+{
+	m_deleting = true;
 }
 
 void
@@ -464,6 +471,24 @@ KGpgRootNode::findKeyRow(const QString &keyId)
 			return i;
 	}
 	return -1;
+}
+
+KGpgRootNode *
+KGpgRootNode::asRootNode()
+{
+	if (m_deleting)
+		return NULL;
+
+	return this;
+}
+
+const KGpgRootNode *
+KGpgRootNode::asRootNode() const
+{
+	if (m_deleting)
+		return NULL;
+
+	return this;
 }
 
 KGpgKeyNode::KGpgKeyNode(KGpgExpandableNode *parent, const KgpgKey &k)
@@ -919,7 +944,10 @@ KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KG
 
 KGpgGroupNode::~KGpgGroupNode()
 {
-	m_parent->toRootNode()->m_groups--;
+	KGpgRootNode *root = m_parent->toRootNode();
+
+	if (root != NULL)
+		root->m_groups--;
 }
 
 QString
@@ -997,16 +1025,17 @@ KGpgRefNode::getRootNode() const
 void
 KGpgRefNode::keyUpdated(KGpgKeyNode *nkey)
 {
-	KGpgRootNode *root = getRootNode();
+	disconnect(this, SLOT(keyUpdated(KGpgKeyNode *)));
 
 	if (nkey == NULL) {
+		KGpgRootNode *root = getRootNode();
+
 		m_id = m_keynode->getId();
-		disconnect(this, SLOT(keyUpdated(KGpgKeyNode *)));
-		connect(root, SIGNAL(newKeyNode(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
+		if (root != NULL)
+			connect(root, SIGNAL(newKeyNode(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
 		m_keynode = NULL;
 	} else if ((m_keynode == NULL) && (nkey->getId().right(m_id.length()) == m_id)) {
 		m_id.clear();
-		disconnect(this, SLOT(keyUpdated(KGpgKeyNode *)));
 		connect(nkey, SIGNAL(updated(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
 		m_keynode = nkey;
 		m_keynode->addRef(this);
