@@ -133,12 +133,11 @@ KGpgTextInterfacePrivate::signFile(const KUrl &file)
 {
 	*m_process << "--command-fd=0" << "-u" << m_signID.simplified().toLocal8Bit();
 
-	for (QStringList::ConstIterator it = m_gpgopts.constBegin(); it != m_gpgopts.constEnd(); ++it)
-		*m_process << QFile::encodeName(*it);
+	*m_process << m_gpgopts;
 
 	if (m_gpgopts.contains("--detach-sign") && !m_gpgopts.contains("--output"))
-		*m_process << "--output" << QFile::encodeName(file.path() + ".sig");
-	*m_process << QFile::encodeName(file.path());
+		*m_process << "--output" << file.path() + ".sig";
+	*m_process << file.path();
 
 	m_process->start();
 }
@@ -166,8 +165,7 @@ KGpgTextInterface::encryptText(const QString &text, const QStringList &userids, 
 	else
 		d->m_message = text.toUtf8();
 
-	for (QStringList::ConstIterator it = options.constBegin(); it != options.constEnd(); ++it)
-		*d->m_process << QFile::encodeName(*it);
+	*d->m_process << options;
 
 	if (userids.isEmpty()) {
 		*d->m_process << "-c";
@@ -216,8 +214,7 @@ KGpgTextInterface::encryptTextFin()
 void
 KGpgTextInterface::decryptText(const QString &text, const QStringList &options)
 {
-	for (QStringList::ConstIterator it = options.constBegin(); it != options.constEnd(); ++it)
-		*d->m_process << QFile::encodeName(*it);
+	*d->m_process << options;
 
 	*d->m_process << "-d";
 
@@ -321,8 +318,7 @@ KGpgTextInterface::signText(const QString &text, const QString &userid, const QS
 	else
 		d->m_message = text.toUtf8();
 
-	for (QStringList::ConstIterator it = options.constBegin(); it != options.constEnd(); ++it)
-		*d->m_process << QFile::encodeName(*it);
+	*d->m_process << options;
 
 	*d->m_process << "--clearsign" << "-u" << userid;
 
@@ -408,11 +404,10 @@ KGpgTextInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcur
 {
 	d->m_file = srcurl;
 
-	for (QStringList::ConstIterator it = options.constBegin(); it != options.constEnd(); ++it)
-		*d->m_process << QFile::encodeName(*it);
+	*d->m_process << options;
 
 	if (!options.contains("--output"))
-		*d->m_process << "--output" << QFile::encodeName(desturl.path());
+		*d->m_process << "--output" << desturl.path();
 
 	if (!symetrical) {
 		*d->m_process << "-e";
@@ -421,7 +416,7 @@ KGpgTextInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcur
 	} else
 		*d->m_process << "-c";
 
-	*d->m_process << QFile::encodeName(srcurl.path());
+	*d->m_process << srcurl.path();
 
 	connect(d->m_process, SIGNAL(readReady(GPGProc *)), this, SLOT(fileReadEncProcess()));
 	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(fileEncryptFin()));
@@ -474,10 +469,9 @@ KGpgTextInterface::KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList &
 {
 	*d->m_process << "--no-batch" << "-o" << "-";
 
-	for (QStringList::ConstIterator it = options.constBegin(); it != options.constEnd(); ++it)
-		*d->m_process << QFile::encodeName(*it);
+	*d->m_process << options;
 
-	*d->m_process << "-d" << QFile::encodeName(srcUrl.path());
+	*d->m_process << "-d" << srcUrl.path();
 
 	d->m_process->setOutputChannelMode(KProcess::SeparateChannels);
 	connect(d->m_process, SIGNAL(readyReadStandardError()), this, SLOT(decryptTextStdErr()));
@@ -568,8 +562,8 @@ KGpgTextInterface::KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl)
 
 	*d->m_process << "--verify";
 	if (!srcUrl.isEmpty())
-		*d->m_process << QFile::encodeName(srcUrl.path());
-	*d->m_process << QFile::encodeName(sigUrl.path());
+		*d->m_process << srcUrl.path();
+	*d->m_process << sigUrl.path();
 
 	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(readVerify()));
 	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(verifyfin()));
