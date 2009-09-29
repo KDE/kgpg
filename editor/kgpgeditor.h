@@ -32,14 +32,16 @@ class KgpgInterface;
 class KgpgView;
 class KGpgItemModel;
 class KgpgLibrary;
+class KeysManager;
 
 class KgpgEditor : public KXmlGuiWindow
 {
     Q_OBJECT
     friend class KgpgView;
 
+    KgpgEditor();	// = delete C++0x
 public:
-    KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f = 0, KShortcut gohome = KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), bool mainwindow = false);
+    KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f, KShortcut gohome);
     ~KgpgEditor();
 
     void openDocumentFile(const KUrl& url, const QString &encoding = QString());
@@ -112,7 +114,7 @@ private slots:
     void newText();
 
     void slotRefreshImported(KgpgLibrary *lib, const QStringList &keys);
-    
+
 private:
     QStringList m_customdecrypt;
     QString m_textencoding;
@@ -127,10 +129,10 @@ private:
     KUrl m_docname;
 
     bool m_textchanged;		//< text was changed since last save
-    bool m_ismainwindow;
     bool m_emptytext;		//< this was not saved to a file ever
 
     KGpgItemModel *m_model;
+    KeysManager *m_parent;
 };
 
 #endif // KGPGEDITOR_H

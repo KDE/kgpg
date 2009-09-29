@@ -114,7 +114,7 @@ install(TARGETS kgpg  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
-install( FILES kgpg.rc keysmanager.rc tips  DESTINATION ${DATA_INSTALL_DIR}/kgpg)
+install( FILES editor/kgpgeditor.rc keysmanager.rc tips  DESTINATION ${DATA_INSTALL_DIR}/kgpg)
 install( FILES kgpg.desktop  DESTINATION ${XDG_APPS_INSTALL_DIR})
 install( FILES kgpg.kcfg  DESTINATION ${KCFG_INSTALL_DIR})
 install( FILES kgpg.desktop  DESTINATION ${AUTOSTART_INSTALL_DIR} )

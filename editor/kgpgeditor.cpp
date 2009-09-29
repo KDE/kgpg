@@ -52,14 +52,14 @@
 #include "kgpgtextinterface.h"
 
 
-KgpgEditor::KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f, KShortcut gohome, bool mainwindow)
-          : KXmlGuiWindow(parent, f), view(new KgpgView(this, model))
+KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f, KShortcut gohome)
+          : KXmlGuiWindow(0, f),
+	  view(new KgpgView(this, model)),
+	  m_godefaultkey(gohome),
+	  m_find(0),
+	  m_model(model),
+	  m_parent(parent)
 {
-    m_ismainwindow = mainwindow;
-    m_godefaultkey = gohome;
-    m_find = 0;
-    m_model = model;
-
     // call inits to invoke all other construction parts
     initActions();
 
@@ -75,7 +75,7 @@ KgpgEditor::KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f, KSho
 
     setObjectName("editor");
     slotSetFont(KGpgSettings::font());
-    setupGUI((ToolBar | Keys | StatusBar | Save | Create), "kgpg.rc");
+    setupGUI((ToolBar | Keys | StatusBar | Save | Create), "kgpgeditor.rc");
     setAutoSaveSettings("Editor", true);
 
     connect(view, SIGNAL(textChanged()), this, SLOT(modified()));
@@ -87,7 +87,6 @@ KgpgEditor::KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f, KSho
 
 KgpgEditor::~KgpgEditor()
 {
-    delete view;
 }
 
 void KgpgEditor::openDocumentFile(const KUrl& url, const QString &encoding)
