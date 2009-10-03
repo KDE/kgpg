@@ -105,13 +105,31 @@ KeyTreeView::selectNode(KGpgNode *nd)
 void
 KeyTreeView::restoreLayout(KConfigGroup &cg)
 {
-	QStringList cols = cg.readEntry("ColumnWidths", QStringList());
+	QStringList cols(cg.readEntry("ColumnWidths", QStringList()));
 	int i = 0;
 
-	QStringList::ConstIterator it = cols.constBegin();
-	const QStringList::ConstIterator itEnd = cols.constEnd();
+	QStringList::ConstIterator it(cols.constBegin());
+	const QStringList::ConstIterator itEnd(cols.constEnd());
 	for (; it != itEnd; ++it)
 		setColumnWidth(i++, (*it).toInt());
+
+	while (i < model()->columnCount(QModelIndex())) {
+		int width = 100;
+		switch (i) {
+		case KEYCOLUMN_NAME:
+			width = 250;
+			break;
+		case KEYCOLUMN_EMAIL:
+			width = 150;
+			break;
+		case KEYCOLUMN_TRUST:
+			// the trust column needs to be only that big as the header which is done automatically
+			i++;
+			continue;
+		}
+		setColumnWidth(i, width);
+		i++;
+	}
 
 	if (cg.hasKey("SortColumn")) {
 		Qt::SortOrder order = cg.readEntry("SortAscending", true) ? Qt::AscendingOrder : Qt::DescendingOrder;
