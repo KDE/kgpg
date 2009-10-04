@@ -91,6 +91,7 @@ KGpgRootNode *
 KGpgNode::toRootNode()
 {
 	Q_ASSERT(m_parent == NULL);
+	Q_ASSERT(getType() == 0);
 
 	return static_cast<KGpgRootNode *>(this);
 }
@@ -99,6 +100,7 @@ const KGpgRootNode *
 KGpgNode::toRootNode() const
 {
 	Q_ASSERT(m_parent == NULL);
+	Q_ASSERT(getType() == 0);
 
 	return static_cast<const KGpgRootNode *>(this);
 }
@@ -899,6 +901,10 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, KGpgKeyNode *key)
 KGpgRootNode *
 KGpgRefNode::getRootNode() const
 {
+	Q_ASSERT(getType() != 0);	// we must not be root node
+	Q_ASSERT(m_parent != NULL);	// we must have parent if we are not root node
+	Q_ASSERT(m_parent->getType() != 0);	// the direct parent of a ref node must not be root node
+
 	KGpgExpandableNode *root;
 	KGpgExpandableNode *pt = m_parent;
 
@@ -913,16 +919,15 @@ KGpgRefNode::getRootNode() const
 void
 KGpgRefNode::keyUpdated(KGpgKeyNode *nkey)
 {
-	KGpgRootNode *root = getRootNode();
+	disconnect(this, SLOT(keyUpdated(KGpgKeyNode *)));
 
 	if (nkey == NULL) {
+		KGpgRootNode *root = getRootNode();
 		m_id = m_keynode->getId();
-		disconnect(this, SLOT(keyUpdated(KGpgKeyNode *)));
 		connect(root, SIGNAL(newKeyNode(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
 		m_keynode = NULL;
 	} else if ((m_keynode == NULL) && (nkey->getId().right(m_id.length()) == m_id)) {
 		m_id.clear();
-		disconnect(this, SLOT(keyUpdated(KGpgKeyNode *)));
 		connect(nkey, SIGNAL(updated(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
 		m_keynode = nkey;
 		m_keynode->addRef(this);
