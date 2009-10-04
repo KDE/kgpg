@@ -52,14 +52,13 @@
 #include "kgpgtextinterface.h"
 
 
-KgpgEditor::KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f, KShortcut gohome, bool mainwindow)
-          : KXmlGuiWindow(parent, f), view(new KgpgView(this, model))
+KgpgEditor::KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f, KShortcut gohome)
+          : KXmlGuiWindow(0, f),
+	  view(new KgpgView(this, model)),
+	  m_godefaultkey(gohome),
+	  m_find(0),
+	  m_model(model)
 {
-    m_ismainwindow = mainwindow;
-    m_godefaultkey = gohome;
-    m_find = 0;
-    m_model = model;
-
     // call inits to invoke all other construction parts
     initActions();
 

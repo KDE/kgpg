@@ -147,7 +147,7 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(goToDefaultKey, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
 	goToDefaultKey->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home));
 
-	s_kgpgEditor = new KgpgEditor(parent, imodel, Qt::Dialog, goToDefaultKey->shortcut(), true);
+	s_kgpgEditor = new KgpgEditor(this, imodel, Qt::Dialog, goToDefaultKey->shortcut());
 	s_kgpgEditor->setAttribute(Qt::WA_DeleteOnClose, false);
 
 	// this must come after kserver, preferences, and openEditor are created
@@ -2637,7 +2637,6 @@ KeysManager::clipDecrypt()
 	}
 
 	KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, 0, goToDefaultKey->shortcut());
-	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 	connect(this, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
 	kgpgtxtedit->view->editor->setPlainText(cliptext);
 	kgpgtxtedit->view->slotDecode();
@@ -2655,7 +2654,6 @@ KeysManager::clipSign()
 	}
 
 	KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, 0, goToDefaultKey->shortcut());
-	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 	connect(kgpgtxtedit->view, SIGNAL(verifyFinished()), kgpgtxtedit, SLOT(closeWindow()));
 
 	kgpgtxtedit->view->slotSignVerify(cliptext);
