@@ -771,7 +771,7 @@ void KgpgInterface::signKey(const QString &keyid, const QString &signkeyid, cons
 	else
 		*m_workProcess << "sign";
 
-	kDebug(3125) << "Signing key" << keyid << "uid" << uid << "with key" << signkeyid;
+	kDebug(2100) << "Signing key" << keyid << "uid" << uid << "with key" << signkeyid;
 	connect(m_workProcess, SIGNAL(readyReadStandardOutput()), this, SLOT(signKeyProcess()));
 	connect(m_workProcess, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(signKeyFin()));
 

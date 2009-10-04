@@ -1216,7 +1216,7 @@ void KeysManager::checkList()
 		changeMessage(i18n("Group member"), 0);
 		break;
 	default:
-		kDebug(3125) << "Oops, unmatched type value" << exportList.at(0)->getType();
+		kDebug(2100) << "Oops, unmatched type value" << exportList.at(0)->getType();
 	}
 }
 
@@ -1754,7 +1754,7 @@ void KeysManager::keyproperties()
 		break;
 	}
 	default:
-		kDebug(3125) << "Oops, called with invalid item type" << cur->getType();
+		kDebug(2100) << "Oops, called with invalid item type" << cur->getType();
 	}
 }
 
@@ -2006,7 +2006,7 @@ void KeysManager::signLoop()
 				uid = "1";
 		}
 
-		kDebug(3125) << "Sign process for key:" << keyCount + 1 << "on a total of" << signList.count() << "id" << keyid << "uid" << uid;
+		kDebug(2100) << "Sign process for key:" << keyCount + 1 << "on a total of" << signList.count() << "id" << keyid << "uid" << uid;
 
 		KgpgInterface *interface = new KgpgInterface();
 		interface->signKey(keyid, globalkeyID, globalisLocal, globalChecked, m_isterminal, uid);

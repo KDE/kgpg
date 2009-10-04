@@ -151,14 +151,14 @@ KGpgImport::getImportedIds(const QStringList &log, const int reason)
 
 		int space = tmpstr.indexOf(' ');
 		if (space <= 0) {
-			kDebug(3125) << __LINE__ << "invalid format:" << str;
+			kDebug(2100) << __LINE__ << "invalid format:" << str;
 			continue;
 		}
 
 		bool ok;
 		unsigned char code = tmpstr.left(space).toUInt(&ok);
 		if (!ok) {
-			kDebug(3125) << __LINE__ << "invalid format:" << str << space << tmpstr.left(space - 1);
+			kDebug(2100) << __LINE__ << "invalid format:" << str << space << tmpstr.left(space - 1);
 			continue;
 		}
 
