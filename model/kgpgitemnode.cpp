@@ -901,7 +901,6 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, KGpgKeyNode *key)
 KGpgRootNode *
 KGpgRefNode::getRootNode() const
 {
-	Q_ASSERT(getType() != 0);	// we must not be root node
 	Q_ASSERT(m_parent != NULL);	// we must have parent if we are not root node
 	Q_ASSERT(m_parent->getType() != 0);	// the direct parent of a ref node must not be root node
 
