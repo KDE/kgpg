@@ -49,14 +49,15 @@ class KGpgNode : public QObject
 
 	friend class KGpgItemModel;
 
+	KGpgNode(); // = delete C++0x
 protected:
 	KGpgExpandableNode *m_parent;
 	KGpgItemModel *m_model;
+	explicit KGpgNode(KGpgExpandableNode *parent = NULL);
 
 public:
 	typedef QList<KGpgNode *> List;
 
-	explicit KGpgNode(KGpgExpandableNode *parent = NULL);
 	virtual ~KGpgNode();
 
 	virtual bool hasChildren() const
@@ -152,6 +153,7 @@ class KGpgExpandableNode : public KGpgNode
 	friend class KGpgRefNode;
 	friend class KGpgSubkeyNode;
 
+	KGpgExpandableNode(); // = delete C++0x
 protected:
 	List children;
 
@@ -164,8 +166,8 @@ protected:
 	 */
 	virtual void readChildren() = 0;
 
-public:
 	explicit KGpgExpandableNode(KGpgExpandableNode *parent = NULL);
+public:
 	virtual ~KGpgExpandableNode();
 
 	/**
