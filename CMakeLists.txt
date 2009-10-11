@@ -4,7 +4,6 @@ find_package( KdepimLibs REQUIRED )
 
 
 add_subdirectory( icons )
-add_subdirectory( core )
 include_directories( ${KDEPIMLIBS_INCLUDE_DIR} core editor model transactions )
 
 set(core_SRCS
