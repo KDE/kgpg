@@ -47,7 +47,7 @@ KGpgAddPhoto::nextLine(const QString &line)
 		setSuccess(TS_OK);
 		write("save");
 	} else if (line.endsWith("photoid.jpeg.add")) {
-		write(m_photourl.toAscii());
+		write(m_photourl.toUtf8());
 	} else if (line.contains("photoid.jpeg.size")) {
 		if (KMessageBox::questionYesNo(0, i18n("This image is very large. Use it anyway?"), QString(), KGuiItem(i18n("Use Anyway")), KGuiItem(i18n("Do Not Use"))) == KMessageBox::Yes) {
 			write("Yes");

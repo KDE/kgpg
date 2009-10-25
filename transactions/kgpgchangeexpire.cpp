@@ -58,7 +58,7 @@ KGpgChangeExpire::nextLine(const QString &line)
 		if (m_date.isNull())
 			write("0");
 		else
-			write(QString::number(QDate::currentDate().daysTo(m_date)).toAscii());
+			write(QByteArray::number(QDate::currentDate().daysTo(m_date)));
 	} else if (line.contains("passphrase.enter")) {
 		QString passdlgmessage;
 		if (m_step < 3)
