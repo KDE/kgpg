@@ -18,11 +18,8 @@
 #ifndef KGPGEDITOR_H
 #define KGPGEDITOR_H
 
-
 #include <KXmlGuiWindow>
 #include <KUrl>
-#include <KShortcut>
-
 
 class KToggleAction;
 class KAction;
@@ -41,7 +38,7 @@ class KgpgEditor : public KXmlGuiWindow
 
     KgpgEditor();	// = delete C++0x
 public:
-    KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f, KShortcut gohome);
+    KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f);
     ~KgpgEditor();
 
     void openDocumentFile(const KUrl& url, const QString &encoding = QString());
@@ -124,7 +121,6 @@ private:
     KAction *m_editredo;
     KAction *m_editcopy;
     KAction *m_editcut;
-    KShortcut m_godefaultkey;
     KFind *m_find;
     KUrl m_docname;
 
