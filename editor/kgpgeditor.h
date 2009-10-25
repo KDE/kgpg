@@ -18,11 +18,8 @@
 #ifndef KGPGEDITOR_H
 #define KGPGEDITOR_H
 
-
 #include <KXmlGuiWindow>
 #include <KUrl>
-#include <KShortcut>
-
 
 class KToggleAction;
 class KAction;
@@ -123,7 +120,6 @@ private:
     KAction *m_editredo;
     KAction *m_editcopy;
     KAction *m_editcut;
-    KShortcut m_godefaultkey;
     KFind *m_find;
     KUrl m_docname;
 
