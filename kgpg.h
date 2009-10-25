@@ -19,7 +19,6 @@
 #define KGPGAPPLET_H
 
 #include <KUniqueApplication>
-#include <KShortcut>
 #include <KUrl>
 
 class KCmdLineArgs;
@@ -38,7 +37,6 @@ public:
     int newInstance ();
     bool running;
     KUrl::List urlList;
-    KShortcut goHome;
 
 protected:
     KCmdLineArgs *args;

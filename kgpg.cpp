@@ -97,8 +97,9 @@ int KGpgApp::newInstance()
 
 	args = KCmdLineArgs::parsedArgs();
 
-	goHome = qobject_cast<KAction *>(s_keyManager->actionCollection()->action("go_default_key"))->shortcut();
-	w->goDefaultKey = goHome;
+	KAction *homeaction = qobject_cast<KAction *>(s_keyManager->actionCollection()->action("go_default_key"));
+	if (homeaction != NULL)
+		w->goDefaultKey = homeaction->shortcut();
 
 	// parsing of command line args
 	if (args->isSet("k") || (!KGpgSettings::showSystray() && (args->count() == 0) && !args->isSet("d"))) {
