@@ -368,7 +368,7 @@ void KGpgExternalActions::decryptNextFile(KgpgLibrary *lib, const KUrl &failed)
 
 void KGpgExternalActions::showDroppedFile()
 {
-	KgpgEditor *kgpgtxtedit = new KgpgEditor(m_keysmanager, m_model, 0, goDefaultKey);
+	KgpgEditor *kgpgtxtedit = new KgpgEditor(m_keysmanager, m_model, 0);
 	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 	kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
 

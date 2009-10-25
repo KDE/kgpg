@@ -40,7 +40,7 @@ class KgpgEditor : public KXmlGuiWindow
 
     KgpgEditor();	// = delete C++0x
 public:
-    KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f, KShortcut gohome);
+    KgpgEditor(QWidget *parent, KGpgItemModel *model, Qt::WFlags f);
     ~KgpgEditor();
 
     void openDocumentFile(const KUrl& url, const QString &encoding = QString());
