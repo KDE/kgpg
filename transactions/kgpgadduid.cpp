@@ -61,11 +61,11 @@ KGpgAddUid::nextLine(const QString &line)
 		setSuccess(TS_OK);
 		write("save");
 	} else if (line.contains("keygen.name")) {
-		write(m_name.toAscii());
+		write(m_name.toUtf8());
 	} else if (line.contains("keygen.email")) {
 		write(m_email.toAscii());
 	} else if (line.contains("keygen.comment")) {
-		write(m_comment.toAscii());
+		write(m_comment.toUtf8());
 	} else if (line.contains("GET_")) {
 		setSuccess(TS_MSG_SEQUENCE);
 		return true;

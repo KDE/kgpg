@@ -75,10 +75,11 @@ KGpgGenerateKey::nextLine(const QString &line)
 		else
 			write("1");
 	} else if (line.contains("keygen.size")) {
-		write(QString::number(m_size).toAscii());
+		write(QByteArray::number(m_size));
 	} else if (line.contains("keygen.valid")) {
 		if (m_expire != 0) {
-			QString output = QString::number(m_expire);
+			QByteArray output(QByteArray::number(m_expire));
+
 			switch (m_expireunit) {
 			case 1:
 				output.append("d");
@@ -93,7 +94,7 @@ KGpgGenerateKey::nextLine(const QString &line)
 				output.append("y");
 				break;
 			}
-			write(output.toAscii());
+			write(output);
 		} else {
 			write("0");
 		}
@@ -104,12 +105,12 @@ KGpgGenerateKey::nextLine(const QString &line)
 //			p->kill();
 		} else {
 			m_namesent = true;
-			write(m_name.toAscii());
+			write(m_name.toUtf8());
 		}
 	} else if (line.contains("keygen.email")) {
 		write(m_email.toAscii());
 	} else if (line.contains("keygen.comment")) {
-		write(m_comment.toAscii());
+		write(m_comment.toUtf8());
 	} else if (line.contains("passphrase.enter")) {
 		QString passdlgmessage;
 

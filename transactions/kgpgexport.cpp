@@ -145,8 +145,6 @@ KGpgExport::preStart()
 bool
 KGpgExport::nextLine(const QString &line)
 {
-	Q_UNUSED(line);
-
 	// key exporting does not send any messages
 
 	m_data.append(line.toAscii() + '\n');

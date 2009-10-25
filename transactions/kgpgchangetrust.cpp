@@ -43,7 +43,7 @@ KGpgChangeTrust::nextLine(const QString &line)
 	if (line.contains("edit_ownertrust.set_ultimate.okay")) {
 		write("YES");
 	} else if (line.contains("edit_ownertrust.value")) {
-		write(QString::number(m_trust).toAscii());
+		write(QByteArray::number(m_trust));
 	} else if (line.contains("keyedit.prompt")) {
 		setSuccess(TS_OK);
 		write("save");
