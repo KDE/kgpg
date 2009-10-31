@@ -100,7 +100,7 @@
 #include "kgpgdelkey.h"
 #include "kgpgimport.h"
 #include "detailedconsole.h"
-#include "knotificationitem.h"
+#include "kstatusnotifieritem.h"
 #include "selectpublickeydialog.h"
 #include "kgpgtextinterface.h"
 #include "kgpgview.h"
@@ -2544,7 +2544,7 @@ KeysManager::setupTrayIcon()
 	bool newtray = (m_trayicon == NULL);
 
 	if (newtray) {
-		m_trayicon = new KNotificationItem(this);
+		m_trayicon = new KStatusNotifierItem(this);
 		m_trayicon->setIconByName("kgpg");
 		m_trayicon->setToolTip("kgpg", i18n("KGpg - encryption tool"), QString());
 	}
@@ -2558,7 +2558,7 @@ KeysManager::setupTrayIcon()
 		break;
 	}
 
-	m_trayicon->setCategory(KNotificationItem::ApplicationStatus);
+	m_trayicon->setCategory(KStatusNotifierItem::ApplicationStatus);
 
 	if (!newtray)
 		return;
@@ -2637,7 +2637,7 @@ KeysManager::clipEncrypt()
 
 		KGpgTextInterface *txtEncrypt = new KGpgTextInterface();
 		connect (txtEncrypt, SIGNAL(txtEncryptionFinished(QString, KGpgTextInterface *)), SLOT(slotSetClip(QString, KGpgTextInterface *)));
-		m_trayicon->setStatus(KNotificationItem::Active);
+		m_trayicon->setStatus(KStatusNotifierItem::Active);
 		txtEncrypt->encryptText(cliptext, selec, options);
 	}
 
@@ -2649,7 +2649,7 @@ KeysManager::slotSetClip(const QString &newtxt, KGpgTextInterface *iface)
 {
 	iface->deleteLater();
 
-	m_trayicon->setStatus(KNotificationItem::Passive);
+	m_trayicon->setStatus(KStatusNotifierItem::Passive);
 
 	if (newtxt.isEmpty())
 		return;

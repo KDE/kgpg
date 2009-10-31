@@ -57,7 +57,7 @@ class KGpgDelKey;
 class KGpgImport;
 class KGpgTextInterface;
 
-class KNotificationItem;
+class KStatusNotifierItem;
 
 
 class AddUid : public QWidget, public Ui::AddUid
@@ -296,7 +296,7 @@ private:
     Solid::Networking::Notifier *m_netnote;
     void toggleNetworkActions(bool online);
 
-    KNotificationItem *m_trayicon;
+    KStatusNotifierItem *m_trayicon;
     void setupTrayIcon();
 };
 
