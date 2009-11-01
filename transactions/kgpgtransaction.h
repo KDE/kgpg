@@ -194,6 +194,7 @@ protected:
 	 * \brief add a command line argument to gpg process
 	 * @param arg new argument
 	 * @returns the position of the new argument
+	 *
 	 * This is a convenience function that allows adding one additional
 	 * argument to the command line of the process. This must be called
 	 * before start() is called. Usually you will call this from your
@@ -204,6 +205,7 @@ protected:
 	 * \brief add command line arguments to gpg process
 	 * @param args new arguments
 	 * @returns the position of the first argument added
+	 *
 	 * This is a convenience function that allows adding additional
 	 * arguments to the command line of the process. This must be called
 	 * before start() is called.
