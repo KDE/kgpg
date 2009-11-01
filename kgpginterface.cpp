@@ -384,12 +384,12 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const 
 		KNewPasswordDialog dlg;
 		dlg.setPrompt(text);
 		code = dlg.exec();
-		passphrase = dlg.password().toLocal8Bit();
+		passphrase = dlg.password().toUtf8();
 	} else {
 		KPasswordDialog dlg;
 		dlg.setPrompt(text);
 		code = dlg.exec();
-		passphrase = dlg.password().toLocal8Bit();
+		passphrase = dlg.password().toUtf8();
 	}
 
 	if (code != KPasswordDialog::Accepted)
