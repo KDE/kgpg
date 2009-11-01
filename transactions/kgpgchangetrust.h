@@ -20,7 +20,7 @@
 #include "kgpgkey.h"
 
 /**
- * \brief change the owner trust level of a public key
+ * @brief change the owner trust level of a public key
  */
 class KGpgChangeTrust: public KGpgTransaction {
 	Q_OBJECT

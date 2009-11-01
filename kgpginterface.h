@@ -47,7 +47,7 @@ public:
     static QString checkForUtf8bis(QString txt);
 
     /**
-     * \brief parse GnuPG version string and return version as number
+     * @brief parse GnuPG version string and return version as number
      * @param vstr version string
      * @return -1 if vstr is empty, -2 on parse error, parsed number on success
      *
@@ -56,7 +56,7 @@ public:
      */
     static int gpgVersion(const QString &vstr);
     /**
-     * \brief get the GnuPG version string of the given binary
+     * @brief get the GnuPG version string of the given binary
      * @param binary name or path to GnuPG binary
      * @return version string or empty string on error
      *
@@ -65,7 +65,7 @@ public:
      */
     static QString gpgVersionString(const QString &binary);
     /**
-     * \brief find users GnuPG directory
+     * @brief find users GnuPG directory
      * @param binary name or path to GnuPG binary
      * @return path to directory
      *
@@ -86,7 +86,7 @@ public:
     static void setGpgBoolSetting(const QString &name, const bool enable, const QString &url);
 
     /**
-     * \brief ask the user for a passphrase and send it to the given gpg process
+     * @brief ask the user for a passphrase and send it to the given gpg process
      * @param text text is the message that must be displayed in the MessageBox
      * @param process gnupg process
      * @param isnew if the password is a \e new password that must be confirmed. Default is true

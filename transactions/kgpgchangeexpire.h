@@ -20,7 +20,7 @@
 #include "kgpgtransaction.h"
 
 /**
- * \brief change the key lifetime
+ * @brief change the key lifetime
  */
 class KGpgChangeExpire: public KGpgTransaction {
 	Q_OBJECT

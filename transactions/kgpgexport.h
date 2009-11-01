@@ -24,7 +24,7 @@
 class QProcess;
 
 /**
- * \brief export one or more keys from keyring
+ * @brief export one or more keys from keyring
  *
  * The exported keys can be written to a file or sent to standard input of another
  * QProcess.
@@ -34,7 +34,7 @@ class KGpgExport: public KGpgTransaction {
 
 public:
 	/**
-	 * \brief export keys to QProcess
+	 * @brief export keys to QProcess
 	 * @param parent parent object
 	 * @param ids ids to export
 	 * @param outd process to write into
@@ -44,7 +44,7 @@ public:
 	KGpgExport(QObject *parent, const QStringList &ids, QProcess *outp, const QStringList &options = QStringList(), const bool secret = false);
 
 	/**
-	 * \brief export keys to file
+	 * @brief export keys to file
 	 * @param parent parent object
 	 * @param ids ids to export
 	 * @param file filename to write into
@@ -54,7 +54,7 @@ public:
 	KGpgExport(QObject *parent, const QStringList &ids, const QString &file, const QStringList &options = QStringList(), const bool secret = false);
 
 	/**
-	 * \brief export keys to standard output
+	 * @brief export keys to standard output
 	 * @param parent parent object
 	 * @param ids ids to export
 	 * @param options additional options to pass to GnuPG (e.g. export ascii armored)
@@ -66,42 +66,42 @@ public:
 	KGpgExport(QObject *parent, const QStringList &ids, const QStringList &options = QStringList(), const bool secret = false);
 
 	/**
-	 * \brief destructor
+	 * @brief destructor
 	 */
 	virtual ~KGpgExport();
 
 	/**
-	 * \brief set key id to export
+	 * @brief set key id to export
 	 * @param id key fingerprint
 	 */
 	void setKeyId(const QString &id);
 	/**
-	 * \brief set key ids to export
+	 * @brief set key ids to export
 	 * @param ids key fingerprints
 	 */
 	void setKeyIds(const QStringList &ids);
 	/**
-	 * \brief return the key ids to export
+	 * @brief return the key ids to export
 	 * @return list of key fingerprints
 	 */
 	const QStringList &getKeyIds() const;
 	/**
-	 * \brief set the process the output is sent to
+	 * @brief set the process the output is sent to
 	 * @param outd process to send output to
 	 */
 	void setOutputProcess(QProcess *outp);
 	/**
-	 * \brief set filename to send output to
+	 * @brief set filename to send output to
 	 * @param outF file to send output to
 	 */
 	void setOutputFile(const QString &filename);
 	/**
-	 * \brief return the output filename currently set
+	 * @brief return the output filename currently set
 	 * @return filename key will get written to
 	 */
 	const QString &getOutputFile() const;
 	/**
-	 * \brief return the data read from standard output
+	 * @brief return the data read from standard output
 	 * @return standard output data
 	 */
 	const QByteArray &getOutputData() const;

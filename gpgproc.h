@@ -19,7 +19,7 @@
 #include "klinebufferedprocess.h"
 
 /**
- * \brief A interface to GnuPG handling UTF8 recoding correctly
+ * @brief A interface to GnuPG handling UTF8 recoding correctly
  *
  * This class handles the GnuPG formatted UTF8 output correctly.
  * GnuPG recodes some characters as \\xnn where nn is the hex representation

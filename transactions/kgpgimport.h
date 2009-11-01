@@ -23,63 +23,63 @@
 #include "kgpgtransaction.h"
 
 /**
- * \brief import one or more keys into the keyring
+ * @brief import one or more keys into the keyring
  */
 class KGpgImport: public KGpgTransaction {
 	Q_OBJECT
 
 public:
 	/**
-	 * \brief additional status codes for KGpgImport
+	 * @brief additional status codes for KGpgImport
 	 */
 	enum ts_import {
 		TS_IMPORT_KIO_FAILED = TS_COMMON_END + 1	///< download of remote file failed
 	};
 
 	/**
-	 * \brief import given text
+	 * @brief import given text
 	 * @param parent parent object
 	 * @param text key text to import
 	 */
 	KGpgImport(QObject *parent, const QString &text);
 
 	/**
-	 * \brief import key(s) from file(s)
+	 * @brief import key(s) from file(s)
 	 * @param parent parent object
 	 * @param keys list of file locations to import from
 	 */
 	KGpgImport(QObject *parent, const KUrl::List &keys);
 
 	/**
-	 * \brief destructor
+	 * @brief destructor
 	 */
 	virtual ~KGpgImport();
 
 	/**
-	 * \brief set text to import
+	 * @brief set text to import
 	 * @param text key text to import
 	 */
 	void setText(const QString &text);
 	/**
-	 * \brief set file locations to import from
+	 * @brief set file locations to import from
 	 * @param keys list of file locations
 	 */
 	void setUrls(const KUrl::List &keys);
 
 	/**
-	 * \brief get import info message
+	 * @brief get import info message
 	 * @return the raw messages from gpg during the import operation
 	 */
 	const QStringList &getMessages() const;
 
 	/**
-	 * \brief get the names and short fingerprints of the imported keys
+	 * @brief get the names and short fingerprints of the imported keys
 	 * @return list of keys that were imported
 	 */
 	QStringList getImportedKeys() const;
 
 	/**
-	 * \brief get the full fingerprints of the imported keys
+	 * @brief get the full fingerprints of the imported keys
 	 * @param log transaction log to scan
 	 * @param reason key import reason
 	 * @return list of ids that were imported
@@ -95,7 +95,7 @@ public:
 	 */
 	static QStringList getImportedIds(const QStringList &log, const int reason = -1);
 	/**
-	 * \brief get the full fingerprints of the imported keys
+	 * @brief get the full fingerprints of the imported keys
 	 *
 	 * This is an overloaded member. It calls the static function with the
 	 * result log from this transaction object.
@@ -103,7 +103,7 @@ public:
 	QStringList getImportedIds(const int reason = -1) const;
 
 	/**
-	 * \brief get textual summary of the import events
+	 * @brief get textual summary of the import events
 	 * @return messages describing what was imported
 	 *
 	 * This is an overloaded member. It calls the static function with the
@@ -112,7 +112,7 @@ public:
 	QString getImportMessage() const;
 
 	/**
-	 * \brief get textual summary of the import events
+	 * @brief get textual summary of the import events
 	 * @param message import log
 	 * @return messages describing what was imported
 	 *

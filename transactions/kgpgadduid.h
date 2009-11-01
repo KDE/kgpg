@@ -21,7 +21,7 @@
 class QString;
 
 /**
- * \brief add a new user id to a key pair
+ * @brief add a new user id to a key pair
  */
 class KGpgAddUid: public KGpgTransaction {
 	Q_OBJECT

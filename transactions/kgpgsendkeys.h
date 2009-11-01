@@ -21,14 +21,14 @@
 #include "kgpgkeyservertransaction.h"
 
 /**
- * \brief class for uploading keys from the keyring to a keyserver
+ * @brief class for uploading keys from the keyring to a keyserver
  */
 class KGpgSendKeys: public KGpgKeyserverTransaction {
 	Q_OBJECT
 
 public:
 	/**
-	 * \brief construct a new transaction for the given keyserver
+	 * @brief construct a new transaction for the given keyserver
 	 * @param parent object that own the transaction
 	 * @param server keyserver to work with
 	 * @param keys the key ids to get
@@ -44,7 +44,7 @@ public:
 
 	void setKeyIds(const QStringList &keys);
 	/**
-	 * \brief set which attributes are exported
+	 * @brief set which attributes are exported
 	 * @param opt GnuPG attribute options
 	 *
 	 * If opt is empty no attributes are exported.
@@ -59,7 +59,7 @@ protected:
 
 private:
 	/**
-	 * \brief forbidden
+	 * @brief forbidden
 	 */
 	KGpgSendKeys();
 	Q_DISABLE_COPY(KGpgSendKeys)

@@ -22,7 +22,7 @@
 class QString;
 
 /**
- * \brief generate a new key pair
+ * @brief generate a new key pair
  */
 class KGpgGenerateKey: public KGpgTransaction {
 	Q_OBJECT
@@ -32,7 +32,7 @@ public:
 		TS_INVALID_NAME = TS_COMMON_END + 1	///< the owners name is not accepted by GnuPG
 	};
 	/**
-	 * \brief KGpgGenerateKey's constructor
+	 * @brief KGpgGenerateKey's constructor
 	 * @param name the name of the key, it is also the user's name.
 	 * @param email email MUST be a valid email address or an empty string.
 	 * @param comment is a comment, it can be an empty string
@@ -54,7 +54,7 @@ public:
 	void setAlgorithm(const KgpgCore::KgpgKeyAlgo &algorithm);
 	void setSize(const unsigned int size);
 	/**
-	 * \brief set expire date for key
+	 * @brief set expire date for key
 	 * @param expire defines the key expiry time together with \em expireunit, 0 for unlimited key lifetime
 	 * @param expireunit is the unit of the number given as \em expire.
 	 * - 1 = day

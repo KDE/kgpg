@@ -23,7 +23,7 @@ class QString;
 class QStringList;
 
 /**
- * \brief delete a public key
+ * @brief delete a public key
  */
 class KGpgDelKey: public KGpgTransaction {
 	Q_OBJECT

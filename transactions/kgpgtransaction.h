@@ -22,7 +22,7 @@ class KGpgTransactionPrivate;
 class QByteArray;
 
 /**
- * \brief Process one GnuPG operation
+ * @brief Process one GnuPG operation
  *
  * This class encapsulates one GnuPG operation. It will care for all
  * interaction with the gpg process. Everything you have to care about
@@ -44,7 +44,7 @@ class KGpgTransaction: public QObject {
 
 public:
 	/**
-	 * \brief return codes common to many transactions
+	 * @brief return codes common to many transactions
 	 *
 	 * Every transaction may define additional return codes, which
 	 * should start at TS_COMMON_END + 1.
@@ -59,31 +59,31 @@ public:
 	};
 
 	/**
-	 * \brief KGpgTransaction constructor
+	 * @brief KGpgTransaction constructor
 	 */
 	explicit KGpgTransaction(QObject *parent = 0);
 	/**
-	 * \brief KGpgTransaction destructor
+	 * @brief KGpgTransaction destructor
 	 */
 	virtual ~KGpgTransaction();
 
 	/**
-	 * \brief Start the operation.
+	 * @brief Start the operation.
 	 */
 	void start();
 
 	/**
-	 * \brief sets the GNUPGHOME of the transaction
+	 * @brief sets the GNUPGHOME of the transaction
 	 */
 	void setGnuPGHome(const QString &home);
 
 	/**
-	 * \brief blocks until the transaction is complete
+	 * @brief blocks until the transaction is complete
 	 * @return the result of the transaction like done() would
 	 */
 	int waitForFinished(const int msecs = -1);
 	/**
-	 * \brief return description of this transaction
+	 * @brief return description of this transaction
 	 * @return string used to describe what's going on
 	 *
 	 * This is especially useful when using this transaction from a KJob.
@@ -92,7 +92,7 @@ public:
 
 Q_SIGNALS:
 	/**
-	 * \brief Emitted when the operation was completed.
+	 * @brief Emitted when the operation was completed.
 	 * @param result return status of the transaction
 	 *
 	 * \see estatus for the common status codes. Each transaction
@@ -102,7 +102,7 @@ Q_SIGNALS:
 
 protected:
 	/**
-	 * \brief Called before the gpg process is started.
+	 * @brief Called before the gpg process is started.
 	 * @return true if the process should be started
 	 *
 	 * You may reimplement this member if you need to do some special
@@ -118,13 +118,13 @@ protected:
 	 */
 	virtual bool preStart();
 	/**
-	 * \brief Called when the gpg process is up and running.
+	 * @brief Called when the gpg process is up and running.
 	 *
 	 * This functions is connected to the started() signal of the gpg process.
 	 */
 	virtual void postStart();
 	/**
-	 * \brief Called for every line the gpg process writes.
+	 * @brief Called for every line the gpg process writes.
 	 * @param line the input from the process
 	 * @return true if "quit" should be sent to process
 	 *
@@ -134,7 +134,7 @@ protected:
 	 */
 	virtual bool nextLine(const QString &line) = 0;
 	/**
-	 * \brief Called when the gpg process finishes.
+	 * @brief Called when the gpg process finishes.
 	 *
 	 * You may reimplement this member if you need to do some special
 	 * operations after process completion. The provided one simply
@@ -142,7 +142,7 @@ protected:
 	 */
 	virtual void finish();
 	/**
-	 * \brief set the description returned in getDescription()
+	 * @brief set the description returned in getDescription()
 	 * @param description the new description of this transaction
 	 */
 	void setDescription(const QString &description);
@@ -156,7 +156,7 @@ private:
 
 protected:
 	/**
-	 * \brief Ask user for passphrase and send it to gpg process.
+	 * @brief Ask user for passphrase and send it to gpg process.
 	 *
 	 * If the gpg process asks for a passphrase for authorization this
 	 * function will do all necessary steps for you: ask the user for the
@@ -170,11 +170,11 @@ protected:
 	int sendPassphrase(const QString &text, const bool isnew = false);
 
 	/**
-	 * \brief get the success value that will be returned with the done signal
+	 * @brief get the success value that will be returned with the done signal
 	 */
 	int getSuccess() const;
 	/**
-	 * \brief set the success value that will be returned with the done signal
+	 * @brief set the success value that will be returned with the done signal
 	 * @param v the new success value
 	 *
 	 * You should use 0 as success value. Other values can be defined as needed.
@@ -182,7 +182,7 @@ protected:
 	void setSuccess(const int v);
 
 	/**
-	 * \brief add a userid hint
+	 * @brief add a userid hint
 	 * @param txt userid description
 	 *
 	 * Before GnuPG asks for a passphrase it usually sends out a hint message
@@ -191,13 +191,13 @@ protected:
 	 */
 	void addIdHint(QString txt);
 	/**
-	 * \brief get string of all userid hints
+	 * @brief get string of all userid hints
 	 * @returns concatenation of all ids previously added with addIdHint().
 	 */
 	QString getIdHints() const;
 
 	/**
-	 * \brief get a reference to the gpg process object
+	 * @brief get a reference to the gpg process object
 	 * @returns gpg process object
 	 *
 	 * This returns a reference to the gpg process object used internally.
@@ -210,7 +210,7 @@ protected:
 	 */
 	GPGProc *getProcess();
 	/**
-	 * \brief add a command line argument to gpg process
+	 * @brief add a command line argument to gpg process
 	 * @param arg new argument
 	 * @returns the position of the new argument
 	 *
@@ -221,7 +221,7 @@ protected:
 	 */
 	int addArgument(const QString &arg);
 	/**
-	 * \brief add command line arguments to gpg process
+	 * @brief add command line arguments to gpg process
 	 * @param args new arguments
 	 * @returns the position of the first argument added
 	 *
@@ -231,13 +231,13 @@ protected:
 	 */
 	int addArguments(const QStringList &args);
 	/**
-	 * \brief replace the argument at the given position
+	 * @brief replace the argument at the given position
 	 * @param pos position of old argument
 	 * @param arg new argument
 	 */
 	void replaceArgument(const int pos, const QString &arg);
 	/**
-	 * \brief write data to standard input of gpg process
+	 * @brief write data to standard input of gpg process
 	 * @param a data to write
 	 *
 	 * Use this function to interact with the gpg process. A carriage
@@ -246,7 +246,7 @@ protected:
 	 */
 	void write(const QByteArray &a, const bool lf = true);
 	/**
-	 * \brief ask user for password
+	 * @brief ask user for password
 	 * @param message message to display to the user. If message is empty
 	 * "Enter password for [UID]" will be used.
 	 * @return true if the authorization was successful

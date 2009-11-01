@@ -22,14 +22,14 @@
 class KProgressDialog;
 
 /**
- * \brief base class for transactions involving key servers
+ * @brief base class for transactions involving key servers
  */
 class KGpgKeyserverTransaction: public KGpgTransaction {
 	Q_OBJECT
 
 public:
 	/**
-	 * \brief construct a new transaction for the given keyserver
+	 * @brief construct a new transaction for the given keyserver
 	 * @param parent object that own the transaction
 	 * @param server keyserver to work with
 	 * @param withProgress show a progress window with cancel button
@@ -45,19 +45,19 @@ public:
 	virtual ~KGpgKeyserverTransaction();
 
 	/**
-	 * \brief set the keyserver
+	 * @brief set the keyserver
 	 * @param server keyserver to work with
 	 */
 	void setKeyserver(const QString &server);
 	/**
-	 * \brief set the http proxy
+	 * @brief set the http proxy
 	 * @param proxy http proxy to use
 	 *
 	 * If the server is set to an empty value no proxy is used.
 	 */
 	void setProxy(const QString &proxy);
 	/**
-	 * \brief activate the progress window
+	 * @brief activate the progress window
 	 * @param b new activation status
 	 */
 	void setProgressEnable(const bool b);
@@ -68,13 +68,13 @@ protected:
 
 private slots:
 	/**
-	 * \brief abort the current operation
+	 * @brief abort the current operation
 	 */
 	void slotAbort();
 
 private:
 	/**
-	 * \brief forbidden
+	 * @brief forbidden
 	 */
 	KGpgKeyserverTransaction();
 	Q_DISABLE_COPY(KGpgKeyserverTransaction)

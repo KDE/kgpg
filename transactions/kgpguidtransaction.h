@@ -20,14 +20,14 @@
 #include "kgpgtransaction.h"
 
 /**
- * \brief base class for transactions involving only one user id of a key
+ * @brief base class for transactions involving only one user id of a key
  */
 class KGpgUidTransaction: public KGpgTransaction {
 	Q_OBJECT
 
 public:
 	/**
-	 * \brief construct a new transaction for the given key and uid
+	 * @brief construct a new transaction for the given key and uid
 	 * @param parent object that own the transaction
 	 * @param keyid key to work with
 	 * @param uid uid to work with
@@ -39,20 +39,20 @@ public:
 	virtual ~KGpgUidTransaction();
 
 	/**
-	 * \brief set the key id of the transaction to the given value
+	 * @brief set the key id of the transaction to the given value
 	 * @param keyid fingerprint of the key to work with
 	 */
 	void setKeyId(const QString &keyid);
 	/**
-	 * \brief set the uid number of the transaction to the given value
+	 * @brief set the uid number of the transaction to the given value
 	 * @param uid the number of the user id to work with
 	 */
 	void setUid(const QString &uid);
 	/**
-	 * \brief set the uid number of the transaction to the given value
+	 * @brief set the uid number of the transaction to the given value
 	 * @param uid the number of the user id to work with
 	 *
-	 * This is an overloaded member function, provided for convenience.
+	 * @overload
 	 */
 	void setUid(const unsigned int uid);
 
@@ -60,7 +60,7 @@ protected:
 	virtual bool preStart();
 
 	/**
-	 * \brief handle common GnuPG messages for uid transactions
+	 * @brief handle common GnuPG messages for uid transactions
 	 * @param line GnuPG message
 	 * @return true if "quit" should be sent to process
 	 *

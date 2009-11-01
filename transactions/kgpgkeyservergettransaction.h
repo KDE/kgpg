@@ -21,14 +21,14 @@
 #include "kgpgkeyservertransaction.h"
 
 /**
- * \brief base class for transactions downloading from key servers
+ * @brief base class for transactions downloading from key servers
  */
 class KGpgKeyserverGetTransaction: public KGpgKeyserverTransaction {
 	Q_OBJECT
 
 public:
 	/**
-	 * \brief construct a new transaction for the given keyserver
+	 * @brief construct a new transaction for the given keyserver
 	 * @param parent object that own the transaction
 	 * @param server keyserver to work with
 	 * @param keys the key ids to get
@@ -52,7 +52,7 @@ protected:
 
 private:
 	/**
-	 * \brief forbidden
+	 * @brief forbidden
 	 */
 	KGpgKeyserverGetTransaction();
 	Q_DISABLE_COPY(KGpgKeyserverGetTransaction)
@@ -63,14 +63,14 @@ private:
 };
 
 /**
- * \brief class for downloading new keys from keyserver
+ * @brief class for downloading new keys from keyserver
  */
 class KGpgReceiveKeys: public KGpgKeyserverGetTransaction {
 	Q_OBJECT
 
 public:
 	/**
-	* \brief construct a new transaction for the given keyserver
+	* @brief construct a new transaction for the given keyserver
 	* @param parent object that own the transaction
 	* @param server keyserver to work with
 	* @param keys the key ids to get
@@ -88,14 +88,14 @@ protected:
 };
 
 /**
- * \brief class for refreshing keys already in the keyring from keyserver
+ * @brief class for refreshing keys already in the keyring from keyserver
  */
 class KGpgRefreshKeys: public KGpgKeyserverGetTransaction {
 	Q_OBJECT
 
 public:
 	/**
-	* \brief construct a new transaction for the given keyserver
+	* @brief construct a new transaction for the given keyserver
 	* @param parent object that own the transaction
 	* @param server keyserver to work with
 	* @param keys the key ids to get

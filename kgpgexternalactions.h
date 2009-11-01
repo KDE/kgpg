@@ -30,7 +30,7 @@ class QFont;
 class QString;
 
 /**
- * \brief handle actions called from outside the application
+ * @brief handle actions called from outside the application
  *
  * This class takes care about everything sent to us from outside the
  * application, e.g. command line arguments given on startup.

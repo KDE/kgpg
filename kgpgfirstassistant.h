@@ -59,34 +59,34 @@ private:
 
 public:
 	/**
-	 * \brief constructor of KGpgFirstAssistant
+	 * @brief constructor of KGpgFirstAssistant
 	 */
 	KGpgFirstAssistant(QWidget *parent = 0);
 
 	/**
-	 * \brief check if key generation dialog should be started
+	 * @brief check if key generation dialog should be started
 	 * @return if user requests dialog to be started
 	 */
 	bool runKeyGenerate() const;
 	/**
-	 * \brief get user selected GnuPG home directory
+	 * @brief get user selected GnuPG home directory
 	 * @return path to users GnuPG directory
 	 */
 	QString getConfigPath() const;
 	/**
-	 * \brief get fingerprint of default key
+	 * @brief get fingerprint of default key
 	 * @return full fingerprint or empty string if user has not selected a default key
 	 */
 	QString getDefaultKey() const;
 	/**
-	 * \brief check if KGpg autostart should be activated
+	 * @brief check if KGpg autostart should be activated
 	 * @return if user requests autostart or not
 	 */
 	bool getAutoStart() const;
 
 public Q_SLOTS:
 	/**
-	 * \brief called when "next" button is pressed
+	 * @brief called when "next" button is pressed
 	 */
 	virtual void next();
 

@@ -19,7 +19,7 @@
 #include "kgpgtransaction.h"
 
 /**
- * \brief enable of disable a key
+ * @brief enable of disable a key
  */
 class KGpgChangeDisable: public KGpgTransaction {
 	Q_OBJECT

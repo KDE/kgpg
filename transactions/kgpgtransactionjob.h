@@ -19,7 +19,7 @@
 class KGpgTransaction;
 
 /**
-* \brief Wrap a GnuPG transaction in a job
+* @brief Wrap a GnuPG transaction in a job
 *
 * This class allows to run any KGpgTransaction as KJob.
 *
@@ -33,7 +33,7 @@ class KGpgTransactionJob : public KJob {
 
 public:
 	/**
-	 * \brief create a new KJob for this transaction
+	 * @brief create a new KJob for this transaction
 	 * @param transaction operation to do
 	 *
 	 * The job will take ownership of the transaction, i.e.
@@ -41,22 +41,22 @@ public:
 	 */
 	KGpgTransactionJob(KGpgTransaction *transaction);
 	/**
-	 * \brief KGpgTransactionJob destructor
+	 * @brief KGpgTransactionJob destructor
 	 */
 	virtual ~KGpgTransactionJob();
 
 	/**
-	 * \brief starts the transaction
+	 * @brief starts the transaction
 	 */
 	virtual void start();
 
 	/**
-	 * \brief get the transaction this job is handling
+	 * @brief get the transaction this job is handling
 	 */
 	const KGpgTransaction *getTransaction() const;
 
 	/**
-	 * \brief get the result of the transaction
+	 * @brief get the result of the transaction
 	 */
 	int getResultCode() const;
 

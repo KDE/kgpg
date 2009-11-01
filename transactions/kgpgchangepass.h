@@ -19,7 +19,7 @@
 #include "kgpgtransaction.h"
 
 /**
- * \brief set a new passphrase for a key pair
+ * @brief set a new passphrase for a key pair
  */
 class KGpgChangePass: public KGpgTransaction {
 	Q_OBJECT

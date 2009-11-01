@@ -48,7 +48,7 @@ public:
 	void setKeyModel(KGpgItemModel *);
 	void setOnlySecret(const bool &b);
 	/**
-	 * \brief set the minimum trust level to be shown
+	 * @brief set the minimum trust level to be shown
 	 * @param t trust level
 	 *
 	 * This enables filtering by key trust. All keys that have a lower trust than

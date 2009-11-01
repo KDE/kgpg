@@ -29,7 +29,7 @@ class KGpgDelUid: public KGpgUidTransaction {
 public:
 	KGpgDelUid(QObject *parent, const KGpgSignableNode *uid);
 	/**
-	 * \brief constructor
+	 * @brief constructor
 	 * @param parent parent object
 	 * @param uids user ids to delete
 	 *
@@ -39,14 +39,14 @@ public:
 	 */
 	KGpgDelUid(QObject *parent, const QList<const KGpgSignableNode *> &uids);
 	/**
-	 * \brief constructor
+	 * @brief constructor
 	 * @param parent parent object
 	 * @param keynode key to edit
 	 * @param uid uid to delete, negative to delete all others
 	 */
 	KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int uid);
 	/**
-	 * \brief destructor
+	 * @brief destructor
 	 */
 	virtual ~KGpgDelUid();
 

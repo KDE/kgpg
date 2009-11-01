@@ -41,7 +41,7 @@ class KGpgItemModel;
 typedef QList<KGpgSignNode *> KGpgSignNodeList;
 
 /**
- * \brief The abstract base class for all classes representing keyring data
+ * @brief The abstract base class for all classes representing keyring data
  */
 class KGpgNode : public QObject
 {
@@ -140,7 +140,7 @@ public:
 };
 
 /**
- * \brief The abstract base class for all classes that may have child objects
+ * @brief The abstract base class for all classes that may have child objects
  *
  * Every class that represents something in the keyring that may have
  * child objects inherits from this class. That does not mean that every
@@ -205,7 +205,7 @@ public:
 };
 
 /**
- * \brief An object that may have KGpgSignNode children
+ * @brief An object that may have KGpgSignNode children
  *
  * This class represents an object that may be signed, i.e. key nodes,
  * user ids, user attributes, and subkeys.
@@ -220,7 +220,7 @@ public:
 
 	KGpgSignNodeList getSignatures(void) const;
 	/**
-	 * \brief count signatures
+	 * @brief count signatures
 	 * @return the number of signatures to this object
 	 *
 	 * This does not include the number of signatures to child objects.
@@ -232,7 +232,7 @@ public:
 };
 
 /**
- * \brief A public key with or without corresponding secret key
+ * @brief A public key with or without corresponding secret key
  */
 class KGpgKeyNode : public KGpgSignableNode
 {
@@ -273,7 +273,7 @@ public:
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
 	/**
-	 * \brief Print the full key fingerprint with spaces inserted
+	 * @brief Print the full key fingerprint with spaces inserted
 	 *
 	 * For display purposes you normally don't want to print the full
 	 * fingerprint as is because it's too many hex characters at once.
@@ -288,7 +288,7 @@ public:
 	virtual QString getComment() const
 		{ return m_key->comment(); }
 	/**
-	 * \brief Return the number of signatures of the primary user id
+	 * @brief Return the number of signatures of the primary user id
 	 *
 	 * This is different from the number of children of this node as there
 	 * is usually at least one subkey and there may also be additional
@@ -299,38 +299,38 @@ public:
 	 */
 	virtual QString getSignCount() const;
 	/**
-	 * \brief Creates a copy of the KgpgKey that belongs to this class
+	 * @brief Creates a copy of the KgpgKey that belongs to this class
 	 */
 	virtual KgpgKey *copyKey() const;
 	/**
-	 * \brief Replaces the current key information with the new one.
+	 * @brief Replaces the current key information with the new one.
 	 * All sub-items (i.e. signatures, user ids ...) will be deleted. This must
 	 * only be used when the id of both new and old key is the same.
 	 */
 	void setKey(const KgpgKey &key);
 	/**
-	 * \brief Returns a reference to the key used in this object.
+	 * @brief Returns a reference to the key used in this object.
 	 * This allows direct access to the values of the key e.g. for KgpgKeyInfo.
 	 */
 	const KgpgKey *getKey() const;
 
 	/**
-	 * \brief Returns the size of the signing key.
+	 * @brief Returns the size of the signing key.
 	 * @return signing key size in bits
 	 */
 	virtual unsigned int getSignKeySize() const;
 	/**
-	 * \brief Returns the size of the first encryption subkey.
+	 * @brief Returns the size of the first encryption subkey.
 	 * @return encryption key size in bits
 	 */
 	virtual unsigned int getEncryptionKeySize() const;
 	/**
-	 * \brief Notify this key that a KGpgRefNode now references this key.
+	 * @brief Notify this key that a KGpgRefNode now references this key.
 	 * @param node object that takes the reference
 	 */
 	void addRef(KGpgRefNode *node);
 	/**
-	 * \brief Remove a reference to this object
+	 * @brief Remove a reference to this object
 	 * @param node node that no longer has the reference
 	 *
 	 * Note that this must not be called as reply when this object
@@ -338,24 +338,24 @@ public:
 	 */
 	void delRef(KGpgRefNode *node);
 	/**
-	 * \brief returns a list of all groups this key is member of
+	 * @brief returns a list of all groups this key is member of
 	 */
 	QList<KGpgGroupNode *> getGroups(void) const;
 	/**
-	 * \brief returns a list of all group member nodes that reference this key
+	 * @brief returns a list of all group member nodes that reference this key
 	 */
 	QList<KGpgGroupMemberNode *> getGroupRefs(void) const;
 	/**
-	 * \brief returns a list of all sign nodes that reference this key
+	 * @brief returns a list of all sign nodes that reference this key
 	 */
 	KGpgSignNodeList getSignRefs(void) const;
 	/**
-	 * \brief returns a list of signatures to this key
+	 * @brief returns a list of signatures to this key
 	 * @param subkeys if signatures on subkeys should be included
 	 */
 	KGpgSignNodeList getSignatures(const bool subkeys) const;
 	/**
-	 * \brief get the user id or user attribute with the given number
+	 * @brief get the user id or user attribute with the given number
 	 * @param index the index of the user id to return
 	 * @return the requested subitem or NULL if that is not present
 	 *
@@ -373,7 +373,7 @@ typedef QList<KGpgKeyNode *> KGpgKeyNodeList;
 typedef QList<const KGpgKeyNode *> KGpgKeyConstNodeList;
 
 /**
- * \brief The parent of all key data objects
+ * @brief The parent of all key data objects
  *
  * This object is invisible to the user but acts as the internal base object for
  * everything in the keyring. It is anchestor of all other KGpgNode objects and
@@ -457,7 +457,7 @@ Q_SIGNALS:
 };
 
 /**
- * \brief A user id of a public key or key pair
+ * @brief A user id of a public key or key pair
  */
 class KGpgUidNode : public KGpgSignableNode
 {
@@ -486,7 +486,7 @@ public:
 };
 
 /**
- * \brief a subkey of a public key or key pair
+ * @brief a subkey of a public key or key pair
  */
 class KGpgSubkeyNode : public KGpgSignableNode
 {
@@ -515,7 +515,7 @@ public:
 };
 
 /**
- * \brief A user attribute (i.e. photo id) of a public key or key pair
+ * @brief A user attribute (i.e. photo id) of a public key or key pair
  */
 class KGpgUatNode : public KGpgSignableNode
 {
@@ -550,7 +550,7 @@ public:
 };
 
 /**
- * \brief A GnuPG group of public keys
+ * @brief A GnuPG group of public keys
  */
 class KGpgGroupNode : public KGpgExpandableNode
 {
@@ -577,7 +577,7 @@ public:
 };
 
 /**
- * \brief Class for child objects that are only a reference to a primary key
+ * @brief Class for child objects that are only a reference to a primary key
  *
  * This is the base class for all type of objects that match these criteria:
  * -they can not have child objects
@@ -633,7 +633,7 @@ private Q_SLOTS:
 };
 
 /**
- * \brief A member of a GnuPG group
+ * @brief A member of a GnuPG group
  */
 class KGpgGroupMemberNode : public KGpgRefNode
 {
@@ -663,7 +663,7 @@ public:
 };
 
 /**
- * \brief A signature to another key object
+ * @brief A signature to another key object
  */
 class KGpgSignNode : public KGpgRefNode
 {
@@ -686,7 +686,7 @@ public:
 };
 
 /**
- * \brief A lone secret key without public key
+ * @brief A lone secret key without public key
  */
 class KGpgOrphanNode : public KGpgNode
 {

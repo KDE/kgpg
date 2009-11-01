@@ -83,7 +83,7 @@ Q_SIGNALS:
 
     void decryptFileStarted(KUrl url);
     /**
-     * \brief emitted when the decryption has finished
+     * @brief emitted when the decryption has finished
      *
      * @param result decryption result
      * 0 = decryption successful

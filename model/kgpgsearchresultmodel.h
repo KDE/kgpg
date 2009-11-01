@@ -24,7 +24,7 @@
 class KGpgSearchResultModelPrivate;
 
 /**
- * \brief Model of the results of a keyserver search
+ * @brief Model of the results of a keyserver search
  *
  * This model parses and stores the results of a search on a keyserver.
  *
@@ -44,7 +44,7 @@ public:
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
 	/**
-	 * \brief add a line of search result
+	 * @brief add a line of search result
 	 * @param line data from gpg
 	 *
 	 * This will parse the line of data got from gpg and adds it
@@ -54,7 +54,7 @@ public:
 	void addResultLine(const QString &line);
 
 	/**
-	 * \brief get the key fingerprint for the given index
+	 * @brief get the key fingerprint for the given index
 	 * @param index valid index of any item in the model
 	 * @return fingerprint of the corresponding key
 	 */

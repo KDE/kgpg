@@ -38,7 +38,7 @@ public:
     ~KgpgTextEdit();
 
     /**
-     * \brief check if a given text is a GPG key
+     * @brief check if a given text is a GPG key
      * @returns if this is a key and which type of key
      * @retval 0 no key found
      * @retval 1 public key found
