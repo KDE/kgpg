@@ -19,8 +19,8 @@
 #include "kpimutils/email.h"
 
 KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
-		const KgpgCore::KgpgKeyAlgo &algorithm, const uint &size, const unsigned int &expire,
-		const unsigned int &expireunit)
+		const KgpgCore::KgpgKeyAlgo &algorithm, const uint size, const unsigned int expire,
+		const char expireunit)
 	: KGpgTransaction(parent)
 {
 	addArgument("--status-fd=1");
@@ -85,21 +85,7 @@ KGpgGenerateKey::postStart()
 	if (m_expire != 0) {
 		keymessage.append("\nExpire-Date: ");
 		keymessage.append(QByteArray::number(m_expire));
-
-		switch (m_expireunit) {
-		case 1:
-			keymessage.append("d");
-			break;
-		case 2:
-			keymessage.append("w");
-			break;
-		case 3:
-			keymessage.append("m");
-			break;
-		case 4:
-			keymessage.append("y");
-			break;
-		}
+		keymessage.append(m_expireunit);
 	}
 	keymessage.append("\nPassphrase: ");
 	write(keymessage, false);
@@ -189,8 +175,10 @@ KGpgGenerateKey::setSize(const unsigned int size)
 }
 
 void
-KGpgGenerateKey::setExpire(const unsigned int expire, const unsigned int expireunit)
+KGpgGenerateKey::setExpire(const unsigned int expire, const char expireunit)
 {
+	Q_ASSERT((expireunit == 'd') || (expireunit == 'w') ||
+			(expireunit == 'm') || (expireunit == 'y'));
 	m_expire = expire;
 	m_expireunit = expireunit;
 }

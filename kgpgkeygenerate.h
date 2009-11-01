@@ -37,7 +37,7 @@ public:
     QString comment() const;
     KgpgCore::KgpgKeyAlgo algo() const;
     uint size() const;
-    uint expiration() const;
+    char expiration() const;
     uint days() const;
 
 private slots:

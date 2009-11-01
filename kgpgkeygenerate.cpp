@@ -211,9 +211,19 @@ uint KgpgKeyGenerate::size() const
     return m_keysize->currentText().toUInt();
 }
 
-uint KgpgKeyGenerate::expiration() const
+char KgpgKeyGenerate::expiration() const
 {
-    return m_keyexp->currentIndex();
+	switch (m_keyexp->currentIndex()) {
+	case 1:
+		return 'd';
+	case 2:
+		return 'w';
+	case 3:
+		return 'm';
+	case 4:
+	default:
+		return 'y';
+	}
 }
 
 uint KgpgKeyGenerate::days() const

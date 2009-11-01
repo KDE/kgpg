@@ -42,8 +42,8 @@ public:
 	 * @param expireunit is the unit of the number given as \em expire. See setExpire(const unsigned int &expire, const unsigned int &expireunit)
 	 */
 	KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
-			 const KgpgCore::KgpgKeyAlgo &algorithm, const uint &size, const unsigned int &expire = 0,
-			 const unsigned int &expireunit = 1);
+			 const KgpgCore::KgpgKeyAlgo &algorithm, const uint size, const unsigned int expire = 0,
+			 const char expireunit = 'd');
 	virtual ~KGpgGenerateKey();
 
 	void setName(const QString &name);
@@ -57,12 +57,10 @@ public:
 	 * @brief set expire date for key
 	 * @param expire defines the key expiry time together with \em expireunit, 0 for unlimited key lifetime
 	 * @param expireunit is the unit of the number given as \em expire.
-	 * - 1 = day
-	 * - 2 = week
-	 * - 3 = month
-	 * - 4 = year
+	 *
+	 * Valid units are 'd', 'w', 'm' and 'y'. The unit is ignored if expire is 0.
 	 */
-	void setExpire(const unsigned int expire, const unsigned int expireunit);
+	void setExpire(const unsigned int expire, const char expireunit);
 
 	QString getFingerprint() const;
 
