@@ -56,6 +56,8 @@ KGpgGenerateKey::preStart()
 
 	setSuccess(TS_MSG_SEQUENCE);
 
+	setDescription("Generating key for " + m_name);
+
 	return true;
 }
 

@@ -29,6 +29,7 @@ public:
 	GPGProc *m_process;
 	int m_success;
 	int m_tries;
+	QString m_description;
 
 	QStringList m_idhints;
 
@@ -131,6 +132,12 @@ KGpgTransaction::setSuccess(const int v)
 void
 KGpgTransaction::finish()
 {
+}
+
+void
+KGpgTransaction::setDescription(const QString &description)
+{
+	d->m_description = description;
 }
 
 bool
@@ -240,6 +247,12 @@ KGpgTransaction::waitForFinished(const int msecs)
 		return TS_USER_ABORTED;
 	else
 		return getSuccess();
+}
+
+const QString &
+KGpgTransaction::getDescription() const
+{
+	return d->m_description;
 }
 
 #include "kgpgtransaction.moc"

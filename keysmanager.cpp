@@ -105,6 +105,7 @@
 #include "kgpgtextinterface.h"
 #include "kgpgview.h"
 #include "kgpgkeyservergettransaction.h"
+#include "kgpgtransactionjob.h"
 
 using namespace KgpgCore;
 
@@ -505,10 +506,11 @@ void KeysManager::slotGenerateKey()
 	KgpgKeyGenerate *kg = new KgpgKeyGenerate(this);
 	if (kg->exec() == QDialog::Accepted) {
 		if (!kg->isExpertMode()) {
-			m_genkey = new KGpgGenerateKey(this, kg->name(), kg->email(),
+			KGpgGenerateKey *genkey = new KGpgGenerateKey(this, kg->name(), kg->email(),
 					kg->comment(), kg->algo(), kg->size(), kg->days(), kg->expiration());
-			connect(m_genkey, SIGNAL(generateKeyStarted()), SLOT(slotGenerateKeyProcess()));
-			connect(m_genkey, SIGNAL(done(int)), SLOT(slotGenerateKeyDone(int)));
+			connect(genkey, SIGNAL(generateKeyStarted()), SLOT(slotGenerateKeyProcess()));
+			m_genkey = new KGpgTransactionJob(genkey);
+			connect(m_genkey, SIGNAL(result(KJob *)), SLOT(slotGenerateKeyDone(KJob *)));
 			m_genkey->start();
 		} else {
 			KConfigGroup config(KGlobal::config(), "General");
@@ -591,12 +593,17 @@ void KeysManager::slotGenerateKeyProcess()
 	changeMessage(i18n("Generating New Key..."), 0, true);
 }
 
-void KeysManager::slotGenerateKeyDone(int res)
+void KeysManager::slotGenerateKeyDone(KJob *job)
 {
 	changeMessage(i18nc("Application ready for user input", "Ready"), 0);
 
+	KGpgTransactionJob *tjob = qobject_cast<KGpgTransactionJob *>(job);
+
 	delete pop;
 	pop = NULL;
+
+	const KGpgGenerateKey * const genkey = qobject_cast<const KGpgGenerateKey *>(tjob->getTransaction());
+	int res = tjob->getResultCode();
 
 	const QString infomessage(i18n("Generating new key pair"));
 
@@ -623,9 +630,9 @@ void KeysManager::slotGenerateKeyDone(int res)
 		keyCreated->setModal(true);
 
 		newKey *page = new newKey(keyCreated);
-		page->TLname->setText("<b>" + m_genkey->getName() + "</b>");
+		page->TLname->setText("<b>" + genkey->getName() + "</b>");
 
-		const QString email(m_genkey->getEmail());
+		const QString email(genkey->getEmail());
 		page->TLemail->setText("<b>" + email + "</b>");
 
 		QString revurl;
@@ -640,7 +647,7 @@ void KeysManager::slotGenerateKeyDone(int res)
 		else
 			page->kURLRequester1->setUrl(revurl + email.section(" ", 0, 0) + ".revoke");
 
-		const QString fingerprint(m_genkey->getFingerprint());
+		const QString fingerprint(genkey->getFingerprint());
 		page->TLid->setText("<b>" + fingerprint.right(8) + "</b>");
 		page->LEfinger->setText(fingerprint);
 		page->CBdefault->setChecked(true);
@@ -669,7 +676,6 @@ void KeysManager::slotGenerateKeyDone(int res)
 		KMessageBox::error(this, i18n("gpg process did not finish. Cannot generate a new key pair."), infomessage);
 	}
 
-	m_genkey->deleteLater();
 	m_genkey = NULL;
 }
 

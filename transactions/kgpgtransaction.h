@@ -82,6 +82,13 @@ public:
 	 * @return the result of the transaction like done() would
 	 */
 	int waitForFinished(const int msecs = -1);
+	/**
+	 * \brief return description of this transaction
+	 * @return string used to describe what's going on
+	 *
+	 * This is especially useful when using this transaction from a KJob.
+	 */
+	const QString &getDescription() const;
 
 Q_SIGNALS:
 	/**
@@ -134,6 +141,11 @@ protected:
 	 * does nothing which should be enough for most cases.
 	 */
 	virtual void finish();
+	/**
+	 * \brief set the description returned in getDescription()
+	 * @param description the new description of this transaction
+	 */
+	void setDescription(const QString &description);
 
 private:
 	KGpgTransactionPrivate* const d;

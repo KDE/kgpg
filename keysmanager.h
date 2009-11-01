@@ -42,6 +42,7 @@ class KStatusBar;
 class KMenu;
 class KLineEdit;
 class KAction;
+class KJob;
 
 class KgpgInterface;
 class KeyServer;
@@ -52,10 +53,10 @@ class KeyTreeView;
 class KGpgDelUid;
 class KGpgAddPhoto;
 class KGpgAddUid;
-class KGpgGenerateKey;
 class KGpgDelKey;
 class KGpgImport;
 class KGpgTextInterface;
+class KGpgTransactionJob;
 
 class KStatusNotifierItem;
 
@@ -135,7 +136,7 @@ private slots:
     void changeMessage(const QString &msg, const int nb, const bool keep = false);
 
     void slotGenerateKeyProcess();
-    void slotGenerateKeyDone(int res);
+    void slotGenerateKeyDone(KJob *job);
 
     void slotShowTrust();
     void slotShowSize();
@@ -225,7 +226,7 @@ private:
     KGpgDelUid *m_deluid;
     KGpgAddPhoto *m_addphoto;
     KGpgAddUid *m_adduid;
-    KGpgGenerateKey *m_genkey;
+    KGpgTransactionJob *m_genkey;
     KGpgDelKey *m_delkey;
 
     QString globalkeyID;
