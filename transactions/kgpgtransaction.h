@@ -111,6 +111,12 @@ protected:
 	 */
 	virtual bool preStart();
 	/**
+	 * \brief Called when the gpg process is up and running.
+	 *
+	 * This functions is connected to the started() signal of the gpg process.
+	 */
+	virtual void postStart();
+	/**
 	 * \brief Called for every line the gpg process writes.
 	 * @param line the input from the process
 	 * @return true if "quit" should be sent to process
@@ -134,6 +140,7 @@ private:
 
 	Q_PRIVATE_SLOT(d, void slotReadReady(GPGProc *))
 	Q_PRIVATE_SLOT(d, void slotProcessExited(GPGProc *))
+	Q_PRIVATE_SLOT(d, void slotProcessStarted())
 
 protected:
 	/**
@@ -225,7 +232,7 @@ protected:
 	 * return is appended to the data automatically. Usually you will
 	 * call this function from nextLine().
 	 */
-	void write(const QByteArray &a);
+	void write(const QByteArray &a, const bool lf = true);
 	/**
 	 * \brief ask user for password
 	 * @param message message to display to the user. If message is empty

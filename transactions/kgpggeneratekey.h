@@ -52,7 +52,7 @@ public:
 	QString getEmail() const;
 	void setComment(const QString &comment);
 	void setAlgorithm(const KgpgCore::KgpgKeyAlgo &algorithm);
-	void setSize(const unsigned int &size);
+	void setSize(const unsigned int size);
 	/**
 	 * \brief set expire date for key
 	 * @param expire defines the key expiry time together with \em expireunit, 0 for unlimited key lifetime
@@ -62,12 +62,13 @@ public:
 	 * - 3 = month
 	 * - 4 = year
 	 */
-	void setExpire(const unsigned int &expire, const unsigned int &expireunit);
+	void setExpire(const unsigned int expire, const unsigned int expireunit);
 
 	QString getFingerprint() const;
 
 protected:
 	virtual bool preStart();
+	virtual void postStart();
 	virtual bool nextLine(const QString &line);
 
 private:

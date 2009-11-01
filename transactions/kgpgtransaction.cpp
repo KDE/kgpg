@@ -34,6 +34,7 @@ public:
 
 	void slotReadReady(GPGProc *gpgProcess);
 	void slotProcessExited(GPGProc *gpgProcess);
+	void slotProcessStarted();
 };
 
 KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent)
@@ -50,6 +51,7 @@ KGpgTransaction::KGpgTransaction(QObject *parent)
 {
 	connect(d->m_process, SIGNAL(readReady(GPGProc *)), SLOT(slotReadReady(GPGProc *)));
 	connect(d->m_process, SIGNAL(processExited(GPGProc *)), SLOT(slotProcessExited(GPGProc *)));
+	connect(d->m_process, SIGNAL(started()), SLOT(slotProcessStarted()));
 }
 
 KGpgTransaction::~KGpgTransaction()
@@ -83,6 +85,12 @@ KGpgTransactionPrivate::slotProcessExited(GPGProc *gpgProcess)
 }
 
 void
+KGpgTransactionPrivate::slotProcessStarted()
+{
+	m_parent->postStart();
+}
+
+void
 KGpgTransaction::start()
 {
 	setSuccess(TS_OK);
@@ -95,9 +103,11 @@ KGpgTransaction::start()
 }
 
 void
-KGpgTransaction::write(const QByteArray &a)
+KGpgTransaction::write(const QByteArray &a, const bool lf)
 {
-	d->m_process->write(a + '\n');
+	d->m_process->write(a);
+	if (lf)
+		d->m_process->write("\n");
 }
 
 int
@@ -127,6 +137,11 @@ bool
 KGpgTransaction::preStart()
 {
 	return true;
+}
+
+void
+KGpgTransaction::postStart()
+{
 }
 
 void

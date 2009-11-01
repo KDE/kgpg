@@ -28,6 +28,7 @@ KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QSt
 	addArgument("--no-verbose");
 	addArgument("--no-greeting");
 	addArgument("--gen-key");
+	addArgument("--batch");
 
 	setName(name);
 	setEmail(email);
@@ -58,6 +59,64 @@ KGpgGenerateKey::preStart()
 	return true;
 }
 
+void
+KGpgGenerateKey::postStart()
+{
+	QByteArray keymessage("Key-Type: ");
+	if (m_algorithm == KgpgCore::ALGO_RSA)
+		keymessage.append("RSA");
+	else
+		keymessage.append("DSA");
+
+	keymessage.append("\nKey-Length: ");
+	keymessage.append(QByteArray::number(m_size));
+	keymessage.append("\nName-Real: ");
+	keymessage.append(m_name.toUtf8());
+	if (!m_email.isEmpty()) {
+		keymessage.append("\nName-Email: ");
+		keymessage.append(m_email.toAscii());
+	}
+	if (!m_comment.isEmpty()) {
+		keymessage.append("\nName-Comment: ");
+		keymessage.append(m_comment.toUtf8());
+	}
+	if (m_expire != 0) {
+		keymessage.append("\nExpire-Date: ");
+		keymessage.append(QByteArray::number(m_expire));
+
+		switch (m_expireunit) {
+		case 1:
+			keymessage.append("d");
+			break;
+		case 2:
+			keymessage.append("w");
+			break;
+		case 3:
+			keymessage.append("m");
+			break;
+		case 4:
+			keymessage.append("y");
+			break;
+		}
+	}
+	keymessage.append("\nPassphrase: ");
+	write(keymessage, false);
+
+	QString passdlgmessage;
+	if (!m_email.isEmpty()) {
+		passdlgmessage = i18n("<p><b>Enter passphrase for %1 &lt;%2&gt;</b>:<br />Passphrase should include non alphanumeric characters and random sequences.</p>", m_name, m_email);
+	} else {
+		passdlgmessage = i18n("<p><b>Enter passphrase for %1</b>:<br />Passphrase should include non alphanumeric characters and random sequences.</p>", m_name);
+	}
+
+	if (sendPassphrase(passdlgmessage, true)) {
+		setSuccess(TS_USER_ABORTED);
+	}
+	keymessage.append("%commit");
+
+	write(keymessage);
+}
+
 bool
 KGpgGenerateKey::nextLine(const QString &line)
 {
@@ -69,67 +128,12 @@ KGpgGenerateKey::nextLine(const QString &line)
 			emit generateKeyStarted();
 			m_started = true;
 		}
-	} else if (line.contains("keygen.algo")) {
-		if (m_algorithm == KgpgCore::ALGO_RSA)
-			write("5");
-		else
-			write("1");
-	} else if (line.contains("keygen.size")) {
-		write(QByteArray::number(m_size));
-	} else if (line.contains("keygen.valid")) {
-		if (m_expire != 0) {
-			QByteArray output(QByteArray::number(m_expire));
-
-			switch (m_expireunit) {
-			case 1:
-				output.append("d");
-				break;
-			case 2:
-				output.append("w");
-				break;
-			case 3:
-				output.append("m");
-				break;
-			case 4:
-				output.append("y");
-				break;
-			}
-			write(output);
-		} else {
-			write("0");
-		}
-	} else if (line.contains("keygen.name")) {
-		if (m_namesent) {
-			setSuccess(TS_INVALID_NAME);
-			return true;
-//			p->kill();
-		} else {
-			m_namesent = true;
-			write(m_name.toUtf8());
-		}
-	} else if (line.contains("keygen.email")) {
-		write(m_email.toAscii());
-	} else if (line.contains("keygen.comment")) {
-		write(m_comment.toUtf8());
-	} else if (line.contains("passphrase.enter")) {
-		QString passdlgmessage;
-
-		if (!m_email.isEmpty()) {
-			passdlgmessage = i18n("<p><b>Enter passphrase for %1 &lt;%2&gt;</b>:<br />Passphrase should include non alphanumeric characters and random sequences.</p>", m_name, m_email);
-		} else {
-			passdlgmessage = i18n("<p><b>Enter passphrase for %1</b>:<br />Passphrase should include non alphanumeric characters and random sequences.</p>", m_name);
-		}
-
-		if (sendPassphrase(passdlgmessage, true)) {
-			setSuccess(TS_USER_ABORTED);
-		} else {
-			setSuccess(TS_MSG_SEQUENCE);
-		}
 	} else if (line.contains("GOOD_PASSPHRASE")) {
 		setSuccess(TS_MSG_SEQUENCE);
 	} else if (line.contains("KEY_CREATED")) {
 		m_fingerprint = line.right(40);
 		setSuccess(TS_OK);
+		return true;
 	} else if (line.contains("NEED_PASSPHRASE")) {
 		setSuccess(TS_USER_ABORTED);
 	} else if (line.contains("GET_")) {
@@ -177,13 +181,13 @@ KGpgGenerateKey::setAlgorithm(const KgpgCore::KgpgKeyAlgo &algorithm)
 }
 
 void
-KGpgGenerateKey::setSize(const unsigned int &size)
+KGpgGenerateKey::setSize(const unsigned int size)
 {
 	m_size = size;
 }
 
 void
-KGpgGenerateKey::setExpire(const unsigned int &expire, const unsigned int &expireunit)
+KGpgGenerateKey::setExpire(const unsigned int expire, const unsigned int expireunit)
 {
 	m_expire = expire;
 	m_expireunit = expireunit;
