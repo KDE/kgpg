@@ -30,6 +30,7 @@
 #include <KIcon>
 #include <KFindDialog>
 #include <KFind>
+#include <KMenuBar>
 #include <KShortcut>
 #include <KEncodingFileDialog>
 #include <kio/netaccess.h>
@@ -39,6 +40,7 @@
 #include <KAction>
 #include <KLocale>
 #include <KDebug>
+#include <KRecentFilesAction>
 
 #include "selectsecretkey.h"
 #include "kgpgmd5widget.h"
@@ -55,6 +57,7 @@
 KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
           : KXmlGuiWindow(0, f),
 	  view(new KgpgView(this, model)),
+	  m_recentfiles(NULL),
 	  m_find(0),
 	  m_model(model),
 	  m_parent(parent)
@@ -86,6 +89,7 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
 
 KgpgEditor::~KgpgEditor()
 {
+    m_recentfiles->saveEntries( KConfigGroup(KGlobal::config(), "Recent Files" ) );
 }
 
 void KgpgEditor::openDocumentFile(const KUrl& url, const QString &encoding)
@@ -104,6 +108,7 @@ void KgpgEditor::openDocumentFile(const KUrl& url, const QString &encoding)
             m_textchanged = false;
             m_emptytext = false;
             setCaption(url.fileName(), false);
+	    m_recentfiles->addUrl(url);
         }
         KIO::NetAccess::removeTempFile(tempopenfile);
     }
@@ -121,6 +126,7 @@ void KgpgEditor::slotSetFont(QFont myFont)
 
 void KgpgEditor::closeWindow()
 {
+    m_recentfiles->saveEntries( KConfigGroup(KGlobal::config(), "Recent Files" ) );
     close();
 }
 
@@ -151,6 +157,12 @@ void KgpgEditor::initActions()
     m_editcopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     m_editcut  = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
 
+    m_recentfiles = KStandardAction::openRecent(this, SLOT(openDocumentFile(const KUrl&)), this);
+    menuBar()->addAction(m_recentfiles);
+
+    m_recentfiles->loadEntries( KConfigGroup(KGlobal::config(), "Recent Files" ) );
+    m_recentfiles->setMaxItems(KGpgSettings::recentFiles());
+
     QAction *action = actionCollection()->addAction("file_encrypt");
     action->setIcon(KIcon("document-encrypt"));
     action->setText(i18n("&Encrypt File..."));
@@ -176,6 +188,8 @@ void KgpgEditor::initActions()
     m_encodingaction = actionCollection()->add<KToggleAction>("charsets");
     m_encodingaction->setText(i18n("&Unicode (utf-8) Encoding"));
     connect(m_encodingaction, SIGNAL(triggered(bool) ), SLOT(slotSetCharset()));
+
+    actionCollection()->addAction(m_recentfiles->objectName(), m_recentfiles);
 }
 
 bool KgpgEditor::queryClose()

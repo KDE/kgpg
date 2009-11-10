@@ -30,6 +30,7 @@ class KgpgView;
 class KGpgItemModel;
 class KgpgLibrary;
 class KeysManager;
+class KRecentFilesAction;
 
 class KgpgEditor : public KXmlGuiWindow
 {
@@ -41,10 +42,10 @@ public:
     KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f);
     ~KgpgEditor();
 
-    void openDocumentFile(const KUrl& url, const QString &encoding = QString());
     void openEncryptedDocumentFile(const KUrl& url);
 
     KgpgView *view;
+    KRecentFilesAction *m_recentfiles;
 
 signals:
     void refreshImported(QStringList);
@@ -53,6 +54,7 @@ signals:
     void encryptFiles(KUrl::List fileList);
 
 public slots:
+    void openDocumentFile(const KUrl& url, const QString &encoding = QString());
     void slotSetFont(QFont myFont);
     void closeWindow();
 

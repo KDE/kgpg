@@ -51,6 +51,7 @@
 #include <KMimeTypeTrader>
 #include <KLineEdit>
 #include <KMimeType>
+#include <KRecentFilesAction>
 #include <KShortcut>
 #include <KStandardShortcut>
 #include <KLocale>
@@ -100,7 +101,7 @@
 #include "kgpgdelkey.h"
 #include "kgpgimport.h"
 #include "detailedconsole.h"
-#include "kstatusnotifieritem.h"
+#include "knotificationitem.h"
 #include "selectpublickeydialog.h"
 #include "kgpgtextinterface.h"
 #include "kgpgview.h"
@@ -1282,6 +1283,8 @@ void KeysManager::showOptions()
 	connect(optionsDialog, SIGNAL(changeFont(QFont)), SIGNAL(fontChanged(QFont)));
 	optionsDialog->exec();
 	delete optionsDialog;
+
+	s_kgpgEditor->m_recentfiles->setMaxItems(KGpgSettings::recentFiles());
 }
 
 void KeysManager::readAllOptions()
