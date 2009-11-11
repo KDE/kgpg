@@ -101,7 +101,7 @@
 #include "kgpgdelkey.h"
 #include "kgpgimport.h"
 #include "detailedconsole.h"
-#include "knotificationitem.h"
+#include "kstatusnotifieritem.h"
 #include "selectpublickeydialog.h"
 #include "kgpgtextinterface.h"
 #include "kgpgview.h"
