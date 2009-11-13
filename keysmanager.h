@@ -50,8 +50,6 @@ class KgpgEditor;
 class KeyServer;
 class KeyListProxyModel;
 class KeyTreeView;
-class KGpgDelUid;
-class KGpgAddPhoto;
 class KGpgAddUid;
 class KGpgDelKey;
 class KGpgImport;
@@ -223,8 +221,6 @@ private:
     KeyListProxyModel *iproxy;
     KeyTreeView *iview;
 
-    KGpgDelUid *m_deluid;
-    KGpgAddPhoto *m_addphoto;
     KGpgAddUid *m_adduid;
     KGpgTransactionJob *m_genkey;
     KGpgDelKey *m_delkey;

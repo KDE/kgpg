@@ -510,8 +510,10 @@ void KeysManager::slotGenerateKey()
 			KGpgGenerateKey *genkey = new KGpgGenerateKey(this, kg->name(), kg->email(),
 					kg->comment(), kg->algo(), kg->size(), kg->days(), kg->expiration());
 			connect(genkey, SIGNAL(generateKeyStarted()), SLOT(slotGenerateKeyProcess()));
+
 			m_genkey = new KGpgTransactionJob(genkey);
 			connect(m_genkey, SIGNAL(result(KJob *)), SLOT(slotGenerateKeyDone(KJob *)));
+
 			m_genkey->start();
 		} else {
 			KConfigGroup config(KGlobal::config(), "General");
@@ -825,16 +827,15 @@ void KeysManager::slotDelUid()
 {
 	KGpgUidNode *nd = iview->selectedNode()->toUidNode();
 
-	m_deluid = new KGpgDelUid(this, nd);
+	KGpgDelUid *deluid = new KGpgDelUid(this, nd);
 
-	connect(m_deluid, SIGNAL(done(int)), SLOT(slotDelUidDone(int)));
-	m_deluid->start();
+	connect(deluid, SIGNAL(done(int)), SLOT(slotDelUidDone(int)));
+	deluid->start();
 }
 
 void KeysManager::slotDelUidDone(int result)
 {
-	m_deluid->deleteLater();
-	m_deluid = NULL;
+	sender()->deleteLater();
 	// FIXME: do something useful with result
 	Q_UNUSED(result)
 }
@@ -944,14 +945,14 @@ void KeysManager::slotAddPhoto()
 	if (imagepath.isEmpty())
 		return;
 
-	m_addphoto = new KGpgAddPhoto(this, iview->selectedNode()->getId(), imagepath);
-	connect(m_addphoto, SIGNAL(done(int)), SLOT(slotAddPhotoFinished(int)));
-	m_addphoto->start();
+	KGpgAddPhoto *addphoto = new KGpgAddPhoto(this, iview->selectedNode()->getId(), imagepath);
+	connect(addphoto, SIGNAL(done(int)), SLOT(slotAddPhotoFinished(int)));
+	addphoto->start();
 }
 
 void KeysManager::slotAddPhotoFinished(int res)
 {
-	m_addphoto->deleteLater();
+	sender()->deleteLater();
 
 	// TODO : add res == 3 (bad passphrase)
 
@@ -968,15 +969,15 @@ void KeysManager::slotDeletePhoto()
 	QString mess = i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 &lt;%3&gt;</b>?</qt>",
 				und->getId(), parent->getName(), parent->getEmail());
 
-	m_deluid = new KGpgDelUid(this, und);
-	connect(m_deluid, SIGNAL(done(int)), SLOT(slotDelPhotoFinished(int)));
+	KGpgDelUid *deluid = new KGpgDelUid(this, und);
+	connect(deluid, SIGNAL(done(int)), SLOT(slotDelPhotoFinished(int)));
 
-	m_deluid->start();
+	deluid->start();
 }
 
 void KeysManager::slotDelPhotoFinished(int res)
 {
-	m_deluid->deleteLater();
+	sender()->deleteLater();
 
 	// TODO : add res == 3 (bad passphrase)
 
