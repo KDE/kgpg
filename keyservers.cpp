@@ -198,6 +198,7 @@ void KeyServer::slotSearch()
 	m_dialogserver->enableButtonOk(false);
 	m_listpop = new searchRes(m_dialogserver);
 	m_listpop->kLVsearch->setModel(&m_filtermodel);
+	m_listpop->kLVsearch->setColumnWidth(0, 180);
 	m_listpop->statusText->setText(i18n("Connecting to the server..."));
 
 	connect(m_listpop->filterEdit, SIGNAL(textChanged(const QString &)), SLOT(slotSetFilterString(const QString &)));
