@@ -48,7 +48,8 @@ KGpgKeyserverGetTransaction::preStart()
 bool
 KGpgKeyserverGetTransaction::nextLine(const QString &line)
 {
-	m_log.append(line);
+	if (!line.startsWith("[GNUPG:] SIGEXPIRED") && !line.startsWith("[GNUPG:] KEYEXPIRED "))
+		m_log.append(line);
 	setSuccess(TS_OK);
 
 	return false;
