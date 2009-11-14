@@ -604,9 +604,9 @@ void KgpgEditor::slotSignFile(const KUrl &url)
 
         QStringList Options;
         if (KGpgSettings::asciiArmor())
-            Options << QString::fromLocal8Bit("--armor");
+            Options << "--armor";
         if (KGpgSettings::pgpCompatibility())
-            Options << QString::fromLocal8Bit("--pgp6");
+            Options << "--pgp6";
         Options << "--detach-sign";
 
         KGpgTextInterface *interface = new KGpgTextInterface();

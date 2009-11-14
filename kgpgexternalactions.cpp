@@ -58,7 +58,7 @@ void KGpgExternalActions::encryptDroppedFile()
 
 	if (KGpgSettings::encryptFilesTo()) {
 		if (KGpgSettings::pgpCompatibility())
-			opts << QString::fromLocal8Bit("--pgp6");
+			opts << "--pgp6";
 		
 		lib->slotFileEnc(droppedUrls, opts, m_model, goDefaultKey, KGpgSettings::fileEncryptionKey());
 	} else {
