@@ -1720,7 +1720,7 @@ KeysManager::showProperties(KGpgNode *n)
 	case ITYPE_PUBLIC:
 	case ITYPE_PAIR: {
 		KGpgKeyNode *k = n->toKeyNode();
-		KgpgKeyInfo *opts = new KgpgKeyInfo(k, this);
+		KgpgKeyInfo *opts = new KgpgKeyInfo(k, imodel, this);
 		connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
 		connect(opts->keychange, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
 		opts->exec();
@@ -1748,7 +1748,7 @@ void KeysManager::keyproperties()
 	case ITYPE_PAIR:
 	case ITYPE_PUBLIC: {
 		KGpgKeyNode *kn = cur->toKeyNode();
-		KgpgKeyInfo *opts = new KgpgKeyInfo(kn, this);
+		KgpgKeyInfo *opts = new KgpgKeyInfo(kn, imodel, this);
 		connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
 		opts->exec();
 		delete opts;
@@ -1757,7 +1757,7 @@ void KeysManager::keyproperties()
 	case ITYPE_GPAIR:
 	case ITYPE_GPUBLIC: {
 		KGpgKeyNode *kn = cur->toGroupMemberNode()->getRefNode();
-		KgpgKeyInfo *opts = new KgpgKeyInfo(kn, this);
+		KgpgKeyInfo *opts = new KgpgKeyInfo(kn, imodel, this);
 		connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
 		opts->exec();
 		delete opts;

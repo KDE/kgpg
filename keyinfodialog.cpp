@@ -39,6 +39,7 @@
 #include "kgpgchangekey.h"
 #include "kgpgchangepass.h"
 #include "kgpgitemnode.h"
+#include "kgpgitemmodel.h"
 
 using namespace KgpgCore;
 
@@ -150,20 +151,24 @@ void KgpgDateDialog::slotEnableDate(const bool &ison)
         slotCheckDate(m_datepicker->date());
 }
 
-KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, QWidget *parent)
-           : KDialog(parent), keychange(new KGpgChangeKey(node))
+KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *parent)
+	: KDialog(parent),
+	keychange(new KGpgChangeKey(node)),
+	m_key(node->getKey()),
+	m_node(node),
+	m_model(model)
 {
-    m_node = node;
-    m_key = node->getKey();
-    init();
+	init();
 }
 
 KgpgKeyInfo::KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent)
-           : KDialog(parent), keychange(new KGpgChangeKey(key))
+	: KDialog(parent),
+	keychange(new KGpgChangeKey(key)),
+	m_key(key),
+	m_node(NULL),
+	m_model(NULL)
 {
-    m_node = NULL;
-    m_key = key;
-    init();
+	init();
 }
 
 void KgpgKeyInfo::init()
@@ -403,6 +408,28 @@ void KgpgKeyInfo::reloadKey()
 	displayKey();
 }
 
+void KgpgKeyInfo::reloadNode()
+{
+	Q_ASSERT(m_model != NULL);
+	Q_ASSERT(m_node != NULL);
+
+	const QString kid(m_node->getId());
+
+	// this will delete m_node
+	m_key = NULL;
+	m_model->refreshKey(m_node);
+
+	m_node = m_model->getRootNode()->findKey(kid);
+	if (m_node != NULL) {
+		m_key = m_node->getKey();
+		displayKey();
+	} else {
+		KMessageBox::error(this, i18n("<qt>The requested key is not present in the keyring anymore.<br />Perhaps it was deleted by another application</qt>"), i18n("Key not found"));
+		m_keywaschanged = false;
+		close();
+	}
+}
+
 void KgpgKeyInfo::displayKey()
 {
     QString name = m_key->name();
@@ -593,7 +620,10 @@ void KgpgKeyInfo::slotApplied(int result)
 		KMessageBox::error(this, i18n("Changing key properties failed."), i18n("Key properties"));
 	} else {
 		m_keywaschanged = true;
-		reloadKey();
+		if (m_node != NULL)
+			reloadNode();
+		else
+			reloadKey();
 	}
 	setControlEnable(true);
 }

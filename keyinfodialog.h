@@ -35,6 +35,7 @@ class KUrlLabel;
 class KComboBox;
 
 class KgpgInterface;
+class KGpgItemModel;
 class KGpgKeyNode;
 class KGpgChangeKey;
 class KGpgChangePass;
@@ -83,14 +84,16 @@ private:
 
 class KgpgKeyInfo : public KDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
+	KgpgKeyInfo(); // = delete C++0x
+	Q_DISABLE_COPY(KgpgKeyInfo)
 public:
-    explicit KgpgKeyInfo(KGpgKeyNode *node, QWidget *parent = 0);
-    explicit KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent = 0);
-    ~KgpgKeyInfo();
+	explicit KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *parent);
+	explicit KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent);
+	~KgpgKeyInfo();
 
-    KGpgChangeKey *keychange;
+	KGpgChangeKey *keychange;
 
 signals:
     void keyNeedsRefresh(KGpgKeyNode *node);
@@ -102,6 +105,7 @@ private:
     QGroupBox *_fingerprintGroup(QWidget *parent);
 
     void reloadKey();
+    void reloadNode();
     void displayKey();
     void setControlEnable(const bool &b);
 
@@ -128,6 +132,7 @@ private slots:
 private:
 	const KgpgCore::KgpgKey *m_key;
 	KGpgKeyNode *m_node;
+	KGpgItemModel *m_model;
 	KGpgChangePass *m_changepass;
 
     QCheckBox *m_disable;
