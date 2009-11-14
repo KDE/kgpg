@@ -208,7 +208,7 @@ KGpgTextInterface::encryptTextProcess()
 void
 KGpgTextInterface::encryptTextFin()
 {
-	emit txtEncryptionFinished(QString::fromUtf8(d->m_message.toAscii()).trimmed(), this);
+	emit txtEncryptionFinished(d->m_message.trimmed(), this);
 }
 
 void
