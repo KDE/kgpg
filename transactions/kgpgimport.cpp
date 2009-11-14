@@ -240,3 +240,75 @@ KGpgImport::getImportMessage(const QStringList &log)
 
 	return i18n("No key imported.<br />Please see the detailed log for more information.");
 }
+
+QString
+KGpgImport::getDetailedImportMessage(const QStringList &log)
+{
+	QString result;
+	QMap<QString, unsigned int> resultcodes;
+
+	foreach (const QString &keyresult, log) {
+		if (!keyresult.startsWith("[GNUPG:] IMPORT_OK "))
+			continue;
+
+		QStringList rc(keyresult.mid(19).split(" "));
+		if (rc.count() < 2) {
+			kDebug(2100) << "unexpected syntax:" << keyresult;
+			continue;
+		}
+
+		resultcodes[rc.at(1)] = rc.at(0).toUInt();
+	}
+
+	QMap<QString, unsigned int>::const_iterator iterend(resultcodes.end());
+
+	for (unsigned int flag = 1; flag <= 16; flag <<= 1) {
+		QStringList thischanged;
+
+		for (QMap<QString, unsigned int>::const_iterator iter(resultcodes.begin()); iter != iterend; iter++) {
+			if (iter.value() & flag)
+				thischanged << iter.key();
+		}
+
+		if (thischanged.isEmpty())
+			continue;
+
+		switch (flag) {
+		case 1:
+			result.append(i18np("New Key", "New Keys", thischanged.count()));
+			break;
+		case 2:
+			result.append(i18np("Key with new User Id", "Keys with new User Ids", thischanged.count()));
+			break;
+		case 4:
+			result.append(i18np("Key with new Signatures", "Keys with new Signatures", thischanged.count()));
+			break;
+		case 8:
+			result.append(i18np("Key with new Subkeys", "Keys with new Subkeys", thischanged.count()));
+			break;
+		case 16:
+			result.append(i18np("New Private Key", "New Private Keys", thischanged.count()));
+			break;
+		default:
+			Q_ASSERT(flag == 1);
+		}
+
+		result.append("\n ");
+		result.append(thischanged.join("\n "));
+		result.append("\n\n");
+	}
+
+	QStringList unchanged(resultcodes.keys(0));
+
+	if (unchanged.isEmpty()) {
+		// remove empty line at end
+		result.chop(1);
+	} else {
+		result.append(i18np("Unchanged Key", "Unchanged Keys", unchanged.count()));
+		result.append("\n ");
+		result.append(unchanged.join("\n "));
+		result.append("\n");
+	}
+
+	return result;
+}

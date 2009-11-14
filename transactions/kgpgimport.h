@@ -121,6 +121,16 @@ public:
 	 */
 	static QString getImportMessage(const QStringList &log);
 
+	/**
+	 * @brief get detailed summary of import
+	 * @param message import log
+	 * @return message describing which keys changed and how
+	 *
+	 * The log must contain a "IMPORT_RES" line. If this is not present
+	 * the result string will contain an error message.
+	 */
+	static QString getDetailedImportMessage(const QStringList &log);
+
 protected:
 	virtual bool preStart();
 	virtual bool nextLine(const QString &line);
