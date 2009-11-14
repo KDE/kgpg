@@ -454,6 +454,8 @@ KeysManager::KeysManager(QWidget *parent)
 	action->setShortcut(QKeySequence(Qt::Key_F6));
 	connect(m_listviewsearch, SIGNAL(textChanged(const QString &)), iproxy, SLOT(setFilterFixedString(const QString &)));
 
+	setActionDescriptions(1);
+
 	// get all keys data
 	setupGUI(KXmlGuiWindow::Create | Save | ToolBar | StatusBar | Keys, "keysmanager.rc");
 
@@ -1311,6 +1313,17 @@ void KeysManager::slotSetDefaultKey(const QString &newID)
 }
 
 void
+KeysManager::setActionDescriptions(int cnt)
+{
+	signUid->setText(i18np("&Sign User ID ...", "&Sign User IDs ...", cnt));
+	exportPublicKey->setText(i18np("E&xport Public Key...", "E&xport Public Keys...", cnt));
+	refreshKey->setText(i18np("&Refresh Key From Keyserver", "&Refresh Keys From Keyserver", cnt));
+	createGroup->setText(i18np("&Create Group with Selected Key...", "&Create Group with Selected Keys...", cnt));
+	signKey->setText(i18np("&Sign Key...", "&Sign Keys...", cnt));
+	delUid->setText(i18np("&Delete User ID", "&Delete User IDs", cnt));
+}
+
+void
 KeysManager::slotMenu(const QPoint &pos)
 {
 	QPoint globpos = iview->mapToGlobal(pos);
@@ -1342,12 +1355,7 @@ KeysManager::slotMenu(const QPoint &pos)
 	importAllSignKeys->setEnabled(unksig && m_online);
 
 	signUid->setEnabled(!(itype & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)));
-	signUid->setText(i18np("&Sign User ID ...", "&Sign User IDs ...", cnt));
-	exportPublicKey->setText(i18np("E&xport Public Key...", "E&xport Public Keys...", cnt));
-	refreshKey->setText(i18np("&Refresh Key From Keyserver", "&Refresh Keys From Keyserver", cnt));
-	createGroup->setText(i18np("&Create Group with Selected Key...", "&Create Group with Selected Keys...", cnt));
-	signKey->setText(i18np("&Sign Key...", "&Sign Keys...", cnt));
-	delUid->setText(i18np("&Delete User ID", "&Delete User IDs", cnt));
+	setActionDescriptions(cnt);
 
 	if (itype == ITYPE_SIGN) {
 		bool allunksig = true;
