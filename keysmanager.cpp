@@ -444,9 +444,9 @@ KeysManager::KeysManager(QWidget *parent)
 	searchLayout->addWidget(m_listviewsearch);
 	searchLayout->addStretch();
 
-	KAction *serchLineAction = new KAction(i18nc("Name of the action that is a search line, shown for example in the toolbar configuration dialog", "Search Line"), this);
-	actionCollection()->addAction("search_line", serchLineAction);
-	serchLineAction->setDefaultWidget(searchWidget);
+	KAction *searchLineAction = new KAction(i18nc("Name of the action that is a search line, shown for example in the toolbar configuration dialog", "Search Line"), this);
+	actionCollection()->addAction("search_line", searchLineAction);
+	searchLineAction->setDefaultWidget(searchWidget);
 
 	action = actionCollection()->addAction("search_focus");
 	action->setText(i18nc("Name of the action that gives the focus to the search line", "Focus Search Line"));
