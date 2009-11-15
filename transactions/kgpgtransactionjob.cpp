@@ -1,5 +1,7 @@
 #include "kgpgtransactionjob.h"
 
+#include <KLocale>
+
 #include "kgpgtransaction.h"
 
 KGpgTransactionJob::KGpgTransactionJob(KGpgTransaction *transaction)
@@ -18,8 +20,11 @@ void
 KGpgTransactionJob::start()
 {
 	connect(m_transaction, SIGNAL(done(int)), SLOT(slotTransactionDone(int)));
+	connect(m_transaction, SIGNAL(statusMessage(const QString &)), SLOT(slotStatusMessage(const QString &)));
+	connect(m_transaction, SIGNAL(infoProgress(qulonglong, qulonglong)), SLOT(slotInfoProgress(qulonglong, qulonglong)));
+
+	slotStatusMessage(i18nc("Job is started up", "Startup"));
 	m_transaction->start();
-	emit description(this, m_transaction->getDescription());
 }
 
 const KGpgTransaction *
@@ -39,6 +44,18 @@ KGpgTransactionJob::slotTransactionDone(int result)
 {
 	m_result = result;
 	emitResult();
+}
+
+void
+KGpgTransactionJob::slotStatusMessage(const QString &msg)
+{
+	emit description(this, m_transaction->getDescription(), qMakePair(i18nc("State of operation as in status", "State"), msg));
+}
+
+void
+KGpgTransactionJob::slotInfoProgress(qulonglong processedAmount, qulonglong totalAmount)
+{
+	emitPercent(processedAmount, totalAmount);
 }
 
 #include "kgpgtransactionjob.moc"

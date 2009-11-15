@@ -51,12 +51,11 @@ KGpgGenerateKey::preStart()
 	}
 
 	m_fingerprint.clear();
-	m_started = false;
 	m_namesent = false;
 
 	setSuccess(TS_MSG_SEQUENCE);
 
-	setDescription("Generating key for " + m_name);
+	setDescription(i18n("Generating New Key for %1", m_name));
 
 	return true;
 }
@@ -108,28 +107,56 @@ KGpgGenerateKey::postStart()
 bool
 KGpgGenerateKey::nextLine(const QString &line)
 {
+	QString msg(i18n("Generating Key"));
+
 	if (!line.startsWith("[GNUPG:] "))
 		return false;
 
+	int result = false;
+
 	if (line.contains("PROGRESS")) {
-		if (!m_started) {
-			emit generateKeyStarted();
-			m_started = true;
+		QStringList parts(line.mid(18).split(" "));
+		if (parts.count() >= 4) {
+			const QString p0(parts.at(0));
+			if (p0 == "primegen") {
+				msg = i18n("Generating prime numbers");
+			} else if (p0 == "pk_dsa") {
+				msg = i18n("Generating DSA key");
+			} else if (p0 == "pk_elg") {
+				msg = i18n("Generating ElGamal key");
+			} else if (p0 == "need_entropy") {
+				msg = i18n("Waiting for entropy");
+
+				// This message is currenlty not displayed. Nevertheless it's
+				// included here so string freeze is not broken if it will be
+				// displayed later on.
+				QString msglong = i18n("The entropy pool ran empty. The key generation process is stalled until enough entropy is present. You can generate entropy e.g. by moving the mouse or typing at the keyword. The easiest way is by using another application until the key generation continues.");
+			}
+			if (parts.at(3) != "0")
+				emit infoProgress(parts.at(2).toUInt(), parts.at(3).toUInt());
 		}
 	} else if (line.contains("GOOD_PASSPHRASE")) {
 		setSuccess(TS_MSG_SEQUENCE);
 	} else if (line.contains("KEY_CREATED")) {
 		m_fingerprint = line.right(40);
 		setSuccess(TS_OK);
-		return true;
+		result = true;
 	} else if (line.contains("NEED_PASSPHRASE")) {
 		setSuccess(TS_USER_ABORTED);
 	} else if (line.contains("GET_")) {
 		setSuccess(TS_MSG_SEQUENCE);
-		return true;
+		result = true;
 	}
 
-	return false;
+	emit statusMessage(msg);
+
+	return result;
+}
+
+void
+KGpgGenerateKey::finish()
+{
+	emit statusMessage(i18n("Key %1 generated", getFingerprint()));
 }
 
 void

@@ -82,6 +82,7 @@ KGpgTransactionPrivate::slotProcessExited(GPGProc *gpgProcess)
 	Q_UNUSED(gpgProcess)
 
 	m_parent->finish();
+	emit m_parent->infoProgress(100, 100);
 	emit m_parent->done(m_success);
 }
 
@@ -97,10 +98,12 @@ KGpgTransaction::start()
 	setSuccess(TS_OK);
 	d->m_idhints.clear();
 	d->m_tries = 3;
-	if (preStart())
+	if (preStart()) {
 		d->m_process->start();
-	else
+		emit infoProgress(0, 1);
+	} else {
 		emit done(d->m_success);
+	}
 }
 
 void
@@ -114,6 +117,7 @@ KGpgTransaction::write(const QByteArray &a, const bool lf)
 int
 KGpgTransaction::sendPassphrase(const QString &text, const bool isnew)
 {
+	emit statusMessage(i18n("Requesting Passphrase"));
 	return KgpgInterface::sendPassphrase(text, d->m_process, isnew);
 }
 

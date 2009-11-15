@@ -62,6 +62,8 @@ public:
 
 private slots:
 	void slotTransactionDone(int result);
+	void slotStatusMessage(const QString &plain);
+	void slotInfoProgress(qulonglong processedAmount, qulonglong totalAmount);
 };
 
 #endif

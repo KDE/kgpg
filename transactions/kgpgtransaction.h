@@ -90,7 +90,7 @@ public:
 	 */
 	const QString &getDescription() const;
 
-Q_SIGNALS:
+signals:
 	/**
 	 * @brief Emitted when the operation was completed.
 	 * @param result return status of the transaction
@@ -99,6 +99,18 @@ Q_SIGNALS:
 	 * may define additional status codes.
 	 */
 	void done(int result);
+
+	/**
+	 * @brief emits textual status information
+	 * @param msg the status message
+	 */
+	void statusMessage(const QString &msg);
+
+	/**
+	 * @brief emits procentual status information
+	 * @param percent how much of the job is done
+	 */
+	void infoProgress(qulonglong processedAmount, qulonglong totalAmount);
 
 protected:
 	/**

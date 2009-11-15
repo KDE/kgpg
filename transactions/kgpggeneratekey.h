@@ -68,6 +68,7 @@ protected:
 	virtual bool preStart();
 	virtual void postStart();
 	virtual bool nextLine(const QString &line);
+	virtual void finish();
 
 private:
 	QString m_name;
@@ -78,11 +79,7 @@ private:
 	unsigned int m_expire;
 	unsigned int m_expireunit;
 	QString m_fingerprint;
-	bool m_started;
 	bool m_namesent;
-
-Q_SIGNALS:
-	void generateKeyStarted();
 };
 
 #endif // KGPGGENERATEKEY_H

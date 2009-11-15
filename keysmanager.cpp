@@ -42,7 +42,6 @@
 #include <solid/networking.h>
 #include <KToolInvocation>
 #include <KStandardDirs>
-#include <KPassivePopup>
 #include <KInputDialog>
 #include <KFileDialog>
 #include <KMessageBox>
@@ -71,6 +70,8 @@
 #include <KToggleAction>
 #include <KStatusBar>
 #include <KToolBar>
+#include <kio/global.h>
+#include <kjobtrackerinterface.h>
 
 #include "kgpgkey.h"
 #include "selectsecretkey.h"
@@ -117,7 +118,6 @@ KeysManager::KeysManager(QWidget *parent)
 	   m_genkey(NULL),
 	   m_delkey(NULL),
 	   m_statusbartimer(new QTimer(this)),
-	   pop(NULL),
 	   m_statusbar(NULL),
 	   terminalkey(NULL),
 	   delkey(NULL),
@@ -511,11 +511,11 @@ void KeysManager::slotGenerateKey()
 		if (!kg->isExpertMode()) {
 			KGpgGenerateKey *genkey = new KGpgGenerateKey(this, kg->name(), kg->email(),
 					kg->comment(), kg->algo(), kg->size(), kg->days(), kg->expiration());
-			connect(genkey, SIGNAL(generateKeyStarted()), SLOT(slotGenerateKeyProcess()));
 
 			m_genkey = new KGpgTransactionJob(genkey);
 			connect(m_genkey, SIGNAL(result(KJob *)), SLOT(slotGenerateKeyDone(KJob *)));
 
+			KIO::getJobTracker()->registerJob(m_genkey);
 			m_genkey->start();
 		} else {
 			KConfigGroup config(KGlobal::config(), "General");
@@ -571,41 +571,11 @@ void KeysManager::changeMessage(const QString &msg, const int nb, const bool kee
 	}
 }
 
-void KeysManager::slotGenerateKeyProcess()
-{
-	pop = new KPassivePopup(this);
-	pop->setTimeout(0);
-
-	KVBox *passiveBox = pop->standardView(i18n("Generating new key pair."), QString(), Images::kgpg());
-
-	QMovie anim(KStandardDirs::locate("appdata", "pics/kgpg_anim.gif"));
-	QLabel *text1 = new QLabel(passiveBox);
-	text1->setAlignment(Qt::AlignHCenter);
-	text1->setMovie(&anim);
-
-	QLabel *text2 = new QLabel(passiveBox);
-	text2->setText(i18n("\nPlease wait..."));
-
-	pop->setView(passiveBox);
-	pop->show();
-
-	QRect qRect(QApplication::desktop()->screenGeometry());
-	int Xpos = qRect.width() / 2 - pop->width() / 2;
-	int Ypos = qRect.height() / 2 - pop->height() / 2;
-	pop->move(Xpos, Ypos);
-
-	pop->setAutoDelete(false);
-	changeMessage(i18n("Generating New Key..."), 0, true);
-}
-
 void KeysManager::slotGenerateKeyDone(KJob *job)
 {
 	changeMessage(i18nc("Application ready for user input", "Ready"), 0);
 
 	KGpgTransactionJob *tjob = qobject_cast<KGpgTransactionJob *>(job);
-
-	delete pop;
-	pop = NULL;
 
 	const KGpgGenerateKey * const genkey = qobject_cast<const KGpgGenerateKey *>(tjob->getTransaction());
 	int res = tjob->getResultCode();

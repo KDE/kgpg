@@ -37,7 +37,6 @@
 class QEvent;
 
 class KSelectAction;
-class KPassivePopup;
 class KStatusBar;
 class KMenu;
 class KLineEdit;
@@ -133,7 +132,6 @@ private slots:
     void statusBarTimeout();
     void changeMessage(const QString &msg, const int nb, const bool keep = false);
 
-    void slotGenerateKeyProcess();
     void slotGenerateKeyDone(KJob *job);
 
     void slotShowTrust();
@@ -243,7 +241,6 @@ private:
     KMenu *m_popupuid;          // popup on an user id
     KMenu *m_popuporphan;       // popup on an orphan key
 
-    KPassivePopup *pop;
     KStatusBar *m_statusbar;
 
     KLineEdit *m_listviewsearch;
