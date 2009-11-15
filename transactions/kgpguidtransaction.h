@@ -44,6 +44,10 @@ public:
 	 */
 	void setKeyId(const QString &keyid);
 	/**
+	 * @brief return the key id of the current transaction
+	 */
+	QString getKeyId(void) const;
+	/**
 	 * @brief set the uid number of the transaction to the given value
 	 * @param uid the number of the user id to work with
 	 */

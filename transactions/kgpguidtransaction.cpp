@@ -71,6 +71,12 @@ KGpgUidTransaction::setKeyId(const QString &keyid)
 	replaceArgument(m_keyidpos, keyid);
 }
 
+QString
+KGpgUidTransaction::getKeyId(void) const
+{
+	return m_keyid;
+}
+
 void
 KGpgUidTransaction::setUid(const QString &uid)
 {

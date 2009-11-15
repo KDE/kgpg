@@ -149,6 +149,7 @@ private slots:
     void slotDelUid();
     void slotDelUidDone(int);
     void slotPrimUid();
+    void slotPrimUidDone(int result);
     void slotAddUid();
     void slotAddUidEnable(const QString &name);
     void slotUpdatePhoto();

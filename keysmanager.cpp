@@ -101,6 +101,7 @@
 #include "kgpggeneratekey.h"
 #include "kgpgdelkey.h"
 #include "kgpgimport.h"
+#include "kgpgprimaryuid.h"
 #include "detailedconsole.h"
 #include "kstatusnotifieritem.h"
 #include "selectpublickeydialog.h"
@@ -814,19 +815,22 @@ void KeysManager::slotDelUidDone(int result)
 
 void KeysManager::slotPrimUid()
 {
-	KGpgUidNode *nd = iview->selectedNode()->toUidNode();
+	KGpgPrimaryUid *puid = new KGpgPrimaryUid(this, iview->selectedNode()->toUidNode());
 
-	QProcess *process = new QProcess(this);
-	KConfigGroup config(KGlobal::config(), "General");
-	QString terminalApp(config.readPathEntry("TerminalApplication", "konsole"));
+	connect(puid, SIGNAL(done(int)), SLOT(slotPrimUidDone(int)));
 
-	QStringList args;
-	args << "-e" << KGpgSettings::gpgBinaryPath();
-	args << "--edit-key" << nd->getParentKeyNode()->getId() << "uid" << nd->getId() << "primary" << "save";
+	puid->start();
+}
 
-	process->start(terminalApp, args);
-	process->waitForFinished();
-	imodel->refreshKey(nd->getParentKeyNode()->toKeyNode());
+void KeysManager::slotPrimUidDone(int result)
+{
+	const QString kid(qobject_cast<KGpgPrimaryUid *>(sender())->getKeyId());
+
+	sender()->deleteLater();
+
+	if (result == 0)
+		imodel->refreshKey(kid);
+	// FIXME: some error reporting
 }
 
 void KeysManager::slotregenerate()
