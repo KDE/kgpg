@@ -594,6 +594,7 @@ class KGpgRefNode: public KGpgNode
 
 private:
 	QString m_id;
+	bool m_selfsig;		///< if this is a reference to it's own parent
 
 protected:
 	KGpgKeyNode *m_keynode;
