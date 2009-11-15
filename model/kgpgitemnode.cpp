@@ -866,15 +866,32 @@ KGpgGroupNode::readChildren()
 KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
 	: KGpgNode(parent)
 {
-	KGpgRootNode *root = getRootNode();
+	Q_ASSERT(!keyid.isEmpty());
 
-	m_keynode = root->findKey(keyid);
-	if (m_keynode != NULL) {
-		connect(m_keynode, SIGNAL(updated(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
-		m_keynode->addRef(this);
-	} else {
-		m_id = keyid;
-		connect(root, SIGNAL(newKeyNode(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
+	KGpgRootNode *root = getRootNode();
+	KGpgExpandableNode *pnd = parent;
+
+	do {
+		m_selfsig = (pnd->getId().right(keyid.length()) == keyid);
+		if (m_selfsig)
+			m_keynode = pnd->toKeyNode();
+		else
+			pnd = pnd->getParentKeyNode();
+	} while (!m_selfsig && (pnd != root));
+
+	// Self signatures do net need to get notified by their key: if the key is changed
+	// the key node is deleted, then those refnode would be deleted anyway. This avoids
+	// crashes when they would try to find the root node by iterating over their parent
+	// when the parents destructor is already called (see bug 208659).
+	if (!m_selfsig) {
+		m_keynode = root->findKey(keyid);
+		if (m_keynode != NULL) {
+			connect(m_keynode, SIGNAL(updated(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
+			m_keynode->addRef(this);
+		} else {
+			m_id = keyid;
+			connect(root, SIGNAL(newKeyNode(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
+		}
 	}
 
 	parent->children.append(this);
@@ -882,7 +899,7 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
 
 KGpgRefNode::~KGpgRefNode()
 {
-	if (m_keynode)
+	if (m_keynode && !m_selfsig)
 		m_keynode->delRef(this);
 }
 
