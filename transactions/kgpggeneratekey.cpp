@@ -130,7 +130,7 @@ KGpgGenerateKey::nextLine(const QString &line)
 				// This message is currenlty not displayed. Nevertheless it's
 				// included here so string freeze is not broken if it will be
 				// displayed later on.
-				QString msglong = i18n("The entropy pool ran empty. The key generation process is stalled until enough entropy is present. You can generate entropy e.g. by moving the mouse or typing at the keyword. The easiest way is by using another application until the key generation continues.");
+				QString msglong = i18n("The entropy pool ran empty. The key generation process is stalled until enough entropy is present. You can generate entropy e.g. by moving the mouse or typing at the keyboard. The easiest way is by using another application until the key generation continues.");
 			}
 			if (parts.at(3) != "0")
 				emit infoProgress(parts.at(2).toUInt(), parts.at(3).toUInt());
