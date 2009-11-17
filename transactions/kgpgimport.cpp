@@ -98,7 +98,7 @@ KGpgImport::postStart()
 bool
 KGpgImport::nextLine(const QString &line)
 {
-	if (!line.isEmpty())
+	if (!line.isEmpty() && !line.startsWith("[GNUPG:] SIGEXPIRED") && !line.startsWith("[GNUPG:] KEYEXPIRED "))
 		m_messages.append(line);
 
 	return false;
