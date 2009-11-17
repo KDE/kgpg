@@ -13,7 +13,7 @@
 
 #include "kgpgchangetrust.h"
 
-KGpgChangeTrust::KGpgChangeTrust(QObject *parent, const QString &keyid, const KgpgCore::KgpgKeyOwnerTrust &trust)
+KGpgChangeTrust::KGpgChangeTrust(QObject *parent, const QString &keyid, const KgpgCore::KgpgKeyOwnerTrust trust)
 	: KGpgTransaction(parent)
 {
 	addArgument("--status-fd=1");
@@ -21,6 +21,7 @@ KGpgChangeTrust::KGpgChangeTrust(QObject *parent, const QString &keyid, const Kg
 	addArgument("--edit-key");
 	addArgument(keyid);
 	addArgument("trust");
+	addArgument("save");
 
 	setTrust(trust);
 }
@@ -44,6 +45,9 @@ KGpgChangeTrust::nextLine(const QString &line)
 		write("YES");
 	} else if (line.contains("edit_ownertrust.value")) {
 		write(QByteArray::number(m_trust));
+	} else if (line.endsWith(" GOT_IT")) {
+		setSuccess(TS_OK);
+		return true;
 	} else if (line.contains("keyedit.prompt")) {
 		setSuccess(TS_OK);
 		write("save");
@@ -56,7 +60,7 @@ KGpgChangeTrust::nextLine(const QString &line)
 }
 
 void
-KGpgChangeTrust::setTrust(const KgpgCore::KgpgKeyOwnerTrust &trust)
+KGpgChangeTrust::setTrust(const KgpgCore::KgpgKeyOwnerTrust trust)
 {
 	m_trust = trust;
 }

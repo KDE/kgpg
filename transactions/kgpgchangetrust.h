@@ -26,10 +26,10 @@ class KGpgChangeTrust: public KGpgTransaction {
 	Q_OBJECT
 
 public:
-	KGpgChangeTrust(QObject *parent, const QString &keyid, const KgpgCore::KgpgKeyOwnerTrust &trust);
+	KGpgChangeTrust(QObject *parent, const QString &keyid, const KgpgCore::KgpgKeyOwnerTrust trust);
 	virtual ~KGpgChangeTrust();
 
-	void setTrust(const KgpgCore::KgpgKeyOwnerTrust &trust);
+	void setTrust(const KgpgCore::KgpgKeyOwnerTrust trust);
 
 protected:
 	virtual bool nextLine(const QString &line);
