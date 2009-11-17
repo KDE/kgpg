@@ -56,7 +56,7 @@ KGpgImport::preStart()
 
 	QStringList locfiles;
 
-	foreach (KUrl url, m_inpfiles) {
+	foreach (const KUrl &url, m_inpfiles) {
 		if (url.isLocalFile()) {
 			locfiles.append(url.toLocalFile());
 		} else {
@@ -118,7 +118,7 @@ KGpgImport::getMessages() const
 void
 KGpgImport::cleanUrls()
 {
-	foreach (QString u, m_tempfiles)
+	foreach (const QString &u, m_tempfiles)
 		KIO::NetAccess::removeTempFile(u);
 
 	m_tempfiles.clear();
@@ -131,7 +131,7 @@ KGpgImport::getImportedKeys() const
 {
 	QStringList res;
 
-	foreach (QString str, m_messages)
+	foreach (const QString &str, m_messages)
 		if (str.startsWith("[GNUPG:] IMPORTED "))
 			res << str.mid(18);
 
@@ -143,7 +143,7 @@ KGpgImport::getImportedIds(const QStringList &log, const int reason)
 {
 	QStringList res;
 
-	foreach (const QString str, log) {
+	foreach (const QString &str, log) {
 		if (!str.startsWith("[GNUPG:] IMPORT_OK "))
 			continue;
 
@@ -184,7 +184,7 @@ KGpgImport::getImportMessage() const
 QString
 KGpgImport::getImportMessage(const QStringList &log)
 {
-	foreach (QString str, log) {
+	foreach (const QString &str, log) {
 		if (!str.startsWith("[GNUPG:] IMPORT_RES "))
 			continue;
 
@@ -251,7 +251,7 @@ KGpgImport::getDetailedImportMessage(const QStringList &log)
 		if (!keyresult.startsWith("[GNUPG:] IMPORT_OK "))
 			continue;
 
-		QStringList rc(keyresult.mid(19).split(" "));
+		QStringList rc(keyresult.mid(19).split(' '));
 		if (rc.count() < 2) {
 			kDebug(2100) << "unexpected syntax:" << keyresult;
 			continue;

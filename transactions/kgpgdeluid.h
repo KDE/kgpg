@@ -27,13 +27,18 @@ class KGpgDelUid: public KGpgUidTransaction {
 	Q_OBJECT
 
 public:
+	/**
+	 * @brief constructor
+	 * @param parent parent object
+	 * @param uid user id to delete
+	 */
 	KGpgDelUid(QObject *parent, const KGpgSignableNode *uid);
 	/**
 	 * @brief constructor
 	 * @param parent parent object
 	 * @param uids user ids to delete
 	 *
-	 * All entries in @uids must be children of the same keynode. The keynode itself
+	 * All entries in uids must be children of the same keynode. The keynode itself
 	 * may be part of the list, representing the primary user id. The nodes must be
 	 * either the keynode itself, user id nodes, or user attribute nodes.
 	 */
@@ -50,10 +55,25 @@ public:
 	 */
 	virtual ~KGpgDelUid();
 
+	/**
+	 * @brief set the user id to be deleted
+	 *
+	 * This removes all previously set user ids from the list.
+	 */
 	void setUid(const KGpgSignableNode *uid);
+	/**
+	 * @brief set the user id to be deleted
+	 *
+	 * @overload
+	 */
+	void setUid(const KGpgKeyNode *keynode, const int uid);
+	/**
+	 * @brief set the user ids to be deleted
+	 *
+	 * This removes all previously set user ids from the list.
+	 */
 	void setUids(const QList<const KGpgSignableNode *> &uids);
-	void setUids(const KGpgKeyNode *keynode, const int uid);
-	
+
 protected:
 	virtual bool nextLine(const QString &line);
 	virtual void finish();

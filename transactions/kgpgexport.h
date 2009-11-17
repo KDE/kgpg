@@ -87,12 +87,12 @@ public:
 	const QStringList &getKeyIds() const;
 	/**
 	 * @brief set the process the output is sent to
-	 * @param outd process to send output to
+	 * @param outp process to send output to
 	 */
 	void setOutputProcess(QProcess *outp);
 	/**
 	 * @brief set filename to send output to
-	 * @param outF file to send output to
+	 * @param filename file to send output to
 	 */
 	void setOutputFile(const QString &filename);
 	/**

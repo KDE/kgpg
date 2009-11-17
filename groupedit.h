@@ -37,12 +37,28 @@ public:
 	explicit groupEdit(QWidget *parent, QList<KGpgNode *> *ids);
 	~groupEdit();
 
+	/**
+	 * @brief set the model to select the keys from
+	 * @param md model to use
+	 */
 	void setModel(KGpgItemModel *md);
 
 private Q_SLOTS:
+	/**
+	 * @brief called when the add button is clicked
+	 */
 	void groupAdd();
+	/**
+	 * @brief called when the remove button is clicked
+	 */
 	void groupRemove();
+	/**
+	 * @brief called when an available key is double clicked
+	 */
 	void groupAdd(const QModelIndex &index);
+	/**
+	 * @brief clicked when a group member key is double clicked
+	 */
 	void groupRemove(const QModelIndex &index);
 };
 

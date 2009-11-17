@@ -37,7 +37,7 @@ KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int ui
 	: KGpgUidTransaction(parent),
 	m_fixargs(addArgument("deluid"))
 {
-	setUids(keynode, uid);
+	setUid(keynode, uid);
 }
 
 KGpgDelUid::~KGpgDelUid()
@@ -112,7 +112,7 @@ KGpgDelUid::setUids(const QList<const KGpgSignableNode *> &uids)
 }
 
 void
-KGpgDelUid::setUids(const KGpgKeyNode *keynode, const int uid)
+KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid)
 {
 	Q_ASSERT(uid != 0);
 

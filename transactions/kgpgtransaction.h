@@ -108,7 +108,8 @@ signals:
 
 	/**
 	 * @brief emits procentual status information
-	 * @param percent how much of the job is done
+	 * @param processedAmount how much of the job is done
+	 * @param totalAmount how much needs to be done to complete this job
 	 */
 	void infoProgress(qulonglong processedAmount, qulonglong totalAmount);
 

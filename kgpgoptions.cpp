@@ -242,7 +242,7 @@ void kgpgOptions::slotEditKeyServer(QListWidgetItem *cur)
 	bool isDefault = false;
 	if (oldServer.contains(' ')) {
 		isDefault = true;
-		oldServer = oldServer.section(" ", 0, 0);
+		oldServer = oldServer.section(' ', 0, 0);
 	}
 
 	QString newServer(KInputDialog::getText(i18n("Edit Key Server"), i18n("Server URL:"), oldServer).simplified());
@@ -408,7 +408,7 @@ void kgpgOptions::updateSettings()
 		if (!server.contains(' ')) {
 			serverList.append(server);
 		} else {
-			server.replace(QRegExp(" .*"), "");	// Remove the " (Default)" section.
+			server.replace(QRegExp(" .*"), QString());	// Remove the " (Default)" section.
 			serverList.prepend(server);		// Make it the first item in the list.
 		}
 	}

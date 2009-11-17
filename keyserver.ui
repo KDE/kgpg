@@ -23,7 +23,7 @@
     <number>0</number>
    </property>
    <item row="0" column="0" >
-    <widget class="QTabWidget" name="tabWidget2" >
+    <widget class="KTabWidget" name="tabWidget2" >
      <property name="currentIndex" >
       <number>0</number>
      </property>
@@ -299,6 +299,11 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>ktabwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -113,7 +113,7 @@ public:
 
 	/**
 	 * @brief get textual summary of the import events
-	 * @param message import log
+	 * @param log import log
 	 * @return messages describing what was imported
 	 *
 	 * The log must contain a "IMPORT_RES" line. If this is not present
@@ -123,7 +123,7 @@ public:
 
 	/**
 	 * @brief get detailed summary of import
-	 * @param message import log
+	 * @param log import log
 	 * @return message describing which keys changed and how
 	 *
 	 * The log must contain a "IMPORT_RES" line. If this is not present

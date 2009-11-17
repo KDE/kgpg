@@ -131,7 +131,7 @@ private:
 /************** extract secret keys **************/
 public slots:
     KgpgCore::KgpgKeyList readSecretKeys(const QStringList &ids = QStringList());
-    KgpgCore::KgpgKeyList readJoinedKeys(const KgpgCore::KgpgKeyTrust &trust, const QStringList &ids = QStringList());
+    KgpgCore::KgpgKeyList readJoinedKeys(const KgpgCore::KgpgKeyTrust trust, const QStringList &ids = QStringList());
 
 private slots:
     void readSecretKeysProcess(GPGProc *p);

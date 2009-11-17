@@ -157,7 +157,7 @@ int KGpgApp::newInstance()
 			} else {
 				bool haskeys = false;
 				bool hastext = false;
-				foreach (const KUrl url, urlList) {
+				foreach (const KUrl &url, urlList) {
 					QFile qfile(url.path());
 					if (qfile.open(QIODevice::ReadOnly)) {
 						QTextStream t(&qfile);

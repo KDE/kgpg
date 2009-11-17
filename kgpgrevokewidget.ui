@@ -50,7 +50,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="comboBox1" >
+      <widget class="KComboBox" name="comboBox1" >
        <item>
         <property name="text" >
          <string>No Reason</string>
@@ -86,7 +86,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QTextEdit" name="textDescription" />
+    <widget class="KTextEdit" name="textDescription" />
    </item>
    <item>
     <layout class="QHBoxLayout" >
@@ -130,6 +130,16 @@
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
   </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ktextedit.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>comboBox1</tabstop>
@@ -139,9 +149,6 @@
   <tabstop>cbImport</tabstop>
   <tabstop>kURLRequester1</tabstop>
  </tabstops>
- <includes>
-  <include location="local" >kpushbutton.h</include>
- </includes>
  <resources/>
  <connections/>
 </ui>

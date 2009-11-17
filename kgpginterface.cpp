@@ -56,7 +56,7 @@ QString KgpgInterface::checkForUtf8(QString txt)
 
 	// if (!strchr (txt.toAscii(), 0xc3) || (txt.find("\\x")!=-1)) {
 	for (int idx = 0; (idx = txt.indexOf( "\\x", idx )) >= 0 ; ++idx) {
-		char str[2] = "x";
+		char str[2] = { 'x', '\0'};
 		str[0] = (char) QString(txt.mid(idx + 2, 2)).toShort(0, 16);
 		txt.replace(idx, 4, str);
 	}
@@ -172,7 +172,7 @@ QStringList KgpgInterface::getGpgGroupNames(const QString &configfile)
 			QString result(t.readLine().simplified());
 			if (result.startsWith("group ")) {
 				result.remove(0, 6);
-				groups.append(result.section("=", 0, 0).simplified());
+				groups.append(result.section('=', 0, 0).simplified());
 			}
 		}
 		qfile.close();
@@ -282,7 +282,7 @@ QString KgpgInterface::getGpgSetting(const QString &name, const QString &configf
 			QString result(t.readLine().simplified());
 			if (result.startsWith(tmp)) {
 				result = result.mid(tmp.length()).simplified();
-				return result.section(" ", 0, 0);
+				return result.section(' ', 0, 0);
 			}
 		}
 		qfile.close();
@@ -711,7 +711,7 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 }
 
 KgpgCore::KgpgKeyList
-KgpgInterface::readJoinedKeys(const KgpgKeyTrust &trust, const QStringList &ids)
+KgpgInterface::readJoinedKeys(const KgpgCore::KgpgKeyTrust trust, const QStringList &ids)
 {
 	KgpgKeyList secretkeys = readSecretKeys(ids);
 	KgpgKeyList publickeys = readPublicKeys(true, ids, false);
@@ -721,9 +721,9 @@ KgpgInterface::readJoinedKeys(const KgpgKeyTrust &trust, const QStringList &ids)
 		if (publickeys.at(i).trust() < trust)
 			publickeys.removeAt(i);
 
-	for (i = 0; i < secretkeys.size(); i++) {
+	foreach (const KgpgKey &seckey, secretkeys) {
 		for (j = 0; j < publickeys.size(); j++)
-			if (secretkeys.at(i).fullId() == publickeys.at(j).fullId()) {
+			if (seckey.fullId() == publickeys.at(j).fullId()) {
 				publickeys[j].setSecret(true);
 				break;
 			}

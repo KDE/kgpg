@@ -35,7 +35,6 @@
 #include <QDir>
 #include <QtDBus/QtDBus>
 #include <QProcess>
-#include <QClipboard>
 
 #include <kabc/addresseedialog.h>
 #include <kabc/stdaddressbook.h>
@@ -619,9 +618,9 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 			revurl = QDir::homePath() + '/';
 
 		if (!email.isEmpty())
-			page->kURLRequester1->setUrl(revurl + email.section("@", 0, 0) + ".revoke");
+			page->kURLRequester1->setUrl(revurl + email.section('@', 0, 0) + ".revoke");
 		else
-			page->kURLRequester1->setUrl(revurl + email.section(" ", 0, 0) + ".revoke");
+			page->kURLRequester1->setUrl(revurl + email.section(' ', 0, 0) + ".revoke");
 
 		const QString fingerprint(genkey->getFingerprint());
 		page->TLid->setText("<b>" + fingerprint.right(8) + "</b>");
@@ -1995,7 +1994,7 @@ void KeysManager::signLoop()
 		default:
 			keyid = nd->getId();
 			if (m_signuids)
-				uid = "1";
+				uid = '1';
 		}
 
 		kDebug(2100) << "Sign process for key:" << keyCount + 1 << "on a total of" << signList.count() << "id" << keyid << "uid" << uid;

@@ -409,7 +409,7 @@ KGpgItemModel::isDefaultKey(const KGpgNode *node) const
 void
 KGpgItemModel::fixPersistentIndexes()
 {
-	foreach (const QModelIndex idx, persistentIndexList()) {
+	foreach (const QModelIndex &idx, persistentIndexList()) {
 		if (!idx.isValid())
 			continue;
 
@@ -428,7 +428,7 @@ KGpgItemModel::fixPersistentIndexes()
 void
 KGpgItemModel::invalidateIndexes(KGpgNode *nd)
 {
-	foreach (const QModelIndex idx, persistentIndexList()) {
+	foreach (const QModelIndex &idx, persistentIndexList()) {
 		KGpgNode *n = nodeForIndex(idx);
 
 		if (n != nd)

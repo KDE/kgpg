@@ -115,7 +115,7 @@ KGpgGenerateKey::nextLine(const QString &line)
 	int result = false;
 
 	if (line.contains("PROGRESS")) {
-		QStringList parts(line.mid(18).split(" "));
+		QStringList parts(line.mid(18).split(' '));
 		if (parts.count() >= 4) {
 			const QString p0(parts.at(0));
 			if (p0 == "primegen") {

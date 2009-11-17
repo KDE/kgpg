@@ -53,7 +53,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="destServer" >
+       <widget class="KComboBox" name="destServer" >
         <property name="enabled" >
          <bool>false</bool>
         </property>
@@ -135,6 +135,11 @@
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <includes>
