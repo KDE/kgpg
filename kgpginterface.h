@@ -164,6 +164,7 @@ public slots:
      * @param local should the signature be local
      * @param checking how careful the key was checked
      * @param terminal if the user want to sign the key manually
+     * @param uid if only a specific user id should be signed
      */
     void signKey(const QString &keyid, const QString &signkeyid, const bool local, const int checking, const bool terminal = false, const QString &uid = QString());
 
@@ -215,8 +216,9 @@ public slots:
 
     /**
      * Key signature deletion function
-     * @param keyID QString the ID of the key
-     * @param signKeyID QString the ID of the signature key
+     * @param keyID the ID of the key
+     * @param uid the user id that is signed
+     * @param signKeyID the ID of the signature key
      */
     void KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID);
 

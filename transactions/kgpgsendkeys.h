@@ -30,7 +30,7 @@ public:
 	/**
 	 * @brief construct a new transaction for the given keyserver
 	 * @param parent object that own the transaction
-	 * @param server keyserver to work with
+	 * @param keyserver keyserver to work with
 	 * @param keys the key ids to get
 	 * @param attropt attributes to export (@see setAttributeOptions())
 	 * @param withProgress show a progress window with cancel button

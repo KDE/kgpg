@@ -31,7 +31,7 @@ public:
 	/**
 	 * @brief constructor
 	 * @param parent parent object
-	 * @param uids user ids to become new primary
+	 * @param uid user id to become new primary one
 	 */
 	KGpgPrimaryUid(QObject *parent, KGpgUidNode *uid);
 	/**

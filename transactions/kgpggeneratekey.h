@@ -33,6 +33,7 @@ public:
 	};
 	/**
 	 * @brief KGpgGenerateKey's constructor
+	 * @param parent parent object
 	 * @param name the name of the key, it is also the user's name.
 	 * @param email email MUST be a valid email address or an empty string.
 	 * @param comment is a comment, it can be an empty string

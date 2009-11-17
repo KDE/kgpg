@@ -252,6 +252,7 @@ protected:
 	/**
 	 * @brief write data to standard input of gpg process
 	 * @param a data to write
+	 * @param lf if line feed should be appended to message
 	 *
 	 * Use this function to interact with the gpg process. A carriage
 	 * return is appended to the data automatically. Usually you will

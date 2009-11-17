@@ -37,7 +37,7 @@ public:
 	 * @brief export keys to QProcess
 	 * @param parent parent object
 	 * @param ids ids to export
-	 * @param outd process to write into
+	 * @param outp process to write into
 	 * @param options additional options to pass to GnuPG (e.g. export ascii armored)
 	 * @param secret if secret key exporting is allowed
 	 */
