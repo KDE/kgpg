@@ -2360,7 +2360,7 @@ void KeysManager::confirmdeletekey()
 
 	QStringList keysToDelete;
 	QStringList deleteIds;
-	QString secList;
+	QStringList secList;
 
 	bool secretKeyInside = (pt & ITYPE_SECRET);
 	foreach (KGpgNode *nd, ndlist) {
@@ -2376,7 +2376,7 @@ void KeysManager::confirmdeletekey()
 	}
 
 	if (secretKeyInside) {
-		int result = KMessageBox::warningContinueCancel(this, i18n("<qt>The following are secret key pairs:<br/><b>%1</b>They will not be deleted.</qt>", secList));
+		int result = KMessageBox::warningContinueCancel(this, i18n("<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be deleted.</qt>", secList.join("<br />")));
 		if (result != KMessageBox::Continue)
 			return;
 	}
