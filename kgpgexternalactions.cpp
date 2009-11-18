@@ -252,7 +252,7 @@ void KGpgExternalActions::slotVerifyFile()
 
 	QString sigfile;
 	// try to find detached signature.
-	if (!droppedUrl.fileName().endsWith(".sig")) {
+	if (!droppedUrl.fileName().endsWith(QLatin1String(".sig"))) {
 		sigfile = droppedUrl.path() + ".sig";
 		QFile fsig(sigfile);
 		if (!fsig.exists()) {
@@ -322,7 +322,9 @@ void KGpgExternalActions::decryptFile(KgpgLibrary *lib)
 	}
 	
 	QString oldname(droppedUrls.first().fileName());
-	if (oldname.endsWith(".gpg", Qt::CaseInsensitive) || oldname.endsWith(".asc", Qt::CaseInsensitive) || oldname.endsWith(".pgp", Qt::CaseInsensitive))
+	if (oldname.endsWith(QLatin1String(".gpg"), Qt::CaseInsensitive) ||
+			oldname.endsWith(QLatin1String(".asc"), Qt::CaseInsensitive) ||
+			oldname.endsWith(QLatin1String(".pgp"), Qt::CaseInsensitive))
 		oldname.chop(4);
 	else
 		oldname.append(".clear");

@@ -109,7 +109,7 @@ KGpgGenerateKey::nextLine(const QString &line)
 {
 	QString msg(i18n("Generating Key"));
 
-	if (!line.startsWith("[GNUPG:] "))
+	if (!line.startsWith(QLatin1String("[GNUPG:] ")))
 		return false;
 
 	int result = false;

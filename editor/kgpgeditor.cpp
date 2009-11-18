@@ -450,7 +450,7 @@ void KgpgEditor::slotFilePreDec()
     QString oldname = url.fileName();
     QString newname;
 
-    if (oldname.endsWith(".gpg") || oldname.endsWith(".asc") || oldname.endsWith(".pgp"))
+    if (oldname.endsWith(QLatin1String(".gpg")) || oldname.endsWith(QLatin1String(".asc")) || oldname.endsWith(QLatin1String(".pgp")))
         oldname.truncate(oldname.length() - 4);
     else
         oldname.append(".clear");
@@ -631,7 +631,7 @@ void KgpgEditor::slotVerifyFile(const KUrl &url)
     if (!url.isEmpty())
     {
         QString sigfile;
-        if (!url.fileName().endsWith(".sig"))
+	if (!url.fileName().endsWith(QLatin1String(".sig")))
         {
             sigfile = url.path() + ".sig";
             QFile fsig(sigfile);

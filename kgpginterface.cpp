@@ -117,7 +117,7 @@ QString KgpgInterface::getGpgProcessHome(const QString &binary)
 
 	QString line;
 	while (process.readln(line) != -1) {
-		if (line.startsWith("Home: ")) {
+		if (line.startsWith(QLatin1String("Home: "))) {
 			line.remove(0, 6);
 			return line;
 		}
@@ -170,7 +170,7 @@ QStringList KgpgInterface::getGpgGroupNames(const QString &configfile)
 		QTextStream t(&qfile);
 		while (!t.atEnd()) {
 			QString result(t.readLine().simplified());
-			if (result.startsWith("group ")) {
+			if (result.startsWith(QLatin1String("group "))) {
 				result.remove(0, 6);
 				groups.append(result.section('=', 0, 0).simplified());
 			}
@@ -188,7 +188,7 @@ QStringList KgpgInterface::getGpgGroupSetting(const QString &name, const QString
 		while (!t.atEnd()) {
 			QString result(t.readLine().simplified());
 
-			if (result.startsWith("group ")) {
+			if (result.startsWith(QLatin1String("group "))) {
 				kDebug(2100) << "Found 1 group";
 				result.remove(0, 6);
 				if (result.simplified().startsWith(name)) {
@@ -218,7 +218,7 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
 			QString result(t.readLine());
 			QString result2(result.simplified());
 
-			if (result2.startsWith("group ")) {
+			if (result2.startsWith(QLatin1String("group "))) {
 				result2 = result2.remove(0, 6).simplified();
 				if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith('='))) {
 					result = QString("group %1=%2").arg(name).arg(values.join(QString(' ')));
@@ -252,7 +252,7 @@ void KgpgInterface::delGpgGroup(const QString &name, const QString &configfile)
 			const QString result(t.readLine());
 			QString result2(result.simplified());
 
-			if (result2.startsWith("group ")) {
+			if (result2.startsWith(QLatin1String("group "))) {
 				result2 = result2.remove(0, 6).simplified();
 				if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith('=')))
 					continue;
@@ -787,7 +787,7 @@ void KgpgInterface::signKeyProcess()
 		QString line(buffer.left(pos));
 		buffer.remove(0, pos + 1);
 
-		if (line.startsWith("[GNUPG:]")) {
+		if (line.startsWith(QLatin1String("[GNUPG:]"))) {
 			if (line.contains("USERID_HINT")) {
 				updateIDs(line);
 			} else if (m_success == 3) {
@@ -1060,11 +1060,11 @@ void KgpgInterface::findSigns(const QString &keyID, const QStringList &ids, cons
 	int tgtuid = uid.toInt();
 
 	while (listproc->readln(line, true) >= 0) {
-		if (line.startsWith("sig:") && (tgtuid == curuid)) {
+		if (line.startsWith(QLatin1String("sig:")) && (tgtuid == curuid)) {
 			if (ids.contains(line.section(':', 4, 4), Qt::CaseInsensitive))
 				*res << signs;
 			signs++;
-		} else if (line.startsWith("uid:")) {
+		} else if (line.startsWith(QLatin1String("uid:"))) {
 			curuid++;
 		}
 	}

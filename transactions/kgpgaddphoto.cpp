@@ -35,7 +35,7 @@ KGpgAddPhoto::~KGpgAddPhoto()
 bool
 KGpgAddPhoto::nextLine(const QString &line)
 {
-	if (!line.startsWith("[GNUPG:] "))
+	if (!line.startsWith(QLatin1String("[GNUPG:] ")))
 		return false;
 
 	if (line.contains("GOOD_PASSPHRASE")) {
@@ -46,7 +46,7 @@ KGpgAddPhoto::nextLine(const QString &line)
 	} else if (line.contains("keyedit.prompt")) {
 		setSuccess(TS_OK);
 		write("save");
-	} else if (line.endsWith("photoid.jpeg.add")) {
+	} else if (line.endsWith(QLatin1String("photoid.jpeg.add"))) {
 		write(m_photourl.toUtf8());
 	} else if (line.contains("photoid.jpeg.size")) {
 		if (KMessageBox::questionYesNo(0, i18n("This image is very large. Use it anyway?"), QString(), KGuiItem(i18n("Use Anyway")), KGuiItem(i18n("Do Not Use"))) == KMessageBox::Yes) {

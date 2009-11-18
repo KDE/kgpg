@@ -45,7 +45,7 @@ KGpgChangePass::preStart()
 bool
 KGpgChangePass::nextLine(const QString &line)
 {
-	if (!line.startsWith("[GNUPG:] "))
+	if (!line.startsWith(QLatin1String("[GNUPG:] ")))
 		return false;
 
 	if (m_seenold && line.contains("keyedit.prompt")) {

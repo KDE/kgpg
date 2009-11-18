@@ -1,3 +1,8 @@
+/**
+ * Copyright (C) 2006,2007 Jimmy Gilles <jimmygilles@gmail.com>
+ * Copyright (C) 2007-2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *

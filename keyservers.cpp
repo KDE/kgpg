@@ -264,15 +264,15 @@ void KeyServer::slotSearchRead(GPGProc *p)
 	QString line;
 
 	while (p->readln(line, true) >= 0) {
-		if (line.startsWith("[GNUPG:] GET_LINE keysearch.prompt")) {
+		if (line.startsWith(QLatin1String("[GNUPG:] GET_LINE keysearch.prompt"))) {
 			if (m_count < 4)
 				p->write("N\n");
 			else
 				p->write("Q\n");
-		} else if (line.startsWith("[GNUPG:] GOT_IT")) {
+		} else if (line.startsWith(QLatin1String("[GNUPG:] GOT_IT"))) {
 			m_count++;
 			line.clear();
-		} else if (!line.isEmpty() && !line.startsWith("[GNUPG:] ")) {
+		} else if (!line.isEmpty() && !line.startsWith(QLatin1String("[GNUPG:] "))) {
 			m_resultmodel->addResultLine(line);
 		}
 	}

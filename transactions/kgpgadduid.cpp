@@ -49,7 +49,7 @@ KGpgAddUid::preStart()
 bool
 KGpgAddUid::nextLine(const QString &line)
 {
-	if (!line.startsWith("[GNUPG:] "))
+	if (!line.startsWith(QLatin1String("[GNUPG:] ")))
 		return false;
 
 	if (line.contains("GOOD_PASSPHRASE")) {

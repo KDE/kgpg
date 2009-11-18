@@ -45,7 +45,7 @@ KGpgChangeTrust::nextLine(const QString &line)
 		write("YES");
 	} else if (line.contains("edit_ownertrust.value")) {
 		write(QByteArray::number(m_trust));
-	} else if (line.endsWith(" GOT_IT")) {
+	} else if (line.endsWith(QLatin1String(" GOT_IT"))) {
 		setSuccess(TS_OK);
 		return true;
 	} else if (line.contains("keyedit.prompt")) {

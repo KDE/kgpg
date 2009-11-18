@@ -66,9 +66,9 @@ KGpgTransactionPrivate::slotReadReady(GPGProc *gpgProcess)
 	QString line;
 
 	while (gpgProcess->readln(line, true) >= 0) {
-		if (line.startsWith("[GNUPG:] USERID_HINT ")) {
+		if (line.startsWith(QLatin1String("[GNUPG:] USERID_HINT "))) {
 			m_parent->addIdHint(line);
-		} else if (line.startsWith("[GNUPG:] BAD_PASSPHRASE ")) {
+		} else if (line.startsWith(QLatin1String("[GNUPG:] BAD_PASSPHRASE "))) {
 			m_success = KGpgTransaction::TS_BAD_PASSPHRASE;
 		} else if (m_parent->nextLine(line)) {
 			m_process->write("quit\n");

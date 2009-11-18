@@ -1,3 +1,16 @@
+/**
+ * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #include "kgpgsearchresultmodel.h"
 
 #include <KDateTime>
@@ -151,7 +164,7 @@ KGpgSearchResultModel::~KGpgSearchResultModel()
 void
 KGpgSearchResultModel::addResultLine(const QString &line)
 {
-	if (line.startsWith("pub:") || line.isEmpty()) {
+	if (line.startsWith(QLatin1String("pub:")) || line.isEmpty()) {
 		// "pub" is the first line of an entry
 		if (d->m_current != NULL) {
 			if (d->m_current->getUidCount() > 0) {
@@ -171,7 +184,7 @@ KGpgSearchResultModel::addResultLine(const QString &line)
 				d->m_current = NULL;
 			}
 		}
-	} else if (line.startsWith("uid:")) {
+	} else if (line.startsWith(QLatin1String("uid:"))) {
 		QString kid = d->urlDecode(line.section(':', 1, 1));
 
 		d->m_current->addUid(kid);

@@ -98,7 +98,7 @@ KGpgImport::postStart()
 bool
 KGpgImport::nextLine(const QString &line)
 {
-	if (!line.isEmpty() && !line.startsWith("[GNUPG:] SIGEXPIRED") && !line.startsWith("[GNUPG:] KEYEXPIRED "))
+	if (!line.startsWith(QLatin1String("[GNUPG:] SIGEXPIRED")) && !line.startsWith(QLatin1String("[GNUPG:] KEYEXPIRED ")))
 		m_messages.append(line);
 
 	return false;
@@ -132,7 +132,7 @@ KGpgImport::getImportedKeys() const
 	QStringList res;
 
 	foreach (const QString &str, m_messages)
-		if (str.startsWith("[GNUPG:] IMPORTED "))
+		if (str.startsWith(QLatin1String("[GNUPG:] IMPORTED ")))
 			res << str.mid(18);
 
 	return res;
@@ -144,7 +144,7 @@ KGpgImport::getImportedIds(const QStringList &log, const int reason)
 	QStringList res;
 
 	foreach (const QString &str, log) {
-		if (!str.startsWith("[GNUPG:] IMPORT_OK "))
+		if (!str.startsWith(QLatin1String("[GNUPG:] IMPORT_OK ")))
 			continue;
 
 		QString tmpstr(str.mid(19).simplified());
@@ -185,7 +185,7 @@ QString
 KGpgImport::getImportMessage(const QStringList &log)
 {
 	foreach (const QString &str, log) {
-		if (!str.startsWith("[GNUPG:] IMPORT_RES "))
+		if (!str.startsWith(QLatin1String("[GNUPG:] IMPORT_RES ")))
 			continue;
 
 		const QStringList rstr(str.mid(20).simplified().split(' '));
@@ -248,7 +248,7 @@ KGpgImport::getDetailedImportMessage(const QStringList &log)
 	QMap<QString, unsigned int> resultcodes;
 
 	foreach (const QString &keyresult, log) {
-		if (!keyresult.startsWith("[GNUPG:] IMPORT_OK "))
+		if (!keyresult.startsWith(QLatin1String("[GNUPG:] IMPORT_OK ")))
 			continue;
 
 		QStringList rc(keyresult.mid(19).split(' '));

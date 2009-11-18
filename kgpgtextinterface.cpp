@@ -187,9 +187,9 @@ KGpgTextInterface::encryptTextProcess()
 	QString line;
 
 	while ( (items = d->m_process->readln(line)) >= 0 ) {
-		if (line.startsWith("[GNUPG:] ")) {
+		if (line.startsWith(QLatin1String("[GNUPG:] "))) {
 			line.remove(0, 9);
-			if (line.startsWith("BEGIN_ENCRYPTION")) {
+			if (line.startsWith(QLatin1String("BEGIN_ENCRYPTION"))) {
 				d->m_process->write(d->m_message.toAscii());
 				d->m_process->closeWriteChannel();
 				d->m_message.clear();
@@ -259,7 +259,7 @@ KGpgTextInterface::decryptTextStdOut()
 			} else if (line.startsWith("BEGIN_DECRYPTION")) {
 				d->m_process->closeWriteChannel();
 			} else if (line.startsWith("PLAINTEXT_LENGTH")) {
-				d->m_textlength = line.mid(line.indexOf("PLAINTEXT_LENGTH") + 16).toInt();
+				d->m_textlength = line.mid(16).toInt();
 			} else if (line.startsWith("DECRYPTION_OKAY")) {
 				d->m_ok = true;
 				// this happens if the encrypted text does not end with '\n'
@@ -431,7 +431,7 @@ KGpgTextInterface::fileReadEncProcess()
 
 	while (d->m_process->readln(line) >= 0) {
 		kDebug(2100) << line ;
-		if (line.startsWith("[GNUPG:]")) {
+		if (line.startsWith(QLatin1String("[GNUPG:]"))) {
 			if (line.contains("BEGIN_ENCRYPTION")) {
 				emit processstarted(d->m_file.path());
 			} else if (line.contains("GET_" )) {

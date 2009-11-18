@@ -97,7 +97,7 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
     }
 
     // if dropped filename ends with gpg, pgp or asc, try to decode it
-    if (m_tempfile.endsWith(".gpg") || m_tempfile.endsWith(".asc") || m_tempfile.endsWith(".pgp"))
+    if (m_tempfile.endsWith(QLatin1String(".gpg")) || m_tempfile.endsWith(QLatin1String(".asc")) || m_tempfile.endsWith(QLatin1String(".pgp")))
         slotDecodeFile();
     else
         slotCheckFile();

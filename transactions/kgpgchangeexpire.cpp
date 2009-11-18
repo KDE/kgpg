@@ -46,7 +46,7 @@ KGpgChangeExpire::preStart()
 bool
 KGpgChangeExpire::nextLine(const QString &line)
 {
-	if (!line.startsWith("[GNUPG:]"))
+	if (!line.startsWith(QLatin1String("[GNUPG:]")))
 		return false;
 
 	if (getSuccess() == TS_USER_ABORTED) {

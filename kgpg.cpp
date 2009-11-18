@@ -152,7 +152,7 @@ int KGpgApp::newInstance()
 			else
 				KMessageBox::sorry(0, i18n("Cannot verify folder."));
 		} else {
-			if (w->droppedUrl.fileName().endsWith(".sig")) {
+			if (w->droppedUrl.fileName().endsWith(QLatin1String(".sig"))) {
 				w->slotVerifyFile();
 			} else {
 				bool haskeys = false;
