@@ -506,7 +506,7 @@ void KeysManager::slotGenerateKey()
 		return;
 	}
 
-	KgpgKeyGenerate *kg = new KgpgKeyGenerate(this);
+	QPointer<KgpgKeyGenerate> kg = new KgpgKeyGenerate(this);
 	if (kg->exec() == QDialog::Accepted) {
 		if (!kg->isExpertMode()) {
 			KGpgGenerateKey *genkey = new KGpgGenerateKey(this, kg->name(), kg->email(),
@@ -986,13 +986,16 @@ void KeysManager::slotSetPhotoSize(int size)
 
 void KeysManager::findKey()
 {
-	KFindDialog fd(this);
-	if (fd.exec() != QDialog::Accepted)
+	QPointer<KFindDialog> fd = new KFindDialog(this);
+	if (fd->exec() != QDialog::Accepted) {
+		delete fd;
 		return;
+	}
 
-	searchString = fd.pattern();
-	searchOptions = fd.options();
+	searchString = fd->pattern();
+	searchOptions = fd->options();
 	findFirstKey();
+	delete fd;
 }
 
 void KeysManager::findFirstKey()
@@ -1136,9 +1139,13 @@ void KeysManager::slotTip()
 
 void KeysManager::showKeyServer()
 {
-	KeyServer *ks = new KeyServer(this, imodel);
+	QPointer<KeyServer> ks = new KeyServer(this, imodel);
 	connect(ks, SIGNAL(importFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
 	ks->exec();
+
+	if (ks == NULL)
+		return;
+
 	delete ks;
 	refreshkey();
 }
@@ -1827,7 +1834,7 @@ void KeysManager::editGroup()
 
 	QList<KGpgNode *> members(gnd->getChildren());
 
-	groupEdit *gEdit = new groupEdit(this, &members);
+	QPointer<groupEdit> gEdit = new groupEdit(this, &members);
 	gEdit->setModel(imodel);
 
 	dialogGroupEdit->setMainWidget(gEdit);
@@ -1890,7 +1897,7 @@ void KeysManager::signkey()
 			return;
 	}
 
-	KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, imodel, signList.count());
+	QPointer<KgpgSelectSecretKey> opts = new KgpgSelectSecretKey(this, imodel, signList.count());
 	if (opts->exec() != QDialog::Accepted) {
 		delete opts;
 		return;
@@ -1961,7 +1968,7 @@ void KeysManager::signuid()
 			return;
 	}
 
-	KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, imodel, signList.count());
+	QPointer<KgpgSelectSecretKey> opts = new KgpgSelectSecretKey(this, imodel, signList.count());
 	if (opts->exec() != QDialog::Accepted) {
 		delete opts;
 		return;
@@ -2229,13 +2236,14 @@ void KeysManager::doPrint(const QString &txt)
 {
 	QPrinter prt;
 	//kDebug(2100) << "Printing..." ;
-	QPrintDialog printDialog(&prt, this);
-	if (printDialog.exec()) {
+	QPointer<QPrintDialog> printDialog = new QPrintDialog(&prt, this);
+	if (printDialog->exec() == QDialog::Accepted) {
 		QPainter painter(&prt);
 		int width = painter.device()->width();
 		int height = painter.device()->height();
 		painter.drawText(0, 0, width, height, Qt::AlignLeft|Qt::AlignTop|Qt::TextDontClip, txt);
 	}
+	delete printDialog;
 }
 
 void KeysManager::removeFromGroups(KGpgKeyNode *node)
@@ -2412,7 +2420,7 @@ void KeysManager::slotDelKeyDone(int res)
 
 void KeysManager::slotPreImportKey()
 {
-	KDialog *dial = new KDialog(this );
+	QPointer<KDialog> dial = new KDialog(this);
 	dial->setCaption(i18n("Key Import") );
 	dial->setButtons(KDialog::Ok | KDialog::Cancel);
 	dial->setDefaultButton(KDialog::Ok);
@@ -2603,7 +2611,7 @@ KeysManager::clipEncrypt()
 		return;
 	}
 
-	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, imodel, goToDefaultKey->shortcut());
+	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, imodel, goToDefaultKey->shortcut());
 	if (dialog->exec() == KDialog::Accepted) {
 		QStringList options;
 
