@@ -22,6 +22,9 @@ class GroupEditProxyModel;
 class KGpgNode;
 class KGpgItemModel;
 
+/**
+ * @brief shows a widget that let's you change the keys that are part of a key group
+ */
 class groupEdit : public QWidget, public Ui::groupEdit
 {
 	Q_OBJECT
@@ -32,9 +35,17 @@ private:
 	KGpgItemModel *m_model;
 
 public:
-	QList<KGpgNode *> *members;
+	QList<KGpgNode *> *members;	///< the list of keys that are members of the group
 
+	/**
+	 * @brief constructor
+	 * @param parent parent widget
+	 * @param ids the members of the group
+	 */
 	explicit groupEdit(QWidget *parent, QList<KGpgNode *> *ids);
+	/**
+	 * @brief destructor
+	 */
 	~groupEdit();
 
 	/**
