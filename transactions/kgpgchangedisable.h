@@ -16,12 +16,12 @@
 
 #include <QObject>
 
-#include "kgpgtransaction.h"
+#include "kgpgeditkeytransaction.h"
 
 /**
  * @brief enable of disable a key
  */
-class KGpgChangeDisable: public KGpgTransaction {
+class KGpgChangeDisable: public KGpgEditKeyTransaction {
 	Q_OBJECT
 
 public:
@@ -31,11 +31,8 @@ public:
 	void setDisable(const bool &disable);
 
 protected:
+	virtual bool preStart();
 	virtual bool nextLine(const QString &line);
-
-private:
-	bool m_disable;
-	int m_disablepos;
 };
 
 #endif // KGPGCHANGEDISABLE_H

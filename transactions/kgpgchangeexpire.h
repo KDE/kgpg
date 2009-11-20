@@ -17,12 +17,12 @@
 #include <QObject>
 #include <QDate>
 
-#include "kgpgtransaction.h"
+#include "kgpgeditkeytransaction.h"
 
 /**
  * @brief change the key lifetime
  */
-class KGpgChangeExpire: public KGpgTransaction {
+class KGpgChangeExpire: public KGpgEditKeyTransaction {
 	Q_OBJECT
 
 public:
@@ -32,13 +32,11 @@ public:
 	void setDate(const QDate &date);
 
 protected:
-	virtual bool preStart();
 	virtual bool nextLine(const QString &line);
 	virtual void finish();
 
 private:
 	QDate m_date;
-	int m_step;
 };
 
 #endif // KGPGCHANGEEXPIRE_H

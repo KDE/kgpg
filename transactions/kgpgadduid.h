@@ -16,14 +16,14 @@
 
 #include <QObject>
 
-#include "kgpgtransaction.h"
+#include "kgpgeditkeytransaction.h"
 
 class QString;
 
 /**
  * @brief add a new user id to a key pair
  */
-class KGpgAddUid: public KGpgTransaction {
+class KGpgAddUid: public KGpgEditKeyTransaction {
 	Q_OBJECT
 
 public:
@@ -34,8 +34,6 @@ public:
 	void setEmail(const QString &email);
 	void setComment(const QString &comment);
 
-	QString getKeyid() const;
-
 protected:
 	virtual bool preStart();
 	virtual bool nextLine(const QString &line);
@@ -44,7 +42,6 @@ private:
 	QString m_name;
 	QString m_email;
 	QString m_comment;
-	QString m_keyid;
 };
 
 #endif // KGPGADDPHOTO_H

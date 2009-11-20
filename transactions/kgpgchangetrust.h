@@ -16,13 +16,13 @@
 
 #include <QObject>
 
-#include "kgpgtransaction.h"
+#include "kgpgeditkeytransaction.h"
 #include "kgpgkey.h"
 
 /**
  * @brief change the owner trust level of a public key
  */
-class KGpgChangeTrust: public KGpgTransaction {
+class KGpgChangeTrust: public KGpgEditKeyTransaction {
 	Q_OBJECT
 
 public:

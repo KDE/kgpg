@@ -19,14 +19,8 @@
 #include "detailedconsole.h"
 
 KGpgChangeExpire::KGpgChangeExpire(QObject *parent, const QString &keyid, const QDate &date)
-	: KGpgTransaction(parent)
+	: KGpgEditKeyTransaction(parent, keyid, "expire", false)
 {
-	addArgument("--status-fd=1");
-	addArgument("--command-fd=0");
-	addArgument("--edit-key");
-	addArgument(keyid);
-	addArgument("expire");
-	
 	setDate(date);
 }
 
@@ -35,52 +29,25 @@ KGpgChangeExpire::~KGpgChangeExpire()
 }
 
 bool
-KGpgChangeExpire::preStart()
-{
-	m_step = 3;
-	setSuccess(TS_MSG_SEQUENCE);
-
-	return true;
-}
-
-bool
 KGpgChangeExpire::nextLine(const QString &line)
 {
 	if (!line.startsWith(QLatin1String("[GNUPG:]")))
 		return false;
 
-	if (getSuccess() == TS_USER_ABORTED) {
-		if (line.contains("GET_" ))
-			return true;
-	} else if (line.contains("GOOD_PASSPHRASE")) {
+	if (line.contains("GOOD_PASSPHRASE")) {
 		setSuccess(TS_OK);
+
+		return false;
 	} else if (line.contains("keygen.valid")) {
 		if (m_date.isNull())
 			write("0");
 		else
 			write(QByteArray::number(QDate::currentDate().daysTo(m_date)));
-	} else if (line.contains("passphrase.enter")) {
-		QString passdlgmessage;
-		if (m_step < 3)
-			passdlgmessage = i18np("<p><b>Bad passphrase</b>. You have 1 try left.</p>", "<p><b>Bad passphrase</b>. You have %1 tries left.</p>", m_step);
-		passdlgmessage += i18n("Enter passphrase for <b>%1</b>", getIdHints());
 
-		if (sendPassphrase(passdlgmessage)) {
-			setSuccess(TS_USER_ABORTED);
-			return true;
-		}
-		--m_step;
-	} else if ((getSuccess() == TS_OK) && line.contains("keyedit.prompt")) {
-		write("save");
-	} else if ((getSuccess() == TS_OK) && line.contains("keyedit.save.okay")) {
-		write("YES");
-	} else if (line.contains("GET_")) {
-		if (getSuccess() != TS_BAD_PASSPHRASE)
-			setSuccess(TS_MSG_SEQUENCE);
-		return true;
+		return false;
+	} else {
+		return KGpgEditKeyTransaction::nextLine(line);
 	}
-
-	return false;
 }
 
 void

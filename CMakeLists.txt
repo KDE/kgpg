@@ -31,6 +31,7 @@ set(kgpg_transaction_SRCS
    transactions/kgpgtransaction.cpp
    transactions/kgpgtransactionjob.cpp
    transactions/kgpguidtransaction.cpp
+   transactions/kgpgeditkeytransaction.cpp
    transactions/kgpgchangedisable.cpp
    transactions/kgpgchangeexpire.cpp
    transactions/kgpgchangepass.cpp

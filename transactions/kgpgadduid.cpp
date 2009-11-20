@@ -16,16 +16,8 @@
 #include "kpimutils/email.h"
 
 KGpgAddUid::KGpgAddUid(QObject *parent, const QString &keyid, const QString &name, const QString &email, const QString &comment)
-	: KGpgTransaction(parent)
+	: KGpgEditKeyTransaction(parent, keyid, "adduid", false, false)
 {
-	addArgument("--status-fd=1");
-	addArgument("--command-fd=0");
-	addArgument("--edit-key");
-	addArgument(keyid);
-	addArgument("adduid");
-
-	m_keyid = keyid;
-
 	setName(name);
 	setEmail(email);
 	setComment(comment);
@@ -38,6 +30,9 @@ KGpgAddUid::~KGpgAddUid()
 bool
 KGpgAddUid::preStart()
 {
+	if (!KGpgEditKeyTransaction::preStart())
+		return false;
+
 	if (!m_email.isEmpty() && !KPIMUtils::isValidSimpleAddress(m_email)) {
 		setSuccess(TS_INVALID_EMAIL);
 		return false;
@@ -53,22 +48,15 @@ KGpgAddUid::nextLine(const QString &line)
 		return false;
 
 	if (line.contains("GOOD_PASSPHRASE")) {
-		setSuccess(TS_MSG_SEQUENCE);
-	} else if (line.contains("passphrase.enter")) {
-		if (askPassphrase())
-			setSuccess(TS_USER_ABORTED);
-	} else if (line.contains("keyedit.prompt")) {
 		setSuccess(TS_OK);
-		write("save");
 	} else if (line.contains("keygen.name")) {
 		write(m_name.toUtf8());
 	} else if (line.contains("keygen.email")) {
 		write(m_email.toAscii());
 	} else if (line.contains("keygen.comment")) {
 		write(m_comment.toUtf8());
-	} else if (line.contains("GET_")) {
-		setSuccess(TS_MSG_SEQUENCE);
-		return true;
+	} else {
+		return KGpgEditKeyTransaction::nextLine(line);
 	}
 
 	return false;
@@ -90,10 +78,4 @@ void
 KGpgAddUid::setComment(const QString &comment)
 {
 	m_comment = comment;
-}
-
-QString
-KGpgAddUid::getKeyid() const
-{
-	return m_keyid;
 }

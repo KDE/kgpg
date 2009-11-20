@@ -16,11 +16,11 @@
 
 #include <QObject>
 
-#include "kgpgtransaction.h"
+#include "kgpgeditkeytransaction.h"
 
 class QString;
 
-class KGpgAddPhoto: public KGpgTransaction {
+class KGpgAddPhoto: public KGpgEditKeyTransaction {
 	Q_OBJECT
 
 public:

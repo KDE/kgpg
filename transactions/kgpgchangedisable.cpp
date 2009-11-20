@@ -14,13 +14,8 @@
 #include "kgpgchangedisable.h"
 
 KGpgChangeDisable::KGpgChangeDisable(QObject *parent, const QString &keyid, const bool &disable)
-	: KGpgTransaction(parent)
+	: KGpgEditKeyTransaction(parent, keyid, QString(), false)
 {
-	addArgument("--edit-key");
-	addArgument(keyid);
-	m_disablepos = addArgument(QString());
-	addArgument("save");
-
 	setDisable(disable);
 }
 
@@ -28,24 +23,35 @@ KGpgChangeDisable::~KGpgChangeDisable()
 {
 }
 
-bool
-KGpgChangeDisable::nextLine(const QString &line)
-{
-	Q_UNUSED(line)
-
-	return false;
-}
-
 void
 KGpgChangeDisable::setDisable(const bool &disable)
 {
-	m_disable = disable;
-
 	QString cmd;
 	if (disable)
 		cmd = "disable";
 	else
 		cmd = "enable";
 
-	replaceArgument(m_disablepos, cmd);
+	replaceCommand(cmd);
+}
+
+bool
+KGpgChangeDisable::preStart()
+{
+	if (!KGpgEditKeyTransaction::preStart())
+		return false;
+
+	setSuccess(TS_OK);
+
+	return true;
+}
+
+bool
+KGpgChangeDisable::nextLine(const QString &line)
+{
+	if (line.contains(" KEYEXPIRED ") || (line.contains(" SIGEXPIRED"))) {
+		return false;
+	} else {
+		return KGpgEditKeyTransaction::nextLine(line);
+	}
 }
