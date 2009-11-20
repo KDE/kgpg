@@ -971,8 +971,10 @@ void KeysManager::slotDelPhotoFinished(int res)
 
 	// TODO : add res == 3 (bad passphrase)
 
-	if (res == 0)
-		slotUpdatePhoto();
+	if (res == 0) {
+		KGpgNode *nd = iview->selectedNode();
+		imodel->refreshKey(nd->getParentKeyNode()->toKeyNode());
+	}
 }
 
 void KeysManager::slotUpdatePhoto()
