@@ -20,7 +20,6 @@
 #include <QString>
 #include <QLabel>
 #include <QColor>
-#include <QDate>
 
 #include <KDialog>
 
@@ -30,7 +29,6 @@ class QCheckBox;
 class QGroupBox;
 
 class KPushButton;
-class KDatePicker;
 class KUrlLabel;
 class KComboBox;
 
@@ -62,25 +60,6 @@ private:
     QString m_text;
     QColor m_color;
 };
-
-class KgpgDateDialog : public KDialog
-{
-    Q_OBJECT
-
-public:
-    explicit KgpgDateDialog(QWidget *parent = 0, QDate date = QDate());
-
-    QDate date() const;
-
-private slots:
-    void slotCheckDate(const QDate &date);
-    void slotEnableDate(const bool &ison);
-
-private:
-    QCheckBox *m_unlimited;
-    KDatePicker *m_datepicker;
-};
-
 
 class KgpgKeyInfo : public KDialog
 {

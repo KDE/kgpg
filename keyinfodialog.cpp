@@ -40,6 +40,7 @@
 #include "kgpgchangepass.h"
 #include "kgpgitemnode.h"
 #include "kgpgitemmodel.h"
+#include "selectexpirydate.h"
 
 using namespace KgpgCore;
 
@@ -94,61 +95,6 @@ void KgpgTrustLabel::change()
     QPalette palette = m_color_w->palette();
     palette.setColor(m_color_w->backgroundRole(), m_color);
     m_color_w->setPalette(palette);
-}
-
-KgpgDateDialog::KgpgDateDialog(QWidget *parent, QDate date)
-              : KDialog(parent)
-{
-    setCaption(i18n("Choose New Expiration"));
-    setButtons(Ok | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-
-    QWidget *page = new QWidget(this);
-    m_unlimited = new QCheckBox(i18nc("Key has unlimited lifetime", "Unlimited"), page);
-
-    if (date.isNull())
-        date = QDate::currentDate();
-
-    m_datepicker = new KDatePicker(date, page);
-    if (date.isNull()) {
-        m_datepicker->setEnabled(false);
-        m_unlimited->setChecked(true);
-    }
-
-    QVBoxLayout *layout = new QVBoxLayout(page);
-    layout->setSpacing(3);
-    layout->addWidget(m_datepicker);
-    layout->addWidget(m_unlimited);
-
-    connect(m_unlimited, SIGNAL(toggled(bool)), this, SLOT(slotEnableDate(bool)));
-    connect(m_datepicker, SIGNAL(dateChanged(QDate)), this, SLOT(slotCheckDate(QDate)));
-    connect(m_datepicker, SIGNAL(dateEntered(QDate)), this, SLOT(slotCheckDate(QDate)));
-
-    setMainWidget(page);
-    show();
-}
-
-QDate KgpgDateDialog::date() const
-{
-    if (m_unlimited->isChecked())
-        return QDate();
-    else
-        return m_datepicker->date();
-}
-
-void KgpgDateDialog::slotCheckDate(const QDate &date)
-{
-    enableButtonOk(date >= QDate::currentDate());
-}
-
-void KgpgDateDialog::slotEnableDate(const bool &ison)
-{
-    m_datepicker->setEnabled(!ison);
-    if (ison)
-        enableButtonOk(true);
-    else
-        slotCheckDate(m_datepicker->date());
 }
 
 KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *parent)
@@ -541,7 +487,7 @@ void KgpgKeyInfo::slotPreOk()
 
 void KgpgKeyInfo::slotChangeDate()
 {
-	KgpgDateDialog *dialog = new KgpgDateDialog(this, m_key->expirationDate());
+	QPointer<SelectExpiryDate> dialog = new SelectExpiryDate(this, m_key->expirationDate());
 	if (dialog->exec() == QDialog::Accepted) {
 		keychange->setExpiration(dialog->date());
 		enableButtonApply(keychange->wasChanged());
