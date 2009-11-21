@@ -69,7 +69,7 @@ public Q_SLOTS:
 	void delNode(KGpgNode *node);
 	void changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys);
 	void deleteFromGroup(KGpgGroupNode *group, KGpgGroupMemberNode *member);
-	void setDefaultKey(const QString &def);
+	void setDefaultKey(KGpgKeyNode *def);
 	QModelIndex nodeIndex(KGpgNode *node);
 	void refreshKey(const QString &id);
 	void refreshKey(KGpgKeyNode *nd);

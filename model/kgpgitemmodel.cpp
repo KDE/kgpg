@@ -288,14 +288,12 @@ KGpgItemModel::headerData(int section, Qt::Orientation orientation, int role) co
 }
 
 void
-KGpgItemModel::setDefaultKey(const QString &def)
+KGpgItemModel::setDefaultKey(KGpgKeyNode *def)
 {
 	int defrow = m_root->findKeyRow(def);
 	int odefrow = m_root->findKeyRow(m_default);
 	if (defrow == odefrow)
 		return;
-
-	KGpgNode *n_def = m_root->getChild(defrow);
 
 	int lastcol = columnCount(QModelIndex()) - 1;
 	if (odefrow >= 0) {
@@ -303,8 +301,8 @@ KGpgItemModel::setDefaultKey(const QString &def)
 		emit dataChanged(createIndex(odefrow, 0, nd), createIndex(odefrow, lastcol, nd));
 	}
 
-	m_default = def;
-	emit dataChanged(createIndex(defrow, 0, n_def), createIndex(defrow, lastcol, n_def));
+	m_default = def->getId();
+	emit dataChanged(createIndex(defrow, 0, def), createIndex(defrow, lastcol, def));
 }
 
 QModelIndex

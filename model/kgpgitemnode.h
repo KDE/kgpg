@@ -439,6 +439,14 @@ public:
 	 */
 	int findKeyRow(const QString &keyId);
 
+	/**
+	 * Return the child number of the given key
+	 * @param key the key to search for
+	 *
+	 * @overload
+	 */
+	int findKeyRow(const KGpgKeyNode *key);
+
 	int groupChildren() const
 		{ return m_groups; }
 

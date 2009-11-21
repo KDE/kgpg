@@ -57,7 +57,7 @@ void KGpgApp::slotHandleQuit()
 
 void KGpgApp::assistantOver(const QString &defaultKeyId)
 {
-	if (defaultKeyId.length() >= 8)
+	if (!defaultKeyId.isEmpty())
 		s_keyManager->slotSetDefaultKey(defaultKeyId);
 
 	s_keyManager->show();

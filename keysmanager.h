@@ -123,10 +123,11 @@ public slots:
     void clipEncrypt();
     void clipDecrypt();
     void clipSign();
-    
+
 protected:
     bool eventFilter(QObject *, QEvent *e);
     void removeFromGroups(KGpgKeyNode *nd);
+    void setDefaultKeyNode(KGpgKeyNode *key);
 
 private slots:
     void statusBarTimeout();

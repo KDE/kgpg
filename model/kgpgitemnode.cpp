@@ -473,6 +473,16 @@ KGpgRootNode::findKeyRow(const QString &keyId)
 	return -1;
 }
 
+int
+KGpgRootNode::findKeyRow(const KGpgKeyNode *key)
+{
+	for (int i = 0; i < children.count(); i++) {
+		if (children[i] == key)
+			return i;
+	}
+	return -1;
+}
+
 KGpgRootNode *
 KGpgRootNode::asRootNode()
 {

@@ -632,10 +632,11 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		keyCreated->exec();
 
 		imodel->refreshKey(fingerprint);
+		KGpgKeyNode *knode = imodel->getRootNode()->findKey(fingerprint);
 		if (page->CBdefault->isChecked())
-			imodel->setDefaultKey(fingerprint);
+			imodel->setDefaultKey(knode);
 
-		iview->selectNode(imodel->getRootNode()->findKey(fingerprint));
+		iview->selectNode(knode);
 
 		if (page->CBsave->isChecked()) {
 			slotrevoke(fingerprint, page->kURLRequester1->url().path(), 0, i18n("backup copy"));
@@ -1280,18 +1281,27 @@ void KeysManager::readAllOptions()
 
 void KeysManager::slotSetDefKey()
 {
-	slotSetDefaultKey(iview->selectedNode()->getId());
+	setDefaultKeyNode(iview->selectedNode()->toKeyNode());
 }
 
 void KeysManager::slotSetDefaultKey(const QString &newID)
 {
+	KGpgKeyNode *ndef = imodel->getRootNode()->findKey(newID);
+
+	setDefaultKeyNode(ndef);
+}
+
+void KeysManager::setDefaultKeyNode(KGpgKeyNode *key)
+{
+	const QString &newID(key->getId());
+
 	if (newID == KGpgSettings::defaultKey())
 		return;
 
 	KGpgSettings::setDefaultKey(newID);
 	KGpgSettings::self()->writeConfig();
 
-	imodel->setDefaultKey(newID);
+	imodel->setDefaultKey(key);
 }
 
 void
