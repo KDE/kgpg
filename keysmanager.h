@@ -297,6 +297,8 @@ private:
 
     Experimental::KNotificationItem *m_trayicon;
     void setupTrayIcon();
+
+    void setActionDescriptions(int cnt);
 };
 
 #endif // KEYSMANAGER_H
