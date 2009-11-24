@@ -30,11 +30,9 @@ public:
      * @param parent is the parent object
      * @param model pass a pointer to a KGpgItemModel that stores the keys
      * to select from
-     * @param countkey set to \em true if you are going to sign keys,
-     * \em countkey is the number of keys that you are going to sign. If you
-     * are going to sign a file, pass 0.
+     * @param countkey set to the number of keys that you are going to sign, 0 if you are going to sign a file
      */
-    KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, const int &countkey = 0);
+    KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, const int countkey = 0);
     ~KgpgSelectSecretKey();
 
     QString getKeyID() const;

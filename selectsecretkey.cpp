@@ -25,7 +25,7 @@
 
 using namespace KgpgCore;
 
-KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, const int &countkey)
+KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, const int countkey)
                    : KDialog(parent)
 {
     setCaption(i18n("Private Key List"));
