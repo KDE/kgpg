@@ -144,56 +144,6 @@ private:
 /*************************************************/
 
 
-/************** sign a key **************/
-signals:
-    /**
-     * Signature process result:
-     * 0 = Unknown error
-     * 1 = Bad passphrase
-     * 2 = Good passphrase
-     * 3 = Aborted by user
-     * 4 = Already signed
-     */
-    void signKeyFinished(int, const QString &, KgpgInterface*);
-
-public slots:
-    /**
-     * Key signature function
-     * @param keyid the ID of the key to be signed
-     * @param signkeyid the ID of the signing key
-     * @param local should the signature be local
-     * @param checking how careful the key was checked
-     * @param terminal if the user want to sign the key manually
-     * @param uid if only a specific user id should be signed
-     */
-    void signKey(const QString &keyid, const QString &signkeyid, const bool local, const int checking, const bool terminal = false, const QString &uid = QString());
-
-private slots:
-    /**
-     * Read output of the signature process
-     */
-    void signKeyProcess();
-
-    /**
-     * Checks output of the signature process
-     */
-    void signKeyFin();
-
-    /**
-     * Opens the console when the user want to sign
-     * a key manually.
-     */
-    void signKeyOpenConsole();
-
-private:
-    QString m_signkey;
-    QString m_keyid;
-    int m_checking;
-    bool m_local;
-
-/****************************************/
-
-
 /************** load a photo in a QPixmap **************/
 signals:
     void loadPhotoFinished(QPixmap, KgpgInterface*);

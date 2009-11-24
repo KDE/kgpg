@@ -18,6 +18,7 @@
 #include <QString>
 
 class GPGProc;
+class KGpgSignTransactionHelper;
 class KGpgTransactionPrivate;
 class QByteArray;
 
@@ -40,7 +41,11 @@ class QByteArray;
  */
 class KGpgTransaction: public QObject {
 	Q_OBJECT
+
 	friend class KGpgTransactionPrivate;
+	friend class KGpgSignTransactionHelper;
+
+	Q_DISABLE_COPY(KGpgTransaction)
 
 public:
 	/**
@@ -250,6 +255,29 @@ protected:
 	 */
 	void replaceArgument(const int pos, const QString &arg);
 	/**
+	 * @brief insert an argument at the given position
+	 * @param pos position to insert at
+	 * @param arg new argument
+	 */
+	void insertArgument(const int pos, const QString &arg);
+	/**
+	 * @brief insert arguments at the given position
+	 * @param pos position to insert at
+	 * @param arg new arguments
+	 */
+	void insertArguments(const int pos, const QStringList &args);
+	/**
+	 * @brief make sure the reference to a specific argument is kept up to date
+	 * @param ref the value where the position is stored
+	 *
+	 * You might want to keep the position of a specific argument to
+	 * later be able to repace it easily. In that case put it into
+	 * this function too so everytime someone mofifies the argument
+	 * list (especially by insertArgument() and insertArguments())
+	 * this reference will be kept up to date.
+	 */
+	void addArgumentRef(int *ref);
+	/**
 	 * @brief write data to standard input of gpg process
 	 * @param a data to write
 	 * @param lf if line feed should be appended to message
@@ -259,6 +287,13 @@ protected:
 	 * call this function from nextLine().
 	 */
 	void write(const QByteArray &a, const bool lf = true);
+	/**
+	 * @brief write data to standard input of gpg process
+	 * @param i data to write
+	 *
+	 * @overload
+	 */
+	void write(const int i);
 	/**
 	 * @brief ask user for password
 	 * @param message message to display to the user. If message is empty
@@ -270,6 +305,7 @@ protected:
 	 * and the number of tries left.
 	 */
 	 bool askPassphrase(const QString &message = QString());
+
 };
 
 #endif // KGPGTRANSACTION_H

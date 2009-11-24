@@ -32,6 +32,7 @@ set(kgpg_transaction_SRCS
    transactions/kgpgtransactionjob.cpp
    transactions/kgpguidtransaction.cpp
    transactions/kgpgeditkeytransaction.cpp
+   transactions/kgpgsigntransactionhelper.cpp
    transactions/kgpgchangedisable.cpp
    transactions/kgpgchangeexpire.cpp
    transactions/kgpgchangepass.cpp
@@ -47,6 +48,8 @@ set(kgpg_transaction_SRCS
    transactions/kgpgkeyservergettransaction.cpp
    transactions/kgpgprimaryuid.cpp
    transactions/kgpgsendkeys.cpp
+   transactions/kgpgsignkey.cpp
+   transactions/kgpgsignuid.cpp
 )
 
 set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transaction_SRCS}

@@ -164,7 +164,6 @@ private slots:
     void doFilePrint(const KUrl &url);
     void doPrint(const QString &txt);
     void checkList();
-    void signLoop();
     void slotManpage();
     void slotTip();
     void slotExportFinished(int result);
@@ -179,7 +178,7 @@ private slots:
     void delsignkey();
     void preimportsignkey();
     void importallsignkey();
-    void signatureResult(int success, const QString &keyId, KgpgInterface*);
+    void signatureResult(int success);
     void delsignatureResult(bool);
     void defaultAction(const QModelIndex &);
     void defaultAction(KGpgNode *);
@@ -228,7 +227,7 @@ private:
     QString globalkeyID;
     QString searchString;
 
-    QList<KGpgNode *> signList;
+    QList<KGpgSignableNode *> signList;
     QList<KGpgKeyNode *> refreshList;
 
     QClipboard::Mode m_clipboardmode;
@@ -271,13 +270,10 @@ private:
     KgpgInterface *revKeyProcess;
 
     bool continueSearch;
-    bool globalisLocal;
     bool showTipOfDay;
-    bool m_isterminal;
     bool m_signuids;
 
     int keyCount;
-    int globalChecked;
 
     long searchOptions;
 
@@ -296,6 +292,20 @@ private:
     void setupTrayIcon();
 
     void setActionDescriptions(int cnt);
+    /**
+     * @brief sign the next key from signList
+     * @param localsign if signature should be a local (not exportable) one
+     * @param checklevel how careful the identity of the key was checked
+     */
+    void signLoop(const bool localsign, const int checklevel);
+    /**
+     * @brief Opens the console when the user want to sign a key manually.
+     * @param signer key to sign with
+     * @param keyid key to sign
+     * @param checking how carefule the identify was checked
+     * @param local if signature should be local (not exportable)
+     */
+    void signKeyOpenConsole(const QString &signer, const QString &keyid, const int checking, const bool local);
 };
 
 #endif // KEYSMANAGER_H

@@ -108,6 +108,8 @@
 #include "kgpgview.h"
 #include "kgpgkeyservergettransaction.h"
 #include "kgpgtransactionjob.h"
+#include "kgpgsignkey.h"
+#include "kgpgsignuid.h"
 
 using namespace KgpgCore;
 
@@ -1867,8 +1869,8 @@ void KeysManager::editGroup()
 void KeysManager::signkey()
 {
 	KgpgItemType tp;
-	signList = iview->selectedNodes(NULL, &tp);
-	if (signList.isEmpty())
+	QList<KGpgNode *> tmplist = iview->selectedNodes(NULL, &tp);
+	if (tmplist.isEmpty())
 		return;
 
 	if (tp & ~ITYPE_PAIR) {
@@ -1876,32 +1878,34 @@ void KeysManager::signkey()
 		return;
 	}
 
-	if (signList.count() == 1) {
-		KGpgKeyNode *nd = signList.at(0)->toKeyNode();
+	if (tmplist.count() == 1) {
+		KGpgKeyNode *nd = tmplist.at(0)->toKeyNode();
 		QString opt;
 
 		if (nd->getEmail().isEmpty())
-		opt = i18n("<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
-			"You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-			"is not trying to intercept your communications.</qt>", nd->getName(), nd->getId().right(8), nd->getBeautifiedFingerprint());
+			opt = i18n("<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
+					"You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
+					"is not trying to intercept your communications.</qt>", nd->getName(), nd->getId().right(8), nd->getBeautifiedFingerprint());
 		else
-		opt = i18n("<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br />Fingerprint: <br /><b>%4</b>.<br /><br />"
-			"You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-			"is not trying to intercept your communications.</qt>", nd->getName(), nd->getEmail(), nd->getId().right(8), nd->getBeautifiedFingerprint());
+			opt = i18n("<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br />Fingerprint: <br /><b>%4</b>.<br /><br />"
+					"You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
+					"is not trying to intercept your communications.</qt>", nd->getName(), nd->getEmail(), nd->getId().right(8), nd->getBeautifiedFingerprint());
 
 		if (KMessageBox::warningContinueCancel(this, opt) != KMessageBox::Continue) {
-		signList.clear();
-		return;
+			return;
 		}
+		signList.append(nd);
 	} else {
 		QStringList signKeyList;
-		foreach (const KGpgNode *n, signList) {
+		foreach (KGpgNode *n, tmplist) {
 			const KGpgKeyNode *nd = n->toKeyNode();
 
 			if (nd->getEmail().isEmpty())
 				signKeyList += i18nc("Name: ID", "%1: %2", nd->getName(), nd->getBeautifiedFingerprint());
 			else
 				signKeyList += i18nc("Name (Email): ID", "%1 (%2): %3", nd->getName(), nd->getEmail(), nd->getBeautifiedFingerprint());
+
+			signList.append(n->toSignableNode());
 		}
 
 		if (KMessageBox::Continue != KMessageBox::warningContinueCancelList(this,
@@ -1916,21 +1920,27 @@ void KeysManager::signkey()
 	}
 
 	globalkeyID = QString(opts->getKeyID());
-	globalisLocal = opts->isLocalSign();
-	globalChecked = opts->getSignTrust();
-	m_isterminal = opts->isTerminalSign();
-	keyCount = 0;
+	const bool localsign = opts->isLocalSign();
+	const int checklevel = opts->getSignTrust();
+	bool isterminal = opts->isTerminalSign();
 	delete opts;
 
-	m_signuids = false;
-	signLoop();
+	if (isterminal) {
+		const QString keyid(signList.at(0)->getId());
+		signList.clear();
+		signKeyOpenConsole(globalkeyID, keyid, checklevel, localsign);
+	} else {
+		keyCount = 0;
+		m_signuids = false;
+		signLoop(localsign, checklevel);
+	}
 }
 
 void KeysManager::signuid()
 {
 	KgpgItemType tp;
-	signList = iview->selectedNodes(NULL, &tp);
-	if (signList.isEmpty())
+	QList<KGpgNode *> tmplist = iview->selectedNodes(NULL, &tp);
+	if (tmplist.isEmpty())
 		return;
 
 	if (tp & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)) {
@@ -1938,8 +1948,8 @@ void KeysManager::signuid()
 		return;
 	}
 
-	if (signList.count() == 1) {
-		KGpgNode *nd = signList.at(0);
+	if (tmplist.count() == 1) {
+		KGpgSignableNode *nd = tmplist.at(0)->toSignableNode();
 		KGpgKeyNode *pnd;
 		if (tp & ITYPE_PUBLIC)
 			pnd = nd->toKeyNode();
@@ -1957,13 +1967,13 @@ void KeysManager::signuid()
 			"is not trying to intercept your communications.</qt>", nd->getName(), nd->getEmail(), nd->getId(), pnd->getBeautifiedFingerprint());
 
 		if (KMessageBox::warningContinueCancel(this, opt) != KMessageBox::Continue) {
-			signList.clear();
 			return;
 		}
+		signList.append(nd);
 	} else {
 		QStringList signKeyList;
 
-		foreach (const KGpgNode *nd, signList) {
+		foreach (KGpgNode *nd, tmplist) {
 			const KGpgKeyNode *pnd = (nd->getType() & (ITYPE_UID | ITYPE_UAT)) ?
 					nd->getParentKeyNode()->toKeyNode() : nd->toKeyNode();
 
@@ -1973,6 +1983,8 @@ void KeysManager::signuid()
 			else
 				signKeyList += i18nc("Name (Email): ID", "%1 (%2): %3",
 					nd->getName(), nd->getEmail(), pnd->getBeautifiedFingerprint());
+
+			signList.append(nd->toSignableNode());
 		}
 
 		if (KMessageBox::warningContinueCancelList(this, i18n("<qt>You are about to sign the following user ids in one pass.<br/><b>If you have not carefully checked all fingerprints, the security of your communications may be compromised.</b></qt>"),
@@ -1987,68 +1999,104 @@ void KeysManager::signuid()
 	}
 
 	globalkeyID = QString(opts->getKeyID());
-	globalisLocal = opts->isLocalSign();
-	globalChecked = opts->getSignTrust();
-	m_isterminal = opts->isTerminalSign();
-	keyCount = 0;
+	const bool localsign = opts->isLocalSign();
+	const int checklevel = opts->getSignTrust();
+	bool isterminal = opts->isTerminalSign();
 	delete opts;
 
-	m_signuids = true;
-	signLoop();
+	if (isterminal) {
+		const QString keyid(signList.at(0)->getId());
+		signList.clear();
+		signKeyOpenConsole(globalkeyID, keyid, checklevel, localsign);
+	} else {
+		keyCount = 0;
+		m_signuids = true;
+		signLoop(localsign, checklevel);
+	}
 }
 
-void KeysManager::signLoop()
+void KeysManager::signLoop(const bool localsign, const int checklevel)
 {
-	if (keyCount < signList.count()) {
-		KGpgNode *nd = signList.at(keyCount);
-		QString uid;
-		QString keyid;
+	Q_ASSERT(keyCount < signList.count());
 
-		switch (nd->getType()) {
-		case ITYPE_UID:
-		case ITYPE_UAT:
-			keyid = nd->toExpandableNode()->getParentKeyNode()->getId();
-			uid = nd->getId();
-			break;
-		default:
-			keyid = nd->getId();
-			if (m_signuids)
-				uid = '1';
-		}
+	KGpgSignableNode *nd = signList.at(keyCount);
+	QString uid;
+	QString keyid;
+	const KGpgSignTransactionHelper::carefulCheck cc = static_cast<KGpgSignTransactionHelper::carefulCheck>(checklevel);
+	KGpgTransaction *sta;
 
-		kDebug(2100) << "Sign process for key:" << keyCount + 1 << "on a total of" << signList.count() << "id" << keyid << "uid" << uid;
-
-		KgpgInterface *interface = new KgpgInterface();
-		interface->signKey(keyid, globalkeyID, globalisLocal, globalChecked, m_isterminal, uid);
-		connect(interface, SIGNAL(signKeyFinished(int, QString, KgpgInterface*)), this, SLOT(signatureResult(int, QString, KgpgInterface*)));
+	if (m_signuids) {
+		sta = new KGpgSignUid(this, globalkeyID, nd, localsign, cc);
 	} else {
+		sta = new KGpgSignKey(this, globalkeyID, nd->toKeyNode(), localsign, cc);
+	}
+
+	connect(sta, SIGNAL(done(int)), SLOT(signatureResult(int)));
+	sta->start();
+}
+
+void KeysManager::signatureResult(int success)
+{
+	KGpgSignTransactionHelper *ta;
+	KGpgSignUid *suid = qobject_cast<KGpgSignUid *>(sender());
+	if (suid != NULL) {
+		ta = static_cast<KGpgSignTransactionHelper *>(suid);
+	} else {
+		ta = static_cast<KGpgSignTransactionHelper *>(static_cast<KGpgSignKey *>(sender()));
+	}
+	KGpgKeyNode *nd = ta->getKey();
+	const bool localsign = ta->getLocal();
+	const int checklevel = ta->getChecking();
+	const QString signer(ta->getSigner());
+	sender()->deleteLater();
+
+	switch (success) {
+	case KGpgTransaction::TS_OK:
+		if (refreshList.indexOf(nd) == -1)
+			refreshList.append(nd);
+		break;
+	case KGpgTransaction::TS_BAD_PASSPHRASE:
+		KMessageBox::sorry(this, i18n("<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>",
+				nd->getName(), nd->getEmail()));
+		break;
+	case KGpgSignTransactionHelper::TS_ALREADY_SIGNED:
+		KMessageBox::sorry(this, i18n("<qt>The key <b>%1 (%2)</b> is already signed.</qt>",
+				nd->getName(), nd->getEmail()));
+		break;
+	default:
+		QPointer<KgpgDetailedConsole> q = new KgpgDetailedConsole(this,
+				i18n("<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />"
+						"Do you want to try signing the key in console mode?</qt>",
+						nd->getId(), signer));
+		if (q->exec() == QDialog::Accepted)
+			signKeyOpenConsole(signer, nd->getId(), checklevel, localsign);
+		delete q;
+	}
+
+	if (++keyCount == signList.count()) {
 		signList.clear();
 		imodel->refreshKeys(refreshList);
 		refreshList.clear();
+	} else {
+		signLoop(localsign, checklevel);
 	}
 }
 
-void KeysManager::signatureResult(int success, const QString &keyId, KgpgInterface *interface)
+void KeysManager::signKeyOpenConsole(const QString &signer, const QString &keyid, const int checking, const bool local)
 {
-	interface->deleteLater();
-
-	KGpgKeyNode *nd = imodel->getRootNode()->findKey(keyId);
-
-	if (success == 2) {
-		KGpgKeyNode *knd = (nd->getType() & (ITYPE_UAT | ITYPE_UID)) ?
-				nd->getParentKeyNode()->toKeyNode() : nd->toKeyNode();
-		if (refreshList.indexOf(knd) == -1)
-			refreshList.append(knd);
-	} else if (success == 1) {
-		KMessageBox::sorry(this, i18n("<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>",
-				nd->getName(), nd->getEmail()));
-	} else if (success == 4) {
-		KMessageBox::sorry(this, i18n("<qt>The key <b>%1 (%2)</b> is already signed.</qt>",
-				nd->getName(), nd->getEmail()));
-	}
-
-	keyCount++;
-	signLoop();
+	KConfigGroup config(KGlobal::config(), "General");
+	
+	KProcess process;
+	process << config.readPathEntry("TerminalApplication", "konsole");
+	process << "-e" << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "-u" << signer;
+	process << "--default-cert-level" << QString(checking);
+	
+	if (!local)
+		process << "--sign-key" << keyid;
+	else
+		process << "--lsign-key" << keyid;
+	
+	process.execute();
 }
 
 void KeysManager::getMissingSigs(QSet<QString> &missingKeys, const KGpgExpandableNode *nd)

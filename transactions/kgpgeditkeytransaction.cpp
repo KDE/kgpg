@@ -25,11 +25,14 @@ KGpgEditKeyTransaction::KGpgEditKeyTransaction(QObject *parent, const QString &k
 	addArgument(keyid);
 
 	m_cmdpos = addArgument(command);
+	addArgumentRef(&m_cmdpos);
 
-	if (hasValue)
+	if (hasValue) {
 		m_argpos = addArgument(QString());
-	else
+		addArgumentRef(&m_argpos);
+	} else {
 		m_argpos = -1;
+	}
 
 	if (autoSave)
 		addArgument("save");

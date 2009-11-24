@@ -20,8 +20,10 @@ KGpgUidTransaction::KGpgUidTransaction(QObject *parent, const QString &keyid, co
 	addArgument("--command-fd=0");
 	addArgument("--edit-key");
 	m_keyidpos = addArgument(QString());
+	addArgumentRef(&m_keyidpos);
 	addArgument("uid");
 	m_uidpos = addArgument(QString());
+	addArgumentRef(&m_uidpos);
 
 	setKeyId(keyid);
 	setUid(uid);
@@ -52,11 +54,11 @@ KGpgUidTransaction::standardCommands(const QString &line)
 			setSuccess(TS_USER_ABORTED);
 	} else if (line.contains("keyedit.prompt")) {
 		write("save");
-		setSuccess(TS_OK);
+		if (getSuccess() == TS_MSG_SEQUENCE)
+			setSuccess(TS_OK);
 		return true;
 	} else if (line.contains("GET_")) {
 		setSuccess(TS_MSG_SEQUENCE);
-		// gpg asks for something unusal, turn to konsole mode
 		return true;
 	}
 

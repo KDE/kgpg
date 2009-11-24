@@ -36,6 +36,8 @@ public:
 	void slotReadReady(GPGProc *gpgProcess);
 	void slotProcessExited(GPGProc *gpgProcess);
 	void slotProcessStarted();
+
+	QList<int *> m_argRefs;
 };
 
 KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent)
@@ -112,6 +114,12 @@ KGpgTransaction::write(const QByteArray &a, const bool lf)
 	d->m_process->write(a);
 	if (lf)
 		d->m_process->write("\n");
+}
+
+void
+KGpgTransaction::write(const int i)
+{
+	write(QByteArray::number(i));
 }
 
 int
@@ -211,6 +219,36 @@ KGpgTransaction::replaceArgument(const int pos, const QString &arg)
 	args.replace(pos, arg);
 
 	d->m_process->setProgram(args);
+}
+
+void
+KGpgTransaction::insertArgument(const int pos, const QString &arg)
+{
+	insertArguments(pos, QStringList(arg));
+}
+
+void
+KGpgTransaction::insertArguments(const int pos, const QStringList &args)
+{
+	QStringList tmp(d->m_process->program());
+
+	int tmppos = pos;
+	foreach (const QString &s, args) {
+		tmp.insert(tmppos++, s);
+	}
+	d->m_process->setProgram(tmp);
+
+	int move = args.count();
+	foreach (int *ref, d->m_argRefs) {
+		if (*ref >= pos)
+			*ref += move;
+	}
+}
+
+void
+KGpgTransaction::addArgumentRef(int *ref)
+{
+	d->m_argRefs.append(ref);
 }
 
 bool
