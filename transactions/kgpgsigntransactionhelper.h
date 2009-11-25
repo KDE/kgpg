@@ -19,7 +19,7 @@
 class KGpgKeyNode;
 
 /**
- * @brief base class for transactions involving only one user id of a key
+ * @brief helper class for key signing transactions
  */
 class KGpgSignTransactionHelper {
 public:
