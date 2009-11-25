@@ -106,7 +106,7 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 void KgpgTextEdit::slotEncode()
 {
     // TODO : goDefaultKey shortcut
-    KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(this, m_model, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), QString(), true);
+    QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, m_model, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), QString(), true);
     if (dialog->exec() == KDialog::Accepted)
     {
         QStringList options;
@@ -159,7 +159,7 @@ void KgpgTextEdit::slotSign(const QString &message)
 {
     QString signkeyid;
 
-    KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, m_model);
+    QPointer<KgpgSelectSecretKey> opts = new KgpgSelectSecretKey(this, m_model);
     if (opts->exec() == QDialog::Accepted)
         signkeyid = opts->getKeyID();
     else

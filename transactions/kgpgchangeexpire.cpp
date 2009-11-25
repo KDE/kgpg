@@ -51,21 +51,6 @@ KGpgChangeExpire::nextLine(const QString &line)
 }
 
 void
-KGpgChangeExpire::finish()
-{
-	if (getSuccess() == TS_MSG_SEQUENCE) {
-		QString output;
-		KgpgDetailedConsole *q = new KgpgDetailedConsole(0, i18n("<qt><b>Changing expiration failed.</b><br />"
-					"Do you want to try changing the key expiration in console mode?</qt>"), output);
-		if (q->exec() == QDialog::Accepted) {
-			KMessageBox::sorry(0, i18n("Work in progress..."));
-			setSuccess(TS_OK);
-		} else
-			setSuccess(TS_USER_ABORTED);
-	}
-}
-
-void
 KGpgChangeExpire::setDate(const QDate &date)
 {
 	m_date = date;

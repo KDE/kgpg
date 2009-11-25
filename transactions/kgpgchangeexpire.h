@@ -33,7 +33,6 @@ public:
 
 protected:
 	virtual bool nextLine(const QString &line);
-	virtual void finish();
 
 private:
 	QDate m_date;

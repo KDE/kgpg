@@ -341,47 +341,47 @@ bool KgpgEditor::slotFileSaveAs()
 void KgpgEditor::slotFilePrint()
 {
     QPrinter prt;
-    QPrintDialog printDialog(&prt, this);
-    if (printDialog.exec())
-    {
+    QPointer<QPrintDialog> printDialog = new QPrintDialog(&prt, this);
+    if (printDialog->exec() == QDialog::Accepted) {
         int width = prt.width();
         int height = prt.height();
         QPainter painter(&prt);
         painter.drawText(0, 0, width, height, Qt::AlignLeft | Qt::AlignTop | Qt::TextDontClip, view->editor->toPlainText());
     }
+    delete printDialog;
 }
 
 void KgpgEditor::slotFind()
 {
-    KFindDialog fd(this);
+	QPointer<KFindDialog> fd = new KFindDialog(this);
 
-    if (m_find)
-    {
-        fd.setOptions(m_find->options());
-        fd.setPattern(m_find->pattern());
-    }
+	if (m_find) {
+		fd->setOptions(m_find->options());
+		fd->setPattern(m_find->pattern());
+	}
 
-    if (fd.exec() != QDialog::Accepted)
-        return;
+	if (fd->exec() != QDialog::Accepted) {
+		delete fd;
+		return;
+	}
 
-    if (!m_find)
-    {
-        m_find = new KFind(fd.pattern(), fd.options(), this);
-        if (m_find->options() & KFind::FromCursor)
-            m_find->setData(view->editor->toPlainText(), view->editor->textCursor().selectionStart());
-        else
-            m_find->setData(view->editor->toPlainText());
-        connect(m_find, SIGNAL(highlight(QString, int, int)), view, SLOT(slotHighlightText(QString, int, int)));
-        connect(m_find, SIGNAL(findNext()), this, SLOT(slotFindText()));
-    }
-    else
-    {
-        m_find->setPattern(fd.pattern());
-        m_find->setOptions(fd.options());
-        m_find->resetCounts();
-    }
+	if (!m_find) {
+		m_find = new KFind(fd->pattern(), fd->options(), this);
 
-    slotFindText();
+		if (m_find->options() & KFind::FromCursor)
+			m_find->setData(view->editor->toPlainText(), view->editor->textCursor().selectionStart());
+		else
+			m_find->setData(view->editor->toPlainText());
+		connect(m_find, SIGNAL(highlight(QString, int, int)), view, SLOT(slotHighlightText(QString, int, int)));
+		connect(m_find, SIGNAL(findNext()), this, SLOT(slotFindText()));
+	} else {
+		m_find->setPattern(fd->pattern());
+		m_find->setOptions(fd->options());
+		m_find->resetCounts();
+	}
+
+	slotFindText();
+	delete fd;
 }
 
 void KgpgEditor::slotFindNext()
@@ -486,19 +486,20 @@ void KgpgEditor::slotFilePreDec()
     if (!newname.isEmpty())
     {
         QFile fgpg(newname);
-        if (fgpg.exists())
-        {
-            KIO::RenameDialog over(0, i18n("File Already Exists"), KUrl(), KUrl::fromPath(newname), KIO::M_OVERWRITE);
-            if (over.exec() == QDialog::Rejected)
-            {
-                return;
-            }
-            newname = over.newDestUrl().path();
+        if (fgpg.exists()) {
+		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(this, i18n("File Already Exists"), KUrl(), KUrl::fromPath(newname), KIO::M_OVERWRITE);
+
+		if (over->exec() != QDialog::Accepted) {
+			delete over;
+			return;
+		}
+		newname = over->newDestUrl().path();
+		delete over;
         }
 
         KgpgLibrary *lib = new KgpgLibrary(this);
-        lib->slotFileDec(url, KUrl(newname), m_customdecrypt);
         connect(lib, SIGNAL(importOver(KgpgLibrary *, QStringList)), SIGNAL(slotRefreshImported(KgpgLibrary *, QStringList)));
+        lib->slotFileDec(url, KUrl(newname), m_customdecrypt);
     }
     else
         openEncryptedDocumentFile(url);
@@ -591,11 +592,10 @@ void KgpgEditor::slotSignFile(const KUrl &url)
     if (!url.isEmpty())
     {
         QString signKeyID;
-        KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(this, m_model, false);
-        if (opts->exec() == QDialog::Accepted)
+        QPointer<KgpgSelectSecretKey> opts = new KgpgSelectSecretKey(this, m_model, false);
+        if (opts->exec() == QDialog::Accepted) {
             signKeyID = opts->getKeyID();
-        else
-        {
+        } else {
             delete opts;
             return;
         }
@@ -658,7 +658,7 @@ void KgpgEditor::slotCheckMd5()
     KUrl url = KFileDialog::getOpenUrl(KUrl(), i18n("*|All Files"), this, i18n("Open File to Verify"));
     if (!url.isEmpty())
     {
-        Md5Widget *mdwidget = new Md5Widget(this, url);
+        QPointer<Md5Widget> mdwidget = new Md5Widget(this, url);
         mdwidget->exec();
         delete mdwidget;
     }

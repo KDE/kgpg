@@ -1264,7 +1264,7 @@ void KeysManager::showOptions()
 	if (KConfigDialog::showDialog("settings"))
 		return;
 
-	kgpgOptions *optionsDialog = new kgpgOptions(this, "settings");
+	QPointer<kgpgOptions> optionsDialog = new kgpgOptions(this, "settings");
 	connect(optionsDialog, SIGNAL(settingsUpdated()), SLOT(readAllOptions()));
 	connect(optionsDialog, SIGNAL(homeChanged()), imodel, SLOT(refreshKeys()));
 	connect(optionsDialog, SIGNAL(refreshTrust(KgpgCore::KgpgKeyTrust, QColor)), imodel, SLOT(refreshTrust(KgpgCore::KgpgKeyTrust, QColor)));
@@ -1722,7 +1722,7 @@ KeysManager::showProperties(KGpgNode *n)
 	case ITYPE_PUBLIC:
 	case ITYPE_PAIR: {
 		KGpgKeyNode *k = n->toKeyNode();
-		KgpgKeyInfo *opts = new KgpgKeyInfo(k, imodel, this);
+		QPointer<KgpgKeyInfo> opts = new KgpgKeyInfo(k, imodel, this);
 		connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
 		connect(opts->keychange, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
 		opts->exec();
@@ -1739,6 +1739,8 @@ void KeysManager::keyproperties()
 	if (cur == NULL)
 		return;
 
+	KGpgKeyNode *kn;
+
 	switch (cur->getType()) {
 	case ITYPE_SECRET:
 	case ITYPE_GSECRET:
@@ -1746,28 +1748,26 @@ void KeysManager::keyproperties()
 			i18n("<p>This key is an orphaned secret key (secret key without public key.) It is currently not usable.</p>"
 				"<p>Would you like to regenerate the public key?</p>"), QString(), KGuiItem(i18n("Generate")), KGuiItem(i18n("Do Not Generate"))) == KMessageBox::Yes)
 		slotregenerate();
-		break;
+		return;
 	case ITYPE_PAIR:
 	case ITYPE_PUBLIC: {
-		KGpgKeyNode *kn = cur->toKeyNode();
-		KgpgKeyInfo *opts = new KgpgKeyInfo(kn, imodel, this);
-		connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
-		opts->exec();
-		delete opts;
+		kn = cur->toKeyNode();
 		break;
 	}
 	case ITYPE_GPAIR:
 	case ITYPE_GPUBLIC: {
-		KGpgKeyNode *kn = cur->toGroupMemberNode()->getRefNode();
-		KgpgKeyInfo *opts = new KgpgKeyInfo(kn, imodel, this);
-		connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
-		opts->exec();
-		delete opts;
+		kn = cur->toGroupMemberNode()->getRefNode();
 		break;
 	}
 	default:
 		kDebug(2100) << "Oops, called with invalid item type" << cur->getType();
+		return;
 	}
+
+	QPointer<KgpgKeyInfo> opts = new KgpgKeyInfo(kn, imodel, this);
+	connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
+	opts->exec();
+	delete opts;
 }
 
 void KeysManager::deleteGroup()
@@ -1840,7 +1840,7 @@ void KeysManager::editGroup()
 	if (!nd || (nd->getType() != ITYPE_GROUP))
 		return;
 	KGpgGroupNode *gnd = nd->toGroupNode();
-	KDialog *dialogGroupEdit = new KDialog(this );
+	QPointer<KDialog> dialogGroupEdit = new KDialog(this );
 	dialogGroupEdit->setCaption( i18n("Group Properties") );
 	dialogGroupEdit->setButtons( KDialog::Ok | KDialog::Cancel );
 	dialogGroupEdit->setDefaultButton(  KDialog::Ok );
@@ -1848,7 +1848,7 @@ void KeysManager::editGroup()
 
 	QList<KGpgNode *> members(gnd->getChildren());
 
-	QPointer<groupEdit> gEdit = new groupEdit(this, &members);
+	groupEdit *gEdit = new groupEdit(dialogGroupEdit, &members);
 	gEdit->setModel(imodel);
 
 	dialogGroupEdit->setMainWidget(gEdit);

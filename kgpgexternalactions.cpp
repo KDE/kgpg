@@ -72,13 +72,13 @@ void KGpgExternalActions::encryptDroppedFolder()
 	kgpgfoldertmp = new KTemporaryFile();
 	kgpgfoldertmp->open();
 
-	if (KMessageBox::Cancel == KMessageBox::warningContinueCancel(0,
+	if (KMessageBox::Cancel == KMessageBox::warningContinueCancel(m_keysmanager,
 				i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>",
 				kgpgfoldertmp->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(),
 				KStandardGuiItem::cancel(), "FolderTmpFile"))
 		return;
 
-	dialog = new KgpgSelectPublicKeyDlg(0, m_model, goDefaultKey, droppedUrls.first().fileName());
+	dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey, droppedUrls.first().fileName());
 
 	KHBox *bGroup = new KHBox(dialog->optionsbox);
 
@@ -99,6 +99,7 @@ void KGpgExternalActions::encryptDroppedFolder()
 
 void KGpgExternalActions::slotAbortEnc()
 {
+	dialog->deleteLater();
 	dialog = NULL;
 }
 
@@ -128,7 +129,7 @@ void KGpgExternalActions::startFolderEncode()
 		extension = ".tar";
 		break;
 	default:
-		Q_ASSERT(compressionScheme);
+		Q_ASSERT(compressionScheme == 0);
 		return;
 	}
 
@@ -152,12 +153,15 @@ void KGpgExternalActions::startFolderEncode()
 	QFile encryptedFolder(encryptedFile.path());
 	if (encryptedFolder.exists()) {
 		dialog->hide();
-		KIO::RenameDialog over(0, i18n("File Already Exists"), KUrl(), encryptedFile, KIO::M_OVERWRITE);
-		if (over.exec() == QDialog::Rejected) {
+		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager, i18n("File Already Exists"), KUrl(), encryptedFile, KIO::M_OVERWRITE);
+		if (over->exec() == QDialog::Rejected) {
+			dialog->deleteLater();
 			dialog = NULL;
+			delete over;
 			return;
 		}
-		encryptedFile = over.newDestUrl();
+		encryptedFile = over->newDestUrl();
+		delete over;
 		dialog->show(); // strange, but if dialog is hidden, the passive popup is not displayed...
 	}
 
@@ -167,6 +171,7 @@ void KGpgExternalActions::startFolderEncode()
 	pop->show();
 	kapp->processEvents();
 	dialog->accept();
+	dialog->deleteLater();
 	dialog = NULL;
 
 	KArchive *arch = NULL;
@@ -184,7 +189,7 @@ void KGpgExternalActions::startFolderEncode()
 		arch = new KTar(kgpgfoldertmp->fileName(), "application/x-tar");
 		break;
 	default:
-		Q_ASSERT(1);
+		Q_ASSERT(0);
 	}
 
 	if (!arch->open(QIODevice::WriteOnly))
@@ -287,7 +292,7 @@ void KGpgExternalActions::signDroppedFile()
 		return;
 
 	// select a private key to sign file --> listkeys.cpp
-	KgpgSelectSecretKey *opts = new KgpgSelectSecretKey(0, m_model, false);
+	QPointer<KgpgSelectSecretKey> opts = new KgpgSelectSecretKey(0, m_model, false);
 	if (opts->exec() != QDialog::Accepted) {
 		delete opts;
 		return;
