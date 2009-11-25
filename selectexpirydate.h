@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SELECTEXPIRYDATA_H
-#define SELECTEXPIRYDATA_H
+#ifndef SELECTEXPIRYDATE_H
+#define SELECTEXPIRYDATE_H
 
 #include <QDate>
 
@@ -47,4 +47,4 @@ private:
 	KDatePicker *m_datepicker;
 };
 
-#endif /* SELECTEXPIRYDATA_H */
+#endif /* SELECTEXPIRYDATE_H */

@@ -263,7 +263,7 @@ protected:
 	/**
 	 * @brief insert arguments at the given position
 	 * @param pos position to insert at
-	 * @param arg new arguments
+	 * @param args new arguments
 	 */
 	void insertArguments(const int pos, const QStringList &args);
 	/**
@@ -272,7 +272,7 @@ protected:
 	 *
 	 * You might want to keep the position of a specific argument to
 	 * later be able to repace it easily. In that case put it into
-	 * this function too so everytime someone mofifies the argument
+	 * this function too so every time someone mofifies the argument
 	 * list (especially by insertArgument() and insertArguments())
 	 * this reference will be kept up to date.
 	 */
