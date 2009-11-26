@@ -524,7 +524,7 @@ void KeysManager::slotGenerateKey()
 
 			QString terminalApp(config.readPathEntry("TerminalApplication", "konsole"));
 			QStringList args;
-			args << "-e" << KGpgSettings::gpgBinaryPath() << "--gen-key";
+			args << "-e" << KGpgSettings::gpgBinaryPath() << "--gen-key" << "--expert";
 
 			QProcess *genKeyProc = new QProcess(this);
 			genKeyProc->start(terminalApp, args);
