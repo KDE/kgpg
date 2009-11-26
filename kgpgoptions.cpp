@@ -408,7 +408,7 @@ void kgpgOptions::updateSettings()
 		if (!server.contains(' ')) {
 			serverList.append(server);
 		} else {
-			server.replace(QRegExp(" .*"), QString());	// Remove the " (Default)" section.
+			server.remove(QRegExp(" .*"));	// Remove the " (Default)" section.
 			serverList.prepend(server);		// Make it the first item in the list.
 		}
 	}
