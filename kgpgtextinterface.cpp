@@ -236,6 +236,7 @@ KGpgTextInterface::decryptTextStdErr()
 		d->m_log.append(a + '\n');
 }
 
+//krazy:cond=strings
 void
 KGpgTextInterface::decryptTextStdOut()
 {
@@ -296,6 +297,7 @@ KGpgTextInterface::decryptTextStdOut()
 		}
 	}
 }
+//krazy:endcond=strings
 
 void
 KGpgTextInterface::decryptTextFin()
@@ -327,6 +329,7 @@ KGpgTextInterface::signText(const QString &text, const QString &userid, const QS
 	d->m_process->start();
 }
 
+//krazy:cond=strings
 void
 KGpgTextInterface::signTextProcess()
 {
@@ -352,6 +355,7 @@ KGpgTextInterface::signTextProcess()
 			d->m_message += line + '\n';
 	}
 }
+//krazy:endcond=strings
 
 void
 KGpgTextInterface::signTextFin()
@@ -499,6 +503,7 @@ KGpgTextInterface::decryptFile(const KUrl &src, const KUrl &dest, const QStringL
 	d->m_process->start();
 }
 
+//krazy:cond=strings
 void
 KGpgTextInterface::decryptFileProcess()
 {
@@ -531,6 +536,7 @@ KGpgTextInterface::decryptFileProcess()
 		}
 	}
 }
+//krazy:endcond=strings
 
 void
 KGpgTextInterface::decryptFileFin(int res, QProcess::ExitStatus status)
@@ -570,6 +576,7 @@ KGpgTextInterface::KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl)
 	d->m_process->start();
 }
 
+//krazy:cond=strings
 void
 KGpgTextInterface::readVerify()
 {
@@ -605,6 +612,7 @@ KGpgTextInterface::readVerify()
 		}
 	}
 }
+//krazy:endcond=strings
 
 void
 KGpgTextInterface::verifyfin()
