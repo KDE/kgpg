@@ -78,7 +78,7 @@ void KGpgExternalActions::encryptDroppedFolder()
 				KStandardGuiItem::cancel(), "FolderTmpFile"))
 		return;
 
-	dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey, droppedUrls.first().fileName());
+	dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey, false, droppedUrls);
 
 	KHBox *bGroup = new KHBox(dialog->optionsbox);
 

@@ -56,11 +56,8 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, K
 		return;
 
 	m_urlselecteds = urls;
-	QString fileNames(urls.first().fileName());
-	if (urls.count() > 1)
-		fileNames += ", ...";	// FIXME
 
-	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, model, goDefaultKey, fileNames);
+	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, model, goDefaultKey, false, urls);
 	if (dialog->exec() == KDialog::Accepted) {
 		QStringList options(opts);
 		if (dialog->getUntrusted())
