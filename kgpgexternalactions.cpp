@@ -337,13 +337,15 @@ void KGpgExternalActions::decryptFile(KgpgLibrary *lib)
 	KUrl swapname(droppedUrls.first().directory(KUrl::AppendTrailingSlash) + oldname);
 	QFile fgpg(swapname.path());
 	if (fgpg.exists()) {
-		KIO::RenameDialog over(0, i18n("File Already Exists"), KUrl(), swapname, KIO::M_OVERWRITE);
-		if (over.exec() == QDialog::Rejected) {
+		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager, i18n("File Already Exists"), KUrl(), swapname, KIO::M_OVERWRITE);
+		if (over->exec() != QDialog::Accepted) {
+			delete over;
 			decryptNextFile(lib, KUrl());
 			return;
 		}
 
-		swapname=over.newDestUrl();
+		swapname = over->newDestUrl();
+		delete over;
 	}
 
 	QStringList custdecr;
