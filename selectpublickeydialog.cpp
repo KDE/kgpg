@@ -39,7 +39,6 @@ using namespace KgpgCore;
 KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const KShortcut &goDefaultKey, const bool hideasciioption, const KUrl::List &files)
                       : KDialog(parent)
 {
-    
     setButtons(Details | Ok | Cancel);
     setDefaultButton(Ok);
     setButtonText(Details, i18n("O&ptions"));
@@ -157,23 +156,22 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 
 QStringList KgpgSelectPublicKeyDlg::selectedKeys() const
 {
-    if (getSymmetric())
-        return QStringList();
+	if (getSymmetric())
+		return QStringList();
 
-    QStringList selectedKeys;
+	QStringList selectedKeys;
 
-	QModelIndexList sel = m_keyslist->selectionModel()->selectedIndexes();
-	for (int i = 0; i < sel.count(); i++) {
-		if (sel.at(i).column() != 0)
+	foreach (const QModelIndex &idx, m_keyslist->selectionModel()->selectedIndexes()) {
+		if (idx.column() != 0)
 			continue;
-		KGpgNode *nd = iproxy->nodeForIndex(sel.at(i));
+		KGpgNode *nd = iproxy->nodeForIndex(idx);
 		if (nd->getType() == ITYPE_GROUP)
 			selectedKeys << nd->getName();
 		else
 			selectedKeys << nd->getId();
 	}
 
-    return selectedKeys;
+	return selectedKeys;
 }
 
 bool KgpgSelectPublicKeyDlg::getSymmetric() const
