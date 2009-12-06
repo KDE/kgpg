@@ -57,7 +57,7 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, K
 
 	m_urlselecteds = urls;
 
-	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, model, goDefaultKey, false, urls);
+	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(0, model, goDefaultKey, false, urls);
 	if (dialog->exec() == KDialog::Accepted) {
 		QStringList options(opts);
 		if (dialog->getUntrusted())
@@ -109,13 +109,15 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
 
 	QFile fgpg(dest.path());
 	if (fgpg.exists()) {
-		KIO::RenameDialog over(0, i18n("File Already Exists"), KUrl(), dest, KIO::M_OVERWRITE);
-		if (over.exec() == QDialog::Rejected) {
+		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(0, i18n("File Already Exists"), KUrl(), dest, KIO::M_OVERWRITE);
+		if (over->exec() == QDialog::Rejected) {
 			emit systemMessage(QString(), true);
 			return;
 		}
 
-		dest = over.newDestUrl();
+		dest = over->newDestUrl();
+
+		delete over;
 	}
 
 	int filesToEncode = m_urlselecteds.count();

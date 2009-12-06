@@ -105,7 +105,7 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 
 void KgpgTextEdit::slotEncode()
 {
-#ifdef _GNUC_
+#ifdef __GNUC__
 #warning FIXME goDefaultKey shortcut
 #endif /* _GNUC_ */
     QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, m_model, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), true);
