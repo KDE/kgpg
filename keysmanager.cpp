@@ -27,7 +27,6 @@
 #include <QPrintDialog>
 #include <QWidget>
 #include <QLabel>
-#include <QTimer>
 #include <QEvent>
 #include <QMovie>
 #include <QList>
@@ -119,8 +118,6 @@ KeysManager::KeysManager(QWidget *parent)
 	   m_adduid(NULL),
 	   m_genkey(NULL),
 	   m_delkey(NULL),
-	   m_statusbartimer(new QTimer(this)),
-	   m_statusbar(NULL),
 	   terminalkey(NULL),
 	   delkey(NULL),
 	   m_trayicon(NULL)
@@ -471,13 +468,9 @@ KeysManager::KeysManager(QWidget *parent)
 	iview->setColumnHidden(5, !KGpgSettings::showExpi());
 	iproxy->setOnlySecret(KGpgSettings::showSecret());
 
-	m_statusbar = statusBar();
-	m_statusbar->insertItem("", 0, 1);
-	m_statusbar->insertPermanentFixedItem(i18n("00000 Keys, 000 Groups"), 1);
-	m_statusbar->setItemAlignment(0, Qt::AlignLeft);
-	m_statusbar->changeItem("", 1);
-
-	connect(m_statusbartimer, SIGNAL(timeout()), this, SLOT(statusBarTimeout()));
+	KStatusBar *statusbar = statusBar();
+	statusbar->insertPermanentFixedItem(i18n("00000 Keys, 000 Groups"), 0);
+	statusbar->changeItem("", 0);
 
 	cg = KConfigGroup(KGlobal::config().data(), "MainWindow");
 	setAutoSaveSettings(cg, true);
@@ -557,25 +550,21 @@ void KeysManager::slotOpenEditor()
 	kgpgtxtedit->show();
 }
 
-void KeysManager::statusBarTimeout()
+void KeysManager::changeMessage(const QString &msg, const bool keep)
 {
-	if (m_statusbar)
-		m_statusbar->changeItem("", 0);
+	int timeout = keep ? 0 : 10000;
+
+	statusBar()->showMessage(msg, timeout);
 }
 
-void KeysManager::changeMessage(const QString &msg, const int nb, const bool keep)
+void KeysManager::updateStatusCounter()
 {
-	m_statusbartimer->stop();
-	if (m_statusbar) {
-		if ((nb == 0) && (!keep))
-			m_statusbartimer->start(10000);
-		m_statusbar->changeItem(' ' + msg + ' ', nb);
-	}
+	statusBar()->changeItem(imodel->statusCountMessage(), 0);
 }
 
 void KeysManager::slotGenerateKeyDone(KJob *job)
 {
-	changeMessage(i18nc("Application ready for user input", "Ready"), 0);
+	changeMessage(i18nc("Application ready for user input", "Ready"));
 
 	KGpgTransactionJob *tjob = qobject_cast<KGpgTransactionJob *>(job);
 
@@ -598,7 +587,7 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		KMessageBox::error(this, i18n("The name is not accepted by gpg. Cannot generate a new key pair."), infomessage);
 		break;
 	case KGpgTransaction::TS_OK: {
-		changeMessage(imodel->statusCountMessage(), 1);
+		updateStatusCounter();
 
 		KDialog *keyCreated = new KDialog(this);
 		keyCreated->setCaption(i18n("New Key Pair Created"));
@@ -1179,36 +1168,36 @@ void KeysManager::checkList()
 
 	switch (exportList.at(0)->getType()) {
 	case ITYPE_PUBLIC:
-		changeMessage(i18n("Public Key"), 0);
+		changeMessage(i18n("Public Key"));
 		break;
 	case ITYPE_SUB:
-		changeMessage(i18n("Sub Key"), 0);
+		changeMessage(i18n("Sub Key"));
 		break;
 	case ITYPE_PAIR:
-		changeMessage(i18n("Secret Key Pair"), 0);
+		changeMessage(i18n("Secret Key Pair"));
 		break;
 	case ITYPE_GROUP:
-		changeMessage(i18n("Key Group"), 0);
+		changeMessage(i18n("Key Group"));
 		break;
 	case ITYPE_SIGN:
-		changeMessage(i18n("Signature"), 0);
+		changeMessage(i18n("Signature"));
 		break;
 	case ITYPE_UID:
-		changeMessage(i18n("User ID"), 0);
+		changeMessage(i18n("User ID"));
 		break;
 	case ITYPE_REVSIGN:
-		changeMessage(i18n("Revocation Signature"), 0);
+		changeMessage(i18n("Revocation Signature"));
 		break;
 	case ITYPE_UAT:
-		changeMessage(i18n("Photo ID"), 0);
+		changeMessage(i18n("Photo ID"));
 		break;
 	case ITYPE_SECRET:
-		changeMessage(i18n("Orphaned Secret Key"), 0);
+		changeMessage(i18n("Orphaned Secret Key"));
 		break;
 	case ITYPE_GPUBLIC:
 	case ITYPE_GSECRET:
 	case ITYPE_GPAIR:
-		changeMessage(i18n("Group member"), 0);
+		changeMessage(i18n("Group member"));
 		break;
 	default:
 		kDebug(2100) << "Oops, unmatched type value" << exportList.at(0)->getType();
@@ -1247,7 +1236,7 @@ void KeysManager::readOptions()
 	const QStringList groups(KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath()));
 	KGpgSettings::setGroups(groups.join(","));
 	if (imodel != NULL)
-		changeMessage(imodel->statusCountMessage(), 1);
+		updateStatusCounter();
 
 	showTipOfDay = KGpgSettings::showTipOfDay();
 
@@ -1785,7 +1774,7 @@ void KeysManager::deleteGroup()
 
 	const QStringList groups(KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath()));
 	KGpgSettings::setGroups(groups.join(","));
-	changeMessage(imodel->statusCountMessage(), 1);
+	updateStatusCounter();
 }
 
 void KeysManager::createNewGroup()
@@ -1826,7 +1815,7 @@ void KeysManager::createNewGroup()
 		const QStringList groups(KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath()));
 
 		iview->selectNode(imodel->addGroup(groupName, keysList));
-		changeMessage(imodel->statusCountMessage(), 1);
+		updateStatusCounter();
         } else {
 		KMessageBox::sorry(this,
 				i18n("<qt>No valid or trusted key was selected. The group <b>%1</b> will not be created.</qt>",
@@ -2351,7 +2340,7 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 	if (groupDeleted) {
 		QStringList groupnames = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
 		KGpgSettings::setGroups(groupnames.join(QString(',')));
-		changeMessage(imodel->statusCountMessage(), 1);
+		updateStatusCounter();
 	}
 }
 
@@ -2475,7 +2464,7 @@ void KeysManager::slotDelKeyDone(int res)
 		imodel->delNode(m_delkeys.at(i));
 	m_delkeys.clear();
 
-	changeMessage(imodel->statusCountMessage(), 1);
+	updateStatusCounter();
 }
 
 void KeysManager::slotPreImportKey()
@@ -2523,7 +2512,7 @@ void KeysManager::slotImport(const KUrl::List &files)
 
 void KeysManager::startImport(KGpgImport *import)
 {
-	changeMessage(i18n("Importing..."), 0, true);
+	changeMessage(i18n("Importing..."), true);
 	connect(import, SIGNAL(done(int)), SLOT(slotImportDone(int)));
 	import->start();
 }
@@ -2542,7 +2531,6 @@ void KeysManager::slotImportDone(KGpgImport *import, int result)
 	if (result != 0) {
 		KMessageBox::errorList(this, i18n("Key importing failed. Please see the detailed log for more information."), rawmsgs, i18n("Key Import"));
 		import->deleteLater();
-		
 	}
 
 	const QStringList keys(import->getImportedIds(0x1f));
@@ -2554,12 +2542,14 @@ void KeysManager::slotImportDone(KGpgImport *import, int result)
 
 	if (!keys.isEmpty())
 		imodel->refreshKeys(keys);
+	else
+		changeMessage(i18nc("Application ready for user input", "Ready"));
 }
 
 void KeysManager::refreshkey()
 {
 	imodel->refreshKeys();
-	changeMessage(imodel->statusCountMessage(), 1);
+	updateStatusCounter();
 }
 
 KGpgItemModel *KeysManager::getModel()

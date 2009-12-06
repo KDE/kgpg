@@ -130,9 +130,6 @@ protected:
     void setDefaultKeyNode(KGpgKeyNode *key);
 
 private slots:
-    void statusBarTimeout();
-    void changeMessage(const QString &msg, const int nb, const bool keep = false);
-
     void slotGenerateKeyDone(KJob *job);
 
     void slotShowTrust();
@@ -231,7 +228,6 @@ private:
     QList<KGpgKeyNode *> refreshList;
 
     QClipboard::Mode m_clipboardmode;
-    QTimer *m_statusbartimer;
 
     KMenu *m_popuppub;          // popup on a public key
     KMenu *m_popupsec;          // popup on a secret key
@@ -241,8 +237,6 @@ private:
     KMenu *m_popupphoto;        // popup on a photo
     KMenu *m_popupuid;          // popup on an user id
     KMenu *m_popuporphan;       // popup on an orphan key
-
-    KStatusBar *m_statusbar;
 
     KLineEdit *m_listviewsearch;
     KDialog *addUidWidget;
@@ -292,6 +286,16 @@ private:
     void setupTrayIcon();
 
     void setActionDescriptions(int cnt);
+    /**
+     * @brief show a message in the status bar
+     * @param msg the text to show
+     * @param keep if the text should stay visible or may be hidden after a while
+     */
+    void changeMessage(const QString &msg, const bool keep = false);
+    /**
+     * @brief update the key and group counter in the status bar
+     */
+    void updateStatusCounter();
     /**
      * @brief sign the next key from signList
      * @param localsign if signature should be a local (not exportable) one
