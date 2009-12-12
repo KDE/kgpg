@@ -2627,6 +2627,7 @@ KeysManager::setupTrayIcon()
 	connect(KgpgDecryptClipboard, SIGNAL(triggered(bool)), SLOT(clipDecrypt()));
 	QAction *KgpgSignClipboard = actionCollection()->addAction("clip_sign");
 	KgpgSignClipboard->setText(i18n("&Sign/Verify Clipboard"));
+	KgpgSignClipboard->setIcon(KIcon("document-sign-key"));
 	connect(KgpgSignClipboard, SIGNAL(triggered(bool)), SLOT(clipSign()));
 
 	QAction *KgpgPreferences = KStandardAction::preferences(this, SLOT(showOptions()), actionCollection());

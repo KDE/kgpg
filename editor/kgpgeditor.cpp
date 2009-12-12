@@ -177,6 +177,7 @@ void KgpgEditor::initActions()
     connect(action, SIGNAL(triggered(bool)), SLOT(slotKeyManager()));
     action = actionCollection()->addAction("sign_generate");
     action->setText(i18n("&Generate Signature..."));
+    action->setIcon(KIcon("document-sign-key"));
     connect(action, SIGNAL(triggered(bool) ), SLOT(slotPreSignFile()));
     action = actionCollection()->addAction("sign_verify");
     action->setText(i18n("&Verify Signature..."));
