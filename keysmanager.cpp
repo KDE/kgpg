@@ -2725,7 +2725,7 @@ KeysManager::clipDecrypt()
 	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 	connect(this, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
 	kgpgtxtedit->view->editor->setPlainText(cliptext);
-	kgpgtxtedit->view->slotDecode();
+	kgpgtxtedit->view->editor->slotDecode();
 	kgpgtxtedit->show();
 }
 
@@ -2743,7 +2743,7 @@ KeysManager::clipSign()
 	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 	connect(kgpgtxtedit->view, SIGNAL(verifyFinished()), kgpgtxtedit, SLOT(closeWindow()));
 
-	kgpgtxtedit->view->slotSignVerify(cliptext);
+	kgpgtxtedit->view->editor->signVerifyText(cliptext);
 	kgpgtxtedit->show();
 }
 

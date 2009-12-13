@@ -46,6 +46,8 @@ public:
      */
     static int checkForKey(const QString &message);
 
+    void signVerifyText(const QString &message);
+
 signals:
     void newText();
     void resetEncoding(bool);
@@ -57,6 +59,8 @@ public slots:
     void slotDecode();
     void slotSign(const QString &message);
     void slotVerify(const QString &message);
+    void slotSignVerify();
+    void slotHighlightText(const QString &, const int &matchingindex, const int &matchedlength);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *e);
@@ -104,12 +108,6 @@ signals:
     void textChanged();
     void resetEncoding(bool);
     void verifyFinished();
-
-public slots:
-    void slotSignVerify(const QString &text = QString());
-    void slotEncode();
-    void slotDecode();
-    void slotHighlightText(const QString &, const int &matchingindex, const int &matchedlength);
 };
 
 #endif // KGPGVIEW_H

@@ -47,12 +47,13 @@
 #define PRIVATEKEY_END       "-----END PGP PRIVATE KEY BLOCK-----"
 
 KgpgTextEdit::KgpgTextEdit(QWidget *parent, KGpgItemModel *model)
-            : KTextEdit(parent)
+            : KTextEdit(parent),
+            m_model(model)
 {
     setCheckSpellingEnabled(true);
     setAcceptDrops(true);
-
-    m_model = model;
+    setReadOnly(false);
+    setUndoRedoEnabled(true);
 }
 
 KgpgTextEdit::~KgpgTextEdit()
@@ -395,23 +396,34 @@ void KgpgTextEdit::slotVerifyKeyNeeded(const QString &id, KGpgTextInterface *int
         emit verifyFinished();
 }
 
+void KgpgTextEdit::slotSignVerify()
+{
+	signVerifyText(toPlainText());
+}
 
+void KgpgTextEdit::signVerifyText(const QString &message)
+{
+	if (message.contains(SIGNEDMESSAGE_BEGIN))
+		slotVerify(message);
+	else
+		slotSign(message);
+}
 
-
-
+void KgpgTextEdit::slotHighlightText(const QString &, const int &matchingindex, const int &matchedlength)
+{
+	highlightWord(matchedlength, matchingindex);
+}
 
 KgpgView::KgpgView(QWidget *parent, KGpgItemModel *model)
-        : QWidget(parent), editor(new KgpgTextEdit(this, model))
+	: QWidget(parent),
+	editor(new KgpgTextEdit(this, model))
 {
-    editor->setReadOnly(false);
-    editor->setUndoRedoEnabled(true);
-
     setAcceptDrops(true);
 
     KDialogButtonBox *buttonbox = new KDialogButtonBox(this, Qt::Horizontal);
-    buttonbox->addButton(i18n("S&ign/Verify"), KDialogButtonBox::ActionRole, this, SLOT(slotSignVerify()));
-    buttonbox->addButton(i18n("En&crypt"), KDialogButtonBox::ActionRole, this, SLOT(slotEncode()));
-    buttonbox->addButton(i18n("&Decrypt"), KDialogButtonBox::ActionRole, this, SLOT(slotDecode()));
+    buttonbox->addButton(i18n("S&ign/Verify"), KDialogButtonBox::ActionRole, editor, SLOT(slotSignVerify()));
+    buttonbox->addButton(i18n("En&crypt"), KDialogButtonBox::ActionRole, editor, SLOT(slotEncode()));
+    buttonbox->addButton(i18n("&Decrypt"), KDialogButtonBox::ActionRole, editor, SLOT(slotDecode()));
 
     connect(editor, SIGNAL(textChanged()), this, SIGNAL(textChanged()));
     connect(editor, SIGNAL(newText()), this, SIGNAL(newText()));
@@ -428,36 +440,6 @@ KgpgView::KgpgView(QWidget *parent, KGpgItemModel *model)
 
 KgpgView::~KgpgView()
 {
-}
-
-void KgpgView::slotSignVerify(const QString &message)
-{
-	QString msg;
-
-	if (message.isEmpty())
-		msg = editor->toPlainText();
-	else
-		msg = message;
-
-	if (msg.contains(SIGNEDMESSAGE_BEGIN))
-		editor->slotVerify(msg);
-	else
-		editor->slotSign(msg);
-}
-
-void KgpgView::slotEncode()
-{
-    editor->slotEncode();
-}
-
-void KgpgView::slotDecode()
-{
-    editor->slotDecode();
-}
-
-void KgpgView::slotHighlightText(const QString &, const int &matchingindex, const int &matchedlength)
-{
-    editor->highlightWord(matchedlength, matchingindex);
 }
 
 #include "kgpgview.moc"
