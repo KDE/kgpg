@@ -25,6 +25,7 @@
 
 class QDragEnterEvent;
 class QDropEvent;
+class QVBoxLayout;
 
 class KGpgTextInterface;
 class KGpgItemModel;
@@ -102,6 +103,7 @@ public:
     ~KgpgView();
 
     KgpgTextEdit *editor;
+    QVBoxLayout *vb;
 
 signals:
     void newText();

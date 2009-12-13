@@ -24,7 +24,6 @@
 #include <QDropEvent>
 #include <QFile>
 
-#include <KDialogButtonBox>
 #include <kio/netaccess.h>
 #include <KMessageBox>
 #include <KLocale>
@@ -420,11 +419,6 @@ KgpgView::KgpgView(QWidget *parent, KGpgItemModel *model)
 {
     setAcceptDrops(true);
 
-    KDialogButtonBox *buttonbox = new KDialogButtonBox(this, Qt::Horizontal);
-    buttonbox->addButton(i18n("S&ign/Verify"), KDialogButtonBox::ActionRole, editor, SLOT(slotSignVerify()));
-    buttonbox->addButton(i18n("En&crypt"), KDialogButtonBox::ActionRole, editor, SLOT(slotEncode()));
-    buttonbox->addButton(i18n("&Decrypt"), KDialogButtonBox::ActionRole, editor, SLOT(slotDecode()));
-
     connect(editor, SIGNAL(textChanged()), this, SIGNAL(textChanged()));
     connect(editor, SIGNAL(newText()), this, SIGNAL(newText()));
     connect(editor, SIGNAL(resetEncoding(bool)), this, SIGNAL(resetEncoding(bool)));
@@ -432,10 +426,9 @@ KgpgView::KgpgView(QWidget *parent, KGpgItemModel *model)
 
     editor->resize(editor->maximumSize());
 
-    QVBoxLayout *vbox = new QVBoxLayout(this);
-    vbox->setSpacing(3);
-    vbox->addWidget(editor);
-    vbox->addWidget(buttonbox);
+    vb = new QVBoxLayout(this);
+    vb->setSpacing(3);
+    vb->addWidget(editor);
 }
 
 KgpgView::~KgpgView()

@@ -41,6 +41,7 @@
 #include <KLocale>
 #include <KDebug>
 #include <KRecentFilesAction>
+#include <KToolBar>
 
 #include "selectsecretkey.h"
 #include "kgpgmd5widget.h"
@@ -85,6 +86,8 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
     connect(view->editor, SIGNAL(undoAvailable(bool)), this, SLOT(slotUndoAvailable(bool)));
     connect(view->editor, SIGNAL(redoAvailable(bool)), this, SLOT(slotRedoAvailable(bool)));
     connect(view->editor, SIGNAL(copyAvailable(bool)), this, SLOT(slotCopyAvailable(bool)));
+
+    view->vb->addWidget(toolBar("gpgToolBar"));
 }
 
 KgpgEditor::~KgpgEditor()
@@ -163,7 +166,7 @@ void KgpgEditor::initActions()
     m_recentfiles->loadEntries( KConfigGroup(KGlobal::config(), "Recent Files" ) );
     m_recentfiles->setMaxItems(KGpgSettings::recentFiles());
 
-    QAction *action = actionCollection()->addAction("file_encrypt");
+    KAction *action = actionCollection()->addAction("file_encrypt");
     action->setIcon(KIcon("document-encrypt"));
     action->setText(i18n("&Encrypt File..."));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotFilePreEnc()));
@@ -191,6 +194,21 @@ void KgpgEditor::initActions()
     connect(m_encodingaction, SIGNAL(triggered(bool) ), SLOT(slotSetCharset()));
 
     actionCollection()->addAction(m_recentfiles->objectName(), m_recentfiles);
+
+    action = actionCollection()->addAction("text_encrypt");
+    action->setIcon(KIcon("document-encrypt"));
+    action->setText(i18n("En&crypt"));
+    connect(action, SIGNAL(triggered(bool)), view->editor, SLOT(slotEncode()));
+
+    action = actionCollection()->addAction("text_decrypt");
+    action->setIcon(KIcon("document-decrypt"));
+    action->setText(i18n("&Decrypt"));
+    connect(action, SIGNAL(triggered(bool)), view->editor, SLOT(slotDecode()));
+
+    action = actionCollection()->addAction("text_sign_verify");
+    action->setIcon(KIcon("document-sign-key"));
+    action->setText(i18n("S&ign/Verify"));
+    connect(action, SIGNAL(triggered(bool)), view->editor, SLOT(slotSignVerify()));
 }
 
 bool KgpgEditor::queryClose()

@@ -26,4 +26,9 @@
         <Action name="kgpg_config" />
     </Menu>
 </MenuBar>
+<ToolBar name="gpgToolBar">
+  <Action name="text_sign_verify"/>
+  <Action name="text_encrypt"/>
+  <Action name="text_decrypt"/>
+ </ToolBar>
 </kpartgui>
