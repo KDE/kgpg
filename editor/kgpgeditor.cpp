@@ -23,6 +23,8 @@
 #include <QtDBus/QtDBus>
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
+#include <QVBoxLayout>
+#include <QWidget>
 
 #include <KToggleAction>
 #include <KStandardAction>
@@ -49,15 +51,30 @@
 #include "kgpglibrary.h"
 #include "keyservers.h"
 #include "sourceselect.h"
-#include "kgpgview.h"
+#include "kgpgtextedit.h"
 #include "kgpg.h"
 #include "kgpg_interface.h"
 #include "kgpgtextinterface.h"
 
+class KgpgView : public QWidget {
+public:
+	KgpgView(QWidget *parent, KgpgTextEdit *editor, KToolBar *toolbar);
+};
+
+KgpgView::KgpgView(QWidget *parent, KgpgTextEdit *editor, KToolBar *toolbar)
+	: QWidget(parent)
+{
+	QVBoxLayout *vb = new QVBoxLayout(this);
+	vb->setSpacing(3);
+	vb->addWidget(editor);
+	vb->addWidget(toolbar);
+
+	setAcceptDrops(true);
+}
 
 KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
           : KXmlGuiWindow(0, f),
-	  view(new KgpgView(this, model)),
+	  m_editor(new KgpgTextEdit(this, model)),
 	  m_recentfiles(NULL),
 	  m_find(0),
 	  m_model(model),
@@ -66,8 +83,9 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
     // call inits to invoke all other construction parts
     initActions();
 
-    connect(view, SIGNAL(resetEncoding(bool)), this, SLOT(slotResetEncoding(bool)));
-    setCentralWidget(view);
+    connect(m_editor, SIGNAL(resetEncoding(bool)), SLOT(slotResetEncoding(bool)));
+    KgpgView *kb = new KgpgView(this, m_editor, toolBar("gpgToolBar"));
+    setCentralWidget(kb);
     setCaption(i18n("Untitled"), false);
     m_editredo->setEnabled(false);
     m_editundo->setEnabled(false);
@@ -81,13 +99,11 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
     setupGUI((ToolBar | Keys | StatusBar | Save | Create), "kgpgeditor.rc");
     setAutoSaveSettings("Editor", true);
 
-    connect(view, SIGNAL(textChanged()), this, SLOT(modified()));
-    connect(view, SIGNAL(newText()), this, SLOT(newText()));
-    connect(view->editor, SIGNAL(undoAvailable(bool)), this, SLOT(slotUndoAvailable(bool)));
-    connect(view->editor, SIGNAL(redoAvailable(bool)), this, SLOT(slotRedoAvailable(bool)));
-    connect(view->editor, SIGNAL(copyAvailable(bool)), this, SLOT(slotCopyAvailable(bool)));
-
-    view->vb->addWidget(toolBar("gpgToolBar"));
+    connect(m_editor, SIGNAL(textChanged()), SLOT(modified()));
+    connect(m_editor, SIGNAL(newText()), SLOT(newText()));
+    connect(m_editor, SIGNAL(undoAvailable(bool)), SLOT(slotUndoAvailable(bool)));
+    connect(m_editor, SIGNAL(redoAvailable(bool)), SLOT(slotRedoAvailable(bool)));
+    connect(m_editor, SIGNAL(copyAvailable(bool)), SLOT(slotCopyAvailable(bool)));
 }
 
 KgpgEditor::~KgpgEditor()
@@ -105,7 +121,7 @@ void KgpgEditor::openDocumentFile(const KUrl& url, const QString &encoding)
         {
             QTextStream t(&qfile);
             t.setCodec(encoding.toAscii());
-            view->editor->setPlainText(t.readAll());
+            m_editor->setPlainText(t.readAll());
             qfile.close();
             m_docname = url;
             m_textchanged = false;
@@ -119,12 +135,12 @@ void KgpgEditor::openDocumentFile(const KUrl& url, const QString &encoding)
 
 void KgpgEditor::openEncryptedDocumentFile(const KUrl& url)
 {
-    view->editor->slotDroppedFile(url);
+    m_editor->slotDroppedFile(url);
 }
 
 void KgpgEditor::slotSetFont(QFont myFont)
 {
-    view->editor->setFont(myFont);
+    m_editor->setFont(myFont);
 }
 
 void KgpgEditor::closeWindow()
@@ -198,24 +214,24 @@ void KgpgEditor::initActions()
     action = actionCollection()->addAction("text_encrypt");
     action->setIcon(KIcon("document-encrypt"));
     action->setText(i18n("En&crypt"));
-    connect(action, SIGNAL(triggered(bool)), view->editor, SLOT(slotEncode()));
+    connect(action, SIGNAL(triggered(bool)), m_editor, SLOT(slotEncode()));
 
     action = actionCollection()->addAction("text_decrypt");
     action->setIcon(KIcon("document-decrypt"));
     action->setText(i18n("&Decrypt"));
-    connect(action, SIGNAL(triggered(bool)), view->editor, SLOT(slotDecode()));
+    connect(action, SIGNAL(triggered(bool)), m_editor, SLOT(slotDecode()));
 
     action = actionCollection()->addAction("text_sign_verify");
     action->setIcon(KIcon("document-sign-key"));
     action->setText(i18n("S&ign/Verify"));
-    connect(action, SIGNAL(triggered(bool)), view->editor, SLOT(slotSignVerify()));
+    connect(action, SIGNAL(triggered(bool)), m_editor, SLOT(slotSignVerify()));
 }
 
 bool KgpgEditor::queryClose()
 {
 	bool b = saveBeforeClear();
 	if (b) {
-		view->editor->clear();
+		m_editor->clear();
 		newText();
 	}
 	return b;
@@ -250,7 +266,7 @@ void KgpgEditor::slotFileNew()
 {
     if (saveBeforeClear())
     {
-        view->editor->clear();
+        m_editor->clear();
         newText();
     }
 }
@@ -294,7 +310,7 @@ bool KgpgEditor::slotFileSave()
 
         QTextStream t(&f);
         t.setCodec(cod);
-        t << view->editor->toPlainText();
+        t << m_editor->toPlainText();
         f.close();
     }
     else
@@ -303,7 +319,7 @@ bool KgpgEditor::slotFileSave()
         tmpfile.open();
         QTextStream stream(&tmpfile);
         stream.setCodec(cod);
-        stream << view->editor->toPlainText();
+        stream << m_editor->toPlainText();
 
         if(!KIO::NetAccess::upload(tmpfile.fileName(), m_docname, this))
         {
@@ -365,7 +381,7 @@ void KgpgEditor::slotFilePrint()
         int width = prt.width();
         int height = prt.height();
         QPainter painter(&prt);
-        painter.drawText(0, 0, width, height, Qt::AlignLeft | Qt::AlignTop | Qt::TextDontClip, view->editor->toPlainText());
+        painter.drawText(0, 0, width, height, Qt::AlignLeft | Qt::AlignTop | Qt::TextDontClip, m_editor->toPlainText());
     }
     delete printDialog;
 }
@@ -388,10 +404,10 @@ void KgpgEditor::slotFind()
 		m_find = new KFind(fd->pattern(), fd->options(), this);
 
 		if (m_find->options() & KFind::FromCursor)
-			m_find->setData(view->editor->toPlainText(), view->editor->textCursor().selectionStart());
+			m_find->setData(m_editor->toPlainText(), m_editor->textCursor().selectionStart());
 		else
-			m_find->setData(view->editor->toPlainText());
-		connect(m_find, SIGNAL(highlight(QString, int, int)), view->editor, SLOT(slotHighlightText(QString, int, int)));
+			m_find->setData(m_editor->toPlainText());
+		connect(m_find, SIGNAL(highlight(QString, int, int)), m_editor, SLOT(slotHighlightText(QString, int, int)));
 		connect(m_find, SIGNAL(findNext()), this, SLOT(slotFindText()));
 	} else {
 		m_find->setPattern(fd->pattern());
@@ -442,7 +458,7 @@ void KgpgEditor::slotFindText()
         {
             if (m_find->shouldRestart(true, false))
             {
-                m_find->setData(view->editor->toPlainText());
+                m_find->setData(m_editor->toPlainText());
                 slotFindText();
             }
             else
@@ -547,49 +563,49 @@ void KgpgEditor::slotFileClose()
 
 void KgpgEditor::slotundo()
 {
-    view->editor->undo();
+    m_editor->undo();
 }
 
 void KgpgEditor::slotredo()
 {
-    view->editor->redo();
+    m_editor->redo();
 }
 
 void KgpgEditor::slotEditCut()
 {
-    view->editor->cut();
+    m_editor->cut();
 }
 
 void KgpgEditor::slotEditCopy()
 {
-    view->editor->copy();
+    m_editor->copy();
 }
 
 void KgpgEditor::slotEditPaste()
 {
-    view->editor->paste();
+    m_editor->paste();
 }
 
 void KgpgEditor::slotSelectAll()
 {
-    view->editor->selectAll();
+    m_editor->selectAll();
 }
 
 void KgpgEditor::slotSetCharset()
 {
     if (!m_encodingaction->isChecked())
-        view->editor->setPlainText(QString::fromUtf8(view->editor->toPlainText().toAscii()));
+        m_editor->setPlainText(QString::fromUtf8(m_editor->toPlainText().toAscii()));
     else
     {
         if (checkEncoding(QTextCodec::codecForLocale()))
             return;
-        view->editor->setPlainText(view->editor->toPlainText().toUtf8());
+        m_editor->setPlainText(m_editor->toPlainText().toUtf8());
     }
 }
 
 bool KgpgEditor::checkEncoding(QTextCodec *codec)
 {
-    return codec->canEncode(view->editor->toPlainText());
+    return codec->canEncode(m_editor->toPlainText());
 }
 
 void KgpgEditor::slotResetEncoding(bool enc)
@@ -702,14 +718,14 @@ void KgpgEditor::modified()
 {
 	QString capt = m_docname.fileName();
 	if (m_emptytext) {
-		m_textchanged = !view->editor->toPlainText().isEmpty();
+		m_textchanged = !m_editor->toPlainText().isEmpty();
 		if (capt.isEmpty())
 			capt = i18n("Untitled");
 	} else if (!m_textchanged) {
 		m_textchanged = true;
 	}
 	setCaption(capt, m_textchanged);
-	view->editor->document()->setModified(m_textchanged);
+	m_editor->document()->setModified(m_textchanged);
 }
 
 void KgpgEditor::slotUndoAvailable(const bool &v)

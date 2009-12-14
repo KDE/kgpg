@@ -26,7 +26,7 @@ class KAction;
 class KFind;
 
 class KgpgInterface;
-class KgpgView;
+class KgpgTextEdit;
 class KGpgItemModel;
 class KgpgLibrary;
 class KeysManager;
@@ -44,7 +44,7 @@ public:
 
     void openEncryptedDocumentFile(const KUrl& url);
 
-    KgpgView *view;
+    KgpgTextEdit * const m_editor;
     KRecentFilesAction *m_recentfiles;
 
 signals:

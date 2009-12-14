@@ -1,10 +1,7 @@
-/***************************************************************************
-                          kgpgview.cpp  -  description
-                             -------------------
-    begin                : Tue Jul  2 12:31:38 GMT 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -15,10 +12,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kgpgview.h"
+#include "kgpgtextedit.h"
 
 #include <QDragEnterEvent>
-#include <QVBoxLayout>
 #include <QTextStream>
 #include <QTextCodec>
 #include <QDropEvent>
@@ -413,26 +409,4 @@ void KgpgTextEdit::slotHighlightText(const QString &, const int &matchingindex, 
 	highlightWord(matchedlength, matchingindex);
 }
 
-KgpgView::KgpgView(QWidget *parent, KGpgItemModel *model)
-	: QWidget(parent),
-	editor(new KgpgTextEdit(this, model))
-{
-    setAcceptDrops(true);
-
-    connect(editor, SIGNAL(textChanged()), this, SIGNAL(textChanged()));
-    connect(editor, SIGNAL(newText()), this, SIGNAL(newText()));
-    connect(editor, SIGNAL(resetEncoding(bool)), this, SIGNAL(resetEncoding(bool)));
-    connect(editor, SIGNAL(verifyFinished()), this, SIGNAL(verifyFinished()));
-
-    editor->resize(editor->maximumSize());
-
-    vb = new QVBoxLayout(this);
-    vb->setSpacing(3);
-    vb->addWidget(editor);
-}
-
-KgpgView::~KgpgView()
-{
-}
-
-#include "kgpgview.moc"
+#include "kgpgtextedit.moc"

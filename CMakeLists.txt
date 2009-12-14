@@ -15,7 +15,7 @@ set(core_SRCS
 set(kgpg_editor_SRCS
    editor/kgpgmd5widget.cpp
    editor/kgpgeditor.cpp
-   editor/kgpgview.cpp
+   editor/kgpgtextedit.cpp
 )
 
 set(kgpg_model_SRCS

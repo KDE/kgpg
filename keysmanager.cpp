@@ -104,7 +104,7 @@
 #include "kstatusnotifieritem.h"
 #include "selectpublickeydialog.h"
 #include "kgpgtextinterface.h"
-#include "kgpgview.h"
+#include "kgpgtextedit.h"
 #include "kgpgkeyservergettransaction.h"
 #include "kgpgtransactionjob.h"
 #include "kgpgsignkey.h"
@@ -2724,8 +2724,8 @@ KeysManager::clipDecrypt()
 	KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, 0);
 	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 	connect(this, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
-	kgpgtxtedit->view->editor->setPlainText(cliptext);
-	kgpgtxtedit->view->editor->slotDecode();
+	kgpgtxtedit->m_editor->setPlainText(cliptext);
+	kgpgtxtedit->m_editor->slotDecode();
 	kgpgtxtedit->show();
 }
 
@@ -2741,9 +2741,9 @@ KeysManager::clipSign()
 
 	KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, 0);
 	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
-	connect(kgpgtxtedit->view, SIGNAL(verifyFinished()), kgpgtxtedit, SLOT(closeWindow()));
+	connect(kgpgtxtedit->m_editor, SIGNAL(verifyFinished()), kgpgtxtedit, SLOT(closeWindow()));
 
-	kgpgtxtedit->view->editor->signVerifyText(cliptext);
+	kgpgtxtedit->m_editor->signVerifyText(cliptext);
 	kgpgtxtedit->show();
 }
 

@@ -32,7 +32,7 @@
 #include "keysmanager.h"
 #include "kgpg_interface.h"
 #include "kgpgexternalactions.h"
-#include "kgpgview.h"
+#include "kgpgtextedit.h"
 
 using namespace KgpgCore;
 

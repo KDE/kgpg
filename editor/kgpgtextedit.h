@@ -1,10 +1,7 @@
-/**************************************************************************
-                          kgpgview.h  -  description
-                             -------------------
-    begin                : Tue Jul  2 12:31:38 GMT 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -25,7 +22,6 @@
 
 class QDragEnterEvent;
 class QDropEvent;
-class QVBoxLayout;
 
 class KGpgTextInterface;
 class KGpgItemModel;
@@ -92,24 +88,6 @@ private:
     int m_posend;
 
     KGpgItemModel *m_model;
-};
-
-class KgpgView : public QWidget
-{
-    Q_OBJECT
-
-public:
-    explicit KgpgView(QWidget *parent, KGpgItemModel *model);
-    ~KgpgView();
-
-    KgpgTextEdit *editor;
-    QVBoxLayout *vb;
-
-signals:
-    void newText();
-    void textChanged();
-    void resetEncoding(bool);
-    void verifyFinished();
 };
 
 #endif // KGPGVIEW_H

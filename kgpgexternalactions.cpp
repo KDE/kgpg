@@ -31,7 +31,7 @@
 #include "kgpglibrary.h"
 #include "kgpgsettings.h"
 #include "kgpgtextinterface.h"
-#include "kgpgview.h"
+#include "kgpgtextedit.h"
 #include "selectpublickeydialog.h"
 #include "selectsecretkey.h"
 
@@ -378,7 +378,7 @@ void KGpgExternalActions::decryptNextFile(KgpgLibrary *lib, const KUrl &failed)
 void KGpgExternalActions::showDroppedFile()
 {
 	KgpgEditor *kgpgtxtedit = new KgpgEditor(m_keysmanager, m_model, 0);
-	kgpgtxtedit->view->editor->slotDroppedFile(droppedUrls.first());
+	kgpgtxtedit->m_editor->slotDroppedFile(droppedUrls.first());
 
 	connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), SLOT(encryptFiles(KUrl::List)));
 	connect(m_keysmanager, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
