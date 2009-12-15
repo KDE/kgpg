@@ -74,7 +74,11 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
         </widget>
        </item>
        <item>
-        <widget class="KLineEdit" name="kLEimportid" />
+        <widget class="KLineEdit" name="kLEimportid">
+         <property name="clearButtonShown" >
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" >
