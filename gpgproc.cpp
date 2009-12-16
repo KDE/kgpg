@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2007 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
