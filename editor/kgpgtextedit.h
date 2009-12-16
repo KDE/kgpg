@@ -12,8 +12,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KGPGVIEW_H
-#define KGPGVIEW_H
+#ifndef KGPGTEXTEDIT_H
+#define KGPGTEXTEDIT_H
 
 #include <QString>
 
