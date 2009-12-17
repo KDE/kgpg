@@ -16,20 +16,61 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef KGPGITEMNODE_H
-#define KGPGITEMNODE_H
+#include "KGpgSignNode.h"
 
-#include <KGpgExpandableNode.h>
-#include <KGpgKeyNode.h>
-#include <KGpgRootNode.h>
-#include <KGpgUidNode.h>
-#include <KGpgSignableNode.h>
-#include <KGpgSubkeyNode.h>
-#include <KGpgUatNode.h>
-#include <KGpgGroupNode.h>
-#include <KGpgRefNode.h>
-#include <KGpgGroupMemberNode.h>
-#include <KGpgSignNode.h>
-#include <KGpgOrphanNode.h>
+#include <KLocale>
 
-#endif /* KGPGITEMNODE_H */
+KGpgSignNode::KGpgSignNode(KGpgExpandableNode *parent, const KgpgCore::KgpgKeySign &s)
+	: KGpgRefNode(parent, s.fullId()),
+	m_sign(new KgpgCore::KgpgKeySign(s))
+{
+}
+
+KGpgSignNode::~KGpgSignNode()
+{
+	delete m_sign;
+}
+
+QDate
+KGpgSignNode::getExpiration() const
+{
+	return m_sign->expirationDate();
+}
+
+QDate
+KGpgSignNode::getCreation() const
+{
+	return m_sign->creationDate();
+}
+
+QString
+KGpgSignNode::getId() const
+{
+	return m_sign->fullId();
+}
+
+QString
+KGpgSignNode::getName() const
+{
+	QString name(KGpgRefNode::getName());
+
+	if (m_keynode == NULL)
+		return name;
+
+	if (!m_sign->local())
+		return name;
+
+	return i18n("%1 [local signature]", name);
+}
+
+KgpgCore::KgpgItemType
+KGpgSignNode::getType() const
+{
+	return KgpgCore::ITYPE_SIGN;
+}
+
+QString
+KGpgSignNode::getComment() const
+{
+	return m_sign->comment();
+}

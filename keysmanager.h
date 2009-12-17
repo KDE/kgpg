@@ -273,7 +273,7 @@ private:
 
     KGpgKeyNode *terminalkey; // the key currently edited in a terminal
     KGpgKeyNode *delkey;	// key currently deleted
-    KGpgKeyNodeList m_delkeys;
+    KGpgKeyNode::List m_delkeys;
 
     void startImport(KGpgImport *import);
 

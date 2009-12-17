@@ -16,20 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef KGPGITEMNODE_H
-#define KGPGITEMNODE_H
+#ifndef KGPGUIDNODE_H
+#define KGPGUIDNODE_H
 
-#include <KGpgExpandableNode.h>
-#include <KGpgKeyNode.h>
-#include <KGpgRootNode.h>
-#include <KGpgUidNode.h>
-#include <KGpgSignableNode.h>
-#include <KGpgSubkeyNode.h>
-#include <KGpgUatNode.h>
-#include <KGpgGroupNode.h>
-#include <KGpgRefNode.h>
-#include <KGpgGroupMemberNode.h>
-#include <KGpgSignNode.h>
-#include <KGpgOrphanNode.h>
+#include "KGpgSignableNode.h"
 
-#endif /* KGPGITEMNODE_H */
+#include "kgpgkey.h"
+
+class KGpgKeyNode;
+
+/**
+ * @brief A user id of a public key or key pair
+ */
+class KGpgUidNode : public KGpgSignableNode
+{
+private:
+	KgpgCore::KgpgKeyUid *m_uid;
+
+protected:
+	virtual void readChildren();
+
+public:
+	explicit KGpgUidNode(KGpgKeyNode *parent, const KgpgCore::KgpgKeyUid &u);
+	virtual ~KGpgUidNode();
+
+	virtual KgpgCore::KgpgItemType getType() const;
+	virtual KgpgCore::KgpgKeyTrust getTrust() const;
+	virtual QString getName() const;
+	virtual QString getEmail() const;
+	virtual QString getId() const;
+	virtual KGpgKeyNode *getParentKeyNode() const;
+	virtual QString getComment() const;
+};
+
+#endif /* KGPGUIDNODE_H */

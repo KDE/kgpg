@@ -16,20 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef KGPGITEMNODE_H
-#define KGPGITEMNODE_H
+#ifndef KGPGGROUPNODE_H
+#define KGPGGROUPNODE_H
 
-#include <KGpgExpandableNode.h>
-#include <KGpgKeyNode.h>
-#include <KGpgRootNode.h>
-#include <KGpgUidNode.h>
-#include <KGpgSignableNode.h>
-#include <KGpgSubkeyNode.h>
-#include <KGpgUatNode.h>
-#include <KGpgGroupNode.h>
-#include <KGpgRefNode.h>
-#include <KGpgGroupMemberNode.h>
-#include <KGpgSignNode.h>
-#include <KGpgOrphanNode.h>
+#include "KGpgExpandableNode.h"
+#include "KGpgKeyNode.h"
 
-#endif /* KGPGITEMNODE_H */
+#include <QString>
+
+/**
+ * @brief A GnuPG group of public keys
+ */
+class KGpgGroupNode : public KGpgExpandableNode
+{
+private:
+	QString m_name;
+
+protected:
+	virtual void readChildren();
+
+public:
+	explicit KGpgGroupNode(KGpgRootNode *parent, const QString &name);
+	explicit KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KGpgKeyNode::List &members);
+	virtual ~KGpgGroupNode();
+
+	virtual KgpgCore::KgpgItemType getType() const;
+	/**
+	 * Return size of group
+	 *
+	 * @return the number of keys in this group
+	 */
+	virtual QString getSize() const;
+	virtual QString getName() const;
+};
+
+#endif /* KGPGGROUPNODE_H */

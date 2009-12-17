@@ -10,7 +10,21 @@ set(core_SRCS
    core/convert.cpp
    core/images.cpp
    core/emailvalidator.cpp
-   core/kgpgkey.cpp )
+   core/kgpgkey.cpp
+   core/KGpgExpandableNode.cpp
+   core/KGpgKeyNode.cpp
+   core/KGpgGroupMemberNode.cpp
+   core/KGpgGroupNode.cpp
+   core/KGpgNode.cpp
+   core/KGpgOrphanNode.cpp
+   core/KGpgRefNode.cpp
+   core/KGpgRootNode.cpp
+   core/KGpgSignableNode.cpp
+   core/KGpgSignNode.cpp
+   core/KGpgSubkeyNode.cpp
+   core/KGpgUatNode.cpp
+   core/KGpgUidNode.cpp
+)
 
 set(kgpg_editor_SRCS
    editor/kgpgmd5widget.cpp
@@ -20,7 +34,6 @@ set(kgpg_editor_SRCS
 
 set(kgpg_model_SRCS
    model/kgpgitemmodel.cpp
-   model/kgpgitemnode.cpp
    model/groupeditproxymodel.cpp
    model/keylistproxymodel.cpp
    model/kgpgsearchresultmodel.cpp

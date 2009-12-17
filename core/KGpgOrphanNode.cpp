@@ -16,20 +16,69 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef KGPGITEMNODE_H
-#define KGPGITEMNODE_H
+#include "KGpgOrphanNode.h"
 
-#include <KGpgExpandableNode.h>
-#include <KGpgKeyNode.h>
-#include <KGpgRootNode.h>
-#include <KGpgUidNode.h>
-#include <KGpgSignableNode.h>
-#include <KGpgSubkeyNode.h>
-#include <KGpgUatNode.h>
-#include <KGpgGroupNode.h>
-#include <KGpgRefNode.h>
-#include <KGpgGroupMemberNode.h>
-#include <KGpgSignNode.h>
-#include <KGpgOrphanNode.h>
+KGpgOrphanNode::KGpgOrphanNode(KGpgExpandableNode *parent, const KgpgKey &k)
+	: KGpgNode(parent),
+	m_key(new KgpgKey(k))
+{
+}
 
-#endif /* KGPGITEMNODE_H */
+KGpgOrphanNode::~KGpgOrphanNode()
+{
+	delete m_key;
+}
+
+KgpgItemType
+KGpgOrphanNode::getType() const
+{
+	return ITYPE_SECRET;
+}
+
+QString
+KGpgOrphanNode::getName() const
+{
+	return m_key->name();
+}
+
+QString
+KGpgOrphanNode::getEmail() const
+{
+	return m_key->email();
+}
+
+QString
+KGpgOrphanNode::getSize() const
+{
+	return QString::number(m_key->size());
+}
+
+QDate
+KGpgOrphanNode::getExpiration() const
+{
+	return m_key->expirationDate();
+}
+
+QDate
+KGpgOrphanNode::getCreation() const
+{
+	return m_key->creationDate();
+}
+
+QString
+KGpgOrphanNode::getId() const
+{
+	return m_key->fullId();
+}
+
+KgpgCore::KgpgKeyTrust
+KGpgOrphanNode::getTrust() const
+{
+	return m_key->trust();
+}
+
+QString
+KGpgOrphanNode::getKeyId() const
+{
+	return m_key->fullId();
+}

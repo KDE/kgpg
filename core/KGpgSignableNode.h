@@ -16,20 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef KGPGITEMNODE_H
-#define KGPGITEMNODE_H
+#ifndef KGPGSIGNABLENODE_H
+#define KGPGSIGNABLENODE_H
 
 #include <KGpgExpandableNode.h>
-#include <KGpgKeyNode.h>
-#include <KGpgRootNode.h>
-#include <KGpgUidNode.h>
-#include <KGpgSignableNode.h>
-#include <KGpgSubkeyNode.h>
-#include <KGpgUatNode.h>
-#include <KGpgGroupNode.h>
-#include <KGpgRefNode.h>
-#include <KGpgGroupMemberNode.h>
 #include <KGpgSignNode.h>
-#include <KGpgOrphanNode.h>
 
-#endif /* KGPGITEMNODE_H */
+/**
+ * @brief An object that may have KGpgSignNode children
+ *
+ * This class represents an object that may be signed, i.e. key nodes,
+ * user ids, user attributes, and subkeys.
+ */
+class KGpgSignableNode : public KGpgExpandableNode
+{
+	Q_OBJECT
+
+public:
+	KGpgSignableNode(KGpgExpandableNode *parent = NULL);
+	virtual ~KGpgSignableNode();
+
+	KGpgSignNode::List getSignatures(void) const;
+	/**
+	 * @brief count signatures
+	 * @return the number of signatures to this object
+	 *
+	 * This does not include the number of signatures to child objects.
+	 */
+	virtual QString getSignCount() const;
+
+	bool operator<(const KGpgSignableNode &other) const;
+	bool operator<(const KGpgSignableNode *other) const;
+};
+
+#endif /* KGPGSIGNABLENODE_H */

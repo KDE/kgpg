@@ -1781,9 +1781,9 @@ void KeysManager::createNewGroup()
 {
 	QStringList badkeys;
 	QStringList keysGroup;
-	KGpgKeyNodeList keysList;
+	KGpgKeyNode::List keysList;
 	KgpgItemType tp;
-	QList<KGpgNode *> ndlist = iview->selectedNodes(NULL, &tp);
+	KGpgNode::List ndlist(iview->selectedNodes(NULL, &tp));
 
 	if (ndlist.isEmpty())
 		return;

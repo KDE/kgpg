@@ -16,20 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef KGPGITEMNODE_H
-#define KGPGITEMNODE_H
+#ifndef KGPGSIGNNODE_H
+#define KGPGSIGNNODE_H
 
-#include <KGpgExpandableNode.h>
-#include <KGpgKeyNode.h>
-#include <KGpgRootNode.h>
-#include <KGpgUidNode.h>
-#include <KGpgSignableNode.h>
-#include <KGpgSubkeyNode.h>
-#include <KGpgUatNode.h>
-#include <KGpgGroupNode.h>
 #include <KGpgRefNode.h>
-#include <KGpgGroupMemberNode.h>
-#include <KGpgSignNode.h>
-#include <KGpgOrphanNode.h>
 
-#endif /* KGPGITEMNODE_H */
+#include "kgpgkey.h"
+
+class KGpgExpandableNode;
+
+/**
+ * @brief A signature to another key object
+ */
+class KGpgSignNode : public KGpgRefNode
+{
+private:
+	KgpgCore::KgpgKeySign *m_sign;
+
+public:
+	typedef QList<KGpgSignNode *> List;
+
+	explicit KGpgSignNode(KGpgExpandableNode *parent, const KgpgCore::KgpgKeySign &s);
+	virtual ~KGpgSignNode();
+
+	virtual KgpgCore::KgpgItemType getType() const;
+	virtual QDate getExpiration() const;
+	virtual QString getName() const;
+	virtual QDate getCreation() const;
+	virtual QString getId() const;
+	virtual QString getComment() const;
+};
+
+#endif /* KGPGSIGNNODE_H */

@@ -202,7 +202,7 @@ KGpgItemModel::statusCountMessage() const
 }
 
 KGpgGroupNode *
-KGpgItemModel::addGroup(const QString &name, const KGpgKeyNodeList &keys)
+KGpgItemModel::addGroup(const QString &name, const KGpgKeyNode::List &keys)
 {
 	KGpgGroupNode *nd;
 
@@ -321,7 +321,7 @@ KGpgItemModel::nodeIndex(KGpgNode *node)
 void
 KGpgItemModel::refreshKey(KGpgKeyNode *nd)
 {
-	KGpgKeyNodeList nodes;
+	KGpgKeyNode::List nodes;
 
 	nodes.append(nd);
 
@@ -335,7 +335,7 @@ KGpgItemModel::refreshKey(const QString &id)
 }
 
 void
-KGpgItemModel::refreshKeys(KGpgKeyNodeList keys)
+KGpgItemModel::refreshKeys(KGpgKeyNode::List keys)
 {
 	refreshKeyIds(keys);
 }
@@ -373,7 +373,7 @@ KGpgItemModel::refreshKeyIds(const QStringList &ids)
 }
 
 void
-KGpgItemModel::refreshKeyIds(KGpgKeyNodeList &nodes)
+KGpgItemModel::refreshKeyIds(KGpgKeyNode::List &nodes)
 {
 	QStringList ids;
 

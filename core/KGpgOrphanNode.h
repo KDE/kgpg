@@ -16,20 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef KGPGITEMNODE_H
-#define KGPGITEMNODE_H
+#ifndef KGPGORPHANNODE_H
+#define KGPGORPHANNODE_H
 
-#include <KGpgExpandableNode.h>
-#include <KGpgKeyNode.h>
-#include <KGpgRootNode.h>
-#include <KGpgUidNode.h>
-#include <KGpgSignableNode.h>
-#include <KGpgSubkeyNode.h>
-#include <KGpgUatNode.h>
-#include <KGpgGroupNode.h>
-#include <KGpgRefNode.h>
-#include <KGpgGroupMemberNode.h>
-#include <KGpgSignNode.h>
-#include <KGpgOrphanNode.h>
+#include <KGpgNode.h>
 
-#endif /* KGPGITEMNODE_H */
+#include "kgpgkey.h"
+
+using namespace KgpgCore;
+
+class KGpgExpandableNode;
+
+/**
+ * @brief A lone secret key without public key
+ */
+class KGpgOrphanNode : public KGpgNode
+{
+private:
+	KgpgCore::KgpgKey *m_key;
+
+public:
+	explicit KGpgOrphanNode(KGpgExpandableNode *parent, const KgpgKey &k);
+	virtual ~KGpgOrphanNode();
+
+	virtual KgpgCore::KgpgItemType getType() const;
+	virtual KgpgCore::KgpgKeyTrust getTrust() const;
+	QString getKeyId() const;
+	virtual QString getSize() const;
+	virtual QString getName() const;
+	virtual QString getEmail() const;
+	virtual QDate getExpiration() const;
+	virtual QDate getCreation() const;
+	virtual QString getId() const;
+};
+
+#endif /* KGPGORPHANNODE_H */

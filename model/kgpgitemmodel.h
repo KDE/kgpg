@@ -65,16 +65,16 @@ public:
 	QString statusCountMessage() const;
 
 public Q_SLOTS:
-	KGpgGroupNode *addGroup(const QString &name, const KGpgKeyNodeList &keys);
+	KGpgGroupNode *addGroup(const QString &name, const KGpgKeyNode::List &keys);
 	void delNode(KGpgNode *node);
-	void changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys);
+	void changeGroup(KGpgGroupNode *node, const KGpgNode::List &keys);
 	void deleteFromGroup(KGpgGroupNode *group, KGpgGroupMemberNode *member);
 	void setDefaultKey(KGpgKeyNode *def);
 	QModelIndex nodeIndex(KGpgNode *node);
 	void refreshKey(const QString &id);
 	void refreshKey(KGpgKeyNode *nd);
 	void refreshKeys(const QStringList &ids = QStringList());
-	void refreshKeys(KGpgKeyNodeList keys);
+	void refreshKeys(KGpgKeyNode::List keys);
 	void refreshGroups();
 	void invalidateIndexes(KGpgNode *nd);
 	void refreshTrust(const KgpgCore::KgpgKeyTrust &trust, const QColor &color);
@@ -82,7 +82,7 @@ public Q_SLOTS:
 protected:
 	int rowForNode(KGpgNode *node) const;
 	void refreshKeyIds(const QStringList &id);
-	void refreshKeyIds(KGpgKeyNodeList &nodes);
+	void refreshKeyIds(KGpgKeyNode::List &nodes);
 	bool isDefaultKey(const KGpgNode *node) const;
 	void fixPersistentIndexes();
 	void updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::KgpgKeyTrust &trust, const QColor &color);

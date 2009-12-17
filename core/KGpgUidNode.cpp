@@ -16,20 +16,64 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef KGPGITEMNODE_H
-#define KGPGITEMNODE_H
+#include "KGpgUidNode.h"
 
-#include <KGpgExpandableNode.h>
-#include <KGpgKeyNode.h>
-#include <KGpgRootNode.h>
-#include <KGpgUidNode.h>
-#include <KGpgSignableNode.h>
-#include <KGpgSubkeyNode.h>
-#include <KGpgUatNode.h>
-#include <KGpgGroupNode.h>
-#include <KGpgRefNode.h>
-#include <KGpgGroupMemberNode.h>
-#include <KGpgSignNode.h>
-#include <KGpgOrphanNode.h>
+#include "KGpgKeyNode.h"
 
-#endif /* KGPGITEMNODE_H */
+KGpgUidNode::KGpgUidNode(KGpgKeyNode *parent, const KgpgCore::KgpgKeyUid &u)
+	: KGpgSignableNode(parent),
+	m_uid(new KgpgCore::KgpgKeyUid(u))
+{
+}
+
+KGpgUidNode::~KGpgUidNode()
+{
+	delete m_uid;
+}
+
+QString
+KGpgUidNode::getName() const
+{
+	return m_uid->name();
+}
+
+QString
+KGpgUidNode::getEmail() const
+{
+	return m_uid->email();
+}
+
+QString
+KGpgUidNode::getId() const
+{
+	return QString::number(m_uid->index());
+}
+
+KGpgKeyNode *
+KGpgUidNode::getParentKeyNode() const
+{
+	return m_parent->toKeyNode();
+}
+
+void
+KGpgUidNode::readChildren()
+{
+}
+
+KgpgCore::KgpgItemType
+KGpgUidNode::getType() const
+{
+	return KgpgCore::ITYPE_UID;
+}
+
+KgpgCore::KgpgKeyTrust
+KGpgUidNode::getTrust() const
+{
+	return m_uid->trust();
+}
+
+QString
+KGpgUidNode::getComment() const
+{
+	return m_uid->comment();
+}
