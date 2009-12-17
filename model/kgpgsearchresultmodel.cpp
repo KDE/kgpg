@@ -339,3 +339,5 @@ KGpgSearchResultModel::idForIndex(const QModelIndex &index) const
 
 	return tmp->m_fingerprint;
 }
+
+#include "kgpgsearchresultmodel.moc"

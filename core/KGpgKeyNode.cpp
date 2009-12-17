@@ -349,3 +349,5 @@ KGpgKeyNode::getUid(const unsigned int index) const
 
 	return NULL;
 }
+
+#include "KGpgKeyNode.moc"
