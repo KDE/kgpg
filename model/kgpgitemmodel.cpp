@@ -189,15 +189,18 @@ KGpgItemModel::getRootNode() const
 QString
 KGpgItemModel::statusCountMessage() const
 {
-	int groupNb = m_root->groupChildren();
-	QString kmsg = i18np("1 Key", "%1 Keys", m_root->getChildCount() - groupNb);
+	const int groups = m_root->groupChildren();
+	const int keys = m_root->getChildCount() - groups;
 
-	if (groupNb == 0) {
-		return kmsg;
-	} else {
-		QString gmsg = i18np("1 Group", "%1 Groups", groupNb);
-
-		return kmsg + ", " + gmsg;
+	// Most people will not have groups. Handle this case
+	// special so the string isn't displayed in this case at all
+	switch (groups) {
+	case 0:
+		return i18np("1 Key", "%1 Keys", keys);
+	case 1:
+		return i18np("1 Key, 1 Group", "%1 Keys, 1 Group", keys);
+	default:
+		return i18np("1 Key, %2 Groups", "%1 Keys, %2 Groups", keys, groups);
 	}
 }
 
