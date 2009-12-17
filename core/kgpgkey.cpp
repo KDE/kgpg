@@ -37,15 +37,13 @@ bool KgpgKeySignPrivate::operator==(const KgpgKeySignPrivate &other) const
 }
 
 KgpgKeySign::KgpgKeySign()
-           : QObject()
+    : d(new  KgpgKeySignPrivate)
 {
-    d = new KgpgKeySignPrivate;
     d->gpgsignrevocation = false;
     d->gpgsignlocal = false;
 }
 
 KgpgKeySign::KgpgKeySign(const KgpgKeySign &other)
-           : QObject()
 {
     d = other.d;
 }
@@ -177,13 +175,11 @@ bool KgpgKeyUatPrivate::operator==(const KgpgKeyUatPrivate &other) const
 }
 
 KgpgKeyUat::KgpgKeyUat()
-          : QObject()
+    : d(new  KgpgKeyUatPrivate)
 {
-    d = new KgpgKeyUatPrivate;
 }
 
 KgpgKeyUat::KgpgKeyUat(const KgpgKeyUat &other)
-          : QObject()
 {
     d = other.d;
 }
@@ -254,15 +250,13 @@ bool KgpgKeyUidPrivate::operator==(const KgpgKeyUidPrivate &other) const
 }
 
 KgpgKeyUid::KgpgKeyUid()
-          : QObject()
+    : d(new  KgpgKeyUidPrivate)
 {
-    d = new KgpgKeyUidPrivate;
     d->gpguidvalid = false;
     d->gpguidindex = 0;
 }
 
 KgpgKeyUid::KgpgKeyUid(const KgpgKeyUid &other)
-          : QObject()
 {
     d = other.d;
 }
@@ -370,15 +364,13 @@ bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
 }
 
 KgpgKeySub::KgpgKeySub()
-          : QObject()
+    : d(new  KgpgKeySubPrivate)
 {
-    d = new KgpgKeySubPrivate;
     d->gpgsubsize = 0;
     d->gpgsubvalid = false;
 }
 
 KgpgKeySub::KgpgKeySub(const KgpgKeySub &other)
-          : QObject()
 {
     d = other.d;
 }
@@ -542,9 +534,8 @@ bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
 }
 
 KgpgKey::KgpgKey()
-       : QObject()
+    : d(new  KgpgKeyPrivate)
 {
-    d = new KgpgKeyPrivate;
     d->gpgkeyalgo = ALGO_UNKNOWN;
     d->gpgkeyvalid = false;
     d->gpgkeysecret = false;
@@ -552,7 +543,6 @@ KgpgKey::KgpgKey()
 }
 
 KgpgKey::KgpgKey(const KgpgKey &other)
-       : QObject()
 {
     d = other.d;
 }

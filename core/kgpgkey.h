@@ -140,10 +140,8 @@ public:
     { return !operator==(other); }
 };
 
-class KgpgKeySign : public QObject
+class KgpgKeySign
 {
-    Q_OBJECT
-
 public:
     KgpgKeySign();
     KgpgKeySign(const KgpgKeySign &other);
@@ -225,10 +223,8 @@ public:
     { return !operator==(other); }
 };
 
-class KgpgKeyUat : public QObject
+class KgpgKeyUat
 {
-    Q_OBJECT
-
 public:
     KgpgKeyUat();
     KgpgKeyUat(const KgpgKeyUat &other);
@@ -301,10 +297,8 @@ public:
     { return !operator==(other); }
 };
 
-class KgpgKeyUid : public QObject
+class KgpgKeyUid
 {
-    Q_OBJECT
-
 public:
     KgpgKeyUid();
     KgpgKeyUid(const KgpgKeyUid &other);
@@ -387,10 +381,8 @@ public:
     { return !operator==(other); }
 };
 
-class KgpgKeySub : public QObject
+class KgpgKeySub
 {
-    Q_OBJECT
-
 public:
     KgpgKeySub();
     KgpgKeySub(const KgpgKeySub &other);
@@ -491,10 +483,8 @@ public:
     { return !operator==(other); }
 };
 
-class KgpgKey : public QObject
+class KgpgKey
 {
-    Q_OBJECT
-
 public:
     static QString expiration(const QDate &date);
 
