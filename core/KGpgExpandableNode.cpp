@@ -38,7 +38,7 @@ KGpgExpandableNode::~KGpgExpandableNode()
 }
 
 KGpgNode *
-KGpgExpandableNode::getChild(const int &index) const
+KGpgExpandableNode::getChild(const int index) const
 {
 	if ((index < 0) || (index > children.count()))
 		return NULL;

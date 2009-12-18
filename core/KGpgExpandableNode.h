@@ -79,7 +79,7 @@ public:
 	virtual bool wasExpanded() const;
 	virtual int getChildCount();
 	virtual const KGpgNode::List &getChildren() const;
-	virtual KGpgNode *getChild(const int &index) const;
+	virtual KGpgNode *getChild(const int index) const;
 	virtual int getChildIndex(KGpgNode *node) const;
 	virtual void deleteChild(KGpgNode *child);
 };

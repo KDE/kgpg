@@ -49,17 +49,46 @@ class KGpgNode : public QObject
 protected:
 	KGpgExpandableNode *m_parent;
 	KGpgItemModel *m_model;
-	explicit KGpgNode(KGpgExpandableNode *parent = NULL);
+
+	/**
+	 * constructor
+	 * @param parent the parent node in item hierarchy
+	 */
+	explicit KGpgNode(KGpgExpandableNode *parent);
 
 public:
 	typedef QList<KGpgNode *> List;
 
+	/**
+	 * destructor
+	 */
 	virtual ~KGpgNode();
 
+	/**
+	 * Returns if this node has child nodes
+	 *
+	 * This may be reimplemented by child classes so they can indicate that
+	 * there are child nodes before actually loading them.
+	 */
 	virtual bool hasChildren() const;
-	// this can't be "const" as it triggers loading the children
+	/**
+	 * Return how many child nodes exist
+	 *
+	 * When the child nodes do not already exist this will create them.
+	 * This is the reason why this method is not const.
+	 */
 	virtual int getChildCount();
-	virtual KGpgNode *getChild(const int &index) const;
+	/**
+	 * Returns the child node at the given index
+	 * @param index child index
+	 *
+	 * index may be in range 0 to getChildCount() - 1.
+	 */
+	virtual KGpgNode *getChild(const int index) const;
+	/**
+	 * Returns the index for a given child node
+	 * @return -1 if the given node is not a child of this object
+	 */
 	virtual int getChildIndex(KGpgNode *node) const;
 
 	/**
@@ -72,6 +101,14 @@ public:
 	 */
 	virtual KgpgCore::KgpgItemType getType() const = 0;
 	virtual KgpgCore::KgpgKeyTrust getTrust() const;
+	/**
+	 * Returns a string describing the size of this object
+	 *
+	 * Subclasses may return a value that makes sense for whatever
+	 * object they represent.
+	 *
+	 * The default implementation returns an empty string.
+	 */
 	virtual QString getSize() const;
 	virtual QString getName() const;
 	virtual QString getEmail() const;

@@ -258,7 +258,7 @@ KGpgNode::getChildCount()
 }
 
 KGpgNode *
-KGpgNode::getChild(const int &index) const
+KGpgNode::getChild(const int index) const
 {
 	Q_UNUSED(index);
 	return NULL;
