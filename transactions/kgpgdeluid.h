@@ -48,6 +48,9 @@ public:
 	 * @param parent parent object
 	 * @param keynode key to edit
 	 * @param uid uid to delete, negative to delete all others
+	 *
+	 * If uid is negative all other uids are deleted, but uats (photo ids)
+	 * are kept.
 	 */
 	KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int uid);
 	/**
