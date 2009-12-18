@@ -103,7 +103,7 @@ KGpgNode::toKeyNode() const
 KGpgRootNode *
 KGpgNode::toRootNode()
 {
-	Q_ASSERT(m_parent == NULL);
+	Q_ASSERT((m_parent == NULL) && (getType() == 0));
 
 	return static_cast<KGpgRootNode *>(this)->asRootNode();
 }
@@ -111,7 +111,7 @@ KGpgNode::toRootNode()
 const KGpgRootNode *
 KGpgNode::toRootNode() const
 {
-	Q_ASSERT(m_parent == NULL);
+	Q_ASSERT((m_parent == NULL) && (getType() == 0));
 
 	return static_cast<const KGpgRootNode *>(this)->asRootNode();
 }
@@ -119,7 +119,7 @@ KGpgNode::toRootNode() const
 KGpgUidNode *
 KGpgNode::toUidNode()
 {
-	Q_ASSERT(getType() & ITYPE_UID);
+	Q_ASSERT(getType() == ITYPE_UID);
 
 	return static_cast<KGpgUidNode *>(this);
 }
@@ -127,7 +127,7 @@ KGpgNode::toUidNode()
 const KGpgUidNode *
 KGpgNode::toUidNode() const
 {
-	Q_ASSERT(getType() & ITYPE_UID);
+	Q_ASSERT(getType() == ITYPE_UID);
 
 	return static_cast<const KGpgUidNode *>(this);
 }
@@ -135,7 +135,7 @@ KGpgNode::toUidNode() const
 KGpgSubkeyNode *
 KGpgNode::toSubkeyNode()
 {
-	Q_ASSERT(getType() & ITYPE_SUB);
+	Q_ASSERT(getType() == ITYPE_SUB);
 
 	return static_cast<KGpgSubkeyNode *>(this);
 }
@@ -143,7 +143,7 @@ KGpgNode::toSubkeyNode()
 const KGpgSubkeyNode *
 KGpgNode::toSubkeyNode() const
 {
-	Q_ASSERT(getType() & ITYPE_SUB);
+	Q_ASSERT(getType() == ITYPE_SUB);
 
 	return static_cast<const KGpgSubkeyNode *>(this);
 }
@@ -151,7 +151,7 @@ KGpgNode::toSubkeyNode() const
 KGpgUatNode *
 KGpgNode::toUatNode()
 {
-	Q_ASSERT(getType() & ITYPE_UAT);
+	Q_ASSERT(getType() == ITYPE_UAT);
 
 	return static_cast<KGpgUatNode *>(this);
 }
@@ -159,7 +159,7 @@ KGpgNode::toUatNode()
 const KGpgUatNode *
 KGpgNode::toUatNode() const
 {
-	Q_ASSERT(getType() & ITYPE_UAT);
+	Q_ASSERT(getType() == ITYPE_UAT);
 
 	return static_cast<const KGpgUatNode *>(this);
 }
@@ -167,7 +167,7 @@ KGpgNode::toUatNode() const
 KGpgGroupNode *
 KGpgNode::toGroupNode()
 {
-	Q_ASSERT((getType() & ITYPE_GROUP) && !(getType() & ITYPE_PAIR));
+	Q_ASSERT(getType() == ITYPE_GROUP);
 
 	return static_cast<KGpgGroupNode *>(this);
 }
@@ -175,7 +175,7 @@ KGpgNode::toGroupNode()
 const KGpgGroupNode *
 KGpgNode::toGroupNode() const
 {
-	Q_ASSERT((getType() & ITYPE_GROUP) && !(getType() & ITYPE_PAIR));
+	Q_ASSERT(getType() == ITYPE_GROUP);
 
 	return static_cast<const KGpgGroupNode *>(this);
 }
@@ -215,7 +215,7 @@ KGpgNode::toGroupMemberNode() const
 KGpgSignNode *
 KGpgNode::toSignNode()
 {
-	Q_ASSERT(getType() & ITYPE_SIGN);
+	Q_ASSERT(getType() == ITYPE_SIGN);
 
 	return static_cast<KGpgSignNode *>(this);
 }
@@ -223,7 +223,7 @@ KGpgNode::toSignNode()
 const KGpgSignNode *
 KGpgNode::toSignNode() const
 {
-	Q_ASSERT(getType() & ITYPE_SIGN);
+	Q_ASSERT(getType() == ITYPE_SIGN);
 
 	return static_cast<const KGpgSignNode *>(this);
 }
@@ -231,7 +231,7 @@ KGpgNode::toSignNode() const
 KGpgOrphanNode *
 KGpgNode::toOrphanNode()
 {
-	Q_ASSERT((getType() & ITYPE_SECRET) && !(getType() & ITYPE_GPUBLIC));
+	Q_ASSERT(getType() == ITYPE_SECRET);
 
 	return static_cast<KGpgOrphanNode *>(this);
 }
@@ -239,7 +239,7 @@ KGpgNode::toOrphanNode()
 const KGpgOrphanNode *
 KGpgNode::toOrphanNode() const
 {
-	Q_ASSERT((getType() & ITYPE_SECRET) && !(getType() & ITYPE_GPUBLIC));
+	Q_ASSERT(getType() == ITYPE_SECRET);
 
 	return static_cast<const KGpgOrphanNode *>(this);
 }
@@ -250,7 +250,6 @@ KGpgNode::hasChildren() const
 	return false;
 }
 
-// this can't be "const" as it triggers loading the children
 int
 KGpgNode::getChildCount()
 {
