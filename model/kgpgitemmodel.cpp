@@ -194,14 +194,15 @@ KGpgItemModel::statusCountMessage() const
 
 	// Most people will not have groups. Handle this case
 	// special so the string isn't displayed in this case at all
-	switch (groups) {
-	case 0:
+	if (groups == 0) {
 		return i18np("1 Key", "%1 Keys", keys);
-	case 1:
-		return i18np("1 Key, 1 Group", "%1 Keys, 1 Group", keys);
-	default:
-		return i18np("1 Key, %2 Groups", "%1 Keys, %2 Groups", keys, groups);
 	}
+	
+	const QString keyString = i18np("1 Key", "%1 Keys", keys);
+	const QString groupString = i18np("1 Group", "%1 Groups", groups);
+	
+	return i18nc("%1 = something like 7 keys, %2 = something like 2 groups", "%1, %2", keyString, groupString);
+	
 }
 
 KGpgGroupNode *
