@@ -16,17 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "kgpgitemnode.h"
+#include "KGpgKeyNode.h"
 
 #include <KLocale>
-#include "kgpginterface.h"
-#include "kgpgsettings.h"
-#include "convert.h"
-#include "kgpgitemmodel.h"
 
-KGpgKeyNode::KGpgKeyNode(KGpgExpandableNode *parent, const KgpgKey &k)
+#include "convert.h"
+#include "KGpgGroupMemberNode.h"
+#include "kgpginterface.h"
+#include "kgpgitemmodel.h"
+#include "kgpgsettings.h"
+#include "KGpgSubkeyNode.h"
+#include "KGpgUatNode.h"
+#include "KGpgUidNode.h"
+
+KGpgKeyNode::KGpgKeyNode(KGpgExpandableNode *parent, const KgpgCore::KgpgKey &k)
 	: KGpgSignableNode(parent),
-	m_key(new KgpgKey(k)),
+	m_key(new KgpgCore::KgpgKey(k)),
 	m_signs(0)
 {
 }
@@ -36,7 +41,7 @@ KGpgKeyNode::~KGpgKeyNode()
 	emit updated(NULL);
 }
 
-KgpgItemType
+KgpgCore::KgpgItemType
 KGpgKeyNode::getType() const
 {
 	return getType(m_key);
@@ -48,13 +53,13 @@ KGpgKeyNode::hasChildren() const
 	return true;
 }
 
-KgpgItemType
-KGpgKeyNode::getType(const KgpgKey *k)
+KgpgCore::KgpgItemType
+KGpgKeyNode::getType(const KgpgCore::KgpgKey *k)
 {
 	if (k->secret())
-		return ITYPE_PAIR;
+		return KgpgCore::ITYPE_PAIR;
 
-	return ITYPE_PUBLIC;
+	return KgpgCore::ITYPE_PUBLIC;
 }
 
 KgpgCore::KgpgKeyTrust
@@ -123,17 +128,17 @@ void
 KGpgKeyNode::readChildren()
 {
 	KgpgInterface *interface = new KgpgInterface();
-	KgpgKeyList keys = interface->readPublicKeys(true, m_key->fingerprint(), true);
+	KgpgCore::KgpgKeyList keys = interface->readPublicKeys(true, m_key->fingerprint(), true);
 	delete interface;
 
 	if (keys.count() == 0)
 		return;
-	KgpgKey key = keys.at(0);
+	KgpgCore::KgpgKey key = keys.at(0);
 
 	/********* insertion of sub keys ********/
 	for (int i = 0; i < key.subList()->size(); ++i)
 	{
-		KgpgKeySub sub = key.subList()->at(i);
+		KgpgCore::KgpgKeySub sub = key.subList()->at(i);
 
 		KGpgSubkeyNode *n = new KGpgSubkeyNode(this, sub);
 		insertSigns(n, sub.signList());
@@ -142,7 +147,7 @@ KGpgKeyNode::readChildren()
 	/********* insertion of users id ********/
 	for (int i = 0; i < key.uidList()->size(); ++i)
 	{
-		KgpgKeyUid uid = key.uidList()->at(i);
+		KgpgCore::KgpgKeyUid uid = key.uidList()->at(i);
 
 		KGpgUidNode *n = new KGpgUidNode(this, uid);
 		insertSigns(n, uid.signList());
@@ -152,7 +157,7 @@ KGpgKeyNode::readChildren()
 	QStringList photolist = key.photoList();
 	for (int i = 0; i < photolist.size(); ++i)
 	{
-		KgpgKeyUat uat = key.uatList()->at(i);
+		KgpgCore::KgpgKeyUat uat = key.uatList()->at(i);
 
 		KGpgUatNode *n = new KGpgUatNode(this, uat, photolist.at(i));
 		insertSigns(n, uat.signList());
@@ -262,7 +267,7 @@ KGpgKeyNode::getGroupRefs(void) const
 {
 	QList<KGpgGroupMemberNode *> ret;
 
-	QList<KGpgRefNode *> refs = getRefsOfType(ITYPE_GROUP);
+	QList<KGpgRefNode *> refs = getRefsOfType(KgpgCore::ITYPE_GROUP);
 
 	for (int i = 0; i < refs.count(); i++)
 		ret.append(refs.at(i)->toGroupMemberNode());
@@ -275,7 +280,7 @@ KGpgKeyNode::getSignRefs(void) const
 {
 	KGpgSignNode::List ret;
 
-	QList<KGpgRefNode *> refs = getRefsOfType(ITYPE_SIGN);
+	QList<KGpgRefNode *> refs = getRefsOfType(KgpgCore::ITYPE_SIGN);
 
 	for (int i = 0; i < refs.count(); i++)
 		ret.append(refs.at(i)->toSignNode());
@@ -296,8 +301,8 @@ KGpgKeyNode::getSignatures(const bool subkeys) const
 		KGpgSignNode::List tmp;
 
 		switch (child->getType()) {
-		case ITYPE_UID:
-		case ITYPE_UAT:
+		case KgpgCore::ITYPE_UID:
+		case KgpgCore::ITYPE_UAT:
 			tmp = child->toSignableNode()->getSignatures();
 			break;
 		default:
@@ -337,8 +342,8 @@ KGpgKeyNode::getUid(const unsigned int index) const
 		KGpgSignNode::List tmp;
 
 		switch (child->getType()) {
-		case ITYPE_UID:
-		case ITYPE_UAT:
+		case KgpgCore::ITYPE_UID:
+		case KgpgCore::ITYPE_UAT:
 			if (child->getId() == idxstr)
 				return child->toSignableNode();
 			break;

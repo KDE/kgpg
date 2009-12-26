@@ -20,6 +20,12 @@
 #define KGPGITEMMODEL_H
 
 #include <QAbstractItemModel>
+#include <QString>
+#include <QStringList>
+
+#include "KGpgKeyNode.h"
+#include "KGpgNode.h"
+#include "kgpgkey.h"
 
 #define KEYCOLUMN_NAME	0
 #define KEYCOLUMN_EMAIL	1
@@ -29,9 +35,10 @@
 #define KEYCOLUMN_CREAT	5
 #define KEYCOLUMN_ID	6
 
-#include "kgpgitemnode.h"
-#include "kgpgkey.h"
-
+class KGpgExpandableNode;
+class KGpgGroupNode;
+class KGpgGroupMemberNode;
+class KGpgRootNode;
 class QColor;
 
 class KGpgItemModel : public QAbstractItemModel

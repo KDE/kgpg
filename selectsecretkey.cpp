@@ -17,11 +17,12 @@
 #include <KComboBox>
 #include <KLocale>
 
-#include "kgpginterface.h"
-#include "kgpgsettings.h"
 #include "images.h"
-#include "selectkeyproxymodel.h"
+#include "kgpginterface.h"
 #include "kgpgitemmodel.h"
+#include "KGpgRootNode.h"
+#include "kgpgsettings.h"
+#include "selectkeyproxymodel.h"
 
 using namespace KgpgCore;
 
