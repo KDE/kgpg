@@ -195,7 +195,7 @@ QStringList KgpgInterface::getGpgGroupSetting(const QString &name, const QString
 					kDebug(2100) << "Found group: " << name;
 					result = result.section('=', 1);
 					result = result.section('#', 0, 0);
-					return result.split(' ');
+					return result.split(' ', QString::SkipEmptyParts);
 				}
 			}
 		}

@@ -37,8 +37,10 @@ KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KG
 	: KGpgExpandableNode(parent), m_name(name)
 {
 	Q_ASSERT(members.count() > 0);
-	for (int i = 0; i < members.count(); i++)
-		new KGpgGroupMemberNode(this, members.at(i));
+
+	foreach (KGpgKeyNode *nd, members)
+		new KGpgGroupMemberNode(this, nd);
+
 	parent->m_groups++;
 }
 
@@ -75,6 +77,6 @@ KGpgGroupNode::readChildren()
 
 	children.clear();
 
-	for (QStringList::const_iterator it = keys.begin(); it != keys.end(); ++it)
-		new KGpgGroupMemberNode(this, QString(*it));
+	foreach (const QString &id, keys)
+		new KGpgGroupMemberNode(this, id);
 }
