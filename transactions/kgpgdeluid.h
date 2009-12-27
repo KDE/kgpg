@@ -17,9 +17,9 @@
 #include <QList>
 #include <QObject>
 
+#include "KGpgSignableNode.h"
 #include "kgpguidtransaction.h"
 
-class KGpgSignableNode;
 class KGpgKeyNode;
 class KGpgUidNode;
 
@@ -42,7 +42,7 @@ public:
 	 * may be part of the list, representing the primary user id. The nodes must be
 	 * either the keynode itself, user id nodes, or user attribute nodes.
 	 */
-	KGpgDelUid(QObject *parent, const QList<const KGpgSignableNode *> &uids);
+	KGpgDelUid(QObject *parent, const KGpgSignableNode::const_List &uids);
 	/**
 	 * @brief constructor
 	 * @param parent parent object
@@ -75,7 +75,7 @@ public:
 	 *
 	 * This removes all previously set user ids from the list.
 	 */
-	void setUids(const QList<const KGpgSignableNode *> &uids);
+	void setUids(const KGpgSignableNode::const_List   &uids);
 
 protected:
 	virtual bool nextLine(const QString &line);

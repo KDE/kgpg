@@ -17,7 +17,7 @@
 #include <QtAlgorithms>
 
 #include "kgpgkey.h"
-#include "kgpgitemnode.h"
+#include "KGpgKeyNode.h"
 
 KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgSignableNode *uid)
 	: KGpgUidTransaction(parent, uid->getParentKeyNode()->getId(), uid->getId()),
@@ -26,7 +26,7 @@ KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgSignableNode *uid)
 	setUid(uid);
 }
 
-KGpgDelUid::KGpgDelUid(QObject *parent, const QList<const KGpgSignableNode *> &uids)
+KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgSignableNode::const_List &uids)
 	: KGpgUidTransaction(parent),
 	m_fixargs(addArgument("deluid"))
 {
@@ -47,20 +47,20 @@ KGpgDelUid::~KGpgDelUid()
 void
 KGpgDelUid::setUid(const KGpgSignableNode *uid)
 {
-	QList<const KGpgSignableNode *> uids;
+	KGpgSignableNode::const_List uids;
 
 	uids.append(uid);
 	setUids(uids);
 }
 
 bool
-reverseSignNodeLessThan(const KGpgSignableNode *s1, const KGpgSignableNode *s2)
+signNodeGreaterThan(const KGpgSignableNode *s1, const KGpgSignableNode *s2)
 {
 	return *s2 < *s1;
 }
 
 void
-KGpgDelUid::setUids(const QList<const KGpgSignableNode *> &uids)
+KGpgDelUid::setUids(const KGpgSignableNode::const_List &uids)
 {
 	m_uids = uids;
 
@@ -73,11 +73,11 @@ KGpgDelUid::setUids(const QList<const KGpgSignableNode *> &uids)
 		args.removeLast();
 
 	// FIXME: can this use qGreater<>()?
-	qSort(m_uids.begin(), m_uids.end(), reverseSignNodeLessThan);
+	qSort(m_uids.begin(), m_uids.end(), signNodeGreaterThan);
 
 	const KGpgSignableNode *nd = m_uids.first();
 	const KGpgExpandableNode *parent;
-	if (nd->getType() & ITYPE_PAIR)
+	if (nd->getType() & KgpgCore::ITYPE_PAIR)
 		parent = nd;
 	else
 		parent = nd->getParentKeyNode();
@@ -88,7 +88,7 @@ KGpgDelUid::setUids(const QList<const KGpgSignableNode *> &uids)
 		Q_ASSERT((nd->getParentKeyNode() == parent) || (nd == parent));
 
 		args.append("uid");
-		if (nd->getType() & ITYPE_PAIR)
+		if (nd->getType() & KgpgCore::ITYPE_PAIR)
 			args.append(QString('1'));
 		else
 			args.append(nd->getId());
@@ -99,8 +99,8 @@ KGpgDelUid::setUids(const QList<const KGpgSignableNode *> &uids)
 	nd = m_uids.first();
 
 	switch (nd->getType()) {
-	case ITYPE_PUBLIC:
-	case ITYPE_PAIR:
+	case KgpgCore::ITYPE_PUBLIC:
+	case KgpgCore::ITYPE_PAIR:
 		KGpgUidTransaction::setUid(1);
 		setKeyId(nd->getId());
 		break;
@@ -116,7 +116,7 @@ KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid)
 {
 	Q_ASSERT(uid != 0);
 
-	QList<const KGpgSignableNode *> uids;
+	KGpgSignableNode::const_List uids;
 	const KGpgSignableNode *uidnode;
 
 	if (uid > 0) {
@@ -138,7 +138,7 @@ KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid)
 				break;
 
 			// do it like caff: attach UATs to every id when mailing
-			if (uidnode->getType() != ITYPE_UAT)
+			if (uidnode->getType() != KgpgCore::ITYPE_UAT)
 				uids.append(uidnode);
 		}
 	}

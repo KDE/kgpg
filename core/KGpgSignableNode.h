@@ -33,6 +33,9 @@ class KGpgSignableNode : public KGpgExpandableNode
 	Q_OBJECT
 
 public:
+	typedef QList<KGpgSignableNode *> List;
+	typedef QList<const KGpgSignableNode *> const_List;
+
 	KGpgSignableNode(KGpgExpandableNode *parent = NULL);
 	virtual ~KGpgSignableNode();
 
