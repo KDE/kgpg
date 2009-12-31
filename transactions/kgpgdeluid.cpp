@@ -84,9 +84,7 @@ KGpgDelUid::setUids(const KGpgSignableNode::const_List &uids)
 	else
 		parent = nd->getParentKeyNode();
 
-	for (int i = 1; i < m_uids.count(); i++) {
-		nd = m_uids.at(i);
-
+	foreach (nd, m_uids.mid(1)) {
 		Q_ASSERT((nd->getParentKeyNode() == parent) || (nd == parent));
 
 		args.append("uid");
@@ -104,13 +102,12 @@ KGpgDelUid::setUids(const KGpgSignableNode::const_List &uids)
 	case KgpgCore::ITYPE_PUBLIC:
 	case KgpgCore::ITYPE_PAIR:
 		KGpgUidTransaction::setUid(1);
-		setKeyId(nd->getId());
 		break;
 	default:
 		KGpgUidTransaction::setUid(nd->getId());
-		setKeyId(nd->getParentKeyNode()->getId());
 		break;
 	}
+	setKeyId(parent->getId());
 }
 
 void
