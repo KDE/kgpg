@@ -62,6 +62,8 @@ signNodeGreaterThan(const KGpgSignableNode *s1, const KGpgSignableNode *s2)
 void
 KGpgDelUid::setUids(const KGpgSignableNode::const_List &uids)
 {
+	Q_ASSERT(!uids.isEmpty());
+
 	m_uids = uids;
 
 	GPGProc *proc = getProcess();
@@ -125,6 +127,7 @@ KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid)
 		Q_ASSERT(uidnode != NULL);
 		uids.append(uidnode);
 	} else {
+		Q_ASSERT(keynode->wasExpanded());
 		int idx = 0;
 
 		forever {
