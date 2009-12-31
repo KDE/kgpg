@@ -42,7 +42,7 @@ KGpgSignUid::setUid(KGpgSignableNode *uid)
 	switch (uid->getType()) {
 	case ITYPE_PUBLIC:
 	case ITYPE_PAIR:
-		KGpgUidTransaction::setUid(0);
+		KGpgUidTransaction::setUid(1);
 		setKey(uid->toKeyNode());
 		break;
 	case ITYPE_UAT:
