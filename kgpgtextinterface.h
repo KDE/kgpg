@@ -106,22 +106,22 @@ public Q_SLOTS:
      * Encrypt text function
      * @param text text to be encrypted.
      * @param userids the recipients key id's.
-     * @param options a list of string with the wanted gpg options. ex: "--armor"
+     * @param options a list of string with the wanted gpg options, e.g. "--armor"
      */
     void encryptText(const QString &text, const QStringList &userids, const QStringList &options = QStringList());
 
     /**
      * Decrypt text function
-     * @param text QString text to be decrypted.
-     * @param options StringList with the wanted gpg options.
+     * @param text text to be decrypted.
+     * @param options additional gpg options.
      */
     void decryptText(const QString &text, const QStringList &options = QStringList());
 
     /**
      * Sign text function
-     * @param text QString text to sign.
+     * @param text text to sign.
      * @param userid the recipient key id's.
-     * @param options StringList with the wanted gpg options.
+     * @param options additional gpg options.
      */
     void signText(const QString &text, const QString &userid, const QStringList &options);
 
@@ -133,41 +133,41 @@ public Q_SLOTS:
 
     /**
      * Encrypt file function
-     * @param encryptkeys the recipients key id's.
-     * @param srcurl Kurl of the file to encrypt.
-     * @param desturl Kurl for the encrypted file.
-     * @param options String List with the wanted gpg options. ex: "--armor"
-     * @param symetrical bool whether the encryption should be symmetrical.
+     * @param encryptkeys the recipients key id's
+     * @param srcurl file to encrypt
+     * @param desturl encrypted file will be stored here
+     * @param options additional gpg options, e.g. "--armor"
+     * @param symetrical whether the encryption should be symmetrical.
      */
     void encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options = QStringList(), const bool &symetrical = false);
 
     /**
      * Decrypt file function
-     * @param src Kurl of the file to decrypt.
-     * @param dest Kurl for the decrypted file.
-     * @param options String List with the wanted gpg options
+     * @param src file to decrypt.
+     * @param dest decrypted file will be stored here
+     * @param options additional gpg options
      */
     void decryptFile(const KUrl &src, const KUrl &dest, const QStringList &options = QStringList());
 
     /**
      * Decrypt File to text function
-     * @param srcUrl Kurl of the file to decrypt.
-     * @param options StringList with the wanted gpg options.
+     * @param srcUrl file to decrypt.
+     * @param options additional gpg options
      */
     void KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList &options);
 
     /**
      * Sign file function
-     * @param keyID QString the signing key ID.
-     * @param srcUrl Kurl of the file to sign.
-     * @param options String with the wanted gpg options. ex: "--armor"
+     * @param keyID the signing key ID.
+     * @param srcUrl file to sign.
+     * @param options additional gpg options, e.g. "--armor"
      */
     void signFiles(const QString &keyID, const KUrl::List &srcUrl, const QStringList &options = QStringList());
     void signFilesBlocking(const QString &keyID, const KUrl::List &srcUrls, const QStringList &options);
 
     /**Verify file function
-     * @param sigUrl Kurl of the signature file.
-     * @param srcUrl Kurl of the file to be verified. If empty, gpg will try to find it using the signature file name (by removing the .sig extensio)
+     * @param sigUrl signature file.
+     * @param srcUrl Kurl of the file to be verified. If empty, gpg will try to find it using the signature file name (by removing the .sig extension)
      */
     void KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl = KUrl()) ;
 
