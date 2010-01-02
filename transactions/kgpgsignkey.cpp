@@ -57,7 +57,7 @@ KGpgSignKey::nextLine(const QString &line)
 KGpgTransaction *
 KGpgSignKey::asTransaction()
 {
-	return static_cast<KGpgTransaction *>(this);
+	return this;
 }
 
 void

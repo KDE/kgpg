@@ -75,7 +75,7 @@ KGpgSignUid::nextLine(const QString &line)
 KGpgTransaction *
 KGpgSignUid::asTransaction()
 {
-	return static_cast<KGpgTransaction *>(this);
+	return this;
 }
 
 void
