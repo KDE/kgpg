@@ -112,6 +112,18 @@ KGpgKeyNode::getId() const
 	return m_key->fingerprint();
 }
 
+KGpgKeyNode *
+KGpgKeyNode::getKeyNode(void)
+{
+	return this;
+}
+
+const KGpgKeyNode *
+KGpgKeyNode::getKeyNode(void) const
+{
+	return this;
+}
+
 QString
 KGpgKeyNode::getBeautifiedFingerprint() const
 {

@@ -68,6 +68,18 @@ KGpgSubkeyNode::getId() const
 	return m_skey.id();
 }
 
+KGpgKeyNode *
+KGpgSubkeyNode::getKeyNode(void)
+{
+	return getParentKeyNode()->toKeyNode();
+}
+
+const KGpgKeyNode *
+KGpgSubkeyNode::getKeyNode(void) const
+{
+	return getParentKeyNode()->toKeyNode();
+}
+
 QString
 KGpgSubkeyNode::getName() const
 {

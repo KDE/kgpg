@@ -50,6 +50,13 @@ public:
 
 	bool operator<(const KGpgSignableNode &other) const;
 	bool operator<(const KGpgSignableNode *other) const;
+
+	/**
+	 * @brief returns the key node this node belongs to
+	 * @returns this node if the node itself is a key or it's parent otherwise
+	 */
+	virtual KGpgKeyNode *getKeyNode(void) = 0;
+	virtual const KGpgKeyNode *getKeyNode(void) const = 0;
 };
 
 #endif /* KGPGSIGNABLENODE_H */

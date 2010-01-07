@@ -45,6 +45,8 @@ public:
 	virtual QString getName() const;
 	virtual QString getEmail() const;
 	virtual QString getId() const;
+	virtual KGpgKeyNode *getKeyNode(void);
+	virtual const KGpgKeyNode *getKeyNode(void) const;
 	virtual KGpgKeyNode *getParentKeyNode() const;
 	virtual QString getComment() const;
 };

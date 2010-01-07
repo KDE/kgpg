@@ -90,3 +90,15 @@ KGpgUatNode::getId() const
 {
 	return m_idx;
 }
+
+KGpgKeyNode *
+KGpgUatNode::getKeyNode(void)
+{
+	return getParentKeyNode()->toKeyNode();
+}
+
+const KGpgKeyNode *
+KGpgUatNode::getKeyNode(void) const
+{
+	return getParentKeyNode()->toKeyNode();
+}

@@ -50,6 +50,18 @@ KGpgUidNode::getId() const
 }
 
 KGpgKeyNode *
+KGpgUidNode::getKeyNode(void)
+{
+	return getParentKeyNode()->toKeyNode();
+}
+
+const KGpgKeyNode *
+KGpgUidNode::getKeyNode(void) const
+{
+	return getParentKeyNode()->toKeyNode();
+}
+
+KGpgKeyNode *
 KGpgUidNode::getParentKeyNode() const
 {
 	return m_parent->toKeyNode();

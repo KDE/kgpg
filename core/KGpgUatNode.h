@@ -54,6 +54,8 @@ public:
 	virtual QString getName() const;
 	virtual QDate getCreation() const;
 	virtual KGpgKeyNode *getParentKeyNode() const;
+	virtual KGpgKeyNode *getKeyNode(void);
+	virtual const KGpgKeyNode *getKeyNode(void) const;
 };
 
 #endif /* KGPGUATNODE_H */

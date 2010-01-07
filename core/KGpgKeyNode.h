@@ -68,6 +68,8 @@ public:
 	virtual QDate getExpiration() const;
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
+	virtual KGpgKeyNode *getKeyNode(void);
+	virtual const KGpgKeyNode *getKeyNode(void) const;
 	/**
 	 * @brief Print the full key fingerprint with spaces inserted
 	 *

@@ -47,6 +47,8 @@ public:
 	virtual QDate getExpiration() const;
 	virtual QDate getCreation() const;
 	virtual QString getId() const;
+	virtual KGpgKeyNode *getKeyNode(void);
+	virtual const KGpgKeyNode *getKeyNode(void) const;
 	virtual KGpgKeyNode *getParentKeyNode() const;
 };
 
