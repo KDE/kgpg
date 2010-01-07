@@ -143,7 +143,19 @@ KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid)
 		}
 	}
 
-	setUids(uids);
+	if (!uids.isEmpty())
+		setUids(uids);
+}
+
+bool
+KGpgDelUid::preStart()
+{
+	if (m_uids.isEmpty()) {
+		setSuccess(TS_NO_SUCH_UID);
+		return false;
+	}
+
+	return true;
 }
 
 bool

@@ -27,6 +27,10 @@ class KGpgDelUid: public KGpgUidTransaction {
 	Q_OBJECT
 
 public:
+	enum ts_deluid {
+		TS_NO_SUCH_UID = KGpgTransaction::TS_COMMON_END + 1	///< user id does not exist
+	};
+
 	/**
 	 * @brief constructor
 	 * @param parent parent object
@@ -78,6 +82,7 @@ public:
 	void setUids(const KGpgSignableNode::const_List   &uids);
 
 protected:
+	virtual bool preStart();
 	virtual bool nextLine(const QString &line);
 	virtual void finish();
 
