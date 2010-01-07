@@ -171,8 +171,8 @@ KGpgTextInterface::encryptText(const QString &text, const QStringList &userids, 
 		*d->m_process << "-c";
 	} else {
 		*d->m_process << "-e";
-		for (QStringList::ConstIterator it = userids.constBegin(); it != userids.constEnd(); ++it)
-			*d->m_process << "--recipient" << *it;
+		foreach (const QString &uid, userids)
+			*d->m_process << "--recipient" << uid;
 	}
 
 	connect(d->m_process, SIGNAL(readReady(GPGProc *)), this, SLOT(encryptTextProcess()));
@@ -415,8 +415,8 @@ KGpgTextInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcur
 
 	if (!symetrical) {
 		*d->m_process << "-e";
-		for (QStringList::ConstIterator it = encryptkeys.constBegin(); it != encryptkeys.constEnd(); ++it)
-		*d->m_process << "--recipient" << *it;
+		foreach (const QString &enckey, encryptkeys)
+			*d->m_process << "--recipient" << enckey;
 	} else
 		*d->m_process << "-c";
 
@@ -427,7 +427,6 @@ KGpgTextInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcur
 	d->m_process->start();
 }
 
-// TODO : there is a bug when we want to encrypt a file
 void
 KGpgTextInterface::fileReadEncProcess()
 {
@@ -649,8 +648,8 @@ KGpgTextInterface::signFilesBlocking(const QString &keyID, const KUrl::List &src
 	d->m_signID = keyID;
 	d->m_gpgopts = options;
 
-	for (int i = 0; i < srcUrls.count(); i++) {
-		d->signFile(srcUrls.at(i));
+	foreach (const KUrl &url, srcUrls) {
+		d->signFile(url);
 		d->m_process->waitForFinished(-1);
 		d->m_process->resetProcess();
 	}

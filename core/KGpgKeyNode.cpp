@@ -131,9 +131,9 @@ KGpgKeyNode::readChildren()
 	KgpgCore::KgpgKeyList keys = interface->readPublicKeys(true, m_key->fingerprint(), true);
 	delete interface;
 
-	if (keys.count() == 0)
+	if (keys.isEmpty())
 		return;
-	KgpgCore::KgpgKey key = keys.at(0);
+	KgpgCore::KgpgKey key(keys.at(0));
 
 	/********* insertion of sub keys ********/
 	for (int i = 0; i < key.subList()->size(); ++i)
@@ -173,10 +173,8 @@ KGpgKeyNode::readChildren()
 void
 KGpgKeyNode::insertSigns(KGpgExpandableNode *node, const KgpgKeySignList &list)
 {
-	for (int i = 0; i < list.size(); ++i)
-	{
-		(void) new KGpgSignNode(node, list.at(i));
-	}
+	foreach (const KgpgKeySign &sign, list)
+		(void) new KGpgSignNode(node, sign);
 }
 
 QString
@@ -242,10 +240,10 @@ QList<KGpgGroupNode *>
 KGpgKeyNode::getGroups(void) const
 {
 	QList<KGpgGroupNode *> ret;
-	QList<KGpgGroupMemberNode *> gnodes = getGroupRefs();
 
-	for (int i = 0; i < gnodes.count(); i++)
-		ret.append(gnodes.at(i)->getParentKeyNode());
+	foreach (KGpgGroupMemberNode *gnd, getGroupRefs())
+		ret.append(gnd->getParentKeyNode());
+
 	return ret;
 }
 
@@ -254,11 +252,11 @@ KGpgKeyNode::getRefsOfType(const KgpgItemType &type) const
 {
 	QList<KGpgRefNode *> ret;
 
-	for (int i = 0; i < m_refs.count(); i++) {
-		KGpgRefNode *nd = m_refs.at(i);
+	foreach (KGpgRefNode *nd, m_refs) {
 		if (nd->getType() & type)
 			ret.append(nd);
 	}
+
 	return ret;
 }
 
@@ -267,10 +265,8 @@ KGpgKeyNode::getGroupRefs(void) const
 {
 	QList<KGpgGroupMemberNode *> ret;
 
-	QList<KGpgRefNode *> refs = getRefsOfType(KgpgCore::ITYPE_GROUP);
-
-	for (int i = 0; i < refs.count(); i++)
-		ret.append(refs.at(i)->toGroupMemberNode());
+	foreach (KGpgRefNode *rn, getRefsOfType(KgpgCore::ITYPE_GROUP))
+		ret.append(rn->toGroupMemberNode());
 
 	return ret;
 }
@@ -282,8 +278,8 @@ KGpgKeyNode::getSignRefs(void) const
 
 	QList<KGpgRefNode *> refs = getRefsOfType(KgpgCore::ITYPE_SIGN);
 
-	for (int i = 0; i < refs.count(); i++)
-		ret.append(refs.at(i)->toSignNode());
+	foreach (KGpgRefNode *rn, refs)
+		ret.append(rn->toSignNode());
 
 	return ret;
 }
@@ -296,8 +292,7 @@ KGpgKeyNode::getSignatures(const bool subkeys) const
 	if (!subkeys)
 		return ret;
 
-	for (int i = 0; i < children.count(); i++) {
-		KGpgNode *child = children.at(i);
+	foreach (KGpgNode *child, children) {
 		KGpgSignNode::List tmp;
 
 		switch (child->getType()) {
@@ -309,12 +304,12 @@ KGpgKeyNode::getSignatures(const bool subkeys) const
 			continue;
 		}
 
-		for (int j = 0; j < tmp.count(); j++) {
+		foreach (KGpgSignNode *sn, tmp) {
 			bool found = false;
-			KGpgSignNode *sn = tmp.at(j);
+			const QString snid(sn->getId());
 
-			for (int k = 0; k < ret.count(); k++) {
-				found = (ret.at(k)->getId() == sn->getId());
+			foreach (const KGpgSignNode *retsn, ret) {
+				found = (retsn->getId() == snid);
 				if (found)
 					break;
 			}
@@ -337,8 +332,7 @@ KGpgKeyNode::getUid(const unsigned int index) const
 
 	const QString idxstr(QString::number(index));
 
-	for (unsigned int i = 0; i < static_cast<unsigned int>(children.count()); i++) {
-		const KGpgNode *child = children.at(i);
+	foreach (const KGpgNode *child, children) {
 		KGpgSignNode::List tmp;
 
 		switch (child->getType()) {
