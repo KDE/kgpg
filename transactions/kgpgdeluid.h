@@ -52,11 +52,9 @@ public:
 	 * @param parent parent object
 	 * @param keynode key to edit
 	 * @param uid uid to delete, negative to delete all others
-	 *
-	 * If uid is negative all other uids are deleted, but uats (photo ids)
-	 * are kept.
+	 * @param keepUats if uid is negative all other uids are deleted, but uats (photo ids) are kept if true is passed here.
 	 */
-	KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int uid);
+	KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int uid, const bool keepUats = false);
 	/**
 	 * @brief destructor
 	 */
@@ -73,13 +71,13 @@ public:
 	 *
 	 * @overload
 	 */
-	void setUid(const KGpgKeyNode *keynode, const int uid);
+	void setUid(const KGpgKeyNode *keynode, const int uid, const bool keepUats = false);
 	/**
 	 * @brief set the user ids to be deleted
 	 *
 	 * This removes all previously set user ids from the list.
 	 */
-	void setUids(const KGpgSignableNode::const_List   &uids);
+	void setUids(const KGpgSignableNode::const_List &uids);
 
 protected:
 	virtual bool preStart();

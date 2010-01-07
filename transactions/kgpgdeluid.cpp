@@ -33,11 +33,11 @@ KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgSignableNode::const_List &uids
 	setUids(uids);
 }
 
-KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int uid)
+KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int uid, const bool keepUats)
 	: KGpgUidTransaction(parent),
 	m_fixargs(addArgument("deluid"))
 {
-	setUid(keynode, uid);
+	setUid(keynode, uid, keepUats);
 }
 
 KGpgDelUid::~KGpgDelUid()
@@ -111,7 +111,7 @@ KGpgDelUid::setUids(const KGpgSignableNode::const_List &uids)
 }
 
 void
-KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid)
+KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid, const bool keepUats)
 {
 	Q_ASSERT(uid != 0);
 
@@ -137,8 +137,7 @@ KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid)
 			if (uidnode == NULL)
 				break;
 
-			// do it like caff: attach UATs to every id when mailing
-			if (uidnode->getType() != KgpgCore::ITYPE_UAT)
+			if (!keepUats || (uidnode->getType() != KgpgCore::ITYPE_UAT))
 				uids.append(uidnode);
 		}
 	}
