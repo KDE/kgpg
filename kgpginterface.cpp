@@ -745,18 +745,22 @@ QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const
 	const QString pgpgoutput("echo %I");
 #endif
 
-	m_workProcess = new KProcess(this);
-	m_workProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
-	*m_workProcess << KGpgSettings::gpgBinaryPath();
-	*m_workProcess << "--no-secmem-warning" << "--no-tty" << "--status-fd=2";
-	*m_workProcess << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
+	KProcess *workProcess = new KProcess(this);
+	workProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
+	*workProcess << KGpgSettings::gpgBinaryPath();
+	*workProcess << "--no-secmem-warning" << "--no-tty" << "--status-fd=2";
+	*workProcess << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
 
-	connect(m_workProcess, SIGNAL(finished(int)), SLOT(loadPhotoFin(int)));
-	m_workProcess->start();
+	if (!block)
+		connect(workProcess, SIGNAL(finished(int)), SLOT(loadPhotoFin(int)));
+	workProcess->start();
 	if (!block) {
 		return QPixmap();
 	} else {
-		m_workProcess->waitForFinished();
+		workProcess->waitForFinished();
+		if (workProcess->exitCode() == 0)
+			readPixmapFromProcess(workProcess);
+		delete workProcess;
 		return m_pixmap;
 	}
 }
@@ -766,19 +770,26 @@ void KgpgInterface::loadPhotoFin(int exitCode)
 	m_pixmap = QPixmap();
 
 	if (exitCode == 0) {
-		QByteArray pic(m_workProcess->readAllStandardOutput());
-
-		while (pic.endsWith('\r') || pic.endsWith('\n'))
-			pic.chop(1);
-
-		KUrl url(pic);
-		m_pixmap.load(url.path());
-		QFile::remove(url.path());
-		QDir dir;
-		dir.rmdir(url.directory());
+		readPixmapFromProcess(qobject_cast<KProcess *>(sender()));
 	}
 
+	sender()->deleteLater();
+
 	emit loadPhotoFinished(m_pixmap, this);
+}
+
+void KgpgInterface::readPixmapFromProcess(KProcess *proc)
+{
+	QByteArray pic(proc->readAllStandardOutput());
+
+	while (pic.endsWith('\r') || pic.endsWith('\n'))
+		pic.chop(1);
+
+	KUrl url(pic);
+	m_pixmap.load(url.path());
+	QFile::remove(url.path());
+	QDir dir;
+	dir.rmdir(url.directory());
 }
 
 // delete signature

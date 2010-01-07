@@ -73,7 +73,7 @@ public:
      * and data files. The returned path always ends with a '/'.
      */
     static QString getGpgHome(const QString &binary);
-    
+
     static QStringList getGpgGroupNames(const QString &configfile);
     static QStringList getGpgGroupSetting(const QString &name, const QString &configfile);
     static void setGpgGroupSetting(const QString &name, const QStringList &values, const QString &configfile);
@@ -96,8 +96,6 @@ public:
     static int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true);
 
 private:
-    KProcess *m_workProcess;
-
     static QString getGpgProcessHome(const QString &binary);
 
 /************** function update the userIDs variable **************/
@@ -156,6 +154,7 @@ private slots:
 
 private:
     QPixmap m_pixmap;
+    void readPixmapFromProcess(KProcess *proc);
     KTemporaryFile *m_kgpginfotmp;
 
 /*******************************************************/
