@@ -160,10 +160,10 @@ void KgpgLibrary::slotFileDec(const KUrl &src, const KUrl &dest, const QStringLi
 	m_pop = new KPassivePopup();
 	m_urlselected = src;
 
-	KGpgTextInterface *decryptFileProcess = new KGpgTextInterface();
-	decryptFileProcess->decryptFile(src, dest, customDecryptOption);
+	KGpgTextInterface *decryptFileProcess = new KGpgTextInterface(this);
 	connect(decryptFileProcess, SIGNAL(decryptFileStarted(KUrl)), SLOT(processEncPopup(KUrl)));
 	connect(decryptFileProcess, SIGNAL(decryptFileFinished(int, KGpgTextInterface*)), SLOT(processDecOver(int, KGpgTextInterface*)));
+	decryptFileProcess->decryptFile(src, dest, customDecryptOption);
 }
 
 void KgpgLibrary::processDecOver(int ret, KGpgTextInterface *iface)
