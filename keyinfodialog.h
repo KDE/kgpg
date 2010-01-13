@@ -103,7 +103,7 @@ private slots:
     void slotChangeTrust(const int &newtrust);
 
     void slotLoadPhoto(const QString &uid);
-    void slotSetPhoto(const QPixmap &pixmap, KgpgInterface *interface);
+    void slotSetPhoto(const QPixmap &pixmap);
 
     void slotApply();
     void slotApplied(int result);

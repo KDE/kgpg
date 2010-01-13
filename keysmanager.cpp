@@ -2558,14 +2558,6 @@ KGpgItemModel *KeysManager::getModel()
 }
 
 void
-KeysManager::slotRefreshKeys(KgpgInterface *iface, const QStringList &keys)
-{
-	iface->deleteLater();
-	if (!keys.isEmpty())
-		imodel->refreshKeys(keys);
-}
-
-void
 KeysManager::slotNetworkUp()
 {
 	toggleNetworkActions(true);
@@ -2686,7 +2678,7 @@ KeysManager::clipEncrypt()
 			selec = dialog->selectedKeys();
 
 		KGpgTextInterface *txtEncrypt = new KGpgTextInterface();
-		connect (txtEncrypt, SIGNAL(txtEncryptionFinished(QString, KGpgTextInterface *)), SLOT(slotSetClip(QString, KGpgTextInterface *)));
+		connect (txtEncrypt, SIGNAL(txtEncryptionFinished(QString)), SLOT(slotSetClip(QString)));
 		m_trayicon->setStatus(KStatusNotifierItem::Active);
 		txtEncrypt->encryptText(cliptext, selec, options);
 	}
@@ -2695,9 +2687,9 @@ KeysManager::clipEncrypt()
 }
 
 void
-KeysManager::slotSetClip(const QString &newtxt, KGpgTextInterface *iface)
+KeysManager::slotSetClip(const QString &newtxt)
 {
-	iface->deleteLater();
+	sender()->deleteLater();
 
 	m_trayicon->setStatus(KStatusNotifierItem::Passive);
 

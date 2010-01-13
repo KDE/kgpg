@@ -25,7 +25,6 @@ class KToggleAction;
 class KAction;
 class KFind;
 
-class KgpgInterface;
 class KgpgTextEdit;
 class KGpgItemModel;
 class KgpgLibrary;
@@ -96,7 +95,7 @@ private slots:
     // Signing menu
     void slotPreSignFile();
     void slotSignFile(const KUrl &url);
-    void slotSignFileFin(KgpgInterface *interface);
+    void slotSignFileFin();
     void slotPreVerifyFile();
     void slotVerifyFile(const KUrl &url);
     void slotCheckMd5();
@@ -113,6 +112,8 @@ private slots:
     void newText();
 
     void slotRefreshImported(KgpgLibrary *lib, const QStringList &keys);
+
+    void slotLibraryDone();
 
 private:
     QStringList m_customdecrypt;

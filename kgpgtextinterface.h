@@ -34,11 +34,11 @@ public:
 	explicit KGpgTextInterface(QObject *parent = 0);
 	~KGpgTextInterface();
 
-Q_SIGNALS:
+signals:
     /**
      *  emitted when a txt encryption finished. returns encrypted text
      */
-    void txtEncryptionFinished(QString, KGpgTextInterface*);
+    void txtEncryptionFinished(QString);
 
     /**
      *  emmitted if signature key is missing & user want to import it from keyserver
@@ -53,18 +53,18 @@ Q_SIGNALS:
     /**
      *  emitted when a txt decryption finished. returns decrypted text
      */
-    void txtDecryptionFinished(QByteArray, KGpgTextInterface*);
+    void txtDecryptionFinished(QByteArray);
 
     /**
      *  emitted when a txt decryption failed. returns log output
      */
-    void txtDecryptionFailed(QString, KGpgTextInterface*);
+    void txtDecryptionFailed(QString);
 
-    void txtSigningFinished(QString, KGpgTextInterface*);
-    void txtSigningFailed(QString, KGpgTextInterface*);
+    void txtSigningFinished(QString);
+    void txtSigningFailed(QString);
 
-    void txtVerifyMissingSignature(QString, KGpgTextInterface*);
-    void txtVerifyFinished(QString, QString, KGpgTextInterface*);
+    void txtVerifyMissingSignature(QString);
+    void txtVerifyFinished(QString, QString);
 
     /**
      *  emitted when the process starts
@@ -74,12 +74,12 @@ Q_SIGNALS:
     /**
      *  emitted when an error occurred
      */
-    void errorMessage(const QString &, KGpgTextInterface*);
+    void errorMessage(const QString &);
 
     /**
      *  true if encryption successful, false on error.
      */
-    void fileEncryptionFinished(KUrl, KGpgTextInterface*);
+    void fileEncryptionFinished(KUrl);
 
     void decryptFileStarted(KUrl url);
     /**
@@ -93,13 +93,13 @@ Q_SIGNALS:
      * 4 = gpg did not print successful status
      * @param iface pointer to this class
      */
-    void decryptFileFinished(int result, KGpgTextInterface *iface);
+    void decryptFileFinished(int result);
 
     /**
      * Emitted when all files passed to KgpgSignFile() where processed.
      * Passes as argument the files that failed.
      */
-    void fileSignFinished(KGpgTextInterface *, KUrl::List &);
+    void fileSignFinished(KUrl::List &);
 
 public Q_SLOTS:
     /**

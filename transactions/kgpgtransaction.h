@@ -168,8 +168,8 @@ protected:
 private:
 	KGpgTransactionPrivate* const d;
 
-	Q_PRIVATE_SLOT(d, void slotReadReady(GPGProc *))
-	Q_PRIVATE_SLOT(d, void slotProcessExited(GPGProc *))
+	Q_PRIVATE_SLOT(d, void slotReadReady())
+	Q_PRIVATE_SLOT(d, void slotProcessExited())
 	Q_PRIVATE_SLOT(d, void slotProcessStarted())
 
 protected:

@@ -175,8 +175,8 @@ KGpgTextInterface::encryptText(const QString &text, const QStringList &userids, 
 			*d->m_process << "--recipient" << uid;
 	}
 
-	connect(d->m_process, SIGNAL(readReady(GPGProc *)), this, SLOT(encryptTextProcess()));
-	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(encryptTextFin()));
+	connect(d->m_process, SIGNAL(readReady()), this, SLOT(encryptTextProcess()));
+	connect(d->m_process, SIGNAL(processExited()), this, SLOT(encryptTextFin()));
 	d->m_process->start();
 }
 
@@ -208,7 +208,7 @@ KGpgTextInterface::encryptTextProcess()
 void
 KGpgTextInterface::encryptTextFin()
 {
-	emit txtEncryptionFinished(d->m_message.trimmed(), this);
+	emit txtEncryptionFinished(d->m_message.trimmed());
 }
 
 void
@@ -221,7 +221,7 @@ KGpgTextInterface::decryptText(const QString &text, const QStringList &options)
 	d->m_process->setOutputChannelMode(KProcess::SeparateChannels);
 	connect(d->m_process, SIGNAL(readyReadStandardError()), this, SLOT(decryptTextStdErr()));
 	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(decryptTextStdOut()));
-	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(decryptTextFin()));
+	connect(d->m_process, SIGNAL(processExited()), this, SLOT(decryptTextFin()));
 	d->m_process->start();
 
 	d->m_process->write(text.toAscii());
@@ -303,12 +303,12 @@ void
 KGpgTextInterface::decryptTextFin()
 {
 	if ((d->m_ok) && (!d->m_badmdc)) {
-		emit txtDecryptionFinished(d->m_tmpmessage, this);
+		emit txtDecryptionFinished(d->m_tmpmessage);
 	} else if (d->m_badmdc) {
 		KMessageBox::sorry(0, i18n("Bad MDC detected. The encrypted text has been manipulated."));
-		emit txtDecryptionFailed(d->m_log, this);
+		emit txtDecryptionFailed(d->m_log);
 	} else
-		emit txtDecryptionFailed(d->m_log, this);
+		emit txtDecryptionFailed(d->m_log);
 }
 
 void
@@ -325,7 +325,7 @@ KGpgTextInterface::signText(const QString &text, const QString &userid, const QS
 	*d->m_process << "--clearsign" << "-u" << userid;
 
 	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(signTextProcess()));
-	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(signTextFin()));
+	connect(d->m_process, SIGNAL(processExited()), this, SLOT(signTextFin()));
 	d->m_process->start();
 }
 
@@ -361,12 +361,12 @@ void
 KGpgTextInterface::signTextFin()
 {
 	if (d->m_badpassword) {
-		emit txtSigningFailed(d->m_message, this);
+		emit txtSigningFailed(d->m_message);
 		d->m_message.clear();
 	} else if (!d->m_message.isEmpty()) {
-		emit txtSigningFinished(d->m_message.trimmed(), this);
+		emit txtSigningFinished(d->m_message.trimmed());
 	} else {
-		emit txtSigningFinished(QString(), this);
+		emit txtSigningFinished(QString());
 	}
 }
 
@@ -381,8 +381,8 @@ KGpgTextInterface::verifyText(const QString &text)
 
 	*d->m_process << "--verify";
 
-	connect(d->m_process, SIGNAL(readReady(GPGProc *)), this, SLOT(readVerify()));
-	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(verifyTextFin()));
+	connect(d->m_process, SIGNAL(readReady()), this, SLOT(readVerify()));
+	connect(d->m_process, SIGNAL(processExited()), this, SLOT(verifyTextFin()));
 	d->m_process->start();
 
 	d->m_process->write(d->m_message.toAscii());
@@ -394,12 +394,12 @@ void
 KGpgTextInterface::verifyTextFin()
 {
 	if (d->m_signmiss) {
-		emit txtVerifyMissingSignature(d->m_signID, this);
+		emit txtVerifyMissingSignature(d->m_signID);
 	} else {
 		if (d->m_signID.isEmpty())
 		d->m_signID = i18n("No signature found.");
 
-		emit txtVerifyFinished(d->m_signID, d->m_message, this);
+		emit txtVerifyFinished(d->m_signID, d->m_message);
 	}
 }
 
@@ -422,8 +422,8 @@ KGpgTextInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcur
 
 	*d->m_process << srcurl.path();
 
-	connect(d->m_process, SIGNAL(readReady(GPGProc *)), this, SLOT(fileReadEncProcess()));
-	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(fileEncryptFin()));
+	connect(d->m_process, SIGNAL(readReady()), this, SLOT(fileReadEncProcess()));
+	connect(d->m_process, SIGNAL(processExited()), this, SLOT(fileEncryptFin()));
 	d->m_process->start();
 }
 
@@ -461,9 +461,9 @@ void
 KGpgTextInterface::fileEncryptFin()
 {
 	if (d->m_ok)
-		emit fileEncryptionFinished(d->m_file, this);
+		emit fileEncryptionFinished(d->m_file);
 	else
-		emit errorMessage(d->m_message, this);
+		emit errorMessage(d->m_message);
 }
 
 // decrypt file to text
@@ -478,8 +478,8 @@ KGpgTextInterface::KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList &
 
 	d->m_process->setOutputChannelMode(KProcess::SeparateChannels);
 	connect(d->m_process, SIGNAL(readyReadStandardError()), this, SLOT(decryptTextStdErr()));
-	connect(d->m_process, SIGNAL(readReady(GPGProc *)), this, SLOT(decryptTextStdOut()));
-	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(decryptTextFin()));
+	connect(d->m_process, SIGNAL(readReady()), SLOT(decryptTextStdOut()));
+	connect(d->m_process, SIGNAL(processExited()), SLOT(decryptTextFin()));
 	d->m_process->start();
 }
 
@@ -523,7 +523,7 @@ KGpgTextInterface::decryptFileProcess()
 					d->m_process->write("Yes\n");
 				} else if ((line.contains("passphrase.enter"))) {
 					if (d->gpgPassphrase()) {
-						emit decryptFileFinished(1, this);
+						emit decryptFileFinished(1);
 						return;
 					}
 				} else {
@@ -543,21 +543,21 @@ KGpgTextInterface::decryptFileFin(int res, QProcess::ExitStatus status)
 	if (status == QProcess::CrashExit) {
 		if (d->m_dest.isLocalFile())
 			QFile(d->m_dest.toLocalFile()).remove();
-		emit decryptFileFinished(2, this);
+		emit decryptFileFinished(2);
 		return;
 	}
 
 	if (res != 0) {
 		if (d->m_dest.isLocalFile())
 			QFile(d->m_dest.toLocalFile()).remove();
-		emit decryptFileFinished(3, this);
+		emit decryptFileFinished(3);
 		return;
 	}
 
 	if (d->m_message.contains("DECRYPTION_OKAY") && d->m_message.contains("END_DECRYPTION"))
-		emit decryptFileFinished(0, this);
+		emit decryptFileFinished(0);
 	else
-		emit decryptFileFinished(4, this);
+		emit decryptFileFinished(4);
 }
 
 void
@@ -571,7 +571,7 @@ KGpgTextInterface::KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl)
 	*d->m_process << sigUrl.path();
 
 	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(readVerify()));
-	connect(d->m_process, SIGNAL(processExited(GPGProc *)), this, SLOT(verifyfin()));
+	connect(d->m_process, SIGNAL(processExited()), this, SLOT(verifyfin()));
 	d->m_process->start();
 }
 
@@ -678,5 +678,5 @@ KGpgTextInterface::slotSignFinished(int err)
 	if (err != 0)
 		d->m_errfiles << d->m_files.at(d->m_step - 1);
 
-	emit fileSignFinished(this, d->m_errfiles);
+	emit fileSignFinished(d->m_errfiles);
 }

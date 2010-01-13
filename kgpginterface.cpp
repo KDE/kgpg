@@ -435,8 +435,8 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool block, const QStringList &i
 	process->setOutputChannelMode(KProcess::MergedChannels);
 
 	if (!block) {
-		connect(process, SIGNAL(readReady(GPGProc *)), SLOT(readPublicKeysProcess(GPGProc *)));
-		connect(process, SIGNAL(processExited(GPGProc *)), SLOT(readPublicKeysFin(GPGProc *)));
+		connect(process, SIGNAL(readReady()), SLOT(readPublicKeysProcess()));
+		connect(process, SIGNAL(processExited()), SLOT(readPublicKeysFin()));
 		process->start();
 		return KgpgKeyList();
 	} else {
@@ -452,6 +452,8 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 {
 	QStringList lsp;
 	int items;
+	if (p == NULL)
+		p = qobject_cast<GPGProc *>(sender());
 
 	while ((items = p->readln(lsp)) >= 0) {
 		if ((lsp.at(0) == "pub") && (items >= 10)) {
@@ -599,6 +601,9 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
 void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool block)
 {
+	if (p == NULL)
+		p = qobject_cast<GPGProc *>(sender());
+
 	// insert the last key
 	if (cycle != "none")
 		m_publiclistkeys << m_publickey;
@@ -610,7 +615,7 @@ void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool block)
 
 	p->deleteLater();
 	if (!block)
-		emit readPublicKeysFinished(m_publiclistkeys, this);
+		emit readPublicKeysFinished(m_publiclistkeys);
 }
 
 
@@ -775,7 +780,7 @@ void KgpgInterface::loadPhotoFin(int exitCode)
 
 	sender()->deleteLater();
 
-	emit loadPhotoFinished(m_pixmap, this);
+	emit loadPhotoFinished(m_pixmap);
 }
 
 void KgpgInterface::readPixmapFromProcess(KProcess *proc)
@@ -811,13 +816,14 @@ void KgpgInterface::KgpgDelSignature(const QString &keyID, const QString &uid, Q
 
 	GPGProc *conprocess = new GPGProc(this);
 	*conprocess << "--command-fd=0" << "--status-fd=1" << "--edit-key" << keyID << "uid" << uid << "delsig";
-	connect(conprocess, SIGNAL(readReady(GPGProc *)), SLOT(delsigprocess(GPGProc *)));
-	connect(conprocess, SIGNAL(processExited(GPGProc *)), SLOT(delsignover(GPGProc *)));
+	connect(conprocess, SIGNAL(readReady()), SLOT(delsigprocess()));
+	connect(conprocess, SIGNAL(processExited()), SLOT(delsignover()));
 	conprocess->start();
 }
 
-void KgpgInterface::delsigprocess(GPGProc *p)
+void KgpgInterface::delsigprocess()
 {
+	GPGProc *p = qobject_cast<GPGProc *>(sender());
 	QString required;
 
 	while (p->readln(required, true) >= 0) {
@@ -840,9 +846,9 @@ void KgpgInterface::delsigprocess(GPGProc *p)
 	}
 }
 
-void KgpgInterface::delsignover(GPGProc *p)
+void KgpgInterface::delsignover()
 {
-	p->deleteLater();
+	sender()->deleteLater();
 	emit delsigfinished(deleteSuccess);
 }
 
@@ -862,13 +868,14 @@ void KgpgInterface::KgpgRevokeKey(const QString &keyID, const KUrl &revokeUrl, c
 	if (!revokeUrl.isEmpty())
 		*process << "-o" << revokeUrl.toLocalFile();
 	*process << "--gen-revoke" << keyID;
-	QObject::connect(process, SIGNAL(processExited(GPGProc *)), SLOT(revokeover(GPGProc *)));
-	QObject::connect(process, SIGNAL(readReady(GPGProc *)), SLOT(revokeprocess(GPGProc *)));
+	QObject::connect(process, SIGNAL(processExited()), SLOT(revokeover()));
+	QObject::connect(process, SIGNAL(readReady()), SLOT(revokeprocess()));
 	process->start();
 }
 
-void KgpgInterface::revokeover(GPGProc *)
+void KgpgInterface::revokeover()
 {
+	sender()->deleteLater();
 	if (!revokeSuccess) {
 		KMessageBox::detailedSorry(0,i18n("Creation of the revocation certificate failed..."), output);
 	} else {
@@ -881,8 +888,9 @@ void KgpgInterface::revokeover(GPGProc *)
 	}
 }
 
-void KgpgInterface::revokeprocess(GPGProc *p)
+void KgpgInterface::revokeprocess()
 {
+	GPGProc *p = qobject_cast<GPGProc *>(sender());
 	QString required;
 
 	while (p->readln(required) >= 0) {

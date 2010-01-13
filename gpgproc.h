@@ -105,13 +105,13 @@ signals:
      * The signal is only emitted if at least one complete line of data is ready.
      * @param p the process that emitted the signal
      */
-    void readReady(GPGProc *p);
+    void readReady();
 
     /**
      * Emitted when the process has finished
      * @param p the process that emitted the signal
      */
-    void processExited(GPGProc *p);
+    void processExited();
 
 protected slots:
     void finished();

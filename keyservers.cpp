@@ -230,8 +230,8 @@ void KeyServer::slotSearch()
 	*m_searchproc << "--keyserver" << keyserv << "--status-fd=1" << "--command-fd=0";
 	*m_searchproc << "--with-colons"<< "--search-keys"  << page->kLEimportid->text().simplified();
 
-	connect(m_searchproc, SIGNAL(processExited(GPGProc *)), this, SLOT(slotSearchResult(GPGProc *)));
-	connect(m_searchproc, SIGNAL(readReady(GPGProc *)), this, SLOT(slotSearchRead(GPGProc *)));
+	connect(m_searchproc, SIGNAL(processExited()), this, SLOT(slotSearchResult()));
+	connect(m_searchproc, SIGNAL(readReady()), this, SLOT(slotSearchRead()));
 	m_searchproc->start();
 
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
@@ -259,9 +259,10 @@ void KeyServer::slotAbortSearch()
 	}
 }
 
-void KeyServer::slotSearchRead(GPGProc *p)
+void KeyServer::slotSearchRead()
 {
 	QString line;
+	GPGProc *p = qobject_cast<GPGProc *>(sender());
 
 	while (p->readln(line, true) >= 0) {
 		if (line.startsWith(QLatin1String("[GNUPG:] GET_LINE keysearch.prompt"))) {
@@ -278,7 +279,7 @@ void KeyServer::slotSearchRead(GPGProc *p)
 	}
 }
 
-void KeyServer::slotSearchResult(GPGProc *)
+void KeyServer::slotSearchResult()
 {
 	m_searchproc->deleteLater();
 	m_searchproc = NULL;

@@ -463,13 +463,13 @@ void KgpgKeyInfo::slotOpenUrl(const QString &url) const
 void KgpgKeyInfo::slotLoadPhoto(const QString &uid)
 {
     KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(loadPhotoFinished(QPixmap, KgpgInterface*)), this, SLOT(slotSetPhoto(QPixmap, KgpgInterface*)));
+    connect(interface, SIGNAL(loadPhotoFinished(QPixmap)), SLOT(slotSetPhoto(QPixmap)));
     interface->loadPhoto(m_key->fullId(), uid);
 }
 
-void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap, KgpgInterface *interface)
+void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap)
 {
-    interface->deleteLater();
+    sender()->deleteLater();
 
     QImage img = pixmap.toImage();
     QPixmap pix = QPixmap::fromImage(img.scaled(m_photo->width(), m_photo->height(), Qt::KeepAspectRatio));

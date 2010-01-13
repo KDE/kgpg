@@ -64,8 +64,8 @@ public slots:
 	void slotVerifyFile();
 	void encryptDroppedFolder();
 	void startFolderEncode();
-	void slotFolderFinished(const KUrl &, KGpgTextInterface *);
-	void slotFolderFinishedError(const QString &errmsge, KGpgTextInterface *);
+	void slotFolderFinished(const KUrl &);
+	void slotFolderFinishedError(const QString &errmsge);
 	void encryptFiles(KUrl::List urls);
 	void slotAbortEnc();
 
@@ -94,7 +94,7 @@ private slots:
 	void help();
 	void readOptions();
 	void slotSetCompression(int cp);
-	void decryptNextFile(KgpgLibrary *lib, const KUrl &failed);
+	void decryptNextFile(const KUrl &failed, KgpgLibrary *lib = NULL);
 	void decryptFile(KgpgLibrary *lib);
 };
 

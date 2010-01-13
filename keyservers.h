@@ -90,8 +90,8 @@ private slots:
 	void slotDownloadKeysFinished(int resultcode);
 	void slotUploadKeysFinished(int resultcode);
 
-	void slotSearchRead(GPGProc *p);
-	void slotSearchResult(GPGProc *p);
+	void slotSearchRead();
+	void slotSearchResult();
 	void slotSearch();
 	void slotAbortSearch();
 	void slotSetFilterString(const QString &expression);

@@ -533,11 +533,17 @@ void KgpgEditor::slotFilePreDec()
         }
 
         KgpgLibrary *lib = new KgpgLibrary(this);
-        connect(lib, SIGNAL(importOver(KgpgLibrary *, QStringList)), SIGNAL(slotRefreshImported(KgpgLibrary *, QStringList)));
+	connect(lib, SIGNAL(decryptionOver(KUrl)), SIGNAL(slotLibraryDone()));
         lib->slotFileDec(url, KUrl(newname), m_customdecrypt);
     }
     else
         openEncryptedDocumentFile(url);
+}
+
+void
+KgpgEditor::slotLibraryDone()
+{
+	sender()->deleteLater();
 }
 
 void
@@ -645,14 +651,14 @@ void KgpgEditor::slotSignFile(const KUrl &url)
         Options << "--detach-sign";
 
         KGpgTextInterface *interface = new KGpgTextInterface();
-        //TODO connect(interface, SIGNAL(...), this, SLOT(slotSignFileFin(KgpgInterface *interface)));
+        //TODO connect(interface, SIGNAL(...), this, SLOT(slotSignFileFin()));
         interface->signFiles(signKeyID, url, Options);
     }
 }
 
-void KgpgEditor::slotSignFileFin(KgpgInterface *interface)
+void KgpgEditor::slotSignFileFin()
 {
-    delete interface;
+	sender()->deleteLater();
 }
 
 void KgpgEditor::slotPreVerifyFile()

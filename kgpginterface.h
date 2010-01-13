@@ -106,7 +106,7 @@ private:
 
 /************** extract public keys **************/
 signals:
-    void readPublicKeysFinished(KgpgCore::KgpgKeyList, KgpgInterface*);
+    void readPublicKeysFinished(KgpgCore::KgpgKeyList);
 
 public:
     KgpgCore::KgpgKeyList readPublicKeys(const bool block = false, const QStringList &ids = QStringList(), const bool withsigs = false);
@@ -114,8 +114,8 @@ public:
 	{ return readPublicKeys(block, QStringList(ids), withsigs); }
 
 private slots:
-    void readPublicKeysProcess(GPGProc *p);
-    void readPublicKeysFin(GPGProc *p, const bool block = false);
+	void readPublicKeysProcess(GPGProc *p = NULL);
+	void readPublicKeysFin(GPGProc *p = NULL, const bool block = false);
 
 private:
     int m_numberid;
@@ -144,7 +144,7 @@ private:
 
 /************** load a photo in a QPixmap **************/
 signals:
-    void loadPhotoFinished(QPixmap, KgpgInterface*);
+    void loadPhotoFinished(QPixmap);
 
 public slots:
     QPixmap loadPhoto(const QString &keyid, const QString &uid, const bool block = false);
@@ -172,20 +172,20 @@ public slots:
     void KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID);
 
     void KgpgRevokeKey(const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description);
-    void revokeover(GPGProc *);
-    void revokeprocess(GPGProc *p);
+    void revokeover();
+    void revokeprocess();
 
 
 private slots:
     /**
      * Reads output of the delete signature process
      */
-    void delsigprocess(GPGProc *p);
+    void delsigprocess();
 
     /**
      * Checks output of the delete signature process
      */
-    void delsignover(GPGProc *p);
+    void delsignover();
 
     /**
      * Finds the offset of the given signatures to a uid

@@ -33,8 +33,8 @@ public:
 
 	QStringList m_idhints;
 
-	void slotReadReady(GPGProc *gpgProcess);
-	void slotProcessExited(GPGProc *gpgProcess);
+	void slotReadReady();
+	void slotProcessExited();
 	void slotProcessStarted();
 
 	QList<int *> m_argRefs;
@@ -52,8 +52,8 @@ KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent)
 KGpgTransaction::KGpgTransaction(QObject *parent)
 	: QObject(parent), d(new KGpgTransactionPrivate(this))
 {
-	connect(d->m_process, SIGNAL(readReady(GPGProc *)), SLOT(slotReadReady(GPGProc *)));
-	connect(d->m_process, SIGNAL(processExited(GPGProc *)), SLOT(slotProcessExited(GPGProc *)));
+	connect(d->m_process, SIGNAL(readReady()), SLOT(slotReadReady()));
+	connect(d->m_process, SIGNAL(processExited()), SLOT(slotProcessExited()));
 	connect(d->m_process, SIGNAL(started()), SLOT(slotProcessStarted()));
 }
 
@@ -63,11 +63,11 @@ KGpgTransaction::~KGpgTransaction()
 }
 
 void
-KGpgTransactionPrivate::slotReadReady(GPGProc *gpgProcess)
+KGpgTransactionPrivate::slotReadReady()
 {
 	QString line;
 
-	while (gpgProcess->readln(line, true) >= 0) {
+	while (m_process->readln(line, true) >= 0) {
 		if (line.startsWith(QLatin1String("[GNUPG:] USERID_HINT "))) {
 			m_parent->addIdHint(line);
 		} else if (line.startsWith(QLatin1String("[GNUPG:] BAD_PASSPHRASE "))) {
@@ -79,10 +79,8 @@ KGpgTransactionPrivate::slotReadReady(GPGProc *gpgProcess)
 }
 
 void
-KGpgTransactionPrivate::slotProcessExited(GPGProc *gpgProcess)
+KGpgTransactionPrivate::slotProcessExited()
 {
-	Q_UNUSED(gpgProcess)
-
 	m_parent->finish();
 	emit m_parent->infoProgress(100, 100);
 	emit m_parent->done(m_success);

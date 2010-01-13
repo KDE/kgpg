@@ -27,7 +27,6 @@
 #include <QString>
 
 class KPassivePopup;
-class KgpgInterface;
 class KGpgTextInterface;
 class KGpgItemModel;
 
@@ -48,7 +47,7 @@ public:
 
 signals:
     void encryptionOver();
-    void decryptionOver(KgpgLibrary *, KUrl);
+    void decryptionOver(KUrl);
     void importOver(KgpgLibrary *, QStringList);
     void systemMessage(QString, bool reset = false);
     void photoAdded();
@@ -58,12 +57,10 @@ public slots:
     void slotFileDec(const KUrl &srcUrl, const KUrl &destUrl, const QStringList &customDecryptOption = QStringList());
 
 private slots:
-    void processEnc(const KUrl &, KGpgTextInterface*);
-    void processEncError(const QString &mssge, KGpgTextInterface*);
-    void processDecOver(int, KGpgTextInterface*);
+    void processEnc(const KUrl &);
+    void processEncError(const QString &mssge);
+    void processDecOver(int);
     void processEncPopup(const KUrl &url);
-
-    void slotImportOver(KgpgInterface *iface, const QStringList &keys);
 
 private:
     void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool symetric);

@@ -126,16 +126,16 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
 	m_pop = new KPassivePopup(m_panel);
 
 	KGpgTextInterface *cryptFileProcess = new KGpgTextInterface();
-	connect(cryptFileProcess, SIGNAL(fileEncryptionFinished(KUrl, KGpgTextInterface*)), SLOT(processEnc(KUrl, KGpgTextInterface*)));
-	connect(cryptFileProcess, SIGNAL(errorMessage(QString, KGpgTextInterface*)), SLOT(processEncError(QString, KGpgTextInterface*)));
+	connect(cryptFileProcess, SIGNAL(fileEncryptionFinished(KUrl)), SLOT(processEnc(KUrl)));
+	connect(cryptFileProcess, SIGNAL(errorMessage(QString)), SLOT(processEncError(QString)));
 	cryptFileProcess->encryptFile(encryptkeys, m_urlselected, dest, encryptoptions, symetric);
 
 	m_popisactive = true;
 }
 
-void KgpgLibrary::processEnc(const KUrl &, KGpgTextInterface *i)
+void KgpgLibrary::processEnc(const KUrl &)
 {
-	i->deleteLater();
+	sender()->deleteLater();
 	emit systemMessage(QString());
 
 	m_urlselecteds.pop_front();
@@ -146,9 +146,9 @@ void KgpgLibrary::processEnc(const KUrl &, KGpgTextInterface *i)
 		emit encryptionOver();
 }
 
-void KgpgLibrary::processEncError(const QString &mssge, KGpgTextInterface *i)
+void KgpgLibrary::processEncError(const QString &mssge)
 {
-	i->deleteLater();
+	sender()->deleteLater();
 	m_popisactive = false;
 	emit systemMessage(QString(), true);
 	KMessageBox::detailedSorry(m_panel, i18n("<p><b>Process halted</b>.<br />Not all files were encrypted.</p>"), mssge);
@@ -163,24 +163,18 @@ void KgpgLibrary::slotFileDec(const KUrl &src, const KUrl &dest, const QStringLi
 	KGpgTextInterface *decryptFileProcess = new KGpgTextInterface();
 	decryptFileProcess->decryptFile(src, dest, customDecryptOption);
 	connect(decryptFileProcess, SIGNAL(decryptFileStarted(KUrl)), SLOT(processEncPopup(KUrl)));
-	connect(decryptFileProcess, SIGNAL(decryptFileFinished(int, KGpgTextInterface*)), SLOT(processDecOver(int, KGpgTextInterface*)));
+	connect(decryptFileProcess, SIGNAL(decryptFileFinished(int)), SLOT(processDecOver(int)));
 }
 
-void KgpgLibrary::processDecOver(int ret, KGpgTextInterface *iface)
+void KgpgLibrary::processDecOver(int ret)
 {
 	emit systemMessage(QString());
 	delete m_pop;
-	iface->deleteLater();
+	sender()->deleteLater();
 	if (ret != 0)
-		emit decryptionOver(this, m_urlselected);
+		emit decryptionOver(m_urlselected);
 	else
-		emit decryptionOver(this, KUrl());
-}
-
-void KgpgLibrary::slotImportOver(KgpgInterface *iface, const QStringList &keys)
-{
-	iface->deleteLater();
-	emit importOver(this, keys);
+		emit decryptionOver(KUrl());
 }
 
 void KgpgLibrary::processEncPopup(const KUrl &url)

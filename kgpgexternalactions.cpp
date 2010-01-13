@@ -203,24 +203,24 @@ void KGpgExternalActions::startFolderEncode()
 	arch->close();
 	delete arch;
 
-	KGpgTextInterface *folderprocess = new KGpgTextInterface();
-	connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl, KGpgTextInterface*)), SLOT(slotFolderFinished(KUrl, KGpgTextInterface*)));
-	connect(folderprocess, SIGNAL(errorMessage(const QString &, KGpgTextInterface*)), SLOT(slotFolderFinishedError(const QString &, KGpgTextInterface*)));
+	KGpgTextInterface *folderprocess = new KGpgTextInterface(this);
+	connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl)), SLOT(slotFolderFinished(KUrl)));
+	connect(folderprocess, SIGNAL(errorMessage(const QString &)), SLOT(slotFolderFinishedError(const QString &)));
 	folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric);
 }
 
-void KGpgExternalActions::slotFolderFinished(const KUrl &, KGpgTextInterface *iface)
+void KGpgExternalActions::slotFolderFinished(const KUrl &)
 {
 	delete pop;
 	delete kgpgfoldertmp;
-	iface->deleteLater();
+	sender()->deleteLater();
 }
 
-void KGpgExternalActions::slotFolderFinishedError(const QString &errmsge, KGpgTextInterface *iface)
+void KGpgExternalActions::slotFolderFinishedError(const QString &errmsge)
 {
 	delete pop;
 	delete kgpgfoldertmp;
-	iface->deleteLater();
+	sender()->deleteLater();
 	KMessageBox::sorry(0, errmsge);
 }
 
@@ -273,7 +273,7 @@ void KGpgExternalActions::slotVerifyFile()
 	}
 
 	// pipe gpg command
-	KGpgTextInterface *verifyFileProcess = new KGpgTextInterface();
+	KGpgTextInterface *verifyFileProcess = new KGpgTextInterface(this);
 	connect (verifyFileProcess, SIGNAL(verifyquerykey(QString)), SLOT(importSignature(QString)));
 	verifyFileProcess->KgpgVerifyFile(droppedUrl, KUrl(sigfile));
 }
@@ -307,9 +307,8 @@ void KGpgExternalActions::signDroppedFile()
 		Options << "--pgp6";
 	Options << "--detach-sign";
 
-	KGpgTextInterface *signFileProcess = new KGpgTextInterface();
-	signFileProcess->signFilesBlocking(signKeyID, droppedUrls, Options);
-	delete signFileProcess;
+	KGpgTextInterface signFileProcess;
+	signFileProcess.signFilesBlocking(signKeyID, droppedUrls, Options);
 }
 
 void KGpgExternalActions::decryptDroppedFile()
@@ -323,7 +322,7 @@ void KGpgExternalActions::decryptFile(KgpgLibrary *lib)
 {
 	if (!droppedUrls.first().isLocalFile()) {
 		showDroppedFile();
-		decryptNextFile(lib, KUrl());
+		decryptNextFile(KUrl(), lib);
 	}
 	
 	QString oldname(droppedUrls.first().fileName());
@@ -340,7 +339,7 @@ void KGpgExternalActions::decryptFile(KgpgLibrary *lib)
 		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager, i18n("File Already Exists"), KUrl(), swapname, KIO::M_OVERWRITE);
 		if (over->exec() != QDialog::Accepted) {
 			delete over;
-			decryptNextFile(lib, KUrl());
+			decryptNextFile(KUrl(), lib);
 			return;
 		}
 
@@ -352,12 +351,15 @@ void KGpgExternalActions::decryptFile(KgpgLibrary *lib)
 	if (!KGpgSettings::customDecrypt().isEmpty())
 		custdecr.append(KGpgSettings::customDecrypt());
 	connect(lib, SIGNAL(systemMessage(QString, bool)), SLOT(busyMessage(QString, bool)));
-	connect(lib, SIGNAL(decryptionOver(KgpgLibrary *, KUrl)), SLOT(decryptNextFile(KgpgLibrary *, KUrl)));
+	connect(lib, SIGNAL(decryptionOver(KUrl)), SLOT(decryptNextFile(KUrl)));
 	lib->slotFileDec(droppedUrls.first(), swapname, custdecr);
 }
 
-void KGpgExternalActions::decryptNextFile(KgpgLibrary *lib, const KUrl &failed)
+void KGpgExternalActions::decryptNextFile(const KUrl &failed, KgpgLibrary *lib)
 {
+	if (lib == NULL)
+		lib = qobject_cast<KgpgLibrary *>(sender());
+
 	if (!failed.isEmpty())
 		m_decryptionFailed << failed;
 

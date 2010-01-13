@@ -53,12 +53,12 @@ void GPGProc::start()
 
 void GPGProc::received()
 {
-	emit readReady(this);
+	emit readReady();
 }
 
 void GPGProc::finished()
 {
-    emit processExited(this);
+	emit processExited();
 }
 
 int GPGProc::readln(QString &line, const bool &colons)
