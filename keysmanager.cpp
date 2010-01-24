@@ -902,8 +902,8 @@ void KeysManager::slotAddUidEnable(const QString & name)
 void KeysManager::slotAddPhoto()
 {
 	QString mess = i18n("The image must be a JPEG file. Remember that the image is stored within your public key, so "
-	"if you use a very large picture, your key will become very large as well. An image size of "
-	"around 240x288 is a good size to use.");
+	"if you use a very large picture, your key will become very large as well. The size should not exceed 6 KiB. "
+	"An image size of around 240x288 is a good size to use.");
 
 	if (KMessageBox::warningContinueCancel(0, mess) != KMessageBox::Continue)
 		return;
