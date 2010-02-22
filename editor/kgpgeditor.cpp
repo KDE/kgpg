@@ -533,7 +533,7 @@ void KgpgEditor::slotFilePreDec()
         }
 
         KgpgLibrary *lib = new KgpgLibrary(this);
-        connect(lib, SIGNAL(importOver(KgpgLibrary *, QStringList)), SIGNAL(slotRefreshImported(KgpgLibrary *, QStringList)));
+        connect(lib, SIGNAL(importOver(KgpgLibrary *, QStringList)), SLOT(slotRefreshImported(KgpgLibrary *, QStringList)));
         lib->slotFileDec(url, KUrl(newname), m_customdecrypt);
     }
     else
