@@ -2392,6 +2392,8 @@ void KeysManager::confirmdeletekey()
 		return;
 	}
 
+	Q_ASSERT(m_delkeys.isEmpty());
+
 	KgpgCore::KgpgItemType pt;
 	bool same;
 	QList<KGpgNode *> ndlist(iview->selectedNodes(&same, &pt));
@@ -2433,16 +2435,22 @@ void KeysManager::confirmdeletekey()
 
 	if (secretKeyInside) {
 		int result = KMessageBox::warningContinueCancel(this, i18n("<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be deleted.</qt>", secList.join("<br />")));
-		if (result != KMessageBox::Continue)
+		if (result != KMessageBox::Continue) {
+			m_delkeys.clear();
 			return;
+		}
 	}
 
-	if (keysToDelete.isEmpty())
+	if (keysToDelete.isEmpty()) {
+		Q_ASSERT(m_delkeys.isEmpty());
 		return;
+	}
 
 	int result = KMessageBox::warningContinueCancelList(this, i18np("<qt><b>Delete the following public key?</b></qt>", "<qt><b>Delete the following %1 public keys?</b></qt>", keysToDelete.count()), keysToDelete, QString(), KStandardGuiItem::del());
-	if (result != KMessageBox::Continue)
+	if (result != KMessageBox::Continue) {
+		m_delkeys.clear();
 		return;
+	}
 
 	foreach (KGpgNode *nd, ndlist)
 		removeFromGroups(nd->toKeyNode());
@@ -2454,14 +2462,13 @@ void KeysManager::confirmdeletekey()
 
 void KeysManager::slotDelKeyDone(int res)
 {
+	if (res == 0) {
+		foreach (KGpgKeyNode *kn, m_delkeys)
+			imodel->delNode(kn);
+	}
+
 	m_delkey->deleteLater();
 	m_delkey = NULL;
-
-	if (res != 0)
-		return;
-
-	for (int i = m_delkeys.count() - 1; i >= 0; i--)
-		imodel->delNode(m_delkeys.at(i));
 	m_delkeys.clear();
 
 	updateStatusCounter();
