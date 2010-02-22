@@ -533,7 +533,7 @@ void KgpgEditor::slotFilePreDec()
         }
 
         KgpgLibrary *lib = new KgpgLibrary(this);
-	connect(lib, SIGNAL(decryptionOver(KUrl)), SIGNAL(slotLibraryDone()));
+	connect(lib, SIGNAL(decryptionOver(KUrl)), SLOT(slotLibraryDone()));
         lib->slotFileDec(url, KUrl(newname), m_customdecrypt);
     }
     else
