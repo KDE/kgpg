@@ -484,7 +484,7 @@ void KgpgEditor::slotFilePreDec()
 
         KgpgLibrary *lib = new KgpgLibrary(this);
         lib->slotFileDec(url, KUrl(newname), m_customdecrypt);
-        connect(lib, SIGNAL(importOver(KgpgLibrary *, QStringList)), SIGNAL(slotRefreshImported(KgpgLibrary *, QStringList)));
+        connect(lib, SIGNAL(importOver(KgpgLibrary *, QStringList)), SLOT(slotRefreshImported(KgpgLibrary *, QStringList)));
     }
     else
         openEncryptedDocumentFile(url);
