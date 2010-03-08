@@ -28,9 +28,10 @@ class KGpgItemModel;
 class GroupEditProxyModel: public QSortFilterProxyModel
 {
 public:
-	explicit GroupEditProxyModel(QObject * parent, const bool &invert, QList<KGpgNode *> *ids, const KgpgCore::KgpgKeyTrust &mintrust = KgpgCore::TRUST_FULL);
+	explicit GroupEditProxyModel(QObject * parent, const bool &invert, QList<KGpgNode *> *ids, const KgpgCore::KgpgKeyTrust mintrust = KgpgCore::TRUST_FULL);
 
 	void setKeyModel(KGpgItemModel *);
+	void setMinTrust(const KgpgCore::KgpgKeyTrust mintrust);
 
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 

@@ -16,13 +16,24 @@
 #include <QHeaderView>
 #include "groupeditproxymodel.h"
 #include "kgpgitemmodel.h"
+#include "kgpgkey.h"
+#include "kgpgsettings.h"
 
 groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
 	: QWidget( parent ), members(ids)
 {
 	setupUi( this );
-	m_in = new GroupEditProxyModel(this, false, members);
-	m_out = new GroupEditProxyModel(this, true, members);
+	KgpgCore::KgpgKeyTrust mintrust;
+	if (KGpgSettings::allowUntrustedGroupMembers()) {
+		mintrust = KgpgCore::TRUST_UNDEFINED;
+		textLabelAvailable->setText(i18n("Available Keys"));
+	} else {
+		mintrust = KgpgCore::TRUST_FULL;
+		textLabelAvailable->setText(i18n("Available Trusted Keys"));
+	}
+
+	m_in = new GroupEditProxyModel(this, false, members, mintrust);
+	m_out = new GroupEditProxyModel(this, true, members, mintrust);
 	availableKeys->setModel(m_out);
 	groupKeys->setModel(m_in);
 	buttonAdd->setIcon(KIcon("go-down"));

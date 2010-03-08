@@ -25,8 +25,12 @@
 
 using namespace KgpgCore;
 
-GroupEditProxyModel::GroupEditProxyModel(QObject *parent, const bool &invert, QList<KGpgNode *> *ids, const KgpgCore::KgpgKeyTrust &mintrust)
-	: QSortFilterProxyModel(parent), m_model(NULL), m_invert(invert), m_ids(ids), m_mintrust(mintrust)
+GroupEditProxyModel::GroupEditProxyModel(QObject *parent, const bool &invert, QList<KGpgNode *> *ids, const KgpgCore::KgpgKeyTrust mintrust)
+	: QSortFilterProxyModel(parent),
+	m_model(NULL),
+	m_invert(invert),
+	m_ids(ids),
+	m_mintrust(mintrust)
 {
 }
 
@@ -35,6 +39,13 @@ GroupEditProxyModel::setKeyModel(KGpgItemModel *md)
 {
 	m_model = md;
 	setSourceModel(md);
+}
+
+void
+GroupEditProxyModel::setMinTrust(const KgpgCore::KgpgKeyTrust mintrust)
+{
+	m_mintrust = mintrust;
+	invalidate();
 }
 
 bool

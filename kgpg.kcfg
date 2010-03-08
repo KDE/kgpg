@@ -36,6 +36,10 @@
             <label>Allow encryption with untrusted keys.</label>
             <default>false</default>
         </entry>
+        <entry name="AllowUntrustedGroupMembers" type="Bool" key="Allow_untrusted_group_members">
+            <label>Allow untrusted keys to become members of key groups.</label>
+            <default>false</default>
+        </entry>
         <entry name="HideUserID" type="Bool" key="Hide_user_ID">
             <label>Hide the user ID.</label>
             <default>false</default>
