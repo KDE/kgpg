@@ -30,6 +30,26 @@
     </widget>
    </item>
    <item>
+    <widget class="QWidget">
+     <layout class="QHBoxLayout">
+      <item>
+       <widget class="QLabel">
+        <property name="text">
+         <string>Search:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="KLineEdit" name="filterEdit">
+        <property name="clearButtonShown" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="QTableView" name="availableKeys" >
      <property name="acceptDrops" >
       <bool>true</bool>
@@ -152,6 +172,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+ </customwidgets>
   <resources/>
  <connections/>
 </ui>

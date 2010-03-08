@@ -14,13 +14,17 @@
 
 #include "groupedit.h"
 #include <QHeaderView>
+#include <QSortFilterProxyModel>
+#include <KAction>
+#include <KActionCollection>
 #include "groupeditproxymodel.h"
 #include "kgpgitemmodel.h"
 #include "kgpgkey.h"
 #include "kgpgsettings.h"
 
 groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
-	: QWidget( parent ), members(ids)
+	: QWidget( parent ),
+	members(ids)
 {
 	setupUi( this );
 	KgpgCore::KgpgKeyTrust mintrust;
@@ -34,7 +38,12 @@ groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
 
 	m_in = new GroupEditProxyModel(this, false, members, mintrust);
 	m_out = new GroupEditProxyModel(this, true, members, mintrust);
-	availableKeys->setModel(m_out);
+
+	QSortFilterProxyModel *filter = new QSortFilterProxyModel(this);
+	filter->setSourceModel(m_out);
+	filter->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+	availableKeys->setModel(filter);
 	groupKeys->setModel(m_in);
 	buttonAdd->setIcon(KIcon("go-down"));
 	buttonRemove->setIcon(KIcon("go-up"));
