@@ -94,14 +94,26 @@ GroupEditProxyModel::rowCount(const QModelIndex &parent) const
 QVariant
 GroupEditProxyModel::data(const QModelIndex &index, int role) const
 {
-	if (!index.isValid() || (index.column() >= 3) || (role != Qt::DisplayRole))
+	if (!index.isValid() || (index.column() >= 3))
+		return QVariant();
+
+	if ((role != Qt::ToolTipRole) && (role != Qt::DisplayRole))
 		return QVariant();
 
 	KGpgNode *nd = m_model->nodeForIndex(mapToSource(index));
 	switch (index.column()) {
-		case 0:	return nd->getName();
-		case 1:	return nd->getEmail();
-		case 2:	return nd->getId().right(8);
+		case 0:
+			if (role == Qt::ToolTipRole)
+				return nd->getNameComment();
+			else
+				return nd->getName();
+		case 1:
+			return nd->getEmail();
+		case 2:
+			if (role == Qt::ToolTipRole)
+				return nd->getId();
+			else
+				return nd->getId().right(8);
 	}
 
 	return QVariant();
