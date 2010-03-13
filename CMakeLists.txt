@@ -55,6 +55,7 @@ set(kgpg_transaction_SRCS
    transactions/kgpgaddphoto.cpp
    transactions/kgpgadduid.cpp
    transactions/kgpggeneratekey.cpp
+   transactions/kgpggeneraterevoke.cpp
    transactions/kgpgdelkey.cpp
    transactions/kgpgimport.cpp
    transactions/kgpgkeyservertransaction.cpp

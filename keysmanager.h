@@ -156,9 +156,9 @@ private slots:
     void slotAddPhotoFinished(int res);
     void slotSetPhotoSize(int size);
     void slotShowPhoto();
-    void slotrevoke(const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description);
     void revokeWidget();
-    void doFilePrint(const KUrl &url);
+    void slotRevokeDialogFinished(int result);
+    void slotRevokeGenerated(int result);
     void doPrint(const QString &txt);
     void checkList();
     void slotManpage();
@@ -194,7 +194,6 @@ private slots:
     void editGroup();
     void createNewGroup();
     void deleteGroup();
-    void slotImportRevoke(const KUrl &url);
     void slotImportRevokeTxt(const QString &revokeText);
     void refreshKeyFromServer();
     void slotKeyRefreshDone(int result);

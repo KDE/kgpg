@@ -171,11 +171,6 @@ public slots:
      */
     void KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID);
 
-    void KgpgRevokeKey(const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description);
-    void revokeover();
-    void revokeprocess();
-
-
 private slots:
     /**
      * Reads output of the delete signature process
@@ -198,9 +193,6 @@ signals:
      */
     void delsigfinished(bool);
 
-    void revokecertificate(const QString &);
-    void revokeurl(const KUrl &);
-
 private:
     // Globals private
     int m_success;
@@ -216,7 +208,6 @@ private:
     QString output;
 
     bool deleteSuccess;
-    bool revokeSuccess;
     bool addSuccess;
     bool delSuccess;
 
@@ -225,9 +216,7 @@ private:
     int signb;
     int sigsearch;
     int expirationDelay;
-    int revokeReason;
     int photoCount;
-    QString revokeDescription;
     KUrl certificateUrl;
     QString photoUrl;
     QString decryptUrl;

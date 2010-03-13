@@ -101,7 +101,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KUrlRequester" name="kURLRequester1" />
+      <widget class="KUrlRequester" name="outputFile" />
      </item>
     </layout>
    </item>
@@ -147,7 +147,7 @@
   <tabstop>cbSave</tabstop>
   <tabstop>cbPrint</tabstop>
   <tabstop>cbImport</tabstop>
-  <tabstop>kURLRequester1</tabstop>
+  <tabstop>outputFile</tabstop>
  </tabstops>
  <resources/>
  <connections/>

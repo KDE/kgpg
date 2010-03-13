@@ -18,7 +18,9 @@
 #define KGPGREVOKEWIDGET_H
 
 #include "ui_kgpgrevokewidget.h"
+#include <KDialog>
 
+class KGpgKeyNode;
 
 class KgpgRevokeWidget : public QWidget, public Ui_KgpgRevokeWidget
 {
@@ -30,6 +32,27 @@ public:
 
 public slots:
    virtual void cbSave_toggled(bool isOn);
+};
+
+class KGpgRevokeDialog: public KDialog
+{
+	Q_OBJECT
+
+	Q_DISABLE_COPY(KGpgRevokeDialog)
+	KGpgRevokeDialog(); // = delete C++0x
+public:
+	KGpgRevokeDialog(QWidget* parent, const KGpgKeyNode* node);
+
+	QString getDescription() const;
+	int getReason() const;
+	KUrl saveUrl() const;
+	QString getId() const;
+	bool printChecked();
+	bool importChecked();
+
+private:
+	KgpgRevokeWidget *m_revWidget;
+	const QString m_id;
 };
 
 #endif

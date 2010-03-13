@@ -97,6 +97,7 @@
 #include "kgpgadduid.h"
 #include "kgpgexport.h"
 #include "kgpggeneratekey.h"
+#include "kgpggeneraterevoke.h"
 #include "kgpgdelkey.h"
 #include "kgpgimport.h"
 #include "kgpgprimaryuid.h"
@@ -629,13 +630,20 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 
 		iview->selectNode(knode);
 
-		if (page->CBsave->isChecked()) {
-			slotrevoke(fingerprint, page->kURLRequester1->url().path(), 0, i18n("backup copy"));
+		if (page->CBsave->isChecked() || page->CBprint->isChecked()) {
+			KUrl revurl;
+			if (page->CBsave->isChecked())
+				revurl = page->kURLRequester1->url();
+
+			KGpgGenerateRevoke *genRev = new KGpgGenerateRevoke(this, fingerprint, revurl,
+					0, i18n("backup copy"));
+
+			connect(genRev, SIGNAL(done(int)), SLOT(slotRevokeGenerated(int)));
+
 			if (page->CBprint->isChecked())
-				connect(revKeyProcess, SIGNAL(revokeurl(KUrl)), SLOT(doFilePrint(KUrl)));
-		} else if (page->CBprint->isChecked()) {
-			slotrevoke(fingerprint, QString(), 0, i18n("backup copy"));
-			connect(revKeyProcess, SIGNAL(revokecertificate(QString)), this, SLOT(doPrint(QString)));
+				connect(genRev, SIGNAL(revokeCertificate(QString)), SLOT(doPrint(QString)));
+
+			genRev->start();
 		}
 		break;
 	}
@@ -1384,55 +1392,48 @@ KeysManager::slotMenu(const QPoint &pos)
 	}
 }
 
-void KeysManager::slotrevoke(const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description)
-{
-	revKeyProcess = new KgpgInterface();
-	revKeyProcess->KgpgRevokeKey(keyID, revokeUrl, reason, description);
-	// FIXME: slot? delete?
-}
-
 void KeysManager::revokeWidget()
 {
-	KDialog *keyRevokeWidget = new KDialog(this);
 	KGpgNode *nd = iview->selectedNode();
+	KDialog *keyRevokeDialog = new KGpgRevokeDialog(this, nd->toKeyNode());
 
-	keyRevokeWidget->setCaption(i18n("Create Revocation Certificate"));
-	keyRevokeWidget->setButtons(KDialog::Ok | KDialog::Cancel);
-	keyRevokeWidget->setDefaultButton(KDialog::Ok);
-	keyRevokeWidget->setModal(true);
-	KgpgRevokeWidget *keyRevoke = new KgpgRevokeWidget();
+	connect(keyRevokeDialog, SIGNAL(finished(int)), SLOT(slotRevokeDialogFinished(int)));
 
-	keyRevoke->keyID->setText(i18nc("<Name> (<Email>) ID: <KeyId>", "%1 (%2) ID: %3", nd->getName(), nd->getEmail(), nd->getId()));
-	keyRevoke->kURLRequester1->setUrl(QDir::homePath() + '/' + nd->getEmail().section('@', 0, 0) + ".revoke");
-	keyRevoke->kURLRequester1->setMode(KFile::File);
-
-	keyRevoke->setMinimumSize(keyRevoke->sizeHint());
-	keyRevoke->show();
-	keyRevokeWidget->setMainWidget(keyRevoke);
-
-	if (keyRevokeWidget->exec() != QDialog::Accepted)
-		return;
-
-	if (keyRevoke->cbSave->isChecked()) {
-		slotrevoke(nd->getId(), keyRevoke->kURLRequester1->url().path(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->toPlainText());
-		if (keyRevoke->cbPrint->isChecked())
-			connect(revKeyProcess, SIGNAL(revokeurl(const KUrl &)), SLOT(doFilePrint(const KUrl &)));
-		if (keyRevoke->cbImport->isChecked())
-			connect(revKeyProcess, SIGNAL(revokeurl(const KUrl &)), SLOT(slotImportRevoke(const KUrl &)));
-	} else {
-		slotrevoke(nd->getId(), QString(), keyRevoke->comboBox1->currentIndex(), keyRevoke->textDescription->toPlainText());
-		if (keyRevoke->cbPrint->isChecked())
-			connect(revKeyProcess, SIGNAL(revokecertificate(const QString &)), SLOT(doPrint(const QString &)));
-		if (keyRevoke->cbImport->isChecked())
-			connect(revKeyProcess, SIGNAL(revokecertificate(const QString &)), SLOT(slotImportRevokeTxt(const QString &)));
-	}
+	keyRevokeDialog->open();
 }
 
-void KeysManager::slotImportRevoke(const KUrl &url)
+void KeysManager::slotRevokeDialogFinished(int result)
 {
-	KGpgImport *import = new KGpgImport(this, KUrl::List(url));
-	connect(import, SIGNAL(done(int)), SLOT(slotImportDone(int)));
-	import->start();
+	sender()->deleteLater();
+
+	if (result != QDialog::Accepted)
+		return;
+
+	KGpgRevokeDialog *keyRevokeDialog = qobject_cast<KGpgRevokeDialog *>(sender());
+
+	KGpgGenerateRevoke *genRev = new KGpgGenerateRevoke(this, keyRevokeDialog->getId(), keyRevokeDialog->saveUrl(),
+			keyRevokeDialog->getReason(), keyRevokeDialog->getDescription());
+
+	connect(genRev, SIGNAL(done(int)), SLOT(slotRevokeGenerated(int)));
+
+	if (keyRevokeDialog->printChecked())
+		connect(genRev, SIGNAL(revokeCertificate(QString)), SLOT(doPrint(QString)));
+	if (keyRevokeDialog->importChecked())
+		connect(genRev, SIGNAL(revokecertificate(QString)), SLOT(slotImportRevokeTxt(QString)));
+
+	genRev->start();
+}
+
+void KeysManager::slotRevokeGenerated(int result)
+{
+	KGpgGenerateRevoke *genRev = qobject_cast<KGpgGenerateRevoke *>(sender());
+
+	genRev->deleteLater();
+
+	if (result != KGpgTransaction::TS_OK) {
+		KMessageBox::detailedSorry(this, i18n("Creation of the revocation certificate failed..."), genRev->getOutput());
+		return;
+	}
 }
 
 void KeysManager::slotImportRevokeTxt(const QString &revokeText)
@@ -2267,18 +2268,6 @@ void KeysManager::slotEditDone(int exitcode)
 
 	terminalkey = NULL;
 	editKey->setEnabled(true);
-}
-
-void KeysManager::doFilePrint(const KUrl &url)
-{
-	QFile qfile(url.toLocalFile());
-
-	if (qfile.open(QIODevice::ReadOnly)) {
-		QTextStream t(&qfile);
-		doPrint(t.readAll());
-	} else {
-		KMessageBox::sorry(this, i18n("<qt>Cannot open file <b>%1</b> for printing...</qt>", url.toLocalFile()));
-	}
 }
 
 void KeysManager::doPrint(const QString &txt)

@@ -16,15 +16,72 @@
 
 #include "kgpgrevokewidget.h"
 
+#include <QDir>
+#include "KGpgKeyNode.h"
+
 KgpgRevokeWidget::KgpgRevokeWidget(QWidget* parent)
-                : QWidget(parent), Ui_KgpgRevokeWidget()
+	: QWidget(parent),
+	Ui_KgpgRevokeWidget()
 {
-    setupUi(this);
-    connect(cbSave, SIGNAL(toggled(bool)), this, SLOT(cbSave_toggled(bool)));
+	setupUi(this);
+	connect(cbSave, SIGNAL(toggled(bool)), SLOT(cbSave_toggled(bool)));
 }
 
 void KgpgRevokeWidget::cbSave_toggled(bool isOn)
 {
-    kURLRequester1->setEnabled(isOn);
+	outputFile->setEnabled(isOn);
 }
+
+KGpgRevokeDialog::KGpgRevokeDialog(QWidget* parent, const KGpgKeyNode *node)
+	: KDialog(parent),
+	m_revWidget(new KgpgRevokeWidget(this)),
+	m_id(node->getId())
+{
+	setCaption(i18n("Create Revocation Certificate"));
+	setButtons(KDialog::Ok | KDialog::Cancel);
+	setDefaultButton(KDialog::Ok);
+	setModal(true);
+
+	m_revWidget->keyID->setText(i18nc("<Name> (<Email>) ID: <KeyId>", "%1 (%2) ID: %3",
+				node->getName(), node->getEmail(), m_id));
+	m_revWidget->outputFile->setUrl(QDir::homePath() + '/' + node->getEmail().section('@', 0, 0) + ".revoke");
+	m_revWidget->outputFile->setMode(KFile::File);
+
+	setMinimumSize(m_revWidget->sizeHint());
+	setMainWidget(m_revWidget);
+}
+
+QString KGpgRevokeDialog::getDescription() const
+{
+	return m_revWidget->textDescription->toPlainText();
+}
+
+int KGpgRevokeDialog::getReason() const
+{
+	return m_revWidget->comboBox1->currentIndex();
+}
+
+KUrl KGpgRevokeDialog::saveUrl() const
+{
+	if (m_revWidget->cbSave->isChecked())
+		return m_revWidget->outputFile->url();
+	else
+		return KUrl();
+}
+
+QString KGpgRevokeDialog::getId() const
+{
+	return m_id;
+}
+
+bool KGpgRevokeDialog::importChecked()
+{
+	return m_revWidget->cbImport->isChecked();
+}
+
+bool KGpgRevokeDialog::printChecked()
+{
+	return m_revWidget->cbPrint->isChecked();
+}
+
 #include "kgpgrevokewidget.moc"
