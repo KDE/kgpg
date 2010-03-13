@@ -43,9 +43,6 @@ public:
     KgpgInterface();
     ~KgpgInterface();
 
-    static QString checkForUtf8(QString txt);
-    static QString checkForUtf8bis(QString txt);
-
     /**
      * @brief parse GnuPG version string and return version as number
      * @param vstr version string
@@ -97,12 +94,6 @@ public:
 
 private:
     static QString getGpgProcessHome(const QString &binary);
-
-/************** function update the userIDs variable **************/
-    void updateIDs(QString txt);
-
-/******************************************************************/
-
 
 /************** extract public keys **************/
 signals:
@@ -199,7 +190,6 @@ private:
     QString m_partialline;
     bool m_ispartial;
     QString message;
-    QString userIDs;
     QString log;
 
     /**
@@ -208,20 +198,10 @@ private:
     QString output;
 
     bool deleteSuccess;
-    bool addSuccess;
-    bool delSuccess;
 
-    int expSuccess;
     int step;
     int signb;
     int sigsearch;
-    int expirationDelay;
-    int photoCount;
-    KUrl certificateUrl;
-    QString photoUrl;
-    QString decryptUrl;
-
-    QString gpgOutput;
 };
 
 #endif // KGPGINTERFACE_H

@@ -48,33 +48,6 @@ KgpgInterface::~KgpgInterface()
 {
 }
 
-QString KgpgInterface::checkForUtf8(QString txt)
-{
-	/* The string is not in UTF-8 */
-	if (!txt.contains("\\x"))
-		return txt;
-
-	// if (!strchr (txt.toAscii(), 0xc3) || (txt.find("\\x")!=-1)) {
-	for (int idx = 0; (idx = txt.indexOf( "\\x", idx )) >= 0 ; ++idx) {
-		char str[2] = { 'x', '\0'};
-		str[0] = (char) QString(txt.mid(idx + 2, 2)).toShort(0, 16);
-		txt.replace(idx, 4, str);
-	}
-
-	return QString::fromUtf8(txt.toAscii());
-}
-
-QString KgpgInterface::checkForUtf8bis(QString txt)
-{
-	if (strchr(txt.toAscii(), 0xc3) || txt.contains("\\x")) {
-		txt = checkForUtf8(txt);
-	} else {
-		txt = checkForUtf8(txt);
-		txt = QString::fromUtf8(txt.toAscii());
-	}
-	return txt;
-}
-
 int KgpgInterface::gpgVersion(const QString &vstr)
 {
 	if (vstr.isEmpty())
@@ -398,23 +371,6 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const 
 	process->write(passphrase + '\n');
 
 	return 0;
-}
-
-void KgpgInterface::updateIDs(QString txt)
-{
-	int cut = txt.indexOf(' ', 22, Qt::CaseInsensitive);
-	txt.remove(0, cut);
-
-	if (txt.contains('(', Qt::CaseInsensitive))
-		txt = txt.section('(', 0, 0) + txt.section(')', -1);
-
-	txt.replace('<', "&lt;");
-
-	if (!userIDs.contains(txt)) {
-		if (!userIDs.isEmpty())
-			userIDs += i18n(" or ");
-		userIDs += txt;
-	}
 }
 
 KgpgKeyList KgpgInterface::readPublicKeys(const bool block, const QStringList &ids, const bool withsigs)
