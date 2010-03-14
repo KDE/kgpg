@@ -20,9 +20,6 @@
 
 #include <QPixmap>
 
-
-#include <KUrl>
-
 #include <kgpgkey.h>
 
 class KTemporaryFile;
