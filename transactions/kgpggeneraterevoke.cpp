@@ -46,7 +46,7 @@ KGpgGenerateRevoke::preStart()
 {
 	setSuccess(TS_MSG_SEQUENCE);
 
-	setDescription(i18n("Generating Revokation Certificate for key %1", m_keyid));
+	setDescription(i18n("Generating Revocation Certificate for key %1", m_keyid));
 
 	return true;
 }
