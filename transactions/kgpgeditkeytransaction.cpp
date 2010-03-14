@@ -59,7 +59,7 @@ KGpgEditKeyTransaction::preStart()
 bool
 KGpgEditKeyTransaction::nextLine(const QString &line)
 {
-	if (line == "[GNUPG:] GOT_IT") {
+	if (line == QLatin1String("[GNUPG:] GOT_IT")) {
 		return false;
 	} else if (getSuccess() == TS_USER_ABORTED) {
 		if (line.contains("GET_" ))
@@ -71,8 +71,6 @@ KGpgEditKeyTransaction::nextLine(const QString &line)
 		}
 	} else if ((getSuccess() == TS_OK) && line.contains("keyedit.prompt")) {
 		return true;
-	} else if ((getSuccess() == TS_OK) && line.contains("keyedit.save.okay") && !m_autosave) {
-		write("YES");
 	} else if (line.contains("NEED_PASSPHRASE")) {
 		// nothing for now
 		// we could use the id from NEED_PASSPHRASE as user id hint ...
@@ -83,6 +81,16 @@ KGpgEditKeyTransaction::nextLine(const QString &line)
 	}
 
 	return false;
+}
+
+KGpgTransaction::ts_boolanswer
+KGpgEditKeyTransaction::boolQuestion(const QString& line)
+{
+	if ((getSuccess() == TS_OK) && (line == QLatin1String("keyedit.save.okay")) && !m_autosave) {
+		return BA_YES;
+	} else {
+		return KGpgTransaction::boolQuestion(line);
+	}
 }
 
 void

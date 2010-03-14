@@ -63,6 +63,7 @@ protected:
 	 * This will handle the GnuPG commands specific to signing.
 	 */
 	lineParseResults nextLine(const QString &line);
+	KGpgTransaction::ts_boolanswer boolQuestion(const QString &line);
 
 public:
 	/**

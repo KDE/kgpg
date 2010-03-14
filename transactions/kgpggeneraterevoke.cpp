@@ -13,7 +13,7 @@
 
 #include "kgpggeneraterevoke.h"
 
-#include <KMessageBox>
+#include <KDebug>
 #include <KLocale>
 #include <QtCore/QFile>
 
@@ -68,10 +68,6 @@ KGpgGenerateRevoke::nextLine(const QString &line)
 		}
 	} else if (line.contains("NEED_PASSPHRASE")) {
 		setSuccess(TS_USER_ABORTED);
-	} else if (line.contains("gen_revoke.okay") ||
-			line.contains("ask_revocation_reason.okay") ||
-			line.contains("openfile.overwrite.okay")) {
-		write("YES");
 	} else if (line.contains("ask_revocation_reason.code")) {
 		write(QByteArray::number(m_reason));
 	} else if (line.contains("ask_revocation_reason.text")) {
@@ -80,10 +76,25 @@ KGpgGenerateRevoke::nextLine(const QString &line)
 		m_description.clear();
 	} else if (line.contains("GET_")) {
 		setSuccess(TS_MSG_SEQUENCE);
+		kDebug(2100) << line;
 		return true;
 	}
 
 	return false;
+}
+
+KGpgTransaction::ts_boolanswer
+KGpgGenerateRevoke::boolQuestion(const QString& line)
+{
+	if (line == QLatin1String("gen_revoke.okay")) {
+		return BA_YES;
+	} else if (line == QLatin1String("ask_revocation_reason.okay")) {
+		return BA_YES;
+	} else if (line == QLatin1String("openfile.overwrite.okay")) {
+		return BA_YES;
+	} else {
+		return KGpgTransaction::boolQuestion(line);
+	}
 }
 
 void

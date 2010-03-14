@@ -73,6 +73,8 @@ protected:
 	 */
 	virtual bool nextLine(const QString &line);
 
+	virtual ts_boolanswer boolQuestion(const QString &line);
+
 	/**
 	 * @brief replace the argument of the edit command
 	 * @param arg new argument

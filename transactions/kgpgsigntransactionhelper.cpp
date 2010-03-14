@@ -59,12 +59,22 @@ KGpgSignTransactionHelper::nextLine(const QString &line)
 	} else if (line.contains("sign_uid.class")) {
 		asTransaction()->write(m_checking);
 		return handledFalse;
-	} else if (line.contains("sign_uid.okay")) {
-		asTransaction()->write("YES");
+	} else if (line.startsWith(QLatin1String("[GNUPG:] KEYEXPIRED ")) ||
+				line.startsWith(QLatin1String("[GNUPG:] SIGEXPIRED"))) {
+		// I have no idea why GnuPG does this when I want to sign, but it sometimes does
 		return handledFalse;
-	} else if (line.contains("keyedit.save.okay")) {
+	} else {
+		return notHandled;
+	}
+}
+
+KGpgTransaction::ts_boolanswer
+KGpgSignTransactionHelper::boolQuestion(const QString& line)
+{
+	if (line == QLatin1String("sign_uid.okay")) {
+		return KGpgTransaction::BA_YES;
+	} else if (line == QLatin1String("keyedit.save.okay")) {
 		KGpgTransaction *ta = asTransaction();
-		ta->write("YES");
 
 		switch (ta->getSuccess()) {
 		case TS_ALREADY_SIGNED:
@@ -74,13 +84,9 @@ KGpgSignTransactionHelper::nextLine(const QString &line)
 			asTransaction()->setSuccess(KGpgTransaction::TS_OK);
 		}
 
-		return handledFalse;
-	} else if (line.startsWith(QLatin1String("[GNUPG:] KEYEXPIRED ")) ||
-				line.startsWith(QLatin1String("[GNUPG:] SIGEXPIRED"))) {
-		// I have no idea why GnuPG does this when I want to sign, but it sometimes does
-		return handledFalse;
+		return KGpgTransaction::BA_YES;
 	} else {
-		return notHandled;
+		return KGpgTransaction::BA_UNKNOWN;
 	}
 }
 

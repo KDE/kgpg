@@ -72,6 +72,18 @@ KGpgTransactionPrivate::slotReadReady()
 			m_parent->addIdHint(line);
 		} else if (line.startsWith(QLatin1String("[GNUPG:] BAD_PASSPHRASE "))) {
 			m_success = KGpgTransaction::TS_BAD_PASSPHRASE;
+		} else if (line.startsWith(QLatin1String("[GNUPG:] GET_BOOL "))) {
+			switch (m_parent->boolQuestion(line.mid(18))) {
+			case KGpgTransaction::BA_YES:
+				m_process->write("YES\n");
+				break;
+			case KGpgTransaction::BA_NO:
+				m_process->write("NO\n");
+				break;
+			case KGpgTransaction::BA_UNKNOWN:
+				m_parent->setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
+				m_process->write("quit\n");
+			}
 		} else if (m_parent->nextLine(line)) {
 			m_process->write("quit\n");
 		}
@@ -137,6 +149,14 @@ void
 KGpgTransaction::setSuccess(const int v)
 {
 	d->m_success = v;
+}
+
+KGpgTransaction::ts_boolanswer
+KGpgTransaction::boolQuestion(const QString& line)
+{
+	Q_UNUSED(line);
+
+	return BA_UNKNOWN;
 }
 
 void

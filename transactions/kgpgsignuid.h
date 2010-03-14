@@ -60,6 +60,7 @@ public:
 
 protected:
 	virtual bool nextLine(const QString &line);
+	virtual ts_boolanswer boolQuestion(const QString &line);
 
 	virtual KGpgTransaction *asTransaction();
 	virtual void replaceCmd(const QString &cmd);

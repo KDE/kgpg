@@ -72,6 +72,17 @@ KGpgSignUid::nextLine(const QString &line)
 	}
 }
 
+KGpgTransaction::ts_boolanswer
+KGpgSignUid::boolQuestion(const QString& line)
+{
+	ts_boolanswer ret = KGpgSignTransactionHelper::boolQuestion(line);
+
+	if (ret == BA_UNKNOWN)
+		ret = KGpgTransaction::boolQuestion(line);
+
+	return ret;
+}
+
 KGpgTransaction *
 KGpgSignUid::asTransaction()
 {

@@ -160,14 +160,18 @@ KGpgDelUid::preStart()
 bool
 KGpgDelUid::nextLine(const QString &line)
 {
-	if (line.contains("keyedit.remove.uid.okay")) {
-		write("YES");
-		m_uids.removeFirst();
-	} else {
-		return standardCommands(line);
-	}
+	return standardCommands(line);
+}
 
-	return false;
+KGpgTransaction::ts_boolanswer
+KGpgDelUid::boolQuestion(const QString& line)
+{
+	if (line == QLatin1String("keyedit.remove.uid.okay")) {
+		m_uids.removeFirst();
+		return BA_YES;
+	} else {
+		return KGpgTransaction::boolQuestion(line);
+	}
 }
 
 void

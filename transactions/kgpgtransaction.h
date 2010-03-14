@@ -62,6 +62,16 @@ public:
 		TS_INVALID_EMAIL = 4,		///< the given email address is invalid
 		TS_COMMON_END = 100		///< placeholder for return values of derived classes
 	};
+	/**
+	 * @brief result codes for GnuPG boolean questions
+	 *
+	 * These are the possible answers to a boolean question of a GnuPG process.
+	 */
+	enum ts_boolanswer {
+		BA_UNKNOWN = 0,			///< the question is not supported (this is an error)
+		BA_YES = 1,			///< answer "YES"
+		BA_NO = 2			///< answer "NO"
+	};
 
 	/**
 	 * @brief KGpgTransaction constructor
@@ -151,6 +161,18 @@ protected:
 	 * When this function returns true "quit" is written to the process.
 	 */
 	virtual bool nextLine(const QString &line) = 0;
+	/**
+	 * @brief Called for every boolean question GnuPG answers
+	 * @param line the question GnuPG asked
+	 * @return what to answer GnuPG
+	 *
+	 * This is called instead of nextLine() if the line contains a boolean
+	 * question. Returning BA_UNKNOWN will cancel the current transaction
+	 * and will set the transaction result to TS_MSG_SEQUENCE.
+	 *
+	 * The default implementation will answer BA_UNKNOWN to every question.
+	 */
+	virtual ts_boolanswer boolQuestion(const QString &line);
 	/**
 	 * @brief Called when the gpg process finishes.
 	 *
