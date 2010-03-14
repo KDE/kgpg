@@ -1634,16 +1634,12 @@ void KeysManager::slotProcessExportClip(int result)
 
 void KeysManager::showKeyInfo(const QString &keyID)
 {
-	KgpgInterface *iface = new KgpgInterface;
-	KgpgKeyList listkeys = iface->readJoinedKeys(TRUST_MINIMUM, QStringList(keyID));
-	delete iface;
+	KGpgKeyNode *key = imodel->getRootNode()->findKey(keyID);
 
-	if (listkeys.count() == 0)
+	if (key == NULL)
 		return;
 
-	KgpgKey *k = new KgpgKey(listkeys.at(0));
-	KgpgKeyInfo *opts = new KgpgKeyInfo(k, this);
-	opts->show();
+	showProperties(key);
 }
 
 void KeysManager::slotShowPhoto()

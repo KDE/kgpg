@@ -102,31 +102,17 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
 	keychange(new KGpgChangeKey(node)),
 	m_key(node->getKey()),
 	m_node(node),
-	m_model(model)
+	m_model(model),
+	m_changepass(NULL),
+	m_keywaschanged(false)
 {
-	init();
-}
+	Q_ASSERT(m_model != NULL);
+	Q_ASSERT(m_node != NULL);
 
-KgpgKeyInfo::KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent)
-	: KDialog(parent),
-	keychange(new KGpgChangeKey(key)),
-	m_key(key),
-	m_node(NULL),
-	m_model(NULL)
-{
-	init();
-}
-
-void KgpgKeyInfo::init()
-{
     setButtons(Ok | Apply | Cancel);
     setDefaultButton(Ok);
     setModal(true);
     enableButtonApply(false);
-
-    m_keywaschanged = false;
-
-    m_changepass = NULL;
 
     QWidget *page = new QWidget(this);
     QWidget *top = new QWidget(page);
@@ -166,9 +152,7 @@ void KgpgKeyInfo::init()
     connect(keychange, SIGNAL(done(int)), SLOT(slotApplied(int)));
 
     displayKey();
-    if (!m_hasphoto)
-        m_photoid->setEnabled(false);
-    else
+    if (m_hasphoto)
         slotLoadPhoto(m_photoid->currentText());
 }
 
@@ -176,8 +160,6 @@ KgpgKeyInfo::~KgpgKeyInfo()
 {
 	if (keychange)
 		keychange->selfdestruct(false);
-	if (!m_node)
-		delete m_key;
 	delete m_changepass;
 }
 
@@ -341,24 +323,8 @@ QGroupBox* KgpgKeyInfo::_fingerprintGroup(QWidget *parent)
     return group;
 }
 
-void KgpgKeyInfo::reloadKey()
-{
-	KgpgInterface *interface = new KgpgInterface();
-	KgpgKeyList listkeys = interface->readPublicKeys(true, m_key->fullId());
-	delete interface;
-
-	Q_ASSERT(listkeys.count() > 0);
-
-	delete m_key;
-	m_key = new KgpgKey(listkeys.at(0));
-	displayKey();
-}
-
 void KgpgKeyInfo::reloadNode()
 {
-	Q_ASSERT(m_model != NULL);
-	Q_ASSERT(m_node != NULL);
-
 	const QString kid(m_node->getId());
 
 	// this will delete m_node
@@ -415,15 +381,10 @@ void KgpgKeyInfo::displayKey()
 
     QStringList photolist = m_key->photoList();
     m_photoid->clear();
-    if (photolist.isEmpty())
-    {
-        m_photoid->setVisible(false);
-        m_hasphoto = false;
-    }
-    else
-    {
-        m_photoid->setVisible(true);
-        m_hasphoto = true;
+    m_hasphoto = !photolist.isEmpty();
+    m_photoid->setVisible(m_hasphoto);
+    m_photoid->setEnabled(m_hasphoto);
+    if (m_hasphoto) {
         m_photoid->addItems(photolist);
     }
 
@@ -566,10 +527,7 @@ void KgpgKeyInfo::slotApplied(int result)
 		KMessageBox::error(this, i18n("Changing key properties failed."), i18n("Key properties"));
 	} else {
 		m_keywaschanged = true;
-		if (m_node != NULL)
-			reloadNode();
-		else
-			reloadKey();
+		reloadNode();
 	}
 	setControlEnable(true);
 }

@@ -68,8 +68,7 @@ class KgpgKeyInfo : public KDialog
 	KgpgKeyInfo(); // = delete C++0x
 	Q_DISABLE_COPY(KgpgKeyInfo)
 public:
-	explicit KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *parent);
-	explicit KgpgKeyInfo(KgpgCore::KgpgKey *key, QWidget *parent);
+	KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *parent);
 	~KgpgKeyInfo();
 
 	KGpgChangeKey *keychange;
@@ -135,8 +134,6 @@ private:
 
     bool m_hasphoto;
     bool m_keywaschanged;
-
-    void init();
 };
 
 #endif // KGPGKEYINFODIALOG_H
