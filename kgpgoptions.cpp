@@ -36,22 +36,31 @@
 #include "images.h"
 #include "kgpgsettings.h"
 
+#include "keylistproxymodel.h"
+#include "kgpgitemmodel.h"
+
 // #include "conf_decryption.h"
 #include "conf_encryption.h"
 
 using namespace KgpgCore;
 
 //   main window
-kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
-           : KConfigDialog(parent, name, KGpgSettings::self()),
+kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
+           : KConfigDialog(parent, "settings", KGpgSettings::self()),
 	   m_config(new KConfig("kgpgrc", KConfig::SimpleConfig)),
 	   m_page1(new Encryption()),
 	   m_page2(new Decryption()),
 	   m_page3(new UIConf()),
 	   m_page4(new GPGConf()),
 	   m_page6(new ServerConf()),
-	   m_page7(new MiscConf())
+	   m_page7(new MiscConf()),
+	   m_model(model),
+	   m_combomodel(new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst))
 {
+	m_combomodel->setKeyModel(m_model);
+	m_combomodel->setTrustFilter(KgpgCore::TRUST_MARGINAL);
+	m_combomodel->sort(0);
+
 	// Initialize the default server and the default server list.
 	defaultKeyServer = "hkp://wwwkeys.pgp.net";
 	defaultServerList << defaultKeyServer << "hkp://search.keyserver.net" << "hkp://pgp.dtype.org";
@@ -91,7 +100,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, const char *name)
 	addPage(m_page7, i18n("Misc"), "preferences-other");
 
 	// The following widgets are managed manually.
-		connect(m_page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(slotChangeEncryptTo()));
+	connect(m_page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(slotChangeEncryptTo()));
 	connect(m_page4->changeHome, SIGNAL(clicked()), this, SLOT(slotChangeHome()));
 	connect(m_page6->server_add, SIGNAL(clicked()), this, SLOT(slotAddKeyServer()));
 	connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
@@ -292,11 +301,36 @@ void kgpgOptions::updateWidgets()
 
 	listKeys();
 	fileEncryptionKey = KGpgSettings::fileEncryptionKey();
-	if (!fileEncryptionKey.isEmpty())
-		m_page1->file_key->setCurrentItem(fileEncryptionKey);
+	// the contents are totally mess. There were key id, name and email stored
+	// try to extract the key id, that's the only thing we really need
+	if (!fileEncryptionKey.isEmpty()) {
+		int idpos = m_page1->file_key->findText(fileEncryptionKey);
+		if (idpos == -1) {
+			idpos = fileEncryptionKey.indexOf(QRegExp("([0-9A-Fa-F]{8})+"));
+			if (idpos >= 0) {
+				QString fileId = fileEncryptionKey.mid(idpos);
+				idpos = fileId.indexOf(QRegExp("[^a-fA-F0-9]"));
+				if (idpos >= 0) {
+					fileId = fileId.left(idpos);
+					fileId.chop(fileId.length() % 8);
+				}
 
-	if (!alwaysKeyName.isEmpty())
-		m_page1->always_key->setCurrentItem(alwaysKeyName);
+				KGpgKeyNode *anode = m_combomodel->getModel()->findKeyNode(fileId);
+
+				if (anode != NULL)
+					idpos = m_combomodel->nodeIndex(anode).row();
+			}
+		}
+		m_page1->file_key->setCurrentIndex(idpos);
+	}
+
+	if (!alwaysKeyID.isEmpty()) {
+		KGpgKeyNode *anode = m_combomodel->getModel()->findKeyNode(alwaysKeyID);
+		if (anode != NULL) {
+			const QModelIndex midx(m_combomodel->nodeIndex(anode));
+			m_page1->always_key->setCurrentIndex(midx.row());
+		}
+	}
 
 	gpgConfigPath = KGpgSettings::gpgConfigPath();
 	m_page4->gpg_conf_path->setText(KUrl::fromPath(gpgConfigPath).fileName());
@@ -355,7 +389,7 @@ void kgpgOptions::updateSettings()
 
 	// save selected keys for file encryption & always encrypt with
 	if (m_page1->kcfg_EncryptFilesTo->isChecked())
-		fileEncryptionKey = m_page1->file_key->currentText();
+		fileEncryptionKey = m_page1->file_key->itemData(m_page1->file_key->currentIndex(), Qt::ToolTipRole).toString();
 	else
 		fileEncryptionKey.clear();
 
@@ -365,7 +399,7 @@ void kgpgOptions::updateSettings()
 	m_encrypttoalways = m_page1->encrypt_to_always->isChecked();
 
 	if (m_encrypttoalways)
-		alwaysKeyID = m_page1->always_key->currentText().section(':', 0, 0);
+		alwaysKeyID = m_page1->always_key->itemData(m_page1->always_key->currentIndex(), Qt::ToolTipRole).toString();
 	else
 		alwaysKeyID.clear();
 
@@ -454,32 +488,15 @@ void kgpgOptions::updateSettings()
 
 void kgpgOptions::listKeys()
 {
-	KgpgInterface *iface = new KgpgInterface;
-	KgpgCore::KgpgKeyList keys = iface->readJoinedKeys(KgpgCore::TRUST_MARGINAL);
-	delete iface;
-
-	if (keys.size() == 0) {
+	if (m_model->rowCount(QModelIndex()) == 0) {
 		ids += QString('0');
 		m_page1->file_key->addItem(i18nc("no key available", "none"));
+		m_page1->file_key->setModel(NULL);
 		m_page1->always_key->addItem(i18nc("no key available", "none"));
+		m_page1->always_key->setModel(NULL);
 	} else {
-		for (int i = 0; i < keys.size(); i++) {
-			KgpgCore::KgpgKey key = keys.at(i);
-
-			names += key.name();
-			ids += key.id();
-			QString text = key.id() + ": " + key.name() + " <" + key.email() + '>';
-			if (key.id() == alwaysKeyID)
-				alwaysKeyName = text;
-
-			if (key.secret()) {
-				m_page1->file_key->addItem(pixkeyDouble, text);
-				m_page1->always_key->addItem(pixkeyDouble, text);
-			} else {
-				m_page1->file_key->addItem(pixkeySingle, text);
-				m_page1->always_key->addItem(pixkeySingle, text);
-			}
-		}
+		m_page1->file_key->setModel(m_combomodel);
+		m_page1->always_key->setModel(m_combomodel);
 	}
 }
 
@@ -534,7 +551,8 @@ bool kgpgOptions::hasChanged()
 	if (m_page1->encrypt_to_always->isChecked() != m_encrypttoalways)
 		return true;
 
-	if (m_page1->encrypt_to_always->isChecked() && (m_page1->always_key->currentText().section(':', 0, 0) != alwaysKeyID))
+	if (m_page1->encrypt_to_always->isChecked() &&
+			(m_page1->always_key->itemData(m_page1->always_key->currentIndex(), Qt::ToolTipRole).toString()) != alwaysKeyID)
 		return true;
 
 	if (m_page4->gpg_conf_path->text() != KUrl::fromPath(gpgConfigPath).fileName())

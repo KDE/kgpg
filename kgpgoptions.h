@@ -33,6 +33,8 @@ class KFontChooser;
 class KConfig;
 
 class Encryption;
+class KGpgItemModel;
+class KeyListProxyModel;
 
 class Decryption : public QWidget, public Ui::Decryption
 {
@@ -82,7 +84,7 @@ class kgpgOptions : public KConfigDialog
     Q_OBJECT
 
 public:
-    explicit kgpgOptions(QWidget *parent = 0, const char *name = 0);
+    explicit kgpgOptions(QWidget *parent = 0, KGpgItemModel *model = 0);
     ~kgpgOptions();
 
 signals:
@@ -119,7 +121,6 @@ private:
     QStringList names;
     QStringList ids;
     QString alwaysKeyID;
-    QString alwaysKeyName;
     QString fileEncryptionKey;
     QString gpgConfigPath;
     QString gpgBinPath;
@@ -156,6 +157,9 @@ private:
     bool m_defaultencrypttoalways;
     bool m_showsystray;
     int m_trayaction;
+
+    KGpgItemModel * const m_model;
+    KeyListProxyModel * const m_combomodel;
 };
 
 #endif // KGPGOPTIONS_H

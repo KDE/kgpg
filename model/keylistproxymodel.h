@@ -54,7 +54,7 @@ public:
 	 * This enables filtering by key trust. All keys that have a lower trust than
 	 * the given value will be hidden.
 	 */
-	void setTrustFilter(const KgpgCore::KgpgKeyTrustFlag &t);
+	void setTrustFilter(const KgpgCore::KgpgKeyTrustFlag t);
 
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 	QModelIndex nodeIndex(KGpgNode *node);

@@ -1261,7 +1261,7 @@ void KeysManager::showOptions()
 	if (KConfigDialog::showDialog("settings"))
 		return;
 
-	QPointer<kgpgOptions> optionsDialog = new kgpgOptions(this, "settings");
+	QPointer<kgpgOptions> optionsDialog = new kgpgOptions(this, imodel);
 	connect(optionsDialog, SIGNAL(settingsUpdated()), SLOT(readAllOptions()));
 	connect(optionsDialog, SIGNAL(homeChanged()), imodel, SLOT(refreshKeys()));
 	connect(optionsDialog, SIGNAL(refreshTrust(KgpgCore::KgpgKeyTrust, QColor)), imodel, SLOT(refreshTrust(KgpgCore::KgpgKeyTrust, QColor)));

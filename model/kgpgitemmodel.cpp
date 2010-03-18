@@ -174,6 +174,12 @@ KGpgItemModel::nodeForIndex(const QModelIndex &index) const
 	return m_root;
 }
 
+KGpgKeyNode *
+KGpgItemModel::findKeyNode(const QString& id) const
+{
+	return m_root->findKey(id);
+}
+
 int
 KGpgItemModel::rowForNode(KGpgNode *node) const
 {

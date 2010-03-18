@@ -102,6 +102,13 @@ KeyListProxyModelPrivate::dataSingleColumn(const QModelIndex &index, int role, c
 				return i18nc("Name <Email>: ID", "%1 &lt;%2&gt;: %3", name, mail, id);
 		}
 		}
+	case Qt::ToolTipRole: {
+		const QModelIndex srcidx(q->mapToSource(index));
+		const int srcrow = srcidx.row();
+
+		const QModelIndex ididx(srcidx.sibling(srcrow, KEYCOLUMN_ID));
+		return m_model->data(ididx, Qt::DisplayRole);
+		}
 	default:
 		return QVariant();
 	}
@@ -326,7 +333,7 @@ KeyListProxyModel::setOnlySecret(const bool b)
 }
 
 void
-KeyListProxyModel::setTrustFilter(const KgpgCore::KgpgKeyTrustFlag &t)
+KeyListProxyModel::setTrustFilter(const KgpgCore::KgpgKeyTrustFlag t)
 {
 	Q_D(KeyListProxyModel);
 

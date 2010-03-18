@@ -67,6 +67,7 @@ public:
 	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
+	KGpgKeyNode *findKeyNode(const QString &id) const;
 
 	KGpgRootNode *getRootNode() const;
 	QString statusCountMessage() const;
