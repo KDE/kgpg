@@ -41,8 +41,7 @@ public:
 	virtual bool hasChildren(const QModelIndex &parent) const;
 	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
-	inline bool showUntrusted() const
-		{ return m_showUntrusted; }
+	bool showUntrusted() const;
 	void setShowUntrusted(const bool &b);
 
 protected:

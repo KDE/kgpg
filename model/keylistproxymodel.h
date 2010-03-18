@@ -46,7 +46,7 @@ public:
 	virtual bool hasChildren(const QModelIndex &idx) const;
 	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 	void setKeyModel(KGpgItemModel *);
-	void setOnlySecret(const bool &b);
+	void setOnlySecret(const bool b);
 	/**
 	 * @brief set the minimum trust level to be shown
 	 * @param t trust level
@@ -58,10 +58,10 @@ public:
 
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 	QModelIndex nodeIndex(KGpgNode *node);
-	void setPreviewSize(const int &pixel);
+	void setPreviewSize(const int pixel);
 	KGpgItemModel *getModel() const;
 	int idLength() const;
-	void setIdLength(const int &length);
+	void setIdLength(const int length);
 
 protected:
 	virtual bool lessThan(const QModelIndex &left, const QModelIndex &right) const;

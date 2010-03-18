@@ -317,7 +317,7 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 }
 
 void
-KeyListProxyModel::setOnlySecret(const bool &b)
+KeyListProxyModel::setOnlySecret(const bool b)
 {
 	Q_D(KeyListProxyModel);
 
@@ -351,7 +351,7 @@ KeyListProxyModel::nodeIndex(KGpgNode *node)
 }
 
 void
-KeyListProxyModel::setPreviewSize(const int &pixel)
+KeyListProxyModel::setPreviewSize(const int pixel)
 {
 	Q_D(KeyListProxyModel);
 
@@ -400,7 +400,7 @@ KeyListProxyModel::idLength() const
 }
 
 void
-KeyListProxyModel::setIdLength(const int &length)
+KeyListProxyModel::setIdLength(const int length)
 {
 	Q_D(KeyListProxyModel);
 

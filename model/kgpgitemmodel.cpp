@@ -441,7 +441,7 @@ KGpgItemModel::invalidateIndexes(KGpgNode *nd)
 }
 
 void
-KGpgItemModel::refreshTrust(const KgpgCore::KgpgKeyTrust &trust, const QColor &color)
+KGpgItemModel::refreshTrust(const KgpgCore::KgpgKeyTrust trust, const QColor& color)
 {
 	updateNodeTrustColor(m_root, trust, color);
 }

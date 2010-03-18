@@ -53,7 +53,7 @@ SelectKeyProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_
 	// there is probably a better place to do this
 	QRegExp rx = filterRegExp();
 	rx.setCaseSensitivity(Qt::CaseInsensitive);
-	if (!m_showUntrusted && !((l->getTrust() == TRUST_FULL) || (l->getTrust() == TRUST_ULTIMATE)))
+	if (!m_showUntrusted && ((l->getTrust() != TRUST_FULL) && (l->getTrust() != TRUST_ULTIMATE)))
 		return false;
 
 	if (l->getName().contains(rx))
@@ -145,6 +145,12 @@ SelectKeyProxyModel::headerData(int section, Qt::Orientation orientation, int ro
 	case 2:	return m_model->headerData(KEYCOLUMN_ID, orientation, role);
 	default:	return QVariant();
 	}
+}
+
+bool
+SelectKeyProxyModel::showUntrusted() const
+{
+	return m_showUntrusted;
 }
 
 void
@@ -242,4 +248,3 @@ SelectSecretKeyProxyModel::headerData(int section, Qt::Orientation orientation, 
 	default:	return QVariant();
 	}
 }
-

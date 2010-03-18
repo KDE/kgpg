@@ -84,7 +84,7 @@ public Q_SLOTS:
 	void refreshKeys(KGpgKeyNode::List keys);
 	void refreshGroups();
 	void invalidateIndexes(KGpgNode *nd);
-	void refreshTrust(const KgpgCore::KgpgKeyTrust &trust, const QColor &color);
+	void refreshTrust(const KgpgCore::KgpgKeyTrust trust, const QColor &color);
 
 protected:
 	int rowForNode(KGpgNode *node) const;
