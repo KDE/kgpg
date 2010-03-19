@@ -33,7 +33,7 @@
 #include <KComboBox>
 #include <KLocale>
 
-#include "kgpginterface.h"
+#include "kgpgkey.h"
 #include "convert.h"
 #include "images.h"
 #include "kgpgchangekey.h"
@@ -152,8 +152,9 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
     connect(keychange, SIGNAL(done(int)), SLOT(slotApplied(int)));
 
     displayKey();
-    if (m_hasphoto)
-        slotLoadPhoto(m_photoid->currentText());
+
+    connect(m_node, SIGNAL(expanded()), SLOT(slotKeyExpanded()));
+    m_node->expand();
 }
 
 KgpgKeyInfo::~KgpgKeyInfo()
@@ -379,15 +380,6 @@ void KgpgKeyInfo::displayKey()
     else
         m_comment->setText(m_key->comment());
 
-    QStringList photolist = m_key->photoList();
-    m_photoid->clear();
-    m_hasphoto = !photolist.isEmpty();
-    m_photoid->setVisible(m_hasphoto);
-    m_photoid->setEnabled(m_hasphoto);
-    if (m_hasphoto) {
-        m_photoid->addItems(photolist);
-    }
-
     switch (m_key->ownerTrust())
     {
         case OWTRUST_NONE:
@@ -423,18 +415,11 @@ void KgpgKeyInfo::slotOpenUrl(const QString &url) const
 
 void KgpgKeyInfo::slotLoadPhoto(const QString &uid)
 {
-    KgpgInterface *interface = new KgpgInterface();
-    connect(interface, SIGNAL(loadPhotoFinished(QPixmap)), SLOT(slotSetPhoto(QPixmap)));
-    interface->loadPhoto(m_key->fullId(), uid);
-}
-
-void KgpgKeyInfo::slotSetPhoto(const QPixmap &pixmap)
-{
-    sender()->deleteLater();
-
-    QImage img = pixmap.toImage();
-    QPixmap pix = QPixmap::fromImage(img.scaled(m_photo->width(), m_photo->height(), Qt::KeepAspectRatio));
-    m_photo->setPixmap(pix);
+	int i = uid.toInt();
+	QPixmap pixmap = m_node->getUid(i)->toUatNode()->getPixmap();
+	QImage img = pixmap.toImage();
+	pixmap = QPixmap::fromImage(img.scaled(m_photo->width(), m_photo->height(), Qt::KeepAspectRatio));
+	m_photo->setPixmap(pixmap);
 }
 
 void KgpgKeyInfo::slotPreOk()
@@ -537,6 +522,29 @@ void KgpgKeyInfo::slotPreCancel()
 	if (m_keywaschanged && m_node)
 		emit keyNeedsRefresh(m_node);
 	reject();
+}
+
+void KgpgKeyInfo::slotKeyExpanded()
+{
+	// the counting starts at 1 and that is the primary uid which can't be a photo id
+	int i = 2;
+	const KGpgSignableNode *uat;
+
+	m_photoid->clear();
+
+	while ((uat = m_node->getUid(i++)) != NULL) {
+		if (uat->getType() != KgpgCore::ITYPE_UAT)
+			continue;
+
+		m_photoid->addItem(uat->getId());
+	}
+
+	bool hasphoto = (m_photoid->count() > 0);
+
+	m_photoid->setVisible(hasphoto);
+	m_photoid->setEnabled(hasphoto);
+	if (hasphoto)
+		slotLoadPhoto(m_photoid->currentText());
 }
 
 #include "keyinfodialog.moc"

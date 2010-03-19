@@ -361,4 +361,21 @@ KGpgKeyNode::getUid(const unsigned int index) const
 	return NULL;
 }
 
+void
+KGpgKeyNode::expand()
+{
+	if (wasExpanded()) {
+		emit expanded();
+		return;
+	}
+
+	// The model does not need to be notified here: the key was
+	// collapsed anyway so the model has no interest in our childs
+	// until now. If the key had been expanded we have left this
+	// function already.
+	readChildren();
+
+	emit expanded();
+}
+
 #include "KGpgKeyNode.moc"

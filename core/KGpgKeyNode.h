@@ -163,6 +163,20 @@ public:
 
 Q_SIGNALS:
 	void updated(KGpgKeyNode *);
+	void expanded();
+
+public slots:
+	/**
+	 * @brief read all subitems
+	 *
+	 * This will read in all subitems (e.g. subkeys, signatures). When
+	 * this is done the expanded() signal is emitted. The signal is emitted
+	 * immediately if the key has been expanded before.
+	 *
+	 * This will not update the child items in case they are already present.
+	 * Use KGpgItemModel::refreshKey() instead.
+	 */
+	void expand();
 };
 
 #endif /* KGPGKEYNODE_H */

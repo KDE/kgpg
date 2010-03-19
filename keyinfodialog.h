@@ -16,7 +16,6 @@
 #ifndef KGPGKEYINFODIALOG_H
 #define KGPGKEYINFODIALOG_H
 
-#include <QPixmap>
 #include <QString>
 #include <QLabel>
 #include <QColor>
@@ -102,11 +101,12 @@ private slots:
     void slotChangeTrust(const int &newtrust);
 
     void slotLoadPhoto(const QString &uid);
-    void slotSetPhoto(const QPixmap &pixmap);
 
     void slotApply();
     void slotApplied(int result);
-    
+
+    void slotKeyExpanded();
+
 private:
 	const KgpgCore::KgpgKey *m_key;
 	KGpgKeyNode *m_node;
@@ -132,7 +132,6 @@ private:
 
     KgpgTrustLabel *m_trust;
 
-    bool m_hasphoto;
     bool m_keywaschanged;
 };
 
