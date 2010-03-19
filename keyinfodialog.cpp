@@ -100,7 +100,6 @@ void KgpgTrustLabel::change()
 KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *parent)
 	: KDialog(parent),
 	keychange(new KGpgChangeKey(node)),
-	m_key(node->getKey()),
 	m_node(node),
 	m_model(model),
 	m_changepass(NULL),
@@ -280,16 +279,13 @@ QGroupBox* KgpgKeyInfo::_buttonsGroup(QWidget *parent)
     QGroupBox *group = new QGroupBox(parent);
     m_disable = new QCheckBox(i18n("Disable key"), group);
 
-    if (m_key->secret())
-    {
+    if (m_node->isSecret()) {
         m_expirationbtn = new KPushButton(i18n("Change Expiration..."), group);
         m_password = new KPushButton(i18n("Change Passphrase..."), group);
 
         connect(m_expirationbtn, SIGNAL(clicked()), this, SLOT(slotChangeDate()));
         connect(m_password, SIGNAL(clicked()), this, SLOT(slotChangePass()));
-    }
-    else
-    {
+    } else {
         m_password = 0;
         m_expirationbtn = 0;
     }
@@ -301,8 +297,7 @@ QGroupBox* KgpgKeyInfo::_buttonsGroup(QWidget *parent)
     layout->setSpacing(spacingHint());
     layout->addWidget(m_disable);
 
-    if (m_key->secret())
-    {
+    if (m_node->isSecret()) {
         layout->addWidget(m_expirationbtn);
         layout->addWidget(m_password);
     }
@@ -329,12 +324,10 @@ void KgpgKeyInfo::reloadNode()
 	const QString kid(m_node->getId());
 
 	// this will delete m_node
-	m_key = NULL;
 	m_model->refreshKey(m_node);
 
 	m_node = m_model->getRootNode()->findKey(kid);
 	if (m_node != NULL) {
-		m_key = m_node->getKey();
 		displayKey();
 	} else {
 		KMessageBox::error(this, i18n("<qt>The requested key is not present in the keyring anymore.<br />Perhaps it was deleted by another application</qt>"), i18n("Key not found"));
@@ -345,42 +338,43 @@ void KgpgKeyInfo::reloadNode()
 
 void KgpgKeyInfo::displayKey()
 {
-    QString name = m_key->name();
+    const QString name = m_node->getName();
     setCaption(name);
     m_name->setText("<qt><b>" + name + "</b></qt>");
 
-    if (m_key->email().isEmpty())
-    {
+    const QString email = m_node->getEmail();
+    if (email.isEmpty()) {
         m_email->setText(i18nc("no email address", "none"));
-        m_email->setUrl("");
-    }
-    else
-    {
-        m_email->setText("<qt><b>&lt;" + m_key->email() + "&gt;</b></qt>");
-        m_email->setUrl("mailto:" + name + '<' + m_key->email() + '>');
+        m_email->setUrl(QString());
+    } else {
+        m_email->setText("<qt><b>&lt;" + email + "&gt;</b></qt>");
+        m_email->setUrl("mailto:" + name + '<' + email + '>');
     }
 
-    KgpgKeyTrust keytrust = m_key->valid() ? m_key->trust() : TRUST_DISABLED;
+    const KgpgKey *key = m_node->getKey();
+
+    KgpgKeyTrust keytrust = key->valid() ? m_node->getTrust() : TRUST_DISABLED;
     QString tr = Convert::toString(keytrust);
     QColor trustcolor = Convert::toColor(keytrust);
 
-    m_id->setText(m_key->fullId());
-    m_algorithm->setText(Convert::toString(m_key->algorithm()) + " / " + Convert::toString(m_key->encryptionAlgorithm()));
+    m_id->setText(m_node->getId().right(16));
+    m_algorithm->setText(Convert::toString(key->algorithm()) + " / " + Convert::toString(key->encryptionAlgorithm()));
     m_algorithm->setWhatsThis(i18n("<qt>The left part is the algorithm used by the <b>signature</b> key. The right part is the algorithm used by the <b>encryption</b> key.</qt>"));
-    m_creation->setText(m_key->creation());
-    m_expiration->setText(m_key->expiration());
+    m_creation->setText(key->creation());
+    m_expiration->setText(key->expiration());
     m_trust->setText(tr);
     m_trust->setColor(trustcolor);
-    m_length->setText(QString::number(m_key->size()) + " / " + QString::number(m_key->encryptionSize()));
+    m_length->setText(m_node->getSize());
     m_length->setWhatsThis(i18n("<qt>The left part is the size of the <b>signature</b> key. The right part is the size of the <b>encryption</b> key.</qt>"));
-    m_fingerprint->setText(m_key->fingerprintBeautified());
+    m_fingerprint->setText(m_node->getBeautifiedFingerprint());
 
-    if (m_key->comment().isEmpty())
+    const QString comment = m_node->getComment();
+    if (comment.isEmpty())
         m_comment->setText(i18nc("no key comment", "none"));
     else
-        m_comment->setText(m_key->comment());
+        m_comment->setText(comment);
 
-    switch (m_key->ownerTrust())
+    switch (key->ownerTrust())
     {
         case OWTRUST_NONE:
             m_owtrust->setCurrentIndex(1);
@@ -404,7 +398,7 @@ void KgpgKeyInfo::displayKey()
             break;
     }
 
-    if (!m_key->valid())
+    if (!key->valid())
         m_disable->setChecked(true);
 }
 
@@ -433,7 +427,7 @@ void KgpgKeyInfo::slotPreOk()
 
 void KgpgKeyInfo::slotChangeDate()
 {
-	QPointer<SelectExpiryDate> dialog = new SelectExpiryDate(this, m_key->expirationDate());
+	QPointer<SelectExpiryDate> dialog = new SelectExpiryDate(this, m_node->getExpiration());
 	if (dialog->exec() == QDialog::Accepted) {
 		keychange->setExpiration(dialog->date());
 		enableButtonApply(keychange->wasChanged());
@@ -450,7 +444,7 @@ void KgpgKeyInfo::slotDisableKey(const bool &ison)
 void KgpgKeyInfo::slotChangePass()
 {
 	if (m_changepass == NULL) {
-		m_changepass = new KGpgChangePass(this, m_key->fingerprint());
+		m_changepass = new KGpgChangePass(this, m_node->getId());
 
 		connect(m_changepass, SIGNAL(done(int)), SLOT(slotInfoPasswordChanged(int)));
 	}

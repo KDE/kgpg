@@ -71,6 +71,10 @@ public:
 	virtual KGpgKeyNode *getKeyNode(void);
 	virtual const KGpgKeyNode *getKeyNode(void) const;
 	/**
+	 * @brief Return if this key has a private key
+	 */
+	bool isSecret() const;
+	/**
 	 * @brief Print the full key fingerprint with spaces inserted
 	 *
 	 * For display purposes you normally don't want to print the full

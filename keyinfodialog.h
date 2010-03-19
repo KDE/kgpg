@@ -22,8 +22,6 @@
 
 #include <KDialog>
 
-#include "kgpgkey.h"
-
 class QCheckBox;
 class QGroupBox;
 
@@ -108,7 +106,6 @@ private slots:
     void slotKeyExpanded();
 
 private:
-	const KgpgCore::KgpgKey *m_key;
 	KGpgKeyNode *m_node;
 	KGpgItemModel *m_model;
 	KGpgChangePass *m_changepass;

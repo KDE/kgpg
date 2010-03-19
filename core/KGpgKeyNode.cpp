@@ -118,6 +118,12 @@ KGpgKeyNode::getKeyNode(void)
 	return this;
 }
 
+bool
+KGpgKeyNode::isSecret() const
+{
+	return m_key->secret();
+}
+
 const KGpgKeyNode *
 KGpgKeyNode::getKeyNode(void) const
 {
