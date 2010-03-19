@@ -31,7 +31,6 @@
 #include "images.h"
 #include "selectpublickeydialog.h"
 #include "kgpgsettings.h"
-#include "kgpginterface.h"
 #include "kgpgtextinterface.h"
 #include "kgpgitemmodel.h"
 

@@ -33,6 +33,7 @@
 #include "kgpg_interface.h"
 #include "kgpgexternalactions.h"
 #include "kgpgtextedit.h"
+#include "kgpginterface.h"
 
 using namespace KgpgCore;
 

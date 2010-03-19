@@ -30,7 +30,6 @@
 
 #include "kgpgkey.h"
 #include "ui_adduid.h"
-#include "kgpginterface.h"
 #include "kgpgitemmodel.h"
 #include "kgpgitemnode.h"
 
@@ -43,7 +42,6 @@ class KLineEdit;
 class KAction;
 class KJob;
 
-class KgpgInterface;
 class KeyServer;
 class KgpgEditor;
 class KeyServer;
@@ -259,7 +257,6 @@ private:
     KAction *createGroup;
 
     KeyServer *kServer;
-    KgpgInterface *revKeyProcess;
 
     bool continueSearch;
     bool showTipOfDay;

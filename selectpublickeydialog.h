@@ -33,7 +33,6 @@ class QTableView;
 class KLineEdit;
 class KHBox;
 
-class KgpgInterface;
 class SelectKeyProxyModel;
 class KGpgItemModel;
 

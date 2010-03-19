@@ -28,7 +28,6 @@
 #include <KDateTime>
 
 #include "keylistproxymodel.h"
-#include "kgpginterface.h"
 #include "kgpgitemmodel.h"
 #include "kgpgsearchresultmodel.h"
 #include "kgpgsettings.h"

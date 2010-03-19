@@ -31,7 +31,6 @@ class QDropEvent;
 class KGpgNode;
 class KeyListProxyModel;
 class KConfigGroup;
-class KgpgInterface;
 
 class KeyTreeView: public QTreeView
 {

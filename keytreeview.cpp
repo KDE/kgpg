@@ -29,7 +29,6 @@
 #include "kgpgitemmodel.h"
 #include "keylistproxymodel.h"
 #include "kgpgitemnode.h"
-#include "kgpginterface.h"
 #include "kgpgimport.h"
 #include "kgpgexport.h"
 

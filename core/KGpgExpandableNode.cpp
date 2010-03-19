@@ -19,7 +19,6 @@
 #include "KGpgExpandableNode.h"
 
 #include <KLocale>
-#include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "convert.h"
 #include "kgpgitemmodel.h"

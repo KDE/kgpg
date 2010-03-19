@@ -34,6 +34,7 @@
 #include "kgpgtextedit.h"
 #include "selectpublickeydialog.h"
 #include "selectsecretkey.h"
+#include "kgpginterface.h"
 
 KGpgExternalActions::KGpgExternalActions(KeysManager *parent, KGpgItemModel *model)
 	: QObject(parent),

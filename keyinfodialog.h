@@ -29,7 +29,6 @@ class KPushButton;
 class KUrlLabel;
 class KComboBox;
 
-class KgpgInterface;
 class KGpgItemModel;
 class KGpgKeyNode;
 class KGpgChangeKey;

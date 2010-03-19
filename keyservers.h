@@ -28,7 +28,6 @@
 
 class GPGProc;
 class KeyListProxyModel;
-class KgpgInterface;
 class KGpgItemModel;
 class KGpgSearchResultModel;
 

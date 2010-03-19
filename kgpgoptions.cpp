@@ -38,6 +38,7 @@
 
 #include "keylistproxymodel.h"
 #include "kgpgitemmodel.h"
+#include "kgpginterface.h"
 
 // #include "conf_decryption.h"
 #include "conf_encryption.h"

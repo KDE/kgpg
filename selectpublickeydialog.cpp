@@ -28,7 +28,6 @@
 #include <KVBox>
 
 #include "images.h"
-#include "kgpginterface.h"
 #include "kgpgitemmodel.h"
 #include "KGpgRootNode.h"
 #include "kgpgsettings.h"
