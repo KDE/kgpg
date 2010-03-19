@@ -90,6 +90,7 @@ void KGpgExternalActions::encryptDroppedFolder()
 	optionbx->addItem(i18n("Gzip"));
 	optionbx->addItem(i18n("Bzip2"));
 	optionbx->addItem(i18n("Tar"));
+	optionbx->addItem(i18n("Tar/XZ"));
 
 	connect(optionbx, SIGNAL(activated (int)), SLOT(slotSetCompression(int)));
 	connect(dialog, SIGNAL(okClicked()), SLOT(startFolderEncode()));
@@ -128,6 +129,9 @@ void KGpgExternalActions::startFolderEncode()
 		break;
 	case 3:
 		extension = ".tar";
+		break;
+	case 4:
+		extension = ".tar.xz";
 		break;
 	default:
 		Q_ASSERT(compressionScheme == 0);
@@ -188,6 +192,9 @@ void KGpgExternalActions::startFolderEncode()
 		break;
 	case 3:
 		arch = new KTar(kgpgfoldertmp->fileName(), "application/x-tar");
+		break;
+	case 4:
+		arch = new KTar(kgpgfoldertmp->fileName(), "application/x-xz");
 		break;
 	default:
 		Q_ASSERT(0);
