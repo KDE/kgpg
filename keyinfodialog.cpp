@@ -151,9 +151,6 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
     connect(keychange, SIGNAL(done(int)), SLOT(slotApplied(int)));
 
     displayKey();
-
-    connect(m_node, SIGNAL(expanded()), SLOT(slotKeyExpanded()));
-    m_node->expand();
 }
 
 KgpgKeyInfo::~KgpgKeyInfo()
@@ -400,6 +397,9 @@ void KgpgKeyInfo::displayKey()
 
     if (!key->valid())
         m_disable->setChecked(true);
+
+    connect(m_node, SIGNAL(expanded()), SLOT(slotKeyExpanded()));
+    m_node->expand();
 }
 
 void KgpgKeyInfo::slotOpenUrl(const QString &url) const
