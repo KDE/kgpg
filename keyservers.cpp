@@ -127,7 +127,7 @@ void KeyServer::slotDownloadKeysFinished(int resultcode)
 	if (resultcode == KGpgTransaction::TS_USER_ABORTED)
 		return;
 
-	const QStringList keys(KGpgImport::getDetailedImportMessage(log));
+	const QStringList keys(KGpgImport::getImportedIds(log));
 	const QString resultmessage(KGpgImport::getImportMessage(log));
 
 	if (!keys.empty())
