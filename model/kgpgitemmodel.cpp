@@ -369,7 +369,7 @@ KGpgItemModel::refreshKeyIds(const QStringList &ids)
 	} else {
 		QStringList::ConstIterator it = ids.constBegin();
 		const QStringList::ConstIterator itEnd = ids.constEnd();
-	
+
 		for (; it != itEnd; ++it) {
 			KGpgKeyNode *nd = m_root->findKey(*it);
 			delete nd;
