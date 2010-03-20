@@ -22,7 +22,6 @@
 
 #include <kgpgkey.h>
 
-class KTemporaryFile;
 class KProcess;
 class GPGProc;
 
@@ -143,7 +142,6 @@ private slots:
 private:
     QPixmap m_pixmap;
     void readPixmapFromProcess(KProcess *proc);
-    KTemporaryFile *m_kgpginfotmp;
 
 /*******************************************************/
 
