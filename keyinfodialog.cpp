@@ -400,6 +400,7 @@ void KgpgKeyInfo::displayKey()
 
     connect(m_node, SIGNAL(expanded()), SLOT(slotKeyExpanded()));
     m_node->expand();
+    m_photoid->clear();
 }
 
 void KgpgKeyInfo::slotOpenUrl(const QString &url) const
@@ -523,8 +524,6 @@ void KgpgKeyInfo::slotKeyExpanded()
 	// the counting starts at 1 and that is the primary uid which can't be a photo id
 	int i = 2;
 	const KGpgSignableNode *uat;
-
-	m_photoid->clear();
 
 	while ((uat = m_node->getUid(i++)) != NULL) {
 		if (uat->getType() != KgpgCore::ITYPE_UAT)
