@@ -133,7 +133,8 @@ void KeyServer::slotDownloadKeysFinished(int resultcode)
 	if (!keys.empty())
 		emit importFinished(keys);
 
-	(void) new KgpgDetailedInfo(0, resultmessage, log.join(QString('\n')), keys);
+	(void) new KgpgDetailedInfo(this, resultmessage, log.join(QString('\n')),
+			KGpgImport::getDetailedImportMessage(log).split('\n'));
 }
 
 void KeyServer::slotExport(const QStringList &keyIds)

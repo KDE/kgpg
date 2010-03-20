@@ -783,7 +783,7 @@ void KeysManager::slotKeyRefreshDone(int result)
 	}
 
 	const QStringList log(t->getLog());
-	const QStringList keys(KGpgImport::getDetailedImportMessage(log));
+	const QStringList keys(KGpgImport::getImportedIds(log));
 	const QStringList message(KGpgImport::getImportMessage(log));
 
 	t->deleteLater();
@@ -792,7 +792,8 @@ void KeysManager::slotKeyRefreshDone(int result)
 		imodel->refreshKeys(keys);
 
 	QApplication::restoreOverrideCursor();
-	(void) new KgpgDetailedInfo(this, message.join(QString('\n')), log.join(QString('\n')), keys);
+	(void) new KgpgDetailedInfo(this, message.join(QString('\n')), log.join(QString('\n')),
+			KGpgImport::getDetailedImportMessage(log).split('\n'));
 }
 
 void KeysManager::slotDelUid()
