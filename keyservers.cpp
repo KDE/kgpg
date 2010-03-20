@@ -128,13 +128,14 @@ void KeyServer::slotDownloadKeysFinished(int resultcode)
 	if (resultcode == KGpgTransaction::TS_USER_ABORTED)
 		return;
 
-	const QStringList keys(KGpgImport::getDetailedImportMessage(log));
+	const QStringList keys(KGpgImport::getImportedIds(log));
 	const QString resultmessage(KGpgImport::getImportMessage(log));
 
 	if (!keys.empty())
 		emit importFinished(keys);
 
-	(void) new KgpgDetailedInfo(0, resultmessage, log.join(QString('\n')), keys);
+	(void) new KgpgDetailedInfo(this, resultmessage, log.join(QString('\n')),
+			KGpgImport::getDetailedImportMessage(log).split('\n'));
 }
 
 void KeyServer::slotExport(const QStringList &keyIds)
