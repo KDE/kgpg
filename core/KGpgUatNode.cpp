@@ -49,7 +49,7 @@ KGpgUatNode::getSize() const
 	return QString::number(m_pic.width()) + 'x' + QString::number(m_pic.height());
 }
 
-QDate
+QDateTime
 KGpgUatNode::getCreation() const
 {
 	return m_uat.creationDate();

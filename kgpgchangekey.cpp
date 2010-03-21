@@ -51,7 +51,7 @@ KGpgChangeKey::~KGpgChangeKey()
 	delete m_changedisable;
 }
 
-void KGpgChangeKey::setExpiration(const QDate &date)
+void KGpgChangeKey::setExpiration(const QDateTime &date)
 {
 	m_expiration = date;
 }

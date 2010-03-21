@@ -50,13 +50,13 @@ KGpgSubkeyNode::getTrust() const
 	return m_skey.trust();
 }
 
-QDate
+QDateTime
 KGpgSubkeyNode::getExpiration() const
 {
 	return m_skey.expirationDate();
 }
 
-QDate
+QDateTime
 KGpgSubkeyNode::getCreation() const
 {
 	return m_skey.creationDate();

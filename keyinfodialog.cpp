@@ -357,8 +357,11 @@ void KgpgKeyInfo::displayKey()
     m_id->setText(m_node->getId().right(16));
     m_algorithm->setText(Convert::toString(key->algorithm()) + " / " + Convert::toString(key->encryptionAlgorithm()));
     m_algorithm->setWhatsThis(i18n("<qt>The left part is the algorithm used by the <b>signature</b> key. The right part is the algorithm used by the <b>encryption</b> key.</qt>"));
-    m_creation->setText(key->creation());
-    m_expiration->setText(key->expiration());
+    m_creation->setText(Convert::toString(m_node->getCreation().date()));
+    if (m_node->getExpiration().isNull())
+        m_expiration->setText(i18nc("Unlimited key lifetime", "Unlimited"));
+    else
+        m_expiration->setText(Convert::toString(m_node->getExpiration().date()));
     m_trust->setText(tr);
     m_trust->setColor(trustcolor);
     m_length->setText(m_node->getSize());

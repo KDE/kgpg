@@ -21,7 +21,7 @@
 #include <KDatePicker>
 #include <KLocale>
 
-SelectExpiryDate::SelectExpiryDate(QWidget *parent, QDate date)
+SelectExpiryDate::SelectExpiryDate(QWidget* parent, QDateTime date)
 	: KDialog(parent)
 {
 	setCaption(i18n("Choose New Expiration"));
@@ -33,9 +33,9 @@ SelectExpiryDate::SelectExpiryDate(QWidget *parent, QDate date)
 	m_unlimited = new QCheckBox(i18nc("Key has unlimited lifetime", "Unlimited"), page);
 
 	if (date.isNull())
-		date = QDate::currentDate();
+		date = QDateTime::currentDateTime();
 
-	m_datepicker = new KDatePicker(date, page);
+	m_datepicker = new KDatePicker(date.date(), page);
 	if (date.isNull()) {
 		m_datepicker->setEnabled(false);
 		m_unlimited->setChecked(true);
@@ -54,17 +54,17 @@ SelectExpiryDate::SelectExpiryDate(QWidget *parent, QDate date)
 	show();
 }
 
-QDate SelectExpiryDate::date() const
+QDateTime SelectExpiryDate::date() const
 {
 	if (m_unlimited->isChecked())
-		return QDate();
+		return QDateTime();
 	else
-		return m_datepicker->date();
+		return QDateTime(m_datepicker->date());
 }
 
-void SelectExpiryDate::slotCheckDate(const QDate &date)
+void SelectExpiryDate::slotCheckDate(const QDate& date)
 {
-	enableButtonOk(date >= QDate::currentDate());
+	enableButtonOk(QDateTime(date) >= QDateTime::currentDateTime());
 }
 
 void SelectExpiryDate::slotEnableDate(const bool ison)

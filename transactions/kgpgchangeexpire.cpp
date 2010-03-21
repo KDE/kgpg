@@ -18,7 +18,7 @@
 
 #include "detailedconsole.h"
 
-KGpgChangeExpire::KGpgChangeExpire(QObject *parent, const QString &keyid, const QDate &date)
+KGpgChangeExpire::KGpgChangeExpire(QObject *parent, const QString &keyid, const QDateTime &date)
 	: KGpgEditKeyTransaction(parent, keyid, "expire", false)
 {
 	setDate(date);
@@ -42,7 +42,7 @@ KGpgChangeExpire::nextLine(const QString &line)
 		if (m_date.isNull())
 			write("0");
 		else
-			write(QByteArray::number(QDate::currentDate().daysTo(m_date)));
+			write(QByteArray::number(QDate::currentDate().daysTo(m_date.date())));
 
 		return false;
 	} else {
@@ -51,7 +51,7 @@ KGpgChangeExpire::nextLine(const QString &line)
 }
 
 void
-KGpgChangeExpire::setDate(const QDate &date)
+KGpgChangeExpire::setDate(const QDateTime &date)
 {
 	m_date = date;
 }

@@ -21,7 +21,7 @@
 #include <QPointer>
 #include <QObject>
 #include <QList>
-#include <QDate>
+#include <QDateTime>
 
 namespace KgpgCore
 {
@@ -131,8 +131,8 @@ public:
     QString gpgsignname;
     QString gpgsignemail;
     QString gpgsigncomment;
-    QDate   gpgsignexpiration;
-    QDate   gpgsigncreation;
+    QDateTime gpgsignexpiration;
+    QDateTime gpgsigncreation;
     bool    gpgsignlocal;
 
     bool operator==(const KgpgKeySignPrivate &other) const;
@@ -150,8 +150,8 @@ public:
     void setName(const QString &name);
     void setEmail(const QString &email);
     void setComment(const QString &comment);
-    void setExpiration(const QDate &date);
-    void setCreation(const QDate &date);
+    void setExpiration(const QDateTime &date);
+    void setCreation(const QDateTime &date);
     void setLocal(const bool &local);
     void setRevocation(const bool &revoc);
 
@@ -161,13 +161,10 @@ public:
     QString email() const;
     QString comment() const;
     bool unlimited() const;
-    QDate expirationDate() const;
-    QDate creationDate() const;
+    QDateTime expirationDate() const;
+    QDateTime creationDate() const;
     bool local() const;
     bool revocation() const;
-
-    QString expiration() const;
-    QString creation() const;
 
     bool operator==(const KgpgKeySign &other) const;
     inline bool operator!=(const KgpgKeySign &other) const
@@ -215,7 +212,7 @@ class KgpgKeyUatPrivate : public QSharedData
 {
 public:
     QString gpguatid;
-    QDate   gpguatcreation;
+    QDateTime gpguatcreation;
     KgpgKeySignList gpgsignlist;
 
     bool operator==(const KgpgKeyUatPrivate &other) const;
@@ -230,9 +227,9 @@ public:
     KgpgKeyUat(const KgpgKeyUat &other);
 
     void setId(const QString &id);
-    void setCreation(const QDate &date);
+    void setCreation(const QDateTime &date);
     QString id() const;
-    QDate creationDate() const;
+    QDateTime creationDate() const;
     QString creation() const;
 
     void addSign(const KgpgKeySign &sign);
@@ -369,8 +366,8 @@ public:
     bool            gpgsubvalid;
     QString         gpgsubid;
     uint            gpgsubsize;
-    QDate           gpgsubexpiration;
-    QDate           gpgsubcreation;
+    QDateTime       gpgsubexpiration;
+    QDateTime       gpgsubcreation;
     KgpgKeyTrust    gpgsubtrust;
     KgpgKeyAlgo     gpgsubalgo;
     KgpgKeySignList gpgsignlist;
@@ -389,8 +386,8 @@ public:
 
     void setId(const QString &id);
     void setSize(const uint &size);
-    void setExpiration(const QDate &date);
-    void setCreation(const QDate &date);
+    void setExpiration(const QDateTime &date);
+    void setCreation(const QDateTime &date);
     void setTrust(const KgpgKeyTrust &trust);
     void setAlgorithm(const KgpgKeyAlgo &algo);
     void setValid(const bool &valid); // FIXME : is it possible to have a subkey that is not valid (disabled)? Please give an example. Thx. If not, this method should be removed.
@@ -399,15 +396,12 @@ public:
     QString id() const;
     uint size() const;
     bool unlimited() const;
-    QDate expirationDate() const;
-    QDate creationDate() const;
+    QDateTime expirationDate() const;
+    QDateTime creationDate() const;
     KgpgKeyTrust trust() const;
     KgpgKeyAlgo algorithm() const;
     bool valid() const;
     KgpgSubKeyType type() const;
-
-    QString creation() const;
-    QString expiration() const;
 
     void addSign(const KgpgKeySign &sign);
     KgpgKeySignList signList() const;
@@ -469,8 +463,8 @@ public:
     uint          gpgkeysize;
     KgpgKeyOwnerTrust gpgkeyownertrust;
     KgpgKeyTrust  gpgkeytrust;
-    QDate         gpgkeycreation;
-    QDate         gpgkeyexpiration;
+    QDateTime     gpgkeycreation;
+    QDateTime     gpgkeyexpiration;
     KgpgKeyAlgo   gpgkeyalgo;
 
     KgpgKeySignList   gpgsignlist;
@@ -486,8 +480,6 @@ public:
 class KgpgKey
 {
 public:
-    static QString expiration(const QDate &date);
-
     KgpgKey();
     KgpgKey(const KgpgKey &other);
 
@@ -500,8 +492,8 @@ public:
     void setSize(const uint &size);
     void setOwnerTrust(const KgpgKeyOwnerTrust &owtrust);
     void setTrust(const KgpgKeyTrust &trust);
-    void setCreation(const QDate &date);
-    void setExpiration(const QDate &date);
+    void setCreation(const QDateTime &date);
+    void setExpiration(const QDateTime &date);
     void setAlgorithm(const KgpgKeyAlgo &algo);
 
     bool secret() const;
@@ -517,14 +509,12 @@ public:
     uint encryptionSize() const;
     KgpgKeyOwnerTrust ownerTrust() const;
     KgpgKeyTrust trust() const;
-    QDate creationDate() const;
-    QDate expirationDate() const;
+    QDateTime creationDate() const;
+    QDateTime expirationDate() const;
     bool unlimited() const;
     KgpgKeyAlgo algorithm() const;
     KgpgKeyAlgo encryptionAlgorithm() const;
 
-    QString creation() const;
-    QString expiration() const;
     QStringList photoList() const;
 
     void addSign(const KgpgKeySign &sign);

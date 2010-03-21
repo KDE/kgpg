@@ -424,13 +424,13 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			m_publickey.setSize(lsp.at(2).toUInt());
 			m_publickey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
 			m_publickey.setFingerprint(lsp.at(4));
-			m_publickey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
+			m_publickey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
 			m_publickey.setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
 
 			if (lsp.at(6).isEmpty())
-				m_publickey.setExpiration(QDate());
+				m_publickey.setExpiration(QDateTime());
 			else
-				m_publickey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
+				m_publickey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
 
 			m_publickey.setValid((items <= 11) || !lsp.at(11).contains('D', Qt::CaseSensitive));  // disabled key
 
@@ -448,7 +448,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			sub.setTrust(Convert::toTrust(lsp.at(1)));
 			sub.setSize(lsp.at(2).toUInt());
 			sub.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-			sub.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
+			sub.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
 
 			// FIXME: Please see kgpgkey.h, KgpgSubKey class
 			if (items <= 11) {
@@ -464,9 +464,9 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			}
 
 			if (lsp.at(6).isEmpty())
-				sub.setExpiration(QDate());
+				sub.setExpiration(QDateTime());
 			else
-				sub.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
+				sub.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
 
 			m_publickey.subList()->append(sub);
 			cycle = "sub";
@@ -474,7 +474,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			m_numberid++;
 			KgpgKeyUat uat;
 			uat.setId(QString::number(m_numberid));
-			uat.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
+			uat.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
 			m_publickey.uatList()->append(uat);
 
 			cycle = "uat";
@@ -529,12 +529,12 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			KgpgKeySign signature;
 
 			signature.setId(lsp.at(4));
-			signature.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
+			signature.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
 
 			if (lsp.at(6).isEmpty())
-				signature.setExpiration(QDate());
+				signature.setExpiration(QDateTime());
 			else
-				signature.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
+				signature.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
 
 			if (lsp.at(10).endsWith('l'))
 				signature.setLocal(true);
@@ -618,13 +618,13 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 			m_secretkey.setSize(lsp.at(2).toUInt());
 			m_secretkey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
 			m_secretkey.setFingerprint(lsp.at(4));
-			m_secretkey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()).date());
+			m_secretkey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
 			m_secretkey.setSecret(true);
 
 			if (lsp.at(6).isEmpty())
-				m_secretkey.setExpiration(QDate());
+				m_secretkey.setExpiration(QDateTime());
 			else
-				m_secretkey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()).date());
+				m_secretkey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
 			hasuid = true;
 		} else if ((lsp.at(0) == "uid") && (items >= 10)) {
 			if (hasuid)

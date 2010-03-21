@@ -131,7 +131,7 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		}
 	case KEYCOLUMN_EXPIR:
 		if (role == Qt::DisplayRole)
-			return KGlobal::locale()->formatDate(node->getExpiration(), KLocale::ShortDate);
+			return KGlobal::locale()->formatDate(node->getExpiration().date(), KLocale::ShortDate);
 		break;
 	case KEYCOLUMN_SIZE:
 		switch (role) {
@@ -153,7 +153,7 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		break;
 	case KEYCOLUMN_CREAT:
 		if (role == Qt::DisplayRole)
-			return KGlobal::locale()->formatDate(node->getCreation(), KLocale::ShortDate);
+			return KGlobal::locale()->formatDate(node->getCreation().date(), KLocale::ShortDate);
 		break;
 	case KEYCOLUMN_ID:
 		if (role == Qt::DisplayRole)

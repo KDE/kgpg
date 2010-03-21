@@ -42,8 +42,8 @@ public:
 	virtual KgpgCore::KgpgKeyTrust getTrust() const;
 	virtual KgpgCore::KgpgItemType getType() const;
 	virtual QString getSize() const;
-	virtual QDate getExpiration() const;
-	virtual QDate getCreation() const;
+	virtual QDateTime getExpiration() const;
+	virtual QDateTime getCreation() const;
 	virtual KGpgGroupNode *getParentKeyNode() const;
 
 	/**

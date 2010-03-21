@@ -52,7 +52,7 @@ public:
 	virtual QString getId() const;
 	virtual QString getSize() const;
 	virtual QString getName() const;
-	virtual QDate getCreation() const;
+	virtual QDateTime getCreation() const;
 	virtual KGpgKeyNode *getParentKeyNode() const;
 	virtual KGpgKeyNode *getKeyNode(void);
 	virtual const KGpgKeyNode *getKeyNode(void) const;

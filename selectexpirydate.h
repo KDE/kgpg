@@ -16,7 +16,7 @@
 #ifndef SELECTEXPIRYDATE_H
 #define SELECTEXPIRYDATE_H
 
-#include <QDate>
+#include <QDateTime>
 
 #include <KDialog>
 
@@ -34,9 +34,9 @@ class SelectExpiryDate : public KDialog
 	Q_OBJECT
 
 public:
-	explicit SelectExpiryDate(QWidget *parent = 0, QDate date = QDate());
+	explicit SelectExpiryDate(QWidget *parent = 0, QDateTime date = QDateTime());
 
-	QDate date() const;
+	QDateTime date() const;
 
 private slots:
 	void slotCheckDate(const QDate &date);

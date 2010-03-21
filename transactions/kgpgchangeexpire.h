@@ -15,7 +15,7 @@
 #define KGPGCHANGEEXPIRE_H
 
 #include <QObject>
-#include <QDate>
+#include <QDateTime>
 
 #include "kgpgeditkeytransaction.h"
 
@@ -26,16 +26,16 @@ class KGpgChangeExpire: public KGpgEditKeyTransaction {
 	Q_OBJECT
 
 public:
-	KGpgChangeExpire(QObject *parent, const QString &keyid, const QDate &date);
+	KGpgChangeExpire(QObject *parent, const QString &keyid, const QDateTime &date);
 	virtual ~KGpgChangeExpire();
 
-	void setDate(const QDate &date);
+	void setDate(const QDateTime &date);
 
 protected:
 	virtual bool nextLine(const QString &line);
 
 private:
-	QDate m_date;
+	QDateTime m_date;
 };
 
 #endif // KGPGCHANGEEXPIRE_H

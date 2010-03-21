@@ -31,13 +31,13 @@ KGpgSignNode::~KGpgSignNode()
 	delete m_sign;
 }
 
-QDate
+QDateTime
 KGpgSignNode::getExpiration() const
 {
 	return m_sign->expirationDate();
 }
 
-QDate
+QDateTime
 KGpgSignNode::getCreation() const
 {
 	return m_sign->creationDate();

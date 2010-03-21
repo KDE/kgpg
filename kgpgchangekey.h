@@ -15,7 +15,7 @@
 #define KGPGCHANGEKEY_H
 
 #include <QObject>
-#include <QDate>
+#include <QDateTime>
 
 #include "kgpgkey.h"
 
@@ -73,10 +73,10 @@ public:
 	/**
 	 * Cache new expiration date
 	 *
-	 * @param date new expiration date or QDate() if key should get
+	 * @param date new expiration date or QDateTime() if key should get
 	 * unlimited lifetime
 	 */
-	void setExpiration(const QDate &date);
+	void setExpiration(const QDateTime &date);
 
 	/**
 	 * Cache new disable flag
@@ -168,7 +168,7 @@ private slots:
 	void nextStep(int result);
 
 private:
-	QDate m_expiration;
+	QDateTime m_expiration;
 	bool m_disable;
 	KgpgCore::KgpgKeyOwnerTrust m_owtrust;
 	KgpgCore::KgpgKey m_key;

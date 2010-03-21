@@ -40,9 +40,9 @@ public:
 	virtual ~KGpgSignNode();
 
 	virtual KgpgCore::KgpgItemType getType() const;
-	virtual QDate getExpiration() const;
+	virtual QDateTime getExpiration() const;
 	virtual QString getName() const;
-	virtual QDate getCreation() const;
+	virtual QDateTime getCreation() const;
 	virtual QString getId() const;
 	virtual QString getComment() const;
 };

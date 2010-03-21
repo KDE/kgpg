@@ -20,6 +20,7 @@
 #include "kgpgitemnode.h"
 #include "kgpgitemmodel.h"
 #include "core/kgpgkey.h"
+#include "core/convert.h"
 
 using namespace KgpgCore;
 
@@ -213,7 +214,7 @@ SelectSecretKeyProxyModel::data(const QModelIndex &index, int role) const
 	switch (index.column()) {
 		case 0:	return nd->getName();
 		case 1:	return nd->getEmail();
-		case 2:	return nd->getExpiration();
+		case 2:	return Convert::toString(nd->getExpiration().date());
 		case 3:	return nd->getId().right(8);
 	}
 

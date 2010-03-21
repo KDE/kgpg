@@ -94,13 +94,13 @@ KGpgKeyNode::getEmail() const
 	return m_key->email();
 }
 
-QDate
+QDateTime
 KGpgKeyNode::getExpiration() const
 {
 	return m_key->expirationDate();
 }
 
-QDate
+QDateTime
 KGpgKeyNode::getCreation() const
 {
 	return m_key->creationDate();

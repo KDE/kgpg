@@ -53,13 +53,13 @@ KGpgOrphanNode::getSize() const
 	return QString::number(m_key->size());
 }
 
-QDate
+QDateTime
 KGpgOrphanNode::getExpiration() const
 {
 	return m_key->expirationDate();
 }
 
-QDate
+QDateTime
 KGpgOrphanNode::getCreation() const
 {
 	return m_key->creationDate();

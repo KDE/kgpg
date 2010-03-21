@@ -18,6 +18,8 @@
  */
 #include "KGpgGroupMemberNode.h"
 
+#include <QDateTime>
+
 #include "KGpgGroupNode.h"
 #include "KGpgKeyNode.h"
 
@@ -59,20 +61,20 @@ KGpgGroupMemberNode::getSize() const
 	return QString();
 }
 
-QDate
+QDateTime
 KGpgGroupMemberNode::getExpiration() const
 {
 	if (m_keynode != NULL)
 		return m_keynode->getExpiration();
-	return QDate();
+	return QDateTime();
 }
 
-QDate
+QDateTime
 KGpgGroupMemberNode::getCreation() const
 {
 	if (m_keynode != NULL)
 		return m_keynode->getCreation();
-	return QDate();
+	return QDateTime();
 }
 
 unsigned int

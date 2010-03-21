@@ -68,12 +68,12 @@ void KgpgKeySign::setComment(const QString &comment)
     d->gpgsigncomment = comment;
 }
 
-void KgpgKeySign::setExpiration(const QDate &date)
+void KgpgKeySign::setExpiration(const QDateTime &date)
 {
     d->gpgsignexpiration = date;
 }
 
-void KgpgKeySign::setCreation(const QDate &date)
+void KgpgKeySign::setCreation(const QDateTime &date)
 {
     d->gpgsigncreation = date;
 }
@@ -118,12 +118,12 @@ bool KgpgKeySign::unlimited() const
     return d->gpgsignexpiration.isNull();
 }
 
-QDate KgpgKeySign::expirationDate() const
+QDateTime KgpgKeySign::expirationDate() const
 {
     return d->gpgsignexpiration;
 }
 
-QDate KgpgKeySign::creationDate() const
+QDateTime KgpgKeySign::creationDate() const
 {
     return d->gpgsigncreation;
 }
@@ -136,16 +136,6 @@ bool KgpgKeySign::local() const
 bool KgpgKeySign::revocation() const
 {
     return d->gpgsignrevocation;
-}
-
-QString KgpgKeySign::expiration() const
-{
-    return KgpgKey::expiration(d->gpgsignexpiration);
-}
-
-QString KgpgKeySign::creation() const
-{
-    return Convert::toString(d->gpgsigncreation);
 }
 
 bool KgpgKeySign::operator==(const KgpgKeySign &other) const
@@ -189,7 +179,7 @@ void KgpgKeyUat::setId(const QString &id)
     d->gpguatid = id;
 }
 
-void KgpgKeyUat::setCreation(const QDate &date)
+void KgpgKeyUat::setCreation(const QDateTime &date)
 {
     d->gpguatcreation = date;
 }
@@ -199,14 +189,9 @@ QString KgpgKeyUat::id() const
     return d->gpguatid;
 }
 
-QDate KgpgKeyUat::creationDate() const
+QDateTime KgpgKeyUat::creationDate() const
 {
     return d->gpguatcreation;
-}
-
-QString KgpgKeyUat::creation() const
-{
-    return Convert::toString(d->gpguatcreation);
 }
 
 void KgpgKeyUat::addSign(const KgpgKeySign &sign)
@@ -385,12 +370,12 @@ void KgpgKeySub::setSize(const uint &size)
     d->gpgsubsize = size;
 }
 
-void KgpgKeySub::setExpiration(const QDate &date)
+void KgpgKeySub::setExpiration(const QDateTime &date)
 {
     d->gpgsubexpiration = date;
 }
 
-void KgpgKeySub::setCreation(const QDate &date)
+void KgpgKeySub::setCreation(const QDateTime &date)
 {
     d->gpgsubcreation = date;
 }
@@ -430,12 +415,12 @@ bool KgpgKeySub::unlimited() const
     return d->gpgsubexpiration.isNull();
 }
 
-QDate KgpgKeySub::expirationDate() const
+QDateTime KgpgKeySub::expirationDate() const
 {
     return d->gpgsubexpiration;
 }
 
-QDate KgpgKeySub::creationDate() const
+QDateTime KgpgKeySub::creationDate() const
 {
     return d->gpgsubcreation;
 }
@@ -458,16 +443,6 @@ bool KgpgKeySub::valid() const
 KgpgSubKeyType KgpgKeySub::type() const
 {
     return d->gpgsubtype;
-}
-
-QString KgpgKeySub::creation() const
-{
-    return Convert::toString(d->gpgsubcreation);
-}
-
-QString KgpgKeySub::expiration() const
-{
-    return KgpgKey::expiration(d->gpgsubexpiration);
 }
 
 void KgpgKeySub::addSign(const KgpgKeySign &sign)
@@ -497,13 +472,6 @@ KgpgKeySub& KgpgKeySub::operator=(const KgpgKeySub &other)
 
 
 //BEGIN Key
-
-QString KgpgKey::expiration(const QDate &date)
-{
-    if (date.isNull())
-        return i18nc("Unlimited key lifetime", "Unlimited");
-    return Convert::toString(date);
-}
 
 KgpgKeyPrivate::KgpgKeyPrivate()
 {
@@ -592,12 +560,12 @@ void KgpgKey::setTrust(const KgpgKeyTrust &trust)
     d->gpgkeytrust = trust;
 }
 
-void KgpgKey::setCreation(const QDate &date)
+void KgpgKey::setCreation(const QDateTime &date)
 {
     d->gpgkeycreation = date;
 }
 
-void KgpgKey::setExpiration(const QDate &date)
+void KgpgKey::setExpiration(const QDateTime &date)
 {
     d->gpgkeyexpiration = date;
 }
@@ -684,12 +652,12 @@ KgpgKeyTrust KgpgKey::trust() const
     return d->gpgkeytrust;
 }
 
-QDate KgpgKey::creationDate() const
+QDateTime KgpgKey::creationDate() const
 {
     return d->gpgkeycreation;
 }
 
-QDate KgpgKey::expirationDate() const
+QDateTime KgpgKey::expirationDate() const
 {
     return d->gpgkeyexpiration;
 }
@@ -714,16 +682,6 @@ KgpgKeyAlgo KgpgKey::encryptionAlgorithm() const
 		}
 	}
 	return ALGO_UNKNOWN;
-}
-
-QString KgpgKey::creation() const
-{
-    return Convert::toString(d->gpgkeycreation);
-}
-
-QString KgpgKey::expiration() const
-{
-    return expiration(d->gpgkeyexpiration);
 }
 
 QStringList KgpgKey::photoList() const

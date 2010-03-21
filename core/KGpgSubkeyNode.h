@@ -44,8 +44,8 @@ public:
 	virtual KgpgCore::KgpgKeyTrust getTrust() const;
 	virtual QString getSize() const;
 	virtual QString getName() const;
-	virtual QDate getExpiration() const;
-	virtual QDate getCreation() const;
+	virtual QDateTime getExpiration() const;
+	virtual QDateTime getCreation() const;
 	virtual QString getId() const;
 	virtual KGpgKeyNode *getKeyNode(void);
 	virtual const KGpgKeyNode *getKeyNode(void) const;

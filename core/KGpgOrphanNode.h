@@ -45,8 +45,8 @@ public:
 	virtual QString getSize() const;
 	virtual QString getName() const;
 	virtual QString getEmail() const;
-	virtual QDate getExpiration() const;
-	virtual QDate getCreation() const;
+	virtual QDateTime getExpiration() const;
+	virtual QDateTime getCreation() const;
 	virtual QString getId() const;
 };
 

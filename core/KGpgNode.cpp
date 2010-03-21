@@ -302,16 +302,16 @@ KGpgNode::getEmail() const
 	return QString();
 }
 
-QDate
+QDateTime
 KGpgNode::getExpiration() const
 {
-	return QDate();
+	return QDateTime();
 }
 
-QDate
+QDateTime
 KGpgNode::getCreation() const
 {
-	return QDate();
+	return QDateTime();
 }
 
 QString
