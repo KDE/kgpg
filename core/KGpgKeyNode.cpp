@@ -376,8 +376,8 @@ KGpgKeyNode::expand()
 	}
 
 	// The model does not need to be notified here: the key was
-	// collapsed anyway so the model has no interest in our childs
-	// until now. If the key had been expanded we have left this
+	// collapsed anyway so the model has no interest in our child
+	// nodes until now. If the key had been expanded we have left this
 	// function already.
 	readChildren();
 
