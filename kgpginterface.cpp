@@ -748,7 +748,7 @@ QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const
 	m_workProcess = new KProcess(this);
 	m_workProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
 	*m_workProcess << KGpgSettings::gpgBinaryPath();
-	*m_workProcess << "--no-secmem-warning" << "--no-tty" << "--status-fd=2";
+	*m_workProcess << "--no-secmem-warning" << "--no-greeting" << "--no-tty" << "--status-fd=2";
 	*m_workProcess << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
 
 	connect(m_workProcess, SIGNAL(finished(int)), SLOT(loadPhotoFin(int)));
