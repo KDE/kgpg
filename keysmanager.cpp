@@ -110,6 +110,7 @@
 #include "kgpgtransactionjob.h"
 #include "kgpgsignkey.h"
 #include "kgpgsignuid.h"
+#include "kgpgdelsign.h"
 
 using namespace KgpgCore;
 
@@ -2218,21 +2219,24 @@ void KeysManager::delsignkey()
 	if (KMessageBox::questionYesNo(this, ask, QString(), KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::Yes)
 		return;
 
-	KgpgInterface *delSignKeyProcess = new KgpgInterface();
-	connect(delSignKeyProcess, SIGNAL(delsigfinished(bool)), this, SLOT(delsignatureResult(bool)));
-	delSignKeyProcess->KgpgDelSignature(parentKey, uid, signID);
+	KGpgDelSign *delsig = new KGpgDelSign(this, nd->toSignNode());
+	connect(delsig, SIGNAL(done(int)), SLOT(delsignatureResult(int)));
+	delsig->start();
 }
 
-void KeysManager::delsignatureResult(bool success)
+void KeysManager::delsignatureResult(int success)
 {
-	if (success) {
+	sender()->deleteLater();
+
+	if (success == KGpgTransaction::TS_OK) {
 		KGpgNode *nd = iview->selectedNode()->getParentKeyNode();
 
 		while (!(nd->getType() & ITYPE_PAIR))
 			nd = nd->getParentKeyNode();
 		imodel->refreshKey(nd->toKeyNode());
-	} else
+	} else {
 		KMessageBox::sorry(this, i18n("Requested operation was unsuccessful, please edit the key manually."));
+	}
 }
 
 void KeysManager::slotedit()

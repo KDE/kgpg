@@ -50,6 +50,7 @@ set(kgpg_transaction_SRCS
    transactions/kgpgchangeexpire.cpp
    transactions/kgpgchangepass.cpp
    transactions/kgpgchangetrust.cpp
+   transactions/kgpgdelsign.cpp
    transactions/kgpgdeluid.cpp
    transactions/kgpgexport.cpp
    transactions/kgpgaddphoto.cpp

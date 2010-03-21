@@ -577,8 +577,6 @@ void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool block)
 
 KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
 {
-	m_partialline.clear();
-	m_ispartial = false;
 	m_secretlistkeys = KgpgKeyList();
 	m_secretkey = KgpgKey();
 	m_secretactivate = false;
@@ -751,87 +749,6 @@ void KgpgInterface::readPixmapFromProcess(KProcess *proc)
 	QFile::remove(url.path());
 	QDir dir;
 	dir.rmdir(url.directory());
-}
-
-// delete signature
-void KgpgInterface::KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID)
-{
-	deleteSuccess = false;
-	step = 0;
-
-	signb = 0;
-	sigsearch = 0;
-	QList<int> signoff;
-
-	findSigns(keyID, QStringList(signKeyID), uid, &signoff);
-
-	if (signoff.count() == 0)
-		return;
-
-	signb = signoff.at(0);
-
-	GPGProc *conprocess = new GPGProc(this);
-	*conprocess << "--command-fd=0" << "--status-fd=1" << "--edit-key" << keyID << "uid" << uid << "delsig";
-	connect(conprocess, SIGNAL(readReady()), SLOT(delsigprocess()));
-	connect(conprocess, SIGNAL(processExited()), SLOT(delsignover()));
-	conprocess->start();
-}
-
-void KgpgInterface::delsigprocess()
-{
-	GPGProc *p = qobject_cast<GPGProc *>(sender());
-	QString required;
-
-	while (p->readln(required, true) >= 0) {
-		if (required.contains("keyedit.delsig")){
-			if ((sigsearch == signb) && (step == 0)) {
-				p->write("Y\n");
-				step = 1;
-			} else
-				p->write("n\n");
-			sigsearch++;
-			required.clear();
-		} else if ((step == 1) && required.contains("keyedit.prompt")) {
-			p->write("save\n");
-			required.clear();
-			deleteSuccess = true;
-		} else if (required.contains("GET_LINE")) {
-			p->write("quit\n");
-			deleteSuccess = false;
-		}
-	}
-}
-
-void KgpgInterface::delsignover()
-{
-	sender()->deleteLater();
-	emit delsigfinished(deleteSuccess);
-}
-
-void KgpgInterface::findSigns(const QString &keyID, const QStringList &ids, const QString &uid, QList<int> *res)
-{
-	GPGProc *listproc = new GPGProc(this);
-	*listproc << "--status-fd=1";
-	*listproc << "--with-colons" << "--list-sigs" << "--fixed-list-mode" << keyID;
-	listproc->start();
-	listproc->waitForFinished(-1);
-
-	QString line;
-	int curuid = 0;
-	int signs = 0;
-	int tgtuid = uid.toInt();
-
-	while (listproc->readln(line, true) >= 0) {
-		if (line.startsWith(QLatin1String("sig:")) && (tgtuid == curuid)) {
-			if (ids.contains(line.section(':', 4, 4), Qt::CaseInsensitive))
-				*res << signs;
-			signs++;
-		} else if (line.startsWith(QLatin1String("uid:"))) {
-			curuid++;
-		}
-	}
-
-	delete listproc;
 }
 
 #include "kgpginterface.moc"

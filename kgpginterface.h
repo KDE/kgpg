@@ -145,58 +145,15 @@ private:
 
 /*******************************************************/
 
-
-/********************************************************/
-public slots:
-
-    /**
-     * Key signature deletion function
-     * @param keyID the ID of the key
-     * @param uid the user id that is signed
-     * @param signKeyID the ID of the signature key
-     */
-    void KgpgDelSignature(const QString &keyID, const QString &uid, QString signKeyID);
-
-private slots:
-    /**
-     * Reads output of the delete signature process
-     */
-    void delsigprocess();
-
-    /**
-     * Checks output of the delete signature process
-     */
-    void delsignover();
-
-    /**
-     * Finds the offset of the given signatures to a uid
-     */
-    void findSigns(const QString &keyID, const QStringList &ids, const QString &uid, QList<int> *res);
-
-signals:
-    /**
-     *  true if key signature deletion successful, false on error.
-     */
-    void delsigfinished(bool);
-
 private:
     // Globals private
     int m_success;
-    QString m_partialline;
-    bool m_ispartial;
-    QString message;
     QString log;
 
     /**
      * @internal structure for communication
      */
     QString output;
-
-    bool deleteSuccess;
-
-    int step;
-    int signb;
-    int sigsearch;
 };
 
 #endif // KGPGINTERFACE_H

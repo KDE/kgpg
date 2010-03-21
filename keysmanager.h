@@ -174,7 +174,7 @@ private slots:
     void preimportsignkey();
     void importallsignkey();
     void signatureResult(int success);
-    void delsignatureResult(bool);
+    void delsignatureResult(int success);
     void defaultAction(const QModelIndex &);
     void defaultAction(KGpgNode *);
     void slotDefaultAction();
