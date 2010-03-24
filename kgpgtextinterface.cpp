@@ -41,7 +41,6 @@ public:
 	int m_textlength;
 	QString m_message;
 	QString m_signID;
-	QString m_log;
 	QStringList m_userIDs;
 	QStringList m_gpgopts;
 	QByteArray m_tmpmessage;
@@ -55,18 +54,46 @@ public:
 	bool symPassphrase();
 	bool gpgPassphrase();
 	void signFile(const KUrl &);
+
+	void appendLog(const QByteArray &a);
+	QString log() const;
+
+private:
+	bool m_consoleUtf8;
+	QString m_log;
 };
 
-KGpgTextInterfacePrivate::KGpgTextInterfacePrivate()
+static bool isUtf8Lang(const QByteArray &lc)
 {
-	m_anonymous = false;
-	m_badmdc = false;
-	m_ok = false;
-	m_textlength = -1;
-	m_step = 3;
-	m_badpassword = false;
-	m_signmiss = false;
-	m_forcefail = false;
+	return lc.endsWith("UTF-8");
+}
+
+KGpgTextInterfacePrivate::KGpgTextInterfacePrivate()
+	: m_ok(false),
+	m_badmdc(false),
+	m_badpassword(false),
+	m_anonymous(false),
+	m_signmiss(false),
+	m_forcefail(false),
+	m_step(3),
+	m_textlength(-1),
+	m_consoleUtf8(true)
+{
+	const QByteArray lcMess = qgetenv("LC_MESSAGES");
+
+	if (!lcMess.isEmpty()) {
+		m_consoleUtf8 = isUtf8Lang(lcMess);
+	} else {
+		const QByteArray lcAll = qgetenv("LC_ALL");
+		if (!lcAll.isEmpty()) {
+			m_consoleUtf8 = isUtf8Lang(lcAll);
+		} else {
+			const QByteArray lang = qgetenv("LANG");
+			if (!lang.isEmpty())
+				m_consoleUtf8 = isUtf8Lang(lang);
+		}
+	}
+	
 }
 
 void
@@ -140,6 +167,21 @@ KGpgTextInterfacePrivate::signFile(const KUrl &file)
 	*m_process << file.path();
 
 	m_process->start();
+}
+
+void
+KGpgTextInterfacePrivate::appendLog(const QByteArray &a)
+{
+	if (m_consoleUtf8)
+		m_log += QString::fromUtf8(a);
+	else
+		m_log += QString::fromLocal8Bit(a);
+}
+
+QString
+KGpgTextInterfacePrivate::log() const
+{
+	return m_log;
 }
 
 KGpgTextInterface::KGpgTextInterface(QObject *parent)
@@ -233,7 +275,7 @@ KGpgTextInterface::decryptTextStdErr()
 	QByteArray a;
 
 	while (d->m_process->readLineStandardError(&a))
-		d->m_log.append(a + '\n');
+		d->appendLog(a + '\n');
 }
 
 //krazy:cond=strings
@@ -306,9 +348,9 @@ KGpgTextInterface::decryptTextFin()
 		emit txtDecryptionFinished(d->m_tmpmessage);
 	} else if (d->m_badmdc) {
 		KMessageBox::sorry(0, i18n("Bad MDC detected. The encrypted text has been manipulated."));
-		emit txtDecryptionFailed(d->m_log);
+		emit txtDecryptionFailed(d->log());
 	} else
-		emit txtDecryptionFailed(d->m_log);
+		emit txtDecryptionFailed(d->log());
 }
 
 void
