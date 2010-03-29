@@ -42,6 +42,7 @@ public:
 	};
 
 	explicit KeyListProxyModel(QObject * parent = 0, const DisplayMode mode = MultiColumn);
+        virtual ~KeyListProxyModel();
 
 	virtual bool hasChildren(const QModelIndex &idx) const;
 	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;

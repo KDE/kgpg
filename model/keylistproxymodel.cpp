@@ -144,6 +144,11 @@ KeyListProxyModel::KeyListProxyModel(QObject *parent, const DisplayMode mode)
 	setFilterKeyColumn(-1);
 }
 
+KeyListProxyModel::~KeyListProxyModel()
+{
+	delete d_ptr;
+}
+
 bool
 KeyListProxyModel::hasChildren(const QModelIndex &idx) const
 {
