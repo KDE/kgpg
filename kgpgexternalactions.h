@@ -15,7 +15,6 @@
 #include <QClipboard>
 #include <QStringList>
 
-#include <KShortcut>
 #include <KUrl>
 
 class KeysManager;
@@ -25,6 +24,7 @@ class KgpgLibrary;
 class KgpgSelectPublicKeyDlg;
 class KGpgTextInterface;
 class KPassivePopup;
+class KShortcut;
 class KTemporaryFile;
 class QFont;
 class QString;
@@ -46,7 +46,6 @@ public:
 	KUrl droppedUrl;
 	KUrl::List droppedUrls;
 	KTemporaryFile *kgpgfoldertmp;
-	KShortcut goDefaultKey;
 
 signals:
 	void readAgain2();
@@ -86,6 +85,8 @@ private:
 	KUrl::List m_decryptionFailed;
 	QWidget *m_parentWidget;
 	KeysManager *m_keysmanager;
+
+	KShortcut goDefaultKey() const;
 
 private slots:
 	void slotAssistantClose();

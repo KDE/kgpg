@@ -14,6 +14,7 @@
 #include <QFont>
 #include <QProcess>
 
+#include <KActionCollection>
 #include <KMessageBox>
 #include <KPassivePopup>
 #include <KTar>
@@ -61,9 +62,9 @@ void KGpgExternalActions::encryptDroppedFile()
 		if (KGpgSettings::pgpCompatibility())
 			opts << "--pgp6";
 		
-		lib->slotFileEnc(droppedUrls, opts, m_model, goDefaultKey, KGpgSettings::fileEncryptionKey());
+		lib->slotFileEnc(droppedUrls, opts, m_model, goDefaultKey(), KGpgSettings::fileEncryptionKey());
 	} else {
-		lib->slotFileEnc(droppedUrls, opts, m_model, goDefaultKey);
+		lib->slotFileEnc(droppedUrls, opts, m_model, goDefaultKey());
 	}
 }
 
@@ -79,7 +80,7 @@ void KGpgExternalActions::encryptDroppedFolder()
 				KStandardGuiItem::cancel(), "FolderTmpFile"))
 		return;
 
-	dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey, false, droppedUrls);
+	dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey(), false, droppedUrls);
 
 	KHBox *bGroup = new KHBox(dialog->optionsbox);
 
@@ -471,4 +472,9 @@ void KGpgExternalActions::slotAssistantClose()
 void KGpgExternalActions::help()
 {
 	KToolInvocation::invokeHelp(0, "kgpg");
+}
+
+KShortcut KGpgExternalActions::goDefaultKey() const
+{
+	return qobject_cast<KAction *>(m_keysmanager->actionCollection()->action("go_default_key"))->shortcut();
 }
