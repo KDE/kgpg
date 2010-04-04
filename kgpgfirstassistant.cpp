@@ -21,7 +21,9 @@
 
 #include <QCheckBox>
 #include <QGridLayout>
+#include <QHBoxLayout>
 #include <QLabel>
+#include <QSpacerItem>
 #include <QTextStream>
 #include <QWidget>
 
@@ -271,8 +273,8 @@ KGpgFirstAssistant::findConfigPath()
 	setAppropriate(page_defaultkey, true);
 
 	CBdefault->clear();
-	for (int i = 0; i < publiclist.size(); ++i) {
-		KgpgKey k = publiclist.at(i);
+
+	foreach (const KgpgKey &k, publiclist) {
 		QString s;
 
 		if (k.email().isEmpty())
@@ -359,8 +361,8 @@ KGpgFirstAssistant::slotBinaryChanged(const QString &binary)
 	if (!m_gpgVersion.isEmpty()) {
 		int gpgver = KgpgInterface::gpgVersion(m_gpgVersion);
 
-		if (gpgver < 0x10200) {
-			txtGpgVersion->setText(i18n("Your GnuPG version seems to be older than 1.2.0 (%1). Photo Id's and Key Groups will not work properly. Please consider upgrading GnuPG (http://gnupg.org).", m_gpgVersion));
+		if (gpgver < 0x10400) {
+			txtGpgVersion->setText(i18n("Your GnuPG version (%1) seems to be too old.<br />Compatibility with versions before 1.4.0 is no longer guaranteed.", m_gpgVersion));
 		} else {
 			txtGpgVersion->setText(i18n("You have GnuPG version: %1", m_gpgVersion));
 		}
