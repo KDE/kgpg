@@ -338,11 +338,14 @@ bool KgpgEditor::slotFileSaveAs()
 {
     KEncodingFileDialog::Result saveResult;
     saveResult = KEncodingFileDialog::getSaveUrlAndEncoding(QString(), QString(), QString(), this);
-    KUrl url = saveResult.URLs.first();
-    QString selectedEncoding = saveResult.encoding;
+    KUrl url;
+
+    if (!saveResult.URLs.empty())
+        url = saveResult.URLs.first();
 
     if(!url.isEmpty())
     {
+        const QString selectedEncoding = saveResult.encoding;
         if (url.isLocalFile())
         {
             QString filn = url.path();
