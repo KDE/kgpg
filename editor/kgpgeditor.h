@@ -101,6 +101,7 @@ private slots:
     void slotCheckMd5();
     void importSignatureKey(const QString &id);
     void importKeyDone(int result);
+    void slotVerifyFinished();
 
     // Options menu
     void slotOptions();

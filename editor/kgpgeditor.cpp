@@ -686,9 +686,10 @@ void KgpgEditor::slotVerifyFile(const KUrl &url)
         }
 
         // pipe gpg command
-        KGpgTextInterface *interface = new KGpgTextInterface();
+        KGpgTextInterface *interface = new KGpgTextInterface(this);
+        connect(interface, SIGNAL(verifyquerykey(QString)), SLOT(importSignatureKey(QString)));
+        connect(interface, SIGNAL(verifyfinished()), SLOT(slotVerifyFinished()));
         interface->KgpgVerifyFile(url, KUrl(sigfile));
-        connect(interface, SIGNAL(verifyquerykey(QString)), this, SLOT(importSignatureKey(QString)));
     }
 }
 
@@ -725,6 +726,12 @@ KgpgEditor::importKeyDone(int result)
 {
 	Q_UNUSED(result)
 
+	sender()->deleteLater();
+}
+
+void
+KgpgEditor::slotVerifyFinished()
+{
 	sender()->deleteLater();
 }
 
