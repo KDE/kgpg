@@ -336,44 +336,39 @@ bool KgpgEditor::slotFileSave()
 
 bool KgpgEditor::slotFileSaveAs()
 {
-    KEncodingFileDialog::Result saveResult;
-    saveResult = KEncodingFileDialog::getSaveUrlAndEncoding(QString(), QString(), QString(), this);
-    KUrl url;
+	KEncodingFileDialog::Result saveResult;
+	saveResult = KEncodingFileDialog::getSaveUrlAndEncoding(QString(), QString(), QString(), this);
+	KUrl url;
 
-    if (!saveResult.URLs.empty())
-        url = saveResult.URLs.first();
+	if (!saveResult.URLs.empty())
+		url = saveResult.URLs.first();
 
-    if(!url.isEmpty())
-    {
-        const QString selectedEncoding = saveResult.encoding;
-        if (url.isLocalFile())
-        {
-            QString filn = url.path();
-            QFile f(filn);
-            if (f.exists())
-            {
-                QString message = i18n("Overwrite existing file %1?", url.fileName());
-                int result = KMessageBox::warningContinueCancel(this, QString(message), QString(), KStandardGuiItem::overwrite());
-                if (result == KMessageBox::Cancel)
-                    return false;
-            }
-            f.close();
-        }
-        else
-        if (KIO::NetAccess::exists(url, KIO::NetAccess::DestinationSide, this))
-        {
-            QString message = i18n("Overwrite existing file %1?", url.fileName());
-            int result = KMessageBox::warningContinueCancel(this, QString(message), QString(), KStandardGuiItem::overwrite());
-            if (result == KMessageBox::Cancel)
-                return false;
-        }
+	if(!url.isEmpty()) {
+		const QString selectedEncoding = saveResult.encoding;
+		if (url.isLocalFile()) {
+			QString filn = url.path();
+			QFile f(url.path());
+			if (f.exists()) {
+				const QString message = i18n("Overwrite existing file %1?", url.fileName());
+				int result = KMessageBox::warningContinueCancel(this, message, QString(), KStandardGuiItem::overwrite());
+				if (result == KMessageBox::Cancel)
+					return false;
+			}
+			f.close();
+		} else if (KIO::NetAccess::exists(url, KIO::NetAccess::DestinationSide, this)) {
+			const QString message = i18n("Overwrite existing file %1?", url.fileName());
+			int result = KMessageBox::warningContinueCancel(this, message, QString(), KStandardGuiItem::overwrite());
+			if (result == KMessageBox::Cancel)
+				return false;
+		}
 
-        m_docname = url;
-        m_textencoding = selectedEncoding;
-        slotFileSave();
-        return true;
-    }
-    return false;
+		m_docname = url;
+		m_textencoding = selectedEncoding;
+		slotFileSave();
+		return true;
+	}
+
+	return false;
 }
 
 void KgpgEditor::slotFilePrint()
@@ -698,29 +693,28 @@ void KgpgEditor::slotVerifyFile(const KUrl &url)
 
 void KgpgEditor::slotCheckMd5()
 {
-    // display md5 sum for a chosen file
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), i18n("*|All Files"), this, i18n("Open File to Verify"));
-    if (!url.isEmpty())
-    {
-        QPointer<Md5Widget> mdwidget = new Md5Widget(this, url);
-        mdwidget->exec();
-        delete mdwidget;
-    }
+	// display md5 sum for a chosen file
+	KUrl url = KFileDialog::getOpenUrl(KUrl(), i18n("*|All Files"), this, i18n("Open File to Verify"));
+	if (!url.isEmpty()) {
+		QPointer<Md5Widget> mdwidget = new Md5Widget(this, url);
+		mdwidget->exec();
+		delete mdwidget;
+	}
 }
 
 void KgpgEditor::importSignatureKey(const QString &id)
 {
-    KeyServer *kser = new KeyServer(0, m_model);
-    kser->slotSetText(id);
-    kser->slotImport();
+	KeyServer *kser = new KeyServer(0, m_model);
+	kser->slotSetText(id);
+	kser->slotImport();
 }
 
 void KgpgEditor::slotOptions()
 {
-    OrgKdeKgpgKeyInterface kgpg("org.kde.kgpg", "/KeyInterface",QDBusConnection::sessionBus());
-    QDBusReply<void> reply =kgpg.showOptions();
-    if (!reply.isValid())
-        kDebug(2100) << "there was some error using dbus." ;
+	OrgKdeKgpgKeyInterface kgpg("org.kde.kgpg", "/KeyInterface",QDBusConnection::sessionBus());
+	QDBusReply<void> reply = kgpg.showOptions();
+	if (!reply.isValid())
+		kDebug(2100) << "there was some error using dbus." ;
 }
 
 void KgpgEditor::modified()
@@ -739,27 +733,27 @@ void KgpgEditor::modified()
 
 void KgpgEditor::slotUndoAvailable(const bool &v)
 {
-    m_editundo->setEnabled(v);
+	m_editundo->setEnabled(v);
 }
 
 void KgpgEditor::slotRedoAvailable(const bool &v)
 {
-    m_editredo->setEnabled(v);
+	m_editredo->setEnabled(v);
 }
 
 void KgpgEditor::slotCopyAvailable(const bool &v)
 {
-    m_editcopy->setEnabled(v);
-    m_editcut->setEnabled(v);
+	m_editcopy->setEnabled(v);
+	m_editcut->setEnabled(v);
 }
 
 void KgpgEditor::newText()
 {
-    m_textchanged = false;
-    m_emptytext = true;
-    m_docname.clear();
-    setCaption(i18n("Untitled"), false);
-    slotResetEncoding(false);
+	m_textchanged = false;
+	m_emptytext = true;
+	m_docname.clear();
+	setCaption(i18n("Untitled"), false);
+	slotResetEncoding(false);
 }
 
 #include "kgpgeditor.moc"
