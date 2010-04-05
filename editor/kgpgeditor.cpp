@@ -55,6 +55,7 @@
 #include "kgpg.h"
 #include "kgpg_interface.h"
 #include "kgpgtextinterface.h"
+#include "kgpgkeyservergettransaction.h"
 
 class KgpgView : public QWidget {
 public:
@@ -704,9 +705,27 @@ void KgpgEditor::slotCheckMd5()
 
 void KgpgEditor::importSignatureKey(const QString &id)
 {
-	KeyServer *kser = new KeyServer(0, m_model);
-	kser->slotSetText(id);
-	kser->slotImport();
+	const QStringList kservers = KeyServer::getServerList();
+	if (kservers.isEmpty()) {
+		KMessageBox::sorry(this, i18n("You need to configure keyservers before trying to download keys."),
+				i18n("No keyservers defined"));
+		return;
+	}
+
+	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
+
+	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, kservers.first(), QStringList(id), true, qgetenv("http_proxy"));
+	connect(proc, SIGNAL(done(int)), SLOT(slotDownloadKeysFinished(int)));
+
+	proc->start();
+}
+
+void
+KgpgEditor::importKeyDone(int result)
+{
+	Q_UNUSED(result)
+
+	sender()->deleteLater();
 }
 
 void KgpgEditor::slotOptions()
