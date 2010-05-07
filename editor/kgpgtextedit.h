@@ -24,13 +24,14 @@ class QDragEnterEvent;
 class QDropEvent;
 
 class KGpgItemModel;
+class KeysManager;
 
 class KgpgTextEdit : public KTextEdit
 {
     Q_OBJECT
 
 public:
-    explicit KgpgTextEdit(QWidget *parent, KGpgItemModel *model);
+    explicit KgpgTextEdit(QWidget *parent, KGpgItemModel *model, KeysManager *manager);
     ~KgpgTextEdit();
 
     void signVerifyText(const QString &message);
@@ -71,6 +72,7 @@ private:
     int m_posend;
 
     KGpgItemModel *m_model;
+    KeysManager *m_keysmanager;
 };
 
 #endif // KGPGVIEW_H

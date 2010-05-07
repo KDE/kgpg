@@ -33,15 +33,17 @@
 #include "detailedconsole.h"
 #include "kgpgdecrypt.h"
 #include "kgpgimport.h"
+#include "keysmanager.h"
 
 #define SIGNEDMESSAGE_BEGIN  "-----BEGIN PGP SIGNED MESSAGE-----"
 #define SIGNEDMESSAGE_END    "-----END PGP SIGNATURE-----"
 
-KgpgTextEdit::KgpgTextEdit(QWidget *parent, KGpgItemModel *model)
+KgpgTextEdit::KgpgTextEdit(QWidget *parent, KGpgItemModel *model, KeysManager *manager)
             : KTextEdit(parent),
             m_posstart(-1),
             m_posend(-1),
-            m_model(model)
+            m_model(model),
+            m_keysmanager(manager)
 {
     setCheckSpellingEnabled(true);
     setAcceptDrops(true);
@@ -112,15 +114,21 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 
 	switch (KGpgImport::isKey(result)) {
 	case 1:
-		tmpinfo = i18n("<qt>This file is a <b>public</b> key.\nPlease use kgpg key management to import it.</qt>");
+		tmpinfo = i18n("<qt>This file is a <b>public</b> key.<br />Do you want to import it instead of opening it in editor?</qt>");
 		break;
 	case 2:
-		tmpinfo = i18n("<qt>This file is a <b>private</b> key.\nPlease use kgpg key management to import it.</qt>");
+		tmpinfo = i18n("<qt>This file is a <b>private</b> key.<br />Do you want to import it instead of opening it in editor?</qt>");
 		break;
         }
 
 	if (!tmpinfo.isEmpty()) {
-		KMessageBox::information(this, tmpinfo);
+		if (KMessageBox::questionYesNo(this, tmpinfo, i18n("Key file dropped on Editor")) != KMessageBox::Yes) {
+			setPlainText(result);
+		} else {
+			KGpgImport *imp = new KGpgImport(this, result);
+			connect(imp, SIGNAL(done(int)), m_keysmanager, SLOT(slotImportDone(int)));
+			imp->start();
+		}
 	} else {
 		if (m_posstart != -1) {
 			Q_ASSERT(m_posend != -1);

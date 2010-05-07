@@ -121,6 +121,7 @@ public slots:
     void clipEncrypt();
     void clipDecrypt();
     void clipSign();
+    void slotImportDone(int ret);
 
 protected:
     bool eventFilter(QObject *, QEvent *e);
@@ -201,7 +202,6 @@ private slots:
     void slotEditDone(int exitcode);
     void importRemoteFinished(int result);
     void slotDelKeyDone(int ret);
-    void slotImportDone(int ret);
     void slotImportDone(KGpgImport *import, int ret);
     void slotSetClip(const QString &newtxt);
 
