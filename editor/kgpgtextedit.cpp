@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -31,9 +31,8 @@
 #include "kgpgeditor.h"
 #include "selectpublickeydialog.h"
 #include "detailedconsole.h"
+#include "kgpgdecrypt.h"
 
-#define ENCODEDMESSAGE_BEGIN "-----BEGIN PGP MESSAGE-----"
-#define ENCODEDMESSAGE_END   "-----END PGP MESSAGE-----"
 #define SIGNEDMESSAGE_BEGIN  "-----BEGIN PGP SIGNED MESSAGE-----"
 #define SIGNEDMESSAGE_END    "-----END PGP SIGNATURE-----"
 #define PUBLICKEY_BEGIN      "-----BEGIN PGP PUBLIC KEY BLOCK-----"
@@ -43,6 +42,8 @@
 
 KgpgTextEdit::KgpgTextEdit(QWidget *parent, KGpgItemModel *model)
             : KTextEdit(parent),
+            m_posstart(-1),
+            m_posend(-1),
             m_model(model)
 {
     setCheckSpellingEnabled(true);
@@ -53,7 +54,6 @@ KgpgTextEdit::KgpgTextEdit(QWidget *parent, KGpgItemModel *model)
 
 KgpgTextEdit::~KgpgTextEdit()
 {
-    deleteFile();
 }
 
 void KgpgTextEdit::dragEnterEvent(QDragEnterEvent *e)
@@ -76,8 +76,6 @@ void KgpgTextEdit::dropEvent(QDropEvent *e)
 
 void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 {
-    deleteFile();
-
     if (url.isLocalFile())
         m_tempfile = url.path();
     else
@@ -92,11 +90,52 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
         }
     }
 
-    // if dropped filename ends with gpg, pgp or asc, try to decode it
-    if (m_tempfile.endsWith(QLatin1String(".gpg")) || m_tempfile.endsWith(QLatin1String(".asc")) || m_tempfile.endsWith(QLatin1String(".pgp")))
-        slotDecodeFile();
-    else
-        slotCheckFile();
+	QString result;
+
+	QFile qfile(m_tempfile);
+	if (qfile.open(QIODevice::ReadOnly)) {
+		QTextStream t(&qfile);
+		result = t.readAll();
+		qfile.close();
+	}
+	KIO::NetAccess::removeTempFile(m_tempfile);
+
+	if (result.isEmpty())
+		return;
+
+	if (KGpgDecrypt::isEncryptedText(result, &m_posstart, &m_posend)) {
+		// if pgp data found, decode it
+		KGpgDecrypt *decr = new KGpgDecrypt(this, result);
+		connect(decr, SIGNAL(done(int)), SLOT(slotDecryptDone(int)));
+		decr->start();
+		return;
+	}
+
+	QString tmpinfo;
+
+	switch (checkForKey(result)) {
+	case 1:
+		tmpinfo = i18n("<qt>This file is a <b>public</b> key.\nPlease use kgpg key management to import it.</qt>");
+		break;
+	case 2:
+		tmpinfo = i18n("<qt>This file is a <b>private</b> key.\nPlease use kgpg key management to import it.</qt>");
+		break;
+        }
+
+	if (!tmpinfo.isEmpty()) {
+		KMessageBox::information(this, tmpinfo);
+	} else {
+		if (m_posstart != -1) {
+			Q_ASSERT(m_posend != -1);
+			QString fullcontent = toPlainText();
+			fullcontent.replace(m_posstart, m_posend - m_posstart, result);
+			setPlainText(fullcontent);
+			m_posstart = -1;
+			m_posend = -1;
+		} else {
+			setPlainText(result);
+		}
+	}
 }
 
 void KgpgTextEdit::slotEncode()
@@ -133,24 +172,14 @@ void KgpgTextEdit::slotEncode()
 
 void KgpgTextEdit::slotDecode()
 {
-    QString startmsg = ENCODEDMESSAGE_BEGIN;
-    QString endmsg = ENCODEDMESSAGE_END;
+	const QString fullcontent = toPlainText();
 
-    QString fullcontent = toPlainText();
+	if (!KGpgDecrypt::isEncryptedText(fullcontent, &m_posstart, &m_posend))
+		return;
 
-    m_posstart = fullcontent.indexOf(startmsg);
-    if (m_posstart == -1)
-        return;
-
-    m_posend = fullcontent.indexOf(endmsg, m_posstart);
-    if (m_posend == -1)
-        return;
-    m_posend += endmsg.length();
-
-    KGpgTextInterface *interface = new KGpgTextInterface();
-    connect(interface, SIGNAL(txtDecryptionFinished(QByteArray)), SLOT(slotDecodeUpdateSuccess(QByteArray)));
-    connect(interface, SIGNAL(txtDecryptionFailed(QString)), this, SLOT(slotDecodeUpdateFailed(QString)));
-    interface->decryptText(fullcontent.mid(m_posstart, m_posend - m_posstart), KGpgSettings::customDecrypt().simplified().split(' ', QString::SkipEmptyParts));
+	KGpgDecrypt *decr = new KGpgDecrypt(this, fullcontent.mid(m_posstart, m_posend - m_posstart));
+	connect(decr, SIGNAL(done(int)), SLOT(slotDecryptDone(int)));
+	decr->start();
 }
 
 void KgpgTextEdit::slotSign(const QString &message)
@@ -197,15 +226,6 @@ void KgpgTextEdit::slotVerify(const QString &message)
     interface->verifyText(message.mid(posstart, posend - posstart));
 }
 
-void KgpgTextEdit::deleteFile()
-{
-    if (!m_tempfile.isEmpty())
-    {
-        KIO::NetAccess::removeTempFile(m_tempfile);
-        m_tempfile.clear();
-    }
-}
-
 bool KgpgTextEdit::checkForUtf8(const QString &text)
 {
     // try to guess if the decrypted text uses utf-8 encoding
@@ -213,66 +233,6 @@ bool KgpgTextEdit::checkForUtf8(const QString &text)
     if (!codec->canEncode(text))
         return true;
     return false;
-}
-
-void KgpgTextEdit::slotDecodeFile()
-{
-    // decode file from given url into editor
-    QFile qfile(m_tempfile);
-    if (!qfile.open(QIODevice::ReadOnly))
-    {
-        KMessageBox::sorry(this, i18n("Unable to read file."));
-        return;
-    }
-    qfile.close();
-
-    KGpgTextInterface *interface = new KGpgTextInterface();
-    connect(interface, SIGNAL(txtDecryptionFinished(QByteArray)), SLOT(slotDecodeFileSuccess(QByteArray)));
-    connect(interface, SIGNAL(txtDecryptionFailed(QString)),SLOT(slotDecodeFileFailed(QString)));
-    interface->KgpgDecryptFileToText(KUrl(m_tempfile), KGpgSettings::customDecrypt().simplified().split(' ', QString::SkipEmptyParts));
-}
-
-bool KgpgTextEdit::slotCheckFile(const bool &checkforpgpmessage)
-{
-    QString result;
-
-    QFile qfile(m_tempfile);
-    if (qfile.open(QIODevice::ReadOnly))
-    {
-        QTextStream t(&qfile);
-        result = t.readAll();
-        qfile.close();
-    }
-
-    if (result.isEmpty())
-        return false;
-
-    if (checkforpgpmessage && result.startsWith(ENCODEDMESSAGE_BEGIN))
-    {
-        // if pgp data found, decode it
-        slotDecodeFile();
-        return true;
-    }
-
-	QString tmpinfo;
-
-	switch (checkForKey(result)) {
-	case 1:
-		tmpinfo = i18n("<qt>This file is a <b>public</b> key.\nPlease use kgpg key management to import it.</qt>");
-		break;
-	case 2:
-		tmpinfo = i18n("<qt>This file is a <b>private</b> key.\nPlease use kgpg key management to import it.</qt>");
-		break;
-        }
-
-	if (!tmpinfo.isEmpty())
-		KMessageBox::information(this, tmpinfo);
-	else
-		setPlainText(result);
-
-	deleteFile();
-
-	return tmpinfo.isEmpty();
 }
 
 int KgpgTextEdit::checkForKey(const QString &message)
@@ -286,20 +246,21 @@ int KgpgTextEdit::checkForKey(const QString &message)
 	}
 }
 
-void KgpgTextEdit::slotDecodeFileSuccess(const QByteArray &content)
+void KgpgTextEdit::slotDecryptDone(int result)
 {
-    sender()->deleteLater();
+	KGpgDecrypt *decr = qobject_cast<KGpgDecrypt *>(sender());
+	Q_ASSERT(decr != NULL);
+
+	if (result == KGpgTransaction::TS_OK) {
 #ifdef __GNUC__
 #warning FIXME choose codec
 #endif
-    setPlainText(content);
-}
+		setPlainText(decr->decryptedText().join("\n"));
+	} else if (result != KGpgTransaction::TS_USER_ABORTED) {
+		KMessageBox::detailedSorry(this, i18n("Decryption failed."), decr->getMessages().join("\n"));
+	}
 
-void KgpgTextEdit::slotDecodeFileFailed(const QString &content)
-{
-    sender()->deleteLater();
-    if (!slotCheckFile(false))
-        KMessageBox::detailedSorry(this, i18n("Decryption failed."), content);
+	decr->deleteLater();
 }
 
 void KgpgTextEdit::slotEncodeUpdate(const QString &content)
@@ -311,34 +272,6 @@ void KgpgTextEdit::slotEncodeUpdate(const QString &content)
     }
     else
         KMessageBox::sorry(this, i18n("Encryption failed."));
-}
-
-void KgpgTextEdit::slotDecodeUpdateSuccess(const QByteArray &content)
-{
-    sender()->deleteLater();
-
-    QString decryptedcontent;
-    if (checkForUtf8(content))
-    {
-        decryptedcontent = QString::fromUtf8(content);
-        emit resetEncoding(true);
-    }
-    else
-    {
-        decryptedcontent = content;
-        emit resetEncoding(false);
-    }
-
-    QString fullcontent = toPlainText();
-    fullcontent.replace(m_posstart, m_posend - m_posstart, decryptedcontent);
-    setPlainText(fullcontent);
-}
-
-void KgpgTextEdit::slotDecodeUpdateFailed(const QString &content)
-{
-    sender()->deleteLater();
-    if (!content.contains("gpg: cancelled by user"))
-        KMessageBox::detailedSorry(this, i18n("Decryption failed."), content);
 }
 
 void KgpgTextEdit::slotSignUpdate(const QString &content)

@@ -65,6 +65,8 @@ set(kgpg_transaction_SRCS
    transactions/kgpgsendkeys.cpp
    transactions/kgpgsignkey.cpp
    transactions/kgpgsignuid.cpp
+   transactions/kgpgtextorfiletransaction.cpp
+   transactions/kgpgdecrypt.cpp
 )
 
 set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transaction_SRCS}

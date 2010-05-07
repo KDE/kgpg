@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,117 +13,31 @@
 
 #include "kgpgimport.h"
 
-#include <KIO/NetAccess>
 #include <KDebug>
 #include <KLocale>
 
-#include "gpgproc.h"
-
 KGpgImport::KGpgImport(QObject *parent, const QString &text)
-	: KGpgTransaction(parent), m_text(text)
+	: KGpgTextOrFileTransaction(parent, text)
 {
 }
 
-KGpgImport::KGpgImport(QObject *parent, const KUrl::List &keys)
-	: KGpgTransaction(parent)
+KGpgImport::KGpgImport(QObject *parent, const KUrl::List &files)
+	: KGpgTextOrFileTransaction(parent, files)
 {
-	setUrls(keys);
 }
 
 KGpgImport::~KGpgImport()
 {
-	cleanUrls();
 }
 
-void
-KGpgImport::setText(const QString &text)
+QStringList
+KGpgImport::command() const
 {
-	m_text = text;
-	cleanUrls();
-}
+	QStringList ret;
+	
+	ret << "--import" << "--allow-secret-key-import";
 
-void
-KGpgImport::setUrls(const KUrl::List &keys)
-{
-	m_text.clear();
-	m_inpfiles = keys;
-}
-
-bool
-KGpgImport::preStart()
-{
-	m_messages.clear();
-
-	QStringList locfiles;
-
-	foreach (const KUrl &url, m_inpfiles) {
-		if (url.isLocalFile()) {
-			locfiles.append(url.toLocalFile());
-		} else {
-			QString tmpfile;
-
-			if (KIO::NetAccess::download(url, tmpfile, 0)) {
-				m_tempfiles.append(tmpfile);
-			} else {
-				m_messages.append(KIO::NetAccess::lastErrorString());
-				cleanUrls();
-				setSuccess(TS_IMPORT_KIO_FAILED);
-				return false;
-			}
-		}
-	}
-
-	GPGProc *proc = getProcess();
-	QStringList args(proc->program().at(0));
-
-	disconnect(proc, SIGNAL(started()), this, SLOT(postStart()));
-	if (!m_text.isEmpty())
-		connect(proc, SIGNAL(started()), SLOT(postStart()));
-
-	args << "--status-fd=1" << "--import" << "--allow-secret-key-import" << locfiles << m_tempfiles;
-
-	proc->setProgram(args);
-
-	return true;
-}
-
-void
-KGpgImport::postStart()
-{
-	GPGProc *proc = getProcess();
-	proc->write(m_text.toAscii());
-	proc->closeWriteChannel();
-}
-
-bool
-KGpgImport::nextLine(const QString &line)
-{
-	if (!line.startsWith(QLatin1String("[GNUPG:] SIGEXPIRED")) && !line.startsWith(QLatin1String("[GNUPG:] KEYEXPIRED ")))
-		m_messages.append(line);
-
-	return false;
-}
-
-void
-KGpgImport::finish()
-{
-}
-
-const QStringList &
-KGpgImport::getMessages() const
-{
-	return m_messages;
-}
-
-void
-KGpgImport::cleanUrls()
-{
-	foreach (const QString &u, m_tempfiles)
-		KIO::NetAccess::removeTempFile(u);
-
-	m_tempfiles.clear();
-	m_locfiles.clear();
-	m_inpfiles.clear();
+	return ret;
 }
 
 QStringList
@@ -131,7 +45,7 @@ KGpgImport::getImportedKeys() const
 {
 	QStringList res;
 
-	foreach (const QString &str, m_messages)
+	foreach (const QString &str, getMessages())
 		if (str.startsWith(QLatin1String("[GNUPG:] IMPORTED ")))
 			res << str.mid(18);
 
@@ -172,13 +86,13 @@ KGpgImport::getImportedIds(const QStringList &log, const int reason)
 QStringList
 KGpgImport::getImportedIds(const int reason) const
 {
-	return getImportedIds(m_messages, reason);
+	return getImportedIds(getMessages(), reason);
 }
 
 QString
 KGpgImport::getImportMessage() const
 {
-	return getImportMessage(m_messages);
+	return getImportMessage(getMessages());
 }
 
 QString

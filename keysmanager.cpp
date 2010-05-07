@@ -2489,8 +2489,8 @@ void KeysManager::slotPreImportKey()
 		} else {
 			slotImport(kapp->clipboard()->text(m_clipboardmode));
 		}
-
 	}
+
 	delete dial;
 }
 

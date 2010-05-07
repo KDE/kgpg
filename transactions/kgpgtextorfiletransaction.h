@@ -1,0 +1,98 @@
+/*
+ * Copyright (C) 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#ifndef KGPGTEXTORFILETRANSACTION_H
+#define KGPGTEXTORFILETRANSACTION_H
+
+#include <QObject>
+#include <QList>
+#include <QString>
+#include <QStringList>
+
+#include <KUrl>
+
+#include "kgpgtransaction.h"
+
+/**
+ * @brief feed a text or file through gpg
+ */
+class KGpgTextOrFileTransaction: public KGpgTransaction {
+	Q_OBJECT
+
+public:
+	/**
+	 * @brief additional status codes for KGpgImport
+	 */
+	enum ts_import {
+		TS_KIO_FAILED = TS_COMMON_END + 1	///< download of remote file failed
+	};
+
+protected:
+	/**
+	 * @brief work with given text
+	 * @param parent parent object
+	 * @param text text to work with
+	 */
+	KGpgTextOrFileTransaction(QObject *parent, const QString &text = QString());
+
+	/**
+	 * @brief work with given file(s)
+	 * @param parent parent object
+	 * @param keys list of file locations to work with
+	 */
+	KGpgTextOrFileTransaction(QObject *parent, const KUrl::List &files);
+
+public:
+	/**
+	 * @brief destructor
+	 */
+	virtual ~KGpgTextOrFileTransaction();
+
+	/**
+	 * @brief set text to work with
+	 * @param text text to work with
+	 */
+	void setText(const QString &text);
+	/**
+	 * @brief set file locations to work with
+	 * @param keys list of file locations to work with
+	 */
+	void setUrls(const KUrl::List &files);
+
+	/**
+	 * @brief get gpg info message
+	 * @return the raw messages from gpg during the operation
+	 */
+	const QStringList &getMessages() const;
+
+protected:
+	virtual bool preStart();
+	virtual bool nextLine(const QString &line);
+	virtual void finish();
+
+	virtual QStringList command() const = 0;
+
+private:
+	QStringList m_tempfiles;
+	QStringList m_locfiles;
+	KUrl::List m_inpfiles;
+	QString m_text;
+	QStringList m_messages;
+
+	void cleanUrls();
+
+private slots:
+	void postStart();
+};
+
+#endif // KGPGTEXTORFILETRANSACTION_H

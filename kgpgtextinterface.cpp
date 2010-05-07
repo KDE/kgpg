@@ -508,23 +508,6 @@ KGpgTextInterface::fileEncryptFin()
 		emit errorMessage(d->m_message);
 }
 
-// decrypt file to text
-void
-KGpgTextInterface::KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList &options)
-{
-	*d->m_process << "--no-batch" << "-o" << "-";
-
-	*d->m_process << options;
-
-	*d->m_process << "-d" << srcUrl.path();
-
-	d->m_process->setOutputChannelMode(KProcess::SeparateChannels);
-	connect(d->m_process, SIGNAL(readyReadStandardError()), this, SLOT(decryptTextStdErr()));
-	connect(d->m_process, SIGNAL(readReady()), SLOT(decryptTextStdOut()));
-	connect(d->m_process, SIGNAL(processExited()), SLOT(decryptTextFin()));
-	d->m_process->start();
-}
-
 void
 KGpgTextInterface::decryptFile(const KUrl &src, const KUrl &dest, const QStringList &options)
 {

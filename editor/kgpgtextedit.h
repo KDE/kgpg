@@ -63,22 +63,15 @@ protected:
     void dropEvent(QDropEvent *e);
 
 private:
-    void deleteFile();
     bool checkForUtf8(const QString &text);
 
 private slots:
-    void slotDecodeFile();
-    bool slotCheckFile(const bool &checkforpgpmessage = true);
-
-    void slotDecodeFileSuccess(const QByteArray &content);
-    void slotDecodeFileFailed(const QString &content);
-
     void slotEncodeUpdate(const QString &content);
-    void slotDecodeUpdateSuccess(const QByteArray &content);
-    void slotDecodeUpdateFailed(const QString &content);
     void slotSignUpdate(const QString &content);
     void slotVerifySuccess(const QString &content, const QString &log);
     void slotVerifyKeyNeeded(const QString &id);
+
+    void slotDecryptDone(int result);
 
 private:
     QString m_tempfile;

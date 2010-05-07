@@ -150,13 +150,6 @@ public Q_SLOTS:
     void decryptFile(const KUrl &src, const KUrl &dest, const QStringList &options = QStringList());
 
     /**
-     * Decrypt File to text function
-     * @param srcUrl file to decrypt.
-     * @param options additional gpg options
-     */
-    void KgpgDecryptFileToText(const KUrl &srcUrl, const QStringList &options);
-
-    /**
      * Sign file function
      * @param keyID the signing key ID.
      * @param srcUrl file to sign.

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -20,22 +20,15 @@
 
 #include <KUrl>
 
-#include "kgpgtransaction.h"
+#include "kgpgtextorfiletransaction.h"
 
 /**
  * @brief import one or more keys into the keyring
  */
-class KGpgImport: public KGpgTransaction {
+class KGpgImport: public KGpgTextOrFileTransaction {
 	Q_OBJECT
 
 public:
-	/**
-	 * @brief additional status codes for KGpgImport
-	 */
-	enum ts_import {
-		TS_IMPORT_KIO_FAILED = TS_COMMON_END + 1	///< download of remote file failed
-	};
-
 	/**
 	 * @brief import given text
 	 * @param parent parent object
@@ -46,31 +39,14 @@ public:
 	/**
 	 * @brief import key(s) from file(s)
 	 * @param parent parent object
-	 * @param keys list of file locations to import from
+	 * @param files list of file locations to import from
 	 */
-	KGpgImport(QObject *parent, const KUrl::List &keys);
+	KGpgImport(QObject *parent, const KUrl::List &files);
 
 	/**
 	 * @brief destructor
 	 */
 	virtual ~KGpgImport();
-
-	/**
-	 * @brief set text to import
-	 * @param text key text to import
-	 */
-	void setText(const QString &text);
-	/**
-	 * @brief set file locations to import from
-	 * @param keys list of file locations
-	 */
-	void setUrls(const KUrl::List &keys);
-
-	/**
-	 * @brief get import info message
-	 * @return the raw messages from gpg during the import operation
-	 */
-	const QStringList &getMessages() const;
 
 	/**
 	 * @brief get the names and short fingerprints of the imported keys
@@ -132,21 +108,7 @@ public:
 	static QString getDetailedImportMessage(const QStringList &log);
 
 protected:
-	virtual bool preStart();
-	virtual bool nextLine(const QString &line);
-	virtual void finish();
-
-private:
-	QStringList m_tempfiles;
-	QStringList m_locfiles;
-	KUrl::List m_inpfiles;
-	QString m_text;
-	QStringList m_messages;
-
-	void cleanUrls();
-
-private slots:
-	void postStart();
+	virtual QStringList command() const;
 };
 
 #endif // KGPGIMPORT_H
