@@ -107,6 +107,16 @@ public:
 	 */
 	static QString getDetailedImportMessage(const QStringList &log);
 
+	/**
+	 * @brief check if the given text contains a private or public key
+	 * @param text text to check
+	 * @return if text contains a key or not
+	 * @retval 0 no key found
+	 * @retval 1 public key found
+	 * @retval 2 private key found
+	 */
+	static int isKey(const QString &text);
+
 protected:
 	virtual QStringList command() const;
 };

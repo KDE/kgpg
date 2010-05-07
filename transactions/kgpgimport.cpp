@@ -226,3 +226,23 @@ KGpgImport::getDetailedImportMessage(const QStringList &log)
 
 	return result;
 }
+
+int
+KGpgImport::isKey(const QString &text)
+{
+	int markpos = text.indexOf(QLatin1String("-----BEGIN PGP PUBLIC KEY BLOCK-----"));
+	if (markpos >= 0) {
+		markpos = text.indexOf(QLatin1String("-----END PGP PUBLIC KEY BLOCK-----"), markpos);
+		return (markpos > 0) ? 1 : 0;
+	}
+
+	markpos = text.indexOf(QLatin1String("-----BEGIN PGP PRIVATE KEY BLOCK-----"));
+	if (markpos < 0)
+		return 0;
+
+	markpos = text.indexOf(QLatin1String("-----END PGP PRIVATE KEY BLOCK-----"), markpos);
+	if (markpos < 0)
+		return 0;
+
+	return 2;
+}

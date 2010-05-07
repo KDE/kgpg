@@ -31,7 +31,7 @@
 #include "keysmanager.h"
 #include "kgpg_interface.h"
 #include "kgpgexternalactions.h"
-#include "kgpgtextedit.h"
+#include "kgpgimport.h"
 #include "kgpginterface.h"
 
 using namespace KgpgCore;
@@ -161,7 +161,7 @@ int KGpgApp::newInstance()
 						QString result(t.read(1024));
 						qfile.close();
 
-						if (KgpgTextEdit::checkForKey(result))
+						if (KGpgImport::isKey(result))
 							haskeys = true;
 						else
 							hastext = true;

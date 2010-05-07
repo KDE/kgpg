@@ -32,13 +32,10 @@
 #include "selectpublickeydialog.h"
 #include "detailedconsole.h"
 #include "kgpgdecrypt.h"
+#include "kgpgimport.h"
 
 #define SIGNEDMESSAGE_BEGIN  "-----BEGIN PGP SIGNED MESSAGE-----"
 #define SIGNEDMESSAGE_END    "-----END PGP SIGNATURE-----"
-#define PUBLICKEY_BEGIN      "-----BEGIN PGP PUBLIC KEY BLOCK-----"
-#define PUBLICKEY_END        "-----END PGP PUBLIC KEY BLOCK-----"
-#define PRIVATEKEY_BEGIN     "-----BEGIN PGP PRIVATE KEY BLOCK-----"
-#define PRIVATEKEY_END       "-----END PGP PRIVATE KEY BLOCK-----"
 
 KgpgTextEdit::KgpgTextEdit(QWidget *parent, KGpgItemModel *model)
             : KTextEdit(parent),
@@ -113,7 +110,7 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 
 	QString tmpinfo;
 
-	switch (checkForKey(result)) {
+	switch (KGpgImport::isKey(result)) {
 	case 1:
 		tmpinfo = i18n("<qt>This file is a <b>public</b> key.\nPlease use kgpg key management to import it.</qt>");
 		break;
@@ -233,17 +230,6 @@ bool KgpgTextEdit::checkForUtf8(const QString &text)
     if (!codec->canEncode(text))
         return true;
     return false;
-}
-
-int KgpgTextEdit::checkForKey(const QString &message)
-{
-	if (message.startsWith(PUBLICKEY_BEGIN)) {
-		return 1;
-	} else if (message.startsWith(PRIVATEKEY_BEGIN)) {
-		return 2;
-	} else {
-		return 0;
-	}
 }
 
 void KgpgTextEdit::slotDecryptDone(int result)
