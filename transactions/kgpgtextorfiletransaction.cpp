@@ -14,19 +14,18 @@
 #include "kgpgtextorfiletransaction.h"
 
 #include <KIO/NetAccess>
-#include <KDebug>
 #include <KLocale>
 
 #include "gpgproc.h"
 
-KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const QString &text)
-	: KGpgTransaction(parent),
+KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const QString &text, const bool allowChaining)
+	: KGpgTransaction(parent, allowChaining),
 	m_text(text)
 {
 }
 
-KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const KUrl::List &files)
-	: KGpgTransaction(parent)
+KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const KUrl::List &files, const bool allowChaining)
+	: KGpgTransaction(parent, allowChaining)
 {
 	setUrls(files);
 }
@@ -74,12 +73,13 @@ KGpgTextOrFileTransaction::preStart()
 		}
 	}
 
+	if (m_tempfiles.isEmpty() && m_text.isEmpty() && !hasInputTransaction()) {
+		setSuccess(TS_MSG_SEQUENCE);
+		return false;
+	}
+
 	GPGProc *proc = getProcess();
 	QStringList args(proc->program().at(0));
-
-	disconnect(proc, SIGNAL(started()), this, SLOT(postStart()));
-	if (!m_text.isEmpty())
-		connect(proc, SIGNAL(started()), SLOT(postStart()));
 
 	args << "--status-fd=1" << command() << locfiles << m_tempfiles;
 
@@ -91,9 +91,11 @@ KGpgTextOrFileTransaction::preStart()
 void
 KGpgTextOrFileTransaction::postStart()
 {
-	GPGProc *proc = getProcess();
-	proc->write(m_text.toAscii());
-	proc->closeWriteChannel();
+	if (!m_text.isEmpty()){
+		GPGProc *proc = getProcess();
+		proc->write(m_text.toAscii());
+		proc->closeWriteChannel();
+	}
 }
 
 bool

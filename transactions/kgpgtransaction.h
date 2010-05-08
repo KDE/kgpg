@@ -21,6 +21,7 @@ class GPGProc;
 class KGpgSignTransactionHelper;
 class KGpgTransactionPrivate;
 class QByteArray;
+class QProcess;
 
 /**
  * @brief Process one GnuPG operation
@@ -60,6 +61,7 @@ public:
 		TS_MSG_SEQUENCE = 2,		///< unexpected sequence of GnuPG messages
 		TS_USER_ABORTED = 3,		///< the user aborted the transaction
 		TS_INVALID_EMAIL = 4,		///< the given email address is invalid
+		TS_INPUT_PROCESS_ERROR = 5,	///< the connected input process returned an error
 		TS_COMMON_END = 100		///< placeholder for return values of derived classes
 	};
 	/**
@@ -76,7 +78,7 @@ public:
 	/**
 	 * @brief KGpgTransaction constructor
 	 */
-	explicit KGpgTransaction(QObject *parent = 0);
+	explicit KGpgTransaction(QObject *parent = 0, const bool allowChaining = false);
 	/**
 	 * @brief KGpgTransaction destructor
 	 */
@@ -95,8 +97,16 @@ public:
 	/**
 	 * @brief blocks until the transaction is complete
 	 * @return the result of the transaction like done() would
+	 * @retval TS_USER_ABORTED the timeout expired
+	 *
+	 * If this transaction has another transaction set as input then
+	 * it would wait for those transaction to finish first. The msecs
+	 * argument is used as limit for both transactions then so you
+	 * can end up waiting twice the given time (or longer if you have
+	 * more transactions chained).
 	 */
 	int waitForFinished(const int msecs = -1);
+
 	/**
 	 * @brief return description of this transaction
 	 * @return string used to describe what's going on
@@ -104,6 +114,34 @@ public:
 	 * This is especially useful when using this transaction from a KJob.
 	 */
 	const QString &getDescription() const;
+
+	/**
+	 * @brief connect the standard input of this transaction to another process
+	 * @param proc process to read data from
+	 *
+	 * Once the input process is connected this transaction will not emit
+	 * the done signal until the input process sends the done signal.
+	 *
+	 * The basic idea is that when an input transaction is set you only need
+	 * to care about this transaction. The other transaction is automatically
+	 * started when this one is started and is destroyed when this one is.
+	 */
+	void setInputTransaction(KGpgTransaction *ta);
+
+	/**
+	 * @brief tell the process the standard input is no longer connected
+	 *
+	 * If you had connected an input process you need to tell the transaction
+	 * once this input process is gone. Otherwise you will not get a done
+	 * signal from this transaction as it will wait for the finished signal
+	 * from the process that will never come.
+	 */
+	void clearInputTransaction();
+
+	/**
+	 * @brief check if another transaction will sent input to this
+	 */
+	bool hasInputTransaction() const;
 
 signals:
 	/**
@@ -187,12 +225,18 @@ protected:
 	 */
 	void setDescription(const QString &description);
 
+	/**
+	 * @brief wait until the input transaction has finished
+	 */
+	void waitForInputTransaction();
+
 private:
 	KGpgTransactionPrivate* const d;
 
 	Q_PRIVATE_SLOT(d, void slotReadReady())
 	Q_PRIVATE_SLOT(d, void slotProcessExited())
 	Q_PRIVATE_SLOT(d, void slotProcessStarted())
+	Q_PRIVATE_SLOT(d, void slotInputTransactionDone(int))
 
 protected:
 	/**

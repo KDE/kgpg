@@ -17,12 +17,12 @@
 #include <KLocale>
 
 KGpgImport::KGpgImport(QObject *parent, const QString &text)
-	: KGpgTextOrFileTransaction(parent, text)
+	: KGpgTextOrFileTransaction(parent, text, true)
 {
 }
 
 KGpgImport::KGpgImport(QObject *parent, const KUrl::List &files)
-	: KGpgTextOrFileTransaction(parent, files)
+	: KGpgTextOrFileTransaction(parent, files, true)
 {
 }
 

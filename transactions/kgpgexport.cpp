@@ -22,7 +22,7 @@ KGpgExport::KGpgExport(QObject *parent, const QStringList &ids, QProcess *outp, 
 	: KGpgTransaction(parent),
 	m_keyids(ids),
 	m_outp(outp),
-	m_outputmode(1)
+	m_outputmode(ModeProcess)
 {
 	procSetup(options, secret);
 }
@@ -32,7 +32,7 @@ KGpgExport::KGpgExport(QObject *parent, const QStringList &ids, const QString &f
 	m_keyids(ids),
 	m_outp(NULL),
 	m_outf(file),
-	m_outputmode(0)
+	m_outputmode(ModeFile)
 {
 	procSetup(options, secret);
 }
@@ -41,9 +41,19 @@ KGpgExport::KGpgExport(QObject *parent, const QStringList &ids, const QStringLis
 	: KGpgTransaction(parent),
 	m_keyids(ids),
 	m_outp(NULL),
-	m_outputmode(2)
+	m_outputmode(ModeStdout)
 {
 	procSetup(options, secret);
+}
+
+KGpgExport::KGpgExport(QObject *parent, const QStringList &ids, KGpgTransaction *outt, const QStringList &options, const bool secret)
+	: KGpgTransaction(parent),
+	m_keyids(ids),
+	m_outp(NULL),
+	m_outputmode(ModeTransaction)
+{
+	procSetup(options, secret);
+	outt->setInputTransaction(this);
 }
 
 KGpgExport::~KGpgExport()
@@ -74,7 +84,7 @@ KGpgExport::setOutputProcess(QProcess *outp)
 {
 	m_outf.clear();
 	m_outp = outp;
-	m_outputmode = 1;
+	m_outputmode = ModeProcess;
 }
 
 void
@@ -83,9 +93,18 @@ KGpgExport::setOutputFile(const QString &filename)
 	m_outp = NULL;
 	m_outf = filename;
 	if (filename.isEmpty())
-		m_outputmode = 2;
+		m_outputmode = ModeStdout;
 	else
-		m_outputmode = 0;
+		m_outputmode = ModeFile;
+}
+
+void
+KGpgExport::setOutputTransaction(KGpgTransaction *outt)
+{
+	m_outp = NULL;
+	m_outf.clear();
+	m_outputmode = ModeTransaction;
+	outt->setInputTransaction(this);
 }
 
 const QString &
@@ -106,7 +125,7 @@ KGpgExport::preStart()
 	setSuccess(TS_OK);
 
 	switch (m_outputmode) {
-	case 0:
+	case ModeFile:
 		{
 		Q_ASSERT(!m_outf.isEmpty());
 		Q_ASSERT(m_outp == NULL);
@@ -120,19 +139,23 @@ KGpgExport::preStart()
 
 		break;
 		}
-	case 1:
+	case ModeProcess:
 		Q_ASSERT(m_outf.isEmpty());
 		Q_ASSERT(m_outp != NULL);
 
 		getProcess()->setStandardOutputProcess(m_outp);
 
 		break;
-	case 2:
+	case ModeStdout:
+		Q_ASSERT(m_outf.isEmpty());
+		Q_ASSERT(m_outp == NULL);
+		break;
+	case ModeTransaction:
 		Q_ASSERT(m_outf.isEmpty());
 		Q_ASSERT(m_outp == NULL);
 		break;
 	default:
-		Q_ASSERT(1);
+		Q_ASSERT(0);
 	}
 
 	addArguments(m_keyids);

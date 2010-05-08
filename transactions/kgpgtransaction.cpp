@@ -23,34 +23,56 @@
 
 class KGpgTransactionPrivate: QObject {
 public:
-	KGpgTransactionPrivate(KGpgTransaction *parent);
+	KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining);
+	~KGpgTransactionPrivate();
 
 	KGpgTransaction *m_parent;
 	GPGProc *m_process;
+	KGpgTransaction *m_inputTransaction;
 	int m_success;
 	int m_tries;
 	QString m_description;
+	bool m_chainingAllowed;
 
 	QStringList m_idhints;
 
 	void slotReadReady();
 	void slotProcessExited();
 	void slotProcessStarted();
+	void slotInputTransactionDone(int result);
 
 	QList<int *> m_argRefs;
+	bool m_inputProcessDone;
+	int m_inputProcessResult;
+	bool m_ownProcessFinished;
+
+private:
+	void processDone();
 };
 
-KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent)
-	: QObject(parent)
+KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining)
+	: QObject(parent),
+	m_parent(parent),
+	m_process(new GPGProc()),
+	m_inputTransaction(NULL),
+	m_success(KGpgTransaction::TS_OK),
+	m_tries(3),
+	m_chainingAllowed(allowChaining),
+	m_inputProcessDone(false),
+	m_inputProcessResult(KGpgTransaction::TS_OK),
+	m_ownProcessFinished(false)
 {
-	m_parent = parent;
-
-	m_process = new GPGProc;
-	m_success = KGpgTransaction::TS_OK;
 }
 
-KGpgTransaction::KGpgTransaction(QObject *parent)
-	: QObject(parent), d(new KGpgTransactionPrivate(this))
+KGpgTransactionPrivate::~KGpgTransactionPrivate()
+{
+	delete m_inputTransaction;
+	delete m_process;
+}
+
+KGpgTransaction::KGpgTransaction(QObject *parent, const bool allowChaining)
+	: QObject(parent),
+	d(new KGpgTransactionPrivate(this, allowChaining))
 {
 	connect(d->m_process, SIGNAL(readReady()), SLOT(slotReadReady()));
 	connect(d->m_process, SIGNAL(processExited()), SLOT(slotProcessExited()));
@@ -93,9 +115,11 @@ KGpgTransactionPrivate::slotReadReady()
 void
 KGpgTransactionPrivate::slotProcessExited()
 {
-	m_parent->finish();
-	emit m_parent->infoProgress(100, 100);
-	emit m_parent->done(m_success);
+	Q_ASSERT(m_parent->sender() == m_process);
+	m_ownProcessFinished = true;
+
+	if (m_inputProcessDone)
+		processDone();
 }
 
 void
@@ -105,12 +129,38 @@ KGpgTransactionPrivate::slotProcessStarted()
 }
 
 void
+KGpgTransactionPrivate::slotInputTransactionDone(int result)
+{
+	Q_ASSERT(m_parent->sender() == m_inputTransaction);
+
+	m_inputProcessDone = true;
+	m_inputProcessResult = result;
+
+	if (m_ownProcessFinished)
+		processDone();
+}
+
+void
+KGpgTransactionPrivate::processDone()
+{
+	m_parent->finish();
+	emit m_parent->infoProgress(100, 100);
+	emit m_parent->done(m_success);
+}
+
+void
 KGpgTransaction::start()
 {
+	d->m_inputProcessResult = false;
+	d->m_inputProcessDone = (d->m_inputTransaction == NULL);
+
 	setSuccess(TS_OK);
 	d->m_idhints.clear();
 	d->m_tries = 3;
 	if (preStart()) {
+		d->m_ownProcessFinished = false;
+		if (d->m_inputTransaction != NULL)
+			d->m_inputTransaction->start();
 		d->m_process->start();
 		emit infoProgress(0, 1);
 	} else {
@@ -168,6 +218,17 @@ void
 KGpgTransaction::setDescription(const QString &description)
 {
 	d->m_description = description;
+}
+
+void
+KGpgTransaction::waitForInputTransaction()
+{
+	Q_ASSERT(d->m_inputTransaction != NULL);
+
+	if (d->m_inputProcessDone)
+		return;
+
+	d->m_inputTransaction->waitForFinished();
 }
 
 bool
@@ -301,7 +362,18 @@ KGpgTransaction::setGnuPGHome(const QString &home)
 int
 KGpgTransaction::waitForFinished(const int msecs)
 {
+	int ret = TS_OK;
+
+	if (d->m_inputTransaction != NULL) {
+		int ret = d->m_inputTransaction->waitForFinished(msecs);
+		if ((ret != TS_OK) && (msecs != -1))
+			return ret;
+	}
+
 	bool b = d->m_process->waitForFinished(msecs);
+
+	if (ret != TS_OK)
+		return ret;
 
 	if (!b)
 		return TS_USER_ABORTED;
@@ -313,6 +385,33 @@ const QString &
 KGpgTransaction::getDescription() const
 {
 	return d->m_description;
+}
+
+void
+KGpgTransaction::setInputTransaction(KGpgTransaction *ta)
+{
+	Q_ASSERT(d->m_chainingAllowed);
+
+	if (d->m_inputTransaction != NULL)
+		clearInputTransaction();
+	d->m_inputTransaction = ta;
+
+	GPGProc *proc = ta->getProcess();
+	proc->setStandardOutputProcess(d->m_process);
+	connect(ta, SIGNAL(done(int)), SLOT(slotInputTransactionDone(int)));
+}
+
+void
+KGpgTransaction::clearInputTransaction()
+{
+	disconnect(d->m_inputTransaction, SIGNAL(done(int)), this, SLOT(slotInputTransactionDone(int)));
+	d->m_inputTransaction = NULL;
+}
+
+bool
+KGpgTransaction::hasInputTransaction() const
+{
+	return (d->m_inputTransaction != NULL);
 }
 
 #include "kgpgtransaction.moc"

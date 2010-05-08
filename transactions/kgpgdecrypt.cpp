@@ -20,7 +20,7 @@ KGpgDecrypt::KGpgDecrypt(QObject *parent, const QString &text)
 {
 }
 
-KGpgDecrypt::KGpgDecrypt(QObject* parent, const KUrl::List &files)
+KGpgDecrypt::KGpgDecrypt(QObject *parent, const KUrl::List &files)
 	: KGpgTextOrFileTransaction(parent, files)
 {
 }

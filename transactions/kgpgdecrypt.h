@@ -20,6 +20,7 @@
 
 #include "kgpgtextorfiletransaction.h"
 
+class QProcess;
 class QStringList;
 
 /**

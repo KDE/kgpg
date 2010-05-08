@@ -16,6 +16,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QString>
 #include <QStringList>
 
 #include <KUrl>
@@ -34,7 +35,7 @@ public:
 	 * @param parent parent object
 	 * @param text key text to import
 	 */
-	KGpgImport(QObject *parent, const QString &text);
+	KGpgImport(QObject *parent, const QString &text = QString());
 
 	/**
 	 * @brief import key(s) from file(s)

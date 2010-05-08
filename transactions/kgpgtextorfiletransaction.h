@@ -43,14 +43,14 @@ protected:
 	 * @param parent parent object
 	 * @param text text to work with
 	 */
-	KGpgTextOrFileTransaction(QObject *parent, const QString &text = QString());
+	KGpgTextOrFileTransaction(QObject *parent, const QString &text = QString(), const bool allowChaining = false);
 
 	/**
 	 * @brief work with given file(s)
 	 * @param parent parent object
 	 * @param keys list of file locations to work with
 	 */
-	KGpgTextOrFileTransaction(QObject *parent, const KUrl::List &files);
+	KGpgTextOrFileTransaction(QObject *parent, const KUrl::List &files, const bool allowChaining = false);
 
 public:
 	/**
