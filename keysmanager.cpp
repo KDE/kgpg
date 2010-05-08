@@ -111,6 +111,7 @@
 #include "kgpgsignkey.h"
 #include "kgpgsignuid.h"
 #include "kgpgdelsign.h"
+#include "kgpgdecrypt.h"
 
 using namespace KgpgCore;
 
@@ -2467,7 +2468,7 @@ void KeysManager::slotDelKeyDone(int res)
 void KeysManager::slotPreImportKey()
 {
 	QPointer<KDialog> dial = new KDialog(this);
-	dial->setCaption(i18n("Key Import") );
+	dial->setCaption(i18n("Key Import"));
 	dial->setButtons(KDialog::Ok | KDialog::Cancel);
 	dial->setDefaultButton(KDialog::Ok);
 	dial->setModal(true);
@@ -2499,7 +2500,22 @@ void KeysManager::slotImport(const QString &text)
 	if (text.isEmpty())
 		return;
 
-	startImport(new KGpgImport(this, text));
+	KGpgImport *imp;
+
+	if (!KGpgImport::isKey(text) && KGpgDecrypt::isEncryptedText(text)) {
+		if (KMessageBox::questionYesNo(this,
+				i18n("<qt>The text in the clipboard does not look like a key but like an encrypted text.<br />Do you want to decrypt it first and then try importing it?</qt>"),
+					       i18n("Import from Clipboard")) != KMessageBox::Yes)
+			return;
+
+		imp = new KGpgImport(this);
+		KGpgDecrypt *decr = new KGpgDecrypt(this, text);
+		imp->setInputTransaction(decr);
+	} else {
+		imp = new KGpgImport(this, text);
+	}
+
+	startImport(imp);
 }
 
 void KeysManager::slotImport(const KUrl::List &files)
