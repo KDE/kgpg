@@ -521,6 +521,7 @@ void KeysManager::slotGenerateKey()
 
 			KIO::getJobTracker()->registerJob(m_genkey);
 			m_genkey->start();
+			QApplication::setOverrideCursor(Qt::BusyCursor);
 		} else {
 			KConfigGroup config(KGlobal::config(), "General");
 
@@ -574,6 +575,7 @@ void KeysManager::updateStatusCounter()
 void KeysManager::slotGenerateKeyDone(KJob *job)
 {
 	changeMessage(i18nc("Application ready for user input", "Ready"));
+	QApplication::restoreOverrideCursor();
 
 	KGpgTransactionJob *tjob = qobject_cast<KGpgTransactionJob *>(job);
 

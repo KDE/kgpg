@@ -15,6 +15,7 @@
 
 #include <KMessageBox>
 #include <KLocale>
+#include <QApplication>
 
 #include "kpimutils/email.h"
 
@@ -89,6 +90,7 @@ KGpgGenerateKey::postStart()
 	keymessage.append("\nPassphrase: ");
 	write(keymessage, false);
 
+	QApplication::restoreOverrideCursor();
 	QString passdlgmessage;
 	if (!m_email.isEmpty()) {
 		passdlgmessage = i18n("<p><b>Enter passphrase for %1 &lt;%2&gt;</b>:<br />Passphrase should include non alphanumeric characters and random sequences.</p>", m_name, m_email);
@@ -99,6 +101,7 @@ KGpgGenerateKey::postStart()
 	if (sendPassphrase(passdlgmessage, true)) {
 		setSuccess(TS_USER_ABORTED);
 	}
+	QApplication::setOverrideCursor(Qt::BusyCursor);
 	keymessage.append("%commit");
 
 	write(keymessage);
