@@ -42,7 +42,7 @@ public:
 	 *
 	 * See setUid() for description of uid.
 	 */
-	KGpgSignUid(QObject *parent, const QString &signer, KGpgSignableNode *uid, const bool local, const carefulCheck checking);
+	KGpgSignUid(QObject *parent, const QString &signer, const KGpgSignableNode *uid, const bool local, const carefulCheck checking);
 	/**
 	 * @brief destructor
 	 */
@@ -57,7 +57,7 @@ public:
 	 * KGpgSignKey instead. Legal values for uid are also KGpgUidNode
 	 * and KGpgUatNode.
 	 */
-	void setUid(KGpgSignableNode *uid);
+	void setUid(const KGpgSignableNode *uid);
 
 protected:
 	virtual bool nextLine(const QString &line);

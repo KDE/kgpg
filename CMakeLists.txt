@@ -96,6 +96,7 @@ set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transac
    kgpgfirstassistant.cpp
    kgpgexternalactions.cpp
    selectexpirydate.cpp
+   caff.cpp
 )
 
 qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)

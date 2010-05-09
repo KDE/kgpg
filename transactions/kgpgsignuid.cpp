@@ -15,7 +15,7 @@
 
 #include "kgpgitemnode.h"
 
-KGpgSignUid::KGpgSignUid(QObject *parent, const QString &signer, KGpgSignableNode *uid, const bool local, const carefulCheck checking)
+KGpgSignUid::KGpgSignUid(QObject *parent, const QString &signer, const KGpgSignableNode *uid, const bool local, const carefulCheck checking)
 	: KGpgUidTransaction(parent),
 	KGpgSignTransactionHelper(signer, !local, checking)
 {
@@ -37,7 +37,7 @@ KGpgSignUid::~KGpgSignUid()
 }
 
 void
-KGpgSignUid::setUid(KGpgSignableNode *uid)
+KGpgSignUid::setUid(const KGpgSignableNode *uid)
 {
 	switch (uid->getType()) {
 	case ITYPE_PUBLIC:

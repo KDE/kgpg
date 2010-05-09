@@ -29,12 +29,12 @@ KGpgSignTransactionHelper::~KGpgSignTransactionHelper()
 }
 
 void
-KGpgSignTransactionHelper::setKey(KGpgKeyNode *node)
+KGpgSignTransactionHelper::setKey(const KGpgKeyNode *node)
 {
 	m_node = node;
 }
 
-KGpgKeyNode *
+const KGpgKeyNode *
 KGpgSignTransactionHelper::getKey(void) const
 {
 	return m_node;
@@ -133,4 +133,13 @@ QString
 KGpgSignTransactionHelper::getSigner(void) const
 {
 	return m_signer;
+}
+
+void
+KGpgSignTransactionHelper::setSecringFile(const QString &filename)
+{
+	QStringList secringargs("--secret-keyring");
+	secringargs << filename;
+
+	asTransaction()->insertArguments(1, secringargs);
 }

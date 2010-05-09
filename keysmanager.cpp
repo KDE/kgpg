@@ -1,10 +1,7 @@
-/***************************************************************************
-                          keysmanager.cpp  -  description
-                             -------------------
-    begin                : Thu Jul 4 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -71,6 +68,7 @@
 #include <kio/global.h>
 #include <kjobtrackerinterface.h>
 
+#include "caff.h"
 #include "kgpgkey.h"
 #include "selectsecretkey.h"
 #include "newkey.h"
@@ -299,6 +297,9 @@ KeysManager::KeysManager(QWidget *parent)
 	signUid = actionCollection()->addAction("key_sign_uid");
 	signUid->setIcon(KIcon("document-sign-key"));
 	connect(signUid, SIGNAL(triggered(bool)), SLOT(signuid()));
+	signMailUid = actionCollection()->addAction("key_sign_mail_uid");
+	signMailUid->setIcon(KIcon("document-sign-key"));
+	connect(signMailUid, SIGNAL(triggered(bool)), SLOT(caff()));
 	importSignatureKey = actionCollection()->addAction("key_importsign");
 	importSignatureKey->setIcon(KIcon("document-import-key"));
 	connect(importSignatureKey, SIGNAL(triggered(bool)), SLOT(preimportsignkey()));
@@ -368,6 +369,7 @@ KeysManager::KeysManager(QWidget *parent)
 	m_popuppub->addAction(deleteKey);
 	m_popuppub->addAction(signKey);
 	m_popuppub->addAction(signUid);
+	m_popuppub->addAction(signMailUid);
 	m_popuppub->addAction(infoKey);
 	m_popuppub->addAction(editKey);
 	m_popuppub->addAction(refreshKey);
@@ -380,6 +382,7 @@ KeysManager::KeysManager(QWidget *parent)
 	m_popupsec->addAction(exportPublicKey);
 	m_popupsec->addAction(signKey);
 	m_popupsec->addAction(signUid);
+	m_popupsec->addAction(signMailUid);
 	m_popupsec->addAction(infoKey);
 	m_popupsec->addAction(editKey);
 	m_popupsec->addAction(refreshKey);
@@ -408,10 +411,12 @@ KeysManager::KeysManager(QWidget *parent)
 	m_popupphoto = new KMenu(this);
 	m_popupphoto->addAction(openPhoto);
 	m_popupphoto->addAction(signUid);
+	m_popupphoto->addAction(signMailUid);
 	m_popupphoto->addAction(deletePhoto);
 
 	m_popupuid = new KMenu(this);
 	m_popupuid->addAction(signUid);
+	m_popupuid->addAction(signMailUid);
 	m_popupuid->addAction(delUid);
 	m_popupuid->addAction(setPrimUid);
 
@@ -426,6 +431,7 @@ KeysManager::KeysManager(QWidget *parent)
 	editKey->setEnabled(false);
 	signKey->setEnabled(false);
 	signUid->setEnabled(false);
+	signMailUid->setEnabled(false);
 	refreshKey->setEnabled(false);
 	exportPublicKey->setEnabled(false);
 	newContact->setEnabled(false);
@@ -1310,6 +1316,7 @@ void
 KeysManager::setActionDescriptions(int cnt)
 {
 	signUid->setText(i18np("&Sign User ID ...", "&Sign User IDs ...", cnt));
+	signMailUid->setText(i18np("Sign and &Mail User ID ...", "Sign and &Mail User IDs ...", cnt));
 	exportPublicKey->setText(i18np("E&xport Public Key...", "E&xport Public Keys...", cnt));
 	refreshKey->setText(i18np("&Refresh Key From Keyserver", "&Refresh Keys From Keyserver", cnt));
 	createGroup->setText(i18np("&Create Group with Selected Key...", "&Create Group with Selected Keys...", cnt));
@@ -1349,6 +1356,7 @@ KeysManager::slotMenu(const QPoint &pos)
 	importAllSignKeys->setEnabled(unksig && m_online);
 
 	signUid->setEnabled(!(itype & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)));
+	signMailUid->setEnabled(signUid->isEnabled());
 	setActionDescriptions(cnt);
 
 	if (itype == ITYPE_SIGN) {
@@ -1937,7 +1945,7 @@ void KeysManager::signuid()
 		return;
 
 	KgpgItemType tp;
-	QList<KGpgNode *> tmplist = iview->selectedNodes(NULL, &tp);
+	KGpgNode::List tmplist = iview->selectedNodes(NULL, &tp);
 	if (tmplist.isEmpty())
 		return;
 
@@ -2043,7 +2051,7 @@ void KeysManager::signatureResult(int success)
 	} else {
 		ta = static_cast<KGpgSignTransactionHelper *>(static_cast<KGpgSignKey *>(sender()));
 	}
-	KGpgKeyNode *nd = ta->getKey();
+	KGpgKeyNode *nd = const_cast<KGpgKeyNode *>(ta->getKey());
 	const bool localsign = ta->getLocal();
 	const int checklevel = ta->getChecking();
 	const QString signer(ta->getSigner());
@@ -2079,6 +2087,53 @@ void KeysManager::signatureResult(int success)
 	} else {
 		signLoop(localsign, checklevel);
 	}
+}
+
+void KeysManager::caff()
+{
+	KgpgItemType tp;
+	KGpgNode::List tmplist = iview->selectedNodes(NULL, &tp);
+	KGpgSignableNode::List slist;
+	if (tmplist.isEmpty())
+		return;
+
+	if (tp & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)) {
+		KMessageBox::sorry(this, i18n("You can only sign user ids and photo ids. Please check your selection."));
+		return;
+	}
+
+	foreach (KGpgNode *nd, tmplist) {
+		switch (nd->getType()) {
+		case KgpgCore::ITYPE_PAIR:
+		case KgpgCore::ITYPE_PUBLIC: {
+			KGpgKeyNode *knd = qobject_cast<KGpgKeyNode *>(nd);
+			if (!knd->wasExpanded())
+				knd->getChildCount();
+			}
+		}
+		slist.append(nd->toSignableNode());
+	}
+
+	QPointer<KgpgSelectSecretKey> opts = new KgpgSelectSecretKey(this, imodel, slist.count(), false, false);
+	if (opts->exec() != QDialog::Accepted) {
+		delete opts;
+		return;
+	}
+
+	KGpgCaff *ca = new KGpgCaff(this, slist, QStringList(opts->getKeyID()), opts->getSignTrust());
+	delete opts;
+
+	connect(ca, SIGNAL(done()), SLOT(slotCaffDone()));
+	connect(ca, SIGNAL(aborted()), SLOT(slotCaffDone()));
+
+	ca->run();
+}
+
+void KeysManager::slotCaffDone()
+{
+	Q_ASSERT(qobject_cast<KGpgCaff *>(sender()) != NULL);
+
+	sender()->deleteLater();
 }
 
 void KeysManager::signKeyOpenConsole(const QString &signer, const QString &keyid, const int checking, const bool local)

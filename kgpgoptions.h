@@ -157,6 +157,7 @@ private:
     bool m_defaultencrypttoalways;
     bool m_showsystray;
     int m_trayaction;
+    int m_mailUats;
 
     KGpgItemModel * const m_model;
     KeyListProxyModel * const m_combomodel;

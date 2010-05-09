@@ -83,6 +83,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 
 	m_showsystray = KGpgSettings::showSystray();
 	m_trayaction = KGpgSettings::leftClick();
+	m_mailUats = KGpgSettings::mailUats();
 
 	QVBoxLayout *fontlayout = new QVBoxLayout(m_page3->tabWidget3->widget(1));
 	fontlayout->setSpacing(spacingHint());
@@ -481,6 +482,9 @@ void kgpgOptions::updateSettings()
 	m_trayaction = m_page7->kcfg_LeftClick->currentIndex();
 	KGpgSettings::setLeftClick(m_trayaction);
 
+	m_mailUats = m_page7->kcfg_MailUats->currentIndex();
+	KGpgSettings::setMailUats(m_mailUats);
+
 	KGpgSettings::self()->writeConfig();
 	m_config->sync();
 
@@ -570,7 +574,7 @@ bool kgpgOptions::hasChanged()
 
 	// Did the number of servers change?
 	if (m_page6->ServerBox->count() != serverList.size())
-	return true;
+		return true;
 
 	// Did the actual value of the servers change than?
 	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
@@ -590,6 +594,9 @@ bool kgpgOptions::hasChanged()
 		return true;
 
 	if (m_page7->kcfg_LeftClick->currentIndex() != m_trayaction)
+		return true;
+
+	if (m_page7->kcfg_MailUats->currentIndex() != m_mailUats)
 		return true;
 
 	return false;
@@ -629,6 +636,9 @@ bool kgpgOptions::isDefault()
 		return false;
 
 	if (m_page7->kcfg_LeftClick->currentIndex() != KGpgSettings::EnumLeftClick::KeyManager)
+		return false;
+
+	if (m_page7->kcfg_MailUats->currentIndex() != KGpgSettings::EnumMailUats::All)
 		return false;
 
 	return true;

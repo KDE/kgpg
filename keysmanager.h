@@ -171,6 +171,8 @@ private slots:
     void deleteseckey();
     void signkey();
     void signuid();
+    void caff();
+    void slotCaffDone();
     void delsignkey();
     void preimportsignkey();
     void importallsignkey();
@@ -241,6 +243,7 @@ private:
     KAction *importAllSignKeys;
     KAction *signKey;
     KAction *signUid;
+    KAction *signMailUid;
     KAction *refreshKey;
     KAction *editKey;
     KAction *setPrimUid;

@@ -73,12 +73,12 @@ public:
 	 * @brief set key node this transaction is using
 	 * @param node new key node
 	 */
-	void setKey(KGpgKeyNode *node);
+	void setKey(const KGpgKeyNode *node);
 
 	/**
 	 * @brief get the key node this transaction is using
 	 */
-	KGpgKeyNode *getKey(void) const;
+	const KGpgKeyNode *getKey(void) const;
 
 	/**
 	 * @brief set if the signature should be local (not exportable)
@@ -113,8 +113,18 @@ public:
 	 */
 	QString getSigner(void) const;
 
+	/**
+	 * @brief add a secret keyring file
+	 *
+	 * This allows to specify an additional file where secret keys are
+	 * stored to be used by this operation. This is especially useful
+	 * if a different GnuPG home directory is set but the original keys
+	 * should be used for signing.
+	 */
+	void setSecringFile(const QString &filename);
+
 private:
-	KGpgKeyNode *m_node;
+	const KGpgKeyNode *m_node;
 	QString m_signer;
 	bool m_local;
 	carefulCheck m_checking;

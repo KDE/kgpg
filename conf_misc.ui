@@ -19,7 +19,7 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="tabGlobal">
       <attribute name="title">
        <string>Global Settings</string>
       </attribute>
@@ -92,7 +92,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="TabPage">
+     <widget class="QWidget" name="tabApplet">
       <attribute name="title">
        <string>Applet &amp;&amp; Menus</string>
       </attribute>
@@ -267,7 +267,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="tabEditor">
       <attribute name="title">
        <string>Editor</string>
       </attribute>
@@ -301,6 +301,64 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tabSigning">
+      <attribute name="title">
+       <string>Key Signing</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="whatsThis">
+            <string>Here you can define how User Ids that do not contain an email address (like Photo Ids) are sent to the key owner. You can choose to either send them with every other User Id you signed, only with the first Id you signed or to not send them at all.</string>
+           </property>
+           <property name="text">
+            <string>Mailing of User Ids without Email Adresses</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KComboBox" name="kcfg_MailUats">
+           <item>
+            <property name="text">
+             <string>Send with every Email</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Send only with first Email</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Do not send</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Email template</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="KTextEdit" name="kcfg_EmailTemplate">
+            <property name="whatsThis">
+             <string>This is the text of the email sent by the &quot;Sign and Mail User ID&quot; action.
+
+The placeholders surrounded by the percent signs (like %MYNAME%) will be replaced with the corresponding text for every single mail.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
@@ -315,6 +373,12 @@
    <class>KTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ktextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

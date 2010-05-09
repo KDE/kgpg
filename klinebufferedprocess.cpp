@@ -26,14 +26,14 @@ public:
     QByteArray m_stderrBuffer;
     int m_newlineInStdout;
     int m_newlineInStderr;
-    KLineBufferedProcess *m_parent;
+    KLineBufferedProcess * const m_parent;
 };
 
 KLineBufferedProcessPrivate::KLineBufferedProcessPrivate(KLineBufferedProcess *parent)
+ : m_newlineInStdout(-1),
+   m_newlineInStderr(-1),
+   m_parent(parent)
 {
-    m_newlineInStdout = -1;
-    m_newlineInStderr = -1;
-    m_parent = parent;
 }
 
 KLineBufferedProcess::KLineBufferedProcess(QObject *parent)
