@@ -33,11 +33,11 @@ KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgSignableNode::const_List &uids
 	setUids(uids);
 }
 
-KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int uid, const bool keepUats)
+KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int uid, const RemoveMode removeMode)
 	: KGpgUidTransaction(parent),
 	m_fixargs(addArgument("deluid"))
 {
-	setUid(keynode, uid, keepUats);
+	setUid(keynode, uid, removeMode);
 }
 
 KGpgDelUid::~KGpgDelUid()
@@ -111,7 +111,7 @@ KGpgDelUid::setUids(const KGpgSignableNode::const_List &uids)
 }
 
 void
-KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid, const bool keepUats)
+KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid, const RemoveMode removeMode)
 {
 	Q_ASSERT(uid != 0);
 
@@ -137,8 +137,19 @@ KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid, const bool keepUat
 			if (uidnode == NULL)
 				break;
 
-			if (!keepUats || (uidnode->getType() != KgpgCore::ITYPE_UAT))
+			switch (removeMode) {
+			case RemoveAllOther:
 				uids.append(uidnode);
+				break;
+			case KeepUats:
+				if (uidnode->getType() != KgpgCore::ITYPE_UAT)
+					uids.append(uidnode);
+				break;
+			case RemoveWithEmail:
+				if (!uidnode->getEmail().isEmpty())
+					uids.append(uidnode);
+				break;
+			}
 		}
 	}
 

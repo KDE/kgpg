@@ -33,6 +33,12 @@ public:
 		TS_NO_SUCH_UID = KGpgTransaction::TS_COMMON_END + 1	///< user id does not exist
 	};
 
+	enum RemoveMode {
+		RemoveAllOther = 0,	///< remove all other uids
+		KeepUats = 1,		///< remove all other uids, but keep uats
+		RemoveWithEmail = 2	///< remove only those other uids that have an email address
+	};
+
 	/**
 	 * @brief constructor
 	 * @param parent parent object
@@ -53,10 +59,10 @@ public:
 	 * @brief constructor
 	 * @param parent parent object
 	 * @param keynode key to edit
-	 * @param uid uid to delete, negative to delete all others
-	 * @param keepUats if uid is negative all other uids are deleted, but uats (photo ids) are kept if true is passed here.
+	 * @param uid uid to delete, negative to delete all others (see also removeMode)
+	 * @param removeMode control which other uids are removed in case uid is negative
 	 */
-	KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int uid, const bool keepUats = false);
+	KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int uid, const RemoveMode removeMode = RemoveAllOther);
 	/**
 	 * @brief destructor
 	 */
@@ -73,7 +79,7 @@ public:
 	 *
 	 * @overload
 	 */
-	void setUid(const KGpgKeyNode *keynode, const int uid, const bool keepUats = false);
+	void setUid(const KGpgKeyNode *keynode, const int uid, const RemoveMode removeMode = RemoveAllOther);
 	/**
 	 * @brief set the user ids to be deleted
 	 *
