@@ -26,6 +26,8 @@
 class KGpgDelSign: public KGpgUidTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgDelSign)
+	KGpgDelSign(); // = delete C++0x
 public:
 	/**
 	 * @brief construct a new transaction to delete signatures
@@ -70,9 +72,6 @@ protected:
 	virtual ts_boolanswer boolQuestion(const QString &line);
 
 private:
-	Q_DISABLE_COPY(KGpgDelSign)
-	KGpgDelSign(); // = delete C++0x
-
 	KGpgSignNode::List m_signids;	///< the list of ids to delete
 	QString m_cachedid;	///< the next id GnuPG will ask to delete
 };

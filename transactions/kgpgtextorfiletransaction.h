@@ -29,6 +29,8 @@
 class KGpgTextOrFileTransaction: public KGpgTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgTextOrFileTransaction)
+
 public:
 	/**
 	 * @brief additional status codes for KGpgImport
@@ -43,7 +45,7 @@ protected:
 	 * @param parent parent object
 	 * @param text text to work with
 	 */
-	KGpgTextOrFileTransaction(QObject *parent, const QString &text = QString(), const bool allowChaining = false);
+	explicit KGpgTextOrFileTransaction(QObject *parent = 0, const QString &text = QString(), const bool allowChaining = false);
 
 	/**
 	 * @brief work with given file(s)

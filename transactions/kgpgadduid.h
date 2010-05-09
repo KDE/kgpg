@@ -26,6 +26,7 @@ class QString;
 class KGpgAddUid: public KGpgEditKeyTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgAddUid)
 public:
 	KGpgAddUid(QObject *parent, const QString &keyid, const QString &name, const QString &email = QString(), const QString &comment = QString());
 	virtual ~KGpgAddUid();

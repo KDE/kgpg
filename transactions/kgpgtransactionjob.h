@@ -28,6 +28,9 @@ class KGpgTransaction;
 class KGpgTransactionJob : public KJob {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgTransactionJob)
+	KGpgTransactionJob(); // = delete C++0x
+
 	KGpgTransaction * const m_transaction;
 	int m_result;
 

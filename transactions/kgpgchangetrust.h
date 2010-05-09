@@ -25,6 +25,7 @@
 class KGpgChangeTrust: public KGpgEditKeyTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgChangeTrust)
 public:
 	KGpgChangeTrust(QObject *parent, const QString &keyid, const KgpgCore::KgpgKeyOwnerTrust trust);
 	virtual ~KGpgChangeTrust();

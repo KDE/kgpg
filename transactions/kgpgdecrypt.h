@@ -29,13 +29,14 @@ class QStringList;
 class KGpgDecrypt: public KGpgTextOrFileTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgDecrypt)
 public:
 	/**
 	 * @brief decrypt given text
 	 * @param parent parent object
 	 * @param text text to decrypt
 	 */
-	KGpgDecrypt(QObject *parent, const QString &text = QString());
+	explicit KGpgDecrypt(QObject *parent, const QString &text = QString());
 
 	/**
 	 * @brief decrypt file(s)

@@ -27,6 +27,11 @@ class KProgressDialog;
 class KGpgKeyserverTransaction: public KGpgTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgKeyserverTransaction)
+	/**
+	 * @brief forbidden
+	 */
+	KGpgKeyserverTransaction(); // = delete C++0x
 public:
 	/**
 	 * @brief construct a new transaction for the given keyserver
@@ -73,12 +78,6 @@ private slots:
 	void slotAbort();
 
 private:
-	/**
-	 * @brief forbidden
-	 */
-	KGpgKeyserverTransaction();
-	Q_DISABLE_COPY(KGpgKeyserverTransaction)
-
 	QString m_keyserver;
 	int m_keyserverpos;
 	QString m_proxy;

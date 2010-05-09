@@ -26,6 +26,12 @@
 class KGpgKeyserverGetTransaction: public KGpgKeyserverTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgKeyserverGetTransaction)
+	/**
+	 * @brief forbidden
+	 */
+	KGpgKeyserverGetTransaction(); // = delete C++0x
+
 public:
 	/**
 	 * @brief construct a new transaction for the given keyserver
@@ -51,12 +57,6 @@ protected:
 	virtual bool nextLine(const QString &line);
 
 private:
-	/**
-	 * @brief forbidden
-	 */
-	KGpgKeyserverGetTransaction();
-	Q_DISABLE_COPY(KGpgKeyserverGetTransaction)
-
 	int m_cmdpos;
 	QStringList m_keys;
 	QStringList m_log;

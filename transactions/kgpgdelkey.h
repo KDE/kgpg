@@ -28,6 +28,8 @@ class QStringList;
 class KGpgDelKey: public KGpgTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgDelKey)
+	KGpgDelKey(); // = delete C++0x
 public:
 	KGpgDelKey(QObject *parent, const QString &keyid);
 	KGpgDelKey(QObject *parent, const QStringList &keyids);

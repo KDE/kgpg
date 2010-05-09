@@ -26,6 +26,11 @@
 class KGpgSendKeys: public KGpgKeyserverTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgSendKeys)
+	/**
+	 * @brief forbidden
+	 */
+	KGpgSendKeys(); // = delete C++0x
 public:
 	/**
 	 * @brief construct a new transaction for the given keyserver
@@ -58,12 +63,6 @@ protected:
 	virtual bool nextLine(const QString &line);
 
 private:
-	/**
-	 * @brief forbidden
-	 */
-	KGpgSendKeys();
-	Q_DISABLE_COPY(KGpgSendKeys)
-
 	int m_attrpos;
 	QString m_attributeopt;
 	QStringList m_keys;

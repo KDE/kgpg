@@ -24,6 +24,7 @@
 class KGpgChangeDisable: public KGpgEditKeyTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgChangeDisable)
 public:
 	KGpgChangeDisable(QObject *parent, const QString &keyid, const bool &disable);
 	virtual ~KGpgChangeDisable();

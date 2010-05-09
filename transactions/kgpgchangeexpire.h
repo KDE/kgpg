@@ -25,6 +25,7 @@
 class KGpgChangeExpire: public KGpgEditKeyTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgChangeExpire)
 public:
 	KGpgChangeExpire(QObject *parent, const QString &keyid, const QDateTime &date);
 	virtual ~KGpgChangeExpire();

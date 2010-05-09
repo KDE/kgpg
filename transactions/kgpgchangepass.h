@@ -24,6 +24,7 @@
 class KGpgChangePass: public KGpgTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgChangePass)
 public:
 	KGpgChangePass(QObject *parent, const QString &keyid);
 	virtual ~KGpgChangePass();

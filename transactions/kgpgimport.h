@@ -29,13 +29,14 @@
 class KGpgImport: public KGpgTextOrFileTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgImport)
 public:
 	/**
 	 * @brief import given text
 	 * @param parent parent object
 	 * @param text key text to import
 	 */
-	KGpgImport(QObject *parent, const QString &text = QString());
+	explicit KGpgImport(QObject *parent, const QString &text = QString());
 
 	/**
 	 * @brief import key(s) from file(s)

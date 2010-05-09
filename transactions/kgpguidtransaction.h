@@ -25,6 +25,7 @@
 class KGpgUidTransaction: public KGpgTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgUidTransaction)
 public:
 	/**
 	 * @brief construct a new transaction for the given key and uid
@@ -74,8 +75,6 @@ protected:
 	bool standardCommands(const QString &line);
 
 private:
-	Q_DISABLE_COPY(KGpgUidTransaction)
-
 	QString m_uid;
 	int m_uidpos;
 	QString m_keyid;

@@ -23,6 +23,7 @@ class QString;
 class KGpgAddPhoto: public KGpgEditKeyTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgAddPhoto)
 public:
 	KGpgAddPhoto(QObject *parent, const QString &keyid, const QString &imagepath);
 	virtual ~KGpgAddPhoto();

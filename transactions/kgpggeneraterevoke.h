@@ -28,6 +28,8 @@ class QString;
 class KGpgGenerateRevoke: public KGpgTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgGenerateRevoke)
+	KGpgGenerateRevoke(); // = delete C++0x
 public:
 	/**
 	 * @brief KGpgGenerateRevoke's constructor

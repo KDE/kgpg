@@ -27,6 +27,9 @@ class KGpgUidNode;
 class KGpgPrimaryUid: public KGpgUidTransaction {
 	Q_OBJECT
 
+	Q_DISABLE_COPY(KGpgPrimaryUid)
+	KGpgPrimaryUid(); // = delete C++0x
+
 public:
 	/**
 	 * @brief constructor

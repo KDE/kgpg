@@ -32,6 +32,8 @@ class QProcess;
 class KGpgExport: public KGpgTransaction {
 	Q_OBJECT
 
+	KGpgExport();	// = delete C++0x
+	Q_DISABLE_COPY(KGpgExport)
 public:
 	/**
 	 * @brief export keys to QProcess

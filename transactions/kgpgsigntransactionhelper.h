@@ -17,11 +17,14 @@
 #include "kgpgtransaction.h"
 
 class KGpgKeyNode;
+class QString;
 
 /**
  * @brief helper class for key signing transactions
  */
 class KGpgSignTransactionHelper {
+	Q_DISABLE_COPY(KGpgSignTransactionHelper)
+	KGpgSignTransactionHelper(); // = delete C++0x
 public:
 	/**
 	 * @brief the outcomes of nextLine()
