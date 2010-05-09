@@ -1857,6 +1857,10 @@ void KeysManager::editGroup()
 
 void KeysManager::signkey()
 {
+	// another sign operation is still running
+	if (!signList.isEmpty())
+		return;
+
 	KgpgItemType tp;
 	QList<KGpgNode *> tmplist = iview->selectedNodes(NULL, &tp);
 	if (tmplist.isEmpty())
@@ -1905,6 +1909,7 @@ void KeysManager::signkey()
 	QPointer<KgpgSelectSecretKey> opts = new KgpgSelectSecretKey(this, imodel, signList.count());
 	if (opts->exec() != QDialog::Accepted) {
 		delete opts;
+		signList.clear();
 		return;
 	}
 
@@ -1927,6 +1932,10 @@ void KeysManager::signkey()
 
 void KeysManager::signuid()
 {
+	// another sign operation is still running
+	if (!signList.isEmpty())
+		return;
+
 	KgpgItemType tp;
 	QList<KGpgNode *> tmplist = iview->selectedNodes(NULL, &tp);
 	if (tmplist.isEmpty())
@@ -1984,6 +1993,7 @@ void KeysManager::signuid()
 	QPointer<KgpgSelectSecretKey> opts = new KgpgSelectSecretKey(this, imodel, signList.count());
 	if (opts->exec() != QDialog::Accepted) {
 		delete opts;
+		signList.clear();
 		return;
 	}
 
