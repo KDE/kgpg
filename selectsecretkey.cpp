@@ -25,56 +25,55 @@
 
 using namespace KgpgCore;
 
-KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, const int countkey)
-                   : KDialog(parent)
+KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, const int countkey, const bool allowLocal, const bool allowTerminal)
+	: KDialog(parent),
+	m_localsign(NULL),
+	m_terminalsign(NULL),
+	m_signtrust(NULL),
+	m_proxy(new SelectSecretKeyProxyModel(this))
 {
-    setCaption(i18n("Private Key List"));
-    setButtons(Ok | Cancel);
-    setDefaultButton(Ok);
-    QWidget *page = new QWidget(this);
+	setCaption(i18n("Private Key List"));
+	setButtons(Ok | Cancel);
+	setDefaultButton(Ok);
+	QWidget *page = new QWidget(this);
 
-    QLabel *label = new QLabel(i18n("Choose secret key for signing:"), page);
+	QLabel *label = new QLabel(i18n("Choose secret key for signing:"), page);
 
-    m_proxy = new SelectSecretKeyProxyModel(this);
-    m_proxy->setKeyModel(model);
+	m_proxy->setKeyModel(model);
 
-    m_keyslist = new QTableView(page);
-    m_keyslist->setModel(m_proxy);
-    m_keyslist->setSortingEnabled(true);
-    m_keyslist->setSelectionBehavior(QAbstractItemView::SelectRows);
-    m_keyslist->resizeColumnsToContents();
+	m_keyslist = new QTableView(page);
+	m_keyslist->setModel(m_proxy);
+	m_keyslist->setSortingEnabled(true);
+	m_keyslist->setSelectionBehavior(QAbstractItemView::SelectRows);
+	m_keyslist->resizeColumnsToContents();
 
-    QVBoxLayout *vbox = new QVBoxLayout(page);
-    vbox->addWidget(label);
-    vbox->addWidget(m_keyslist);
+	QVBoxLayout *vbox = new QVBoxLayout(page);
+	vbox->addWidget(label);
+	vbox->addWidget(m_keyslist);
 
-    if (countkey > 0) {
-        QLabel *signchecklabel = new QLabel(i18np("How carefully have you checked that the key really "
-                                           "belongs to the person with whom you wish to communicate:",
-                                           "How carefully have you checked that the %1 keys really "
-                                           "belong to the people with whom you wish to communicate:", countkey), page);
-        signchecklabel->setWordWrap(true);
+	if (countkey > 0) {
+		QLabel *signchecklabel = new QLabel(i18np("How carefully have you checked that the key really "
+						"belongs to the person with whom you wish to communicate:",
+						"How carefully have you checked that the %1 keys really "
+						"belong to the people with whom you wish to communicate:", countkey), page);
+		signchecklabel->setWordWrap(true);
 
-        m_signtrust = new KComboBox(page);
-        m_signtrust->addItem(i18n("I Will Not Answer"));
-        m_signtrust->addItem(i18n("I Have Not Checked at All"));
-        m_signtrust->addItem(i18n("I Have Done Casual Checking"));
-        m_signtrust->addItem(i18n("I Have Done Very Careful Checking"));
+		m_signtrust = new KComboBox(page);
+		m_signtrust->addItem(i18n("I Will Not Answer"));
+		m_signtrust->addItem(i18n("I Have Not Checked at All"));
+		m_signtrust->addItem(i18n("I Have Done Casual Checking"));
+		m_signtrust->addItem(i18n("I Have Done Very Careful Checking"));
 
-        m_localsign = new QCheckBox(i18n("Local signature (cannot be exported)"), page);
-        m_terminalsign = new QCheckBox(i18n("Do not sign all user id's (open terminal)"), page);
-
-        vbox->addWidget(signchecklabel);
-        vbox->addWidget(m_signtrust);
-        vbox->addWidget(m_localsign);
-        vbox->addWidget(m_terminalsign);
-
-        if (countkey != 1)
-            m_terminalsign->setEnabled(false);
-	} else {
-		m_localsign = 0;
-		m_terminalsign = 0;
-		m_signtrust = 0;
+		vbox->addWidget(signchecklabel);
+		vbox->addWidget(m_signtrust);
+		if (allowLocal){
+			m_localsign = new QCheckBox(i18n("Local signature (cannot be exported)"), page);
+			vbox->addWidget(m_localsign);
+		}
+		if (allowTerminal && (countkey == 1)) {
+			m_terminalsign = new QCheckBox(i18n("Do not sign all user id's (open terminal)"), page);
+			vbox->addWidget(m_terminalsign);
+		}
 	}
 
 	KGpgNode *nd = model->getRootNode()->findKey(KGpgSettings::defaultKey());
@@ -84,12 +83,12 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, 
 		m_keyslist->selectionModel()->setCurrentIndex(pidx, QItemSelectionModel::Clear | QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
 	}
 
-    setMinimumSize(550, 200);
-    slotSelectionChanged();
-    setMainWidget(page);
+	setMinimumSize(550, 200);
+	slotSelectionChanged();
+	setMainWidget(page);
 
-    connect(m_keyslist->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(slotSelectionChanged()));
-    connect(m_keyslist, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotOk()));
+	connect(m_keyslist->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(slotSelectionChanged()));
+	connect(m_keyslist, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotOk()));
 }
 
 KgpgSelectSecretKey::~KgpgSelectSecretKey()
