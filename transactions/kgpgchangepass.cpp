@@ -48,12 +48,19 @@ KGpgChangePass::nextLine(const QString &line)
 	if (!line.startsWith(QLatin1String("[GNUPG:] ")))
 		return false;
 
-	if (m_seenold && line.contains("keyedit.prompt")) {
-		setSuccess(TS_OK);
-		write("save");
+	if (line.contains("keyedit.prompt")) {
+		if (m_seenold && (getSuccess() != TS_USER_ABORTED)) {
+			setSuccess(TS_OK);
+			write("save");
+		} else {
+			// some sort of error, we already set the error code
+			return true;
+		}
 	} else if (line.contains("GOOD_PASSPHRASE")) {
 		setSuccess(TS_MSG_SEQUENCE);
 		m_seenold = true;
+	} else if (line.contains("MISSING_PASSPHRASE")) {
+		setSuccess(TS_USER_ABORTED);
 	} else if (line.contains("passphrase.enter")) {
 		QString userIDs(getIdHints());
 
