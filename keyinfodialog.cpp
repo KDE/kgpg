@@ -157,7 +157,6 @@ KgpgKeyInfo::~KgpgKeyInfo()
 {
 	if (keychange)
 		keychange->selfdestruct(false);
-	delete m_changepass;
 }
 
 QGroupBox* KgpgKeyInfo::_keypropertiesGroup(QWidget *parent)
