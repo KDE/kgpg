@@ -314,7 +314,7 @@
             <string>Here you can define how User Ids that do not contain an email address (like Photo Ids) are sent to the key owner. You can choose to either send them with every other User Id you signed, only with the first Id you signed or to not send them at all.</string>
            </property>
            <property name="text">
-            <string>Mailing of User Ids without Email Adresses</string>
+            <string>Mailing of User Ids without Email Addresses</string>
            </property>
           </widget>
          </item>
