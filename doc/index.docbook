@@ -33,15 +33,19 @@
 </authorgroup>
 
 <copyright>
-<year>2002,2007,2008,2009</year>
+<year>2002</year>
+<year>2007</year>
+<year>2008</year>
+<year>2009</year>
+<year>2010</year>
 <holder>Jean-Baptiste Mardelle</holder>
 <holder>Rolf Eike Beer</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2009-05-15</date>
-<releaseinfo>0.05.00</releaseinfo>
+<date>2010-05-14</date>
+<releaseinfo>0.06.00</releaseinfo>
 
 <abstract>
 <para>
@@ -68,7 +72,7 @@ url="http://gnupg.org">http://gnupg.org</ulink>).
 <para>&kgpg; is a simple interface for GnuPG, a powerful encryption utility. GnuPG (also known as gpg) is included in most distributions and should be installed on your system. You can get the latest version on <ulink
 url="http://gnupg.org">http://gnupg.org</ulink>.</para>
 
-<para>With &kgpg; you will be able to encrypt and decrypt your files and emails, allowing much more secure communications. A mini howto on encryption with gpg is available on <ulink url="http://www.gnupg.org/documentation/howtos.en.html">gnupg's web site</ulink>.
+<para>With &kgpg; you will be able to encrypt and decrypt your files and emails, allowing much more secure communications. A mini howto on encryption with gpg is available on <ulink url="http://www.gnupg.org/documentation/howtos.en.html">GnuPG's web site</ulink>.
 </para>
 
 <para>With &kgpg;, you don't need to remember gpg's command lines and options. Almost everything can be done with a few mouse clicks.
@@ -90,13 +94,15 @@ url="http://gnupg.org">http://gnupg.org</ulink>.</para>
 <screeninfo>&kgpg; system tray applet</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="kicker.png" format="PNG"/></imageobject>
+<imagedata fileref="systray.png" format="PNG"/></imageobject>
 </mediaobject>
 </screenshot>
 
 <para>
 When you start &kgpg;, a system tray icon will appear. A &LMB;
 click will open the Key Manager window, while a &RMB; click will open a menu allowing quick access to some important features. If you prefer other options you can change the &LMB; action to show the editor or completely disable the system tray icon using the <link linkend="conf-misc">settings dialog</link>.
+</para>
+<para>Please note that the system tray icon of &kgpg; is marked as &quot;inactive&quot; basically all the time. Since the system tray applet will usually hide inactive icons the one of &kgpg; will not be shown until you explicitely request it. For details please have a look at the &plasma; documentation.
 </para>
 </listitem>
 </varlistentry>
@@ -278,7 +284,7 @@ File</guimenuitem></menuchoice> and choose a file to decrypt.</para>
 
 </sect2>
 
-<sect2 id="kicker-dec">
+<sect2 id="applet-dec">
 <title>Decrypting text with &kgpg;'s applet</title>
 
 <para>You can also decrypt the contents of the clipboard with the
@@ -337,6 +343,45 @@ and drop or the Copy/Paste keyboard shortcuts.</para>
 <para>While the key manager allows you to do general actions with one or multiple keys, key groups or signatures, the key properties window gives you access to a single key. You can reach it by pressing enter in the key manager or double clicking the key.</para>
 <para>In this window you can change the key passphrase and expiration of your secret keys. For all keys you can also set the owner trust value.</para>
 <para>This value indicates how much you trust the owner of this key to correctly verify the identity of the keys he signs. Taking the owner trust into account gpg creates your own web of trust. You trust the keys you signed. If you assign owner trust to these persons you will also trust the keys they have signed without the need that you first have to sign their keys too.</para>
+</sect2>
+
+<sect2 id="keysigning">
+<title>Signing keys</title>
+
+<para>When you sign a key of someone else (let's call her Alice) you announce that you are sure that this key really belongs to that person and the key can be trusted. Of course you really should have checked that. This usually means that you have to meet Alice, check at least one identity card and get the full key fingerprint or a copy of her key. Then you go home and sign that key. Usually you will later upload the newly signed key to a <link linkend="keyserver">key server</link> so everyone knows you have checked that key and the owner may be trusted. Alice will likely do the same so you both will have your keys signed by the other one. If one of you has no identity card at hand it's no problem if the signing happens in only direction.</para>
+
+<para>But think about what happens if Alice lives on the other end of the world. You communicate with her regularly but there is no chance you will see her anytime soon. How do you trust her key?</para>
+
+<para>When you select her key and then choose <guimenuitem>Sign Key...</guimenuitem> you will get the dialog that allows you to choose the options how you would like to sign that key.</para>
+
+<screenshot>
+<screeninfo>Selecting a Secret Key for Signing</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="select-secret-key.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para>First you can choose the key you will use to sign the key. Then you can enter how carefully you checked that she really is the person she pretends to be. This information will be stored together with the signature so it is a guidance for everyone else who might need that signature (more on this below). And then comes the option that would help you if you can't meet Alice in person: <guilabel>Local signature (cannot be exported)</guilabel>. When you activate that option a special version of a signature will be created that can never even by accident leave you keyring.</para>
+
+<para>But why is it important how carefully you checked Alice's identity? Who should care? There is a different way to solve your problem with the identity of Alice. If you can't visit Alice anytime soon just think of Bob. You know Bob has a keypair, too. And Bob is a globetrotter, being on a different continent at least twice a month. If you are lucky he will fly close to Alice soon. So you will go and meet with Bob to sign keys. Then you will drop Alice a note that Bob will be at her place soon and ask her if she can meet with him too to sign keys. After all this has happened you know that Bob's key can be trusted and Bob knows that Alice's key can be trusted. If you trust Bob that he has carefully checked Alice's identity then you can also trust her key.</para>
+
+<para>These relationships between keys and their owners form a so called web of trust. Within that web there are some important values that define how trustworthy a particular key is. The first thing is how carefully the identity of the key owner was checked. That is the value you have seen above in the secret key selection window. For example you will likely know how to verify your local countries identity card but one from a completely different country may be hard to verify. So you could say that you have very carefully checked Bob's identity because you have seen his identity card and it looks very much the same as yours. But Bob, although he has seen both Alice's identity card and driver license might say he has only done casual checking of her identity as he is not absolutely sure about the documents from that part of the world.</para>
+
+<para>The next important value is how much you trust the other person to verify documents. You know Bob is good at that. But George for example is no one you would call smart. He barely looked at your id card when you met him for key signing. You are sure that George is the person he pretends to be as you check his documents carefully. But he doesn't seem to really care if he checks other people so you will have a high trust in the key of George but a very low trust in the signatures of George. If you open the <link linkend="keyproperties">properties</link> of George's key you will find the field <guilabel>Owner Trust</guilabel>. This is how much you trust the key owner when he signs keys. This value will not be exported, it is completely up to your personal preference.</para>
+
+<screenshot>
+<screeninfo>The key properties window</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="keyprop.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para>Now you should have an idea how the web of trust is built, what the owner and key trust values are for, and why you always should be very careful when checking identities: other people might rely on you. But one element in the process is still unverified: the email addresses in the keys you signed. Creating a new user idea in your key with the email address of Alice or Bob will only take a few mouse clicks. Bob has verified that you own your key. But noone has checked until now that you really control the email addresses of your user identities.</para>
+
+<para>If you choose <guimenuitem>Sign and Mail User ID...</guimenuitem> from the menu instead you can close that gap. The idea is that you will sign the key as usual and afterwards it will be split into pieces. Every piece will only contain one user identity of Bob's key and your signature to it. This will be encrypted with Bob's key and sent only to the email address given in that identity. Only if Bob can receive this mail and decrypt the message he will be able to import that signature into his key ring. You will not upload your signatures, this is entirely up to him. If your signature will show up on a key server you can be sure that Bob really controls both his key as well as the email address you signed.</para>
+
 </sect2>
 
 </sect1>
