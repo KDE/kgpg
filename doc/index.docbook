@@ -190,7 +190,7 @@ Pair</guimenuitem></menuchoice>.</para>
 
 <para>Simply enter your name, Email address and click
 <guibutton>Ok</guibutton>. This will generate a standard gpg key. If
-you want more options, you can click on the Expert mode button, which
+you want more options, you can click on the <guibutton>Expert Mode</guibutton> button, which
 will bring up a &konsole; window with all of gpg's options.</para>
 <para>Many people play around with their first
 key, generate bad user ids, add comments they later regret or simply forget their
@@ -207,17 +207,8 @@ secret keys later using the <link linkend="keyproperties">key properties window<
 
 <title>Encrypting a file from &konqueror; or Dolphin</title>
 
-<para>Click on the file you want to
-encrypt with the &RMB;. Choose <menuchoice><guimenu>Actions</guimenu><guimenuitem>Encrypt
-File</guimenuitem></menuchoice> in the pop up
-menu. You will then be prompted with the Public key selection
-dialog. Choose the key of the recipient and click <guibutton>Encrypt</guibutton>. The
-encrypted file will be saved with a <literal
-role="extension">.asc</literal> or <literal
-role="extension">.gpg</literal> extension depending on whether you
-chose ASCII encryption or not. ASCII encrypted files only use readable characters to
-represent the data resulting in files that are more robust when copied around or sent by
-mail but are one third larger.</para>
+<para>Click on the file you want to encrypt with the &RMB;. Choose <menuchoice><guimenu>Actions</guimenu><guimenuitem>Encrypt File</guimenuitem></menuchoice> in the pop up menu. You will then be prompted with the Public key selection dialog. Choose the key of the recipient and click <guibutton>Encrypt</guibutton>. The encrypted file will be saved with a <literal
+role="extension">.asc</literal> or <literal role="extension">.gpg</literal> extension depending on whether you chose <guilabel>ASCII armored encryption</guilabel> or not. ASCII encrypted files only use readable characters to represent the data resulting in files that are more robust when copied around or sent by mail but are one third larger.</para>
 
 <screenshot>
 <screeninfo>Here is a screen shot of the key selection window</screeninfo>
