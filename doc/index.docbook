@@ -102,7 +102,7 @@ url="http://gnupg.org">http://gnupg.org</ulink>.</para>
 When you start &kgpg;, a system tray icon will appear. A &LMB;
 click will open the Key Manager window, while a &RMB; click will open a menu allowing quick access to some important features. If you prefer other options you can change the &LMB; action to show the editor or completely disable the system tray icon using the <link linkend="conf-misc">settings dialog</link>.
 </para>
-<para>Please note that the system tray icon of &kgpg; is marked as &quot;inactive&quot; basically all the time. Since the system tray applet will usually hide inactive icons the one of &kgpg; will not be shown until you explicitely request it. For details please have a look at the &plasma; documentation.
+<para>Please note that the system tray icon of &kgpg; is marked as &quot;inactive&quot; basically all the time. Since the system tray applet will usually hide inactive icons the one of &kgpg; will not be shown until you explicitly request it. For details please have a look at the &plasma; documentation.
 </para>
 </listitem>
 </varlistentry>
@@ -443,7 +443,7 @@ Most encryption options are directly related to gpg and are documented in it's <
 <imagedata fileref="options.png" format="PNG"/></imageobject>
 </mediaobject>
 </screenshot>
-<para>Here you can configure special options to be passed to GnuPG to change the encryption behaviour. For detailed description please have a look at the GnuPG manual.</para>
+<para>Here you can configure special options to be passed to GnuPG to change the encryption behavior. For detailed description please have a look at the GnuPG manual.</para>
 <itemizedlist>
 <listitem><para><guilabel>ASCII armored encryption</guilabel>: this causes encrypted files to be stored in a format that uses only printable ASCII characters and has short lines. Files stored this way are bigger than the files in binary format but are easier to send &eg; by email.</para></listitem>
 <listitem><para><guilabel>Allow encryption with untrusted keys</guilabel>: this allows you to encrypt files with keys that are not trusted by you.</para></listitem>
@@ -469,7 +469,7 @@ Most encryption options are directly related to gpg and are documented in it's <
 
 <sect2 id="conf-gnupg">
 <title>GnuPG Settings</title>
-<para>Here you can configure which gpg binary and which <guilabel>configuration file</guilabel> and home foldery are used. These values are autodetected on first start and should already work.</para>
+<para>Here you can configure which gpg binary and which <guilabel>configuration file</guilabel> and home folder are used. These values are autodetected on first start and should already work.</para>
 <para>Using the <ulink url="man:gpg-agent">GnuPG agent</ulink> makes work with GnuPG more comfortable as you do not need to type in your password for every action. It is cached in memory for a while so any operation that would require a password can immediately be done. Note that this may allow other people to use your private keys if you leave your session accessible to them.</para>
 </sect2>
 
@@ -482,7 +482,7 @@ Most encryption options are directly related to gpg and are documented in it's <
 <sect2 id="conf-misc">
 <title>Misc</title>
 <para>This section allows the setting of some different features that do not fit into the other sections. You can configure for example to <guilabel>start KGpg automatically at login</guilabel>. The option <guilabel>use mouse selection instead of clipboard</guilabel> changes if selection happens by mouse and pasting by middle mouse button or if all operations are done by keyboard shortcuts.</para>
-<para>You can also change if the systray icon of &kgpg; is shown or not and what action happens if the icon is klicked with the &LMB;. If the systray icon is shown closing the &kgpg; window will minimize the application to tray. If the systray icon is not shown &kgpg; will exit when all windows are closed.</para>
+<para>You can also change if the systray icon of &kgpg; is shown or not and what action happens if the icon is clicked with the &LMB;. If the systray icon is shown closing the &kgpg; window will minimize the application to tray. If the systray icon is not shown &kgpg; will exit when all windows are closed.</para>
 </sect2>
 
 </sect1>
