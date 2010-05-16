@@ -207,7 +207,6 @@ void KeyServer::slotSearch()
 	connect(m_dialogserver, SIGNAL(okClicked()), this, SLOT(slotPreImport()));
 	connect(m_listpop->kLVsearch, SIGNAL(activated(const QModelIndex &)), m_dialogserver, SIGNAL(okClicked()));
 	connect(m_dialogserver, SIGNAL(closeClicked()), this, SLOT(handleQuit()));
-	connect(m_listpop, SIGNAL(destroyed()), this, SLOT(slotAbortSearch()));
 	connect(m_listpop->kLEID, SIGNAL(clearButtonClicked()), m_listpop->kLVsearch->selectionModel(), SLOT(clearSelection()));
 
 	m_listpop->kLVsearch->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -224,7 +223,7 @@ void KeyServer::slotSearch()
 
 	m_searchproc = new KGpgKeyserverSearchTransaction(this, keyserv, page->kLEimportid->text().simplified(),
 			true, proxy);
-	connect(m_searchproc, SIGNAL(done(int)), SLOT(slotSearchResult()));
+	connect(m_searchproc, SIGNAL(done(int)), SLOT(slotSearchResult(int)));
 	connect(m_searchproc, SIGNAL(newKey(QStringList)), m_resultmodel, SLOT(slotAddKey(QStringList)));
 	m_searchproc->start();
 

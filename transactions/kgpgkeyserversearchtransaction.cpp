@@ -17,6 +17,7 @@ KGpgKeyserverSearchTransaction::KGpgKeyserverSearchTransaction(QObject *parent, 
 	: KGpgKeyserverTransaction(parent, keyserver, withProgress, proxy),
 	m_count(0)
 {
+	addArgument("--with-colons");
 	addArgument("--search-keys");
 	m_patternPos = addArgument(pattern);
 }
@@ -47,11 +48,14 @@ KGpgKeyserverSearchTransaction::nextLine(const QString &line)
 	} else if (line.startsWith(QLatin1String("[GNUPG:] GOT_IT"))) {
 		m_count++;
 	} else if (!line.isEmpty() && !line.startsWith(QLatin1String("[GNUPG:] "))) {
-		if (line.startsWith(QLatin1String("pub:")) && !m_keyLines.isEmpty()) {
-			emit newKey(m_keyLines);
-			m_keyLines.clear();
-		}
-		m_keyLines.append(line);
+		if (line.startsWith(QLatin1String("pub:"))) {
+			if (!m_keyLines.isEmpty()) {
+				emit newKey(m_keyLines);
+				m_keyLines.clear();
+			}
+			m_keyLines.append(line);
+		} else if (!m_keyLines.isEmpty())
+			m_keyLines.append(line);
 	}
 
 	return false;

@@ -38,9 +38,13 @@ public:
 	const QString &getEmail(const int &index) const;
 	int getUidCount() const;
 
+	QString m_fingerprint;
+	unsigned int m_uatCount;
+
+	QVariant summary() const;
+private:
 	KDateTime m_expiry;
 	KDateTime m_creation;
-	QString m_fingerprint;
 	bool m_revoked;
 	unsigned int m_bits;
 	KgpgCore::KgpgKeyAlgo m_algo;
@@ -57,7 +61,8 @@ public:
 };
 
 SearchResult::SearchResult(const QString &line)
-	: m_validPub(false)
+	: m_validPub(false),
+	m_uatCount(0)
 {
 	const QStringList parts(line.split(':'));
 
@@ -109,6 +114,22 @@ SearchResult::getUidCount() const
 	Q_ASSERT(m_emails.count() == m_names.count());
 
 	return m_emails.count();
+}
+
+QVariant
+SearchResult::summary() const
+{
+	if (m_revoked) {
+		return i18nc("example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked",
+				"ID %1, %2-bit %3 key, created %4, revoked", m_fingerprint,
+				m_bits, KgpgCore::Convert::toString(m_algo),
+				m_creation.toString(KDateTime::LocalDate));
+	} else {
+		return i18nc("example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009",
+				"ID %1, %2-bit %3 key, created %4", m_fingerprint,
+				m_bits, KgpgCore::Convert::toString(m_algo),
+				m_creation.toString(KDateTime::LocalDate));
+	}
 }
 
 KGpgSearchResultModelPrivate::KGpgSearchResultModelPrivate()
@@ -168,6 +189,9 @@ KGpgSearchResultModel::data(const QModelIndex &index, int role) const
 	if (role != Qt::DisplayRole)
 		return QVariant();
 
+	if (index.row() < 0)
+		return QVariant();
+
 	SearchResult *tmp = static_cast<SearchResult *>(index.internalPointer());
 	int row;
 
@@ -180,20 +204,25 @@ KGpgSearchResultModel::data(const QModelIndex &index, int role) const
 		row = 0;
 	} else {
 		row = index.row() + 1;
-		if (row == tmp->getUidCount()) {
-			if (index.column() != 0)
+		int summaryRow = tmp->getUidCount();
+		int uatRow;
+		if (tmp->m_uatCount != 0) {
+			uatRow = summaryRow;
+			summaryRow++;
+		} else {
+			uatRow = -1;
+		}
+
+		if (row == uatRow) {
+			if (index.column() == 0)
+				return i18np("One Photo ID", "%1 Photo IDs", tmp->m_uatCount);
+			else
 				return QVariant();
-			if (tmp->m_revoked) {
-				return i18nc("example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked",
-						"ID %1, %2-bit %3 key, created %4, revoked", tmp->m_fingerprint,
-						tmp->m_bits, KgpgCore::Convert::toString(tmp->m_algo),
-						tmp->m_creation.toString(KDateTime::LocalDate));
-			} else {
-				return i18nc("example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009",
-						"ID %1, %2-bit %3 key, created %4", tmp->m_fingerprint,
-						tmp->m_bits, KgpgCore::Convert::toString(tmp->m_algo),
-						tmp->m_creation.toString(KDateTime::LocalDate));
-			}
+		} else if (row == summaryRow) {
+			if (index.column() == 0)
+				return tmp->summary();
+			else
+				return QVariant();
 		}
 		Q_ASSERT(row < tmp->getUidCount());
 	}
@@ -235,14 +264,18 @@ KGpgSearchResultModel::index(int row, int column, const QModelIndex &parent) con
 	// uid entries: parent is key item, internalPointer is set to SearchResult*
 
 	if (parent.isValid()) {
-		SearchResult *tmp = static_cast<SearchResult *>(parent.internalPointer());
-
-		if (tmp != NULL) {
+		if (parent.internalPointer() != NULL) {
 			return QModelIndex();
 		} else {
-			if ((row >= d->m_items.at(parent.row())->getUidCount()) || (column > 1))
+			if (parent.row() >= d->m_items.count())
 				return QModelIndex();
-			return createIndex(row, column, d->m_items.at(parent.row()));
+			SearchResult *tmp = d->m_items.at(parent.row());
+			int maxRow = tmp->getUidCount();
+			if (tmp->m_uatCount != 0)
+				maxRow++;
+			if ((row >= maxRow) || (column > 1))
+				return QModelIndex();
+			return createIndex(row, column, tmp);
 		}
 	} else {
 		if ((row >= d->m_items.count()) || (column > 1) || (row < 0) || (column < 0))
@@ -274,7 +307,12 @@ KGpgSearchResultModel::rowCount(const QModelIndex &parent) const
 		if (parent.internalPointer() != NULL)
 			return 0;
 
-		return d->m_items.at(parent.row())->getUidCount();
+		SearchResult *item = d->m_items.at(parent.row());
+		int cnt = item->getUidCount();
+		if (item->m_uatCount != 0)
+			cnt++;
+
+		return cnt;
 	} else {
 		return 0;
 	}
@@ -331,6 +369,8 @@ KGpgSearchResultModel::slotAddKey(QStringList lines)
 			QString kid = d->urlDecode(line.section(':', 1, 1));
 
 			nkey->addUid(kid);
+		} else if (line.startsWith(QLatin1String("uat:"))) {
+			nkey->m_uatCount++;
 		} else {
 			kDebug(2100) << "ignored search result line" << line;
 		}
