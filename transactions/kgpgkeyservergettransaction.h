@@ -35,7 +35,7 @@ class KGpgKeyserverGetTransaction: public KGpgKeyserverTransaction {
 public:
 	/**
 	 * @brief construct a new transaction for the given keyserver
-	 * @param parent object that own the transaction
+	 * @param parent object that owns the transaction
 	 * @param keyserver keyserver to work with
 	 * @param keys the key ids to get
 	 * @param withProgress show a progress window with cancel button
@@ -71,7 +71,7 @@ class KGpgReceiveKeys: public KGpgKeyserverGetTransaction {
 public:
 	/**
 	* @brief construct a new transaction for the given keyserver
-	* @param parent object that own the transaction
+	* @param parent object that owns the transaction
 	* @param keyserver keyserver to work with
 	* @param keys the key ids to get
 	* @param withProgress show a progress window with cancel button
@@ -93,7 +93,7 @@ class KGpgRefreshKeys: public KGpgKeyserverGetTransaction {
 public:
 	/**
 	* @brief construct a new transaction for the given keyserver
-	* @param parent object that own the transaction
+	* @param parent object that owns the transaction
 	* @param keyserver keyserver to work with
 	* @param keys the key ids to get
 	* @param withProgress show a progress window with cancel button

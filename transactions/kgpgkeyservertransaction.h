@@ -32,10 +32,10 @@ class KGpgKeyserverTransaction: public KGpgTransaction {
 	 * @brief forbidden
 	 */
 	KGpgKeyserverTransaction(); // = delete C++0x
-public:
+protected:
 	/**
 	 * @brief construct a new transaction for the given keyserver
-	 * @param parent object that own the transaction
+	 * @param parent object that owns the transaction
 	 * @param keyserver keyserver to work with
 	 * @param withProgress show a progress window with cancel button
 	 * @param proxy http proxy to use
@@ -47,6 +47,7 @@ public:
 	 * set as the parent of the progress window.
 	 */
 	KGpgKeyserverTransaction(QObject *parent, const QString &keyserver, const bool withProgress = false, const QString &proxy = QString());
+public:
 	virtual ~KGpgKeyserverTransaction();
 
 	/**
