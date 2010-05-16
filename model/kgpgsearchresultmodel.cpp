@@ -194,6 +194,9 @@ KGpgSearchResultModel::addResultLine(const QString &line)
 QVariant
 KGpgSearchResultModel::data(const QModelIndex &index, int role) const
 {
+	if (!index.isValid())
+		return QVariant();
+
 	if (role != Qt::DisplayRole)
 		return QVariant();
 
@@ -274,7 +277,7 @@ KGpgSearchResultModel::index(int row, int column, const QModelIndex &parent) con
 			return createIndex(row, column, d->m_items.at(parent.row()));
 		}
 	} else {
-		if ((row >= d->m_items.count()) || (column > 1))
+		if ((row >= d->m_items.count()) || (column > 1) || (row < 0) || (column < 0))
 			return QModelIndex();
 		return createIndex(row, column);
 	}
