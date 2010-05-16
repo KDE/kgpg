@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,6 +14,7 @@
 #include "kgpgsearchresultmodel.h"
 
 #include <KDateTime>
+#include <KDebug>
 #include <KLocale>
 #include <QString>
 #include <QStringList>
@@ -50,7 +51,6 @@ public:
 	explicit KGpgSearchResultModelPrivate();
 	~KGpgSearchResultModelPrivate();
 
-	SearchResult *m_current;
 	QList<SearchResult *> m_items;
 
 	QString urlDecode(const QString &line);
@@ -112,13 +112,11 @@ SearchResult::getUidCount() const
 }
 
 KGpgSearchResultModelPrivate::KGpgSearchResultModelPrivate()
-	: m_current(NULL)
 {
 }
 
 KGpgSearchResultModelPrivate::~KGpgSearchResultModelPrivate()
 {
-	delete m_current;
 	foreach (SearchResult *item, m_items)
 		delete item;
 }
@@ -159,36 +157,6 @@ KGpgSearchResultModel::KGpgSearchResultModel(QObject *parent)
 KGpgSearchResultModel::~KGpgSearchResultModel()
 {
 	delete d;
-}
-
-void
-KGpgSearchResultModel::addResultLine(const QString &line)
-{
-	if (line.startsWith(QLatin1String("pub:")) || line.isEmpty()) {
-		// "pub" is the first line of an entry
-		if (d->m_current != NULL) {
-			if (d->m_current->getUidCount() > 0) {
-				beginInsertRows(QModelIndex(), d->m_items.count(), d->m_items.count());
-				d->m_items.append(d->m_current);
-				endInsertRows();
-			} else {
-				// key server sent back a crappy key
-				delete d->m_current;
-			}
-			d->m_current = NULL;
-		}
-		if (!line.isEmpty()) {
-			d->m_current = new SearchResult(line);
-			if (!d->m_current->m_validPub) {
-				delete d->m_current;
-				d->m_current = NULL;
-			}
-		}
-	} else if (line.startsWith(QLatin1String("uid:"))) {
-		QString kid = d->urlDecode(line.section(':', 1, 1));
-
-		d->m_current->addUid(kid);
-	}
 }
 
 QVariant
@@ -341,6 +309,41 @@ KGpgSearchResultModel::idForIndex(const QModelIndex &index) const
 		tmp = d->m_items.at(index.row());
 
 	return tmp->m_fingerprint;
+}
+
+void
+KGpgSearchResultModel::slotAddKey(QStringList lines)
+{
+	Q_ASSERT(!lines.isEmpty());
+	Q_ASSERT(lines.first().startsWith(QLatin1String("pub:")));
+
+	if (lines.count() == 1)
+		return;
+
+	SearchResult *nkey = new SearchResult(lines.takeFirst());
+	if (!nkey->m_validPub) {
+		delete nkey;
+		return;
+	}
+
+	foreach (const QString &line, lines) {
+		if (line.startsWith(QLatin1String("uid:"))) {
+			QString kid = d->urlDecode(line.section(':', 1, 1));
+
+			nkey->addUid(kid);
+		} else {
+			kDebug(2100) << "ignored search result line" << line;
+		}
+	}
+
+	if (nkey->getUidCount() > 0) {
+		beginInsertRows(QModelIndex(), d->m_items.count(), d->m_items.count());
+		d->m_items.append(nkey);
+		endInsertRows();
+	} else {
+		// key server sent back a crappy key
+		delete nkey;
+	}
 }
 
 #include "kgpgsearchresultmodel.moc"

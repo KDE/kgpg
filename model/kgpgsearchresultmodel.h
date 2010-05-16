@@ -1,4 +1,4 @@
-/* Copyright 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -20,6 +20,9 @@
 #define KGPGSEARCHRESULTMODEL_H
 
 #include <QAbstractItemModel>
+
+class QString;
+class QStringList;
 
 class KGpgSearchResultModelPrivate;
 
@@ -44,21 +47,14 @@ public:
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
 	/**
-	 * @brief add a line of search result
-	 * @param line data from gpg
-	 *
-	 * This will parse the line of data got from gpg and adds it
-	 * to the model in a proper way. If line is empty the last pending
-	 * entry is flushed into the list (i.e. the search finished).
-	 */
-	void addResultLine(const QString &line);
-
-	/**
 	 * @brief get the key fingerprint for the given index
 	 * @param index valid index of any item in the model
 	 * @return fingerprint of the corresponding key
 	 */
 	const QString &idForIndex(const QModelIndex &index) const;
+
+public slots:
+	void slotAddKey(QStringList lines);
 
 private:
 	KGpgSearchResultModelPrivate * const d;

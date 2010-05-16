@@ -35,6 +35,7 @@
 #include "convert.h"
 #include "gpgproc.h"
 #include "kgpgkeyservergettransaction.h"
+#include "kgpgkeyserversearchtransaction.h"
 #include "kgpgsendkeys.h"
 #include "kgpgimport.h"
 
@@ -217,21 +218,14 @@ void KeyServer::slotSearch()
 	const QString keyserv(page->kCBimportks->currentText());
 
 	bool useproxy = page->cBproxyI->isChecked();
-	const QString proxy(page->kLEproxyI->text());
+	QString proxy;
+	if (useproxy)
+		proxy = page->kLEproxyI->text();
 
-	m_searchproc = new GPGProc(this);
-
-	if (useproxy) {
-		m_searchproc->setEnvironment(QStringList("http_proxy=" + proxy));
-		*m_searchproc << "--keyserver-options" << "honor-http-proxy";
-	} else {
-		*m_searchproc << "--keyserver-options" << "no-honor-http-proxy";
-	}
-	*m_searchproc << "--keyserver" << keyserv << "--status-fd=1" << "--command-fd=0";
-	*m_searchproc << "--with-colons"<< "--search-keys"  << page->kLEimportid->text().simplified();
-
-	connect(m_searchproc, SIGNAL(processExited()), this, SLOT(slotSearchResult()));
-	connect(m_searchproc, SIGNAL(readReady()), this, SLOT(slotSearchRead()));
+	m_searchproc = new KGpgKeyserverSearchTransaction(this, keyserv, page->kLEimportid->text().simplified(),
+			true, proxy);
+	connect(m_searchproc, SIGNAL(done(int)), SLOT(slotSearchResult()));
+	connect(m_searchproc, SIGNAL(newKey(QStringList)), m_resultmodel, SLOT(slotAddKey(QStringList)));
 	m_searchproc->start();
 
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
@@ -240,61 +234,31 @@ void KeyServer::slotSearch()
 	m_dialogserver->exec();
 }
 
-void KeyServer::slotAbortSearch()
+void KeyServer::slotSearchResult(int result)
 {
-	if (m_searchproc != NULL) {
-		if (m_searchproc->state() == QProcess::Running) {
-			QApplication::restoreOverrideCursor();
-			disconnect(m_searchproc, 0, 0, 0);
-			m_searchproc->kill();
-		}
-		m_searchproc->deleteLater();
-		m_searchproc = NULL;
-	}
-	page->Buttonsearch->setEnabled(true);
-
-	if (m_dialogserver) {
-		delete m_dialogserver;
-		m_dialogserver = NULL;
-	}
-}
-
-void KeyServer::slotSearchRead()
-{
-	QString line;
-	GPGProc *p = qobject_cast<GPGProc *>(sender());
-
-	while (p->readln(line, true) >= 0) {
-		if (line.startsWith(QLatin1String("[GNUPG:] GET_LINE keysearch.prompt"))) {
-			if (m_count < 4)
-				p->write("N\n");
-			else
-				p->write("Q\n");
-		} else if (line.startsWith(QLatin1String("[GNUPG:] GOT_IT"))) {
-			m_count++;
-			line.clear();
-		} else if (!line.isEmpty() && !line.startsWith(QLatin1String("[GNUPG:] "))) {
-			m_resultmodel->addResultLine(line);
-		}
-	}
-}
-
-void KeyServer::slotSearchResult()
-{
+	Q_ASSERT(sender() == m_searchproc);
 	m_searchproc->deleteLater();
 	m_searchproc = NULL;
 	page->Buttonsearch->setEnabled(true);
-
-	m_resultmodel->addResultLine(QString());
-
-	m_dialogserver->enableButtonOk(true);
 	QApplication::restoreOverrideCursor();
 
-	int keys = m_resultmodel->rowCount(QModelIndex());
-	m_listpop->statusText->setText(i18np("Found 1 matching key", "Found %1 matching keys", keys));
+	if (result == KGpgTransaction::TS_USER_ABORTED) {
+		delete m_dialogserver;
+		m_dialogserver = NULL;
+		return;
+	}
 
-	if (keys > 0)
-		m_listpop->kLVsearch->selectionModel()->setCurrentIndex(m_resultmodel->index(0,0), QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
+	m_dialogserver->enableButtonOk(true);
+
+	const int keys = m_resultmodel->rowCount(QModelIndex());
+
+	if (keys > 0) {
+		m_listpop->statusText->setText(i18np("Found 1 matching key", "Found %1 matching keys", keys));
+		m_listpop->kLVsearch->selectionModel()->setCurrentIndex(m_resultmodel->index(0, 0),
+				QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
+	} else {
+		m_listpop->statusText->setText(i18n("No matching keys found"));
+	}
 }
 
 void KeyServer::slotSetText(const QString &text)
@@ -375,12 +339,9 @@ QStringList KeyServer::getServerList()
 void KeyServer::handleQuit()
 {
 	if (m_searchproc != NULL) {
-		if (m_searchproc->state() == QProcess::Running) {
-			QApplication::restoreOverrideCursor();
-			disconnect(m_searchproc, 0, 0, 0);
-			m_searchproc->kill();
-		}
-		delete m_searchproc;
+		QApplication::restoreOverrideCursor();
+		disconnect(m_searchproc, 0, 0, 0);
+		m_searchproc->deleteLater();
 		m_searchproc = NULL;
 	}
 	m_dialogserver->close();

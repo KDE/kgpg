@@ -26,7 +26,7 @@
 #include "ui_searchres.h"
 #include "ui_keyserver.h"
 
-class GPGProc;
+class KGpgKeyserverSearchTransaction;
 class KeyListProxyModel;
 class KGpgItemModel;
 class KGpgSearchResultModel;
@@ -89,17 +89,15 @@ private slots:
 	void slotDownloadKeysFinished(int resultcode);
 	void slotUploadKeysFinished(int resultcode);
 
-	void slotSearchRead();
-	void slotSearchResult();
+	void slotSearchResult(int result);
 	void slotSearch();
-	void slotAbortSearch();
 	void slotSetFilterString(const QString &expression);
 
 private:
 	QString m_readmessage;
 
 	KDialog *m_dialogserver;
-	GPGProc *m_searchproc;
+	KGpgKeyserverSearchTransaction *m_searchproc;
 
 	keyServerWidget *page;
 	searchRes *m_listpop;

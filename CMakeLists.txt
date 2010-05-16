@@ -61,6 +61,7 @@ set(kgpg_transaction_SRCS
    transactions/kgpgimport.cpp
    transactions/kgpgkeyservertransaction.cpp
    transactions/kgpgkeyservergettransaction.cpp
+   transactions/kgpgkeyserversearchtransaction.cpp
    transactions/kgpgprimaryuid.cpp
    transactions/kgpgsendkeys.cpp
    transactions/kgpgsignkey.cpp
