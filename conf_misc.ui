@@ -350,7 +350,7 @@
             <property name="whatsThis">
              <string>This is the text of the email sent by the &quot;Sign and Mail User ID&quot; action.
 
-The placeholders surrounded by the percent signs (like %MYNAME%) will be replaced with the corresponding text for every single mail.</string>
+The placeholders surrounded by the percent signs (like %KEYID%) will be replaced with the corresponding text for every single mail.</string>
             </property>
            </widget>
           </item>
