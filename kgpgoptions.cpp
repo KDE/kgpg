@@ -67,7 +67,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	defaultServerList << defaultKeyServer << "hkp://search.keyserver.net" << "hkp://pgp.dtype.org";
 	defaultServerList << "hkp://wwwkeys.us.pgp.net" << "hkp://subkeys.pgp.net";
 
-	// Read the default keyserver from the gnupg settings.
+	// Read the default keyserver from the GnuPG settings.
 	keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
 
 	// Read the servers stored in kgpgrc
@@ -147,11 +147,11 @@ void kgpgOptions::slotChangeHome()
 		if (!QFile(gpgHome + confPath).exists()) {
 			// Try to create config File by running gpg once
 			if (KMessageBox::Yes == KMessageBox::questionYesNo(this,
-					i18n("No configuration file was found in the selected location.\nDo you want to create it now ?\n\nWithout configuration file, neither KGpg nor Gnupg will work properly."),
+					i18n("No configuration file was found in the selected location.\nDo you want to create it now ?\n\nWithout configuration file, neither KGpg nor GnuPG will work properly."),
 					i18n("No Configuration File Found"),
 					KGuiItem(i18n("Create")),
 					KGuiItem(i18n("Ignore")))) {
-				// start gnupg so that it will create a config file
+				// start GnuPG so that it will create a config file
 				QString gpgbin = m_page4->gpg_bin_path->text();
 				if (!QFile::exists(gpgbin))
 					gpgbin = "gpg";

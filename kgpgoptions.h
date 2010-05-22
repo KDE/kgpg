@@ -124,7 +124,7 @@ private:
     QString fileEncryptionKey;
     QString gpgConfigPath;
     QString gpgBinPath;
-    QString keyServer;              // Server stored in gnupg config
+    QString keyServer;              // Server stored in GnuPG config
     QStringList serverList;         // Servers stored in kgpgrc
     QString defaultKeyServer;       // Default keyserver
     QStringList defaultServerList;  // Default list of servers including the default key server;

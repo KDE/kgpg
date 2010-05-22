@@ -425,7 +425,7 @@ void KGpgExternalActions::firstRun()
 	QProcess *createConfigProc = new QProcess(this);
 	QStringList args;
 	args << "--no-tty" << "--list-secret-keys";
-	createConfigProc->start("gpg", args);	// start gnupg so that it will create a config file
+	createConfigProc->start("gpg", args);	// start GnuPG so that it will create a config file
 	createConfigProc->waitForFinished();
 	startAssistant();
 }

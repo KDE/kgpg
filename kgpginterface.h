@@ -81,7 +81,7 @@ public:
     /**
      * @brief ask the user for a passphrase and send it to the given gpg process
      * @param text text is the message that must be displayed in the MessageBox
-     * @param process gnupg process
+     * @param process GnuPG process
      * @param isnew if the password is a \e new password that must be confirmed. Default is true
      * @return 0 if there is no error
      * @return 1 if there is an error
