@@ -1279,6 +1279,12 @@ void KeysManager::slotSetDefaultKey(const QString &newID)
 {
 	KGpgKeyNode *ndef = imodel->getRootNode()->findKey(newID);
 
+	if (ndef == NULL) {
+		KGpgSettings::setDefaultKey(newID);
+		KGpgSettings::self()->writeConfig();
+		return;
+	}
+
 	setDefaultKeyNode(ndef);
 }
 
