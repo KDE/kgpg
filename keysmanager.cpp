@@ -25,7 +25,6 @@
 #include <QWidget>
 #include <QLabel>
 #include <QEvent>
-#include <QMovie>
 #include <QList>
 #include <QFile>
 #include <QDir>
