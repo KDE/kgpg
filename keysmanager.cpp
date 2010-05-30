@@ -2576,7 +2576,7 @@ void KeysManager::slotImport(const QString &text)
 
 	if (!KGpgImport::isKey(text) && KGpgDecrypt::isEncryptedText(text)) {
 		if (KMessageBox::questionYesNo(this,
-				i18n("<qt>The text in the clipboard does not look like a key but like an encrypted text.<br />Do you want to decrypt it first and then try importing it?</qt>"),
+				i18n("<qt>The text in the clipboard does not look like a key, but like encrypted text.<br />Do you want to decrypt it first and then try importing it?</qt>"),
 					       i18n("Import from Clipboard")) != KMessageBox::Yes)
 			return;
 

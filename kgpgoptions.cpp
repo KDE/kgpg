@@ -147,7 +147,7 @@ void kgpgOptions::slotChangeHome()
 		if (!QFile(gpgHome + confPath).exists()) {
 			// Try to create config File by running gpg once
 			if (KMessageBox::Yes == KMessageBox::questionYesNo(this,
-					i18n("No configuration file was found in the selected location.\nDo you want to create it now ?\n\nWithout configuration file, neither KGpg nor GnuPG will work properly."),
+					i18n("No configuration file was found in the selected location.\nDo you want to create it now?\n\nWithout a configuration file, neither KGpg nor GnuPG will work properly."),
 					i18n("No Configuration File Found"),
 					KGuiItem(i18n("Create")),
 					KGuiItem(i18n("Ignore")))) {
