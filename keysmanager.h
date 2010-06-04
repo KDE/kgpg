@@ -204,7 +204,6 @@ private slots:
     void slotEditDone(int exitcode);
     void importRemoteFinished(int result);
     void slotDelKeyDone(int ret);
-    void slotImportDone(KGpgImport *import, int ret);
     void slotSetClip(const QString &newtxt);
 
     void slotNetworkUp();

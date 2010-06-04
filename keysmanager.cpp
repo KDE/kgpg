@@ -2078,13 +2078,11 @@ void KeysManager::signatureResult(int success)
 				nd->getName(), nd->getEmail()));
 		break;
 	default:
-		QPointer<KgpgDetailedConsole> q = new KgpgDetailedConsole(this,
+		if (KMessageBox::questionYesNo(this,
 				i18n("<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />"
 						"Do you want to try signing the key in console mode?</qt>",
-						nd->getId(), signer));
-		if (q->exec() == QDialog::Accepted)
+						nd->getId(), signer)) == KMessageBox::Yes)
 			signKeyOpenConsole(signer, nd->getId(), checklevel, localsign);
-		delete q;
 	}
 
 	if (++keyCount == signList.count()) {
@@ -2605,30 +2603,27 @@ void KeysManager::startImport(KGpgImport *import)
 void KeysManager::slotImportDone(int result)
 {
 	KGpgImport *import = qobject_cast<KGpgImport *>(sender());
-
-	slotImportDone(import, result);
-}
-
-void KeysManager::slotImportDone(KGpgImport *import, int result)
-{
+	Q_ASSERT(import != NULL);
 	const QStringList rawmsgs(import->getMessages());
 
 	if (result != 0) {
-		KMessageBox::errorList(this, i18n("Key importing failed. Please see the detailed log for more information."), rawmsgs, i18n("Key Import"));
-		import->deleteLater();
+		KMessageBox::detailedSorry(this, i18n("Key importing failed. Please see the detailed log for more information."),
+				rawmsgs.join("\n"), i18n("Key Import"));
 	}
 
 	const QStringList keys(import->getImportedIds(0x1f));
-	const QString msg(import->getImportMessage());
-	const QStringList keynames(import->getImportedKeys());
-	import->deleteLater();
 
-	new KgpgDetailedInfo(this, msg, rawmsgs.join("\n"), keynames);
+	if (!keys.isEmpty()) {
+		const QString msg(import->getImportMessage());
+		const QStringList keynames(import->getImportedKeys());
 
-	if (!keys.isEmpty())
+		new KgpgDetailedInfo(this, msg, rawmsgs.join("\n"), keynames, i18n("Key Import"));
 		imodel->refreshKeys(keys);
-	else
+	} else{
 		changeMessage(i18nc("Application ready for user input", "Ready"));
+	}
+
+	import->deleteLater();
 }
 
 void KeysManager::refreshkey()
