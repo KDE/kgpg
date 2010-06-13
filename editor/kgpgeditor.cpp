@@ -53,9 +53,9 @@
 #include "sourceselect.h"
 #include "kgpgtextedit.h"
 #include "kgpg.h"
-#include "kgpg_interface.h"
 #include "kgpgtextinterface.h"
 #include "kgpgkeyservergettransaction.h"
+#include "keysmanager.h"
 
 class KgpgView : public QWidget {
 public:
@@ -554,10 +554,8 @@ KgpgEditor::slotRefreshImported(KgpgLibrary *lib, const QStringList &keys)
 
 void KgpgEditor::slotKeyManager()
 {
-    OrgKdeKgpgKeyInterface kgpg("org.kde.kgpg", "/KeyInterface",QDBusConnection::sessionBus());
-    QDBusReply<void> reply =kgpg.showKeyManager();
-    if (!reply.isValid())
-        kDebug(2100) << "there was some error using dbus." ;
+	m_parent->show();
+	m_parent->raise();
 }
 
 void KgpgEditor::slotFileClose()
@@ -737,10 +735,7 @@ KgpgEditor::slotVerifyFinished()
 
 void KgpgEditor::slotOptions()
 {
-	OrgKdeKgpgKeyInterface kgpg("org.kde.kgpg", "/KeyInterface",QDBusConnection::sessionBus());
-	QDBusReply<void> reply = kgpg.showOptions();
-	if (!reply.isValid())
-		kDebug(2100) << "there was some error using dbus." ;
+	m_parent->showOptions();
 }
 
 void KgpgEditor::modified()
