@@ -293,7 +293,7 @@ void KgpgTextEdit::slotVerifySuccess(const QString &content, const QString &log)
 {
     sender()->deleteLater();
     emit verifyFinished();
-    (void) new KgpgDetailedInfo(this, content, log);
+    (void) new KgpgDetailedInfo(this, content, log, QStringList(), i18nc("Caption of message box", "Verification Finished"));
 }
 
 void KgpgTextEdit::slotVerifyKeyNeeded(const QString &id)

@@ -645,7 +645,8 @@ KGpgTextInterface::verifyfin()
 		if (d->m_signID.isEmpty())
 			d->m_signID = i18n("No signature found.");
 
-		(void) new KgpgDetailedInfo(0, d->m_signID, d->m_message);
+		(void) new KgpgDetailedInfo(qobject_cast<QWidget *>(parent()), d->m_signID, d->m_message,
+				QStringList(), i18nc("Caption of message box", "Verification Finished"));
 	} else {
 		if (KMessageBox::questionYesNo(0,
 					i18n("<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt>", d->m_signID),
