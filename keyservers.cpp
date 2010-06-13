@@ -108,9 +108,25 @@ void KeyServer::slotImport()
 		return;
 	}
 
+	startImport(page->kLEimportid->text().simplified().split(' '), page->kCBimportks->currentText(), page->kLEproxyI->text());
+}
+
+void KeyServer::startImport(const QStringList &keys, QString server, const QString &proxy)
+{
+	if (server.isEmpty()) {
+		const QStringList kservers = KeyServer::getServerList();
+		if (kservers.isEmpty()) {
+			KMessageBox::sorry(this, i18n("You need to configure keyservers before trying to download keys."),
+					i18n("No keyservers defined"));
+			return;
+		}
+
+		server = kservers.first();
+	}
+
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 
-	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, page->kCBimportks->currentText(), page->kLEimportid->text().simplified().split(' '), true, page->kLEproxyI->text());
+	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, server, keys, true, proxy);
 	connect(proc, SIGNAL(done(int)), SLOT(slotDownloadKeysFinished(int)));
 
 	proc->start();
@@ -125,8 +141,10 @@ void KeyServer::slotDownloadKeysFinished(int resultcode)
 
 	t->deleteLater();
 
-	if (resultcode == KGpgTransaction::TS_USER_ABORTED)
+	if (resultcode == KGpgTransaction::TS_USER_ABORTED) {
+		emit importFailed();
 		return;
+	}
 
 	const QStringList keys(KGpgImport::getImportedIds(log));
 	const QString resultmessage(KGpgImport::getImportMessage(log));

@@ -704,25 +704,17 @@ void KgpgEditor::slotCheckMd5()
 
 void KgpgEditor::importSignatureKey(const QString &id)
 {
-	const QStringList kservers = KeyServer::getServerList();
-	if (kservers.isEmpty()) {
-		KMessageBox::sorry(this, i18n("You need to configure keyservers before trying to download keys."),
-				i18n("No keyservers defined"));
-		return;
-	}
+	KeyServer *ks = new KeyServer(this);
 
-	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
+	connect(ks, SIGNAL(importFinished(QStringList)), SLOT(slotDownloadKeysFinished(QStringList)));
+	connect(ks, SIGNAL(importFailed()), ks, SLOT(deleteLater()));
 
-	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, kservers.first(), QStringList(id), true, qgetenv("http_proxy"));
-	connect(proc, SIGNAL(done(int)), SLOT(slotDownloadKeysFinished(int)));
-
-	proc->start();
+	ks->startImport(QStringList(id), QString(), qgetenv("http_proxy"));
 }
 
-void
-KgpgEditor::importKeyDone(int result)
+void KgpgEditor::slotDownloadKeysFinished(QStringList ids)
 {
-	Q_UNUSED(result)
+	m_parent->refreshKeys(ids);
 
 	sender()->deleteLater();
 }

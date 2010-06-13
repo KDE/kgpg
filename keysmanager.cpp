@@ -1437,7 +1437,7 @@ void KeysManager::slotRevokeDialogFinished(int result)
 	if (keyRevokeDialog->printChecked())
 		connect(genRev, SIGNAL(revokeCertificate(QString)), SLOT(doPrint(QString)));
 	if (keyRevokeDialog->importChecked())
-		connect(genRev, SIGNAL(revokecertificate(QString)), SLOT(slotImportRevokeTxt(QString)));
+		connect(genRev, SIGNAL(revokeCertificate(QString)), SLOT(slotImportRevokeTxt(QString)));
 
 	genRev->start();
 }
@@ -2244,6 +2244,11 @@ void KeysManager::importRemoteFinished(int result)
 
 	if (result == KGpgTransaction::TS_OK)
 		imodel->refreshKeys(keys);
+}
+
+void KeysManager::refreshKeys(const QStringList& ids)
+{
+	imodel->refreshKeys(ids);
 }
 
 void KeysManager::delsignkey()

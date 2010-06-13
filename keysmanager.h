@@ -122,6 +122,7 @@ public slots:
     void clipDecrypt();
     void clipSign();
     void slotImportDone(int ret);
+    void refreshKeys(const QStringList &ids);
 
 protected:
     bool eventFilter(QObject *, QEvent *e);

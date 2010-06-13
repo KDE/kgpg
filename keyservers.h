@@ -63,8 +63,28 @@ public:
 	 */
 	static QStringList getServerList();
 
+	/**
+	 * @brief import the given keys
+	 * @param keys the key fingerprints or ids to import
+	 * @param server the key server to use, if empty the default server is used
+	 * @param proxy the proxy to use
+	 *
+	 * This will set up the underlying transaction to fetch the keys as well
+	 * as it will take care of setting up everything so the user will get the
+	 * results shown.
+	 */
+	void startImport(const QStringList &keys, QString server = QString(), const QString &proxy = QString());
+
 signals:
 	void importFinished(QStringList);
+	/**
+	 * @brief importing failed
+	 *
+	 * This is emitted when key importing is finished and importFinished() is
+	 * _not_ emitted. The main usage is to properly clean up the object when
+	 * using startImport().
+	 */
+	void importFailed();
 
 public slots:
 	void slotImport();

@@ -100,7 +100,6 @@ private slots:
     void slotVerifyFile(const KUrl &url);
     void slotCheckMd5();
     void importSignatureKey(const QString &id);
-    void importKeyDone(int result);
     void slotVerifyFinished();
 
     // Options menu
@@ -116,6 +115,8 @@ private slots:
     void slotRefreshImported(KgpgLibrary *lib, const QStringList &keys);
 
     void slotLibraryDone();
+
+    void slotDownloadKeysFinished(QStringList ids);
 
 private:
     QStringList m_customdecrypt;
