@@ -36,7 +36,8 @@
 using namespace KgpgCore;
 
 KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
-               : KDialog(parent)
+	: KDialog(parent),
+	m_expert(false)
 {
     setCaption(i18n("Key Generation"));
     setButtons(User1 | Ok | Cancel);
@@ -45,7 +46,6 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     setButtonToolTip(User1, i18n("Go to Expert Mode"));
     setButtonWhatsThis(User1, "If you go to expert mode, you will use the command line to create your key.");
 
-    m_expert = false;
 
     QGroupBox *vgroup = new QGroupBox(i18n("Generate Key Pair"), this);
 

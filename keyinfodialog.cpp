@@ -45,12 +45,14 @@
 using namespace KgpgCore;
 
 KgpgTrustLabel::KgpgTrustLabel(QWidget *parent, const QString &text, const QColor &color)
-              : QWidget(parent)
+	: QWidget(parent),
+	m_text_w(new QLabel(this)),
+	m_color_w(new QLabel(this)),
+	m_text(text),
+	m_color(color)
 {
-    m_text_w = new QLabel(this);
     m_text_w->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
-    m_color_w = new QLabel(this);
     m_color_w->setLineWidth(1);
     m_color_w->setFrameShape(QFrame::Box);
     m_color_w->setAutoFillBackground(true);
@@ -61,8 +63,6 @@ KgpgTrustLabel::KgpgTrustLabel(QWidget *parent, const QString &text, const QColo
     layout->addWidget(m_text_w);
     layout->addWidget(m_color_w);
 
-    m_text = text;
-    m_color = color;
     change();
 }
 

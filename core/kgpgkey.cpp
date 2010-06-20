@@ -474,10 +474,14 @@ KgpgKeySub& KgpgKeySub::operator=(const KgpgKeySub &other)
 //BEGIN Key
 
 KgpgKeyPrivate::KgpgKeyPrivate()
+    : gpgkeysecret(false),
+    gpgkeyvalid(false),
+    gpgkeysize(0),
+    gpgkeyalgo(ALGO_UNKNOWN),
+    gpguatlist(new KgpgKeyUatList()),
+    gpguidlist(new KgpgKeyUidList()),
+    gpgsublist(new KgpgKeySubList())
 {
-    gpguatlist = new KgpgKeyUatList;
-    gpguidlist = new KgpgKeyUidList;
-    gpgsublist = new KgpgKeySubList;
 }
 
 bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
@@ -502,12 +506,8 @@ bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
 }
 
 KgpgKey::KgpgKey()
-    : d(new  KgpgKeyPrivate)
+    : d(new KgpgKeyPrivate())
 {
-    d->gpgkeyalgo = ALGO_UNKNOWN;
-    d->gpgkeyvalid = false;
-    d->gpgkeysecret = false;
-    d->gpgkeysize = 0;
 }
 
 KgpgKey::KgpgKey(const KgpgKey &other)

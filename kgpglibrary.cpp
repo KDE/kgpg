@@ -37,11 +37,12 @@
 using namespace KgpgCore;
 
 KgpgLibrary::KgpgLibrary(QWidget *parent)
+	: QObject(parent),
+	m_panel(parent),
+	m_extension(".gpg"),
+	m_pop(NULL),
+	m_popisactive(false)
 {
-	m_extension = ".gpg";
-
-	m_popisactive = false;
-	m_panel = parent;
 }
 
 void KgpgLibrary::setFileExtension(const QString &ext)

@@ -74,12 +74,14 @@ KgpgView::KgpgView(QWidget *parent, KgpgTextEdit *editor, KToolBar *toolbar)
 }
 
 KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
-          : KXmlGuiWindow(0, f),
-	  m_editor(new KgpgTextEdit(this, model, parent)),
-	  m_recentfiles(NULL),
-	  m_find(0),
-	  m_model(model),
-	  m_parent(parent)
+	: KXmlGuiWindow(0, f),
+	m_editor(new KgpgTextEdit(this, model, parent)),
+	m_recentfiles(NULL),
+	m_find(0),
+	m_textchanged(false),
+	m_emptytext(true),
+	m_model(model),
+	m_parent(parent)
 {
     // call inits to invoke all other construction parts
     initActions();
@@ -92,8 +94,6 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
     m_editundo->setEnabled(false);
     m_editcopy->setEnabled(false);
     m_editcut->setEnabled(false);
-    m_textchanged = false;
-    m_emptytext = true;
 
     setObjectName("editor");
     slotSetFont(KGpgSettings::font());

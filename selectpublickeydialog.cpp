@@ -37,7 +37,10 @@
 using namespace KgpgCore;
 
 KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const KShortcut &goDefaultKey, const bool hideasciioption, const KUrl::List &files)
-                      : KDialog(parent)
+	: KDialog(parent),
+	m_customoptions(NULL),
+	imodel(model),
+	m_hideasciioption(hideasciioption)
 {
     setButtons(Details | Ok | Cancel);
     setDefaultButton(Ok);
@@ -69,8 +72,6 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     m_searchlineedit->setClearButtonShown(true);
     searchlabel->setBuddy(m_searchlineedit);
 
-    imodel = model;
-
     iproxy = new SelectKeyProxyModel(this);
     iproxy->setKeyModel(imodel);
 
@@ -87,7 +88,6 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     optionsbox->setFrameShape(QFrame::StyledPanel);
     setDetailsWidget(optionsbox);
 
-    m_hideasciioption = hideasciioption;
     if (m_hideasciioption)
         m_cbarmor = 0;
     else
@@ -120,7 +120,6 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     dialoglayout->addWidget(m_keyslist);
     page->setLayout(dialoglayout);
 
-    m_customoptions = 0;
     if (KGpgSettings::allowCustomEncryptionOptions())
     {
         KHBox *expertbox = new KHBox(page);
