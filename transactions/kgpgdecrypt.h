@@ -24,7 +24,7 @@ class QProcess;
 class QStringList;
 
 /**
- * @brief import one or more keys into the keyring
+ * @brief decrypt the given text or files
  */
 class KGpgDecrypt: public KGpgTextOrFileTransaction {
 	Q_OBJECT
