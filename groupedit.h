@@ -21,6 +21,7 @@
 class GroupEditProxyModel;
 class KGpgNode;
 class KGpgItemModel;
+class QSortFilterProxyModel;
 
 /**
  * @brief shows a widget that let's you change the keys that are part of a key group
@@ -33,9 +34,10 @@ private:
 	GroupEditProxyModel *m_in;
 	GroupEditProxyModel *m_out;
 	KGpgItemModel *m_model;
+	QSortFilterProxyModel *m_outFilter;
 
 public:
-	QList<KGpgNode *> *members;	///< the list of keys that are members of the group
+	QList<KGpgNode *> * const members;	///< the list of keys that are members of the group
 
 	/**
 	 * @brief constructor

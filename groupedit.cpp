@@ -23,7 +23,8 @@
 #include "kgpgsettings.h"
 
 groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
-	: QWidget( parent ),
+	: QWidget(parent),
+	m_outFilter(new QSortFilterProxyModel(this)),
 	members(ids)
 {
 	setupUi( this );
@@ -39,11 +40,13 @@ groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
 	m_in = new GroupEditProxyModel(this, false, members, mintrust);
 	m_out = new GroupEditProxyModel(this, true, members, mintrust);
 
-	QSortFilterProxyModel *filter = new QSortFilterProxyModel(this);
-	filter->setSourceModel(m_out);
-	filter->setFilterCaseSensitivity(Qt::CaseInsensitive);
+	m_outFilter->setSourceModel(m_out);
+	m_outFilter->setFilterCaseSensitivity(Qt::CaseInsensitive);
+	m_outFilter->setFilterKeyColumn(-1);
 
-	availableKeys->setModel(filter);
+	connect(filterEdit, SIGNAL(textChanged(QString)), m_outFilter, SLOT(setFilterFixedString(QString)));
+
+	availableKeys->setModel(m_outFilter);
 	groupKeys->setModel(m_in);
 	buttonAdd->setIcon(KIcon("go-down"));
 	buttonRemove->setIcon(KIcon("go-up"));
