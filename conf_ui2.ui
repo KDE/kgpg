@@ -37,7 +37,7 @@
          <item>
           <layout class="QVBoxLayout" >
            <item>
-            <widget class="QLabel" name="textLabel1_5" >
+            <widget class="QLabel" name="textLabel_trustUltimate" >
              <property name="text" >
               <string>Ultimately trusted keys:</string>
              </property>
@@ -47,7 +47,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="textLabel1_4" >
+            <widget class="QLabel" name="textLabel_trustTrusted" >
              <property name="text" >
               <string>Trusted keys:</string>
              </property>
@@ -57,7 +57,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="textLabel1_5" >
+            <widget class="QLabel" name="textLabel_trustMarginally" >
              <property name="text" >
               <string>Marginally trusted keys:</string>
              </property>
@@ -67,7 +67,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="textLabel1_6" >
+            <widget class="QLabel" name="textLabel_trustExpired" >
              <property name="text" >
               <string>Expired keys:</string>
              </property>
@@ -77,7 +77,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="textLabel1_2_3" >
+            <widget class="QLabel" name="textLabel_trustRevoked" >
              <property name="text" >
               <string>Revoked keys:</string>
              </property>
@@ -87,7 +87,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="textLabel1_3_3" >
+            <widget class="QLabel" name="textLabel_trustUnknown" >
              <property name="text" >
               <string>Unknown keys:</string>
              </property>
@@ -97,7 +97,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="textLabel1_4_2" >
+            <widget class="QLabel" name="textLabel_trustDisabled" >
              <property name="text" >
               <string>Disabled keys:</string>
              </property>

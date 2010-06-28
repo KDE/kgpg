@@ -27,7 +27,7 @@
      <property name="currentIndex" >
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab" >
+     <widget class="QWidget" name="tab_import" >
       <attribute name="title" >
        <string>Import</string>
       </attribute>
@@ -165,7 +165,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab" >
+     <widget class="QWidget" name="tab_export" >
       <attribute name="title" >
        <string>Export</string>
       </attribute>
