@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     options.add("k", ki18n("Open key manager"));
     options.add("d", ki18n("Open editor"));
     options.add("s", ki18n("Show encrypted file"));
-    options.add("S", ki18n("Sign file"));
+    options.add("S", ki18n("Sign File"));
     options.add("V", ki18n("Verify signature"));
     options.add("+[File]", ki18n("File to open"));
     KCmdLineArgs::addCmdLineOptions(options);
