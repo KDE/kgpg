@@ -73,7 +73,7 @@ KGpgTextOrFileTransaction::preStart()
 		}
 	}
 
-	if (m_tempfiles.isEmpty() && m_text.isEmpty() && !hasInputTransaction()) {
+	if (locfiles.isEmpty() && m_tempfiles.isEmpty() && m_text.isEmpty() && !hasInputTransaction()) {
 		setSuccess(TS_MSG_SEQUENCE);
 		return false;
 	}
