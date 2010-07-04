@@ -2595,7 +2595,7 @@ void KeysManager::slotImport(const QString &text)
 
 void KeysManager::slotImport(const KUrl::List &files)
 {
-	startImport(new KGpgImport(this, KUrl::List(files)));
+	startImport(new KGpgImport(this, files));
 }
 
 void KeysManager::startImport(KGpgImport *import)
