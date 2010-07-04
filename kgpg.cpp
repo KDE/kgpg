@@ -157,11 +157,12 @@ int KGpgApp::newInstance()
 				foreach (const KUrl &url, urlList) {
 					QFile qfile(url.path());
 					if (qfile.open(QIODevice::ReadOnly)) {
+						const int probelen = 4096;
 						QTextStream t(&qfile);
-						QString result(t.read(1024));
+						QString probetext(t.read(probelen));
 						qfile.close();
 
-						if (KGpgImport::isKey(result))
+						if (KGpgImport::isKey(probetext, probetext.length() == probelen))
 							haskeys = true;
 						else
 							hastext = true;

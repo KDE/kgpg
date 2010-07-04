@@ -112,12 +112,13 @@ public:
 	/**
 	 * @brief check if the given text contains a private or public key
 	 * @param text text to check
+	 * @param incomplete assume text is only the beginning of the data
 	 * @return if text contains a key or not
 	 * @retval 0 no key found
 	 * @retval 1 public key found
 	 * @retval 2 private key found
 	 */
-	static int isKey(const QString &text);
+	static int isKey(const QString &text, const bool incomplete = false);
 
 protected:
 	virtual QStringList command() const;
