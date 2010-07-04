@@ -2616,14 +2616,19 @@ void KeysManager::slotImportDone(int result)
 				rawmsgs.join("\n"), i18n("Key Import"));
 	}
 
-	const QStringList keys(import->getImportedIds(0x1f));
+	QStringList keys(import->getImportedIds(0x1f));
+	const bool needsRefresh = !keys.isEmpty();
+	keys << import->getImportedIds(0);
 
 	if (!keys.isEmpty()) {
 		const QString msg(import->getImportMessage());
 		const QStringList keynames(import->getImportedKeys());
 
 		new KgpgDetailedInfo(this, msg, rawmsgs.join("\n"), keynames, i18n("Key Import"));
-		imodel->refreshKeys(keys);
+		if (needsRefresh)
+			imodel->refreshKeys(keys);
+		else
+			changeMessage(i18nc("Application ready for user input", "Ready"));
 	} else{
 		changeMessage(i18nc("Application ready for user input", "Ready"));
 	}
