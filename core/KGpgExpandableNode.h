@@ -37,8 +37,6 @@ class KGpgExpandableNode : public KGpgNode
 
 	friend class KGpgRefNode;
 	friend class KGpgSubkeyNode;
-
-	KGpgExpandableNode(); // = delete C++0x
 protected:
 	KGpgNode::List children;
 
