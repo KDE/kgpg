@@ -158,9 +158,6 @@ public:
 	 * user id.
 	 */
 	const KGpgSignableNode *getUid(const unsigned int index) const;
-
-Q_SIGNALS:
-	void updated(KGpgKeyNode *);
 };
 
 #endif /* KGPGKEYNODE_H */
