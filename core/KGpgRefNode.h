@@ -41,7 +41,7 @@ class KGpgRefNode : public KGpgNode
 	Q_OBJECT
 
 private:
-	QString m_id;
+	const QString m_id;
 	bool m_selfsig;		///< if this is a reference to it's own parent
 
 protected:
@@ -75,6 +75,13 @@ public:
 	 * @return if getRefNode() will return %NULL or not
 	 */
 	bool isUnknown() const;
+
+	/**
+	 * Break the current reference
+	 *
+	 * This is called when the referenced node is going away.
+	 */
+	void unRef();
 
 private Q_SLOTS:
 	void keyUpdated(KGpgKeyNode *);

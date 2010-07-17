@@ -38,7 +38,9 @@ KGpgKeyNode::KGpgKeyNode(KGpgExpandableNode *parent, const KgpgCore::KgpgKey &k)
 
 KGpgKeyNode::~KGpgKeyNode()
 {
-	emit updated(NULL);
+	foreach (KGpgRefNode *nd, m_refs) {
+		nd->unRef();
+	}
 }
 
 KgpgCore::KgpgItemType
