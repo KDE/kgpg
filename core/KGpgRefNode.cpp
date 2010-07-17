@@ -24,7 +24,8 @@
 #include "KGpgRootNode.h"
 
 KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
-	: KGpgNode(parent)
+	: KGpgNode(parent),
+	m_id(keyid)
 {
 	Q_ASSERT(!keyid.isEmpty());
 
@@ -45,14 +46,25 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
 	// when the parents destructor is already called (see bug 208659).
 	if (!m_selfsig) {
 		m_keynode = root->findKey(keyid);
+
 		if (m_keynode != NULL) {
-			connect(m_keynode, SIGNAL(updated(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
 			m_keynode->addRef(this);
 		} else {
-			m_id = keyid;
 			connect(root, SIGNAL(newKeyNode(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
 		}
 	}
+
+	parent->children.append(this);
+}
+
+KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, KGpgKeyNode *key)
+	: KGpgNode(parent),
+	m_id(key->getId()),
+	m_keynode(key)
+{
+	Q_ASSERT(key != NULL);
+	Q_ASSERT(parent != NULL);
+	m_keynode->addRef(this);
 
 	parent->children.append(this);
 }
@@ -61,18 +73,6 @@ KGpgRefNode::~KGpgRefNode()
 {
 	if (m_keynode && !m_selfsig)
 		m_keynode->delRef(this);
-}
-
-KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, KGpgKeyNode *key)
-	: KGpgNode(parent)
-{
-	Q_ASSERT(key != NULL);
-	Q_ASSERT(parent != NULL);
-	m_keynode = key;
-	connect(m_keynode, SIGNAL(updated(KGpgKeyNode *)), SLOT(keyUpdated(KGpgKeyNode *)));
-	m_keynode->addRef(this);
-
-	parent->children.append(this);
 }
 
 KGpgRootNode *
@@ -92,21 +92,25 @@ KGpgRefNode::getRootNode() const
 void
 KGpgRefNode::keyUpdated(KGpgKeyNode *nkey)
 {
-	disconnect(this, SLOT(keyUpdated(KGpgKeyNode *)));
+	Q_ASSERT(m_keynode == NULL);
+	Q_ASSERT(nkey != NULL);
 
-	if (nkey == NULL) {
-		KGpgRootNode *root = getRootNode();
-
-		m_id = m_keynode->getId();
-		if (root != NULL)
-			connect(root, SIGNAL(newKeyNode(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
-		m_keynode = NULL;
-	} else if ((m_keynode == NULL) && (nkey->getId().right(m_id.length()) == m_id)) {
-		m_id.clear();
-		connect(nkey, SIGNAL(updated(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
+	if (nkey->getId().right(m_id.length()) == m_id) {
+		disconnect(sender(), NULL, this, SLOT(keyUpdated(KGpgKeyNode *)));
 		m_keynode = nkey;
 		m_keynode->addRef(this);
 	}
+}
+
+void
+KGpgRefNode::unRef()
+{
+	KGpgRootNode *root = getRootNode();
+
+	if (root != NULL)
+		connect(root, SIGNAL(newKeyNode(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
+
+	m_keynode = NULL;
 }
 
 QString

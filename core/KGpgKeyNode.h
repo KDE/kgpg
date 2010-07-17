@@ -166,7 +166,6 @@ public:
 	const KGpgSignableNode *getUid(const unsigned int index) const;
 
 Q_SIGNALS:
-	void updated(KGpgKeyNode *);
 	void expanded();
 
 public slots:
