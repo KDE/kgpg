@@ -98,61 +98,74 @@ KGpgImport::getImportMessage() const
 QString
 KGpgImport::getImportMessage(const QStringList &log)
 {
+#define RESULT_PARTS 14
+	unsigned long rcode[RESULT_PARTS];
+	unsigned int i = 0;
+	bool fine;
+
+	memset(rcode, 0, sizeof(rcode));
+
 	foreach (const QString &str, log) {
 		if (!str.startsWith(QLatin1String("[GNUPG:] IMPORT_RES ")))
 			continue;
 
 		const QStringList rstr(str.mid(20).simplified().split(' '));
 
-		bool fine = (rstr.count() == 14);
+		fine = (rstr.count() == RESULT_PARTS);
 
-		unsigned int i = 0;
-		unsigned long rcode[14];
-
-		while (fine && (i < 14)) {
-			rcode[i] = rstr.at(i).toULong(&fine);
+		i = 0;
+		while (fine && (i < RESULT_PARTS)) {
+			rcode[i] += rstr.at(i).toULong(&fine);
 			i++;
 		}
 
 		if (!fine)
 			return i18n("The import result string has an unsupported format.<br />Please see the detailed log for more information.");
-
-		QString resultMessage(i18np("<qt>%1 key processed.</qt>", "<qt>%1 keys processed.</qt>", rcode[0]));
-
-		if (rcode[1])
-			resultMessage += i18np("<qt><br />One key without ID.</qt>", "<qt><br />%1 keys without ID.</qt>", rcode[1]);
-		if (rcode[2])
-			resultMessage += i18np("<qt><br /><b>One key imported:</b></qt>", "<qt><br /><b>%1 keys imported:</b></qt>", rcode[2]);
-		if (rcode[3])
-			resultMessage += i18np("<qt><br />One RSA key imported.</qt>", "<qt><br />%1 RSA keys imported.</qt>", rcode[3]);
-		if (rcode[4])
-			resultMessage += i18np("<qt><br />One key unchanged.</qt>", "<qt><br />%1 keys unchanged.</qt>", rcode[4]);
-		if (rcode[5])
-			resultMessage += i18np("<qt><br />One user ID imported.</qt>", "<qt><br />%1 user IDs imported.</qt>", rcode[5]);
-		if (rcode[6])
-			resultMessage += i18np("<qt><br />One subkey imported.</qt>", "<qt><br />%1 subkeys imported.</qt>", rcode[6]);
-		if (rcode[7])
-			resultMessage += i18np("<qt><br />One signature imported.</qt>", "<qt><br />%1 signatures imported.</qt>", rcode[7]);
-		if (rcode[8])
-			resultMessage += i18np("<qt><br />One revocation certificate imported.</qt>", "<qt><br />%1 revocation certificates imported.</qt>", rcode[8]);
-		if (rcode[9])
-			resultMessage += i18np("<qt><br />One secret key processed.</qt>", "<qt><br />%1 secret keys processed.</qt>", rcode[9]);
-		if (rcode[10])
-			resultMessage += i18np("<qt><br /><b>One secret key imported.</b></qt>", "<qt><br /><b>%1 secret keys imported.</b></qt>", rcode[10]);
-		if (rcode[11])
-			resultMessage += i18np("<qt><br />One secret key unchanged.</qt>", "<qt><br />%1 secret keys unchanged.</qt>", rcode[11]);
-		if (rcode[12])
-			resultMessage += i18np("<qt><br />One secret key not imported.</qt>", "<qt><br />%1 secret keys not imported.</qt>", rcode[12]);
-
-		if (rcode[9])
-			resultMessage += i18n("<qt><br /><b>You have imported a secret key.</b> <br />"
-			"Please note that imported secret keys are not trusted by default.<br />"
-			"To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</qt>");
-
-		return resultMessage;
 	}
 
-	return i18n("No key imported.<br />Please see the detailed log for more information.");
+	fine = false;
+	i = 0;
+	while (!fine && (i < RESULT_PARTS)) {
+		fine = (rcode[i] != 0);
+		i++;
+	}
+
+	if (!fine)
+		return i18n("No key imported.<br />Please see the detailed log for more information.");
+
+	QString resultMessage(i18np("<qt>%1 key processed.</qt>", "<qt>%1 keys processed.</qt>", rcode[0]));
+
+	if (rcode[1])
+		resultMessage += i18np("<qt><br />One key without ID.</qt>", "<qt><br />%1 keys without ID.</qt>", rcode[1]);
+	if (rcode[2])
+		resultMessage += i18np("<qt><br /><b>One key imported:</b></qt>", "<qt><br /><b>%1 keys imported:</b></qt>", rcode[2]);
+	if (rcode[3])
+		resultMessage += i18np("<qt><br />One RSA key imported.</qt>", "<qt><br />%1 RSA keys imported.</qt>", rcode[3]);
+	if (rcode[4])
+		resultMessage += i18np("<qt><br />One key unchanged.</qt>", "<qt><br />%1 keys unchanged.</qt>", rcode[4]);
+	if (rcode[5])
+		resultMessage += i18np("<qt><br />One user ID imported.</qt>", "<qt><br />%1 user IDs imported.</qt>", rcode[5]);
+	if (rcode[6])
+		resultMessage += i18np("<qt><br />One subkey imported.</qt>", "<qt><br />%1 subkeys imported.</qt>", rcode[6]);
+	if (rcode[7])
+		resultMessage += i18np("<qt><br />One signature imported.</qt>", "<qt><br />%1 signatures imported.</qt>", rcode[7]);
+	if (rcode[8])
+		resultMessage += i18np("<qt><br />One revocation certificate imported.</qt>", "<qt><br />%1 revocation certificates imported.</qt>", rcode[8]);
+	if (rcode[9])
+		resultMessage += i18np("<qt><br />One secret key processed.</qt>", "<qt><br />%1 secret keys processed.</qt>", rcode[9]);
+	if (rcode[10])
+		resultMessage += i18np("<qt><br /><b>One secret key imported.</b></qt>", "<qt><br /><b>%1 secret keys imported.</b></qt>", rcode[10]);
+	if (rcode[11])
+		resultMessage += i18np("<qt><br />One secret key unchanged.</qt>", "<qt><br />%1 secret keys unchanged.</qt>", rcode[11]);
+	if (rcode[12])
+		resultMessage += i18np("<qt><br />One secret key not imported.</qt>", "<qt><br />%1 secret keys not imported.</qt>", rcode[12]);
+
+	if (rcode[9])
+		resultMessage += i18n("<qt><br /><b>You have imported a secret key.</b> <br />"
+		"Please note that imported secret keys are not trusted by default.<br />"
+		"To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</qt>");
+
+	return resultMessage;
 }
 
 QString
