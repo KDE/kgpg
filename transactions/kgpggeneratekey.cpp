@@ -67,7 +67,7 @@ KGpgGenerateKey::postStart()
 	if (m_algorithm == KgpgCore::ALGO_RSA)
 		keymessage.append("RSA");
 	else
-		keymessage.append("DSA");
+		keymessage.append("DSA\nSubkey-Type: ELG");
 
 	keymessage.append("\nKey-Length: ");
 	keymessage.append(QByteArray::number(m_size));
