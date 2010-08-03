@@ -63,10 +63,12 @@ private:
 	QString m_log;
 };
 
+//krazy:cond=strings
 static bool isUtf8Lang(const QByteArray &lc)
 {
 	return lc.endsWith("UTF-8");
 }
+//krazy:endcond=strings
 
 KGpgTextInterfacePrivate::KGpgTextInterfacePrivate()
 	: m_ok(false),
