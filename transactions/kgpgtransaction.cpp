@@ -16,6 +16,7 @@
 #include <QByteArray>
 #include <QStringList>
 
+#include <KDebug>
 #include <KLocale>
 
 #include "gpgproc.h"
@@ -46,8 +47,16 @@ public:
 	int m_inputProcessResult;
 	bool m_ownProcessFinished;
 
+	/**
+	 * terminate GnuPG session
+	 */
+	void sendQuit(void);
+
 private:
 	void processDone();
+
+	unsigned int m_quitTries;	///< how many times we tried to quit
+	QStringList m_quitLines;	///< what we received after we tried to quit
 };
 
 KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining)
@@ -60,7 +69,8 @@ KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool all
 	m_chainingAllowed(allowChaining),
 	m_inputProcessDone(false),
 	m_inputProcessResult(KGpgTransaction::TS_OK),
-	m_ownProcessFinished(false)
+	m_ownProcessFinished(false),
+	m_quitTries(0)
 {
 }
 
@@ -90,6 +100,9 @@ KGpgTransactionPrivate::slotReadReady()
 	QString line;
 
 	while (m_process->readln(line, true) >= 0) {
+		if (m_quitTries)
+			m_quitLines << line;
+
 		if (line.startsWith(QLatin1String("[GNUPG:] USERID_HINT "))) {
 			m_parent->addIdHint(line);
 		} else if (line.startsWith(QLatin1String("[GNUPG:] BAD_PASSPHRASE "))) {
@@ -104,10 +117,10 @@ KGpgTransactionPrivate::slotReadReady()
 				break;
 			case KGpgTransaction::BA_UNKNOWN:
 				m_parent->setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
-				m_process->write("quit\n");
+				sendQuit();
 			}
 		} else if (m_parent->nextLine(line)) {
-			m_process->write("quit\n");
+			sendQuit();
 		}
 	}
 }
@@ -126,6 +139,20 @@ void
 KGpgTransactionPrivate::slotProcessStarted()
 {
 	m_parent->postStart();
+}
+
+void
+KGpgTransactionPrivate::sendQuit(void)
+{
+	m_process->write("quit\n");
+
+	if (m_quitTries++ >= 3) {
+		kDebug(2100) << "tried" << m_quitTries << "times to quit the GnuPG session";
+		kDebug(2100) << "last input was" << m_quitLines;
+		kDebug(2100) << "please file a bug report at https://bugs.kde.org";
+		m_process->kill();
+		m_success = KGpgTransaction::TS_MSG_SEQUENCE;
+	}
 }
 
 void
