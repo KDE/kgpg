@@ -117,6 +117,7 @@ KGpgTransactionPrivate::slotReadReady()
 				break;
 			case KGpgTransaction::BA_UNKNOWN:
 				m_parent->setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
+				kDebug(2100) << "unexpected GnuPG request" << line;
 				sendQuit();
 			}
 		} else if (m_parent->nextLine(line)) {

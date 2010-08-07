@@ -34,9 +34,7 @@ KGpgChangeTrust::preStart()
 bool
 KGpgChangeTrust::nextLine(const QString &line)
 {
-	if (line.contains("edit_ownertrust.set_ultimate.okay")) {
-		write("YES");
-	} else if (line.contains("edit_ownertrust.value")) {
+	if (line.contains("edit_ownertrust.value")) {
 		write(QByteArray::number(m_trust));
 		setSuccess(TS_OK);
 	} else {
@@ -44,6 +42,16 @@ KGpgChangeTrust::nextLine(const QString &line)
 	}
 
 	return false;
+}
+
+KGpgTransaction::ts_boolanswer
+KGpgChangeTrust::boolQuestion(const QString& line)
+{
+	if (line == QLatin1String("edit_ownertrust.set_ultimate.okay")) {
+		return BA_YES;
+	} else {
+		return KGpgTransaction::boolQuestion(line);
+	}
 }
 
 void
