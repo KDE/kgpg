@@ -25,11 +25,12 @@
 #include "kgpginterface.h"
 #include "kgpgitemmodel.h"
 #include "kgpgsettings.h"
+#include "KGpgRootNode.h"
 #include "KGpgSubkeyNode.h"
 #include "KGpgUatNode.h"
 #include "KGpgUidNode.h"
 
-KGpgKeyNode::KGpgKeyNode(KGpgExpandableNode *parent, const KgpgCore::KgpgKey &k)
+KGpgKeyNode::KGpgKeyNode(KGpgRootNode *parent, const KgpgCore::KgpgKey &k)
 	: KGpgSignableNode(parent),
 	m_key(new KgpgCore::KgpgKey(k)),
 	m_signs(0)
@@ -39,7 +40,7 @@ KGpgKeyNode::KGpgKeyNode(KGpgExpandableNode *parent, const KgpgCore::KgpgKey &k)
 KGpgKeyNode::~KGpgKeyNode()
 {
 	foreach (KGpgRefNode *nd, m_refs) {
-		nd->unRef();
+		nd->unRef(m_parent->toRootNode());
 	}
 }
 

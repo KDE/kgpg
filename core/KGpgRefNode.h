@@ -78,10 +78,18 @@ public:
 
 	/**
 	 * Break the current reference
+	 * @param root root node
 	 *
 	 * This is called when the referenced node is going away.
+	 *
+	 * The root node is passed for two reasons:
+	 * @li it doesn't need to be searched again for every ref node which
+	 * can be many in case of an important key node get's deleted
+	 * @li the ref node may be a child of the deleted node, then we can
+	 * not call the parents functions to find the root anymore. This helps
+	 * simplifying the code
 	 */
-	void unRef();
+	void unRef(KGpgRootNode *root);
 
 private Q_SLOTS:
 	void keyUpdated(KGpgKeyNode *);
