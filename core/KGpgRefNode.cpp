@@ -103,10 +103,8 @@ KGpgRefNode::keyUpdated(KGpgKeyNode *nkey)
 }
 
 void
-KGpgRefNode::unRef()
+KGpgRefNode::unRef(KGpgRootNode *root)
 {
-	KGpgRootNode *root = getRootNode();
-
 	if (root != NULL)
 		connect(root, SIGNAL(newKeyNode(KGpgKeyNode *)), this, SLOT(keyUpdated(KGpgKeyNode *)));
 

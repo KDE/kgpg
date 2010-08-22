@@ -52,7 +52,7 @@ public:
 	typedef QList<KGpgKeyNode *> List;
 	typedef QList<const KGpgKeyNode *> ConstList;
 
-	explicit KGpgKeyNode(KGpgExpandableNode *parent, const KgpgCore::KgpgKey &k);
+	explicit KGpgKeyNode(KGpgRootNode *parent, const KgpgCore::KgpgKey &k);
 	virtual ~KGpgKeyNode();
 
 	virtual bool hasChildren() const;
