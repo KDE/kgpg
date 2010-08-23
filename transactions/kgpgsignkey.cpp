@@ -36,11 +36,6 @@ KGpgSignKey::~KGpgSignKey()
 bool
 KGpgSignKey::nextLine(const QString &line)
 {
-	if (line.startsWith(QLatin1String("[GNUPG:]")) && line.contains("sign_all.okay")) {
-		write("YES");
-		return false;
-	}
-
 	switch (KGpgSignTransactionHelper::nextLine(line)) {
 	case KGpgSignTransactionHelper::handledFalse:
 		return false;
@@ -57,6 +52,9 @@ KGpgSignKey::nextLine(const QString &line)
 KGpgTransaction::ts_boolanswer
 KGpgSignKey::boolQuestion(const QString& line)
 {
+	if (line.contains(QLatin1String("sign_all.okay")))
+		return BA_YES;
+
 	ts_boolanswer ret = KGpgSignTransactionHelper::boolQuestion(line);
 
 	if (ret == BA_UNKNOWN)
