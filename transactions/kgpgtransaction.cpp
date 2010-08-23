@@ -128,6 +128,8 @@ KGpgTransactionPrivate::slotReadReady()
 				kDebug(2100) << "unexpected GnuPG request" << line;
 				sendQuit();
 			}
+		} else if (line.startsWith(QLatin1String("[GNUPG:] CARDCTRL "))) {
+			// just ignore them, pinentry should handle that
 		} else if (m_parent->nextLine(line)) {
 			sendQuit();
 		}
