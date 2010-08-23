@@ -55,6 +55,8 @@ KGpgAddUid::nextLine(const QString &line)
 		write(m_email.toAscii());
 	} else if (line.contains("keygen.comment")) {
 		write(m_comment.toUtf8());
+	} else if (line.contains("keyedit.prompt")) {
+		write("save");
 	} else {
 		return KGpgEditKeyTransaction::nextLine(line);
 	}

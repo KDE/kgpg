@@ -106,6 +106,8 @@ KGpgTransactionPrivate::slotReadReady()
 				m_parent->setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
 				m_process->write("quit\n");
 			}
+		} else if (line.startsWith(QLatin1String("[GNUPG:] CARDCTRL "))) {
+			// just ignore them, pinentry should handle that
 		} else if (m_parent->nextLine(line)) {
 			m_process->write("quit\n");
 		}
