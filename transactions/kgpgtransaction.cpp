@@ -22,6 +22,9 @@
 #include "gpgproc.h"
 #include "kgpginterface.h"
 
+// define this to get the commands and replies from all GnuPG transactions logged
+#undef KGPG_DEBUG_TRANSACTIONS
+
 class KGpgTransactionPrivate: QObject {
 public:
 	KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining);
@@ -51,6 +54,8 @@ public:
 	 * terminate GnuPG session
 	 */
 	void sendQuit(void);
+
+	void write(const QByteArray &a);
 
 private:
 	void processDone();
@@ -102,6 +107,9 @@ KGpgTransactionPrivate::slotReadReady()
 	while (m_process->readln(line, true) >= 0) {
 		if (m_quitTries)
 			m_quitLines << line;
+#ifdef KGPG_DEBUG_TRANSACTIONS
+		kDebug(2100) << line;
+#endif /* KGPG_DEBUG_TRANSACTIONS */
 
 		if (line.startsWith(QLatin1String("[GNUPG:] USERID_HINT "))) {
 			m_parent->addIdHint(line);
@@ -110,10 +118,10 @@ KGpgTransactionPrivate::slotReadReady()
 		} else if (line.startsWith(QLatin1String("[GNUPG:] GET_BOOL "))) {
 			switch (m_parent->boolQuestion(line.mid(18))) {
 			case KGpgTransaction::BA_YES:
-				m_process->write("YES\n");
+				write("YES\n");
 				break;
 			case KGpgTransaction::BA_NO:
-				m_process->write("NO\n");
+				write("NO\n");
 				break;
 			case KGpgTransaction::BA_UNKNOWN:
 				m_parent->setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
@@ -145,7 +153,7 @@ KGpgTransactionPrivate::slotProcessStarted()
 void
 KGpgTransactionPrivate::sendQuit(void)
 {
-	m_process->write("quit\n");
+	write("quit\n");
 
 	if (m_quitTries++ >= 3) {
 		kDebug(2100) << "tried" << m_quitTries << "times to quit the GnuPG session";
@@ -166,6 +174,15 @@ KGpgTransactionPrivate::slotInputTransactionDone(int result)
 
 	if (m_ownProcessFinished)
 		processDone();
+}
+
+void
+KGpgTransactionPrivate::write(const QByteArray &a)
+{
+	m_process->write(a);
+#ifdef KGPG_DEBUG_TRANSACTIONS
+	kDebug(2100) << a;
+#endif /* KGPG_DEBUG_TRANSACTIONS */
 }
 
 void
@@ -199,9 +216,10 @@ KGpgTransaction::start()
 void
 KGpgTransaction::write(const QByteArray &a, const bool lf)
 {
-	d->m_process->write(a);
 	if (lf)
-		d->m_process->write("\n");
+		d->write(a + '\n');
+	else
+		d->write(a);
 }
 
 void
