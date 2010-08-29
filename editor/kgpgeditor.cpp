@@ -608,6 +608,9 @@ void KgpgEditor::slotSetCharset()
 
 bool KgpgEditor::checkEncoding(QTextCodec *codec)
 {
+	if (codec == NULL)
+		return false;
+
     return codec->canEncode(m_editor->toPlainText());
 }
 
