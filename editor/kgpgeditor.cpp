@@ -294,6 +294,11 @@ bool KgpgEditor::slotFileSave()
 
     QTextCodec *cod = QTextCodec::codecForName(m_textencoding.toAscii());
 
+    if (cod == NULL) {
+		KMessageBox::sorry(this, i18n("The document could not been saved, as the selected codec is not supported."));
+		return false;
+    }
+
     if (!checkEncoding(cod))
     {
         KMessageBox::sorry(this, i18n("The document could not been saved, as the selected encoding cannot encode every unicode character in it."));
