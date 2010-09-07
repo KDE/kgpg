@@ -160,7 +160,7 @@ KGpgTextInterfacePrivate::gpgPassphrase()
 void
 KGpgTextInterfacePrivate::signFile(const KUrl &file)
 {
-	*m_process << "--command-fd=0" << "-u" << m_signID.simplified().toLocal8Bit();
+	*m_process << "--command-fd=0" << "-u" << m_signID;
 
 	*m_process << m_gpgopts;
 
@@ -441,7 +441,7 @@ KGpgTextInterface::verifyTextFin()
 		emit txtVerifyMissingSignature(d->m_signID);
 	} else {
 		if (d->m_signID.isEmpty())
-		d->m_signID = i18n("No signature found.");
+			d->m_signID = i18n("No signature found.");
 
 		emit txtVerifyFinished(d->m_signID, d->m_message);
 	}
