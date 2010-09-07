@@ -37,6 +37,7 @@
 using namespace KgpgCore;
 
 KgpgInterface::KgpgInterface()
+	: m_cycle(CYCLE_NONE)
 {
 }
 
@@ -417,7 +418,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool block, const QStringList &i
 	m_publiclistkeys = KgpgKeyList();
 	m_publickey = KgpgKey();
 	m_numberid = 0;
-	cycle = "none";
+	m_cycle = CYCLE_NONE;
 
 	GPGProc *process = new GPGProc(this);
 	*process << "--with-colons" << "--with-fingerprint" << "--fixed-list-mode";
@@ -452,8 +453,8 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
 	while ((items = p->readln(lsp)) >= 0) {
 		if ((lsp.at(0) == "pub") && (items >= 10)) {
-			if (cycle != "none") {
-				cycle = "none";
+			if (m_cycle != CYCLE_NONE) {
+				m_cycle = CYCLE_NONE;
 				m_publiclistkeys << m_publickey;
 			}
 
@@ -473,7 +474,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
 			m_publickey.setValid((items <= 11) || !lsp.at(11).contains('D', Qt::CaseSensitive));  // disabled key
 
-			cycle = "pub";
+			m_cycle = CYCLE_PUB;
 
 			m_numberid = 0;
 		} else if ((lsp.at(0) == "fpr") && (items >= 10)) {
@@ -508,7 +509,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 				sub.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
 
 			m_publickey.subList()->append(sub);
-			cycle = "sub";
+			m_cycle = CYCLE_SUB;
 		} else if (lsp.at(0) == "uat") {
 			m_numberid++;
 			KgpgKeyUat uat;
@@ -516,7 +517,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			uat.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
 			m_publickey.uatList()->append(uat);
 
-			cycle = "uat";
+			m_cycle = CYCLE_UAT;
 		} else if ((lsp.at(0) == "uid") && (items >= 10)) {
 			QString fullname(lsp.at(9));
 			QString kmail;
@@ -562,7 +563,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
 				m_publickey.uidList()->append(uid);
 
-				cycle = "uid";
+				m_cycle = CYCLE_UID;
 			}
 		} else if (((lsp.at(0) == "sig") || (lsp.at(0) == "rev")) && (items >= 11)) {
 			KgpgKeySign signature;
@@ -580,14 +581,22 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
 			signature.setRevocation(lsp.at(0) == "rev");
 
-			if (cycle == "pub")
+			switch (m_cycle) {
+			case CYCLE_PUB:
 				m_publickey.addSign(signature);
-			else if (cycle == "uat")
+				break;
+			case CYCLE_UAT:
 				m_publickey.uatList()->last().addSign(signature);
-			else if (cycle == "uid")
+				break;
+			case CYCLE_UID:
 				m_publickey.uidList()->last().addSign(signature);
-			else if (cycle == "sub")
+				break;
+			case CYCLE_SUB:
 				m_publickey.subList()->last().addSign(signature);
+				break;
+			default:
+				Q_ASSERT(m_cycle != CYCLE_NONE);
+			}
 		} else {
 			log += lsp.join(QString(':')) + '\n';
 		}
@@ -600,7 +609,7 @@ void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool block)
 		p = qobject_cast<GPGProc *>(sender());
 
 	// insert the last key
-	if (cycle != "none")
+	if (m_cycle != CYCLE_NONE)
 		m_publiclistkeys << m_publickey;
 
 	if (p->exitCode() != 0) {

@@ -136,7 +136,14 @@ private slots:
 
 private:
     int m_numberid;
-    QString cycle;
+    enum readCycle {
+		CYCLE_NONE,
+		CYCLE_PUB,
+		CYCLE_SUB,
+		CYCLE_UAT,
+		CYCLE_UID
+	};
+	readCycle m_cycle;
     KgpgCore::KgpgKey m_publickey;
     KgpgCore::KgpgKeyList m_publiclistkeys;
 
