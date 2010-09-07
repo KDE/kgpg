@@ -111,13 +111,6 @@ public Q_SLOTS:
     void encryptText(const QString &text, const QStringList &userids, const QStringList &options = QStringList());
 
     /**
-     * Decrypt text function
-     * @param text text to be decrypted.
-     * @param options additional gpg options.
-     */
-    void decryptText(const QString &text, const QStringList &options = QStringList());
-
-    /**
      * Sign text function
      * @param text text to sign.
      * @param userid the recipient key id's.
@@ -167,10 +160,6 @@ public Q_SLOTS:
 private Q_SLOTS:
     void encryptTextProcess();
     void encryptTextFin();
-
-    void decryptTextStdOut();
-    void decryptTextStdErr();
-    void decryptTextFin();
 
     /**
      * Reads output of the current process + allow overwriting of a file
