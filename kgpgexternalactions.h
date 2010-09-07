@@ -59,7 +59,7 @@ public slots:
 	void signDroppedFile();
 	void showDroppedFile();
 
-	void busyMessage(const QString &mssge, bool reset = false);
+	void busyMessage(const QString &mssge);
 	void slotVerifyFile();
 	void encryptDroppedFolder();
 	void startFolderEncode();
@@ -74,7 +74,6 @@ private:
 	KPassivePopup *pop;
 	KTemporaryFile *kgpgFolderExtract;
 	int compressionScheme;
-	int openTasks;
 	KgpgSelectPublicKeyDlg *dialog;
 	QClipboard::Mode clipboardMode;
 	KGpgItemModel *m_model;

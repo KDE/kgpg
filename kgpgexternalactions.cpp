@@ -39,7 +39,6 @@
 
 KGpgExternalActions::KGpgExternalActions(KeysManager *parent, KGpgItemModel *model)
 	: QObject(parent),
-	openTasks(0),
 	m_model(model),
 	m_keysmanager(parent)
 {
@@ -56,7 +55,7 @@ void KGpgExternalActions::encryptDroppedFile()
 	KgpgLibrary *lib = new KgpgLibrary(0);
 	if (KGpgSettings::pgpExtension())
 		lib->setFileExtension(".pgp");
-	connect(lib, SIGNAL(systemMessage(QString, bool)), SLOT(busyMessage(QString, bool)));
+	connect(lib, SIGNAL(systemMessage(QString)), SLOT(busyMessage(QString)));
 
 	if (KGpgSettings::encryptFilesTo()) {
 		if (KGpgSettings::pgpCompatibility())
@@ -233,23 +232,14 @@ void KGpgExternalActions::slotFolderFinishedError(const QString &errmsge)
 	KMessageBox::sorry(0, errmsge);
 }
 
-void KGpgExternalActions::busyMessage(const QString &mssge, bool reset)
+void KGpgExternalActions::busyMessage(const QString &mssge)
 {
-	if (reset)
-		openTasks = 0;
-
 	if (!mssge.isEmpty()) {
-		openTasks++;
 #ifdef __GNUC__
 #warning FIXME: this need to be ported
 #endif
 // 		trayIcon->setToolTip(mssge);
-	} else {
-		openTasks--;
 	}
-
-	if (openTasks <= 0)
-		openTasks = 0;
 }
 
 void KGpgExternalActions::encryptFiles(KUrl::List urls)
@@ -359,7 +349,7 @@ void KGpgExternalActions::decryptFile(KgpgLibrary *lib)
 	QStringList custdecr;
 	if (!KGpgSettings::customDecrypt().isEmpty())
 		custdecr.append(KGpgSettings::customDecrypt());
-	connect(lib, SIGNAL(systemMessage(QString, bool)), SLOT(busyMessage(QString, bool)));
+	connect(lib, SIGNAL(systemMessage(QString)), SLOT(busyMessage(QString)));
 	connect(lib, SIGNAL(decryptionOver(KUrl)), SLOT(decryptNextFile(KUrl)));
 	lib->slotFileDec(droppedUrls.first(), swapname, custdecr);
 }

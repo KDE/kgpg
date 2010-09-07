@@ -49,7 +49,7 @@ signals:
     void encryptionOver();
     void decryptionOver(KUrl);
     void importOver(KgpgLibrary *, QStringList);
-    void systemMessage(QString, bool reset = false);
+    void systemMessage(QString message);
     void photoAdded();
 
 public slots:

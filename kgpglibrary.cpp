@@ -111,7 +111,7 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
 	if (fgpg.exists()) {
 		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(0, i18n("File Already Exists"), KUrl(), dest, KIO::M_OVERWRITE);
 		if (over->exec() == QDialog::Rejected) {
-			emit systemMessage(QString(), true);
+			emit systemMessage(QString());
 			return;
 		}
 
@@ -150,7 +150,7 @@ void KgpgLibrary::processEncError(const QString &mssge)
 {
 	sender()->deleteLater();
 	m_popisactive = false;
-	emit systemMessage(QString(), true);
+	emit systemMessage(QString());
 	KMessageBox::detailedSorry(m_panel, i18n("<p><b>Process halted</b>.<br />Not all files were encrypted.</p>"), mssge);
 }
 
