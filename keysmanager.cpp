@@ -1831,8 +1831,15 @@ void KeysManager::createNewGroup()
 		return;
 	}
 
+	KgpgKeyTrustFlag mintrust;
+	if (KGpgSettings::allowUntrustedGroupMembers()) {
+		mintrust = KgpgCore::TRUST_UNDEFINED;
+	} else {
+		mintrust = KgpgCore::TRUST_FULL;
+	}
+
 	foreach (KGpgNode *nd, ndlist) {
-		if ((nd->getTrust() == TRUST_FULL) || (nd->getTrust() == TRUST_ULTIMATE)) {
+		if (nd->getTrust() >= mintrust) {
 			keysGroup += nd->getId();
 			keysList.append(nd->toKeyNode());
 		} else {
