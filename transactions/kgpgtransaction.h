@@ -153,7 +153,7 @@ signals:
 	 * @brief Emitted when the operation was completed.
 	 * @param result return status of the transaction
 	 *
-	 * \see estatus for the common status codes. Each transaction
+	 * @see ts_transaction for the common status codes. Each transaction
 	 * may define additional status codes.
 	 */
 	void done(int result);
