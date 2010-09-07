@@ -143,6 +143,11 @@ public:
 	 */
 	bool hasInputTransaction() const;
 
+	/**
+	 * @brief abort this operation as soon as possible
+	 */
+	void kill();
+
 signals:
 	/**
 	 * @brief Emitted when the operation was completed.
@@ -290,7 +295,7 @@ protected:
 	 *
 	 * Usually you will not need this.
 	 *
-	 * \warning Never free this object!
+	 * @warning Never free this object!
 	 */
 	GPGProc *getProcess();
 	/**

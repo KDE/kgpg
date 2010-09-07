@@ -462,4 +462,9 @@ KGpgTransaction::hasInputTransaction() const
 	return (d->m_inputTransaction != NULL);
 }
 
+void KGpgTransaction::kill()
+{
+	d->m_process->kill();
+}
+
 #include "kgpgtransaction.moc"

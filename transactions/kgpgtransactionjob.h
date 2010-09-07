@@ -63,6 +63,9 @@ public:
 	 */
 	int getResultCode() const;
 
+protected:
+	virtual bool doKill();
+
 private slots:
 	void slotTransactionDone(int result);
 	void slotStatusMessage(const QString &plain);

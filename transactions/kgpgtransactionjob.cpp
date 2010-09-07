@@ -71,4 +71,13 @@ KGpgTransactionJob::slotInfoProgress(qulonglong processedAmount, qulonglong tota
 	emitPercent(processedAmount, totalAmount);
 }
 
+bool
+KGpgTransactionJob::doKill()
+{
+	m_transaction->kill();
+
+	return true;
+}
+
+
 #include "kgpgtransactionjob.moc"
