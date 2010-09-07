@@ -1,11 +1,7 @@
-/***************************************************************************
-                          kgpginterface.h  -  description
-                             -------------------
-    begin                : Sat Jun 29 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
-
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -67,9 +63,41 @@ public:
      */
     static QString getGpgHome(const QString &binary);
 
+    /**
+     * @brief get all group names from a GnuPG config file
+     * @param configfile names of groups in this file
+     * @return list of groups names
+     */
     static QStringList getGpgGroupNames(const QString &configfile);
+    /**
+     * @brief read the key ids for the given group name
+     * @param name name of the group
+     * @param configfile the GnuPG config file to use
+     * @return list of key ids in this group
+     */
     static QStringList getGpgGroupSetting(const QString &name, const QString &configfile);
+    /**
+     * @brief write a group entry with the given keys
+     * @param name name of the group
+     * @param values key ids to add to group
+     * @param configfile the name of the GnuPG config file
+     *
+     * If a group with the given name already exists it is replaced.
+     */
     static void setGpgGroupSetting(const QString &name, const QStringList &values, const QString &configfile);
+    /**
+     * @brief rename a group entry
+     * @param oldName name of the group
+     * @param newName new group name to set
+     * @param configfile the name of the GnuPG config file
+     * @return true if the group was renamed
+     */
+    static bool renameGroup(const QString &oldName, const QString &newName, const QString &configfile);
+    /**
+     * @brief remove a group entry
+     * @param name name of the group
+     * @param configfile GnuPG config file to use
+     */
     static void delGpgGroup(const QString &name, const QString &configfile);
 
     static QString getGpgSetting(const QString &name, const QString &configfile);
@@ -91,18 +119,20 @@ public:
 private:
     static QString getGpgProcessHome(const QString &binary);
 
-/************** extract public keys **************/
+    /************** extract public keys **************/
 signals:
     void readPublicKeysFinished(KgpgCore::KgpgKeyList);
 
 public:
     KgpgCore::KgpgKeyList readPublicKeys(const bool block = false, const QStringList &ids = QStringList(), const bool withsigs = false);
     KgpgCore::KgpgKeyList readPublicKeys(const bool block, const QString &ids, const bool withsigs = false)
-	{ return readPublicKeys(block, QStringList(ids), withsigs); }
+    {
+        return readPublicKeys(block, QStringList(ids), withsigs);
+    }
 
 private slots:
-	void readPublicKeysProcess(GPGProc *p = NULL);
-	void readPublicKeysFin(GPGProc *p = NULL, const bool block = false);
+    void readPublicKeysProcess(GPGProc *p = NULL);
+    void readPublicKeysFin(GPGProc *p = NULL, const bool block = false);
 
 private:
     int m_numberid;
@@ -110,10 +140,10 @@ private:
     KgpgCore::KgpgKey m_publickey;
     KgpgCore::KgpgKeyList m_publiclistkeys;
 
-/*************************************************/
+    /*************************************************/
 
 
-/************** extract secret keys **************/
+    /************** extract secret keys **************/
 public slots:
     KgpgCore::KgpgKeyList readSecretKeys(const QStringList &ids = QStringList());
     KgpgCore::KgpgKeyList readJoinedKeys(const KgpgCore::KgpgKeyTrust trust, const QStringList &ids = QStringList());
@@ -126,10 +156,10 @@ private:
     KgpgCore::KgpgKey m_secretkey;
     KgpgCore::KgpgKeyList m_secretlistkeys;
 
-/*************************************************/
+    /*************************************************/
 
 
-/************** load a photo in a QPixmap **************/
+    /************** load a photo in a QPixmap **************/
 signals:
     void loadPhotoFinished(QPixmap);
 
@@ -143,7 +173,7 @@ private:
     QPixmap m_pixmap;
     void readPixmapFromProcess(KProcess *proc);
 
-/*******************************************************/
+    /*******************************************************/
 
 private:
     // Globals private

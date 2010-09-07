@@ -1,11 +1,7 @@
-/***************************************************************************
-                          listkeys.h  -  description
-                             -------------------
-    begin                : Thu Jul 4 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
-
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -196,6 +192,7 @@ private slots:
     void editGroup();
     void createNewGroup();
     void deleteGroup();
+    void renameGroup();
     void slotImportRevokeTxt(const QString &revokeText);
     void refreshKeyFromServer();
     void slotKeyRefreshDone(int result);
@@ -258,6 +255,7 @@ private:
     KAction *goToDefaultKey;
     KAction *exportPublicKey;
     KAction *createGroup;
+    KAction *m_groupRename;
 
     KeyServer *kServer;
 

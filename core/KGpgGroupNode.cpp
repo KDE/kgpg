@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -79,4 +79,11 @@ KGpgGroupNode::readChildren()
 
 	foreach (const QString &id, keys)
 		new KGpgGroupMemberNode(this, id);
+}
+
+void
+KGpgGroupNode::rename(const QString& newName)
+{
+	if (KgpgInterface::renameGroup(m_name, newName, KGpgSettings::gpgConfigPath()))
+		m_name = newName;
 }

@@ -1,11 +1,7 @@
-/***************************************************************************
-                          kgpginterface.cpp  -  description
-                             -------------------
-    begin                : Mon Jul 8 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
-
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -181,7 +177,7 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
 {
 	QFile qfile(configfile);
 
-	kDebug(2100) << "Changing group: " << name ;
+	kDebug(2100) << "Changing group: " << name;
 	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
 		QTextStream t(&qfile);
 		QString texttowrite;
@@ -211,6 +207,49 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
 			qfile.close();
 		}
 	}
+}
+
+bool KgpgInterface::renameGroup(const QString &oldName, const QString &newName, const QString &configfile)
+{
+	QFile qfile(configfile);
+
+	kDebug(2100) << "Renaming group " << oldName << " to " << newName;
+	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+		QTextStream t(&qfile);
+		QString texttowrite;
+		bool found = false;
+
+		while (!t.atEnd()) {
+			QString result = t.readLine();
+			QString result2 = result.simplified();
+
+			if (result2.startsWith(QLatin1String("group "))) {
+				result2 = result2.remove(0, 6).simplified();
+				if (result2.startsWith(oldName)) {
+					QString values = result2.remove(0, oldName.length()).simplified();
+					found = values.startsWith('=');
+					if (found) {
+						result = QLatin1String("group ") + newName + ' ' + values;
+					}
+				}
+			}
+			texttowrite += result + '\n';
+		}
+		qfile.close();
+
+		if (!found) {
+			kDebug(2100) << "Group " << oldName << " not renamed, group does not exist";
+			return false;
+		}
+
+		if (qfile.open(QIODevice::WriteOnly)) {
+			QTextStream t(&qfile);
+			t << texttowrite;
+			qfile.close();
+			return true;
+		}
+	}
+	return false;
 }
 
 void KgpgInterface::delGpgGroup(const QString &name, const QString &configfile)

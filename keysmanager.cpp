@@ -238,6 +238,12 @@ KeysManager::KeysManager(QWidget *parent)
 	delGroup->setIcon(KIcon("edit-delete"));
 	connect(delGroup, SIGNAL(triggered(bool)), SLOT(deleteGroup()));
 
+	m_groupRename = actionCollection()->addAction("rename_group");
+	m_groupRename->setText(i18n("&Rename Group"));
+	m_groupRename->setIcon(KIcon("edit-rename"));
+	m_groupRename->setShortcut(QKeySequence(Qt::Key_F2));
+	connect(m_groupRename, SIGNAL(triggered(bool)), SLOT(renameGroup()));
+
 	deleteKey = actionCollection()->addAction("key_delete");
 	deleteKey->setIcon(KIcon("edit-delete"));
 	connect(deleteKey, SIGNAL(triggered(bool)), SLOT(confirmdeletekey()));
@@ -397,6 +403,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 	m_popupgroup = new KMenu(this);
 	m_popupgroup->addAction(editCurrentGroup);
+	m_popupgroup->addAction(m_groupRename);
 	m_popupgroup->addAction(delGroup);
 	m_popupgroup->addAction(refreshKey);
 
@@ -1394,6 +1401,7 @@ KeysManager::slotMenu(const QPoint &pos)
 	} else if (itype == ITYPE_GROUP) {
 		delGroup->setEnabled( (cnt == 1) );
 		editCurrentGroup->setEnabled( (cnt == 1) );
+		m_groupRename->setEnabled( (cnt == 1) );
 		m_popupgroup->exec(globpos);
 	} else if (!(itype & ~(ITYPE_PAIR | ITYPE_GROUP))) {
 		signKey->setEnabled(!(itype & ITYPE_GROUP));
@@ -1790,6 +1798,22 @@ void KeysManager::deleteGroup()
 	const QStringList groups(KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath()));
 	KGpgSettings::setGroups(groups.join(","));
 	updateStatusCounter();
+}
+
+void KeysManager::renameGroup()
+{
+	KGpgNode *nd = iview->selectedNode();
+	if (!nd || (nd->getType() != ITYPE_GROUP))
+		return;
+
+	const QString groupName = KInputDialog::getText(i18n("Rename Group"),
+			i18nc("Enter the new name for the key group being renamed", "Enter new group name:"),
+			nd->getName(), 0, this);
+
+	if ((groupName == nd->getName()) || groupName.isEmpty())
+		return;
+
+	nd->toGroupNode()->rename(groupName);
 }
 
 void KeysManager::createNewGroup()
