@@ -50,26 +50,10 @@ signals:
      */
     void verifyfinished();
 
-    /**
-     *  emitted when a txt decryption finished. returns decrypted text
-     */
-    void txtDecryptionFinished(QByteArray);
-
-    /**
-     *  emitted when a txt decryption failed. returns log output
-     */
-    void txtDecryptionFailed(QString);
-
     void txtSigningFinished(QString);
-    void txtSigningFailed(QString);
 
     void txtVerifyMissingSignature(QString);
     void txtVerifyFinished(QString, QString);
-
-    /**
-     *  emitted when the process starts
-     */
-    void processstarted(QString);
 
     /**
      *  emitted when an error occurred

@@ -305,7 +305,6 @@ void
 KGpgTextInterface::signTextFin()
 {
 	if (d->m_badpassword) {
-		emit txtSigningFailed(d->m_message);
 		d->m_message.clear();
 	} else if (!d->m_message.isEmpty()) {
 		emit txtSigningFinished(d->m_message.trimmed());
@@ -380,7 +379,6 @@ KGpgTextInterface::fileReadEncProcess()
 		kDebug(2100) << line ;
 		if (line.startsWith(QLatin1String("[GNUPG:]"))) {
 			if (line.contains("BEGIN_ENCRYPTION")) {
-				emit processstarted(d->m_file.path());
 			} else if (line.contains("GET_" )) {
 				if (line.contains("openfile.overwrite.okay")) {
 					d->m_process->write("Yes\n");
