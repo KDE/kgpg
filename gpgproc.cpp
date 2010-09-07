@@ -33,7 +33,7 @@ void
 GPGProc::resetProcess(const QString &binary)
 {
 	QStringList args;
-	args << "--no-secmem-warning" << "--no-tty";
+	args << "--no-secmem-warning" << "--no-tty" << "--debug-level" << "none";
 	if (binary.isEmpty())
 		setProgram(KGpgSettings::gpgBinaryPath(), args);
 	else
