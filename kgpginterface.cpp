@@ -457,10 +457,13 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 				sub.setValid(!lsp.at(11).contains('D'));
 
 				if (lsp.at(11).contains('s'))
-					sub.setType(SKT_SIGNATURE);
-				else
+					sub.setType(sub.type() | SKT_SIGNATURE);
 				if (lsp.at(11).contains('e'))
-					sub.setType(SKT_ENCRYPTION);
+					sub.setType(sub.type() | SKT_ENCRYPTION);
+				if (lsp.at(11).contains('e'))
+					sub.setType(sub.type() | SKT_AUTHENTICATION);
+				if (lsp.at(11).contains('e'))
+					sub.setType(sub.type() | SKT_CERTIFICATION);
 			}
 
 			if (lsp.at(6).isEmpty())
