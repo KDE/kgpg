@@ -31,6 +31,7 @@
 #include <KDebug>
 #include <KHBox>
 
+#include "core/convert.h"
 #include "emailvalidator.h"
 
 using namespace KgpgCore;
@@ -96,8 +97,8 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
 
     QLabel *algoLabel = new QLabel(i18n("&Algorithm:"), vgroup);
     m_keykind = new KComboBox(vgroup);
-    m_keykind->addItem(i18nc("Encryption algorithm", "DSA & ElGamal"));
-    m_keykind->addItem(i18nc("Encryption algorithm", "RSA"));
+    m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_DSA_ELGAMAL));
+    m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_RSA));
     m_keykind->setMinimumSize(m_keykind->sizeHint());
     algoLabel->setBuddy(m_keykind);
 
@@ -200,7 +201,7 @@ bool KgpgKeyGenerate::isExpertMode() const
 
 KgpgCore::KgpgKeyAlgo KgpgKeyGenerate::algo() const
 {
-    if (m_keykind->currentText() == "RSA")
+    if (m_keykind->currentText() == KgpgCore::Convert::toString(KgpgCore::ALGO_RSA))
         return KgpgCore::ALGO_RSA;
     else
         return KgpgCore::ALGO_DSA_ELGAMAL;
