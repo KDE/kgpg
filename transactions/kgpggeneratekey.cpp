@@ -65,10 +65,20 @@ void
 KGpgGenerateKey::postStart()
 {
 	QByteArray keymessage("Key-Type: ");
-	if (m_algorithm == KgpgCore::ALGO_RSA)
+	switch (m_algorithm) {
+	case KgpgCore::ALGO_RSA:
 		keymessage.append("RSA");
-	else
+		break;
+	case KgpgCore::ALGO_RSA_RSA:
+		keymessage.append("RSA\nSubkey-Type: RSA");
+		break;
+	case KgpgCore::ALGO_DSA_ELGAMAL:
 		keymessage.append("DSA\nSubkey-Type: ELG");
+		break;
+	default:
+		Q_ASSERT(m_algorithm == KgpgCore::ALGO_RSA);
+		return;
+	}
 
 	keymessage.append("\nKey-Length: ");
 	keymessage.append(QByteArray::number(m_size));

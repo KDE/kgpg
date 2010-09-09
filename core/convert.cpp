@@ -1,7 +1,8 @@
+/*
+ * Copyright (C) 2006 Jimmy Gilles <jimmygilles@gmail.com>
+ * Copyright (C) 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 /***************************************************************************
- *   Copyright (C) 2006 by Jimmy Gilles                                    *
- *   jimmygilles@gmail.com                                                 *
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -29,7 +30,7 @@
 namespace KgpgCore
 {
 
-QString Convert::toString(const KgpgKeyAlgo &algorithm)
+QString Convert::toString(const KgpgKeyAlgo algorithm)
 {
     switch (algorithm)
     {
@@ -37,12 +38,13 @@ QString Convert::toString(const KgpgKeyAlgo &algorithm)
         case ALGO_DSA:          return i18nc("Encryption algorithm", "DSA");
         case ALGO_ELGAMAL:      return i18nc("Encryption algorithm", "ElGamal");
         case ALGO_DSA_ELGAMAL:  return i18nc("Encryption algorithm", "DSA & ElGamal");
+        case ALGO_RSA_RSA:      return i18nc("Encryption algorithm RSA, Signing algorithm RSA", "RSA & RSA");
         case ALGO_UNKNOWN:
         default:                return i18nc("Unknown algorithm", "Unknown");
     }
 }
 
-QString Convert::toString(const KgpgKeyOwnerTrust &ownertrust)
+QString Convert::toString(const KgpgKeyOwnerTrust ownertrust)
 {
     switch (ownertrust)
     {
@@ -56,7 +58,7 @@ QString Convert::toString(const KgpgKeyOwnerTrust &ownertrust)
     }
 }
 
-QString Convert::toString(const KgpgKeyTrust &trust)
+QString Convert::toString(const KgpgKeyTrust trust)
 {
     switch (trust)
     {
@@ -74,7 +76,7 @@ QString Convert::toString(const KgpgKeyTrust &trust)
     }
 }
 
-QColor Convert::toColor(const KgpgKeyTrust &trust)
+QColor Convert::toColor(const KgpgKeyTrust trust)
 {
     switch (trust)
     {
@@ -97,7 +99,7 @@ QString Convert::toString(const QDate &date)
     return KGlobal::locale()->formatDate(date, KLocale::ShortDate);
 }
 
-KgpgKeyAlgo Convert::toAlgo(const uint &v)
+KgpgKeyAlgo Convert::toAlgo(const uint v)
 {
     switch (v)
     {
@@ -156,7 +158,7 @@ KgpgKeyOwnerTrust Convert::toOwnerTrust(const QString &s)
     return s.isEmpty() ? OWTRUST_UNDEFINED : toOwnerTrust(s[0]);
 }
 
-QPixmap Convert::toPixmap(const KgpgItemType &t)
+QPixmap Convert::toPixmap(const KgpgItemType t)
 {
     switch (t)
     {

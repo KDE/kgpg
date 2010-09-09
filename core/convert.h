@@ -1,7 +1,8 @@
+/*
+ * Copyright (C) 2006 Jimmy Gilles <jimmygilles@gmail.com>
+ * Copyright (C) 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 /***************************************************************************
- *   Copyright (C) 2006 by Jimmy Gilles                                    *
- *   jimmygilles@gmail.com                                                 *
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -33,18 +34,18 @@ namespace KgpgCore
 class Convert
 {
 public:
-    static QString toString(const KgpgKeyAlgo &algorithm);
-    static QString toString(const KgpgKeyOwnerTrust &ownertrust);
-    static QString toString(const KgpgKeyTrust &trust);
+    static QString toString(const KgpgCore::KgpgKeyAlgo algorithm);
+    static QString toString(const KgpgCore::KgpgKeyOwnerTrust ownertrust);
+    static QString toString(const KgpgCore::KgpgKeyTrust trust);
     static QString toString(const QDate &date);
-    static QColor toColor(const KgpgKeyTrust &trust);
-    static KgpgKeyAlgo toAlgo(const uint &v);
+    static QColor toColor(const KgpgCore::KgpgKeyTrust trust);
+    static KgpgKeyAlgo toAlgo(const uint v);
     static KgpgKeyAlgo toAlgo(const QString &s);
     static KgpgKeyTrust toTrust(const QChar &c);
     static KgpgKeyTrust toTrust(const QString &s);
     static KgpgKeyOwnerTrust toOwnerTrust(const QChar &c);
     static KgpgKeyOwnerTrust toOwnerTrust(const QString &s);
-    static QPixmap toPixmap(const KgpgItemType &t);
+    static QPixmap toPixmap(const KgpgCore::KgpgItemType t);
 };
 
 } // namespace KgpgCore
