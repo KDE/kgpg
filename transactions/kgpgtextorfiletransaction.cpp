@@ -128,3 +128,9 @@ KGpgTextOrFileTransaction::cleanUrls()
 	m_locfiles.clear();
 	m_inpfiles.clear();
 }
+
+const KUrl::List &
+KGpgTextOrFileTransaction::getInputFiles() const
+{
+	return m_inpfiles;
+}

@@ -84,6 +84,8 @@ protected:
 
 	virtual QStringList command() const = 0;
 
+	const KUrl::List &getInputFiles() const;
+
 private:
 	QStringList m_tempfiles;
 	QStringList m_locfiles;

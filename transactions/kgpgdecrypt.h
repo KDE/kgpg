@@ -66,6 +66,10 @@ public:
 
 protected:
 	virtual QStringList command() const;
+	virtual bool nextLine(const QString &line);
+
+private:
+	int m_fileIndex;
 };
 
 #endif // KGPGDECRYPT_H

@@ -15,13 +15,17 @@
 
 #include "kgpgsettings.h"
 
+#include <KLocale>
+
 KGpgDecrypt::KGpgDecrypt(QObject *parent, const QString &text)
-	: KGpgTextOrFileTransaction(parent, text)
+	: KGpgTextOrFileTransaction(parent, text),
+	m_fileIndex(-1)
 {
 }
 
 KGpgDecrypt::KGpgDecrypt(QObject *parent, const KUrl::List &files)
-	: KGpgTextOrFileTransaction(parent, files)
+	: KGpgTextOrFileTransaction(parent, files),
+	m_fileIndex(0)
 {
 }
 
@@ -70,4 +74,23 @@ KGpgDecrypt::isEncryptedText(const QString &text, int *startPos, int *endPos)
 		*endPos = posEnd;
 
 	return true;
+}
+
+bool
+KGpgDecrypt::nextLine(const QString& line)
+{
+	const KUrl::List &inputFiles = getInputFiles();
+
+	if (!inputFiles.isEmpty()) {
+		if (line == QLatin1String("[GNUPG:] BEGIN_DECRYPTION")) {
+			emit statusMessage(i18nc("Status message 'Decrypting <filename>' (operation starts)", "Decrypting %1", inputFiles.at(m_fileIndex).fileName()));
+			emit infoProgress(2 * m_fileIndex + 1, inputFiles.count() * 2);
+		} else if (line == QLatin1String("[GNUPG:] END_DECRYPTION")) {
+			emit statusMessage(i18nc("Status message 'Decrypted <filename>' (operation was completed)", "Decrypted %1", inputFiles.at(m_fileIndex).fileName()));
+			m_fileIndex++;
+			emit infoProgress(2 * m_fileIndex, inputFiles.count() * 2);
+		}
+	}
+
+	return KGpgTextOrFileTransaction::nextLine(line);
 }
