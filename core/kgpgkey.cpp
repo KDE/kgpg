@@ -635,7 +635,7 @@ uint KgpgKey::encryptionSize() const
 	// Get the first encryption subkey
 	for (int i = 0; i < d->gpgsublist->count(); ++i) {
 		KgpgKeySub temp = d->gpgsublist->at(i);
-		if (temp.type() == SKT_ENCRYPTION) {
+		if (temp.type() & SKT_ENCRYPTION) {
 			return temp.size();
 		}
 	}
@@ -677,7 +677,7 @@ KgpgKeyAlgo KgpgKey::encryptionAlgorithm() const
 	// Get the first encryption subkey
 	for (int i = 0; i < d->gpgsublist->count(); ++i) {
 		KgpgKeySub temp = d->gpgsublist->at(i);
-		if (temp.type() == SKT_ENCRYPTION) {
+		if (temp.type() & SKT_ENCRYPTION) {
 			return temp.algorithm();
 		}
 	}
