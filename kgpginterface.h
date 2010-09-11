@@ -139,16 +139,8 @@ private slots:
 
 private:
 	unsigned int m_numberid;
-	enum readCycle {
-		CYCLE_NONE,
-		CYCLE_PUB,
-		CYCLE_SUB,
-		CYCLE_UAT,
-		CYCLE_UID
-	};
-	readCycle m_cycle;
-    KgpgCore::KgpgKey m_publickey;
-    KgpgCore::KgpgKeyList m_publiclistkeys;
+	KgpgCore::KgpgKey m_publickey;
+	KgpgCore::KgpgKeyList m_publiclistkeys;
 
     /*************************************************/
 

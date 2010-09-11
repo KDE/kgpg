@@ -32,7 +32,6 @@ bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
     if (gpgsubexpiration != other.gpgsubexpiration) return false;
     if (gpgsubcreation != other.gpgsubcreation) return false;
     if (gpgsubtrust != other.gpgsubtrust) return false;
-    if (gpgsignlist != other.gpgsignlist) return false;
     if (gpgsubtype != other.gpgsubtype) return false;
     return true;
 }
@@ -132,18 +131,6 @@ bool KgpgKeySub::valid() const
 KgpgSubKeyType KgpgKeySub::type() const
 {
     return d->gpgsubtype;
-}
-
-void KgpgKeySub::addSign(const QString &sign)
-{
-    d->gpgsignlist << sign;
-}
-
-QStringList KgpgKeySub::signList()
-{
-	QStringList ret = d->gpgsignlist;
-	d->gpgsignlist.clear();
-	return ret;
 }
 
 bool KgpgKeySub::operator==(const KgpgKeySub &other) const

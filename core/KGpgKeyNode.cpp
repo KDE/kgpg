@@ -156,16 +156,6 @@ KGpgKeyNode::readChildren()
 	foreach(KGpgNode *n, children)
 		if (n->getType() == ITYPE_SIGN)
 			m_signs++;
-
-	/********* insertion of sub keys ********/
-	for (int i = 0; i < key.subList()->size(); ++i) {
-		KgpgCore::KgpgKeySub sub = key.subList()->at(i);
-
-		KGpgSubkeyNode *n = new KGpgSubkeyNode(this, sub);
-
-		foreach (const QString &sign, sub.signList())
-			(void) new KGpgSignNode(n, sign.split(':'));
-	}
 }
 
 QString

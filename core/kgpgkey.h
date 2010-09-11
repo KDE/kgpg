@@ -135,7 +135,6 @@ public:
     QDateTime       gpgsubcreation;
     KgpgKeyTrust    gpgsubtrust;
     KgpgKeyAlgo     gpgsubalgo;
-    QStringList     gpgsignlist;
     KgpgSubKeyType  gpgsubtype;
 
     bool operator==(const KgpgKeySubPrivate &other) const;
@@ -167,9 +166,6 @@ public:
     KgpgKeyAlgo algorithm() const;
     bool valid() const;
     KgpgSubKeyType type() const;
-
-    void addSign(const QString &sign);
-    QStringList signList();
 
     bool operator==(const KgpgKeySub &other) const;
     inline bool operator!=(const KgpgKeySub &other) const
