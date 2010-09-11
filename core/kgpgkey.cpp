@@ -14,9 +14,11 @@
 
 #include "kgpgkey.h"
 
+#include "convert.h"
+
 #include <KLocale>
 
-#include "convert.h"
+#include <QStringList>
 
 namespace KgpgCore
 {
@@ -373,6 +375,14 @@ KgpgKey& KgpgKey::operator=(const KgpgKey &other)
 {
     d = other.d;
     return *this;
+}
+
+KgpgKeyList::operator QStringList() const
+{
+    QStringList res;
+    foreach(KgpgKey key, *this)
+        res << key.fullId();
+    return res;
 }
 
 //END Key

@@ -17,11 +17,12 @@
 
 #include <QSharedDataPointer>
 #include <QSharedData>
-#include <QStringList>
 #include <QPointer>
 #include <QObject>
 #include <QList>
 #include <QDateTime>
+
+class QStringList;
 
 namespace KgpgCore
 {
@@ -317,13 +318,7 @@ public:
         return *this;
     }
 
-    operator QStringList() const
-    {
-        QStringList res;
-        foreach(KgpgKey key, *this)
-            res << key.fullId();
-        return res;
-    }
+    operator QStringList() const;
 };
 
 //END Key
