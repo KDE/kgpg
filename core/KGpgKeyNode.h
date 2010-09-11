@@ -40,8 +40,6 @@ private:
 	KgpgCore::KgpgKey *m_key;
 	int m_signs;
 
-	void insertSigns(KGpgSignableNode *node, const QStringList &list);
-
 protected:
 	virtual void readChildren();
 

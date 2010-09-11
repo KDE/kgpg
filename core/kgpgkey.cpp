@@ -187,7 +187,6 @@ bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
     if (gpgkeycreation != other.gpgkeycreation) return false;
     if (gpgkeyexpiration != other.gpgkeyexpiration) return false;
     if (gpgkeyalgo != other.gpgkeyalgo) return false;
-    if (gpgsignlist != other.gpgsignlist) return false;
     if (gpgsublist != other.gpgsublist) return false;
     return true;
 }
@@ -369,18 +368,6 @@ KgpgKeyAlgo KgpgKey::encryptionAlgorithm() const
 		}
 	}
 	return ALGO_UNKNOWN;
-}
-
-void KgpgKey::addSign(const QString &sign)
-{
-    d->gpgsignlist << sign;
-}
-
-QStringList KgpgKey::signList()
-{
-	QStringList ret = d->gpgsignlist;
-	d->gpgsignlist.clear();
-	return ret;
 }
 
 KgpgKeySubListPtr KgpgKey::subList() const

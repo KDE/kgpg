@@ -232,7 +232,6 @@ public:
     QDateTime     gpgkeyexpiration;
     KgpgKeyAlgo   gpgkeyalgo;
 
-    QStringList       gpgsignlist;
     KgpgKeySubListPtr gpgsublist;
 
     bool operator==(const KgpgKeyPrivate &other) const;
@@ -277,9 +276,6 @@ public:
     bool unlimited() const;
     KgpgKeyAlgo algorithm() const;
     KgpgKeyAlgo encryptionAlgorithm() const;
-
-    void addSign(const QString &sign);
-    QStringList signList();
 
     KgpgKeySubListPtr subList() const;
 

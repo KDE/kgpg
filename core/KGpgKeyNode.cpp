@@ -152,26 +152,20 @@ KGpgKeyNode::readChildren()
 	KgpgCore::KgpgKey key = interface->readSignatures(this);
 	delete interface;
 
+	m_signs = 0;
+	foreach(KGpgNode *n, children)
+		if (n->getType() == ITYPE_SIGN)
+			m_signs++;
+
 	/********* insertion of sub keys ********/
-	for (int i = 0; i < key.subList()->size(); ++i)
-	{
+	for (int i = 0; i < key.subList()->size(); ++i) {
 		KgpgCore::KgpgKeySub sub = key.subList()->at(i);
 
 		KGpgSubkeyNode *n = new KGpgSubkeyNode(this, sub);
-		insertSigns(n, sub.signList());
+
+		foreach (const QString &sign, sub.signList())
+			(void) new KGpgSignNode(n, sign.split(':'));
 	}
-
-	/******** insertion of signature ********/
-	insertSigns(this, key.signList());
-
-	m_signs = key.signList().size();
-}
-
-void
-KGpgKeyNode::insertSigns(KGpgSignableNode *node, const QStringList &list)
-{
-	foreach (const QString &sign, list)
-		(void) new KGpgSignNode(node, sign.split(':'));
 }
 
 QString

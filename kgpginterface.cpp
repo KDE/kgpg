@@ -595,7 +595,8 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
 			switch (m_cycle) {
 			case CYCLE_PUB:
-				m_publickey.addSign(signature);
+				Q_ASSERT(m_readNode != NULL);
+				(void) new KGpgSignNode(m_readNode, lsp);
 				break;
 			case CYCLE_SUB:
 				m_publickey.subList()->last().addSign(signature);
