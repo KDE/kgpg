@@ -192,10 +192,10 @@ KGpgKeyNode::readChildren()
 }
 
 void
-KGpgKeyNode::insertSigns(KGpgExpandableNode *node, const KgpgKeySignList &list)
+KGpgKeyNode::insertSigns(KGpgExpandableNode *node, const QStringList &list)
 {
-	foreach (const KgpgKeySign &sign, list)
-		(void) new KGpgSignNode(node, sign);
+	foreach (const QString &sign, list)
+		(void) new KGpgSignNode(node, sign.split(':'));
 }
 
 QString

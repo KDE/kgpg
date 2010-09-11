@@ -40,7 +40,7 @@ private:
 	KgpgCore::KgpgKey *m_key;
 	int m_signs;
 
-	void insertSigns(KGpgExpandableNode *node, const KgpgCore::KgpgKeySignList &list);
+	void insertSigns(KGpgExpandableNode* node, const QStringList &list);
 
 protected:
 	virtual void readChildren();

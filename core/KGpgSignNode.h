@@ -19,11 +19,11 @@
 #ifndef KGPGSIGNNODE_H
 #define KGPGSIGNNODE_H
 
-#include <KGpgRefNode.h>
-
-#include "kgpgkey.h"
+#include "KGpgRefNode.h"
 
 class KGpgExpandableNode;
+
+class KGpgSignNodePrivate;
 
 /**
  * @brief A signature to another key object
@@ -31,20 +31,24 @@ class KGpgExpandableNode;
 class KGpgSignNode : public KGpgRefNode
 {
 private:
-	KgpgCore::KgpgKeySign *m_sign;
+	KGpgSignNodePrivate * const d_ptr;
+	Q_DECLARE_PRIVATE(KGpgSignNode)
 
 public:
 	typedef QList<KGpgSignNode *> List;
 
-	explicit KGpgSignNode(KGpgExpandableNode *parent, const KgpgCore::KgpgKeySign &s);
+	/**
+	 * @brief constructor for KGpgSignNode
+	 * @param parent the signed node
+	 * @param s GnuPG line describing this signature
+	 */
+	explicit KGpgSignNode(KGpgExpandableNode* parent, const QStringList &s);
 	virtual ~KGpgSignNode();
 
 	virtual KgpgCore::KgpgItemType getType() const;
 	virtual QDateTime getExpiration() const;
 	virtual QString getName() const;
 	virtual QDateTime getCreation() const;
-	virtual QString getId() const;
-	virtual QString getComment() const;
 };
 
 #endif /* KGPGSIGNNODE_H */

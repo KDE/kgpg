@@ -37,8 +37,6 @@ private:
 	QPixmap m_pic;
 	QString m_idx;
 
-// 	void insertSigns(KGpgExpandableNode *node, const KgpgKeySignList &list);
-
 protected:
 	virtual void readChildren();
 

@@ -123,92 +123,6 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgItemType)
 
 //END Enums
 
-
-//BEGIN KeySign
-
-class KgpgKeySignPrivate : public QSharedData
-{
-public:
-    bool    gpgsignrevocation;
-    QString gpgsignid;
-    QString gpgsignname;
-    QString gpgsignemail;
-    QString gpgsigncomment;
-    QDateTime gpgsignexpiration;
-    QDateTime gpgsigncreation;
-    bool    gpgsignlocal;
-
-    bool operator==(const KgpgKeySignPrivate &other) const;
-    inline bool operator!=(const KgpgKeySignPrivate &other) const
-    { return !operator==(other); }
-};
-
-class KgpgKeySign
-{
-public:
-    KgpgKeySign();
-    KgpgKeySign(const KgpgKeySign &other);
-
-    void setId(const QString &id);
-    void setName(const QString &name);
-    void setEmail(const QString &email);
-    void setComment(const QString &comment);
-    void setExpiration(const QDateTime &date);
-    void setCreation(const QDateTime &date);
-    void setLocal(const bool &local);
-    void setRevocation(const bool &revoc);
-
-    QString id() const;
-    QString fullId() const;
-    QString name() const;
-    QString email() const;
-    QString comment() const;
-    bool unlimited() const;
-    QDateTime expirationDate() const;
-    QDateTime creationDate() const;
-    bool local() const;
-    bool revocation() const;
-
-    bool operator==(const KgpgKeySign &other) const;
-    inline bool operator!=(const KgpgKeySign &other) const
-    { return !operator==(other); }
-    KgpgKeySign& operator=(const KgpgKeySign &other);
-
-private:
-    QSharedDataPointer<KgpgKeySignPrivate> d;
-};
-
-class KgpgKeySignList : public QList<KgpgKeySign>, QObject
-{
-public:
-    inline KgpgKeySignList() { }
-    inline explicit KgpgKeySignList(const KgpgKeySign &sign) { append(sign); }
-    inline KgpgKeySignList(const KgpgKeySignList &other) : QList<KgpgKeySign>(other), QObject() { }
-    inline KgpgKeySignList(const QList<KgpgKeySign> &other) : QList<KgpgKeySign>(other), QObject() { }
-
-    inline KgpgKeySignList operator+(const KgpgKeySignList &other) const
-    {
-        KgpgKeySignList n = *this;
-        n += other;
-        return n;
-    }
-
-    inline KgpgKeySignList &operator<<(KgpgKeySign sign)
-    {
-        append(sign);
-        return *this;
-    }
-
-    inline KgpgKeySignList &operator<<(const KgpgKeySignList &l)
-    {
-        *this += l;
-        return *this;
-    }
-};
-
-//END KeySign
-
-
 //BEGIN KeyUat
 
 class KgpgKeyUatPrivate : public QSharedData
@@ -216,7 +130,7 @@ class KgpgKeyUatPrivate : public QSharedData
 public:
     QString gpguatid;
     QDateTime gpguatcreation;
-    KgpgKeySignList gpgsignlist;
+    QStringList gpgsignlist;
 
     bool operator==(const KgpgKeyUatPrivate &other) const;
     inline bool operator!=(const KgpgKeyUatPrivate &other) const
@@ -235,8 +149,8 @@ public:
     QDateTime creationDate() const;
     QString creation() const;
 
-    void addSign(const KgpgKeySign &sign);
-    KgpgKeySignList signList() const;
+    void addSign(const QString &sign);
+    QStringList signList();
 
     bool operator==(const KgpgKeyUat &other) const;
     inline bool operator!=(const KgpgKeyUat &other) const
@@ -290,7 +204,7 @@ public:
     QString  gpguidname;
     QString  gpguidemail;
     QString  gpguidcomment;
-    KgpgKeySignList gpgsignlist;
+    QStringList gpgsignlist;
 
     bool operator==(const KgpgKeyUidPrivate &other) const;
     inline bool operator!=(const KgpgKeyUidPrivate &other) const
@@ -317,8 +231,8 @@ public:
     KgpgKeyTrust trust() const;
     unsigned int index() const;
 
-    void addSign(const KgpgKeySign &sign);
-    KgpgKeySignList signList() const;
+    void addSign(const QString &sign);
+    QStringList signList();
 
     bool operator==(const KgpgKeyUid &other) const;
     inline bool operator!=(const KgpgKeyUid &other) const
@@ -373,7 +287,7 @@ public:
     QDateTime       gpgsubcreation;
     KgpgKeyTrust    gpgsubtrust;
     KgpgKeyAlgo     gpgsubalgo;
-    KgpgKeySignList gpgsignlist;
+    QStringList     gpgsignlist;
     KgpgSubKeyType  gpgsubtype;
 
     bool operator==(const KgpgKeySubPrivate &other) const;
@@ -406,8 +320,8 @@ public:
     bool valid() const;
     KgpgSubKeyType type() const;
 
-    void addSign(const KgpgKeySign &sign);
-    KgpgKeySignList signList() const;
+    void addSign(const QString &sign);
+    QStringList signList();
 
     bool operator==(const KgpgKeySub &other) const;
     inline bool operator!=(const KgpgKeySub &other) const
@@ -470,7 +384,7 @@ public:
     QDateTime     gpgkeyexpiration;
     KgpgKeyAlgo   gpgkeyalgo;
 
-    KgpgKeySignList   gpgsignlist;
+    QStringList       gpgsignlist;
     KgpgKeyUatListPtr gpguatlist;
     KgpgKeyUidListPtr gpguidlist;
     KgpgKeySubListPtr gpgsublist;
@@ -520,8 +434,8 @@ public:
 
     QStringList photoList() const;
 
-    void addSign(const KgpgKeySign &sign);
-    KgpgKeySignList signList() const;
+    void addSign(const QString &sign);
+    QStringList signList();
 
     KgpgKeyUatListPtr uatList() const;
     KgpgKeyUidListPtr uidList() const;

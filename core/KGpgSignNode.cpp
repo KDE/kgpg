@@ -20,44 +20,65 @@
 
 #include <KLocale>
 
-KGpgSignNode::KGpgSignNode(KGpgExpandableNode *parent, const KgpgCore::KgpgKeySign &s)
-	: KGpgRefNode(parent, s.fullId()),
-	m_sign(new KgpgCore::KgpgKeySign(s))
+class KGpgSignNodePrivate {
+public:
+	KGpgSignNodePrivate(const QStringList &sl);
+
+	QDateTime m_creation;
+	QDateTime m_expiration;
+	bool m_local;
+	bool m_revocation;
+};
+
+KGpgSignNodePrivate::KGpgSignNodePrivate(const QStringList &sl)
+{
+	m_revocation = (sl.at(0) == QLatin1String("rev"));
+	if (sl.count() < 6)
+		return;
+	m_creation = QDateTime::fromTime_t(sl.at(5).toUInt());
+	if (sl.count() < 7)
+		return;
+	if (!sl.at(6).isEmpty())
+		m_expiration = QDateTime::fromTime_t(sl.at(6).toUInt());
+	if (sl.count() < 11)
+		return;
+	m_local = sl.at(10).endsWith('l');
+}
+
+KGpgSignNode::KGpgSignNode(KGpgExpandableNode *parent, const QStringList &s)
+	: KGpgRefNode(parent, s.at(4)),
+	d_ptr(new KGpgSignNodePrivate(s))
 {
 }
 
 KGpgSignNode::~KGpgSignNode()
 {
-	delete m_sign;
+	delete d_ptr;
 }
 
 QDateTime
 KGpgSignNode::getExpiration() const
 {
-	return m_sign->expirationDate();
+	const Q_D(KGpgSignNode);
+
+	return d->m_expiration;
 }
 
 QDateTime
 KGpgSignNode::getCreation() const
 {
-	return m_sign->creationDate();
-}
+	const Q_D(KGpgSignNode);
 
-QString
-KGpgSignNode::getId() const
-{
-	return m_sign->fullId();
+	return d->m_creation;
 }
 
 QString
 KGpgSignNode::getName() const
 {
-	QString name(KGpgRefNode::getName());
+	const Q_D(KGpgSignNode);
+	const QString name = KGpgRefNode::getName();
 
-	if (m_keynode == NULL)
-		return name;
-
-	if (!m_sign->local())
+	if (!d->m_local)
 		return name;
 
 	return i18n("%1 [local signature]", name);
@@ -67,10 +88,4 @@ KgpgCore::KgpgItemType
 KGpgSignNode::getType() const
 {
 	return KgpgCore::ITYPE_SIGN;
-}
-
-QString
-KGpgSignNode::getComment() const
-{
-	return m_sign->comment();
 }

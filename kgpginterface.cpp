@@ -569,20 +569,8 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 				m_cycle = CYCLE_UID;
 			}
 		} else if (((lsp.at(0) == "sig") || (lsp.at(0) == "rev")) && (items >= 11)) {
-			KgpgKeySign signature;
-
-			signature.setId(lsp.at(4));
-			signature.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
-
-			if (lsp.at(6).isEmpty())
-				signature.setExpiration(QDateTime());
-			else
-				signature.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
-
-			if (lsp.at(10).endsWith('l'))
-				signature.setLocal(true);
-
-			signature.setRevocation(lsp.at(0) == "rev");
+			// there are no strings here that could have a recoded ':' in them
+			const QString signature = lsp.join(QLatin1String(":"));
 
 			switch (m_cycle) {
 			case CYCLE_PUB:
