@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -17,6 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "KGpgSignNode.h"
+
+#include "KGpgSignableNode.h"
 
 #include <KLocale>
 
@@ -45,7 +47,7 @@ KGpgSignNodePrivate::KGpgSignNodePrivate(const QStringList &sl)
 	m_local = sl.at(10).endsWith('l');
 }
 
-KGpgSignNode::KGpgSignNode(KGpgExpandableNode *parent, const QStringList &s)
+KGpgSignNode::KGpgSignNode(KGpgSignableNode *parent, const QStringList &s)
 	: KGpgRefNode(parent, s.at(4)),
 	d_ptr(new KGpgSignNodePrivate(s))
 {

@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -21,7 +21,7 @@
 
 #include "KGpgRefNode.h"
 
-class KGpgExpandableNode;
+class KGpgSignableNode;
 
 class KGpgSignNodePrivate;
 
@@ -42,7 +42,7 @@ public:
 	 * @param parent the signed node
 	 * @param s GnuPG line describing this signature
 	 */
-	explicit KGpgSignNode(KGpgExpandableNode* parent, const QStringList &s);
+	explicit KGpgSignNode(KGpgSignableNode *parent, const QStringList &s);
 	virtual ~KGpgSignNode();
 
 	virtual KgpgCore::KgpgItemType getType() const;

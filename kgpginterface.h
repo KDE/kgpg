@@ -18,6 +18,8 @@
 
 #include <kgpgkey.h>
 
+class KGpgKeyNode;
+class KGpgSignableNode;
 class KProcess;
 class GPGProc;
 
@@ -124,10 +126,11 @@ signals:
     void readPublicKeysFinished(KgpgCore::KgpgKeyList);
 
 public:
-    KgpgCore::KgpgKeyList readPublicKeys(const bool block = false, const QStringList &ids = QStringList(), const bool withsigs = false);
-    KgpgCore::KgpgKeyList readPublicKeys(const bool block, const QString &ids, const bool withsigs = false)
+    KgpgCore::KgpgKeyList readPublicKeys(const bool block = false, const QStringList &ids = QStringList());
+    KgpgCore::KgpgKey readSignatures(KGpgKeyNode *node);
+    KgpgCore::KgpgKeyList readPublicKeys(const bool block, const QString &ids)
     {
-        return readPublicKeys(block, QStringList(ids), withsigs);
+        return readPublicKeys(block, QStringList(ids));
     }
 
 private slots:
@@ -135,8 +138,8 @@ private slots:
     void readPublicKeysFin(GPGProc *p = NULL, const bool block = false);
 
 private:
-    int m_numberid;
-    enum readCycle {
+	unsigned int m_numberid;
+	enum readCycle {
 		CYCLE_NONE,
 		CYCLE_PUB,
 		CYCLE_SUB,
@@ -191,6 +194,9 @@ private:
      * @internal structure for communication
      */
     QString output;
+
+    KGpgKeyNode *m_readNode;	///< the node where the signature are read for
+    KGpgSignableNode *m_currentSNode;	///< the current (sub)node signature are read for
 };
 
 #endif // KGPGINTERFACE_H

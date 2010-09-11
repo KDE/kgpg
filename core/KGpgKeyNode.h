@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -40,7 +40,7 @@ private:
 	KgpgCore::KgpgKey *m_key;
 	int m_signs;
 
-	void insertSigns(KGpgExpandableNode* node, const QStringList &list);
+	void insertSigns(KGpgSignableNode *node, const QStringList &list);
 
 protected:
 	virtual void readChildren();

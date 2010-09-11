@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006,2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2007-2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -20,74 +20,6 @@
 
 namespace KgpgCore
 {
-
-//BEGIN KeyUat
-
-bool KgpgKeyUatPrivate::operator==(const KgpgKeyUatPrivate &other) const
-{
-    if (gpguatid != other.gpguatid) return false;
-    if (gpguatcreation != other.gpguatcreation) return false;
-    if (gpgsignlist != other.gpgsignlist) return false;
-    return true;
-}
-
-KgpgKeyUat::KgpgKeyUat()
-    : d(new  KgpgKeyUatPrivate)
-{
-}
-
-KgpgKeyUat::KgpgKeyUat(const KgpgKeyUat &other)
-{
-    d = other.d;
-}
-
-void KgpgKeyUat::setId(const QString &id)
-{
-    d->gpguatid = id;
-}
-
-void KgpgKeyUat::setCreation(const QDateTime &date)
-{
-    d->gpguatcreation = date;
-}
-
-QString KgpgKeyUat::id() const
-{
-    return d->gpguatid;
-}
-
-QDateTime KgpgKeyUat::creationDate() const
-{
-    return d->gpguatcreation;
-}
-
-void KgpgKeyUat::addSign(const QString &sign)
-{
-    d->gpgsignlist << sign;
-}
-
-QStringList KgpgKeyUat::signList()
-{
-	QStringList ret = d->gpgsignlist;
-	d->gpgsignlist.clear();
-	return ret;
-}
-
-bool KgpgKeyUat::operator==(const KgpgKeyUat &other) const
-{
-    if (d == other.d) return true;
-    if ((*d) == (*(other.d))) return true;
-    return false;
-}
-
-KgpgKeyUat& KgpgKeyUat::operator=(const KgpgKeyUat &other)
-{
-    d = other.d;
-    return *this;
-}
-
-//END KeyUat
-
 
 //BEGIN KeyUid
 
@@ -351,7 +283,6 @@ KgpgKeyPrivate::KgpgKeyPrivate()
     gpgkeyvalid(false),
     gpgkeysize(0),
     gpgkeyalgo(ALGO_UNKNOWN),
-    gpguatlist(new KgpgKeyUatList()),
     gpguidlist(new KgpgKeyUidList()),
     gpgsublist(new KgpgKeySubList())
 {
@@ -372,7 +303,6 @@ bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
     if (gpgkeyexpiration != other.gpgkeyexpiration) return false;
     if (gpgkeyalgo != other.gpgkeyalgo) return false;
     if (gpgsignlist != other.gpgsignlist) return false;
-    if (gpguatlist != other.gpguatlist) return false;
     if (gpguidlist != other.gpguidlist) return false;
     if (gpgsublist != other.gpgsublist) return false;
     return true;
@@ -557,14 +487,6 @@ KgpgKeyAlgo KgpgKey::encryptionAlgorithm() const
 	return ALGO_UNKNOWN;
 }
 
-QStringList KgpgKey::photoList() const
-{
-    QStringList result;
-    for (int i = 0; i < d->gpguatlist->size(); ++i)
-        result << d->gpguatlist->at(i).id();
-    return result;
-}
-
 void KgpgKey::addSign(const QString &sign)
 {
     d->gpgsignlist << sign;
@@ -575,11 +497,6 @@ QStringList KgpgKey::signList()
 	QStringList ret = d->gpgsignlist;
 	d->gpgsignlist.clear();
 	return ret;
-}
-
-KgpgKeyUatListPtr KgpgKey::uatList() const
-{
-    return d->gpguatlist;
 }
 
 KgpgKeyUidListPtr KgpgKey::uidList() const

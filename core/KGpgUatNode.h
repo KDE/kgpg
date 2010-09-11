@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -21,11 +21,14 @@
 
 #include "KGpgSignableNode.h"
 
+#include <QDateTime>
 #include <QPixmap>
-#include "kgpgkey.h"
 
 class KGpgExpandableNode;
 class KGpgKeyNode;
+class QPixmap;
+
+class KGpgUatNodePrivate;
 
 /**
  * @brief A user attribute (i.e. photo id) of a public key or key pair
@@ -33,20 +36,19 @@ class KGpgKeyNode;
 class KGpgUatNode : public KGpgSignableNode
 {
 private:
-	KgpgCore::KgpgKeyUat m_uat;
-	QPixmap m_pic;
-	QString m_idx;
+	KGpgUatNodePrivate * const d_ptr;
+	Q_DECLARE_PRIVATE(KGpgUatNode);
 
 protected:
 	virtual void readChildren();
 
 public:
-	explicit KGpgUatNode(KGpgKeyNode *parent, const KgpgCore::KgpgKeyUat &k, const QString &index);
+	explicit KGpgUatNode(KGpgKeyNode *parent, const unsigned int index, const QStringList &sl);
 	virtual ~KGpgUatNode();
 
 	virtual KgpgCore::KgpgItemType getType() const;
 	virtual KgpgCore::KgpgKeyTrust getTrust() const;
-	QPixmap getPixmap() const;
+	const QPixmap &getPixmap() const;
 	virtual QString getId() const;
 	virtual QString getSize() const;
 	virtual QString getName() const;

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006,2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2007-2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -122,76 +122,6 @@ Q_DECLARE_FLAGS(KgpgItemType, KgpgItemTypeFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgItemType)
 
 //END Enums
-
-//BEGIN KeyUat
-
-class KgpgKeyUatPrivate : public QSharedData
-{
-public:
-    QString gpguatid;
-    QDateTime gpguatcreation;
-    QStringList gpgsignlist;
-
-    bool operator==(const KgpgKeyUatPrivate &other) const;
-    inline bool operator!=(const KgpgKeyUatPrivate &other) const
-    { return !operator==(other); }
-};
-
-class KgpgKeyUat
-{
-public:
-    KgpgKeyUat();
-    KgpgKeyUat(const KgpgKeyUat &other);
-
-    void setId(const QString &id);
-    void setCreation(const QDateTime &date);
-    QString id() const;
-    QDateTime creationDate() const;
-    QString creation() const;
-
-    void addSign(const QString &sign);
-    QStringList signList();
-
-    bool operator==(const KgpgKeyUat &other) const;
-    inline bool operator!=(const KgpgKeyUat &other) const
-    { return !operator==(other); }
-    KgpgKeyUat& operator=(const KgpgKeyUat &other);
-
-private:
-    QSharedDataPointer<KgpgKeyUatPrivate> d;
-};
-
-class KgpgKeyUatList : public QList<KgpgKeyUat>, public QObject
-{
-public:
-    inline KgpgKeyUatList() { }
-    inline explicit KgpgKeyUatList(const KgpgKeyUat &uat) { append(uat); }
-    inline KgpgKeyUatList(const KgpgKeyUatList &other) : QList<KgpgKeyUat>(other), QObject() { }
-    inline KgpgKeyUatList(const QList<KgpgKeyUat> &other) : QList<KgpgKeyUat>(other), QObject() { }
-
-    inline KgpgKeyUatList operator+(const KgpgKeyUatList &other) const
-    {
-        KgpgKeyUatList n = *this;
-        n += other;
-        return n;
-    }
-
-    inline KgpgKeyUatList &operator<<(KgpgKeyUat uat)
-    {
-        append(uat);
-        return *this;
-    }
-
-    inline KgpgKeyUatList &operator<<(const KgpgKeyUatList &l)
-    {
-        *this += l;
-        return *this;
-    }
-};
-typedef QPointer<KgpgKeyUatList> KgpgKeyUatListPtr;
-
-//END KeyUat
-
 
 //BEGIN KeyUid
 
@@ -385,7 +315,6 @@ public:
     KgpgKeyAlgo   gpgkeyalgo;
 
     QStringList       gpgsignlist;
-    KgpgKeyUatListPtr gpguatlist;
     KgpgKeyUidListPtr gpguidlist;
     KgpgKeySubListPtr gpgsublist;
 
@@ -432,12 +361,9 @@ public:
     KgpgKeyAlgo algorithm() const;
     KgpgKeyAlgo encryptionAlgorithm() const;
 
-    QStringList photoList() const;
-
     void addSign(const QString &sign);
     QStringList signList();
 
-    KgpgKeyUatListPtr uatList() const;
     KgpgKeyUidListPtr uidList() const;
     KgpgKeySubListPtr subList() const;
 

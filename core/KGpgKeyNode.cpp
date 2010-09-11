@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -149,12 +149,8 @@ void
 KGpgKeyNode::readChildren()
 {
 	KgpgInterface *interface = new KgpgInterface();
-	KgpgCore::KgpgKeyList keys = interface->readPublicKeys(true, m_key->fingerprint(), true);
+	KgpgCore::KgpgKey key = interface->readSignatures(this);
 	delete interface;
-
-	if (keys.isEmpty())
-		return;
-	KgpgCore::KgpgKey key(keys.at(0));
 
 	/********* insertion of sub keys ********/
 	for (int i = 0; i < key.subList()->size(); ++i)
@@ -174,17 +170,6 @@ KGpgKeyNode::readChildren()
 		insertSigns(n, uid.signList());
 	}
 
-	/******** insertion of photos id ********/
-	QStringList photolist = key.photoList();
-	for (int i = 0; i < photolist.size(); ++i)
-	{
-		KgpgCore::KgpgKeyUat uat = key.uatList()->at(i);
-
-		KGpgUatNode *n = new KGpgUatNode(this, uat, photolist.at(i));
-		insertSigns(n, uat.signList());
-	}
-	/****************************************/
-
 	/******** insertion of signature ********/
 	insertSigns(this, key.signList());
 
@@ -192,7 +177,7 @@ KGpgKeyNode::readChildren()
 }
 
 void
-KGpgKeyNode::insertSigns(KGpgExpandableNode *node, const QStringList &list)
+KGpgKeyNode::insertSigns(KGpgSignableNode *node, const QStringList &list)
 {
 	foreach (const QString &sign, list)
 		(void) new KGpgSignNode(node, sign.split(':'));

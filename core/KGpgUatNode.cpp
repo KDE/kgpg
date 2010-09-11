@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -20,21 +20,41 @@
 
 #include <KLocale>
 
+#include <QPixmap>
+#include <QDateTime>
+
 #include "kgpginterface.h"
 #include "KGpgKeyNode.h"
 
-KGpgUatNode::KGpgUatNode(KGpgKeyNode *parent, const KgpgCore::KgpgKeyUat &k, const QString &index)
+class KGpgUatNodePrivate {
+public:
+	KGpgUatNodePrivate(const unsigned int index, const QStringList &sl);
+
+	QPixmap m_pixmap;
+	const QString m_idx;
+	QDateTime m_creation;
+};
+
+KGpgUatNodePrivate::KGpgUatNodePrivate(const unsigned int index, const QStringList &sl)
+	: m_idx(QString::number(index))
+{
+	if (sl.count() < 6)
+		return;
+	m_creation = QDateTime::fromTime_t(sl.at(5).toUInt());
+}
+
+KGpgUatNode::KGpgUatNode(KGpgKeyNode *parent, const unsigned int index, const QStringList &sl)
 	: KGpgSignableNode(parent),
-	m_uat(k),
-	m_idx(index)
+	d_ptr(new KGpgUatNodePrivate(index, sl))
 {
 	KgpgInterface iface;
 
-	m_pic = iface.loadPhoto(parent->getKeyId(), index, true);
+	d_ptr->m_pixmap = iface.loadPhoto(parent->getKeyId(), d_ptr->m_idx, true);
 }
 
 KGpgUatNode::~KGpgUatNode()
 {
+	delete d_ptr;
 }
 
 QString
@@ -46,13 +66,17 @@ KGpgUatNode::getName() const
 QString
 KGpgUatNode::getSize() const
 {
-	return QString::number(m_pic.width()) + 'x' + QString::number(m_pic.height());
+	const Q_D(KGpgUatNode);
+
+	return QString::number(d->m_pixmap.width()) + 'x' + QString::number(d->m_pixmap.height());
 }
 
 QDateTime
 KGpgUatNode::getCreation() const
 {
-	return m_uat.creationDate();
+	const Q_D(KGpgUatNode);
+
+	return d->m_creation;
 }
 
 KGpgKeyNode *
@@ -66,7 +90,6 @@ KGpgUatNode::readChildren()
 {
 }
 
-
 KgpgCore::KgpgItemType
 KGpgUatNode::getType() const
 {
@@ -79,16 +102,20 @@ KGpgUatNode::getTrust() const
 	return KgpgCore::TRUST_NOKEY;
 }
 
-QPixmap
+const QPixmap &
 KGpgUatNode::getPixmap() const
 {
-	return m_pic;
+	const Q_D(KGpgUatNode);
+
+	return d->m_pixmap;
 }
 
 QString
 KGpgUatNode::getId() const
 {
-	return m_idx;
+	const Q_D(KGpgUatNode);
+
+	return d->m_idx;
 }
 
 KGpgKeyNode *

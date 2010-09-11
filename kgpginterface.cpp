@@ -33,11 +33,16 @@
 #include "kgpgsettings.h"
 #include "convert.h"
 #include "gpgproc.h"
+#include "core/KGpgKeyNode.h"
+#include "core/KGpgSignNode.h"
+#include "core/KGpgUatNode.h"
 
 using namespace KgpgCore;
 
 KgpgInterface::KgpgInterface()
-	: m_cycle(CYCLE_NONE)
+	: m_cycle(CYCLE_NONE),
+	m_readNode(NULL),
+	m_currentSNode(NULL)
 {
 }
 
@@ -413,19 +418,15 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const 
 	return 0;
 }
 
-KgpgKeyList KgpgInterface::readPublicKeys(const bool block, const QStringList &ids, const bool withsigs)
+KgpgKeyList KgpgInterface::readPublicKeys(const bool block, const QStringList &ids)
 {
-	m_publiclistkeys = KgpgKeyList();
+	m_publiclistkeys.clear();
 	m_publickey = KgpgKey();
 	m_numberid = 0;
 	m_cycle = CYCLE_NONE;
 
 	GPGProc *process = new GPGProc(this);
-	*process << "--with-colons" << "--with-fingerprint" << "--fixed-list-mode";
-	if (withsigs)
-		*process << "--list-sigs";
-	else
-		*process << "--list-keys";
+	*process << "--with-colons" << "--with-fingerprint" << "--fixed-list-mode" << "--list-keys";
 
 	*process << ids;
 	process->setOutputChannelMode(KProcess::MergedChannels);
@@ -442,6 +443,29 @@ KgpgKeyList KgpgInterface::readPublicKeys(const bool block, const QStringList &i
 		readPublicKeysFin(process, true);
 		return m_publiclistkeys;
 	}
+}
+
+KgpgCore::KgpgKey KgpgInterface::readSignatures(KGpgKeyNode *node)
+{
+	m_readNode = node;
+
+	m_publiclistkeys.clear();
+	m_publickey = KgpgKey();
+	m_numberid = 0;
+	m_cycle = CYCLE_NONE;
+
+	GPGProc *process = new GPGProc(this);
+	*process << "--with-colons" << "--with-fingerprint" << "--fixed-list-mode" << "--list-sigs";
+
+	*process << node->getId();
+	process->setOutputChannelMode(KProcess::MergedChannels);
+
+	process->start();
+	process->waitForFinished(-1);
+	readPublicKeysProcess(process);
+	readPublicKeysFin(process, true);
+
+	return m_publiclistkeys.first();
 }
 
 void KgpgInterface::readPublicKeysProcess(GPGProc *p)
@@ -482,6 +506,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 
 			m_publickey.setFingerprint(fingervalue);
 		} else if ((lsp.at(0) == "sub") && (items >= 7)) {
+			m_currentSNode = NULL;
 			KgpgKeySub sub;
 
 			sub.setId(lsp.at(4).right(8));
@@ -515,13 +540,14 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			m_cycle = CYCLE_SUB;
 		} else if (lsp.at(0) == "uat") {
 			m_numberid++;
-			KgpgKeyUat uat;
-			uat.setId(QString::number(m_numberid));
-			uat.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
-			m_publickey.uatList()->append(uat);
+			if (m_readNode != NULL) {
+				m_currentSNode = new KGpgUatNode(m_readNode, m_numberid, lsp);
 
-			m_cycle = CYCLE_UAT;
+				m_cycle = CYCLE_UAT;
+			}
 		} else if ((lsp.at(0) == "uid") && (items >= 10)) {
+			m_currentSNode = NULL;
+
 			QString fullname(lsp.at(9));
 			QString kmail;
 			if (fullname.contains('<') ) {
@@ -577,7 +603,8 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 				m_publickey.addSign(signature);
 				break;
 			case CYCLE_UAT:
-				m_publickey.uatList()->last().addSign(signature);
+				if (m_currentSNode != NULL)
+					(void) new KGpgSignNode(m_currentSNode, lsp);
 				break;
 			case CYCLE_UID:
 				m_publickey.uidList()->last().addSign(signature);
@@ -712,7 +739,7 @@ KgpgCore::KgpgKeyList
 KgpgInterface::readJoinedKeys(const KgpgCore::KgpgKeyTrust trust, const QStringList &ids)
 {
 	KgpgKeyList secretkeys = readSecretKeys(ids);
-	KgpgKeyList publickeys = readPublicKeys(true, ids, false);
+	KgpgKeyList publickeys = readPublicKeys(true, ids);
 	int i, j;
 
 	for (i = publickeys.size() - 1; i >= 0; i--)
