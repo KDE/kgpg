@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,34 +19,85 @@
 #include "KGpgUidNode.h"
 
 #include "KGpgKeyNode.h"
+#include "convert.h"
 
-KGpgUidNode::KGpgUidNode(KGpgKeyNode *parent, const KgpgCore::KgpgKeyUid &u)
+class KGpgUidNodePrivate {
+public:
+	KGpgUidNodePrivate(const unsigned int index, const QStringList &sl);
+
+	const QString m_index;
+	QString m_email;
+	QString m_name;
+	QString m_comment;
+	KgpgCore::KgpgKeyTrust m_trust;
+	bool m_valid;
+};
+
+KGpgUidNodePrivate::KGpgUidNodePrivate(const unsigned int index, const QStringList &sl)
+	: m_index(QString::number(index))
+{
+	QString fullname(sl.at(9));
+	if (fullname.contains('<') ) {
+		m_email = fullname;
+
+		if (fullname.contains(')') )
+			m_email = m_email.section(')', 1);
+
+		m_email = m_email.section('<', 1);
+		m_email.truncate(m_email.length() - 1);
+
+		if (m_email.contains('<')) {
+			// several email addresses in the same key
+			m_email = m_email.replace('>', ';');
+			m_email.remove('<');
+		}
+	}
+
+	m_name = fullname.section(" <", 0, 0);
+	if (fullname.contains('(') ) {
+		m_name = m_name.section(" (", 0, 0);
+		m_comment = fullname.section('(', 1, 1);
+		m_comment = m_comment.section(')', 0, 0);
+	}
+
+	m_trust = KgpgCore::Convert::toTrust(sl.at(1));
+	m_valid = ((sl.count() <= 11) || !sl.at(11).contains('D'));
+}
+
+
+KGpgUidNode::KGpgUidNode(KGpgKeyNode *parent, const unsigned int index, const QStringList &sl)
 	: KGpgSignableNode(parent),
-	m_uid(new KgpgCore::KgpgKeyUid(u))
+	d_ptr(new KGpgUidNodePrivate(index, sl))
 {
 }
 
 KGpgUidNode::~KGpgUidNode()
 {
-	delete m_uid;
+	delete d_ptr;
 }
 
 QString
 KGpgUidNode::getName() const
 {
-	return m_uid->name();
+	const Q_D(KGpgUidNode);
+
+	return d->m_name;
 }
 
 QString
 KGpgUidNode::getEmail() const
 {
-	return m_uid->email();
+	const Q_D(KGpgUidNode);
+
+	return d->m_email;
 }
 
 QString
 KGpgUidNode::getId() const
 {
-	return QString::number(m_uid->index());
+	const Q_D(KGpgUidNode);
+
+	return d->m_index;
 }
 
 KGpgKeyNode *
@@ -81,11 +132,15 @@ KGpgUidNode::getType() const
 KgpgCore::KgpgKeyTrust
 KGpgUidNode::getTrust() const
 {
-	return m_uid->trust();
+	const Q_D(KGpgUidNode);
+
+	return d->m_trust;
 }
 
 QString
 KGpgUidNode::getComment() const
 {
-	return m_uid->comment();
+	const Q_D(KGpgUidNode);
+
+	return d->m_comment;
 }

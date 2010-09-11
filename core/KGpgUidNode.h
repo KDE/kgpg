@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -25,19 +25,22 @@
 
 class KGpgKeyNode;
 
+class KGpgUidNodePrivate;
+
 /**
  * @brief A user id of a public key or key pair
  */
 class KGpgUidNode : public KGpgSignableNode
 {
 private:
-	KgpgCore::KgpgKeyUid *m_uid;
+	KGpgUidNodePrivate * const d_ptr;
+	Q_DECLARE_PRIVATE(KGpgUidNode)
 
 protected:
 	virtual void readChildren();
 
 public:
-	explicit KGpgUidNode(KGpgKeyNode *parent, const KgpgCore::KgpgKeyUid &u);
+	explicit KGpgUidNode(KGpgKeyNode *parent, const unsigned int index, const QStringList &sl);
 	virtual ~KGpgUidNode();
 
 	virtual KgpgCore::KgpgItemType getType() const;

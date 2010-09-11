@@ -161,15 +161,6 @@ KGpgKeyNode::readChildren()
 		insertSigns(n, sub.signList());
 	}
 
-	/********* insertion of users id ********/
-	for (int i = 0; i < key.uidList()->size(); ++i)
-	{
-		KgpgCore::KgpgKeyUid uid = key.uidList()->at(i);
-
-		KGpgUidNode *n = new KGpgUidNode(this, uid);
-		insertSigns(n, uid.signList());
-	}
-
 	/******** insertion of signature ********/
 	insertSigns(this, key.signList());
 

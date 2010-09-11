@@ -123,88 +123,6 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgItemType)
 
 //END Enums
 
-//BEGIN KeyUid
-
-class KgpgKeyUidPrivate : public QSharedData
-{
-public:
-    bool     gpguidvalid;
-    unsigned int gpguidindex;
-    KgpgKeyTrust gpguidtrust;
-    QString  gpguidname;
-    QString  gpguidemail;
-    QString  gpguidcomment;
-    QStringList gpgsignlist;
-
-    bool operator==(const KgpgKeyUidPrivate &other) const;
-    inline bool operator!=(const KgpgKeyUidPrivate &other) const
-    { return !operator==(other); }
-};
-
-class KgpgKeyUid
-{
-public:
-    KgpgKeyUid();
-    KgpgKeyUid(const KgpgKeyUid &other);
-
-    void setName(const QString &name);
-    void setEmail(const QString &email);
-    void setComment(const QString &comment);
-    void setValid(const bool &valid);
-    void setTrust(const KgpgKeyTrust &trust);
-    void setIndex(const unsigned int &index);
-
-    QString name() const;
-    QString email() const;
-    QString comment() const;
-    bool valid() const;
-    KgpgKeyTrust trust() const;
-    unsigned int index() const;
-
-    void addSign(const QString &sign);
-    QStringList signList();
-
-    bool operator==(const KgpgKeyUid &other) const;
-    inline bool operator!=(const KgpgKeyUid &other) const
-    { return !operator==(other); }
-    KgpgKeyUid& operator=(const KgpgKeyUid &other);
-
-private:
-    QSharedDataPointer<KgpgKeyUidPrivate> d;
-};
-
-class KgpgKeyUidList : public QList<KgpgKeyUid>, public QObject
-{
-public:
-    inline KgpgKeyUidList() { }
-    inline explicit KgpgKeyUidList(const KgpgKeyUid &uid) { append(uid); }
-    inline KgpgKeyUidList(const KgpgKeyUidList &other) : QList<KgpgKeyUid>(other), QObject() { }
-    inline KgpgKeyUidList(const QList<KgpgKeyUid> &other) : QList<KgpgKeyUid>(other), QObject() { }
-
-    inline KgpgKeyUidList operator+(const KgpgKeyUidList &other) const
-    {
-        KgpgKeyUidList n = *this;
-        n += other;
-        return n;
-    }
-
-    inline KgpgKeyUidList &operator<<(KgpgKeyUid uid)
-    {
-        append(uid);
-        return *this;
-    }
-
-    inline KgpgKeyUidList &operator<<(const KgpgKeyUidList &l)
-    {
-        *this += l;
-        return *this;
-    }
-};
-typedef QPointer<KgpgKeyUidList> KgpgKeyUidListPtr;
-
-//END KeyUid
-
-
 //BEGIN KeySub
 
 class KgpgKeySubPrivate : public QSharedData
@@ -315,7 +233,6 @@ public:
     KgpgKeyAlgo   gpgkeyalgo;
 
     QStringList       gpgsignlist;
-    KgpgKeyUidListPtr gpguidlist;
     KgpgKeySubListPtr gpgsublist;
 
     bool operator==(const KgpgKeyPrivate &other) const;
@@ -364,7 +281,6 @@ public:
     void addSign(const QString &sign);
     QStringList signList();
 
-    KgpgKeyUidListPtr uidList() const;
     KgpgKeySubListPtr subList() const;
 
     bool operator==(const KgpgKey &other) const;

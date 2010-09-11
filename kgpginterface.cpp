@@ -36,6 +36,7 @@
 #include "core/KGpgKeyNode.h"
 #include "core/KGpgSignNode.h"
 #include "core/KGpgUatNode.h"
+#include "core/KGpgUidNode.h"
 
 using namespace KgpgCore;
 
@@ -542,55 +543,49 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			m_numberid++;
 			if (m_readNode != NULL) {
 				m_currentSNode = new KGpgUatNode(m_readNode, m_numberid, lsp);
-
-				m_cycle = CYCLE_UAT;
 			}
+			m_cycle = CYCLE_UAT;
 		} else if ((lsp.at(0) == "uid") && (items >= 10)) {
 			m_currentSNode = NULL;
 
-			QString fullname(lsp.at(9));
-			QString kmail;
-			if (fullname.contains('<') ) {
-				kmail = fullname;
-
-				if (fullname.contains(')') )
-					kmail = kmail.section(')', 1);
-
-				kmail = kmail.section('<', 1);
-				kmail.truncate(kmail.length() - 1);
-
-				if (kmail.contains('<')) {
-					// several email addresses in the same key
-					kmail = kmail.replace('>', ';');
-					kmail.remove('<');
-				}
-			}
-
-			QString kname(fullname.section(" <", 0, 0));
-			QString comment;
-			if (fullname.contains('(') ) {
-				kname = kname.section(" (", 0, 0);
-				comment = fullname.section('(', 1, 1);
-				comment = comment.section(')', 0, 0);
-			}
-
 			if (m_numberid == 0) {
+				QString fullname(lsp.at(9));
+				QString kmail;
+				if (fullname.contains('<') ) {
+					kmail = fullname;
+
+					if (fullname.contains(')') )
+						kmail = kmail.section(')', 1);
+
+					kmail = kmail.section('<', 1);
+					kmail.truncate(kmail.length() - 1);
+
+					if (kmail.contains('<')) {
+						// several email addresses in the same key
+						kmail = kmail.replace('>', ';');
+						kmail.remove('<');
+					}
+				}
+
+				QString kname(fullname.section(" <", 0, 0));
+				QString comment;
+				if (fullname.contains('(') ) {
+					kname = kname.section(" (", 0, 0);
+					comment = fullname.section('(', 1, 1);
+					comment = comment.section(')', 0, 0);
+				}
+
 				m_numberid++;
 				m_publickey.setEmail(kmail);
 				m_publickey.setComment(comment);
 				m_publickey.setName(kname);
+
+				m_currentSNode = m_readNode;
 			} else {
-				KgpgKeyUid uid;
-
-				uid.setEmail(kmail);
-				uid.setComment(comment);
-				uid.setName(kname);
-				uid.setTrust(Convert::toTrust(lsp.at(1)));
-				uid.setValid((items <= 11) || !lsp.at(11).contains('D'));
-
-				uid.setIndex(++m_numberid);
-
-				m_publickey.uidList()->append(uid);
+				m_numberid++;
+				if (m_readNode != NULL) {
+					m_currentSNode = new KGpgUidNode(m_readNode, m_numberid, lsp);
+				}
 
 				m_cycle = CYCLE_UID;
 			}
@@ -602,18 +597,12 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			case CYCLE_PUB:
 				m_publickey.addSign(signature);
 				break;
-			case CYCLE_UAT:
-				if (m_currentSNode != NULL)
-					(void) new KGpgSignNode(m_currentSNode, lsp);
-				break;
-			case CYCLE_UID:
-				m_publickey.uidList()->last().addSign(signature);
-				break;
 			case CYCLE_SUB:
 				m_publickey.subList()->last().addSign(signature);
 				break;
 			default:
-				Q_ASSERT(m_cycle != CYCLE_NONE);
+				Q_ASSERT(m_currentSNode != NULL);
+				(void) new KGpgSignNode(m_currentSNode, lsp);
 			}
 		} else {
 			log += lsp.join(QString(':')) + '\n';

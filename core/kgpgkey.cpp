@@ -21,120 +21,6 @@
 namespace KgpgCore
 {
 
-//BEGIN KeyUid
-
-bool KgpgKeyUidPrivate::operator==(const KgpgKeyUidPrivate &other) const
-{
-    if (gpguidvalid != other.gpguidvalid) return false;
-    if (gpguidtrust != other.gpguidtrust) return false;
-    if (gpguidname != other.gpguidname) return false;
-    if (gpguidemail != other.gpguidemail) return false;
-    if (gpguidcomment != other.gpguidcomment) return false;
-    if (gpguidindex != other.gpguidindex) return false;
-    if (gpgsignlist != other.gpgsignlist) return false;
-    return true;
-}
-
-KgpgKeyUid::KgpgKeyUid()
-    : d(new  KgpgKeyUidPrivate)
-{
-    d->gpguidvalid = false;
-    d->gpguidindex = 0;
-}
-
-KgpgKeyUid::KgpgKeyUid(const KgpgKeyUid &other)
-{
-    d = other.d;
-}
-
-void KgpgKeyUid::setName(const QString &name)
-{
-    d->gpguidname = name;
-}
-
-void KgpgKeyUid::setEmail(const QString &email)
-{
-    d->gpguidemail = email;
-}
-
-void KgpgKeyUid::setComment(const QString &comment)
-{
-    d->gpguidcomment = comment;
-}
-
-void KgpgKeyUid::setValid(const bool &valid)
-{
-    d->gpguidvalid = valid;
-}
-
-void KgpgKeyUid::setTrust(const KgpgKeyTrust &trust)
-{
-    d->gpguidtrust = trust;
-}
-
-void KgpgKeyUid::setIndex(const unsigned int &index)
-{
-    d->gpguidindex = index;
-}
-
-QString KgpgKeyUid::name() const
-{
-    return d->gpguidname;
-}
-
-QString KgpgKeyUid::email() const
-{
-    return d->gpguidemail;
-}
-
-QString KgpgKeyUid::comment() const
-{
-    return d->gpguidcomment;
-}
-
-bool KgpgKeyUid::valid() const
-{
-    return d->gpguidvalid;
-}
-
-KgpgKeyTrust KgpgKeyUid::trust() const
-{
-    return d->gpguidtrust;
-}
-
-unsigned int KgpgKeyUid::index() const
-{
-    return d->gpguidindex;
-}
-
-void KgpgKeyUid::addSign(const QString &sign)
-{
-    d->gpgsignlist << sign;
-}
-
-QStringList KgpgKeyUid::signList()
-{
-	QStringList ret = d->gpgsignlist;
-	d->gpgsignlist.clear();
-	return ret;
-}
-
-bool KgpgKeyUid::operator==(const KgpgKeyUid &other) const
-{
-    if (d == other.d) return true;
-    if ((*d) == (*(other.d))) return true;
-    return false;
-}
-
-KgpgKeyUid& KgpgKeyUid::operator=(const KgpgKeyUid &other)
-{
-    d = other.d;
-    return *this;
-}
-
-//END KeyUid
-
-
 //BEGIN KeySub
 
 bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
@@ -283,7 +169,6 @@ KgpgKeyPrivate::KgpgKeyPrivate()
     gpgkeyvalid(false),
     gpgkeysize(0),
     gpgkeyalgo(ALGO_UNKNOWN),
-    gpguidlist(new KgpgKeyUidList()),
     gpgsublist(new KgpgKeySubList())
 {
 }
@@ -303,7 +188,6 @@ bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
     if (gpgkeyexpiration != other.gpgkeyexpiration) return false;
     if (gpgkeyalgo != other.gpgkeyalgo) return false;
     if (gpgsignlist != other.gpgsignlist) return false;
-    if (gpguidlist != other.gpguidlist) return false;
     if (gpgsublist != other.gpgsublist) return false;
     return true;
 }
@@ -497,11 +381,6 @@ QStringList KgpgKey::signList()
 	QStringList ret = d->gpgsignlist;
 	d->gpgsignlist.clear();
 	return ret;
-}
-
-KgpgKeyUidListPtr KgpgKey::uidList() const
-{
-    return d->gpguidlist;
 }
 
 KgpgKeySubListPtr KgpgKey::subList() const
