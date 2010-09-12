@@ -14,8 +14,10 @@
 #include "kgpginterface.h"
 
 #include <QDir>
-#include <QTextStream>
 #include <QFile>
+#include <QPixmap>
+#include <QString>
+#include <QTextStream>
 
 #include <kio/netaccess.h>
 #include <KMessageBox>

@@ -14,14 +14,15 @@
 #ifndef KGPGINTERFACE_H
 #define KGPGINTERFACE_H
 
-#include <QPixmap>
-
-#include <kgpgkey.h>
+#include "core/kgpgkey.h"
+#include <QStringList>
 
 class KGpgKeyNode;
 class KGpgSignableNode;
 class KProcess;
 class GPGProc;
+class QPixmap;
+class QString;
 
 /**
  * This class is the interface for gpg.
@@ -128,10 +129,6 @@ signals:
 public:
     KgpgCore::KgpgKeyList readPublicKeys(const bool block = false, const QStringList &ids = QStringList());
     KgpgCore::KgpgKey readSignatures(KGpgKeyNode *node);
-    KgpgCore::KgpgKeyList readPublicKeys(const bool block, const QString &ids)
-    {
-        return readPublicKeys(block, QStringList(ids));
-    }
 
 private slots:
     void readPublicKeysProcess(GPGProc *p = NULL);
@@ -168,7 +165,6 @@ public:
 
 private:
     // Globals private
-    int m_success;
     QString log;
 
     /**
