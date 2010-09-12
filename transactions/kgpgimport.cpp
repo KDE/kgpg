@@ -189,12 +189,12 @@ KGpgImport::getDetailedImportMessage(const QStringList &log)
 		resultcodes[rc.at(1)] = rc.at(0).toUInt();
 	}
 
-	QMap<QString, unsigned int>::const_iterator iterend(resultcodes.end());
+	QMap<QString, unsigned int>::const_iterator iterend = resultcodes.end();
 
 	for (unsigned int flag = 1; flag <= 16; flag <<= 1) {
 		QStringList thischanged;
 
-		for (QMap<QString, unsigned int>::const_iterator iter(resultcodes.begin()); iter != iterend; iter++) {
+		for (QMap<QString, unsigned int>::const_iterator iter = resultcodes.begin(); iter != iterend; ++iter) {
 			if (iter.value() & flag)
 				thischanged << iter.key();
 		}
