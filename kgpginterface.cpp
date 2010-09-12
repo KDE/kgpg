@@ -706,33 +706,6 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 	}
 }
 
-KgpgCore::KgpgKeyList
-KgpgInterface::readJoinedKeys(const KgpgCore::KgpgKeyTrust trust, const QStringList &ids)
-{
-	KgpgKeyList secretkeys = readSecretKeys(ids);
-	KgpgKeyList publickeys = readPublicKeys(true, ids);
-	int i, j;
-
-	for (i = publickeys.size() - 1; i >= 0; i--)
-		if (publickeys.at(i).trust() < trust)
-			publickeys.removeAt(i);
-
-	foreach (const KgpgKey &seckey, secretkeys) {
-		for (j = 0; j < publickeys.size(); j++)
-			if (seckey.fullId() == publickeys.at(j).fullId()) {
-				publickeys[j].setSecret(true);
-				break;
-			}
-	}
-
-	// move the secret keys to the top of the list
-	for (j = 1; j < publickeys.size(); j++)
-		if (publickeys.at(j).secret())
-			publickeys.move(j, 0);
-
-	return publickeys;
-}
-
 QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool block)
 {
 #ifdef Q_OS_WIN32	//krazy:exclude=cpp
