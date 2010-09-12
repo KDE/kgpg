@@ -706,59 +706,35 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 	}
 }
 
-QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid, const bool block)
+QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid)
 {
 #ifdef Q_OS_WIN32	//krazy:exclude=cpp
-	const QString pgpgoutput("cmd /C \"echo %I\"");
+	const QString pgpgoutput = QLatin1String("cmd /C \"echo %I\"");
 #else
-	const QString pgpgoutput("echo %I");
+	const QString pgpgoutput = QLatin1String("echo %I");
 #endif
 
-	KProcess *workProcess = new KProcess(this);
-	workProcess->setOutputChannelMode(KProcess::OnlyStdoutChannel);
-	*workProcess << KGpgSettings::gpgBinaryPath();
-	*workProcess << "--no-secmem-warning" << "--no-greeting" << "--no-tty" << "--status-fd=2";
-	*workProcess << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
+	GPGProc workProcess;
+	workProcess << "--no-greeting" << "--status-fd=2";
+	workProcess << "--photo-viewer" << pgpgoutput << "--edit-key" << keyid << "uid" << uid << "showphoto" << "quit";
 
-	if (!block)
-		connect(workProcess, SIGNAL(finished(int)), SLOT(loadPhotoFin(int)));
-	workProcess->start();
-	if (!block) {
+	workProcess.start();
+	workProcess.waitForFinished();
+	if (workProcess.exitCode() != 0)
 		return QPixmap();
-	} else {
-		workProcess->waitForFinished();
-		if (workProcess->exitCode() == 0)
-			readPixmapFromProcess(workProcess);
-		delete workProcess;
-		return m_pixmap;
-	}
-}
 
-void KgpgInterface::loadPhotoFin(int exitCode)
-{
-	m_pixmap = QPixmap();
+	QString tmpfile;
+	if (workProcess.readln(tmpfile) < 0)
+		return QPixmap();
 
-	if (exitCode == 0) {
-		readPixmapFromProcess(qobject_cast<KProcess *>(sender()));
-	}
-
-	sender()->deleteLater();
-
-	emit loadPhotoFinished(m_pixmap);
-}
-
-void KgpgInterface::readPixmapFromProcess(KProcess *proc)
-{
-	QByteArray pic(proc->readAllStandardOutput());
-
-	while (pic.endsWith('\r') || pic.endsWith('\n'))
-		pic.chop(1);
-
-	KUrl url(pic);
-	m_pixmap.load(url.path());
+	KUrl url(tmpfile);
+	QPixmap pixmap;
+	pixmap.load(url.path());
 	QFile::remove(url.path());
 	QDir dir;
 	dir.rmdir(url.directory());
+
+	return pixmap;
 }
 
 #include "kgpginterface.moc"

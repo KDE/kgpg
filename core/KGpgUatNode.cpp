@@ -47,9 +47,7 @@ KGpgUatNode::KGpgUatNode(KGpgKeyNode *parent, const unsigned int index, const QS
 	: KGpgSignableNode(parent),
 	d_ptr(new KGpgUatNodePrivate(index, sl))
 {
-	KgpgInterface iface;
-
-	d_ptr->m_pixmap = iface.loadPhoto(parent->getKeyId(), d_ptr->m_idx, true);
+	d_ptr->m_pixmap = KgpgInterface::loadPhoto(parent->getKeyId(), d_ptr->m_idx);
 }
 
 KGpgUatNode::~KGpgUatNode()

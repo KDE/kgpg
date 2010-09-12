@@ -161,18 +161,8 @@ private:
 
 
     /************** load a photo in a QPixmap **************/
-signals:
-    void loadPhotoFinished(QPixmap);
-
-public slots:
-    QPixmap loadPhoto(const QString &keyid, const QString &uid, const bool block = false);
-
-private slots:
-    void loadPhotoFin(int exitCode);
-
-private:
-    QPixmap m_pixmap;
-    void readPixmapFromProcess(KProcess *proc);
+public:
+    static QPixmap loadPhoto(const QString &keyid, const QString &uid);
 
     /*******************************************************/
 
