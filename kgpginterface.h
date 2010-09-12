@@ -172,7 +172,7 @@ private:
      */
     QString output;
 
-    KGpgKeyNode *m_readNode;	///< the node where the signature are read for
+    KGpgKeyNode *m_readNode;	///< the node where the signatures are read for
     KGpgSignableNode *m_currentSNode;	///< the current (sub)node signature are read for
 };
 
