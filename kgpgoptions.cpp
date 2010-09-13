@@ -88,7 +88,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	QVBoxLayout *fontlayout = new QVBoxLayout(m_page3->tabWidget3->widget(1));
 	fontlayout->setSpacing(spacingHint());
 
-	m_fontchooser = new KFontChooser(m_page3->tabWidget3->widget(1), false, QStringList(), false);
+	m_fontchooser = new KFontChooser(m_page3->tabWidget3->widget(1), NoDisplayFlags, QStringList());
 	m_fontchooser->setObjectName("kcfg_Font");
 	fontlayout->addWidget(m_fontchooser);
 
