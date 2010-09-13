@@ -380,7 +380,7 @@ KgpgKey& KgpgKey::operator=(const KgpgKey &other)
 KgpgKeyList::operator QStringList() const
 {
     QStringList res;
-    foreach(const KgpgKey key, *this)
+    foreach(const KgpgKey &key, *this)
         res << key.fullId();
     return res;
 }
