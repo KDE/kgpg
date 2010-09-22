@@ -95,7 +95,7 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
     m_editcopy->setEnabled(false);
     m_editcut->setEnabled(false);
 
-    setObjectName("editor");
+    setObjectName( QLatin1String("editor" ));
     slotSetFont(KGpgSettings::font());
     setupGUI((ToolBar | Keys | StatusBar | Save | Create), "kgpgeditor.rc");
     setAutoSaveSettings("Editor", true);

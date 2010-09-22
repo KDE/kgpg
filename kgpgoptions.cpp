@@ -89,7 +89,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	fontlayout->setSpacing(spacingHint());
 
 	m_fontchooser = new KFontChooser(m_page3->tabWidget3->widget(1), KFontChooser::NoDisplayFlags, QStringList());
-	m_fontchooser->setObjectName("kcfg_Font");
+	m_fontchooser->setObjectName( QLatin1String("kcfg_Font" ));
 	fontlayout->addWidget(m_fontchooser);
 
 	pixkeySingle = Images::single();
