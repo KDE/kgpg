@@ -308,7 +308,7 @@ KGpgTransaction::addIdHint(QString txt)
 QString
 KGpgTransaction::getIdHints() const
 {
-	return d->m_idhints.join(i18n(" or "));
+	return d->m_idhints.join( i18n(" or " ));
 }
 
 GPGProc *

@@ -134,7 +134,7 @@ KGpgTextInterfacePrivate::gpgPassphrase()
 	if (m_userIDs.isEmpty())
 		s = i18n("[No user id found]");
 	else
-		s = m_userIDs.join(i18n(" or "));
+		s = m_userIDs.join( i18n(" or " ));
 
 	QString passdlgmessage;
 	if (m_anonymous)

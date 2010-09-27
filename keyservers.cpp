@@ -316,7 +316,7 @@ void KeyServer::transferKeyID()
 		ids << m_resultmodel->idForIndex(m_filtermodel.mapToSource(index));
 
 	const QStringList idlist(ids.toList());
-	m_listpop->kLEID->setText(idlist.join(" "));
+	m_listpop->kLEID->setText(idlist.join( QLatin1String( " " )));
 }
 
 void KeyServer::slotPreImport()

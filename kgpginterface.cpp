@@ -208,7 +208,7 @@ void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &v
 		qfile.close();
 
 		if (!found)
-			texttowrite += '\n' + QString("group %1=%2").arg(name).arg(values.join(" "));
+			texttowrite += '\n' + QString("group %1=%2").arg(name).arg(values.join( QLatin1String( " " )));
 
 		if (qfile.open(QIODevice::WriteOnly)) {
 			QTextStream t(&qfile);

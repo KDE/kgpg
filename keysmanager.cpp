@@ -134,17 +134,17 @@ KeysManager::KeysManager(QWidget *parent)
 	actionCollection()->addAction(KStandardAction::Preferences, "options_configure", this, SLOT(showOptions()));
 
 	openEditor = actionCollection()->addAction("kgpg_editor");
-	openEditor->setIcon(KIcon("accessories-text-editor"));
+	openEditor->setIcon(KIcon( QLatin1String( "accessories-text-editor" )));
 	openEditor->setText(i18n("&Open Editor"));
 	connect(openEditor, SIGNAL(triggered(bool)), SLOT(slotOpenEditor()));
 
 	kserver = actionCollection()->addAction( "key_server" );
 	kserver->setText( i18n("&Key Server Dialog") );
-	kserver->setIcon( KIcon("network-server") );
+	kserver->setIcon( KIcon( QLatin1String( "network-server" )) );
 	connect(kserver, SIGNAL(triggered(bool)), SLOT(showKeyServer()));
 
 	goToDefaultKey = actionCollection()->addAction("go_default_key");
-	goToDefaultKey->setIcon(KIcon("go-home"));
+	goToDefaultKey->setIcon(KIcon( QLatin1String( "go-home" )));
 	goToDefaultKey->setText(i18n("&Go to Default Key"));
 	connect(goToDefaultKey, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
 	goToDefaultKey->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home));
@@ -166,23 +166,23 @@ KeysManager::KeysManager(QWidget *parent)
 	action->setShortcut(QKeySequence(Qt::Key_Return));
 
 	action =  actionCollection()->addAction( "help_tipofday");
-	action->setIcon( KIcon("help-hint") );
+	action->setIcon( KIcon( QLatin1String( "help-hint" )) );
 	action->setText( i18n("Tip of the &Day") );
 	connect(action, SIGNAL(triggered(bool)), SLOT(slotTip()));
 
 	action = actionCollection()->addAction( "gpg_man");
 	action->setText( i18n("View GnuPG Manual") );
-	action->setIcon( KIcon("help-contents") );
+	action->setIcon( KIcon( QLatin1String( "help-contents" )) );
 	connect(action, SIGNAL(triggered(bool)), SLOT(slotManpage()));
 
 	action = actionCollection()->addAction("key_refresh");
-	action->setIcon(KIcon("view-refresh"));
+	action->setIcon(KIcon( QLatin1String( "view-refresh" )));
 	action->setText(i18n("&Refresh List"));
 	connect(action, SIGNAL(triggered(bool)), SLOT(refreshkey()));
 	action->setShortcuts(KStandardShortcut::reload());
 
 	hPublic = actionCollection()->add<KToggleAction>("show_secret");
-	hPublic->setIcon(KIcon("view-key-secret"));
+	hPublic->setIcon(KIcon( QLatin1String( "view-key-secret" )));
 	hPublic->setText(i18n("&Show Only Secret Keys"));
 	hPublic->setChecked(KGpgSettings::showSecret());
 	connect(hPublic, SIGNAL(triggered(bool)), SLOT(slotToggleSecret(bool)));
@@ -193,35 +193,35 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(longId, SIGNAL(triggered(bool)), SLOT(slotShowLongId(bool)));
 
 	QAction *infoKey = actionCollection()->addAction("key_info");
-	infoKey->setIcon(KIcon("document-properties-key"));
+	infoKey->setIcon(KIcon( QLatin1String( "document-properties-key" )));
 	infoKey->setText(i18n("K&ey Properties"));
 	connect(infoKey, SIGNAL(triggered(bool)), SLOT(keyproperties()));
 
 	editKey = actionCollection()->addAction("key_edit");
-	editKey->setIcon(KIcon("utilities-terminal"));
+	editKey->setIcon(KIcon( QLatin1String( "utilities-terminal" )));
 	editKey->setText(i18n("Edit Key in &Terminal"));
 	connect(editKey, SIGNAL(triggered(bool)), SLOT(slotedit()));
 	editKey->setShortcut(QKeySequence(Qt::ALT+Qt::Key_Return));
 
 	KAction *generateKey = actionCollection()->addAction("key_gener");
-	generateKey->setIcon(KIcon("key-generate-pair"));
+	generateKey->setIcon(KIcon( QLatin1String( "key-generate-pair" )));
 	generateKey->setText(i18n("&Generate Key Pair..."));
 	connect(generateKey, SIGNAL(triggered(bool)), SLOT(slotGenerateKey()));
 	generateKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::New));
 
 	exportPublicKey = actionCollection()->addAction("key_export");
-	exportPublicKey->setIcon(KIcon("document-export-key"));
+	exportPublicKey->setIcon(KIcon( QLatin1String( "document-export-key" )));
 	connect(exportPublicKey, SIGNAL(triggered(bool)), SLOT(slotexport()));
 	exportPublicKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Copy));
 
 	KAction *importKey = actionCollection()->addAction("key_import");
-	importKey->setIcon(KIcon("document-import-key"));
+	importKey->setIcon(KIcon( QLatin1String( "document-import-key" )));
 	importKey->setText(i18n("&Import Key..."));
 	connect(importKey, SIGNAL(triggered(bool)), SLOT(slotPreImportKey()));
 	importKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Paste));
 
 	QAction *newContact = actionCollection()->addAction("add_kab");
-	newContact->setIcon(KIcon("contact-new"));
+	newContact->setIcon(KIcon( QLatin1String( "contact-new" )));
 	newContact->setText(i18n("&Create New Contact in Address Book"));
 	connect(newContact, SIGNAL(triggered(bool)), SLOT(addToKAB()));
 
@@ -235,17 +235,17 @@ KeysManager::KeysManager(QWidget *parent)
 
 	delGroup = actionCollection()->addAction("delete_group");
 	delGroup->setText(i18n("&Delete Group"));
-	delGroup->setIcon(KIcon("edit-delete"));
+	delGroup->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	connect(delGroup, SIGNAL(triggered(bool)), SLOT(deleteGroup()));
 
 	m_groupRename = actionCollection()->addAction("rename_group");
 	m_groupRename->setText(i18n("&Rename Group"));
-	m_groupRename->setIcon(KIcon("edit-rename"));
+	m_groupRename->setIcon(KIcon( QLatin1String( "edit-rename" )));
 	m_groupRename->setShortcut(QKeySequence(Qt::Key_F2));
 	connect(m_groupRename, SIGNAL(triggered(bool)), SLOT(renameGroup()));
 
 	deleteKey = actionCollection()->addAction("key_delete");
-	deleteKey->setIcon(KIcon("edit-delete"));
+	deleteKey->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	connect(deleteKey, SIGNAL(triggered(bool)), SLOT(confirmdeletekey()));
 	deleteKey->setShortcut(QKeySequence(Qt::Key_Delete));
 
@@ -263,7 +263,7 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(exportSecretKey, SIGNAL(triggered(bool)), SLOT(slotexportsec()));
 	QAction *deleteKeyPair = actionCollection()->addAction("key_pdelete");
 	deleteKeyPair->setText(i18n("Delete Key Pair"));
-	deleteKeyPair->setIcon(KIcon("edit-delete"));
+	deleteKeyPair->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	connect(deleteKeyPair, SIGNAL(triggered(bool)), SLOT(deleteseckey()));
 	QAction *revokeKey = actionCollection()->addAction("key_revoke");
 	revokeKey->setText(i18n("Revoke Key..."));
@@ -272,41 +272,41 @@ KeysManager::KeysManager(QWidget *parent)
 	regeneratePublic->setText(i18n("&Regenerate Public Key"));
 	connect(regeneratePublic, SIGNAL(triggered(bool)), SLOT(slotregenerate()));
 	delUid = actionCollection()->addAction("del_uid");
-	delUid->setIcon(KIcon("edit-delete"));
+	delUid->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	connect(delUid, SIGNAL(triggered(bool)), SLOT(slotDelUid()));
 	setPrimUid = actionCollection()->addAction("prim_uid");
 	setPrimUid->setText(i18n("Set User Id as &Primary"));
 	connect(setPrimUid, SIGNAL(triggered(bool)), SLOT(slotPrimUid()));
 	QAction *openPhoto = actionCollection()->addAction("key_photo");
-	openPhoto->setIcon(KIcon("image-x-generic"));
+	openPhoto->setIcon(KIcon( QLatin1String( "image-x-generic" )));
 	openPhoto->setText(i18n("&Open Photo"));
 	connect(openPhoto, SIGNAL(triggered(bool)), SLOT(slotShowPhoto()));
 	QAction *deletePhoto = actionCollection()->addAction("delete_photo");
-	deletePhoto->setIcon(KIcon("edit-delete"));
+	deletePhoto->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	deletePhoto->setText(i18n("&Delete Photo"));
 	connect(deletePhoto, SIGNAL(triggered(bool)), SLOT(slotDeletePhoto()));
 	delSignKey = actionCollection()->addAction("key_delsign");
-	delSignKey->setIcon(KIcon("edit-delete"));
+	delSignKey->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	connect(delSignKey, SIGNAL(triggered(bool)), SLOT(delsignkey()));
 
 	importAllSignKeys = actionCollection()->addAction("key_importallsign");
-	importAllSignKeys->setIcon(KIcon("document-import"));
+	importAllSignKeys->setIcon(KIcon( QLatin1String( "document-import" )));
 	importAllSignKeys->setText(i18n("Import &Missing Signatures From Keyserver"));
 	connect(importAllSignKeys, SIGNAL(triggered(bool)), SLOT(importallsignkey()));
 	refreshKey = actionCollection()->addAction("key_server_refresh");
-	refreshKey->setIcon(KIcon("view-refresh"));
+	refreshKey->setIcon(KIcon( QLatin1String( "view-refresh" )));
 	connect(refreshKey, SIGNAL(triggered(bool)), SLOT(refreshKeyFromServer()));
 	signKey = actionCollection()->addAction("key_sign");
-	signKey->setIcon(KIcon("document-sign-key"));
+	signKey->setIcon(KIcon( QLatin1String( "document-sign-key" )));
 	connect(signKey, SIGNAL(triggered(bool)), SLOT(signkey()));
 	signUid = actionCollection()->addAction("key_sign_uid");
-	signUid->setIcon(KIcon("document-sign-key"));
+	signUid->setIcon(KIcon( QLatin1String( "document-sign-key" )));
 	connect(signUid, SIGNAL(triggered(bool)), SLOT(signuid()));
 	signMailUid = actionCollection()->addAction("key_sign_mail_uid");
-	signMailUid->setIcon(KIcon("document-sign-key"));
+	signMailUid->setIcon(KIcon( QLatin1String( "document-sign-key" )));
 	connect(signMailUid, SIGNAL(triggered(bool)), SLOT(caff()));
 	importSignatureKey = actionCollection()->addAction("key_importsign");
-	importSignatureKey->setIcon(KIcon("document-import-key"));
+	importSignatureKey->setIcon(KIcon( QLatin1String( "document-import-key" )));
 	connect(importSignatureKey, SIGNAL(triggered(bool)), SLOT(preimportsignkey()));
 
 	sTrust = actionCollection()->add<KToggleAction>("show_trust");
@@ -323,7 +323,7 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(sExpi, SIGNAL(triggered(bool) ), SLOT(slotShowExpiration()));
 
 	photoProps = actionCollection()->add<KSelectAction>("photo_settings");
-	photoProps->setIcon(KIcon("image-x-generic"));
+	photoProps->setIcon(KIcon( QLatin1String( "image-x-generic" )));
 	photoProps->setText(i18n("&Photo ID's"));
 
 	// Keep the list in kgpg.kcfg in sync with this one!
@@ -1259,7 +1259,7 @@ void KeysManager::readOptions()
 
 	// re-read groups in case the config file location was changed
 	const QStringList groups(KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath()));
-	KGpgSettings::setGroups(groups.join(","));
+	KGpgSettings::setGroups(groups.join( QLatin1String( "," )));
 	if (imodel != NULL)
 		updateStatusCounter();
 
@@ -1796,7 +1796,7 @@ void KeysManager::deleteGroup()
 	imodel->delNode(nd);
 
 	const QStringList groups(KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath()));
-	KGpgSettings::setGroups(groups.join(","));
+	KGpgSettings::setGroups(groups.join( QLatin1String( "," )));
 	updateStatusCounter();
 }
 
@@ -2531,7 +2531,7 @@ void KeysManager::confirmdeletekey()
 	}
 
 	if (secretKeyInside) {
-		int result = KMessageBox::warningContinueCancel(this, i18n("<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be deleted.</qt>", secList.join("<br />")));
+		int result = KMessageBox::warningContinueCancel(this, i18n("<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be deleted.</qt>", secList.join( QLatin1String( "<br />" ))));
 		if (result != KMessageBox::Continue) {
 			m_delkeys.clear();
 			return;
@@ -2644,7 +2644,7 @@ void KeysManager::slotImportDone(int result)
 
 	if (result != 0) {
 		KMessageBox::detailedSorry(this, i18n("Key importing failed. Please see the detailed log for more information."),
-				rawmsgs.join("\n"), i18n("Key Import"));
+				rawmsgs.join( QLatin1String( "\n")) , i18n("Key Import" ));
 	}
 
 	QStringList keys(import->getImportedIds(0x1f));
@@ -2655,7 +2655,7 @@ void KeysManager::slotImportDone(int result)
 		const QString msg(import->getImportMessage());
 		const QStringList keynames(import->getImportedKeys());
 
-		new KgpgDetailedInfo(this, msg, rawmsgs.join("\n"), keynames, i18n("Key Import"));
+		new KgpgDetailedInfo(this, msg, rawmsgs.join( QLatin1String( "\n") ), keynames, i18n("Key Import" ));
 		if (needsRefresh)
 			imodel->refreshKeys(keys);
 		else
@@ -2728,7 +2728,7 @@ KeysManager::setupTrayIcon()
 	KMenu *conf_menu = m_trayicon->contextMenu();
 
 	QAction *KgpgOpenManager = actionCollection()->addAction("kgpg_manager");
-	KgpgOpenManager->setIcon(KIcon("kgpg"));
+	KgpgOpenManager->setIcon(KIcon( QLatin1String( "kgpg" )));
 	KgpgOpenManager->setText(i18n("Ke&y Manager"));
 	connect(KgpgOpenManager, SIGNAL(triggered(bool)), SLOT(show()));
 
@@ -2740,7 +2740,7 @@ KeysManager::setupTrayIcon()
 	connect(KgpgDecryptClipboard, SIGNAL(triggered(bool)), SLOT(clipDecrypt()));
 	QAction *KgpgSignClipboard = actionCollection()->addAction("clip_sign");
 	KgpgSignClipboard->setText(i18n("&Sign/Verify Clipboard"));
-	KgpgSignClipboard->setIcon(KIcon("document-sign-key"));
+	KgpgSignClipboard->setIcon(KIcon( QLatin1String( "document-sign-key" )));
 	connect(KgpgSignClipboard, SIGNAL(triggered(bool)), SLOT(clipSign()));
 
 	QAction *KgpgPreferences = KStandardAction::preferences(this, SLOT(showOptions()), actionCollection());

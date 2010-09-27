@@ -48,8 +48,8 @@ groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
 
 	availableKeys->setModel(m_outFilter);
 	groupKeys->setModel(m_in);
-	buttonAdd->setIcon(KIcon("go-down"));
-	buttonRemove->setIcon(KIcon("go-up"));
+	buttonAdd->setIcon(KIcon( QLatin1String( "go-down" )));
+	buttonRemove->setIcon(KIcon( QLatin1String( "go-up" )));
 
 	availableKeys->setColumnWidth(0, 200);
 	availableKeys->setColumnWidth(1, 200);

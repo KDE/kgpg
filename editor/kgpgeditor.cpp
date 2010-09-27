@@ -184,20 +184,20 @@ void KgpgEditor::initActions()
     m_recentfiles->setMaxItems(KGpgSettings::recentFiles());
 
     KAction *action = actionCollection()->addAction("file_encrypt");
-    action->setIcon(KIcon("document-encrypt"));
+    action->setIcon(KIcon( QLatin1String( "document-encrypt" )));
     action->setText(i18n("&Encrypt File..."));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotFilePreEnc()));
     action = actionCollection()->addAction("file_decrypt");
-    action->setIcon(KIcon("document-decrypt"));
+    action->setIcon(KIcon( QLatin1String( "document-decrypt" )));
     action->setText(i18n("&Decrypt File..."));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotFilePreDec()));
     action = actionCollection()->addAction("key_manage");
-    action->setIcon(KIcon("kgpg"));
+    action->setIcon(KIcon( QLatin1String( "kgpg" )));
     action->setText(i18n("&Open Key Manager"));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotKeyManager()));
     action = actionCollection()->addAction("sign_generate");
     action->setText(i18n("&Generate Signature..."));
-    action->setIcon(KIcon("document-sign-key"));
+    action->setIcon(KIcon( QLatin1String( "document-sign-key" )));
     connect(action, SIGNAL(triggered(bool) ), SLOT(slotPreSignFile()));
     action = actionCollection()->addAction("sign_verify");
     action->setText(i18n("&Verify Signature..."));
@@ -213,17 +213,17 @@ void KgpgEditor::initActions()
     actionCollection()->addAction(m_recentfiles->objectName(), m_recentfiles);
 
     action = actionCollection()->addAction("text_encrypt");
-    action->setIcon(KIcon("document-encrypt"));
+    action->setIcon(KIcon( QLatin1String( "document-encrypt" )));
     action->setText(i18n("En&crypt"));
     connect(action, SIGNAL(triggered(bool)), m_editor, SLOT(slotEncode()));
 
     action = actionCollection()->addAction("text_decrypt");
-    action->setIcon(KIcon("document-decrypt"));
+    action->setIcon(KIcon( QLatin1String( "document-decrypt" )));
     action->setText(i18n("&Decrypt"));
     connect(action, SIGNAL(triggered(bool)), m_editor, SLOT(slotDecode()));
 
     action = actionCollection()->addAction("text_sign_verify");
-    action->setIcon(KIcon("document-sign-key"));
+    action->setIcon(KIcon( QLatin1String( "document-sign-key" )));
     action->setText(i18n("S&ign/Verify"));
     connect(action, SIGNAL(triggered(bool)), m_editor, SLOT(slotSignVerify()));
 }

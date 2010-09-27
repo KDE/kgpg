@@ -249,9 +249,9 @@ void KgpgTextEdit::slotDecryptDone(int result)
 #ifdef __GNUC__
 #warning FIXME choose codec
 #endif
-		setPlainText(decr->decryptedText().join("\n"));
+		setPlainText(decr->decryptedText().join( QLatin1String( "\n" )));
 	} else if (result != KGpgTransaction::TS_USER_ABORTED) {
-		KMessageBox::detailedSorry(this, i18n("Decryption failed."), decr->getMessages().join("\n"));
+		KMessageBox::detailedSorry(this, i18n("Decryption failed."), decr->getMessages().join( QLatin1String( "\n" )));
 	}
 
 	decr->deleteLater();

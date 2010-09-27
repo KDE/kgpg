@@ -223,7 +223,7 @@ KGpgImport::getDetailedImportMessage(const QStringList &log)
 		}
 
 		result.append("\n ");
-		result.append(thischanged.join("\n "));
+		result.append(thischanged.join( QLatin1String( "\n " )));
 		result.append("\n\n");
 	}
 
@@ -235,7 +235,7 @@ KGpgImport::getDetailedImportMessage(const QStringList &log)
 	} else {
 		result.append(i18np("Unchanged Key", "Unchanged Keys", unchanged.count()));
 		result.append("\n ");
-		result.append(unchanged.join("\n "));
+		result.append(unchanged.join( QLatin1String( "\n " )));
 		result.append("\n");
 	}
 
