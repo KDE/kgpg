@@ -123,7 +123,7 @@ KeysManager::KeysManager(QWidget *parent)
 	   m_trayicon(NULL)
 {
 	new KeyAdaptor(this);
-	QDBusConnection::sessionBus().registerObject("/KeyInterface", this);
+	QDBusConnection::sessionBus().registerObject(QLatin1String( "/KeyInterface" ), this);
 
 	setAttribute(Qt::WA_DeleteOnClose, false);
 	setWindowTitle(i18n("Key Management"));
@@ -131,19 +131,19 @@ KeysManager::KeysManager(QWidget *parent)
 	KStandardAction::quit(this, SLOT(quitApp()), actionCollection());
 	KStandardAction::find(this, SLOT(findKey()), actionCollection());
 	KStandardAction::findNext(this, SLOT(findNextKey()), actionCollection());
-	actionCollection()->addAction(KStandardAction::Preferences, "options_configure", this, SLOT(showOptions()));
+	actionCollection()->addAction(KStandardAction::Preferences, QLatin1String( "options_configure" ), this, SLOT(showOptions()));
 
-	openEditor = actionCollection()->addAction("kgpg_editor");
+	openEditor = actionCollection()->addAction(QLatin1String( "kgpg_editor" ));
 	openEditor->setIcon(KIcon( QLatin1String( "accessories-text-editor" )));
 	openEditor->setText(i18n("&Open Editor"));
 	connect(openEditor, SIGNAL(triggered(bool)), SLOT(slotOpenEditor()));
 
-	kserver = actionCollection()->addAction( "key_server" );
+	kserver = actionCollection()->addAction( QLatin1String( "key_server" ));
 	kserver->setText( i18n("&Key Server Dialog") );
 	kserver->setIcon( KIcon( QLatin1String( "network-server" )) );
 	connect(kserver, SIGNAL(triggered(bool)), SLOT(showKeyServer()));
 
-	goToDefaultKey = actionCollection()->addAction("go_default_key");
+	goToDefaultKey = actionCollection()->addAction(QLatin1String( "go_default_key" ));
 	goToDefaultKey->setIcon(KIcon( QLatin1String( "go-home" )));
 	goToDefaultKey->setText(i18n("&Go to Default Key"));
 	connect(goToDefaultKey, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
@@ -161,168 +161,168 @@ KeysManager::KeysManager(QWidget *parent)
 
 	KAction *action = 0;
 
-	action = actionCollection()->addAction( "default" );
+	action = actionCollection()->addAction( QLatin1String( "default" ) );
 	connect(action, SIGNAL(triggered(bool)), SLOT(slotDefaultAction()));
 	action->setShortcut(QKeySequence(Qt::Key_Return));
 
-	action =  actionCollection()->addAction( "help_tipofday");
+	action =  actionCollection()->addAction( QLatin1String( "help_tipofday" ));
 	action->setIcon( KIcon( QLatin1String( "help-hint" )) );
 	action->setText( i18n("Tip of the &Day") );
 	connect(action, SIGNAL(triggered(bool)), SLOT(slotTip()));
 
-	action = actionCollection()->addAction( "gpg_man");
+	action = actionCollection()->addAction( QLatin1String( "gpg_man" ));
 	action->setText( i18n("View GnuPG Manual") );
 	action->setIcon( KIcon( QLatin1String( "help-contents" )) );
 	connect(action, SIGNAL(triggered(bool)), SLOT(slotManpage()));
 
-	action = actionCollection()->addAction("key_refresh");
+	action = actionCollection()->addAction(QLatin1String( "key_refresh" ));
 	action->setIcon(KIcon( QLatin1String( "view-refresh" )));
 	action->setText(i18n("&Refresh List"));
 	connect(action, SIGNAL(triggered(bool)), SLOT(refreshkey()));
 	action->setShortcuts(KStandardShortcut::reload());
 
-	hPublic = actionCollection()->add<KToggleAction>("show_secret");
+	hPublic = actionCollection()->add<KToggleAction>(QLatin1String( "show_secret" ));
 	hPublic->setIcon(KIcon( QLatin1String( "view-key-secret" )));
 	hPublic->setText(i18n("&Show Only Secret Keys"));
 	hPublic->setChecked(KGpgSettings::showSecret());
 	connect(hPublic, SIGNAL(triggered(bool)), SLOT(slotToggleSecret(bool)));
 
-	longId = actionCollection()->add<KToggleAction>("show_long_keyid");
+	longId = actionCollection()->add<KToggleAction>(QLatin1String( "show_long_keyid" ));
 	longId->setText(i18n("Show &Long Key Id"));
 	longId->setChecked(KGpgSettings::showLongKeyId());
 	connect(longId, SIGNAL(triggered(bool)), SLOT(slotShowLongId(bool)));
 
-	QAction *infoKey = actionCollection()->addAction("key_info");
+	QAction *infoKey = actionCollection()->addAction(QLatin1String( "key_info" ));
 	infoKey->setIcon(KIcon( QLatin1String( "document-properties-key" )));
 	infoKey->setText(i18n("K&ey Properties"));
 	connect(infoKey, SIGNAL(triggered(bool)), SLOT(keyproperties()));
 
-	editKey = actionCollection()->addAction("key_edit");
+	editKey = actionCollection()->addAction(QLatin1String( "key_edit" ));
 	editKey->setIcon(KIcon( QLatin1String( "utilities-terminal" )));
 	editKey->setText(i18n("Edit Key in &Terminal"));
 	connect(editKey, SIGNAL(triggered(bool)), SLOT(slotedit()));
 	editKey->setShortcut(QKeySequence(Qt::ALT+Qt::Key_Return));
 
-	KAction *generateKey = actionCollection()->addAction("key_gener");
+	KAction *generateKey = actionCollection()->addAction(QLatin1String( "key_gener" ));
 	generateKey->setIcon(KIcon( QLatin1String( "key-generate-pair" )));
 	generateKey->setText(i18n("&Generate Key Pair..."));
 	connect(generateKey, SIGNAL(triggered(bool)), SLOT(slotGenerateKey()));
 	generateKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::New));
 
-	exportPublicKey = actionCollection()->addAction("key_export");
+	exportPublicKey = actionCollection()->addAction(QLatin1String( "key_export" ));
 	exportPublicKey->setIcon(KIcon( QLatin1String( "document-export-key" )));
 	connect(exportPublicKey, SIGNAL(triggered(bool)), SLOT(slotexport()));
 	exportPublicKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Copy));
 
-	KAction *importKey = actionCollection()->addAction("key_import");
+	KAction *importKey = actionCollection()->addAction(QLatin1String( "key_import" ));
 	importKey->setIcon(KIcon( QLatin1String( "document-import-key" )));
 	importKey->setText(i18n("&Import Key..."));
 	connect(importKey, SIGNAL(triggered(bool)), SLOT(slotPreImportKey()));
 	importKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Paste));
 
-	QAction *newContact = actionCollection()->addAction("add_kab");
+	QAction *newContact = actionCollection()->addAction(QLatin1String( "add_kab" ));
 	newContact->setIcon(KIcon( QLatin1String( "contact-new" )));
 	newContact->setText(i18n("&Create New Contact in Address Book"));
 	connect(newContact, SIGNAL(triggered(bool)), SLOT(addToKAB()));
 
-	createGroup = actionCollection()->addAction("create_group");
+	createGroup = actionCollection()->addAction(QLatin1String( "create_group" ));
 	createGroup->setIcon(Images::group());
 	connect(createGroup, SIGNAL(triggered(bool)), SLOT(createNewGroup()));
 
-	editCurrentGroup = actionCollection()->addAction("edit_group");
+	editCurrentGroup = actionCollection()->addAction(QLatin1String( "edit_group" ));
 	editCurrentGroup->setText(i18n("&Edit Group..."));
 	connect(editCurrentGroup, SIGNAL(triggered(bool)), SLOT(editGroup()));
 
-	delGroup = actionCollection()->addAction("delete_group");
+	delGroup = actionCollection()->addAction(QLatin1String( "delete_group" ));
 	delGroup->setText(i18n("&Delete Group"));
 	delGroup->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	connect(delGroup, SIGNAL(triggered(bool)), SLOT(deleteGroup()));
 
-	m_groupRename = actionCollection()->addAction("rename_group");
+	m_groupRename = actionCollection()->addAction(QLatin1String( "rename_group" ));
 	m_groupRename->setText(i18n("&Rename Group"));
 	m_groupRename->setIcon(KIcon( QLatin1String( "edit-rename" )));
 	m_groupRename->setShortcut(QKeySequence(Qt::Key_F2));
 	connect(m_groupRename, SIGNAL(triggered(bool)), SLOT(renameGroup()));
 
-	deleteKey = actionCollection()->addAction("key_delete");
+	deleteKey = actionCollection()->addAction(QLatin1String( "key_delete" ));
 	deleteKey->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	connect(deleteKey, SIGNAL(triggered(bool)), SLOT(confirmdeletekey()));
 	deleteKey->setShortcut(QKeySequence(Qt::Key_Delete));
 
-	setDefaultKey = actionCollection()->addAction("key_default");
+	setDefaultKey = actionCollection()->addAction(QLatin1String( "key_default" ));
 	setDefaultKey->setText(i18n("Set as De&fault Key"));
 	connect(setDefaultKey, SIGNAL(triggered(bool)), SLOT(slotSetDefKey()));
-	QAction *addPhoto = actionCollection()->addAction("add_photo");
+	QAction *addPhoto = actionCollection()->addAction(QLatin1String( "add_photo" ));
 	addPhoto->setText(i18n("&Add Photo..."));
 	connect(addPhoto, SIGNAL(triggered(bool)), SLOT(slotAddPhoto()));
-	QAction *addUid = actionCollection()->addAction("add_uid");
+	QAction *addUid = actionCollection()->addAction(QLatin1String( "add_uid" ));
 	addUid->setText(i18n("&Add User Id..."));
 	connect(addUid, SIGNAL(triggered(bool)), SLOT(slotAddUid()));
-	QAction *exportSecretKey = actionCollection()->addAction("key_sexport");
+	QAction *exportSecretKey = actionCollection()->addAction(QLatin1String( "key_sexport" ));
 	exportSecretKey->setText(i18n("Export Secret Key..."));
 	connect(exportSecretKey, SIGNAL(triggered(bool)), SLOT(slotexportsec()));
-	QAction *deleteKeyPair = actionCollection()->addAction("key_pdelete");
+	QAction *deleteKeyPair = actionCollection()->addAction(QLatin1String( "key_pdelete" ));
 	deleteKeyPair->setText(i18n("Delete Key Pair"));
 	deleteKeyPair->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	connect(deleteKeyPair, SIGNAL(triggered(bool)), SLOT(deleteseckey()));
-	QAction *revokeKey = actionCollection()->addAction("key_revoke");
+	QAction *revokeKey = actionCollection()->addAction(QLatin1String( "key_revoke" ));
 	revokeKey->setText(i18n("Revoke Key..."));
 	connect(revokeKey, SIGNAL(triggered(bool)), SLOT(revokeWidget()));
-	QAction *regeneratePublic = actionCollection()->addAction("key_regener");
+	QAction *regeneratePublic = actionCollection()->addAction(QLatin1String( "key_regener" ));
 	regeneratePublic->setText(i18n("&Regenerate Public Key"));
 	connect(regeneratePublic, SIGNAL(triggered(bool)), SLOT(slotregenerate()));
-	delUid = actionCollection()->addAction("del_uid");
+	delUid = actionCollection()->addAction(QLatin1String( "del_uid" ));
 	delUid->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	connect(delUid, SIGNAL(triggered(bool)), SLOT(slotDelUid()));
-	setPrimUid = actionCollection()->addAction("prim_uid");
+	setPrimUid = actionCollection()->addAction(QLatin1String( "prim_uid" ));
 	setPrimUid->setText(i18n("Set User Id as &Primary"));
 	connect(setPrimUid, SIGNAL(triggered(bool)), SLOT(slotPrimUid()));
-	QAction *openPhoto = actionCollection()->addAction("key_photo");
+	QAction *openPhoto = actionCollection()->addAction(QLatin1String( "key_photo" ));
 	openPhoto->setIcon(KIcon( QLatin1String( "image-x-generic" )));
 	openPhoto->setText(i18n("&Open Photo"));
 	connect(openPhoto, SIGNAL(triggered(bool)), SLOT(slotShowPhoto()));
-	QAction *deletePhoto = actionCollection()->addAction("delete_photo");
+	QAction *deletePhoto = actionCollection()->addAction(QLatin1String( "delete_photo" ));
 	deletePhoto->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	deletePhoto->setText(i18n("&Delete Photo"));
 	connect(deletePhoto, SIGNAL(triggered(bool)), SLOT(slotDeletePhoto()));
-	delSignKey = actionCollection()->addAction("key_delsign");
+	delSignKey = actionCollection()->addAction(QLatin1String( "key_delsign" ));
 	delSignKey->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	connect(delSignKey, SIGNAL(triggered(bool)), SLOT(delsignkey()));
 
-	importAllSignKeys = actionCollection()->addAction("key_importallsign");
+	importAllSignKeys = actionCollection()->addAction(QLatin1String( "key_importallsign" ));
 	importAllSignKeys->setIcon(KIcon( QLatin1String( "document-import" )));
 	importAllSignKeys->setText(i18n("Import &Missing Signatures From Keyserver"));
 	connect(importAllSignKeys, SIGNAL(triggered(bool)), SLOT(importallsignkey()));
-	refreshKey = actionCollection()->addAction("key_server_refresh");
+	refreshKey = actionCollection()->addAction(QLatin1String( "key_server_refresh" ));
 	refreshKey->setIcon(KIcon( QLatin1String( "view-refresh" )));
 	connect(refreshKey, SIGNAL(triggered(bool)), SLOT(refreshKeyFromServer()));
-	signKey = actionCollection()->addAction("key_sign");
+	signKey = actionCollection()->addAction(QLatin1String( "key_sign" ));
 	signKey->setIcon(KIcon( QLatin1String( "document-sign-key" )));
 	connect(signKey, SIGNAL(triggered(bool)), SLOT(signkey()));
-	signUid = actionCollection()->addAction("key_sign_uid");
+	signUid = actionCollection()->addAction(QLatin1String( "key_sign_uid" ));
 	signUid->setIcon(KIcon( QLatin1String( "document-sign-key" )));
 	connect(signUid, SIGNAL(triggered(bool)), SLOT(signuid()));
-	signMailUid = actionCollection()->addAction("key_sign_mail_uid");
+	signMailUid = actionCollection()->addAction(QLatin1String( "key_sign_mail_uid" ));
 	signMailUid->setIcon(KIcon( QLatin1String( "document-sign-key" )));
 	connect(signMailUid, SIGNAL(triggered(bool)), SLOT(caff()));
-	importSignatureKey = actionCollection()->addAction("key_importsign");
+	importSignatureKey = actionCollection()->addAction(QLatin1String( "key_importsign" ));
 	importSignatureKey->setIcon(KIcon( QLatin1String( "document-import-key" )));
 	connect(importSignatureKey, SIGNAL(triggered(bool)), SLOT(preimportsignkey()));
 
-	sTrust = actionCollection()->add<KToggleAction>("show_trust");
+	sTrust = actionCollection()->add<KToggleAction>(QLatin1String( "show_trust" ));
 	sTrust->setText(i18n("Trust"));
 	connect(sTrust, SIGNAL(triggered(bool) ), SLOT(slotShowTrust()));
-	sSize = actionCollection()->add<KToggleAction>("show_size");
+	sSize = actionCollection()->add<KToggleAction>(QLatin1String( "show_size" ));
 	sSize->setText(i18n("Size"));
 	connect(sSize, SIGNAL(triggered(bool) ), SLOT(slotShowSize()));
-	sCreat = actionCollection()->add<KToggleAction>("show_creat");
+	sCreat = actionCollection()->add<KToggleAction>(QLatin1String( "show_creat" ));
 	sCreat->setText(i18n("Creation"));
 	connect(sCreat, SIGNAL(triggered(bool) ), SLOT(slotShowCreation()));
-	sExpi = actionCollection()->add<KToggleAction>("show_expi");
+	sExpi = actionCollection()->add<KToggleAction>(QLatin1String( "show_expi" ));
 	sExpi->setText(i18n("Expiration"));
 	connect(sExpi, SIGNAL(triggered(bool) ), SLOT(slotShowExpiration()));
 
-	photoProps = actionCollection()->add<KSelectAction>("photo_settings");
+	photoProps = actionCollection()->add<KSelectAction>(QLatin1String( "photo_settings" ));
 	photoProps->setIcon(KIcon( QLatin1String( "image-x-generic" )));
 	photoProps->setText(i18n("&Photo ID's"));
 
@@ -334,7 +334,7 @@ KeysManager::KeysManager(QWidget *parent)
 	list.append(i18nc("large picture", "Large"));
 	photoProps->setItems(list);
 
-	trustProps = actionCollection()->add<KSelectAction>("trust_filter_settings");
+	trustProps = actionCollection()->add<KSelectAction>(QLatin1String( "trust_filter_settings" ));
 	trustProps->setText(i18n("Minimum &Trust"));
 
 	QStringList tlist;
@@ -459,10 +459,10 @@ KeysManager::KeysManager(QWidget *parent)
 	searchLayout->addStretch();
 
 	KAction *searchLineAction = new KAction(i18nc("Name of the action that is a search line, shown for example in the toolbar configuration dialog", "Search Line"), this);
-	actionCollection()->addAction("search_line", searchLineAction);
+	actionCollection()->addAction(QLatin1String( "search_line" ), searchLineAction);
 	searchLineAction->setDefaultWidget(searchWidget);
 
-	action = actionCollection()->addAction("search_focus");
+	action = actionCollection()->addAction(QLatin1String( "search_focus" ));
 	action->setText(i18nc("Name of the action that gives the focus to the search line", "Focus Search Line"));
 	connect(action, SIGNAL(triggered(bool) ), m_listviewsearch, SLOT(setFocus()));
 	action->setShortcut(QKeySequence(Qt::Key_F6));
@@ -471,7 +471,7 @@ KeysManager::KeysManager(QWidget *parent)
 	setActionDescriptions(1);
 
 	// get all keys data
-	setupGUI(KXmlGuiWindow::Create | Save | ToolBar | StatusBar | Keys, "keysmanager.rc");
+	setupGUI(KXmlGuiWindow::Create | Save | ToolBar | StatusBar | Keys, QLatin1String( "keysmanager.rc" ));
 
 	sTrust->setChecked(KGpgSettings::showTrust());
 	iview->setColumnHidden(2, !KGpgSettings::showTrust());
@@ -485,7 +485,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 	KStatusBar *statusbar = statusBar();
 	statusbar->insertPermanentFixedItem(i18n("00000 Keys, 000 Groups"), 0);
-	statusbar->changeItem("", 0);
+	statusbar->changeItem(QLatin1String( "" ), 0);
 
 	cg = KConfigGroup(KGlobal::config().data(), "MainWindow");
 	setAutoSaveSettings(cg, true);
@@ -531,9 +531,9 @@ void KeysManager::slotGenerateKey()
 		} else {
 			KConfigGroup config(KGlobal::config(), "General");
 
-			QString terminalApp(config.readPathEntry("TerminalApplication", "konsole"));
+			QString terminalApp(config.readPathEntry("TerminalApplication", QLatin1String( "konsole" )));
 			QStringList args;
-			args << "-e" << KGpgSettings::gpgBinaryPath() << "--gen-key" << "--expert";
+			args << QLatin1String( "-e" ) << KGpgSettings::gpgBinaryPath() << QLatin1String( "--gen-key" ) << QLatin1String( "--expert" );
 
 			QProcess *genKeyProc = new QProcess(this);
 			genKeyProc->start(terminalApp, args);
@@ -613,25 +613,25 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		keyCreated->setModal(true);
 
 		newKey *page = new newKey(keyCreated);
-		page->TLname->setText("<b>" + genkey->getName() + "</b>");
+		page->TLname->setText(QLatin1String( "<b>" ) + genkey->getName() + QLatin1String( "</b>" ));
 
 		const QString email(genkey->getEmail());
-		page->TLemail->setText("<b>" + email + "</b>");
+		page->TLemail->setText(QLatin1String( "<b>" ) + email + QLatin1String( "</b>" ));
 
 		QString revurl;
 		const QString gpgPath(KGpgSettings::gpgConfigPath());
 		if (!gpgPath.isEmpty())
 			revurl = KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash);
 		else
-			revurl = QDir::homePath() + '/';
+			revurl = QDir::homePath() + QLatin1Char( '/' );
 
 		if (!email.isEmpty())
-			page->kURLRequester1->setUrl(revurl + email.section('@', 0, 0) + ".revoke");
+			page->kURLRequester1->setUrl(revurl + email.section(QLatin1Char( '@' ), 0, 0) + QLatin1String( ".revoke" ));
 		else
-			page->kURLRequester1->setUrl(revurl + email.section(' ', 0, 0) + ".revoke");
+			page->kURLRequester1->setUrl(revurl + email.section(QLatin1Char( ' ' ), 0, 0) + QLatin1String( ".revoke" ));
 
 		const QString fingerprint(genkey->getFingerprint());
-		page->TLid->setText("<b>" + fingerprint.right(8) + "</b>");
+		page->TLid->setText(QLatin1String( "<b>" ) + fingerprint.right(8) + QLatin1String( "</b>" ));
 		page->LEfinger->setText(fingerprint);
 		page->CBdefault->setChecked(true);
 		page->show();
@@ -740,7 +740,7 @@ void KeysManager::slotSetTrustFilter(int i)
 bool KeysManager::eventFilter(QObject *, QEvent *e)
 {
 	if ((e->type() == QEvent::Show) && (showTipOfDay)) {
-		KTipDialog::showTip(this, QString("kgpg/tips"), false);
+		KTipDialog::showTip(this, QLatin1String("kgpg/tips"), false);
 		showTipOfDay = false;
 	}
 
@@ -779,7 +779,7 @@ void KeysManager::refreshKeyFromServer()
 
 	QString proxy;
 	if (KGpgSettings::useProxy())
-		proxy = qgetenv("http_proxy");
+		proxy = QLatin1String( qgetenv("http_proxy") );
 
 	KGpgRefreshKeys *t = new KGpgRefreshKeys(this, KGpgSettings::keyServers().first(), keyIDS, true, proxy);
 	connect(t, SIGNAL(done(int)), SLOT(slotKeyRefreshDone(int)));
@@ -808,8 +808,8 @@ void KeysManager::slotKeyRefreshDone(int result)
 		imodel->refreshKeys(keys);
 
 	QApplication::restoreOverrideCursor();
-	(void) new KgpgDetailedInfo(this, message.join(QString('\n')), log.join(QString('\n')),
-			KGpgImport::getDetailedImportMessage(log).split('\n'));
+	(void) new KgpgDetailedInfo(this, message.join(QLatin1String("\n")), log.join(QLatin1String("\n")),
+			KGpgImport::getDetailedImportMessage(log).split(QLatin1Char( '\n' )));
 }
 
 void KeysManager::slotDelUid()
@@ -855,15 +855,15 @@ void KeysManager::slotregenerate()
 	KProcess *p1, *p2, *p3;
 
 	p1 = new KProcess(this);
-	*p1 << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "--export-secret-key" << regID;
+	*p1 << KGpgSettings::gpgBinaryPath() << QLatin1String( "--no-secmem-warning" ) << QLatin1String( "--export-secret-key" ) << regID;
 	p1->setOutputChannelMode(KProcess::OnlyStdoutChannel);
 
 	p2 = new KProcess(this);
-	*p2 << "gpgsplit" << "--no-split" << "--secret-to-public";
+	*p2 << QLatin1String( "gpgsplit" ) << QLatin1String( "--no-split" ) << QLatin1String( "--secret-to-public" );
 	p2->setOutputChannelMode(KProcess::OnlyStdoutChannel);
 
 	p3 = new KProcess(this);
-	*p3 << KGpgSettings::gpgBinaryPath() << "--import";
+	*p3 << KGpgSettings::gpgBinaryPath() << QLatin1String( "--import" );
 
 	p1->setStandardOutputProcess(p2);
 	p2->setStandardOutputProcess(p3);
@@ -933,7 +933,7 @@ void KeysManager::slotAddPhoto()
 	if (KMessageBox::warningContinueCancel(0, mess) != KMessageBox::Continue)
 		return;
 
-	QString imagepath = KFileDialog::getOpenFileName(KUrl(), "image/jpeg", 0);
+	QString imagepath = KFileDialog::getOpenFileName(KUrl(), QLatin1String( "image/jpeg" ), 0);
 	if (imagepath.isEmpty())
 		return;
 
@@ -1031,7 +1031,7 @@ return;
     KeyListViewItem *item = keysList2->firstChild();
     if (!item)
         return;
-    QString searchText = item->text(0) + ' ' + item->text(1) + ' ' + item->text(6);
+    QString searchText = item->text(0) + QLatin1Char( ' ' ) + item->text(1) + QLatin1Char( ' ' ) + item->text(6);
 
     KFind *m_find = new KFind(searchString, searchOptions, this);
     m_find->setData(searchText);
@@ -1045,7 +1045,7 @@ return;
         else
         {
             item = item->nextSibling();
-            searchText = item->text(0) + ' ' + item->text(1) + ' ' + item->text(6);
+            searchText = item->text(0) + QLatin1Char( ' ' ) + item->text(1) + QLatin1Char( ' ' ) + item->text(6);
             m_find->setData(searchText);
         }
     }
@@ -1138,22 +1138,22 @@ void KeysManager::addToKAB()
 
 	KABC::Addressee::List addresseeList(ab->findByEmail(email));
 	KToolInvocation::startServiceByDesktopName( QLatin1String( "kaddressbook" ));
-	QDBusInterface kaddressbook("org.kde.kaddressbook", "/KAddressBook", "org.kde.KAddressbook.Core");
+	QDBusInterface kaddressbook(QLatin1String( "org.kde.kaddressbook" ), QLatin1String( "/KAddressBook" ), QLatin1String( "org.kde.KAddressbook.Core" ));
 
 	if(!addresseeList.isEmpty())
-		kaddressbook.call( "showContactEditor", addresseeList.first().uid());
+		kaddressbook.call( QLatin1String( "showContactEditor" ), addresseeList.first().uid());
 	else
-		kaddressbook.call( "addEmail", nd->getName() + " <" + email + '>');
+		kaddressbook.call( QLatin1String( "addEmail" ), nd->getName() + QLatin1String( " <" ) + email + QLatin1Char( '>' ));
 }
 
 void KeysManager::slotManpage()
 {
-	KToolInvocation::startServiceByDesktopName( QLatin1String( "khelpcenter", QString("man:/gpg"), 0, 0, 0, "" ), true);
+	KToolInvocation::startServiceByDesktopName( QLatin1String( "khelpcenter" ), QLatin1String("man:/gpg"), 0, 0, 0, "" , true);
 }
 
 void KeysManager::slotTip()
 {
-	KTipDialog::showTip(this, QString("kgpg/tips"), true);
+	KTipDialog::showTip(this, QLatin1String("kgpg/tips"), true);
 }
 
 void KeysManager::showKeyServer()
@@ -1178,15 +1178,15 @@ void KeysManager::checkList()
 		return;
 	case 1:
 		if (exportList.at(0)->getType() == ITYPE_GROUP) {
-			stateChanged("group_selected");
+			stateChanged(QLatin1String( "group_selected" ));
 		} else {
-			stateChanged("single_selected");
+			stateChanged(QLatin1String( "single_selected" ));
 			if (terminalkey)
 				editKey->setEnabled(false);
 		}
 		break;
 	default:
-		stateChanged("multi_selected");
+		stateChanged(QLatin1String( "multi_selected" ));
 	}
 	if (!m_online)
 		refreshKey->setEnabled(false);
@@ -1275,7 +1275,7 @@ void KeysManager::readOptions()
 
 void KeysManager::showOptions()
 {
-	if (KConfigDialog::showDialog("settings"))
+	if (KConfigDialog::showDialog(QLatin1String( "settings" )))
 		return;
 
 	QPointer<kgpgOptions> optionsDialog = new kgpgOptions(this, imodel);
@@ -1479,15 +1479,15 @@ void KeysManager::slotexportsec()
 		return;
 	KGpgNode *nd = iview->selectedNode();
 
-	QString sname(nd->getEmail().section('@', 0, 0).section('.', 0, 0));
+	QString sname(nd->getEmail().section(QLatin1Char( '@' ), 0, 0).section(QLatin1Char( '.' ), 0, 0));
 	if (sname.isEmpty())
-		sname = nd->getName().section(' ', 0, 0);
-	sname.append(".asc");
-	sname.prepend(QDir::homePath() + '/');
-	KUrl url(KFileDialog::getSaveUrl(sname, "*.asc|*.asc Files", this, i18n("Export PRIVATE KEY As")));
+		sname = nd->getName().section(QLatin1Char( ' ' ), 0, 0);
+	sname.append(QLatin1String( ".asc" ));
+	sname.prepend(QDir::homePath() + QLatin1Char( '/' ));
+	KUrl url(KFileDialog::getSaveUrl(sname, i18n( "*.asc|*.asc Files" ), this, i18n("Export PRIVATE KEY As")));
 
 	if(!url.isEmpty()) {
-		KGpgExport *exp = new KGpgExport(this, QStringList(nd->getId()), url.path(), QStringList("--armor"), true);
+		KGpgExport *exp = new KGpgExport(this, QStringList(nd->getId()), url.path(), QStringList(QLatin1String( "--armor" )), true);
 
 		connect(exp, SIGNAL(done(int)), SLOT(slotExportSecFinished(int)));
 
@@ -1523,19 +1523,19 @@ void KeysManager::slotexport()
 	QString sname;
 
 	if (ndlist.count() == 1) {
-		sname = ndlist.at(0)->getEmail().section('@', 0, 0).section('.', 0, 0);
+		sname = ndlist.at(0)->getEmail().section(QLatin1Char( '@' ), 0, 0).section(QLatin1Char( '.' ), 0, 0);
 		if (sname.isEmpty())
-		sname = ndlist.at(0)->getName().section(' ', 0, 0);
+		sname = ndlist.at(0)->getName().section(QLatin1Char( ' ' ), 0, 0);
 	} else
-		sname = "keyring";
+		sname = QLatin1String( "keyring" );
 
 	QStringList klist;
 	for (int i = 0; i < ndlist.count(); ++i) {
 		klist << ndlist.at(i)->getId();
 	}
 
-	sname.append(".asc");
-	sname.prepend(QDir::homePath() + '/');
+	sname.append(QLatin1String( ".asc" ));
+	sname.prepend(QDir::homePath() + QLatin1Char( '/' ));
 
 	KDialog *dial = new KDialog(this );
 	dial->setCaption(  i18n("Public Key Export") );
@@ -1544,7 +1544,7 @@ void KeysManager::slotexport()
 	dial->setModal( true );
 
 	QStringList serverList(KGpgSettings::keyServers());
-	serverList.replaceInStrings(QRegExp( QLatin1String( " .*"), "" )); // Remove kde 3.5 (Default) tag.
+	serverList.replaceInStrings(QRegExp( QLatin1String( " .*") ), QLatin1String( "" ) ); // Remove kde 3.5 (Default) tag.
 	if (!serverList.isEmpty()) {
 		QString defaultServer = serverList.takeFirst();
 		qSort(serverList);
@@ -1570,14 +1570,14 @@ void KeysManager::slotexport()
 		if (page->checkAttrAll->isChecked()) {
 			// nothing
 		} else if (page->checkAttrPhoto->isChecked()) {
-			exportAttr = "no-export-attributes";
+			exportAttr = QLatin1String( "no-export-attributes" );
 		} else {
-			exportAttr = "export-minimal";
+			exportAttr = QLatin1String( "export-minimal" );
 		}
 		QStringList expopts;
 
 		if (!exportAttr.isEmpty())
-			expopts << "--export-options" << exportAttr;
+			expopts << QLatin1String( "--export-options" ) << exportAttr;
 
 		if (page->checkServer->isChecked()) {
 			KeyServer *expServer = new KeyServer(0, imodel);
@@ -1589,7 +1589,7 @@ void KeysManager::slotexport()
 			const QString expname(page->newFilename->url().path().simplified());
 			if (!expname.isEmpty()) {
 
-				expopts.append("--armor");
+				expopts.append(QLatin1String( "--armor" ));
 
 				KGpgExport *exp = new KGpgExport(this, klist, expname, expopts);
 
@@ -1636,7 +1636,7 @@ void KeysManager::slotProcessExportMail(int result)
 
 	// start default Mail application
 	if (result == KGpgTransaction::TS_OK) {
-		KToolInvocation::invokeMailer(QString(), QString(), QString(), QString(), exp->getOutputData());
+		KToolInvocation::invokeMailer(QString(), QString(), QString(), QString(),QLatin1String( exp->getOutputData() ));
 	} else {
 		KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
 	}
@@ -1650,7 +1650,7 @@ void KeysManager::slotProcessExportClip(int result)
 	Q_ASSERT(exp != NULL);
 
 	if (result == KGpgTransaction::TS_OK) {
-		kapp->clipboard()->setText(exp->getOutputData(), m_clipboardmode);
+		kapp->clipboard()->setText(QLatin1String( exp->getOutputData() ), m_clipboardmode);
 	} else {
 		KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
 	}
@@ -1670,7 +1670,7 @@ void KeysManager::showKeyInfo(const QString &keyID)
 
 void KeysManager::slotShowPhoto()
 {
-	KService::List list(KMimeTypeTrader::self()->query("image/jpeg"));
+	KService::List list(KMimeTypeTrader::self()->query(QLatin1String( "image/jpeg" )));
 	if (list.isEmpty()) {
 	KMessageBox::sorry(NULL, i18n("<qt>A viewer for JPEG images is not specified.<br/>Please check your installation.</qt>"), i18n("Show photo"));
 	return;
@@ -1681,7 +1681,7 @@ void KeysManager::slotShowPhoto()
 	KService::Ptr ptr = list.first();
 
 	KProcess p;
-	p << KGpgSettings::gpgBinaryPath() << "--no-tty" << "--photo-viewer" << (ptr->desktopEntryName() + " %i") << "--edit-key" << parent->getId() << "uid" << und->getId() << "showphoto" << "quit";
+	p << KGpgSettings::gpgBinaryPath() << QLatin1String( "--no-tty" ) << QLatin1String( "--photo-viewer" ) << (ptr->desktopEntryName() + QLatin1String( " %i" )) << QLatin1String( "--edit-key" ) << parent->getId() << QLatin1String( "uid" ) << und->getId() << QLatin1String( "showphoto" ) << QLatin1String( "quit" );
 	p.startDetached();
 }
 
@@ -1788,7 +1788,7 @@ void KeysManager::deleteGroup()
 	if (!nd || (nd->getType() != ITYPE_GROUP))
 		return;
 
-	int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>", nd->getName()), QString(), KGuiItem(i18n("Delete"), "edit-delete"));
+	int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>",nd->getName()), QString(), KGuiItem(i18n("Delete"), QLatin1String( "edit-delete" )));
 	if (result != KMessageBox::Continue)
 		return;
 
@@ -2175,17 +2175,17 @@ void KeysManager::slotCaffDone()
 void KeysManager::signKeyOpenConsole(const QString &signer, const QString &keyid, const int checking, const bool local)
 {
 	KConfigGroup config(KGlobal::config(), "General");
-	
+
 	KProcess process;
-	process << config.readPathEntry("TerminalApplication", "konsole");
-	process << "-e" << KGpgSettings::gpgBinaryPath() << "--no-secmem-warning" << "-u" << signer;
-	process << "--default-cert-level" << QString(checking);
-	
+	process << config.readPathEntry("TerminalApplication", QLatin1String( "konsole" ));
+	process << QLatin1String( "-e" ) << KGpgSettings::gpgBinaryPath() << QLatin1String( "--no-secmem-warning" ) << QLatin1String( "-u" ) << signer;
+	process << QLatin1String( "--default-cert-level" ) << QString(checking);
+
 	if (!local)
-		process << "--sign-key" << keyid;
+		process << QLatin1String( "--sign-key" ) << keyid;
 	else
-		process << "--lsign-key" << keyid;
-	
+		process << QLatin1String( "--lsign-key" ) << keyid;
+
 	process.execute();
 }
 
@@ -2247,7 +2247,7 @@ void KeysManager::preimportsignkey()
 
 bool KeysManager::importRemoteKey(const QString &keyIDs)
 {
-	return importRemoteKeys(keyIDs.simplified().split(' '), false);
+	return importRemoteKeys(keyIDs.simplified().split(QLatin1Char( ' ' )), false);
 }
 
 bool KeysManager::importRemoteKeys(const QStringList &keyIDs, const bool dialog)
@@ -2256,7 +2256,7 @@ bool KeysManager::importRemoteKeys(const QStringList &keyIDs, const bool dialog)
 	if (kservers.isEmpty())
 		return false;
 
-	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, kservers.first(), keyIDs, dialog, qgetenv("http_proxy"));
+	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, kservers.first(), keyIDs, dialog, QLatin1String( qgetenv("http_proxy") ));
 	connect(proc, SIGNAL(done(int)), SLOT(importRemoteFinished(int)));
 
 	proc->start();
@@ -2294,7 +2294,7 @@ void KeysManager::delsignkey()
 	switch (parent->getType()) {
 	case ITYPE_PAIR:
 	case ITYPE_PUBLIC:
-		uid = '1';
+		uid = QLatin1Char( '1' );
 		parentKey = parent->getId();
 		break;
 	case ITYPE_UID:
@@ -2312,9 +2312,9 @@ void KeysManager::delsignkey()
 	QString parentMail(parent->getNameComment());
 
 	if (!parent->getEmail().isEmpty())
-		parentMail += " &lt;" + parent->getEmail() + "&gt;";
+		parentMail += QLatin1String( " &lt;" ) + parent->getEmail() + QLatin1String( "&gt;" );
 	if (!nd->getEmail().isEmpty())
-		signMail += " &lt;" + nd->getEmail() + "&gt;";
+		signMail += QLatin1String( " &lt;" ) + nd->getEmail() + QLatin1String( "&gt;" );
 
 	if (parentKey == signID) {
 		KMessageBox::sorry(this, i18n("Edit key manually to delete a self-signature."));
@@ -2360,8 +2360,8 @@ void KeysManager::slotedit()
 
 	KProcess *kp = new KProcess(this);
 	KConfigGroup config(KGlobal::config(), "General");
-	*kp << config.readPathEntry("TerminalApplication","konsole");
-	*kp << "-e" << KGpgSettings::gpgBinaryPath() <<"--no-secmem-warning" <<"--edit-key" << nd->getId() << "help";
+	*kp << config.readPathEntry("TerminalApplication",QLatin1String( "konsole" ));
+	*kp << QLatin1String( "-e" ) << KGpgSettings::gpgBinaryPath() <<QLatin1String( "--no-secmem-warning" ) <<QLatin1String( "--edit-key" ) << nd->getId() << QLatin1String( "help" );
 	terminalkey = nd->toKeyNode();
 	editKey->setEnabled(false);
 
@@ -2406,7 +2406,7 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 	QString ask = i18np("<qt>The key you are deleting is a member of the following key group. Do you want to remove it from this group?</qt>",
 			"<qt>The key you are deleting is a member of the following key groups. Do you want to remove it from these groups?</qt>",
 			groupNames.count());
-	
+
 	if (KMessageBox::questionYesNoList(this, ask, groupNames, i18n("Delete key")) != KMessageBox::Yes)
 		return;
 
@@ -2436,7 +2436,7 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 
 	if (groupDeleted) {
 		QStringList groupnames = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
-		KGpgSettings::setGroups(groupnames.join(QString(',')));
+		KGpgSettings::setGroups(groupnames.join(QLatin1String(",")));
 		updateStatusCounter();
 	}
 }
@@ -2450,7 +2450,7 @@ void KeysManager::deleteseckey()
 	int result = KMessageBox::warningContinueCancel(this,
 			i18n("<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.", nd->getNameComment()),
 			QString(),
-			KGuiItem(i18n("Delete"), "edit-delete"));
+			KGuiItem(i18n("Delete"), QLatin1String( "edit-delete" )));
 	if (result != KMessageBox::Continue)
 		return;
 
@@ -2592,7 +2592,7 @@ void KeysManager::slotPreImportKey()
 		} else if (page->checkServer->isChecked()) {
 			const QString ids(page->keyIds->text().simplified());
 			if (!ids.isEmpty())
-				importRemoteKeys(ids.split(' '));
+				importRemoteKeys(ids.split(QLatin1Char( ' ' )));
 		} else {
 			slotImport(kapp->clipboard()->text(m_clipboardmode));
 		}
@@ -2707,8 +2707,8 @@ KeysManager::setupTrayIcon()
 
 	if (newtray) {
 		m_trayicon = new KStatusNotifierItem(this);
-		m_trayicon->setIconByName("kgpg");
-		m_trayicon->setToolTip("kgpg", i18n("KGpg - encryption tool"), QString());
+		m_trayicon->setIconByName(QLatin1String( "kgpg" ));
+		m_trayicon->setToolTip(QLatin1String( "kgpg" ), i18n("KGpg - encryption tool"), QString());
 	}
 
 	switch (KGpgSettings::leftClick()) {
@@ -2727,18 +2727,18 @@ KeysManager::setupTrayIcon()
 
 	KMenu *conf_menu = m_trayicon->contextMenu();
 
-	QAction *KgpgOpenManager = actionCollection()->addAction("kgpg_manager");
+	QAction *KgpgOpenManager = actionCollection()->addAction(QLatin1String( "kgpg_manager" ));
 	KgpgOpenManager->setIcon(KIcon( QLatin1String( "kgpg" )));
 	KgpgOpenManager->setText(i18n("Ke&y Manager"));
 	connect(KgpgOpenManager, SIGNAL(triggered(bool)), SLOT(show()));
 
-	QAction *KgpgEncryptClipboard = actionCollection()->addAction("clip_encrypt");
+	QAction *KgpgEncryptClipboard = actionCollection()->addAction(QLatin1String( "clip_encrypt" ));
 	KgpgEncryptClipboard->setText(i18n("&Encrypt Clipboard"));
 	connect(KgpgEncryptClipboard, SIGNAL(triggered(bool)), SLOT(clipEncrypt()));
-	QAction *KgpgDecryptClipboard = actionCollection()->addAction("clip_decrypt");
+	QAction *KgpgDecryptClipboard = actionCollection()->addAction(QLatin1String( "clip_decrypt" ));
 	KgpgDecryptClipboard->setText(i18n("&Decrypt Clipboard"));
 	connect(KgpgDecryptClipboard, SIGNAL(triggered(bool)), SLOT(clipDecrypt()));
-	QAction *KgpgSignClipboard = actionCollection()->addAction("clip_sign");
+	QAction *KgpgSignClipboard = actionCollection()->addAction(QLatin1String( "clip_sign" ));
 	KgpgSignClipboard->setText(i18n("&Sign/Verify Clipboard"));
 	KgpgSignClipboard->setIcon(KIcon( QLatin1String( "document-sign-key" )));
 	connect(KgpgSignClipboard, SIGNAL(triggered(bool)), SLOT(clipSign()));
@@ -2761,7 +2761,7 @@ KeysManager::showTrayMessage(const QString &message)
 	if (m_trayicon == NULL)
 		return;
 
-	m_trayicon->showMessage(QString(), message, "kgpg");
+	m_trayicon->showMessage(QString(), message, QLatin1String( "kgpg" ));
 }
 
 void
@@ -2771,7 +2771,7 @@ KeysManager::clipEncrypt()
 
 	if (cliptext.isEmpty()) {
 		Q_ASSERT(m_trayicon != NULL);
-		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), "kgpg");
+		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), QLatin1String( "kgpg" ));
 		return;
 	}
 
@@ -2780,19 +2780,19 @@ KeysManager::clipEncrypt()
 		QStringList options;
 
 		if (!dialog->getCustomOptions().isEmpty() && KGpgSettings::allowCustomEncryptionOptions())
-			options = dialog->getCustomOptions().split(' ', QString::SkipEmptyParts);
+			options = dialog->getCustomOptions().split(QLatin1Char( ' ' ), QString::SkipEmptyParts);
 
 		if (dialog->getUntrusted())
-			options.append("--always-trust");
+			options.append(QLatin1String( "--always-trust" ));
 		if (dialog->getArmor())
-			options.append("--armor");
+			options.append(QLatin1String( "--armor" ));
 		if (dialog->getHideId())
-			options.append("--throw-keyid");
+			options.append(QLatin1String( "--throw-keyid" ));
 
 		if (KGpgSettings::pgpCompatibility())
-			options.append("--pgp6");
+			options.append(QLatin1String( "--pgp6" ));
 
-		options.append("--armor");
+		options.append(QLatin1String( "--armor" ));
 
 		QStringList selec;
 		if (!dialog->getSymmetric())
@@ -2816,11 +2816,11 @@ KeysManager::slotSetClip(const QString &newtxt)
 
 	if (newtxt.isEmpty())
 		return;
-	
+
 	kapp->clipboard()->setText(newtxt, m_clipboardmode);
 
 	Q_ASSERT(m_trayicon != NULL);
-	m_trayicon->showMessage(QString(), i18n("Text successfully encrypted."), "kgpg");
+	m_trayicon->showMessage(QString(), i18n("Text successfully encrypted."), QLatin1String( "kgpg" ));
 }
 
 void
@@ -2830,7 +2830,7 @@ KeysManager::clipDecrypt()
 
 	if (cliptext.isEmpty()) {
 		Q_ASSERT(m_trayicon != NULL);
-		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), "kgpg");
+		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), QLatin1String( "kgpg" ));
 		return;
 	}
 
@@ -2848,7 +2848,7 @@ KeysManager::clipSign()
 	QString cliptext = kapp->clipboard()->text(m_clipboardmode);
 	if (cliptext.isEmpty()) {
 		Q_ASSERT(m_trayicon != NULL);
-		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), "kgpg");
+		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), QLatin1String( "kgpg" ));
 		return;
 	}
 

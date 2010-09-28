@@ -71,7 +71,7 @@ int KGpgApp::newInstance()
 
 		const QString gpgPath(KGpgSettings::gpgConfigPath());
 		if (!gpgPath.isEmpty())
-			if (KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash) != (QDir::homePath() + "/.gnupg/"))
+			if (KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash) != (QDir::homePath() + QLatin1String( "/.gnupg/" )))
 				setenv("GNUPGHOME", KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash).toAscii(), 1);
 
 		s_keyManager = new KeysManager();
@@ -87,7 +87,7 @@ int KGpgApp::newInstance()
 		connect(w, SIGNAL(createNewKey()), s_keyManager, SLOT(slotGenerateKey()));
 
 		if (!gpgPath.isEmpty()) {
-			if ((KgpgInterface::getGpgBoolSetting("use-agent", gpgPath)) && (qgetenv("GPG_AGENT_INFO").isEmpty()))
+			if ((KgpgInterface::getGpgBoolSetting(QLatin1String( "use-agent" ), gpgPath)) && (qgetenv("GPG_AGENT_INFO").isEmpty()))
 				KMessageBox::sorry(0, i18n("<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br />"
 					"However, the agent does not seem to be running. This could result in problems with signing/decryption.<br />"
 					"Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>", gpgPath));
@@ -118,7 +118,7 @@ int KGpgApp::newInstance()
 		bool directoryInside = false;
 		const QStringList lst = urlList.toStringList();
 		for (QStringList::const_iterator it = lst.begin(); it != lst.end(); ++it)
-			if (KMimeType::findByUrl(KUrl(*it))->name() == "inode/directory")
+			if (KMimeType::findByUrl(KUrl(*it))->name() == QLatin1String( "inode/directory" ))
 				directoryInside = true;
 
 		if ((directoryInside) && (lst.count() > 1)) {

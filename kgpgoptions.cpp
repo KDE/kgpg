@@ -47,7 +47,7 @@ using namespace KgpgCore;
 
 //   main window
 kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
-           : KConfigDialog(parent, "settings", KGpgSettings::self()),
+           : KConfigDialog(parent, QLatin1String( "settings" ), KGpgSettings::self()),
 	   m_config(new KConfig( QLatin1String( "kgpgrc" ), KConfig::SimpleConfig)),
 	   m_page1(new Encryption()),
 	   m_page2(new Decryption()),
@@ -63,19 +63,19 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	m_combomodel->sort(0);
 
 	// Initialize the default server and the default server list.
-	defaultKeyServer = "hkp://wwwkeys.pgp.net";
-	defaultServerList << defaultKeyServer << "hkp://search.keyserver.net" << "hkp://pgp.dtype.org";
-	defaultServerList << "hkp://wwwkeys.us.pgp.net" << "hkp://subkeys.pgp.net";
+	defaultKeyServer = QLatin1String( "hkp://wwwkeys.pgp.net" );
+	defaultServerList << defaultKeyServer << QLatin1String( "hkp://search.keyserver.net" ) << QLatin1String( "hkp://pgp.dtype.org" );
+	defaultServerList << QLatin1String( "hkp://wwwkeys.us.pgp.net" ) << QLatin1String( "hkp://subkeys.pgp.net" );
 
 	// Read the default keyserver from the GnuPG settings.
-	keyServer = KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath());
+	keyServer = KgpgInterface::getGpgSetting(QLatin1String( "keyserver" ), KGpgSettings::gpgConfigPath());
 
 	// Read the servers stored in kgpgrc
 	serverList = KGpgSettings::keyServers();
 
 	// Remove everything after a whitespace. This will normally be
 	// ' (Default)' from KDE 3.x.x
-	serverList.replaceInStrings(QRegExp( QLatin1String( " .*"), "" ));
+	serverList.replaceInStrings(QRegExp( QLatin1String( " .*") ), QLatin1String( "" ) );
 
 	defaultConfigPath = KUrl::fromPath(gpgConfigPath).fileName();
 	defaultHomePath = KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash);
@@ -94,12 +94,12 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 
 	pixkeySingle = Images::single();
 	pixkeyDouble = Images::pair();
-	addPage(m_page1, i18n("Encryption"), "document-encrypt");
-	addPage(m_page2, i18n("Decryption"), "document-decrypt");
-	addPage(m_page3, i18n("Appearance"), "preferences-desktop-theme");
-	addPage(m_page4, i18n("GnuPG Settings"), "kgpg");
-	addPage(m_page6, i18n("Key Servers"), "network-wired");
-	addPage(m_page7, i18n("Misc"), "preferences-other");
+	addPage(m_page1, i18n("Encryption"), QLatin1String( "document-encrypt" ));
+	addPage(m_page2, i18n("Decryption"), QLatin1String( "document-decrypt") );
+	addPage(m_page3, i18n("Appearance"), QLatin1String( "preferences-desktop-theme" ));
+	addPage(m_page4, i18n("GnuPG Settings"), QLatin1String( "kgpg" ));
+	addPage(m_page6, i18n("Key Servers"), QLatin1String( "network-wired" ));
+	addPage(m_page7, i18n("Misc"), QLatin1String( "preferences-other" ));
 
 	// The following widgets are managed manually.
 	connect(m_page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(slotChangeEncryptTo()));
@@ -138,12 +138,12 @@ void kgpgOptions::slotChangeHome()
 	if (gpgHome.isEmpty())
 		return;
 
-	if (!gpgHome.endsWith('/'))
-		gpgHome.append('/');
+	if (!gpgHome.endsWith(QLatin1Char( '/' )))
+		gpgHome.append(QLatin1Char( '/' ));
 
-	QString confPath = "options";
+	QString confPath = QLatin1String( "options" );
 	if (!QFile(gpgHome + confPath).exists()) {
-		confPath = "gpg.conf";
+		confPath = QLatin1String( "gpg.conf" );
 		if (!QFile(gpgHome + confPath).exists()) {
 			// Try to create config File by running gpg once
 			if (KMessageBox::Yes == KMessageBox::questionYesNo(this,
@@ -154,14 +154,14 @@ void kgpgOptions::slotChangeHome()
 				// start GnuPG so that it will create a config file
 				QString gpgbin = m_page4->gpg_bin_path->text();
 				if (!QFile::exists(gpgbin))
-					gpgbin = "gpg";
+					gpgbin = QLatin1String( "gpg" );
 
 				KProcess p;
-				p << gpgbin << "--homedir" << gpgHome << "--no-tty" << "--list-secret-keys";
+				p << gpgbin << QLatin1String( "--homedir" ) << gpgHome << QLatin1String( "--no-tty" ) << QLatin1String( "--list-secret-keys" );
 				p.execute();
 				// end of creating config file
 
-				confPath = "gpg.conf";
+				confPath = QLatin1String( "gpg.conf" );
 				QFile confFile(gpgHome + confPath);
 				if (!confFile.open(QIODevice::WriteOnly)) {
 					KMessageBox::sorry(this, i18n("Cannot create configuration file. Please check if destination media is mounted and if you have write access."));
@@ -186,7 +186,7 @@ bool kgpgOptions::isValidKeyserver(const QString &server)
 	if (server.isEmpty())
 		return false;
 
-	if (server.contains(' ')) {
+	if (server.contains(QLatin1Char( ' ' ))) {
 		KMessageBox::sorry(this, i18n("Key server URLs may not contain whitespace."));
 		return false;
 	}
@@ -222,7 +222,7 @@ void kgpgOptions::slotChangeEncryptTo()
 void kgpgOptions::slotDelKeyServer()
 {
 	QListWidgetItem *cur = m_page6->ServerBox->takeItem(m_page6->ServerBox->currentRow());
-	bool defaultDeleted = cur->text().contains(' ');
+	bool defaultDeleted = cur->text().contains(QLatin1Char( ' ' ));
 
 	// Are there any items left now we've took one out of the list?
 	cur = m_page6->ServerBox->currentItem();
@@ -251,9 +251,9 @@ void kgpgOptions::slotEditKeyServer(QListWidgetItem *cur)
 
 	QString oldServer(cur->text());
 	bool isDefault = false;
-	if (oldServer.contains(' ')) {
+	if (oldServer.contains(QLatin1Char( ' ' ))) {
 		isDefault = true;
-		oldServer = oldServer.section(' ', 0, 0);
+		oldServer = oldServer.section(QLatin1Char( ' ' ), 0, 0);
 	}
 
 	QString newServer(KInputDialog::getText(i18n("Edit Key Server"), i18n("Server URL:"), oldServer).simplified());
@@ -269,7 +269,7 @@ void kgpgOptions::slotEditKeyServer(QListWidgetItem *cur)
 void kgpgOptions::slotDefaultKeyServer()
 {
 	QListWidgetItem *curr = m_page6->ServerBox->currentItem();
-	if (!curr->text().contains(' ')) {
+	if (!curr->text().contains(QLatin1Char( ' ' ))) {
 		// The current item is not already the default one so a couple of things
 		// must be changed now:
 		// 1. The "(Default)" mark must be removed in the GUI list.
@@ -277,7 +277,7 @@ void kgpgOptions::slotDefaultKeyServer()
 		// 3. The new default keyServer must have the "(Default)" mark in the GUI.
 		if (m_page6->ServerBox->findItems(keyServer, Qt::MatchContains).size() > 0) {
 			QListWidgetItem *prev = m_page6->ServerBox->findItems(keyServer, Qt::MatchContains).first();
-			prev->setText(prev->text().remove(' ' + i18nc("Mark default keyserver in GUI", "(Default)"))); // 1
+			prev->setText(prev->text().remove(QLatin1Char( ' ' ) + i18nc("Mark default keyserver in GUI", "(Default)"))); // 1
 		}
 
 		keyServer = curr->text(); // 2
@@ -294,7 +294,7 @@ void kgpgOptions::slotEnableDeleteServer()
 
 void kgpgOptions::updateWidgets()
 {
-	alwaysKeyID = KgpgInterface::getGpgSetting("encrypt-to", KGpgSettings::gpgConfigPath());
+	alwaysKeyID = KgpgInterface::getGpgSetting(QLatin1String( "encrypt-to" ), KGpgSettings::gpgConfigPath());
 
 	m_encrypttoalways = !alwaysKeyID.isEmpty();
 	m_defaultencrypttoalways = false;
@@ -340,7 +340,7 @@ void kgpgOptions::updateWidgets()
 	gpgBinPath = KGpgSettings::gpgBinaryPath();
 	m_page4->gpg_bin_path->setText(gpgBinPath);
 
-	m_useagent = KgpgInterface::getGpgBoolSetting("use-agent", KGpgSettings::gpgConfigPath());
+	m_useagent = KgpgInterface::getGpgBoolSetting(QLatin1String( "use-agent" ), KGpgSettings::gpgConfigPath());
 	m_defaultuseagent = false;
 
 	m_page4->use_agent->setChecked(m_useagent);
@@ -353,7 +353,7 @@ void kgpgOptions::updateWidgets()
 		servers.prepend(i18nc("Mark default keyserver in GUI", "%1 (Default)", defaultServer));
 		m_page6->ServerBox->addItems(servers);
 	}
-    
+
 	kDebug(2100) << "Finishing options" ;
 }
 
@@ -405,35 +405,35 @@ void kgpgOptions::updateSettings()
 	else
 		alwaysKeyID.clear();
 
-	KgpgInterface::setGpgSetting("encrypt-to", alwaysKeyID, KGpgSettings::gpgConfigPath());
+	KgpgInterface::setGpgSetting(QLatin1String( "encrypt-to" ), alwaysKeyID, KGpgSettings::gpgConfigPath());
 
 	emit changeFont(m_fontchooser->font());
 
 	// install service menus
 	if (m_page7->kcfg_SignMenu->currentIndex() == KGpgSettings::EnumSignMenu::AllFiles)
-		slotInstallSign("application/octet-stream");
+		slotInstallSign(QLatin1String( "application/octet-stream" ));
 	else
-		slotRemoveMenu("signfile.desktop");
+		slotRemoveMenu(QLatin1String( "signfile.desktop" ));
 
 	if (m_page7->kcfg_DecryptMenu->currentIndex() == KGpgSettings::EnumDecryptMenu::AllFiles)
-		slotInstallDecrypt("application/octet-stream");
+		slotInstallDecrypt(QLatin1String( "application/octet-stream" ));
 	else
 	if (m_page7->kcfg_DecryptMenu->currentIndex() == KGpgSettings::EnumDecryptMenu::EncryptedFiles)
-		slotInstallDecrypt("application/pgp-encrypted,application/pgp-signature,application/pgp-keys");
+		slotInstallDecrypt(QLatin1String( "application/pgp-encrypted,application/pgp-signature,application/pgp-keys" ));
 	else
-		slotRemoveMenu("decryptfile.desktop");
+		slotRemoveMenu(QLatin1String( "decryptfile.desktop" ));
 
 	m_useagent = m_page4->use_agent->isChecked();
 
 	if (m_useagent) {
-		KgpgInterface::setGpgBoolSetting("use-agent", true, KGpgSettings::gpgConfigPath());
-		KgpgInterface::setGpgBoolSetting("no-use-agent", false, KGpgSettings::gpgConfigPath());
+		KgpgInterface::setGpgBoolSetting(QLatin1String( "use-agent" ), true, KGpgSettings::gpgConfigPath());
+		KgpgInterface::setGpgBoolSetting(QLatin1String( "no-use-agent" ), false, KGpgSettings::gpgConfigPath());
 	} else {
-		KgpgInterface::setGpgBoolSetting("use-agent", false, KGpgSettings::gpgConfigPath());
+		KgpgInterface::setGpgBoolSetting(QLatin1String( "use-agent" ), false, KGpgSettings::gpgConfigPath());
 	}
 
 	// Store the default server in ~/.gnupg
-	KgpgInterface::setGpgSetting("keyserver", keyServer, KGpgSettings::gpgConfigPath());
+	KgpgInterface::setGpgSetting(QLatin1String( "keyserver" ), keyServer, KGpgSettings::gpgConfigPath());
 
 	// Store additional servers in kgpgrc.
 	serverList.clear();
@@ -441,10 +441,10 @@ void kgpgOptions::updateSettings()
 		QString server(m_page6->ServerBox->item(i)->text());
 
 		// Only store the additional servers in the config file.
-		if (!server.contains(' ')) {
+		if (!server.contains(QLatin1Char( ' ' ))) {
 			serverList.append(server);
 		} else {
-			server.remove(QRegExp( QLatin1String( " .*"));	// Remove the " (Default)" ) section.
+			server.remove(QRegExp( QLatin1String( " .*")) );	// Remove the " (Default)" ) section.
 			serverList.prepend(server);		// Make it the first item in the list.
 		}
 	}
@@ -494,7 +494,7 @@ void kgpgOptions::updateSettings()
 void kgpgOptions::listKeys()
 {
 	if (m_model->rowCount(QModelIndex()) == 0) {
-		ids += QString('0');
+		ids += QLatin1String("0");
 		m_page1->file_key->addItem(i18nc("no key available", "none"));
 		m_page1->file_key->setModel(NULL);
 		m_page1->always_key->addItem(i18nc("no key available", "none"));
@@ -507,7 +507,7 @@ void kgpgOptions::listKeys()
 
 void kgpgOptions::slotInstallDecrypt(const QString &mimetype)
 {
-	const QString path(KStandardDirs::locateLocal("data", "konqueror/servicemenus/decryptfile.desktop"));
+	const QString path(KStandardDirs::locateLocal("data", QLatin1String( "konqueror/servicemenus/decryptfile.desktop" )));
 	KDesktopFile configl2(path);
 	if (!configl2.isImmutable()) {
 		KConfigGroup gr(configl2.group("Desktop Entry"));
@@ -525,7 +525,7 @@ void kgpgOptions::slotInstallDecrypt(const QString &mimetype)
 
 void kgpgOptions::slotInstallSign(const QString &mimetype)
 {
-	QString path(KStandardDirs::locateLocal("services", "ServiceMenus/signfile.desktop"));
+	QString path(KStandardDirs::locateLocal("services", QLatin1String( "ServiceMenus/signfile.desktop" )));
 	KDesktopFile configl2(path);
 	if (!configl2.isImmutable()) {
 		KConfigGroup gr = configl2.group("Desktop Entry");
@@ -542,7 +542,7 @@ void kgpgOptions::slotInstallSign(const QString &mimetype)
 
 void kgpgOptions::slotRemoveMenu(const QString &menu)
 {
-	QString path = KStandardDirs::locateLocal("services", "ServiceMenus/" + menu);
+	QString path = KStandardDirs::locateLocal("services", QLatin1String( "ServiceMenus/" ) + menu);
 	QFile qfile(path);
 	if (qfile.exists())
 		qfile.remove();
@@ -580,9 +580,9 @@ bool kgpgOptions::hasChanged()
 	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
 		QString server(m_page6->ServerBox->item(i)->text());
 
-		if (server.contains(' ')) {
+		if (server.contains(QLatin1Char( ' ' ))) {
 			// This is the current server marked as default in the GUI.
-			server.remove(' ' + i18nc( "Remove default marker from GUI if it is there", "(Default)"));
+			server.remove(QLatin1Char( ' ' ) + i18nc( "Remove default marker from GUI if it is there", "(Default)"));
 			if (keyServer != server)
 				return true;
 		} else if (!serverList.contains(server)) {
@@ -618,13 +618,13 @@ bool kgpgOptions::isDefault()
 
 	if (m_page4->use_agent->isChecked() != m_defaultuseagent)
 		return false;
-    
+
 	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
 		QString server(m_page6->ServerBox->item(i)->text());
 
-		if (server.contains(' ')) {
+		if (server.contains(QLatin1Char( ' ' ))) {
 			// This is the current server marked as default in the GUI.
-			server.remove(' ' + i18nc( "Remove default marker from GUI if it is there", "(Default)"));
+			server.remove(QLatin1Char( ' ' ) + i18nc( "Remove default marker from GUI if it is there", "(Default)"));
 			if (defaultKeyServer != server)
 				return false;
 		} else if (!defaultServerList.contains(server)) {

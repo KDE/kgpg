@@ -45,23 +45,23 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
 
     setButtonText(User1, i18n("&Expert Mode"));
     setButtonToolTip(User1, i18n("Go to Expert Mode"));
-    setButtonWhatsThis(User1, "If you go to expert mode, you will use the command line to create your key.");
+    setButtonWhatsThis(User1, i18n( "If you go to expert mode, you will use the command line to create your key." ));
 
 
     QGroupBox *vgroup = new QGroupBox(i18n("Generate Key Pair"), this);
 
     QLabel *nameLabel = new QLabel(i18nc("Name of key owner", "&Name:"), vgroup);
-    m_kname = new KLineEdit("", vgroup);
+    m_kname = new KLineEdit(vgroup);
     nameLabel->setBuddy(m_kname);
     m_kname->setFocus();
     connect(m_kname, SIGNAL(textChanged(const QString&)), this, SLOT(slotEnableOk()));
 
     QLabel *emailLabel = new QLabel(i18nc("Email address of key owner", "E&mail:"), vgroup);
-    m_mail = new KLineEdit("", vgroup);
+    m_mail = new KLineEdit(vgroup);
     emailLabel->setBuddy(m_mail);
 
     QLabel *commentLabel = new QLabel(i18n("Commen&t (optional):"), vgroup);
-    m_comment = new KLineEdit("", vgroup);
+    m_comment = new KLineEdit(vgroup);
     commentLabel->setBuddy(m_comment);
 
     QLabel *expLabel = new QLabel(i18n("Expiration:"), vgroup);
@@ -69,7 +69,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     hgroup->setFrameShape(QFrame::StyledPanel);
     hgroup->setMargin(marginHint());
     hgroup->setSpacing(spacingHint());
-    m_days = new KLineEdit("0", hgroup);
+    m_days = new KLineEdit(QLatin1String( "0" ), hgroup);
     QIntValidator *validator = new QIntValidator(m_days);
     validator->setBottom(0);
     m_days->setValidator(validator);
