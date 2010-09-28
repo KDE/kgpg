@@ -1137,7 +1137,7 @@ void KeysManager::addToKAB()
 	}
 
 	KABC::Addressee::List addresseeList(ab->findByEmail(email));
-	KToolInvocation::startServiceByDesktopName("kaddressbook");
+	KToolInvocation::startServiceByDesktopName( QLatin1String( "kaddressbook" ));
 	QDBusInterface kaddressbook("org.kde.kaddressbook", "/KAddressBook", "org.kde.KAddressbook.Core");
 
 	if(!addresseeList.isEmpty())
@@ -1148,7 +1148,7 @@ void KeysManager::addToKAB()
 
 void KeysManager::slotManpage()
 {
-	KToolInvocation::startServiceByDesktopName("khelpcenter", QString("man:/gpg"), 0, 0, 0, "", true);
+	KToolInvocation::startServiceByDesktopName( QLatin1String( "khelpcenter", QString("man:/gpg"), 0, 0, 0, "" ), true);
 }
 
 void KeysManager::slotTip()
@@ -1544,7 +1544,7 @@ void KeysManager::slotexport()
 	dial->setModal( true );
 
 	QStringList serverList(KGpgSettings::keyServers());
-	serverList.replaceInStrings(QRegExp(" .*"), ""); // Remove kde 3.5 (Default) tag.
+	serverList.replaceInStrings(QRegExp( QLatin1String( " .*"), "" )); // Remove kde 3.5 (Default) tag.
 	if (!serverList.isEmpty()) {
 		QString defaultServer = serverList.takeFirst();
 		qSort(serverList);

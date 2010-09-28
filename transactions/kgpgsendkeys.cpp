@@ -18,9 +18,9 @@
 KGpgSendKeys::KGpgSendKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const QString &attropt, const bool withProgress, const QString &proxy)
 	: KGpgKeyserverTransaction(parent, keyserver, withProgress, proxy)
 {
-	addArgument("--export-options");
+	addArgument(QLatin1String( "--export-options" ));
 	m_attrpos = addArgument(QString());
-	addArgument("--send-keys");
+	addArgument(QLatin1String( "--send-keys" ));
 	setAttributeOptions(attropt);
 	setKeyIds(keys);
 
@@ -75,7 +75,7 @@ void
 KGpgSendKeys::setAttributeOptions(const QString &opt)
 {
 	if (opt.isEmpty())
-		m_attributeopt = "no-export-attributes";
+		m_attributeopt = QLatin1String( "no-export-attributes" );
 	else
 		m_attributeopt = opt;
 

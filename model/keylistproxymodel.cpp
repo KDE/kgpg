@@ -226,11 +226,11 @@ KeyListProxyModelPrivate::nodeLessThan(const KGpgNode *left, const KGpgNode *rig
 	switch (column) {
 	case KEYCOLUMN_NAME:
 		if (left->getType() == ITYPE_SIGN) {
-			if (left->getName().startsWith('[') && !right->getName().startsWith('['))
+			if (left->getName().startsWith(QLatin1Char( '[' )) && !right->getName().startsWith(QLatin1Char( '[' )))
 				return false;
-			else if (!left->getName().startsWith('[') && right->getName().startsWith('['))
+			else if (!left->getName().startsWith(QLatin1Char( '[' )) && right->getName().startsWith(QLatin1Char( '[' )))
 				return true;
-			else if (left->getName().startsWith('[') && right->getName().startsWith('['))
+			else if (left->getName().startsWith(QLatin1Char( '[' )) && right->getName().startsWith(QLatin1Char( '[' )))
 				return (left->getId() < right->getId());
 		}
 		return (left->getName().compare(right->getName().toLower(), Qt::CaseInsensitive) < 0);

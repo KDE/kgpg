@@ -37,31 +37,31 @@ KGpgUidNodePrivate::KGpgUidNodePrivate(const unsigned int index, const QStringLi
 	: m_index(QString::number(index))
 {
 	QString fullname(sl.at(9));
-	if (fullname.contains('<') ) {
+	if (fullname.contains(QLatin1Char( '<' )) ) {
 		m_email = fullname;
 
-		if (fullname.contains(')') )
-			m_email = m_email.section(')', 1);
+		if (fullname.contains(QLatin1Char( ')' )) )
+			m_email = m_email.section(QLatin1Char( ')' ), 1);
 
-		m_email = m_email.section('<', 1);
+		m_email = m_email.section(QLatin1Char( '<' ), 1);
 		m_email.truncate(m_email.length() - 1);
 
-		if (m_email.contains('<')) {
+		if (m_email.contains(QLatin1Char( '<' ))) {
 			// several email addresses in the same key
-			m_email = m_email.replace('>', ';');
-			m_email.remove('<');
+			m_email = m_email.replace(QLatin1Char( '>' ), QLatin1Char( ';' ));
+			m_email.remove(QLatin1Char( '<' ));
 		}
 	}
 
-	m_name = fullname.section(" <", 0, 0);
-	if (fullname.contains('(') ) {
-		m_name = m_name.section(" (", 0, 0);
-		m_comment = fullname.section('(', 1, 1);
-		m_comment = m_comment.section(')', 0, 0);
+	m_name = fullname.section(QLatin1String( " <" ), 0, 0);
+	if (fullname.contains(QLatin1Char( '(' )) ) {
+		m_name = m_name.section(QLatin1String( " (" ), 0, 0);
+		m_comment = fullname.section(QLatin1Char( '(' ), 1, 1);
+		m_comment = m_comment.section(QLatin1Char( ')' ), 0, 0);
 	}
 
 	m_trust = KgpgCore::Convert::toTrust(sl.at(1));
-	m_valid = ((sl.count() <= 11) || !sl.at(11).contains('D'));
+	m_valid = ((sl.count() <= 11) || !sl.at(11).contains(QLatin1Char( 'D' )));
 }
 
 

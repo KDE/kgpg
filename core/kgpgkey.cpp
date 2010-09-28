@@ -296,7 +296,7 @@ QString KgpgKey::fingerprintBeautified() const
     uint len = fingervalue.length();
     if ((len > 0) && (len % 4 == 0))
       for (uint n = 0; 4 * (n + 1) < len; ++n)
-        fingervalue.insert(5 * n + 4, ' ');
+        fingervalue.insert(5 * n + 4, QLatin1Char( ' ' ));
     return fingervalue;
 }
 

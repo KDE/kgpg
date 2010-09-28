@@ -24,18 +24,18 @@ public:
    {
      if (self()->mDefaultKey.isEmpty())
      {
-        self()->mDefaultKey = KgpgInterface::getGpgSetting("default-key", gpgConfigPath());
+        self()->mDefaultKey = KgpgInterface::getGpgSetting(QLatin1String( "default-key" ), gpgConfigPath());
      }
      return self()->mDefaultKey;
    }
-   
+
    static
    void setDefaultKey(const QString &_defaultKey)
    {
      self()->mDefaultKey = _defaultKey;
-     KgpgInterface::setGpgSetting("default-key", _defaultKey, gpgConfigPath());
+     KgpgInterface::setGpgSetting(QLatin1String( "default-key" ), _defaultKey, gpgConfigPath());
    }
-   
+
 private:
    QString mDefaultKey;
 

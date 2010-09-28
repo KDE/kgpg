@@ -19,9 +19,9 @@ KGpgEditKeyTransaction::KGpgEditKeyTransaction(QObject *parent, const QString &k
 	m_autosave(autoSave),
 	m_keyid(keyid)
 {
-	addArgument("--status-fd=1");
-	addArgument("--command-fd=0");
-	addArgument("--edit-key");
+	addArgument(QLatin1String( "--status-fd=1" ));
+	addArgument(QLatin1String( "--command-fd=0" ));
+	addArgument(QLatin1String( "--edit-key" ));
 	addArgument(keyid);
 
 	m_cmdpos = addArgument(command);
@@ -35,7 +35,7 @@ KGpgEditKeyTransaction::KGpgEditKeyTransaction(QObject *parent, const QString &k
 	}
 
 	if (autoSave)
-		addArgument("save");
+		addArgument(QLatin1String( "save" ));
 }
 
 KGpgEditKeyTransaction::~KGpgEditKeyTransaction()
@@ -62,16 +62,16 @@ KGpgEditKeyTransaction::nextLine(const QString &line)
 	if (line == QLatin1String("[GNUPG:] GOT_IT")) {
 		return false;
 	} else if (getSuccess() == TS_USER_ABORTED) {
-		if (line.contains("GET_" ))
+		if (line.contains(QLatin1String( "GET_" ) ))
 			return true;
-	} else if (line.contains("passphrase.enter")) {
+	} else if (line.contains(QLatin1String( "passphrase.enter" ))) {
 		if (!askPassphrase()) {
 			setSuccess(TS_USER_ABORTED);
 			return true;
 		}
-	} else if ((getSuccess() == TS_OK) && line.contains("keyedit.prompt")) {
+	} else if ((getSuccess() == TS_OK) && line.contains(QLatin1String( "keyedit.prompt" ))) {
 		return true;
-	} else if (line.contains("NEED_PASSPHRASE")) {
+	} else if (line.contains(QLatin1String( "NEED_PASSPHRASE" ))) {
 		// nothing for now
 		// we could use the id from NEED_PASSPHRASE as user id hint ...
 	} else {

@@ -14,7 +14,7 @@
 #include "kgpgchangetrust.h"
 
 KGpgChangeTrust::KGpgChangeTrust(QObject *parent, const QString &keyid, const KgpgCore::KgpgKeyOwnerTrust trust)
-	: KGpgEditKeyTransaction(parent, keyid, "trust", false)
+	: KGpgEditKeyTransaction(parent, keyid, QLatin1String( "trust" ), false)
 {
 	setTrust(trust);
 }
@@ -34,7 +34,7 @@ KGpgChangeTrust::preStart()
 bool
 KGpgChangeTrust::nextLine(const QString &line)
 {
-	if (line.contains("edit_ownertrust.value")) {
+	if (line.contains(QLatin1String( "edit_ownertrust.value" ))) {
 		write(QByteArray::number(m_trust));
 		setSuccess(TS_OK);
 	} else {

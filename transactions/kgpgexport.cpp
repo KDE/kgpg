@@ -130,7 +130,7 @@ KGpgExport::preStart()
 		Q_ASSERT(!m_outf.isEmpty());
 		Q_ASSERT(m_outp == NULL);
 
-		addArgument("--output");
+		addArgument(QLatin1String( "--output" ));
 		addArgument(m_outf);
 
 		QFile ofile(m_outf);
@@ -184,12 +184,12 @@ KGpgExport::procSetup(const QStringList &options, const bool secret)
 	getProcess()->resetProcess();
 
 	if (secret)
-		addArgument("--export-secret-key");
+		addArgument(QLatin1String( "--export-secret-key" ));
 	else
-		addArgument("--export");
+		addArgument(QLatin1String( "--export" ));
 
-	if ((m_outputmode == 2) && !options.contains("--armor"))
-		addArgument("--armor");
+	if ((m_outputmode == 2) && !options.contains(QLatin1String( "--armor" )))
+		addArgument(QLatin1String( "--armor" ));
 
 	addArguments(options);
 }

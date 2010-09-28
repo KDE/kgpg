@@ -19,7 +19,7 @@ KGpgSignUid::KGpgSignUid(QObject *parent, const QString &signer, const KGpgSigna
 	: KGpgUidTransaction(parent),
 	KGpgSignTransactionHelper(signer, !local, checking)
 {
-	insertArgument(1, "-u");
+	insertArgument(1, QLatin1String( "-u" ));
 	insertArgument(2, signer);
 	m_signerPos = 2;
 	addArgumentRef(&m_signerPos);

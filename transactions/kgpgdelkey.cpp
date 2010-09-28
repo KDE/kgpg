@@ -28,7 +28,7 @@ KGpgDelKey::KGpgDelKey(QObject *parent, const QStringList &keyids)
 : KGpgTransaction(parent)
 {
 	setCmdLine();
-	
+
 	setDelKeys(keyids);
 }
 
@@ -82,11 +82,11 @@ KGpgDelKey::finish()
 void
 KGpgDelKey::setCmdLine()
 {
-	addArgument("--status-fd=1");
-	addArgument("--command-fd=0");
-	addArgument("--yes");
-	addArgument("--batch");
-	addArgument("--delete-secret-and-public-key");
+	addArgument(QLatin1String( "--status-fd=1" ));
+	addArgument(QLatin1String( "--command-fd=0" ));
+	addArgument(QLatin1String( "--yes" ));
+	addArgument(QLatin1String( "--batch" ));
+	addArgument(QLatin1String( "--delete-secret-and-public-key" ));
 
 	m_argscount = getProcess()->program().count();
 }

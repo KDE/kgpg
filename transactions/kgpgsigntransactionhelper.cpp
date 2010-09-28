@@ -47,16 +47,16 @@ KGpgSignTransactionHelper::nextLine(const QString &line)
 		return notHandled;
 	}
 
-	if (line.contains("ALREADY_SIGNED")) {
+	if (line.contains(QLatin1String( "ALREADY_SIGNED" ))) {
 		asTransaction()->setSuccess(TS_ALREADY_SIGNED);
 		return handledFalse;
-	} else  if (line.contains("GOOD_PASSPHRASE")) {
+	} else  if (line.contains(QLatin1String( "GOOD_PASSPHRASE" ))) {
 		asTransaction()->setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
 		return handledFalse;
-	} else if (line.contains("sign_uid.expire")) {
+	} else if (line.contains(QLatin1String( "sign_uid.expire" ))) {
 		asTransaction()->write("Never");
 		return handledFalse;
-	} else if (line.contains("sign_uid.class")) {
+	} else if (line.contains(QLatin1String( "sign_uid.class" ))) {
 		asTransaction()->write(m_checking);
 		return handledFalse;
 	} else if (line.startsWith(QLatin1String("[GNUPG:] KEYEXPIRED ")) ||
@@ -98,9 +98,9 @@ KGpgSignTransactionHelper::setLocal(const bool local)
 
 	m_local = local;
 	if (local)
-		replaceCmd("lsign");
+		replaceCmd(QLatin1String( "lsign" ));
 	else
-		replaceCmd("sign");
+		replaceCmd(QLatin1String( "sign" ));
 }
 
 bool
@@ -138,7 +138,7 @@ KGpgSignTransactionHelper::getSigner(void) const
 void
 KGpgSignTransactionHelper::setSecringFile(const QString &filename)
 {
-	QStringList secringargs("--secret-keyring");
+	QStringList secringargs(QLatin1String( "--secret-keyring" ));
 	secringargs << filename;
 
 	asTransaction()->insertArguments(1, secringargs);

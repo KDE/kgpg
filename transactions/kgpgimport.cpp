@@ -34,8 +34,8 @@ QStringList
 KGpgImport::command() const
 {
 	QStringList ret;
-	
-	ret << "--import" << "--allow-secret-key-import";
+
+	ret << QLatin1String( "--import" ) << QLatin1String( "--allow-secret-key-import" );
 
 	return ret;
 }
@@ -63,7 +63,7 @@ KGpgImport::getImportedIds(const QStringList &log, const int reason)
 
 		QString tmpstr(str.mid(19).simplified());
 
-		int space = tmpstr.indexOf(' ');
+		int space = tmpstr.indexOf(QLatin1Char( ' ' ));
 		if (space <= 0) {
 			kDebug(2100) << __LINE__ << "invalid format:" << str;
 			continue;
@@ -111,7 +111,7 @@ KGpgImport::getImportMessage(const QStringList &log)
 		if (!str.startsWith(QLatin1String("[GNUPG:] IMPORT_RES ")))
 			continue;
 
-		const QStringList rstr(str.mid(20).simplified().split(' '));
+		const QStringList rstr(str.mid(20).simplified().split(QLatin1Char( ' ' )));
 
 		fine = (rstr.count() == RESULT_PARTS);
 
@@ -180,7 +180,7 @@ KGpgImport::getDetailedImportMessage(const QStringList &log)
 		if (!keyresult.startsWith(QLatin1String("[GNUPG:] IMPORT_OK ")))
 			continue;
 
-		QStringList rc(keyresult.mid(19).split(' '));
+		QStringList rc(keyresult.mid(19).split(QLatin1Char( ' ' )));
 		if (rc.count() < 2) {
 			kDebug(2100) << "unexpected syntax:" << keyresult;
 			continue;
@@ -222,9 +222,9 @@ KGpgImport::getDetailedImportMessage(const QStringList &log)
 			Q_ASSERT(flag == 1);
 		}
 
-		result.append("\n ");
+		result.append(QLatin1String( "\n " ));
 		result.append(thischanged.join( QLatin1String( "\n " )));
-		result.append("\n\n");
+		result.append(QLatin1String( "\n\n" ));
 	}
 
 	QStringList unchanged(resultcodes.keys(0));
@@ -234,9 +234,9 @@ KGpgImport::getDetailedImportMessage(const QStringList &log)
 		result.chop(1);
 	} else {
 		result.append(i18np("Unchanged Key", "Unchanged Keys", unchanged.count()));
-		result.append("\n ");
+		result.append(QLatin1String( "\n " ));
 		result.append(unchanged.join( QLatin1String( "\n " )));
-		result.append("\n");
+		result.append(QLatin1String( "\n" ));
 	}
 
 	return result;

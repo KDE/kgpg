@@ -21,11 +21,11 @@
 KGpgChangePass::KGpgChangePass(QObject *parent, const QString &keyid)
 	: KGpgTransaction(parent)
 {
-	addArgument("--status-fd=1");
-	addArgument("--command-fd=0");
-	addArgument("--edit-key");
+	addArgument(QLatin1String( "--status-fd=1" ));
+	addArgument(QLatin1String( "--command-fd=0" ));
+	addArgument(QLatin1String( "--edit-key" ));
 	addArgument(keyid);
-	addArgument("passwd");
+	addArgument(QLatin1String( "passwd" ));
 }
 
 KGpgChangePass::~KGpgChangePass()
@@ -48,7 +48,7 @@ KGpgChangePass::nextLine(const QString &line)
 	if (!line.startsWith(QLatin1String("[GNUPG:] ")))
 		return false;
 
-	if (line.contains("keyedit.prompt")) {
+	if (line.contains(QLatin1String( "keyedit.prompt" ))) {
 		if (m_seenold && (getSuccess() != TS_USER_ABORTED)) {
 			setSuccess(TS_OK);
 			write("save");
@@ -56,12 +56,12 @@ KGpgChangePass::nextLine(const QString &line)
 			// some sort of error, we already set the error code
 			return true;
 		}
-	} else if (line.contains("GOOD_PASSPHRASE")) {
+	} else if (line.contains(QLatin1String( "GOOD_PASSPHRASE" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
 		m_seenold = true;
-	} else if (line.contains("MISSING_PASSPHRASE")) {
+	} else if (line.contains(QLatin1String( "MISSING_PASSPHRASE" ))) {
 		setSuccess(TS_USER_ABORTED);
-	} else if (line.contains("passphrase.enter")) {
+	} else if (line.contains(QLatin1String( "passphrase.enter" ))) {
 		QString userIDs(getIdHints());
 
 		if (!m_seenold) {
@@ -72,7 +72,7 @@ KGpgChangePass::nextLine(const QString &line)
 				setSuccess(TS_USER_ABORTED);
 			}
 		}
-	} else if (line.contains("GET_")) {
+	} else if (line.contains(QLatin1String( "GET_" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
 		return true;
 	}

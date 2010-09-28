@@ -48,7 +48,7 @@ using namespace KgpgCore;
 //   main window
 kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
            : KConfigDialog(parent, "settings", KGpgSettings::self()),
-	   m_config(new KConfig("kgpgrc", KConfig::SimpleConfig)),
+	   m_config(new KConfig( QLatin1String( "kgpgrc" ), KConfig::SimpleConfig)),
 	   m_page1(new Encryption()),
 	   m_page2(new Decryption()),
 	   m_page3(new UIConf()),
@@ -75,7 +75,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 
 	// Remove everything after a whitespace. This will normally be
 	// ' (Default)' from KDE 3.x.x
-	serverList.replaceInStrings(QRegExp(" .*"), "");
+	serverList.replaceInStrings(QRegExp( QLatin1String( " .*"), "" ));
 
 	defaultConfigPath = KUrl::fromPath(gpgConfigPath).fileName();
 	defaultHomePath = KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash);
@@ -308,10 +308,10 @@ void kgpgOptions::updateWidgets()
 	if (!fileEncryptionKey.isEmpty()) {
 		int idpos = m_page1->file_key->findText(fileEncryptionKey);
 		if (idpos == -1) {
-			idpos = fileEncryptionKey.indexOf(QRegExp("([0-9A-Fa-F]{8})+"));
+			idpos = fileEncryptionKey.indexOf(QRegExp( QLatin1String( "([0-9A-Fa-F]{8})+" )));
 			if (idpos >= 0) {
 				QString fileId = fileEncryptionKey.mid(idpos);
-				idpos = fileId.indexOf(QRegExp("[^a-fA-F0-9]"));
+				idpos = fileId.indexOf(QRegExp( QLatin1String( "[^a-fA-F0-9]" )));
 				if (idpos >= 0) {
 					fileId = fileId.left(idpos);
 					fileId.chop(fileId.length() % 8);
@@ -444,7 +444,7 @@ void kgpgOptions::updateSettings()
 		if (!server.contains(' ')) {
 			serverList.append(server);
 		} else {
-			server.remove(QRegExp(" .*"));	// Remove the " (Default)" section.
+			server.remove(QRegExp( QLatin1String( " .*"));	// Remove the " (Default)" ) section.
 			serverList.prepend(server);		// Make it the first item in the list.
 		}
 	}

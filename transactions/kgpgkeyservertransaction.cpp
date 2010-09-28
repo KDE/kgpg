@@ -23,11 +23,11 @@ KGpgKeyserverTransaction::KGpgKeyserverTransaction(QObject *parent, const QStrin
 	m_progress(NULL),
 	m_showprogress(false)
 {
-	addArgument("--status-fd=1");
-	addArgument("--command-fd=0");
-	addArgument("--keyserver-options");
+	addArgument(QLatin1String( "--status-fd=1" ));
+	addArgument(QLatin1String( "--command-fd=0" ));
+	addArgument(QLatin1String( "--keyserver-options" ));
 	m_proxypos = addArgument(QString());
-	addArgument("--keyserver");
+	addArgument(QLatin1String( "--keyserver" ));
 	m_keyserverpos = addArgument(QString());
 
 	setKeyserver(keyserver);

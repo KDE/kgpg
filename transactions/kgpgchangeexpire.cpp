@@ -19,7 +19,7 @@
 #include "detailedconsole.h"
 
 KGpgChangeExpire::KGpgChangeExpire(QObject *parent, const QString &keyid, const QDateTime &date)
-	: KGpgEditKeyTransaction(parent, keyid, "expire", false)
+	: KGpgEditKeyTransaction(parent, keyid, QLatin1String( "expire" ), false)
 {
 	setDate(date);
 }
@@ -34,11 +34,11 @@ KGpgChangeExpire::nextLine(const QString &line)
 	if (!line.startsWith(QLatin1String("[GNUPG:]")))
 		return false;
 
-	if (line.contains("GOOD_PASSPHRASE")) {
+	if (line.contains(QLatin1String( "GOOD_PASSPHRASE" ))) {
 		setSuccess(TS_OK);
 
 		return false;
-	} else if (line.contains("keygen.valid")) {
+	} else if (line.contains(QLatin1String( "keygen.valid" ))) {
 		if (m_date.isNull())
 			write("0");
 		else

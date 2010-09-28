@@ -24,12 +24,12 @@ KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QSt
 		const char expireunit)
 	: KGpgTransaction(parent)
 {
-	addArgument("--status-fd=1");
-	addArgument("--command-fd=0");
-	addArgument("--no-verbose");
-	addArgument("--no-greeting");
-	addArgument("--gen-key");
-	addArgument("--batch");
+	addArgument(QLatin1String( "--status-fd=1" ));
+	addArgument(QLatin1String( "--command-fd=0" ));
+	addArgument(QLatin1String( "--no-verbose" ));
+	addArgument(QLatin1String( "--no-greeting" ));
+	addArgument(QLatin1String( "--gen-key" ));
+	addArgument(QLatin1String( "--batch" ));
 
 	setName(name);
 	setEmail(email);
@@ -127,17 +127,17 @@ KGpgGenerateKey::nextLine(const QString &line)
 
 	int result = false;
 
-	if (line.contains("PROGRESS")) {
-		QStringList parts(line.mid(18).split(' '));
+	if (line.contains(QLatin1String( "PROGRESS" ))) {
+            QStringList parts(line.mid(18).split(QLatin1Char( ' ' )));
 		if (parts.count() >= 4) {
 			const QString p0(parts.at(0));
-			if (p0 == "primegen") {
+			if (p0 == QLatin1String( "primegen" )) {
 				msg = i18n("Generating prime numbers");
-			} else if (p0 == "pk_dsa") {
+			} else if (p0 == QLatin1String( "pk_dsa" )) {
 				msg = i18n("Generating DSA key");
-			} else if (p0 == "pk_elg") {
+			} else if (p0 == QLatin1String( "pk_elg" )) {
 				msg = i18n("Generating ElGamal key");
-			} else if (p0 == "need_entropy") {
+			} else if (p0 == QLatin1String( "need_entropy" )) {
 				msg = i18n("Waiting for entropy");
 
 				// This message is currenlty not displayed. Nevertheless it's
@@ -145,18 +145,18 @@ KGpgGenerateKey::nextLine(const QString &line)
 				// displayed later on.
 				QString msglong = i18n("The entropy pool ran empty. The key generation process is stalled until enough entropy is present. You can generate entropy e.g. by moving the mouse or typing at the keyboard. The easiest way is by using another application until the key generation continues.");
 			}
-			if (parts.at(3) != "0")
+			if (parts.at(3) != QLatin1String( "0" ))
 				emit infoProgress(parts.at(2).toUInt(), parts.at(3).toUInt());
 		}
-	} else if (line.contains("GOOD_PASSPHRASE")) {
+	} else if (line.contains(QLatin1String( "GOOD_PASSPHRASE" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
-	} else if (line.contains("KEY_CREATED")) {
+	} else if (line.contains(QLatin1String( "KEY_CREATED" ))) {
 		m_fingerprint = line.right(40);
 		setSuccess(TS_OK);
 		result = true;
-	} else if (line.contains("NEED_PASSPHRASE")) {
+	} else if (line.contains(QLatin1String( "NEED_PASSPHRASE" ))) {
 		setSuccess(TS_USER_ABORTED);
-	} else if (line.contains("GET_")) {
+	} else if (line.contains(QLatin1String( "GET_" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
 		result = true;
 	}

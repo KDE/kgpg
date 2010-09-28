@@ -35,8 +35,8 @@
 #include "kgpgimport.h"
 #include "keysmanager.h"
 
-#define SIGNEDMESSAGE_BEGIN  "-----BEGIN PGP SIGNED MESSAGE-----"
-#define SIGNEDMESSAGE_END    "-----END PGP SIGNATURE-----"
+#define SIGNEDMESSAGE_BEGIN  QLatin1String( "-----BEGIN PGP SIGNED MESSAGE-----" )
+#define SIGNEDMESSAGE_END    QLatin1String( "-----END PGP SIGNATURE-----" )
 
 KgpgTextEdit::KgpgTextEdit(QWidget *parent, KGpgItemModel *model, KeysManager *manager)
             : KTextEdit(parent),
@@ -79,7 +79,7 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
         m_tempfile = url.path();
     else
     {
-        if (KMessageBox::warningContinueCancel(this, i18n("<qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"), QString(), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "RemoteFileWarning") != KMessageBox::Continue)
+        if (KMessageBox::warningContinueCancel(this, i18n("<qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"), QString(), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QLatin1String( "RemoteFileWarning" )) != KMessageBox::Continue)
             return;
 
         if (!KIO::NetAccess::download(url, m_tempfile, this))
@@ -152,17 +152,17 @@ void KgpgTextEdit::slotEncode()
     if (dialog->exec() == KDialog::Accepted)
     {
         QStringList options;
-        if (dialog->getArmor())     options << "--armor";
-        if (dialog->getUntrusted()) options << "--always-trust";
-        if (dialog->getHideId())    options << "--throw-keyid";
+        if (dialog->getArmor())     options << QLatin1String( "--armor" );
+        if (dialog->getUntrusted()) options << QLatin1String( "--always-trust" );
+        if (dialog->getHideId())    options << QLatin1String( "--throw-keyid" );
 
         QString customoptions = dialog->getCustomOptions();
         if (!customoptions.isEmpty())
             if (KGpgSettings::allowCustomEncryptionOptions())
-                options << customoptions.split(' ', QString::SkipEmptyParts);
+                options << customoptions.split(QLatin1Char( ' ' ), QString::SkipEmptyParts);
 
         if (KGpgSettings::pgpCompatibility())
-            options << "--pgp6";
+            options << QLatin1String( "--pgp6" );
 
         QStringList listkeys;
         if (!dialog->getSymmetric())
@@ -204,7 +204,7 @@ void KgpgTextEdit::slotSign(const QString &message)
 
     QStringList options;
     if (KGpgSettings::pgpCompatibility())
-        options << "--pgp6";
+        options << QLatin1String( "--pgp6" );
 
     KGpgTextInterface *interface = new KGpgTextInterface();
     connect(interface, SIGNAL(txtSigningFinished(QString)), SLOT(slotSignUpdate(QString)));

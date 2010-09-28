@@ -21,7 +21,7 @@
 KGpgDelSign::KGpgDelSign(QObject *parent, const KGpgSignNode::List &signids)
 	: KGpgUidTransaction(parent, signids.at(0)->getParentKeyNode()->getId())
 {
-	addArgument("delsig");
+	addArgument(QLatin1String( "delsig" ));
 
 	const QStringList args = getProcess()->program();
 
@@ -31,10 +31,10 @@ KGpgDelSign::KGpgDelSign(QObject *parent, const KGpgSignNode::List &signids)
 	if (ntty >= 0)
 		replaceArgument(ntty, QLatin1String("--with-colons"));
 	else
-		insertArgument(1, "--with-colons");
+		insertArgument(1, QLatin1String( "--with-colons" ));
 
 	if (signids.at(0)->getParentKeyNode()->getType() & KgpgCore::ITYPE_PUBLIC)
-		setUid("1");
+		setUid(QLatin1String( "1" ));
 	else
 		setUid(signids.at(0)->getParentKeyNode()->getId());
 
@@ -48,11 +48,11 @@ KGpgDelSign::KGpgDelSign(QObject *parent, const KGpgSignNode::List &signids)
 KGpgDelSign::KGpgDelSign(QObject* parent, KGpgSignNode *signid)
 	: KGpgUidTransaction(parent, signid->getParentKeyNode()->getId())
 {
-	addArgument("delsig");
-	insertArgument(1, "--with-colons");
+	addArgument(QLatin1String( "delsig" ));
+	insertArgument(1, QLatin1String( "--with-colons" ));
 
 	if (signid->getParentKeyNode()->getType() & KgpgCore::ITYPE_PUBLIC)
-		setUid("1");
+		setUid(QLatin1String( "1" ));
 	else
 		setUid(signid->getParentKeyNode()->getId());
 
@@ -99,7 +99,7 @@ KGpgTransaction::ts_boolanswer
 KGpgDelSign::boolQuestion(const QString &line)
 {
 	if (line.startsWith(QLatin1String("keyedit.delsig."))) {
-		const QStringList parts = m_cachedid.split(':');
+		const QStringList parts = m_cachedid.split(QLatin1Char( ':' ));
 
 		if (parts.count() < 7)
 			return KGpgTransaction::BA_NO;

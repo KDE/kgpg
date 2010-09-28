@@ -18,7 +18,7 @@
 KGpgPrimaryUid::KGpgPrimaryUid(QObject *parent, KGpgUidNode *uid)
 	: KGpgUidTransaction(parent, uid->getParentKeyNode()->getId(), uid->getId())
 {
-	addArgument("primary");
+	addArgument(QLatin1String( "primary" ));
 }
 
 KGpgPrimaryUid::~KGpgPrimaryUid()

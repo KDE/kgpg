@@ -293,13 +293,13 @@ KGpgTransaction::postStart()
 void
 KGpgTransaction::addIdHint(QString txt)
 {
-	int cut = txt.indexOf(' ', 22, Qt::CaseInsensitive);
+	int cut = txt.indexOf(QLatin1Char( ' ' ), 22, Qt::CaseInsensitive);
 	txt.remove(0, cut);
 
-	if (txt.contains('(', Qt::CaseInsensitive))
-		txt = txt.section('(', 0, 0) + txt.section(')', -1);
+	if (txt.contains(QLatin1Char( '(' ), Qt::CaseInsensitive))
+		txt = txt.section(QLatin1Char( '(' ), 0, 0) + txt.section(QLatin1Char( ')' ), -1);
 
-	txt.replace('<', "&lt;");
+	txt.replace(QLatin1Char( '<' ), QLatin1String( "&lt;" ));
 
 	if (!d->m_idhints.contains(txt))
 		d->m_idhints << txt;
@@ -386,7 +386,7 @@ KGpgTransaction::askPassphrase(const QString &message)
 	if (userIDs.isEmpty())
 		userIDs = i18n("[No user id found]");
 	else
-		userIDs.replace('<', "&lt;");
+		userIDs.replace(QLatin1Char( '<' ), QLatin1String( "&lt;" ));
 
 	if (d->m_tries < 3)
 		passdlgmessage = i18np("<p><b>Bad passphrase</b>. You have 1 try left.</p>", "<p><b>Bad passphrase</b>. You have %1 tries left.</p>", d->m_tries);
@@ -404,7 +404,7 @@ KGpgTransaction::askPassphrase(const QString &message)
 void
 KGpgTransaction::setGnuPGHome(const QString &home)
 {
-	d->m_process->setEnv("GNUPGHOME", home);
+	d->m_process->setEnv(QLatin1String( "GNUPGHOME" ), home);
 }
 
 int

@@ -66,7 +66,7 @@ KGpgUatNode::getSize() const
 {
 	const Q_D(KGpgUatNode);
 
-	return QString::number(d->m_pixmap.width()) + 'x' + QString::number(d->m_pixmap.height());
+	return QString::number(d->m_pixmap.width()) + QLatin1Char( 'x' ) + QString::number(d->m_pixmap.height());
 }
 
 QDateTime

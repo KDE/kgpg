@@ -87,7 +87,7 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
     initActions();
 
     connect(m_editor, SIGNAL(resetEncoding(bool)), SLOT(slotResetEncoding(bool)));
-    KgpgView *kb = new KgpgView(this, m_editor, toolBar("gpgToolBar"));
+    KgpgView *kb = new KgpgView(this, m_editor, toolBar(QLatin1String( "gpgToolBar" )));
     setCentralWidget(kb);
     setCaption(i18n("Untitled"), false);
     m_editredo->setEnabled(false);
@@ -97,8 +97,8 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
 
     setObjectName( QLatin1String("editor" ));
     slotSetFont(KGpgSettings::font());
-    setupGUI((ToolBar | Keys | StatusBar | Save | Create), "kgpgeditor.rc");
-    setAutoSaveSettings("Editor", true);
+    setupGUI((ToolBar | Keys | StatusBar | Save | Create), QLatin1String( "kgpgeditor.rc" ));
+    setAutoSaveSettings(QLatin1String( "Editor" ), true);
 
     connect(m_editor, SIGNAL(textChanged()), SLOT(modified()));
     connect(m_editor, SIGNAL(newText()), SLOT(newText()));
@@ -169,7 +169,7 @@ void KgpgEditor::initActions()
     KStandardAction::find(this, SLOT(slotFind()), actionCollection());
     KStandardAction::findNext(this, SLOT(slotFindNext()), actionCollection());
     KStandardAction::findPrev(this, SLOT(slotFindPrev()), actionCollection());
-    actionCollection()->addAction(KStandardAction::Preferences, "kgpg_config",
+    actionCollection()->addAction(KStandardAction::Preferences, QLatin1String( "kgpg_config" ),
                                   this, SLOT(slotOptions()));
 
     m_editundo = KStandardAction::undo(this, SLOT(slotundo()), actionCollection());
@@ -183,46 +183,46 @@ void KgpgEditor::initActions()
     m_recentfiles->loadEntries( KConfigGroup(KGlobal::config(), "Recent Files" ) );
     m_recentfiles->setMaxItems(KGpgSettings::recentFiles());
 
-    KAction *action = actionCollection()->addAction("file_encrypt");
+    KAction *action = actionCollection()->addAction(QLatin1String( "file_encrypt" ));
     action->setIcon(KIcon( QLatin1String( "document-encrypt" )));
     action->setText(i18n("&Encrypt File..."));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotFilePreEnc()));
-    action = actionCollection()->addAction("file_decrypt");
+    action = actionCollection()->addAction(QLatin1String( "file_decrypt" ));
     action->setIcon(KIcon( QLatin1String( "document-decrypt" )));
     action->setText(i18n("&Decrypt File..."));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotFilePreDec()));
-    action = actionCollection()->addAction("key_manage");
+    action = actionCollection()->addAction(QLatin1String( "key_manage" ));
     action->setIcon(KIcon( QLatin1String( "kgpg" )));
     action->setText(i18n("&Open Key Manager"));
     connect(action, SIGNAL(triggered(bool)), SLOT(slotKeyManager()));
-    action = actionCollection()->addAction("sign_generate");
+    action = actionCollection()->addAction(QLatin1String( "sign_generate" ));
     action->setText(i18n("&Generate Signature..."));
     action->setIcon(KIcon( QLatin1String( "document-sign-key" )));
     connect(action, SIGNAL(triggered(bool) ), SLOT(slotPreSignFile()));
-    action = actionCollection()->addAction("sign_verify");
+    action = actionCollection()->addAction(QLatin1String( "sign_verify" ));
     action->setText(i18n("&Verify Signature..."));
     connect(action, SIGNAL(triggered(bool) ), SLOT(slotPreVerifyFile()));
-    action = actionCollection()->addAction("sign_check");
+    action = actionCollection()->addAction(QLatin1String( "sign_check" ));
     action->setText(i18n("&Check MD5 Sum..."));
     connect(action, SIGNAL(triggered(bool) ), SLOT(slotCheckMd5()));
 
-    m_encodingaction = actionCollection()->add<KToggleAction>("charsets");
+    m_encodingaction = actionCollection()->add<KToggleAction>(QLatin1String( "charsets" ));
     m_encodingaction->setText(i18n("&Unicode (utf-8) Encoding"));
     connect(m_encodingaction, SIGNAL(triggered(bool) ), SLOT(slotSetCharset()));
 
     actionCollection()->addAction(m_recentfiles->objectName(), m_recentfiles);
 
-    action = actionCollection()->addAction("text_encrypt");
+    action = actionCollection()->addAction(QLatin1String( "text_encrypt" ));
     action->setIcon(KIcon( QLatin1String( "document-encrypt" )));
     action->setText(i18n("En&crypt"));
     connect(action, SIGNAL(triggered(bool)), m_editor, SLOT(slotEncode()));
 
-    action = actionCollection()->addAction("text_decrypt");
+    action = actionCollection()->addAction(QLatin1String( "text_decrypt" ));
     action->setIcon(KIcon( QLatin1String( "document-decrypt" )));
     action->setText(i18n("&Decrypt"));
     connect(action, SIGNAL(triggered(bool)), m_editor, SLOT(slotDecode()));
 
-    action = actionCollection()->addAction("text_sign_verify");
+    action = actionCollection()->addAction(QLatin1String( "text_sign_verify" ));
     action->setIcon(KIcon( QLatin1String( "document-sign-key" )));
     action->setText(i18n("S&ign/Verify"));
     connect(action, SIGNAL(triggered(bool)), m_editor, SLOT(slotSignVerify()));
@@ -431,7 +431,7 @@ void KgpgEditor::slotFindNext()
 void KgpgEditor::slotFindPrev()
 {
     if(!m_find)
-    { 
+    {
        slotFind();
        return;
     }
@@ -492,7 +492,7 @@ void KgpgEditor::slotFilePreDec()
     if (oldname.endsWith(QLatin1String(".gpg")) || oldname.endsWith(QLatin1String(".asc")) || oldname.endsWith(QLatin1String(".pgp")))
         oldname.truncate(oldname.length() - 4);
     else
-        oldname.append(".clear");
+        oldname.append(QLatin1String( ".clear" ));
     oldname.prepend(url.directory(KUrl::IgnoreTrailingSlash));
 
     KDialog *popn = new KDialog(this );
@@ -607,7 +607,7 @@ void KgpgEditor::slotSetCharset()
     {
         if (checkEncoding(QTextCodec::codecForLocale()))
             return;
-        m_editor->setPlainText(m_editor->toPlainText().toUtf8());
+        m_editor->setPlainText(QLatin1String( m_editor->toPlainText().toUtf8() ));
     }
 }
 
@@ -647,10 +647,10 @@ void KgpgEditor::slotSignFile(const KUrl &url)
 
         QStringList Options;
         if (KGpgSettings::asciiArmor())
-            Options << "--armor";
+            Options << QLatin1String( "--armor" );
         if (KGpgSettings::pgpCompatibility())
-            Options << "--pgp6";
-        Options << "--detach-sign";
+            Options << QLatin1String( "--pgp6" );
+        Options << QLatin1String( "--detach-sign" );
 
         KGpgTextInterface *interface = new KGpgTextInterface();
         //TODO connect(interface, SIGNAL(...), this, SLOT(slotSignFileFin()));
@@ -676,11 +676,11 @@ void KgpgEditor::slotVerifyFile(const KUrl &url)
         QString sigfile;
 	if (!url.fileName().endsWith(QLatin1String(".sig")))
         {
-            sigfile = url.path() + ".sig";
+            sigfile = url.path() + QLatin1String( ".sig" );
             QFile fsig(sigfile);
             if (!fsig.exists())
             {
-                sigfile = url.path() + ".asc";
+                sigfile = url.path() + QLatin1String( ".asc" );
                 QFile fsig(sigfile);
                 // if no .asc or .sig signature file included, assume the file is internally signed
                 if (!fsig.exists())
@@ -714,7 +714,7 @@ void KgpgEditor::importSignatureKey(const QString &id)
 	connect(ks, SIGNAL(importFinished(QStringList)), SLOT(slotDownloadKeysFinished(QStringList)));
 	connect(ks, SIGNAL(importFailed()), ks, SLOT(deleteLater()));
 
-	ks->startImport(QStringList(id), QString(), qgetenv("http_proxy"));
+	ks->startImport(QStringList(id), QString(),QLatin1String( qgetenv("http_proxy") ));
 }
 
 void KgpgEditor::slotDownloadKeysFinished(QStringList ids)

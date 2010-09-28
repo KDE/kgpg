@@ -133,7 +133,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     }
 
     KActionCollection *actcol = new KActionCollection(this);
-    KAction *action = actcol->addAction("go_default_key");
+    KAction *action = actcol->addAction(QLatin1String( "go_default_key" ));
     action->setText(i18n("&Go to Default Key"));
     action->setShortcut(goDefaultKey);
 

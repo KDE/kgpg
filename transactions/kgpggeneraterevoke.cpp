@@ -24,16 +24,16 @@ KGpgGenerateRevoke::KGpgGenerateRevoke(QObject *parent, const QString &keyID, co
 	m_reason(reason),
 	m_description(description)
 {
-	addArgument("--status-fd=1");
-	addArgument("--command-fd=0");
-	addArgument("--no-verbose");
-	addArgument("--no-greeting");
+	addArgument(QLatin1String( "--status-fd=1" ));
+	addArgument(QLatin1String( "--command-fd=0" ));
+	addArgument(QLatin1String( "--no-verbose" ));
+	addArgument(QLatin1String( "--no-greeting" ));
 
 	if (!revokeUrl.isEmpty()) {
-		addArgument("-o");
+		addArgument(QLatin1String( "-o" ));
 		addArgument(revokeUrl.toLocalFile());
 	}
-	addArgument("--gen-revoke");
+	addArgument(QLatin1String( "--gen-revoke" ));
 	addArgument(keyID);
 }
 
@@ -55,26 +55,26 @@ bool
 KGpgGenerateRevoke::nextLine(const QString &line)
 {
 	if (!line.startsWith(QLatin1String("[GNUPG:] "))) {
-		m_output.append(line + '\n');
+		m_output.append(line + QLatin1Char( '\n' ));
 		return false;
 	}
 
-	if (line.contains("GOOD_PASSPHRASE")) {
+	if (line.contains(QLatin1String( "GOOD_PASSPHRASE" ))) {
 		setSuccess(TS_OK);
-	} else if (line.contains("passphrase.enter")) {
+	} else if (line.contains(QLatin1String( "passphrase.enter" ))) {
 		if (!askPassphrase()) {
 			setSuccess(TS_USER_ABORTED);
 			return true;
 		}
-	} else if (line.contains("NEED_PASSPHRASE")) {
+	} else if (line.contains(QLatin1String( "NEED_PASSPHRASE" ))) {
 		setSuccess(TS_USER_ABORTED);
-	} else if (line.contains("ask_revocation_reason.code")) {
+	} else if (line.contains(QLatin1String( "ask_revocation_reason.code" ))) {
 		write(QByteArray::number(m_reason));
-	} else if (line.contains("ask_revocation_reason.text")) {
+	} else if (line.contains(QLatin1String( "ask_revocation_reason.text" ))) {
 		write(m_description.toUtf8());
 		// GnuPG stops asking if we pass an empty line
 		m_description.clear();
-	} else if (line.contains("GET_")) {
+	} else if (line.contains(QLatin1String( "GET_" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
 		kDebug(2100) << line;
 		return true;
@@ -104,7 +104,7 @@ KGpgGenerateRevoke::finish()
 		if (!m_revUrl.isEmpty()) {
 			QFile of(m_revUrl.toLocalFile());
 			if (of.open(QIODevice::ReadOnly)) {
-				m_output = of.readAll();
+				m_output = QLatin1String( of.readAll() );
 				of.close();
 			}
 		}

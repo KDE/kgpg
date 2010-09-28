@@ -79,7 +79,7 @@ KGpgReceiveKeys::~KGpgReceiveKeys()
 QString
 KGpgReceiveKeys::getGpgCommand() const
 {
-	return "--recv-keys";
+	return QLatin1String( "--recv-keys" );
 }
 
 KGpgRefreshKeys::KGpgRefreshKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress, const QString &proxy)
@@ -94,5 +94,5 @@ KGpgRefreshKeys::~KGpgRefreshKeys()
 QString
 KGpgRefreshKeys::getGpgCommand() const
 {
-	return "--refresh-keys";
+	return QLatin1String( "--refresh-keys" );
 }

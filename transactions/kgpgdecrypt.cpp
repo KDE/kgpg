@@ -38,9 +38,9 @@ KGpgDecrypt::command() const
 {
 	QStringList ret;
 
-	ret << "--decrypt";
+	ret << QLatin1String( "--decrypt" );
 
-	ret << KGpgSettings::customDecrypt().simplified().split(' ', QString::SkipEmptyParts);
+	ret << KGpgSettings::customDecrypt().simplified().split(QLatin1Char( ' ' ), QString::SkipEmptyParts);
 
 	return ret;
 }

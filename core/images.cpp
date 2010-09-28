@@ -29,7 +29,7 @@ QPixmap Images::single()
 {
     static QPixmap single;
     if (single.isNull())
-        single = KIconLoader::global()->loadIcon("key-single", KIconLoader::Small, 20);
+        single = KIconLoader::global()->loadIcon(QLatin1String( "key-single" ), KIconLoader::Small, 20);
     return single;
 }
 
@@ -37,7 +37,7 @@ QPixmap Images::pair()
 {
     static QPixmap pair;
     if (pair.isNull())
-        pair = KIconLoader::global()->loadIcon("key-pair", KIconLoader::Small, 20);
+        pair = KIconLoader::global()->loadIcon(QLatin1String( "key-pair" ), KIconLoader::Small, 20);
     return pair;
 }
 
@@ -45,7 +45,7 @@ QPixmap Images::group()
 {
     static QPixmap group;
     if (group.isNull())
-        group = KIconLoader::global()->loadIcon("key-group", KIconLoader::Small, 20);
+        group = KIconLoader::global()->loadIcon(QLatin1String( "key-group" ), KIconLoader::Small, 20);
     return group;
 }
 
@@ -53,7 +53,7 @@ QPixmap Images::orphan()
 {
     static QPixmap oprpan;
     if (oprpan.isNull())
-        oprpan = KIconLoader::global()->loadIcon("key-orphan", KIconLoader::Small, 20);
+        oprpan = KIconLoader::global()->loadIcon(QLatin1String( "key-orphan" ), KIconLoader::Small, 20);
     return oprpan;
 }
 
@@ -61,7 +61,7 @@ QPixmap Images::signature()
 {
     static QPixmap signature;
     if (signature.isNull())
-        signature = KIconLoader::global()->loadIcon("application-pgp-signature", KIconLoader::Small, 20);
+        signature = KIconLoader::global()->loadIcon(QLatin1String( "application-pgp-signature" ), KIconLoader::Small, 20);
     return signature;
 }
 
@@ -69,7 +69,7 @@ QPixmap Images::userId()
 {
     static QPixmap userid;
     if (userid.isNull())
-        userid = KIconLoader::global()->loadIcon("x-office-contact", KIconLoader::Small, 20);
+        userid = KIconLoader::global()->loadIcon(QLatin1String( "x-office-contact" ), KIconLoader::Small, 20);
     return userid;
 }
 
@@ -77,7 +77,7 @@ QPixmap Images::photo()
 {
     static QPixmap photo;
     if (photo.isNull())
-        photo = KIconLoader::global()->loadIcon("image-x-generic", KIconLoader::Small, 20);
+        photo = KIconLoader::global()->loadIcon(QLatin1String( "image-x-generic" ), KIconLoader::Small, 20);
     return photo;
 }
 
@@ -85,7 +85,7 @@ QPixmap Images::revoke()
 {
     static QPixmap revoke;
     if (revoke.isNull())
-        revoke = KIconLoader::global()->loadIcon("dialog-error", KIconLoader::Small, 20);
+        revoke = KIconLoader::global()->loadIcon(QLatin1String( "dialog-error" ), KIconLoader::Small, 20);
     return revoke;
 }
 
@@ -93,7 +93,7 @@ QPixmap Images::kgpg()
 {
     static QPixmap kgpg;
     if (kgpg.isNull())
-        kgpg = KIconLoader::global()->loadIcon("kgpg", KIconLoader::Desktop);
+        kgpg = KIconLoader::global()->loadIcon(QLatin1String( "kgpg" ), KIconLoader::Desktop);
     return kgpg;
 }
 

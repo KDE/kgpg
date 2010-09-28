@@ -16,7 +16,7 @@
 #include "kpimutils/email.h"
 
 KGpgAddUid::KGpgAddUid(QObject *parent, const QString &keyid, const QString &name, const QString &email, const QString &comment)
-	: KGpgEditKeyTransaction(parent, keyid, "adduid", false, false)
+	: KGpgEditKeyTransaction(parent, keyid, QLatin1String( "adduid" ), false, false)
 {
 	setName(name);
 	setEmail(email);
@@ -47,15 +47,15 @@ KGpgAddUid::nextLine(const QString &line)
 	if (!line.startsWith(QLatin1String("[GNUPG:] ")))
 		return false;
 
-	if (line.contains("GOOD_PASSPHRASE")) {
+	if (line.contains(QLatin1String( "GOOD_PASSPHRASE" ))) {
 		setSuccess(TS_OK);
-	} else if (line.contains("keygen.name")) {
+	} else if (line.contains(QLatin1String( "keygen.name" ))) {
 		write(m_name.toUtf8());
-	} else if (line.contains("keygen.email")) {
+	} else if (line.contains(QLatin1String( "keygen.email" ))) {
 		write(m_email.toAscii());
-	} else if (line.contains("keygen.comment")) {
+	} else if (line.contains(QLatin1String( "keygen.comment" ))) {
 		write(m_comment.toUtf8());
-	} else if (line.contains("keyedit.prompt")) {
+	} else if (line.contains(QLatin1String( "keyedit.prompt" ))) {
 		write("save");
 	} else {
 		return KGpgEditKeyTransaction::nextLine(line);

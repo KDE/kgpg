@@ -24,13 +24,13 @@ KGpgChangeDisable::~KGpgChangeDisable()
 }
 
 void
-KGpgChangeDisable::setDisable(const bool &disable)
+KGpgChangeDisable::setDisable(bool disable)
 {
 	QString cmd;
 	if (disable)
-		cmd = "disable";
+		cmd = QLatin1String( "disable" );
 	else
-		cmd = "enable";
+		cmd = QLatin1String( "enable" );
 
 	replaceCommand(cmd);
 }
@@ -49,7 +49,7 @@ KGpgChangeDisable::preStart()
 bool
 KGpgChangeDisable::nextLine(const QString &line)
 {
-	if (line.contains(" KEYEXPIRED ") || (line.contains(" SIGEXPIRED"))) {
+	if (line.contains(QLatin1String( " KEYEXPIRED " )) || (line.contains(QLatin1String( " SIGEXPIRED" )))) {
 		return false;
 	} else {
 		return KGpgEditKeyTransaction::nextLine(line);

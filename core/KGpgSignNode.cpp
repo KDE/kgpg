@@ -44,7 +44,7 @@ KGpgSignNodePrivate::KGpgSignNodePrivate(const QStringList &sl)
 		m_expiration = QDateTime::fromTime_t(sl.at(6).toUInt());
 	if (sl.count() < 11)
 		return;
-	m_local = sl.at(10).endsWith('l');
+	m_local = sl.at(10).endsWith(QLatin1Char( 'l' ));
 }
 
 KGpgSignNode::KGpgSignNode(KGpgSignableNode *parent, const QStringList &s)

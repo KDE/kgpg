@@ -17,7 +17,7 @@
 #include <KLocale>
 
 KGpgAddPhoto::KGpgAddPhoto(QObject *parent, const QString &keyid, const QString &imagepath)
-	: KGpgEditKeyTransaction(parent, keyid, "addphoto", false)
+	: KGpgEditKeyTransaction(parent, keyid, QLatin1String( "addphoto" ), false)
 {
 	setImagePath(imagepath);
 }
@@ -32,12 +32,12 @@ KGpgAddPhoto::nextLine(const QString &line)
 	if (!line.startsWith(QLatin1String("[GNUPG:] ")))
 		return false;
 
-	if (line.contains("GOOD_PASSPHRASE")) {
+	if (line.contains(QLatin1String( "GOOD_PASSPHRASE" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
 	} else if (line.endsWith(QLatin1String("photoid.jpeg.add"))) {
 		write(m_photourl.toUtf8());
 		setSuccess(TS_OK);
-	} else if (line.contains("photoid.jpeg.size")) {
+	} else if (line.contains(QLatin1String( "photoid.jpeg.size" ))) {
 		if (KMessageBox::questionYesNo(0, i18n("This image is very large. Use it anyway?"), QString(), KGuiItem(i18n("Use Anyway")), KGuiItem(i18n("Do Not Use"))) == KMessageBox::Yes) {
 			write("YES");
 		} else {

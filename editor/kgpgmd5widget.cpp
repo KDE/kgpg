@@ -37,7 +37,7 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     checkfile.reset();
     checkfile.update(f);
 
-    m_md5sum = checkfile.hexDigest().constData();
+    m_md5sum = QLatin1String( checkfile.hexDigest().constData() );
     f.close();
 
     QWidget *page = new QWidget(this);
@@ -77,7 +77,7 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
 
 void Md5Widget::slotApply()
 {
-    QString text = KApplication::clipboard()->text().remove(' ');
+    QString text = KApplication::clipboard()->text().remove(QLatin1Char( ' ' ));
     if (!text.isEmpty())
     {
         if (text.length() != m_md5sum.length())

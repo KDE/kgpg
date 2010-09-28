@@ -64,7 +64,7 @@ SearchResult::SearchResult(const QString &line)
 	: m_validPub(false),
 	m_uatCount(0)
 {
-	const QStringList parts(line.split(':'));
+	const QStringList parts(line.split(QLatin1Char( ':' )));
 
 	if (parts.count() < 6)
 		return;
@@ -76,7 +76,7 @@ SearchResult::SearchResult(const QString &line)
 	m_algo = KgpgCore::Convert::toAlgo(parts.at(2));
 	m_bits = parts.at(3).toUInt();
 	m_creation.setTime_t(parts.at(4).toULongLong());
-	m_revoked = (parts.at(6) == "r");
+	m_revoked = (parts.at(6) == QLatin1String( "r" ));
 
 	m_validPub = true;
 }
@@ -85,7 +85,7 @@ void
 SearchResult::addUid(const QString &id)
 {
 	Q_ASSERT(m_emails.count() == m_names.count());
-	QRegExp hasmail("(.*) <(.*)>");
+	QRegExp hasmail( QLatin1String( "(.*) <(.*)>" ));
 
 	if (hasmail.exactMatch(id)) {
 		m_names.append(hasmail.capturedTexts().at(1));
@@ -145,18 +145,18 @@ KGpgSearchResultModelPrivate::~KGpgSearchResultModelPrivate()
 QString
 KGpgSearchResultModelPrivate::urlDecode(const QString &line)
 {
-	if (!line.contains('%'))
+	if (!line.contains(QLatin1Char( '%' )))
 		return line;
 
 	QByteArray tmp(line.toAscii());
-	const QRegExp hex("[A-F0-9]{2}");	// URL-encoding uses only uppercase
+	const QRegExp hex( QLatin1String( "[A-F0-9]{2}" ));	// URL-encoding uses only uppercase
 
 	int pos = -1;	// avoid error if '%' is URL-encoded
 	while ((pos = tmp.indexOf("%", pos + 1)) >= 0) {
 		const QByteArray hexnum(tmp.mid(pos + 1, 2));
 
 		// the input is not properly URL-encoded, so assume it does not need to be decoded at all
-		if (!hex.exactMatch(hexnum))
+		if (!hex.exactMatch(QLatin1String( hexnum )))
 			return line;
 
 		char n[2];
@@ -366,7 +366,7 @@ KGpgSearchResultModel::slotAddKey(QStringList lines)
 
 	foreach (const QString &line, lines) {
 		if (line.startsWith(QLatin1String("uid:"))) {
-			QString kid = d->urlDecode(line.section(':', 1, 1));
+			QString kid = d->urlDecode(line.section(QLatin1Char( ':' ), 1, 1));
 
 			nkey->addUid(kid);
 		} else if (line.startsWith(QLatin1String("uat:"))) {

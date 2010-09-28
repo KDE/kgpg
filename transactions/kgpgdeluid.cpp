@@ -21,21 +21,21 @@
 
 KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgSignableNode *uid)
 	: KGpgUidTransaction(parent, uid->getParentKeyNode()->getId(), uid->getId()),
-	m_fixargs(addArgument("deluid"))
+	m_fixargs(addArgument(QLatin1String( "deluid" )))
 {
 	setUid(uid);
 }
 
 KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgSignableNode::const_List &uids)
 	: KGpgUidTransaction(parent),
-	m_fixargs(addArgument("deluid"))
+	m_fixargs(addArgument(QLatin1String( "deluid" )))
 {
 	setUids(uids);
 }
 
 KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int uid, const RemoveMode removeMode)
 	: KGpgUidTransaction(parent),
-	m_fixargs(addArgument("deluid"))
+	m_fixargs(addArgument(QLatin1String( "deluid" )))
 {
 	setUid(keynode, uid, removeMode);
 }
@@ -87,12 +87,12 @@ KGpgDelUid::setUids(const KGpgSignableNode::const_List &uids)
 	foreach (nd, m_uids.mid(1)) {
 		Q_ASSERT((nd->getParentKeyNode() == parent) || (nd == parent));
 
-		args.append("uid");
+		args.append(QLatin1String( "uid" ));
 		if (nd->getType() & KgpgCore::ITYPE_PAIR)
-			args.append(QString('1'));
+			args.append(QLatin1String("1"));
 		else
 			args.append(nd->getId());
-		args.append("deluid");
+		args.append(QLatin1String( "deluid" ));
 	}
 
 	proc->setProgram(args);

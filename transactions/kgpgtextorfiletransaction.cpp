@@ -81,7 +81,7 @@ KGpgTextOrFileTransaction::preStart()
 	GPGProc *proc = getProcess();
 	QStringList args(proc->program().at(0));
 
-	args << "--status-fd=1" << "--no-tty" << command() << locfiles << m_tempfiles;
+	args << QLatin1String( "--status-fd=1" ) << QLatin1String( "--no-tty" ) << command() << locfiles << m_tempfiles;
 
 	proc->setProgram(args);
 

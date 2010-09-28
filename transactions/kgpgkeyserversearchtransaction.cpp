@@ -17,8 +17,8 @@ KGpgKeyserverSearchTransaction::KGpgKeyserverSearchTransaction(QObject *parent, 
 	: KGpgKeyserverTransaction(parent, keyserver, withProgress, proxy),
 	m_count(0)
 {
-	addArgument("--with-colons");
-	addArgument("--search-keys");
+	addArgument(QLatin1String( "--with-colons" ));
+	addArgument(QLatin1String( "--search-keys" ));
 	m_patternPos = addArgument(pattern);
 }
 

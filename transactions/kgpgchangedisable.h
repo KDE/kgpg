@@ -29,7 +29,7 @@ public:
 	KGpgChangeDisable(QObject *parent, const QString &keyid, const bool &disable);
 	virtual ~KGpgChangeDisable();
 
-	void setDisable(const bool &disable);
+	void setDisable(bool disable);
 
 protected:
 	virtual bool preStart();
