@@ -39,7 +39,7 @@ using namespace KgpgCore;
 KgpgLibrary::KgpgLibrary(QWidget *parent)
 	: QObject(parent),
 	m_panel(parent),
-	m_extension(".gpg"),
+	m_extension(QLatin1String( ".gpg" )),
 	m_pop(NULL),
 	m_popisactive(false)
 {
@@ -61,17 +61,17 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, K
 	if (dialog->exec() == KDialog::Accepted) {
 		QStringList options(opts);
 		if (dialog->getUntrusted())
-			options.append("--always-trust");
+			options.append(QLatin1String( "--always-trust" ));
 		if (dialog->getArmor())
-			options.append("--armor");
+			options.append(QLatin1String( "--armor" ));
 		if (dialog->getHideId())
-			options.append("--throw-keyid");
+			options.append(QLatin1String( "--throw-keyid" ));
 
 		if (KGpgSettings::allowCustomEncryptionOptions()) {
 			const QString customopts(dialog->getCustomOptions().isEmpty());
 
 			if (!customopts.isEmpty())
-				options << customopts.split(' ', QString::SkipEmptyParts);
+				options << customopts.split(QLatin1Char( ' ' ), QString::SkipEmptyParts);
 		}
 
 		QStringList keys(dialog->selectedKeys());
@@ -102,8 +102,8 @@ void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encrypt
 	m_urlselected = filetocrypt;
 
 	KUrl dest;
-	if (encryptoptions.contains("--armor"))
-		dest.setPath(m_urlselected.path() + ".asc");
+	if (encryptoptions.contains( QLatin1String( "--armor" )))
+		dest.setPath(m_urlselected.path() + QLatin1String( ".asc" ));
 	else
 		dest.setPath(m_urlselected.path() + m_extension);
 

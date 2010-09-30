@@ -54,13 +54,13 @@ void KGpgExternalActions::encryptDroppedFile()
 	QStringList opts;
 	KgpgLibrary *lib = new KgpgLibrary(0);
 	if (KGpgSettings::pgpExtension())
-		lib->setFileExtension(".pgp");
+		lib->setFileExtension(QLatin1String( ".pgp" ));
 	connect(lib, SIGNAL(systemMessage(QString)), SLOT(busyMessage(QString)));
 
 	if (KGpgSettings::encryptFilesTo()) {
 		if (KGpgSettings::pgpCompatibility())
-			opts << "--pgp6";
-		
+			opts << QLatin1String( "--pgp6" );
+
 		lib->slotFileEnc(droppedUrls, opts, m_model, goDefaultKey(), KGpgSettings::fileEncryptionKey());
 	} else {
 		lib->slotFileEnc(droppedUrls, opts, m_model, goDefaultKey());
@@ -76,7 +76,7 @@ void KGpgExternalActions::encryptDroppedFolder()
 	if (KMessageBox::Cancel == KMessageBox::warningContinueCancel(m_keysmanager,
 				i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>",
 				kgpgfoldertmp->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(),
-				KStandardGuiItem::cancel(), "FolderTmpFile"))
+				KStandardGuiItem::cancel(), QLatin1String( "FolderTmpFile" )))
 		return;
 
 	dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey(), false, droppedUrls);
@@ -113,25 +113,25 @@ void KGpgExternalActions::slotSetCompression(int cp)
 void KGpgExternalActions::startFolderEncode()
 {
 	const QStringList selec(dialog->selectedKeys());
-	QStringList encryptOptions(dialog->getCustomOptions().split(' ',  QString::SkipEmptyParts));
+	QStringList encryptOptions(dialog->getCustomOptions().split(QLatin1Char( ' ' ),  QString::SkipEmptyParts));
 	bool symetric = dialog->getSymmetric();
 	QString extension;
 
 	switch (compressionScheme) {
 	case 0:
-		extension = ".zip";
+		extension = QLatin1String( ".zip" );
 		break;
 	case 1:
-		extension = ".tar.gz";
+		extension = QLatin1String( ".tar.gz" );
 		break;
 	case 2:
-		extension = ".tar.bz2";
+		extension = QLatin1String( ".tar.bz2" );
 		break;
 	case 3:
-		extension = ".tar";
+		extension = QLatin1String( ".tar" );
 		break;
 	case 4:
-		extension = ".tar.xz";
+		extension = QLatin1String( ".tar.xz" );
 		break;
 	default:
 		Q_ASSERT(compressionScheme == 0);
@@ -139,19 +139,19 @@ void KGpgExternalActions::startFolderEncode()
 	}
 
 	if (dialog->getArmor())
-		extension += ".asc";
+		extension += QLatin1String( ".asc" );
 	else if (KGpgSettings::pgpExtension())
-		extension += ".pgp";
+		extension += QLatin1String( ".pgp" );
 	else
-		extension += ".gpg";
+		extension += QLatin1String( ".gpg" );
 
 	if (dialog->getArmor())
-		encryptOptions << "--armor";
+		encryptOptions << QLatin1String( "--armor" );
 	if (dialog->getHideId())
-		encryptOptions << "--throw-keyids";
+		encryptOptions << QLatin1String( "--throw-keyids" );
 
 	QString fname(droppedUrls.first().path());
-	if (fname.endsWith('/'))
+	if (fname.endsWith(QLatin1Char( '/' )))
 		fname.remove(fname.length() - 1, 1);
 
 	KUrl encryptedFile(KUrl::fromPath(fname + extension));
@@ -185,16 +185,16 @@ void KGpgExternalActions::startFolderEncode()
 		arch = new KZip(kgpgfoldertmp->fileName());
 		break;
 	case 1:
-		arch = new KTar(kgpgfoldertmp->fileName(), "application/x-gzip");
+		arch = new KTar(kgpgfoldertmp->fileName(), QLatin1String( "application/x-gzip" ));
 		break;
 	case 2:
-		arch = new KTar(kgpgfoldertmp->fileName(), "application/x-bzip");
+		arch = new KTar(kgpgfoldertmp->fileName(), QLatin1String( "application/x-bzip" ));
 		break;
 	case 3:
-		arch = new KTar(kgpgfoldertmp->fileName(), "application/x-tar");
+		arch = new KTar(kgpgfoldertmp->fileName(), QLatin1String( "application/x-tar" ));
 		break;
 	case 4:
-		arch = new KTar(kgpgfoldertmp->fileName(), "application/x-xz");
+		arch = new KTar(kgpgfoldertmp->fileName(), QLatin1String( "application/x-xz" ));
 		break;
 	default:
 		Q_ASSERT(0);
@@ -257,10 +257,10 @@ void KGpgExternalActions::slotVerifyFile()
 	QString sigfile;
 	// try to find detached signature.
 	if (!droppedUrl.fileName().endsWith(QLatin1String(".sig"))) {
-		sigfile = droppedUrl.path() + ".sig";
+		sigfile = droppedUrl.path() + QLatin1String( ".sig" );
 		QFile fsig(sigfile);
 		if (!fsig.exists()) {
-			sigfile = droppedUrl.path() + ".asc";
+			sigfile = droppedUrl.path() + QLatin1String( ".asc" );
 			QFile fsig(sigfile);
 			// if no .asc or .sig signature file included, assume the file is internally signed
 			if (!fsig.exists())
@@ -301,10 +301,10 @@ void KGpgExternalActions::signDroppedFile()
 	delete opts;
 	QStringList Options;
 	if (KGpgSettings::asciiArmor())
-		Options << "--armor";
+		Options << QLatin1String( "--armor" );
 	if (KGpgSettings::pgpCompatibility())
-		Options << "--pgp6";
-	Options << "--detach-sign";
+		Options << QLatin1String( "--pgp6" );
+	Options << QLatin1String( "--detach-sign" );
 
 	KGpgTextInterface signFileProcess;
 	signFileProcess.signFilesBlocking(signKeyID, droppedUrls, Options);
@@ -323,14 +323,14 @@ void KGpgExternalActions::decryptFile(KgpgLibrary *lib)
 		showDroppedFile();
 		decryptNextFile(KUrl(), lib);
 	}
-	
+
 	QString oldname(droppedUrls.first().fileName());
 	if (oldname.endsWith(QLatin1String(".gpg"), Qt::CaseInsensitive) ||
 			oldname.endsWith(QLatin1String(".asc"), Qt::CaseInsensitive) ||
 			oldname.endsWith(QLatin1String(".pgp"), Qt::CaseInsensitive))
 		oldname.chop(4);
 	else
-		oldname.append(".clear");
+		oldname.append(QLatin1String( ".clear" ));
 
 	KUrl swapname(droppedUrls.first().directory(KUrl::AppendTrailingSlash) + oldname);
 	QFile fgpg(swapname.path());
@@ -405,7 +405,7 @@ void KGpgExternalActions::readOptions()
 		} else {
 			QStringList groups(KgpgInterface::getGpgGroupNames(path));
 			if (!groups.isEmpty())
-				KGpgSettings::setGroups(groups.join(QString(',')));
+				KGpgSettings::setGroups(groups.join(QLatin1String( "," )));
 		}
 	}
 }
@@ -414,8 +414,8 @@ void KGpgExternalActions::firstRun()
 {
 	QProcess *createConfigProc = new QProcess(this);
 	QStringList args;
-	args << "--no-tty" << "--list-secret-keys";
-	createConfigProc->start("gpg", args);	// start GnuPG so that it will create a config file
+	args << QLatin1String( "--no-tty" ) << QLatin1String( "--list-secret-keys" );
+	createConfigProc->start(QLatin1String( "gpg" ), args);	// start GnuPG so that it will create a config file
 	createConfigProc->waitForFinished();
 	startAssistant();
 }
@@ -437,7 +437,7 @@ void KGpgExternalActions::slotSaveOptionsPath()
 	KGpgSettings::setGpgConfigPath(m_assistant->getConfigPath());
 	KGpgSettings::setFirstRun(false);
 
-	const QString gpgConfServer(KgpgInterface::getGpgSetting("keyserver", KGpgSettings::gpgConfigPath()));
+	const QString gpgConfServer(KgpgInterface::getGpgSetting(QLatin1String( "keyserver" ), KGpgSettings::gpgConfigPath()));
 	if (!gpgConfServer.isEmpty()) {
 		// The user already had configured a keyserver, set this one as default.
 		QStringList serverList(KGpgSettings::keyServers());
@@ -461,10 +461,10 @@ void KGpgExternalActions::slotAssistantClose()
 
 void KGpgExternalActions::help()
 {
-	KToolInvocation::invokeHelp(0, "kgpg");
+	KToolInvocation::invokeHelp(QString(), QLatin1String( "kgpg" ));
 }
 
 KShortcut KGpgExternalActions::goDefaultKey() const
 {
-	return qobject_cast<KAction *>(m_keysmanager->actionCollection()->action("go_default_key"))->shortcut();
+	return qobject_cast<KAction *>(m_keysmanager->actionCollection()->action(QLatin1String( "go_default_key" )))->shortcut();
 }

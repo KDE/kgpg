@@ -33,7 +33,7 @@ void
 GPGProc::resetProcess(const QString &binary)
 {
 	QStringList args;
-	args << "--no-secmem-warning" << "--no-tty" << "--debug-level" << "none";
+	args << QLatin1String( "--no-secmem-warning" ) << QLatin1String( "--no-tty" ) << QLatin1String( "--debug-level" ) << QLatin1String( "none" );
 	if (binary.isEmpty())
 		setProgram(KGpgSettings::gpgBinaryPath(), args);
 	else
@@ -83,14 +83,14 @@ int GPGProc::readln(QStringList &l)
     if (len < 0)
         return len;
 
-    l = s.split(':');
+    l = s.split(QLatin1Char( ':' ));
 
     for (int i = 0; i < l.count(); ++i)
     {
         int j = 0;
-        while ((j = l[i].indexOf("\\x3a", j, Qt::CaseInsensitive)) >= 0)
+        while ((j = l[i].indexOf(QLatin1String( "\\x3a" ), j, Qt::CaseInsensitive)) >= 0)
         {
-            l[i].replace(j, 4, ':');
+            l[i].replace(j, 4, QLatin1Char( ':' ));
             j++;
         }
     }
@@ -116,9 +116,9 @@ GPGProc::recode(QByteArray a, const bool colons)
 		if (!ok)
 			continue;
 
-		// ':' must be skipped, it is used as colon delimiter
+		// QLatin1Char( ':' ) must be skipped, it is used as colon delimiter
 		// since it is pure ascii it can be replaced in QString.
-		if (!colons && (n[0] == ':')) {
+		if (!colons && (n[0] ==  ':' )) {
 			pos += 3;
 			continue;
 		}

@@ -95,7 +95,7 @@ KGpgTextInterfacePrivate::KGpgTextInterfacePrivate()
 				m_consoleUtf8 = isUtf8Lang(lang);
 		}
 	}
-	
+
 }
 
 void
@@ -160,12 +160,12 @@ KGpgTextInterfacePrivate::gpgPassphrase()
 void
 KGpgTextInterfacePrivate::signFile(const KUrl &file)
 {
-	*m_process << "--command-fd=0" << "-u" << m_signID;
+	*m_process << QLatin1String( "--command-fd=0" ) << QLatin1String( "-u" ) << m_signID;
 
 	*m_process << m_gpgopts;
 
-	if (m_gpgopts.contains("--detach-sign") && !m_gpgopts.contains("--output"))
-		*m_process << "--output" << file.path() + ".sig";
+	if (m_gpgopts.contains(QLatin1String( "--detach-sign" )) && !m_gpgopts.contains( QLatin1String( "--output" )))
+		*m_process << QLatin1String( "--output" ) << file.path() + QLatin1String( ".sig" );
 	*m_process << file.path();
 
 	m_process->start();
@@ -190,7 +190,7 @@ KGpgTextInterface::KGpgTextInterface(QObject *parent)
 	: QObject(parent), d(new KGpgTextInterfacePrivate)
 {
 	d->m_process = new GPGProc(this);
-	*d->m_process << "--status-fd=1" << "--command-fd=0";
+	*d->m_process << QLatin1String( "--status-fd=1" ) << QLatin1String( "--command-fd=0" );
 
 }
 
@@ -207,16 +207,16 @@ KGpgTextInterface::encryptText(const QString &text, const QStringList &userids, 
 	if (codec->canEncode(text))
 		d->m_message = text;
 	else
-		d->m_message = text.toUtf8();
+		d->m_message = QLatin1String( text.toUtf8() );
 
 	*d->m_process << options;
 
 	if (userids.isEmpty()) {
-		*d->m_process << "-c";
+		*d->m_process << QLatin1String( "-c" );
 	} else {
-		*d->m_process << "-e";
+		*d->m_process << QLatin1String( "-e" );
 		foreach (const QString &uid, userids)
-			*d->m_process << "--recipient" << uid;
+			*d->m_process << QLatin1String( "--recipient" ) << uid;
 	}
 
 	connect(d->m_process, SIGNAL(readReady()), this, SLOT(encryptTextProcess()));
@@ -237,14 +237,14 @@ KGpgTextInterface::encryptTextProcess()
 				d->m_process->write(d->m_message.toAscii());
 				d->m_process->closeWriteChannel();
 				d->m_message.clear();
-			} else if (line.contains("passphrase.enter")) {
+			} else if (line.contains( QLatin1String( "passphrase.enter" ))) {
 				if (d->symPassphrase()) {
 					d->m_message.clear();
 					return;
 				}
 			}
 		} else {
-			d->m_message += line + '\n';
+			d->m_message += line + QLatin1Char( '\n' );
 		}
 	}
 }
@@ -262,11 +262,11 @@ KGpgTextInterface::signText(const QString &text, const QString &userid, const QS
 	if (codec->canEncode(text))
 		d->m_message = text;
 	else
-		d->m_message = text.toUtf8();
+		d->m_message =QLatin1String( text.toUtf8() );
 
 	*d->m_process << options;
 
-	*d->m_process << "--clearsign" << "-u" << userid;
+	*d->m_process << QLatin1String( "--clearsign" ) << QLatin1String( "-u" ) << userid;
 
 	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(signTextProcess()));
 	connect(d->m_process, SIGNAL(processExited()), this, SLOT(signTextFin()));
@@ -281,22 +281,22 @@ KGpgTextInterface::signTextProcess()
 
 	while (d->m_process->readLineStandardOutput(&line)) {
 		if (line.startsWith("[GNUPG:]")) {
-			if (line.contains("USERID_HINT")) {
+			if (line.contains( "USERID_HINT" )) {
 				d->updateIDs(line);
-			} else if (line.contains("BAD_PASSPHRASE")) {
-				d->m_message.fill('x');
+			} else if (line.contains( "BAD_PASSPHRASE" )) {
+				d->m_message.fill(QLatin1Char( 'x' ));
 				d->m_message.clear();
 				d->m_badpassword = true;
-			} else if (line.contains("GOOD_PASSPHRASE")) {
+			} else if (line.contains( "GOOD_PASSPHRASE" )) {
 				d->m_process->write(d->m_message.toAscii());
 				d->m_process->closeWriteChannel();
 				d->m_message.clear();
-			} else if (line.contains("passphrase.enter")) {
+			} else if (line.contains( "passphrase.enter" )) {
 				if (d->gpgPassphrase())
 					return;
 			}
-		} else 
-			d->m_message += line + '\n';
+		} else
+			d->m_message +=QLatin1String( line ) + QLatin1Char( '\n' );
 	}
 }
 //krazy:endcond=strings
@@ -320,9 +320,9 @@ KGpgTextInterface::verifyText(const QString &text)
 	if (codec->canEncode(text))
 		d->m_message = text;
 	else
-		d->m_message = text.toUtf8();
+		d->m_message = QLatin1String( text.toUtf8() );
 
-	*d->m_process << "--verify";
+	*d->m_process << QLatin1String( "--verify" );
 
 	connect(d->m_process, SIGNAL(readReady()), this, SLOT(readVerify()));
 	connect(d->m_process, SIGNAL(processExited()), this, SLOT(verifyTextFin()));
@@ -353,15 +353,15 @@ KGpgTextInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcur
 
 	*d->m_process << options;
 
-	if (!options.contains("--output"))
-		*d->m_process << "--output" << desturl.path();
+	if (!options.contains( QLatin1String( "--output" )))
+		*d->m_process << QLatin1String( "--output" ) << desturl.path();
 
 	if (!symetrical) {
-		*d->m_process << "-e";
+		*d->m_process << QLatin1String( "-e" );
 		foreach (const QString &enckey, encryptkeys)
-			*d->m_process << "--recipient" << enckey;
+			*d->m_process << QLatin1String( "--recipient" ) << enckey;
 	} else
-		*d->m_process << "-c";
+		*d->m_process << QLatin1String( "-c" );
 
 	*d->m_process << srcurl.path();
 
@@ -378,23 +378,23 @@ KGpgTextInterface::fileReadEncProcess()
 	while (d->m_process->readln(line) >= 0) {
 		kDebug(2100) << line ;
 		if (line.startsWith(QLatin1String("[GNUPG:]"))) {
-			if (line.contains("BEGIN_ENCRYPTION")) {
-			} else if (line.contains("GET_" )) {
-				if (line.contains("openfile.overwrite.okay")) {
+			if (line.contains( QLatin1String( "BEGIN_ENCRYPTION" ))) {
+			} else if (line.contains( QLatin1String( "GET_" ) )) {
+				if (line.contains( QLatin1String( "openfile.overwrite.okay" ))) {
 					d->m_process->write("Yes\n");
-				} else if (line.contains("passphrase.enter")) {
+				} else if (line.contains( QLatin1String( "passphrase.enter" ))) {
 					if (d->symPassphrase())
 						return;
 				} else {
 					d->m_process->write("quit\n");
 				}
-			} else if (line.contains("END_ENCRYPTION")) {
+			} else if (line.contains( QLatin1String( "END_ENCRYPTION" ))) {
 				d->m_ok = true;
 			} else {
-				d->m_message += line + '\n';
+				d->m_message += line + QLatin1Char( '\n' );
 			}
 		} else {
-			d->m_message += line + '\n';
+			d->m_message += line + QLatin1Char( '\n' );
 		}
 	}
 }
@@ -413,14 +413,14 @@ KGpgTextInterface::decryptFile(const KUrl &src, const KUrl &dest, const QStringL
 {
 	d->m_file = src;
 
-	*d->m_process << "--no-verbose" << "--no-greeting";
+	*d->m_process << QLatin1String( "--no-verbose" ) << QLatin1String( "--no-greeting" );
 
 	*d->m_process << options;
 
 	d->m_dest = dest;
 	if (!dest.fileName().isEmpty())
-		*d->m_process << "-o" << dest.path();
-	*d->m_process << "-d" << src.path();
+		*d->m_process << QLatin1String( "-o" ) << dest.path();
+	*d->m_process << QLatin1String( "-d" ) << src.path();
 
 	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(decryptFileProcess()));
 	connect(d->m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(decryptFileFin(int, QProcess::ExitStatus)));
@@ -441,12 +441,12 @@ KGpgTextInterface::decryptFileProcess()
 			} else if (line.startsWith("USERID_HINT")) {
 				d->updateIDs(line);
 			} else if (line.startsWith("ENC_TO")) {
-				if (line.contains("0000000000000000"))
+				if (line.contains( "0000000000000000" ))
 					d->m_anonymous = true;
 			} else if (line.startsWith("GET_")) {
-				if (line.contains("openfile.overwrite.okay")) {
+				if (line.contains( "openfile.overwrite.okay" )) {
 					d->m_process->write("Yes\n");
-				} else if ((line.contains("passphrase.enter"))) {
+				} else if ((line.contains( "passphrase.enter" ))) {
 					if (d->gpgPassphrase()) {
 						emit decryptFileFinished(1);
 						return;
@@ -455,7 +455,7 @@ KGpgTextInterface::decryptFileProcess()
 					d->m_process->write("quit\n");
 				}
 			} else {
-				d->m_message += line + '\n';
+				d->m_message += QLatin1String( line ) + QLatin1Char( '\n' );
 			}
 		}
 	}
@@ -479,7 +479,7 @@ KGpgTextInterface::decryptFileFin(int res, QProcess::ExitStatus status)
 		return;
 	}
 
-	if (d->m_message.contains("DECRYPTION_OKAY") && d->m_message.contains("END_DECRYPTION"))
+	if (d->m_message.contains(QLatin1String( "DECRYPTION_OKAY" )) && d->m_message.contains( QLatin1String( "END_DECRYPTION" )))
 		emit decryptFileFinished(0);
 	else
 		emit decryptFileFinished(4);
@@ -490,7 +490,7 @@ KGpgTextInterface::KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl)
 {
 	d->m_file = sigUrl;
 
-	*d->m_process << "--verify";
+	*d->m_process << QLatin1String( "--verify" );
 	if (!srcUrl.isEmpty())
 		*d->m_process << srcUrl.path();
 	*d->m_process << sigUrl.path();
@@ -507,8 +507,8 @@ KGpgTextInterface::readVerify()
 	QByteArray line;
 
 	while (d->m_process->readLineStandardOutput(&line)) {
-		d->m_message += GPGProc::recode(line) + '\n';
-		if (line.contains("GET_"))
+		d->m_message += GPGProc::recode(line) + QLatin1Char( '\n' );
+		if (line.contains( "GET_" ))
 			d->m_process->write("quit\n");
 
 		if (!line.startsWith("[GNUPG:] "))
@@ -517,18 +517,18 @@ KGpgTextInterface::readVerify()
 		if (line.startsWith("UNEXPECTED") || line.startsWith("NODATA")) {
 			d->m_signID = i18n("No signature found.");
 		} else if (line.startsWith("GOODSIG")) {
-			int sigpos = line.indexOf(' ', 8);
+			int sigpos = line.indexOf( ' ' , 8);
 			d->m_signID = i18n("<qt>Good signature from:<br /><b>%1</b><br />Key ID: %2<br /></qt>",
 					GPGProc::recode(line.mid(sigpos + 1).replace('<', "&lt;")),
 					QString::fromAscii(line.mid(8, sigpos - 8)));
 		} else if (line.startsWith("BADSIG")) {
-			int sigpos = line.indexOf(' ', 7);
+			int sigpos = line.indexOf( ' ', 7);
 			d->m_signID = i18n("<qt><b>BAD signature</b> from:<br /> %1<br />Key id: %2<br /><br /><b>The file is corrupted</b><br /></qt>",
 					GPGProc::recode(line.mid(sigpos + 1).replace('<', "&lt;")),
 					QString::fromAscii(line.mid(7, sigpos - 7)));
 		} else if (line.startsWith("NO_PUBKEY")) {
 			d->m_signmiss = true;
-			d->m_signID = line.remove(0, line.indexOf(' '));
+			d->m_signID = QLatin1String( line.remove(0, line.indexOf( ' ' )) );
 		} else  if (line.startsWith("TRUST_UNDEFINED")) {
 			d->m_signID += i18n("<qt>The signature is valid, but the key is untrusted<br /></qt>");
 		} else if (line.startsWith("TRUST_ULTIMATE")) {

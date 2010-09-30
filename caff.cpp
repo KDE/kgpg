@@ -46,14 +46,14 @@ KGpgCaffPrivate::KGpgCaffPrivate(KGpgCaff *parent, const KGpgSignableNode::List 
 {
 	const QString gpgCfg(KGpgSettings::gpgConfigPath());
 
-	const QString secring = KgpgInterface::getGpgSetting("secret-keyring", gpgCfg);
+	const QString secring = KgpgInterface::getGpgSetting(QLatin1String( "secret-keyring" ), gpgCfg);
 
 	if (!secring.isEmpty()) {
 		m_secringfile = secring;
 	} else {
-		QDir dir(gpgCfg + "/..");	// simplest way of removing the file name
+		QDir dir(gpgCfg + QLatin1String( "/.." ));	// simplest way of removing the file name
 		dir = dir.absolutePath();
-		m_secringfile = dir.toNativeSeparators(dir.filePath("secring.gpg"));
+		m_secringfile = dir.toNativeSeparators(dir.filePath(QLatin1String( "secring.gpg" )));
 	}
 
 	connect(m_textinterface, SIGNAL(txtEncryptionFinished(QString)), SLOT(slotTextEncrypted(QString)));
@@ -76,8 +76,8 @@ KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 
 	KGpgImport *imp = new KGpgImport(this);
 
-	QStringList expOptions("--export-options");
-	expOptions << "export-clean,export-attribute";
+	QStringList expOptions(QLatin1String( "--export-options" ));
+	expOptions << QLatin1String( "export-clean,export-attribute" );
 	KGpgExport *exp = new KGpgExport(this, exportkeys, expOptions);
 	exp->setOutputTransaction(imp);
 
@@ -230,8 +230,8 @@ KGpgCaffPrivate::slotDelUidFinished(int result)
 		}
 	}
 
-	QStringList expOptions("--export-options");
-	expOptions << "export-attribute";
+	QStringList expOptions(QLatin1String( "--export-options" ));
+	expOptions << QLatin1String( "export-attribute" );
 
 	KGpgExport *exp = new KGpgExport(this, QStringList(key->getId()), expOptions);
 
@@ -259,12 +259,12 @@ KGpgCaffPrivate::slotExportFinished(int result)
 	Q_ASSERT(exp != NULL);
 
 	QString body = KGpgSettings::emailTemplate();
-	body.replace('%' + i18nc("Email template placeholder for key id", "KEYID") + '%', key->getId());
-	body.replace('%' + i18nc("Email template placeholder for key id", "UIDNAME") + '%', uid->getNameComment());
+	body.replace(QLatin1Char( '%' ) + i18nc("Email template placeholder for key id", "KEYID") + QLatin1Char( '%' ), key->getId());
+	body.replace(QLatin1Char( '%' ) + i18nc("Email template placeholder for key id", "UIDNAME") + QLatin1Char( '%' ), uid->getNameComment());
 
-	body += '\n' + exp->getOutputData();
+	body += QLatin1Char( '\n' ) + QLatin1String( exp->getOutputData() );
 
-	m_textinterface->encryptText(body, QStringList(key->getId()), QStringList("--armor"));
+	m_textinterface->encryptText(body, QStringList(key->getId()), QStringList(QLatin1String( "--armor" )));
 }
 
 void
@@ -277,7 +277,7 @@ KGpgCaffPrivate::slotTextEncrypted(const QString &text)
 	const QString email = uid->getEmail();
 	const QString keyid = uid->getKeyNode()->getId();
 
-	KToolInvocation::invokeMailer(email, QString(), QString(), "your key " + keyid, text);
+	KToolInvocation::invokeMailer(email, QString(), QString(), i18n( "your key " ) + keyid, text);
 
 	checkNextLoop();
 }

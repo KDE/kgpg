@@ -27,7 +27,7 @@
  * QString already did it's own UTF8 conversion. Therefore we replace this
  * sequences by their corresponding character so QString will work just fine.
  *
- * As we know that GnuPG limits it's columns by ':' we skip \\x3a. Since this
+ * As we know that GnuPG limits it's columns by QLatin1Char( ':' ) we skip \\x3a. Since this
  * is an ascii character (single byte) the replacement can be done later without
  * problems after the line has been split into pieces.
  *

@@ -76,7 +76,7 @@ KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose
 	page->cBproxyI->setChecked(KGpgSettings::useProxy());
 	page->cBproxyE->setChecked(KGpgSettings::useProxy());
 
-	const QString httpproxy(qgetenv("http_proxy"));
+	const QString httpproxy(QLatin1String( qgetenv("http_proxy") ));
 	if (!httpproxy.isEmpty()) {
 		page->cBproxyI->setEnabled(true);
 		page->cBproxyE->setEnabled(true);
@@ -108,7 +108,7 @@ void KeyServer::slotImport()
 		return;
 	}
 
-	startImport(page->kLEimportid->text().simplified().split(' '), page->kCBimportks->currentText(), page->kLEproxyI->text());
+	startImport(page->kLEimportid->text().simplified().split(QLatin1Char( ' ' )), page->kCBimportks->currentText(), page->kLEproxyI->text());
 }
 
 void KeyServer::startImport(const QStringList &keys, QString server, const QString &proxy)
@@ -152,8 +152,8 @@ void KeyServer::slotDownloadKeysFinished(int resultcode)
 	if (!keys.empty())
 		emit importFinished(keys);
 
-	(void) new KgpgDetailedInfo(this, resultmessage, log.join(QString('\n')),
-			KGpgImport::getDetailedImportMessage(log).split('\n'),
+	(void) new KgpgDetailedInfo(this, resultmessage, log.join(QLatin1String("\n")),
+			KGpgImport::getDetailedImportMessage(log).split(QLatin1Char( '\n' )),
 			i18nc("Caption of message box", "Key Import Finished"));
 }
 
@@ -292,7 +292,7 @@ void KeyServer::slotTextChanged(const QString &text)
 
 void KeyServer::slotSetExportAttribute(const QString &state)
 {
-	if (state != 0)
+	if (!state.isEmpty())
 		expattr = state;
 	else
 		expattr.clear();
@@ -333,7 +333,7 @@ void KeyServer::slotPreImport()
 
 void KeyServer::slotPreExport()
 {
-	slotExport(QStringList(page->kCBexportkey->currentText().section(':', 0, 0)));
+	slotExport(QStringList(page->kCBexportkey->currentText().section(QLatin1Char( ':' ), 0, 0)));
 }
 
 void KeyServer::slotOk()

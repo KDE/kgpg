@@ -1086,7 +1086,7 @@ return;
         item = item->parent();
     item = item->nextSibling();
 
-    QString searchText = item->text(0) + ' ' + item->text(1) + ' ' + item->text(6);
+    QString searchText = item->text(0) + QLatin1Char( ' ' ) + item->text(1) + QLatin1Char( ' ' ) + item->text(6);
     //kDebug(2100) << "Next string:" << searchText ;
     //kDebug(2100) << "Search:" << searchString ;
     //kDebug(2100) << "OPts:" << searchOptions ;
@@ -1102,7 +1102,7 @@ return;
         else
         {
             item = item->nextSibling();
-            searchText = item->text(0) + ' ' + item->text(1) + ' ' + item->text(6);
+            searchText = item->text(0) + QLatin1Char( ' ' ) + item->text(1) + QLatin1Char( ' ' ) + item->text(6);
             m_find->setData(searchText);
             //kDebug(2100) << "Next string:" << searchText ;
         }

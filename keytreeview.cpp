@@ -193,7 +193,7 @@ KeyTreeView::startDrag(Qt::DropActions supportedActions)
 
 	if (result == KGpgTransaction::TS_OK) {
 		QMimeData *m = new QMimeData();
-		m->setText(exp->getOutputData());
+		m->setText(QString::fromLatin1( exp->getOutputData() ));
 		QDrag *drag = new QDrag(this);
 		drag->setMimeData(m);
 		drag->exec(supportedActions, Qt::IgnoreAction);

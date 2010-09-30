@@ -110,7 +110,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 	binURL->setUrl(KUrl("gpg"));
 
 	connect(binURL, SIGNAL(textChanged(const QString &)), SLOT(slotBinaryChanged(const QString &)));
-	slotBinaryChanged("gpg");
+	slotBinaryChanged(QLatin1String( "gpg" ));
 
 	gridLayout->addWidget(binURL, 2, 1, 1, 1);
 
@@ -234,13 +234,13 @@ void
 KGpgFirstAssistant::findConfigPath()
 {
 	QString gpgHome(KgpgInterface::getGpgHome(binURL->url().path()));
-	QString confPath = gpgHome + "gpg.conf";
+	QString confPath = gpgHome + QLatin1String( "gpg.conf" );
 
 	if (!QFile(confPath).exists()) {
-		confPath = gpgHome + "options";
+		confPath = gpgHome + QLatin1String( "options" );
 		if (!QFile(confPath).exists()) {
 			if (KMessageBox::questionYesNo(0, i18n("<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to create a config file ?</qt>"), QString(), KGuiItem(i18n("Create Config")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes) {
-				confPath = gpgHome + "gpg.conf";
+				confPath = gpgHome + QLatin1String( "gpg.conf" );
 				QFile file(confPath);
 				if (file.open(QIODevice::WriteOnly)) {
 				    QTextStream stream(&file);
@@ -298,7 +298,7 @@ KGpgFirstAssistant::next()
 		QString tst, name;
 		m_confPath = pathURL->url().path();
 
-		QString defaultID = KgpgInterface::getGpgSetting("default-key", m_confPath);
+		QString defaultID = KgpgInterface::getGpgSetting(QLatin1String( "default-key" ), m_confPath);
 
 		if (!defaultID.isEmpty()) {
 			for (int i = 0; i < CBdefault->count(); i++) {

@@ -336,15 +336,15 @@ void KgpgKeyInfo::displayKey()
 {
     const QString name = m_node->getName();
     setCaption(name);
-    m_name->setText("<qt><b>" + name + "</b></qt>");
+    m_name->setText(QLatin1String( "<qt><b>" ) + name + QLatin1String( "</b></qt>" ));
 
     const QString email = m_node->getEmail();
     if (email.isEmpty()) {
         m_email->setText(i18nc("no email address", "none"));
         m_email->setUrl(QString());
     } else {
-        m_email->setText("<qt><b>&lt;" + email + "&gt;</b></qt>");
-        m_email->setUrl("mailto:" + name + '<' + email + '>');
+        m_email->setText(QLatin1String( "<qt><b>&lt;" ) + email + QLatin1String( "&gt;</b></qt>" ));
+        m_email->setUrl(QLatin1String( "mailto:" ) + name + QLatin1Char( '<' ) + email + QLatin1Char( '>' ));
     }
 
     const KgpgKey *key = m_node->getKey();
@@ -354,7 +354,7 @@ void KgpgKeyInfo::displayKey()
     QColor trustcolor = Convert::toColor(keytrust);
 
     m_id->setText(m_node->getId().right(16));
-    m_algorithm->setText(Convert::toString(key->algorithm()) + " / " + Convert::toString(key->encryptionAlgorithm()));
+    m_algorithm->setText(Convert::toString(key->algorithm()) + QLatin1String( " / " ) + Convert::toString(key->encryptionAlgorithm()));
     m_algorithm->setWhatsThis(i18n("<qt>The left part is the algorithm used by the <b>signature</b> key. The right part is the algorithm used by the <b>encryption</b> key.</qt>"));
     m_creation->setText(Convert::toString(m_node->getCreation().date()));
     if (m_node->getExpiration().isNull())
