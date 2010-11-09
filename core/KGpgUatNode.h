@@ -37,7 +37,7 @@ class KGpgUatNode : public KGpgSignableNode
 {
 private:
 	KGpgUatNodePrivate * const d_ptr;
-	Q_DECLARE_PRIVATE(KGpgUatNode);
+	Q_DECLARE_PRIVATE(KGpgUatNode)
 
 protected:
 	virtual void readChildren();
