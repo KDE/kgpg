@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,11 +13,14 @@
 
 #include "gpgproc.h"
 
-#include <ctype.h>
+#include "kgpgsettings.h"
+#include "kgpginterface.h"
 
+#include <KDebug>
 #include <QTextCodec>
 
-#include "kgpgsettings.h"
+static QString lastBinary;
+static unsigned int lastVersion;
 
 GPGProc::GPGProc(QObject *parent, const QString &binary)
        : KLineBufferedProcess(parent)
@@ -32,12 +35,28 @@ GPGProc::~GPGProc()
 void
 GPGProc::resetProcess(const QString &binary)
 {
-	QStringList args;
-	args << QLatin1String( "--no-secmem-warning" ) << QLatin1String( "--no-tty" ) << QLatin1String( "--debug-level" ) << QLatin1String( "none" );
+	QString executable;
 	if (binary.isEmpty())
-		setProgram(KGpgSettings::gpgBinaryPath(), args);
+		executable = KGpgSettings::gpgBinaryPath();
 	else
-		setProgram(binary, args);
+		executable = binary;
+
+	if (lastBinary != executable) {
+		kDebug(2100) << "checking version of GnuPG executable" << executable;
+		// must be set first as KgpgInterface uses GPGProc to parse the output
+		lastBinary = executable;
+		const QString verstr = KgpgInterface::gpgVersionString(executable);
+		lastVersion = KgpgInterface::gpgVersion(verstr);
+		kDebug(2100) << "version is" << verstr << lastVersion;
+	}
+
+	QStringList args;
+	args << QLatin1String( "--no-secmem-warning" ) << QLatin1String( "--no-tty" );
+	if (lastVersion > 0x20000)
+		args << QLatin1String( "--debug-level" ) << QLatin1String( "none" );
+
+	setProgram(executable, args);
+
 	setOutputChannelMode(OnlyStdoutChannel);
 
 	disconnect(SIGNAL(finished(int, QProcess::ExitStatus)));
