@@ -135,9 +135,9 @@ GPGProc::recode(QByteArray a, const bool colons)
 		if (!ok)
 			continue;
 
-		// QLatin1Char( ':' ) must be skipped, it is used as colon delimiter
+		// QLatin1Char( ':' ) must be skipped, it is used as column delimiter
 		// since it is pure ascii it can be replaced in QString.
-		if (!colons && (n[0] ==  ':' )) {
+		if (!colons && (n[0] == ':' )) {
 			pos += 3;
 			continue;
 		}
