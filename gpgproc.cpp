@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,11 +13,14 @@
 
 #include "gpgproc.h"
 
-#include <ctype.h>
+#include "kgpgsettings.h"
+#include "kgpginterface.h"
 
+#include <KDebug>
 #include <QTextCodec>
 
-#include "kgpgsettings.h"
+static QString lastBinary;
+static unsigned int lastVersion;
 
 GPGProc::GPGProc(QObject *parent, const QString &binary)
        : KLineBufferedProcess(parent)
@@ -32,12 +35,28 @@ GPGProc::~GPGProc()
 void
 GPGProc::resetProcess(const QString &binary)
 {
-	QStringList args;
-	args << "--no-secmem-warning" << "--no-tty";
+	QString executable;
 	if (binary.isEmpty())
-		setProgram(KGpgSettings::gpgBinaryPath(), args);
+		executable = KGpgSettings::gpgBinaryPath();
 	else
-		setProgram(binary, args);
+		executable = binary;
+
+	if (lastBinary != executable) {
+		kDebug(2100) << "checking version of GnuPG executable" << executable;
+		// must be set first as KgpgInterface uses GPGProc to parse the output
+		lastBinary = executable;
+		const QString verstr = KgpgInterface::gpgVersionString(executable);
+		lastVersion = KgpgInterface::gpgVersion(verstr);
+		kDebug(2100) << "version is" << verstr << lastVersion;
+	}
+
+	QStringList args;
+	args << QLatin1String( "--no-secmem-warning" ) << QLatin1String( "--no-tty" );
+	if (lastVersion > 0x20000)
+		args << QLatin1String( "--debug-level" ) << QLatin1String( "none" );
+
+	setProgram(executable, args);
+
 	setOutputChannelMode(OnlyStdoutChannel);
 
 	disconnect(SIGNAL(finished(int, QProcess::ExitStatus)));
@@ -83,14 +102,14 @@ int GPGProc::readln(QStringList &l)
     if (len < 0)
         return len;
 
-    l = s.split(':');
+    l = s.split(QLatin1Char( ':' ));
 
     for (int i = 0; i < l.count(); ++i)
     {
         int j = 0;
-        while ((j = l[i].indexOf("\\x3a", j, Qt::CaseInsensitive)) >= 0)
+        while ((j = l[i].indexOf(QLatin1String( "\\x3a" ), j, Qt::CaseInsensitive)) >= 0)
         {
-            l[i].replace(j, 4, ':');
+            l[i].replace(j, 4, QLatin1Char( ':' ));
             j++;
         }
     }
@@ -116,7 +135,7 @@ GPGProc::recode(QByteArray a, const bool colons)
 		if (!ok)
 			continue;
 
-		// ':' must be skipped, it is used as colon delimiter
+		// QLatin1Char( ':' ) must be skipped, it is used as column delimiter
 		// since it is pure ascii it can be replaced in QString.
 		if (!colons && (n[0] == ':')) {
 			pos += 3;
