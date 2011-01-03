@@ -41,7 +41,8 @@ KgpgLibrary::KgpgLibrary(QWidget *parent)
 	m_panel(parent),
 	m_extension(QLatin1String( ".gpg" )),
 	m_pop(NULL),
-	m_popisactive(false)
+	m_popisactive(false),
+	m_symetric(false)
 {
 }
 

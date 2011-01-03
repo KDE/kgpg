@@ -39,7 +39,9 @@ using namespace KgpgCore;
 KGpgApp::KGpgApp()
              : KUniqueApplication(),
 	     running(false),
-	     w(NULL)
+	     args(0),
+	     w(NULL),
+	     s_keyManager(0)
 {
 }
 
