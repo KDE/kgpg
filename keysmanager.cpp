@@ -1163,9 +1163,6 @@ void KeysManager::showKeyServer()
 	connect(ks, SIGNAL(importFinished(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
 	ks->exec();
 
-	if (ks == NULL)
-		return;
-
 	delete ks;
 	refreshkey();
 }
