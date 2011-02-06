@@ -490,10 +490,10 @@ void KgpgEditor::slotFilePreDec()
     QString newname;
 
     if (oldname.endsWith(QLatin1String(".gpg")) || oldname.endsWith(QLatin1String(".asc")) || oldname.endsWith(QLatin1String(".pgp")))
-        oldname.truncate(oldname.length() - 4);
+        oldname.chop(4);
     else
         oldname.append(QLatin1String( ".clear" ));
-    oldname.prepend(url.directory(KUrl::IgnoreTrailingSlash));
+    oldname.prepend(url.directory(KUrl::AppendTrailingSlash));
 
     KDialog *popn = new KDialog(this );
     popn->setCaption(  i18n("Decrypt File To") );
