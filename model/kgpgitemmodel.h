@@ -71,6 +71,7 @@ public:
 
 	KGpgRootNode *getRootNode() const;
 	QString statusCountMessage() const;
+	static QString statusCountMessageString(const unsigned int keys, const unsigned int groups);
 
 public Q_SLOTS:
 	KGpgGroupNode *addGroup(const QString &name, const KGpgKeyNode::List &keys);

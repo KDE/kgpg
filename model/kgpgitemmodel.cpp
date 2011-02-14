@@ -197,6 +197,12 @@ KGpgItemModel::statusCountMessage() const
 	const int groups = m_root->groupChildren();
 	const int keys = m_root->getChildCount() - groups;
 
+	return statusCountMessageString(keys, groups);
+}
+
+QString
+KGpgItemModel::statusCountMessageString(const unsigned int keys, const unsigned int groups)
+{
 	// Most people will not have groups. Handle this case
 	// special so the string isn't displayed in this case at all
 	if (groups == 0) {
