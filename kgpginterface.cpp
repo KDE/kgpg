@@ -466,7 +466,10 @@ KgpgCore::KgpgKey KgpgInterface::readSignatures(KGpgKeyNode *node)
 	readPublicKeysProcess(process);
 	readPublicKeysFin(process, true);
 
-	return m_publiclistkeys.first();
+	if (m_publiclistkeys.isEmpty())
+		return KgpgCore::KgpgKey();
+	else
+		return m_publiclistkeys.first();
 }
 
 void KgpgInterface::readPublicKeysProcess(GPGProc *p)
