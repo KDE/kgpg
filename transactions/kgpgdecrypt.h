@@ -70,6 +70,7 @@ protected:
 
 private:
 	int m_fileIndex;
+	int m_plainLength;	///< length of decrypted plain text if given by GnuPG
 };
 
 #endif // KGPGDECRYPT_H

@@ -19,13 +19,15 @@
 
 KGpgDecrypt::KGpgDecrypt(QObject *parent, const QString &text)
 	: KGpgTextOrFileTransaction(parent, text),
-	m_fileIndex(-1)
+	m_fileIndex(-1),
+	m_plainLength(-1)
 {
 }
 
 KGpgDecrypt::KGpgDecrypt(QObject *parent, const KUrl::List &files)
 	: KGpgTextOrFileTransaction(parent, files),
-	m_fileIndex(0)
+	m_fileIndex(0),
+	m_plainLength(-1)
 {
 }
 
@@ -49,10 +51,25 @@ QStringList
 KGpgDecrypt::decryptedText() const
 {
 	QStringList result;
+	int txtlength = 0;
 
 	foreach (const QString &line, getMessages())
-		if (!line.startsWith(QLatin1String("[GNUPG:] ")))
+		if (!line.startsWith(QLatin1String("[GNUPG:] "))) {
 			result.append(line);
+			txtlength += line.length() + 1;
+		}
+
+	QString last = result.last();
+	// this may happen when the original text did not end with a newline
+	if (last.endsWith(QLatin1String("[GNUPG:] DECRYPTION_OKAY"))) {
+		// if GnuPG doesn't tell us the length assume that this happend
+		// if it told us the length then check if it _really_ happend
+		if (((m_plainLength != -1) && (txtlength != m_plainLength)) ||
+				(m_plainLength == -1)) {
+			last.chop(24);
+			result[result.count() - 1] = last;
+		}
+	}
 
 	return result;
 }
@@ -89,6 +106,13 @@ KGpgDecrypt::nextLine(const QString& line)
 			emit statusMessage(i18nc("Status message 'Decrypted <filename>' (operation was completed)", "Decrypted %1", inputFiles.at(m_fileIndex).fileName()));
 			m_fileIndex++;
 			emit infoProgress(2 * m_fileIndex, inputFiles.count() * 2);
+		}
+	} else {
+		if (line.startsWith(QLatin1String("[GNUPG:] PLAINTEXT_LENGTH "))) {
+			bool ok;
+			m_plainLength = line.mid(26).toInt(&ok);
+			if (!ok)
+				m_plainLength = -1;
 		}
 	}
 
