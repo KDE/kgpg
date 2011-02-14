@@ -473,7 +473,6 @@ void KgpgEditor::slotFindText()
 
 void KgpgEditor::slotFilePreEnc()
 {
-    QStringList opts;
     KUrl::List urls = KFileDialog::getOpenUrls(KUrl(), i18n("*|All Files"), this, i18n("Open File to Encode"));
     if (urls.isEmpty())
         return;
