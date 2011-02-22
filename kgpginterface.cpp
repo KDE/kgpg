@@ -400,6 +400,7 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool enable, co
 
 int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const bool isnew, QWidget *widget)
 {
+	QPointer<KProcess> gpgprocess = process;
 	QByteArray passphrase;
 	int code;
 	if (isnew) {
@@ -421,7 +422,8 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const 
 	if (code != KPasswordDialog::Accepted)
 		return 1;
 
-	process->write(passphrase + '\n');
+	if (!gpgprocess.isNull())
+		gpgprocess->write(passphrase + '\n');
 
 	return 0;
 }
