@@ -114,10 +114,11 @@ public:
      * @param text text is the message that must be displayed in the MessageBox
      * @param process GnuPG process
      * @param isnew if the password is a \e new password that must be confirmed. Default is true
+     * @param widget parent widget of this dialog or NULL
      * @return 0 if there is no error
      * @return 1 if there is an error
      */
-    static int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true);
+    static int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true, QWidget *widget = NULL);
 
 private:
     static QString getGpgProcessHome(const QString &binary);

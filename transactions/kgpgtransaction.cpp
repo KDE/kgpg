@@ -15,6 +15,7 @@
 
 #include <QByteArray>
 #include <QStringList>
+#include <QWidget>
 
 #include <KDebug>
 #include <KLocale>
@@ -234,7 +235,7 @@ int
 KGpgTransaction::sendPassphrase(const QString &text, const bool isnew)
 {
 	emit statusMessage(i18n("Requesting Passphrase"));
-	return KgpgInterface::sendPassphrase(text, d->m_process, isnew);
+	return KgpgInterface::sendPassphrase(text, d->m_process, isnew, qobject_cast<QWidget *>(parent()));
 }
 
 int

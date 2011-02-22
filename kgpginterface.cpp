@@ -16,6 +16,7 @@
 #include <QDir>
 #include <QFile>
 #include <QPixmap>
+#include <QPointer>
 #include <QString>
 #include <QTextStream>
 
@@ -397,20 +398,24 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool enable, co
 	}
 }
 
-int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const bool isnew)
+int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const bool isnew, QWidget *widget)
 {
 	QByteArray passphrase;
 	int code;
 	if (isnew) {
-		KNewPasswordDialog dlg;
-		dlg.setPrompt(text);
-		code = dlg.exec();
-		passphrase = dlg.password().toUtf8();
+		QPointer<KNewPasswordDialog> dlg = new KNewPasswordDialog(widget);
+		dlg->setPrompt(text);
+		code = dlg->exec();
+		if (!dlg.isNull())
+			passphrase = dlg->password().toUtf8();
+		delete dlg;
 	} else {
-		KPasswordDialog dlg;
-		dlg.setPrompt(text);
-		code = dlg.exec();
-		passphrase = dlg.password().toUtf8();
+		QPointer<KPasswordDialog> dlg = new KPasswordDialog(widget);
+		dlg->setPrompt(text);
+		code = dlg->exec();
+		if (!dlg.isNull())
+			passphrase = dlg->password().toUtf8();
+		delete dlg;
 	}
 
 	if (code != KPasswordDialog::Accepted)
