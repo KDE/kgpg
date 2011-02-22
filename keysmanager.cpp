@@ -485,8 +485,8 @@ KeysManager::KeysManager(QWidget *parent)
 	iproxy->setOnlySecret(KGpgSettings::showSecret());
 
 	KStatusBar *statusbar = statusBar();
-	statusbar->insertPermanentFixedItem(i18n("00000 Keys, 000 Groups"), 0);
-	statusbar->changeItem(QLatin1String( "" ), 0);
+	statusbar->insertPermanentFixedItem(KGpgItemModel::statusCountMessageString(9999, 999), 0);
+	statusbar->changeItem(QString(), 0);
 
 	cg = KConfigGroup(KGlobal::config().data(), "MainWindow");
 	setAutoSaveSettings(cg, true);
