@@ -458,7 +458,7 @@ KGpgItemModel::refreshTrust(const KgpgCore::KgpgKeyTrust trust, const QColor& co
 }
 
 void
-KGpgItemModel::updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::KgpgKeyTrust &trust, const QColor &color)
+KGpgItemModel::updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::KgpgKeyTrust trust, const QColor &color)
 {
 	for (int i = 0; i < node->getChildCount(); i++) {
 		KGpgNode *child = node->getChild(i);

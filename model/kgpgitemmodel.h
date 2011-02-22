@@ -94,7 +94,7 @@ protected:
 	void refreshKeyIds(KGpgKeyNode::List &nodes);
 	bool isDefaultKey(const KGpgNode *node) const;
 	void fixPersistentIndexes();
-	void updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::KgpgKeyTrust &trust, const QColor &color);
+	void updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::KgpgKeyTrust trust, const QColor &color);
 };
 
 #endif
