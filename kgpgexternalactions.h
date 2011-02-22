@@ -13,6 +13,7 @@
 
 #include <QObject>
 #include <QClipboard>
+#include <QPointer>
 #include <QStringList>
 
 #include <KUrl>
@@ -70,7 +71,7 @@ public slots:
 
 private:
 	QStringList customDecrypt;
-	KGpgFirstAssistant *m_assistant;
+	QPointer<KGpgFirstAssistant> m_assistant;
 	KPassivePopup *pop;
 	KTemporaryFile *kgpgFolderExtract;
 	int compressionScheme;
@@ -88,7 +89,6 @@ private:
 	KShortcut goDefaultKey() const;
 
 private slots:
-	void slotAssistantClose();
 	void slotSaveOptionsPath();
 	void importSignature(const QString &ID);
 	void help();

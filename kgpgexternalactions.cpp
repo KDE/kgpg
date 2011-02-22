@@ -422,11 +422,13 @@ void KGpgExternalActions::firstRun()
 
 void KGpgExternalActions::startAssistant()
 {
-	m_assistant = new KGpgFirstAssistant(m_keysmanager);
+	if (m_assistant.isNull()) {
+		m_assistant = new KGpgFirstAssistant(m_keysmanager);
 
-	connect(m_assistant, SIGNAL(accepted()), SLOT(slotSaveOptionsPath()));
-	connect(m_assistant, SIGNAL(destroyed()), SLOT(slotAssistantClose()));
-	connect(m_assistant, SIGNAL(helpClicked()), SLOT(help()));
+		connect(m_assistant, SIGNAL(accepted()), SLOT(slotSaveOptionsPath()));
+		connect(m_assistant, SIGNAL(rejected()), m_assistant, SLOT(deleteLater()));
+		connect(m_assistant, SIGNAL(helpClicked()), SLOT(help()));
+	}
 
 	m_assistant->show();
 }
@@ -451,11 +453,6 @@ void KGpgExternalActions::slotSaveOptionsPath()
 	emit updateDefault(defaultID);
 	if (m_assistant->runKeyGenerate())
 		emit createNewKey();
-	m_assistant->deleteLater();
-}
-
-void KGpgExternalActions::slotAssistantClose()
-{
 	m_assistant->deleteLater();
 }
 
