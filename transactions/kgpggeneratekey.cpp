@@ -17,7 +17,7 @@
 #include <KLocale>
 #include <QApplication>
 
-#include "kpimutils/email.h"
+#include <kpimutils/email.h>
 
 KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
 		const KgpgCore::KgpgKeyAlgo &algorithm, const uint size, const unsigned int expire,
@@ -156,6 +156,8 @@ KGpgGenerateKey::nextLine(const QString &line)
 		setSuccess(TS_USER_ABORTED);
 	} else if (line.contains(QLatin1String( "GET_" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
+		result = true;
+	} else if (line.contains(QLatin1String("KEY_NOT_CREATED"))) {
 		result = true;
 	}
 
