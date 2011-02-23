@@ -112,9 +112,7 @@ KGpgGenerateKey::postStart()
 		setSuccess(TS_USER_ABORTED);
 	}
 	QApplication::setOverrideCursor(Qt::BusyCursor);
-	keymessage.append("%commit");
-
-	write(keymessage);
+	write("%commit");
 }
 
 bool
