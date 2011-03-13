@@ -2,7 +2,6 @@ project(kgpg)
 
 find_package( KdepimLibs REQUIRED )
 
-
 add_subdirectory( icons )
 include_directories( ${KDEPIMLIBS_INCLUDE_DIR} core editor model transactions )
 
@@ -115,6 +114,7 @@ kde4_add_ui_files(kgpg_SRCS
     newkey.ui
     keyexport.ui
     conf_encryption.ui
+    kgpgKeyInfo.ui
     kgpgrevokewidget.ui
     keyserver.ui
     conf_decryption.ui

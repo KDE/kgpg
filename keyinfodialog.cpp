@@ -1,7 +1,8 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
  * Copyright (C) 2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011 Philip Greggory Lee <rocketman768@gmail.com>
  */
 
 /***************************************************************************
@@ -18,6 +19,7 @@
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QFormLayout>
 #include <QGroupBox>
 #include <QCheckBox>
 #include <QPixmap>
@@ -56,9 +58,10 @@ KgpgTrustLabel::KgpgTrustLabel(QWidget *parent, const QString &text, const QColo
     m_color_w->setLineWidth(1);
     m_color_w->setFrameShape(QFrame::Box);
     m_color_w->setAutoFillBackground(true);
+    m_color_w->setMinimumWidth(64);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->setSpacing(0);
+    layout->setSpacing(10);
     layout->setMargin(2);
     layout->addWidget(m_text_w);
     layout->addWidget(m_color_w);
@@ -108,37 +111,24 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
 	Q_ASSERT(m_model != NULL);
 	Q_ASSERT(m_node != NULL);
 
+    setupUi(this);
+
     setButtons(Ok | Apply | Cancel);
     setDefaultButton(Ok);
     setModal(true);
     enableButtonApply(false);
 
-    QWidget *page = new QWidget(this);
-    QWidget *top = new QWidget(page);
-    QWidget *right = new QWidget(top);
+    m_email->setUnderline(false);
+    m_trust = new KgpgTrustLabel(this);
+    int trustRow;
+    formLayout_keyproperties->getWidgetPosition(tl_trust, &trustRow, NULL);
+    formLayout_keyproperties->setWidget(trustRow, QFormLayout::FieldRole, m_trust);
 
-    QGroupBox *gr_properties = _keypropertiesGroup(top);
-    QGroupBox *gr_photo = _photoGroup(right);
-    QGroupBox *gr_buttons = _buttonsGroup(right);
-    QGroupBox *gr_fingerprint = _fingerprintGroup(page);
-
-    QVBoxLayout *layout_right = new QVBoxLayout(right);
-    layout_right->setSpacing(spacingHint());
-    layout_right->setMargin(0);
-    layout_right->addWidget(gr_photo);
-    layout_right->addWidget(gr_buttons);
-
-    QHBoxLayout *layout_top = new QHBoxLayout(top);
-    layout_top->setSpacing(spacingHint());
-    layout_top->setMargin(0);
-    layout_top->addWidget(gr_properties);
-    layout_top->addWidget(right);
-
-    QVBoxLayout *layout_page = new QVBoxLayout(page);
-    layout_page->setSpacing(spacingHint());
-    layout_page->setMargin(0);
-    layout_page->addWidget(top);
-    layout_page->addWidget(gr_fingerprint);
+    // Hide some widgets if this is not a secret node.
+    if ( ! m_node->isSecret() ) {
+        m_expirationbtn->hide();
+        m_password->hide();
+    }
 
     setMainWidget(page);
 
@@ -149,170 +139,17 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
     connect(this, SIGNAL(cancelClicked()), this, SLOT(slotPreCancel()));
     connect(this, SIGNAL(applyClicked()), SLOT(slotApply()));
     connect(keychange, SIGNAL(done(int)), SLOT(slotApplied(int)));
+    connect(m_disable, SIGNAL(toggled(bool)), this, SLOT(slotDisableKey(bool)));
 
     displayKey();
+    adjustSize();
+    gr_fingerprint->setMinimumHeight(gr_fingerprint->height());
 }
 
 KgpgKeyInfo::~KgpgKeyInfo()
 {
 	if (keychange)
 		keychange->selfdestruct(false);
-}
-
-QGroupBox* KgpgKeyInfo::_keypropertiesGroup(QWidget *parent)
-{
-    QGroupBox *group = new QGroupBox(i18n("Key properties"), parent);
-
-    /************************/
-    /* --- name / email --- */
-
-    QWidget *widget_name = new QWidget(group);
-
-    m_name = new QLabel(widget_name);
-    m_name->setTextInteractionFlags(Qt::TextSelectableByMouse);
-
-    m_email = new KUrlLabel(widget_name);
-    m_email->setUnderline(false);
-    m_email->setTextInteractionFlags(Qt::TextSelectableByMouse);
-
-    /**********************/
-    /* --- properties --- */
-
-    QWidget *widget_properties = new QWidget(group);
-
-    QLabel *tl_id = new QLabel(i18n("Key ID:"), widget_properties);
-    QLabel *tl_comment = new QLabel(i18n("Comment:"), widget_properties);
-    QLabel *tl_creation = new QLabel(i18n("Creation:"), widget_properties);
-    QLabel *tl_expiration = new QLabel(i18n("Expiration:"), widget_properties);
-    QLabel *tl_trust = new QLabel(i18n("Trust:"), widget_properties);
-    QLabel *tl_owtrust = new QLabel(i18n("Owner trust:"), widget_properties);
-    QLabel *tl_algorithm = new QLabel(i18n("Algorithm:"), widget_properties);
-    QLabel *tl_length = new QLabel(i18n("Length:"), widget_properties);
-
-    m_id = new QLabel(widget_properties);
-    m_comment = new QLabel(widget_properties);
-    m_creation = new QLabel(widget_properties);
-    m_expiration = new QLabel(widget_properties);
-    m_trust = new KgpgTrustLabel(widget_properties);
-    m_owtrust = new KComboBox(widget_properties);
-    m_algorithm = new QLabel(widget_properties);
-    m_length = new QLabel(widget_properties);
-
-    m_owtrust->addItem(i18n("I do not know"));
-    m_owtrust->addItem(i18n("I do NOT trust"));
-    m_owtrust->addItem(i18n("Marginally"));
-    m_owtrust->addItem(i18n("Fully"));
-    m_owtrust->addItem(i18n("Ultimately"));
-
-    m_id->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    m_comment->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    m_creation->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    m_expiration->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    m_algorithm->setTextInteractionFlags(Qt::TextSelectableByMouse);
-    m_length->setTextInteractionFlags(Qt::TextSelectableByMouse);
-
-    QHBoxLayout *layout_name = new QHBoxLayout(widget_name);
-    layout_name->setMargin(0);
-    layout_name->setSpacing(spacingHint());
-    layout_name->addWidget(m_name);
-    layout_name->addWidget(m_email);
-    layout_name->addStretch();
-
-    QGridLayout *layout_properties = new QGridLayout(widget_properties);
-    layout_properties->setMargin(0);
-    layout_properties->setSpacing(spacingHint());
-    layout_properties->addWidget(tl_id, 0, 0, Qt::AlignRight);
-    layout_properties->addWidget(m_id, 0, 1);
-    layout_properties->addWidget(tl_comment, 1, 0, Qt::AlignRight);
-    layout_properties->addWidget(m_comment, 1, 1);
-    layout_properties->addWidget(tl_creation, 2, 0, Qt::AlignRight);
-    layout_properties->addWidget(m_creation, 2, 1);
-    layout_properties->addWidget(tl_expiration, 3, 0, Qt::AlignRight);
-    layout_properties->addWidget(m_expiration, 3, 1);
-    layout_properties->addWidget(tl_trust, 4, 0, Qt::AlignRight);
-    layout_properties->addWidget(m_trust, 4, 1);
-    layout_properties->addWidget(tl_owtrust, 5, 0, Qt::AlignRight);
-    layout_properties->addWidget(m_owtrust, 5, 1);
-    layout_properties->addWidget(tl_algorithm, 6, 0, Qt::AlignRight);
-    layout_properties->addWidget(m_algorithm, 6, 1);
-    layout_properties->addWidget(tl_length, 7, 0, Qt::AlignRight);
-    layout_properties->addWidget(m_length, 7, 1);
-    layout_properties->setColumnStretch(1, 1);
-    layout_properties->setRowStretch(8, 1);
-
-    QVBoxLayout *layout_keyproperties = new QVBoxLayout(group);
-    layout_keyproperties->addWidget(widget_name);
-    layout_keyproperties->addWidget(widget_properties);
-
-    return group;
-}
-
-QGroupBox* KgpgKeyInfo::_photoGroup(QWidget *parent)
-{
-    QGroupBox *group = new QGroupBox(i18n("Photo"), parent);
-    m_photo = new QLabel(i18n("No Photo"), group);
-    m_photoid = new KComboBox(group);
-
-    m_photo->setMinimumSize(120, 140);
-    m_photo->setMaximumSize(32767, 140);
-    m_photo->setLineWidth(2);
-    m_photo->setAlignment(Qt::AlignCenter);
-    m_photo->setFrameShape(QFrame::Box);
-    m_photo->setWhatsThis(i18n("<qt><b>Photo:</b><p>A photo can be included with a public key for extra security. The photo can be used as an additional method of authenticating the key. However, it should not be relied upon as the only form of authentication.</p></qt>"));
-
-    QVBoxLayout *layout = new QVBoxLayout(group);
-    layout->setMargin(marginHint());
-    layout->setSpacing(spacingHint());
-    layout->addWidget(m_photo);
-    layout->addWidget(m_photoid);
-    layout->addStretch();
-
-    return group;
-}
-
-QGroupBox* KgpgKeyInfo::_buttonsGroup(QWidget *parent)
-{
-    QGroupBox *group = new QGroupBox(parent);
-    m_disable = new QCheckBox(i18n("Disable key"), group);
-
-    if (m_node->isSecret()) {
-        m_expirationbtn = new KPushButton(i18n("Change Expiration..."), group);
-        m_password = new KPushButton(i18n("Change Passphrase..."), group);
-
-        connect(m_expirationbtn, SIGNAL(clicked()), this, SLOT(slotChangeDate()));
-        connect(m_password, SIGNAL(clicked()), this, SLOT(slotChangePass()));
-    } else {
-        m_password = 0;
-        m_expirationbtn = 0;
-    }
-
-    connect(m_disable, SIGNAL(toggled(bool)), this, SLOT(slotDisableKey(bool)));
-
-    QVBoxLayout *layout = new QVBoxLayout(group);
-    layout->setMargin(marginHint());
-    layout->setSpacing(spacingHint());
-    layout->addWidget(m_disable);
-
-    if (m_node->isSecret()) {
-        layout->addWidget(m_expirationbtn);
-        layout->addWidget(m_password);
-    }
-
-    return group;
-}
-
-QGroupBox* KgpgKeyInfo::_fingerprintGroup(QWidget *parent)
-{
-    QGroupBox *group = new QGroupBox(i18n("Fingerprint"), parent);
-    m_fingerprint = new QLabel(group);
-    m_fingerprint->setTextInteractionFlags(Qt::TextSelectableByMouse);
-
-    QVBoxLayout *layout = new QVBoxLayout(group);
-    layout->setMargin(marginHint());
-    layout->setSpacing(spacingHint());
-    layout->addWidget(m_fingerprint);
-
-    return group;
 }
 
 void KgpgKeyInfo::reloadNode()

@@ -2,6 +2,7 @@
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
  * Copyright (C) 2007 Jimmy Gilles <jimmygilles@gmail.com>
  * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011 Philip G. Lee <rocketman768@gmail.com>
  */
 
 /***************************************************************************
@@ -21,6 +22,8 @@
 #include <QColor>
 
 #include <KDialog>
+
+#include "ui_kgpgKeyInfo.h"
 
 class QCheckBox;
 class QGroupBox;
@@ -57,7 +60,7 @@ private:
     QColor m_color;
 };
 
-class KgpgKeyInfo : public KDialog
+class KgpgKeyInfo : public KDialog, public Ui::kgpgKeyInfo
 {
 	Q_OBJECT
 
@@ -73,11 +76,6 @@ signals:
     void keyNeedsRefresh(KGpgKeyNode *node);
 
 private:
-    QGroupBox *_keypropertiesGroup(QWidget *parent);
-    QGroupBox *_photoGroup(QWidget *parent);
-    QGroupBox *_buttonsGroup(QWidget *parent);
-    QGroupBox *_fingerprintGroup(QWidget *parent);
-
     void reloadKey();
     void reloadNode();
     void displayKey();
@@ -108,23 +106,6 @@ private:
 	KGpgKeyNode *m_node;
 	KGpgItemModel *m_model;
 	KGpgChangePass *m_changepass;
-
-    QCheckBox *m_disable;
-    QLabel *m_name;
-    QLabel *m_id;
-    QLabel *m_comment;
-    QLabel *m_creation;
-    QLabel *m_expiration;
-    QLabel *m_algorithm;
-    QLabel *m_length;
-    QLabel *m_fingerprint;
-    QLabel *m_photo;
-
-    KPushButton *m_expirationbtn;
-    KPushButton *m_password;
-    KUrlLabel *m_email;
-    KComboBox *m_photoid;
-    KComboBox *m_owtrust;
 
     KgpgTrustLabel *m_trust;
 
