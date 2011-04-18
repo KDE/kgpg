@@ -64,9 +64,11 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	m_combomodel->sort(0);
 
 	// Initialize the default server and the default server list.
-	defaultKeyServer = QLatin1String( "hkp://wwwkeys.pgp.net" );
-	defaultServerList << defaultKeyServer << QLatin1String( "hkp://search.keyserver.net" ) << QLatin1String( "hkp://pgp.dtype.org" );
-	defaultServerList << QLatin1String( "hkp://wwwkeys.us.pgp.net" ) << QLatin1String( "hkp://subkeys.pgp.net" );
+	defaultKeyServer = QLatin1String("hkp://wwwkeys.pgp.net");
+	defaultServerList << defaultKeyServer
+			<< QLatin1String("hkp://search.keyserver.net")
+			<< QLatin1String("hkp://pgp.dtype.org")
+			<< QLatin1String("hkp://subkeys.pgp.net");
 
 	// Read the default keyserver from the GnuPG settings.
 	keyServer = KgpgInterface::getGpgSetting(QLatin1String( "keyserver" ), KGpgSettings::gpgConfigPath());
@@ -152,7 +154,7 @@ void kgpgOptions::slotChangeHome()
 					KGuiItem(i18n("Create")),
 					KGuiItem(i18n("Ignore")))) {
 				// start GnuPG so that it will create a config file
-				QString gpgbin = m_page4->gpg_bin_path->text();
+				QString gpgbin = m_page4->kcfg_GpgBinaryPath->text();
 				if (!QFile::exists(gpgbin))
 					gpgbin = QLatin1String( "gpg" );
 
@@ -337,8 +339,6 @@ void kgpgOptions::updateWidgets()
 	gpgConfigPath = KGpgSettings::gpgConfigPath();
 	m_page4->gpg_conf_path->setText(KUrl::fromPath(gpgConfigPath).fileName());
 	m_page4->gpg_home_path->setText(KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash));
-	gpgBinPath = KGpgSettings::gpgBinaryPath();
-	m_page4->gpg_bin_path->setText(gpgBinPath);
 
 	m_useagent = KgpgInterface::getGpgBoolSetting(QLatin1String( "use-agent" ), KGpgSettings::gpgConfigPath());
 	m_defaultuseagent = false;
@@ -364,7 +364,6 @@ void kgpgOptions::updateWidgetsDefault()
 
 	m_page4->gpg_conf_path->setText(defaultConfigPath);
 	m_page4->gpg_home_path->setText(defaultHomePath);
-	m_page4->gpg_bin_path->setText(defaultBinPath);
 
 	m_page6->ServerBox->clear();
 	m_page6->ServerBox->addItem(i18nc("Mark default keyserver in GUI", "%1 (Default)", defaultKeyServer));
@@ -386,8 +385,6 @@ void kgpgOptions::updateSettings()
 
 		gpgConfigPath = KGpgSettings::gpgConfigPath();
 	}
-	KGpgSettings::setGpgBinaryPath(m_page4->gpg_bin_path->text());
-	gpgBinPath = KGpgSettings::gpgBinaryPath();
 
 	// save selected keys for file encryption & always encrypt with
 	if (m_page1->kcfg_EncryptFilesTo->isChecked())
@@ -566,9 +563,6 @@ bool kgpgOptions::hasChanged()
 	if (m_page4->gpg_home_path->text() != KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash))
 		return true;
 
-	if (m_page4->gpg_bin_path->text() != gpgBinPath)
-		return true;
-
 	if (m_page4->use_agent->isChecked() != m_useagent)
 		return true;
 
@@ -611,9 +605,6 @@ bool kgpgOptions::isDefault()
 		return false;
 
 	if (m_page4->gpg_home_path->text() != defaultHomePath)
-		return false;
-
-	if (m_page4->gpg_bin_path->text() != defaultBinPath)
 		return false;
 
 	if (m_page4->use_agent->isChecked() != m_defaultuseagent)
