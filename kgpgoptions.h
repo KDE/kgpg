@@ -112,10 +112,9 @@ private slots:
     void slotRemoveMenu(const QString &menu);
     void slotSystrayEnable();
 
-private:
-    bool hasChanged();
-    bool isDefault();
-    bool isValidKeyserver(const QString &);
+protected:
+    virtual bool hasChanged();
+    virtual bool isDefault();
 
 private:
     QStringList names;
@@ -162,6 +161,8 @@ private:
 
     KGpgItemModel * const m_model;
     KeyListProxyModel * const m_combomodel;
+
+    bool isValidKeyserver(const QString &);
 };
 
 #endif // KGPGOPTIONS_H
