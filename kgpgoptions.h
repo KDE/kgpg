@@ -141,15 +141,16 @@ private:
     QColor keyUnknown;
     QColor keyRev;
 
-    KFontChooser *m_fontchooser;
     KConfig *m_config;
 
-    Encryption *m_page1;
-    Decryption *m_page2;
-    UIConf *m_page3;
-    GPGConf *m_page4;
-    ServerConf *m_page6;
-    MiscConf *m_page7;
+    Encryption * const m_page1;
+    Decryption * const m_page2;
+    UIConf * const m_page3;
+    GPGConf * const m_page4;
+    ServerConf * const m_page6;
+    MiscConf * const m_page7;
+
+    KFontChooser * const m_fontchooser;
 
     bool m_useagent;
     bool m_defaultuseagent;

@@ -55,6 +55,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	   m_page4(new GPGConf()),
 	   m_page6(new ServerConf()),
 	   m_page7(new MiscConf()),
+	   m_fontchooser(new KFontChooser(m_page3->tabWidget3->widget(1), KFontChooser::NoDisplayFlags, QStringList())),
 	   m_model(model),
 	   m_combomodel(new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst))
 {
@@ -88,7 +89,6 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	QVBoxLayout *fontlayout = new QVBoxLayout(m_page3->tabWidget3->widget(1));
 	fontlayout->setSpacing(spacingHint());
 
-	m_fontchooser = new KFontChooser(m_page3->tabWidget3->widget(1), KFontChooser::NoDisplayFlags, QStringList());
 	m_fontchooser->setObjectName( QLatin1String("kcfg_Font" ));
 	fontlayout->addWidget(m_fontchooser);
 
