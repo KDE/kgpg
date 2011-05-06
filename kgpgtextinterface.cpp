@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -234,7 +234,7 @@ KGpgTextInterface::encryptTextProcess()
 		if (line.startsWith(QLatin1String("[GNUPG:] "))) {
 			line.remove(0, 9);
 			if (line.startsWith(QLatin1String("BEGIN_ENCRYPTION"))) {
-				d->m_process->write(d->m_message.toAscii());
+				d->m_process->write(d->m_message.toLocal8Bit());
 				d->m_process->closeWriteChannel();
 				d->m_message.clear();
 			} else if (line.contains( QLatin1String( "passphrase.enter" ))) {
