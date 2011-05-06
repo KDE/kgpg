@@ -20,11 +20,6 @@
         <Action name="sign_verify"/>
         <Action name="sign_check"/>
     </Menu>
-
-    <Menu name="settings">
-        <text>&amp;Settings</text>
-        <Action name="kgpg_config" />
-    </Menu>
 </MenuBar>
 <ToolBar name="gpgToolBar">
   <Action name="text_sign_verify"/>
