@@ -169,7 +169,7 @@ void KgpgEditor::initActions()
     KStandardAction::find(this, SLOT(slotFind()), actionCollection());
     KStandardAction::findNext(this, SLOT(slotFindNext()), actionCollection());
     KStandardAction::findPrev(this, SLOT(slotFindPrev()), actionCollection());
-    actionCollection()->addAction(KStandardAction::Preferences, QLatin1String( "kgpg_config" ),
+    actionCollection()->addAction(KStandardAction::Preferences, QLatin1String( "options_configure" ),
                                   this, SLOT(slotOptions()));
 
     m_editundo = KStandardAction::undo(this, SLOT(slotundo()), actionCollection());
