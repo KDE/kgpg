@@ -1,10 +1,11 @@
 project(kgpg)
 
+find_package( KDE4 REQUIRED )
+include( KDE4Defaults )
 find_package( KdepimLibs REQUIRED )
 
-
 add_subdirectory( icons )
-include_directories( ${KDEPIMLIBS_INCLUDE_DIR} core editor model transactions )
+include_directories( ${KDE4_INCLUDES} ${KDEPIMLIBS_INCLUDE_DIR} core editor model transactions )
 
 set(core_SRCS
    core/convert.cpp
