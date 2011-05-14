@@ -5,6 +5,7 @@ include( KDE4Defaults )
 find_package( KdepimLibs REQUIRED )
 
 add_subdirectory( icons )
+add_subdirectory( doc )
 include_directories( ${KDE4_INCLUDES} ${KDEPIMLIBS_INCLUDE_DIR} core editor model transactions )
 
 set(core_SRCS
