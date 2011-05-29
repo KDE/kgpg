@@ -1,8 +1,11 @@
 project(kgpg)
 
-find_package( KDE4 REQUIRED )
-include( KDE4Defaults )
-find_package( KdepimLibs REQUIRED )
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
+    find_package(KDE4)
+    include( KDE4Defaults )
+endif()
+
+find_package( KdepimLibs REQUIRED ) 
 
 add_subdirectory( icons )
 add_subdirectory( doc )
