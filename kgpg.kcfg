@@ -5,6 +5,7 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
 
     <include>kglobalsettings.h</include>
+    <include>kgpg.h</include>
     <kcfgfile name="kgpgrc"/>
 
     <group name="Decryption">
@@ -250,21 +251,7 @@
 	<group name="Key Signing">
 		<entry name="EmailTemplate" type="String" key="Email_Template">
 			<label>This is the text of the email sent by the "Sign and Mail User ID" action.</label>
-			<default>Hi,
-
-please find attached the user id "%UIDNAME%" of your key %KEYID% signed by me. This mail is encrypted with that key to make sure you control both the email address and the key.
-
-If you have multiple user ids, I sent the signature for each user id separately to that user id's associated email address. You can import the signatures by running each through `gpg --import` after you have decrypted them with `gpg --decrypt`.
-
-If you are using KGpg store the attachment to disk and then import it. Just select `Import Key...` from `Keys` menu and open the file.
-
-Note that I did not upload your key to any keyservers. If you want this new signature to be available to others, please upload it yourself. With GnuPG this can be done using
-        gpg --keyserver subkeys.pgp.net --send-key %KEYID%
-
-With KGpg you can right click on the key once you imported all user ids and choose `Export Public Key...`.
-
-If you have any questions, don't hesitate to ask.
-</default>
+			<default code="true">i18n(EMailTemplateText)</default>
 		</entry>
 		<entry name="MailUats" type="Enum" key="Mail_Uats">
 			<choices>
