@@ -210,4 +210,16 @@ KeyTreeView::resizeColumnsToContents()
 		resizeColumnToContents(i);
 }
 
+void
+KeyTreeView::keyPressEvent(QKeyEvent *event)
+{
+	if (event->key() == Qt::Key_Return) {
+		if (!event->isAutoRepeat())
+			emit returnPressed();
+
+		return;
+	}
+	QTreeView::keyPressEvent(event);
+}
+
 #include "keytreeview.moc"
