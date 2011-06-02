@@ -49,6 +49,7 @@ public:
 
 signals:
 	void importDrop(const KUrl::List &urls);
+	void returnPressed();
 
 public slots:
 	void selectNode(KGpgNode *nd);
@@ -58,6 +59,7 @@ protected:
 	virtual void contentsDragMoveEvent(QDragMoveEvent *e);
 	virtual void contentsDropEvent(QDropEvent *e);
 	virtual void startDrag(Qt::DropActions);
+	virtual void keyPressEvent(QKeyEvent *event);
 };
 
 #endif

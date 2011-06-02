@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -159,11 +159,7 @@ KeysManager::KeysManager(QWidget *parent)
 	if (showTipOfDay)
 		installEventFilter(this);
 
-	KAction *action = 0;
-
-	action = actionCollection()->addAction( QLatin1String( "default" ) );
-	connect(action, SIGNAL(triggered(bool)), SLOT(slotDefaultAction()));
-	action->setShortcut(QKeySequence(Qt::Key_Return));
+	KAction *action;
 
 	action =  actionCollection()->addAction( QLatin1String( "help_tipofday" ));
 	action->setIcon( KIcon( QLatin1String( "help-hint" )) );
@@ -248,6 +244,7 @@ KeysManager::KeysManager(QWidget *parent)
 	deleteKey->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	connect(deleteKey, SIGNAL(triggered(bool)), SLOT(confirmdeletekey()));
 	deleteKey->setShortcut(QKeySequence(Qt::Key_Delete));
+	deleteKey->setEnabled(false);
 
 	setDefaultKey = actionCollection()->addAction(QLatin1String( "key_default" ));
 	setDefaultKey->setText(i18n("Set as De&fault Key"));
@@ -288,6 +285,7 @@ KeysManager::KeysManager(QWidget *parent)
 	delSignKey = actionCollection()->addAction(QLatin1String( "key_delsign" ));
 	delSignKey->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	connect(delSignKey, SIGNAL(triggered(bool)), SLOT(delsignkey()));
+	delSignKey->setEnabled(false);
 
 	importAllSignKeys = actionCollection()->addAction(QLatin1String( "key_importallsign" ));
 	importAllSignKeys->setIcon(KIcon( QLatin1String( "document-import" )));
@@ -360,6 +358,8 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(iview, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(slotMenu(const QPoint &)));
 	iview->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(iview->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this, SLOT(checkList()));
+
+	connect (iview, SIGNAL(returnPressed()), SLOT(slotDefaultAction()));
 
 	int psize = KGpgSettings::photoProperties();
 	photoProps->setCurrentItem(psize);
@@ -500,6 +500,7 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(m_netnote, SIGNAL(shouldDisconnect()), SLOT(slotNetworkDown()));
 
 	toggleNetworkActions(Solid::Networking::status() == Solid::Networking::Unknown || Solid::Networking::status() == Solid::Networking::Connected);
+	importSignatureKey->setEnabled(false);
 
 	QTimer::singleShot(0, this, SLOT(refreshkey()));
 }
@@ -1337,6 +1338,9 @@ KeysManager::setActionDescriptions(int cnt)
 	createGroup->setText(i18np("&Create Group with Selected Key...", "&Create Group with Selected Keys...", cnt));
 	signKey->setText(i18np("&Sign Key...", "&Sign Keys...", cnt));
 	delUid->setText(i18np("&Delete User ID", "&Delete User IDs", cnt));
+	delSignKey->setText(i18np("Delete Sign&ature", "Delete Sign&atures", cnt));
+	importSignatureKey->setText(i18np("Import Key From Keyserver", "Import Keys From Keyserver", cnt));
+	deleteKey->setText(i18np("&Delete Key", "&Delete Keys", cnt));
 }
 
 void
@@ -1383,9 +1387,7 @@ KeysManager::slotMenu(const QPoint &pos)
 		}
 
 		importSignatureKey->setEnabled(allunksig && m_online);
-		importSignatureKey->setText(i18np("Import Key From Keyserver", "Import Keys From Keyserver", cnt));
 		delSignKey->setEnabled( (cnt == 1) );
-		delSignKey->setText(i18np("Delete Sign&ature", "Delete Sign&atures", cnt));
 		m_popupsig->exec(globpos);
 	} else if (itype == ITYPE_UID) {
 		if (cnt == 1) {
@@ -1407,7 +1409,6 @@ KeysManager::slotMenu(const QPoint &pos)
 	} else if (!(itype & ~(ITYPE_PAIR | ITYPE_GROUP))) {
 		signKey->setEnabled(!(itype & ITYPE_GROUP));
 		deleteKey->setEnabled(!(itype & ITYPE_GROUP));
-		deleteKey->setText(i18np("&Delete Key", "&Delete Keys", cnt));
 		setDefaultKey->setEnabled( (cnt == 1) );
 		m_popuppub->exec(globpos);
 	} else if (!(itype & ~(ITYPE_UID | ITYPE_PAIR | ITYPE_UAT))) {
@@ -2238,7 +2239,7 @@ void KeysManager::preimportsignkey()
 	QStringList idlist;
 
 	if (exportList.empty())
-	return;
+		return;
 
 	foreach (const KGpgNode *nd, exportList)
 		idlist << nd->getId();
@@ -2286,7 +2287,8 @@ void KeysManager::refreshKeys(const QStringList& ids)
 void KeysManager::delsignkey()
 {
 	KGpgNode *nd = iview->selectedNode();
-	Q_ASSERT(nd != NULL);
+	if (nd == NULL)
+		return;
 
 	QString uid;
 	QString parentKey;
