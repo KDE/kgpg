@@ -605,9 +605,9 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 			revurl = QDir::homePath() + QLatin1Char( '/' );
 
 		if (!email.isEmpty())
-			page->kURLRequester1->setUrl(revurl + email.section(QLatin1Char( '@' ), 0, 0) + QLatin1String( ".revoke" ));
+			page->kURLRequester1->setUrl(QString(revurl + email.section(QLatin1Char( '@' ), 0, 0) + QLatin1String( ".revoke" )));
 		else
-			page->kURLRequester1->setUrl(revurl + email.section(QLatin1Char( ' ' ), 0, 0) + QLatin1String( ".revoke" ));
+			page->kURLRequester1->setUrl(QString(revurl + email.section(QLatin1Char( ' ' ), 0, 0) + QLatin1String( ".revoke" )));
 
 		const QString fingerprint(genkey->getFingerprint());
 		page->TLid->setText(QLatin1String( "<b>" ) + fingerprint.right(8) + QLatin1String( "</b>" ));
@@ -1122,7 +1122,7 @@ void KeysManager::addToKAB()
 	if(!addresseeList.isEmpty())
 		kaddressbook.call( QLatin1String( "showContactEditor" ), addresseeList.first().uid());
 	else
-		kaddressbook.call( QLatin1String( "addEmail" ), nd->getName() + QLatin1String( " <" ) + email + QLatin1Char( '>' ));
+		kaddressbook.call( QLatin1String( "addEmail" ), QString(nd->getName() + QLatin1String( " <" ) + email + QLatin1Char( '>' )));
 }
 
 void KeysManager::slotManpage()
