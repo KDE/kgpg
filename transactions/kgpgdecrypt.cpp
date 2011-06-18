@@ -59,6 +59,9 @@ KGpgDecrypt::decryptedText() const
 			txtlength += line.length() + 1;
 		}
 
+	if (result.isEmpty())
+		return result;
+
 	QString last = result.last();
 	// this may happen when the original text did not end with a newline
 	if (last.endsWith(QLatin1String("[GNUPG:] DECRYPTION_OKAY"))) {
