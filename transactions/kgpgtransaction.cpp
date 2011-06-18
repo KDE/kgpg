@@ -109,7 +109,7 @@ KGpgTransactionPrivate::slotReadReady()
 		if (m_quitTries)
 			m_quitLines << line;
 #ifdef KGPG_DEBUG_TRANSACTIONS
-		kDebug(2100) << line;
+		kDebug(2100) << m_parent << line;
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 
 		if (line.startsWith(QLatin1String("[GNUPG:] USERID_HINT "))) {
@@ -184,7 +184,7 @@ KGpgTransactionPrivate::write(const QByteArray &a)
 {
 	m_process->write(a);
 #ifdef KGPG_DEBUG_TRANSACTIONS
-	kDebug(2100) << a;
+	kDebug(2100) << m_parent << a;
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 }
 
@@ -209,6 +209,9 @@ KGpgTransaction::start()
 		d->m_ownProcessFinished = false;
 		if (d->m_inputTransaction != NULL)
 			d->m_inputTransaction->start();
+#ifdef KGPG_DEBUG_TRANSACTIONS
+		kDebug(2100) << this << d->m_process->program();
+#endif /* KGPG_DEBUG_TRANSACTIONS */
 		d->m_process->start();
 		emit infoProgress(0, 1);
 	} else {
