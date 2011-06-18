@@ -235,6 +235,13 @@ protected:
 	 */
 	void waitForInputTransaction();
 
+	/**
+	 * @brief notify of an unexpected line
+	 *
+	 * This will print out the line to the console to ease debugging.
+	 */
+	void unexpectedLine(const QString &line);
+
 private:
 	KGpgTransactionPrivate* const d;
 

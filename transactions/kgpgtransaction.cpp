@@ -126,7 +126,7 @@ KGpgTransactionPrivate::slotReadReady()
 				break;
 			case KGpgTransaction::BA_UNKNOWN:
 				m_parent->setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
-				kDebug(2100) << "unexpected GnuPG request" << line;
+				m_parent->unexpectedLine(line);
 				sendQuit();
 			}
 		} else if (line.startsWith(QLatin1String("[GNUPG:] CARDCTRL "))) {
@@ -281,6 +281,12 @@ KGpgTransaction::waitForInputTransaction()
 		return;
 
 	d->m_inputTransaction->waitForFinished();
+}
+
+void
+KGpgTransaction::unexpectedLine(const QString &line)
+{
+	kDebug(2100) << this << "unexpected input line" << line << "for command" << d->m_process->program();
 }
 
 bool
