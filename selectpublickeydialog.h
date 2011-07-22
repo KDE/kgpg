@@ -60,7 +60,6 @@ private slots:
     void slotSelectionChanged();
     void slotSymmetric(const bool &state);
     void slotUntrusted(const bool &state);
-    void slotHideUntrustedKeys();
     void slotGotoDefaultKey();
 
 private:

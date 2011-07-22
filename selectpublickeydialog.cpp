@@ -225,11 +225,6 @@ void KgpgSelectPublicKeyDlg::slotUntrusted(const bool &state)
 	iproxy->setShowUntrusted(state);
 }
 
-void KgpgSelectPublicKeyDlg::slotHideUntrustedKeys()
-{
-	iproxy->setShowUntrusted(false);
-}
-
 void KgpgSelectPublicKeyDlg::slotGotoDefaultKey()
 {
 	KGpgNode *nd = imodel->getRootNode()->findKey(KGpgSettings::defaultKey());
