@@ -98,6 +98,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     }
 
     m_cbuntrusted = new QCheckBox(i18n("Allow encryption with untrusted keys"), optionsbox);
+    connect(m_cbuntrusted, SIGNAL(toggled(bool)), this, SLOT(slotUntrusted(bool)));
     m_cbuntrusted->setChecked(KGpgSettings::allowUntrustedKeys());
     m_cbuntrusted->setWhatsThis(i18n("<b>Allow encryption with untrusted keys</b>: when you import a public key, it is usually "
                     "marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this "
@@ -139,7 +140,6 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 
     connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
     connect(m_cbsymmetric, SIGNAL(toggled(bool)), this, SLOT(slotSymmetric(bool)));
-    connect(m_cbuntrusted, SIGNAL(toggled(bool)), this, SLOT(slotUntrusted(bool)));
     connect(m_keyslist->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(slotSelectionChanged()));
     connect(m_keyslist, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotOk()));
 
