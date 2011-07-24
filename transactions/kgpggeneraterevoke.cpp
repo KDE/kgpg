@@ -27,7 +27,6 @@ KGpgGenerateRevoke::KGpgGenerateRevoke(QObject *parent, const QString &keyID, co
 	addArgument(QLatin1String( "--status-fd=1" ));
 	addArgument(QLatin1String( "--command-fd=0" ));
 	addArgument(QLatin1String( "--no-verbose" ));
-	addArgument(QLatin1String( "--no-greeting" ));
 
 	if (!revokeUrl.isEmpty()) {
 		addArgument(QLatin1String( "-o" ));

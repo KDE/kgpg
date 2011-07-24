@@ -27,7 +27,6 @@ KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QSt
 	addArgument(QLatin1String( "--status-fd=1" ));
 	addArgument(QLatin1String( "--command-fd=0" ));
 	addArgument(QLatin1String( "--no-verbose" ));
-	addArgument(QLatin1String( "--no-greeting" ));
 	addArgument(QLatin1String( "--gen-key" ));
 	addArgument(QLatin1String( "--batch" ));
 

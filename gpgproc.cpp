@@ -51,7 +51,10 @@ GPGProc::resetProcess(const QString &binary)
 	}
 
 	QStringList args;
-	args << QLatin1String( "--no-secmem-warning" ) << QLatin1String( "--no-tty" );
+	args << QLatin1String( "--no-secmem-warning" )
+			<< QLatin1String( "--no-tty" )
+			<< QLatin1String("--no-greeting");
+	
 	if (lastVersion > 0x20000)
 		args << QLatin1String( "--debug-level" ) << QLatin1String( "none" );
 
