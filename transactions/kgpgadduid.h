@@ -45,4 +45,4 @@ private:
 	QString m_comment;
 };
 
-#endif // KGPGADDPHOTO_H
+#endif // KGPGADDUID_H
