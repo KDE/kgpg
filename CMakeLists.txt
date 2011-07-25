@@ -66,6 +66,7 @@ set(kgpg_transaction_SRCS
    transactions/kgpgchangetrust.cpp
    transactions/kgpgdelsign.cpp
    transactions/kgpgdeluid.cpp
+   transactions/kgpgencrypt.cpp
    transactions/kgpgexport.cpp
    transactions/kgpgaddphoto.cpp
    transactions/kgpgadduid.cpp

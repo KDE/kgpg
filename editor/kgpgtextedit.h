@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -59,7 +59,7 @@ private:
     bool checkForUtf8(const QString &text);
 
 private slots:
-    void slotEncodeUpdate(const QString &content);
+    void slotEncodeUpdate(int result);
     void slotSignUpdate(const QString &content);
     void slotVerifySuccess(const QString &content, const QString &log);
     void slotVerifyKeyNeeded(const QString &id);

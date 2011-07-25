@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -32,6 +32,7 @@
 #include "selectpublickeydialog.h"
 #include "detailedconsole.h"
 #include "kgpgdecrypt.h"
+#include "kgpgencrypt.h"
 #include "kgpgimport.h"
 #include "keysmanager.h"
 
@@ -157,31 +158,38 @@ void KgpgTextEdit::slotEncode()
 #ifdef __GNUC__
 #warning FIXME goDefaultKey shortcut
 #endif /* _GNUC_ */
-    QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, m_model, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), true);
-    if (dialog->exec() == KDialog::Accepted)
-    {
-        QStringList options;
-        if (dialog->getArmor())     options << QLatin1String( "--armor" );
-        if (dialog->getUntrusted()) options << QLatin1String( "--always-trust" );
-        if (dialog->getHideId())    options << QLatin1String( "--throw-keyid" );
+	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, m_model, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), true);
+	if (dialog->exec() == KDialog::Accepted) {
+		QStringList options;
+		KGpgEncrypt::EncryptOptions opts = KGpgEncrypt::DefaultEncryption;
 
-        QString customoptions = dialog->getCustomOptions();
-        if (!customoptions.isEmpty())
-            if (KGpgSettings::allowCustomEncryptionOptions())
-                options << customoptions.split(QLatin1Char( ' ' ), QString::SkipEmptyParts);
+		if (dialog->getArmor())
+			opts |= KGpgEncrypt::AsciiArmored;
 
-        if (KGpgSettings::pgpCompatibility())
-            options << QLatin1String( "--pgp6" );
+		if (dialog->getUntrusted())
+			opts |= KGpgEncrypt::AllowUntrustedEncryption;
 
-        QStringList listkeys;
-        if (!dialog->getSymmetric())
-            listkeys = dialog->selectedKeys();
+		if (dialog->getHideId())
+			opts |= KGpgEncrypt::HideKeyId;
 
-        KGpgTextInterface *interface = new KGpgTextInterface();
-        connect(interface, SIGNAL(txtEncryptionFinished(QString)), SLOT(slotEncodeUpdate(QString)));
-        interface->encryptText(toPlainText(), listkeys, options);
-    }
-    delete dialog;
+		if (KGpgSettings::allowCustomEncryptionOptions()) {
+			const QString customoptions = dialog->getCustomOptions();
+			if (!customoptions.isEmpty())
+				options << customoptions.split(QLatin1Char(' '), QString::SkipEmptyParts);
+		}
+
+		if (KGpgSettings::pgpCompatibility())
+			options << QLatin1String( "--pgp6" );
+
+		QStringList listkeys;
+		if (!dialog->getSymmetric())
+			listkeys = dialog->selectedKeys();
+
+		KGpgEncrypt *encr = new KGpgEncrypt(this, listkeys, toPlainText(), opts, options);
+		encr->start();
+		connect(encr, SIGNAL(done(int)), SLOT(slotEncodeUpdate(int)));
+	}
+	delete dialog;
 }
 
 void KgpgTextEdit::slotDecode()
@@ -271,15 +279,20 @@ void KgpgTextEdit::slotDecryptDone(int result)
 	decr->deleteLater();
 }
 
-void KgpgTextEdit::slotEncodeUpdate(const QString &content)
+void KgpgTextEdit::slotEncodeUpdate(int result)
 {
-    sender()->deleteLater();
-    if (!content.isEmpty())
-    {
-        setPlainText(content);
-    }
-    else
-        KMessageBox::sorry(this, i18n("Encryption failed."));
+	KGpgEncrypt *enc = qobject_cast<KGpgEncrypt *>(sender());
+	Q_ASSERT(enc != NULL);
+
+	if (result == KGpgTransaction::TS_OK) {
+		const QString lf = QLatin1String("\n");
+		setPlainText(enc->encryptedText().join(lf) + lf);
+	} else {
+		KMessageBox::sorry(this, i18n("The encryption failed with error code %1", result),
+				i18n("Encryption failed."));
+	}
+
+	sender()->deleteLater();
 }
 
 void KgpgTextEdit::slotSignUpdate(const QString &content)
