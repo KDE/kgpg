@@ -18,6 +18,7 @@
 #define KGPGOPTIONS_H
 
 #include <QPixmap>
+#include <QString>
 
 #include <KConfigDialog>
 
@@ -157,6 +158,7 @@ private:
     bool m_showsystray;
     int m_trayaction;
     int m_mailUats;
+    QString m_emailTemplate;
 
     KGpgItemModel * const m_model;
     KeyListProxyModel * const m_combomodel;

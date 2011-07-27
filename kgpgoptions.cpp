@@ -59,6 +59,8 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	   m_model(model),
 	   m_combomodel(new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst))
 {
+	m_page7->EmailTemplateEdit->setPlainText(KGpgSettings::emailTemplate());
+
 	m_combomodel->setKeyModel(m_model);
 	m_combomodel->setTrustFilter(KgpgCore::TRUST_MARGINAL);
 	m_combomodel->sort(0);
@@ -298,6 +300,8 @@ void kgpgOptions::updateWidgets()
 {
 	alwaysKeyID = KgpgInterface::getGpgSetting(QLatin1String( "encrypt-to" ), KGpgSettings::gpgConfigPath());
 
+	m_page7->EmailTemplateEdit->setPlainText(KGpgSettings::emailTemplate());
+
 	m_encrypttoalways = !alwaysKeyID.isEmpty();
 	m_defaultencrypttoalways = false;
 
@@ -359,6 +363,8 @@ void kgpgOptions::updateWidgets()
 
 void kgpgOptions::updateWidgetsDefault()
 {
+	m_page7->EmailTemplateEdit->setPlainText(m_emailTemplate);
+
 	m_page1->encrypt_to_always->setChecked(m_defaultencrypttoalways);
 	m_page4->use_agent->setChecked(m_defaultuseagent);
 
@@ -481,6 +487,9 @@ void kgpgOptions::updateSettings()
 
 	m_mailUats = m_page7->kcfg_MailUats->currentIndex();
 	KGpgSettings::setMailUats(m_mailUats);
+
+	m_emailTemplate = m_page7->EmailTemplateEdit->toPlainText();
+	KGpgSettings::setEmailTemplate(m_emailTemplate);
 
 	KGpgSettings::self()->writeConfig();
 	m_config->sync();
