@@ -130,8 +130,13 @@ kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 kde4_add_executable(kgpg ${kgpg_SRCS})
 
 if (KGPG_DEBUG_TRANSACTIONS)
-	get_target_property(KGPG_FLAGS kgpg COMPILE_FLAGS)
-	set_target_properties(kgpg PROPERTIES COMPILE_FLAGS ${KGPG_FLAGS} -DKGPG_DEBUG_TRANSACTIONS=1)
+	get_target_property(KGPG_FLAGS kgpg COMPILE_DEFINITIONS)
+	if (NOT KGPG_FLAGS)
+		# get rid of the NOTFOUND
+		set(KGPG_FLAGS)
+	endif (NOT KGPG_FLAGS)
+	list(APPEND KGPG_FLAGS KGPG_DEBUG_TRANSACTIONS)
+	set_target_properties(kgpg PROPERTIES COMPILE_DEFINITIONS "${KGPG_FLAGS}")
 endif (KGPG_DEBUG_TRANSACTIONS)
 
 target_link_libraries(kgpg
