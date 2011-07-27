@@ -5,6 +5,8 @@ find_package( KdepimLibs REQUIRED )
 add_subdirectory( icons )
 include_directories( ${KDEPIMLIBS_INCLUDE_DIR} core editor model transactions )
 
+option(KGPG_DEBUG_TRANSACTIONS "show commands and results of gpg calls in debug log" Off)
+
 set(core_SRCS
    core/convert.cpp
    core/images.cpp
@@ -126,6 +128,11 @@ kde4_add_app_icon(kgpg_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app*-kgpg.png")
 kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
 kde4_add_executable(kgpg ${kgpg_SRCS})
+
+if (KGPG_DEBUG_TRANSACTIONS)
+	get_target_property(KGPG_FLAGS kgpg COMPILE_FLAGS)
+	set_target_properties(kgpg PROPERTIES COMPILE_FLAGS ${KGPG_FLAGS} -DKGPG_DEBUG_TRANSACTIONS=1)
+endif (KGPG_DEBUG_TRANSACTIONS)
 
 target_link_libraries(kgpg
 	${KDE4_KIO_LIBS}

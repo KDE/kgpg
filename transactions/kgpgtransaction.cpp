@@ -23,9 +23,6 @@
 #include "gpgproc.h"
 #include "kgpginterface.h"
 
-// define this to get the commands and replies from all GnuPG transactions logged
-#undef KGPG_DEBUG_TRANSACTIONS
-
 class KGpgTransactionPrivate: QObject {
 public:
 	KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining);
