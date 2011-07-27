@@ -24,6 +24,7 @@
 #include <KToolInvocation>
 
 #include "kgpgdeluid.h"
+#include "kgpgencrypt.h"
 #include "kgpgexport.h"
 #include "kgpgimport.h"
 #include "kgpginterface.h"
@@ -31,7 +32,6 @@
 #include "kgpgsettings.h"
 #include "KGpgSignableNode.h"
 #include "kgpgsignuid.h"
-#include "kgpgtextinterface.h"
 
 KGpgCaffPrivate::KGpgCaffPrivate(KGpgCaff *parent, const KGpgSignableNode::List &ids, const QStringList &signers,
 		const KGpgCaff::OperationFlags flags, const KGpgSignTransactionHelper::carefulCheck checklevel)
@@ -39,7 +39,6 @@ KGpgCaffPrivate::KGpgCaffPrivate(KGpgCaff *parent, const KGpgSignableNode::List 
 	q_ptr(parent),
 	m_tempdir(NULL),
 	m_signers(signers),
-	m_textinterface(new KGpgTextInterface(parent)),
 	m_flags(flags),
 	m_checklevel(checklevel),
 	m_allids(ids)
@@ -55,8 +54,6 @@ KGpgCaffPrivate::KGpgCaffPrivate(KGpgCaff *parent, const KGpgSignableNode::List 
 		dir = dir.absolutePath();
 		m_secringfile = dir.toNativeSeparators(dir.filePath(QLatin1String( "secring.gpg" )));
 	}
-
-	connect(m_textinterface, SIGNAL(txtEncryptionFinished(QString)), SLOT(slotTextEncrypted(QString)));
 }
 
 KGpgCaffPrivate::~KGpgCaffPrivate()
@@ -264,20 +261,42 @@ KGpgCaffPrivate::slotExportFinished(int result)
 
 	body += QLatin1Char( '\n' ) + QLatin1String( exp->getOutputData() );
 
-	m_textinterface->encryptText(body, QStringList(key->getId()), QStringList(QLatin1String( "--armor" )));
+	KGpgEncrypt *enc = new KGpgEncrypt(this, QStringList(key->getId()), body, KGpgEncrypt::AsciiArmored | KGpgEncrypt::AllowUntrustedEncryption);
+
+	connect(enc, SIGNAL(done(int)), SLOT(slotTextEncrypted(int)));
+
+	enc->start();
 }
 
 void
-KGpgCaffPrivate::slotTextEncrypted(const QString &text)
+KGpgCaffPrivate::slotTextEncrypted(int result)
 {
-	Q_ASSERT(sender() == m_textinterface);
+	sender()->deleteLater();
 
-	const KGpgSignableNode *uid = m_allids.takeFirst();
+	switch (result) {
+	case KGpgTransaction::TS_OK: {
+		KGpgEncrypt *enc = qobject_cast<KGpgEncrypt *>(sender());
+		Q_ASSERT(enc != NULL);
 
-	const QString email = uid->getEmail();
-	const QString keyid = uid->getKeyNode()->getId();
+		const QString text = enc->encryptedText().join(QLatin1String("\n"));
 
-	KToolInvocation::invokeMailer(email, QString(), QString(), i18n( "your key " ) + keyid, text);
+		const KGpgSignableNode *uid = m_allids.takeFirst();
+
+		const QString email = uid->getEmail();
+		const QString keyid = uid->getKeyNode()->getId();
+
+		KToolInvocation::invokeMailer(email, QString(), QString(), i18n( "your key " ) + keyid, text);
+		break;
+		}
+	// FIXME: unexpected results here should do some sort of warning
+	// this would break string freeze and isn't that important so we
+	// just stop here.
+	default:
+		kDebug(2100) << "encryption finished with status" << result;
+	case KGpgTransaction::TS_USER_ABORTED:
+		m_allids.clear();
+		break;
+	}
 
 	checkNextLoop();
 }

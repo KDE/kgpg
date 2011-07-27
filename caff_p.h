@@ -37,7 +37,6 @@ class KGpgCaffPrivate : public QObject {
 	KTempDir *m_tempdir;
 	QStringList m_signers;
 	QString m_secringfile;
-	KGpgTextInterface * const m_textinterface;
 	const KGpgCaff::OperationFlags m_flags;
 	const KGpgSignTransactionHelper::carefulCheck m_checklevel;
 
@@ -55,7 +54,7 @@ private slots:
 	void slotSigningFinished(int result);
 	void slotDelUidFinished(int result);
 	void slotExportFinished(int result);
-	void slotTextEncrypted(const QString &text);
+	void slotTextEncrypted(int result);
 	void slotReimportDone(int result);
 };
 
