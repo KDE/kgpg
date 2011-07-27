@@ -346,7 +346,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="KTextEdit" name="kcfg_EmailTemplate">
+           <widget class="KTextEdit" name="EmailTemplateEdit">
             <property name="whatsThis">
              <string>This is the text of the email sent by the &quot;Sign and Mail User ID&quot; action.
 
