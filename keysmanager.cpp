@@ -326,16 +326,16 @@ KeysManager::KeysManager(QWidget *parent)
 	iproxy->setKeyModel(imodel);
 
 	iview = new KeyTreeView(this, iproxy);
-	connect(iview, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(defaultAction(const QModelIndex &)));
-	connect(iview, SIGNAL(importDrop(const KUrl::List &)), SLOT(slotImport(const KUrl::List &)));
+	connect(iview, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(defaultAction(QModelIndex)));
+	connect(iview, SIGNAL(importDrop(KUrl::List)), SLOT(slotImport(KUrl::List)));
 	iview->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	setCentralWidget(iview);
 	iview->resizeColumnsToContents();
 	iview->setAlternatingRowColors(true);
 	iview->setSortingEnabled(true);
-	connect(iview, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(slotMenu(const QPoint &)));
+	connect(iview, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotMenu(QPoint)));
 	iview->setContextMenuPolicy(Qt::CustomContextMenu);
-	connect(iview->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this, SLOT(checkList()));
+	connect(iview->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(checkList()));
 
 	connect (iview, SIGNAL(returnPressed()), SLOT(slotDefaultAction()));
 
@@ -444,7 +444,7 @@ KeysManager::KeysManager(QWidget *parent)
 	action = actionCollection()->addAction(QLatin1String("search_focus"), m_listviewsearch, SLOT(setFocus()));
 	action->setText(i18nc("Name of the action that gives the focus to the search line", "Focus Search Line"));
 	action->setShortcut(QKeySequence(Qt::Key_F6));
-	connect(m_listviewsearch, SIGNAL(textChanged(const QString &)), iproxy, SLOT(setFilterFixedString(const QString &)));
+	connect(m_listviewsearch, SIGNAL(textChanged(QString)), iproxy, SLOT(setFilterFixedString(QString)));
 
 	setActionDescriptions(1);
 
@@ -502,7 +502,7 @@ void KeysManager::slotGenerateKey()
 					kg->comment(), kg->algo(), kg->size(), kg->days(), kg->expiration());
 
 			m_genkey = new KGpgTransactionJob(genkey);
-			connect(m_genkey, SIGNAL(result(KJob *)), SLOT(slotGenerateKeyDone(KJob *)));
+			connect(m_genkey, SIGNAL(result(KJob*)), SLOT(slotGenerateKeyDone(KJob*)));
 
 			KIO::getJobTracker()->registerJob(m_genkey);
 			m_genkey->start();
@@ -880,7 +880,7 @@ void KeysManager::slotAddUid()
 	//keyUid->setMinimumSize(keyUid->sizeHint());
 	keyUid->setMinimumWidth(300);
 
-	connect(keyUid->kLineEdit1, SIGNAL(textChanged(const QString & )), this, SLOT(slotAddUidEnable(const QString & )));
+	connect(keyUid->kLineEdit1, SIGNAL(textChanged(QString)), this, SLOT(slotAddUidEnable(QString)));
 	if (addUidWidget->exec() != QDialog::Accepted)
 		return;
 
@@ -1257,7 +1257,7 @@ void KeysManager::showOptions()
 	QPointer<kgpgOptions> optionsDialog = new kgpgOptions(this, imodel);
 	connect(optionsDialog, SIGNAL(settingsUpdated()), SLOT(readAllOptions()));
 	connect(optionsDialog, SIGNAL(homeChanged()), imodel, SLOT(refreshKeys()));
-	connect(optionsDialog, SIGNAL(refreshTrust(KgpgCore::KgpgKeyTrust, QColor)), imodel, SLOT(refreshTrust(KgpgCore::KgpgKeyTrust, QColor)));
+	connect(optionsDialog, SIGNAL(refreshTrust(KgpgCore::KgpgKeyTrust,QColor)), imodel, SLOT(refreshTrust(KgpgCore::KgpgKeyTrust,QColor)));
 	connect(optionsDialog, SIGNAL(changeFont(QFont)), SIGNAL(fontChanged(QFont)));
 	optionsDialog->exec();
 	delete optionsDialog;
@@ -1711,8 +1711,8 @@ KeysManager::showProperties(KGpgNode *n)
 	case ITYPE_PAIR: {
 		KGpgKeyNode *k = n->toKeyNode();
 		QPointer<KgpgKeyInfo> opts = new KgpgKeyInfo(k, imodel, this);
-		connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
-		connect(opts->keychange, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
+		connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode*)), imodel, SLOT(refreshKey(KGpgKeyNode*)));
+		connect(opts->keychange, SIGNAL(keyNeedsRefresh(KGpgKeyNode*)), imodel, SLOT(refreshKey(KGpgKeyNode*)));
 		opts->exec();
 		delete opts;
 	}
@@ -1753,7 +1753,7 @@ void KeysManager::keyproperties()
 	}
 
 	QPointer<KgpgKeyInfo> opts = new KgpgKeyInfo(kn, imodel, this);
-	connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode *)), imodel, SLOT(refreshKey(KGpgKeyNode *)));
+	connect(opts, SIGNAL(keyNeedsRefresh(KGpgKeyNode*)), imodel, SLOT(refreshKey(KGpgKeyNode*)));
 	opts->exec();
 	delete opts;
 }

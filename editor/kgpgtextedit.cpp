@@ -227,7 +227,7 @@ void KgpgTextEdit::slotVerify(const QString &message)
 
     KGpgTextInterface *interface = new KGpgTextInterface();
     connect(interface, SIGNAL(txtVerifyMissingSignature(QString)), SLOT(slotVerifyKeyNeeded(QString)));
-    connect(interface, SIGNAL(txtVerifyFinished(QString, QString)), SLOT(slotVerifySuccess(QString, QString)));
+    connect(interface, SIGNAL(txtVerifyFinished(QString,QString)), SLOT(slotVerifySuccess(QString,QString)));
     interface->verifyText(message.mid(posstart, posend - posstart));
 }
 

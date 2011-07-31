@@ -92,7 +92,7 @@ void KGpgExternalActions::encryptDroppedFolder()
 	optionbx->addItem(i18n("Tar"));
 	optionbx->addItem(i18n("Tar/XZ"));
 
-	connect(optionbx, SIGNAL(activated (int)), SLOT(slotSetCompression(int)));
+	connect(optionbx, SIGNAL(activated(int)), SLOT(slotSetCompression(int)));
 	connect(dialog, SIGNAL(okClicked()), SLOT(startFolderEncode()));
 	connect(dialog, SIGNAL(cancelClicked()), SLOT(slotAbortEnc()));
 
@@ -213,7 +213,7 @@ void KGpgExternalActions::startFolderEncode()
 
 	KGpgTextInterface *folderprocess = new KGpgTextInterface(this);
 	connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl)), SLOT(slotFolderFinished(KUrl)));
-	connect(folderprocess, SIGNAL(errorMessage(const QString &)), SLOT(slotFolderFinishedError(const QString &)));
+	connect(folderprocess, SIGNAL(errorMessage(QString)), SLOT(slotFolderFinishedError(QString)));
 	folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric);
 }
 

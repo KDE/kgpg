@@ -174,7 +174,7 @@ void KgpgEditor::initActions()
     m_editcopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     m_editcut  = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
 
-    m_recentfiles = KStandardAction::openRecent(this, SLOT(openDocumentFile(const KUrl&)), this);
+    m_recentfiles = KStandardAction::openRecent(this, SLOT(openDocumentFile(KUrl)), this);
     menuBar()->addAction(m_recentfiles);
 
     m_recentfiles->loadEntries( KConfigGroup(KGlobal::config(), "Recent Files" ) );
@@ -403,7 +403,7 @@ void KgpgEditor::slotFind()
 			m_find->setData(m_editor->toPlainText(), m_editor->textCursor().selectionStart());
 		else
 			m_find->setData(m_editor->toPlainText());
-		connect(m_find, SIGNAL(highlight(QString, int, int)), m_editor, SLOT(slotHighlightText(QString, int, int)));
+		connect(m_find, SIGNAL(highlight(QString,int,int)), m_editor, SLOT(slotHighlightText(QString,int,int)));
 		connect(m_find, SIGNAL(findNext()), this, SLOT(slotFindText()));
 	} else {
 		m_find->setPattern(fd->pattern());

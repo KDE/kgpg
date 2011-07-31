@@ -65,8 +65,8 @@ groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
 
 	connect(buttonAdd, SIGNAL(clicked()), this, SLOT(groupAdd()));
 	connect(buttonRemove, SIGNAL(clicked()), this, SLOT(groupRemove()));
-	connect(availableKeys, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(groupAdd(const QModelIndex &)));
-	connect(groupKeys, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(groupRemove(const QModelIndex &)));
+	connect(availableKeys, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(groupAdd(QModelIndex)));
+	connect(groupKeys, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(groupRemove(QModelIndex)));
 }
 
 groupEdit::~groupEdit()

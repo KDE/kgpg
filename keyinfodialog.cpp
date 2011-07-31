@@ -133,8 +133,8 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
     setMainWidget(page);
 
     connect(m_owtrust, SIGNAL(activated(int)), this, SLOT(slotChangeTrust(int)));
-    connect(m_photoid, SIGNAL(activated (const QString &)), this, SLOT(slotLoadPhoto(const QString &)));
-    connect(m_email, SIGNAL(leftClickedUrl(const QString &)), this, SLOT(slotOpenUrl(const QString &)));
+    connect(m_photoid, SIGNAL(activated(QString)), this, SLOT(slotLoadPhoto(QString)));
+    connect(m_email, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
     connect(this, SIGNAL(okClicked()), this, SLOT(slotPreOk()));
     connect(this, SIGNAL(cancelClicked()), this, SLOT(slotPreCancel()));
     connect(this, SIGNAL(applyClicked()), SLOT(slotApply()));

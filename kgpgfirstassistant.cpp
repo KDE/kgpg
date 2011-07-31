@@ -109,7 +109,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 	binURL->setFilter(i18nc("search filter for gpg binary", "gpg|GnuPG binary\n*|All files"));
 	binURL->setUrl(KUrl("gpg"));
 
-	connect(binURL, SIGNAL(textChanged(const QString &)), SLOT(slotBinaryChanged(const QString &)));
+	connect(binURL, SIGNAL(textChanged(QString)), SLOT(slotBinaryChanged(QString)));
 	slotBinaryChanged(QLatin1String( "gpg" ));
 
 	gridLayout->addWidget(binURL, 2, 1, 1, 1);

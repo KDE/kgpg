@@ -33,8 +33,8 @@ void
 KGpgTransactionJob::start()
 {
 	connect(m_transaction, SIGNAL(done(int)), SLOT(slotTransactionDone(int)));
-	connect(m_transaction, SIGNAL(statusMessage(const QString &)), SLOT(slotStatusMessage(const QString &)));
-	connect(m_transaction, SIGNAL(infoProgress(qulonglong, qulonglong)), SLOT(slotInfoProgress(qulonglong, qulonglong)));
+	connect(m_transaction, SIGNAL(statusMessage(QString)), SLOT(slotStatusMessage(QString)));
+	connect(m_transaction, SIGNAL(infoProgress(qulonglong,qulonglong)), SLOT(slotInfoProgress(qulonglong,qulonglong)));
 
 	slotStatusMessage(i18nc("Job is started up", "Startup"));
 	m_transaction->start();

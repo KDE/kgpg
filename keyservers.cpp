@@ -71,7 +71,7 @@ KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose
 	connect(this, SIGNAL(okClicked()), SLOT(slotOk()));
 	connect(page->cBproxyI, SIGNAL(toggled(bool)), SLOT(slotEnableProxyI(bool)));
 	connect(page->cBproxyE, SIGNAL(toggled(bool)), SLOT(slotEnableProxyE(bool)));
-	connect(page->kLEimportid, SIGNAL(textChanged(const QString &)), SLOT(slotTextChanged(const QString &)));
+	connect(page->kLEimportid, SIGNAL(textChanged(QString)), SLOT(slotTextChanged(QString)));
 
 	page->cBproxyI->setChecked(KGpgSettings::useProxy());
 	page->cBproxyE->setChecked(KGpgSettings::useProxy());
@@ -221,10 +221,10 @@ void KeyServer::slotSearch()
 	m_listpop->kLVsearch->setColumnWidth(0, 180);
 	m_listpop->statusText->setText(i18n("Connecting to the server..."));
 
-	connect(m_listpop->filterEdit, SIGNAL(textChanged(const QString &)), SLOT(slotSetFilterString(const QString &)));
-	connect(m_listpop->kLVsearch->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), SLOT(transferKeyID()));
+	connect(m_listpop->filterEdit, SIGNAL(textChanged(QString)), SLOT(slotSetFilterString(QString)));
+	connect(m_listpop->kLVsearch->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(transferKeyID()));
 	connect(m_dialogserver, SIGNAL(okClicked()), this, SLOT(slotPreImport()));
-	connect(m_listpop->kLVsearch, SIGNAL(activated(const QModelIndex &)), m_dialogserver, SIGNAL(okClicked()));
+	connect(m_listpop->kLVsearch, SIGNAL(activated(QModelIndex)), m_dialogserver, SIGNAL(okClicked()));
 	connect(m_dialogserver, SIGNAL(closeClicked()), this, SLOT(handleQuit()));
 	connect(m_listpop->kLEID, SIGNAL(clearButtonClicked()), m_listpop->kLVsearch->selectionModel(), SLOT(clearSelection()));
 

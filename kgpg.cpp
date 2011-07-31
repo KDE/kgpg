@@ -79,7 +79,7 @@ int KGpgApp::newInstance()
 		s_keyManager = new KeysManager();
 
 		w = new KGpgExternalActions(s_keyManager, s_keyManager->getModel());
-		connect(w, SIGNAL(importDrop(const QString &)), s_keyManager, SLOT(slotImport(const QString &)));
+		connect(w, SIGNAL(importDrop(QString)), s_keyManager, SLOT(slotImport(QString)));
 
 		connect(s_keyManager, SIGNAL(encryptFiles(KUrl::List)), w, SLOT(encryptFiles(KUrl::List)));
 		connect(s_keyManager->s_kgpgEditor, SIGNAL(encryptFiles(KUrl::List)), w, SLOT(encryptFiles(KUrl::List)));

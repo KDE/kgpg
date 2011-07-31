@@ -82,7 +82,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     m_keyslist->setModel(iproxy);
     m_keyslist->resizeColumnsToContents();
     m_keyslist->setWhatsThis(i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
-    connect(m_searchlineedit, SIGNAL(textChanged(const QString &)), iproxy, SLOT(setFilterFixedString(const QString &)));
+    connect(m_searchlineedit, SIGNAL(textChanged(QString)), iproxy, SLOT(setFilterFixedString(QString)));
 
     optionsbox = new KVBox();
     optionsbox->setFrameShape(QFrame::StyledPanel);
@@ -140,7 +140,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 
     connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
     connect(m_cbsymmetric, SIGNAL(toggled(bool)), this, SLOT(slotSymmetric(bool)));
-    connect(m_keyslist->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)), this, SLOT(slotSelectionChanged()));
+    connect(m_keyslist->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(slotSelectionChanged()));
     connect(m_keyslist, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotOk()));
 
     setMinimumSize(550, 200);

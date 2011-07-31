@@ -112,8 +112,8 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
 	connect(m_page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
 	connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
-	connect(m_page6->ServerBox, SIGNAL(clicked(const QModelIndex &)), this, SLOT(slotEnableDeleteServer()));
-	connect(m_page6->ServerBox, SIGNAL(executed(QListWidgetItem *)), this, SLOT(slotEditKeyServer(QListWidgetItem *)));
+	connect(m_page6->ServerBox, SIGNAL(clicked(QModelIndex)), this, SLOT(slotEnableDeleteServer()));
+	connect(m_page6->ServerBox, SIGNAL(executed(QListWidgetItem*)), this, SLOT(slotEditKeyServer(QListWidgetItem*)));
 	connect(m_page7->kcfg_ShowSystray, SIGNAL(clicked()), SLOT(slotSystrayEnable()));
 
 	keyUltimate = KGpgSettings::colorUltimate();

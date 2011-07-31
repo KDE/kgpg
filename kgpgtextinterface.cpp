@@ -423,7 +423,7 @@ KGpgTextInterface::decryptFile(const KUrl &src, const KUrl &dest, const QStringL
 	*d->m_process << QLatin1String( "-d" ) << src.path();
 
 	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(decryptFileProcess()));
-	connect(d->m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(decryptFileFin(int, QProcess::ExitStatus)));
+	connect(d->m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(decryptFileFin(int,QProcess::ExitStatus)));
 	d->m_process->start();
 }
 
@@ -590,9 +590,9 @@ KGpgTextInterface::slotSignFile(int err)
 	d->signFile(d->m_files.at(d->m_step));
 
 	if (++d->m_step == d->m_files.count()) {
-		connect(d->m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotSignFinished(int)));
+		connect(d->m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotSignFinished(int)));
 	} else {
-		connect(d->m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotSignFile(int)));
+		connect(d->m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotSignFile(int)));
 	}
 
 	d->m_process->start();
