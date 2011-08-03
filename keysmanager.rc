@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="KeysManager" version="33">
+<kpartgui name="KeysManager" version="34">
 
 <MenuBar>
     <Menu name="managekeys">
