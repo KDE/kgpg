@@ -225,7 +225,6 @@ KeysManager::KeysManager(QWidget *parent)
 	deleteKey = actionCollection()->addAction(QLatin1String("key_delete"), this, SLOT(confirmdeletekey()));
 	deleteKey->setIcon(KIcon( QLatin1String( "edit-delete" )));
 	deleteKey->setShortcut(QKeySequence(Qt::Key_Delete));
-	deleteKey->setEnabled(false);
 
 	setDefaultKey = actionCollection()->addAction(QLatin1String("key_default"), this, SLOT(slotSetDefKey()));
 	setDefaultKey->setText(i18n("Set as De&fault Key"));
@@ -243,8 +242,8 @@ KeysManager::KeysManager(QWidget *parent)
 	deleteKeyPair->setText(i18n("Delete Key Pair"));
 	deleteKeyPair->setIcon(KIcon( QLatin1String( "edit-delete" )));
 
-	QAction *revokeKey = actionCollection()->addAction(QLatin1String("key_revoke"), this, SLOT(revokeWidget()));
-	revokeKey->setText(i18n("Revoke Key..."));
+	m_revokeKey = actionCollection()->addAction(QLatin1String("key_revoke"), this, SLOT(revokeWidget()));
+	m_revokeKey->setText(i18n("Revoke Key..."));
 
 	QAction *regeneratePublic = actionCollection()->addAction(QLatin1String("key_regener"), this, SLOT(slotregenerate()));
 	regeneratePublic->setText(i18n("&Regenerate Public Key"));
@@ -377,7 +376,6 @@ KeysManager::KeysManager(QWidget *parent)
 	m_popupsec->addAction(addUid);
 	m_popupsec->addAction(exportSecretKey);
 	m_popupsec->addAction(deleteKeyPair);
-	m_popupsec->addAction(revokeKey);
 
 	m_popupgroup = new KMenu(this);
 	m_popupgroup->addAction(editCurrentGroup);
@@ -408,17 +406,7 @@ KeysManager::KeysManager(QWidget *parent)
 	m_popuporphan->addAction(regeneratePublic);
 	m_popuporphan->addAction(deleteKeyPair);
 
-	editCurrentGroup->setEnabled(false);
-	delGroup->setEnabled(false);
-	createGroup->setEnabled(false);
-	infoKey->setEnabled(false);
-	editKey->setEnabled(false);
-	signKey->setEnabled(false);
-	signUid->setEnabled(false);
-	signMailUid->setEnabled(false);
-	refreshKey->setEnabled(false);
 	exportPublicKey->setEnabled(false);
-	newContact->setEnabled(false);
 
 	KConfigGroup cg = KConfigGroup(KGlobal::config().data(), "KeyView");
 	iview->restoreLayout(cg);
@@ -478,6 +466,8 @@ KeysManager::KeysManager(QWidget *parent)
 
 	toggleNetworkActions(Solid::Networking::status() == Solid::Networking::Unknown || Solid::Networking::status() == Solid::Networking::Connected);
 	importSignatureKey->setEnabled(false);
+
+	stateChanged("empty_list");
 
 	QTimer::singleShot(0, this, SLOT(refreshkey()));
 }
@@ -1151,12 +1141,14 @@ void KeysManager::checkList()
 
 	switch (exportList.count()) {
 	case 0:
+		stateChanged("empty_list");
 		return;
 	case 1:
 		if (exportList.at(0)->getType() == ITYPE_GROUP) {
 			stateChanged(QLatin1String( "group_selected" ));
 		} else {
 			stateChanged(QLatin1String( "single_selected" ));
+			m_revokeKey->setEnabled(exportList.at(0)->getType() == ITYPE_PAIR);
 			if (terminalkey)
 				editKey->setEnabled(false);
 		}

@@ -256,6 +256,7 @@ private:
     KAction *exportPublicKey;
     KAction *createGroup;
     KAction *m_groupRename;
+    KAction *m_revokeKey;
 
     KeyServer *kServer;
 
