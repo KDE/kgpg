@@ -9,6 +9,7 @@
         <Action name="key_sign"/>
         <Action name="key_edit"/>
         <Action name="key_gener"/>
+        <Action name="key_revoke"/>
         <Separator />
         <Action name="key_export"/>
         <Action name="key_import"/>
@@ -80,7 +81,9 @@
         <Action name="key_sign"/>
         <Action name="key_edit"/>
         <Action name="key_export"/>
-	<Action name="key_sign_uid"/>
+        <Action name="key_sign_uid"/>
+        <Action name="key_sign_mail_uid"/>
+        <Action name="key_revoke"/>
     </disable>
 </State>
 
@@ -119,6 +122,7 @@
         <Action name="key_default"/>
         <Action name="key_edit"/>
         <Action name="key_info"/>
+        <Action name="key_revoke"/>
     </disable>
 </State>
 
@@ -136,6 +140,8 @@
     <Action name="create_group"/>
     <Action name="add_kab"/>
     <Action name="key_sign_uid"/>
+    <Action name="key_sign_mail_uid"/>
+    <Action name="key_revoke"/>
   </disable>
 </State>
 
