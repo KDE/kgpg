@@ -206,19 +206,19 @@ secret keys later using the <link linkend="keyproperties">key properties window<
 <para>A key pair that has expired can be brought back into an operational state
 as long as you have access to the private key and the passphrase. To
 reliably render a key unusable you need to revoke it. Revoking is done by
-adding a special revokation signature to the key.</para>
+adding a special revocation signature to the key.</para>
 
-<para>These revokation signature can be created together with the key. In this
+<para>This revocation signature can be created together with the key. In this
 case it is stored in a separate file. This file can later be imported into
 the keyring and is then attached to the key rendering it unusable. Please
 note that to import this signature to the key no password is required.
-Therefore you should store this revokation signature in a safe place,
+Therefore you should store this revocation signature in a safe place,
 usually one that is different from you key pair. It is a good advise to
 use a place that is detached from your computer, either copy it to an
 external storage device like an USB stick or print it out.</para>
 
-<para>If you have not created such a detached revokation on key creation you can
-create such a revokation signature at any time choosing <menuchoice><guimenu>Keys</guimenu>
+<para>If you have not created such a detached revocation on key creation you can
+create such a revocation signature at any time choosing <menuchoice><guimenu>Keys</guimenu>
 <guimenuitem>Revoke key</guimenuitem></menuchoice>,
 optionally importing it to your keyring immediately.</para>
 
