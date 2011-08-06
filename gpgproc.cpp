@@ -69,10 +69,8 @@ GPGProc::resetProcess(const QString &binary)
 void GPGProc::start()
 {
 	// make sure there is exactly one connection from us to that signal
-	disconnect(this, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(finished()));
-	disconnect(this, SIGNAL(lineReadyStandardOutput()), this, SLOT(received()));
-	connect(this, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(finished()));
-	connect(this, SIGNAL(lineReadyStandardOutput()), this, SLOT(received()));
+	connect(this, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(finished()), Qt::UniqueConnection);
+	connect(this, SIGNAL(lineReadyStandardOutput()), this, SLOT(received()), Qt::UniqueConnection);
 	KProcess::start();
 }
 
