@@ -443,7 +443,7 @@ Most encryption options are directly related to gpg and are documented in it's <
 <listitem><para><guilabel>Always encrypt with</guilabel>: all encryptions are additionally encrypted with this key. If you set this to one of your private keys this makes sure you can read all data you encrypted by the price of bigger messages.</para></listitem>
 <listitem><para><guilabel>Encrypt files with</guilabel>: behaves like <guilabel>Always encrypt with</guilabel> for file encryption.</para></listitem>
 <listitem><para><guilabel>Custom encryption command</guilabel>: if you need to pass some unusual options to GnuPG you can specify the command line here. Most users will not need this.</para></listitem>
-<listitem><para><guilabel>Use *.pgp extension for encrypted files</guilabel>: if you check this option encrypted keys will be named as the input file with the extension <literal role="extension">.pgp</literal> added, otherwise the extension <literal role="extension">.gpg</literal> is used.</para></listitem>
+<listitem><para><guilabel>Use *.pgp extension for encrypted files</guilabel>: if you check this option encrypted files will be named as the input file with the extension <literal role="extension">.pgp</literal> added, otherwise the extension <literal role="extension">.gpg</literal> is used.</para></listitem>
 </itemizedlist>
 </sect2>
 
