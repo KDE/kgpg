@@ -35,6 +35,7 @@ public:
     ~KgpgTextEdit();
 
     void signVerifyText(const QString &message);
+    void openDroppedFile(const KUrl &url, const bool probe);
 
 signals:
     void newText();
