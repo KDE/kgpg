@@ -75,19 +75,21 @@ void KgpgTextEdit::dropEvent(QDropEvent *e)
 
 void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 {
-    if (url.isLocalFile())
-        m_tempfile = url.path();
-    else
-    {
-        if (KMessageBox::warningContinueCancel(this, i18n("<qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"), QString(), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QLatin1String( "RemoteFileWarning" )) != KMessageBox::Continue)
-            return;
+	KUrl tmpurl;
 
-        if (!KIO::NetAccess::download(url, m_tempfile, this))
-        {
-            KMessageBox::sorry(this, i18n("Could not download file."));
-            return;
-        }
-    }
+	if (url.isLocalFile()) {
+		m_tempfile = url.path();
+		tmpurl = url;
+	} else {
+		if (KMessageBox::warningContinueCancel(this, i18n("<qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"), QString(), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QLatin1String( "RemoteFileWarning" )) != KMessageBox::Continue)
+			return;
+
+		if (!KIO::NetAccess::download(url, m_tempfile, this)) {
+			KMessageBox::sorry(this, i18n("Could not download file."));
+			return;
+		}
+		tmpurl = KUrl::fromPath(m_tempfile);
+	}
 
 	QString result;
 
@@ -97,18 +99,20 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 		result = t.readAll();
 		qfile.close();
 	}
-	KIO::NetAccess::removeTempFile(m_tempfile);
 
 	if (result.isEmpty())
 		return;
 
 	if (KGpgDecrypt::isEncryptedText(result, &m_posstart, &m_posend)) {
 		// if pgp data found, decode it
-		KGpgDecrypt *decr = new KGpgDecrypt(this, result);
+		KGpgDecrypt *decr = new KGpgDecrypt(this, KUrl::List(tmpurl));
 		connect(decr, SIGNAL(done(int)), SLOT(slotDecryptDone(int)));
 		decr->start();
 		return;
 	}
+	// remove only here, as KGpgDecrypt will use and remove the file itself
+	KIO::NetAccess::removeTempFile(m_tempfile);
+	m_tempfile.clear();
 
 	QString tmpinfo;
 
@@ -244,6 +248,10 @@ void KgpgTextEdit::slotDecryptDone(int result)
 {
 	KGpgDecrypt *decr = qobject_cast<KGpgDecrypt *>(sender());
 	Q_ASSERT(decr != NULL);
+	Q_ASSERT(!m_tempfile.isEmpty());
+
+	KIO::NetAccess::removeTempFile(m_tempfile);
+	m_tempfile.clear();
 
 	if (result == KGpgTransaction::TS_OK) {
 #ifdef __GNUC__
