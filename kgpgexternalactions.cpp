@@ -379,10 +379,11 @@ void KGpgExternalActions::decryptNextFile(const KUrl &failed, KgpgLibrary *lib)
 void KGpgExternalActions::showDroppedFile()
 {
 	KgpgEditor *kgpgtxtedit = new KgpgEditor(m_keysmanager, m_model, 0);
-	kgpgtxtedit->m_editor->slotDroppedFile(droppedUrls.first());
-
 	connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), SLOT(encryptFiles(KUrl::List)));
 	connect(m_keysmanager, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
+
+	kgpgtxtedit->m_editor->openDroppedFile(droppedUrls.first(), false);
+
 	kgpgtxtedit->show();
 }
 

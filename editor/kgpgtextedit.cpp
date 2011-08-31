@@ -75,6 +75,11 @@ void KgpgTextEdit::dropEvent(QDropEvent *e)
 
 void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 {
+	openDroppedFile(url, true);
+}
+
+void KgpgTextEdit::openDroppedFile(const KUrl& url, const bool probe)
+{
 	KUrl tmpurl;
 
 	if (url.isLocalFile()) {
@@ -103,7 +108,7 @@ void KgpgTextEdit::slotDroppedFile(const KUrl &url)
 	if (result.isEmpty())
 		return;
 
-	if (KGpgDecrypt::isEncryptedText(result, &m_posstart, &m_posend)) {
+	if (!probe || KGpgDecrypt::isEncryptedText(result, &m_posstart, &m_posend)) {
 		// if pgp data found, decode it
 		KGpgDecrypt *decr = new KGpgDecrypt(this, KUrl::List(tmpurl));
 		connect(decr, SIGNAL(done(int)), SLOT(slotDecryptDone(int)));
