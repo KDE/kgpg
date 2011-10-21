@@ -1,10 +1,8 @@
-/***************************************************************************
-                          keyexport.h  -  description
-                             -------------------
-    begin                : Thu Jul 4 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007,2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011 Luis Ángel Fernández Fernández <laffdez@gmail.com>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -21,13 +19,18 @@
 
 #include "ui_keyexport.h"
 
+#include <QStringList>
+#include <KDialog>
 
-class KeyExport : public QWidget, public Ui_KeyExport
+class KeyExport : public KDialog, public Ui_KeyExport
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit KeyExport(QWidget* parent = 0, const QStringList& keyservers = QStringList());
+	explicit KeyExport(QWidget *parent = 0, const QStringList &keyservers = QStringList());
+
+protected:
+	virtual void accept();
 };
 
 #endif

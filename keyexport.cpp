@@ -1,10 +1,8 @@
-/***************************************************************************
-                          keyexport.cpp  -  description
-                             -------------------
-    begin                : Thu Jul 4 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011 Luis Ángel Fernández Fernández <laffdez@gmail.com>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -15,19 +13,39 @@
  *                                                                         *
  ***************************************************************************/
 
-
 #include "keyexport.h"
+#include <KMessageBox>
 
-KeyExport::KeyExport(QWidget* parent, const QStringList& keyservers)
-         : QWidget(parent), Ui_KeyExport()
+KeyExport::KeyExport(QWidget *parent, const QStringList &keyservers)
+	: KDialog(parent),
+	Ui_KeyExport()
 {
-    setupUi(this);
+	setupUi(this);
+	setMainWidget(widget);
+	setCaption(i18n("Public Key Export"));
+	setButtons(KDialog::Ok | KDialog::Cancel);
+	setDefaultButton(KDialog::Ok);
+	newFilename->setWindowTitle(i18n("Save File"));
+	newFilename->setMode(KFile::File);
 
-    if (keyservers.size() > 0)
-    {
-        checkServer->setEnabled(true); 
-        destServer->addItems(keyservers);
-    }
+	if (!keyservers.isEmpty()) {
+		checkServer->setEnabled(true);
+		destServer->addItems(keyservers);
+	}
+}
+
+void KeyExport::accept()
+{
+	if (checkFile->isChecked()) {
+		if (QFile::exists(newFilename->url().path().simplified())) {
+			const QString message = i18n("Overwrite existing file %1?", newFilename->url().fileName());
+			int result = KMessageBox::warningContinueCancel(this, message, QString(), KStandardGuiItem::overwrite());
+			if (KMessageBox::Cancel == result)
+				return;
+		}
+	}
+
+	QDialog::accept();
 }
 
 #include "keyexport.moc"
