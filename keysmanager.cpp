@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
  * Copyright (C) 2007,2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011 Luis Ángel Fernández Fernández <laffdez@gmail.com>
  */
 
 /***************************************************************************
@@ -1493,7 +1494,7 @@ void KeysManager::slotexport()
 	if (ndlist.count() == 1) {
 		sname = ndlist.at(0)->getEmail().section(QLatin1Char( '@' ), 0, 0).section(QLatin1Char( '.' ), 0, 0);
 		if (sname.isEmpty())
-		sname = ndlist.at(0)->getName().section(QLatin1Char( ' ' ), 0, 0);
+			sname = ndlist.at(0)->getName().section(QLatin1Char(' '), 0, 0);
 	} else
 		sname = QLatin1String( "keyring" );
 
@@ -1505,12 +1506,6 @@ void KeysManager::slotexport()
 	sname.append(QLatin1String( ".asc" ));
 	sname.prepend(QDir::homePath() + QLatin1Char( '/' ));
 
-	KDialog *dial = new KDialog(this );
-	dial->setCaption(  i18n("Public Key Export") );
-	dial->setButtons( KDialog::Ok | KDialog::Cancel );
-	dial->setDefaultButton( KDialog::Ok );
-	dial->setModal( true );
-
 	QStringList serverList(KGpgSettings::keyServers());
 	serverList.replaceInStrings(QRegExp( QLatin1String( " .*") ), QLatin1String( "" ) ); // Remove kde 3.5 (Default) tag.
 	if (!serverList.isEmpty()) {
@@ -1519,19 +1514,14 @@ void KeysManager::slotexport()
 		serverList.prepend(defaultServer);
 	}
 
-	KeyExport *page = new KeyExport(dial, serverList);
+	QPointer<KeyExport> page = new KeyExport(this, serverList);
 
-	dial->setMainWidget(page);
 	page->newFilename->setUrl(sname);
-	page->newFilename->setWindowTitle(i18n("Save File"));
-	page->newFilename->setMode(KFile::File);
 
 	if (!m_online)
 		page->checkServer->setEnabled(false);
 
-	page->show();
-
-	if (dial->exec() == QDialog::Accepted) {
+	if (page->exec() == QDialog::Accepted) {
 		// export to file
 		QString exportAttr;
 
@@ -1577,7 +1567,7 @@ void KeysManager::slotexport()
 		}
 	}
 
-	delete dial;
+	delete page;
 }
 
 void KeysManager::slotExportFinished(int result)
