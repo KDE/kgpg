@@ -76,6 +76,12 @@ int KGpgApp::newInstance()
 			if (KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash) != (QDir::homePath() + QLatin1String( "/.gnupg/" )))
 				setenv("GNUPGHOME", KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash).toAscii(), 1);
 
+		const QString gpgError = KgpgInterface::getGpgStartupError(KGpgSettings::gpgBinaryPath());
+		if (!gpgError.isEmpty()) {
+			KMessageBox::detailedError(0, i18n("GnuPG failed to start.<br />You must fix the GnuPG error first before running KGpg."), gpgError, i18n("GnuPG error"));
+			KApplication::quit();
+		}
+
 		s_keyManager = new KeysManager();
 
 		w = new KGpgExternalActions(s_keyManager, s_keyManager->getModel());
