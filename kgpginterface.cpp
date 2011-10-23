@@ -105,6 +105,25 @@ QString KgpgInterface::getGpgProcessHome(const QString &binary)
 	return QString();
 }
 
+QString KgpgInterface::getGpgStartupError(const QString &binary)
+{
+	GPGProc process(0, binary);
+	process << QLatin1String( "--version" );
+	process.start();
+	process.waitForFinished(-1);
+
+	QString result;
+
+	while (process.hasLineStandardError()) {
+		QByteArray tmp;
+		process.readLineStandardError(&tmp);
+		tmp += '\n';
+		result += QString::fromUtf8(tmp);
+	}
+
+	return result;
+}
+
 QString KgpgInterface::getGpgHome(const QString &binary)
 {
 	// First try: if environment is set GnuPG will use that directory

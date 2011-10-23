@@ -120,6 +120,13 @@ public:
      */
     static int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true, QWidget *widget = NULL);
 
+    /**
+     * @brief run GnuPG and check if it complains about anything
+     * @param binary the GnuPG binary to run
+     * @return the error message GnuPG gave out (if any)
+     */
+    static QString getGpgStartupError(const QString &binary);
+
 private:
     static QString getGpgProcessHome(const QString &binary);
 
