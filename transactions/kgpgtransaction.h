@@ -225,6 +225,15 @@ protected:
 	 */
 	virtual void finish();
 	/**
+	 * @brief called when the user entered a new password
+	 *
+	 * This is called after askNewPassphrase() was called, the user has
+	 * entered a new password and it was sent to the GnuPG process.
+	 *
+	 * The default implementation does nothing.
+	 */
+	virtual void newPasswordEntered();
+	/**
 	 * @brief set the description returned in getDescription()
 	 * @param description the new description of this transaction
 	 */
@@ -249,6 +258,8 @@ private:
 	Q_PRIVATE_SLOT(d, void slotProcessExited())
 	Q_PRIVATE_SLOT(d, void slotProcessStarted())
 	Q_PRIVATE_SLOT(d, void slotInputTransactionDone(int))
+	Q_PRIVATE_SLOT(d, void slotPasswordEntered(const QString &))
+	Q_PRIVATE_SLOT(d, void slotPasswordAborted())
 
 protected:
 	/**
@@ -264,6 +275,24 @@ protected:
 	 * @see KgpgInterface::sendPassphrase
 	 */
 	int sendPassphrase(const QString &text, const bool isnew = false);
+
+	/**
+	 * @brief Ask user for passphrase and send it to gpg process.
+	 *
+	 * If the gpg process asks for a new passphrase this function will do
+	 * all necessary steps for you: ask the user for the password and write
+	 * it to the gpg process. If the password is wrong the user is prompted
+	 * again for the correct password. If the user aborts the password
+	 * entry the gpg process will be killed and the transaction result will
+	 * be set to TS_USER_ABORTED.
+	 *
+	 * In contrast to sendPassphrase() this function will not block, but
+	 * handle everything using signals and slots.
+	 *
+	 * @see KgpgInterface::sendPassphrase
+	 * @see sendPassphrase
+	 */
+	void askNewPassphrase(const QString &text);
 
 	/**
 	 * @brief get the success value that will be returned with the done signal
@@ -383,7 +412,6 @@ protected:
 	 * and the number of tries left.
 	 */
 	 bool askPassphrase(const QString &message = QString());
-
 };
 
 #endif // KGPGTRANSACTION_H

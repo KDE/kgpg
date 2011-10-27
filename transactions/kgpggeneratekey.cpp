@@ -100,7 +100,6 @@ KGpgGenerateKey::postStart()
 	keymessage.append("\nPassphrase: ");
 	write(keymessage, false);
 
-	QApplication::restoreOverrideCursor();
 	QString passdlgmessage;
 	if (!m_email.isEmpty()) {
 		passdlgmessage = i18n("<p><b>Enter passphrase for %1 &lt;%2&gt;</b>:<br />Passphrase should include non alphanumeric characters and random sequences.</p>", m_name, m_email);
@@ -108,11 +107,8 @@ KGpgGenerateKey::postStart()
 		passdlgmessage = i18n("<p><b>Enter passphrase for %1</b>:<br />Passphrase should include non alphanumeric characters and random sequences.</p>", m_name);
 	}
 
-	if (sendPassphrase(passdlgmessage, true)) {
-		setSuccess(TS_USER_ABORTED);
-	}
-	QApplication::setOverrideCursor(Qt::BusyCursor);
-	write("%commit");
+	QApplication::restoreOverrideCursor();
+	askNewPassphrase(passdlgmessage);
 }
 
 bool
@@ -188,6 +184,13 @@ KGpgGenerateKey::finish()
 	default:
 		emit statusMessage(i18n("gpg process did not finish. Cannot generate a new key pair."));
 	}
+}
+
+void
+KGpgGenerateKey::newPasswordEntered()
+{
+	QApplication::setOverrideCursor(Qt::BusyCursor);
+	write("%commit");
 }
 
 void
