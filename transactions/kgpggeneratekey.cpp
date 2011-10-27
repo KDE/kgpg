@@ -169,7 +169,25 @@ KGpgGenerateKey::nextLine(const QString &line)
 void
 KGpgGenerateKey::finish()
 {
-	emit statusMessage(i18n("Key %1 generated", getFingerprint()));
+	switch (getSuccess()) {
+	case TS_BAD_PASSPHRASE:
+		emit statusMessage(i18n("Bad passphrase. Cannot generate a new key pair."));
+		break;
+	case TS_USER_ABORTED:
+		emit statusMessage(i18n("Aborted by the user. Cannot generate a new key pair."));
+		break;
+	case TS_INVALID_EMAIL:
+		emit statusMessage(i18n("The email address is not valid. Cannot generate a new key pair."));
+		break;
+	case TS_INVALID_NAME:
+		emit statusMessage(i18n("The name is not accepted by gpg. Cannot generate a new key pair."));
+		break;
+	case TS_OK:
+		emit statusMessage(i18n("Key %1 generated", getFingerprint()));
+		break;
+	default:
+		emit statusMessage(i18n("gpg process did not finish. Cannot generate a new key pair."));
+	}
 }
 
 void
