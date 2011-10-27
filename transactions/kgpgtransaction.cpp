@@ -18,6 +18,7 @@
 #include <QWidget>
 
 #include <KDebug>
+#include <knewpassworddialog.h>
 #include <KLocale>
 
 #include "gpgproc.h"
@@ -31,6 +32,7 @@ public:
 	KGpgTransaction *m_parent;
 	GPGProc *m_process;
 	KGpgTransaction *m_inputTransaction;
+	KNewPasswordDialog *m_passwordDialog;
 	int m_success;
 	int m_tries;
 	QString m_description;
@@ -42,6 +44,8 @@ public:
 	void slotProcessExited();
 	void slotProcessStarted();
 	void slotInputTransactionDone(int result);
+	void slotPasswordEntered(const QString &password);
+	void slotPasswordAborted();
 
 	QList<int *> m_argRefs;
 	bool m_inputProcessDone;
@@ -67,6 +71,7 @@ KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool all
 	m_parent(parent),
 	m_process(new GPGProc()),
 	m_inputTransaction(NULL),
+	m_passwordDialog(NULL),
 	m_success(KGpgTransaction::TS_OK),
 	m_tries(3),
 	m_chainingAllowed(allowChaining),
@@ -79,6 +84,10 @@ KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool all
 
 KGpgTransactionPrivate::~KGpgTransactionPrivate()
 {
+	if (m_passwordDialog) {
+		m_passwordDialog->close();
+		m_passwordDialog->deleteLater();
+	}
 	delete m_inputTransaction;
 	delete m_process;
 }
@@ -177,6 +186,24 @@ KGpgTransactionPrivate::slotInputTransactionDone(int result)
 }
 
 void
+KGpgTransactionPrivate::slotPasswordEntered(const QString &password)
+{
+	sender()->deleteLater();
+	m_passwordDialog = NULL;
+	m_process->write(password.toUtf8() + '\n');
+	m_parent->newPasswordEntered();
+}
+
+void
+KGpgTransactionPrivate::slotPasswordAborted()
+{
+	sender()->deleteLater();
+	m_passwordDialog = NULL;
+	m_process->kill();
+	m_success = KGpgTransaction::TS_USER_ABORTED;
+}
+
+void
 KGpgTransactionPrivate::write(const QByteArray &a)
 {
 	m_process->write(a);
@@ -231,11 +258,17 @@ KGpgTransaction::write(const int i)
 	write(QByteArray::number(i));
 }
 
-int
-KGpgTransaction::sendPassphrase(const QString &text, const bool isnew)
+void
+KGpgTransaction::askNewPassphrase(const QString& text)
 {
 	emit statusMessage(i18n("Requesting Passphrase"));
-	return KgpgInterface::sendPassphrase(text, d->m_process, isnew, qobject_cast<QWidget *>(parent()));
+
+	d->m_passwordDialog = new KNewPasswordDialog(qobject_cast<QWidget *>(parent()));
+	d->m_passwordDialog->setPrompt(text);
+	d->m_passwordDialog->setAllowEmptyPasswords(false);
+	connect(d->m_passwordDialog, SIGNAL(newPassword(QString)), SLOT(slotPasswordEntered(QString)));
+	connect(d->m_passwordDialog, SIGNAL(rejected()), SLOT(slotPasswordAborted()));
+	d->m_passwordDialog->show();
 }
 
 int
@@ -405,7 +438,8 @@ KGpgTransaction::askPassphrase(const QString &message)
 
 	--d->m_tries;
 
-	return sendPassphrase(passdlgmessage, false);
+	emit statusMessage(i18n("Requesting Passphrase"));
+	return KgpgInterface::sendPassphrase(passdlgmessage, d->m_process, false, qobject_cast<QWidget *>(parent()));
 }
 
 void
@@ -469,9 +503,15 @@ KGpgTransaction::hasInputTransaction() const
 	return (d->m_inputTransaction != NULL);
 }
 
-void KGpgTransaction::kill()
+void
+KGpgTransaction::kill()
 {
 	d->m_process->kill();
+}
+
+void
+KGpgTransaction::newPasswordEntered()
+{
 }
 
 #include "kgpgtransaction.moc"

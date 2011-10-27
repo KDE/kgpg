@@ -140,6 +140,8 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
     connect(this, SIGNAL(applyClicked()), SLOT(slotApply()));
     connect(keychange, SIGNAL(done(int)), SLOT(slotApplied(int)));
     connect(m_disable, SIGNAL(toggled(bool)), this, SLOT(slotDisableKey(bool)));
+    connect(m_expirationbtn, SIGNAL(clicked()), this, SLOT(slotChangeDate()));
+    connect(m_password, SIGNAL(clicked()), this, SLOT(slotChangePass()));
 
     displayKey();
     adjustSize();
@@ -179,6 +181,7 @@ void KgpgKeyInfo::displayKey()
     if (email.isEmpty()) {
         m_email->setText(i18nc("no email address", "none"));
         m_email->setUrl(QString());
+        m_email->setEnabled(false);
     } else {
         m_email->setText(QLatin1String( "<qt><b>&lt;" ) + email + QLatin1String( "&gt;</b></qt>" ));
         m_email->setUrl(QLatin1String( "mailto:" ) + name + QLatin1Char( '<' ) + email + QLatin1Char( '>' ));

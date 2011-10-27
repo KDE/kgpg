@@ -68,9 +68,7 @@ KGpgChangePass::nextLine(const QString &line)
 			if (askPassphrase(i18n("Enter old passphrase for <b>%1</b>", userIDs)))
 				setSuccess(TS_USER_ABORTED);
 		} else {
-			if (sendPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase all your encrypted files and messages will be inaccessible.</qt>", userIDs), true)) {
-				setSuccess(TS_USER_ABORTED);
-			}
+			askNewPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase all your encrypted files and messages will be inaccessible.</qt>", userIDs));
 		}
 	} else if (line.contains(QLatin1String( "GET_" ))) {
 		setSuccess(TS_MSG_SEQUENCE);

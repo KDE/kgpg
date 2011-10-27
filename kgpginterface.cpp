@@ -425,6 +425,7 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const 
 	if (isnew) {
 		QPointer<KNewPasswordDialog> dlg = new KNewPasswordDialog(widget);
 		dlg->setPrompt(text);
+		dlg->setAllowEmptyPasswords(false);
 		code = dlg->exec();
 		if (!dlg.isNull())
 			passphrase = dlg->password().toUtf8();

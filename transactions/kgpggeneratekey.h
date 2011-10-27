@@ -72,6 +72,7 @@ protected:
 	virtual void postStart();
 	virtual bool nextLine(const QString &line);
 	virtual void finish();
+	virtual void newPasswordEntered();
 
 private:
 	QString m_name;
