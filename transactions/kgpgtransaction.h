@@ -265,20 +265,6 @@ protected:
 	/**
 	 * @brief Ask user for passphrase and send it to gpg process.
 	 *
-	 * If the gpg process asks for a passphrase for authorization this
-	 * function will do all necessary steps for you: ask the user for the
-	 * password and write it to the gpg process. If the password is wrong
-	 * the user is prompted again for the correct password.
-	 *
-	 * @return 0 if password was correct
-	 *
-	 * @see KgpgInterface::sendPassphrase
-	 */
-	int sendPassphrase(const QString &text, const bool isnew = false);
-
-	/**
-	 * @brief Ask user for passphrase and send it to gpg process.
-	 *
 	 * If the gpg process asks for a new passphrase this function will do
 	 * all necessary steps for you: ask the user for the password and write
 	 * it to the gpg process. If the password is wrong the user is prompted

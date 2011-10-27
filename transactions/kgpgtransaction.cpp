@@ -261,13 +261,6 @@ KGpgTransaction::write(const int i)
 	write(QByteArray::number(i));
 }
 
-int
-KGpgTransaction::sendPassphrase(const QString &text, const bool isnew)
-{
-	emit statusMessage(i18n("Requesting Passphrase"));
-	return KgpgInterface::sendPassphrase(text, d->m_process, isnew, qobject_cast<QWidget *>(parent()));
-}
-
 void
 KGpgTransaction::askNewPassphrase(const QString& text)
 {
@@ -448,7 +441,8 @@ KGpgTransaction::askPassphrase(const QString &message)
 
 	--d->m_tries;
 
-	return sendPassphrase(passdlgmessage, false);
+	emit statusMessage(i18n("Requesting Passphrase"));
+	return KgpgInterface::sendPassphrase(passdlgmessage, d->m_process, false, qobject_cast<QWidget *>(parent()));
 }
 
 void
