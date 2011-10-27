@@ -179,6 +179,7 @@ void KgpgKeyInfo::displayKey()
     if (email.isEmpty()) {
         m_email->setText(i18nc("no email address", "none"));
         m_email->setUrl(QString());
+        m_email->setEnabled(false);
     } else {
         m_email->setText(QLatin1String( "<qt><b>&lt;" ) + email + QLatin1String( "&gt;</b></qt>" ));
         m_email->setUrl(QLatin1String( "mailto:" ) + name + QLatin1Char( '<' ) + email + QLatin1Char( '>' ));
