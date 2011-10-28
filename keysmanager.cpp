@@ -634,7 +634,7 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		break;
 	}
 	default:
-		KMessageBox::error(this, i18n("gpg process did not finish. Cannot generate a new key pair."), infomessage);
+		KMessageBox::detailedError(this, i18n("gpg process did not finish. Cannot generate a new key pair."), genkey->gpgErrorMessage(), infomessage);
 	}
 
 	m_genkey = NULL;

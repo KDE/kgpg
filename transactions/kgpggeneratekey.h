@@ -67,6 +67,14 @@ public:
 
 	QString getFingerprint() const;
 
+	/**
+	 * @brief get error output of GnuPG
+	 * @return the messages GnuPG printed to standard error
+	 *
+	 * This will only return data after the done() signal has been emitted.
+	 */
+	QString gpgErrorMessage() const;
+
 protected:
 	virtual bool preStart();
 	virtual void postStart();
@@ -84,6 +92,7 @@ private:
 	unsigned int m_expireunit;
 	QString m_fingerprint;
 	bool m_namesent;
+	QString m_errorOutput;
 };
 
 #endif // KGPGGENERATEKEY_H

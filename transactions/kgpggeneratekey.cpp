@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -18,6 +18,7 @@
 #include <QApplication>
 
 #include <kpimutils/email.h>
+#include <gpgproc.h>
 
 KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
 		const KgpgCore::KgpgKeyAlgo &algorithm, const uint size, const unsigned int expire,
@@ -37,6 +38,8 @@ KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QSt
 	setAlgorithm(algorithm);
 	setSize(size);
 	setExpire(expire, expireunit);
+
+	getProcess()->setOutputChannelMode(KProcess::SeparateChannels);
 }
 
 KGpgGenerateKey::~KGpgGenerateKey()
@@ -182,7 +185,18 @@ KGpgGenerateKey::finish()
 		emit statusMessage(i18n("Key %1 generated", getFingerprint()));
 		break;
 	default:
-		emit statusMessage(i18n("gpg process did not finish. Cannot generate a new key pair."));
+		{
+			QStringList errorLines;
+
+			while (getProcess()->hasLineStandardError()) {
+				QByteArray b;
+				getProcess()->readLineStandardError(&b);
+				errorLines << QString::fromUtf8(b);
+			}
+
+			m_errorOutput = errorLines.join(QLatin1String("\n"));
+			emit statusMessage(i18n("gpg process did not finish. Cannot generate a new key pair."));
+		}
 	}
 }
 
@@ -248,4 +262,10 @@ QString
 KGpgGenerateKey::getFingerprint() const
 {
 	return m_fingerprint;
+}
+
+QString
+KGpgGenerateKey::gpgErrorMessage() const
+{
+	return m_errorOutput;
 }
