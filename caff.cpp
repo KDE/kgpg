@@ -114,7 +114,7 @@ KGpgCaffPrivate::abortOperation(int result)
 {
 	Q_Q(KGpgCaff);
 
-	kDebug(2100) << "transaction failed, result" << result;
+	kDebug(2100) << "transaction" << sender() << "failed, result" << result;
 	delete m_tempdir;
 	m_tempdir = NULL;
 
