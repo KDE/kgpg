@@ -52,8 +52,6 @@ KGpgTextOrFileTransaction::setUrls(const KUrl::List &files)
 bool
 KGpgTextOrFileTransaction::preStart()
 {
-	m_messages.clear();
-
 	QStringList locfiles;
 
 	foreach (const KUrl &url, m_inpfiles) {
@@ -78,12 +76,10 @@ KGpgTextOrFileTransaction::preStart()
 		return false;
 	}
 
-	GPGProc *proc = getProcess();
-	QStringList args(proc->program().at(0));
+	QStringList args(QLatin1String("--status-fd=1"));
 
-	args << QLatin1String( "--status-fd=1" ) << QLatin1String( "--no-tty" ) << command() << locfiles << m_tempfiles;
-
-	proc->setProgram(args);
+	args << command() << locfiles << m_tempfiles;
+	addArguments(args);
 
 	return true;
 }
