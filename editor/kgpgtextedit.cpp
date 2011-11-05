@@ -253,10 +253,11 @@ void KgpgTextEdit::slotDecryptDone(int result)
 {
 	KGpgDecrypt *decr = qobject_cast<KGpgDecrypt *>(sender());
 	Q_ASSERT(decr != NULL);
-	Q_ASSERT(!m_tempfile.isEmpty());
 
-	KIO::NetAccess::removeTempFile(m_tempfile);
-	m_tempfile.clear();
+	if (!m_tempfile.isEmpty()) {
+		KIO::NetAccess::removeTempFile(m_tempfile);
+		m_tempfile.clear();
+	}
 
 	if (result == KGpgTransaction::TS_OK) {
 #ifdef __GNUC__
