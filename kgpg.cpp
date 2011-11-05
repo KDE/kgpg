@@ -72,9 +72,6 @@ int KGpgApp::newInstance()
 		running = true;
 
 		const QString gpgPath(KGpgSettings::gpgConfigPath());
-		if (!gpgPath.isEmpty())
-			if (KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash) != (QDir::homePath() + QLatin1String( "/.gnupg/" )))
-				setenv("GNUPGHOME", KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash).toAscii(), 1);
 
 		const QString gpgError = KgpgInterface::getGpgStartupError(KGpgSettings::gpgBinaryPath());
 		if (!gpgError.isEmpty()) {

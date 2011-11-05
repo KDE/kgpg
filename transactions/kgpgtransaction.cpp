@@ -445,7 +445,19 @@ KGpgTransaction::askPassphrase(const QString &message)
 void
 KGpgTransaction::setGnuPGHome(const QString &home)
 {
-	d->m_process->setEnv(QLatin1String( "GNUPGHOME" ), home);
+	QStringList tmp(d->m_process->program());
+
+	Q_ASSERT(tmp.count() > 3);
+	int homepos = tmp.indexOf(QLatin1String("--options"), 1);
+	if (homepos == -1)
+		homepos = tmp.indexOf(QLatin1String("--homedir"), 1);
+	Q_ASSERT(homepos != -1);
+	Q_ASSERT(homepos + 1 < tmp.count());
+
+	tmp[homepos] = QLatin1String("--homedir");
+	tmp[homepos + 1] = home;
+
+	d->m_process->setProgram(tmp);
 }
 
 int

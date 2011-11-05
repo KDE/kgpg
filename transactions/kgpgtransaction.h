@@ -90,7 +90,7 @@ public:
 	void start();
 
 	/**
-	 * @brief sets the GNUPGHOME of the transaction
+	 * @brief sets the home directory of GnuPG called for this transaction
 	 */
 	void setGnuPGHome(const QString &home);
 

@@ -381,15 +381,12 @@ void kgpgOptions::updateWidgetsDefault()
 void kgpgOptions::updateSettings()
 {
 	// Update config path first!
-	KGpgSettings::setGpgConfigPath(m_page4->gpg_home_path->text() + m_page4->gpg_conf_path->text());
-	if (m_page4->gpg_home_path->text() != KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash)) {
-		if (m_page4->gpg_home_path->text() != defaultHomePath)
-		setenv("GNUPGHOME", m_page4->gpg_home_path->text().toAscii(), 1);
-		else
-		setenv("GNUPGHOME", "", 1);
+	const QString newConfigFile = m_page4->gpg_home_path->text() + m_page4->gpg_conf_path->text();
+	if (newConfigFile != gpgConfigPath) {
+		KGpgSettings::setGpgConfigPath(newConfigFile);
 		emit homeChanged();
 
-		gpgConfigPath = KGpgSettings::gpgConfigPath();
+		gpgConfigPath = newConfigFile;
 	}
 
 	// save selected keys for file encryption & always encrypt with
