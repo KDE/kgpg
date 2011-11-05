@@ -84,7 +84,7 @@ void GPGProc::finished()
 	emit processExited();
 }
 
-int GPGProc::readln(QString &line, const bool &colons)
+int GPGProc::readln(QString &line, const bool colons)
 {
 	QByteArray a;
 	if (!readLineStandardOutput(&a))

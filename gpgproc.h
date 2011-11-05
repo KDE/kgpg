@@ -41,7 +41,7 @@ public:
     /**
      * Constructor
      * @param parent parent object
-     * @param binary path to GnuPG binary or QString() if the configured one
+     * @param binary path to GnuPG binary or QString() to use the configured
      */
     explicit GPGProc(QObject *parent = 0, const QString &binary = QString());
 
@@ -68,7 +68,7 @@ public:
      * @param colons recode also colons
      * @return the number of characters read, or -1 if no data is available.
      */
-    int readln(QString &line, const bool &colons = false);
+    int readln(QString &line, const bool colons = false);
 
     /**
      * Reads a line of text and splits it into parts.
