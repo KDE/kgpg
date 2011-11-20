@@ -40,12 +40,11 @@ public:
      */
     explicit KgpgLibrary(QWidget *parent = 0);
 
+    void slotFileEnc(const KUrl::List &urls, const QStringList &opts, KGpgItemModel *model, const KShortcut &goDefaultKey, const QString &defaultKey = QString());
+
 signals:
     void encryptionOver();
     void systemMessage(QString message);
-
-public slots:
-    void slotFileEnc(const KUrl::List &urls, const QStringList &opts, KGpgItemModel *model, const KShortcut &goDefaultKey, const QString &defaultKey = QString());
 
 private slots:
     void processEnc(const KUrl &);
