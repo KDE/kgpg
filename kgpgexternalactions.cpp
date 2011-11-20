@@ -1,11 +1,15 @@
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
+
 /***************************************************************************
- *   Copyright 2002 by Jean-Baptiste Mardelle <bj@altern.org>              *
- *   Copyright 2008,2009 by Rolf Eike Beer <kde@opensource.sf-tec.de>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
  *   (at your option) any later version.                                   *
+ *                                                                         *
  ***************************************************************************/
 
 #include "kgpgexternalactions.h"
@@ -36,6 +40,7 @@
 #include "selectpublickeydialog.h"
 #include "selectsecretkey.h"
 #include "kgpginterface.h"
+#include "transactions/kgpgdecrypt.h"
 
 KGpgExternalActions::KGpgExternalActions(KeysManager *parent, KGpgItemModel *model)
 	: QObject(parent),
@@ -314,15 +319,18 @@ void KGpgExternalActions::decryptDroppedFile()
 {
 	m_decryptionFailed.clear();
 
-	decryptFile(new KgpgLibrary(0));
+	decryptFile();
 }
 
-void KGpgExternalActions::decryptFile(KgpgLibrary *lib)
+void KGpgExternalActions::decryptFile()
 {
-	if (!droppedUrls.first().isLocalFile()) {
+	while (!droppedUrls.first().isLocalFile()) {
 		showDroppedFile();
-		decryptNextFile(KUrl(), lib);
+		droppedUrls.pop_front();
 	}
+
+	if (droppedUrls.isEmpty())
+		return;
 
 	QString oldname(droppedUrls.first().fileName());
 	if (oldname.endsWith(QLatin1String(".gpg"), Qt::CaseInsensitive) ||
@@ -338,7 +346,8 @@ void KGpgExternalActions::decryptFile(KgpgLibrary *lib)
 		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager, i18n("File Already Exists"), KUrl(), swapname, KIO::M_OVERWRITE);
 		if (over->exec() != QDialog::Accepted) {
 			delete over;
-			decryptNextFile(KUrl(), lib);
+			droppedUrls.pop_front();
+			decryptFile();
 			return;
 		}
 
@@ -346,30 +355,30 @@ void KGpgExternalActions::decryptFile(KgpgLibrary *lib)
 		delete over;
 	}
 
-	connect(lib, SIGNAL(systemMessage(QString)), SLOT(busyMessage(QString)));
-	connect(lib, SIGNAL(decryptionOver(KUrl)), SLOT(decryptNextFile(KUrl)));
-	lib->slotFileDec(droppedUrls.first(), swapname);
+	KGpgDecrypt *decr = new KGpgDecrypt(this, droppedUrls.first(), swapname);
+	connect(decr, SIGNAL(done(int)), SLOT(slotDecryptionDone(int)));
+	decr->start();
 }
 
-void KGpgExternalActions::decryptNextFile(const KUrl &failed, KgpgLibrary *lib)
+void KGpgExternalActions::slotDecryptionDone(int status)
 {
-	if (lib == NULL)
-		lib = qobject_cast<KgpgLibrary *>(sender());
+	KGpgDecrypt *decr = qobject_cast<KGpgDecrypt *>(sender());
+	Q_ASSERT(decr != NULL);
 
-	if (!failed.isEmpty())
-		m_decryptionFailed << failed;
+	if (status != KGpgTransaction::TS_OK)
+		m_decryptionFailed << droppedUrls.first();
 
-	if (droppedUrls.count() > 1) {
-		droppedUrls.pop_front();
-		decryptFile(lib);
-	} else if ((droppedUrls.count() <= 1) && (m_decryptionFailed.count() > 0)) {
-		lib->deleteLater();
+	decr->deleteLater();
+
+	droppedUrls.pop_front();
+
+	if (!droppedUrls.isEmpty()) {
+		decryptFile();
+	} else if (!m_decryptionFailed.isEmpty()) {
 		KMessageBox::errorList(NULL,
 					i18np("Decryption of this file failed:", "Decryption of these files failed:",
 					m_decryptionFailed.count()), m_decryptionFailed.toStringList(),
 					i18n("Decryption failed."));
-	} else {
-		lib->deleteLater();
 	}
 }
 

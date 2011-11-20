@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -47,6 +47,14 @@ public:
 	KGpgDecrypt(QObject *parent, const KUrl::List &files);
 
 	/**
+	 * @brief decrypt file to given output filename
+	 * @param parent parent object
+	 * @param infile name of file to decrypt
+	 * @param outfile name of file to write output to (will be overwritten)
+	 */
+	KGpgDecrypt(QObject *parent, const KUrl &infile, const KUrl &outfile);
+
+	/**
 	 * @brief destructor
 	 */
 	virtual ~KGpgDecrypt();
@@ -72,6 +80,7 @@ protected:
 private:
 	int m_fileIndex;
 	int m_plainLength;	///< length of decrypted plain text if given by GnuPG
+	const QString m_outFilename;	///< name of file to write output to
 };
 
 #endif // KGPGDECRYPT_H

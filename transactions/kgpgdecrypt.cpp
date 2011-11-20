@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -31,6 +31,14 @@ KGpgDecrypt::KGpgDecrypt(QObject *parent, const KUrl::List &files)
 {
 }
 
+KGpgDecrypt::KGpgDecrypt(QObject* parent, const KUrl& infile, const KUrl& outfile)
+	: KGpgTextOrFileTransaction(parent, KUrl::List(infile)),
+	m_fileIndex(0),
+	m_plainLength(-1),
+	m_outFilename(outfile.toLocalFile())
+{
+}
+
 KGpgDecrypt::~KGpgDecrypt()
 {
 }
@@ -40,9 +48,12 @@ KGpgDecrypt::command() const
 {
 	QStringList ret;
 
-	ret << QLatin1String( "--decrypt" );
+	ret << QLatin1String("--decrypt");
 
-	ret << KGpgSettings::customDecrypt().simplified().split(QLatin1Char( ' ' ), QString::SkipEmptyParts);
+	if (!m_outFilename.isEmpty())
+		ret << QLatin1String("-o") << m_outFilename;
+
+	ret << KGpgSettings::customDecrypt().simplified().split(QLatin1Char(' '), QString::SkipEmptyParts);
 
 	return ret;
 }

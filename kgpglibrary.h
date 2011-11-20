@@ -47,20 +47,16 @@ public:
 
 signals:
     void encryptionOver();
-    void decryptionOver(KUrl);
     void importOver(KgpgLibrary *, QStringList);
     void systemMessage(QString message);
     void photoAdded();
 
 public slots:
     void slotFileEnc(const KUrl::List &urls, const QStringList &opts, KGpgItemModel *model, const KShortcut &goDefaultKey, const QString &defaultKey = QString());
-    void slotFileDec(const KUrl &srcUrl, const KUrl &destUrl);
 
 private slots:
     void processEnc(const KUrl &);
     void processEncError(const QString &mssge);
-    void processDecOver(int);
-    void processEncPopup(const KUrl &url);
 
 private:
     void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool symetric);

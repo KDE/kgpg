@@ -65,20 +65,6 @@ signals:
      */
     void fileEncryptionFinished(KUrl);
 
-    void decryptFileStarted(KUrl url);
-    /**
-     * @brief emitted when the decryption has finished
-     *
-     * @param result decryption result
-     * 0 = decryption successful
-     * 1 = Bad passphrase
-     * 2 = the gpg process crashed or was killed
-     * 3 = gpg process returned with error
-     * 4 = gpg did not print successful status
-     * @param iface pointer to this class
-     */
-    void decryptFileFinished(int result);
-
     /**
      * Emitted when all files passed to KgpgSignFile() where processed.
      * Passes as argument the files that failed.
@@ -117,13 +103,6 @@ public Q_SLOTS:
      * @param symetrical whether the encryption should be symmetrical.
      */
     void encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options = QStringList(), const bool &symetrical = false);
-
-    /**
-     * Decrypt file function
-     * @param src file to decrypt.
-     * @param dest decrypted file will be stored here
-     */
-    void decryptFile(const KUrl &src, const KUrl &dest);
 
     /**
      * Sign file function
@@ -168,9 +147,6 @@ private Q_SLOTS:
      * Checks if the encrypted file was saved.
      */
     void fileEncryptFin();
-
-    void decryptFileProcess();
-	void decryptFileFin(int, QProcess::ExitStatus);
 
 	void slotSignFile(int);
 	void slotSignFinished(int);

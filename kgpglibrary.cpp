@@ -155,41 +155,4 @@ void KgpgLibrary::processEncError(const QString &mssge)
 	KMessageBox::detailedSorry(m_panel, i18n("<p><b>Process halted</b>.<br />Not all files were encrypted.</p>"), mssge);
 }
 
-void KgpgLibrary::slotFileDec(const KUrl &src, const KUrl &dest)
-{
-	// decode file from konqueror or menu
-	m_pop = new KPassivePopup();
-	m_urlselected = src;
-
-	KGpgTextInterface *decryptFileProcess = new KGpgTextInterface();
-	decryptFileProcess->decryptFile(src, dest);
-	connect(decryptFileProcess, SIGNAL(decryptFileStarted(KUrl)), SLOT(processEncPopup(KUrl)));
-	connect(decryptFileProcess, SIGNAL(decryptFileFinished(int)), SLOT(processDecOver(int)));
-}
-
-void KgpgLibrary::processDecOver(int ret)
-{
-	emit systemMessage(QString());
-	delete m_pop;
-	sender()->deleteLater();
-	if (ret != 0)
-		emit decryptionOver(m_urlselected);
-	else
-		emit decryptionOver(KUrl());
-}
-
-void KgpgLibrary::processEncPopup(const KUrl &url)
-{
-	emit systemMessage(i18n("Decrypting %1", url.pathOrUrl()));
-
-	m_pop->setTimeout(0);
-	m_pop->setView(i18n("Processing decryption"), i18n("Please wait..."), Images::kgpg());
-	m_pop->show();
-
-	QRect qRect(QApplication::desktop()->screenGeometry());
-	int iXpos = qRect.width() / 2 - m_pop->width() / 2;
-	int iYpos = qRect.height() / 2 - m_pop->height() / 2;
-	m_pop->move(iXpos, iYpos);
-}
-
 #include "kgpglibrary.moc"

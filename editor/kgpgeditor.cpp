@@ -53,6 +53,7 @@
 #include "kgpgtextinterface.h"
 #include "kgpgkeyservergettransaction.h"
 #include "keysmanager.h"
+#include "transactions/kgpgdecrypt.h"
 
 class KgpgView : public QWidget {
 public:
@@ -527,9 +528,9 @@ void KgpgEditor::slotFilePreDec()
 		delete over;
         }
 
-        KgpgLibrary *lib = new KgpgLibrary(this);
-	connect(lib, SIGNAL(decryptionOver(KUrl)), SLOT(slotLibraryDone()));
-        lib->slotFileDec(url, KUrl(newname));
+	KGpgDecrypt *decr = new KGpgDecrypt(this, url, KUrl(newname));
+	connect(decr, SIGNAL(done(int)), SLOT(slotLibraryDone()));
+	decr->start();
     }
     else
         openEncryptedDocumentFile(url);

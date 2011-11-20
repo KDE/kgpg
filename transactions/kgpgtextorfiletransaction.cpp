@@ -106,6 +106,8 @@ KGpgTextOrFileTransaction::nextLine(const QString &line)
 void
 KGpgTextOrFileTransaction::finish()
 {
+	if (getProcess()->exitCode() != 0)
+		setSuccess(TS_MSG_SEQUENCE);
 }
 
 const QStringList &
