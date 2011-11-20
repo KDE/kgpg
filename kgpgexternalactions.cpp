@@ -53,8 +53,6 @@ void KGpgExternalActions::encryptDroppedFile()
 {
 	QStringList opts;
 	KgpgLibrary *lib = new KgpgLibrary(0);
-	if (KGpgSettings::pgpExtension())
-		lib->setFileExtension(QLatin1String( ".pgp" ));
 	connect(lib, SIGNAL(systemMessage(QString)), SLOT(busyMessage(QString)));
 
 	if (KGpgSettings::encryptFilesTo()) {

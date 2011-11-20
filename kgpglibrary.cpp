@@ -39,16 +39,11 @@ using namespace KgpgCore;
 KgpgLibrary::KgpgLibrary(QWidget *parent)
 	: QObject(parent),
 	m_panel(parent),
-	m_extension(QLatin1String( ".gpg" )),
+	m_extension(KGpgSettings::pgpExtension() ? QLatin1String(".pgp") : QLatin1String(".gpg")),
 	m_pop(NULL),
 	m_popisactive(false),
 	m_symetric(false)
 {
-}
-
-void KgpgLibrary::setFileExtension(const QString &ext)
-{
-	m_extension = ext;
 }
 
 void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, KGpgItemModel *model, const KShortcut &goDefaultKey, const QString &defaultKey)
