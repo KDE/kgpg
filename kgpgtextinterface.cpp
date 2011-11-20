@@ -24,6 +24,7 @@
 #include "kgpginterface.h"
 #include "gpgproc.h"
 #include "detailedconsole.h"
+#include "kgpgsettings.h"
 
 class KGpgTextInterfacePrivate
 {
@@ -409,13 +410,15 @@ KGpgTextInterface::fileEncryptFin()
 }
 
 void
-KGpgTextInterface::decryptFile(const KUrl &src, const KUrl &dest, const QStringList &options)
+KGpgTextInterface::decryptFile(const KUrl &src, const KUrl &dest)
 {
 	d->m_file = src;
 
 	*d->m_process << QLatin1String( "--no-verbose" ) << QLatin1String( "--no-greeting" );
 
-	*d->m_process << options;
+	const QString decryptOptions = KGpgSettings::customDecrypt();
+	if (!decryptOptions.isEmpty())
+		*d->m_process << decryptOptions;
 
 	d->m_dest = dest;
 	if (!dest.fileName().isEmpty())

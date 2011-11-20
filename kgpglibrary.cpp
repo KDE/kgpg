@@ -155,14 +155,14 @@ void KgpgLibrary::processEncError(const QString &mssge)
 	KMessageBox::detailedSorry(m_panel, i18n("<p><b>Process halted</b>.<br />Not all files were encrypted.</p>"), mssge);
 }
 
-void KgpgLibrary::slotFileDec(const KUrl &src, const KUrl &dest, const QStringList &customDecryptOption)
+void KgpgLibrary::slotFileDec(const KUrl &src, const KUrl &dest)
 {
 	// decode file from konqueror or menu
 	m_pop = new KPassivePopup();
 	m_urlselected = src;
 
 	KGpgTextInterface *decryptFileProcess = new KGpgTextInterface();
-	decryptFileProcess->decryptFile(src, dest, customDecryptOption);
+	decryptFileProcess->decryptFile(src, dest);
 	connect(decryptFileProcess, SIGNAL(decryptFileStarted(KUrl)), SLOT(processEncPopup(KUrl)));
 	connect(decryptFileProcess, SIGNAL(decryptFileFinished(int)), SLOT(processDecOver(int)));
 }

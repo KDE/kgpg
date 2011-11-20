@@ -346,12 +346,9 @@ void KGpgExternalActions::decryptFile(KgpgLibrary *lib)
 		delete over;
 	}
 
-	QStringList custdecr;
-	if (!KGpgSettings::customDecrypt().isEmpty())
-		custdecr.append(KGpgSettings::customDecrypt());
 	connect(lib, SIGNAL(systemMessage(QString)), SLOT(busyMessage(QString)));
 	connect(lib, SIGNAL(decryptionOver(KUrl)), SLOT(decryptNextFile(KUrl)));
-	lib->slotFileDec(droppedUrls.first(), swapname, custdecr);
+	lib->slotFileDec(droppedUrls.first(), swapname);
 }
 
 void KGpgExternalActions::decryptNextFile(const KUrl &failed, KgpgLibrary *lib)
