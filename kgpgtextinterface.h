@@ -122,9 +122,8 @@ public Q_SLOTS:
      * Decrypt file function
      * @param src file to decrypt.
      * @param dest decrypted file will be stored here
-     * @param options additional gpg options
      */
-    void decryptFile(const KUrl &src, const KUrl &dest, const QStringList &options = QStringList());
+    void decryptFile(const KUrl &src, const KUrl &dest);
 
     /**
      * Sign file function

@@ -54,7 +54,7 @@ signals:
 
 public slots:
     void slotFileEnc(const KUrl::List &urls, const QStringList &opts, KGpgItemModel *model, const KShortcut &goDefaultKey, const QString &defaultKey = QString());
-    void slotFileDec(const KUrl &srcUrl, const KUrl &destUrl, const QStringList &customDecryptOption = QStringList());
+    void slotFileDec(const KUrl &srcUrl, const KUrl &destUrl);
 
 private slots:
     void processEnc(const KUrl &);

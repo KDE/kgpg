@@ -119,7 +119,6 @@ private slots:
     void slotDownloadKeysFinished(QStringList ids);
 
 private:
-    QStringList m_customdecrypt;
     QString m_textencoding;
 
     KToggleAction *m_encodingaction;
