@@ -454,6 +454,9 @@ KGpgTextInterface::decryptFileProcess()
 						emit decryptFileFinished(1);
 						return;
 					}
+				} else if (line.contains("GET_LINE detached_signature.filename")) {
+					// oops, we try to decrypt a signature. This can't work.
+					d->m_process->closeWriteChannel();
 				} else {
 					d->m_process->write("quit\n");
 				}
