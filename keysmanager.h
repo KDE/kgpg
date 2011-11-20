@@ -103,9 +103,6 @@ public slots:
     void refreshkey();
     void readAllOptions();
     void showKeyInfo(const QString &keyID);
-    void findKey();
-    void findFirstKey();
-    void findNextKey();
     void slotSetDefaultKey(const QString &newID);
     void showKeyManager();
     bool importRemoteKey(const QString &keyIDs);

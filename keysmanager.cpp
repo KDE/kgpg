@@ -130,8 +130,6 @@ KeysManager::KeysManager(QWidget *parent)
 	setWindowTitle(i18n("Key Management"));
 
 	KStandardAction::quit(this, SLOT(quitApp()), actionCollection());
-	KStandardAction::find(this, SLOT(findKey()), actionCollection());
-	KStandardAction::findNext(this, SLOT(findNextKey()), actionCollection());
 	actionCollection()->addAction(KStandardAction::Preferences, QLatin1String( "options_configure" ), this, SLOT(showOptions()));
 
 	openEditor = actionCollection()->addAction(QLatin1String("kgpg_editor"), this, SLOT(slotOpenEditor()));
@@ -971,124 +969,6 @@ void KeysManager::slotSetPhotoSize(int size)
 		iproxy->setPreviewSize(0);
 		break;
 	}
-}
-
-void KeysManager::findKey()
-{
-	QPointer<KFindDialog> fd = new KFindDialog(this);
-	if (fd->exec() != QDialog::Accepted) {
-		delete fd;
-		return;
-	}
-
-	searchString = fd->pattern();
-	searchOptions = fd->options();
-	findFirstKey();
-	delete fd;
-}
-
-void KeysManager::findFirstKey()
-{
-    if (searchString.isEmpty())
-        return;
-
-return;
-#ifdef __GNUC__
-#warning port me
-#endif
-#if 0
-    bool foundItem = true;
-    KeyListViewItem *item = keysList2->firstChild();
-    if (!item)
-        return;
-    QString searchText = item->text(0) + QLatin1Char( ' ' ) + item->text(1) + QLatin1Char( ' ' ) + item->text(6);
-
-    KFind *m_find = new KFind(searchString, searchOptions, this);
-    m_find->setData(searchText);
-    while (m_find->find() == KFind::NoMatch)
-    {
-        if (!item->nextSibling())
-        {
-            foundItem = false;
-            break;
-        }
-        else
-        {
-            item = item->nextSibling();
-            searchText = item->text(0) + QLatin1Char( ' ' ) + item->text(1) + QLatin1Char( ' ' ) + item->text(6);
-            m_find->setData(searchText);
-        }
-    }
-    delete m_find;
-
-    if (foundItem)
-    {
-        keysList2->clearSelection();
-        keysList2->setCurrentItem(item);
-        keysList2->setSelected(item, true);
-        keysList2->ensureItemVisible(item);
-    }
-    else
-        KMessageBox::sorry(this, i18n("<qt>Search string '<b>%1</b>' not found.</qt>", searchString));
-#endif
-}
-
-void KeysManager::findNextKey()
-{
-    //kDebug(2100)<<"find next";
-    if (searchString.isEmpty())
-    {
-        findKey();
-        return;
-    }
-return;
-
-#ifdef __GNUC__
-#warning port me
-#endif
-#if 0
-    bool foundItem = true;
-    KeyListViewItem *item = keysList2->currentItem();
-    if (!item)
-        return;
-
-    while(item->depth() > 0)
-        item = item->parent();
-    item = item->nextSibling();
-
-    QString searchText = item->text(0) + QLatin1Char( ' ' ) + item->text(1) + QLatin1Char( ' ' ) + item->text(6);
-    //kDebug(2100) << "Next string:" << searchText ;
-    //kDebug(2100) << "Search:" << searchString ;
-    //kDebug(2100) << "OPts:" << searchOptions ;
-    KFind *m_find = new KFind(searchString, searchOptions, this);
-    m_find->setData(searchText);
-    while (m_find->find() == KFind::NoMatch)
-    {
-        if (!item->nextSibling())
-        {
-            foundItem = false;
-            break;
-        }
-        else
-        {
-            item = item->nextSibling();
-            searchText = item->text(0) + QLatin1Char( ' ' ) + item->text(1) + QLatin1Char( ' ' ) + item->text(6);
-            m_find->setData(searchText);
-            //kDebug(2100) << "Next string:" << searchText ;
-        }
-    }
-    delete m_find;
-
-    if (foundItem)
-    {
-        keysList2->clearSelection();
-        keysList2->setCurrentItem(item);
-        keysList2->setSelected(item,true);
-        keysList2->ensureItemVisible(item);
-    }
-    else
-        findFirstKey();
-#endif
 }
 
 void KeysManager::addToKAB()
