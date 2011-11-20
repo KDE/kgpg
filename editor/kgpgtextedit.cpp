@@ -155,10 +155,7 @@ void KgpgTextEdit::openDroppedFile(const KUrl& url, const bool probe)
 
 void KgpgTextEdit::slotEncode()
 {
-#ifdef __GNUC__
-#warning FIXME goDefaultKey shortcut
-#endif /* _GNUC_ */
-	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, m_model, KShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home)), true);
+	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, m_model, m_keysmanager->goDefaultShortcut(), true);
 	if (dialog->exec() == KDialog::Accepted) {
 		QStringList options;
 		KGpgEncrypt::EncryptOptions opts = KGpgEncrypt::DefaultEncryption;

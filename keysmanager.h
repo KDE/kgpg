@@ -37,6 +37,7 @@ class KMenu;
 class KLineEdit;
 class KAction;
 class KJob;
+class KShortcut;
 
 class KeyServer;
 class KgpgEditor;
@@ -74,6 +75,11 @@ public:
 
     void saveToggleOpts(void);
     void showTrayMessage(const QString &message);
+
+    /**
+     * @brief returns the shortcut to go to the default key in a key selection
+     */
+    KShortcut goDefaultShortcut() const;
 
 private:
     KToggleAction *sTrust;

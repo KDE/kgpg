@@ -2721,6 +2721,12 @@ KeysManager::showTrayMessage(const QString &message)
 	m_trayicon->showMessage(QString(), message, QLatin1String( "kgpg" ));
 }
 
+KShortcut
+KeysManager::goDefaultShortcut() const
+{
+	return goToDefaultKey->shortcut();
+}
+
 void
 KeysManager::clipEncrypt()
 {
