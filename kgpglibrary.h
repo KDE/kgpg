@@ -40,11 +40,6 @@ public:
      */
     explicit KgpgLibrary(QWidget *parent = 0);
 
-    /**
-     * set the extension used for the encrypted file (including the '.')
-     */
-    void setFileExtension(const QString &extension);
-
 signals:
     void encryptionOver();
     void importOver(KgpgLibrary *, QStringList);
@@ -62,7 +57,7 @@ private:
     void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool symetric);
     void fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool symetric);
     QWidget *m_panel;
-    QString m_extension;
+    const QString m_extension;
     QStringList m_encryptkeys;
     QStringList m_encryptoptions;
 
