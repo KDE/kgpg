@@ -42,9 +42,7 @@ public:
 
 signals:
     void encryptionOver();
-    void importOver(KgpgLibrary *, QStringList);
     void systemMessage(QString message);
-    void photoAdded();
 
 public slots:
     void slotFileEnc(const KUrl::List &urls, const QStringList &opts, KGpgItemModel *model, const KShortcut &goDefaultKey, const QString &defaultKey = QString());
