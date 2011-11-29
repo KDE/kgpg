@@ -422,3 +422,38 @@ KeyListProxyModel::setIdLength(const int length)
 	d->m_idLength = length;
 	invalidate();
 }
+
+bool
+KeyListProxyModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+	Q_UNUSED(role);
+
+	if (value.type() != QVariant::String)
+		return false;
+
+	KGpgNode *node = nodeForIndex(index);
+
+	if (!node)
+		return false;
+
+	const QString newName = value.toString();
+
+	if (newName.isEmpty() || (newName == node->getName()))
+		return false;
+
+	node->toGroupNode()->rename(newName);
+
+	return true;
+}
+
+Qt::ItemFlags
+KeyListProxyModel::flags(const QModelIndex &index) const
+{
+	KGpgNode *node = nodeForIndex(index);
+	Qt::ItemFlags flags = QSortFilterProxyModel::flags(index);
+
+	if ((node->getType() == ITYPE_GROUP) && (index.column() == KEYCOLUMN_NAME))
+		flags |= Qt::ItemIsEditable;
+
+	return flags;
+}

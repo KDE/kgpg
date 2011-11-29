@@ -39,6 +39,7 @@ KeyTreeView::KeyTreeView(QWidget *parent, KeyListProxyModel *model)
 	setDragEnabled(true);
 	setDragDropMode(DragDrop);
 	setAcceptDrops(true);
+	setEditTriggers(QTreeView::NoEditTriggers);
 }
 
 QList<KGpgNode *>
@@ -220,6 +221,12 @@ KeyTreeView::keyPressEvent(QKeyEvent *event)
 		return;
 	}
 	QTreeView::keyPressEvent(event);
+}
+
+bool
+KeyTreeView::isEditing() const
+{
+	return (state() == EditingState);
 }
 
 #include "keytreeview.moc"

@@ -47,6 +47,8 @@ public:
 	void restoreLayout(KConfigGroup &cg);
 	void saveLayout(KConfigGroup &cg) const;
 
+	bool isEditing() const;
+
 signals:
 	void importDrop(const KUrl::List &urls);
 	void returnPressed();

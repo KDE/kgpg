@@ -1540,6 +1540,9 @@ void KeysManager::defaultAction(KGpgNode *nd)
 	if (nd == NULL)
 		return;
 
+	if (iview->isEditing())
+		return;
+
 	switch (nd->getType()) {
 	case ITYPE_GROUP:
 		editGroup();
@@ -1640,18 +1643,12 @@ void KeysManager::deleteGroup()
 
 void KeysManager::renameGroup()
 {
-	KGpgNode *nd = iview->selectedNode();
-	if (!nd || (nd->getType() != ITYPE_GROUP))
+	if (iview->selectionModel()->selectedIndexes().isEmpty())
 		return;
 
-	const QString groupName = KInputDialog::getText(i18n("Rename Group"),
-			i18nc("Enter the new name for the key group being renamed", "Enter new group name:"),
-			nd->getName(), 0, this);
+	QModelIndex selectedNodeIndex = iview->selectionModel()->selectedIndexes().first();
 
-	if ((groupName == nd->getName()) || groupName.isEmpty())
-		return;
-
-	nd->toGroupNode()->rename(groupName);
+	iview->edit(selectedNodeIndex);
 }
 
 void KeysManager::createNewGroup()

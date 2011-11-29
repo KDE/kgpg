@@ -104,6 +104,7 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 	case KEYCOLUMN_NAME:
 		switch (role) {
 		case Qt::DisplayRole:
+		case Qt::EditRole:
 			return node->getName();
 		case Qt::DecorationRole:
 			if (node->getType() == ITYPE_UAT) {
