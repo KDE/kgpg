@@ -110,6 +110,7 @@
 #include "kgpgsignuid.h"
 #include "kgpgdelsign.h"
 #include "kgpgdecrypt.h"
+#include "kgpgencrypt.h"
 
 using namespace KgpgCore;
 
@@ -2615,49 +2616,45 @@ KeysManager::clipEncrypt()
 		return;
 	}
 
-	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, imodel, goToDefaultKey->shortcut());
+	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, imodel, goToDefaultKey->shortcut(), true);
 	if (dialog->exec() == KDialog::Accepted) {
+		KGpgEncrypt::EncryptOptions encOptions = KGpgEncrypt::AsciiArmored;
 		QStringList options;
 
 		if (!dialog->getCustomOptions().isEmpty() && KGpgSettings::allowCustomEncryptionOptions())
-			options = dialog->getCustomOptions().split(QLatin1Char( ' ' ), QString::SkipEmptyParts);
+			options = dialog->getCustomOptions().split(QLatin1Char(' '), QString::SkipEmptyParts);
 
 		if (dialog->getUntrusted())
-			options.append(QLatin1String( "--always-trust" ));
-		if (dialog->getArmor())
-			options.append(QLatin1String( "--armor" ));
+			encOptions |= KGpgEncrypt::AllowUntrustedEncryption;
 		if (dialog->getHideId())
-			options.append(QLatin1String( "--throw-keyid" ));
+			encOptions |= KGpgEncrypt::HideKeyId;
 
 		if (KGpgSettings::pgpCompatibility())
 			options.append(QLatin1String( "--pgp6" ));
 
-		options.append(QLatin1String( "--armor" ));
+		KGpgEncrypt *enc = new KGpgEncrypt(this, dialog->selectedKeys(), cliptext, encOptions, options);
+		connect(enc, SIGNAL(done(int)), SLOT(slotSetClip(int)));
 
-		QStringList selec;
-		if (!dialog->getSymmetric())
-			selec = dialog->selectedKeys();
-
-		KGpgTextInterface *txtEncrypt = new KGpgTextInterface();
-		connect (txtEncrypt, SIGNAL(txtEncryptionFinished(QString)), SLOT(slotSetClip(QString)));
 		m_trayicon->setStatus(KStatusNotifierItem::Active);
-		txtEncrypt->encryptText(cliptext, selec, options);
+		enc->start();
 	}
 
 	delete dialog;
 }
 
 void
-KeysManager::slotSetClip(const QString &newtxt)
+KeysManager::slotSetClip(int result)
 {
+	KGpgEncrypt *enc = qobject_cast<KGpgEncrypt *>(sender());
+	Q_ASSERT(enc != NULL);
 	sender()->deleteLater();
 
 	m_trayicon->setStatus(KStatusNotifierItem::Passive);
 
-	if (newtxt.isEmpty())
+	if (result != KGpgTransaction::TS_OK)
 		return;
 
-	kapp->clipboard()->setText(newtxt, m_clipboardmode);
+	kapp->clipboard()->setText(enc->encryptedText().join(QLatin1String("\n")), m_clipboardmode);
 
 	Q_ASSERT(m_trayicon != NULL);
 	m_trayicon->showMessage(QString(), i18n("Text successfully encrypted."), QLatin1String( "kgpg" ));

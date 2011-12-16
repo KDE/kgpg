@@ -205,7 +205,7 @@ private slots:
     void slotEditDone(int exitcode);
     void importRemoteFinished(int result);
     void slotDelKeyDone(int ret);
-    void slotSetClip(const QString &newtxt);
+    void slotSetClip(int result);
 
     void slotNetworkUp();
     void slotNetworkDown();
