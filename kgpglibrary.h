@@ -51,7 +51,6 @@ private slots:
     void processEncError(const QString &mssge);
 
 private:
-    void startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool symetric);
     void fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool symetric);
     QWidget *m_panel;
     const QString m_extension;

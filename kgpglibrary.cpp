@@ -73,19 +73,15 @@ void KgpgLibrary::slotFileEnc(const KUrl::List &urls, const QStringList &opts, K
 		QStringList keys(dialog->selectedKeys());
 		if (!defaultKey.isEmpty() && !keys.contains(defaultKey))
 			keys.append(defaultKey);
-		startEncode(keys, options, dialog->getSymmetric());
+
+		m_popisactive = false;
+		m_encryptkeys = keys;
+		m_encryptoptions = options;
+		m_symetric = dialog->getSymmetric();
+		fastEncode(m_urlselecteds.first(), m_encryptkeys, m_encryptoptions, m_symetric);
 	}
 
 	delete dialog;
-}
-
-void KgpgLibrary::startEncode(const QStringList &encryptkeys, const QStringList &encryptoptions, const bool symetric)
-{
-	m_popisactive = false;
-	m_encryptkeys = encryptkeys;
-	m_encryptoptions = encryptoptions;
-	m_symetric = symetric;
-	fastEncode(m_urlselecteds.first(), encryptkeys, encryptoptions, symetric);
 }
 
 void KgpgLibrary::fastEncode(const KUrl &filetocrypt, const QStringList &encryptkeys, const QStringList &encryptoptions, const bool symetric)
