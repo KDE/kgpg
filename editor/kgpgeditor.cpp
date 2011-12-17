@@ -45,7 +45,6 @@
 #include "selectsecretkey.h"
 #include "kgpgmd5widget.h"
 #include "kgpgsettings.h"
-#include "kgpglibrary.h"
 #include "keyservers.h"
 #include "sourceselect.h"
 #include "kgpgtextedit.h"
@@ -540,13 +539,6 @@ void
 KgpgEditor::slotLibraryDone()
 {
 	sender()->deleteLater();
-}
-
-void
-KgpgEditor::slotRefreshImported(KgpgLibrary *lib, const QStringList &keys)
-{
-    lib->deleteLater();
-    emit refreshImported(keys);
 }
 
 void KgpgEditor::slotKeyManager()

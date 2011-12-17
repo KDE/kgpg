@@ -27,7 +27,6 @@ class KFind;
 
 class KgpgTextEdit;
 class KGpgItemModel;
-class KgpgLibrary;
 class KeysManager;
 class KRecentFilesAction;
 
@@ -47,7 +46,6 @@ public:
     KRecentFilesAction *m_recentfiles;
 
 signals:
-    void refreshImported(QStringList);
     void openChangeFont();
     void openConfigDialog();
     void encryptFiles(KUrl::List fileList);
@@ -111,8 +109,6 @@ private slots:
 
     void modified();
     void newText();
-
-    void slotRefreshImported(KgpgLibrary *lib, const QStringList &keys);
 
     void slotLibraryDone();
 

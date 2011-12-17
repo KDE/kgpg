@@ -82,7 +82,6 @@
 #include "kgpgkeygenerate.h"
 #include "kgpgoptions.h"
 #include "keyinfodialog.h"
-#include "kgpglibrary.h"
 #include "keyadaptor.h"
 #include "images.h"
 #include "sourceselect.h"
@@ -457,7 +456,6 @@ KeysManager::KeysManager(QWidget *parent)
 	setAutoSaveSettings(cg, true);
 	applyMainWindowSettings(cg);
 
-	connect(s_kgpgEditor, SIGNAL(refreshImported(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
 	connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
 
 	m_netnote = Solid::Networking::notifier();
@@ -528,7 +526,6 @@ void KeysManager::slotOpenEditor()
 {
 	KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, Qt::Window);
 
-	connect(kgpgtxtedit, SIGNAL(refreshImported(QStringList)), imodel, SLOT(refreshKeys(QStringList)));
 	connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SIGNAL(encryptFiles(KUrl::List)));
 	connect(this, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
 
