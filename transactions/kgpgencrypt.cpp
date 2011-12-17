@@ -38,7 +38,7 @@ KGpgEncrypt::KGpgEncrypt(QObject *parent, const QStringList &userIds, const QStr
 	m_userIds(userIds),
 	m_extraOptions(extraOptions)
 {
-	if (m_options & AllowUntrustedEncryption)
+	if ((m_options & AllowUntrustedEncryption) && !m_userIds.isEmpty())
 		m_extraOptions << trustOptions(getProcess()->program().at(0));
 }
 
@@ -49,7 +49,7 @@ KGpgEncrypt::KGpgEncrypt(QObject *parent, const QStringList &userIds, const KUrl
 	m_userIds(userIds),
 	m_extraOptions(extraOptions)
 {
-	if (m_options & AllowUntrustedEncryption)
+	if ((m_options & AllowUntrustedEncryption) && !m_userIds.isEmpty())
 		m_extraOptions << trustOptions(getProcess()->program().at(0));
 }
 
@@ -65,12 +65,12 @@ KGpgEncrypt::command() const
 	if (m_options.testFlag(AsciiArmored))
 		ret << QLatin1String("--armor");
 
-	if (m_options.testFlag(HideKeyId))
-		ret << QLatin1String("--throw-keyid");
-
 	if (m_userIds.isEmpty()) {
 		ret << QLatin1String( "--symmetric" );
 	} else {
+		if (m_options.testFlag(HideKeyId))
+			ret << QLatin1String("--throw-keyid");
+
 		foreach (const QString &uid, m_userIds)
 			ret << QLatin1String( "--recipient" ) << uid;
 		ret << QLatin1String( "--encrypt" );
@@ -99,6 +99,11 @@ KGpgEncrypt::nextLine(const QString& line)
 {
 	const KUrl::List &inputFiles = getInputFiles();
 
+	if (line.startsWith(QLatin1String("[GNUPG:] MISSING_PASSPHRASE"))) {
+		setSuccess(KGpgTransaction::TS_BAD_PASSPHRASE);
+		return true;
+	}
+
 	if (!inputFiles.isEmpty()) {
 		if (line == QLatin1String("[GNUPG:] BEGIN_ENCRYPTION")) {
 			emit statusMessage(i18nc("Status message 'Encrypting <filename>' (operation starts)", "Encrypting %1", inputFiles.at(m_fileIndex).fileName()));
@@ -112,3 +117,5 @@ KGpgEncrypt::nextLine(const QString& line)
 
 	return KGpgTextOrFileTransaction::nextLine(line);
 }
+
+#include "kgpgencrypt.moc"

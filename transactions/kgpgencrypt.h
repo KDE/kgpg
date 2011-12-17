@@ -34,10 +34,10 @@ class KGpgEncrypt: public KGpgTextOrFileTransaction {
 	KGpgEncrypt(); // = delete C++0x
 public:
 	enum EncryptOption {
-		DefaultEncryption = 0,
-		AsciiArmored = 0x1,
-		AllowUntrustedEncryption = 0x2,
-		HideKeyId = 0x4
+		DefaultEncryption = 0,		///< use whatever GnuPGs defaults are
+		AsciiArmored = 0x1,		///< output the data as printable ASCII as opposed to binary data
+		AllowUntrustedEncryption = 0x2,	///< allow encryption with untrusted keys, ignored for symmetric encryption
+		HideKeyId = 0x4			///< remove anything that shows which key ids this data is encrypted to, ignored for symmetric encryption
 	};
 	Q_DECLARE_FLAGS(EncryptOptions, EncryptOption);
 
