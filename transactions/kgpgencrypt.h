@@ -79,6 +79,7 @@ private:
 	const EncryptOptions m_options;
 	const QStringList m_userIds;
 	QStringList m_extraOptions;
+	QString m_currentFile;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KGpgEncrypt::EncryptOptions);

@@ -95,7 +95,7 @@ KGpgEncrypt::encryptedText() const
 }
 
 bool
-KGpgEncrypt::nextLine(const QString& line)
+KGpgEncrypt::nextLine(const QString &line)
 {
 	const KUrl::List &inputFiles = getInputFiles();
 
@@ -105,11 +105,15 @@ KGpgEncrypt::nextLine(const QString& line)
 	}
 
 	if (!inputFiles.isEmpty()) {
-		if (line == QLatin1String("[GNUPG:] BEGIN_ENCRYPTION")) {
-			emit statusMessage(i18nc("Status message 'Encrypting <filename>' (operation starts)", "Encrypting %1", inputFiles.at(m_fileIndex).fileName()));
+		static const QString encStart = QLatin1String("[GNUPG:] FILE_START 2 ");
+		static const QString encDone = QLatin1String("[GNUPG:] FILE_DONE");
+
+		if (line.startsWith(encStart)) {
+			m_currentFile = line.mid(encStart.length());
+			emit statusMessage(i18nc("Status message 'Encrypting <filename>' (operation starts)", "Encrypting %1", m_currentFile));
 			emit infoProgress(2 * m_fileIndex + 1, inputFiles.count() * 2);
-		} else if (line == QLatin1String("[GNUPG:] END_ENCRYPTION")) {
-			emit statusMessage(i18nc("Status message 'Encrypted <filename>' (operation was completed)", "Encrypted %1", inputFiles.at(m_fileIndex).fileName()));
+		} else if (line == encDone) {
+			emit statusMessage(i18nc("Status message 'Encrypted <filename>' (operation was completed)", "Encrypted %1", m_currentFile));
 			m_fileIndex++;
 			emit infoProgress(2 * m_fileIndex, inputFiles.count() * 2);
 		}
