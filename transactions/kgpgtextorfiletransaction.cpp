@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -78,7 +78,10 @@ KGpgTextOrFileTransaction::preStart()
 
 	QStringList args(QLatin1String("--status-fd=1"));
 
-	args << command() << locfiles << m_tempfiles;
+	args << command();
+	if (locfiles.count() + m_tempfiles.count() > 1)
+		args << QLatin1String("--multifile");
+	args << locfiles << m_tempfiles;
 	addArguments(args);
 
 	return true;
