@@ -202,61 +202,6 @@ KGpgTextInterface::~KGpgTextInterface()
 }
 
 void
-KGpgTextInterface::encryptText(const QString &text, const QStringList &userids, const QStringList &options)
-{
-	QTextCodec *codec = QTextCodec::codecForLocale();
-	if (codec->canEncode(text))
-		d->m_message = text;
-	else
-		d->m_message = QLatin1String( text.toUtf8() );
-
-	*d->m_process << options;
-
-	if (userids.isEmpty()) {
-		*d->m_process << QLatin1String( "-c" );
-	} else {
-		*d->m_process << QLatin1String( "-e" );
-		foreach (const QString &uid, userids)
-			*d->m_process << QLatin1String( "--recipient" ) << uid;
-	}
-
-	connect(d->m_process, SIGNAL(readReady()), this, SLOT(encryptTextProcess()));
-	connect(d->m_process, SIGNAL(processExited()), this, SLOT(encryptTextFin()));
-	d->m_process->start();
-}
-
-void
-KGpgTextInterface::encryptTextProcess()
-{
-	int items;
-	QString line;
-
-	while ( (items = d->m_process->readln(line)) >= 0 ) {
-		if (line.startsWith(QLatin1String("[GNUPG:] "))) {
-			line.remove(0, 9);
-			if (line.startsWith(QLatin1String("BEGIN_ENCRYPTION"))) {
-				d->m_process->write(d->m_message.toLocal8Bit());
-				d->m_process->closeWriteChannel();
-				d->m_message.clear();
-			} else if (line.contains( QLatin1String( "passphrase.enter" ))) {
-				if (d->symPassphrase()) {
-					d->m_message.clear();
-					return;
-				}
-			}
-		} else {
-			d->m_message += line + QLatin1Char( '\n' );
-		}
-	}
-}
-
-void
-KGpgTextInterface::encryptTextFin()
-{
-	emit txtEncryptionFinished(d->m_message.trimmed());
-}
-
-void
 KGpgTextInterface::signText(const QString &text, const QString &userid, const QStringList &options)
 {
 	QTextCodec *codec = QTextCodec::codecForLocale();

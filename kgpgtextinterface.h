@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -36,11 +36,6 @@ public:
 
 signals:
     /**
-     *  emitted when a txt encryption finished. returns encrypted text
-     */
-    void txtEncryptionFinished(QString);
-
-    /**
      *  emmitted if signature key is missing & user want to import it from keyserver
      */
     void verifyquerykey(QString ID);
@@ -72,14 +67,6 @@ signals:
     void fileSignFinished(KUrl::List &);
 
 public Q_SLOTS:
-    /**
-     * Encrypt text function
-     * @param text text to be encrypted.
-     * @param userids the recipients key id's.
-     * @param options a list of string with the wanted gpg options, e.g. "--armor"
-     */
-    void encryptText(const QString &text, const QStringList &userids, const QStringList &options = QStringList());
-
     /**
      * Sign text function
      * @param text text to sign.
@@ -120,9 +107,6 @@ public Q_SLOTS:
     void KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl = KUrl()) ;
 
 private Q_SLOTS:
-    void encryptTextProcess();
-    void encryptTextFin();
-
     /**
      * Reads output of the current process + allow overwriting of a file
      */
