@@ -28,7 +28,7 @@ class KGpgItemModel;
 class KgpgLibrary;
 class KgpgSelectPublicKeyDlg;
 class KGpgTextInterface;
-class KPassivePopup;
+class KJob;
 class KShortcut;
 class KTemporaryFile;
 class QFont;
@@ -68,15 +68,12 @@ public slots:
 	void slotVerifyFile();
 	void encryptDroppedFolder();
 	void startFolderEncode();
-	void slotFolderFinished(const KUrl &);
-	void slotFolderFinishedError(const QString &errmsge);
 	void encryptFiles(KUrl::List urls);
 	void slotAbortEnc();
 
 private:
 	QStringList customDecrypt;
 	QPointer<KGpgFirstAssistant> m_assistant;
-	KPassivePopup *pop;
 	KTemporaryFile *kgpgFolderExtract;
 	int compressionScheme;
 	KgpgSelectPublicKeyDlg *dialog;
@@ -100,6 +97,7 @@ private slots:
 	void slotSetCompression(int cp);
 	void slotDecryptionDone(int status);
 	void decryptFile();
+	void slotFolderFinished(KJob *job);
 };
 
 #endif /* _KGPGEXTERNALACTIONS_H */

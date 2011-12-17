@@ -20,13 +20,14 @@
 
 #include <KActionCollection>
 #include <KMessageBox>
-#include <KPassivePopup>
 #include <KTar>
 #include <KTemporaryFile>
 #include <KToolInvocation>
 #include <KUniqueApplication>
 #include <KZip>
 #include <kio/renamedialog.h>
+#include <kio/global.h>
+#include <kjobtrackerinterface.h>
 
 #include "images.h"
 #include "keyservers.h"
@@ -41,6 +42,8 @@
 #include "selectsecretkey.h"
 #include "kgpginterface.h"
 #include "transactions/kgpgdecrypt.h"
+#include "foldercompressjob.h"
+#include "kgpgencrypt.h"
 
 KGpgExternalActions::KGpgExternalActions(KeysManager *parent, KGpgItemModel *model)
 	: QObject(parent),
@@ -79,8 +82,11 @@ void KGpgExternalActions::encryptDroppedFolder()
 	if (KMessageBox::Cancel == KMessageBox::warningContinueCancel(m_keysmanager,
 				i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>",
 				kgpgfoldertmp->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(),
-				KStandardGuiItem::cancel(), QLatin1String( "FolderTmpFile" )))
+				KStandardGuiItem::cancel(), QLatin1String( "FolderTmpFile" ))) {
+		delete kgpgfoldertmp;
+		kgpgfoldertmp = NULL;
 		return;
+	}
 
 	dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey(), false, droppedUrls);
 
@@ -106,6 +112,8 @@ void KGpgExternalActions::slotAbortEnc()
 {
 	dialog->deleteLater();
 	dialog = NULL;
+	delete kgpgfoldertmp;
+	kgpgfoldertmp = NULL;
 }
 
 void KGpgExternalActions::slotSetCompression(int cp)
@@ -115,9 +123,14 @@ void KGpgExternalActions::slotSetCompression(int cp)
 
 void KGpgExternalActions::startFolderEncode()
 {
-	const QStringList selec(dialog->selectedKeys());
-	QStringList encryptOptions(dialog->getCustomOptions().split(QLatin1Char( ' ' ),  QString::SkipEmptyParts));
-	bool symetric = dialog->getSymmetric();
+	QStringList selec = dialog->selectedKeys();
+	KGpgEncrypt::EncryptOptions encOptions = KGpgEncrypt::DefaultEncryption;
+	const QStringList encryptOptions = dialog->getCustomOptions().split(QLatin1Char(' '),  QString::SkipEmptyParts);
+	if (dialog->getSymmetric()) {
+		selec.clear();
+	} else {
+		Q_ASSERT(!selec.isEmpty());
+	}
 	QString extension;
 
 	switch (compressionScheme) {
@@ -149,18 +162,16 @@ void KGpgExternalActions::startFolderEncode()
 		extension += QLatin1String( ".gpg" );
 
 	if (dialog->getArmor())
-		encryptOptions << QLatin1String( "--armor" );
+		encOptions |= KGpgEncrypt::AsciiArmored;
 	if (dialog->getHideId())
-		encryptOptions << QLatin1String( "--throw-keyids" );
+		encOptions |= KGpgEncrypt::HideKeyId;
+	if (dialog->getUntrusted())
+		encOptions |= KGpgEncrypt::AllowUntrustedEncryption;
 
-	QString fname(droppedUrls.first().path());
-	if (fname.endsWith(QLatin1Char( '/' )))
-		fname.remove(fname.length() - 1, 1);
-
-	KUrl encryptedFile(KUrl::fromPath(fname + extension));
+	KUrl encryptedFile(KUrl::fromPath(droppedUrls.first().path(KUrl::RemoveTrailingSlash) + extension));
 	QFile encryptedFolder(encryptedFile.path());
+	dialog->hide();
 	if (encryptedFolder.exists()) {
-		dialog->hide();
 		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager, i18n("File Already Exists"), KUrl(), encryptedFile, KIO::M_OVERWRITE);
 		if (over->exec() == QDialog::Rejected) {
 			dialog->deleteLater();
@@ -170,69 +181,28 @@ void KGpgExternalActions::startFolderEncode()
 		}
 		encryptedFile = over->newDestUrl();
 		delete over;
-		dialog->show(); // strange, but if dialog is hidden, the passive popup is not displayed...
 	}
 
-	pop = new KPassivePopup();
-	pop->setView(i18n("Processing folder compression and encryption"), i18n("Please wait..."), Images::kgpg());
-	pop->setAutoDelete(false);
-	pop->show();
-	kapp->processEvents();
+	FolderCompressJob *trayinfo = new FolderCompressJob(m_keysmanager, droppedUrls.first(), encryptedFile, kgpgfoldertmp, selec, encryptOptions, encOptions);
+	connect(trayinfo, SIGNAL(result(KJob*)), SLOT(slotFolderFinished(KJob *)));
+	KIO::getJobTracker()->registerJob(trayinfo);
+	trayinfo->start();
+
 	dialog->accept();
 	dialog->deleteLater();
 	dialog = NULL;
-
-	KArchive *arch = NULL;
-	switch (compressionScheme) {
-	case 0:
-		arch = new KZip(kgpgfoldertmp->fileName());
-		break;
-	case 1:
-		arch = new KTar(kgpgfoldertmp->fileName(), QLatin1String( "application/x-gzip" ));
-		break;
-	case 2:
-		arch = new KTar(kgpgfoldertmp->fileName(), QLatin1String( "application/x-bzip" ));
-		break;
-	case 3:
-		arch = new KTar(kgpgfoldertmp->fileName(), QLatin1String( "application/x-tar" ));
-		break;
-	case 4:
-		arch = new KTar(kgpgfoldertmp->fileName(), QLatin1String( "application/x-xz" ));
-		break;
-	default:
-		Q_ASSERT(0);
-	}
-
-	if (!arch->open(QIODevice::WriteOnly))
-	{
-		KMessageBox::sorry(0, i18n("Unable to create temporary file"));
-		delete arch;
-		return;
-	}
-
-	arch->addLocalDirectory(droppedUrls.first().path(), droppedUrls.first().fileName());
-	arch->close();
-	delete arch;
-
-	KGpgTextInterface *folderprocess = new KGpgTextInterface(this);
-	connect(folderprocess, SIGNAL(fileEncryptionFinished(KUrl)), SLOT(slotFolderFinished(KUrl)));
-	connect(folderprocess, SIGNAL(errorMessage(QString)), SLOT(slotFolderFinishedError(QString)));
-	folderprocess->encryptFile(selec, KUrl(kgpgfoldertmp->fileName()), encryptedFile, encryptOptions, symetric);
+	kgpgfoldertmp = NULL;
 }
 
-void KGpgExternalActions::slotFolderFinished(const KUrl &)
+void KGpgExternalActions::slotFolderFinished(KJob *job)
 {
-	delete pop;
-	delete kgpgfoldertmp;
-	sender()->deleteLater();
-}
+	FolderCompressJob *trayinfo = qobject_cast<FolderCompressJob *>(job);
+	Q_ASSERT(trayinfo != NULL);
 
-void KGpgExternalActions::slotFolderFinishedError(const QString &errmsge)
-{
-	delete pop;
 	delete kgpgfoldertmp;
-	sender()->deleteLater();
-	KMessageBox::sorry(0, errmsge);
+	kgpgfoldertmp = NULL;
+	if (trayinfo->error())
+		KMessageBox::sorry(m_keysmanager, trayinfo->errorString());
 }
 
 void KGpgExternalActions::busyMessage(const QString &mssge)
