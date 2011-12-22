@@ -184,7 +184,7 @@ void KGpgExternalActions::startFolderEncode()
 	}
 
 	FolderCompressJob *trayinfo = new FolderCompressJob(m_keysmanager, droppedUrls.first(), encryptedFile, kgpgfoldertmp, selec, encryptOptions, encOptions);
-	connect(trayinfo, SIGNAL(result(KJob*)), SLOT(slotFolderFinished(KJob *)));
+	connect(trayinfo, SIGNAL(result(KJob*)), SLOT(slotFolderFinished(KJob*)));
 	KIO::getJobTracker()->registerJob(trayinfo);
 	trayinfo->start();
 
