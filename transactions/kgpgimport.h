@@ -23,6 +23,8 @@
 
 #include "kgpgtextorfiletransaction.h"
 
+class KGpgItemModel;
+
 /**
  * @brief import one or more keys into the keyring
  */
@@ -107,7 +109,7 @@ public:
 	 * The log must contain a "IMPORT_RES" line. If this is not present
 	 * the result string will contain an error message.
 	 */
-	static QString getDetailedImportMessage(const QStringList &log);
+	static QString getDetailedImportMessage(const QStringList &log, const KGpgItemModel *model = NULL);
 
 	/**
 	 * @brief check if the given text contains a private or public key

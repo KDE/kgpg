@@ -13,6 +13,9 @@
 
 #include "kgpgimport.h"
 
+#include "kgpgitemmodel.h"
+#include "KGpgKeyNode.h"
+
 #include <KDebug>
 #include <KLocale>
 
@@ -170,8 +173,37 @@ KGpgImport::getImportMessage(const QStringList &log)
 	return resultMessage;
 }
 
+static QString
+beautifyKeyList(const QStringList &keyIds, const KGpgItemModel *model)
+{
+	QString result;
+
+	result.append(QLatin1String("\n"));
+	if (model == NULL) {
+		result.append(QLatin1String(" ") + keyIds.join(QLatin1String("\n ")));
+	} else {
+		foreach (const QString &changed, keyIds) {
+			const KGpgKeyNode *node = model->findKeyNode(changed);
+			QString line;
+
+			if (node == NULL) {
+				line = changed;
+			} else {
+				if (node->getEmail().isEmpty())
+					line = i18nc("ID: Name", "%1: %2", node->getKeyId(), node->getName());
+				else
+					line = i18nc("ID: Name <Email>", "%1: %2 &lt;%3&gt;", node->getKeyId(), node->getName(), node->getEmail());
+			}
+
+			result.append(QLatin1String(" ") + line + QLatin1String("\n"));
+		}
+	}
+
+	return result;
+}
+
 QString
-KGpgImport::getDetailedImportMessage(const QStringList &log)
+KGpgImport::getDetailedImportMessage(const QStringList &log, const KGpgItemModel *model)
 {
 	QString result;
 	QMap<QString, unsigned int> resultcodes;
@@ -222,9 +254,8 @@ KGpgImport::getDetailedImportMessage(const QStringList &log)
 			Q_ASSERT(flag == 1);
 		}
 
-		result.append(QLatin1String( "\n " ));
-		result.append(thischanged.join( QLatin1String( "\n " )));
-		result.append(QLatin1String( "\n\n" ));
+		result.append(beautifyKeyList(thischanged, model));
+		result.append(QLatin1String("\n\n"));
 	}
 
 	QStringList unchanged(resultcodes.keys(0));
@@ -234,9 +265,8 @@ KGpgImport::getDetailedImportMessage(const QStringList &log)
 		result.chop(1);
 	} else {
 		result.append(i18np("Unchanged Key", "Unchanged Keys", unchanged.count()));
-		result.append(QLatin1String( "\n " ));
-		result.append(unchanged.join( QLatin1String( "\n " )));
-		result.append(QLatin1String( "\n" ));
+		result.append(beautifyKeyList(unchanged, model));
+		result.append(QLatin1String("\n"));
 	}
 
 	return result;

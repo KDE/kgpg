@@ -775,7 +775,7 @@ void KeysManager::slotKeyRefreshDone(int result)
 
 	QApplication::restoreOverrideCursor();
 	(void) new KgpgDetailedInfo(this, message.join(QLatin1String("\n")), log.join(QLatin1String("\n")),
-			KGpgImport::getDetailedImportMessage(log).split(QLatin1Char( '\n' )));
+			KGpgImport::getDetailedImportMessage(log, imodel).split(QLatin1Char('\n')));
 }
 
 void KeysManager::slotDelUid()
