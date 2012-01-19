@@ -86,9 +86,11 @@ void GnupgBinary::setBinary(const QString &executable)
 	m_standardArguments.clear();
 	m_standardArguments << QLatin1String( "--no-secmem-warning" )
 			<< QLatin1String( "--no-tty" )
-			<< QLatin1String("--no-greeting")
-			<< QLatin1String("--options")
-			<< gpgConfigFile;
+			<< QLatin1String("--no-greeting");
+
+	if (!gpgConfigFile.isEmpty())
+		m_standardArguments << QLatin1String("--options")
+				<< gpgConfigFile;
 
 	QStringList debugLevelArguments(QLatin1String("--debug-level"));
 	debugLevelArguments << QLatin1String("none");
