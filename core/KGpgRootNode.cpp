@@ -29,7 +29,7 @@ KGpgRootNode::KGpgRootNode(KGpgItemModel *model)
 	m_deleting(false)
 {
 	m_model = model;
-	addGroups();
+	addGroups(KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath()));
 }
 
 KGpgRootNode::~KGpgRootNode()
@@ -49,12 +49,10 @@ KGpgRootNode::getType() const
 }
 
 void
-KGpgRootNode::addGroups()
+KGpgRootNode::addGroups(const QStringList &groups)
 {
-	const QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
-
-	for (QStringList::const_iterator it = groups.begin(); it != groups.end(); ++it)
-		new KGpgGroupNode(this, QString(*it));
+	foreach (const QString &groupName, groups)
+		new KGpgGroupNode(this, groupName);
 }
 
 void
