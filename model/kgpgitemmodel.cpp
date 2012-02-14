@@ -221,11 +221,13 @@ KGpgGroupNode *
 KGpgItemModel::addGroup(const QString &name, const KGpgKeyNode::List &keys)
 {
 	KGpgGroupNode *nd;
+	const int cIndex = m_root->getChildCount();	// row of the new node
 
-	emit layoutAboutToBeChanged();
+	emit beginInsertRows(QModelIndex(), cIndex, cIndex);
 	nd = new KGpgGroupNode(m_root, name, keys);
-	fixPersistentIndexes();
-	emit layoutChanged();
+	emit endInsertRows();
+
+	Q_ASSERT(m_root->getChildIndex(nd) == cIndex);
 
 	return nd;
 }
@@ -242,7 +244,7 @@ KGpgItemModel::delNode(KGpgNode *node)
 void
 KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 {
-	emit layoutAboutToBeChanged();
+	const QModelIndex gIndex = nodeIndex(node);
 	for (int i = node->getChildCount() - 1; i >= 0; i--) {
 		bool found = false;
 
@@ -253,22 +255,29 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 		}
 		if (found)
 			continue;
+
+		beginRemoveRows(gIndex, i, i);
 		delete node->getChild(i);
+		endRemoveRows();
 	}
+
+	int cnt = node->getChildCount();
 
 	for (int i = 0; i < keys.count(); i++) {
 		bool found = false;
-		for (int j = 0; j < node->getChildCount(); j++) {
+		for (int j = 0; j < cnt; j++) {
 			found = (node->getChild(j)->getId() == keys.at(i)->getId());
 			if (found)
 				break;
 		}
 		if (found)
 			continue;
+
+		beginInsertRows(gIndex, cnt, cnt);
 		new KGpgGroupMemberNode(node, keys.at(i)->toKeyNode());
+		endInsertRows();
+		cnt++;
 	}
-	fixPersistentIndexes();
-	emit layoutChanged();
 }
 
 void
@@ -276,10 +285,12 @@ KGpgItemModel::deleteFromGroup(KGpgGroupNode *group, KGpgGroupMemberNode *member
 {
 	Q_ASSERT(group == member->getParentKeyNode());
 
-	emit layoutAboutToBeChanged();
+	const int childRow = group->getChildIndex(member);
+	const QModelIndex pIndex = nodeIndex(group);
+
+	emit beginRemoveRows(pIndex, childRow, childRow);
 	delete member;
-	fixPersistentIndexes();
-	emit layoutChanged();
+	emit endRemoveRows();
 }
 
 QVariant
@@ -402,16 +413,25 @@ KGpgItemModel::refreshKeyIds(KGpgKeyNode::List &nodes)
 void
 KGpgItemModel::refreshGroups()
 {
-	emit layoutAboutToBeChanged();
 	for (int i = m_root->getChildCount() - 1; i >= 0; i--) {
 		KGpgNode *nd = m_root->getChild(i);
-		if (nd->getType() == ITYPE_GROUP)
-			delete nd;
+		if (nd->getType() != ITYPE_GROUP)
+			continue;
+
+		beginRemoveRows(QModelIndex(), i, i);
+		delete nd;
+		endRemoveRows();
 	}
 
-	m_root->addGroups();
-	fixPersistentIndexes();
-	emit layoutChanged();
+	const QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
+
+	if (groups.isEmpty())
+		return;
+
+	const int oldCount = m_root->getChildCount();
+	beginInsertRows(QModelIndex(), oldCount, oldCount + groups.count());
+	m_root->addGroups(groups);
+	endInsertRows();
 }
 
 bool

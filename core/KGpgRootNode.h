@@ -55,9 +55,10 @@ public:
 	virtual KgpgCore::KgpgItemType getType() const;
 
 	/**
-	 * Read the group definitions from GnuPG config file
+	 * Create new group nodes
+	 * @param groups list of group names to create
 	 */
-	void addGroups();
+	void addGroups(const QStringList &groups);
 	void addKeys(const QStringList &ids = QStringList());
 	void refreshKeys(KGpgKeyNode::List nodes);
 	/**
