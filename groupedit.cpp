@@ -90,7 +90,7 @@ groupEdit::groupAdd()
 	for (int i = 0; i < sel.count(); i++) {
 		if (sel.at(i).column() != 0)
 			continue;
-		KGpgNode *nd = m_out->nodeForIndex(sel.at(i));
+		KGpgNode *nd = m_out->nodeForIndex(m_outFilter->mapToSource(sel.at(i)));
 		members->append(nd);
 	}
 	m_in->invalidate();
@@ -119,7 +119,7 @@ groupEdit::groupRemove()
 void
 groupEdit::groupAdd(const QModelIndex &index)
 {
-	KGpgNode *nd = m_out->nodeForIndex(index);
+	KGpgNode *nd = m_out->nodeForIndex(m_outFilter->mapToSource(index));
 	members->append(nd);
 	m_in->invalidate();
 	m_out->invalidate();
