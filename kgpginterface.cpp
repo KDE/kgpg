@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
  *                                                                         *
@@ -164,7 +165,7 @@ QStringList KgpgInterface::getGpgGroupNames(const QString &configfile)
 	QStringList groups;
 	QFile qfile(configfile);
 
-	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+	if (qfile.exists() && qfile.open(QIODevice::ReadOnly)) {
 		QTextStream t(&qfile);
 		while (!t.atEnd()) {
 			QString result(t.readLine().simplified());

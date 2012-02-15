@@ -1,4 +1,4 @@
-/* Copyright 2008  Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -22,12 +22,14 @@
 #include "convert.h"
 #include <KGlobal>
 #include <KLocale>
+#include <QMetaObject>
 
 KGpgItemModel::KGpgItemModel(QObject *parent)
 	: QAbstractItemModel(parent),
 	m_root(new KGpgRootNode(this)),
 	m_default(KGpgSettings::defaultKey())
 {
+	QMetaObject::invokeMethod(this, "refreshGroups", Qt::QueuedConnection);
 }
 
 KGpgItemModel::~KGpgItemModel()
@@ -223,9 +225,9 @@ KGpgItemModel::addGroup(const QString &name, const KGpgKeyNode::List &keys)
 	KGpgGroupNode *nd;
 	const int cIndex = m_root->getChildCount();	// row of the new node
 
-	emit beginInsertRows(QModelIndex(), cIndex, cIndex);
+	beginInsertRows(QModelIndex(), cIndex, cIndex);
 	nd = new KGpgGroupNode(m_root, name, keys);
-	emit endInsertRows();
+	endInsertRows();
 
 	Q_ASSERT(m_root->getChildIndex(nd) == cIndex);
 
@@ -235,10 +237,9 @@ KGpgItemModel::addGroup(const QString &name, const KGpgKeyNode::List &keys)
 void
 KGpgItemModel::delNode(KGpgNode *node)
 {
-	emit layoutAboutToBeChanged();
+	beginResetModel();
 	delete node;
-	fixPersistentIndexes();
-	emit layoutChanged();
+	endResetModel();
 }
 
 void
@@ -288,9 +289,9 @@ KGpgItemModel::deleteFromGroup(KGpgGroupNode *group, KGpgGroupMemberNode *member
 	const int childRow = group->getChildIndex(member);
 	const QModelIndex pIndex = nodeIndex(group);
 
-	emit beginRemoveRows(pIndex, childRow, childRow);
+	beginRemoveRows(pIndex, childRow, childRow);
 	delete member;
-	emit endRemoveRows();
+	endRemoveRows();
 }
 
 QVariant
@@ -376,7 +377,7 @@ KGpgItemModel::refreshKeys(const QStringList &ids)
 void
 KGpgItemModel::refreshKeyIds(const QStringList &ids)
 {
-	emit layoutAboutToBeChanged();
+	beginResetModel();
 	if (ids.isEmpty()) {
 		for (int i = m_root->getChildCount() - 1; i >= 0; i--) {
 			KGpgNode *nd = m_root->getChild(i);
@@ -395,8 +396,7 @@ KGpgItemModel::refreshKeyIds(const QStringList &ids)
 	}
 
 	m_root->addKeys(ids);
-	fixPersistentIndexes();
-	emit layoutChanged();
+	endResetModel();
 }
 
 void
@@ -404,10 +404,9 @@ KGpgItemModel::refreshKeyIds(KGpgKeyNode::List &nodes)
 {
 	QStringList ids;
 
-	emit layoutAboutToBeChanged();
+	beginResetModel();
 	m_root->refreshKeys(nodes);
-	fixPersistentIndexes();
-	emit layoutChanged();
+	endResetModel();
 }
 
 void
@@ -438,25 +437,6 @@ bool
 KGpgItemModel::isDefaultKey(const KGpgNode *node) const
 {
 	return !m_default.isEmpty() && (m_default == node->getId().right(m_default.length()));
-}
-
-void
-KGpgItemModel::fixPersistentIndexes()
-{
-	foreach (const QModelIndex &idx, persistentIndexList()) {
-		if (!idx.isValid())
-			continue;
-
-		KGpgNode *nd = nodeForIndex(idx);
-		int j = rowForNode(nd);
-		if (j == idx.row())
-			continue;
-
-		if (j >= 0)
-			changePersistentIndex(idx, createIndex(j, idx.column(), nd));
-		else
-			changePersistentIndex(idx, QModelIndex());
-	}
 }
 
 void
