@@ -1,4 +1,4 @@
-/* Copyright 2008  Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2010,2012  Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -169,7 +169,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 	gridLayout->setMargin(11);
 	gridLayout->setContentsMargins(0, 0, 0, 0);
 
-	QHBoxLayout *hboxLayout = new QHBoxLayout(page);
+	QHBoxLayout *hboxLayout = new QHBoxLayout();
 	hboxLayout->setSpacing(6);
 	label = new QLabel(page);
 	label->setText(i18n("Your default key:"));
@@ -193,7 +193,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	page_defaultkey = addPage(page, i18n("Default Key"));
 
-	page = new QWidget();
+	page = new QWidget(this);
 
 	gridLayout = new QGridLayout(page);
 	gridLayout->setSpacing(6);
