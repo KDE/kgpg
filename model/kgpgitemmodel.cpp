@@ -22,12 +22,14 @@
 #include "convert.h"
 #include <KGlobal>
 #include <KLocale>
+#include <QMetaObject>
 
 KGpgItemModel::KGpgItemModel(QObject *parent)
 	: QAbstractItemModel(parent),
 	m_root(new KGpgRootNode(this)),
 	m_default(KGpgSettings::defaultKey())
 {
+	QMetaObject::invokeMethod(this, "refreshGroups", Qt::QueuedConnection);
 }
 
 KGpgItemModel::~KGpgItemModel()
