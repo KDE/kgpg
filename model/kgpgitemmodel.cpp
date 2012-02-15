@@ -1,4 +1,4 @@
-/* Copyright 2008  Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -223,9 +223,9 @@ KGpgItemModel::addGroup(const QString &name, const KGpgKeyNode::List &keys)
 	KGpgGroupNode *nd;
 	const int cIndex = m_root->getChildCount();	// row of the new node
 
-	emit beginInsertRows(QModelIndex(), cIndex, cIndex);
+	beginInsertRows(QModelIndex(), cIndex, cIndex);
 	nd = new KGpgGroupNode(m_root, name, keys);
-	emit endInsertRows();
+	endInsertRows();
 
 	Q_ASSERT(m_root->getChildIndex(nd) == cIndex);
 
@@ -288,9 +288,9 @@ KGpgItemModel::deleteFromGroup(KGpgGroupNode *group, KGpgGroupMemberNode *member
 	const int childRow = group->getChildIndex(member);
 	const QModelIndex pIndex = nodeIndex(group);
 
-	emit beginRemoveRows(pIndex, childRow, childRow);
+	beginRemoveRows(pIndex, childRow, childRow);
 	delete member;
-	emit endRemoveRows();
+	endRemoveRows();
 }
 
 QVariant
