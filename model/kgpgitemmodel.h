@@ -1,4 +1,4 @@
-/* Copyright 2008  Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -93,7 +93,6 @@ protected:
 	void refreshKeyIds(const QStringList &id);
 	void refreshKeyIds(KGpgKeyNode::List &nodes);
 	bool isDefaultKey(const KGpgNode *node) const;
-	void fixPersistentIndexes();
 	void updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::KgpgKeyTrust trust, const QColor &color);
 };
 
