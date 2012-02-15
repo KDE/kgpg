@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  * Copyright (C) 2011 Luis Ángel Fernández Fernández <laffdez@gmail.com>
  */
 
@@ -20,6 +21,7 @@
 #include <QKeySequence>
 #include <QTextStream>
 #include <QClipboard>
+#include <QMetaObject>
 #include <QPainter>
 #include <QPrinter>
 #include <QPrintDialog>
@@ -467,7 +469,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 	stateChanged("empty_list");
 
-	QTimer::singleShot(0, this, SLOT(refreshkey()));
+	QMetaObject::invokeMethod(this, "refreshkey", Qt::QueuedConnection);
 }
 
 KeysManager::~KeysManager()

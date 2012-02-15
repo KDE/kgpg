@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,6 +14,7 @@
 #include "foldercompressjob.h"
 
 #include <QDir>
+#include <QMetaObject>
 #include <QTimer>
 
 #include <KArchive>
@@ -44,7 +45,7 @@ void
 FolderCompressJob::start()
 {
 	emit description(this, m_description, qMakePair(i18nc("State of operation as in status", "State"), i18nc("Job is started up", "Startup")));
-	QTimer::singleShot(0, this, SLOT(doWork()));
+	QMetaObject::invokeMethod(this, "doWork", Qt::QueuedConnection);
 }
 
 void
