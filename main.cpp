@@ -1,10 +1,8 @@
-/***************************************************************************
-                          main.cpp  -  description
-                             -------------------
-    begin                : Mon Jul 8 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -27,7 +25,7 @@
 static const char description[] =
         I18N_NOOP("KGpg - simple gui for gpg\n\nKGpg was designed to make gpg very easy to use.\nI tried to make it as secure as possible.\nHope you enjoy it.");
 
-static const char version[] = "2.7.0";
+static const char version[] = "2.7.1";
 
 int main(int argc, char *argv[])
 {
