@@ -1,10 +1,7 @@
-/***************************************************************************
-                          keyservers.cpp  -  description
-                             -------------------
-    begin                : Tue Nov 26 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2006,2007,2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -326,9 +323,9 @@ void KeyServer::slotPreImport()
 		KMessageBox::sorry(this, i18n("You must choose a key."));
 		return;
 	}
-	page->kLEimportid->setText(m_listpop->kLEID->text());
+	const QStringList keys = m_listpop->kLEID->text().simplified().split(QLatin1Char(' '));
 	m_dialogserver->close();
-	slotImport();
+	startImport(keys, page->kCBimportks->currentText(), page->kLEproxyI->text());
 }
 
 void KeyServer::slotPreExport()
