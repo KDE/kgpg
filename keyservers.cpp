@@ -36,8 +36,6 @@
 #include "kgpgsendkeys.h"
 #include "kgpgimport.h"
 
-using namespace KgpgCore;
-
 KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose)
 	: KDialog(parent),
 	m_searchproc(NULL),
