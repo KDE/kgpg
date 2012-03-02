@@ -79,6 +79,10 @@ KGpgTextOrFileTransaction::preStart()
 	QStringList args(QLatin1String("--status-fd=1"));
 
 	args << command();
+	// if the input is not stdin set command-fd so GnuPG
+	// can ask if e.g. the file already exists
+	if (!locfiles.isEmpty() && !m_tempfiles.isEmpty())
+		args << QLatin1String("--command-fd=0");
 	if (locfiles.count() + m_tempfiles.count() > 1)
 		args << QLatin1String("--multifile");
 	args << locfiles << m_tempfiles;

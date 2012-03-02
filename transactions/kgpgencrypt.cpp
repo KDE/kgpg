@@ -15,8 +15,11 @@
 
 #include <gpgproc.h>
 #include <kgpginterface.h>
+#include <kio/renamedialog.h>
 
 #include <KLocale>
+
+#include "kgpgsettings.h"
 
 static QStringList trustOptions(const QString &binary)
 {
@@ -107,6 +110,7 @@ KGpgEncrypt::nextLine(const QString &line)
 	if (!inputFiles.isEmpty()) {
 		static const QString encStart = QLatin1String("[GNUPG:] FILE_START 2 ");
 		static const QString encDone = QLatin1String("[GNUPG:] FILE_DONE");
+		static const QString askName = QLatin1String("[GNUPG:] GET_LINE openfile.askoutname");
 
 		if (line.startsWith(encStart)) {
 			m_currentFile = line.mid(encStart.length());
@@ -116,10 +120,34 @@ KGpgEncrypt::nextLine(const QString &line)
 			emit statusMessage(i18nc("Status message 'Encrypted <filename>' (operation was completed)", "Encrypted %1", m_currentFile));
 			m_fileIndex++;
 			emit infoProgress(2 * m_fileIndex, inputFiles.count() * 2);
+		} else if (line == askName) {
+			QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(qobject_cast<QWidget *>(parent()),
+					i18n("File Already Exists"), KUrl(),
+					KUrl::fromPath(m_currentFile + encryptExtension(m_options.testFlag(AsciiArmored))),
+					KIO::M_OVERWRITE);
+
+			if (over->exec() != QDialog::Accepted) {
+				delete over;
+				setSuccess(KGpgTransaction::TS_USER_ABORTED);
+				return true;
+			}
+			write(over->newDestUrl().path().toUtf8());
+			delete over;
 		}
 	}
 
 	return KGpgTextOrFileTransaction::nextLine(line);
+}
+
+QString
+KGpgEncrypt::encryptExtension(const bool ascii)
+{
+	if (ascii)
+		return QLatin1String( ".asc" );
+	else if (KGpgSettings::pgpExtension())
+		return QLatin1String( ".pgp" );
+	else
+		return QLatin1String( ".gpg" );
 }
 
 #include "kgpgencrypt.moc"

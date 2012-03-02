@@ -70,6 +70,13 @@ public:
 	 */
 	QStringList encryptedText() const;
 
+	/**
+	 * @brief return the preferred extension for encrypted files
+	 * @param ascii if the file is encrypted with ASCII armor
+	 * @return the file extension with leading dot
+	 */
+	static QString encryptExtension(const bool ascii);
+
 protected:
 	virtual QStringList command() const;
 	virtual bool nextLine(const QString &line);
