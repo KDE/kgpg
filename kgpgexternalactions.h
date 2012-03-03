@@ -25,7 +25,6 @@
 class KeysManager;
 class KGpgFirstAssistant;
 class KGpgItemModel;
-class KgpgLibrary;
 class KgpgSelectPublicKeyDlg;
 class KGpgTextInterface;
 class KJob;
@@ -64,7 +63,6 @@ public slots:
 	void signDroppedFile();
 	void showDroppedFile();
 
-	void busyMessage(const QString &mssge);
 	void slotVerifyFile();
 	void encryptDroppedFolder();
 	void startFolderEncode();

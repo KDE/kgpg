@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -32,22 +32,15 @@ public:
 	KGpgTextInterfacePrivate();
 
 	GPGProc *m_process;
-	bool m_ok;
-	bool m_badmdc;
 	bool m_badpassword;
 	bool m_anonymous;
 	bool m_signmiss;
-	bool m_forcefail;
 	int m_step;
-	int m_textlength;
 	QString m_message;
 	QString m_signID;
 	QStringList m_userIDs;
 	QStringList m_gpgopts;
-	QByteArray m_tmpmessage;
-	QByteArray m_readin;
 	KUrl m_file;
-	KUrl m_dest;
 	KUrl::List m_files;
 	KUrl::List m_errfiles;
 
@@ -72,14 +65,10 @@ static bool isUtf8Lang(const QByteArray &lc)
 //krazy:endcond=strings
 
 KGpgTextInterfacePrivate::KGpgTextInterfacePrivate()
-	: m_ok(false),
-	m_badmdc(false),
-	m_badpassword(false),
+	: m_badpassword(false),
 	m_anonymous(false),
 	m_signmiss(false),
-	m_forcefail(false),
 	m_step(3),
-	m_textlength(-1),
 	m_consoleUtf8(true)
 {
 	const QByteArray lcMess = qgetenv("LC_MESSAGES");
@@ -290,68 +279,6 @@ KGpgTextInterface::verifyTextFin()
 
 		emit txtVerifyFinished(d->m_signID, d->m_message);
 	}
-}
-
-void
-KGpgTextInterface::encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options, const bool &symetrical)
-{
-	d->m_file = srcurl;
-
-	*d->m_process << options;
-
-	if (!options.contains( QLatin1String( "--output" )))
-		*d->m_process << QLatin1String( "--output" ) << desturl.path();
-
-	if (!symetrical) {
-		*d->m_process << QLatin1String( "-e" );
-		foreach (const QString &enckey, encryptkeys)
-			*d->m_process << QLatin1String( "--recipient" ) << enckey;
-	} else
-		*d->m_process << QLatin1String( "-c" );
-
-	*d->m_process << srcurl.path();
-
-	connect(d->m_process, SIGNAL(readReady()), this, SLOT(fileReadEncProcess()));
-	connect(d->m_process, SIGNAL(processExited()), this, SLOT(fileEncryptFin()));
-	d->m_process->start();
-}
-
-void
-KGpgTextInterface::fileReadEncProcess()
-{
-	QString line;
-
-	while (d->m_process->readln(line) >= 0) {
-		kDebug(2100) << line ;
-		if (line.startsWith(QLatin1String("[GNUPG:]"))) {
-			if (line.contains( QLatin1String( "BEGIN_ENCRYPTION" ))) {
-			} else if (line.contains( QLatin1String( "GET_" ) )) {
-				if (line.contains( QLatin1String( "openfile.overwrite.okay" ))) {
-					d->m_process->write("Yes\n");
-				} else if (line.contains( QLatin1String( "passphrase.enter" ))) {
-					if (d->symPassphrase())
-						return;
-				} else {
-					d->m_process->write("quit\n");
-				}
-			} else if (line.contains( QLatin1String( "END_ENCRYPTION" ))) {
-				d->m_ok = true;
-			} else {
-				d->m_message += line + QLatin1Char( '\n' );
-			}
-		} else {
-			d->m_message += line + QLatin1Char( '\n' );
-		}
-	}
-}
-
-void
-KGpgTextInterface::fileEncryptFin()
-{
-	if (d->m_ok)
-		emit fileEncryptionFinished(d->m_file);
-	else
-		emit errorMessage(d->m_message);
 }
 
 void

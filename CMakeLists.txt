@@ -102,7 +102,6 @@ set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transac
    klinebufferedprocess.cpp
    keyservers.cpp
    detailedconsole.cpp
-   kgpglibrary.cpp
    keyinfodialog.cpp
    newkey.cpp
    keyexport.cpp

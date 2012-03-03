@@ -34,7 +34,6 @@
 #include "keysmanager.h"
 #include "kgpgeditor.h"
 #include "kgpgfirstassistant.h"
-#include "kgpglibrary.h"
 #include "kgpgsettings.h"
 #include "kgpgtextinterface.h"
 #include "kgpgtextedit.h"
@@ -44,6 +43,7 @@
 #include "transactions/kgpgdecrypt.h"
 #include "foldercompressjob.h"
 #include "kgpgencrypt.h"
+#include "kgpgtransactionjob.h"
 
 KGpgExternalActions::KGpgExternalActions(KeysManager *parent, KGpgItemModel *model)
 	: QObject(parent),
@@ -60,17 +60,51 @@ KGpgExternalActions::~KGpgExternalActions()
 void KGpgExternalActions::encryptDroppedFile()
 {
 	QStringList opts;
-	KgpgLibrary *lib = new KgpgLibrary(0);
-	connect(lib, SIGNAL(systemMessage(QString)), SLOT(busyMessage(QString)));
+	QString defaultKey;
+
+	if (droppedUrls.isEmpty())
+		return;
 
 	if (KGpgSettings::encryptFilesTo()) {
 		if (KGpgSettings::pgpCompatibility())
 			opts << QLatin1String( "--pgp6" );
 
-		lib->slotFileEnc(droppedUrls, opts, m_model, goDefaultKey(), KGpgSettings::fileEncryptionKey());
-	} else {
-		lib->slotFileEnc(droppedUrls, opts, m_model, goDefaultKey());
+		defaultKey = KGpgSettings::fileEncryptionKey();
 	}
+
+	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(0, m_model, goDefaultKey(), false, droppedUrls);
+	if (dialog->exec() == KDialog::Accepted) {
+		KGpgEncrypt::EncryptOptions eopt = KGpgEncrypt::DefaultEncryption;
+
+		if (dialog->getUntrusted())
+			eopt |= KGpgEncrypt::AllowUntrustedEncryption;
+		if (dialog->getArmor())
+			eopt |= KGpgEncrypt::AsciiArmored;
+		if (dialog->getHideId())
+			eopt |= KGpgEncrypt::HideKeyId;
+
+		if (KGpgSettings::allowCustomEncryptionOptions()) {
+			const QString customopts(dialog->getCustomOptions().isEmpty());
+
+			if (!customopts.isEmpty())
+				opts << customopts.split(QLatin1Char(' '), QString::SkipEmptyParts);
+		}
+
+		QStringList keys(dialog->selectedKeys());
+		if (!defaultKey.isEmpty() && !keys.contains(defaultKey))
+			keys.append(defaultKey);
+
+		if (dialog->getSymmetric())
+			keys.clear();
+
+		KGpgEncrypt *enc = new KGpgEncrypt(parent(), keys, droppedUrls, eopt, opts);
+		KGpgTransactionJob *encjob = new KGpgTransactionJob(enc);
+
+		KIO::getJobTracker()->registerJob(encjob);
+		encjob->start();
+	}
+
+	delete dialog;
 }
 
 void KGpgExternalActions::encryptDroppedFolder()
@@ -203,16 +237,6 @@ void KGpgExternalActions::slotFolderFinished(KJob *job)
 	kgpgfoldertmp = NULL;
 	if (trayinfo->error())
 		KMessageBox::sorry(m_keysmanager, trayinfo->errorString());
-}
-
-void KGpgExternalActions::busyMessage(const QString &mssge)
-{
-	if (!mssge.isEmpty()) {
-#ifdef __GNUC__
-#warning FIXME: this need to be ported
-#endif
-// 		trayIcon->setToolTip(mssge);
-	}
 }
 
 void KGpgExternalActions::encryptFiles(KUrl::List urls)

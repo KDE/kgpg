@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -51,16 +51,6 @@ signals:
     void txtVerifyFinished(QString, QString);
 
     /**
-     *  emitted when an error occurred
-     */
-    void errorMessage(const QString &);
-
-    /**
-     *  true if encryption successful, false on error.
-     */
-    void fileEncryptionFinished(KUrl);
-
-    /**
      * Emitted when all files passed to KgpgSignFile() where processed.
      * Passes as argument the files that failed.
      */
@@ -80,16 +70,6 @@ public Q_SLOTS:
      * @param text QString text to be verified.
      */
     void verifyText(const QString &text);
-
-    /**
-     * Encrypt file function
-     * @param encryptkeys the recipients key id's
-     * @param srcurl file to encrypt
-     * @param desturl encrypted file will be stored here
-     * @param options additional gpg options, e.g. "--armor"
-     * @param symetrical whether the encryption should be symmetrical.
-     */
-    void encryptFile(const QStringList &encryptkeys, const KUrl &srcurl, const KUrl &desturl, const QStringList &options = QStringList(), const bool &symetrical = false);
 
     /**
      * Sign file function
@@ -121,16 +101,6 @@ private Q_SLOTS:
     void signTextFin();
 
     void verifyTextFin();
-
-    /**
-     * Reads output of the current encryption process + allow overwriting of a file
-     */
-    void fileReadEncProcess();
-
-    /**
-     * Checks if the encrypted file was saved.
-     */
-    void fileEncryptFin();
 
 	void slotSignFile(int);
 	void slotSignFinished(int);
