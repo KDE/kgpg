@@ -637,7 +637,7 @@ void KgpgEditor::slotSignFile(const KUrl &url)
         Options << QLatin1String( "--detach-sign" );
 
         KGpgTextInterface *interface = new KGpgTextInterface();
-        //TODO connect(interface, SIGNAL(...), this, SLOT(slotSignFileFin()));
+        connect(interface, SIGNAL(fileSignFinished(KUrl::List&)), SLOT(slotSignFileFin()));
         interface->signFiles(signKeyID, url, Options);
     }
 }
