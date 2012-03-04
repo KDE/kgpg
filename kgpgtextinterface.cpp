@@ -390,8 +390,6 @@ KGpgTextInterface::slotSignFile(int err)
 	} else {
 		connect(d->m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotSignFile(int)));
 	}
-
-	d->m_process->start();
 }
 
 void
