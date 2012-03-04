@@ -303,8 +303,14 @@ void KGpgExternalActions::signDroppedFile()
 		Options << QLatin1String( "--pgp6" );
 	Options << QLatin1String( "--detach-sign" );
 
-	KGpgTextInterface signFileProcess;
-	signFileProcess.signFilesBlocking(signKeyID, droppedUrls, Options);
+	KGpgTextInterface *signFileProcess = new KGpgTextInterface(this);
+	connect(signFileProcess, SIGNAL(fileSignFinished(KUrl::List&)), SLOT(slotSigningFinished()));
+	signFileProcess->signFiles(signKeyID, droppedUrls, Options);
+}
+
+void KGpgExternalActions::slotSigningFinished()
+{
+	sender()->deleteLater();
 }
 
 void KGpgExternalActions::decryptDroppedFile()

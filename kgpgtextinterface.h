@@ -78,7 +78,6 @@ public Q_SLOTS:
      * @param options additional gpg options, e.g. "--armor"
      */
     void signFiles(const QString &keyID, const KUrl::List &srcUrl, const QStringList &options = QStringList());
-    void signFilesBlocking(const QString &keyID, const KUrl::List &srcUrls, const QStringList &options);
 
     /**Verify file function
      * @param sigUrl signature file.

@@ -96,6 +96,7 @@ private slots:
 	void slotDecryptionDone(int status);
 	void decryptFile();
 	void slotFolderFinished(KJob *job);
+	void slotSigningFinished();
 };
 
 #endif /* _KGPGEXTERNALACTIONS_H */

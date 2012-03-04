@@ -365,18 +365,6 @@ KGpgTextInterface::signFiles(const QString &keyID, const KUrl::List &srcUrls, co
 }
 
 void
-KGpgTextInterface::signFilesBlocking(const QString &keyID, const KUrl::List &srcUrls, const QStringList &options)
-{
-	d->m_signID = keyID;
-	d->m_gpgopts = options;
-
-	foreach (const KUrl &url, srcUrls) {
-		d->signFile(url);
-		d->m_process->waitForFinished(-1);
-		d->m_process->resetProcess();
-	}
-}
-void
 KGpgTextInterface::slotSignFile(int err)
 {
 	if (err != 0)
