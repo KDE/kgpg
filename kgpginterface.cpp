@@ -14,9 +14,7 @@
 
 #include "kgpginterface.h"
 
-#include <QDir>
 #include <QFile>
-#include <QPixmap>
 #include <QPointer>
 #include <QRegExp>
 #include <QString>
@@ -31,7 +29,6 @@
 #include <KConfig>
 #include <KDebug>
 #include <KGlobal>
-#include <KUrl>
 
 #include "detailedconsole.h"
 #include "kgpgsettings.h"
@@ -587,37 +584,6 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
 	KgpgCore::KgpgKeyList result = readSecretKeysProcess(process);
 
 	return result;
-}
-
-QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid)
-{
-#ifdef Q_OS_WIN32	//krazy:exclude=cpp
-	const QString pgpgoutput = QLatin1String("cmd /C \"echo %I\"");
-#else
-	const QString pgpgoutput = QLatin1String("echo %I");
-#endif
-
-	GPGProc workProcess;
-	workProcess << QLatin1String( "--no-greeting" ) << QLatin1String( "--status-fd=2" );
-        workProcess << QLatin1String( "--photo-viewer" ) << pgpgoutput << QLatin1String( "--edit-key" ) << keyid << QLatin1String( "uid" ) << uid << QLatin1String( "showphoto" ) << QLatin1String( "quit" );
-
-	workProcess.start();
-	workProcess.waitForFinished();
-	if (workProcess.exitCode() != 0)
-		return QPixmap();
-
-	QString tmpfile;
-	if (workProcess.readln(tmpfile) < 0)
-		return QPixmap();
-
-	KUrl url(tmpfile);
-	QPixmap pixmap;
-	pixmap.load(url.path());
-	QFile::remove(url.path());
-	QDir dir;
-	dir.rmdir(url.directory());
-
-	return pixmap;
 }
 
 #include "kgpginterface.moc"

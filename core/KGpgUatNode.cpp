@@ -18,36 +18,80 @@
  */
 #include "KGpgUatNode.h"
 
-#include <KLocale>
+#include "gpgproc.h"
+#include "KGpgKeyNode.h"
 
+#include <KLocale>
+#include <KUrl>
+
+#include <QDir>
+#include <QFile>
 #include <QPixmap>
 #include <QDateTime>
 
-#include "kgpginterface.h"
-#include "KGpgKeyNode.h"
-
 class KGpgUatNodePrivate {
 public:
-	KGpgUatNodePrivate(const unsigned int index, const QStringList &sl);
+	KGpgUatNodePrivate(const KGpgKeyNode *parent, const unsigned int index, const QStringList &sl);
 
-	QPixmap m_pixmap;
 	const QString m_idx;
+	const QPixmap m_pixmap;
 	QDateTime m_creation;
+
+private:
+	static QPixmap loadImage(const KGpgKeyNode *parent, const QString &index);
 };
 
-KGpgUatNodePrivate::KGpgUatNodePrivate(const unsigned int index, const QStringList &sl)
-	: m_idx(QString::number(index))
+KGpgUatNodePrivate::KGpgUatNodePrivate(const KGpgKeyNode *parent, const unsigned int index, const QStringList &sl)
+	: m_idx(QString::number(index)),
+	m_pixmap(loadImage(parent, m_idx))
 {
 	if (sl.count() < 6)
 		return;
 	m_creation = QDateTime::fromTime_t(sl.at(5).toUInt());
 }
 
+QPixmap
+KGpgUatNodePrivate::loadImage(const KGpgKeyNode *parent, const QString &index)
+{
+	QPixmap pixmap;
+#ifdef Q_OS_WIN32	//krazy:exclude=cpp
+	const QString pgpgoutput = QLatin1String("cmd /C \"echo %I\"");
+#else
+	const QString pgpgoutput = QLatin1String("echo %I");
+#endif
+
+	GPGProc workProcess;
+	workProcess <<
+			QLatin1String("--no-greeting") <<
+			QLatin1String("--status-fd=2") <<
+			QLatin1String("--photo-viewer") << pgpgoutput <<
+			QLatin1String("--edit-key") << parent->getKeyId() <<
+			QLatin1String( "uid" ) << index <<
+			QLatin1String( "showphoto" ) <<
+			QLatin1String( "quit" );
+
+	workProcess.start();
+	workProcess.waitForFinished();
+	if (workProcess.exitCode() != 0)
+		return pixmap;
+
+	QString tmpfile;
+	if (workProcess.readln(tmpfile) < 0)
+		return pixmap;
+
+	KUrl url(tmpfile);
+	pixmap.load(url.path());
+	QFile::remove(url.path());
+	QDir dir;
+	dir.rmdir(url.directory());
+
+	return pixmap;
+}
+
 KGpgUatNode::KGpgUatNode(KGpgKeyNode *parent, const unsigned int index, const QStringList &sl)
 	: KGpgSignableNode(parent),
-	d_ptr(new KGpgUatNodePrivate(index, sl))
+	d_ptr(new KGpgUatNodePrivate(parent, index, sl))
 {
-	d_ptr->m_pixmap = KgpgInterface::loadPhoto(parent->getKeyId(), d_ptr->m_idx);
 }
 
 KGpgUatNode::~KGpgUatNode()

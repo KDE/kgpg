@@ -90,8 +90,6 @@ public:
     KgpgCore::KgpgKeyList readPublicKeys(const QStringList &ids = QStringList());
     KgpgCore::KgpgKey readSignatures(KGpgKeyNode *node);
     KgpgCore::KgpgKeyList readSecretKeys(const QStringList &ids = QStringList());
-
-    static QPixmap loadPhoto(const QString &keyid, const QString &uid);
 };
 
 #endif // KGPGINTERFACE_H
