@@ -65,7 +65,7 @@ KGpgRootNode::addKeys(const QStringList &ids)
 {
 	KgpgInterface *interface = new KgpgInterface();
 
-	KgpgCore::KgpgKeyList publiclist = interface->readPublicKeys(true, ids);
+	KgpgCore::KgpgKeyList publiclist = interface->readPublicKeys(ids);
 	KgpgCore::KgpgKeyList secretlist = interface->readSecretKeys();
 
 	delete interface;
@@ -103,7 +103,7 @@ KGpgRootNode::refreshKeys(KGpgKeyNode::List nodes)
 
 	KgpgInterface *interface = new KgpgInterface();
 
-	KgpgCore::KgpgKeyList publiclist = interface->readPublicKeys(true, ids);
+	KgpgCore::KgpgKeyList publiclist = interface->readPublicKeys(ids);
 	QStringList issec = interface->readSecretKeys(ids);
 
 	delete interface;

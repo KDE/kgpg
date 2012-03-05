@@ -46,8 +46,6 @@
 using namespace KgpgCore;
 
 KgpgInterface::KgpgInterface()
-	: m_readNode(NULL),
-	m_currentSNode(NULL)
 {
 }
 
@@ -325,90 +323,46 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const 
 	return 0;
 }
 
-KgpgKeyList KgpgInterface::readPublicKeys(const bool block, const QStringList &ids)
-{
-	m_publiclistkeys.clear();
-	m_publickey = KgpgKey();
-	m_numberid = 0;
-
-	GPGProc *process = new GPGProc(this);
-	*process << QLatin1String( "--with-colons" ) << QLatin1String( "--with-fingerprint" ) << QLatin1String( "--fixed-list-mode" ) << QLatin1String( "--list-keys" );
-
-	*process << ids;
-	process->setOutputChannelMode(KProcess::MergedChannels);
-
-	if (!block) {
-		connect(process, SIGNAL(readReady()), SLOT(readPublicKeysProcess()));
-		connect(process, SIGNAL(processExited()), SLOT(readPublicKeysFin()));
-		process->start();
-		return KgpgKeyList();
-	} else {
-		process->start();
-		process->waitForFinished(-1);
-		readPublicKeysProcess(process);
-		readPublicKeysFin(process, true);
-		return m_publiclistkeys;
-	}
-}
-
-KgpgCore::KgpgKey KgpgInterface::readSignatures(KGpgKeyNode *node)
-{
-	m_readNode = node;
-
-	m_publiclistkeys.clear();
-	m_publickey = KgpgKey();
-	m_numberid = 0;
-
-	GPGProc *process = new GPGProc(this);
-	*process << QLatin1String( "--with-colons" ) << QLatin1String( "--with-fingerprint" ) << QLatin1String( "--fixed-list-mode" ) << QLatin1String( "--list-sigs" );
-
-	*process << node->getId();
-	process->setOutputChannelMode(KProcess::MergedChannels);
-
-	process->start();
-	process->waitForFinished(-1);
-	readPublicKeysProcess(process);
-	readPublicKeysFin(process, true);
-
-	if (m_publiclistkeys.isEmpty())
-		return KgpgCore::KgpgKey();
-	else
-		return m_publiclistkeys.first();
-}
-
-void KgpgInterface::readPublicKeysProcess(GPGProc *p)
+/**
+ * @param p the process that reads the GnuPG data
+ * @param readNode the node where the signatures are read for
+ */
+static KgpgCore::KgpgKeyList
+readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 {
 	QStringList lsp;
 	int items;
-	if (p == NULL)
-		p = qobject_cast<GPGProc *>(sender());
+	KgpgCore::KgpgKeyList publiclistkeys;
+	KgpgCore::KgpgKey *publickey = NULL;
+	unsigned int idIndex = 0;
+	QString log;
+	KGpgSignableNode *currentSNode = NULL;	///< the current (sub)node signatures are read for
 
-	while ((items = p->readln(lsp)) >= 0) {
+	while ((items = p.readln(lsp)) >= 0) {
 		if ((lsp.at(0) == QLatin1String( "pub" )) && (items >= 10)) {
-			if (!m_publickey.name().isEmpty())
-				m_publiclistkeys << m_publickey;
+			publiclistkeys << KgpgKey();
 
-			m_publickey = KgpgKey();
+			publickey = &publiclistkeys.last();
 
-			m_publickey.setTrust(Convert::toTrust(lsp.at(1)));
-			m_publickey.setSize(lsp.at(2).toUInt());
-			m_publickey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-			m_publickey.setFingerprint(lsp.at(4));
-			m_publickey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
-			m_publickey.setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
+			publickey->setTrust(Convert::toTrust(lsp.at(1)));
+			publickey->setSize(lsp.at(2).toUInt());
+			publickey->setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
+			publickey->setFingerprint(lsp.at(4));
+			publickey->setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
+			publickey->setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
 
 			if (lsp.at(6).isEmpty())
-				m_publickey.setExpiration(QDateTime());
+				publickey->setExpiration(QDateTime());
 			else
-				m_publickey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
+				publickey->setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
 
-			m_publickey.setValid((items <= 11) || !lsp.at(11).contains(QLatin1Char( 'D' ), Qt::CaseSensitive));  // disabled key
+			publickey->setValid((items <= 11) || !lsp.at(11).contains(QLatin1Char( 'D' ), Qt::CaseSensitive));  // disabled key
 
-			m_numberid = 0;
+			idIndex = 0;
 		} else if ((lsp.at(0) == QLatin1String( "fpr" )) && (items >= 10)) {
 			const QString fingervalue(lsp.at(9));
 
-			m_publickey.setFingerprint(fingervalue);
+			publickey->setFingerprint(fingervalue);
 		} else if ((lsp.at(0) == QLatin1String( "sub" )) && (items >= 7)) {
 			KgpgKeySub sub;
 
@@ -439,18 +393,18 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			else
 				sub.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
 
-			m_publickey.subList()->append(sub);
-			if (m_readNode == NULL)
-				m_currentSNode = NULL;
+			publickey->subList()->append(sub);
+			if (readNode == NULL)
+				currentSNode = NULL;
 			else
-				m_currentSNode = new KGpgSubkeyNode(m_readNode, sub);
+				currentSNode = new KGpgSubkeyNode(readNode, sub);
 		} else if (lsp.at(0) == QLatin1String( "uat" )) {
-			m_numberid++;
-			if (m_readNode != NULL) {
-				m_currentSNode = new KGpgUatNode(m_readNode, m_numberid, lsp);
+			idIndex++;
+			if (readNode != NULL) {
+				currentSNode = new KGpgUatNode(readNode, idIndex, lsp);
 			}
 		} else if ((lsp.at(0) == QLatin1String( "uid" )) && (items >= 10)) {
-			if (m_numberid == 0) {
+			if (idIndex == 0) {
 				QString fullname(lsp.at(9));
 				QString kmail;
 				if (fullname.contains(QLatin1Char( '<' )) ) {
@@ -477,98 +431,101 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 					comment = comment.section(QLatin1Char( ')' ), 0, 0);
 				}
 
-				m_numberid++;
-				m_publickey.setEmail(kmail);
-				m_publickey.setComment(comment);
-				m_publickey.setName(kname);
+				idIndex++;
+				publickey->setEmail(kmail);
+				publickey->setComment(comment);
+				publickey->setName(kname);
 
-				m_currentSNode = m_readNode;
+				currentSNode = readNode;
 			} else {
-				m_numberid++;
-				if (m_readNode != NULL) {
-					m_currentSNode = new KGpgUidNode(m_readNode, m_numberid, lsp);
+				idIndex++;
+				if (readNode != NULL) {
+					currentSNode = new KGpgUidNode(readNode, idIndex, lsp);
 				}
 			}
 		} else if (((lsp.at(0) == QLatin1String( "sig" )) || (lsp.at(0) == QLatin1String( "rev" ))) && (items >= 11)) {
 			// there are no strings here that could have a recoded QLatin1Char( ':' ) in them
 			const QString signature = lsp.join(QLatin1String(":"));
 
-			if (m_currentSNode != NULL)
-				(void) new KGpgSignNode(m_currentSNode, lsp);
+			if (currentSNode != NULL)
+				(void) new KGpgSignNode(currentSNode, lsp);
 		} else {
 			log += lsp.join(QString(QLatin1Char( ':' ))) + QLatin1Char( '\n' );
 		}
 	}
-}
 
-void KgpgInterface::readPublicKeysFin(GPGProc *p, const bool block)
-{
-	if (p == NULL)
-		p = qobject_cast<GPGProc *>(sender());
-
-	// insert the last key
-	if (!m_publickey.name().isEmpty())
-		m_publiclistkeys << m_publickey;
-
-	if (p->exitCode() != 0) {
+	if (p.exitCode() != 0) {
 		KMessageBox::detailedError(NULL, i18n("An error occurred while scanning your keyring"), log);
 		log.clear();
 	}
 
-	p->deleteLater();
-	if (!block)
-		emit readPublicKeysFinished(m_publiclistkeys);
+	return publiclistkeys;
 }
 
-
-KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
+KgpgKeyList KgpgInterface::readPublicKeys(const QStringList &ids)
 {
-	m_secretlistkeys = KgpgKeyList();
-	m_secretkey = KgpgKey();
-	m_secretactivate = false;
+	GPGProc process;
+	process <<
+			QLatin1String("--with-colons") <<
+			QLatin1String("--with-fingerprint") <<
+			QLatin1String("--fixed-list-mode") <<
+			QLatin1String("--list-keys") <<
+			ids;
 
-	GPGProc *process = new GPGProc(this);
-	*process << QLatin1String( "--with-colons" ) << QLatin1String( "--list-secret-keys" ) << QLatin1String( "--with-fingerprint" ) << QLatin1String( "--fixed-list-mode" );
+	process.setOutputChannelMode(KProcess::MergedChannels);
 
-	*process << ids;
-
-	process->start();
-	process->waitForFinished(-1);
-	readSecretKeysProcess(process);
-
-	if (m_secretactivate)
-		m_secretlistkeys << m_secretkey;
-
-	delete process;
-
-	return m_secretlistkeys;
+	process.start();
+	process.waitForFinished(-1);
+	return readPublicKeysProcess(process, NULL);
 }
 
-void KgpgInterface::readSecretKeysProcess(GPGProc *p)
+KgpgCore::KgpgKey KgpgInterface::readSignatures(KGpgKeyNode *node)
+{
+	GPGProc process;
+	process <<
+			QLatin1String("--with-colons") <<
+			QLatin1String("--with-fingerprint") <<
+			QLatin1String("--fixed-list-mode") <<
+			QLatin1String("--list-sigs") <<
+			node->getId();
+
+	process.setOutputChannelMode(KProcess::MergedChannels);
+
+	process.start();
+	process.waitForFinished(-1);
+
+	const KgpgCore::KgpgKeyList publiclistkeys = readPublicKeysProcess(process, node);
+
+	if (publiclistkeys.isEmpty())
+		return KgpgCore::KgpgKey();
+	else
+		return publiclistkeys.first();
+}
+static KgpgCore::KgpgKeyList
+readSecretKeysProcess(GPGProc &p)
 {
 	QStringList lsp;
 	int items;
 	bool hasuid = true;
+	KgpgCore::KgpgKeyList result;
+	KgpgCore::KgpgKey *secretkey = NULL;
 
-	while ( (items = p->readln(lsp)) >= 0 ) {
+	while ( (items = p.readln(lsp)) >= 0 ) {
 		if ((lsp.at(0) == QLatin1String( "sec" )) && (items >= 10)) {
-			if (m_secretactivate)
-			m_secretlistkeys << m_secretkey;
+			result << KgpgKey();
+			secretkey = &result.last();
 
-			m_secretactivate = true;
-			m_secretkey = KgpgKey();
-
-			m_secretkey.setTrust(Convert::toTrust(lsp.at(1)));
-			m_secretkey.setSize(lsp.at(2).toUInt());
-			m_secretkey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-			m_secretkey.setFingerprint(lsp.at(4));
-			m_secretkey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
-			m_secretkey.setSecret(true);
+			secretkey->setTrust(Convert::toTrust(lsp.at(1)));
+			secretkey->setSize(lsp.at(2).toUInt());
+			secretkey->setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
+			secretkey->setFingerprint(lsp.at(4));
+			secretkey->setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
+			secretkey->setSecret(true);
 
 			if (lsp.at(6).isEmpty())
-				m_secretkey.setExpiration(QDateTime());
+				secretkey->setExpiration(QDateTime());
 			else
-				m_secretkey.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
+				secretkey->setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
 			hasuid = true;
 		} else if ((lsp.at(0) == QLatin1String( "uid" )) && (items >= 10)) {
 			if (hasuid)
@@ -591,9 +548,9 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 					kmail.remove(QLatin1Char( '<' ));
 				}
 
-				m_secretkey.setEmail(kmail);
+				secretkey->setEmail(kmail);
 			} else {
-				m_secretkey.setEmail(QString());
+				secretkey->setEmail(QString());
 			}
 
 			QString kname(fullname.section( QLatin1String( " <" ), 0, 0));
@@ -602,17 +559,34 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 				QString comment = fullname.section(QLatin1Char( '(' ), 1, 1);
 				comment = comment.section(QLatin1Char( ')' ), 0, 0);
 
-				m_secretkey.setComment(comment);
+				secretkey->setComment(comment);
 			} else {
-				m_secretkey.setComment(QString());
+				secretkey->setComment(QString());
 			}
-			m_secretkey.setName(kname);
+			secretkey->setName(kname);
 		} else if ((lsp.at(0) == QLatin1String( "fpr" )) && (items >= 10)) {
-			const QString fingervalue(lsp.at(9));
-
-			m_secretkey.setFingerprint(fingervalue);
+			secretkey->setFingerprint(lsp.at(9));
 		}
 	}
+
+	return result;
+}
+
+KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
+{
+	GPGProc process;
+	process <<
+			QLatin1String("--with-colons") <<
+			QLatin1String("--list-secret-keys") <<
+			QLatin1String("--with-fingerprint") <<
+			QLatin1String("--fixed-list-mode") <<
+			ids;
+
+	process.start();
+	process.waitForFinished(-1);
+	KgpgCore::KgpgKeyList result = readSecretKeysProcess(process);
+
+	return result;
 }
 
 QPixmap KgpgInterface::loadPhoto(const QString &keyid, const QString &uid)

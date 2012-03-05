@@ -87,58 +87,11 @@ public:
      */
     static int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true, QWidget *widget = NULL);
 
-    /************** extract public keys **************/
-signals:
-    void readPublicKeysFinished(KgpgCore::KgpgKeyList);
-
-public:
-    KgpgCore::KgpgKeyList readPublicKeys(const bool block = false, const QStringList &ids = QStringList());
+    KgpgCore::KgpgKeyList readPublicKeys(const QStringList &ids = QStringList());
     KgpgCore::KgpgKey readSignatures(KGpgKeyNode *node);
-
-private slots:
-    void readPublicKeysProcess(GPGProc *p = NULL);
-    void readPublicKeysFin(GPGProc *p = NULL, const bool block = false);
-
-private:
-	unsigned int m_numberid;
-	KgpgCore::KgpgKey m_publickey;
-	KgpgCore::KgpgKeyList m_publiclistkeys;
-
-    /*************************************************/
-
-
-    /************** extract secret keys **************/
-public slots:
     KgpgCore::KgpgKeyList readSecretKeys(const QStringList &ids = QStringList());
 
-private slots:
-    void readSecretKeysProcess(GPGProc *p);
-
-private:
-    bool m_secretactivate;
-    KgpgCore::KgpgKey m_secretkey;
-    KgpgCore::KgpgKeyList m_secretlistkeys;
-
-    /*************************************************/
-
-
-    /************** load a photo in a QPixmap **************/
-public:
     static QPixmap loadPhoto(const QString &keyid, const QString &uid);
-
-    /*******************************************************/
-
-private:
-    // Globals private
-    QString log;
-
-    /**
-     * @internal structure for communication
-     */
-    QString output;
-
-    KGpgKeyNode *m_readNode;	///< the node where the signatures are read for
-    KGpgSignableNode *m_currentSNode;	///< the current (sub)node signature are read for
 };
 
 #endif // KGPGINTERFACE_H

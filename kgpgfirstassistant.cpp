@@ -267,7 +267,7 @@ KGpgFirstAssistant::findConfigPath()
 		return;
 	}
 
-	KgpgKeyList publiclist = interface->readPublicKeys(true, secids);
+	KgpgKeyList publiclist = interface->readPublicKeys(secids);
 	delete interface;
 
 	generateCB->setChecked(false);
