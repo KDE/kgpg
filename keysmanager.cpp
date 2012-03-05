@@ -1128,6 +1128,7 @@ void KeysManager::showOptions()
 	QPointer<kgpgOptions> optionsDialog = new kgpgOptions(this, imodel);
 	connect(optionsDialog, SIGNAL(settingsUpdated()), SLOT(readAllOptions()));
 	connect(optionsDialog, SIGNAL(homeChanged()), imodel, SLOT(refreshKeys()));
+	connect(optionsDialog, SIGNAL(homeChanged()), imodel, SLOT(refreshGroups()));
 	connect(optionsDialog, SIGNAL(refreshTrust(KgpgCore::KgpgKeyTrust,QColor)), imodel, SLOT(refreshTrust(KgpgCore::KgpgKeyTrust,QColor)));
 	connect(optionsDialog, SIGNAL(changeFont(QFont)), SIGNAL(fontChanged(QFont)));
 	optionsDialog->exec();
