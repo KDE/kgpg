@@ -18,6 +18,7 @@
 #include <QFile>
 #include <QPixmap>
 #include <QPointer>
+#include <QRegExp>
 #include <QString>
 #include <QTextStream>
 
@@ -54,47 +55,28 @@ KgpgInterface::~KgpgInterface()
 {
 }
 
-QStringList KgpgInterface::getGpgGroupNames(const QString &configfile)
+QStringList KgpgInterface::readGroups()
 {
 	QStringList groups;
-	QFile qfile(configfile);
+	QFile qfile(KGpgSettings::gpgConfigPath());
 
 	if (qfile.exists() && qfile.open(QIODevice::ReadOnly)) {
 		QTextStream t(&qfile);
+		QRegExp groupPattern(QLatin1String("^group [^ ]+ ?= ?([0-9a-fA-F]{8,} ?)*$"));
+
 		while (!t.atEnd()) {
-			QString result(t.readLine().simplified());
-			if (result.startsWith(QLatin1String("group "))) {
-				result.remove(0, 6);
-				groups.append(result.section(QLatin1Char( '=' ), 0, 0).simplified());
-			}
+			QString line = t.readLine().simplified().section(QLatin1Char('#'), 0, 0);
+			if (!groupPattern.exactMatch(line))
+				continue;
+
+			// remove the "group " at the start
+			line.remove(0, 6);
+			// transform it in a simple space separated list
+			groups.append(line.replace(QLatin1Char('='), QLatin1Char(' ')).simplified());
 		}
 		qfile.close();
 	}
 	return groups;
-}
-
-QStringList KgpgInterface::getGpgGroupSetting(const QString &name, const QString &configfile)
-{
-	QFile qfile(configfile);
-	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
-		QTextStream t(&qfile);
-		while (!t.atEnd()) {
-			QString result(t.readLine().simplified());
-
-			if (result.startsWith(QLatin1String("group "))) {
-				kDebug(2100) << "Found 1 group";
-				result.remove(0, 6);
-				if (result.simplified().startsWith(name)) {
-					kDebug(2100) << "Found group: " << name;
-					result = result.section(QLatin1Char( '=' ), 1);
-					result = result.section(QLatin1Char( '#' ), 0, 0);
-					return result.split(QLatin1Char( ' ' ), QString::SkipEmptyParts);
-				}
-			}
-		}
-		qfile.close();
-	}
-	return QStringList();
 }
 
 void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &values, const QString &configfile)

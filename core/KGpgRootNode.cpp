@@ -23,6 +23,9 @@
 #include "KGpgOrphanNode.h"
 #include "kgpgsettings.h"
 
+#include <QString>
+#include <QStringList>
+
 KGpgRootNode::KGpgRootNode(KGpgItemModel *model)
 	: KGpgExpandableNode(NULL),
 	m_groups(0),
@@ -50,8 +53,11 @@ KGpgRootNode::getType() const
 void
 KGpgRootNode::addGroups(const QStringList &groups)
 {
-	foreach (const QString &groupName, groups)
-		new KGpgGroupNode(this, groupName);
+	foreach (const QString &group, groups) {
+		QStringList members = group.split(QLatin1Char(' '));
+		const QString groupName = members.takeFirst();
+		new KGpgGroupNode(this, groupName, members);
+	}
 }
 
 void

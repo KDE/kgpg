@@ -22,7 +22,8 @@
 #include "KGpgExpandableNode.h"
 #include "KGpgKeyNode.h"
 
-#include <QString>
+class QString;
+class QStringList;
 
 /**
  * @brief A GnuPG group of public keys
@@ -36,8 +37,8 @@ protected:
 	virtual void readChildren();
 
 public:
-	explicit KGpgGroupNode(KGpgRootNode *parent, const QString &name);
-	explicit KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KGpgKeyNode::List &members);
+	KGpgGroupNode(KGpgRootNode *parent, const QString &name, const QStringList &members);
+	KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KGpgKeyNode::List &members);
 	virtual ~KGpgGroupNode();
 
 	virtual KgpgCore::KgpgItemType getType() const;

@@ -25,11 +25,13 @@
 #include "KGpgRootNode.h"
 #include "kgpgsettings.h"
 
-KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name)
+KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name, const QStringList &members)
 	: KGpgExpandableNode(parent),
 	m_name(name)
 {
-	readChildren();
+	foreach (const QString &id, members)
+		new KGpgGroupMemberNode(this, id);
+
 	parent->m_groups++;
 }
 
@@ -73,12 +75,6 @@ KGpgGroupNode::getSize() const
 void
 KGpgGroupNode::readChildren()
 {
-	const QStringList keys = KgpgInterface::getGpgGroupSetting(m_name, KGpgSettings::gpgConfigPath());
-
-	children.clear();
-
-	foreach (const QString &id, keys)
-		new KGpgGroupMemberNode(this, id);
 }
 
 void

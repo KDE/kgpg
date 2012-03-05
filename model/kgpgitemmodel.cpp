@@ -422,7 +422,7 @@ KGpgItemModel::refreshGroups()
 		endRemoveRows();
 	}
 
-	const QStringList groups = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
+	const QStringList groups = KgpgInterface::readGroups();
 
 	if (groups.isEmpty())
 		return;

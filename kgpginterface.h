@@ -39,18 +39,13 @@ public:
     ~KgpgInterface();
 
     /**
-     * @brief get all group names from a GnuPG config file
-     * @param configfile names of groups in this file
-     * @return list of groups names
+     * @brief get all groups from GnuPG config file
+     * @return list of groups names and their keys
+     *
+     * The strings are themself space separated list. The first entry is the
+     * group name, the others are the keys inside
      */
-    static QStringList getGpgGroupNames(const QString &configfile);
-    /**
-     * @brief read the key ids for the given group name
-     * @param name name of the group
-     * @param configfile the GnuPG config file to use
-     * @return list of key ids in this group
-     */
-    static QStringList getGpgGroupSetting(const QString &name, const QString &configfile);
+    static QStringList readGroups();
     /**
      * @brief write a group entry with the given keys
      * @param name name of the group
