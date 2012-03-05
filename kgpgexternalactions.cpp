@@ -399,19 +399,11 @@ void KGpgExternalActions::readOptions()
 
 	if (KGpgSettings::firstRun()) {
 		firstRun();
-	} else {
-		QString path(KGpgSettings::gpgConfigPath());
-
-		if (path.isEmpty()) {
-			if (KMessageBox::Yes == KMessageBox::questionYesNo(0,
-					i18n("<qt>You have not set a path to your GnuPG config file.<br />This may cause some surprising results in KGpg's execution.<br />Would you like to start KGpg's assistant to fix this problem?</qt>"),
-					QString(), KGuiItem(i18n("Start Assistant")), KGuiItem(i18n("Do Not Start"))))
-				startAssistant();
-		} else {
-			QStringList groups(KgpgInterface::getGpgGroupNames(path));
-			if (!groups.isEmpty())
-				KGpgSettings::setGroups(groups.join(QLatin1String( "," )));
-		}
+	} else if (KGpgSettings::gpgConfigPath().isEmpty()) {
+		if (KMessageBox::Yes == KMessageBox::questionYesNo(0,
+				i18n("<qt>You have not set a path to your GnuPG config file.<br />This may cause some surprising results in KGpg's execution.<br />Would you like to start KGpg's assistant to fix this problem?</qt>"),
+				QString(), KGuiItem(i18n("Start Assistant")), KGuiItem(i18n("Do Not Start"))))
+			startAssistant();
 	}
 }
 

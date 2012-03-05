@@ -63,9 +63,6 @@
             <label>The path of the gpg binary used by KGpg.</label>
             <default>gpg</default>
         </entry>
-        <entry name="Groups" type="String">
-            <label>GPG groups</label>
-        </entry>
     </group>
 
     <group name="General Options">

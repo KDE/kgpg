@@ -1106,9 +1106,6 @@ void KeysManager::readOptions()
 	if (KGpgSettings::useMouseSelection() && (kapp->clipboard()->supportsSelection()))
 		m_clipboardmode = QClipboard::Selection;
 
-	// re-read groups in case the config file location was changed
-	const QStringList groups(KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath()));
-	KGpgSettings::setGroups(groups.join( QLatin1String( "," )));
 	if (imodel != NULL)
 		updateStatusCounter();
 
@@ -1637,8 +1634,6 @@ void KeysManager::deleteGroup()
 	KgpgInterface::delGpgGroup(nd->getName(), KGpgSettings::gpgConfigPath());
 	imodel->delNode(nd);
 
-	const QStringList groups(KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath()));
-	KGpgSettings::setGroups(groups.join( QLatin1String( "," )));
 	updateStatusCounter();
 }
 
@@ -1694,7 +1689,6 @@ void KeysManager::createNewGroup()
 			KMessageBox::informationList(this, i18n("Following keys are not valid or not trusted and will not be added to the group:"), badkeys);
 
 		KgpgInterface::setGpgGroupSetting(groupName, keysGroup, KGpgSettings::gpgConfigPath());
-		const QStringList groups(KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath()));
 
 		iview->selectNode(imodel->addGroup(groupName, keysList));
 		updateStatusCounter();
@@ -2272,8 +2266,6 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 	}
 
 	if (groupDeleted) {
-		QStringList groupnames = KgpgInterface::getGpgGroupNames(KGpgSettings::gpgConfigPath());
-		KGpgSettings::setGroups(groupnames.join(QLatin1String(",")));
 		updateStatusCounter();
 	}
 }
