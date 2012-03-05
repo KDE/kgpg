@@ -39,34 +39,6 @@ public:
     ~KgpgInterface();
 
     /**
-     * @brief parse GnuPG version string and return version as number
-     * @param vstr version string
-     * @return -1 if vstr is empty, -2 on parse error, parsed number on success
-     *
-     * The version string must be in format A.B.C with A, B, and C numbers. The
-     * returned number is A * 65536 + B * 256 + C.
-     */
-    static int gpgVersion(const QString &vstr);
-    /**
-     * @brief get the GnuPG version string of the given binary
-     * @param binary name or path to GnuPG binary
-     * @return version string or empty string on error
-     *
-     * This starts a GnuPG process and asks the binary for version information.
-     * The returned string is the version information without any leading text.
-     */
-    static QString gpgVersionString(const QString &binary);
-    /**
-     * @brief find users GnuPG directory
-     * @param binary name or path to GnuPG binary
-     * @return path to directory
-     *
-     * Use this function to find out where GnuPG would store it's configuration
-     * and data files. The returned path always ends with a '/'.
-     */
-    static QString getGpgHome(const QString &binary);
-
-    /**
      * @brief get all group names from a GnuPG config file
      * @param configfile names of groups in this file
      * @return list of groups names
@@ -119,16 +91,6 @@ public:
      * @return 1 if there is an error
      */
     static int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true, QWidget *widget = NULL);
-
-    /**
-     * @brief run GnuPG and check if it complains about anything
-     * @param binary the GnuPG binary to run
-     * @return the error message GnuPG gave out (if any)
-     */
-    static QString getGpgStartupError(const QString &binary);
-
-private:
-    static QString getGpgProcessHome(const QString &binary);
 
     /************** extract public keys **************/
 signals:

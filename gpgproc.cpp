@@ -16,8 +16,10 @@
 #include "kgpgsettings.h"
 #include "kgpginterface.h"
 
-#include <KProcess>
 #include <KDebug>
+#include <KProcess>
+#include <KStandardDirs>
+#include <QDir>
 #include <QTextCodec>
 
 class GnupgBinary {
@@ -70,13 +72,36 @@ static bool checkGnupgArguments(const QString &executable, const QStringList &ar
 	return (gpg.execute() == 0);
 }
 
+static QString getGpgProcessHome(const QString &binary)
+{
+	GPGProc process(0, binary);
+	process << QLatin1String( "--version" );
+	process.start();
+	process.waitForFinished(-1);
+
+	if (process.exitCode() == 255) {
+		return QString();
+	}
+
+	QString line;
+	while (process.readln(line) != -1) {
+		if (line.startsWith(QLatin1String("Home: "))) {
+			line.remove(0, 6);
+			return line;
+		}
+	}
+
+	return QString();
+}
+
+
 void GnupgBinary::setBinary(const QString &executable)
 {
 	kDebug(2100) << "checking version of GnuPG executable" << executable;
 	// must be set first as KgpgInterface uses GPGProc to parse the output
 	m_binary = executable;
-	const QString verstr = KgpgInterface::gpgVersionString(executable);
-	m_version = KgpgInterface::gpgVersion(verstr);
+	const QString verstr = GPGProc::gpgVersionString(executable);
+	m_version = GPGProc::gpgVersion(verstr);
 	kDebug(2100) << "version is" << verstr << m_version;
 
 	m_useDebugLevel = (m_version > 0x20000);
@@ -231,6 +256,89 @@ GPGProc::recode(QByteArray a, const bool colons)
 	}
 
 	return QTextCodec::codecForName("utf8")->toUnicode(a);
+}
+
+int GPGProc::gpgVersion(const QString &vstr)
+{
+	if (vstr.isEmpty())
+		return -1;
+
+	QStringList values(vstr.split(QLatin1Char( '.' )));
+	if (values.count() < 3)
+		return -2;
+
+	return (0x10000 * values[0].toInt() + 0x100 * values[1].toInt() + values[2].toInt());
+}
+
+QString GPGProc::gpgVersionString(const QString &binary)
+{
+	GPGProc process(0, binary);
+	process << QLatin1String( "--version" );
+	process.start();
+	process.waitForFinished(-1);
+
+	if (process.exitCode() == 255)
+		return QString();
+
+	QString line;
+	if (process.readln(line) != -1)
+		return line.simplified().section(QLatin1Char( ' ' ), -1);
+	else
+		return QString();
+}
+
+QString GPGProc::getGpgStartupError(const QString &binary)
+{
+	GPGProc process(0, binary);
+	process << QLatin1String( "--version" );
+	process.start();
+	process.waitForFinished(-1);
+
+	QString result;
+
+	while (process.hasLineStandardError()) {
+		QByteArray tmp;
+		process.readLineStandardError(&tmp);
+		tmp += '\n';
+		result += QString::fromUtf8(tmp);
+	}
+
+	return result;
+}
+
+QString GPGProc::getGpgHome(const QString &binary)
+{
+	// First try: if environment is set GnuPG will use that directory
+	// We can use this directly without starting a new process
+	QByteArray env(qgetenv("GNUPGHOME"));
+	QString gpgHome;
+	if (!env.isEmpty()) {
+		gpgHome = QLatin1String( env );
+	} else if (!binary.isEmpty()) {
+		// Second try: start GnuPG and ask what it is
+		gpgHome = getGpgProcessHome(binary);
+	}
+
+	// Third try: guess what it is.
+	if (gpgHome.isEmpty()) {
+#ifdef Q_OS_WIN32	//krazy:exclude=cpp
+		gpgHome = qgetenv("APPDATA") + QLatin1String( "/gnupg/" );
+		gpgHome.replace(QLatin1Char( '\\' ), QLatin1Char( '/' ));
+#else
+		gpgHome = QDir::homePath() + QLatin1String( "/.gnupg/" );
+#endif
+	}
+
+	gpgHome.replace(QLatin1String( "//" ), QLatin1String( "/" ));
+
+	if (!gpgHome.endsWith(QLatin1Char( '/' )))
+		gpgHome.append(QLatin1Char( '/' ));
+
+	if (gpgHome.startsWith(QLatin1Char( '~' )))
+		gpgHome.replace(0, 1, QDir::homePath());
+
+	KStandardDirs::makeDir(gpgHome, 0700);
+	return gpgHome;
 }
 
 #include "gpgproc.moc"

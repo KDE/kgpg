@@ -14,7 +14,6 @@
 #include "kgpgencrypt.h"
 
 #include <gpgproc.h>
-#include <kgpginterface.h>
 #include <kio/renamedialog.h>
 
 #include <KLocale>
@@ -23,7 +22,7 @@
 
 static QStringList trustOptions(const QString &binary)
 {
-	const int gpgver = KgpgInterface::gpgVersion(KgpgInterface::gpgVersionString(binary));
+	const int gpgver = GPGProc::gpgVersion(GPGProc::gpgVersionString(binary));
 	QStringList args;
 	if (gpgver >= 0x10302)
 		args << QLatin1String("--trust-model")

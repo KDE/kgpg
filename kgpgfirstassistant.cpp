@@ -19,6 +19,10 @@
 
 #include "kgpgfirstassistant.h"
 
+#include "gpgproc.h"
+#include "kgpginterface.h"
+#include "kgpgkey.h"
+
 #include <QCheckBox>
 #include <QGridLayout>
 #include <QHBoxLayout>
@@ -31,9 +35,6 @@
 #include <KLocale>
 #include <KMessageBox>
 #include <KUrlRequester>
-
-#include "kgpginterface.h"
-#include "kgpgkey.h"
 
 using namespace KgpgCore;
 
@@ -233,7 +234,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 void
 KGpgFirstAssistant::findConfigPath()
 {
-	QString gpgHome(KgpgInterface::getGpgHome(binURL->url().path()));
+	const QString gpgHome = GPGProc::getGpgHome(binURL->url().path());
 	QString confPath = gpgHome + QLatin1String( "gpg.conf" );
 
 	if (!QFile(confPath).exists()) {
@@ -356,10 +357,10 @@ KGpgFirstAssistant::slotBinaryChanged(const QString &binary)
 		return;
 	}
 
-	m_gpgVersion = KgpgInterface::gpgVersionString(binary);
+	m_gpgVersion = GPGProc::gpgVersionString(binary);
 	setValid(page_binary, !m_gpgVersion.isEmpty());
 	if (!m_gpgVersion.isEmpty()) {
-		int gpgver = KgpgInterface::gpgVersion(m_gpgVersion);
+		const int gpgver = GPGProc::gpgVersion(m_gpgVersion);
 
 		if (gpgver < 0x10400) {
 			txtGpgVersion->setText(i18n("Your GnuPG version (%1) seems to be too old.<br />Compatibility with versions before 1.4.0 is no longer guaranteed.", m_gpgVersion));

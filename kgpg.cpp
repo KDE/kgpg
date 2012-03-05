@@ -25,6 +25,7 @@
 #include <KWindowSystem>
 #include <KMimeType>
 
+#include "gpgproc.h"
 #include "images.h"
 #include "kgpgeditor.h"
 #include "kgpgsettings.h"   // automatically created by compilation
@@ -73,7 +74,7 @@ int KGpgApp::newInstance()
 
 		const QString gpgPath(KGpgSettings::gpgConfigPath());
 
-		const QString gpgError = KgpgInterface::getGpgStartupError(KGpgSettings::gpgBinaryPath());
+		const QString gpgError = GPGProc::getGpgStartupError(KGpgSettings::gpgBinaryPath());
 		if (!gpgError.isEmpty()) {
 			KMessageBox::detailedError(0, i18n("GnuPG failed to start.<br />You must fix the GnuPG error first before running KGpg."), gpgError, i18n("GnuPG error"));
 			KApplication::quit();
