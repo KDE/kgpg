@@ -178,7 +178,9 @@ KeyListProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) c
 bool
 KeyListProxyModelPrivate::lessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const
 {
-	KGpgRootNode *r = m_model->getRootNode();
+	const KGpgRootNode * const r = m_model->getRootNode();
+	Q_ASSERT(r != left);
+	Q_ASSERT(r != right);
 
 	if (r == left->getParentKeyNode()) {
 		if (r == right->getParentKeyNode()) {
@@ -289,6 +291,9 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 	Q_D(const KeyListProxyModel);
 	QModelIndex idx = d->m_model->index(source_row, 0, source_parent);
 	KGpgNode *l = d->m_model->nodeForIndex(idx);
+
+	if (l == d->m_model->getRootNode())
+		return false;
 
 	if (d->m_onlysecret) {
 		switch (l->getType()) {
