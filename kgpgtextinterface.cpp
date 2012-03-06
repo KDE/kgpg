@@ -18,12 +18,9 @@
 #include <QFile>
 
 #include <KLocale>
-#include <KDebug>
-#include <KMessageBox>
 
 #include "kgpginterface.h"
 #include "gpgproc.h"
-#include "detailedconsole.h"
 #include "kgpgsettings.h"
 
 class KGpgTextInterfacePrivate
@@ -337,19 +334,10 @@ void
 KGpgTextInterface::verifyfin()
 {
 	if (d->m_userIDs.isEmpty()) {
-		if (d->m_signID.isEmpty())
-			d->m_signID = i18n("No signature found.");
-
-		(void) new KgpgDetailedInfo(qobject_cast<QWidget *>(parent()), d->m_signID, d->m_message,
-				QStringList(), i18nc("Caption of message box", "Verification Finished"));
+		emit verifyfinished(d->m_signID, d->m_message);
 	} else {
-		if (KMessageBox::questionYesNo(0,
-					i18n("<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt>",
-							d->m_userIDs.first()),
-					d->m_file.fileName(), KGuiItem(i18n("Import")), KGuiItem(i18n("Do Not Import"))) == KMessageBox::Yes)
-			emit verifyquerykey(d->m_userIDs.first());
+		emit verifyquerykey(d->m_userIDs.first(), d->m_file.fileName());
 	}
-	emit verifyfinished();
 }
 
 // signatures

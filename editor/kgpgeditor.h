@@ -97,8 +97,12 @@ private slots:
     void slotPreVerifyFile();
     void slotVerifyFile(const KUrl &url);
     void slotCheckMd5();
-    void importSignatureKey(const QString &id);
-    void slotVerifyFinished();
+    void importSignatureKey(const QString &id, const QString &fileName);
+    /**
+     * @param id the key id of the signature
+     * @param message the verification message from GnuPG
+     */
+    void slotVerifyFinished(const QString &id, const QString &message);
 
     // Options menu
     void slotOptions();

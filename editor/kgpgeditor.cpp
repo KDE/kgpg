@@ -42,6 +42,7 @@
 #include <KRecentFilesAction>
 #include <KToolBar>
 
+#include "detailedconsole.h"
 #include "selectsecretkey.h"
 #include "kgpgmd5widget.h"
 #include "kgpgsettings.h"
@@ -674,8 +675,8 @@ void KgpgEditor::slotVerifyFile(const KUrl &url)
 
         // pipe gpg command
         KGpgTextInterface *interface = new KGpgTextInterface(this);
-        connect(interface, SIGNAL(verifyquerykey(QString)), SLOT(importSignatureKey(QString)));
-        connect(interface, SIGNAL(verifyfinished()), SLOT(slotVerifyFinished()));
+        connect(interface, SIGNAL(verifyquerykey(QString,QString)), SLOT(importSignatureKey(QString,QString)));
+        connect(interface, SIGNAL(verifyfinished(QString,QString)), SLOT(slotVerifyFinished(QString,QString)));
         interface->KgpgVerifyFile(url, KUrl(sigfile));
     }
 }
@@ -691,8 +692,15 @@ void KgpgEditor::slotCheckMd5()
 	}
 }
 
-void KgpgEditor::importSignatureKey(const QString &id)
+void KgpgEditor::importSignatureKey(const QString &id, const QString &fileName)
 {
+	sender()->deleteLater();
+
+	if (KMessageBox::questionYesNo(0,
+			i18n("<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt>", id),
+			fileName, KGuiItem(i18n("Import")), KGuiItem(i18n("Do Not Import"))) != KMessageBox::Yes)
+		return;
+
 	KeyServer *ks = new KeyServer(this);
 
 	connect(ks, SIGNAL(importFinished(QStringList)), SLOT(slotDownloadKeysFinished(QStringList)));
@@ -709,9 +717,19 @@ void KgpgEditor::slotDownloadKeysFinished(QStringList ids)
 }
 
 void
-KgpgEditor::slotVerifyFinished()
+KgpgEditor::slotVerifyFinished(const QString &id, const QString &message)
 {
 	sender()->deleteLater();
+
+	QString showId;
+
+	if (id.isEmpty())
+		showId = i18n("No signature found.");
+	else
+		showId = id;
+
+	(void) new KgpgDetailedInfo(this, showId, message, QStringList(),
+			i18nc("Caption of message box", "Verification Finished"));
 }
 
 void KgpgEditor::slotOptions()

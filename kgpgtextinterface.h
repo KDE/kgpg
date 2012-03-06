@@ -36,14 +36,17 @@ public:
 
 signals:
     /**
-     *  emmitted if signature key is missing & user want to import it from keyserver
+     * emmitted if signature key is missing
+     * @param id the key id of the signature
+     * @param fileName name of the signed file
      */
-    void verifyquerykey(QString ID);
+    void verifyquerykey(QString id, QString fileName);
 
     /**
-     *  true if verify successful, false on error.
+     * @param id the key id of the signature
+     * @param message the verification message from GnuPG
      */
-    void verifyfinished();
+    void verifyfinished(QString id, QString message);
 
     void txtSigningFinished(QString);
 
