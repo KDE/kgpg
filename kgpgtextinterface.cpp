@@ -188,64 +188,6 @@ KGpgTextInterface::~KGpgTextInterface()
 }
 
 void
-KGpgTextInterface::signText(const QString &text, const QString &userid, const QStringList &options)
-{
-	QTextCodec *codec = QTextCodec::codecForLocale();
-	if (codec->canEncode(text))
-		d->m_message = text;
-	else
-		d->m_message =QLatin1String( text.toUtf8() );
-
-	*d->m_process << options;
-
-	*d->m_process << QLatin1String( "--clearsign" ) << QLatin1String( "-u" ) << userid;
-
-	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(signTextProcess()));
-	connect(d->m_process, SIGNAL(processExited()), this, SLOT(signTextFin()));
-	d->m_process->start();
-}
-
-//krazy:cond=strings
-void
-KGpgTextInterface::signTextProcess()
-{
-	QByteArray line;
-
-	while (d->m_process->readLineStandardOutput(&line)) {
-		if (line.startsWith("[GNUPG:]")) {
-			if (line.contains( "USERID_HINT" )) {
-				d->updateIDs(line);
-			} else if (line.contains( "BAD_PASSPHRASE" )) {
-				d->m_message.fill(QLatin1Char( 'x' ));
-				d->m_message.clear();
-				d->m_badpassword = true;
-			} else if (line.contains( "GOOD_PASSPHRASE" )) {
-				d->m_process->write(d->m_message.toAscii());
-				d->m_process->closeWriteChannel();
-				d->m_message.clear();
-			} else if (line.contains( "passphrase.enter" )) {
-				if (d->gpgPassphrase())
-					return;
-			}
-		} else
-			d->m_message +=QLatin1String( line ) + QLatin1Char( '\n' );
-	}
-}
-//krazy:endcond=strings
-
-void
-KGpgTextInterface::signTextFin()
-{
-	if (d->m_badpassword) {
-		d->m_message.clear();
-	} else if (!d->m_message.isEmpty()) {
-		emit txtSigningFinished(d->m_message.trimmed());
-	} else {
-		emit txtSigningFinished(QString());
-	}
-}
-
-void
 KGpgTextInterface::verifyText(const QString &text)
 {
 	QTextCodec *codec = QTextCodec::codecForLocale();

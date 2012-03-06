@@ -83,6 +83,7 @@ set(kgpg_transaction_SRCS
    transactions/kgpgprimaryuid.cpp
    transactions/kgpgsendkeys.cpp
    transactions/kgpgsignkey.cpp
+   transactions/kgpgsigntext.cpp
    transactions/kgpgsignuid.cpp
    transactions/kgpgtextorfiletransaction.cpp
    transactions/kgpgdecrypt.cpp

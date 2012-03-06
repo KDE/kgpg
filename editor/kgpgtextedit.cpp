@@ -35,6 +35,7 @@
 #include "kgpgencrypt.h"
 #include "kgpgimport.h"
 #include "keysmanager.h"
+#include "transactions/kgpgsigntext.h"
 
 #define SIGNEDMESSAGE_BEGIN  QLatin1String( "-----BEGIN PGP SIGNED MESSAGE-----" )
 #define SIGNEDMESSAGE_END    QLatin1String( "-----END PGP SIGNATURE-----" )
@@ -216,13 +217,9 @@ void KgpgTextEdit::slotSign(const QString &message)
 
     delete opts;
 
-    QStringList options;
-    if (KGpgSettings::pgpCompatibility())
-        options << QLatin1String( "--pgp6" );
-
-    KGpgTextInterface *interface = new KGpgTextInterface();
-    connect(interface, SIGNAL(txtSigningFinished(QString)), SLOT(slotSignUpdate(QString)));
-    interface->signText(message, signkeyid, options);
+	KGpgSignText *signt = new KGpgSignText(this, signkeyid, message);
+	connect(signt, SIGNAL(done(int)), SLOT(slotSignUpdate(int)));
+	signt->start();
 }
 
 void KgpgTextEdit::slotVerify(const QString &message)
@@ -292,14 +289,18 @@ void KgpgTextEdit::slotEncodeUpdate(int result)
 	sender()->deleteLater();
 }
 
-void KgpgTextEdit::slotSignUpdate(const QString &content)
+void KgpgTextEdit::slotSignUpdate(int result)
 {
-    sender()->deleteLater();
-    if (content.isEmpty())
-    {
-        KMessageBox::sorry(this, i18n("Signing not possible: bad passphrase or missing key"));
-        return;
-    }
+	const KGpgSignText * const signt = qobject_cast<KGpgSignText *>(sender());
+	sender()->deleteLater();
+	Q_ASSERT(signt != NULL);
+
+	if (result != KGpgTransaction::TS_OK) {
+		KMessageBox::sorry(this, i18n("Signing not possible: bad passphrase or missing key"));
+		return;
+	}
+
+	const QString content = signt->signedText().join(QLatin1String("\n")) + QLatin1String("\n");
 
     if (checkForUtf8(content))
     {

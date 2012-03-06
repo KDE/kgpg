@@ -41,6 +41,7 @@
 #include "selectsecretkey.h"
 #include "kgpginterface.h"
 #include "transactions/kgpgdecrypt.h"
+#include "transactions/kgpgsigntext.h"
 #include "foldercompressjob.h"
 #include "kgpgencrypt.h"
 #include "kgpgtransactionjob.h"
@@ -296,16 +297,26 @@ void KGpgExternalActions::signDroppedFile()
 
 	const QString signKeyID(opts->getKeyID());
 	delete opts;
+
 	QStringList Options;
-	if (KGpgSettings::asciiArmor())
+	KGpgSignText::SignOptions sopts = KGpgSignText::DetachedSignature;
+	if (KGpgSettings::asciiArmor()) {
 		Options << QLatin1String( "--armor" );
+		sopts |= KGpgSignText::AsciiArmored;
+	}
 	if (KGpgSettings::pgpCompatibility())
 		Options << QLatin1String( "--pgp6" );
 	Options << QLatin1String( "--detach-sign" );
 
-	KGpgTextInterface *signFileProcess = new KGpgTextInterface(this);
-	connect(signFileProcess, SIGNAL(fileSignFinished(KUrl::List&)), SLOT(slotSigningFinished()));
-	signFileProcess->signFiles(signKeyID, droppedUrls, Options);
+	if (droppedUrls.count() > 1) {
+		KGpgTextInterface *signFileProcess = new KGpgTextInterface(this);
+		connect(signFileProcess, SIGNAL(fileSignFinished(KUrl::List&)), SLOT(slotSigningFinished()));
+		signFileProcess->signFiles(signKeyID, droppedUrls, Options);
+	} else {
+		KGpgSignText *signt = new KGpgSignText(this, signKeyID, droppedUrls, sopts);
+		connect(signt, SIGNAL(done(int)), SLOT(slotSigningFinished()));
+		signt->start();
+	}
 }
 
 void KGpgExternalActions::slotSigningFinished()

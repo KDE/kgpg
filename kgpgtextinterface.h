@@ -61,14 +61,6 @@ signals:
 
 public Q_SLOTS:
     /**
-     * Sign text function
-     * @param text text to sign.
-     * @param userid the recipient key id's.
-     * @param options additional gpg options.
-     */
-    void signText(const QString &text, const QString &userid, const QStringList &options);
-
-    /**
      * Verify text function
      * @param text QString text to be verified.
      */
@@ -98,9 +90,6 @@ private Q_SLOTS:
      * Checks output of the verify process
      */
     void verifyfin();
-
-    void signTextProcess();
-    void signTextFin();
 
     void verifyTextFin();
 

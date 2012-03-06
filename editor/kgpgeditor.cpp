@@ -54,6 +54,7 @@
 #include "kgpgkeyservergettransaction.h"
 #include "keysmanager.h"
 #include "transactions/kgpgdecrypt.h"
+#include "transactions/kgpgsigntext.h"
 
 class KgpgView : public QWidget {
 public:
@@ -630,16 +631,13 @@ void KgpgEditor::slotSignFile(const KUrl &url)
 
         delete opts;
 
-        QStringList Options;
-        if (KGpgSettings::asciiArmor())
-            Options << QLatin1String( "--armor" );
-        if (KGpgSettings::pgpCompatibility())
-            Options << QLatin1String( "--pgp6" );
-        Options << QLatin1String( "--detach-sign" );
+	KGpgSignText::SignOptions sopts = KGpgSignText::DetachedSignature;
+	if (KGpgSettings::asciiArmor())
+		sopts |= KGpgSignText::AsciiArmored;
 
-        KGpgTextInterface *interface = new KGpgTextInterface();
-        connect(interface, SIGNAL(fileSignFinished(KUrl::List&)), SLOT(slotSignFileFin()));
-        interface->signFiles(signKeyID, url, Options);
+	KGpgSignText *signt = new KGpgSignText(this, signKeyID, KUrl::List(url), sopts);
+	connect(signt, SIGNAL(done(int)), SLOT(slotSignFileFin()));
+	signt->start();
     }
 }
 

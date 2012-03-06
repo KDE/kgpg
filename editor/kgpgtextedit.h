@@ -60,7 +60,7 @@ private:
 
 private slots:
     void slotEncodeUpdate(int result);
-    void slotSignUpdate(const QString &content);
+    void slotSignUpdate(int result);
     void slotVerifySuccess(const QString &content, const QString &log);
     void slotVerifyKeyNeeded(const QString &id);
 
