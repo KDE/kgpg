@@ -29,12 +29,11 @@
 class KGpgTextInterfacePrivate
 {
 public:
-	KGpgTextInterfacePrivate();
+	KGpgTextInterfacePrivate(QObject *parent);
 
-	GPGProc *m_process;
+	GPGProc * const m_process;
 	bool m_badpassword;
 	bool m_anonymous;
-	bool m_signmiss;
 	int m_step;
 	QString m_message;
 	QString m_signID;
@@ -64,10 +63,10 @@ static bool isUtf8Lang(const QByteArray &lc)
 }
 //krazy:endcond=strings
 
-KGpgTextInterfacePrivate::KGpgTextInterfacePrivate()
-	: m_badpassword(false),
+KGpgTextInterfacePrivate::KGpgTextInterfacePrivate(QObject *parent)
+	: m_process(new GPGProc(parent)),
+	m_badpassword(false),
 	m_anonymous(false),
-	m_signmiss(false),
 	m_step(3),
 	m_consoleUtf8(true)
 {
@@ -86,6 +85,9 @@ KGpgTextInterfacePrivate::KGpgTextInterfacePrivate()
 		}
 	}
 
+	*m_process <<
+			QLatin1String("--status-fd=1") <<
+			QLatin1String("--command-fd=0");
 }
 
 void
@@ -177,11 +179,9 @@ KGpgTextInterfacePrivate::log() const
 }
 
 KGpgTextInterface::KGpgTextInterface(QObject *parent)
-	: QObject(parent), d(new KGpgTextInterfacePrivate)
+	: QObject(parent),
+	d(new KGpgTextInterfacePrivate(parent))
 {
-	d->m_process = new GPGProc(this);
-	*d->m_process << QLatin1String( "--status-fd=1" ) << QLatin1String( "--command-fd=0" );
-
 }
 
 KGpgTextInterface::~KGpgTextInterface()
@@ -271,8 +271,8 @@ KGpgTextInterface::verifyText(const QString &text)
 void
 KGpgTextInterface::verifyTextFin()
 {
-	if (d->m_signmiss) {
-		emit txtVerifyMissingSignature(d->m_signID);
+	if (!d->m_userIDs.isEmpty()) {
+		emit txtVerifyMissingSignature(d->m_userIDs.first());
 	} else {
 		if (d->m_signID.isEmpty())
 			d->m_signID = i18n("No signature found.");
@@ -323,8 +323,7 @@ KGpgTextInterface::readVerify()
 					GPGProc::recode(line.mid(sigpos + 1).replace('<', "&lt;")),
 					QString::fromAscii(line.mid(7, sigpos - 7)));
 		} else if (line.startsWith("NO_PUBKEY")) {
-			d->m_signmiss = true;
-			d->m_signID = QLatin1String( line.remove(0, line.indexOf( ' ' )) );
+			d->m_userIDs << QLatin1String(line.remove(0, line.indexOf(' ')));
 		} else  if (line.startsWith("TRUST_UNDEFINED")) {
 			d->m_signID += i18n("<qt>The signature is valid, but the key is untrusted<br /></qt>");
 		} else if (line.startsWith("TRUST_ULTIMATE")) {
@@ -337,7 +336,7 @@ KGpgTextInterface::readVerify()
 void
 KGpgTextInterface::verifyfin()
 {
-	if (!d->m_signmiss) {
+	if (d->m_userIDs.isEmpty()) {
 		if (d->m_signID.isEmpty())
 			d->m_signID = i18n("No signature found.");
 
@@ -345,9 +344,10 @@ KGpgTextInterface::verifyfin()
 				QStringList(), i18nc("Caption of message box", "Verification Finished"));
 	} else {
 		if (KMessageBox::questionYesNo(0,
-					i18n("<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt>", d->m_signID),
+					i18n("<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt>",
+							d->m_userIDs.first()),
 					d->m_file.fileName(), KGuiItem(i18n("Import")), KGuiItem(i18n("Do Not Import"))) == KMessageBox::Yes)
-			emit verifyquerykey(d->m_signID);
+			emit verifyquerykey(d->m_userIDs.first());
 	}
 	emit verifyfinished();
 }
@@ -388,3 +388,5 @@ KGpgTextInterface::slotSignFinished(int err)
 
 	emit fileSignFinished(d->m_errfiles);
 }
+
+#include "kgpgtextinterface.moc"

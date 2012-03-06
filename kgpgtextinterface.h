@@ -28,7 +28,7 @@ class KGpgTextInterface : public QObject
 	Q_OBJECT
 
 private:
-	KGpgTextInterfacePrivate *d;
+	KGpgTextInterfacePrivate * const d;
 
 public:
 	explicit KGpgTextInterface(QObject *parent = 0);
