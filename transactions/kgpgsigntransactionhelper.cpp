@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,7 +14,7 @@
 #include "kgpgsigntransactionhelper.h"
 
 #include "kgpgtransaction.h"
-#include "kgpgitemnode.h"
+#include "model/kgpgitemnode.h"
 
 KGpgSignTransactionHelper::KGpgSignTransactionHelper(const QString &signer, const bool local, const carefulCheck checking)
 	: m_signer(signer),
@@ -143,3 +143,5 @@ KGpgSignTransactionHelper::setSecringFile(const QString &filename)
 
 	asTransaction()->insertArguments(1, secringargs);
 }
+
+#include "kgpgsigntransactionhelper.moc"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,7 +13,7 @@
 
 #include "kgpgsignuid.h"
 
-#include "kgpgitemnode.h"
+#include "model/kgpgitemnode.h"
 
 KGpgSignUid::KGpgSignUid(QObject *parent, const QString &signer, const KGpgSignableNode *uid, const bool local, const carefulCheck checking)
 	: KGpgUidTransaction(parent),
@@ -94,3 +94,5 @@ KGpgSignUid::replaceCmd(const QString &cmd)
 {
 	replaceArgument(m_cmdPos, cmd);
 }
+
+#include "kgpgsignuid.moc"

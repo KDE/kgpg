@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -106,3 +106,5 @@ KGpgEditKeyTransaction::replaceCommand(const QString &cmd)
 {
 	replaceArgument(m_cmdpos, cmd);
 }
+
+#include "kgpgeditkeytransaction.moc"

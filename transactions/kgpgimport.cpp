@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,8 +13,8 @@
 
 #include "kgpgimport.h"
 
-#include "kgpgitemmodel.h"
-#include "KGpgKeyNode.h"
+#include "model/kgpgitemmodel.h"
+#include "core/KGpgKeyNode.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -291,3 +291,5 @@ KGpgImport::isKey(const QString &text, const bool incomplete)
 
 	return 2;
 }
+
+#include "kgpgimport.moc"

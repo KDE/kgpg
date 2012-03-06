@@ -13,17 +13,16 @@
 
 #include "foldercompressjob.h"
 
-#include <QDir>
-#include <QMetaObject>
-#include <QTimer>
+#include "transactions/kgpgencrypt.h"
 
 #include <KArchive>
 #include <KLocale>
 #include <KTar>
 #include <KTemporaryFile>
 #include <KZip>
-
-#include "transactions/kgpgencrypt.h"
+#include <QDir>
+#include <QMetaObject>
+#include <QTimer>
 
 FolderCompressJob::FolderCompressJob(QObject *parent, const KUrl &source, const KUrl &dest, KTemporaryFile *tempfile, const QStringList &keys, const QStringList &options,  const KGpgEncrypt::EncryptOptions encOptions)
 	: KJob(parent),

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,10 +13,10 @@
 
 #include "kgpgexport.h"
 
+#include "gpgproc.h"
+
 #include <QFile>
 #include <QProcess>
-
-#include "gpgproc.h"
 
 KGpgExport::KGpgExport(QObject *parent, const QStringList &ids, QProcess *outp, const QStringList &options, const bool secret)
 	: KGpgTransaction(parent),

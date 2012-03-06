@@ -9,19 +9,18 @@
 
 #include "selectsecretkey.h"
 
+#include "kgpgsettings.h"
+#include "core/images.h"
+#include "core/KGpgRootNode.h"
+#include "model/kgpgitemmodel.h"
+#include "model/selectkeyproxymodel.h"
+
+#include <KComboBox>
+#include <KLocale>
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QLabel>
 #include <QTableView>
-
-#include <KComboBox>
-#include <KLocale>
-
-#include "images.h"
-#include "kgpgitemmodel.h"
-#include "KGpgRootNode.h"
-#include "kgpgsettings.h"
-#include "selectkeyproxymodel.h"
 
 using namespace KgpgCore;
 

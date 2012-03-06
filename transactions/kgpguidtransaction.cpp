@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -92,3 +92,5 @@ KGpgUidTransaction::setUid(const unsigned int uid)
 {
 	setUid(QString::number(uid));
 }
+
+#include "kgpguidtransaction.moc"

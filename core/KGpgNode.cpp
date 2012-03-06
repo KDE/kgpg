@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,16 +18,16 @@
  */
 #include "KGpgNode.h"
 
-#include <KLocale>
-
 #include "KGpgGroupMemberNode.h"
 #include "KGpgGroupNode.h"
-#include "kgpgitemmodel.h"
 #include "KGpgOrphanNode.h"
 #include "KGpgRootNode.h"
 #include "KGpgSubkeyNode.h"
 #include "KGpgUatNode.h"
 #include "KGpgUidNode.h"
+#include "model/kgpgitemmodel.h"
+
+#include <KLocale>
 
 KGpgNode::KGpgNode(KGpgExpandableNode *parent)
 	: QObject(), m_parent(parent)

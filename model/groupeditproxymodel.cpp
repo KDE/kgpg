@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "groupeditproxymodel.h"
-#include "kgpgitemnode.h"
+#include "model/kgpgitemnode.h"
 #include "kgpgitemmodel.h"
 #include "core/kgpgkey.h"
 

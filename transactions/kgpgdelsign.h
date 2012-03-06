@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,11 +14,12 @@
 #ifndef KGPGDELSIGN_H
 #define KGPGDELSIGN_H
 
+#include "kgpguidtransaction.h"
+
+#include "core/KGpgSignNode.h"
+
 #include <QObject>
 #include <QString>
-
-#include "KGpgSignNode.h"
-#include "kgpguidtransaction.h"
 
 /**
  * @brief delete signatures from user ids

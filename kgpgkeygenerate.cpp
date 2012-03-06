@@ -17,22 +17,21 @@
 
 #include "kgpgkeygenerate.h"
 
-#include <QVBoxLayout>
-#include <QWhatsThis>
-#include <QGroupBox>
-#include <QWidget>
-#include <QLabel>
-#include <QIntValidator>
+#include "core/convert.h"
+#include "core/emailvalidator.h"
 
-#include <KMessageBox>
 #include <KComboBox>
-#include <KLineEdit>
-#include <KLocale>
 #include <KDebug>
 #include <KHBox>
-
-#include "emailvalidator.h"
-#include "core/convert.h"
+#include <KLineEdit>
+#include <KLocale>
+#include <KMessageBox>
+#include <QGroupBox>
+#include <QIntValidator>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QWhatsThis>
+#include <QWidget>
 
 using namespace KgpgCore;
 

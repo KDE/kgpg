@@ -17,9 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "kgpgitemmodel.h"
-#include "kgpgitemnode.h"
+
 #include "kgpgsettings.h"
-#include "convert.h"
+#include "core/convert.h"
+#include "model/kgpgitemnode.h"
+
 #include <KGlobal>
 #include <KLocale>
 #include <QMetaObject>

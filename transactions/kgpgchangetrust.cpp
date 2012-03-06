@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -59,3 +59,5 @@ KGpgChangeTrust::setTrust(const KgpgCore::KgpgKeyOwnerTrust trust)
 {
 	m_trust = trust;
 }
+
+#include "kgpgchangetrust.moc"

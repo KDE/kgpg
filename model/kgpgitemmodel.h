@@ -19,13 +19,13 @@
 #ifndef KGPGITEMMODEL_H
 #define KGPGITEMMODEL_H
 
+#include "core/kgpgkey.h"
+#include "core/KGpgKeyNode.h"
+#include "core/KGpgNode.h"
+
 #include <QAbstractItemModel>
 #include <QString>
 #include <QStringList>
-
-#include "KGpgKeyNode.h"
-#include "KGpgNode.h"
-#include "kgpgkey.h"
 
 #define KEYCOLUMN_NAME	0
 #define KEYCOLUMN_EMAIL	1

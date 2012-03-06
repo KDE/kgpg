@@ -1,5 +1,5 @@
 /***************************************************************************
-                          detailledconsole.cpp  -  description
+                          detailedconsole.cpp  -  description
                              -------------------
     begin                : Mon Jul 8 2002
     copyright            : (C) 2002 by Jean-Baptiste Mardelle
@@ -17,12 +17,8 @@
 
 #include "detailedconsole.h"
 
-#include <QVBoxLayout>
-#include <QGroupBox>
-#include <QLabel>
-
-#include <KMessageBox>
 #include <KLocale>
+#include <KMessageBox>
 
 KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, const QString &errormessage,
 		const QStringList &keysList, const QString &caption)
@@ -38,3 +34,5 @@ KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, con
 	KMessageBox::createKMessageBox(this, QMessageBox::Information, // krazy:exclude=qtclasses
 				   boxLabel, keysList, QString(), NULL, 0, errormessage);
 }
+
+#include "detailedconsole.moc"

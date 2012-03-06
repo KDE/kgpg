@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
  *                                                                         *
@@ -14,20 +15,19 @@
 #ifndef KEYSMANAGER_H
 #define KEYSMANAGER_H
 
+#include "ui_adduid.h"
+
+#include "core/kgpgkey.h"
+#include "model/kgpgitemmodel.h"
+#include "model/kgpgitemnode.h"
+
+#include <KDialog>
+#include <KToggleAction>
+#include <KUrl>
+#include <KXmlGuiWindow>
 #include <QClipboard>
 #include <QSet>
-
-#include <KToggleAction>
-#include <KXmlGuiWindow>
-#include <KDialog>
-#include <KUrl>
-
 #include <solid/networking.h>
-
-#include "kgpgkey.h"
-#include "ui_adduid.h"
-#include "kgpgitemmodel.h"
-#include "kgpgitemnode.h"
 
 class QEvent;
 

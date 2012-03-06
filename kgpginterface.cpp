@@ -14,31 +14,30 @@
 
 #include "kgpginterface.h"
 
-#include <QFile>
-#include <QPointer>
-#include <QRegExp>
-#include <QString>
-#include <QTextStream>
-
-#include <kio/netaccess.h>
-#include <KMessageBox>
-#include <KPasswordDialog>
-#include <knewpassworddialog.h>
-#include <KLocale>
-#include <KProcess>
-#include <KConfig>
-#include <KDebug>
-#include <KGlobal>
-
 #include "detailedconsole.h"
 #include "kgpgsettings.h"
-#include "convert.h"
 #include "gpgproc.h"
+#include "core/convert.h"
 #include "core/KGpgKeyNode.h"
 #include "core/KGpgSignNode.h"
 #include "core/KGpgSubkeyNode.h"
 #include "core/KGpgUatNode.h"
 #include "core/KGpgUidNode.h"
+
+#include <KConfig>
+#include <KDebug>
+#include <KGlobal>
+#include <KLocale>
+#include <KMessageBox>
+#include <KPasswordDialog>
+#include <KProcess>
+#include <QFile>
+#include <QPointer>
+#include <QRegExp>
+#include <QString>
+#include <QTextStream>
+#include <kio/netaccess.h>
+#include <knewpassworddialog.h>
 
 using namespace KgpgCore;
 

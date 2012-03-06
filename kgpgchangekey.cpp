@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,10 +13,10 @@
 
 #include "kgpgchangekey.h"
 
-#include "kgpgitemnode.h"
-#include "kgpgchangetrust.h"
-#include "kgpgchangeexpire.h"
-#include "kgpgchangedisable.h"
+#include "model/kgpgitemnode.h"
+#include "transactions/kgpgchangetrust.h"
+#include "transactions/kgpgchangeexpire.h"
+#include "transactions/kgpgchangedisable.h"
 
 KGpgChangeKey::KGpgChangeKey(KGpgKeyNode *node)
 {

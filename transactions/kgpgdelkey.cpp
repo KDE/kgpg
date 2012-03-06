@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -12,9 +12,11 @@
  ***************************************************************************/
 
 #include "kgpgdelkey.h"
+
+#include "gpgproc.h"
+
 #include <QString>
 #include <QStringList>
-#include "gpgproc.h"
 
 KGpgDelKey::KGpgDelKey(QObject *parent, const QString &keyid)
 	: KGpgTransaction(parent)
@@ -90,3 +92,5 @@ KGpgDelKey::setCmdLine()
 
 	m_argscount = getProcess()->program().count();
 }
+
+#include "kgpgdelkey.moc"

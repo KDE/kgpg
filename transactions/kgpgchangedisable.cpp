@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -55,3 +55,5 @@ KGpgChangeDisable::nextLine(const QString &line)
 		return KGpgEditKeyTransaction::nextLine(line);
 	}
 }
+
+#include "kgpgchangedisable.moc"

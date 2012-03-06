@@ -17,18 +17,18 @@
 #ifndef KGPGOPTIONS_H
 #define KGPGOPTIONS_H
 
-#include <QPixmap>
-#include <QString>
-
-#include <KConfigDialog>
-
 #include "ui_conf_gpg.h"
 #include "ui_conf_ui2.h"
 #include "ui_conf_servers.h"
 #include "ui_conf_misc.h"
 #include "ui_conf_decryption.h"
 
-#include "kgpgkey.h"
+#include "core/kgpgkey.h"
+
+#include <QPixmap>
+#include <QString>
+
+#include <KConfigDialog>
 
 class KFontChooser;
 class KConfig;

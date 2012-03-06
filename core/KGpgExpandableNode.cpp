@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,10 +18,11 @@
  */
 #include "KGpgExpandableNode.h"
 
-#include <KLocale>
 #include "kgpgsettings.h"
-#include "convert.h"
-#include "kgpgitemmodel.h"
+#include "core/convert.h"
+#include "model/kgpgitemmodel.h"
+
+#include <KLocale>
 
 KGpgExpandableNode::KGpgExpandableNode(KGpgExpandableNode *parent)
 	: KGpgNode(parent)

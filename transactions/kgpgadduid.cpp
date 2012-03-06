@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,7 +13,7 @@
 
 #include "kgpgadduid.h"
 
-#include "kpimutils/email.h"
+#include <kpimutils/email.h>
 
 KGpgAddUid::KGpgAddUid(QObject *parent, const QString &keyid, const QString &name, const QString &email, const QString &comment)
 	: KGpgEditKeyTransaction(parent, keyid, QLatin1String( "adduid" ), false, false)
@@ -81,3 +81,5 @@ KGpgAddUid::setComment(const QString &comment)
 {
 	m_comment = comment;
 }
+
+#include "kgpgadduid.moc"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -56,3 +56,5 @@ KGpgAddPhoto::setImagePath(const QString &photourl)
 {
 	m_photourl = photourl;
 }
+
+#include "kgpgaddphoto.moc"

@@ -18,14 +18,13 @@
 #ifndef SELECTPUBLICKEYDIALOG_H
 #define SELECTPUBLICKEYDIALOG_H
 
-#include <QKeySequence>
+#include "core/kgpgkey.h"
 
-#include <KShortcut>
 #include <KDialog>
+#include <KShortcut>
 #include <KUrl>
 #include <KVBox>
-
-#include "kgpgkey.h"
+#include <QKeySequence>
 
 class QCheckBox;
 class QTableView;

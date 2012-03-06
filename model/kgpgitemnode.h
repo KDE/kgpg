@@ -19,17 +19,17 @@
 #ifndef KGPGITEMNODE_H
 #define KGPGITEMNODE_H
 
-#include <KGpgExpandableNode.h>
-#include <KGpgKeyNode.h>
-#include <KGpgRootNode.h>
-#include <KGpgUidNode.h>
-#include <KGpgSignableNode.h>
-#include <KGpgSubkeyNode.h>
-#include <KGpgUatNode.h>
-#include <KGpgGroupNode.h>
-#include <KGpgRefNode.h>
-#include <KGpgGroupMemberNode.h>
-#include <KGpgSignNode.h>
-#include <KGpgOrphanNode.h>
+#include <core/KGpgExpandableNode.h>
+#include <core/KGpgGroupMemberNode.h>
+#include <core/KGpgGroupNode.h>
+#include <core/KGpgKeyNode.h>
+#include <core/KGpgOrphanNode.h>
+#include <core/KGpgRefNode.h>
+#include <core/KGpgRootNode.h>
+#include <core/KGpgSignNode.h>
+#include <core/KGpgSignableNode.h>
+#include <core/KGpgSubkeyNode.h>
+#include <core/KGpgUatNode.h>
+#include <core/KGpgUidNode.h>
 
 #endif /* KGPGITEMNODE_H */

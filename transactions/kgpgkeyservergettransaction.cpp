@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -96,3 +96,5 @@ KGpgRefreshKeys::getGpgCommand() const
 {
 	return QLatin1String( "--refresh-keys" );
 }
+
+#include "kgpgkeyservergettransaction.moc"

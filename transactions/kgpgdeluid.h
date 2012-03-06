@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,11 +14,12 @@
 #ifndef KGPGDELUID_H
 #define KGPGDELUID_H
 
+#include "kgpguidtransaction.h"
+
+#include "core/KGpgSignableNode.h"
+
 #include <QList>
 #include <QObject>
-
-#include "KGpgSignableNode.h"
-#include "kgpguidtransaction.h"
 
 class KGpgKeyNode;
 class KGpgUidNode;

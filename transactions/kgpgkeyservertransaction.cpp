@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,10 +13,10 @@
 
 #include "kgpgkeyservertransaction.h"
 
+#include "gpgproc.h"
+
 #include <KLocale>
 #include <KProgressDialog>
-
-#include "gpgproc.h"
 
 KGpgKeyserverTransaction::KGpgKeyserverTransaction(QObject *parent, const QString &keyserver, const bool withProgress, const QString &proxy)
 	: KGpgTransaction(parent),
@@ -99,3 +99,5 @@ KGpgKeyserverTransaction::setProgressEnable(const bool b)
 		connect(m_progress, SIGNAL(cancelClicked()), SLOT(slotAbort()));
 	}
 }
+
+#include "kgpgkeyservertransaction.moc"

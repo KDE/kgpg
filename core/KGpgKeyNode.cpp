@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,17 +18,17 @@
  */
 #include "KGpgKeyNode.h"
 
-#include <KLocale>
-
-#include "convert.h"
 #include "KGpgGroupMemberNode.h"
-#include "kgpginterface.h"
-#include "kgpgitemmodel.h"
-#include "kgpgsettings.h"
 #include "KGpgRootNode.h"
 #include "KGpgSubkeyNode.h"
 #include "KGpgUatNode.h"
 #include "KGpgUidNode.h"
+#include "convert.h"
+#include "kgpginterface.h"
+#include "kgpgsettings.h"
+#include "model/kgpgitemmodel.h"
+
+#include <KLocale>
 
 KGpgKeyNode::KGpgKeyNode(KGpgRootNode *parent, const KgpgCore::KgpgKey &k)
 	: KGpgSignableNode(parent),

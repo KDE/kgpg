@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -12,12 +12,12 @@
  ***************************************************************************/
 
 #include "kgpgdeluid.h"
+
 #include "gpgproc.h"
+#include "core/kgpgkey.h"
+#include "core/KGpgKeyNode.h"
 
 #include <QtAlgorithms>
-
-#include "kgpgkey.h"
-#include "KGpgKeyNode.h"
 
 KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgSignableNode *uid)
 	: KGpgUidTransaction(parent, uid->getParentKeyNode()->getId(), uid->getId()),
@@ -191,3 +191,5 @@ KGpgDelUid::finish()
 	if (!m_uids.isEmpty())
 		setSuccess(TS_MSG_SEQUENCE);
 }
+
+#include "kgpgdeluid.moc"

@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,8 +19,8 @@
 #ifndef KGPGSIGNABLENODE_H
 #define KGPGSIGNABLENODE_H
 
-#include <KGpgExpandableNode.h>
-#include <KGpgSignNode.h>
+#include "KGpgExpandableNode.h"
+#include "KGpgSignNode.h"
 
 /**
  * @brief An object that may have KGpgSignNode children

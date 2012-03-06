@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -132,3 +132,5 @@ KGpgDecrypt::nextLine(const QString& line)
 
 	return KGpgTextOrFileTransaction::nextLine(line);
 }
+
+#include "kgpgdecrypt.moc"

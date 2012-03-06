@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,12 +13,12 @@
 
 #include "kgpggeneratekey.h"
 
-#include <KMessageBox>
-#include <KLocale>
-#include <QApplication>
+#include "gpgproc.h"
 
+#include <KLocale>
+#include <KMessageBox>
 #include <kpimutils/email.h>
-#include <gpgproc.h>
+#include <QApplication>
 
 KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
 		const KgpgCore::KgpgKeyAlgo &algorithm, const uint size, const unsigned int expire,
@@ -268,3 +268,5 @@ KGpgGenerateKey::gpgErrorMessage() const
 {
 	return m_errorOutput;
 }
+
+#include "kgpggeneratekey.moc"

@@ -18,19 +18,18 @@
  */
 #include "keytreeview.h"
 
+#include "model/keylistproxymodel.h"
+#include "model/kgpgitemmodel.h"
+#include "model/kgpgitemnode.h"
+#include "transactions/kgpgexport.h"
+#include "transactions/kgpgimport.h"
+
+#include <KConfigGroup>
+#include <KLocale>
+#include <KMessageBox>
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QHeaderView>
-
-#include <KMessageBox>
-#include <KLocale>
-#include <KConfigGroup>
-
-#include "kgpgitemmodel.h"
-#include "keylistproxymodel.h"
-#include "kgpgitemnode.h"
-#include "kgpgimport.h"
-#include "kgpgexport.h"
 
 KeyTreeView::KeyTreeView(QWidget *parent, KeyListProxyModel *model)
 	: QTreeView(parent), m_proxy(model)

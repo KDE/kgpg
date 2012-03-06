@@ -19,8 +19,9 @@
 #ifndef GROUPEDITPROXYMODEL_H
 #define GROUPEDITPROXYMODEL_H
 
+#include "core/kgpgkey.h"
+
 #include <QSortFilterProxyModel>
-#include "kgpgkey.h"
 
 class KGpgNode;
 class KGpgItemModel;

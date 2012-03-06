@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,9 +14,9 @@
 #ifndef _KGPGCAFF_H
 #define _KGPGCAFF_H
 
-#include <QObject>
+#include "core/KGpgSignableNode.h"
 
-#include <KGpgSignableNode.h>
+#include <QObject>
 
 class QStringList;
 

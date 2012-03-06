@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,10 +14,11 @@
 #ifndef KGPGGENERATEKEY_H
 #define KGPGGENERATEKEY_H
 
-#include <QObject>
-
 #include "kgpgtransaction.h"
-#include "kgpgkey.h"
+
+#include "core/kgpgkey.h"
+
+#include <QObject>
 
 class QString;
 
@@ -39,10 +40,10 @@ public:
 	 * @param name the name of the key, it is also the user's name.
 	 * @param email email MUST be a valid email address or an empty string.
 	 * @param comment is a comment, it can be an empty string
-	 * @param algorithm this is the type of the key, RSA or DSA & ELGAMAL (see Kgpg::KeyAlgo).
+	 * @param algorithm this is the type of the key, RSA or DSA & ELGAMAL (\see Kgpg::KeyAlgo).
 	 * @param size this is the length of the key (1024, 2048, ...)
 	 * @param expire defines the key expiry time together with \em expireunit, 0 for unlimited key lifetime
-	 * @param expireunit is the unit of the number given as \em expire. See setExpire(const unsigned int &expire, const unsigned int &expireunit)
+	 * @param expireunit is the unit of the number given as \em expire. \see setExpire(const unsigned int &expire, const unsigned int &expireunit)
 	 */
 	KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
 			 const KgpgCore::KgpgKeyAlgo &algorithm, const uint size, const unsigned int expire = 0,

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -66,3 +66,5 @@ KGpgKeyserverSearchTransaction::setPattern(const QString &pattern)
 {
 	replaceArgument(m_patternPos, pattern);
 }
+
+#include "kgpgkeyserversearchtransaction.moc"

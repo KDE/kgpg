@@ -21,8 +21,12 @@
 
 #include "gpgproc.h"
 #include "kgpginterface.h"
-#include "kgpgkey.h"
+#include "core/kgpgkey.h"
 
+#include <KComboBox>
+#include <KLocale>
+#include <KMessageBox>
+#include <KUrlRequester>
 #include <QCheckBox>
 #include <QGridLayout>
 #include <QHBoxLayout>
@@ -30,11 +34,6 @@
 #include <QSpacerItem>
 #include <QTextStream>
 #include <QWidget>
-
-#include <KComboBox>
-#include <KLocale>
-#include <KMessageBox>
-#include <KUrlRequester>
 
 using namespace KgpgCore;
 
@@ -369,3 +368,5 @@ KGpgFirstAssistant::slotBinaryChanged(const QString &binary)
 		}
 	}
 }
+
+#include "kgpgfirstassistant.moc"

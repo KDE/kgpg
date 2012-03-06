@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,11 +14,12 @@
 #ifndef KGPGGENERATEREVOKE_H
 #define KGPGGENERATEREVOKE_H
 
-#include <QObject>
-#include <KUrl>
-
 #include "kgpgtransaction.h"
-#include "kgpgkey.h"
+
+#include "core/kgpgkey.h"
+
+#include <KUrl>
+#include <QObject>
 
 class QString;
 

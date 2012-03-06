@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,25 +14,23 @@
 
 #include "selectpublickeydialog.h"
 
-#include <QVBoxLayout>
-#include <QCheckBox>
-#include <QPainter>
-#include <QLabel>
-#include <QTableView>
+#include "kgpgsettings.h"
+#include "core/images.h"
+#include "core/KGpgRootNode.h"
+#include "model/kgpgitemmodel.h"
+#include "model/selectkeyproxymodel.h"
 
+#include <KAction>
 #include <KActionCollection>
+#include <KHBox>
 #include <KLineEdit>
 #include <KLocale>
-#include <KAction>
-#include <KHBox>
 #include <KVBox>
-
-#include "images.h"
-#include "kgpgitemmodel.h"
-#include "KGpgRootNode.h"
-#include "kgpgsettings.h"
-#include "selectkeyproxymodel.h"
-
+#include <QCheckBox>
+#include <QLabel>
+#include <QPainter>
+#include <QTableView>
+#include <QVBoxLayout>
 
 using namespace KgpgCore;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,10 +13,10 @@
 
 #include "kgpgchangeexpire.h"
 
+#include "detailedconsole.h"
+
 #include <KLocale>
 #include <KMessageBox>
-
-#include "detailedconsole.h"
 
 KGpgChangeExpire::KGpgChangeExpire(QObject *parent, const QString &keyid, const QDateTime &date)
 	: KGpgEditKeyTransaction(parent, keyid, QLatin1String( "expire" ), false)
@@ -55,3 +55,5 @@ KGpgChangeExpire::setDate(const QDateTime &date)
 {
 	m_date = date;
 }
+
+#include "kgpgchangeexpire.moc"

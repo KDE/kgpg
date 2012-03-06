@@ -14,47 +14,46 @@
 
 #include "kgpgeditor.h"
 
-#include <QTextStream>
-#include <QTextCodec>
-#include <QPainter>
-#include <QtDBus/QtDBus>
-#include <QtGui/QPrinter>
-#include <QtGui/QPrintDialog>
-#include <QVBoxLayout>
-#include <QWidget>
-
-#include <KToggleAction>
-#include <KStandardAction>
-#include <KActionCollection>
-#include <KIcon>
-#include <KFindDialog>
-#include <KFind>
-#include <KMenuBar>
-#include <KShortcut>
-#include <KEncodingFileDialog>
-#include <kio/netaccess.h>
-#include <kio/renamedialog.h>
-#include <KMessageBox>
-#include <KTemporaryFile>
-#include <KAction>
-#include <KLocale>
-#include <KDebug>
-#include <KRecentFilesAction>
-#include <KToolBar>
-
 #include "detailedconsole.h"
 #include "selectsecretkey.h"
 #include "kgpgmd5widget.h"
 #include "kgpgsettings.h"
 #include "keyservers.h"
 #include "sourceselect.h"
-#include "kgpgtextedit.h"
 #include "kgpg.h"
 #include "kgpgtextinterface.h"
-#include "kgpgkeyservergettransaction.h"
 #include "keysmanager.h"
+#include "editor/kgpgtextedit.h"
 #include "transactions/kgpgdecrypt.h"
+#include "transactions/kgpgkeyservergettransaction.h"
 #include "transactions/kgpgsigntext.h"
+
+#include <KAction>
+#include <KActionCollection>
+#include <KDebug>
+#include <KEncodingFileDialog>
+#include <KFind>
+#include <KFindDialog>
+#include <KIcon>
+#include <KLocale>
+#include <KMenuBar>
+#include <KMessageBox>
+#include <KRecentFilesAction>
+#include <KShortcut>
+#include <KStandardAction>
+#include <KTemporaryFile>
+#include <KToggleAction>
+#include <KToolBar>
+#include <QPainter>
+#include <QTextCodec>
+#include <QTextStream>
+#include <QVBoxLayout>
+#include <QWidget>
+#include <QtDBus/QtDBus>
+#include <QtGui/QPrintDialog>
+#include <QtGui/QPrinter>
+#include <kio/netaccess.h>
+#include <kio/renamedialog.h>
 
 class KgpgView : public QWidget {
 public:

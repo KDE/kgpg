@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,14 +13,16 @@
  ***************************************************************************/
 
 #include "groupedit.h"
-#include <QHeaderView>
-#include <QSortFilterProxyModel>
+
+#include "kgpgsettings.h"
+#include "core/kgpgkey.h"
+#include "model/groupeditproxymodel.h"
+#include "model/kgpgitemmodel.h"
+
 #include <KAction>
 #include <KActionCollection>
-#include "groupeditproxymodel.h"
-#include "kgpgitemmodel.h"
-#include "kgpgkey.h"
-#include "kgpgsettings.h"
+#include <QHeaderView>
+#include <QSortFilterProxyModel>
 
 groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
 	: QWidget(parent),
@@ -138,3 +140,5 @@ groupEdit::groupRemove(const QModelIndex &index)
 	m_in->invalidate();
 	m_out->invalidate();
 }
+
+#include "groupedit.moc"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,16 +13,15 @@
 
 #include "kgpgtransaction.h"
 
-#include <QByteArray>
-#include <QStringList>
-#include <QWidget>
+#include "gpgproc.h"
+#include "kgpginterface.h"
 
 #include <KDebug>
 #include <knewpassworddialog.h>
 #include <KLocale>
-
-#include "gpgproc.h"
-#include "kgpginterface.h"
+#include <QByteArray>
+#include <QStringList>
+#include <QWidget>
 
 class KGpgTransactionPrivate: QObject {
 public:

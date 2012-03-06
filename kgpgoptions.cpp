@@ -17,31 +17,27 @@
 
 #include "kgpgoptions.h"
 
-#include <QTextStream>
-#include <QVBoxLayout>
+#include "kgpgsettings.h"
+#include "kgpginterface.h"
+#include "conf_encryption.h"
+#include "core/images.h"
+#include "model/keylistproxymodel.h"
+#include "model/kgpgitemmodel.h"
+
+#include <KConfig>
+#include <KDesktopFile>
+#include <KFileDialog>
+#include <KFontChooser>
+#include <KInputDialog>
+#include <KLocale>
+#include <KMessageBox>
+#include <KProcess>
+#include <KStandardDirs>
 #include <QCheckBox>
 #include <QFile>
-
-#include <KStandardDirs>
-#include <KInputDialog>
-#include <KDesktopFile>
-#include <KMessageBox>
-#include <KFileDialog>
-#include <KConfig>
-#include <KLocale>
-#include <KProcess>
+#include <QTextStream>
+#include <QVBoxLayout>
 #include <kdefakes.h>
-#include <KFontChooser>
-
-#include "images.h"
-#include "kgpgsettings.h"
-
-#include "keylistproxymodel.h"
-#include "kgpgitemmodel.h"
-#include "kgpginterface.h"
-
-// #include "conf_decryption.h"
-#include "conf_encryption.h"
 
 using namespace KgpgCore;
 

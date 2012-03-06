@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,9 +13,9 @@
 
 #include "kgpgtransactionjob.h"
 
-#include <KLocale>
-
 #include "kgpgtransaction.h"
+
+#include <KLocale>
 
 KGpgTransactionJob::KGpgTransactionJob(KGpgTransaction *transaction)
 	: KJob(transaction->parent()),

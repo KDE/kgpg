@@ -14,27 +14,26 @@
 
 #include "keyservers.h"
 
+#include "core/convert.h"
+#include "detailedconsole.h"
+#include "gpgproc.h"
+#include "kgpgsettings.h"
+#include "model/keylistproxymodel.h"
+#include "model/kgpgitemmodel.h"
+#include "model/kgpgsearchresultmodel.h"
+#include "transactions/kgpgimport.h"
+#include "transactions/kgpgkeyservergettransaction.h"
+#include "transactions/kgpgkeyserversearchtransaction.h"
+#include "transactions/kgpgsendkeys.h"
+
+#include <KConfig>
+#include <KDateTime>
+#include <KDebug>
+#include <KLocale>
+#include <KMessageBox>
 #include <QCursor>
 #include <QLabel>
 #include <QTextCodec>
-
-#include <KConfig>
-#include <KMessageBox>
-#include <KLocale>
-#include <KDebug>
-#include <KDateTime>
-
-#include "keylistproxymodel.h"
-#include "kgpgitemmodel.h"
-#include "kgpgsearchresultmodel.h"
-#include "kgpgsettings.h"
-#include "detailedconsole.h"
-#include "convert.h"
-#include "gpgproc.h"
-#include "kgpgkeyservergettransaction.h"
-#include "kgpgkeyserversearchtransaction.h"
-#include "kgpgsendkeys.h"
-#include "kgpgimport.h"
 
 KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose)
 	: KDialog(parent),

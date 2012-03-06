@@ -13,14 +13,12 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
-#include <KUniqueApplication>
-#include <KCmdLineArgs>
-#include <KAboutData>
-#include <KLocale>
-
 #include "kgpg.h"
+
+#include <KAboutData>
+#include <KCmdLineArgs>
+#include <KLocale>
+#include <KUniqueApplication>
 
 static const char description[] =
         I18N_NOOP("KGpg - simple gui for gpg\n\nKGpg was designed to make gpg very easy to use.\nI tried to make it as secure as possible.\nHope you enjoy it.");

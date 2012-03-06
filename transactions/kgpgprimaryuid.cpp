@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,7 +13,7 @@
 
 #include "kgpgprimaryuid.h"
 
-#include "kgpgitemnode.h"
+#include "model/kgpgitemnode.h"
 
 KGpgPrimaryUid::KGpgPrimaryUid(QObject *parent, KGpgUidNode *uid)
 	: KGpgUidTransaction(parent, uid->getParentKeyNode()->getId(), uid->getId())
@@ -30,3 +30,5 @@ KGpgPrimaryUid::nextLine(const QString &line)
 {
 	return standardCommands(line);
 }
+
+#include "kgpgprimaryuid.moc"

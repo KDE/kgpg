@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
  * Copyright (C) 2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  * Copyright (C) 2011 Philip Greggory Lee <rocketman768@gmail.com>
  */
 
@@ -16,33 +16,32 @@
 
 #include "keyinfodialog.h"
 
-#include <QGridLayout>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QFormLayout>
-#include <QGroupBox>
-#include <QCheckBox>
-#include <QPixmap>
-#include <QImage>
-#include <QApplication>
+#include "kgpgchangekey.h"
+#include "selectexpirydate.h"
+#include "core/convert.h"
+#include "core/images.h"
+#include "core/kgpgkey.h"
+#include "model/kgpgitemmodel.h"
+#include "model/kgpgitemnode.h"
+#include "transactions/kgpgchangepass.h"
 
-#include <KToolInvocation>
+#include <KComboBox>
+#include <KDatePicker>
+#include <KLocale>
+#include <KMessageBox>
 #include <KPassivePopup>
 #include <KPushButton>
-#include <KDatePicker>
-#include <KMessageBox>
+#include <KToolInvocation>
 #include <KUrlLabel>
-#include <KComboBox>
-#include <KLocale>
-
-#include "kgpgkey.h"
-#include "convert.h"
-#include "images.h"
-#include "kgpgchangekey.h"
-#include "kgpgchangepass.h"
-#include "kgpgitemnode.h"
-#include "kgpgitemmodel.h"
-#include "selectexpirydate.h"
+#include <QApplication>
+#include <QCheckBox>
+#include <QFormLayout>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QImage>
+#include <QPixmap>
+#include <QVBoxLayout>
 
 using namespace KgpgCore;
 

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,9 +14,22 @@
 
 #include "kgpgexternalactions.h"
 
-#include <QDesktopWidget>
-#include <QFont>
-#include <QProcess>
+#include "foldercompressjob.h"
+#include "keyservers.h"
+#include "keysmanager.h"
+#include "kgpgfirstassistant.h"
+#include "kgpginterface.h"
+#include "kgpgsettings.h"
+#include "kgpgtextinterface.h"
+#include "selectpublickeydialog.h"
+#include "selectsecretkey.h"
+#include "core/images.h"
+#include "editor/kgpgeditor.h"
+#include "editor/kgpgtextedit.h"
+#include "transactions/kgpgdecrypt.h"
+#include "transactions/kgpgencrypt.h"
+#include "transactions/kgpgsigntext.h"
+#include "transactions/kgpgtransactionjob.h"
 
 #include <KActionCollection>
 #include <KMessageBox>
@@ -25,26 +38,12 @@
 #include <KToolInvocation>
 #include <KUniqueApplication>
 #include <KZip>
-#include <kio/renamedialog.h>
+#include <QDesktopWidget>
+#include <QFont>
+#include <QProcess>
 #include <kio/global.h>
+#include <kio/renamedialog.h>
 #include <kjobtrackerinterface.h>
-
-#include "images.h"
-#include "keyservers.h"
-#include "keysmanager.h"
-#include "kgpgeditor.h"
-#include "kgpgfirstassistant.h"
-#include "kgpgsettings.h"
-#include "kgpgtextinterface.h"
-#include "kgpgtextedit.h"
-#include "selectpublickeydialog.h"
-#include "selectsecretkey.h"
-#include "kgpginterface.h"
-#include "transactions/kgpgdecrypt.h"
-#include "transactions/kgpgsigntext.h"
-#include "foldercompressjob.h"
-#include "kgpgencrypt.h"
-#include "kgpgtransactionjob.h"
 
 KGpgExternalActions::KGpgExternalActions(KeysManager *parent, KGpgItemModel *model)
 	: QObject(parent),
@@ -473,3 +472,5 @@ KShortcut KGpgExternalActions::goDefaultKey() const
 {
 	return qobject_cast<KAction *>(m_keysmanager->actionCollection()->action(QLatin1String( "go_default_key" )))->shortcut();
 }
+
+#include "kgpgexternalactions.moc"

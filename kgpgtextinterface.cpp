@@ -14,14 +14,13 @@
 
 #include "kgpgtextinterface.h"
 
-#include <QTextCodec>
-#include <QFile>
-
-#include <KLocale>
-
 #include "kgpginterface.h"
 #include "gpgproc.h"
 #include "kgpgsettings.h"
+
+#include <KLocale>
+#include <QFile>
+#include <QTextCodec>
 
 class KGpgTextInterfacePrivate
 {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,7 +14,15 @@
 #include "caff.h"
 #include "caff_p.h"
 
-#include <QDir>
+#include "kgpginterface.h"
+#include "kgpgsettings.h"
+#include "core/KGpgKeyNode.h"
+#include "core/KGpgSignableNode.h"
+#include "transactions/kgpgdeluid.h"
+#include "transactions/kgpgencrypt.h"
+#include "transactions/kgpgexport.h"
+#include "transactions/kgpgimport.h"
+#include "transactions/kgpgsignuid.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -22,16 +30,7 @@
 #include <KTempDir>
 #include <KTemporaryFile>
 #include <KToolInvocation>
-
-#include "kgpgdeluid.h"
-#include "kgpgencrypt.h"
-#include "kgpgexport.h"
-#include "kgpgimport.h"
-#include "kgpginterface.h"
-#include "KGpgKeyNode.h"
-#include "kgpgsettings.h"
-#include "KGpgSignableNode.h"
-#include "kgpgsignuid.h"
+#include <QDir>
 
 KGpgCaffPrivate::KGpgCaffPrivate(KGpgCaff *parent, const KGpgSignableNode::List &ids, const QStringList &signers,
 		const KGpgCaff::OperationFlags flags, const KGpgSignTransactionHelper::carefulCheck checklevel)

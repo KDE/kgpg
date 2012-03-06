@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
 #ifndef KGPGORPHANNODE_H
 #define KGPGORPHANNODE_H
 
-#include <KGpgNode.h>
+#include "KGpgNode.h"
 
 #include "kgpgkey.h"
 

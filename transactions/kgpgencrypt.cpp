@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,12 +13,11 @@
 
 #include "kgpgencrypt.h"
 
-#include <gpgproc.h>
-#include <kio/renamedialog.h>
-
-#include <KLocale>
-
 #include "kgpgsettings.h"
+#include "gpgproc.h"
+
+#include <kio/renamedialog.h>
+#include <KLocale>
 
 static QStringList trustOptions(const QString &binary)
 {

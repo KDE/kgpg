@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,10 +13,10 @@
 
 #include "kgpgdelsign.h"
 
-#include <QStringList>
-
-#include "kgpgitemnode.h"
+#include "model/kgpgitemnode.h"
 #include "gpgproc.h"
+
+#include <QStringList>
 
 KGpgDelSign::KGpgDelSign(QObject *parent, const KGpgSignNode::List &signids)
 	: KGpgUidTransaction(parent, signids.at(0)->getParentKeyNode()->getId())
@@ -134,3 +134,5 @@ KGpgDelSign::boolQuestion(const QString &line)
 		return KGpgTransaction::boolQuestion(line);
 	}
 }
+
+#include "kgpgdelsign.moc"

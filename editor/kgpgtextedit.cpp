@@ -14,28 +14,27 @@
 
 #include "kgpgtextedit.h"
 
-#include <QDragEnterEvent>
-#include <QTextStream>
-#include <QTextCodec>
-#include <QDropEvent>
-#include <QFile>
-
-#include <kio/netaccess.h>
-#include <KMessageBox>
-#include <KLocale>
-
 #include "selectsecretkey.h"
 #include "kgpgsettings.h"
 #include "kgpgtextinterface.h"
 #include "keyservers.h"
-#include "kgpgeditor.h"
 #include "selectpublickeydialog.h"
 #include "detailedconsole.h"
-#include "kgpgdecrypt.h"
-#include "kgpgencrypt.h"
-#include "kgpgimport.h"
 #include "keysmanager.h"
+#include "editor/kgpgeditor.h"
+#include "transactions/kgpgdecrypt.h"
+#include "transactions/kgpgencrypt.h"
+#include "transactions/kgpgimport.h"
 #include "transactions/kgpgsigntext.h"
+
+#include <KLocale>
+#include <KMessageBox>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QFile>
+#include <QTextCodec>
+#include <QTextStream>
+#include <kio/netaccess.h>
 
 #define SIGNEDMESSAGE_BEGIN  QLatin1String( "-----BEGIN PGP SIGNED MESSAGE-----" )
 #define SIGNEDMESSAGE_END    QLatin1String( "-----END PGP SIGNATURE-----" )

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,10 +13,10 @@
 
 #include "kgpgchangepass.h"
 
+#include "detailedconsole.h"
+
 #include <KLocale>
 #include <KMessageBox>
-
-#include "detailedconsole.h"
 
 KGpgChangePass::KGpgChangePass(QObject *parent, const QString &keyid)
 	: KGpgTransaction(parent)
@@ -77,3 +77,5 @@ KGpgChangePass::nextLine(const QString &line)
 
 	return false;
 }
+
+#include "kgpgchangepass.moc"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,14 +14,14 @@
 #ifndef _KGPGCAFF_P_H
 #define _KGPGCAFF_P_H
 
+#include "caff.h"
+#include "core/KGpgSignableNode.h"
+#include "transactions/kgpgsigntransactionhelper.h"
+
 #include <QList>
 #include <QObject>
 #include <QString>
 #include <QStringList>
-
-#include "caff.h"
-#include "KGpgSignableNode.h"
-#include "kgpgsigntransactionhelper.h"
 
 class KTempDir;
 

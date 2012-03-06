@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,10 +13,10 @@
 
 #include "kgpgtextorfiletransaction.h"
 
+#include "gpgproc.h"
+
 #include <KIO/NetAccess>
 #include <KLocale>
-
-#include "gpgproc.h"
 
 KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const QString &text, const bool allowChaining)
 	: KGpgTransaction(parent, allowChaining),
@@ -139,3 +139,5 @@ KGpgTextOrFileTransaction::getInputFiles() const
 {
 	return m_inpfiles;
 }
+
+#include "kgpgtextorfiletransaction.moc"

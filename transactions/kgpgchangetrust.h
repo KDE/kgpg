@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,10 +14,11 @@
 #ifndef KGPGCHANGETRUST_H
 #define KGPGCHANGETRUST_H
 
-#include <QObject>
-
 #include "kgpgeditkeytransaction.h"
-#include "kgpgkey.h"
+
+#include "core/kgpgkey.h"
+
+#include <QObject>
 
 /**
  * @brief change the owner trust level of a public key

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,10 +14,10 @@
 #ifndef KGPGCHANGEKEY_H
 #define KGPGCHANGEKEY_H
 
+#include "core/kgpgkey.h"
+
 #include <QObject>
 #include <QDateTime>
-
-#include "kgpgkey.h"
 
 class KGpgKeyNode;
 class KGpgChangeTrust;

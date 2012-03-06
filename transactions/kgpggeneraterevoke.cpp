@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -116,3 +116,5 @@ KGpgGenerateRevoke::getOutput() const
 {
 	return m_output;
 }
+
+#include "kgpggeneraterevoke.moc"

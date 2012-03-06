@@ -14,10 +14,9 @@
 #include "kgpgsigntext.h"
 
 #include "kgpgsettings.h"
-
 #include <gpgproc.h>
-#include <kio/renamedialog.h>
 
+#include <kio/renamedialog.h>
 #include <KDebug>
 #include <KLocale>
 

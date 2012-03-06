@@ -16,8 +16,9 @@
 
 #include "kgpgrevokewidget.h"
 
+#include "core/KGpgKeyNode.h"
+
 #include <QDir>
-#include "KGpgKeyNode.h"
 
 KgpgRevokeWidget::KgpgRevokeWidget(QWidget* parent)
 	: QWidget(parent),

@@ -17,23 +17,22 @@
 
 #include "kgpg.h"
 
-#include <QApplication>
-#include <QtDBus/QtDBus>
+#include "gpgproc.h"
+#include "kgpgsettings.h"
+#include "keysmanager.h"
+#include "kgpg_interface.h"
+#include "kgpgexternalactions.h"
+#include "kgpginterface.h"
+#include "core/images.h"
+#include "editor/kgpgeditor.h"
+#include "transactions/kgpgimport.h"
 
 #include <KCmdLineArgs>
 #include <KMessageBox>
 #include <KWindowSystem>
 #include <KMimeType>
-
-#include "gpgproc.h"
-#include "images.h"
-#include "kgpgeditor.h"
-#include "kgpgsettings.h"   // automatically created by compilation
-#include "keysmanager.h"
-#include "kgpg_interface.h"
-#include "kgpgexternalactions.h"
-#include "kgpgimport.h"
-#include "kgpginterface.h"
+#include <QApplication>
+#include <QtDBus/QtDBus>
 
 using namespace KgpgCore;
 
