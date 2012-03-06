@@ -1,4 +1,3 @@
--sign expire
 -delete multiple signatures at once
 -don't do anything in terminal when deleting a private key (?)
 -make searching on keyserver available via dbus

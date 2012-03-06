@@ -23,6 +23,7 @@
 #include "core/convert.h"
 
 #include <KLocale>
+#include <QDate>
 
 using namespace KgpgCore;
 
@@ -317,6 +318,13 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 
 	if (l->getTrust() < d->m_mintrust)
 		return false;
+
+	/* check for expired signatures */
+	if ((d->m_mintrust > TRUST_EXPIRED) && (l->getType() == ITYPE_SIGN)) {
+		const QDateTime expDate = l->toSignNode()->getExpiration();
+		if (expDate.isValid() && (expDate < QDateTime::currentDateTime()))
+			return false;
+	}
 
 	if (l->getParentKeyNode() != d->m_model->getRootNode())
 		return true;
