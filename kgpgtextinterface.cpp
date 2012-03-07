@@ -204,17 +204,13 @@ KGpgTextInterface::~KGpgTextInterface()
 void
 KGpgTextInterface::signText(const QString &text, const QString &userid, const QStringList &options)
 {
-	QTextCodec *codec = QTextCodec::codecForLocale();
-	if (codec->canEncode(text))
-		d->m_message = text;
-	else
-		d->m_message =QLatin1String( text.toUtf8() );
+	d->m_message = text;
 
 	*d->m_process << options;
 
 	*d->m_process << QLatin1String( "--clearsign" ) << QLatin1String( "-u" ) << userid;
 
-	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(signTextProcess()));
+	connect(d->m_process, SIGNAL(readReady()), SLOT(signTextProcess()));
 	connect(d->m_process, SIGNAL(processExited()), this, SLOT(signTextFin()));
 	d->m_process->start();
 }
@@ -223,26 +219,27 @@ KGpgTextInterface::signText(const QString &text, const QString &userid, const QS
 void
 KGpgTextInterface::signTextProcess()
 {
-	QByteArray line;
+	QString line;
 
-	while (d->m_process->readLineStandardOutput(&line)) {
+	while (d->m_process->readln(line, true) >= 0) {
 		if (line.startsWith("[GNUPG:]")) {
 			if (line.contains( "USERID_HINT" )) {
-				d->updateIDs(line);
+				d->updateIDs(line.toAscii());
 			} else if (line.contains( "BAD_PASSPHRASE" )) {
 				d->m_message.fill(QLatin1Char( 'x' ));
 				d->m_message.clear();
 				d->m_badpassword = true;
 			} else if (line.contains( "GOOD_PASSPHRASE" )) {
-				d->m_process->write(d->m_message.toAscii());
+				d->m_process->write(d->m_message.toUtf8());
 				d->m_process->closeWriteChannel();
 				d->m_message.clear();
 			} else if (line.contains( "passphrase.enter" )) {
 				if (d->gpgPassphrase())
 					return;
 			}
-		} else
-			d->m_message +=QLatin1String( line ) + QLatin1Char( '\n' );
+		} else {
+			d->m_message += line + QLatin1Char('\n');
+		}
 	}
 }
 //krazy:endcond=strings
@@ -262,11 +259,7 @@ KGpgTextInterface::signTextFin()
 void
 KGpgTextInterface::verifyText(const QString &text)
 {
-	QTextCodec *codec = QTextCodec::codecForLocale();
-	if (codec->canEncode(text))
-		d->m_message = text;
-	else
-		d->m_message = QLatin1String( text.toUtf8() );
+	d->m_message.clear();
 
 	*d->m_process << QLatin1String( "--verify" );
 
@@ -274,8 +267,7 @@ KGpgTextInterface::verifyText(const QString &text)
 	connect(d->m_process, SIGNAL(processExited()), this, SLOT(verifyTextFin()));
 	d->m_process->start();
 
-	d->m_process->write(d->m_message.toAscii());
-	d->m_message.clear();
+	d->m_process->write(text.toUtf8());
 	d->m_process->closeWriteChannel();
 }
 

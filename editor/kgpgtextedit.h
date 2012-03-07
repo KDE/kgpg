@@ -55,9 +55,6 @@ protected:
     void dragEnterEvent(QDragEnterEvent *e);
     void dropEvent(QDropEvent *e);
 
-private:
-    bool checkForUtf8(const QString &text);
-
 private slots:
     void slotEncodeUpdate(int result);
     void slotSignUpdate(const QString &content);
