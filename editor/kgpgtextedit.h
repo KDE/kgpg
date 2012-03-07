@@ -57,12 +57,12 @@ protected:
 
 private:
     bool checkForUtf8(const QString &text);
+    void verifyKeyNeeded(const QString &id);
 
 private slots:
     void slotEncodeUpdate(int result);
     void slotSignUpdate(int result);
-    void slotVerifySuccess(const QString &content, const QString &log);
-    void slotVerifyKeyNeeded(const QString &id);
+    void slotVerifyDone(int result);
 
     void slotDecryptDone(int result);
 

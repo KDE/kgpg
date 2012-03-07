@@ -26,6 +26,7 @@
 #include "transactions/kgpgencrypt.h"
 #include "transactions/kgpgimport.h"
 #include "transactions/kgpgsigntext.h"
+#include "transactions/kgpgverify.h"
 
 #include <KLocale>
 #include <KMessageBox>
@@ -235,10 +236,9 @@ void KgpgTextEdit::slotVerify(const QString &message)
         return;
     posend += endmsg.length();
 
-    KGpgTextInterface *interface = new KGpgTextInterface();
-    connect(interface, SIGNAL(txtVerifyMissingSignature(QString)), SLOT(slotVerifyKeyNeeded(QString)));
-    connect(interface, SIGNAL(txtVerifyFinished(QString,QString)), SLOT(slotVerifySuccess(QString,QString)));
-    interface->verifyText(message.mid(posstart, posend - posstart));
+    KGpgVerify *verify = new KGpgVerify(this, message.mid(posstart, posend - posstart));
+    connect(verify, SIGNAL(done(int)), SLOT(slotVerifyDone(int)));
+    verify->start();
 }
 
 bool KgpgTextEdit::checkForUtf8(const QString &text)
@@ -313,17 +313,35 @@ void KgpgTextEdit::slotSignUpdate(int result)
     }
 }
 
-void KgpgTextEdit::slotVerifySuccess(const QString &content, const QString &log)
+void KgpgTextEdit::slotVerifyDone(int result)
 {
-    sender()->deleteLater();
-    emit verifyFinished();
-    (void) new KgpgDetailedInfo(this, content, log, QStringList(), i18nc("Caption of message box", "Verification Finished"));
+	const KGpgVerify * const verify = qobject_cast<KGpgVerify *>(sender());
+	sender()->deleteLater();
+	Q_ASSERT(verify != NULL);
+
+	emit verifyFinished();
+
+	if (result == KGpgVerify::TS_MISSING_KEY) {
+		verifyKeyNeeded(verify->missingId());
+		return;
+	}
+
+	const QStringList messages = verify->getMessages();
+
+	if (messages.isEmpty())
+		return;
+
+	QStringList msglist;
+	foreach (QString rawmsg, messages)
+		msglist << rawmsg.replace(QLatin1Char('<'), QLatin1String("&lt;"));
+
+	(void) new KgpgDetailedInfo(this, KGpgVerify::getReport(messages, m_model),
+			msglist.join(QLatin1String("<br/>")),
+			QStringList(), i18nc("Caption of message box", "Verification Finished"));
 }
 
-void KgpgTextEdit::slotVerifyKeyNeeded(const QString &id)
+void KgpgTextEdit::verifyKeyNeeded(const QString &id)
 {
-    sender()->deleteLater();
-
     KGuiItem importitem = KStandardGuiItem::yes();
     importitem.setText(i18n("&Import"));
     importitem.setToolTip(i18n("Import key in your list"));
@@ -338,8 +356,6 @@ void KgpgTextEdit::slotVerifyKeyNeeded(const QString &id)
         kser->slotSetText(id);
         kser->slotImport();
     }
-    else
-        emit verifyFinished();
 }
 
 void KgpgTextEdit::slotSignVerify()

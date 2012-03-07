@@ -187,39 +187,6 @@ KGpgTextInterface::~KGpgTextInterface()
 }
 
 void
-KGpgTextInterface::verifyText(const QString &text)
-{
-	QTextCodec *codec = QTextCodec::codecForLocale();
-	if (codec->canEncode(text))
-		d->m_message = text;
-	else
-		d->m_message = QLatin1String( text.toUtf8() );
-
-	*d->m_process << QLatin1String( "--verify" );
-
-	connect(d->m_process, SIGNAL(readReady()), this, SLOT(readVerify()));
-	connect(d->m_process, SIGNAL(processExited()), this, SLOT(verifyTextFin()));
-	d->m_process->start();
-
-	d->m_process->write(d->m_message.toAscii());
-	d->m_message.clear();
-	d->m_process->closeWriteChannel();
-}
-
-void
-KGpgTextInterface::verifyTextFin()
-{
-	if (!d->m_userIDs.isEmpty()) {
-		emit txtVerifyMissingSignature(d->m_userIDs.first());
-	} else {
-		if (d->m_signID.isEmpty())
-			d->m_signID = i18n("No signature found.");
-
-		emit txtVerifyFinished(d->m_signID, d->m_message);
-	}
-}
-
-void
 KGpgTextInterface::KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl)
 {
 	d->m_file = sigUrl;

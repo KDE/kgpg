@@ -48,11 +48,6 @@ signals:
      */
     void verifyfinished(QString id, QString message);
 
-    void txtSigningFinished(QString);
-
-    void txtVerifyMissingSignature(QString);
-    void txtVerifyFinished(QString, QString);
-
     /**
      * Emitted when all files passed to KgpgSignFile() where processed.
      * Passes as argument the files that failed.
@@ -60,12 +55,6 @@ signals:
     void fileSignFinished(KUrl::List &);
 
 public Q_SLOTS:
-    /**
-     * Verify text function
-     * @param text QString text to be verified.
-     */
-    void verifyText(const QString &text);
-
     /**
      * Sign file function
      * @param keyID the signing key ID.
@@ -90,8 +79,6 @@ private Q_SLOTS:
      * Checks output of the verify process
      */
     void verifyfin();
-
-    void verifyTextFin();
 
 	void slotSignFile(int);
 	void slotSignFinished(int);
