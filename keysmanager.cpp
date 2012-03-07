@@ -774,7 +774,7 @@ void KeysManager::slotKeyRefreshDone(int result)
 		imodel->refreshKeys(keys);
 
 	QApplication::restoreOverrideCursor();
-	(void) new KgpgDetailedInfo(this, message.join(QLatin1String("\n")), log.join(QLatin1String("\n")),
+	(void) new KgpgDetailedInfo(this, message.join(QLatin1String("\n")), log.join(QLatin1String("<br/>")),
 			KGpgImport::getDetailedImportMessage(log, imodel).split(QLatin1Char('\n')));
 }
 
