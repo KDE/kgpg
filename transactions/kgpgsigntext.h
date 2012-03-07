@@ -14,13 +14,12 @@
 #ifndef KGPGSIGNTEXT_H
 #define KGPGSIGNTEXT_H
 
+#include "kgpgtextorfiletransaction.h"
+
+#include <KUrl>
 #include <QObject>
 #include <QString>
 #include <QStringList>
-
-#include <KUrl>
-
-#include "kgpgtextorfiletransaction.h"
 
 class QProcess;
 
@@ -41,20 +40,20 @@ public:
 	Q_DECLARE_FLAGS(SignOptions, SignOption);
 
 	/**
-	 * @brief encrypt given text
+	 * @brief sign given text
 	 * @param parent parent object
 	 * @param signId the key to use for signing
-	 * @param text text to encrypt
-	 * @param options encryption options
+	 * @param text text to sign
+	 * @param options signing options
 	 */
 	KGpgSignText(QObject *parent, const QString &signId, const QString &text = QString(), const SignOptions &options = AsciiArmored, const QStringList &extraOptions = QStringList());
 
 	/**
-	 * @brief encrypt file(s)
+	 * @brief sign file
 	 * @param parent parent object
 	 * @param signId the key to use for signing
-	 * @param files list of file locations to encrypt (must only be 1 file)
-	 * @param options encryption options
+	 * @param files list of file locations to sign (must only be 1 file)
+	 * @param options signing options
 	 *
 	 * @warning GnuPG can currently handle only one file per invocation for
 	 * signing, so files may only contain one single file.
@@ -80,7 +79,8 @@ private:
 	const SignOptions m_options;
 	const QString m_signId;
 	QStringList m_extraOptions;
-	QString m_currentFile;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(KGpgSignText::SignOptions);
 
 #endif // KGPGSIGNTEXT_H

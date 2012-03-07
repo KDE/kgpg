@@ -14,11 +14,6 @@
 #include "kgpgsigntext.h"
 
 #include "kgpgsettings.h"
-#include <gpgproc.h>
-
-#include <kio/renamedialog.h>
-#include <KDebug>
-#include <KLocale>
 
 KGpgSignText::KGpgSignText(QObject *parent, const QString &signId, const QString &text, const SignOptions &options, const QStringList &extraOptions)
 	: KGpgTextOrFileTransaction(parent, text),
@@ -81,12 +76,10 @@ QStringList
 KGpgSignText::signedText() const
 {
 	QStringList result;
-	int txtlength = 0;
 
 	foreach (const QString &line, getMessages())
 		if (!line.startsWith(QLatin1String("[GNUPG:] "))) {
 			result.append(line);
-			txtlength += line.length() + 1;
 		}
 
 	return result;
