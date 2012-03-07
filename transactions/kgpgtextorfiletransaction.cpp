@@ -96,7 +96,7 @@ KGpgTextOrFileTransaction::postStart()
 {
 	if (!m_text.isEmpty()){
 		GPGProc *proc = getProcess();
-		proc->write(m_text.toAscii());
+		proc->write(m_text.toUtf8());
 		proc->closeWriteChannel();
 	}
 }

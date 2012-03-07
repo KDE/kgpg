@@ -56,7 +56,6 @@ protected:
     void dropEvent(QDropEvent *e);
 
 private:
-    bool checkForUtf8(const QString &text);
     void verifyKeyNeeded(const QString &id);
 
 private slots:

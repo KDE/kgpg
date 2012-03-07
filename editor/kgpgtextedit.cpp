@@ -241,15 +241,6 @@ void KgpgTextEdit::slotVerify(const QString &message)
     verify->start();
 }
 
-bool KgpgTextEdit::checkForUtf8(const QString &text)
-{
-    // try to guess if the decrypted text uses utf-8 encoding
-    QTextCodec *codec = QTextCodec::codecForLocale();
-    if (!codec->canEncode(text))
-        return true;
-    return false;
-}
-
 void KgpgTextEdit::slotDecryptDone(int result)
 {
 	KGpgDecrypt *decr = qobject_cast<KGpgDecrypt *>(sender());
@@ -261,9 +252,7 @@ void KgpgTextEdit::slotDecryptDone(int result)
 	}
 
 	if (result == KGpgTransaction::TS_OK) {
-#ifdef __GNUC__
-#warning FIXME choose codec
-#endif
+		// FIXME choose codec
 		setPlainText(decr->decryptedText().join(QLatin1String("\n")) + QLatin1Char('\n'));
 	} else if (result != KGpgTransaction::TS_USER_ABORTED) {
 		KMessageBox::detailedSorry(this, i18n("Decryption failed."), decr->getMessages().join( QLatin1String( "\n" )));
@@ -301,16 +290,8 @@ void KgpgTextEdit::slotSignUpdate(int result)
 
 	const QString content = signt->signedText().join(QLatin1String("\n")) + QLatin1String("\n");
 
-    if (checkForUtf8(content))
-    {
-        setPlainText(QString::fromUtf8(content.toAscii()));
-        emit resetEncoding(true);
-    }
-    else
-    {
-        setPlainText(content);
-        emit resetEncoding(false);
-    }
+    setPlainText(content);
+    emit resetEncoding(false);
 }
 
 void KgpgTextEdit::slotVerifyDone(int result)

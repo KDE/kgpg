@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -43,47 +44,14 @@ public:
 	bool symPassphrase();
 	bool gpgPassphrase();
 	void signFile(const KUrl &);
-
-	void appendLog(const QByteArray &a);
-	QString log() const;
-
-private:
-	bool m_consoleUtf8;
-	QString m_log;
 };
-
-//krazy:cond=strings
-static bool isUtf8Lang(const QByteArray &lc)
-{
-	return lc.endsWith("UTF-8");
-}
-//krazy:endcond=strings
 
 KGpgTextInterfacePrivate::KGpgTextInterfacePrivate(QObject *parent)
 	: m_process(new GPGProc(parent)),
 	m_badpassword(false),
 	m_anonymous(false),
-	m_step(3),
-	m_consoleUtf8(true)
+	m_step(3)
 {
-	const QByteArray lcMess = qgetenv("LC_MESSAGES");
-
-	if (!lcMess.isEmpty()) {
-		m_consoleUtf8 = isUtf8Lang(lcMess);
-	} else {
-		const QByteArray lcAll = qgetenv("LC_ALL");
-		if (!lcAll.isEmpty()) {
-			m_consoleUtf8 = isUtf8Lang(lcAll);
-		} else {
-			const QByteArray lang = qgetenv("LANG");
-			if (!lang.isEmpty())
-				m_consoleUtf8 = isUtf8Lang(lang);
-		}
-	}
-
-	*m_process <<
-			QLatin1String("--status-fd=1") <<
-			QLatin1String("--command-fd=0");
 }
 
 void
@@ -157,21 +125,6 @@ KGpgTextInterfacePrivate::signFile(const KUrl &file)
 	*m_process << file.path();
 
 	m_process->start();
-}
-
-void
-KGpgTextInterfacePrivate::appendLog(const QByteArray &a)
-{
-	if (m_consoleUtf8)
-		m_log += QString::fromUtf8(a);
-	else
-		m_log += QString::fromLocal8Bit(a);
-}
-
-QString
-KGpgTextInterfacePrivate::log() const
-{
-	return m_log;
 }
 
 KGpgTextInterface::KGpgTextInterface(QObject *parent)
