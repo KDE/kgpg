@@ -74,6 +74,14 @@ public:
 		BA_YES = 1,			///< answer "YES"
 		BA_NO = 2			///< answer "NO"
 	};
+	/**
+	 * @brief actions to do after a passphrase was sent to GnuPG
+	 */
+	enum ts_passphrase_actions {
+		PA_NONE = 0,			///< do nothing special
+		PA_CLOSE_GOOD = 1,		///< close command channel if passphrase was accepted
+		PA_USER_ABORTED = 2		///< the user has cancelled the dialog, abort the transaction
+	};
 
 	/**
 	 * @brief KGpgTransaction constructor
@@ -250,6 +258,17 @@ protected:
 	 * This will print out the line to the console to ease debugging.
 	 */
 	void unexpectedLine(const QString &line);
+
+	/**
+	 * @brief called when GnuPG asks for a passphrase
+	 * @return true if "quit" should be sent to process
+	 *
+	 * This allows a transaction to implement special handling for
+	 * passphrases, e.g. when both old and new passphrase must be
+	 * requested when changing it. The default implementation will just
+	 * call askPassphrase().
+	 */
+	virtual ts_passphrase_actions passphraseRequested();
 
 private:
 	KGpgTransactionPrivate* const d;

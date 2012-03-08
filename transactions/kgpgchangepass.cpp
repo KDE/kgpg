@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,10 +13,7 @@
 
 #include "kgpgchangepass.h"
 
-#include "detailedconsole.h"
-
 #include <KLocale>
-#include <KMessageBox>
 
 KGpgChangePass::KGpgChangePass(QObject *parent, const QString &keyid)
 	: KGpgTransaction(parent)
@@ -61,21 +58,28 @@ KGpgChangePass::nextLine(const QString &line)
 		m_seenold = true;
 	} else if (line.contains(QLatin1String( "MISSING_PASSPHRASE" ))) {
 		setSuccess(TS_USER_ABORTED);
-	} else if (line.contains(QLatin1String( "passphrase.enter" ))) {
-		QString userIDs(getIdHints());
-
-		if (!m_seenold) {
-			if (askPassphrase(i18n("Enter old passphrase for <b>%1</b>", userIDs)))
-				setSuccess(TS_USER_ABORTED);
-		} else {
-			askNewPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase all your encrypted files and messages will be inaccessible.</qt>", userIDs));
-		}
 	} else if (line.contains(QLatin1String( "GET_" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
 		return true;
 	}
 
 	return false;
+}
+
+KGpgTransaction::ts_passphrase_actions
+KGpgChangePass::passphraseRequested()
+{
+	const QString userIDs = getIdHints();
+
+	if (!m_seenold) {
+		if (askPassphrase(i18n("Enter old passphrase for <b>%1</b>", userIDs))) {
+			return KGpgTransaction::PA_USER_ABORTED;
+		}
+	} else {
+		askNewPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase all your encrypted files and messages will be inaccessible.</qt>", userIDs));
+	}
+
+	return KGpgTransaction::PA_NONE;
 }
 
 #include "kgpgchangepass.moc"

@@ -32,6 +32,7 @@ public:
 protected:
 	virtual bool nextLine(const QString &line);
 	virtual bool preStart();
+	virtual KGpgTransaction::ts_passphrase_actions passphraseRequested();
 
 private:
 	bool m_seenold;		///< old password correctly entered

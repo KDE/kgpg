@@ -60,11 +60,6 @@ KGpgGenerateRevoke::nextLine(const QString &line)
 
 	if (line.contains(QLatin1String( "GOOD_PASSPHRASE" ))) {
 		setSuccess(TS_OK);
-	} else if (line.contains(QLatin1String( "passphrase.enter" ))) {
-		if (!askPassphrase()) {
-			setSuccess(TS_USER_ABORTED);
-			return true;
-		}
 	} else if (line.contains(QLatin1String( "NEED_PASSPHRASE" ))) {
 		setSuccess(TS_USER_ABORTED);
 	} else if (line.contains(QLatin1String( "ask_revocation_reason.code" ))) {
