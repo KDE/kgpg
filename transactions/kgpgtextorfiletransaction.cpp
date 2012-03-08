@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -79,6 +79,14 @@ KGpgTextOrFileTransaction::preStart()
 	QStringList args(QLatin1String("--status-fd=1"));
 
 	args << command();
+	// if the input is not stdin set command-fd so GnuPG
+	// can ask if e.g. the file already exists
+	if (!locfiles.isEmpty() && !m_tempfiles.isEmpty()) {
+		args << QLatin1String("--command-fd=0");
+		m_closeInput = false;
+	} else {
+		m_closeInput = !args.contains(QLatin1String("--command-fd=0"));
+	}
 	if (locfiles.count() + m_tempfiles.count() > 1)
 		args << QLatin1String("--multifile");
 	args << locfiles << m_tempfiles;
@@ -93,7 +101,8 @@ KGpgTextOrFileTransaction::postStart()
 	if (!m_text.isEmpty()){
 		GPGProc *proc = getProcess();
 		proc->write(m_text.toUtf8());
-		proc->closeWriteChannel();
+		if (m_closeInput)
+			proc->closeWriteChannel();
 	}
 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,6 +13,7 @@
 
 #include "kgpgdecrypt.h"
 
+#include "gpgproc.h"
 #include "kgpgsettings.h"
 
 #include <KLocale>
@@ -48,7 +49,7 @@ KGpgDecrypt::command() const
 {
 	QStringList ret;
 
-	ret << QLatin1String("--decrypt");
+	ret << QLatin1String("--decrypt") << QLatin1String("--command-fd=0");
 
 	if (!m_outFilename.isEmpty())
 		ret << QLatin1String("-o") << m_outFilename;
@@ -127,6 +128,10 @@ KGpgDecrypt::nextLine(const QString& line)
 			m_plainLength = line.mid(26).toInt(&ok);
 			if (!ok)
 				m_plainLength = -1;
+		} else if (line == QLatin1String("[GNUPG:] BEGIN_DECRYPTION")) {
+			// close the command channel (if any) to signal GnuPG that it
+			// can start sending the output.
+			getProcess()->closeWriteChannel();
 		}
 	}
 

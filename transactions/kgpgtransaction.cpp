@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -37,6 +37,7 @@ public:
 	int m_tries;
 	QString m_description;
 	bool m_chainingAllowed;
+	KGpgTransaction::ts_passphrase_actions m_passphraseAction;	///< ignore further request for passphrase
 
 	QStringList m_idhints;
 
@@ -75,6 +76,7 @@ KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool all
 	m_success(KGpgTransaction::TS_OK),
 	m_tries(3),
 	m_chainingAllowed(allowChaining),
+	m_passphraseAction(KGpgTransaction::PA_NONE),
 	m_inputProcessDone(false),
 	m_inputProcessResult(KGpgTransaction::TS_OK),
 	m_ownProcessFinished(false),
@@ -122,6 +124,22 @@ KGpgTransactionPrivate::slotReadReady()
 			m_parent->addIdHint(line);
 		} else if (line.startsWith(QLatin1String("[GNUPG:] BAD_PASSPHRASE "))) {
 			m_success = KGpgTransaction::TS_BAD_PASSPHRASE;
+		} else if (line.startsWith(QLatin1String("[GNUPG:] GET_HIDDEN passphrase.enter"))) {
+			m_passphraseAction = m_parent->passphraseRequested();
+			switch (m_passphraseAction) {
+			case KGpgTransaction::PA_USER_ABORTED:
+				m_parent->setSuccess(KGpgTransaction::TS_USER_ABORTED);
+				// sending "quit" here is useless as it would be interpreted as the passphrase
+				m_process->closeWriteChannel();
+				break;
+			default:
+				break;
+			}
+		} else if ((m_passphraseAction == KGpgTransaction::PA_CLOSE_GOOD) &&
+				line.startsWith(QLatin1String("[GNUPG:] GOOD_PASSPHRASE"))) {
+			// signal GnuPG that there will be no further input and it can
+			// begin sending output.
+			m_process->closeWriteChannel();
 		} else if (line.startsWith(QLatin1String("[GNUPG:] GET_BOOL "))) {
 			switch (m_parent->boolQuestion(line.mid(18))) {
 			case KGpgTransaction::BA_YES:
@@ -168,7 +186,7 @@ KGpgTransactionPrivate::sendQuit(void)
 		kDebug(2100) << "tried" << m_quitTries << "times to quit the GnuPG session";
 		kDebug(2100) << "last input was" << m_quitLines;
 		kDebug(2100) << "please file a bug report at https://bugs.kde.org";
-		m_process->kill();
+		m_process->closeWriteChannel();
 		m_success = KGpgTransaction::TS_MSG_SEQUENCE;
 	}
 }
@@ -199,7 +217,7 @@ KGpgTransactionPrivate::slotPasswordAborted()
 {
 	sender()->deleteLater();
 	m_passwordDialog = NULL;
-	m_process->kill();
+	m_process->closeWriteChannel();
 	m_success = KGpgTransaction::TS_USER_ABORTED;
 }
 
@@ -319,6 +337,15 @@ KGpgTransaction::unexpectedLine(const QString &line)
 	kDebug(2100) << this << "unexpected input line" << line << "for command" << d->m_process->program();
 }
 
+KGpgTransaction::ts_passphrase_actions
+KGpgTransaction::passphraseRequested()
+{
+	if (!askPassphrase())
+		return PA_USER_ABORTED;
+	else
+		return PA_CLOSE_GOOD;
+}
+
 bool
 KGpgTransaction::preStart()
 {
@@ -421,6 +448,9 @@ KGpgTransaction::addArgumentRef(int *ref)
 bool
 KGpgTransaction::askPassphrase(const QString &message)
 {
+	if (d->m_passphraseAction == PA_USER_ABORTED)
+		return false;
+
 	QString passdlgmessage;
 	QString userIDs(getIdHints());
 	if (userIDs.isEmpty())
@@ -439,7 +469,7 @@ KGpgTransaction::askPassphrase(const QString &message)
 	--d->m_tries;
 
 	emit statusMessage(i18n("Requesting Passphrase"));
-	return KgpgInterface::sendPassphrase(passdlgmessage, d->m_process, false, qobject_cast<QWidget *>(parent()));
+	return (KgpgInterface::sendPassphrase(passdlgmessage, d->m_process, false, qobject_cast<QWidget *>(parent())) == 0);
 }
 
 void

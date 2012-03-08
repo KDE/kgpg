@@ -64,11 +64,6 @@ KGpgEditKeyTransaction::nextLine(const QString &line)
 	} else if (getSuccess() == TS_USER_ABORTED) {
 		if (line.contains(QLatin1String( "GET_" ) ))
 			return true;
-	} else if (line.contains(QLatin1String( "passphrase.enter" ))) {
-		if (!askPassphrase()) {
-			setSuccess(TS_USER_ABORTED);
-			return true;
-		}
 	} else if ((getSuccess() == TS_OK) && line.contains(QLatin1String( "keyedit.prompt" ))) {
 		return true;
 	} else if (line.contains(QLatin1String( "NEED_PASSPHRASE" ))) {
