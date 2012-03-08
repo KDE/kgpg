@@ -295,7 +295,7 @@ protected:
 	 * handle everything using signals and slots.
 	 *
 	 * @see KgpgInterface::sendPassphrase
-	 * @see sendPassphrase
+	 * @see askPassphrase
 	 */
 	void askNewPassphrase(const QString &text);
 
