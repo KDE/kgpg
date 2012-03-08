@@ -288,27 +288,18 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool enable, co
 	}
 }
 
-int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const bool isnew, QWidget *widget)
+int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, QWidget *widget)
 {
 	QPointer<KProcess> gpgprocess = process;
 	QByteArray passphrase;
 	int code;
-	if (isnew) {
-		QPointer<KNewPasswordDialog> dlg = new KNewPasswordDialog(widget);
-		dlg->setPrompt(text);
-		dlg->setAllowEmptyPasswords(false);
-		code = dlg->exec();
-		if (!dlg.isNull())
-			passphrase = dlg->password().toUtf8();
-		delete dlg;
-	} else {
-		QPointer<KPasswordDialog> dlg = new KPasswordDialog(widget);
-		dlg->setPrompt(text);
-		code = dlg->exec();
-		if (!dlg.isNull())
-			passphrase = dlg->password().toUtf8();
-		delete dlg;
-	}
+
+	QPointer<KPasswordDialog> dlg = new KPasswordDialog(widget);
+	dlg->setPrompt(text);
+	code = dlg->exec();
+	if (!dlg.isNull())
+		passphrase = dlg->password().toUtf8();
+	delete dlg;
 
 	if (code != KPasswordDialog::Accepted)
 		return 1;

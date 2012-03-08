@@ -468,7 +468,7 @@ KGpgTransaction::askPassphrase(const QString &message)
 	--d->m_tries;
 
 	emit statusMessage(i18n("Requesting Passphrase"));
-	return (KgpgInterface::sendPassphrase(passdlgmessage, d->m_process, false, qobject_cast<QWidget *>(parent())) == 0);
+	return (KgpgInterface::sendPassphrase(passdlgmessage, d->m_process, qobject_cast<QWidget *>(parent())) == 0);
 }
 
 void

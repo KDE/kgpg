@@ -41,7 +41,6 @@ public:
 	KUrl::List m_errfiles;
 
 	void updateIDs(QByteArray txt);
-	bool symPassphrase();
 	bool gpgPassphrase();
 	void signFile(const KUrl &);
 };
@@ -72,17 +71,6 @@ KGpgTextInterfacePrivate::updateIDs(QByteArray txt)
 }
 
 bool
-KGpgTextInterfacePrivate::symPassphrase()
-{
-	if (KgpgInterface::sendPassphrase(i18n("Enter passphrase (symmetrical encryption)"), m_process)) {
-		m_process->kill();
-		return true;
-	} else {
-		return false;
-	}
-}
-
-bool
 KGpgTextInterfacePrivate::gpgPassphrase()
 {
 	QString s;
@@ -103,7 +91,7 @@ KGpgTextInterfacePrivate::gpgPassphrase()
 	else
 		passdlgmessage += i18n("Enter passphrase for <b>%1</b>", s);
 
-	if (KgpgInterface::sendPassphrase(passdlgmessage, m_process, false)) {
+	if (KgpgInterface::sendPassphrase(passdlgmessage, m_process)) {
 		m_process->kill();
 		return true;
 	}

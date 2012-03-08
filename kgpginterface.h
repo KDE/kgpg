@@ -85,7 +85,7 @@ public:
      * @return 0 if there is no error
      * @return 1 if there is an error
      */
-    static int sendPassphrase(const QString &text, KProcess *process, const bool isnew = true, QWidget *widget = NULL);
+    static int sendPassphrase(const QString &text, KProcess *process, QWidget *widget = NULL);
 
     KgpgCore::KgpgKeyList readPublicKeys(const QStringList &ids = QStringList());
     KgpgCore::KgpgKey readSignatures(KGpgKeyNode *node);
