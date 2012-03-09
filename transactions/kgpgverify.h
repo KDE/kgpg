@@ -43,7 +43,7 @@ public:
 	 * @param parent parent object
 	 * @param text text to verify
 	 */
-	KGpgVerify(QObject *parent, const QString &text = QString());
+	explicit KGpgVerify(QObject *parent, const QString &text = QString());
 
 	/**
 	 * @brief verify signatures of file(s)
