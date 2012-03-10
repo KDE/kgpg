@@ -27,12 +27,18 @@ public:
     int m_newlineInStdout;
     int m_newlineInStderr;
     KLineBufferedProcess * const m_parent;
+    const QByteArray m_lineEnd;
 };
 
 KLineBufferedProcessPrivate::KLineBufferedProcessPrivate(KLineBufferedProcess *parent)
  : m_newlineInStdout(-1),
    m_newlineInStderr(-1),
-   m_parent(parent)
+   m_parent(parent),
+#ifdef Q_OS_WIN32	//krazy:exclude=cpp
+   m_lineEnd("\r\n")
+#else
+   m_lineEnd("\n")
+#endif
 {
 }
 
@@ -56,7 +62,7 @@ void KLineBufferedProcessPrivate::_k_receivedStdout()
     m_stdoutBuffer.append(ndata);
 
     if (m_newlineInStdout < 0) {
-        m_newlineInStdout = ndata.indexOf('\n');
+        m_newlineInStdout = ndata.indexOf(m_lineEnd);
         if (m_newlineInStdout >= 0) {
             m_newlineInStdout += oldBufferSize;
             emit m_parent->lineReadyStandardOutput();
@@ -71,7 +77,7 @@ void KLineBufferedProcessPrivate::_k_receivedStderr()
     m_stderrBuffer.append(ndata);
 
    if (m_newlineInStderr < 0) {
-        m_newlineInStderr = ndata.indexOf('\n');
+        m_newlineInStderr = ndata.indexOf(m_lineEnd);
         if (m_newlineInStderr >= 0) {
             m_newlineInStderr += oldBufferSize;
             emit m_parent->lineReadyStandardError();
@@ -87,9 +93,9 @@ bool KLineBufferedProcess::readLineStandardOutput(QByteArray *line)
 
     // don't copy '\n'
     *line = d->m_stdoutBuffer.left(d->m_newlineInStdout);
-    d->m_stdoutBuffer.remove(0, d->m_newlineInStdout + 1);
+    d->m_stdoutBuffer.remove(0, d->m_newlineInStdout + d->m_lineEnd.length());
 
-    d->m_newlineInStdout = d->m_stdoutBuffer.indexOf('\n');
+    d->m_newlineInStdout = d->m_stdoutBuffer.indexOf(d->m_lineEnd);
 
     return true;
 }
@@ -102,9 +108,9 @@ bool KLineBufferedProcess::readLineStandardError(QByteArray *line)
 
     // don't copy '\n'
     *line = d->m_stderrBuffer.left(d->m_newlineInStderr);
-    d->m_stderrBuffer.remove(0, d->m_newlineInStderr + 1);
+    d->m_stderrBuffer.remove(0, d->m_newlineInStderr + d->m_lineEnd.length());
 
-    d->m_newlineInStderr = d->m_stderrBuffer.indexOf('\n');
+    d->m_newlineInStderr = d->m_stderrBuffer.indexOf(d->m_lineEnd);
 
     return true;
 }
