@@ -19,6 +19,15 @@
 
 #include "kgpgfirstassistant.h"
 
+#include "gpgproc.h"
+#include "kgpginterface.h"
+#include "core/kgpgkey.h"
+
+#include <KComboBox>
+#include <KLocale>
+#include <KMessageBox>
+#include <KStandardDirs>
+#include <KUrlRequester>
 #include <QCheckBox>
 #include <QGridLayout>
 #include <QHBoxLayout>
@@ -26,14 +35,6 @@
 #include <QSpacerItem>
 #include <QTextStream>
 #include <QWidget>
-
-#include <KComboBox>
-#include <KLocale>
-#include <KMessageBox>
-#include <KUrlRequester>
-
-#include "kgpginterface.h"
-#include "kgpgkey.h"
 
 using namespace KgpgCore;
 
@@ -107,10 +108,15 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	binURL = new KUrlRequester(page);
 	binURL->setFilter(i18nc("search filter for gpg binary", "gpg|GnuPG binary\n*|All files"));
-	binURL->setUrl(KUrl("gpg"));
+	QString gpgBin = KStandardDirs::findExe(QLatin1String("gpg2"));
+	if (gpgBin.isEmpty())
+		gpgBin = KStandardDirs::findExe(QLatin1String("gpg"));
+	if (gpgBin.isEmpty())
+		gpgBin = QLatin1String("gpg");
+	binURL->setUrl(KUrl::fromPath(gpgBin));
 
 	connect(binURL, SIGNAL(textChanged(QString)), SLOT(slotBinaryChanged(QString)));
-	slotBinaryChanged(QLatin1String( "gpg" ));
+	slotBinaryChanged(gpgBin);
 
 	gridLayout->addWidget(binURL, 2, 1, 1, 1);
 
