@@ -49,9 +49,6 @@ KGpgUidTransaction::standardCommands(const QString &line)
 
 	if (line.contains(QLatin1String( "GOOD_PASSPHRASE" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
-	} else if (line.contains(QLatin1String( "passphrase.enter" ))) {
-		if (askPassphrase())
-			setSuccess(TS_USER_ABORTED);
 	} else if (line.contains(QLatin1String( "keyedit.prompt" ))) {
 		write("save");
 		if (getSuccess() == TS_MSG_SEQUENCE)
