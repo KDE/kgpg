@@ -89,7 +89,7 @@ private:
 
 private slots:
 	void slotSaveOptionsPath();
-	void importSignature(const QString &ID);
+	void importSignature(int result);
 	void help();
 	void readOptions();
 	void slotSetCompression(int cp);

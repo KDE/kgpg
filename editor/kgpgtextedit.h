@@ -50,6 +50,7 @@ public slots:
     void slotVerify(const QString &message);
     void slotSignVerify();
     void slotHighlightText(const QString &, const int &matchingindex, const int &matchedlength);
+    void slotVerifyDone(int result);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *e);
@@ -61,7 +62,6 @@ private:
 private slots:
     void slotEncodeUpdate(int result);
     void slotSignUpdate(int result);
-    void slotVerifyDone(int result);
 
     void slotDecryptDone(int result);
 

@@ -14,6 +14,7 @@
 
 #include "kgpgexternalactions.h"
 
+#include "detailedconsole.h"
 #include "foldercompressjob.h"
 #include "keyservers.h"
 #include "keysmanager.h"
@@ -30,6 +31,7 @@
 #include "transactions/kgpgencrypt.h"
 #include "transactions/kgpgsigntext.h"
 #include "transactions/kgpgtransactionjob.h"
+#include "transactions/kgpgverify.h"
 
 #include <KActionCollection>
 #include <KMessageBox>
@@ -268,17 +270,35 @@ void KGpgExternalActions::slotVerifyFile()
 		droppedUrl = KUrl(sigfile.left(sigfile.length() - 4));
 	}
 
-	// pipe gpg command
-	KGpgTextInterface *verifyFileProcess = new KGpgTextInterface(this);
-	connect (verifyFileProcess, SIGNAL(verifyquerykey(QString)), SLOT(importSignature(QString)));
-	verifyFileProcess->KgpgVerifyFile(droppedUrl, KUrl(sigfile));
+	KGpgVerify *kgpv = new KGpgVerify(parent(), KUrl::List(sigfile));
+	connect(kgpv, SIGNAL(done(int)), SLOT(importSignature(int)));
+	kgpv->start();
 }
 
-void KGpgExternalActions::importSignature(const QString &ID)
+void KGpgExternalActions::importSignature(int result)
 {
-	KeyServer *kser = new KeyServer(0, m_model);
-	kser->slotSetText(ID);
-	kser->slotImport();
+	KGpgVerify *kgpv = qobject_cast<KGpgVerify *>(sender());
+	Q_ASSERT(kgpv != NULL);
+	kgpv->deleteLater();
+
+	if (result == KGpgVerify::TS_MISSING_KEY) {
+		KeyServer *kser = new KeyServer(m_keysmanager, m_model);
+		kser->slotSetText(kgpv->missingId());
+		kser->slotImport();
+	} else {
+		const QStringList messages = kgpv->getMessages();
+
+		if (messages.isEmpty())
+			return;
+
+		QStringList msglist;
+		foreach (QString rawmsg, messages)
+			msglist << rawmsg.replace(QLatin1Char('<'), QLatin1String("&lt;"));
+
+		(void) new KgpgDetailedInfo(m_keysmanager, KGpgVerify::getReport(messages, m_model),
+				msglist.join(QLatin1String("<br/>")),
+				QStringList(), i18nc("Caption of message box", "Verification Finished"));
+	}
 }
 
 void KGpgExternalActions::signDroppedFile()

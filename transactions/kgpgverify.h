@@ -35,7 +35,8 @@ class KGpgVerify: public KGpgTextOrFileTransaction {
 	KGpgVerify(); // = delete C++0x
 public:
 	enum ts_verify {
-		TS_MISSING_KEY = KGpgTransaction::TS_COMMON_END + 1	///< signing key not in keyring
+		TS_MISSING_KEY = KGpgTransaction::TS_COMMON_END + 1,	///< signing key not in keyring
+		TS_BAD_SIGNATURE = TS_MISSING_KEY + 1			///< the file is signed, but the signature is invalid
 	};
 
 	/**

@@ -41,9 +41,6 @@ KGpgVerify::command() const
 {
 	QStringList ret(QLatin1String("--verify"));
 
-	foreach (const KUrl &file, getInputFiles())
-		ret << file.path();
-
 	return ret;
 }
 
@@ -56,6 +53,14 @@ KGpgVerify::nextLine(const QString &line)
 		return false;
 	}
 
+	if (line.startsWith(QLatin1String("[GNUPG:] ")) &&
+			line.contains(QLatin1String("SIG"))) {
+		if (line.startsWith(QLatin1String("[GNUPG:] BADSIG")))
+			setSuccess(KGpgVerify::TS_BAD_SIGNATURE);
+		else
+			setSuccess(KGpgTransaction::TS_OK);
+	}
+
 	return KGpgTextOrFileTransaction::nextLine(line);
 }
 
@@ -64,7 +69,8 @@ KGpgVerify::finish()
 {
 	// GnuPG will return error code 2 if it wasn't able to verify the file.
 	// If it complained about a missing signature before that is fine.
-	if ((getProcess()->exitCode() == 2) && (getSuccess() == TS_MISSING_KEY))
+	if (((getProcess()->exitCode() == 2) && (getSuccess() == TS_MISSING_KEY)) ||
+			((getProcess()->exitCode() == 1) && (getSuccess() == TS_BAD_SIGNATURE)))
 		return;
 
 	KGpgTextOrFileTransaction::finish();

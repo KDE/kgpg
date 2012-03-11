@@ -21,6 +21,7 @@
 
 #include <KLocale>
 #include <QFile>
+#include <QString>
 #include <QTextCodec>
 
 class KGpgTextInterfacePrivate
@@ -125,68 +126,6 @@ KGpgTextInterface::~KGpgTextInterface()
 {
 	delete d->m_process;
 	delete d;
-}
-
-void
-KGpgTextInterface::KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl)
-{
-	d->m_file = sigUrl;
-
-	*d->m_process << QLatin1String( "--verify" );
-	if (!srcUrl.isEmpty())
-		*d->m_process << srcUrl.path();
-	*d->m_process << sigUrl.path();
-
-	connect(d->m_process, SIGNAL(lineReadyStandardOutput()), this, SLOT(readVerify()));
-	connect(d->m_process, SIGNAL(processExited()), this, SLOT(verifyfin()));
-	d->m_process->start();
-}
-
-//krazy:cond=strings
-void
-KGpgTextInterface::readVerify()
-{
-	QByteArray line;
-
-	while (d->m_process->readLineStandardOutput(&line)) {
-		d->m_message += GPGProc::recode(line) + QLatin1Char( '\n' );
-		if (line.contains( "GET_" ))
-			d->m_process->write("quit\n");
-
-		if (!line.startsWith("[GNUPG:] "))
-			continue;
-		line.remove(0, 9);
-		if (line.startsWith("UNEXPECTED") || line.startsWith("NODATA")) {
-			d->m_signID = i18n("No signature found.");
-		} else if (line.startsWith("GOODSIG")) {
-			int sigpos = line.indexOf( ' ' , 8);
-			d->m_signID = i18n("<qt>Good signature from:<br /><b>%1</b><br />Key ID: %2<br /></qt>",
-					GPGProc::recode(line.mid(sigpos + 1).replace('<', "&lt;")),
-					QString::fromAscii(line.mid(8, sigpos - 8)));
-		} else if (line.startsWith("BADSIG")) {
-			int sigpos = line.indexOf( ' ', 7);
-			d->m_signID = i18n("<qt><b>BAD signature</b> from:<br /> %1<br />Key id: %2<br /><br /><b>The file is corrupted</b><br /></qt>",
-					GPGProc::recode(line.mid(sigpos + 1).replace('<', "&lt;")),
-					QString::fromAscii(line.mid(7, sigpos - 7)));
-		} else if (line.startsWith("NO_PUBKEY")) {
-			d->m_userIDs << QLatin1String(line.remove(0, line.indexOf(' ')));
-		} else  if (line.startsWith("TRUST_UNDEFINED")) {
-			d->m_signID += i18n("<qt>The signature is valid, but the key is untrusted<br /></qt>");
-		} else if (line.startsWith("TRUST_ULTIMATE")) {
-			d->m_signID += i18n("<qt>The signature is valid, and the key is ultimately trusted<br /></qt>");
-		}
-	}
-}
-//krazy:endcond=strings
-
-void
-KGpgTextInterface::verifyfin()
-{
-	if (d->m_userIDs.isEmpty()) {
-		emit verifyfinished(d->m_signID, d->m_message);
-	} else {
-		emit verifyquerykey(d->m_userIDs.first(), d->m_file.fileName());
-	}
 }
 
 // signatures

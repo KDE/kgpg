@@ -16,12 +16,11 @@
 #define KGPGTEXTINTERFACE_H
 
 #include <QStringList>
-#include <QString>
-#include <QProcess>
 
 #include <KUrl>
 
 class KGpgTextInterfacePrivate;
+class QString;
 
 class KGpgTextInterface : public QObject
 {
@@ -35,19 +34,6 @@ public:
 	~KGpgTextInterface();
 
 signals:
-    /**
-     * emmitted if signature key is missing
-     * @param id the key id of the signature
-     * @param fileName name of the signed file
-     */
-    void verifyquerykey(QString id, QString fileName);
-
-    /**
-     * @param id the key id of the signature
-     * @param message the verification message from GnuPG
-     */
-    void verifyfinished(QString id, QString message);
-
     /**
      * Emitted when all files passed to KgpgSignFile() where processed.
      * Passes as argument the files that failed.
@@ -63,23 +49,7 @@ public Q_SLOTS:
      */
     void signFiles(const QString &keyID, const KUrl::List &srcUrl, const QStringList &options = QStringList());
 
-    /**Verify file function
-     * @param sigUrl signature file.
-     * @param srcUrl Kurl of the file to be verified. If empty, gpg will try to find it using the signature file name (by removing the .sig extension)
-     */
-    void KgpgVerifyFile(const KUrl &sigUrl, const KUrl &srcUrl = KUrl()) ;
-
 private Q_SLOTS:
-    /**
-     * Reads output of the current process + allow overwriting of a file
-     */
-    void readVerify();
-
-    /**
-     * Checks output of the verify process
-     */
-    void verifyfin();
-
 	void slotSignFile(int);
 	void slotSignFinished(int);
 };

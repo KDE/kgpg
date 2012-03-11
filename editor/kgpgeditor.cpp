@@ -27,6 +27,7 @@
 #include "transactions/kgpgdecrypt.h"
 #include "transactions/kgpgkeyservergettransaction.h"
 #include "transactions/kgpgsigntext.h"
+#include "transactions/kgpgverify.h"
 
 #include <KAction>
 #include <KActionCollection>
@@ -670,11 +671,15 @@ void KgpgEditor::slotVerifyFile(const KUrl &url)
             }
         }
 
-        // pipe gpg command
-        KGpgTextInterface *interface = new KGpgTextInterface(this);
-        connect(interface, SIGNAL(verifyquerykey(QString,QString)), SLOT(importSignatureKey(QString,QString)));
-        connect(interface, SIGNAL(verifyfinished(QString,QString)), SLOT(slotVerifyFinished(QString,QString)));
-        interface->KgpgVerifyFile(url, KUrl(sigfile));
+	KUrl::List chkfiles;
+	if (sigfile.isEmpty())
+		chkfiles << url;
+	else
+		chkfiles << KUrl::fromPath(sigfile);
+
+	KGpgVerify *verify = new KGpgVerify(this, chkfiles);
+	connect(verify, SIGNAL(done(int)), m_editor, SLOT(slotVerifyDone(int)));
+	verify->start();
     }
 }
 
