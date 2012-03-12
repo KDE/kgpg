@@ -15,7 +15,7 @@
 
 KGpgKeyserverSearchTransaction::KGpgKeyserverSearchTransaction(QObject *parent, const QString &keyserver, const QString &pattern, const bool withProgress, const QString &proxy)
 	: KGpgKeyserverTransaction(parent, keyserver, withProgress, proxy),
-	m_count(0)
+	m_pageEmpty(true)
 {
 	addArgument(QLatin1String( "--with-colons" ));
 	addArgument(QLatin1String( "--search-keys" ));
@@ -30,7 +30,6 @@ bool
 KGpgKeyserverSearchTransaction::preStart()
 {
 	setSuccess(TS_MSG_SEQUENCE);
-	m_count = 0;
 	m_keyLines.clear();
 
 	return KGpgKeyserverTransaction::preStart();
@@ -40,21 +39,21 @@ bool
 KGpgKeyserverSearchTransaction::nextLine(const QString &line)
 {
 	if (line.startsWith(QLatin1String("[GNUPG:] GET_LINE keysearch.prompt"))) {
-		if (m_count < 4) {
+		if (!m_pageEmpty) {
 			write("n");
+			m_pageEmpty = true;
 		} else {
 			return true;
 		}
-	} else if (line.startsWith(QLatin1String("[GNUPG:] GOT_IT"))) {
-		m_count++;
 	} else if (!line.isEmpty() && !line.startsWith(QLatin1String("[GNUPG:] "))) {
+		m_pageEmpty = false;
 		if (line.startsWith(QLatin1String("pub:"))) {
 			if (!m_keyLines.isEmpty()) {
 				emit newKey(m_keyLines);
 				m_keyLines.clear();
 			}
 			m_keyLines.append(line);
-		} else if (!m_keyLines.isEmpty())
+		} else if (!m_keyLines.isEmpty() && (line != QLatin1String("\r")))
 			m_keyLines.append(line);
 	}
 

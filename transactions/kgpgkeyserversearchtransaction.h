@@ -64,7 +64,7 @@ protected:
 private:
 	QStringList m_keyLines;		///< the lines belonging to one key
 	int m_patternPos;
-	int m_count;			///< how many pages of output were requested
+	bool m_pageEmpty;		///< if the current page of output is empty
 };
 
 #endif // KGPGUIDTRANSACTION_H
