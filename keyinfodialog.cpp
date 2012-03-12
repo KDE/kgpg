@@ -29,7 +29,6 @@
 #include <KDatePicker>
 #include <KLocale>
 #include <KMessageBox>
-#include <KPassivePopup>
 #include <KPushButton>
 #include <KToolInvocation>
 #include <KUrlLabel>
@@ -297,9 +296,13 @@ void KgpgKeyInfo::slotChangePass()
 
 void KgpgKeyInfo::slotInfoPasswordChanged(int result)
 {
+	sender()->deleteLater();
+
+	QApplication::restoreOverrideCursor();
+
 	switch (result) {
 	case KGpgTransaction::TS_OK:
-		KPassivePopup::message(i18n("Passphrase for the key was changed"), QString(), Images::kgpg(), this);
+		KMessageBox::information(this, i18n("Passphrase for the key was changed"));
 		break;
 	case KGpgTransaction::TS_BAD_PASSPHRASE:
 		KMessageBox::error(this, i18n("Bad old passphrase, the passphrase for the key was not changed"), i18n("Could not change passphrase"));
@@ -307,10 +310,8 @@ void KgpgKeyInfo::slotInfoPasswordChanged(int result)
 	case KGpgTransaction::TS_USER_ABORTED:
 		break;
 	default:
-		KMessageBox::error(this, i18n("KGpg was unable to change the passphrase.<br />Please see the detailed log for more information."));
+		KMessageBox::error(this, i18n("KGpg was unable to change the passphrase."));
 	}
-
-	QApplication::restoreOverrideCursor();
 }
 
 void KgpgKeyInfo::slotChangeTrust(const int &newtrust)
