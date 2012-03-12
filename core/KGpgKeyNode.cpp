@@ -148,9 +148,7 @@ KGpgKeyNode::getComment() const
 void
 KGpgKeyNode::readChildren()
 {
-	KgpgInterface *interface = new KgpgInterface();
-	KgpgCore::KgpgKey key = interface->readSignatures(this);
-	delete interface;
+	KgpgCore::KgpgKey key = KgpgInterface::readSignatures(this);
 
 	m_signs = 0;
 	foreach(KGpgNode *n, children)

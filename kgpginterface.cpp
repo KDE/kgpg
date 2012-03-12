@@ -36,18 +36,9 @@
 #include <QRegExp>
 #include <QString>
 #include <QTextStream>
-#include <kio/netaccess.h>
 #include <knewpassworddialog.h>
 
 using namespace KgpgCore;
-
-KgpgInterface::KgpgInterface()
-{
-}
-
-KgpgInterface::~KgpgInterface()
-{
-}
 
 QStringList KgpgInterface::readGroups()
 {

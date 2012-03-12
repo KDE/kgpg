@@ -262,18 +262,15 @@ KGpgFirstAssistant::findConfigPath()
 
 	pathURL->setUrl(confPath);
 
-	KgpgInterface *interface = new KgpgInterface();
-	QStringList secids = interface->readSecretKeys();
+	QStringList secids = KgpgInterface::readSecretKeys();
 	if (secids.isEmpty()) {
-		delete interface;
 		setAppropriate(page_defaultkey, false);
 		generateCB->setChecked(true);
 		defaultkeylabel->setVisible(false);
 		return;
 	}
 
-	KgpgKeyList publiclist = interface->readPublicKeys(secids);
-	delete interface;
+	KgpgKeyList publiclist = KgpgInterface::readPublicKeys(secids);
 
 	generateCB->setChecked(false);
 	setAppropriate(page_defaultkey, true);

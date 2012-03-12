@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
  *                                                                         *
@@ -18,26 +19,13 @@
 #include <QStringList>
 
 class KGpgKeyNode;
-class KGpgSignableNode;
 class KProcess;
-class GPGProc;
-class QPixmap;
 class QString;
 
 /**
  * This class is the interface for gpg.
  */
-class KgpgInterface : public QObject
-{
-    Q_OBJECT
-
-public:
-    /**
-     * Initialize the class
-     */
-    KgpgInterface();
-    ~KgpgInterface();
-
+namespace KgpgInterface {
     /**
      * @brief get all groups from GnuPG config file
      * @return list of groups names and their keys
@@ -45,7 +33,7 @@ public:
      * The strings are themself space separated list. The first entry is the
      * group name, the others are the keys inside
      */
-    static QStringList readGroups();
+    QStringList readGroups();
     /**
      * @brief write a group entry with the given keys
      * @param name name of the group
@@ -54,7 +42,7 @@ public:
      *
      * If a group with the given name already exists it is replaced.
      */
-    static void setGpgGroupSetting(const QString &name, const QStringList &values, const QString &configfile);
+    void setGpgGroupSetting(const QString &name, const QStringList &values, const QString &configfile);
     /**
      * @brief rename a group entry
      * @param oldName name of the group
@@ -62,19 +50,19 @@ public:
      * @param configfile the name of the GnuPG config file
      * @return true if the group was renamed
      */
-    static bool renameGroup(const QString &oldName, const QString &newName, const QString &configfile);
+    bool renameGroup(const QString &oldName, const QString &newName, const QString &configfile);
     /**
      * @brief remove a group entry
      * @param name name of the group
      * @param configfile GnuPG config file to use
      */
-    static void delGpgGroup(const QString &name, const QString &configfile);
+    void delGpgGroup(const QString &name, const QString &configfile);
 
-    static QString getGpgSetting(const QString &name, const QString &configfile);
-    static void setGpgSetting(const QString &name, const QString &value, const QString &url);
+    QString getGpgSetting(const QString &name, const QString &configfile);
+    void setGpgSetting(const QString &name, const QString &value, const QString &url);
 
-    static bool getGpgBoolSetting(const QString &name, const QString &configfile);
-    static void setGpgBoolSetting(const QString &name, const bool enable, const QString &url);
+    bool getGpgBoolSetting(const QString &name, const QString &configfile);
+    void setGpgBoolSetting(const QString &name, const bool enable, const QString &url);
 
     /**
      * @brief ask the user for a passphrase and send it to the given gpg process
@@ -85,7 +73,7 @@ public:
      * @return 0 if there is no error
      * @return 1 if there is an error
      */
-    static int sendPassphrase(const QString &text, KProcess *process, QWidget *widget = NULL);
+    int sendPassphrase(const QString &text, KProcess *process, QWidget *widget = NULL);
 
     KgpgCore::KgpgKeyList readPublicKeys(const QStringList &ids = QStringList());
     KgpgCore::KgpgKey readSignatures(KGpgKeyNode *node);
