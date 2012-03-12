@@ -59,6 +59,7 @@ signals:
 protected:
 	virtual bool preStart();
 	virtual bool nextLine(const QString &line);
+	virtual void finish();
 
 private:
 	QStringList m_keyLines;		///< the lines belonging to one key
