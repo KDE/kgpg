@@ -62,6 +62,15 @@ KGpgKeyserverSearchTransaction::nextLine(const QString &line)
 }
 
 void
+KGpgKeyserverSearchTransaction::finish()
+{
+	if (!m_keyLines.isEmpty()) {
+		emit newKey(m_keyLines);
+		m_keyLines.clear();
+	}
+}
+
+void
 KGpgKeyserverSearchTransaction::setPattern(const QString &pattern)
 {
 	replaceArgument(m_patternPos, pattern);
