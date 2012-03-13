@@ -28,7 +28,6 @@
 #include "keytreeview.h"
 #include "kgpg.h"
 #include "kgpgchangekey.h"
-#include "kgpginterface.h"
 #include "kgpgkeygenerate.h"
 #include "kgpgoptions.h"
 #include "kgpgrevokewidget.h"
@@ -1629,7 +1628,7 @@ void KeysManager::deleteGroup()
 	if (result != KMessageBox::Continue)
 		return;
 
-	KgpgInterface::delGpgGroup(nd->getName(), KGpgSettings::gpgConfigPath());
+	nd->toGroupNode()->remove();
 	imodel->delNode(nd);
 
 	updateStatusCounter();
@@ -1648,7 +1647,6 @@ void KeysManager::renameGroup()
 void KeysManager::createNewGroup()
 {
 	QStringList badkeys;
-	QStringList keysGroup;
 	KGpgKeyNode::List keysList;
 	KgpgItemType tp;
 	KGpgNode::List ndlist(iview->selectedNodes(NULL, &tp));
@@ -1669,7 +1667,6 @@ void KeysManager::createNewGroup()
 
 	foreach (KGpgNode *nd, ndlist) {
 		if (nd->getTrust() >= mintrust) {
-			keysGroup += nd->getId();
 			keysList.append(nd->toKeyNode());
 		} else {
 			badkeys += i18nc("<Name> (<Email>) ID: <KeyId>", "%1 (%2) ID: %3",
@@ -1682,11 +1679,9 @@ void KeysManager::createNewGroup()
 			QString(), 0, this));
 	if (groupName.isEmpty())
 		return;
-	if (!keysGroup.isEmpty()) {
+	if (!keysList.isEmpty()) {
 		if (!badkeys.isEmpty())
 			KMessageBox::informationList(this, i18n("Following keys are not valid or not trusted and will not be added to the group:"), badkeys);
-
-		KgpgInterface::setGpgGroupSetting(groupName, keysGroup, KGpgSettings::gpgConfigPath());
 
 		iview->selectNode(imodel->addGroup(groupName, keysList));
 		updateStatusCounter();
@@ -1717,15 +1712,10 @@ void KeysManager::editGroup()
 	dialogGroupEdit->setMainWidget(gEdit);
 
 	gEdit->show();
-	if (dialogGroupEdit->exec() == QDialog::Accepted) {
-		QStringList memberids;
 
-		foreach (KGpgNode *knd, members)
-			memberids << knd->getId();
-
-		KgpgInterface::setGpgGroupSetting(nd->getName(), memberids, KGpgSettings::gpgConfigPath());
+	if (dialogGroupEdit->exec() == QDialog::Accepted)
 		imodel->changeGroup(gnd, members);
-	}
+
 	delete dialogGroupEdit;
 }
 
@@ -2223,41 +2213,37 @@ void KeysManager::doPrint(const QString &txt)
 
 void KeysManager::removeFromGroups(KGpgKeyNode *node)
 {
-	const QList<KGpgGroupNode *> groups(node->getGroups());
-	if (groups.count() == 0)
-		return;
-
 	QStringList groupNames;
 
-	foreach (const KGpgGroupNode *gnd, groups)
+	foreach (const KGpgGroupNode *gnd, node->getGroups())
 		groupNames << gnd->getName();
 
-	QString ask = i18np("<qt>The key you are deleting is a member of the following key group. Do you want to remove it from this group?</qt>",
+	if (groupNames.isEmpty())
+		return;
+
+	const QString ask = i18np("<qt>The key you are deleting is a member of the following key group. Do you want to remove it from this group?</qt>",
 			"<qt>The key you are deleting is a member of the following key groups. Do you want to remove it from these groups?</qt>",
 			groupNames.count());
 
 	if (KMessageBox::questionYesNoList(this, ask, groupNames, i18n("Delete key")) != KMessageBox::Yes)
 		return;
 
-	QList<KGpgGroupMemberNode *> grefs(node->getGroupRefs());
-
 	bool groupDeleted = false;
 
-	foreach (KGpgGroupMemberNode *gref, grefs) {
-		QStringList memberids;
+	foreach (KGpgGroupMemberNode *gref, node->getGroupRefs()) {
 		KGpgGroupNode *group = gref->getParentKeyNode();
 
-		for (int j = group->getChildCount() - 1; j >= 0; j--) {
-			KGpgGroupMemberNode *rn = group->getChild(j)->toGroupMemberNode();
-			if (rn != gref)
-				memberids << rn->getId();
-		}
+		bool deleteWholeGroup = (group->getChildCount() == 1) &&
+				(group->getChild(0)->toGroupMemberNode() == gref);
+		if (deleteWholeGroup)
+			deleteWholeGroup = (KMessageBox::questionYesNo(this,
+					i18n("You are removing the last key from key group %1.<br/>Do you want to delete the group, too?"),
+					i18n("Delete key")) == KMessageBox::Yes);
 
-		if (!memberids.isEmpty()) {
-			KgpgInterface::setGpgGroupSetting(group->getName(), memberids, KGpgSettings::gpgConfigPath());
+		if (!deleteWholeGroup) {
 			imodel->deleteFromGroup(group, gref);
 		} else {
-			KgpgInterface::delGpgGroup(group->getName(), KGpgSettings::gpgConfigPath());
+			group->remove();
 			imodel->delNode(group);
 			groupDeleted = true;
 		}

@@ -231,6 +231,8 @@ KGpgItemModel::addGroup(const QString &name, const KGpgKeyNode::List &keys)
 	nd = new KGpgGroupNode(m_root, name, keys);
 	endInsertRows();
 
+	nd->saveMembers();
+
 	Q_ASSERT(m_root->getChildIndex(nd) == cIndex);
 
 	return nd;
@@ -281,6 +283,8 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 		endInsertRows();
 		cnt++;
 	}
+
+	node->saveMembers();
 }
 
 void
@@ -294,6 +298,8 @@ KGpgItemModel::deleteFromGroup(KGpgGroupNode *group, KGpgGroupMemberNode *member
 	beginRemoveRows(pIndex, childRow, childRow);
 	delete member;
 	endRemoveRows();
+
+	group->saveMembers();
 }
 
 QVariant
@@ -424,7 +430,7 @@ KGpgItemModel::refreshGroups()
 		endRemoveRows();
 	}
 
-	const QStringList groups = KgpgInterface::readGroups();
+	const QStringList groups = KGpgGroupNode::readGroups();
 
 	if (groups.isEmpty())
 		return;

@@ -23,41 +23,9 @@ class KProcess;
 class QString;
 
 /**
- * This class is the interface for gpg.
+ * GnuPG interface functions
  */
 namespace KgpgInterface {
-    /**
-     * @brief get all groups from GnuPG config file
-     * @return list of groups names and their keys
-     *
-     * The strings are themself space separated list. The first entry is the
-     * group name, the others are the keys inside
-     */
-    QStringList readGroups();
-    /**
-     * @brief write a group entry with the given keys
-     * @param name name of the group
-     * @param values key ids to add to group
-     * @param configfile the name of the GnuPG config file
-     *
-     * If a group with the given name already exists it is replaced.
-     */
-    void setGpgGroupSetting(const QString &name, const QStringList &values, const QString &configfile);
-    /**
-     * @brief rename a group entry
-     * @param oldName name of the group
-     * @param newName new group name to set
-     * @param configfile the name of the GnuPG config file
-     * @return true if the group was renamed
-     */
-    bool renameGroup(const QString &oldName, const QString &newName, const QString &configfile);
-    /**
-     * @brief remove a group entry
-     * @param name name of the group
-     * @param configfile GnuPG config file to use
-     */
-    void delGpgGroup(const QString &name, const QString &configfile);
-
     QString getGpgSetting(const QString &name, const QString &configfile);
     void setGpgSetting(const QString &name, const QString &value, const QString &url);
 

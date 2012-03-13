@@ -213,6 +213,7 @@ KGpgKeyNode::delRef(KGpgRefNode *node)
 {
 	Q_ASSERT(m_refs.indexOf(node) != -1);
 	m_refs.removeOne(node);
+	Q_ASSERT(m_refs.indexOf(node) == -1);
 }
 
 QList<KGpgGroupNode *>

@@ -14,8 +14,6 @@
 
 #include "kgpginterface.h"
 
-#include "detailedconsole.h"
-#include "kgpgsettings.h"
 #include "gpgproc.h"
 #include "core/convert.h"
 #include "core/KGpgKeyNode.h"
@@ -33,146 +31,10 @@
 #include <KProcess>
 #include <QFile>
 #include <QPointer>
-#include <QRegExp>
 #include <QString>
 #include <QTextStream>
-#include <knewpassworddialog.h>
 
 using namespace KgpgCore;
-
-QStringList KgpgInterface::readGroups()
-{
-	QStringList groups;
-	QFile qfile(KGpgSettings::gpgConfigPath());
-
-	if (qfile.exists() && qfile.open(QIODevice::ReadOnly)) {
-		QTextStream t(&qfile);
-		QRegExp groupPattern(QLatin1String("^group [^ ]+ ?= ?([0-9a-fA-F]{8,} ?)*$"));
-
-		while (!t.atEnd()) {
-			QString line = t.readLine().simplified().section(QLatin1Char('#'), 0, 0);
-			if (!groupPattern.exactMatch(line))
-				continue;
-
-			// remove the "group " at the start
-			line.remove(0, 6);
-			// transform it in a simple space separated list
-			groups.append(line.replace(QLatin1Char('='), QLatin1Char(' ')).simplified());
-		}
-		qfile.close();
-	}
-	return groups;
-}
-
-void KgpgInterface::setGpgGroupSetting(const QString &name, const QStringList &values, const QString &configfile)
-{
-	QFile qfile(configfile);
-
-	kDebug(2100) << "Changing group: " << name;
-	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
-		QTextStream t(&qfile);
-		QString texttowrite;
-		bool found = false;
-
-		while (!t.atEnd()) {
-			QString result(t.readLine());
-			QString result2(result.simplified());
-
-			if (result2.startsWith(QLatin1String("group "))) {
-				result2 = result2.remove(0, 6).simplified();
-				if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith(QLatin1Char( '=' )))) {
-                                    result = QString::fromLatin1("group %1=%2").arg(name).arg(values.join(QLatin1String( " " )));
-					found = true;
-				}
-			}
-			texttowrite += result + QLatin1Char( '\n' );
-		}
-		qfile.close();
-
-		if (!found)
-                    texttowrite += QLatin1Char( '\n' ) + QString::fromLatin1("group %1=%2").arg(name).arg(values.join( QLatin1String( " " )));
-
-		if (qfile.open(QIODevice::WriteOnly)) {
-			QTextStream t(&qfile);
-			t << texttowrite;
-			qfile.close();
-		}
-	}
-}
-
-bool KgpgInterface::renameGroup(const QString &oldName, const QString &newName, const QString &configfile)
-{
-	QFile qfile(configfile);
-
-	kDebug(2100) << "Renaming group " << oldName << " to " << newName;
-	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
-		QTextStream t(&qfile);
-		QString texttowrite;
-		bool found = false;
-
-		while (!t.atEnd()) {
-			QString result = t.readLine();
-			QString result2 = result.simplified();
-
-			if (result2.startsWith(QLatin1String("group "))) {
-				result2 = result2.remove(0, 6).simplified();
-				if (result2.startsWith(oldName)) {
-					QString values = result2.remove(0, oldName.length()).simplified();
-					found = values.startsWith(QLatin1Char( '=' ));
-					if (found) {
-						result = QLatin1String("group ") + newName + QLatin1Char( ' ' ) + values;
-					}
-				}
-			}
-			texttowrite += result + QLatin1Char( '\n' );
-		}
-		qfile.close();
-
-		if (!found) {
-			kDebug(2100) << "Group " << oldName << " not renamed, group does not exist";
-			return false;
-		}
-
-		if (qfile.open(QIODevice::WriteOnly)) {
-			QTextStream t(&qfile);
-			t << texttowrite;
-			qfile.close();
-			return true;
-		}
-	}
-	return false;
-}
-
-void KgpgInterface::delGpgGroup(const QString &name, const QString &configfile)
-{
-	QFile qfile(configfile);
-
-	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
-		QTextStream t(&qfile);
-		QString texttowrite;
-
-		while (!t.atEnd()) {
-			const QString result(t.readLine());
-			QString result2(result.simplified());
-
-			if (result2.startsWith(QLatin1String("group "))) {
-				result2 = result2.remove(0, 6).simplified();
-				if (result2.startsWith(name) && (result2.remove(0, name.length()).simplified().startsWith(QLatin1Char( '=' ))))
-					continue;
-			}
-
-			texttowrite += result + QLatin1Char( '\n' );
-		}
-
-		qfile.close();
-
-		if (qfile.open(QIODevice::WriteOnly)) {
-			QTextStream t(&qfile);
-			t << texttowrite;
-			qfile.close();
-		}
-	}
-}
 
 QString KgpgInterface::getGpgSetting(const QString &name, const QString &configfile)
 {
