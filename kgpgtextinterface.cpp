@@ -15,7 +15,6 @@
 
 #include "kgpgtextinterface.h"
 
-#include "kgpginterface.h"
 #include "gpgproc.h"
 #include "kgpgsettings.h"
 
@@ -30,76 +29,19 @@ public:
 	KGpgTextInterfacePrivate(QObject *parent);
 
 	GPGProc * const m_process;
-	bool m_badpassword;
-	bool m_anonymous;
 	int m_step;
-	QString m_message;
 	QString m_signID;
-	QStringList m_userIDs;
 	QStringList m_gpgopts;
-	KUrl m_file;
 	KUrl::List m_files;
 	KUrl::List m_errfiles;
 
-	void updateIDs(QByteArray txt);
-	bool gpgPassphrase();
 	void signFile(const KUrl &);
 };
 
 KGpgTextInterfacePrivate::KGpgTextInterfacePrivate(QObject *parent)
 	: m_process(new GPGProc(parent)),
-	m_badpassword(false),
-	m_anonymous(false),
-	m_step(3)
+	m_step(0)
 {
-}
-
-void
-KGpgTextInterfacePrivate::updateIDs(QByteArray txt)
-{
-	int cut = txt.indexOf(' ', 22);
-	txt.remove(0, cut);
-
-	int pos = txt.indexOf('(');
-	if (pos >= 0)
-		txt.remove(pos, txt.indexOf(')', pos));
-
-	txt.replace('<', "&lt;");
-	QString s = GPGProc::recode(txt);
-
-	if (!m_userIDs.contains(s))
-		m_userIDs << s;
-}
-
-bool
-KGpgTextInterfacePrivate::gpgPassphrase()
-{
-	QString s;
-
-	if (m_userIDs.isEmpty())
-		s = i18n("[No user id found]");
-	else
-		s = m_userIDs.join( i18n(" or " ));
-
-	QString passdlgmessage;
-	if (m_anonymous)
-		passdlgmessage = i18n("<p><b>No user id found</b>. Trying all secret keys.</p>");
-	if ((m_step < 3) && !m_anonymous)
-		passdlgmessage = i18np("<p><b>Bad passphrase</b>. You have 1 try left.</p>",
-		                       "<p><b>Bad passphrase</b>. You have %1 tries left.</p>", m_step);
-	if (m_userIDs.isEmpty())
-		passdlgmessage += i18n("Enter passphrase");
-	else
-		passdlgmessage += i18n("Enter passphrase for <b>%1</b>", s);
-
-	if (KgpgInterface::sendPassphrase(passdlgmessage, m_process)) {
-		m_process->kill();
-		return true;
-	}
-
-	m_step--;
-
-	return false;
 }
 
 void
