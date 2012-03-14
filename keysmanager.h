@@ -47,7 +47,6 @@ class KeyTreeView;
 class KGpgAddUid;
 class KGpgDelKey;
 class KGpgImport;
-class KGpgTextInterface;
 class KGpgTransactionJob;
 
 class KStatusNotifierItem;

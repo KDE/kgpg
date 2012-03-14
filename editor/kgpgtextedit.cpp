@@ -16,7 +16,6 @@
 
 #include "selectsecretkey.h"
 #include "kgpgsettings.h"
-#include "kgpgtextinterface.h"
 #include "keyservers.h"
 #include "selectpublickeydialog.h"
 #include "detailedconsole.h"

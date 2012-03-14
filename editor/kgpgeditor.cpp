@@ -21,7 +21,6 @@
 #include "keyservers.h"
 #include "sourceselect.h"
 #include "kgpg.h"
-#include "kgpgtextinterface.h"
 #include "keysmanager.h"
 #include "editor/kgpgtextedit.h"
 #include "transactions/kgpgdecrypt.h"

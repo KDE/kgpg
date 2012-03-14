@@ -25,8 +25,6 @@
 
 class KTempDir;
 
-class KGpgTextInterface;
-
 class KGpgCaffPrivate : public QObject {
 	Q_OBJECT
 
