@@ -59,6 +59,9 @@ signals:
 protected:
 	virtual bool preStart();
 	virtual bool nextLine(const QString &line);
+	/**
+	 * @brief needed to submit the last search result
+	 */
 	virtual void finish();
 
 private:

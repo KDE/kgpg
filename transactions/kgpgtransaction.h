@@ -185,9 +185,8 @@ protected:
 	 * @return true if the process should be started
 	 *
 	 * You may reimplement this member if you need to do some special
-	 * operations or cleanups before the process is started. Keep in mind
-	 * that start() may be called several times. If you have some internal
-	 * state you probably want to reset it here.
+	 * operations before the process is started. The command line of the
+	 * process may be modified for the last time here.
 	 *
 	 * When you notice that some values passed are invalid or the
 	 * transaction does not need to be run for some other reason you should

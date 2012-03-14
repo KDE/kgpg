@@ -78,8 +78,14 @@ public:
 	const QStringList &getMessages() const;
 
 protected:
+	/**
+	 * @brief construct the command line of the process
+	 */
 	virtual bool preStart();
 	virtual bool nextLine(const QString &line);
+	/**
+	 * @brief implement special handling for GnuPG return codes
+	 */
 	virtual void finish();
 
 	virtual QStringList command() const = 0;
