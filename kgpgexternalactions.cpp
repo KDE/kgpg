@@ -325,12 +325,11 @@ void KGpgExternalActions::signDroppedFile()
 	}
 	if (KGpgSettings::pgpCompatibility())
 		Options << QLatin1String( "--pgp6" );
-	Options << QLatin1String( "--detach-sign" );
 
 	if (droppedUrls.count() > 1) {
-		KGpgTextInterface *signFileProcess = new KGpgTextInterface(this);
-		connect(signFileProcess, SIGNAL(fileSignFinished(KUrl::List&)), SLOT(slotSigningFinished()));
-		signFileProcess->signFiles(signKeyID, droppedUrls, Options);
+		KGpgTextInterface *signFileProcess = new KGpgTextInterface(this, signKeyID, Options);
+		connect(signFileProcess, SIGNAL(fileSignFinished()), SLOT(slotSigningFinished()));
+		signFileProcess->signFiles(droppedUrls);
 	} else {
 		KGpgSignText *signt = new KGpgSignText(this, signKeyID, droppedUrls, sopts);
 		connect(signt, SIGNAL(done(int)), SLOT(slotSigningFinished()));

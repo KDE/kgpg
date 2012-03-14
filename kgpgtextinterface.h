@@ -15,12 +15,11 @@
 #ifndef KGPGTEXTINTERFACE_H
 #define KGPGTEXTINTERFACE_H
 
-#include <QStringList>
-
 #include <KUrl>
 
 class KGpgTextInterfacePrivate;
 class QString;
+class QStringList;
 
 class KGpgTextInterface : public QObject
 {
@@ -29,16 +28,18 @@ class KGpgTextInterface : public QObject
 private:
 	KGpgTextInterfacePrivate * const d;
 
+	KGpgTextInterface();
+	Q_DISABLE_COPY(KGpgTextInterface)
+
 public:
-	explicit KGpgTextInterface(QObject *parent = 0);
+	explicit KGpgTextInterface(QObject *parent, const QString &keyID, const QStringList &options);
 	~KGpgTextInterface();
 
 signals:
     /**
      * Emitted when all files passed to KgpgSignFile() where processed.
-     * Passes as argument the files that failed.
      */
-    void fileSignFinished(KUrl::List &);
+    void fileSignFinished();
 
 public Q_SLOTS:
     /**
@@ -47,11 +48,11 @@ public Q_SLOTS:
      * @param srcUrl file to sign.
      * @param options additional gpg options, e.g. "--armor"
      */
-    void signFiles(const QString &keyID, const KUrl::List &srcUrl, const QStringList &options = QStringList());
+    void signFiles(const KUrl::List &srcUrl);
 
 private Q_SLOTS:
-	void slotSignFile(int);
-	void slotSignFinished(int);
+	void slotSignFile();
+	void slotSignFinished();
 };
 
 #endif

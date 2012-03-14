@@ -21,47 +21,56 @@
 #include <KLocale>
 #include <QFile>
 #include <QString>
+#include <QStringList>
 #include <QTextCodec>
 
 class KGpgTextInterfacePrivate
 {
 public:
-	KGpgTextInterfacePrivate(QObject *parent);
+	KGpgTextInterfacePrivate(QObject *parent, const QString &keyID, const QStringList &options);
 
 	GPGProc * const m_process;
 	int m_step;
-	QString m_signID;
-	QStringList m_gpgopts;
+	const QStringList m_gpgopts;
 	KUrl::List m_files;
-	KUrl::List m_errfiles;
 
-	void signFile(const KUrl &);
+	void signFile(const QString &fileName);
 };
 
-KGpgTextInterfacePrivate::KGpgTextInterfacePrivate(QObject *parent)
+static QStringList
+buildCmdLine(const QString &keyID, const QStringList &options)
+{
+	return QStringList(QLatin1String("-u")) <<
+		keyID <<
+		options <<
+		QLatin1String("--detach-sign") <<
+		QLatin1String("--output");
+}
+
+KGpgTextInterfacePrivate::KGpgTextInterfacePrivate(QObject *parent, const QString &keyID, const QStringList &options)
 	: m_process(new GPGProc(parent)),
-	m_step(0)
+	m_step(0),
+	m_gpgopts(buildCmdLine(keyID, options))
 {
 }
 
 void
-KGpgTextInterfacePrivate::signFile(const KUrl &file)
+KGpgTextInterfacePrivate::signFile(const QString &fileName)
 {
-	*m_process << QLatin1String( "--command-fd=0" ) << QLatin1String( "-u" ) << m_signID;
-
-	*m_process << m_gpgopts;
-
-	if (m_gpgopts.contains(QLatin1String( "--detach-sign" )) && !m_gpgopts.contains( QLatin1String( "--output" )))
-		*m_process << QLatin1String( "--output" ) << file.path() + QLatin1String( ".sig" );
-	*m_process << file.path();
+	m_process->resetProcess();
+	*m_process <<
+			m_gpgopts <<
+			fileName + QLatin1String(".sig") <<
+			fileName;
 
 	m_process->start();
 }
 
-KGpgTextInterface::KGpgTextInterface(QObject *parent)
+KGpgTextInterface::KGpgTextInterface(QObject *parent, const QString &keyID, const QStringList &options)
 	: QObject(parent),
-	d(new KGpgTextInterfacePrivate(parent))
+	d(new KGpgTextInterfacePrivate(parent, keyID, options))
 {
+	connect(d->m_process, SIGNAL(processExited()), SLOT(slotSignFile()));
 }
 
 KGpgTextInterface::~KGpgTextInterface()
@@ -72,39 +81,30 @@ KGpgTextInterface::~KGpgTextInterface()
 
 // signatures
 void
-KGpgTextInterface::signFiles(const QString &keyID, const KUrl::List &srcUrls, const QStringList &options)
+KGpgTextInterface::signFiles(const KUrl::List &srcUrls)
 {
 	d->m_files = srcUrls;
-	d->m_step = 0;
-	d->m_signID = keyID;
-	d->m_gpgopts = options;
 
-	slotSignFile(0);
+	slotSignFile();
 }
 
 void
-KGpgTextInterface::slotSignFile(int err)
+KGpgTextInterface::slotSignFile()
 {
-	if (err != 0)
-		d->m_errfiles << d->m_files.at(d->m_step);
+	const QString fileName = d->m_files.takeFirst().path();
 
-	d->m_process->resetProcess();
-	d->signFile(d->m_files.at(d->m_step));
-
-	if (++d->m_step == d->m_files.count()) {
-		connect(d->m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotSignFinished(int)));
-	} else {
-		connect(d->m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotSignFile(int)));
+	if (d->m_files.isEmpty()) {
+		disconnect(d->m_process, SIGNAL(processExited()), this, SLOT(slotSignFile()));
+		connect(d->m_process, SIGNAL(processExited()), SLOT(slotSignFinished()));
 	}
+
+	d->signFile(fileName);
 }
 
 void
-KGpgTextInterface::slotSignFinished(int err)
+KGpgTextInterface::slotSignFinished()
 {
-	if (err != 0)
-		d->m_errfiles << d->m_files.at(d->m_step - 1);
-
-	emit fileSignFinished(d->m_errfiles);
+	emit fileSignFinished();
 }
 
 #include "kgpgtextinterface.moc"
