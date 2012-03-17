@@ -1,10 +1,7 @@
-/***************************************************************************
-                    selectpublickeydialog.h  -  description
-                             -------------------
-    begin                : Sat Jun 29 2002
-    copyright            : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -51,14 +48,18 @@ public:
     bool getUntrusted() const;
     bool getHideId() const;
     bool getArmor() const;
+    /**
+     * @brief return the files passed in the constructor
+     */
+    const KUrl::List &getFiles() const;
 
     KVBox *optionsbox;
 
 private slots:
     void slotOk();
     void slotSelectionChanged();
-    void slotSymmetric(const bool &state);
-    void slotUntrusted(const bool &state);
+    void slotSymmetric(const bool state);
+    void slotUntrusted(const bool state);
     void slotGotoDefaultKey();
 
 private:
@@ -73,9 +74,9 @@ private:
     KLineEdit *m_searchlineedit;
     SelectKeyProxyModel *iproxy;
     KGpgItemModel *imodel;
+    const KUrl::List m_files;
 
     bool m_hideasciioption;
-    bool m_fmode;
 };
 
 #endif // SELECTPUBLICKEYDIALOG_H

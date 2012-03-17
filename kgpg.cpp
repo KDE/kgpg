@@ -82,10 +82,9 @@ int KGpgApp::newInstance()
 		s_keyManager = new KeysManager();
 
 		w = new KGpgExternalActions(s_keyManager, s_keyManager->getModel());
-		connect(w, SIGNAL(importDrop(QString)), s_keyManager, SLOT(slotImport(QString)));
 
-		connect(s_keyManager, SIGNAL(encryptFiles(KUrl::List)), w, SLOT(encryptFiles(KUrl::List)));
-		connect(s_keyManager->s_kgpgEditor, SIGNAL(encryptFiles(KUrl::List)), w, SLOT(encryptFiles(KUrl::List)));
+		connect(s_keyManager, SIGNAL(encryptFiles(KUrl::List)), w, SLOT(slotEncryptDroppedFiles(KUrl::List)));
+		connect(s_keyManager->s_kgpgEditor, SIGNAL(encryptFiles(KUrl::List)), w, SLOT(slotEncryptDroppedFiles(KUrl::List)));
 
 		connect(s_keyManager, SIGNAL(readAgainOptions()), w, SLOT(readOptions()));
 		connect(w, SIGNAL(updateDefault(QString)), SLOT(assistantOver(QString)));
@@ -118,8 +117,6 @@ int KGpgApp::newInstance()
 		if (urlList.empty())
 			return 0;
 
-		w->droppedUrl = urlList.first();
-
 		bool directoryInside = false;
 		const QStringList lst = urlList.toStringList();
 		for (QStringList::const_iterator it = lst.begin(); it != lst.end(); ++it)
@@ -131,31 +128,29 @@ int KGpgApp::newInstance()
 			return 0;
 		}
 
-		w->droppedUrls = urlList;
-
 		if (args->isSet("e")) {
 			if (!directoryInside)
-				w->encryptDroppedFile();
+				w->slotEncryptDroppedFiles(urlList);
 			else
-				w->encryptDroppedFolder();
+				w->encryptDroppedFolder(urlList.first());
 		} else if (args->isSet("s")) {
 			if (!directoryInside)
-				w->showDroppedFile();
+				w->showDroppedFile(urlList.first());
 			else
 				KMessageBox::sorry(0, i18n("Cannot decrypt and show folder."));
 		} else if (args->isSet("S")) {
 			if (!directoryInside)
-				w->signDroppedFile();
+				w->signDroppedFiles(urlList);
 			else
 				KMessageBox::sorry(0, i18n("Cannot sign folder."));
 		} else if (args->isSet("V") != 0) {
 			if (!directoryInside)
-				w->slotVerifyFile();
+				w->verifyFile(urlList.first());
 			else
 				KMessageBox::sorry(0, i18n("Cannot verify folder."));
 		} else {
-			if (w->droppedUrl.fileName().endsWith(QLatin1String(".sig"))) {
-				w->slotVerifyFile();
+			if (urlList.first().fileName().endsWith(QLatin1String(".sig"))) {
+				w->verifyFile(urlList.first());
 			} else {
 				bool haskeys = false;
 				bool hastext = false;
@@ -175,7 +170,7 @@ int KGpgApp::newInstance()
 				}
 
 				if (hastext)
-					w->decryptDroppedFile();
+					w->decryptDroppedFiles(urlList);
 				else
 					s_keyManager->slotImport(urlList);
 			}

@@ -25,7 +25,6 @@
 class KeysManager;
 class KGpgFirstAssistant;
 class KGpgItemModel;
-class KgpgSelectPublicKeyDlg;
 class KGpgTextInterface;
 class KJob;
 class KShortcut;
@@ -47,26 +46,23 @@ public:
 	KGpgExternalActions(KeysManager *parent, KGpgItemModel *model);
 	~KGpgExternalActions();
 
-	KUrl droppedUrl;
-	KUrl::List droppedUrls;
-	KTemporaryFile *kgpgfoldertmp;
+	void showDroppedFile(const KUrl &file);
+	void verifyFile(KUrl url);
+	/**
+	 * @brief create a detached signature for a chosen files
+	 */
+	void signDroppedFiles(const KUrl::List &urls);
+	void decryptDroppedFiles(const KUrl::List &urls);
+	void encryptDroppedFolder(const KUrl &url);
 
 signals:
-	void readAgain2();
 	void createNewKey();
 	void updateDefault(QString);
-	void importDrop(const QString &);
 
 public slots:
-	void encryptDroppedFile();
-	void decryptDroppedFile();
-	void signDroppedFile();
-	void showDroppedFile();
+	void slotEncryptDroppedFiles(const KUrl::List &urls);
 
-	void slotVerifyFile();
-	void encryptDroppedFolder();
 	void startFolderEncode();
-	void encryptFiles(KUrl::List urls);
 	void slotAbortEnc();
 
 private:
@@ -74,9 +70,9 @@ private:
 	QPointer<KGpgFirstAssistant> m_assistant;
 	KTemporaryFile *kgpgFolderExtract;
 	int compressionScheme;
-	KgpgSelectPublicKeyDlg *dialog;
 	QClipboard::Mode clipboardMode;
 	KGpgItemModel *m_model;
+	KTemporaryFile *m_kgpgfoldertmp;
 
 	void startAssistant();
 	void firstRun();
@@ -84,19 +80,22 @@ private:
 	KUrl::List m_decryptionFailed;
 	QWidget *m_parentWidget;
 	KeysManager *m_keysmanager;
+	KUrl::List droppedUrls;
 
 	KShortcut goDefaultKey() const;
+	void decryptFile(KUrl::List urls);
 
 private slots:
 	void slotSaveOptionsPath();
-	void importSignature(int result);
+	void slotVerificationDone(int result);
 	void help();
 	void readOptions();
 	void slotSetCompression(int cp);
 	void slotDecryptionDone(int status);
-	void decryptFile();
 	void slotFolderFinished(KJob *job);
 	void slotSigningFinished();
+	void slotSignFiles();
+	void slotEncryptionKeySelected();
 };
 
 #endif /* _KGPGEXTERNALACTIONS_H */

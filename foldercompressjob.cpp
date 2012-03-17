@@ -95,7 +95,7 @@ FolderCompressJob::doWork()
 			i18nc("Status message 'Encrypting <filename>' (operation starts)", "Encrypting %1", m_dest.path())));
 		
 
-	KGpgEncrypt *enc = new KGpgEncrypt(this, m_keys, KUrl::List(m_tempfile->fileName()), m_encOptions, m_options);
+	KGpgEncrypt *enc = new KGpgEncrypt(this, m_keys, KUrl::List(KUrl::fromPath(m_tempfile->fileName())), m_encOptions, m_options);
 	connect(enc, SIGNAL(done(int)), SLOT(slotEncryptionDone(int)));
 	enc->start();
 }

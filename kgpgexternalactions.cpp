@@ -59,13 +59,24 @@ KGpgExternalActions::~KGpgExternalActions()
 {
 }
 
-void KGpgExternalActions::encryptDroppedFile()
+void KGpgExternalActions::slotEncryptDroppedFiles(const KUrl::List &urls)
 {
+	Q_ASSERT(!urls.isEmpty());
+
+	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, m_model, goDefaultKey(), false, urls);
+	connect(dialog, SIGNAL(accepted()), SLOT(slotEncryptionKeySelected()));
+	connect(dialog, SIGNAL(rejected()), dialog, SLOT(deleteLater()));
+	dialog->show();
+}
+
+void KGpgExternalActions::slotEncryptionKeySelected()
+{
+	KgpgSelectPublicKeyDlg *dialog = qobject_cast<KgpgSelectPublicKeyDlg *>(sender());
+	Q_ASSERT(dialog != NULL);
+	sender()->deleteLater();
+
 	QStringList opts;
 	QString defaultKey;
-
-	if (droppedUrls.isEmpty())
-		return;
 
 	if (KGpgSettings::encryptFilesTo()) {
 		if (KGpgSettings::pgpCompatibility())
@@ -74,57 +85,52 @@ void KGpgExternalActions::encryptDroppedFile()
 		defaultKey = KGpgSettings::fileEncryptionKey();
 	}
 
-	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(0, m_model, goDefaultKey(), false, droppedUrls);
-	if (dialog->exec() == KDialog::Accepted) {
-		KGpgEncrypt::EncryptOptions eopt = KGpgEncrypt::DefaultEncryption;
+	KGpgEncrypt::EncryptOptions eopt = KGpgEncrypt::DefaultEncryption;
 
-		if (dialog->getUntrusted())
-			eopt |= KGpgEncrypt::AllowUntrustedEncryption;
-		if (dialog->getArmor())
-			eopt |= KGpgEncrypt::AsciiArmored;
-		if (dialog->getHideId())
-			eopt |= KGpgEncrypt::HideKeyId;
+	if (dialog->getUntrusted())
+		eopt |= KGpgEncrypt::AllowUntrustedEncryption;
+	if (dialog->getArmor())
+		eopt |= KGpgEncrypt::AsciiArmored;
+	if (dialog->getHideId())
+		eopt |= KGpgEncrypt::HideKeyId;
 
-		if (KGpgSettings::allowCustomEncryptionOptions()) {
-			const QString customopts(dialog->getCustomOptions().isEmpty());
+	if (KGpgSettings::allowCustomEncryptionOptions()) {
+		const QString customopts(dialog->getCustomOptions().isEmpty());
 
-			if (!customopts.isEmpty())
-				opts << customopts.split(QLatin1Char(' '), QString::SkipEmptyParts);
-		}
-
-		QStringList keys(dialog->selectedKeys());
-		if (!defaultKey.isEmpty() && !keys.contains(defaultKey))
-			keys.append(defaultKey);
-
-		if (dialog->getSymmetric())
-			keys.clear();
-
-		KGpgEncrypt *enc = new KGpgEncrypt(parent(), keys, droppedUrls, eopt, opts);
-		KGpgTransactionJob *encjob = new KGpgTransactionJob(enc);
-
-		KIO::getJobTracker()->registerJob(encjob);
-		encjob->start();
+		if (!customopts.isEmpty())
+			opts << customopts.split(QLatin1Char(' '), QString::SkipEmptyParts);
 	}
 
-	delete dialog;
+	QStringList keys(dialog->selectedKeys());
+	if (!defaultKey.isEmpty() && !keys.contains(defaultKey))
+		keys.append(defaultKey);
+
+	if (dialog->getSymmetric())
+		keys.clear();
+
+	KGpgEncrypt *enc = new KGpgEncrypt(parent(), keys, dialog->getFiles(), eopt, opts);
+	KGpgTransactionJob *encjob = new KGpgTransactionJob(enc);
+
+	KIO::getJobTracker()->registerJob(encjob);
+	encjob->start();
 }
 
-void KGpgExternalActions::encryptDroppedFolder()
+void KGpgExternalActions::encryptDroppedFolder(const KUrl &url)
 {
 	compressionScheme = 0;
-	kgpgfoldertmp = new KTemporaryFile();
-	kgpgfoldertmp->open();
+	m_kgpgfoldertmp = new KTemporaryFile();
+	m_kgpgfoldertmp->open();
 
 	if (KMessageBox::Cancel == KMessageBox::warningContinueCancel(m_keysmanager,
 				i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>",
-				kgpgfoldertmp->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(),
+				m_kgpgfoldertmp->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(),
 				KStandardGuiItem::cancel(), QLatin1String( "FolderTmpFile" ))) {
-		delete kgpgfoldertmp;
-		kgpgfoldertmp = NULL;
+		delete m_kgpgfoldertmp;
+		m_kgpgfoldertmp = NULL;
 		return;
 	}
 
-	dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey(), false, droppedUrls);
+	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey(), false, KUrl::List(url));
 
 	KHBox *bGroup = new KHBox(dialog->optionsbox);
 
@@ -138,18 +144,17 @@ void KGpgExternalActions::encryptDroppedFolder()
 	optionbx->addItem(i18n("Tar/XZ"));
 
 	connect(optionbx, SIGNAL(activated(int)), SLOT(slotSetCompression(int)));
-	connect(dialog, SIGNAL(okClicked()), SLOT(startFolderEncode()));
-	connect(dialog, SIGNAL(cancelClicked()), SLOT(slotAbortEnc()));
+	connect(dialog, SIGNAL(accepted()), SLOT(startFolderEncode()));
+	connect(dialog, SIGNAL(rejected()), SLOT(slotAbortEnc()));
 
 	dialog->exec();
 }
 
 void KGpgExternalActions::slotAbortEnc()
 {
-	dialog->deleteLater();
-	dialog = NULL;
-	delete kgpgfoldertmp;
-	kgpgfoldertmp = NULL;
+	sender()->deleteLater();
+	delete m_kgpgfoldertmp;
+	m_kgpgfoldertmp = NULL;
 }
 
 void KGpgExternalActions::slotSetCompression(int cp)
@@ -159,6 +164,12 @@ void KGpgExternalActions::slotSetCompression(int cp)
 
 void KGpgExternalActions::startFolderEncode()
 {
+	KgpgSelectPublicKeyDlg *dialog = qobject_cast<KgpgSelectPublicKeyDlg *>(sender());
+	Q_ASSERT(dialog != NULL);
+	dialog->deleteLater();
+
+	const KUrl url = dialog->getFiles().first();
+
 	QStringList selec = dialog->selectedKeys();
 	KGpgEncrypt::EncryptOptions encOptions = KGpgEncrypt::DefaultEncryption;
 	const QStringList encryptOptions = dialog->getCustomOptions().split(QLatin1Char(' '),  QString::SkipEmptyParts);
@@ -204,13 +215,12 @@ void KGpgExternalActions::startFolderEncode()
 	if (dialog->getUntrusted())
 		encOptions |= KGpgEncrypt::AllowUntrustedEncryption;
 
-	KUrl encryptedFile(KUrl::fromPath(droppedUrls.first().path(KUrl::RemoveTrailingSlash) + extension));
+	KUrl encryptedFile(KUrl::fromPath(url.path(KUrl::RemoveTrailingSlash) + extension));
 	QFile encryptedFolder(encryptedFile.path());
 	dialog->hide();
 	if (encryptedFolder.exists()) {
 		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager, i18n("File Already Exists"), KUrl(), encryptedFile, KIO::M_OVERWRITE);
 		if (over->exec() == QDialog::Rejected) {
-			dialog->deleteLater();
 			dialog = NULL;
 			delete over;
 			return;
@@ -219,15 +229,10 @@ void KGpgExternalActions::startFolderEncode()
 		delete over;
 	}
 
-	FolderCompressJob *trayinfo = new FolderCompressJob(m_keysmanager, droppedUrls.first(), encryptedFile, kgpgfoldertmp, selec, encryptOptions, encOptions);
+	FolderCompressJob *trayinfo = new FolderCompressJob(m_keysmanager, url, encryptedFile, m_kgpgfoldertmp, selec, encryptOptions, encOptions);
 	connect(trayinfo, SIGNAL(result(KJob*)), SLOT(slotFolderFinished(KJob*)));
 	KIO::getJobTracker()->registerJob(trayinfo);
 	trayinfo->start();
-
-	dialog->accept();
-	dialog->deleteLater();
-	dialog = NULL;
-	kgpgfoldertmp = NULL;
 }
 
 void KGpgExternalActions::slotFolderFinished(KJob *job)
@@ -235,47 +240,41 @@ void KGpgExternalActions::slotFolderFinished(KJob *job)
 	FolderCompressJob *trayinfo = qobject_cast<FolderCompressJob *>(job);
 	Q_ASSERT(trayinfo != NULL);
 
-	delete kgpgfoldertmp;
-	kgpgfoldertmp = NULL;
+	delete m_kgpgfoldertmp;
+	m_kgpgfoldertmp = NULL;
 	if (trayinfo->error())
 		KMessageBox::sorry(m_keysmanager, trayinfo->errorString());
 }
 
-void KGpgExternalActions::encryptFiles(KUrl::List urls)
-{
-	droppedUrls = urls;
-	encryptDroppedFile();
-}
-
-void KGpgExternalActions::slotVerifyFile()
+void KGpgExternalActions::verifyFile(KUrl url)
 {
 	// check file signature
-	if (droppedUrl.isEmpty())
+	if (url.isEmpty())
 		return;
 
 	QString sigfile;
 	// try to find detached signature.
-	if (!droppedUrl.fileName().endsWith(QLatin1String(".sig"))) {
-		sigfile = droppedUrl.path() + QLatin1String( ".sig" );
+	if (!url.fileName().endsWith(QLatin1String(".sig"))) {
+		sigfile = url.path() + QLatin1String( ".sig" );
 		QFile fsig(sigfile);
 		if (!fsig.exists()) {
-			sigfile = droppedUrl.path() + QLatin1String( ".asc" );
+			sigfile = url.path() + QLatin1String( ".asc" );
 			QFile fsig(sigfile);
 			// if no .asc or .sig signature file included, assume the file is internally signed
 			if (!fsig.exists())
 				sigfile.clear();
 		}
 	} else {
-		sigfile = droppedUrl.path();
-		droppedUrl = KUrl(sigfile.left(sigfile.length() - 4));
+		sigfile = url.path();
+		url = KUrl(sigfile.left(sigfile.length() - 4));
 	}
 
 	KGpgVerify *kgpv = new KGpgVerify(parent(), KUrl::List(sigfile));
-	connect(kgpv, SIGNAL(done(int)), SLOT(importSignature(int)));
+	connect(kgpv, SIGNAL(done(int)), SLOT(slotVerificationDone(int)));
 	kgpv->start();
 }
 
-void KGpgExternalActions::importSignature(int result)
+void KGpgExternalActions::slotVerificationDone(int result)
 {
 	KGpgVerify *kgpv = qobject_cast<KGpgVerify *>(sender());
 	Q_ASSERT(kgpv != NULL);
@@ -301,21 +300,25 @@ void KGpgExternalActions::importSignature(int result)
 	}
 }
 
-void KGpgExternalActions::signDroppedFile()
+void KGpgExternalActions::signDroppedFiles(const KUrl::List &urls)
 {
-	// create a detached signature for a chosen file
-	if (droppedUrl.isEmpty())
-		return;
+	Q_ASSERT(!urls.isEmpty());
 
-	// select a private key to sign file --> listkeys.cpp
-	QPointer<KgpgSelectSecretKey> opts = new KgpgSelectSecretKey(0, m_model, false);
-	if (opts->exec() != QDialog::Accepted) {
-		delete opts;
-		return;
-	}
+	droppedUrls = urls;
 
-	const QString signKeyID(opts->getKeyID());
-	delete opts;
+	KgpgSelectSecretKey *keydlg = new KgpgSelectSecretKey(0, m_model, false);
+	connect(keydlg, SIGNAL(accepted()), SLOT(slotSignFiles()));
+	connect(keydlg, SIGNAL(rejected()), keydlg, SLOT(deleteLater()));
+	keydlg->show();
+}
+
+void KGpgExternalActions::slotSignFiles()
+{
+	KgpgSelectSecretKey *keydlg = qobject_cast<KgpgSelectSecretKey *>(sender());
+	Q_ASSERT(keydlg != NULL);
+	sender()->deleteLater();
+
+	const QString signKeyID = keydlg->getKeyID();
 
 	QStringList Options;
 	KGpgSignText::SignOptions sopts = KGpgSignText::DetachedSignature;
@@ -342,24 +345,25 @@ void KGpgExternalActions::slotSigningFinished()
 	sender()->deleteLater();
 }
 
-void KGpgExternalActions::decryptDroppedFile()
+void KGpgExternalActions::decryptDroppedFiles(const KUrl::List &urls)
 {
 	m_decryptionFailed.clear();
 
-	decryptFile();
+	decryptFile(urls);
 }
 
-void KGpgExternalActions::decryptFile()
+void KGpgExternalActions::decryptFile(KUrl::List urls)
 {
-	while (!droppedUrls.first().isLocalFile()) {
-		showDroppedFile();
-		droppedUrls.pop_front();
+	while (!urls.first().isLocalFile()) {
+		showDroppedFile(urls.takeFirst());
 	}
 
-	if (droppedUrls.isEmpty())
+	if (urls.isEmpty())
 		return;
 
-	QString oldname(droppedUrls.first().fileName());
+	KUrl first = urls.first();
+
+	QString oldname(first.fileName());
 	if (oldname.endsWith(QLatin1String(".gpg"), Qt::CaseInsensitive) ||
 			oldname.endsWith(QLatin1String(".asc"), Qt::CaseInsensitive) ||
 			oldname.endsWith(QLatin1String(".pgp"), Qt::CaseInsensitive))
@@ -367,14 +371,14 @@ void KGpgExternalActions::decryptFile()
 	else
 		oldname.append(QLatin1String( ".clear" ));
 
-	KUrl swapname(droppedUrls.first().directory(KUrl::AppendTrailingSlash) + oldname);
+	KUrl swapname(first.directory(KUrl::AppendTrailingSlash) + oldname);
 	QFile fgpg(swapname.path());
 	if (fgpg.exists()) {
 		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager, i18n("File Already Exists"), KUrl(), swapname, KIO::M_OVERWRITE);
 		if (over->exec() != QDialog::Accepted) {
 			delete over;
-			droppedUrls.pop_front();
-			decryptFile();
+			urls.pop_front();
+			decryptFile(urls);
 			return;
 		}
 
@@ -382,6 +386,7 @@ void KGpgExternalActions::decryptFile()
 		delete over;
 	}
 
+	droppedUrls = urls;
 	KGpgDecrypt *decr = new KGpgDecrypt(this, droppedUrls.first(), swapname);
 	connect(decr, SIGNAL(done(int)), SLOT(slotDecryptionDone(int)));
 	decr->start();
@@ -400,7 +405,7 @@ void KGpgExternalActions::slotDecryptionDone(int status)
 	droppedUrls.pop_front();
 
 	if (!droppedUrls.isEmpty()) {
-		decryptFile();
+		decryptFile(droppedUrls);
 	} else if (!m_decryptionFailed.isEmpty()) {
 		KMessageBox::errorList(NULL,
 					i18np("Decryption of this file failed:", "Decryption of these files failed:",
@@ -409,13 +414,13 @@ void KGpgExternalActions::slotDecryptionDone(int status)
 	}
 }
 
-void KGpgExternalActions::showDroppedFile()
+void KGpgExternalActions::showDroppedFile(const KUrl &file)
 {
 	KgpgEditor *kgpgtxtedit = new KgpgEditor(m_keysmanager, m_model, 0);
-	connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), SLOT(encryptFiles(KUrl::List)));
+	connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), SLOT(slotEncryptDroppedFiles(KUrl::List)));
 	connect(m_keysmanager, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
 
-	kgpgtxtedit->m_editor->openDroppedFile(droppedUrls.first(), false);
+	kgpgtxtedit->m_editor->openDroppedFile(file, false);
 
 	kgpgtxtedit->show();
 }

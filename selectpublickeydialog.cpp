@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -38,6 +39,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 	: KDialog(parent),
 	m_customoptions(NULL),
 	imodel(model),
+	m_files(files),
 	m_hideasciioption(hideasciioption)
 {
     setButtons(Details | Ok | Cancel);
@@ -45,7 +47,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     setButtonText(Details, i18n("O&ptions"));
 
     int fcount = files.count();
-    m_fmode = (fcount > 0);
+    bool fmode = (fcount > 0);
 
     switch (fcount) {
     case 0:
@@ -147,7 +149,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     setMainWidget(page);
     slotSelectionChanged();
 
-    if (m_fmode)
+    if (fmode)
         slotGotoDefaultKey();
 }
 
@@ -193,6 +195,11 @@ bool KgpgSelectPublicKeyDlg::getArmor() const
     return m_hideasciioption || m_cbarmor->isChecked();
 }
 
+const KUrl::List &KgpgSelectPublicKeyDlg::getFiles() const
+{
+	return m_files;
+}
+
 bool KgpgSelectPublicKeyDlg::getHideId() const
 {
     return m_cbhideid->isChecked();
@@ -209,7 +216,7 @@ void KgpgSelectPublicKeyDlg::slotSelectionChanged()
     enableButtonOk(getSymmetric() || m_keyslist->selectionModel()->hasSelection());
 }
 
-void KgpgSelectPublicKeyDlg::slotSymmetric(const bool &state)
+void KgpgSelectPublicKeyDlg::slotSymmetric(const bool state)
 {
     m_keyslist->setDisabled(state);
     m_cbuntrusted->setDisabled(state);
@@ -218,7 +225,7 @@ void KgpgSelectPublicKeyDlg::slotSymmetric(const bool &state)
     slotSelectionChanged();
 }
 
-void KgpgSelectPublicKeyDlg::slotUntrusted(const bool &state)
+void KgpgSelectPublicKeyDlg::slotUntrusted(const bool state)
 {
 	iproxy->setShowUntrusted(state);
 }
