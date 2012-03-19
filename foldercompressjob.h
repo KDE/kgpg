@@ -66,6 +66,19 @@ public:
 	 */
 	virtual void start();
 
+	/**
+	 * @brief query extension for archive type
+	 * @param archive the archive type
+	 * @return the extension including leading dot
+	 */
+	static QString extensionForArchive(const int archive);
+
+	/**
+	 * @brief get list of supported archive names
+	 * @return list of archive names
+	 */
+	static QStringList archiveNames();
+
 private slots:
 	void doWork();
 	void slotEncryptionDone(int result);

@@ -137,11 +137,8 @@ void KGpgExternalActions::encryptDroppedFolders(const KUrl::List &urls)
 	(void) new QLabel(i18n("Compression method for archive:"), bGroup);
 
 	KComboBox *optionbx = new KComboBox(bGroup);
-	optionbx->addItem(i18n("Zip"));
-	optionbx->addItem(i18n("Gzip"));
-	optionbx->addItem(i18n("Bzip2"));
-	optionbx->addItem(i18n("Tar"));
-	optionbx->addItem(i18n("Tar/XZ"));
+	foreach (const QString &aname, FolderCompressJob::archiveNames())
+		optionbx->addItem(aname);
 
 	connect(optionbx, SIGNAL(activated(int)), SLOT(slotSetCompression(int)));
 	connect(dialog, SIGNAL(accepted()), SLOT(startFolderEncode()));
@@ -178,28 +175,8 @@ void KGpgExternalActions::startFolderEncode()
 	} else {
 		Q_ASSERT(!selec.isEmpty());
 	}
-	QString extension;
 
-	switch (compressionScheme) {
-	case 0:
-		extension = QLatin1String( ".zip" );
-		break;
-	case 1:
-		extension = QLatin1String( ".tar.gz" );
-		break;
-	case 2:
-		extension = QLatin1String( ".tar.bz2" );
-		break;
-	case 3:
-		extension = QLatin1String( ".tar" );
-		break;
-	case 4:
-		extension = QLatin1String( ".tar.xz" );
-		break;
-	default:
-		Q_ASSERT(compressionScheme == 0);
-		return;
-	}
+	QString extension = FolderCompressJob::extensionForArchive(compressionScheme);
 
 	if (dialog->getArmor())
 		extension += QLatin1String( ".asc" );
