@@ -123,16 +123,11 @@ int KGpgApp::newInstance()
 			if (KMimeType::findByUrl(KUrl(*it))->name() == QLatin1String( "inode/directory" ))
 				directoryInside = true;
 
-		if ((directoryInside) && (lst.count() > 1)) {
-			KMessageBox::sorry(0, i18n("Unable to perform requested operation.\nPlease select only one folder, or several files, but do not mix files and folders."));
-			return 0;
-		}
-
 		if (args->isSet("e")) {
 			if (!directoryInside)
 				w->slotEncryptDroppedFiles(urlList);
 			else
-				w->encryptDroppedFolder(urlList.first());
+				w->encryptDroppedFolders(urlList);
 		} else if (args->isSet("s")) {
 			if (!directoryInside)
 				w->showDroppedFile(urlList.first());
@@ -149,6 +144,11 @@ int KGpgApp::newInstance()
 			else
 				KMessageBox::sorry(0, i18n("Cannot verify folder."));
 		} else {
+			if (directoryInside && (lst.count() > 1)) {
+				KMessageBox::sorry(0, i18n("Unable to perform requested operation.\nPlease select only one folder, or several files, but do not mix files and folders."));
+				return 0;
+			}
+
 			if (urlList.first().fileName().endsWith(QLatin1String(".sig"))) {
 				w->verifyFile(urlList.first());
 			} else {

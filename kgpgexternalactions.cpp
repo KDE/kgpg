@@ -115,7 +115,7 @@ void KGpgExternalActions::slotEncryptionKeySelected()
 	encjob->start();
 }
 
-void KGpgExternalActions::encryptDroppedFolder(const KUrl &url)
+void KGpgExternalActions::encryptDroppedFolders(const KUrl::List &urls)
 {
 	compressionScheme = 0;
 	m_kgpgfoldertmp = new KTemporaryFile();
@@ -130,7 +130,7 @@ void KGpgExternalActions::encryptDroppedFolder(const KUrl &url)
 		return;
 	}
 
-	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey(), false, KUrl::List(url));
+	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey(), false, urls);
 
 	KHBox *bGroup = new KHBox(dialog->optionsbox);
 
@@ -168,7 +168,7 @@ void KGpgExternalActions::startFolderEncode()
 	Q_ASSERT(dialog != NULL);
 	dialog->deleteLater();
 
-	const KUrl url = dialog->getFiles().first();
+	const KUrl::List urls = dialog->getFiles();
 
 	QStringList selec = dialog->selectedKeys();
 	KGpgEncrypt::EncryptOptions encOptions = KGpgEncrypt::DefaultEncryption;
@@ -215,7 +215,7 @@ void KGpgExternalActions::startFolderEncode()
 	if (dialog->getUntrusted())
 		encOptions |= KGpgEncrypt::AllowUntrustedEncryption;
 
-	KUrl encryptedFile(KUrl::fromPath(url.path(KUrl::RemoveTrailingSlash) + extension));
+	KUrl encryptedFile(KUrl::fromPath(urls.first().path(KUrl::RemoveTrailingSlash) + extension));
 	QFile encryptedFolder(encryptedFile.path());
 	dialog->hide();
 	if (encryptedFolder.exists()) {
@@ -229,7 +229,7 @@ void KGpgExternalActions::startFolderEncode()
 		delete over;
 	}
 
-	FolderCompressJob *trayinfo = new FolderCompressJob(m_keysmanager, url, encryptedFile, m_kgpgfoldertmp, selec, encryptOptions, encOptions);
+	FolderCompressJob *trayinfo = new FolderCompressJob(m_keysmanager, urls, encryptedFile, m_kgpgfoldertmp, selec, encryptOptions, encOptions, compressionScheme);
 	connect(trayinfo, SIGNAL(result(KJob*)), SLOT(slotFolderFinished(KJob*)));
 	KIO::getJobTracker()->registerJob(trayinfo);
 	trayinfo->start();

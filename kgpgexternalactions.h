@@ -53,7 +53,7 @@ public:
 	 */
 	void signDroppedFiles(const KUrl::List &urls);
 	void decryptDroppedFiles(const KUrl::List &urls);
-	void encryptDroppedFolder(const KUrl &url);
+	void encryptDroppedFolders(const KUrl::List &urls);
 
 signals:
 	void createNewKey();

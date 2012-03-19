@@ -13,8 +13,6 @@
 
 #include "foldercompressjob.h"
 
-#include "transactions/kgpgencrypt.h"
-
 #include <KArchive>
 #include <KLocale>
 #include <KTar>
@@ -24,15 +22,16 @@
 #include <QMetaObject>
 #include <QTimer>
 
-FolderCompressJob::FolderCompressJob(QObject *parent, const KUrl &source, const KUrl &dest, KTemporaryFile *tempfile, const QStringList &keys, const QStringList &options,  const KGpgEncrypt::EncryptOptions encOptions)
+FolderCompressJob::FolderCompressJob(QObject *parent, const KUrl::List &sources, const KUrl &dest, KTemporaryFile *tempfile, const QStringList &keys, const QStringList &options,  const KGpgEncrypt::EncryptOptions encOptions, const int archive)
 	: KJob(parent),
 	m_description(i18n("Processing folder compression and encryption")),
-	m_source(source),
+	m_sources(sources),
 	m_dest(dest),
 	m_tempfile(tempfile),
 	m_keys(keys),
 	m_options(options),
-	m_encOptions(encOptions)
+	m_encOptions(encOptions),
+	m_archiveType(archive)
 {
 }
 
@@ -51,8 +50,8 @@ void
 FolderCompressJob::doWork()
 {
 	KArchive *arch = NULL;
-	int compressionScheme = 0;
-	switch (compressionScheme) {
+
+	switch (m_archiveType) {
 	case 0:
 		arch = new KZip(m_tempfile->fileName());
 		break;
@@ -80,13 +79,14 @@ FolderCompressJob::doWork()
 		return;
 	}
 
-	arch->addLocalDirectory(m_source.path(), m_source.fileName());
+	foreach (const KUrl &url, m_sources)
+		arch->addLocalDirectory(url.path(), url.fileName());
 	arch->close();
 	delete arch;
 
 	setPercent(50);
 
-	QDir outPath = m_source.path();
+	QDir outPath = m_sources.first().path();
 	outPath.cdUp();
 
 	m_options << QLatin1String("--output") << QDir::toNativeSeparators(outPath.path() + QDir::separator()) + m_dest.fileName();

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -34,24 +34,28 @@ class FolderCompressJob : public KJob {
 	FolderCompressJob(); // = delete C++0x
 
 	const QString m_description;
-	const KUrl m_source;
+	const KUrl::List m_sources;
 	const KUrl m_dest;
 	KTemporaryFile * const m_tempfile;
 	const QStringList m_keys;
 	QStringList m_options;
 	const KGpgEncrypt::EncryptOptions m_encOptions;
+	const int m_archiveType;
 
 public:
 	/**
 	 * @brief create a new KJob to compress and encrypt a folder
 	 * @param parent object owning this job
-	 * @param description
-	 *
-	 * The job will take ownership of the transaction, i.e.
-	 * will delete the transaction object when the job is done.
+	 * @param sources the source directories to include
+	 * @param dest the name of the encrypted file
+	 * @param tempfile the temporary file that should be used for archiving
+	 * @param keys the public key ids to encrypt to
+	 * @param options special options to pass to the GnuPG process
+	 * @param encOptions special options to pass to the GnuPG process
+	 * @param archive the archive type to use
 	 */
-	FolderCompressJob(QObject *parent, const KUrl &source, const KUrl &dest, KTemporaryFile *tempfile, const QStringList &keys, const QStringList &options, const KGpgEncrypt::EncryptOptions encOptions);
-	
+	FolderCompressJob(QObject *parent, const KUrl::List &sources, const KUrl &dest, KTemporaryFile *tempfile, const QStringList &keys, const QStringList &options, const KGpgEncrypt::EncryptOptions encOptions, const int archive);
+
 	/**
 	 * @brief FolderCompressJob destructor
 	 */
