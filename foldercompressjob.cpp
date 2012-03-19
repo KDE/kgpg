@@ -24,10 +24,10 @@
 
 #include "transactions/kgpgencrypt.h"
 
-FolderCompressJob::FolderCompressJob(QObject *parent, const KUrl &source, const KUrl &dest, KTemporaryFile *tempfile, const QStringList &keys, const QStringList &options,  const KGpgEncrypt::EncryptOptions encOptions, const int archive)
+FolderCompressJob::FolderCompressJob(QObject *parent, const KUrl::List &sources, const KUrl &dest, KTemporaryFile *tempfile, const QStringList &keys, const QStringList &options,  const KGpgEncrypt::EncryptOptions encOptions, const int archive)
 	: KJob(parent),
 	m_description(i18n("Processing folder compression and encryption")),
-	m_source(source),
+	m_sources(sources),
 	m_dest(dest),
 	m_tempfile(tempfile),
 	m_keys(keys),
@@ -81,13 +81,14 @@ FolderCompressJob::doWork()
 		return;
 	}
 
-	arch->addLocalDirectory(m_source.path(), m_source.fileName());
+	foreach (const KUrl &url, m_sources)
+		arch->addLocalDirectory(url.path(), url.fileName());
 	arch->close();
 	delete arch;
 
 	setPercent(50);
 
-	QDir outPath = m_source.path();
+	QDir outPath = m_sources.first().path();
 	outPath.cdUp();
 
 	m_options << QLatin1String("--output") << QDir::toNativeSeparators(outPath.path() + QDir::separator()) + m_dest.fileName();

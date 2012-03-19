@@ -34,7 +34,7 @@ class FolderCompressJob : public KJob {
 	FolderCompressJob(); // = delete C++0x
 
 	const QString m_description;
-	const KUrl m_source;
+	const KUrl::List m_sources;
 	const KUrl m_dest;
 	KTemporaryFile * const m_tempfile;
 	const QStringList m_keys;
@@ -46,7 +46,7 @@ public:
 	/**
 	 * @brief create a new KJob to compress and encrypt a folder
 	 * @param parent object owning this job
-	 * @param source the source directories to include
+	 * @param sources the source directories to include
 	 * @param dest the name of the encrypted file
 	 * @param tempfile the temporary file that should be used for archiving
 	 * @param keys the public key ids to encrypt to
@@ -54,7 +54,7 @@ public:
 	 * @param encOptions special options to pass to the GnuPG process
 	 * @param archive the archive type to use
 	 */
-	FolderCompressJob(QObject *parent, const KUrl &source, const KUrl &dest, KTemporaryFile *tempfile, const QStringList &keys, const QStringList &options, const KGpgEncrypt::EncryptOptions encOptions, const int archive);
+	FolderCompressJob(QObject *parent, const KUrl::List &sources, const KUrl &dest, KTemporaryFile *tempfile, const QStringList &keys, const QStringList &options, const KGpgEncrypt::EncryptOptions encOptions, const int archive);
 
 	/**
 	 * @brief FolderCompressJob destructor
