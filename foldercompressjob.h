@@ -16,14 +16,17 @@
 
 #include <KJob>
 #include <KUrl>
-#include <QStringList>
 
 class KTemporaryFile;
+class QString;
+class QStringList;
 
 #include "transactions/kgpgencrypt.h"
 
+class FolderCompressJobPrivate;
+
 /**
- * @brief Show systray status for something KGpg is doing in the background
+ * @brief Create an encrypted archive of the given folders
  *
  * @author Rolf Eike Beer
  */
@@ -33,14 +36,8 @@ class FolderCompressJob : public KJob {
 	Q_DISABLE_COPY(FolderCompressJob)
 	FolderCompressJob(); // = delete C++0x
 
-	const QString m_description;
-	const KUrl::List m_sources;
-	const KUrl m_dest;
-	KTemporaryFile * const m_tempfile;
-	const QStringList m_keys;
-	QStringList m_options;
-	const KGpgEncrypt::EncryptOptions m_encOptions;
-	const int m_archiveType;
+	FolderCompressJobPrivate * const d_ptr;
+	Q_DECLARE_PRIVATE(FolderCompressJob)
 
 public:
 	/**
