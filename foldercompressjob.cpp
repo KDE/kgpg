@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -24,7 +24,7 @@
 
 #include "transactions/kgpgencrypt.h"
 
-FolderCompressJob::FolderCompressJob(QObject *parent, const KUrl &source, const KUrl &dest, KTemporaryFile *tempfile, const QStringList &keys, const QStringList &options,  const KGpgEncrypt::EncryptOptions encOptions)
+FolderCompressJob::FolderCompressJob(QObject *parent, const KUrl &source, const KUrl &dest, KTemporaryFile *tempfile, const QStringList &keys, const QStringList &options,  const KGpgEncrypt::EncryptOptions encOptions, const int archive)
 	: KJob(parent),
 	m_description(i18n("Processing folder compression and encryption")),
 	m_source(source),
@@ -32,7 +32,8 @@ FolderCompressJob::FolderCompressJob(QObject *parent, const KUrl &source, const 
 	m_tempfile(tempfile),
 	m_keys(keys),
 	m_options(options),
-	m_encOptions(encOptions)
+	m_encOptions(encOptions),
+	m_archiveType(archive)
 {
 }
 
@@ -51,8 +52,8 @@ void
 FolderCompressJob::doWork()
 {
 	KArchive *arch = NULL;
-	int compressionScheme = 0;
-	switch (compressionScheme) {
+
+	switch (m_archiveType) {
 	case 0:
 		arch = new KZip(m_tempfile->fileName());
 		break;
