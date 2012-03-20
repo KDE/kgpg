@@ -180,15 +180,11 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 
 	while ((items = p.readln(lsp)) >= 0) {
 		if ((lsp.at(0) == QLatin1String( "pub" )) && (items >= 10)) {
-			publiclistkeys << KgpgKey();
+			publiclistkeys << KgpgKey(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
+					Convert::toAlgo(lsp.at(3).toInt()), QDateTime::fromTime_t(lsp.at(5).toUInt()));
 
 			publickey = &publiclistkeys.last();
 
-			publickey->setTrust(Convert::toTrust(lsp.at(1)));
-			publickey->setSize(lsp.at(2).toUInt());
-			publickey->setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-			publickey->setKeyId(lsp.at(4));
-			publickey->setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
 			publickey->setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
 
 			if (lsp.at(6).isEmpty())
@@ -204,29 +200,27 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 
 			publickey->setFingerprint(fingervalue);
 		} else if ((lsp.at(0) == QLatin1String( "sub" )) && (items >= 7)) {
-			KgpgKeySub sub;
+			KgpgSubKeyType subtype;
 
-			sub.setId(lsp.at(4).right(8));
-			sub.setTrust(Convert::toTrust(lsp.at(1)));
-			sub.setSize(lsp.at(2).toUInt());
-			sub.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-			sub.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
+			if (items > 11) {
+				if (lsp.at(11).contains(QLatin1Char( 's' )))
+					subtype |= SKT_SIGNATURE;
+				if (lsp.at(11).contains(QLatin1Char( 'e' )))
+					subtype |= SKT_ENCRYPTION;
+				if (lsp.at(11).contains(QLatin1Char( 'e' )))
+					subtype |= SKT_AUTHENTICATION;
+				if (lsp.at(11).contains(QLatin1Char( 'e' )))
+					subtype |= SKT_CERTIFICATION;
+			}
+
+			KgpgKeySub sub(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
+					Convert::toAlgo(lsp.at(3).toInt()), subtype, QDateTime::fromTime_t(lsp.at(5).toUInt()));
 
 			// FIXME: Please see kgpgkey.h, KgpgSubKey class
-			if (items <= 11) {
+			if (items <= 11)
 				sub.setValid(true);
-			} else {
+			else
 				sub.setValid(!lsp.at(11).contains(QLatin1Char( 'D' )));
-
-				if (lsp.at(11).contains(QLatin1Char( 's' )))
-					sub.setType(sub.type() | SKT_SIGNATURE);
-				if (lsp.at(11).contains(QLatin1Char( 'e' )))
-					sub.setType(sub.type() | SKT_ENCRYPTION);
-				if (lsp.at(11).contains(QLatin1Char( 'e' )))
-					sub.setType(sub.type() | SKT_AUTHENTICATION);
-				if (lsp.at(11).contains(QLatin1Char( 'e' )))
-					sub.setType(sub.type() | SKT_CERTIFICATION);
-			}
 
 			if (lsp.at(6).isEmpty())
 				sub.setExpiration(QDateTime());
@@ -319,7 +313,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const QStringList &ids)
 	return readPublicKeysProcess(process, NULL);
 }
 
-KgpgCore::KgpgKey KgpgInterface::readSignatures(KGpgKeyNode *node)
+void KgpgInterface::readSignatures(KGpgKeyNode *node)
 {
 	GPGProc process;
 	process <<
@@ -334,13 +328,9 @@ KgpgCore::KgpgKey KgpgInterface::readSignatures(KGpgKeyNode *node)
 	process.start();
 	process.waitForFinished(-1);
 
-	const KgpgCore::KgpgKeyList publiclistkeys = readPublicKeysProcess(process, node);
-
-	if (publiclistkeys.isEmpty())
-		return KgpgCore::KgpgKey();
-	else
-		return publiclistkeys.first();
+	readPublicKeysProcess(process, node);
 }
+
 static KgpgCore::KgpgKeyList
 readSecretKeysProcess(GPGProc &p)
 {
@@ -352,14 +342,11 @@ readSecretKeysProcess(GPGProc &p)
 
 	while ( (items = p.readln(lsp)) >= 0 ) {
 		if ((lsp.at(0) == QLatin1String( "sec" )) && (items >= 10)) {
-			result << KgpgKey();
+			result << KgpgKey(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
+				Convert::toAlgo(lsp.at(3).toInt()), QDateTime::fromTime_t(lsp.at(5).toUInt()));
+
 			secretkey = &result.last();
 
-			secretkey->setTrust(Convert::toTrust(lsp.at(1)));
-			secretkey->setSize(lsp.at(2).toUInt());
-			secretkey->setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-			secretkey->setKeyId(lsp.at(4));
-			secretkey->setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
 			secretkey->setSecret(true);
 
 			if (lsp.at(6).isEmpty())

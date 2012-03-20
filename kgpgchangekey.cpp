@@ -19,16 +19,16 @@
 #include "transactions/kgpgchangedisable.h"
 
 KGpgChangeKey::KGpgChangeKey(KGpgKeyNode *node)
+	: m_key(*node->copyKey()),
+	m_node(node)
 {
-	m_node = node;
-	m_key = *node->copyKey();
 	init();
 }
 
 KGpgChangeKey::KGpgChangeKey(KgpgCore::KgpgKey *key)
+	: m_key(*key),
+	m_node(NULL)
 {
-	m_node = NULL;
-	m_key = *key;
 	init();
 }
 

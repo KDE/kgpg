@@ -24,6 +24,16 @@ namespace KgpgCore
 {
 
 //BEGIN KeySub
+KgpgKeySubPrivate::KgpgKeySubPrivate(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo,
+                                     const KgpgSubKeyType type, const QDateTime &date)
+    : gpgsubid(id),
+    gpgsubsize(size),
+    gpgsubcreation(date),
+    gpgsubtrust(trust),
+    gpgsubalgo(algo),
+    gpgsubtype(type)
+{
+}
 
 bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
 {
@@ -38,10 +48,10 @@ bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
     return true;
 }
 
-KgpgKeySub::KgpgKeySub()
-    : d(new  KgpgKeySubPrivate)
+KgpgKeySub::KgpgKeySub(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const KgpgSubKeyType type,
+                       const QDateTime &date)
+    : d(new  KgpgKeySubPrivate(id, size, trust, algo, type, date))
 {
-    d->gpgsubsize = 0;
     d->gpgsubvalid = false;
 }
 
@@ -50,44 +60,14 @@ KgpgKeySub::KgpgKeySub(const KgpgKeySub &other)
     d = other.d;
 }
 
-void KgpgKeySub::setId(const QString &id)
-{
-    d->gpgsubid = id;
-}
-
-void KgpgKeySub::setSize(const uint &size)
-{
-    d->gpgsubsize = size;
-}
-
 void KgpgKeySub::setExpiration(const QDateTime &date)
 {
     d->gpgsubexpiration = date;
 }
 
-void KgpgKeySub::setCreation(const QDateTime &date)
-{
-    d->gpgsubcreation = date;
-}
-
-void KgpgKeySub::setTrust(const KgpgKeyTrust &trust)
-{
-    d->gpgsubtrust = trust;
-}
-
-void KgpgKeySub::setAlgorithm(const KgpgKeyAlgo &algo)
-{
-    d->gpgsubalgo = algo;
-}
-
-void KgpgKeySub::setValid(const bool &valid)
+void KgpgKeySub::setValid(const bool valid)
 {
     d->gpgsubvalid = valid;
-}
-
-void KgpgKeySub::setType(const KgpgSubKeyType &type)
-{
-    d->gpgsubtype = type;
 }
 
 QString KgpgKeySub::id() const
@@ -153,11 +133,14 @@ KgpgKeySub& KgpgKeySub::operator=(const KgpgKeySub &other)
 
 //BEGIN Key
 
-KgpgKeyPrivate::KgpgKeyPrivate()
+KgpgKeyPrivate::KgpgKeyPrivate(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const QDateTime &date)
     : gpgkeysecret(false),
     gpgkeyvalid(false),
-    gpgkeysize(0),
-    gpgkeyalgo(ALGO_UNKNOWN),
+    gpgkeyid(id),
+    gpgkeysize(size),
+    gpgkeytrust(trust),
+    gpgkeycreation(date),
+    gpgkeyalgo(algo),
     gpgsublist(new KgpgKeySubList())
 {
 }
@@ -181,8 +164,8 @@ bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
     return true;
 }
 
-KgpgKey::KgpgKey()
-    : d(new KgpgKeyPrivate())
+KgpgKey::KgpgKey(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const QDateTime &date)
+    : d(new KgpgKeyPrivate(id, size, trust, algo, date))
 {
 }
 
@@ -191,12 +174,12 @@ KgpgKey::KgpgKey(const KgpgKey &other)
     d = other.d;
 }
 
-void KgpgKey::setSecret(const bool &secret)
+void KgpgKey::setSecret(const bool secret)
 {
     d->gpgkeysecret = secret;
 }
 
-void KgpgKey::setValid(const bool &valid)
+void KgpgKey::setValid(const bool valid)
 {
     d->gpgkeyvalid = valid;
 }
@@ -219,18 +202,6 @@ void KgpgKey::setComment(const QString &comment)
 void KgpgKey::setFingerprint(const QString &fingerprint)
 {
     d->gpgkeyfingerprint = fingerprint;
-    if (d->gpgkeyid.isEmpty())
-        d->gpgkeyid = fingerprint.right(16);
-}
-
-void KgpgKey::setKeyId (const QString &id)
-{
-    d->gpgkeyid = id;
-}
-
-void KgpgKey::setSize(const uint &size)
-{
-    d->gpgkeysize = size;
 }
 
 void KgpgKey::setOwnerTrust(const KgpgKeyOwnerTrust &owtrust)
@@ -238,24 +209,9 @@ void KgpgKey::setOwnerTrust(const KgpgKeyOwnerTrust &owtrust)
     d->gpgkeyownertrust = owtrust;
 }
 
-void KgpgKey::setTrust(const KgpgKeyTrust &trust)
-{
-    d->gpgkeytrust = trust;
-}
-
-void KgpgKey::setCreation(const QDateTime &date)
-{
-    d->gpgkeycreation = date;
-}
-
 void KgpgKey::setExpiration(const QDateTime &date)
 {
     d->gpgkeyexpiration = date;
-}
-
-void KgpgKey::setAlgorithm(const KgpgKeyAlgo &algo)
-{
-    d->gpgkeyalgo = algo;
 }
 
 bool KgpgKey::secret() const

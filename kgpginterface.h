@@ -44,7 +44,7 @@ namespace KgpgInterface {
     int sendPassphrase(const QString &text, KProcess *process, QWidget *widget = NULL);
 
     KgpgCore::KgpgKeyList readPublicKeys(const QStringList &ids = QStringList());
-    KgpgCore::KgpgKey readSignatures(KGpgKeyNode *node);
+    void readSignatures(KGpgKeyNode *node);
     KgpgCore::KgpgKeyList readSecretKeys(const QStringList &ids = QStringList());
 };
 

@@ -128,15 +128,19 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgItemType)
 
 class KgpgKeySubPrivate : public QSharedData
 {
+    KgpgKeySubPrivate();
 public:
+    KgpgKeySubPrivate(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const KgpgSubKeyType type,
+                      const QDateTime &date);
+
     bool            gpgsubvalid;
-    QString         gpgsubid;
-    uint            gpgsubsize;
+    const QString   gpgsubid;
+    const uint      gpgsubsize;
     QDateTime       gpgsubexpiration;
-    QDateTime       gpgsubcreation;
-    KgpgKeyTrust    gpgsubtrust;
-    KgpgKeyAlgo     gpgsubalgo;
-    KgpgSubKeyType  gpgsubtype;
+    const QDateTime gpgsubcreation;
+    const KgpgKeyTrust gpgsubtrust;
+    const KgpgKeyAlgo gpgsubalgo;
+    const KgpgSubKeyType gpgsubtype;
 
     bool operator==(const KgpgKeySubPrivate &other) const;
     inline bool operator!=(const KgpgKeySubPrivate &other) const
@@ -145,18 +149,14 @@ public:
 
 class KgpgKeySub
 {
-public:
     KgpgKeySub();
+public:
+    KgpgKeySub(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const KgpgSubKeyType type,
+               const QDateTime &date);
     KgpgKeySub(const KgpgKeySub &other);
 
-    void setId(const QString &id);
-    void setSize(const uint &size);
     void setExpiration(const QDateTime &date);
-    void setCreation(const QDateTime &date);
-    void setTrust(const KgpgKeyTrust &trust);
-    void setAlgorithm(const KgpgKeyAlgo &algo);
-    void setValid(const bool &valid); // FIXME : is it possible to have a subkey that is not valid (disabled)? Please give an example. Thx. If not, this method should be removed.
-    void setType(const KgpgSubKeyType &type); // a sub key can be a signature key or a encryption key
+    void setValid(const bool valid); // FIXME : is it possible to have a subkey that is not valid (disabled)? Please give an example. Thx. If not, this method should be removed.
 
     QString id() const;
     uint size() const;
@@ -213,8 +213,9 @@ typedef QPointer<KgpgKeySubList> KgpgKeySubListPtr;
 
 class KgpgKeyPrivate : public QSharedData
 {
-public:
     KgpgKeyPrivate();
+public:
+    KgpgKeyPrivate(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const QDateTime &date);
 
     bool          gpgkeysecret;
     bool          gpgkeyvalid;
@@ -222,13 +223,13 @@ public:
     QString       gpgkeyname;
     QString       gpgkeycomment;
     QString       gpgkeyfingerprint;
-    QString       gpgkeyid;
-    uint          gpgkeysize;
+    const QString gpgkeyid;
+    const uint    gpgkeysize;
     KgpgKeyOwnerTrust gpgkeyownertrust;
-    KgpgKeyTrust  gpgkeytrust;
-    QDateTime     gpgkeycreation;
+    const KgpgKeyTrust gpgkeytrust;
+    const QDateTime gpgkeycreation;
     QDateTime     gpgkeyexpiration;
-    KgpgKeyAlgo   gpgkeyalgo;
+    const KgpgKeyAlgo gpgkeyalgo;
 
     KgpgKeySubListPtr gpgsublist;
 
@@ -239,23 +240,19 @@ public:
 
 class KgpgKey
 {
-public:
     KgpgKey();
+public:
+    KgpgKey(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const QDateTime &date);
     KgpgKey(const KgpgKey &other);
 
-    void setSecret(const bool &secret);
-    void setValid(const bool &valid);
+    void setSecret(const bool secret);
+    void setValid(const bool valid);
     void setName(const QString &name);
     void setEmail(const QString &email);
     void setComment(const QString &comment);
     void setFingerprint(const QString &fingerprint);
-    void setKeyId(const QString &id);
-    void setSize(const uint &size);
     void setOwnerTrust(const KgpgKeyOwnerTrust &owtrust);
-    void setTrust(const KgpgKeyTrust &trust);
-    void setCreation(const QDateTime &date);
     void setExpiration(const QDateTime &date);
-    void setAlgorithm(const KgpgKeyAlgo &algo);
 
     bool secret() const;
     bool valid() const;
