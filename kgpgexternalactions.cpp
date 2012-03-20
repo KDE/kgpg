@@ -118,17 +118,24 @@ void KGpgExternalActions::slotEncryptionKeySelected()
 void KGpgExternalActions::encryptDroppedFolders(const KUrl::List &urls)
 {
 	compressionScheme = 0;
-	m_kgpgfoldertmp = new KTemporaryFile();
-	m_kgpgfoldertmp->open();
 
-	if (KMessageBox::Cancel == KMessageBox::warningContinueCancel(m_keysmanager,
-				i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>",
-				m_kgpgfoldertmp->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(),
-				KStandardGuiItem::cancel(), QLatin1String( "FolderTmpFile" ))) {
-		delete m_kgpgfoldertmp;
-		m_kgpgfoldertmp = NULL;
+	KTemporaryFile *tmpfolder = new KTemporaryFile();
+
+	if (!tmpfolder->open()) {
+		delete tmpfolder;
+		KMessageBox::sorry(m_keysmanager, i18n("Cannot create temporary file for folder compression."), i18n("Temporary File Creation"));
 		return;
 	}
+
+	if (KMessageBox::Continue != KMessageBox::warningContinueCancel(m_keysmanager,
+				i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>",
+				tmpfolder->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(),
+				KStandardGuiItem::cancel(), QLatin1String( "FolderTmpFile" ))) {
+		delete tmpfolder;
+		return;
+	}
+
+	m_kgpgfoldertmp = tmpfolder;
 
 	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey(), false, urls);
 
