@@ -71,10 +71,10 @@ KGpgKeyNode::getTrust() const
 	return m_key->trust();
 }
 
-QString
-KGpgKeyNode::getKeyId() const
+const QString &
+KGpgKeyNode::getFingerprint() const
 {
-	return m_key->fullId();
+	return m_key->fingerprint();
 }
 
 QString
@@ -112,7 +112,7 @@ KGpgKeyNode::getCreation() const
 QString
 KGpgKeyNode::getId() const
 {
-	return m_key->fingerprint();
+	return m_key->fullId();
 }
 
 KGpgKeyNode *

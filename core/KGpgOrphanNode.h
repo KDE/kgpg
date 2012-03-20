@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -41,7 +41,7 @@ public:
 
 	virtual KgpgCore::KgpgItemType getType() const;
 	virtual KgpgCore::KgpgKeyTrust getTrust() const;
-	QString getKeyId() const;
+	const QString &getFingerprint() const;
 	virtual QString getSize() const;
 	virtual QString getName() const;
 	virtual QString getEmail() const;

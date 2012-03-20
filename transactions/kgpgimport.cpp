@@ -190,9 +190,9 @@ beautifyKeyList(const QStringList &keyIds, const KGpgItemModel *model)
 				line = changed;
 			} else {
 				if (node->getEmail().isEmpty())
-					line = i18nc("ID: Name", "%1: %2", node->getKeyId(), node->getName());
+					line = i18nc("ID: Name", "%1: %2", node->getFingerprint(), node->getName());
 				else
-					line = i18nc("ID: Name <Email>", "%1: %2 &lt;%3&gt;", node->getKeyId(), node->getName(), node->getEmail());
+					line = i18nc("ID: Name <Email>", "%1: %2 &lt;%3&gt;", node->getFingerprint(), node->getName(), node->getEmail());
 			}
 
 			result.append(QLatin1String(" ") + line + QLatin1String("\n"));

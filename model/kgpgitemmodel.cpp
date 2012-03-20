@@ -161,8 +161,22 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 			return KGlobal::locale()->formatDate(node->getCreation().date(), KLocale::ShortDate);
 		break;
 	case KEYCOLUMN_ID:
-		if (role == Qt::DisplayRole)
+		switch (role) {
+		case Qt::DisplayRole:
 			return node->getId();
+		case Qt::ToolTipRole:
+			switch (node->getType()) {
+			case ITYPE_PAIR:
+			case ITYPE_PUBLIC:
+				return node->toKeyNode()->getFingerprint();
+			case ITYPE_SECRET:
+				return node->toOrphanNode()->getFingerprint();
+			default:
+				return QVariant();
+			}
+		default:
+			return QVariant();
+		}
 		break;
 	}
 

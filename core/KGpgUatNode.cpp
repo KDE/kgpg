@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -65,7 +65,7 @@ KGpgUatNodePrivate::loadImage(const KGpgKeyNode *parent, const QString &index)
 			QLatin1String("--no-greeting") <<
 			QLatin1String("--status-fd=2") <<
 			QLatin1String("--photo-viewer") << pgpgoutput <<
-			QLatin1String("--edit-key") << parent->getKeyId() <<
+			QLatin1String("--edit-key") << parent->getFingerprint() <<
 			QLatin1String( "uid" ) << index <<
 			QLatin1String( "showphoto" ) <<
 			QLatin1String( "quit" );
