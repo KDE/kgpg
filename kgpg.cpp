@@ -118,10 +118,11 @@ int KGpgApp::newInstance()
 			return 0;
 
 		bool directoryInside = false;
-		const QStringList lst = urlList.toStringList();
-		for (QStringList::const_iterator it = lst.begin(); it != lst.end(); ++it)
-			if (KMimeType::findByUrl(KUrl(*it))->name() == QLatin1String( "inode/directory" ))
+		foreach (const KUrl &url, urlList)
+			if (KMimeType::findByUrl(url)->name() == QLatin1String( "inode/directory" )) {
 				directoryInside = true;
+				break;
+			}
 
 		if (args->isSet("e")) {
 			if (!directoryInside)
@@ -144,7 +145,7 @@ int KGpgApp::newInstance()
 			else
 				KMessageBox::sorry(0, i18n("Cannot verify folder."));
 		} else {
-			if (directoryInside && (lst.count() > 1)) {
+			if (directoryInside && (urlList.count() > 1)) {
 				KMessageBox::sorry(0, i18n("Unable to perform requested operation.\nPlease select only one folder, or several files, but do not mix files and folders."));
 				return 0;
 			}
