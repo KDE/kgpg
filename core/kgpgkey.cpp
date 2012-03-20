@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006,2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -170,6 +170,7 @@ bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
     if (gpgkeyname != other.gpgkeyname) return false;
     if (gpgkeycomment != other.gpgkeycomment) return false;
     if (gpgkeyfingerprint != other.gpgkeyfingerprint) return false;
+    if (gpgkeyid != other.gpgkeyid) return false;
     if (gpgkeysize != other.gpgkeysize) return false;
     if (gpgkeyownertrust != other.gpgkeyownertrust) return false;
     if (gpgkeytrust != other.gpgkeytrust) return false;
@@ -218,6 +219,13 @@ void KgpgKey::setComment(const QString &comment)
 void KgpgKey::setFingerprint(const QString &fingerprint)
 {
     d->gpgkeyfingerprint = fingerprint;
+    if (d->gpgkeyid.isEmpty())
+        d->gpgkeyid = fingerprint.right(16);
+}
+
+void KgpgKey::setKeyId (const QString &id)
+{
+    d->gpgkeyid = id;
 }
 
 void KgpgKey::setSize(const uint &size)
@@ -262,12 +270,12 @@ bool KgpgKey::valid() const
 
 QString KgpgKey::id() const
 {
-    return d->gpgkeyfingerprint.right(8);
+    return d->gpgkeyid.right(8);
 }
 
 QString KgpgKey::fullId() const
 {
-    return d->gpgkeyfingerprint.right(16);
+    return d->gpgkeyid;
 }
 
 QString KgpgKey::name() const
@@ -285,7 +293,7 @@ QString KgpgKey::comment() const
     return d->gpgkeycomment;
 }
 
-QString KgpgKey::fingerprint() const
+const QString &KgpgKey::fingerprint() const
 {
     return d->gpgkeyfingerprint;
 }

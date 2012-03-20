@@ -1,4 +1,4 @@
-/* Copyright 2008  Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -129,9 +129,6 @@ KeyListProxyModelPrivate::dataMultiColumn(const QModelIndex &index, int role, co
 	} else if ((role == Qt::DisplayRole) && (index.column() == KEYCOLUMN_ID)) {
 		QString id = m_model->data(q->mapToSource(index), Qt::DisplayRole).toString();
 		return id.right(m_idLength);
-	} else if ((role == Qt::ToolTipRole) && (index.column() == KEYCOLUMN_ID)) {
-		QString id = m_model->data(q->mapToSource(index), Qt::DisplayRole).toString();
-		return id;
 	}
 	return m_model->data(q->mapToSource(index), role);
 }

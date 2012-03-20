@@ -517,7 +517,7 @@ void KgpgInterface::readPublicKeysProcess(GPGProc *p)
 			m_publickey.setTrust(Convert::toTrust(lsp.at(1)));
 			m_publickey.setSize(lsp.at(2).toUInt());
 			m_publickey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-			m_publickey.setFingerprint(lsp.at(4));
+			m_publickey.setKeyId(lsp.at(4));
 			m_publickey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
 			m_publickey.setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
 
@@ -685,7 +685,7 @@ void KgpgInterface::readSecretKeysProcess(GPGProc *p)
 			m_secretkey.setTrust(Convert::toTrust(lsp.at(1)));
 			m_secretkey.setSize(lsp.at(2).toUInt());
 			m_secretkey.setAlgorithm(Convert::toAlgo(lsp.at(3).toInt()));
-			m_secretkey.setFingerprint(lsp.at(4));
+			m_secretkey.setKeyId(lsp.at(4));
 			m_secretkey.setCreation(QDateTime::fromTime_t(lsp.at(5).toUInt()));
 			m_secretkey.setSecret(true);
 

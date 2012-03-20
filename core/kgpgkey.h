@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006,2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2007,2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -222,6 +222,7 @@ public:
     QString       gpgkeyname;
     QString       gpgkeycomment;
     QString       gpgkeyfingerprint;
+    QString       gpgkeyid;
     uint          gpgkeysize;
     KgpgKeyOwnerTrust gpgkeyownertrust;
     KgpgKeyTrust  gpgkeytrust;
@@ -248,6 +249,7 @@ public:
     void setEmail(const QString &email);
     void setComment(const QString &comment);
     void setFingerprint(const QString &fingerprint);
+    void setKeyId(const QString &id);
     void setSize(const uint &size);
     void setOwnerTrust(const KgpgKeyOwnerTrust &owtrust);
     void setTrust(const KgpgKeyTrust &trust);
@@ -262,7 +264,7 @@ public:
     QString name() const;
     QString email() const;
     QString comment() const;
-    QString fingerprint() const;
+    const QString &fingerprint() const;
     QString fingerprintBeautified() const;
     uint size() const;
     uint encryptionSize() const;

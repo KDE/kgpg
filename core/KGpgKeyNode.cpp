@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -71,10 +71,10 @@ KGpgKeyNode::getTrust() const
 	return m_key->trust();
 }
 
-QString
-KGpgKeyNode::getKeyId() const
+const QString &
+KGpgKeyNode::getFingerprint() const
 {
-	return m_key->fullId();
+	return m_key->fingerprint();
 }
 
 QString
@@ -112,7 +112,7 @@ KGpgKeyNode::getCreation() const
 QString
 KGpgKeyNode::getId() const
 {
-	return m_key->fingerprint();
+	return m_key->fullId();
 }
 
 KGpgKeyNode *

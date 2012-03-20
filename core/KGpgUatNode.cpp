@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -47,7 +47,7 @@ KGpgUatNode::KGpgUatNode(KGpgKeyNode *parent, const unsigned int index, const QS
 	: KGpgSignableNode(parent),
 	d_ptr(new KGpgUatNodePrivate(index, sl))
 {
-	d_ptr->m_pixmap = KgpgInterface::loadPhoto(parent->getKeyId(), d_ptr->m_idx);
+	d_ptr->m_pixmap = KgpgInterface::loadPhoto(parent->getFingerprint(), d_ptr->m_idx);
 }
 
 KGpgUatNode::~KGpgUatNode()
