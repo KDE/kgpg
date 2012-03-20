@@ -22,7 +22,7 @@
 #include <QMetaObject>
 #include <QStringList>
 
-class FolderCompressJobPrivate : public QObject {
+class FolderCompressJobPrivate {
 	FolderCompressJob * const q_ptr;
 	Q_DECLARE_PUBLIC(FolderCompressJob)
 
@@ -60,6 +60,7 @@ FolderCompressJob::FolderCompressJob(QObject *parent, const KUrl::List &sources,
 
 FolderCompressJob::~FolderCompressJob()
 {
+	delete d_ptr;
 }
 
 void
