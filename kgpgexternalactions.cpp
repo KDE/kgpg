@@ -292,13 +292,13 @@ void KGpgExternalActions::decryptDroppedFile()
 
 void KGpgExternalActions::decryptFile()
 {
+	if (droppedUrls.isEmpty())
+		return;
+
 	while (!droppedUrls.first().isLocalFile()) {
 		showDroppedFile();
 		droppedUrls.pop_front();
 	}
-
-	if (droppedUrls.isEmpty())
-		return;
 
 	QString oldname(droppedUrls.first().fileName());
 	if (oldname.endsWith(QLatin1String(".gpg"), Qt::CaseInsensitive) ||
