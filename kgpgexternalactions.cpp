@@ -338,12 +338,12 @@ void KGpgExternalActions::decryptDroppedFiles(const KUrl::List &urls)
 
 void KGpgExternalActions::decryptFile(KUrl::List urls)
 {
+	if (urls.isEmpty())
+		return;
+
 	while (!urls.first().isLocalFile()) {
 		showDroppedFile(urls.takeFirst());
 	}
-
-	if (urls.isEmpty())
-		return;
 
 	KUrl first = urls.first();
 
