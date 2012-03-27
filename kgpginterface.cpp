@@ -24,6 +24,7 @@
 #include <kio/netaccess.h>
 #include <KMessageBox>
 #include <KPasswordDialog>
+#include <KPushButton>
 #include <knewpassworddialog.h>
 #include <KLocale>
 #include <KProcess>
@@ -423,8 +424,10 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const 
 	QPointer<KProcess> gpgprocess = process;
 	QByteArray passphrase;
 	int code;
+
 	if (isnew) {
 		QPointer<KNewPasswordDialog> dlg = new KNewPasswordDialog(widget);
+		QObject::connect(process, SIGNAL(processExited()), dlg->button(KDialog::Cancel), SLOT(click()));
 		dlg->setPrompt(text);
 		dlg->setAllowEmptyPasswords(false);
 		code = dlg->exec();
@@ -433,6 +436,7 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, const 
 		delete dlg;
 	} else {
 		QPointer<KPasswordDialog> dlg = new KPasswordDialog(widget);
+		QObject::connect(process, SIGNAL(processExited()), dlg->button(KDialog::Cancel), SLOT(click()));
 		dlg->setPrompt(text);
 		code = dlg->exec();
 		if (!dlg.isNull())
