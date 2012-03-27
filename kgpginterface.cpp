@@ -29,6 +29,7 @@
 #include <KMessageBox>
 #include <KPasswordDialog>
 #include <KProcess>
+#include <KPushButton>
 #include <QFile>
 #include <QPointer>
 #include <QString>
@@ -148,6 +149,7 @@ int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, QWidge
 	int code;
 
 	QPointer<KPasswordDialog> dlg = new KPasswordDialog(widget);
+	QObject::connect(process, SIGNAL(processExited()), dlg->button(KDialog::Cancel), SLOT(click()));
 	dlg->setPrompt(text);
 	code = dlg->exec();
 	if (!dlg.isNull())

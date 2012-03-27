@@ -19,8 +19,10 @@
 #include <KDebug>
 #include <knewpassworddialog.h>
 #include <KLocale>
+#include <KPushButton>
 #include <QByteArray>
 #include <QStringList>
+#include <QWeakPointer>
 #include <QWidget>
 
 class KGpgTransactionPrivate: QObject {
@@ -89,6 +91,10 @@ KGpgTransactionPrivate::~KGpgTransactionPrivate()
 		m_passwordDialog->close();
 		m_passwordDialog->deleteLater();
 	}
+	if (m_process->state() == QProcess::Running) {
+		m_process->closeWriteChannel();
+		m_process->terminate();
+	}
 	delete m_inputTransaction;
 	delete m_process;
 }
@@ -111,8 +117,10 @@ void
 KGpgTransactionPrivate::slotReadReady()
 {
 	QString line;
+	QWeakPointer<GPGProc> process(m_process);
+	QWeakPointer<KGpgTransaction> par(m_parent);
 
-	while (m_process->readln(line, true) >= 0) {
+	while (!process.isNull() && (m_process->readln(line, true) >= 0)) {
 		if (m_quitTries)
 			m_quitLines << line;
 #ifdef KGPG_DEBUG_TRANSACTIONS
@@ -124,8 +132,16 @@ KGpgTransactionPrivate::slotReadReady()
 		} else if (line.startsWith(QLatin1String("[GNUPG:] BAD_PASSPHRASE "))) {
 			m_success = KGpgTransaction::TS_BAD_PASSPHRASE;
 		} else if (line.startsWith(QLatin1String("[GNUPG:] GET_HIDDEN passphrase.enter"))) {
-			m_passphraseAction = m_parent->passphraseRequested();
-			switch (m_passphraseAction) {
+			// Do not directly assign to the member here, the object could
+			// get deleted while waiting for the result
+			const KGpgTransaction::ts_passphrase_actions action = m_parent->passphraseRequested();
+
+			if (par.isNull())
+				return;
+
+			m_passphraseAction = action;
+
+			switch (action) {
 			case KGpgTransaction::PA_USER_ABORTED:
 				m_parent->setSuccess(KGpgTransaction::TS_USER_ABORTED);
 				// sending "quit" here is useless as it would be interpreted as the passphrase
@@ -285,6 +301,7 @@ KGpgTransaction::askNewPassphrase(const QString& text)
 	d->m_passwordDialog->setAllowEmptyPasswords(false);
 	connect(d->m_passwordDialog, SIGNAL(newPassword(QString)), SLOT(slotPasswordEntered(QString)));
 	connect(d->m_passwordDialog, SIGNAL(rejected()), SLOT(slotPasswordAborted()));
+	connect(d->m_process, SIGNAL(processExited()), d->m_passwordDialog->button(KDialog::Cancel), SLOT(clicked()));
 	d->m_passwordDialog->show();
 }
 
