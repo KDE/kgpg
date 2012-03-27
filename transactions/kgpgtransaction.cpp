@@ -92,6 +92,10 @@ KGpgTransactionPrivate::~KGpgTransactionPrivate()
 		m_passwordDialog->close();
 		m_passwordDialog->deleteLater();
 	}
+	if (m_process->state() == QProcess::Running) {
+		m_process->closeWriteChannel();
+		m_process->terminate();
+	}
 	delete m_inputTransaction;
 	delete m_process;
 }
