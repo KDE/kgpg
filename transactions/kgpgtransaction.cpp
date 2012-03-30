@@ -314,6 +314,9 @@ KGpgTransaction::getSuccess() const
 void
 KGpgTransaction::setSuccess(const int v)
 {
+#ifdef KGPG_DEBUG_TRANSACTIONS
+	kDebug(2100) << d->m_success << v;
+#endif /* KGPG_DEBUG_TRANSACTIONS */
 	d->m_success = v;
 }
 
