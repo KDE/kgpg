@@ -198,6 +198,11 @@ KGpgTransactionPrivate::sendQuit(void)
 {
 	write("quit\n");
 
+#ifdef KGPG_DEBUG_TRANSACTIONS
+	if (m_quitTries == 0)
+		kDebug(2100) << "sending quit";
+#endif /* KGPG_DEBUG_TRANSACTIONS */
+
 	if (m_quitTries++ >= 3) {
 		kDebug(2100) << "tried" << m_quitTries << "times to quit the GnuPG session";
 		kDebug(2100) << "last input was" << m_quitLines;
