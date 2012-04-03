@@ -13,12 +13,13 @@
 
 #include "kgpggeneratekey.h"
 
+#include <gpgproc.h>
+#include <kgpginterface.h>
+
 #include <KMessageBox>
 #include <KLocale>
-#include <QApplication>
-
 #include <kpimutils/email.h>
-#include <gpgproc.h>
+#include <QApplication>
 
 KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
 		const KgpgCore::KgpgKeyAlgo &algorithm, const uint size, const unsigned int expire,
@@ -75,7 +76,7 @@ KGpgGenerateKey::postStart()
 		keymessage.append("RSA\nSubkey-Type: RSA");
 		break;
 	case KgpgCore::ALGO_DSA_ELGAMAL:
-		keymessage.append("DSA\nSubkey-Type: ELG");
+		keymessage.append("DSA\nSubkey-Type: ELG-E");
 		break;
 	default:
 		Q_ASSERT(m_algorithm == KgpgCore::ALGO_RSA);
