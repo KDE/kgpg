@@ -83,8 +83,12 @@ KGpgGenerateKey::postStart()
 		return;
 	}
 
+	const QByteArray keylen = QByteArray::number(m_size);
+
 	keymessage.append("\nKey-Length: ");
-	keymessage.append(QByteArray::number(m_size));
+	keymessage.append(keylen);
+	keymessage.append("\nSubkey-Length: ");
+	keymessage.append(keylen);
 	keymessage.append("\nName-Real: ");
 	keymessage.append(m_name.toUtf8());
 	if (!m_email.isEmpty()) {
