@@ -399,25 +399,34 @@ KGpgItemModel::refreshKeyIds(const QStringList &ids)
 				continue;
 			delete nd;
 		}
+		m_root->addKeys();
 	} else {
 		QStringList::ConstIterator it = ids.constBegin();
 		const QStringList::ConstIterator itEnd = ids.constEnd();
 
+		KGpgKeyNode::List refreshNodes;
+		QStringList addIds;
+
 		for (; it != itEnd; ++it) {
 			KGpgKeyNode *nd = m_root->findKey(*it);
-			delete nd;
+			if (nd)
+				refreshNodes << nd;
+			else
+				addIds << *it;
 		}
+
+		if (!refreshNodes.isEmpty())
+			m_root->refreshKeys(refreshNodes);
+		if (!addIds.isEmpty())
+			m_root->addKeys(addIds);
 	}
 
-	m_root->addKeys(ids);
 	endResetModel();
 }
 
 void
 KGpgItemModel::refreshKeyIds(KGpgKeyNode::List &nodes)
 {
-	QStringList ids;
-
 	beginResetModel();
 	m_root->refreshKeys(nodes);
 	endResetModel();

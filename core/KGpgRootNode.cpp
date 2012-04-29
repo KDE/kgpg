@@ -147,7 +147,7 @@ KGpgRootNode::findKeyRow(const QString &keyId)
 
 		const KGpgKeyNode *key = node->toKeyNode();
 
-		if (keyId.compare(key->getId().right(keyId.length()), Qt::CaseInsensitive) == 0)
+		if (key->compareId(keyId))
 			return i;
 		++i;
 	}
