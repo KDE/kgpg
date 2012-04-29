@@ -764,7 +764,7 @@ void KeysManager::slotKeyRefreshDone(int result)
 	}
 
 	const QStringList log(t->getLog());
-	const QStringList keys(KGpgImport::getImportedIds(log));
+	const QStringList keys = KGpgImport::getImportedIds(log, 0xffff);
 	const QStringList message(KGpgImport::getImportMessage(log));
 
 	t->deleteLater();
