@@ -168,11 +168,6 @@ KeysManager::KeysManager(QWidget *parent)
 	action->setText(i18n("&Refresh List"));
 	action->setShortcuts(KStandardShortcut::reload());
 
-	hPublic = actionCollection()->add<KToggleAction>(QLatin1String("show_secret"), this, SLOT(slotToggleSecret(bool)));
-	hPublic->setIcon(KIcon( QLatin1String( "view-key-secret" )));
-	hPublic->setText(i18n("&Show Only Secret Keys"));
-	hPublic->setChecked(KGpgSettings::showSecret());
-
 	longId = actionCollection()->add<KToggleAction>(QLatin1String("show_long_keyid"), this, SLOT(slotShowLongId(bool)));
 	longId->setText(i18n("Show &Long Key Id"));
 	longId->setChecked(KGpgSettings::showLongKeyId());
@@ -334,6 +329,11 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(iview->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(checkList()));
 
 	connect (iview, SIGNAL(returnPressed()), SLOT(slotDefaultAction()));
+
+	hPublic = actionCollection()->add<KToggleAction>(QLatin1String("show_secret"), iproxy, SLOT(setOnlySecret(bool)));
+	hPublic->setIcon(KIcon( QLatin1String( "view-key-secret" )));
+	hPublic->setText(i18n("&Show Only Secret Keys"));
+	hPublic->setChecked(KGpgSettings::showSecret());
 
 	int psize = KGpgSettings::photoProperties();
 	photoProps->setCurrentItem(psize);
@@ -664,11 +664,6 @@ void KeysManager::slotShowCreation()
 	iview->setColumnHidden(KEYCOLUMN_CREAT, b);
 	if (!b && (iview->columnWidth(KEYCOLUMN_CREAT) == 0))
 		iview->resizeColumnToContents(KEYCOLUMN_CREAT);
-}
-
-void KeysManager::slotToggleSecret(bool b)
-{
-	iproxy->setOnlySecret(b);
 }
 
 void KeysManager::slotShowLongId(bool b)

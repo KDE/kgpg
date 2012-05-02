@@ -138,7 +138,6 @@ private slots:
     void slotAddUidFin(int res);
     void slotDelPhotoFinished(int res);
     void quitApp();
-    void slotToggleSecret(bool);
     void slotShowLongId(bool);
     void slotSetTrustFilter(int);
     void slotGotoDefaultKey();

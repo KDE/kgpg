@@ -29,6 +29,8 @@ class KeyListProxyModelPrivate;
 
 class KeyListProxyModel: public QSortFilterProxyModel
 {
+	Q_OBJECT
+
 	Q_PROPERTY(int idLength READ idLength WRITE setIdLength)
 	Q_DECLARE_PRIVATE(KeyListProxyModel)
 
@@ -49,7 +51,6 @@ public:
 	virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 	void setKeyModel(KGpgItemModel *);
-	void setOnlySecret(const bool b);
 	/**
 	 * @brief set the minimum trust level to be shown
 	 * @param t trust level
@@ -65,6 +66,13 @@ public:
 	KGpgItemModel *getModel() const;
 	int idLength() const;
 	void setIdLength(const int length);
+
+public slots:
+	/**
+	 * @brief set if only secret keys should be shown
+	 * @param b new value
+	 */
+	void setOnlySecret(const bool b);
 
 protected:
 	virtual bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
