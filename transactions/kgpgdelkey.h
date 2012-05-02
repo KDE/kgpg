@@ -16,7 +16,7 @@
 
 #include "kgpgtransaction.h"
 
-#include <KGpgKeyNode.h>
+#include <core/KGpgKeyNode.h>
 
 #include <QObject>
 
