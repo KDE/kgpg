@@ -163,6 +163,14 @@ public:
 	 */
 	const KGpgSignableNode *getUid(const unsigned int index) const;
 
+	/**
+	 * @brief compare the id of this node to the given other node
+	 * @param other key id to compare to
+	 * @return if ids are identical
+	 *
+	 * This handles different length of the id string.
+	 */
+	bool compareId(const QString &other) const;
 Q_SIGNALS:
 	void expanded();
 

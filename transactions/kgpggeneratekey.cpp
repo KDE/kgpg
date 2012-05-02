@@ -75,15 +75,19 @@ KGpgGenerateKey::postStart()
 		keymessage.append("RSA\nSubkey-Type: RSA");
 		break;
 	case KgpgCore::ALGO_DSA_ELGAMAL:
-		keymessage.append("DSA\nSubkey-Type: ELG");
+		keymessage.append("DSA\nSubkey-Type: ELG-E");
 		break;
 	default:
 		Q_ASSERT(m_algorithm == KgpgCore::ALGO_RSA);
 		return;
 	}
 
+	const QByteArray keylen = QByteArray::number(m_size);
+
 	keymessage.append("\nKey-Length: ");
-	keymessage.append(QByteArray::number(m_size));
+	keymessage.append(keylen);
+	keymessage.append("\nSubkey-Length: ");
+	keymessage.append(keylen);
 	keymessage.append("\nName-Real: ");
 	keymessage.append(m_name.toUtf8());
 	if (!m_email.isEmpty()) {

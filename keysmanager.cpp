@@ -119,7 +119,6 @@ KeysManager::KeysManager(QWidget *parent)
 	   m_genkey(NULL),
 	   m_delkey(NULL),
 	   terminalkey(NULL),
-	   delkey(NULL),
 	   m_trayicon(NULL)
 {
 	new KeyAdaptor(this);
@@ -764,7 +763,7 @@ void KeysManager::slotKeyRefreshDone(int result)
 	}
 
 	const QStringList log(t->getLog());
-	const QStringList keys(KGpgImport::getImportedIds(log));
+	const QStringList keys = KGpgImport::getImportedIds(log, 0xffff);
 	const QStringList message(KGpgImport::getImportMessage(log));
 
 	t->deleteLater();
@@ -2174,7 +2173,7 @@ void KeysManager::slotedit()
 		return;
 	if (terminalkey)
 		return;
-	if (nd == delkey)
+	if ((m_delkey != NULL) && m_delkey->keys().contains(nd->toKeyNode()))
 		return;
 
 	KProcess *kp = new KProcess(this);
@@ -2269,28 +2268,27 @@ void KeysManager::deleteseckey()
 
 	if (terminalkey == nd)
 		return;
-	if (delkey != NULL) {
+	if (m_delkey != NULL) {
 		KMessageBox::error(this, i18n("Another key delete operation is still in progress.\nPlease wait a moment until this operation is complete."), i18n("Delete key"));
 		return;
 	}
 
 	removeFromGroups(nd);
 
-	delkey = nd;
-	m_delkey = new KGpgDelKey(this, nd->getId());
+	m_delkey = new KGpgDelKey(this, nd);
 	connect(m_delkey, SIGNAL(done(int)), SLOT(secretKeyDeleted(int)));
 	m_delkey->start();
 }
 
 void KeysManager::secretKeyDeleted(int retcode)
 {
+	KGpgKeyNode *delkey = m_delkey->keys().first();
 	if (retcode == 0) {
 		KMessageBox::information(this, i18n("Key <b>%1</b> deleted.", delkey->getBeautifiedFingerprint()), i18n("Delete key"));
 		imodel->delNode(delkey);
 	} else {
 		KMessageBox::error(this, i18n("Deleting key <b>%1</b> failed.", delkey->getBeautifiedFingerprint()), i18n("Delete key"));
 	}
-	delkey = NULL;
 	m_delkey->deleteLater();
 	m_delkey = NULL;
 }
@@ -2301,8 +2299,6 @@ void KeysManager::confirmdeletekey()
 		KMessageBox::error(this, i18n("Another key delete operation is still in progress.\nPlease wait a moment until this operation is complete."), i18n("Delete key"));
 		return;
 	}
-
-	Q_ASSERT(m_delkeys.isEmpty());
 
 	KgpgCore::KgpgItemType pt;
 	bool same;
@@ -2329,6 +2325,7 @@ void KeysManager::confirmdeletekey()
 	QStringList keysToDelete;
 	QStringList deleteIds;
 	QStringList secList;
+	KGpgKeyNode::List delkeys;
 
 	bool secretKeyInside = (pt & ITYPE_SECRET);
 	foreach (KGpgNode *nd, ndlist) {
@@ -2339,33 +2336,27 @@ void KeysManager::confirmdeletekey()
 		} else if (ki != terminalkey) {
 			keysToDelete += ki->getNameComment();
 			deleteIds << ki->getId();
-			m_delkeys << ki;
+			delkeys << ki;
 		}
 	}
 
 	if (secretKeyInside) {
 		int result = KMessageBox::warningContinueCancel(this, i18n("<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be deleted.</qt>", secList.join( QLatin1String( "<br />" ))));
-		if (result != KMessageBox::Continue) {
-			m_delkeys.clear();
+		if (result != KMessageBox::Continue)
 			return;
-		}
 	}
 
-	if (keysToDelete.isEmpty()) {
-		Q_ASSERT(m_delkeys.isEmpty());
+	if (keysToDelete.isEmpty())
 		return;
-	}
 
 	int result = KMessageBox::warningContinueCancelList(this, i18np("<qt><b>Delete the following public key?</b></qt>", "<qt><b>Delete the following %1 public keys?</b></qt>", keysToDelete.count()), keysToDelete, QString(), KStandardGuiItem::del());
-	if (result != KMessageBox::Continue) {
-		m_delkeys.clear();
+	if (result != KMessageBox::Continue)
 		return;
-	}
 
 	foreach (KGpgNode *nd, ndlist)
 		removeFromGroups(nd->toKeyNode());
 
-	m_delkey = new KGpgDelKey(this, deleteIds);
+	m_delkey = new KGpgDelKey(this, delkeys);
 	connect(m_delkey, SIGNAL(done(int)), SLOT(slotDelKeyDone(int)));
 	m_delkey->start();
 }
@@ -2373,13 +2364,12 @@ void KeysManager::confirmdeletekey()
 void KeysManager::slotDelKeyDone(int res)
 {
 	if (res == 0) {
-		foreach (KGpgKeyNode *kn, m_delkeys)
+		foreach (KGpgKeyNode *kn, m_delkey->keys())
 			imodel->delNode(kn);
 	}
 
 	m_delkey->deleteLater();
 	m_delkey = NULL;
-	m_delkeys.clear();
 
 	updateStatusCounter();
 }

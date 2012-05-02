@@ -18,67 +18,65 @@
 #include <QString>
 #include <QStringList>
 
-KGpgDelKey::KGpgDelKey(QObject *parent, const QString &keyid)
+KGpgDelKey::KGpgDelKey(QObject *parent, KGpgKeyNode *key)
 	: KGpgTransaction(parent)
 {
+	m_keys << key;
 	setCmdLine();
-
-	setDelKey(keyid);
 }
 
-KGpgDelKey::KGpgDelKey(QObject *parent, const QStringList &keyids)
-: KGpgTransaction(parent)
+KGpgDelKey::KGpgDelKey(QObject *parent, const KGpgKeyNode::List &keys)
+	: KGpgTransaction(parent),
+	m_keys(keys)
 {
 	setCmdLine();
-
-	setDelKeys(keyids);
 }
 
 KGpgDelKey::~KGpgDelKey()
 {
 }
 
-void
-KGpgDelKey::setDelKey(const QString &keyid)
+KGpgKeyNode::List
+KGpgDelKey::keys() const
 {
-	m_keyids << keyid;
-}
-
-void
-KGpgDelKey::setDelKeys(const QStringList &keyids)
-{
-	m_keyids << keyids;
+	return m_keys;
 }
 
 bool
 KGpgDelKey::nextLine(const QString &line)
 {
-	Q_UNUSED(line);
+	if (!line.startsWith(QLatin1String("[GNUPG:] GOT_IT")))
+		setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
 
 	return false;
+}
+
+KGpgTransaction::ts_boolanswer
+KGpgDelKey::boolQuestion(const QString &line)
+{
+	if (line.startsWith(QLatin1String("delete_key.okay")))
+		return KGpgTransaction::BA_YES;
+
+	if (line.startsWith(QLatin1String("delete_key.secret.okay")))
+		return KGpgTransaction::BA_YES;
+
+	return KGpgTransaction::boolQuestion(line);
 }
 
 bool
 KGpgDelKey::preStart()
 {
 	GPGProc *proc = getProcess();
-	QStringList args(proc->program());
+	QStringList args = proc->program();
 
-	int num = args.count();
-	while (num > m_argscount)
-		args.removeAt(--num);
-
-	args << m_keyids;
+	foreach (const KGpgKeyNode *key, m_keys)
+		args << key->getFingerprint();
 
 	proc->setProgram(args);
 
-	return true;
-}
+	setSuccess(KGpgTransaction::TS_OK);
 
-void
-KGpgDelKey::finish()
-{
-	m_keyids.clear();
+	return true;
 }
 
 void
@@ -86,8 +84,6 @@ KGpgDelKey::setCmdLine()
 {
 	addArgument(QLatin1String( "--status-fd=1" ));
 	addArgument(QLatin1String( "--command-fd=0" ));
-	addArgument(QLatin1String( "--yes" ));
-	addArgument(QLatin1String( "--batch" ));
 	addArgument(QLatin1String( "--delete-secret-and-public-key" ));
 
 	m_argscount = getProcess()->program().count();

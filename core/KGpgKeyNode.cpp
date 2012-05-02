@@ -329,6 +329,20 @@ KGpgKeyNode::getUid(const unsigned int index) const
 	return NULL;
 }
 
+bool
+KGpgKeyNode::compareId(const QString &other) const
+{
+	if (other.length() == m_key->fullId().length())
+		return other.compare(m_key->fullId(), Qt::CaseInsensitive);
+
+	if (other.length() == m_key->fingerprint().length())
+		return other.compare(m_key->fingerprint(), Qt::CaseInsensitive);
+
+	return other.right(m_key->fullId().length()).compare(
+			m_key->fullId().right(other.length()),
+			Qt::CaseInsensitive);
+}
+
 void
 KGpgKeyNode::expand()
 {

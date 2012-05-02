@@ -14,13 +14,11 @@
 #ifndef KGPGDELKEY_H
 #define KGPGDELKEY_H
 
-#include <QObject>
-#include <QStringList>
-
 #include "kgpgtransaction.h"
 
-class QString;
-class QStringList;
+#include <KGpgKeyNode.h>
+
+#include <QObject>
 
 /**
  * @brief delete a public key
@@ -31,20 +29,23 @@ class KGpgDelKey: public KGpgTransaction {
 	Q_DISABLE_COPY(KGpgDelKey)
 	KGpgDelKey(); // = delete C++0x
 public:
-	KGpgDelKey(QObject *parent, const QString &keyid);
-	KGpgDelKey(QObject *parent, const QStringList &keyids);
+	KGpgDelKey(QObject *parent, KGpgKeyNode *key);
+	KGpgDelKey(QObject *parent, const KGpgKeyNode::List &keys);
 	virtual ~KGpgDelKey();
 
-	void setDelKey(const QString &keyid);
-	void setDelKeys(const QStringList &keyids);
+	/**
+	 * @brief the keys that were requested to be removed
+	 * @return the list of key nodes
+	 */
+	KGpgKeyNode::List keys() const;
 
 protected:
 	virtual bool nextLine(const QString &line);
+	virtual ts_boolanswer boolQuestion(const QString &line);
 	virtual bool preStart();
-	virtual void finish();
 	
 private:
-	QStringList m_keyids;
+	KGpgKeyNode::List m_keys;
 	int m_argscount;
 
 	void setCmdLine();
