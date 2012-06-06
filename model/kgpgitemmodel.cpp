@@ -343,8 +343,12 @@ KGpgItemModel::setDefaultKey(KGpgKeyNode *def)
 		emit dataChanged(createIndex(odefrow, 0, nd), createIndex(odefrow, lastcol, nd));
 	}
 
-	m_default = def->getId();
-	emit dataChanged(createIndex(defrow, 0, def), createIndex(defrow, lastcol, def));
+	if (def) {
+		m_default = def->getId();
+		emit dataChanged(createIndex(defrow, 0, def), createIndex(defrow, lastcol, def));
+	} else {
+		m_default.clear();
+	}
 }
 
 QModelIndex
