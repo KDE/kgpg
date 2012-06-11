@@ -333,14 +333,16 @@ bool
 KGpgKeyNode::compareId(const QString &other) const
 {
 	if (other.length() == m_key->fullId().length())
-		return other.compare(m_key->fullId(), Qt::CaseInsensitive);
+		return (other.compare(m_key->fullId(), Qt::CaseInsensitive) == 0);
 
 	if (other.length() == m_key->fingerprint().length())
-		return other.compare(m_key->fingerprint(), Qt::CaseInsensitive);
+		return (other.compare(m_key->fingerprint(), Qt::CaseInsensitive) == 0);
 
-	return other.right(m_key->fullId().length()).compare(
-			m_key->fullId().right(other.length()),
-			Qt::CaseInsensitive);
+	const QString comId = m_key->fullId().isEmpty() ? m_key->fingerprint() : m_key->fullId();
+
+	return (other.right(comId.length()).compare(
+			comId.right(other.length()),
+			Qt::CaseInsensitive) == 0);
 }
 
 void
