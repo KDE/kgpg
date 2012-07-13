@@ -31,6 +31,7 @@ SelectExpiryDate::SelectExpiryDate(QWidget* parent, QDateTime date)
 
 	QWidget *page = new QWidget(this);
 	m_unlimited = new QCheckBox(i18nc("Key has unlimited lifetime", "Unlimited"), page);
+	m_unlimited->setChecked(date.isNull());
 
 	if (date.isNull())
 		date = QDateTime::currentDateTime();
@@ -52,6 +53,8 @@ SelectExpiryDate::SelectExpiryDate(QWidget* parent, QDateTime date)
 
 	setMainWidget(page);
 	show();
+
+	slotEnableDate(m_unlimited->isChecked());
 }
 
 QDateTime SelectExpiryDate::date() const
