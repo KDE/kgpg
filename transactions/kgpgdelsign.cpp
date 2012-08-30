@@ -38,9 +38,11 @@ KGpgDelSign::KGpgDelSign(QObject *parent, const KGpgSignNode::List &signids)
 	else
 		setUid(signids.at(0)->getParentKeyNode()->getId());
 
+#ifndef QT_NO_DEBUG
 	foreach (const KGpgSignNode *snode, signids) {
 		Q_ASSERT(signids.at(0)->getParentKeyNode() == snode->getParentKeyNode());
 	}
+#endif
 
 	setSignIds(signids);
 }
