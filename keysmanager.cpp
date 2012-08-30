@@ -2231,7 +2231,7 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 				(group->getChild(0)->toGroupMemberNode() == gref);
 		if (deleteWholeGroup)
 			deleteWholeGroup = (KMessageBox::questionYesNo(this,
-					i18n("You are removing the last key from key group %1.<br/>Do you want to delete the group, too?"),
+					i18n("You are removing the last key from key group %1.<br/>Do you want to delete the group, too?", group->getName()),
 					i18n("Delete key")) == KMessageBox::Yes);
 
 		if (!deleteWholeGroup) {
