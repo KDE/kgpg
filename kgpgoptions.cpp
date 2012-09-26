@@ -108,7 +108,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
 	connect(m_page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
 	connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
-	connect(m_page6->ServerBox, SIGNAL(itemSelectionChanged()), this, SLOT(slotEnableDeleteServer()));
+	connect(m_page6->ServerBox, SIGNAL(itemSelectionChanged()), this, SLOT(slotChangeKeyServerButtonEnable()));
 	connect(m_page6->ServerBox, SIGNAL(executed(QListWidgetItem*)), this, SLOT(slotEditKeyServer(QListWidgetItem*)));
 	connect(m_page7->kcfg_ShowSystray, SIGNAL(clicked()), SLOT(slotSystrayEnable()));
 
@@ -226,11 +226,8 @@ void kgpgOptions::slotDelKeyServer()
 
 	// Are there any items left now we've took one out of the list?
 	cur = m_page6->ServerBox->currentItem();
-	if (cur == NULL) {
-		// The list is empty so disable the delete button.
-		m_page6->server_del->setEnabled(false);
+	if (cur == NULL)
 		return;
-	}
 
 	cur->setSelected(true);
 	if (defaultDeleted)
@@ -287,9 +284,12 @@ void kgpgOptions::slotDefaultKeyServer()
 	}
 }
 
-void kgpgOptions::slotEnableDeleteServer()
+void kgpgOptions::slotChangeKeyServerButtonEnable()
 {
-	m_page6->server_del->setEnabled(!m_page6->ServerBox->selectedItems().isEmpty());
+	const bool empty = m_page6->ServerBox->selectedItems().isEmpty();
+
+	m_page6->server_del->setEnabled(!empty);
+	m_page6->server_default->setEnabled(!empty);
 }
 
 void kgpgOptions::updateWidgets()

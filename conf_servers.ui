@@ -46,6 +46,9 @@ all others will be stored for use by KGpg only.</string>
       <layout class="QVBoxLayout" >
        <item>
         <widget class="KPushButton" name="server_default" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
          <property name="text" >
           <string>&amp;Set as Default</string>
          </property>
