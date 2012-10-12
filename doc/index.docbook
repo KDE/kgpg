@@ -7,9 +7,9 @@
   <!ENTITY % English "INCLUDE">
 ]>
 
-<book lang="&language;">
+<book id="kgpg" lang="&language;">
 
-<bookinfo>
+<book id="kgpg"info>
 <title>The &kgpg; Handbook</title>
 
 <authorgroup>
