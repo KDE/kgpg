@@ -61,7 +61,7 @@ public:
 	/**
 	 * @brief constructor of KGpgFirstAssistant
 	 */
-	KGpgFirstAssistant(QWidget *parent = 0);
+	explicit KGpgFirstAssistant(QWidget *parent = 0);
 
 	/**
 	 * @brief check if key generation dialog should be started

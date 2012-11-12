@@ -42,7 +42,7 @@ public:
 	 * The job will take ownership of the transaction, i.e.
 	 * will delete the transaction object when the job is done.
 	 */
-	KGpgTransactionJob(KGpgTransaction *transaction);
+	explicit KGpgTransactionJob(KGpgTransaction *transaction);
 	/**
 	 * @brief KGpgTransactionJob destructor
 	 */

@@ -26,7 +26,7 @@ class newKey : public QWidget, public Ui_newKey
     Q_OBJECT
 
 public:
-    newKey(QWidget* parent = 0);
+    explicit newKey(QWidget* parent = 0);
 
 
 public slots:
