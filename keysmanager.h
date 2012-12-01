@@ -55,7 +55,9 @@ class KStatusNotifierItem;
 class AddUid : public QWidget, public Ui::AddUid
 {
 public:
-  AddUid( QWidget *parent ) : QWidget( parent ) {
+  explicit AddUid( QWidget *parent )
+    : QWidget( parent )
+  {
     setupUi( this );
   }
 };
@@ -65,7 +67,7 @@ class KeysManager : public KXmlGuiWindow
     Q_OBJECT
 
 public:
-    KeysManager(QWidget *parent = 0);
+    explicit KeysManager(QWidget *parent = 0);
     ~KeysManager();
 
     KGpgItemModel *getModel();

@@ -25,7 +25,7 @@ class Encryption : public QWidget, public Ui_Encryption
     Q_OBJECT
 
 public:
-    Encryption( QWidget* parent = 0 );
+    explicit Encryption( QWidget* parent = 0 );
     
 public slots:
     virtual void encrypt_to_always_toggled( bool );

@@ -27,7 +27,7 @@ class KgpgRevokeWidget : public QWidget, public Ui_KgpgRevokeWidget
     Q_OBJECT
 
 public:
-    KgpgRevokeWidget(QWidget* parent = 0);
+    explicit KgpgRevokeWidget(QWidget* parent = 0);
 
 
 public slots:

@@ -40,7 +40,9 @@ class KeyListProxyModel;
 class Decryption : public QWidget, public Ui::Decryption
 {
 public:
-  Decryption( QWidget *parent=0 ) : QWidget( parent) {
+  explicit Decryption( QWidget *parent = 0 )
+    : QWidget( parent)
+  {
     setupUi(this);
   }
 };
@@ -48,7 +50,9 @@ public:
 class MiscConf : public QWidget, public Ui::MiscConf
 {
 public:
-  MiscConf( QWidget *parent=0 ) : QWidget( parent ) {
+  explicit MiscConf( QWidget *parent = 0 )
+    : QWidget( parent )
+  {
     setupUi( this );
   }
 };
@@ -57,7 +61,9 @@ public:
 class UIConf : public QWidget, public Ui::UIConf
 {
 public:
-  UIConf( QWidget *parent=0 ) : QWidget( parent ) {
+  explicit UIConf( QWidget *parent = 0 )
+    : QWidget( parent )
+  {
     setupUi( this );
   }
 };
@@ -65,7 +71,9 @@ public:
 class ServerConf : public QWidget, public Ui::ServerConf
 {
 public:
-  ServerConf( QWidget *parent=0 ) : QWidget( parent ) {
+  explicit ServerConf( QWidget *parent = 0 )
+    : QWidget( parent )
+  {
     setupUi( this );
   }
 };
@@ -74,7 +82,9 @@ public:
 class GPGConf : public QWidget, public Ui::GPGConf
 {
 public:
-  GPGConf( QWidget *parent=0 ) : QWidget( parent ) {
+  explicit GPGConf( QWidget *parent = 0 )
+    : QWidget( parent )
+  {
     setupUi( this );
   }
 };

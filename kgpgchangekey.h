@@ -54,7 +54,7 @@ public:
 	 * KGpgChangeKey stores a copy of the key object internally so the
 	 * key object you pass here may be safely deleted or changed.
 	 */
-	KGpgChangeKey(KgpgCore::KgpgKey *key);
+	explicit KGpgChangeKey(KgpgCore::KgpgKey *key);
 	/**
 	 * Creates a change object for a given key node
 	 *

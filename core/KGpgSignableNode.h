@@ -36,7 +36,7 @@ public:
 	typedef QList<KGpgSignableNode *> List;
 	typedef QList<const KGpgSignableNode *> const_List;
 
-	KGpgSignableNode(KGpgExpandableNode *parent = NULL);
+	explicit KGpgSignableNode(KGpgExpandableNode *parent = NULL);
 	virtual ~KGpgSignableNode();
 
 	KGpgSignNode::List getSignatures(void) const;

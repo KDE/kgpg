@@ -34,7 +34,8 @@ class KGpgSearchResultModel;
 class keyServerWidget : public QWidget, public Ui::keyServerWidget
 {
 public:
-    keyServerWidget(QWidget *parent = 0) : QWidget(parent)
+    explicit keyServerWidget(QWidget *parent = 0)
+      : QWidget(parent)
     {
         setupUi(this);
     }
@@ -43,7 +44,8 @@ public:
 class searchRes : public QWidget, public Ui::searchRes
 {
 public:
-    searchRes(QWidget *parent) : QWidget(parent)
+    explicit searchRes(QWidget *parent)
+      : QWidget(parent)
     {
         setupUi(this);
     }
