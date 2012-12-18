@@ -45,6 +45,9 @@ KGpgChangeExpire::nextLine(const QString &line)
 			write(QByteArray::number(QDate::currentDate().daysTo(m_date.date())));
 
 		return false;
+	} else if (line.startsWith(QLatin1String("[GNUPG:] KEYEXPIRED ")) ||
+			line.startsWith(QLatin1String("[GNUPG:] SIGEXPIRED "))) {
+		return false;
 	} else {
 		return KGpgEditKeyTransaction::nextLine(line);
 	}
