@@ -34,7 +34,7 @@ public:
 	KGpgTransaction *m_parent;
 	GPGProc *m_process;
 	KGpgTransaction *m_inputTransaction;
-	KNewPasswordDialog *m_passwordDialog;
+	KNewPasswordDialog *m_newPasswordDialog;
 	int m_success;
 	int m_tries;
 	QString m_description;
@@ -74,7 +74,7 @@ KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool all
 	m_parent(parent),
 	m_process(new GPGProc()),
 	m_inputTransaction(NULL),
-	m_passwordDialog(NULL),
+	m_newPasswordDialog(NULL),
 	m_success(KGpgTransaction::TS_OK),
 	m_tries(3),
 	m_chainingAllowed(allowChaining),
@@ -88,9 +88,9 @@ KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool all
 
 KGpgTransactionPrivate::~KGpgTransactionPrivate()
 {
-	if (m_passwordDialog) {
-		m_passwordDialog->close();
-		m_passwordDialog->deleteLater();
+	if (m_newPasswordDialog) {
+		m_newPasswordDialog->close();
+		m_newPasswordDialog->deleteLater();
 	}
 	if (m_process->state() == QProcess::Running) {
 		m_process->closeWriteChannel();
@@ -228,7 +228,7 @@ void
 KGpgTransactionPrivate::slotPasswordEntered(const QString &password)
 {
 	sender()->deleteLater();
-	m_passwordDialog = NULL;
+	m_newPasswordDialog = NULL;
 	m_process->write(password.toUtf8() + '\n');
 	m_parent->newPasswordEntered();
 }
@@ -237,7 +237,7 @@ void
 KGpgTransactionPrivate::slotPasswordAborted()
 {
 	sender()->deleteLater();
-	m_passwordDialog = NULL;
+	m_newPasswordDialog = NULL;
 	m_process->closeWriteChannel();
 	m_success = KGpgTransaction::TS_USER_ABORTED;
 }
@@ -302,13 +302,13 @@ KGpgTransaction::askNewPassphrase(const QString& text)
 {
 	emit statusMessage(i18n("Requesting Passphrase"));
 
-	d->m_passwordDialog = new KNewPasswordDialog(qobject_cast<QWidget *>(parent()));
-	d->m_passwordDialog->setPrompt(text);
-	d->m_passwordDialog->setAllowEmptyPasswords(false);
-	connect(d->m_passwordDialog, SIGNAL(newPassword(QString)), SLOT(slotPasswordEntered(QString)));
-	connect(d->m_passwordDialog, SIGNAL(rejected()), SLOT(slotPasswordAborted()));
-	connect(d->m_process, SIGNAL(processExited()), d->m_passwordDialog->button(KDialog::Cancel), SLOT(click()));
-	d->m_passwordDialog->show();
+	d->m_newPasswordDialog = new KNewPasswordDialog(qobject_cast<QWidget *>(parent()));
+	d->m_newPasswordDialog->setPrompt(text);
+	d->m_newPasswordDialog->setAllowEmptyPasswords(false);
+	connect(d->m_newPasswordDialog, SIGNAL(newPassword(QString)), SLOT(slotPasswordEntered(QString)));
+	connect(d->m_newPasswordDialog, SIGNAL(rejected()), SLOT(slotPasswordAborted()));
+	connect(d->m_process, SIGNAL(processExited()), d->m_newPasswordDialog->button(KDialog::Cancel), SLOT(click()));
+	d->m_newPasswordDialog->show();
 }
 
 int
