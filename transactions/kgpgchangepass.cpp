@@ -72,7 +72,7 @@ KGpgChangePass::passphraseRequested()
 	const QString userIDs = getIdHints();
 
 	if (!m_seenold) {
-		if (askPassphrase(i18n("Enter old passphrase for <b>%1</b>", userIDs))) {
+		if (!askPassphrase(i18n("Enter old passphrase for <b>%1</b>", userIDs))) {
 			return KGpgTransaction::PA_USER_ABORTED;
 		}
 	} else {
