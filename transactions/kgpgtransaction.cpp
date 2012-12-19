@@ -26,7 +26,7 @@
 #include <QWeakPointer>
 #include <QWidget>
 
-class KGpgTransactionPrivate: QObject {
+class KGpgTransactionPrivate {
 public:
 	KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining);
 	~KGpgTransactionPrivate();
@@ -70,8 +70,7 @@ private:
 };
 
 KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining)
-	: QObject(parent),
-	m_parent(parent),
+	: m_parent(parent),
 	m_process(new GPGProc()),
 	m_inputTransaction(NULL),
 	m_newPasswordDialog(NULL),
@@ -227,7 +226,7 @@ KGpgTransactionPrivate::slotInputTransactionDone(int result)
 void
 KGpgTransactionPrivate::slotPasswordEntered(const QString &password)
 {
-	sender()->deleteLater();
+	m_parent->sender()->deleteLater();
 	m_newPasswordDialog = NULL;
 	m_process->write(password.toUtf8() + '\n');
 	m_parent->newPasswordEntered();
@@ -236,7 +235,7 @@ KGpgTransactionPrivate::slotPasswordEntered(const QString &password)
 void
 KGpgTransactionPrivate::slotPasswordAborted()
 {
-	sender()->deleteLater();
+	m_parent->sender()->deleteLater();
 	m_newPasswordDialog = NULL;
 	m_process->closeWriteChannel();
 	m_success = KGpgTransaction::TS_USER_ABORTED;
