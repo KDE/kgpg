@@ -105,7 +105,6 @@ private slots:
 private:
 	KGpgKeyNode *m_node;
 	KGpgItemModel *m_model;
-	KGpgChangePass *m_changepass;
 
     KgpgTrustLabel *m_trust;
 
