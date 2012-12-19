@@ -306,7 +306,7 @@ KGpgTransaction::askNewPassphrase(const QString& text)
 	d->m_passwordDialog->setAllowEmptyPasswords(false);
 	connect(d->m_passwordDialog, SIGNAL(newPassword(QString)), SLOT(slotPasswordEntered(QString)));
 	connect(d->m_passwordDialog, SIGNAL(rejected()), SLOT(slotPasswordAborted()));
-	connect(d->m_process, SIGNAL(processExited()), d->m_passwordDialog->button(KDialog::Cancel), SLOT(clicked()));
+	connect(d->m_process, SIGNAL(processExited()), d->m_passwordDialog->button(KDialog::Cancel), SLOT(click()));
 	d->m_passwordDialog->show();
 }
 
