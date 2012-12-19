@@ -103,7 +103,6 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
 	keychange(new KGpgChangeKey(node)),
 	m_node(node),
 	m_model(model),
-	m_changepass(NULL),
 	m_keywaschanged(false)
 {
 	Q_ASSERT(m_model != NULL);
@@ -284,13 +283,11 @@ void KgpgKeyInfo::slotDisableKey(const bool &ison)
 
 void KgpgKeyInfo::slotChangePass()
 {
-	if (m_changepass == NULL) {
-		m_changepass = new KGpgChangePass(this, m_node->getId());
+	KGpgChangePass *cp = new KGpgChangePass(this, m_node->getId());
 
-		connect(m_changepass, SIGNAL(done(int)), SLOT(slotInfoPasswordChanged(int)));
-	}
+	connect(cp, SIGNAL(done(int)), SLOT(slotInfoPasswordChanged(int)));
 
-	m_changepass->start();
+	cp->start();
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 }
 
