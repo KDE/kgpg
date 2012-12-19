@@ -316,10 +316,6 @@ protected:
 	 * entry the gpg process will be killed and the transaction result will
 	 * be set to TS_USER_ABORTED.
 	 *
-	 * In contrast to sendPassphrase() this function will not block, but
-	 * handle everything using signals and slots.
-	 *
-	 * @see KgpgInterface::sendPassphrase
 	 * @see askPassphrase
 	 */
 	void askNewPassphrase(const QString &text);

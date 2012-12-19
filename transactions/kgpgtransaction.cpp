@@ -35,6 +35,7 @@ public:
 	GPGProc *m_process;
 	KGpgTransaction *m_inputTransaction;
 	KNewPasswordDialog *m_newPasswordDialog;
+	KPasswordDialog *m_passwordDialog;
 	int m_success;
 	int m_tries;
 	QString m_description;
@@ -84,6 +85,7 @@ KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool all
 	m_process(new GPGProc()),
 	m_inputTransaction(NULL),
 	m_newPasswordDialog(NULL),
+	m_passwordDialog(NULL),
 	m_success(KGpgTransaction::TS_OK),
 	m_tries(3),
 	m_chainingAllowed(allowChaining),
@@ -148,11 +150,20 @@ KGpgTransactionPrivate::slotReadReady()
 				return;
 
 		} else if (line.startsWith(QLatin1String("[GNUPG:] GOOD_PASSPHRASE"))) {
+			emit m_parent->statusMessage(i18n("Got Passphrase"));
+
+			if (m_passwordDialog != NULL) {
+				m_passwordDialog->close();
+				m_passwordDialog->deleteLater();
+				m_passwordDialog = NULL;
+			}
+
 			if (m_parent->passphraseReceived()) {
 				// signal GnuPG that there will be no further input and it can
 				// begin sending output.
 				m_process->closeWriteChannel();
 			}
+
 		} else if (line.startsWith(QLatin1String("[GNUPG:] GET_BOOL "))) {
 			switch (m_parent->boolQuestion(line.mid(18))) {
 			case KGpgTransaction::BA_YES:
@@ -253,17 +264,24 @@ KGpgTransactionPrivate::slotInputTransactionDone(int result)
 void
 KGpgTransactionPrivate::slotPasswordEntered(const QString &password)
 {
-	m_parent->sender()->deleteLater();
-	m_newPasswordDialog = NULL;
+	// not calling KGpgTransactionPrivate::write() here for obvious privacy reasons
 	m_process->write(password.toUtf8() + '\n');
-	m_parent->newPasswordEntered();
+	if (m_parent->sender() == m_newPasswordDialog) {
+		m_newPasswordDialog->deleteLater();
+		m_newPasswordDialog = NULL;
+		m_parent->newPasswordEntered();
+	} else {
+		Q_ASSERT(m_parent->sender() == m_passwordDialog);
+	}
 }
 
 void
 KGpgTransactionPrivate::slotPasswordAborted()
 {
+	Q_ASSERT((m_parent->sender() == m_passwordDialog) ^ (m_parent->sender() == m_newPasswordDialog));
 	m_parent->sender()->deleteLater();
 	m_newPasswordDialog = NULL;
+	m_passwordDialog = NULL;
 	handlePassphraseAborted();
 }
 
@@ -533,44 +551,39 @@ KGpgTransaction::addArgumentRef(int *ref)
 bool
 KGpgTransaction::askPassphrase(const QString &message)
 {
-	QString passdlgmessage;
-	QString userIDs(getIdHints());
-	if (userIDs.isEmpty())
-		userIDs = i18n("[No user id found]");
-	else
-		userIDs.replace(QLatin1Char( '<' ), QLatin1String( "&lt;" ));
-
-	if (d->m_tries < 3)
-		passdlgmessage = i18np("<p><b>Bad passphrase</b>. You have 1 try left.</p>", "<p><b>Bad passphrase</b>. You have %1 tries left.</p>", d->m_tries);
-	if (message.isEmpty()) {
-		passdlgmessage += i18n("Enter passphrase for <b>%1</b>", userIDs);
-	} else {
-		passdlgmessage += message;
-	}
-
-	--d->m_tries;
-
 	emit statusMessage(i18n("Requesting Passphrase"));
 
-	QPointer<KProcess> gpgprocess = d->m_process;
-	QByteArray passphrase;
-	int code;
+	if (d->m_passwordDialog == NULL) {
+		d->m_passwordDialog = new KPasswordDialog(qobject_cast<QWidget *>(parent()));
 
-	QPointer<KPasswordDialog> dlg = new KPasswordDialog(qobject_cast<QWidget *>(parent()));
-	connect(d->m_process, SIGNAL(processExited()), dlg->button(KDialog::Cancel), SLOT(click()));
-	dlg->setPrompt(passdlgmessage);
-	code = dlg->exec();
-	if (!dlg.isNull())
-		passphrase = dlg->password().toUtf8();
-	delete dlg;
+		QString passdlgmessage;
+		if (message.isEmpty()) {
+			QString userIDs(getIdHints());
+			if (userIDs.isEmpty())
+				userIDs = i18n("[No user id found]");
+			else
+				userIDs.replace(QLatin1Char( '<' ), QLatin1String( "&lt;" ));
 
-	if (code != KPasswordDialog::Accepted) {
-		d->handlePassphraseAborted();
-		return false;
+			passdlgmessage = i18n("Enter passphrase for <b>%1</b>", userIDs);
+		} else {
+			passdlgmessage = message;
+		}
+
+		d->m_passwordDialog->setPrompt(passdlgmessage);
+
+		connect(d->m_passwordDialog, SIGNAL(gotPassword(QString,bool)), SLOT(slotPasswordEntered(QString)));
+		connect(d->m_passwordDialog, SIGNAL(rejected()), SLOT(slotPasswordAborted()));
+		connect(d->m_process, SIGNAL(processExited()), d->m_passwordDialog->button(KDialog::Cancel), SLOT(click()));
+	} else {
+		// we already have a dialog, so this is a "bad password" situation
+		--d->m_tries;
+
+		d->m_passwordDialog->showErrorMessage(i18np("<p><b>Bad passphrase</b>. You have 1 try left.</p>",
+				"<p><b>Bad passphrase</b>. You have %1 tries left.</p>", d->m_tries),
+				KPasswordDialog::PasswordError);
 	}
 
-	if (!gpgprocess.isNull())
-		gpgprocess->write(passphrase + '\n');
+	d->m_passwordDialog->show();
 
 	return true;
 }
