@@ -17,6 +17,7 @@
 #include "kgpginterface.h"
 
 #include <KDebug>
+#include <KPasswordDialog>
 #include <knewpassworddialog.h>
 #include <KLocale>
 #include <KPushButton>
@@ -493,7 +494,26 @@ KGpgTransaction::askPassphrase(const QString &message)
 	--d->m_tries;
 
 	emit statusMessage(i18n("Requesting Passphrase"));
-	return (KgpgInterface::sendPassphrase(passdlgmessage, d->m_process, qobject_cast<QWidget *>(parent())) == 0);
+
+	QPointer<KProcess> gpgprocess = d->m_process;
+	QByteArray passphrase;
+	int code;
+
+	QPointer<KPasswordDialog> dlg = new KPasswordDialog(qobject_cast<QWidget *>(parent()));
+	connect(d->m_process, SIGNAL(processExited()), dlg->button(KDialog::Cancel), SLOT(click()));
+	dlg->setPrompt(passdlgmessage);
+	code = dlg->exec();
+	if (!dlg.isNull())
+		passphrase = dlg->password().toUtf8();
+	delete dlg;
+
+	if (code != KPasswordDialog::Accepted)
+		return false;
+
+	if (!gpgprocess.isNull())
+		gpgprocess->write(passphrase + '\n');
+
+	return true;
 }
 
 void

@@ -27,11 +27,8 @@
 #include <KGlobal>
 #include <KLocale>
 #include <KMessageBox>
-#include <KPasswordDialog>
 #include <KProcess>
-#include <KPushButton>
 #include <QFile>
-#include <QPointer>
 #include <QString>
 #include <QTextStream>
 
@@ -140,29 +137,6 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool enable, co
 			qfile.close();
 		}
 	}
-}
-
-int KgpgInterface::sendPassphrase(const QString &text, KProcess *process, QWidget *widget)
-{
-	QPointer<KProcess> gpgprocess = process;
-	QByteArray passphrase;
-	int code;
-
-	QPointer<KPasswordDialog> dlg = new KPasswordDialog(widget);
-	QObject::connect(process, SIGNAL(processExited()), dlg->button(KDialog::Cancel), SLOT(click()));
-	dlg->setPrompt(text);
-	code = dlg->exec();
-	if (!dlg.isNull())
-		passphrase = dlg->password().toUtf8();
-	delete dlg;
-
-	if (code != KPasswordDialog::Accepted)
-		return 1;
-
-	if (!gpgprocess.isNull())
-		gpgprocess->write(passphrase + '\n');
-
-	return 0;
 }
 
 /**
