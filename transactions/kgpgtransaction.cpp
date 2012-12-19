@@ -39,7 +39,6 @@ public:
 	int m_tries;
 	QString m_description;
 	bool m_chainingAllowed;
-	KGpgTransaction::ts_passphrase_actions m_passphraseAction;	///< ignore further request for passphrase
 
 	QStringList m_idhints;
 
@@ -48,7 +47,16 @@ public:
 	void slotProcessStarted();
 	void slotInputTransactionDone(int result);
 	void slotPasswordEntered(const QString &password);
+	/**
+	 * @brief a slot to handle the case that the password entry was aborted by the user
+	 *
+	 * This will delete the sender as well as do the internal password aborted handling.
+	 */
 	void slotPasswordAborted();
+	/**
+	 * @brief do the internal password aborted handling
+	 */
+	void handlePassphraseAborted();
 
 	QList<int *> m_argRefs;
 	bool m_inputProcessDone;
@@ -77,7 +85,6 @@ KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool all
 	m_success(KGpgTransaction::TS_OK),
 	m_tries(3),
 	m_chainingAllowed(allowChaining),
-	m_passphraseAction(KGpgTransaction::PA_NONE),
 	m_inputProcessDone(false),
 	m_inputProcessResult(KGpgTransaction::TS_OK),
 	m_ownProcessFinished(false),
@@ -132,29 +139,18 @@ KGpgTransactionPrivate::slotReadReady()
 		} else if (line.startsWith(QLatin1String("[GNUPG:] BAD_PASSPHRASE "))) {
 			m_success = KGpgTransaction::TS_BAD_PASSPHRASE;
 		} else if (line.startsWith(QLatin1String("[GNUPG:] GET_HIDDEN passphrase.enter"))) {
-			// Do not directly assign to the member here, the object could
-			// get deleted while waiting for the result
-			const KGpgTransaction::ts_passphrase_actions action = m_parent->passphraseRequested();
+			const bool goOn = m_parent->passphraseRequested();
 
-			if (par.isNull())
+			// Check if the object was deleted while waiting for the result
+			if (!goOn || par.isNull())
 				return;
 
-			m_passphraseAction = action;
-
-			switch (action) {
-			case KGpgTransaction::PA_USER_ABORTED:
-				m_parent->setSuccess(KGpgTransaction::TS_USER_ABORTED);
-				// sending "quit" here is useless as it would be interpreted as the passphrase
+		} else if (line.startsWith(QLatin1String("[GNUPG:] GOOD_PASSPHRASE"))) {
+			if (m_parent->passphraseReceived()) {
+				// signal GnuPG that there will be no further input and it can
+				// begin sending output.
 				m_process->closeWriteChannel();
-				break;
-			default:
-				break;
 			}
-		} else if ((m_passphraseAction == KGpgTransaction::PA_CLOSE_GOOD) &&
-				line.startsWith(QLatin1String("[GNUPG:] GOOD_PASSPHRASE"))) {
-			// signal GnuPG that there will be no further input and it can
-			// begin sending output.
-			m_process->closeWriteChannel();
 		} else if (line.startsWith(QLatin1String("[GNUPG:] GET_BOOL "))) {
 			switch (m_parent->boolQuestion(line.mid(18))) {
 			case KGpgTransaction::BA_YES:
@@ -237,6 +233,13 @@ KGpgTransactionPrivate::slotPasswordAborted()
 {
 	m_parent->sender()->deleteLater();
 	m_newPasswordDialog = NULL;
+	handlePassphraseAborted();
+}
+
+void
+KGpgTransactionPrivate::handlePassphraseAborted()
+{
+	// sending "quit" here is useless as it would be interpreted as the passphrase
 	m_process->closeWriteChannel();
 	m_success = KGpgTransaction::TS_USER_ABORTED;
 }
@@ -361,13 +364,16 @@ KGpgTransaction::unexpectedLine(const QString &line)
 	kDebug(2100) << this << "unexpected input line" << line << "for command" << d->m_process->program();
 }
 
-KGpgTransaction::ts_passphrase_actions
+bool
 KGpgTransaction::passphraseRequested()
 {
-	if (!askPassphrase())
-		return PA_USER_ABORTED;
-	else
-		return PA_CLOSE_GOOD;
+	return askPassphrase();
+}
+
+bool
+KGpgTransaction::passphraseReceived()
+{
+	return true;
 }
 
 bool
@@ -472,9 +478,6 @@ KGpgTransaction::addArgumentRef(int *ref)
 bool
 KGpgTransaction::askPassphrase(const QString &message)
 {
-	if (d->m_passphraseAction == PA_USER_ABORTED)
-		return false;
-
 	QString passdlgmessage;
 	QString userIDs(getIdHints());
 	if (userIDs.isEmpty())
@@ -506,8 +509,10 @@ KGpgTransaction::askPassphrase(const QString &message)
 		passphrase = dlg->password().toUtf8();
 	delete dlg;
 
-	if (code != KPasswordDialog::Accepted)
+	if (code != KPasswordDialog::Accepted) {
+		d->handlePassphraseAborted();
 		return false;
+	}
 
 	if (!gpgprocess.isNull())
 		gpgprocess->write(passphrase + '\n');

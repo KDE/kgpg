@@ -53,9 +53,6 @@ KGpgChangePass::nextLine(const QString &line)
 			// some sort of error, we already set the error code
 			return true;
 		}
-	} else if (line.contains(QLatin1String( "GOOD_PASSPHRASE" ))) {
-		setSuccess(TS_MSG_SEQUENCE);
-		m_seenold = true;
 	} else if (line.contains(QLatin1String( "MISSING_PASSPHRASE" ))) {
 		setSuccess(TS_USER_ABORTED);
 	} else if (line.contains(QLatin1String( "GET_" ))) {
@@ -66,20 +63,26 @@ KGpgChangePass::nextLine(const QString &line)
 	return false;
 }
 
-KGpgTransaction::ts_passphrase_actions
+bool
 KGpgChangePass::passphraseRequested()
 {
 	const QString userIDs = getIdHints();
 
 	if (!m_seenold) {
-		if (!askPassphrase(i18n("Enter old passphrase for <b>%1</b>", userIDs))) {
-			return KGpgTransaction::PA_USER_ABORTED;
-		}
+		return askPassphrase(i18n("Enter old passphrase for <b>%1</b>", userIDs));
 	} else {
 		askNewPassphrase(i18n("<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase all your encrypted files and messages will be inaccessible.</qt>", userIDs));
 	}
 
-	return KGpgTransaction::PA_NONE;
+	return true;
+}
+
+bool
+KGpgChangePass::passphraseReceived()
+{
+	m_seenold = true;
+	setSuccess(TS_MSG_SEQUENCE);
+	return false;
 }
 
 #include "kgpgchangepass.moc"
