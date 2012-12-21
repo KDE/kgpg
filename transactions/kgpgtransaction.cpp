@@ -70,6 +70,8 @@ public:
 
 	void write(const QByteArray &a);
 
+	static const QStringList &hintNames(void);
+
 private:
 	void processDone();
 
@@ -166,8 +168,37 @@ KGpgTransactionPrivate::slotReadReady()
 			}
 		} else if (line.startsWith(QLatin1String("[GNUPG:] CARDCTRL "))) {
 			// just ignore them, pinentry should handle that
-		} else if (m_parent->nextLine(line)) {
-			sendQuit();
+		} else {
+			// all known hints
+			int i = 0;
+			bool matched = false;
+			foreach (const QString &hintName, hintNames()) {
+				const KGpgTransaction::ts_hintType h = static_cast<KGpgTransaction::ts_hintType>(i++);
+				if (!line.startsWith(hintName))
+					continue;
+
+				matched = true;
+
+				bool r;
+				const int skip = hintName.length();
+				if (line.length() == skip) {
+					r = m_parent->hintLine(h, QString());
+				} else {
+					r = m_parent->hintLine(h, line.mid(skip + 1).trimmed());
+				}
+
+				if (!r) {
+					m_parent->setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
+					sendQuit();
+				}
+
+				break;
+			}
+
+			if (!matched) {
+				if (m_parent->nextLine(line))
+					sendQuit();
+			}
 		}
 	}
 }
@@ -253,6 +284,19 @@ KGpgTransactionPrivate::write(const QByteArray &a)
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 }
 
+const QStringList &
+KGpgTransactionPrivate::hintNames (void)
+{
+	static QStringList hints;
+
+	if (hints.isEmpty()) {
+		hints.insert(KGpgTransaction::HT_KEYEXPIRED, QLatin1String("[GNUPG:] KEYEXPIRED"));
+		hints.insert(KGpgTransaction::HT_SIGEXPIRED, QLatin1String("[GNUPG:] SIGEXPIRED"));
+	}
+
+	return hints;
+}
+
 void
 KGpgTransactionPrivate::processDone()
 {
@@ -334,6 +378,17 @@ KGpgTransaction::boolQuestion(const QString& line)
 	Q_UNUSED(line);
 
 	return BA_UNKNOWN;
+}
+
+bool
+KGpgTransaction::hintLine(const ts_hintType hint, const QString &args)
+{
+	switch (hint) {
+	case HT_KEYEXPIRED:
+		return !args.isEmpty();
+	default:
+		return true;
+	}
 }
 
 void
