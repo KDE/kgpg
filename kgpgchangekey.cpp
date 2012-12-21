@@ -18,14 +18,15 @@
 #include "transactions/kgpgchangeexpire.h"
 #include "transactions/kgpgchangedisable.h"
 
-KGpgChangeKey::KGpgChangeKey(KGpgKeyNode *node)
+#include <QWidget>
+
+KGpgChangeKey::KGpgChangeKey(KGpgKeyNode *node, QWidget *widget)
 	: QObject(NULL),
 	m_expiration(node->getExpiration()),
 	m_key(*node->copyKey()),
 	m_node(node),
-	m_changetrust(NULL),
-	m_changeexpire(NULL),
-	m_changedisable(NULL),
+	m_current(NULL),
+	m_parentWidget(widget),
 	m_step(0),
 	m_failed(0),
 	m_autodestroy(false)
@@ -36,9 +37,7 @@ KGpgChangeKey::KGpgChangeKey(KGpgKeyNode *node)
 
 KGpgChangeKey::~KGpgChangeKey()
 {
-	delete m_changetrust;
-	delete m_changeexpire;
-	delete m_changedisable;
+	Q_ASSERT(m_current == NULL);
 }
 
 void KGpgChangeKey::setExpiration(const QDateTime &date)
@@ -76,19 +75,26 @@ bool KGpgChangeKey::apply()
 
 void KGpgChangeKey::nextStep(int result)
 {
+	if (m_step == 0) {
+		Q_ASSERT(sender() == NULL);
+		Q_ASSERT(m_current == NULL);
+	} else {
+		Q_ASSERT(sender() != NULL);
+		Q_ASSERT(sender() == m_current);
+		sender()->deleteLater();
+		m_current = NULL;
+	}
+
 	m_step++;
 
 	switch (m_step) {
 	case 1:
 		if (m_expiration != m_key.expirationDate()) {
-			if (m_changeexpire == NULL) {
-				m_changeexpire = new KGpgChangeExpire(this, m_key.fingerprint(), m_expiration);
+			m_current = new KGpgChangeExpire(m_parentWidget, m_key.fingerprint(), m_expiration);
 
-				connect(m_changeexpire, SIGNAL(done(int)), SLOT(nextStep(int)));
-			} else {
-				m_changeexpire->setDate(m_expiration);
-			}
-			m_changeexpire->start();
+			connect(m_current, SIGNAL(done(int)), SLOT(nextStep(int)));
+
+			m_current->start();
 			break;
 		} else {
 			m_step++;
@@ -101,14 +107,11 @@ void KGpgChangeKey::nextStep(int result)
 			m_failed |= 1;
 		}
 		if (m_owtrust != m_key.ownerTrust()) {
-			if (m_changetrust == NULL) {
-				m_changetrust = new KGpgChangeTrust(this, m_key.fingerprint(), m_owtrust);
+			m_current = new KGpgChangeTrust(m_parentWidget, m_key.fingerprint(), m_owtrust);
 
-				connect(m_changetrust, SIGNAL(done(int)), SLOT(nextStep(int)));
-			} else {
-				m_changetrust->setTrust(m_owtrust);
-			}
-			m_changetrust->start();
+			connect(m_current, SIGNAL(done(int)), SLOT(nextStep(int)));
+
+			m_current->start();
 			break;
 		} else {
 			m_step++;
@@ -121,14 +124,11 @@ void KGpgChangeKey::nextStep(int result)
 			m_failed |= 2;
 		}
 		if (m_key.valid() == m_disable) {
-			if (m_changedisable == NULL) {
-				m_changedisable = new KGpgChangeDisable(this, m_key.fingerprint(), m_disable);
+			m_current = new KGpgChangeDisable(m_parentWidget, m_key.fingerprint(), m_disable);
 
-				connect(m_changedisable, SIGNAL(done(int)), SLOT(nextStep(int)));
-			} else {
-				m_changedisable->setDisable(m_disable);
-			}
-			m_changedisable->start();
+			connect(m_current, SIGNAL(done(int)), SLOT(nextStep(int)));
+
+			m_current->start();
 			break;
 		} else {
 			m_step++;
@@ -176,6 +176,13 @@ void KGpgChangeKey::selfdestruct(const bool &applyChanges)
 		apply();
 	else
 		deleteLater();
+}
+
+void KGpgChangeKey::setParentWidget(QWidget *widget)
+{
+	m_parentWidget = widget;
+	if (m_current != NULL)
+		m_current->setParent(widget);
 }
 
 #include "kgpgchangekey.moc"

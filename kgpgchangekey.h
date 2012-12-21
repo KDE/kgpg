@@ -20,9 +20,8 @@
 #include <QDateTime>
 
 class KGpgKeyNode;
-class KGpgChangeTrust;
-class KGpgChangeExpire;
-class KGpgChangeDisable;
+class KGpgTransaction;
+class QWidget;
 
 /**
  * @short A class for changing several properties of a key at once
@@ -50,12 +49,21 @@ public:
 	 * Creates a change object for a given key node
 	 *
 	 * @param node pointer to key node to take care of
+	 * @param widget parent widget for password dialogs
 	 *
 	 * KGpgChangeKey stores a copy of the key object of the node
 	 * internally to track changes it made. Once everything is
 	 * finished the caller get notified that this node needs refresh.
+	 *
+	 * The widget parameter will not be used to parent this object as
+	 * it may need to run even after the parent window was closed.
+	 * This widget will be used as parent for the transactions so that
+	 * they can show a passphrase prompt with correct widget inheritance,
+	 * otherwise the modal passphrase dialog may be blocked by the modal
+	 * key info dialog. Do not forget to call setParentWidget() if you
+	 * destroy the parent widget while this still needs to run.
 	 */
-	KGpgChangeKey(KGpgKeyNode *node);
+	KGpgChangeKey(KGpgKeyNode *node, QWidget *widget);
 	/**
 	 * Destroys the object
 	 */
@@ -123,6 +131,10 @@ public:
 	 */
 	void selfdestruct(const bool &applyChanges);
 
+	/**
+	 * @brief set a new parent widget for the transactions
+	 */
+	void setParentWidget(QWidget *widget);
 signals:
 	/**
 	 * This signal gets emitted every time apply() has done all of it's work.
@@ -164,9 +176,8 @@ private:
 	KgpgCore::KgpgKeyOwnerTrust m_owtrust;
 	KgpgCore::KgpgKey m_key;
 	KGpgKeyNode *m_node;
-	KGpgChangeTrust *m_changetrust;
-	KGpgChangeExpire *m_changeexpire;
-	KGpgChangeDisable *m_changedisable;
+	KGpgTransaction *m_current;	///< the currently active transaction object
+	QWidget *m_parentWidget;
 	int m_step;
 	int m_failed;
 	bool m_autodestroy;

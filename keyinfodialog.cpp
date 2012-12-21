@@ -100,7 +100,7 @@ void KgpgTrustLabel::change()
 
 KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *parent)
 	: KDialog(parent),
-	keychange(new KGpgChangeKey(node)),
+	keychange(new KGpgChangeKey(node, this)),
 	m_node(node),
 	m_model(model),
 	m_keywaschanged(false)
@@ -260,6 +260,7 @@ void KgpgKeyInfo::slotPreOk()
 {
 	if (m_keywaschanged && m_node)
 		emit keyNeedsRefresh(m_node);
+	keychange->setParentWidget(parentWidget());
 	keychange->selfdestruct(true);
 	keychange = NULL;
 	accept();
