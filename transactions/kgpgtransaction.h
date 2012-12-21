@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -81,6 +81,13 @@ public:
 		PA_NONE = 0,			///< do nothing special
 		PA_CLOSE_GOOD = 1,		///< close command channel if passphrase was accepted
 		PA_USER_ABORTED = 2		///< the user has cancelled the dialog, abort the transaction
+	};
+	/**
+	 * @brief the known hints sent by GnuPG
+	 */
+	enum ts_hintType {
+		HT_KEYEXPIRED = 0,	///< key is expired
+		HT_SIGEXPIRED = 1	///< deprecated by GnuPG
 	};
 
 	/**
@@ -223,6 +230,20 @@ protected:
 	 * The default implementation will answer BA_UNKNOWN to every question.
 	 */
 	virtual ts_boolanswer boolQuestion(const QString &line);
+	/**
+	 * @brief Called for a set of hint messages
+	 *
+	 * @param hint the hint type given by GnuPG
+	 * @param args the arguments given to the hint
+	 * @return if the hint was parsed correctly
+	 * @retval true everything is fine
+	 * @retval false something went wrong (e.g. syntax error)
+	 *
+	 * The default implementation will do nothing but checking for some
+	 * argument counts. Override this and handle all interesting hints
+	 * yourself. Don't forget to call the default implementation at the end.
+	 */
+	virtual bool hintLine(const ts_hintType hint, const QString &args);
 	/**
 	 * @brief Called when the gpg process finishes.
 	 *
