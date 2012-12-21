@@ -47,15 +47,6 @@ class KGpgChangeKey : public QObject
 
 public:
 	/**
-	 * Creates a change object for a given key
-	 *
-	 * @param key pointer to key to take care of
-	 *
-	 * KGpgChangeKey stores a copy of the key object internally so the
-	 * key object you pass here may be safely deleted or changed.
-	 */
-	explicit KGpgChangeKey(KgpgCore::KgpgKey *key);
-	/**
 	 * Creates a change object for a given key node
 	 *
 	 * @param node pointer to key node to take care of
@@ -179,8 +170,6 @@ private:
 	int m_step;
 	int m_failed;
 	bool m_autodestroy;
-
-	void init();
 };
 
 #endif // KGPGCHANGEKEY_H

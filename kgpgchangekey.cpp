@@ -19,29 +19,19 @@
 #include "transactions/kgpgchangedisable.h"
 
 KGpgChangeKey::KGpgChangeKey(KGpgKeyNode *node)
-	: m_key(*node->copyKey()),
-	m_node(node)
+	: QObject(NULL),
+	m_expiration(node->getExpiration()),
+	m_key(*node->copyKey()),
+	m_node(node),
+	m_changetrust(NULL),
+	m_changeexpire(NULL),
+	m_changedisable(NULL),
+	m_step(0),
+	m_failed(0),
+	m_autodestroy(false)
 {
-	init();
-}
-
-KGpgChangeKey::KGpgChangeKey(KgpgCore::KgpgKey *key)
-	: m_key(*key),
-	m_node(NULL)
-{
-	init();
-}
-
-void KGpgChangeKey::init()
-{
-	m_changetrust = NULL;
-	m_changeexpire = NULL;
-	m_changedisable = NULL;
-	m_expiration = m_key.expirationDate();
 	m_disable = !m_key.valid();
 	m_owtrust = m_key.ownerTrust();
-	m_autodestroy = false;
-	m_step = 0;
 }
 
 KGpgChangeKey::~KGpgChangeKey()
