@@ -245,14 +245,14 @@ protected:
 	 */
 	virtual void finish();
 	/**
-	 * @brief called when the user entered a new password
+	 * @brief called when the user entered a new passphrase
 	 *
 	 * This is called after askNewPassphrase() was called, the user has
-	 * entered a new password and it was sent to the GnuPG process.
+	 * entered a new passphrase and it was sent to the GnuPG process.
 	 *
 	 * The default implementation does nothing.
 	 */
-	virtual void newPasswordEntered();
+	virtual void newPassphraseEntered();
 	/**
 	 * @brief set the description returned in getDescription()
 	 * @param description the new description of this transaction
@@ -302,17 +302,17 @@ private:
 	Q_PRIVATE_SLOT(d, void slotProcessExited())
 	Q_PRIVATE_SLOT(d, void slotProcessStarted())
 	Q_PRIVATE_SLOT(d, void slotInputTransactionDone(int))
-	Q_PRIVATE_SLOT(d, void slotPasswordEntered(const QString &))
-	Q_PRIVATE_SLOT(d, void slotPasswordAborted())
+	Q_PRIVATE_SLOT(d, void slotPassphraseEntered(const QString &))
+	Q_PRIVATE_SLOT(d, void slotPassphraseAborted())
 
 protected:
 	/**
 	 * @brief Ask user for passphrase and send it to gpg process.
 	 *
 	 * If the gpg process asks for a new passphrase this function will do
-	 * all necessary steps for you: ask the user for the password and write
-	 * it to the gpg process. If the password is wrong the user is prompted
-	 * again for the correct password. If the user aborts the password
+	 * all necessary steps for you: ask the user for the passphrase and write
+	 * it to the gpg process. If the passphrase is wrong the user is prompted
+	 * again for the correct passphrase. If the user aborts the passphrase
 	 * entry the gpg process will be killed and the transaction result will
 	 * be set to TS_USER_ABORTED.
 	 *
@@ -428,13 +428,13 @@ protected:
 	 */
 	void write(const int i);
 	/**
-	 * @brief ask user for password
+	 * @brief ask user for passphrase
 	 * @param message message to display to the user. If message is empty
-	 * "Enter password for [UID]" will be used.
+	 * "Enter passphrase for [UID]" will be used.
 	 * @return true if the authorization was successful
 	 *
-	 * This function handles user authorization for key changes. It will
-	 * take care to display the message asking the user for the password
+	 * This function handles user authorization for key operations. It will
+	 * take care to display the message asking the user for the passphrase
 	 * and the number of tries left.
 	 */
 	 bool askPassphrase(const QString &message = QString());

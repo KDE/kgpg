@@ -47,15 +47,15 @@ public:
 	void slotProcessExited();
 	void slotProcessStarted();
 	void slotInputTransactionDone(int result);
-	void slotPasswordEntered(const QString &password);
+	void slotPassphraseEntered(const QString &passphrase);
 	/**
-	 * @brief a slot to handle the case that the password entry was aborted by the user
+	 * @brief a slot to handle the case that the passphrase entry was aborted by the user
 	 *
-	 * This will delete the sender as well as do the internal password aborted handling.
+	 * This will delete the sender as well as do the internal passphrase aborted handling.
 	 */
-	void slotPasswordAborted();
+	void slotPassphraseAborted();
 	/**
-	 * @brief do the internal password aborted handling
+	 * @brief do the internal passphrase aborted handling
 	 */
 	void handlePassphraseAborted();
 
@@ -262,21 +262,21 @@ KGpgTransactionPrivate::slotInputTransactionDone(int result)
 }
 
 void
-KGpgTransactionPrivate::slotPasswordEntered(const QString &password)
+KGpgTransactionPrivate::slotPassphraseEntered(const QString &passphrase)
 {
 	// not calling KGpgTransactionPrivate::write() here for obvious privacy reasons
-	m_process->write(password.toUtf8() + '\n');
+	m_process->write(passphrase.toUtf8() + '\n');
 	if (m_parent->sender() == m_newPasswordDialog) {
 		m_newPasswordDialog->deleteLater();
 		m_newPasswordDialog = NULL;
-		m_parent->newPasswordEntered();
+		m_parent->newPassphraseEntered();
 	} else {
 		Q_ASSERT(m_parent->sender() == m_passwordDialog);
 	}
 }
 
 void
-KGpgTransactionPrivate::slotPasswordAborted()
+KGpgTransactionPrivate::slotPassphraseAborted()
 {
 	Q_ASSERT((m_parent->sender() == m_passwordDialog) ^ (m_parent->sender() == m_newPasswordDialog));
 	m_parent->sender()->deleteLater();
@@ -369,8 +369,8 @@ KGpgTransaction::askNewPassphrase(const QString& text)
 	d->m_newPasswordDialog = new KNewPasswordDialog(qobject_cast<QWidget *>(parent()));
 	d->m_newPasswordDialog->setPrompt(text);
 	d->m_newPasswordDialog->setAllowEmptyPasswords(false);
-	connect(d->m_newPasswordDialog, SIGNAL(newPassword(QString)), SLOT(slotPasswordEntered(QString)));
-	connect(d->m_newPasswordDialog, SIGNAL(rejected()), SLOT(slotPasswordAborted()));
+	connect(d->m_newPasswordDialog, SIGNAL(newPassword(QString)), SLOT(slotPassphraseEntered(QString)));
+	connect(d->m_newPasswordDialog, SIGNAL(rejected()), SLOT(slotPassphraseAborted()));
 	connect(d->m_process, SIGNAL(processExited()), d->m_newPasswordDialog->button(KDialog::Cancel), SLOT(click()));
 	d->m_newPasswordDialog->show();
 }
@@ -571,11 +571,11 @@ KGpgTransaction::askPassphrase(const QString &message)
 
 		d->m_passwordDialog->setPrompt(passdlgmessage);
 
-		connect(d->m_passwordDialog, SIGNAL(gotPassword(QString,bool)), SLOT(slotPasswordEntered(QString)));
-		connect(d->m_passwordDialog, SIGNAL(rejected()), SLOT(slotPasswordAborted()));
+		connect(d->m_passwordDialog, SIGNAL(gotPassword(QString,bool)), SLOT(slotPassphraseEntered(QString)));
+		connect(d->m_passwordDialog, SIGNAL(rejected()), SLOT(slotPassphraseAborted()));
 		connect(d->m_process, SIGNAL(processExited()), d->m_passwordDialog->button(KDialog::Cancel), SLOT(click()));
 	} else {
-		// we already have a dialog, so this is a "bad password" situation
+		// we already have a dialog, so this is a "bad passphrase" situation
 		--d->m_tries;
 
 		d->m_passwordDialog->showErrorMessage(i18np("<p><b>Bad passphrase</b>. You have 1 try left.</p>",
@@ -668,7 +668,7 @@ KGpgTransaction::kill()
 }
 
 void
-KGpgTransaction::newPasswordEntered()
+KGpgTransaction::newPassphraseEntered()
 {
 }
 
