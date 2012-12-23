@@ -275,7 +275,7 @@ void KGpgExternalActions::slotVerificationDone(int result)
 			return;
 
 		QStringList msglist;
-		foreach (QString rawmsg, messages)
+		foreach (QString rawmsg, messages) // krazy:exclude=foreach
 			msglist << rawmsg.replace(QLatin1Char('<'), QLatin1String("&lt;"));
 
 		(void) new KgpgDetailedInfo(m_keysmanager, KGpgVerify::getReport(messages, m_model),
