@@ -141,7 +141,10 @@ KGpgTransactionPrivate::slotReadReady()
 		if (line.startsWith(QLatin1String("[GNUPG:] USERID_HINT "))) {
 			m_parent->addIdHint(line);
 		} else if (line.startsWith(QLatin1String("[GNUPG:] BAD_PASSPHRASE "))) {
-			m_success = KGpgTransaction::TS_BAD_PASSPHRASE;
+			// the MISSING_PASSPHRASE line comes first, in that case ignore a
+			// following BAD_PASSPHRASE
+			if (m_success != KGpgTransaction::TS_USER_ABORTED)
+				m_success = KGpgTransaction::TS_BAD_PASSPHRASE;
 		} else if (line.startsWith(QLatin1String("[GNUPG:] GET_HIDDEN passphrase.enter"))) {
 			const bool goOn = m_parent->passphraseRequested();
 
@@ -177,6 +180,8 @@ KGpgTransactionPrivate::slotReadReady()
 				m_parent->unexpectedLine(line);
 				sendQuit();
 			}
+		} else if (line.startsWith(QLatin1String("[GNUPG:] MISSING_PASSPHRASE"))) {
+			m_success = KGpgTransaction::TS_USER_ABORTED;
 		} else if (line.startsWith(QLatin1String("[GNUPG:] CARDCTRL "))) {
 			// just ignore them, pinentry should handle that
 		} else {

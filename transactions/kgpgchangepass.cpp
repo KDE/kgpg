@@ -53,8 +53,6 @@ KGpgChangePass::nextLine(const QString &line)
 			// some sort of error, we already set the error code
 			return true;
 		}
-	} else if (line.contains(QLatin1String( "MISSING_PASSPHRASE" ))) {
-		setSuccess(TS_USER_ABORTED);
 	} else if (line.contains(QLatin1String( "GET_" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
 		return true;

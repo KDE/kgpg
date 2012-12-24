@@ -100,11 +100,6 @@ KGpgEncrypt::nextLine(const QString &line)
 {
 	const KUrl::List &inputFiles = getInputFiles();
 
-	if (line.startsWith(QLatin1String("[GNUPG:] MISSING_PASSPHRASE"))) {
-		setSuccess(KGpgTransaction::TS_BAD_PASSPHRASE);
-		return true;
-	}
-
 	if (!inputFiles.isEmpty()) {
 		static const QString encStart = QLatin1String("[GNUPG:] FILE_START 2 ");
 		static const QString encDone = QLatin1String("[GNUPG:] FILE_DONE");
