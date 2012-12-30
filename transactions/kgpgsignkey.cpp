@@ -24,6 +24,8 @@ KGpgSignKey::KGpgSignKey(QObject *parent, const QString &signer, KGpgKeyNode *ke
 	m_signerPos = 2;
 	addArgumentRef(&m_signerPos);
 
+	addArgument(QLatin1String("save"));
+
 	setKey(key);
 
 	setLocal(local);
@@ -61,6 +63,13 @@ KGpgSignKey::boolQuestion(const QString& line)
 		ret = KGpgTransaction::boolQuestion(line);
 
 	return ret;
+}
+
+bool
+KGpgSignKey::passphraseReceived()
+{
+	setSuccess(KGpgTransaction::TS_OK);
+	return true;
 }
 
 KGpgTransaction *
