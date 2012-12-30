@@ -27,6 +27,8 @@ KGpgSignUid::KGpgSignUid(QObject *parent, const QString &signer, const KGpgSigna
 	m_cmdPos = addArgument(QString());
 	addArgumentRef(&m_cmdPos);
 
+	addArgument(QLatin1String("save"));
+
 	setUid(uid);
 
 	setLocal(local);
@@ -81,6 +83,13 @@ KGpgSignUid::boolQuestion(const QString& line)
 		ret = KGpgTransaction::boolQuestion(line);
 
 	return ret;
+}
+
+bool
+KGpgSignUid::passphraseReceived()
+{
+	setSuccess(KGpgTransaction::TS_OK);
+	return true;
 }
 
 KGpgTransaction *
