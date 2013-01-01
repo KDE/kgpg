@@ -570,7 +570,7 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 	case KGpgTransaction::TS_OK: {
 		updateStatusCounter();
 
-		KDialog *keyCreated = new KDialog(this);
+		QPointer<KDialog> keyCreated = new KDialog(this);
 		keyCreated->setCaption(i18n("New Key Pair Created"));
 		keyCreated->setButtons(KDialog::Ok);
 		keyCreated->setDefaultButton(KDialog::Ok);
@@ -602,6 +602,11 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		keyCreated->setMainWidget(page);
 
 		keyCreated->exec();
+		if (keyCreated.isNull()) {
+			return;
+		} else {
+			delete keyCreated;
+		}
 
 		imodel->refreshKey(fingerprint);
 		KGpgKeyNode *knode = imodel->getRootNode()->findKey(fingerprint);

@@ -204,7 +204,7 @@ KGpgGenerateKey::finish()
 }
 
 void
-KGpgGenerateKey::newPasswordEntered()
+KGpgGenerateKey::newPassphraseEntered()
 {
 	QApplication::setOverrideCursor(Qt::BusyCursor);
 	write("%commit");

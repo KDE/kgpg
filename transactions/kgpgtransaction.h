@@ -75,14 +75,6 @@ public:
 		BA_NO = 2			///< answer "NO"
 	};
 	/**
-	 * @brief actions to do after a passphrase was sent to GnuPG
-	 */
-	enum ts_passphrase_actions {
-		PA_NONE = 0,			///< do nothing special
-		PA_CLOSE_GOOD = 1,		///< close command channel if passphrase was accepted
-		PA_USER_ABORTED = 2		///< the user has cancelled the dialog, abort the transaction
-	};
-	/**
 	 * @brief the known hints sent by GnuPG
 	 */
 	enum ts_hintType {
@@ -253,14 +245,14 @@ protected:
 	 */
 	virtual void finish();
 	/**
-	 * @brief called when the user entered a new password
+	 * @brief called when the user entered a new passphrase
 	 *
 	 * This is called after askNewPassphrase() was called, the user has
-	 * entered a new password and it was sent to the GnuPG process.
+	 * entered a new passphrase and it was sent to the GnuPG process.
 	 *
 	 * The default implementation does nothing.
 	 */
-	virtual void newPasswordEntered();
+	virtual void newPassphraseEntered();
 	/**
 	 * @brief set the description returned in getDescription()
 	 * @param description the new description of this transaction
@@ -281,14 +273,27 @@ protected:
 
 	/**
 	 * @brief called when GnuPG asks for a passphrase
-	 * @return true if "quit" should be sent to process
+	 * @return if the processing should continue
+	 * @retval true processing should continue
+	 * @retval false an error occurred, transaction should be aborted
 	 *
 	 * This allows a transaction to implement special handling for
 	 * passphrases, e.g. when both old and new passphrase must be
 	 * requested when changing it. The default implementation will just
 	 * call askPassphrase().
 	 */
-	virtual ts_passphrase_actions passphraseRequested();
+	virtual bool passphraseRequested();
+
+	/**
+	 * @brief called when GnuPG accepted the passphrase
+	 * @return if the input channel to GnuPG should be closed
+	 * @retval true close the input channel of the GnuPG process
+	 * @retval false keep the GnuPG input channel open
+	 *
+	 * This allows a transaction to handle passphrase success in a
+	 * special way. The default implementation will just return true.
+	 */
+	virtual bool passphraseReceived();
 
 private:
 	KGpgTransactionPrivate* const d;
@@ -297,24 +302,20 @@ private:
 	Q_PRIVATE_SLOT(d, void slotProcessExited())
 	Q_PRIVATE_SLOT(d, void slotProcessStarted())
 	Q_PRIVATE_SLOT(d, void slotInputTransactionDone(int))
-	Q_PRIVATE_SLOT(d, void slotPasswordEntered(const QString &))
-	Q_PRIVATE_SLOT(d, void slotPasswordAborted())
+	Q_PRIVATE_SLOT(d, void slotPassphraseEntered(const QString &))
+	Q_PRIVATE_SLOT(d, void slotPassphraseAborted())
 
 protected:
 	/**
 	 * @brief Ask user for passphrase and send it to gpg process.
 	 *
 	 * If the gpg process asks for a new passphrase this function will do
-	 * all necessary steps for you: ask the user for the password and write
-	 * it to the gpg process. If the password is wrong the user is prompted
-	 * again for the correct password. If the user aborts the password
+	 * all necessary steps for you: ask the user for the passphrase and write
+	 * it to the gpg process. If the passphrase is wrong the user is prompted
+	 * again for the correct passphrase. If the user aborts the passphrase
 	 * entry the gpg process will be killed and the transaction result will
 	 * be set to TS_USER_ABORTED.
 	 *
-	 * In contrast to sendPassphrase() this function will not block, but
-	 * handle everything using signals and slots.
-	 *
-	 * @see KgpgInterface::sendPassphrase
 	 * @see askPassphrase
 	 */
 	void askNewPassphrase(const QString &text);
@@ -427,13 +428,13 @@ protected:
 	 */
 	void write(const int i);
 	/**
-	 * @brief ask user for password
+	 * @brief ask user for passphrase
 	 * @param message message to display to the user. If message is empty
-	 * "Enter password for [UID]" will be used.
+	 * "Enter passphrase for [UID]" will be used.
 	 * @return true if the authorization was successful
 	 *
-	 * This function handles user authorization for key changes. It will
-	 * take care to display the message asking the user for the password
+	 * This function handles user authorization for key operations. It will
+	 * take care to display the message asking the user for the passphrase
 	 * and the number of tries left.
 	 */
 	 bool askPassphrase(const QString &message = QString());
