@@ -140,6 +140,7 @@ KeyListProxyModel::KeyListProxyModel(QObject *parent, const DisplayMode mode)
 {
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 	setFilterKeyColumn(-1);
+	setDynamicSortFilter(true);
 }
 
 KeyListProxyModel::~KeyListProxyModel()
