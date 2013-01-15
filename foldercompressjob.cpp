@@ -96,6 +96,7 @@ FolderCompressJob::doWork()
 		break;
 	default:
 		Q_ASSERT(0);
+		return;
 	}
 
 	if (!arch->open(QIODevice::WriteOnly)) {
