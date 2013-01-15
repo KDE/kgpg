@@ -292,6 +292,7 @@ KGpgCaffPrivate::slotTextEncrypted(int result)
 	// just stop here.
 	default:
 		kDebug(2100) << "encryption finished with status" << result;
+		break;
 	case KGpgTransaction::TS_USER_ABORTED:
 		m_allids.clear();
 		break;
