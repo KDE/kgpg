@@ -171,11 +171,11 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 			publickey->setValid((items <= 11) || !lsp.at(11).contains(QLatin1Char( 'D' ), Qt::CaseSensitive));  // disabled key
 
 			idIndex = 0;
-		} else if ((lsp.at(0) == QLatin1String( "fpr" )) && (items >= 10)) {
+		} else if (publickey && (lsp.at(0) == QLatin1String( "fpr" )) && (items >= 10)) {
 			const QString fingervalue(lsp.at(9));
 
 			publickey->setFingerprint(fingervalue);
-		} else if ((lsp.at(0) == QLatin1String( "sub" )) && (items >= 7)) {
+		} else if (publickey && (lsp.at(0) == QLatin1String( "sub" )) && (items >= 7)) {
 			KgpgSubKeyType subtype;
 
 			if (items > 11) {
@@ -208,12 +208,12 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 				currentSNode = NULL;
 			else
 				currentSNode = new KGpgSubkeyNode(readNode, sub);
-		} else if (lsp.at(0) == QLatin1String( "uat" )) {
+		} else if (publickey && (lsp.at(0) == QLatin1String( "uat" ))) {
 			idIndex++;
 			if (readNode != NULL) {
 				currentSNode = new KGpgUatNode(readNode, idIndex, lsp);
 			}
-		} else if ((lsp.at(0) == QLatin1String( "uid" )) && (items >= 10)) {
+		} else if (publickey && (lsp.at(0) == QLatin1String( "uid" )) && (items >= 10)) {
 			if (idIndex == 0) {
 				QString fullname(lsp.at(9));
 				QString kmail;
@@ -253,7 +253,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 					currentSNode = new KGpgUidNode(readNode, idIndex, lsp);
 				}
 			}
-		} else if (((lsp.at(0) == QLatin1String( "sig" )) || (lsp.at(0) == QLatin1String( "rev" ))) && (items >= 11)) {
+		} else if (publickey && ((lsp.at(0) == QLatin1String( "sig" )) || (lsp.at(0) == QLatin1String( "rev" ))) && (items >= 11)) {
 			// there are no strings here that could have a recoded QLatin1Char( ':' ) in them
 			const QString signature = lsp.join(QLatin1String(":"));
 
