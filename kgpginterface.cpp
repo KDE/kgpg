@@ -183,9 +183,9 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 					subtype |= SKT_SIGNATURE;
 				if (lsp.at(11).contains(QLatin1Char( 'e' )))
 					subtype |= SKT_ENCRYPTION;
-				if (lsp.at(11).contains(QLatin1Char( 'e' )))
+				if (lsp.at(11).contains(QLatin1Char( 'a' )))
 					subtype |= SKT_AUTHENTICATION;
-				if (lsp.at(11).contains(QLatin1Char( 'e' )))
+				if (lsp.at(11).contains(QLatin1Char( 'c' )))
 					subtype |= SKT_CERTIFICATION;
 			}
 
