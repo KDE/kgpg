@@ -107,7 +107,7 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 	// for a good signature. Since VALIDSIG has more information
 	// we use that.
 	const QRegExp validsig(QLatin1String("^\\[GNUPG:\\] VALIDSIG([ ]+[^ ]+){10,}.*$"));
-	const bool useGoodSig = (model != NULL) && (log.indexOf(validsig) == -1);
+	const bool useGoodSig = (model == NULL) || (log.indexOf(validsig) == -1);
 	QString sigtime;	// timestamp of signature creation
 
 	foreach (const QString &line, log) {
@@ -116,7 +116,7 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 
 		const QString msg = line.mid(9);
 
-		if (msg.startsWith(QLatin1String("VALIDSIG ")) && !useGoodSig) {
+		if (!useGoodSig && msg.startsWith(QLatin1String("VALIDSIG "))) {
 			// from GnuPG source, doc/DETAILS:
 			//   VALIDSIG    <fingerprint in hex> <sig_creation_date> <sig-timestamp>
 			//                <expire-timestamp> <sig-version> <reserved> <pubkey-algo>
