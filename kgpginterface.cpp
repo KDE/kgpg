@@ -312,7 +312,7 @@ readSecretKeysProcess(GPGProc &p)
 {
 	QStringList lsp;
 	int items;
-	bool hasuid = true;
+	bool hasuid = false;
 	KgpgCore::KgpgKeyList result;
 	KgpgCore::KgpgKey *secretkey = NULL;
 
