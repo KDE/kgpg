@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -16,7 +16,8 @@
 #include <KLocale>
 
 KGpgChangePass::KGpgChangePass(QObject *parent, const QString &keyid)
-	: KGpgTransaction(parent)
+	: KGpgTransaction(parent),
+	m_seenold(false)
 {
 	addArgument(QLatin1String( "--status-fd=1" ));
 	addArgument(QLatin1String( "--command-fd=0" ));
@@ -33,8 +34,6 @@ bool
 KGpgChangePass::preStart()
 {
 	setSuccess(TS_MSG_SEQUENCE);
-
-	m_seenold = false;
 
 	return true;
 }

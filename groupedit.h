@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -33,8 +33,8 @@ class groupEdit : public QWidget, public Ui::groupEdit
 private:
 	GroupEditProxyModel *m_in;
 	GroupEditProxyModel *m_out;
-	KGpgItemModel *m_model;
-	QSortFilterProxyModel *m_outFilter;
+	KGpgItemModel * const m_model;
+	QSortFilterProxyModel * const m_outFilter;
 
 public:
 	QList<KGpgNode *> * const members;	///< the list of keys that are members of the group
@@ -43,18 +43,13 @@ public:
 	 * @brief constructor
 	 * @param parent parent widget
 	 * @param ids the members of the group
+	 * @param md model to use
 	 */
-	explicit groupEdit(QWidget *parent, QList<KGpgNode *> *ids);
+	explicit groupEdit(QWidget *parent, QList<KGpgNode *> *ids, KGpgItemModel *md);
 	/**
 	 * @brief destructor
 	 */
 	~groupEdit();
-
-	/**
-	 * @brief set the model to select the keys from
-	 * @param md model to use
-	 */
-	void setModel(KGpgItemModel *md);
 
 private Q_SLOTS:
 	/**

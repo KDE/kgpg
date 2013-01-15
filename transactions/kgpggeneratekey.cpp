@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -54,7 +54,6 @@ KGpgGenerateKey::preStart()
 	}
 
 	m_fingerprint.clear();
-	m_namesent = false;
 
 	setSuccess(TS_MSG_SEQUENCE);
 

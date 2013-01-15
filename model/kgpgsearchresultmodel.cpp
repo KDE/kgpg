@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -62,7 +62,9 @@ public:
 
 SearchResult::SearchResult(const QString &line)
 	: m_validPub(false),
-	m_uatCount(0)
+	m_uatCount(0),
+	m_revoked(false),
+	m_bits(0)
 {
 	const QStringList parts(line.split(QLatin1Char( ':' )));
 

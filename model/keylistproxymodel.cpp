@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -39,7 +39,6 @@ public:
 	KGpgItemModel *m_model;
 	bool m_onlysecret;
 	KgpgCore::KgpgKeyTrustFlag m_mintrust;
-	bool m_showexpired;
 	int m_previewsize;
 	int m_idLength;
 	KeyListProxyModel::DisplayMode m_displaymode;
@@ -50,6 +49,7 @@ public:
 
 KeyListProxyModelPrivate::KeyListProxyModelPrivate(KeyListProxyModel *parent, const KeyListProxyModel::DisplayMode mode)
 	: q_ptr(parent),
+	m_model(NULL),
 	m_onlysecret(false),
 	m_mintrust(TRUST_UNKNOWN),
 	m_previewsize(22),

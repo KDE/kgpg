@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -92,7 +92,6 @@ private:
 	unsigned int m_expire;
 	unsigned int m_expireunit;
 	QString m_fingerprint;
-	bool m_namesent;
 	QString m_errorOutput;
 };
 

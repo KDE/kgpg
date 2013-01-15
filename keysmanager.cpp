@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010,2011,2012
+ * Copyright (C) 2007,2008,2009,2010,2011,2012,2013
  *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  * Copyright (C) 2011 Luis Ángel Fernández Fernández <laffdez@gmail.com>
  */
@@ -1705,8 +1705,7 @@ void KeysManager::editGroup()
 
 	QList<KGpgNode *> members(gnd->getChildren());
 
-	groupEdit *gEdit = new groupEdit(dialogGroupEdit, &members);
-	gEdit->setModel(imodel);
+	groupEdit *gEdit = new groupEdit(dialogGroupEdit, &members, imodel);
 
 	dialogGroupEdit->setMainWidget(gEdit);
 

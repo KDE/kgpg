@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -33,7 +33,9 @@ public:
 };
 
 KGpgSignNodePrivate::KGpgSignNodePrivate(const QStringList &sl)
+	: m_local(false)
 {
+	Q_ASSERT(!sl.isEmpty());
 	m_revocation = (sl.at(0) == QLatin1String("rev"));
 	if (sl.count() < 6)
 		return;

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2006,2007,2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2006,2007,2008,2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -37,8 +37,10 @@
 
 KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose)
 	: KDialog(parent),
+	m_dialogserver(NULL),
 	m_searchproc(NULL),
 	page(new keyServerWidget()),
+	m_listpop(NULL),
 	m_resultmodel(NULL),
 	m_itemmodel(new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst))
 {
@@ -224,7 +226,6 @@ void KeyServer::slotSearch()
 
 	m_listpop->kLVsearch->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-	m_count = 0;
 	m_readmessage.clear();
 
 	const QString keyserv(page->kCBimportks->currentText());

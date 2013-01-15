@@ -1,10 +1,7 @@
-/***************************************************************************
-                          keyservers.h  -  description
-                             -------------------
-    begin                : Tue Nov 26 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007,2008,2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -124,7 +121,6 @@ private:
 	keyServerWidget *page;
 	searchRes *m_listpop;
 
-	int m_count;
 	bool m_autoclose;
 	QString expattr;
 

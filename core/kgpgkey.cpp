@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006,2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2007,2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -26,7 +26,8 @@ namespace KgpgCore
 //BEGIN KeySub
 KgpgKeySubPrivate::KgpgKeySubPrivate(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo,
                                      const KgpgSubKeyType type, const QDateTime &date)
-    : gpgsubid(id),
+    : gpgsubvalid(false),
+    gpgsubid(id),
     gpgsubsize(size),
     gpgsubcreation(date),
     gpgsubtrust(trust),
@@ -50,9 +51,8 @@ bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
 
 KgpgKeySub::KgpgKeySub(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const KgpgSubKeyType type,
                        const QDateTime &date)
-    : d(new  KgpgKeySubPrivate(id, size, trust, algo, type, date))
+    : d(new KgpgKeySubPrivate(id, size, trust, algo, type, date))
 {
-    d->gpgsubvalid = false;
 }
 
 KgpgKeySub::KgpgKeySub(const KgpgKeySub &other)

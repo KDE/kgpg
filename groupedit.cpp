@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -24,11 +24,15 @@
 #include <QHeaderView>
 #include <QSortFilterProxyModel>
 
-groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
+groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids, KGpgItemModel *md)
 	: QWidget(parent),
+	m_model(md),
 	m_outFilter(new QSortFilterProxyModel(this)),
 	members(ids)
 {
+	Q_ASSERT(ids != NULL);
+	Q_ASSERT(md != NULL);
+
 	setupUi( this );
 	KgpgCore::KgpgKeyTrust mintrust;
 	if (KGpgSettings::allowUntrustedGroupMembers()) {
@@ -40,7 +44,9 @@ groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids)
 	}
 
 	m_in = new GroupEditProxyModel(this, false, members, mintrust);
+	m_in->setKeyModel(md);
 	m_out = new GroupEditProxyModel(this, true, members, mintrust);
+	m_out->setKeyModel(md);
 
 	m_outFilter->setSourceModel(m_out);
 	m_outFilter->setFilterCaseSensitivity(Qt::CaseInsensitive);
@@ -75,14 +81,6 @@ groupEdit::~groupEdit()
 {
 	delete m_in;
 	delete m_out;
-}
-
-void
-groupEdit::setModel(KGpgItemModel *md)
-{
-	m_model = md;
-	m_in->setKeyModel(md);
-	m_out->setKeyModel(md);
 }
 
 void

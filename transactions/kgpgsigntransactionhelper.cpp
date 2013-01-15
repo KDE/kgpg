@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -17,7 +17,8 @@
 #include "model/kgpgitemnode.h"
 
 KGpgSignTransactionHelper::KGpgSignTransactionHelper(const QString &signer, const bool local, const carefulCheck checking)
-	: m_signer(signer),
+	: m_node(NULL),
+	m_signer(signer),
 	m_local(local),
 	m_checking(checking),
 	m_signerPos(-1)
