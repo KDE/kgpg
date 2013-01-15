@@ -31,14 +31,14 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     setButtonText(Apply, i18n("Compare MD5 with Clipboard"));
 
     QFile f(url.path());
-    f.open(QIODevice::ReadOnly);
-
     KMD5 checkfile;
-    checkfile.reset();
-    checkfile.update(f);
+
+    if (f.open(QIODevice::ReadOnly)) {
+	checkfile.update(f);
+	f.close();
+    }
 
     m_md5sum = QLatin1String( checkfile.hexDigest().constData() );
-    f.close();
 
     QWidget *page = new QWidget(this);
 
