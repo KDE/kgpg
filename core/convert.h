@@ -44,7 +44,6 @@ namespace Convert
     KgpgKeyTrust toTrust(const QString &s);
     KgpgKeyOwnerTrust toOwnerTrust(const QChar &c);
     KgpgKeyOwnerTrust toOwnerTrust(const QString &s);
-    QPixmap toPixmap(const KgpgCore::KgpgItemType t);
 }
 
 } // namespace KgpgCore

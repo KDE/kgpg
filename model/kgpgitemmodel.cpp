@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -20,6 +20,7 @@
 
 #include "kgpgsettings.h"
 #include "core/convert.h"
+#include "core/images.h"
 #include "model/kgpgitemnode.h"
 
 #include <KGlobal>
@@ -111,10 +112,30 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		case Qt::EditRole:
 			return node->getName();
 		case Qt::DecorationRole:
-			if (node->getType() == ITYPE_UAT) {
+			switch (node->getType()) {
+			case ITYPE_GROUP:
+				return Images::group();
+			case ITYPE_GSECRET:
+			case ITYPE_SECRET:
+				return Images::orphan();
+			case ITYPE_GPUBLIC:
+			case ITYPE_SUB:
+			case ITYPE_PUBLIC:
+				return Images::single();
+			case ITYPE_GPAIR:
+			case ITYPE_PAIR:
+				return Images::pair();
+			case ITYPE_UID:
+				return Images::userId();
+			case ITYPE_UAT:
 				return node->toUatNode()->getPixmap();
-			} else {
-				return Convert::toPixmap(node->getType());
+			case ITYPE_REVSIGN:
+				return Images::revoke();
+			case ITYPE_SIGN:
+				return Images::signature();
+			default:
+				Q_ASSERT(0);
+				return QVariant();
 			}
 		case Qt::ToolTipRole:
 			return node->getComment();

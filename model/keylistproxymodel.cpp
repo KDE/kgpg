@@ -20,7 +20,7 @@
 #include "model/kgpgitemnode.h"
 #include "kgpgitemmodel.h"
 #include "core/kgpgkey.h"
-#include "core/convert.h"
+#include "core/images.h"
 
 #include <KLocale>
 #include <QDate>
@@ -73,7 +73,7 @@ KeyListProxyModelPrivate::dataSingleColumn(const QModelIndex &index, int role, c
 				const KGpgUatNode *nd = node->toUatNode();
 				return nd->getPixmap().scaled(m_previewsize + 5, m_previewsize, Qt::KeepAspectRatio);
 			} else {
-				return Convert::toPixmap(ITYPE_UAT);
+				return Images::photo();
 			}
 		} else {
 			return m_model->data(q->mapToSource(index), Qt::DecorationRole);
@@ -125,7 +125,7 @@ KeyListProxyModelPrivate::dataMultiColumn(const QModelIndex &index, int role, co
 			const KGpgUatNode *nd = node->toUatNode();
 			return nd->getPixmap().scaled(m_previewsize + 5, m_previewsize, Qt::KeepAspectRatio);
 		} else {
-			return Convert::toPixmap(ITYPE_UAT);
+			return Images::photo();
 		}
 	} else if ((role == Qt::DisplayRole) && (index.column() == KEYCOLUMN_ID)) {
 		QString id = m_model->data(q->mapToSource(index), Qt::DisplayRole).toString();
