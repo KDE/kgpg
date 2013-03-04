@@ -381,13 +381,13 @@ KGpgItemModel::setDefaultKey(KGpgKeyNode *def)
 }
 
 QModelIndex
-KGpgItemModel::nodeIndex(KGpgNode *node)
+KGpgItemModel::nodeIndex(KGpgNode *node, const int column)
 {
 	KGpgNode *p = node->getParentKeyNode();
 
 	for (int i = 0; i < p->getChildCount(); i++)
 		if (p->getChild(i) == node)
-			return createIndex(i, 0, node);
+			return createIndex(i, column, node);
 
 	Q_ASSERT(1);
 	return QModelIndex();

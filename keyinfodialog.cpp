@@ -186,9 +186,16 @@ void KgpgKeyInfo::displayKey()
 
     const KgpgKey *key = m_node->getKey();
 
-    KgpgKeyTrust keytrust = key->valid() ? m_node->getTrust() : TRUST_DISABLED;
-    QString tr = Convert::toString(keytrust);
-    QColor trustcolor = Convert::toColor(keytrust);
+    QString trust;
+    QColor trustcolor;
+    if (key->valid()) {
+        QModelIndex idx = m_model->nodeIndex(m_node, KEYCOLUMN_TRUST);
+        trust = m_model->data(idx, Qt::AccessibleTextRole).toString();
+        trustcolor = m_model->data(idx, Qt::BackgroundColorRole).value<QColor>();
+    } else {
+        trust = Convert::toString(TRUST_DISABLED);
+        trustcolor = Convert::toColor(TRUST_DISABLED);
+    }
 
     m_id->setText(m_node->getId().right(16));
     m_algorithm->setText(Convert::toString(key->algorithm()) + QLatin1String( " / " ) + Convert::toString(key->encryptionAlgorithm()));
@@ -198,7 +205,7 @@ void KgpgKeyInfo::displayKey()
         m_expiration->setText(i18nc("Unlimited key lifetime", "Unlimited"));
     else
         m_expiration->setText(Convert::toString(m_node->getExpiration().date()));
-    m_trust->setText(tr);
+    m_trust->setText(trust);
     m_trust->setColor(trustcolor);
     m_length->setText(m_node->getSize());
     m_length->setWhatsThis(i18n("<qt>The left part is the size of the <b>signature</b> key. The right part is the size of the <b>encryption</b> key.</qt>"));
