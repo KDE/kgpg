@@ -2120,7 +2120,7 @@ void KeysManager::delsignkey()
 		parentKey = parent->getParentKeyNode()->getId();
 		break;
 	default:
-		Q_ASSERT(1);
+		Q_ASSERT(0);
 		return;
 	}
 

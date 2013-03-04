@@ -223,7 +223,6 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		break;
 	}
 
-	Q_ASSERT(1);
 	return QVariant();
 }
 
@@ -411,7 +410,7 @@ KGpgItemModel::nodeIndex(KGpgNode *node, const int column)
 		if (p->getChild(i) == node)
 			return createIndex(i, column, node);
 
-	Q_ASSERT(1);
+	Q_ASSERT(0);
 	return QModelIndex();
 }
 
