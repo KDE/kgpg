@@ -24,7 +24,6 @@
 
 #include "kgpgkey.h"
 
-class QColor;
 class QString;
 class QPixmap;
 
@@ -37,7 +36,6 @@ namespace Convert
     QString toString(const KgpgCore::KgpgKeyOwnerTrust ownertrust);
     QString toString(const KgpgCore::KgpgKeyTrust trust);
     QString toString(const QDate &date);
-    QColor toColor(const KgpgCore::KgpgKeyTrust trust);
     KgpgKeyAlgo toAlgo(const uint v);
     KgpgKeyAlgo toAlgo(const QString &s);
     KgpgKeyTrust toTrust(const QChar &c);

@@ -150,8 +150,30 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		KgpgKeyTrust t = node->getTrust();
 
 		switch (role) {
-		case Qt::BackgroundColorRole:	return Convert::toColor(t);
-		case Qt::AccessibleTextRole:	return Convert::toString(t);
+		case Qt::BackgroundColorRole:
+			switch (t) {
+			case TRUST_INVALID:
+			case TRUST_DISABLED:
+				return KGpgSettings::colorBad();
+			case TRUST_EXPIRED:
+				return KGpgSettings::colorExpired();
+			case TRUST_MARGINAL:
+				return KGpgSettings::colorMarginal();
+			case TRUST_REVOKED:
+				return KGpgSettings::colorRev();
+			case TRUST_UNDEFINED:
+			case TRUST_NONE:
+				return KGpgSettings::colorUnknown();
+			case TRUST_FULL:
+				return KGpgSettings::colorGood();
+			case TRUST_ULTIMATE:
+				return KGpgSettings::colorUltimate();
+			case TRUST_UNKNOWN:
+			default:
+				return KGpgSettings::colorUnknown();
+			}
+		case Qt::AccessibleTextRole:
+			return Convert::toString(t);
 		}
 		break;
 		}

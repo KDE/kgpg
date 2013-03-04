@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
  * Copyright (C) 2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  * Copyright (C) 2011 Philip Greggory Lee <rocketman768@gmail.com>
  */
 
@@ -17,6 +17,7 @@
 #include "keyinfodialog.h"
 
 #include "kgpgchangekey.h"
+#include <kgpgsettings.h>
 #include "selectexpirydate.h"
 #include "core/convert.h"
 #include "core/images.h"
@@ -188,13 +189,14 @@ void KgpgKeyInfo::displayKey()
 
     QString trust;
     QColor trustcolor;
+
     if (key->valid()) {
         QModelIndex idx = m_model->nodeIndex(m_node, KEYCOLUMN_TRUST);
         trust = m_model->data(idx, Qt::AccessibleTextRole).toString();
         trustcolor = m_model->data(idx, Qt::BackgroundColorRole).value<QColor>();
     } else {
         trust = Convert::toString(TRUST_DISABLED);
-        trustcolor = Convert::toColor(TRUST_DISABLED);
+        trustcolor = KGpgSettings::colorBad();
     }
 
     m_id->setText(m_node->getId().right(16));
