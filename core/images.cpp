@@ -1,7 +1,8 @@
+/*
+ * Copyright (C) 2006 Jimmy Gilles <jimmygilles@gmail.com>
+ * Copyright (C) 2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 /***************************************************************************
- *   Copyright (C) 2006 by Jimmy Gilles                                    *
- *   jimmygilles@gmail.com                                                 *
- *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -25,7 +26,10 @@
 namespace KgpgCore
 {
 
-QPixmap Images::single()
+namespace Images
+{
+
+QPixmap single()
 {
     static QPixmap single;
     if (single.isNull())
@@ -33,7 +37,7 @@ QPixmap Images::single()
     return single;
 }
 
-QPixmap Images::pair()
+QPixmap pair()
 {
     static QPixmap pair;
     if (pair.isNull())
@@ -41,7 +45,7 @@ QPixmap Images::pair()
     return pair;
 }
 
-QPixmap Images::group()
+QPixmap group()
 {
     static QPixmap group;
     if (group.isNull())
@@ -49,7 +53,7 @@ QPixmap Images::group()
     return group;
 }
 
-QPixmap Images::orphan()
+QPixmap orphan()
 {
     static QPixmap oprpan;
     if (oprpan.isNull())
@@ -57,7 +61,7 @@ QPixmap Images::orphan()
     return oprpan;
 }
 
-QPixmap Images::signature()
+QPixmap signature()
 {
     static QPixmap signature;
     if (signature.isNull())
@@ -65,7 +69,7 @@ QPixmap Images::signature()
     return signature;
 }
 
-QPixmap Images::userId()
+QPixmap userId()
 {
     static QPixmap userid;
     if (userid.isNull())
@@ -73,7 +77,7 @@ QPixmap Images::userId()
     return userid;
 }
 
-QPixmap Images::photo()
+QPixmap photo()
 {
     static QPixmap photo;
     if (photo.isNull())
@@ -81,7 +85,7 @@ QPixmap Images::photo()
     return photo;
 }
 
-QPixmap Images::revoke()
+QPixmap revoke()
 {
     static QPixmap revoke;
     if (revoke.isNull())
@@ -89,12 +93,14 @@ QPixmap Images::revoke()
     return revoke;
 }
 
-QPixmap Images::kgpg()
+QPixmap kgpg()
 {
     static QPixmap kgpg;
     if (kgpg.isNull())
         kgpg = KIconLoader::global()->loadIcon(QLatin1String( "kgpg" ), KIconLoader::Desktop);
     return kgpg;
 }
+
+} // namespace Images
 
 } // namespace KgpgCore
