@@ -30,6 +30,7 @@ KeyExport::KeyExport(QWidget *parent, const QStringList &keyservers)
 
 	if (!keyservers.isEmpty()) {
 		checkServer->setEnabled(true);
+		checkServer->setToolTip(QString());
 		destServer->addItems(keyservers);
 	}
 }

@@ -51,6 +51,9 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="toolTip">
+            <string>You must define at least one keyserver in settings before you can export to one.</string>
+           </property>
            <property name="text">
             <string>Key server:</string>
            </property>
