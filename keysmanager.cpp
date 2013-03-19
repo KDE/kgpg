@@ -602,11 +602,8 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		keyCreated->setMainWidget(page);
 
 		keyCreated->exec();
-		if (keyCreated.isNull()) {
+		if (keyCreated.isNull())
 			return;
-		} else {
-			delete keyCreated;
-		}
 
 		imodel->refreshKey(fingerprint);
 		KGpgKeyNode *knode = imodel->getRootNode()->findKey(fingerprint);
@@ -630,6 +627,7 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 
 			genRev->start();
 		}
+		delete keyCreated;
 		break;
 	}
 	default:
