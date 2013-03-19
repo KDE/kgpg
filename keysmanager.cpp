@@ -592,7 +592,7 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		if (!email.isEmpty())
 			page->kURLRequester1->setUrl(QString(revurl + email.section(QLatin1Char( '@' ), 0, 0) + QLatin1String( ".revoke" )));
 		else
-			page->kURLRequester1->setUrl(QString(revurl + email.section(QLatin1Char( ' ' ), 0, 0) + QLatin1String( ".revoke" )));
+			page->kURLRequester1->setUrl(QString(revurl + genkey->getName().section(QLatin1Char(' '), 0, 0) + QLatin1String(".revoke")));
 
 		const QString fingerprint(genkey->getFingerprint());
 		page->TLid->setText(QLatin1String( "<b>" ) + fingerprint.right(8) + QLatin1String( "</b>" ));
