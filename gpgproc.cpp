@@ -206,7 +206,7 @@ int GPGProc::readln(QString &line, const bool colons)
 	if (!readLineStandardOutput(&a))
 		return -1;
 
-	line = recode(a, colons);
+	line = recode(a, colons, m_codec);
 
 	return line.length();
 }
@@ -235,8 +235,9 @@ int GPGProc::readln(QStringList &l)
 }
 
 QString
-GPGProc::recode(QByteArray a, const bool colons)
+GPGProc::recode(QByteArray a, const bool colons, const QByteArray &codec)
 {
+	const char *textcodec = codec.isEmpty() ? "utf8" : codec.constData();
 	int pos = 0;
 
 	while ((pos = a.indexOf("\\x", pos)) >= 0) {
@@ -266,7 +267,19 @@ GPGProc::recode(QByteArray a, const bool colons)
 		} while ((npos = a.indexOf(pattern, npos)) >= 0);
 	}
 
-	return QTextCodec::codecForName("utf8")->toUnicode(a);
+	return QTextCodec::codecForName(textcodec)->toUnicode(a);
+}
+
+bool
+GPGProc::setCodec(const QByteArray &codec)
+{
+	const QList<QByteArray> codecs = QTextCodec::availableCodecs();
+	if (!codecs.contains(codec))
+		return false;
+
+	m_codec = codec;
+
+	return true;
 }
 
 int GPGProc::gpgVersion(const QString &vstr)

@@ -15,13 +15,15 @@
 
 #include "gpgproc.h"
 
+#include <KDebug>
 #include <KIO/NetAccess>
 #include <KLocale>
+#include <QRegExp>
 
 KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const QString &text, const bool allowChaining)
-	: KGpgTransaction(parent, allowChaining),
-	m_text(text)
+	: KGpgTransaction(parent, allowChaining)
 {
+	setText(text);
 }
 
 KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const KUrl::List &files, const bool allowChaining)
@@ -40,6 +42,37 @@ KGpgTextOrFileTransaction::setText(const QString &text)
 {
 	m_text = text;
 	cleanUrls();
+
+	int begin = text.indexOf(QRegExp(QLatin1String("^(.*\n)?-----BEGIN PGP [A-Z ]*-----\r?\n")));
+	if (begin < 0)
+		return;
+
+	// find the end of the BEGIN PGP ... line
+	static const QChar lf = QLatin1Char('\n');
+	begin = text.indexOf(lf, begin);
+	Q_ASSERT(begin > 0);
+
+	// now loop until either an empty line is found (end of header) or
+	// a line beginning with Charset is found. If the latter, use the
+	// charset found there as hint for the following operation
+	int nextlf;
+	begin++;
+	while ((nextlf = text.indexOf(lf, begin)) > 0) {
+		static const QChar cr = QLatin1Char('\r');
+		if ((nextlf == begin) || ((nextlf == begin + 1) && (text[begin] == cr)))
+			break;
+
+		const QString charset = QLatin1String("Charset: ");
+		if (text.mid(begin, charset.length()) == charset) {
+			QString cs = text.mid(begin + charset.length(), nextlf - begin - charset.length());
+			if (!getProcess()->setCodec(cs.toAscii()))
+				kDebug(2100) << "unsupported charset found in header" << cs;
+			break;
+		}
+		begin = nextlf + 1;
+	}
+
+
 }
 
 void

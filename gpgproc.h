@@ -91,7 +91,17 @@ public:
      * @param colons recode also colons
      * @return recoded string
      */
-    static QString recode(QByteArray a, const bool colons = true);
+    static QString recode(QByteArray a, const bool colons = true, const QByteArray &codec = QByteArray());
+
+    /**
+     * @brief sets the codec used to translate the incoming data
+     * @param codec the name of the new codec
+     * @return if the new codec has been accepted
+     *
+     * The default codec is utf8. If the given codec is not known to
+     * QTextCodec the method will return false.
+     */
+    bool setCodec(const QByteArray &codec);
 
     /**
      * Reset the class to the state it had right after creation
@@ -133,7 +143,6 @@ public:
      * @return the error message GnuPG gave out (if any)
      */
     static QString getGpgStartupError(const QString &binary);
-
 signals:
     /**
      * Emitted when the process is ready for reading.
@@ -151,6 +160,9 @@ signals:
 protected slots:
     void finished();
     void received();
+
+private:
+    QByteArray m_codec;
 };
 
 #endif // GPGPROC_H
