@@ -227,6 +227,18 @@
         </entry>
     </group>
 
+	<group name="Key List">
+		<entry name="EmailSorting" type="Enum" key="EmailSorting">
+			<choices>
+				<choice name="Alphabetical"/>
+				<choice name="TLDfirst"/>
+				<choice name="DomainFirst"/>
+				<choice name="FQDNFirst"/>
+			</choices>
+			<default>Alphabetical</default>
+		</entry>
+	</group>
+
 	<!-- 
 		Should in future be merged with Key Servers, for compatibility reasons
 		with kde 3.5 it is now in a separate group.

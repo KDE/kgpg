@@ -168,6 +168,7 @@ private:
     bool m_showsystray;
     int m_trayaction;
     int m_mailUats;
+    int m_emailSortingIndex;
     QString m_emailTemplate;
 
     KGpgItemModel * const m_model;

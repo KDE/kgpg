@@ -92,6 +92,12 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	m_fontchooser->setObjectName( QLatin1String("kcfg_Font" ));
 	fontlayout->addWidget(m_fontchooser);
 
+	m_page3->kcfg_EmailSorting->addItem(i18n("Left to right, account first")); ///< KGpgSettings::EnumEmailSorting::Alphabetical
+	m_page3->kcfg_EmailSorting->addItem(i18n("Right to left, TLD first")); ///< KGpgSettings::EnumEmailSorting::TLDfirst
+	m_page3->kcfg_EmailSorting->addItem(i18n("Right to left, domain first")); ///< KGpgSettings::EnumEmailSorting::DomainFirst
+	m_page3->kcfg_EmailSorting->addItem(i18n("Right to left, FQDN first")); ///< KGpgSettings::EnumEmailSorting::FQDNFirst
+	m_emailSortingIndex = KGpgSettings::emailSorting();
+
 	pixkeySingle = Images::single();
 	pixkeyDouble = Images::pair();
 	addPage(m_page1, i18n("Encryption"), QLatin1String( "document-encrypt" ));
@@ -345,6 +351,9 @@ void kgpgOptions::updateWidgets()
 
 	m_page4->use_agent->setChecked(m_useagent);
 
+	m_emailSortingIndex = KGpgSettings::emailSorting();
+	m_page3->kcfg_EmailSorting->setCurrentIndex(m_emailSortingIndex);
+
 	m_page6->ServerBox->clear();
 	QStringList servers(serverList);
 
@@ -370,6 +379,8 @@ void kgpgOptions::updateWidgetsDefault()
 	m_page6->ServerBox->clear();
 	m_page6->ServerBox->addItem(i18nc("Mark default keyserver in GUI", "%1 (Default)", defaultKeyServer));
 	m_page6->ServerBox->addItems(defaultServerList);
+
+	m_page3->kcfg_EmailSorting->setCurrentIndex(KGpgSettings::EnumEmailSorting::Alphabetical);
 
 	kDebug(2100) << "Finishing default options" ;
 }
@@ -484,6 +495,9 @@ void kgpgOptions::updateSettings()
 	m_emailTemplate = m_page7->EmailTemplateEdit->toPlainText();
 	KGpgSettings::setEmailTemplate(m_emailTemplate);
 
+	m_emailSortingIndex = m_page3->kcfg_EmailSorting->currentIndex();
+	KGpgSettings::setEmailSorting(m_emailSortingIndex);
+
 	KGpgSettings::self()->writeConfig();
 	m_config->sync();
 
@@ -595,6 +609,9 @@ bool kgpgOptions::hasChanged()
 	if (m_page7->kcfg_MailUats->currentIndex() != m_mailUats)
 		return true;
 
+	if (m_page3->kcfg_EmailSorting->currentIndex() != m_emailSortingIndex)
+		return true;
+
 	return false;
 }
 
@@ -632,6 +649,9 @@ bool kgpgOptions::isDefault()
 		return false;
 
 	if (m_page7->kcfg_MailUats->currentIndex() != KGpgSettings::EnumMailUats::All)
+		return false;
+
+	if (m_page3->kcfg_EmailSorting->currentIndex() != KGpgSettings::EnumEmailSorting::Alphabetical)
 		return false;
 
 	return true;

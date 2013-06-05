@@ -19,6 +19,7 @@
 #include "keylistproxymodel.h"
 #include "model/kgpgitemnode.h"
 #include "kgpgitemmodel.h"
+#include "kgpgsettings.h"
 #include "core/kgpgkey.h"
 #include "core/images.h"
 
@@ -43,6 +44,7 @@ public:
 	int m_idLength;
 	KeyListProxyModel::DisplayMode m_displaymode;
 
+	QString reorderEmailComponents(const QString &emailAddress) const;
 	QVariant dataSingleColumn(const QModelIndex &index, int role, const KGpgNode *node) const;
 	QVariant dataMultiColumn(const QModelIndex &index, int role, const KGpgNode *node) const;
 };
@@ -56,6 +58,76 @@ KeyListProxyModelPrivate::KeyListProxyModelPrivate(KeyListProxyModel *parent, co
 	m_idLength(8),
 	m_displaymode(mode)
 {
+}
+
+QString
+KeyListProxyModelPrivate::reorderEmailComponents(const QString &emailAddress) const
+{
+	if (emailAddress.isEmpty()) return QString();
+
+	switch (KGpgSettings::emailSorting()){
+	case KGpgSettings::EnumEmailSorting::TLDfirst:
+	{
+		/// split email addresses along @ and .
+		static const QRegExp emailSplitRegExp(QLatin1String("[@.]"));
+		/// get components of an email address
+		/// example@kde.org becomes [example, kde, org]
+		const QStringList emailComponents = emailAddress.split(emailSplitRegExp);
+		/// assemble result by joining components in reverse order,
+		/// separated by a dot
+		QString result;
+		foreach(const QString &component, emailComponents)
+			result = result.prepend(component).prepend(QLatin1Char('.'));
+		/// convert result to lower case to make sorting case-insensitive
+		return result.toLower();
+	}
+	case KGpgSettings::EnumEmailSorting::DomainFirst:
+	{
+		/// split email addresses at @
+		static const QLatin1Char emailSplitAt('@');
+		/// split domain at .
+		static const QLatin1Char domainSplitDot('.');
+		/// get components of an email address
+		/// example@kde.org becomes [example, www.kde.org]
+		const QStringList emailComponents = emailAddress.split(emailSplitAt);
+		if (emailComponents.count() != 2) /// expect an email address to contain exactly one @
+			return emailAddress.toLower();
+		/// get components of a domain
+		/// www.kde.org becomes [www, kde, org]
+		const QString fqdn = emailComponents.last();
+		const QStringList fqdnComponents = fqdn.split(domainSplitDot);
+		if (fqdnComponents.count() < 2) /// if domain consists of less than two components ...
+			return fqdn + domainSplitDot + emailComponents.first(); /// ... take shortcut
+		/// reverse last two components of domain, becomes e.g. kde.org
+		QString result = fqdnComponents[fqdnComponents.count() - 2] + domainSplitDot + fqdnComponents[fqdnComponents.count() - 1];
+		/// append remaining components of domain, becomes e.g. kde.org.www
+		for (int i = 0; i < fqdnComponents.count() - 2; ++i)
+			result = result.append(domainSplitDot + fqdnComponents[i]);
+		/// append user name component of email address, becomes e.g. kde.org.www.example
+		result = result.append(domainSplitDot + emailComponents.first());
+		/// convert result to lower case to make sorting case-insensitive
+		return result.toLower();
+	}
+	case KGpgSettings::EnumEmailSorting::FQDNFirst:
+	{
+		/// split email addresses at @
+		static const QLatin1Char emailSplitAt('@');
+		/// get components of an email address
+		/// example@kde.org becomes [example, kde.org]
+		const QStringList emailComponents = emailAddress.split(emailSplitAt);
+		/// assemble result by joining components in reverse order,
+		/// separated by a dot
+		QString result;
+		foreach(const QString &component, emailComponents)
+			result = result.prepend(component).prepend(QLatin1Char('.'));
+		/// convert result to lower case to make sorting case-insensitive
+		return result.toLower();
+	}
+    default:
+        /// do not modify email address except for lower-case conversion
+        /// to make sorting case-insensitive
+        return emailAddress.toLower();
+    }
 }
 
 QVariant
@@ -236,7 +308,8 @@ KeyListProxyModelPrivate::nodeLessThan(const KGpgNode *left, const KGpgNode *rig
 		}
 		return (left->getName().compare(right->getName().toLower(), Qt::CaseInsensitive) < 0);
 	case KEYCOLUMN_EMAIL:
-		return (left->getEmail() < right->getEmail());
+		/// reverse email address to sort by TLD first, then domain, and account name last
+		return (reorderEmailComponents(left->getEmail()) < reorderEmailComponents(right->getEmail()));
 	case KEYCOLUMN_TRUST:
 		return (left->getTrust() < right->getTrust());
 	case KEYCOLUMN_EXPIR:
