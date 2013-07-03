@@ -315,6 +315,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 	iproxy = new KeyListProxyModel(this);
 	iproxy->setKeyModel(imodel);
+	connect(this, SIGNAL(readAgainOptions()), iproxy, SLOT(settingsChanged()));
 
 	iview = new KeyTreeView(this, iproxy);
 	connect(iview, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(defaultAction(QModelIndex)));

@@ -74,6 +74,11 @@ public slots:
 	 */
 	void setOnlySecret(const bool b);
 
+	/**
+	 * @brief call this when the settings have changed
+	 */
+	void settingsChanged();
+
 protected:
 	virtual bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
 	virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;

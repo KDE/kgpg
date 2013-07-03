@@ -44,6 +44,7 @@ public:
 	int m_previewsize;
 	int m_idLength;
 	KeyListProxyModel::DisplayMode m_displaymode;
+	int m_emailSorting;
 
 	QString reorderEmailComponents(const QString &emailAddress) const;
 	QVariant dataSingleColumn(const QModelIndex &index, int role, const KGpgNode *node) const;
@@ -57,7 +58,8 @@ KeyListProxyModelPrivate::KeyListProxyModelPrivate(KeyListProxyModel *parent, co
 	m_mintrust(TRUST_UNKNOWN),
 	m_previewsize(22),
 	m_idLength(8),
-	m_displaymode(mode)
+	m_displaymode(mode),
+	m_emailSorting(KGpgSettings::emailSorting())
 {
 }
 
@@ -87,7 +89,7 @@ KeyListProxyModelPrivate::reorderEmailComponents(const QString &emailAddress) co
 	/// convert result to lower case to make sorting case-insensitive
 	QString result = emailAddress.toLower();
 
-	switch (KGpgSettings::emailSorting()){
+	switch (m_emailSorting) {
 	case KGpgSettings::EnumEmailSorting::TLDfirst:
 	{
 		/// get components of an email address
@@ -438,6 +440,19 @@ KeyListProxyModel::setOnlySecret(const bool b)
 
 	d->m_onlysecret = b;
 	invalidateFilter();
+}
+
+void
+KeyListProxyModel::settingsChanged()
+{
+	Q_D(KeyListProxyModel);
+
+	const int newSort = KGpgSettings::emailSorting();
+
+	if (newSort != d->m_emailSorting) {
+		d->m_emailSorting = newSort;
+		invalidate();
+	}
 }
 
 void
