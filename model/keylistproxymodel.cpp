@@ -1,4 +1,5 @@
 /* Copyright 2008,2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright 2013 Thomas Fischer <fischer@unix-ag.uni-kl.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -60,74 +61,93 @@ KeyListProxyModelPrivate::KeyListProxyModelPrivate(KeyListProxyModel *parent, co
 {
 }
 
+/**
+ * Reverses the list's order (this modifies the list) and returns
+ * a string containing the reversed list's elements joined by a char.
+ */
+QString reverseListAndJoinWithChar(const QStringList &list, const QChar &separator)
+{
+	QString result = list.last();
+	for (int i = list.count() - 2; i >= 0; --i)
+		result.append(separator).append(list[i]);
+	return result;
+}
+
 QString
 KeyListProxyModelPrivate::reorderEmailComponents(const QString &emailAddress) const
 {
 	if (emailAddress.isEmpty()) return QString();
 
+	/// split email addresses at @
+	static const QChar charAt = QLatin1Char('@');
+	/// split domain at .
+	static const QChar charDot = QLatin1Char('.');
+
 	switch (KGpgSettings::emailSorting()){
 	case KGpgSettings::EnumEmailSorting::TLDfirst:
 	{
-		/// split email addresses along @ and .
-		static const QRegExp emailSplitRegExp(QLatin1String("[@.]"));
 		/// get components of an email address
-		/// example@kde.org becomes [example, kde, org]
-		const QStringList emailComponents = emailAddress.split(emailSplitRegExp);
-		/// assemble result by joining components in reverse order,
-		/// separated by a dot
-		QString result;
-		foreach(const QString &component, emailComponents)
-			result = result.prepend(component).prepend(QLatin1Char('.'));
+		/// john.doe@mail.kde.org becomes [john.doe, mail.kde.org]
+		const QStringList emailComponents = emailAddress.split(charAt);
+		if (emailComponents.count() != 2) /// expect an email address to contain exactly one @
+			return emailAddress.toLower();
+		/// get components of a domain
+		/// mail.kde.org becomes [mail, kde, org]
+		const QString fqdn = emailComponents.last();
+		const QStringList fqdnComponents = fqdn.split(charDot);
+		if (fqdnComponents.count() < 2) /// if domain consists of less than two components ...
+			return fqdn + charDot + emailComponents.first(); /// ... take shortcut
+		/// reverse components of domain, result becomes e.g. org.kde.mail
+		QString result = reverseListAndJoinWithChar(fqdnComponents, charDot);
+		/// append user name component of email address, becomes e.g. org.kde.mail.john.doe
+		result = result.append(charDot + emailComponents.first());
 		/// convert result to lower case to make sorting case-insensitive
 		return result.toLower();
 	}
 	case KGpgSettings::EnumEmailSorting::DomainFirst:
 	{
-		/// split email addresses at @
-		static const QLatin1Char emailSplitAt('@');
-		/// split domain at .
-		static const QLatin1Char domainSplitDot('.');
 		/// get components of an email address
-		/// example@kde.org becomes [example, www.kde.org]
-		const QStringList emailComponents = emailAddress.split(emailSplitAt);
+		/// john.doe@mail.kde.org becomes [john.doe, mail.kde.org]
+		const QStringList emailComponents = emailAddress.split(charAt);
 		if (emailComponents.count() != 2) /// expect an email address to contain exactly one @
 			return emailAddress.toLower();
 		/// get components of a domain
-		/// www.kde.org becomes [www, kde, org]
+		/// mail.kde.org becomes [mail, kde, org]
 		const QString fqdn = emailComponents.last();
-		const QStringList fqdnComponents = fqdn.split(domainSplitDot);
+		const QStringList fqdnComponents = fqdn.split(charDot);
 		if (fqdnComponents.count() < 2) /// if domain consists of less than two components ...
-			return fqdn + domainSplitDot + emailComponents.first(); /// ... take shortcut
+			return fqdn + charDot + emailComponents.first(); /// ... take shortcut
 		/// reverse last two components of domain, becomes e.g. kde.org
-		QString result = fqdnComponents[fqdnComponents.count() - 2] + domainSplitDot + fqdnComponents[fqdnComponents.count() - 1];
-		/// append remaining components of domain, becomes e.g. kde.org.www
+		/// TODO will fail for three-part domains like kde.org.uk
+		QString result = fqdnComponents[fqdnComponents.count() - 2] + charDot + fqdnComponents[fqdnComponents.count() - 1];
+		/// append remaining components of domain, becomes e.g. kde.org.mail
 		for (int i = 0; i < fqdnComponents.count() - 2; ++i)
-			result = result.append(domainSplitDot + fqdnComponents[i]);
-		/// append user name component of email address, becomes e.g. kde.org.www.example
-		result = result.append(domainSplitDot + emailComponents.first());
+			result = result.append(charDot).append(fqdnComponents[i]);
+		/// append user name component of email address, becomes e.g. kde.org.mail.john.doe
+		result = result.append(charDot + emailComponents.first());
 		/// convert result to lower case to make sorting case-insensitive
 		return result.toLower();
 	}
 	case KGpgSettings::EnumEmailSorting::FQDNFirst:
 	{
-		/// split email addresses at @
-		static const QLatin1Char emailSplitAt('@');
 		/// get components of an email address
-		/// example@kde.org becomes [example, kde.org]
-		const QStringList emailComponents = emailAddress.split(emailSplitAt);
+		/// john.doe@mail.kde.org becomes [john.doe, mail.kde.org]
+		const QStringList emailComponents = emailAddress.split(charAt);
 		/// assemble result by joining components in reverse order,
-		/// separated by a dot
-		QString result;
-		foreach(const QString &component, emailComponents)
-			result = result.prepend(component).prepend(QLatin1Char('.'));
+		/// separated by a dot, becomes e.g. mail.kde.org.john.doe
+		const QString result = reverseListAndJoinWithChar(emailComponents, charDot);
 		/// convert result to lower case to make sorting case-insensitive
 		return result.toLower();
 	}
-    default:
-        /// do not modify email address except for lower-case conversion
-        /// to make sorting case-insensitive
-        return emailAddress.toLower();
-    }
+	case KGpgSettings::EnumEmailSorting::Alphabetical:
+		/// do not modify email address except for lower-case conversion
+		/// to make sorting case-insensitive
+		return emailAddress.toLower();
+	}
+
+	/// should never happen, as all cases are covered above,
+	/// but avoids compiler warnings about "control reaches end of non-void function"
+	return QString::null;
 }
 
 QVariant
