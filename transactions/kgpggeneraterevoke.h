@@ -56,6 +56,7 @@ protected:
 	virtual bool nextLine(const QString &line);
 	virtual ts_boolanswer boolQuestion(const QString &line);
 	virtual void finish();
+	virtual bool passphraseReceived();
 
 private:
 	QString m_keyid;

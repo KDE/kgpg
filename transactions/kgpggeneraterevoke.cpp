@@ -58,9 +58,7 @@ KGpgGenerateRevoke::nextLine(const QString &line)
 		return false;
 	}
 
-	if (line.contains(QLatin1String( "GOOD_PASSPHRASE" ))) {
-		setSuccess(TS_OK);
-	} else if (line.contains(QLatin1String( "NEED_PASSPHRASE" ))) {
+	if (line.contains(QLatin1String( "NEED_PASSPHRASE" ))) {
 		setSuccess(TS_USER_ABORTED);
 	} else if (line.contains(QLatin1String( "ask_revocation_reason.code" ))) {
 		write(QByteArray::number(m_reason));
@@ -104,6 +102,14 @@ KGpgGenerateRevoke::finish()
 		}
 		emit revokeCertificate(m_output);
 	}
+}
+
+bool
+KGpgGenerateRevoke::passphraseReceived()
+{
+	setSuccess(TS_OK);
+
+	return false;
 }
 
 const QString &
