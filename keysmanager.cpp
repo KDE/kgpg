@@ -1300,9 +1300,13 @@ void KeysManager::slotRevokeGenerated(int result)
 
 	genRev->deleteLater();
 
-	if (result != KGpgTransaction::TS_OK) {
+	switch (result) {
+	case KGpgTransaction::TS_OK:
+	case KGpgTransaction::TS_USER_ABORTED:
+		break;
+	default:
 		KMessageBox::detailedSorry(this, i18n("Creation of the revocation certificate failed..."), genRev->getOutput());
-		return;
+		break;
 	}
 }
 

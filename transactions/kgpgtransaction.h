@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -20,6 +20,7 @@
 class GPGProc;
 class KGpgSignTransactionHelper;
 class KGpgTransactionPrivate;
+class KUrl;
 class QByteArray;
 class QProcess;
 
@@ -222,6 +223,20 @@ protected:
 	 * The default implementation will answer BA_UNKNOWN to every question.
 	 */
 	virtual ts_boolanswer boolQuestion(const QString &line);
+
+	/**
+	 * @brief called when GnuPG asks for confirmation for overwriting a file
+	 * @param currentFile fill in the current filename for the user dialog
+	 * @return what to answer to GnuPG
+	 * @retval BA_YES file will be overwritten, @currentFile is ignored
+	 * @retval BA_NO file will not be overwritten, if currentFile is given this will automatically be provided as alternative to GnuPG
+	 * @retval BA_UNKNOWN ask the user for a choice or abort, currentFile is provided to the user as a hint about the original filename, if currentFile is empty the transaction is aborted
+	 *
+	 * The default implementation will just return BA_UNKNOWN without setting
+	 * a filename, causing a sequence error.
+	 */
+	virtual ts_boolanswer confirmOverwrite(KUrl &currentFile);
+
 	/**
 	 * @brief Called for a set of hint messages
 	 *

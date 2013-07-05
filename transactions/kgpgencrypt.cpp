@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -15,9 +15,6 @@
 
 #include "kgpgsettings.h"
 #include "gpgproc.h"
-
-#include <kio/renamedialog.h>
-#include <KLocale>
 
 static QStringList trustOptions(const QString &binary)
 {
@@ -103,7 +100,6 @@ KGpgEncrypt::nextLine(const QString &line)
 	if (!inputFiles.isEmpty()) {
 		static const QString encStart = QLatin1String("[GNUPG:] FILE_START 2 ");
 		static const QString encDone = QLatin1String("[GNUPG:] FILE_DONE");
-		static const QString askName = QLatin1String("[GNUPG:] GET_LINE openfile.askoutname");
 
 		if (line.startsWith(encStart)) {
 			m_currentFile = line.mid(encStart.length());
@@ -113,24 +109,24 @@ KGpgEncrypt::nextLine(const QString &line)
 			emit statusMessage(i18nc("Status message 'Encrypted <filename>' (operation was completed)", "Encrypted %1", m_currentFile));
 			m_fileIndex++;
 			emit infoProgress(2 * m_fileIndex, inputFiles.count() * 2);
-		} else if (line == askName) {
-			QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(qobject_cast<QWidget *>(parent()),
-					i18n("File Already Exists"), KUrl(),
-					KUrl::fromPath(m_currentFile + encryptExtension(m_options.testFlag(AsciiArmored))),
-					KIO::M_OVERWRITE);
-
-			if (over->exec() != QDialog::Accepted) {
-				delete over;
-				setSuccess(KGpgTransaction::TS_USER_ABORTED);
-				return true;
-			}
-			write(over->newDestUrl().path().toUtf8());
-			delete over;
 		}
 	}
 
 	return KGpgTextOrFileTransaction::nextLine(line);
 }
+
+KGpgTransaction::ts_boolanswer
+KGpgEncrypt::confirmOverwrite(KUrl &currentFile)
+{
+	const QString ext = encryptExtension(m_options.testFlag(AsciiArmored));
+
+	if (m_currentFile.isEmpty())
+		currentFile = KUrl::fromLocalFile(getInputFiles().at(m_fileIndex).toLocalFile() + ext);
+	else
+		currentFile = KUrl::fromLocalFile(m_currentFile + ext);
+	return BA_UNKNOWN;
+}
+
 
 QString
 KGpgEncrypt::encryptExtension(const bool ascii)

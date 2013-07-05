@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -57,6 +57,7 @@ protected:
 	virtual ts_boolanswer boolQuestion(const QString &line);
 	virtual void finish();
 	virtual bool passphraseReceived();
+	virtual ts_boolanswer confirmOverwrite (KUrl &currentFile);
 
 private:
 	QString m_keyid;

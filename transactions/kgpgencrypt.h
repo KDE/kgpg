@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -80,6 +80,7 @@ public:
 protected:
 	virtual QStringList command() const;
 	virtual bool nextLine(const QString &line);
+	virtual ts_boolanswer confirmOverwrite (KUrl &currentFile);
 
 private:
 	int m_fileIndex;

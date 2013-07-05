@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -82,8 +82,6 @@ KGpgGenerateRevoke::boolQuestion(const QString& line)
 		return BA_YES;
 	} else if (line == QLatin1String("ask_revocation_reason.okay")) {
 		return BA_YES;
-	} else if (line == QLatin1String("openfile.overwrite.okay")) {
-		return BA_YES;
 	} else {
 		return KGpgTransaction::boolQuestion(line);
 	}
@@ -110,6 +108,13 @@ KGpgGenerateRevoke::passphraseReceived()
 	setSuccess(TS_OK);
 
 	return false;
+}
+
+KGpgTransaction::ts_boolanswer
+KGpgGenerateRevoke::confirmOverwrite(KUrl &currentFile)
+{
+	currentFile = m_revUrl;
+	return BA_UNKNOWN;
 }
 
 const QString &

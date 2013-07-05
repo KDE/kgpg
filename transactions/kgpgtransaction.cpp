@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -17,11 +17,14 @@
 #include "kgpginterface.h"
 
 #include <KDebug>
+#include <kio/renamedialog.h>
 #include <KPasswordDialog>
 #include <knewpassworddialog.h>
 #include <KLocale>
 #include <KPushButton>
+#include <KUrl>
 #include <QByteArray>
+#include <QPointer>
 #include <QStringList>
 #include <QWeakPointer>
 #include <QWidget>
@@ -42,6 +45,8 @@ public:
 	bool m_chainingAllowed;
 
 	QStringList m_idhints;
+
+	KUrl m_overwriteUrl;	///< the file to overwrite or it's new name
 
 	void slotReadReady();
 	void slotProcessExited();
@@ -138,6 +143,8 @@ KGpgTransactionPrivate::slotReadReady()
 		kDebug(2100) << m_parent << line;
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 
+		static const QString getBool = QLatin1String("[GNUPG:] GET_BOOL ");
+
 		if (line.startsWith(QLatin1String("[GNUPG:] USERID_HINT "))) {
 			m_parent->addIdHint(line);
 		} else if (line.startsWith(QLatin1String("[GNUPG:] BAD_PASSPHRASE "))) {
@@ -167,8 +174,51 @@ KGpgTransactionPrivate::slotReadReady()
 				m_process->closeWriteChannel();
 			}
 
-		} else if (line.startsWith(QLatin1String("[GNUPG:] GET_BOOL "))) {
-			switch (m_parent->boolQuestion(line.mid(18))) {
+		} else if (line.startsWith(getBool)) {
+			static const QString overwrite = QLatin1String("openfile.overwrite.okay");
+			const QString question = line.mid(getBool.length());
+
+			KGpgTransaction::ts_boolanswer answer;
+
+			if (question.startsWith(overwrite)) {
+				m_overwriteUrl.clear();
+				answer = m_parent->confirmOverwrite(m_overwriteUrl);
+
+				if ((answer == KGpgTransaction::BA_UNKNOWN) && !m_overwriteUrl.isEmpty()) {
+					QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(qobject_cast<QWidget *>(m_parent->parent()),
+							i18n("File Already Exists"), KUrl(),
+							m_overwriteUrl, KIO::M_OVERWRITE);
+
+					m_overwriteUrl.clear();
+
+					switch (over->exec()) {
+					case KIO::R_OVERWRITE:
+						answer = KGpgTransaction::BA_YES;
+						break;
+					case KIO::R_RENAME:
+						answer = KGpgTransaction::BA_NO;
+						m_overwriteUrl = over->newDestUrl();
+						break;
+					default:
+						answer = KGpgTransaction::BA_UNKNOWN;
+						m_parent->setSuccess(KGpgTransaction::TS_USER_ABORTED);
+						// Close the pipes, otherwise GnuPG will try to answer
+						// further questions about this file.
+						m_process->closeWriteChannel();
+						m_process->closeReadChannel(QProcess::StandardOutput);
+						break;
+					}
+
+					delete over;
+
+					if (answer == KGpgTransaction::BA_UNKNOWN)
+						continue;
+				}
+			} else {
+				answer = m_parent->boolQuestion(question);
+			}
+
+			switch (answer) {
 			case KGpgTransaction::BA_YES:
 				write("YES\n");
 				break;
@@ -180,6 +230,9 @@ KGpgTransactionPrivate::slotReadReady()
 				m_parent->unexpectedLine(line);
 				sendQuit();
 			}
+		} else if (!m_overwriteUrl.isEmpty() && line.startsWith(QLatin1String("[GNUPG:] GET_LINE openfile.askoutname"))) {
+			write(m_overwriteUrl.toLocalFile().toUtf8() + '\n');
+			m_overwriteUrl.clear();
 		} else if (line.startsWith(QLatin1String("[GNUPG:] MISSING_PASSPHRASE"))) {
 			m_success = KGpgTransaction::TS_USER_ABORTED;
 		} else if (line.startsWith(QLatin1String("[GNUPG:] CARDCTRL "))) {
@@ -398,7 +451,15 @@ KGpgTransaction::setSuccess(const int v)
 KGpgTransaction::ts_boolanswer
 KGpgTransaction::boolQuestion(const QString& line)
 {
-	Q_UNUSED(line);
+	Q_UNUSED(line)
+
+	return BA_UNKNOWN;
+}
+
+KGpgTransaction::ts_boolanswer
+KGpgTransaction::confirmOverwrite(KUrl &currentFile)
+{
+	Q_UNUSED(currentFile)
 
 	return BA_UNKNOWN;
 }
