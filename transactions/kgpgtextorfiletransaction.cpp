@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -114,7 +114,7 @@ KGpgTextOrFileTransaction::preStart()
 	args << command();
 	// if the input is not stdin set command-fd so GnuPG
 	// can ask if e.g. the file already exists
-	if (!locfiles.isEmpty() && !m_tempfiles.isEmpty()) {
+	if (!locfiles.isEmpty() || !m_tempfiles.isEmpty()) {
 		args << QLatin1String("--command-fd=0");
 		m_closeInput = false;
 	} else {
