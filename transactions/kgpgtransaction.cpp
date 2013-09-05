@@ -379,6 +379,9 @@ KGpgTransactionPrivate::processDone()
 	m_parent->finish();
 	emit m_parent->infoProgress(100, 100);
 	emit m_parent->done(m_success);
+#ifdef KGPG_DEBUG_TRANSACTIONS
+	kDebug(2100) << this << "result:" << m_success;
+#endif /* KGPG_DEBUG_TRANSACTIONS */
 }
 
 void
