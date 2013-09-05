@@ -80,7 +80,9 @@ public:
 	 */
 	enum ts_hintType {
 		HT_KEYEXPIRED = 0,	///< key is expired
-		HT_SIGEXPIRED = 1	///< deprecated by GnuPG
+		HT_SIGEXPIRED = 1,	///< deprecated by GnuPG
+		HT_NOSECKEY = 2,	///< secret key not available
+		HT_ENCTO = 3		///< message is encrypted for this key
 	};
 
 	/**

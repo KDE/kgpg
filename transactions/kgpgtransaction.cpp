@@ -368,6 +368,8 @@ KGpgTransactionPrivate::hintNames (void)
 	if (hints.isEmpty()) {
 		hints.insert(KGpgTransaction::HT_KEYEXPIRED, QLatin1String("[GNUPG:] KEYEXPIRED"));
 		hints.insert(KGpgTransaction::HT_SIGEXPIRED, QLatin1String("[GNUPG:] SIGEXPIRED"));
+		hints.insert(KGpgTransaction::HT_NOSECKEY,   QLatin1String("[GNUPG:] NO_SECKEY"));
+		hints.insert(KGpgTransaction::HT_ENCTO,      QLatin1String("[GNUPG:] ENC_TO"));
 	}
 
 	return hints;
