@@ -60,10 +60,6 @@ KGpgSignTransactionHelper::nextLine(const QString &line)
 	} else if (line.contains(QLatin1String( "sign_uid.class" ))) {
 		asTransaction()->write(m_checking);
 		return handledFalse;
-	} else if (line.startsWith(QLatin1String("[GNUPG:] KEYEXPIRED ")) ||
-				line.startsWith(QLatin1String("[GNUPG:] SIGEXPIRED"))) {
-		// I have no idea why GnuPG does this when I want to sign, but it sometimes does
-		return handledFalse;
 	} else {
 		return notHandled;
 	}

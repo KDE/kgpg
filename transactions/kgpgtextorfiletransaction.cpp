@@ -142,8 +142,7 @@ KGpgTextOrFileTransaction::postStart()
 bool
 KGpgTextOrFileTransaction::nextLine(const QString &line)
 {
-	if (!line.startsWith(QLatin1String("[GNUPG:] SIGEXPIRED")) && !line.startsWith(QLatin1String("[GNUPG:] KEYEXPIRED ")))
-		m_messages.append(line);
+	m_messages.append(line);
 
 	return false;
 }

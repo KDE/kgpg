@@ -49,11 +49,7 @@ KGpgChangeDisable::preStart()
 bool
 KGpgChangeDisable::nextLine(const QString &line)
 {
-	if (line.contains(QLatin1String( " KEYEXPIRED " )) || (line.contains(QLatin1String( " SIGEXPIRED" )))) {
-		return false;
-	} else {
-		return KGpgEditKeyTransaction::nextLine(line);
-	}
+	return KGpgEditKeyTransaction::nextLine(line);
 }
 
 #include "kgpgchangedisable.moc"
