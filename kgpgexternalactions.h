@@ -68,7 +68,6 @@ public slots:
 private:
 	QStringList customDecrypt;
 	QPointer<KGpgFirstAssistant> m_assistant;
-	KTemporaryFile *kgpgFolderExtract;
 	int compressionScheme;
 	QClipboard::Mode clipboardMode;
 	KGpgItemModel *m_model;
@@ -78,7 +77,6 @@ private:
 	void firstRun();
 
 	KUrl::List m_decryptionFailed;
-	QWidget *m_parentWidget;
 	KeysManager *m_keysmanager;
 	KUrl::List droppedUrls;
 

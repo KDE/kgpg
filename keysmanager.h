@@ -261,15 +261,10 @@ private:
     KAction *m_groupRename;
     KAction *m_revokeKey;
 
-    KeyServer *kServer;
-
-    bool continueSearch;
     bool showTipOfDay;
     bool m_signuids;
 
     int keyCount;
-
-    long searchOptions;
 
     KGpgKeyNode *terminalkey; // the key currently edited in a terminal
 
