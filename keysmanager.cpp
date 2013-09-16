@@ -56,6 +56,8 @@
 #include "transactions/kgpgsignuid.h"
 #include "transactions/kgpgtransactionjob.h"
 
+#include <akonadi/contact/contacteditor.h>
+#include <akonadi/contact/contacteditordialog.h>
 #include <akonadi/contact/contactsearchjob.h>
 #include <KAction>
 #include <KActionCollection>
@@ -105,6 +107,7 @@
 #include <QWidget>
 #include <QtDBus/QtDBus>
 #include <kabc/addresseelist.h>
+// #include <kabc/key.h> TODO
 #include <kio/global.h>
 #include <kjobtrackerinterface.h>
 #include <ktip.h>
@@ -993,13 +996,29 @@ void KeysManager::slotAddressbookSearchResult(KJob *job)
 
 	m_addIds.take(job);
 
+	KABC::Addressee addressee;
+	Akonadi::ContactEditorDialog *dlg;
 // 	KABC::Key key; TODO
-	KToolInvocation::startServiceByDesktopName( QLatin1String( "kaddressbook" ));
-	QDBusInterface kaddressbook(QLatin1String( "org.kde.kaddressbook" ), QLatin1String( "/KAddressBook" ), QLatin1String( "org.kde.KAddressbook.Core" ));
-	if(!addresseeList.isEmpty())
+	if (!addresseeList.isEmpty()) {
+#if 0
+		addressee = addresseeList.first();
+		dlg = new Akonadi::ContactEditorDialog(Akonadi::ContactEditorDialog::EditMode, this);
+		dlg->setContact();
+#endif
+		KToolInvocation::startServiceByDesktopName( QLatin1String( "kaddressbook" ));
+		QDBusInterface kaddressbook(QLatin1String( "org.kde.kaddressbook" ), QLatin1String( "/KAddressBook" ), QLatin1String( "org.kde.KAddressbook.Core" ));
 		kaddressbook.call( QLatin1String( "showContactEditor" ), addresseeList.first().uid());
-	else
-		kaddressbook.call(QLatin1String("addEmail"), QString(nd->getName() + QLatin1String(" <") + nd->getEmail() + QLatin1Char('>')));
+		return;
+	} else {
+		addressee.setNameFromString(nd->getName());
+		addressee.setEmails(QStringList(nd->getEmail()));
+		dlg = new Akonadi::ContactEditorDialog(Akonadi::ContactEditorDialog::CreateMode, this);
+		dlg->editor()->setContactTemplate(addressee);
+	}
+
+	connect(dlg, SIGNAL(finished()), dlg, SLOT(deleteLater()));
+	dlg->show();
+
 }
 
 void KeysManager::slotManpage()
