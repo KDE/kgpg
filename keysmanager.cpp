@@ -56,6 +56,7 @@
 #include "transactions/kgpgsignuid.h"
 #include "transactions/kgpgtransactionjob.h"
 
+#include <akonadi/contact/contactsearchjob.h>
 #include <KAction>
 #include <KActionCollection>
 #include <KDebug>
@@ -103,8 +104,7 @@
 #include <QTextStream>
 #include <QWidget>
 #include <QtDBus/QtDBus>
-#include <kabc/addresseedialog.h>
-#include <kabc/stdaddressbook.h>
+#include <kabc/addresseelist.h>
 #include <kio/global.h>
 #include <kjobtrackerinterface.h>
 #include <ktip.h>
@@ -968,27 +968,38 @@ void KeysManager::slotSetPhotoSize(int size)
 
 void KeysManager::addToKAB()
 {
-	KABC::Key key;
 	KGpgNode *nd = iview->selectedNode();
 	if (nd == NULL)
 		return;
 
-	QString email(nd->getEmail());
+	Akonadi::ContactSearchJob * const job = new Akonadi::ContactSearchJob();
+	job->setLimit(1);
+	job->setQuery(Akonadi::ContactSearchJob::Email, nd->getEmail());
+	connect(job, SIGNAL(result(KJob*)), this, SLOT(slotAddressbookSearchResult(KJob*)));
 
-	KABC::AddressBook *ab = KABC::StdAddressBook::self();
-	if (!ab->load()) {
-		KMessageBox::sorry(this, i18n("Unable to contact the address book. Please check your installation."));
+	m_addIds[job] = nd;
+}
+
+void KeysManager::slotAddressbookSearchResult(KJob *job)
+{
+	KGpgNode * const nd = m_addIds.value(job, 0);
+
+	if (!nd)
 		return;
-	}
 
-	KABC::Addressee::List addresseeList(ab->findByEmail(email));
+	Akonadi::ContactSearchJob *searchJob = qobject_cast<Akonadi::ContactSearchJob*>(job);
+	Q_ASSERT(searchJob);
+	const KABC::Addressee::List addresseeList = searchJob->contacts();
+
+	m_addIds.take(job);
+
+// 	KABC::Key key; TODO
 	KToolInvocation::startServiceByDesktopName( QLatin1String( "kaddressbook" ));
 	QDBusInterface kaddressbook(QLatin1String( "org.kde.kaddressbook" ), QLatin1String( "/KAddressBook" ), QLatin1String( "org.kde.KAddressbook.Core" ));
-
 	if(!addresseeList.isEmpty())
 		kaddressbook.call( QLatin1String( "showContactEditor" ), addresseeList.first().uid());
 	else
-		kaddressbook.call( QLatin1String( "addEmail" ), QString(nd->getName() + QLatin1String( " <" ) + email + QLatin1Char( '>' )));
+		kaddressbook.call(QLatin1String("addEmail"), QString(nd->getName() + QLatin1String(" <") + nd->getEmail() + QLatin1Char('>')));
 }
 
 void KeysManager::slotManpage()

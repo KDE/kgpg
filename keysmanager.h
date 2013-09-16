@@ -29,6 +29,7 @@
 #include <QSet>
 #include <solid/networking.h>
 
+class KJob;
 class QEvent;
 
 class KSelectAction;
@@ -191,7 +192,23 @@ private slots:
 
     void slotPreImportKey();
     void slotedit();
+
+    /**
+     * @brief start an "add to addressbook" operation
+     *
+     * This searches if given id already exists in the addressbook.
+     * The search result is handled in slotAddressbookSearchResult()
+     */
     void addToKAB();
+
+    /**
+     * @brief add or change the addressbook entry
+     * @param job the search job
+     *
+     * This handles the result of the search started in addToKAB().
+     */
+    void slotAddressbookSearchResult(KJob *job);
+
     void editGroup();
     void createNewGroup();
     void deleteGroup();
@@ -224,6 +241,7 @@ private:
 
     QList<KGpgSignableNode *> signList;
     QList<KGpgKeyNode *> refreshList;
+    QHash<KJob *, KGpgNode *> m_addIds;	///< user ids to add to addressbook
 
     QClipboard::Mode m_clipboardmode;
 
