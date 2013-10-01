@@ -60,6 +60,7 @@ bool
 KGpgEditKeyTransaction::nextLine(const QString &line)
 {
 	if (line == QLatin1String("[GNUPG:] GOT_IT")) {
+		setSuccess(TS_OK);
 		return false;
 	} else if (getSuccess() == TS_USER_ABORTED) {
 		if (line.contains(QLatin1String( "GET_" ) ))
