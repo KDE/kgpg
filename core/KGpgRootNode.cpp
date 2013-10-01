@@ -111,8 +111,7 @@ KGpgRootNode::refreshKeys(KGpgKeyNode::List nodes)
 
 		for (int j = 0; j < nodes.count(); j++) {
 			KGpgKeyNode *nd = nodes.at(j);
-
-			if (nd->getId() == key.fingerprint()) {
+			if (nd->getId() == key.fullId()) {
 				nodes.removeAt(j);
 				nd->setKey(key);
 				break;
