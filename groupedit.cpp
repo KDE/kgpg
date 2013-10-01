@@ -26,7 +26,6 @@
 
 groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids, KGpgItemModel *md)
 	: QWidget(parent),
-	m_model(md),
 	m_outFilter(new QSortFilterProxyModel(this)),
 	members(ids)
 {
