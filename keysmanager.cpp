@@ -2321,6 +2321,7 @@ void KeysManager::confirmdeletekey()
 		return;
 	} else if (!(pt & ITYPE_GROUP) && (pt & ITYPE_SECRET) && (ndlist.count() == 1)) {
 		deleteseckey();
+		return;
 	}
 
 	if (pt & ~ITYPE_PAIR) {
