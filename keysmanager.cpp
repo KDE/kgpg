@@ -787,9 +787,13 @@ void KeysManager::slotDelUid()
 
 void KeysManager::slotDelUidDone(int result)
 {
+	KGpgDelUid * const deluid = qobject_cast<KGpgDelUid *>(sender());
+	Q_ASSERT(deluid != NULL);
+
 	sender()->deleteLater();
-	// FIXME: do something useful with result
-	Q_UNUSED(result)
+	if (result == KGpgTransaction::TS_OK)
+		imodel->refreshKey(deluid->getKeyId());
+	// FIXME: do something useful with result if it is a failure
 }
 
 void KeysManager::slotPrimUid()
@@ -807,7 +811,7 @@ void KeysManager::slotPrimUidDone(int result)
 
 	sender()->deleteLater();
 
-	if (result == 0)
+	if (result == KGpgTransaction::TS_OK)
 		imodel->refreshKey(kid);
 	// FIXME: some error reporting
 }
