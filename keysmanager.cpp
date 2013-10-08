@@ -2351,6 +2351,7 @@ void KeysManager::confirmdeletekey()
 		return;
 	} else if (!(pt & ITYPE_GROUP) && (pt & ITYPE_SECRET) && (ndlist.count() == 1)) {
 		deleteseckey();
+		return;
 	} else if ((pt == ITYPE_UID) && (ndlist.count() == 1)) {
 		slotDelUid();
 		return;
