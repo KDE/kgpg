@@ -1000,20 +1000,13 @@ void KeysManager::slotAddressbookSearchResult(KJob *job)
 
 	m_addIds.take(job);
 
-	KABC::Addressee addressee;
 	Akonadi::ContactEditorDialog *dlg;
 // 	KABC::Key key; TODO
 	if (!addresseeList.isEmpty()) {
-#if 0
-		addressee = addresseeList.first();
 		dlg = new Akonadi::ContactEditorDialog(Akonadi::ContactEditorDialog::EditMode, this);
-		dlg->setContact();
-#endif
-		KToolInvocation::startServiceByDesktopName( QLatin1String( "kaddressbook" ));
-		QDBusInterface kaddressbook(QLatin1String( "org.kde.kaddressbook" ), QLatin1String( "/KAddressBook" ), QLatin1String( "org.kde.KAddressbook.Core" ));
-		kaddressbook.call( QLatin1String( "showContactEditor" ), addresseeList.first().uid());
-		return;
+		dlg->setContact(searchJob->items().first());
 	} else {
+		KABC::Addressee addressee;
 		addressee.setNameFromString(nd->getName());
 		addressee.setEmails(QStringList(nd->getEmail()));
 		dlg = new Akonadi::ContactEditorDialog(Akonadi::ContactEditorDialog::CreateMode, this);
