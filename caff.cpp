@@ -262,6 +262,8 @@ KGpgCaffPrivate::slotExportFinished(int result)
 
 	KGpgEncrypt *enc = new KGpgEncrypt(this, QStringList(key->getId()), body, KGpgEncrypt::AsciiArmored | KGpgEncrypt::AllowUntrustedEncryption);
 
+	enc->setGnuPGHome(m_tempdir->name());
+
 	connect(enc, SIGNAL(done(int)), SLOT(slotTextEncrypted(int)));
 
 	enc->start();
