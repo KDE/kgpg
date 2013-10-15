@@ -20,6 +20,7 @@
 
 #include <QList>
 #include <QObject>
+#include <QScopedPointer>
 #include <QString>
 #include <QStringList>
 
@@ -32,7 +33,7 @@ class KGpgCaffPrivate : public QObject {
 	Q_DECLARE_PUBLIC(KGpgCaff)
 	Q_DISABLE_COPY(KGpgCaffPrivate)
 
-	KTempDir *m_tempdir;
+	QScopedPointer<KTempDir> m_tempdir;
 	QStringList m_signers;
 	QString m_secringfile;
 	const KGpgCaff::OperationFlags m_flags;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -31,40 +31,38 @@
 #include <KTemporaryFile>
 #include <KToolInvocation>
 #include <QDir>
+#include <QFileInfo>
 
 KGpgCaffPrivate::KGpgCaffPrivate(KGpgCaff *parent, const KGpgSignableNode::List &ids, const QStringList &signers,
 		const KGpgCaff::OperationFlags flags, const KGpgSignTransactionHelper::carefulCheck checklevel)
 	: QObject(parent),
 	q_ptr(parent),
-	m_tempdir(NULL),
 	m_signers(signers),
 	m_flags(flags),
 	m_checklevel(checklevel),
 	m_allids(ids)
 {
-	const QString gpgCfg(KGpgSettings::gpgConfigPath());
-
+	const QString gpgCfg = KGpgSettings::gpgConfigPath();
 	const QString secring = KgpgInterface::getGpgSetting(QLatin1String( "secret-keyring" ), gpgCfg);
 
 	if (!secring.isEmpty()) {
 		m_secringfile = secring;
 	} else {
-		QDir dir(gpgCfg + QLatin1String( "/.." ));	// simplest way of removing the file name
-		dir = dir.absolutePath();
-		m_secringfile = dir.toNativeSeparators(dir.filePath(QLatin1String( "secring.gpg" )));
+		QFileInfo fn(gpgCfg);
+		fn.setFile(fn.dir(), QLatin1String("secring.gpg"));
+		m_secringfile = QDir::toNativeSeparators(fn.absolutePath());
 	}
 }
 
 KGpgCaffPrivate::~KGpgCaffPrivate()
 {
-	delete m_tempdir;
 }
 
 void
 KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 {
-	Q_ASSERT(m_tempdir == NULL);
-	m_tempdir = new KTempDir();
+	Q_ASSERT(m_tempdir.isNull());
+	m_tempdir.reset(new KTempDir());
 
 	// export all keys necessary for signing
 	QStringList exportkeys(m_signers);
@@ -114,8 +112,7 @@ KGpgCaffPrivate::abortOperation(int result)
 	Q_Q(KGpgCaff);
 
 	kDebug(2100) << "transaction" << sender() << "failed, result" << result;
-	delete m_tempdir;
-	m_tempdir = NULL;
+	m_tempdir.reset();
 
 	emit q->aborted();
 }
@@ -125,8 +122,7 @@ KGpgCaffPrivate::checkNextLoop()
 {
 	Q_Q(KGpgCaff);
 
-	delete m_tempdir;
-	m_tempdir = NULL;
+	m_tempdir.reset();
 
 	if (m_allids.isEmpty())
 		emit q->done();
@@ -218,7 +214,7 @@ KGpgCaffPrivate::slotDelUidFinished(int result)
 	const KGpgSignableNode *uid = m_allids.first();
 	const KGpgKeyNode *key = uid->getKeyNode();
 
-	if ((result != KGpgTransaction::TS_OK)) {
+	if (result != KGpgTransaction::TS_OK) {
 		// it's no error if we tried to delete all other ids but there is no other id
 		if ((uid != key) || (result != KGpgDelUid::TS_NO_SUCH_UID)) {
 			abortOperation(result);
@@ -243,7 +239,7 @@ KGpgCaffPrivate::slotExportFinished(int result)
 {
 	sender()->deleteLater();
 
-	if ((result != KGpgTransaction::TS_OK)) {
+	if (result != KGpgTransaction::TS_OK) {
 		abortOperation(result);
 		return;
 	}
@@ -262,6 +258,8 @@ KGpgCaffPrivate::slotExportFinished(int result)
 
 	KGpgEncrypt *enc = new KGpgEncrypt(this, QStringList(key->getId()), body, KGpgEncrypt::AsciiArmored | KGpgEncrypt::AllowUntrustedEncryption);
 
+	// Set the home directory to make sure custom encrypt options
+	// as well as the "always encrypt to" setting are not honored.
 	enc->setGnuPGHome(m_tempdir->name());
 
 	connect(enc, SIGNAL(done(int)), SLOT(slotTextEncrypted(int)));
@@ -286,14 +284,13 @@ KGpgCaffPrivate::slotTextEncrypted(int result)
 		const QString email = uid->getEmail();
 		const QString keyid = uid->getKeyNode()->getId();
 
-		KToolInvocation::invokeMailer(email, QString(), QString(), i18n( "your key " ) + keyid, text);
+		KToolInvocation::invokeMailer(email, QString(), QString(),
+				i18nc("%1 is 64 bit key id (in hex), text is used as email subject", "Your key %1").arg(keyid),
+				text);
 		break;
 		}
-	// FIXME: unexpected results here should do some sort of warning
-	// this would break string freeze and isn't that important so we
-	// just stop here.
 	default:
-		kDebug(2100) << "encryption finished with status" << result;
+		abortOperation(result);
 		break;
 	case KGpgTransaction::TS_USER_ABORTED:
 		m_allids.clear();
