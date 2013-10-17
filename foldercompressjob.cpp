@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -168,7 +168,7 @@ FolderCompressJob::extensionForArchive(const int archive)
 	}
 }
 
-QStringList
+const QStringList &
 FolderCompressJob::archiveNames()
 {
 	static const QStringList archives =

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2008,2009,2010,2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -43,6 +43,7 @@
 #include <QDesktopWidget>
 #include <QFont>
 #include <QProcess>
+#include <QStringListModel>
 #include <kio/global.h>
 #include <kio/renamedialog.h>
 #include <kjobtrackerinterface.h>
@@ -144,14 +145,13 @@ void KGpgExternalActions::encryptDroppedFolders(const KUrl::List &urls)
 	(void) new QLabel(i18n("Compression method for archive:"), bGroup);
 
 	KComboBox *optionbx = new KComboBox(bGroup);
-	foreach (const QString &aname, FolderCompressJob::archiveNames())
-		optionbx->addItem(aname);
+	optionbx->setModel(new QStringListModel(FolderCompressJob::archiveNames(), bGroup));
 
 	connect(optionbx, SIGNAL(activated(int)), SLOT(slotSetCompression(int)));
 	connect(dialog, SIGNAL(accepted()), SLOT(startFolderEncode()));
 	connect(dialog, SIGNAL(rejected()), SLOT(slotAbortEnc()));
 
-	dialog->exec();
+	dialog->show();
 }
 
 void KGpgExternalActions::slotAbortEnc()

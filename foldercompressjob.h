@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -74,7 +74,7 @@ public:
 	 * @brief get list of supported archive names
 	 * @return list of archive names
 	 */
-	static QStringList archiveNames();
+	static const QStringList &archiveNames();
 
 private slots:
 	void doWork();
