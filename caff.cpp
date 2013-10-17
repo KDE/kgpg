@@ -285,7 +285,7 @@ KGpgCaffPrivate::slotTextEncrypted(int result)
 		const QString keyid = uid->getKeyNode()->getId();
 
 		KToolInvocation::invokeMailer(email, QString(), QString(),
-				i18nc("%1 is 64 bit key id (in hex), text is used as email subject", "Your key %1").arg(keyid),
+				i18nc("%1 is 64 bit key id (in hex), text is used as email subject", "Your key %1", keyid),
 				text);
 		break;
 		}
