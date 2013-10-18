@@ -75,6 +75,7 @@
 #include <KMimeTypeTrader>
 #include <KProcess>
 #include <KRecentFilesAction>
+#include <KRun>
 #include <KSelectAction>
 #include <KService>
 #include <KShortcut>
@@ -178,6 +179,10 @@ KeysManager::KeysManager(QWidget *parent)
 	QAction *infoKey = actionCollection()->addAction(QLatin1String("key_info"), this, SLOT(keyproperties()));
 	infoKey->setIcon(KIcon( QLatin1String( "document-properties-key" )));
 	infoKey->setText(i18n("K&ey Properties"));
+
+	QAction *openKeyUrl = actionCollection()->addAction(QLatin1String("key_url"), this, SLOT(slotOpenKeyUrl()));
+	openKeyUrl->setIcon(KIcon(QLatin1String("applications-internet")));
+	openKeyUrl->setText(i18n("&Open Key URL"));
 
 	editKey = actionCollection()->addAction(QLatin1String("key_edit"), this, SLOT(slotedit()));
 	editKey->setIcon(KIcon( QLatin1String( "utilities-terminal" )));
@@ -354,6 +359,7 @@ KeysManager::KeysManager(QWidget *parent)
 	m_popuppub->addAction(signUid);
 	m_popuppub->addAction(signMailUid);
 	m_popuppub->addAction(infoKey);
+	m_popuppub->addAction(openKeyUrl);
 	m_popuppub->addAction(editKey);
 	m_popuppub->addAction(refreshKey);
 	m_popuppub->addAction(createGroup);
@@ -367,6 +373,7 @@ KeysManager::KeysManager(QWidget *parent)
 	m_popupsec->addAction(signUid);
 	m_popupsec->addAction(signMailUid);
 	m_popupsec->addAction(infoKey);
+	m_popupsec->addAction(openKeyUrl);
 	m_popupsec->addAction(editKey);
 	m_popupsec->addAction(refreshKey);
 	m_popupsec->addAction(setDefaultKey);
@@ -1015,7 +1022,6 @@ void KeysManager::slotAddressbookSearchResult(KJob *job)
 
 	connect(dlg, SIGNAL(finished()), dlg, SLOT(deleteLater()));
 	dlg->show();
-
 }
 
 void KeysManager::slotManpage()
@@ -2657,6 +2663,48 @@ KeysManager::slotSetClip(int result)
 
 	Q_ASSERT(m_trayicon != NULL);
 	m_trayicon->showMessage(QString(), i18n("Text successfully encrypted."), QLatin1String( "kgpg" ));
+}
+
+void
+KeysManager::slotOpenKeyUrl()
+{
+	KGpgNode *cur = iview->selectedNode();
+	if (cur == NULL)
+		return;
+
+	KGpgKeyNode *kn;
+
+	switch (cur->getType()) {
+	case ITYPE_PAIR:
+	case ITYPE_PUBLIC: {
+		kn = cur->toKeyNode();
+		break;
+		}
+	case ITYPE_GPAIR:
+	case ITYPE_GPUBLIC: {
+		kn = cur->toGroupMemberNode()->getRefNode();
+		if (kn == NULL)
+			return;
+		break;
+		}
+	default:
+		return;
+	}
+
+	const QStringList servers = KGpgSettings::infoServers();
+	if (servers.isEmpty())
+		return;
+
+	QString url = servers.first();
+
+	url.replace(QLatin1String("$$ID8$$"), kn->getId().right(8).toUpper());
+	url.replace(QLatin1String("$$ID16$$"), kn->getId().toUpper());
+	url.replace(QLatin1String("$$FPR$$"), kn->getFingerprint().toUpper());
+	url.replace(QLatin1String("$$id8$$"), kn->getId().right(8).toLower());
+	url.replace(QLatin1String("$$id16$$"), kn->getId().toLower());
+	url.replace(QLatin1String("$$fpr$$"), kn->getFingerprint().toLower());
+
+	new KRun(url, this);
 }
 
 void

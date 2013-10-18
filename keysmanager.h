@@ -223,6 +223,7 @@ private slots:
     void importRemoteFinished(int result);
     void slotDelKeyDone(int ret);
     void slotSetClip(int result);
+    void slotOpenKeyUrl();
 
     void slotNetworkUp();
     void slotNetworkDown();
