@@ -2672,19 +2672,17 @@ KeysManager::slotOpenKeyUrl()
 	if (cur == NULL)
 		return;
 
-	KGpgKeyNode *kn;
+	QString id;
 
 	switch (cur->getType()) {
 	case ITYPE_PAIR:
 	case ITYPE_PUBLIC: {
-		kn = cur->toKeyNode();
+		id = cur->toKeyNode()->getFingerprint();
 		break;
 		}
 	case ITYPE_GPAIR:
 	case ITYPE_GPUBLIC: {
-		kn = cur->toGroupMemberNode()->getRefNode();
-		if (kn == NULL)
-			return;
+		id = cur->getId();
 		break;
 		}
 	default:
@@ -2697,12 +2695,12 @@ KeysManager::slotOpenKeyUrl()
 
 	QString url = servers.first();
 
-	url.replace(QLatin1String("$$ID8$$"), kn->getId().right(8).toUpper());
-	url.replace(QLatin1String("$$ID16$$"), kn->getId().toUpper());
-	url.replace(QLatin1String("$$FPR$$"), kn->getFingerprint().toUpper());
-	url.replace(QLatin1String("$$id8$$"), kn->getId().right(8).toLower());
-	url.replace(QLatin1String("$$id16$$"), kn->getId().toLower());
-	url.replace(QLatin1String("$$fpr$$"), kn->getFingerprint().toLower());
+	url.replace(QLatin1String("$$ID8$$"), id.right(8).toUpper());
+	url.replace(QLatin1String("$$ID16$$"), id.toUpper());
+	url.replace(QLatin1String("$$FPR$$"), id.toUpper());
+	url.replace(QLatin1String("$$id8$$"), id.right(8).toLower());
+	url.replace(QLatin1String("$$id16$$"), id.toLower());
+	url.replace(QLatin1String("$$fpr$$"), id.toLower());
 
 	new KRun(url, this);
 }
