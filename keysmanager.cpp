@@ -203,6 +203,10 @@ KeysManager::KeysManager(QWidget *parent)
 	importKey->setText(i18n("&Import Key..."));
 	importKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Paste));
 
+	QAction *sendEmail = actionCollection()->addAction(QLatin1String("send_mail"), this, SLOT(slotSendEmail()));
+	sendEmail->setIcon(KIcon(QLatin1String("mail-send")));
+	sendEmail->setText(i18n("Send Ema&il"));
+
 	QAction *newContact = actionCollection()->addAction(QLatin1String("add_kab"), this, SLOT(addToKAB()));
 	newContact->setIcon(KIcon( QLatin1String( "contact-new" )));
 	newContact->setText(i18n("&Create New Contact in Address Book"));
@@ -354,21 +358,22 @@ KeysManager::KeysManager(QWidget *parent)
 
 	m_popuppub = new KMenu(this);
 	m_popuppub->addAction(exportPublicKey);
-	m_popuppub->addAction(deleteKey);
+	m_popuppub->addAction(sendEmail);
+	m_popuppub->addAction(signMailUid);
 	m_popuppub->addAction(signKey);
 	m_popuppub->addAction(signUid);
-	m_popuppub->addAction(signMailUid);
+	m_popuppub->addAction(deleteKey);
 	m_popuppub->addAction(infoKey);
 	m_popuppub->addAction(openKeyUrl);
 	m_popuppub->addAction(editKey);
 	m_popuppub->addAction(refreshKey);
 	m_popuppub->addAction(createGroup);
-	m_popuppub->addAction(setDefaultKey);
 	m_popuppub->addSeparator();
 	m_popuppub->addAction(importAllSignKeys);
 
 	m_popupsec = new KMenu(this);
 	m_popupsec->addAction(exportPublicKey);
+	m_popupsec->addAction(sendEmail);
 	m_popupsec->addAction(signKey);
 	m_popupsec->addAction(signUid);
 	m_popupsec->addAction(signMailUid);
@@ -405,8 +410,9 @@ KeysManager::KeysManager(QWidget *parent)
 	m_popupphoto->addAction(deletePhoto);
 
 	m_popupuid = new KMenu(this);
-	m_popupuid->addAction(signUid);
+	m_popupuid->addAction(sendEmail);
 	m_popupuid->addAction(signMailUid);
+	m_popupuid->addAction(signUid);
 	m_popupuid->addAction(delUid);
 	m_popupuid->addAction(setPrimUid);
 
@@ -2197,6 +2203,23 @@ void KeysManager::delsignatureResult(int success)
 	} else {
 		KMessageBox::sorry(this, i18n("Requested operation was unsuccessful, please edit the key manually."));
 	}
+}
+
+void KeysManager::slotSendEmail()
+{
+	QStringList maillist;
+
+	foreach (const KGpgNode *nd, iview->selectedNodes()) {
+		if (nd->getEmail().isEmpty())
+			continue;
+
+		maillist << QLatin1Char('"') + nd->getName() + QLatin1String("\" <") + nd->getEmail() + QLatin1Char('>');
+	}
+
+	if (maillist.isEmpty())
+		return;
+
+	KToolInvocation::invokeMailer(maillist.join(QLatin1String(", ")), QString());
 }
 
 void KeysManager::slotedit()

@@ -191,6 +191,7 @@ private slots:
     void slotMenu(const QPoint &);
 
     void slotPreImportKey();
+    void slotSendEmail();
     void slotedit();
 
     /**

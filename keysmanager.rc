@@ -73,6 +73,7 @@
         <Action name="edit_group"/>
         <Action name="delete_group"/>
         <Action name="key_server_refresh"/>
+        <Action name="mail_send"/>
     </enable>
 
     <disable>
@@ -101,6 +102,7 @@
         <Action name="key_url"/>
         <Action name="key_importallsign"/>
         <Action name="create_group"/>
+        <Action name="mail_send"/>
     </enable>
 
     <disable>
@@ -145,6 +147,8 @@
     <Action name="key_sign_uid"/>
     <Action name="key_sign_mail_uid"/>
     <Action name="key_revoke"/>
+    <Action name="key_url"/>
+    <Action name="mail_send"/>
   </disable>
 </State>
 
