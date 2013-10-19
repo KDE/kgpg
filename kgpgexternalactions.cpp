@@ -129,7 +129,8 @@ void KGpgExternalActions::encryptDroppedFolders(const KUrl::List &urls)
 	}
 
 	if (KMessageBox::Continue != KMessageBox::warningContinueCancel(m_keysmanager,
-				i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. The file will be deleted after the encryption is finished.</qt>",
+				i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. "
+				"The file will be deleted after the encryption is finished.</qt>",
 				tmpfolder->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(),
 				KStandardGuiItem::cancel(), QLatin1String( "FolderTmpFile" ))) {
 		delete tmpfolder;
@@ -203,7 +204,8 @@ void KGpgExternalActions::startFolderEncode()
 	QFile encryptedFolder(encryptedFile.path());
 	dialog->hide();
 	if (encryptedFolder.exists()) {
-		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager, i18n("File Already Exists"), KUrl(), encryptedFile, KIO::M_OVERWRITE);
+		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager, i18n("File Already Exists"),
+				KUrl(), encryptedFile, KIO::M_OVERWRITE);
 		if (over->exec() == QDialog::Rejected) {
 			dialog = NULL;
 			delete over;
@@ -213,7 +215,8 @@ void KGpgExternalActions::startFolderEncode()
 		delete over;
 	}
 
-	FolderCompressJob *trayinfo = new FolderCompressJob(m_keysmanager, urls, encryptedFile, m_kgpgfoldertmp, selec, encryptOptions, encOptions, compressionScheme);
+	FolderCompressJob *trayinfo = new FolderCompressJob(m_keysmanager, urls, encryptedFile, m_kgpgfoldertmp,
+			selec, encryptOptions, encOptions, compressionScheme);
 	connect(trayinfo, SIGNAL(result(KJob*)), SLOT(slotFolderFinished(KJob*)));
 	KIO::getJobTracker()->registerJob(trayinfo);
 	trayinfo->start();
@@ -358,7 +361,8 @@ void KGpgExternalActions::decryptFile(KUrl::List urls)
 	KUrl swapname(first.directory(KUrl::AppendTrailingSlash) + oldname);
 	QFile fgpg(swapname.path());
 	if (fgpg.exists()) {
-		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager, i18n("File Already Exists"), KUrl(), swapname, KIO::M_OVERWRITE);
+		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager,
+				i18n("File Already Exists"), KUrl(), swapname, KIO::M_OVERWRITE);
 		if (over->exec() != QDialog::Accepted) {
 			delete over;
 			urls.pop_front();
@@ -419,7 +423,8 @@ void KGpgExternalActions::readOptions()
 		firstRun();
 	} else if (KGpgSettings::gpgConfigPath().isEmpty()) {
 		if (KMessageBox::Yes == KMessageBox::questionYesNo(0,
-				i18n("<qt>You have not set a path to your GnuPG config file.<br />This may cause some surprising results in KGpg's execution.<br />Would you like to start KGpg's assistant to fix this problem?</qt>"),
+				i18n("<qt>You have not set a path to your GnuPG config file.<br />This may cause some surprising results in KGpg's execution."
+				"<br />Would you like to start KGpg's assistant to fix this problem?</qt>"),
 				QString(), KGuiItem(i18n("Start Assistant")), KGuiItem(i18n("Do Not Start"))))
 			startAssistant();
 	}

@@ -439,7 +439,8 @@ KeysManager::KeysManager(QWidget *parent)
 	searchLayout->addWidget(m_listviewsearch);
 	searchLayout->addStretch();
 
-	KAction *searchLineAction = new KAction(i18nc("Name of the action that is a search line, shown for example in the toolbar configuration dialog", "Search Line"), this);
+	KAction *searchLineAction = new KAction(i18nc("Name of the action that is a search line, shown for example in the toolbar configuration dialog",
+			"Search Line"), this);
 	actionCollection()->addAction(QLatin1String( "search_line" ), searchLineAction);
 	searchLineAction->setDefaultWidget(searchWidget);
 
@@ -515,7 +516,10 @@ void KeysManager::slotGenerateKey()
 
 			QString terminalApp(config.readPathEntry("TerminalApplication", QLatin1String( "konsole" )));
 			QStringList args;
-			args << QLatin1String( "-e" ) << KGpgSettings::gpgBinaryPath() << QLatin1String( "--gen-key" ) << QLatin1String( "--expert" );
+			args << QLatin1String( "-e" )
+					<< KGpgSettings::gpgBinaryPath()
+					<< QLatin1String("--gen-key")
+					<< QLatin1String("--expert");
 
 			QProcess *genKeyProc = new QProcess(this);
 			genKeyProc->start(terminalApp, args);
@@ -648,7 +652,9 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		break;
 	}
 	default:
-		KMessageBox::detailedError(this, i18n("gpg process did not finish. Cannot generate a new key pair."), genkey->gpgErrorMessage(), infomessage);
+		KMessageBox::detailedError(this,
+				i18n("gpg process did not finish. Cannot generate a new key pair."),
+				genkey->gpgErrorMessage(), infomessage);
 	}
 
 	m_genkey = NULL;
@@ -838,15 +844,21 @@ void KeysManager::slotregenerate()
 	KProcess *p1, *p2, *p3;
 
 	p1 = new KProcess(this);
-	*p1 << KGpgSettings::gpgBinaryPath() << QLatin1String( "--no-secmem-warning" ) << QLatin1String( "--export-secret-key" ) << regID;
+	*p1 << KGpgSettings::gpgBinaryPath()
+			<< QLatin1String("--no-secmem-warning")
+			<< QLatin1String("--export-secret-key")
+			<< regID;
 	p1->setOutputChannelMode(KProcess::OnlyStdoutChannel);
 
 	p2 = new KProcess(this);
-	*p2 << QLatin1String( "gpgsplit" ) << QLatin1String( "--no-split" ) << QLatin1String( "--secret-to-public" );
+	*p2 << QLatin1String("gpgsplit")
+			<< QLatin1String("--no-split")
+			<< QLatin1String("--secret-to-public");
 	p2->setOutputChannelMode(KProcess::OnlyStdoutChannel);
 
 	p3 = new KProcess(this);
-	*p3 << KGpgSettings::gpgBinaryPath() << QLatin1String( "--import" );
+	*p3 << KGpgSettings::gpgBinaryPath()
+			<< QLatin1String("--import");
 
 	p1->setStandardOutputProcess(p2);
 	p2->setStandardOutputProcess(p3);
@@ -869,7 +881,8 @@ void KeysManager::slotregenerate()
 void KeysManager::slotAddUid()
 {
 	if (m_adduid) {
-		KMessageBox::error(this, i18n("Another operation is still in progress.\nPlease wait a moment until this operation is complete."), i18n("Add New User Id"));
+		KMessageBox::error(this, i18n("Another operation is still in progress.\nPlease wait a moment until this operation is complete."),
+				i18n("Add New User Id"));
 		return;
 	}
 
@@ -888,7 +901,8 @@ void KeysManager::slotAddUid()
 	if (addUidWidget->exec() != QDialog::Accepted)
 		return;
 
-	m_adduid = new KGpgAddUid(this, iview->selectedNode()->getId(), keyUid->kLineEdit1->text(), keyUid->kLineEdit2->text(), keyUid->kLineEdit3->text());
+	m_adduid = new KGpgAddUid(this, iview->selectedNode()->getId(), keyUid->kLineEdit1->text(),
+			keyUid->kLineEdit2->text(), keyUid->kLineEdit3->text());
 	connect(m_adduid, SIGNAL(done(int)), SLOT(slotAddUidFin(int)));
 	m_adduid->start();
 }
@@ -1032,7 +1046,8 @@ void KeysManager::slotAddressbookSearchResult(KJob *job)
 
 void KeysManager::slotManpage()
 {
-	KToolInvocation::startServiceByDesktopName( QLatin1String( "khelpcenter" ), QLatin1String("man:/gpg"), 0, 0, 0, "" , true);
+	KToolInvocation::startServiceByDesktopName(QLatin1String("khelpcenter"),
+			QLatin1String("man:/gpg"), 0, 0, 0, QByteArray(), true);
 }
 
 void KeysManager::slotTip()
@@ -1546,7 +1561,8 @@ void KeysManager::slotShowPhoto()
 {
 	KService::List list(KMimeTypeTrader::self()->query(QLatin1String( "image/jpeg" )));
 	if (list.isEmpty()) {
-	KMessageBox::sorry(NULL, i18n("<qt>A viewer for JPEG images is not specified.<br/>Please check your installation.</qt>"), i18n("Show photo"));
+	KMessageBox::sorry(NULL, i18n("<qt>A viewer for JPEG images is not specified.<br/>Please check your installation.</qt>"),
+			i18n("Show photo"));
 	return;
 	}
 	KGpgNode *nd = iview->selectedNode();
@@ -1555,7 +1571,16 @@ void KeysManager::slotShowPhoto()
 	KService::Ptr ptr = list.first();
 
 	KProcess p;
-	p << KGpgSettings::gpgBinaryPath() << QLatin1String( "--no-tty" ) << QLatin1String( "--photo-viewer" ) << (ptr->desktopEntryName() + QLatin1String( " %i" )) << QLatin1String( "--edit-key" ) << parent->getId() << QLatin1String( "uid" ) << und->getId() << QLatin1String( "showphoto" ) << QLatin1String( "quit" );
+	p << KGpgSettings::gpgBinaryPath()
+			<< QLatin1String("--no-tty")
+			<< QLatin1String("--photo-viewer")
+			<< (ptr->desktopEntryName() + QLatin1String( " %i" ))
+			<< QLatin1String("--edit-key")
+			<< parent->getId()
+			<< QLatin1String("uid")
+			<< und->getId()
+			<< QLatin1String("showphoto")
+			<< QLatin1String("quit");
 	p.startDetached();
 }
 
@@ -1635,7 +1660,8 @@ void KeysManager::keyproperties()
 	case ITYPE_GSECRET:
 		if (KMessageBox::questionYesNo(this,
 			i18n("<p>This key is an orphaned secret key (secret key without public key.) It is currently not usable.</p>"
-				"<p>Would you like to regenerate the public key?</p>"), QString(), KGuiItem(i18n("Generate")), KGuiItem(i18n("Do Not Generate"))) == KMessageBox::Yes)
+					"<p>Would you like to regenerate the public key?</p>"),
+					QString(), KGuiItem(i18n("Generate")), KGuiItem(i18n("Do Not Generate"))) == KMessageBox::Yes)
 		slotregenerate();
 		return;
 	case ITYPE_PAIR:
@@ -1665,7 +1691,8 @@ void KeysManager::deleteGroup()
 	if (!nd || (nd->getType() != ITYPE_GROUP))
 		return;
 
-	int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>",nd->getName()), QString(), KGuiItem(i18n("Delete"), QLatin1String( "edit-delete" )));
+	int result = KMessageBox::warningContinueCancel(this, i18n("<qt>Are you sure you want to delete group <b>%1</b> ?</qt>",
+			nd->getName()), QString(), KGuiItem(i18n("Delete"), QLatin1String("edit-delete")));
 	if (result != KMessageBox::Continue)
 		return;
 
@@ -1782,11 +1809,13 @@ void KeysManager::signkey()
 		if (nd->getEmail().isEmpty())
 			opt = i18n("<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: <br /><b>%3</b>.<br /><br />"
 					"You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-					"is not trying to intercept your communications.</qt>", nd->getName(), nd->getId().right(8), nd->getBeautifiedFingerprint());
+					"is not trying to intercept your communications.</qt>",
+					nd->getName(), nd->getId().right(8), nd->getBeautifiedFingerprint());
 		else
 			opt = i18n("<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br />Fingerprint: <br /><b>%4</b>.<br /><br />"
 					"You should check the key fingerprint by phoning or meeting the key owner to be sure that someone "
-					"is not trying to intercept your communications.</qt>", nd->getName(), nd->getEmail(), nd->getId().right(8), nd->getBeautifiedFingerprint());
+					"is not trying to intercept your communications.</qt>",
+					nd->getName(), nd->getEmail(), nd->getId().right(8), nd->getBeautifiedFingerprint());
 
 		if (KMessageBox::warningContinueCancel(this, opt) != KMessageBox::Continue) {
 			return;
@@ -1806,7 +1835,9 @@ void KeysManager::signkey()
 		}
 
 		if (KMessageBox::Continue != KMessageBox::warningContinueCancelList(this,
-				i18n("<qt>You are about to sign the following keys in one pass.<br/><b>If you have not carefully checked all fingerprints, the security of your communications may be compromised.</b></qt>"), signKeyList))
+				i18n("<qt>You are about to sign the following keys in one pass.<br/><b>If you have not carefully checked all fingerprints,"
+						" the security of your communications may be compromised.</b></qt>"),
+				signKeyList))
 			return;
 	}
 
@@ -1889,8 +1920,10 @@ void KeysManager::signuid()
 			signList.append(nd->toSignableNode());
 		}
 
-		if (KMessageBox::warningContinueCancelList(this, i18n("<qt>You are about to sign the following user ids in one pass.<br/><b>If you have not carefully checked all fingerprints, the security of your communications may be compromised.</b></qt>"),
-					signKeyList) != KMessageBox::Continue)
+		if (KMessageBox::warningContinueCancelList(this,
+				i18n("<qt>You are about to sign the following user ids in one pass.<br/><b>If you have not carefully checked all fingerprints,"
+						" the security of your communications may be compromised.</b></qt>"),
+				signKeyList) != KMessageBox::Continue)
 			return;
 	}
 
@@ -2035,9 +2068,13 @@ void KeysManager::signKeyOpenConsole(const QString &signer, const QString &keyid
 	KConfigGroup config(KGlobal::config(), "General");
 
 	KProcess process;
-	process << config.readPathEntry("TerminalApplication", QLatin1String( "konsole" ));
-	process << QLatin1String( "-e" ) << KGpgSettings::gpgBinaryPath() << QLatin1String( "--no-secmem-warning" ) << QLatin1String( "-u" ) << signer;
-	process << QLatin1String( "--default-cert-level" ) << QString(checking);
+	process << config.readPathEntry("TerminalApplication", QLatin1String("konsole"))
+			<< QLatin1String("-e")
+			<< KGpgSettings::gpgBinaryPath()
+			<< QLatin1String("--no-secmem-warning")
+			<< QLatin1String("-u") << signer
+			<< QLatin1String("--default-cert-level")
+			<< QString(checking);
 
 	if (!local)
 		process << QLatin1String( "--sign-key" ) << keyid;
@@ -2180,7 +2217,8 @@ void KeysManager::delsignkey()
 		return;
 	}
 
-	QString ask = i18n("<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user id <b>%2</b><br />of key: <b>%3</b>?</qt>", signMail, parentMail, parentKey);
+	QString ask = i18n("<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user id <b>%2</b><br />of key: <b>%3</b>?</qt>",
+			signMail, parentMail, parentKey);
 
 	if (KMessageBox::questionYesNo(this, ask, QString(), KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::Yes)
 		return;
@@ -2236,8 +2274,13 @@ void KeysManager::slotedit()
 
 	KProcess *kp = new KProcess(this);
 	KConfigGroup config(KGlobal::config(), "General");
-	*kp << config.readPathEntry("TerminalApplication",QLatin1String( "konsole" ));
-	*kp << QLatin1String( "-e" ) << KGpgSettings::gpgBinaryPath() <<QLatin1String( "--no-secmem-warning" ) <<QLatin1String( "--edit-key" ) << nd->getId() << QLatin1String( "help" );
+	*kp << config.readPathEntry("TerminalApplication", QLatin1String("konsole"))
+			<< QLatin1String("-e")
+			<< KGpgSettings::gpgBinaryPath()
+			<< QLatin1String("--no-secmem-warning")
+			<< QLatin1String("--edit-key")
+			<< nd->getId()
+			<< QLatin1String("help");
 	terminalkey = nd->toKeyNode();
 	editKey->setEnabled(false);
 
@@ -2318,7 +2361,8 @@ void KeysManager::deleteseckey()
 
 	// delete a key
 	int result = KMessageBox::warningContinueCancel(this,
-			i18n("<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.", nd->getNameComment()),
+			i18n("<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means you will never be able to decrypt files encrypted with this key again.",
+					nd->getNameComment()),
 			QString(),
 			KGuiItem(i18n("Delete"), QLatin1String( "edit-delete" )));
 	if (result != KMessageBox::Continue)
@@ -2327,7 +2371,9 @@ void KeysManager::deleteseckey()
 	if (terminalkey == nd)
 		return;
 	if (m_delkey != NULL) {
-		KMessageBox::error(this, i18n("Another key delete operation is still in progress.\nPlease wait a moment until this operation is complete."), i18n("Delete key"));
+		KMessageBox::error(this,
+				i18n("Another key delete operation is still in progress.\nPlease wait a moment until this operation is complete."),
+				i18n("Delete key"));
 		return;
 	}
 
@@ -2354,7 +2400,9 @@ void KeysManager::secretKeyDeleted(int retcode)
 void KeysManager::confirmdeletekey()
 {
 	if (m_delkey) {
-		KMessageBox::error(this, i18n("Another key delete operation is still in progress.\nPlease wait a moment until this operation is complete."), i18n("Delete key"));
+		KMessageBox::error(this,
+				i18n("Another key delete operation is still in progress.\nPlease wait a moment until this operation is complete."),
+				i18n("Delete key"));
 		return;
 	}
 
@@ -2366,7 +2414,9 @@ void KeysManager::confirmdeletekey()
 
 	// do not delete a key currently edited in terminal
 	if ((!(pt & ~ITYPE_PAIR)) && (ndlist.at(0) == terminalkey) && (ndlist.count() == 1)) {
-		KMessageBox::error(this, i18n("Can not delete key <b>%1</b> while it is edited in terminal.", terminalkey->getBeautifiedFingerprint()), i18n("Delete key"));
+		KMessageBox::error(this,
+				i18n("Can not delete key <b>%1</b> while it is edited in terminal.",
+				terminalkey->getBeautifiedFingerprint()), i18n("Delete key"));
 		return;
 	} else if (pt == ITYPE_GROUP) {
 		deleteGroup();
@@ -2380,7 +2430,9 @@ void KeysManager::confirmdeletekey()
 	}
 
 	if (pt & ~ITYPE_PAIR) {
-		KMessageBox::error(this, i18n("You have selected items that are not keys. They can not be deleted with this menu entry."), i18n("Delete key"));
+		KMessageBox::error(this,
+				i18n("You have selected items that are not keys. They can not be deleted with this menu entry."),
+				i18n("Delete key"));
 		return;
 	}
 
@@ -2403,7 +2455,9 @@ void KeysManager::confirmdeletekey()
 	}
 
 	if (secretKeyInside) {
-		int result = KMessageBox::warningContinueCancel(this, i18n("<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be deleted.</qt>", secList.join( QLatin1String( "<br />" ))));
+		int result = KMessageBox::warningContinueCancel(this,
+				i18n("<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be deleted.</qt>",
+						secList.join( QLatin1String( "<br />" ))));
 		if (result != KMessageBox::Continue)
 			return;
 	}
@@ -2411,7 +2465,11 @@ void KeysManager::confirmdeletekey()
 	if (keysToDelete.isEmpty())
 		return;
 
-	int result = KMessageBox::warningContinueCancelList(this, i18np("<qt><b>Delete the following public key?</b></qt>", "<qt><b>Delete the following %1 public keys?</b></qt>", keysToDelete.count()), keysToDelete, QString(), KStandardGuiItem::del());
+	int result = KMessageBox::warningContinueCancelList(this,
+			i18np("<qt><b>Delete the following public key?</b></qt>",
+					"<qt><b>Delete the following %1 public keys?</b></qt>",
+					keysToDelete.count()), keysToDelete, QString(),
+					KStandardGuiItem::del());
 	if (result != KMessageBox::Continue)
 		return;
 
@@ -2475,8 +2533,9 @@ void KeysManager::slotImport(const QString &text)
 
 	if (!KGpgImport::isKey(text) && KGpgDecrypt::isEncryptedText(text)) {
 		if (KMessageBox::questionYesNo(this,
-				i18n("<qt>The text in the clipboard does not look like a key, but like encrypted text.<br />Do you want to decrypt it first and then try importing it?</qt>"),
-					       i18n("Import from Clipboard")) != KMessageBox::Yes)
+				i18n("<qt>The text in the clipboard does not look like a key, but like encrypted text.<br />Do you want to decrypt it first"
+						" and then try importing it?</qt>"),
+						i18n("Import from Clipboard")) != KMessageBox::Yes)
 			return;
 
 		imp = new KGpgImport(this);
@@ -2509,7 +2568,7 @@ void KeysManager::slotImportDone(int result)
 
 	if (result != 0) {
 		KMessageBox::detailedSorry(this, i18n("Key importing failed. Please see the detailed log for more information."),
-				rawmsgs.join( QLatin1String( "\n")) , i18n("Key Import" ));
+				rawmsgs.join(QLatin1String("\n")) , i18n("Key Import"));
 	}
 
 	QStringList keys(import->getImportedIds(0x1f));
@@ -2520,7 +2579,7 @@ void KeysManager::slotImportDone(int result)
 		const QString msg(import->getImportMessage());
 		const QStringList keynames(import->getImportedKeys());
 
-		new KgpgDetailedInfo(this, msg, rawmsgs.join( QLatin1String( "\n") ), keynames, i18n("Key Import" ));
+		new KgpgDetailedInfo(this, msg, rawmsgs.join(QLatin1String("\n")), keynames, i18n("Key Import"));
 		if (needsRefresh)
 			imodel->refreshKeys(keys);
 		else
