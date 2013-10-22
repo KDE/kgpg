@@ -156,8 +156,21 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 
 	while ((items = p.readln(lsp)) >= 0) {
 		if ((lsp.at(0) == QLatin1String( "pub" )) && (items >= 10)) {
+			KgpgSubKeyType subtype;
+			KgpgSubKeyType keytype;
+			bool enabled = true;
+			if (items >= 11) {
+				const QString &caps = lsp.at(11);
+
+				enabled = !caps.contains(QLatin1Char('D'), Qt::CaseSensitive);
+
+				subtype = Convert::toSubType(caps, false);
+				keytype = Convert::toSubType(caps, true);
+			}
+
 			publiclistkeys << KgpgKey(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
-					Convert::toAlgo(lsp.at(3).toInt()), QDateTime::fromTime_t(lsp.at(5).toUInt()));
+					Convert::toAlgo(lsp.at(3).toInt()), subtype, keytype,
+					QDateTime::fromTime_t(lsp.at(5).toUInt()));
 
 			publickey = &publiclistkeys.last();
 
@@ -168,7 +181,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 			else
 				publickey->setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
 
-			publickey->setValid((items <= 11) || !lsp.at(11).contains(QLatin1Char( 'D' ), Qt::CaseSensitive));  // disabled key
+			publickey->setValid(enabled);  // disabled key
 
 			idIndex = 0;
 		} else if (publickey && (lsp.at(0) == QLatin1String( "fpr" )) && (items >= 10)) {
@@ -178,16 +191,8 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 		} else if (publickey && (lsp.at(0) == QLatin1String( "sub" )) && (items >= 7)) {
 			KgpgSubKeyType subtype;
 
-			if (items > 11) {
-				if (lsp.at(11).contains(QLatin1Char( 's' )))
-					subtype |= SKT_SIGNATURE;
-				if (lsp.at(11).contains(QLatin1Char( 'e' )))
-					subtype |= SKT_ENCRYPTION;
-				if (lsp.at(11).contains(QLatin1Char( 'a' )))
-					subtype |= SKT_AUTHENTICATION;
-				if (lsp.at(11).contains(QLatin1Char( 'c' )))
-					subtype |= SKT_CERTIFICATION;
-			}
+			if (items > 11)
+				subtype = Convert::toSubType(lsp.at(11), false);
 
 			KgpgKeySub sub(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
 					Convert::toAlgo(lsp.at(3).toInt()), subtype, QDateTime::fromTime_t(lsp.at(5).toUInt()));
@@ -318,8 +323,19 @@ readSecretKeysProcess(GPGProc &p)
 
 	while ( (items = p.readln(lsp)) >= 0 ) {
 		if ((lsp.at(0) == QLatin1String( "sec" )) && (items >= 10)) {
+			KgpgSubKeyType subtype;
+			KgpgSubKeyType keytype;
+
+			if (items >= 11) {
+				const QString &caps = lsp.at(11);
+
+				subtype = Convert::toSubType(caps, false);
+				keytype = Convert::toSubType(caps, true);
+			}
+
 			result << KgpgKey(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
-				Convert::toAlgo(lsp.at(3).toInt()), QDateTime::fromTime_t(lsp.at(5).toUInt()));
+				Convert::toAlgo(lsp.at(3).toInt()), subtype, keytype,
+				QDateTime::fromTime_t(lsp.at(5).toUInt()));
 
 			secretkey = &result.last();
 

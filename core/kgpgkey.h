@@ -215,7 +215,18 @@ class KgpgKeyPrivate : public QSharedData
 {
     KgpgKeyPrivate();
 public:
-    KgpgKeyPrivate(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const QDateTime &date);
+    /**
+     * @brief constructor
+     * @param id id of the key (i.e. fingerprint)
+     * @param size length of the key in bits
+     * @param trust trust to this key
+     * @param algo public key algorithm
+     * @param subtype key capabilities of this subkey
+     * @param keytype key capabilities of this and all subkeys combined
+     * @param creationDate date of key creation
+     */
+    KgpgKeyPrivate(const QString& id, const uint size, const KgpgCore::KgpgKeyTrust trust, const KgpgCore::KgpgKeyAlgo algo,
+                  const KgpgCore::KgpgSubKeyType subtype, const KgpgCore::KgpgSubKeyType keytype, const QDateTime& creationDate);
 
     bool          gpgkeysecret;
     bool          gpgkeyvalid;
@@ -230,6 +241,8 @@ public:
     const QDateTime gpgkeycreation;
     QDateTime     gpgkeyexpiration;
     const KgpgKeyAlgo gpgkeyalgo;
+    const KgpgSubKeyType gpgsubtype;
+    const KgpgSubKeyType gpgkeytype;
 
     KgpgKeySubListPtr gpgsublist;
 
@@ -240,9 +253,19 @@ public:
 
 class KgpgKey
 {
-    KgpgKey();
 public:
-    KgpgKey(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const QDateTime &date);
+    /**
+     * @brief constructor
+     * @param id id of the key (i.e. fingerprint)
+     * @param size length of the key in bits
+     * @param trust trust to this key
+     * @param algo public key algorithm
+     * @param subtype key capabilities of this subkey
+     * @param keytype key capabilities of this and all subkeys combined
+     * @param creationDate date of key creation
+     */
+    KgpgKey(const QString &id, const uint size, const KgpgCore::KgpgKeyTrust trust, const KgpgCore::KgpgKeyAlgo algo,
+            const KgpgCore::KgpgSubKeyType subtype, const KgpgCore::KgpgSubKeyType keytype, const QDateTime& creationDate);
     KgpgKey(const KgpgKey &other);
 
     void setSecret(const bool secret);
@@ -272,6 +295,8 @@ public:
     bool unlimited() const;
     KgpgKeyAlgo algorithm() const;
     KgpgKeyAlgo encryptionAlgorithm() const;
+    KgpgSubKeyType subtype() const;
+    KgpgSubKeyType keytype() const;
 
     KgpgKeySubListPtr subList() const;
 

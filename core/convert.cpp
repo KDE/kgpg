@@ -21,6 +21,7 @@
 
 #include "convert.h"
 
+#include <KDebug>
 #include <KGlobal>
 #include <KLocale>
 
@@ -141,6 +142,48 @@ KgpgKeyOwnerTrust toOwnerTrust(const QChar &c)
 KgpgKeyOwnerTrust toOwnerTrust(const QString &s)
 {
     return s.isEmpty() ? OWTRUST_UNDEFINED : toOwnerTrust(s[0]);
+}
+
+KgpgSubKeyType toSubType(const QString& capString, bool upper)
+{
+	KgpgSubKeyType ret;
+
+	foreach (const QChar &ch, capString) {
+		switch (ch.toAscii()) {
+			case 's':
+			case 'S':
+				if (upper != ch.isUpper())
+					continue;
+				ret |= SKT_SIGNATURE;
+				break;
+			case 'e':
+			case 'E':
+				if (upper != ch.isUpper())
+					continue;
+				ret |= SKT_ENCRYPTION;
+				break;
+			case 'a':
+			case 'A':
+				if (upper != ch.isUpper())
+					continue;
+				ret |= SKT_AUTHENTICATION;
+				break;
+			case 'c':
+			case 'C':
+				if (upper != ch.isUpper())
+					continue;
+				ret |= SKT_CERTIFICATION;
+				break;
+			case 'D':	// disabled key
+			case '?':	// unknown to GnuPG
+				continue;
+			default:
+				kDebug(2100) << "unknown capability letter" << ch
+				<< "in cap string" << capString;
+		}
+	}
+
+	return ret;
 }
 
 } // namespace Convert

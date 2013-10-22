@@ -42,6 +42,12 @@ namespace Convert
     KgpgKeyTrust toTrust(const QString &s);
     KgpgKeyOwnerTrust toOwnerTrust(const QChar &c);
     KgpgKeyOwnerTrust toOwnerTrust(const QString &s);
+    /**
+     * @brief parse the GnuPG capabilities field
+     * @param capString the capability string as returned by GnuPG
+     * @param upper if the uppercase or lowercase version should be parsed
+     */
+    KgpgSubKeyType toSubType(const QString &capString, bool upper);
 }
 
 } // namespace KgpgCore

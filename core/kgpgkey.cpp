@@ -133,14 +133,17 @@ KgpgKeySub& KgpgKeySub::operator=(const KgpgKeySub &other)
 
 //BEGIN Key
 
-KgpgKeyPrivate::KgpgKeyPrivate(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const QDateTime &date)
+KgpgKeyPrivate::KgpgKeyPrivate(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const KgpgSubKeyType subtype,
+                               const KgpgSubKeyType keytype, const QDateTime &creationDate)
     : gpgkeysecret(false),
     gpgkeyvalid(false),
     gpgkeyid(id),
     gpgkeysize(size),
     gpgkeytrust(trust),
-    gpgkeycreation(date),
+    gpgkeycreation(creationDate),
     gpgkeyalgo(algo),
+    gpgsubtype(subtype),
+    gpgkeytype(keytype),
     gpgsublist(new KgpgKeySubList())
 {
 }
@@ -160,12 +163,15 @@ bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
     if (gpgkeycreation != other.gpgkeycreation) return false;
     if (gpgkeyexpiration != other.gpgkeyexpiration) return false;
     if (gpgkeyalgo != other.gpgkeyalgo) return false;
+    if (gpgsubtype != other.gpgsubtype) return false;
+    if (gpgkeytype != other.gpgkeytype) return false;
     if (gpgsublist != other.gpgsublist) return false;
     return true;
 }
 
-KgpgKey::KgpgKey(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const QDateTime &date)
-    : d(new KgpgKeyPrivate(id, size, trust, algo, date))
+KgpgKey::KgpgKey(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const KgpgSubKeyType subtype,
+                 const KgpgSubKeyType keytype, const QDateTime &creationDate)
+    : d(new KgpgKeyPrivate(id, size, trust, algo, subtype, keytype, creationDate))
 {
 }
 
@@ -321,6 +327,16 @@ KgpgKeyAlgo KgpgKey::encryptionAlgorithm() const
 		}
 	}
 	return ALGO_UNKNOWN;
+}
+
+KgpgSubKeyType KgpgKey::subtype() const
+{
+	return d->gpgsubtype;
+}
+
+KgpgSubKeyType KgpgKey::keytype() const
+{
+	return d->gpgkeytype;
 }
 
 KgpgKeySubListPtr KgpgKey::subList() const
