@@ -1,4 +1,4 @@
-/* Copyright 2008  Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2013  Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
