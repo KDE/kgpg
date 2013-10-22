@@ -46,18 +46,22 @@ SelectKeyProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_
 
 	switch (l->getType()) {
 	case ITYPE_GROUP:
+		break;
 	case ITYPE_PAIR:
 	case ITYPE_PUBLIC:
+		if (!l->toKeyNode()->canEncrypt())
+			return false;
 		break;
 	default:
 		return false;
 	}
 
+	if (!m_showUntrusted && ((l->getTrust() != TRUST_FULL) && (l->getTrust() != TRUST_ULTIMATE)))
+		return false;
+
 	// there is probably a better place to do this
 	QRegExp rx = filterRegExp();
 	rx.setCaseSensitivity(Qt::CaseInsensitive);
-	if (!m_showUntrusted && ((l->getTrust() != TRUST_FULL) && (l->getTrust() != TRUST_ULTIMATE)))
-		return false;
 
 	if (l->getName().contains(rx))
 		return true;

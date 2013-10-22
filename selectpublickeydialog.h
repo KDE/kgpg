@@ -32,6 +32,9 @@ class KHBox;
 class SelectKeyProxyModel;
 class KGpgItemModel;
 
+/**
+ * @brief shows a dialog to select a public key for encryption
+ */
 class KgpgSelectPublicKeyDlg : public KDialog
 {
     Q_OBJECT

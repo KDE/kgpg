@@ -59,6 +59,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 
 	m_combomodel->setKeyModel(m_model);
 	m_combomodel->setTrustFilter(KgpgCore::TRUST_MARGINAL);
+	m_combomodel->setEncryptionKeyFilter(true);
 	m_combomodel->sort(0);
 
 	// Initialize the default server and the default server list.

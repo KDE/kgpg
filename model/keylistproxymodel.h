@@ -60,6 +60,11 @@ public:
 	 */
 	void setTrustFilter(const KgpgCore::KgpgKeyTrustFlag t);
 
+	/**
+	 * @brief show only keys capable of encryption
+	 */
+	void setEncryptionKeyFilter(bool b);
+
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 	QModelIndex nodeIndex(KGpgNode *node);
 	void setPreviewSize(const int pixel);

@@ -24,6 +24,9 @@
 class KGpgNode;
 class KGpgItemModel;
 
+/**
+ * @brief filter model to select a public key for encryption
+ */
 class SelectKeyProxyModel: public QSortFilterProxyModel
 {
 	Q_PROPERTY(bool showUntrusted read showUntrusted write setShowUntrusted)

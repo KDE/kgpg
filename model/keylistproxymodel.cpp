@@ -40,6 +40,7 @@ public:
 	bool nodeLessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const;
 	KGpgItemModel *m_model;
 	bool m_onlysecret;
+	bool m_encryptionKeys;
 	KgpgCore::KgpgKeyTrustFlag m_mintrust;
 	int m_previewsize;
 	int m_idLength;
@@ -55,6 +56,7 @@ KeyListProxyModelPrivate::KeyListProxyModelPrivate(KeyListProxyModel *parent, co
 	: q_ptr(parent),
 	m_model(NULL),
 	m_onlysecret(false),
+	m_encryptionKeys(false),
 	m_mintrust(TRUST_UNKNOWN),
 	m_previewsize(22),
 	m_idLength(8),
@@ -383,7 +385,7 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 {
 	Q_D(const KeyListProxyModel);
 	QModelIndex idx = d->m_model->index(source_row, 0, source_parent);
-	KGpgNode *l = d->m_model->nodeForIndex(idx);
+	const KGpgNode *l = d->m_model->nodeForIndex(idx);
 
 	if (l == d->m_model->getRootNode())
 		return false;
@@ -420,6 +422,11 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 
 	if (l->getParentKeyNode() != d->m_model->getRootNode())
 		return true;
+
+	if (d->m_encryptionKeys && ((l->getType() & ITYPE_GROUP) == 0)) {
+		if (!l->toKeyNode()->canEncrypt())
+			return false;
+	}
 
 	if (l->getName().contains(filterRegExp()))
 		return true;
@@ -461,6 +468,15 @@ KeyListProxyModel::setTrustFilter(const KgpgCore::KgpgKeyTrustFlag t)
 	Q_D(KeyListProxyModel);
 
 	d->m_mintrust = t;
+	invalidateFilter();
+}
+
+void
+KeyListProxyModel::setEncryptionKeyFilter(bool b)
+{
+	Q_D(KeyListProxyModel);
+
+	d->m_encryptionKeys = b;
 	invalidateFilter();
 }
 

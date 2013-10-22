@@ -171,6 +171,12 @@ public:
 	 * This handles different length of the id string.
 	 */
 	bool compareId(const QString &other) const;
+
+	/**
+	 * @brief return if this key can be used for encryption
+	 */
+	bool canEncrypt() const;
+
 Q_SIGNALS:
 	void expanded();
 

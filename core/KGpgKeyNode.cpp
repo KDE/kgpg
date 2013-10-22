@@ -345,6 +345,12 @@ KGpgKeyNode::compareId(const QString &other) const
 			Qt::CaseInsensitive) == 0);
 }
 
+bool
+KGpgKeyNode::canEncrypt() const
+{
+	return ((m_key->keytype() & KgpgCore::SKT_ENCRYPTION) != 0);
+}
+
 void
 KGpgKeyNode::expand()
 {
