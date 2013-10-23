@@ -85,6 +85,22 @@ QString toString(const QDate &date)
     return KGlobal::locale()->formatDate(date, KLocale::ShortDate);
 }
 
+QString toString(const KgpgCore::KgpgSubKeyType type)
+{
+	QStringList res;
+
+	if (type & SKT_SIGNATURE)
+		res << i18nc("key capability", "Signature");
+	if (type & SKT_ENCRYPTION)
+		res << i18nc("key capability", "Encryption");
+	if (type & SKT_AUTHENTICATION)
+		res << i18nc("key capability", "Authentication");
+	if (type & SKT_CERTIFICATION)
+		res << i18nc("key capability", "Certification");
+
+	return res.join(i18nc("used to join a list of key types, e.g. 'encryption, signature'", ", "));
+}
+
 KgpgKeyAlgo toAlgo(const uint v)
 {
     switch (v)

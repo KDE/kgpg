@@ -36,6 +36,7 @@ namespace Convert
     QString toString(const KgpgCore::KgpgKeyOwnerTrust ownertrust);
     QString toString(const KgpgCore::KgpgKeyTrust trust);
     QString toString(const QDate &date);
+    QString toString(const KgpgCore::KgpgSubKeyType type);
     KgpgKeyAlgo toAlgo(const uint v);
     KgpgKeyAlgo toAlgo(const QString &s);
     KgpgKeyTrust toTrust(const QChar &c);

@@ -186,6 +186,7 @@ void KgpgKeyInfo::displayKey()
     }
 
     const KgpgKey *key = m_node->getKey();
+    m_caps->setText(Convert::toString(key->keytype()));
 
     QString trust;
     QColor trustcolor;
@@ -214,10 +215,13 @@ void KgpgKeyInfo::displayKey()
     m_fingerprint->setText(m_node->getBeautifiedFingerprint());
 
     const QString comment = m_node->getComment();
-    if (comment.isEmpty())
-        m_comment->setText(i18nc("no key comment", "none"));
-    else
+    if (comment.isEmpty()) {
+        m_comment->setText(i18nc("no key comment", "<em>none</em>"));
+        m_comment->setTextFormat(Qt::RichText);
+    } else {
         m_comment->setText(comment);
+        m_comment->setTextFormat(Qt::PlainText);
+    }
 
     switch (key->ownerTrust())
     {
