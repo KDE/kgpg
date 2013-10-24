@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>kgpgKeyGenerate</class>
+ <widget class="KDialog" name="kgpgKeyGenerate">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>365</width>
+    <height>448</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Key Generation</string>
+  </property>
+  <widget class="QGroupBox" name="vgroup">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>10</y>
+     <width>361</width>
+     <height>341</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Generate Key Pair</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="nameLabel">
+      <property name="text">
+       <string extracomment="Name of key owner">&amp;Name:</string>
+      </property>
+      <property name="buddy">
+       <cstring>m_kname</cstring>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="KLineEdit" name="m_kname">
+      <property name="toolTip">
+       <string>The name must have a length of at least 5 characters and must not begin with a digit.</string>
+      </property>
+      <property name="placeholderText">
+       <string>Real name, at least 5 characters, no leading digits</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="emailLabel">
+      <property name="text">
+       <string extracomment="Email address of key owner">E&amp;mail (optional):</string>
+      </property>
+      <property name="buddy">
+       <cstring>m_mail</cstring>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="KLineEdit" name="m_mail"/>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Commen&amp;t (optional):</string>
+      </property>
+      <property name="buddy">
+       <cstring>m_comment</cstring>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="KLineEdit" name="m_comment"/>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Expiration:</string>
+      </property>
+      <property name="buddy">
+       <cstring>m_days</cstring>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="KLineEdit" name="m_days">
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>&amp;Key size:</string>
+      </property>
+      <property name="buddy">
+       <cstring>m_keysize</cstring>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="KComboBox" name="m_keysize"/>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>&amp;Algorithm:</string>
+      </property>
+      <property name="buddy">
+       <cstring>m_keykind</cstring>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="KComboBox" name="m_keykind"/>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KDialog</class>
+   <extends>QDialog</extends>
+   <header>kdialog.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,10 +1,7 @@
-/***************************************************************************
-                          keygen.cpp  -  description
-                             -------------------
-    begin                : Mon Jul 8 2002
-    copyright            : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007,2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -39,36 +36,21 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
 	: KDialog(parent),
 	m_expert(false)
 {
-    setCaption(i18n("Key Generation"));
+    setupUi(this);
+
     setButtons(User1 | Ok | Cancel);
 
     setButtonText(User1, i18n("&Expert Mode"));
     setButtonToolTip(User1, i18n("Go to Expert Mode"));
     setButtonWhatsThis(User1, i18n( "If you go to expert mode, you will use the command line to create your key." ));
 
-
-    QGroupBox *vgroup = new QGroupBox(i18n("Generate Key Pair"), this);
-
-    QLabel *nameLabel = new QLabel(i18nc("Name of key owner", "&Name:"), vgroup);
-    m_kname = new KLineEdit(vgroup);
-    nameLabel->setBuddy(m_kname);
-    m_kname->setFocus();
     connect(m_kname, SIGNAL(textChanged(QString)), this, SLOT(slotEnableOk()));
 
-    QLabel *emailLabel = new QLabel(i18nc("Email address of key owner", "E&mail:"), vgroup);
-    m_mail = new KLineEdit(vgroup);
-    emailLabel->setBuddy(m_mail);
-
-    QLabel *commentLabel = new QLabel(i18n("Commen&t (optional):"), vgroup);
-    m_comment = new KLineEdit(vgroup);
-    commentLabel->setBuddy(m_comment);
-
-    QLabel *expLabel = new QLabel(i18n("Expiration:"), vgroup);
     KHBox *hgroup = new KHBox(vgroup);
     hgroup->setFrameShape(QFrame::StyledPanel);
     hgroup->setMargin(marginHint());
     hgroup->setSpacing(spacingHint());
-    m_days = new KLineEdit(QLatin1String( "0" ), hgroup);
+    m_days->setParent(hgroup);
     QIntValidator *validator = new QIntValidator(m_days);
     validator->setBottom(0);
     m_days->setValidator(validator);
@@ -84,39 +66,19 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     m_keyexp->setMinimumSize(m_keyexp->sizeHint());
     connect(m_keyexp, SIGNAL(activated(int)), this, SLOT(slotEnableDays(int)));
 
-    QLabel *sizeLabel = new QLabel(i18n("&Key size:"), vgroup);
-    m_keysize = new KComboBox(vgroup);
-    m_keysize->addItem(i18n("768"));
+    qobject_cast<QVBoxLayout *>(vgroup->layout())->insertWidget(7, hgroup);
+
     m_keysize->addItem(i18n("1024"));
     m_keysize->addItem(i18n("2048"));
     m_keysize->addItem(i18n("4096"));
-    m_keysize->setCurrentIndex(1); // 1024
+    m_keysize->setCurrentIndex(0); // 1024
     m_keysize->setMinimumSize(m_keysize->sizeHint());
-    sizeLabel->setBuddy(m_keysize);
 
-    QLabel *algoLabel = new QLabel(i18n("&Algorithm:"), vgroup);
-    m_keykind = new KComboBox(vgroup);
     m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_DSA_ELGAMAL));
     m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_RSA_RSA));
     m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_RSA));
+    m_keykind->setCurrentIndex(1); // RSA+RSA
     m_keykind->setMinimumSize(m_keykind->sizeHint());
-    algoLabel->setBuddy(m_keykind);
-
-    QVBoxLayout *vlayout = new QVBoxLayout(vgroup);
-    vlayout->addWidget(nameLabel);
-    vlayout->addWidget(m_kname);
-    vlayout->addWidget(emailLabel);
-    vlayout->addWidget(m_mail);
-    vlayout->addWidget(commentLabel);
-    vlayout->addWidget(m_comment);
-    vlayout->addWidget(expLabel);
-    vlayout->addWidget(hgroup);
-    vlayout->addWidget(sizeLabel);
-    vlayout->addWidget(m_keysize);
-    vlayout->addWidget(algoLabel);
-    vlayout->addWidget(m_keykind);
-    vlayout->addStretch();
-    vgroup->setLayout(vlayout);
 
     setMainWidget(vgroup);
 
@@ -191,7 +153,8 @@ void KgpgKeyGenerate::slotEnableDays(const int &state)
 
 void KgpgKeyGenerate::slotEnableOk()
 {
-    enableButtonOk(!m_kname->text().simplified().isEmpty());
+	enableButtonOk((m_kname->text().simplified().length() >= 5) &&
+			!m_kname->text().simplified().at(0).isDigit());
 }
 
 bool KgpgKeyGenerate::isExpertMode() const

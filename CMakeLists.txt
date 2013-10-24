@@ -136,6 +136,7 @@ kde4_add_ui_files(kgpg_SRCS
     keyexport.ui
     conf_encryption.ui
     kgpgKeyInfo.ui
+    kgpgkeygenerate.ui
     kgpgrevokewidget.ui
     keyserver.ui
     conf_decryption.ui

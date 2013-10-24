@@ -1,10 +1,7 @@
-/***************************************************************************
-                          keygen.h  -  description
-                             -------------------
-    begin                : Mon Jul 8 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007,2009,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -14,8 +11,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #ifndef KGPGKEYGENERATE_H
 #define KGPGKEYGENERATE_H
+
+#include "ui_kgpgkeygenerate.h"
 
 #include "core/kgpgkey.h"
 
@@ -24,7 +24,7 @@
 class KComboBox;
 class KLineEdit;
 
-class KgpgKeyGenerate : public KDialog
+class KgpgKeyGenerate : public KDialog, public Ui::kgpgKeyGenerate
 {
     Q_OBJECT
 
@@ -48,13 +48,7 @@ private slots:
     void slotEnableDays(const int &state);
 
 private:
-    KComboBox *m_keykind;
-    KComboBox *m_keysize;
     KComboBox *m_keyexp;
-    KLineEdit *m_days;
-    KLineEdit *m_comment;
-    KLineEdit *m_kname;
-    KLineEdit *m_mail;
     bool m_expert;
 };
 
