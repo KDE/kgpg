@@ -48,7 +48,6 @@ KGpgApp::KGpgApp()
 KGpgApp::~KGpgApp()
 {
 	delete s_keyManager;
-	delete w;
 }
 
 void KGpgApp::slotHandleQuit()
