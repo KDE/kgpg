@@ -34,6 +34,7 @@ public:
 	enum ts_generatekey {
 		TS_INVALID_NAME = TS_COMMON_END + 1	///< the owners name is not accepted by GnuPG
 	};
+
 	/**
 	 * @brief KGpgGenerateKey's constructor
 	 * @param parent parent object
@@ -43,7 +44,7 @@ public:
 	 * @param algorithm this is the type of the key, RSA or DSA & ELGAMAL (\see Kgpg::KeyAlgo ).
 	 * @param size this is the length of the key (1024, 2048, ...)
 	 * @param expire defines the key expiry time together with \em expireunit, 0 for unlimited key lifetime
-	 * @param expireunit is the unit of the number given as \em expire. \see setExpire
+	 * @param expireunit is the unit of the number given as \em expire. Valid units are 'd', 'w', 'm' and 'y'. The unit is ignored if expire is 0.
 	 * @param capabilities capabilities for the primary key
 	 */
 	KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
@@ -51,24 +52,12 @@ public:
 			 const char expireunit = 'd', const KgpgCore::KgpgSubKeyType capabilities = 0);
 	virtual ~KGpgGenerateKey();
 
-	void setName(const QString &name);
 	QString getName() const;
-	void setEmail(const QString &email);
 	QString getEmail() const;
-	void setComment(const QString &comment);
-	void setAlgorithm(const KgpgCore::KgpgKeyAlgo &algorithm);
-	void setSize(const unsigned int size);
-	void setCapabilities(const KgpgCore::KgpgSubKeyType capabilities);
 
 	/**
-	 * @brief set expire date for key
-	 * @param expire defines the key expiry time together with \em expireunit, 0 for unlimited key lifetime
-	 * @param expireunit is the unit of the number given as \em expire.
-	 *
-	 * Valid units are 'd', 'w', 'm' and 'y'. The unit is ignored if expire is 0.
+	 * @brief return the fingerprint of the generated key
 	 */
-	void setExpire(const unsigned int expire, const char expireunit);
-
 	QString getFingerprint() const;
 
 	/**
@@ -87,14 +76,14 @@ protected:
 	virtual void newPassphraseEntered();
 
 private:
-	QString m_name;
-	QString m_email;
-	QString m_comment;
-	KgpgCore::KgpgKeyAlgo m_algorithm;
-	KgpgCore::KgpgSubKeyType m_capabilities;
-	unsigned int m_size;
-	unsigned int m_expire;
-	unsigned int m_expireunit;
+	const QString m_name;
+	const QString m_email;
+	const QString m_comment;
+	const KgpgCore::KgpgKeyAlgo m_algorithm;
+	const KgpgCore::KgpgSubKeyType m_capabilities;
+	const unsigned int m_size;
+	const unsigned int m_expire;
+	const unsigned int m_expireunit;
 	QString m_fingerprint;
 	QString m_errorOutput;
 };
