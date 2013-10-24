@@ -48,10 +48,12 @@ public:
 
 	void showDroppedFile(const KUrl &file);
 	void verifyFile(KUrl url);
+
 	/**
-	 * @brief create a detached signature for a chosen files
+	 * @brief create a detached signature for the given files
 	 */
-	void signDroppedFiles(const KUrl::List &urls);
+	static void signFiles(KeysManager* parent, const KUrl::List &urls);
+
 	void decryptDroppedFiles(const KUrl::List &urls);
 	void encryptDroppedFolders(const KUrl::List &urls);
 

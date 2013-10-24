@@ -132,7 +132,7 @@ int KGpgApp::newInstance()
 				KMessageBox::sorry(0, i18n("Cannot decrypt and show folder."));
 		} else if (args->isSet("S")) {
 			if (!directoryInside)
-				w->signDroppedFiles(urlList);
+				KGpgExternalActions::signFiles(s_keyManager, urlList);
 			else
 				KMessageBox::sorry(0, i18n("Cannot sign folder."));
 		} else if (args->isSet("V") != 0) {

@@ -293,15 +293,18 @@ void KGpgExternalActions::slotVerificationDone(int result)
 	}
 }
 
-void KGpgExternalActions::signDroppedFiles(const KUrl::List &urls)
+void KGpgExternalActions::signFiles(KeysManager* parent, const KUrl::List& urls)
 {
 	Q_ASSERT(!urls.isEmpty());
 
-	droppedUrls = urls;
+	KGpgExternalActions *signActions = new KGpgExternalActions(parent, parent->getModel());
 
-	KgpgSelectSecretKey *keydlg = new KgpgSelectSecretKey(0, m_model, false);
-	connect(keydlg, SIGNAL(accepted()), SLOT(slotSignFiles()));
+	signActions->droppedUrls = urls;
+
+	KgpgSelectSecretKey *keydlg = new KgpgSelectSecretKey(parent, parent->getModel(), false);
+	connect(keydlg, SIGNAL(accepted()), signActions, SLOT(slotSignFiles()));
 	connect(keydlg, SIGNAL(rejected()), keydlg, SLOT(deleteLater()));
+	connect(keydlg, SIGNAL(rejected()), signActions, SLOT(deleteLater()));
 	keydlg->show();
 }
 
@@ -323,14 +326,16 @@ void KGpgExternalActions::slotSignFiles()
 		Options << QLatin1String( "--pgp6" );
 
 	if (droppedUrls.count() > 1) {
-		KGpgTextInterface *signFileProcess = new KGpgTextInterface(this, signKeyID, Options);
+		KGpgTextInterface *signFileProcess = new KGpgTextInterface(parent(), signKeyID, Options);
 		connect(signFileProcess, SIGNAL(fileSignFinished()), signFileProcess, SLOT(deleteLater()));
 		signFileProcess->signFiles(droppedUrls);
 	} else {
-		KGpgSignText *signt = new KGpgSignText(this, signKeyID, droppedUrls, sopts);
+		KGpgSignText *signt = new KGpgSignText(parent(), signKeyID, droppedUrls, sopts);
 		connect(signt, SIGNAL(done(int)), signt, SLOT(deleteLater()));
 		signt->start();
 	}
+
+	deleteLater();
 }
 
 void KGpgExternalActions::decryptDroppedFiles(const KUrl::List &urls)
