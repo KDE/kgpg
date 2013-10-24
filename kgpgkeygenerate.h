@@ -36,6 +36,12 @@ public:
     QString email() const;
     QString comment() const;
     KgpgCore::KgpgKeyAlgo algo() const;
+
+    /**
+     * @brief return the selected capabilities for the new key
+     * @retval 0 default capabilities of the selected algorithm should be used
+     */
+    KgpgCore::KgpgSubKeyType caps() const;
     uint size() const;
     char expiration() const;
     uint days() const;
@@ -45,7 +51,8 @@ private slots:
     void slotUser1();
     void slotButtonClicked(int button);
     void slotEnableOk();
-    void slotEnableDays(const int &state);
+    void slotEnableDays(const int state);
+    void slotEnableCaps(const int state);
 
 private:
     KComboBox *m_keyexp;

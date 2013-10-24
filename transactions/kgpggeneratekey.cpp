@@ -22,7 +22,7 @@
 
 KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
 		const KgpgCore::KgpgKeyAlgo &algorithm, const uint size, const unsigned int expire,
-		const char expireunit)
+		const char expireunit, const KgpgCore::KgpgSubKeyType capabilities)
 	: KGpgTransaction(parent)
 {
 	addArgument(QLatin1String( "--status-fd=1" ));
@@ -36,6 +36,7 @@ KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QSt
 	setComment(comment);
 	setAlgorithm(algorithm);
 	setSize(size);
+	setCapabilities(capabilities);
 	setExpire(expire, expireunit);
 
 	getProcess()->setOutputChannelMode(KProcess::SeparateChannels);
@@ -102,6 +103,25 @@ KGpgGenerateKey::postStart()
 		keymessage.append(QByteArray::number(m_expire));
 		keymessage.append(m_expireunit);
 	}
+
+	if (m_capabilities) {
+		keymessage.append("\nKey-Usage: ");
+		QStringList usage;
+#if 0
+		// GnuPG always adds cert, but it does not allow this to be
+		// explicitely specified
+		if (m_capabilities & KgpgCore::SKT_CERTIFICATION)
+			usage << QLatin1String("cert");
+#endif
+		if (m_capabilities & KgpgCore::SKT_AUTHENTICATION)
+			usage << QLatin1String("auth");
+		if (m_capabilities & KgpgCore::SKT_ENCRYPTION)
+			usage << QLatin1String("encrypt");
+		if (m_capabilities & KgpgCore::SKT_SIGNATURE)
+			usage << QLatin1String("sign");
+		keymessage.append(usage.join(QLatin1String(" ")).toAscii());
+	}
+
 	keymessage.append("\nPassphrase: ");
 	write(keymessage, false);
 
@@ -249,6 +269,12 @@ void
 KGpgGenerateKey::setSize(const unsigned int size)
 {
 	m_size = size;
+}
+
+void
+KGpgGenerateKey::setCapabilities(const KgpgCore::KgpgSubKeyType capabilities)
+{
+	m_capabilities = capabilities;
 }
 
 void

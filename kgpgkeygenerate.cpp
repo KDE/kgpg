@@ -78,6 +78,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_RSA_RSA));
     m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_RSA));
     m_keykind->setCurrentIndex(1); // RSA+RSA
+    slotEnableCaps(m_keykind->currentIndex());
     m_keykind->setMinimumSize(m_keykind->sizeHint());
 
     setMainWidget(vgroup);
@@ -88,6 +89,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
 
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
     connect(this, SIGNAL(user1Clicked()), this, SLOT(slotUser1()));
+    connect(m_keykind, SIGNAL(activated(int)), SLOT(slotEnableCaps(int)));
 }
 
 void KgpgKeyGenerate::slotButtonClicked(int button)
@@ -146,9 +148,15 @@ void KgpgKeyGenerate::slotUser1()
     accept();
 }
 
-void KgpgKeyGenerate::slotEnableDays(const int &state)
+void KgpgKeyGenerate::slotEnableDays(const int state)
 {
     m_days->setDisabled(state == 0);
+}
+
+void KgpgKeyGenerate::slotEnableCaps(const int state)
+{
+    // currently only supported for standalone RSA keys
+    capabilities->setDisabled(state != 2);
 }
 
 void KgpgKeyGenerate::slotEnableOk()
@@ -170,6 +178,25 @@ KgpgCore::KgpgKeyAlgo KgpgKeyGenerate::algo() const
 		return KgpgCore::ALGO_RSA_RSA;
 	else
 		return KgpgCore::ALGO_DSA_ELGAMAL;
+}
+
+KgpgCore::KgpgSubKeyType KgpgKeyGenerate::caps() const
+{
+	KgpgCore::KgpgSubKeyType ret;
+
+	if (!capabilities->isEnabled())
+		return ret;
+
+	if (capAuth->isChecked())
+		ret |= KgpgCore::SKT_AUTHENTICATION;
+	if (capCert->isChecked())
+		ret |= KgpgCore::SKT_CERTIFICATION;
+	if (capEncrypt->isChecked())
+		ret |= KgpgCore::SKT_ENCRYPTION;
+	if (capSign->isChecked())
+		ret |= KgpgCore::SKT_SIGNATURE;
+
+	return ret;
 }
 
 uint KgpgKeyGenerate::size() const

@@ -503,7 +503,8 @@ void KeysManager::slotGenerateKey()
 	if (kg->exec() == QDialog::Accepted) {
 		if (!kg->isExpertMode()) {
 			KGpgGenerateKey *genkey = new KGpgGenerateKey(this, kg->name(), kg->email(),
-					kg->comment(), kg->algo(), kg->size(), kg->days(), kg->expiration());
+					kg->comment(), kg->algo(), kg->size(), kg->days(), kg->expiration(),
+					kg->caps());
 
 			m_genkey = new KGpgTransactionJob(genkey);
 			connect(m_genkey, SIGNAL(result(KJob*)), SLOT(slotGenerateKeyDone(KJob*)));

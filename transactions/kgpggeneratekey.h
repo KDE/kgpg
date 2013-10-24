@@ -44,10 +44,11 @@ public:
 	 * @param size this is the length of the key (1024, 2048, ...)
 	 * @param expire defines the key expiry time together with \em expireunit, 0 for unlimited key lifetime
 	 * @param expireunit is the unit of the number given as \em expire. \see setExpire
+	 * @param capabilities capabilities for the primary key
 	 */
 	KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
 			 const KgpgCore::KgpgKeyAlgo &algorithm, const uint size, const unsigned int expire = 0,
-			 const char expireunit = 'd');
+			 const char expireunit = 'd', const KgpgCore::KgpgSubKeyType capabilities = 0);
 	virtual ~KGpgGenerateKey();
 
 	void setName(const QString &name);
@@ -57,6 +58,8 @@ public:
 	void setComment(const QString &comment);
 	void setAlgorithm(const KgpgCore::KgpgKeyAlgo &algorithm);
 	void setSize(const unsigned int size);
+	void setCapabilities(const KgpgCore::KgpgSubKeyType capabilities);
+
 	/**
 	 * @brief set expire date for key
 	 * @param expire defines the key expiry time together with \em expireunit, 0 for unlimited key lifetime
@@ -88,6 +91,7 @@ private:
 	QString m_email;
 	QString m_comment;
 	KgpgCore::KgpgKeyAlgo m_algorithm;
+	KgpgCore::KgpgSubKeyType m_capabilities;
 	unsigned int m_size;
 	unsigned int m_expire;
 	unsigned int m_expireunit;
