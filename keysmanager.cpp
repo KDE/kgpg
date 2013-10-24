@@ -546,7 +546,6 @@ void KeysManager::slotOpenEditor()
 {
 	KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, Qt::Window);
 
-	connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), this, SIGNAL(encryptFiles(KUrl::List)));
 	connect(this, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
 
 	kgpgtxtedit->show();

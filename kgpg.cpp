@@ -83,9 +83,6 @@ int KGpgApp::newInstance()
 
 		w = new KGpgExternalActions(s_keyManager, s_keyManager->getModel());
 
-		connect(s_keyManager, SIGNAL(encryptFiles(KUrl::List)), w, SLOT(slotEncryptDroppedFiles(KUrl::List)));
-		connect(s_keyManager->s_kgpgEditor, SIGNAL(encryptFiles(KUrl::List)), w, SLOT(slotEncryptDroppedFiles(KUrl::List)));
-
 		connect(s_keyManager, SIGNAL(readAgainOptions()), w, SLOT(readOptions()));
 		connect(w, SIGNAL(updateDefault(QString)), SLOT(assistantOver(QString)));
 		connect(w, SIGNAL(createNewKey()), s_keyManager, SLOT(slotGenerateKey()));
@@ -126,7 +123,7 @@ int KGpgApp::newInstance()
 
 		if (args->isSet("e")) {
 			if (!directoryInside)
-				w->slotEncryptDroppedFiles(urlList);
+				KGpgExternalActions::encryptFiles(s_keyManager, urlList);
 			else
 				w->encryptDroppedFolders(urlList);
 		} else if (args->isSet("s")) {

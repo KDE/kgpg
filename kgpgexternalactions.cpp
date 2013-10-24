@@ -60,13 +60,16 @@ KGpgExternalActions::~KGpgExternalActions()
 {
 }
 
-void KGpgExternalActions::slotEncryptDroppedFiles(const KUrl::List &urls)
+void KGpgExternalActions::encryptFiles(KeysManager *parent, const KUrl::List &urls)
 {
 	Q_ASSERT(!urls.isEmpty());
 
-	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(0, m_model, goDefaultKey(), false, urls);
-	connect(dialog, SIGNAL(accepted()), SLOT(slotEncryptionKeySelected()));
+	KGpgExternalActions *encActions = new KGpgExternalActions(parent, parent->getModel());
+
+	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(parent, parent->getModel(), encActions->goDefaultKey(), false, urls);
+	connect(dialog, SIGNAL(accepted()), encActions, SLOT(slotEncryptionKeySelected()));
 	connect(dialog, SIGNAL(rejected()), dialog, SLOT(deleteLater()));
+	connect(dialog, SIGNAL(rejected()), encActions, SLOT(deleteLater()));
 	dialog->show();
 }
 
@@ -102,18 +105,21 @@ void KGpgExternalActions::slotEncryptionKeySelected()
 			opts << customopts.split(QLatin1Char(' '), QString::SkipEmptyParts);
 	}
 
-	QStringList keys(dialog->selectedKeys());
+	QStringList keys = dialog->selectedKeys();
+
 	if (!defaultKey.isEmpty() && !keys.contains(defaultKey))
 		keys.append(defaultKey);
 
 	if (dialog->getSymmetric())
 		keys.clear();
 
-	KGpgEncrypt *enc = new KGpgEncrypt(parent(), keys, dialog->getFiles(), eopt, opts);
+	KGpgEncrypt *enc = new KGpgEncrypt(dialog->parent(), keys, dialog->getFiles(), eopt, opts);
 	KGpgTransactionJob *encjob = new KGpgTransactionJob(enc);
 
 	KIO::getJobTracker()->registerJob(encjob);
 	encjob->start();
+
+	deleteLater();
 }
 
 void KGpgExternalActions::encryptDroppedFolders(const KUrl::List &urls)
@@ -400,7 +406,6 @@ void KGpgExternalActions::slotDecryptionDone(int status)
 void KGpgExternalActions::showDroppedFile(const KUrl &file)
 {
 	KgpgEditor *kgpgtxtedit = new KgpgEditor(m_keysmanager, m_model, 0);
-	connect(kgpgtxtedit, SIGNAL(encryptFiles(KUrl::List)), SLOT(slotEncryptDroppedFiles(KUrl::List)));
 	connect(m_keysmanager, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
 
 	kgpgtxtedit->m_editor->openDroppedFile(file, false);

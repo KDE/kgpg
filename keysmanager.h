@@ -98,7 +98,6 @@ signals:
     void certificate(QString);
     void closeAsked();
     void fontChanged(QFont);
-    void encryptFiles(KUrl::List);
 
 public slots:
     void slotGenerateKey();

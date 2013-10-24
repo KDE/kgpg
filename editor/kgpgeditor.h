@@ -48,7 +48,6 @@ public:
 signals:
     void openChangeFont();
     void openConfigDialog();
-    void encryptFiles(KUrl::List fileList);
 
 public slots:
     void openDocumentFile(const KUrl& url, const QString &encoding = QString());

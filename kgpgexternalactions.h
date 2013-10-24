@@ -55,12 +55,15 @@ public:
 	void decryptDroppedFiles(const KUrl::List &urls);
 	void encryptDroppedFolders(const KUrl::List &urls);
 
+	/**
+	 * @brief create a new object, encrypt the given files, and destroy the object
+	 */
+	static void encryptFiles(KeysManager* parent, const KUrl::List& urls);
 signals:
 	void createNewKey();
 	void updateDefault(QString);
 
 public slots:
-	void slotEncryptDroppedFiles(const KUrl::List &urls);
 
 	void startFolderEncode();
 	void slotAbortEnc();

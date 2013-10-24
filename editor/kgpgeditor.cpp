@@ -27,6 +27,7 @@
 #include "transactions/kgpgkeyservergettransaction.h"
 #include "transactions/kgpgsigntext.h"
 #include "transactions/kgpgverify.h"
+#include <kgpgexternalactions.h>
 
 #include <KAction>
 #include <KActionCollection>
@@ -469,7 +470,8 @@ void KgpgEditor::slotFilePreEnc()
     KUrl::List urls = KFileDialog::getOpenUrls(KUrl(), i18n("*|All Files"), this, i18n("Open File to Encode"));
     if (urls.isEmpty())
         return;
-    emit encryptFiles(urls);
+
+    KGpgExternalActions::encryptFiles(m_parent, urls);
 }
 
 void KgpgEditor::slotFilePreDec()
