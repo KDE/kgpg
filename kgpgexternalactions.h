@@ -91,7 +91,6 @@ private slots:
 	void slotSetCompression(int cp);
 	void slotDecryptionDone(int status);
 	void slotFolderFinished(KJob *job);
-	void slotSigningFinished();
 	void slotSignFiles();
 	void slotEncryptionKeySelected();
 };

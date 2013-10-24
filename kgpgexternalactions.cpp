@@ -318,18 +318,13 @@ void KGpgExternalActions::slotSignFiles()
 
 	if (droppedUrls.count() > 1) {
 		KGpgTextInterface *signFileProcess = new KGpgTextInterface(this, signKeyID, Options);
-		connect(signFileProcess, SIGNAL(fileSignFinished()), SLOT(slotSigningFinished()));
+		connect(signFileProcess, SIGNAL(fileSignFinished()), signFileProcess, SLOT(deleteLater()));
 		signFileProcess->signFiles(droppedUrls);
 	} else {
 		KGpgSignText *signt = new KGpgSignText(this, signKeyID, droppedUrls, sopts);
-		connect(signt, SIGNAL(done(int)), SLOT(slotSigningFinished()));
+		connect(signt, SIGNAL(done(int)), signt, SLOT(deleteLater()));
 		signt->start();
 	}
-}
-
-void KGpgExternalActions::slotSigningFinished()
-{
-	sender()->deleteLater();
 }
 
 void KGpgExternalActions::decryptDroppedFiles(const KUrl::List &urls)
