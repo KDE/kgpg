@@ -65,11 +65,6 @@ signals:
 	void createNewKey();
 	void updateDefault(QString);
 
-public slots:
-
-	void startFolderEncode();
-	void slotAbortEnc();
-
 private:
 	QStringList customDecrypt;
 	QPointer<KGpgFirstAssistant> m_assistant;
@@ -89,6 +84,8 @@ private:
 	void decryptFile(KUrl::List urls);
 
 private slots:
+	void startFolderEncode();
+	void slotAbortEnc();
 	void slotSaveOptionsPath();
 	void slotVerificationDone(int result);
 	void help();
