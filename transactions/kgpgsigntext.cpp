@@ -65,8 +65,6 @@ KGpgSignText::command() const
 		if (m_options & DetachedSignature)
 			ret << QLatin1String("--detach-sign") <<
 					QLatin1String("--output") << fileName + QLatin1String(".sig");
-
-		ret << fileName;
 	}
 
 	return ret;
