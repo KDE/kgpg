@@ -55,7 +55,7 @@ public:
 	static void signFiles(KeysManager* parent, const KUrl::List &urls);
 
 	static void decryptFiles(KeysManager* parent, const KUrl::List& urls);
-	void encryptDroppedFolders(const KUrl::List &urls);
+	static void encryptFolders(KeysManager* parent, const KUrl::List &urls);
 
 	/**
 	 * @brief create a new object, encrypt the given files, and destroy the object
@@ -85,7 +85,6 @@ private:
 
 private slots:
 	void startFolderEncode();
-	void slotAbortEnc();
 	void slotSaveOptionsPath();
 	void slotVerificationDone(int result);
 	void help();

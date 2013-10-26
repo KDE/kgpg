@@ -124,7 +124,7 @@ int KGpgApp::newInstance()
 			if (!directoryInside)
 				KGpgExternalActions::encryptFiles(s_keyManager, urlList);
 			else
-				w->encryptDroppedFolders(urlList);
+				KGpgExternalActions::encryptFolders(s_keyManager, urlList);
 		} else if (args->isSet("s")) {
 			if (!directoryInside)
 				w->showDroppedFile(urlList.first());

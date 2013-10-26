@@ -50,7 +50,9 @@
 
 KGpgExternalActions::KGpgExternalActions(KeysManager *parent, KGpgItemModel *model)
 	: QObject(parent),
+	compressionScheme(0),
 	m_model(model),
+	m_kgpgfoldertmp(NULL),
 	m_keysmanager(parent)
 {
 	readOptions();
@@ -58,6 +60,7 @@ KGpgExternalActions::KGpgExternalActions(KeysManager *parent, KGpgItemModel *mod
 
 KGpgExternalActions::~KGpgExternalActions()
 {
+	delete m_kgpgfoldertmp;
 }
 
 void KGpgExternalActions::encryptFiles(KeysManager *parent, const KUrl::List &urls)
@@ -122,19 +125,17 @@ void KGpgExternalActions::slotEncryptionKeySelected()
 	deleteLater();
 }
 
-void KGpgExternalActions::encryptDroppedFolders(const KUrl::List &urls)
+void KGpgExternalActions::encryptFolders(KeysManager *parent, const KUrl::List &urls)
 {
-	compressionScheme = 0;
-
 	KTemporaryFile *tmpfolder = new KTemporaryFile();
 
 	if (!tmpfolder->open()) {
 		delete tmpfolder;
-		KMessageBox::sorry(m_keysmanager, i18n("Cannot create temporary file for folder compression."), i18n("Temporary File Creation"));
+		KMessageBox::sorry(parent, i18n("Cannot create temporary file for folder compression."), i18n("Temporary File Creation"));
 		return;
 	}
 
-	if (KMessageBox::Continue != KMessageBox::warningContinueCancel(m_keysmanager,
+	if (KMessageBox::Continue != KMessageBox::warningContinueCancel(parent,
 				i18n("<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process the encryption. "
 				"The file will be deleted after the encryption is finished.</qt>",
 				tmpfolder->fileName()), i18n("Temporary File Creation"), KStandardGuiItem::cont(),
@@ -143,9 +144,9 @@ void KGpgExternalActions::encryptDroppedFolders(const KUrl::List &urls)
 		return;
 	}
 
-	m_kgpgfoldertmp = tmpfolder;
-
-	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(m_keysmanager, m_model, goDefaultKey(), false, urls);
+	KGpgExternalActions *encActions = new KGpgExternalActions(parent, parent->getModel());
+	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(parent, parent->getModel(), encActions->goDefaultKey(), false, urls);
+	encActions->m_kgpgfoldertmp = tmpfolder;
 
 	KHBox *bGroup = new KHBox(dialog->optionsbox);
 
@@ -154,18 +155,12 @@ void KGpgExternalActions::encryptDroppedFolders(const KUrl::List &urls)
 	KComboBox *optionbx = new KComboBox(bGroup);
 	optionbx->setModel(new QStringListModel(FolderCompressJob::archiveNames(), bGroup));
 
-	connect(optionbx, SIGNAL(activated(int)), SLOT(slotSetCompression(int)));
-	connect(dialog, SIGNAL(accepted()), SLOT(startFolderEncode()));
-	connect(dialog, SIGNAL(rejected()), SLOT(slotAbortEnc()));
-
+	connect(optionbx, SIGNAL(activated(int)), encActions, SLOT(slotSetCompression(int)));
+	connect(dialog, SIGNAL(accepted()), encActions, SLOT(startFolderEncode()));
+	connect(dialog, SIGNAL(rejected()), encActions, SLOT(deleteLater()));
+	connect(dialog, SIGNAL(rejected()), dialog, SLOT(deleteLater()));
+	
 	dialog->show();
-}
-
-void KGpgExternalActions::slotAbortEnc()
-{
-	sender()->deleteLater();
-	delete m_kgpgfoldertmp;
-	m_kgpgfoldertmp = NULL;
 }
 
 void KGpgExternalActions::slotSetCompression(int cp)
@@ -215,6 +210,7 @@ void KGpgExternalActions::startFolderEncode()
 		if (over->exec() == QDialog::Rejected) {
 			dialog = NULL;
 			delete over;
+			deleteLater();
 			return;
 		}
 		encryptedFile = over->newDestUrl();
@@ -233,10 +229,10 @@ void KGpgExternalActions::slotFolderFinished(KJob *job)
 	FolderCompressJob *trayinfo = qobject_cast<FolderCompressJob *>(job);
 	Q_ASSERT(trayinfo != NULL);
 
-	delete m_kgpgfoldertmp;
-	m_kgpgfoldertmp = NULL;
 	if (trayinfo->error())
 		KMessageBox::sorry(m_keysmanager, trayinfo->errorString());
+
+	deleteLater();
 }
 
 void KGpgExternalActions::verifyFile(KUrl url)
