@@ -110,9 +110,6 @@ int KGpgApp::newInstance()
 		for (int ct = 0; ct < args->count(); ct++)
 			urlList.append(args->url(ct));
 
-		if (urlList.empty())
-			return 0;
-
 		bool directoryInside = false;
 		foreach (const KUrl &url, urlList)
 			if (KMimeType::findByUrl(url)->name() == QLatin1String( "inode/directory" )) {
@@ -174,6 +171,9 @@ int KGpgApp::newInstance()
 				}
 			}
 		}
+	} else if (args->allArguments().count()) {
+		KMessageBox::sorry(0, i18n("No files given."));
+		return 0;
 	}
 	return 0;
 }
