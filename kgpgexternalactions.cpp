@@ -338,17 +338,21 @@ void KGpgExternalActions::slotSignFiles()
 	deleteLater();
 }
 
-void KGpgExternalActions::decryptDroppedFiles(const KUrl::List &urls)
+void KGpgExternalActions::decryptFiles(KeysManager* parent, const KUrl::List &urls)
 {
-	m_decryptionFailed.clear();
+	KGpgExternalActions *decActions = new KGpgExternalActions(parent, parent->getModel());
 
-	decryptFile(urls);
+	decActions->droppedUrls = urls;
+
+	decActions->decryptFile(urls);
 }
 
 void KGpgExternalActions::decryptFile(KUrl::List urls)
 {
-	if (urls.isEmpty())
+	if (urls.isEmpty()) {
+		deleteLater();
 		return;
+	}
 
 	while (!urls.first().isLocalFile()) {
 		showDroppedFile(urls.takeFirst());
@@ -400,11 +404,14 @@ void KGpgExternalActions::slotDecryptionDone(int status)
 
 	if (!droppedUrls.isEmpty()) {
 		decryptFile(droppedUrls);
-	} else if (!m_decryptionFailed.isEmpty()) {
-		KMessageBox::errorList(NULL,
+	} else {
+		if (!m_decryptionFailed.isEmpty()) {
+			KMessageBox::errorList(NULL,
 					i18np("Decryption of this file failed:", "Decryption of these files failed:",
 					m_decryptionFailed.count()), m_decryptionFailed.toStringList(),
 					i18n("Decryption failed."));
+		}
+		deleteLater();
 	}
 }
 

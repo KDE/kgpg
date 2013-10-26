@@ -54,7 +54,7 @@ public:
 	 */
 	static void signFiles(KeysManager* parent, const KUrl::List &urls);
 
-	void decryptDroppedFiles(const KUrl::List &urls);
+	static void decryptFiles(KeysManager* parent, const KUrl::List& urls);
 	void encryptDroppedFolders(const KUrl::List &urls);
 
 	/**
