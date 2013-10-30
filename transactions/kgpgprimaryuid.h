@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -44,6 +44,7 @@ public:
 
 protected:
 	virtual bool nextLine(const QString &line);
+	virtual bool passphraseReceived();
 
 private:
 	int m_fixargs;
