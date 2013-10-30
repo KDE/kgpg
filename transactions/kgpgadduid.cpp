@@ -16,7 +16,7 @@
 #include <kpimutils/email.h>
 
 KGpgAddUid::KGpgAddUid(QObject *parent, const QString &keyid, const QString &name, const QString &email, const QString &comment)
-	: KGpgEditKeyTransaction(parent, keyid, QLatin1String( "adduid" ), false, false)
+	: KGpgEditKeyTransaction(parent, keyid, QLatin1String("adduid"), false, true)
 {
 	setName(name);
 	setEmail(email);
@@ -55,8 +55,6 @@ KGpgAddUid::nextLine(const QString &line)
 		write(m_email.toAscii());
 	} else if (line.contains(QLatin1String( "keygen.comment" ))) {
 		write(m_comment.toUtf8());
-	} else if (line.contains(QLatin1String( "keyedit.prompt" ))) {
-		write("save");
 	} else {
 		return KGpgEditKeyTransaction::nextLine(line);
 	}

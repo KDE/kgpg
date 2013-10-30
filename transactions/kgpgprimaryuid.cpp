@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -18,7 +18,8 @@
 KGpgPrimaryUid::KGpgPrimaryUid(QObject *parent, KGpgUidNode *uid)
 	: KGpgUidTransaction(parent, uid->getParentKeyNode()->getId(), uid->getId())
 {
-	addArgument(QLatin1String( "primary" ));
+	addArgument(QLatin1String("primary"));
+	addArgument(QLatin1String("save"));
 }
 
 KGpgPrimaryUid::~KGpgPrimaryUid()
@@ -26,9 +27,17 @@ KGpgPrimaryUid::~KGpgPrimaryUid()
 }
 
 bool
-KGpgPrimaryUid::nextLine(const QString &line)
+KGpgPrimaryUid::nextLine(const QString &)
 {
-	return standardCommands(line);
+	setSuccess(TS_MSG_SEQUENCE);
+	return true;
+}
+
+bool
+KGpgPrimaryUid::passphraseReceived()
+{
+	setSuccess(TS_OK);
+	return KGpgTransaction::passphraseReceived();
 }
 
 #include "kgpgprimaryuid.moc"
