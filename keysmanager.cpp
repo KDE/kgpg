@@ -203,9 +203,9 @@ KeysManager::KeysManager(QWidget *parent)
 	importKey->setText(i18n("&Import Key..."));
 	importKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Paste));
 
-	QAction *sendEmail = actionCollection()->addAction(QLatin1String("send_mail"), this, SLOT(slotSendEmail()));
-	sendEmail->setIcon(KIcon(QLatin1String("mail-send")));
-	sendEmail->setText(i18n("Send Ema&il"));
+	m_sendEmail = actionCollection()->addAction(QLatin1String("send_mail"), this, SLOT(slotSendEmail()));
+	m_sendEmail->setIcon(KIcon(QLatin1String("mail-send")));
+	m_sendEmail->setText(i18n("Send Ema&il"));
 
 	QAction *newContact = actionCollection()->addAction(QLatin1String("add_kab"), this, SLOT(addToKAB()));
 	newContact->setIcon(KIcon( QLatin1String( "contact-new" )));
@@ -358,7 +358,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 	m_popuppub = new KMenu(this);
 	m_popuppub->addAction(exportPublicKey);
-	m_popuppub->addAction(sendEmail);
+	m_popuppub->addAction(m_sendEmail);
 	m_popuppub->addAction(signMailUid);
 	m_popuppub->addAction(signKey);
 	m_popuppub->addAction(signUid);
@@ -373,7 +373,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 	m_popupsec = new KMenu(this);
 	m_popupsec->addAction(exportPublicKey);
-	m_popupsec->addAction(sendEmail);
+	m_popupsec->addAction(m_sendEmail);
 	m_popupsec->addAction(signKey);
 	m_popupsec->addAction(signUid);
 	m_popupsec->addAction(signMailUid);
@@ -410,7 +410,7 @@ KeysManager::KeysManager(QWidget *parent)
 	m_popupphoto->addAction(deletePhoto);
 
 	m_popupuid = new KMenu(this);
-	m_popupuid->addAction(sendEmail);
+	m_popupuid->addAction(m_sendEmail);
 	m_popupuid->addAction(signMailUid);
 	m_popupuid->addAction(signUid);
 	m_popupuid->addAction(delUid);
@@ -1081,6 +1081,7 @@ void KeysManager::checkList()
 			m_revokeKey->setEnabled(exportList.at(0)->getType() == ITYPE_PAIR);
 			if (terminalkey)
 				editKey->setEnabled(false);
+			m_sendEmail->setEnabled(!exportList[0]->getEmail().isEmpty());
 		}
 		break;
 	default:
