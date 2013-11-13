@@ -2428,6 +2428,38 @@ void KeysManager::confirmdeletekey()
 	} else if ((pt == ITYPE_UID) && (ndlist.count() == 1)) {
 		slotDelUid();
 		return;
+	} else if ((pt & ITYPE_GROUP) && !(pt & ~ITYPE_GPAIR)) {
+		bool invalidDelete = false;
+		foreach (const KGpgNode *nd, ndlist)
+			if (nd->getType() == ITYPE_GROUP) {
+				invalidDelete = true;
+				break;
+			}
+
+		// only allow removing group members if they belong to the same group
+		if (!invalidDelete) {
+			const KGpgNode * const group = ndlist.first()->getParentKeyNode();
+			foreach (const KGpgNode *nd, ndlist)
+				if (nd->getParentKeyNode() != group) {
+					invalidDelete = true;
+					break;
+				}
+		}
+
+		if (!invalidDelete) {
+			KGpgGroupNode *gnd = ndlist.first()->getParentKeyNode()->toGroupNode();
+
+			QList<KGpgNode *> members = gnd->getChildren();
+
+			foreach (KGpgNode *nd, ndlist) {
+				int r = members.removeAll(nd);
+				Q_ASSERT(r == 1);
+				Q_UNUSED(r);
+			}
+
+			imodel->changeGroup(gnd, members);
+			return;
+		}
 	}
 
 	if (pt & ~ITYPE_PAIR) {
