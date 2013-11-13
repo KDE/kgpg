@@ -165,8 +165,7 @@ int KGpgApp::newInstance()
 
 				if (hastext) {
 					KGpgExternalActions::decryptFiles(s_keyManager, urlList);
-				} else {
-					Q_ASSERT(haskeys);
+				} else if (haskeys) {
 					s_keyManager->slotImport(urlList);
 				}
 			}
