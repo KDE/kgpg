@@ -33,7 +33,6 @@ class groupEdit : public QWidget, public Ui::groupEdit
 private:
 	GroupEditProxyModel *m_in;
 	GroupEditProxyModel *m_out;
-	KGpgItemModel * const m_model;
 	QSortFilterProxyModel * const m_outFilter;
 
 public:
