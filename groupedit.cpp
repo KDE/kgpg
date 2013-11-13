@@ -106,7 +106,7 @@ groupEdit::groupRemove()
 			continue;
 		KGpgNode *nd = m_in->nodeForIndex(sel.at(i));
 		for (int j = 0; j < members->count(); j++)
-			if (members->at(j)->getId() == nd->getId()) {
+			if (nd->toKeyNode()->compareId(members->at(j)->getId())) {
 				members->removeAt(j);
 				break;
 			}
@@ -128,9 +128,9 @@ void
 groupEdit::groupRemove(const QModelIndex &index)
 {
 	Q_ASSERT(!members->isEmpty());
-	KGpgNode *nd = m_in->nodeForIndex(index);
+	KGpgKeyNode *nd = m_in->nodeForIndex(index)->toKeyNode();
 	for (int i = 0; i < members->count(); i++)
-		if (members->at(i)->getId() == nd->getId()) {
+		if (nd->compareId(members->at(i)->getId())) {
 			members->removeAt(i);
 			break;
 		}

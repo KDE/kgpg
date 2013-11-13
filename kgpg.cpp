@@ -165,13 +165,12 @@ int KGpgApp::newInstance()
 
 				if (hastext) {
 					KGpgExternalActions::decryptFiles(s_keyManager, urlList);
-				} else {
-					Q_ASSERT(haskeys);
+				} else if (haskeys) {
 					s_keyManager->slotImport(urlList);
 				}
 			}
 		}
-	} else if (args->allArguments().count()) {
+	} else if (args->allArguments().count() > 1) {
 		KMessageBox::sorry(0, i18n("No files given."));
 		return 0;
 	}
