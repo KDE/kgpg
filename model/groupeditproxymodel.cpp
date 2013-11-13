@@ -112,7 +112,7 @@ GroupEditProxyModel::data(const QModelIndex &index, int role) const
 			return nd->getEmail();
 		case 2:
 			if (role == Qt::ToolTipRole)
-				return nd->getId();
+				return nd->toKeyNode()->getBeautifiedFingerprint();
 			else
 				return nd->getId().right(8);
 	}

@@ -115,7 +115,7 @@ QString
 KGpgRefNode::getId() const
 {
 	if (m_keynode != NULL)
-		return m_keynode->getId();
+		return m_keynode->getFingerprint();
 	else
 		return m_id;
 }
