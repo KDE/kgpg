@@ -172,8 +172,7 @@ int KGpgApp::newInstance()
 
 				if (hastext) {
 					w->decryptDroppedFiles(urlList);
-				} else {
-					Q_ASSERT(haskeys);
+				} else if (haskeys) {
 					s_keyManager->slotImport(urlList);
 				}
 			}
