@@ -1,4 +1,4 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -95,7 +95,7 @@ KGpgRefNode::keyUpdated(KGpgKeyNode *nkey)
 	Q_ASSERT(m_keynode == NULL);
 	Q_ASSERT(nkey != NULL);
 
-	if (nkey->getId().right(m_id.length()) == m_id) {
+	if (nkey->compareId(m_id)) {
 		disconnect(sender(), NULL, this, SLOT(keyUpdated(KGpgKeyNode*)));
 		m_keynode = nkey;
 		m_keynode->addRef(this);

@@ -1,4 +1,4 @@
-/* Copyright 2008  Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2010,2012,2013  Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -60,8 +60,9 @@ GroupEditProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_
 	if (l->getTrust() < m_mintrust)
 		return false;
 
+	const KGpgKeyNode * const lk = l->toKeyNode();
 	for (int i = 0; i < m_ids->count(); i++)
-		if (m_ids->at(i)->getId() == l->getId())
+		if (lk->compareId(m_ids->at(i)->getId()))
 			return !m_invert;
 
 	return m_invert;
