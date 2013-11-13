@@ -170,7 +170,7 @@ int KGpgApp::newInstance()
 				}
 			}
 		}
-	} else if (args->allArguments().count()) {
+	} else if (args->allArguments().count() > 1) {
 		KMessageBox::sorry(0, i18n("No files given."));
 		return 0;
 	}
