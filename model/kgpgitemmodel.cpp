@@ -309,8 +309,8 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 	for (int i = node->getChildCount() - 1; i >= 0; i--) {
 		bool found = false;
 
-		for (int j = 0; j < keys.count(); j++) {
-			found = (node->getChild(i)->getId() == keys.at(j)->getId());
+		foreach (const KGpgNode *nd, keys) {
+			found = (node->getChild(i)->getId() == nd->getId());
 			if (found)
 				break;
 		}
@@ -326,8 +326,9 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 
 	for (int i = 0; i < keys.count(); i++) {
 		bool found = false;
-		for (int j = 0; j < cnt; j++) {
-			found = (node->getChild(j)->getId() == keys.at(i)->getId());
+
+		foreach (const KGpgNode *nd, node->getChildren()) {
+			found = (nd->getId() == keys.at(i)->getId());
 			if (found)
 				break;
 		}
