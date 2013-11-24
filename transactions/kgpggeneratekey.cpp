@@ -116,7 +116,7 @@ KGpgGenerateKey::postStart()
 		QStringList usage;
 #if 0
 		// GnuPG always adds cert, but it does not allow this to be
-		// explicitely specified
+		// explicitly specified
 		if (m_capabilities & KgpgCore::SKT_CERTIFICATION)
 			usage << QLatin1String("cert");
 #endif
