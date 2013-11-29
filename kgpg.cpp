@@ -39,7 +39,6 @@ using namespace KgpgCore;
 KGpgApp::KGpgApp()
              : KUniqueApplication(),
 	     running(false),
-	     args(0),
 	     w(NULL),
 	     s_keyManager(0)
 {
@@ -94,7 +93,7 @@ int KGpgApp::newInstance()
 		}
 	}
 
-	args = KCmdLineArgs::parsedArgs();
+	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 
 	// parsing of command line args
 	if (args->isSet("k") || (!KGpgSettings::showSystray() && (args->count() == 0) && !args->isSet("d"))) {
@@ -105,8 +104,9 @@ int KGpgApp::newInstance()
 	} else if (args->isSet("d")) {
 		s_keyManager->slotOpenEditor();
 		s_keyManager->hide();
-	} else if (args->count() > 0) {
-		urlList.clear();
+	} else {
+		KUrl::List urlList;
+
 		for (int ct = 0; ct < args->count(); ct++)
 			urlList.append(args->url(ct));
 
@@ -118,22 +118,30 @@ int KGpgApp::newInstance()
 			}
 
 		if (args->isSet("e")) {
-			if (!directoryInside)
+			if (urlList.isEmpty())
+				KMessageBox::sorry(0, i18n("No files given."));
+			else if (!directoryInside)
 				KGpgExternalActions::encryptFiles(s_keyManager, urlList);
 			else
 				KGpgExternalActions::encryptFolders(s_keyManager, urlList);
 		} else if (args->isSet("s")) {
-			if (!directoryInside)
+			if (urlList.isEmpty())
+				KMessageBox::sorry(0, i18n("No files given."));
+			else if (!directoryInside)
 				w->showDroppedFile(urlList.first());
 			else
 				KMessageBox::sorry(0, i18n("Cannot decrypt and show folder."));
 		} else if (args->isSet("S")) {
-			if (!directoryInside)
+			if (urlList.isEmpty())
+				KMessageBox::sorry(0, i18n("No files given."));
+			else if (!directoryInside)
 				KGpgExternalActions::signFiles(s_keyManager, urlList);
 			else
 				KMessageBox::sorry(0, i18n("Cannot sign folder."));
 		} else if (args->isSet("V") != 0) {
-			if (!directoryInside)
+			if (urlList.isEmpty())
+				KMessageBox::sorry(0, i18n("No files given."));
+			else if (!directoryInside)
 				w->verifyFile(urlList.first());
 			else
 				KMessageBox::sorry(0, i18n("Cannot verify folder."));
@@ -143,7 +151,9 @@ int KGpgApp::newInstance()
 				return 0;
 			}
 
-			if (urlList.first().fileName().endsWith(QLatin1String(".sig"))) {
+			if (urlList.isEmpty()) {
+				/* do nothing */
+			} else if (urlList.first().fileName().endsWith(QLatin1String(".sig"))) {
 				w->verifyFile(urlList.first());
 			} else {
 				bool haskeys = false;
@@ -170,10 +180,8 @@ int KGpgApp::newInstance()
 				}
 			}
 		}
-	} else if (args->allArguments().count() > 1) {
-		KMessageBox::sorry(0, i18n("No files given."));
-		return 0;
 	}
+
 	return 0;
 }
 

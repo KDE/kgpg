@@ -49,11 +49,7 @@ public:
 
     int newInstance ();
     bool running;
-    KUrl::List urlList;
     KShortcut goHome;
-
-protected:
-    KCmdLineArgs *args;
 
 private:
     KGpgExternalActions *w;
