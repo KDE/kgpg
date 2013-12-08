@@ -72,6 +72,7 @@ public:
 	KGpgRootNode *getRootNode() const;
 	QString statusCountMessage() const;
 	static QString statusCountMessageString(const unsigned int keys, const unsigned int groups);
+	bool isDefaultKey(const KGpgNode *node) const;
 
 public Q_SLOTS:
 	KGpgGroupNode *addGroup(const QString &name, const KGpgKeyNode::List &keys);
@@ -92,7 +93,6 @@ protected:
 	int rowForNode(KGpgNode *node) const;
 	void refreshKeyIds(const QStringList &id);
 	void refreshKeyIds(KGpgKeyNode::List &nodes);
-	bool isDefaultKey(const KGpgNode *node) const;
 	void updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::KgpgKeyTrust trust, const QColor &color);
 };
 
