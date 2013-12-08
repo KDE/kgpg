@@ -1031,6 +1031,7 @@ void KeysManager::checkList()
 			m_revokeKey->setEnabled(exportList.at(0)->getType() == ITYPE_PAIR);
 			if (terminalkey)
 				editKey->setEnabled(false);
+			setDefaultKey->setEnabled(!imodel->isDefaultKey(exportList[0]));
 		}
 		break;
 	default:
