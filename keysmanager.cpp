@@ -1082,6 +1082,7 @@ void KeysManager::checkList()
 			if (terminalkey)
 				editKey->setEnabled(false);
 			m_sendEmail->setEnabled(!exportList[0]->getEmail().isEmpty());
+			setDefaultKey->setEnabled(!imodel->isDefaultKey(exportList[0]));
 		}
 		break;
 	default:
