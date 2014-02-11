@@ -104,7 +104,8 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
 	keychange(new KGpgChangeKey(node, this)),
 	m_node(node),
 	m_model(model),
-	m_keywaschanged(false)
+	m_keywaschanged(false),
+	m_closewhendone(false)
 {
 	Q_ASSERT(m_model != NULL);
 	Q_ASSERT(m_node != NULL);
@@ -133,9 +134,6 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
     connect(m_owtrust, SIGNAL(activated(int)), this, SLOT(slotChangeTrust(int)));
     connect(m_photoid, SIGNAL(activated(QString)), this, SLOT(slotLoadPhoto(QString)));
     connect(m_email, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotPreOk()));
-    connect(this, SIGNAL(cancelClicked()), this, SLOT(slotPreCancel()));
-    connect(this, SIGNAL(applyClicked()), SLOT(slotApply()));
     connect(keychange, SIGNAL(done(int)), SLOT(slotApplied(int)));
     connect(m_disable, SIGNAL(toggled(bool)), this, SLOT(slotDisableKey(bool)));
     connect(m_expirationbtn, SIGNAL(clicked()), this, SLOT(slotChangeDate()));
@@ -269,16 +267,6 @@ void KgpgKeyInfo::slotLoadPhoto(const QString &uid)
 	m_photo->setPixmap(pixmap);
 }
 
-void KgpgKeyInfo::slotPreOk()
-{
-	if (m_keywaschanged && m_node)
-		emit keyNeedsRefresh(m_node);
-	keychange->setParentWidget(parentWidget());
-	keychange->selfdestruct(true);
-	keychange = NULL;
-	accept();
-}
-
 void KgpgKeyInfo::slotChangeDate()
 {
 	QPointer<SelectExpiryDate> dialog = new SelectExpiryDate(this, m_node->getExpiration());
@@ -348,10 +336,24 @@ void KgpgKeyInfo::setControlEnable(const bool &b)
         QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 }
 
-void KgpgKeyInfo::slotApply()
+void KgpgKeyInfo::slotButtonClicked(int button)
 {
-	setControlEnable(false);
-	keychange->apply();
+	switch (button) {
+	case Ok:
+		m_closewhendone = true;
+		// Fall-through
+	case Apply:
+		setControlEnable(false);
+		keychange->apply();
+		break;
+	case Cancel:
+		if (m_keywaschanged && m_node)
+			emit keyNeedsRefresh(m_node);
+		reject();
+		break;
+	default:
+		KDialog::slotButtonClicked(button);
+	}
 }
 
 void KgpgKeyInfo::slotApplied(int result)
@@ -360,16 +362,14 @@ void KgpgKeyInfo::slotApplied(int result)
 		KMessageBox::error(this, i18n("Changing key properties failed."), i18n("Key properties"));
 	} else {
 		m_keywaschanged = true;
+		if (m_node)
+			emit keyNeedsRefresh(m_node);
 		reloadNode();
 	}
 	setControlEnable(true);
-}
 
-void KgpgKeyInfo::slotPreCancel()
-{
-	if (m_keywaschanged && m_node)
-		emit keyNeedsRefresh(m_node);
-	reject();
+	if (m_closewhendone)
+		accept();
 }
 
 void KgpgKeyInfo::slotKeyExpanded()

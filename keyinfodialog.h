@@ -75,6 +75,9 @@ public:
 signals:
     void keyNeedsRefresh(KGpgKeyNode *node);
 
+protected slots:
+    void slotButtonClicked(int button);
+
 private:
     void reloadKey();
     void reloadNode();
@@ -82,8 +85,6 @@ private:
     void setControlEnable(const bool &b);
 
 private slots:
-    void slotPreOk();
-    void slotPreCancel();
     void slotOpenUrl(const QString &url) const;
 
     void slotChangeDate();
@@ -97,7 +98,6 @@ private slots:
 
     void slotLoadPhoto(const QString &uid);
 
-    void slotApply();
     void slotApplied(int result);
 
     void slotKeyExpanded();
@@ -109,6 +109,7 @@ private:
     KgpgTrustLabel *m_trust;
 
     bool m_keywaschanged;
+    bool m_closewhendone;
 };
 
 #endif // KGPGKEYINFODIALOG_H
