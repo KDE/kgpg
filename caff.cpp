@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -50,7 +50,7 @@ KGpgCaffPrivate::KGpgCaffPrivate(KGpgCaff *parent, const KGpgSignableNode::List 
 	} else {
 		QFileInfo fn(gpgCfg);
 		fn.setFile(fn.dir(), QLatin1String("secring.gpg"));
-		m_secringfile = QDir::toNativeSeparators(fn.absolutePath());
+		m_secringfile = QDir::toNativeSeparators(fn.absoluteFilePath());
 	}
 }
 
