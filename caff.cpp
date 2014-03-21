@@ -30,6 +30,7 @@
 #include <KTempDir>
 #include <KTemporaryFile>
 #include <KToolInvocation>
+#include <KMessageBox>
 #include <QDir>
 #include <QFileInfo>
 
@@ -62,6 +63,22 @@ void
 KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 {
 	Q_ASSERT(m_tempdir.isNull());
+
+	// find out if the given id can be used for encryption
+	const KGpgKeyNode *k;
+	if (key->getType() & KgpgCore::ITYPE_PAIR)
+		k = key->toKeyNode();
+	else
+		k = key->getParentKeyNode()->toKeyNode();
+
+	// skip if not
+	if (!k->canEncrypt()) {
+		m_noEncIds << key;
+		m_allids.removeFirst();
+		checkNextLoop();
+		return;
+	}
+
 	m_tempdir.reset(new KTempDir());
 
 	// export all keys necessary for signing
@@ -124,10 +141,28 @@ KGpgCaffPrivate::checkNextLoop()
 
 	m_tempdir.reset();
 
-	if (m_allids.isEmpty())
+	if (m_allids.isEmpty()) {
+		if (!m_noEncIds.isEmpty()) {
+			QStringList ids;
+
+			foreach (const KGpgSignableNode *nd, m_noEncIds)
+				if (nd->getEmail().isEmpty())
+					ids << i18nc("%1 is the key id, %2 is the name and comment of the key or uid",
+							"%1: %2", nd->getId(), nd->getNameComment());
+				else
+					ids << i18nc("%1 is the key id, %2 is the name and comment of the key or uid, %3 is the email address of the uid",
+							"%1: %2 &lt;%3&gt;", nd->getId(), nd->getNameComment(), nd->getEmail());
+
+			KMessageBox::detailedSorry(qobject_cast<QWidget *>(q->parent()),
+					i18np("No mail was sent for the following user id because it belongs to a key without encryption capability:",
+							"No mail was sent for the following user ids because they belong to keys without encryption capability:",
+							m_noEncIds.count()),
+					ids.join(QLatin1String("\n")));
+		}
 		emit q->done();
-	else
+	} else {
 		reexportKey(m_allids.first());
+	}
 }
 
 void

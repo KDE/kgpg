@@ -48,6 +48,7 @@ public:
 	~KGpgCaffPrivate();
 
 	KGpgSignableNode::List m_allids;
+	KGpgSignableNode::const_List m_noEncIds;	///< keys without encryption capability that were skipped
 
 private slots:
 	void slotSigningFinished(int result);
