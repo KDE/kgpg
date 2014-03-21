@@ -49,6 +49,7 @@ public:
 
 	KGpgSignableNode::List m_allids;
 	KGpgSignableNode::const_List m_noEncIds;	///< keys without encryption capability that were skipped
+	KGpgSignableNode::const_List m_alreadyIds;	///< ids already signed
 
 private slots:
 	void slotSigningFinished(int result);

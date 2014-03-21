@@ -159,6 +159,25 @@ KGpgCaffPrivate::checkNextLoop()
 							m_noEncIds.count()),
 					ids.join(QLatin1String("\n")));
 		}
+
+		if (!m_alreadyIds.isEmpty()) {
+			QStringList ids;
+
+			foreach (const KGpgSignableNode *nd, m_alreadyIds)
+				if (nd->getEmail().isEmpty())
+					ids << i18nc("%1 is the key id, %2 is the name and comment of the key or uid",
+							"%1: %2", nd->getId(), nd->getNameComment());
+				else
+					ids << i18nc("%1 is the key id, %2 is the name and comment of the key or uid, %3 is the email address of the uid",
+							"%1: %2 &lt;%3&gt;", nd->getId(), nd->getNameComment(), nd->getEmail());
+
+			KMessageBox::detailedSorry(qobject_cast<QWidget *>(q->parent()),
+					i18np("No mail was sent for the following user id because it was already signed:",
+							"No mail was sent for the following user ids because they were already signed:",
+							m_alreadyIds.count()),
+					ids.join(QLatin1String("\n")));
+		}
+
 		emit q->done();
 	} else {
 		reexportKey(m_allids.first());
@@ -172,7 +191,7 @@ KGpgCaffPrivate::slotSigningFinished(int result)
 
 	if (result != KGpgTransaction::TS_OK) {
 		if ((result == KGpgSignTransactionHelper::TS_ALREADY_SIGNED) && (m_flags & KGpgCaff::IgnoreAlreadySigned)) {
-			m_allids.removeFirst();
+			m_alreadyIds << m_allids.takeFirst();
 			checkNextLoop();
 		} else {
 			abortOperation(result);

@@ -2049,7 +2049,7 @@ void KeysManager::caff()
 		return;
 	}
 
-	KGpgCaff *ca = new KGpgCaff(this, slist, QStringList(opts->getKeyID()), opts->getSignTrust());
+	KGpgCaff *ca = new KGpgCaff(this, slist, QStringList(opts->getKeyID()), opts->getSignTrust(), KGpgCaff::IgnoreAlreadySigned);
 	delete opts;
 
 	connect(ca, SIGNAL(done()), SLOT(slotCaffDone()));
