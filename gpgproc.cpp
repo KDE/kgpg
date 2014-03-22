@@ -250,8 +250,11 @@ GPGProc::recode(QByteArray a, const bool colons, const QByteArray &codec)
 		char n[2];
 		n[0] = hexnum.toUShort(&ok, 16);
 		n[1] = '\0';	// to use n as a 0-terminated string
-		if (!ok)
+		if (!ok) {
+			// skip this occurence
+			pos += 2;
 			continue;
+		}
 
 		// QLatin1Char( ':' ) must be skipped, it is used as column delimiter
 		// since it is pure ascii it can be replaced in QString.
