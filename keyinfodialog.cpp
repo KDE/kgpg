@@ -28,6 +28,7 @@
 
 #include <KComboBox>
 #include <KDatePicker>
+#include <KGlobal>
 #include <KLocale>
 #include <KMessageBox>
 #include <KPushButton>
@@ -201,11 +202,11 @@ void KgpgKeyInfo::displayKey()
     m_id->setText(m_node->getId().right(16));
     m_algorithm->setText(Convert::toString(key->algorithm()) + QLatin1String( " / " ) + Convert::toString(key->encryptionAlgorithm()));
     m_algorithm->setWhatsThis(i18n("<qt>The left part is the algorithm used by the <b>signature</b> key. The right part is the algorithm used by the <b>encryption</b> key.</qt>"));
-    m_creation->setText(Convert::toString(m_node->getCreation().date()));
+    m_creation->setText(KGlobal::locale()->formatDate(m_node->getCreation().date(), KLocale::ShortDate));
     if (m_node->getExpiration().isNull())
         m_expiration->setText(i18nc("Unlimited key lifetime", "Unlimited"));
     else
-        m_expiration->setText(Convert::toString(m_node->getExpiration().date()));
+        m_expiration->setText(KGlobal::locale()->formatDate(m_node->getExpiration().date(), KLocale::ShortDate));
     m_trust->setText(trust);
     m_trust->setColor(trustcolor);
     m_length->setText(m_node->getSize());

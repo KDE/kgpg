@@ -20,7 +20,9 @@
 #include "model/kgpgitemnode.h"
 #include "kgpgitemmodel.h"
 #include "core/kgpgkey.h"
-#include "core/convert.h"
+
+#include <KGlobal>
+#include <KLocale>
 
 using namespace KgpgCore;
 
@@ -218,10 +220,14 @@ SelectSecretKeyProxyModel::data(const QModelIndex &index, int role) const
 		return QVariant();
 
 	switch (index.column()) {
-		case 0:	return nd->getName();
-		case 1:	return nd->getEmail();
-		case 2:	return Convert::toString(nd->getExpiration().date());
-		case 3:	return nd->getId().right(8);
+	case 0:
+		return nd->getName();
+	case 1:
+		return nd->getEmail();
+	case 2:
+		return KGlobal::locale()->formatDate(nd->getExpiration().date(), KLocale::ShortDate);
+	case 3:
+		return nd->getId().right(8);
 	}
 
 	return QVariant();

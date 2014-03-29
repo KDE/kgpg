@@ -22,8 +22,6 @@
 #include "convert.h"
 
 #include <KDebug>
-#include <KGlobal>
-#include <KLocale>
 #include <gpgme.h>
 
 #include "kgpgsettings.h"
@@ -83,11 +81,6 @@ QString toString(const KgpgKeyTrust trust)
         case TRUST_UNKNOWN:
         default:                return i18nc("Unknown trust in key", "Unknown");
     }
-}
-
-QString toString(const QDate &date)
-{
-    return KGlobal::locale()->formatDate(date, KLocale::ShortDate);
 }
 
 QString toString(const KgpgCore::KgpgSubKeyType type)
