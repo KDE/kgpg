@@ -16,10 +16,12 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
 find_package( KdepimLibs REQUIRED ) 
+# only headers are used
+find_package( Gpgme REQUIRED )
 
 add_subdirectory( icons )
 add_subdirectory( doc )
-include_directories( ${KDE4_INCLUDES} ${KDEPIMLIBS_INCLUDE_DIR} )
+include_directories( ${KDE4_INCLUDES} ${KDEPIMLIBS_INCLUDE_DIR} ${GPGME_INCLUDES} )
 
 option(KGPG_DEBUG_TRANSACTIONS "show commands and results of gpg calls in debug log" Off)
 
