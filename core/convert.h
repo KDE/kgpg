@@ -44,7 +44,6 @@ namespace Convert
     KgpgKeyTrust toTrust(const QChar &c);
     KgpgKeyTrust toTrust(const QString &s);
     gpgme_validity_t toOwnerTrust(const QChar &c);
-    gpgme_validity_t toOwnerTrust(const QString &s);
     /**
      * @brief parse the GnuPG capabilities field
      * @param capString the capability string as returned by GnuPG

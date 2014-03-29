@@ -167,11 +167,6 @@ gpgme_validity_t toOwnerTrust(const QChar &c)
 	}
 }
 
-gpgme_validity_t toOwnerTrust(const QString &s)
-{
-	return s.isEmpty() ? GPGME_VALIDITY_UNDEFINED : toOwnerTrust(s[0]);
-}
-
 KgpgSubKeyType toSubType(const QString& capString, bool upper)
 {
 	KgpgSubKeyType ret;

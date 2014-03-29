@@ -22,6 +22,7 @@
 #include "core/KGpgUatNode.h"
 #include "core/KGpgUidNode.h"
 
+#include <gpgme.h>
 #include <KConfig>
 #include <KDebug>
 #include <KGlobal>
@@ -174,12 +175,17 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 
 			publickey = &publiclistkeys.last();
 
-			publickey->setOwnerTrust(Convert::toOwnerTrust(lsp.at(8)));
+			const QString &owTrust = lsp.at(8);
+			if (owTrust.isEmpty())
+				publickey->setOwnerTrust(GPGME_VALIDITY_UNDEFINED);
+			else
+				publickey->setOwnerTrust(Convert::toOwnerTrust(owTrust[0]));
 
-			if (lsp.at(6).isEmpty())
+			const QString &endDate = lsp.at(6);
+			if (endDate.isEmpty())
 				publickey->setExpiration(QDateTime());
 			else
-				publickey->setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
+				publickey->setExpiration(QDateTime::fromTime_t(endDate.toUInt()));
 
 			publickey->setValid(enabled);  // disabled key
 
