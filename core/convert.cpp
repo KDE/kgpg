@@ -26,7 +26,6 @@
 #include <KLocale>
 
 #include "kgpgsettings.h"
-#include "images.h"
 
 namespace KgpgCore
 {
