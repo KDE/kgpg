@@ -24,6 +24,7 @@
 #include <KDebug>
 #include <KGlobal>
 #include <KLocale>
+#include <gpgme.h>
 
 #include "kgpgsettings.h"
 
@@ -102,14 +103,17 @@ QString toString(const KgpgCore::KgpgSubKeyType type)
 
 KgpgKeyAlgo toAlgo(const uint v)
 {
-    switch (v)
-    {
-        case 1:      return ALGO_RSA;
-        case 16:
-        case 20:     return ALGO_ELGAMAL;
-        case 17:     return ALGO_DSA;
-        default:     return ALGO_UNKNOWN;
-    }
+	switch (v) {
+	case GPGME_PK_RSA:
+		return ALGO_RSA;
+	case GPGME_PK_ELG_E:
+	case GPGME_PK_ELG:
+		return ALGO_ELGAMAL;
+	case GPGME_PK_DSA:
+		return ALGO_DSA;
+	default:
+		return ALGO_UNKNOWN;
+	}
 }
 
 KgpgKeyAlgo toAlgo(const QString &s)
