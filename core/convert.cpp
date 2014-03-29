@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2010,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
  *   This program is free software; you can redistribute it and/or modify  *
@@ -48,18 +48,23 @@ QString toString(const KgpgKeyAlgo algorithm)
     }
 }
 
-QString toString(const KgpgKeyOwnerTrust ownertrust)
+QString toString(const gpgme_validity_t ownertrust)
 {
-    switch (ownertrust)
-    {
-        case OWTRUST_UNDEFINED: return i18n("Do not Know");
-        case OWTRUST_NONE:      return i18n("Do NOT Trust");
-        case OWTRUST_MARGINAL:  return i18n("Marginally");
-        case OWTRUST_FULL:      return i18n("Fully");
-        case OWTRUST_ULTIMATE:  return i18n("Ultimately");
-        case OWTRUST_UNKNOWN:
-        default:                return i18nc("Unknown trust in key owner", "Unknown");
-    }
+	switch (ownertrust) {
+	case GPGME_VALIDITY_UNDEFINED:
+		return i18n("Do not Know");
+	case GPGME_VALIDITY_NEVER:
+		return i18n("Do NOT Trust");
+	case GPGME_VALIDITY_MARGINAL:
+		return i18n("Marginally");
+	case GPGME_VALIDITY_FULL:
+		return i18n("Fully");
+	case GPGME_VALIDITY_ULTIMATE:
+		return i18n("Ultimately");
+	case GPGME_VALIDITY_UNKNOWN:
+	default:
+		return i18nc("Unknown trust in key owner", "Unknown");
+	}
 }
 
 QString toString(const KgpgKeyTrust trust)
@@ -146,21 +151,25 @@ KgpgKeyTrust toTrust(const QString &s)
     return s.isEmpty() ? TRUST_UNKNOWN : toTrust(s[0]);
 }
 
-KgpgKeyOwnerTrust toOwnerTrust(const QChar &c)
+gpgme_validity_t toOwnerTrust(const QChar &c)
 {
-    switch (c.toAscii())
-    {
-        case 'n':     return OWTRUST_NONE;
-        case 'm':     return OWTRUST_MARGINAL;
-        case 'u':     return OWTRUST_ULTIMATE;
-        case 'f':     return OWTRUST_FULL;
-        default:      return OWTRUST_UNDEFINED;
-    }
+	switch (c.toAscii()) {
+	case 'n':
+		return GPGME_VALIDITY_NEVER;
+	case 'm':
+		return GPGME_VALIDITY_MARGINAL;
+	case 'f':
+		return GPGME_VALIDITY_FULL;
+	case 'u':
+		return GPGME_VALIDITY_ULTIMATE;
+	default:
+		return GPGME_VALIDITY_UNDEFINED;
+	}
 }
 
-KgpgKeyOwnerTrust toOwnerTrust(const QString &s)
+gpgme_validity_t toOwnerTrust(const QString &s)
 {
-    return s.isEmpty() ? OWTRUST_UNDEFINED : toOwnerTrust(s[0]);
+	return s.isEmpty() ? GPGME_VALIDITY_UNDEFINED : toOwnerTrust(s[0]);
 }
 
 KgpgSubKeyType toSubType(const QString& capString, bool upper)

@@ -210,7 +210,7 @@ void KgpgKey::setFingerprint(const QString &fingerprint)
     d->gpgkeyfingerprint = fingerprint;
 }
 
-void KgpgKey::setOwnerTrust(const KgpgKeyOwnerTrust &owtrust)
+void KgpgKey::setOwnerTrust(const gpgme_validity_t &owtrust)
 {
     d->gpgkeyownertrust = owtrust;
 }
@@ -287,7 +287,7 @@ uint KgpgKey::encryptionSize() const
 	return 0;
 }
 
-KgpgKeyOwnerTrust KgpgKey::ownerTrust() const
+gpgme_validity_t KgpgKey::ownerTrust() const
 {
     return d->gpgkeyownertrust;
 }

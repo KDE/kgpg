@@ -18,6 +18,7 @@
 
 #include "core/kgpgkey.h"
 
+#include <gpgme.h>
 #include <QObject>
 
 /**
@@ -28,10 +29,10 @@ class KGpgChangeTrust: public KGpgEditKeyTransaction {
 
 	Q_DISABLE_COPY(KGpgChangeTrust)
 public:
-	KGpgChangeTrust(QObject *parent, const QString &keyid, const KgpgCore::KgpgKeyOwnerTrust trust);
+	KGpgChangeTrust(QObject *parent, const QString &keyid, const gpgme_validity_t trust);
 	virtual ~KGpgChangeTrust();
 
-	void setTrust(const KgpgCore::KgpgKeyOwnerTrust trust);
+	void setTrust(const gpgme_validity_t trust);
 
 protected:
 	virtual bool nextLine(const QString &line);
@@ -39,7 +40,7 @@ protected:
 	virtual bool preStart();
 
 private:
-	KgpgCore::KgpgKeyOwnerTrust m_trust;
+	gpgme_validity_t m_trust;
 };
 
 #endif // KGPGCHANGETRUST_H

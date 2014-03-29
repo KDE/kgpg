@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
  * Copyright (C) 2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  * Copyright (C) 2011 Philip G. Lee <rocketman768@gmail.com>
  */
 
@@ -94,7 +94,7 @@ private slots:
     void slotChangePass();
     void slotInfoPasswordChanged(int result);
 
-    void slotChangeTrust(const int &newtrust);
+    void slotChangeTrust(const int newtrust);
 
     void slotLoadPhoto(const QString &uid);
 

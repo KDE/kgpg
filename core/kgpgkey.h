@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006,2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2007,2008,2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -15,6 +15,7 @@
 #ifndef KGPGKEY_H
 #define KGPGKEY_H
 
+#include <gpgme.h>
 #include <QSharedDataPointer>
 #include <QSharedData>
 #include <QPointer>
@@ -65,25 +66,6 @@ enum KgpgKeyTrustFlag
 };
 Q_DECLARE_FLAGS(KgpgKeyTrust, KgpgKeyTrustFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyTrust)
-
-/*! \brief trust levels for trust in other key owners
- *
- * These values represent the trust that you have in other people when they
- * sign keys. Once you have signed someones keys you can benefit from the
- * keys they have signed if you trust them to carefully check which keys they
- * sign.
- */
-enum KgpgKeyOwnerTrustFlag
-{
-    OWTRUST_UNKNOWN = 0,	//!< Trust value is unknown (e.g. no entry in trust database).
-    OWTRUST_UNDEFINED = 1,	//!< Trust value undefined (e.g. not trust level set).
-    OWTRUST_NONE = 2,		//!< You do not trust the key owner, keys signed by him are untrusted.
-    OWTRUST_MARGINAL = 3,	//!< You have a minimum level of trust in the key owner.
-    OWTRUST_FULL = 4,		//!< You believe the key owner does good checking. Keys signed by him are trusted by you, too.
-    OWTRUST_ULTIMATE = 5	//!< There is no doubt in this key owner. This level is used for your own secret keys.
-};
-Q_DECLARE_FLAGS(KgpgKeyOwnerTrust, KgpgKeyOwnerTrustFlag)
-Q_DECLARE_OPERATORS_FOR_FLAGS(KgpgKeyOwnerTrust)
 
 enum KgpgSubKeyTypeFlag
 {
@@ -236,7 +218,7 @@ public:
     QString       gpgkeyfingerprint;
     const QString gpgkeyid;
     const uint    gpgkeysize;
-    KgpgKeyOwnerTrust gpgkeyownertrust;
+    gpgme_validity_t gpgkeyownertrust;
     const KgpgKeyTrust gpgkeytrust;
     const QDateTime gpgkeycreation;
     QDateTime     gpgkeyexpiration;
@@ -274,7 +256,7 @@ public:
     void setEmail(const QString &email);
     void setComment(const QString &comment);
     void setFingerprint(const QString &fingerprint);
-    void setOwnerTrust(const KgpgKeyOwnerTrust &owtrust);
+    void setOwnerTrust(const gpgme_validity_t &owtrust);
     void setExpiration(const QDateTime &date);
 
     bool secret() const;
@@ -288,7 +270,7 @@ public:
     QString fingerprintBeautified() const;
     uint size() const;
     uint encryptionSize() const;
-    KgpgKeyOwnerTrust ownerTrust() const;
+    gpgme_validity_t ownerTrust() const;
     KgpgKeyTrust trust() const;
     QDateTime creationDate() const;
     QDateTime expirationDate() const;

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
  * Copyright (C) 2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  * Copyright (C) 2011 Philip Greggory Lee <rocketman768@gmail.com>
  */
 
@@ -223,23 +223,23 @@ void KgpgKeyInfo::displayKey()
 
     switch (key->ownerTrust())
     {
-        case OWTRUST_NONE:
+        case GPGME_VALIDITY_NEVER:
             m_owtrust->setCurrentIndex(1);
             break;
 
-        case OWTRUST_MARGINAL:
+        case GPGME_VALIDITY_MARGINAL:
             m_owtrust->setCurrentIndex(2);
             break;
 
-        case OWTRUST_FULL:
+        case GPGME_VALIDITY_FULL:
             m_owtrust->setCurrentIndex(3);
             break;
 
-        case OWTRUST_ULTIMATE:
+        case GPGME_VALIDITY_ULTIMATE:
             m_owtrust->setCurrentIndex(4);
             break;
 
-        case OWTRUST_UNDEFINED:
+        case GPGME_VALIDITY_UNDEFINED:
         default:
             m_owtrust->setCurrentIndex(0);
             break;
@@ -313,9 +313,9 @@ void KgpgKeyInfo::slotInfoPasswordChanged(int result)
 	}
 }
 
-void KgpgKeyInfo::slotChangeTrust(const int &newtrust)
+void KgpgKeyInfo::slotChangeTrust(const int newtrust)
 {
-	keychange->setOwTrust(KgpgKeyOwnerTrust(newtrust + 1));
+	keychange->setOwTrust(static_cast<gpgme_validity_t>(newtrust + 1));
 	enableButtonApply(keychange->wasChanged());
 }
 

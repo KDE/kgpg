@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2012,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -50,7 +50,7 @@ void KGpgChangeKey::setDisable(const bool &disable)
 	m_disable = disable;
 }
 
-void KGpgChangeKey::setOwTrust(const KgpgCore::KgpgKeyOwnerTrust &trust)
+void KGpgChangeKey::setOwTrust(const gpgme_validity_t trust)
 {
 	m_owtrust = trust;
 }

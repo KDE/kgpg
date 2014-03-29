@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2010,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,8 @@
 
 #include "kgpgkey.h"
 
+#include <gpgme.h>
+
 class QString;
 class QPixmap;
 
@@ -33,7 +35,7 @@ namespace KgpgCore
 namespace Convert
 {
     QString toString(const KgpgCore::KgpgKeyAlgo algorithm);
-    QString toString(const KgpgCore::KgpgKeyOwnerTrust ownertrust);
+    QString toString(const gpgme_validity_t ownertrust);
     QString toString(const KgpgCore::KgpgKeyTrust trust);
     QString toString(const QDate &date);
     QString toString(const KgpgCore::KgpgSubKeyType type);
@@ -41,8 +43,8 @@ namespace Convert
     KgpgKeyAlgo toAlgo(const QString &s);
     KgpgKeyTrust toTrust(const QChar &c);
     KgpgKeyTrust toTrust(const QString &s);
-    KgpgKeyOwnerTrust toOwnerTrust(const QChar &c);
-    KgpgKeyOwnerTrust toOwnerTrust(const QString &s);
+    gpgme_validity_t toOwnerTrust(const QChar &c);
+    gpgme_validity_t toOwnerTrust(const QString &s);
     /**
      * @brief parse the GnuPG capabilities field
      * @param capString the capability string as returned by GnuPG

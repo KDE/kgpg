@@ -13,7 +13,7 @@
 
 #include "kgpgchangetrust.h"
 
-KGpgChangeTrust::KGpgChangeTrust(QObject *parent, const QString &keyid, const KgpgCore::KgpgKeyOwnerTrust trust)
+KGpgChangeTrust::KGpgChangeTrust(QObject *parent, const QString &keyid, const gpgme_validity_t trust)
 	: KGpgEditKeyTransaction(parent, keyid, QLatin1String( "trust" ), false)
 {
 	setTrust(trust);
@@ -55,7 +55,7 @@ KGpgChangeTrust::boolQuestion(const QString& line)
 }
 
 void
-KGpgChangeTrust::setTrust(const KgpgCore::KgpgKeyOwnerTrust trust)
+KGpgChangeTrust::setTrust(const gpgme_validity_t trust)
 {
 	m_trust = trust;
 }

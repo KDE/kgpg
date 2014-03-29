@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2012,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -16,6 +16,7 @@
 
 #include "core/kgpgkey.h"
 
+#include <gpgme.h>
 #include <QObject>
 #include <QDateTime>
 
@@ -89,7 +90,7 @@ public:
 	 *
 	 * @param trust new owner trust level
 	 */
-	void setOwTrust(const KgpgCore::KgpgKeyOwnerTrust &trust);
+	void setOwTrust(const gpgme_validity_t trust);
 
 	/**
 	 * Apply all cached changes to the key
@@ -173,7 +174,7 @@ private slots:
 private:
 	QDateTime m_expiration;
 	bool m_disable;
-	KgpgCore::KgpgKeyOwnerTrust m_owtrust;
+	gpgme_validity_t m_owtrust;
 	KgpgCore::KgpgKey m_key;
 	KGpgKeyNode *m_node;
 	KGpgTransaction *m_current;	///< the currently active transaction object
