@@ -251,7 +251,7 @@ GPGProc::recode(QByteArray a, const bool colons, const QByteArray &codec)
 		n[0] = hexnum.toUShort(&ok, 16);
 		n[1] = '\0';	// to use n as a 0-terminated string
 		if (!ok) {
-			// skip this occurence
+			// skip this occurrence
 			pos += 2;
 			continue;
 		}
