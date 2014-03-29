@@ -45,7 +45,7 @@ public:
 	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
 	bool showUntrusted() const;
-	void setShowUntrusted(const bool &b);
+	void setShowUntrusted(const bool b);
 
 protected:
 	virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;

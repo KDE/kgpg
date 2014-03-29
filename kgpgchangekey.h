@@ -83,7 +83,7 @@ public:
 	 *
 	 * @param disable if the key should become disabled or not
 	 */
-	void setDisable(const bool &disable);
+	void setDisable(const bool disable);
 
 	/**
 	 * Cache new owner trust
@@ -130,7 +130,7 @@ public:
 	 * false and apply() is not running or if no work has to be done the
 	 * object is destroyed the next time the event loop runs.
 	 */
-	void selfdestruct(const bool &applyChanges);
+	void selfdestruct(const bool applyChanges);
 
 	/**
 	 * @brief set a new parent widget for the transactions

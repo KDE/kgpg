@@ -13,7 +13,7 @@
 
 #include "kgpgchangedisable.h"
 
-KGpgChangeDisable::KGpgChangeDisable(QObject *parent, const QString &keyid, const bool &disable)
+KGpgChangeDisable::KGpgChangeDisable(QObject *parent, const QString &keyid, const bool disable)
 	: KGpgEditKeyTransaction(parent, keyid, QString(), false)
 {
 	setDisable(disable);

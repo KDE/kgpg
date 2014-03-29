@@ -93,8 +93,8 @@ public slots:
 	void slotSetText(const QString &text);
 	void slotTextChanged(const QString &text);
 	void slotSetExportAttribute(const QString &attr);
-	void slotEnableProxyI(const bool &on);
-	void slotEnableProxyE(const bool &on);
+	void slotEnableProxyI(const bool on);
+	void slotEnableProxyE(const bool on);
 	void slotSetKeyserver(const QString &server);
 
 	void transferKeyID();

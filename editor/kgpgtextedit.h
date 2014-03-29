@@ -49,7 +49,7 @@ public slots:
     void slotSign(const QString &message);
     void slotVerify(const QString &message);
     void slotSignVerify();
-    void slotHighlightText(const QString &, const int &matchingindex, const int &matchedlength);
+    void slotHighlightText(const QString &, const int matchingindex, const int matchedlength);
     void slotVerifyDone(int result);
 
 protected:

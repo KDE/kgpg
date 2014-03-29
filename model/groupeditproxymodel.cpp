@@ -25,7 +25,7 @@
 
 using namespace KgpgCore;
 
-GroupEditProxyModel::GroupEditProxyModel(QObject *parent, const bool &invert, QList<KGpgNode *> *ids, const KgpgCore::KgpgKeyTrust mintrust)
+GroupEditProxyModel::GroupEditProxyModel(QObject *parent, const bool invert, QList<KGpgNode *> *ids, const KgpgCore::KgpgKeyTrust mintrust)
 	: QSortFilterProxyModel(parent),
 	m_model(NULL),
 	m_invert(invert),

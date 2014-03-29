@@ -36,8 +36,8 @@ class KeyListProxyModelPrivate {
 public:
 	KeyListProxyModelPrivate(KeyListProxyModel *parent, const KeyListProxyModel::DisplayMode mode);
 
-	bool lessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const;
-	bool nodeLessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const;
+	bool lessThan(const KGpgNode *left, const KGpgNode *right, const int column) const;
+	bool nodeLessThan(const KGpgNode *left, const KGpgNode *right, const int column) const;
 	KGpgItemModel *m_model;
 	bool m_onlysecret;
 	bool m_encryptionKeys;
@@ -270,7 +270,7 @@ KeyListProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) c
 }
 
 bool
-KeyListProxyModelPrivate::lessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const
+KeyListProxyModelPrivate::lessThan(const KGpgNode *left, const KGpgNode *right, const int column) const
 {
 	const KGpgRootNode * const r = m_model->getRootNode();
 	Q_ASSERT(r != left);
@@ -315,7 +315,7 @@ KeyListProxyModelPrivate::lessThan(const KGpgNode *left, const KGpgNode *right, 
 }
 
 bool
-KeyListProxyModelPrivate::nodeLessThan(const KGpgNode *left, const KGpgNode *right, const int &column) const
+KeyListProxyModelPrivate::nodeLessThan(const KGpgNode *left, const KGpgNode *right, const int column) const
 {
 	Q_ASSERT(left->getType() == right->getType());
 

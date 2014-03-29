@@ -34,8 +34,8 @@ public:
 	bool m_validPub;	// true when the "pub" line passed to constructor was valid
 
 	void addUid(const QString &id);
-	const QString &getName(const int &index) const;
-	const QString &getEmail(const int &index) const;
+	const QString &getName(const int index) const;
+	const QString &getEmail(const int index) const;
 	int getUidCount() const;
 
 	QString m_fingerprint;
@@ -99,13 +99,13 @@ SearchResult::addUid(const QString &id)
 }
 
 const QString &
-SearchResult::getName(const int &index) const
+SearchResult::getName(const int index) const
 {
 	return m_names.at(index);
 }
 
 const QString &
-SearchResult::getEmail(const int &index) const
+SearchResult::getEmail(const int index) const
 {
 	return m_emails.at(index);
 }

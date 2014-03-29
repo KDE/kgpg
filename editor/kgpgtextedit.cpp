@@ -351,7 +351,7 @@ void KgpgTextEdit::signVerifyText(const QString &message)
 		slotSign(message);
 }
 
-void KgpgTextEdit::slotHighlightText(const QString &, const int &matchingindex, const int &matchedlength)
+void KgpgTextEdit::slotHighlightText(const QString &, const int matchingindex, const int matchedlength)
 {
 	highlightWord(matchedlength, matchingindex);
 }

@@ -45,7 +45,7 @@ void KGpgChangeKey::setExpiration(const QDateTime &date)
 	m_expiration = date;
 }
 
-void KGpgChangeKey::setDisable(const bool &disable)
+void KGpgChangeKey::setDisable(const bool disable)
 {
 	m_disable = disable;
 }
@@ -164,7 +164,7 @@ bool KGpgChangeKey::wasChanged()
 	return false;
 }
 
-void KGpgChangeKey::selfdestruct(const bool &applyChanges)
+void KGpgChangeKey::selfdestruct(const bool applyChanges)
 {
 	m_autodestroy = true;
 

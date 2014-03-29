@@ -106,9 +106,9 @@ private slots:
     // Options menu
     void slotOptions();
 
-    void slotUndoAvailable(const bool &v);
-    void slotRedoAvailable(const bool &v);
-    void slotCopyAvailable(const bool &v);
+    void slotUndoAvailable(const bool v);
+    void slotRedoAvailable(const bool v);
+    void slotCopyAvailable(const bool v);
 
     void modified();
     void newText();

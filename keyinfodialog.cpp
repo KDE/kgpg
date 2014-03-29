@@ -278,7 +278,7 @@ void KgpgKeyInfo::slotChangeDate()
 	delete dialog;
 }
 
-void KgpgKeyInfo::slotDisableKey(const bool &ison)
+void KgpgKeyInfo::slotDisableKey(const bool ison)
 {
 	keychange->setDisable(ison);
 	enableButtonApply(keychange->wasChanged());
@@ -320,7 +320,7 @@ void KgpgKeyInfo::slotChangeTrust(const int newtrust)
 	enableButtonApply(keychange->wasChanged());
 }
 
-void KgpgKeyInfo::setControlEnable(const bool &b)
+void KgpgKeyInfo::setControlEnable(const bool b)
 {
     m_owtrust->setEnabled(b);
     m_disable->setEnabled(b);

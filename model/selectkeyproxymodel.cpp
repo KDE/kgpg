@@ -163,7 +163,7 @@ SelectKeyProxyModel::showUntrusted() const
 }
 
 void
-SelectKeyProxyModel::setShowUntrusted(const bool &b)
+SelectKeyProxyModel::setShowUntrusted(const bool b)
 {
 	m_showUntrusted = b;
 	invalidate();

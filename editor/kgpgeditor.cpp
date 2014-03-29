@@ -754,17 +754,17 @@ void KgpgEditor::modified()
 	m_editor->document()->setModified(m_textchanged);
 }
 
-void KgpgEditor::slotUndoAvailable(const bool &v)
+void KgpgEditor::slotUndoAvailable(const bool v)
 {
 	m_editundo->setEnabled(v);
 }
 
-void KgpgEditor::slotRedoAvailable(const bool &v)
+void KgpgEditor::slotRedoAvailable(const bool v)
 {
 	m_editredo->setEnabled(v);
 }
 
-void KgpgEditor::slotCopyAvailable(const bool &v)
+void KgpgEditor::slotCopyAvailable(const bool v)
 {
 	m_editcopy->setEnabled(v);
 	m_editcut->setEnabled(v);

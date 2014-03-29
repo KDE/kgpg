@@ -82,14 +82,14 @@ private:
     void reloadKey();
     void reloadNode();
     void displayKey();
-    void setControlEnable(const bool &b);
+    void setControlEnable(const bool b);
 
 private slots:
     void slotOpenUrl(const QString &url) const;
 
     void slotChangeDate();
 
-    void slotDisableKey(const bool &ison);
+    void slotDisableKey(const bool ison);
 
     void slotChangePass();
     void slotInfoPasswordChanged(int result);

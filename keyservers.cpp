@@ -293,12 +293,12 @@ void KeyServer::slotSetExportAttribute(const QString &state)
 		expattr.clear();
 }
 
-void KeyServer::slotEnableProxyI(const bool &on)
+void KeyServer::slotEnableProxyI(const bool on)
 {
 	page->kLEproxyI->setEnabled(on);
 }
 
-void KeyServer::slotEnableProxyE(const bool &on)
+void KeyServer::slotEnableProxyE(const bool on)
 {
 	page->kLEproxyE->setEnabled(on);
 }
