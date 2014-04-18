@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010,2011,2012,2013
+ * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2014
  *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
@@ -159,7 +159,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 			KgpgSubKeyType subtype;
 			KgpgSubKeyType keytype;
 			bool enabled = true;
-			if (items >= 11) {
+			if (items > 11) {
 				const QString &caps = lsp.at(11);
 
 				enabled = !caps.contains(QLatin1Char('D'), Qt::CaseSensitive);
