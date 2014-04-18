@@ -159,7 +159,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 			KgpgSubKeyType subtype;
 			KgpgSubKeyType keytype;
 			bool enabled = true;
-			if (items >= 11) {
+			if (items > 11) {
 				const QString &caps = lsp.at(11);
 
 				enabled = !caps.contains(QLatin1Char('D'), Qt::CaseSensitive);
