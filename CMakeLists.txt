@@ -15,7 +15,7 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
     set( CMAKE_REQUIRED_DEFINITIONS ${_KDE4_PLATFORM_DEFINITIONS} )
 endif()
 
-find_package( KdepimLibs REQUIRED ) 
+find_package( KdepimLibs REQUIRED )
 
 add_subdirectory( icons )
 add_subdirectory( doc )
@@ -174,6 +174,7 @@ install(TARGETS kgpg  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install( FILES editor/kgpgeditor.rc keysmanager.rc tips  DESTINATION ${DATA_INSTALL_DIR}/kgpg)
 install( PROGRAMS kgpg.desktop  DESTINATION ${XDG_APPS_INSTALL_DIR})
+install( FILES kgpg.appdata.xml  DESTINATION share/appdata/ )
 install( FILES kgpg.kcfg  DESTINATION ${KCFG_INSTALL_DIR})
 install( FILES kgpg.desktop  DESTINATION ${AUTOSTART_INSTALL_DIR} )
 install( FILES encryptfile.desktop encryptfolder.desktop viewdecrypted.desktop DESTINATION
