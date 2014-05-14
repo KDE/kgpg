@@ -6,6 +6,7 @@
   <name>KGpg</name>
   <name xml:lang="de">KGpg</name>
   <name xml:lang="fi">KGpg</name>
+  <name xml:lang="nds">KGpg</name>
   <name xml:lang="nl">KGpg</name>
   <name xml:lang="pl">KGpg</name>
   <name xml:lang="pt">KGpg</name>
@@ -16,6 +17,7 @@
   <summary>Encryption Tool</summary>
   <summary xml:lang="de">Verschlüsselungsprogramm</summary>
   <summary xml:lang="fi">Salaustyökalu</summary>
+  <summary xml:lang="nds">Verslötel-Warktüüch</summary>
   <summary xml:lang="nl">Hulpmiddel voor versleuteling</summary>
   <summary xml:lang="pl">Narzędzie szyfrowania</summary>
   <summary xml:lang="pt">Ferramenta de Cifra</summary>
@@ -29,6 +31,7 @@
       It can help you set up and manage your keys, import and export keys, view key signatures, trust status and expiry dates.
     </p>
     <p xml:lang="fi">KGpg on yksinkertainen käyttöliittymä GnuPG:lle, tehokkaalle salaustyökalulle. KGpg auttaa avainten luomisessa, hallinnoinnissa, tuomisessa ja viennissä. KGpg:llä voi myös katsella avainten allekirjoituksia, luotettavuutta sekä vanhentumispäiviä.</p>
+    <p xml:lang="nds">KGpg is en eenfach Böversiet för GnuPGP, en deegt Verslötelwarktüüch. Dat kann Di bi't Opstellen un Plegen vun Dien Slötels hölpen, Slötels im- un exporteren un Slötelünnerschriften, Totroenstatus un Aflooptieden wiesen.</p>
     <p xml:lang="nl">KGpg is een eenvoudig interface voor GnuPG, een krachtig hulpmiddel voor versleuteling. Het kan u helpen met het instellen en beheren van uw sleutels, sleutels im- en exporteren, ondertekening met sleutels, de vertrouwensstatus en verloopdatums bekijken.</p>
     <p xml:lang="pl">KGpg jest prostym układem sterownia dla GnuPG, zaawansowanego narzędzia szyfrowania. Pomoże ustawić i zarządzać kluczami, importować i eksportować klucze, oglądać podpisy kluczy, stan zaufania oraz daty przedawnienia.</p>
     <p xml:lang="pt">O KGpg é uma interface simples para o GnuPG, um utilitário poderoso de cifra ou encriptação. Podê-lo-á ajudar a configurar e a gerir as suas chaves, importá-las e exportá-las, ver as assinaturas das chaves, o estado e as datas de validade.</p>
