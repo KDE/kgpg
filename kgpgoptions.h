@@ -1,11 +1,8 @@
-/***************************************************************************
-                          kgpgoptions.h  -  description
-                             -------------------
-    begin                : Mon Jul 8 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
-
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2006,2007,2008,2009,2010,2011,2012,2013,2014
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -14,6 +11,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #ifndef KGPGOPTIONS_H
 #define KGPGOPTIONS_H
 
@@ -26,6 +24,7 @@
 #include "core/kgpgkey.h"
 
 #include <QPixmap>
+#include <QStringListModel>
 #include <QString>
 
 #include <KConfigDialog>
@@ -34,6 +33,7 @@ class KFontChooser;
 class KConfig;
 
 class Encryption;
+class GpgServerModel;
 class KGpgItemModel;
 class KeyListProxyModel;
 
@@ -111,7 +111,7 @@ private slots:
 	void slotChangeEncryptTo();
     void slotDelKeyServer();
     void slotEditKeyServer();
-    void slotEditKeyServer(QListWidgetItem *);
+    void slotEditKeyServer(const QModelIndex &index);
     void slotChangeKeyServerButtonEnable();
     void slotDefaultKeyServer();
     void updateWidgets();
@@ -133,10 +133,10 @@ private:
     QString alwaysKeyID;
     QString fileEncryptionKey;
     QString gpgConfigPath;
-    QString keyServer;              // Server stored in GnuPG config
-    QStringList serverList;         // Servers stored in kgpgrc
-    QString defaultKeyServer;       // Default keyserver
-    QStringList defaultServerList;  // Default list of servers including the default key server;
+    QString keyServer;                    ///< Server stored in GnuPG config
+    QStringList serverList;               ///< Servers stored in kgpgrc
+    QString defaultKeyServer;             ///< Default keyserver
+    QStringList defaultServerList;        ///< Default list of servers including the default key server;
     QString defaultConfigPath;
     QString defaultHomePath;
     QString defaultBinPath;
@@ -159,6 +159,7 @@ private:
     ServerConf * const m_page6;
     MiscConf * const m_page7;
 
+    GpgServerModel * const m_serverModel; ///< model holding the servers
     KFontChooser * const m_fontchooser;
 
     bool m_useagent;

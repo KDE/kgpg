@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2006,2007,2008,2009,2010,2011,2012,2013
+ * Copyright (C) 2006,2007,2008,2009,2010,2011,2012,2013,2014
  *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
@@ -18,6 +18,7 @@
 #include "kgpginterface.h"
 #include "conf_encryption.h"
 #include "core/images.h"
+#include "model/gpgservermodel.h"
 #include "model/keylistproxymodel.h"
 #include "model/kgpgitemmodel.h"
 
@@ -48,6 +49,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	   m_page4(new GPGConf()),
 	   m_page6(new ServerConf()),
 	   m_page7(new MiscConf()),
+	   m_serverModel(new GpgServerModel(m_page6)),
 	   m_fontchooser(new KFontChooser(m_page3->tabWidget3->widget(1), KFontChooser::NoDisplayFlags, QStringList())),
 	   m_model(model),
 	   m_combomodel(new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst))
@@ -74,7 +76,13 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 
 	// Remove everything after a whitespace. This will normally be
 	// ' (Default)' from KDE 3.x.x
-	serverList.replaceInStrings(QRegExp( QLatin1String( " .*") ), QLatin1String( "" ) );
+	serverList.replaceInStrings(QRegExp( QLatin1String( " .*") ), QString() );
+
+	m_serverModel->setStringList(serverList);
+	// if the server from GnuPG config is set and is not in the list of servers put it there
+	if (!keyServer.isEmpty() && !serverList.contains(keyServer))
+		serverList.prepend(keyServer);
+	m_page6->ServerBox->setModel(m_serverModel);
 
 	defaultConfigPath = KUrl::fromPath(gpgConfigPath).fileName();
 	defaultHomePath = KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash);
@@ -112,8 +120,8 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
 	connect(m_page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
 	connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
-	connect(m_page6->ServerBox, SIGNAL(itemSelectionChanged()), this, SLOT(slotChangeKeyServerButtonEnable()));
-	connect(m_page6->ServerBox, SIGNAL(executed(QListWidgetItem*)), this, SLOT(slotEditKeyServer(QListWidgetItem*)));
+	connect(m_page6->ServerBox->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(slotChangeKeyServerButtonEnable()));
+	connect(m_page6->ServerBox, SIGNAL(doubleClicked(QModelIndex)), SLOT(slotEditKeyServer(QModelIndex)));
 	connect(m_page7->kcfg_ShowSystray, SIGNAL(clicked()), SLOT(slotSystrayEnable()));
 
 	keyUltimate = KGpgSettings::colorUltimate();
@@ -210,9 +218,7 @@ void kgpgOptions::slotAddKeyServer()
 	if (!isValidKeyserver(newServer))
 		return;
 
-	serverList << newServer;
-	QListWidgetItem *item = new QListWidgetItem(newServer, m_page6->ServerBox);
-	m_page6->ServerBox->setCurrentItem(item);
+	m_serverModel->setStringList(m_serverModel->stringList() << newServer);
 
 	enableButtonApply(true);
 }
@@ -225,75 +231,44 @@ void kgpgOptions::slotChangeEncryptTo()
 
 void kgpgOptions::slotDelKeyServer()
 {
-	QListWidgetItem *cur = m_page6->ServerBox->takeItem(m_page6->ServerBox->currentRow());
-	bool defaultDeleted = cur->text().contains(QLatin1Char( ' ' ));
+	QModelIndex cur = m_page6->ServerBox->selectionModel()->currentIndex();
+	m_serverModel->removeRows(cur.row(), 1);
 
-	// Are there any items left now we've took one out of the list?
-	cur = m_page6->ServerBox->currentItem();
-	if (cur == NULL)
-		return;
-
-	cur->setSelected(true);
-	if (defaultDeleted)
-		slotDefaultKeyServer();
 	enableButtonApply(true);
 }
 
 void kgpgOptions::slotEditKeyServer()
 {
-	QListWidgetItem *cur = m_page6->ServerBox->currentItem();
-	slotEditKeyServer(cur);
+	slotEditKeyServer(m_page6->ServerBox->selectionModel()->currentIndex());
 }
 
-void kgpgOptions::slotEditKeyServer(QListWidgetItem *cur)
+void kgpgOptions::slotEditKeyServer(const QModelIndex &index)
 {
-	if (cur == NULL)
+	if (!index.isValid())
 		return;
 
-	QString oldServer(cur->text());
-	bool isDefault = false;
-	if (oldServer.contains(QLatin1Char( ' ' ))) {
-		isDefault = true;
-		oldServer = oldServer.section(QLatin1Char( ' ' ), 0, 0);
-	}
-
-	QString newServer(KInputDialog::getText(i18n("Edit Key Server"), i18n("Server URL:"), oldServer).simplified());
-	if (!isValidKeyserver(newServer))
-		return;
-	if (isDefault)
-		newServer = i18nc("Mark default keyserver in GUI", "%1 (Default)", newServer);
-	cur->setText(newServer);
+	m_page6->ServerBox->edit(index);
 
 	enableButtonApply(true);
 }
 
 void kgpgOptions::slotDefaultKeyServer()
 {
-	QListWidgetItem *curr = m_page6->ServerBox->currentItem();
-	if (!curr->text().contains(QLatin1Char( ' ' ))) {
-		// The current item is not already the default one so a couple of things
-		// must be changed now:
-		// 1. The "(Default)" mark must be removed in the GUI list.
-		// 2. keyServer must be updated to the new default server.
-		// 3. The new default keyServer must have the "(Default)" mark in the GUI.
-		if (m_page6->ServerBox->findItems(keyServer, Qt::MatchContains).size() > 0) {
-			QListWidgetItem *prev = m_page6->ServerBox->findItems(keyServer, Qt::MatchContains).first();
-			prev->setText(prev->text().remove(QLatin1Char( ' ' ) + i18nc("Mark default keyserver in GUI", "(Default)"))); // 1
-		}
+	QModelIndex cur = m_page6->ServerBox->selectionModel()->currentIndex();
 
-		keyServer = curr->text(); // 2
-		curr->setText(i18nc("Mark default keyserver in GUI", "%1 (Default)", curr->text())); // 3
+	m_serverModel->setDefault(cur.row());
 
-		enableButtonApply(true);
-	}
+	enableButtonApply(true);
 }
 
 void kgpgOptions::slotChangeKeyServerButtonEnable()
 {
-	const bool empty = m_page6->ServerBox->selectedItems().isEmpty();
+	QModelIndex cur = m_page6->ServerBox->selectionModel()->currentIndex();
 
-	m_page6->server_del->setEnabled(!empty);
-	m_page6->server_default->setEnabled(!empty);
+	m_page6->server_del->setEnabled(cur.isValid());
+	m_page6->server_edit->setEnabled(cur.isValid());
+	m_page6->server_default->setEnabled(cur.isValid() &&
+			(cur.row() != m_serverModel->defaultRow()));
 }
 
 void kgpgOptions::updateWidgets()
@@ -352,16 +327,10 @@ void kgpgOptions::updateWidgets()
 	m_emailSortingIndex = KGpgSettings::emailSorting();
 	m_page3->kcfg_EmailSorting->setCurrentIndex(m_emailSortingIndex);
 
-	m_page6->ServerBox->clear();
-	QStringList servers(serverList);
+	m_serverModel->setStringList(serverList);
+	m_serverModel->setDefault(keyServer);
 
-	if (!servers.isEmpty()) {
-		const QString defaultServer(servers.takeFirst());
-		servers.prepend(i18nc("Mark default keyserver in GUI", "%1 (Default)", defaultServer));
-		m_page6->ServerBox->addItems(servers);
-	}
-
-	kDebug(2100) << "Finishing options" ;
+	kDebug(2100) << "Finishing options";
 }
 
 void kgpgOptions::updateWidgetsDefault()
@@ -374,9 +343,8 @@ void kgpgOptions::updateWidgetsDefault()
 	m_page4->gpg_conf_path->setText(defaultConfigPath);
 	m_page4->gpg_home_path->setText(defaultHomePath);
 
-	m_page6->ServerBox->clear();
-	m_page6->ServerBox->addItem(i18nc("Mark default keyserver in GUI", "%1 (Default)", defaultKeyServer));
-	m_page6->ServerBox->addItems(defaultServerList);
+	m_serverModel->setStringList(defaultServerList);
+	m_serverModel->setDefault(0);
 
 	m_page3->kcfg_EmailSorting->setCurrentIndex(KGpgSettings::EnumEmailSorting::Alphabetical);
 
@@ -438,21 +406,14 @@ void kgpgOptions::updateSettings()
 	}
 
 	// Store the default server in ~/.gnupg
-	KgpgInterface::setGpgSetting(QLatin1String( "keyserver" ), keyServer, KGpgSettings::gpgConfigPath());
+	KgpgInterface::setGpgSetting(QLatin1String("keyserver"), m_serverModel->defaultServer(), KGpgSettings::gpgConfigPath());
 
 	// Store additional servers in kgpgrc.
-	serverList.clear();
-	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
-		QString server(m_page6->ServerBox->item(i)->text());
+	serverList = m_serverModel->stringList();
+	int defaultRow = m_serverModel->defaultRow();
+	if (!serverList.isEmpty())
+		serverList.move(defaultRow, 0);
 
-		// Only store the additional servers in the config file.
-		if (!server.contains(QLatin1Char( ' ' ))) {
-			serverList.append(server);
-		} else {
-			server.remove(QRegExp( QLatin1String( " .*")) );	// Remove the " (Default)" ) section.
-			serverList.prepend(server);		// Make it the first item in the list.
-		}
-	}
 	KGpgSettings::setKeyServers(serverList);
 
 	if (keyUltimate != m_page3->kcfg_ColorUltimate->color())
@@ -580,23 +541,13 @@ bool kgpgOptions::hasChanged()
 	if (m_page4->use_agent->isChecked() != m_useagent)
 		return true;
 
-	// Did the number of servers change?
-	if (m_page6->ServerBox->count() != serverList.size())
+	// Did the default server change
+	if (m_serverModel->defaultServer() != keyServer)
 		return true;
 
-	// Did the actual value of the servers change than?
-	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
-		QString server(m_page6->ServerBox->item(i)->text());
-
-		if (server.contains(QLatin1Char( ' ' ))) {
-			// This is the current server marked as default in the GUI.
-			server.remove(QLatin1Char( ' ' ) + i18nc( "Remove default marker from GUI if it is there", "(Default)"));
-			if (keyServer != server)
-				return true;
-		} else if (!serverList.contains(server)) {
-			return true;
-		}
-	}
+	// Did the servers change?
+	if (m_serverModel->stringList() != serverList)
+		return true;
 
 	if (m_page7->kcfg_ShowSystray->isChecked() != m_showsystray)
 		return true;
@@ -627,18 +578,11 @@ bool kgpgOptions::isDefault()
 	if (m_page4->use_agent->isChecked() != m_defaultuseagent)
 		return false;
 
-	for (int i = 0; i < m_page6->ServerBox->count(); i++) {
-		QString server(m_page6->ServerBox->item(i)->text());
+	if (m_serverModel->defaultServer() != defaultKeyServer)
+		return false;
 
-		if (server.contains(QLatin1Char( ' ' ))) {
-			// This is the current server marked as default in the GUI.
-			server.remove(QLatin1Char( ' ' ) + i18nc( "Remove default marker from GUI if it is there", "(Default)"));
-			if (defaultKeyServer != server)
-				return false;
-		} else if (!defaultServerList.contains(server)) {
-			return false;
-		}
-	}
+	if (m_serverModel->stringList() != defaultServerList)
+		return false;
 
 	if (m_page7->kcfg_ShowSystray->isChecked() != m_showsystray)
 		return false;

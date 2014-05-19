@@ -15,11 +15,7 @@
      <item>
       <layout class="QVBoxLayout" >
        <item>
-        <widget class="KListWidget" name="ServerBox" >
-         <property name="sortingEnabled" >
-          <bool>true</bool>
-         </property>
-        </widget>
+        <widget class="QListView" name="ServerBox" />
        </item>
        <item>
         <widget class="QLabel" name="textLabel1_4" >
@@ -98,11 +94,6 @@ all others will be stored for use by KGpg only.</string>
   </layout>
  </widget>
   <customwidgets>
-  <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
-  </customwidget>
   <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>

@@ -52,6 +52,7 @@ set(kgpg_editor_SRCS
 )
 
 set(kgpg_model_SRCS
+   model/gpgservermodel.cpp
    model/kgpgitemmodel.cpp
    model/groupeditproxymodel.cpp
    model/keylistproxymodel.cpp
