@@ -6,6 +6,7 @@
   <name>KGpg</name>
   <name xml:lang="cs">KGpg</name>
   <name xml:lang="de">KGpg</name>
+  <name xml:lang="es">KGpg</name>
   <name xml:lang="fi">KGpg</name>
   <name xml:lang="nds">KGpg</name>
   <name xml:lang="nl">KGpg</name>
@@ -24,6 +25,7 @@
   <summary>Encryption Tool</summary>
   <summary xml:lang="cs">Nástroj pro šifrování</summary>
   <summary xml:lang="de">Verschlüsselungsprogramm</summary>
+  <summary xml:lang="es">Herramienta de cifrado</summary>
   <summary xml:lang="fi">Salaustyökalu</summary>
   <summary xml:lang="nds">Verslötel-Warktüüch</summary>
   <summary xml:lang="nl">Hulpmiddel voor versleuteling</summary>
@@ -44,6 +46,7 @@
       KGpg is a simple interface for GnuPG, a powerful encryption utility.
       It can help you set up and manage your keys, import and export keys, view key signatures, trust status and expiry dates.
     </p>
+    <p xml:lang="es">KGpg es una sencilla interfaz para GnuPG, una potente utilidad de cifrado. Puede ayudarle a configurar y gestionar sus claves, a importar y exportar claves, a ver firmas de claves, su nivel de confianza y sus fechas de expiración.</p>
     <p xml:lang="fi">KGpg on yksinkertainen käyttöliittymä GnuPG:lle, tehokkaalle salaustyökalulle. KGpg auttaa avainten luomisessa, hallinnoinnissa, tuomisessa ja viennissä. KGpg:llä voi myös katsella avainten allekirjoituksia, luotettavuutta sekä vanhentumispäiviä.</p>
     <p xml:lang="nds">KGpg is en eenfach Böversiet för GnuPGP, en deegt Verslötelwarktüüch. Dat kann Di bi't Opstellen un Plegen vun Dien Slötels hölpen, Slötels im- un exporteren un Slötelünnerschriften, Totroenstatus un Aflooptieden wiesen.</p>
     <p xml:lang="nl">KGpg is een eenvoudig interface voor GnuPG, een krachtig hulpmiddel voor versleuteling. Het kan u helpen met het instellen en beheren van uw sleutels, sleutels im- en exporteren, ondertekening met sleutels, de vertrouwensstatus en verloopdatums bekijken.</p>
