@@ -290,13 +290,13 @@ private:
     QSharedDataPointer<KgpgKeyPrivate> d;
 };
 
-class KgpgKeyList : public QList<KgpgKey>, public QObject
+class KgpgKeyList : public QList<KgpgKey>
 {
 public:
     inline KgpgKeyList() { }
     inline explicit KgpgKeyList(const KgpgKey &key) { append(key); }
-    inline KgpgKeyList(const KgpgKeyList &other) : QList<KgpgKey>(other), QObject() { }
-    inline KgpgKeyList(const QList<KgpgKey> &other) : QList<KgpgKey>(other), QObject() { }
+    inline KgpgKeyList(const KgpgKeyList &other) : QList<KgpgKey>(other) { }
+    inline KgpgKeyList(const QList<KgpgKey> &other) : QList<KgpgKey>(other) { }
 
     inline KgpgKeyList& operator=(const KgpgKeyList &other)
     {
