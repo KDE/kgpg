@@ -260,16 +260,6 @@ const QString &KgpgKey::fingerprint() const
     return d->gpgkeyfingerprint;
 }
 
-QString KgpgKey::fingerprintBeautified() const
-{
-    QString fingervalue =d->gpgkeyfingerprint;
-    uint len = fingervalue.length();
-    if ((len > 0) && (len % 4 == 0))
-      for (uint n = 0; 4 * (n + 1) < len; ++n)
-        fingervalue.insert(5 * n + 4, QLatin1Char( ' ' ));
-    return fingervalue;
-}
-
 uint KgpgKey::size() const
 {
     return d->gpgkeysize;

@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -136,7 +136,13 @@ KGpgKeyNode::getKeyNode(void) const
 QString
 KGpgKeyNode::getBeautifiedFingerprint() const
 {
-	return m_key->fingerprintBeautified();
+	static const QChar space = QLatin1Char(' ');
+	QString fingervalue = m_key->fingerprint();
+	int len = fingervalue.length();
+	if ((len > 0) && (len % 4 == 0))
+		for (int n = 0; 4 * (n + 1) < len; n++)
+			fingervalue.insert(5 * n + 4, space);
+	return fingervalue;
 }
 
 QString

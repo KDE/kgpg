@@ -267,7 +267,6 @@ public:
     QString email() const;
     QString comment() const;
     const QString &fingerprint() const;
-    QString fingerprintBeautified() const;
     uint size() const;
     uint encryptionSize() const;
     gpgme_validity_t ownerTrust() const;
