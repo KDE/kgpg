@@ -256,7 +256,7 @@ public:
     void setEmail(const QString &email);
     void setComment(const QString &comment);
     void setFingerprint(const QString &fingerprint);
-    void setOwnerTrust(const gpgme_validity_t &owtrust);
+    void setOwnerTrust(const gpgme_validity_t owtrust);
     void setExpiration(const QDateTime &date);
 
     bool secret() const;

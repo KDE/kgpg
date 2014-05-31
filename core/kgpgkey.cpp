@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006,2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2007,2008,2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -210,7 +210,7 @@ void KgpgKey::setFingerprint(const QString &fingerprint)
     d->gpgkeyfingerprint = fingerprint;
 }
 
-void KgpgKey::setOwnerTrust(const gpgme_validity_t &owtrust)
+void KgpgKey::setOwnerTrust(const gpgme_validity_t owtrust)
 {
     d->gpgkeyownertrust = owtrust;
 }
