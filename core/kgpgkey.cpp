@@ -277,13 +277,21 @@ uint KgpgKey::size() const
 
 uint KgpgKey::encryptionSize() const
 {
+	const KgpgKeySub *enc = NULL;
 	// Get the first encryption subkey
 	for (int i = 0; i < d->gpgsublist->count(); ++i) {
-		KgpgKeySub temp = d->gpgsublist->at(i);
+		const KgpgKeySub &temp = d->gpgsublist->at(i);
 		if (temp.type() & SKT_ENCRYPTION) {
-			return temp.size();
+			// if the first encryption subkey is expired
+			// check if there is one that is not
+			if (temp.trust() > TRUST_EXPIRED)
+				return temp.size();
+			if (enc == NULL)
+				enc = &temp;
 		}
 	}
+	if (enc != NULL)
+		return enc->size();
 	return 0;
 }
 
