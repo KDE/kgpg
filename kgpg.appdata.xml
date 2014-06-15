@@ -9,6 +9,7 @@
   <name xml:lang="de">KGpg</name>
   <name xml:lang="es">KGpg</name>
   <name xml:lang="fi">KGpg</name>
+  <name xml:lang="hu">KGpg</name>
   <name xml:lang="nds">KGpg</name>
   <name xml:lang="nl">KGpg</name>
   <name xml:lang="pl">KGpg</name>
@@ -29,6 +30,7 @@
   <summary xml:lang="de">Verschlüsselungsprogramm</summary>
   <summary xml:lang="es">Herramienta de cifrado</summary>
   <summary xml:lang="fi">Salaustyökalu</summary>
+  <summary xml:lang="hu">Titkosító eszköz</summary>
   <summary xml:lang="nds">Verslötel-Warktüüch</summary>
   <summary xml:lang="nl">Hulpmiddel voor versleuteling</summary>
   <summary xml:lang="pl">Narzędzie szyfrowania</summary>
@@ -51,6 +53,7 @@
     <p xml:lang="ca">El KGpg és una interfície senzilla pel GnuPG, una utilitat potent d'encriptatge. Pot ajudar a configurar i gestionar les vostres claus, importar i exportar claus, veure les signatures de les claus, l'estat de confiança i les dates de venciment.</p>
     <p xml:lang="es">KGpg es una sencilla interfaz para GnuPG, una potente utilidad de cifrado. Puede ayudarle a configurar y gestionar sus claves, a importar y exportar claves, a ver firmas de claves, su nivel de confianza y sus fechas de expiración.</p>
     <p xml:lang="fi">KGpg on yksinkertainen käyttöliittymä GnuPG:lle, tehokkaalle salaustyökalulle. KGpg auttaa avainten luomisessa, hallinnoinnissa, tuomisessa ja viennissä. KGpg:llä voi myös katsella avainten allekirjoituksia, luotettavuutta sekä vanhentumispäiviä.</p>
+    <p xml:lang="hu">A KGpg egy egyszerű felület a GnuPG-hez, a hatékony titkosító segédprogramhoz. Segíthet a kulcsok beállításában és kezelésében, kulcsok importálásában és exportálásában, kulcsaláírások, megbízhatósági állapot és lejárati idők megtekintésében.</p>
     <p xml:lang="nds">KGpg is en eenfach Böversiet för GnuPGP, en deegt Verslötelwarktüüch. Dat kann Di bi't Opstellen un Plegen vun Dien Slötels hölpen, Slötels im- un exporteren un Slötelünnerschriften, Totroenstatus un Aflooptieden wiesen.</p>
     <p xml:lang="nl">KGpg is een eenvoudig interface voor GnuPG, een krachtig hulpmiddel voor versleuteling. Het kan u helpen met het instellen en beheren van uw sleutels, sleutels im- en exporteren, ondertekening met sleutels, de vertrouwensstatus en verloopdatums bekijken.</p>
     <p xml:lang="pl">KGpg jest prostym układem sterownia dla GnuPG, zaawansowanego narzędzia szyfrowania. Pomoże ustawić i zarządzać kluczami, importować i eksportować klucze, oglądać podpisy kluczy, stan zaufania oraz daty przedawnienia.</p>
