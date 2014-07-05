@@ -11,6 +11,7 @@
   <name xml:lang="es">KGpg</name>
   <name xml:lang="fi">KGpg</name>
   <name xml:lang="hu">KGpg</name>
+  <name xml:lang="lt">KGpg</name>
   <name xml:lang="nds">KGpg</name>
   <name xml:lang="nl">KGpg</name>
   <name xml:lang="pl">KGpg</name>
@@ -34,6 +35,7 @@
   <summary xml:lang="es">Herramienta de cifrado</summary>
   <summary xml:lang="fi">Salaustyökalu</summary>
   <summary xml:lang="hu">Titkosító eszköz</summary>
+  <summary xml:lang="lt">Šifravimo įrankis</summary>
   <summary xml:lang="nds">Verslötel-Warktüüch</summary>
   <summary xml:lang="nl">Hulpmiddel voor versleuteling</summary>
   <summary xml:lang="pl">Narzędzie szyfrowania</summary>
