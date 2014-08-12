@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2009,2010,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -71,7 +71,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     m_keysize->addItem(i18n("1024"));
     m_keysize->addItem(i18n("2048"));
     m_keysize->addItem(i18n("4096"));
-    m_keysize->setCurrentIndex(0); // 1024
+    m_keysize->setCurrentIndex(1); // 2048
     m_keysize->setMinimumSize(m_keysize->sizeHint());
 
     m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_DSA_ELGAMAL));
