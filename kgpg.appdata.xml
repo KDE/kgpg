@@ -30,6 +30,7 @@
   <name xml:lang="uk">KGpg</name>
   <name xml:lang="x-test">xxKGpgxx</name>
   <name xml:lang="zh-CN">KGpg</name>
+  <name xml:lang="zh-TW">加密工具_KGpg</name>
   <summary>Encryption Tool</summary>
   <summary xml:lang="ca">Eina d'encriptatge</summary>
   <summary xml:lang="cs">Nástroj pro šifrování</summary>
@@ -57,6 +58,7 @@
   <summary xml:lang="uk">Програма для шифрування</summary>
   <summary xml:lang="x-test">xxEncryption Toolxx</summary>
   <summary xml:lang="zh-CN">加密工具</summary>
+  <summary xml:lang="zh-TW">加密工具</summary>
   <description>
     <p>
       KGpg is a simple interface for GnuPG, a powerful encryption utility.
@@ -85,6 +87,7 @@
     <p xml:lang="uk">KGpg — простий інтерфейс до GnuPG, потужного засобу шифрування. Програма допоможе вам у керуванні ключами, імпортуванні та експортуванні ключів, перегляді підписів ключів, станів довіри до ключів та даних щодо строку дії ключів.</p>
     <p xml:lang="x-test">xxKGpg is a simple interface for GnuPG, a powerful encryption utility. It can help you set up and manage your keys, import and export keys, view key signatures, trust status and expiry dates.xx</p>
     <p xml:lang="zh-CN">KGpg 是压缩工具 GnuPG 的简单界面，可以设置和管理密钥，导入导出密钥，查看密钥签名、信任状态和过期时间。</p>
+    <p xml:lang="zh-TW">KGpg 是 GnuPG 的簡易介面。它可以協助您設定並管理您的金鑰，匯入或匯出，檢視金鑰簽章，信任狀態與到期日等等。</p>
   </description>
   <url type="homepage">http://utils.kde.org/projects/kgpg/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kgpg</url>
