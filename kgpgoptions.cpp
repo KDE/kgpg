@@ -328,7 +328,8 @@ void kgpgOptions::updateWidgets()
 	m_page3->kcfg_EmailSorting->setCurrentIndex(m_emailSortingIndex);
 
 	m_serverModel->setStringList(serverList);
-	m_serverModel->setDefault(keyServer);
+	if (!serverList.isEmpty())
+		m_serverModel->setDefault(keyServer);
 
 	kDebug(2100) << "Finishing options";
 }
