@@ -53,7 +53,7 @@ void
 GpgServerModel::setDefault(const QString &server)
 {
 	if (server.isEmpty()) {
-		setDefault(stringList().count());
+		setDefault(-1);
 	} else {
 		const int row = stringList().indexOf(server);
 		Q_ASSERT(row >= 0);
@@ -64,15 +64,20 @@ GpgServerModel::setDefault(const QString &server)
 int
 GpgServerModel::defaultRow() const
 {
-	return m_defaultRow;
+	// only in case there is not set any default yet promote the first entry of the list
+	if ((m_defaultRow >= 0) || stringList().empty())
+		return m_defaultRow;
+	else
+		return 0;
 }
 
 QString
 GpgServerModel::defaultServer() const
 {
-	Q_ASSERT((m_defaultRow < 0) == stringList().isEmpty());
-	if (m_defaultRow < 0)
+	if (stringList().isEmpty())
 		return QString();
+	if (m_defaultRow < 0)
+		return stringList().first();
 	else
 		return stringList().at(m_defaultRow);
 }
