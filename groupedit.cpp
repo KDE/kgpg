@@ -42,7 +42,7 @@ groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids, KGpgItemModel *md)
 		textLabelAvailable->setText(i18n("Available Trusted Keys"));
 	}
 
-	m_in = new GroupEditProxyModel(this, false, members, mintrust);
+	m_in = new GroupEditProxyModel(this, false, members, KgpgCore::TRUST_MINIMUM);
 	m_in->setKeyModel(md);
 	m_out = new GroupEditProxyModel(this, true, members, mintrust);
 	m_out->setKeyModel(md);
