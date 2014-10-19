@@ -1,4 +1,4 @@
-/* Copyright 2008  Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2014  Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -32,7 +32,6 @@ public:
 	explicit GroupEditProxyModel(QObject * parent, const bool invert, QList<KGpgNode *> *ids, const KgpgCore::KgpgKeyTrust mintrust = KgpgCore::TRUST_FULL);
 
 	void setKeyModel(KGpgItemModel *);
-	void setMinTrust(const KgpgCore::KgpgKeyTrust mintrust);
 
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 

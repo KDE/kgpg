@@ -1,4 +1,4 @@
-/* Copyright 2008,2010,2012,2013  Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2010,2012,2013,2014  Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -22,6 +22,8 @@
 #include "core/kgpgkey.h"
 
 #include <KDebug>
+#include <KLocale>
+#include <QIcon>
 
 using namespace KgpgCore;
 
@@ -39,13 +41,6 @@ GroupEditProxyModel::setKeyModel(KGpgItemModel *md)
 {
 	m_model = md;
 	setSourceModel(md);
-}
-
-void
-GroupEditProxyModel::setMinTrust(const KgpgCore::KgpgKeyTrust mintrust)
-{
-	m_mintrust = mintrust;
-	invalidate();
 }
 
 bool
@@ -98,23 +93,39 @@ GroupEditProxyModel::data(const QModelIndex &index, int role) const
 	if (!index.isValid() || (index.column() >= 3))
 		return QVariant();
 
-	if ((role != Qt::ToolTipRole) && (role != Qt::DisplayRole))
-		return QVariant();
-
 	KGpgNode *nd = m_model->nodeForIndex(mapToSource(index));
-	switch (index.column()) {
+
+	switch (role) {
+	case Qt::ToolTipRole:
+	case Qt::DisplayRole:
+		switch (index.column()) {
 		case 0:
 			if (role == Qt::ToolTipRole)
 				return nd->getNameComment();
 			else
 				return nd->getName();
 		case 1:
-			return nd->getEmail();
+			if (role == Qt::ToolTipRole) {
+				if (nd->toKeyNode()->getExpiration().isValid() && (nd->toKeyNode()->getExpiration() <= QDateTime::currentDateTime()))
+					return i18nc("Expired key", "Expired");
+				break;
+			} else {
+				return nd->getEmail();
+			}
 		case 2:
 			if (role == Qt::ToolTipRole)
 				return nd->toKeyNode()->getBeautifiedFingerprint();
 			else
 				return nd->getId().right(8);
+		default:
+			break;
+		}
+	case Qt::DecorationRole:
+		if (index.column() != 1)
+			break;
+
+		if (nd->toKeyNode()->getExpiration().isValid() && (nd->toKeyNode()->getExpiration() <= QDateTime::currentDateTime()))
+			return QIcon::fromTheme(QLatin1String("dialog-warning"));
 	}
 
 	return QVariant();
@@ -143,9 +154,13 @@ GroupEditProxyModel::headerData(int section, Qt::Orientation orientation, int ro
 		return QVariant();
 
 	switch (section) {
-	case 0:	return m_model->headerData(KEYCOLUMN_NAME, orientation, role);
-	case 1:	return m_model->headerData(KEYCOLUMN_EMAIL, orientation, role);
-	case 2:	return m_model->headerData(KEYCOLUMN_ID, orientation, role);
-	default:	return QVariant();
+	case 0:
+		return m_model->headerData(KEYCOLUMN_NAME, orientation, role);
+	case 1:
+		return m_model->headerData(KEYCOLUMN_EMAIL, orientation, role);
+	case 2:
+		return m_model->headerData(KEYCOLUMN_ID, orientation, role);
+	default:
+		return QVariant();
 	}
 }

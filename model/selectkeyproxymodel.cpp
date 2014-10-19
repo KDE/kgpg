@@ -149,10 +149,14 @@ SelectKeyProxyModel::headerData(int section, Qt::Orientation orientation, int ro
 		return QVariant();
 
 	switch (section) {
-	case 0:	return m_model->headerData(KEYCOLUMN_NAME, orientation, role);
-	case 1:	return m_model->headerData(KEYCOLUMN_EMAIL, orientation, role);
-	case 2:	return m_model->headerData(KEYCOLUMN_ID, orientation, role);
-	default:	return QVariant();
+	case 0:
+		return m_model->headerData(KEYCOLUMN_NAME, orientation, role);
+	case 1:
+		return m_model->headerData(KEYCOLUMN_EMAIL, orientation, role);
+	case 2:
+		return m_model->headerData(KEYCOLUMN_ID, orientation, role);
+	default:
+		return QVariant();
 	}
 }
 
@@ -254,10 +258,15 @@ SelectSecretKeyProxyModel::headerData(int section, Qt::Orientation orientation, 
 		return QVariant();
 
 	switch (section) {
-	case 0:	return m_model->headerData(KEYCOLUMN_NAME, orientation, role);
-	case 1:	return m_model->headerData(KEYCOLUMN_EMAIL, orientation, role);
-	case 2:	return m_model->headerData(KEYCOLUMN_EXPIR, orientation, role);
-	case 3:	return m_model->headerData(KEYCOLUMN_ID, orientation, role);
-	default:	return QVariant();
+	case 0:
+		return m_model->headerData(KEYCOLUMN_NAME, orientation, role);
+	case 1:
+		return m_model->headerData(KEYCOLUMN_EMAIL, orientation, role);
+	case 2:
+		return m_model->headerData(KEYCOLUMN_EXPIR, orientation, role);
+	case 3:
+		return m_model->headerData(KEYCOLUMN_ID, orientation, role);
+	default:
+		return QVariant();
 	}
 }

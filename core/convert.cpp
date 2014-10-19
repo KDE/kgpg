@@ -34,16 +34,21 @@ namespace Convert
 
 QString toString(const KgpgKeyAlgo algorithm)
 {
-    switch (algorithm)
-    {
-        case ALGO_RSA:          return i18nc("Encryption algorithm", "RSA");
-        case ALGO_DSA:          return i18nc("Encryption algorithm", "DSA");
-        case ALGO_ELGAMAL:      return i18nc("Encryption algorithm", "ElGamal");
-        case ALGO_DSA_ELGAMAL:  return i18nc("Encryption algorithm", "DSA & ElGamal");
-        case ALGO_RSA_RSA:      return i18nc("Encryption algorithm RSA, Signing algorithm RSA", "RSA & RSA");
-        case ALGO_UNKNOWN:
-        default:                return i18nc("Unknown algorithm", "Unknown");
-    }
+	switch (algorithm) {
+	case ALGO_RSA:
+		return i18nc("Encryption algorithm", "RSA");
+	case ALGO_DSA:
+		return i18nc("Encryption algorithm", "DSA");
+	case ALGO_ELGAMAL:
+		return i18nc("Encryption algorithm", "ElGamal");
+	case ALGO_DSA_ELGAMAL:
+		return i18nc("Encryption algorithm", "DSA & ElGamal");
+	case ALGO_RSA_RSA:
+		return i18nc("Encryption algorithm RSA, Signing algorithm RSA", "RSA & RSA");
+	case ALGO_UNKNOWN:
+	default:
+		return i18nc("Unknown algorithm", "Unknown");
+	}
 }
 
 QString toString(const gpgme_validity_t ownertrust)
@@ -67,20 +72,29 @@ QString toString(const gpgme_validity_t ownertrust)
 
 QString toString(const KgpgKeyTrust trust)
 {
-    switch (trust)
-    {
-        case TRUST_INVALID:     return i18nc("Invalid key", "Invalid");
-        case TRUST_DISABLED:    return i18nc("Disabled key", "Disabled");
-        case TRUST_REVOKED:     return i18n("Revoked");
-        case TRUST_EXPIRED:     return i18nc("Expired key", "Expired");
-        case TRUST_UNDEFINED:   return i18nc("Undefined key trust", "Undefined");
-        case TRUST_NONE:        return i18nc("No trust in key", "None");
-        case TRUST_MARGINAL:    return i18nc("Marginal trust in key", "Marginal");
-        case TRUST_FULL:        return i18nc("Full trust in key", "Full");
-        case TRUST_ULTIMATE:    return i18nc("Ultimate trust in key", "Ultimate");
-        case TRUST_UNKNOWN:
-        default:                return i18nc("Unknown trust in key", "Unknown");
-    }
+	switch (trust) {
+	case TRUST_INVALID:
+		return i18nc("Invalid key", "Invalid");
+	case TRUST_DISABLED:
+		return i18nc("Disabled key", "Disabled");
+	case TRUST_REVOKED:
+		return i18n("Revoked");
+	case TRUST_EXPIRED:
+		return i18nc("Expired key", "Expired");
+	case TRUST_UNDEFINED:
+		return i18nc("Undefined key trust", "Undefined");
+	case TRUST_NONE:
+		return i18nc("No trust in key", "None");
+	case TRUST_MARGINAL:
+		return i18nc("Marginal trust in key", "Marginal");
+	case TRUST_FULL:
+		return i18nc("Full trust in key", "Full");
+	case TRUST_ULTIMATE:
+		return i18nc("Ultimate trust in key", "Ultimate");
+	case TRUST_UNKNOWN:
+	default:
+		return i18nc("Unknown trust in key", "Unknown");
+	}
 }
 
 QString toString(const KgpgCore::KgpgSubKeyType type)
@@ -123,20 +137,30 @@ KgpgKeyAlgo toAlgo(const QString &s)
 
 KgpgKeyTrust toTrust(const QChar &c)
 {
-    switch (c.toAscii())
-    {
-        case 'o':    return TRUST_UNKNOWN;
-        case 'i':    return TRUST_INVALID;
-        case 'd':    return TRUST_DISABLED;
-        case 'r':    return TRUST_REVOKED;
-        case 'e':    return TRUST_EXPIRED;
-        case 'q':    return TRUST_UNDEFINED;
-        case 'n':    return TRUST_NONE;
-        case 'm':    return TRUST_MARGINAL;
-        case 'f':    return TRUST_FULL;
-        case 'u':    return TRUST_ULTIMATE;
-        default:     return TRUST_UNKNOWN;
-    }
+	switch (c.toAscii()) {
+	case 'o':
+		return TRUST_UNKNOWN;
+	case 'i':
+		return TRUST_INVALID;
+	case 'd':
+		return TRUST_DISABLED;
+	case 'r':
+		return TRUST_REVOKED;
+	case 'e':
+		return TRUST_EXPIRED;
+	case 'q':
+		return TRUST_UNDEFINED;
+	case 'n':
+		return TRUST_NONE;
+	case 'm':
+		return TRUST_MARGINAL;
+	case 'f':
+		return TRUST_FULL;
+	case 'u':
+		return TRUST_ULTIMATE;
+	default:
+		return TRUST_UNKNOWN;
+	}
 }
 
 KgpgKeyTrust toTrust(const QString &s)
@@ -166,36 +190,36 @@ KgpgSubKeyType toSubType(const QString& capString, bool upper)
 
 	foreach (const QChar &ch, capString) {
 		switch (ch.toAscii()) {
-			case 's':
-			case 'S':
-				if (upper != ch.isUpper())
-					continue;
-				ret |= SKT_SIGNATURE;
-				break;
-			case 'e':
-			case 'E':
-				if (upper != ch.isUpper())
-					continue;
-				ret |= SKT_ENCRYPTION;
-				break;
-			case 'a':
-			case 'A':
-				if (upper != ch.isUpper())
-					continue;
-				ret |= SKT_AUTHENTICATION;
-				break;
-			case 'c':
-			case 'C':
-				if (upper != ch.isUpper())
-					continue;
-				ret |= SKT_CERTIFICATION;
-				break;
-			case 'D':	// disabled key
-			case '?':	// unknown to GnuPG
+		case 's':
+		case 'S':
+			if (upper != ch.isUpper())
 				continue;
-			default:
-				kDebug(2100) << "unknown capability letter" << ch
-				<< "in cap string" << capString;
+			ret |= SKT_SIGNATURE;
+			break;
+		case 'e':
+		case 'E':
+			if (upper != ch.isUpper())
+				continue;
+			ret |= SKT_ENCRYPTION;
+			break;
+		case 'a':
+		case 'A':
+			if (upper != ch.isUpper())
+				continue;
+			ret |= SKT_AUTHENTICATION;
+			break;
+		case 'c':
+		case 'C':
+			if (upper != ch.isUpper())
+				continue;
+			ret |= SKT_CERTIFICATION;
+			break;
+		case 'D':	// disabled key
+		case '?':	// unknown to GnuPG
+			continue;
+		default:
+			kDebug(2100) << "unknown capability letter" << ch
+			<< "in cap string" << capString;
 		}
 	}
 

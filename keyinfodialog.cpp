@@ -222,29 +222,24 @@ void KgpgKeyInfo::displayKey()
         m_comment->setTextFormat(Qt::PlainText);
     }
 
-    switch (key->ownerTrust())
-    {
-        case GPGME_VALIDITY_NEVER:
-            m_owtrust->setCurrentIndex(1);
-            break;
-
-        case GPGME_VALIDITY_MARGINAL:
-            m_owtrust->setCurrentIndex(2);
-            break;
-
-        case GPGME_VALIDITY_FULL:
-            m_owtrust->setCurrentIndex(3);
-            break;
-
-        case GPGME_VALIDITY_ULTIMATE:
-            m_owtrust->setCurrentIndex(4);
-            break;
-
-        case GPGME_VALIDITY_UNDEFINED:
-        default:
-            m_owtrust->setCurrentIndex(0);
-            break;
-    }
+	switch (key->ownerTrust()) {
+	case GPGME_VALIDITY_NEVER:
+		m_owtrust->setCurrentIndex(1);
+		break;
+	case GPGME_VALIDITY_MARGINAL:
+		m_owtrust->setCurrentIndex(2);
+		break;
+	case GPGME_VALIDITY_FULL:
+		m_owtrust->setCurrentIndex(3);
+		break;
+	case GPGME_VALIDITY_ULTIMATE:
+		m_owtrust->setCurrentIndex(4);
+		break;
+	case GPGME_VALIDITY_UNDEFINED:
+	default:
+		m_owtrust->setCurrentIndex(0);
+		break;
+	}
 
     if (!key->valid())
         m_disable->setChecked(true);
