@@ -96,18 +96,18 @@ GroupEditProxyModel::data(const QModelIndex &index, int role) const
 
 	KGpgNode *nd = m_model->nodeForIndex(mapToSource(index));
 	switch (index.column()) {
-		case 0:
-			if (role == Qt::ToolTipRole)
-				return nd->getNameComment();
-			else
-				return nd->getName();
-		case 1:
-			return nd->getEmail();
-		case 2:
-			if (role == Qt::ToolTipRole)
-				return nd->toKeyNode()->getBeautifiedFingerprint();
-			else
-				return nd->getId().right(8);
+	case 0:
+		if (role == Qt::ToolTipRole)
+			return nd->getNameComment();
+		else
+			return nd->getName();
+	case 1:
+		return nd->getEmail();
+	case 2:
+		if (role == Qt::ToolTipRole)
+			return nd->toKeyNode()->getBeautifiedFingerprint();
+		else
+			return nd->getId().right(8);
 	}
 
 	return QVariant();
@@ -136,9 +136,13 @@ GroupEditProxyModel::headerData(int section, Qt::Orientation orientation, int ro
 		return QVariant();
 
 	switch (section) {
-	case 0:	return m_model->headerData(KEYCOLUMN_NAME, orientation, role);
-	case 1:	return m_model->headerData(KEYCOLUMN_EMAIL, orientation, role);
-	case 2:	return m_model->headerData(KEYCOLUMN_ID, orientation, role);
-	default:	return QVariant();
+	case 0:
+		return m_model->headerData(KEYCOLUMN_NAME, orientation, role);
+	case 1:
+		return m_model->headerData(KEYCOLUMN_EMAIL, orientation, role);
+	case 2:
+		return m_model->headerData(KEYCOLUMN_ID, orientation, role);
+	default:
+		return QVariant();
 	}
 }
