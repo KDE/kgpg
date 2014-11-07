@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,9 +14,10 @@
 #define GPGPROC_H
 
 #include <QString>
-#include <QStringList>
 
 #include "klinebufferedprocess.h"
+
+class QStringList;
 
 /**
  * @brief A interface to GnuPG handling UTF8 recoding correctly
@@ -127,6 +128,7 @@ public:
      * The returned string is the version information without any leading text.
      */
     static QString gpgVersionString(const QString &binary);
+
     /**
      * @brief find users GnuPG directory
      * @param binary name or path to GnuPG binary
@@ -136,6 +138,15 @@ public:
      * and data files. The returned path always ends with a '/'.
      */
     static QString getGpgHome(const QString &binary);
+
+    /**
+     * @brief return a list of the public key algorithms GnuPG announces support for
+     * @param binary name or path to GnuPG binary
+     * @return list of algorithm names
+     *
+     * All '?' entries are removed.
+     */
+    static QStringList getGpgPubkeyAlgorithms(const QString &binary);
 
     /**
      * @brief run GnuPG and check if it complains about anything

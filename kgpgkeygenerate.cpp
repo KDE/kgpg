@@ -16,6 +16,8 @@
 
 #include "core/convert.h"
 #include "core/emailvalidator.h"
+#include "gpgproc.h"
+#include "kgpgsettings.h"
 
 #include <KComboBox>
 #include <KDebug>
@@ -26,6 +28,7 @@
 #include <QGroupBox>
 #include <QIntValidator>
 #include <QLabel>
+#include <QStringList>
 #include <QVBoxLayout>
 #include <QWhatsThis>
 #include <QWidget>
@@ -74,10 +77,14 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     m_keysize->setCurrentIndex(1); // 2048
     m_keysize->setMinimumSize(m_keysize->sizeHint());
 
-    m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_DSA_ELGAMAL));
-    m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_RSA_RSA));
-    m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_RSA));
-    m_keykind->setCurrentIndex(1); // RSA+RSA
+    const QStringList pkAlgos = GPGProc::getGpgPubkeyAlgorithms(KGpgSettings::gpgBinaryPath());
+    if (pkAlgos.contains(QLatin1String("RSA"))) {
+	m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_RSA_RSA));
+	m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_RSA));
+    }
+    if (pkAlgos.contains(QLatin1String("DSA")) && pkAlgos.contains(QLatin1String("ELG")))
+	m_keykind->addItem(KgpgCore::Convert::toString(KgpgCore::ALGO_DSA_ELGAMAL));
+    m_keykind->setCurrentIndex(0); // normally RSA+RSA
     slotEnableCaps(m_keykind->currentIndex());
     m_keykind->setMinimumSize(m_keykind->sizeHint());
 

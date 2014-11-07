@@ -20,6 +20,7 @@
 #include <KStandardDirs>
 #include <QDir>
 #include <QFileInfo>
+#include <QStringList>
 #include <QTextCodec>
 
 class GnupgBinary {
@@ -323,6 +324,21 @@ QString GPGProc::gpgVersionString(const QString &binary)
 		return line.simplified().section(QLatin1Char( ' ' ), -1);
 	else
 		return QString();
+}
+
+QStringList
+GPGProc::getGpgPubkeyAlgorithms(const QString &binary)
+{
+	QStringList ret;
+
+	foreach (const QString &s, getGpgStatusLine(binary, QLatin1String("Pubkey:")).split(QLatin1Char(','))) {
+		QString t = s.trimmed();
+		if (t == QLatin1String("?"))
+			continue;
+		ret << t;
+	}
+
+	return ret;
 }
 
 QString GPGProc::getGpgStartupError(const QString &binary)
