@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007,2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -73,10 +73,16 @@ static bool checkGnupgArguments(const QString &executable, const QStringList &ar
 	return (gpg.execute() == 0);
 }
 
-static QString getGpgProcessHome(const QString &binary)
+static QString
+getGpgStatusLine(const QString &binary, const QString &key)
 {
 	GPGProc process(0, binary);
 	process << QLatin1String( "--version" );
+
+	QProcessEnvironment env = process.processEnvironment();
+	env.insert("LANG", "C");
+	process.setProcessEnvironment(env);
+
 	process.start();
 	process.waitForFinished(-1);
 
@@ -86,8 +92,8 @@ static QString getGpgProcessHome(const QString &binary)
 
 	QString line;
 	while (process.readln(line) != -1) {
-		if (line.startsWith(QLatin1String("Home: "))) {
-			line.remove(0, 6);
+		if (line.startsWith(key)) {
+			line.remove(0, key.length());
 			return line.trimmed();
 		}
 	}
@@ -95,6 +101,11 @@ static QString getGpgProcessHome(const QString &binary)
 	return QString();
 }
 
+static QString
+getGpgProcessHome(const QString &binary)
+{
+	return getGpgStatusLine(binary, QLatin1String("Home: "));
+}
 
 void GnupgBinary::setBinary(const QString &executable)
 {
