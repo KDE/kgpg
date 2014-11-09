@@ -193,7 +193,9 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 		} else if (publickey && (lsp.at(0) == QLatin1String( "fpr" )) && (items >= 10)) {
 			const QString fingervalue(lsp.at(9));
 
-			publickey->setFingerprint(fingervalue);
+			// there may also be fingerprints reported for subkeys
+			if (publickey->fingerprint().isEmpty())
+				publickey->setFingerprint(fingervalue);
 		} else if (publickey && (lsp.at(0) == QLatin1String( "sub" )) && (items >= 7)) {
 			KgpgSubKeyType subtype;
 
