@@ -269,15 +269,14 @@ uint KgpgKey::encryptionSize() const
 {
 	const KgpgKeySub *enc = NULL;
 	// Get the first encryption subkey
-	for (int i = 0; i < d->gpgsublist->count(); ++i) {
-		const KgpgKeySub &temp = d->gpgsublist->at(i);
-		if (temp.type() & SKT_ENCRYPTION) {
+	foreach (const KgpgKeySub &k, *d->gpgsublist) {
+		if (k.type() & SKT_ENCRYPTION) {
 			// if the first encryption subkey is expired
 			// check if there is one that is not
-			if (temp.trust() > TRUST_EXPIRED)
-				return temp.size();
+			if (k.trust() > TRUST_EXPIRED)
+				return k.size();
 			if (enc == NULL)
-				enc = &temp;
+				enc = &k;
 		}
 	}
 	if (enc != NULL)
@@ -318,12 +317,10 @@ KgpgKeyAlgo KgpgKey::algorithm() const
 KgpgKeyAlgo KgpgKey::encryptionAlgorithm() const
 {
 	// Get the first encryption subkey
-	for (int i = 0; i < d->gpgsublist->count(); ++i) {
-		KgpgKeySub temp = d->gpgsublist->at(i);
-		if (temp.type() & SKT_ENCRYPTION) {
-			return temp.algorithm();
-		}
-	}
+	foreach (const KgpgKeySub &k, *d->gpgsublist)
+		if (k.type() & SKT_ENCRYPTION)
+			return k.algorithm();
+
 	return ALGO_UNKNOWN;
 }
 
