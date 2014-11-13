@@ -214,6 +214,8 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 				return node->toKeyNode()->getFingerprint();
 			case ITYPE_SECRET:
 				return node->toOrphanNode()->getFingerprint();
+			case ITYPE_SUB:
+				return node->toSubkeyNode()->getFingerprint();
 			default:
 				return QVariant();
 			}

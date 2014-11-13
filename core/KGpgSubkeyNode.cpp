@@ -97,3 +97,15 @@ KGpgSubkeyNode::getParentKeyNode() const
 {
 	return m_parent->toKeyNode();
 }
+
+void
+KGpgSubkeyNode::setFingerprint(const QString &fpr)
+{
+	m_fingerprint = fpr;
+}
+
+const QString &
+KGpgSubkeyNode::getFingerprint() const
+{
+	return m_fingerprint;
+}

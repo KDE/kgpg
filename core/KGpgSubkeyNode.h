@@ -32,6 +32,7 @@ class KGpgSubkeyNode : public KGpgSignableNode
 {
 private:
 	KgpgCore::KgpgKeySub m_skey;
+	QString m_fingerprint;
 
 protected:
 	virtual void readChildren();
@@ -50,6 +51,9 @@ public:
 	virtual KGpgKeyNode *getKeyNode(void);
 	virtual const KGpgKeyNode *getKeyNode(void) const;
 	virtual KGpgKeyNode *getParentKeyNode() const;
+
+	void setFingerprint(const QString &fpr);
+	const QString &getFingerprint() const;
 };
 
 #endif /* KGPGSUBKEYNODE_H */
