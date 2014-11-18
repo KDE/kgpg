@@ -13,6 +13,7 @@
   <name xml:lang="es">KGpg</name>
   <name xml:lang="et">KGpg</name>
   <name xml:lang="fi">KGpg</name>
+  <name xml:lang="fr">KGpg</name>
   <name xml:lang="hu">KGpg</name>
   <name xml:lang="it">KGpg</name>
   <name xml:lang="ko">KGpg</name>
@@ -45,6 +46,7 @@
   <summary xml:lang="es">Herramienta de cifrado</summary>
   <summary xml:lang="et">Krüptimistööriist</summary>
   <summary xml:lang="fi">Salaustyökalu</summary>
+  <summary xml:lang="fr">Outil de chiffrement</summary>
   <summary xml:lang="hu">Titkosító eszköz</summary>
   <summary xml:lang="it">Strumento di cifratura</summary>
   <summary xml:lang="ko">암호화 도구</summary>
