@@ -1,10 +1,8 @@
-/***************************************************************************
-                          kgpg.cpp  -  description
-                             -------------------
-    begin                : Mon Nov 18 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2014
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -69,8 +67,6 @@ int KGpgApp::newInstance()
 	if (!running) {
 		running = true;
 
-		const QString gpgPath(KGpgSettings::gpgConfigPath());
-
 		const QString gpgError = GPGProc::getGpgStartupError(KGpgSettings::gpgBinaryPath());
 		if (!gpgError.isEmpty()) {
 			KMessageBox::detailedError(0, i18n("GnuPG failed to start.<br />You must fix the GnuPG error first before running KGpg."), gpgError, i18n("GnuPG error"));
@@ -85,8 +81,16 @@ int KGpgApp::newInstance()
 		connect(w, SIGNAL(updateDefault(QString)), SLOT(assistantOver(QString)));
 		connect(w, SIGNAL(createNewKey()), s_keyManager, SLOT(slotGenerateKey()));
 
+		const QString gpgPath = KGpgSettings::gpgConfigPath();
+
 		if (!gpgPath.isEmpty()) {
-			if ((KgpgInterface::getGpgBoolSetting(QLatin1String( "use-agent" ), gpgPath)) && (qgetenv("GPG_AGENT_INFO").isEmpty()))
+			const int gpgver = GPGProc::gpgVersion(GPGProc::gpgVersionString(KGpgSettings::gpgBinaryPath()));
+
+			// Warn if sign of a properly running gpg-agent cannot be determined
+			// The environment variable has been removed in GnuPG 2.1, the agent is started internally by
+			// any program part of GnuPG that needs it, so simply assume everything is fine.
+			if ((gpgver < 0x20100) && KgpgInterface::getGpgBoolSetting(QLatin1String("use-agent"), gpgPath) &&
+					qgetenv("GPG_AGENT_INFO").isEmpty())
 				KMessageBox::sorry(0, i18n("<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br />"
 					"However, the agent does not seem to be running. This could result in problems with signing/decryption.<br />"
 					"Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>", gpgPath));
