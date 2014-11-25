@@ -69,6 +69,7 @@ int KGpgApp::newInstance()
 
 		const QString gpgError = GPGProc::getGpgStartupError(KGpgSettings::gpgBinaryPath());
 		if (!gpgError.isEmpty()) {
+			running = false;
 			KMessageBox::detailedError(0, i18n("GnuPG failed to start.<br />You must fix the GnuPG error first before running KGpg."), gpgError, i18n("GnuPG error"));
 			KApplication::quit();
 		}
