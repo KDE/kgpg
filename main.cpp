@@ -23,7 +23,7 @@
 static const char description[] =
         I18N_NOOP("KGpg - simple gui for gpg\n\nKGpg was designed to make gpg very easy to use.\nI tried to make it as secure as possible.\nHope you enjoy it.");
 
-static const char version[] = "2.13.95";
+static const char version[] = "2.14.40";
 
 int main(int argc, char *argv[])
 {
