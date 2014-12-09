@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2012,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -20,7 +20,8 @@
 KGpgTransactionJob::KGpgTransactionJob(KGpgTransaction *transaction)
 	: KJob(transaction->parent()),
 	m_transaction(transaction),
-	m_result(-1)
+	m_result(-1),
+	m_wasKilled(false)
 {
 }
 
@@ -56,7 +57,8 @@ void
 KGpgTransactionJob::slotTransactionDone(int result)
 {
 	m_result = result;
-	emitResult();
+	if (!m_wasKilled)
+		emitResult();
 }
 
 void
@@ -75,9 +77,9 @@ bool
 KGpgTransactionJob::doKill()
 {
 	m_transaction->kill();
+	m_wasKilled = true;
 
 	return true;
 }
-
 
 #include "kgpgtransactionjob.moc"
