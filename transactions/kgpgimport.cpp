@@ -116,7 +116,7 @@ KGpgImport::getImportMessage(const QStringList &log)
 
 		const QStringList rstr(str.mid(20).simplified().split(QLatin1Char( ' ' )));
 
-		fine = (rstr.count() == RESULT_PARTS);
+		fine = (rstr.count() >= RESULT_PARTS);
 
 		i = 0;
 		while (fine && (i < RESULT_PARTS)) {
