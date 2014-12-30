@@ -123,6 +123,36 @@ set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transac
    foldercompressjob.cpp
 )
 
+set(kgpg_HDRS
+   caff.h
+   caff_p.h
+   conf_encryption.h
+   detailedconsole.h
+   foldercompressjob.h
+   gpgproc.h
+   groupedit.h
+   keyexport.h
+   keyinfodialog.h
+   keyservers.h
+   keysmanager.h
+   keytreeview.h
+   kgpg.h
+   kgpgchangekey.h
+   kgpgexternalactions.h
+   kgpgfirstassistant.h
+   kgpginterface.h
+   kgpgkeygenerate.h
+   kgpgoptions.h
+   kgpgrevokewidget.h
+   kgpgtextinterface.h
+   klinebufferedprocess.h
+   newkey.h
+   selectexpirydate.h
+   selectpublickeydialog.h
+   selectsecretkey.h
+   sourceselect.h
+)
+
 qt4_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)
 
 QT4_ADD_DBUS_INTERFACE(kgpg_SRCS org.kde.kgpg.Key.xml kgpg_interface )
@@ -150,7 +180,7 @@ kde4_add_app_icon(kgpg_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app*-kgpg.png")
 
 kde4_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
-kde4_add_executable(kgpg ${kgpg_SRCS})
+kde4_add_executable(kgpg ${kgpg_SRCS} ${kgpg_HDRS})
 
 if (KGPG_DEBUG_TRANSACTIONS)
 	get_target_property(KGPG_FLAGS kgpg COMPILE_DEFINITIONS)
