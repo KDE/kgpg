@@ -124,8 +124,8 @@ public:
 	const QByteArray &getOutputData() const;
 
 protected:
-	virtual bool preStart();
-	virtual bool nextLine(const QString &line);
+	virtual bool preStart() Q_DECL_OVERRIDE;
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 
 private:
 	QStringList m_keyids;

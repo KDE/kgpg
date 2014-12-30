@@ -16,6 +16,8 @@
 
 #include <KJob>
 
+#include <kgpgcompiler.h>
+
 class KGpgTransaction;
 
 /**
@@ -29,7 +31,7 @@ class KGpgTransactionJob : public KJob {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgTransactionJob)
-	KGpgTransactionJob(); // = delete C++0x
+	KGpgTransactionJob() Q_DECL_EQ_DELETE;
 
 public:
 	/**
@@ -48,7 +50,7 @@ public:
 	/**
 	 * @brief starts the transaction
 	 */
-	virtual void start();
+	virtual void start() Q_DECL_OVERRIDE;
 
 	/**
 	 * @brief get the transaction this job is handling
@@ -61,7 +63,7 @@ public:
 	int getResultCode() const;
 
 protected:
-	virtual bool doKill();
+	virtual bool doKill() Q_DECL_OVERRIDE;
 
 private slots:
 	void slotTransactionDone(int result);

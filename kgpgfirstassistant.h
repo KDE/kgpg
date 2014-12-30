@@ -21,6 +21,8 @@
 
 #include <KAssistantDialog>
 
+#include <kgpgcompiler.h>
+
 class QCheckBox;
 class QLabel;
 class KPageWidgetItem;
@@ -61,7 +63,7 @@ public:
 	/**
 	 * @brief constructor of KGpgFirstAssistant
 	 */
-	explicit KGpgFirstAssistant(QWidget *parent = 0);
+	explicit KGpgFirstAssistant(QWidget *parent = Q_NULLPTR);
 
 	/**
 	 * @brief check if key generation dialog should be started

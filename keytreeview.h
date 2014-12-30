@@ -39,9 +39,9 @@ private:
 	KeyListProxyModel *m_proxy;
 
 public:
-	explicit KeyTreeView(QWidget *parent = 0, KeyListProxyModel *model = 0);
+	explicit KeyTreeView(QWidget *parent = Q_NULLPTR, KeyListProxyModel *model = Q_NULLPTR);
 
-	QList<KGpgNode *> selectedNodes(bool *psame = NULL, KgpgCore::KgpgItemType *pt = NULL) const;
+	QList<KGpgNode *> selectedNodes(bool *psame = Q_NULLPTR, KgpgCore::KgpgItemType *pt = Q_NULLPTR) const;
 	KGpgNode *selectedNode() const;
 
 	void restoreLayout(KConfigGroup &cg);

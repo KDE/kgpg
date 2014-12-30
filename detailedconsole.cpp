@@ -32,7 +32,7 @@ KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, con
 	setDefaultButton(Ok);
 	setModal(true);
 	KMessageBox::createKMessageBox(this, QMessageBox::Information, // krazy:exclude=qtclasses
-				   boxLabel, keysList, QString(), NULL, 0, errormessage);
+				   boxLabel, keysList, QString(), Q_NULLPTR, 0, errormessage);
 }
 
 #include "detailedconsole.moc"

@@ -43,15 +43,15 @@ public:
 	explicit KGpgUidNode(KGpgKeyNode *parent, const unsigned int index, const QStringList &sl);
 	virtual ~KGpgUidNode();
 
-	virtual KgpgCore::KgpgItemType getType() const;
-	virtual KgpgCore::KgpgKeyTrust getTrust() const;
-	virtual QString getName() const;
-	virtual QString getEmail() const;
-	virtual QString getId() const;
-	virtual KGpgKeyNode *getKeyNode(void);
-	virtual const KGpgKeyNode *getKeyNode(void) const;
+	virtual KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
+	virtual KgpgCore::KgpgKeyTrust getTrust() const Q_DECL_OVERRIDE;
+	virtual QString getName() const Q_DECL_OVERRIDE;
+	virtual QString getEmail() const Q_DECL_OVERRIDE;
+	virtual QString getId() const Q_DECL_OVERRIDE;
+	virtual KGpgKeyNode *getKeyNode(void) Q_DECL_OVERRIDE;
+	virtual const KGpgKeyNode *getKeyNode(void) const Q_DECL_OVERRIDE;
 	virtual KGpgKeyNode *getParentKeyNode() const;
-	virtual QString getComment() const;
+	virtual QString getComment() const Q_DECL_OVERRIDE;
 };
 
 #endif /* KGPGUIDNODE_H */

@@ -28,7 +28,7 @@ using namespace KgpgCore;
 
 SelectKeyProxyModel::SelectKeyProxyModel(QObject *parent)
 	: QSortFilterProxyModel(parent),
-	m_model(NULL),
+	m_model(Q_NULLPTR),
 	m_showUntrusted(false)
 {
 }
@@ -96,7 +96,7 @@ SelectKeyProxyModel::rowCount(const QModelIndex &parent) const
 		return 0;
 	if (parent.isValid())
 		return 0;
-	if (m_model == NULL)
+	if (m_model == Q_NULLPTR)
 		return 0;
 	return QSortFilterProxyModel::rowCount(parent);
 }
@@ -131,7 +131,7 @@ SelectKeyProxyModel::data(const QModelIndex &index, int role) const
 bool
 SelectKeyProxyModel::hasChildren(const QModelIndex &parent) const
 {
-	if (m_model == NULL)
+	if (m_model == Q_NULLPTR)
 		return false;
 	return !parent.isValid();
 }
@@ -145,7 +145,7 @@ SelectKeyProxyModel::headerData(int section, Qt::Orientation orientation, int ro
 	if (orientation != Qt::Horizontal)
 		return QVariant();
 
-	if (m_model == NULL)
+	if (m_model == Q_NULLPTR)
 		return QVariant();
 
 	switch (section) {
@@ -200,7 +200,7 @@ SelectSecretKeyProxyModel::rowCount(const QModelIndex &parent) const
 		return 0;
 	if (parent.isValid())
 		return 0;
-	if (m_model == NULL)
+	if (m_model == Q_NULLPTR)
 		return 0;
 	return QSortFilterProxyModel::rowCount(parent);
 }
@@ -240,7 +240,7 @@ SelectSecretKeyProxyModel::data(const QModelIndex &index, int role) const
 bool
 SelectSecretKeyProxyModel::hasChildren(const QModelIndex &parent) const
 {
-	if (m_model == NULL)
+	if (m_model == Q_NULLPTR)
 		return false;
 	return !parent.isValid();
 }
@@ -254,7 +254,7 @@ SelectSecretKeyProxyModel::headerData(int section, Qt::Orientation orientation, 
 	if (orientation != Qt::Horizontal)
 		return QVariant();
 
-	if (m_model == NULL)
+	if (m_model == Q_NULLPTR)
 		return QVariant();
 
 	switch (section) {

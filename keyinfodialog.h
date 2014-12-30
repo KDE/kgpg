@@ -23,6 +23,7 @@
 
 #include <KDialog>
 
+#include <kgpgcompiler.h>
 #include "ui_kgpgKeyInfo.h"
 
 class QCheckBox;
@@ -42,7 +43,7 @@ class KgpgTrustLabel : public QWidget
     Q_OBJECT
 
 public:
-    explicit KgpgTrustLabel(QWidget *parent = 0, const QString &text = QString(), const QColor &color = QColor());
+    explicit KgpgTrustLabel(QWidget *parent = Q_NULLPTR, const QString &text = QString(), const QColor &color = QColor());
 
     void setText(const QString &text);
     void setColor(const QColor &color);
@@ -64,7 +65,7 @@ class KgpgKeyInfo : public KDialog, public Ui::kgpgKeyInfo
 {
 	Q_OBJECT
 
-	KgpgKeyInfo(); // = delete C++0x
+	KgpgKeyInfo() Q_DECL_EQ_DELETE;
 	Q_DISABLE_COPY(KgpgKeyInfo)
 public:
 	KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *parent);

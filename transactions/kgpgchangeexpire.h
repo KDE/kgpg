@@ -33,7 +33,7 @@ public:
 	void setDate(const QDateTime &date);
 
 protected:
-	virtual bool nextLine(const QString &line);
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 
 private:
 	QDateTime m_date;

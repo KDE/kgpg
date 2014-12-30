@@ -81,12 +81,12 @@ protected:
 	/**
 	 * @brief construct the command line of the process
 	 */
-	virtual bool preStart();
-	virtual bool nextLine(const QString &line);
+	virtual bool preStart() Q_DECL_OVERRIDE;
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 	/**
 	 * @brief implement special handling for GnuPG return codes
 	 */
-	virtual void finish();
+	virtual void finish() Q_DECL_OVERRIDE;
 
 	virtual QStringList command() const = 0;
 

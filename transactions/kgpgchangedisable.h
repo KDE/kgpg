@@ -32,8 +32,8 @@ public:
 	void setDisable(bool disable);
 
 protected:
-	virtual bool preStart();
-	virtual bool nextLine(const QString &line);
+	virtual bool preStart() Q_DECL_OVERRIDE;
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 };
 
 #endif // KGPGCHANGEDISABLE_H

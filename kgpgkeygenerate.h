@@ -29,7 +29,7 @@ class KgpgKeyGenerate : public KDialog, public Ui::kgpgKeyGenerate
     Q_OBJECT
 
 public:
-    explicit KgpgKeyGenerate(QWidget *parent = 0);
+    explicit KgpgKeyGenerate(QWidget *parent = Q_NULLPTR);
 
     bool isExpertMode() const;
     QString name() const;

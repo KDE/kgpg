@@ -121,7 +121,7 @@ KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid, const RemoveMode r
 	if (uid > 0) {
 		uidnode = keynode->getUid(uid);
 
-		Q_ASSERT(uidnode != NULL);
+		Q_ASSERT(uidnode != Q_NULLPTR);
 		uids.append(uidnode);
 	} else {
 		Q_ASSERT(keynode->wasExpanded());
@@ -134,7 +134,7 @@ KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid, const RemoveMode r
 
 			uidnode = keynode->getUid(idx);
 
-			if (uidnode == NULL)
+			if (uidnode == Q_NULLPTR)
 				break;
 
 			switch (removeMode) {

@@ -140,7 +140,7 @@ KGpgGroupNode::~KGpgGroupNode()
 {
 	KGpgRootNode *root = m_parent->toRootNode();
 
-	if (root != NULL)
+	if (root != Q_NULLPTR)
 		root->m_groups--;
 }
 

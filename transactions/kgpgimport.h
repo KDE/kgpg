@@ -109,7 +109,7 @@ public:
 	 * The log must contain a "IMPORT_RES" line. If this is not present
 	 * the result string will contain an error message.
 	 */
-	static QString getDetailedImportMessage(const QStringList &log, const KGpgItemModel *model = NULL);
+	static QString getDetailedImportMessage(const QStringList &log, const KGpgItemModel *model = Q_NULLPTR);
 
 	/**
 	 * @brief check if the given text contains a private or public key
@@ -123,7 +123,7 @@ public:
 	static int isKey(const QString &text, const bool incomplete = false);
 
 protected:
-	virtual QStringList command() const;
+	virtual QStringList command() const Q_DECL_OVERRIDE;
 };
 
 #endif // KGPGIMPORT_H

@@ -18,15 +18,15 @@
 #ifndef NEWKEY_H
 #define NEWKEY_H
 
+#include <kgpgcompiler.h>
 #include "ui_newkey.h"
-
 
 class newKey : public QWidget, public Ui_newKey
 {
     Q_OBJECT
 
 public:
-    explicit newKey(QWidget* parent = 0);
+    explicit newKey(QWidget* parent = Q_NULLPTR);
 
 
 public slots:

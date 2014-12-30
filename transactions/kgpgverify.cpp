@@ -107,7 +107,7 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 	// for a good signature. Since VALIDSIG has more information
 	// we use that.
 	const QRegExp validsig(QLatin1String("^\\[GNUPG:\\] VALIDSIG([ ]+[^ ]+){10,}.*$"));
-	const bool useGoodSig = (model == NULL) || (log.indexOf(validsig) == -1);
+	const bool useGoodSig = (model == Q_NULLPTR) || (log.indexOf(validsig) == -1);
 	QString sigtime;	// timestamp of signature creation
 
 	foreach (const QString &line, log) {
@@ -126,7 +126,7 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 
 			const KGpgKeyNode *node = model->findKeyNode(vsig[9]);
 
-			if (node != NULL) {
+			if (node != Q_NULLPTR) {
 				// ignore for now if this is signed with the primary id (vsig[0] == vsig[9]) or not
 				if (node->getEmail().isEmpty())
 					result += i18n("<qt>Good signature from:<br /><b>%1</b><br />Key ID: %2<br /></qt>",
@@ -142,7 +142,7 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 				// the key just after the verification. Brute force solution:
 				// do the whole report generation again, but this time make
 				// sure GOODSIG is used.
-				return getReport(log, NULL);
+				return getReport(log, Q_NULLPTR);
 			}
 		} else if (msg.startsWith(QLatin1String("UNEXPECTED")) ||
 				msg.startsWith(QLatin1String("NODATA"))) {

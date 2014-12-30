@@ -21,6 +21,8 @@
 
 #include <QAbstractItemModel>
 
+#include <kgpgcompiler.h>
+
 class QString;
 class QStringList;
 
@@ -36,7 +38,7 @@ class KGpgSearchResultModelPrivate;
 class KGpgSearchResultModel : public QAbstractItemModel {
 	Q_OBJECT
 public:
-	explicit KGpgSearchResultModel(QObject *parent = NULL);
+	explicit KGpgSearchResultModel(QObject *parent = Q_NULLPTR);
 	~KGpgSearchResultModel();
 
 	virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;

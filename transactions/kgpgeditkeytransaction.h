@@ -25,7 +25,7 @@ class KGpgEditKeyTransaction: public KGpgTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgEditKeyTransaction)
-	KGpgEditKeyTransaction(); // = delete C++0x
+	KGpgEditKeyTransaction() Q_DECL_EQ_DELETE;
 
 protected:
 	/**
@@ -56,7 +56,7 @@ protected:
 	 * If you inherit from this class make sure this method is called
 	 * from your inherited method before you do anything else there.
 	 */
-	virtual bool preStart();
+	virtual bool preStart() Q_DECL_OVERRIDE;
 
 	/**
 	 * @brief handle standard GnuPG prompts
@@ -71,9 +71,9 @@ protected:
 	 * Every line sent here by GnuPG not recognised as command handled
 	 * here will set a sequence error so be sure to handle your stuff first!
 	 */
-	virtual bool nextLine(const QString &line);
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 
-	virtual ts_boolanswer boolQuestion(const QString &line);
+	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
 
 	/**
 	 * @brief replace the argument of the edit command

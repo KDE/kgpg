@@ -267,7 +267,7 @@ uint KgpgKey::size() const
 
 uint KgpgKey::encryptionSize() const
 {
-	const KgpgKeySub *enc = NULL;
+	const KgpgKeySub *enc = Q_NULLPTR;
 	// Get the first encryption subkey
 	foreach (const KgpgKeySub &k, *d->gpgsublist) {
 		if (k.type() & SKT_ENCRYPTION) {
@@ -275,11 +275,11 @@ uint KgpgKey::encryptionSize() const
 			// check if there is one that is not
 			if (k.trust() > TRUST_EXPIRED)
 				return k.size();
-			if (enc == NULL)
+			if (enc == Q_NULLPTR)
 				enc = &k;
 		}
 	}
-	if (enc != NULL)
+	if (enc != Q_NULLPTR)
 		return enc->size();
 	return 0;
 }

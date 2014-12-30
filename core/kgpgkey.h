@@ -23,6 +23,8 @@
 #include <QList>
 #include <QDateTime>
 
+#include <kgpgcompiler.h>
+
 class QStringList;
 
 namespace KgpgCore

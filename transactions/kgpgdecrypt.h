@@ -30,7 +30,7 @@ class KGpgDecrypt: public KGpgTextOrFileTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgDecrypt)
-	KGpgDecrypt(); // = delete C++0x
+	KGpgDecrypt() Q_DECL_EQ_DELETE;
 public:
 	/**
 	 * @brief decrypt given text
@@ -68,14 +68,14 @@ public:
 	/**
 	 * @brief check if the given text contains an encoded message
 	 * @param text text to check
-	 * @param startPos if not NULL start offset of encoded text will be returned here
-	 * @param endPos if not NULL end offset of encoded text will be returned here
+	 * @param startPos if not Q_NULLPTR start offset of encoded text will be returned here
+	 * @param endPos if not Q_NULLPTR end offset of encoded text will be returned here
 	 */
-	static bool isEncryptedText(const QString &text, int *startPos = NULL, int *endPos = NULL);
+	static bool isEncryptedText(const QString &text, int *startPos = Q_NULLPTR, int *endPos = Q_NULLPTR);
 
 protected:
-	virtual QStringList command() const;
-	virtual bool nextLine(const QString &line);
+	virtual QStringList command() const Q_DECL_OVERRIDE;
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 
 private:
 	int m_fileIndex;

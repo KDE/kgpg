@@ -62,17 +62,17 @@ public:
 	 * Get the node of the primary key this node references to
 	 *
 	 * This will return the key node of the primary key this node
-	 * references. This may be %NULL if the primary key is not in the key
+	 * references. This may be %Q_NULLPTR if the primary key is not in the key
 	 * ring, e.g. if this is a signature of an unknown key.
 	 *
-	 * @return the node of the primary key or %NULL
+	 * @return the node of the primary key or %Q_NULLPTR
 	 */
 	virtual KGpgKeyNode *getRefNode() const;
 
 	/**
 	 * Check if the referenced key exists
 	 *
-	 * @return if getRefNode() will return %NULL or not
+	 * @return if getRefNode() will return %Q_NULLPTR or not
 	 */
 	bool isUnknown() const;
 

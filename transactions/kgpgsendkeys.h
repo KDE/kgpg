@@ -30,7 +30,7 @@ class KGpgSendKeys: public KGpgKeyserverTransaction {
 	/**
 	 * @brief forbidden
 	 */
-	KGpgSendKeys(); // = delete C++0x
+	KGpgSendKeys() Q_DECL_EQ_DELETE;
 public:
 	/**
 	 * @brief construct a new transaction for the given keyserver
@@ -59,8 +59,8 @@ public:
 	const QStringList &getLog() const;
 
 protected:
-	virtual bool preStart();
-	virtual bool nextLine(const QString &line);
+	virtual bool preStart() Q_DECL_OVERRIDE;
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 
 private:
 	int m_attrpos;

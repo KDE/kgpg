@@ -20,7 +20,7 @@
 
 KGpgKeyserverTransaction::KGpgKeyserverTransaction(QObject *parent, const QString &keyserver, const bool withProgress, const QString &proxy)
 	: KGpgTransaction(parent),
-	m_progress(NULL),
+	m_progress(Q_NULLPTR),
 	m_showprogress(false)
 {
 	addArgument(QLatin1String( "--status-fd=1" ));
@@ -60,7 +60,7 @@ KGpgKeyserverTransaction::setProxy(const QString &proxy)
 void
 KGpgKeyserverTransaction::finish()
 {
-	if (m_progress != NULL)
+	if (m_progress != Q_NULLPTR)
 		m_progress->hide();
 }
 
@@ -68,7 +68,7 @@ bool
 KGpgKeyserverTransaction::preStart()
 {
 	if (m_showprogress) {
-		Q_ASSERT(m_progress != NULL);
+		Q_ASSERT(m_progress != Q_NULLPTR);
 		m_progress->show();
 	}
 
@@ -88,7 +88,7 @@ KGpgKeyserverTransaction::setProgressEnable(const bool b)
 {
 	m_showprogress = b;
 
-	if (b && (m_progress == NULL)) {
+	if (b && (m_progress == Q_NULLPTR)) {
 		m_progress = new KProgressDialog(qobject_cast<QWidget *>(parent()),
 				i18n("Keyserver"), i18n("<b>Connecting to the server...</b>"));
 

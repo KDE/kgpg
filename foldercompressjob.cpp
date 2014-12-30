@@ -76,7 +76,7 @@ void
 FolderCompressJob::doWork()
 {
 	Q_D(FolderCompressJob);
-	KArchive *arch = NULL;
+	KArchive *arch = Q_NULLPTR;
 
 	switch (d->m_archiveType) {
 	case 0:

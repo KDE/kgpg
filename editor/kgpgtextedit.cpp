@@ -243,7 +243,7 @@ void KgpgTextEdit::slotVerify(const QString &message)
 void KgpgTextEdit::slotDecryptDone(int result)
 {
 	KGpgDecrypt *decr = qobject_cast<KGpgDecrypt *>(sender());
-	Q_ASSERT(decr != NULL);
+	Q_ASSERT(decr != Q_NULLPTR);
 
 	if (!m_tempfile.isEmpty()) {
 		KIO::NetAccess::removeTempFile(m_tempfile);
@@ -263,7 +263,7 @@ void KgpgTextEdit::slotDecryptDone(int result)
 void KgpgTextEdit::slotEncodeUpdate(int result)
 {
 	KGpgEncrypt *enc = qobject_cast<KGpgEncrypt *>(sender());
-	Q_ASSERT(enc != NULL);
+	Q_ASSERT(enc != Q_NULLPTR);
 
 	if (result == KGpgTransaction::TS_OK) {
 		const QString lf = QLatin1String("\n");
@@ -280,7 +280,7 @@ void KgpgTextEdit::slotSignUpdate(int result)
 {
 	const KGpgSignText * const signt = qobject_cast<KGpgSignText *>(sender());
 	sender()->deleteLater();
-	Q_ASSERT(signt != NULL);
+	Q_ASSERT(signt != Q_NULLPTR);
 
 	if (result != KGpgTransaction::TS_OK) {
 		KMessageBox::sorry(this, i18n("Signing not possible: bad passphrase or missing key"));
@@ -297,7 +297,7 @@ void KgpgTextEdit::slotVerifyDone(int result)
 {
 	const KGpgVerify * const verify = qobject_cast<KGpgVerify *>(sender());
 	sender()->deleteLater();
-	Q_ASSERT(verify != NULL);
+	Q_ASSERT(verify != Q_NULLPTR);
 
 	emit verifyFinished();
 

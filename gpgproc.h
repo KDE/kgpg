@@ -15,6 +15,7 @@
 
 #include <QString>
 
+#include "kgpgcompiler.h"
 #include "klinebufferedprocess.h"
 
 class QStringList;
@@ -44,7 +45,7 @@ public:
      * @param parent parent object
      * @param binary path to GnuPG binary or QString() to use the configured
      */
-    explicit GPGProc(QObject *parent = 0, const QString &binary = QString());
+    explicit GPGProc(QObject *parent = Q_NULLPTR, const QString &binary = QString());
 
     /**
      * Destructor

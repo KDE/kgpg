@@ -29,7 +29,7 @@ class KGpgSignUid: public KGpgUidTransaction, public KGpgSignTransactionHelper {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgSignUid)
-	KGpgSignUid(); // = delete C++0x
+	KGpgSignUid() Q_DECL_EQ_DELETE;
 
 public:
 	/**
@@ -60,12 +60,12 @@ public:
 	void setUid(const KGpgSignableNode *uid);
 
 protected:
-	virtual bool nextLine(const QString &line);
-	virtual ts_boolanswer boolQuestion(const QString &line);
-	virtual bool passphraseReceived();
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
+	virtual bool passphraseReceived() Q_DECL_OVERRIDE;
 
-	virtual KGpgTransaction *asTransaction();
-	virtual void replaceCmd(const QString &cmd);
+	virtual KGpgTransaction *asTransaction() Q_DECL_OVERRIDE;
+	virtual void replaceCmd(const QString &cmd) Q_DECL_OVERRIDE;
 
 private:
 	int m_cmdPos;		///< position of the command in GnuPG command line

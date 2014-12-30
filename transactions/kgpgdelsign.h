@@ -28,7 +28,7 @@ class KGpgDelSign: public KGpgUidTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgDelSign)
-	KGpgDelSign(); // = delete C++0x
+	KGpgDelSign() Q_DECL_EQ_DELETE;
 public:
 	/**
 	 * @brief construct a new transaction to delete signatures
@@ -69,8 +69,8 @@ public:
 	KGpgSignNode::List getSignIds(void) const;
 
 protected:
-	virtual bool nextLine(const QString &line);
-	virtual ts_boolanswer boolQuestion(const QString &line);
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
 
 private:
 	KGpgSignNode::List m_signids;	///< the list of ids to delete

@@ -179,14 +179,14 @@ beautifyKeyList(const QStringList &keyIds, const KGpgItemModel *model)
 	QString result;
 
 	result.append(QLatin1String("\n"));
-	if (model == NULL) {
+	if (model == Q_NULLPTR) {
 		result.append(QLatin1String(" ") + keyIds.join(QLatin1String("\n ")));
 	} else {
 		foreach (const QString &changed, keyIds) {
 			const KGpgKeyNode *node = model->findKeyNode(changed);
 			QString line;
 
-			if (node == NULL) {
+			if (node == Q_NULLPTR) {
 				line = changed;
 			} else {
 				if (node->getEmail().isEmpty())

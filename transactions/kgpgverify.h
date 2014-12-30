@@ -32,7 +32,7 @@ class KGpgVerify: public KGpgTextOrFileTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgVerify)
-	KGpgVerify(); // = delete C++0x
+	KGpgVerify() Q_DECL_EQ_DELETE;
 public:
 	enum ts_verify {
 		TS_MISSING_KEY = KGpgTransaction::TS_COMMON_END + 1,	///< signing key not in keyring
@@ -64,7 +64,7 @@ public:
 	 * @param model key model to use for key lookups
 	 * @return verification report of GnuPG
 	 */
-	static QString getReport(const QStringList &log, const KGpgItemModel *model = NULL);
+	static QString getReport(const QStringList &log, const KGpgItemModel *model = Q_NULLPTR);
 
 	/**
 	 * @brief get the missing key id
@@ -76,9 +76,9 @@ public:
 	QString missingId() const;
 
 protected:
-	virtual QStringList command() const;
-	virtual bool nextLine(const QString &line);
-	virtual void finish();
+	virtual QStringList command() const Q_DECL_OVERRIDE;
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	virtual void finish() Q_DECL_OVERRIDE;
 
 private:
 	int m_fileIndex;

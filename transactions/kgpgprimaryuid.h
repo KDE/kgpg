@@ -28,7 +28,7 @@ class KGpgPrimaryUid: public KGpgUidTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgPrimaryUid)
-	KGpgPrimaryUid(); // = delete C++0x
+	KGpgPrimaryUid() Q_DECL_EQ_DELETE;
 
 public:
 	/**
@@ -43,8 +43,8 @@ public:
 	virtual ~KGpgPrimaryUid();
 
 protected:
-	virtual bool nextLine(const QString &line);
-	virtual bool passphraseReceived();
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	virtual bool passphraseReceived() Q_DECL_OVERRIDE;
 
 private:
 	int m_fixargs;

@@ -35,9 +35,9 @@ public:
 	void setTrust(const gpgme_validity_t trust);
 
 protected:
-	virtual bool nextLine(const QString &line);
-	virtual ts_boolanswer boolQuestion(const QString &line);
-	virtual bool preStart();
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
+	virtual bool preStart() Q_DECL_OVERRIDE;
 
 private:
 	gpgme_validity_t m_trust;

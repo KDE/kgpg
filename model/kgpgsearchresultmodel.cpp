@@ -163,7 +163,7 @@ KGpgSearchResultModelPrivate::urlDecode(const QString &line)
 
 		char n[2];
 		// this must work as we checked the regexp before
-		n[0] = hexnum.toUShort(NULL, 16);
+		n[0] = hexnum.toUShort(Q_NULLPTR, 16);
 		n[1] = '\0';	// to use n as a 0-terminated string
 
 		tmp.replace(pos, 3, n);
@@ -197,7 +197,7 @@ KGpgSearchResultModel::data(const QModelIndex &index, int role) const
 	SearchResult *tmp = static_cast<SearchResult *>(index.internalPointer());
 	int row;
 
-	if (tmp == NULL) {
+	if (tmp == Q_NULLPTR) {
 		// this is a "top" item, show the first uid
 		if (index.row() >= d->m_items.count())
 			return QVariant();
@@ -248,7 +248,7 @@ KGpgSearchResultModel::columnCount(const QModelIndex &parent) const
 
 		SearchResult *tmp = static_cast<SearchResult *>(parent.internalPointer());
 
-		if (tmp == NULL)
+		if (tmp == Q_NULLPTR)
 			return 2;
 		else
 			return 0;
@@ -262,11 +262,11 @@ KGpgSearchResultModel::index(int row, int column, const QModelIndex &parent) con
 {
 	// there are three hierarchy levels:
 	// root: this is simply QModelIndex()
-	// key items: parent is invalid, internalPointer is NULL
+	// key items: parent is invalid, internalPointer is Q_NULLPTR
 	// uid entries: parent is key item, internalPointer is set to SearchResult*
 
 	if (parent.isValid()) {
-		if (parent.internalPointer() != NULL) {
+		if (parent.internalPointer() != Q_NULLPTR) {
 			return QModelIndex();
 		} else {
 			if (parent.row() >= d->m_items.count())
@@ -294,7 +294,7 @@ KGpgSearchResultModel::parent(const QModelIndex &index) const
 
 	SearchResult *tmp = static_cast<SearchResult *>(index.internalPointer());
 
-	if (tmp == NULL)
+	if (tmp == Q_NULLPTR)
 		return QModelIndex();
 
 	return createIndex(d->m_items.indexOf(tmp), 0);
@@ -306,7 +306,7 @@ KGpgSearchResultModel::rowCount(const QModelIndex &parent) const
 	if (!parent.isValid()) {
 		return d->m_items.count();
 	} else if (parent.column() == 0) {
-		if (parent.internalPointer() != NULL)
+		if (parent.internalPointer() != Q_NULLPTR)
 			return 0;
 
 		SearchResult *item = d->m_items.at(parent.row());
@@ -345,7 +345,7 @@ KGpgSearchResultModel::idForIndex(const QModelIndex &index) const
 	Q_ASSERT(index.isValid());
 
 	SearchResult *tmp = static_cast<SearchResult *>(index.internalPointer());
-	if (tmp == NULL)
+	if (tmp == Q_NULLPTR)
 		tmp = d->m_items.at(index.row());
 
 	return tmp->m_fingerprint;

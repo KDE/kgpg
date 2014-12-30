@@ -17,6 +17,8 @@
 #include <QObject>
 #include <QString>
 
+#include <kgpgcompiler.h>
+
 class GPGProc;
 class KGpgSignTransactionHelper;
 class KGpgTransactionPrivate;
@@ -88,7 +90,7 @@ public:
 	/**
 	 * @brief KGpgTransaction constructor
 	 */
-	explicit KGpgTransaction(QObject *parent = 0, const bool allowChaining = false);
+	explicit KGpgTransaction(QObject *parent = Q_NULLPTR, const bool allowChaining = false);
 	/**
 	 * @brief KGpgTransaction destructor
 	 */

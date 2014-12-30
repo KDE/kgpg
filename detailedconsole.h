@@ -20,10 +20,12 @@
 
 #include <KDialog>
 
+#include <kgpgcompiler.h>
+
 class KgpgDetailedInfo : public KDialog
 {
 public:
-	explicit KgpgDetailedInfo(QWidget *parent = 0, const QString &boxLabel = QString(),
+	explicit KgpgDetailedInfo(QWidget *parent = Q_NULLPTR, const QString &boxLabel = QString(),
 			const QString &errormessage = QString(), const QStringList &keysList = QStringList(),
 			const QString &caption = QString());
 };

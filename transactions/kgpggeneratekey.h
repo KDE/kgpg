@@ -29,7 +29,7 @@ class KGpgGenerateKey: public KGpgTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgGenerateKey)
-	KGpgGenerateKey(); // = delete C++0x
+	KGpgGenerateKey() Q_DECL_EQ_DELETE;
 public:
 	enum ts_generatekey {
 		TS_INVALID_NAME = TS_COMMON_END + 1	///< the owners name is not accepted by GnuPG
@@ -69,11 +69,11 @@ public:
 	QString gpgErrorMessage() const;
 
 protected:
-	virtual bool preStart();
-	virtual void postStart();
-	virtual bool nextLine(const QString &line);
-	virtual void finish();
-	virtual void newPassphraseEntered();
+	virtual bool preStart() Q_DECL_OVERRIDE;
+	virtual void postStart() Q_DECL_OVERRIDE;
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	virtual void finish() Q_DECL_OVERRIDE;
+	virtual void newPassphraseEntered() Q_DECL_OVERRIDE;
 
 private:
 	const QString m_name;

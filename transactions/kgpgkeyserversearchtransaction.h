@@ -30,7 +30,7 @@ class KGpgKeyserverSearchTransaction: public KGpgKeyserverTransaction {
 	/**
 	 * @brief forbidden
 	 */
-	KGpgKeyserverSearchTransaction(); // = delete C++0x
+	KGpgKeyserverSearchTransaction() Q_DECL_EQ_DELETE;
 
 public:
 	/**
@@ -57,12 +57,12 @@ signals:
 	void newKey(QStringList lines);
 
 protected:
-	virtual bool preStart();
-	virtual bool nextLine(const QString &line);
+	virtual bool preStart() Q_DECL_OVERRIDE;
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 	/**
 	 * @brief needed to submit the last search result
 	 */
-	virtual void finish();
+	virtual void finish() Q_DECL_OVERRIDE;
 
 private:
 	QStringList m_keyLines;		///< the lines belonging to one key

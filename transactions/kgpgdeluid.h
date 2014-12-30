@@ -28,7 +28,7 @@ class KGpgDelUid: public KGpgUidTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgDelUid)
-	KGpgDelUid(); // = delete C++0x
+	KGpgDelUid() Q_DECL_EQ_DELETE;
 public:
 	enum ts_deluid {
 		TS_NO_SUCH_UID = KGpgTransaction::TS_COMMON_END + 1	///< user id does not exist
@@ -89,10 +89,10 @@ public:
 	void setUids(const KGpgSignableNode::const_List &uids);
 
 protected:
-	virtual bool preStart();
-	virtual bool nextLine(const QString &line);
-	virtual ts_boolanswer boolQuestion(const QString &line);
-	virtual void finish();
+	virtual bool preStart() Q_DECL_OVERRIDE;
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
+	virtual void finish() Q_DECL_OVERRIDE;
 
 private:
 	int m_fixargs;

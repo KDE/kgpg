@@ -31,7 +31,7 @@ class KGpgKeyserverTransaction: public KGpgTransaction {
 	/**
 	 * @brief forbidden
 	 */
-	KGpgKeyserverTransaction(); // = delete C++0x
+	KGpgKeyserverTransaction() Q_DECL_EQ_DELETE;
 protected:
 	/**
 	 * @brief construct a new transaction for the given keyserver
@@ -69,8 +69,8 @@ public:
 	void setProgressEnable(const bool b);
 
 protected:
-	virtual void finish();
-	virtual bool preStart();
+	virtual void finish() Q_DECL_OVERRIDE;
+	virtual bool preStart() Q_DECL_OVERRIDE;
 
 private slots:
 	/**

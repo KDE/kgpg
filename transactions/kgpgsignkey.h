@@ -29,7 +29,7 @@ class KGpgSignKey: public KGpgEditKeyTransaction, public KGpgSignTransactionHelp
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgSignKey)
-	KGpgSignKey(); // = delete C++0x
+	KGpgSignKey() Q_DECL_EQ_DELETE;
 
 public:
 	/**
@@ -49,12 +49,12 @@ public:
 	virtual ~KGpgSignKey();
 
 protected:
-	virtual bool nextLine(const QString &line);
-	virtual ts_boolanswer boolQuestion(const QString &line);
-	virtual bool passphraseReceived();
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
+	virtual bool passphraseReceived() Q_DECL_OVERRIDE;
 
-	virtual KGpgTransaction *asTransaction();
-	virtual void replaceCmd(const QString &cmd);
+	virtual KGpgTransaction *asTransaction() Q_DECL_OVERRIDE;
+	virtual void replaceCmd(const QString &cmd) Q_DECL_OVERRIDE;
 };
 
 #endif // KGPGSIGNKEY_H

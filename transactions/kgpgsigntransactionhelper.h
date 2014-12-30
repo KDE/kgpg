@@ -24,7 +24,7 @@ class QString;
  */
 class KGpgSignTransactionHelper {
 	Q_DISABLE_COPY(KGpgSignTransactionHelper)
-	KGpgSignTransactionHelper(); // = delete C++0x
+	KGpgSignTransactionHelper() Q_DECL_EQ_DELETE;
 public:
 	/**
 	 * @brief the outcomes of nextLine()

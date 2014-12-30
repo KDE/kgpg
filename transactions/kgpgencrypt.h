@@ -31,7 +31,7 @@ class KGpgEncrypt: public KGpgTextOrFileTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgEncrypt)
-	KGpgEncrypt(); // = delete C++0x
+	KGpgEncrypt() Q_DECL_EQ_DELETE;
 public:
 	enum EncryptOption {
 		DefaultEncryption = 0,		///< use whatever GnuPGs defaults are
@@ -78,9 +78,9 @@ public:
 	static QString encryptExtension(const bool ascii);
 
 protected:
-	virtual QStringList command() const;
-	virtual bool nextLine(const QString &line);
-	virtual ts_boolanswer confirmOverwrite (KUrl &currentFile);
+	virtual QStringList command() const Q_DECL_OVERRIDE;
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	virtual ts_boolanswer confirmOverwrite (KUrl &currentFile) Q_DECL_OVERRIDE;
 
 private:
 	int m_fileIndex;

@@ -27,7 +27,7 @@ class KGpgDelKey: public KGpgTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgDelKey)
-	KGpgDelKey(); // = delete C++0x
+	KGpgDelKey() Q_DECL_EQ_DELETE;
 public:
 	KGpgDelKey(QObject *parent, KGpgKeyNode *key);
 	KGpgDelKey(QObject *parent, const KGpgKeyNode::List &keys);
@@ -40,9 +40,9 @@ public:
 	KGpgKeyNode::List keys() const;
 
 protected:
-	virtual bool nextLine(const QString &line);
-	virtual ts_boolanswer boolQuestion(const QString &line);
-	virtual bool preStart();
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
+	virtual bool preStart() Q_DECL_OVERRIDE;
 	
 private:
 	KGpgKeyNode::List m_keys;

@@ -45,7 +45,7 @@ class KGpgNode : public QObject
 
 	friend class KGpgItemModel;
 
-	KGpgNode(); // = delete C++0x
+	KGpgNode() Q_DECL_EQ_DELETE;
 protected:
 	KGpgExpandableNode *m_parent;
 	KGpgItemModel *m_model;
@@ -122,8 +122,8 @@ public:
 	 *
 	 * For all "primary" items like keys and key groups this will
 	 * return the (invisible) root node. Calling this function for
-	 * the root node will return %NULL. No other node but the root
-	 * node has a %NULL parent.
+	 * the root node will return %Q_NULLPTR. No other node but the root
+	 * node has a %Q_NULLPTR parent.
 	 */
 	KGpgExpandableNode *getParentKeyNode() const;
 

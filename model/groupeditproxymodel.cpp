@@ -29,7 +29,7 @@ using namespace KgpgCore;
 
 GroupEditProxyModel::GroupEditProxyModel(QObject *parent, const bool invert, QList<KGpgNode *> *ids, const KgpgCore::KgpgKeyTrust mintrust)
 	: QSortFilterProxyModel(parent),
-	m_model(NULL),
+	m_model(Q_NULLPTR),
 	m_invert(invert),
 	m_ids(ids),
 	m_mintrust(mintrust)
@@ -82,7 +82,7 @@ GroupEditProxyModel::rowCount(const QModelIndex &parent) const
 		return 0;
 	if (parent.isValid())
 		return 0;
-	if (m_model == NULL)
+	if (m_model == Q_NULLPTR)
 		return 0;
 	return QSortFilterProxyModel::rowCount(parent);
 }
@@ -134,7 +134,7 @@ GroupEditProxyModel::data(const QModelIndex &index, int role) const
 bool
 GroupEditProxyModel::hasChildren(const QModelIndex &parent) const
 {
-	if (m_model == NULL)
+	if (m_model == Q_NULLPTR)
 		return false;
 	if (parent.column() > 0)
 		return false;
@@ -150,7 +150,7 @@ GroupEditProxyModel::headerData(int section, Qt::Orientation orientation, int ro
 	if (orientation != Qt::Horizontal)
 		return QVariant();
 
-	if (m_model == NULL)
+	if (m_model == Q_NULLPTR)
 		return QVariant();
 
 	switch (section) {

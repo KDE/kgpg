@@ -17,15 +17,15 @@
 #ifndef CONF_ENCRYPTION_H
 #define CONF_ENCRYPTION_H
 
+#include <kgpgcompiler.h>
 #include "ui_conf_encryption.h"
-
 
 class Encryption : public QWidget, public Ui_Encryption
 {
     Q_OBJECT
 
 public:
-    explicit Encryption( QWidget* parent = 0 );
+    explicit Encryption(QWidget* parent = Q_NULLPTR);
     
 public slots:
     virtual void encrypt_to_always_toggled( bool );

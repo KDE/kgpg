@@ -108,7 +108,7 @@ KGpgDelSign::boolQuestion(const QString &line)
 
 		const QString &sigid = parts[4];
 		const int snlen = sigid.length();
-		KGpgSignNode *signode = NULL;
+		KGpgSignNode *signode = Q_NULLPTR;
 
 		foreach (KGpgSignNode *snode, m_signids) {
 			if (sigid == snode->getId().right(snlen)) {
@@ -117,7 +117,7 @@ KGpgDelSign::boolQuestion(const QString &line)
 			}
 		}
 
-		if (signode == NULL)
+		if (signode == Q_NULLPTR)
 			return KGpgTransaction::BA_NO;
 
 		const QDateTime creation = QDateTime::fromTime_t(parts[5].toUInt());

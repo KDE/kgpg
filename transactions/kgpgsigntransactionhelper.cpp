@@ -17,7 +17,7 @@
 #include "model/kgpgitemnode.h"
 
 KGpgSignTransactionHelper::KGpgSignTransactionHelper(const QString &signer, const bool local, const carefulCheck checking)
-	: m_node(NULL),
+	: m_node(Q_NULLPTR),
 	m_signer(signer),
 	m_local(local),
 	m_checking(checking),

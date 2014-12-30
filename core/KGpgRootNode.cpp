@@ -27,7 +27,7 @@
 #include <QStringList>
 
 KGpgRootNode::KGpgRootNode(KGpgItemModel *model)
-	: KGpgExpandableNode(NULL),
+	: KGpgExpandableNode(Q_NULLPTR),
 	m_groups(0),
 	m_deleting(false)
 {
@@ -122,7 +122,7 @@ KGpgRootNode::findKey(const QString &keyId)
 		return children[i]->toKeyNode();
 	}
 
-	return NULL;
+	return Q_NULLPTR;
 }
 
 int
@@ -166,7 +166,7 @@ KGpgRootNode *
 KGpgRootNode::asRootNode()
 {
 	if (m_deleting)
-		return NULL;
+		return Q_NULLPTR;
 
 	return this;
 }
@@ -175,7 +175,7 @@ const KGpgRootNode *
 KGpgRootNode::asRootNode() const
 {
 	if (m_deleting)
-		return NULL;
+		return Q_NULLPTR;
 
 	return this;
 }

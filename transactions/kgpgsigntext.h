@@ -30,7 +30,7 @@ class KGpgSignText: public KGpgTextOrFileTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgSignText)
-	KGpgSignText(); // = delete C++0x
+	KGpgSignText() Q_DECL_EQ_DELETE;
 public:
 	enum SignOption {
 		DefaultSignature = 0,		///< use whatever GnuPGs defaults are
@@ -72,7 +72,7 @@ public:
 	QStringList signedText() const;
 
 protected:
-	virtual QStringList command() const;
+	virtual QStringList command() const Q_DECL_OVERRIDE;
 
 private:
 	int m_fileIndex;

@@ -68,7 +68,7 @@ class KeysManager : public KXmlGuiWindow
     Q_OBJECT
 
 public:
-    explicit KeysManager(QWidget *parent = 0);
+    explicit KeysManager(QWidget *parent = Q_NULLPTR);
     ~KeysManager();
 
     KGpgItemModel *getModel();

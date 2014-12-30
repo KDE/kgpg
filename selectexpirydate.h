@@ -16,9 +16,10 @@
 #ifndef SELECTEXPIRYDATE_H
 #define SELECTEXPIRYDATE_H
 
+#include <KDialog>
 #include <QDateTime>
 
-#include <KDialog>
+#include <kgpgcompiler.h>
 
 class KDatePicker;
 class QCheckBox;
@@ -34,7 +35,7 @@ class SelectExpiryDate : public KDialog
 	Q_OBJECT
 
 public:
-	explicit SelectExpiryDate(QWidget *parent = 0, QDateTime date = QDateTime());
+	explicit SelectExpiryDate(QWidget *parent = Q_NULLPTR, QDateTime date = QDateTime());
 
 	QDateTime date() const;
 

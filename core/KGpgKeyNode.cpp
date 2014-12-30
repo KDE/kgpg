@@ -332,7 +332,7 @@ KGpgKeyNode::getUid(const unsigned int index) const
 		}
 	}
 
-	return NULL;
+	return Q_NULLPTR;
 }
 
 bool

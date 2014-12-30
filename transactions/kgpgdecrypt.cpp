@@ -100,9 +100,9 @@ KGpgDecrypt::isEncryptedText(const QString &text, int *startPos, int *endPos)
 	if (posEnd == -1)
 		return false;
 
-	if (startPos != NULL)
+	if (startPos != Q_NULLPTR)
 		*startPos = posStart;
-	if (endPos != NULL)
+	if (endPos != Q_NULLPTR)
 		*endPos = posEnd;
 
 	return true;

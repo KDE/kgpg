@@ -119,11 +119,11 @@ using namespace KgpgCore;
 KeysManager::KeysManager(QWidget *parent)
            : KXmlGuiWindow(parent),
 	   imodel(new KGpgItemModel(this)),
-	   m_adduid(NULL),
-	   m_genkey(NULL),
-	   m_delkey(NULL),
-	   terminalkey(NULL),
-	   m_trayicon(NULL)
+	   m_adduid(Q_NULLPTR),
+	   m_genkey(Q_NULLPTR),
+	   m_delkey(Q_NULLPTR),
+	   terminalkey(Q_NULLPTR),
+	   m_trayicon(Q_NULLPTR)
 {
 	new KeyAdaptor(this);
 	QDBusConnection::sessionBus().registerObject(QLatin1String( "/KeyInterface" ), this);
@@ -657,7 +657,7 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 				genkey->gpgErrorMessage(), infomessage);
 	}
 
-	m_genkey = NULL;
+	m_genkey = Q_NULLPTR;
 }
 
 void KeysManager::slotShowTrust()
@@ -775,7 +775,7 @@ void KeysManager::refreshKeyFromServer()
 void KeysManager::slotKeyRefreshDone(int result)
 {
 	KGpgRefreshKeys *t = qobject_cast<KGpgRefreshKeys *>(sender());
-	Q_ASSERT(t != NULL);
+	Q_ASSERT(t != Q_NULLPTR);
 
 	if (result == KGpgTransaction::TS_USER_ABORTED) {
 		t->deleteLater();
@@ -810,7 +810,7 @@ void KeysManager::slotDelUid()
 void KeysManager::slotDelUidDone(int result)
 {
 	KGpgDelUid * const deluid = qobject_cast<KGpgDelUid *>(sender());
-	Q_ASSERT(deluid != NULL);
+	Q_ASSERT(deluid != Q_NULLPTR);
 
 	sender()->deleteLater();
 	if (result == KGpgTransaction::TS_OK)
@@ -913,7 +913,7 @@ void KeysManager::slotAddUidFin(int res)
 	if (res == 0)
 		imodel->refreshKey(m_adduid->getKeyid());
 	m_adduid->deleteLater();
-	m_adduid = NULL;
+	m_adduid = Q_NULLPTR;
 }
 
 void KeysManager::slotAddUidEnable(const QString & name)
@@ -1003,7 +1003,7 @@ void KeysManager::slotSetPhotoSize(int size)
 void KeysManager::addToKAB()
 {
 	KGpgNode *nd = iview->selectedNode();
-	if (nd == NULL)
+	if (nd == Q_NULLPTR)
 		return;
 
 	Akonadi::ContactSearchJob * const job = new Akonadi::ContactSearchJob();
@@ -1157,7 +1157,7 @@ void KeysManager::readOptions()
 	if (KGpgSettings::useMouseSelection() && (kapp->clipboard()->supportsSelection()))
 		m_clipboardmode = QClipboard::Selection;
 
-	if (imodel != NULL)
+	if (imodel != Q_NULLPTR)
 		updateStatusCounter();
 
 	showTipOfDay = KGpgSettings::showTipOfDay();
@@ -1166,7 +1166,7 @@ void KeysManager::readOptions()
 		setupTrayIcon();
 	} else {
 		delete m_trayicon;
-		m_trayicon = NULL;
+		m_trayicon = Q_NULLPTR;
 	}
 }
 
@@ -1202,7 +1202,7 @@ void KeysManager::slotSetDefaultKey(const QString &newID)
 {
 	KGpgKeyNode *ndef = imodel->getRootNode()->findKey(newID);
 
-	if (ndef == NULL) {
+	if (ndef == Q_NULLPTR) {
 		KGpgSettings::setDefaultKey(newID);
 		KGpgSettings::self()->writeConfig();
 		return;
@@ -1400,7 +1400,7 @@ void KeysManager::slotexportsec()
 void KeysManager::slotExportSecFinished(int result)
 {
 	KGpgExport *exp = qobject_cast<KGpgExport *>(sender());
-	Q_ASSERT(exp != NULL);
+	Q_ASSERT(exp != Q_NULLPTR);
 
 	if (result == KGpgTransaction::TS_OK) {
 		KMessageBox::information(this,
@@ -1506,7 +1506,7 @@ void KeysManager::slotexport()
 void KeysManager::slotExportFinished(int result)
 {
 	KGpgExport *exp = qobject_cast<KGpgExport *>(sender());
-	Q_ASSERT(exp != NULL);
+	Q_ASSERT(exp != Q_NULLPTR);
 
 	if (result == KGpgTransaction::TS_OK) {
 		KMessageBox::information(this,
@@ -1523,7 +1523,7 @@ void KeysManager::slotExportFinished(int result)
 void KeysManager::slotProcessExportMail(int result)
 {
 	KGpgExport *exp = qobject_cast<KGpgExport *>(sender());
-	Q_ASSERT(exp != NULL);
+	Q_ASSERT(exp != Q_NULLPTR);
 
 	// start default Mail application
 	if (result == KGpgTransaction::TS_OK) {
@@ -1538,7 +1538,7 @@ void KeysManager::slotProcessExportMail(int result)
 void KeysManager::slotProcessExportClip(int result)
 {
 	KGpgExport *exp = qobject_cast<KGpgExport *>(sender());
-	Q_ASSERT(exp != NULL);
+	Q_ASSERT(exp != Q_NULLPTR);
 
 	if (result == KGpgTransaction::TS_OK) {
 		kapp->clipboard()->setText(QLatin1String( exp->getOutputData() ), m_clipboardmode);
@@ -1553,7 +1553,7 @@ void KeysManager::showKeyInfo(const QString &keyID)
 {
 	KGpgKeyNode *key = imodel->getRootNode()->findKey(keyID);
 
-	if (key == NULL)
+	if (key == Q_NULLPTR)
 		return;
 
 	showProperties(key);
@@ -1563,7 +1563,7 @@ void KeysManager::slotShowPhoto()
 {
 	KService::List list(KMimeTypeTrader::self()->query(QLatin1String( "image/jpeg" )));
 	if (list.isEmpty()) {
-	KMessageBox::sorry(NULL, i18n("<qt>A viewer for JPEG images is not specified.<br/>Please check your installation.</qt>"),
+	KMessageBox::sorry(Q_NULLPTR, i18n("<qt>A viewer for JPEG images is not specified.<br/>Please check your installation.</qt>"),
 			i18n("Show photo"));
 	return;
 	}
@@ -1600,7 +1600,7 @@ void KeysManager::slotDefaultAction()
 
 void KeysManager::defaultAction(KGpgNode *nd)
 {
-	if (nd == NULL)
+	if (nd == Q_NULLPTR)
 		return;
 
 	if (iview->isEditing())
@@ -1652,7 +1652,7 @@ KeysManager::showProperties(KGpgNode *n)
 void KeysManager::keyproperties()
 {
 	KGpgNode *cur = iview->selectedNode();
-	if (cur == NULL)
+	if (cur == Q_NULLPTR)
 		return;
 
 	KGpgKeyNode *kn;
@@ -1719,7 +1719,7 @@ void KeysManager::createNewGroup()
 	QStringList badkeys;
 	KGpgKeyNode::List keysList;
 	KgpgItemType tp;
-	KGpgNode::List ndlist(iview->selectedNodes(NULL, &tp));
+	KGpgNode::List ndlist(iview->selectedNodes(Q_NULLPTR, &tp));
 
 	if (ndlist.isEmpty())
 		return;
@@ -1795,7 +1795,7 @@ void KeysManager::signkey()
 		return;
 
 	KgpgItemType tp;
-	QList<KGpgNode *> tmplist = iview->selectedNodes(NULL, &tp);
+	QList<KGpgNode *> tmplist = iview->selectedNodes(Q_NULLPTR, &tp);
 	if (tmplist.isEmpty())
 		return;
 
@@ -1874,7 +1874,7 @@ void KeysManager::signuid()
 		return;
 
 	KgpgItemType tp;
-	KGpgNode::List tmplist = iview->selectedNodes(NULL, &tp);
+	KGpgNode::List tmplist = iview->selectedNodes(Q_NULLPTR, &tp);
 	if (tmplist.isEmpty())
 		return;
 
@@ -1977,7 +1977,7 @@ void KeysManager::signatureResult(int success)
 {
 	KGpgSignTransactionHelper *ta;
 	KGpgSignUid *suid = qobject_cast<KGpgSignUid *>(sender());
-	if (suid != NULL) {
+	if (suid != Q_NULLPTR) {
 		ta = static_cast<KGpgSignTransactionHelper *>(suid);
 	} else {
 		ta = static_cast<KGpgSignTransactionHelper *>(static_cast<KGpgSignKey *>(sender()));
@@ -2021,7 +2021,7 @@ void KeysManager::signatureResult(int success)
 void KeysManager::caff()
 {
 	KgpgItemType tp;
-	KGpgNode::List tmplist = iview->selectedNodes(NULL, &tp);
+	KGpgNode::List tmplist = iview->selectedNodes(Q_NULLPTR, &tp);
 	KGpgSignableNode::List slist;
 	if (tmplist.isEmpty())
 		return;
@@ -2060,7 +2060,7 @@ void KeysManager::caff()
 
 void KeysManager::slotCaffDone()
 {
-	Q_ASSERT(qobject_cast<KGpgCaff *>(sender()) != NULL);
+	Q_ASSERT(qobject_cast<KGpgCaff *>(sender()) != Q_NULLPTR);
 
 	sender()->deleteLater();
 }
@@ -2164,7 +2164,7 @@ bool KeysManager::importRemoteKeys(const QStringList &keyIDs, const bool dialog)
 void KeysManager::importRemoteFinished(int result)
 {
 	KGpgReceiveKeys *t = qobject_cast<KGpgReceiveKeys *>(sender());
-	Q_ASSERT(t != NULL);
+	Q_ASSERT(t != Q_NULLPTR);
 
 	const QStringList keys(KGpgImport::getImportedIds(t->getLog()));
 
@@ -2182,7 +2182,7 @@ void KeysManager::refreshKeys(const QStringList& ids)
 void KeysManager::delsignkey()
 {
 	KGpgNode *nd = iview->selectedNode();
-	if (nd == NULL)
+	if (nd == Q_NULLPTR)
 		return;
 
 	QString uid;
@@ -2265,13 +2265,13 @@ void KeysManager::slotSendEmail()
 void KeysManager::slotedit()
 {
 	KGpgNode *nd = iview->selectedNode();
-	Q_ASSERT(nd != NULL);
+	Q_ASSERT(nd != Q_NULLPTR);
 
 	if (!(nd->getType() & ITYPE_PAIR))
 		return;
 	if (terminalkey)
 		return;
-	if ((m_delkey != NULL) && m_delkey->keys().contains(nd->toKeyNode()))
+	if ((m_delkey != Q_NULLPTR) && m_delkey->keys().contains(nd->toKeyNode()))
 		return;
 
 	KProcess *kp = new KProcess(this);
@@ -2295,7 +2295,7 @@ void KeysManager::slotEditDone(int exitcode)
 	if (exitcode == 0)
 		imodel->refreshKey(terminalkey);
 
-	terminalkey = NULL;
+	terminalkey = Q_NULLPTR;
 	editKey->setEnabled(true);
 }
 
@@ -2359,7 +2359,7 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 void KeysManager::deleteseckey()
 {
 	KGpgKeyNode *nd = iview->selectedNode()->toKeyNode();
-	Q_ASSERT(nd != NULL);
+	Q_ASSERT(nd != Q_NULLPTR);
 
 	// delete a key
 	int result = KMessageBox::warningContinueCancel(this,
@@ -2372,7 +2372,7 @@ void KeysManager::deleteseckey()
 
 	if (terminalkey == nd)
 		return;
-	if (m_delkey != NULL) {
+	if (m_delkey != Q_NULLPTR) {
 		KMessageBox::error(this,
 				i18n("Another key delete operation is still in progress.\nPlease wait a moment until this operation is complete."),
 				i18n("Delete key"));
@@ -2396,7 +2396,7 @@ void KeysManager::secretKeyDeleted(int retcode)
 		KMessageBox::error(this, i18n("Deleting key <b>%1</b> failed.", delkey->getBeautifiedFingerprint()), i18n("Delete key"));
 	}
 	m_delkey->deleteLater();
-	m_delkey = NULL;
+	m_delkey = Q_NULLPTR;
 }
 
 void KeysManager::confirmdeletekey()
@@ -2523,7 +2523,7 @@ void KeysManager::slotDelKeyDone(int res)
 	}
 
 	m_delkey->deleteLater();
-	m_delkey = NULL;
+	m_delkey = Q_NULLPTR;
 
 	updateStatusCounter();
 }
@@ -2597,7 +2597,7 @@ void KeysManager::startImport(KGpgImport *import)
 void KeysManager::slotImportDone(int result)
 {
 	KGpgImport *import = qobject_cast<KGpgImport *>(sender());
-	Q_ASSERT(import != NULL);
+	Q_ASSERT(import != Q_NULLPTR);
 	const QStringList rawmsgs(import->getMessages());
 
 	if (result != 0) {
@@ -2661,7 +2661,7 @@ KeysManager::toggleNetworkActions(bool online)
 void
 KeysManager::setupTrayIcon()
 {
-	bool newtray = (m_trayicon == NULL);
+	bool newtray = (m_trayicon == Q_NULLPTR);
 
 	if (newtray) {
 		m_trayicon = new KStatusNotifierItem(this);
@@ -2714,7 +2714,7 @@ KeysManager::setupTrayIcon()
 void
 KeysManager::showTrayMessage(const QString &message)
 {
-	if (m_trayicon == NULL)
+	if (m_trayicon == Q_NULLPTR)
 		return;
 
 	m_trayicon->showMessage(QString(), message, QLatin1String( "kgpg" ));
@@ -2732,7 +2732,7 @@ KeysManager::clipEncrypt()
 	const QString cliptext(kapp->clipboard()->text(m_clipboardmode));
 
 	if (cliptext.isEmpty()) {
-		Q_ASSERT(m_trayicon != NULL);
+		Q_ASSERT(m_trayicon != Q_NULLPTR);
 		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), QLatin1String( "kgpg" ));
 		return;
 	}
@@ -2767,7 +2767,7 @@ void
 KeysManager::slotSetClip(int result)
 {
 	KGpgEncrypt *enc = qobject_cast<KGpgEncrypt *>(sender());
-	Q_ASSERT(enc != NULL);
+	Q_ASSERT(enc != Q_NULLPTR);
 	sender()->deleteLater();
 
 	m_trayicon->setStatus(KStatusNotifierItem::Passive);
@@ -2777,7 +2777,7 @@ KeysManager::slotSetClip(int result)
 
 	kapp->clipboard()->setText(enc->encryptedText().join(QLatin1String("\n")), m_clipboardmode);
 
-	Q_ASSERT(m_trayicon != NULL);
+	Q_ASSERT(m_trayicon != Q_NULLPTR);
 	m_trayicon->showMessage(QString(), i18n("Text successfully encrypted."), QLatin1String( "kgpg" ));
 }
 
@@ -2785,7 +2785,7 @@ void
 KeysManager::slotOpenKeyUrl()
 {
 	KGpgNode *cur = iview->selectedNode();
-	if (cur == NULL)
+	if (cur == Q_NULLPTR)
 		return;
 
 	QString id;
@@ -2827,7 +2827,7 @@ KeysManager::clipDecrypt()
 	const QString cliptext(kapp->clipboard()->text(m_clipboardmode).trimmed());
 
 	if (cliptext.isEmpty()) {
-		Q_ASSERT(m_trayicon != NULL);
+		Q_ASSERT(m_trayicon != Q_NULLPTR);
 		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), QLatin1String( "kgpg" ));
 		return;
 	}
@@ -2845,7 +2845,7 @@ KeysManager::clipSign()
 {
 	QString cliptext = kapp->clipboard()->text(m_clipboardmode);
 	if (cliptext.isEmpty()) {
-		Q_ASSERT(m_trayicon != NULL);
+		Q_ASSERT(m_trayicon != Q_NULLPTR);
 		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), QLatin1String( "kgpg" ));
 		return;
 	}

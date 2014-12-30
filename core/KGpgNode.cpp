@@ -32,8 +32,8 @@
 KGpgNode::KGpgNode(KGpgExpandableNode *parent)
 	: QObject(), m_parent(parent)
 {
-	if (parent == NULL)
-		m_model = NULL;
+	if (parent == Q_NULLPTR)
+		m_model = Q_NULLPTR;
 	else
 		m_model = parent->m_model;
 }
@@ -43,7 +43,7 @@ KGpgNode::~KGpgNode()
 	Q_ASSERT(m_model);
 	m_model->invalidateIndexes(this);
 
-	if (m_parent != NULL)
+	if (m_parent != Q_NULLPTR)
 		m_parent->deleteChild(this);
 }
 
@@ -111,7 +111,7 @@ KGpgNode::toKeyNode() const
 KGpgRootNode *
 KGpgNode::toRootNode()
 {
-	Q_ASSERT((m_parent == NULL) && (getType() == 0));
+	Q_ASSERT((m_parent == Q_NULLPTR) && (getType() == 0));
 
 	return static_cast<KGpgRootNode *>(this)->asRootNode();
 }
@@ -119,7 +119,7 @@ KGpgNode::toRootNode()
 const KGpgRootNode *
 KGpgNode::toRootNode() const
 {
-	Q_ASSERT((m_parent == NULL) && (getType() == 0));
+	Q_ASSERT((m_parent == Q_NULLPTR) && (getType() == 0));
 
 	return static_cast<const KGpgRootNode *>(this)->asRootNode();
 }
@@ -268,7 +268,7 @@ KGpgNode *
 KGpgNode::getChild(const int index) const
 {
 	Q_UNUSED(index);
-	return NULL;
+	return Q_NULLPTR;
 }
 
 int

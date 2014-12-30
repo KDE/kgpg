@@ -16,6 +16,8 @@
 
 #include <KProcess>
 
+#include <kgpgcompiler.h>
+
 class QByteArray;
 class KLineBufferedProcessPrivate;
 
@@ -62,7 +64,7 @@ public:
     /**
      * Constructor
      */
-    explicit KLineBufferedProcess(QObject *parent = 0);
+    explicit KLineBufferedProcess(QObject *parent = Q_NULLPTR);
 
     /**
      * Destructor

@@ -54,7 +54,7 @@ public:
 
 KeyListProxyModelPrivate::KeyListProxyModelPrivate(KeyListProxyModel *parent, const KeyListProxyModel::DisplayMode mode)
 	: q_ptr(parent),
-	m_model(NULL),
+	m_model(Q_NULLPTR),
 	m_onlysecret(false),
 	m_encryptionKeys(false),
 	m_mintrust(TRUST_UNKNOWN),

@@ -37,11 +37,11 @@
 
 KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose)
 	: KDialog(parent),
-	m_dialogserver(NULL),
-	m_searchproc(NULL),
+	m_dialogserver(Q_NULLPTR),
+	m_searchproc(Q_NULLPTR),
 	page(new keyServerWidget()),
-	m_listpop(NULL),
-	m_resultmodel(NULL),
+	m_listpop(Q_NULLPTR),
+	m_resultmodel(Q_NULLPTR),
 	m_itemmodel(new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst))
 {
 	setCaption(i18n("Key Server"));
@@ -169,7 +169,7 @@ void KeyServer::slotExport(const QStringList &keyIds)
 void KeyServer::slotUploadKeysFinished(int resultcode)
 {
 	KGpgSendKeys *nk = qobject_cast<KGpgSendKeys *>(sender());
-	Q_ASSERT(nk != NULL);
+	Q_ASSERT(nk != Q_NULLPTR);
 
 	const QStringList message(nk->getLog());
 	nk->deleteLater();
@@ -198,7 +198,7 @@ void KeyServer::slotSearch()
 	if (m_searchproc)
 		return;
 
-	if (m_resultmodel != NULL)
+	if (m_resultmodel != Q_NULLPTR)
 		m_resultmodel->deleteLater();
 	m_resultmodel = new KGpgSearchResultModel(this);
 	m_filtermodel.setSourceModel(m_resultmodel);
@@ -251,13 +251,13 @@ void KeyServer::slotSearchResult(int result)
 {
 	Q_ASSERT(sender() == m_searchproc);
 	m_searchproc->deleteLater();
-	m_searchproc = NULL;
+	m_searchproc = Q_NULLPTR;
 	page->Buttonsearch->setEnabled(true);
 	QApplication::restoreOverrideCursor();
 
 	if (result == KGpgTransaction::TS_USER_ABORTED) {
 		delete m_dialogserver;
-		m_dialogserver = NULL;
+		m_dialogserver = Q_NULLPTR;
 		return;
 	}
 
@@ -282,7 +282,7 @@ void KeyServer::slotSetText(const QString &text)
 void KeyServer::slotTextChanged(const QString &text)
 {
 	page->Buttonimport->setEnabled(!text.isEmpty());
-	page->Buttonsearch->setEnabled(!text.isEmpty() && (m_searchproc == NULL));
+	page->Buttonsearch->setEnabled(!text.isEmpty() && (m_searchproc == Q_NULLPTR));
 }
 
 void KeyServer::slotSetExportAttribute(const QString &state)
@@ -351,11 +351,11 @@ QStringList KeyServer::getServerList()
 
 void KeyServer::handleQuit()
 {
-	if (m_searchproc != NULL) {
+	if (m_searchproc != Q_NULLPTR) {
 		QApplication::restoreOverrideCursor();
 		disconnect(m_searchproc, 0, 0, 0);
 		m_searchproc->deleteLater();
-		m_searchproc = NULL;
+		m_searchproc = Q_NULLPTR;
 	}
 	m_dialogserver->close();
 	page->Buttonsearch->setEnabled(true);

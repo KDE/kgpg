@@ -31,7 +31,7 @@ class QStringList;
  *
  * This object is invisible to the user but acts as the internal base object for
  * everything in the keyring. It is anchestor of all other KGpgNode objects and
- * the only one that will ever return NULL when calling getParentKeyNode() on it.
+ * the only one that will ever return Q_NULLPTR when calling getParentKeyNode() on it.
  *
  * There is only one object of this type around at any time.
  */
@@ -46,7 +46,7 @@ private:
 	int m_deleting;
 
 protected:
-	virtual void readChildren();
+	virtual void readChildren() Q_DECL_OVERRIDE;
 
 public:
 	explicit KGpgRootNode(KGpgItemModel *model);
@@ -73,7 +73,7 @@ public:
 	 * the complete fingerprint whenever possible.
 	 *
 	 * @param keyId the key id to find, any length is permitted
-	 * @return pointer to key node or %NULL if no such key
+	 * @return pointer to key node or %Q_NULLPTR if no such key
 	 */
 	KGpgKeyNode *findKey(const QString &keyId);
 	/**
@@ -110,11 +110,11 @@ public:
 	int groupChildren() const;
 
 	/**
-	 * Return a pointer to this object or NULL
+	 * Return a pointer to this object or Q_NULLPTR
 	 *
 	 * This returns a pointer to this object if the object will persist,
 	 * i.e. is not currently in destruction. If the object is already
-	 * cleaning up NULL is returned.
+	 * cleaning up Q_NULLPTR is returned.
 	 */
 	KGpgRootNode *asRootNode();
 	/**

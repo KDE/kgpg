@@ -41,15 +41,15 @@ public:
 	explicit KGpgSubkeyNode(KGpgKeyNode *parent, const KgpgCore::KgpgKeySub &k);
 	virtual ~KGpgSubkeyNode();
 
-	virtual KgpgCore::KgpgItemType getType() const;
-	virtual KgpgCore::KgpgKeyTrust getTrust() const;
-	virtual QString getSize() const;
-	virtual QString getName() const;
-	virtual QDateTime getExpiration() const;
-	virtual QDateTime getCreation() const;
-	virtual QString getId() const;
-	virtual KGpgKeyNode *getKeyNode(void);
-	virtual const KGpgKeyNode *getKeyNode(void) const;
+	virtual KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
+	virtual KgpgCore::KgpgKeyTrust getTrust() const Q_DECL_OVERRIDE;
+	virtual QString getSize() const Q_DECL_OVERRIDE;
+	virtual QString getName() const Q_DECL_OVERRIDE;
+	virtual QDateTime getExpiration() const Q_DECL_OVERRIDE;
+	virtual QDateTime getCreation() const Q_DECL_OVERRIDE;
+	virtual QString getId() const Q_DECL_OVERRIDE;
+	virtual KGpgKeyNode *getKeyNode(void) Q_DECL_OVERRIDE;
+	virtual const KGpgKeyNode *getKeyNode(void) const Q_DECL_OVERRIDE;
 	virtual KGpgKeyNode *getParentKeyNode() const;
 
 	void setFingerprint(const QString &fpr);

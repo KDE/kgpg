@@ -30,7 +30,7 @@ class KGpgKeyserverGetTransaction: public KGpgKeyserverTransaction {
 	/**
 	 * @brief forbidden
 	 */
-	KGpgKeyserverGetTransaction(); // = delete C++0x
+	KGpgKeyserverGetTransaction() Q_DECL_EQ_DELETE;
 
 public:
 	/**
@@ -53,8 +53,8 @@ public:
 
 protected:
 	virtual QString getGpgCommand() const = 0;
-	virtual bool preStart();
-	virtual bool nextLine(const QString &line);
+	virtual bool preStart() Q_DECL_OVERRIDE;
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 
 private:
 	int m_cmdpos;
@@ -81,7 +81,7 @@ public:
 	virtual ~KGpgReceiveKeys();
 
 protected:
-	virtual QString getGpgCommand() const;
+	virtual QString getGpgCommand() const Q_DECL_OVERRIDE;
 };
 
 /**
@@ -103,7 +103,7 @@ public:
 	virtual ~KGpgRefreshKeys();
 
 protected:
-	virtual QString getGpgCommand() const;
+	virtual QString getGpgCommand() const Q_DECL_OVERRIDE;
 };
 
 #endif // KGPGUIDTRANSACTION_H

@@ -37,7 +37,7 @@ using namespace KgpgCore;
 
 KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const KShortcut &goDefaultKey, const bool hideasciioption, const KUrl::List &files)
 	: KDialog(parent),
-	m_customoptions(NULL),
+	m_customoptions(Q_NULLPTR),
 	imodel(model),
 	m_files(files),
 	m_hideasciioption(hideasciioption)
@@ -233,7 +233,7 @@ void KgpgSelectPublicKeyDlg::slotUntrusted(const bool state)
 void KgpgSelectPublicKeyDlg::slotGotoDefaultKey()
 {
 	KGpgNode *nd = imodel->getRootNode()->findKey(KGpgSettings::defaultKey());
-	if (nd == NULL)
+	if (nd == Q_NULLPTR)
 		return;
 	QModelIndex sidx = imodel->nodeIndex(nd);
 	QModelIndex pidx = iproxy->mapFromSource(sidx);

@@ -21,11 +21,11 @@
 #include <QWidget>
 
 KGpgChangeKey::KGpgChangeKey(KGpgKeyNode *node, QWidget *widget)
-	: QObject(NULL),
+	: QObject(Q_NULLPTR),
 	m_expiration(node->getExpiration()),
 	m_key(*node->copyKey()),
 	m_node(node),
-	m_current(NULL),
+	m_current(Q_NULLPTR),
 	m_parentWidget(widget),
 	m_step(0),
 	m_failed(0),
@@ -37,7 +37,7 @@ KGpgChangeKey::KGpgChangeKey(KGpgKeyNode *node, QWidget *widget)
 
 KGpgChangeKey::~KGpgChangeKey()
 {
-	Q_ASSERT(m_current == NULL);
+	Q_ASSERT(m_current == Q_NULLPTR);
 }
 
 void KGpgChangeKey::setExpiration(const QDateTime &date)
@@ -76,13 +76,13 @@ bool KGpgChangeKey::apply()
 void KGpgChangeKey::nextStep(int result)
 {
 	if (m_step == 0) {
-		Q_ASSERT(sender() == NULL);
-		Q_ASSERT(m_current == NULL);
+		Q_ASSERT(sender() == Q_NULLPTR);
+		Q_ASSERT(m_current == Q_NULLPTR);
 	} else {
-		Q_ASSERT(sender() != NULL);
+		Q_ASSERT(sender() != Q_NULLPTR);
 		Q_ASSERT(sender() == m_current);
 		sender()->deleteLater();
-		m_current = NULL;
+		m_current = Q_NULLPTR;
 	}
 
 	m_step++;
@@ -181,7 +181,7 @@ void KGpgChangeKey::selfdestruct(const bool applyChanges)
 void KGpgChangeKey::setParentWidget(QWidget *widget)
 {
 	m_parentWidget = widget;
-	if (m_current != NULL)
+	if (m_current != Q_NULLPTR)
 		m_current->setParent(widget);
 }
 

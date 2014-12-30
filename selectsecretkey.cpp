@@ -26,9 +26,9 @@ using namespace KgpgCore;
 
 KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, const int countkey, const bool allowLocal, const bool allowTerminal)
 	: KDialog(parent),
-	m_localsign(NULL),
-	m_terminalsign(NULL),
-	m_signtrust(NULL),
+	m_localsign(Q_NULLPTR),
+	m_terminalsign(Q_NULLPTR),
+	m_signtrust(Q_NULLPTR),
 	m_proxy(new SelectSecretKeyProxyModel(this))
 {
 	setCaption(i18n("Private Key List"));
@@ -76,7 +76,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, 
 	}
 
 	KGpgNode *nd = model->getRootNode()->findKey(KGpgSettings::defaultKey());
-	if (nd != NULL) {
+	if (nd != Q_NULLPTR) {
 		QModelIndex sidx = model->nodeIndex(nd);
 		QModelIndex pidx = m_proxy->mapFromSource(sidx);
 		m_keyslist->selectionModel()->setCurrentIndex(pidx, QItemSelectionModel::Clear | QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);

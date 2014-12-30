@@ -30,7 +30,7 @@ class KGpgGenerateRevoke: public KGpgTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgGenerateRevoke)
-	KGpgGenerateRevoke(); // = delete C++0x
+	KGpgGenerateRevoke() Q_DECL_EQ_DELETE;
 public:
 	/**
 	 * @brief KGpgGenerateRevoke's constructor
@@ -52,12 +52,12 @@ signals:
 	void revokeCertificate(const QString &cert);
 
 protected:
-	virtual bool preStart();
-	virtual bool nextLine(const QString &line);
-	virtual ts_boolanswer boolQuestion(const QString &line);
-	virtual void finish();
-	virtual bool passphraseReceived();
-	virtual ts_boolanswer confirmOverwrite (KUrl &currentFile);
+	virtual bool preStart() Q_DECL_OVERRIDE;
+	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
+	virtual void finish() Q_DECL_OVERRIDE;
+	virtual bool passphraseReceived() Q_DECL_OVERRIDE;
+	virtual ts_boolanswer confirmOverwrite (KUrl &currentFile) Q_DECL_OVERRIDE;
 
 private:
 	QString m_keyid;

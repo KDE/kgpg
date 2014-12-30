@@ -21,6 +21,8 @@
 #include <KXmlGuiWindow>
 #include <KUrl>
 
+#include <kgpgcompiler.h>
+
 class KToggleAction;
 class KAction;
 class KFind;
@@ -35,7 +37,7 @@ class KgpgEditor : public KXmlGuiWindow
     Q_OBJECT
     friend class KgpgView;
 
-    KgpgEditor();	// = delete C++0x
+    KgpgEditor() Q_DECL_EQ_DELETE;
 public:
     KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f);
     ~KgpgEditor();

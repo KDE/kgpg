@@ -23,13 +23,15 @@
 
 #include <QValidator>
 
+#include <kgpgcompiler.h>
+
 namespace KgpgCore
 {
 
 class EmailValidator : public QValidator
 {
 public:
-    explicit EmailValidator(QObject *parent = 0) : QValidator(parent) { }
+    explicit EmailValidator(QObject *parent = Q_NULLPTR) : QValidator(parent) { }
     virtual QValidator::State validate(QString &input, int &pos) const;
 };
 

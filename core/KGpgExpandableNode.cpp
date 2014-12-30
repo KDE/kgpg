@@ -27,7 +27,7 @@
 KGpgExpandableNode::KGpgExpandableNode(KGpgExpandableNode *parent)
 	: KGpgNode(parent)
 {
-	if (parent != NULL)
+	if (parent != Q_NULLPTR)
 		parent->children.append(this);
 }
 
@@ -41,7 +41,7 @@ KGpgNode *
 KGpgExpandableNode::getChild(const int index) const
 {
 	if ((index < 0) || (index > children.count()))
-		return NULL;
+		return Q_NULLPTR;
 	return children.at(index);
 }
 

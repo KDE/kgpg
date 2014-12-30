@@ -21,13 +21,15 @@
 
 #include <QStringListModel>
 
+#include <kgpgcompiler.h>
+
 /**
  * @brief model holding the configured GnuPG key servers
  */
 class GpgServerModel: public QStringListModel {
 	Q_OBJECT
 public:
-	GpgServerModel(QObject *parent = NULL);
+	GpgServerModel(QObject *parent = Q_NULLPTR);
 	virtual ~GpgServerModel();
 
 	void setDefault(const QString &server);

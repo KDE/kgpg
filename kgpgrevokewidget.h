@@ -17,8 +17,10 @@
 #ifndef KGPGREVOKEWIDGET_H
 #define KGPGREVOKEWIDGET_H
 
-#include "ui_kgpgrevokewidget.h"
 #include <KDialog>
+
+#include <kgpgcompiler.h>
+#include "ui_kgpgrevokewidget.h"
 
 class KGpgKeyNode;
 
@@ -27,7 +29,7 @@ class KgpgRevokeWidget : public QWidget, public Ui_KgpgRevokeWidget
     Q_OBJECT
 
 public:
-    explicit KgpgRevokeWidget(QWidget* parent = 0);
+    explicit KgpgRevokeWidget(QWidget* parent = Q_NULLPTR);
 
 
 public slots:
@@ -39,7 +41,7 @@ class KGpgRevokeDialog: public KDialog
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgRevokeDialog)
-	KGpgRevokeDialog(); // = delete C++0x
+	KGpgRevokeDialog() Q_DECL_EQ_DELETE;
 public:
 	KGpgRevokeDialog(QWidget* parent, const KGpgKeyNode* node);
 

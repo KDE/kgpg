@@ -88,9 +88,9 @@ private:
 KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining)
 	: m_parent(parent),
 	m_process(new GPGProc()),
-	m_inputTransaction(NULL),
-	m_newPasswordDialog(NULL),
-	m_passwordDialog(NULL),
+	m_inputTransaction(Q_NULLPTR),
+	m_newPasswordDialog(Q_NULLPTR),
+	m_passwordDialog(Q_NULLPTR),
 	m_success(KGpgTransaction::TS_OK),
 	m_tries(3),
 	m_chainingAllowed(allowChaining),
@@ -162,10 +162,10 @@ KGpgTransactionPrivate::slotReadReady()
 		} else if (line.startsWith(QLatin1String("[GNUPG:] GOOD_PASSPHRASE"))) {
 			emit m_parent->statusMessage(i18n("Got Passphrase"));
 
-			if (m_passwordDialog != NULL) {
+			if (m_passwordDialog != Q_NULLPTR) {
 				m_passwordDialog->close();
 				m_passwordDialog->deleteLater();
-				m_passwordDialog = NULL;
+				m_passwordDialog = Q_NULLPTR;
 			}
 
 			if (m_parent->passphraseReceived()) {
@@ -326,7 +326,7 @@ KGpgTransactionPrivate::slotPassphraseEntered(const QString &passphrase)
 	m_process->write(passphrase.toUtf8() + '\n');
 	if (m_parent->sender() == m_newPasswordDialog) {
 		m_newPasswordDialog->deleteLater();
-		m_newPasswordDialog = NULL;
+		m_newPasswordDialog = Q_NULLPTR;
 		m_parent->newPassphraseEntered();
 	} else {
 		Q_ASSERT(m_parent->sender() == m_passwordDialog);
@@ -338,8 +338,8 @@ KGpgTransactionPrivate::slotPassphraseAborted()
 {
 	Q_ASSERT((m_parent->sender() == m_passwordDialog) ^ (m_parent->sender() == m_newPasswordDialog));
 	m_parent->sender()->deleteLater();
-	m_newPasswordDialog = NULL;
-	m_passwordDialog = NULL;
+	m_newPasswordDialog = Q_NULLPTR;
+	m_passwordDialog = Q_NULLPTR;
 	handlePassphraseAborted();
 }
 
@@ -390,14 +390,14 @@ void
 KGpgTransaction::start()
 {
 	d->m_inputProcessResult = false;
-	d->m_inputProcessDone = (d->m_inputTransaction == NULL);
+	d->m_inputProcessDone = (d->m_inputTransaction == Q_NULLPTR);
 
 	setSuccess(TS_OK);
 	d->m_idhints.clear();
 	d->m_tries = 3;
 	if (preStart()) {
 		d->m_ownProcessFinished = false;
-		if (d->m_inputTransaction != NULL)
+		if (d->m_inputTransaction != Q_NULLPTR)
 			d->m_inputTransaction->start();
 #ifdef KGPG_DEBUG_TRANSACTIONS
 		kDebug(2100) << this << d->m_process->program();
@@ -494,7 +494,7 @@ KGpgTransaction::setDescription(const QString &description)
 void
 KGpgTransaction::waitForInputTransaction()
 {
-	Q_ASSERT(d->m_inputTransaction != NULL);
+	Q_ASSERT(d->m_inputTransaction != Q_NULLPTR);
 
 	if (d->m_inputProcessDone)
 		return;
@@ -624,7 +624,7 @@ KGpgTransaction::askPassphrase(const QString &message)
 {
 	emit statusMessage(i18n("Requesting Passphrase"));
 
-	if (d->m_passwordDialog == NULL) {
+	if (d->m_passwordDialog == Q_NULLPTR) {
 		d->m_passwordDialog = new KPasswordDialog(qobject_cast<QWidget *>(parent()));
 
 		QString passdlgmessage;
@@ -682,7 +682,7 @@ KGpgTransaction::waitForFinished(const int msecs)
 {
 	int ret = TS_OK;
 
-	if (d->m_inputTransaction != NULL) {
+	if (d->m_inputTransaction != Q_NULLPTR) {
 		int ret = d->m_inputTransaction->waitForFinished(msecs);
 		if ((ret != TS_OK) && (msecs != -1))
 			return ret;
@@ -710,7 +710,7 @@ KGpgTransaction::setInputTransaction(KGpgTransaction *ta)
 {
 	Q_ASSERT(d->m_chainingAllowed);
 
-	if (d->m_inputTransaction != NULL)
+	if (d->m_inputTransaction != Q_NULLPTR)
 		clearInputTransaction();
 	d->m_inputTransaction = ta;
 
@@ -723,13 +723,13 @@ void
 KGpgTransaction::clearInputTransaction()
 {
 	disconnect(d->m_inputTransaction, SIGNAL(done(int)), this, SLOT(slotInputTransactionDone(int)));
-	d->m_inputTransaction = NULL;
+	d->m_inputTransaction = Q_NULLPTR;
 }
 
 bool
 KGpgTransaction::hasInputTransaction() const
 {
-	return (d->m_inputTransaction != NULL);
+	return (d->m_inputTransaction != Q_NULLPTR);
 }
 
 void
