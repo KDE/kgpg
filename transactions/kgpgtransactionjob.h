@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2012,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -30,9 +30,6 @@ class KGpgTransactionJob : public KJob {
 
 	Q_DISABLE_COPY(KGpgTransactionJob)
 	KGpgTransactionJob(); // = delete C++0x
-
-	KGpgTransaction * const m_transaction;
-	int m_result;
 
 public:
 	/**
@@ -70,8 +67,11 @@ private slots:
 	void slotTransactionDone(int result);
 	void slotStatusMessage(const QString &plain);
 	void slotInfoProgress(qulonglong processedAmount, qulonglong totalAmount);
+
+private:
+	KGpgTransaction * const m_transaction;
+	int m_result;
+	bool m_wasKilled;
 };
 
 #endif
-
-
