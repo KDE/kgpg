@@ -101,11 +101,11 @@ KGpgImport::getImportMessage() const
 QString
 KGpgImport::getImportMessage(const QStringList &log)
 {
-#define RESULT_PARTS 14
-	unsigned long rcode[RESULT_PARTS];
-	unsigned int i = 0;
+#define RESULT_PARTS_MIN 14
+#define RESULT_PARTS_MAX 15
+	unsigned long rcode[RESULT_PARTS_MAX];
 	int line = 0;
-	bool fine;
+	bool fine = false;
 
 	memset(rcode, 0, sizeof(rcode));
 
@@ -114,26 +114,21 @@ KGpgImport::getImportMessage(const QStringList &log)
 		if (!str.startsWith(QLatin1String("[GNUPG:] IMPORT_RES ")))
 			continue;
 
-		const QStringList rstr(str.mid(20).simplified().split(QLatin1Char( ' ' )));
+		const QStringList rstr = str.mid(20).simplified().split(QLatin1Char(' '));
 
-		fine = (rstr.count() >= RESULT_PARTS);
+		fine = (rstr.count() >= RESULT_PARTS_MIN);
 
-		i = 0;
-		while (fine && (i < RESULT_PARTS)) {
+		const int parts = qBound<int>(RESULT_PARTS_MIN, rstr.count(), RESULT_PARTS_MAX);
+
+		for (int i = parts - 1; (i >= 0) && fine; i--)
 			rcode[i] += rstr.at(i).toULong(&fine);
-			i++;
-		}
 
 		if (!fine)
 			return i18n("The import result string has an unsupported format in line %1.<br />Please see the detailed log for more information.", line);
 	}
 
-	fine = false;
-	i = 0;
-	while (!fine && (i < RESULT_PARTS)) {
+	for (int i = RESULT_PARTS_MAX - 1; (i >= 0) && fine; i--)
 		fine = (rcode[i] != 0);
-		i++;
-	}
 
 	if (!fine)
 		return i18n("No key imported.<br />Please see the detailed log for more information.");
