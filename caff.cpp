@@ -106,9 +106,7 @@ KGpgCaffPrivate::slotReimportDone(int result)
 	if (result != KGpgTransaction::TS_OK) {
 		abortOperation(result);
 	} else {
-		bool ret = (imp->getImportedIds(0x1).count() == 1 + m_signers.count());
-
-		if (!ret) {
+		if (imp->getImportedIds(0x1).count() != 1 + m_signers.count()) {
 			abortOperation(-1);
 		} else {
 			KGpgSignUid *signuid = new KGpgSignUid(this, m_signers.first(), m_allids.first(), false, m_checklevel);
