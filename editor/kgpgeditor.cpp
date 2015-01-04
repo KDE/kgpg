@@ -719,22 +719,6 @@ void KgpgEditor::slotDownloadKeysFinished(QStringList ids)
 	sender()->deleteLater();
 }
 
-void
-KgpgEditor::slotVerifyFinished(const QString &id, const QString &message)
-{
-	sender()->deleteLater();
-
-	QString showId;
-
-	if (id.isEmpty())
-		showId = i18n("No signature found.");
-	else
-		showId = id;
-
-	(void) new KgpgDetailedInfo(this, showId, message, QStringList(),
-			i18nc("Caption of message box", "Verification Finished"));
-}
-
 void KgpgEditor::slotOptions()
 {
 	m_parent->showOptions();
