@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>KGpg</name>
+  <name xml:lang="bs">KGpg</name>
   <name xml:lang="ca">KGpg</name>
   <name xml:lang="cs">KGpg</name>
   <name xml:lang="da">KGpg</name>
@@ -37,6 +38,7 @@
   <name xml:lang="zh-CN">KGpg</name>
   <name xml:lang="zh-TW">加密工具_KGpg</name>
   <summary>Encryption Tool</summary>
+  <summary xml:lang="bs">Kriptografski alat</summary>
   <summary xml:lang="ca">Eina d'encriptatge</summary>
   <summary xml:lang="cs">Nástroj pro šifrování</summary>
   <summary xml:lang="da">Krypteringsværktøj</summary>
@@ -74,6 +76,7 @@
       KGpg is a simple interface for GnuPG, a powerful encryption utility.
       It can help you set up and manage your keys, import and export keys, view key signatures, trust status and expiry dates.
     </p>
+    <p xml:lang="bs">KGpg je jednostavan interfejs za GnuPG, moćnog alata za šifrovanje. On vam može pomoći za postavljanje i upravljanje vašim ključevima, uvoz i izvoz ključeva, da vidite ključne potpise, status poverenja i rok trajanja.</p>
     <p xml:lang="ca">El KGpg és una interfície senzilla pel GnuPG, una utilitat potent d'encriptatge. Pot ajudar a configurar i gestionar les vostres claus, importar i exportar claus, veure les signatures de les claus, l'estat de confiança i les dates de venciment.</p>
     <p xml:lang="da">KGpg er en nem brugerflade til GnuPG, et kraftfuldt krypteringsværktøj. Det kan hjælpe dig med at opsætte og håndtere dine nøgler, importere og eksportere nøgler, vise nøglesignaturer, betroelsesstatus og udløbsdatoer.</p>
     <p xml:lang="de">KGpg ist eine einfache Bedienungsoberfläche für GnuPG, ein leistungsfähiges Dienstprogramm zur Verschlüsselung. KGpg kann Ihnen bei der Einrichtung und Verwaltung Ihrer Schlüssel und beim Import und Export von Schlüsseln helfen, kann Schlüsselsignaturen, Vertrauensstatus und Ablaufdaten anzeigen.</p>
