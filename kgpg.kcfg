@@ -246,7 +246,7 @@
 	<group name="Servers">
 		<entry name="KeyServers" type="StringList" key="Server_List">
 			<label>Key servers used by KGpg. The first server in the list is the default server.</label>
-			<default>hkp://wwwkeys.pgp.net,hkp://pgp.dtype.org,hkp://search.keyserver.net,hkp://subkeys.pgp.net,hkp://wwwkeys.pgp.net,hkp://wwwkeys.us.pgp.net</default>
+			<default>hkp://pool.sks-keyservers.net,hkp://subkeys.pgp.net,hkp://search.keyserver.net,hkp://pgp.dtype.org,hkp://wwwkeys.pgp.net</default>
 		</entry>
 		<entry name="InfoServers" type="StringList" key="Info_Server_List">
 			<label>List of URLs that show details and analysis of the given key. The first server in the list is the default server.</label>

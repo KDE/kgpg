@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2006,2007,2008,2009,2010,2011,2012,2013,2014
+ * Copyright (C) 2006,2007,2008,2009,2010,2011,2012,2013,2014,2015
  *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
@@ -62,11 +62,12 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	m_combomodel->sort(0);
 
 	// Initialize the default server and the default server list.
-	defaultKeyServer = QLatin1String("hkp://wwwkeys.pgp.net");
+	defaultKeyServer = QLatin1String("hkp://pool.sks-keyservers.net");
 	defaultServerList << defaultKeyServer
+			<< QLatin1String("hkp://subkeys.pgp.net")
 			<< QLatin1String("hkp://search.keyserver.net")
 			<< QLatin1String("hkp://pgp.dtype.org")
-			<< QLatin1String("hkp://subkeys.pgp.net");
+			<< QLatin1String("hkp://wwwkeys.pgp.net");
 
 	// Read the default keyserver from the GnuPG settings.
 	keyServer = KgpgInterface::getGpgSetting(QLatin1String( "keyserver" ), KGpgSettings::gpgConfigPath());
