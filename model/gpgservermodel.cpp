@@ -74,12 +74,11 @@ GpgServerModel::defaultRow() const
 QString
 GpgServerModel::defaultServer() const
 {
-	if (stringList().isEmpty())
+	const QStringList &servers = stringList();
+
+	if (servers.isEmpty())
 		return QString();
-	if (m_defaultRow < 0)
-		return stringList().first();
-	else
-		return stringList().at(m_defaultRow);
+	return servers.at(qMax<int>(0, m_defaultRow));
 }
 
 QVariant
