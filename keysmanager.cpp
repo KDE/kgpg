@@ -1031,7 +1031,7 @@ void KeysManager::slotAddressbookSearchResult(KJob *job)
 // 	KABC::Key key; TODO
 	if (!addresseeList.isEmpty()) {
 		dlg = new Akonadi::ContactEditorDialog(Akonadi::ContactEditorDialog::EditMode, this);
-		dlg->setContact(searchJob->items().first());
+		dlg->setContact(searchJob->items().at(0));
 	} else {
 		KABC::Addressee addressee;
 		addressee.setNameFromString(nd->getName());
@@ -1067,7 +1067,7 @@ void KeysManager::showKeyServer()
 
 void KeysManager::checkList()
 {
-	QList<KGpgNode *> exportList = iview->selectedNodes();
+	const QList<KGpgNode *> exportList = iview->selectedNodes();
 
 	switch (exportList.count()) {
 	case 0:
@@ -1245,10 +1245,10 @@ KeysManager::slotMenu(const QPoint &pos)
 	QPoint globpos = iview->mapToGlobal(pos);
 	bool sametype;
 	KgpgItemType itype;
-	QList<KGpgNode *> ndlist(iview->selectedNodes(&sametype, &itype));
+	const QList<KGpgNode *> ndlist = iview->selectedNodes(&sametype, &itype);
 	bool unksig = false;
 	QSet<QString> l;
-	int cnt = ndlist.count();
+	const int cnt = ndlist.count();
 
 	// find out if an item has unknown signatures. Only check if the item has been
 	// expanded before as expansion is very expensive and can take several seconds
@@ -1561,11 +1561,11 @@ void KeysManager::showKeyInfo(const QString &keyID)
 
 void KeysManager::slotShowPhoto()
 {
-	KService::List list(KMimeTypeTrader::self()->query(QLatin1String( "image/jpeg" )));
+	const KService::List list = KMimeTypeTrader::self()->query(QLatin1String("image/jpeg"));
 	if (list.isEmpty()) {
-	KMessageBox::sorry(Q_NULLPTR, i18n("<qt>A viewer for JPEG images is not specified.<br/>Please check your installation.</qt>"),
-			i18n("Show photo"));
-	return;
+		KMessageBox::sorry(Q_NULLPTR, i18n("<qt>A viewer for JPEG images is not specified.<br/>Please check your installation.</qt>"),
+				i18n("Show photo"));
+		return;
 	}
 	KGpgNode *nd = iview->selectedNode();
 	KGpgUatNode *und = nd->toUatNode();
@@ -1709,7 +1709,7 @@ void KeysManager::renameGroup()
 	if (iview->selectionModel()->selectedIndexes().isEmpty())
 		return;
 
-	QModelIndex selectedNodeIndex = iview->selectionModel()->selectedIndexes().first();
+	QModelIndex selectedNodeIndex = iview->selectionModel()->selectedIndexes().at(0);
 
 	iview->edit(selectedNodeIndex);
 }
@@ -2149,7 +2149,7 @@ bool KeysManager::importRemoteKey(const QString &keyIDs)
 
 bool KeysManager::importRemoteKeys(const QStringList &keyIDs, const bool dialog)
 {
-	QStringList kservers(KeyServer::getServerList());
+	const QStringList kservers = KeyServer::getServerList();
 	if (kservers.isEmpty())
 		return false;
 
@@ -2388,7 +2388,7 @@ void KeysManager::deleteseckey()
 
 void KeysManager::secretKeyDeleted(int retcode)
 {
-	KGpgKeyNode *delkey = m_delkey->keys().first();
+	KGpgKeyNode *delkey = m_delkey->keys().at(0);
 	if (retcode == 0) {
 		KMessageBox::information(this, i18n("Key <b>%1</b> deleted.", delkey->getBeautifiedFingerprint()), i18n("Delete key"));
 		imodel->delNode(delkey);
@@ -2410,7 +2410,7 @@ void KeysManager::confirmdeletekey()
 
 	KgpgCore::KgpgItemType pt;
 	bool same;
-	QList<KGpgNode *> ndlist(iview->selectedNodes(&same, &pt));
+	const QList<KGpgNode *> ndlist = iview->selectedNodes(&same, &pt);
 	if (ndlist.isEmpty())
 		return;
 

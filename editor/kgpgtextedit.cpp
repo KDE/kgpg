@@ -50,6 +50,7 @@ KgpgTextEdit::KgpgTextEdit(QWidget *parent, KGpgItemModel *model, KeysManager *m
     setAcceptDrops(true);
     setReadOnly(false);
     setUndoRedoEnabled(true);
+    setAcceptRichText(false);
 }
 
 KgpgTextEdit::~KgpgTextEdit()
