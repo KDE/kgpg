@@ -23,6 +23,7 @@
 #include "transactions/kgpgexport.h"
 #include "transactions/kgpgimport.h"
 #include "transactions/kgpgsignuid.h"
+#include "gpgproc.h"
 
 #include <KDebug>
 #include <KLocale>
@@ -41,18 +42,22 @@ KGpgCaffPrivate::KGpgCaffPrivate(KGpgCaff *parent, const KGpgSignableNode::List 
 	m_signers(signers),
 	m_flags(flags),
 	m_checklevel(checklevel),
+	m_gpgVersion(GPGProc::gpgVersion(GPGProc::gpgVersionString(QString()))),
 	m_allids(ids)
 {
 	const QString gpgCfg = KGpgSettings::gpgConfigPath();
 	const QString secring = KgpgInterface::getGpgSetting(QLatin1String( "secret-keyring" ), gpgCfg);
 
+	QFileInfo fn(gpgCfg);
 	if (!secring.isEmpty()) {
 		m_secringfile = secring;
 	} else {
-		QFileInfo fn(gpgCfg);
 		fn.setFile(fn.dir(), QLatin1String("secring.gpg"));
 		m_secringfile = QDir::toNativeSeparators(fn.absoluteFilePath());
 	}
+
+	fn.setFile(fn.dir(), QLatin1String("private-keys-v1.d"));
+	m_secringdir = QDir::toNativeSeparators(fn.absoluteFilePath());
 }
 
 KGpgCaffPrivate::~KGpgCaffPrivate()
@@ -80,6 +85,13 @@ KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 	}
 
 	m_tempdir.reset(new KTempDir());
+
+	if (m_gpgVersion >= 0x20100) {
+		/* see http://lists.gnupg.org/pipermail/gnupg-devel/2014-December/029296.html */
+		QFile seclink(m_secringdir);
+
+		seclink.link(m_tempdir->name() + QLatin1String("private-keys-v1.d"));
+	}
 
 	// export all keys necessary for signing
 	QStringList exportkeys(m_signers);
@@ -111,7 +123,8 @@ KGpgCaffPrivate::slotReimportDone(int result)
 		} else {
 			KGpgSignUid *signuid = new KGpgSignUid(this, m_signers.first(), m_allids.first(), false, m_checklevel);
 			signuid->setGnuPGHome(m_tempdir->name());
-			signuid->setSecringFile(m_secringfile);
+			if (m_gpgVersion < 0x20100)
+				signuid->setSecringFile(m_secringfile);
 			connect(signuid, SIGNAL(done(int)), SLOT(slotSigningFinished(int)));
 
 			signuid->start();
