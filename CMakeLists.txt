@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
+
 project(kgpg)
 
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
