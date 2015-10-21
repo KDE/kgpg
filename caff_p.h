@@ -36,8 +36,10 @@ class KGpgCaffPrivate : public QObject {
 	QScopedPointer<KTempDir> m_tempdir;
 	QStringList m_signers;
 	QString m_secringfile;
+	QString m_secringdir; ///< where GnuPG >=2.1 store their secret keyring information
 	const KGpgCaff::OperationFlags m_flags;
 	const KGpgSignTransactionHelper::carefulCheck m_checklevel;
+	const int m_gpgVersion;
 
 	void reexportKey(const KGpgSignableNode *node);
 	void abortOperation(int result);
