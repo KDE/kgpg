@@ -67,6 +67,8 @@ KGpgCaffPrivate::~KGpgCaffPrivate()
 void
 KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 {
+	Q_Q(KGpgCaff);
+
 	Q_ASSERT(m_tempdir.isNull());
 
 	// find out if the given id can be used for encryption
