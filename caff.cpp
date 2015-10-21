@@ -90,7 +90,11 @@ KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 		/* see http://lists.gnupg.org/pipermail/gnupg-devel/2014-December/029296.html */
 		QFile seclink(m_secringdir);
 
-		seclink.link(m_tempdir->name() + QLatin1String("private-keys-v1.d"));
+		if (!seclink.link(m_tempdir->name() + QLatin1String("private-keys-v1.d"))) {
+			KMessageBox::sorry(qobject_cast<QWidget *>(q->parent()),
+					i18n("This function is not available on this system. The symbolic link to the private GnuPG keys cannot be created."));
+			return;
+		}
 	}
 
 	// export all keys necessary for signing
