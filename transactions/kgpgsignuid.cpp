@@ -13,6 +13,7 @@
 
 #include "kgpgsignuid.h"
 
+#include "gpgproc.h"
 #include "model/kgpgitemnode.h"
 
 KGpgSignUid::KGpgSignUid(QObject *parent, const QString &signer, const KGpgSignableNode *uid, const bool local, const carefulCheck checking)
@@ -60,6 +61,20 @@ KGpgSignUid::setUid(const KGpgSignableNode *uid)
 }
 
 bool
+KGpgSignUid::preStart()
+{
+	if (!KGpgUidTransaction::preStart())
+		return false;
+
+	/* GnuPG >= 2.1 do not send a GOOD_PASSPHRASE anymore which could be used as a trigger that
+	 * everything worked fine, so just assume everything is OK until an ERROR is received. */
+	if (GPGProc::gpgVersion(GPGProc::gpgVersionString(QString())) > 0x20100)
+		setSuccess(TS_OK);
+
+	return true;
+}
+
+bool
 KGpgSignUid::nextLine(const QString &line)
 {
 	switch (KGpgSignTransactionHelper::nextLine(line)) {
@@ -70,7 +85,15 @@ KGpgSignUid::nextLine(const QString &line)
 	default:
 		Q_ASSERT(0);
 	case KGpgSignTransactionHelper::notHandled:
-		return standardCommands(line);
+		if (line.contains(QLatin1String(" ERROR keysig "))) {
+			setSuccess(TS_BAD_PASSPHRASE);
+			return true;
+		} else if (line.contains(QLatin1String(" ERROR "))) {
+			setSuccess(TS_MSG_SEQUENCE);
+			return true;
+		} else {
+			return standardCommands(line);
+		}
 	}
 }
 
