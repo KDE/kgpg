@@ -60,6 +60,7 @@ public:
 	void setUid(const KGpgSignableNode *uid);
 
 protected:
+	virtual bool preStart() Q_DECL_OVERRIDE;
 	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
 	virtual bool passphraseReceived() Q_DECL_OVERRIDE;
