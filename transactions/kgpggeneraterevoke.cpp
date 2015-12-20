@@ -15,7 +15,7 @@
 
 #include <KDebug>
 #include <KLocale>
-#include <QtCore/QFile>
+#include <QFile>
 
 KGpgGenerateRevoke::KGpgGenerateRevoke(QObject *parent, const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description)
 	: KGpgTransaction(parent),

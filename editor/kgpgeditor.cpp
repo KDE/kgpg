@@ -50,8 +50,8 @@
 #include <QTextStream>
 #include <QVBoxLayout>
 #include <QWidget>
-#include <QtGui/QPrintDialog>
-#include <QtGui/QPrinter>
+#include <QPrintDialog>
+#include <QPrinter>
 #include <kio/netaccess.h>
 #include <kio/renamedialog.h>
 
