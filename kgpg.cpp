@@ -30,7 +30,6 @@
 #include <KWindowSystem>
 #include <KMimeType>
 #include <QApplication>
-#include <QtDBus/QtDBus>
 
 using namespace KgpgCore;
 

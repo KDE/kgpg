@@ -50,7 +50,6 @@
 #include <QTextStream>
 #include <QVBoxLayout>
 #include <QWidget>
-#include <QtDBus/QtDBus>
 #include <QtGui/QPrintDialog>
 #include <QtGui/QPrinter>
 #include <kio/netaccess.h>

@@ -106,7 +106,7 @@
 #include <QProcess>
 #include <QTextStream>
 #include <QWidget>
-#include <QtDBus/QtDBus>
+#include <QDBusConnection>
 #include <kabc/addresseelist.h>
 // #include <kabc/key.h> TODO
 #include <kio/global.h>
