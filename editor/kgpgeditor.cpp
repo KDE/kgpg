@@ -761,5 +761,3 @@ void KgpgEditor::newText()
 	setCaption(i18n("Untitled"), false);
 	slotResetEncoding(false);
 }
-
-#include "kgpgeditor.moc"

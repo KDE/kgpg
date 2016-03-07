@@ -239,5 +239,3 @@ void KgpgSelectPublicKeyDlg::slotGotoDefaultKey()
 	QModelIndex pidx = iproxy->mapFromSource(sidx);
 	m_keyslist->selectionModel()->setCurrentIndex(pidx, QItemSelectionModel::Clear | QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
 }
-
-#include "selectpublickeydialog.moc"

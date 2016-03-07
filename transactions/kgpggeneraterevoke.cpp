@@ -122,5 +122,3 @@ KGpgGenerateRevoke::getOutput() const
 {
 	return m_output;
 }
-
-#include "kgpggeneraterevoke.moc"

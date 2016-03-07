@@ -59,5 +59,3 @@ KGpgChangeTrust::setTrust(const gpgme_validity_t trust)
 {
 	m_trust = trust;
 }
-
-#include "kgpgchangetrust.moc"

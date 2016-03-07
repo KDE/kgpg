@@ -191,5 +191,3 @@ KGpgDelUid::finish()
 	if (!m_uids.isEmpty())
 		setSuccess(TS_MSG_SEQUENCE);
 }
-
-#include "kgpgdeluid.moc"

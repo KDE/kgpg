@@ -193,5 +193,3 @@ KGpgExport::procSetup(const QStringList &options, const bool secret)
 
 	addArguments(options);
 }
-
-#include "kgpgexport.moc"

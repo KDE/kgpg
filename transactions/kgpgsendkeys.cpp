@@ -81,5 +81,3 @@ KGpgSendKeys::setAttributeOptions(const QString &opt)
 
 	replaceArgument(m_attrpos, m_attributeopt);
 }
-
-#include "kgpgsendkeys.moc"

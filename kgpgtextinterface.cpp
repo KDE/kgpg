@@ -106,5 +106,3 @@ KGpgTextInterface::slotSignFinished()
 {
 	emit fileSignFinished();
 }
-
-#include "kgpgtextinterface.moc"

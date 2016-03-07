@@ -197,5 +197,3 @@ KGpgVerify::missingId() const
 {
 	return m_missingId;
 }
-
-#include "kgpgverify.moc"

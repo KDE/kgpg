@@ -365,5 +365,3 @@ KGpgKeyNode::expand()
 
 	emit expanded();
 }
-
-#include "KGpgKeyNode.moc"

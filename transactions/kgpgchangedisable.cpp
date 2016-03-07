@@ -51,5 +51,3 @@ KGpgChangeDisable::nextLine(const QString &line)
 {
 	return KGpgEditKeyTransaction::nextLine(line);
 }
-
-#include "kgpgchangedisable.moc"

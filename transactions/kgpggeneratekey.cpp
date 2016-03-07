@@ -262,5 +262,3 @@ KGpgGenerateKey::gpgErrorMessage() const
 {
 	return m_errorOutput;
 }
-
-#include "kgpggeneratekey.moc"

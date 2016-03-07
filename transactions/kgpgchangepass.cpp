@@ -81,5 +81,3 @@ KGpgChangePass::passphraseReceived()
 	setSuccess(TS_MSG_SEQUENCE);
 	return false;
 }
-
-#include "kgpgchangepass.moc"

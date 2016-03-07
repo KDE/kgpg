@@ -135,5 +135,3 @@ void KgpgSelectSecretKey::slotOk()
     if (m_keyslist->selectionModel()->hasSelection())
         slotButtonClicked(Ok);
 }
-
-#include "selectsecretkey.moc"

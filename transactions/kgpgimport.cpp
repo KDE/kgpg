@@ -286,5 +286,3 @@ KGpgImport::isKey(const QString &text, const bool incomplete)
 
 	return 2;
 }
-
-#include "kgpgimport.moc"

@@ -387,5 +387,3 @@ KGpgSearchResultModel::slotAddKey(QStringList lines)
 		delete nkey;
 	}
 }
-
-#include "kgpgsearchresultmodel.moc"

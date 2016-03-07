@@ -99,5 +99,3 @@ KGpgKeyserverTransaction::setProgressEnable(const bool b)
 		connect(m_progress, SIGNAL(cancelClicked()), SLOT(slotAbort()));
 	}
 }
-
-#include "kgpgkeyservertransaction.moc"

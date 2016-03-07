@@ -188,5 +188,3 @@ int KGpgApp::newInstance()
 
 	return 0;
 }
-
-#include "kgpg.moc"

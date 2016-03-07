@@ -126,5 +126,3 @@ KGpgSignUid::replaceCmd(const QString &cmd)
 {
 	replaceArgument(m_cmdPos, cmd);
 }
-
-#include "kgpgsignuid.moc"

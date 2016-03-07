@@ -370,5 +370,3 @@ void KeyServer::slotSetFilterString(const QString &expression)
 {
 	m_filtermodel.setFilterRegExp(QRegExp(expression, Qt::CaseInsensitive, QRegExp::RegExp2));
 }
-
-#include "keyservers.moc"

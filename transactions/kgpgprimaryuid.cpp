@@ -39,5 +39,3 @@ KGpgPrimaryUid::passphraseReceived()
 	setSuccess(TS_OK);
 	return KGpgTransaction::passphraseReceived();
 }
-
-#include "kgpgprimaryuid.moc"

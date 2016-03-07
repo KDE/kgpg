@@ -385,6 +385,3 @@ KGpgCaff::run()
 
 	d->reexportKey(d->m_allids.first());
 }
-
-#include "caff.moc"
-#include "caff_p.moc"

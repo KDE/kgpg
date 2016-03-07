@@ -394,5 +394,3 @@ QString GPGProc::getGpgHome(const QString &binary)
 	KStandardDirs::makeDir(gpgHome, 0700);
 	return gpgHome;
 }
-
-#include "gpgproc.moc"

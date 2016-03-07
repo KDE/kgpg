@@ -34,5 +34,3 @@ KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, con
 	KMessageBox::createKMessageBox(this, QMessageBox::Information, // krazy:exclude=qtclasses
 				   boxLabel, keysList, QString(), Q_NULLPTR, 0, errormessage);
 }
-
-#include "detailedconsole.moc"

@@ -137,5 +137,3 @@ groupEdit::groupRemove(const QModelIndex &index)
 	m_in->invalidate();
 	m_out->invalidate();
 }
-
-#include "groupedit.moc"

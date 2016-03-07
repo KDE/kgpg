@@ -94,5 +94,3 @@ KGpgSignableNode::operator<(const KGpgSignableNode *other) const
 	}
 	}
 }
-
-#include "KGpgSignableNode.moc"
