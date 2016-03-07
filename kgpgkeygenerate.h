@@ -22,7 +22,6 @@
 #include <KDialog>
 
 class KComboBox;
-class KLineEdit;
 
 class KgpgKeyGenerate : public KDialog, public Ui::kgpgKeyGenerate
 {
