@@ -22,12 +22,12 @@
 #include "KGpgKeyNode.h"
 
 #include <KLocale>
-#include <KUrl>
 
+#include <QDateTime>
 #include <QDir>
 #include <QFile>
+#include <QFileInfo>
 #include <QPixmap>
-#include <QDateTime>
 
 class KGpgUatNodePrivate {
 public:
@@ -79,11 +79,11 @@ KGpgUatNodePrivate::loadImage(const KGpgKeyNode *parent, const QString &index)
 	if (workProcess.readln(tmpfile) < 0)
 		return pixmap;
 
-	KUrl url(tmpfile);
-	pixmap.load(url.path());
-	QFile::remove(url.path());
+	QFile fname(tmpfile);
+	pixmap.load(fname.fileName());
+	fname.remove();
 	QDir dir;
-	dir.rmdir(url.directory());
+	dir.rmdir(QFileInfo(fname).path());
 
 	return pixmap;
 }
