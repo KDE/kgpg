@@ -15,9 +15,6 @@
 
 #include "detailedconsole.h"
 
-#include <KLocale>
-#include <KMessageBox>
-
 KGpgChangeExpire::KGpgChangeExpire(QObject *parent, const QString &keyid, const QDateTime &date)
 	: KGpgEditKeyTransaction(parent, keyid, QLatin1String( "expire" ), false)
 {

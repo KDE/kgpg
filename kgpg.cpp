@@ -29,7 +29,6 @@
 #include <KMessageBox>
 #include <KWindowSystem>
 #include <KMimeType>
-#include <QApplication>
 
 using namespace KgpgCore;
 

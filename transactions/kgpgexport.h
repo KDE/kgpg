@@ -17,8 +17,6 @@
 #include <QObject>
 #include <QStringList>
 
-#include <KUrl>
-
 #include "kgpgtransaction.h"
 
 class QProcess;

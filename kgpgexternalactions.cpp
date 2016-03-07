@@ -35,12 +35,8 @@
 
 #include <KActionCollection>
 #include <KMessageBox>
-#include <KTar>
 #include <KTemporaryFile>
 #include <KToolInvocation>
-#include <KUniqueApplication>
-#include <KZip>
-#include <QDesktopWidget>
 #include <QFont>
 #include <QProcess>
 #include <QStringListModel>

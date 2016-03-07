@@ -15,7 +15,6 @@
 #define KGPGTEXTORFILETRANSACTION_H
 
 #include <QObject>
-#include <QList>
 #include <QString>
 #include <QStringList>
 

@@ -26,23 +26,17 @@
 #include "model/kgpgitemnode.h"
 #include "transactions/kgpgchangepass.h"
 
-#include <KComboBox>
-#include <KDatePicker>
 #include <KGlobal>
 #include <KLocale>
 #include <KMessageBox>
 #include <KPushButton>
 #include <KToolInvocation>
-#include <KUrlLabel>
 #include <QApplication>
 #include <QCheckBox>
 #include <QFormLayout>
-#include <QGridLayout>
-#include <QGroupBox>
 #include <QHBoxLayout>
 #include <QImage>
 #include <QPixmap>
-#include <QVBoxLayout>
 
 using namespace KgpgCore;
 

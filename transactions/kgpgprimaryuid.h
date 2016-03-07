@@ -14,7 +14,6 @@
 #ifndef KGPGPRIMARYUID_H
 #define KGPGPRIMARYUID_H
 
-#include <QList>
 #include <QObject>
 
 #include "kgpguidtransaction.h"

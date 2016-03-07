@@ -22,8 +22,6 @@
 #include "core/convert.h"
 #include "model/kgpgitemmodel.h"
 
-#include <KLocale>
-
 KGpgExpandableNode::KGpgExpandableNode(KGpgExpandableNode *parent)
 	: KGpgNode(parent)
 {

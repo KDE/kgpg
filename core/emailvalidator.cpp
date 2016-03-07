@@ -20,8 +20,6 @@
 
 #include "emailvalidator.h"
 
-#include <QRegExp>
-
 #include "kpimutils/email.h"
 
 namespace KgpgCore

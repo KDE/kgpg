@@ -19,8 +19,6 @@
 #include "model/groupeditproxymodel.h"
 #include "model/kgpgitemmodel.h"
 
-#include <KAction>
-#include <KActionCollection>
 #include <QHeaderView>
 #include <QSortFilterProxyModel>
 

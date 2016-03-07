@@ -20,7 +20,6 @@
 
 #include <KUniqueApplication>
 #include <KShortcut>
-#include <KUrl>
 #include <klocale.h>
 
 class KCmdLineArgs;

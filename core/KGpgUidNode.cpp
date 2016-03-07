@@ -21,6 +21,8 @@
 #include "KGpgKeyNode.h"
 #include "convert.h"
 
+#include <QStringList>
+
 class KGpgUidNodePrivate {
 public:
 	KGpgUidNodePrivate(const unsigned int index, const QStringList &sl);

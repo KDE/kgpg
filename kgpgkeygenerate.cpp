@@ -22,12 +22,9 @@
 #include <KComboBox>
 #include <KDebug>
 #include <KHBox>
-#include <KLineEdit>
 #include <KLocale>
 #include <KMessageBox>
-#include <QGroupBox>
 #include <QIntValidator>
-#include <QLabel>
 #include <QStringList>
 #include <QVBoxLayout>
 #include <QWhatsThis>

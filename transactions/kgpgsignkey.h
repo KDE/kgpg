@@ -14,7 +14,6 @@
 #ifndef KGPGSIGNKEY_H
 #define KGPGSIGNKEY_H
 
-#include <QList>
 #include <QObject>
 
 #include "kgpgeditkeytransaction.h"

@@ -16,7 +16,6 @@
 #include "gpgproc.h"
 
 #include <KLocale>
-#include <KMessageBox>
 #include <kpimutils/email.h>
 #include <QApplication>
 

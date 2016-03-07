@@ -77,7 +77,7 @@
 #include <KService>
 #include <KShortcut>
 #include <KStandardAction>
-#include <KStandardDirs>
+#include <KStandardGuiItem>
 #include <KStandardShortcut>
 #include <KStatusBar>
 #include <KStatusNotifierItem>

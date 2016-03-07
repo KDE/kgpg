@@ -16,8 +16,6 @@
 
 #include "convert.h"
 
-#include <KLocale>
-
 #include <QStringList>
 
 namespace KgpgCore

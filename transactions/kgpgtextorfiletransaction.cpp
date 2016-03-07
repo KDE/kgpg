@@ -17,7 +17,6 @@
 
 #include <KDebug>
 #include <KIO/NetAccess>
-#include <KLocale>
 #include <QRegExp>
 
 KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const QString &text, const bool allowChaining)

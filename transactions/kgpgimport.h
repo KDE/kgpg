@@ -15,7 +15,6 @@
 #define KGPGIMPORT_H
 
 #include <QObject>
-#include <QList>
 #include <QString>
 #include <QStringList>
 

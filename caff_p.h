@@ -18,7 +18,6 @@
 #include "core/KGpgSignableNode.h"
 #include "transactions/kgpgsigntransactionhelper.h"
 
-#include <QList>
 #include <QObject>
 #include <QScopedPointer>
 #include <QString>

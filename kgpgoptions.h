@@ -24,7 +24,6 @@
 #include "core/kgpgkey.h"
 
 #include <QPixmap>
-#include <QStringListModel>
 #include <QString>
 
 #include <KConfigDialog>

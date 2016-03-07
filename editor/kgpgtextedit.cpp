@@ -32,7 +32,6 @@
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QFile>
-#include <QTextCodec>
 #include <QTextStream>
 #include <kio/netaccess.h>
 

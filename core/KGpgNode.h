@@ -19,7 +19,6 @@
 #ifndef KGPGNODE_H
 #define KGPGNODE_H
 
-#include <QPixmap>
 #include "kgpgkey.h"
 
 class KGpgExpandableNode;

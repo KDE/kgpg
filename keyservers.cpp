@@ -26,14 +26,10 @@
 #include "transactions/kgpgkeyserversearchtransaction.h"
 #include "transactions/kgpgsendkeys.h"
 
-#include <KConfig>
-#include <KDateTime>
 #include <KDebug>
 #include <KLocale>
 #include <KMessageBox>
 #include <QCursor>
-#include <QLabel>
-#include <QTextCodec>
 
 KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose)
 	: KDialog(parent),

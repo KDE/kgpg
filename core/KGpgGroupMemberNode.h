@@ -21,7 +21,6 @@
 
 #include "KGpgRefNode.h"
 
-#include <QPixmap>
 #include "kgpgkey.h"
 
 using namespace KgpgCore;

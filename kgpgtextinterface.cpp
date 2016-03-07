@@ -18,11 +18,8 @@
 #include "gpgproc.h"
 #include "kgpgsettings.h"
 
-#include <KLocale>
-#include <QFile>
 #include <QString>
 #include <QStringList>
-#include <QTextCodec>
 
 class KGpgTextInterfacePrivate
 {
