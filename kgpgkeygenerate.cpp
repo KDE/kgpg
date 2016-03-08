@@ -20,7 +20,6 @@
 #include "kgpgsettings.h"
 
 #include <KComboBox>
-#include <KDebug>
 #include <KHBox>
 #include <KLocale>
 #include <KMessageBox>

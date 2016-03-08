@@ -21,7 +21,6 @@
 #include "kgpgitemmodel.h"
 #include "core/kgpgkey.h"
 
-#include <KDebug>
 #include <KLocale>
 #include <QIcon>
 

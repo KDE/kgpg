@@ -31,7 +31,6 @@
 
 #include <KAction>
 #include <KActionCollection>
-#include <KDebug>
 #include <KEncodingFileDialog>
 #include <KFind>
 #include <KFileDialog>
