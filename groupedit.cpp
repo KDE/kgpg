@@ -19,6 +19,7 @@
 #include "model/groupeditproxymodel.h"
 #include "model/kgpgitemmodel.h"
 
+#include <KIcon>
 #include <QHeaderView>
 #include <QSortFilterProxyModel>
 

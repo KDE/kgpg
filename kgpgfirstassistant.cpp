@@ -27,6 +27,7 @@
 #include <KLocale>
 #include <KMessageBox>
 #include <KStandardDirs>
+#include <KUrl>
 #include <KUrlRequester>
 #include <QCheckBox>
 #include <QGridLayout>

@@ -27,9 +27,11 @@
 #include <KConfigGroup>
 #include <KLocale>
 #include <KMessageBox>
+#include <QDrag>
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QHeaderView>
+#include <QMimeData>
 
 KeyTreeView::KeyTreeView(QWidget *parent, KeyListProxyModel *model)
 	: QTreeView(parent), m_proxy(model)
