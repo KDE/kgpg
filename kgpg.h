@@ -22,7 +22,6 @@
 #include <KShortcut>
 #include <klocale.h>
 
-class KCmdLineArgs;
 class KeysManager;
 class KGpgExternalActions;
 class QString;

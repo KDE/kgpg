@@ -22,8 +22,6 @@
 
 #include "kgpgtextorfiletransaction.h"
 
-class QProcess;
-
 /**
  * @brief encrypt the given text or files
  */

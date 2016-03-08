@@ -26,17 +26,9 @@
 #include <kgpgcompiler.h>
 #include "ui_kgpgKeyInfo.h"
 
-class QCheckBox;
-class QGroupBox;
-
-class KPushButton;
-class KUrlLabel;
-class KComboBox;
-
 class KGpgItemModel;
 class KGpgKeyNode;
 class KGpgChangeKey;
-class KGpgChangePass;
 
 class KgpgTrustLabel : public QWidget
 {

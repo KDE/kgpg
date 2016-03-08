@@ -24,7 +24,6 @@
 #include <QDateTime>
 #include <QPixmap>
 
-class KGpgExpandableNode;
 class KGpgKeyNode;
 class QPixmap;
 

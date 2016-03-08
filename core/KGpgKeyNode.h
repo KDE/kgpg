@@ -24,7 +24,6 @@
 
 #include "kgpgkey.h"
 
-class KGpgExpandableNode;
 class KGpgRefNode;
 
 /**

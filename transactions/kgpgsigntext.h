@@ -21,8 +21,6 @@
 #include <QString>
 #include <QStringList>
 
-class QProcess;
-
 /**
  * @brief sign the given text or files
  */

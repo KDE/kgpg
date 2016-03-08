@@ -22,7 +22,6 @@
 #include <QObject>
 
 class KGpgKeyNode;
-class KGpgUidNode;
 
 class KGpgDelUid: public KGpgUidTransaction {
 	Q_OBJECT

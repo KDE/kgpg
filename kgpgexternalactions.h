@@ -25,11 +25,9 @@
 class KeysManager;
 class KGpgFirstAssistant;
 class KGpgItemModel;
-class KGpgTextInterface;
 class KJob;
 class KShortcut;
 class KTemporaryFile;
-class QFont;
 class QString;
 
 /**

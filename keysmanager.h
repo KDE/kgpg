@@ -33,7 +33,6 @@ class KJob;
 class QEvent;
 
 class KSelectAction;
-class KStatusBar;
 class KMenu;
 class KLineEdit;
 class KAction;

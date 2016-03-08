@@ -23,7 +23,6 @@
 #include "core/kgpgkey.h"
 
 class KGpgNode;
-class KGpgExpandableNode;
 class KGpgItemModel;
 class KeyListProxyModelPrivate;
 

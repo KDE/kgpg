@@ -23,7 +23,6 @@
 #include <KUrl>
 
 class KGpgItemModel;
-class QProcess;
 
 /**
  * @brief verify the signature of the given text or files
