@@ -31,6 +31,8 @@
 #include <KMessageBox>
 #include <KProcess>
 #include <KStandardDirs>
+#include <KDebug>
+#include <KUrl>
 #include <QCheckBox>
 #include <QFile>
 #include <QTextStream>

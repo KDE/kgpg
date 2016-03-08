@@ -17,6 +17,7 @@
 #include "kgpginterface.h"
 
 #include <KDebug>
+#include <KDialog>
 #include <kio/renamedialog.h>
 #include <KPasswordDialog>
 #include <knewpassworddialog.h>

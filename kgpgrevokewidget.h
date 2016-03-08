@@ -23,6 +23,7 @@
 #include "ui_kgpgrevokewidget.h"
 
 class KGpgKeyNode;
+class KUrl;
 
 class KgpgRevokeWidget : public QWidget, public Ui_KgpgRevokeWidget
 {
