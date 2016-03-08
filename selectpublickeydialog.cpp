@@ -50,13 +50,13 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 
     switch (fcount) {
     case 0:
-	setCaption(i18n("Select Public Key"));
+	setWindowTitle(i18n("Select Public Key"));
 	break;
     case 1:
-	setCaption(i18n("Select Public Key for %1", files.first().fileName()));
+	setWindowTitle(i18n("Select Public Key for %1", files.first().fileName()));
 	break;
     default:
-	setCaption(i18np("Select Public Key for %2 and one more file", "Select Public Key for %2 and %1 more files", files.count() - 1, files.first().fileName()));
+	setWindowTitle(i18np("Select Public Key for %2 and one more file", "Select Public Key for %2 and %1 more files", files.count() - 1, files.first().fileName()));
     }
 
     QWidget *page = new QWidget(this);

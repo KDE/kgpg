@@ -489,7 +489,7 @@ void KgpgEditor::slotFilePreDec()
     oldname.prepend(url.directory(KUrl::AppendTrailingSlash));
 
     QPointer<KDialog> popn = new KDialog(this);
-    popn->setCaption(  i18n("Decrypt File To") );
+    popn->setWindowTitle(i18n("Decrypt File To"));
     popn->setButtons( KDialog::Ok | KDialog::Cancel );
     popn->setDefaultButton( KDialog::Ok );
     popn->setModal( true );

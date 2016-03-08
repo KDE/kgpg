@@ -39,7 +39,7 @@ KGpgRevokeDialog::KGpgRevokeDialog(QWidget* parent, const KGpgKeyNode *node)
 	m_revWidget(new KgpgRevokeWidget(this)),
 	m_id(node->getId())
 {
-	setCaption(i18n("Create Revocation Certificate"));
+	setWindowTitle(i18n("Create Revocation Certificate"));
 	setButtons(KDialog::Ok | KDialog::Cancel);
 	setDefaultButton(KDialog::Ok);
 	setModal(true);

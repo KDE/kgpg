@@ -25,9 +25,9 @@ KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, con
 	: KDialog(parent)
 {
 	if (!caption.isEmpty())
-		setCaption(caption);
+		setWindowTitle(caption);
 	else
-		setCaption(i18n("Info"));
+		setWindowTitle(i18n("Info"));
 	setButtons(Details | Ok);
 	setDefaultButton(Ok);
 	setModal(true);

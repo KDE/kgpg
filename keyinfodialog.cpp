@@ -165,7 +165,7 @@ void KgpgKeyInfo::reloadNode()
 void KgpgKeyInfo::displayKey()
 {
     const QString name = m_node->getName();
-    setCaption(name);
+    setWindowTitle(name);
     m_name->setText(QLatin1String( "<qt><b>" ) + name + QLatin1String( "</b></qt>" ));
 
     const QString email = m_node->getEmail();

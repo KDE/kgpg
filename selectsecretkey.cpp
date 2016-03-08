@@ -31,7 +31,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, 
 	m_signtrust(Q_NULLPTR),
 	m_proxy(new SelectSecretKeyProxyModel(this))
 {
-	setCaption(i18n("Private Key List"));
+	setWindowTitle(i18n("Private Key List"));
 	setButtons(Ok | Cancel);
 	setDefaultButton(Ok);
 	QWidget *page = new QWidget(this);

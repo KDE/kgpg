@@ -39,7 +39,7 @@ KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose
 	m_resultmodel(Q_NULLPTR),
 	m_itemmodel(new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst))
 {
-	setCaption(i18n("Key Server"));
+	setWindowTitle(i18n("Key Server"));
 	setButtons(Close);
 	setModal(false);
 
@@ -200,7 +200,7 @@ void KeyServer::slotSearch()
 	m_filtermodel.setFilterRegExp(QRegExp());
 
 	m_dialogserver = new KDialog(this );
-	m_dialogserver->setCaption( i18n("Import Key From Keyserver") );
+	m_dialogserver->setWindowTitle(i18n("Import Key From Keyserver"));
 	m_dialogserver->setButtons( KDialog::Ok | KDialog::Close );
 	m_dialogserver->setDefaultButton( KDialog::Ok);
 	m_dialogserver->setModal( true );

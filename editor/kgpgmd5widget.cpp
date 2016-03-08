@@ -25,7 +25,7 @@
 Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
          : KDialog(parent)
 {
-    setCaption(i18n("MD5 Checksum"));
+    setWindowTitle(i18n("MD5 Checksum"));
     setButtons(Apply | Close);
     setDefaultButton(Close);
     setButtonText(Apply, i18n("Compare MD5 with Clipboard"));

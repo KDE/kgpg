@@ -583,7 +583,7 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		updateStatusCounter();
 
 		QPointer<KDialog> keyCreated = new KDialog(this);
-		keyCreated->setCaption(i18n("New Key Pair Created"));
+		keyCreated->setWindowTitle(i18n("New Key Pair Created"));
 		keyCreated->setButtons(KDialog::Ok);
 		keyCreated->setDefaultButton(KDialog::Ok);
 		keyCreated->setModal(true);
@@ -878,7 +878,7 @@ void KeysManager::slotAddUid()
 	}
 
 	addUidWidget = new KDialog(this );
-	addUidWidget->setCaption( i18n("Add New User Id") );
+	addUidWidget->setWindowTitle(i18n("Add New User Id"));
 	addUidWidget->setButtons(  KDialog::Ok | KDialog::Cancel );
 	addUidWidget->setDefaultButton(  KDialog::Ok );
 	addUidWidget->setModal( true );
@@ -1760,7 +1760,7 @@ void KeysManager::editGroup()
 		return;
 	KGpgGroupNode *gnd = nd->toGroupNode();
 	QPointer<KDialog> dialogGroupEdit = new KDialog(this );
-	dialogGroupEdit->setCaption( i18n("Group Properties") );
+	dialogGroupEdit->setWindowTitle(i18n("Group Properties"));
 	dialogGroupEdit->setButtons( KDialog::Ok | KDialog::Cancel );
 	dialogGroupEdit->setDefaultButton(  KDialog::Ok );
 	dialogGroupEdit->setModal( true );
@@ -2522,7 +2522,7 @@ void KeysManager::slotDelKeyDone(int res)
 void KeysManager::slotPreImportKey()
 {
 	QPointer<KDialog> dial = new KDialog(this);
-	dial->setCaption(i18n("Key Import"));
+	dial->setWindowTitle(i18n("Key Import"));
 	dial->setButtons(KDialog::Ok | KDialog::Cancel);
 	dial->setDefaultButton(KDialog::Ok);
 	dial->setModal(true);

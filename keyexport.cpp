@@ -22,7 +22,7 @@ KeyExport::KeyExport(QWidget *parent, const QStringList &keyservers)
 {
 	setupUi(this);
 	setMainWidget(widget);
-	setCaption(i18n("Public Key Export"));
+	setWindowTitle(i18n("Public Key Export"));
 	setButtons(KDialog::Ok | KDialog::Cancel);
 	setDefaultButton(KDialog::Ok);
 	newFilename->setWindowTitle(i18n("Save File"));

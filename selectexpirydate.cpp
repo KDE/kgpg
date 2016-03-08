@@ -24,7 +24,7 @@
 SelectExpiryDate::SelectExpiryDate(QWidget* parent, QDateTime date)
 	: KDialog(parent)
 {
-	setCaption(i18n("Choose New Expiration"));
+	setWindowTitle(i18n("Choose New Expiration"));
 	setButtons(Ok | Cancel);
 	setDefaultButton(Ok);
 	setModal(true);

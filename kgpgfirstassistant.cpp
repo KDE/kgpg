@@ -42,7 +42,7 @@ using namespace KgpgCore;
 KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 		: KAssistantDialog(parent)
 {
-	setCaption(i18n("KGpg Assistant"));
+	setWindowTitle(i18n("KGpg Assistant"));
 
 	QWidget *page = new QWidget(this);
 	QGridLayout *gridLayout = new QGridLayout(page);
