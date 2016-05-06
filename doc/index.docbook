@@ -329,6 +329,11 @@ Most options are available with a <mousebutton>right</mousebutton> click on a ke
 To import/export public keys, you can use drag
 and drop or the Copy/Paste keyboard shortcuts.</para>
 
+<para>You can export a public key via email, to the clipboard, to a keyserver or to a local file.
+Use the options in the export dialog to export everything, export without attributes (photo ids)
+or export a clean key &ie; the key itself including its subkeys, but excluding all signatures.
+</para>
+
 <sect2 id="keymanager">
 <title>Key Manager</title>
 
