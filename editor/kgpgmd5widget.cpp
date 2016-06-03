@@ -9,13 +9,13 @@
 
 #include "kgpgmd5widget.h"
 
-#include <QHBoxLayout>
-#include <QClipboard>
-#include <QLabel>
+#include <QCryptographicHash>
 #include <QFile>
+#include <QClipboard>
+#include <QHBoxLayout>
+#include <QLabel>
 
 #include <KApplication>
-#include <kmd5.h>
 #include <KMessageBox>
 #include <KLineEdit>
 #include <KLocale>
@@ -32,14 +32,14 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     setButtonText(Apply, i18n("Compare MD5 with Clipboard"));
 
     QFile f(url.path());
-    KMD5 checkfile;
+    QCryptographicHash checkfile(QCryptographicHash::Md5);
 
     if (f.open(QIODevice::ReadOnly)) {
-	checkfile.update(f);
+	checkfile.addData(&f);
 	f.close();
     }
 
-    m_md5sum = QLatin1String( checkfile.hexDigest().constData() );
+    m_md5sum = QLatin1String( checkfile.result() );
 
     QWidget *page = new QWidget(this);
 
