@@ -40,7 +40,7 @@ find_package(KF5 REQUIRED
 find_package(Gpgme REQUIRED)
 
 add_subdirectory( icons )
-# add_subdirectory( doc )
+add_subdirectory( doc )
 include_directories(  ${KDEPIMLIBS_INCLUDE_DIR} ${GPGME_INCLUDES} )
 
 option(KGPG_DEBUG_TRANSACTIONS "show commands and results of gpg calls in debug log" Off)
