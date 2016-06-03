@@ -24,7 +24,7 @@
 #include <kgpgcompiler.h>
 
 class KToggleAction;
-class KAction;
+class QAction;
 class KFind;
 
 class KgpgTextEdit;
@@ -118,10 +118,10 @@ private:
     QString m_textencoding;
 
     KToggleAction *m_encodingaction;
-    KAction *m_editundo;
-    KAction *m_editredo;
-    KAction *m_editcopy;
-    KAction *m_editcut;
+    QAction *m_editundo;
+    QAction *m_editredo;
+    QAction *m_editcopy;
+    QAction *m_editcut;
     KFind *m_find;
     KUrl m_docname;
 

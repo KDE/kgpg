@@ -21,7 +21,7 @@
 #include "model/kgpgitemmodel.h"
 #include "model/selectkeyproxymodel.h"
 
-#include <KAction>
+#include <QAction>
 #include <KActionCollection>
 #include <KHBox>
 #include <KLineEdit>
@@ -133,9 +133,9 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     }
 
     KActionCollection *actcol = new KActionCollection(this);
-    KAction *action = actcol->addAction(QLatin1String( "go_default_key" ));
+    QAction *action = actcol->addAction(QLatin1String( "go_default_key" ));
     action->setText(i18n("&Go to Default Key"));
-    action->setShortcut(goDefaultKey);
+//     action->setShortcut(goDefaultKey); FIXME: KF5
 
     connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
     connect(m_cbsymmetric, SIGNAL(toggled(bool)), this, SLOT(slotSymmetric(bool)));

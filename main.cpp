@@ -15,7 +15,7 @@
 
 #include "kgpg.h"
 
-#include <KAboutData>
+#include <K4AboutData>
 #include <KCmdLineArgs>
 #include <KLocale>
 #include <KUniqueApplication>
@@ -27,7 +27,7 @@ static const char version[] = "2.17.40";
 
 int main(int argc, char *argv[])
 {
-    KAboutData about("kgpg", 0, ki18n("KGpg"), version, ki18n(description), KAboutData::License_GPL, ki18n("(C) 2003 Jean-Baptiste Mardelle"), KLocalizedString(), "http://utils.kde.org/projects/kgpg");
+    K4AboutData about("kgpg", 0, ki18n("KGpg"), version, ki18n(description), K4AboutData::License_GPL, ki18n("(C) 2003 Jean-Baptiste Mardelle"), KLocalizedString(), "http://utils.kde.org/projects/kgpg");
     about.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("Author and former maintainer"), "bj@altern.org");
     about.addAuthor(ki18n("Jimmy Gilles"), KLocalizedString(), "jimmygilles@gmail.com");
     about.addAuthor(ki18n("Rolf Eike Beer"), ki18n("Maintainer"), "kde@opensource.sf-tec.de");

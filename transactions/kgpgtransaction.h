@@ -17,7 +17,8 @@
 #include <QObject>
 #include <QString>
 
-#include <kgpgcompiler.h>
+#include "kgpgcompiler.h"
+#include "kgpgtransactionprivate.h"
 
 class GPGProc;
 class KGpgSignTransactionHelper;

@@ -36,7 +36,7 @@
 #include <KActionCollection>
 #include <KMessageBox>
 #include <KTemporaryFile>
-#include <KToolInvocation>
+#include <KHelpClient>
 #include <QFont>
 #include <QProcess>
 #include <QStringListModel>
@@ -197,12 +197,12 @@ void KGpgExternalActions::startFolderEncode()
 	if (dialog->getUntrusted())
 		encOptions |= KGpgEncrypt::AllowUntrustedEncryption;
 
-	KUrl encryptedFile(KUrl::fromPath(urls.first().path(KUrl::RemoveTrailingSlash) + extension));
+	QUrl encryptedFile(KUrl::fromPath(urls.first().path(KUrl::RemoveTrailingSlash) + extension));
 	QFile encryptedFolder(encryptedFile.path());
 	dialog->hide();
 	if (encryptedFolder.exists()) {
 		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager, i18n("File Already Exists"),
-				KUrl(), encryptedFile, KIO::M_OVERWRITE);
+				QUrl(), encryptedFile, KIO::RenameDialog_Overwrite);
 		if (over->exec() == QDialog::Rejected) {
 			dialog = Q_NULLPTR;
 			delete over;
@@ -360,11 +360,11 @@ void KGpgExternalActions::decryptFile(KUrl::List urls)
 	else
 		oldname.append(QLatin1String( ".clear" ));
 
-	KUrl swapname(first.directory(KUrl::AppendTrailingSlash) + oldname);
+	QUrl swapname(first.directory(KUrl::AppendTrailingSlash) + oldname);
 	QFile fgpg(swapname.path());
 	if (fgpg.exists()) {
 		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager,
-				i18n("File Already Exists"), KUrl(), swapname, KIO::M_OVERWRITE);
+				i18n("File Already Exists"), QUrl(), swapname, KIO::RenameDialog_Overwrite);
 		if (over->exec() != QDialog::Accepted) {
 			delete over;
 			urls.pop_front();
@@ -482,10 +482,10 @@ void KGpgExternalActions::slotSaveOptionsPath()
 
 void KGpgExternalActions::help()
 {
-	KToolInvocation::invokeHelp(QString(), QLatin1String( "kgpg" ));
+	KHelpClient::invokeHelp(QString(), QLatin1String( "kgpg" ));
 }
 
 KShortcut KGpgExternalActions::goDefaultKey() const
 {
-	return qobject_cast<KAction *>(m_keysmanager->actionCollection()->action(QLatin1String( "go_default_key" )))->shortcut();
+	return KShortcut(qobject_cast<QAction *>(m_keysmanager->actionCollection()->action(QLatin1String( "go_default_key" )))->shortcut());
 }

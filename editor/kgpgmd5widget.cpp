@@ -15,6 +15,7 @@
 #include <QFile>
 
 #include <KApplication>
+#include <kmd5.h>
 #include <KMessageBox>
 #include <KLineEdit>
 #include <KLocale>

@@ -31,6 +31,6 @@ KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, con
 	setButtons(Details | Ok);
 	setDefaultButton(Ok);
 	setModal(true);
-	KMessageBox::createKMessageBox(this, QMessageBox::Information, // krazy:exclude=qtclasses
-				   boxLabel, keysList, QString(), Q_NULLPTR, 0, errormessage);
+// 	KMessageBox::createKMessageBox(this, QMessageBox::Information, // krazy:exclude=qtclasses
+// 				   boxLabel, keysList, QString(), Q_NULLPTR, 0, errormessage); FIXME:KF5
 }

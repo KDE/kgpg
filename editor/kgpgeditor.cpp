@@ -29,7 +29,7 @@
 #include "transactions/kgpgverify.h"
 #include <kgpgexternalactions.h>
 
-#include <KAction>
+#include <QAction>
 #include <KActionCollection>
 #include <KEncodingFileDialog>
 #include <KFind>
@@ -181,7 +181,7 @@ void KgpgEditor::initActions()
     m_recentfiles->loadEntries( KConfigGroup(KGlobal::config(), "Recent Files" ) );
     m_recentfiles->setMaxItems(KGpgSettings::recentFiles());
 
-    KAction *action = actionCollection()->addAction(QLatin1String("file_encrypt"), this, SLOT(slotFilePreEnc()));
+    QAction *action = actionCollection()->addAction(QLatin1String("file_encrypt"), this, SLOT(slotFilePreEnc()));
     action->setIcon(KIcon( QLatin1String( "document-encrypt" )));
     action->setText(i18n("&Encrypt File..."));
 
@@ -519,7 +519,7 @@ void KgpgEditor::slotFilePreDec()
     {
         QFile fgpg(newname);
         if (fgpg.exists()) {
-		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(this, i18n("File Already Exists"), KUrl(), KUrl::fromPath(newname), KIO::M_OVERWRITE);
+		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(this, i18n("File Already Exists"), QUrl(), QUrl::fromLocalFile(newname), KIO::RenameDialog_Overwrite);
 
 		if (over->exec() != QDialog::Accepted) {
 			delete over;

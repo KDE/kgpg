@@ -16,7 +16,7 @@
 #include "gpgproc.h"
 
 #include <KLocale>
-#include <kpimutils/email.h>
+#include <KEmailAddress>
 #include <QApplication>
 
 KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
@@ -51,7 +51,7 @@ KGpgGenerateKey::~KGpgGenerateKey()
 bool
 KGpgGenerateKey::preStart()
 {
-	if (!m_email.isEmpty() && !KPIMUtils::isValidSimpleAddress(m_email)) {
+	if (!m_email.isEmpty() && !KEmailAddress::isValidSimpleAddress(m_email)) {
 		setSuccess(TS_INVALID_EMAIL);
 		return false;
 	}

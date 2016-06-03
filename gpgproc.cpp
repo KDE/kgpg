@@ -18,8 +18,10 @@
 #include <KDebug>
 #include <KProcess>
 #include <KStandardDirs>
+
 #include <QDir>
 #include <QFileInfo>
+#include <QGlobalStatic>
 #include <QStringList>
 #include <QTextCodec>
 
@@ -161,7 +163,7 @@ bool GnupgBinary::supportsDebugLevel() const
 	return m_useDebugLevel;
 }
 
-K_GLOBAL_STATIC(GnupgBinary, lastBinary)
+Q_GLOBAL_STATIC(GnupgBinary, lastBinary)
 
 GPGProc::GPGProc(QObject *parent, const QString &binary)
        : KLineBufferedProcess(parent)

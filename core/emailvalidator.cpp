@@ -20,14 +20,14 @@
 
 #include "emailvalidator.h"
 
-#include "kpimutils/email.h"
+#include <KEmailAddress>
 
 namespace KgpgCore
 {
 
 QValidator::State EmailValidator::validate(QString &input, int &) const
 {
-    if (KPIMUtils::isValidSimpleAddress(input))
+    if (KEmailAddress::isValidSimpleAddress(input))
         return QValidator::Acceptable;
     else
         return QValidator::Invalid;

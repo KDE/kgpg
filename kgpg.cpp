@@ -18,12 +18,14 @@
 #include "gpgproc.h"
 #include "kgpgsettings.h"
 #include "keysmanager.h"
-#include "kgpg_interface.h"
+// #include "kgpg_interface.h" FIXME: KF5
 #include "kgpgexternalactions.h"
 #include "kgpginterface.h"
 #include "core/images.h"
 #include "editor/kgpgeditor.h"
 #include "transactions/kgpgimport.h"
+
+#include <QFile>
 
 #include <KCmdLineArgs>
 #include <KMessageBox>

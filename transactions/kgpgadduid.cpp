@@ -13,7 +13,7 @@
 
 #include "kgpgadduid.h"
 
-#include <kpimutils/email.h>
+#include <KEmailAddress>
 
 KGpgAddUid::KGpgAddUid(QObject *parent, const QString &keyid, const QString &name, const QString &email, const QString &comment)
 	: KGpgEditKeyTransaction(parent, keyid, QLatin1String("adduid"), false, true)
@@ -33,7 +33,7 @@ KGpgAddUid::preStart()
 	if (!KGpgEditKeyTransaction::preStart())
 		return false;
 
-	if (!m_email.isEmpty() && !KPIMUtils::isValidSimpleAddress(m_email)) {
+	if (!m_email.isEmpty() && !KEmailAddress::isValidSimpleAddress(m_email)) {
 		setSuccess(TS_INVALID_EMAIL);
 		return false;
 	}

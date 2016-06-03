@@ -30,92 +30,6 @@
 #include <QWeakPointer>
 #include <QWidget>
 
-class KGpgTransactionPrivate {
-public:
-	KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining);
-	~KGpgTransactionPrivate();
-
-	KGpgTransaction *m_parent;
-	GPGProc *m_process;
-	KGpgTransaction *m_inputTransaction;
-	KNewPasswordDialog *m_newPasswordDialog;
-	KPasswordDialog *m_passwordDialog;
-	int m_success;
-	int m_tries;
-	QString m_description;
-	bool m_chainingAllowed;
-
-	QStringList m_idhints;
-
-	KUrl m_overwriteUrl;	///< the file to overwrite or it's new name
-
-	void slotReadReady();
-	void slotProcessExited();
-	void slotProcessStarted();
-	void slotInputTransactionDone(int result);
-	void slotPassphraseEntered(const QString &passphrase);
-	/**
-	 * @brief a slot to handle the case that the passphrase entry was aborted by the user
-	 *
-	 * This will delete the sender as well as do the internal passphrase aborted handling.
-	 */
-	void slotPassphraseAborted();
-	/**
-	 * @brief do the internal passphrase aborted handling
-	 */
-	void handlePassphraseAborted();
-
-	QList<int *> m_argRefs;
-	bool m_inputProcessDone;
-	int m_inputProcessResult;
-	bool m_ownProcessFinished;
-
-	/**
-	 * terminate GnuPG session
-	 */
-	void sendQuit(void);
-
-	void write(const QByteArray &a);
-
-	static const QStringList &hintNames(void);
-
-private:
-	void processDone();
-
-	unsigned int m_quitTries;	///< how many times we tried to quit
-	QStringList m_quitLines;	///< what we received after we tried to quit
-};
-
-KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining)
-	: m_parent(parent),
-	m_process(new GPGProc()),
-	m_inputTransaction(Q_NULLPTR),
-	m_newPasswordDialog(Q_NULLPTR),
-	m_passwordDialog(Q_NULLPTR),
-	m_success(KGpgTransaction::TS_OK),
-	m_tries(3),
-	m_chainingAllowed(allowChaining),
-	m_inputProcessDone(false),
-	m_inputProcessResult(KGpgTransaction::TS_OK),
-	m_ownProcessFinished(false),
-	m_quitTries(0)
-{
-}
-
-KGpgTransactionPrivate::~KGpgTransactionPrivate()
-{
-	if (m_newPasswordDialog) {
-		m_newPasswordDialog->close();
-		m_newPasswordDialog->deleteLater();
-	}
-	if (m_process->state() == QProcess::Running) {
-		m_process->closeWriteChannel();
-		m_process->terminate();
-	}
-	delete m_inputTransaction;
-	delete m_process;
-}
-
 KGpgTransaction::KGpgTransaction(QObject *parent, const bool allowChaining)
 	: QObject(parent),
 	d(new KGpgTransactionPrivate(this, allowChaining))
@@ -187,8 +101,8 @@ KGpgTransactionPrivate::slotReadReady()
 
 				if ((answer == KGpgTransaction::BA_UNKNOWN) && !m_overwriteUrl.isEmpty()) {
 					QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(qobject_cast<QWidget *>(m_parent->parent()),
-							i18n("File Already Exists"), KUrl(),
-							m_overwriteUrl, KIO::M_OVERWRITE);
+							i18n("File Already Exists"), QUrl(),
+							m_overwriteUrl, KIO::RenameDialog_Overwrite);
 
 					m_overwriteUrl.clear();
 
@@ -435,7 +349,7 @@ KGpgTransaction::askNewPassphrase(const QString& text)
 	d->m_newPasswordDialog->setAllowEmptyPasswords(false);
 	connect(d->m_newPasswordDialog, SIGNAL(newPassword(QString)), SLOT(slotPassphraseEntered(QString)));
 	connect(d->m_newPasswordDialog, SIGNAL(rejected()), SLOT(slotPassphraseAborted()));
-	connect(d->m_process, SIGNAL(processExited()), d->m_newPasswordDialog->button(KDialog::Cancel), SLOT(click()));
+// 	connect(d->m_process, SIGNAL(processExited()), d->m_newPasswordDialog->button(KDialog::Cancel), SLOT(click())); FIXME: KF5
 	d->m_newPasswordDialog->show();
 }
 
@@ -645,7 +559,7 @@ KGpgTransaction::askPassphrase(const QString &message)
 
 		connect(d->m_passwordDialog, SIGNAL(gotPassword(QString,bool)), SLOT(slotPassphraseEntered(QString)));
 		connect(d->m_passwordDialog, SIGNAL(rejected()), SLOT(slotPassphraseAborted()));
-		connect(d->m_process, SIGNAL(processExited()), d->m_passwordDialog->button(KDialog::Cancel), SLOT(click()));
+// 		connect(d->m_process, SIGNAL(processExited()), d->m_passwordDialog->button(KDialog::Cancel), SLOT(click())); // FIXME: KF5
 	} else {
 		// we already have a dialog, so this is a "bad passphrase" situation
 		--d->m_tries;

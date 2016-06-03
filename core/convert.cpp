@@ -21,7 +21,7 @@
 
 #include "convert.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <gpgme.h>
 
 #include "kgpgsettings.h"
@@ -189,7 +189,7 @@ KgpgSubKeyType toSubType(const QString& capString, bool upper)
 	KgpgSubKeyType ret;
 
 	foreach (const QChar &ch, capString) {
-		switch (ch.toAscii()) {
+		switch (ch.toLatin1()) {
 		case 's':
 		case 'S':
 			if (upper != ch.isUpper())
@@ -217,9 +217,9 @@ KgpgSubKeyType toSubType(const QString& capString, bool upper)
 		case 'D':	// disabled key
 		case '?':	// unknown to GnuPG
 			continue;
-		default:
-			kDebug(2100) << "unknown capability letter" << ch
-			<< "in cap string" << capString;
+// 		default:
+// 			qDebug(2100) << "unknown capability letter" << ch
+// 			<< "in cap string" << capString; // FIXME: KF5
 		}
 	}
 

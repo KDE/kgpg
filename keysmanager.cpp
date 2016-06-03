@@ -21,7 +21,7 @@
 #include "core/kgpgkey.h"
 #include "detailedconsole.h"
 #include "groupedit.h"
-#include "keyadaptor.h"
+// #include "keyadaptor.h"
 #include "keyexport.h"
 #include "keyinfodialog.h"
 #include "keyservers.h"
@@ -59,12 +59,13 @@
 #include <akonadi/contact/contacteditor.h>
 #include <akonadi/contact/contacteditordialog.h>
 #include <akonadi/contact/contactsearchjob.h>
-#include <KAction>
+#include <QAction>
 #include <KActionCollection>
 #include <KDebug>
 #include <KFileDialog>
 #include <KIcon>
 #include <KInputDialog>
+#include <KGlobal>
 #include <KLineEdit>
 #include <KLocale>
 #include <KMenu>
@@ -98,8 +99,8 @@
 #include <QProcess>
 #include <QWidget>
 #include <QDBusConnection>
-#include <kabc/addresseelist.h>
-// #include <kabc/key.h> TODO
+#include <kcontacts/addresseelist.h>
+// #include <kcontacts/key.h> TODO
 #include <kio/global.h>
 #include <kjobtrackerinterface.h>
 #include <ktip.h>
@@ -116,7 +117,7 @@ KeysManager::KeysManager(QWidget *parent)
 	   terminalkey(Q_NULLPTR),
 	   m_trayicon(Q_NULLPTR)
 {
-	new KeyAdaptor(this);
+// 	new KeyAdaptor(this); FIXME: KF5
 	QDBusConnection::sessionBus().registerObject(QLatin1String( "/KeyInterface" ), this);
 
 	setAttribute(Qt::WA_DeleteOnClose, false);
@@ -148,7 +149,7 @@ KeysManager::KeysManager(QWidget *parent)
 	if (showTipOfDay)
 		installEventFilter(this);
 
-	KAction *action;
+	QAction *action;
 
 	action = actionCollection()->addAction(QLatin1String("help_tipofday"), this, SLOT(slotTip()));
 	action->setIcon( KIcon( QLatin1String( "help-hint" )) );
@@ -180,7 +181,7 @@ KeysManager::KeysManager(QWidget *parent)
 	editKey->setText(i18n("Edit Key in &Terminal"));
 	editKey->setShortcut(QKeySequence(Qt::ALT + Qt::Key_Return));
 
-	KAction *generateKey = actionCollection()->addAction(QLatin1String("key_gener"), this, SLOT(slotGenerateKey()));
+	QAction *generateKey = actionCollection()->addAction(QLatin1String("key_gener"), this, SLOT(slotGenerateKey()));
 	generateKey->setIcon(KIcon( QLatin1String( "key-generate-pair" )));
 	generateKey->setText(i18n("&Generate Key Pair..."));
 	generateKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::New));
@@ -189,7 +190,7 @@ KeysManager::KeysManager(QWidget *parent)
 	exportPublicKey->setIcon(KIcon( QLatin1String( "document-export-key" )));
 	exportPublicKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Copy));
 
-	KAction *importKey = actionCollection()->addAction(QLatin1String("key_import"), this, SLOT(slotPreImportKey()));
+	QAction *importKey = actionCollection()->addAction(QLatin1String("key_import"), this, SLOT(slotPreImportKey()));
 	importKey->setIcon(KIcon( QLatin1String( "document-import-key" )));
 	importKey->setText(i18n("&Import Key..."));
 	importKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Paste));
@@ -430,10 +431,10 @@ KeysManager::KeysManager(QWidget *parent)
 	searchLayout->addWidget(m_listviewsearch);
 	searchLayout->addStretch();
 
-	KAction *searchLineAction = new KAction(i18nc("Name of the action that is a search line, shown for example in the toolbar configuration dialog",
+	QAction *searchLineAction = new QAction(i18nc("Name of the action that is a search line, shown for example in the toolbar configuration dialog",
 			"Search Line"), this);
 	actionCollection()->addAction(QLatin1String( "search_line" ), searchLineAction);
-	searchLineAction->setDefaultWidget(searchWidget);
+// 	searchLineAction->setDefaultWidget(searchWidget); FIXME: KF5
 
 	action = actionCollection()->addAction(QLatin1String("search_focus"), m_listviewsearch, SLOT(setFocus()));
 	action->setText(i18nc("Name of the action that gives the focus to the search line", "Focus Search Line"));
@@ -455,9 +456,9 @@ KeysManager::KeysManager(QWidget *parent)
 	iview->setColumnHidden(5, !KGpgSettings::showExpi());
 	iproxy->setOnlySecret(KGpgSettings::showSecret());
 
-	KStatusBar *statusbar = statusBar();
-	statusbar->insertPermanentFixedItem(KGpgItemModel::statusCountMessageString(9999, 999), 0);
-	statusbar->changeItem(QString(), 0);
+	QStatusBar *statusbar = statusBar();
+// 	statusbar->insertPermanentFixedItem(KGpgItemModel::statusCountMessageString(9999, 999), 0); FIXME: KF5
+// 	statusbar->changeItem(QString(), 0); FIXME: KF5
 
 	cg = KConfigGroup(KGlobal::config().data(), "MainWindow");
 	setAutoSaveSettings(cg, true);
@@ -551,7 +552,7 @@ void KeysManager::changeMessage(const QString &msg, const bool keep)
 
 void KeysManager::updateStatusCounter()
 {
-	statusBar()->changeItem(imodel->statusCountMessage(), 0);
+// 	statusBar()->changeItem(imodel->statusCountMessage(), 0); FIXME: KF5
 }
 
 void KeysManager::slotGenerateKeyDone(KJob *job)
@@ -1014,17 +1015,17 @@ void KeysManager::slotAddressbookSearchResult(KJob *job)
 
 	Akonadi::ContactSearchJob *searchJob = qobject_cast<Akonadi::ContactSearchJob*>(job);
 	Q_ASSERT(searchJob);
-	const KABC::Addressee::List addresseeList = searchJob->contacts();
+	const KContacts::Addressee::List addresseeList = searchJob->contacts();
 
 	m_addIds.take(job);
 
 	Akonadi::ContactEditorDialog *dlg;
-// 	KABC::Key key; TODO
+// 	KContacts::Key key; TODO
 	if (!addresseeList.isEmpty()) {
 		dlg = new Akonadi::ContactEditorDialog(Akonadi::ContactEditorDialog::EditMode, this);
 		dlg->setContact(searchJob->items().at(0));
 	} else {
-		KABC::Addressee addressee;
+		KContacts::Addressee addressee;
 		addressee.setNameFromString(nd->getName());
 		addressee.setEmails(QStringList(nd->getEmail()));
 		dlg = new Akonadi::ContactEditorDialog(Akonadi::ContactEditorDialog::CreateMode, this);
@@ -2674,7 +2675,7 @@ KeysManager::setupTrayIcon()
 	if (!newtray)
 		return;
 
-	KMenu *conf_menu = m_trayicon->contextMenu();
+	QMenu *conf_menu = m_trayicon->contextMenu();
 
 	QAction *KgpgOpenManager = actionCollection()->addAction(QLatin1String("kgpg_manager"), this, SLOT(show()));
 	KgpgOpenManager->setIcon(KIcon( QLatin1String( "kgpg" )));
@@ -2714,7 +2715,7 @@ KeysManager::showTrayMessage(const QString &message)
 KShortcut
 KeysManager::goDefaultShortcut() const
 {
-	return goToDefaultKey->shortcut();
+	return KShortcut(goToDefaultKey->shortcut());
 }
 
 void
@@ -2728,7 +2729,7 @@ KeysManager::clipEncrypt()
 		return;
 	}
 
-	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, imodel, goToDefaultKey->shortcut(), true);
+	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, imodel, KShortcut(goToDefaultKey->shortcut()), true);
 	if (dialog->exec() == KDialog::Accepted) {
 		KGpgEncrypt::EncryptOptions encOptions = KGpgEncrypt::AsciiArmored;
 		QStringList options;

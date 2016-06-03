@@ -16,10 +16,10 @@
 
 #include <KProcess>
 
-#include <kgpgcompiler.h>
+#include "kgpgcompiler.h"
+#include "klinebufferedprocessprivate.h"
 
 class QByteArray;
-class KLineBufferedProcessPrivate;
 
 /**
  * Read output of a process split into lines

@@ -95,7 +95,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	m_mailUats = KGpgSettings::mailUats();
 
 	QVBoxLayout *fontlayout = new QVBoxLayout(m_page3->tabWidget3->widget(1));
-	fontlayout->setSpacing(spacingHint());
+// 	fontlayout->setSpacing(spacingHint()); FIXME: KF5
 
 	m_fontchooser->setObjectName( QLatin1String("kcfg_Font" ));
 	fontlayout->addWidget(m_fontchooser);
@@ -222,13 +222,13 @@ void kgpgOptions::slotAddKeyServer()
 
 	m_serverModel->setStringList(m_serverModel->stringList() << newServer);
 
-	enableButtonApply(true);
+// 	enableButtonApply(true); FIXME: KF5
 }
 
 void kgpgOptions::slotChangeEncryptTo()
 {
 	bool enable = (m_page1->encrypt_to_always->isChecked() != m_encrypttoalways);
-	enableButtonApply(enable);
+// 	enableButtonApply(enable); FIXME: KF5
 }
 
 void kgpgOptions::slotDelKeyServer()
@@ -236,7 +236,7 @@ void kgpgOptions::slotDelKeyServer()
 	QModelIndex cur = m_page6->ServerBox->selectionModel()->currentIndex();
 	m_serverModel->removeRows(cur.row(), 1);
 
-	enableButtonApply(true);
+// 	enableButtonApply(true); FIXME: KF5
 }
 
 void kgpgOptions::slotEditKeyServer()
@@ -251,7 +251,7 @@ void kgpgOptions::slotEditKeyServer(const QModelIndex &index)
 
 	m_page6->ServerBox->edit(index);
 
-	enableButtonApply(true);
+// 	enableButtonApply(true); FIXME: KF5
 }
 
 void kgpgOptions::slotDefaultKeyServer()
@@ -260,7 +260,7 @@ void kgpgOptions::slotDefaultKeyServer()
 
 	m_serverModel->setDefault(cur.row());
 
-	enableButtonApply(true);
+// 	enableButtonApply(true); FIXME: KF5
 }
 
 void kgpgOptions::slotChangeKeyServerButtonEnable()
