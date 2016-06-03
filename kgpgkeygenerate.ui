@@ -37,7 +37,7 @@
      </widget>
     </item>
     <item>
-     <widget class="KLineEdit" name="m_kname">
+     <widget class="QLineEdit" name="m_kname">
       <property name="toolTip">
        <string>The name must have a length of at least 5 characters and must not begin with a digit.</string>
       </property>
@@ -57,7 +57,7 @@
      </widget>
     </item>
     <item>
-     <widget class="KLineEdit" name="m_mail"/>
+     <widget class="QLineEdit" name="m_mail"/>
     </item>
     <item>
      <widget class="QLabel" name="label_2">
@@ -70,7 +70,7 @@
      </widget>
     </item>
     <item>
-     <widget class="KLineEdit" name="m_comment"/>
+     <widget class="QLineEdit" name="m_comment"/>
     </item>
     <item>
      <widget class="QLabel" name="label_3">
@@ -83,7 +83,7 @@
      </widget>
     </item>
     <item>
-     <widget class="KLineEdit" name="m_days">
+     <widget class="QLineEdit" name="m_days">
       <property name="text">
        <string>0</string>
       </property>
@@ -195,7 +195,7 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

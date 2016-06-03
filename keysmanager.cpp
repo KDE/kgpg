@@ -64,7 +64,6 @@
 #include <KFileDialog>
 #include <KInputDialog>
 #include <KGlobal>
-#include <KLineEdit>
 #include <KLocale>
 #include <KMessageBox>
 #include <KMimeTypeTrader>
@@ -90,6 +89,7 @@
 #include <QIcon>
 #include <QKeySequence>
 #include <QLabel>
+#include <QLineEdit>
 #include <QList>
 #include <QMenu>
 #include <QMetaObject>
@@ -421,8 +421,8 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(trustProps, SIGNAL(triggered(int)), this, SLOT(slotSetTrustFilter(int)));
 
 	QLabel *searchLabel = new QLabel(i18n("Search:"), this);
-	m_listviewsearch = new KLineEdit(this);
-	m_listviewsearch->setClearButtonShown(true);
+	m_listviewsearch = new QLineEdit(this);
+	m_listviewsearch->setClearButtonEnabled(true);
 
 	QWidget *searchWidget = new QWidget(this);
 	QHBoxLayout *searchLayout = new QHBoxLayout(searchWidget);

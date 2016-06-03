@@ -14,12 +14,12 @@
 #include <QClipboard>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QLineEdit>
 
 #include <KApplication>
-#include <KMessageBox>
-#include <KLineEdit>
-#include <KLocale>
 #include <KCodecs>
+#include <KMessageBox>
+#include <KLocale>
 #include <KLed>
 
 
@@ -46,7 +46,7 @@ Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
     QLabel *firstlabel = new QLabel(page);
     firstlabel->setText(i18n("MD5 sum for <b>%1</b> is:", url.fileName()));
 
-    KLineEdit *md5lineedit = new KLineEdit(m_md5sum, page);
+    QLineEdit *md5lineedit = new QLineEdit(m_md5sum, page);
     md5lineedit->setReadOnly(true);
 
     m_led = new KLed(QColor(80, 80, 80), KLed::Off, KLed::Sunken, KLed::Circular, page);

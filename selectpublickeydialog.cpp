@@ -22,15 +22,16 @@
 #include "model/selectkeyproxymodel.h"
 
 #include <QAction>
-#include <KActionCollection>
-#include <KHBox>
-#include <KLineEdit>
-#include <KLocale>
-#include <KVBox>
 #include <QCheckBox>
 #include <QLabel>
+#include <QLineEdit>
 #include <QTableView>
 #include <QVBoxLayout>
+
+#include <KActionCollection>
+#include <KHBox>
+#include <KLocale>
+#include <KVBox>
 
 using namespace KgpgCore;
 
@@ -67,8 +68,8 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 
     QLabel *searchlabel = new QLabel(i18n("&Search: "), m_searchbar);
 
-    m_searchlineedit = new KLineEdit(m_searchbar);
-    m_searchlineedit->setClearButtonShown(true);
+    m_searchlineedit = new QLineEdit(m_searchbar);
+    m_searchlineedit->setClearButtonEnabled(true);
     searchlabel->setBuddy(m_searchlineedit);
 
     iproxy = new SelectKeyProxyModel(this);
@@ -125,7 +126,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
         KHBox *expertbox = new KHBox(page);
         (void) new QLabel(i18n("Custom option:"), expertbox);
 
-        m_customoptions = new KLineEdit(expertbox);
+        m_customoptions = new QLineEdit(expertbox);
         m_customoptions->setText(KGpgSettings::customEncryptionOptions());
         m_customoptions->setWhatsThis(i18n("<b>Custom option</b>: for experienced users only, allows you to enter a gpg command line option, like: '--armor'"));
 

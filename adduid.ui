@@ -21,7 +21,7 @@
     </widget>
    </item>
    <item>
-    <widget class="KLineEdit" name="kLineEdit1" />
+    <widget class="QLineEdit" name="kLineEdit1" />
    </item>
    <item>
     <widget class="QLabel" name="textLabel2" >
@@ -34,7 +34,7 @@
     </widget>
    </item>
    <item>
-    <widget class="KLineEdit" name="kLineEdit2" />
+    <widget class="QLineEdit" name="kLineEdit2" />
    </item>
    <item>
     <widget class="QLabel" name="textLabel3" >
@@ -47,7 +47,7 @@
     </widget>
    </item>
    <item>
-    <widget class="KLineEdit" name="kLineEdit3" />
+    <widget class="QLineEdit" name="kLineEdit3" />
    </item>
    <item>
     <spacer>
@@ -66,7 +66,7 @@
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

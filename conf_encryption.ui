@@ -74,7 +74,7 @@
     </widget>
    </item>
    <item row="10" column="2">
-    <widget class="KLineEdit" name="kcfg_CustomEncryptionOptions">
+    <widget class="QLineEdit" name="kcfg_CustomEncryptionOptions">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -175,7 +175,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

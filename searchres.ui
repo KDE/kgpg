@@ -33,8 +33,8 @@
        </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="filterEdit">
-       <property name="clearButtonShown" >
+      <widget class="QLineEdit" name="filterEdit">
+       <property name="clearButtonEnabled" >
         <bool>true</bool>
        </property>
       </widget>
@@ -72,8 +72,8 @@
       </widget>
      </item>
      <item>
-      <widget class="KLineEdit" name="kLEID" >
-       <property name="clearButtonShown" >
+      <widget class="QLineEdit" name="kLEID" >
+       <property name="clearButtonEnabled" >
         <bool>true</bool>
        </property>
       </widget>
@@ -84,7 +84,7 @@
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

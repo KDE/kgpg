@@ -27,7 +27,7 @@
 class QCheckBox;
 class QTableView;
 
-class KLineEdit;
+class QLineEdit;
 class KHBox;
 
 class SelectKeyProxyModel;
@@ -73,9 +73,9 @@ private:
     QCheckBox *m_cbsymmetric;
 
     KHBox *m_searchbar;
-    KLineEdit *m_customoptions;
+    QLineEdit *m_customoptions;
     QTableView *m_keyslist;
-    KLineEdit *m_searchlineedit;
+    QLineEdit *m_searchlineedit;
     SelectKeyProxyModel *iproxy;
     KGpgItemModel *imodel;
     const KUrl::List m_files;

@@ -34,7 +34,7 @@ class QEvent;
 
 class KSelectAction;
 class QMenu;
-class KLineEdit;
+class QLineEdit;
 class QAction;
 class KJob;
 class QKeySequence;
@@ -254,7 +254,7 @@ private:
     QMenu *m_popupuid;          // popup on an user id
     QMenu *m_popuporphan;       // popup on an orphan key
 
-    KLineEdit *m_listviewsearch;
+    QLineEdit *m_listviewsearch;
     KDialog *addUidWidget;
 
     QAction *importSignatureKey;

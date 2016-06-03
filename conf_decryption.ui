@@ -23,7 +23,7 @@
     <number>0</number>
    </property>
    <item row="1" column="0" >
-    <widget class="KLineEdit" name="kcfg_CustomDecrypt" >
+    <widget class="QLineEdit" name="kcfg_CustomDecrypt" >
      <property name="enabled" >
       <bool>true</bool>
      </property>
@@ -63,7 +63,7 @@
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

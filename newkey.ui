@@ -120,7 +120,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KLineEdit" name="LEfinger" >
+         <widget class="QLineEdit" name="LEfinger" >
           <property name="frame" >
            <bool>true</bool>
           </property>
@@ -206,7 +206,7 @@
  </widget>
   <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>

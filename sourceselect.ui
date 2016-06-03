@@ -72,7 +72,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KLineEdit" name="keyIds" >
+         <widget class="QLineEdit" name="keyIds" >
           <property name="enabled">
            <bool>false</bool>
           </property>

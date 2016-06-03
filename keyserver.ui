@@ -74,8 +74,8 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
         </widget>
        </item>
        <item>
-        <widget class="KLineEdit" name="kLEimportid">
-         <property name="clearButtonShown" >
+        <widget class="QLineEdit" name="kLEimportid">
+         <property name="clearButtonEnabled" >
           <bool>true</bool>
          </property>
         </widget>
@@ -93,7 +93,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
           </widget>
          </item>
          <item>
-          <widget class="KLineEdit" name="kLEproxyI" >
+          <widget class="QLineEdit" name="kLEproxyI" >
            <property name="enabled" >
             <bool>false</bool>
            </property>
@@ -223,7 +223,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
           </widget>
          </item>
          <item>
-          <widget class="KLineEdit" name="kLEproxyE" >
+          <widget class="QLineEdit" name="kLEproxyE" >
            <property name="enabled" >
             <bool>false</bool>
            </property>
@@ -300,7 +300,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
+   <class>QLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
