@@ -21,7 +21,7 @@
 #include "core/kgpgkey.h"
 #include "detailedconsole.h"
 #include "groupedit.h"
-// #include "keyadaptor.h"
+#include "keyadaptor.h"
 #include "keyexport.h"
 #include "keyinfodialog.h"
 #include "keyservers.h"
@@ -117,7 +117,7 @@ KeysManager::KeysManager(QWidget *parent)
 	   terminalkey(Q_NULLPTR),
 	   m_trayicon(Q_NULLPTR)
 {
-// 	new KeyAdaptor(this); FIXME: KF5
+	new KeyAdaptor(this);
 	QDBusConnection::sessionBus().registerObject(QLatin1String( "/KeyInterface" ), this);
 
 	setAttribute(Qt::WA_DeleteOnClose, false);

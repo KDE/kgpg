@@ -31,7 +31,6 @@ find_package(KF5 REQUIRED
   Codecs
   KIO
   KDELibs4Support
-#   KIOCore
   Service
   WidgetsAddons
 )
@@ -176,9 +175,9 @@ set(kgpg_HDRS
    sourceselect.h
 )
 
-# qt5_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)
+qt5_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)
 
-# qt5_add_dbus_interface(kgpg_SRCS org.kde.kgpg.Key.xml kgpg_interface )
+qt5_add_dbus_interface(kgpg_SRCS org.kde.kgpg.Key.xml kgpg_interface )
 
 ki18n_wrap_ui(kgpg_SRCS
     adduid.ui
@@ -206,15 +205,15 @@ kconfig_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
 add_executable(kgpg ${kgpg_SRCS} ${kgpg_HDRS})
 
-# if (KGPG_DEBUG_TRANSACTIONS)
-# 	get_target_property(KGPG_FLAGS kgpg COMPILE_DEFINITIONS)
-# 	if (NOT KGPG_FLAGS)
-# 		# get rid of the NOTFOUND
-# 		set(KGPG_FLAGS)
-# 	endif (NOT KGPG_FLAGS)
-# 	list(APPEND KGPG_FLAGS KGPG_DEBUG_TRANSACTIONS)
-# 	set_target_properties(kgpg PROPERTIES COMPILE_DEFINITIONS "${KGPG_FLAGS}")
-# endif (KGPG_DEBUG_TRANSACTIONS)
+if (KGPG_DEBUG_TRANSACTIONS)
+	get_target_property(KGPG_FLAGS kgpg COMPILE_DEFINITIONS)
+	if (NOT KGPG_FLAGS)
+		# get rid of the NOTFOUND
+		set(KGPG_FLAGS)
+	endif (NOT KGPG_FLAGS)
+	list(APPEND KGPG_FLAGS KGPG_DEBUG_TRANSACTIONS)
+	set_target_properties(kgpg PROPERTIES COMPILE_DEFINITIONS "${KGPG_FLAGS}")
+endif (KGPG_DEBUG_TRANSACTIONS)
 
 target_link_libraries(kgpg
     KF5::Archive
