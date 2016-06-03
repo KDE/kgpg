@@ -26,12 +26,13 @@
 #include "transactions/kgpgimport.h"
 
 #include <QFile>
+#include <QMimeDatabase>
+#include <QMimeType>
 #include <QTextStream>
 
 #include <KCmdLineArgs>
 #include <KMessageBox>
 #include <KWindowSystem>
-#include <KMimeType>
 
 using namespace KgpgCore;
 
@@ -117,11 +118,13 @@ int KGpgApp::newInstance()
 			urlList.append(args->url(ct));
 
 		bool directoryInside = false;
-		foreach (const KUrl &url, urlList)
-			if (KMimeType::findByUrl(url)->name() == QLatin1String( "inode/directory" )) {
+		foreach (const KUrl &url, urlList) {
+			QMimeDatabase db;
+			if (db.mimeTypeForUrl(url).name() == QLatin1String( "inode/directory" )) {
 				directoryInside = true;
 				break;
 			}
+		}
 
 		if (args->isSet("e")) {
 			if (urlList.isEmpty())
