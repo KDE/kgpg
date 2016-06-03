@@ -19,7 +19,7 @@
 #include "model/groupeditproxymodel.h"
 #include "model/kgpgitemmodel.h"
 
-#include <KIcon>
+#include <QIcon>
 #include <QHeaderView>
 #include <QSortFilterProxyModel>
 
@@ -54,8 +54,8 @@ groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids, KGpgItemModel *md)
 
 	availableKeys->setModel(m_outFilter);
 	groupKeys->setModel(m_in);
-	buttonAdd->setIcon(KIcon( QLatin1String( "go-down" )));
-	buttonRemove->setIcon(KIcon( QLatin1String( "go-up" )));
+	buttonAdd->setIcon(QIcon::fromTheme( QLatin1String( "go-down" )));
+	buttonRemove->setIcon(QIcon::fromTheme( QLatin1String( "go-up" )));
 
 	availableKeys->setColumnWidth(0, 200);
 	availableKeys->setColumnWidth(1, 200);

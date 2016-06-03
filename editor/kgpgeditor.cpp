@@ -34,7 +34,6 @@
 #include <KFind>
 #include <KFileDialog>
 #include <KFindDialog>
-#include <KIcon>
 #include <KLocale>
 #include <KMessageBox>
 #include <KRecentFilesAction>
@@ -44,6 +43,7 @@
 #include <KToolBar>
 
 #include <QAction>
+#include <QIcon>
 #include <QMenuBar>
 #include <QKeySequence>
 #include <QPainter>
@@ -183,20 +183,20 @@ void KgpgEditor::initActions()
     m_recentfiles->setMaxItems(KGpgSettings::recentFiles());
 
     QAction *action = actionCollection()->addAction(QLatin1String("file_encrypt"), this, SLOT(slotFilePreEnc()));
-    action->setIcon(KIcon( QLatin1String( "document-encrypt" )));
+    action->setIcon(QIcon::fromTheme( QLatin1String( "document-encrypt" )));
     action->setText(i18n("&Encrypt File..."));
 
     action = actionCollection()->addAction(QLatin1String("file_decrypt"), this, SLOT(slotFilePreDec()));
-    action->setIcon(KIcon( QLatin1String( "document-decrypt" )));
+    action->setIcon(QIcon::fromTheme( QLatin1String( "document-decrypt" )));
     action->setText(i18n("&Decrypt File..."));
 
     action = actionCollection()->addAction(QLatin1String("key_manage"), this, SLOT(slotKeyManager()));
-    action->setIcon(KIcon( QLatin1String( "kgpg" )));
+    action->setIcon(QIcon::fromTheme( QLatin1String( "kgpg" )));
     action->setText(i18n("&Open Key Manager"));
 
     action = actionCollection()->addAction(QLatin1String("sign_generate"), this, SLOT(slotPreSignFile()));
     action->setText(i18n("&Generate Signature..."));
-    action->setIcon(KIcon( QLatin1String( "document-sign-key" )));
+    action->setIcon(QIcon::fromTheme( QLatin1String( "document-sign-key" )));
 
     action = actionCollection()->addAction(QLatin1String("sign_verify"), this, SLOT(slotPreVerifyFile()));
     action->setText(i18n("&Verify Signature..."));
@@ -210,15 +210,15 @@ void KgpgEditor::initActions()
     actionCollection()->addAction(m_recentfiles->objectName(), m_recentfiles);
 
     action = actionCollection()->addAction(QLatin1String("text_encrypt"), m_editor, SLOT(slotEncode()));
-    action->setIcon(KIcon( QLatin1String( "document-encrypt" )));
+    action->setIcon(QIcon::fromTheme( QLatin1String( "document-encrypt" )));
     action->setText(i18n("En&crypt"));
 
     action = actionCollection()->addAction(QLatin1String("text_decrypt"), m_editor, SLOT(slotDecode()));
-    action->setIcon(KIcon( QLatin1String( "document-decrypt" )));
+    action->setIcon(QIcon::fromTheme( QLatin1String( "document-decrypt" )));
     action->setText(i18n("&Decrypt"));
 
     action = actionCollection()->addAction(QLatin1String("text_sign_verify"), m_editor, SLOT(slotSignVerify()));
-    action->setIcon(KIcon( QLatin1String( "document-sign-key" )));
+    action->setIcon(QIcon::fromTheme( QLatin1String( "document-sign-key" )));
     action->setText(i18n("S&ign/Verify"));
 }
 
