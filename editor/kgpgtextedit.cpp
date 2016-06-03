@@ -29,6 +29,7 @@
 
 #include <KLocale>
 #include <KMessageBox>
+
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QFile>

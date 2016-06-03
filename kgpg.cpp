@@ -26,6 +26,7 @@
 #include "transactions/kgpgimport.h"
 
 #include <QFile>
+#include <QTextStream>
 
 #include <KCmdLineArgs>
 #include <KMessageBox>

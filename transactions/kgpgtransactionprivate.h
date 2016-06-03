@@ -17,7 +17,6 @@
 #include "gpgproc.h"
 
 #include <KUrl>
-#include <QProcess>
 
 #include <KPasswordDialog>
 #include <KNewPasswordDialog>

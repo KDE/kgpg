@@ -21,7 +21,6 @@
 
 #include <QDir>
 #include <QFileInfo>
-#include <QGlobalStatic>
 #include <QStringList>
 #include <QTextCodec>
 

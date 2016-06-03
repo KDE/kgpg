@@ -45,7 +45,6 @@
 #include <QAction>
 #include <QIcon>
 #include <QMenuBar>
-#include <QKeySequence>
 #include <QPainter>
 #include <QTextCodec>
 #include <QTextStream>

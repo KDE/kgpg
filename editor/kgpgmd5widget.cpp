@@ -17,7 +17,6 @@
 #include <QLineEdit>
 
 #include <KApplication>
-#include <KCodecs>
 #include <KMessageBox>
 #include <KLocale>
 #include <KLed>
