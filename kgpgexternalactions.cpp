@@ -485,7 +485,7 @@ void KGpgExternalActions::help()
 	KHelpClient::invokeHelp(QString(), QLatin1String( "kgpg" ));
 }
 
-KShortcut KGpgExternalActions::goDefaultKey() const
+QKeySequence KGpgExternalActions::goDefaultKey() const
 {
-	return KShortcut(qobject_cast<QAction *>(m_keysmanager->actionCollection()->action(QLatin1String( "go_default_key" )))->shortcut());
+	return QKeySequence(qobject_cast<QAction *>(m_keysmanager->actionCollection()->action(QLatin1String( "go_default_key" )))->shortcut());
 }

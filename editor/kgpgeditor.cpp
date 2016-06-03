@@ -38,7 +38,6 @@
 #include <KLocale>
 #include <KMessageBox>
 #include <KRecentFilesAction>
-#include <KShortcut>
 #include <KStandardAction>
 #include <KTemporaryFile>
 #include <KToggleAction>
@@ -46,6 +45,7 @@
 
 #include <QAction>
 #include <QMenuBar>
+#include <QKeySequence>
 #include <QPainter>
 #include <QTextCodec>
 #include <QTextStream>

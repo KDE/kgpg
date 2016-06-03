@@ -19,7 +19,7 @@
 #define KGPGAPPLET_H
 
 #include <KUniqueApplication>
-#include <KShortcut>
+#include <QKeySequence>
 #include <klocale.h>
 
 class KeysManager;
@@ -47,7 +47,7 @@ public:
 
     int newInstance ();
     bool running;
-    KShortcut goHome;
+    QKeySequence goHome;
 
 private:
     KGpgExternalActions *w;

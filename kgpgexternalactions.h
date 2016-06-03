@@ -26,7 +26,7 @@ class KeysManager;
 class KGpgFirstAssistant;
 class KGpgItemModel;
 class KJob;
-class KShortcut;
+class QKeySequence;
 class KTemporaryFile;
 class QString;
 
@@ -78,7 +78,7 @@ private:
 	KeysManager *m_keysmanager;
 	KUrl::List droppedUrls;
 
-	KShortcut goDefaultKey() const;
+	QKeySequence goDefaultKey() const;
 	void decryptFile(KUrl::List urls);
 
 private slots:

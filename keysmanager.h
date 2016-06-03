@@ -37,7 +37,7 @@ class QMenu;
 class KLineEdit;
 class QAction;
 class KJob;
-class KShortcut;
+class QKeySequence;
 
 class KeyServer;
 class KgpgEditor;
@@ -80,7 +80,7 @@ public:
     /**
      * @brief returns the shortcut to go to the default key in a key selection
      */
-    KShortcut goDefaultShortcut() const;
+    QKeySequence goDefaultShortcut() const;
 
 private:
     KToggleAction *sTrust;

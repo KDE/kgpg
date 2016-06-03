@@ -19,7 +19,7 @@
 #include "core/kgpgkey.h"
 
 #include <KDialog>
-#include <KShortcut>
+#include <QKeySequence>
 #include <KUrl>
 #include <KVBox>
 #include <QKeySequence>
@@ -44,7 +44,7 @@ public:
     /* TODO: the goDefaultKey shortcut should be stored in a way it can be accessed from everywhere. So we don't have to pass it as an argument.
      */
 
-    KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const KShortcut &goDefaultKey, const bool hideasciioption, const KUrl::List &files = KUrl::List());
+    KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const QKeySequence &goDefaultKey, const bool hideasciioption, const KUrl::List &files = KUrl::List());
 
     QStringList selectedKeys() const;
     QString getCustomOptions() const;

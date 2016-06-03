@@ -74,7 +74,6 @@
 #include <KRun>
 #include <KSelectAction>
 #include <KService>
-#include <KShortcut>
 #include <KStandardAction>
 #include <KStandardGuiItem>
 #include <KStandardShortcut>
@@ -86,6 +85,7 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QDBusConnection>
 #include <QDir>
 #include <QEvent>
 #include <QKeySequence>
@@ -99,7 +99,6 @@
 #include <QProcess>
 #include <QWidget>
 #include <QWidgetAction>
-#include <QDBusConnection>
 #include <kcontacts/addresseelist.h>
 // #include <kcontacts/key.h> TODO
 #include <kio/global.h>
@@ -2713,10 +2712,10 @@ KeysManager::showTrayMessage(const QString &message)
 	m_trayicon->showMessage(QString(), message, QLatin1String( "kgpg" ));
 }
 
-KShortcut
+QKeySequence
 KeysManager::goDefaultShortcut() const
 {
-	return KShortcut(goToDefaultKey->shortcut());
+	return QKeySequence(goToDefaultKey->shortcut());
 }
 
 void
@@ -2730,7 +2729,7 @@ KeysManager::clipEncrypt()
 		return;
 	}
 
-	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, imodel, KShortcut(goToDefaultKey->shortcut()), true);
+	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, imodel, QKeySequence(goToDefaultKey->shortcut()), true);
 	if (dialog->exec() == KDialog::Accepted) {
 		KGpgEncrypt::EncryptOptions encOptions = KGpgEncrypt::AsciiArmored;
 		QStringList options;

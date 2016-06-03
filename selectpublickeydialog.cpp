@@ -34,7 +34,7 @@
 
 using namespace KgpgCore;
 
-KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const KShortcut &goDefaultKey, const bool hideasciioption, const KUrl::List &files)
+KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const QKeySequence &goDefaultKey, const bool hideasciioption, const KUrl::List &files)
 	: KDialog(parent),
 	m_customoptions(Q_NULLPTR),
 	imodel(model),
