@@ -37,7 +37,6 @@
 #include <KFindDialog>
 #include <KIcon>
 #include <KLocale>
-#include <KMenuBar>
 #include <KMessageBox>
 #include <KRecentFilesAction>
 #include <KShortcut>

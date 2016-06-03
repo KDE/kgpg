@@ -33,7 +33,7 @@ class KJob;
 class QEvent;
 
 class KSelectAction;
-class KMenu;
+class QMenu;
 class KLineEdit;
 class QAction;
 class KJob;
@@ -245,14 +245,14 @@ private:
 
     QClipboard::Mode m_clipboardmode;
 
-    KMenu *m_popuppub;          // popup on a public key
-    KMenu *m_popupsec;          // popup on a secret key
-    KMenu *m_popupgroup;        // popup on a group
-    KMenu *m_popupout;          // popup there is no key or when the user don't right-click on a key
-    KMenu *m_popupsig;          // popup on a signature
-    KMenu *m_popupphoto;        // popup on a photo
-    KMenu *m_popupuid;          // popup on an user id
-    KMenu *m_popuporphan;       // popup on an orphan key
+    QMenu *m_popuppub;          // popup on a public key
+    QMenu *m_popupsec;          // popup on a secret key
+    QMenu *m_popupgroup;        // popup on a group
+    QMenu *m_popupout;          // popup there is no key or when the user don't right-click on a key
+    QMenu *m_popupsig;          // popup on a signature
+    QMenu *m_popupphoto;        // popup on a photo
+    QMenu *m_popupuid;          // popup on an user id
+    QMenu *m_popuporphan;       // popup on an orphan key
 
     KLineEdit *m_listviewsearch;
     KDialog *addUidWidget;

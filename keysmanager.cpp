@@ -67,7 +67,6 @@
 #include <KGlobal>
 #include <KLineEdit>
 #include <KLocale>
-#include <KMenu>
 #include <KMessageBox>
 #include <KMimeTypeTrader>
 #include <KProcess>
@@ -92,6 +91,7 @@
 #include <QKeySequence>
 #include <QLabel>
 #include <QList>
+#include <QMenu>
 #include <QMetaObject>
 #include <QPainter>
 #include <QPrintDialog>
@@ -349,7 +349,7 @@ KeysManager::KeysManager(QWidget *parent)
 	slotSetTrustFilter(psize);
 	slotShowLongId(KGpgSettings::showLongKeyId());
 
-	m_popuppub = new KMenu(this);
+	m_popuppub = new QMenu(this);
 	m_popuppub->addAction(exportPublicKey);
 	m_popuppub->addAction(m_sendEmail);
 	m_popuppub->addAction(signMailUid);
@@ -364,7 +364,7 @@ KeysManager::KeysManager(QWidget *parent)
 	m_popuppub->addSeparator();
 	m_popuppub->addAction(importAllSignKeys);
 
-	m_popupsec = new KMenu(this);
+	m_popupsec = new QMenu(this);
 	m_popupsec->addAction(exportPublicKey);
 	m_popupsec->addAction(m_sendEmail);
 	m_popupsec->addAction(signKey);
@@ -383,33 +383,33 @@ KeysManager::KeysManager(QWidget *parent)
 	m_popupsec->addAction(exportSecretKey);
 	m_popupsec->addAction(deleteKeyPair);
 
-	m_popupgroup = new KMenu(this);
+	m_popupgroup = new QMenu(this);
 	m_popupgroup->addAction(editCurrentGroup);
 	m_popupgroup->addAction(m_groupRename);
 	m_popupgroup->addAction(delGroup);
 	m_popupgroup->addAction(refreshKey);
 
-	m_popupout = new KMenu(this);
+	m_popupout = new QMenu(this);
 	m_popupout->addAction(importKey);
 
-	m_popupsig = new KMenu();
+	m_popupsig = new QMenu();
 	m_popupsig->addAction(importSignatureKey);
 	m_popupsig->addAction(delSignKey);
 
-	m_popupphoto = new KMenu(this);
+	m_popupphoto = new QMenu(this);
 	m_popupphoto->addAction(openPhoto);
 	m_popupphoto->addAction(signUid);
 	m_popupphoto->addAction(signMailUid);
 	m_popupphoto->addAction(deletePhoto);
 
-	m_popupuid = new KMenu(this);
+	m_popupuid = new QMenu(this);
 	m_popupuid->addAction(m_sendEmail);
 	m_popupuid->addAction(signMailUid);
 	m_popupuid->addAction(signUid);
 	m_popupuid->addAction(delUid);
 	m_popupuid->addAction(setPrimUid);
 
-	m_popuporphan = new KMenu(this);
+	m_popuporphan = new QMenu(this);
 	m_popuporphan->addAction(regeneratePublic);
 	m_popuporphan->addAction(deleteKeyPair);
 
