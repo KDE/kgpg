@@ -27,10 +27,6 @@
 # Any changes here likely apply there, too.
 #
 
-# do away with crappy condition repetition on else/endfoo
-set( CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS_gpgme_saved ${CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS} )
-set( CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true )
-
 #if this is built-in, please replace, if it isn't, export into a MacroToBool.cmake of it's own
 macro( macro_bool_to_bool FOUND_VAR )
   foreach( _current_VAR ${ARGN} )
@@ -381,5 +377,3 @@ endif()
 set_package_properties(Gpgme PROPERTIES
   DESCRIPTION "The GnuPG Made Easy (GPGME) library)"
   URL ${_gpgme_homepage})
-
-set( CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS_gpgme_saved )
