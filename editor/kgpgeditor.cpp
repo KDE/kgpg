@@ -29,7 +29,6 @@
 #include "transactions/kgpgverify.h"
 #include <kgpgexternalactions.h>
 
-#include <QAction>
 #include <KActionCollection>
 #include <KEncodingFileDialog>
 #include <KFind>
@@ -44,13 +43,16 @@
 #include <KTemporaryFile>
 #include <KToggleAction>
 #include <KToolBar>
+
+#include <QAction>
+#include <QMenuBar>
 #include <QPainter>
 #include <QTextCodec>
 #include <QTextStream>
-#include <QVBoxLayout>
-#include <QWidget>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QVBoxLayout>
+#include <QWidget>
 #include <kio/netaccess.h>
 #include <kio/renamedialog.h>
 
