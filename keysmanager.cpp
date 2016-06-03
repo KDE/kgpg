@@ -59,7 +59,6 @@
 #include <akonadi/contact/contacteditor.h>
 #include <akonadi/contact/contacteditordialog.h>
 #include <akonadi/contact/contactsearchjob.h>
-#include <QAction>
 #include <KActionCollection>
 #include <KDebug>
 #include <KFileDialog>
@@ -85,6 +84,7 @@
 #include <KToggleAction>
 #include <KToolInvocation>
 #include <KUrl>
+
 #include <QApplication>
 #include <QClipboard>
 #include <QDir>
@@ -98,6 +98,7 @@
 #include <QPrinter>
 #include <QProcess>
 #include <QWidget>
+#include <QWidgetAction>
 #include <QDBusConnection>
 #include <kcontacts/addresseelist.h>
 // #include <kcontacts/key.h> TODO
@@ -431,10 +432,10 @@ KeysManager::KeysManager(QWidget *parent)
 	searchLayout->addWidget(m_listviewsearch);
 	searchLayout->addStretch();
 
-	QAction *searchLineAction = new QAction(i18nc("Name of the action that is a search line, shown for example in the toolbar configuration dialog",
-			"Search Line"), this);
+	QWidgetAction *searchLineAction = new QWidgetAction(/*i18nc("Name of the action that is a search line, shown for example in the toolbar configuration dialog",
+			"Search Line"), */this);
 	actionCollection()->addAction(QLatin1String( "search_line" ), searchLineAction);
-// 	searchLineAction->setDefaultWidget(searchWidget); FIXME: KF5
+	searchLineAction->setDefaultWidget(searchWidget);
 
 	action = actionCollection()->addAction(QLatin1String("search_focus"), m_listviewsearch, SLOT(setFocus()));
 	action->setText(i18nc("Name of the action that gives the focus to the search line", "Focus Search Line"));
