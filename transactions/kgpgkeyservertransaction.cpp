@@ -16,7 +16,9 @@
 #include "gpgproc.h"
 
 #include <KLocale>
-#include <KProgressDialog>
+
+#include <QLabel>
+#include <QProgressDialog>
 
 KGpgKeyserverTransaction::KGpgKeyserverTransaction(QObject *parent, const QString &keyserver, const bool withProgress, const QString &proxy)
 	: KGpgTransaction(parent),
@@ -89,13 +91,15 @@ KGpgKeyserverTransaction::setProgressEnable(const bool b)
 	m_showprogress = b;
 
 	if (b && (m_progress == Q_NULLPTR)) {
-		m_progress = new KProgressDialog(qobject_cast<QWidget *>(parent()),
-				i18n("Keyserver"), i18n("<b>Connecting to the server...</b>"));
+		m_progress = new QProgressDialog(qobject_cast<QWidget *>(parent()));
+		QLabel *label = new QLabel(i18n("<b>Connecting to the server...</b>"));
+		m_progress->setWindowTitle(i18n("Keyserver"));
+		m_progress->setLabel(label);
 
 		m_progress->hide();
 		m_progress->setModal(true);
-		m_progress->progressBar()->setRange(0, 0);
+		m_progress->setRange(0, 0);
 
-		connect(m_progress, SIGNAL(cancelClicked()), SLOT(slotAbort()));
+		connect(m_progress, SIGNAL(canceled()), SLOT(slotAbort()));
 	}
 }
