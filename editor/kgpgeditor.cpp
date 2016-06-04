@@ -34,11 +34,11 @@
 #include <KFind>
 #include <KFileDialog>
 #include <KFindDialog>
+#include <KGlobal>
 #include <KLocale>
 #include <KMessageBox>
 #include <KRecentFilesAction>
 #include <KStandardAction>
-#include <KTemporaryFile>
 #include <KToggleAction>
 #include <KToolBar>
 
@@ -46,10 +46,11 @@
 #include <QIcon>
 #include <QMenuBar>
 #include <QPainter>
-#include <QTextCodec>
-#include <QTextStream>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QTemporaryFile>
+#include <QTextCodec>
+#include <QTextStream>
 #include <QVBoxLayout>
 #include <QWidget>
 #include <kio/netaccess.h>
@@ -314,7 +315,7 @@ bool KgpgEditor::slotFileSave()
     }
     else
     {
-        KTemporaryFile tmpfile;
+        QTemporaryFile tmpfile;
         tmpfile.open();
         QTextStream stream(&tmpfile);
         stream.setCodec(cod);

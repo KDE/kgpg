@@ -34,12 +34,13 @@
 #include "transactions/kgpgverify.h"
 
 #include <KActionCollection>
-#include <KMessageBox>
-#include <KTemporaryFile>
 #include <KHelpClient>
+#include <KMessageBox>
+
 #include <QFont>
 #include <QProcess>
 #include <QStringListModel>
+#include <QTemporaryFile>
 #include <kio/global.h>
 #include <kio/renamedialog.h>
 #include <kjobtrackerinterface.h>
@@ -123,7 +124,7 @@ void KGpgExternalActions::slotEncryptionKeySelected()
 
 void KGpgExternalActions::encryptFolders(KeysManager *parent, const KUrl::List &urls)
 {
-	KTemporaryFile *tmpfolder = new KTemporaryFile();
+	QTemporaryFile *tmpfolder = new QTemporaryFile();
 
 	if (!tmpfolder->open()) {
 		delete tmpfolder;

@@ -27,7 +27,7 @@ class KGpgFirstAssistant;
 class KGpgItemModel;
 class KJob;
 class QKeySequence;
-class KTemporaryFile;
+class QTemporaryFile;
 class QString;
 
 /**
@@ -69,7 +69,7 @@ private:
 	int compressionScheme;
 	QClipboard::Mode clipboardMode;
 	KGpgItemModel *m_model;
-	KTemporaryFile *m_kgpgfoldertmp;
+	QTemporaryFile *m_kgpgfoldertmp;
 
 	void startAssistant();
 	void firstRun();
