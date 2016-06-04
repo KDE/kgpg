@@ -352,7 +352,7 @@ KGpgSearchResultModel::idForIndex(const QModelIndex &index) const
 }
 
 void
-KGpgSearchResultModel::slotAddKey(QStringList lines)
+KGpgSearchResultModel::slotAddKey(const QStringList &lines)
 {
 	Q_ASSERT(!lines.isEmpty());
 	Q_ASSERT(lines.first().startsWith(QLatin1String("pub:")));
@@ -360,13 +360,17 @@ KGpgSearchResultModel::slotAddKey(QStringList lines)
 	if (lines.count() == 1)
 		return;
 
-	SearchResult *nkey = new SearchResult(lines.takeFirst());
+	QStringList::const_iterator it = lines.constBegin();
+
+	SearchResult *nkey = new SearchResult(*it);
 	if (!nkey->m_validPub) {
 		delete nkey;
 		return;
 	}
 
-	foreach (const QString &line, lines) {
+	const QStringList::const_iterator itEnd = lines.constEnd();
+	for (it++; it != itEnd; it++) {
+		const QString &line = *it;
 		if (line.startsWith(QLatin1String("uid:"))) {
 			QString kid = d->urlDecode(line.section(QLatin1Char( ':' ), 1, 1));
 
