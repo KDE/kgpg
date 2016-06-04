@@ -349,7 +349,7 @@ KGpgTransaction::askNewPassphrase(const QString& text)
 	d->m_newPasswordDialog->setAllowEmptyPasswords(false);
 	connect(d->m_newPasswordDialog, SIGNAL(newPassword(QString)), SLOT(slotPassphraseEntered(QString)));
 	connect(d->m_newPasswordDialog, SIGNAL(rejected()), SLOT(slotPassphraseAborted()));
-// 	connect(d->m_process, SIGNAL(processExited()), d->m_newPasswordDialog->button(KDialog::Cancel), SLOT(click())); FIXME: KF5
+	connect(d->m_process, SIGNAL(processExited()), d->m_newPasswordDialog, SLOT(rejected()));
 	d->m_newPasswordDialog->show();
 }
 
@@ -559,7 +559,7 @@ KGpgTransaction::askPassphrase(const QString &message)
 
 		connect(d->m_passwordDialog, SIGNAL(gotPassword(QString,bool)), SLOT(slotPassphraseEntered(QString)));
 		connect(d->m_passwordDialog, SIGNAL(rejected()), SLOT(slotPassphraseAborted()));
-// 		connect(d->m_process, SIGNAL(processExited()), d->m_passwordDialog->button(KDialog::Cancel), SLOT(click())); // FIXME: KF5
+		connect(d->m_process, SIGNAL(processExited()), d->m_passwordDialog, SLOT(rejected()));
 	} else {
 		// we already have a dialog, so this is a "bad passphrase" situation
 		--d->m_tries;

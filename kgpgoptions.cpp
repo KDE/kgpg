@@ -95,7 +95,6 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	m_mailUats = KGpgSettings::mailUats();
 
 	QVBoxLayout *fontlayout = new QVBoxLayout(m_page3->tabWidget3->widget(1));
-// 	fontlayout->setSpacing(spacingHint()); FIXME: KF5
 
 	m_fontchooser->setObjectName( QLatin1String("kcfg_Font" ));
 	fontlayout->addWidget(m_fontchooser);

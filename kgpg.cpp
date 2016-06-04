@@ -18,7 +18,7 @@
 #include "gpgproc.h"
 #include "kgpgsettings.h"
 #include "keysmanager.h"
-// #include "kgpg_interface.h" FIXME: KF5
+#include "kgpg_interface.h"
 #include "kgpgexternalactions.h"
 #include "kgpginterface.h"
 #include "core/images.h"
