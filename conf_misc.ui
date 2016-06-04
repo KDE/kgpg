@@ -15,7 +15,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="KTabWidget" name="miscWidget">
+    <widget class="QTabWidget" name="miscWidget">
      <property name="currentIndex">
       <number>0</number>
      </property>
@@ -370,7 +370,7 @@ The placeholders surrounded by the percent signs (like %KEYID%) will be replaced
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KTabWidget</class>
+   <class>QTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>

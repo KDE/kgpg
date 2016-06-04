@@ -23,7 +23,7 @@
     <number>0</number>
    </property>
    <item row="0" column="0" >
-    <widget class="KTabWidget" name="tabWidget3" >
+    <widget class="QTabWidget" name="tabWidget3" >
      <property name="currentIndex" >
       <number>0</number>
      </property>
@@ -299,7 +299,7 @@
    <header>kcolorbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>KTabWidget</class>
+   <class>QTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
   </customwidget>
