@@ -38,6 +38,7 @@
 #include <KLocale>
 #include <KMessageBox>
 #include <KRecentFilesAction>
+#include <KSharedConfig>
 #include <KStandardAction>
 #include <KToggleAction>
 #include <KToolBar>
@@ -108,7 +109,7 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
 
 KgpgEditor::~KgpgEditor()
 {
-    m_recentfiles->saveEntries( KConfigGroup(KGlobal::config(), "Recent Files" ) );
+    m_recentfiles->saveEntries( KConfigGroup(KSharedConfig::openConfig(), "Recent Files" ) );
 }
 
 void KgpgEditor::openDocumentFile(const KUrl& url, const QString &encoding)
@@ -145,7 +146,7 @@ void KgpgEditor::slotSetFont(QFont myFont)
 
 void KgpgEditor::closeWindow()
 {
-    m_recentfiles->saveEntries( KConfigGroup(KGlobal::config(), "Recent Files" ) );
+    m_recentfiles->saveEntries( KConfigGroup(KSharedConfig::openConfig(), "Recent Files" ) );
     close();
 }
 
@@ -179,7 +180,7 @@ void KgpgEditor::initActions()
     m_recentfiles = KStandardAction::openRecent(this, SLOT(openDocumentFile(KUrl)), this);
     menuBar()->addAction(m_recentfiles);
 
-    m_recentfiles->loadEntries( KConfigGroup(KGlobal::config(), "Recent Files" ) );
+    m_recentfiles->loadEntries( KConfigGroup(KSharedConfig::openConfig(), "Recent Files" ) );
     m_recentfiles->setMaxItems(KGpgSettings::recentFiles());
 
     QAction *action = actionCollection()->addAction(QLatin1String("file_encrypt"), this, SLOT(slotFilePreEnc()));

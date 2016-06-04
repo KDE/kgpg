@@ -26,9 +26,9 @@
 #include <KComboBox>
 #include <KLocale>
 #include <KMessageBox>
-#include <KStandardDirs>
 #include <KUrl>
 #include <KUrlRequester>
+
 #include <QCheckBox>
 #include <QGridLayout>
 #include <QHBoxLayout>
@@ -36,6 +36,7 @@
 #include <QSpacerItem>
 #include <QTextStream>
 #include <QWidget>
+#include <QStandardPaths>
 
 using namespace KgpgCore;
 
@@ -109,9 +110,9 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	binURL = new KUrlRequester(page);
 	binURL->setFilter(i18nc("search filter for gpg binary", "gpg|GnuPG binary\n*|All files"));
-	QString gpgBin = KStandardDirs::findExe(QLatin1String("gpg2"));
+	QString gpgBin = QStandardPaths::findExecutable(QLatin1String("gpg2"));
 	if (gpgBin.isEmpty())
-		gpgBin = KStandardDirs::findExe(QLatin1String("gpg"));
+		gpgBin = QStandardPaths::findExecutable(QLatin1String("gpg"));
 	if (gpgBin.isEmpty())
 		gpgBin = QLatin1String("gpg");
 	binURL->setUrl(KUrl::fromPath(gpgBin));

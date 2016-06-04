@@ -23,6 +23,7 @@
 #include "model/kgpgitemmodel.h"
 
 #include <KConfig>
+#include <KDebug>
 #include <KDesktopFile>
 #include <KFileDialog>
 #include <KFontChooser>
@@ -30,13 +31,13 @@
 #include <KLocale>
 #include <KMessageBox>
 #include <KProcess>
-#include <KStandardDirs>
-#include <KDebug>
 #include <KUrl>
+
 #include <QCheckBox>
 #include <QFile>
 #include <QTextStream>
 #include <QVBoxLayout>
+#include <QStandardPaths>
 
 using namespace KgpgCore;
 
@@ -481,7 +482,7 @@ void kgpgOptions::listKeys()
 
 void kgpgOptions::slotInstallDecrypt(const QString &mimetype)
 {
-	const QString path(KStandardDirs::locateLocal("data", QLatin1String( "konqueror/servicemenus/decryptfile.desktop" )));
+	const QString path(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/konqueror/servicemenus/decryptfile.desktop" ));
 	KDesktopFile configl2(path);
 	if (!configl2.isImmutable()) {
 		KConfigGroup gr(configl2.group("Desktop Entry"));
@@ -499,7 +500,7 @@ void kgpgOptions::slotInstallDecrypt(const QString &mimetype)
 
 void kgpgOptions::slotInstallSign(const QString &mimetype)
 {
-	QString path(KStandardDirs::locateLocal("services", QLatin1String( "ServiceMenus/signfile.desktop" )));
+	QString path(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + QLatin1String( "ServiceMenus/signfile.desktop" ));
 	KDesktopFile configl2(path);
 	if (!configl2.isImmutable()) {
 		KConfigGroup gr = configl2.group("Desktop Entry");
@@ -516,7 +517,7 @@ void kgpgOptions::slotInstallSign(const QString &mimetype)
 
 void kgpgOptions::slotRemoveMenu(const QString &menu)
 {
-	QString path = KStandardDirs::locateLocal("services", QLatin1String( "ServiceMenus/" ) + menu);
+	QString path = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + QLatin1String( "ServiceMenus/" ) + menu;
 	QFile qfile(path);
 	if (qfile.exists())
 		qfile.remove();

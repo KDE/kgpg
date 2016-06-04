@@ -72,6 +72,7 @@
 #include <KRun>
 #include <KSelectAction>
 #include <KService>
+#include <KSharedConfig>
 #include <KStandardAction>
 #include <KStandardGuiItem>
 #include <KStandardShortcut>
@@ -414,7 +415,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 	exportPublicKey->setEnabled(false);
 
-	KConfigGroup cg = KConfigGroup(KGlobal::config().data(), "KeyView");
+	KConfigGroup cg = KConfigGroup(KSharedConfig::openConfig().data(), "KeyView");
 	iview->restoreLayout(cg);
 
 	connect(photoProps, SIGNAL(triggered(int)), this, SLOT(slotSetPhotoSize(int)));
@@ -460,7 +461,7 @@ KeysManager::KeysManager(QWidget *parent)
 // 	statusbar->insertPermanentFixedItem(KGpgItemModel::statusCountMessageString(9999, 999), 0); FIXME: KF5
 // 	statusbar->changeItem(QString(), 0); FIXME: KF5
 
-	cg = KConfigGroup(KGlobal::config().data(), "MainWindow");
+	cg = KConfigGroup(KSharedConfig::openConfig().data(), "MainWindow");
 	setAutoSaveSettings(cg, true);
 	applyMainWindowSettings(cg);
 
@@ -505,7 +506,7 @@ void KeysManager::slotGenerateKey()
 			m_genkey->start();
 			QApplication::setOverrideCursor(Qt::BusyCursor);
 		} else {
-			KConfigGroup config(KGlobal::config(), "General");
+			KConfigGroup config(KSharedConfig::openConfig(), "General");
 
 			QString terminalApp(config.readPathEntry("TerminalApplication", QLatin1String( "konsole" )));
 			QStringList args;
@@ -1130,7 +1131,7 @@ void KeysManager::quitApp()
 
 void KeysManager::saveToggleOpts(void)
 {
-	KConfigGroup cg = KConfigGroup(KGlobal::config().data(), "KeyView");
+	KConfigGroup cg = KConfigGroup(KSharedConfig::openConfig().data(), "KeyView");
 	iview->saveLayout(cg);
 	KGpgSettings::setPhotoProperties(photoProps->currentItem());
 	KGpgSettings::setShowTrust(sTrust->isChecked());
@@ -2059,7 +2060,7 @@ void KeysManager::slotCaffDone()
 
 void KeysManager::signKeyOpenConsole(const QString &signer, const QString &keyid, const int checking, const bool local)
 {
-	KConfigGroup config(KGlobal::config(), "General");
+	KConfigGroup config(KSharedConfig::openConfig(), "General");
 
 	KProcess process;
 	process << config.readPathEntry("TerminalApplication", QLatin1String("konsole"))
@@ -2267,7 +2268,7 @@ void KeysManager::slotedit()
 		return;
 
 	KProcess *kp = new KProcess(this);
-	KConfigGroup config(KGlobal::config(), "General");
+	KConfigGroup config(KSharedConfig::openConfig(), "General");
 	*kp << config.readPathEntry("TerminalApplication", QLatin1String("konsole"))
 			<< QLatin1String("-e")
 			<< KGpgSettings::gpgBinaryPath()
