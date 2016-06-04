@@ -20,11 +20,9 @@
 #define KGPGSEARCHRESULTMODEL_H
 
 #include <QAbstractItemModel>
+#include <QStringList>
 
 #include <kgpgcompiler.h>
-
-class QString;
-class QStringList;
 
 class KGpgSearchResultModelPrivate;
 
