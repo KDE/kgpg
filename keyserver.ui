@@ -306,8 +306,6 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
   </customwidget>
   <customwidget>
    <class>QTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

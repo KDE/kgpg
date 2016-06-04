@@ -300,8 +300,6 @@
   </customwidget>
   <customwidget>
    <class>QTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
   </customwidget>
  </customwidgets>
  <includes>

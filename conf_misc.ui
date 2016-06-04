@@ -371,8 +371,6 @@ The placeholders surrounded by the percent signs (like %KEYID%) will be replaced
   </customwidget>
   <customwidget>
    <class>QTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
