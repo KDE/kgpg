@@ -54,7 +54,7 @@ public:
 	const QString &idForIndex(const QModelIndex &index) const;
 
 public slots:
-	void slotAddKey(QStringList lines);
+	void slotAddKey(const QStringList &lines);
 
 private:
 	KGpgSearchResultModelPrivate * const d;
