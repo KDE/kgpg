@@ -23,7 +23,7 @@
 #include <QString>
 #include <QStringList>
 
-class KTempDir;
+class QTemporaryDir;
 
 class KGpgCaffPrivate : public QObject {
 	Q_OBJECT
@@ -32,7 +32,7 @@ class KGpgCaffPrivate : public QObject {
 	Q_DECLARE_PUBLIC(KGpgCaff)
 	Q_DISABLE_COPY(KGpgCaffPrivate)
 
-	QScopedPointer<KTempDir> m_tempdir;
+	QScopedPointer<QTemporaryDir> m_tempdir;
 	QStringList m_signers;
 	QString m_secringfile;
 	QString m_secringdir; ///< where GnuPG >=2.1 store their secret keyring information

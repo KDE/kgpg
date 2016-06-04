@@ -27,11 +27,12 @@
 
 #include <KDebug>
 #include <KLocale>
-#include <KTempDir>
 #include <KToolInvocation>
 #include <KMessageBox>
+
 #include <QDir>
 #include <QFileInfo>
+#include <QTemporaryDir>
 
 KGpgCaffPrivate::KGpgCaffPrivate(KGpgCaff *parent, const KGpgSignableNode::List &ids, const QStringList &signers,
 		const KGpgCaff::OperationFlags flags, const KGpgSignTransactionHelper::carefulCheck checklevel)
@@ -84,13 +85,13 @@ KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 		return;
 	}
 
-	m_tempdir.reset(new KTempDir());
+	m_tempdir.reset(new QTemporaryDir());
 
 	if (m_gpgVersion >= 0x20100) {
 		/* see http://lists.gnupg.org/pipermail/gnupg-devel/2014-December/029296.html */
 		QFile seclink(m_secringdir);
 
-		if (!seclink.link(m_tempdir->name() + QLatin1String("private-keys-v1.d"))) {
+		if (!seclink.link(m_tempdir->path() + QLatin1String("private-keys-v1.d"))) {
 			KMessageBox::sorry(qobject_cast<QWidget *>(q->parent()),
 					i18n("This function is not available on this system. The symbolic link to the private GnuPG keys cannot be created."));
 			return;
@@ -108,7 +109,7 @@ KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 	KGpgExport *exp = new KGpgExport(this, exportkeys, expOptions);
 	exp->setOutputTransaction(imp);
 
-	imp->setGnuPGHome(m_tempdir->name());
+	imp->setGnuPGHome(m_tempdir->path());
 
 	connect(imp, SIGNAL(done(int)), SLOT(slotReimportDone(int)));
 	imp->start();
@@ -126,7 +127,7 @@ KGpgCaffPrivate::slotReimportDone(int result)
 			abortOperation(-1);
 		} else {
 			KGpgSignUid *signuid = new KGpgSignUid(this, m_signers.first(), m_allids.first(), false, m_checklevel);
-			signuid->setGnuPGHome(m_tempdir->name());
+			signuid->setGnuPGHome(m_tempdir->path());
 			if (m_gpgVersion < 0x20100)
 				signuid->setSecringFile(m_secringfile);
 			connect(signuid, SIGNAL(done(int)), SLOT(slotSigningFinished(int)));
@@ -268,7 +269,7 @@ KGpgCaffPrivate::slotSigningFinished(int result)
 
 	KGpgDelUid *deluid = new KGpgDelUid(this, key, uidnum, removeMode);
 
-	deluid->setGnuPGHome(m_tempdir->name());
+	deluid->setGnuPGHome(m_tempdir->path());
 
 	connect(deluid, SIGNAL(done(int)), SLOT(slotDelUidFinished(int)));
 
@@ -296,7 +297,7 @@ KGpgCaffPrivate::slotDelUidFinished(int result)
 
 	KGpgExport *exp = new KGpgExport(this, QStringList(key->getId()), expOptions);
 
-	exp->setGnuPGHome(m_tempdir->name());
+	exp->setGnuPGHome(m_tempdir->path());
 
 	connect(exp, SIGNAL(done(int)), SLOT(slotExportFinished(int)));
 
@@ -329,7 +330,7 @@ KGpgCaffPrivate::slotExportFinished(int result)
 
 	// Set the home directory to make sure custom encrypt options
 	// as well as the "always encrypt to" setting are not honored.
-	enc->setGnuPGHome(m_tempdir->name());
+	enc->setGnuPGHome(m_tempdir->path());
 
 	connect(enc, SIGNAL(done(int)), SLOT(slotTextEncrypted(int)));
 
