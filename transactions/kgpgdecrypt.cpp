@@ -25,15 +25,15 @@ KGpgDecrypt::KGpgDecrypt(QObject *parent, const QString &text)
 {
 }
 
-KGpgDecrypt::KGpgDecrypt(QObject *parent, const KUrl::List &files)
+KGpgDecrypt::KGpgDecrypt(QObject *parent, const QList<QUrl> &files)
 	: KGpgTextOrFileTransaction(parent, files),
 	m_fileIndex(0),
 	m_plainLength(-1)
 {
 }
 
-KGpgDecrypt::KGpgDecrypt(QObject* parent, const KUrl& infile, const KUrl& outfile)
-	: KGpgTextOrFileTransaction(parent, KUrl::List(infile)),
+KGpgDecrypt::KGpgDecrypt(QObject* parent, const QUrl& infile, const QUrl& outfile)
+	: KGpgTextOrFileTransaction(parent, QList<QUrl>({infile})),
 	m_fileIndex(0),
 	m_plainLength(-1),
 	m_outFilename(outfile.toLocalFile())
@@ -111,7 +111,7 @@ KGpgDecrypt::isEncryptedText(const QString &text, int *startPos, int *endPos)
 bool
 KGpgDecrypt::nextLine(const QString& line)
 {
-	const KUrl::List &inputFiles = getInputFiles();
+	const QList<QUrl> &inputFiles = getInputFiles();
 
 	if (!inputFiles.isEmpty()) {
 		if (line == QLatin1String("[GNUPG:] BEGIN_DECRYPTION")) {

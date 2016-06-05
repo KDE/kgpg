@@ -42,6 +42,7 @@
 #include <KStandardAction>
 #include <KToggleAction>
 #include <KToolBar>
+#include <KUrlRequester>
 
 #include <QAction>
 #include <QIcon>
@@ -112,7 +113,7 @@ KgpgEditor::~KgpgEditor()
     m_recentfiles->saveEntries( KConfigGroup(KSharedConfig::openConfig(), "Recent Files" ) );
 }
 
-void KgpgEditor::openDocumentFile(const KUrl& url, const QString &encoding)
+void KgpgEditor::openDocumentFile(const QUrl &url, const QString &encoding)
 {
     QString tempopenfile;
     if(KIO::NetAccess::download(url, tempopenfile, this))
@@ -134,7 +135,7 @@ void KgpgEditor::openDocumentFile(const KUrl& url, const QString &encoding)
     }
 }
 
-void KgpgEditor::openEncryptedDocumentFile(const KUrl& url)
+void KgpgEditor::openEncryptedDocumentFile(const QUrl &url)
 {
     m_editor->slotDroppedFile(url);
 }
@@ -177,7 +178,7 @@ void KgpgEditor::initActions()
     m_editcopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
     m_editcut  = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
 
-    m_recentfiles = KStandardAction::openRecent(this, SLOT(openDocumentFile(KUrl)), this);
+    m_recentfiles = KStandardAction::openRecent(this, SLOT(openDocumentFile(QUrl)), this);
     menuBar()->addAction(m_recentfiles);
 
     m_recentfiles->loadEntries( KConfigGroup(KSharedConfig::openConfig(), "Recent Files" ) );
@@ -272,8 +273,8 @@ void KgpgEditor::slotFileOpen()
     if (saveBeforeClear())
     {
         KEncodingFileDialog::Result loadResult;
-        loadResult = KEncodingFileDialog::getOpenUrlAndEncoding(QString(), QString(), QString(), this);
-        KUrl url = loadResult.URLs.first();
+        loadResult = KEncodingFileDialog::getOpenUrlAndEncoding(QString(), QUrl(), QString(), this);
+        QUrl url = loadResult.URLs.first();
         m_textencoding = loadResult.encoding;
 
         if(!url.isEmpty())
@@ -338,8 +339,8 @@ bool KgpgEditor::slotFileSave()
 bool KgpgEditor::slotFileSaveAs()
 {
 	KEncodingFileDialog::Result saveResult;
-	saveResult = KEncodingFileDialog::getSaveUrlAndEncoding(QString(), QString(), QString(), this);
-	KUrl url;
+	saveResult = KEncodingFileDialog::getSaveUrlAndEncoding(QString(), QUrl(), QString(), this);
+	QUrl url;
 
 	if (!saveResult.URLs.empty())
 		url = saveResult.URLs.first();
@@ -468,7 +469,7 @@ void KgpgEditor::slotFindText()
 
 void KgpgEditor::slotFilePreEnc()
 {
-    KUrl::List urls = KFileDialog::getOpenUrls(KUrl(), i18n("*|All Files"), this, i18n("Open File to Encode"));
+    QList<QUrl> urls = KFileDialog::getOpenUrls(QUrl(), i18n("*|All Files"), this, i18n("Open File to Encode"));
     if (urls.isEmpty())
         return;
 
@@ -477,7 +478,7 @@ void KgpgEditor::slotFilePreEnc()
 
 void KgpgEditor::slotFilePreDec()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), i18n("*|All Files"), this, i18n("Open File to Decode"));
+    QUrl url = KFileDialog::getOpenUrl(QUrl(), i18n("*|All Files"), this, i18n("Open File to Decode"));
     if (url.isEmpty())
         return;
 
@@ -488,7 +489,7 @@ void KgpgEditor::slotFilePreDec()
         oldname.chop(4);
     else
         oldname.append(QLatin1String( ".clear" ));
-    oldname.prepend(url.directory(KUrl::AppendTrailingSlash));
+    oldname.prepend(url.adjusted(QUrl::RemoveFilename).path());
 
     QPointer<KDialog> popn = new KDialog(this);
     popn->setWindowTitle(i18n("Decrypt File To"));
@@ -498,7 +499,7 @@ void KgpgEditor::slotFilePreDec()
 
     SrcSelect *page = new SrcSelect();
     popn->setMainWidget(page);
-    page->newFilename->setUrl(oldname);
+    page->newFilename->setUrl(QUrl(oldname));
     page->newFilename->setMode(KFile::File);
     page->newFilename->setWindowTitle(i18n("Save File"));
 
@@ -531,7 +532,7 @@ void KgpgEditor::slotFilePreDec()
 		delete over;
         }
 
-	KGpgDecrypt *decr = new KGpgDecrypt(this, url, KUrl(newname));
+	KGpgDecrypt *decr = new KGpgDecrypt(this, url, QUrl(newname));
 	connect(decr, SIGNAL(done(int)), SLOT(slotLibraryDone()));
 	decr->start();
     }
@@ -612,12 +613,12 @@ void KgpgEditor::slotResetEncoding(bool enc)
 void KgpgEditor::slotPreSignFile()
 {
     // create a detached signature for a chosen file
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), i18n("*|All Files"), this, i18n("Open File to Sign"));
+    QUrl url = KFileDialog::getOpenUrl(QUrl(), i18n("*|All Files"), this, i18n("Open File to Sign"));
     if (!url.isEmpty())
         slotSignFile(url);
 }
 
-void KgpgEditor::slotSignFile(const KUrl &url)
+void KgpgEditor::slotSignFile(const QUrl &url)
 {
     // create a detached signature for a chosen file
     if (!url.isEmpty())
@@ -637,7 +638,7 @@ void KgpgEditor::slotSignFile(const KUrl &url)
 	if (KGpgSettings::asciiArmor())
 		sopts |= KGpgSignText::AsciiArmored;
 
-	KGpgSignText *signt = new KGpgSignText(this, signKeyID, KUrl::List(url), sopts);
+	KGpgSignText *signt = new KGpgSignText(this, signKeyID, QList<QUrl>({url}), sopts);
 	connect(signt, SIGNAL(done(int)), SLOT(slotSignFileFin()));
 	signt->start();
     }
@@ -650,11 +651,11 @@ void KgpgEditor::slotSignFileFin()
 
 void KgpgEditor::slotPreVerifyFile()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl(), i18n("*|All Files"), this, i18n("Open File to Verify"));
+    QUrl url = KFileDialog::getOpenUrl(QUrl(), i18n("*|All Files"), this, i18n("Open File to Verify"));
     slotVerifyFile(url);
 }
 
-void KgpgEditor::slotVerifyFile(const KUrl &url)
+void KgpgEditor::slotVerifyFile(const QUrl &url)
 {
     if (!url.isEmpty())
     {
@@ -673,11 +674,11 @@ void KgpgEditor::slotVerifyFile(const KUrl &url)
             }
         }
 
-	KUrl::List chkfiles;
+	QList<QUrl> chkfiles;
 	if (sigfile.isEmpty())
 		chkfiles << url;
 	else
-		chkfiles << KUrl::fromPath(sigfile);
+		chkfiles << QUrl::fromLocalFile(sigfile);
 
 	KGpgVerify *verify = new KGpgVerify(this, chkfiles);
 	connect(verify, SIGNAL(done(int)), m_editor, SLOT(slotVerifyDone(int)));
@@ -688,7 +689,7 @@ void KgpgEditor::slotVerifyFile(const KUrl &url)
 void KgpgEditor::slotCheckMd5()
 {
 	// display md5 sum for a chosen file
-	KUrl url = KFileDialog::getOpenUrl(KUrl(), i18n("*|All Files"), this, i18n("Open File to Verify"));
+	QUrl url = KFileDialog::getOpenUrl(QUrl(), i18n("*|All Files"), this, i18n("Open File to Verify"));
 	if (!url.isEmpty()) {
 		QPointer<Md5Widget> mdwidget = new Md5Widget(this, url);
 		mdwidget->exec();

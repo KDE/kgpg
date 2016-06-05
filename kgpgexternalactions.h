@@ -20,7 +20,7 @@
 #include <QPointer>
 #include <QStringList>
 
-#include <KUrl>
+#include <QUrl>
 
 class KeysManager;
 class KGpgFirstAssistant;
@@ -44,21 +44,21 @@ public:
 	KGpgExternalActions(KeysManager *parent, KGpgItemModel *model);
 	~KGpgExternalActions();
 
-	void showDroppedFile(const KUrl &file);
-	void verifyFile(KUrl url);
+	void showDroppedFile(const QUrl &file);
+	void verifyFile(QUrl url);
 
 	/**
 	 * @brief create a detached signature for the given files
 	 */
-	static void signFiles(KeysManager* parent, const KUrl::List &urls);
+	static void signFiles(KeysManager* parent, const QList<QUrl> &urls);
 
-	static void decryptFiles(KeysManager* parent, const KUrl::List& urls);
-	static void encryptFolders(KeysManager* parent, const KUrl::List &urls);
+	static void decryptFiles(KeysManager* parent, const QList<QUrl>& urls);
+	static void encryptFolders(KeysManager* parent, const QList<QUrl> &urls);
 
 	/**
 	 * @brief create a new object, encrypt the given files, and destroy the object
 	 */
-	static void encryptFiles(KeysManager* parent, const KUrl::List& urls);
+	static void encryptFiles(KeysManager* parent, const QList<QUrl>& urls);
 signals:
 	void createNewKey();
 	void updateDefault(QString);
@@ -74,12 +74,12 @@ private:
 	void startAssistant();
 	void firstRun();
 
-	KUrl::List m_decryptionFailed;
+	QList<QUrl> m_decryptionFailed;
 	KeysManager *m_keysmanager;
-	KUrl::List droppedUrls;
+	QList<QUrl> droppedUrls;
 
 	QKeySequence goDefaultKey() const;
-	void decryptFile(KUrl::List urls);
+	void decryptFile(QList<QUrl> urls);
 
 private slots:
 	void startFolderEncode();

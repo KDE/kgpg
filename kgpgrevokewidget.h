@@ -23,7 +23,7 @@
 #include "ui_kgpgrevokewidget.h"
 
 class KGpgKeyNode;
-class KUrl;
+class QUrl;
 
 class KgpgRevokeWidget : public QWidget, public Ui_KgpgRevokeWidget
 {
@@ -48,7 +48,7 @@ public:
 
 	QString getDescription() const;
 	int getReason() const;
-	KUrl saveUrl() const;
+	QUrl saveUrl() const;
 	QString getId() const;
 	bool printChecked();
 	bool importChecked();

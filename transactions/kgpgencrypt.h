@@ -18,7 +18,7 @@
 #include <QString>
 #include <QStringList>
 
-#include <KUrl>
+#include <QUrl>
 
 #include "kgpgtextorfiletransaction.h"
 
@@ -55,7 +55,7 @@ public:
 	 * @param files list of file locations to encrypt
 	 * @param options encryption options
 	 */
-	KGpgEncrypt(QObject *parent, const QStringList &userIds, const KUrl::List &files, const EncryptOptions &options = DefaultEncryption, const QStringList &extraOptions = QStringList());
+	KGpgEncrypt(QObject *parent, const QStringList &userIds, const QList<QUrl> &files, const EncryptOptions &options = DefaultEncryption, const QStringList &extraOptions = QStringList());
 
 	/**
 	 * @brief destructor
@@ -78,7 +78,7 @@ public:
 protected:
 	virtual QStringList command() const Q_DECL_OVERRIDE;
 	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
-	virtual ts_boolanswer confirmOverwrite (KUrl &currentFile) Q_DECL_OVERRIDE;
+	virtual ts_boolanswer confirmOverwrite (QUrl &currentFile) Q_DECL_OVERRIDE;
 
 private:
 	int m_fileIndex;

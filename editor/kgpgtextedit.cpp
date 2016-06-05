@@ -29,6 +29,7 @@
 
 #include <KLocale>
 #include <KMessageBox>
+#include <KUrlMimeData>
 
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -61,14 +62,14 @@ KgpgTextEdit::~KgpgTextEdit()
 void KgpgTextEdit::dragEnterEvent(QDragEnterEvent *e)
 {
     // if a file is dragged into editor ...
-    if (KUrl::List::canDecode(e->mimeData()) || e->mimeData()->hasText())
+    if (e->mimeData()->hasUrls() || e->mimeData()->hasText())
         e->acceptProposedAction();
 }
 
 void KgpgTextEdit::dropEvent(QDropEvent *e)
 {
     // decode dropped file or dropped text
-    KUrl::List uriList = KUrl::List::fromMimeData(e->mimeData());
+    QList<QUrl> uriList = KUrlMimeData::urlsFromMimeData(e->mimeData());
     if (!uriList.isEmpty())
         slotDroppedFile(uriList.first());
     else
@@ -76,14 +77,14 @@ void KgpgTextEdit::dropEvent(QDropEvent *e)
         insertPlainText(e->mimeData()->text());
 }
 
-void KgpgTextEdit::slotDroppedFile(const KUrl &url)
+void KgpgTextEdit::slotDroppedFile(const QUrl &url)
 {
 	openDroppedFile(url, true);
 }
 
-void KgpgTextEdit::openDroppedFile(const KUrl& url, const bool probe)
+void KgpgTextEdit::openDroppedFile(const QUrl &url, const bool probe)
 {
-	KUrl tmpurl;
+	QUrl tmpurl;
 
 	if (url.isLocalFile()) {
 		m_tempfile = url.path();
@@ -96,7 +97,7 @@ void KgpgTextEdit::openDroppedFile(const KUrl& url, const bool probe)
 			KMessageBox::sorry(this, i18n("Could not download file."));
 			return;
 		}
-		tmpurl = KUrl::fromPath(m_tempfile);
+		tmpurl = QUrl::fromLocalFile(m_tempfile);
 	}
 
 	QString result;
@@ -113,7 +114,7 @@ void KgpgTextEdit::openDroppedFile(const KUrl& url, const bool probe)
 
 	if (!probe || KGpgDecrypt::isEncryptedText(result, &m_posstart, &m_posend)) {
 		// if pgp data found, decode it
-		KGpgDecrypt *decr = new KGpgDecrypt(this, KUrl::List(tmpurl));
+		KGpgDecrypt *decr = new KGpgDecrypt(this, QList<QUrl>({url}));
 		connect(decr, SIGNAL(done(int)), SLOT(slotDecryptDone(int)));
 		decr->start();
 		return;

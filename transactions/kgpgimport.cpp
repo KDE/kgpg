@@ -24,7 +24,7 @@ KGpgImport::KGpgImport(QObject *parent, const QString &text)
 {
 }
 
-KGpgImport::KGpgImport(QObject *parent, const KUrl::List &files)
+KGpgImport::KGpgImport(QObject *parent, const QList<QUrl> &files)
 	: KGpgTextOrFileTransaction(parent, files, true)
 {
 }

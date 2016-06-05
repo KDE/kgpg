@@ -26,7 +26,7 @@
 #include <KComboBox>
 #include <KLocale>
 #include <KMessageBox>
-#include <KUrl>
+#include <QUrl>
 #include <KUrlRequester>
 
 #include <QCheckBox>
@@ -115,7 +115,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 		gpgBin = QStandardPaths::findExecutable(QLatin1String("gpg"));
 	if (gpgBin.isEmpty())
 		gpgBin = QLatin1String("gpg");
-	binURL->setUrl(KUrl::fromPath(gpgBin));
+	binURL->setUrl(QUrl::fromLocalFile(gpgBin));
 
 	connect(binURL, SIGNAL(textChanged(QString)), SLOT(slotBinaryChanged(QString)));
 	slotBinaryChanged(gpgBin);
@@ -262,7 +262,7 @@ KGpgFirstAssistant::findConfigPath()
 		}
 	}
 
-	pathURL->setUrl(confPath);
+	pathURL->setUrl(QUrl::fromLocalFile(confPath));
 
 	QStringList secids = KgpgInterface::readSecretKeys();
 	if (secids.isEmpty()) {

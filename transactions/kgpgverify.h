@@ -20,7 +20,7 @@
 #include <QString>
 #include <QStringList>
 
-#include <KUrl>
+#include <QUrl>
 
 class KGpgItemModel;
 
@@ -50,7 +50,7 @@ public:
 	 * @param parent parent object
 	 * @param files list of file locations to verify
 	 */
-	KGpgVerify(QObject *parent, const KUrl::List &files);
+	KGpgVerify(QObject *parent, const QList<QUrl> &files);
 
 	/**
 	 * @brief destructor

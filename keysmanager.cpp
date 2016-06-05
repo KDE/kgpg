@@ -61,7 +61,6 @@
 #include <akonadi/contact/contactsearchjob.h>
 #include <KActionCollection>
 #include <KDebug>
-#include <KFileDialog>
 #include <KInputDialog>
 #include <KGlobal>
 #include <KLocale>
@@ -80,13 +79,14 @@
 #include <KStatusNotifierItem>
 #include <KToggleAction>
 #include <KToolInvocation>
-#include <KUrl>
+#include <QUrl>
 
 #include <QApplication>
 #include <QClipboard>
 #include <QDBusConnection>
 #include <QDir>
 #include <QEvent>
+#include <QFileDialog>
 #include <QIcon>
 #include <QKeySequence>
 #include <QLabel>
@@ -324,7 +324,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 	iview = new KeyTreeView(this, iproxy);
 	connect(iview, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(defaultAction(QModelIndex)));
-	connect(iview, SIGNAL(importDrop(KUrl::List)), SLOT(slotImport(KUrl::List)));
+	connect(iview, SIGNAL(importDrop(QList<QUrl>)), SLOT(slotImport(QList<QUrl>)));
 	iview->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	setCentralWidget(iview);
 	iview->resizeColumnsToContents();
@@ -599,14 +599,14 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		QString revurl;
 		const QString gpgPath(KGpgSettings::gpgConfigPath());
 		if (!gpgPath.isEmpty())
-			revurl = KUrl::fromPath(gpgPath).directory(KUrl::AppendTrailingSlash);
+			revurl = QUrl::fromLocalFile(gpgPath).adjusted(QUrl::RemoveFilename).path();
 		else
 			revurl = QDir::homePath() + QLatin1Char( '/' );
 
 		if (!email.isEmpty())
-			page->kURLRequester1->setUrl(QString(revurl + email.section(QLatin1Char( '@' ), 0, 0) + QLatin1String( ".revoke" )));
+			page->kURLRequester1->setUrl(QUrl(revurl + email.section(QLatin1Char( '@' ), 0, 0) + QLatin1String( ".revoke" )));
 		else
-			page->kURLRequester1->setUrl(QString(revurl + genkey->getName().section(QLatin1Char(' '), 0, 0) + QLatin1String(".revoke")));
+			page->kURLRequester1->setUrl(QUrl(revurl + genkey->getName().section(QLatin1Char(' '), 0, 0) + QLatin1String(".revoke")));
 
 		const QString fingerprint(genkey->getFingerprint());
 		page->TLid->setText(QLatin1String( "<b>" ) + fingerprint.right(8) + QLatin1String( "</b>" ));
@@ -627,7 +627,7 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		iview->selectNode(knode);
 
 		if (page->CBsave->isChecked() || page->CBprint->isChecked()) {
-			KUrl revurl;
+			QUrl revurl;
 			if (page->CBsave->isChecked())
 				revurl = page->kURLRequester1->url();
 
@@ -923,7 +923,7 @@ void KeysManager::slotAddPhoto()
 	if (KMessageBox::warningContinueCancel(0, mess) != KMessageBox::Continue)
 		return;
 
-	QString imagepath = KFileDialog::getOpenFileName(KUrl(), QLatin1String( "image/jpeg" ), 0);
+	QString imagepath = QFileDialog::getOpenFileName(0, QString(), QString(), QLatin1String( "image/jpeg" ));
 	if (imagepath.isEmpty())
 		return;
 
@@ -1379,7 +1379,7 @@ void KeysManager::slotexportsec()
 		sname = nd->getName().section(QLatin1Char( ' ' ), 0, 0);
 	sname.append(QLatin1String( ".asc" ));
 	sname.prepend(QDir::homePath() + QLatin1Char( '/' ));
-	KUrl url(KFileDialog::getSaveUrl(sname, i18n( "*.asc|*.asc Files" ), this, i18n("Export PRIVATE KEY As")));
+	QUrl url(QFileDialog::getSaveFileUrl(this, i18n("Export PRIVATE KEY As"), QUrl(sname), i18n( "*.asc|*.asc Files" )));
 
 	if(!url.isEmpty()) {
 		KGpgExport *exp = new KGpgExport(this, QStringList(nd->getId()), url.path(), QStringList(QLatin1String( "--armor" )), true);
@@ -1442,7 +1442,7 @@ void KeysManager::slotexport()
 
 	QPointer<KeyExport> page = new KeyExport(this, serverList);
 
-	page->newFilename->setUrl(sname);
+	page->newFilename->setUrl(QUrl(sname));
 
 	if (!m_online)
 		page->checkServer->setEnabled(false);
@@ -2536,9 +2536,9 @@ void KeysManager::slotPreImportKey()
 
 	if (dial->exec() == QDialog::Accepted) {
 		if (page->checkFile->isChecked()) {
-			KUrl impname = page->newFilename->url();
+			QUrl impname = page->newFilename->url();
 			if (!impname.isEmpty())
-				slotImport(KUrl::List(impname));
+				slotImport(QList<QUrl>({impname}));
 		} else if (page->checkServer->isChecked()) {
 			const QString ids(page->keyIds->text().simplified());
 			if (!ids.isEmpty())
@@ -2575,7 +2575,7 @@ void KeysManager::slotImport(const QString &text)
 	startImport(imp);
 }
 
-void KeysManager::slotImport(const KUrl::List &files)
+void KeysManager::slotImport(const QList<QUrl> &files)
 {
 	startImport(new KGpgImport(this, files));
 }
@@ -2811,7 +2811,7 @@ KeysManager::slotOpenKeyUrl()
 	url.replace(QLatin1String("$$id16$$"), id.toLower());
 	url.replace(QLatin1String("$$fpr$$"), id.toLower());
 
-	new KRun(url, this);
+	new KRun(QUrl(url), this);
 }
 
 void

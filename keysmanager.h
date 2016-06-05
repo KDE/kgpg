@@ -23,7 +23,7 @@
 
 #include <KDialog>
 #include <KToggleAction>
-#include <KUrl>
+#include <QUrl>
 #include <KXmlGuiWindow>
 #include <QClipboard>
 #include <QSet>
@@ -111,7 +111,7 @@ public slots:
     void showOptions();
     void slotOpenEditor();
     void slotImport(const QString &text);
-    void slotImport(const KUrl::List &files);
+    void slotImport(const QList<QUrl> &files);
     /**
      * When you click on "encrypt the clipboard" in the systray,
      * this slot will open the dialog to choose a key and encrypt the

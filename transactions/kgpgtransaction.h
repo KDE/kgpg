@@ -23,7 +23,7 @@
 class GPGProc;
 class KGpgSignTransactionHelper;
 class KGpgTransactionPrivate;
-class KUrl;
+class QUrl;
 class QByteArray;
 
 /**
@@ -239,7 +239,7 @@ protected:
 	 * The default implementation will just return BA_UNKNOWN without setting
 	 * a filename, causing a sequence error.
 	 */
-	virtual ts_boolanswer confirmOverwrite(KUrl &currentFile);
+	virtual ts_boolanswer confirmOverwrite(QUrl &currentFile);
 
 	/**
 	 * @brief Called for a set of hint messages

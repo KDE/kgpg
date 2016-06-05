@@ -11,7 +11,7 @@
 #define KGPGMD5WIDGET_H
 
 #include <KDialog>
-#include <KUrl>
+#include <QUrl>
 
 #include <kgpgcompiler.h>
 
@@ -24,7 +24,7 @@ class Md5Widget : public KDialog
     Q_OBJECT
 
 public:
-    explicit Md5Widget(QWidget *parent = Q_NULLPTR, const KUrl &url = KUrl());
+    explicit Md5Widget(QWidget *parent = Q_NULLPTR, const QUrl &url = QUrl());
 
 public slots:
     void slotApply();

@@ -20,7 +20,7 @@
 
 #include <KDialog>
 #include <QKeySequence>
-#include <KUrl>
+#include <QUrl>
 #include <KVBox>
 #include <QKeySequence>
 
@@ -44,7 +44,7 @@ public:
     /* TODO: the goDefaultKey shortcut should be stored in a way it can be accessed from everywhere. So we don't have to pass it as an argument.
      */
 
-    KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const QKeySequence &goDefaultKey, const bool hideasciioption, const KUrl::List &files = KUrl::List());
+    KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const QKeySequence &goDefaultKey, const bool hideasciioption, const QList<QUrl> &files = QList<QUrl>());
 
     QStringList selectedKeys() const;
     QString getCustomOptions() const;
@@ -55,7 +55,7 @@ public:
     /**
      * @brief return the files passed in the constructor
      */
-    const KUrl::List &getFiles() const;
+    const QList<QUrl> &getFiles() const;
 
     KVBox *optionsbox;
 
@@ -78,7 +78,7 @@ private:
     QLineEdit *m_searchlineedit;
     SelectKeyProxyModel *iproxy;
     KGpgItemModel *imodel;
-    const KUrl::List m_files;
+    const QList<QUrl> m_files;
 
     bool m_hideasciioption;
 };

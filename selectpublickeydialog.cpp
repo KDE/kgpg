@@ -35,7 +35,7 @@
 
 using namespace KgpgCore;
 
-KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const QKeySequence &goDefaultKey, const bool hideasciioption, const KUrl::List &files)
+KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const QKeySequence &goDefaultKey, const bool hideasciioption, const QList<QUrl> &files)
 	: KDialog(parent),
 	m_customoptions(Q_NULLPTR),
 	imodel(model),
@@ -195,7 +195,7 @@ bool KgpgSelectPublicKeyDlg::getArmor() const
     return m_hideasciioption || m_cbarmor->isChecked();
 }
 
-const KUrl::List &KgpgSelectPublicKeyDlg::getFiles() const
+const QList<QUrl> &KgpgSelectPublicKeyDlg::getFiles() const
 {
 	return m_files;
 }

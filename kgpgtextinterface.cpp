@@ -29,7 +29,7 @@ public:
 	GPGProc * const m_process;
 	int m_step;
 	const QStringList m_gpgopts;
-	KUrl::List m_files;
+	QList<QUrl> m_files;
 
 	void signFile(const QString &fileName);
 };
@@ -78,7 +78,7 @@ KGpgTextInterface::~KGpgTextInterface()
 
 // signatures
 void
-KGpgTextInterface::signFiles(const KUrl::List &srcUrls)
+KGpgTextInterface::signFiles(const QList<QUrl> &srcUrls)
 {
 	d->m_files = srcUrls;
 

@@ -29,6 +29,8 @@ find_package(KF5 REQUIRED
   I18n
   IconThemes
   Codecs
+  Contacts
+  CoreAddons
   KIO
   KDELibs4Support
   Service
@@ -37,6 +39,8 @@ find_package(KF5 REQUIRED
 
 # only headers are used
 find_package(Gpgme REQUIRED)
+
+add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 
 add_subdirectory( icons )
 add_subdirectory( doc )
@@ -219,6 +223,7 @@ target_link_libraries(kgpg
     KF5::Archive
     KF5::Codecs
     KF5::Contacts
+    KF5::CoreAddons
     KF5::KDELibs4Support
     KF5::KIOCore
     KF5::AkonadiContact

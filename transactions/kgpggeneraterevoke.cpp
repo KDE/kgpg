@@ -17,7 +17,7 @@
 #include <KLocale>
 #include <QFile>
 
-KGpgGenerateRevoke::KGpgGenerateRevoke(QObject *parent, const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description)
+KGpgGenerateRevoke::KGpgGenerateRevoke(QObject *parent, const QString &keyID, const QUrl &revokeUrl, const int reason, const QString &description)
 	: KGpgTransaction(parent),
 	m_keyid(keyID),
 	m_revUrl(revokeUrl),
@@ -111,7 +111,7 @@ KGpgGenerateRevoke::passphraseReceived()
 }
 
 KGpgTransaction::ts_boolanswer
-KGpgGenerateRevoke::confirmOverwrite(KUrl &currentFile)
+KGpgGenerateRevoke::confirmOverwrite(QUrl &currentFile)
 {
 	currentFile = m_revUrl;
 	return BA_UNKNOWN;

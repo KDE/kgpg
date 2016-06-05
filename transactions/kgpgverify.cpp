@@ -26,7 +26,7 @@ KGpgVerify::KGpgVerify(QObject *parent, const QString &text)
 {
 }
 
-KGpgVerify::KGpgVerify(QObject *parent, const KUrl::List &files)
+KGpgVerify::KGpgVerify(QObject *parent, const QList<QUrl> &files)
 	: KGpgTextOrFileTransaction(parent, files),
 	m_fileIndex(0)
 {

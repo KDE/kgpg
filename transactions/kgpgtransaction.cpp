@@ -23,7 +23,7 @@
 #include <knewpassworddialog.h>
 #include <KLocale>
 #include <KPushButton>
-#include <KUrl>
+#include <QUrl>
 #include <QByteArray>
 #include <QPointer>
 #include <QStringList>
@@ -377,7 +377,7 @@ KGpgTransaction::boolQuestion(const QString& line)
 }
 
 KGpgTransaction::ts_boolanswer
-KGpgTransaction::confirmOverwrite(KUrl &currentFile)
+KGpgTransaction::confirmOverwrite(QUrl &currentFile)
 {
 	Q_UNUSED(currentFile)
 

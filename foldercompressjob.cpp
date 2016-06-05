@@ -28,11 +28,11 @@ class FolderCompressJobPrivate {
 	Q_DECLARE_PUBLIC(FolderCompressJob)
 
 public:
-	FolderCompressJobPrivate(FolderCompressJob *parent, const KUrl::List &sources, const KUrl &dest, QTemporaryFile *tempfile, const QStringList &keys, const QStringList &options, const KGpgEncrypt::EncryptOptions encOptions, const int archive);
+	FolderCompressJobPrivate(FolderCompressJob *parent, const QList<QUrl> &sources, const QUrl &dest, QTemporaryFile *tempfile, const QStringList &keys, const QStringList &options, const KGpgEncrypt::EncryptOptions encOptions, const int archive);
 
 	const QString m_description;
-	const KUrl::List m_sources;
-	const KUrl m_dest;
+	const QList<QUrl> m_sources;
+	const QUrl m_dest;
 	QTemporaryFile * const m_tempfile;
 	const QStringList m_keys;
 	QStringList m_options;
@@ -40,7 +40,7 @@ public:
 	const int m_archiveType;
 };
 
-FolderCompressJobPrivate::FolderCompressJobPrivate(FolderCompressJob *parent, const KUrl::List &sources, const KUrl &dest, QTemporaryFile *tempfile, const QStringList &keys, const QStringList &options, const KGpgEncrypt::EncryptOptions encOptions, const int archive)
+FolderCompressJobPrivate::FolderCompressJobPrivate(FolderCompressJob *parent, const QList<QUrl> &sources, const QUrl &dest, QTemporaryFile *tempfile, const QStringList &keys, const QStringList &options, const KGpgEncrypt::EncryptOptions encOptions, const int archive)
 	: q_ptr(parent),
 	m_description(i18n("Processing folder compression and encryption")),
 	m_sources(sources),
@@ -53,7 +53,7 @@ FolderCompressJobPrivate::FolderCompressJobPrivate(FolderCompressJob *parent, co
 {
 }
 
-FolderCompressJob::FolderCompressJob(QObject *parent, const KUrl::List &sources, const KUrl &dest, QTemporaryFile *tempfile, const QStringList &keys, const QStringList &options,  const KGpgEncrypt::EncryptOptions encOptions, const int archive)
+FolderCompressJob::FolderCompressJob(QObject *parent, const QList<QUrl> &sources, const QUrl &dest, QTemporaryFile *tempfile, const QStringList &keys, const QStringList &options,  const KGpgEncrypt::EncryptOptions encOptions, const int archive)
 	: KJob(parent),
 	d_ptr(new FolderCompressJobPrivate(this, sources, dest, tempfile, keys, options, encOptions, archive))
 {
@@ -108,7 +108,7 @@ FolderCompressJob::doWork()
 		return;
 	}
 
-	foreach (const KUrl &url, d->m_sources)
+	foreach (const QUrl &url, d->m_sources)
 		arch->addLocalDirectory(url.path(), url.fileName());
 	arch->close();
 	delete arch;
@@ -124,7 +124,7 @@ FolderCompressJob::doWork()
 			i18nc("Status message 'Encrypting <filename>' (operation starts)", "Encrypting %1", d->m_dest.path())));
 		
 
-	KGpgEncrypt *enc = new KGpgEncrypt(this, d->m_keys, KUrl::List(KUrl::fromPath(d->m_tempfile->fileName())), d->m_encOptions, d->m_options);
+	KGpgEncrypt *enc = new KGpgEncrypt(this, d->m_keys, QList<QUrl>({QUrl::fromLocalFile(d->m_tempfile->fileName())}), d->m_encOptions, d->m_options);
 	connect(enc, SIGNAL(done(int)), SLOT(slotEncryptionDone(int)));
 	enc->start();
 }

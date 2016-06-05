@@ -112,13 +112,13 @@ int KGpgApp::newInstance()
 		s_keyManager->slotOpenEditor();
 		s_keyManager->hide();
 	} else {
-		KUrl::List urlList;
+		QList<QUrl> urlList;
 
 		for (int ct = 0; ct < args->count(); ct++)
 			urlList.append(args->url(ct));
 
 		bool directoryInside = false;
-		foreach (const KUrl &url, urlList) {
+		foreach (const QUrl &url, urlList) {
 			QMimeDatabase db;
 			if (db.mimeTypeForUrl(url).name() == QLatin1String( "inode/directory" )) {
 				directoryInside = true;
@@ -167,7 +167,7 @@ int KGpgApp::newInstance()
 			} else {
 				bool haskeys = false;
 				bool hastext = false;
-				foreach (const KUrl &url, urlList) {
+				foreach (const QUrl &url, urlList) {
 					QFile qfile(url.path());
 					if (qfile.open(QIODevice::ReadOnly)) {
 						const int probelen = 4096;

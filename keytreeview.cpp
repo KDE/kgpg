@@ -27,6 +27,8 @@
 #include <KConfigGroup>
 #include <KLocale>
 #include <KMessageBox>
+#include <KUrlMimeData>
+
 #include <QDrag>
 #include <QDragMoveEvent>
 #include <QDropEvent>
@@ -157,13 +159,13 @@ KeyTreeView::saveLayout(KConfigGroup &cg) const
 void
 KeyTreeView::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-	e->setAccepted(KUrl::List::canDecode(e->mimeData()));
+	e->setAccepted(e->mimeData()->hasUrls());
 }
 
 void
 KeyTreeView::contentsDropEvent(QDropEvent *o)
 {
-	KUrl::List uriList = KUrl::List::fromMimeData(o->mimeData());
+	QList<QUrl> uriList = KUrlMimeData::urlsFromMimeData(o->mimeData());
 	if (!uriList.isEmpty()) {
 		if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>",
 					uriList.first().path()), QString(), KGuiItem(i18n("Import")),

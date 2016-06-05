@@ -25,16 +25,16 @@
 #include <KConfig>
 #include <KDebug>
 #include <KDesktopFile>
-#include <KFileDialog>
 #include <KFontChooser>
 #include <KInputDialog>
 #include <KLocale>
 #include <KMessageBox>
 #include <KProcess>
-#include <KUrl>
+#include <QUrl>
 
 #include <QCheckBox>
 #include <QFile>
+#include <QFileDialog>
 #include <QTextStream>
 #include <QVBoxLayout>
 #include <QStandardPaths>
@@ -87,8 +87,8 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 		serverList.prepend(keyServer);
 	m_page6->ServerBox->setModel(m_serverModel);
 
-	defaultConfigPath = KUrl::fromPath(gpgConfigPath).fileName();
-	defaultHomePath = KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash);
+	defaultConfigPath = QUrl::fromLocalFile(gpgConfigPath).fileName();
+	defaultHomePath = QUrl::fromLocalFile(gpgConfigPath).adjusted(QUrl::RemoveFilename).path();
 	defaultBinPath = KGpgSettings::gpgBinaryPath();
 
 	m_showsystray = KGpgSettings::showSystray();
@@ -148,7 +148,7 @@ kgpgOptions::~kgpgOptions()
 
 void kgpgOptions::slotChangeHome()
 {
-	QString gpgHome = KFileDialog::getExistingDirectory(m_page4->gpg_home_path->text(), this, i18n("New GnuPG Home Location"));
+	QString gpgHome = QFileDialog::getExistingDirectory(this, i18n("New GnuPG Home Location"), m_page4->gpg_home_path->text());
 	if (gpgHome.isEmpty())
 		return;
 
@@ -318,8 +318,8 @@ void kgpgOptions::updateWidgets()
 	}
 
 	gpgConfigPath = KGpgSettings::gpgConfigPath();
-	m_page4->gpg_conf_path->setText(KUrl::fromPath(gpgConfigPath).fileName());
-	m_page4->gpg_home_path->setText(KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash));
+	m_page4->gpg_conf_path->setText(QUrl::fromLocalFile(gpgConfigPath).fileName());
+	m_page4->gpg_home_path->setText(QUrl::fromLocalFile(gpgConfigPath).adjusted(QUrl::RemoveFilename).path());
 
 	m_useagent = KgpgInterface::getGpgBoolSetting(QLatin1String( "use-agent" ), KGpgSettings::gpgConfigPath());
 	m_defaultuseagent = false;
@@ -535,10 +535,10 @@ bool kgpgOptions::hasChanged()
 			(m_page1->always_key->itemData(m_page1->always_key->currentIndex(), Qt::ToolTipRole).toString()) != alwaysKeyID)
 		return true;
 
-	if (m_page4->gpg_conf_path->text() != KUrl::fromPath(gpgConfigPath).fileName())
+	if (m_page4->gpg_conf_path->text() != QUrl::fromLocalFile(gpgConfigPath).fileName())
 		return true;
 
-	if (m_page4->gpg_home_path->text() != KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash))
+	if (m_page4->gpg_home_path->text() != QUrl::fromLocalFile(gpgConfigPath).adjusted(QUrl::RemoveFilename).path())
 		return true;
 
 	if (m_page4->use_agent->isChecked() != m_useagent)

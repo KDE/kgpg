@@ -18,7 +18,7 @@
 #include <QString>
 #include <QStringList>
 
-#include <KUrl>
+#include <QUrl>
 
 #include "kgpgtransaction.h"
 
@@ -51,7 +51,7 @@ protected:
 	 * @param parent parent object
 	 * @param keys list of file locations to work with
 	 */
-	KGpgTextOrFileTransaction(QObject *parent, const KUrl::List &files, const bool allowChaining = false);
+	KGpgTextOrFileTransaction(QObject *parent, const QList<QUrl> &files, const bool allowChaining = false);
 
 public:
 	/**
@@ -68,7 +68,7 @@ public:
 	 * @brief set file locations to work with
 	 * @param keys list of file locations to work with
 	 */
-	void setUrls(const KUrl::List &files);
+	void setUrls(const QList<QUrl> &files);
 
 	/**
 	 * @brief get gpg info message
@@ -89,12 +89,12 @@ protected:
 
 	virtual QStringList command() const = 0;
 
-	const KUrl::List &getInputFiles() const;
+	const QList<QUrl> &getInputFiles() const;
 
 private:
 	QStringList m_tempfiles;
 	QStringList m_locfiles;
-	KUrl::List m_inpfiles;
+	QList<QUrl> m_inpfiles;
 	QString m_text;
 	QStringList m_messages;
 	bool m_closeInput;	///< if input channel of GnuPG should be closed after m_text is written

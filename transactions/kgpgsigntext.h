@@ -16,7 +16,7 @@
 
 #include "kgpgtextorfiletransaction.h"
 
-#include <KUrl>
+#include <QUrl>
 #include <QObject>
 #include <QString>
 #include <QStringList>
@@ -56,7 +56,7 @@ public:
 	 * @warning GnuPG can currently handle only one file per invocation for
 	 * signing, so files may only contain one single file.
 	 */
-	KGpgSignText(QObject *parent, const QString &signId, const KUrl::List &files, const SignOptions &options = DefaultSignature, const QStringList &extraOptions = QStringList());
+	KGpgSignText(QObject *parent, const QString &signId, const QList<QUrl> &files, const SignOptions &options = DefaultSignature, const QStringList &extraOptions = QStringList());
 
 	/**
 	 * @brief destructor

@@ -18,7 +18,7 @@
 
 #include "core/KGpgKeyNode.h"
 
-#include <KUrl>
+#include <QUrl>
 #include <QDir>
 
 KgpgRevokeWidget::KgpgRevokeWidget(QWidget* parent)
@@ -46,7 +46,7 @@ KGpgRevokeDialog::KGpgRevokeDialog(QWidget* parent, const KGpgKeyNode *node)
 
 	m_revWidget->keyID->setText(i18nc("<Name> (<Email>) ID: <KeyId>", "%1 (%2) ID: %3",
 				node->getName(), node->getEmail(), m_id));
-	m_revWidget->outputFile->setUrl(QString(QDir::homePath() + QLatin1Char( '/' ) + node->getEmail().section( QLatin1Char( '@' ), 0, 0 )  + QLatin1String( ".revoke" ) ));
+	m_revWidget->outputFile->setUrl(QUrl(QDir::homePath() + QLatin1Char( '/' ) + node->getEmail().section( QLatin1Char( '@' ), 0, 0 )  + QLatin1String( ".revoke" ) ));
 	m_revWidget->outputFile->setMode(KFile::File);
 
 	setMinimumSize(m_revWidget->sizeHint());
@@ -63,12 +63,12 @@ int KGpgRevokeDialog::getReason() const
 	return m_revWidget->comboBox1->currentIndex();
 }
 
-KUrl KGpgRevokeDialog::saveUrl() const
+QUrl KGpgRevokeDialog::saveUrl() const
 {
 	if (m_revWidget->cbSave->isChecked())
 		return m_revWidget->outputFile->url();
 	else
-		return KUrl();
+		return QUrl();
 }
 
 QString KGpgRevokeDialog::getId() const

@@ -16,7 +16,7 @@
 
 #include "gpgproc.h"
 
-#include <KUrl>
+#include <QUrl>
 
 #include <KPasswordDialog>
 #include <KNewPasswordDialog>
@@ -41,7 +41,7 @@ public:
 
 	QStringList m_idhints;
 
-	KUrl m_overwriteUrl;	///< the file to overwrite or it's new name
+	QUrl m_overwriteUrl;	///< the file to overwrite or it's new name
 
 	void slotReadReady();
 	void slotProcessExited();

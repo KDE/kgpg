@@ -25,7 +25,7 @@ KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const QStr
 	setText(text);
 }
 
-KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const KUrl::List &files, const bool allowChaining)
+KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const QList<QUrl> &files, const bool allowChaining)
 	: KGpgTransaction(parent, allowChaining)
 {
 	setUrls(files);
@@ -75,7 +75,7 @@ KGpgTextOrFileTransaction::setText(const QString &text)
 }
 
 void
-KGpgTextOrFileTransaction::setUrls(const KUrl::List &files)
+KGpgTextOrFileTransaction::setUrls(const QList<QUrl> &files)
 {
 	m_text.clear();
 	m_inpfiles = files;
@@ -86,7 +86,7 @@ KGpgTextOrFileTransaction::preStart()
 {
 	QStringList locfiles;
 
-	foreach (const KUrl &url, m_inpfiles) {
+	foreach (const QUrl &url, m_inpfiles) {
 		if (url.isLocalFile()) {
 			locfiles.append(url.toLocalFile());
 		} else {
@@ -171,7 +171,7 @@ KGpgTextOrFileTransaction::cleanUrls()
 	m_inpfiles.clear();
 }
 
-const KUrl::List &
+const QList<QUrl> &
 KGpgTextOrFileTransaction::getInputFiles() const
 {
 	return m_inpfiles;

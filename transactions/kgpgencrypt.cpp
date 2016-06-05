@@ -40,7 +40,7 @@ KGpgEncrypt::KGpgEncrypt(QObject *parent, const QStringList &userIds, const QStr
 		m_extraOptions << trustOptions(getProcess()->program().at(0));
 }
 
-KGpgEncrypt::KGpgEncrypt(QObject *parent, const QStringList &userIds, const KUrl::List &files, const EncryptOptions &options, const QStringList &extraOptions)
+KGpgEncrypt::KGpgEncrypt(QObject *parent, const QStringList &userIds, const QList<QUrl> &files, const EncryptOptions &options, const QStringList &extraOptions)
 	: KGpgTextOrFileTransaction(parent, files),
 	m_fileIndex(0),
 	m_options(options),
@@ -95,7 +95,7 @@ KGpgEncrypt::encryptedText() const
 bool
 KGpgEncrypt::nextLine(const QString &line)
 {
-	const KUrl::List &inputFiles = getInputFiles();
+	const QList<QUrl> &inputFiles = getInputFiles();
 
 	if (!inputFiles.isEmpty()) {
 		static const QString encStart = QLatin1String("[GNUPG:] FILE_START 2 ");
@@ -116,14 +116,14 @@ KGpgEncrypt::nextLine(const QString &line)
 }
 
 KGpgTransaction::ts_boolanswer
-KGpgEncrypt::confirmOverwrite(KUrl &currentFile)
+KGpgEncrypt::confirmOverwrite(QUrl &currentFile)
 {
 	const QString ext = encryptExtension(m_options.testFlag(AsciiArmored));
 
 	if (m_currentFile.isEmpty())
-		currentFile = KUrl::fromLocalFile(getInputFiles().at(m_fileIndex).toLocalFile() + ext);
+		currentFile = QUrl::fromLocalFile(getInputFiles().at(m_fileIndex).toLocalFile() + ext);
 	else
-		currentFile = KUrl::fromLocalFile(m_currentFile + ext);
+		currentFile = QUrl::fromLocalFile(m_currentFile + ext);
 	return BA_UNKNOWN;
 }
 

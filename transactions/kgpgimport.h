@@ -18,7 +18,7 @@
 #include <QString>
 #include <QStringList>
 
-#include <KUrl>
+#include <QUrl>
 
 #include "kgpgtextorfiletransaction.h"
 
@@ -44,7 +44,7 @@ public:
 	 * @param parent parent object
 	 * @param files list of file locations to import from
 	 */
-	KGpgImport(QObject *parent, const KUrl::List &files);
+	KGpgImport(QObject *parent, const QList<QUrl> &files);
 
 	/**
 	 * @brief destructor

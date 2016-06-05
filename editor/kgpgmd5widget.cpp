@@ -22,7 +22,7 @@
 #include <KLed>
 
 
-Md5Widget::Md5Widget(QWidget *parent, const KUrl &url)
+Md5Widget::Md5Widget(QWidget *parent, const QUrl &url)
          : KDialog(parent)
 {
     setWindowTitle(i18n("MD5 Checksum"));
