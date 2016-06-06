@@ -28,27 +28,39 @@
 #include <QVBoxLayout>
 #include <QWhatsThis>
 #include <QWidget>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 using namespace KgpgCore;
 
 KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
-	: KDialog(parent),
+	: QDialog(parent),
 	m_expert(false)
 {
     setupUi(this);
 
-    setButtons(User1 | Ok | Cancel);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QWidget *mainWidget = new QWidget(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
+    mainLayout->addWidget(mainWidget);
+    okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    QPushButton *user1Button = new QPushButton;
+    buttonBox->addButton(user1Button, QDialogButtonBox::ActionRole);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
-    setButtonText(User1, i18n("&Expert Mode"));
-    setButtonToolTip(User1, i18n("Go to Expert Mode"));
-    setButtonWhatsThis(User1, i18n( "If you go to expert mode, you will use the command line to create your key." ));
+    user1Button->setText(i18n("&Expert Mode"));
+    user1Button->setToolTip(i18n("Go to Expert Mode"));
+    user1Button->setWhatsThis(i18n( "If you go to expert mode, you will use the command line to create your key." ));
 
     connect(m_kname, SIGNAL(textChanged(QString)), this, SLOT(slotEnableOk()));
 
     KHBox *hgroup = new KHBox(vgroup);
     hgroup->setFrameShape(QFrame::StyledPanel);
-    hgroup->setMargin(marginHint());
-    hgroup->setSpacing(spacingHint());
     m_days->setParent(hgroup);
     QIntValidator *validator = new QIntValidator(m_days);
     validator->setBottom(0);
@@ -84,27 +96,16 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     slotEnableCaps(m_keykind->currentIndex());
     m_keykind->setMinimumSize(m_keykind->sizeHint());
 
-    setMainWidget(vgroup);
+    mainLayout->addWidget(vgroup);
+    mainLayout->addWidget(buttonBox);
 
     slotEnableOk();
     updateGeometry();
     show();
 
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(user1Clicked()), this, SLOT(slotUser1()));
+    connect(okButton, SIGNAL(clicked()), this, SLOT(slotOk()));
+    connect(user1Button, SIGNAL(clicked()), this, SLOT(slotUser1()));
     connect(m_keykind, SIGNAL(activated(int)), SLOT(slotEnableCaps(int)));
-}
-
-void KgpgKeyGenerate::slotButtonClicked(int button)
-{
-    if (button == Ok)
-        slotOk();
-    else
-    if (button == User1)
-        slotUser1();
-    else
-    if (button == Cancel)
-        reject();
 }
 
 void KgpgKeyGenerate::slotOk()
@@ -164,7 +165,7 @@ void KgpgKeyGenerate::slotEnableCaps(const int state)
 
 void KgpgKeyGenerate::slotEnableOk()
 {
-	enableButtonOk((m_kname->text().simplified().length() >= 5) &&
+	okButton->setEnabled((m_kname->text().simplified().length() >= 5) &&
 			!m_kname->text().simplified().at(0).isDigit());
 }
 

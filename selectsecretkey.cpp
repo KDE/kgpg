@@ -21,19 +21,31 @@
 #include <QCheckBox>
 #include <QLabel>
 #include <QTableView>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 using namespace KgpgCore;
 
 KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, const int countkey, const bool allowLocal, const bool allowTerminal)
-	: KDialog(parent),
+	: QDialog(parent),
 	m_localsign(Q_NULLPTR),
 	m_terminalsign(Q_NULLPTR),
 	m_signtrust(Q_NULLPTR),
 	m_proxy(new SelectSecretKeyProxyModel(this))
 {
 	setWindowTitle(i18n("Private Key List"));
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	m_okButton = buttonBox->button(QDialogButtonBox::Ok);
+	m_okButton->setDefault(true);
+	m_okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	m_okButton->setDefault(true);
 	QWidget *page = new QWidget(this);
 
 	QLabel *label = new QLabel(i18n("Choose secret key for signing:"), page);
@@ -84,7 +96,8 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, 
 
 	setMinimumSize(550, 200);
 	slotSelectionChanged();
-	setMainWidget(page);
+	mainLayout->addWidget(page);
+	mainLayout->addWidget(buttonBox);
 
 	connect(m_keyslist->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(slotSelectionChanged()));
 	connect(m_keyslist, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotOk()));
@@ -127,11 +140,11 @@ bool KgpgSelectSecretKey::isTerminalSign() const
 
 void KgpgSelectSecretKey::slotSelectionChanged()
 {
-    enableButtonOk(m_keyslist->selectionModel()->hasSelection());
+    m_okButton->setEnabled(m_keyslist->selectionModel()->hasSelection());
 }
 
 void KgpgSelectSecretKey::slotOk()
 {
-    if (m_keyslist->selectionModel()->hasSelection())
-        slotButtonClicked(Ok);
+//     if (m_keyslist->selectionModel()->hasSelection())
+//         slotButtonClicked(Ok); FIXME: KF5
 }

@@ -19,18 +19,32 @@
 
 #include <KLocale>
 #include <KMessageBox>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, const QString &errormessage,
 		const QStringList &keysList, const QString &caption)
-	: KDialog(parent)
+	: QDialog(parent)
 {
 	if (!caption.isEmpty())
 		setWindowTitle(caption);
 	else
 		setWindowTitle(i18n("Info"));
-	setButtons(Details | Ok);
-	setDefaultButton(Ok);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	mainLayout->addWidget(buttonBox);
+	okButton->setDefault(true);
 	setModal(true);
 // 	KMessageBox::createKMessageBox(this, QMessageBox::Information, // krazy:exclude=qtclasses
-// 				   boxLabel, keysList, QString(), Q_NULLPTR, 0, errormessage); FIXME:KF5
+// 				   boxLabel, keysList, QString(), Q_NULLPTR, 0, errormessage); FIXME: KF5
 }

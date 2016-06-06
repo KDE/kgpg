@@ -37,6 +37,7 @@
 #include <QMimeData>
 #include <QTextStream>
 #include <kio/netaccess.h>
+#include <KConfigGroup>
 
 #define SIGNEDMESSAGE_BEGIN  QLatin1String( "-----BEGIN PGP SIGNED MESSAGE-----" )
 #define SIGNEDMESSAGE_END    QLatin1String( "-----END PGP SIGNATURE-----" )
@@ -159,7 +160,7 @@ void KgpgTextEdit::openDroppedFile(const QUrl &url, const bool probe)
 void KgpgTextEdit::slotEncode()
 {
 	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, m_model, m_keysmanager->goDefaultShortcut(), true);
-	if (dialog->exec() == KDialog::Accepted) {
+	if (dialog->exec() == QDialog::Accepted) {
 		QStringList options;
 		KGpgEncrypt::EncryptOptions opts = KGpgEncrypt::DefaultEncryption;
 

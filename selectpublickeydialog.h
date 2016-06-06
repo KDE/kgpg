@@ -18,17 +18,17 @@
 
 #include "core/kgpgkey.h"
 
-#include <KDialog>
+#include <QDialog>
 #include <QKeySequence>
 #include <QUrl>
-#include <KVBox>
-#include <QKeySequence>
+
+#include <QVBoxLayout>
 
 class QCheckBox;
 class QTableView;
 
 class QLineEdit;
-class KHBox;
+
 
 class SelectKeyProxyModel;
 class KGpgItemModel;
@@ -36,7 +36,7 @@ class KGpgItemModel;
 /**
  * @brief shows a dialog to select a public key for encryption
  */
-class KgpgSelectPublicKeyDlg : public KDialog
+class KgpgSelectPublicKeyDlg : public QDialog
 {
     Q_OBJECT
 
@@ -57,7 +57,7 @@ public:
      */
     const QList<QUrl> &getFiles() const;
 
-    KVBox *optionsbox;
+    QWidget *optionsbox;
 
 private slots:
     void slotOk();
@@ -67,12 +67,17 @@ private slots:
     void slotGotoDefaultKey();
 
 private:
+    void toggleDetails();
+private:
     QCheckBox *m_cbarmor;
     QCheckBox *m_cbuntrusted;
     QCheckBox *m_cbhideid;
     QCheckBox *m_cbsymmetric;
 
-    KHBox *m_searchbar;
+    QPushButton *m_okButton;
+    QPushButton *m_detailsButton;
+
+    QWidget *m_searchbar;
     QLineEdit *m_customoptions;
     QTableView *m_keyslist;
     QLineEdit *m_searchlineedit;

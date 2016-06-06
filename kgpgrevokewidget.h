@@ -17,7 +17,7 @@
 #ifndef KGPGREVOKEWIDGET_H
 #define KGPGREVOKEWIDGET_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <kgpgcompiler.h>
 #include "ui_kgpgrevokewidget.h"
@@ -37,7 +37,7 @@ public slots:
    virtual void cbSave_toggled(bool isOn);
 };
 
-class KGpgRevokeDialog: public KDialog
+class KGpgRevokeDialog: public QDialog
 {
 	Q_OBJECT
 

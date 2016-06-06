@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>kgpgKeyGenerate</class>
- <widget class="KDialog" name="kgpgKeyGenerate">
+ <widget class="QDialog" name="kgpgKeyGenerate">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -184,20 +184,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KDialog</class>
-   <extends>QDialog</extends>
-   <header>kdialog.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

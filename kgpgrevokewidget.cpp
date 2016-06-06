@@ -20,6 +20,10 @@
 
 #include <QUrl>
 #include <QDir>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 KgpgRevokeWidget::KgpgRevokeWidget(QWidget* parent)
 	: QWidget(parent),
@@ -35,13 +39,22 @@ void KgpgRevokeWidget::cbSave_toggled(bool isOn)
 }
 
 KGpgRevokeDialog::KGpgRevokeDialog(QWidget* parent, const KGpgKeyNode *node)
-	: KDialog(parent),
+	: QDialog(parent),
 	m_revWidget(new KgpgRevokeWidget(this)),
 	m_id(node->getId())
 {
 	setWindowTitle(i18n("Create Revocation Certificate"));
-	setButtons(KDialog::Ok | KDialog::Cancel);
-	setDefaultButton(KDialog::Ok);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 	setModal(true);
 
 	m_revWidget->keyID->setText(i18nc("<Name> (<Email>) ID: <KeyId>", "%1 (%2) ID: %3",
@@ -50,7 +63,8 @@ KGpgRevokeDialog::KGpgRevokeDialog(QWidget* parent, const KGpgKeyNode *node)
 	m_revWidget->outputFile->setMode(KFile::File);
 
 	setMinimumSize(m_revWidget->sizeHint());
-	setMainWidget(m_revWidget);
+	mainLayout->addWidget(m_revWidget);
+	mainLayout->addWidget(buttonBox);
 }
 
 QString KGpgRevokeDialog::getDescription() const

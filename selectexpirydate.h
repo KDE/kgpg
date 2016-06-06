@@ -16,13 +16,14 @@
 #ifndef SELECTEXPIRYDATE_H
 #define SELECTEXPIRYDATE_H
 
-#include <KDialog>
 #include <QDateTime>
+#include <QDialog>
 
 #include <kgpgcompiler.h>
 
 class KDatePicker;
 class QCheckBox;
+class QPushButton;
 
 /**
  * @brief shows a dialog to choose expiry date
@@ -30,7 +31,7 @@ class QCheckBox;
  * This dialog allows the user to choose a expiry date or set a
  * checkbox to select that the given item will never expire.
  */
-class SelectExpiryDate : public KDialog
+class SelectExpiryDate : public QDialog
 {
 	Q_OBJECT
 
@@ -45,6 +46,7 @@ private slots:
 
 private:
 	QCheckBox *m_unlimited;
+	QPushButton *okButton;
 	KDatePicker *m_datepicker;
 };
 

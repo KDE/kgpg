@@ -38,6 +38,7 @@
 #include <QTextStream>
 #include <QVBoxLayout>
 #include <QStandardPaths>
+#include <KConfigGroup>
 
 using namespace KgpgCore;
 
@@ -221,14 +222,13 @@ void kgpgOptions::slotAddKeyServer()
 		return;
 
 	m_serverModel->setStringList(m_serverModel->stringList() << newServer);
-
-// 	enableButtonApply(true); FIXME: KF5
+	settingsChangedSlot();
 }
 
 void kgpgOptions::slotChangeEncryptTo()
 {
 	bool enable = (m_page1->encrypt_to_always->isChecked() != m_encrypttoalways);
-// 	enableButtonApply(enable); FIXME: KF5
+	settingsChangedSlot();
 }
 
 void kgpgOptions::slotDelKeyServer()
@@ -236,7 +236,7 @@ void kgpgOptions::slotDelKeyServer()
 	QModelIndex cur = m_page6->ServerBox->selectionModel()->currentIndex();
 	m_serverModel->removeRows(cur.row(), 1);
 
-// 	enableButtonApply(true); FIXME: KF5
+	settingsChangedSlot();
 }
 
 void kgpgOptions::slotEditKeyServer()
@@ -251,7 +251,7 @@ void kgpgOptions::slotEditKeyServer(const QModelIndex &index)
 
 	m_page6->ServerBox->edit(index);
 
-// 	enableButtonApply(true); FIXME: KF5
+	settingsChangedSlot();
 }
 
 void kgpgOptions::slotDefaultKeyServer()
@@ -260,7 +260,7 @@ void kgpgOptions::slotDefaultKeyServer()
 
 	m_serverModel->setDefault(cur.row());
 
-// 	enableButtonApply(true); FIXME: KF5
+	settingsChangedSlot();
 }
 
 void kgpgOptions::slotChangeKeyServerButtonEnable()

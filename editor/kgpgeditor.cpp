@@ -57,6 +57,9 @@
 #include <QWidget>
 #include <kio/netaccess.h>
 #include <kio/renamedialog.h>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 class KgpgView : public QWidget {
 public:
@@ -491,14 +494,24 @@ void KgpgEditor::slotFilePreDec()
         oldname.append(QLatin1String( ".clear" ));
     oldname.prepend(url.adjusted(QUrl::RemoveFilename).path());
 
-    QPointer<KDialog> popn = new KDialog(this);
+    QPointer<QDialog> popn = new QDialog(this);
     popn->setWindowTitle(i18n("Decrypt File To"));
-    popn->setButtons( KDialog::Ok | KDialog::Cancel );
-    popn->setDefaultButton( KDialog::Ok );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QWidget *mainWidget = new QWidget(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    popn->setLayout(mainLayout);
+    mainLayout->addWidget(mainWidget);
+    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    popn->connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    popn->connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
     popn->setModal( true );
 
     SrcSelect *page = new SrcSelect();
-    popn->setMainWidget(page);
+    mainLayout->addWidget(page);
+    mainLayout->addWidget(buttonBox);
     page->newFilename->setUrl(QUrl(oldname));
     page->newFilename->setMode(KFile::File);
     page->newFilename->setWindowTitle(i18n("Save File"));

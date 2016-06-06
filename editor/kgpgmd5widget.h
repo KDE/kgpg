@@ -19,7 +19,7 @@ class QLabel;
 
 class KLed;
 
-class Md5Widget : public KDialog
+class Md5Widget : public QDialog
 {
     Q_OBJECT
 

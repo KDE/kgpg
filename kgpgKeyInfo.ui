@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>kgpgKeyInfo</class>
- <widget class="KDialog" name="kgpgKeyInfo">
+ <widget class="QDialog" name="kgpgKeyInfo">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -441,12 +441,6 @@
   </widget>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KDialog</class>
-   <extends>QDialog</extends>
-   <header>kdialog.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>

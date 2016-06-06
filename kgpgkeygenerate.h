@@ -19,11 +19,12 @@
 
 #include "core/kgpgkey.h"
 
-#include <KDialog>
+#include <QDialog>
+#include <QPushButton>
 
 class KComboBox;
 
-class KgpgKeyGenerate : public KDialog, public Ui::kgpgKeyGenerate
+class KgpgKeyGenerate : public QDialog, public Ui::kgpgKeyGenerate
 {
     Q_OBJECT
 
@@ -48,12 +49,13 @@ public:
 private slots:
     void slotOk();
     void slotUser1();
-    void slotButtonClicked(int button);
     void slotEnableOk();
     void slotEnableDays(const int state);
     void slotEnableCaps(const int state);
 
 private:
+    QPushButton *okButton;
+
     KComboBox *m_keyexp;
     bool m_expert;
 };

@@ -26,17 +26,22 @@
 #include "model/kgpgitemnode.h"
 #include "transactions/kgpgchangepass.h"
 
+#include <KConfigGroup>
 #include <KGlobal>
 #include <KLocale>
 #include <KMessageBox>
 #include <KPushButton>
 #include <KToolInvocation>
+
 #include <QApplication>
 #include <QCheckBox>
+#include <QDialogButtonBox>
 #include <QFormLayout>
 #include <QHBoxLayout>
 #include <QImage>
 #include <QPixmap>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 using namespace KgpgCore;
 
@@ -95,7 +100,7 @@ void KgpgTrustLabel::change()
 }
 
 KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *parent)
-	: KDialog(parent),
+	: QDialog(parent),
 	keychange(new KGpgChangeKey(node, this)),
 	m_node(node),
 	m_model(model),
@@ -107,10 +112,20 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
 
     setupUi(this);
 
-    setButtons(Ok | Apply | Cancel);
-    setDefaultButton(Ok);
-    setModal(true);
-    enableButtonApply(false);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    QWidget *mainWidget = new QWidget(this);
+    setLayout(mainLayout);
+    mainLayout->addWidget(mainWidget);
+    buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel|QDialogButtonBox::Apply);
+    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &KgpgKeyInfo::okButtonClicked);
+    connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, &KgpgKeyInfo::applyButtonClicked);
+    connect(buttonBox->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &KgpgKeyInfo::cancelButtonClicked);
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    okButton->setDefault(true);
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
 
     m_email->setUnderline(false);
     m_trust = new KgpgTrustLabel(this);
@@ -124,7 +139,8 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
         m_password->hide();
     }
 
-    setMainWidget(page);
+    mainLayout->addWidget(page);
+    mainLayout->addWidget(buttonBox);
 
     connect(m_owtrust, SIGNAL(activated(int)), this, SLOT(slotChangeTrust(int)));
     connect(m_photoid, SIGNAL(activated(QString)), this, SLOT(slotLoadPhoto(QString)));
@@ -262,7 +278,7 @@ void KgpgKeyInfo::slotChangeDate()
 	QPointer<SelectExpiryDate> dialog = new SelectExpiryDate(this, m_node->getExpiration());
 	if (dialog->exec() == QDialog::Accepted) {
 		keychange->setExpiration(dialog->date());
-		enableButtonApply(keychange->wasChanged());
+		buttonBox->button(QDialogButtonBox::Apply)->setEnabled(keychange->wasChanged());
 	}
 	delete dialog;
 }
@@ -270,7 +286,7 @@ void KgpgKeyInfo::slotChangeDate()
 void KgpgKeyInfo::slotDisableKey(const bool ison)
 {
 	keychange->setDisable(ison);
-	enableButtonApply(keychange->wasChanged());
+	buttonBox->button(QDialogButtonBox::Apply)->setEnabled(keychange->wasChanged());
 }
 
 void KgpgKeyInfo::slotChangePass()
@@ -306,14 +322,14 @@ void KgpgKeyInfo::slotInfoPasswordChanged(int result)
 void KgpgKeyInfo::slotChangeTrust(const int newtrust)
 {
 	keychange->setOwTrust(static_cast<gpgme_validity_t>(newtrust + 1));
-	enableButtonApply(keychange->wasChanged());
+	buttonBox->button(QDialogButtonBox::Apply)->setEnabled(keychange->wasChanged());
 }
 
 void KgpgKeyInfo::setControlEnable(const bool b)
 {
     m_owtrust->setEnabled(b);
     m_disable->setEnabled(b);
-    enableButtonApply(b && keychange->wasChanged());
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(b && keychange->wasChanged());
 
     if (m_expirationbtn)
         m_expirationbtn->setEnabled(b);
@@ -326,24 +342,23 @@ void KgpgKeyInfo::setControlEnable(const bool b)
         QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 }
 
-void KgpgKeyInfo::slotButtonClicked(int button)
+void KgpgKeyInfo::okButtonClicked()
 {
-	switch (button) {
-	case Ok:
-		m_closewhendone = true;
-		// Fall-through
-	case Apply:
-		setControlEnable(false);
-		keychange->apply();
-		break;
-	case Cancel:
-		if (m_keywaschanged && m_node)
-			emit keyNeedsRefresh(m_node);
-		reject();
-		break;
-	default:
-		KDialog::slotButtonClicked(button);
-	}
+	m_closewhendone = true;
+	applyButtonClicked();
+}
+
+void KgpgKeyInfo::applyButtonClicked()
+{
+	setControlEnable(false);
+	keychange->apply();
+}
+
+void KgpgKeyInfo::cancelButtonClicked()
+{
+	if (m_keywaschanged && m_node)
+		emit keyNeedsRefresh(m_node);
+	reject();
 }
 
 void KgpgKeyInfo::slotApplied(int result)

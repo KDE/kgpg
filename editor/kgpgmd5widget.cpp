@@ -20,15 +20,25 @@
 #include <KMessageBox>
 #include <KLocale>
 #include <KLed>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 
 Md5Widget::Md5Widget(QWidget *parent, const QUrl &url)
-         : KDialog(parent)
+         : QDialog(parent)
 {
     setWindowTitle(i18n("MD5 Checksum"));
-    setButtons(Apply | Close);
-    setDefaultButton(Close);
-    setButtonText(Apply, i18n("Compare MD5 with Clipboard"));
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close|QDialogButtonBox::Apply);
+    QWidget *mainWidget = new QWidget(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
+    mainLayout->addWidget(mainWidget);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
+    buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Compare MD5 with Clipboard"));
 
     QFile f(url.path());
     QCryptographicHash checkfile(QCryptographicHash::Md5);
@@ -63,16 +73,15 @@ Md5Widget::Md5Widget(QWidget *parent, const QUrl &url)
     ledlayout->addWidget(m_label);
 
     QVBoxLayout *dialoglayout = new QVBoxLayout(page);
-    dialoglayout->setMargin(marginHint());
-    dialoglayout->setSpacing(spacingHint());
     dialoglayout->addWidget(firstlabel);
     dialoglayout->addWidget(md5lineedit);
     dialoglayout->addLayout(ledlayout);
     dialoglayout->addStretch();
 
-    setMainWidget(page);
+    mainLayout->addWidget(page);
+    mainLayout->addWidget(buttonBox);
 
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApply()));
 }
 
 void Md5Widget::slotApply()

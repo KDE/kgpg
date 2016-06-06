@@ -16,19 +16,21 @@
 #include "gpgproc.h"
 #include "kgpginterface.h"
 
-#include <KDebug>
-#include <KDialog>
-#include <kio/renamedialog.h>
-#include <KPasswordDialog>
-#include <knewpassworddialog.h>
-#include <KLocale>
-#include <KPushButton>
-#include <QUrl>
 #include <QByteArray>
+#include <QDialog>
 #include <QPointer>
 #include <QStringList>
+#include <QUrl>
 #include <QWeakPointer>
 #include <QWidget>
+
+#include <KConfigGroup>
+#include <KDebug>
+#include <KIO/RenameDialog>
+#include <KNewPasswordDialog>
+#include <KLocale>
+#include <KPasswordDialog>
+#include <KPushButton>
 
 KGpgTransaction::KGpgTransaction(QObject *parent, const bool allowChaining)
 	: QObject(parent),

@@ -1312,7 +1312,7 @@ KeysManager::slotMenu(const QPoint &pos)
 void KeysManager::revokeWidget()
 {
 	KGpgNode *nd = iview->selectedNode();
-	KDialog *keyRevokeDialog = new KGpgRevokeDialog(this, nd->toKeyNode());
+	QDialog *keyRevokeDialog = new KGpgRevokeDialog(this, nd->toKeyNode());
 
 	connect(keyRevokeDialog, SIGNAL(finished(int)), SLOT(slotRevokeDialogFinished(int)));
 

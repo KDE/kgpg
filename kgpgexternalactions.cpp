@@ -37,6 +37,7 @@
 #include <KActionCollection>
 #include <KHelpClient>
 #include <KMessageBox>
+#include <KHBox>
 
 #include <QFont>
 #include <QProcess>

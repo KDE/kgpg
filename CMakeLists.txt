@@ -17,6 +17,7 @@ include(ECMPackageConfigHelpers)
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
   Core
+  DBus
   Gui
   Widgets
 )
@@ -26,11 +27,11 @@ find_package(KF5 REQUIRED
   AkonadiContact
   Archive
   DocTools
-  I18n
-  IconThemes
   Codecs
   Contacts
   CoreAddons
+  I18n
+  IconThemes
   KIO
   KDELibs4Support
   Service
@@ -220,13 +221,15 @@ if (KGPG_DEBUG_TRANSACTIONS)
 endif (KGPG_DEBUG_TRANSACTIONS)
 
 target_link_libraries(kgpg
+    KF5::AkonadiContact
     KF5::Archive
     KF5::Codecs
     KF5::Contacts
     KF5::CoreAddons
+    KF5::IconThemes
     KF5::KDELibs4Support
     KF5::KIOCore
-    KF5::AkonadiContact
+    KF5::WidgetsAddons
 )
 
 install(TARGETS kgpg  ${INSTALL_TARGETS_DEFAULT_ARGS} )
