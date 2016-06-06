@@ -20,11 +20,9 @@
 #define KGPGSEARCHRESULTMODEL_H
 
 #include <QAbstractItemModel>
+#include <QStringList>
 
 #include <kgpgcompiler.h>
-
-class QString;
-class QStringList;
 
 class KGpgSearchResultModelPrivate;
 
@@ -56,7 +54,7 @@ public:
 	const QString &idForIndex(const QModelIndex &index) const;
 
 public slots:
-	void slotAddKey(QStringList lines);
+	void slotAddKey(const QStringList &lines);
 
 private:
 	KGpgSearchResultModelPrivate * const d;

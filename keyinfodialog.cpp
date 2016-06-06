@@ -30,7 +30,6 @@
 #include <KGlobal>
 #include <KLocale>
 #include <KMessageBox>
-#include <KPushButton>
 #include <KToolInvocation>
 
 #include <QApplication>
