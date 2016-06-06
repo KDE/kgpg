@@ -26,7 +26,6 @@
 #include <KDebug>
 #include <KDesktopFile>
 #include <KFontChooser>
-#include <KInputDialog>
 #include <KLocale>
 #include <KMessageBox>
 #include <KProcess>
@@ -35,6 +34,7 @@
 #include <QCheckBox>
 #include <QFile>
 #include <QFileDialog>
+#include <QInputDialog>
 #include <QTextStream>
 #include <QVBoxLayout>
 #include <QStandardPaths>
@@ -216,7 +216,7 @@ bool kgpgOptions::isValidKeyserver(const QString &server)
 
 void kgpgOptions::slotAddKeyServer()
 {
-	const QString newServer(KInputDialog::getText(i18n("Add New Key Server"), i18n("Server URL:")));
+	const QString newServer(QInputDialog::getText(this, i18n("Add New Key Server"), i18n("Server URL:")));
 
 	if (!isValidKeyserver(newServer))
 		return;

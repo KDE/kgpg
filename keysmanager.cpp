@@ -61,7 +61,6 @@
 #include <akonadi/contact/contactsearchjob.h>
 #include <KActionCollection>
 #include <KDebug>
-#include <KInputDialog>
 #include <KGlobal>
 #include <KLocale>
 #include <KMessageBox>
@@ -89,6 +88,7 @@
 #include <QEvent>
 #include <QFileDialog>
 #include <QIcon>
+#include <QInputDialog>
 #include <QKeySequence>
 #include <QLabel>
 #include <QLineEdit>
@@ -1738,9 +1738,8 @@ void KeysManager::createNewGroup()
 		}
 	}
 
-        QString groupName(KInputDialog::getText(i18n("Create New Group"),
-			i18nc("Enter the name of the group you are creating now", "Enter new group name:"),
-			QString(), 0, this));
+        QString groupName(QInputDialog::getText(this, i18n("Create New Group"),
+			i18nc("Enter the name of the group you are creating now", "Enter new group name:")));
 	if (groupName.isEmpty())
 		return;
 	if (!keysList.isEmpty()) {
