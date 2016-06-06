@@ -203,8 +203,8 @@ ki18n_wrap_ui(kgpg_SRCS
     sourceselect.ui
 )
 
-file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app*-kgpg.png")
-# ecm_add_app_icon(kgpg_SRCS ICONS ${ICONS_SRCS})
+file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/*-apps-kgpg.png")
+ecm_add_app_icon(kgpg_SRCS ICONS ${ICONS_SRCS})
 
 kconfig_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
@@ -245,6 +245,13 @@ install( FILES encryptfile.desktop encryptfolder.desktop viewdecrypted.desktop D
 ${SERVICES_INSTALL_DIR}/ServiceMenus)
 install( FILES org.kde.kgpg.Key.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
 
-ecm_install_icons( ${ICON_INSTALL_DIR}   )
+ecm_install_icons(ICONS
+    16-apps-kgpg.png
+    22-apps-kgpg.png
+    32-apps-kgpg.png
+    48-apps-kgpg.png
+    DESTINATION ${KDE_INSTALL_ICONDIR}
+    THEME hicolor
+)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
