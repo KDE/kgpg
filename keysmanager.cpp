@@ -1142,7 +1142,7 @@ void KeysManager::saveToggleOpts(void)
 	KGpgSettings::setTrustLevel(trustProps->currentItem());
 	KGpgSettings::setShowSecret(hPublic->isChecked());
 	KGpgSettings::setShowLongKeyId(longId->isChecked());
-	KGpgSettings::self()->writeConfig();
+	KGpgSettings::self()->save();
 }
 
 void KeysManager::readOptions()
@@ -1198,7 +1198,7 @@ void KeysManager::slotSetDefaultKey(const QString &newID)
 
 	if (ndef == Q_NULLPTR) {
 		KGpgSettings::setDefaultKey(newID);
-		KGpgSettings::self()->writeConfig();
+		KGpgSettings::self()->save();
 		return;
 	}
 
@@ -1213,7 +1213,7 @@ void KeysManager::setDefaultKeyNode(KGpgKeyNode *key)
 		return;
 
 	KGpgSettings::setDefaultKey(newID);
-	KGpgSettings::self()->writeConfig();
+	KGpgSettings::self()->save();
 
 	imodel->setDefaultKey(key);
 }

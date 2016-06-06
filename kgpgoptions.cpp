@@ -460,7 +460,7 @@ void kgpgOptions::updateSettings()
 	m_emailSortingIndex = m_page3->kcfg_EmailSorting->currentIndex();
 	KGpgSettings::setEmailSorting(m_emailSortingIndex);
 
-	KGpgSettings::self()->writeConfig();
+	KGpgSettings::self()->save();
 	m_config->sync();
 
 	emit settingsUpdated();
