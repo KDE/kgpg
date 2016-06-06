@@ -138,7 +138,7 @@ KeysManager::KeysManager(QWidget *parent)
 	goToDefaultKey = actionCollection()->addAction(QLatin1String("go_default_key"), this, SLOT(slotGotoDefaultKey()));
 	goToDefaultKey->setIcon(QIcon::fromTheme( QLatin1String( "go-home" )));
 	goToDefaultKey->setText(i18n("&Go to Default Key"));
-	goToDefaultKey->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Home));
+	actionCollection()->setDefaultShortcut(goToDefaultKey, QKeySequence(Qt::CTRL + Qt::Key_Home));
 
 	s_kgpgEditor = new KgpgEditor(this, imodel, Qt::Dialog);
 	s_kgpgEditor->setAttribute(Qt::WA_DeleteOnClose, false);
@@ -163,7 +163,7 @@ KeysManager::KeysManager(QWidget *parent)
 	action = actionCollection()->addAction(QLatin1String("key_refresh"), this, SLOT(refreshkey()));
 	action->setIcon(QIcon::fromTheme( QLatin1String( "view-refresh" )));
 	action->setText(i18n("&Refresh List"));
-	action->setShortcuts(KStandardShortcut::reload());
+	actionCollection()->setDefaultShortcuts(action, KStandardShortcut::reload());
 
 	longId = actionCollection()->add<KToggleAction>(QLatin1String("show_long_keyid"), this, SLOT(slotShowLongId(bool)));
 	longId->setText(i18n("Show &Long Key Id"));
@@ -180,21 +180,21 @@ KeysManager::KeysManager(QWidget *parent)
 	editKey = actionCollection()->addAction(QLatin1String("key_edit"), this, SLOT(slotedit()));
 	editKey->setIcon(QIcon::fromTheme( QLatin1String( "utilities-terminal" )));
 	editKey->setText(i18n("Edit Key in &Terminal"));
-	editKey->setShortcut(QKeySequence(Qt::ALT + Qt::Key_Return));
+	actionCollection()->setDefaultShortcut(editKey, QKeySequence(Qt::ALT + Qt::Key_Return));
 
 	QAction *generateKey = actionCollection()->addAction(QLatin1String("key_gener"), this, SLOT(slotGenerateKey()));
 	generateKey->setIcon(QIcon::fromTheme( QLatin1String( "key-generate-pair" )));
 	generateKey->setText(i18n("&Generate Key Pair..."));
-	generateKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::New));
+	actionCollection()->setDefaultShortcuts(generateKey, KStandardShortcut::shortcut(KStandardShortcut::New));
 
 	exportPublicKey = actionCollection()->addAction(QLatin1String("key_export"), this, SLOT(slotexport()));
 	exportPublicKey->setIcon(QIcon::fromTheme( QLatin1String( "document-export-key" )));
-	exportPublicKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Copy));
+	actionCollection()->setDefaultShortcuts(exportPublicKey, KStandardShortcut::shortcut(KStandardShortcut::Copy));
 
 	QAction *importKey = actionCollection()->addAction(QLatin1String("key_import"), this, SLOT(slotPreImportKey()));
 	importKey->setIcon(QIcon::fromTheme( QLatin1String( "document-import-key" )));
 	importKey->setText(i18n("&Import Key..."));
-	importKey->setShortcuts(KStandardShortcut::shortcut(KStandardShortcut::Paste));
+	actionCollection()->setDefaultShortcuts(importKey, KStandardShortcut::shortcut(KStandardShortcut::Paste));
 
 	m_sendEmail = actionCollection()->addAction(QLatin1String("send_mail"), this, SLOT(slotSendEmail()));
 	m_sendEmail->setIcon(QIcon::fromTheme(QLatin1String("mail-send")));
@@ -217,11 +217,11 @@ KeysManager::KeysManager(QWidget *parent)
 	m_groupRename = actionCollection()->addAction(QLatin1String("rename_group"), this, SLOT(renameGroup()));
 	m_groupRename->setText(i18n("&Rename Group"));
 	m_groupRename->setIcon(QIcon::fromTheme( QLatin1String( "edit-rename" )));
-	m_groupRename->setShortcut(QKeySequence(Qt::Key_F2));
+	actionCollection()->setDefaultShortcut(m_groupRename, QKeySequence(Qt::Key_F2));
 
 	deleteKey = actionCollection()->addAction(QLatin1String("key_delete"), this, SLOT(confirmdeletekey()));
 	deleteKey->setIcon(QIcon::fromTheme( QLatin1String( "edit-delete" )));
-	deleteKey->setShortcut(QKeySequence(Qt::Key_Delete));
+	actionCollection()->setDefaultShortcut(deleteKey, QKeySequence(Qt::Key_Delete));
 
 	setDefaultKey = actionCollection()->addAction(QLatin1String("key_default"), this, SLOT(slotSetDefKey()));
 	setDefaultKey->setText(i18n("Set as De&fault Key"));
@@ -439,7 +439,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 	action = actionCollection()->addAction(QLatin1String("search_focus"), m_listviewsearch, SLOT(setFocus()));
 	action->setText(i18nc("Name of the action that gives the focus to the search line", "Focus Search Line"));
-	action->setShortcut(QKeySequence(Qt::Key_F6));
+	actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::Key_F6));
 	connect(m_listviewsearch, SIGNAL(textChanged(QString)), iproxy, SLOT(setFilterFixedString(QString)));
 
 	setActionDescriptions(1);
