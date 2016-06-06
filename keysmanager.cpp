@@ -84,6 +84,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDBusConnection>
+#include <QDesktopServices>
 #include <QDir>
 #include <QEvent>
 #include <QFileDialog>
@@ -1520,7 +1521,7 @@ void KeysManager::slotProcessExportMail(int result)
 
 	// start default Mail application
 	if (result == KGpgTransaction::TS_OK) {
-		KToolInvocation::invokeMailer(QString(), QString(), QString(), QString(),QLatin1String( exp->getOutputData() ));
+		QDesktopServices::openUrl(QUrl(QLatin1String("mailto:?body=") + QLatin1String(exp->getOutputData())));
 	} else {
 		KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
 	}
@@ -2252,7 +2253,7 @@ void KeysManager::slotSendEmail()
 	if (maillist.isEmpty())
 		return;
 
-	KToolInvocation::invokeMailer(maillist.join(QLatin1String(", ")), QString());
+	QDesktopServices::openUrl(QUrl(QLatin1String("mailto:") + maillist.join(QLatin1String(", "))));
 }
 
 void KeysManager::slotedit()

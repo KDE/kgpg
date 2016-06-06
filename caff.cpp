@@ -27,9 +27,9 @@
 
 #include <KDebug>
 #include <KLocale>
-#include <KToolInvocation>
 #include <KMessageBox>
 
+#include <QDesktopServices>
 #include <QDir>
 #include <QFileInfo>
 #include <QTemporaryDir>
@@ -354,9 +354,9 @@ KGpgCaffPrivate::slotTextEncrypted(int result)
 		const QString email = uid->getEmail();
 		const QString keyid = uid->getKeyNode()->getId();
 
-		KToolInvocation::invokeMailer(email, QString(), QString(),
-				i18nc("%1 is 64 bit key id (in hex), text is used as email subject", "Your key %1", keyid),
-				text);
+		QDesktopServices::openUrl(QUrl(QLatin1String("mailto:") + email +
+				QLatin1String("?subject=") + i18nc("%1 is 64 bit key id (in hex), text is used as email subject", "Your key %1", keyid) +
+				QLatin1String("?body=") + text));
 		break;
 		}
 	default:
