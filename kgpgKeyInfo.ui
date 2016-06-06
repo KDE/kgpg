@@ -377,14 +377,14 @@
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="m_expirationbtn">
+            <widget class="QPushButton" name="m_expirationbtn">
              <property name="text">
               <string>Change Expiration</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="m_password">
+            <widget class="QPushButton" name="m_password">
              <property name="text">
               <string>Change Passphrase</string>
              </property>
@@ -441,11 +441,6 @@
   </widget>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
   <customwidget>
    <class>KUrlLabel</class>
    <extends>QLabel</extends>

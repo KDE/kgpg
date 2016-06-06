@@ -30,7 +30,6 @@
 #include <KNewPasswordDialog>
 #include <KLocale>
 #include <KPasswordDialog>
-#include <KPushButton>
 
 KGpgTransaction::KGpgTransaction(QObject *parent, const bool allowChaining)
 	: QObject(parent),

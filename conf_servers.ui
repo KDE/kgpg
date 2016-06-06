@@ -41,7 +41,7 @@ all others will be stored for use by KGpg only.</string>
      <item>
       <layout class="QVBoxLayout" >
        <item>
-        <widget class="KPushButton" name="server_default" >
+        <widget class="QPushButton" name="server_default" >
          <property name="enabled" >
           <bool>false</bool>
          </property>
@@ -51,14 +51,14 @@ all others will be stored for use by KGpg only.</string>
         </widget>
        </item>
        <item>
-        <widget class="KPushButton" name="server_add" >
+        <widget class="QPushButton" name="server_add" >
          <property name="text" >
           <string>&amp;Add...</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="KPushButton" name="server_del" >
+        <widget class="QPushButton" name="server_del" >
          <property name="enabled" >
           <bool>false</bool>
          </property>
@@ -68,7 +68,7 @@ all others will be stored for use by KGpg only.</string>
         </widget>
        </item>
        <item>
-        <widget class="KPushButton" name="server_edit" >
+        <widget class="QPushButton" name="server_edit" >
          <property name="text" >
           <string>&amp;Edit...</string>
          </property>
@@ -93,13 +93,7 @@ all others will be stored for use by KGpg only.</string>
    </item>
   </layout>
  </widget>
-  <customwidgets>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
- </customwidgets>
+ <customwidgets/>
  <resources/>
  <connections/>
 </ui>
