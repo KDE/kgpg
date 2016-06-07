@@ -29,10 +29,10 @@
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KToolInvocation>
 
 #include <QApplication>
 #include <QCheckBox>
+#include <QDesktopServices>
 #include <QDialogButtonBox>
 #include <QFormLayout>
 #include <QHBoxLayout>
@@ -260,7 +260,7 @@ void KgpgKeyInfo::displayKey()
 
 void KgpgKeyInfo::slotOpenUrl(const QString &url) const
 {
-    KToolInvocation::invokeBrowser(url);
+    QDesktopServices::openUrl(QUrl(url));
 }
 
 void KgpgKeyInfo::slotLoadPhoto(const QString &uid)
