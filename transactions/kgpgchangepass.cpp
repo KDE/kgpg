@@ -13,7 +13,7 @@
 
 #include "kgpgchangepass.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 KGpgChangePass::KGpgChangePass(QObject *parent, const QString &keyid)
 	: KGpgTransaction(parent),

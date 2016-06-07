@@ -27,7 +27,7 @@
 #include "transactions/kgpgsigntext.h"
 #include "transactions/kgpgverify.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlMimeData>
 

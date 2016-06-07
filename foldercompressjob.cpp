@@ -14,7 +14,7 @@
 #include "foldercompressjob.h"
 
 #include <KArchive>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KTar>
 #include <KZip>
 

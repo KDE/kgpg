@@ -28,7 +28,7 @@
 #include "kgpgsettings.h"
 #include "model/kgpgitemmodel.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 KGpgKeyNode::KGpgKeyNode(KGpgRootNode *parent, const KgpgCore::KgpgKey &k)
 	: KGpgSignableNode(parent),

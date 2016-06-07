@@ -18,7 +18,7 @@
  */
 #include "KGpgRefNode.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 #include "KGpgExpandableNode.h"
 #include "KGpgRootNode.h"

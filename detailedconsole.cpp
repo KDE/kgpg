@@ -17,7 +17,7 @@
 
 #include "detailedconsole.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KConfigGroup>
 #include <QDialogButtonBox>

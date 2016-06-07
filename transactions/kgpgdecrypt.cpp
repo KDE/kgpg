@@ -16,7 +16,7 @@
 #include "gpgproc.h"
 #include "kgpgsettings.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 KGpgDecrypt::KGpgDecrypt(QObject *parent, const QString &text)
 	: KGpgTextOrFileTransaction(parent, text),

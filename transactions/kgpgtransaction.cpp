@@ -28,7 +28,7 @@
 #include <KDebug>
 #include <KIO/RenameDialog>
 #include <KNewPasswordDialog>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KPasswordDialog>
 
 KGpgTransaction::KGpgTransaction(QObject *parent, const bool allowChaining)

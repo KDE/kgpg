@@ -24,9 +24,8 @@
 #include "core/kgpgkey.h"
 
 #include <KComboBox>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <QUrl>
 #include <KUrlRequester>
 
 #include <QCheckBox>
@@ -34,9 +33,10 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QSpacerItem>
+#include <QStandardPaths>
 #include <QTextStream>
 #include <QWidget>
-#include <QStandardPaths>
+#include <QUrl>
 
 using namespace KgpgCore;
 

@@ -18,7 +18,7 @@
  */
 #include "KGpgSignableNode.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 KGpgSignableNode::KGpgSignableNode(KGpgExpandableNode *parent)
 	: KGpgExpandableNode(parent)

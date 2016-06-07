@@ -23,19 +23,18 @@
 
 #include <QAction>
 #include <QCheckBox>
+#include <QDialogButtonBox>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QPushButton>
 #include <QTableView>
 #include <QVBoxLayout>
 
 #include <KActionCollection>
-#include <QHBoxLayout>
-#include <KIconLoader>
-#include <KLocale>
-#include <QVBoxLayout>
 #include <KConfigGroup>
-#include <QDialogButtonBox>
-#include <QPushButton>
+#include <KIconLoader>
+#include <KLocalizedString>
 
 using namespace KgpgCore;
 

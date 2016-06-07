@@ -21,7 +21,7 @@
 #include "kgpgitemmodel.h"
 #include "core/kgpgkey.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <QIcon>
 
 using namespace KgpgCore;

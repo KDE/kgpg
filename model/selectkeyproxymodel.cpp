@@ -21,8 +21,9 @@
 #include "kgpgitemmodel.h"
 #include "core/kgpgkey.h"
 
-#include <KGlobal>
-#include <KLocale>
+#include <QLocale>
+
+#include <KLocalizedString>
 
 using namespace KgpgCore;
 
@@ -229,7 +230,7 @@ SelectSecretKeyProxyModel::data(const QModelIndex &index, int role) const
 	case 1:
 		return nd->getEmail();
 	case 2:
-		return KGlobal::locale()->formatDate(nd->getExpiration().date(), KLocale::ShortDate);
+		return QLocale().toString(nd->getExpiration().date(), QLocale::ShortFormat);
 	case 3:
 		return nd->getId().right(8);
 	}

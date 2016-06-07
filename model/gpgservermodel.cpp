@@ -19,7 +19,7 @@
 
 #include "gpgservermodel.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <QStringList>
 
 GpgServerModel::GpgServerModel(QObject *parent)

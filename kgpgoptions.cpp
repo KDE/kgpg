@@ -23,10 +23,11 @@
 #include "model/kgpgitemmodel.h"
 
 #include <KConfig>
+#include <KConfigGroup>
 #include <KDebug>
 #include <KDesktopFile>
 #include <KFontChooser>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
 #include <QUrl>
@@ -38,7 +39,6 @@
 #include <QTextStream>
 #include <QVBoxLayout>
 #include <QStandardPaths>
-#include <KConfigGroup>
 
 using namespace KgpgCore;
 

@@ -17,7 +17,7 @@
 
 #include <K4AboutData>
 #include <KCmdLineArgs>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KUniqueApplication>
 
 static const char description[] =

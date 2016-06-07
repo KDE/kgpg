@@ -18,7 +18,7 @@
  */
 #include "KGpgSubkeyNode.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 #include "convert.h"
 #include "KGpgKeyNode.h"

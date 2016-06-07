@@ -15,7 +15,7 @@
 
 #include "gpgproc.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QLabel>
 #include <QProgressDialog>

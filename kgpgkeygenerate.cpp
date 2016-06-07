@@ -20,17 +20,18 @@
 #include "kgpgsettings.h"
 
 #include <KComboBox>
+#include <KConfigGroup>
 #include <KHBox>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
+
 #include <QIntValidator>
+#include <QDialogButtonBox>
+#include <QPushButton>
 #include <QStringList>
 #include <QVBoxLayout>
 #include <QWhatsThis>
 #include <QWidget>
-#include <KConfigGroup>
-#include <QDialogButtonBox>
-#include <QPushButton>
 
 using namespace KgpgCore;
 

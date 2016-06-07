@@ -18,7 +18,7 @@
 
 #include <KApplication>
 #include <KMessageBox>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KLed>
 #include <KConfigGroup>
 #include <QDialogButtonBox>

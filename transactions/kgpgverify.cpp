@@ -17,8 +17,9 @@
 #include "core/KGpgKeyNode.h"
 #include "model/kgpgitemmodel.h"
 
-#include <KGlobal>
-#include <KLocale>
+#include <QLocale>
+
+#include <KLocalizedString>
 
 KGpgVerify::KGpgVerify(QObject *parent, const QString &text)
 	: KGpgTextOrFileTransaction(parent, text),
@@ -94,8 +95,8 @@ sigTimeMessage(const QString &sigtime)
 
 	return i18nc("first argument is formatted date, second argument is formatted time",
 					"The signature was created at %1 %2",
-					KGlobal::locale()->formatDate(stamp.date(), KLocale::LongDate),
-					KGlobal::locale()->formatTime(stamp.time(), KLocale::LongDate)) +
+					QLocale().toString(stamp.date(), QLocale::ShortFormat),
+					QLocale().toString(stamp.time(), QLocale::ShortFormat)) +
 			QLatin1String("<br/>");
 }
 

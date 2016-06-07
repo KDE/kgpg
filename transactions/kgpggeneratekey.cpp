@@ -15,8 +15,8 @@
 
 #include "gpgproc.h"
 
-#include <KLocale>
 #include <KEmailAddress>
+#include <KLocalizedString>
 #include <QApplication>
 
 KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,

@@ -26,7 +26,7 @@
 #include "transactions/kgpgkeyserversearchtransaction.h"
 #include "transactions/kgpgsendkeys.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <QCursor>
 

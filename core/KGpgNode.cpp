@@ -27,7 +27,7 @@
 #include "KGpgUidNode.h"
 #include "model/kgpgitemmodel.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 KGpgNode::KGpgNode(KGpgExpandableNode *parent)
 	: QObject(), m_parent(parent)

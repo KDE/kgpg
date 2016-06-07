@@ -15,7 +15,7 @@
 
 #include <KDateTime>
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QScopedPointer>
 #include <QString>

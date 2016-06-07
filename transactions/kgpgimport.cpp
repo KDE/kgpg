@@ -17,7 +17,7 @@
 #include "core/KGpgKeyNode.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 KGpgImport::KGpgImport(QObject *parent, const QString &text)
 	: KGpgTextOrFileTransaction(parent, text, true)

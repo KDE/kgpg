@@ -61,8 +61,7 @@
 #include <akonadi/contact/contactsearchjob.h>
 #include <KActionCollection>
 #include <KDebug>
-#include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KMimeTypeTrader>
 #include <KProcess>
@@ -78,7 +77,6 @@
 #include <KStatusNotifierItem>
 #include <KToggleAction>
 #include <KToolInvocation>
-#include <QUrl>
 
 #include <QApplication>
 #include <QClipboard>
@@ -99,6 +97,7 @@
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QProcess>
+#include <QUrl>
 #include <QWidget>
 #include <QWidgetAction>
 #include <kcontacts/addresseelist.h>

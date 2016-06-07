@@ -21,7 +21,7 @@
 #include "gpgproc.h"
 #include "KGpgKeyNode.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QDateTime>
 #include <QDir>

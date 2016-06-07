@@ -14,7 +14,7 @@
 #include "kgpggeneraterevoke.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <QFile>
 
 KGpgGenerateRevoke::KGpgGenerateRevoke(QObject *parent, const QString &keyID, const QUrl &revokeUrl, const int reason, const QString &description)

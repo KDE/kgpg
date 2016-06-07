@@ -16,14 +16,15 @@
 #include "model/selectkeyproxymodel.h"
 
 #include <KComboBox>
-#include <KLocale>
-#include <QVBoxLayout>
-#include <QCheckBox>
-#include <QLabel>
-#include <QTableView>
 #include <KConfigGroup>
+#include <KLocalizedString>
+
+#include <QCheckBox>
 #include <QDialogButtonBox>
+#include <QLabel>
 #include <QPushButton>
+#include <QTableView>
+#include <QVBoxLayout>
 
 using namespace KgpgCore;
 

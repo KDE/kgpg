@@ -25,7 +25,7 @@
 #include "transactions/kgpgimport.h"
 
 #include <KConfigGroup>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlMimeData>
 

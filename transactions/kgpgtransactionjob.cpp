@@ -15,7 +15,7 @@
 
 #include "kgpgtransaction.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 KGpgTransactionJob::KGpgTransactionJob(KGpgTransaction *transaction)
 	: KJob(transaction->parent()),

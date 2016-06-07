@@ -23,7 +23,7 @@
 #include "core/KGpgUidNode.h"
 
 #include <gpgme.h>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
 #include <QFile>

@@ -23,7 +23,8 @@
 #include "kgpgsettings.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
+
 #include <QFile>
 #include <QStringList>
 #include <QTextStream>

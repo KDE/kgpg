@@ -24,7 +24,7 @@
 #include "core/kgpgkey.h"
 #include "core/images.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <QDate>
 
 using namespace KgpgCore;

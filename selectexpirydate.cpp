@@ -18,9 +18,9 @@
 #include <QCheckBox>
 #include <QVBoxLayout>
 
-#include <KDatePicker>
-#include <KLocale>
 #include <KConfigGroup>
+#include <KDatePicker>
+#include <KLocalizedString>
 
 #include <QDialogButtonBox>
 #include <QPushButton>

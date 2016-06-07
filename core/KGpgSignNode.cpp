@@ -20,7 +20,7 @@
 
 #include "KGpgSignableNode.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 class KGpgSignNodePrivate {
 public:

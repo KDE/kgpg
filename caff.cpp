@@ -26,7 +26,7 @@
 #include "gpgproc.h"
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include <QDesktopServices>
