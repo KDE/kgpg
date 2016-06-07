@@ -37,9 +37,9 @@
 #include <KActionCollection>
 #include <KHelpClient>
 #include <KMessageBox>
-#include <KHBox>
 
 #include <QFont>
+#include <QHBoxLayout>
 #include <QProcess>
 #include <QStringListModel>
 #include <QTemporaryFile>
@@ -147,11 +147,14 @@ void KGpgExternalActions::encryptFolders(KeysManager *parent, const QList<QUrl> 
 	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(parent, parent->getModel(), encActions->goDefaultKey(), false, urls);
 	encActions->m_kgpgfoldertmp = tmpfolder;
 
-	KHBox *bGroup = new KHBox(dialog->optionsbox);
+	QWidget *bGroup = new QWidget(dialog->optionsbox);
+	QHBoxLayout *bGroupHBoxLayout = new QHBoxLayout(bGroup);
+	bGroupHBoxLayout->setMargin(0);
 
 	(void) new QLabel(i18n("Compression method for archive:"), bGroup);
 
 	KComboBox *optionbx = new KComboBox(bGroup);
+	bGroupHBoxLayout->addWidget(optionbx);
 	optionbx->setModel(new QStringListModel(FolderCompressJob::archiveNames(), bGroup));
 
 	connect(optionbx, SIGNAL(activated(int)), encActions, SLOT(slotSetCompression(int)));

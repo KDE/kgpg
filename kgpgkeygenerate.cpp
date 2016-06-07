@@ -21,12 +21,12 @@
 
 #include <KComboBox>
 #include <KConfigGroup>
-#include <KHBox>
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include <QIntValidator>
 #include <QDialogButtonBox>
+#include <QIntValidator>
+#include <QHBoxLayout>
 #include <QPushButton>
 #include <QStringList>
 #include <QVBoxLayout>
@@ -60,8 +60,9 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
 
     connect(m_kname, SIGNAL(textChanged(QString)), this, SLOT(slotEnableOk()));
 
-    KHBox *hgroup = new KHBox(vgroup);
-    hgroup->setFrameShape(QFrame::StyledPanel);
+    QWidget *hgroup = new QWidget(vgroup);
+    QHBoxLayout *hgroupHBoxLayout = new QHBoxLayout(hgroup);
+    hgroupHBoxLayout->setMargin(0);
     m_days->setParent(hgroup);
     QIntValidator *validator = new QIntValidator(m_days);
     validator->setBottom(0);
@@ -70,6 +71,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     m_days->setDisabled(true);
 
     m_keyexp = new KComboBox(hgroup);
+    hgroupHBoxLayout->addWidget(m_keyexp);
     m_keyexp->addItem(i18nc("Key will not expire", "Never"), 0);
     m_keyexp->addItem(i18n("Days"), 1);
     m_keyexp->addItem(i18n("Weeks"), 2);
