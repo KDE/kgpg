@@ -162,7 +162,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     KActionCollection *actcol = new KActionCollection(this);
     QAction *action = actcol->addAction(QLatin1String( "go_default_key" ));
     action->setText(i18n("&Go to Default Key"));
-//     action->setShortcut(goDefaultKey); FIXME: KF5
+    actcol->setDefaultShortcut(action, goDefaultKey);
 
     connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
     connect(m_cbsymmetric, SIGNAL(toggled(bool)), this, SLOT(slotSymmetric(bool)));
