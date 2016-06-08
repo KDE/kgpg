@@ -257,6 +257,8 @@ private:
     QLineEdit *m_listviewsearch;
     KDialog *addUidWidget;
 
+    QLabel m_statusBarLabel;
+
     QAction *importSignatureKey;
     QAction *importAllSignKeys;
     QAction *signKey;

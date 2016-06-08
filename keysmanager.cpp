@@ -73,7 +73,6 @@
 #include <KStandardAction>
 #include <KStandardGuiItem>
 #include <KStandardShortcut>
-#include <KStatusBar>
 #include <KStatusNotifierItem>
 #include <KToggleAction>
 #include <KToolInvocation>
@@ -97,6 +96,7 @@
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QProcess>
+#include <QStatusBar>
 #include <QUrl>
 #include <QWidget>
 #include <QWidgetAction>
@@ -457,9 +457,8 @@ KeysManager::KeysManager(QWidget *parent)
 	iview->setColumnHidden(5, !KGpgSettings::showExpi());
 	iproxy->setOnlySecret(KGpgSettings::showSecret());
 
-	QStatusBar *statusbar = statusBar();
-// 	statusbar->insertPermanentFixedItem(KGpgItemModel::statusCountMessageString(9999, 999), 0); FIXME: KF5
-// 	statusbar->changeItem(QString(), 0); FIXME: KF5
+	m_statusBarLabel.setAlignment (Qt::AlignCenter);
+	statusBar()->addPermanentWidget(&m_statusBarLabel);
 
 	cg = KConfigGroup(KSharedConfig::openConfig().data(), "MainWindow");
 	setAutoSaveSettings(cg, true);
@@ -553,7 +552,7 @@ void KeysManager::changeMessage(const QString &msg, const bool keep)
 
 void KeysManager::updateStatusCounter()
 {
-// 	statusBar()->changeItem(imodel->statusCountMessage(), 0); FIXME: KF5
+	m_statusBarLabel.setText(imodel->statusCountMessage());
 }
 
 void KeysManager::slotGenerateKeyDone(KJob *job)
