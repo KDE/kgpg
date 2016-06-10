@@ -457,7 +457,7 @@ KeysManager::KeysManager(QWidget *parent)
 	iview->setColumnHidden(5, !KGpgSettings::showExpi());
 	iproxy->setOnlySecret(KGpgSettings::showSecret());
 
-	m_statusBarLabel.setAlignment (Qt::AlignCenter);
+	m_statusBarLabel.setAlignment(Qt::AlignCenter);
 	statusBar()->addPermanentWidget(&m_statusBarLabel);
 
 	cg = KConfigGroup(KSharedConfig::openConfig().data(), "MainWindow");
