@@ -92,6 +92,7 @@
 #include <QList>
 #include <QMenu>
 #include <QMetaObject>
+#include <QNetworkConfigurationManager>
 #include <QPainter>
 #include <QPrintDialog>
 #include <QPrinter>
@@ -105,7 +106,6 @@
 #include <kio/global.h>
 #include <kjobtrackerinterface.h>
 #include <ktip.h>
-#include <solid/networking.h>
 
 using namespace KgpgCore;
 
@@ -466,11 +466,10 @@ KeysManager::KeysManager(QWidget *parent)
 
 	connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
 
-	m_netnote = Solid::Networking::notifier();
-	connect(m_netnote, SIGNAL(shouldConnect()), SLOT(slotNetworkUp()));
-	connect(m_netnote, SIGNAL(shouldDisconnect()), SLOT(slotNetworkDown()));
+	m_netnote = new QNetworkConfigurationManager;
+	connect(m_netnote, &QNetworkConfigurationManager::onlineStateChanged, this, &KeysManager::toggleNetworkActions);
 
-	toggleNetworkActions(Solid::Networking::status() == Solid::Networking::Unknown || Solid::Networking::status() == Solid::Networking::Connected);
+	toggleNetworkActions(m_netnote->isOnline());
 	importSignatureKey->setEnabled(false);
 
 	stateChanged("empty_list");
@@ -480,6 +479,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 KeysManager::~KeysManager()
 {
+	delete m_netnote;
 }
 
 void KeysManager::slotGenerateKey()
@@ -2625,18 +2625,6 @@ void KeysManager::refreshkey()
 KGpgItemModel *KeysManager::getModel()
 {
 	return imodel;
-}
-
-void
-KeysManager::slotNetworkUp()
-{
-	toggleNetworkActions(true);
-}
-
-void
-KeysManager::slotNetworkDown()
-{
-	toggleNetworkActions(false);
 }
 
 void

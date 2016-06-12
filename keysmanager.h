@@ -23,21 +23,22 @@
 
 #include <KDialog>
 #include <KToggleAction>
-#include <QUrl>
 #include <KXmlGuiWindow>
+
 #include <QClipboard>
 #include <QSet>
-#include <solid/networking.h>
+#include <QUrl>
 
 class KJob;
-class QEvent;
 
 class KSelectAction;
-class QMenu;
-class QLineEdit;
+
 class QAction;
-class KJob;
+class QEvent;
 class QKeySequence;
+class QLineEdit;
+class QNetworkConfigurationManager;
+class QMenu;
 
 class KeyServer;
 class KgpgEditor;
@@ -224,9 +225,6 @@ private slots:
     void slotSetClip(int result);
     void slotOpenKeyUrl();
 
-    void slotNetworkUp();
-    void slotNetworkDown();
-
 private:
     KGpgItemModel *imodel;
     KeyListProxyModel *iproxy;
@@ -293,7 +291,7 @@ private:
 
     // react to network status changes
     bool m_online;
-    Solid::Networking::Notifier *m_netnote;
+    QNetworkConfigurationManager *m_netnote;
     void toggleNetworkActions(bool online);
 
     KStatusNotifierItem *m_trayicon;
