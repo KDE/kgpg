@@ -37,7 +37,6 @@ class QAction;
 class QEvent;
 class QKeySequence;
 class QLineEdit;
-class QNetworkConfigurationManager;
 class QMenu;
 
 class KeyServer;
@@ -291,7 +290,6 @@ private:
 
     // react to network status changes
     bool m_online;
-    QNetworkConfigurationManager *m_netnote;
     void toggleNetworkActions(bool online);
 
     KStatusNotifierItem *m_trayicon;

@@ -466,10 +466,10 @@ KeysManager::KeysManager(QWidget *parent)
 
 	connect(this, SIGNAL(fontChanged(QFont)), s_kgpgEditor, SLOT(slotSetFont(QFont)));
 
-	m_netnote = new QNetworkConfigurationManager;
-	connect(m_netnote, &QNetworkConfigurationManager::onlineStateChanged, this, &KeysManager::toggleNetworkActions);
+	QNetworkConfigurationManager *netmgr = new QNetworkConfigurationManager(this);
+	connect(netmgr, &QNetworkConfigurationManager::onlineStateChanged, this, &KeysManager::toggleNetworkActions);
 
-	toggleNetworkActions(m_netnote->isOnline());
+	toggleNetworkActions(netmgr->isOnline());
 	importSignatureKey->setEnabled(false);
 
 	stateChanged("empty_list");
@@ -479,7 +479,6 @@ KeysManager::KeysManager(QWidget *parent)
 
 KeysManager::~KeysManager()
 {
-	delete m_netnote;
 }
 
 void KeysManager::slotGenerateKey()
