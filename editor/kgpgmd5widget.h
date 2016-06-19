@@ -10,7 +10,7 @@
 #ifndef KGPGMD5WIDGET_H
 #define KGPGMD5WIDGET_H
 
-#include <KDialog>
+#include <QDialog>
 #include <QUrl>
 
 #include <kgpgcompiler.h>

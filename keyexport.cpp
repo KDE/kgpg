@@ -14,17 +14,22 @@
  ***************************************************************************/
 
 #include "keyexport.h"
+#include <KConfigGroup>
 #include <KMessageBox>
 
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+
 KeyExport::KeyExport(QWidget *parent, const QStringList &keyservers)
-	: KDialog(parent),
+	: QDialog(parent),
 	Ui_KeyExport()
 {
 	setupUi(this);
-	setMainWidget(widget);
-	setWindowTitle(i18n("Public Key Export"));
-	setButtons(KDialog::Ok | KDialog::Cancel);
-	setDefaultButton(KDialog::Ok);
+
+	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 	newFilename->setWindowTitle(i18n("Save File"));
 	newFilename->setMode(KFile::File);
 
