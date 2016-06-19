@@ -14,12 +14,7 @@
  ***************************************************************************/
 
 #include "keyexport.h"
-#include <KConfigGroup>
 #include <KMessageBox>
-
-#include <QDialogButtonBox>
-#include <QPushButton>
-#include <QVBoxLayout>
 
 KeyExport::KeyExport(QWidget *parent, const QStringList &keyservers)
 	: QDialog(parent),
