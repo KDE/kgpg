@@ -13,9 +13,8 @@
 #include <QDialog>
 
 class QCheckBox;
+class QComboBox;
 class QTableView;
-
-class KComboBox;
 
 class KGpgItemModel;
 class SelectSecretKeyProxyModel;
@@ -65,7 +64,7 @@ private:
 
     QPushButton *m_okButton;
 
-    KComboBox *m_signtrust;
+    QComboBox *m_signtrust;
     QTableView *m_keyslist;
     SelectSecretKeyProxyModel *m_proxy;
 };

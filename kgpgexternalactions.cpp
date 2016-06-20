@@ -38,6 +38,7 @@
 #include <KHelpClient>
 #include <KMessageBox>
 
+#include <QComboBox>
 #include <QFont>
 #include <QHBoxLayout>
 #include <QProcess>
@@ -153,7 +154,7 @@ void KGpgExternalActions::encryptFolders(KeysManager *parent, const QList<QUrl> 
 
 	(void) new QLabel(i18n("Compression method for archive:"), bGroup);
 
-	KComboBox *optionbx = new KComboBox(bGroup);
+	QComboBox *optionbx = new QComboBox(bGroup);
 	bGroupHBoxLayout->addWidget(optionbx);
 	optionbx->setModel(new QStringListModel(FolderCompressJob::archiveNames(), bGroup));
 

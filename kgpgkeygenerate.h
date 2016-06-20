@@ -22,7 +22,7 @@
 #include <QDialog>
 #include <QPushButton>
 
-class KComboBox;
+class QComboBox;
 
 class KgpgKeyGenerate : public QDialog, public Ui::kgpgKeyGenerate
 {
@@ -56,7 +56,7 @@ private slots:
 private:
     QPushButton *okButton;
 
-    KComboBox *m_keyexp;
+    QComboBox *m_keyexp;
     bool m_expert;
 };
 

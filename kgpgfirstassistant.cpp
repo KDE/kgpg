@@ -23,12 +23,12 @@
 #include "kgpginterface.h"
 #include "core/kgpgkey.h"
 
-#include <KComboBox>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlRequester>
 
 #include <QCheckBox>
+#include <QComboBox>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -184,7 +184,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	hboxLayout->addWidget(label);
 
-	CBdefault = new KComboBox(page);
+	CBdefault = new QComboBox(page);
 	QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	sizePolicy1.setHorizontalStretch(0);
 	sizePolicy1.setVerticalStretch(0);

@@ -15,11 +15,11 @@
 #include "model/kgpgitemmodel.h"
 #include "model/selectkeyproxymodel.h"
 
-#include <KComboBox>
 #include <KConfigGroup>
 #include <KLocalizedString>
 
 #include <QCheckBox>
+#include <QComboBox>
 #include <QDialogButtonBox>
 #include <QLabel>
 #include <QPushButton>
@@ -70,7 +70,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, 
 						"belong to the people with whom you wish to communicate:", countkey), page);
 		signchecklabel->setWordWrap(true);
 
-		m_signtrust = new KComboBox(page);
+		m_signtrust = new QComboBox(page);
 		m_signtrust->addItem(i18n("I Will Not Answer"));
 		m_signtrust->addItem(i18n("I Have Not Checked at All"));
 		m_signtrust->addItem(i18n("I Have Done Casual Checking"));

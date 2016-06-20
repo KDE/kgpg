@@ -100,7 +100,7 @@
      </widget>
     </item>
     <item>
-     <widget class="KComboBox" name="m_keysize"/>
+     <widget class="QComboBox" name="m_keysize"/>
     </item>
     <item>
      <widget class="QLabel" name="label_5">
@@ -113,7 +113,7 @@
      </widget>
     </item>
     <item>
-     <widget class="KComboBox" name="m_keykind"/>
+     <widget class="QComboBox" name="m_keykind"/>
     </item>
     <item>
      <widget class="QGroupBox" name="capabilities">
@@ -182,13 +182,6 @@
    </layout>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -46,7 +46,7 @@
         </widget>
        </item>
        <item>
-        <widget class="KComboBox" name="kCBimportks" >
+        <widget class="QComboBox" name="kCBimportks" >
          <property name="whatsThis" >
           <string>&lt;b>Key Server Drop Down Dialog:&lt;/b>
 Allows the user to select the Key Server which will be used to import PGP/GnuPG keys into the local keyring.</string>
@@ -181,7 +181,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
         </widget>
        </item>
        <item>
-        <widget class="KComboBox" name="kCBexportks" />
+        <widget class="QComboBox" name="kCBexportks" />
        </item>
        <item>
         <widget class="QLabel" name="textLabel4" >
@@ -198,7 +198,7 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
         </widget>
        </item>
        <item>
-        <widget class="KComboBox" name="kCBexportkey" />
+        <widget class="QComboBox" name="kCBexportkey" />
        </item>
        <item>
         <widget class="QCheckBox" name="exportAttributes" >
@@ -293,21 +293,6 @@ Allows the user to select the Key Server which will be used to import PGP/GnuPG 
    </item>
   </layout>
  </widget>
-  <customwidgets>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QTabWidget</class>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

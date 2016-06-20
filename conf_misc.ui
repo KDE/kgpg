@@ -127,7 +127,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KComboBox" name="kcfg_SignMenu">
+             <widget class="QComboBox" name="kcfg_SignMenu">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -172,7 +172,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KComboBox" name="kcfg_DecryptMenu">
+             <widget class="QComboBox" name="kcfg_DecryptMenu">
               <item>
                <property name="text">
                 <string>Disable</string>
@@ -228,7 +228,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KComboBox" name="kcfg_LeftClick">
+             <widget class="QComboBox" name="kcfg_LeftClick">
               <property name="sizePolicy">
                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -319,7 +319,7 @@
           </widget>
          </item>
          <item>
-          <widget class="KComboBox" name="kcfg_MailUats">
+          <widget class="QComboBox" name="kcfg_MailUats">
            <item>
             <property name="text">
              <string>Send with every Email</string>
@@ -364,15 +364,6 @@ The placeholders surrounded by the percent signs (like %KEYID%) will be replaced
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QTabWidget</class>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>KTextEdit</class>
    <extends>QTextEdit</extends>

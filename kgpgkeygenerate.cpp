@@ -19,11 +19,11 @@
 #include "gpgproc.h"
 #include "kgpgsettings.h"
 
-#include <KComboBox>
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KMessageBox>
 
+#include <QComboBox>
 #include <QDialogButtonBox>
 #include <QIntValidator>
 #include <QHBoxLayout>
@@ -70,7 +70,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     m_days->setMaxLength(4);
     m_days->setDisabled(true);
 
-    m_keyexp = new KComboBox(hgroup);
+    m_keyexp = new QComboBox(hgroup);
     hgroupHBoxLayout->addWidget(m_keyexp);
     m_keyexp->addItem(i18nc("Key will not expire", "Never"), 0);
     m_keyexp->addItem(i18n("Days"), 1);

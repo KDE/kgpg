@@ -81,7 +81,7 @@
     </widget>
    </item>
    <item row="8" column="1" colspan="2">
-    <widget class="KComboBox" name="always_key">
+    <widget class="QComboBox" name="always_key">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -94,7 +94,7 @@
     </widget>
    </item>
    <item row="9" column="1" colspan="2">
-    <widget class="KComboBox" name="file_key">
+    <widget class="QComboBox" name="file_key">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -173,18 +173,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
