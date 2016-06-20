@@ -582,11 +582,11 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 	case KGpgTransaction::TS_OK: {
 		updateStatusCounter();
 
-		QPointer<KDialog> keyCreated = new KDialog(this);
+		QPointer<QDialog> keyCreated = new QDialog(this);
 		keyCreated->setWindowTitle(i18n("New Key Pair Created"));
-		keyCreated->setButtons(KDialog::Ok);
-		keyCreated->setDefaultButton(KDialog::Ok);
-		keyCreated->setModal(true);
+
+		QVBoxLayout *mainLayout = new QVBoxLayout;
+		keyCreated->setLayout(mainLayout);
 
 		newKey *page = new newKey(keyCreated);
 		page->TLname->setText(QLatin1String( "<b>" ) + genkey->getName() + QLatin1String( "</b>" ));
@@ -611,7 +611,9 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		page->LEfinger->setText(fingerprint);
 		page->CBdefault->setChecked(true);
 		page->show();
-		keyCreated->setMainWidget(page);
+		mainLayout->addWidget(page);
+		page->buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+		connect(page->buttonBox, SIGNAL(accepted()), keyCreated, SLOT(accept()));
 
 		keyCreated->exec();
 		if (keyCreated.isNull())
@@ -877,14 +879,18 @@ void KeysManager::slotAddUid()
 		return;
 	}
 
-	addUidWidget = new KDialog(this );
+	addUidWidget = new QDialog(this);
 	addUidWidget->setWindowTitle(i18n("Add New User Id"));
-	addUidWidget->setButtons(  KDialog::Ok | KDialog::Cancel );
-	addUidWidget->setDefaultButton(  KDialog::Ok );
-	addUidWidget->setModal( true );
-	addUidWidget->enableButtonOk(false);
-	AddUid *keyUid = new AddUid(addUidWidget);
-	addUidWidget->setMainWidget(keyUid);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	addUidWidget->setLayout(mainLayout);
+	keyUid = new AddUid(addUidWidget);
+	mainLayout->addWidget(keyUid);
+
+	keyUid->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+	keyUid->buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(keyUid->buttonBox, SIGNAL(accepted()), addUidWidget, SLOT(accept()));
+	connect(keyUid->buttonBox, SIGNAL(rejected()), addUidWidget, SLOT(reject()));
+
 	//keyUid->setMinimumSize(keyUid->sizeHint());
 	keyUid->setMinimumWidth(300);
 
@@ -909,7 +915,7 @@ void KeysManager::slotAddUidFin(int res)
 
 void KeysManager::slotAddUidEnable(const QString & name)
 {
-	addUidWidget->enableButtonOk(name.length() > 4);
+	keyUid->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(name.length() > 4);
 }
 
 void KeysManager::slotAddPhoto()
@@ -1758,17 +1764,22 @@ void KeysManager::editGroup()
 	if (!nd || (nd->getType() != ITYPE_GROUP))
 		return;
 	KGpgGroupNode *gnd = nd->toGroupNode();
-	QPointer<KDialog> dialogGroupEdit = new KDialog(this );
+	QPointer<QDialog> dialogGroupEdit = new QDialog(this );
 	dialogGroupEdit->setWindowTitle(i18n("Group Properties"));
-	dialogGroupEdit->setButtons( KDialog::Ok | KDialog::Cancel );
-	dialogGroupEdit->setDefaultButton(  KDialog::Ok );
-	dialogGroupEdit->setModal( true );
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	QWidget *mainWidget = new QWidget(this);
+	mainLayout->addWidget(mainWidget);
+	dialogGroupEdit->setLayout(mainLayout);
+
 
 	QList<KGpgNode *> members(gnd->getChildren());
 
 	groupEdit *gEdit = new groupEdit(dialogGroupEdit, &members, imodel);
 
-	dialogGroupEdit->setMainWidget(gEdit);
+	mainLayout->addWidget(gEdit);
+	gEdit->buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(gEdit->buttonBox, SIGNAL(accepted()), dialogGroupEdit, SLOT(accept()));
+	connect(gEdit->buttonBox, SIGNAL(rejected()), dialogGroupEdit, SLOT(reject()));
 
 	gEdit->show();
 
@@ -2520,16 +2531,21 @@ void KeysManager::slotDelKeyDone(int res)
 
 void KeysManager::slotPreImportKey()
 {
-	QPointer<KDialog> dial = new KDialog(this);
+	QPointer<QDialog> dial = new QDialog(this);
 	dial->setWindowTitle(i18n("Key Import"));
-	dial->setButtons(KDialog::Ok | KDialog::Cancel);
-	dial->setDefaultButton(KDialog::Ok);
-	dial->setModal(true);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	QWidget *mainWidget = new QWidget(this);
+	mainLayout->addWidget(mainWidget);
+	dial->setLayout(mainLayout);
 
 	SrcSelect *page = new SrcSelect();
-	dial->setMainWidget(page);
+	mainLayout->addWidget(page);
 	page->newFilename->setWindowTitle(i18n("Open File"));
 	page->newFilename->setMode(KFile::File);
+
+	page->buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(page->buttonBox, SIGNAL(accepted()), dial, SLOT(accept()));
+	connect(page->buttonBox, SIGNAL(rejected()), dial, SLOT(reject()));
 
 	if (dial->exec() == QDialog::Accepted) {
 		if (page->checkFile->isChecked()) {
@@ -2716,7 +2732,7 @@ KeysManager::clipEncrypt()
 	}
 
 	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, imodel, QKeySequence(goToDefaultKey->shortcut()), true);
-	if (dialog->exec() == KDialog::Accepted) {
+	if (dialog->exec() == QDialog::Accepted) {
 		KGpgEncrypt::EncryptOptions encOptions = KGpgEncrypt::AsciiArmored;
 		QStringList options;
 

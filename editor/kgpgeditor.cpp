@@ -30,6 +30,7 @@
 #include <kgpgexternalactions.h>
 
 #include <KActionCollection>
+#include <KConfigGroup>
 #include <KEncodingFileDialog>
 #include <KFind>
 #include <KFileDialog>
@@ -57,9 +58,6 @@
 #include <QWidget>
 #include <kio/netaccess.h>
 #include <kio/renamedialog.h>
-#include <KConfigGroup>
-#include <QDialogButtonBox>
-#include <QPushButton>
 
 class KgpgView : public QWidget {
 public:
@@ -496,22 +494,14 @@ void KgpgEditor::slotFilePreDec()
 
     QPointer<QDialog> popn = new QDialog(this);
     popn->setWindowTitle(i18n("Decrypt File To"));
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     QWidget *mainWidget = new QWidget(this);
     QVBoxLayout *mainLayout = new QVBoxLayout;
     popn->setLayout(mainLayout);
     mainLayout->addWidget(mainWidget);
-    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
-    okButton->setDefault(true);
-    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    popn->connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    popn->connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
     popn->setModal( true );
 
     SrcSelect *page = new SrcSelect();
     mainLayout->addWidget(page);
-    mainLayout->addWidget(buttonBox);
     page->newFilename->setUrl(QUrl(oldname));
     page->newFilename->setMode(KFile::File);
     page->newFilename->setWindowTitle(i18n("Save File"));
@@ -519,6 +509,11 @@ void KgpgEditor::slotFilePreDec()
     page->checkClipboard->setText(i18n("Editor"));
     page->resize(page->minimumSize());
     popn->resize(popn->minimumSize());
+
+    page->buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+    connect(page->buttonBox, SIGNAL(accepted()), popn, SLOT(accept()));
+    connect(page->buttonBox, SIGNAL(rejected()), popn, SLOT(reject()));
+
     if (popn->exec() == QDialog::Accepted)
     {
         if (page->checkFile->isChecked())

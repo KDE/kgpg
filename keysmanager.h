@@ -21,7 +21,6 @@
 #include "model/kgpgitemmodel.h"
 #include "model/kgpgitemnode.h"
 
-#include <KDialog>
 #include <KToggleAction>
 #include <KXmlGuiWindow>
 
@@ -252,7 +251,8 @@ private:
     QMenu *m_popuporphan;       // popup on an orphan key
 
     QLineEdit *m_listviewsearch;
-    KDialog *addUidWidget;
+    QDialog *addUidWidget;
+    AddUid *keyUid;
 
     QLabel m_statusBarLabel;
 
