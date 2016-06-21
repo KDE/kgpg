@@ -31,7 +31,7 @@
 #include <QCursor>
 
 KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose)
-	: KDialog(parent),
+	: QDialog(parent),
 	m_dialogserver(Q_NULLPTR),
 	m_searchproc(Q_NULLPTR),
 	page(new keyServerWidget()),
@@ -40,26 +40,27 @@ KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose
 	m_itemmodel(new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst))
 {
 	setWindowTitle(i18n("Key Server"));
-	setButtons(Close);
-	setModal(false);
 
 	m_autoclose = autoclose;
 	m_filtermodel.setSortCaseSensitivity(Qt::CaseInsensitive);
 	m_filtermodel.setDynamicSortFilter(true);
 	m_filtermodel.setFilterKeyColumn(0);
 
-	setMainWidget(page);
+	QVBoxLayout *mainLayout = new QVBoxLayout(this);
+	setLayout(mainLayout);
+	mainLayout->addWidget(page);
 
 	const QStringList serverlist(getServerList());
 	page->kCBexportks->addItems(serverlist);
 	page->kCBimportks->addItems(serverlist);
 	page->kLEimportid->setFocus();
 
+	connect(page->buttonBox, SIGNAL(rejected()), this, SLOT(accept()));
 	connect(page->Buttonimport, SIGNAL(clicked()), SLOT(slotImport()));
 	connect(page->Buttonsearch, SIGNAL(clicked()), SLOT(slotSearch()));
 	connect(page->Buttonexport, SIGNAL(clicked()), SLOT(slotPreExport()));
 	connect(page->kLEimportid,  SIGNAL(returnPressed()), SLOT(slotSearch()));
-	connect(this, SIGNAL(okClicked()), SLOT(slotOk()));
+	connect(page->buttonBox, SIGNAL(accepted()), this, SLOT(slotOk()));
 	connect(page->cBproxyI, SIGNAL(toggled(bool)), SLOT(slotEnableProxyI(bool)));
 	connect(page->cBproxyE, SIGNAL(toggled(bool)), SLOT(slotEnableProxyE(bool)));
 	connect(page->kLEimportid, SIGNAL(textChanged(QString)), SLOT(slotTextChanged(QString)));
@@ -199,24 +200,24 @@ void KeyServer::slotSearch()
 	m_filtermodel.setSourceModel(m_resultmodel);
 	m_filtermodel.setFilterRegExp(QRegExp());
 
-	m_dialogserver = new KDialog(this );
+	m_dialogserver = new QDialog(this );
 	m_dialogserver->setWindowTitle(i18n("Import Key From Keyserver"));
-	m_dialogserver->setButtons( KDialog::Ok | KDialog::Close );
-	m_dialogserver->setDefaultButton( KDialog::Ok);
-	m_dialogserver->setModal( true );
 
-	m_dialogserver->setButtonText(KDialog::Ok, i18n("&Import"));
-	m_dialogserver->enableButtonOk(false);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	m_dialogserver->setLayout(mainLayout);
+
 	m_listpop = new searchRes(m_dialogserver);
+	m_listpop->buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("&Import"));
+	m_listpop->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 	m_listpop->kLVsearch->setModel(&m_filtermodel);
 	m_listpop->kLVsearch->setColumnWidth(0, 180);
 	m_listpop->statusText->setText(i18n("Connecting to the server..."));
 
 	connect(m_listpop->filterEdit, SIGNAL(textChanged(QString)), SLOT(slotSetFilterString(QString)));
 	connect(m_listpop->kLVsearch->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(transferKeyID()));
-	connect(m_dialogserver, SIGNAL(okClicked()), this, SLOT(slotPreImport()));
+	connect(m_listpop->buttonBox, SIGNAL(accepted()), this, SLOT(slotPreImport()));
 	connect(m_listpop->kLVsearch, SIGNAL(activated(QModelIndex)), m_dialogserver, SIGNAL(okClicked()));
-	connect(m_dialogserver, SIGNAL(closeClicked()), this, SLOT(handleQuit()));
+	connect(m_listpop->buttonBox, SIGNAL(rejected()), this, SLOT(handleQuit()));
 	connect(m_listpop->kLEID, SIGNAL(clearButtonClicked()), m_listpop->kLVsearch->selectionModel(), SLOT(clearSelection()));
 
 	m_listpop->kLVsearch->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -237,7 +238,7 @@ void KeyServer::slotSearch()
 	m_searchproc->start();
 
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-	m_dialogserver->setMainWidget(m_listpop);
+	mainLayout->addWidget(m_listpop);
 	m_listpop->setMinimumSize(m_listpop->sizeHint());
 	m_dialogserver->exec();
 }
@@ -256,7 +257,7 @@ void KeyServer::slotSearchResult(int result)
 		return;
 	}
 
-	m_dialogserver->enableButtonOk(true);
+	m_listpop->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 
 	const int keys = m_resultmodel->rowCount(QModelIndex());
 

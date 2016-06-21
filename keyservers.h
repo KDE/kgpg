@@ -17,7 +17,7 @@
 
 #include <QSortFilterProxyModel>
 
-#include <KDialog>
+#include <QDialog>
 
 #include "core/kgpgkey.h"
 #include "ui_searchres.h"
@@ -48,7 +48,7 @@ public:
     }
 };
 
-class KeyServer : public KDialog
+class KeyServer : public QDialog
 {
 	Q_OBJECT
 
@@ -115,7 +115,7 @@ private slots:
 private:
 	QString m_readmessage;
 
-	KDialog *m_dialogserver;
+	QDialog *m_dialogserver;
 	KGpgKeyserverSearchTransaction *m_searchproc;
 
 	keyServerWidget *page;
