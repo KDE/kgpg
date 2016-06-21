@@ -32,7 +32,7 @@ Md5Widget::Md5Widget(QWidget *parent, const QUrl &url)
     setWindowTitle(i18n("MD5 Checksum"));
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close|QDialogButtonBox::Apply);
     QWidget *mainWidget = new QWidget(this);
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
     setLayout(mainLayout);
     mainLayout->addWidget(mainWidget);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));

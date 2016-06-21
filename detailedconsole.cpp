@@ -34,7 +34,7 @@ KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, con
 		setWindowTitle(i18n("Info"));
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
 	QWidget *mainWidget = new QWidget(this);
-	QVBoxLayout *mainLayout = new QVBoxLayout;
+	QVBoxLayout *mainLayout = new QVBoxLayout(this);
 	setLayout(mainLayout);
 	mainLayout->addWidget(mainWidget);
 	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);

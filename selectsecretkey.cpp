@@ -38,7 +38,7 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, 
 	setWindowTitle(i18n("Private Key List"));
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
 	QWidget *mainWidget = new QWidget(this);
-	QVBoxLayout *mainLayout = new QVBoxLayout;
+	QVBoxLayout *mainLayout = new QVBoxLayout(this);
 	setLayout(mainLayout);
 	mainLayout->addWidget(mainWidget);
 	m_okButton = buttonBox->button(QDialogButtonBox::Ok);

@@ -203,7 +203,7 @@ void KeyServer::slotSearch()
 	m_dialogserver = new QDialog(this );
 	m_dialogserver->setWindowTitle(i18n("Import Key From Keyserver"));
 
-	QVBoxLayout *mainLayout = new QVBoxLayout;
+	QVBoxLayout *mainLayout = new QVBoxLayout(m_dialogserver);
 	m_dialogserver->setLayout(mainLayout);
 
 	m_listpop = new searchRes(m_dialogserver);

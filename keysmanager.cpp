@@ -585,7 +585,7 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		QPointer<QDialog> keyCreated = new QDialog(this);
 		keyCreated->setWindowTitle(i18n("New Key Pair Created"));
 
-		QVBoxLayout *mainLayout = new QVBoxLayout;
+		QVBoxLayout *mainLayout = new QVBoxLayout(keyCreated);
 		keyCreated->setLayout(mainLayout);
 
 		newKey *page = new newKey(keyCreated);
@@ -881,7 +881,7 @@ void KeysManager::slotAddUid()
 
 	addUidWidget = new QDialog(this);
 	addUidWidget->setWindowTitle(i18n("Add New User Id"));
-	QVBoxLayout *mainLayout = new QVBoxLayout;
+	QVBoxLayout *mainLayout = new QVBoxLayout(addUidWidget);
 	addUidWidget->setLayout(mainLayout);
 	keyUid = new AddUid(addUidWidget);
 	mainLayout->addWidget(keyUid);
@@ -1766,7 +1766,7 @@ void KeysManager::editGroup()
 	KGpgGroupNode *gnd = nd->toGroupNode();
 	QPointer<QDialog> dialogGroupEdit = new QDialog(this );
 	dialogGroupEdit->setWindowTitle(i18n("Group Properties"));
-	QVBoxLayout *mainLayout = new QVBoxLayout;
+	QVBoxLayout *mainLayout = new QVBoxLayout(dialogGroupEdit);
 	QWidget *mainWidget = new QWidget(this);
 	mainLayout->addWidget(mainWidget);
 	dialogGroupEdit->setLayout(mainLayout);
@@ -2533,7 +2533,7 @@ void KeysManager::slotPreImportKey()
 {
 	QPointer<QDialog> dial = new QDialog(this);
 	dial->setWindowTitle(i18n("Key Import"));
-	QVBoxLayout *mainLayout = new QVBoxLayout;
+	QVBoxLayout *mainLayout = new QVBoxLayout(dial);
 	QWidget *mainWidget = new QWidget(this);
 	mainLayout->addWidget(mainWidget);
 	dial->setLayout(mainLayout);

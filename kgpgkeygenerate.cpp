@@ -43,7 +43,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
 
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
     QWidget *mainWidget = new QWidget(this);
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
     setLayout(mainLayout);
     mainLayout->addWidget(mainWidget);
     okButton = buttonBox->button(QDialogButtonBox::Ok);

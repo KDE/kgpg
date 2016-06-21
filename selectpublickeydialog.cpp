@@ -46,7 +46,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 	m_hideasciioption(hideasciioption)
 {
     QWidget *mainWidget = new QWidget(this);
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
     setLayout(mainLayout);
     mainLayout->setSizeConstraint(QLayout::SetMinimumSize);
     mainLayout->addWidget(mainWidget);
@@ -55,7 +55,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     m_okButton = buttonBox->button(QDialogButtonBox::Ok);
     m_okButton->setDefault(true);
     m_okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    m_detailsButton = new QPushButton;
+    m_detailsButton = new QPushButton(this);
     m_detailsButton->setText(i18n("&O&ptions") + QStringLiteral(" >>"));
     m_detailsButton->setIcon(QIcon::fromTheme(QStringLiteral("help-about")).pixmap(IconSize(KIconLoader::Toolbar)));
     connect(m_detailsButton, &QPushButton::clicked, this, &KgpgSelectPublicKeyDlg::toggleDetails);

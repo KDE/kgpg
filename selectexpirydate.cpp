@@ -31,7 +31,7 @@ SelectExpiryDate::SelectExpiryDate(QWidget* parent, QDateTime date)
 	setWindowTitle(i18n("Choose New Expiration"));
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
 	QWidget *mainWidget = new QWidget(this);
-	QVBoxLayout *mainLayout = new QVBoxLayout;
+	QVBoxLayout *mainLayout = new QVBoxLayout(this);
 	setLayout(mainLayout);
 	mainLayout->addWidget(mainWidget);
 	okButton = buttonBox->button(QDialogButtonBox::Ok);
@@ -40,7 +40,6 @@ SelectExpiryDate::SelectExpiryDate(QWidget* parent, QDateTime date)
 	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
 	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 	okButton->setDefault(true);
-	setModal(true);
 
 	QWidget *page = new QWidget(this);
 	m_unlimited = new QCheckBox(i18nc("Key has unlimited lifetime", "Unlimited"), page);

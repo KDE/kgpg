@@ -495,7 +495,7 @@ void KgpgEditor::slotFilePreDec()
     QPointer<QDialog> popn = new QDialog(this);
     popn->setWindowTitle(i18n("Decrypt File To"));
     QWidget *mainWidget = new QWidget(this);
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QVBoxLayout *mainLayout = new QVBoxLayout(popn);
     popn->setLayout(mainLayout);
     mainLayout->addWidget(mainWidget);
     popn->setModal( true );

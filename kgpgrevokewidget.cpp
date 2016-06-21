@@ -46,7 +46,7 @@ KGpgRevokeDialog::KGpgRevokeDialog(QWidget* parent, const KGpgKeyNode *node)
 	setWindowTitle(i18n("Create Revocation Certificate"));
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
 	QWidget *mainWidget = new QWidget(this);
-	QVBoxLayout *mainLayout = new QVBoxLayout;
+	QVBoxLayout *mainLayout = new QVBoxLayout(this);
 	setLayout(mainLayout);
 	mainLayout->addWidget(mainWidget);
 	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
