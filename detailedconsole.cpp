@@ -40,11 +40,10 @@ KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, con
 	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
 	okButton->setDefault(true);
 	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &KgpgDetailedInfo::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &KgpgDetailedInfo::reject);
 	mainLayout->addWidget(buttonBox);
 	okButton->setDefault(true);
 	setModal(true);
-// 	KMessageBox::createKMessageBox(this, QMessageBox::Information, // krazy:exclude=qtclasses
-// 				   boxLabel, keysList, QString(), Q_NULLPTR, 0, errormessage); FIXME: KF5
+	KMessageBox::createKMessageBox(this, buttonBox, QMessageBox::Information, boxLabel, keysList, QString(), Q_NULLPTR, 0, errormessage);
 }

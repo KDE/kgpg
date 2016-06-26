@@ -21,7 +21,7 @@ newKey::newKey(QWidget* parent)
       : QWidget(parent), Ui_newKey()
 {
     setupUi(this);
-    connect(CBsave, SIGNAL(toggled(bool)), this, SLOT(CBsave_toggled(bool)));
+    connect(CBsave, &QCheckBox::toggled, this, &newKey::CBsave_toggled);
 }
 
 void newKey::CBsave_toggled(bool isOn)

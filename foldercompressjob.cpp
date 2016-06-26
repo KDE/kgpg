@@ -125,7 +125,7 @@ FolderCompressJob::doWork()
 		
 
 	KGpgEncrypt *enc = new KGpgEncrypt(this, d->m_keys, QList<QUrl>({QUrl::fromLocalFile(d->m_tempfile->fileName())}), d->m_encOptions, d->m_options);
-	connect(enc, SIGNAL(done(int)), SLOT(slotEncryptionDone(int)));
+	connect(enc, &KGpgEncrypt::done, this, &FolderCompressJob::slotEncryptionDone);
 	enc->start();
 }
 

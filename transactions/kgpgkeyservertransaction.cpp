@@ -100,6 +100,6 @@ KGpgKeyserverTransaction::setProgressEnable(const bool b)
 		m_progress->setModal(true);
 		m_progress->setRange(0, 0);
 
-		connect(m_progress, SIGNAL(canceled()), SLOT(slotAbort()));
+		connect(m_progress, &QProgressDialog::canceled, this, &KGpgKeyserverTransaction::slotAbort);
 	}
 }

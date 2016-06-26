@@ -26,7 +26,7 @@ GpgServerModel::GpgServerModel(QObject *parent)
 	: QStringListModel(parent),
 	m_defaultRow(-1)
 {
-	connect(this, SIGNAL(rowsRemoved(QModelIndex,int,int)), SLOT(slotRowsRemoved(QModelIndex,int,int)));
+	connect(this, &GpgServerModel::rowsRemoved, this, &GpgServerModel::slotRowsRemoved);
 }
 
 GpgServerModel::~GpgServerModel()

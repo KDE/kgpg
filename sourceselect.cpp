@@ -21,8 +21,8 @@ SrcSelect::SrcSelect(QWidget *parent)
 	: QWidget(parent)
 {
 	setupUi(this);
-	connect(checkFile, SIGNAL(toggled(bool)), this, SLOT(checkFile_toggled(bool)));
-	connect(checkServer, SIGNAL(toggled(bool)), this, SLOT(checkServer_toggled(bool)));
+	connect(checkFile, &QRadioButton::toggled, this, &SrcSelect::checkFile_toggled);
+	connect(checkServer, &QRadioButton::toggled, this, &SrcSelect::checkServer_toggled);
 }
 
 void SrcSelect::checkFile_toggled(bool isOn)

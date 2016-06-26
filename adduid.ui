@@ -22,7 +22,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="kLineEdit1"/>
+    <widget class="QLineEdit" name="qLineEdit1"/>
    </item>
    <item>
     <widget class="QLabel" name="textLabel2">
@@ -35,7 +35,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="kLineEdit2"/>
+    <widget class="QLineEdit" name="qLineEdit2"/>
    </item>
    <item>
     <widget class="QLabel" name="textLabel3">
@@ -48,7 +48,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="kLineEdit3"/>
+    <widget class="QLineEdit" name="qLineEdit3"/>
    </item>
    <item>
     <spacer>

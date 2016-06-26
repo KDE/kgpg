@@ -30,7 +30,7 @@ KgpgRevokeWidget::KgpgRevokeWidget(QWidget* parent)
 	Ui_KgpgRevokeWidget()
 {
 	setupUi(this);
-	connect(cbSave, SIGNAL(toggled(bool)), SLOT(cbSave_toggled(bool)));
+	connect(cbSave, &QCheckBox::toggled, this, &KgpgRevokeWidget::cbSave_toggled);
 }
 
 void KgpgRevokeWidget::cbSave_toggled(bool isOn)
@@ -52,8 +52,8 @@ KGpgRevokeDialog::KGpgRevokeDialog(QWidget* parent, const KGpgKeyNode *node)
 	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
 	okButton->setDefault(true);
 	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &KGpgRevokeDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &KGpgRevokeDialog::reject);
 	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 	setModal(true);
 

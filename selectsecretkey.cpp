@@ -44,8 +44,8 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, 
 	m_okButton = buttonBox->button(QDialogButtonBox::Ok);
 	m_okButton->setDefault(true);
 	m_okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &KgpgSelectSecretKey::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &KgpgSelectSecretKey::reject);
 	m_okButton->setDefault(true);
 	QWidget *page = new QWidget(this);
 
@@ -100,8 +100,8 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, 
 	mainLayout->addWidget(page);
 	mainLayout->addWidget(buttonBox);
 
-	connect(m_keyslist->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(slotSelectionChanged()));
-	connect(m_keyslist, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotOk()));
+	connect(m_keyslist->selectionModel(), &QItemSelectionModel::selectionChanged, this, &KgpgSelectSecretKey::slotSelectionChanged);
+	connect(m_keyslist, &QTableView::doubleClicked, this, &KgpgSelectSecretKey::slotOk);
 }
 
 KgpgSelectSecretKey::~KgpgSelectSecretKey()

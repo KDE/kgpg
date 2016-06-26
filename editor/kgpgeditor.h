@@ -94,7 +94,7 @@ private slots:
     // Signing menu
     void slotPreSignFile();
     void slotSignFile(const QUrl &url);
-    void slotSignFileFin();
+    void slotSignFileFin(int);
     void slotPreVerifyFile();
     void slotVerifyFile(const QUrl &url);
     void slotCheckMd5();

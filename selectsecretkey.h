@@ -11,6 +11,7 @@
 #define KGPGSELECTSECRETKEY_H
 
 #include <QDialog>
+#include <QItemSelection>
 
 class QCheckBox;
 class QComboBox;
@@ -54,11 +55,10 @@ public:
      */
     bool isTerminalSign() const;
 
-private slots:
+private:
     void slotOk();
     void slotSelectionChanged();
 
-private:
     QCheckBox *m_localsign;
     QCheckBox *m_terminalsign;
 

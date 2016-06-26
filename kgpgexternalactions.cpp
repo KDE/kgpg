@@ -70,9 +70,9 @@ void KGpgExternalActions::encryptFiles(KeysManager *parent, const QList<QUrl> &u
 	KGpgExternalActions *encActions = new KGpgExternalActions(parent, parent->getModel());
 
 	KgpgSelectPublicKeyDlg *dialog = new KgpgSelectPublicKeyDlg(parent, parent->getModel(), encActions->goDefaultKey(), false, urls);
-	connect(dialog, SIGNAL(accepted()), encActions, SLOT(slotEncryptionKeySelected()));
-	connect(dialog, SIGNAL(rejected()), dialog, SLOT(deleteLater()));
-	connect(dialog, SIGNAL(rejected()), encActions, SLOT(deleteLater()));
+	connect(dialog, &KgpgSelectPublicKeyDlg::accepted, encActions, &KGpgExternalActions::slotEncryptionKeySelected);
+	connect(dialog, &KgpgSelectPublicKeyDlg::rejected, dialog, &KgpgSelectPublicKeyDlg::deleteLater);
+	connect(dialog, &KgpgSelectPublicKeyDlg::rejected, encActions, &KGpgExternalActions::deleteLater);
 	dialog->show();
 }
 
@@ -158,10 +158,10 @@ void KGpgExternalActions::encryptFolders(KeysManager *parent, const QList<QUrl> 
 	bGroupHBoxLayout->addWidget(optionbx);
 	optionbx->setModel(new QStringListModel(FolderCompressJob::archiveNames(), bGroup));
 
-	connect(optionbx, SIGNAL(activated(int)), encActions, SLOT(slotSetCompression(int)));
-	connect(dialog, SIGNAL(accepted()), encActions, SLOT(startFolderEncode()));
-	connect(dialog, SIGNAL(rejected()), encActions, SLOT(deleteLater()));
-	connect(dialog, SIGNAL(rejected()), dialog, SLOT(deleteLater()));
+	connect(optionbx, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), encActions, &KGpgExternalActions::slotSetCompression);
+	connect(dialog, &KgpgSelectPublicKeyDlg::accepted, encActions, &KGpgExternalActions::startFolderEncode);
+	connect(dialog, &KgpgSelectPublicKeyDlg::rejected, encActions, &KGpgExternalActions::deleteLater);
+	connect(dialog, &KgpgSelectPublicKeyDlg::rejected, dialog, &KgpgSelectPublicKeyDlg::deleteLater);
 	
 	dialog->show();
 }
@@ -222,7 +222,7 @@ void KGpgExternalActions::startFolderEncode()
 
 	FolderCompressJob *trayinfo = new FolderCompressJob(m_keysmanager, urls, encryptedFile, m_kgpgfoldertmp,
 			selec, encryptOptions, encOptions, compressionScheme);
-	connect(trayinfo, SIGNAL(result(KJob*)), SLOT(slotFolderFinished(KJob*)));
+	connect(trayinfo, &FolderCompressJob::result, this, &KGpgExternalActions::slotFolderFinished);
 	KIO::getJobTracker()->registerJob(trayinfo);
 	trayinfo->start();
 }
@@ -262,7 +262,7 @@ void KGpgExternalActions::verifyFile(QUrl url)
 	}
 
 	KGpgVerify *kgpv = new KGpgVerify(parent(), QList<QUrl>({QUrl(sigfile)}));
-	connect(kgpv, SIGNAL(done(int)), SLOT(slotVerificationDone(int)));
+	connect(kgpv, &KGpgVerify::done, this, &KGpgExternalActions::slotVerificationDone);
 	kgpv->start();
 }
 
@@ -301,9 +301,9 @@ void KGpgExternalActions::signFiles(KeysManager* parent, const QList<QUrl>& urls
 	signActions->droppedUrls = urls;
 
 	KgpgSelectSecretKey *keydlg = new KgpgSelectSecretKey(parent, parent->getModel(), false);
-	connect(keydlg, SIGNAL(accepted()), signActions, SLOT(slotSignFiles()));
-	connect(keydlg, SIGNAL(rejected()), keydlg, SLOT(deleteLater()));
-	connect(keydlg, SIGNAL(rejected()), signActions, SLOT(deleteLater()));
+	connect(keydlg, &KgpgSelectSecretKey::accepted, signActions, &KGpgExternalActions::slotSignFiles);
+	connect(keydlg, &KgpgSelectSecretKey::rejected, keydlg, &KgpgSelectSecretKey::deleteLater);
+	connect(keydlg, &KgpgSelectSecretKey::rejected, signActions, &KGpgExternalActions::deleteLater);
 	keydlg->show();
 }
 
@@ -326,11 +326,11 @@ void KGpgExternalActions::slotSignFiles()
 
 	if (droppedUrls.count() > 1) {
 		KGpgTextInterface *signFileProcess = new KGpgTextInterface(parent(), signKeyID, Options);
-		connect(signFileProcess, SIGNAL(fileSignFinished()), signFileProcess, SLOT(deleteLater()));
+		connect(signFileProcess, &KGpgTextInterface::fileSignFinished, signFileProcess, &KGpgTextInterface::deleteLater);
 		signFileProcess->signFiles(droppedUrls);
 	} else {
 		KGpgSignText *signt = new KGpgSignText(parent(), signKeyID, droppedUrls, sopts);
-		connect(signt, SIGNAL(done(int)), signt, SLOT(deleteLater()));
+		connect(signt, &KGpgSignText::done, signt, &KGpgSignText::deleteLater);
 		signt->start();
 	}
 
@@ -385,7 +385,7 @@ void KGpgExternalActions::decryptFile(QList<QUrl> urls)
 
 	droppedUrls = urls;
 	KGpgDecrypt *decr = new KGpgDecrypt(this, droppedUrls.first(), swapname);
-	connect(decr, SIGNAL(done(int)), SLOT(slotDecryptionDone(int)));
+	connect(decr, &KGpgDecrypt::done, this, &KGpgExternalActions::slotDecryptionDone);
 	decr->start();
 }
 
@@ -420,7 +420,7 @@ void KGpgExternalActions::slotDecryptionDone(int status)
 void KGpgExternalActions::showDroppedFile(const QUrl &file)
 {
 	KgpgEditor *kgpgtxtedit = new KgpgEditor(m_keysmanager, m_model, 0);
-	connect(m_keysmanager, SIGNAL(fontChanged(QFont)), kgpgtxtedit, SLOT(slotSetFont(QFont)));
+	connect(m_keysmanager, &KeysManager::fontChanged, kgpgtxtedit, &KgpgEditor::slotSetFont);
 
 	kgpgtxtedit->m_editor->openDroppedFile(file, false);
 
@@ -459,9 +459,9 @@ void KGpgExternalActions::startAssistant()
 	if (m_assistant.isNull()) {
 		m_assistant = new KGpgFirstAssistant(m_keysmanager);
 
-		connect(m_assistant, SIGNAL(accepted()), SLOT(slotSaveOptionsPath()));
-		connect(m_assistant, SIGNAL(rejected()), m_assistant, SLOT(deleteLater()));
-		connect(m_assistant, SIGNAL(helpClicked()), SLOT(help()));
+		connect(m_assistant, &KGpgFirstAssistant::accepted, this, &KGpgExternalActions::slotSaveOptionsPath);
+		connect(m_assistant.data(), &KGpgFirstAssistant::rejected, m_assistant.data(), &KGpgFirstAssistant::deleteLater);
+		connect(m_assistant->button(QDialogButtonBox::Help), &QPushButton::clicked, this, &KGpgExternalActions::help);
 	}
 
 	m_assistant->show();

@@ -88,7 +88,7 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
     // call inits to invoke all other construction parts
     initActions();
 
-    connect(m_editor, SIGNAL(resetEncoding(bool)), SLOT(slotResetEncoding(bool)));
+    connect(m_editor, &KgpgTextEdit::resetEncoding, this, &KgpgEditor::slotResetEncoding);
     KgpgView *kb = new KgpgView(this, m_editor, toolBar(QLatin1String( "gpgToolBar" )));
     setCentralWidget(kb);
     setCaption(i18n("Untitled"), false);
@@ -102,11 +102,11 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
     setupGUI((ToolBar | Keys | StatusBar | Save | Create), QLatin1String( "kgpgeditor.rc" ));
     setAutoSaveSettings(QLatin1String( "Editor" ), true);
 
-    connect(m_editor, SIGNAL(textChanged()), SLOT(modified()));
-    connect(m_editor, SIGNAL(newText()), SLOT(newText()));
-    connect(m_editor, SIGNAL(undoAvailable(bool)), SLOT(slotUndoAvailable(bool)));
-    connect(m_editor, SIGNAL(redoAvailable(bool)), SLOT(slotRedoAvailable(bool)));
-    connect(m_editor, SIGNAL(copyAvailable(bool)), SLOT(slotCopyAvailable(bool)));
+    connect(m_editor, &KgpgTextEdit::textChanged, this, &KgpgEditor::modified);
+    connect(m_editor, &KgpgTextEdit::newText, this, &KgpgEditor::newText);
+    connect(m_editor, &KgpgTextEdit::undoAvailable, this, &KgpgEditor::slotUndoAvailable);
+    connect(m_editor, &KgpgTextEdit::redoAvailable, this, &KgpgEditor::slotRedoAvailable);
+    connect(m_editor, &KgpgTextEdit::copyAvailable, this, &KgpgEditor::slotCopyAvailable);
 }
 
 KgpgEditor::~KgpgEditor()
@@ -408,8 +408,8 @@ void KgpgEditor::slotFind()
 			m_find->setData(m_editor->toPlainText(), m_editor->textCursor().selectionStart());
 		else
 			m_find->setData(m_editor->toPlainText());
-		connect(m_find, SIGNAL(highlight(QString,int,int)), m_editor, SLOT(slotHighlightText(QString,int,int)));
-		connect(m_find, SIGNAL(findNext()), this, SLOT(slotFindText()));
+		connect(m_find, static_cast<void(KFind::*)(const QString&,int, int)>(&KFind::highlight), m_editor, &KgpgTextEdit::slotHighlightText);
+		connect(m_find, &KFind::findNext, this, &KgpgEditor::slotFindText);
 	} else {
 		m_find->setPattern(fd->pattern());
 		m_find->setOptions(fd->options());
@@ -511,8 +511,8 @@ void KgpgEditor::slotFilePreDec()
     popn->resize(popn->minimumSize());
 
     page->buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
-    connect(page->buttonBox, SIGNAL(accepted()), popn, SLOT(accept()));
-    connect(page->buttonBox, SIGNAL(rejected()), popn, SLOT(reject()));
+    connect(page->buttonBox, &QDialogButtonBox::accepted, popn.data(), &QDialog::accept);
+    connect(page->buttonBox, &QDialogButtonBox::rejected, popn.data(), &QDialog::reject);
 
     if (popn->exec() == QDialog::Accepted)
     {
@@ -541,7 +541,7 @@ void KgpgEditor::slotFilePreDec()
         }
 
 	KGpgDecrypt *decr = new KGpgDecrypt(this, url, QUrl(newname));
-	connect(decr, SIGNAL(done(int)), SLOT(slotLibraryDone()));
+	connect(decr, &KGpgDecrypt::done, this, &KgpgEditor::slotLibraryDone);
 	decr->start();
     }
     else
@@ -647,12 +647,12 @@ void KgpgEditor::slotSignFile(const QUrl &url)
 		sopts |= KGpgSignText::AsciiArmored;
 
 	KGpgSignText *signt = new KGpgSignText(this, signKeyID, QList<QUrl>({url}), sopts);
-	connect(signt, SIGNAL(done(int)), SLOT(slotSignFileFin()));
+	connect(signt, &KGpgSignText::done, this, &KgpgEditor::slotSignFileFin);
 	signt->start();
     }
 }
 
-void KgpgEditor::slotSignFileFin()
+void KgpgEditor::slotSignFileFin(int)
 {
 	sender()->deleteLater();
 }
@@ -689,7 +689,7 @@ void KgpgEditor::slotVerifyFile(const QUrl &url)
 		chkfiles << QUrl::fromLocalFile(sigfile);
 
 	KGpgVerify *verify = new KGpgVerify(this, chkfiles);
-	connect(verify, SIGNAL(done(int)), m_editor, SLOT(slotVerifyDone(int)));
+	connect(verify, &KGpgVerify::done, m_editor, &KgpgTextEdit::slotVerifyDone);
 	verify->start();
     }
 }
@@ -716,8 +716,8 @@ void KgpgEditor::importSignatureKey(const QString &id, const QString &fileName)
 
 	KeyServer *ks = new KeyServer(this);
 
-	connect(ks, SIGNAL(importFinished(QStringList)), SLOT(slotDownloadKeysFinished(QStringList)));
-	connect(ks, SIGNAL(importFailed()), ks, SLOT(deleteLater()));
+	connect(ks, &KeyServer::importFinished, this, &KgpgEditor::slotDownloadKeysFinished);
+	connect(ks, &KeyServer::importFailed, ks, &KeyServer::deleteLater);
 
 	ks->startImport(QStringList(id), QString(),QLatin1String( qgetenv("http_proxy") ));
 }

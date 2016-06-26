@@ -24,7 +24,7 @@
 class KGpgTransaction;
 class KGpgSignTransactionHelper;
 
-class KGpgTransactionPrivate {
+class KGpgTransactionPrivate : public QObject {
 public:
 	KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining);
 	~KGpgTransactionPrivate();
@@ -48,6 +48,7 @@ public:
 	void slotProcessStarted();
 	void slotInputTransactionDone(int result);
 	void slotPassphraseEntered(const QString &passphrase);
+
 	/**
 	 * @brief a slot to handle the case that the passphrase entry was aborted by the user
 	 *

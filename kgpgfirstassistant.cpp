@@ -117,7 +117,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 		gpgBin = QLatin1String("gpg");
 	binURL->setUrl(QUrl::fromLocalFile(gpgBin));
 
-	connect(binURL, SIGNAL(textChanged(QString)), SLOT(slotBinaryChanged(QString)));
+	connect(binURL, &KUrlRequester::textChanged, this, &KGpgFirstAssistant::slotBinaryChanged);
 	slotBinaryChanged(gpgBin);
 
 	gridLayout->addWidget(binURL, 2, 1, 1, 1);

@@ -116,7 +116,7 @@ void KgpgTextEdit::openDroppedFile(const QUrl &url, const bool probe)
 	if (!probe || KGpgDecrypt::isEncryptedText(result, &m_posstart, &m_posend)) {
 		// if pgp data found, decode it
 		KGpgDecrypt *decr = new KGpgDecrypt(this, QList<QUrl>({url}));
-		connect(decr, SIGNAL(done(int)), SLOT(slotDecryptDone(int)));
+		connect(decr, &KGpgDecrypt::done, this, &KgpgTextEdit::slotDecryptDone);
 		decr->start();
 		return;
 	}
@@ -140,7 +140,7 @@ void KgpgTextEdit::openDroppedFile(const QUrl &url, const bool probe)
 			setPlainText(result);
 		} else {
 			KGpgImport *imp = new KGpgImport(this, result);
-			connect(imp, SIGNAL(done(int)), m_keysmanager, SLOT(slotImportDone(int)));
+			connect(imp, &KGpgImport::done, m_keysmanager, &KeysManager::slotImportDone);
 			imp->start();
 		}
 	} else {
@@ -188,7 +188,7 @@ void KgpgTextEdit::slotEncode()
 
 		KGpgEncrypt *encr = new KGpgEncrypt(this, listkeys, toPlainText(), opts, options);
 		encr->start();
-		connect(encr, SIGNAL(done(int)), SLOT(slotEncodeUpdate(int)));
+		connect(encr, &KGpgEncrypt::done, this, &KgpgTextEdit::slotEncodeUpdate);
 	}
 	delete dialog;
 }
@@ -201,7 +201,7 @@ void KgpgTextEdit::slotDecode()
 		return;
 
 	KGpgDecrypt *decr = new KGpgDecrypt(this, fullcontent.mid(m_posstart, m_posend - m_posstart));
-	connect(decr, SIGNAL(done(int)), SLOT(slotDecryptDone(int)));
+	connect(decr, &KGpgDecrypt::done, this, &KgpgTextEdit::slotDecryptDone);
 	decr->start();
 }
 
@@ -221,7 +221,7 @@ void KgpgTextEdit::slotSign(const QString &message)
     delete opts;
 
 	KGpgSignText *signt = new KGpgSignText(this, signkeyid, message);
-	connect(signt, SIGNAL(done(int)), SLOT(slotSignUpdate(int)));
+	connect(signt, &KGpgSignText::done, this, &KgpgTextEdit::slotSignUpdate);
 	signt->start();
 }
 
@@ -240,7 +240,7 @@ void KgpgTextEdit::slotVerify(const QString &message)
     posend += endmsg.length();
 
     KGpgVerify *verify = new KGpgVerify(this, message.mid(posstart, posend - posstart));
-    connect(verify, SIGNAL(done(int)), SLOT(slotVerifyDone(int)));
+    connect(verify, &KGpgVerify::done, this, &KgpgTextEdit::slotVerifyDone);
     verify->start();
 }
 

@@ -59,6 +59,8 @@ public:
 	 * @brief create a new object, encrypt the given files, and destroy the object
 	 */
 	static void encryptFiles(KeysManager* parent, const QList<QUrl>& urls);
+
+	void readOptions();
 signals:
 	void createNewKey();
 	void updateDefault(QString);
@@ -86,7 +88,6 @@ private slots:
 	void slotSaveOptionsPath();
 	void slotVerificationDone(int result);
 	void help();
-	void readOptions();
 	void slotSetCompression(int cp);
 	void slotDecryptionDone(int status);
 	void slotFolderFinished(KJob *job);

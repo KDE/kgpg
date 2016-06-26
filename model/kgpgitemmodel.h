@@ -83,7 +83,8 @@ public Q_SLOTS:
 	QModelIndex nodeIndex(KGpgNode *node, const int column = 0);
 	void refreshKey(const QString &id);
 	void refreshKey(KGpgKeyNode *nd);
-	void refreshKeys(const QStringList &ids = QStringList());
+        void refreshKeys();
+	void refreshKeys(const QStringList &ids);
 	void refreshKeys(KGpgKeyNode::List keys);
 	void refreshGroups();
 	void invalidateIndexes(KGpgNode *nd);

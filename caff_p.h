@@ -26,7 +26,6 @@
 class QTemporaryDir;
 
 class KGpgCaffPrivate : public QObject {
-	Q_OBJECT
 
 	KGpgCaff * const q_ptr;
 	Q_DECLARE_PUBLIC(KGpgCaff)
@@ -52,7 +51,7 @@ public:
 	KGpgSignableNode::const_List m_noEncIds;	///< keys without encryption capability that were skipped
 	KGpgSignableNode::const_List m_alreadyIds;	///< ids already signed
 
-private slots:
+private:
 	void slotSigningFinished(int result);
 	void slotDelUidFinished(int result);
 	void slotExportFinished(int result);

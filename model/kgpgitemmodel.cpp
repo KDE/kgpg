@@ -441,6 +441,12 @@ KGpgItemModel::refreshKeys(KGpgKeyNode::List keys)
 }
 
 void
+KGpgItemModel::refreshKeys()
+{
+	refreshKeyIds(QStringList());
+}
+
+void
 KGpgItemModel::refreshKeys(const QStringList &ids)
 {
 	refreshKeyIds(ids);

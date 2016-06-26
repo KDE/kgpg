@@ -111,7 +111,7 @@ KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 
 	imp->setGnuPGHome(m_tempdir->path());
 
-	connect(imp, SIGNAL(done(int)), SLOT(slotReimportDone(int)));
+	connect(imp, &KGpgImport::done, this, &KGpgCaffPrivate::slotReimportDone);
 	imp->start();
 }
 
@@ -130,7 +130,7 @@ KGpgCaffPrivate::slotReimportDone(int result)
 			signuid->setGnuPGHome(m_tempdir->path());
 			if (m_gpgVersion < 0x20100)
 				signuid->setSecringFile(m_secringfile);
-			connect(signuid, SIGNAL(done(int)), SLOT(slotSigningFinished(int)));
+			connect(signuid, &KGpgSignUid::done, this, &KGpgCaffPrivate::slotSigningFinished);
 
 			signuid->start();
 		}
@@ -271,7 +271,7 @@ KGpgCaffPrivate::slotSigningFinished(int result)
 
 	deluid->setGnuPGHome(m_tempdir->path());
 
-	connect(deluid, SIGNAL(done(int)), SLOT(slotDelUidFinished(int)));
+	connect(deluid, &KGpgDelUid::done, this, &KGpgCaffPrivate::slotDelUidFinished);
 
 	deluid->start();
 }
@@ -299,7 +299,7 @@ KGpgCaffPrivate::slotDelUidFinished(int result)
 
 	exp->setGnuPGHome(m_tempdir->path());
 
-	connect(exp, SIGNAL(done(int)), SLOT(slotExportFinished(int)));
+	connect(exp, &KGpgExport::done, this, &KGpgCaffPrivate::slotExportFinished);
 
 	exp->start();
 }
@@ -332,7 +332,7 @@ KGpgCaffPrivate::slotExportFinished(int result)
 	// as well as the "always encrypt to" setting are not honored.
 	enc->setGnuPGHome(m_tempdir->path());
 
-	connect(enc, SIGNAL(done(int)), SLOT(slotTextEncrypted(int)));
+	connect(enc, &KGpgEncrypt::done, this, &KGpgCaffPrivate::slotTextEncrypted);
 
 	enc->start();
 }

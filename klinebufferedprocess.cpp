@@ -17,8 +17,8 @@ KLineBufferedProcess::KLineBufferedProcess(QObject *parent)
  : KProcess(parent),
    d(new KLineBufferedProcessPrivate(this))
 {
-    connect(this, SIGNAL(readyReadStandardOutput()), this, SLOT(_k_receivedStdout()));
-    connect(this, SIGNAL(readyReadStandardError()), this, SLOT(_k_receivedStderr()));
+    connect(this, &KLineBufferedProcess::readyReadStandardOutput, d, &KLineBufferedProcessPrivate::_k_receivedStdout);
+    connect(this, &KLineBufferedProcess::readyReadStandardError, d, &KLineBufferedProcessPrivate::_k_receivedStderr);
 }
 
 KLineBufferedProcess::~KLineBufferedProcess()
@@ -65,5 +65,3 @@ bool KLineBufferedProcess::hasLineStandardError() const
 {
     return d->m_newlineInStderr >= 0;
 }
-
-#include "klinebufferedprocess.moc"

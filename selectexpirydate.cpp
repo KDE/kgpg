@@ -37,8 +37,8 @@ SelectExpiryDate::SelectExpiryDate(QWidget* parent, QDateTime date)
 	okButton = buttonBox->button(QDialogButtonBox::Ok);
 	okButton->setDefault(true);
 	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &SelectExpiryDate::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &SelectExpiryDate::reject);
 	okButton->setDefault(true);
 
 	QWidget *page = new QWidget(this);
@@ -59,9 +59,9 @@ SelectExpiryDate::SelectExpiryDate(QWidget* parent, QDateTime date)
 	layout->addWidget(m_datepicker);
 	layout->addWidget(m_unlimited);
 
-	connect(m_unlimited, SIGNAL(toggled(bool)), this, SLOT(slotEnableDate(bool)));
-	connect(m_datepicker, SIGNAL(dateChanged(QDate)), this, SLOT(slotCheckDate(QDate)));
-	connect(m_datepicker, SIGNAL(dateEntered(QDate)), this, SLOT(slotCheckDate(QDate)));
+	connect(m_unlimited, &QCheckBox::toggled, this, &SelectExpiryDate::slotEnableDate);
+	connect(m_datepicker, &KDatePicker::dateChanged, this, &SelectExpiryDate::slotCheckDate);
+	connect(m_datepicker, &KDatePicker::dateEntered, this, &SelectExpiryDate::slotCheckDate);
 
 	mainLayout->addWidget(page);
 	mainLayout->addWidget(buttonBox);

@@ -16,12 +16,11 @@
 
 class KLineBufferedProcess;
 
-class KLineBufferedProcessPrivate
+class KLineBufferedProcessPrivate : public QObject
 {
 public:
     KLineBufferedProcessPrivate(KLineBufferedProcess *parent);
 
-//private slot implementations
     void _k_receivedStdout();
     void _k_receivedStderr();
 

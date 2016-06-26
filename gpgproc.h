@@ -159,18 +159,16 @@ signals:
     /**
      * Emitted when the process is ready for reading.
      * The signal is only emitted if at least one complete line of data is ready.
-     * @param p the process that emitted the signal
      */
     void readReady();
 
     /**
      * Emitted when the process has finished
-     * @param p the process that emitted the signal
      */
     void processExited();
 
 protected slots:
-    void finished();
+    void processFinished();
     void received();
 
 private:

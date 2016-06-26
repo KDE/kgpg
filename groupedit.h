@@ -28,8 +28,6 @@ class QSortFilterProxyModel;
  */
 class groupEdit : public QWidget, public Ui::groupEdit
 {
-	Q_OBJECT
-
 private:
 	GroupEditProxyModel *m_in;
 	GroupEditProxyModel *m_out;
@@ -50,7 +48,7 @@ public:
 	 */
 	~groupEdit();
 
-private Q_SLOTS:
+private:
 	/**
 	 * @brief called when the add button is clicked
 	 */

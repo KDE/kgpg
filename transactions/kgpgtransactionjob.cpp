@@ -33,9 +33,9 @@ KGpgTransactionJob::~KGpgTransactionJob()
 void
 KGpgTransactionJob::start()
 {
-	connect(m_transaction, SIGNAL(done(int)), SLOT(slotTransactionDone(int)));
-	connect(m_transaction, SIGNAL(statusMessage(QString)), SLOT(slotStatusMessage(QString)));
-	connect(m_transaction, SIGNAL(infoProgress(qulonglong,qulonglong)), SLOT(slotInfoProgress(qulonglong,qulonglong)));
+	connect(m_transaction, &KGpgTransaction::done, this, &KGpgTransactionJob::slotTransactionDone);
+	connect(m_transaction, &KGpgTransaction::statusMessage, this, &KGpgTransactionJob::slotStatusMessage);
+	connect(m_transaction, &KGpgTransaction::infoProgress, this, &KGpgTransactionJob::slotInfoProgress);
 
 	slotStatusMessage(i18nc("Job is started up", "Startup"));
 	m_transaction->start();

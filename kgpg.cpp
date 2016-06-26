@@ -80,9 +80,9 @@ int KGpgApp::newInstance()
 
 		w = new KGpgExternalActions(s_keyManager, s_keyManager->getModel());
 
-		connect(s_keyManager, SIGNAL(readAgainOptions()), w, SLOT(readOptions()));
-		connect(w, SIGNAL(updateDefault(QString)), SLOT(assistantOver(QString)));
-		connect(w, SIGNAL(createNewKey()), s_keyManager, SLOT(slotGenerateKey()));
+		connect(s_keyManager, &KeysManager::readAgainOptions, w, &KGpgExternalActions::readOptions);
+		connect(w, &KGpgExternalActions::updateDefault, this, &KGpgApp::assistantOver);
+		connect(w, &KGpgExternalActions::createNewKey, s_keyManager, &KeysManager::slotGenerateKey);
 
 		const QString gpgPath = KGpgSettings::gpgConfigPath();
 

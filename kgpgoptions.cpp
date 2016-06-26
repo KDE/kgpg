@@ -117,15 +117,15 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	addPage(m_page7, i18n("Misc"), QLatin1String( "preferences-other" ));
 
 	// The following widgets are managed manually.
-	connect(m_page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(slotChangeEncryptTo()));
-	connect(m_page4->changeHome, SIGNAL(clicked()), this, SLOT(slotChangeHome()));
-	connect(m_page6->server_add, SIGNAL(clicked()), this, SLOT(slotAddKeyServer()));
-	connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
-	connect(m_page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
-	connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
-	connect(m_page6->ServerBox->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(slotChangeKeyServerButtonEnable()));
-	connect(m_page6->ServerBox, SIGNAL(doubleClicked(QModelIndex)), SLOT(slotEditKeyServer(QModelIndex)));
-	connect(m_page7->kcfg_ShowSystray, SIGNAL(clicked()), SLOT(slotSystrayEnable()));
+	connect(m_page1->encrypt_to_always, &QCheckBox::toggled, this, &kgpgOptions::slotChangeEncryptTo);
+	connect(m_page4->changeHome, &QPushButton::clicked, this, &kgpgOptions::slotChangeHome);
+	connect(m_page6->server_add, &QPushButton::clicked, this, &kgpgOptions::slotAddKeyServer);
+	connect(m_page6->server_del, &QPushButton::clicked, this, &kgpgOptions::slotDelKeyServer);
+	connect(m_page6->server_edit, &QPushButton::clicked, this, static_cast<void(kgpgOptions::*)()>(&kgpgOptions::slotEditKeyServer));
+	connect(m_page6->server_default, &QPushButton::clicked, this, &kgpgOptions::slotDefaultKeyServer);
+	connect(m_page6->ServerBox->selectionModel(), &QItemSelectionModel::selectionChanged, this, &kgpgOptions::slotChangeKeyServerButtonEnable);
+	connect(m_page6->ServerBox, &QListView::doubleClicked, this, static_cast<void(kgpgOptions::*)(const QModelIndex &)>(&kgpgOptions::slotEditKeyServer));
+	connect(m_page7->kcfg_ShowSystray, &QPushButton::clicked, this, &kgpgOptions::slotSystrayEnable);
 
 	keyUltimate = KGpgSettings::colorUltimate();
 	keyGood = KGpgSettings::colorGood();

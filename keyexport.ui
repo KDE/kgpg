@@ -158,38 +158,4 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>checkServer</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>destServer</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>72</x>
-     <y>69</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>95</x>
-     <y>106</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkFile</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>newFilename</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>39</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>48</x>
-     <y>159</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
 </ui>

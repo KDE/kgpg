@@ -122,7 +122,7 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
     connect(buttonBox, &QDialogButtonBox::accepted, this, &KgpgKeyInfo::okButtonClicked);
     connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, &KgpgKeyInfo::applyButtonClicked);
     connect(buttonBox->button(QDialogButtonBox::Cancel), &QPushButton::clicked, this, &KgpgKeyInfo::cancelButtonClicked);
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &KgpgKeyInfo::reject);
     okButton->setDefault(true);
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
 
@@ -141,13 +141,13 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
     mainLayout->addWidget(page);
     mainLayout->addWidget(buttonBox);
 
-    connect(m_owtrust, SIGNAL(activated(int)), this, SLOT(slotChangeTrust(int)));
-    connect(m_photoid, SIGNAL(activated(QString)), this, SLOT(slotLoadPhoto(QString)));
-    connect(m_email, SIGNAL(leftClickedUrl(QString)), this, SLOT(slotOpenUrl(QString)));
-    connect(keychange, SIGNAL(done(int)), SLOT(slotApplied(int)));
-    connect(m_disable, SIGNAL(toggled(bool)), this, SLOT(slotDisableKey(bool)));
-    connect(m_expirationbtn, SIGNAL(clicked()), this, SLOT(slotChangeDate()));
-    connect(m_password, SIGNAL(clicked()), this, SLOT(slotChangePass()));
+    connect(m_owtrust, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &KgpgKeyInfo::slotChangeTrust);
+    connect(m_photoid, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::activated), this, &KgpgKeyInfo::slotLoadPhoto);
+    connect(m_email, static_cast<void (KUrlLabel::*)(const QString &)>(&KUrlLabel::leftClickedUrl), this, &KgpgKeyInfo::slotOpenUrl);
+    connect(keychange, &KGpgChangeKey::done, this, &KgpgKeyInfo::slotApplied);
+    connect(m_disable, &QCheckBox::toggled, this, &KgpgKeyInfo::slotDisableKey);
+    connect(m_expirationbtn, &QPushButton::clicked, this, &KgpgKeyInfo::slotChangeDate);
+    connect(m_password, &QPushButton::clicked, this, &KgpgKeyInfo::slotChangePass);
 
     displayKey();
     adjustSize();
@@ -253,7 +253,7 @@ void KgpgKeyInfo::displayKey()
     if (!key->valid())
         m_disable->setChecked(true);
 
-    connect(m_node, SIGNAL(expanded()), SLOT(slotKeyExpanded()));
+    connect(m_node, &KGpgKeyNode::expanded, this, &KgpgKeyInfo::slotKeyExpanded);
     m_node->expand();
     m_photoid->clear();
 }
@@ -292,7 +292,7 @@ void KgpgKeyInfo::slotChangePass()
 {
 	KGpgChangePass *cp = new KGpgChangePass(this, m_node->getId());
 
-	connect(cp, SIGNAL(done(int)), SLOT(slotInfoPasswordChanged(int)));
+	connect(cp, &KGpgChangePass::done, this, &KgpgKeyInfo::slotInfoPasswordChanged);
 
 	cp->start();
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));

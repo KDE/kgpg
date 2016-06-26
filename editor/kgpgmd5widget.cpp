@@ -35,8 +35,8 @@ Md5Widget::Md5Widget(QWidget *parent, const QUrl &url)
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     setLayout(mainLayout);
     mainLayout->addWidget(mainWidget);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &Md5Widget::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &Md5Widget::reject);
     buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Compare MD5 with Clipboard"));
 
@@ -81,7 +81,7 @@ Md5Widget::Md5Widget(QWidget *parent, const QUrl &url)
     mainLayout->addWidget(page);
     mainLayout->addWidget(buttonBox);
 
-    connect(buttonBox->button(QDialogButtonBox::Apply), SIGNAL(clicked()), this, SLOT(slotApply()));
+    connect(buttonBox->button(QDialogButtonBox::Apply), &QPushButton::clicked, this, &Md5Widget::slotApply);
 }
 
 void Md5Widget::slotApply()

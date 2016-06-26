@@ -51,14 +51,14 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
     QPushButton *user1Button = new QPushButton;
     buttonBox->addButton(user1Button, QDialogButtonBox::ActionRole);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &KgpgKeyGenerate::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &KgpgKeyGenerate::reject);
 
     user1Button->setText(i18n("&Expert Mode"));
     user1Button->setToolTip(i18n("Go to Expert Mode"));
     user1Button->setWhatsThis(i18n( "If you go to expert mode, you will use the command line to create your key." ));
 
-    connect(m_kname, SIGNAL(textChanged(QString)), this, SLOT(slotEnableOk()));
+    connect(m_kname, &QLineEdit::textChanged, this, &KgpgKeyGenerate::slotEnableOk);
 
     QWidget *hgroup = new QWidget(vgroup);
     QHBoxLayout *hgroupHBoxLayout = new QHBoxLayout(hgroup);
@@ -78,7 +78,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     m_keyexp->addItem(i18n("Months"), 3);
     m_keyexp->addItem(i18n("Years"), 4);
     m_keyexp->setMinimumSize(m_keyexp->sizeHint());
-    connect(m_keyexp, SIGNAL(activated(int)), this, SLOT(slotEnableDays(int)));
+    connect(m_keyexp, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &KgpgKeyGenerate::slotEnableDays);
 
     qobject_cast<QVBoxLayout *>(vgroup->layout())->insertWidget(7, hgroup);
 
@@ -106,9 +106,9 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     updateGeometry();
     show();
 
-    connect(okButton, SIGNAL(clicked()), this, SLOT(slotOk()));
-    connect(user1Button, SIGNAL(clicked()), this, SLOT(slotUser1()));
-    connect(m_keykind, SIGNAL(activated(int)), SLOT(slotEnableCaps(int)));
+    connect(okButton, &QPushButton::clicked, this, &KgpgKeyGenerate::slotOk);
+    connect(user1Button, &QPushButton::clicked, this, &KgpgKeyGenerate::slotUser1);
+    connect(m_keykind, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &KgpgKeyGenerate::slotEnableCaps);
 }
 
 void KgpgKeyGenerate::slotOk()

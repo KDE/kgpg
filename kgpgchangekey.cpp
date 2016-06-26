@@ -92,7 +92,7 @@ void KGpgChangeKey::nextStep(int result)
 		if (m_expiration != m_key.expirationDate()) {
 			m_current = new KGpgChangeExpire(m_parentWidget, m_key.fingerprint(), m_expiration);
 
-			connect(m_current, SIGNAL(done(int)), SLOT(nextStep(int)));
+			connect(m_current, &KGpgTransaction::done, this, &KGpgChangeKey::nextStep);
 
 			m_current->start();
 			break;
@@ -109,7 +109,7 @@ void KGpgChangeKey::nextStep(int result)
 		if (m_owtrust != m_key.ownerTrust()) {
 			m_current = new KGpgChangeTrust(m_parentWidget, m_key.fingerprint(), m_owtrust);
 
-			connect(m_current, SIGNAL(done(int)), SLOT(nextStep(int)));
+			connect(m_current, &KGpgTransaction::done, this, &KGpgChangeKey::nextStep);
 
 			m_current->start();
 			break;
@@ -126,7 +126,7 @@ void KGpgChangeKey::nextStep(int result)
 		if (m_key.valid() == m_disable) {
 			m_current = new KGpgChangeDisable(m_parentWidget, m_key.fingerprint(), m_disable);
 
-			connect(m_current, SIGNAL(done(int)), SLOT(nextStep(int)));
+			connect(m_current, &KGpgTransaction::done, this, &KGpgChangeKey::nextStep);
 
 			m_current->start();
 			break;

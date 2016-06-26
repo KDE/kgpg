@@ -60,8 +60,8 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     m_detailsButton->setIcon(QIcon::fromTheme(QStringLiteral("help-about")).pixmap(IconSize(KIconLoader::Toolbar)));
     connect(m_detailsButton, &QPushButton::clicked, this, &KgpgSelectPublicKeyDlg::toggleDetails);
     buttonBox->addButton(m_detailsButton, QDialogButtonBox::ActionRole);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &KgpgSelectPublicKeyDlg::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &KgpgSelectPublicKeyDlg::reject);
     m_okButton->setDefault(true);
 
     int fcount = files.count();
@@ -101,7 +101,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     m_keyslist->setModel(iproxy);
     m_keyslist->resizeColumnsToContents();
     m_keyslist->setWhatsThis(i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
-    connect(m_searchlineedit, SIGNAL(textChanged(QString)), iproxy, SLOT(setFilterFixedString(QString)));
+    connect(m_searchlineedit, &QLineEdit::textChanged, iproxy, &SelectKeyProxyModel::setFilterFixedString);
 
     optionsbox = new QWidget();
     QVBoxLayout *optionsboxVBoxLayout = new QVBoxLayout(optionsbox);
@@ -127,7 +127,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 
     m_cbhideid = new QCheckBox(i18n("Hide user id"), optionsbox);
     optionsboxVBoxLayout->addWidget(m_cbhideid);
-    connect(m_cbuntrusted, SIGNAL(toggled(bool)), this, SLOT(slotUntrusted(bool)));
+    connect(m_cbuntrusted, &QCheckBox::toggled, this, &KgpgSelectPublicKeyDlg::slotUntrusted);
     m_cbhideid->setChecked(KGpgSettings::hideUserID());
     m_cbhideid->setWhatsThis(i18n("<b>Hide user ID</b>: Do not put the keyid into encrypted packets. This option hides the receiver "
                     "of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because "
@@ -164,10 +164,10 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     action->setText(i18n("&Go to Default Key"));
     actcol->setDefaultShortcut(action, goDefaultKey);
 
-    connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
-    connect(m_cbsymmetric, SIGNAL(toggled(bool)), this, SLOT(slotSymmetric(bool)));
-    connect(m_keyslist->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(slotSelectionChanged()));
-    connect(m_keyslist, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotOk()));
+    connect(action, &QAction::triggered, this, &KgpgSelectPublicKeyDlg::slotGotoDefaultKey);
+    connect(m_cbsymmetric, &QCheckBox::toggled, this, &KgpgSelectPublicKeyDlg::slotSymmetric);
+    connect(m_keyslist->selectionModel(), &QItemSelectionModel::selectionChanged, this, &KgpgSelectPublicKeyDlg::slotSelectionChanged);
+    connect(m_keyslist, &QTableView::doubleClicked, this, &KgpgSelectPublicKeyDlg::slotOk);
 
     setMinimumSize(550, 200);
     updateGeometry();
