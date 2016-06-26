@@ -236,7 +236,7 @@ install(TARGETS kgpg  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
-install( FILES editor/kgpgeditor.rc keysmanager.rc tips  DESTINATION ${DATA_INSTALL_DIR}/kgpg)
+install( FILES editor/kgpgeditor.rc keysmanager.rc tips  DESTINATION ${KXMLGUI_INSTALL_DIR}/kgpg)
 install( PROGRAMS org.kde.kgpg.desktop  DESTINATION ${XDG_APPS_INSTALL_DIR})
 install( FILES kgpg.appdata.xml  DESTINATION ${SHARE_INSTALL_PREFIX}/appdata/ )
 install( FILES kgpg.kcfg  DESTINATION ${KCFG_INSTALL_DIR})
