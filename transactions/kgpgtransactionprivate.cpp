@@ -201,6 +201,8 @@ KGpgTransactionPrivate::slotReadReady()
 void
 KGpgTransactionPrivate::slotProcessExited()
 {
+	Q_ASSERT(sender() == m_process);
+
 	m_ownProcessFinished = true;
 
 	if (m_inputProcessDone)
@@ -235,7 +237,7 @@ KGpgTransactionPrivate::sendQuit(void)
 void
 KGpgTransactionPrivate::slotInputTransactionDone(int result)
 {
-	Q_ASSERT(m_parent->sender() == m_inputTransaction);
+	Q_ASSERT(sender() == m_inputTransaction);
 
 	m_inputProcessDone = true;
 	m_inputProcessResult = result;
@@ -254,7 +256,7 @@ KGpgTransactionPrivate::slotPassphraseEntered(const QString &passphrase)
 		m_newPasswordDialog = Q_NULLPTR;
 		m_parent->newPassphraseEntered();
 	} else {
-		Q_ASSERT(m_parent->sender() == m_passwordDialog);
+		Q_ASSERT(sender() == m_passwordDialog);
 	}
 }
 
