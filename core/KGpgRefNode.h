@@ -43,6 +43,7 @@ class KGpgRefNode : public KGpgNode
 private:
 	const QString m_id;
 	bool m_selfsig;		///< if this is a reference to it's own parent
+	QMetaObject::Connection m_updateConnection;
 
 protected:
 	KGpgKeyNode *m_keynode;

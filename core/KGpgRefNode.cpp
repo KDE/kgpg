@@ -50,7 +50,7 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
 		if (m_keynode != Q_NULLPTR) {
 			m_keynode->addRef(this);
 		} else {
-			connect(root, &KGpgRootNode::newKeyNode, this, &KGpgRefNode::keyUpdated);
+			m_updateConnection = connect(root, &KGpgRootNode::newKeyNode, this, &KGpgRefNode::keyUpdated);
 		}
 	}
 
@@ -96,7 +96,7 @@ KGpgRefNode::keyUpdated(KGpgKeyNode *nkey)
 	Q_ASSERT(nkey != Q_NULLPTR);
 
 	if (nkey->compareId(m_id)) {
-		disconnect(sender(), Q_NULLPTR, this, SLOT(keyUpdated(KGpgKeyNode*)));
+		disconnect(m_updateConnection);
 		m_keynode = nkey;
 		m_keynode->addRef(this);
 	}
@@ -106,7 +106,7 @@ void
 KGpgRefNode::unRef(KGpgRootNode *root)
 {
 	if (root != Q_NULLPTR)
-		connect(root, &KGpgRootNode::newKeyNode, this, &KGpgRefNode::keyUpdated);
+		m_updateConnection = connect(root, &KGpgRootNode::newKeyNode, this, &KGpgRefNode::keyUpdated);
 
 	m_keynode = Q_NULLPTR;
 }
