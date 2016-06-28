@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013,2014,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -12,6 +12,7 @@
  ***************************************************************************/
 
 #include "kgpgtransaction.h"
+#include "kgpgtransactionprivate.h"
 
 #include "gpgproc.h"
 #include "kgpginterface.h"

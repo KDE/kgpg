@@ -18,7 +18,6 @@
 #include <QString>
 
 #include "kgpgcompiler.h"
-#include "kgpgtransactionprivate.h"
 
 class GPGProc;
 class KGpgSignTransactionHelper;
