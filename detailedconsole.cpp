@@ -19,10 +19,8 @@
 
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KConfigGroup>
 #include <QDialogButtonBox>
 #include <QPushButton>
-#include <QVBoxLayout>
 
 KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, const QString &errormessage,
 		const QStringList &keysList, const QString &caption)
@@ -33,16 +31,11 @@ KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, con
 	else
 		setWindowTitle(i18n("Info"));
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
-	QWidget *mainWidget = new QWidget(this);
-	QVBoxLayout *mainLayout = new QVBoxLayout(this);
-	setLayout(mainLayout);
-	mainLayout->addWidget(mainWidget);
 	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
 	okButton->setDefault(true);
 	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
 	connect(buttonBox, &QDialogButtonBox::accepted, this, &KgpgDetailedInfo::accept);
 	connect(buttonBox, &QDialogButtonBox::rejected, this, &KgpgDetailedInfo::reject);
-	mainLayout->addWidget(buttonBox);
 	okButton->setDefault(true);
 	setModal(true);
 	KMessageBox::createKMessageBox(this, buttonBox, QMessageBox::Information, boxLabel, keysList, QString(), Q_NULLPTR, 0, errormessage);
