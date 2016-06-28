@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2010,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2012,2013,2014,2015,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -356,7 +356,7 @@ KGpgCaffPrivate::slotTextEncrypted(int result)
 
 		QDesktopServices::openUrl(QUrl(QLatin1String("mailto:") + email +
 				QLatin1String("?subject=") + i18nc("%1 is 64 bit key id (in hex), text is used as email subject", "Your key %1", keyid) +
-				QLatin1String("?body=") + text));
+				QLatin1String("&body=") + text));
 		break;
 		}
 	default:
