@@ -11,10 +11,10 @@
 #define KGPGSELECTSECRETKEY_H
 
 #include <QDialog>
-#include <QItemSelection>
 
 class QCheckBox;
 class QComboBox;
+class QPushButton;
 class QTableView;
 
 class KGpgItemModel;

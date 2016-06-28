@@ -200,7 +200,7 @@ void KeyServer::slotSearch()
 	m_filtermodel.setSourceModel(m_resultmodel);
 	m_filtermodel.setFilterRegExp(QRegExp());
 
-	m_dialogserver = new QDialog(this );
+	m_dialogserver = new QDialog(this);
 	m_dialogserver->setWindowTitle(i18n("Import Key From Keyserver"));
 
 	QVBoxLayout *mainLayout = new QVBoxLayout(m_dialogserver);
