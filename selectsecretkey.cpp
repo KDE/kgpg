@@ -146,6 +146,6 @@ void KgpgSelectSecretKey::slotSelectionChanged()
 
 void KgpgSelectSecretKey::slotOk()
 {
-//     if (m_keyslist->selectionModel()->hasSelection())
-//         slotButtonClicked(Ok); FIXME: KF5
+    if (m_keyslist->selectionModel()->hasSelection())
+        accept();
 }

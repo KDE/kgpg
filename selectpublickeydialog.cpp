@@ -235,8 +235,8 @@ bool KgpgSelectPublicKeyDlg::getHideId() const
 
 void KgpgSelectPublicKeyDlg::slotOk()
 {
-//     if (getSymmetric() || m_keyslist->selectionModel()->hasSelection())
-//         slotButtonClicked(Ok); FIXME: KF5
+    if (getSymmetric() || m_keyslist->selectionModel()->hasSelection())
+        accept();
 }
 
 void KgpgSelectPublicKeyDlg::slotSelectionChanged()
