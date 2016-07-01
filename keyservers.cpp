@@ -218,7 +218,10 @@ void KeyServer::slotSearch()
 	connect(m_listpop->buttonBox, &QDialogButtonBox::accepted, this, &KeyServer::slotPreImport);
 	connect(m_listpop->kLVsearch, &QTreeView::activated, m_dialogserver, &QDialog::accepted);
 	connect(m_listpop->buttonBox, &QDialogButtonBox::rejected, this, &KeyServer::handleQuit);
-	connect(m_listpop->qLEID, SIGNAL(clearButtonClicked()), m_listpop->kLVsearch->selectionModel(), SLOT(clearSelection()));
+	connect(m_listpop->qLEID, &QLineEdit::textChanged, this, [&] (const QString & text) {
+		if (text.isEmpty())
+			m_listpop->kLVsearch->selectionModel()->clearSelection();
+		});
 
 	m_listpop->kLVsearch->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
