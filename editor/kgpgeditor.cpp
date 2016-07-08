@@ -160,24 +160,24 @@ void KgpgEditor::saveOptions()
 
 void KgpgEditor::initActions()
 {
-    KStandardAction::openNew(this, SLOT(slotFileNew()), actionCollection());
-    KStandardAction::open(this, SLOT(slotFileOpen()), actionCollection());
-    KStandardAction::save(this, SLOT(slotFileSave()), actionCollection());
-    KStandardAction::saveAs(this, SLOT(slotFileSaveAs()), actionCollection());
-    KStandardAction::close(this, SLOT(slotFileClose()), actionCollection());
-    KStandardAction::paste(this, SLOT(slotEditPaste()), actionCollection());
-    KStandardAction::print(this, SLOT(slotFilePrint()), actionCollection());
-    KStandardAction::selectAll(this, SLOT(slotSelectAll()), actionCollection());
-    KStandardAction::find(this, SLOT(slotFind()), actionCollection());
-    KStandardAction::findNext(this, SLOT(slotFindNext()), actionCollection());
-    KStandardAction::findPrev(this, SLOT(slotFindPrev()), actionCollection());
+    KStandardAction::openNew(this, &KgpgEditor::slotFileNew, actionCollection());
+    KStandardAction::open(this, &KgpgEditor::slotFileOpen, actionCollection());
+    KStandardAction::save(this, &KgpgEditor::slotFileSave, actionCollection());
+    KStandardAction::saveAs(this, &KgpgEditor::slotFileSaveAs, actionCollection());
+    KStandardAction::close(this, &KgpgEditor::slotFileClose, actionCollection());
+    KStandardAction::paste(this, &KgpgEditor::slotEditPaste, actionCollection());
+    KStandardAction::print(this, &KgpgEditor::slotFilePrint, actionCollection());
+    KStandardAction::selectAll(this, &KgpgEditor::slotSelectAll, actionCollection());
+    KStandardAction::find(this, &KgpgEditor::slotFind, actionCollection());
+    KStandardAction::findNext(this, &KgpgEditor::slotFindNext, actionCollection());
+    KStandardAction::findPrev(this, &KgpgEditor::slotFindPrev, actionCollection());
     actionCollection()->addAction(KStandardAction::Preferences, QLatin1String( "options_configure" ),
                                   this, SLOT(slotOptions()));
 
-    m_editundo = KStandardAction::undo(this, SLOT(slotundo()), actionCollection());
-    m_editredo = KStandardAction::redo(this, SLOT(slotredo()), actionCollection());
-    m_editcopy = KStandardAction::copy(this, SLOT(slotEditCopy()), actionCollection());
-    m_editcut  = KStandardAction::cut(this, SLOT(slotEditCut()), actionCollection());
+    m_editundo = KStandardAction::undo(this, &KgpgEditor::slotundo, actionCollection());
+    m_editredo = KStandardAction::redo(this, &KgpgEditor::slotredo, actionCollection());
+    m_editcopy = KStandardAction::copy(this, &KgpgEditor::slotEditCopy, actionCollection());
+    m_editcut  = KStandardAction::cut(this, &KgpgEditor::slotEditCut, actionCollection());
 
     m_recentfiles = KStandardAction::openRecent(this, SLOT(openDocumentFile(QUrl)), this);
     menuBar()->addAction(m_recentfiles);

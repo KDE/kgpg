@@ -23,12 +23,10 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
 )
 
 # Load the frameworks we need
-find_package(KF5 REQUIRED
-  AkonadiContact
+find_package(KF5 5.23 REQUIRED
   Archive
   DocTools
   Codecs
-  Contacts
   CoreAddons
   I18n
   IconThemes
@@ -36,6 +34,12 @@ find_package(KF5 REQUIRED
   KDELibs4Support
   Service
   WidgetsAddons
+)
+
+# kdepimlibs
+find_package(KF5 REQUIRED
+  AkonadiContact
+  Contacts
 )
 
 # only headers are used
