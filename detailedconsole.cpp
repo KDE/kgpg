@@ -37,7 +37,7 @@ KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, con
 	detailsButton->setText(QApplication::translate("KMessageBox", "&Details") + QStringLiteral(" >>"));
 	detailsButton->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
 
-	QDialogButtonBox *buttonBox = new QDialogButtonBox;
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(this);
 	buttonBox->addButton(detailsButton, QDialogButtonBox::HelpRole);
 	buttonBox->addButton(QDialogButtonBox::Ok);
 	buttonBox->button(QDialogButtonBox::Ok)->setFocus();
