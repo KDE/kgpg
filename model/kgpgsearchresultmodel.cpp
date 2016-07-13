@@ -13,10 +13,10 @@
 
 #include "kgpgsearchresultmodel.h"
 
-#include <KDateTime>
 #include <KDebug>
 #include <KLocalizedString>
 
+#include <QDateTime>
 #include <QScopedPointer>
 #include <QString>
 #include <QStringList>
@@ -45,8 +45,7 @@ public:
 
 	QVariant summary() const;
 private:
-	KDateTime m_expiry;
-	KDateTime m_creation;
+	QDateTime m_creation;
 	bool m_revoked;
 	unsigned int m_bits;
 	KgpgCore::KgpgKeyAlgo m_algo;
@@ -127,12 +126,12 @@ SearchResult::summary() const
 		return i18nc("example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked",
 				"ID %1, %2-bit %3 key, created %4, revoked", m_fingerprint,
 				m_bits, KgpgCore::Convert::toString(m_algo),
-				m_creation.toString(KDateTime::LocalDate));
+				m_creation.toString(Qt::SystemLocaleShortDate));
 	} else {
 		return i18nc("example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009",
 				"ID %1, %2-bit %3 key, created %4", m_fingerprint,
 				m_bits, KgpgCore::Convert::toString(m_algo),
-				m_creation.toString(KDateTime::LocalDate));
+				m_creation.toString(Qt::SystemLocaleShortDate));
 	}
 }
 
