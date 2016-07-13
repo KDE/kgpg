@@ -35,7 +35,6 @@
 #include <KFind>
 #include <KFileDialog>
 #include <KFindDialog>
-#include <KGlobal>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentFilesAction>
