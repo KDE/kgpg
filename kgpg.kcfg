@@ -264,7 +264,7 @@
 	<group name="Key Signing">
 		<entry name="EmailTemplate" type="String" key="Email_Template">
 			<label>This is the text of the email sent by the "Sign and Mail User ID" action.</label>
-			<default code="true">i18n(EMailTemplateText)</default>
+			<default code="true">EMailTemplateText</default>
 		</entry>
 		<entry name="MailUats" type="Enum" key="Mail_Uats">
 			<choices>
