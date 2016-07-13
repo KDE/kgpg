@@ -221,13 +221,7 @@ kconfig_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 add_executable(kgpg ${kgpg_SRCS} ${kgpg_HDRS})
 
 if (KGPG_DEBUG_TRANSACTIONS)
-	get_target_property(KGPG_FLAGS kgpg COMPILE_DEFINITIONS)
-	if (NOT KGPG_FLAGS)
-		# get rid of the NOTFOUND
-		set(KGPG_FLAGS)
-	endif (NOT KGPG_FLAGS)
-	list(APPEND KGPG_FLAGS KGPG_DEBUG_TRANSACTIONS)
-	set_target_properties(kgpg PROPERTIES COMPILE_DEFINITIONS "${KGPG_FLAGS}")
+	set_property(SOURCE ${kgpg_transaction_SRCS} APPEND PROPERTY COMPILE_DEFINITIONS "KGPG_DEBUG_TRANSACTIONS")
 endif (KGPG_DEBUG_TRANSACTIONS)
 
 set_property(SOURCE main.cpp APPEND PROPERTY COMPILE_DEFINITIONS "KGPG_VERSION=\"${KDE_APPLICATIONS_VERSION}\"")
