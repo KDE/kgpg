@@ -20,7 +20,8 @@
 
 #include <KUniqueApplication>
 #include <QKeySequence>
-#include <klocale.h>
+
+#include <KLocale>
 
 class KeysManager;
 class KGpgExternalActions;
