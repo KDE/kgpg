@@ -33,8 +33,8 @@
 #include <KConfigGroup>
 #include <KEncodingFileDialog>
 #include <KFind>
-#include <KFileDialog>
 #include <KFindDialog>
+#include <KIO/RenameDialog>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentFilesAction>
@@ -45,6 +45,7 @@
 #include <KUrlRequester>
 
 #include <QAction>
+#include <QFileDialog>
 #include <QIcon>
 #include <QMenuBar>
 #include <QPainter>
@@ -56,7 +57,6 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <kio/netaccess.h>
-#include <kio/renamedialog.h>
 
 class KgpgView : public QWidget {
 public:
@@ -469,7 +469,7 @@ void KgpgEditor::slotFindText()
 
 void KgpgEditor::slotFilePreEnc()
 {
-    QList<QUrl> urls = KFileDialog::getOpenUrls(QUrl(), i18n("*|All Files"), this, i18n("Open File to Encode"));
+    QList<QUrl> urls = QFileDialog::getOpenFileUrls(this, i18n("Open File to Encode"), QUrl(), i18n("*|All Files"));
     if (urls.isEmpty())
         return;
 
@@ -478,7 +478,7 @@ void KgpgEditor::slotFilePreEnc()
 
 void KgpgEditor::slotFilePreDec()
 {
-    QUrl url = KFileDialog::getOpenUrl(QUrl(), i18n("*|All Files"), this, i18n("Open File to Decode"));
+    QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Open File to Decode"), QUrl(), i18n("*|All Files"));
     if (url.isEmpty())
         return;
 
@@ -620,7 +620,7 @@ void KgpgEditor::slotResetEncoding(bool enc)
 void KgpgEditor::slotPreSignFile()
 {
     // create a detached signature for a chosen file
-    QUrl url = KFileDialog::getOpenUrl(QUrl(), i18n("*|All Files"), this, i18n("Open File to Sign"));
+    QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Open File to Sign"), QUrl(), i18n("*|All Files"));
     if (!url.isEmpty())
         slotSignFile(url);
 }
@@ -658,7 +658,7 @@ void KgpgEditor::slotSignFileFin(int)
 
 void KgpgEditor::slotPreVerifyFile()
 {
-    QUrl url = KFileDialog::getOpenUrl(QUrl(), i18n("*|All Files"), this, i18n("Open File to Verify"));
+    QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Open File to Verify"), QUrl(), i18n("*|All Files"));
     slotVerifyFile(url);
 }
 
@@ -696,7 +696,7 @@ void KgpgEditor::slotVerifyFile(const QUrl &url)
 void KgpgEditor::slotCheckMd5()
 {
 	// display md5 sum for a chosen file
-	QUrl url = KFileDialog::getOpenUrl(QUrl(), i18n("*|All Files"), this, i18n("Open File to Verify"));
+	QUrl url = QFileDialog::getOpenFileUrl(this, i18n("Open File to Verify"), QUrl(), i18n("*|All Files"));
 	if (!url.isEmpty()) {
 		QPointer<Md5Widget> mdwidget = new Md5Widget(this, url);
 		mdwidget->exec();
