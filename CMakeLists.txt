@@ -40,6 +40,8 @@ find_package(KF5 5.23 REQUIRED
   KIO
   KDELibs4Support
   Service
+  TextEditor
+  XmlGui
   WidgetsAddons
 )
 
@@ -234,9 +236,15 @@ target_link_libraries(kgpg
     KF5::Contacts
     KF5::CoreAddons
     KF5::DBusAddons
+    KF5::I18n
     KF5::IconThemes
     KF5::KDELibs4Support
     KF5::KIOCore
+    KF5::KIOFileWidgets
+    KF5::KIOWidgets
+    KF5::Service
+    KF5::TextEditor
+    KF5::XmlGui
     KF5::WidgetsAddons
 )
 
