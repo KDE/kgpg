@@ -21,14 +21,17 @@
 #include <KUniqueApplication>
 
 static const char description[] =
-        I18N_NOOP("KGpg - simple gui for gpg\n\nKGpg was designed to make gpg very easy to use.\nI tried to make it as secure as possible.\nHope you enjoy it.");
+        I18N_NOOP("KGpg - simple gui for GnuPG");
 
 int main(int argc, char *argv[])
 {
-    K4AboutData about("kgpg", 0, ki18n("KGpg"), KGPG_VERSION, ki18n(description), K4AboutData::License_GPL, ki18n("(C) 2003 Jean-Baptiste Mardelle"), KLocalizedString(), "http://utils.kde.org/projects/kgpg");
+    K4AboutData about("kgpg", 0, ki18n("KGpg"), KGPG_VERSION, ki18n(description), K4AboutData::License_GPL, ki18n("&copy; 2003-2016, The KGpg Developers"));
+
+    about.addAuthor(ki18n("Rolf Eike Beer"), ki18n("Maintainer"), "kde@opensource.sf-tec.de");
     about.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("Author and former maintainer"), "bj@altern.org");
     about.addAuthor(ki18n("Jimmy Gilles"), KLocalizedString(), "jimmygilles@gmail.com");
-    about.addAuthor(ki18n("Rolf Eike Beer"), ki18n("Maintainer"), "kde@opensource.sf-tec.de");
+
+    about.setHomepage("http://utils.kde.org/projects/kgpg");
 
     KCmdLineArgs::init(argc, argv, &about);
 
