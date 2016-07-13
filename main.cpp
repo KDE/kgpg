@@ -21,11 +21,17 @@
 
 #include <KAboutData>
 #include <KDBusService>
+#include <Kdelibs4ConfigMigrator>
 #include <KLocalizedString>
 
 int main(int argc, char *argv[])
 {
     KGpgApp *app = new KGpgApp(argc, argv);
+
+    Kdelibs4ConfigMigrator migrate(QLatin1Literal("kgpg"));
+    migrate.setConfigFiles({ QLatin1Literal("kgpgrc") });
+    migrate.setUiFiles({ QStringLiteral("keysmanager.rc"), QStringLiteral("kgpgeditor.rc") });
+    migrate.migrate();
 
     KLocalizedString::setApplicationDomain("kgpg");
 
