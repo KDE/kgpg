@@ -18,13 +18,14 @@
 #ifndef KGPGAPPLET_H
 #define KGPGAPPLET_H
 
-#include <KUniqueApplication>
+#include <QApplication>
 #include <QKeySequence>
 
 #include <KLocale>
 
 class KeysManager;
 class KGpgExternalActions;
+class QCommandLineParser;
 class QString;
 
 static const char * const EMailTemplateText=I18N_NOOP(
@@ -38,15 +39,15 @@ static const char * const EMailTemplateText=I18N_NOOP(
     "With KGpg you can right click on the key once you imported all user ids and choose `Export Public Key...`.\n\n"
     "If you have any questions, don't hesitate to ask.\n");
 
-class KGpgApp : public KUniqueApplication
+class KGpgApp : public QApplication
 {
     Q_OBJECT
 
 public:
-    KGpgApp();
+    KGpgApp(int &argc, char **argv);
     ~KGpgApp();
 
-    int newInstance ();
+    int newInstance (QCommandLineParser&);
     bool running;
     QKeySequence goHome;
 

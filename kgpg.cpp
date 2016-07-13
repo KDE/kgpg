@@ -2,6 +2,7 @@
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
  * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2014
  *               Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2016 Andrius Štikonas <andrius@stikonas.eu>
  */
 
 /***************************************************************************
@@ -25,19 +26,19 @@
 #include "editor/kgpgeditor.h"
 #include "transactions/kgpgimport.h"
 
+#include <QCommandLineParser>
 #include <QFile>
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QTextStream>
 
-#include <KCmdLineArgs>
 #include <KMessageBox>
 #include <KWindowSystem>
 
 using namespace KgpgCore;
 
-KGpgApp::KGpgApp()
-             : KUniqueApplication(),
+KGpgApp::KGpgApp(int &argc, char **argv)
+             : QApplication(argc, argv),
 	     running(false),
 	     w(Q_NULLPTR),
 	     s_keyManager(0)
@@ -64,7 +65,7 @@ void KGpgApp::assistantOver(const QString &defaultKeyId)
 	s_keyManager->raise();
 }
 
-int KGpgApp::newInstance()
+int KGpgApp::newInstance(QCommandLineParser& parser)
 {
 	if (!running) {
 		running = true;
@@ -73,7 +74,7 @@ int KGpgApp::newInstance()
 		if (!gpgError.isEmpty()) {
 			running = false;
 			KMessageBox::detailedError(0, i18n("GnuPG failed to start.<br />You must fix the GnuPG error first before running KGpg."), gpgError, i18n("GnuPG error"));
-			KApplication::quit();
+			QApplication::quit();
 		}
 
 		s_keyManager = new KeysManager();
@@ -100,22 +101,20 @@ int KGpgApp::newInstance()
 		}
 	}
 
-	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-
 	// parsing of command line args
-	if (args->isSet("k") || (!KGpgSettings::showSystray() && (args->count() == 0) && !args->isSet("d"))) {
+	if (parser.isSet("k") || (!KGpgSettings::showSystray() && (parser.positionalArguments().count() == 0) && !parser.isSet("d"))) {
 		s_keyManager->show();
 		KWindowSystem::setOnDesktop(s_keyManager->winId(), KWindowSystem::currentDesktop());  //set on the current desktop
 		KWindowSystem::unminimizeWindow(s_keyManager->winId());  //de-iconify window
 		s_keyManager->raise();  // set on top
-	} else if (args->isSet("d")) {
+	} else if (parser.isSet("d")) {
 		s_keyManager->slotOpenEditor();
 		s_keyManager->hide();
 	} else {
 		QList<QUrl> urlList;
 
-		for (int ct = 0; ct < args->count(); ct++)
-			urlList.append(args->url(ct));
+		foreach (const auto &arg, parser.positionalArguments())
+			urlList.append(QUrl::fromLocalFile(arg));
 
 		bool directoryInside = false;
 		foreach (const QUrl &url, urlList) {
@@ -126,28 +125,28 @@ int KGpgApp::newInstance()
 			}
 		}
 
-		if (args->isSet("e")) {
+		if (parser.isSet("e")) {
 			if (urlList.isEmpty())
 				KMessageBox::sorry(0, i18n("No files given."));
 			else if (!directoryInside)
 				KGpgExternalActions::encryptFiles(s_keyManager, urlList);
 			else
 				KGpgExternalActions::encryptFolders(s_keyManager, urlList);
-		} else if (args->isSet("s")) {
+		} else if (parser.isSet("s")) {
 			if (urlList.isEmpty())
 				KMessageBox::sorry(0, i18n("No files given."));
 			else if (!directoryInside)
 				w->showDroppedFile(urlList.first());
 			else
 				KMessageBox::sorry(0, i18n("Cannot decrypt and show folder."));
-		} else if (args->isSet("S")) {
+		} else if (parser.isSet("S")) {
 			if (urlList.isEmpty())
 				KMessageBox::sorry(0, i18n("No files given."));
 			else if (!directoryInside)
 				KGpgExternalActions::signFiles(s_keyManager, urlList);
 			else
 				KMessageBox::sorry(0, i18n("Cannot sign folder."));
-		} else if (args->isSet("V") != 0) {
+		} else if (parser.isSet("V") != 0) {
 			if (urlList.isEmpty())
 				KMessageBox::sorry(0, i18n("No files given."));
 			else if (!directoryInside)

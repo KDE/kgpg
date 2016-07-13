@@ -3,6 +3,7 @@
  * Copyright (C) 2007,2008,2009,2010,2011,2012,2013
  *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  * Copyright (C) 2011 Luis Ángel Fernández Fernández <laffdez@gmail.com>
+ * Copyright (C) 2016 Andrius Štikonas <andrius@stikonas.eu>
  */
 
 /***************************************************************************
@@ -1151,7 +1152,7 @@ void KeysManager::saveToggleOpts(void)
 void KeysManager::readOptions()
 {
 	m_clipboardmode = QClipboard::Clipboard;
-	if (KGpgSettings::useMouseSelection() && (kapp->clipboard()->supportsSelection()))
+	if (KGpgSettings::useMouseSelection() && (qApp->clipboard()->supportsSelection()))
 		m_clipboardmode = QClipboard::Selection;
 
 	if (imodel != Q_NULLPTR)
@@ -1538,7 +1539,7 @@ void KeysManager::slotProcessExportClip(int result)
 	Q_ASSERT(exp != Q_NULLPTR);
 
 	if (result == KGpgTransaction::TS_OK) {
-		kapp->clipboard()->setText(QLatin1String( exp->getOutputData() ), m_clipboardmode);
+		qApp->clipboard()->setText(QLatin1String( exp->getOutputData() ), m_clipboardmode);
 	} else {
 		KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
 	}
@@ -2557,7 +2558,7 @@ void KeysManager::slotPreImportKey()
 			if (!ids.isEmpty())
 				importRemoteKeys(ids.split(QLatin1Char( ' ' )));
 		} else {
-			slotImport(kapp->clipboard()->text(m_clipboardmode));
+			slotImport(qApp->clipboard()->text(m_clipboardmode));
 		}
 	}
 
@@ -2723,7 +2724,7 @@ KeysManager::goDefaultShortcut() const
 void
 KeysManager::clipEncrypt()
 {
-	const QString cliptext(kapp->clipboard()->text(m_clipboardmode));
+	const QString cliptext(qApp->clipboard()->text(m_clipboardmode));
 
 	if (cliptext.isEmpty()) {
 		Q_ASSERT(m_trayicon != Q_NULLPTR);
@@ -2769,7 +2770,7 @@ KeysManager::slotSetClip(int result)
 	if (result != KGpgTransaction::TS_OK)
 		return;
 
-	kapp->clipboard()->setText(enc->encryptedText().join(QLatin1String("\n")), m_clipboardmode);
+	qApp->clipboard()->setText(enc->encryptedText().join(QLatin1String("\n")), m_clipboardmode);
 
 	Q_ASSERT(m_trayicon != Q_NULLPTR);
 	m_trayicon->showMessage(QString(), i18n("Text successfully encrypted."), QLatin1String( "kgpg" ));
@@ -2818,7 +2819,7 @@ KeysManager::slotOpenKeyUrl()
 void
 KeysManager::clipDecrypt()
 {
-	const QString cliptext(kapp->clipboard()->text(m_clipboardmode).trimmed());
+	const QString cliptext(qApp->clipboard()->text(m_clipboardmode).trimmed());
 
 	if (cliptext.isEmpty()) {
 		Q_ASSERT(m_trayicon != Q_NULLPTR);
@@ -2837,7 +2838,7 @@ KeysManager::clipDecrypt()
 void
 KeysManager::clipSign()
 {
-	QString cliptext = kapp->clipboard()->text(m_clipboardmode);
+	QString cliptext = qApp->clipboard()->text(m_clipboardmode);
 	if (cliptext.isEmpty()) {
 		Q_ASSERT(m_trayicon != Q_NULLPTR);
 		m_trayicon->showMessage(QString(), i18n("Clipboard is empty."), QLatin1String( "kgpg" ));

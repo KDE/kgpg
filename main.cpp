@@ -2,6 +2,7 @@
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
  * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2014,2015,2016
  *               Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2016 Andrius Štikonas <andrius@stikonas.eu>
  */
 
 /***************************************************************************
@@ -15,10 +16,13 @@
 
 #include "kgpg.h"
 
+#include <QCommandLineOption>
+#include <QCommandLineParser>
+
 #include <K4AboutData>
-#include <KCmdLineArgs>
+#include <KAboutData>
+#include <KDBusService>
 #include <KLocalizedString>
-#include <KUniqueApplication>
 
 static const char description[] =
         I18N_NOOP("KGpg - simple gui for GnuPG");
@@ -26,6 +30,9 @@ static const char description[] =
 int main(int argc, char *argv[])
 {
     K4AboutData about("kgpg", 0, ki18n("KGpg"), KGPG_VERSION, ki18n(description), K4AboutData::License_GPL, ki18n("&copy; 2003-2016, The KGpg Developers"));
+    KGpgApp *app = new KGpgApp(argc, argv);
+
+    KLocalizedString::setApplicationDomain("kgpg");
 
     about.addAuthor(ki18n("Rolf Eike Beer"), ki18n("Maintainer"), "kde@opensource.sf-tec.de");
     about.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("Author and former maintainer"), "bj@altern.org");
@@ -33,23 +40,28 @@ int main(int argc, char *argv[])
 
     about.setHomepage("http://utils.kde.org/projects/kgpg");
 
-    KCmdLineArgs::init(argc, argv, &about);
+    KAboutData::setApplicationData(about);
 
-    KCmdLineOptions options;
-    options.add("e", ki18n("Encrypt file"));
-    options.add("k", ki18n("Open key manager"));
-    options.add("d", ki18n("Open editor"));
-    options.add("s", ki18n("Show encrypted file"));
-    options.add("S", ki18n("Sign File"));
-    options.add("V", ki18n("Verify signature"));
-    options.add("+[File]", ki18n("File to open"));
-    KCmdLineArgs::addCmdLineOptions(options);
-    KUniqueApplication::addCmdLineOptions();
+    QCommandLineParser parser;
+    parser.setApplicationDescription(about.shortDescription());
+    parser.addVersionOption();
+    parser.addHelpOption();
+    KAboutData(about).setupCommandLine(&parser);
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("e"), i18n("Encrypt file")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("k"), i18n("Open key manager")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("d"), i18n("Open editor")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("s"), i18n("Show encrypted file")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("S"), i18n("Sign File")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("V"), i18n("Verify signature")));
+    parser.addPositionalArgument(QLatin1String("[File]"), i18n("File to open"));
 
-    if (!KUniqueApplication::start())
-        return 0;
+    parser.process(*app);
+    KAboutData(about).processCommandLine(&parser);
 
-    KApplication *app = new KGpgApp();
     app->setQuitOnLastWindowClosed(false);
+    KDBusService service(KDBusService::Unique);
+
+    app->newInstance(parser);
+
     return app->exec();
 }
