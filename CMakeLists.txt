@@ -25,6 +25,7 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
   Core
   DBus
   Gui
+  PrintSupport
   Widgets
 )
 
@@ -39,10 +40,12 @@ find_package(KF5 5.23 REQUIRED
   IconThemes
   KIO
   KDELibs4Support
+  Notifications
   Service
   TextEditor
   XmlGui
   WidgetsAddons
+  WindowSystem
 )
 
 # kdepimlibs
@@ -242,10 +245,13 @@ target_link_libraries(kgpg
     KF5::KIOCore
     KF5::KIOFileWidgets
     KF5::KIOWidgets
+    KF5::Notifications
     KF5::Service
     KF5::TextEditor
     KF5::XmlGui
     KF5::WidgetsAddons
+    KF5::WindowSystem
+    Qt5::PrintSupport
 )
 
 install(TARGETS kgpg  ${INSTALL_TARGETS_DEFAULT_ARGS} )
