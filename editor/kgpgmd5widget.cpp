@@ -9,6 +9,7 @@
 
 #include "kgpgmd5widget.h"
 
+#include <QApplication>
 #include <QCryptographicHash>
 #include <QFile>
 #include <QClipboard>
@@ -16,7 +17,6 @@
 #include <QLabel>
 #include <QLineEdit>
 
-#include <KApplication>
 #include <KMessageBox>
 #include <KLocalizedString>
 #include <KLed>
@@ -86,7 +86,7 @@ Md5Widget::Md5Widget(QWidget *parent, const QUrl &url)
 
 void Md5Widget::slotApply()
 {
-    QString text = KApplication::clipboard()->text().remove(QLatin1Char( ' ' ));
+    QString text = qApp->clipboard()->text().remove(QLatin1Char( ' ' ));
     if (!text.isEmpty())
     {
         if (text.length() != m_md5sum.length())
