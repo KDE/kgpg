@@ -429,10 +429,6 @@ void KGpgExternalActions::showDroppedFile(const QUrl &file)
 
 void KGpgExternalActions::readOptions()
 {
-	clipboardMode = QClipboard::Clipboard;
-	if (KGpgSettings::useMouseSelection() && kapp->clipboard()->supportsSelection())
-		clipboardMode = QClipboard::Selection;
-
 	if (KGpgSettings::firstRun()) {
 		firstRun();
 	} else if (KGpgSettings::gpgConfigPath().isEmpty()) {

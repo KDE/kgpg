@@ -16,7 +16,6 @@
 #define _KGPGEXTERNALACTIONS_H
 
 #include <QObject>
-#include <QClipboard>
 #include <QPointer>
 #include <QStringList>
 
@@ -69,7 +68,6 @@ private:
 	QStringList customDecrypt;
 	QPointer<KGpgFirstAssistant> m_assistant;
 	int compressionScheme;
-	QClipboard::Mode clipboardMode;
 	KGpgItemModel *m_model;
 	QTemporaryFile *m_kgpgfoldertmp;
 
