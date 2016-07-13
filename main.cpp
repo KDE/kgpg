@@ -19,26 +19,33 @@
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 
-#include <K4AboutData>
 #include <KAboutData>
 #include <KDBusService>
 #include <KLocalizedString>
 
-static const char description[] =
-        I18N_NOOP("KGpg - simple gui for GnuPG");
-
 int main(int argc, char *argv[])
 {
-    K4AboutData about("kgpg", 0, ki18n("KGpg"), KGPG_VERSION, ki18n(description), K4AboutData::License_GPL, ki18n("&copy; 2003-2016, The KGpg Developers"));
     KGpgApp *app = new KGpgApp(argc, argv);
 
     KLocalizedString::setApplicationDomain("kgpg");
 
-    about.addAuthor(ki18n("Rolf Eike Beer"), ki18n("Maintainer"), "kde@opensource.sf-tec.de");
-    about.addAuthor(ki18n("Jean-Baptiste Mardelle"), ki18n("Author and former maintainer"), "bj@altern.org");
-    about.addAuthor(ki18n("Jimmy Gilles"), KLocalizedString(), "jimmygilles@gmail.com");
+    KAboutData about (
+        QLatin1String("kgpg"),
+        xi18nc("@title", "<application>KGpg</application>"),
+        QLatin1String(KGPG_VERSION),
+        i18nc("@title", "KGpg - simple gui for GnuPG"),
+        KAboutLicense::GPL,
+        i18nc("@info:credit", "&copy; 2003-2016, The KGpg Developers"));
 
-    about.setHomepage("http://utils.kde.org/projects/kgpg");
+    about.addAuthor(i18nc("@info:credit", "Rolf Eike Beer"), i18nc("@info:credit", "Maintainer"), "kde@opensource.sf-tec.de");
+    about.addAuthor(i18nc("@info:credit", "Jean-Baptiste Mardelle"), i18nc("@info:credit", "Author and former maintainer"), "bj@altern.org");
+    about.addAuthor(i18nc("@info:credit", "Jimmy Gilles"), QString(), "jimmygilles@gmail.com");
+    about.addAuthor(i18nc("@info:credit", "Andrius Štikonas"), i18nc("@info:credit", "KF5 port"), "andrius@stikonas.eu");
+
+    about.setHomepage(QLatin1String("http://utils.kde.org/projects/kgpg"));
+
+    about.setOrganizationDomain(QByteArray("kde.org"));
+    about.setProductName(QByteArray("kgpg"));
 
     KAboutData::setApplicationData(about);
 
@@ -46,7 +53,7 @@ int main(int argc, char *argv[])
     parser.setApplicationDescription(about.shortDescription());
     parser.addVersionOption();
     parser.addHelpOption();
-    KAboutData(about).setupCommandLine(&parser);
+    about.setupCommandLine(&parser);
     parser.addOption(QCommandLineOption(QStringList() << QLatin1String("e"), i18n("Encrypt file")));
     parser.addOption(QCommandLineOption(QStringList() << QLatin1String("k"), i18n("Open key manager")));
     parser.addOption(QCommandLineOption(QStringList() << QLatin1String("d"), i18n("Open editor")));
@@ -56,7 +63,7 @@ int main(int argc, char *argv[])
     parser.addPositionalArgument(QLatin1String("[File]"), i18n("File to open"));
 
     parser.process(*app);
-    KAboutData(about).processCommandLine(&parser);
+    about.processCommandLine(&parser);
 
     app->setQuitOnLastWindowClosed(false);
     KDBusService service(KDBusService::Unique);
