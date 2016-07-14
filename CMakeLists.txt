@@ -38,6 +38,7 @@ find_package(KF5 5.23 REQUIRED
   DBusAddons
   I18n
   IconThemes
+  JobWidgets
   KIO
   KDELibs4Support
   Notifications
@@ -241,6 +242,7 @@ target_link_libraries(kgpg
     KF5::DBusAddons
     KF5::I18n
     KF5::IconThemes
+    KF5::JobWidgets
     KF5::KDELibs4Support
     KF5::KIOCore
     KF5::KIOFileWidgets

@@ -34,7 +34,9 @@
 #include <KEncodingFileDialog>
 #include <KFind>
 #include <KFindDialog>
+#include <KIO/Job>
 #include <KIO/RenameDialog>
+#include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentFilesAction>
@@ -51,12 +53,10 @@
 #include <QPainter>
 #include <QPrintDialog>
 #include <QPrinter>
-#include <QTemporaryFile>
 #include <QTextCodec>
 #include <QTextStream>
 #include <QVBoxLayout>
 #include <QWidget>
-#include <kio/netaccess.h>
 
 class KgpgView : public QWidget {
 public:
@@ -115,23 +115,19 @@ KgpgEditor::~KgpgEditor()
 
 void KgpgEditor::openDocumentFile(const QUrl &url, const QString &encoding)
 {
-    QString tempopenfile;
-    if(KIO::NetAccess::download(url, tempopenfile, this))
+    auto downloadJob = KIO::storedGet(url);
+    KJobWidgets::setWindow(downloadJob , this);
+    downloadJob->exec();
+    if(!downloadJob->error())
     {
-        QFile qfile(tempopenfile);
-        if (qfile.open(QIODevice::ReadOnly))
-        {
-            QTextStream t(&qfile);
-            t.setCodec(encoding.toAscii());
-            m_editor->setPlainText(t.readAll());
-            qfile.close();
-            m_docname = url;
-            m_textchanged = false;
-            m_emptytext = false;
-            setCaption(url.fileName(), false);
-	    m_recentfiles->addUrl(url);
-        }
-        KIO::NetAccess::removeTempFile(tempopenfile);
+        QTextStream t(downloadJob->data());
+        t.setCodec(encoding.toAscii());
+        m_editor->setPlainText(t.readAll());
+        m_docname = url;
+        m_textchanged = false;
+        m_emptytext = false;
+        setCaption(url.fileName(), false);
+        m_recentfiles->addUrl(url);
     }
 }
 
@@ -317,13 +313,10 @@ bool KgpgEditor::slotFileSave()
     }
     else
     {
-        QTemporaryFile tmpfile;
-        tmpfile.open();
-        QTextStream stream(&tmpfile);
-        stream.setCodec(cod);
-        stream << m_editor->toPlainText();
-
-        if(!KIO::NetAccess::upload(tmpfile.fileName(), m_docname, this))
+        auto uploadJob = KIO::storedPut(cod->fromUnicode(m_editor->toPlainText()), m_docname, -1);
+        KJobWidgets::setWindow(uploadJob , this);
+        uploadJob->exec();
+        if(uploadJob->error())
         {
             KMessageBox::sorry(this, i18n("The document could not be saved, please check your permissions and disk space."));
             return false;
@@ -357,11 +350,16 @@ bool KgpgEditor::slotFileSaveAs()
 					return false;
 			}
 			f.close();
-		} else if (KIO::NetAccess::exists(url, KIO::NetAccess::DestinationSide, this)) {
-			const QString message = i18n("Overwrite existing file %1?", url.fileName());
-			int result = KMessageBox::warningContinueCancel(this, message, QString(), KStandardGuiItem::overwrite());
-			if (result == KMessageBox::Cancel)
-				return false;
+		} else {
+			auto statJob = KIO::stat(url, KIO::StatJob::DestinationSide, 0);
+			KJobWidgets::setWindow(statJob, this);
+			statJob->exec();
+			if (!statJob->error()) {
+				const QString message = i18n("Overwrite existing file %1?", url.fileName());
+				int result = KMessageBox::warningContinueCancel(this, message, QString(), KStandardGuiItem::overwrite());
+				if (result == KMessageBox::Cancel)
+					return false;
+                        }
 		}
 
 		m_docname = url;

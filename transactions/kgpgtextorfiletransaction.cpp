@@ -16,8 +16,10 @@
 #include "gpgproc.h"
 
 #include <KDebug>
-#include <KIO/NetAccess>
+#include <KIO/Job>
+
 #include <QRegExp>
+#include <QTemporaryFile>
 
 KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const QString &text, const bool allowChaining)
 	: KGpgTransaction(parent, allowChaining)
@@ -90,12 +92,16 @@ KGpgTextOrFileTransaction::preStart()
 		if (url.isLocalFile()) {
 			locfiles.append(url.toLocalFile());
 		} else {
-			QString tmpfile;
+			QTemporaryFile tmpFile;
+			tmpFile.open();
 
-			if (KIO::NetAccess::download(url, tmpfile, 0)) {
-				m_tempfiles.append(tmpfile);
+			auto copyJob = KIO::file_copy(url, QUrl::fromLocalFile(tmpFile.fileName()));
+			copyJob->exec();
+			if (!copyJob->error()) {
+				tmpFile.setAutoRemove(false);
+				m_tempfiles.append(tmpFile.fileName());
 			} else {
-				m_messages.append(KIO::NetAccess::lastErrorString());
+				m_messages.append(copyJob->errorString());
 				cleanUrls();
 				setSuccess(TS_KIO_FAILED);
 				return false;
@@ -164,7 +170,7 @@ void
 KGpgTextOrFileTransaction::cleanUrls()
 {
 	foreach (const QString &u, m_tempfiles)
-		KIO::NetAccess::removeTempFile(u);
+		QFile::remove(u);
 
 	m_tempfiles.clear();
 	m_locfiles.clear();
