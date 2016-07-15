@@ -21,6 +21,7 @@
 
 #include "images.h"
 
+#include <QIcon>
 #include <KIconLoader>
 
 namespace KgpgCore
@@ -33,7 +34,7 @@ QPixmap single()
 {
     static QPixmap single;
     if (single.isNull())
-        single = KIconLoader::global()->loadIcon(QLatin1String( "key-single" ), KIconLoader::Small, 20);
+        single = QIcon::fromTheme(QStringLiteral("key-single")).pixmap(IconSize(KIconLoader::Small));
     return single;
 }
 
@@ -41,7 +42,7 @@ QPixmap pair()
 {
     static QPixmap pair;
     if (pair.isNull())
-        pair = KIconLoader::global()->loadIcon(QLatin1String( "key-pair" ), KIconLoader::Small, 20);
+        pair = QIcon::fromTheme(QStringLiteral("key-pair")).pixmap(IconSize(KIconLoader::Small));
     return pair;
 }
 
@@ -49,7 +50,7 @@ QPixmap group()
 {
     static QPixmap group;
     if (group.isNull())
-        group = KIconLoader::global()->loadIcon(QLatin1String( "key-group" ), KIconLoader::Small, 20);
+        group = QIcon::fromTheme(QStringLiteral("key-group")).pixmap(IconSize(KIconLoader::Small));
     return group;
 }
 
@@ -57,7 +58,7 @@ QPixmap orphan()
 {
     static QPixmap oprpan;
     if (oprpan.isNull())
-        oprpan = KIconLoader::global()->loadIcon(QLatin1String( "key-orphan" ), KIconLoader::Small, 20);
+        oprpan = QIcon::fromTheme(QStringLiteral("key-orphan")).pixmap(IconSize(KIconLoader::Small));
     return oprpan;
 }
 
@@ -65,7 +66,7 @@ QPixmap signature()
 {
     static QPixmap signature;
     if (signature.isNull())
-        signature = KIconLoader::global()->loadIcon(QLatin1String( "application-pgp-signature" ), KIconLoader::Small, 20);
+        signature = QIcon::fromTheme(QStringLiteral("application-pgp-signature")).pixmap(IconSize(KIconLoader::Small));
     return signature;
 }
 
@@ -73,7 +74,7 @@ QPixmap userId()
 {
     static QPixmap userid;
     if (userid.isNull())
-        userid = KIconLoader::global()->loadIcon(QLatin1String( "x-office-contact" ), KIconLoader::Small, 20);
+        userid = QIcon::fromTheme(QStringLiteral("x-office-contact")).pixmap(IconSize(KIconLoader::Small));
     return userid;
 }
 
@@ -81,7 +82,7 @@ QPixmap photo()
 {
     static QPixmap photo;
     if (photo.isNull())
-        photo = KIconLoader::global()->loadIcon(QLatin1String( "image-x-generic" ), KIconLoader::Small, 20);
+        photo = QIcon::fromTheme(QStringLiteral("image-x-generic")).pixmap(IconSize(KIconLoader::Small));
     return photo;
 }
 
@@ -89,7 +90,7 @@ QPixmap revoke()
 {
     static QPixmap revoke;
     if (revoke.isNull())
-        revoke = KIconLoader::global()->loadIcon(QLatin1String( "dialog-error" ), KIconLoader::Small, 20);
+        revoke = QIcon::fromTheme(QStringLiteral("dialog-error")).pixmap(IconSize(KIconLoader::Small));
     return revoke;
 }
 
@@ -97,7 +98,7 @@ QPixmap kgpg()
 {
     static QPixmap kgpg;
     if (kgpg.isNull())
-        kgpg = KIconLoader::global()->loadIcon(QLatin1String( "kgpg" ), KIconLoader::Desktop);
+        kgpg = QIcon::fromTheme(QStringLiteral("kgpg")).pixmap(IconSize(KIconLoader::Desktop));
     return kgpg;
 }
 

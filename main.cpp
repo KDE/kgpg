@@ -29,6 +29,8 @@ int main(int argc, char *argv[])
 {
     KGpgApp *app = new KGpgApp(argc, argv);
 
+    app->setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+
     KCrash::initialize();
 
     Kdelibs4ConfigMigrator migrate(QLatin1Literal("kgpg"));
