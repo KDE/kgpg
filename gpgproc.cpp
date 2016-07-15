@@ -24,6 +24,10 @@
 #include <QStringList>
 #include <QTextCodec>
 
+#ifndef Q_OS_WIN
+  #include <sys/stat.h>
+#endif
+
 class GnupgBinary {
 public:
 	GnupgBinary();
@@ -376,7 +380,7 @@ QString GPGProc::getGpgHome(const QString &binary)
 
 	// Third try: guess what it is.
 	if (gpgHome.isEmpty()) {
-#ifdef Q_OS_WIN32	//krazy:exclude=cpp
+#ifdef Q_OS_WIN 	//krazy:exclude=cpp
 		gpgHome = qgetenv("APPDATA") + QLatin1String( "/gnupg/" );
 		gpgHome.replace(QLatin1Char( '\\' ), QLatin1Char( '/' ));
 #else
@@ -392,6 +396,12 @@ QString GPGProc::getGpgHome(const QString &binary)
 	if (gpgHome.startsWith(QLatin1String("~/")))
 		gpgHome.replace(0, 1, QDir::homePath());
 
-	KStandardDirs::makeDir(gpgHome, 0700);
+#ifdef Q_OS_WIN
+	QDir().mkpath(gpgHome);
+#else
+	uint mask = umask(077);
+	QDir().mkpath(gpgHome);
+	umask(mask);
+#endif
 	return gpgHome;
 }
