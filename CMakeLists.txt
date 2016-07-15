@@ -35,6 +35,7 @@ find_package(KF5 5.23 REQUIRED
   DocTools
   Codecs
   CoreAddons
+  Crash
   DBusAddons
   I18n
   IconThemes
@@ -239,6 +240,7 @@ target_link_libraries(kgpg
     KF5::Codecs
     KF5::Contacts
     KF5::CoreAddons
+    KF5::Crash
     KF5::DBusAddons
     KF5::I18n
     KF5::IconThemes

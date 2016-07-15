@@ -20,6 +20,7 @@
 #include <QCommandLineParser>
 
 #include <KAboutData>
+#include <KCrash>
 #include <KDBusService>
 #include <Kdelibs4ConfigMigrator>
 #include <KLocalizedString>
@@ -27,6 +28,8 @@
 int main(int argc, char *argv[])
 {
     KGpgApp *app = new KGpgApp(argc, argv);
+
+    KCrash::initialize();
 
     Kdelibs4ConfigMigrator migrate(QLatin1Literal("kgpg"));
     migrate.setConfigFiles({ QLatin1Literal("kgpgrc") });
