@@ -44,7 +44,6 @@ find_package(KF5 5.23 REQUIRED
   KDELibs4Support
   Notifications
   Service
-  TextEditor
   XmlGui
   WidgetsAddons
   WindowSystem
@@ -251,7 +250,6 @@ target_link_libraries(kgpg
     KF5::KIOWidgets
     KF5::Notifications
     KF5::Service
-    KF5::TextEditor
     KF5::XmlGui
     KF5::WidgetsAddons
     KF5::WindowSystem
