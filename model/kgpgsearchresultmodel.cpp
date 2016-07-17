@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2009,2010,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ *               2016           David Zaslavsky <diazona@ellipsix.net>
  */
 
 /***************************************************************************
@@ -39,6 +40,9 @@ public:
 	const QString &getName(const int index) const;
 	const QString &getEmail(const int index) const;
 	int getUidCount() const;
+	bool valid() const;
+	bool expired() const;
+	bool revoked() const;
 
 	QString m_fingerprint;
 	unsigned int m_uatCount;
@@ -46,6 +50,7 @@ public:
 	QVariant summary() const;
 private:
 	QDateTime m_creation;
+	bool m_expired;
 	bool m_revoked;
 	unsigned int m_bits;
 	KgpgCore::KgpgKeyAlgo m_algo;
@@ -64,6 +69,7 @@ public:
 SearchResult::SearchResult(const QString &line)
 	: m_validPub(false),
 	m_uatCount(0),
+	m_expired(false),
 	m_revoked(false),
 	m_bits(0)
 {
@@ -79,6 +85,7 @@ SearchResult::SearchResult(const QString &line)
 	m_algo = KgpgCore::Convert::toAlgo(parts.at(2));
 	m_bits = parts.at(3).toUInt();
 	m_creation.setTime_t(parts.at(4).toULongLong());
+	m_expired = QDateTime::fromTime_t(parts.at(5).toULongLong()) <= QDateTime::currentDateTimeUtc();
 	m_revoked = (parts.at(6) == QLatin1String( "r" ));
 
 	m_validPub = true;
@@ -117,6 +124,24 @@ SearchResult::getUidCount() const
 	Q_ASSERT(m_emails.count() == m_names.count());
 
 	return m_emails.count();
+}
+
+bool
+SearchResult::expired() const
+{
+	return m_expired;
+}
+
+bool
+SearchResult::revoked() const
+{
+	return m_revoked;
+}
+
+bool
+SearchResult::valid() const
+{
+	return !(revoked() || expired());
 }
 
 QVariant
@@ -173,12 +198,12 @@ KGpgSearchResultModelPrivate::urlDecode(const QString &line)
 	return QTextCodec::codecForName("utf8")->toUnicode(tmp);
 }
 
-KGpgSearchResultModel::KGpgSearchResultModel(QObject *parent)
+KGpgSearchResultBackingModel::KGpgSearchResultBackingModel(QObject *parent)
 	: QAbstractItemModel(parent), d(new KGpgSearchResultModelPrivate())
 {
 }
 
-KGpgSearchResultModel::~KGpgSearchResultModel()
+KGpgSearchResultBackingModel::~KGpgSearchResultBackingModel()
 {
 	delete d;
 }
@@ -201,8 +226,8 @@ KGpgSearchResultModel::~KGpgSearchResultModel()
  * which aren't going to disappear from memory at any moment.
  */
 
-KGpgSearchResultModel::NodeLevel
-KGpgSearchResultModel::nodeLevel(const QModelIndex &index)
+KGpgSearchResultBackingModel::NodeLevel
+KGpgSearchResultBackingModel::nodeLevel(const QModelIndex &index)
 {
 	if (!index.isValid())
 		return ROOT_LEVEL;
@@ -213,7 +238,7 @@ KGpgSearchResultModel::nodeLevel(const QModelIndex &index)
 }
 
 SearchResult *
-KGpgSearchResultModel::resultForIndex(const QModelIndex &index) const
+KGpgSearchResultBackingModel::resultForIndex(const QModelIndex &index) const
 {
 	switch (nodeLevel(index)) {
 	case KEY_LEVEL:
@@ -229,9 +254,8 @@ KGpgSearchResultModel::resultForIndex(const QModelIndex &index) const
 	}
 }
 
-
 QVariant
-KGpgSearchResultModel::data(const QModelIndex &index, int role) const
+KGpgSearchResultBackingModel::data(const QModelIndex &index, int role) const
 {
 	if (!index.isValid())
 		return QVariant();
@@ -297,7 +321,7 @@ KGpgSearchResultModel::data(const QModelIndex &index, int role) const
 }
 
 int
-KGpgSearchResultModel::columnCount(const QModelIndex &parent) const
+KGpgSearchResultBackingModel::columnCount(const QModelIndex &parent) const
 {
 	switch (nodeLevel(parent)) {
 	case KEY_LEVEL:
@@ -315,7 +339,7 @@ KGpgSearchResultModel::columnCount(const QModelIndex &parent) const
 }
 
 QModelIndex
-KGpgSearchResultModel::index(int row, int column, const QModelIndex &parent) const
+KGpgSearchResultBackingModel::index(int row, int column, const QModelIndex &parent) const
 {
 	switch (nodeLevel(parent)) {
 	case ATTRIBUTE_LEVEL:
@@ -342,7 +366,7 @@ KGpgSearchResultModel::index(int row, int column, const QModelIndex &parent) con
 }
 
 QModelIndex
-KGpgSearchResultModel::parent(const QModelIndex &index) const
+KGpgSearchResultBackingModel::parent(const QModelIndex &index) const
 {
 	if (!index.isValid())
 		return QModelIndex();
@@ -362,7 +386,7 @@ KGpgSearchResultModel::parent(const QModelIndex &index) const
 }
 
 int
-KGpgSearchResultModel::rowCount(const QModelIndex &parent) const
+KGpgSearchResultBackingModel::rowCount(const QModelIndex &parent) const
 {
 	switch (nodeLevel(parent)) {
 	case ROOT_LEVEL:
@@ -386,7 +410,7 @@ KGpgSearchResultModel::rowCount(const QModelIndex &parent) const
 }
 
 QVariant
-KGpgSearchResultModel::headerData(int section, Qt::Orientation orientation, int role) const
+KGpgSearchResultBackingModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
 	if (role != Qt::DisplayRole)
 		return QVariant();
@@ -405,7 +429,7 @@ KGpgSearchResultModel::headerData(int section, Qt::Orientation orientation, int 
 }
 
 const QString &
-KGpgSearchResultModel::idForIndex(const QModelIndex &index) const
+KGpgSearchResultBackingModel::idForIndex(const QModelIndex &index) const
 {
 	Q_ASSERT(index.isValid());
 
@@ -420,7 +444,7 @@ KGpgSearchResultModel::idForIndex(const QModelIndex &index) const
 }
 
 void
-KGpgSearchResultModel::slotAddKey(const QStringList &lines)
+KGpgSearchResultBackingModel::slotAddKey(const QStringList &lines)
 {
 	Q_ASSERT(!lines.isEmpty());
 	Q_ASSERT(lines.first().startsWith(QLatin1String("pub:")));
@@ -453,4 +477,77 @@ KGpgSearchResultModel::slotAddKey(const QStringList &lines)
 		d->m_items.append(nkey.take());
 		endInsertRows();
 	}
+}
+
+KGpgSearchResultModel::KGpgSearchResultModel(QObject *parent)
+	: QSortFilterProxyModel(parent),
+	m_filterByValidity(true)
+{
+	resetSourceModel();
+}
+
+KGpgSearchResultModel::~KGpgSearchResultModel()
+{
+}
+
+bool
+KGpgSearchResultModel::filterByValidity() const
+{
+	return m_filterByValidity;
+}
+
+const QString &
+KGpgSearchResultModel::idForIndex(const QModelIndex &index) const
+{
+	return static_cast<KGpgSearchResultBackingModel *>(sourceModel())->idForIndex(mapToSource(index));
+}
+
+int
+KGpgSearchResultModel::sourceRowCount(const QModelIndex &parent) const
+{
+	return sourceModel()->rowCount(parent);
+}
+
+void
+KGpgSearchResultModel::setFilterByValidity(bool filter)
+{
+	m_filterByValidity = filter;
+	invalidateFilter();
+}
+
+void
+KGpgSearchResultModel::setSourceModel(QAbstractItemModel *)
+{
+	Q_ASSERT(false);
+}
+
+void
+KGpgSearchResultModel::slotAddKey(const QStringList &key)
+{
+	static_cast<KGpgSearchResultBackingModel *>(sourceModel())->slotAddKey(key);
+}
+
+void
+KGpgSearchResultModel::resetSourceModel()
+{
+	QAbstractItemModel *oldSourceModel = sourceModel();
+	if (oldSourceModel != Q_NULLPTR)
+		oldSourceModel->deleteLater();
+	QSortFilterProxyModel::setSourceModel(new KGpgSearchResultBackingModel(this));
+}
+
+bool
+KGpgSearchResultModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
+{
+	// first check the text filter, implemented in the superclass
+	if (!QSortFilterProxyModel::filterAcceptsRow(sourceRow, sourceParent)) {
+		return false;
+	} else if (!filterByValidity()) {
+		// if the text filter matched and we're not hiding invalid keys, accept the row
+		return true;
+	}
+	// otherwise, validity filtering is enabled, so check whether the row is valid
+	KGpgSearchResultBackingModel *backingModel = static_cast<KGpgSearchResultBackingModel *>(sourceModel());
+	QModelIndex currentKeyIndex = backingModel->index(sourceRow, 0, sourceParent);
+	return backingModel->resultForIndex(currentKeyIndex)->valid();
 }

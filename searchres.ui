@@ -43,6 +43,16 @@
     </layout>
    </item>
    <item>
+    <widget class="QCheckBox" name="validFilterCheckbox">
+     <property name="text">
+      <string>Show only valid keys</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QTreeView" name="kLVsearch">
      <property name="rootIsDecorated">
       <bool>true</bool>

@@ -36,15 +36,14 @@ KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose
 	m_searchproc(Q_NULLPTR),
 	page(new keyServerWidget()),
 	m_listpop(Q_NULLPTR),
-	m_resultmodel(Q_NULLPTR),
 	m_itemmodel(new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst))
 {
 	setWindowTitle(i18n("Key Server"));
 
 	m_autoclose = autoclose;
-	m_filtermodel.setSortCaseSensitivity(Qt::CaseInsensitive);
-	m_filtermodel.setDynamicSortFilter(true);
-	m_filtermodel.setFilterKeyColumn(0);
+	m_resultmodel.setSortCaseSensitivity(Qt::CaseInsensitive);
+	m_resultmodel.setDynamicSortFilter(true);
+	m_resultmodel.setFilterKeyColumn(0);
 
 	QVBoxLayout *mainLayout = new QVBoxLayout(this);
 	setLayout(mainLayout);
@@ -194,11 +193,9 @@ void KeyServer::slotSearch()
 	if (m_searchproc)
 		return;
 
-	if (m_resultmodel != Q_NULLPTR)
-		m_resultmodel->deleteLater();
-	m_resultmodel = new KGpgSearchResultModel(this);
-	m_filtermodel.setSourceModel(m_resultmodel);
-	m_filtermodel.setFilterRegExp(QRegExp());
+	m_resultmodel.resetSourceModel();
+	m_resultmodel.setFilterRegExp(QRegExp());
+	m_resultmodel.setFilterByValidity(true);
 
 	m_dialogserver = new QDialog(this);
 	m_dialogserver->setWindowTitle(i18n("Import Key From Keyserver"));
@@ -209,12 +206,15 @@ void KeyServer::slotSearch()
 	m_listpop = new searchRes(m_dialogserver);
 	m_listpop->buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("&Import"));
 	m_listpop->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
-	m_listpop->kLVsearch->setModel(&m_filtermodel);
+	m_listpop->kLVsearch->setModel(&m_resultmodel);
 	m_listpop->kLVsearch->setColumnWidth(0, 180);
+	m_listpop->validFilterCheckbox->setChecked(m_resultmodel.filterByValidity());
 	m_listpop->statusText->setText(i18n("Connecting to the server..."));
 
 	connect(m_listpop->filterEdit, &QLineEdit::textChanged, this, &KeyServer::slotSetFilterString);
 	connect(m_listpop->kLVsearch->selectionModel(), &QItemSelectionModel::selectionChanged, this, &KeyServer::transferKeyID);
+	connect(m_listpop->validFilterCheckbox, &QCheckBox::toggled, &m_resultmodel, &KGpgSearchResultModel::setFilterByValidity);
+	connect(m_listpop->validFilterCheckbox, &QCheckBox::toggled, this, &KeyServer::slotUpdateLabelOnFilterChange);
 	connect(m_listpop->buttonBox, &QDialogButtonBox::accepted, this, &KeyServer::slotPreImport);
 	connect(m_listpop->kLVsearch, &QTreeView::activated, m_dialogserver, &QDialog::accepted);
 	connect(m_listpop->buttonBox, &QDialogButtonBox::rejected, this, &KeyServer::handleQuit);
@@ -237,7 +237,7 @@ void KeyServer::slotSearch()
 	m_searchproc = new KGpgKeyserverSearchTransaction(this, keyserv, page->qLEimportid->text().simplified(),
 			true, proxy);
 	connect(m_searchproc, &KGpgKeyserverSearchTransaction::done, this, &KeyServer::slotSearchResult);
-	connect(m_searchproc, &KGpgKeyserverSearchTransaction::newKey, m_resultmodel, &KGpgSearchResultModel::slotAddKey);
+	connect(m_searchproc, &KGpgKeyserverSearchTransaction::newKey, &m_resultmodel, &KGpgSearchResultModel::slotAddKey);
 	m_searchproc->start();
 
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
@@ -262,15 +262,12 @@ void KeyServer::slotSearchResult(int result)
 
 	m_listpop->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 
-	const int keys = m_resultmodel->rowCount(QModelIndex());
-
+	const int keys = m_resultmodel.sourceRowCount(QModelIndex());
 	if (keys > 0) {
-		m_listpop->statusText->setText(i18np("Found 1 matching key", "Found %1 matching keys", keys));
-		m_listpop->kLVsearch->selectionModel()->setCurrentIndex(m_resultmodel->index(0, 0),
+		m_listpop->kLVsearch->selectionModel()->setCurrentIndex(m_resultmodel.index(0, 0),
 				QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
-	} else {
-		m_listpop->statusText->setText(i18n("No matching keys found"));
 	}
+	slotUpdateLabelOnFilterChange();
 }
 
 void KeyServer::slotSetText(const QString &text)
@@ -307,7 +304,7 @@ void KeyServer::transferKeyID()
 	QSet<QString> ids;
 
 	foreach (const QModelIndex &index, m_listpop->kLVsearch->selectionModel()->selectedIndexes())
-		ids << m_resultmodel->idForIndex(m_filtermodel.mapToSource(index));
+		ids << m_resultmodel.idForIndex(index);
 
 	const QStringList idlist(ids.toList());
 	m_listpop->qLEID->setText(idlist.join( QLatin1String( " " )));
@@ -367,5 +364,27 @@ void KeyServer::slotSetKeyserver(const QString &server)
 
 void KeyServer::slotSetFilterString(const QString &expression)
 {
-	m_filtermodel.setFilterRegExp(QRegExp(expression, Qt::CaseInsensitive, QRegExp::RegExp2));
+	m_resultmodel.setFilterRegExp(QRegExp(expression, Qt::CaseInsensitive, QRegExp::RegExp2));
+	slotUpdateLabelOnFilterChange();
+}
+
+void KeyServer::slotUpdateLabelOnFilterChange()
+{
+	const int keys = m_resultmodel.sourceRowCount(QModelIndex());
+	const int keysShown = m_resultmodel.rowCount(QModelIndex());
+	Q_ASSERT(keysShown <= keys);
+
+	if (keys == 0) {
+		m_listpop->statusText->setText(i18n("No matching keys found"));
+	} else {
+		if (keysShown == keys) {
+			m_listpop->statusText->setText(i18np("Found 1 matching key", "Found %1 matching keys", keys));
+		} else {
+			if (keys == 1 && keysShown == 0) {
+				m_listpop->statusText->setText(i18n("Found 1 matching key (not shown)"));
+			} else {
+				m_listpop->statusText->setText(i18n("Found %1 matching keys (%2 shown)", keys, keysShown));
+			}
+		}
+	}
 }

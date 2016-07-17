@@ -20,13 +20,13 @@
 #include <QDialog>
 
 #include "core/kgpgkey.h"
+#include "model/kgpgsearchresultmodel.h"
 #include "ui_searchres.h"
 #include "ui_keyserver.h"
 
 class KGpgKeyserverSearchTransaction;
 class KeyListProxyModel;
 class KGpgItemModel;
-class KGpgSearchResultModel;
 
 class keyServerWidget : public QWidget, public Ui::keyServerWidget
 {
@@ -111,6 +111,7 @@ private slots:
 	void slotSearchResult(int result);
 	void slotSearch();
 	void slotSetFilterString(const QString &expression);
+	void slotUpdateLabelOnFilterChange();
 
 private:
 	QString m_readmessage;
@@ -124,8 +125,7 @@ private:
 	bool m_autoclose;
 	QString expattr;
 
-	KGpgSearchResultModel *m_resultmodel;
-	QSortFilterProxyModel m_filtermodel;
+	KGpgSearchResultModel m_resultmodel;
 
 	KeyListProxyModel *m_itemmodel;
 };
