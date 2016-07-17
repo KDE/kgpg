@@ -127,7 +127,7 @@ KGpgImport::getImportMessage(const QStringList &log)
 			return i18n("The import result string has an unsupported format in line %1.<br />Please see the detailed log for more information.", line);
 	}
 
-	for (int i = RESULT_PARTS_MAX - 1; (i >= 0) && fine; i--)
+	for (int i = RESULT_PARTS_MAX - 1; i >= 0; i--)
 		fine = (rcode[i] != 0);
 
 	if (!fine)
