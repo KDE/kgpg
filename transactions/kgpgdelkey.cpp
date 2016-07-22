@@ -45,7 +45,24 @@ KGpgDelKey::keys() const
 bool
 KGpgDelKey::nextLine(const QString &line)
 {
-	if (!line.startsWith(QLatin1String("[GNUPG:] GOT_IT")))
+	if (line.startsWith(QLatin1String("[GNUPG:] KEY_CONSIDERED "))) {
+		const QStringList &parts = line.split(QLatin1Char(' '), QString::SkipEmptyParts);
+		if (parts.count() < 3) {
+			setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
+		} else {
+			const QString &fpr = parts[2];
+			bool mine = false;
+
+			foreach (const KGpgKeyNode *key, m_keys) {
+				mine = (key->getFingerprint() == fpr);
+				if (mine)
+					break;
+			}
+
+			if (!mine)
+				setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
+		}
+	} else if (!line.startsWith(QLatin1String("[GNUPG:] GOT_IT")))
 		setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
 
 	return false;
