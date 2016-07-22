@@ -44,14 +44,14 @@ int main(int argc, char *argv[])
         QLatin1String("kgpg"),
         xi18nc("@title", "<application>KGpg</application>"),
         QLatin1String(KGPG_VERSION),
-        i18nc("@title", "KGpg - simple gui for GnuPG"),
+        xi18nc("@title", "KGpg - simple gui for GnuPG"),
         KAboutLicense::GPL,
-        i18nc("@info:credit", "&copy; 2003-2016, The KGpg Developers"));
+        xi18nc("@info:credit", "&copy; 2003-2016, The KGpg Developers"));
 
-    about.addAuthor(i18nc("@info:credit", "Rolf Eike Beer"), i18nc("@info:credit", "Maintainer"), "kde@opensource.sf-tec.de");
-    about.addAuthor(i18nc("@info:credit", "Jean-Baptiste Mardelle"), i18nc("@info:credit", "Author and former maintainer"), "bj@altern.org");
-    about.addAuthor(i18nc("@info:credit", "Jimmy Gilles"), QString(), "jimmygilles@gmail.com");
-    about.addAuthor(i18nc("@info:credit", "Andrius Štikonas"), i18nc("@info:credit", "KF5 port"), "andrius@stikonas.eu");
+    about.addAuthor(xi18nc("@info:credit", "Rolf Eike Beer"), i18nc("@info:credit", "Maintainer"), "kde@opensource.sf-tec.de");
+    about.addAuthor(xi18nc("@info:credit", "Jean-Baptiste Mardelle"), i18nc("@info:credit", "Author and former maintainer"), "bj@altern.org");
+    about.addAuthor(xi18nc("@info:credit", "Jimmy Gilles"), QString(), "jimmygilles@gmail.com");
+    about.addAuthor(xi18nc("@info:credit", "Andrius Štikonas"), i18nc("@info:credit", "KF5 port"), "andrius@stikonas.eu");
 
     about.setHomepage(QLatin1String("http://utils.kde.org/projects/kgpg"));
 

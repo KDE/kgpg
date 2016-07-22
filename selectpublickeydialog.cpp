@@ -56,7 +56,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     m_okButton->setDefault(true);
     m_okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
     m_detailsButton = new QPushButton(this);
-    m_detailsButton->setText(i18n("&O&ptions") + QStringLiteral(" >>"));
+    m_detailsButton->setText(i18n("&Options") + QStringLiteral(" >>"));
     m_detailsButton->setIcon(QIcon::fromTheme(QStringLiteral("help-about")).pixmap(IconSize(KIconLoader::Toolbar)));
     connect(m_detailsButton, &QPushButton::clicked, this, &KgpgSelectPublicKeyDlg::toggleDetails);
     buttonBox->addButton(m_detailsButton, QDialogButtonBox::ActionRole);
@@ -272,5 +272,5 @@ void KgpgSelectPublicKeyDlg::toggleDetails()
 {
     const bool isVisible = optionsbox->isVisible();
     optionsbox->setVisible(!isVisible);
-    m_detailsButton->setText(i18n("&O&ptions") + (isVisible ? QStringLiteral(" >>") : QStringLiteral(" <<")));
+    m_detailsButton->setText(i18n("&Options") + (isVisible ? QStringLiteral(" >>") : QStringLiteral(" <<")));
 }

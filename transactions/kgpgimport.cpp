@@ -124,7 +124,7 @@ KGpgImport::getImportMessage(const QStringList &log)
 			rcode[i] += rstr.at(i).toULong(&fine);
 
 		if (!fine)
-			return i18n("The import result string has an unsupported format in line %1.<br />Please see the detailed log for more information.", line);
+			return xi18nc("@info", "The import result string has an unsupported format in line %1.<nl/>Please see the detailed log for more information.", line);
 	}
 
 	for (int i = RESULT_PARTS_MAX - 1; i >= 0; i--)
@@ -133,37 +133,37 @@ KGpgImport::getImportMessage(const QStringList &log)
 	if (!fine)
 		return i18n("No key imported.<br />Please see the detailed log for more information.");
 
-	QString resultMessage(i18np("<qt>%1 key processed.</qt>", "<qt>%1 keys processed.</qt>", rcode[0]));
+	QString resultMessage(xi18ncp("@info", "<para>%1 key processed.</para>", "<para>%1 keys processed.</para>", rcode[0]));
 
 	if (rcode[1])
-		resultMessage += i18np("<qt><br />One key without ID.</qt>", "<qt><br />%1 keys without ID.</qt>", rcode[1]);
+		resultMessage += xi18ncp("@info", "<para>One key without ID.</para>", "<para>%1 keys without ID.</para>", rcode[1]);
 	if (rcode[2])
-		resultMessage += i18np("<qt><br /><b>One key imported:</b></qt>", "<qt><br /><b>%1 keys imported:</b></qt>", rcode[2]);
+		resultMessage += xi18ncp("@info", "<para><emphasis strong='true'>One key imported:</emphasis></para>", "<para><emphasis strong='true'>%1 keys imported:</emphasis></para>", rcode[2]);
 	if (rcode[3])
-		resultMessage += i18np("<qt><br />One RSA key imported.</qt>", "<qt><br />%1 RSA keys imported.</qt>", rcode[3]);
+		resultMessage += xi18ncp("@info", "<para>One RSA key imported.</para>", "<para>%1 RSA keys imported.</para>", rcode[3]);
 	if (rcode[4])
-		resultMessage += i18np("<qt><br />One key unchanged.</qt>", "<qt><br />%1 keys unchanged.</qt>", rcode[4]);
+		resultMessage += xi18ncp("@info", "<para>One key unchanged.</para>", "<para>%1 keys unchanged.</para>", rcode[4]);
 	if (rcode[5])
-		resultMessage += i18np("<qt><br />One user ID imported.</qt>", "<qt><br />%1 user IDs imported.</qt>", rcode[5]);
+		resultMessage += xi18ncp("@info", "<para>One user ID imported.</para>", "<para>%1 user IDs imported.</para>", rcode[5]);
 	if (rcode[6])
-		resultMessage += i18np("<qt><br />One subkey imported.</qt>", "<qt><br />%1 subkeys imported.</qt>", rcode[6]);
+		resultMessage += xi18ncp("@info", "<para>One subkey imported.</para>", "<para>%1 subkeys imported.</para>", rcode[6]);
 	if (rcode[7])
-		resultMessage += i18np("<qt><br />One signature imported.</qt>", "<qt><br />%1 signatures imported.</qt>", rcode[7]);
+		resultMessage += xi18ncp("@info", "<para>One signature imported.</para>", "<para>%1 signatures imported.</para>", rcode[7]);
 	if (rcode[8])
-		resultMessage += i18np("<qt><br />One revocation certificate imported.</qt>", "<qt><br />%1 revocation certificates imported.</qt>", rcode[8]);
+		resultMessage += xi18ncp("@info", "<para>One revocation certificate imported.</para>", "<para>%1 revocation certificates imported.</para>", rcode[8]);
 	if (rcode[9])
-		resultMessage += i18np("<qt><br />One secret key processed.</qt>", "<qt><br />%1 secret keys processed.</qt>", rcode[9]);
+		resultMessage += xi18ncp("@info", "<para>One secret key processed.</para>", "<para>%1 secret keys processed.</para>", rcode[9]);
 	if (rcode[10])
-		resultMessage += i18np("<qt><br /><b>One secret key imported.</b></qt>", "<qt><br /><b>%1 secret keys imported.</b></qt>", rcode[10]);
+		resultMessage +=  xi18ncp("@info", "<para><emphasis strong='true'>One secret key imported.</emphasis></para>", "<para><emphasis strong='true'>%1 secret keys imported.</emphasis></para>", rcode[10]);
 	if (rcode[11])
-		resultMessage += i18np("<qt><br />One secret key unchanged.</qt>", "<qt><br />%1 secret keys unchanged.</qt>", rcode[11]);
+		resultMessage += xi18ncp("@info", "<para>One secret key unchanged.</para>", "<para>%1 secret keys unchanged.</para>", rcode[11]);
 	if (rcode[12])
-		resultMessage += i18np("<qt><br />One secret key not imported.</qt>", "<qt><br />%1 secret keys not imported.</qt>", rcode[12]);
+		resultMessage += xi18ncp("@info", "<para>One secret key not imported.</para>", "<para>%1 secret keys not imported.</para>", rcode[12]);
 
 	if (rcode[9])
-		resultMessage += i18n("<qt><br /><b>You have imported a secret key.</b> <br />"
-		"Please note that imported secret keys are not trusted by default.<br />"
-		"To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</qt>");
+		resultMessage += xi18nc("@info", "<para><emphasis strong='true'>You have imported a secret key.</emphasis><nl/>"
+		"Please note that imported secret keys are not trusted by default.<nl/>"
+		"To fully use this secret key for signing and encryption, you must edit the key (double click on it) and set its trust to Full or Ultimate.</para>");
 
 	return resultMessage;
 }
@@ -185,9 +185,9 @@ beautifyKeyList(const QStringList &keyIds, const KGpgItemModel *model)
 				line = changed;
 			} else {
 				if (node->getEmail().isEmpty())
-					line = i18nc("ID: Name", "%1: %2", node->getFingerprint(), node->getName());
+					line = xi18nc("@item ID: Name", "%1: %2", node->getFingerprint(), node->getName());
 				else
-					line = i18nc("ID: Name <Email>", "%1: %2 &lt;%3&gt;", node->getFingerprint(), node->getName(), node->getEmail());
+					line = xi18nc("@item ID: Name <Email>", "%1: %2 <email>%3</email>", node->getFingerprint(), node->getName(), node->getEmail());
 			}
 
 			result.append(QLatin1String(" ") + line + QLatin1String("\n"));
