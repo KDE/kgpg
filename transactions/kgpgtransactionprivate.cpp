@@ -163,6 +163,8 @@ KGpgTransactionPrivate::slotReadReady()
 			m_success = KGpgTransaction::TS_USER_ABORTED;
 		} else if (line.startsWith(QLatin1String("[GNUPG:] CARDCTRL "))) {
 			// just ignore them, pinentry should handle that
+		} else if (line.startsWith(QLatin1String("[GNUPG:] PINENTRY_LAUNCHED "))) {
+			// just ignore them, just means pinentry is asked for password input
 		} else {
 			// all known hints
 			int i = 0;

@@ -956,7 +956,7 @@ void KeysManager::slotDeletePhoto()
 	QString mess = i18n("<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 &lt;%3&gt;</b>?</qt>",
 				und->getId(), parent->getName(), parent->getEmail());
 
-	if (KMessageBox::warningContinueCancel(0, mess) != KMessageBox::Continue)
+	if (KMessageBox::warningContinueCancel(this, mess) != KMessageBox::Continue)
 		return;
 
 	KGpgDelUid *deluid = new KGpgDelUid(this, und);
