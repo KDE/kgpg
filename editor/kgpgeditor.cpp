@@ -110,6 +110,7 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
 
 KgpgEditor::~KgpgEditor()
 {
+    disconnect(m_editor, &KgpgTextEdit::textChanged, this, &KgpgEditor::modified);
     m_recentfiles->saveEntries( KConfigGroup(KSharedConfig::openConfig(), "Recent Files" ) );
 }
 
