@@ -24,6 +24,7 @@
 
 #include <kgpgcompiler.h>
 
+class SearchResult;
 class KGpgSearchResultModelPrivate;
 
 /**
@@ -57,6 +58,31 @@ public slots:
 	void slotAddKey(const QStringList &lines);
 
 private:
+	typedef enum {ROOT_LEVEL, KEY_LEVEL, ATTRIBUTE_LEVEL} NodeLevel;
+	/**
+	 * @brief Returns the level corresponding to a `QModelIndex` associated
+	 * with this `KGpgSearchResultModel`.
+	 *
+	 * There are three levels of nodes. The top level, level 0, is the
+	 * root node. Each first-level subnode corresponds to a key, and each
+	 * second-level subnode corresponds to an attribute of that key: a UID,
+	 * or the number of UATs, or the summary description of the key.
+	 *
+	 * @param index a `QModelIndex` representing the position of a node in the model
+	 * @return the level of the node
+	 */
+	static NodeLevel nodeLevel(const QModelIndex &index);
+
+	/**
+	 * @brief Find the `SearchResult` associated with an index.
+	 *
+	 * This returns the `SearchResult` instance corresponding to an
+	 * index regardless of whether the index represents a key (first-level)
+	 * or an attribute (second-level). It also works for the root index,
+	 * for which it returns `Q_NULLPTR`.
+	 */
+	SearchResult *resultForIndex(const QModelIndex &index) const;
+
 	KGpgSearchResultModelPrivate * const d;
 };
 
