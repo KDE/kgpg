@@ -501,7 +501,7 @@ KGpgSearchResultModel::filterByValidity() const
 	return m_filterByValidity;
 }
 
-const QString &
+QString
 KGpgSearchResultModel::idForIndex(const QModelIndex &index) const
 {
 	return static_cast<KGpgSearchResultBackingModel *>(sourceModel())->idForIndex(mapToSource(index));

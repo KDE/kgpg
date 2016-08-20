@@ -124,7 +124,7 @@ public:
 	 * @param index valid index of any item in the model
 	 * @return fingerprint of the corresponding key
 	 */
-	const QString &idForIndex(const QModelIndex &index) const;
+	QString idForIndex(const QModelIndex &index) const;
 
 	/**
 	 * @brief Return the total number of rows in the source model.
