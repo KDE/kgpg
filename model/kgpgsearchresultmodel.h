@@ -57,7 +57,7 @@ public:
 	 * @param index valid index of any item in the model
 	 * @return fingerprint of the corresponding key
 	 */
-	const QString &idForIndex(const QModelIndex &index) const;
+	QString idForIndex(const QModelIndex &index) const;
 
 	typedef enum {ROOT_LEVEL, KEY_LEVEL, ATTRIBUTE_LEVEL} NodeLevel;
 

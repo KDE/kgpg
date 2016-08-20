@@ -432,7 +432,7 @@ KGpgSearchResultBackingModel::headerData(int section, Qt::Orientation orientatio
 	}
 }
 
-const QString &
+QString
 KGpgSearchResultBackingModel::idForIndex(const QModelIndex &index) const
 {
 	Q_ASSERT(index.isValid());
