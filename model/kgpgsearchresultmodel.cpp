@@ -335,6 +335,7 @@ KGpgSearchResultBackingModel::columnCount(const QModelIndex &parent) const
 		return 2;
 	default:
 		Q_ASSERT(false);
+		return 0;
 	}
 }
 
@@ -362,6 +363,7 @@ KGpgSearchResultBackingModel::index(int row, int column, const QModelIndex &pare
 		return createIndex(row, column);
 	default:
 		Q_ASSERT(false);
+		return QModelIndex();
 	}
 }
 
@@ -382,6 +384,7 @@ KGpgSearchResultBackingModel::parent(const QModelIndex &index) const
 	}
 	default:
 		Q_ASSERT(false);
+		return QModelIndex();
 	}
 }
 
@@ -406,6 +409,7 @@ KGpgSearchResultBackingModel::rowCount(const QModelIndex &parent) const
 		return 0;
 	default:
 		Q_ASSERT(false);
+		return 0;
 	}
 }
 
@@ -440,6 +444,7 @@ KGpgSearchResultBackingModel::idForIndex(const QModelIndex &index) const
 	default:
 		// root level should have been caught at the beginning
 		Q_ASSERT(false);
+		return QString();
 	}
 }
 
