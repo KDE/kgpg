@@ -48,7 +48,7 @@ KGpgImport::getImportedKeys() const
 {
 	QStringList res;
 
-	foreach (const QString &str, getMessages())
+	for (const QString &str : getMessages())
 		if (str.startsWith(QLatin1String("[GNUPG:] IMPORTED ")))
 			res << str.mid(18);
 
@@ -60,7 +60,7 @@ KGpgImport::getImportedIds(const QStringList &log, const int reason)
 {
 	QStringList res;
 
-	foreach (const QString &str, log) {
+	for (const QString &str : log) {
 		if (!str.startsWith(QLatin1String("[GNUPG:] IMPORT_OK ")))
 			continue;
 
@@ -109,7 +109,7 @@ KGpgImport::getImportMessage(const QStringList &log)
 
 	memset(rcode, 0, sizeof(rcode));
 
-	foreach (const QString &str, log) {
+	for (const QString &str : log) {
 		line++;
 		if (!str.startsWith(QLatin1String("[GNUPG:] IMPORT_RES ")))
 			continue;
@@ -177,7 +177,7 @@ beautifyKeyList(const QStringList &keyIds, const KGpgItemModel *model)
 	if (model == Q_NULLPTR) {
 		result.append(QLatin1String(" ") + keyIds.join(QLatin1String("\n ")));
 	} else {
-		foreach (const QString &changed, keyIds) {
+		for (const QString &changed : keyIds) {
 			const KGpgKeyNode *node = model->findKeyNode(changed);
 			QString line;
 
@@ -203,7 +203,7 @@ KGpgImport::getDetailedImportMessage(const QStringList &log, const KGpgItemModel
 	QString result;
 	QMap<QString, unsigned int> resultcodes;
 
-	foreach (const QString &keyresult, log) {
+	for (const QString &keyresult : log) {
 		if (!keyresult.startsWith(QLatin1String("[GNUPG:] IMPORT_OK ")))
 			continue;
 

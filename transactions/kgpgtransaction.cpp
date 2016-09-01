@@ -254,7 +254,7 @@ KGpgTransaction::insertArguments(const int pos, const QStringList &args)
 	QStringList tmp(d->m_process->program());
 
 	int tmppos = pos;
-	foreach (const QString &s, args) {
+	for (const QString &s : args) {
 		tmp.insert(tmppos++, s);
 	}
 	d->m_process->setProgram(tmp);

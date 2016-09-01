@@ -169,7 +169,7 @@ KGpgTransactionPrivate::slotReadReady()
 			// all known hints
 			int i = 0;
 			bool matched = false;
-			foreach (const QString &hintName, hintNames()) {
+			for (const QString &hintName : hintNames()) {
 				const KGpgTransaction::ts_hintType h = static_cast<KGpgTransaction::ts_hintType>(i++);
 				if (!line.startsWith(hintName))
 					continue;

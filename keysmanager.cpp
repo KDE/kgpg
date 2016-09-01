@@ -733,13 +733,13 @@ void KeysManager::slotGotoDefaultKey()
 
 void KeysManager::refreshKeyFromServer()
 {
-	QList<KGpgNode *> keysList(iview->selectedNodes());
+	const QList<KGpgNode *> keysList(iview->selectedNodes());
 	if (keysList.isEmpty())
 		return;
 
 	QStringList keyIDS;
 
-	foreach (KGpgNode *item, keysList) {
+	for (KGpgNode *item : keysList) {
 		if (item->getType() == ITYPE_GROUP)
 		{
 			for (int j = 0; j < item->getChildCount(); j++)
@@ -1254,7 +1254,7 @@ KeysManager::slotMenu(const QPoint &pos)
 	// find out if an item has unknown signatures. Only check if the item has been
 	// expanded before as expansion is very expensive and can take several seconds
 	// that will freeze the UI meanwhile.
-	foreach (KGpgNode *nd, ndlist) {
+	for (KGpgNode *nd : ndlist) {
 		if (!nd->hasChildren())
 			continue;
 
@@ -1277,7 +1277,7 @@ KeysManager::slotMenu(const QPoint &pos)
 
 	if (itype == ITYPE_SIGN) {
 		bool allunksig = true;
-		foreach (KGpgNode *nd, ndlist) {
+		for (KGpgNode *nd : ndlist) {
 			allunksig = nd->toSignNode()->isUnknown();
 			if (!allunksig)
 				break;
@@ -1417,7 +1417,7 @@ void KeysManager::slotexport()
 	bool same;
 	KgpgItemType tp;
 
-	QList<KGpgNode *> ndlist(iview->selectedNodes(&same, &tp));
+	const QList<KGpgNode *> ndlist(iview->selectedNodes(&same, &tp));
 	if (ndlist.isEmpty())
 		return;
 	if (!(tp & ITYPE_PUBLIC) || (tp & ~ITYPE_GPAIR))
@@ -1720,7 +1720,7 @@ void KeysManager::createNewGroup()
 	QStringList badkeys;
 	KGpgKeyNode::List keysList;
 	KgpgItemType tp;
-	KGpgNode::List ndlist(iview->selectedNodes(Q_NULLPTR, &tp));
+	const KGpgNode::List ndlist(iview->selectedNodes(Q_NULLPTR, &tp));
 
 	if (ndlist.isEmpty())
 		return;
@@ -1736,7 +1736,7 @@ void KeysManager::createNewGroup()
 		mintrust = KgpgCore::TRUST_FULL;
 	}
 
-	foreach (KGpgNode *nd, ndlist) {
+	for (KGpgNode *nd : ndlist) {
 		if (nd->getTrust() >= mintrust) {
 			keysList.append(nd->toKeyNode());
 		} else {
@@ -1800,7 +1800,7 @@ void KeysManager::signkey()
 		return;
 
 	KgpgItemType tp;
-	QList<KGpgNode *> tmplist = iview->selectedNodes(Q_NULLPTR, &tp);
+	const QList<KGpgNode *> tmplist = iview->selectedNodes(Q_NULLPTR, &tp);
 	if (tmplist.isEmpty())
 		return;
 
@@ -1830,7 +1830,7 @@ void KeysManager::signkey()
 		signList.append(nd);
 	} else {
 		QStringList signKeyList;
-		foreach (KGpgNode *n, tmplist) {
+		for (KGpgNode *n : tmplist) {
 			const KGpgKeyNode *nd = n->toKeyNode();
 
 			if (nd->getEmail().isEmpty())
@@ -1879,7 +1879,7 @@ void KeysManager::signuid()
 		return;
 
 	KgpgItemType tp;
-	KGpgNode::List tmplist = iview->selectedNodes(Q_NULLPTR, &tp);
+	const KGpgNode::List tmplist = iview->selectedNodes(Q_NULLPTR, &tp);
 	if (tmplist.isEmpty())
 		return;
 
@@ -1913,7 +1913,7 @@ void KeysManager::signuid()
 	} else {
 		QStringList signKeyList;
 
-		foreach (KGpgNode *nd, tmplist) {
+		for (KGpgNode *nd : tmplist) {
 			const KGpgKeyNode *pnd = (nd->getType() & (ITYPE_UID | ITYPE_UAT)) ?
 					nd->getParentKeyNode()->toKeyNode() : nd->toKeyNode();
 
@@ -2026,7 +2026,7 @@ void KeysManager::signatureResult(int success)
 void KeysManager::caff()
 {
 	KgpgItemType tp;
-	KGpgNode::List tmplist = iview->selectedNodes(Q_NULLPTR, &tp);
+	const KGpgNode::List tmplist = iview->selectedNodes(Q_NULLPTR, &tp);
 	KGpgSignableNode::List slist;
 	if (tmplist.isEmpty())
 		return;
@@ -2036,7 +2036,7 @@ void KeysManager::caff()
 		return;
 	}
 
-	foreach (KGpgNode *nd, tmplist) {
+	for (KGpgNode *nd : tmplist) {
 		switch (nd->getType()) {
 		case KgpgCore::ITYPE_PAIR:
 		case KgpgCore::ITYPE_PUBLIC: {
@@ -2093,7 +2093,7 @@ void KeysManager::signKeyOpenConsole(const QString &signer, const QString &keyid
 
 void KeysManager::getMissingSigs(QSet<QString> &missingKeys, const KGpgExpandableNode *nd)
 {
-	foreach (const KGpgNode *ch, nd->getChildren()) {
+	for (const KGpgNode *ch : nd->getChildren()) {
 		if (ch->hasChildren()) {
 			getMissingSigs(missingKeys, ch->toExpandableNode());
 			continue;
@@ -2112,7 +2112,7 @@ void KeysManager::importallsignkey()
 	if (sel.isEmpty())
 		return;
 
-	foreach (const KGpgNode *nd, sel) {
+	for (const KGpgNode *nd : sel) {
 		if (nd->hasChildren()) {
 			getMissingSigs(missingKeys, nd->toExpandableNode());
 		} else if (nd->getType() == ITYPE_SIGN) {
@@ -2141,7 +2141,7 @@ void KeysManager::preimportsignkey()
 	if (exportList.empty())
 		return;
 
-	foreach (const KGpgNode *nd, exportList)
+	for (const KGpgNode *nd : exportList)
 		idlist << nd->getId();
 
 	importRemoteKeys(idlist);
@@ -2254,7 +2254,8 @@ void KeysManager::slotSendEmail()
 {
 	QStringList maillist;
 
-	foreach (const KGpgNode *nd, iview->selectedNodes()) {
+	const auto nodes = iview->selectedNodes();
+	for (const KGpgNode *nd : nodes) {
 		if (nd->getEmail().isEmpty())
 			continue;
 
@@ -2322,7 +2323,8 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 {
 	QStringList groupNames;
 
-	foreach (const KGpgGroupNode *gnd, node->getGroups())
+	const auto groups = node->getGroups();
+	for (const KGpgGroupNode *gnd : groups)
 		groupNames << gnd->getName();
 
 	if (groupNames.isEmpty())
@@ -2337,7 +2339,8 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 
 	bool groupDeleted = false;
 
-	foreach (KGpgGroupMemberNode *gref, node->getGroupRefs()) {
+	const auto grefs = node->getGroupRefs();
+	for (KGpgGroupMemberNode *gref : grefs) {
 		KGpgGroupNode *group = gref->getParentKeyNode();
 
 		bool deleteWholeGroup = (group->getChildCount() == 1) &&
@@ -2436,7 +2439,7 @@ void KeysManager::confirmdeletekey()
 		return;
 	} else if ((pt & ITYPE_GROUP) && !(pt & ~ITYPE_GPAIR)) {
 		bool invalidDelete = false;
-		foreach (const KGpgNode *nd, ndlist)
+		for (const KGpgNode *nd : ndlist)
 			if (nd->getType() == ITYPE_GROUP) {
 				invalidDelete = true;
 				break;
@@ -2445,7 +2448,7 @@ void KeysManager::confirmdeletekey()
 		// only allow removing group members if they belong to the same group
 		if (!invalidDelete) {
 			const KGpgNode * const group = ndlist.first()->getParentKeyNode();
-			foreach (const KGpgNode *nd, ndlist)
+			for (const KGpgNode *nd : ndlist)
 				if (nd->getParentKeyNode() != group) {
 					invalidDelete = true;
 					break;
@@ -2457,7 +2460,7 @@ void KeysManager::confirmdeletekey()
 
 			QList<KGpgNode *> members = gnd->getChildren();
 
-			foreach (KGpgNode *nd, ndlist) {
+			for (KGpgNode *nd : ndlist) {
 				int r = members.removeAll(nd);
 				Q_ASSERT(r == 1);
 				Q_UNUSED(r);
@@ -2481,7 +2484,7 @@ void KeysManager::confirmdeletekey()
 	KGpgKeyNode::List delkeys;
 
 	bool secretKeyInside = (pt & ITYPE_SECRET);
-	foreach (KGpgNode *nd, ndlist) {
+	for (KGpgNode *nd : ndlist) {
 		KGpgKeyNode *ki = nd->toKeyNode();
 
 		if (ki->getType() & ITYPE_SECRET) {
@@ -2512,7 +2515,7 @@ void KeysManager::confirmdeletekey()
 	if (result != KMessageBox::Continue)
 		return;
 
-	foreach (KGpgNode *nd, ndlist)
+	for (KGpgNode *nd : ndlist)
 		removeFromGroups(nd->toKeyNode());
 
 	m_delkey = new KGpgDelKey(this, delkeys);
@@ -2523,7 +2526,8 @@ void KeysManager::confirmdeletekey()
 void KeysManager::slotDelKeyDone(int res)
 {
 	if (res == 0) {
-		foreach (KGpgKeyNode *kn, m_delkey->keys())
+		const auto keys = m_delkey->keys();
+		for (KGpgKeyNode *kn : keys)
 			imodel->delNode(kn);
 	}
 

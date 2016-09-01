@@ -312,7 +312,7 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 	for (int i = node->getChildCount() - 1; i >= 0; i--) {
 		bool found = false;
 
-		foreach (const KGpgNode *nd, keys) {
+		for (const KGpgNode *nd : keys) {
 			found = (node->getChild(i)->getId() == nd->getId());
 			if (found)
 				break;
@@ -330,7 +330,7 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 	for (int i = 0; i < keys.count(); i++) {
 		bool found = false;
 
-		foreach (const KGpgNode *nd, node->getChildren()) {
+		for (const KGpgNode *nd : node->getChildren()) {
 			found = (nd->getId() == keys.at(i)->getId());
 			if (found)
 				break;
@@ -523,7 +523,8 @@ KGpgItemModel::isDefaultKey(const KGpgNode *node) const
 void
 KGpgItemModel::invalidateIndexes(KGpgNode *nd)
 {
-	foreach (const QModelIndex &idx, persistentIndexList()) {
+	const auto indexList = persistentIndexList();
+	for (const QModelIndex &idx : indexList) {
 		KGpgNode *n = nodeForIndex(idx);
 
 		if (n != nd)

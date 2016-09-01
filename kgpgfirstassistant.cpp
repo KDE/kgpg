@@ -272,14 +272,14 @@ KGpgFirstAssistant::findConfigPath()
 		return;
 	}
 
-	KgpgKeyList publiclist = KgpgInterface::readPublicKeys(secids);
+	const KgpgKeyList publiclist = KgpgInterface::readPublicKeys(secids);
 
 	generateCB->setChecked(false);
 	setAppropriate(page_defaultkey, true);
 
 	CBdefault->clear();
 
-	foreach (const KgpgKey &k, publiclist) {
+	for (const KgpgKey &k : publiclist) {
 		QString s;
 
 		if (k.email().isEmpty())

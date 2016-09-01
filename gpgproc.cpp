@@ -336,7 +336,8 @@ GPGProc::getGpgPubkeyAlgorithms(const QString &binary)
 {
 	QStringList ret;
 
-	foreach (const QString &s, getGpgStatusLine(binary, QLatin1String("Pubkey:")).split(QLatin1Char(','))) {
+	const auto algorithms = getGpgStatusLine(binary, QLatin1String("Pubkey:")).split(QLatin1Char(','));
+	for (const QString &s : algorithms) {
 		QString t = s.trimmed();
 		if (t == QLatin1String("?"))
 			continue;

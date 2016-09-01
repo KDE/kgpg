@@ -188,7 +188,8 @@ QStringList KgpgSelectPublicKeyDlg::selectedKeys() const
 
 	QStringList selectedKeys;
 
-	foreach (const QModelIndex &idx, m_keyslist->selectionModel()->selectedIndexes()) {
+	const QModelIndexList indexes = m_keyslist->selectionModel()->selectedIndexes();
+	for (const QModelIndex &idx : indexes) {
 		if (idx.column() != 0)
 			continue;
 		KGpgNode *nd = iproxy->nodeForIndex(idx);

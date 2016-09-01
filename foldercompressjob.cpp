@@ -108,7 +108,7 @@ FolderCompressJob::doWork()
 		return;
 	}
 
-	foreach (const QUrl &url, d->m_sources)
+	for (const QUrl &url : d->m_sources)
 		arch->addLocalDirectory(url.path(), url.fileName());
 	arch->close();
 	delete arch;

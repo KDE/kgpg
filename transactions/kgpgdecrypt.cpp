@@ -65,7 +65,7 @@ KGpgDecrypt::decryptedText() const
 	QStringList result;
 	int txtlength = 0;
 
-	foreach (const QString &line, getMessages())
+	for (const QString &line : getMessages())
 		if (!line.startsWith(QLatin1String("[GNUPG:] "))) {
 			result.append(line);
 			txtlength += line.length() + 1;

@@ -303,7 +303,8 @@ void KeyServer::transferKeyID()
 {
 	QSet<QString> ids;
 
-	foreach (const QModelIndex &index, m_listpop->kLVsearch->selectionModel()->selectedIndexes())
+	const QModelIndexList indexes = m_listpop->kLVsearch->selectionModel()->selectedIndexes();
+	for (const QModelIndex &index : indexes)
 		ids << m_resultmodel.idForIndex(index);
 
 	const QStringList idlist(ids.toList());

@@ -113,7 +113,8 @@ int KGpgApp::newInstance(QCommandLineParser& parser)
 	} else {
 		QList<QUrl> urlList;
 
-		foreach (const auto &arg, parser.positionalArguments())
+		const QStringList positionalArguments = parser.positionalArguments();
+		for (const QString &arg : positionalArguments)
 			urlList.append(QUrl::fromLocalFile(arg));
 
 		bool directoryInside = false;

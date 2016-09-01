@@ -75,7 +75,7 @@ KGpgSignText::signedText() const
 {
 	QStringList result;
 
-	foreach (const QString &line, getMessages())
+	for (const QString &line : getMessages())
 		if (!line.startsWith(QLatin1String("[GNUPG:] "))) {
 			result.append(line);
 		}
