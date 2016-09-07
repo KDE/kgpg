@@ -21,7 +21,8 @@
 
 #include "convert.h"
 
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <gpgme.h>
 
 #include "kgpgsettings.h"
@@ -218,7 +219,7 @@ KgpgSubKeyType toSubType(const QString& capString, bool upper)
 		case '?':	// unknown to GnuPG
 			continue;
 		default:
-			kDebug(2100) << "unknown capability letter" << ch
+			qCDebug(KGPG_LOG_GENERAL) << "unknown capability letter" << ch
 			<< "in cap string" << capString;
 		}
 	}

@@ -61,7 +61,8 @@
 #include <akonadi/contact/contacteditordialog.h>
 #include <akonadi/contact/contactsearchjob.h>
 #include <KActionCollection>
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KMimeTypeTrader>
@@ -1126,7 +1127,7 @@ void KeysManager::checkList()
 		changeMessage(i18n("Group member"));
 		break;
 	default:
-		kDebug(2100) << "Oops, unmatched type value" << exportList.at(0)->getType();
+		qCDebug(KGPG_LOG_GENERAL) << "Oops, unmatched type value" << exportList.at(0)->getType();
 	}
 }
 
@@ -1678,7 +1679,7 @@ void KeysManager::keyproperties()
 		break;
 	}
 	default:
-		kDebug(2100) << "Oops, called with invalid item type" << cur->getType();
+		qCDebug(KGPG_LOG_GENERAL) << "Oops, called with invalid item type" << cur->getType();
 		return;
 	}
 
@@ -2308,7 +2309,7 @@ void KeysManager::slotEditDone(int exitcode)
 void KeysManager::doPrint(const QString &txt)
 {
 	QPrinter prt;
-	//kDebug(2100) << "Printing..." ;
+	//qCDebug(KGPG_LOG_GENERAL) << "Printing..." ;
 	QPointer<QPrintDialog> printDialog = new QPrintDialog(&prt, this);
 	if (printDialog->exec() == QDialog::Accepted) {
 		QPainter painter(&prt);

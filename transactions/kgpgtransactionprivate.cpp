@@ -15,7 +15,8 @@
 #include <QWeakPointer>
 #include <QWidget>
 
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <KLocalizedString>
 #include <KIO/RenameDialog>
 
@@ -66,7 +67,7 @@ KGpgTransactionPrivate::slotReadReady()
 		if (m_quitTries)
 			m_quitLines << line;
 #ifdef KGPG_DEBUG_TRANSACTIONS
-		kDebug(2100) << m_parent << line;
+		qCDebug(KGPG_LOG_TRANSACTIONS) << m_parent << line;
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 
 		static const QString getBool = QLatin1String("[GNUPG:] GET_BOOL ");
@@ -224,13 +225,13 @@ KGpgTransactionPrivate::sendQuit(void)
 
 #ifdef KGPG_DEBUG_TRANSACTIONS
 	if (m_quitTries == 0)
-		kDebug(2100) << "sending quit";
+		qCDebug(KGPG_LOG_TRANSACTIONS) << "sending quit";
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 
 	if (m_quitTries++ >= 3) {
-		kDebug(2100) << "tried" << m_quitTries << "times to quit the GnuPG session";
-		kDebug(2100) << "last input was" << m_quitLines;
-		kDebug(2100) << "please file a bug report at https://bugs.kde.org";
+		qCDebug(KGPG_LOG_GENERAL) << "tried" << m_quitTries << "times to quit the GnuPG session";
+		qCDebug(KGPG_LOG_GENERAL) << "last input was" << m_quitLines;
+		qCDebug(KGPG_LOG_GENERAL) << "please file a bug report at https://bugs.kde.org";
 		m_process->closeWriteChannel();
 		m_success = KGpgTransaction::TS_MSG_SEQUENCE;
 	}
@@ -285,7 +286,7 @@ KGpgTransactionPrivate::write(const QByteArray &a)
 {
 	m_process->write(a);
 #ifdef KGPG_DEBUG_TRANSACTIONS
-	kDebug(2100) << m_parent << a;
+	qCDebug(KGPG_LOG_TRANSACTIONS) << m_parent << a;
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 }
 
@@ -311,6 +312,6 @@ KGpgTransactionPrivate::processDone()
 	emit m_parent->infoProgress(100, 100);
 	emit m_parent->done(m_success);
 #ifdef KGPG_DEBUG_TRANSACTIONS
-	kDebug(2100) << this << "result:" << m_success;
+	qCDebug(KGPG_LOG_TRANSACTIONS) << this << "result:" << m_success;
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 }

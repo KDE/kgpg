@@ -24,7 +24,8 @@
 
 #include <KConfig>
 #include <KConfigGroup>
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <KDesktopFile>
 #include <KFontChooser>
 #include <KLocalizedString>
@@ -333,7 +334,7 @@ void kgpgOptions::updateWidgets()
 	if (!serverList.isEmpty())
 		m_serverModel->setDefault(keyServer);
 
-	kDebug(2100) << "Finishing options";
+	qCDebug(KGPG_LOG_GENERAL) << "Finishing options";
 }
 
 void kgpgOptions::updateWidgetsDefault()
@@ -351,7 +352,7 @@ void kgpgOptions::updateWidgetsDefault()
 
 	m_page3->kcfg_EmailSorting->setCurrentIndex(KGpgSettings::EnumEmailSorting::Alphabetical);
 
-	kDebug(2100) << "Finishing default options" ;
+	qCDebug(KGPG_LOG_GENERAL) << "Finishing default options" ;
 }
 
 void kgpgOptions::updateSettings()

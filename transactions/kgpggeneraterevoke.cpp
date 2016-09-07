@@ -13,7 +13,8 @@
 
 #include "kgpggeneraterevoke.h"
 
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <KLocalizedString>
 #include <QFile>
 
@@ -68,7 +69,7 @@ KGpgGenerateRevoke::nextLine(const QString &line)
 		m_description.clear();
 	} else if (line.contains(QLatin1String( "GET_" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
-		kDebug(2100) << line;
+		qCDebug(KGPG_LOG_GENERAL) << line;
 		return true;
 	}
 

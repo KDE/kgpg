@@ -16,7 +16,8 @@
 #include "model/kgpgitemmodel.h"
 #include "core/KGpgKeyNode.h"
 
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <KLocalizedString>
 
 KGpgImport::KGpgImport(QObject *parent, const QString &text)
@@ -68,14 +69,14 @@ KGpgImport::getImportedIds(const QStringList &log, const int reason)
 
 		int space = tmpstr.indexOf(QLatin1Char( ' ' ));
 		if (space <= 0) {
-			kDebug(2100) << __LINE__ << "invalid format:" << str;
+			qCDebug(KGPG_LOG_GENERAL) << __LINE__ << "invalid format:" << str;
 			continue;
 		}
 
 		bool ok;
 		unsigned char code = tmpstr.left(space).toUInt(&ok);
 		if (!ok) {
-			kDebug(2100) << __LINE__ << "invalid format:" << str << space << tmpstr.left(space - 1);
+			qCDebug(KGPG_LOG_GENERAL) << __LINE__ << "invalid format:" << str << space << tmpstr.left(space - 1);
 			continue;
 		}
 
@@ -209,7 +210,7 @@ KGpgImport::getDetailedImportMessage(const QStringList &log, const KGpgItemModel
 
 		QStringList rc(keyresult.mid(19).split(QLatin1Char( ' ' )));
 		if (rc.count() < 2) {
-			kDebug(2100) << "unexpected syntax:" << keyresult;
+			qCDebug(KGPG_LOG_GENERAL) << "unexpected syntax:" << keyresult;
 			continue;
 		}
 

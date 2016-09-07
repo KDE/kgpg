@@ -25,7 +25,8 @@
 #include "transactions/kgpgsignuid.h"
 #include "gpgproc.h"
 
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -144,7 +145,7 @@ KGpgCaffPrivate::abortOperation(int result)
 {
 	Q_Q(KGpgCaff);
 
-	kDebug(2100) << "transaction" << sender() << "failed, result" << result;
+	qCDebug(KGPG_LOG_GENERAL) << "transaction" << sender() << "failed, result" << result;
 	m_tempdir.reset();
 
 	emit q->aborted();

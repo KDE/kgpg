@@ -141,6 +141,7 @@ set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transac
    kgpgoptions.cpp
    keysmanager.cpp
    kgpg.cpp
+   kgpg_debug.cpp
    main.cpp
    kgpgkeygenerate.cpp
    kgpginterface.cpp
@@ -189,6 +190,7 @@ set(kgpg_HDRS
    kgpgoptions.h
    kgpgrevokewidget.h
    kgpgtextinterface.h
+   kgpg_debug.h
    klinebufferedprocess.h
    newkey.h
    selectexpirydate.h

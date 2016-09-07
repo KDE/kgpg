@@ -15,7 +15,8 @@
 
 #include "kgpgsettings.h"
 
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <KProcess>
 #include <KStandardDirs>
 
@@ -115,12 +116,12 @@ getGpgProcessHome(const QString &binary)
 
 void GnupgBinary::setBinary(const QString &executable)
 {
-	kDebug(2100) << "checking version of GnuPG executable" << executable;
+	qCDebug(KGPG_LOG_GENERAL) << "checking version of GnuPG executable" << executable;
 	// must be set first as gpgVersionString() uses GPGProc to parse the output
 	m_binary = executable;
 	const QString verstr = GPGProc::gpgVersionString(executable);
 	m_version = GPGProc::gpgVersion(verstr);
-	kDebug(2100) << "version is" << verstr << m_version;
+	qCDebug(KGPG_LOG_GENERAL) << "version is" << verstr << m_version;
 
 	m_useDebugLevel = (m_version > 0x20000);
 

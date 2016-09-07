@@ -22,7 +22,8 @@
 #include "KGpgRootNode.h"
 #include "kgpgsettings.h"
 
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <KLocalizedString>
 
 #include <QFile>
@@ -185,7 +186,7 @@ KGpgGroupNode::rename(const QString &newName)
 		return;
 
 	if (index < 0) {
-		kDebug(2100) << "Group " << d->m_name << " not renamed, group does not exist";
+		qCDebug(KGPG_LOG_GENERAL) << "Group " << d->m_name << " not renamed, group does not exist";
 		return;
 	}
 

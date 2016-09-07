@@ -23,7 +23,8 @@
 #include <QWidget>
 
 #include <KConfigGroup>
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <KNewPasswordDialog>
 #include <KLocalizedString>
 #include <KPasswordDialog>
@@ -53,7 +54,7 @@ KGpgTransaction::start()
 		if (d->m_inputTransaction != Q_NULLPTR)
 			d->m_inputTransaction->start();
 #ifdef KGPG_DEBUG_TRANSACTIONS
-		kDebug(2100) << this << d->m_process->program();
+		qCDebug(KGPG_LOG_TRANSACTIONS) << this << d->m_process->program();
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 		d->m_process->start();
 		emit infoProgress(0, 1);
@@ -101,7 +102,7 @@ void
 KGpgTransaction::setSuccess(const int v)
 {
 #ifdef KGPG_DEBUG_TRANSACTIONS
-	kDebug(2100) << "old" << d->m_success << "new" << v;
+	qCDebug(KGPG_LOG_TRANSACTIONS) << "old" << d->m_success << "new" << v;
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 	d->m_success = v;
 }
@@ -158,7 +159,7 @@ KGpgTransaction::waitForInputTransaction()
 void
 KGpgTransaction::unexpectedLine(const QString &line)
 {
-	kDebug(2100) << this << "unexpected input line" << line << "for command" << d->m_process->program();
+	qCDebug(KGPG_LOG_GENERAL) << this << "unexpected input line" << line << "for command" << d->m_process->program();
 }
 
 bool

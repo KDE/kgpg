@@ -14,7 +14,8 @@
 
 #include "kgpgsearchresultmodel.h"
 
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <KLocalizedString>
 
 #include <QDateTime>
@@ -473,7 +474,7 @@ KGpgSearchResultBackingModel::slotAddKey(const QStringList &lines)
 		} else if (line.startsWith(QLatin1String("uat:"))) {
 			nkey->m_uatCount++;
 		} else {
-			kDebug(2100) << "ignored search result line" << line;
+			qCDebug(KGPG_LOG_GENERAL) << "ignored search result line" << line;
 		}
 	}
 

@@ -15,7 +15,8 @@
 
 #include "gpgproc.h"
 
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <KIO/Job>
 
 #include <QRegExp>
@@ -67,7 +68,7 @@ KGpgTextOrFileTransaction::setText(const QString &text)
 		if (text.mid(begin, charset.length()) == charset) {
 			QString cs = text.mid(begin + charset.length(), nextlf - begin - charset.length());
 			if (!getProcess()->setCodec(cs.toAscii()))
-				kDebug(2100) << "unsupported charset found in header" << cs;
+				qCDebug(KGPG_LOG_GENERAL) << "unsupported charset found in header" << cs;
 			break;
 		}
 		begin = nextlf + 1;
