@@ -12,12 +12,13 @@
  ***************************************************************************/
 
 #include "kgpgimport.h"
+#include "kgpg_debug.h"
 
 #include "model/kgpgitemmodel.h"
 #include "core/KGpgKeyNode.h"
 
 #include <QDebug>
-#include "kgpg_debug.h"
+
 #include <KLocalizedString>
 
 KGpgImport::KGpgImport(QObject *parent, const QString &text)

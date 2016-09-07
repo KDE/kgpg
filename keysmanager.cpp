@@ -27,6 +27,7 @@
 #include "keyinfodialog.h"
 #include "keyservers.h"
 #include "keytreeview.h"
+#include "kgpg_debug.h"
 #include "kgpg.h"
 #include "kgpgchangekey.h"
 #include "kgpgkeygenerate.h"
@@ -61,8 +62,6 @@
 #include <akonadi/contact/contacteditordialog.h>
 #include <akonadi/contact/contactsearchjob.h>
 #include <KActionCollection>
-#include <QDebug>
-#include "kgpg_debug.h"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KMimeTypeTrader>
@@ -82,6 +81,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDBusConnection>
+#include <QDebug>
 #include <QDesktopServices>
 #include <QDir>
 #include <QEvent>

@@ -11,17 +11,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kgpgtransactionprivate.h"
+#include "kgpgtransaction.h"
+#include "kgpg_debug.h"
+
+#include <QDebug>
 #include <QPointer>
 #include <QWeakPointer>
 #include <QWidget>
 
-#include <QDebug>
-#include "kgpg_debug.h"
 #include <KLocalizedString>
 #include <KIO/RenameDialog>
-
-#include "kgpgtransaction.h"
-#include "kgpgtransactionprivate.h"
 
 KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining)
 	: m_parent(parent),

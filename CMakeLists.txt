@@ -41,9 +41,9 @@ find_package(KF5 5.23 REQUIRED
   IconThemes
   JobWidgets
   KIO
-  KDELibs4Support
   Notifications
   Service
+  TextWidgets
   XmlGui
   WidgetsAddons
   WindowSystem
@@ -246,12 +246,12 @@ target_link_libraries(kgpg
     KF5::I18n
     KF5::IconThemes
     KF5::JobWidgets
-    KF5::KDELibs4Support
     KF5::KIOCore
     KF5::KIOFileWidgets
     KF5::KIOWidgets
     KF5::Notifications
     KF5::Service
+    KF5::TextWidgets
     KF5::XmlGui
     KF5::WidgetsAddons
     KF5::WindowSystem

@@ -12,19 +12,19 @@
  ***************************************************************************/
 
 #include "kgpgtransaction.h"
+#include "kgpg_debug.h"
 #include "kgpgtransactionprivate.h"
 
 #include "gpgproc.h"
 #include "kgpginterface.h"
 
 #include <QByteArray>
+#include <QDebug>
 #include <QStringList>
 #include <QUrl>
 #include <QWidget>
 
 #include <KConfigGroup>
-#include <QDebug>
-#include "kgpg_debug.h"
 #include <KNewPasswordDialog>
 #include <KLocalizedString>
 #include <KPasswordDialog>

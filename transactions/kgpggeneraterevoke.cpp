@@ -12,10 +12,11 @@
  ***************************************************************************/
 
 #include "kgpggeneraterevoke.h"
+#include "kgpg_debug.h"
+
+#include <KLocalizedString>
 
 #include <QDebug>
-#include "kgpg_debug.h"
-#include <KLocalizedString>
 #include <QFile>
 
 KGpgGenerateRevoke::KGpgGenerateRevoke(QObject *parent, const QString &keyID, const QUrl &revokeUrl, const int reason, const QString &description)

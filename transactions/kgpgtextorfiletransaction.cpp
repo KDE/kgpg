@@ -12,13 +12,13 @@
  ***************************************************************************/
 
 #include "kgpgtextorfiletransaction.h"
+#include "kgpg_debug.h"
 
 #include "gpgproc.h"
 
-#include <QDebug>
-#include "kgpg_debug.h"
 #include <KIO/Job>
 
+#include <QDebug>
 #include <QRegExp>
 #include <QTemporaryFile>
 
