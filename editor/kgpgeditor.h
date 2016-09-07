@@ -39,7 +39,7 @@ class KgpgEditor : public KXmlGuiWindow
 
     KgpgEditor() Q_DECL_EQ_DELETE;
 public:
-    KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f);
+    KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WindowFlags f);
     ~KgpgEditor();
 
     void openEncryptedDocumentFile(const QUrl &url);

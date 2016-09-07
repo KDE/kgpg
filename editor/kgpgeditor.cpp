@@ -74,7 +74,7 @@ KgpgView::KgpgView(QWidget *parent, KgpgTextEdit *editor, KToolBar *toolbar)
 	setAcceptDrops(true);
 }
 
-KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f)
+KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WindowFlags f)
 	: KXmlGuiWindow(0, f),
 	m_editor(new KgpgTextEdit(this, model, parent)),
 	m_recentfiles(Q_NULLPTR),
