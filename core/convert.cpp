@@ -138,7 +138,7 @@ KgpgKeyAlgo toAlgo(const QString &s)
 
 KgpgKeyTrust toTrust(const QChar &c)
 {
-	switch (c.toAscii()) {
+	switch (c.toLatin1()) {
 	case 'o':
 		return TRUST_UNKNOWN;
 	case 'i':
@@ -171,7 +171,7 @@ KgpgKeyTrust toTrust(const QString &s)
 
 gpgme_validity_t toOwnerTrust(const QChar &c)
 {
-	switch (c.toAscii()) {
+	switch (c.toLatin1()) {
 	case 'n':
 		return GPGME_VALIDITY_NEVER;
 	case 'm':
