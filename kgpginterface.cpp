@@ -192,7 +192,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 
 			if ((currentSNode != Q_NULLPTR) && (currentSNode->getType() == ITYPE_SUB))
 				static_cast<KGpgSubkeyNode *>(currentSNode)->setFingerprint(fingervalue);
-			else
+			else if (publickey->fingerprint().isEmpty())
 				publickey->setFingerprint(fingervalue);
 		} else if (publickey && (lsp.at(0) == QLatin1String( "sub" )) && (items >= 7)) {
 			KgpgSubKeyType subtype;
