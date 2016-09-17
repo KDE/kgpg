@@ -39,6 +39,10 @@ enum KgpgKeyAlgoFlag
     ALGO_DSA = 2,
     ALGO_ELGAMAL = 4,
     ALGO_DSA_ELGAMAL = ALGO_DSA | ALGO_ELGAMAL,
+    ALGO_ECC = 8,
+    ALGO_ECDSA = 16,
+    ALGO_ECDH = 32,
+    ALGO_EDDSA = 64,
     ALGO_RSA_RSA = 0x10001
 };
 Q_DECLARE_FLAGS(KgpgKeyAlgo, KgpgKeyAlgoFlag)

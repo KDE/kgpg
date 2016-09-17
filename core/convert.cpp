@@ -27,6 +27,19 @@
 
 #include "kgpgsettings.h"
 
+/* Conversion from OpenPGP algorithm number to GPGME algorithm numbers. */
+static int _gpgme_map_pk_algo (int algo)
+{
+	switch (algo)
+	{
+		case 18: algo = GPGME_PK_ECDH; break;
+		case 19: algo = GPGME_PK_ECDSA; break;
+		case 22: algo = GPGME_PK_EDDSA; break;
+		default: break;
+	}
+	return algo;
+}
+
 namespace KgpgCore
 {
 
@@ -46,6 +59,14 @@ QString toString(const KgpgKeyAlgo algorithm)
 		return i18nc("Encryption algorithm", "DSA & ElGamal");
 	case ALGO_RSA_RSA:
 		return i18nc("Encryption algorithm RSA, Signing algorithm RSA", "RSA & RSA");
+	case ALGO_ECC:
+		return i18nc("Encryption algorithm", "ECC");
+	case ALGO_ECDSA:
+		return i18nc("Signing algorithm", "ECDSA");
+	case ALGO_ECDH:
+		return i18nc("Encryption algorithm", "ECDH");
+	case ALGO_EDDSA:
+		return i18nc("Signing algorithm", "EdDSA");
 	case ALGO_UNKNOWN:
 	default:
 		return i18nc("Unknown algorithm", "Unknown");
@@ -116,7 +137,8 @@ QString toString(const KgpgCore::KgpgSubKeyType type)
 
 KgpgKeyAlgo toAlgo(const uint v)
 {
-	switch (v) {
+	uint gpgme_algo = _gpgme_map_pk_algo(v);
+	switch (gpgme_algo) {
 	case GPGME_PK_RSA:
 		return ALGO_RSA;
 	case GPGME_PK_ELG_E:
@@ -124,6 +146,14 @@ KgpgKeyAlgo toAlgo(const uint v)
 		return ALGO_ELGAMAL;
 	case GPGME_PK_DSA:
 		return ALGO_DSA;
+	case GPGME_PK_ECC:
+		return ALGO_ECC;
+	case GPGME_PK_ECDSA:
+		return ALGO_ECDSA;
+	case GPGME_PK_ECDH:
+		return ALGO_ECDH;
+	case GPGME_PK_EDDSA:
+		return ALGO_EDDSA;
 	default:
 		return ALGO_UNKNOWN;
 	}
