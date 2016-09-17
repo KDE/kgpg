@@ -21,16 +21,38 @@
 namespace KgpgCore
 {
 
+static QString _describe_key_strength(KgpgKeyAlgo algorithm, const uint size, const QString &curve)
+{
+    const char *prefix = NULL;
+
+    if (curve.length() > 0)
+        return curve;
+
+    switch(algorithm)
+    {
+    case ALGO_RSA: prefix = "rsa"; break;
+    case ALGO_ELGAMAL: prefix = "elg"; break;
+    case ALGO_DSA: prefix = "dsa"; break;
+    }
+
+    if (prefix) {
+        return QString("%1%2").arg(prefix, QString::number(size));
+    }
+
+    return QString("%1").arg(size);
+}
+
 //BEGIN KeySub
 KgpgKeySubPrivate::KgpgKeySubPrivate(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo,
-                                     const KgpgSubKeyType type, const QDateTime &date)
+                                     const KgpgSubKeyType type, const QDateTime &date, const QString &curve)
     : gpgsubvalid(false),
     gpgsubid(id),
     gpgsubsize(size),
     gpgsubcreation(date),
     gpgsubtrust(trust),
     gpgsubalgo(algo),
-    gpgsubtype(type)
+    gpgsubtype(type),
+    gpgcurve(curve)
 {
 }
 
@@ -48,8 +70,8 @@ bool KgpgKeySubPrivate::operator==(const KgpgKeySubPrivate &other) const
 }
 
 KgpgKeySub::KgpgKeySub(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const KgpgSubKeyType type,
-                       const QDateTime &date)
-    : d(new KgpgKeySubPrivate(id, size, trust, algo, type, date))
+                       const QDateTime &date, const QString &curve)
+    : d(new KgpgKeySubPrivate(id, size, trust, algo, type, date, curve))
 {
 }
 
@@ -76,6 +98,11 @@ QString KgpgKeySub::id() const
 uint KgpgKeySub::size() const
 {
     return d->gpgsubsize;
+}
+
+QString KgpgKeySub::strength() const
+{
+    return _describe_key_strength(algorithm(), size(), d->gpgcurve);
 }
 
 bool KgpgKeySub::unlimited() const
@@ -113,6 +140,11 @@ KgpgSubKeyType KgpgKeySub::type() const
     return d->gpgsubtype;
 }
 
+QString KgpgKeySub::curve() const
+{
+    return d->gpgcurve;
+}
+
 bool KgpgKeySub::operator==(const KgpgKeySub &other) const
 {
     if (d == other.d) return true;
@@ -132,7 +164,7 @@ KgpgKeySub& KgpgKeySub::operator=(const KgpgKeySub &other)
 //BEGIN Key
 
 KgpgKeyPrivate::KgpgKeyPrivate(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const KgpgSubKeyType subtype,
-                               const KgpgSubKeyType keytype, const QDateTime &creationDate)
+                               const KgpgSubKeyType keytype, const QDateTime &creationDate, const QString &curve)
     : gpgkeysecret(false),
     gpgkeyvalid(false),
     gpgkeyid(id),
@@ -142,6 +174,7 @@ KgpgKeyPrivate::KgpgKeyPrivate(const QString &id, const uint size, const KgpgKey
     gpgkeyalgo(algo),
     gpgsubtype(subtype),
     gpgkeytype(keytype),
+    gpgcurve(curve),
     gpgsublist(new KgpgKeySubList())
 {
 }
@@ -168,8 +201,8 @@ bool KgpgKeyPrivate::operator==(const KgpgKeyPrivate &other) const
 }
 
 KgpgKey::KgpgKey(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const KgpgSubKeyType subtype,
-                 const KgpgSubKeyType keytype, const QDateTime &creationDate)
-    : d(new KgpgKeyPrivate(id, size, trust, algo, subtype, keytype, creationDate))
+                 const KgpgSubKeyType keytype, const QDateTime &creationDate, const QString &curve)
+    : d(new KgpgKeyPrivate(id, size, trust, algo, subtype, keytype, creationDate, curve))
 {
 }
 
@@ -263,6 +296,11 @@ uint KgpgKey::size() const
     return d->gpgkeysize;
 }
 
+QString KgpgKey::strength() const
+{
+    return _describe_key_strength(algorithm(), size(), d->gpgcurve);
+}
+
 uint KgpgKey::encryptionSize() const
 {
 	const KgpgKeySub *enc = Q_NULLPTR;
@@ -280,6 +318,25 @@ uint KgpgKey::encryptionSize() const
 	if (enc != Q_NULLPTR)
 		return enc->size();
 	return 0;
+}
+
+QString KgpgKey::encryptionStrength() const
+{
+    const KgpgKeySub *enc = Q_NULLPTR;
+    // Get the first encryption subkey
+    foreach (const KgpgKeySub &k, *d->gpgsublist) {
+        if (k.type() & SKT_ENCRYPTION) {
+            // if the first encryption subkey is expired
+            // check if there is one that is not
+            if (k.trust() > TRUST_EXPIRED)
+                return _describe_key_strength(k.algorithm(), k.size(), k.curve());
+            if (enc == Q_NULLPTR)
+                enc = &k;
+        }
+    }
+    if (enc != Q_NULLPTR)
+        return _describe_key_strength(enc->algorithm(), enc->size(), enc->curve());
+    return QString("");
 }
 
 gpgme_validity_t KgpgKey::ownerTrust() const
@@ -324,12 +381,17 @@ KgpgKeyAlgo KgpgKey::encryptionAlgorithm() const
 
 KgpgSubKeyType KgpgKey::subtype() const
 {
-	return d->gpgsubtype;
+    return d->gpgsubtype;
 }
 
 KgpgSubKeyType KgpgKey::keytype() const
 {
 	return d->gpgkeytype;
+}
+
+QString KgpgKey::curve() const
+{
+    return d->gpgcurve;
 }
 
 KgpgKeySubListPtr KgpgKey::subList() const

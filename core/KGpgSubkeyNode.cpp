@@ -89,7 +89,7 @@ KGpgSubkeyNode::getName() const
 QString
 KGpgSubkeyNode::getSize() const
 {
-	return QString::number(m_skey.size());
+	return m_skey.strength();
 }
 
 KGpgKeyNode *
