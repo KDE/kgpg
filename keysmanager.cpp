@@ -21,6 +21,7 @@
 #include "core/images.h"
 #include "core/kgpgkey.h"
 #include "detailedconsole.h"
+#include "gpgproc.h"
 #include "groupedit.h"
 #include "keyadaptor.h"
 #include "keyexport.h"
@@ -509,11 +510,17 @@ void KeysManager::slotGenerateKey()
 			KConfigGroup config(KSharedConfig::openConfig(), "General");
 
 			QString terminalApp(config.readPathEntry("TerminalApplication", QLatin1String( "konsole" )));
+
+			const QString gpgbin = KGpgSettings::gpgBinaryPath();
+			QString gpg_args = gpgbin + QLatin1String(" --expert");
+			if (GPGProc::gpgVersion(GPGProc::gpgVersionString(gpgbin)) > 0x20100)
+				gpg_args += QLatin1String(" --full-gen-key");
+			else
+				gpg_args += QLatin1String(" --gen-key");
+
 			QStringList args;
 			args << QLatin1String( "-e" )
-					<< KGpgSettings::gpgBinaryPath()
-					<< QLatin1String("--gen-key")
-					<< QLatin1String("--expert");
+			     << gpg_args;
 
 			QProcess *genKeyProc = new QProcess(this);
 			genKeyProc->start(terminalApp, args);
