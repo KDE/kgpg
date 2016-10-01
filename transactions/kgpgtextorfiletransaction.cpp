@@ -67,7 +67,7 @@ KGpgTextOrFileTransaction::setText(const QString &text)
 		const QString charset = QLatin1String("Charset: ");
 		if (text.mid(begin, charset.length()) == charset) {
 			QString cs = text.mid(begin + charset.length(), nextlf - begin - charset.length());
-			if (!getProcess()->setCodec(cs.toAscii()))
+			if (!getProcess()->setCodec(cs.toLatin1()))
 				qCDebug(KGPG_LOG_GENERAL) << "unsupported charset found in header" << cs;
 			break;
 		}

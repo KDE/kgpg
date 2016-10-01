@@ -122,7 +122,7 @@ void KgpgEditor::openDocumentFile(const QUrl &url, const QString &encoding)
     if(!downloadJob->error())
     {
         QTextStream t(downloadJob->data());
-        t.setCodec(encoding.toAscii());
+        t.setCodec(encoding.toLatin1());
         m_editor->setPlainText(t.readAll());
         m_docname = url;
         m_textchanged = false;
@@ -285,7 +285,7 @@ bool KgpgEditor::slotFileSave()
     if (filn.isEmpty())
         return slotFileSaveAs();
 
-    QTextCodec *cod = QTextCodec::codecForName(m_textencoding.toAscii());
+    QTextCodec *cod = QTextCodec::codecForName(m_textencoding.toLatin1());
 
     if (cod == Q_NULLPTR) {
 		KMessageBox::sorry(this, i18n("The document could not been saved, as the selected codec is not supported."));
@@ -597,7 +597,7 @@ void KgpgEditor::slotSelectAll()
 void KgpgEditor::slotSetCharset()
 {
     if (!m_encodingaction->isChecked())
-        m_editor->setPlainText(QString::fromUtf8(m_editor->toPlainText().toAscii()));
+        m_editor->setPlainText(QString::fromUtf8(m_editor->toPlainText().toLatin1()));
     else
     {
         if (checkEncoding(QTextCodec::codecForLocale()))

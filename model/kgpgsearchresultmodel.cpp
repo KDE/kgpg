@@ -177,7 +177,7 @@ KGpgSearchResultModelPrivate::urlDecode(const QString &line)
 	if (!line.contains(QLatin1Char( '%' )))
 		return line;
 
-	QByteArray tmp(line.toAscii());
+	QByteArray tmp(line.toLatin1());
 	const QRegExp hex( QLatin1String( "[A-F0-9]{2}" ));	// URL-encoding uses only uppercase
 
 	int pos = -1;	// avoid error if '%' is URL-encoded

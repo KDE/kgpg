@@ -52,7 +52,7 @@ KGpgAddUid::nextLine(const QString &line)
 	} else if (line.contains(QLatin1String( "keygen.name" ))) {
 		write(m_name.toUtf8());
 	} else if (line.contains(QLatin1String( "keygen.email" ))) {
-		write(m_email.toAscii());
+		write(m_email.toLatin1());
 	} else if (line.contains(QLatin1String( "keygen.comment" ))) {
 		write(m_comment.toUtf8());
 	} else {
