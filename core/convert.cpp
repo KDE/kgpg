@@ -27,6 +27,14 @@
 
 #include "kgpgsettings.h"
 
+// Backport of gpgme enums from version 1.7.0
+#ifndef GPGME_PK_EDDSA
+#define GPGME_PK_EDDSA 303
+#endif
+#ifndef GPGME_PK_ECC
+#define GPGME_PK_ECC 18
+#endif
+
 /* Conversion from OpenPGP algorithm number to GPGME algorithm numbers. */
 static int _gpgme_map_pk_algo (int algo)
 {
