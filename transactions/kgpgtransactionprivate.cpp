@@ -17,7 +17,6 @@
 
 #include <QDebug>
 #include <QPointer>
-#include <QWeakPointer>
 #include <QWidget>
 
 #include <KLocalizedString>
@@ -60,8 +59,8 @@ void
 KGpgTransactionPrivate::slotReadReady()
 {
 	QString line;
-	QWeakPointer<GPGProc> process(m_process);
-	QWeakPointer<KGpgTransaction> par(m_parent);
+	QPointer<GPGProc> process(m_process);
+	QPointer<KGpgTransaction> par(m_parent);
 
 	while (!process.isNull() && (m_process->readln(line, true) >= 0)) {
 		if (m_quitTries)
