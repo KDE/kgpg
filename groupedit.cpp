@@ -19,7 +19,7 @@
 #include "model/groupeditproxymodel.h"
 #include "model/kgpgitemmodel.h"
 
-#include <KIcon>
+#include <QIcon>
 #include <QHeaderView>
 #include <QSortFilterProxyModel>
 
@@ -50,12 +50,12 @@ groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids, KGpgItemModel *md)
 	m_outFilter->setFilterCaseSensitivity(Qt::CaseInsensitive);
 	m_outFilter->setFilterKeyColumn(-1);
 
-	connect(filterEdit, SIGNAL(textChanged(QString)), m_outFilter, SLOT(setFilterFixedString(QString)));
+	connect(filterEdit, &QLineEdit::textChanged, m_outFilter, &QSortFilterProxyModel::setFilterFixedString);
 
 	availableKeys->setModel(m_outFilter);
 	groupKeys->setModel(m_in);
-	buttonAdd->setIcon(KIcon( QLatin1String( "go-down" )));
-	buttonRemove->setIcon(KIcon( QLatin1String( "go-up" )));
+	buttonAdd->setIcon(QIcon::fromTheme( QLatin1String( "go-down" )));
+	buttonRemove->setIcon(QIcon::fromTheme( QLatin1String( "go-up" )));
 
 	availableKeys->setColumnWidth(0, 200);
 	availableKeys->setColumnWidth(1, 200);
@@ -69,10 +69,10 @@ groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids, KGpgItemModel *md)
 
 	setMinimumSize(sizeHint());
 
-	connect(buttonAdd, SIGNAL(clicked()), this, SLOT(groupAdd()));
-	connect(buttonRemove, SIGNAL(clicked()), this, SLOT(groupRemove()));
-	connect(availableKeys, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(groupAdd(QModelIndex)));
-	connect(groupKeys, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(groupRemove(QModelIndex)));
+	connect(buttonAdd, &QPushButton::clicked, this, static_cast<void(groupEdit::*)()>(&groupEdit::groupAdd));
+	connect(buttonRemove, &QPushButton::clicked, this, static_cast<void(groupEdit::*)()>(&groupEdit::groupRemove));
+	connect(availableKeys, &QTableView::doubleClicked, this, static_cast<void(groupEdit::*)(const QModelIndex&)>(&groupEdit::groupAdd));
+	connect(groupKeys, &QTableView::doubleClicked, this, static_cast<void(groupEdit::*)(const QModelIndex&)>(&groupEdit::groupRemove));
 }
 
 groupEdit::~groupEdit()

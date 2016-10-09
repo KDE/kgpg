@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2010,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2012,2013,2014,2015,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -14,6 +14,7 @@
 #include "caff.h"
 #include "caff_p.h"
 
+#include "kgpg_debug.h"
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "core/KGpgKeyNode.h"
@@ -25,13 +26,14 @@
 #include "transactions/kgpgsignuid.h"
 #include "gpgproc.h"
 
-#include <KDebug>
-#include <KLocale>
-#include <KTempDir>
-#include <KToolInvocation>
+#include <KLocalizedString>
 #include <KMessageBox>
+
+#include <QDebug>
+#include <QDesktopServices>
 #include <QDir>
 #include <QFileInfo>
+#include <QTemporaryDir>
 
 KGpgCaffPrivate::KGpgCaffPrivate(KGpgCaff *parent, const KGpgSignableNode::List &ids, const QStringList &signers,
 		const KGpgCaff::OperationFlags flags, const KGpgSignTransactionHelper::carefulCheck checklevel)
@@ -84,13 +86,13 @@ KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 		return;
 	}
 
-	m_tempdir.reset(new KTempDir());
+	m_tempdir.reset(new QTemporaryDir());
 
 	if (m_gpgVersion >= 0x20100) {
 		/* see http://lists.gnupg.org/pipermail/gnupg-devel/2014-December/029296.html */
 		QFile seclink(m_secringdir);
 
-		if (!seclink.link(m_tempdir->name() + QLatin1String("private-keys-v1.d"))) {
+		if (!seclink.link(m_tempdir->path() + QLatin1String("private-keys-v1.d"))) {
 			KMessageBox::sorry(qobject_cast<QWidget *>(q->parent()),
 					i18n("This function is not available on this system. The symbolic link to the private GnuPG keys cannot be created."));
 			return;
@@ -108,9 +110,9 @@ KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 	KGpgExport *exp = new KGpgExport(this, exportkeys, expOptions);
 	exp->setOutputTransaction(imp);
 
-	imp->setGnuPGHome(m_tempdir->name());
+	imp->setGnuPGHome(m_tempdir->path());
 
-	connect(imp, SIGNAL(done(int)), SLOT(slotReimportDone(int)));
+	connect(imp, &KGpgImport::done, this, &KGpgCaffPrivate::slotReimportDone);
 	imp->start();
 }
 
@@ -126,10 +128,10 @@ KGpgCaffPrivate::slotReimportDone(int result)
 			abortOperation(-1);
 		} else {
 			KGpgSignUid *signuid = new KGpgSignUid(this, m_signers.first(), m_allids.first(), false, m_checklevel);
-			signuid->setGnuPGHome(m_tempdir->name());
+			signuid->setGnuPGHome(m_tempdir->path());
 			if (m_gpgVersion < 0x20100)
 				signuid->setSecringFile(m_secringfile);
-			connect(signuid, SIGNAL(done(int)), SLOT(slotSigningFinished(int)));
+			connect(signuid, &KGpgSignUid::done, this, &KGpgCaffPrivate::slotSigningFinished);
 
 			signuid->start();
 		}
@@ -143,7 +145,7 @@ KGpgCaffPrivate::abortOperation(int result)
 {
 	Q_Q(KGpgCaff);
 
-	kDebug(2100) << "transaction" << sender() << "failed, result" << result;
+	qCDebug(KGPG_LOG_GENERAL) << "transaction" << sender() << "failed, result" << result;
 	m_tempdir.reset();
 
 	emit q->aborted();
@@ -268,9 +270,9 @@ KGpgCaffPrivate::slotSigningFinished(int result)
 
 	KGpgDelUid *deluid = new KGpgDelUid(this, key, uidnum, removeMode);
 
-	deluid->setGnuPGHome(m_tempdir->name());
+	deluid->setGnuPGHome(m_tempdir->path());
 
-	connect(deluid, SIGNAL(done(int)), SLOT(slotDelUidFinished(int)));
+	connect(deluid, &KGpgDelUid::done, this, &KGpgCaffPrivate::slotDelUidFinished);
 
 	deluid->start();
 }
@@ -296,9 +298,9 @@ KGpgCaffPrivate::slotDelUidFinished(int result)
 
 	KGpgExport *exp = new KGpgExport(this, QStringList(key->getId()), expOptions);
 
-	exp->setGnuPGHome(m_tempdir->name());
+	exp->setGnuPGHome(m_tempdir->path());
 
-	connect(exp, SIGNAL(done(int)), SLOT(slotExportFinished(int)));
+	connect(exp, &KGpgExport::done, this, &KGpgCaffPrivate::slotExportFinished);
 
 	exp->start();
 }
@@ -329,9 +331,9 @@ KGpgCaffPrivate::slotExportFinished(int result)
 
 	// Set the home directory to make sure custom encrypt options
 	// as well as the "always encrypt to" setting are not honored.
-	enc->setGnuPGHome(m_tempdir->name());
+	enc->setGnuPGHome(m_tempdir->path());
 
-	connect(enc, SIGNAL(done(int)), SLOT(slotTextEncrypted(int)));
+	connect(enc, &KGpgEncrypt::done, this, &KGpgCaffPrivate::slotTextEncrypted);
 
 	enc->start();
 }
@@ -353,9 +355,9 @@ KGpgCaffPrivate::slotTextEncrypted(int result)
 		const QString email = uid->getEmail();
 		const QString keyid = uid->getKeyNode()->getId();
 
-		KToolInvocation::invokeMailer(email, QString(), QString(),
-				i18nc("%1 is 64 bit key id (in hex), text is used as email subject", "Your key %1", keyid),
-				text);
+		QDesktopServices::openUrl(QUrl(QLatin1String("mailto:") + email +
+				QLatin1String("?subject=") + i18nc("%1 is 64 bit key id (in hex), text is used as email subject", "Your key %1", keyid) +
+				QLatin1String("&body=") + text));
 		break;
 		}
 	default:

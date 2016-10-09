@@ -55,7 +55,7 @@
       <item>
        <layout class="QGridLayout">
         <item row="0" column="0">
-         <widget class="KLineEdit" name="gpg_home_path">
+         <widget class="QLineEdit" name="gpg_home_path">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -81,7 +81,7 @@
          </spacer>
         </item>
         <item row="1" column="0">
-         <widget class="KLineEdit" name="gpg_conf_path">
+         <widget class="QLineEdit" name="gpg_conf_path">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -124,7 +124,7 @@
       <item>
        <layout class="QGridLayout">
         <item row="0" column="0">
-         <widget class="KLineEdit" name="kcfg_GpgBinaryPath">
+         <widget class="QLineEdit" name="kcfg_GpgBinaryPath">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -176,13 +176,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

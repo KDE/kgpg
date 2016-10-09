@@ -26,43 +26,43 @@
 #include "transactions/kgpgkeyserversearchtransaction.h"
 #include "transactions/kgpgsendkeys.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <QCursor>
 
 KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose)
-	: KDialog(parent),
+	: QDialog(parent),
 	m_dialogserver(Q_NULLPTR),
 	m_searchproc(Q_NULLPTR),
 	page(new keyServerWidget()),
 	m_listpop(Q_NULLPTR),
-	m_resultmodel(Q_NULLPTR),
 	m_itemmodel(new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst))
 {
 	setWindowTitle(i18n("Key Server"));
-	setButtons(Close);
-	setModal(false);
 
 	m_autoclose = autoclose;
-	m_filtermodel.setSortCaseSensitivity(Qt::CaseInsensitive);
-	m_filtermodel.setDynamicSortFilter(true);
-	m_filtermodel.setFilterKeyColumn(0);
+	m_resultmodel.setSortCaseSensitivity(Qt::CaseInsensitive);
+	m_resultmodel.setDynamicSortFilter(true);
+	m_resultmodel.setFilterKeyColumn(0);
 
-	setMainWidget(page);
+	QVBoxLayout *mainLayout = new QVBoxLayout(this);
+	setLayout(mainLayout);
+	mainLayout->addWidget(page);
 
 	const QStringList serverlist(getServerList());
 	page->kCBexportks->addItems(serverlist);
 	page->kCBimportks->addItems(serverlist);
-	page->kLEimportid->setFocus();
+	page->qLEimportid->setFocus();
 
-	connect(page->Buttonimport, SIGNAL(clicked()), SLOT(slotImport()));
-	connect(page->Buttonsearch, SIGNAL(clicked()), SLOT(slotSearch()));
-	connect(page->Buttonexport, SIGNAL(clicked()), SLOT(slotPreExport()));
-	connect(page->kLEimportid,  SIGNAL(returnPressed()), SLOT(slotSearch()));
-	connect(this, SIGNAL(okClicked()), SLOT(slotOk()));
-	connect(page->cBproxyI, SIGNAL(toggled(bool)), SLOT(slotEnableProxyI(bool)));
-	connect(page->cBproxyE, SIGNAL(toggled(bool)), SLOT(slotEnableProxyE(bool)));
-	connect(page->kLEimportid, SIGNAL(textChanged(QString)), SLOT(slotTextChanged(QString)));
+	connect(page->buttonBox, &QDialogButtonBox::rejected, this, &KeyServer::accept);
+	connect(page->Buttonimport, &QPushButton::clicked, this, &KeyServer::slotImport);
+	connect(page->Buttonsearch, &QPushButton::clicked, this, &KeyServer::slotSearch);
+	connect(page->Buttonexport, &QPushButton::clicked, this, &KeyServer::slotPreExport);
+	connect(page->buttonBox, &QDialogButtonBox::accepted, this, &KeyServer::slotOk);
+	connect(page->cBproxyI, &QCheckBox::toggled, this, &KeyServer::slotEnableProxyI);
+	connect(page->cBproxyE, &QCheckBox::toggled, this, &KeyServer::slotEnableProxyE);
+	connect(page->qLEimportid,  &QLineEdit::returnPressed, this, &KeyServer::slotSearch);
+	connect(page->qLEimportid, &QLineEdit::textChanged, this, &KeyServer::slotTextChanged);
 
 	page->cBproxyI->setChecked(KGpgSettings::useProxy());
 	page->cBproxyE->setChecked(KGpgSettings::useProxy());
@@ -75,8 +75,8 @@ KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose
 		page->kLEproxyE->setText(httpproxy);
 	}
 
-	page->Buttonimport->setEnabled(!page->kLEimportid->text().isEmpty());
-	page->Buttonsearch->setEnabled(!page->kLEimportid->text().isEmpty());
+	page->Buttonimport->setEnabled(!page->qLEimportid->text().isEmpty());
+	page->Buttonsearch->setEnabled(!page->qLEimportid->text().isEmpty());
 	setMinimumSize(sizeHint());
 
 	m_itemmodel->setKeyModel(model);
@@ -94,12 +94,12 @@ void KeyServer::slotImport()
 	if (page->kCBimportks->currentText().isEmpty())
 		return;
 
-	if (page->kLEimportid->text().isEmpty()) {
+	if (page->qLEimportid->text().isEmpty()) {
 		KMessageBox::sorry(this, i18n("You must enter a search string."));
 		return;
 	}
 
-	startImport(page->kLEimportid->text().simplified().split(QLatin1Char( ' ' )), page->kCBimportks->currentText(), page->kLEproxyI->text());
+	startImport(page->qLEimportid->text().simplified().split(QLatin1Char( ' ' )), page->kCBimportks->currentText(), page->kLEproxyI->text());
 }
 
 void KeyServer::startImport(const QStringList &keys, QString server, const QString &proxy)
@@ -118,7 +118,7 @@ void KeyServer::startImport(const QStringList &keys, QString server, const QStri
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 
 	KGpgReceiveKeys *proc = new KGpgReceiveKeys(this, server, keys, true, proxy);
-	connect(proc, SIGNAL(done(int)), SLOT(slotDownloadKeysFinished(int)));
+	connect(proc, &KGpgReceiveKeys::done, this, &KeyServer::slotDownloadKeysFinished);
 
 	proc->start();
 }
@@ -156,7 +156,7 @@ void KeyServer::slotExport(const QStringList &keyIds)
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 
 	KGpgSendKeys *nk = new KGpgSendKeys(this, page->kCBimportks->currentText(), keyIds, expattr, true, page->kLEproxyI->text());
-	connect(nk, SIGNAL(done(int)), SLOT(slotUploadKeysFinished(int)));
+	connect(nk, &KGpgSendKeys::done, this, &KeyServer::slotUploadKeysFinished);
 
 	nk->start();
 }
@@ -184,7 +184,7 @@ void KeyServer::slotSearch()
 	if (page->kCBimportks->currentText().isEmpty())
 		return;
 
-	if (page->kLEimportid->text().isEmpty()) {
+	if (page->qLEimportid->text().isEmpty()) {
 		KMessageBox::sorry(this, i18n("You must enter a search string."));
 		return;
 	}
@@ -193,31 +193,35 @@ void KeyServer::slotSearch()
 	if (m_searchproc)
 		return;
 
-	if (m_resultmodel != Q_NULLPTR)
-		m_resultmodel->deleteLater();
-	m_resultmodel = new KGpgSearchResultModel(this);
-	m_filtermodel.setSourceModel(m_resultmodel);
-	m_filtermodel.setFilterRegExp(QRegExp());
+	m_resultmodel.resetSourceModel();
+	m_resultmodel.setFilterRegExp(QRegExp());
+	m_resultmodel.setFilterByValidity(true);
 
-	m_dialogserver = new KDialog(this );
+	m_dialogserver = new QDialog(this);
 	m_dialogserver->setWindowTitle(i18n("Import Key From Keyserver"));
-	m_dialogserver->setButtons( KDialog::Ok | KDialog::Close );
-	m_dialogserver->setDefaultButton( KDialog::Ok);
-	m_dialogserver->setModal( true );
 
-	m_dialogserver->setButtonText(KDialog::Ok, i18n("&Import"));
-	m_dialogserver->enableButtonOk(false);
+	QVBoxLayout *mainLayout = new QVBoxLayout(m_dialogserver);
+	m_dialogserver->setLayout(mainLayout);
+
 	m_listpop = new searchRes(m_dialogserver);
-	m_listpop->kLVsearch->setModel(&m_filtermodel);
+	m_listpop->buttonBox->button(QDialogButtonBox::Ok)->setText(i18n("&Import"));
+	m_listpop->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+	m_listpop->kLVsearch->setModel(&m_resultmodel);
 	m_listpop->kLVsearch->setColumnWidth(0, 180);
+	m_listpop->validFilterCheckbox->setChecked(m_resultmodel.filterByValidity());
 	m_listpop->statusText->setText(i18n("Connecting to the server..."));
 
-	connect(m_listpop->filterEdit, SIGNAL(textChanged(QString)), SLOT(slotSetFilterString(QString)));
-	connect(m_listpop->kLVsearch->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(transferKeyID()));
-	connect(m_dialogserver, SIGNAL(okClicked()), this, SLOT(slotPreImport()));
-	connect(m_listpop->kLVsearch, SIGNAL(activated(QModelIndex)), m_dialogserver, SIGNAL(okClicked()));
-	connect(m_dialogserver, SIGNAL(closeClicked()), this, SLOT(handleQuit()));
-	connect(m_listpop->kLEID, SIGNAL(clearButtonClicked()), m_listpop->kLVsearch->selectionModel(), SLOT(clearSelection()));
+	connect(m_listpop->filterEdit, &QLineEdit::textChanged, this, &KeyServer::slotSetFilterString);
+	connect(m_listpop->kLVsearch->selectionModel(), &QItemSelectionModel::selectionChanged, this, &KeyServer::transferKeyID);
+	connect(m_listpop->validFilterCheckbox, &QCheckBox::toggled, &m_resultmodel, &KGpgSearchResultModel::setFilterByValidity);
+	connect(m_listpop->validFilterCheckbox, &QCheckBox::toggled, this, &KeyServer::slotUpdateLabelOnFilterChange);
+	connect(m_listpop->buttonBox, &QDialogButtonBox::accepted, this, &KeyServer::slotPreImport);
+	connect(m_listpop->kLVsearch, &QTreeView::activated, m_dialogserver, &QDialog::accepted);
+	connect(m_listpop->buttonBox, &QDialogButtonBox::rejected, this, &KeyServer::handleQuit);
+	connect(m_listpop->qLEID, &QLineEdit::textChanged, this, [&] (const QString & text) {
+		if (text.isEmpty())
+			m_listpop->kLVsearch->selectionModel()->clearSelection();
+		});
 
 	m_listpop->kLVsearch->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
@@ -230,14 +234,14 @@ void KeyServer::slotSearch()
 	if (useproxy)
 		proxy = page->kLEproxyI->text();
 
-	m_searchproc = new KGpgKeyserverSearchTransaction(this, keyserv, page->kLEimportid->text().simplified(),
+	m_searchproc = new KGpgKeyserverSearchTransaction(this, keyserv, page->qLEimportid->text().simplified(),
 			true, proxy);
-	connect(m_searchproc, SIGNAL(done(int)), SLOT(slotSearchResult(int)));
-	connect(m_searchproc, SIGNAL(newKey(QStringList)), m_resultmodel, SLOT(slotAddKey(QStringList)));
+	connect(m_searchproc, &KGpgKeyserverSearchTransaction::done, this, &KeyServer::slotSearchResult);
+	connect(m_searchproc, &KGpgKeyserverSearchTransaction::newKey, &m_resultmodel, &KGpgSearchResultModel::slotAddKey);
 	m_searchproc->start();
 
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
-	m_dialogserver->setMainWidget(m_listpop);
+	mainLayout->addWidget(m_listpop);
 	m_listpop->setMinimumSize(m_listpop->sizeHint());
 	m_dialogserver->exec();
 }
@@ -256,22 +260,19 @@ void KeyServer::slotSearchResult(int result)
 		return;
 	}
 
-	m_dialogserver->enableButtonOk(true);
+	m_listpop->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 
-	const int keys = m_resultmodel->rowCount(QModelIndex());
-
+	const int keys = m_resultmodel.sourceRowCount(QModelIndex());
 	if (keys > 0) {
-		m_listpop->statusText->setText(i18np("Found 1 matching key", "Found %1 matching keys", keys));
-		m_listpop->kLVsearch->selectionModel()->setCurrentIndex(m_resultmodel->index(0, 0),
+		m_listpop->kLVsearch->selectionModel()->setCurrentIndex(m_resultmodel.index(0, 0),
 				QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
-	} else {
-		m_listpop->statusText->setText(i18n("No matching keys found"));
 	}
+	slotUpdateLabelOnFilterChange();
 }
 
 void KeyServer::slotSetText(const QString &text)
 {
-	page->kLEimportid->setText(text);
+	page->qLEimportid->setText(text);
 }
 
 void KeyServer::slotTextChanged(const QString &text)
@@ -302,21 +303,22 @@ void KeyServer::transferKeyID()
 {
 	QSet<QString> ids;
 
-	foreach (const QModelIndex &index, m_listpop->kLVsearch->selectionModel()->selectedIndexes())
-		ids << m_resultmodel->idForIndex(m_filtermodel.mapToSource(index));
+	const QModelIndexList indexes = m_listpop->kLVsearch->selectionModel()->selectedIndexes();
+	for (const QModelIndex &index : indexes)
+		ids << m_resultmodel.idForIndex(index);
 
 	const QStringList idlist(ids.toList());
-	m_listpop->kLEID->setText(idlist.join( QLatin1String( " " )));
+	m_listpop->qLEID->setText(idlist.join( QLatin1String( " " )));
 }
 
 void KeyServer::slotPreImport()
 {
 	transferKeyID();
-	if (m_listpop->kLEID->text().isEmpty()) {
+	if (m_listpop->qLEID->text().isEmpty()) {
 		KMessageBox::sorry(this, i18n("You must choose a key."));
 		return;
 	}
-	const QStringList keys = m_listpop->kLEID->text().simplified().split(QLatin1Char(' '));
+	const QStringList keys = m_listpop->qLEID->text().simplified().split(QLatin1Char(' '));
 	m_dialogserver->close();
 	startImport(keys, page->kCBimportks->currentText(), page->kLEproxyI->text());
 }
@@ -363,5 +365,27 @@ void KeyServer::slotSetKeyserver(const QString &server)
 
 void KeyServer::slotSetFilterString(const QString &expression)
 {
-	m_filtermodel.setFilterRegExp(QRegExp(expression, Qt::CaseInsensitive, QRegExp::RegExp2));
+	m_resultmodel.setFilterRegExp(QRegExp(expression, Qt::CaseInsensitive, QRegExp::RegExp2));
+	slotUpdateLabelOnFilterChange();
+}
+
+void KeyServer::slotUpdateLabelOnFilterChange()
+{
+	const int keys = m_resultmodel.sourceRowCount(QModelIndex());
+	const int keysShown = m_resultmodel.rowCount(QModelIndex());
+	Q_ASSERT(keysShown <= keys);
+
+	if (keys == 0) {
+		m_listpop->statusText->setText(i18n("No matching keys found"));
+	} else {
+		if (keysShown == keys) {
+			m_listpop->statusText->setText(i18np("Found 1 matching key", "Found %1 matching keys", keys));
+		} else {
+			if (keys == 1 && keysShown == 0) {
+				m_listpop->statusText->setText(i18n("Found 1 matching key (not shown)"));
+			} else {
+				m_listpop->statusText->setText(i18n("Found %1 matching keys (%2 shown)", keys, keysShown));
+			}
+		}
+	}
 }

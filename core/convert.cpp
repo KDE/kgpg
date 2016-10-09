@@ -21,10 +21,32 @@
 
 #include "convert.h"
 
-#include <KDebug>
+#include <QDebug>
+#include "kgpg_debug.h"
 #include <gpgme.h>
 
 #include "kgpgsettings.h"
+
+// Backport of gpgme enums from version 1.7.0
+#ifndef GPGME_PK_EDDSA
+#define GPGME_PK_EDDSA 303
+#endif
+#ifndef GPGME_PK_ECC
+#define GPGME_PK_ECC 18
+#endif
+
+/* Conversion from OpenPGP algorithm number to GPGME algorithm numbers. */
+static int _gpgme_map_pk_algo (int algo)
+{
+	switch (algo)
+	{
+		case 18: algo = GPGME_PK_ECDH; break;
+		case 19: algo = GPGME_PK_ECDSA; break;
+		case 22: algo = GPGME_PK_EDDSA; break;
+		default: break;
+	}
+	return algo;
+}
 
 namespace KgpgCore
 {
@@ -45,6 +67,14 @@ QString toString(const KgpgKeyAlgo algorithm)
 		return i18nc("Encryption algorithm", "DSA & ElGamal");
 	case ALGO_RSA_RSA:
 		return i18nc("Encryption algorithm RSA, Signing algorithm RSA", "RSA & RSA");
+	case ALGO_ECC:
+		return i18nc("Encryption algorithm", "ECC");
+	case ALGO_ECDSA:
+		return i18nc("Signing algorithm", "ECDSA");
+	case ALGO_ECDH:
+		return i18nc("Encryption algorithm", "ECDH");
+	case ALGO_EDDSA:
+		return i18nc("Signing algorithm", "EdDSA");
 	case ALGO_UNKNOWN:
 	default:
 		return i18nc("Unknown algorithm", "Unknown");
@@ -115,7 +145,8 @@ QString toString(const KgpgCore::KgpgSubKeyType type)
 
 KgpgKeyAlgo toAlgo(const uint v)
 {
-	switch (v) {
+	uint gpgme_algo = _gpgme_map_pk_algo(v);
+	switch (gpgme_algo) {
 	case GPGME_PK_RSA:
 		return ALGO_RSA;
 	case GPGME_PK_ELG_E:
@@ -123,6 +154,14 @@ KgpgKeyAlgo toAlgo(const uint v)
 		return ALGO_ELGAMAL;
 	case GPGME_PK_DSA:
 		return ALGO_DSA;
+	case GPGME_PK_ECC:
+		return ALGO_ECC;
+	case GPGME_PK_ECDSA:
+		return ALGO_ECDSA;
+	case GPGME_PK_ECDH:
+		return ALGO_ECDH;
+	case GPGME_PK_EDDSA:
+		return ALGO_EDDSA;
 	default:
 		return ALGO_UNKNOWN;
 	}
@@ -137,7 +176,7 @@ KgpgKeyAlgo toAlgo(const QString &s)
 
 KgpgKeyTrust toTrust(const QChar &c)
 {
-	switch (c.toAscii()) {
+	switch (c.toLatin1()) {
 	case 'o':
 		return TRUST_UNKNOWN;
 	case 'i':
@@ -170,7 +209,7 @@ KgpgKeyTrust toTrust(const QString &s)
 
 gpgme_validity_t toOwnerTrust(const QChar &c)
 {
-	switch (c.toAscii()) {
+	switch (c.toLatin1()) {
 	case 'n':
 		return GPGME_VALIDITY_NEVER;
 	case 'm':
@@ -189,7 +228,7 @@ KgpgSubKeyType toSubType(const QString& capString, bool upper)
 	KgpgSubKeyType ret;
 
 	foreach (const QChar &ch, capString) {
-		switch (ch.toAscii()) {
+		switch (ch.toLatin1()) {
 		case 's':
 		case 'S':
 			if (upper != ch.isUpper())
@@ -218,7 +257,7 @@ KgpgSubKeyType toSubType(const QString& capString, bool upper)
 		case '?':	// unknown to GnuPG
 			continue;
 		default:
-			kDebug(2100) << "unknown capability letter" << ch
+			qCDebug(KGPG_LOG_GENERAL) << "unknown capability letter" << ch
 			<< "in cap string" << capString;
 		}
 	}

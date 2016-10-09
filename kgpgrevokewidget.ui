@@ -50,7 +50,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="comboBox1" >
+      <widget class="QComboBox" name="comboBox1" >
        <item>
         <property name="text" >
          <string>No Reason</string>
@@ -128,12 +128,7 @@
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>KUrlRequester</header>
   </customwidget>
   <customwidget>
    <class>KTextEdit</class>

@@ -12,12 +12,14 @@
  ***************************************************************************/
 
 #include "kgpggeneraterevoke.h"
+#include "kgpg_debug.h"
 
-#include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
+
+#include <QDebug>
 #include <QFile>
 
-KGpgGenerateRevoke::KGpgGenerateRevoke(QObject *parent, const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description)
+KGpgGenerateRevoke::KGpgGenerateRevoke(QObject *parent, const QString &keyID, const QUrl &revokeUrl, const int reason, const QString &description)
 	: KGpgTransaction(parent),
 	m_keyid(keyID),
 	m_revUrl(revokeUrl),
@@ -68,7 +70,7 @@ KGpgGenerateRevoke::nextLine(const QString &line)
 		m_description.clear();
 	} else if (line.contains(QLatin1String( "GET_" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
-		kDebug(2100) << line;
+		qCDebug(KGPG_LOG_GENERAL) << line;
 		return true;
 	}
 
@@ -111,7 +113,7 @@ KGpgGenerateRevoke::passphraseReceived()
 }
 
 KGpgTransaction::ts_boolanswer
-KGpgGenerateRevoke::confirmOverwrite(KUrl &currentFile)
+KGpgGenerateRevoke::confirmOverwrite(QUrl &currentFile)
 {
 	currentFile = m_revUrl;
 	return BA_UNKNOWN;

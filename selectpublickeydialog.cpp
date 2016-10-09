@@ -21,29 +21,48 @@
 #include "model/kgpgitemmodel.h"
 #include "model/selectkeyproxymodel.h"
 
-#include <KAction>
-#include <KActionCollection>
-#include <KHBox>
-#include <KLineEdit>
-#include <KLocale>
-#include <KVBox>
+#include <QAction>
 #include <QCheckBox>
+#include <QDialogButtonBox>
+#include <QHBoxLayout>
 #include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QTableView>
 #include <QVBoxLayout>
 
+#include <KActionCollection>
+#include <KConfigGroup>
+#include <KIconLoader>
+#include <KLocalizedString>
+
 using namespace KgpgCore;
 
-KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const KShortcut &goDefaultKey, const bool hideasciioption, const KUrl::List &files)
-	: KDialog(parent),
+KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const QKeySequence &goDefaultKey, const bool hideasciioption, const QList<QUrl> &files)
+	: QDialog(parent),
 	m_customoptions(Q_NULLPTR),
 	imodel(model),
 	m_files(files),
 	m_hideasciioption(hideasciioption)
 {
-    setButtons(Details | Ok | Cancel);
-    setDefaultButton(Ok);
-    setButtonText(Details, i18n("O&ptions"));
+    QWidget *mainWidget = new QWidget(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    setLayout(mainLayout);
+    mainLayout->setSizeConstraint(QLayout::SetMinimumSize);
+    mainLayout->addWidget(mainWidget);
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    m_okButton = buttonBox->button(QDialogButtonBox::Ok);
+    m_okButton->setDefault(true);
+    m_okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    m_detailsButton = new QPushButton(this);
+    m_detailsButton->setText(i18n("&Options") + QStringLiteral(" >>"));
+    m_detailsButton->setIcon(QIcon::fromTheme(QStringLiteral("help-about")).pixmap(IconSize(KIconLoader::Toolbar)));
+    connect(m_detailsButton, &QPushButton::clicked, this, &KgpgSelectPublicKeyDlg::toggleDetails);
+    buttonBox->addButton(m_detailsButton, QDialogButtonBox::ActionRole);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &KgpgSelectPublicKeyDlg::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &KgpgSelectPublicKeyDlg::reject);
+    m_okButton->setDefault(true);
 
     int fcount = files.count();
     bool fmode = (fcount > 0);
@@ -61,14 +80,15 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 
     QWidget *page = new QWidget(this);
 
-    m_searchbar = new KHBox(page);
-    m_searchbar->setSpacing(spacingHint());
-    m_searchbar->setFrameShape(QFrame::StyledPanel);
-
+    m_searchbar = new QWidget(page);
+    QHBoxLayout *searchbarHBoxLayout = new QHBoxLayout(m_searchbar);
+    searchbarHBoxLayout->setMargin(0);
     QLabel *searchlabel = new QLabel(i18n("&Search: "), m_searchbar);
+    searchbarHBoxLayout->addWidget(searchlabel);
 
-    m_searchlineedit = new KLineEdit(m_searchbar);
-    m_searchlineedit->setClearButtonShown(true);
+    m_searchlineedit = new QLineEdit(m_searchbar);
+    searchbarHBoxLayout->addWidget(m_searchlineedit);
+    m_searchlineedit->setClearButtonEnabled(true);
     searchlabel->setBuddy(m_searchlineedit);
 
     iproxy = new SelectKeyProxyModel(this);
@@ -81,40 +101,44 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     m_keyslist->setModel(iproxy);
     m_keyslist->resizeColumnsToContents();
     m_keyslist->setWhatsThis(i18n("<b>Public keys list</b>: select the key that will be used for encryption."));
-    connect(m_searchlineedit, SIGNAL(textChanged(QString)), iproxy, SLOT(setFilterFixedString(QString)));
+    connect(m_searchlineedit, &QLineEdit::textChanged, iproxy, &SelectKeyProxyModel::setFilterFixedString);
 
-    optionsbox = new KVBox();
-    optionsbox->setFrameShape(QFrame::StyledPanel);
-    setDetailsWidget(optionsbox);
+    optionsbox = new QWidget();
+    QVBoxLayout *optionsboxVBoxLayout = new QVBoxLayout(optionsbox);
+    optionsboxVBoxLayout->setMargin(0);
+    optionsbox->hide();
 
     if (m_hideasciioption)
         m_cbarmor = 0;
     else
     {
         m_cbarmor = new QCheckBox(i18n("ASCII armored encryption"), optionsbox);
+        optionsboxVBoxLayout->addWidget(m_cbarmor);
         m_cbarmor->setChecked(KGpgSettings::asciiArmor());
         m_cbarmor->setWhatsThis(i18n("<b>ASCII encryption</b>: makes it possible to open the encrypted file/message in a text editor"));
     }
 
     m_cbuntrusted = new QCheckBox(i18n("Allow encryption with untrusted keys"), optionsbox);
+    optionsboxVBoxLayout->addWidget(m_cbuntrusted);
     m_cbuntrusted->setChecked(KGpgSettings::allowUntrustedKeys());
     m_cbuntrusted->setWhatsThis(i18n("<b>Allow encryption with untrusted keys</b>: when you import a public key, it is usually "
                     "marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this "
                     "box enables you to use any key, even if it has not be signed."));
 
     m_cbhideid = new QCheckBox(i18n("Hide user id"), optionsbox);
-    connect(m_cbuntrusted, SIGNAL(toggled(bool)), this, SLOT(slotUntrusted(bool)));
+    optionsboxVBoxLayout->addWidget(m_cbhideid);
+    connect(m_cbuntrusted, &QCheckBox::toggled, this, &KgpgSelectPublicKeyDlg::slotUntrusted);
     m_cbhideid->setChecked(KGpgSettings::hideUserID());
     m_cbhideid->setWhatsThis(i18n("<b>Hide user ID</b>: Do not put the keyid into encrypted packets. This option hides the receiver "
                     "of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because "
                     "all available secret keys are tried."));
 
     m_cbsymmetric = new QCheckBox(i18n("Symmetrical encryption"), optionsbox);
+    optionsboxVBoxLayout->addWidget(m_cbsymmetric);
     m_cbsymmetric->setWhatsThis(i18n("<b>Symmetrical encryption</b>: encryption does not use keys. You just need to give a password "
                                      "to encrypt/decrypt the file"));
 
     QVBoxLayout *dialoglayout = new QVBoxLayout(page);
-    dialoglayout->setSpacing(spacingHint());
     dialoglayout->setMargin(0);
     dialoglayout->addWidget(m_searchbar);
     dialoglayout->addWidget(m_keyslist);
@@ -122,10 +146,13 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 
     if (KGpgSettings::allowCustomEncryptionOptions())
     {
-        KHBox *expertbox = new KHBox(page);
+        QWidget *expertbox = new QWidget(page);
+        QHBoxLayout *expertboxHBoxLayout = new QHBoxLayout(expertbox);
+        expertboxHBoxLayout->setMargin(0);
         (void) new QLabel(i18n("Custom option:"), expertbox);
 
-        m_customoptions = new KLineEdit(expertbox);
+        m_customoptions = new QLineEdit(expertbox);
+        expertboxHBoxLayout->addWidget(m_customoptions);
         m_customoptions->setText(KGpgSettings::customEncryptionOptions());
         m_customoptions->setWhatsThis(i18n("<b>Custom option</b>: for experienced users only, allows you to enter a gpg command line option, like: '--armor'"));
 
@@ -133,19 +160,21 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     }
 
     KActionCollection *actcol = new KActionCollection(this);
-    KAction *action = actcol->addAction(QLatin1String( "go_default_key" ));
+    QAction *action = actcol->addAction(QLatin1String( "go_default_key" ));
     action->setText(i18n("&Go to Default Key"));
-    action->setShortcut(goDefaultKey);
+    actcol->setDefaultShortcut(action, goDefaultKey);
 
-    connect(action, SIGNAL(triggered(bool)), SLOT(slotGotoDefaultKey()));
-    connect(m_cbsymmetric, SIGNAL(toggled(bool)), this, SLOT(slotSymmetric(bool)));
-    connect(m_keyslist->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(slotSelectionChanged()));
-    connect(m_keyslist, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(slotOk()));
+    connect(action, &QAction::triggered, this, &KgpgSelectPublicKeyDlg::slotGotoDefaultKey);
+    connect(m_cbsymmetric, &QCheckBox::toggled, this, &KgpgSelectPublicKeyDlg::slotSymmetric);
+    connect(m_keyslist->selectionModel(), &QItemSelectionModel::selectionChanged, this, &KgpgSelectPublicKeyDlg::slotSelectionChanged);
+    connect(m_keyslist, &QTableView::doubleClicked, this, &KgpgSelectPublicKeyDlg::slotOk);
 
     setMinimumSize(550, 200);
     updateGeometry();
 
-    setMainWidget(page);
+    mainLayout->addWidget(page);
+    mainLayout->addWidget(optionsbox);
+    mainLayout->addWidget(buttonBox);
     slotSelectionChanged();
 
     if (fmode)
@@ -159,7 +188,8 @@ QStringList KgpgSelectPublicKeyDlg::selectedKeys() const
 
 	QStringList selectedKeys;
 
-	foreach (const QModelIndex &idx, m_keyslist->selectionModel()->selectedIndexes()) {
+	const QModelIndexList indexes = m_keyslist->selectionModel()->selectedIndexes();
+	for (const QModelIndex &idx : indexes) {
 		if (idx.column() != 0)
 			continue;
 		KGpgNode *nd = iproxy->nodeForIndex(idx);
@@ -194,7 +224,7 @@ bool KgpgSelectPublicKeyDlg::getArmor() const
     return m_hideasciioption || m_cbarmor->isChecked();
 }
 
-const KUrl::List &KgpgSelectPublicKeyDlg::getFiles() const
+const QList<QUrl> &KgpgSelectPublicKeyDlg::getFiles() const
 {
 	return m_files;
 }
@@ -207,12 +237,12 @@ bool KgpgSelectPublicKeyDlg::getHideId() const
 void KgpgSelectPublicKeyDlg::slotOk()
 {
     if (getSymmetric() || m_keyslist->selectionModel()->hasSelection())
-        slotButtonClicked(Ok);
+        accept();
 }
 
 void KgpgSelectPublicKeyDlg::slotSelectionChanged()
 {
-    enableButtonOk(getSymmetric() || m_keyslist->selectionModel()->hasSelection());
+    m_okButton->setEnabled(getSymmetric() || m_keyslist->selectionModel()->hasSelection());
 }
 
 void KgpgSelectPublicKeyDlg::slotSymmetric(const bool state)
@@ -237,4 +267,11 @@ void KgpgSelectPublicKeyDlg::slotGotoDefaultKey()
 	QModelIndex sidx = imodel->nodeIndex(nd);
 	QModelIndex pidx = iproxy->mapFromSource(sidx);
 	m_keyslist->selectionModel()->setCurrentIndex(pidx, QItemSelectionModel::Clear | QItemSelectionModel::SelectCurrent | QItemSelectionModel::Rows);
+}
+
+void KgpgSelectPublicKeyDlg::toggleDetails()
+{
+    const bool isVisible = optionsbox->isVisible();
+    optionsbox->setVisible(!isVisible);
+    m_detailsButton->setText(i18n("&Options") + (isVisible ? QStringLiteral(" >>") : QStringLiteral(" <<")));
 }

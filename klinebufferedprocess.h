@@ -16,10 +16,10 @@
 
 #include <KProcess>
 
-#include <kgpgcompiler.h>
+#include "kgpgcompiler.h"
+#include "klinebufferedprocessprivate.h"
 
 class QByteArray;
-class KLineBufferedProcessPrivate;
 
 /**
  * Read output of a process split into lines
@@ -33,7 +33,7 @@ class KLineBufferedProcessPrivate;
  * something like this:
  *
  * \code
- * connect(m_linebufprocess, SIGNAL(lineReadyStandardOutput()), SLOT(dataStdout()));
+ * connect(m_linebufprocess, &KLineBufferedProcess::lineReadyStandardOutput, this, &Class::dataStdout);
  * ...
  * void myobj::dataStdout()
  * {
@@ -132,9 +132,6 @@ signals:
 
 private:
     KLineBufferedProcessPrivate* const d;
-
-    Q_PRIVATE_SLOT(d, void _k_receivedStdout())
-    Q_PRIVATE_SLOT(d, void _k_receivedStderr())
 };
 
 #endif // KLINEBUFFEREDPROCESS_H

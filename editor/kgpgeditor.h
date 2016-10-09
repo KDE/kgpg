@@ -19,12 +19,12 @@
 #define KGPGEDITOR_H
 
 #include <KXmlGuiWindow>
-#include <KUrl>
+#include <QUrl>
 
 #include <kgpgcompiler.h>
 
 class KToggleAction;
-class KAction;
+class QAction;
 class KFind;
 
 class KgpgTextEdit;
@@ -39,10 +39,10 @@ class KgpgEditor : public KXmlGuiWindow
 
     KgpgEditor() Q_DECL_EQ_DELETE;
 public:
-    KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WFlags f);
+    KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WindowFlags f);
     ~KgpgEditor();
 
-    void openEncryptedDocumentFile(const KUrl& url);
+    void openEncryptedDocumentFile(const QUrl &url);
 
     KgpgTextEdit * const m_editor;
     KRecentFilesAction *m_recentfiles;
@@ -52,7 +52,7 @@ signals:
     void openConfigDialog();
 
 public slots:
-    void openDocumentFile(const KUrl& url, const QString &encoding = QString());
+    void openDocumentFile(const QUrl &url, const QString &encoding = QString());
     void slotSetFont(QFont myFont);
     void closeWindow();
 
@@ -93,10 +93,10 @@ private slots:
 
     // Signing menu
     void slotPreSignFile();
-    void slotSignFile(const KUrl &url);
-    void slotSignFileFin();
+    void slotSignFile(const QUrl &url);
+    void slotSignFileFin(int);
     void slotPreVerifyFile();
-    void slotVerifyFile(const KUrl &url);
+    void slotVerifyFile(const QUrl &url);
     void slotCheckMd5();
     void importSignatureKey(const QString &id, const QString &fileName);
 
@@ -118,12 +118,12 @@ private:
     QString m_textencoding;
 
     KToggleAction *m_encodingaction;
-    KAction *m_editundo;
-    KAction *m_editredo;
-    KAction *m_editcopy;
-    KAction *m_editcut;
+    QAction *m_editundo;
+    QAction *m_editredo;
+    QAction *m_editcopy;
+    QAction *m_editcut;
     KFind *m_find;
-    KUrl m_docname;
+    QUrl m_docname;
 
     bool m_textchanged;		//< text was changed since last save
     bool m_emptytext;		//< this was not saved to a file ever

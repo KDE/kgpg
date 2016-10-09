@@ -18,16 +18,28 @@
 #include <QCheckBox>
 #include <QVBoxLayout>
 
+#include <KConfigGroup>
 #include <KDatePicker>
-#include <KLocale>
+#include <KLocalizedString>
+
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 SelectExpiryDate::SelectExpiryDate(QWidget* parent, QDateTime date)
-	: KDialog(parent)
+	: QDialog(parent)
 {
 	setWindowTitle(i18n("Choose New Expiration"));
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	setModal(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout(this);
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &SelectExpiryDate::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &SelectExpiryDate::reject);
+	okButton->setDefault(true);
 
 	QWidget *page = new QWidget(this);
 	m_unlimited = new QCheckBox(i18nc("Key has unlimited lifetime", "Unlimited"), page);
@@ -47,11 +59,12 @@ SelectExpiryDate::SelectExpiryDate(QWidget* parent, QDateTime date)
 	layout->addWidget(m_datepicker);
 	layout->addWidget(m_unlimited);
 
-	connect(m_unlimited, SIGNAL(toggled(bool)), this, SLOT(slotEnableDate(bool)));
-	connect(m_datepicker, SIGNAL(dateChanged(QDate)), this, SLOT(slotCheckDate(QDate)));
-	connect(m_datepicker, SIGNAL(dateEntered(QDate)), this, SLOT(slotCheckDate(QDate)));
+	connect(m_unlimited, &QCheckBox::toggled, this, &SelectExpiryDate::slotEnableDate);
+	connect(m_datepicker, &KDatePicker::dateChanged, this, &SelectExpiryDate::slotCheckDate);
+	connect(m_datepicker, &KDatePicker::dateEntered, this, &SelectExpiryDate::slotCheckDate);
 
-	setMainWidget(page);
+	mainLayout->addWidget(page);
+	mainLayout->addWidget(buttonBox);
 	show();
 
 	slotEnableDate(m_unlimited->isChecked());
@@ -67,14 +80,14 @@ QDateTime SelectExpiryDate::date() const
 
 void SelectExpiryDate::slotCheckDate(const QDate& date)
 {
-	enableButtonOk(QDateTime(date) >= QDateTime::currentDateTime());
+	okButton->setEnabled(QDateTime(date) >= QDateTime::currentDateTime());
 }
 
 void SelectExpiryDate::slotEnableDate(const bool ison)
 {
 	m_datepicker->setEnabled(!ison);
 	if (ison)
-		enableButtonOk(true);
+		okButton->setEnabled(true);
 	else
 		slotCheckDate(m_datepicker->date());
 }

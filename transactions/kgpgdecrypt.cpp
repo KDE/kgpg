@@ -16,7 +16,7 @@
 #include "gpgproc.h"
 #include "kgpgsettings.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 KGpgDecrypt::KGpgDecrypt(QObject *parent, const QString &text)
 	: KGpgTextOrFileTransaction(parent, text),
@@ -25,15 +25,15 @@ KGpgDecrypt::KGpgDecrypt(QObject *parent, const QString &text)
 {
 }
 
-KGpgDecrypt::KGpgDecrypt(QObject *parent, const KUrl::List &files)
+KGpgDecrypt::KGpgDecrypt(QObject *parent, const QList<QUrl> &files)
 	: KGpgTextOrFileTransaction(parent, files),
 	m_fileIndex(0),
 	m_plainLength(-1)
 {
 }
 
-KGpgDecrypt::KGpgDecrypt(QObject* parent, const KUrl& infile, const KUrl& outfile)
-	: KGpgTextOrFileTransaction(parent, KUrl::List(infile)),
+KGpgDecrypt::KGpgDecrypt(QObject* parent, const QUrl& infile, const QUrl& outfile)
+	: KGpgTextOrFileTransaction(parent, QList<QUrl>({infile})),
 	m_fileIndex(0),
 	m_plainLength(-1),
 	m_outFilename(outfile.toLocalFile())
@@ -65,7 +65,7 @@ KGpgDecrypt::decryptedText() const
 	QStringList result;
 	int txtlength = 0;
 
-	foreach (const QString &line, getMessages())
+	for (const QString &line : getMessages())
 		if (!line.startsWith(QLatin1String("[GNUPG:] "))) {
 			result.append(line);
 			txtlength += line.length() + 1;
@@ -111,7 +111,7 @@ KGpgDecrypt::isEncryptedText(const QString &text, int *startPos, int *endPos)
 bool
 KGpgDecrypt::nextLine(const QString& line)
 {
-	const KUrl::List &inputFiles = getInputFiles();
+	const QList<QUrl> &inputFiles = getInputFiles();
 
 	if (!inputFiles.isEmpty()) {
 		if (line == QLatin1String("[GNUPG:] BEGIN_DECRYPTION")) {

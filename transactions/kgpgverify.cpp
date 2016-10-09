@@ -17,8 +17,9 @@
 #include "core/KGpgKeyNode.h"
 #include "model/kgpgitemmodel.h"
 
-#include <KGlobal>
-#include <KLocale>
+#include <QLocale>
+
+#include <KLocalizedString>
 
 KGpgVerify::KGpgVerify(QObject *parent, const QString &text)
 	: KGpgTextOrFileTransaction(parent, text),
@@ -26,7 +27,7 @@ KGpgVerify::KGpgVerify(QObject *parent, const QString &text)
 {
 }
 
-KGpgVerify::KGpgVerify(QObject *parent, const KUrl::List &files)
+KGpgVerify::KGpgVerify(QObject *parent, const QList<QUrl> &files)
 	: KGpgTextOrFileTransaction(parent, files),
 	m_fileIndex(0)
 {
@@ -92,11 +93,10 @@ sigTimeMessage(const QString &sigtime)
 	if (!stamp.isValid())
 		return QString();
 
-	return i18nc("first argument is formatted date, second argument is formatted time",
-					"The signature was created at %1 %2",
-					KGlobal::locale()->formatDate(stamp.date(), KLocale::LongDate),
-					KGlobal::locale()->formatTime(stamp.time(), KLocale::LongDate)) +
-			QLatin1String("<br/>");
+	return xi18nc("@info first argument is formatted date, second argument is formatted time",
+					"<para>The signature was created at %1 %2</para>",
+					QLocale().toString(stamp.date(), QLocale::ShortFormat),
+					QLocale().toString(stamp.time(), QLocale::ShortFormat));
 }
 
 QString
@@ -129,11 +129,12 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 			if (node != Q_NULLPTR) {
 				// ignore for now if this is signed with the primary id (vsig[0] == vsig[9]) or not
 				if (node->getEmail().isEmpty())
-					result += i18n("<qt>Good signature from:<br /><b>%1</b><br />Key ID: %2<br /></qt>",
+					result += xi18nc("@info Good signature from: NAME , Key ID: HEXID",
+							"<para>Good signature from:<nl/><emphasis strong='true'>%1</emphasis><nl/>Key ID: %2<nl/></para>",
 							node->getName(), vsig[9]);
 				else
-					result += i18nc("Good signature from: NAME <EMAIL>, Key ID: HEXID",
-							"<qt>Good signature from:<br /><b>%1 &lt;%2&gt;</b><br />Key ID: %3<br /></qt>",
+					result += xi18nc("@info Good signature from: NAME <EMAIL>, Key ID: HEXID",
+							"<para>Good signature from:<nl/><emphasis strong='true'>%1 <email>%2</email></emphasis><nl/>Key ID: %3</para>",
 							node->getName(), node->getEmail(), vsig[9]);
 
 				result += sigTimeMessage(vsig[2]);
@@ -146,7 +147,7 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 			}
 		} else if (msg.startsWith(QLatin1String("UNEXPECTED")) ||
 				msg.startsWith(QLatin1String("NODATA"))) {
-			result += i18n("No signature found.") + QLatin1Char('\n');
+			result += xi18nc("@info", "No signature found.") + QLatin1Char('\n');
 		} else if (useGoodSig && msg.startsWith(QLatin1String("GOODSIG "))) {
 			int sigpos = msg.indexOf( ' ' , 8);
 			const QString keyid = msg.mid(8, sigpos - 8);
@@ -163,11 +164,11 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 			}
 
 			if (email.isEmpty())
-				result += i18n("<qt>Good signature from:<br /><b>%1</b><br />Key ID: %2<br /></qt>",
+				result += xi18nc("@info", "<para>Good signature from:<nl/><emphasis strong='true'>%1</emphasis><nl/>Key ID: %2<nl/></para>",
 						name, keyid);
 			else
-				result += i18nc("Good signature from: NAME <EMAIL>, Key ID: HEXID",
-						"<qt>Good signature from:<br /><b>%1 &lt;%2&gt;</b><br />Key ID: %3<br /></qt>",
+				result += xi18nc("@info Good signature from: NAME <EMAIL>, Key ID: HEXID",
+						"<para>Good signature from:<nl/><emphasis strong='true'>%1 <email>%2</email></emphasis><nl/>Key ID: %3<nl/></para>",
 						name, email, keyid);
 			if (!sigtime.isEmpty()) {
 				result += sigTimeMessage(sigtime);
@@ -179,13 +180,12 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 				sigtime = parts[2];
 		} else if (msg.startsWith(QLatin1String("BADSIG"))) {
 			int sigpos = msg.indexOf( ' ', 7);
-			result += i18n("<qt><b>BAD signature</b> from:<br /> %1<br />Key id: %2<br /><br /><b>The file is corrupted</b><br /></qt>",
-					msg.mid(sigpos + 1).replace(QLatin1Char('<'), QLatin1String("&lt;")),
-					msg.mid(7, sigpos - 7));
+			result += xi18nc("@info", "<para><emphasis strong='true'>BAD signature</emphasis> from:<nl/> %1<nl/>Key ID: %2<nl/><nl/><emphasis strong='true'>The file is corrupted</emphasis></para>",
+					msg.mid(sigpos + 1), msg.mid(7, sigpos - 7));
 		} else  if (msg.startsWith(QLatin1String("TRUST_UNDEFINED"))) {
-			result += i18n("<qt>The signature is valid, but the key is untrusted<br /></qt>");
+			result += xi18nc("@info", "<para>The signature is valid, but the key is untrusted</para>");
 		} else if (msg.startsWith(QLatin1String("TRUST_ULTIMATE"))) {
-			result += i18n("<qt>The signature is valid, and the key is ultimately trusted<br /></qt>");
+			result += xi18nc("@info", "<para>The signature is valid, and the key is ultimately trusted</para>");
 		}
 	}
 

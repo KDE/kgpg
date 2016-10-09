@@ -21,7 +21,7 @@
 
 #include <QTreeView>
 
-#include <KUrl>
+#include <QUrl>
 
 #include "core/kgpgkey.h"
 
@@ -50,7 +50,7 @@ public:
 	bool isEditing() const;
 
 signals:
-	void importDrop(const KUrl::List &urls);
+	void importDrop(const QList<QUrl> &urls);
 	void returnPressed();
 
 public slots:

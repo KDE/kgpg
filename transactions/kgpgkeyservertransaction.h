@@ -19,7 +19,7 @@
 
 #include "kgpgtransaction.h"
 
-class KProgressDialog;
+class QProgressDialog;
 
 /**
  * @brief base class for transactions involving key servers
@@ -83,7 +83,7 @@ private:
 	int m_keyserverpos;
 	QString m_proxy;
 	int m_proxypos;
-	KProgressDialog *m_progress;
+	QProgressDialog *m_progress;
 	bool m_showprogress;
 };
 

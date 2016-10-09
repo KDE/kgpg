@@ -18,7 +18,7 @@
 #include <QString>
 
 #include <KTextEdit>
-#include <KUrl>
+#include <QUrl>
 
 class QDragEnterEvent;
 class QDropEvent;
@@ -35,7 +35,7 @@ public:
     ~KgpgTextEdit();
 
     void signVerifyText(const QString &message);
-    void openDroppedFile(const KUrl &url, const bool probe);
+    void openDroppedFile(const QUrl &url, const bool probe);
 
 signals:
     void newText();
@@ -43,7 +43,7 @@ signals:
     void verifyFinished();
 
 public slots:
-    void slotDroppedFile(const KUrl &url);
+    void slotDroppedFile(const QUrl &url);
     void slotEncode();
     void slotDecode();
     void slotSign(const QString &message);

@@ -14,6 +14,7 @@
 
 #include "kgpgoptions.h"
 
+#include "kgpg_debug.h"
 #include "kgpgsettings.h"
 #include "kgpginterface.h"
 #include "conf_encryption.h"
@@ -23,20 +24,22 @@
 #include "model/kgpgitemmodel.h"
 
 #include <KConfig>
+#include <KConfigGroup>
 #include <KDesktopFile>
-#include <KFileDialog>
 #include <KFontChooser>
-#include <KInputDialog>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
-#include <KStandardDirs>
-#include <KDebug>
-#include <KUrl>
+#include <QUrl>
+
 #include <QCheckBox>
+#include <QDebug>
 #include <QFile>
+#include <QFileDialog>
+#include <QInputDialog>
 #include <QTextStream>
 #include <QVBoxLayout>
+#include <QStandardPaths>
 
 using namespace KgpgCore;
 
@@ -86,8 +89,8 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 		serverList.prepend(keyServer);
 	m_page6->ServerBox->setModel(m_serverModel);
 
-	defaultConfigPath = KUrl::fromPath(gpgConfigPath).fileName();
-	defaultHomePath = KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash);
+	defaultConfigPath = QUrl::fromLocalFile(gpgConfigPath).fileName();
+	defaultHomePath = QUrl::fromLocalFile(gpgConfigPath).adjusted(QUrl::RemoveFilename).path();
 	defaultBinPath = KGpgSettings::gpgBinaryPath();
 
 	m_showsystray = KGpgSettings::showSystray();
@@ -95,7 +98,6 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	m_mailUats = KGpgSettings::mailUats();
 
 	QVBoxLayout *fontlayout = new QVBoxLayout(m_page3->tabWidget3->widget(1));
-	fontlayout->setSpacing(spacingHint());
 
 	m_fontchooser->setObjectName( QLatin1String("kcfg_Font" ));
 	fontlayout->addWidget(m_fontchooser);
@@ -116,15 +118,15 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	addPage(m_page7, i18n("Misc"), QLatin1String( "preferences-other" ));
 
 	// The following widgets are managed manually.
-	connect(m_page1->encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(slotChangeEncryptTo()));
-	connect(m_page4->changeHome, SIGNAL(clicked()), this, SLOT(slotChangeHome()));
-	connect(m_page6->server_add, SIGNAL(clicked()), this, SLOT(slotAddKeyServer()));
-	connect(m_page6->server_del, SIGNAL(clicked()), this, SLOT(slotDelKeyServer()));
-	connect(m_page6->server_edit, SIGNAL(clicked()), this, SLOT(slotEditKeyServer()));
-	connect(m_page6->server_default, SIGNAL(clicked()), this, SLOT(slotDefaultKeyServer()));
-	connect(m_page6->ServerBox->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), SLOT(slotChangeKeyServerButtonEnable()));
-	connect(m_page6->ServerBox, SIGNAL(doubleClicked(QModelIndex)), SLOT(slotEditKeyServer(QModelIndex)));
-	connect(m_page7->kcfg_ShowSystray, SIGNAL(clicked()), SLOT(slotSystrayEnable()));
+	connect(m_page1->encrypt_to_always, &QCheckBox::toggled, this, &kgpgOptions::slotChangeEncryptTo);
+	connect(m_page4->changeHome, &QPushButton::clicked, this, &kgpgOptions::slotChangeHome);
+	connect(m_page6->server_add, &QPushButton::clicked, this, &kgpgOptions::slotAddKeyServer);
+	connect(m_page6->server_del, &QPushButton::clicked, this, &kgpgOptions::slotDelKeyServer);
+	connect(m_page6->server_edit, &QPushButton::clicked, this, static_cast<void(kgpgOptions::*)()>(&kgpgOptions::slotEditKeyServer));
+	connect(m_page6->server_default, &QPushButton::clicked, this, &kgpgOptions::slotDefaultKeyServer);
+	connect(m_page6->ServerBox->selectionModel(), &QItemSelectionModel::selectionChanged, this, &kgpgOptions::slotChangeKeyServerButtonEnable);
+	connect(m_page6->ServerBox, &QListView::doubleClicked, this, static_cast<void(kgpgOptions::*)(const QModelIndex &)>(&kgpgOptions::slotEditKeyServer));
+	connect(m_page7->kcfg_ShowSystray, &QPushButton::clicked, this, &kgpgOptions::slotSystrayEnable);
 
 	keyUltimate = KGpgSettings::colorUltimate();
 	keyGood = KGpgSettings::colorGood();
@@ -148,7 +150,7 @@ kgpgOptions::~kgpgOptions()
 
 void kgpgOptions::slotChangeHome()
 {
-	QString gpgHome = KFileDialog::getExistingDirectory(m_page4->gpg_home_path->text(), this, i18n("New GnuPG Home Location"));
+	QString gpgHome = QFileDialog::getExistingDirectory(this, i18n("New GnuPG Home Location"), m_page4->gpg_home_path->text());
 	if (gpgHome.isEmpty())
 		return;
 
@@ -215,20 +217,19 @@ bool kgpgOptions::isValidKeyserver(const QString &server)
 
 void kgpgOptions::slotAddKeyServer()
 {
-	const QString newServer(KInputDialog::getText(i18n("Add New Key Server"), i18n("Server URL:")));
+	const QString newServer(QInputDialog::getText(this, i18n("Add New Key Server"), i18n("Server URL:")));
 
 	if (!isValidKeyserver(newServer))
 		return;
 
 	m_serverModel->setStringList(m_serverModel->stringList() << newServer);
-
-	enableButtonApply(true);
+	settingsChangedSlot();
 }
 
 void kgpgOptions::slotChangeEncryptTo()
 {
 	bool enable = (m_page1->encrypt_to_always->isChecked() != m_encrypttoalways);
-	enableButtonApply(enable);
+	settingsChangedSlot();
 }
 
 void kgpgOptions::slotDelKeyServer()
@@ -236,7 +237,7 @@ void kgpgOptions::slotDelKeyServer()
 	QModelIndex cur = m_page6->ServerBox->selectionModel()->currentIndex();
 	m_serverModel->removeRows(cur.row(), 1);
 
-	enableButtonApply(true);
+	settingsChangedSlot();
 }
 
 void kgpgOptions::slotEditKeyServer()
@@ -251,7 +252,7 @@ void kgpgOptions::slotEditKeyServer(const QModelIndex &index)
 
 	m_page6->ServerBox->edit(index);
 
-	enableButtonApply(true);
+	settingsChangedSlot();
 }
 
 void kgpgOptions::slotDefaultKeyServer()
@@ -260,7 +261,7 @@ void kgpgOptions::slotDefaultKeyServer()
 
 	m_serverModel->setDefault(cur.row());
 
-	enableButtonApply(true);
+	settingsChangedSlot();
 }
 
 void kgpgOptions::slotChangeKeyServerButtonEnable()
@@ -318,8 +319,8 @@ void kgpgOptions::updateWidgets()
 	}
 
 	gpgConfigPath = KGpgSettings::gpgConfigPath();
-	m_page4->gpg_conf_path->setText(KUrl::fromPath(gpgConfigPath).fileName());
-	m_page4->gpg_home_path->setText(KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash));
+	m_page4->gpg_conf_path->setText(QUrl::fromLocalFile(gpgConfigPath).fileName());
+	m_page4->gpg_home_path->setText(QUrl::fromLocalFile(gpgConfigPath).adjusted(QUrl::RemoveFilename).path());
 
 	m_useagent = KgpgInterface::getGpgBoolSetting(QLatin1String( "use-agent" ), KGpgSettings::gpgConfigPath());
 	m_defaultuseagent = false;
@@ -333,7 +334,7 @@ void kgpgOptions::updateWidgets()
 	if (!serverList.isEmpty())
 		m_serverModel->setDefault(keyServer);
 
-	kDebug(2100) << "Finishing options";
+	qCDebug(KGPG_LOG_GENERAL) << "Finishing options";
 }
 
 void kgpgOptions::updateWidgetsDefault()
@@ -351,7 +352,7 @@ void kgpgOptions::updateWidgetsDefault()
 
 	m_page3->kcfg_EmailSorting->setCurrentIndex(KGpgSettings::EnumEmailSorting::Alphabetical);
 
-	kDebug(2100) << "Finishing default options" ;
+	qCDebug(KGPG_LOG_GENERAL) << "Finishing default options" ;
 }
 
 void kgpgOptions::updateSettings()
@@ -460,7 +461,7 @@ void kgpgOptions::updateSettings()
 	m_emailSortingIndex = m_page3->kcfg_EmailSorting->currentIndex();
 	KGpgSettings::setEmailSorting(m_emailSortingIndex);
 
-	KGpgSettings::self()->writeConfig();
+	KGpgSettings::self()->save();
 	m_config->sync();
 
 	emit settingsUpdated();
@@ -482,7 +483,7 @@ void kgpgOptions::listKeys()
 
 void kgpgOptions::slotInstallDecrypt(const QString &mimetype)
 {
-	const QString path(KStandardDirs::locateLocal("data", QLatin1String( "konqueror/servicemenus/decryptfile.desktop" )));
+	const QString path(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/konqueror/servicemenus/decryptfile.desktop" ));
 	KDesktopFile configl2(path);
 	if (!configl2.isImmutable()) {
 		KConfigGroup gr(configl2.group("Desktop Entry"));
@@ -500,7 +501,7 @@ void kgpgOptions::slotInstallDecrypt(const QString &mimetype)
 
 void kgpgOptions::slotInstallSign(const QString &mimetype)
 {
-	QString path(KStandardDirs::locateLocal("services", QLatin1String( "ServiceMenus/signfile.desktop" )));
+	QString path(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + QLatin1String( "ServiceMenus/signfile.desktop" ));
 	KDesktopFile configl2(path);
 	if (!configl2.isImmutable()) {
 		KConfigGroup gr = configl2.group("Desktop Entry");
@@ -517,7 +518,7 @@ void kgpgOptions::slotInstallSign(const QString &mimetype)
 
 void kgpgOptions::slotRemoveMenu(const QString &menu)
 {
-	QString path = KStandardDirs::locateLocal("services", QLatin1String( "ServiceMenus/" ) + menu);
+	QString path = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + QLatin1String( "ServiceMenus/" ) + menu;
 	QFile qfile(path);
 	if (qfile.exists())
 		qfile.remove();
@@ -535,10 +536,10 @@ bool kgpgOptions::hasChanged()
 			(m_page1->always_key->itemData(m_page1->always_key->currentIndex(), Qt::ToolTipRole).toString()) != alwaysKeyID)
 		return true;
 
-	if (m_page4->gpg_conf_path->text() != KUrl::fromPath(gpgConfigPath).fileName())
+	if (m_page4->gpg_conf_path->text() != QUrl::fromLocalFile(gpgConfigPath).fileName())
 		return true;
 
-	if (m_page4->gpg_home_path->text() != KUrl::fromPath(gpgConfigPath).directory(KUrl::AppendTrailingSlash))
+	if (m_page4->gpg_home_path->text() != QUrl::fromLocalFile(gpgConfigPath).adjusted(QUrl::RemoveFilename).path())
 		return true;
 
 	if (m_page4->use_agent->isChecked() != m_useagent)

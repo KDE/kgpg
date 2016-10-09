@@ -22,12 +22,11 @@
 
 class Encryption : public QWidget, public Ui_Encryption
 {
-    Q_OBJECT
 
 public:
     explicit Encryption(QWidget* parent = Q_NULLPTR);
     
-public slots:
+public:
     virtual void encrypt_to_always_toggled( bool );
     virtual void encrypt_files_to_toggled( bool );
     virtual void allow_custom_option_toggled( bool );

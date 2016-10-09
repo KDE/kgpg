@@ -20,9 +20,9 @@ Encryption::Encryption( QWidget* parent )
     : QWidget( parent ), Ui_Encryption()
 {
     setupUi( this );
-    connect(kcfg_EncryptFilesTo, SIGNAL(toggled(bool)), this,SLOT(encrypt_files_to_toggled(bool)));
-    connect(kcfg_AllowCustomEncryptionOptions, SIGNAL(toggled(bool)), this, SLOT(allow_custom_option_toggled(bool)));
-    connect(encrypt_to_always, SIGNAL(toggled(bool)), this, SLOT(encrypt_to_always_toggled(bool))); 
+    connect(kcfg_EncryptFilesTo, &QCheckBox::toggled, this, &Encryption::encrypt_files_to_toggled);
+    connect(kcfg_AllowCustomEncryptionOptions, &QCheckBox::toggled, this, &Encryption::allow_custom_option_toggled);
+    connect(encrypt_to_always, &QCheckBox::toggled, this, &Encryption::encrypt_to_always_toggled);
 }
 
 void Encryption::encrypt_to_always_toggled(bool isOn)

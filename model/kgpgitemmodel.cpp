@@ -23,8 +23,9 @@
 #include "core/images.h"
 #include "model/kgpgitemnode.h"
 
-#include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
+
+#include <QLocale>
 #include <QMetaObject>
 
 KGpgItemModel::KGpgItemModel(QObject *parent)
@@ -179,7 +180,7 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		}
 	case KEYCOLUMN_EXPIR:
 		if (role == Qt::DisplayRole)
-			return KGlobal::locale()->formatDate(node->getExpiration().date(), KLocale::ShortDate);
+			return QLocale().toString(node->getExpiration().date(), QLocale::ShortFormat);
 		break;
 	case KEYCOLUMN_SIZE:
 		switch (role) {
@@ -201,7 +202,7 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		break;
 	case KEYCOLUMN_CREAT:
 		if (role == Qt::DisplayRole)
-			return KGlobal::locale()->formatDate(node->getCreation().date(), KLocale::ShortDate);
+			return QLocale().toString(node->getCreation().date(), QLocale::ShortFormat);
 		break;
 	case KEYCOLUMN_ID:
 		switch (role) {
@@ -311,7 +312,7 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 	for (int i = node->getChildCount() - 1; i >= 0; i--) {
 		bool found = false;
 
-		foreach (const KGpgNode *nd, keys) {
+		for (const KGpgNode *nd : keys) {
 			found = (node->getChild(i)->getId() == nd->getId());
 			if (found)
 				break;
@@ -329,7 +330,7 @@ KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
 	for (int i = 0; i < keys.count(); i++) {
 		bool found = false;
 
-		foreach (const KGpgNode *nd, node->getChildren()) {
+		for (const KGpgNode *nd : node->getChildren()) {
 			found = (nd->getId() == keys.at(i)->getId());
 			if (found)
 				break;
@@ -522,7 +523,8 @@ KGpgItemModel::isDefaultKey(const KGpgNode *node) const
 void
 KGpgItemModel::invalidateIndexes(KGpgNode *nd)
 {
-	foreach (const QModelIndex &idx, persistentIndexList()) {
+	const auto indexList = persistentIndexList();
+	for (const QModelIndex &idx : indexList) {
 		KGpgNode *n = nodeForIndex(idx);
 
 		if (n != nd)

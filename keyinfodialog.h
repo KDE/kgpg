@@ -17,14 +17,15 @@
 #ifndef KGPGKEYINFODIALOG_H
 #define KGPGKEYINFODIALOG_H
 
-#include <QString>
-#include <QLabel>
 #include <QColor>
-
-#include <KDialog>
+#include <QDialog>
+#include <QLabel>
+#include <QString>
 
 #include <kgpgcompiler.h>
 #include "ui_kgpgKeyInfo.h"
+
+class QDialogButtonBox;
 
 class KGpgItemModel;
 class KGpgKeyNode;
@@ -53,7 +54,7 @@ private:
     QColor m_color;
 };
 
-class KgpgKeyInfo : public KDialog, public Ui::kgpgKeyInfo
+class KgpgKeyInfo : public QDialog, public Ui::kgpgKeyInfo
 {
 	Q_OBJECT
 
@@ -68,14 +69,14 @@ public:
 signals:
     void keyNeedsRefresh(KGpgKeyNode *node);
 
-protected slots:
-    void slotButtonClicked(int button);
-
 private:
     void reloadKey();
     void reloadNode();
     void displayKey();
     void setControlEnable(const bool b);
+    void okButtonClicked();
+    void applyButtonClicked();
+    void cancelButtonClicked();
 
 private slots:
     void slotOpenUrl(const QString &url) const;
@@ -100,6 +101,8 @@ private:
 	KGpgItemModel *m_model;
 
     KgpgTrustLabel *m_trust;
+
+    QDialogButtonBox *buttonBox;
 
     bool m_keywaschanged;
     bool m_closewhendone;

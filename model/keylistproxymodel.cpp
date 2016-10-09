@@ -24,7 +24,7 @@
 #include "core/kgpgkey.h"
 #include "core/images.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <QDate>
 
 using namespace KgpgCore;
@@ -190,12 +190,12 @@ KeyListProxyModelPrivate::dataSingleColumn(const QModelIndex &index, int role, c
 			if (mail.isEmpty())
 				return i18nc("ID: Name", "%1: %2", id, name);
 			else
-				return i18nc("ID: Name <Email>", "%1: %2 &lt;%3&gt;", id, name, mail);
+				return i18nc("ID: Name <Email>", "%1: %2 <%3>", id, name, mail);
 		} else {
 			if (mail.isEmpty())
 				return i18nc("Name: ID", "%1: %2", name, id);
 			else
-				return i18nc("Name <Email>: ID", "%1 &lt;%2&gt;: %3", name, mail, id);
+				return i18nc("Name <Email>: ID", "%1 <%2>: %3", name, mail, id);
 		}
 		}
 	case Qt::ToolTipRole: {

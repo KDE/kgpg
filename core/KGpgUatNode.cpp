@@ -21,7 +21,7 @@
 #include "gpgproc.h"
 #include "KGpgKeyNode.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QDateTime>
 #include <QDir>
@@ -54,7 +54,7 @@ QPixmap
 KGpgUatNodePrivate::loadImage(const KGpgKeyNode *parent, const QString &index)
 {
 	QPixmap pixmap;
-#ifdef Q_OS_WIN32	//krazy:exclude=cpp
+#ifdef Q_OS_WIN 	//krazy:exclude=cpp
 	const QString pgpgoutput = QLatin1String("cmd /C \"echo %I\"");
 #else
 	const QString pgpgoutput = QLatin1String("echo %I");

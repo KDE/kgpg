@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>KeyExport</class>
- <widget class="QWidget" name="KeyExport">
+ <widget class="QDialog" name="KeyExport">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>626</width>
-    <height>411</height>
+    <height>462</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,6 +22,9 @@
     <height>0</height>
    </size>
   </property>
+  <property name="windowTitle">
+   <string>Public Key Export</string>
+  </property>
   <layout class="QVBoxLayout">
    <item>
     <widget class="QWidget" name="widget" native="true">
@@ -35,14 +38,14 @@
          <item>
           <widget class="QRadioButton" name="checkMail">
            <property name="text">
-            <string comment="Export a key via email">Email</string>
+            <string comment="Export a key via email">E&amp;mail</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QRadioButton" name="checkClipboard">
            <property name="text">
-            <string>Clipboard</string>
+            <string>C&amp;lipboard</string>
            </property>
           </widget>
          </item>
@@ -55,12 +58,12 @@
             <string>You must define at least one keyserver in settings before you can export to one.</string>
            </property>
            <property name="text">
-            <string>Key server:</string>
+            <string>&amp;Key server:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="KComboBox" name="destServer">
+          <widget class="QComboBox" name="destServer">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -95,7 +98,7 @@
          <item>
           <widget class="QRadioButton" name="checkAttrAll">
            <property name="text">
-            <string>Export everything</string>
+            <string>E&amp;xport everything</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -105,7 +108,7 @@
          <item>
           <widget class="QRadioButton" name="checkAttrPhoto">
            <property name="text">
-            <string>Do not export attributes (photo ids)</string>
+            <string>Do &amp;not export attributes (photo ids)</string>
            </property>
           </widget>
          </item>
@@ -135,6 +138,13 @@
         </layout>
        </widget>
       </item>
+      <item>
+       <widget class="QDialogButtonBox" name="buttonBox">
+        <property name="standardButtons">
+         <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -142,52 +152,10 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>KUrlRequester</class>
-   <extends>QFrame</extends>
+   <extends>QWidget</extends>
    <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>
- <includes>
-  <include location="local">kpushbutton.h</include>
- </includes>
  <resources/>
- <connections>
-  <connection>
-   <sender>checkServer</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>destServer</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>72</x>
-     <y>69</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>95</x>
-     <y>106</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checkFile</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>newFilename</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>39</x>
-     <y>133</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>48</x>
-     <y>159</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
 </ui>

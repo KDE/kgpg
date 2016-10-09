@@ -170,7 +170,7 @@ KGpgExport::nextLine(const QString &line)
 {
 	// key exporting does not send any messages
 
-	m_data.append(line.toAscii() + '\n');
+	m_data.append(line.toLatin1() + '\n');
 
 	if (m_outputmode != 2)
 		setSuccess(TS_MSG_SEQUENCE);

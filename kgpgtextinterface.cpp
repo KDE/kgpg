@@ -29,7 +29,7 @@ public:
 	GPGProc * const m_process;
 	int m_step;
 	const QStringList m_gpgopts;
-	KUrl::List m_files;
+	QList<QUrl> m_files;
 
 	void signFile(const QString &fileName);
 };
@@ -67,7 +67,7 @@ KGpgTextInterface::KGpgTextInterface(QObject *parent, const QString &keyID, cons
 	: QObject(parent),
 	d(new KGpgTextInterfacePrivate(parent, keyID, options))
 {
-	connect(d->m_process, SIGNAL(processExited()), SLOT(slotSignFile()));
+	connect(d->m_process, &GPGProc::processExited, this, &KGpgTextInterface::slotSignFile);
 }
 
 KGpgTextInterface::~KGpgTextInterface()
@@ -78,7 +78,7 @@ KGpgTextInterface::~KGpgTextInterface()
 
 // signatures
 void
-KGpgTextInterface::signFiles(const KUrl::List &srcUrls)
+KGpgTextInterface::signFiles(const QList<QUrl> &srcUrls)
 {
 	d->m_files = srcUrls;
 
@@ -91,8 +91,8 @@ KGpgTextInterface::slotSignFile()
 	const QString fileName = d->m_files.takeFirst().path();
 
 	if (d->m_files.isEmpty()) {
-		disconnect(d->m_process, SIGNAL(processExited()), this, SLOT(slotSignFile()));
-		connect(d->m_process, SIGNAL(processExited()), SLOT(slotSignFinished()));
+		disconnect(d->m_process, &GPGProc::processExited, this, &KGpgTextInterface::slotSignFile);
+		connect(d->m_process, &GPGProc::processExited, this, &KGpgTextInterface::slotSignFinished);
 	}
 
 	d->signFile(fileName);

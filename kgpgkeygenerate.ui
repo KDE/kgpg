@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>kgpgKeyGenerate</class>
- <widget class="KDialog" name="kgpgKeyGenerate">
+ <widget class="QDialog" name="kgpgKeyGenerate">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -37,7 +37,7 @@
      </widget>
     </item>
     <item>
-     <widget class="KLineEdit" name="m_kname">
+     <widget class="QLineEdit" name="m_kname">
       <property name="toolTip">
        <string>The name must have a length of at least 5 characters and must not begin with a digit.</string>
       </property>
@@ -57,7 +57,7 @@
      </widget>
     </item>
     <item>
-     <widget class="KLineEdit" name="m_mail"/>
+     <widget class="QLineEdit" name="m_mail"/>
     </item>
     <item>
      <widget class="QLabel" name="label_2">
@@ -70,7 +70,7 @@
      </widget>
     </item>
     <item>
-     <widget class="KLineEdit" name="m_comment"/>
+     <widget class="QLineEdit" name="m_comment"/>
     </item>
     <item>
      <widget class="QLabel" name="label_3">
@@ -83,7 +83,7 @@
      </widget>
     </item>
     <item>
-     <widget class="KLineEdit" name="m_days">
+     <widget class="QLineEdit" name="m_days">
       <property name="text">
        <string>0</string>
       </property>
@@ -100,7 +100,7 @@
      </widget>
     </item>
     <item>
-     <widget class="KComboBox" name="m_keysize"/>
+     <widget class="QComboBox" name="m_keysize"/>
     </item>
     <item>
      <widget class="QLabel" name="label_5">
@@ -113,7 +113,7 @@
      </widget>
     </item>
     <item>
-     <widget class="KComboBox" name="m_keykind"/>
+     <widget class="QComboBox" name="m_keykind"/>
     </item>
     <item>
      <widget class="QGroupBox" name="capabilities">
@@ -182,24 +182,6 @@
    </layout>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KDialog</class>
-   <extends>QDialog</extends>
-   <header>kdialog.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

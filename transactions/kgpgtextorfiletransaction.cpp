@@ -12,12 +12,15 @@
  ***************************************************************************/
 
 #include "kgpgtextorfiletransaction.h"
+#include "kgpg_debug.h"
 
 #include "gpgproc.h"
 
-#include <KDebug>
-#include <KIO/NetAccess>
+#include <KIO/Job>
+
+#include <QDebug>
 #include <QRegExp>
+#include <QTemporaryFile>
 
 KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const QString &text, const bool allowChaining)
 	: KGpgTransaction(parent, allowChaining)
@@ -25,7 +28,7 @@ KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const QStr
 	setText(text);
 }
 
-KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const KUrl::List &files, const bool allowChaining)
+KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const QList<QUrl> &files, const bool allowChaining)
 	: KGpgTransaction(parent, allowChaining)
 {
 	setUrls(files);
@@ -64,8 +67,8 @@ KGpgTextOrFileTransaction::setText(const QString &text)
 		const QString charset = QLatin1String("Charset: ");
 		if (text.mid(begin, charset.length()) == charset) {
 			QString cs = text.mid(begin + charset.length(), nextlf - begin - charset.length());
-			if (!getProcess()->setCodec(cs.toAscii()))
-				kDebug(2100) << "unsupported charset found in header" << cs;
+			if (!getProcess()->setCodec(cs.toLatin1()))
+				qCDebug(KGPG_LOG_GENERAL) << "unsupported charset found in header" << cs;
 			break;
 		}
 		begin = nextlf + 1;
@@ -75,7 +78,7 @@ KGpgTextOrFileTransaction::setText(const QString &text)
 }
 
 void
-KGpgTextOrFileTransaction::setUrls(const KUrl::List &files)
+KGpgTextOrFileTransaction::setUrls(const QList<QUrl> &files)
 {
 	m_text.clear();
 	m_inpfiles = files;
@@ -86,16 +89,20 @@ KGpgTextOrFileTransaction::preStart()
 {
 	QStringList locfiles;
 
-	foreach (const KUrl &url, m_inpfiles) {
+	foreach (const QUrl &url, m_inpfiles) {
 		if (url.isLocalFile()) {
 			locfiles.append(url.toLocalFile());
 		} else {
-			QString tmpfile;
+			QTemporaryFile tmpFile;
+			tmpFile.open();
 
-			if (KIO::NetAccess::download(url, tmpfile, 0)) {
-				m_tempfiles.append(tmpfile);
+			auto copyJob = KIO::file_copy(url, QUrl::fromLocalFile(tmpFile.fileName()));
+			copyJob->exec();
+			if (!copyJob->error()) {
+				tmpFile.setAutoRemove(false);
+				m_tempfiles.append(tmpFile.fileName());
 			} else {
-				m_messages.append(KIO::NetAccess::lastErrorString());
+				m_messages.append(copyJob->errorString());
 				cleanUrls();
 				setSuccess(TS_KIO_FAILED);
 				return false;
@@ -164,14 +171,14 @@ void
 KGpgTextOrFileTransaction::cleanUrls()
 {
 	foreach (const QString &u, m_tempfiles)
-		KIO::NetAccess::removeTempFile(u);
+		QFile::remove(u);
 
 	m_tempfiles.clear();
 	m_locfiles.clear();
 	m_inpfiles.clear();
 }
 
-const KUrl::List &
+const QList<QUrl> &
 KGpgTextOrFileTransaction::getInputFiles() const
 {
 	return m_inpfiles;

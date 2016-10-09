@@ -24,10 +24,10 @@
 #include <kgpgcompiler.h>
 
 class QCheckBox;
+class QComboBox;
 class QLabel;
 class KPageWidgetItem;
 class KUrlRequester;
-class KComboBox;
 
 class KGpgFirstAssistant : public KAssistantDialog
 {
@@ -49,7 +49,7 @@ private:
 	QCheckBox *generateCB;
 	QCheckBox *autostartCB;
 
-	KComboBox *CBdefault;
+	QComboBox *CBdefault;
 
 	KUrlRequester *binURL;
 	KUrlRequester *pathURL;

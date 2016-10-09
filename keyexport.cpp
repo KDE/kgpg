@@ -17,14 +17,14 @@
 #include <KMessageBox>
 
 KeyExport::KeyExport(QWidget *parent, const QStringList &keyservers)
-	: KDialog(parent),
+	: QDialog(parent),
 	Ui_KeyExport()
 {
 	setupUi(this);
-	setMainWidget(widget);
-	setWindowTitle(i18n("Public Key Export"));
-	setButtons(KDialog::Ok | KDialog::Cancel);
-	setDefaultButton(KDialog::Ok);
+
+	buttonBox->button(QDialogButtonBox::Ok)->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &KeyExport::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &KeyExport::reject);
 	newFilename->setWindowTitle(i18n("Save File"));
 	newFilename->setMode(KFile::File);
 
@@ -33,6 +33,9 @@ KeyExport::KeyExport(QWidget *parent, const QStringList &keyservers)
 		checkServer->setToolTip(QString());
 		destServer->addItems(keyservers);
 	}
+
+	connect(checkServer, &QRadioButton::toggled, destServer, &QComboBox::setEnabled);
+        connect(checkFile, &QRadioButton::toggled, newFilename, &KUrlRequester::setEnabled);
 }
 
 void KeyExport::accept()

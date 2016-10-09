@@ -18,15 +18,17 @@
 #ifndef KGPGAPPLET_H
 #define KGPGAPPLET_H
 
-#include <KUniqueApplication>
-#include <KShortcut>
-#include <klocale.h>
+#include <QApplication>
+#include <QKeySequence>
+
+#include <KLocalizedString>
 
 class KeysManager;
 class KGpgExternalActions;
+class QCommandLineParser;
 class QString;
 
-static const char * const EMailTemplateText=I18N_NOOP(
+static const QString EMailTemplateText=i18n(
     "Hi,\n\nplease find attached the user id '%UIDNAME%' of your key %KEYID% signed by me. "
     "This mail is encrypted with that key to make sure you control both the email address and the key.\n\n"
     "If you have multiple user ids, I sent the signature for each user id separately to that user id's associated email address. "
@@ -37,17 +39,17 @@ static const char * const EMailTemplateText=I18N_NOOP(
     "With KGpg you can right click on the key once you imported all user ids and choose `Export Public Key...`.\n\n"
     "If you have any questions, don't hesitate to ask.\n");
 
-class KGpgApp : public KUniqueApplication
+class KGpgApp : public QApplication
 {
     Q_OBJECT
 
 public:
-    KGpgApp();
+    KGpgApp(int &argc, char **argv);
     ~KGpgApp();
 
-    int newInstance ();
+    int newInstance (QCommandLineParser&);
     bool running;
-    KShortcut goHome;
+    QKeySequence goHome;
 
 private:
     KGpgExternalActions *w;

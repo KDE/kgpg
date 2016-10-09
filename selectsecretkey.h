@@ -10,17 +10,17 @@
 #ifndef KGPGSELECTSECRETKEY_H
 #define KGPGSELECTSECRETKEY_H
 
-#include <KDialog>
+#include <QDialog>
 
 class QCheckBox;
+class QComboBox;
+class QPushButton;
 class QTableView;
-
-class KComboBox;
 
 class KGpgItemModel;
 class SelectSecretKeyProxyModel;
 
-class KgpgSelectSecretKey : public KDialog
+class KgpgSelectSecretKey : public QDialog
 {
     Q_OBJECT
 
@@ -55,15 +55,16 @@ public:
      */
     bool isTerminalSign() const;
 
-private slots:
+private:
     void slotOk();
     void slotSelectionChanged();
 
-private:
     QCheckBox *m_localsign;
     QCheckBox *m_terminalsign;
 
-    KComboBox *m_signtrust;
+    QPushButton *m_okButton;
+
+    QComboBox *m_signtrust;
     QTableView *m_keyslist;
     SelectSecretKeyProxyModel *m_proxy;
 };

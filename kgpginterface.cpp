@@ -23,7 +23,7 @@
 #include "core/KGpgUidNode.h"
 
 #include <gpgme.h>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
 #include <QFile>
@@ -168,7 +168,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 
 			publiclistkeys << KgpgKey(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
 					Convert::toAlgo(lsp.at(3).toInt()), subtype, keytype,
-					QDateTime::fromTime_t(lsp.at(5).toUInt()));
+					QDateTime::fromTime_t(lsp.at(5).toUInt()), lsp.at(16));
 
 			publickey = &publiclistkeys.last();
 
@@ -201,7 +201,8 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 				subtype = Convert::toSubType(lsp.at(11), false);
 
 			KgpgKeySub sub(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
-					Convert::toAlgo(lsp.at(3).toInt()), subtype, QDateTime::fromTime_t(lsp.at(5).toUInt()));
+					Convert::toAlgo(lsp.at(3).toInt()), subtype, QDateTime::fromTime_t(lsp.at(5).toUInt()),
+					lsp.at(16));
 
 			// FIXME: Please see kgpgkey.h, KgpgSubKey class
 			if (items <= 11)
@@ -341,7 +342,7 @@ readSecretKeysProcess(GPGProc &p)
 
 			result << KgpgKey(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
 				Convert::toAlgo(lsp.at(3).toInt()), subtype, keytype,
-				QDateTime::fromTime_t(lsp.at(5).toUInt()));
+				QDateTime::fromTime_t(lsp.at(5).toUInt()), lsp.at(16));
 
 			secretkey = &result.last();
 

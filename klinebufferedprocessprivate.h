@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
+
 /***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -7,32 +11,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KGPGMD5WIDGET_H
-#define KGPGMD5WIDGET_H
+#ifndef KLINEBUFFEREDPROCESSPRIVATE_H
+#define KLINEBUFFEREDPROCESSPRIVATE_H
 
-#include <QDialog>
-#include <QUrl>
+class KLineBufferedProcess;
 
-#include <kgpgcompiler.h>
-
-class QLabel;
-
-class KLed;
-
-class Md5Widget : public QDialog
+class KLineBufferedProcessPrivate : public QObject
 {
-    Q_OBJECT
-
 public:
-    explicit Md5Widget(QWidget *parent = Q_NULLPTR, const QUrl &url = QUrl());
+    KLineBufferedProcessPrivate(KLineBufferedProcess *parent);
 
-public slots:
-    void slotApply();
+    void _k_receivedStdout();
+    void _k_receivedStderr();
 
-private:
-    QString m_md5sum;
-    QLabel *m_label;
-    KLed *m_led;
+    QByteArray m_stdoutBuffer;
+    QByteArray m_stderrBuffer;
+    int m_newlineInStdout;
+    int m_newlineInStderr;
+    KLineBufferedProcess * const m_parent;
+    const QByteArray m_lineEnd;
 };
 
-#endif // KGPGMD5WIDGET_H
+#endif // KLINEBUFFEREDPROCESSPRIVATE_H

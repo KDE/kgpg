@@ -17,13 +17,13 @@
 #ifndef KGPGREVOKEWIDGET_H
 #define KGPGREVOKEWIDGET_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <kgpgcompiler.h>
 #include "ui_kgpgrevokewidget.h"
 
 class KGpgKeyNode;
-class KUrl;
+class QUrl;
 
 class KgpgRevokeWidget : public QWidget, public Ui_KgpgRevokeWidget
 {
@@ -37,7 +37,7 @@ public slots:
    virtual void cbSave_toggled(bool isOn);
 };
 
-class KGpgRevokeDialog: public KDialog
+class KGpgRevokeDialog: public QDialog
 {
 	Q_OBJECT
 
@@ -48,7 +48,7 @@ public:
 
 	QString getDescription() const;
 	int getReason() const;
-	KUrl saveUrl() const;
+	QUrl saveUrl() const;
 	QString getId() const;
 	bool printChecked();
 	bool importChecked();

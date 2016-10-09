@@ -18,7 +18,7 @@
 
 #include "core/kgpgkey.h"
 
-#include <KUrl>
+#include <QUrl>
 #include <QObject>
 
 class QString;
@@ -40,7 +40,7 @@ public:
 	 * @param reason revokation reason
 	 * @param description text description for revokation
 	 */
-	KGpgGenerateRevoke(QObject *parent, const QString &keyID, const KUrl &revokeUrl, const int reason, const QString &description);
+	KGpgGenerateRevoke(QObject *parent, const QString &keyID, const QUrl &revokeUrl, const int reason, const QString &description);
 	virtual ~KGpgGenerateRevoke();
 
 	/**
@@ -57,11 +57,11 @@ protected:
 	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
 	virtual void finish() Q_DECL_OVERRIDE;
 	virtual bool passphraseReceived() Q_DECL_OVERRIDE;
-	virtual ts_boolanswer confirmOverwrite (KUrl &currentFile) Q_DECL_OVERRIDE;
+	virtual ts_boolanswer confirmOverwrite (QUrl &currentFile) Q_DECL_OVERRIDE;
 
 private:
 	QString m_keyid;
-	KUrl m_revUrl;
+	QUrl m_revUrl;
 	int m_reason;
 	QString m_description;
 	QString m_output;

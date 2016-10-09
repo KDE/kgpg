@@ -17,12 +17,12 @@
 #include <QObject>
 #include <QString>
 
-#include <kgpgcompiler.h>
+#include "kgpgcompiler.h"
 
 class GPGProc;
 class KGpgSignTransactionHelper;
 class KGpgTransactionPrivate;
-class KUrl;
+class QUrl;
 class QByteArray;
 
 /**
@@ -128,7 +128,6 @@ public:
 
 	/**
 	 * @brief connect the standard input of this transaction to another process
-	 * @param proc process to read data from
 	 *
 	 * Once the input process is connected this transaction will not emit
 	 * the done signal until the input process sends the done signal.
@@ -238,7 +237,7 @@ protected:
 	 * The default implementation will just return BA_UNKNOWN without setting
 	 * a filename, causing a sequence error.
 	 */
-	virtual ts_boolanswer confirmOverwrite(KUrl &currentFile);
+	virtual ts_boolanswer confirmOverwrite(QUrl &currentFile);
 
 	/**
 	 * @brief Called for a set of hint messages
@@ -315,13 +314,6 @@ protected:
 
 private:
 	KGpgTransactionPrivate* const d;
-
-	Q_PRIVATE_SLOT(d, void slotReadReady())
-	Q_PRIVATE_SLOT(d, void slotProcessExited())
-	Q_PRIVATE_SLOT(d, void slotProcessStarted())
-	Q_PRIVATE_SLOT(d, void slotInputTransactionDone(int))
-	Q_PRIVATE_SLOT(d, void slotPassphraseEntered(const QString &))
-	Q_PRIVATE_SLOT(d, void slotPassphraseAborted())
 
 protected:
 	/**

@@ -19,10 +19,10 @@
 
 #include "ui_keyexport.h"
 
+#include <QDialog>
 #include <QStringList>
-#include <KDialog>
 
-class KeyExport : public KDialog, public Ui_KeyExport
+class KeyExport : public QDialog, public Ui_KeyExport
 {
 	Q_OBJECT
 

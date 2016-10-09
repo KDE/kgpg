@@ -16,7 +16,7 @@
 
 #include <QObject>
 
-#include <KUrl>
+#include <QUrl>
 
 #include "kgpgtextorfiletransaction.h"
 
@@ -43,7 +43,7 @@ public:
 	 * @param parent parent object
 	 * @param files list of file locations to decrypt
 	 */
-	KGpgDecrypt(QObject *parent, const KUrl::List &files);
+	KGpgDecrypt(QObject *parent, const QList<QUrl> &files);
 
 	/**
 	 * @brief decrypt file to given output filename
@@ -51,7 +51,7 @@ public:
 	 * @param infile name of file to decrypt
 	 * @param outfile name of file to write output to (will be overwritten)
 	 */
-	KGpgDecrypt(QObject *parent, const KUrl &infile, const KUrl &outfile);
+	KGpgDecrypt(QObject *parent, const QUrl &infile, const QUrl &outfile);
 
 	/**
 	 * @brief destructor

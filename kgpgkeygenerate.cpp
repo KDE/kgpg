@@ -19,11 +19,15 @@
 #include "gpgproc.h"
 #include "kgpgsettings.h"
 
-#include <KComboBox>
-#include <KHBox>
-#include <KLocale>
+#include <KConfigGroup>
+#include <KLocalizedString>
 #include <KMessageBox>
+
+#include <QComboBox>
+#include <QDialogButtonBox>
 #include <QIntValidator>
+#include <QHBoxLayout>
+#include <QPushButton>
 #include <QStringList>
 #include <QVBoxLayout>
 #include <QWhatsThis>
@@ -32,23 +36,33 @@
 using namespace KgpgCore;
 
 KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
-	: KDialog(parent),
+	: QDialog(parent),
 	m_expert(false)
 {
     setupUi(this);
 
-    setButtons(User1 | Ok | Cancel);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QWidget *mainWidget = new QWidget(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    setLayout(mainLayout);
+    mainLayout->addWidget(mainWidget);
+    okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    QPushButton *user1Button = new QPushButton;
+    buttonBox->addButton(user1Button, QDialogButtonBox::ActionRole);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &KgpgKeyGenerate::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &KgpgKeyGenerate::reject);
 
-    setButtonText(User1, i18n("&Expert Mode"));
-    setButtonToolTip(User1, i18n("Go to Expert Mode"));
-    setButtonWhatsThis(User1, i18n( "If you go to expert mode, you will use the command line to create your key." ));
+    user1Button->setText(i18n("&Expert Mode"));
+    user1Button->setToolTip(i18n("Go to Expert Mode"));
+    user1Button->setWhatsThis(i18n( "If you go to expert mode, you will use the command line to create your key." ));
 
-    connect(m_kname, SIGNAL(textChanged(QString)), this, SLOT(slotEnableOk()));
+    connect(m_kname, &QLineEdit::textChanged, this, &KgpgKeyGenerate::slotEnableOk);
 
-    KHBox *hgroup = new KHBox(vgroup);
-    hgroup->setFrameShape(QFrame::StyledPanel);
-    hgroup->setMargin(marginHint());
-    hgroup->setSpacing(spacingHint());
+    QWidget *hgroup = new QWidget(vgroup);
+    QHBoxLayout *hgroupHBoxLayout = new QHBoxLayout(hgroup);
+    hgroupHBoxLayout->setMargin(0);
     m_days->setParent(hgroup);
     QIntValidator *validator = new QIntValidator(m_days);
     validator->setBottom(0);
@@ -56,14 +70,15 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     m_days->setMaxLength(4);
     m_days->setDisabled(true);
 
-    m_keyexp = new KComboBox(hgroup);
+    m_keyexp = new QComboBox(hgroup);
+    hgroupHBoxLayout->addWidget(m_keyexp);
     m_keyexp->addItem(i18nc("Key will not expire", "Never"), 0);
     m_keyexp->addItem(i18n("Days"), 1);
     m_keyexp->addItem(i18n("Weeks"), 2);
     m_keyexp->addItem(i18n("Months"), 3);
     m_keyexp->addItem(i18n("Years"), 4);
     m_keyexp->setMinimumSize(m_keyexp->sizeHint());
-    connect(m_keyexp, SIGNAL(activated(int)), this, SLOT(slotEnableDays(int)));
+    connect(m_keyexp, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &KgpgKeyGenerate::slotEnableDays);
 
     qobject_cast<QVBoxLayout *>(vgroup->layout())->insertWidget(7, hgroup);
 
@@ -84,27 +99,16 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     slotEnableCaps(m_keykind->currentIndex());
     m_keykind->setMinimumSize(m_keykind->sizeHint());
 
-    setMainWidget(vgroup);
+    mainLayout->addWidget(vgroup);
+    mainLayout->addWidget(buttonBox);
 
     slotEnableOk();
     updateGeometry();
     show();
 
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(user1Clicked()), this, SLOT(slotUser1()));
-    connect(m_keykind, SIGNAL(activated(int)), SLOT(slotEnableCaps(int)));
-}
-
-void KgpgKeyGenerate::slotButtonClicked(int button)
-{
-    if (button == Ok)
-        slotOk();
-    else
-    if (button == User1)
-        slotUser1();
-    else
-    if (button == Cancel)
-        reject();
+    connect(okButton, &QPushButton::clicked, this, &KgpgKeyGenerate::slotOk);
+    connect(user1Button, &QPushButton::clicked, this, &KgpgKeyGenerate::slotUser1);
+    connect(m_keykind, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &KgpgKeyGenerate::slotEnableCaps);
 }
 
 void KgpgKeyGenerate::slotOk()
@@ -164,7 +168,7 @@ void KgpgKeyGenerate::slotEnableCaps(const int state)
 
 void KgpgKeyGenerate::slotEnableOk()
 {
-	enableButtonOk((m_kname->text().simplified().length() >= 5) &&
+	okButton->setEnabled((m_kname->text().simplified().length() >= 5) &&
 			!m_kname->text().simplified().at(0).isDigit());
 }
 

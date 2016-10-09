@@ -4,7 +4,7 @@
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
 
-    <include>kglobalsettings.h</include>
+    <include>QFontDatabase</include>
     <include>kgpg.h</include>
     <kcfgfile name="kgpgrc"/>
 
@@ -223,7 +223,7 @@
     <group name="Text Font">
         <entry name="Font" type="Font" key="KEditFont">
             <label>Font</label>
-            <default code="true">KGlobalSettings::fixedFont()</default>
+            <default code="true">QFontDatabase::systemFont(QFontDatabase::FixedFont)</default>
         </entry>
     </group>
 
@@ -264,7 +264,7 @@
 	<group name="Key Signing">
 		<entry name="EmailTemplate" type="String" key="Email_Template">
 			<label>This is the text of the email sent by the "Sign and Mail User ID" action.</label>
-			<default code="true">i18n(EMailTemplateText)</default>
+			<default code="true">EMailTemplateText</default>
 		</entry>
 		<entry name="MailUats" type="Enum" key="Mail_Uats">
 			<choices>

@@ -28,7 +28,7 @@
 #include "kgpgsettings.h"
 #include "model/kgpgitemmodel.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 KGpgKeyNode::KGpgKeyNode(KGpgRootNode *parent, const KgpgCore::KgpgKey &k)
 	: KGpgSignableNode(parent),
@@ -81,8 +81,8 @@ QString
 KGpgKeyNode::getSize() const
 {
 	return i18nc("size of signing key / size of encryption key",
-			"%1 / %2", QString::number(getSignKeySize()),
-			QString::number(getEncryptionKeySize()));
+			"%1 / %2", m_key->strength(),
+			m_key->encryptionStrength());
 }
 
 QString

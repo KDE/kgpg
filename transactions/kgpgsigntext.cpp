@@ -24,7 +24,7 @@ KGpgSignText::KGpgSignText(QObject *parent, const QString &signId, const QString
 {
 }
 
-KGpgSignText::KGpgSignText(QObject *parent, const QString &signId, const KUrl::List &files, const SignOptions &options, const QStringList &extraOptions)
+KGpgSignText::KGpgSignText(QObject *parent, const QString &signId, const QList<QUrl> &files, const SignOptions &options, const QStringList &extraOptions)
 	: KGpgTextOrFileTransaction(parent, files),
 	m_fileIndex(0),
 	m_options(options),
@@ -44,7 +44,7 @@ KGpgSignText::command() const
 {
 	QStringList ret = m_extraOptions;
 
-	const KUrl::List &files = getInputFiles();
+	const QList<QUrl> &files = getInputFiles();
 	QString fileName;
 
 	if (!files.isEmpty())
@@ -75,7 +75,7 @@ KGpgSignText::signedText() const
 {
 	QStringList result;
 
-	foreach (const QString &line, getMessages())
+	for (const QString &line : getMessages())
 		if (!line.startsWith(QLatin1String("[GNUPG:] "))) {
 			result.append(line);
 		}

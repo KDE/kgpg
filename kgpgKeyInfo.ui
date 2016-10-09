@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>kgpgKeyInfo</class>
- <widget class="KDialog" name="kgpgKeyInfo">
+ <widget class="QDialog" name="kgpgKeyInfo">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -165,7 +165,7 @@
             </widget>
            </item>
            <item row="5" column="1">
-            <widget class="KComboBox" name="m_owtrust">
+            <widget class="QComboBox" name="m_owtrust">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -345,7 +345,7 @@
             </layout>
            </item>
            <item>
-            <widget class="KComboBox" name="m_photoid"/>
+            <widget class="QComboBox" name="m_photoid"/>
            </item>
           </layout>
          </widget>
@@ -377,14 +377,14 @@
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="m_expirationbtn">
+            <widget class="QPushButton" name="m_expirationbtn">
              <property name="text">
               <string>Change Expiration</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="m_password">
+            <widget class="QPushButton" name="m_password">
              <property name="text">
               <string>Change Passphrase</string>
              </property>
@@ -442,25 +442,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KDialog</class>
-   <extends>QDialog</extends>
-   <header>kdialog.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>KUrlLabel</class>
    <extends>QLabel</extends>
-   <header>kurllabel.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>KUrlLabel</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -15,8 +15,8 @@
 
 #include "gpgproc.h"
 
-#include <KLocale>
-#include <kpimutils/email.h>
+#include <KEmailAddress>
+#include <KLocalizedString>
 #include <QApplication>
 
 KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
@@ -51,7 +51,7 @@ KGpgGenerateKey::~KGpgGenerateKey()
 bool
 KGpgGenerateKey::preStart()
 {
-	if (!m_email.isEmpty() && !KPIMUtils::isValidSimpleAddress(m_email)) {
+	if (!m_email.isEmpty() && !KEmailAddress::isValidSimpleAddress(m_email)) {
 		setSuccess(TS_INVALID_EMAIL);
 		return false;
 	}
@@ -96,7 +96,7 @@ KGpgGenerateKey::postStart()
 
 	if (!m_email.isEmpty()) {
 		keymessage.append("\nName-Email: ");
-		keymessage.append(m_email.toAscii());
+		keymessage.append(m_email.toLatin1());
 	}
 
 	if (!m_comment.isEmpty()) {
@@ -125,7 +125,7 @@ KGpgGenerateKey::postStart()
 			usage << QLatin1String("encrypt");
 		if (m_capabilities & KgpgCore::SKT_SIGNATURE)
 			usage << QLatin1String("sign");
-		keymessage.append(usage.join(QLatin1String(" ")).toAscii());
+		keymessage.append(usage.join(QLatin1String(" ")).toLatin1());
 	}
 
 	keymessage.append("\nPassphrase: ");

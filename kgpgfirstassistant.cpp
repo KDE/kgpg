@@ -23,19 +23,20 @@
 #include "kgpginterface.h"
 #include "core/kgpgkey.h"
 
-#include <KComboBox>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <KStandardDirs>
-#include <KUrl>
 #include <KUrlRequester>
+
 #include <QCheckBox>
+#include <QComboBox>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QSpacerItem>
+#include <QStandardPaths>
 #include <QTextStream>
 #include <QWidget>
+#include <QUrl>
 
 using namespace KgpgCore;
 
@@ -109,14 +110,14 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	binURL = new KUrlRequester(page);
 	binURL->setFilter(i18nc("search filter for gpg binary", "gpg|GnuPG binary\n*|All files"));
-	QString gpgBin = KStandardDirs::findExe(QLatin1String("gpg2"));
+	QString gpgBin = QStandardPaths::findExecutable(QLatin1String("gpg2"));
 	if (gpgBin.isEmpty())
-		gpgBin = KStandardDirs::findExe(QLatin1String("gpg"));
+		gpgBin = QStandardPaths::findExecutable(QLatin1String("gpg"));
 	if (gpgBin.isEmpty())
 		gpgBin = QLatin1String("gpg");
-	binURL->setUrl(KUrl::fromPath(gpgBin));
+	binURL->setUrl(QUrl::fromLocalFile(gpgBin));
 
-	connect(binURL, SIGNAL(textChanged(QString)), SLOT(slotBinaryChanged(QString)));
+	connect(binURL, &KUrlRequester::textChanged, this, &KGpgFirstAssistant::slotBinaryChanged);
 	slotBinaryChanged(gpgBin);
 
 	gridLayout->addWidget(binURL, 2, 1, 1, 1);
@@ -183,7 +184,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	hboxLayout->addWidget(label);
 
-	CBdefault = new KComboBox(page);
+	CBdefault = new QComboBox(page);
 	QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	sizePolicy1.setHorizontalStretch(0);
 	sizePolicy1.setVerticalStretch(0);
@@ -261,7 +262,7 @@ KGpgFirstAssistant::findConfigPath()
 		}
 	}
 
-	pathURL->setUrl(confPath);
+	pathURL->setUrl(QUrl::fromLocalFile(confPath));
 
 	QStringList secids = KgpgInterface::readSecretKeys();
 	if (secids.isEmpty()) {
@@ -271,14 +272,14 @@ KGpgFirstAssistant::findConfigPath()
 		return;
 	}
 
-	KgpgKeyList publiclist = KgpgInterface::readPublicKeys(secids);
+	const KgpgKeyList publiclist = KgpgInterface::readPublicKeys(secids);
 
 	generateCB->setChecked(false);
 	setAppropriate(page_defaultkey, true);
 
 	CBdefault->clear();
 
-	foreach (const KgpgKey &k, publiclist) {
+	for (const KgpgKey &k : publiclist) {
 		QString s;
 
 		if (k.email().isEmpty())

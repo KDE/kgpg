@@ -15,7 +15,8 @@
 #ifndef KGPGTEXTINTERFACE_H
 #define KGPGTEXTINTERFACE_H
 
-#include <KUrl>
+#include <QObject>
+#include <QUrl>
 
 class KGpgTextInterfacePrivate;
 class QString;
@@ -48,7 +49,7 @@ public Q_SLOTS:
      * @param srcUrl file to sign.
      * @param options additional gpg options, e.g. "--armor"
      */
-    void signFiles(const KUrl::List &srcUrl);
+    void signFiles(const QList<QUrl> &srcUrl);
 
 private Q_SLOTS:
 	void slotSignFile();

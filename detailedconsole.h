@@ -18,11 +18,11 @@
 #ifndef KGPGDETAILEDCONSOLE_H
 #define KGPGDETAILEDCONSOLE_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <kgpgcompiler.h>
 
-class KgpgDetailedInfo : public KDialog
+class KgpgDetailedInfo : public QDialog
 {
 public:
 	explicit KgpgDetailedInfo(QWidget *parent = Q_NULLPTR, const QString &boxLabel = QString(),

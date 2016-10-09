@@ -18,15 +18,19 @@
 
 #include "core/KGpgKeyNode.h"
 
-#include <KUrl>
+#include <QUrl>
 #include <QDir>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 KgpgRevokeWidget::KgpgRevokeWidget(QWidget* parent)
 	: QWidget(parent),
 	Ui_KgpgRevokeWidget()
 {
 	setupUi(this);
-	connect(cbSave, SIGNAL(toggled(bool)), SLOT(cbSave_toggled(bool)));
+	connect(cbSave, &QCheckBox::toggled, this, &KgpgRevokeWidget::cbSave_toggled);
 }
 
 void KgpgRevokeWidget::cbSave_toggled(bool isOn)
@@ -35,22 +39,32 @@ void KgpgRevokeWidget::cbSave_toggled(bool isOn)
 }
 
 KGpgRevokeDialog::KGpgRevokeDialog(QWidget* parent, const KGpgKeyNode *node)
-	: KDialog(parent),
+	: QDialog(parent),
 	m_revWidget(new KgpgRevokeWidget(this)),
 	m_id(node->getId())
 {
 	setWindowTitle(i18n("Create Revocation Certificate"));
-	setButtons(KDialog::Ok | KDialog::Cancel);
-	setDefaultButton(KDialog::Ok);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout(this);
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &KGpgRevokeDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &KGpgRevokeDialog::reject);
+	buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 	setModal(true);
 
 	m_revWidget->keyID->setText(i18nc("<Name> (<Email>) ID: <KeyId>", "%1 (%2) ID: %3",
 				node->getName(), node->getEmail(), m_id));
-	m_revWidget->outputFile->setUrl(QString(QDir::homePath() + QLatin1Char( '/' ) + node->getEmail().section( QLatin1Char( '@' ), 0, 0 )  + QLatin1String( ".revoke" ) ));
+	m_revWidget->outputFile->setUrl(QUrl(QDir::homePath() + QLatin1Char( '/' ) + node->getEmail().section( QLatin1Char( '@' ), 0, 0 )  + QLatin1String( ".revoke" ) ));
 	m_revWidget->outputFile->setMode(KFile::File);
 
 	setMinimumSize(m_revWidget->sizeHint());
-	setMainWidget(m_revWidget);
+	mainLayout->addWidget(m_revWidget);
+	mainLayout->addWidget(buttonBox);
 }
 
 QString KGpgRevokeDialog::getDescription() const
@@ -63,12 +77,12 @@ int KGpgRevokeDialog::getReason() const
 	return m_revWidget->comboBox1->currentIndex();
 }
 
-KUrl KGpgRevokeDialog::saveUrl() const
+QUrl KGpgRevokeDialog::saveUrl() const
 {
 	if (m_revWidget->cbSave->isChecked())
 		return m_revWidget->outputFile->url();
 	else
-		return KUrl();
+		return QUrl();
 }
 
 QString KGpgRevokeDialog::getId() const

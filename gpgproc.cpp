@@ -14,14 +14,19 @@
 #include "gpgproc.h"
 
 #include "kgpgsettings.h"
+#include "kgpg_debug.h"
 
-#include <KDebug>
 #include <KProcess>
-#include <KStandardDirs>
+
+#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
 #include <QStringList>
 #include <QTextCodec>
+
+#ifndef Q_OS_WIN
+  #include <sys/stat.h>
+#endif
 
 class GnupgBinary {
 public:
@@ -110,12 +115,12 @@ getGpgProcessHome(const QString &binary)
 
 void GnupgBinary::setBinary(const QString &executable)
 {
-	kDebug(2100) << "checking version of GnuPG executable" << executable;
+	qCDebug(KGPG_LOG_GENERAL) << "checking version of GnuPG executable" << executable;
 	// must be set first as gpgVersionString() uses GPGProc to parse the output
 	m_binary = executable;
 	const QString verstr = GPGProc::gpgVersionString(executable);
 	m_version = GPGProc::gpgVersion(verstr);
-	kDebug(2100) << "version is" << verstr << m_version;
+	qCDebug(KGPG_LOG_GENERAL) << "version is" << verstr << m_version;
 
 	m_useDebugLevel = (m_version > 0x20000);
 
@@ -161,7 +166,7 @@ bool GnupgBinary::supportsDebugLevel() const
 	return m_useDebugLevel;
 }
 
-K_GLOBAL_STATIC(GnupgBinary, lastBinary)
+Q_GLOBAL_STATIC(GnupgBinary, lastBinary)
 
 GPGProc::GPGProc(QObject *parent, const QString &binary)
        : KLineBufferedProcess(parent)
@@ -190,15 +195,15 @@ GPGProc::resetProcess(const QString &binary)
 
 	setOutputChannelMode(OnlyStdoutChannel);
 
-	disconnect(SIGNAL(finished(int,QProcess::ExitStatus)));
-	disconnect(SIGNAL(lineReadyStandardOutput()));
+	disconnect(this, static_cast<void(GPGProc::*)(int, QProcess::ExitStatus)>(&GPGProc::finished), this, &GPGProc::processFinished);
+	disconnect(this, &GPGProc::lineReadyStandardOutput, this, &GPGProc::received);
 }
 
 void GPGProc::start()
 {
 	// make sure there is exactly one connection from us to that signal
-	connect(this, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(finished()), Qt::UniqueConnection);
-	connect(this, SIGNAL(lineReadyStandardOutput()), this, SLOT(received()), Qt::UniqueConnection);
+	connect(this, static_cast<void(GPGProc::*)(int, QProcess::ExitStatus)>(&GPGProc::finished), this, &GPGProc::processFinished, Qt::UniqueConnection);
+	connect(this, &GPGProc::lineReadyStandardOutput, this, &GPGProc::received, Qt::UniqueConnection);
 	KProcess::start();
 }
 
@@ -207,7 +212,7 @@ void GPGProc::received()
 	emit readReady();
 }
 
-void GPGProc::finished()
+void GPGProc::processFinished()
 {
 	emit processExited();
 }
@@ -331,7 +336,8 @@ GPGProc::getGpgPubkeyAlgorithms(const QString &binary)
 {
 	QStringList ret;
 
-	foreach (const QString &s, getGpgStatusLine(binary, QLatin1String("Pubkey:")).split(QLatin1Char(','))) {
+	const auto algorithms = getGpgStatusLine(binary, QLatin1String("Pubkey:")).split(QLatin1Char(','));
+	for (const QString &s : algorithms) {
 		QString t = s.trimmed();
 		if (t == QLatin1String("?"))
 			continue;
@@ -375,7 +381,7 @@ QString GPGProc::getGpgHome(const QString &binary)
 
 	// Third try: guess what it is.
 	if (gpgHome.isEmpty()) {
-#ifdef Q_OS_WIN32	//krazy:exclude=cpp
+#ifdef Q_OS_WIN 	//krazy:exclude=cpp
 		gpgHome = qgetenv("APPDATA") + QLatin1String( "/gnupg/" );
 		gpgHome.replace(QLatin1Char( '\\' ), QLatin1Char( '/' ));
 #else
@@ -391,6 +397,12 @@ QString GPGProc::getGpgHome(const QString &binary)
 	if (gpgHome.startsWith(QLatin1String("~/")))
 		gpgHome.replace(0, 1, QDir::homePath());
 
-	KStandardDirs::makeDir(gpgHome, 0700);
+#ifdef Q_OS_WIN
+	QDir().mkpath(gpgHome);
+#else
+	uint mask = umask(077);
+	QDir().mkpath(gpgHome);
+	umask(mask);
+#endif
 	return gpgHome;
 }

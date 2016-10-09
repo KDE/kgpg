@@ -15,9 +15,9 @@
 #define FOLDERCOMPRESSJOB_H
 
 #include <KJob>
-#include <KUrl>
+#include <QUrl>
 
-class KTemporaryFile;
+class QTemporaryFile;
 class QString;
 class QStringList;
 
@@ -51,7 +51,7 @@ public:
 	 * @param encOptions special options to pass to the GnuPG process
 	 * @param archive the archive type to use
 	 */
-	FolderCompressJob(QObject *parent, const KUrl::List &sources, const KUrl &dest, KTemporaryFile *tempfile, const QStringList &keys, const QStringList &options, const KGpgEncrypt::EncryptOptions encOptions, const int archive);
+	FolderCompressJob(QObject *parent, const QList<QUrl> &sources, const QUrl &dest, QTemporaryFile *tempfile, const QStringList &keys, const QStringList &options, const KGpgEncrypt::EncryptOptions encOptions, const int archive);
 
 	/**
 	 * @brief FolderCompressJob destructor

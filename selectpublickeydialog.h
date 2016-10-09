@@ -18,17 +18,17 @@
 
 #include "core/kgpgkey.h"
 
-#include <KDialog>
-#include <KShortcut>
-#include <KUrl>
-#include <KVBox>
+#include <QDialog>
 #include <QKeySequence>
+#include <QUrl>
+
+#include <QVBoxLayout>
 
 class QCheckBox;
 class QTableView;
 
-class KLineEdit;
-class KHBox;
+class QLineEdit;
+
 
 class SelectKeyProxyModel;
 class KGpgItemModel;
@@ -36,7 +36,7 @@ class KGpgItemModel;
 /**
  * @brief shows a dialog to select a public key for encryption
  */
-class KgpgSelectPublicKeyDlg : public KDialog
+class KgpgSelectPublicKeyDlg : public QDialog
 {
     Q_OBJECT
 
@@ -44,7 +44,7 @@ public:
     /* TODO: the goDefaultKey shortcut should be stored in a way it can be accessed from everywhere. So we don't have to pass it as an argument.
      */
 
-    KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const KShortcut &goDefaultKey, const bool hideasciioption, const KUrl::List &files = KUrl::List());
+    KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *model, const QKeySequence &goDefaultKey, const bool hideasciioption, const QList<QUrl> &files = QList<QUrl>());
 
     QStringList selectedKeys() const;
     QString getCustomOptions() const;
@@ -55,9 +55,9 @@ public:
     /**
      * @brief return the files passed in the constructor
      */
-    const KUrl::List &getFiles() const;
+    const QList<QUrl> &getFiles() const;
 
-    KVBox *optionsbox;
+    QWidget *optionsbox;
 
 private slots:
     void slotOk();
@@ -67,18 +67,23 @@ private slots:
     void slotGotoDefaultKey();
 
 private:
+    void toggleDetails();
+private:
     QCheckBox *m_cbarmor;
     QCheckBox *m_cbuntrusted;
     QCheckBox *m_cbhideid;
     QCheckBox *m_cbsymmetric;
 
-    KHBox *m_searchbar;
-    KLineEdit *m_customoptions;
+    QPushButton *m_okButton;
+    QPushButton *m_detailsButton;
+
+    QWidget *m_searchbar;
+    QLineEdit *m_customoptions;
     QTableView *m_keyslist;
-    KLineEdit *m_searchlineedit;
+    QLineEdit *m_searchlineedit;
     SelectKeyProxyModel *iproxy;
     KGpgItemModel *imodel;
-    const KUrl::List m_files;
+    const QList<QUrl> m_files;
 
     bool m_hideasciioption;
 };

@@ -39,6 +39,10 @@ enum KgpgKeyAlgoFlag
     ALGO_DSA = 2,
     ALGO_ELGAMAL = 4,
     ALGO_DSA_ELGAMAL = ALGO_DSA | ALGO_ELGAMAL,
+    ALGO_ECC = 8,
+    ALGO_ECDSA = 16,
+    ALGO_ECDH = 32,
+    ALGO_EDDSA = 64,
     ALGO_RSA_RSA = 0x10001
 };
 Q_DECLARE_FLAGS(KgpgKeyAlgo, KgpgKeyAlgoFlag)
@@ -115,7 +119,7 @@ class KgpgKeySubPrivate : public QSharedData
     KgpgKeySubPrivate();
 public:
     KgpgKeySubPrivate(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const KgpgSubKeyType type,
-                      const QDateTime &date);
+                      const QDateTime &date, const QString &curve);
 
     bool            gpgsubvalid;
     const QString   gpgsubid;
@@ -125,6 +129,7 @@ public:
     const KgpgKeyTrust gpgsubtrust;
     const KgpgKeyAlgo gpgsubalgo;
     const KgpgSubKeyType gpgsubtype;
+    const QString   gpgcurve;
 
     bool operator==(const KgpgKeySubPrivate &other) const;
     inline bool operator!=(const KgpgKeySubPrivate &other) const
@@ -136,7 +141,7 @@ class KgpgKeySub
     KgpgKeySub();
 public:
     KgpgKeySub(const QString &id, const uint size, const KgpgKeyTrust trust, const KgpgKeyAlgo algo, const KgpgSubKeyType type,
-               const QDateTime &date);
+               const QDateTime &date, const QString &curve);
     KgpgKeySub(const KgpgKeySub &other);
 
     void setExpiration(const QDateTime &date);
@@ -144,6 +149,7 @@ public:
 
     QString id() const;
     uint size() const;
+    QString strength() const;
     bool unlimited() const;
     QDateTime expirationDate() const;
     QDateTime creationDate() const;
@@ -151,6 +157,7 @@ public:
     KgpgKeyAlgo algorithm() const;
     bool valid() const;
     KgpgSubKeyType type() const;
+    QString curve() const;
 
     bool operator==(const KgpgKeySub &other) const;
     inline bool operator!=(const KgpgKeySub &other) const
@@ -209,8 +216,9 @@ public:
      * @param keytype key capabilities of this and all subkeys combined
      * @param creationDate date of key creation
      */
-    KgpgKeyPrivate(const QString& id, const uint size, const KgpgCore::KgpgKeyTrust trust, const KgpgCore::KgpgKeyAlgo algo,
-                  const KgpgCore::KgpgSubKeyType subtype, const KgpgCore::KgpgSubKeyType keytype, const QDateTime& creationDate);
+    KgpgKeyPrivate(const QString &id, const uint size, const KgpgCore::KgpgKeyTrust trust, const KgpgCore::KgpgKeyAlgo algo,
+                   const KgpgCore::KgpgSubKeyType subtype, const KgpgCore::KgpgSubKeyType keytype, const QDateTime &creationDate,
+                   const QString &curve);
 
     bool          gpgkeysecret;
     bool          gpgkeyvalid;
@@ -227,6 +235,7 @@ public:
     const KgpgKeyAlgo gpgkeyalgo;
     const KgpgSubKeyType gpgsubtype;
     const KgpgSubKeyType gpgkeytype;
+    QString       gpgcurve;
 
     KgpgKeySubListPtr gpgsublist;
 
@@ -249,7 +258,8 @@ public:
      * @param creationDate date of key creation
      */
     KgpgKey(const QString &id, const uint size, const KgpgCore::KgpgKeyTrust trust, const KgpgCore::KgpgKeyAlgo algo,
-            const KgpgCore::KgpgSubKeyType subtype, const KgpgCore::KgpgSubKeyType keytype, const QDateTime& creationDate);
+            const KgpgCore::KgpgSubKeyType subtype, const KgpgCore::KgpgSubKeyType keytype, const QDateTime& creationDate,
+            const QString &curve);
     KgpgKey(const KgpgKey &other);
 
     void setSecret(const bool secret);
@@ -270,7 +280,9 @@ public:
     QString comment() const;
     const QString &fingerprint() const;
     uint size() const;
+    QString strength() const;
     uint encryptionSize() const;
+    QString encryptionStrength() const;
     gpgme_validity_t ownerTrust() const;
     KgpgKeyTrust trust() const;
     QDateTime creationDate() const;
@@ -280,6 +292,7 @@ public:
     KgpgKeyAlgo encryptionAlgorithm() const;
     KgpgSubKeyType subtype() const;
     KgpgSubKeyType keytype() const;
+    QString curve() const;
 
     KgpgKeySubListPtr subList() const;
 

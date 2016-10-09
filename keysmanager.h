@@ -21,23 +21,22 @@
 #include "model/kgpgitemmodel.h"
 #include "model/kgpgitemnode.h"
 
-#include <KDialog>
 #include <KToggleAction>
-#include <KUrl>
 #include <KXmlGuiWindow>
+
 #include <QClipboard>
 #include <QSet>
-#include <solid/networking.h>
+#include <QUrl>
 
 class KJob;
-class QEvent;
 
 class KSelectAction;
-class KMenu;
-class KLineEdit;
-class KAction;
-class KJob;
-class KShortcut;
+
+class QAction;
+class QEvent;
+class QKeySequence;
+class QLineEdit;
+class QMenu;
 
 class KeyServer;
 class KgpgEditor;
@@ -80,7 +79,7 @@ public:
     /**
      * @brief returns the shortcut to go to the default key in a key selection
      */
-    KShortcut goDefaultShortcut() const;
+    QKeySequence goDefaultShortcut() const;
 
 private:
     KToggleAction *sTrust;
@@ -111,7 +110,7 @@ public slots:
     void showOptions();
     void slotOpenEditor();
     void slotImport(const QString &text);
-    void slotImport(const KUrl::List &files);
+    void slotImport(const QList<QUrl> &files);
     /**
      * When you click on "encrypt the clipboard" in the systray,
      * this slot will open the dialog to choose a key and encrypt the
@@ -224,9 +223,6 @@ private slots:
     void slotSetClip(int result);
     void slotOpenKeyUrl();
 
-    void slotNetworkUp();
-    void slotNetworkDown();
-
 private:
     KGpgItemModel *imodel;
     KeyListProxyModel *iproxy;
@@ -245,40 +241,43 @@ private:
 
     QClipboard::Mode m_clipboardmode;
 
-    KMenu *m_popuppub;          // popup on a public key
-    KMenu *m_popupsec;          // popup on a secret key
-    KMenu *m_popupgroup;        // popup on a group
-    KMenu *m_popupout;          // popup there is no key or when the user don't right-click on a key
-    KMenu *m_popupsig;          // popup on a signature
-    KMenu *m_popupphoto;        // popup on a photo
-    KMenu *m_popupuid;          // popup on an user id
-    KMenu *m_popuporphan;       // popup on an orphan key
+    QMenu *m_popuppub;          // popup on a public key
+    QMenu *m_popupsec;          // popup on a secret key
+    QMenu *m_popupgroup;        // popup on a group
+    QMenu *m_popupout;          // popup there is no key or when the user don't right-click on a key
+    QMenu *m_popupsig;          // popup on a signature
+    QMenu *m_popupphoto;        // popup on a photo
+    QMenu *m_popupuid;          // popup on an user id
+    QMenu *m_popuporphan;       // popup on an orphan key
 
-    KLineEdit *m_listviewsearch;
-    KDialog *addUidWidget;
+    QLineEdit *m_listviewsearch;
+    QDialog *addUidWidget;
+    AddUid *keyUid;
 
-    KAction *importSignatureKey;
-    KAction *importAllSignKeys;
-    KAction *signKey;
-    KAction *signUid;
-    KAction *signMailUid;
-    KAction *refreshKey;
-    KAction *editKey;
-    KAction *setPrimUid;
-    KAction *delUid;
-    KAction *delSignKey;
-    KAction *deleteKey;
-    KAction *editCurrentGroup;
-    KAction *delGroup;
-    KAction *setDefaultKey;
-    KAction *kserver;
-    KAction *openEditor;
-    KAction *goToDefaultKey;
-    KAction *exportPublicKey;
-    KAction *m_sendEmail;
-    KAction *createGroup;
-    KAction *m_groupRename;
-    KAction *m_revokeKey;
+    QLabel m_statusBarLabel;
+
+    QAction *importSignatureKey;
+    QAction *importAllSignKeys;
+    QAction *signKey;
+    QAction *signUid;
+    QAction *signMailUid;
+    QAction *refreshKey;
+    QAction *editKey;
+    QAction *setPrimUid;
+    QAction *delUid;
+    QAction *delSignKey;
+    QAction *deleteKey;
+    QAction *editCurrentGroup;
+    QAction *delGroup;
+    QAction *setDefaultKey;
+    QAction *kserver;
+    QAction *openEditor;
+    QAction *goToDefaultKey;
+    QAction *exportPublicKey;
+    QAction *m_sendEmail;
+    QAction *createGroup;
+    QAction *m_groupRename;
+    QAction *m_revokeKey;
 
     bool showTipOfDay;
     bool m_signuids;
@@ -291,7 +290,6 @@ private:
 
     // react to network status changes
     bool m_online;
-    Solid::Networking::Notifier *m_netnote;
     void toggleNetworkActions(bool online);
 
     KStatusNotifierItem *m_trayicon;

@@ -27,13 +27,18 @@
 #include "transactions/kgpgsigntext.h"
 #include "transactions/kgpgverify.h"
 
-#include <KLocale>
+#include <KIO/Job>
+#include <KJobWidgets>
+#include <KLocalizedString>
 #include <KMessageBox>
+#include <KUrlMimeData>
+
 #include <QDragEnterEvent>
 #include <QDropEvent>
 #include <QFile>
+#include <QMimeData>
+#include <QTemporaryFile>
 #include <QTextStream>
-#include <kio/netaccess.h>
 
 #define SIGNEDMESSAGE_BEGIN  QLatin1String( "-----BEGIN PGP SIGNED MESSAGE-----" )
 #define SIGNEDMESSAGE_END    QLatin1String( "-----END PGP SIGNATURE-----" )
@@ -59,14 +64,14 @@ KgpgTextEdit::~KgpgTextEdit()
 void KgpgTextEdit::dragEnterEvent(QDragEnterEvent *e)
 {
     // if a file is dragged into editor ...
-    if (KUrl::List::canDecode(e->mimeData()) || e->mimeData()->hasText())
+    if (e->mimeData()->hasUrls() || e->mimeData()->hasText())
         e->acceptProposedAction();
 }
 
 void KgpgTextEdit::dropEvent(QDropEvent *e)
 {
     // decode dropped file or dropped text
-    KUrl::List uriList = KUrl::List::fromMimeData(e->mimeData());
+    QList<QUrl> uriList = KUrlMimeData::urlsFromMimeData(e->mimeData());
     if (!uriList.isEmpty())
         slotDroppedFile(uriList.first());
     else
@@ -74,14 +79,14 @@ void KgpgTextEdit::dropEvent(QDropEvent *e)
         insertPlainText(e->mimeData()->text());
 }
 
-void KgpgTextEdit::slotDroppedFile(const KUrl &url)
+void KgpgTextEdit::slotDroppedFile(const QUrl &url)
 {
 	openDroppedFile(url, true);
 }
 
-void KgpgTextEdit::openDroppedFile(const KUrl& url, const bool probe)
+void KgpgTextEdit::openDroppedFile(const QUrl &url, const bool probe)
 {
-	KUrl tmpurl;
+	QUrl tmpurl;
 
 	if (url.isLocalFile()) {
 		m_tempfile = url.path();
@@ -90,11 +95,18 @@ void KgpgTextEdit::openDroppedFile(const KUrl& url, const bool probe)
 		if (KMessageBox::warningContinueCancel(this, i18n("<qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"), QString(), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QLatin1String( "RemoteFileWarning" )) != KMessageBox::Continue)
 			return;
 
-		if (!KIO::NetAccess::download(url, m_tempfile, this)) {
+		QTemporaryFile tmpFile;
+		tmpFile.open();
+		auto copyJob = KIO::file_copy(url, QUrl::fromLocalFile(tmpFile.fileName()));
+		KJobWidgets::setWindow(copyJob , this);
+		copyJob->exec();
+		if (copyJob->error()) {
 			KMessageBox::sorry(this, i18n("Could not download file."));
 			return;
 		}
-		tmpurl = KUrl::fromPath(m_tempfile);
+		tmpFile.setAutoRemove(false);
+		m_tempfile = tmpFile.fileName();
+		tmpurl = QUrl::fromLocalFile(m_tempfile);
 	}
 
 	QString result;
@@ -111,13 +123,14 @@ void KgpgTextEdit::openDroppedFile(const KUrl& url, const bool probe)
 
 	if (!probe || KGpgDecrypt::isEncryptedText(result, &m_posstart, &m_posend)) {
 		// if pgp data found, decode it
-		KGpgDecrypt *decr = new KGpgDecrypt(this, KUrl::List(tmpurl));
-		connect(decr, SIGNAL(done(int)), SLOT(slotDecryptDone(int)));
+		KGpgDecrypt *decr = new KGpgDecrypt(this, QList<QUrl>({url}));
+		connect(decr, &KGpgDecrypt::done, this, &KgpgTextEdit::slotDecryptDone);
 		decr->start();
 		return;
 	}
 	// remove only here, as KGpgDecrypt will use and remove the file itself
-	KIO::NetAccess::removeTempFile(m_tempfile);
+	if(!m_tempfile.isEmpty())
+		QFile::remove( m_tempfile );
 	m_tempfile.clear();
 
 	QString tmpinfo;
@@ -136,7 +149,7 @@ void KgpgTextEdit::openDroppedFile(const KUrl& url, const bool probe)
 			setPlainText(result);
 		} else {
 			KGpgImport *imp = new KGpgImport(this, result);
-			connect(imp, SIGNAL(done(int)), m_keysmanager, SLOT(slotImportDone(int)));
+			connect(imp, &KGpgImport::done, m_keysmanager, &KeysManager::slotImportDone);
 			imp->start();
 		}
 	} else {
@@ -156,7 +169,7 @@ void KgpgTextEdit::openDroppedFile(const KUrl& url, const bool probe)
 void KgpgTextEdit::slotEncode()
 {
 	QPointer<KgpgSelectPublicKeyDlg> dialog = new KgpgSelectPublicKeyDlg(this, m_model, m_keysmanager->goDefaultShortcut(), true);
-	if (dialog->exec() == KDialog::Accepted) {
+	if (dialog->exec() == QDialog::Accepted) {
 		QStringList options;
 		KGpgEncrypt::EncryptOptions opts = KGpgEncrypt::DefaultEncryption;
 
@@ -184,7 +197,7 @@ void KgpgTextEdit::slotEncode()
 
 		KGpgEncrypt *encr = new KGpgEncrypt(this, listkeys, toPlainText(), opts, options);
 		encr->start();
-		connect(encr, SIGNAL(done(int)), SLOT(slotEncodeUpdate(int)));
+		connect(encr, &KGpgEncrypt::done, this, &KgpgTextEdit::slotEncodeUpdate);
 	}
 	delete dialog;
 }
@@ -197,7 +210,7 @@ void KgpgTextEdit::slotDecode()
 		return;
 
 	KGpgDecrypt *decr = new KGpgDecrypt(this, fullcontent.mid(m_posstart, m_posend - m_posstart));
-	connect(decr, SIGNAL(done(int)), SLOT(slotDecryptDone(int)));
+	connect(decr, &KGpgDecrypt::done, this, &KgpgTextEdit::slotDecryptDone);
 	decr->start();
 }
 
@@ -217,7 +230,7 @@ void KgpgTextEdit::slotSign(const QString &message)
     delete opts;
 
 	KGpgSignText *signt = new KGpgSignText(this, signkeyid, message);
-	connect(signt, SIGNAL(done(int)), SLOT(slotSignUpdate(int)));
+	connect(signt, &KGpgSignText::done, this, &KgpgTextEdit::slotSignUpdate);
 	signt->start();
 }
 
@@ -236,7 +249,7 @@ void KgpgTextEdit::slotVerify(const QString &message)
     posend += endmsg.length();
 
     KGpgVerify *verify = new KGpgVerify(this, message.mid(posstart, posend - posstart));
-    connect(verify, SIGNAL(done(int)), SLOT(slotVerifyDone(int)));
+    connect(verify, &KGpgVerify::done, this, &KgpgTextEdit::slotVerifyDone);
     verify->start();
 }
 
@@ -246,7 +259,8 @@ void KgpgTextEdit::slotDecryptDone(int result)
 	Q_ASSERT(decr != Q_NULLPTR);
 
 	if (!m_tempfile.isEmpty()) {
-		KIO::NetAccess::removeTempFile(m_tempfile);
+		if(!m_tempfile.isEmpty())
+			QFile::remove( m_tempfile );
 		m_tempfile.clear();
 	}
 
@@ -312,7 +326,7 @@ void KgpgTextEdit::slotVerifyDone(int result)
 		return;
 
 	QStringList msglist;
-	foreach (QString rawmsg, messages) // krazy:exclude=foreach
+	for (QString rawmsg : messages)
 		msglist << rawmsg.replace(QLatin1Char('<'), QLatin1String("&lt;"));
 
 	(void) new KgpgDetailedInfo(this, KGpgVerify::getReport(messages, m_model),
