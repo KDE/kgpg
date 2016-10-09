@@ -27,9 +27,9 @@
 
 int main(int argc, char *argv[])
 {
-    KGpgApp *app = new KGpgApp(argc, argv);
+    KGpgApp app(argc, argv);
 
-    app->setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
     KCrash::initialize();
 
@@ -73,13 +73,13 @@ int main(int argc, char *argv[])
     parser.addOption(QCommandLineOption(QStringList() << QLatin1String("V"), i18n("Verify signature")));
     parser.addPositionalArgument(QLatin1String("[File]"), i18n("File to open"));
 
-    parser.process(*app);
+    parser.process(app);
     about.processCommandLine(&parser);
 
-    app->setQuitOnLastWindowClosed(false);
+    app.setQuitOnLastWindowClosed(false);
     KDBusService service(KDBusService::Unique);
 
-    app->newInstance(parser);
+    app.newInstance(parser);
 
-    return app->exec();
+    return app.exec();
 }
