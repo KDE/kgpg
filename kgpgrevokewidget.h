@@ -19,7 +19,6 @@
 
 #include <QDialog>
 
-#include <kgpgcompiler.h>
 #include "ui_kgpgrevokewidget.h"
 
 class KGpgKeyNode;

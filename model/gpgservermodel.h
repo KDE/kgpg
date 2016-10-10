@@ -21,8 +21,6 @@
 
 #include <QStringListModel>
 
-#include <kgpgcompiler.h>
-
 /**
  * @brief model holding the configured GnuPG key servers
  */

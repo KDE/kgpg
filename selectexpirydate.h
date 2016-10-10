@@ -19,8 +19,6 @@
 #include <QDateTime>
 #include <QDialog>
 
-#include <kgpgcompiler.h>
-
 class KDatePicker;
 class QCheckBox;
 class QPushButton;

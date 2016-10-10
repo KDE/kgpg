@@ -15,7 +15,6 @@
 
 #include <QString>
 
-#include "kgpgcompiler.h"
 #include "klinebufferedprocess.h"
 
 class QStringList;

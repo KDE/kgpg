@@ -16,7 +16,6 @@
 
 #include <KProcess>
 
-#include "kgpgcompiler.h"
 #include "klinebufferedprocessprivate.h"
 
 class QByteArray;

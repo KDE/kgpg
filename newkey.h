@@ -18,7 +18,6 @@
 #ifndef NEWKEY_H
 #define NEWKEY_H
 
-#include <kgpgcompiler.h>
 #include "ui_newkey.h"
 
 class newKey : public QWidget, public Ui_newKey

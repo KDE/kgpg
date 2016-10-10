@@ -182,7 +182,6 @@ set(kgpg_HDRS
    keytreeview.h
    kgpg.h
    kgpgchangekey.h
-   kgpgcompiler.h
    kgpgexternalactions.h
    kgpgfirstassistant.h
    kgpginterface.h

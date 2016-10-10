@@ -24,8 +24,6 @@
 #include <QSortFilterProxyModel>
 #include <QStringList>
 
-#include <kgpgcompiler.h>
-
 class SearchResult;
 class KGpgSearchResultModelPrivate;
 

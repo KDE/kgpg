@@ -22,7 +22,6 @@
 #include <QLabel>
 #include <QString>
 
-#include <kgpgcompiler.h>
 #include "ui_kgpgKeyInfo.h"
 
 class QDialogButtonBox;

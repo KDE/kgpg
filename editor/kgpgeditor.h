@@ -21,8 +21,6 @@
 #include <KXmlGuiWindow>
 #include <QUrl>
 
-#include <kgpgcompiler.h>
-
 class KToggleAction;
 class QAction;
 class KFind;

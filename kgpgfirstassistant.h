@@ -21,8 +21,6 @@
 
 #include <KAssistantDialog>
 
-#include <kgpgcompiler.h>
-
 class QCheckBox;
 class QComboBox;
 class QLabel;

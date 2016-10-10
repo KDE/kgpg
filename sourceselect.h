@@ -20,8 +20,6 @@
 
 #include "ui_sourceselect.h"
 
-#include <kgpgcompiler.h>
-
 class SrcSelect : public QWidget, public Ui::SrcSelect
 {
 	Q_OBJECT

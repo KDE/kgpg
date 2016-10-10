@@ -17,7 +17,6 @@
 #ifndef CONF_ENCRYPTION_H
 #define CONF_ENCRYPTION_H
 
-#include <kgpgcompiler.h>
 #include "ui_conf_encryption.h"
 
 class Encryption : public QWidget, public Ui_Encryption

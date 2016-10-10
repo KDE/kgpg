@@ -13,8 +13,6 @@
 #include <QDialog>
 #include <QUrl>
 
-#include <kgpgcompiler.h>
-
 class QLabel;
 
 class KLed;

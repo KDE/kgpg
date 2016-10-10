@@ -16,8 +16,6 @@
 
 #include <KJob>
 
-#include <kgpgcompiler.h>
-
 class KGpgTransaction;
 
 /**

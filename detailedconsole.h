@@ -20,8 +20,6 @@
 
 #include <QDialog>
 
-#include <kgpgcompiler.h>
-
 class KgpgDetailedInfo : public QDialog
 {
 public:

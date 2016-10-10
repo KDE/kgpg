@@ -23,8 +23,6 @@
 
 #include <QValidator>
 
-#include <kgpgcompiler.h>
-
 namespace KgpgCore
 {
 
