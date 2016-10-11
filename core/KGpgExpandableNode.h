@@ -21,7 +21,6 @@
 
 #include "KGpgNode.h"
 
-class KGpgSubkeyNode;
 class KGpgRefNode;
 
 /**
@@ -36,7 +35,6 @@ class KGpgExpandableNode : public KGpgNode
 	Q_OBJECT
 
 	friend class KGpgRefNode;
-	friend class KGpgSubkeyNode;
 protected:
 	KGpgNode::List children;
 
