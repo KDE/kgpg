@@ -44,7 +44,6 @@ class KGpgRootNode : public KGpgExpandableNode
 
 private:
 	int m_groups;
-	int m_deleting;
 
 protected:
 	virtual void readChildren() Q_DECL_OVERRIDE;
@@ -109,19 +108,6 @@ public:
 	 * @return the number of group nodes
 	 */
 	int groupChildren() const;
-
-	/**
-	 * Return a pointer to this object or Q_NULLPTR
-	 *
-	 * This returns a pointer to this object if the object will persist,
-	 * i.e. is not currently in destruction. If the object is already
-	 * cleaning up Q_NULLPTR is returned.
-	 */
-	KGpgRootNode *asRootNode();
-	/**
-	 * @overload
-	 */
-	const KGpgRootNode *asRootNode() const;
 
 Q_SIGNALS:
 	void newKeyNode(KGpgKeyNode *);

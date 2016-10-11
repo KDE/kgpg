@@ -39,8 +39,10 @@ KGpgKeyNode::KGpgKeyNode(KGpgRootNode *parent, const KgpgCore::KgpgKey &k)
 
 KGpgKeyNode::~KGpgKeyNode()
 {
+	// do not try to access the root node if we are being deleted from there
+	KGpgRootNode * const root = parent() != Q_NULLPTR ? m_parent->toRootNode() : Q_NULLPTR;
 	foreach (KGpgRefNode *nd, m_refs) {
-		nd->unRef(m_parent->toRootNode());
+		nd->unRef(root);
 	}
 }
 

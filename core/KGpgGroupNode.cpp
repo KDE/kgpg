@@ -140,10 +140,8 @@ KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KG
 
 KGpgGroupNode::~KGpgGroupNode()
 {
-	KGpgRootNode *root = m_parent->toRootNode();
-
-	if (root != Q_NULLPTR)
-		root->m_groups--;
+	if (parent() != Q_NULLPTR)
+		m_parent->toRootNode()->m_groups--;
 }
 
 KgpgCore::KgpgItemType

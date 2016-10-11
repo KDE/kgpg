@@ -28,15 +28,17 @@
 
 KGpgRootNode::KGpgRootNode(KGpgItemModel *model)
 	: KGpgExpandableNode(Q_NULLPTR),
-	m_groups(0),
-	m_deleting(false)
+	m_groups(0)
 {
 	m_model = model;
 }
 
 KGpgRootNode::~KGpgRootNode()
 {
-	m_deleting = true;
+	// clear the parents in all children to signal them not to do any
+	// update signalling
+	for (KGpgNode *child: children)
+		child->setParent(Q_NULLPTR);
 }
 
 void
@@ -160,22 +162,4 @@ KGpgRootNode::findKeyRow(const KGpgKeyNode *key)
 			return i;
 	}
 	return -1;
-}
-
-KGpgRootNode *
-KGpgRootNode::asRootNode()
-{
-	if (m_deleting)
-		return Q_NULLPTR;
-
-	return this;
-}
-
-const KGpgRootNode *
-KGpgRootNode::asRootNode() const
-{
-	if (m_deleting)
-		return Q_NULLPTR;
-
-	return this;
 }

@@ -113,7 +113,7 @@ KGpgNode::toRootNode()
 {
 	Q_ASSERT((m_parent == Q_NULLPTR) && (getType() == 0));
 
-	return static_cast<KGpgRootNode *>(this)->asRootNode();
+	return static_cast<KGpgRootNode *>(this);
 }
 
 const KGpgRootNode *
@@ -121,7 +121,7 @@ KGpgNode::toRootNode() const
 {
 	Q_ASSERT((m_parent == Q_NULLPTR) && (getType() == 0));
 
-	return static_cast<const KGpgRootNode *>(this)->asRootNode();
+	return static_cast<const KGpgRootNode *>(this);
 }
 
 KGpgUidNode *
