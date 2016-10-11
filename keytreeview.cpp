@@ -53,7 +53,7 @@ KeyTreeView::selectedNodes(bool *psame, KgpgCore::KgpgItemType *pt) const
 	KgpgItemType tp = 0;
 	bool sametype = true;
 
-	if (selidx.count() == 0) {
+	if (selidx.isEmpty()) {
 		if (pt != Q_NULLPTR)
 			*pt = tp;
 		if (psame != Q_NULLPTR)

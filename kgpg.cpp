@@ -102,7 +102,7 @@ int KGpgApp::newInstance(QCommandLineParser& parser)
 	}
 
 	// parsing of command line args
-	if (parser.isSet("k") || (!KGpgSettings::showSystray() && (parser.positionalArguments().count() == 0) && !parser.isSet("d"))) {
+	if (parser.isSet("k") || (!KGpgSettings::showSystray() && parser.positionalArguments().isEmpty() && !parser.isSet("d"))) {
 		s_keyManager->show();
 		KWindowSystem::setOnDesktop(s_keyManager->winId(), KWindowSystem::currentDesktop());  //set on the current desktop
 		KWindowSystem::unminimizeWindow(s_keyManager->winId());  //de-iconify window

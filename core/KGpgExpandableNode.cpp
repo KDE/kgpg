@@ -44,7 +44,7 @@ KGpgExpandableNode::getChild(const int index) const
 int
 KGpgExpandableNode::getChildCount()
 {
-	if (children.count() == 0)
+	if (children.isEmpty())
 		readChildren();
 
 	return children.count();
@@ -53,13 +53,13 @@ KGpgExpandableNode::getChildCount()
 bool
 KGpgExpandableNode::hasChildren() const
 {
-	return (children.count() != 0);
+	return !children.isEmpty();
 }
 
 bool
 KGpgExpandableNode::wasExpanded() const
 {
-	return (children.count() != 0);
+	return !children.isEmpty();
 }
 
 const
