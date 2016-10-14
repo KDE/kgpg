@@ -45,9 +45,7 @@ signals:
 public Q_SLOTS:
     /**
      * Sign file function
-     * @param keyID the signing key ID.
      * @param srcUrl file to sign.
-     * @param options additional gpg options, e.g. "--armor"
      */
     void signFiles(const QList<QUrl> &srcUrl);
 

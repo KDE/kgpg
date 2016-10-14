@@ -50,7 +50,7 @@ public:
 
 	/**
 	 * @brief set the ids to delete
-	 * @param signids fingerprints of the signatures to delete
+	 * @param keyids fingerprints of the signatures to delete
 	 *
 	 * This will replace all previously set signature ids.
 	 */

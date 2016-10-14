@@ -102,7 +102,7 @@ public:
 	void setOutputProcess(QProcess *outp);
 	/**
 	 * @brief set the transaction the output is sent to
-	 * @param outd transaction to send output to
+	 * @param outt transaction to send output to
 	 */
 	void setOutputTransaction(KGpgTransaction *outt);
 	/**

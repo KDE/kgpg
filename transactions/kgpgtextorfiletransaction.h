@@ -49,7 +49,7 @@ protected:
 	/**
 	 * @brief work with given file(s)
 	 * @param parent parent object
-	 * @param keys list of file locations to work with
+	 * @param files list of file locations to work with
 	 */
 	KGpgTextOrFileTransaction(QObject *parent, const QList<QUrl> &files, const bool allowChaining = false);
 
@@ -66,7 +66,7 @@ public:
 	void setText(const QString &text);
 	/**
 	 * @brief set file locations to work with
-	 * @param keys list of file locations to work with
+	 * @param files list of file locations to work with
 	 */
 	void setUrls(const QList<QUrl> &files);
 

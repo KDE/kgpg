@@ -35,7 +35,7 @@ public:
 	/**
 	 * @brief KGpgGenerateRevoke's constructor
 	 * @param parent parent object
-	 * @param id key fingerprint to generate revokation certificate for
+	 * @param keyID key fingerprint to generate revokation certificate for
 	 * @param revokeUrl place to store the certificate (may be empty)
 	 * @param reason revokation reason
 	 * @param description text description for revokation
