@@ -69,11 +69,11 @@ public:
 	QString gpgErrorMessage() const;
 
 protected:
-	virtual bool preStart() Q_DECL_OVERRIDE;
-	virtual void postStart() Q_DECL_OVERRIDE;
-	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
-	virtual void finish() Q_DECL_OVERRIDE;
-	virtual void newPassphraseEntered() Q_DECL_OVERRIDE;
+	bool preStart() Q_DECL_OVERRIDE;
+	void postStart() Q_DECL_OVERRIDE;
+	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	void finish() Q_DECL_OVERRIDE;
+	void newPassphraseEntered() Q_DECL_OVERRIDE;
 
 private:
 	const QString m_name;

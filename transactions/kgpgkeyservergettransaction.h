@@ -53,8 +53,8 @@ public:
 
 protected:
 	virtual QString getGpgCommand() const = 0;
-	virtual bool preStart() Q_DECL_OVERRIDE;
-	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	bool preStart() Q_DECL_OVERRIDE;
+	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 
 private:
 	int m_cmdpos;
@@ -81,7 +81,7 @@ public:
 	virtual ~KGpgReceiveKeys();
 
 protected:
-	virtual QString getGpgCommand() const Q_DECL_OVERRIDE;
+	QString getGpgCommand() const Q_DECL_OVERRIDE;
 };
 
 /**
@@ -103,7 +103,7 @@ public:
 	virtual ~KGpgRefreshKeys();
 
 protected:
-	virtual QString getGpgCommand() const Q_DECL_OVERRIDE;
+	QString getGpgCommand() const Q_DECL_OVERRIDE;
 };
 
 #endif // KGPGUIDTRANSACTION_H

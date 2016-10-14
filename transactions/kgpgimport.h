@@ -122,7 +122,7 @@ public:
 	static int isKey(const QString &text, const bool incomplete = false);
 
 protected:
-	virtual QStringList command() const Q_DECL_OVERRIDE;
+	QStringList command() const Q_DECL_OVERRIDE;
 };
 
 #endif // KGPGIMPORT_H

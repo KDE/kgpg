@@ -69,8 +69,8 @@ public:
 	KGpgSignNode::List getSignIds(void) const;
 
 protected:
-	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
-	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
+	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
 
 private:
 	KGpgSignNode::List m_signids;	///< the list of ids to delete

@@ -37,21 +37,21 @@ private:
 	Q_DECLARE_PRIVATE(KGpgUidNode)
 
 protected:
-	virtual void readChildren();
+	void readChildren() Q_DECL_OVERRIDE;
 
 public:
 	explicit KGpgUidNode(KGpgKeyNode *parent, const unsigned int index, const QStringList &sl);
 	virtual ~KGpgUidNode();
 
-	virtual KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
-	virtual KgpgCore::KgpgKeyTrust getTrust() const Q_DECL_OVERRIDE;
-	virtual QString getName() const Q_DECL_OVERRIDE;
-	virtual QString getEmail() const Q_DECL_OVERRIDE;
-	virtual QString getId() const Q_DECL_OVERRIDE;
-	virtual KGpgKeyNode *getKeyNode(void) Q_DECL_OVERRIDE;
-	virtual const KGpgKeyNode *getKeyNode(void) const Q_DECL_OVERRIDE;
+	KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
+	KgpgCore::KgpgKeyTrust getTrust() const Q_DECL_OVERRIDE;
+	QString getName() const Q_DECL_OVERRIDE;
+	QString getEmail() const Q_DECL_OVERRIDE;
+	QString getId() const Q_DECL_OVERRIDE;
+	KGpgKeyNode *getKeyNode(void) Q_DECL_OVERRIDE;
+	const KGpgKeyNode *getKeyNode(void) const Q_DECL_OVERRIDE;
 	virtual KGpgKeyNode *getParentKeyNode() const;
-	virtual QString getComment() const Q_DECL_OVERRIDE;
+	QString getComment() const Q_DECL_OVERRIDE;
 };
 
 #endif /* KGPGUIDNODE_H */

@@ -35,21 +35,21 @@ private:
 	QString m_fingerprint;
 
 protected:
-	virtual void readChildren();
+	void readChildren() Q_DECL_OVERRIDE;
 
 public:
 	explicit KGpgSubkeyNode(KGpgKeyNode *parent, const KgpgCore::KgpgKeySub &k);
 	virtual ~KGpgSubkeyNode();
 
-	virtual KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
-	virtual KgpgCore::KgpgKeyTrust getTrust() const Q_DECL_OVERRIDE;
-	virtual QString getSize() const Q_DECL_OVERRIDE;
-	virtual QString getName() const Q_DECL_OVERRIDE;
-	virtual QDateTime getExpiration() const Q_DECL_OVERRIDE;
-	virtual QDateTime getCreation() const Q_DECL_OVERRIDE;
-	virtual QString getId() const Q_DECL_OVERRIDE;
-	virtual KGpgKeyNode *getKeyNode(void) Q_DECL_OVERRIDE;
-	virtual const KGpgKeyNode *getKeyNode(void) const Q_DECL_OVERRIDE;
+	KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
+	KgpgCore::KgpgKeyTrust getTrust() const Q_DECL_OVERRIDE;
+	QString getSize() const Q_DECL_OVERRIDE;
+	QString getName() const Q_DECL_OVERRIDE;
+	QDateTime getExpiration() const Q_DECL_OVERRIDE;
+	QDateTime getCreation() const Q_DECL_OVERRIDE;
+	QString getId() const Q_DECL_OVERRIDE;
+	KGpgKeyNode *getKeyNode(void) Q_DECL_OVERRIDE;
+	const KGpgKeyNode *getKeyNode(void) const Q_DECL_OVERRIDE;
 	virtual KGpgKeyNode *getParentKeyNode() const;
 
 	void setFingerprint(const QString &fpr);

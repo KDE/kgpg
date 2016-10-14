@@ -52,12 +52,12 @@ signals:
 	void revokeCertificate(const QString &cert);
 
 protected:
-	virtual bool preStart() Q_DECL_OVERRIDE;
-	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
-	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
-	virtual void finish() Q_DECL_OVERRIDE;
-	virtual bool passphraseReceived() Q_DECL_OVERRIDE;
-	virtual ts_boolanswer confirmOverwrite (QUrl &currentFile) Q_DECL_OVERRIDE;
+	bool preStart() Q_DECL_OVERRIDE;
+	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
+	void finish() Q_DECL_OVERRIDE;
+	bool passphraseReceived() Q_DECL_OVERRIDE;
+	ts_boolanswer confirmOverwrite (QUrl &currentFile) Q_DECL_OVERRIDE;
 
 private:
 	QString m_keyid;

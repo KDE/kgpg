@@ -30,10 +30,10 @@ public:
 	virtual ~KGpgChangePass();
 
 protected:
-	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
-	virtual bool preStart() Q_DECL_OVERRIDE;
-	virtual bool passphraseRequested() Q_DECL_OVERRIDE;
-	virtual bool passphraseReceived() Q_DECL_OVERRIDE;
+	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	bool preStart() Q_DECL_OVERRIDE;
+	bool passphraseRequested() Q_DECL_OVERRIDE;
+	bool passphraseReceived() Q_DECL_OVERRIDE;
 
 private:
 	bool m_seenold;		///< old password correctly entered

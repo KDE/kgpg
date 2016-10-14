@@ -73,8 +73,8 @@ public:
 	static bool isEncryptedText(const QString &text, int *startPos = Q_NULLPTR, int *endPos = Q_NULLPTR);
 
 protected:
-	virtual QStringList command() const Q_DECL_OVERRIDE;
-	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	QStringList command() const Q_DECL_OVERRIDE;
+	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 
 private:
 	int m_fileIndex;

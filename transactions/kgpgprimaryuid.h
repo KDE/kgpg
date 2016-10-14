@@ -42,8 +42,8 @@ public:
 	virtual ~KGpgPrimaryUid();
 
 protected:
-	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
-	virtual bool passphraseReceived() Q_DECL_OVERRIDE;
+	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	bool passphraseReceived() Q_DECL_OVERRIDE;
 
 private:
 	int m_fixargs;

@@ -62,7 +62,7 @@ public:
 	void setUid(const unsigned int uid);
 
 protected:
-	virtual bool preStart() Q_DECL_OVERRIDE;
+	bool preStart() Q_DECL_OVERRIDE;
 
 	/**
 	 * @brief handle common GnuPG messages for uid transactions

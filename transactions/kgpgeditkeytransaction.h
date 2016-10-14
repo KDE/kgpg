@@ -56,7 +56,7 @@ protected:
 	 * If you inherit from this class make sure this method is called
 	 * from your inherited method before you do anything else there.
 	 */
-	virtual bool preStart() Q_DECL_OVERRIDE;
+	bool preStart() Q_DECL_OVERRIDE;
 
 	/**
 	 * @brief handle standard GnuPG prompts
@@ -71,9 +71,9 @@ protected:
 	 * Every line sent here by GnuPG not recognised as command handled
 	 * here will set a sequence error so be sure to handle your stuff first!
 	 */
-	virtual bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
 
-	virtual ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
+	ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
 
 	/**
 	 * @brief replace the argument of the edit command

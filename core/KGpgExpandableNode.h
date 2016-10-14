@@ -62,7 +62,7 @@ public:
 	 * In contrast wasExpanded() will only return true if the child nodes
 	 * are actually present in memory.
 	 */
-	virtual bool hasChildren() const Q_DECL_OVERRIDE;
+	bool hasChildren() const Q_DECL_OVERRIDE;
 	/**
 	 * check if there are any child nodes present in memory
 	 *
@@ -73,10 +73,10 @@ public:
 	 * objects are not present in memory.
 	 */
 	virtual bool wasExpanded() const;
-	virtual int getChildCount() Q_DECL_OVERRIDE;
+	int getChildCount() Q_DECL_OVERRIDE;
 	virtual const KGpgNode::List &getChildren() const;
-	virtual KGpgNode *getChild(const int index) const Q_DECL_OVERRIDE;
-	virtual int getChildIndex(KGpgNode *node) const Q_DECL_OVERRIDE;
+	KGpgNode *getChild(const int index) const Q_DECL_OVERRIDE;
+	int getChildIndex(KGpgNode *node) const Q_DECL_OVERRIDE;
 	virtual void deleteChild(KGpgNode *child);
 };
 

@@ -38,11 +38,11 @@ public:
 	explicit KGpgGroupMemberNode(KGpgGroupNode *parent, KGpgKeyNode *k);
 	virtual ~KGpgGroupMemberNode();
 
-	virtual KgpgCore::KgpgKeyTrust getTrust() const Q_DECL_OVERRIDE;
-	virtual KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
-	virtual QString getSize() const Q_DECL_OVERRIDE;
-	virtual QDateTime getExpiration() const Q_DECL_OVERRIDE;
-	virtual QDateTime getCreation() const Q_DECL_OVERRIDE;
+	KgpgCore::KgpgKeyTrust getTrust() const Q_DECL_OVERRIDE;
+	KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
+	QString getSize() const Q_DECL_OVERRIDE;
+	QDateTime getExpiration() const Q_DECL_OVERRIDE;
+	QDateTime getCreation() const Q_DECL_OVERRIDE;
 	virtual KGpgGroupNode *getParentKeyNode() const;
 
 	/**

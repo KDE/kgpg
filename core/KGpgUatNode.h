@@ -39,22 +39,22 @@ private:
 	Q_DECLARE_PRIVATE(KGpgUatNode)
 
 protected:
-	virtual void readChildren();
+	void readChildren() Q_DECL_OVERRIDE;
 
 public:
 	explicit KGpgUatNode(KGpgKeyNode *parent, const unsigned int index, const QStringList &sl);
 	virtual ~KGpgUatNode();
 
-	virtual KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
-	virtual KgpgCore::KgpgKeyTrust getTrust() const Q_DECL_OVERRIDE;
+	KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
+	KgpgCore::KgpgKeyTrust getTrust() const Q_DECL_OVERRIDE;
 	const QPixmap &getPixmap() const;
-	virtual QString getId() const Q_DECL_OVERRIDE;
-	virtual QString getSize() const Q_DECL_OVERRIDE;
-	virtual QString getName() const Q_DECL_OVERRIDE;
-	virtual QDateTime getCreation() const Q_DECL_OVERRIDE;
+	QString getId() const Q_DECL_OVERRIDE;
+	QString getSize() const Q_DECL_OVERRIDE;
+	QString getName() const Q_DECL_OVERRIDE;
+	QDateTime getCreation() const Q_DECL_OVERRIDE;
 	virtual KGpgKeyNode *getParentKeyNode() const;
-	virtual KGpgKeyNode *getKeyNode(void) Q_DECL_OVERRIDE;
-	virtual const KGpgKeyNode *getKeyNode(void) const Q_DECL_OVERRIDE;
+	KGpgKeyNode *getKeyNode(void) Q_DECL_OVERRIDE;
+	const KGpgKeyNode *getKeyNode(void) const Q_DECL_OVERRIDE;
 };
 
 #endif /* KGPGUATNODE_H */

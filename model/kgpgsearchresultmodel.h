@@ -43,11 +43,11 @@ public:
 	explicit KGpgSearchResultBackingModel(QObject *parent = Q_NULLPTR);
 	~KGpgSearchResultBackingModel();
 
-	virtual int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-	virtual QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-	virtual QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
-	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+	int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+	QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
+	QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
+	int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 
 	/**
@@ -134,7 +134,7 @@ public:
 	 * internally. Use `resetSourceModel()` if you want to clear the
 	 * source model, and `slotAddKey()` to populate it.
 	 */
-	virtual void setSourceModel(QAbstractItemModel *sourceModel) Q_DECL_OVERRIDE;
+	void setSourceModel(QAbstractItemModel *sourceModel) Q_DECL_OVERRIDE;
 
 public slots:
 	/**
