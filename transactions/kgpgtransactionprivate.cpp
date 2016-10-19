@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2010,2012,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2012,2014,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -253,7 +253,7 @@ KGpgTransactionPrivate::slotPassphraseEntered(const QString &passphrase)
 {
 	// not calling KGpgTransactionPrivate::write() here for obvious privacy reasons
 	m_process->write(passphrase.toUtf8() + '\n');
-	if (m_parent->sender() == m_newPasswordDialog) {
+	if (sender() == m_newPasswordDialog) {
 		m_newPasswordDialog->deleteLater();
 		m_newPasswordDialog = Q_NULLPTR;
 		m_parent->newPassphraseEntered();
@@ -265,8 +265,8 @@ KGpgTransactionPrivate::slotPassphraseEntered(const QString &passphrase)
 void
 KGpgTransactionPrivate::slotPassphraseAborted()
 {
-	Q_ASSERT((m_parent->sender() == m_passwordDialog) ^ (m_parent->sender() == m_newPasswordDialog));
-	m_parent->sender()->deleteLater();
+	Q_ASSERT((sender() == m_passwordDialog) ^ (sender() == m_newPasswordDialog));
+	sender()->deleteLater();
 	m_newPasswordDialog = Q_NULLPTR;
 	m_passwordDialog = Q_NULLPTR;
 	handlePassphraseAborted();
