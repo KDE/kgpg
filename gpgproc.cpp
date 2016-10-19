@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2014,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -316,35 +316,23 @@ int GPGProc::gpgVersion(const QString &vstr)
 
 QString GPGProc::gpgVersionString(const QString &binary)
 {
-	GPGProc process(0, binary);
-	process << QLatin1String( "--version" );
-	process.start();
-	process.waitForFinished(-1);
+	const QStringList vlist = getGgpParsedConfig(binary, "version");
 
-	if (process.exitCode() == 255)
+	if (vlist.empty())
 		return QString();
 
-	QString line;
-	if (process.readln(line) != -1)
-		return line.simplified().section(QLatin1Char( ' ' ), -1);
-	else
-		return QString();
+	return vlist.first().split(QLatin1Char(':')).first();
 }
 
 QStringList
 GPGProc::getGpgPubkeyAlgorithms(const QString &binary)
 {
-	QStringList ret;
+	QStringList ret = getGgpParsedConfig(binary, "pubkeyname");
 
-	const auto algorithms = getGpgStatusLine(binary, QLatin1String("Pubkey:")).split(QLatin1Char(','));
-	for (const QString &s : algorithms) {
-		QString t = s.trimmed();
-		if (t == QLatin1String("?"))
-			continue;
-		ret << t;
-	}
+	if (ret.isEmpty())
+		return ret;
 
-	return ret;
+	return ret.first().split(QLatin1Char(':')).first().split(QLatin1Char(';'));
 }
 
 QString GPGProc::getGpgStartupError(const QString &binary)
@@ -361,6 +349,29 @@ QString GPGProc::getGpgStartupError(const QString &binary)
 		process.readLineStandardError(&tmp);
 		tmp += '\n';
 		result += QString::fromUtf8(tmp);
+	}
+
+	return result;
+}
+
+QStringList GPGProc::getGgpParsedConfig(const QString &binary, const QByteArray &key)
+{
+	GPGProc process(0, binary);
+	process << QLatin1String("--list-config") << QLatin1String("--with-colons");
+	process.start();
+	process.waitForFinished(-1);
+
+	QStringList result;
+	QByteArray filter = "cfg:";
+	if (!key.isEmpty())
+		filter += key + ':';
+
+	while (process.hasLineStandardOutput()) {
+		QByteArray tmp;
+		process.readLineStandardOutput(&tmp);
+
+		if (tmp.startsWith(filter))
+			result << QString::fromUtf8(tmp.mid(filter.length()));
 	}
 
 	return result;

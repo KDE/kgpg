@@ -253,28 +253,3 @@ KGpgGroupNode::remove()
 	conffile.resize(0);
 	t << lines.join(QLatin1String("\n")) + QLatin1Char('\n');
 }
-
-QStringList
-KGpgGroupNode::readGroups()
-{
-	QStringList groups;
-	QFile qfile(KGpgSettings::gpgConfigPath());
-
-	if (!qfile.exists() || !qfile.open(QIODevice::ReadOnly))
-		return groups;
-
-	QTextStream t(&qfile);
-
-	while (!t.atEnd()) {
-		QString line = t.readLine().simplified().section(QLatin1Char('#'), 0, 0);
-		if (!KGpgGroupNodePrivate::groupPattern().exactMatch(line))
-			continue;
-
-		// remove the "group " at the start
-		line.remove(0, 6);
-		// transform it in a simple space separated list
-		groups.append(line.replace(QLatin1Char('='), QLatin1Char(' ')).simplified());
-	}
-
-	return groups;
-}

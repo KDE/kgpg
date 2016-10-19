@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2011,2012,2013,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,6 +18,7 @@
  */
 #include "kgpgitemmodel.h"
 
+#include "gpgproc.h"
 #include "kgpgsettings.h"
 #include "core/convert.h"
 #include "core/images.h"
@@ -503,7 +504,7 @@ KGpgItemModel::refreshGroups()
 		endRemoveRows();
 	}
 
-	const QStringList groups = KGpgGroupNode::readGroups();
+	const QStringList groups = GPGProc::getGgpParsedConfig(KGpgSettings::gpgBinaryPath(), "group");
 
 	if (groups.isEmpty())
 		return;

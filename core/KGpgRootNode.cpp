@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2012,2013,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -56,9 +56,11 @@ void
 KGpgRootNode::addGroups(const QStringList &groups)
 {
 	foreach (const QString &group, groups) {
-		QStringList members = group.split(QLatin1Char(' '));
-		const QString groupName = members.takeFirst();
-		new KGpgGroupNode(this, groupName, members);
+		const QStringList parts = group.split(QLatin1Char(':'));
+		if (parts.count() < 2)
+			continue;
+		const QString groupName = parts.first();
+		new KGpgGroupNode(this, groupName, parts.at(1).split(QLatin1Char(';')));
 	}
 }
 

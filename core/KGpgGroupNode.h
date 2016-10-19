@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2012,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -70,15 +70,6 @@ public:
 	 * Remove this group from the GnuPG config file
 	 */
 	void remove();
-
-	/**
-	 * @brief get all groups from GnuPG config file
-	 * @return list of groups names and their keys
-	 *
-	 * The strings are themself space separated list. The first entry is the
-	 * group name, the others are the keys inside
-	 */
-	static QStringList readGroups();
 };
 
 #endif /* KGPGGROUPNODE_H */

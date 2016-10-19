@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2014,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -13,9 +13,10 @@
 #ifndef GPGPROC_H
 #define GPGPROC_H
 
-#include <QString>
-
 #include "klinebufferedprocess.h"
+
+#include <QByteArray>
+#include <QString>
 
 class QStringList;
 
@@ -154,6 +155,17 @@ public:
      * @return the error message GnuPG gave out (if any)
      */
     static QString getGpgStartupError(const QString &binary);
+
+    /**
+     * @brief run GnuPG and let it return it's config output
+     * @param binary the GnuPG binary to run
+     * @param key if only fields of a given type should be returned
+     * @return all matching fields
+     *
+     * In case a key is given the key is already removed from the
+     * returned lines.
+     */
+    static QStringList getGgpParsedConfig(const QString &binary, const QByteArray &key = QByteArray());
 signals:
     /**
      * Emitted when the process is ready for reading.
