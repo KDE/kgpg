@@ -189,7 +189,8 @@ KGpgGenerateKey::nextLine(const QString &line)
 		result = true;
 	} else if (line.contains(QLatin1String("KEY_NOT_CREATED"))) {
 		result = true;
-	}
+	} else
+		m_errorOutput << line;
 
 	emit statusMessage(msg);
 
@@ -216,18 +217,13 @@ KGpgGenerateKey::finish()
 		emit statusMessage(i18n("Key %1 generated", getFingerprint()));
 		break;
 	default:
-		{
-			QStringList errorLines;
-
-			while (getProcess()->hasLineStandardError()) {
-				QByteArray b;
-				getProcess()->readLineStandardError(&b);
-				errorLines << QString::fromUtf8(b);
-			}
-
-			m_errorOutput = errorLines.join(QLatin1String("\n"));
-			emit statusMessage(i18n("gpg process did not finish. Cannot generate a new key pair."));
+		while (getProcess()->hasLineStandardError()) {
+			QByteArray b;
+			getProcess()->readLineStandardError(&b);
+			m_errorOutput << QString::fromUtf8(b);
 		}
+
+		emit statusMessage(i18n("gpg process did not finish. Cannot generate a new key pair."));
 	}
 }
 
@@ -259,5 +255,5 @@ KGpgGenerateKey::getFingerprint() const
 QString
 KGpgGenerateKey::gpgErrorMessage() const
 {
-	return m_errorOutput;
+	return m_errorOutput.join(QLatin1Char('\n'));
 }

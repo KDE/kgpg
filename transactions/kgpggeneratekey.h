@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012,2013,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QStringList>
 
 /**
  * @brief generate a new key pair
@@ -84,7 +85,7 @@ private:
 	const unsigned int m_expire;
 	const unsigned int m_expireunit;
 	QString m_fingerprint;
-	QString m_errorOutput;
+	QStringList m_errorOutput;
 };
 
 #endif // KGPGGENERATEKEY_H
