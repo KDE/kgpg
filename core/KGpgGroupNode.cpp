@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2012,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -121,7 +121,10 @@ KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name, const QS
 	d_ptr(new KGpgGroupNodePrivate(name))
 {
 	foreach (const QString &id, members)
-		new KGpgGroupMemberNode(this, id);
+		if (id.startsWith(QLatin1String("0x")))
+			new KGpgGroupMemberNode(this, id.mid(2));
+		else
+			new KGpgGroupMemberNode(this, id);
 
 	parent->m_groups++;
 }
