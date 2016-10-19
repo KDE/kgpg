@@ -178,10 +178,6 @@ signals:
      */
     void processExited();
 
-protected slots:
-    void processFinished();
-    void received();
-
 private:
     QByteArray m_codec;
 };

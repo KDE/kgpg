@@ -195,26 +195,16 @@ GPGProc::resetProcess(const QString &binary)
 
 	setOutputChannelMode(OnlyStdoutChannel);
 
-	disconnect(this, static_cast<void(GPGProc::*)(int, QProcess::ExitStatus)>(&GPGProc::finished), this, &GPGProc::processFinished);
-	disconnect(this, &GPGProc::lineReadyStandardOutput, this, &GPGProc::received);
+	disconnect(this, static_cast<void(GPGProc::*)(int, QProcess::ExitStatus)>(&GPGProc::finished), this, &GPGProc::processExited);
+	disconnect(this, &GPGProc::lineReadyStandardOutput, this, &GPGProc::readReady);
 }
 
 void GPGProc::start()
 {
 	// make sure there is exactly one connection from us to that signal
-	connect(this, static_cast<void(GPGProc::*)(int, QProcess::ExitStatus)>(&GPGProc::finished), this, &GPGProc::processFinished, Qt::UniqueConnection);
-	connect(this, &GPGProc::lineReadyStandardOutput, this, &GPGProc::received, Qt::UniqueConnection);
+	connect(this, static_cast<void(GPGProc::*)(int, QProcess::ExitStatus)>(&GPGProc::finished), this, &GPGProc::processExited, Qt::UniqueConnection);
+	connect(this, &GPGProc::lineReadyStandardOutput, this, &GPGProc::readReady, Qt::UniqueConnection);
 	KProcess::start();
-}
-
-void GPGProc::received()
-{
-	emit readReady();
-}
-
-void GPGProc::processFinished()
-{
-	emit processExited();
 }
 
 int GPGProc::readln(QString &line, const bool colons)
