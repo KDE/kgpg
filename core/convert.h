@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2010,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2013,2014,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
  *   This program is free software; you can redistribute it and/or modify  *
@@ -48,6 +48,16 @@ namespace Convert
      * @param upper if the uppercase or lowercase version should be parsed
      */
     KgpgSubKeyType toSubType(const QString &capString, bool upper);
+    /**
+     * @brief parse GnuPG date fields
+     * @param s the input string
+     * @return the parsed date
+     * @retval QDateTime() if s was empty or the string was invalid
+     *
+     * Both the seconds since epoch UTC as well as ISO 8601 formats are
+     * supported.
+     */
+    QDateTime toDateTime(const QString &s);
 }
 
 } // namespace KgpgCore

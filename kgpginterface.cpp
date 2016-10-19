@@ -169,7 +169,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 			const QString curve = (items > 16) ? lsp.at(16) : QString();
 			publiclistkeys << KgpgKey(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
 					Convert::toAlgo(lsp.at(3)), subtype, keytype,
-					QDateTime::fromTime_t(lsp.at(5).toUInt()), curve);
+					Convert::toDateTime(lsp.at(5)), curve);
 
 			publickey = &publiclistkeys.last();
 
@@ -179,11 +179,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 			else
 				publickey->setOwnerTrust(Convert::toOwnerTrust(owTrust[0]));
 
-			const QString &endDate = lsp.at(6);
-			if (endDate.isEmpty())
-				publickey->setExpiration(QDateTime());
-			else
-				publickey->setExpiration(QDateTime::fromTime_t(endDate.toUInt()));
+			publickey->setExpiration(Convert::toDateTime(lsp.at(6)));
 
 			publickey->setValid(enabled);  // disabled key
 
@@ -203,7 +199,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 
 			const QString curve = (items > 16) ? lsp.at(16) : QString();
 			KgpgKeySub sub(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
-					Convert::toAlgo(lsp.at(3)), subtype, QDateTime::fromTime_t(lsp.at(5).toUInt()),
+					Convert::toAlgo(lsp.at(3)), subtype, Convert::toDateTime(lsp.at(5)),
 					curve);
 
 			// FIXME: Please see kgpgkey.h, KgpgSubKey class
@@ -212,10 +208,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 			else
 				sub.setValid(!lsp.at(11).contains(QLatin1Char( 'D' )));
 
-			if (lsp.at(6).isEmpty())
-				sub.setExpiration(QDateTime());
-			else
-				sub.setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
+			sub.setExpiration(Convert::toDateTime(lsp.at(6)));
 
 			publickey->subList()->append(sub);
 			if (readNode == Q_NULLPTR)
@@ -345,16 +338,14 @@ readSecretKeysProcess(GPGProc &p)
 			const QString curve = (items > 16) ? lsp.at(16) : QString();
 			result << KgpgKey(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
 				Convert::toAlgo(lsp.at(3)), subtype, keytype,
-				QDateTime::fromTime_t(lsp.at(5).toUInt()), curve);
+				Convert::toDateTime(lsp.at(5)), curve);
 
 			secretkey = &result.last();
 
 			secretkey->setSecret(true);
 
-			if (lsp.at(6).isEmpty())
-				secretkey->setExpiration(QDateTime());
-			else
-				secretkey->setExpiration(QDateTime::fromTime_t(lsp.at(6).toUInt()));
+			secretkey->setExpiration(Convert::toDateTime(lsp.at(6)));
+
 			hasuid = true;
 		} else if ((lsp.at(0) == QLatin1String( "uid" )) && (items >= 10)) {
 			if (hasuid)

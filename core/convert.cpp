@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2010,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2013,2014,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
  *   This program is free software; you can redistribute it and/or modify  *
@@ -261,6 +261,21 @@ KgpgSubKeyType toSubType(const QString& capString, bool upper)
 			<< "in cap string" << capString;
 		}
 	}
+
+	return ret;
+}
+
+QDateTime toDateTime(const QString &s)
+{
+	QDateTime ret;
+
+	if (s.isEmpty())
+		return ret;
+
+	if (s.contains(QLatin1Char('T')))
+		ret = QDateTime::fromString(s, QLatin1Literal("yyyyMMddTHHmmss"));
+	else
+		ret = QDateTime::fromTime_t(s.toUInt());
 
 	return ret;
 }
