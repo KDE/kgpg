@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010,2011,2012,2013
+ * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2016
  *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
@@ -167,7 +167,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 			}
 
 			publiclistkeys << KgpgKey(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
-					Convert::toAlgo(lsp.at(3).toInt()), subtype, keytype,
+					Convert::toAlgo(lsp.at(3)), subtype, keytype,
 					QDateTime::fromTime_t(lsp.at(5).toUInt()), lsp.at(16));
 
 			publickey = &publiclistkeys.last();
@@ -201,7 +201,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 				subtype = Convert::toSubType(lsp.at(11), false);
 
 			KgpgKeySub sub(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
-					Convert::toAlgo(lsp.at(3).toInt()), subtype, QDateTime::fromTime_t(lsp.at(5).toUInt()),
+					Convert::toAlgo(lsp.at(3)), subtype, QDateTime::fromTime_t(lsp.at(5).toUInt()),
 					lsp.at(16));
 
 			// FIXME: Please see kgpgkey.h, KgpgSubKey class
@@ -341,7 +341,7 @@ readSecretKeysProcess(GPGProc &p)
 			}
 
 			result << KgpgKey(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
-				Convert::toAlgo(lsp.at(3).toInt()), subtype, keytype,
+				Convert::toAlgo(lsp.at(3)), subtype, keytype,
 				QDateTime::fromTime_t(lsp.at(5).toUInt()), lsp.at(16));
 
 			secretkey = &result.last();
