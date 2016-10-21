@@ -2024,7 +2024,8 @@ void KeysManager::signatureResult(int success)
 
 	if (++keyCount == signList.count()) {
 		signList.clear();
-		imodel->refreshKeys(refreshList);
+		if (!refreshList.isEmpty())
+			imodel->refreshKeys(refreshList);
 		refreshList.clear();
 	} else {
 		signLoop(localsign, checklevel);
