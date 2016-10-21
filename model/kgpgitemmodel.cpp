@@ -447,18 +447,22 @@ KGpgItemModel::refreshKeys(const QStringList &ids)
 	refreshKeyIds(ids);
 }
 
+static QStringList
+readGroups()
+{
+	return GPGProc::getGgpParsedConfig(KGpgSettings::gpgBinaryPath(), "group");
+}
+
 void
 KGpgItemModel::refreshKeyIds(const QStringList &ids)
 {
 	beginResetModel();
 	if (ids.isEmpty()) {
-		for (int i = m_root->getChildCount() - 1; i >= 0; i--) {
-			KGpgNode *nd = m_root->getChild(i);
-			if (nd->getType() == ITYPE_GROUP)
-				continue;
-			delete nd;
-		}
+		for (int i = m_root->getChildCount() - 1; i >= 0; i--)
+			delete m_root->getChild(i);
 		m_root->addKeys();
+
+		m_root->addGroups(readGroups());
 	} else {
 		QStringList::ConstIterator it = ids.constBegin();
 		const QStringList::ConstIterator itEnd = ids.constEnd();
@@ -504,7 +508,7 @@ KGpgItemModel::refreshGroups()
 		endRemoveRows();
 	}
 
-	const QStringList groups = GPGProc::getGgpParsedConfig(KGpgSettings::gpgBinaryPath(), "group");
+	const QStringList groups = readGroups();
 
 	if (groups.isEmpty())
 		return;
