@@ -307,7 +307,7 @@ KGpgItemModel::delNode(KGpgNode *node)
 }
 
 void
-KGpgItemModel::changeGroup(KGpgGroupNode *node, const QList<KGpgNode *> &keys)
+KGpgItemModel::changeGroup(KGpgGroupNode *node, const KGpgNode::List &keys)
 {
 	const QModelIndex gIndex = nodeIndex(node);
 	for (int i = node->getChildCount() - 1; i >= 0; i--) {
