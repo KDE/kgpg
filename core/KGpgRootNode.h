@@ -56,7 +56,11 @@ public:
 
 	/**
 	 * Create new group nodes
-	 * @param groups list of group names to create
+	 * @param groups list of group names and keys to create
+	 *
+	 * The format of each entry of groups is name:keys, where keys is
+	 * a list of key ids separated by semicolons. This is the format
+	 * that is output by "gpg --list-config --with-colons".
 	 */
 	void addGroups(const QStringList &groups);
 	void addKeys(const QStringList &ids = QStringList());
