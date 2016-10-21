@@ -420,22 +420,6 @@ KGpgItemModel::nodeIndex(KGpgNode *node, const int column)
 }
 
 void
-KGpgItemModel::refreshKey(KGpgKeyNode *nd)
-{
-	KGpgKeyNode::List nodes;
-
-	nodes.append(nd);
-
-	refreshKeyIds(nodes);
-}
-
-void
-KGpgItemModel::refreshKey(const QString &id)
-{
-	refreshKeyIds(QStringList(id));
-}
-
-void
 KGpgItemModel::refreshKeys(KGpgKeyNode::List keys)
 {
 	refreshKeyIds(keys);
