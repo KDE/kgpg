@@ -75,7 +75,13 @@ public:
 	void startImport(const QStringList &keys, QString server = QString(), const QString &proxy = QString());
 
 signals:
+	/**
+	 * @brief emitted when importing keys succeeded
+	 *
+	 * This is only emitted when at least one key has been imported.
+	 */
 	void importFinished(QStringList);
+
 	/**
 	 * @brief importing failed
 	 *
