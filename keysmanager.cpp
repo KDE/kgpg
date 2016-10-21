@@ -2180,11 +2180,11 @@ void KeysManager::importRemoteFinished(int result)
 	KGpgReceiveKeys *t = qobject_cast<KGpgReceiveKeys *>(sender());
 	Q_ASSERT(t != Q_NULLPTR);
 
-	const QStringList keys(KGpgImport::getImportedIds(t->getLog()));
+	const QStringList keys = KGpgImport::getImportedIds(t->getLog());
 
 	t->deleteLater();
 
-	if (result == KGpgTransaction::TS_OK)
+	if ((result == KGpgTransaction::TS_OK) && !keys.isEmpty())
 		imodel->refreshKeys(keys);
 }
 
