@@ -94,8 +94,6 @@ public Q_SLOTS:
 
 protected:
 	int rowForNode(KGpgNode *node) const;
-	void refreshKeyIds(const QStringList &id);
-	void refreshKeyIds(KGpgKeyNode::List &nodes);
 	void updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::KgpgKeyTrust trust, const QColor &color);
 };
 
