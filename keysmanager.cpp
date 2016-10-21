@@ -1186,7 +1186,7 @@ void KeysManager::showOptions()
 
 	QPointer<kgpgOptions> optionsDialog = new kgpgOptions(this, imodel);
 	connect(optionsDialog, &kgpgOptions::settingsUpdated, this, &KeysManager::readAllOptions);
-	connect(optionsDialog, &kgpgOptions::homeChanged, imodel, static_cast<void(KGpgItemModel::*)()>(&KGpgItemModel::refreshKeys));
+	connect(optionsDialog, &kgpgOptions::homeChanged, imodel, &KGpgItemModel::refreshAllKeys);
 	connect(optionsDialog.data(), &kgpgOptions::homeChanged, imodel, &KGpgItemModel::refreshGroups);
 	connect(optionsDialog.data(), &kgpgOptions::refreshTrust, imodel, &KGpgItemModel::refreshTrust);
 	connect(optionsDialog, &kgpgOptions::changeFont, this, &KeysManager::fontChanged);
@@ -2645,7 +2645,7 @@ void KeysManager::slotImportDone(int result)
 
 void KeysManager::refreshkey()
 {
-	imodel->refreshKeys();
+	imodel->refreshAllKeys();
 	updateStatusCounter();
 }
 

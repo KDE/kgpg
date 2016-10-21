@@ -85,10 +85,9 @@ public Q_SLOTS:
 	{ refreshKeys(QStringList(id)); }
 	inline void refreshKey(KGpgKeyNode *nd)
 	{ refreshKeys(KGpgKeyNode::List() << nd); }
-	inline void refreshKeys()
-	{ refreshKeys(QStringList()); }
 	void refreshKeys(const QStringList &ids);
 	void refreshKeys(KGpgKeyNode::List keys);
+	void refreshAllKeys();
 	void refreshGroups();
 	void invalidateIndexes(KGpgNode *nd);
 	void refreshTrust(const KgpgCore::KgpgKeyTrust trust, const QColor &color);

@@ -420,15 +420,15 @@ KGpgItemModel::nodeIndex(KGpgNode *node, const int column)
 }
 
 void
-KGpgItemModel::refreshKeys(KGpgKeyNode::List keys)
-{
-	refreshKeyIds(keys);
-}
-
-void
 KGpgItemModel::refreshKeys(const QStringList &ids)
 {
 	refreshKeyIds(ids);
+}
+
+void
+KGpgItemModel::refreshKeys(KGpgKeyNode::List keys)
+{
+	refreshKeyIds(keys);
 }
 
 static QStringList
@@ -438,16 +438,27 @@ readGroups()
 }
 
 void
-KGpgItemModel::refreshKeyIds(const QStringList &ids)
+KGpgItemModel::refreshAllKeys()
 {
 	beginResetModel();
-	if (ids.isEmpty()) {
-		for (int i = m_root->getChildCount() - 1; i >= 0; i--)
-			delete m_root->getChild(i);
-		m_root->addKeys();
 
-		m_root->addGroups(readGroups());
+	for (int i = m_root->getChildCount() - 1; i >= 0; i--)
+		delete m_root->getChild(i);
+	m_root->addKeys();
+
+	m_root->addGroups(readGroups());
+
+	endResetModel();
+}
+
+void
+KGpgItemModel::refreshKeyIds(const QStringList &ids)
+{
+	if (ids.isEmpty()) {
+		refreshAllKeys();
 	} else {
+		beginResetModel();
+
 		QStringList::ConstIterator it = ids.constBegin();
 		const QStringList::ConstIterator itEnd = ids.constEnd();
 
@@ -466,9 +477,9 @@ KGpgItemModel::refreshKeyIds(const QStringList &ids)
 			m_root->refreshKeys(refreshNodes);
 		if (!addIds.isEmpty())
 			m_root->addKeys(addIds);
-	}
 
-	endResetModel();
+		endResetModel();
+	}
 }
 
 void
