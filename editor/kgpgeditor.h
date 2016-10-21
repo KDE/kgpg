@@ -110,7 +110,7 @@ private slots:
 
     void slotLibraryDone();
 
-    void slotDownloadKeysFinished(QStringList ids);
+    void slotDownloadKeysFinished(const QStringList &ids);
 
 private:
     QString m_textencoding;

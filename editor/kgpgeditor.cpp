@@ -720,9 +720,9 @@ void KgpgEditor::importSignatureKey(const QString &id, const QString &fileName)
 	ks->startImport(QStringList(id), QString(),QLatin1String( qgetenv("http_proxy") ));
 }
 
-void KgpgEditor::slotDownloadKeysFinished(QStringList ids)
+void KgpgEditor::slotDownloadKeysFinished(const QStringList &ids)
 {
-	m_parent->refreshKeys(ids);
+	m_model->refreshKeys(ids);
 
 	sender()->deleteLater();
 }

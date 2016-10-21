@@ -2188,11 +2188,6 @@ void KeysManager::importRemoteFinished(int result)
 		imodel->refreshKeys(keys);
 }
 
-void KeysManager::refreshKeys(const QStringList& ids)
-{
-	imodel->refreshKeys(ids);
-}
-
 void KeysManager::delsignkey()
 {
 	KGpgNode *nd = iview->selectedNode();
