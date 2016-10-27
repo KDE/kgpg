@@ -56,7 +56,6 @@ private slots:
 private:
     QPushButton *okButton;
 
-    QComboBox *m_keyexp;
     bool m_expert;
 };
 

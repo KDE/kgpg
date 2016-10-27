@@ -77,17 +77,50 @@
       <property name="text">
        <string>Expiration:</string>
       </property>
-      <property name="buddy">
-       <cstring>m_days</cstring>
-      </property>
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="m_days">
-      <property name="text">
-       <string>0</string>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QSpinBox" name="m_days">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="maximum">
+         <number>9999</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="m_keyexp">
+        <item>
+         <property name="text">
+          <string comment="Key will not expire">Never</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Days</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Weeks</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Months</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Years</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QLabel" name="label_4">

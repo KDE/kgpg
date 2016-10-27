@@ -60,27 +60,8 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
 
     connect(m_kname, &QLineEdit::textChanged, this, &KgpgKeyGenerate::slotEnableOk);
 
-    QWidget *hgroup = new QWidget(vgroup);
-    QHBoxLayout *hgroupHBoxLayout = new QHBoxLayout(hgroup);
-    hgroupHBoxLayout->setMargin(0);
-    m_days->setParent(hgroup);
-    QIntValidator *validator = new QIntValidator(m_days);
-    validator->setBottom(0);
-    m_days->setValidator(validator);
-    m_days->setMaxLength(4);
-    m_days->setDisabled(true);
-
-    m_keyexp = new QComboBox(hgroup);
-    hgroupHBoxLayout->addWidget(m_keyexp);
-    m_keyexp->addItem(i18nc("Key will not expire", "Never"), 0);
-    m_keyexp->addItem(i18n("Days"), 1);
-    m_keyexp->addItem(i18n("Weeks"), 2);
-    m_keyexp->addItem(i18n("Months"), 3);
-    m_keyexp->addItem(i18n("Years"), 4);
     m_keyexp->setMinimumSize(m_keyexp->sizeHint());
     connect(m_keyexp, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &KgpgKeyGenerate::slotEnableDays);
-
-    qobject_cast<QVBoxLayout *>(vgroup->layout())->insertWidget(7, hgroup);
 
     m_keysize->addItem(i18n("1024"));
     m_keysize->addItem(i18n("2048"));
