@@ -228,7 +228,6 @@ void kgpgOptions::slotAddKeyServer()
 
 void kgpgOptions::slotChangeEncryptTo()
 {
-	bool enable = (m_page1->encrypt_to_always->isChecked() != m_encrypttoalways);
 	settingsChangedSlot();
 }
 
