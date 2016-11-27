@@ -455,7 +455,7 @@ void KGpgExternalActions::startAssistant()
 	if (m_assistant.isNull()) {
 		m_assistant = new KGpgFirstAssistant(m_keysmanager);
 
-		connect(m_assistant, &KGpgFirstAssistant::accepted, this, &KGpgExternalActions::slotSaveOptionsPath);
+		connect(m_assistant.data(), &KGpgFirstAssistant::accepted, this, &KGpgExternalActions::slotSaveOptionsPath);
 		connect(m_assistant.data(), &KGpgFirstAssistant::rejected, m_assistant.data(), &KGpgFirstAssistant::deleteLater);
 		connect(m_assistant->button(QDialogButtonBox::Help), &QPushButton::clicked, this, &KGpgExternalActions::help);
 	}

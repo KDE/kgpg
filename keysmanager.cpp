@@ -1067,7 +1067,7 @@ void KeysManager::slotTip()
 void KeysManager::showKeyServer()
 {
 	QPointer<KeyServer> ks = new KeyServer(this, imodel);
-	connect(ks, &KeyServer::importFinished, imodel, static_cast<void(KGpgItemModel::*)(const QStringList &)>(&KGpgItemModel::refreshKeys));
+	connect(ks.data(), &KeyServer::importFinished, imodel, static_cast<void(KGpgItemModel::*)(const QStringList &)>(&KGpgItemModel::refreshKeys));
 	ks->exec();
 
 	delete ks;
@@ -1185,11 +1185,11 @@ void KeysManager::showOptions()
 		return;
 
 	QPointer<kgpgOptions> optionsDialog = new kgpgOptions(this, imodel);
-	connect(optionsDialog, &kgpgOptions::settingsUpdated, this, &KeysManager::readAllOptions);
-	connect(optionsDialog, &kgpgOptions::homeChanged, imodel, &KGpgItemModel::refreshAllKeys);
+	connect(optionsDialog.data(), &kgpgOptions::settingsUpdated, this, &KeysManager::readAllOptions);
+	connect(optionsDialog.data(), &kgpgOptions::homeChanged, imodel, &KGpgItemModel::refreshAllKeys);
 	connect(optionsDialog.data(), &kgpgOptions::homeChanged, imodel, &KGpgItemModel::refreshGroups);
 	connect(optionsDialog.data(), &kgpgOptions::refreshTrust, imodel, &KGpgItemModel::refreshTrust);
-	connect(optionsDialog, &kgpgOptions::changeFont, this, &KeysManager::fontChanged);
+	connect(optionsDialog.data(), &kgpgOptions::changeFont, this, &KeysManager::fontChanged);
 	optionsDialog->exec();
 	delete optionsDialog;
 
@@ -1648,7 +1648,7 @@ KeysManager::showProperties(KGpgNode *n)
 	case ITYPE_PAIR: {
 		KGpgKeyNode *k = n->toKeyNode();
 		QPointer<KgpgKeyInfo> opts = new KgpgKeyInfo(k, imodel, this);
-		connect(opts, &KgpgKeyInfo::keyNeedsRefresh, imodel, static_cast<void(KGpgItemModel::*)(KGpgKeyNode *)>(&KGpgItemModel::refreshKey));
+		connect(opts.data(), &KgpgKeyInfo::keyNeedsRefresh, imodel, static_cast<void(KGpgItemModel::*)(KGpgKeyNode *)>(&KGpgItemModel::refreshKey));
 		connect(opts->keychange, &KGpgChangeKey::keyNeedsRefresh, imodel, static_cast<void(KGpgItemModel::*)(KGpgKeyNode *)>(&KGpgItemModel::refreshKey));
 		opts->exec();
 		delete opts;
@@ -1691,7 +1691,7 @@ void KeysManager::keyproperties()
 	}
 
 	QPointer<KgpgKeyInfo> opts = new KgpgKeyInfo(kn, imodel, this);
-	connect(opts, &KgpgKeyInfo::keyNeedsRefresh, imodel, static_cast<void(KGpgItemModel::*)(KGpgKeyNode *)>(&KGpgItemModel::refreshKey));
+	connect(opts.data(), &KgpgKeyInfo::keyNeedsRefresh, imodel, static_cast<void(KGpgItemModel::*)(KGpgKeyNode *)>(&KGpgItemModel::refreshKey));
 	opts->exec();
 	delete opts;
 }
