@@ -181,42 +181,42 @@ void KgpgEditor::initActions()
     m_recentfiles->loadEntries( KConfigGroup(KSharedConfig::openConfig(), "Recent Files" ) );
     m_recentfiles->setMaxItems(KGpgSettings::recentFiles());
 
-    QAction *action = actionCollection()->addAction(QLatin1String("file_encrypt"), this, SLOT(slotFilePreEnc()));
+    QAction *action = actionCollection()->addAction(QLatin1String("file_encrypt"), this, &KgpgEditor::slotFilePreEnc);
     action->setIcon(QIcon::fromTheme( QLatin1String( "document-encrypt" )));
     action->setText(i18n("&Encrypt File..."));
 
-    action = actionCollection()->addAction(QLatin1String("file_decrypt"), this, SLOT(slotFilePreDec()));
+    action = actionCollection()->addAction(QLatin1String("file_decrypt"), this, &KgpgEditor::slotFilePreDec);
     action->setIcon(QIcon::fromTheme( QLatin1String( "document-decrypt" )));
     action->setText(i18n("&Decrypt File..."));
 
-    action = actionCollection()->addAction(QLatin1String("key_manage"), this, SLOT(slotKeyManager()));
+    action = actionCollection()->addAction(QLatin1String("key_manage"), this, &KgpgEditor::slotKeyManager);
     action->setIcon(QIcon::fromTheme( QLatin1String( "kgpg" )));
     action->setText(i18n("&Open Key Manager"));
 
-    action = actionCollection()->addAction(QLatin1String("sign_generate"), this, SLOT(slotPreSignFile()));
+    action = actionCollection()->addAction(QLatin1String("sign_generate"), this, &KgpgEditor::slotPreSignFile);
     action->setText(i18n("&Generate Signature..."));
     action->setIcon(QIcon::fromTheme( QLatin1String( "document-sign-key" )));
 
-    action = actionCollection()->addAction(QLatin1String("sign_verify"), this, SLOT(slotPreVerifyFile()));
+    action = actionCollection()->addAction(QLatin1String("sign_verify"), this, &KgpgEditor::slotPreVerifyFile);
     action->setText(i18n("&Verify Signature..."));
 
-    action = actionCollection()->addAction(QLatin1String("sign_check"), this, SLOT(slotCheckMd5()));
+    action = actionCollection()->addAction(QLatin1String("sign_check"), this, &KgpgEditor::slotCheckMd5);
     action->setText(i18n("&Check MD5 Sum..."));
 
-    m_encodingaction = actionCollection()->add<KToggleAction>(QLatin1String("charsets"), this, SLOT(slotSetCharset()));
+    m_encodingaction = actionCollection()->add<KToggleAction>(QLatin1String("charsets"), this, &KgpgEditor::slotSetCharset);
     m_encodingaction->setText(i18n("&Unicode (utf-8) Encoding"));
 
     actionCollection()->addAction(m_recentfiles->objectName(), m_recentfiles);
 
-    action = actionCollection()->addAction(QLatin1String("text_encrypt"), m_editor, SLOT(slotEncode()));
+    action = actionCollection()->addAction(QLatin1String("text_encrypt"), m_editor, &KgpgTextEdit::slotEncode);
     action->setIcon(QIcon::fromTheme( QLatin1String( "document-encrypt" )));
     action->setText(i18n("En&crypt"));
 
-    action = actionCollection()->addAction(QLatin1String("text_decrypt"), m_editor, SLOT(slotDecode()));
+    action = actionCollection()->addAction(QLatin1String("text_decrypt"), m_editor, &KgpgTextEdit::slotDecode);
     action->setIcon(QIcon::fromTheme( QLatin1String( "document-decrypt" )));
     action->setText(i18n("&Decrypt"));
 
-    action = actionCollection()->addAction(QLatin1String("text_sign_verify"), m_editor, SLOT(slotSignVerify()));
+    action = actionCollection()->addAction(QLatin1String("text_sign_verify"), m_editor, &KgpgTextEdit::slotSignVerify);
     action->setIcon(QIcon::fromTheme( QLatin1String( "document-sign-key" )));
     action->setText(i18n("S&ign/Verify"));
 }

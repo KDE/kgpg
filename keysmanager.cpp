@@ -127,18 +127,18 @@ KeysManager::KeysManager(QWidget *parent)
 	setAttribute(Qt::WA_DeleteOnClose, false);
 	setWindowTitle(i18n("Key Management"));
 
-	KStandardAction::quit(this, SLOT(quitApp()), actionCollection());
+	KStandardAction::quit(this, &KeysManager::quitApp, actionCollection());
 	actionCollection()->addAction(KStandardAction::Preferences, QLatin1String( "options_configure" ), this, SLOT(showOptions()));
 
-	openEditor = actionCollection()->addAction(QLatin1String("kgpg_editor"), this, SLOT(slotOpenEditor()));
+	openEditor = actionCollection()->addAction(QLatin1String("kgpg_editor"), this, &KeysManager::slotOpenEditor);
 	openEditor->setIcon(QIcon::fromTheme( QLatin1String( "accessories-text-editor" )));
 	openEditor->setText(i18n("&Open Editor"));
 
-	kserver = actionCollection()->addAction( QLatin1String("key_server"), this, SLOT(showKeyServer()));
+	kserver = actionCollection()->addAction( QLatin1String("key_server"), this, &KeysManager::showKeyServer);
 	kserver->setText( i18n("&Key Server Dialog") );
 	kserver->setIcon( QIcon::fromTheme( QLatin1String( "network-server" )) );
 
-	goToDefaultKey = actionCollection()->addAction(QLatin1String("go_default_key"), this, SLOT(slotGotoDefaultKey()));
+	goToDefaultKey = actionCollection()->addAction(QLatin1String("go_default_key"), this, &KeysManager::slotGotoDefaultKey);
 	goToDefaultKey->setIcon(QIcon::fromTheme( QLatin1String( "go-home" )));
 	goToDefaultKey->setText(i18n("&Go to Default Key"));
 	actionCollection()->setDefaultShortcut(goToDefaultKey, QKeySequence(Qt::CTRL + Qt::Key_Home));
@@ -155,146 +155,146 @@ KeysManager::KeysManager(QWidget *parent)
 
 	QAction *action;
 
-	action = actionCollection()->addAction(QLatin1String("help_tipofday"), this, SLOT(slotTip()));
+	action = actionCollection()->addAction(QLatin1String("help_tipofday"), this, &KeysManager::slotTip);
 	action->setIcon( QIcon::fromTheme( QLatin1String( "help-hint" )) );
 	action->setText( i18n("Tip of the &Day") );
 
-	action = actionCollection()->addAction(QLatin1String("gpg_man"), this, SLOT(slotManpage()));
+	action = actionCollection()->addAction(QLatin1String("gpg_man"), this, &KeysManager::slotManpage);
 	action->setText( i18n("View GnuPG Manual") );
 	action->setIcon( QIcon::fromTheme( QLatin1String( "help-contents" )) );
 
-	action = actionCollection()->addAction(QLatin1String("key_refresh"), this, SLOT(refreshkey()));
+	action = actionCollection()->addAction(QLatin1String("key_refresh"), this, &KeysManager::refreshkey);
 	action->setIcon(QIcon::fromTheme( QLatin1String( "view-refresh" )));
 	action->setText(i18n("&Refresh List"));
 	actionCollection()->setDefaultShortcuts(action, KStandardShortcut::reload());
 
-	longId = actionCollection()->add<KToggleAction>(QLatin1String("show_long_keyid"), this, SLOT(slotShowLongId(bool)));
+	longId = actionCollection()->add<KToggleAction>(QLatin1String("show_long_keyid"), this, &KeysManager::slotShowLongId);
 	longId->setText(i18n("Show &Long Key Id"));
 	longId->setChecked(KGpgSettings::showLongKeyId());
 
-	QAction *infoKey = actionCollection()->addAction(QLatin1String("key_info"), this, SLOT(keyproperties()));
+	QAction *infoKey = actionCollection()->addAction(QLatin1String("key_info"), this, &KeysManager::keyproperties);
 	infoKey->setIcon(QIcon::fromTheme( QLatin1String( "document-properties-key" )));
 	infoKey->setText(i18n("K&ey Properties"));
 
-	QAction *openKeyUrl = actionCollection()->addAction(QLatin1String("key_url"), this, SLOT(slotOpenKeyUrl()));
+	QAction *openKeyUrl = actionCollection()->addAction(QLatin1String("key_url"), this, &KeysManager::slotOpenKeyUrl);
 	openKeyUrl->setIcon(QIcon::fromTheme(QLatin1String("applications-internet")));
 	openKeyUrl->setText(i18n("&Open Key URL"));
 
-	editKey = actionCollection()->addAction(QLatin1String("key_edit"), this, SLOT(slotedit()));
+	editKey = actionCollection()->addAction(QLatin1String("key_edit"), this, &KeysManager::slotedit);
 	editKey->setIcon(QIcon::fromTheme( QLatin1String( "utilities-terminal" )));
 	editKey->setText(i18n("Edit Key in &Terminal"));
 	actionCollection()->setDefaultShortcut(editKey, QKeySequence(Qt::ALT + Qt::Key_Return));
 
-	QAction *generateKey = actionCollection()->addAction(QLatin1String("key_gener"), this, SLOT(slotGenerateKey()));
+	QAction *generateKey = actionCollection()->addAction(QLatin1String("key_gener"), this, &KeysManager::slotGenerateKey);
 	generateKey->setIcon(QIcon::fromTheme( QLatin1String( "key-generate-pair" )));
 	generateKey->setText(i18n("&Generate Key Pair..."));
 	actionCollection()->setDefaultShortcuts(generateKey, KStandardShortcut::shortcut(KStandardShortcut::New));
 
-	exportPublicKey = actionCollection()->addAction(QLatin1String("key_export"), this, SLOT(slotexport()));
+	exportPublicKey = actionCollection()->addAction(QLatin1String("key_export"), this, &KeysManager::slotexport);
 	exportPublicKey->setIcon(QIcon::fromTheme( QLatin1String( "document-export-key" )));
 	actionCollection()->setDefaultShortcuts(exportPublicKey, KStandardShortcut::shortcut(KStandardShortcut::Copy));
 
-	QAction *importKey = actionCollection()->addAction(QLatin1String("key_import"), this, SLOT(slotPreImportKey()));
+	QAction *importKey = actionCollection()->addAction(QLatin1String("key_import"), this, &KeysManager::slotPreImportKey);
 	importKey->setIcon(QIcon::fromTheme( QLatin1String( "document-import-key" )));
 	importKey->setText(i18n("&Import Key..."));
 	actionCollection()->setDefaultShortcuts(importKey, KStandardShortcut::shortcut(KStandardShortcut::Paste));
 
-	m_sendEmail = actionCollection()->addAction(QLatin1String("send_mail"), this, SLOT(slotSendEmail()));
+	m_sendEmail = actionCollection()->addAction(QLatin1String("send_mail"), this, &KeysManager::slotSendEmail);
 	m_sendEmail->setIcon(QIcon::fromTheme(QLatin1String("mail-send")));
 	m_sendEmail->setText(i18n("Send Ema&il"));
 
-	QAction *newContact = actionCollection()->addAction(QLatin1String("add_kab"), this, SLOT(addToKAB()));
+	QAction *newContact = actionCollection()->addAction(QLatin1String("add_kab"), this, &KeysManager::addToKAB);
 	newContact->setIcon(QIcon::fromTheme( QLatin1String( "contact-new" )));
 	newContact->setText(i18n("&Create New Contact in Address Book"));
 
-	createGroup = actionCollection()->addAction(QLatin1String("create_group"), this, SLOT(createNewGroup()));
+	createGroup = actionCollection()->addAction(QLatin1String("create_group"), this, &KeysManager::createNewGroup);
 	createGroup->setIcon(Images::group());
 
-	editCurrentGroup = actionCollection()->addAction(QLatin1String("edit_group"), this, SLOT(editGroup()));
+	editCurrentGroup = actionCollection()->addAction(QLatin1String("edit_group"), this, &KeysManager::editGroup);
 	editCurrentGroup->setText(i18n("&Edit Group..."));
 
-	delGroup = actionCollection()->addAction(QLatin1String("delete_group"), this, SLOT(deleteGroup()));
+	delGroup = actionCollection()->addAction(QLatin1String("delete_group"), this, &KeysManager::deleteGroup);
 	delGroup->setText(i18n("&Delete Group"));
 	delGroup->setIcon(QIcon::fromTheme( QLatin1String( "edit-delete" )));
 
-	m_groupRename = actionCollection()->addAction(QLatin1String("rename_group"), this, SLOT(renameGroup()));
+	m_groupRename = actionCollection()->addAction(QLatin1String("rename_group"), this, &KeysManager::renameGroup);
 	m_groupRename->setText(i18n("&Rename Group"));
 	m_groupRename->setIcon(QIcon::fromTheme( QLatin1String( "edit-rename" )));
 	actionCollection()->setDefaultShortcut(m_groupRename, QKeySequence(Qt::Key_F2));
 
-	deleteKey = actionCollection()->addAction(QLatin1String("key_delete"), this, SLOT(confirmdeletekey()));
+	deleteKey = actionCollection()->addAction(QLatin1String("key_delete"), this, &KeysManager::confirmdeletekey);
 	deleteKey->setIcon(QIcon::fromTheme( QLatin1String( "edit-delete" )));
 	actionCollection()->setDefaultShortcut(deleteKey, QKeySequence(Qt::Key_Delete));
 
-	setDefaultKey = actionCollection()->addAction(QLatin1String("key_default"), this, SLOT(slotSetDefKey()));
+	setDefaultKey = actionCollection()->addAction(QLatin1String("key_default"), this, &KeysManager::slotSetDefKey);
 	setDefaultKey->setText(i18n("Set as De&fault Key"));
 
-	QAction *addPhoto = actionCollection()->addAction(QLatin1String("add_photo"), this, SLOT(slotAddPhoto()));
+	QAction *addPhoto = actionCollection()->addAction(QLatin1String("add_photo"), this, &KeysManager::slotAddPhoto);
 	addPhoto->setText(i18n("&Add Photo..."));
 
-	QAction *addUid = actionCollection()->addAction(QLatin1String("add_uid"), this, SLOT(slotAddUid()));
+	QAction *addUid = actionCollection()->addAction(QLatin1String("add_uid"), this, &KeysManager::slotAddUid);
 	addUid->setText(i18n("&Add User Id..."));
 
-	QAction *exportSecretKey = actionCollection()->addAction(QLatin1String("key_sexport"), this, SLOT(slotexportsec()));
+	QAction *exportSecretKey = actionCollection()->addAction(QLatin1String("key_sexport"), this, &KeysManager::slotexportsec);
 	exportSecretKey->setText(i18n("Export Secret Key..."));
 
-	QAction *deleteKeyPair = actionCollection()->addAction(QLatin1String("key_pdelete"), this, SLOT(deleteseckey()));
+	QAction *deleteKeyPair = actionCollection()->addAction(QLatin1String("key_pdelete"), this, &KeysManager::deleteseckey);
 	deleteKeyPair->setText(i18n("Delete Key Pair"));
 	deleteKeyPair->setIcon(QIcon::fromTheme( QLatin1String( "edit-delete" )));
 
-	m_revokeKey = actionCollection()->addAction(QLatin1String("key_revoke"), this, SLOT(revokeWidget()));
+	m_revokeKey = actionCollection()->addAction(QLatin1String("key_revoke"), this, &KeysManager::revokeWidget);
 	m_revokeKey->setText(i18n("Revoke Key..."));
 
-	QAction *regeneratePublic = actionCollection()->addAction(QLatin1String("key_regener"), this, SLOT(slotregenerate()));
+	QAction *regeneratePublic = actionCollection()->addAction(QLatin1String("key_regener"), this, &KeysManager::slotregenerate);
 	regeneratePublic->setText(i18n("&Regenerate Public Key"));
 
-	delUid = actionCollection()->addAction(QLatin1String("del_uid"), this, SLOT(slotDelUid()));
+	delUid = actionCollection()->addAction(QLatin1String("del_uid"), this, &KeysManager::slotDelUid);
 	delUid->setIcon(QIcon::fromTheme( QLatin1String( "edit-delete" )));
 
-	setPrimUid = actionCollection()->addAction(QLatin1String("prim_uid"), this, SLOT(slotPrimUid()));
+	setPrimUid = actionCollection()->addAction(QLatin1String("prim_uid"), this, &KeysManager::slotPrimUid);
 	setPrimUid->setText(i18n("Set User Id as &Primary"));
 
-	QAction *openPhoto = actionCollection()->addAction(QLatin1String("key_photo"), this, SLOT(slotShowPhoto()));
+	QAction *openPhoto = actionCollection()->addAction(QLatin1String("key_photo"), this, &KeysManager::slotShowPhoto);
 	openPhoto->setIcon(QIcon::fromTheme( QLatin1String( "image-x-generic" )));
 	openPhoto->setText(i18n("&Open Photo"));
 
-	QAction *deletePhoto = actionCollection()->addAction(QLatin1String("delete_photo"), this, SLOT(slotDeletePhoto()));
+	QAction *deletePhoto = actionCollection()->addAction(QLatin1String("delete_photo"), this, &KeysManager::slotDeletePhoto);
 	deletePhoto->setIcon(QIcon::fromTheme( QLatin1String( "edit-delete" )));
 	deletePhoto->setText(i18n("&Delete Photo"));
 
-	delSignKey = actionCollection()->addAction(QLatin1String("key_delsign"), this, SLOT(delsignkey()));
+	delSignKey = actionCollection()->addAction(QLatin1String("key_delsign"), this, &KeysManager::delsignkey);
 	delSignKey->setIcon(QIcon::fromTheme( QLatin1String( "edit-delete" )));
 	delSignKey->setEnabled(false);
 
-	importAllSignKeys = actionCollection()->addAction(QLatin1String("key_importallsign"), this, SLOT(importallsignkey()));
+	importAllSignKeys = actionCollection()->addAction(QLatin1String("key_importallsign"), this, &KeysManager::importallsignkey);
 	importAllSignKeys->setIcon(QIcon::fromTheme( QLatin1String( "document-import" )));
 	importAllSignKeys->setText(i18n("Import &Missing Signatures From Keyserver"));
 
-	refreshKey = actionCollection()->addAction(QLatin1String("key_server_refresh"), this, SLOT(refreshKeyFromServer()));
+	refreshKey = actionCollection()->addAction(QLatin1String("key_server_refresh"), this, &KeysManager::refreshKeyFromServer);
 	refreshKey->setIcon(QIcon::fromTheme( QLatin1String( "view-refresh" )));
 
-	signKey = actionCollection()->addAction(QLatin1String("key_sign"), this, SLOT(signkey()));
+	signKey = actionCollection()->addAction(QLatin1String("key_sign"), this, &KeysManager::signkey);
 	signKey->setIcon(QIcon::fromTheme( QLatin1String( "document-sign-key" )));
 
-	signUid = actionCollection()->addAction(QLatin1String("key_sign_uid"), this, SLOT(signuid()));
+	signUid = actionCollection()->addAction(QLatin1String("key_sign_uid"), this, &KeysManager::signuid);
 	signUid->setIcon(QIcon::fromTheme( QLatin1String( "document-sign-key" )));
 
-	signMailUid = actionCollection()->addAction(QLatin1String("key_sign_mail_uid"), this, SLOT(caff()));
+	signMailUid = actionCollection()->addAction(QLatin1String("key_sign_mail_uid"), this, &KeysManager::caff);
 	signMailUid->setIcon(QIcon::fromTheme( QLatin1String( "document-sign-key" )));
 
-	importSignatureKey = actionCollection()->addAction(QLatin1String("key_importsign"), this, SLOT(preimportsignkey()));
+	importSignatureKey = actionCollection()->addAction(QLatin1String("key_importsign"), this, &KeysManager::preimportsignkey);
 	importSignatureKey->setIcon(QIcon::fromTheme( QLatin1String( "document-import-key" )));
 
-	sTrust = actionCollection()->add<KToggleAction>(QLatin1String("show_trust"), this, SLOT(slotShowTrust()));
+	sTrust = actionCollection()->add<KToggleAction>(QLatin1String("show_trust"), this, &KeysManager::slotShowTrust);
 	sTrust->setText(i18n("Trust"));
 
-	sSize = actionCollection()->add<KToggleAction>(QLatin1String("show_size"), this, SLOT(slotShowSize()));
+	sSize = actionCollection()->add<KToggleAction>(QLatin1String("show_size"), this, &KeysManager::slotShowSize);
 	sSize->setText(i18n("Size"));
 
-	sCreat = actionCollection()->add<KToggleAction>(QLatin1String("show_creat"), this, SLOT(slotShowCreation()));
+	sCreat = actionCollection()->add<KToggleAction>(QLatin1String("show_creat"), this, &KeysManager::slotShowCreation);
 	sCreat->setText(i18n("Creation"));
 
-	sExpi = actionCollection()->add<KToggleAction>(QLatin1String("show_expi"), this, SLOT(slotShowExpiration()));
+	sExpi = actionCollection()->add<KToggleAction>(QLatin1String("show_expi"), this, &KeysManager::slotShowExpiration);
 	sExpi->setText(i18n("Expiration"));
 
 	photoProps = actionCollection()->add<KSelectAction>(QLatin1String( "photo_settings" ));
@@ -339,7 +339,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 	connect(iview, &KeyTreeView::returnPressed, this, &KeysManager::slotDefaultAction);
 
-	hPublic = actionCollection()->add<KToggleAction>(QLatin1String("show_secret"), iproxy, SLOT(setOnlySecret(bool)));
+	hPublic = actionCollection()->add<KToggleAction>(QLatin1String("show_secret"), iproxy, &KeyListProxyModel::setOnlySecret);
 	hPublic->setIcon(QIcon::fromTheme( QLatin1String( "view-key-secret" )));
 	hPublic->setText(i18n("&Show Only Secret Keys"));
 	hPublic->setChecked(KGpgSettings::showSecret());
@@ -440,7 +440,7 @@ KeysManager::KeysManager(QWidget *parent)
 	actionCollection()->addAction(QLatin1String( "search_line" ), searchLineAction);
 	searchLineAction->setDefaultWidget(searchWidget);
 
-	action = actionCollection()->addAction(QLatin1String("search_focus"), m_listviewsearch, SLOT(setFocus()));
+	action = actionCollection()->addAction(QLatin1String("search_focus"), m_listviewsearch, static_cast<void (QWidget::*)()>(&QWidget::setFocus));
 	action->setText(i18nc("Name of the action that gives the focus to the search line", "Focus Search Line"));
 	actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::Key_F6));
 	connect(m_listviewsearch, &QLineEdit::textChanged, iproxy, &KeyListProxyModel::setFilterFixedString);
@@ -2691,21 +2691,21 @@ KeysManager::setupTrayIcon()
 
 	QMenu *conf_menu = m_trayicon->contextMenu();
 
-	QAction *KgpgOpenManager = actionCollection()->addAction(QLatin1String("kgpg_manager"), this, SLOT(show()));
+	QAction *KgpgOpenManager = actionCollection()->addAction(QLatin1String("kgpg_manager"), this, &KeysManager::show);
 	KgpgOpenManager->setIcon(QIcon::fromTheme( QLatin1String( "kgpg" )));
 	KgpgOpenManager->setText(i18n("Ke&y Manager"));
 
-	QAction *KgpgEncryptClipboard = actionCollection()->addAction(QLatin1String("clip_encrypt"), this, SLOT(clipEncrypt()));
+	QAction *KgpgEncryptClipboard = actionCollection()->addAction(QLatin1String("clip_encrypt"), this, &KeysManager::clipEncrypt);
 	KgpgEncryptClipboard->setText(i18n("&Encrypt Clipboard"));
 
-	QAction *KgpgDecryptClipboard = actionCollection()->addAction(QLatin1String("clip_decrypt"), this, SLOT(clipDecrypt()));
+	QAction *KgpgDecryptClipboard = actionCollection()->addAction(QLatin1String("clip_decrypt"), this, &KeysManager::clipDecrypt);
 	KgpgDecryptClipboard->setText(i18n("&Decrypt Clipboard"));
 
-	QAction *KgpgSignClipboard = actionCollection()->addAction(QLatin1String("clip_sign"), this, SLOT(clipSign()));
+	QAction *KgpgSignClipboard = actionCollection()->addAction(QLatin1String("clip_sign"), this, &KeysManager::clipSign);
 	KgpgSignClipboard->setText(i18n("&Sign/Verify Clipboard"));
 	KgpgSignClipboard->setIcon(QIcon::fromTheme( QLatin1String( "document-sign-key" )));
 
-	QAction *KgpgPreferences = KStandardAction::preferences(this, SLOT(showOptions()), actionCollection());
+	QAction *KgpgPreferences = KStandardAction::preferences(this, &KeysManager::showOptions, actionCollection());
 
 	conf_menu->addAction( KgpgEncryptClipboard );
 	conf_menu->addAction( KgpgDecryptClipboard );
