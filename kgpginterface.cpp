@@ -201,9 +201,10 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 			if (items > 11)
 				subtype = Convert::toSubType(lsp.at(11), false);
 
+			const QString curve = (items > 16) ? lsp.at(16) : QString();
 			KgpgKeySub sub(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
 					Convert::toAlgo(lsp.at(3)), subtype, QDateTime::fromTime_t(lsp.at(5).toUInt()),
-					lsp.at(16));
+					curve);
 
 			// FIXME: Please see kgpgkey.h, KgpgSubKey class
 			if (items <= 11)
