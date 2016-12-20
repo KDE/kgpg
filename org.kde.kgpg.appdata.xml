@@ -43,7 +43,6 @@
   <name xml:lang="zh-CN">KGpg</name>
   <name xml:lang="zh-TW">加密工具_KGpg</name>
   <summary>Encryption Tool</summary>
-  <summary xml:lang="ast">Ferramienta de cifráu</summary>
   <summary xml:lang="bs">Kriptografski alat</summary>
   <summary xml:lang="ca">Eina d'encriptatge</summary>
   <summary xml:lang="ca-valencia">Eina d'encriptatge</summary>
@@ -86,7 +85,6 @@
       KGpg is a simple interface for GnuPG, a powerful encryption utility.
       It can help you set up and manage your keys, import and export keys, view key signatures, trust status and expiry dates.
     </p>
-    <p xml:lang="ast">KGpg ye una interfaz cenciella pa GnuPG, una utilidá poderosa de cifráu. Pue ayudate a configurar y xestionar les tos claves, importales y esportales, ver les sos robles, enfotar l'estáu y dates de caducidá.</p>
     <p xml:lang="bs">KGpg je jednostavan interfejs za GnuPG, moćnog alata za šifrovanje. On vam može pomoći za postavljanje i upravljanje vašim ključevima, uvoz i izvoz ključeva, da vidite ključne potpise, status poverenja i rok trajanja.</p>
     <p xml:lang="ca">El KGpg és una interfície senzilla pel GnuPG, una utilitat potent d'encriptatge. Pot ajudar a configurar i gestionar les vostres claus, importar i exportar claus, veure les signatures de les claus, l'estat de confiança i les dates de venciment.</p>
     <p xml:lang="ca-valencia">El KGpg és una interfície senzilla pel GnuPG, una utilitat potent d'encriptatge. Pot ajudar a configurar i gestionar les vostres claus, importar i exportar claus, veure les signatures de les claus, l'estat de confiança i les dates de venciment.</p>
