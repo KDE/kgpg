@@ -342,9 +342,10 @@ readSecretKeysProcess(GPGProc &p)
 				keytype = Convert::toSubType(caps, true);
 			}
 
+			const QString curve = (items > 16) ? lsp.at(16) : QString();
 			result << KgpgKey(lsp.at(4), lsp.at(2).toUInt(), Convert::toTrust(lsp.at(1)),
 				Convert::toAlgo(lsp.at(3)), subtype, keytype,
-				QDateTime::fromTime_t(lsp.at(5).toUInt()), lsp.at(16));
+				QDateTime::fromTime_t(lsp.at(5).toUInt()), curve);
 
 			secretkey = &result.last();
 
