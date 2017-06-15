@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
  * Copyright (C) 2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2008,2009,2010,2011,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013,2014,2016,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
  * Copyright (C) 2011 Philip Greggory Lee <rocketman768@gmail.com>
  */
 
@@ -156,8 +156,14 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
 
 KgpgKeyInfo::~KgpgKeyInfo()
 {
-	if (keychange)
+	if (keychange) {
+		// make sure anything that happens as result of the selfdestruct does not call
+		// out into a method of this object again, as it is under destruction and that
+		// can cause crashes (see bug 373910). Since ~QObject has not been run yet the
+		// connections are not yet removed automatically.
+		disconnect(keychange, &KGpgChangeKey::done, this, &KgpgKeyInfo::slotApplied);
 		keychange->selfdestruct(false);
+	}
 }
 
 void KgpgKeyInfo::reloadNode()
