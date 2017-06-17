@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
  * Copyright (C) 2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2008,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2012,2014,2016,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
  * Copyright (C) 2011 Philip G. Lee <rocketman768@gmail.com>
  */
 
@@ -35,7 +35,7 @@ class KgpgTrustLabel : public QWidget
     Q_OBJECT
 
 public:
-    explicit KgpgTrustLabel(QWidget *parent = Q_NULLPTR, const QString &text = QString(), const QColor &color = QColor());
+    explicit KgpgTrustLabel(QWidget *parent = Q_NULLPTR);
 
     void setText(const QString &text);
     void setColor(const QColor &color);
@@ -97,9 +97,9 @@ private slots:
 
 private:
 	KGpgKeyNode *m_node;
-	KGpgItemModel *m_model;
+	KGpgItemModel * const m_model;
 
-    KgpgTrustLabel *m_trust;
+	KgpgTrustLabel * const m_trust;
 
     QDialogButtonBox *buttonBox;
 

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
  * Copyright (C) 2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2008,2009,2010,2011,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013,2014,2016,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
  * Copyright (C) 2011 Philip Greggory Lee <rocketman768@gmail.com>
  */
 
@@ -44,12 +44,10 @@
 
 using namespace KgpgCore;
 
-KgpgTrustLabel::KgpgTrustLabel(QWidget *parent, const QString &text, const QColor &color)
+KgpgTrustLabel::KgpgTrustLabel(QWidget *parent)
 	: QWidget(parent),
 	m_text_w(new QLabel(this)),
-	m_color_w(new QLabel(this)),
-	m_text(text),
-	m_color(color)
+	m_color_w(new QLabel(this))
 {
     m_text_w->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
@@ -103,6 +101,7 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
 	keychange(new KGpgChangeKey(node, this)),
 	m_node(node),
 	m_model(model),
+	m_trust(new KgpgTrustLabel(this)),
 	m_keywaschanged(false),
 	m_closewhendone(false)
 {
@@ -127,7 +126,6 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
 
     m_email->setUnderline(false);
-    m_trust = new KgpgTrustLabel(this);
     int trustRow;
     formLayout_keyproperties->getWidgetPosition(tl_trust, &trustRow, Q_NULLPTR);
     formLayout_keyproperties->setWidget(trustRow, QFormLayout::FieldRole, m_trust);
