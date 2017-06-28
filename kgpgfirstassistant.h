@@ -55,7 +55,7 @@ private:
 	QString m_gpgVersion;
 	QString m_confPath;
 
-	void findConfigPath();
+	void findConfigPath(const QString &gpgBinary);
 
 public:
 	/**

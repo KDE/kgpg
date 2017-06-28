@@ -413,7 +413,5 @@ KgpgKeyList KgpgInterface::readSecretKeys(const QStringList &ids)
 
 	process.start();
 	process.waitForFinished(-1);
-	KgpgCore::KgpgKeyList result = readSecretKeysProcess(process);
-
-	return result;
+	return readSecretKeysProcess(process);
 }

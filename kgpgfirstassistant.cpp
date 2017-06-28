@@ -239,20 +239,21 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 }
 
 void
-KGpgFirstAssistant::findConfigPath()
+KGpgFirstAssistant::findConfigPath(const QString &gpgBinary)
 {
-	const QString gpgHome = GPGProc::getGpgHome(binURL->url().path());
+	const QString gpgHome = GPGProc::getGpgHome(gpgBinary);
 	QString confPath = gpgHome + QLatin1String( "gpg.conf" );
 
 	if (!QFile(confPath).exists()) {
-		confPath = gpgHome + QLatin1String( "options" );
-		if (!QFile(confPath).exists()) {
+		const QString confPathOpt = gpgHome + QLatin1String("options");
+		if (QFile(confPathOpt).exists()) {
+			confPath = confPathOpt;
+		} else {
 			if (KMessageBox::questionYesNo(0, i18n("<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to create a config file ?</qt>"), QString(), KGuiItem(i18n("Create Config")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes) {
-				confPath = gpgHome + QLatin1String( "gpg.conf" );
 				QFile file(confPath);
 				if (file.open(QIODevice::WriteOnly)) {
 				    QTextStream stream(&file);
-				    stream << "# GnuPG config file created by KGpg" << "\n";
+				    stream << "# GnuPG config file created by KGpg\n";
 				    file.close();
 				}
 			} else {
@@ -264,18 +265,18 @@ KGpgFirstAssistant::findConfigPath()
 
 	pathURL->setUrl(QUrl::fromLocalFile(confPath));
 
-	QStringList secids = KgpgInterface::readSecretKeys();
-	if (secids.isEmpty()) {
-		setAppropriate(page_defaultkey, false);
-		generateCB->setChecked(true);
+	const QStringList secids = KgpgInterface::readSecretKeys();
+
+	bool noSecKeys = secids.isEmpty();
+	generateCB->setChecked(noSecKeys);
+	setAppropriate(page_defaultkey, !noSecKeys);
+
+	if (noSecKeys) {
 		defaultkeylabel->setVisible(false);
 		return;
 	}
 
 	const KgpgKeyList publiclist = KgpgInterface::readPublicKeys(secids);
-
-	generateCB->setChecked(false);
-	setAppropriate(page_defaultkey, true);
 
 	CBdefault->clear();
 
@@ -297,8 +298,9 @@ void
 KGpgFirstAssistant::next()
 {
 	if (currentPage() == page_binary) {
-		binlabel->setText(i18n("Your GnuPG binary is: %1", binURL->url().path()));
-		findConfigPath();
+		const QString &gpgbin = binURL->url().path();
+		binlabel->setText(i18n("Your GnuPG binary is: %1", gpgbin));
+		findConfigPath(gpgbin);
 	} else if (currentPage() == page_config) {
 		QString tst, name;
 		m_confPath = pathURL->url().path();

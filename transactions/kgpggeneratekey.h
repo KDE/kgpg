@@ -19,8 +19,7 @@
 #include "core/kgpgkey.h"
 
 #include <QObject>
-
-class QString;
+#include <QString>
 
 /**
  * @brief generate a new key pair

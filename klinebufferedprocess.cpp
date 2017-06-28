@@ -23,7 +23,6 @@ KLineBufferedProcess::KLineBufferedProcess(QObject *parent)
 
 KLineBufferedProcess::~KLineBufferedProcess()
 {
-    delete d;
 }
 
 bool KLineBufferedProcess::readLineStandardOutput(QByteArray *line)

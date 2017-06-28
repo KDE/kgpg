@@ -15,7 +15,8 @@
 #include "klinebufferedprocess.h"
 
 KLineBufferedProcessPrivate::KLineBufferedProcessPrivate(KLineBufferedProcess *parent)
- : m_newlineInStdout(-1),
+ : QObject(parent),
+   m_newlineInStdout(-1),
    m_newlineInStderr(-1),
    m_parent(parent),
 #ifdef Q_OS_WIN 	//krazy:exclude=cpp
