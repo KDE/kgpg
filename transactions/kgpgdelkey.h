@@ -35,9 +35,13 @@ public:
 
 	/**
 	 * @brief the keys that were requested to be removed
-	 * @return the list of key nodes
 	 */
-	KGpgKeyNode::List keys() const;
+	const KGpgKeyNode::List keys;
+
+	/**
+	 * @brief the fingerprints of everything in keys
+	 */
+	const QStringList fingerprints;
 
 protected:
 	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
@@ -45,7 +49,6 @@ protected:
 	bool preStart() Q_DECL_OVERRIDE;
 	
 private:
-	KGpgKeyNode::List m_keys;
 	int m_argscount;
 
 	void setCmdLine();

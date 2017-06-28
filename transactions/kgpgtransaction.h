@@ -20,8 +20,9 @@
 class GPGProc;
 class KGpgSignTransactionHelper;
 class KGpgTransactionPrivate;
-class QUrl;
 class QByteArray;
+class QStringList;
+class QUrl;
 
 /**
  * @brief Process one GnuPG operation
@@ -445,7 +446,19 @@ protected:
 	 * take care to display the message asking the user for the passphrase
 	 * and the number of tries left.
 	 */
-	 bool askPassphrase(const QString &message = QString());
+	bool askPassphrase(const QString &message = QString());
+
+	/**
+	 * @brief handle if this a KEY_CONSIDERED line
+	 * @param line the line from GnuPG output
+	 * @param fingerprints the fingerprints of the expected keys
+	 * @returns if this is a KEY_CONSIDERED line
+	 *
+	 * In case this is a KEY_CONSIDERED line (i.e. the return value is true),
+	 * but either it was malformed or the given fingerprint does not match any
+	 * key in fingerprints, the success value will be set to TS_MSG_SEQUENCE.
+	 */
+	bool keyConsidered(const QString &line, const QStringList &fingerprints);
 };
 
 #endif // KGPGTRANSACTION_H

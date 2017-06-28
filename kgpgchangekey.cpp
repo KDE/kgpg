@@ -68,7 +68,7 @@ bool KGpgChangeKey::apply()
 	m_step = 0;
 	m_failed = 0;
 
-	nextStep(0);
+	nextStep(KGpgTransaction::TS_OK);
 
 	return true;
 }
