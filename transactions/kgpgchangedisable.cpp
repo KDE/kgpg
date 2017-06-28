@@ -49,5 +49,8 @@ KGpgChangeDisable::preStart()
 bool
 KGpgChangeDisable::nextLine(const QString &line)
 {
+	if(keyConsidered(line, QStringList(getKeyid())))
+		return false;
+
 	return KGpgEditKeyTransaction::nextLine(line);
 }

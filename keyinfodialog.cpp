@@ -154,8 +154,14 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
 
 KgpgKeyInfo::~KgpgKeyInfo()
 {
-	if (keychange)
+	if (keychange) {
+		// make sure anything that happens as result of the selfdestruct does not call
+		// out into a method of this object again, as it is under destruction and that
+		// can cause crashes (see bug 373910). Since ~QObject has not been run yet the
+		// connections are not yet removed automatically.
+		disconnect(keychange, &KGpgChangeKey::done, this, &KgpgKeyInfo::slotApplied);
 		keychange->selfdestruct(false);
+	}
 }
 
 void KgpgKeyInfo::reloadNode()

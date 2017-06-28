@@ -1,4 +1,4 @@
-/* Copyright 2008,2009,2010,2011,2012,2013,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/* Copyright 2008,2009,2010,2011,2012,2013,2016,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -150,6 +150,15 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 	case KEYCOLUMN_TRUST:
 		{
 		KgpgKeyTrust t = node->getTrust();
+		switch(node->getType()) {
+		case ITYPE_PAIR:
+		case ITYPE_PUBLIC:
+			if(!node->toKeyNode()->getKey()->valid())
+				t = TRUST_DISABLED;
+			break;
+		default:
+			break;
+		}
 
 		switch (role) {
 		case Qt::BackgroundColorRole:

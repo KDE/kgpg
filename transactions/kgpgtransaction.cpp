@@ -396,3 +396,17 @@ void
 KGpgTransaction::newPassphraseEntered()
 {
 }
+
+bool KGpgTransaction::keyConsidered(const QString& line, const QStringList &fingerprints)
+{
+	if (!line.startsWith(QLatin1String("[GNUPG:] KEY_CONSIDERED ")))
+		return false;
+
+	const QStringList &parts = line.split(QLatin1Char(' '), QString::SkipEmptyParts);
+	if (parts.count() < 3)
+		setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
+	else if (!fingerprints.contains(parts[2], Qt::CaseInsensitive))
+		setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
+
+	return true;
+}

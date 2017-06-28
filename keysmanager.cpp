@@ -2281,7 +2281,7 @@ void KeysManager::slotedit()
 		return;
 	if (terminalkey)
 		return;
-	if ((m_delkey != Q_NULLPTR) && m_delkey->keys().contains(nd->toKeyNode()))
+	if ((m_delkey != Q_NULLPTR) && m_delkey->keys.contains(nd->toKeyNode()))
 		return;
 
 	KProcess *kp = new KProcess(this);
@@ -2400,7 +2400,7 @@ void KeysManager::deleteseckey()
 
 void KeysManager::secretKeyDeleted(int retcode)
 {
-	KGpgKeyNode *delkey = m_delkey->keys().at(0);
+	KGpgKeyNode *delkey = m_delkey->keys.at(0);
 	if (retcode == 0) {
 		KMessageBox::information(this, i18n("Key <b>%1</b> deleted.", delkey->getBeautifiedFingerprint()), i18n("Delete key"));
 		imodel->delNode(delkey);
@@ -2530,8 +2530,7 @@ void KeysManager::confirmdeletekey()
 void KeysManager::slotDelKeyDone(int res)
 {
 	if (res == 0) {
-		const auto keys = m_delkey->keys();
-		for (KGpgKeyNode *kn : keys)
+		for (KGpgKeyNode *kn : m_delkey->keys)
 			imodel->delNode(kn);
 	}
 
