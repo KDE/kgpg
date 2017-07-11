@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010,2011,2012,2013
+ * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017
  *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  * Copyright (C) 2011 Luis Ángel Fernández Fernández <laffdez@gmail.com>
  * Copyright (C) 2016 Andrius Štikonas <andrius@stikonas.eu>
@@ -603,17 +603,7 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		const QString email(genkey->getEmail());
 		page->TLemail->setText(QLatin1String( "<b>" ) + email + QLatin1String( "</b>" ));
 
-		QString revurl;
-		const QString gpgPath(KGpgSettings::gpgConfigPath());
-		if (!gpgPath.isEmpty())
-			revurl = QUrl::fromLocalFile(gpgPath).adjusted(QUrl::RemoveFilename).path();
-		else
-			revurl = QDir::homePath() + QLatin1Char( '/' );
-
-		if (!email.isEmpty())
-			page->kURLRequester1->setUrl(QUrl(revurl + email.section(QLatin1Char( '@' ), 0, 0) + QLatin1String( ".revoke" )));
-		else
-			page->kURLRequester1->setUrl(QUrl(revurl + genkey->getName().section(QLatin1Char(' '), 0, 0) + QLatin1String(".revoke")));
+		page->kURLRequester1->setUrl(KGpgRevokeDialog::revokeUrl(genkey->getName(), email));
 
 		const QString fingerprint(genkey->getFingerprint());
 		page->TLid->setText(QLatin1String( "<b>" ) + fingerprint.right(8) + QLatin1String( "</b>" ));

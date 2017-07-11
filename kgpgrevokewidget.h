@@ -1,8 +1,8 @@
-/***************************************************************************
-    begin                : Thu Jul 4 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002,2003 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2010,2012,2014,2016,2017
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -51,6 +51,8 @@ public:
 	QString getId() const;
 	bool printChecked();
 	bool importChecked();
+
+	static QUrl revokeUrl(const QString &name, const QString &email);
 
 private:
 	KgpgRevokeWidget *m_revWidget;

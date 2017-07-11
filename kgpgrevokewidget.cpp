@@ -1,8 +1,8 @@
-/***************************************************************************
-    begin                : Thu Jul 4 2002
-    copyright          : (C) 2002 by Jean-Baptiste Mardelle
-    email                : bj@altern.org
- ***************************************************************************/
+/*
+ * Copyright (C) 2002,2003 Jean-Baptiste Mardelle <bj@altern.org>
+ * Copyright (C) 2010,2012,2016,2017
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
+ */
 
 /***************************************************************************
  *                                                                         *
@@ -17,6 +17,7 @@
 #include "kgpgrevokewidget.h"
 
 #include "core/KGpgKeyNode.h"
+#include "kgpgsettings.h"
 
 #include <QUrl>
 #include <QDir>
@@ -59,7 +60,7 @@ KGpgRevokeDialog::KGpgRevokeDialog(QWidget* parent, const KGpgKeyNode *node)
 
 	m_revWidget->keyID->setText(i18nc("<Name> (<Email>) ID: <KeyId>", "%1 (%2) ID: %3",
 				node->getName(), node->getEmail(), m_id));
-	m_revWidget->outputFile->setUrl(QUrl(QDir::homePath() + QLatin1Char( '/' ) + node->getEmail().section( QLatin1Char( '@' ), 0, 0 )  + QLatin1String( ".revoke" ) ));
+	m_revWidget->outputFile->setUrl(revokeUrl(node->getName(), node->getEmail()));
 	m_revWidget->outputFile->setMode(KFile::File);
 
 	setMinimumSize(m_revWidget->sizeHint());
@@ -90,12 +91,29 @@ QString KGpgRevokeDialog::getId() const
 	return m_id;
 }
 
+bool KGpgRevokeDialog::printChecked()
+{
+	return m_revWidget->cbPrint->isChecked();
+}
+
 bool KGpgRevokeDialog::importChecked()
 {
 	return m_revWidget->cbImport->isChecked();
 }
 
-bool KGpgRevokeDialog::printChecked()
+QUrl KGpgRevokeDialog::revokeUrl(const QString& name, const QString& email)
 {
-	return m_revWidget->cbPrint->isChecked();
+	QString revurl;
+	const QString gpgPath(KGpgSettings::gpgConfigPath());
+	if (!gpgPath.isEmpty())
+		revurl = QUrl::fromLocalFile(gpgPath).adjusted(QUrl::RemoveFilename).path();
+	else
+		revurl = QDir::homePath() + QLatin1Char('/');
+
+	if (!email.isEmpty())
+		revurl += email.section(QLatin1Char('@'), 0, 0);
+	else
+		revurl += name.section(QLatin1Char(' '), 0, 0);
+
+	return QUrl::fromLocalFile(revurl + QLatin1String( ".revoke" ));
 }
