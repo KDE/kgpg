@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2010,2013,2014,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2013,2014,2016,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
  *   This program is free software; you can redistribute it and/or modify  *
@@ -85,9 +85,9 @@ QString toString(const gpgme_validity_t ownertrust)
 {
 	switch (ownertrust) {
 	case GPGME_VALIDITY_UNDEFINED:
-		return i18n("Do not Know");
+		return i18n("I do not know");
 	case GPGME_VALIDITY_NEVER:
-		return i18n("Do NOT Trust");
+		return i18n("I do NOT trust");
 	case GPGME_VALIDITY_MARGINAL:
 		return i18n("Marginally");
 	case GPGME_VALIDITY_FULL:

@@ -109,6 +109,11 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
 	Q_ASSERT(m_node != Q_NULLPTR);
 
     setupUi(this);
+    m_owtrust->addItem(Convert::toString(GPGME_VALIDITY_UNDEFINED));
+    m_owtrust->addItem(Convert::toString(GPGME_VALIDITY_NEVER));
+    m_owtrust->addItem(Convert::toString(GPGME_VALIDITY_MARGINAL));
+    m_owtrust->addItem(Convert::toString(GPGME_VALIDITY_FULL));
+    m_owtrust->addItem(Convert::toString(GPGME_VALIDITY_ULTIMATE));
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     QWidget *mainWidget = new QWidget(this);

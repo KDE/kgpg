@@ -181,31 +181,6 @@
              <property name="sizeAdjustPolicy">
               <enum>QComboBox::AdjustToContents</enum>
              </property>
-             <item>
-              <property name="text">
-               <string>I do not know</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>I do NOT trust</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Marginally</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Fully</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Ultimately</string>
-              </property>
-             </item>
             </widget>
            </item>
            <item row="6" column="0">
