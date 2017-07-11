@@ -120,6 +120,8 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 
     m_cbuntrusted = new QCheckBox(i18n("Allow encryption with untrusted keys"), optionsbox);
     optionsboxVBoxLayout->addWidget(m_cbuntrusted);
+    // connect before setting the state so the model gets the right state from the start
+    connect(m_cbuntrusted, &QCheckBox::toggled, this, &KgpgSelectPublicKeyDlg::slotUntrusted);
     m_cbuntrusted->setChecked(KGpgSettings::allowUntrustedKeys());
     m_cbuntrusted->setWhatsThis(i18n("<b>Allow encryption with untrusted keys</b>: when you import a public key, it is usually "
                     "marked as untrusted and you cannot use it unless you sign it in order to make it 'trusted'. Checking this "
@@ -127,7 +129,6 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 
     m_cbhideid = new QCheckBox(i18n("Hide user id"), optionsbox);
     optionsboxVBoxLayout->addWidget(m_cbhideid);
-    connect(m_cbuntrusted, &QCheckBox::toggled, this, &KgpgSelectPublicKeyDlg::slotUntrusted);
     m_cbhideid->setChecked(KGpgSettings::hideUserID());
     m_cbhideid->setWhatsThis(i18n("<b>Hide user ID</b>: Do not put the keyid into encrypted packets. This option hides the receiver "
                     "of the message and is a countermeasure against traffic analysis. It may slow down the decryption process because "
