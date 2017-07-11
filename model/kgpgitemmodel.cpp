@@ -185,6 +185,16 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 			}
 		case Qt::AccessibleTextRole:
 			return Convert::toString(t);
+		case Qt::ToolTipRole:
+			switch(node->getType()) {
+			case ITYPE_PAIR:
+			case ITYPE_PUBLIC:
+				return i18n("Trust: %1<br>Owner Trust: %2",
+						Convert::toString(node->getTrust()),
+						Convert::toString(node->toKeyNode()->getKey()->ownerTrust()));
+			default:
+				return i18n("Trust: %1", Convert::toString(node->getTrust()));
+			}
 		}
 		break;
 		}
