@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2010,2012,2013,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -45,7 +45,7 @@ KGpgGenerateRevoke::~KGpgGenerateRevoke()
 bool
 KGpgGenerateRevoke::preStart()
 {
-	setSuccess(TS_MSG_SEQUENCE);
+	setSuccess(TS_OK);
 
 	setDescription(i18n("Generating Revocation Certificate for key %1", m_keyid));
 
@@ -107,8 +107,6 @@ KGpgGenerateRevoke::finish()
 bool
 KGpgGenerateRevoke::passphraseReceived()
 {
-	setSuccess(TS_OK);
-
 	return false;
 }
 
