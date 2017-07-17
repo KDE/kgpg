@@ -26,6 +26,8 @@
 #include "transactions/kgpgkeyserversearchtransaction.h"
 #include "transactions/kgpgsendkeys.h"
 
+#include <algorithm>
+
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QCursor>
@@ -339,7 +341,7 @@ QStringList KeyServer::getServerList()
 	if (!serverList.isEmpty()) {
 		serverList.replaceInStrings(QRegExp(QLatin1String(" .*")), QString());     // Remove kde 3.5 (Default) tag.
 		const QString defaultServer(serverList.takeFirst());
-		qSort(serverList);
+		std::sort(serverList.begin(), serverList.end());
 		serverList.prepend(defaultServer);
 	}
 

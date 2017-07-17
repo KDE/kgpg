@@ -59,10 +59,16 @@
 #include "transactions/kgpgsignuid.h"
 #include "transactions/kgpgtransactionjob.h"
 
-#include <akonadi/contact/contacteditor.h>
-#include <akonadi/contact/contacteditordialog.h>
-#include <akonadi/contact/contactsearchjob.h>
+#include <algorithm>
+
+#include <Akonadi/Contact/ContactEditor>
+#include <Akonadi/Contact/ContactEditorDialog>
+#include <Akonadi/Contact/ContactSearchJob>
 #include <KActionCollection>
+#include <KContacts/AddresseeList>
+// #include <KContacts/Key> TODO
+#include <KIO/Global>
+#include <KJobTrackerInterface>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KMimeTypeTrader>
@@ -76,6 +82,7 @@
 #include <KStandardGuiItem>
 #include <KStandardShortcut>
 #include <KStatusNotifierItem>
+#include <KTipDialog>
 #include <KToggleAction>
 #include <KToolInvocation>
 
@@ -104,11 +111,6 @@
 #include <QUrl>
 #include <QWidget>
 #include <QWidgetAction>
-#include <kcontacts/addresseelist.h>
-// #include <kcontacts/key.h> TODO
-#include <kio/global.h>
-#include <kjobtrackerinterface.h>
-#include <ktip.h>
 
 using namespace KgpgCore;
 
@@ -1442,7 +1444,7 @@ void KeysManager::slotexport()
 	serverList.replaceInStrings(QRegExp( QLatin1String( " .*") ), QLatin1String( "" ) ); // Remove kde 3.5 (Default) tag.
 	if (!serverList.isEmpty()) {
 		QString defaultServer = serverList.takeFirst();
-		qSort(serverList);
+		std::sort(serverList.begin(), serverList.end());
 		serverList.prepend(defaultServer);
 	}
 

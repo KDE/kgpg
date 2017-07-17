@@ -17,7 +17,7 @@
 #include "core/kgpgkey.h"
 #include "core/KGpgKeyNode.h"
 
-#include <QtAlgorithms>
+#include <algorithm>
 
 KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgSignableNode *uid)
 	: KGpgUidTransaction(parent, uid->getParentKeyNode()->getId(), uid->getId()),
@@ -75,7 +75,7 @@ KGpgDelUid::setUids(const KGpgSignableNode::const_List &uids)
 		args.removeLast();
 
 	// FIXME: can this use qGreater<>()?
-	qSort(m_uids.begin(), m_uids.end(), signNodeGreaterThan);
+	std::sort(m_uids.begin(), m_uids.end(), signNodeGreaterThan);
 
 	const KGpgSignableNode *nd = m_uids.first();
 	const KGpgExpandableNode *parent;
