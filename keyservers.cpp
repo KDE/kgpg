@@ -54,6 +54,7 @@ KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose
 	page->kCBexportks->addItems(serverlist);
 	page->kCBimportks->addItems(serverlist);
 	page->qLEimportid->setFocus();
+	page->Buttonsearch->setDefault(true);
 
 	connect(page->buttonBox, &QDialogButtonBox::rejected, this, &KeyServer::accept);
 	connect(page->Buttonimport, &QPushButton::clicked, this, &KeyServer::slotImport);
@@ -62,7 +63,6 @@ KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose
 	connect(page->buttonBox, &QDialogButtonBox::accepted, this, &KeyServer::slotOk);
 	connect(page->cBproxyI, &QCheckBox::toggled, this, &KeyServer::slotEnableProxyI);
 	connect(page->cBproxyE, &QCheckBox::toggled, this, &KeyServer::slotEnableProxyE);
-	connect(page->qLEimportid,  &QLineEdit::returnPressed, this, &KeyServer::slotSearch);
 	connect(page->qLEimportid, &QLineEdit::textChanged, this, &KeyServer::slotTextChanged);
 
 	page->cBproxyI->setChecked(KGpgSettings::useProxy());
