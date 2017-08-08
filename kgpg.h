@@ -26,6 +26,7 @@
 class KeysManager;
 class KGpgExternalActions;
 class QCommandLineParser;
+class QDir;
 class QString;
 
 static const QString EMailTemplateText=i18n(
@@ -47,9 +48,21 @@ public:
     KGpgApp(int &argc, char **argv);
     ~KGpgApp();
 
-    int newInstance (QCommandLineParser&);
-    bool running;
-    QKeySequence goHome;
+	bool newInstance();
+	QKeySequence goHome;
+
+	/**
+	 * @brief configure the QCommandLineParser to know about the control arguments
+	 */
+	void setupCmdlineParser(QCommandLineParser &parser);
+
+	/**
+	 * @brief process the actions requested by the user
+	 */
+	void handleArguments(const QCommandLineParser &parser, const QDir &workingDirectory);
+
+public slots:
+	void slotDBusActivation(const QStringList &arguments, const QString &workingDirectory);
 
 private:
     KGpgExternalActions *w;
