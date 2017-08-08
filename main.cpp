@@ -16,8 +16,8 @@
 
 #include "kgpg.h"
 
-#include <QCommandLineOption>
 #include <QCommandLineParser>
+#include <QDir>
 
 #include <KAboutData>
 #include <KCrash>
@@ -65,13 +65,8 @@ int main(int argc, char *argv[])
     parser.addVersionOption();
     parser.addHelpOption();
     about.setupCommandLine(&parser);
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("e"), i18n("Encrypt file")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("k"), i18n("Open key manager")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("d"), i18n("Open editor")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("s"), i18n("Show encrypted file")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("S"), i18n("Sign File")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("V"), i18n("Verify signature")));
-    parser.addPositionalArgument(QLatin1String("[File]"), i18n("File to open"));
+
+	app.setupCmdlineParser(parser);
 
     parser.process(app);
     about.processCommandLine(&parser);
@@ -79,7 +74,11 @@ int main(int argc, char *argv[])
     app.setQuitOnLastWindowClosed(false);
     KDBusService service(KDBusService::Unique);
 
-    app.newInstance(parser);
+	service.connect(&service, &KDBusService::activateRequested, &app, &KGpgApp::slotDBusActivation);
+
+	if(!app.newInstance())
+		return 1;
+	app.handleArguments(parser, QDir::current());
 
     return app.exec();
 }

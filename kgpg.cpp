@@ -26,6 +26,7 @@
 #include "editor/kgpgeditor.h"
 #include "transactions/kgpgimport.h"
 
+#include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QFile>
 #include <QMimeDatabase>
@@ -39,7 +40,6 @@ using namespace KgpgCore;
 
 KGpgApp::KGpgApp(int &argc, char **argv)
              : QApplication(argc, argv),
-	     running(false),
 	     w(Q_NULLPTR),
 	     s_keyManager(0)
 {
@@ -65,42 +65,43 @@ void KGpgApp::assistantOver(const QString &defaultKeyId)
 	s_keyManager->raise();
 }
 
-int KGpgApp::newInstance(QCommandLineParser& parser)
+bool KGpgApp::newInstance()
 {
-	if (!running) {
-		running = true;
-
-		const QString gpgError = GPGProc::getGpgStartupError(KGpgSettings::gpgBinaryPath());
-		if (!gpgError.isEmpty()) {
-			running = false;
-			KMessageBox::detailedError(0, i18n("GnuPG failed to start.<br />You must fix the GnuPG error first before running KGpg."), gpgError, i18n("GnuPG error"));
-			QApplication::quit();
-		}
-
-		s_keyManager = new KeysManager();
-
-		w = new KGpgExternalActions(s_keyManager, s_keyManager->getModel());
-
-		connect(s_keyManager, &KeysManager::readAgainOptions, w, &KGpgExternalActions::readOptions);
-		connect(w, &KGpgExternalActions::updateDefault, this, &KGpgApp::assistantOver);
-		connect(w, &KGpgExternalActions::createNewKey, s_keyManager, &KeysManager::slotGenerateKey);
-
-		const QString gpgPath = KGpgSettings::gpgConfigPath();
-
-		if (!gpgPath.isEmpty()) {
-			const int gpgver = GPGProc::gpgVersion(GPGProc::gpgVersionString(KGpgSettings::gpgBinaryPath()));
-
-			// Warn if sign of a properly running gpg-agent cannot be determined
-			// The environment variable has been removed in GnuPG 2.1, the agent is started internally by
-			// any program part of GnuPG that needs it, so simply assume everything is fine.
-			if ((gpgver < 0x20100) && KgpgInterface::getGpgBoolSetting(QLatin1String("use-agent"), gpgPath) &&
-					qgetenv("GPG_AGENT_INFO").isEmpty())
-				KMessageBox::sorry(0, i18n("<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br />"
-					"However, the agent does not seem to be running. This could result in problems with signing/decryption.<br />"
-					"Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>", gpgPath));
-		}
+	const QString gpgError = GPGProc::getGpgStartupError(KGpgSettings::gpgBinaryPath());
+	if (!gpgError.isEmpty()) {
+		KMessageBox::detailedError(0, i18n("GnuPG failed to start.<br />You must fix the GnuPG error first before running KGpg."), gpgError, i18n("GnuPG error"));
+		QApplication::quit();
+		return false;
 	}
 
+	s_keyManager = new KeysManager();
+
+	w = new KGpgExternalActions(s_keyManager, s_keyManager->getModel());
+
+	connect(s_keyManager, &KeysManager::readAgainOptions, w, &KGpgExternalActions::readOptions);
+	connect(w, &KGpgExternalActions::updateDefault, this, &KGpgApp::assistantOver);
+	connect(w, &KGpgExternalActions::createNewKey, s_keyManager, &KeysManager::slotGenerateKey);
+
+	const QString gpgPath = KGpgSettings::gpgConfigPath();
+
+	if (!gpgPath.isEmpty()) {
+		const int gpgver = GPGProc::gpgVersion(GPGProc::gpgVersionString(KGpgSettings::gpgBinaryPath()));
+
+		// Warn if sign of a properly running gpg-agent cannot be determined
+		// The environment variable has been removed in GnuPG 2.1, the agent is started internally by
+		// any program part of GnuPG that needs it, so simply assume everything is fine.
+		if ((gpgver < 0x20100) && KgpgInterface::getGpgBoolSetting(QLatin1String("use-agent"), gpgPath) &&
+				qgetenv("GPG_AGENT_INFO").isEmpty())
+			KMessageBox::sorry(0, i18n("<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br />"
+				"However, the agent does not seem to be running. This could result in problems with signing/decryption.<br />"
+				"Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>", gpgPath));
+	}
+
+	return true;
+}
+
+void KGpgApp::handleArguments(const QCommandLineParser &parser, const QDir &workingDirectory)
+{
 	// parsing of command line args
 	if (parser.isSet("k") || (!KGpgSettings::showSystray() && parser.positionalArguments().isEmpty() && !parser.isSet("d"))) {
 		s_keyManager->show();
@@ -115,7 +116,7 @@ int KGpgApp::newInstance(QCommandLineParser& parser)
 
 		const QStringList positionalArguments = parser.positionalArguments();
 		for (const QString &arg : positionalArguments)
-			urlList.append(QUrl::fromLocalFile(arg));
+			urlList.append(QUrl::fromLocalFile(workingDirectory.absoluteFilePath(arg)));
 
 		bool directoryInside = false;
 		foreach (const QUrl &url, urlList) {
@@ -157,7 +158,7 @@ int KGpgApp::newInstance(QCommandLineParser& parser)
 		} else {
 			if (directoryInside && (urlList.count() > 1)) {
 				KMessageBox::sorry(0, i18n("Unable to perform requested operation.\nPlease select only one folder, or several files, but do not mix files and folders."));
-				return 0;
+				return;
 			}
 
 			if (urlList.isEmpty()) {
@@ -190,6 +191,26 @@ int KGpgApp::newInstance(QCommandLineParser& parser)
 			}
 		}
 	}
+}
 
-	return 0;
+void KGpgApp::setupCmdlineParser(QCommandLineParser& parser)
+{
+	parser.addOption(QCommandLineOption(QStringList() << QLatin1String("e"), i18n("Encrypt file")));
+	parser.addOption(QCommandLineOption(QStringList() << QLatin1String("k"), i18n("Open key manager")));
+	parser.addOption(QCommandLineOption(QStringList() << QLatin1String("d"), i18n("Open editor")));
+	parser.addOption(QCommandLineOption(QStringList() << QLatin1String("s"), i18n("Show encrypted file")));
+	parser.addOption(QCommandLineOption(QStringList() << QLatin1String("S"), i18n("Sign File")));
+	parser.addOption(QCommandLineOption(QStringList() << QLatin1String("V"), i18n("Verify signature")));
+	parser.addPositionalArgument(QLatin1String("[File]"), i18n("File to open"));
+}
+
+void KGpgApp::slotDBusActivation(const QStringList &arguments, const QString &workingDirectory)
+{
+	QCommandLineParser parser;
+
+	setupCmdlineParser(parser);
+
+	parser.parse(arguments);
+
+	handleArguments(parser, QDir(workingDirectory));
 }
