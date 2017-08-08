@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2009,2010,2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -88,8 +89,9 @@ void KgpgTextEdit::openDroppedFile(const QUrl &url, const bool probe)
 {
 	QUrl tmpurl;
 
+	QString checkFile;
 	if (url.isLocalFile()) {
-		m_tempfile = url.path();
+		checkFile = url.path();
 		tmpurl = url;
 	} else {
 		if (KMessageBox::warningContinueCancel(this, i18n("<qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a temporary file to process requested operation. This temporary file will be deleted after operation.</qt>"), QString(), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QLatin1String( "RemoteFileWarning" )) != KMessageBox::Continue)
@@ -105,13 +107,13 @@ void KgpgTextEdit::openDroppedFile(const QUrl &url, const bool probe)
 			return;
 		}
 		tmpFile.setAutoRemove(false);
-		m_tempfile = tmpFile.fileName();
+		checkFile = m_tempfile = tmpFile.fileName();
 		tmpurl = QUrl::fromLocalFile(m_tempfile);
 	}
 
 	QString result;
 
-	QFile qfile(m_tempfile);
+	QFile qfile(checkFile);
 	if (qfile.open(QIODevice::ReadOnly)) {
 		QTextStream t(&qfile);
 		result = t.readAll();
@@ -123,7 +125,7 @@ void KgpgTextEdit::openDroppedFile(const QUrl &url, const bool probe)
 
 	if (!probe || KGpgDecrypt::isEncryptedText(result, &m_posstart, &m_posend)) {
 		// if pgp data found, decode it
-		KGpgDecrypt *decr = new KGpgDecrypt(this, QList<QUrl>({url}));
+		KGpgDecrypt *decr = new KGpgDecrypt(this, QList<QUrl>({tmpurl}));
 		connect(decr, &KGpgDecrypt::done, this, &KgpgTextEdit::slotDecryptDone);
 		decr->start();
 		return;
@@ -259,8 +261,7 @@ void KgpgTextEdit::slotDecryptDone(int result)
 	Q_ASSERT(decr != Q_NULLPTR);
 
 	if (!m_tempfile.isEmpty()) {
-		if(!m_tempfile.isEmpty())
-			QFile::remove( m_tempfile );
+		QFile::remove(m_tempfile);
 		m_tempfile.clear();
 	}
 
