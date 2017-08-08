@@ -265,11 +265,12 @@ void KgpgTextEdit::slotDecryptDone(int result)
 		m_tempfile.clear();
 	}
 
+	const QChar lf = QLatin1Char('\n');
 	if (result == KGpgTransaction::TS_OK) {
 		// FIXME choose codec
-		setPlainText(decr->decryptedText().join(QLatin1String("\n")) + QLatin1Char('\n'));
+		setPlainText(decr->decryptedText().join(lf) + lf);
 	} else if (result != KGpgTransaction::TS_USER_ABORTED) {
-		KMessageBox::detailedSorry(this, i18n("Decryption failed."), decr->getMessages().join( QLatin1String( "\n" )));
+		KMessageBox::detailedSorry(this, i18n("Decryption failed."), decr->getMessages().join(lf));
 	}
 
 	decr->deleteLater();
@@ -281,7 +282,7 @@ void KgpgTextEdit::slotEncodeUpdate(int result)
 	Q_ASSERT(enc != Q_NULLPTR);
 
 	if (result == KGpgTransaction::TS_OK) {
-		const QString lf = QLatin1String("\n");
+		const QChar lf = QLatin1Char('\n');
 		setPlainText(enc->encryptedText().join(lf) + lf);
 	} else {
 		KMessageBox::sorry(this, i18n("The encryption failed with error code %1", result),
@@ -302,7 +303,8 @@ void KgpgTextEdit::slotSignUpdate(int result)
 		return;
 	}
 
-	const QString content = signt->signedText().join(QLatin1String("\n")) + QLatin1String("\n");
+	const QChar lf = QLatin1Char('\n');
+	const QString content = signt->signedText().join(lf) + lf;
 
     setPlainText(content);
     emit resetEncoding(false);
