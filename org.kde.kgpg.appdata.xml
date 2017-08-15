@@ -58,7 +58,7 @@
   <summary xml:lang="eu">Zifratzeko tresna</summary>
   <summary xml:lang="fi">Salaustyökalu</summary>
   <summary xml:lang="fr">Outil de chiffrement</summary>
-  <summary xml:lang="gl">Ferramenta para cifrar</summary>
+  <summary xml:lang="gl">Ferramenta de cifrado</summary>
   <summary xml:lang="hu">Titkosító eszköz</summary>
   <summary xml:lang="ia">Instrumento per cryptar</summary>
   <summary xml:lang="it">Strumento di cifratura</summary>
@@ -101,7 +101,7 @@
     <p xml:lang="eu">KGpg GnuPG-rentzako, zifratzeko baliagarritasun ahaltsu bat, interfaze erraz bat da. Lagunduko dizu zure gakoak ezarri eta kudeatzen, inportatzen eta esportatzen, haien sinadurak, fidagarritasun egoera eta iraungitze datak ikusten.</p>
     <p xml:lang="fi">KGpg on yksinkertainen käyttöliittymä GnuPG:lle, tehokkaalle salaustyökalulle. KGpg auttaa avainten luomisessa, hallinnoinnissa, tuomisessa ja viennissä. KGpg:llä voi myös katsella avainten allekirjoituksia, luotettavuutta sekä vanhentumispäiviä.</p>
     <p xml:lang="fr">KGpg est une interface simple pour GnuPG, un puissant utilitaire de chiffrement. Il peut vous aider à créer et gérer vos clés, importer et exporter des clés, afficher des signatures de clés, des états de confiance et des dates d'expiration.</p>
-    <p xml:lang="gl">KGpg é unha interface sinxela para GnuPG, unha potente ferramenta para cifrar. Pode axudalo a crear e xestionar chaves, importar e exportar chaves e ver as sinaturas, o estado de confianza e a data de caducidade das chaves.</p>
+    <p xml:lang="gl">KGpg é unha interface sinxela para GnuPG, unha potente ferramenta de cifrado. Pode axudalo a crear e xestionar chaves, importar e exportar chaves e ver as sinaturas, o estado de confianza e a data de caducidade das chaves.</p>
     <p xml:lang="hu">A KGpg egy egyszerű felület a GnuPG-hez, a hatékony titkosító segédprogramhoz. Segíthet a kulcsok beállításában és kezelésében, kulcsok importálásában és exportálásában, kulcsaláírások, megbízhatósági állapot és lejárati idők megtekintésében.</p>
     <p xml:lang="ia">Kgpg es un simple interface per GnuPG, un instrumento potente per cryptar. Il pote adjutar te per configurar e gerer tu claves, importar e exportar claves, vider signaturas de clave, le stato de confidentia e le datas de expiration.</p>
     <p xml:lang="it">KPgp è un'interfaccia semplice per GnuPG, un potente strumento di cifratura. Ti aiuta a configurare e gestire le tue chiavi, importare ed esportare le chiavi, visualizzarne le firme, lo stato di affidabilità e la data di scadenza.</p>
