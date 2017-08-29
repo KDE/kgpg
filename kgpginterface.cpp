@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2002 Jean-Baptiste Mardelle <bj@altern.org>
- * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2016
+ * Copyright (C) 2007,2008,2009,2010,2011,2012,2013,2016,2017
  *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 /***************************************************************************
@@ -21,6 +21,7 @@
 #include "core/KGpgSubkeyNode.h"
 #include "core/KGpgUatNode.h"
 #include "core/KGpgUidNode.h"
+#include "kgpgsettings.h"
 
 #include <gpgme.h>
 #include <KLocalizedString>
@@ -183,6 +184,10 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 
 			publickey->setValid(enabled);  // disabled key
 
+			// GnuPG since 2.1 can flag immediately if a key has a secret key
+			if (items > 14 && lsp.at(14).contains(QLatin1Char('+')))
+				publickey->setSecret(true);
+
 			idIndex = 0;
 		} else if (publickey && (lsp.at(0) == QLatin1String("fpr")) && (items >= 10)) {
 			const QString fingervalue = lsp.at(9);
@@ -286,8 +291,12 @@ KgpgKeyList KgpgInterface::readPublicKeys(const QStringList &ids)
 			QLatin1String("--with-colons") <<
 			QLatin1String("--with-fingerprint") <<
 			QLatin1String("--fixed-list-mode") <<
-			QLatin1String("--list-keys") <<
-			ids;
+			QLatin1String("--list-keys");
+
+	if (GPGProc::gpgVersion(GPGProc::gpgVersionString(KGpgSettings::gpgBinaryPath())) > 0x20100)
+		process << QLatin1String("--with-secret");
+
+	process << ids;
 
 	process.setOutputChannelMode(KProcess::MergedChannels);
 
