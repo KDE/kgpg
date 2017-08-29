@@ -38,7 +38,7 @@ QString KgpgInterface::getGpgSetting(const QString &name, const QString &configf
 	const QString tmp(name.simplified() + QLatin1Char( ' ' ));
 	QFile qfile(configfile);
 
-	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+	if (qfile.exists() && qfile.open(QIODevice::ReadOnly)) {
 		QTextStream t(&qfile);
 		while (!t.atEnd()) {
 			QString result(t.readLine().simplified());
@@ -57,7 +57,7 @@ void KgpgInterface::setGpgSetting(const QString &name, const QString &value, con
 {
 	QFile qfile(url);
 
-	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+	if (qfile.exists() && qfile.open(QIODevice::ReadOnly)) {
 		const QString temp(name + QLatin1Char( ' ' ));
 		QString texttowrite;
 		bool found = false;
@@ -91,7 +91,7 @@ void KgpgInterface::setGpgSetting(const QString &name, const QString &value, con
 bool KgpgInterface::getGpgBoolSetting(const QString &name, const QString &configfile)
 {
 	QFile qfile(configfile);
-	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+	if (qfile.exists() && qfile.open(QIODevice::ReadOnly)) {
 		QTextStream t(&qfile);
 		while (!t.atEnd()) {
 			if (t.readLine().simplified().startsWith(name))
@@ -106,7 +106,7 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool enable, co
 {
 	QFile qfile(url);
 
-	if (qfile.open(QIODevice::ReadOnly) && (qfile.exists())) {
+	if (qfile.exists() && qfile.open(QIODevice::ReadOnly)) {
 		QString texttowrite;
 		bool found = false;
 		QTextStream t(&qfile);
