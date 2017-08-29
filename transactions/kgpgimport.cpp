@@ -218,7 +218,7 @@ KGpgImport::getDetailedImportMessage(const QStringList &log, const KGpgItemModel
 		resultcodes[rc.at(1)] = rc.at(0).toUInt();
 	}
 
-	QMap<QString, unsigned int>::const_iterator iterend = resultcodes.constEnd();
+	const QMap<QString, unsigned int>::const_iterator iterend = resultcodes.constEnd();
 
 	for (unsigned int flag = 1; flag <= 16; flag <<= 1) {
 		QStringList thischanged;
