@@ -108,7 +108,7 @@ public:
 	 * The log must contain a "IMPORT_RES" line. If this is not present
 	 * the result string will contain an error message.
 	 */
-	static QString getDetailedImportMessage(const QStringList &log, const KGpgItemModel *model = Q_NULLPTR);
+	static QString getDetailedImportMessage(const QStringList &log, const KGpgItemModel *model = nullptr);
 
 	/**
 	 * @brief check if the given text contains a private or public key

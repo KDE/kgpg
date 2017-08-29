@@ -39,7 +39,7 @@ class KeyListProxyModel;
 class Decryption : public QWidget, public Ui::Decryption
 {
 public:
-  explicit Decryption(QWidget *parent = Q_NULLPTR)
+  explicit Decryption(QWidget *parent = nullptr)
     : QWidget( parent)
   {
     setupUi(this);
@@ -49,7 +49,7 @@ public:
 class MiscConf : public QWidget, public Ui::MiscConf
 {
 public:
-  explicit MiscConf(QWidget *parent = Q_NULLPTR)
+  explicit MiscConf(QWidget *parent = nullptr)
     : QWidget( parent )
   {
     setupUi( this );
@@ -60,7 +60,7 @@ public:
 class UIConf : public QWidget, public Ui::UIConf
 {
 public:
-  explicit UIConf(QWidget *parent = Q_NULLPTR)
+  explicit UIConf(QWidget *parent = nullptr)
     : QWidget( parent )
   {
     setupUi( this );
@@ -70,7 +70,7 @@ public:
 class ServerConf : public QWidget, public Ui::ServerConf
 {
 public:
-  explicit ServerConf(QWidget *parent = Q_NULLPTR)
+  explicit ServerConf(QWidget *parent = nullptr)
     : QWidget( parent )
   {
     setupUi( this );
@@ -81,7 +81,7 @@ public:
 class GPGConf : public QWidget, public Ui::GPGConf
 {
 public:
-  explicit GPGConf(QWidget *parent = Q_NULLPTR)
+  explicit GPGConf(QWidget *parent = nullptr)
     : QWidget( parent )
   {
     setupUi( this );
@@ -94,7 +94,7 @@ class kgpgOptions : public KConfigDialog
     Q_OBJECT
 
 public:
-    explicit kgpgOptions(QWidget *parent = Q_NULLPTR, KGpgItemModel *model = Q_NULLPTR);
+    explicit kgpgOptions(QWidget *parent = nullptr, KGpgItemModel *model = nullptr);
     ~kgpgOptions();
 
 signals:

@@ -25,7 +25,7 @@ class SrcSelect : public QWidget, public Ui::SrcSelect
 	Q_OBJECT
 
 public:
-	explicit SrcSelect(QWidget *parent = Q_NULLPTR);
+	explicit SrcSelect(QWidget *parent = nullptr);
 
 private slots:
 	void checkFile_toggled(bool isOn);

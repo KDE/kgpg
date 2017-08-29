@@ -40,7 +40,7 @@ class KGpgSearchResultBackingModel : public QAbstractItemModel {
 	// The moc complains if I put this class definition in the .cpp file
 	Q_OBJECT
 public:
-	explicit KGpgSearchResultBackingModel(QObject *parent = Q_NULLPTR);
+	explicit KGpgSearchResultBackingModel(QObject *parent = nullptr);
 	~KGpgSearchResultBackingModel();
 
 	int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
@@ -79,7 +79,7 @@ public:
 	 * This returns the `SearchResult` instance corresponding to an
 	 * index regardless of whether the index represents a key (first-level)
 	 * or an attribute (second-level). It also works for the root index,
-	 * for which it returns `Q_NULLPTR`.
+	 * for which it returns `nullptr`.
 	 */
 	SearchResult *resultForIndex(const QModelIndex &index) const;
 
@@ -111,7 +111,7 @@ private:
 class KGpgSearchResultModel : public QSortFilterProxyModel {
 	Q_OBJECT
 public:
-	explicit KGpgSearchResultModel(QObject *parent = Q_NULLPTR);
+	explicit KGpgSearchResultModel(QObject *parent = nullptr);
 	~KGpgSearchResultModel();
 
 	bool filterByValidity() const;

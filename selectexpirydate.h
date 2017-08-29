@@ -34,7 +34,7 @@ class SelectExpiryDate : public QDialog
 	Q_OBJECT
 
 public:
-	explicit SelectExpiryDate(QWidget *parent = Q_NULLPTR, QDateTime date = QDateTime());
+	explicit SelectExpiryDate(QWidget *parent = nullptr, QDateTime date = QDateTime());
 
 	QDateTime date() const;
 

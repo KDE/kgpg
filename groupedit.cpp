@@ -28,8 +28,8 @@ groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids, KGpgItemModel *md)
 	m_outFilter(new QSortFilterProxyModel(this)),
 	members(ids)
 {
-	Q_ASSERT(ids != Q_NULLPTR);
-	Q_ASSERT(md != Q_NULLPTR);
+	Q_ASSERT(ids != nullptr);
+	Q_ASSERT(md != nullptr);
 
 	setupUi( this );
 	KgpgCore::KgpgKeyTrust mintrust;

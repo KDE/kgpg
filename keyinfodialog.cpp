@@ -105,8 +105,8 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
 	m_keywaschanged(false),
 	m_closewhendone(false)
 {
-	Q_ASSERT(m_model != Q_NULLPTR);
-	Q_ASSERT(m_node != Q_NULLPTR);
+	Q_ASSERT(m_model != nullptr);
+	Q_ASSERT(m_node != nullptr);
 
     setupUi(this);
     m_owtrust->addItem(Convert::toString(GPGME_VALIDITY_UNDEFINED));
@@ -132,7 +132,7 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
 
     m_email->setUnderline(false);
     int trustRow;
-    formLayout_keyproperties->getWidgetPosition(tl_trust, &trustRow, Q_NULLPTR);
+    formLayout_keyproperties->getWidgetPosition(tl_trust, &trustRow, nullptr);
     formLayout_keyproperties->setWidget(trustRow, QFormLayout::FieldRole, m_trust);
 
     // Hide some widgets if this is not a secret node.
@@ -177,7 +177,7 @@ void KgpgKeyInfo::reloadNode()
 	m_model->refreshKey(m_node);
 
 	m_node = m_model->getRootNode()->findKey(kid);
-	if (m_node != Q_NULLPTR) {
+	if (m_node != nullptr) {
 		displayKey();
 	} else {
 		KMessageBox::error(this, i18n("<qt>The requested key is not present in the keyring anymore.<br />Perhaps it was deleted by another application</qt>"), i18n("Key not found"));
@@ -391,7 +391,7 @@ void KgpgKeyInfo::slotKeyExpanded()
 	int i = 2;
 	const KGpgSignableNode *uat;
 
-	while ((uat = m_node->getUid(i++)) != Q_NULLPTR) {
+	while ((uat = m_node->getUid(i++)) != nullptr) {
 		if (uat->getType() != KgpgCore::ITYPE_UAT)
 			continue;
 

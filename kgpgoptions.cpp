@@ -302,7 +302,7 @@ void kgpgOptions::updateWidgets()
 
 				KGpgKeyNode *anode = m_combomodel->getModel()->findKeyNode(fileId);
 
-				if (anode != Q_NULLPTR)
+				if (anode != nullptr)
 					idpos = m_combomodel->nodeIndex(anode).row();
 			}
 		}
@@ -311,7 +311,7 @@ void kgpgOptions::updateWidgets()
 
 	if (!alwaysKeyID.isEmpty()) {
 		KGpgKeyNode *anode = m_combomodel->getModel()->findKeyNode(alwaysKeyID);
-		if (anode != Q_NULLPTR) {
+		if (anode != nullptr) {
 			const QModelIndex midx(m_combomodel->nodeIndex(anode));
 			m_page1->always_key->setCurrentIndex(midx.row());
 		}
@@ -471,9 +471,9 @@ void kgpgOptions::listKeys()
 	if (m_model->rowCount(QModelIndex()) == 0) {
 		ids += QLatin1String("0");
 		m_page1->file_key->addItem(i18nc("no key available", "none"));
-		m_page1->file_key->setModel(Q_NULLPTR);
+		m_page1->file_key->setModel(nullptr);
 		m_page1->always_key->addItem(i18nc("no key available", "none"));
-		m_page1->always_key->setModel(Q_NULLPTR);
+		m_page1->always_key->setModel(nullptr);
 	} else {
 		m_page1->file_key->setModel(m_combomodel);
 		m_page1->always_key->setModel(m_combomodel);

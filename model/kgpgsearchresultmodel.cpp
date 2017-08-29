@@ -191,7 +191,7 @@ KGpgSearchResultModelPrivate::urlDecode(const QString &line)
 
 		char n[2];
 		// this must work as we checked the regexp before
-		n[0] = hexnum.toUShort(Q_NULLPTR, 16);
+		n[0] = hexnum.toUShort(nullptr, 16);
 		n[1] = '\0';	// to use n as a 0-terminated string
 
 		tmp.replace(pos, 3, n);
@@ -233,7 +233,7 @@ KGpgSearchResultBackingModel::nodeLevel(const QModelIndex &index)
 {
 	if (!index.isValid())
 		return ROOT_LEVEL;
-	else if (index.internalPointer() == Q_NULLPTR)
+	else if (index.internalPointer() == nullptr)
 		return KEY_LEVEL;
 	else
 		return ATTRIBUTE_LEVEL;
@@ -248,11 +248,11 @@ KGpgSearchResultBackingModel::resultForIndex(const QModelIndex &index) const
 	case ATTRIBUTE_LEVEL:
 	{
 		SearchResult *tmp = static_cast<SearchResult *>(index.internalPointer());
-		Q_ASSERT(tmp != Q_NULLPTR);
+		Q_ASSERT(tmp != nullptr);
 		return tmp;
 	}
 	default:
-		return Q_NULLPTR;
+		return nullptr;
 	}
 }
 
@@ -538,7 +538,7 @@ void
 KGpgSearchResultModel::resetSourceModel()
 {
 	QAbstractItemModel *oldSourceModel = sourceModel();
-	if (oldSourceModel != Q_NULLPTR)
+	if (oldSourceModel != nullptr)
 		oldSourceModel->deleteLater();
 	QSortFilterProxyModel::setSourceModel(new KGpgSearchResultBackingModel(this));
 }

@@ -121,8 +121,8 @@ public:
 	 *
 	 * For all "primary" items like keys and key groups this will
 	 * return the (invisible) root node. Calling this function for
-	 * the root node will return %Q_NULLPTR. No other node but the root
-	 * node has a %Q_NULLPTR parent.
+	 * the root node will return %nullptr. No other node but the root
+	 * node has a %nullptr parent.
 	 */
 	KGpgExpandableNode *getParentKeyNode() const;
 

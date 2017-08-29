@@ -250,7 +250,7 @@ KGpgCaffPrivate::slotSigningFinished(int result)
 			int index = 1;
 			removeMode = KGpgDelUid::RemoveAllOther;
 
-			while ( (otherUid = key->getUid(index++)) != Q_NULLPTR) {
+			while ( (otherUid = key->getUid(index++)) != nullptr) {
 				if (otherUid == uid) {
 					removeMode = KGpgDelUid::RemoveWithEmail;
 					break;
@@ -319,7 +319,7 @@ KGpgCaffPrivate::slotExportFinished(int result)
 	const KGpgKeyNode *key = uid->getKeyNode();
 
 	KGpgExport *exp = qobject_cast<KGpgExport *>(sender());
-	Q_ASSERT(exp != Q_NULLPTR);
+	Q_ASSERT(exp != nullptr);
 
 	QString body = KGpgSettings::emailTemplate();
 	body.replace(QLatin1Char( '%' ) + i18nc("Email template placeholder for key id", "KEYID") + QLatin1Char( '%' ), key->getId());
@@ -346,7 +346,7 @@ KGpgCaffPrivate::slotTextEncrypted(int result)
 	switch (result) {
 	case KGpgTransaction::TS_OK: {
 		KGpgEncrypt *enc = qobject_cast<KGpgEncrypt *>(sender());
-		Q_ASSERT(enc != Q_NULLPTR);
+		Q_ASSERT(enc != nullptr);
 
 		const QString text = enc->encryptedText().join(QLatin1String("\n"));
 

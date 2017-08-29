@@ -27,7 +27,7 @@ KGpgSubkeyNode::KGpgSubkeyNode(KGpgKeyNode *parent, const KgpgKeySub &k)
 	: KGpgSignableNode(parent),
 	m_skey(k)
 {
-	Q_ASSERT(parent != Q_NULLPTR);
+	Q_ASSERT(parent != nullptr);
 }
 KGpgSubkeyNode::~KGpgSubkeyNode()
 {

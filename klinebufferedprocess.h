@@ -63,7 +63,7 @@ public:
     /**
      * Constructor
      */
-    explicit KLineBufferedProcess(QObject *parent = Q_NULLPTR);
+    explicit KLineBufferedProcess(QObject *parent = nullptr);
 
     /**
      * Destructor

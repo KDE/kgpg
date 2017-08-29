@@ -63,7 +63,7 @@ public:
 	 * @param model key model to use for key lookups
 	 * @return verification report of GnuPG
 	 */
-	static QString getReport(const QStringList &log, const KGpgItemModel *model = Q_NULLPTR);
+	static QString getReport(const QStringList &log, const KGpgItemModel *model = nullptr);
 
 	/**
 	 * @brief get the missing key id

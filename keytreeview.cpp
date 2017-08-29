@@ -54,9 +54,9 @@ KeyTreeView::selectedNodes(bool *psame, KgpgCore::KgpgItemType *pt) const
 	bool sametype = true;
 
 	if (selidx.isEmpty()) {
-		if (pt != Q_NULLPTR)
+		if (pt != nullptr)
 			*pt = tp;
-		if (psame != Q_NULLPTR)
+		if (psame != nullptr)
 			*psame = sametype;
 		return ndlist;
 	}
@@ -76,9 +76,9 @@ KeyTreeView::selectedNodes(bool *psame, KgpgCore::KgpgItemType *pt) const
 		ndlist << nd;
 	}
 
-	if (pt != Q_NULLPTR)
+	if (pt != nullptr)
 		*pt = tp;
-	if (psame != Q_NULLPTR)
+	if (psame != nullptr)
 		*psame = sametype;
 	return ndlist;
 }
@@ -89,7 +89,7 @@ KeyTreeView::selectedNode() const
 	QModelIndexList selidx = selectedIndexes();
 
 	if (selidx.isEmpty())
-		return Q_NULLPTR;
+		return nullptr;
 
 	return m_proxy->nodeForIndex(selidx[0]);
 }
@@ -97,7 +97,7 @@ KeyTreeView::selectedNode() const
 void
 KeyTreeView::selectNode(KGpgNode *nd)
 {
-	if (nd == Q_NULLPTR)
+	if (nd == nullptr)
 		return;
 
 	QModelIndex idx = m_proxy->nodeIndex(nd);

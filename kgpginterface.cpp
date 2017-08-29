@@ -148,10 +148,10 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 	QStringList lsp;
 	int items;
 	KgpgCore::KgpgKeyList publiclistkeys;
-	KgpgCore::KgpgKey *publickey = Q_NULLPTR;
+	KgpgCore::KgpgKey *publickey = nullptr;
 	unsigned int idIndex = 0;
 	QString log;
-	KGpgSignableNode *currentSNode = Q_NULLPTR;	///< the current (sub)node signatures are read for
+	KGpgSignableNode *currentSNode = nullptr;	///< the current (sub)node signatures are read for
 
 	while ((items = p.readln(lsp)) >= 0) {
 		if ((lsp.at(0) == QLatin1String( "pub" )) && (items >= 10)) {
@@ -192,7 +192,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 		} else if (publickey && (lsp.at(0) == QLatin1String("fpr")) && (items >= 10)) {
 			const QString fingervalue = lsp.at(9);
 
-			if ((currentSNode != Q_NULLPTR) && (currentSNode->getType() == ITYPE_SUB))
+			if ((currentSNode != nullptr) && (currentSNode->getType() == ITYPE_SUB))
 				static_cast<KGpgSubkeyNode *>(currentSNode)->setFingerprint(fingervalue);
 			else if (publickey->fingerprint().isEmpty())
 				publickey->setFingerprint(fingervalue);
@@ -216,13 +216,13 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 			sub.setExpiration(Convert::toDateTime(lsp.at(6)));
 
 			publickey->subList()->append(sub);
-			if (readNode == Q_NULLPTR)
-				currentSNode = Q_NULLPTR;
+			if (readNode == nullptr)
+				currentSNode = nullptr;
 			else
 				currentSNode = new KGpgSubkeyNode(readNode, sub);
 		} else if (publickey && (lsp.at(0) == QLatin1String( "uat" ))) {
 			idIndex++;
-			if (readNode != Q_NULLPTR) {
+			if (readNode != nullptr) {
 				currentSNode = new KGpgUatNode(readNode, idIndex, lsp);
 			}
 		} else if (publickey && (lsp.at(0) == QLatin1String( "uid" )) && (items >= 10)) {
@@ -261,7 +261,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 				currentSNode = readNode;
 			} else {
 				idIndex++;
-				if (readNode != Q_NULLPTR) {
+				if (readNode != nullptr) {
 					currentSNode = new KGpgUidNode(readNode, idIndex, lsp);
 				}
 			}
@@ -269,7 +269,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 			// there are no strings here that could have a recoded QLatin1Char( ':' ) in them
 			const QString signature = lsp.join(QLatin1String(":"));
 
-			if (currentSNode != Q_NULLPTR)
+			if (currentSNode != nullptr)
 				(void) new KGpgSignNode(currentSNode, lsp);
 		} else {
 			log += lsp.join(QString(QLatin1Char( ':' ))) + QLatin1Char( '\n' );
@@ -277,7 +277,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 	}
 
 	if (p.exitCode() != 0) {
-		KMessageBox::detailedError(Q_NULLPTR, i18n("An error occurred while scanning your keyring"), log);
+		KMessageBox::detailedError(nullptr, i18n("An error occurred while scanning your keyring"), log);
 		log.clear();
 	}
 
@@ -302,7 +302,7 @@ KgpgKeyList KgpgInterface::readPublicKeys(const QStringList &ids)
 
 	process.start();
 	process.waitForFinished(-1);
-	return readPublicKeysProcess(process, Q_NULLPTR);
+	return readPublicKeysProcess(process, nullptr);
 }
 
 void KgpgInterface::readSignatures(KGpgKeyNode *node)
@@ -330,7 +330,7 @@ readSecretKeysProcess(GPGProc &p)
 	int items;
 	bool hasuid = false;
 	KgpgCore::KgpgKeyList result;
-	KgpgCore::KgpgKey *secretkey = Q_NULLPTR;
+	KgpgCore::KgpgKey *secretkey = nullptr;
 
 	while ( (items = p.readln(lsp)) >= 0 ) {
 		if ((lsp.at(0) == QLatin1String( "sec" )) && (items >= 10)) {

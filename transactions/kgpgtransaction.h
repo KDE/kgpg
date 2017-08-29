@@ -88,7 +88,7 @@ public:
 	/**
 	 * @brief KGpgTransaction constructor
 	 */
-	explicit KGpgTransaction(QObject *parent = Q_NULLPTR, const bool allowChaining = false);
+	explicit KGpgTransaction(QObject *parent = nullptr, const bool allowChaining = false);
 	/**
 	 * @brief KGpgTransaction destructor
 	 */

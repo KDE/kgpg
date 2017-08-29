@@ -27,7 +27,7 @@
 #include <QStringList>
 
 KGpgRootNode::KGpgRootNode(KGpgItemModel *model)
-	: KGpgExpandableNode(Q_NULLPTR),
+	: KGpgExpandableNode(nullptr),
 	m_groups(0)
 {
 	m_model = model;
@@ -38,7 +38,7 @@ KGpgRootNode::~KGpgRootNode()
 	// clear the parents in all children to signal them not to do any
 	// update signalling
 	for (KGpgNode *child: children)
-		child->setParent(Q_NULLPTR);
+		child->setParent(nullptr);
 }
 
 void
@@ -126,7 +126,7 @@ KGpgRootNode::findKey(const QString &keyId)
 		return children[i]->toKeyNode();
 	}
 
-	return Q_NULLPTR;
+	return nullptr;
 }
 
 int

@@ -23,7 +23,7 @@ class Encryption : public QWidget, public Ui_Encryption
 {
 
 public:
-    explicit Encryption(QWidget* parent = Q_NULLPTR);
+    explicit Encryption(QWidget* parent = nullptr);
     
 public:
     virtual void encrypt_to_always_toggled( bool );

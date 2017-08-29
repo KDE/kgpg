@@ -25,7 +25,7 @@
 KGpgExpandableNode::KGpgExpandableNode(KGpgExpandableNode *parent)
 	: KGpgNode(parent)
 {
-	if (parent != Q_NULLPTR)
+	if (parent != nullptr)
 		parent->children.append(this);
 }
 

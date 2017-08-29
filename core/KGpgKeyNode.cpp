@@ -40,7 +40,7 @@ KGpgKeyNode::KGpgKeyNode(KGpgRootNode *parent, const KgpgCore::KgpgKey &k)
 KGpgKeyNode::~KGpgKeyNode()
 {
 	// do not try to access the root node if we are being deleted from there
-	KGpgRootNode * const root = parent() != Q_NULLPTR ? m_parent->toRootNode() : Q_NULLPTR;
+	KGpgRootNode * const root = parent() != nullptr ? m_parent->toRootNode() : nullptr;
 	foreach (KGpgRefNode *nd, m_refs) {
 		nd->unRef(root);
 	}
@@ -334,7 +334,7 @@ KGpgKeyNode::getUid(const unsigned int index) const
 		}
 	}
 
-	return Q_NULLPTR;
+	return nullptr;
 }
 
 bool

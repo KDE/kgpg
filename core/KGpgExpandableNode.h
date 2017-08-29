@@ -47,7 +47,7 @@ protected:
 	 */
 	virtual void readChildren() = 0;
 
-	explicit KGpgExpandableNode(KGpgExpandableNode *parent = Q_NULLPTR);
+	explicit KGpgExpandableNode(KGpgExpandableNode *parent = nullptr);
 public:
 	virtual ~KGpgExpandableNode();
 

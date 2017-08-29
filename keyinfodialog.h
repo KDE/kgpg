@@ -35,7 +35,7 @@ class KgpgTrustLabel : public QWidget
     Q_OBJECT
 
 public:
-    explicit KgpgTrustLabel(QWidget *parent = Q_NULLPTR);
+    explicit KgpgTrustLabel(QWidget *parent = nullptr);
 
     void setText(const QString &text);
     void setColor(const QColor &color);

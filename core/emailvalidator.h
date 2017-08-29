@@ -29,7 +29,7 @@ namespace KgpgCore
 class EmailValidator : public QValidator
 {
 public:
-    explicit EmailValidator(QObject *parent = Q_NULLPTR) : QValidator(parent) { }
+    explicit EmailValidator(QObject *parent = nullptr) : QValidator(parent) { }
     virtual QValidator::State validate(QString &input, int &pos) const;
 };
 

@@ -44,14 +44,14 @@ void
 KGpgTransaction::start()
 {
 	d->m_inputProcessResult = false;
-	d->m_inputProcessDone = (d->m_inputTransaction == Q_NULLPTR);
+	d->m_inputProcessDone = (d->m_inputTransaction == nullptr);
 
 	setSuccess(TS_OK);
 	d->m_idhints.clear();
 	d->m_tries = 3;
 	if (preStart()) {
 		d->m_ownProcessFinished = false;
-		if (d->m_inputTransaction != Q_NULLPTR)
+		if (d->m_inputTransaction != nullptr)
 			d->m_inputTransaction->start();
 #ifdef KGPG_DEBUG_TRANSACTIONS
 		qCDebug(KGPG_LOG_TRANSACTIONS) << this << d->m_process->program();
@@ -148,7 +148,7 @@ KGpgTransaction::setDescription(const QString &description)
 void
 KGpgTransaction::waitForInputTransaction()
 {
-	Q_ASSERT(d->m_inputTransaction != Q_NULLPTR);
+	Q_ASSERT(d->m_inputTransaction != nullptr);
 
 	if (d->m_inputProcessDone)
 		return;
@@ -278,7 +278,7 @@ KGpgTransaction::askPassphrase(const QString &message)
 {
 	emit statusMessage(i18n("Requesting Passphrase"));
 
-	if (d->m_passwordDialog == Q_NULLPTR) {
+	if (d->m_passwordDialog == nullptr) {
 		d->m_passwordDialog = new KPasswordDialog(qobject_cast<QWidget *>(parent()));
 
 		QString passdlgmessage;
@@ -336,7 +336,7 @@ KGpgTransaction::waitForFinished(const int msecs)
 {
 	int ret = TS_OK;
 
-	if (d->m_inputTransaction != Q_NULLPTR) {
+	if (d->m_inputTransaction != nullptr) {
 		int ret = d->m_inputTransaction->waitForFinished(msecs);
 		if ((ret != TS_OK) && (msecs != -1))
 			return ret;
@@ -364,7 +364,7 @@ KGpgTransaction::setInputTransaction(KGpgTransaction *ta)
 {
 	Q_ASSERT(d->m_chainingAllowed);
 
-	if (d->m_inputTransaction != Q_NULLPTR)
+	if (d->m_inputTransaction != nullptr)
 		clearInputTransaction();
 	d->m_inputTransaction = ta;
 
@@ -377,13 +377,13 @@ void
 KGpgTransaction::clearInputTransaction()
 {
 	disconnect(d->m_inputTransaction, &KGpgTransaction::done, d, &KGpgTransactionPrivate::slotInputTransactionDone);
-	d->m_inputTransaction = Q_NULLPTR;
+	d->m_inputTransaction = nullptr;
 }
 
 bool
 KGpgTransaction::hasInputTransaction() const
 {
-	return (d->m_inputTransaction != Q_NULLPTR);
+	return (d->m_inputTransaction != nullptr);
 }
 
 void

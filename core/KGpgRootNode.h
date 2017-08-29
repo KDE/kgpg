@@ -32,7 +32,7 @@ class QString;
  *
  * This object is invisible to the user but acts as the internal base object for
  * everything in the keyring. It is anchestor of all other KGpgNode objects and
- * the only one that will ever return Q_NULLPTR when calling getParentKeyNode() on it.
+ * the only one that will ever return nullptr when calling getParentKeyNode() on it.
  *
  * There is only one object of this type around at any time.
  */
@@ -77,7 +77,7 @@ public:
 	 * the complete fingerprint whenever possible.
 	 *
 	 * @param keyId the key id to find, any length is permitted
-	 * @return pointer to key node or %Q_NULLPTR if no such key
+	 * @return pointer to key node or %nullptr if no such key
 	 */
 	KGpgKeyNode *findKey(const QString &keyId);
 	/**

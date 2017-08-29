@@ -35,10 +35,10 @@
 
 KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose)
 	: QDialog(parent),
-	m_dialogserver(Q_NULLPTR),
-	m_searchproc(Q_NULLPTR),
+	m_dialogserver(nullptr),
+	m_searchproc(nullptr),
 	page(new keyServerWidget()),
-	m_listpop(Q_NULLPTR),
+	m_listpop(nullptr),
 	m_itemmodel(new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst))
 {
 	setWindowTitle(i18n("Key Server"));
@@ -167,7 +167,7 @@ void KeyServer::slotExport(const QStringList &keyIds)
 void KeyServer::slotUploadKeysFinished(int resultcode)
 {
 	KGpgSendKeys *nk = qobject_cast<KGpgSendKeys *>(sender());
-	Q_ASSERT(nk != Q_NULLPTR);
+	Q_ASSERT(nk != nullptr);
 
 	const QStringList message(nk->getLog());
 	nk->deleteLater();
@@ -253,13 +253,13 @@ void KeyServer::slotSearchResult(int result)
 {
 	Q_ASSERT(sender() == m_searchproc);
 	m_searchproc->deleteLater();
-	m_searchproc = Q_NULLPTR;
+	m_searchproc = nullptr;
 	page->Buttonsearch->setEnabled(true);
 	QApplication::restoreOverrideCursor();
 
 	if (result == KGpgTransaction::TS_USER_ABORTED) {
 		delete m_dialogserver;
-		m_dialogserver = Q_NULLPTR;
+		m_dialogserver = nullptr;
 		return;
 	}
 
@@ -281,7 +281,7 @@ void KeyServer::slotSetText(const QString &text)
 void KeyServer::slotTextChanged(const QString &text)
 {
 	page->Buttonimport->setEnabled(!text.isEmpty());
-	page->Buttonsearch->setEnabled(!text.isEmpty() && (m_searchproc == Q_NULLPTR));
+	page->Buttonsearch->setEnabled(!text.isEmpty() && (m_searchproc == nullptr));
 }
 
 void KeyServer::slotSetExportAttribute(const QString &state)
@@ -351,11 +351,11 @@ QStringList KeyServer::getServerList()
 
 void KeyServer::handleQuit()
 {
-	if (m_searchproc != Q_NULLPTR) {
+	if (m_searchproc != nullptr) {
 		QApplication::restoreOverrideCursor();
 		disconnect(m_searchproc, 0, 0, 0);
 		m_searchproc->deleteLater();
-		m_searchproc = Q_NULLPTR;
+		m_searchproc = nullptr;
 	}
 	m_dialogserver->close();
 	page->Buttonsearch->setEnabled(true);

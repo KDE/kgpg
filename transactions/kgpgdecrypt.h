@@ -67,10 +67,10 @@ public:
 	/**
 	 * @brief check if the given text contains an encoded message
 	 * @param text text to check
-	 * @param startPos if not Q_NULLPTR start offset of encoded text will be returned here
-	 * @param endPos if not Q_NULLPTR end offset of encoded text will be returned here
+	 * @param startPos if not nullptr start offset of encoded text will be returned here
+	 * @param endPos if not nullptr end offset of encoded text will be returned here
 	 */
-	static bool isEncryptedText(const QString &text, int *startPos = Q_NULLPTR, int *endPos = Q_NULLPTR);
+	static bool isEncryptedText(const QString &text, int *startPos = nullptr, int *endPos = nullptr);
 
 protected:
 	QStringList command() const Q_DECL_OVERRIDE;

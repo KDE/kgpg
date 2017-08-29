@@ -64,7 +64,7 @@ KGpgItemModel::parent(const QModelIndex &child) const
 	if (parentNode == m_root)
 		return QModelIndex();
 
-	Q_ASSERT(parentNode != Q_NULLPTR);
+	Q_ASSERT(parentNode != nullptr);
 	int row = rowForNode(parentNode);
 	int column = 0;
 	

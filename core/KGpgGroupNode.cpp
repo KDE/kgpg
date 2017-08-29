@@ -143,7 +143,7 @@ KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KG
 
 KGpgGroupNode::~KGpgGroupNode()
 {
-	if (parent() != Q_NULLPTR)
+	if (parent() != nullptr)
 		m_parent->toRootNode()->m_groups--;
 }
 

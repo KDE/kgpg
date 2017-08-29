@@ -52,7 +52,7 @@ KGpgExternalActions::KGpgExternalActions(KeysManager *parent, KGpgItemModel *mod
 	: QObject(parent),
 	compressionScheme(0),
 	m_model(model),
-	m_kgpgfoldertmp(Q_NULLPTR),
+	m_kgpgfoldertmp(nullptr),
 	m_keysmanager(parent)
 {
 	readOptions();
@@ -79,7 +79,7 @@ void KGpgExternalActions::encryptFiles(KeysManager *parent, const QList<QUrl> &u
 void KGpgExternalActions::slotEncryptionKeySelected()
 {
 	KgpgSelectPublicKeyDlg *dialog = qobject_cast<KgpgSelectPublicKeyDlg *>(sender());
-	Q_ASSERT(dialog != Q_NULLPTR);
+	Q_ASSERT(dialog != nullptr);
 	sender()->deleteLater();
 
 	QStringList opts;
@@ -174,7 +174,7 @@ void KGpgExternalActions::slotSetCompression(int cp)
 void KGpgExternalActions::startFolderEncode()
 {
 	KgpgSelectPublicKeyDlg *dialog = qobject_cast<KgpgSelectPublicKeyDlg *>(sender());
-	Q_ASSERT(dialog != Q_NULLPTR);
+	Q_ASSERT(dialog != nullptr);
 	dialog->deleteLater();
 
 	const QList<QUrl> urls = dialog->getFiles();
@@ -211,7 +211,7 @@ void KGpgExternalActions::startFolderEncode()
 		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager, i18n("File Already Exists"),
 				QUrl(), encryptedFile, KIO::RenameDialog_Overwrite);
 		if (over->exec() == QDialog::Rejected) {
-			dialog = Q_NULLPTR;
+			dialog = nullptr;
 			delete over;
 			deleteLater();
 			return;
@@ -230,7 +230,7 @@ void KGpgExternalActions::startFolderEncode()
 void KGpgExternalActions::slotFolderFinished(KJob *job)
 {
 	FolderCompressJob *trayinfo = qobject_cast<FolderCompressJob *>(job);
-	Q_ASSERT(trayinfo != Q_NULLPTR);
+	Q_ASSERT(trayinfo != nullptr);
 
 	if (trayinfo->error())
 		KMessageBox::sorry(m_keysmanager, trayinfo->errorString());
@@ -269,7 +269,7 @@ void KGpgExternalActions::verifyFile(QUrl url)
 void KGpgExternalActions::slotVerificationDone(int result)
 {
 	KGpgVerify *kgpv = qobject_cast<KGpgVerify *>(sender());
-	Q_ASSERT(kgpv != Q_NULLPTR);
+	Q_ASSERT(kgpv != nullptr);
 	kgpv->deleteLater();
 
 	if (result == KGpgVerify::TS_MISSING_KEY) {
@@ -310,7 +310,7 @@ void KGpgExternalActions::signFiles(KeysManager* parent, const QList<QUrl>& urls
 void KGpgExternalActions::slotSignFiles()
 {
 	KgpgSelectSecretKey *keydlg = qobject_cast<KgpgSelectSecretKey *>(sender());
-	Q_ASSERT(keydlg != Q_NULLPTR);
+	Q_ASSERT(keydlg != nullptr);
 	sender()->deleteLater();
 
 	const QString signKeyID = keydlg->getKeyID();
@@ -392,7 +392,7 @@ void KGpgExternalActions::decryptFile(QList<QUrl> urls)
 void KGpgExternalActions::slotDecryptionDone(int status)
 {
 	KGpgDecrypt *decr = qobject_cast<KGpgDecrypt *>(sender());
-	Q_ASSERT(decr != Q_NULLPTR);
+	Q_ASSERT(decr != nullptr);
 
 	if (status != KGpgTransaction::TS_OK)
 		m_decryptionFailed << droppedUrls.first();
@@ -408,7 +408,7 @@ void KGpgExternalActions::slotDecryptionDone(int status)
 			QStringList failedFiles;
 			for (const QUrl &url : m_decryptionFailed)
 				failedFiles.append(url.toDisplayString());
-			KMessageBox::errorList(Q_NULLPTR,
+			KMessageBox::errorList(nullptr,
 					i18np("Decryption of this file failed:", "Decryption of these files failed:",
 					m_decryptionFailed.count()), failedFiles,
 					i18n("Decryption failed."));

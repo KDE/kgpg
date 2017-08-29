@@ -31,7 +31,7 @@ class KGpgItemModel;
 class keyServerWidget : public QWidget, public Ui::keyServerWidget
 {
 public:
-    explicit keyServerWidget(QWidget *parent = Q_NULLPTR)
+    explicit keyServerWidget(QWidget *parent = nullptr)
       : QWidget(parent)
     {
         setupUi(this);
@@ -53,7 +53,7 @@ class KeyServer : public QDialog
 	Q_OBJECT
 
 public:
-	explicit KeyServer(QWidget *parent = Q_NULLPTR, KGpgItemModel *model = Q_NULLPTR, const bool autoclose = false);
+	explicit KeyServer(QWidget *parent = nullptr, KGpgItemModel *model = nullptr, const bool autoclose = false);
 	~KeyServer();
 
 	/**

@@ -303,7 +303,7 @@ QString KgpgKey::strength() const
 
 uint KgpgKey::encryptionSize() const
 {
-	const KgpgKeySub *enc = Q_NULLPTR;
+	const KgpgKeySub *enc = nullptr;
 	// Get the first encryption subkey
 	foreach (const KgpgKeySub &k, *d->gpgsublist) {
 		if (k.type() & SKT_ENCRYPTION) {
@@ -311,18 +311,18 @@ uint KgpgKey::encryptionSize() const
 			// check if there is one that is not
 			if (k.trust() > TRUST_EXPIRED)
 				return k.size();
-			if (enc == Q_NULLPTR)
+			if (enc == nullptr)
 				enc = &k;
 		}
 	}
-	if (enc != Q_NULLPTR)
+	if (enc != nullptr)
 		return enc->size();
 	return 0;
 }
 
 QString KgpgKey::encryptionStrength() const
 {
-    const KgpgKeySub *enc = Q_NULLPTR;
+    const KgpgKeySub *enc = nullptr;
     // Get the first encryption subkey
     foreach (const KgpgKeySub &k, *d->gpgsublist) {
         if (k.type() & SKT_ENCRYPTION) {
@@ -330,11 +330,11 @@ QString KgpgKey::encryptionStrength() const
             // check if there is one that is not
             if (k.trust() > TRUST_EXPIRED)
                 return _describe_key_strength(k.algorithm(), k.size(), k.curve());
-            if (enc == Q_NULLPTR)
+            if (enc == nullptr)
                 enc = &k;
         }
     }
-    if (enc != Q_NULLPTR)
+    if (enc != nullptr)
         return _describe_key_strength(enc->algorithm(), enc->size(), enc->curve());
     return QString("");
 }

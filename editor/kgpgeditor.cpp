@@ -77,7 +77,7 @@ KgpgView::KgpgView(QWidget *parent, KgpgTextEdit *editor, KToolBar *toolbar)
 KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WindowFlags f)
 	: KXmlGuiWindow(0, f),
 	m_editor(new KgpgTextEdit(this, model, parent)),
-	m_recentfiles(Q_NULLPTR),
+	m_recentfiles(nullptr),
 	m_find(0),
 	m_textchanged(false),
 	m_emptytext(true),
@@ -287,7 +287,7 @@ bool KgpgEditor::slotFileSave()
 
     QTextCodec *cod = QTextCodec::codecForName(m_textencoding.toLatin1());
 
-    if (cod == Q_NULLPTR) {
+    if (cod == nullptr) {
 		KMessageBox::sorry(this, i18n("The document could not been saved, as the selected codec is not supported."));
 		return false;
     }

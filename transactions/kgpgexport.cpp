@@ -30,7 +30,7 @@ KGpgExport::KGpgExport(QObject *parent, const QStringList &ids, QProcess *outp, 
 KGpgExport::KGpgExport(QObject *parent, const QStringList &ids, const QString &file, const QStringList &options, const bool secret)
 	: KGpgTransaction(parent),
 	m_keyids(ids),
-	m_outp(Q_NULLPTR),
+	m_outp(nullptr),
 	m_outf(file),
 	m_outputmode(ModeFile)
 {
@@ -40,7 +40,7 @@ KGpgExport::KGpgExport(QObject *parent, const QStringList &ids, const QString &f
 KGpgExport::KGpgExport(QObject *parent, const QStringList &ids, const QStringList &options, const bool secret)
 	: KGpgTransaction(parent),
 	m_keyids(ids),
-	m_outp(Q_NULLPTR),
+	m_outp(nullptr),
 	m_outputmode(ModeStdout)
 {
 	procSetup(options, secret);
@@ -49,7 +49,7 @@ KGpgExport::KGpgExport(QObject *parent, const QStringList &ids, const QStringLis
 KGpgExport::KGpgExport(QObject *parent, const QStringList &ids, KGpgTransaction *outt, const QStringList &options, const bool secret)
 	: KGpgTransaction(parent),
 	m_keyids(ids),
-	m_outp(Q_NULLPTR),
+	m_outp(nullptr),
 	m_outputmode(ModeTransaction)
 {
 	procSetup(options, secret);
@@ -90,7 +90,7 @@ KGpgExport::setOutputProcess(QProcess *outp)
 void
 KGpgExport::setOutputFile(const QString &filename)
 {
-	m_outp = Q_NULLPTR;
+	m_outp = nullptr;
 	m_outf = filename;
 	if (filename.isEmpty())
 		m_outputmode = ModeStdout;
@@ -101,7 +101,7 @@ KGpgExport::setOutputFile(const QString &filename)
 void
 KGpgExport::setOutputTransaction(KGpgTransaction *outt)
 {
-	m_outp = Q_NULLPTR;
+	m_outp = nullptr;
 	m_outf.clear();
 	m_outputmode = ModeTransaction;
 	outt->setInputTransaction(this);
@@ -128,7 +128,7 @@ KGpgExport::preStart()
 	case ModeFile:
 		{
 		Q_ASSERT(!m_outf.isEmpty());
-		Q_ASSERT(m_outp == Q_NULLPTR);
+		Q_ASSERT(m_outp == nullptr);
 
 		addArgument(QLatin1String( "--output" ));
 		addArgument(m_outf);
@@ -141,18 +141,18 @@ KGpgExport::preStart()
 		}
 	case ModeProcess:
 		Q_ASSERT(m_outf.isEmpty());
-		Q_ASSERT(m_outp != Q_NULLPTR);
+		Q_ASSERT(m_outp != nullptr);
 
 		getProcess()->setStandardOutputProcess(m_outp);
 
 		break;
 	case ModeStdout:
 		Q_ASSERT(m_outf.isEmpty());
-		Q_ASSERT(m_outp == Q_NULLPTR);
+		Q_ASSERT(m_outp == nullptr);
 		break;
 	case ModeTransaction:
 		Q_ASSERT(m_outf.isEmpty());
-		Q_ASSERT(m_outp == Q_NULLPTR);
+		Q_ASSERT(m_outp == nullptr);
 		break;
 	default:
 		Q_ASSERT(0);

@@ -23,7 +23,7 @@
 class KgpgDetailedInfo : public QDialog
 {
 public:
-	explicit KgpgDetailedInfo(QWidget *parent = Q_NULLPTR, const QString &boxLabel = QString(),
+	explicit KgpgDetailedInfo(QWidget *parent = nullptr, const QString &boxLabel = QString(),
 			const QString &errormessage = QString(), const QStringList &keysList = QStringList(),
 			const QString &caption = QString());
 };

@@ -25,9 +25,9 @@
 KGpgTransactionPrivate::KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining)
 	: m_parent(parent),
 	m_process(new GPGProc()),
-	m_inputTransaction(Q_NULLPTR),
-	m_newPasswordDialog(Q_NULLPTR),
-	m_passwordDialog(Q_NULLPTR),
+	m_inputTransaction(nullptr),
+	m_newPasswordDialog(nullptr),
+	m_passwordDialog(nullptr),
 	m_success(KGpgTransaction::TS_OK),
 	m_tries(3),
 	m_chainingAllowed(allowChaining),
@@ -88,10 +88,10 @@ KGpgTransactionPrivate::slotReadReady()
 		} else if (line.startsWith(QLatin1String("[GNUPG:] GOOD_PASSPHRASE"))) {
 			emit m_parent->statusMessage(i18n("Got Passphrase"));
 
-			if (m_passwordDialog != Q_NULLPTR) {
+			if (m_passwordDialog != nullptr) {
 				m_passwordDialog->close();
 				m_passwordDialog->deleteLater();
-				m_passwordDialog = Q_NULLPTR;
+				m_passwordDialog = nullptr;
 			}
 
 			if (m_parent->passphraseReceived()) {
@@ -255,7 +255,7 @@ KGpgTransactionPrivate::slotPassphraseEntered(const QString &passphrase)
 	m_process->write(passphrase.toUtf8() + '\n');
 	if (sender() == m_newPasswordDialog) {
 		m_newPasswordDialog->deleteLater();
-		m_newPasswordDialog = Q_NULLPTR;
+		m_newPasswordDialog = nullptr;
 		m_parent->newPassphraseEntered();
 	} else {
 		Q_ASSERT(sender() == m_passwordDialog);
@@ -267,8 +267,8 @@ KGpgTransactionPrivate::slotPassphraseAborted()
 {
 	Q_ASSERT((sender() == m_passwordDialog) ^ (sender() == m_newPasswordDialog));
 	sender()->deleteLater();
-	m_newPasswordDialog = Q_NULLPTR;
-	m_passwordDialog = Q_NULLPTR;
+	m_newPasswordDialog = nullptr;
+	m_passwordDialog = nullptr;
 	handlePassphraseAborted();
 }
 

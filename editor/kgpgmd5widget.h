@@ -22,7 +22,7 @@ class Md5Widget : public QDialog
     Q_OBJECT
 
 public:
-    explicit Md5Widget(QWidget *parent = Q_NULLPTR, const QUrl &url = QUrl());
+    explicit Md5Widget(QWidget *parent = nullptr, const QUrl &url = QUrl());
 
 public slots:
     void slotApply();

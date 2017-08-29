@@ -27,7 +27,7 @@
 class GpgServerModel: public QStringListModel {
 	Q_OBJECT
 public:
-	explicit GpgServerModel(QObject *parent = Q_NULLPTR);
+	explicit GpgServerModel(QObject *parent = nullptr);
 	virtual ~GpgServerModel();
 
 	void setDefault(const QString &server);

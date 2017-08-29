@@ -47,7 +47,7 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
 	if (!m_selfsig) {
 		m_keynode = root->findKey(keyid);
 
-		if (m_keynode != Q_NULLPTR) {
+		if (m_keynode != nullptr) {
 			m_keynode->addRef(this);
 		} else {
 			m_updateConnection = connect(root, &KGpgRootNode::newKeyNode, this, &KGpgRefNode::keyUpdated);
@@ -62,8 +62,8 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, KGpgKeyNode *key)
 	m_id(key->getId()),
 	m_keynode(key)
 {
-	Q_ASSERT(key != Q_NULLPTR);
-	Q_ASSERT(parent != Q_NULLPTR);
+	Q_ASSERT(key != nullptr);
+	Q_ASSERT(parent != nullptr);
 	m_keynode->addRef(this);
 
 	parent->children.append(this);
@@ -84,7 +84,7 @@ KGpgRefNode::getRootNode() const
 	do {
 		root = pt;
 		pt = pt->getParentKeyNode();
-	} while (pt != Q_NULLPTR);
+	} while (pt != nullptr);
 
 	return root->toRootNode();
 }
@@ -92,8 +92,8 @@ KGpgRefNode::getRootNode() const
 void
 KGpgRefNode::keyUpdated(KGpgKeyNode *nkey)
 {
-	Q_ASSERT(m_keynode == Q_NULLPTR);
-	Q_ASSERT(nkey != Q_NULLPTR);
+	Q_ASSERT(m_keynode == nullptr);
+	Q_ASSERT(nkey != nullptr);
 
 	if (nkey->compareId(m_id)) {
 		disconnect(m_updateConnection);
@@ -105,16 +105,16 @@ KGpgRefNode::keyUpdated(KGpgKeyNode *nkey)
 void
 KGpgRefNode::unRef(KGpgRootNode *root)
 {
-	if (root != Q_NULLPTR)
+	if (root != nullptr)
 		m_updateConnection = connect(root, &KGpgRootNode::newKeyNode, this, &KGpgRefNode::keyUpdated);
 
-	m_keynode = Q_NULLPTR;
+	m_keynode = nullptr;
 }
 
 QString
 KGpgRefNode::getId() const
 {
-	if (m_keynode != Q_NULLPTR)
+	if (m_keynode != nullptr)
 		return m_keynode->getFingerprint();
 	else
 		return m_id;
@@ -123,7 +123,7 @@ KGpgRefNode::getId() const
 QString
 KGpgRefNode::getName() const
 {
-	if (m_keynode != Q_NULLPTR)
+	if (m_keynode != nullptr)
 		return m_keynode->getName();
 	return i18n("[No user id found]");
 }
@@ -131,7 +131,7 @@ KGpgRefNode::getName() const
 QString
 KGpgRefNode::getEmail() const
 {
-	if (m_keynode != Q_NULLPTR)
+	if (m_keynode != nullptr)
 		return m_keynode->getEmail();
 	return QString();
 }
@@ -139,7 +139,7 @@ KGpgRefNode::getEmail() const
 bool
 KGpgRefNode::isUnknown() const
 {
-	return (m_keynode == Q_NULLPTR);
+	return (m_keynode == nullptr);
 }
 
 KGpgKeyNode *

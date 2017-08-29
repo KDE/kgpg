@@ -40,7 +40,7 @@ KGpgGroupMemberNode::~KGpgGroupMemberNode()
 KgpgKeyTrust
 KGpgGroupMemberNode::getTrust() const
 {
-	if (m_keynode != Q_NULLPTR)
+	if (m_keynode != nullptr)
 		return m_keynode->getTrust();
 	return KgpgCore::TRUST_NOKEY;
 }
@@ -48,7 +48,7 @@ KGpgGroupMemberNode::getTrust() const
 KgpgItemType
 KGpgGroupMemberNode::getType() const
 {
-	if (m_keynode != Q_NULLPTR)
+	if (m_keynode != nullptr)
 		return m_keynode->getType() | KgpgCore::ITYPE_GROUP;
 	return KgpgCore::ITYPE_PUBLIC | KgpgCore::ITYPE_GROUP;
 }
@@ -56,7 +56,7 @@ KGpgGroupMemberNode::getType() const
 QString
 KGpgGroupMemberNode::getSize() const
 {
-	if (m_keynode != Q_NULLPTR)
+	if (m_keynode != nullptr)
 		return m_keynode->getSize();
 	return QString();
 }
@@ -64,7 +64,7 @@ KGpgGroupMemberNode::getSize() const
 QDateTime
 KGpgGroupMemberNode::getExpiration() const
 {
-	if (m_keynode != Q_NULLPTR)
+	if (m_keynode != nullptr)
 		return m_keynode->getExpiration();
 	return QDateTime();
 }
@@ -72,7 +72,7 @@ KGpgGroupMemberNode::getExpiration() const
 QDateTime
 KGpgGroupMemberNode::getCreation() const
 {
-	if (m_keynode != Q_NULLPTR)
+	if (m_keynode != nullptr)
 		return m_keynode->getCreation();
 	return QDateTime();
 }
@@ -80,7 +80,7 @@ KGpgGroupMemberNode::getCreation() const
 unsigned int
 KGpgGroupMemberNode::getSignKeySize() const
 {
-	if (m_keynode != Q_NULLPTR)
+	if (m_keynode != nullptr)
 		return m_keynode->getSignKeySize();
 	return 0;
 }
@@ -88,7 +88,7 @@ KGpgGroupMemberNode::getSignKeySize() const
 unsigned int
 KGpgGroupMemberNode::getEncryptionKeySize() const
 {
-	if (m_keynode != Q_NULLPTR)
+	if (m_keynode != nullptr)
 		return m_keynode->getEncryptionKeySize();
 	return 0;
 }

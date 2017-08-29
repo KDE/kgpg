@@ -131,7 +131,7 @@ public:
 	 * @param node node that no longer has the reference
 	 *
 	 * Note that this must not be called as reply when this object
-	 * emits updated(Q_NULLPTR)
+	 * emits updated(nullptr)
 	 */
 	void delRef(KGpgRefNode *node);
 	/**
@@ -154,7 +154,7 @@ public:
 	/**
 	 * @brief get the user id or user attribute with the given number
 	 * @param index the index of the user id to return
-	 * @return the requested subitem or Q_NULLPTR if that is not present
+	 * @return the requested subitem or nullptr if that is not present
 	 *
 	 * User ids indexes are 1-based, so 0 is not a valid index. Passing
 	 * 1 as index will return the object itself, representing the primary
