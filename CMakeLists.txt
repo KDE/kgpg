@@ -276,6 +276,9 @@ ecm_install_icons(ICONS
     22-apps-kgpg.png
     32-apps-kgpg.png
     48-apps-kgpg.png
+    64-apps-kgpg.png
+    128-apps-kgpg.png
+    sc-apps-kgpg.svg
     DESTINATION ${KDE_INSTALL_ICONDIR}
     THEME hicolor
 )
