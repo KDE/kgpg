@@ -82,13 +82,10 @@ QStringList
 KGpgEncrypt::encryptedText() const
 {
 	QStringList result;
-	int txtlength = 0;
 
 	for (const QString &line : getMessages())
-		if (!line.startsWith(QLatin1String("[GNUPG:] "))) {
+		if (!line.startsWith(QLatin1String("[GNUPG:] ")))
 			result.append(line);
-			txtlength += line.length() + 1;
-		}
 
 	return result;
 }
