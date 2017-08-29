@@ -1,4 +1,6 @@
-/* Copyright 2008,2009,2010,2012,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/*
+ * Copyright (C) 2008,2009,2010,2012,2016,2017
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -120,7 +122,7 @@ KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name, const QS
 	: KGpgExpandableNode(parent),
 	d_ptr(new KGpgGroupNodePrivate(name))
 {
-	foreach (const QString &id, members)
+	for (const QString &id : members)
 		if (id.startsWith(QLatin1String("0x")))
 			new KGpgGroupMemberNode(this, id.mid(2));
 		else
@@ -133,9 +135,9 @@ KGpgGroupNode::KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KG
 	: KGpgExpandableNode(parent),
 	d_ptr(new KGpgGroupNodePrivate(name))
 {
-	Q_ASSERT(members.count() > 0);
+	Q_ASSERT(!members.isEmpty());
 
-	foreach (KGpgKeyNode *nd, members)
+	for (KGpgKeyNode *nd : members)
 		new KGpgGroupMemberNode(this, nd);
 
 	parent->m_groups++;

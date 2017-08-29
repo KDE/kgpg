@@ -1,4 +1,6 @@
-/* Copyright 2008,2009,2010,2012,2013,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/*
+ * Copyright (C) 2008,2009,2010,2012,2013,2016,2017
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -55,7 +57,7 @@ KGpgRootNode::getType() const
 void
 KGpgRootNode::addGroups(const QStringList &groups)
 {
-	foreach (const QString &group, groups) {
+	for (const QString &group : groups) {
 		const QStringList parts = group.split(QLatin1Char(':'));
 		if (parts.count() < 2)
 			continue;
@@ -67,12 +69,12 @@ KGpgRootNode::addGroups(const QStringList &groups)
 void
 KGpgRootNode::addKeys(const QStringList &ids)
 {
-	KgpgCore::KgpgKeyList publiclist = KgpgInterface::readPublicKeys(ids);
+	const KgpgCore::KgpgKeyList publiclist = KgpgInterface::readPublicKeys(ids);
 	KgpgCore::KgpgKeyList secretlist = KgpgInterface::readSecretKeys();
 
 	QStringList issec = secretlist;
 
-	foreach (KgpgCore::KgpgKey key, publiclist) { // krazy:exclude=foreach
+	for (KgpgCore::KgpgKey key : publiclist) {
 		int index = issec.indexOf(key.fullId());
 
 		if (index >= 0) {
@@ -93,14 +95,15 @@ void
 KGpgRootNode::refreshKeys(KGpgKeyNode::List nodes)
 {
 	QStringList ids;
+	ids.reserve(nodes.count());
 
 	foreach (const KGpgNode *nd, nodes)
 		ids << nd->getId();
 
-	KgpgCore::KgpgKeyList publiclist = KgpgInterface::readPublicKeys(ids);
+	const KgpgCore::KgpgKeyList publiclist = KgpgInterface::readPublicKeys(ids);
 	QStringList issec = KgpgInterface::readSecretKeys(ids);
 
-	foreach (KgpgCore::KgpgKey key, publiclist) { // krazy:exclude=foreach
+	for (KgpgCore::KgpgKey key : publiclist) {
 		int index = issec.indexOf(key.fullId());
 		if (index != -1) {
 			key.setSecret(true);

@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2006,2007 Jimmy Gilles <jimmygilles@gmail.com>
- * Copyright (C) 2007,2008,2009,2010,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2007,2008,2009,2010,2012,2013,2014,2017
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -415,8 +416,11 @@ KgpgKey& KgpgKey::operator=(const KgpgKey &other)
 KgpgKeyList::operator QStringList() const
 {
     QStringList res;
-    foreach(const KgpgKey &key, *this)
+    res.reserve(count());
+
+    for (const KgpgKey &key : *this)
         res << key.fullId();
+
     return res;
 }
 

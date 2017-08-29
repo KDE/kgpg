@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2011,2012,2013,2016,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -69,7 +69,8 @@ KGpgEncrypt::command() const
 		if (m_options.testFlag(HideKeyId))
 			ret << QLatin1String("--throw-keyid");
 
-		foreach (const QString &uid, m_userIds)
+		ret.reserve(ret.size() + 2 * m_userIds.size() + 1);
+		for (const QString &uid : m_userIds)
 			ret << QLatin1String( "--recipient" ) << uid;
 		ret << QLatin1String( "--encrypt" );
 	}

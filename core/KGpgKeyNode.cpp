@@ -1,4 +1,6 @@
-/* Copyright 2008,2009,2010,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/*
+ * Copyright (C) 2008,2009,2010,2012,2013,2014,2017
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -228,8 +230,10 @@ QList<KGpgGroupNode *>
 KGpgKeyNode::getGroups(void) const
 {
 	QList<KGpgGroupNode *> ret;
+	const QList<KGpgGroupMemberNode *> refs = getGroupRefs();
+	ret.reserve(refs.count());
 
-	foreach (KGpgGroupMemberNode *gnd, getGroupRefs())
+	foreach (KGpgGroupMemberNode *gnd, refs)
 		ret.append(gnd->getParentKeyNode());
 
 	return ret;
@@ -240,7 +244,7 @@ KGpgKeyNode::getRefsOfType(const KgpgItemType &type) const
 {
 	QList<KGpgRefNode *> ret;
 
-	foreach (KGpgRefNode *nd, m_refs) {
+	for (KGpgRefNode *nd : m_refs) {
 		if (nd->getType() & type)
 			ret.append(nd);
 	}
@@ -252,8 +256,10 @@ QList<KGpgGroupMemberNode *>
 KGpgKeyNode::getGroupRefs(void) const
 {
 	QList<KGpgGroupMemberNode *> ret;
+	const QList<KGpgRefNode *> refs = getRefsOfType(KgpgCore::ITYPE_GROUP);
+	ret.reserve(refs.count());
 
-	foreach (KGpgRefNode *rn, getRefsOfType(KgpgCore::ITYPE_GROUP))
+	for (KGpgRefNode *rn : refs)
 		ret.append(rn->toGroupMemberNode());
 
 	return ret;
@@ -263,10 +269,10 @@ KGpgSignNode::List
 KGpgKeyNode::getSignRefs(void) const
 {
 	KGpgSignNode::List ret;
+	const QList<KGpgRefNode *> refs = getRefsOfType(KgpgCore::ITYPE_SIGN);
+	ret.reserve(refs.count());
 
-	QList<KGpgRefNode *> refs = getRefsOfType(KgpgCore::ITYPE_SIGN);
-
-	foreach (KGpgRefNode *rn, refs)
+	for (KGpgRefNode *rn : refs)
 		ret.append(rn->toSignNode());
 
 	return ret;
@@ -280,19 +286,18 @@ KGpgKeyNode::getSignatures(const bool subkeys) const
 	if (!subkeys)
 		return ret;
 
-	foreach (KGpgNode *child, children) {
-		KGpgSignNode::List tmp;
-
+	for (KGpgNode *child : children) {
 		switch (child->getType()) {
 		case KgpgCore::ITYPE_UID:
 		case KgpgCore::ITYPE_UAT:
-			tmp = child->toSignableNode()->getSignatures();
 			break;
 		default:
 			continue;
 		}
 
-		foreach (KGpgSignNode *sn, tmp) {
+		const KGpgSignNode::List tmp = child->toSignableNode()->getSignatures();
+
+		for (KGpgSignNode *sn : tmp) {
 			bool found = false;
 			const QString snid(sn->getId());
 
@@ -318,9 +323,9 @@ KGpgKeyNode::getUid(const unsigned int index) const
 	if (index == 1)
 		return this;
 
-	const QString idxstr(QString::number(index));
+	const QString idxstr = QString::number(index);
 
-	foreach (const KGpgNode *child, children) {
+	for (const KGpgNode *child : children) {
 		KGpgSignNode::List tmp;
 
 		switch (child->getType()) {

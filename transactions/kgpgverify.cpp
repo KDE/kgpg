@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2012,2013,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -110,7 +110,7 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 	const bool useGoodSig = (model == nullptr) || (log.indexOf(validsig) == -1);
 	QString sigtime;	// timestamp of signature creation
 
-	foreach (const QString &line, log) {
+	for (const QString &line : log) {
 		if (!line.startsWith(QLatin1String("[GNUPG:] ")))
 			continue;
 

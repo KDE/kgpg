@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012,2016,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -21,8 +21,9 @@
 static QStringList keyFingerprints(const KGpgKeyNode::List &keys)
 {
 	QStringList ret;
+	ret.reserve(keys.count());
 
-	foreach (const KGpgKeyNode *key, keys)
+	for (const KGpgKeyNode *key : keys)
 		ret << key->getFingerprint();
 
 	return ret;

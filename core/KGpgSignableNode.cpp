@@ -1,4 +1,6 @@
-/* Copyright 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/*
+ * Copyright (C) 2008,2009,2017
+ *               Rolf Eike Beer <kde@opensource.sf-tec.de>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -34,7 +36,7 @@ KGpgSignableNode::getSignatures(void) const
 {
 	KGpgSignNode::List ret;
 
-	foreach (KGpgNode *kn, children) {
+	for (KGpgNode *kn : children) {
 		if (kn->getType() == KgpgCore::ITYPE_SIGN)
 			ret << kn->toSignNode();
 	}

@@ -227,7 +227,7 @@ KgpgSubKeyType toSubType(const QString& capString, bool upper)
 {
 	KgpgSubKeyType ret;
 
-	foreach (const QChar &ch, capString) {
+	for (const QChar &ch : capString) {
 		switch (ch.toLatin1()) {
 		case 's':
 		case 'S':
