@@ -46,7 +46,7 @@ class KGpgNode : public QObject
 
 	KGpgNode() Q_DECL_EQ_DELETE;
 protected:
-	KGpgExpandableNode *m_parent;
+	KGpgExpandableNode * const m_parent;
 	KGpgItemModel *m_model;
 
 	/**
