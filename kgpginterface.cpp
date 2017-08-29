@@ -35,7 +35,7 @@ using namespace KgpgCore;
 
 QString KgpgInterface::getGpgSetting(const QString &name, const QString &configfile)
 {
-	const QString tmp(name.simplified() + QLatin1Char( ' ' ));
+	const QString tmp = name.simplified() + QLatin1Char(' ');
 	QFile qfile(configfile);
 
 	if (qfile.exists() && qfile.open(QIODevice::ReadOnly)) {
@@ -58,7 +58,7 @@ void KgpgInterface::setGpgSetting(const QString &name, const QString &value, con
 	QFile qfile(url);
 
 	if (qfile.exists() && qfile.open(QIODevice::ReadOnly)) {
-		const QString temp(name + QLatin1Char( ' ' ));
+		const QString temp = name + QLatin1Char(' ');
 		QString texttowrite;
 		bool found = false;
 		QTextStream t(&qfile);
@@ -190,7 +190,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 
 			idIndex = 0;
 		} else if (publickey && (lsp.at(0) == QLatin1String("fpr")) && (items >= 10)) {
-			const QString fingervalue = lsp.at(9);
+			const QString &fingervalue = lsp.at(9);
 
 			if ((currentSNode != nullptr) && (currentSNode->getType() == ITYPE_SUB))
 				static_cast<KGpgSubkeyNode *>(currentSNode)->setFingerprint(fingervalue);
@@ -362,7 +362,7 @@ readSecretKeysProcess(GPGProc &p)
 
 			hasuid = true;
 
-			const QString fullname(lsp.at(9));
+			const QString &fullname = lsp.at(9);
 			if (fullname.contains(QLatin1Char( '<' ) )) {
 				QString kmail(fullname);
 
