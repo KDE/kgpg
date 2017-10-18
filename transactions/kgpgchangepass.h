@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2012,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -34,6 +34,7 @@ protected:
 	bool preStart() Q_DECL_OVERRIDE;
 	bool passphraseRequested() Q_DECL_OVERRIDE;
 	bool passphraseReceived() Q_DECL_OVERRIDE;
+	bool hintLine(const KGpgTransaction::ts_hintType hint, const QString & args) Q_DECL_OVERRIDE;
 
 private:
 	bool m_seenold;		///< old password correctly entered

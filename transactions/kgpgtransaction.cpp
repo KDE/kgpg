@@ -128,6 +128,7 @@ KGpgTransaction::hintLine(const ts_hintType hint, const QString &args)
 {
 	switch (hint) {
 	case HT_KEYEXPIRED:
+	case HT_PINENTRY_LAUNCHED:
 		return !args.isEmpty();
 	default:
 		return true;
