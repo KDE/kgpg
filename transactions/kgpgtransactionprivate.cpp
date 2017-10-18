@@ -163,8 +163,6 @@ KGpgTransactionPrivate::slotReadReady()
 			m_success = KGpgTransaction::TS_USER_ABORTED;
 		} else if (line.startsWith(QLatin1String("[GNUPG:] CARDCTRL "))) {
 			// just ignore them, pinentry should handle that
-		} else if (line.startsWith(QLatin1String("[GNUPG:] PINENTRY_LAUNCHED "))) {
-			// just ignore them, just means pinentry is asked for password input
 		} else {
 			// all known hints
 			int i = 0;
@@ -295,10 +293,16 @@ KGpgTransactionPrivate::hintNames (void)
 	static QStringList hints;
 
 	if (hints.isEmpty()) {
-		hints.insert(KGpgTransaction::HT_KEYEXPIRED, QLatin1String("[GNUPG:] KEYEXPIRED"));
-		hints.insert(KGpgTransaction::HT_SIGEXPIRED, QLatin1String("[GNUPG:] SIGEXPIRED"));
-		hints.insert(KGpgTransaction::HT_NOSECKEY,   QLatin1String("[GNUPG:] NO_SECKEY"));
-		hints.insert(KGpgTransaction::HT_ENCTO,      QLatin1String("[GNUPG:] ENC_TO"));
+		hints.insert(KGpgTransaction::HT_KEYEXPIRED,
+				QLatin1String("[GNUPG:] KEYEXPIRED"));
+		hints.insert(KGpgTransaction::HT_SIGEXPIRED,
+				QLatin1String("[GNUPG:] SIGEXPIRED"));
+		hints.insert(KGpgTransaction::HT_NOSECKEY,
+				QLatin1String("[GNUPG:] NO_SECKEY"));
+		hints.insert(KGpgTransaction::HT_ENCTO,
+				QLatin1String("[GNUPG:] ENC_TO"));
+		hints.insert(KGpgTransaction::HT_PINENTRY_LAUNCHED,
+				QLatin1String("[GNUPG:] PINENTRY_LAUNCHED"));
 	}
 
 	return hints;
