@@ -341,8 +341,6 @@ void KGpgExternalActions::decryptFiles(KeysManager* parent, const QList<QUrl> &u
 {
 	KGpgExternalActions *decActions = new KGpgExternalActions(parent, parent->getModel());
 
-	decActions->droppedUrls = urls;
-
 	decActions->decryptFile(urls);
 }
 
