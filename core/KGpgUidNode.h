@@ -48,6 +48,7 @@ public:
 	QString getName() const Q_DECL_OVERRIDE;
 	QString getEmail() const Q_DECL_OVERRIDE;
 	QString getId() const Q_DECL_OVERRIDE;
+	QDateTime getCreation() const Q_DECL_OVERRIDE;
 	KGpgKeyNode *getKeyNode(void) Q_DECL_OVERRIDE;
 	const KGpgKeyNode *getKeyNode(void) const Q_DECL_OVERRIDE;
 	virtual KGpgKeyNode *getParentKeyNode() const;

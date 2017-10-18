@@ -31,6 +31,7 @@ public:
 	QString m_email;
 	QString m_name;
 	QString m_comment;
+	QDateTime m_creation;
 	KgpgCore::KgpgKeyTrust m_trust;
 	bool m_valid;
 };
@@ -64,6 +65,7 @@ KGpgUidNodePrivate::KGpgUidNodePrivate(const unsigned int index, const QStringLi
 
 	m_trust = KgpgCore::Convert::toTrust(sl.at(1));
 	m_valid = ((sl.count() <= 11) || !sl.at(11).contains(QLatin1Char( 'D' )));
+	m_creation = KgpgCore::Convert::toDateTime(sl.at(5));
 }
 
 
@@ -100,6 +102,14 @@ KGpgUidNode::getId() const
 	const Q_D(KGpgUidNode);
 
 	return d->m_index;
+}
+
+QDateTime
+KGpgUidNode::getCreation() const
+{
+	const Q_D(KGpgUidNode);
+
+	return d->m_creation;
 }
 
 KGpgKeyNode *
