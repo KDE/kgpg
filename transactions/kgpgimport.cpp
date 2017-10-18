@@ -118,19 +118,16 @@ KGpgImport::getImportMessage(const QStringList &log)
 
 		const QStringList rstr = str.mid(20).simplified().split(QLatin1Char(' '));
 
-		fine = (rstr.count() >= RESULT_PARTS_MIN);
+		bool syn = (rstr.count() >= RESULT_PARTS_MIN);
 
-		const int parts = qBound<int>(RESULT_PARTS_MIN, rstr.count(), RESULT_PARTS_MAX);
+		for (int i = std::min<int>(rstr.count(), RESULT_PARTS_MAX) - 1; (i >= 0) && syn; i--) {
+			rcode[i] += rstr.at(i).toULong(&syn);
+			fine |= (rcode[i] != 0);
+		}
 
-		for (int i = parts - 1; (i >= 0) && fine; i--)
-			rcode[i] += rstr.at(i).toULong(&fine);
-
-		if (!fine)
+		if (!syn)
 			return xi18nc("@info", "The import result string has an unsupported format in line %1.<nl/>Please see the detailed log for more information.", line);
 	}
-
-	for (int i = RESULT_PARTS_MAX - 1; i >= 0; i--)
-		fine = (rcode[i] != 0);
 
 	if (!fine)
 		return i18n("No key imported.<br />Please see the detailed log for more information.");
