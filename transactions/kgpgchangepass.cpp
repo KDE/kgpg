@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -45,13 +45,10 @@ KGpgChangePass::nextLine(const QString &line)
 		return false;
 
 	if (line.contains(QLatin1String( "keyedit.prompt" ))) {
-		if (m_seenold && (getSuccess() != TS_USER_ABORTED)) {
+		if (m_seenold && (getSuccess() != TS_USER_ABORTED))
 			setSuccess(TS_OK);
-			write("save");
-		} else {
-			// some sort of error, we already set the error code
-			return true;
-		}
+		// no need to save, change is automatically saved by GnuPG
+		return true;
 	} else if (line.contains(QLatin1String( "GET_" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
 		return true;
@@ -80,4 +77,22 @@ KGpgChangePass::passphraseReceived()
 	m_seenold = true;
 	setSuccess(TS_MSG_SEQUENCE);
 	return false;
+}
+
+bool
+KGpgChangePass::hintLine(const KGpgTransaction::ts_hintType hint, const QString &args)
+{
+	switch (hint) {
+	case HT_PINENTRY_LAUNCHED:
+		// If pinentry message appear 2 should be seen: the one asking for the old password,
+		// and one asking for the new. So the old password has successfully been given if the
+		// second one appears. BUT: if the user cancels one of these boxes they will reappear
+		// up to 3 times, so even the third one could be the one asking for the old password.
+		// Simply assume that everything is fine when pinentry is used, which will make the
+		// result being set to TS_OK once keyedit.prompt is received.
+		m_seenold = true;
+		return true;
+	default:
+		return KGpgTransaction::hintLine(hint, args);
+	}
 }
