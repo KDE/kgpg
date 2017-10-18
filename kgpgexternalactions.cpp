@@ -367,7 +367,7 @@ void KGpgExternalActions::decryptFile(QList<QUrl> urls)
 	else
 		oldname.append(QLatin1String( ".clear" ));
 
-	QUrl swapname(first.adjusted(QUrl::RemoveFilename).path() + oldname);
+	QUrl swapname = QUrl::fromLocalFile(first.adjusted(QUrl::RemoveFilename).path() + oldname);
 	QFile fgpg(swapname.path());
 	if (fgpg.exists()) {
 		QPointer<KIO::RenameDialog> over = new KIO::RenameDialog(m_keysmanager,
