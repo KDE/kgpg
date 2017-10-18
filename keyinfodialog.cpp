@@ -315,7 +315,8 @@ void KgpgKeyInfo::slotInfoPasswordChanged(int result)
 
 	switch (result) {
 	case KGpgTransaction::TS_OK:
-		KMessageBox::information(this, i18n("Passphrase for the key was changed"));
+		// when pinentry is used it is indistinguishable if everything went fine
+		// or the user cancelled the password entries, so simply show nothing
 		break;
 	case KGpgTransaction::TS_BAD_PASSPHRASE:
 		KMessageBox::error(this, i18n("Bad old passphrase, the passphrase for the key was not changed"), i18n("Could not change passphrase"));
