@@ -31,6 +31,7 @@
   <name xml:lang="pl">KGpg</name>
   <name xml:lang="pt">KGpg</name>
   <name xml:lang="pt-BR">KGpg</name>
+  <name xml:lang="ru">KGpg</name>
   <name xml:lang="sk">KGpg</name>
   <name xml:lang="sl">KGpg</name>
   <name xml:lang="sr">КГПГ</name>
@@ -71,6 +72,7 @@
   <summary xml:lang="pl">Narzędzie szyfrowania</summary>
   <summary xml:lang="pt">Ferramenta de Cifra</summary>
   <summary xml:lang="pt-BR">Ferramenta de criptografia</summary>
+  <summary xml:lang="ru">Утилита шифрования</summary>
   <summary xml:lang="sk">Šifrovací nástroj</summary>
   <summary xml:lang="sl">Orodje za šifriranje</summary>
   <summary xml:lang="sr">Алатка за шифровање</summary>
