@@ -128,12 +128,12 @@
     <p xml:lang="zh-CN">KGpg 是压缩工具 GnuPG 的简单界面，可以设置和管理密钥，导入导出密钥，查看密钥签名、信任状态和过期时间。</p>
     <p xml:lang="zh-TW">KGpg 是 GnuPG 的簡易介面。它可以協助您設定並管理您的金鑰，匯入或匯出，檢視金鑰簽章，信任狀態與到期日等等。</p>
   </description>
-  <url type="homepage">http://utils.kde.org/projects/kgpg/</url>
+  <url type="homepage">https://utils.kde.org/projects/kgpg/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kgpg</url>
-  <url type="help">http://docs.kde.org/stable/en/kdeutils/kgpg/index.html</url>
+  <url type="help">https://docs.kde.org/?application=kgpg</url>
   <screenshots>
     <screenshot type="default">
-      <image>http://kde.org/images/screenshots/kgpg.png</image>
+      <image>https://kde.org/images/screenshots/kgpg.png</image>
     </screenshot>
   </screenshots>
   <project_group>KDE</project_group>
