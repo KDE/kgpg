@@ -62,7 +62,7 @@ KGpgRootNode::addGroups(const QStringList &groups)
 		if (parts.count() < 2)
 			continue;
 		const QString groupName = parts.first();
-		new KGpgGroupNode(this, groupName, parts.at(1).split(QLatin1Char(';')));
+		new KGpgGroupNode(this, groupName, parts.at(1).split(QLatin1Char(';'), QString::SkipEmptyParts));
 	}
 }
 
