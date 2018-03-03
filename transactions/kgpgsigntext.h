@@ -70,7 +70,7 @@ public:
 	QStringList signedText() const;
 
 protected:
-	QStringList command() const Q_DECL_OVERRIDE;
+	QStringList command() const override;
 
 private:
 	int m_fileIndex;

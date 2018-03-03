@@ -48,7 +48,7 @@ public:
 	/**
 	 * @brief starts the transaction
 	 */
-	void start() Q_DECL_OVERRIDE;
+	void start() override;
 
 	/**
 	 * @brief get the transaction this job is handling
@@ -61,7 +61,7 @@ public:
 	int getResultCode() const;
 
 protected:
-	bool doKill() Q_DECL_OVERRIDE;
+	bool doKill() override;
 
 private slots:
 	void slotTransactionDone(int result);

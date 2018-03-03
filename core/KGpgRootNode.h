@@ -46,13 +46,13 @@ private:
 	int m_groups;
 
 protected:
-	void readChildren() Q_DECL_OVERRIDE;
+	void readChildren() override;
 
 public:
 	explicit KGpgRootNode(KGpgItemModel *model);
 	virtual ~KGpgRootNode();
 
-	KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
+	KgpgCore::KgpgItemType getType() const override;
 
 	/**
 	 * Create new group nodes

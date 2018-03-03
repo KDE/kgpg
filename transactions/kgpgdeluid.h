@@ -88,10 +88,10 @@ public:
 	void setUids(const KGpgSignableNode::const_List &uids);
 
 protected:
-	bool preStart() Q_DECL_OVERRIDE;
-	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
-	ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
-	void finish() Q_DECL_OVERRIDE;
+	bool preStart() override;
+	bool nextLine(const QString &line) override;
+	ts_boolanswer boolQuestion(const QString &line) override;
+	void finish() override;
 
 private:
 	int m_fixargs;

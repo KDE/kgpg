@@ -39,15 +39,15 @@ public:
 	explicit KGpgOrphanNode(KGpgExpandableNode *parent, const KgpgKey &k);
 	virtual ~KGpgOrphanNode();
 
-	KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
-	KgpgCore::KgpgKeyTrust getTrust() const Q_DECL_OVERRIDE;
+	KgpgCore::KgpgItemType getType() const override;
+	KgpgCore::KgpgKeyTrust getTrust() const override;
 	const QString &getFingerprint() const;
-	QString getSize() const Q_DECL_OVERRIDE;
-	QString getName() const Q_DECL_OVERRIDE;
-	QString getEmail() const Q_DECL_OVERRIDE;
-	QDateTime getExpiration() const Q_DECL_OVERRIDE;
-	QDateTime getCreation() const Q_DECL_OVERRIDE;
-	QString getId() const Q_DECL_OVERRIDE;
+	QString getSize() const override;
+	QString getName() const override;
+	QString getEmail() const override;
+	QDateTime getExpiration() const override;
+	QDateTime getCreation() const override;
+	QString getId() const override;
 };
 
 #endif /* KGPGORPHANNODE_H */

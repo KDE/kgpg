@@ -45,10 +45,10 @@ public:
 	explicit KGpgSignNode(KGpgSignableNode *parent, const QStringList &s);
 	virtual ~KGpgSignNode();
 
-	KgpgCore::KgpgItemType getType() const Q_DECL_OVERRIDE;
-	QDateTime getExpiration() const Q_DECL_OVERRIDE;
-	QString getName() const Q_DECL_OVERRIDE;
-	QDateTime getCreation() const Q_DECL_OVERRIDE;
+	KgpgCore::KgpgItemType getType() const override;
+	QDateTime getExpiration() const override;
+	QString getName() const override;
+	QDateTime getCreation() const override;
 };
 
 #endif /* KGPGSIGNNODE_H */

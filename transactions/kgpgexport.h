@@ -122,8 +122,8 @@ public:
 	const QByteArray &getOutputData() const;
 
 protected:
-	bool preStart() Q_DECL_OVERRIDE;
-	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	bool preStart() override;
+	bool nextLine(const QString &line) override;
 
 private:
 	QStringList m_keyids;

@@ -31,7 +31,7 @@ public:
 	void setImagePath(const QString &imagepath);
 
 protected:
-	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	bool nextLine(const QString &line) override;
 
 private:
 	QString m_photourl;

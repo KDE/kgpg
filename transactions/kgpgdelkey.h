@@ -44,9 +44,9 @@ public:
 	const QStringList fingerprints;
 
 protected:
-	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
-	ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
-	bool preStart() Q_DECL_OVERRIDE;
+	bool nextLine(const QString &line) override;
+	ts_boolanswer boolQuestion(const QString &line) override;
+	bool preStart() override;
 	
 private:
 	int m_argscount;

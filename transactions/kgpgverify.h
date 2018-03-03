@@ -75,9 +75,9 @@ public:
 	QString missingId() const;
 
 protected:
-	QStringList command() const Q_DECL_OVERRIDE;
-	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
-	void finish() Q_DECL_OVERRIDE;
+	QStringList command() const override;
+	bool nextLine(const QString &line) override;
+	void finish() override;
 
 private:
 	int m_fileIndex;

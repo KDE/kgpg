@@ -43,12 +43,12 @@ public:
 	explicit KGpgSearchResultBackingModel(QObject *parent = nullptr);
 	~KGpgSearchResultBackingModel();
 
-	int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-	QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-	QModelIndex parent(const QModelIndex &index) const Q_DECL_OVERRIDE;
-	int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+	int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+	QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
+	QModelIndex parent(const QModelIndex &index) const override;
+	int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+	QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 	/**
 	 * @brief get the key fingerprint for the given index
@@ -115,7 +115,7 @@ public:
 	~KGpgSearchResultModel();
 
 	bool filterByValidity() const;
-	bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const Q_DECL_OVERRIDE;
+	bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 
 	/**
 	 * @brief get the key fingerprint for the given index
@@ -134,7 +134,7 @@ public:
 	 * internally. Use `resetSourceModel()` if you want to clear the
 	 * source model, and `slotAddKey()` to populate it.
 	 */
-	void setSourceModel(QAbstractItemModel *sourceModel) Q_DECL_OVERRIDE;
+	void setSourceModel(QAbstractItemModel *sourceModel) override;
 
 public slots:
 	/**

@@ -48,12 +48,12 @@ public:
 	virtual ~KGpgSignKey();
 
 protected:
-	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
-	ts_boolanswer boolQuestion(const QString &line) Q_DECL_OVERRIDE;
-	bool passphraseReceived() Q_DECL_OVERRIDE;
+	bool nextLine(const QString &line) override;
+	ts_boolanswer boolQuestion(const QString &line) override;
+	bool passphraseReceived() override;
 
-	KGpgTransaction *asTransaction() Q_DECL_OVERRIDE;
-	void replaceCmd(const QString &cmd) Q_DECL_OVERRIDE;
+	KGpgTransaction *asTransaction() override;
+	void replaceCmd(const QString &cmd) override;
 };
 
 #endif // KGPGSIGNKEY_H

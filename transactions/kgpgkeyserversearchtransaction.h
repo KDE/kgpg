@@ -57,12 +57,12 @@ signals:
 	void newKey(QStringList lines);
 
 protected:
-	bool preStart() Q_DECL_OVERRIDE;
-	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	bool preStart() override;
+	bool nextLine(const QString &line) override;
 	/**
 	 * @brief needed to submit the last search result
 	 */
-	void finish() Q_DECL_OVERRIDE;
+	void finish() override;
 
 private:
 	QStringList m_keyLines;		///< the lines belonging to one key

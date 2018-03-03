@@ -59,8 +59,8 @@ public:
 	const QStringList &getLog() const;
 
 protected:
-	bool preStart() Q_DECL_OVERRIDE;
-	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	bool preStart() override;
+	bool nextLine(const QString &line) override;
 
 private:
 	int m_attrpos;

@@ -80,12 +80,12 @@ protected:
 	/**
 	 * @brief construct the command line of the process
 	 */
-	bool preStart() Q_DECL_OVERRIDE;
-	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
+	bool preStart() override;
+	bool nextLine(const QString &line) override;
 	/**
 	 * @brief implement special handling for GnuPG return codes
 	 */
-	void finish() Q_DECL_OVERRIDE;
+	void finish() override;
 
 	virtual QStringList command() const = 0;
 
@@ -102,7 +102,7 @@ private:
 	void cleanUrls();
 
 private slots:
-	void postStart() Q_DECL_OVERRIDE;
+	void postStart() override;
 };
 
 #endif // KGPGTEXTORFILETRANSACTION_H

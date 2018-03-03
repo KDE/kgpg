@@ -76,9 +76,9 @@ public:
 	static QString encryptExtension(const bool ascii);
 
 protected:
-	QStringList command() const Q_DECL_OVERRIDE;
-	bool nextLine(const QString &line) Q_DECL_OVERRIDE;
-	ts_boolanswer confirmOverwrite (QUrl &currentFile) Q_DECL_OVERRIDE;
+	QStringList command() const override;
+	bool nextLine(const QString &line) override;
+	ts_boolanswer confirmOverwrite (QUrl &currentFile) override;
 
 private:
 	int m_fileIndex;

@@ -69,8 +69,8 @@ public:
 	void setProgressEnable(const bool b);
 
 protected:
-	void finish() Q_DECL_OVERRIDE;
-	bool preStart() Q_DECL_OVERRIDE;
+	void finish() override;
+	bool preStart() override;
 
 private slots:
 	/**
