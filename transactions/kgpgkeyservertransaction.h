@@ -31,7 +31,7 @@ class KGpgKeyserverTransaction: public KGpgTransaction {
 	/**
 	 * @brief forbidden
 	 */
-	KGpgKeyserverTransaction() Q_DECL_EQ_DELETE;
+	KGpgKeyserverTransaction() = delete;
 protected:
 	/**
 	 * @brief construct a new transaction for the given keyserver

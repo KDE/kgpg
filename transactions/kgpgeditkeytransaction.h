@@ -25,7 +25,7 @@ class KGpgEditKeyTransaction: public KGpgTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgEditKeyTransaction)
-	KGpgEditKeyTransaction() Q_DECL_EQ_DELETE;
+	KGpgEditKeyTransaction() = delete;
 
 protected:
 	/**

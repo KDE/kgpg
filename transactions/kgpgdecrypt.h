@@ -29,7 +29,7 @@ class KGpgDecrypt: public KGpgTextOrFileTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgDecrypt)
-	KGpgDecrypt() Q_DECL_EQ_DELETE;
+	KGpgDecrypt() = delete;
 public:
 	/**
 	 * @brief decrypt given text

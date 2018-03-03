@@ -29,7 +29,7 @@ class KGpgEncrypt: public KGpgTextOrFileTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgEncrypt)
-	KGpgEncrypt() Q_DECL_EQ_DELETE;
+	KGpgEncrypt() = delete;
 public:
 	enum EncryptOption {
 		DefaultEncryption = 0,		///< use whatever GnuPGs defaults are

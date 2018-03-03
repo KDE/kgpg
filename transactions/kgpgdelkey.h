@@ -27,7 +27,7 @@ class KGpgDelKey: public KGpgTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgDelKey)
-	KGpgDelKey() Q_DECL_EQ_DELETE;
+	KGpgDelKey() = delete;
 public:
 	KGpgDelKey(QObject *parent, KGpgKeyNode *key);
 	KGpgDelKey(QObject *parent, const KGpgKeyNode::List &keys);

@@ -30,7 +30,7 @@ class KGpgSendKeys: public KGpgKeyserverTransaction {
 	/**
 	 * @brief forbidden
 	 */
-	KGpgSendKeys() Q_DECL_EQ_DELETE;
+	KGpgSendKeys() = delete;
 public:
 	/**
 	 * @brief construct a new transaction for the given keyserver

@@ -35,7 +35,7 @@ class KgpgEditor : public KXmlGuiWindow
     Q_OBJECT
     friend class KgpgView;
 
-    KgpgEditor() Q_DECL_EQ_DELETE;
+    KgpgEditor() = delete;
 public:
     KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WindowFlags f);
     ~KgpgEditor();

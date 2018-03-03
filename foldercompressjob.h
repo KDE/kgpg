@@ -34,7 +34,7 @@ class FolderCompressJob : public KJob {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(FolderCompressJob)
-	FolderCompressJob() Q_DECL_EQ_DELETE;
+	FolderCompressJob() = delete;
 
 	FolderCompressJobPrivate * const d_ptr;
 	Q_DECLARE_PRIVATE(FolderCompressJob)

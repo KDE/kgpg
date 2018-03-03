@@ -27,7 +27,7 @@ class KGpgPrimaryUid: public KGpgUidTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgPrimaryUid)
-	KGpgPrimaryUid() Q_DECL_EQ_DELETE;
+	KGpgPrimaryUid() = delete;
 
 public:
 	/**

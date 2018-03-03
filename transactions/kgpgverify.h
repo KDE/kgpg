@@ -31,7 +31,7 @@ class KGpgVerify: public KGpgTextOrFileTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgVerify)
-	KGpgVerify() Q_DECL_EQ_DELETE;
+	KGpgVerify() = delete;
 public:
 	enum ts_verify {
 		TS_MISSING_KEY = KGpgTransaction::TS_COMMON_END + 1,	///< signing key not in keyring

@@ -30,7 +30,7 @@ class KGpgGenerateRevoke: public KGpgTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgGenerateRevoke)
-	KGpgGenerateRevoke() Q_DECL_EQ_DELETE;
+	KGpgGenerateRevoke() = delete;
 public:
 	/**
 	 * @brief KGpgGenerateRevoke's constructor

@@ -57,7 +57,7 @@ class KgpgKeyInfo : public QDialog, public Ui::kgpgKeyInfo
 {
 	Q_OBJECT
 
-	KgpgKeyInfo() Q_DECL_EQ_DELETE;
+	KgpgKeyInfo() = delete;
 	Q_DISABLE_COPY(KgpgKeyInfo)
 public:
 	KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *parent);

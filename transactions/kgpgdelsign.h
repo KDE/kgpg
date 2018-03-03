@@ -28,7 +28,7 @@ class KGpgDelSign: public KGpgUidTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgDelSign)
-	KGpgDelSign() Q_DECL_EQ_DELETE;
+	KGpgDelSign() = delete;
 public:
 	/**
 	 * @brief construct a new transaction to delete signatures

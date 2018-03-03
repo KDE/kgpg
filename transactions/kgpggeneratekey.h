@@ -29,7 +29,7 @@ class KGpgGenerateKey: public KGpgTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgGenerateKey)
-	KGpgGenerateKey() Q_DECL_EQ_DELETE;
+	KGpgGenerateKey() = delete;
 public:
 	enum ts_generatekey {
 		TS_INVALID_NAME = TS_COMMON_END + 1	///< the owners name is not accepted by GnuPG

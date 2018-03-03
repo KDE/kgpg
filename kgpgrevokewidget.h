@@ -41,7 +41,7 @@ class KGpgRevokeDialog: public QDialog
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgRevokeDialog)
-	KGpgRevokeDialog() Q_DECL_EQ_DELETE;
+	KGpgRevokeDialog() = delete;
 public:
 	KGpgRevokeDialog(QWidget* parent, const KGpgKeyNode* node);
 

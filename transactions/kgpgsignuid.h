@@ -29,7 +29,7 @@ class KGpgSignUid: public KGpgUidTransaction, public KGpgSignTransactionHelper {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgSignUid)
-	KGpgSignUid() Q_DECL_EQ_DELETE;
+	KGpgSignUid() = delete;
 
 public:
 	/**

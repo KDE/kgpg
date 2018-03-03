@@ -30,7 +30,7 @@ class KGpgKeyserverSearchTransaction: public KGpgKeyserverTransaction {
 	/**
 	 * @brief forbidden
 	 */
-	KGpgKeyserverSearchTransaction() Q_DECL_EQ_DELETE;
+	KGpgKeyserverSearchTransaction() = delete;
 
 public:
 	/**

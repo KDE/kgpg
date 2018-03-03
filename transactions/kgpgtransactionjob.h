@@ -29,7 +29,7 @@ class KGpgTransactionJob : public KJob {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgTransactionJob)
-	KGpgTransactionJob() Q_DECL_EQ_DELETE;
+	KGpgTransactionJob() = delete;
 
 public:
 	/**

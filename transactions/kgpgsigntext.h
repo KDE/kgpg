@@ -28,7 +28,7 @@ class KGpgSignText: public KGpgTextOrFileTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgSignText)
-	KGpgSignText() Q_DECL_EQ_DELETE;
+	KGpgSignText() = delete;
 public:
 	enum SignOption {
 		DefaultSignature = 0,		///< use whatever GnuPGs defaults are

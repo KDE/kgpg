@@ -28,7 +28,7 @@ class KGpgSignKey: public KGpgEditKeyTransaction, public KGpgSignTransactionHelp
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgSignKey)
-	KGpgSignKey() Q_DECL_EQ_DELETE;
+	KGpgSignKey() = delete;
 
 public:
 	/**

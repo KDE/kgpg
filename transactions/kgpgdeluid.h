@@ -27,7 +27,7 @@ class KGpgDelUid: public KGpgUidTransaction {
 	Q_OBJECT
 
 	Q_DISABLE_COPY(KGpgDelUid)
-	KGpgDelUid() Q_DECL_EQ_DELETE;
+	KGpgDelUid() = delete;
 public:
 	enum ts_deluid {
 		TS_NO_SUCH_UID = KGpgTransaction::TS_COMMON_END + 1	///< user id does not exist
