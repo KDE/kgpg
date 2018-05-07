@@ -38,10 +38,6 @@ KGpgSignKey::~KGpgSignKey()
 bool
 KGpgSignKey::nextLine(const QString &line)
 {
-	if (keyConsidered(line, QStringList()))
-		// could be any private key, so just ignore them
-		return false;
-
 	switch (KGpgSignTransactionHelper::nextLine(line)) {
 	case KGpgSignTransactionHelper::handledFalse:
 		return false;

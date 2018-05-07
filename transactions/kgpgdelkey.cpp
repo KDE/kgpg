@@ -52,9 +52,7 @@ KGpgDelKey::~KGpgDelKey()
 bool
 KGpgDelKey::nextLine(const QString &line)
 {
-	if (keyConsidered(line, fingerprints)) {
-		// nothing
-	} else if (!line.startsWith(QLatin1String("[GNUPG:] GOT_IT")))
+	if (!line.startsWith(QLatin1String("[GNUPG:] GOT_IT")))
 		setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
 
 	return false;
