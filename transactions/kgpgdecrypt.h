@@ -75,11 +75,14 @@ public:
 protected:
 	QStringList command() const override;
 	bool nextLine(const QString &line) override;
+	void finish() override;
+
 
 private:
 	int m_fileIndex;
 	int m_plainLength;	///< length of decrypted plain text if given by GnuPG
 	const QString m_outFilename;	///< name of file to write output to
+	bool decryptSuccess = false; //< flag to determine if decryption succeeded
 };
 
 #endif // KGPGDECRYPT_H

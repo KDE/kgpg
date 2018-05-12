@@ -113,7 +113,11 @@ KGpgDecrypt::nextLine(const QString& line)
 {
 	const QList<QUrl> &inputFiles = getInputFiles();
 
-	if (!inputFiles.isEmpty()) {
+	if (line == QLatin1String("[GNUPG:] DECRYPTION_OKAY")) {
+		// Assume Gpg decryption was successful even if gpg returns
+		// an error code.
+		decryptSuccess = true;
+	} else if (!inputFiles.isEmpty()) {
 		if (line == QLatin1String("[GNUPG:] BEGIN_DECRYPTION")) {
 			emit statusMessage(i18nc("Status message 'Decrypting <filename>' (operation starts)", "Decrypting %1", inputFiles.at(m_fileIndex).fileName()));
 			emit infoProgress(2 * m_fileIndex + 1, inputFiles.count() * 2);
@@ -136,4 +140,16 @@ KGpgDecrypt::nextLine(const QString& line)
 	}
 
 	return KGpgTextOrFileTransaction::nextLine(line);
+}
+
+void
+KGpgDecrypt::finish()
+{
+	if (decryptSuccess) {
+		// Gpg error code is ignored.
+		// https://bugs.kde.org/show_bug.cgi?id=357462
+		setSuccess(TS_OK);
+	} else {
+		KGpgTextOrFileTransaction::finish();
+	}
 }
