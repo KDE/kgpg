@@ -142,7 +142,6 @@ set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transac
    keysmanager.cpp
    kgpg.cpp
    kgpg_debug.cpp
-   main.cpp
    kgpgkeygenerate.cpp
    kgpginterface.cpp
    kgpgtextinterface.cpp
@@ -226,7 +225,9 @@ ecm_add_app_icon(kgpg_SRCS ICONS ${ICONS_SRCS})
 
 kconfig_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
-add_executable(kgpg ${kgpg_SRCS} ${kgpg_HDRS})
+add_library(kgpg_lib STATIC ${kgpg_SRCS} ${kgpg_HDRS})
+add_executable(kgpg main.cpp)
+target_link_libraries(kgpg kgpg_lib)
 
 if (KGPG_DEBUG_TRANSACTIONS)
 	set_property(SOURCE ${kgpg_transaction_SRCS} APPEND PROPERTY COMPILE_DEFINITIONS "KGPG_DEBUG_TRANSACTIONS")
@@ -234,7 +235,7 @@ endif (KGPG_DEBUG_TRANSACTIONS)
 
 set_property(SOURCE main.cpp APPEND PROPERTY COMPILE_DEFINITIONS "KGPG_VERSION=\"${KDE_APPLICATIONS_VERSION}\"")
 
-target_link_libraries(kgpg
+target_link_libraries(kgpg_lib
     KF5::AkonadiContact
     KF5::Archive
     KF5::Codecs
