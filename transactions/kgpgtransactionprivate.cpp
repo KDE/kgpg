@@ -70,8 +70,9 @@ KGpgTransactionPrivate::slotReadReady()
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 
 		static const QString getBool = QLatin1String("[GNUPG:] GET_BOOL ");
-
-		if (line.startsWith(QLatin1String("[GNUPG:] USERID_HINT "))) {
+		if (m_parent->keyConsidered(line, QStringList())) {
+			// already handled by keyConsidered - skip the line
+		} else if (line.startsWith(QLatin1String("[GNUPG:] USERID_HINT "))) {
 			m_parent->addIdHint(line);
 		} else if (line.startsWith(QLatin1String("[GNUPG:] BAD_PASSPHRASE "))) {
 			// the MISSING_PASSPHRASE line comes first, in that case ignore a

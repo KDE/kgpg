@@ -35,7 +35,6 @@ public:
 
 protected:
 	bool preStart() override;
-	bool nextLine(const QString &line) override;
 };
 
 #endif // KGPGCHANGEDISABLE_H
