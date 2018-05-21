@@ -14,6 +14,7 @@ function(create_test name)
 endfunction()
 
 create_test(kgpg-import kgpgimport.h kgpgimport.cpp)
+create_test(kgpg-verify kgpgverify.h kgpgverify.cpp)
 
 set(GpgConf .gnupg/gpg.conf)
 set(KgpgConf kgpgrc)
