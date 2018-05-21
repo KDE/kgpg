@@ -258,6 +258,7 @@ target_link_libraries(kgpg_lib
     Qt5::PrintSupport
 )
 
+add_subdirectory(tests)
 install(TARGETS kgpg  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
