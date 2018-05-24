@@ -16,6 +16,7 @@ endfunction()
 create_test(kgpg-import kgpgimport.h kgpgimport.cpp)
 create_test(kgpg-verify kgpgverify.h kgpgverify.cpp)
 create_test(kgpg-change-trust kgpgchangetrust.h kgpgchangetrust.cpp)
+create_test(kgpg-disable kgpgchangedisable.h kgpgchangedisable.cpp)
 
 set(GpgConf .gnupg/gpg.conf)
 set(KgpgConf kgpgrc)
