@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2011,2012,2013,2014,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013,2014,2016,2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -315,6 +315,12 @@ KGpgTransaction::askPassphrase(const QString &message)
 }
 
 void
+KGpgTransaction::setExpectedFingerprints(const QStringList &fingerprints)
+{
+	d->m_expectedFingerprints = fingerprints;
+}
+
+void
 KGpgTransaction::setGnuPGHome(const QString &home)
 {
 	QStringList tmp(d->m_process->program());
@@ -396,18 +402,4 @@ KGpgTransaction::kill()
 void
 KGpgTransaction::newPassphraseEntered()
 {
-}
-
-bool KGpgTransaction::keyConsidered(const QString& line, const QStringList &fingerprints)
-{
-	if (!line.startsWith(QLatin1String("[GNUPG:] KEY_CONSIDERED ")))
-		return false;
-
-	const QStringList &parts = line.split(QLatin1Char(' '), QString::SkipEmptyParts);
-	if (parts.count() < 3)
-		setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
-	else if (!fingerprints.contains(parts[2], Qt::CaseInsensitive))
-		setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
-
-	return true;
 }

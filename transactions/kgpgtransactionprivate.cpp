@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2010,2012,2014,2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2010,2012,2014,2016,2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -70,7 +70,7 @@ KGpgTransactionPrivate::slotReadReady()
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 
 		static const QString getBool = QLatin1String("[GNUPG:] GET_BOOL ");
-		if (m_parent->keyConsidered(line, QStringList())) {
+		if (keyConsidered(line)) {
 			// already handled by keyConsidered - skip the line
 		} else if (line.startsWith(QLatin1String("[GNUPG:] USERID_HINT "))) {
 			m_parent->addIdHint(line);
@@ -318,4 +318,19 @@ KGpgTransactionPrivate::processDone()
 #ifdef KGPG_DEBUG_TRANSACTIONS
 	qCDebug(KGPG_LOG_TRANSACTIONS) << this << "result:" << m_success;
 #endif /* KGPG_DEBUG_TRANSACTIONS */
+}
+
+bool KGpgTransactionPrivate::keyConsidered(const QString& line)
+{
+	if (!line.startsWith(QLatin1String("[GNUPG:] KEY_CONSIDERED ")))
+		return false;
+
+	const QStringList &parts = line.split(QLatin1Char(' '), QString::SkipEmptyParts);
+	if (parts.count() < 3)
+		m_parent->setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
+	else if (!m_expectedFingerprints.isEmpty() &&
+			!m_expectedFingerprints.contains(parts[2], Qt::CaseInsensitive))
+		m_parent->setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
+
+	return true;
 }
