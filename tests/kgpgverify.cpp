@@ -3,8 +3,10 @@
 #include "common.h"
 
 #include <QList>
-#include <QLatin1String>
+#include <QString>
 #include <QSignalSpy>
+#include <QtTest/QtTest>
+#include <QUrl>
 
 void KGpgVerifyTest::init()
 {
@@ -17,9 +19,9 @@ void KGpgVerifyTest::testVerifySignedText()
 	QString text = readFile(QLatin1String("keys/signed_text"));
 	KGpgVerify *transaction = new KGpgVerify(this, text);
 	QSignalSpy spy(transaction, &KGpgVerify::done);
-	transaction->start();
 	QObject::connect(transaction, &KGpgVerify::done,
 			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+	transaction->start();
 	QVERIFY(spy.wait());
 }
 
@@ -30,9 +32,9 @@ void KGpgVerifyTest::testVerifySignedFile()
 	list.append(QUrl::fromLocalFile(QLatin1String("keys/signed_text")));
 	KGpgVerify *transaction = new KGpgVerify(this, list);
 	QSignalSpy spy(transaction, &KGpgVerify::done);
-	transaction->start();
 	QObject::connect(transaction, &KGpgVerify::done,
 			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+	transaction->start();
 	QVERIFY(spy.wait());
 }
 
@@ -42,9 +44,9 @@ void KGpgVerifyTest::testVerifyReturnMissingKey()
 	list.append(QUrl::fromLocalFile(QLatin1String("keys/signed_text")));
 	KGpgVerify *transaction = new KGpgVerify(this, list);
 	QSignalSpy spy(transaction, &KGpgVerify::done);
-	transaction->start();
 	QObject::connect(transaction, &KGpgVerify::done,
 			 [](int result) { QCOMPARE(result, KGpgVerify::TS_MISSING_KEY); });
+	transaction->start();
 	QVERIFY(spy.wait());
 }
 
@@ -54,11 +56,11 @@ void KGpgVerifyTest::testVerifyMissingId()
 	list.append(QUrl::fromLocalFile(QLatin1String("keys/signed_text")));
 	KGpgVerify *transaction = new KGpgVerify(this, list);
 	QSignalSpy spy(transaction, &KGpgVerify::done);
-	transaction->start();
 	QObject::connect(transaction, &KGpgVerify::done, [transaction]() {
 		QString keyID = QLatin1String("7882C615210F1022");
 		QVERIFY(transaction->missingId().compare(keyID) == 0);
 	});
+	transaction->start();
 	QVERIFY(spy.wait());
 }
 
@@ -69,9 +71,9 @@ void KGpgVerifyTest::testVerifyReturnBadSignature()
 	list.append(QUrl::fromLocalFile(QLatin1String("keys/signed_bad_sig")));
 	KGpgVerify *transaction = new KGpgVerify(this, list);
 	QSignalSpy spy(transaction, &KGpgVerify::done);
-	transaction->start();
 	QObject::connect(transaction, &KGpgVerify::done,
 			 [](int result) { QCOMPARE(result, KGpgVerify::TS_BAD_SIGNATURE); });
+	transaction->start();
 	QVERIFY(spy.wait());
 }
 

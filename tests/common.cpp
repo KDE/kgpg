@@ -1,14 +1,14 @@
 #include "common.h"
 #include "../kgpginterface.h"
 #include "../kgpgsettings.h"
+#include "../transactions/kgpgtransaction.h"
 
-#include <QDateTime>
+#include <gpgme.h>
 #include <QDir>
 #include <QFile>
 #include <QIODevice>
-#include <QLatin1String>
 #include <QProcess>
-#include <stdlib.h>
+#include <QString>
 
 bool resetGpgConf()
 {
@@ -18,8 +18,7 @@ bool resetGpgConf()
 	if (!QDir::current().mkdir(dot_gpg))
 		return false;
 	if (!QFile::setPermissions(QDir::currentPath() + QLatin1Char('/') + dot_gpg,
-				   QFileDevice::ReadOwner | QFileDevice::WriteOwner |
-					   QFileDevice::ExeOwner))
+				   QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner))
 		return false;
 	return QFile::copy(QLatin1String("gnupg/gpg.conf"), QLatin1String(".gnupg/gpg.conf"));
 }
@@ -27,8 +26,10 @@ bool resetGpgConf()
 QString readFile(const QString &filename)
 {
 	QFile file(filename);
-	file.open(QIODevice::ReadOnly);
-	return QLatin1String(file.readAll());
+	if (file.open(QIODevice::ReadOnly))
+		return QLatin1String(file.readAll());
+	else
+		return QString();
 }
 
 void addGpgKey(const QString &file, const QString &password)
@@ -60,7 +61,7 @@ void addGpgKey(const QString &file, const QString &password)
 	qDebug() << "Added Gpg key: " << file;
 }
 
-void addPasswordArguments(KGpgTransaction *transaction, QString passphrase)
+void addPasswordArguments(KGpgTransaction *transaction, const QString &passphrase)
 {
 	transaction->addArgument(QLatin1String("--batch"));
 	transaction->addArgument(QLatin1String("--passphrase"));

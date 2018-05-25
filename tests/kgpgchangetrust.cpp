@@ -3,8 +3,9 @@
 #include "../kgpginterface.h"
 #include "common.h"
 
-#include <QLatin1String>
+#include <QString>
 #include <QSignalSpy>
+#include <QtTest/QtTest>
 
 void KGpgChangeTrustTest::init()
 {
@@ -23,6 +24,7 @@ void KGpgChangeTrustTest::testChangeTrust()
 	transaction->start();
 	QVERIFY(spy.wait());
 	KgpgCore::KgpgKeyList keyList = KgpgInterface::readPublicKeys(QStringList(keyID));
+	QVERIFY(!keyList.isEmpty());
 	QCOMPARE(keyList.first().ownerTrust(), target_trust);
 }
 
@@ -35,5 +37,4 @@ void KGpgChangeTrustTest::testChangeTrust_data()
 	QTest::newRow("never") << GPGME_VALIDITY_NEVER;
 }
 
-// #include "kgpgchangetrust.moc"
 QTEST_MAIN(KGpgChangeTrustTest)

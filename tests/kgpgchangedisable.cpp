@@ -4,6 +4,7 @@
 #include "common.h"
 
 #include <QSignalSpy>
+#include <QtTest/QtTest>
 
 void KGpgChangeDisableTest::init()
 {
@@ -17,7 +18,6 @@ void KGpgChangeDisableTest::testDisableKey()
 	KGpgChangeDisable *transaction = new KGpgChangeDisable(this, keyID, true);
 	QSignalSpy spy(transaction, &KGpgChangeDisable::done);
 	QObject::connect(transaction, &KGpgChangeDisable::done, [](int result) {
-		// QEXPECT_FAIL("", "Test is broken. Possible bug!", Continue);
 		QCOMPARE(result, KGpgTransaction::TS_OK);
 	});
 	transaction->start();
@@ -35,7 +35,6 @@ void KGpgChangeDisableTest::testEnableKey()
 	transaction->start();
 	QVERIFY(spy.wait());
 	QObject::connect(transaction, &KGpgChangeDisable::done, [](int result) {
-		// QEXPECT_FAIL("", "Test is broken. Possible bug!", Continue);
 		QCOMPARE(result, KGpgTransaction::TS_OK);
 	});
 	transaction->setDisable(false);

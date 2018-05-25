@@ -1,7 +1,7 @@
 #ifndef KGPGIMPORT_TEST_H
 #define KGPGIMPORT_TEST_H
 
-#include <QtTest/QtTest>
+#include <QObject>
 
 class KGpgImportTest: public QObject
 {

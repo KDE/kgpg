@@ -1,4 +1,7 @@
-#include <QtTest/QtTest>
+#ifndef KGPGVERIFYTEST_H
+#define KGPGVERIFYTEST_H
+
+#include <QObject>
 
 class KGpgVerifyTest: public QObject
 {
@@ -11,3 +14,5 @@ private slots:
 	void testVerifyMissingId();
 	void testVerifyReturnBadSignature();
 };
+
+#endif // KGPGVERIFYTEST_H

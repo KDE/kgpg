@@ -1,12 +1,13 @@
 #ifndef COMMON_TEST_H
 #define COMMON_TEST_H
-#include "../transactions/kgpgtransaction.h"
 
-#include <gpgme.h>
 #include <QString>
+
+class KGpgTransaction;
 
 bool resetGpgConf();
 QString readFile(const QString& filename);
 void addGpgKey(const QString& file, const QString& password = QString());
-void addPasswordArguments(KGpgTransaction *transaction, QString passphrase);
+void addPasswordArguments(KGpgTransaction *transaction, const QString &passphrase);
+
 #endif
