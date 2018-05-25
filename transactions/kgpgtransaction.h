@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012,2013,2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -450,16 +450,12 @@ protected:
 	bool askPassphrase(const QString &message = QString());
 
 	/**
-	 * @brief handle if this a KEY_CONSIDERED line
-	 * @param line the line from GnuPG output
-	 * @param fingerprints the fingerprints of the expected keys
-	 * @returns if this is a KEY_CONSIDERED line
+	 * @brief set the fingerprints that are expected for this transaction
 	 *
-	 * In case this is a KEY_CONSIDERED line (i.e. the return value is true),
-	 * but either it was malformed or the given fingerprint does not match any
-	 * key in fingerprints, the success value will be set to TS_MSG_SEQUENCE.
+	 * This will skip any KEY_CONSIDERED messages from GnuPG that contain
+	 * any of the given fingerprints.
 	 */
-	bool keyConsidered(const QString &line, const QStringList &fingerprints);
+	void setExpectedFingerprints(const QStringList &fingerprints);
 };
 
 #endif // KGPGTRANSACTION_H

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2012,2016,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012,2016,2017,2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -35,6 +35,7 @@ KGpgDelKey::KGpgDelKey(QObject *parent, KGpgKeyNode *key)
 	, fingerprints(keyFingerprints(keys))
 {
 	setCmdLine();
+	setExpectedFingerprints(fingerprints);
 }
 
 KGpgDelKey::KGpgDelKey(QObject *parent, const KGpgKeyNode::List &keys)
@@ -43,6 +44,7 @@ KGpgDelKey::KGpgDelKey(QObject *parent, const KGpgKeyNode::List &keys)
 	, fingerprints(keyFingerprints(keys))
 {
 	setCmdLine();
+	setExpectedFingerprints(fingerprints);
 }
 
 KGpgDelKey::~KGpgDelKey()

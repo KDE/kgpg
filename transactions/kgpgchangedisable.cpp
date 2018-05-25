@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2012,2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -17,6 +17,7 @@ KGpgChangeDisable::KGpgChangeDisable(QObject *parent, const QString &keyid, cons
 	: KGpgEditKeyTransaction(parent, keyid, QString(), false)
 {
 	setDisable(disable);
+	setExpectedFingerprints( { keyid } );
 }
 
 KGpgChangeDisable::~KGpgChangeDisable()
