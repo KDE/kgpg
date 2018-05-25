@@ -19,6 +19,7 @@ create_test(kgpg-change-trust kgpgchangetrust.h kgpgchangetrust.cpp)
 create_test(kgpg-disable kgpgchangedisable.h kgpgchangedisable.cpp)
 create_test(kgpg-interface kgpginterface.h kgpginterface.cpp)
 create_test(kgpg-encrypt kgpgencrypt.h kgpgencrypt.cpp)
+create_test(kgpg-decrypt kgpgdecrypt.h kgpgdecrypt.cpp)
 
 set(GpgConf .gnupg/gpg.conf)
 set(KgpgConf kgpgrc)
