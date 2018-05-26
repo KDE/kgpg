@@ -19,7 +19,7 @@ class KLineBufferedProcess;
 class KLineBufferedProcessPrivate : public QObject
 {
 public:
-    KLineBufferedProcessPrivate(KLineBufferedProcess *parent);
+    explicit KLineBufferedProcessPrivate(KLineBufferedProcess *parent);
 
     void _k_receivedStdout();
     void _k_receivedStderr();
