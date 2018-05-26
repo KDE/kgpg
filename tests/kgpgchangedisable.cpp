@@ -18,7 +18,7 @@ void KGpgChangeDisableTest::testDisableKey()
 	KGpgChangeDisable *transaction = new KGpgChangeDisable(this, keyID, true);
 	QSignalSpy spy(transaction, &KGpgChangeDisable::done);
 	QObject::connect(transaction, &KGpgChangeDisable::done, [](int result) {
-		QCOMPARE(result, KGpgTransaction::TS_OK);
+		QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK));
 	});
 	transaction->start();
 	QVERIFY(spy.wait());
@@ -35,7 +35,7 @@ void KGpgChangeDisableTest::testEnableKey()
 	transaction->start();
 	QVERIFY(spy.wait());
 	QObject::connect(transaction, &KGpgChangeDisable::done, [](int result) {
-		QCOMPARE(result, KGpgTransaction::TS_OK);
+		QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK));
 	});
 	transaction->setDisable(false);
 	transaction->start();

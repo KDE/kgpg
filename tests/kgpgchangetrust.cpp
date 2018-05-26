@@ -20,7 +20,7 @@ void KGpgChangeTrustTest::testChangeTrust()
 	KGpgChangeTrust *transaction = new KGpgChangeTrust(this, keyID, target_trust);
 	QSignalSpy spy(transaction, &KGpgChangeTrust::done);
 	QObject::connect(transaction, &KGpgChangeTrust::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	transaction->start();
 	QVERIFY(spy.wait());
 	KgpgCore::KgpgKeyList keyList = KgpgInterface::readPublicKeys(QStringList(keyID));

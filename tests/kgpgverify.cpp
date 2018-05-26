@@ -20,7 +20,7 @@ void KGpgVerifyTest::testVerifySignedText()
 	KGpgVerify *transaction = new KGpgVerify(this, text);
 	QSignalSpy spy(transaction, &KGpgVerify::done);
 	QObject::connect(transaction, &KGpgVerify::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	transaction->start();
 	QVERIFY(spy.wait());
 }
@@ -33,7 +33,7 @@ void KGpgVerifyTest::testVerifySignedFile()
 	KGpgVerify *transaction = new KGpgVerify(this, list);
 	QSignalSpy spy(transaction, &KGpgVerify::done);
 	QObject::connect(transaction, &KGpgVerify::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	transaction->start();
 	QVERIFY(spy.wait());
 }
