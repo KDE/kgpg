@@ -3,6 +3,7 @@
 #include "common.h"
 
 #include <QSignalSpy>
+#include <QtTest>
 
 void KGpgInterfaceTest::init()
 {

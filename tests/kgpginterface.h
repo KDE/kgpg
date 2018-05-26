@@ -1,6 +1,7 @@
 #ifndef KGPG_INTERFACE_TEST_H
 #define KGPG_INTERFACE_TEST_H
-#include <QtTest>
+
+#include <QObject>
 
 class KGpgInterfaceTest: public QObject
 {
@@ -11,6 +12,5 @@ private slots:
 	void testReadSecretKeys();
 	void testReadEmptyKeyring();
 };
-
 
 #endif
