@@ -4,7 +4,7 @@
 #include "common.h"
 
 #include <QSignalSpy>
-#include <QtTest/QtTest>
+#include <QtTest>
 
 void KGpgChangeDisableTest::init()
 {

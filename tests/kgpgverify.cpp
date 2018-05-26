@@ -5,7 +5,7 @@
 #include <QList>
 #include <QString>
 #include <QSignalSpy>
-#include <QtTest/QtTest>
+#include <QtTest>
 #include <QUrl>
 
 void KGpgVerifyTest::init()

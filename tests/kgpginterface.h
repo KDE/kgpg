@@ -1,6 +1,6 @@
 #ifndef KGPG_INTERFACE_TEST_H
 #define KGPG_INTERFACE_TEST_H
-#include <QtTest/QtTest>
+#include <QtTest>
 
 class KGpgInterfaceTest: public QObject
 {
