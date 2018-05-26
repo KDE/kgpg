@@ -45,7 +45,7 @@ void KGpgVerifyTest::testVerifyReturnMissingKey()
 	KGpgVerify *transaction = new KGpgVerify(this, list);
 	QSignalSpy spy(transaction, &KGpgVerify::done);
 	QObject::connect(transaction, &KGpgVerify::done,
-			 [](int result) { QCOMPARE(result, KGpgVerify::TS_MISSING_KEY); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgVerify::TS_MISSING_KEY)); });
 	transaction->start();
 	QVERIFY(spy.wait());
 }
@@ -72,7 +72,7 @@ void KGpgVerifyTest::testVerifyReturnBadSignature()
 	KGpgVerify *transaction = new KGpgVerify(this, list);
 	QSignalSpy spy(transaction, &KGpgVerify::done);
 	QObject::connect(transaction, &KGpgVerify::done,
-			 [](int result) { QCOMPARE(result, KGpgVerify::TS_BAD_SIGNATURE); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgVerify::TS_BAD_SIGNATURE)); });
 	transaction->start();
 	QVERIFY(spy.wait());
 }
