@@ -18,7 +18,8 @@ bool resetGpgConf()
 	if (!QDir::current().mkdir(dot_gpg))
 		return false;
 	if (!QFile::setPermissions(QDir::currentPath() + QLatin1Char('/') + dot_gpg,
-				   QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner))
+				   QFileDevice::ReadOwner | QFileDevice::WriteOwner |
+					   QFileDevice::ExeOwner))
 		return false;
 	return QFile::copy(QLatin1String("gnupg/gpg.conf"), QLatin1String(".gnupg/gpg.conf"));
 }
@@ -68,4 +69,16 @@ void addPasswordArguments(KGpgTransaction *transaction, const QString &passphras
 	transaction->addArgument(passphrase);
 	transaction->addArgument(QLatin1String("--pinentry-mode"));
 	transaction->addArgument(QLatin1String("loopback"));
+}
+
+bool hasPhoto(QString id)
+{
+	QStringList args{ QLatin1String("--list-key"), id };
+	QString command = QLatin1String("gpg");
+	QProcess process;
+	process.start(command, args);
+	process.waitForFinished();
+	QString output = QLatin1String(process.readAllStandardOutput());
+	qDebug()<< output;
+	return output.contains(QLatin1String("image"));
 }

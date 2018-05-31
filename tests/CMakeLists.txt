@@ -21,6 +21,7 @@ create_test(kgpg-interface kgpginterface.h kgpginterface.cpp)
 create_test(kgpg-encrypt kgpgencrypt.h kgpgencrypt.cpp)
 create_test(kgpg-decrypt kgpgdecrypt.h kgpgdecrypt.cpp)
 create_test(kgpg-del-key kgpgdelkey.h kgpgdelkey.cpp)
+create_test(kgpg-add-photo kgpgaddphoto.h kgpgaddphoto.cpp)
 
 set(GpgConf .gnupg/gpg.conf)
 set(KgpgConf kgpgrc)
@@ -32,6 +33,7 @@ set(Keys
 	keys/signed_text
 	keys/encrypted_text.txt
 	keys/encrypted_text_hide_key_id.txt
+	keys/image.jpg
 )
 
 add_custom_target(test-data)

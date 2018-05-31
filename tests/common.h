@@ -9,5 +9,5 @@ bool resetGpgConf();
 QString readFile(const QString& filename);
 void addGpgKey(const QString& file, const QString& password = QString());
 void addPasswordArguments(KGpgTransaction *transaction, const QString &passphrase);
-
+bool hasPhoto(QString id);
 #endif
