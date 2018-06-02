@@ -1,0 +1,82 @@
+#include "kgpgexport.h"
+#include "../transactions/kgpgexport.h"
+#include "../kgpginterface.h"
+#include "common.h"
+
+#include <QSignalSpy>
+#include <QtTest>
+#include <QTemporaryFile>
+
+void KGpgExportTest::init()
+{
+	QVERIFY(resetGpgConf());
+}
+
+void KGpgExportTest::testExportPublicKeyToFile()
+{
+	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+	QTemporaryFile file("key_pub.asc");
+	QVERIFY(file.open());
+	QString filename = file.fileName();
+
+	QStringList ids(QLatin1String("BA7695F3C550DF14"));
+	// Output in Ascii mode
+	QStringList options(QLatin1String("--armor"));
+	KGpgExport *transaction = new KGpgExport(this, ids, filename, options, false);
+	QSignalSpy spy(transaction, &KGpgExport::done);
+	QObject::connect(transaction, &KGpgExport::done,
+			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+	transaction->start();
+	QVERIFY(spy.wait());
+	QString exportedKey = readFile(filename);
+	QString key = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+	QVERIFY(key.compare(exportedKey) == 0);
+}
+
+void KGpgExportTest::testExportSecretKeyToFile()
+{
+	QString passphrase = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
+	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"), passphrase);
+	QTemporaryFile file("key.asc");
+	QVERIFY(file.open());
+	QString filename = file.fileName();
+	QStringList ids(QLatin1String("BA7695F3C550DF14"));
+	// Output in Ascii mode
+	QStringList options(QLatin1String("--armor"));
+	KGpgExport *transaction = new KGpgExport(this, ids, filename, options, true);
+	addPasswordArguments(transaction, passphrase);
+	QSignalSpy spy(transaction, &KGpgExport::done);
+	QObject::connect(transaction, &KGpgExport::done,
+			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+	transaction->start();
+	QVERIFY(spy.wait());
+
+	//reset gpg home dir
+	QVERIFY(resetGpgConf());
+	//Import exported key
+	addGpgKey(filename, passphrase);
+	KgpgCore::KgpgKeyList keys = KgpgInterface::readSecretKeys();
+	QString keyID = QLatin1String("BA7695F3C550DF14");
+	QCOMPARE(keys.size(), 1);
+	QVERIFY(keys.first().fullId().compare(keyID) == 0);
+}
+
+void KGpgExportTest::testExportPublicKeyToStdOutput()
+{
+	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+
+	QStringList ids(QLatin1String("BA7695F3C550DF14"));
+	// Output in Ascii mode
+	QStringList options(QLatin1String("--armor"));
+	KGpgExport *transaction = new KGpgExport(this, ids, options, false);
+	QSignalSpy spy(transaction, &KGpgExport::done);
+	QObject::connect(transaction, &KGpgExport::done,
+			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+	transaction->start();
+	QVERIFY(spy.wait());
+	QString exportedKey = QLatin1String(transaction->getOutputData());
+	QString key = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+	QVERIFY(key.compare(exportedKey) == 0);
+}
+
+QTEST_MAIN(KGpgExportTest)
