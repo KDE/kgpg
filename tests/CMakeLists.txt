@@ -22,6 +22,7 @@ create_test(kgpg-encrypt kgpgencrypt.h kgpgencrypt.cpp)
 create_test(kgpg-decrypt kgpgdecrypt.h kgpgdecrypt.cpp)
 create_test(kgpg-del-key kgpgdelkey.h kgpgdelkey.cpp)
 create_test(kgpg-add-photo kgpgaddphoto.h kgpgaddphoto.cpp)
+create_test(kgpg-add-uid kgpgadduid.h kgpgadduid.cpp)
 
 set(GpgConf .gnupg/gpg.conf)
 set(KgpgConf kgpgrc)
