@@ -64,11 +64,13 @@ void addGpgKey(const QString &file, const QString &password)
 
 void addPasswordArguments(KGpgTransaction *transaction, const QString &passphrase)
 {
-	transaction->addArgument(QLatin1String("--batch"));
-	transaction->addArgument(QLatin1String("--passphrase"));
-	transaction->addArgument(passphrase);
-	transaction->addArgument(QLatin1String("--pinentry-mode"));
-	transaction->addArgument(QLatin1String("loopback"));
+	QStringList args;
+	args.push_back(QLatin1String("--batch"));
+	args.push_back(QLatin1String("--passphrase"));
+	args.push_back(passphrase);
+	args.push_back(QLatin1String("--pinentry-mode"));
+	args.push_back(QLatin1String("loopback"));
+	transaction->insertArguments(1, args);
 }
 
 bool hasPhoto(QString id)
