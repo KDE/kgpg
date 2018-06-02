@@ -169,7 +169,19 @@ public:
 	 * constructor.
 	 */
 	int addArgument(const QString &arg);
-	
+	/**
+	 * @brief insert an argument at the given position
+	 * @param pos position to insert at
+	 * @param arg new argument
+	 */
+	void insertArgument(const int pos, const QString &arg);
+	/**
+	 * @brief insert arguments at the given position
+	 * @param pos position to insert at
+	 * @param args new arguments
+	 */
+	void insertArguments(const int pos, const QStringList &args);
+
 signals:
 	/**
 	 * @brief Emitted when the operation was completed.
@@ -398,18 +410,6 @@ protected:
 	 * @param arg new argument
 	 */
 	void replaceArgument(const int pos, const QString &arg);
-	/**
-	 * @brief insert an argument at the given position
-	 * @param pos position to insert at
-	 * @param arg new argument
-	 */
-	void insertArgument(const int pos, const QString &arg);
-	/**
-	 * @brief insert arguments at the given position
-	 * @param pos position to insert at
-	 * @param args new arguments
-	 */
-	void insertArguments(const int pos, const QStringList &args);
 	/**
 	 * @brief make sure the reference to a specific argument is kept up to date
 	 * @param ref the value where the position is stored
