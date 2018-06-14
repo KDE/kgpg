@@ -33,10 +33,15 @@ QString readFile(const QString &filename)
 		return QString();
 }
 
+static QStringList configArguments()
+{
+	const QString conf = QLatin1String(".gnupg/gpg.conf");
+	const QString gpgHome = QLatin1String(".gnupg");
+	return { QLatin1String("--options"), conf, QLatin1String("--homedir"), gpgHome };
+}
+
 void addGpgKey(const QString &file, const QString &password)
 {
-	QString conf = QLatin1String(".gnupg/gpg.conf");
-	QString gpgHome = QLatin1String(".gnupg");
 	QString command = QLatin1String("gpg");
 	QStringList args;
 	args.push_back(QLatin1String("--no-secmem-warning"));
@@ -46,10 +51,7 @@ void addGpgKey(const QString &file, const QString &password)
 		args.push_back(QLatin1String("--passphrase"));
 		args.push_back(password);
 	}
-	args.push_back(QLatin1String("--options"));
-	args.push_back(conf);
-	args.push_back(QLatin1String("--homedir"));
-	args.push_back(gpgHome);
+	args << configArguments();
 	args.push_back(QLatin1String("--debug-level"));
 	args.push_back(QLatin1String("none"));
 	args.push_back(QLatin1String("--status-fd=1"));
@@ -75,10 +77,10 @@ void addPasswordArguments(KGpgTransaction *transaction, const QString &passphras
 
 bool hasPhoto(QString id)
 {
-	QStringList args{ QLatin1String("--list-key"), id };
+	QStringList args{ QLatin1String("--list-keys"), id };
 	QString command = QLatin1String("gpg");
 	QProcess process;
-	process.start(command, args);
+	process.start(command, configArguments() << args);
 	process.waitForFinished();
 	QString output = QLatin1String(process.readAllStandardOutput());
 	qDebug()<< output;
