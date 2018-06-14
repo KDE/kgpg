@@ -37,18 +37,25 @@ KGpgAddPhoto::nextLine(const QString &line)
 	} else if (line.endsWith(QLatin1String("photoid.jpeg.add"))) {
 		write(m_photourl.toUtf8());
 		setSuccess(TS_OK);
-	} else if (line.contains(QLatin1String( "photoid.jpeg.size" ))) {
-		if (KMessageBox::questionYesNo(0, i18n("This image is very large. Use it anyway?"), QString(), KGuiItem(i18n("Use Anyway")), KGuiItem(i18n("Do Not Use"))) == KMessageBox::Yes) {
-			write("YES");
-		} else {
-			setSuccess(TS_USER_ABORTED);
-			return true;
-		}
 	} else {
 		return KGpgEditKeyTransaction::nextLine(line);
 	}
 
 	return false;
+}
+
+KGpgTransaction::ts_boolanswer KGpgAddPhoto::boolQuestion(const QString &line)
+{
+	if (line == QLatin1String("photoid.jpeg.size")) {
+		if (KMessageBox::questionYesNo(0, i18n("This image is very large. Use it anyway?"), QString(), KGuiItem(i18n("Use Anyway")), KGuiItem(i18n("Do Not Use"))) == KMessageBox::Yes) {
+			return BA_YES;
+		} else {
+			setSuccess(TS_USER_ABORTED);
+			return BA_NO;
+		}
+	}
+
+	return BA_UNKNOWN;
 }
 
 void
