@@ -32,6 +32,7 @@ public:
 
 protected:
 	bool nextLine(const QString &line) override;
+	KGpgTransaction::ts_boolanswer boolQuestion(const QString &line) override;
 
 private:
 	QString m_photourl;
