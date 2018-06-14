@@ -28,7 +28,7 @@ void KGpgEncryptTest::testAsciiArmoredEncryption()
 		this, userIds, text,
 		KGpgEncrypt::AsciiArmored | KGpgEncrypt::AllowUntrustedEncryption);
 	QObject::connect(encryption, &KGpgEncrypt::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy(encryption, &KGpgEncrypt::done);
 	encryption->start();
 	QVERIFY(spy.wait());
@@ -43,7 +43,7 @@ void KGpgEncryptTest::testAsciiArmoredEncryption()
 	//Decrypt encrypted text
 	KGpgDecrypt *decryption = new KGpgDecrypt(this, encryptedText);
 	QObject::connect(decryption, &KGpgDecrypt::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy2(decryption, &KGpgDecrypt::done);
 	addPasswordArguments(decryption, passphrase);
 	decryption->start();
@@ -68,7 +68,7 @@ void KGpgEncryptTest::testHideKeyIdEncryption()
 				KGpgEncrypt::AsciiArmored | KGpgEncrypt::HideKeyId |
 					KGpgEncrypt::AllowUntrustedEncryption);
 	QObject::connect(encryption, &KGpgEncrypt::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy(encryption, &KGpgEncrypt::done);
 	encryption->start();
 	QVERIFY(spy.wait());
@@ -87,7 +87,7 @@ void KGpgEncryptTest::testHideKeyIdEncryption()
 	//Decrypt encrypted text
 	KGpgDecrypt *decryption = new KGpgDecrypt(this, encryptedText);
 	QObject::connect(decryption, &KGpgDecrypt::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy2(decryption, &KGpgDecrypt::done);
 	addPasswordArguments(decryption, passphrase);
 	decryption->start();
@@ -108,7 +108,7 @@ void KGpgEncryptTest::testSymmetricEncryption()
 		this, userIds, text,
 		KGpgEncrypt::AsciiArmored | KGpgEncrypt::AllowUntrustedEncryption);
 	QObject::connect(encryption, &KGpgEncrypt::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy(encryption, &KGpgEncrypt::done);
 	addPasswordArguments(encryption, passphrase);
 	encryption->start();
@@ -124,7 +124,7 @@ void KGpgEncryptTest::testSymmetricEncryption()
 	//Decrypt encrypted text
 	KGpgDecrypt *decryption = new KGpgDecrypt(this, encryptedText);
 	QObject::connect(decryption, &KGpgDecrypt::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy2(decryption, &KGpgDecrypt::done);
 	addPasswordArguments(decryption, passphrase);
 	decryption->start();

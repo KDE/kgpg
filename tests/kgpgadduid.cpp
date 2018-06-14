@@ -26,7 +26,7 @@ void KGpgAddUidTest::testAddUid()
 	KGpgAddUid *transaction = new KGpgAddUid(this, keyId, name, email, comment);
 	addPasswordArguments(transaction, passphrase);
 	QObject::connect(transaction, &KGpgAddUid::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy(transaction, &KGpgAddUid::done);
 	transaction->start();
 	QVERIFY(spy.wait());

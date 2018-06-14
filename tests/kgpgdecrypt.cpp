@@ -19,7 +19,7 @@ void KGpgDecryptTest::testDecrypt(){
 	QString encryptedText = readFile(encryptedFile);
 	KGpgDecrypt *transaction = new KGpgDecrypt(this, encryptedText);
 	QObject::connect(transaction, &KGpgDecrypt::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy(transaction, &KGpgDecrypt::done);
 	addPasswordArguments(transaction, passphrase);
 	transaction->start();

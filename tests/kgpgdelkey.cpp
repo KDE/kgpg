@@ -26,7 +26,7 @@ void KGpgDelKeyTest::testDeleteKey()
 	QVERIFY(keyNode != nullptr);
 	KGpgDelKey *transaction = new KGpgDelKey(this, keyNode);
 	QObject::connect(transaction, &KGpgDelKey::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy(transaction, &KGpgDelKey::done);
 	transaction->addArgument("--yes");
 	transaction->start();

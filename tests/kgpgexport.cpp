@@ -25,7 +25,7 @@ void KGpgExportTest::testExportPublicKeyToFile()
 	KGpgExport *transaction = new KGpgExport(this, ids, filename, options, false);
 	QSignalSpy spy(transaction, &KGpgExport::done);
 	QObject::connect(transaction, &KGpgExport::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	transaction->start();
 	QVERIFY(spy.wait());
 	QString exportedKey = readFile(filename);
@@ -47,7 +47,7 @@ void KGpgExportTest::testExportSecretKeyToFile()
 	addPasswordArguments(transaction, passphrase);
 	QSignalSpy spy(transaction, &KGpgExport::done);
 	QObject::connect(transaction, &KGpgExport::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	transaction->start();
 	QVERIFY(spy.wait());
 
@@ -71,7 +71,7 @@ void KGpgExportTest::testExportPublicKeyToStdOutput()
 	KGpgExport *transaction = new KGpgExport(this, ids, options, false);
 	QSignalSpy spy(transaction, &KGpgExport::done);
 	QObject::connect(transaction, &KGpgExport::done,
-			 [](int result) { QCOMPARE(result, KGpgTransaction::TS_OK); });
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	transaction->start();
 	QVERIFY(spy.wait());
 	QString exportedKey = QLatin1String(transaction->getOutputData());
