@@ -8,6 +8,7 @@ class KGpgAddUidTest : public QObject {
 private slots:
 	void init();
 	void testAddUid();
+	void testAddUidInvalid();
 };
 
 #endif

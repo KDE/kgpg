@@ -12,13 +12,14 @@
 void KGpgAddUidTest::init()
 {
 	QVERIFY(resetGpgConf());
+	QString passphrase = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
+	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"), passphrase);
 }
 
 void KGpgAddUidTest::testAddUid()
 {
 	QString passphrase = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"), passphrase);
 	QString keyId = QLatin1String("BA7695F3C550DF14");
 	QString name = QLatin1String("Test name");
 	QString email = QLatin1String("test@kde.org");
@@ -37,6 +38,26 @@ void KGpgAddUidTest::testAddUid()
 	QCOMPARE(key.email(), email);
 	QCOMPARE(key.comment(), comment);
 	QCOMPARE(key.fullId(), keyId);
+}
+
+void KGpgAddUidTest::testAddUidInvalid()
+{
+	QString passphrase = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
+	QString keyId = QLatin1String("BA7695F3C550DF14");
+	QString name = QLatin1String("Test name");
+	QString email = QLatin1String("a b"); // intentionally invalid
+	QString comment = QLatin1String("Test comment");
+	KGpgAddUid *transaction = new KGpgAddUid(this, keyId, name, email, comment);
+	QObject::connect(transaction, &KGpgAddUid::done,
+			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgAddUid::TS_INVALID_EMAIL)); });
+	QSignalSpy spy(transaction, &KGpgAddUid::done);
+	transaction->start();
+
+	// for whatever reason spy.wait() does not work here
+	int i = 0;
+	while (spy.isEmpty() && i++ < 50)
+		QTest::qWait(250);
+	QCOMPARE(spy.count(), 1);
 }
 
 QTEST_MAIN(KGpgAddUidTest)
