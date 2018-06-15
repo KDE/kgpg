@@ -29,15 +29,6 @@ static QStringList keyFingerprints(const KGpgKeyNode::List &keys)
 	return ret;
 }
 
-KGpgDelKey::KGpgDelKey(QObject *parent, KGpgKeyNode *key)
-	: KGpgTransaction(parent)
-	, keys({key})
-	, fingerprints(keyFingerprints(keys))
-{
-	setCmdLine();
-	setExpectedFingerprints(fingerprints);
-}
-
 KGpgDelKey::KGpgDelKey(QObject *parent, const KGpgKeyNode::List &keys)
 	: KGpgTransaction(parent)
 	, keys(keys)

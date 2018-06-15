@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -29,7 +29,8 @@ class KGpgDelKey: public KGpgTransaction {
 	Q_DISABLE_COPY(KGpgDelKey)
 	KGpgDelKey() = delete;
 public:
-	KGpgDelKey(QObject *parent, KGpgKeyNode *key);
+	inline KGpgDelKey(QObject *parent, KGpgKeyNode *key)
+		: KGpgDelKey(parent, KGpgKeyNode::List({key})) {}
 	KGpgDelKey(QObject *parent, const KGpgKeyNode::List &keys);
 	virtual ~KGpgDelKey();
 
