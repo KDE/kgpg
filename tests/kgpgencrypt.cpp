@@ -1,10 +1,11 @@
-#include "common.h"
 #include "kgpgencrypt.h"
+
+#include "common.h"
 #include "../transactions/kgpgencrypt.h"
 #include "../transactions/kgpgdecrypt.h"
 
-#include <QLatin1String>
 #include <QLatin1Char>
+#include <QLatin1String>
 #include <QSignalSpy>
 #include <QStringList>
 #include <QtTest>
