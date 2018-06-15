@@ -18,6 +18,7 @@ void KGpgImportTest::init()
 void KGpgImportTest::testImportTextKey()
 {
 	QString key = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+	QVERIFY(KGpgImport::isKey(key));
 	KGpgImport *transaction = new KGpgImport(this, key);
 	QSignalSpy spy(transaction, &KGpgImport::done);
 	QObject::connect(transaction, &KGpgImport::done, [transaction, key](int result) {

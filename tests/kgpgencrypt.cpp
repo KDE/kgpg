@@ -40,6 +40,11 @@ void KGpgEncryptTest::testAsciiArmoredEncryption()
 	QVERIFY(encryptedText.endsWith(QLatin1String("-----END PGP MESSAGE-----")));
 	//Test if encrypted text contains "KGpg"
 	QVERIFY(!encryptedText.contains(QLatin1String("KGpg")));
+	// check that the helper function also thinks it's encrypted
+	QVERIFY(KGpgDecrypt::isEncryptedText(encryptedText, nullptr, nullptr));
+	int startPos = -1;
+	QVERIFY(KGpgDecrypt::isEncryptedText(encryptedText, &startPos, nullptr));
+	QCOMPARE(startPos, 0);
 
 	//Decrypt encrypted text
 	KGpgDecrypt *decryption = new KGpgDecrypt(this, encryptedText);

@@ -21,10 +21,11 @@ void KGpgAddUidTest::testAddUid()
 {
 	QString passphrase = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
 	QString keyId = QLatin1String("BA7695F3C550DF14");
-	QString name = QLatin1String("Test name");
-	QString email = QLatin1String("test@kde.org");
-	QString comment = QLatin1String("Test comment");
-	KGpgAddUid *transaction = new KGpgAddUid(this, keyId, name, email, comment);
+
+	QFETCH(QString, uid_name);
+	QFETCH(QString, uid_email);
+	QFETCH(QString, uid_comment);
+	KGpgAddUid *transaction = new KGpgAddUid(this, keyId, uid_name, uid_email, uid_comment);
 	addPasswordArguments(transaction, passphrase);
 	QObject::connect(transaction, &KGpgAddUid::done,
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
@@ -34,10 +35,25 @@ void KGpgAddUidTest::testAddUid()
 	KgpgCore::KgpgKeyList keyList = KgpgInterface::readPublicKeys();
 	QCOMPARE(keyList.size(), 1);
 	KgpgCore::KgpgKey key = keyList.first();
-	QCOMPARE(key.name(), name);
-	QCOMPARE(key.email(), email);
-	QCOMPARE(key.comment(), comment);
+	QCOMPARE(key.name(), uid_name);
+	QCOMPARE(key.email(), uid_email);
+	QCOMPARE(key.comment(), uid_comment);
 	QCOMPARE(key.fullId(), keyId);
+}
+
+void KGpgAddUidTest::testAddUid_data()
+{
+	QTest::addColumn<QString>("uid_name");
+	QTest::addColumn<QString>("uid_email");
+	QTest::addColumn<QString>("uid_comment");
+
+	QTest::newRow("all fields") << QString(QLatin1String("Test name"))
+			<< QString(QLatin1String("test@kde.org"))
+			<< QString(QLatin1String("Test comment"));
+	QTest::newRow("only name") << QString(QLatin1String("Test name 2"))
+			<< QString() << QString();
+	QTest::newRow("name and comment") << QString(QLatin1String("Test name 2"))
+			<< QString() << QString(QLatin1String("another comment"));
 }
 
 void KGpgAddUidTest::testAddUidInvalid()
