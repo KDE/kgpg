@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009,2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2009,2012,2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -19,10 +19,11 @@ KGpgEditKeyTransaction::KGpgEditKeyTransaction(QObject *parent, const QString &k
 	m_autosave(autoSave),
 	m_keyid(keyid)
 {
-	addArgument(QLatin1String( "--status-fd=1" ));
-	addArgument(QLatin1String( "--command-fd=0" ));
-	addArgument(QLatin1String( "--edit-key" ));
-	addArgument(keyid);
+	addArguments( { QLatin1String("--status-fd=1"),
+			QLatin1String("--command-fd=0"),
+			QLatin1String("--edit-key"),
+			keyid
+			} );
 
 	m_cmdpos = addArgument(command);
 	addArgumentRef(&m_cmdpos);

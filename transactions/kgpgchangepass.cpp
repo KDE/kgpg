@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2011,2012,2013,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013,2017,2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -19,11 +19,12 @@ KGpgChangePass::KGpgChangePass(QObject *parent, const QString &keyid)
 	: KGpgTransaction(parent),
 	m_seenold(false)
 {
-	addArgument(QLatin1String( "--status-fd=1" ));
-	addArgument(QLatin1String( "--command-fd=0" ));
-	addArgument(QLatin1String( "--edit-key" ));
-	addArgument(keyid);
-	addArgument(QLatin1String( "passwd" ));
+	addArguments( { QLatin1String("--status-fd=1"),
+			QLatin1String("--command-fd=0"),
+			QLatin1String("--edit-key"),
+			keyid,
+			QLatin1String("passwd")
+			} );
 }
 
 KGpgChangePass::~KGpgChangePass()

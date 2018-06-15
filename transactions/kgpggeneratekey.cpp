@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008,2009,2010,2011,2012,2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+ * Copyright (C) 2008,2009,2010,2011,2012,2013,2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
  */
 
 /***************************************************************************
@@ -35,11 +35,12 @@ KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QSt
 	Q_ASSERT((expireunit == 'd') || (expireunit == 'w') ||
 			(expireunit == 'm') || (expireunit == 'y'));
 
-	addArgument(QLatin1String("--status-fd=1"));
-	addArgument(QLatin1String("--command-fd=0"));
-	addArgument(QLatin1String("--no-verbose"));
-	addArgument(QLatin1String("--gen-key"));
-	addArgument(QLatin1String("--batch"));
+	addArguments( { QLatin1String("--status-fd=1"),
+			QLatin1String("--command-fd=0"),
+			QLatin1String("--no-verbose"),
+			QLatin1String("--gen-key"),
+			QLatin1String("--batch")
+			} );
 
 	getProcess()->setOutputChannelMode(KProcess::SeparateChannels);
 }

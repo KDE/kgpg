@@ -79,9 +79,10 @@ KGpgDelKey::preStart()
 void
 KGpgDelKey::setCmdLine()
 {
-	addArgument(QLatin1String( "--status-fd=1" ));
-	addArgument(QLatin1String( "--command-fd=0" ));
-	addArgument(QLatin1String( "--delete-secret-and-public-key" ));
+	addArguments( { QLatin1String("--status-fd=1"),
+			QLatin1String("--command-fd=0"),
+			QLatin1String("--delete-secret-and-public-key")
+			});
 
 	m_argscount = getProcess()->program().count();
 }
