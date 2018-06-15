@@ -397,13 +397,13 @@ protected:
 	/**
 	 * @brief add command line arguments to gpg process
 	 * @param args new arguments
-	 * @returns the position of the first argument added
 	 *
 	 * This is a convenience function that allows adding additional
 	 * arguments to the command line of the process. This must be called
 	 * before start() is called.
 	 */
-	int addArguments(const QStringList &args);
+	void addArguments(const QStringList &args);
+
 	/**
 	 * @brief replace the argument at the given position
 	 * @param pos position of old argument

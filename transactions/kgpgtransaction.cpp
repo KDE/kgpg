@@ -223,14 +223,10 @@ KGpgTransaction::addArgument(const QString &arg)
 	return r;
 }
 
-int
+void
 KGpgTransaction::addArguments(const QStringList &args)
 {
-	int r = d->m_process->program().count();
-
 	*d->m_process << args;
-
-	return r;
 }
 
 void
