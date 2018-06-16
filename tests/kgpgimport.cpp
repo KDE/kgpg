@@ -12,7 +12,7 @@
 
 void KGpgImportTest::init()
 {
-	QVERIFY(resetGpgConf());
+	QVERIFY(resetGpgConf(m_tempdir));
 }
 
 void KGpgImportTest::testImportTextKey()
@@ -88,7 +88,7 @@ void KGpgImportTest::testImportIdsAll()
 
 void KGpgImportTest::testImportIdsUnchanged()
 {
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
 	QList<QUrl> list;
 	list.append(QUrl::fromLocalFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc")));
 	KGpgImport *transaction = new KGpgImport(this, list);

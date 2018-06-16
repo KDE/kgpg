@@ -7,14 +7,14 @@
 
 void KGpgDecryptTest::init()
 {
-	QVERIFY(resetGpgConf());
+	QVERIFY(resetGpgConf(m_tempdir));
 }
 
 void KGpgDecryptTest::testDecrypt(){
 	QFETCH(QString, encryptedFile);
 	QString passphrase = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"), passphrase);
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"), passphrase);
 	QString text = readFile(QLatin1String("keys/sample_text"));
 	QString encryptedText = readFile(encryptedFile);
 	KGpgDecrypt *transaction = new KGpgDecrypt(this, encryptedText);

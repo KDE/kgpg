@@ -10,12 +10,12 @@
 
 void KGpgVerifyTest::init()
 {
-	QVERIFY(resetGpgConf());
+	QVERIFY(resetGpgConf(m_tempdir));
 }
 
 void KGpgVerifyTest::testVerifySignedText()
 {
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"));
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"));
 	QString text = readFile(QLatin1String("keys/signed_text"));
 	KGpgVerify *transaction = new KGpgVerify(this, text);
 	QSignalSpy spy(transaction, &KGpgVerify::done);
@@ -27,7 +27,7 @@ void KGpgVerifyTest::testVerifySignedText()
 
 void KGpgVerifyTest::testVerifySignedFile()
 {
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"));
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"));
 	QList<QUrl> list;
 	list.append(QUrl::fromLocalFile(QLatin1String("keys/signed_text")));
 	KGpgVerify *transaction = new KGpgVerify(this, list);
@@ -67,7 +67,7 @@ void KGpgVerifyTest::testVerifyMissingId()
 void KGpgVerifyTest::testVerifyReturnBadSignature()
 {
 	QList<QUrl> list;
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"));
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"));
 	list.append(QUrl::fromLocalFile(QLatin1String("keys/signed_bad_sig")));
 	KGpgVerify *transaction = new KGpgVerify(this, list);
 	QSignalSpy spy(transaction, &KGpgVerify::done);

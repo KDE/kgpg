@@ -2,6 +2,7 @@
 #define KGPG_INTERFACE_TEST_H
 
 #include <QObject>
+#include <QTemporaryDir>
 
 class KGpgInterfaceTest: public QObject
 {
@@ -11,6 +12,9 @@ private slots:
 	void testReadPublicKeys();
 	void testReadSecretKeys();
 	void testReadEmptyKeyring();
+
+private:
+	QTemporaryDir m_tempdir;
 };
 
 #endif

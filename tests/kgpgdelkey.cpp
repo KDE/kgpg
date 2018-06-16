@@ -11,13 +11,13 @@
 
 void KGpgDelKeyTest::init()
 {
-	resetGpgConf();
+	resetGpgConf(m_tempdir);
 }
 
 void KGpgDelKeyTest::testDeleteKey()
 {
 	QFETCH(QString, passphrase);
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"), passphrase);
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"), passphrase);
 	QString keyId = QLatin1String("BA7695F3C550DF14");
 	KGpgItemModel *model = new KGpgItemModel(this);
 	KGpgRootNode *rootNode = new KGpgRootNode(model);

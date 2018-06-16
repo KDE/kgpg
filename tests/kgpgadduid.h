@@ -2,6 +2,7 @@
 #define KGPGADDUID_TEST_H
 
 #include <QObject>
+#include <QTemporaryDir>
 
 class KGpgAddUidTest : public QObject {
 	Q_OBJECT
@@ -11,6 +12,9 @@ private slots:
 	void testAddUid_data();
 
 	void testAddUidInvalid();
+
+private:
+	QTemporaryDir m_tempdir;
 };
 
 #endif

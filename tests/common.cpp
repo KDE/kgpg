@@ -9,19 +9,45 @@
 #include <QIODevice>
 #include <QProcess>
 #include <QString>
+#include <QTemporaryDir>
 
-bool resetGpgConf()
+bool resetGpgConf(QTemporaryDir &basedir)
 {
-	const QString dot_gpg(QLatin1String(".gnupg"));
-	QDir dir(dot_gpg);
-	dir.removeRecursively();
-	if (!QDir::current().mkdir(dot_gpg))
+	if (!basedir.isValid())
 		return false;
-	if (!QFile::setPermissions(QDir::currentPath() + QLatin1Char('/') + dot_gpg,
+
+	// export path from which kgpgsettings will pick up the kgpgrc
+	qputenv("XDG_CONFIG_HOME", basedir.path().toUtf8());
+
+	QFile kgpgconf(basedir.filePath(QLatin1String("kgpgrc")));
+	if (!kgpgconf.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
+		return false;
+
+	kgpgconf.write("[GPG Settings]\n"
+			"gpg_config_path[$e]=" + basedir.path().toUtf8() + "/.gnupg/gpg.conf\n"
+			"[General Options]\n"
+			"first run=false\n"
+			);
+	kgpgconf.close();
+
+	// (re)create the home directory for GnuPG
+	const QString dot_gpg(QLatin1String(".gnupg"));
+	QDir dir(basedir.path() + QLatin1String("/.gnupg"));
+	dir.removeRecursively();
+	if (!dir.mkpath(dir.path()))
+		return false;
+	if (!QFile::setPermissions(dir.path(),
 				   QFileDevice::ReadOwner | QFileDevice::WriteOwner |
 					   QFileDevice::ExeOwner))
 		return false;
-	return QFile::copy(QLatin1String("gnupg/gpg.conf"), QLatin1String(".gnupg/gpg.conf"));
+
+	QFile conf(dir.filePath(QLatin1String("gpg.conf")));
+	if (!conf.open(QIODevice::WriteOnly))
+		return false;
+
+	conf.write("keyserver  hkp://pool.sks-keyservers.net\n");
+
+	return true;
 }
 
 QString readFile(const QString &filename)
@@ -33,14 +59,14 @@ QString readFile(const QString &filename)
 		return QString();
 }
 
-static QStringList configArguments()
+static QStringList configArguments(const QTemporaryDir &dir)
 {
-	const QString conf = QLatin1String(".gnupg/gpg.conf");
-	const QString gpgHome = QLatin1String(".gnupg");
+	const QString conf = dir.filePath(QLatin1String(".gnupg/gpg.conf"));
+	const QString gpgHome = dir.filePath(QLatin1String(".gnupg"));
 	return { QLatin1String("--options"), conf, QLatin1String("--homedir"), gpgHome };
 }
 
-void addGpgKey(const QString &file, const QString &password)
+void addGpgKey(QTemporaryDir &dir, const QString &file, const QString &password)
 {
 	QString command = QLatin1String("gpg");
 	QStringList args;
@@ -51,7 +77,7 @@ void addGpgKey(const QString &file, const QString &password)
 		args.push_back(QLatin1String("--passphrase"));
 		args.push_back(password);
 	}
-	args << configArguments();
+	args << configArguments(dir);
 	args.push_back(QLatin1String("--debug-level"));
 	args.push_back(QLatin1String("none"));
 	args.push_back(QLatin1String("--status-fd=1"));
@@ -75,12 +101,12 @@ void addPasswordArguments(KGpgTransaction *transaction, const QString &passphras
 	transaction->insertArguments(1, args);
 }
 
-bool hasPhoto(QString id)
+bool hasPhoto(QTemporaryDir &dir, const QString &id)
 {
 	QStringList args{ QLatin1String("--list-keys"), id };
 	QString command = QLatin1String("gpg");
 	QProcess process;
-	process.start(command, configArguments() << args);
+	process.start(command, configArguments(dir) << args);
 	process.waitForFinished();
 	QString output = QLatin1String(process.readAllStandardOutput());
 	qDebug()<< output;

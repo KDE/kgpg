@@ -2,6 +2,7 @@
 #define KGPGVERIFYTEST_H
 
 #include <QObject>
+#include <QTemporaryDir>
 
 class KGpgVerifyTest: public QObject
 {
@@ -13,6 +14,9 @@ private slots:
 	void testVerifyReturnMissingKey();
 	void testVerifyMissingId();
 	void testVerifyReturnBadSignature();
+
+private:
+	QTemporaryDir m_tempdir;
 };
 
 #endif // KGPGVERIFYTEST_H

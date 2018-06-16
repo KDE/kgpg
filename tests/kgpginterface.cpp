@@ -7,12 +7,12 @@
 
 void KGpgInterfaceTest::init()
 {
-	QVERIFY(resetGpgConf());
+	QVERIFY(resetGpgConf(m_tempdir));
 }
 
 void KGpgInterfaceTest::testReadPublicKeys()
 {
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
 	KgpgCore::KgpgKeyList keys = KgpgInterface::readPublicKeys();
 	QString fingerprint = QLatin1String("FBAF 08DD 7D9D 0921 C15D DA9F BA76 95F3 C550 DF14");
 	QCOMPARE(keys.size(), 1);
@@ -22,7 +22,7 @@ void KGpgInterfaceTest::testReadPublicKeys()
 
 void KGpgInterfaceTest::testReadSecretKeys()
 {
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"),
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"),
 		  readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass")));
 	KgpgCore::KgpgKeyList keys = KgpgInterface::readSecretKeys();
 	QString keyID = QLatin1String("BA7695F3C550DF14");

@@ -4,10 +4,12 @@
 #include <QString>
 
 class KGpgTransaction;
+class QTemporaryDir;
 
-bool resetGpgConf();
+bool resetGpgConf(QTemporaryDir &basedir);
 QString readFile(const QString& filename);
-void addGpgKey(const QString& file, const QString& password = QString());
+void addGpgKey(QTemporaryDir &dir, const QString &file, const QString &password = QString());
 void addPasswordArguments(KGpgTransaction *transaction, const QString &passphrase);
-bool hasPhoto(QString id);
+bool hasPhoto(QTemporaryDir &dir, const QString &id);
+
 #endif

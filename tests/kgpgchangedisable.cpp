@@ -8,8 +8,8 @@
 
 void KGpgChangeDisableTest::init()
 {
-	QVERIFY(resetGpgConf());
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+	QVERIFY(resetGpgConf(m_tempdir));
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
 }
 
 void KGpgChangeDisableTest::testDisableKey()

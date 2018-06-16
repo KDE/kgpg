@@ -9,12 +9,12 @@
 
 void KGpgExportTest::init()
 {
-	QVERIFY(resetGpgConf());
+	QVERIFY(resetGpgConf(m_tempdir));
 }
 
 void KGpgExportTest::testExportPublicKeyToFile()
 {
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
 	QTemporaryFile file("key_pub.asc");
 	QVERIFY(file.open());
 	QString filename = file.fileName();
@@ -36,7 +36,7 @@ void KGpgExportTest::testExportPublicKeyToFile()
 void KGpgExportTest::testExportSecretKeyToFile()
 {
 	QString passphrase = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"), passphrase);
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"), passphrase);
 	QTemporaryFile file("key.asc");
 	QVERIFY(file.open());
 	QString filename = file.fileName();
@@ -52,9 +52,9 @@ void KGpgExportTest::testExportSecretKeyToFile()
 	QVERIFY(spy.wait());
 
 	//reset gpg home dir
-	QVERIFY(resetGpgConf());
+	QVERIFY(resetGpgConf(m_tempdir));
 	//Import exported key
-	addGpgKey(filename, passphrase);
+	addGpgKey(m_tempdir, filename, passphrase);
 	KgpgCore::KgpgKeyList keys = KgpgInterface::readSecretKeys();
 	QString keyID = QLatin1String("BA7695F3C550DF14");
 	QCOMPARE(keys.size(), 1);
@@ -63,7 +63,7 @@ void KGpgExportTest::testExportSecretKeyToFile()
 
 void KGpgExportTest::testExportPublicKeyToStdOutput()
 {
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
 
 	QStringList ids(QLatin1String("BA7695F3C550DF14"));
 	// Output in Ascii mode

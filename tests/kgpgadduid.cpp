@@ -11,15 +11,16 @@
 
 void KGpgAddUidTest::init()
 {
-	QVERIFY(resetGpgConf());
+	QVERIFY(resetGpgConf(m_tempdir));
 	QString passphrase = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
-	addGpgKey(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"), passphrase);
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
+	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"), passphrase);
 }
 
 void KGpgAddUidTest::testAddUid()
 {
 	QString passphrase = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
+
 	QString keyId = QLatin1String("BA7695F3C550DF14");
 
 	QFETCH(QString, uid_name);
@@ -59,6 +60,7 @@ void KGpgAddUidTest::testAddUid_data()
 void KGpgAddUidTest::testAddUidInvalid()
 {
 	QString passphrase = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
+
 	QString keyId = QLatin1String("BA7695F3C550DF14");
 	QString name = QLatin1String("Test name");
 	QString email = QLatin1String("a b"); // intentionally invalid

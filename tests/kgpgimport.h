@@ -2,6 +2,7 @@
 #define KGPGIMPORT_TEST_H
 
 #include <QObject>
+#include <QTemporaryDir>
 
 class KGpgImportTest: public QObject
 {
@@ -15,6 +16,9 @@ private slots:
 	void testImportSameKeyTwice();
 	void testLogMessage();
 	void testImportSecretKey();
+
+private:
+	QTemporaryDir m_tempdir;
 };
 
 #endif
