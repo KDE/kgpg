@@ -32,7 +32,7 @@ void KGpgEncryptTest::testAsciiArmoredEncryption()
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy(encryption, &KGpgEncrypt::done);
 	encryption->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 
 	QString encryptedText = encryption->encryptedText().join("\n");
 	//Check if the encrypted text has a header and footer
@@ -77,7 +77,7 @@ void KGpgEncryptTest::testHideKeyIdEncryption()
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy(encryption, &KGpgEncrypt::done);
 	encryption->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 	
 	QString encryptedText = encryption->encryptedText().join("\n");
 	//Check if the encrypted text has a header and footer
@@ -118,7 +118,7 @@ void KGpgEncryptTest::testSymmetricEncryption()
 	QSignalSpy spy(encryption, &KGpgEncrypt::done);
 	addPasswordArguments(encryption, passphrase);
 	encryption->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 	
 	QString encryptedText = encryption->encryptedText().join("\n");
 	//Check if the encrypted text has a header and footer

@@ -30,7 +30,7 @@ void KGpgDelKeyTest::testDeleteKey()
 	QSignalSpy spy(transaction, &KGpgDelKey::done);
 	transaction->addArgument("--yes");
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 	QCOMPARE(KgpgInterface::readSecretKeys().size(), 0);
 	QCOMPARE(KgpgInterface::readPublicKeys().size(), 0);
 }

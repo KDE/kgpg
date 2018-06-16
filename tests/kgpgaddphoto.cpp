@@ -22,7 +22,7 @@ void KGpgAddPhotoTest::testAddPhoto()
 	addPasswordArguments(transaction, passphrase);
 	QSignalSpy spy(transaction, &KGpgAddPhoto::done);
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 	QVERIFY(hasPhoto(m_tempdir, keyID));
 }
 

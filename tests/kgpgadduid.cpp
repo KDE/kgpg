@@ -32,7 +32,7 @@ void KGpgAddUidTest::testAddUid()
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy(transaction, &KGpgAddUid::done);
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 	KgpgCore::KgpgKeyList keyList = KgpgInterface::readPublicKeys();
 	QCOMPARE(keyList.size(), 1);
 	KgpgCore::KgpgKey key = keyList.first();

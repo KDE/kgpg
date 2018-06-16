@@ -27,7 +27,7 @@ void KGpgExportTest::testExportPublicKeyToFile()
 	QObject::connect(transaction, &KGpgExport::done,
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 	QString exportedKey = readFile(filename);
 	QString key = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
 	QVERIFY(key.compare(exportedKey) == 0);
@@ -49,7 +49,7 @@ void KGpgExportTest::testExportSecretKeyToFile()
 	QObject::connect(transaction, &KGpgExport::done,
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 
 	//reset gpg home dir
 	QVERIFY(resetGpgConf(m_tempdir));
@@ -73,7 +73,7 @@ void KGpgExportTest::testExportPublicKeyToStdOutput()
 	QObject::connect(transaction, &KGpgExport::done,
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 	QString exportedKey = QLatin1String(transaction->getOutputData());
 	QString key = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
 	QVERIFY(key.compare(exportedKey) == 0);

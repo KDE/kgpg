@@ -28,7 +28,7 @@ void KGpgImportTest::testImportTextKey()
 		QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK));
 	});
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 }
 
 void KGpgImportTest::testImportKeyFromFile()
@@ -45,7 +45,7 @@ void KGpgImportTest::testImportKeyFromFile()
 		QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK));
 	});
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 }
 
 void KGpgImportTest::testImportSameKeyTwice()
@@ -55,7 +55,7 @@ void KGpgImportTest::testImportSameKeyTwice()
 	KGpgImport *transaction = new KGpgImport(this, list);
 	QSignalSpy spy(transaction, &KGpgImport::done);
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 	QObject::connect(transaction, &KGpgImport::done, [transaction](int result) {
 		QCOMPARE(transaction->getImportedKeys().size(), 1);
 		QString keyID = QLatin1String("BA7695F3C550DF14");
@@ -67,7 +67,7 @@ void KGpgImportTest::testImportSameKeyTwice()
 		QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK));
 	});
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 }
 
 void KGpgImportTest::testImportIdsAll()
@@ -83,7 +83,7 @@ void KGpgImportTest::testImportIdsAll()
 		QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK));
 	});
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 }
 
 void KGpgImportTest::testImportIdsUnchanged()
@@ -100,7 +100,7 @@ void KGpgImportTest::testImportIdsUnchanged()
 		QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK));
 	});
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 }
 
 void KGpgImportTest::testLogMessage()
@@ -115,7 +115,7 @@ void KGpgImportTest::testLogMessage()
 		QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK));
 	});
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 }
 
 void KGpgImportTest::testImportSecretKey()
@@ -132,7 +132,7 @@ void KGpgImportTest::testImportSecretKey()
 		QVERIFY(transaction->getImportedKeys().first().startsWith(keyID));
 	});
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 }
 
 QTEST_MAIN(KGpgImportTest)

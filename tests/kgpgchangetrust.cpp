@@ -22,7 +22,7 @@ void KGpgChangeTrustTest::testChangeTrust()
 	QObject::connect(transaction, &KGpgChangeTrust::done,
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 	KgpgCore::KgpgKeyList keyList = KgpgInterface::readPublicKeys(QStringList(keyID));
 	QVERIFY(!keyList.isEmpty());
 	QCOMPARE(keyList.first().ownerTrust(), target_trust);

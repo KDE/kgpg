@@ -22,7 +22,7 @@ void KGpgVerifyTest::testVerifySignedText()
 	QObject::connect(transaction, &KGpgVerify::done,
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 }
 
 void KGpgVerifyTest::testVerifySignedFile()
@@ -35,7 +35,7 @@ void KGpgVerifyTest::testVerifySignedFile()
 	QObject::connect(transaction, &KGpgVerify::done,
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 }
 
 void KGpgVerifyTest::testVerifyReturnMissingKey()
@@ -47,7 +47,7 @@ void KGpgVerifyTest::testVerifyReturnMissingKey()
 	QObject::connect(transaction, &KGpgVerify::done,
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgVerify::TS_MISSING_KEY)); });
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 }
 
 void KGpgVerifyTest::testVerifyMissingId()
@@ -61,7 +61,7 @@ void KGpgVerifyTest::testVerifyMissingId()
 		QVERIFY(transaction->missingId().compare(keyID) == 0);
 	});
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 }
 
 void KGpgVerifyTest::testVerifyReturnBadSignature()
@@ -74,7 +74,7 @@ void KGpgVerifyTest::testVerifyReturnBadSignature()
 	QObject::connect(transaction, &KGpgVerify::done,
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgVerify::TS_BAD_SIGNATURE)); });
 	transaction->start();
-	QVERIFY(spy.wait());
+	QVERIFY(spy.wait(10000));
 }
 
 QTEST_MAIN(KGpgVerifyTest)
