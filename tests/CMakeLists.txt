@@ -1,11 +1,12 @@
 find_package(Qt5Test REQUIRED)
-set(test_LIBS kgpg_lib Qt5::Test)
 
-set(COMMON common.h common.cpp)
+add_library(kgpg_tests_common STATIC
+	common.h common.cpp)
+target_link_libraries(kgpg_tests_common kgpg_lib)
 
 function(create_test name)
-	add_executable(${name} ${ARGN} ${COMMON})
-	target_link_libraries(${name} ${test_LIBS})
+	add_executable(${name} ${ARGN})
+	target_link_libraries(${name} kgpg_lib kgpg_tests_common Qt5::Test)
 	add_test(NAME ${name} COMMAND ${name})
 	add_dependencies(${name} test-data)
 endfunction()
