@@ -46,7 +46,7 @@ public:
 	 */
 	KGpgDelSign(QObject *parent, KGpgSignNode *signid);
 
-	virtual ~KGpgDelSign();
+    ~KGpgDelSign() override;
 
 	/**
 	 * @brief set the ids to delete

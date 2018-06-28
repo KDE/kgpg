@@ -24,7 +24,7 @@ namespace KgpgCore
 
 static QString _describe_key_strength(KgpgKeyAlgo algorithm, const uint size, const QString &curve)
 {
-    const char *prefix = NULL;
+    const char *prefix = nullptr;
 
     if (curve.length() > 0)
         return curve;

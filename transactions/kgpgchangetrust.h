@@ -29,8 +29,8 @@ class KGpgChangeTrust: public KGpgEditKeyTransaction {
 
 	Q_DISABLE_COPY(KGpgChangeTrust)
 public:
-	KGpgChangeTrust(QObject *parent, const QString &keyid, const gpgme_validity_t trust);
-	virtual ~KGpgChangeTrust();
+    explicit KGpgChangeTrust(QObject *parent, const QString &keyid, const gpgme_validity_t trust);
+    ~KGpgChangeTrust() override;
 
 	void setTrust(const gpgme_validity_t trust);
 

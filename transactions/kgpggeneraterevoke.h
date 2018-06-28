@@ -41,7 +41,7 @@ public:
 	 * @param description text description for revokation
 	 */
 	KGpgGenerateRevoke(QObject *parent, const QString &keyID, const QUrl &revokeUrl, const int reason, const QString &description);
-	virtual ~KGpgGenerateRevoke();
+    ~KGpgGenerateRevoke() override;
 
 	/**
 	 * @brief returns the revokation certificate

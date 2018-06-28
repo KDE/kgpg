@@ -49,7 +49,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-	virtual ~KGpgImport();
+    ~KGpgImport() override;
 
 	/**
 	 * @brief get the names and short fingerprints of the imported keys

@@ -39,7 +39,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-	virtual ~KGpgPrimaryUid();
+    ~KGpgPrimaryUid() override;
 
 protected:
 	bool nextLine(const QString &line) override;

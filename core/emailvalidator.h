@@ -30,7 +30,7 @@ class EmailValidator : public QValidator
 {
 public:
     explicit EmailValidator(QObject *parent = nullptr) : QValidator(parent) { }
-    virtual QValidator::State validate(QString &input, int &pos) const;
+    QValidator::State validate(QString &input, int &pos) const override;
 };
 
 } // namespace KgpgCore

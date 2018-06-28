@@ -45,7 +45,7 @@ public:
 	 * everything properly
 	 */
 	KGpgKeyserverGetTransaction(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress = false, const QString &proxy = QString());
-	virtual ~KGpgKeyserverGetTransaction();
+    ~KGpgKeyserverGetTransaction() override;
 
 	void setKeyIds(const QStringList &keys);
 

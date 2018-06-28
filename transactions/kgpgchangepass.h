@@ -26,8 +26,8 @@ class KGpgChangePass: public KGpgTransaction {
 
 	Q_DISABLE_COPY(KGpgChangePass)
 public:
-	KGpgChangePass(QObject *parent, const QString &keyid);
-	virtual ~KGpgChangePass();
+    explicit KGpgChangePass(QObject *parent, const QString &keyid);
+    ~KGpgChangePass() override;
 
 protected:
 	bool nextLine(const QString &line) override;

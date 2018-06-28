@@ -109,7 +109,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     optionsbox->hide();
 
     if (m_hideasciioption)
-        m_cbarmor = 0;
+        m_cbarmor = nullptr;
     else
     {
         m_cbarmor = new QCheckBox(i18n("ASCII armored encryption"), optionsbox);
@@ -210,7 +210,7 @@ bool KgpgSelectPublicKeyDlg::getSymmetric() const
 
 QString KgpgSelectPublicKeyDlg::getCustomOptions() const
 {
-    if (m_customoptions == 0)
+    if (m_customoptions == nullptr)
         return QString();
     return m_customoptions->text().simplified();
 }

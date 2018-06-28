@@ -55,7 +55,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-	virtual ~KGpgVerify();
+    ~KGpgVerify() override;
 
 	/**
 	 * @brief get verification report

@@ -27,7 +27,7 @@ class KeyExport : public QDialog, public Ui_KeyExport
 	Q_OBJECT
 
 public:
-	explicit KeyExport(QWidget *parent = 0, const QStringList &keyservers = QStringList());
+    explicit KeyExport(QWidget *parent = nullptr, const QStringList &keyservers = QStringList());
 
 protected:
 	virtual void accept();

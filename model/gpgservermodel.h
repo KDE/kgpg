@@ -28,7 +28,7 @@ class GpgServerModel: public QStringListModel {
 	Q_OBJECT
 public:
 	explicit GpgServerModel(QObject *parent = nullptr);
-	virtual ~GpgServerModel();
+    ~GpgServerModel() override;
 
 	void setDefault(const QString &server);
 	void setDefault(const int index);
@@ -44,7 +44,7 @@ public:
 	 */
 	QString defaultServer() const;
 
-	virtual QVariant data(const QModelIndex &index, int role) const;
+    QVariant data(const QModelIndex &index, int role) const override;
 
 private slots:
 	void slotRowsRemoved(const QModelIndex &, int start, int end);

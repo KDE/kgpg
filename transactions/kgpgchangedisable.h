@@ -28,8 +28,8 @@ class KGpgChangeDisable: public KGpgEditKeyTransaction {
 	KGpgChangeDisable() = delete;
 
 public:
-	KGpgChangeDisable(QObject *parent, const QString &keyid, const bool disable);
-	virtual ~KGpgChangeDisable();
+    explicit KGpgChangeDisable(QObject *parent, const QString &keyid, const bool disable);
+    ~KGpgChangeDisable() override;
 
 	void setDisable(bool disable);
 

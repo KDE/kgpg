@@ -45,7 +45,7 @@ public:
 	 * everything properly
 	 */
 	KGpgKeyserverSearchTransaction(QObject *parent, const QString &keyserver, const QString &pattern, const bool withProgress = false, const QString &proxy = QString());
-	virtual ~KGpgKeyserverSearchTransaction();
+    ~KGpgKeyserverSearchTransaction() override;
 
 	void setPattern(const QString &pattern);
 

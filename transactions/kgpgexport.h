@@ -78,7 +78,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-	virtual ~KGpgExport();
+    ~KGpgExport() override;
 
 	/**
 	 * @brief set key id to export

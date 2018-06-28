@@ -43,7 +43,7 @@ public:
 	/**
 	 * @brief KGpgTransactionJob destructor
 	 */
-	virtual ~KGpgTransactionJob();
+    ~KGpgTransactionJob() override;
 
 	/**
 	 * @brief starts the transaction

@@ -61,7 +61,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-	virtual ~KGpgSignText();
+    ~KGpgSignText() override;
 
 	/**
 	 * @brief get signing result

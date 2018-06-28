@@ -43,7 +43,7 @@ public:
 	 * @param s GnuPG line describing this signature
 	 */
 	explicit KGpgSignNode(KGpgSignableNode *parent, const QStringList &s);
-	virtual ~KGpgSignNode();
+    ~KGpgSignNode() override;
 
 	KgpgCore::KgpgItemType getType() const override;
 	QDateTime getExpiration() const override;

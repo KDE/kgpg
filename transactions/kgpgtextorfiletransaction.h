@@ -44,7 +44,7 @@ protected:
 	 * @param parent parent object
 	 * @param text text to work with
 	 */
-	explicit KGpgTextOrFileTransaction(QObject *parent = 0, const QString &text = QString(), const bool allowChaining = false);
+    explicit KGpgTextOrFileTransaction(QObject *parent = nullptr, const QString &text = QString(), const bool allowChaining = false);
 
 	/**
 	 * @brief work with given file(s)
@@ -57,7 +57,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-	virtual ~KGpgTextOrFileTransaction();
+    ~KGpgTextOrFileTransaction() override;
 
 	/**
 	 * @brief set text to work with

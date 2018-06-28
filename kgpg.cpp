@@ -41,7 +41,7 @@ using namespace KgpgCore;
 KGpgApp::KGpgApp(int &argc, char **argv)
              : QApplication(argc, argv),
 	     w(nullptr),
-	     s_keyManager(0)
+         s_keyManager(nullptr)
 {
 }
 

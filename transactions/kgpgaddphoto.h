@@ -25,8 +25,8 @@ class KGpgAddPhoto: public KGpgEditKeyTransaction {
 
 	Q_DISABLE_COPY(KGpgAddPhoto)
 public:
-	KGpgAddPhoto(QObject *parent, const QString &keyid, const QString &imagepath);
-	virtual ~KGpgAddPhoto();
+    explicit KGpgAddPhoto(QObject *parent, const QString &keyid, const QString &imagepath);
+    ~KGpgAddPhoto() override;
 
 	void setImagePath(const QString &imagepath);
 

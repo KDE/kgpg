@@ -100,6 +100,7 @@ void KGpgChangeKey::nextStep(int result)
 			m_step++;
 		}
 		// fall through
+        Q_FALLTHROUGH();
 	case 2:
 		if (result == KGpgTransaction::TS_OK) {
 			m_key.setExpiration(m_expiration);
@@ -117,6 +118,7 @@ void KGpgChangeKey::nextStep(int result)
 			m_step++;
 		}
 		// fall through
+        Q_FALLTHROUGH();
 	case 3:
 		if (result == KGpgTransaction::TS_OK) {
 			m_key.setOwnerTrust(m_owtrust);
@@ -134,6 +136,7 @@ void KGpgChangeKey::nextStep(int result)
 			m_step++;
 		}
 		// fall through
+        Q_FALLTHROUGH();
 	default:
 		if (result == KGpgTransaction::TS_OK) {
 			m_key.setValid(!m_disable);

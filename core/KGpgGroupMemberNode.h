@@ -36,7 +36,7 @@ class KGpgGroupMemberNode : public KGpgRefNode
 public:
 	explicit KGpgGroupMemberNode(KGpgGroupNode *parent, const QString &k);
 	explicit KGpgGroupMemberNode(KGpgGroupNode *parent, KGpgKeyNode *k);
-	virtual ~KGpgGroupMemberNode();
+    ~KGpgGroupMemberNode() override;
 
 	KgpgCore::KgpgKeyTrust getTrust() const override;
 	KgpgCore::KgpgItemType getType() const override;

@@ -49,7 +49,7 @@ protected:
 
 	explicit KGpgExpandableNode(KGpgExpandableNode *parent = nullptr);
 public:
-	virtual ~KGpgExpandableNode();
+    ~KGpgExpandableNode() override;
 
 	/**
 	 * check if there are any child nodes

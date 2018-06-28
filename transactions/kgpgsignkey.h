@@ -45,7 +45,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-	virtual ~KGpgSignKey();
+    ~KGpgSignKey() override;
 
 protected:
 	bool nextLine(const QString &line) override;

@@ -353,7 +353,7 @@ void KeyServer::handleQuit()
 {
 	if (m_searchproc != nullptr) {
 		QApplication::restoreOverrideCursor();
-		disconnect(m_searchproc, 0, 0, 0);
+        disconnect(m_searchproc, nullptr, nullptr, nullptr);
 		m_searchproc->deleteLater();
 		m_searchproc = nullptr;
 	}

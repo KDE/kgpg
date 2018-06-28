@@ -37,7 +37,7 @@ public:
 	 * everything properly
 	 */
 	explicit KGpgUidTransaction(QObject *parent, const QString &keyid = QString(), const QString &uid = QString());
-	virtual ~KGpgUidTransaction();
+    ~KGpgUidTransaction() override;
 
 	/**
 	 * @brief set the key id of the transaction to the given value

@@ -51,20 +51,20 @@ private:
 
 public:
 
-	explicit KGpgItemModel(QObject *parent = 0);
-	virtual ~KGpgItemModel();
+    explicit KGpgItemModel(QObject *parent = nullptr);
+    ~KGpgItemModel() override;
 
-	virtual QModelIndex index(int row, int column,
-				const QModelIndex &parent = QModelIndex()) const;
-	virtual QModelIndex parent(const QModelIndex &child) const;
+    QModelIndex index(int row, int column,
+                const QModelIndex &parent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex &child) const override;
 
-	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
-	virtual int columnCount(const QModelIndex & /*parent = QModelIndex()*/ ) const
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex & /*parent = QModelIndex()*/ ) const override
 			{ return 7; }
 
-	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	virtual bool hasChildren(const QModelIndex &parent) const;
-	virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    bool hasChildren(const QModelIndex &parent) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 
 	KGpgNode *nodeForIndex(const QModelIndex &index) const;
 	KGpgKeyNode *findKeyNode(const QString &id) const;

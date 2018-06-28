@@ -60,7 +60,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-	virtual ~KGpgEncrypt();
+    ~KGpgEncrypt() override;
 
 	/**
 	 * @brief get decryption result

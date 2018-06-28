@@ -39,7 +39,7 @@ protected:
 
 public:
 	explicit KGpgSubkeyNode(KGpgKeyNode *parent, const KgpgCore::KgpgKeySub &k);
-	virtual ~KGpgSubkeyNode();
+    ~KGpgSubkeyNode() override;
 
 	KgpgCore::KgpgItemType getType() const override;
 	KgpgCore::KgpgKeyTrust getTrust() const override;

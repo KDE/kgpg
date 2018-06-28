@@ -50,7 +50,7 @@ protected:
 
 public:
 	explicit KGpgRootNode(KGpgItemModel *model);
-	virtual ~KGpgRootNode();
+    ~KGpgRootNode() override;
 
 	KgpgCore::KgpgItemType getType() const override;
 

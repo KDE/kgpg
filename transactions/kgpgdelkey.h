@@ -32,7 +32,7 @@ public:
 	inline KGpgDelKey(QObject *parent, KGpgKeyNode *key)
 		: KGpgDelKey(parent, KGpgKeyNode::List({key})) {}
 	KGpgDelKey(QObject *parent, const KGpgKeyNode::List &keys);
-	virtual ~KGpgDelKey();
+    ~KGpgDelKey() override;
 
 	/**
 	 * @brief the keys that were requested to be removed

@@ -45,7 +45,7 @@ public:
 	 * everything properly
 	 */
 	KGpgSendKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const QString &attropt = QString(), const bool withProgress = false, const QString &proxy = QString());
-	virtual ~KGpgSendKeys();
+    ~KGpgSendKeys() override;
 
 	void setKeyIds(const QStringList &keys);
 	/**

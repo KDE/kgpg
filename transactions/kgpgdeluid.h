@@ -66,7 +66,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-	virtual ~KGpgDelUid();
+    ~KGpgDelUid() override;
 
 	/**
 	 * @brief set the user id to be deleted

@@ -349,7 +349,7 @@ void KgpgTextEdit::verifyKeyNeeded(const QString &id)
 
     if (KMessageBox::questionYesNo(this, i18n("<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt>", id), i18n("Missing Key"), importitem, noimportitem) == KMessageBox::Yes)
     {
-        KeyServer *kser = new KeyServer(0, m_model, true);
+        KeyServer *kser = new KeyServer(nullptr, m_model, true);
         kser->slotSetText(id);
         kser->slotImport();
     }

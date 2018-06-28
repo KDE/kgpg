@@ -42,13 +42,13 @@ public:
 		SingleColumnIdLast = 2
 	};
 
-	explicit KeyListProxyModel(QObject * parent = 0, const DisplayMode mode = MultiColumn);
-        virtual ~KeyListProxyModel();
+    explicit KeyListProxyModel(QObject * parent = nullptr, const DisplayMode mode = MultiColumn);
+    ~KeyListProxyModel() override;
 
-	virtual bool hasChildren(const QModelIndex &idx) const;
-	virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
-	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+    bool hasChildren(const QModelIndex &idx) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
 	void setKeyModel(KGpgItemModel *);
 	/**
 	 * @brief set the minimum trust level to be shown
@@ -84,8 +84,8 @@ public slots:
 	void settingsChanged();
 
 protected:
-	virtual bool lessThan(const QModelIndex &left, const QModelIndex &right) const;
-	virtual bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const;
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
+    bool filterAcceptsRow(int source_row, const QModelIndex &source_parent) const override;
 };
 
 #endif

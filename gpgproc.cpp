@@ -82,7 +82,7 @@ static bool checkGnupgArguments(const QString &executable, const QStringList &ar
 static QString
 getGpgStatusLine(const QString &binary, const QString &key)
 {
-	GPGProc process(0, binary);
+    GPGProc process(nullptr, binary);
 	process << QLatin1String( "--version" );
 
 	QProcessEnvironment env = process.processEnvironment();
@@ -327,7 +327,7 @@ GPGProc::getGpgPubkeyAlgorithms(const QString &binary)
 
 QString GPGProc::getGpgStartupError(const QString &binary)
 {
-	GPGProc process(0, binary);
+    GPGProc process(nullptr, binary);
 	process << QLatin1String( "--version" );
 	process.start();
 	process.waitForFinished(-1);
@@ -346,7 +346,7 @@ QString GPGProc::getGpgStartupError(const QString &binary)
 
 QStringList GPGProc::getGgpParsedConfig(const QString &binary, const QByteArray &key)
 {
-	GPGProc process(0, binary);
+    GPGProc process(nullptr, binary);
 	process << QLatin1String("--list-config") << QLatin1String("--with-colons");
 	process.start();
 	process.waitForFinished(-1);

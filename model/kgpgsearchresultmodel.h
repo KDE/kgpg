@@ -41,7 +41,7 @@ class KGpgSearchResultBackingModel : public QAbstractItemModel {
 	Q_OBJECT
 public:
 	explicit KGpgSearchResultBackingModel(QObject *parent = nullptr);
-	~KGpgSearchResultBackingModel();
+    ~KGpgSearchResultBackingModel() override;
 
 	int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;

@@ -48,7 +48,7 @@ protected:
 	 */
 	KGpgKeyserverTransaction(QObject *parent, const QString &keyserver, const bool withProgress = false, const QString &proxy = QString());
 public:
-	virtual ~KGpgKeyserverTransaction();
+    ~KGpgKeyserverTransaction() override;
 
 	/**
 	 * @brief set the keyserver

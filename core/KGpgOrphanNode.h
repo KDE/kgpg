@@ -37,7 +37,7 @@ private:
 
 public:
 	explicit KGpgOrphanNode(KGpgExpandableNode *parent, const KgpgKey &k);
-	virtual ~KGpgOrphanNode();
+    ~KGpgOrphanNode() override;
 
 	KgpgCore::KgpgItemType getType() const override;
 	KgpgCore::KgpgKeyTrust getTrust() const override;

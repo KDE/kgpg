@@ -43,7 +43,7 @@ protected:
 
 public:
 	explicit KGpgUatNode(KGpgKeyNode *parent, const unsigned int index, const QStringList &sl);
-	virtual ~KGpgUatNode();
+    ~KGpgUatNode() override;
 
 	KgpgCore::KgpgItemType getType() const override;
 	KgpgCore::KgpgKeyTrust getTrust() const override;

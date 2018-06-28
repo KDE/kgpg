@@ -56,7 +56,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-	virtual ~KGpgDecrypt();
+    ~KGpgDecrypt() override;
 
 	/**
 	 * @brief get decryption result

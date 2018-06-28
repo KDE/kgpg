@@ -46,7 +46,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-	virtual ~KGpgSignUid();
+    ~KGpgSignUid() override;
 
 	/**
 	 * @brief set node to sign

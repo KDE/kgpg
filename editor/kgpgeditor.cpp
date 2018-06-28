@@ -75,10 +75,10 @@ KgpgView::KgpgView(QWidget *parent, KgpgTextEdit *editor, KToolBar *toolbar)
 }
 
 KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WindowFlags f)
-	: KXmlGuiWindow(0, f),
+    : KXmlGuiWindow(nullptr, f),
 	m_editor(new KgpgTextEdit(this, model, parent)),
 	m_recentfiles(nullptr),
-	m_find(0),
+    m_find(nullptr),
 	m_textchanged(false),
 	m_emptytext(true),
 	m_model(model),
@@ -451,7 +451,7 @@ void KgpgEditor::slotFindText()
         {
             m_find->displayFinalDialog();
             delete m_find;
-            m_find = 0;
+            m_find = nullptr;
         }
         else
         {
