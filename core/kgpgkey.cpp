@@ -298,20 +298,34 @@ QString KgpgKey::strength() const
     return _describe_key_strength(algorithm(), size(), d->gpgcurve);
 }
 
-uint KgpgKey::encryptionSize() const
+/**
+ * @brief find the "best" encryption key
+ *
+ * The "best" is the first one that is not expired, or simply the
+ * first one.
+ */
+static const KgpgKeySub *
+bestEncryptionKey(const KgpgKeySubList &list)
 {
 	const KgpgKeySub *enc = nullptr;
 	// Get the first encryption subkey
-	foreach (const KgpgKeySub &k, *d->gpgsublist) {
+	for (const KgpgKeySub &k : list) {
 		if (k.type() & SKT_ENCRYPTION) {
 			// if the first encryption subkey is expired
 			// check if there is one that is not
 			if (k.trust() > TRUST_EXPIRED)
-				return k.size();
+				return &k;
 			if (enc == nullptr)
 				enc = &k;
 		}
 	}
+
+	return enc;
+}
+
+uint KgpgKey::encryptionSize() const
+{
+	const KgpgKeySub *enc = bestEncryptionKey(*d->gpgsublist);
 	if (enc != nullptr)
 		return enc->size();
 	return 0;
@@ -319,18 +333,7 @@ uint KgpgKey::encryptionSize() const
 
 QString KgpgKey::encryptionStrength() const
 {
-    const KgpgKeySub *enc = nullptr;
-    // Get the first encryption subkey
-    foreach (const KgpgKeySub &k, *d->gpgsublist) {
-        if (k.type() & SKT_ENCRYPTION) {
-            // if the first encryption subkey is expired
-            // check if there is one that is not
-            if (k.trust() > TRUST_EXPIRED)
-                return _describe_key_strength(k.algorithm(), k.size(), k.curve());
-            if (enc == nullptr)
-                enc = &k;
-        }
-    }
+	const KgpgKeySub *enc = bestEncryptionKey(*d->gpgsublist);
     if (enc != nullptr)
         return _describe_key_strength(enc->algorithm(), enc->size(), enc->curve());
     return QString();
