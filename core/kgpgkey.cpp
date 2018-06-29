@@ -24,23 +24,19 @@ namespace KgpgCore
 
 static QString _describe_key_strength(KgpgKeyAlgo algorithm, const uint size, const QString &curve)
 {
-    const char *prefix = nullptr;
-
-    if (curve.length() > 0)
+    if (!curve.isEmpty())
         return curve;
+
+    QString prefix;
 
     switch(algorithm)
     {
-    case ALGO_RSA: prefix = "rsa"; break;
-    case ALGO_ELGAMAL: prefix = "elg"; break;
-    case ALGO_DSA: prefix = "dsa"; break;
+    case ALGO_RSA: prefix = QStringLiteral("rsa"); break;
+    case ALGO_ELGAMAL: prefix = QStringLiteral("elg"); break;
+    case ALGO_DSA: prefix = QStringLiteral("dsa"); break;
     }
 
-    if (prefix) {
-        return QStringLiteral("%1%2").arg(QString::fromLatin1(prefix), QString::number(size));
-    }
-
-    return QStringLiteral("%1").arg(size);
+    return prefix + QString::number(size);
 }
 
 //BEGIN KeySub
