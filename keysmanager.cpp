@@ -477,7 +477,7 @@ KeysManager::KeysManager(QWidget *parent)
 	toggleNetworkActions(netmgr->isOnline());
 	importSignatureKey->setEnabled(false);
 
-	stateChanged("empty_list");
+    stateChanged(QStringLiteral("empty_list"));
 
 	QMetaObject::invokeMethod(this, "refreshkey", Qt::QueuedConnection);
 }
@@ -1072,7 +1072,7 @@ void KeysManager::checkList()
 
 	switch (exportList.count()) {
 	case 0:
-		stateChanged("empty_list");
+        stateChanged(QStringLiteral("empty_list"));
 		return;
 	case 1:
 		if (exportList.at(0)->getType() == ITYPE_GROUP) {

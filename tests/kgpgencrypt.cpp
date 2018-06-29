@@ -34,7 +34,7 @@ void KGpgEncryptTest::testAsciiArmoredEncryption()
 	encryption->start();
 	QVERIFY(spy.wait(10000));
 
-	QString encryptedText = encryption->encryptedText().join("\n");
+    QString encryptedText = encryption->encryptedText().join(QStringLiteral("\n"));
 	//Check if the encrypted text has a header and footer
 	QVERIFY(encryptedText.startsWith(QLatin1String("-----BEGIN PGP MESSAGE-----")));
 	QVERIFY(encryptedText.endsWith(QLatin1String("-----END PGP MESSAGE-----")));
@@ -79,7 +79,7 @@ void KGpgEncryptTest::testHideKeyIdEncryption()
 	encryption->start();
 	QVERIFY(spy.wait(10000));
 	
-	QString encryptedText = encryption->encryptedText().join("\n");
+    QString encryptedText = encryption->encryptedText().join(QStringLiteral("\n"));
 	//Check if the encrypted text has a header and footer
 	QVERIFY(encryptedText.startsWith(QLatin1String("-----BEGIN PGP MESSAGE-----")));
 	QVERIFY(encryptedText.endsWith(QLatin1String("-----END PGP MESSAGE-----")));
@@ -120,7 +120,7 @@ void KGpgEncryptTest::testSymmetricEncryption()
 	encryption->start();
 	QVERIFY(spy.wait(10000));
 	
-	QString encryptedText = encryption->encryptedText().join("\n");
+    QString encryptedText = encryption->encryptedText().join(QStringLiteral("\n"));
 	//Check if the encrypted text has a header and footer
 	QVERIFY(encryptedText.startsWith(QLatin1String("-----BEGIN PGP MESSAGE-----")));
 	QVERIFY(encryptedText.endsWith(QLatin1String("-----END PGP MESSAGE-----")));

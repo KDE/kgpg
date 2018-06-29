@@ -149,7 +149,7 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 				msg.startsWith(QLatin1String("NODATA"))) {
 			result += xi18nc("@info", "No signature found.") + QLatin1Char('\n');
 		} else if (useGoodSig && msg.startsWith(QLatin1String("GOODSIG "))) {
-			int sigpos = msg.indexOf( ' ' , 8);
+            int sigpos = msg.indexOf( QLatin1Char(' ') , 8);
 			const QString keyid = msg.mid(8, sigpos - 8);
 
 			// split the name/email pair to give translators more power to handle this
@@ -179,7 +179,7 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 			if (parts.count() > 2)
 				sigtime = parts[2];
 		} else if (msg.startsWith(QLatin1String("BADSIG"))) {
-			int sigpos = msg.indexOf( ' ', 7);
+            int sigpos = msg.indexOf( QLatin1Char(' '), 7);
 			result += xi18nc("@info", "<para><emphasis strong='true'>BAD signature</emphasis> from:<nl/> %1<nl/>Key ID: %2<nl/><nl/><emphasis strong='true'>The file is corrupted</emphasis></para>",
 					msg.mid(sigpos + 1), msg.mid(7, sigpos - 7));
 		} else  if (msg.startsWith(QLatin1String("TRUST_UNDEFINED"))) {

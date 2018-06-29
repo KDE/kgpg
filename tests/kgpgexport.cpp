@@ -15,7 +15,7 @@ void KGpgExportTest::init()
 void KGpgExportTest::testExportPublicKeyToFile()
 {
 	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14_pub.asc"));
-	QTemporaryFile file("key_pub.asc");
+    QTemporaryFile file(QStringLiteral("key_pub.asc"));
 	QVERIFY(file.open());
 	QString filename = file.fileName();
 
@@ -37,7 +37,7 @@ void KGpgExportTest::testExportSecretKeyToFile()
 {
 	QString passphrase = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
 	addGpgKey(m_tempdir, QLatin1String("keys/kgpgtest_BA7695F3C550DF14.asc"), passphrase);
-	QTemporaryFile file("key.asc");
+    QTemporaryFile file(QStringLiteral("key.asc"));
 	QVERIFY(file.open());
 	QString filename = file.fileName();
 	QStringList ids(QLatin1String("BA7695F3C550DF14"));

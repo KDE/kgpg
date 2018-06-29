@@ -103,12 +103,12 @@ bool KGpgApp::newInstance()
 void KGpgApp::handleArguments(const QCommandLineParser &parser, const QDir &workingDirectory)
 {
 	// parsing of command line args
-	if (parser.isSet("k") || (!KGpgSettings::showSystray() && parser.positionalArguments().isEmpty() && !parser.isSet("d"))) {
+    if (parser.isSet(QStringLiteral("k")) || (!KGpgSettings::showSystray() && parser.positionalArguments().isEmpty() && !parser.isSet(QStringLiteral("d")))) {
 		s_keyManager->show();
 		KWindowSystem::setOnDesktop(s_keyManager->winId(), KWindowSystem::currentDesktop());  //set on the current desktop
 		KWindowSystem::unminimizeWindow(s_keyManager->winId());  //de-iconify window
 		s_keyManager->raise();  // set on top
-	} else if (parser.isSet("d")) {
+    } else if (parser.isSet(QStringLiteral("d"))) {
 		s_keyManager->slotOpenEditor();
 		s_keyManager->hide();
 	} else {
@@ -127,28 +127,28 @@ void KGpgApp::handleArguments(const QCommandLineParser &parser, const QDir &work
 			}
 		}
 
-		if (parser.isSet("e")) {
+        if (parser.isSet(QStringLiteral("e"))) {
 			if (urlList.isEmpty())
 				KMessageBox::sorry(0, i18n("No files given."));
 			else if (!directoryInside)
 				KGpgExternalActions::encryptFiles(s_keyManager, urlList);
 			else
 				KGpgExternalActions::encryptFolders(s_keyManager, urlList);
-		} else if (parser.isSet("s")) {
+        } else if (parser.isSet(QStringLiteral("s"))) {
 			if (urlList.isEmpty())
 				KMessageBox::sorry(0, i18n("No files given."));
 			else if (!directoryInside)
 				w->showDroppedFile(urlList.first());
 			else
 				KMessageBox::sorry(0, i18n("Cannot decrypt and show folder."));
-		} else if (parser.isSet("S")) {
+        } else if (parser.isSet(QStringLiteral("S"))) {
 			if (urlList.isEmpty())
 				KMessageBox::sorry(0, i18n("No files given."));
 			else if (!directoryInside)
 				KGpgExternalActions::signFiles(s_keyManager, urlList);
 			else
 				KMessageBox::sorry(0, i18n("Cannot sign folder."));
-		} else if (parser.isSet("V") != 0) {
+        } else if (parser.isSet(QStringLiteral("V")) != 0) {
 			if (urlList.isEmpty())
 				KMessageBox::sorry(0, i18n("No files given."));
 			else if (!directoryInside)

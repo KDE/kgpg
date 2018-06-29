@@ -37,10 +37,10 @@ static QString _describe_key_strength(KgpgKeyAlgo algorithm, const uint size, co
     }
 
     if (prefix) {
-        return QString("%1%2").arg(prefix, QString::number(size));
+        return QStringLiteral("%1%2").arg(QString::fromLatin1(prefix), QString::number(size));
     }
 
-    return QString("%1").arg(size);
+    return QStringLiteral("%1").arg(size);
 }
 
 //BEGIN KeySub
@@ -337,7 +337,7 @@ QString KgpgKey::encryptionStrength() const
     }
     if (enc != nullptr)
         return _describe_key_strength(enc->algorithm(), enc->size(), enc->curve());
-    return QString("");
+    return QString();
 }
 
 gpgme_validity_t KgpgKey::ownerTrust() const

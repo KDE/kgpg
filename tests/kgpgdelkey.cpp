@@ -28,7 +28,7 @@ void KGpgDelKeyTest::testDeleteKey()
 	QObject::connect(transaction, &KGpgDelKey::done,
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy(transaction, &KGpgDelKey::done);
-	transaction->addArgument("--yes");
+    transaction->addArgument(QStringLiteral("--yes"));
 	transaction->start();
 	QVERIFY(spy.wait(10000));
 	QCOMPARE(KgpgInterface::readSecretKeys().size(), 0);

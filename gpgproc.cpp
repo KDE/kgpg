@@ -86,7 +86,7 @@ getGpgStatusLine(const QString &binary, const QString &key)
 	process << QLatin1String( "--version" );
 
 	QProcessEnvironment env = process.processEnvironment();
-	env.insert("LANG", "C");
+    env.insert(QStringLiteral("LANG"), QStringLiteral("C"));
 	process.setProcessEnvironment(env);
 
 	process.start();
