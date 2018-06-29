@@ -22,6 +22,7 @@
 #include <QTreeView>
 
 #include <QUrl>
+#include <vector>
 
 #include "core/kgpgkey.h"
 
@@ -41,7 +42,7 @@ private:
 public:
 	explicit KeyTreeView(QWidget *parent = nullptr, KeyListProxyModel *model = nullptr);
 
-	QList<KGpgNode *> selectedNodes(bool *psame = nullptr, KgpgCore::KgpgItemType *pt = nullptr) const;
+	std::vector<KGpgNode *> selectedNodes(bool *psame = nullptr, KgpgCore::KgpgItemType *pt = nullptr) const;
 	KGpgNode *selectedNode() const;
 
 	void restoreLayout(KConfigGroup &cg);

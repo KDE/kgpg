@@ -733,8 +733,8 @@ void KeysManager::slotGotoDefaultKey()
 
 void KeysManager::refreshKeyFromServer()
 {
-	const QList<KGpgNode *> keysList(iview->selectedNodes());
-	if (keysList.isEmpty())
+	const auto keysList = iview->selectedNodes();
+	if (keysList.empty())
 		return;
 
 	QStringList keyIDS;
@@ -1068,11 +1068,11 @@ void KeysManager::showKeyServer()
 
 void KeysManager::checkList()
 {
-	const QList<KGpgNode *> exportList = iview->selectedNodes();
+	const auto exportList = iview->selectedNodes();
 
-	switch (exportList.count()) {
+	switch (exportList.size()) {
 	case 0:
-        stateChanged(QStringLiteral("empty_list"));
+		stateChanged(QStringLiteral("empty_list"));
 		return;
 	case 1:
 		if (exportList.at(0)->getType() == ITYPE_GROUP) {
@@ -1246,10 +1246,10 @@ KeysManager::slotMenu(const QPoint &pos)
 	QPoint globpos = iview->mapToGlobal(pos);
 	bool sametype;
 	KgpgItemType itype;
-	const QList<KGpgNode *> ndlist = iview->selectedNodes(&sametype, &itype);
+	const auto ndlist = iview->selectedNodes(&sametype, &itype);
 	bool unksig = false;
 	QSet<QString> l;
-	const int cnt = ndlist.count();
+	const int cnt = ndlist.size();
 
 	// find out if an item has unknown signatures. Only check if the item has been
 	// expanded before as expansion is very expensive and can take several seconds
@@ -1417,15 +1417,15 @@ void KeysManager::slotexport()
 	bool same;
 	KgpgItemType tp;
 
-	const QList<KGpgNode *> ndlist(iview->selectedNodes(&same, &tp));
-	if (ndlist.isEmpty())
+	const auto ndlist = iview->selectedNodes(&same, &tp);
+	if (ndlist.empty())
 		return;
 	if (!(tp & ITYPE_PUBLIC) || (tp & ~ITYPE_GPAIR))
 		return;
 
 	QString sname;
 
-	if (ndlist.count() == 1) {
+	if (ndlist.size() == 1) {
 		sname = ndlist.at(0)->getEmail().section(QLatin1Char( '@' ), 0, 0).section(QLatin1Char( '.' ), 0, 0);
 		if (sname.isEmpty())
 			sname = ndlist.at(0)->getName().section(QLatin1Char(' '), 0, 0);
@@ -1433,15 +1433,14 @@ void KeysManager::slotexport()
 		sname = QLatin1String( "keyring" );
 
 	QStringList klist;
-	for (int i = 0; i < ndlist.count(); ++i) {
-		klist << ndlist.at(i)->getId();
-	}
+	for (const auto k : ndlist)
+		klist << k->getId();
 
 	sname.append(QLatin1String( ".asc" ));
 	sname.prepend(QDir::homePath() + QLatin1Char( '/' ));
 
 	QStringList serverList(KGpgSettings::keyServers());
-	serverList.replaceInStrings(QRegExp( QLatin1String( " .*") ), QLatin1String( "" ) ); // Remove kde 3.5 (Default) tag.
+	serverList.replaceInStrings(QRegExp(QLatin1String(" .*")), QString()); // Remove kde 3.5 (Default) tag.
 	if (!serverList.isEmpty()) {
 		QString defaultServer = serverList.takeFirst();
 		std::sort(serverList.begin(), serverList.end());
@@ -1720,9 +1719,9 @@ void KeysManager::createNewGroup()
 	QStringList badkeys;
 	KGpgKeyNode::List keysList;
 	KgpgItemType tp;
-	const KGpgNode::List ndlist(iview->selectedNodes(nullptr, &tp));
+	const auto ndlist = iview->selectedNodes(nullptr, &tp);
 
-	if (ndlist.isEmpty())
+	if (ndlist.empty())
 		return;
 	if (tp & ~ITYPE_PAIR) {
 		KMessageBox::sorry(this, i18n("<qt>You cannot create a group containing signatures, subkeys or other groups.</qt>"));
@@ -1800,8 +1799,8 @@ void KeysManager::signkey()
 		return;
 
 	KgpgItemType tp;
-	const QList<KGpgNode *> tmplist = iview->selectedNodes(nullptr, &tp);
-	if (tmplist.isEmpty())
+	const auto tmplist = iview->selectedNodes(nullptr, &tp);
+	if (tmplist.empty())
 		return;
 
 	if (tp & ~ITYPE_PAIR) {
@@ -1809,7 +1808,7 @@ void KeysManager::signkey()
 		return;
 	}
 
-	if (tmplist.count() == 1) {
+	if (tmplist.size() == 1) {
 		KGpgKeyNode *nd = tmplist.at(0)->toKeyNode();
 		QString opt;
 
@@ -1879,8 +1878,8 @@ void KeysManager::signuid()
 		return;
 
 	KgpgItemType tp;
-	const KGpgNode::List tmplist = iview->selectedNodes(nullptr, &tp);
-	if (tmplist.isEmpty())
+	const auto tmplist = iview->selectedNodes(nullptr, &tp);
+	if (tmplist.empty())
 		return;
 
 	if (tp & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)) {
@@ -1888,7 +1887,7 @@ void KeysManager::signuid()
 		return;
 	}
 
-	if (tmplist.count() == 1) {
+	if (tmplist.size() == 1) {
 		KGpgSignableNode *nd = tmplist.at(0)->toSignableNode();
 		KGpgKeyNode *pnd;
 		if (tp & ITYPE_PUBLIC)
@@ -2027,9 +2026,9 @@ void KeysManager::signatureResult(int success)
 void KeysManager::caff()
 {
 	KgpgItemType tp;
-	const KGpgNode::List tmplist = iview->selectedNodes(nullptr, &tp);
+	const auto tmplist = iview->selectedNodes(nullptr, &tp);
 	KGpgSignableNode::List slist;
-	if (tmplist.isEmpty())
+	if (tmplist.empty())
 		return;
 
 	if (tp & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)) {
@@ -2107,10 +2106,10 @@ void KeysManager::getMissingSigs(QSet<QString> &missingKeys, const KGpgExpandabl
 
 void KeysManager::importallsignkey()
 {
-	const QList<KGpgNode *> sel(iview->selectedNodes());
+	const auto sel = iview->selectedNodes();
 	QSet<QString> missingKeys;
 
-	if (sel.isEmpty())
+	if (sel.empty())
 		return;
 
 	for (const KGpgNode *nd : sel) {
@@ -2127,7 +2126,7 @@ void KeysManager::importallsignkey()
 	if (missingKeys.isEmpty()) {
 		KMessageBox::information(this,
 			i18np("All signatures for this key are already in your keyring",
-			"All signatures for this keys are already in your keyring", sel.count()));
+			"All signatures for this keys are already in your keyring", sel.size()));
 		return;
 	}
 
@@ -2136,7 +2135,7 @@ void KeysManager::importallsignkey()
 
 void KeysManager::preimportsignkey()
 {
-	const QList<KGpgNode *> exportList(iview->selectedNodes());
+	const auto exportList = iview->selectedNodes();
 	QStringList idlist;
 
 	if (exportList.empty())
@@ -2414,12 +2413,12 @@ void KeysManager::confirmdeletekey()
 
 	KgpgCore::KgpgItemType pt;
 	bool same;
-	const QList<KGpgNode *> ndlist = iview->selectedNodes(&same, &pt);
-	if (ndlist.isEmpty())
+	const auto ndlist = iview->selectedNodes(&same, &pt);
+	if (ndlist.empty())
 		return;
 
 	// do not delete a key currently edited in terminal
-	if ((!(pt & ~ITYPE_PAIR)) && (ndlist.at(0) == terminalkey) && (ndlist.count() == 1)) {
+	if ((!(pt & ~ITYPE_PAIR)) && (ndlist.at(0) == terminalkey) && (ndlist.size() == 1)) {
 		KMessageBox::error(this,
 				i18n("Can not delete key <b>%1</b> while it is edited in terminal.",
 				terminalkey->getBeautifiedFingerprint()), i18n("Delete key"));
@@ -2427,10 +2426,10 @@ void KeysManager::confirmdeletekey()
 	} else if (pt == ITYPE_GROUP) {
 		deleteGroup();
 		return;
-	} else if (!(pt & ITYPE_GROUP) && (pt & ITYPE_SECRET) && (ndlist.count() == 1)) {
+	} else if (!(pt & ITYPE_GROUP) && (pt & ITYPE_SECRET) && (ndlist.size() == 1)) {
 		deleteseckey();
 		return;
-	} else if ((pt == ITYPE_UID) && (ndlist.count() == 1)) {
+	} else if ((pt == ITYPE_UID) && (ndlist.size() == 1)) {
 		slotDelUid();
 		return;
 	} else if ((pt & ITYPE_GROUP) && !(pt & ~ITYPE_GPAIR)) {
@@ -2443,7 +2442,7 @@ void KeysManager::confirmdeletekey()
 
 		// only allow removing group members if they belong to the same group
 		if (!invalidDelete) {
-			const KGpgNode * const group = ndlist.first()->getParentKeyNode();
+			const KGpgNode * const group = ndlist.front()->getParentKeyNode();
 			for (const KGpgNode *nd : ndlist)
 				if (nd->getParentKeyNode() != group) {
 					invalidDelete = true;
@@ -2452,7 +2451,7 @@ void KeysManager::confirmdeletekey()
 		}
 
 		if (!invalidDelete) {
-			KGpgGroupNode *gnd = ndlist.first()->getParentKeyNode()->toGroupNode();
+			KGpgGroupNode *gnd = ndlist.front()->getParentKeyNode()->toGroupNode();
 
 			QList<KGpgNode *> members = gnd->getChildren();
 

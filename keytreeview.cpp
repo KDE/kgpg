@@ -45,11 +45,11 @@ KeyTreeView::KeyTreeView(QWidget *parent, KeyListProxyModel *model)
 	setEditTriggers(QTreeView::NoEditTriggers);
 }
 
-QList<KGpgNode *>
+std::vector<KGpgNode *>
 KeyTreeView::selectedNodes(bool *psame, KgpgCore::KgpgItemType *pt) const
 {
 	QModelIndexList selidx = selectedIndexes();
-	QList<KGpgNode *> ndlist;
+	std::vector<KGpgNode *> ndlist;
 	KgpgItemType tp = 0;
 	bool sametype = true;
 
@@ -73,7 +73,7 @@ KeyTreeView::selectedNodes(bool *psame, KgpgCore::KgpgItemType *pt) const
 			sametype = false;
 		}
 
-		ndlist << nd;
+		ndlist.push_back(nd);
 	}
 
 	if (pt != nullptr)
@@ -179,13 +179,13 @@ KeyTreeView::contentsDropEvent(QDropEvent *o)
 void
 KeyTreeView::startDrag(Qt::DropActions supportedActions)
 {
-	QList<KGpgNode *> nodes = selectedNodes();
+	const auto nodes = selectedNodes();
 
-	if (nodes.isEmpty())
+	if (nodes.empty())
 		return;
 
-	KGpgNode *nd = nodes.first();
-	QString keyid = nd->getId();
+	const KGpgNode * const nd = nodes.front();
+	const QString keyid = nd->getId();
 
 	if (!(nd->getType() & ITYPE_PUBLIC))
 		return;
