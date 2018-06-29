@@ -372,7 +372,7 @@ KgpgKeyAlgo KgpgKey::algorithm() const
 KgpgKeyAlgo KgpgKey::encryptionAlgorithm() const
 {
 	// Get the first encryption subkey
-	foreach (const KgpgKeySub &k, *d->gpgsublist)
+	for (const KgpgKeySub &k : qAsConst(*d->gpgsublist))
 		if (k.type() & SKT_ENCRYPTION)
 			return k.algorithm();
 

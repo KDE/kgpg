@@ -110,7 +110,7 @@ KGpgDelSign::boolQuestion(const QString &line)
 		const int snlen = sigid.length();
 		KGpgSignNode *signode = nullptr;
 
-		foreach (KGpgSignNode *snode, m_signids) {
+		for (KGpgSignNode *snode : qAsConst(m_signids)) {
 			if (sigid == snode->getId().right(snlen)) {
 				signode = snode;
 				break;

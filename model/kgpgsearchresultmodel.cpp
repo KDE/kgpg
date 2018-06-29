@@ -168,8 +168,7 @@ KGpgSearchResultModelPrivate::KGpgSearchResultModelPrivate()
 
 KGpgSearchResultModelPrivate::~KGpgSearchResultModelPrivate()
 {
-	foreach (SearchResult *item, m_items)
-		delete item;
+	qDeleteAll(m_items);
 }
 
 QString

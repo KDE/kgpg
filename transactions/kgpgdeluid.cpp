@@ -84,7 +84,8 @@ KGpgDelUid::setUids(const KGpgSignableNode::const_List &uids)
 	else
 		parent = nd->getParentKeyNode();
 
-	foreach (nd, m_uids.mid(1)) {
+	for (auto it = ++m_uids.constBegin(); it != m_uids.constEnd(); it++) {
+		nd = *it;
 		Q_ASSERT((nd->getParentKeyNode() == parent) || (nd == parent));
 
 		args.append(QLatin1String( "uid" ));

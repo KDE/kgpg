@@ -43,9 +43,8 @@ KGpgKeyNode::~KGpgKeyNode()
 {
 	// do not try to access the root node if we are being deleted from there
 	KGpgRootNode * const root = parent() != nullptr ? m_parent->toRootNode() : nullptr;
-	foreach (KGpgRefNode *nd, m_refs) {
+	for (KGpgRefNode *nd : qAsConst(m_refs))
 		nd->unRef(root);
-	}
 }
 
 KgpgCore::KgpgItemType
@@ -161,7 +160,7 @@ KGpgKeyNode::readChildren()
 	KgpgInterface::readSignatures(this);
 
 	m_signs = 0;
-	foreach(KGpgNode *n, children)
+	for (const KGpgNode *n : qAsConst(children))
 		if (n->getType() == ITYPE_SIGN)
 			m_signs++;
 }
@@ -233,7 +232,7 @@ KGpgKeyNode::getGroups(void) const
 	const QList<KGpgGroupMemberNode *> refs = getGroupRefs();
 	ret.reserve(refs.count());
 
-	foreach (KGpgGroupMemberNode *gnd, refs)
+	for (KGpgGroupMemberNode *gnd : refs)
 		ret.append(gnd->getParentKeyNode());
 
 	return ret;
@@ -301,7 +300,7 @@ KGpgKeyNode::getSignatures(const bool subkeys) const
 			bool found = false;
 			const QString snid(sn->getId());
 
-			foreach (const KGpgSignNode *retsn, ret) {
+			for (const KGpgSignNode *retsn : qAsConst(ret)) {
 				found = (retsn->getId() == snid);
 				if (found)
 					break;

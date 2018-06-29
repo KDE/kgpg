@@ -89,7 +89,7 @@ KGpgTextOrFileTransaction::preStart()
 {
 	QStringList locfiles;
 
-	foreach (const QUrl &url, m_inpfiles) {
+	for (const QUrl &url : qAsConst(m_inpfiles)) {
 		if (url.isLocalFile()) {
 			locfiles.append(url.toLocalFile());
 		} else {
@@ -169,7 +169,7 @@ KGpgTextOrFileTransaction::getMessages() const
 void
 KGpgTextOrFileTransaction::cleanUrls()
 {
-	foreach (const QString &u, m_tempfiles)
+	for (const QString &u : qAsConst(m_tempfiles))
 		QFile::remove(u);
 
 	m_tempfiles.clear();

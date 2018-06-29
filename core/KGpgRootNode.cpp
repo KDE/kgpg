@@ -87,7 +87,7 @@ KGpgRootNode::addKeys(const QStringList &ids)
 		emit newKeyNode(nd);
 	}
 
-	foreach (const KgpgCore::KgpgKey &key, secretlist)
+	for (const KgpgCore::KgpgKey &key : qAsConst(secretlist))
 		new KGpgOrphanNode(this, key);
 }
 
@@ -97,7 +97,7 @@ KGpgRootNode::refreshKeys(KGpgKeyNode::List nodes)
 	QStringList ids;
 	ids.reserve(nodes.count());
 
-	foreach (const KGpgNode *nd, nodes)
+	for (const KGpgNode *nd : qAsConst(nodes))
 		ids << nd->getId();
 
 	const KgpgCore::KgpgKeyList publiclist = KgpgInterface::readPublicKeys(ids);
@@ -137,7 +137,7 @@ KGpgRootNode::findKeyRow(const QString &keyId)
 {
 	int i = 0;
 
-	foreach (const KGpgNode *node, children) {
+	for (const KGpgNode *node : qAsConst(children)) {
 		if ((node->getType() & ITYPE_PAIR) == 0) {
 			++i;
 			continue;
