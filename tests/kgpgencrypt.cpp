@@ -15,6 +15,21 @@ void KGpgEncryptTest::init()
 	QVERIFY(resetGpgConf(m_tempdir));
 }
 
+static void checkEncryptedText(const KGpgEncrypt *encryption)
+{
+	const QStringList elines = encryption->encryptedText();
+	QString encryptedText = elines.join(QLatin1Char('\n'));
+	//Check if the encrypted text has a header and footer
+	QCOMPARE(elines.first(), QStringLiteral("-----BEGIN PGP MESSAGE-----"));
+	QCOMPARE(elines.last(), QStringLiteral("-----END PGP MESSAGE-----"));
+	//Test if encrypted text contains "KGpg"
+	QVERIFY(!elines.contains(QStringLiteral("KGpg")));
+	QVERIFY(KGpgDecrypt::isEncryptedText(encryptedText, nullptr, nullptr));
+	int startPos = -1;
+	QVERIFY(KGpgDecrypt::isEncryptedText(encryptedText, &startPos, nullptr));
+	QCOMPARE(startPos, 0);
+}
+
 void KGpgEncryptTest::testAsciiArmoredEncryption()
 {
 	//Add keys to keyring
@@ -34,17 +49,10 @@ void KGpgEncryptTest::testAsciiArmoredEncryption()
 	encryption->start();
 	QVERIFY(spy.wait(10000));
 
-    QString encryptedText = encryption->encryptedText().join(QStringLiteral("\n"));
-	//Check if the encrypted text has a header and footer
-	QVERIFY(encryptedText.startsWith(QLatin1String("-----BEGIN PGP MESSAGE-----")));
-	QVERIFY(encryptedText.endsWith(QLatin1String("-----END PGP MESSAGE-----")));
-	//Test if encrypted text contains "KGpg"
-	QVERIFY(!encryptedText.contains(QLatin1String("KGpg")));
-	// check that the helper function also thinks it's encrypted
-	QVERIFY(KGpgDecrypt::isEncryptedText(encryptedText, nullptr, nullptr));
-	int startPos = -1;
-	QVERIFY(KGpgDecrypt::isEncryptedText(encryptedText, &startPos, nullptr));
-	QCOMPARE(startPos, 0);
+	checkEncryptedText(encryption);
+	if (QTest::currentTestFailed())
+		return;
+	QString encryptedText = encryption->encryptedText().join(QLatin1Char('\n'));
 
 	//Decrypt encrypted text
 	KGpgDecrypt *decryption = new KGpgDecrypt(this, encryptedText);
@@ -78,13 +86,11 @@ void KGpgEncryptTest::testHideKeyIdEncryption()
 	QSignalSpy spy(encryption, &KGpgEncrypt::done);
 	encryption->start();
 	QVERIFY(spy.wait(10000));
-	
-    QString encryptedText = encryption->encryptedText().join(QStringLiteral("\n"));
-	//Check if the encrypted text has a header and footer
-	QVERIFY(encryptedText.startsWith(QLatin1String("-----BEGIN PGP MESSAGE-----")));
-	QVERIFY(encryptedText.endsWith(QLatin1String("-----END PGP MESSAGE-----")));
-	//Test if encrypted text contains "KGpg"
-	QVERIFY(!encryptedText.contains(QLatin1String("KGpg")));
+
+	checkEncryptedText(encryption);
+	if (QTest::currentTestFailed())
+		return;
+	QString encryptedText = encryption->encryptedText().join(QLatin1Char('\n'));
 	//Check if encrypted text contains key Id
 	QString keyId = QLatin1String("BA7695F3C550DF14");
 	QString log = encryption->getMessages().join(QLatin1Char('\n'));
@@ -119,13 +125,11 @@ void KGpgEncryptTest::testSymmetricEncryption()
 	addPasswordArguments(encryption, passphrase);
 	encryption->start();
 	QVERIFY(spy.wait(10000));
-	
-    QString encryptedText = encryption->encryptedText().join(QStringLiteral("\n"));
-	//Check if the encrypted text has a header and footer
-	QVERIFY(encryptedText.startsWith(QLatin1String("-----BEGIN PGP MESSAGE-----")));
-	QVERIFY(encryptedText.endsWith(QLatin1String("-----END PGP MESSAGE-----")));
-	//Test if encrypted text contains "KGpg"
-	QVERIFY(!encryptedText.contains(QLatin1String("KGpg")));
+
+	checkEncryptedText(encryption);
+	if (QTest::currentTestFailed())
+		return;
+	QString encryptedText = encryption->encryptedText().join(QLatin1Char('\n'));
 	
 	//Decrypt encrypted text
 	KGpgDecrypt *decryption = new KGpgDecrypt(this, encryptedText);
