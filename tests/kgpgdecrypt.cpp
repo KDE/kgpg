@@ -34,4 +34,4 @@ void KGpgDecryptTest::testDecrypt_data(){
 	QTest::newRow("Symmetrical") << QString(QLatin1String("keys/encrypted_symmetrical.txt"));
 }
 
-QTEST_MAIN(KGpgDecryptTest)
+QTEST_GUILESS_MAIN(KGpgDecryptTest)

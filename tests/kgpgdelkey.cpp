@@ -43,4 +43,4 @@ void KGpgDelKeyTest::testDeleteKey_data()
 		<< readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
 }
 
-QTEST_MAIN(KGpgDelKeyTest)
+QTEST_GUILESS_MAIN(KGpgDelKeyTest)

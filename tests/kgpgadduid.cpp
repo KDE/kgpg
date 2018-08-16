@@ -78,4 +78,4 @@ void KGpgAddUidTest::testAddUidInvalid()
 	QCOMPARE(spy.count(), 1);
 }
 
-QTEST_MAIN(KGpgAddUidTest)
+QTEST_GUILESS_MAIN(KGpgAddUidTest)

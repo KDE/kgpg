@@ -26,4 +26,4 @@ void KGpgAddPhotoTest::testAddPhoto()
 	QVERIFY(hasPhoto(m_tempdir, keyID));
 }
 
-QTEST_MAIN(KGpgAddPhotoTest)
+QTEST_GUILESS_MAIN(KGpgAddPhotoTest)

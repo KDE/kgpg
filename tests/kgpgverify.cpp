@@ -77,4 +77,4 @@ void KGpgVerifyTest::testVerifyReturnBadSignature()
 	QVERIFY(spy.wait(10000));
 }
 
-QTEST_MAIN(KGpgVerifyTest)
+QTEST_GUILESS_MAIN(KGpgVerifyTest)

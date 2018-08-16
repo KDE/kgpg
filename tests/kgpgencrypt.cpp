@@ -144,4 +144,4 @@ void KGpgEncryptTest::testSymmetricEncryption()
 	QVERIFY(text.compare(decryption->decryptedText().join(QLatin1Char('\n'))));
 }
 
-QTEST_MAIN(KGpgEncryptTest)
+QTEST_GUILESS_MAIN(KGpgEncryptTest)
