@@ -135,4 +135,4 @@ void KGpgImportTest::testImportSecretKey()
 	QVERIFY(spy.wait(10000));
 }
 
-QTEST_MAIN(KGpgImportTest)
+QTEST_GUILESS_MAIN(KGpgImportTest)

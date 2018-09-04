@@ -79,4 +79,4 @@ void KGpgExportTest::testExportPublicKeyToStdOutput()
 	QVERIFY(key.compare(exportedKey) == 0);
 }
 
-QTEST_MAIN(KGpgExportTest)
+QTEST_GUILESS_MAIN(KGpgExportTest)

@@ -37,4 +37,4 @@ void KGpgChangeTrustTest::testChangeTrust_data()
 	QTest::newRow("never") << GPGME_VALIDITY_NEVER;
 }
 
-QTEST_MAIN(KGpgChangeTrustTest)
+QTEST_GUILESS_MAIN(KGpgChangeTrustTest)

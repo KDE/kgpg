@@ -45,4 +45,4 @@ void KGpgChangeDisableTest::testEnableKey()
 	QVERIFY(keyList.first().valid());
 }
 
-QTEST_MAIN(KGpgChangeDisableTest)
+QTEST_GUILESS_MAIN(KGpgChangeDisableTest)

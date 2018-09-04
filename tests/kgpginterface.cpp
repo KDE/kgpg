@@ -38,4 +38,4 @@ void KGpgInterfaceTest::testReadEmptyKeyring()
 	QCOMPARE(pub_keys.size(), 0);
 }
 
-QTEST_MAIN(KGpgInterfaceTest)
+QTEST_GUILESS_MAIN(KGpgInterfaceTest)

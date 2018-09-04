@@ -88,6 +88,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 	label = new QLabel(page);
 	label->setAlignment(Qt::AlignTop);
 	label->setWordWrap(true);
+	label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 	label->setText(i18n("KGpg needs to know which GnuPG binary to use."));
 
 	gridLayout->addWidget(label, 0, 1, 1, 1);
@@ -95,6 +96,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 	label = new QLabel(page);
 	label->setAlignment(Qt::AlignTop);
 	label->setWordWrap(true);
+	label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
 	label->setText(i18n("Unless you want to try some unusual settings, just click on the \"next\" button."));
 
 	gridLayout->addWidget(label, 1, 1, 1, 1);
