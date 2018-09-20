@@ -95,16 +95,16 @@ class kgpgOptions : public KConfigDialog
 
 public:
     explicit kgpgOptions(QWidget *parent = nullptr, KGpgItemModel *model = nullptr);
-    ~kgpgOptions();
+    ~kgpgOptions() override;
 
-signals:
+Q_SIGNALS:
     void updateDisplay();
     void settingsUpdated();
     void changeFont(QFont);
     void homeChanged();
     void refreshTrust(KgpgCore::KgpgKeyTrust, QColor);
 
-private slots:
+private Q_SLOTS:
     void slotChangeHome();
     void slotAddKeyServer();
     void slotChangeEncryptTo();
@@ -113,9 +113,9 @@ private slots:
     void slotEditKeyServer(const QModelIndex &index);
     void slotChangeKeyServerButtonEnable();
     void slotDefaultKeyServer();
-    void updateWidgets();
-    void updateWidgetsDefault();
-    void updateSettings();
+    void updateWidgets() override;
+    void updateWidgetsDefault() override;
+    void updateSettings() override;
     void listKeys();
     void slotInstallDecrypt(const QString &mimetype);
     void slotInstallSign(const QString &mimetype);
@@ -123,8 +123,8 @@ private slots:
     void slotSystrayEnable();
 
 protected:
-    virtual bool hasChanged();
-    virtual bool isDefault();
+    bool hasChanged() override;
+    bool isDefault() override;
 
 private:
     QStringList names;

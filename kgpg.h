@@ -61,14 +61,14 @@ public:
 	 */
 	void handleArguments(const QCommandLineParser &parser, const QDir &workingDirectory);
 
-public slots:
+public Q_SLOTS:
 	void slotDBusActivation(const QStringList &arguments, const QString &workingDirectory);
 
 private:
     KGpgExternalActions *w;
     KeysManager *s_keyManager;
 
-private slots:
+private Q_SLOTS:
     void slotHandleQuit();
     void assistantOver(const QString &defaultKeyId);
 };

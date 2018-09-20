@@ -35,7 +35,7 @@ public:
 		AsciiArmored = 0x1,		///< output the data as printable ASCII as opposed to binary data
 		DetachedSignature = 0x2,	///< save the signature in a separate file
 	};
-	Q_DECLARE_FLAGS(SignOptions, SignOption);
+        Q_DECLARE_FLAGS(SignOptions, SignOption)
 
 	/**
 	 * @brief sign given text
@@ -79,6 +79,6 @@ private:
 	QStringList m_extraOptions;
 };
 
-Q_DECLARE_OPERATORS_FOR_FLAGS(KGpgSignText::SignOptions);
+Q_DECLARE_OPERATORS_FOR_FLAGS(KGpgSignText::SignOptions)
 
 #endif // KGPGSIGNTEXT_H

@@ -65,7 +65,7 @@ public:
 
 	KGpgChangeKey *keychange;
 
-signals:
+Q_SIGNALS:
     void keyNeedsRefresh(KGpgKeyNode *node);
 
 private:
@@ -77,7 +77,7 @@ private:
     void applyButtonClicked();
     void cancelButtonClicked();
 
-private slots:
+private Q_SLOTS:
     void slotOpenUrl(const QString &url) const;
 
     void slotChangeDate();

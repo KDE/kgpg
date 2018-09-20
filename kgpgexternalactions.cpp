@@ -417,7 +417,7 @@ void KGpgExternalActions::slotDecryptionDone(int status)
 
 void KGpgExternalActions::showDroppedFile(const QUrl &file)
 {
-	KgpgEditor *kgpgtxtedit = new KgpgEditor(m_keysmanager, m_model, 0);
+    KgpgEditor *kgpgtxtedit = new KgpgEditor(m_keysmanager, m_model, {});
 	connect(m_keysmanager, &KeysManager::fontChanged, kgpgtxtedit, &KgpgEditor::slotSetFont);
 
 	kgpgtxtedit->m_editor->openDroppedFile(file, false);
@@ -430,7 +430,7 @@ void KGpgExternalActions::readOptions()
 	if (KGpgSettings::firstRun()) {
 		firstRun();
 	} else if (KGpgSettings::gpgConfigPath().isEmpty()) {
-		if (KMessageBox::Yes == KMessageBox::questionYesNo(0,
+                if (KMessageBox::Yes == KMessageBox::questionYesNo(nullptr,
 				i18n("<qt>You have not set a path to your GnuPG config file.<br />This may cause some surprising results in KGpg's execution."
 				"<br />Would you like to start KGpg's assistant to fix this problem?</qt>"),
 				QString(), KGuiItem(i18n("Start Assistant")), KGuiItem(i18n("Do Not Start"))))

@@ -122,7 +122,7 @@ void KgpgEditor::openDocumentFile(const QUrl &url, const QString &encoding)
     if(!downloadJob->error())
     {
         QTextStream t(downloadJob->data());
-        t.setCodec(encoding.toLatin1());
+        t.setCodec(encoding.toLatin1().constData());
         m_editor->setPlainText(t.readAll());
         m_docname = url;
         m_textchanged = false;
@@ -707,7 +707,7 @@ void KgpgEditor::importSignatureKey(const QString &id, const QString &fileName)
 {
 	sender()->deleteLater();
 
-	if (KMessageBox::questionYesNo(0,
+        if (KMessageBox::questionYesNo(nullptr,
 			i18n("<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt>", id),
 			fileName, KGuiItem(i18n("Import")), KGuiItem(i18n("Do Not Import"))) != KMessageBox::Yes)
 		return;

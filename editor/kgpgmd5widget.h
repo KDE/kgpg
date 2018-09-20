@@ -24,7 +24,7 @@ class Md5Widget : public QDialog
 public:
     explicit Md5Widget(QWidget *parent = nullptr, const QUrl &url = QUrl());
 
-public slots:
+public Q_SLOTS:
     void slotApply();
 
 private:

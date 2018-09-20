@@ -49,7 +49,7 @@ public:
 
 	void setPattern(const QString &pattern);
 
-signals:
+Q_SIGNALS:
 	/**
 	 * @brief emitted every time a new key is completed
 	 * @param lines the lines that belong to that key

@@ -8,7 +8,7 @@
 
 class KGpgChangeTrustTest : public QObject {
 	Q_OBJECT
-private slots:
+private Q_SLOTS:
 	void init();
 	void testChangeTrust();
 	void testChangeTrust_data();

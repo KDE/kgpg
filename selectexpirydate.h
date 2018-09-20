@@ -38,7 +38,7 @@ public:
 
 	QDateTime date() const;
 
-private slots:
+private Q_SLOTS:
 	void slotCheckDate(const QDate &date);
 	void slotEnableDate(const bool ison);
 

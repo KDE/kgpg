@@ -136,7 +136,7 @@ public:
 	 * @brief set a new parent widget for the transactions
 	 */
 	void setParentWidget(QWidget *widget);
-signals:
+Q_SIGNALS:
 	/**
 	 * This signal gets emitted every time apply() has done all of it's work.
 	 *
@@ -165,7 +165,7 @@ signals:
 	 */
 	void keyNeedsRefresh(KGpgKeyNode *node);
 
-private slots:
+private Q_SLOTS:
 	/**
 	 * @internal
 	 */

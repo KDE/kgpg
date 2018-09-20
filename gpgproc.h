@@ -166,7 +166,7 @@ public:
      * returned lines.
      */
     static QStringList getGgpParsedConfig(const QString &binary, const QByteArray &key = QByteArray());
-signals:
+Q_SIGNALS:
     /**
      * Emitted when the process is ready for reading.
      * The signal is only emitted if at least one complete line of data is ready.

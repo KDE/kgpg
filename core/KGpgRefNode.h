@@ -54,11 +54,11 @@ protected:
 	KGpgRootNode *getRootNode() const;
 
 public:
-	virtual ~KGpgRefNode();
+        ~KGpgRefNode() override;
 
-	virtual QString getId() const;
-	virtual QString getName() const;
-	virtual QString getEmail() const;
+        QString getId() const override;
+        QString getName() const override;
+        QString getEmail() const override;
 	/**
 	 * Get the node of the primary key this node references to
 	 *

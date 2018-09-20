@@ -28,7 +28,7 @@ public:
     explicit newKey(QWidget* parent = nullptr);
 
 
-public slots:
+public Q_SLOTS:
    void CBsave_toggled(bool);
 };
 

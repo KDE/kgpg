@@ -46,7 +46,7 @@ public:
     char expiration() const;
     uint days() const;
 
-private slots:
+private Q_SLOTS:
     void slotOk();
     void slotUser1();
     void slotEnableOk();

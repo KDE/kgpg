@@ -63,7 +63,7 @@ public:
 protected:
 	bool doKill() override;
 
-private slots:
+private Q_SLOTS:
 	void slotTransactionDone(int result);
 	void slotStatusMessage(const QString &plain);
 	void slotInfoProgress(qulonglong processedAmount, qulonglong totalAmount);

@@ -59,7 +59,7 @@ public:
 
     QWidget *optionsbox;
 
-private slots:
+private Q_SLOTS:
     void slotOk();
     void slotSelectionChanged();
     void slotSymmetric(const bool state);

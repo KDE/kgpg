@@ -45,10 +45,10 @@ public:
 	KGpgCaff(QObject *parent, const KGpgSignableNode::List &ids, const QStringList &signids,
 			const int checklevel = 0, const OperationFlags flags = DefaultMode);
 
-public slots:
+public Q_SLOTS:
 	void run();
 
-signals:
+Q_SIGNALS:
 	void done();
 	void aborted();
 };

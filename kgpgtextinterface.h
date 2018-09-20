@@ -36,7 +36,7 @@ public:
 	explicit KGpgTextInterface(QObject *parent, const QString &keyID, const QStringList &options);
 	~KGpgTextInterface();
 
-signals:
+Q_SIGNALS:
     /**
      * Emitted when all files passed to KgpgSignFile() where processed.
      */

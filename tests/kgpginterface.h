@@ -7,7 +7,7 @@
 class KGpgInterfaceTest: public QObject
 {
 	Q_OBJECT
-private slots:
+private Q_SLOTS:
 	void init();
 	void testReadPublicKeys();
 	void testReadSecretKeys();

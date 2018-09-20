@@ -46,7 +46,7 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const override;
 
-private slots:
+private Q_SLOTS:
 	void slotRowsRemoved(const QModelIndex &, int start, int end);
 
 private:

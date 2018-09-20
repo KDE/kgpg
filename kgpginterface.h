@@ -34,6 +34,6 @@ namespace KgpgInterface {
     KgpgCore::KgpgKeyList readPublicKeys(const QStringList &ids = QStringList());
     void readSignatures(KGpgKeyNode *node);
     KgpgCore::KgpgKeyList readSecretKeys(const QStringList &ids = QStringList());
-};
+}
 
 #endif // KGPGINTERFACE_H

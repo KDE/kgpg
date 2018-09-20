@@ -38,21 +38,21 @@ private:
 	Q_DISABLE_COPY(KGpgGroupNode)
 
 protected:
-	virtual void readChildren();
+        void readChildren() override;
 
 public:
 	KGpgGroupNode(KGpgRootNode *parent, const QString &name, const QStringList &members);
 	KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KGpgKeyNode::List &members);
 	virtual ~KGpgGroupNode();
 
-	virtual KgpgCore::KgpgItemType getType() const;
+        KgpgCore::KgpgItemType getType() const override;
 	/**
 	 * Return size of group
 	 *
 	 * @return the number of keys in this group
 	 */
-	virtual QString getSize() const;
-	virtual QString getName() const;
+        QString getSize() const override;
+        QString getName() const override;
 
 	/**
 	 * Rename this group node

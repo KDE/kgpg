@@ -48,7 +48,7 @@ public:
 	 */
 	const QString &getOutput() const;
 
-signals:
+Q_SIGNALS:
 	void revokeCertificate(const QString &cert);
 
 protected:

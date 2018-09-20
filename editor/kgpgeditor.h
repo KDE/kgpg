@@ -45,11 +45,11 @@ public:
     KgpgTextEdit * const m_editor;
     KRecentFilesAction *m_recentfiles;
 
-signals:
+Q_SIGNALS:
     void openChangeFont();
     void openConfigDialog();
 
-public slots:
+public Q_SLOTS:
     void openDocumentFile(const QUrl &url, const QString &encoding = QString());
     void slotSetFont(QFont myFont);
     void closeWindow();
@@ -57,10 +57,10 @@ public slots:
 protected:
     void saveOptions();
     void initActions();
-    bool queryClose();
+    bool queryClose() override;
     bool saveBeforeClear();
 
-private slots:
+private Q_SLOTS:
     // File menu
     void slotFileNew();
     void slotFileOpen();

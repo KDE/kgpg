@@ -71,7 +71,7 @@ public:
 	int idLength() const;
 	void setIdLength(const int length);
 
-public slots:
+public Q_SLOTS:
 	/**
 	 * @brief set if only secret keys should be shown
 	 * @param b new value

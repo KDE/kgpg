@@ -30,7 +30,7 @@ public:
     explicit KeyExport(QWidget *parent = nullptr, const QStringList &keyservers = QStringList());
 
 protected:
-	virtual void accept();
+        void accept() override;
 };
 
 #endif

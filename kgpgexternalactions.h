@@ -60,7 +60,7 @@ public:
 	static void encryptFiles(KeysManager* parent, const QList<QUrl>& urls);
 
 	void readOptions();
-signals:
+Q_SIGNALS:
 	void createNewKey();
 	void updateDefault(QString);
 
@@ -81,7 +81,7 @@ private:
 	QKeySequence goDefaultKey() const;
 	void decryptFile(QList<QUrl> urls);
 
-private slots:
+private Q_SLOTS:
 	void startFolderEncode();
 	void slotSaveOptionsPath();
 	void slotVerificationDone(int result);

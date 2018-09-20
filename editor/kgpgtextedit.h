@@ -32,17 +32,17 @@ class KgpgTextEdit : public KTextEdit
 
 public:
     explicit KgpgTextEdit(QWidget *parent, KGpgItemModel *model, KeysManager *manager);
-    ~KgpgTextEdit();
+    ~KgpgTextEdit() override;
 
     void signVerifyText(const QString &message);
     void openDroppedFile(const QUrl &url, const bool probe);
 
-signals:
+Q_SIGNALS:
     void newText();
     void resetEncoding(bool);
     void verifyFinished();
 
-public slots:
+public Q_SLOTS:
     void slotDroppedFile(const QUrl &url);
     void slotEncode();
     void slotDecode();
@@ -53,13 +53,13 @@ public slots:
     void slotVerifyDone(int result);
 
 protected:
-    void dragEnterEvent(QDragEnterEvent *e);
-    void dropEvent(QDropEvent *e);
+    void dragEnterEvent(QDragEnterEvent *e) override;
+    void dropEvent(QDropEvent *e) override;
 
 private:
     void verifyKeyNeeded(const QString &id);
 
-private slots:
+private Q_SLOTS:
     void slotEncodeUpdate(int result);
     void slotSignUpdate(int result);
 

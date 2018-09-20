@@ -32,7 +32,7 @@ public:
     explicit KgpgRevokeWidget(QWidget* parent = nullptr);
 
 
-public slots:
+public Q_SLOTS:
    virtual void cbSave_toggled(bool isOn);
 };
 

@@ -37,7 +37,7 @@ public:
 		AllowUntrustedEncryption = 0x2,	///< allow encryption with untrusted keys, ignored for symmetric encryption
 		HideKeyId = 0x4			///< remove anything that shows which key ids this data is encrypted to, ignored for symmetric encryption
 	};
-	Q_DECLARE_FLAGS(EncryptOptions, EncryptOption);
+        Q_DECLARE_FLAGS(EncryptOptions, EncryptOption)
 
 	/**
 	 * @brief encrypt given text
@@ -88,6 +88,6 @@ private:
 	QString m_currentFile;
 };
 
-Q_DECLARE_OPERATORS_FOR_FLAGS(KGpgEncrypt::EncryptOptions);
+Q_DECLARE_OPERATORS_FOR_FLAGS(KGpgEncrypt::EncryptOptions)
 
 #endif // KGPGENCRYPT_H

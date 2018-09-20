@@ -56,12 +56,12 @@ public:
 	/**
 	 * @brief FolderCompressJob destructor
 	 */
-	virtual ~FolderCompressJob();
+        ~FolderCompressJob() override;
 
 	/**
 	 * @brief shows the progress indicator
 	 */
-	virtual void start();
+        void start() override;
 
 	/**
 	 * @brief query extension for archive type
@@ -76,7 +76,7 @@ public:
 	 */
 	static const QStringList &archiveNames();
 
-private slots:
+private Q_SLOTS:
 	void doWork();
 	void slotEncryptionDone(int result);
 };

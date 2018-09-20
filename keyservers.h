@@ -74,7 +74,7 @@ public:
 	 */
 	void startImport(const QStringList &keys, QString server = QString(), const QString &proxy = QString());
 
-signals:
+Q_SIGNALS:
 	/**
 	 * @brief emitted when importing keys succeeded
 	 *
@@ -91,7 +91,7 @@ signals:
 	 */
 	void importFailed();
 
-public slots:
+public Q_SLOTS:
 	void slotImport();
 
 	void slotExport(const QStringList &keyIds);
@@ -110,7 +110,7 @@ public slots:
 	void slotOk();
 	void handleQuit();
 
-private slots:
+private Q_SLOTS:
 	void slotDownloadKeysFinished(int resultcode);
 	void slotUploadKeysFinished(int resultcode);
 

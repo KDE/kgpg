@@ -88,7 +88,7 @@ public Q_SLOTS:
 	/**
 	 * @brief called when "next" button is pressed
 	 */
-	virtual void next();
+        void next() override;
 
 private Q_SLOTS:
 	void slotBinaryChanged(const QString &binary);

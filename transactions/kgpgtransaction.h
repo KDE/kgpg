@@ -182,7 +182,7 @@ public:
 	 */
 	void insertArguments(const int pos, const QStringList &args);
 
-signals:
+Q_SIGNALS:
 	/**
 	 * @brief Emitted when the operation was completed.
 	 * @param result return status of the transaction

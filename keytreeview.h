@@ -50,19 +50,19 @@ public:
 
 	bool isEditing() const;
 
-signals:
+Q_SIGNALS:
 	void importDrop(const QList<QUrl> &urls);
 	void returnPressed();
 
-public slots:
+public Q_SLOTS:
 	void selectNode(KGpgNode *nd);
 	void resizeColumnsToContents();
 
 protected:
-	virtual void contentsDragMoveEvent(QDragMoveEvent *e);
-	virtual void contentsDropEvent(QDropEvent *e);
-	virtual void startDrag(Qt::DropActions);
-	virtual void keyPressEvent(QKeyEvent *event);
+        virtual void contentsDragMoveEvent(QDragMoveEvent *e);
+        virtual void contentsDropEvent(QDropEvent *e);
+        void startDrag(Qt::DropActions) override;
+        void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif

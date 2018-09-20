@@ -40,7 +40,7 @@ private:
 	int m_signs;
 
 protected:
-	virtual void readChildren();
+        void readChildren() override;
 
 	QList<KGpgRefNode *> m_refs;
 	QList<KGpgRefNode *> getRefsOfType(const KgpgCore::KgpgItemType &type) const;
@@ -50,23 +50,23 @@ public:
 	typedef QList<const KGpgKeyNode *> ConstList;
 
 	explicit KGpgKeyNode(KGpgRootNode *parent, const KgpgCore::KgpgKey &k);
-	virtual ~KGpgKeyNode();
+        ~KGpgKeyNode() override;
 
-	virtual bool hasChildren() const;
+        bool hasChildren() const override;
 
 	static KgpgCore::KgpgItemType getType(const KgpgCore::KgpgKey *k);
 
-	virtual KgpgCore::KgpgItemType getType() const;
-	virtual KgpgCore::KgpgKeyTrust getTrust() const;
+        KgpgCore::KgpgItemType getType() const override;
+        KgpgCore::KgpgKeyTrust getTrust() const override;
 	const QString &getFingerprint() const;
-	virtual QString getSize() const;
-	virtual QString getName() const;
-	virtual QString getEmail() const;
-	virtual QDateTime getExpiration() const;
-	virtual QDateTime getCreation() const;
-	virtual QString getId() const;
-	virtual KGpgKeyNode *getKeyNode(void);
-	virtual const KGpgKeyNode *getKeyNode(void) const;
+        QString getSize() const override;
+        QString getName() const override;
+        QString getEmail() const override;
+        QDateTime getExpiration() const override;
+        QDateTime getCreation() const override;
+        QString getId() const override;
+        KGpgKeyNode *getKeyNode(void) override;
+        const KGpgKeyNode *getKeyNode(void) const override;
 	/**
 	 * @brief Return if this key has a private key
 	 */
@@ -83,7 +83,7 @@ public:
 	 * @return the full fingerprint with spaces inserted
 	 */
 	QString getBeautifiedFingerprint() const;
-	virtual QString getComment() const;
+        QString getComment() const override;
 	/**
 	 * @brief Return the number of signatures of the primary user id
 	 *
@@ -94,7 +94,7 @@ public:
 	 *
 	 * @return the number of signatures to the primary user id
 	 */
-	virtual QString getSignCount() const;
+        QString getSignCount() const override;
 	/**
 	 * @brief Creates a copy of the KgpgKey that belongs to this class
 	 */
@@ -179,7 +179,7 @@ public:
 Q_SIGNALS:
 	void expanded();
 
-public slots:
+public Q_SLOTS:
 	/**
 	 * @brief read all subitems
 	 *

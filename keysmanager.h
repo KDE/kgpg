@@ -67,7 +67,7 @@ class KeysManager : public KXmlGuiWindow
 
 public:
     explicit KeysManager(QWidget *parent = nullptr);
-    ~KeysManager();
+    ~KeysManager() override;
 
     KGpgItemModel *getModel();
 
@@ -91,13 +91,13 @@ private:
     KSelectAction *photoProps;
     KSelectAction *trustProps;
 
-signals:
+Q_SIGNALS:
     void readAgainOptions();
     void certificate(QString);
     void closeAsked();
     void fontChanged(QFont);
 
-public slots:
+public Q_SLOTS:
     void slotGenerateKey();
     void refreshkey();
     void readAllOptions();
@@ -122,11 +122,11 @@ public slots:
     void slotImportDone(int ret);
 
 protected:
-    bool eventFilter(QObject *, QEvent *e);
+    bool eventFilter(QObject *, QEvent *e) override;
     void removeFromGroups(KGpgKeyNode *nd);
     void setDefaultKeyNode(KGpgKeyNode *key);
 
-private slots:
+private Q_SLOTS:
     void slotGenerateKeyDone(KJob *job);
 
     void slotShowTrust();

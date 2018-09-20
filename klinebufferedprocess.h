@@ -112,7 +112,7 @@ public:
      */
     bool hasLineStandardError() const;
 
-signals:
+Q_SIGNALS:
     /**
      * Emitted when there is a line of data available from stdout when there was
      * previously none.

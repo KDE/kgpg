@@ -83,7 +83,7 @@ public:
 	 */
 	SearchResult *resultForIndex(const QModelIndex &index) const;
 
-public slots:
+public Q_SLOTS:
 	void slotAddKey(const QStringList &lines);
 
 private:
@@ -136,7 +136,7 @@ public:
 	 */
 	void setSourceModel(QAbstractItemModel *sourceModel) override;
 
-public slots:
+public Q_SLOTS:
 	/**
 	 * @brief Control whether validity filtering of keys is enabled.
 	 *

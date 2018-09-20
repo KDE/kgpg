@@ -101,7 +101,7 @@ private:
 
 	void cleanUrls();
 
-private slots:
+private Q_SLOTS:
 	void postStart() override;
 };
 

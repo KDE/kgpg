@@ -72,7 +72,7 @@ protected:
 	void finish() override;
 	bool preStart() override;
 
-private slots:
+private Q_SLOTS:
 	/**
 	 * @brief abort the current operation
 	 */
