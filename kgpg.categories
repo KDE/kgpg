@@ -1,0 +1,2 @@
+org.kde.kgpg_general kgpg (general) IDENTIFIER [KGPG_LOG_GENERAL]
+org.kde.kgpg_transactions kgpg (transactions) IDENTIFIER [KGPG_LOG_TRANSACTIONS]
