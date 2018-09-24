@@ -925,10 +925,10 @@ void KeysManager::slotAddPhoto()
 	"if you use a very large picture, your key will become very large as well. The size should not exceed 6 KiB. "
 	"An image size of around 240x288 is a good size to use.");
 
-	if (KMessageBox::warningContinueCancel(0, mess) != KMessageBox::Continue)
+    if (KMessageBox::warningContinueCancel(nullptr, mess) != KMessageBox::Continue)
 		return;
 
-	QString imagepath = QFileDialog::getOpenFileName(0, QString(), QString(), QLatin1String( "image/jpeg" ));
+    QString imagepath = QFileDialog::getOpenFileName(nullptr, QString(), QString(), QLatin1String( "image/jpeg" ));
 	if (imagepath.isEmpty())
 		return;
 
@@ -1048,7 +1048,7 @@ void KeysManager::slotAddressbookSearchResult(KJob *job)
 void KeysManager::slotManpage()
 {
 	KToolInvocation::startServiceByDesktopName(QLatin1String("khelpcenter"),
-			QLatin1String("man:/gpg"), 0, 0, 0, QByteArray(), true);
+            QLatin1String("man:/gpg"), nullptr, nullptr, nullptr, QByteArray(), true);
 }
 
 void KeysManager::slotTip()
@@ -2828,7 +2828,7 @@ KeysManager::clipDecrypt()
 		return;
 	}
 
-	KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, 0);
+    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, nullptr);
 	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 	connect(this, &KeysManager::fontChanged, kgpgtxtedit, &KgpgEditor::slotSetFont);
 	kgpgtxtedit->m_editor->setPlainText(cliptext);
@@ -2846,7 +2846,7 @@ KeysManager::clipSign()
 		return;
 	}
 
-	KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, 0);
+    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, nullptr);
 	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 	connect(kgpgtxtedit->m_editor, &KgpgTextEdit::verifyFinished, kgpgtxtedit, &KgpgEditor::closeWindow);
 
