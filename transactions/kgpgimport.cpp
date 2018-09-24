@@ -12,12 +12,12 @@
  ***************************************************************************/
 
 #include "kgpgimport.h"
-#include "kgpg_debug.h"
+#include "kgpg_general_debug.h"
 
 #include "model/kgpgitemmodel.h"
 #include "core/KGpgKeyNode.h"
 
-#include <QDebug>
+
 
 #include <KLocalizedString>
 

@@ -20,14 +20,14 @@
  */
 #include "KGpgGroupNode.h"
 
-#include "kgpg_debug.h"
+#include "kgpg_general_debug.h"
 #include "KGpgGroupMemberNode.h"
 #include "KGpgRootNode.h"
 #include "kgpgsettings.h"
 
 #include <KLocalizedString>
 
-#include <QDebug>
+
 #include <QFile>
 #include <QStringList>
 #include <QTextStream>

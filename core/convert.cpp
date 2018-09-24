@@ -21,8 +21,8 @@
 
 #include "convert.h"
 
-#include <QDebug>
-#include "kgpg_debug.h"
+
+#include "kgpg_general_debug.h"
 #include <gpgme.h>
 
 #include "kgpgsettings.h"

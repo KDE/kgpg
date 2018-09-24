@@ -14,7 +14,7 @@
 #include "caff.h"
 #include "caff_p.h"
 
-#include "kgpg_debug.h"
+#include "kgpg_general_debug.h"
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "core/KGpgKeyNode.h"
@@ -29,7 +29,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include <QDebug>
+
 #include <QDesktopServices>
 #include <QDir>
 #include <QFileInfo>

@@ -10,6 +10,7 @@
 #include <QProcess>
 #include <QString>
 #include <QTemporaryDir>
+#include <QDebug>
 
 bool resetGpgConf(QTemporaryDir &basedir)
 {

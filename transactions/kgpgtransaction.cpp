@@ -12,14 +12,15 @@
  ***************************************************************************/
 
 #include "kgpgtransaction.h"
-#include "kgpg_debug.h"
+#include "kgpg_transactions_debug.h"
+#include "kgpg_general_debug.h"
 #include "kgpgtransactionprivate.h"
 
 #include "gpgproc.h"
 #include "kgpginterface.h"
 
 #include <QByteArray>
-#include <QDebug>
+
 #include <QStringList>
 #include <QUrl>
 #include <QWidget>

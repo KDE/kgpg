@@ -28,7 +28,7 @@
 #include "keyinfodialog.h"
 #include "keyservers.h"
 #include "keytreeview.h"
-#include "kgpg_debug.h"
+#include "kgpg_general_debug.h"
 #include "kgpg.h"
 #include "kgpgchangekey.h"
 #include "kgpgkeygenerate.h"
@@ -89,7 +89,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDBusConnection>
-#include <QDebug>
+
 #include <QDesktopServices>
 #include <QDir>
 #include <QEvent>

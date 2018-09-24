@@ -20,6 +20,7 @@ include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
 include(ECMSetupVersion)
 include(CMakeFindDependencyMacro)
+include(ECMQtDeclareLoggingCategory)
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
   Core
@@ -67,6 +68,9 @@ add_subdirectory( doc )
 include_directories(  ${KDEPIMLIBS_INCLUDE_DIR} ${GPGME_INCLUDES} )
 
 option(KGPG_DEBUG_TRANSACTIONS "show commands and results of gpg calls in debug log" Off)
+
+
+
 
 set(core_SRCS
    core/convert.cpp
@@ -143,7 +147,6 @@ set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transac
    kgpgoptions.cpp
    keysmanager.cpp
    kgpg.cpp
-   kgpg_debug.cpp
    kgpgkeygenerate.cpp
    kgpginterface.cpp
    kgpgtextinterface.cpp
@@ -168,6 +171,10 @@ set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transac
    foldercompressjob.cpp
 )
 
+ecm_qt_declare_logging_category(kgpg_SRCS HEADER kgpg_general_debug.h IDENTIFIER KGPG_LOG_GENERAL CATEGORY_NAME log_general_kgpg)
+ecm_qt_declare_logging_category(kgpg_SRCS HEADER kgpg_transactions_debug.h IDENTIFIER KGPG_LOG_TRANSACTIONS CATEGORY_NAME log_transactions_kgpg)
+
+
 set(kgpg_HDRS
    caff.h
    caff_p.h
@@ -190,7 +197,6 @@ set(kgpg_HDRS
    kgpgoptions.h
    kgpgrevokewidget.h
    kgpgtextinterface.h
-   kgpg_debug.h
    klinebufferedprocess.h
    newkey.h
    selectexpirydate.h

@@ -13,11 +13,11 @@
  ***************************************************************************/
 
 #include "kgpgsearchresultmodel.h"
-#include "kgpg_debug.h"
+#include "kgpg_general_debug.h"
 
 #include <KLocalizedString>
 
-#include <QDebug>
+
 #include <QDateTime>
 #include <QScopedPointer>
 #include <QString>

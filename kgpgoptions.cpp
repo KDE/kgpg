@@ -14,7 +14,7 @@
 
 #include "kgpgoptions.h"
 
-#include "kgpg_debug.h"
+#include "kgpg_general_debug.h"
 #include "kgpgsettings.h"
 #include "kgpginterface.h"
 #include "conf_encryption.h"
@@ -33,7 +33,7 @@
 #include <QUrl>
 
 #include <QCheckBox>
-#include <QDebug>
+
 #include <QFile>
 #include <QFileDialog>
 #include <QInputDialog>

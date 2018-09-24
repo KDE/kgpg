@@ -14,11 +14,11 @@
 #include "gpgproc.h"
 
 #include "kgpgsettings.h"
-#include "kgpg_debug.h"
+#include "kgpg_general_debug.h"
 
 #include <KProcess>
 
-#include <QDebug>
+
 #include <QDir>
 #include <QFileInfo>
 #include <QStringList>

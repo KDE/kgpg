@@ -13,9 +13,9 @@
 
 #include "kgpgtransactionprivate.h"
 #include "kgpgtransaction.h"
-#include "kgpg_debug.h"
+#include "kgpg_transactions_debug.h"
+#include "kgpg_general_debug.h"
 
-#include <QDebug>
 #include <QPointer>
 #include <QWidget>
 
