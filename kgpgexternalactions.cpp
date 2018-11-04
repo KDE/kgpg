@@ -258,7 +258,8 @@ void KGpgExternalActions::verifyFile(QUrl url)
 		}
 	} else {
 		sigfile = url.path();
-		url = QUrl(sigfile.left(sigfile.length() - 4));
+		sigfile.chop(4);
+		url = QUrl(sigfile);
 	}
 
 	KGpgVerify *kgpv = new KGpgVerify(parent(), QList<QUrl>({QUrl(sigfile)}));

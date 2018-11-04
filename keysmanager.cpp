@@ -608,7 +608,7 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		page->kURLRequester1->setUrl(KGpgRevokeDialog::revokeUrl(genkey->getName(), email));
 
 		const QString fingerprint(genkey->getFingerprint());
-		page->TLid->setText(QLatin1String( "<b>" ) + fingerprint.right(8) + QLatin1String( "</b>" ));
+		page->TLid->setText(QLatin1String( "<b>" ) % fingerprint.rightRef(8) % QLatin1String( "</b>" ));
 		page->LEfinger->setText(fingerprint);
 		page->CBdefault->setChecked(true);
 		page->show();

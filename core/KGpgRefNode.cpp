@@ -33,7 +33,7 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
 	KGpgExpandableNode *pnd = parent;
 
 	do {
-		m_selfsig = (pnd->getId().right(keyid.length()) == keyid);
+		m_selfsig = (pnd->getId().rightRef(keyid.length()).compare(keyid) == 0);
 		if (m_selfsig)
 			m_keynode = pnd->toKeyNode();
 		else

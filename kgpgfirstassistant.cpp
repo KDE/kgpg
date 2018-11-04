@@ -304,14 +304,13 @@ KGpgFirstAssistant::next()
 		binlabel->setText(i18n("Your GnuPG binary is: %1", gpgbin));
 		findConfigPath(gpgbin);
 	} else if (currentPage() == page_config) {
-		QString tst, name;
 		m_confPath = pathURL->url().path();
 
-		QString defaultID = KgpgInterface::getGpgSetting(QLatin1String( "default-key" ), m_confPath);
+		const QString defaultID = KgpgInterface::getGpgSetting(QLatin1String( "default-key" ), m_confPath);
 
 		if (!defaultID.isEmpty()) {
 			for (int i = 0; i < CBdefault->count(); i++) {
-				if (defaultID == CBdefault->itemData(i).toString().right(defaultID.length())) {
+				if (CBdefault->itemData(i).toString().rightRef(defaultID.length()).compare(defaultID) == 0) {
 					CBdefault->setCurrentIndex(i);
 					break;
 				}

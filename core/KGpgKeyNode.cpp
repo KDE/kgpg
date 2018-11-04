@@ -352,9 +352,7 @@ KGpgKeyNode::compareId(const QString &other) const
 
 	const QString comId = m_key->fullId().isEmpty() ? m_key->fingerprint() : m_key->fullId();
 
-	return (other.right(comId.length()).compare(
-			comId.right(other.length()),
-			Qt::CaseInsensitive) == 0);
+	return (other.rightRef(comId.length()).compare(comId.rightRef(other.length()), Qt::CaseInsensitive) == 0);
 }
 
 bool

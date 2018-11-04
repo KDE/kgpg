@@ -377,7 +377,7 @@ KeyListProxyModelPrivate::nodeLessThan(const KGpgNode *left, const KGpgNode *rig
 		return (left->getCreation() < right->getCreation());
 	default:
 		Q_ASSERT(column == KEYCOLUMN_ID);
-		return (left->getId().right(m_idLength) < right->getId().right(m_idLength));
+		return (left->getId().rightRef(m_idLength).compare(right->getId().rightRef(m_idLength)) < 0);
 	}
 }
 
