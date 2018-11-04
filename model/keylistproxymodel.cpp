@@ -88,8 +88,7 @@ KeyListProxyModelPrivate::reorderEmailComponents(const QString &emailAddress) co
 	/// split domain at .
 	static const QChar charDot = QLatin1Char('.');
 
-	/// convert result to lower case to make sorting case-insensitive
-	QString result = emailAddress.toLower();
+	QString result = emailAddress;
 
 	switch (m_emailSorting) {
 	case KGpgSettings::EnumEmailSorting::TLDfirst:
@@ -146,7 +145,7 @@ KeyListProxyModelPrivate::reorderEmailComponents(const QString &emailAddress) co
 		break;
 	}
 	case KGpgSettings::EnumEmailSorting::Alphabetical:
-		/// do not modify email address except for lower-case conversion
+		/// do not modify email address
 		break;
 	}
 
@@ -329,10 +328,10 @@ KeyListProxyModelPrivate::nodeLessThan(const KGpgNode *left, const KGpgNode *rig
 			else if (left->getName().startsWith(QLatin1Char( '[' )) && right->getName().startsWith(QLatin1Char( '[' )))
 				return (left->getId() < right->getId());
 		}
-		return (left->getName().compare(right->getName().toLower(), Qt::CaseInsensitive) < 0);
+		return (left->getName().compare(right->getName(), Qt::CaseInsensitive) < 0);
 	case KEYCOLUMN_EMAIL:
 		/// reverse email address to sort by TLD first, then domain, and account name last
-		return (reorderEmailComponents(left->getEmail()) < reorderEmailComponents(right->getEmail()));
+		return (reorderEmailComponents(left->getEmail()).compare(reorderEmailComponents(right->getEmail()), Qt::CaseInsensitive) < 0);
 	case KEYCOLUMN_TRUST:
 		return (left->getTrust() < right->getTrust());
 	case KEYCOLUMN_EXPIR:
