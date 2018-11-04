@@ -130,6 +130,7 @@
   <url type="help">https://docs.kde.org/?application=kgpg</url>
   <screenshots>
     <screenshot type="default">
+      <caption>Key management in KGpg</caption>
       <image>https://kde.org/images/screenshots/kgpg.png</image>
     </screenshot>
   </screenshots>
