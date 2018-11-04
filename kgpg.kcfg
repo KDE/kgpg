@@ -250,7 +250,7 @@
 		</entry>
 		<entry name="InfoServers" type="StringList" key="Info_Server_List">
 			<label>List of URLs that show details and analysis of the given key. The first server in the list is the default server.</label>
-			<default>http://pgp.cs.uu.nl/stats/$$ID8$$.html,http://webware.lysator.liu.se/jc/wotsap/wots/latest/keystatistics/0x$$ID8$$.txt,http://pgp.surfnet.nl:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x$$ID8$$;http://biglumber.com/x/web?pk=$$FPR$$</default>
+			<default>https://pgp.cs.uu.nl/stats/$$id16$$.html,http://webware.lysator.liu.se/jc/wotsap/wots/latest/keystatistics/0x$$ID8$$.txt,http://pgp.surfnet.nl:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x$$ID8$$;http://biglumber.com/x/web?pk=$$FPR$$</default>
 		</entry>
 	</group>
 
