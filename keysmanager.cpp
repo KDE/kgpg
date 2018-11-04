@@ -2806,13 +2806,15 @@ KeysManager::slotOpenKeyUrl()
 		return;
 
 	QString url = servers.first();
+	const QString idUC = id.toUpper();
+	const QString idLC = id.toLower();
 
-	url.replace(QLatin1String("$$ID8$$"), id.right(8).toUpper());
-	url.replace(QLatin1String("$$ID16$$"), id.toUpper());
-	url.replace(QLatin1String("$$FPR$$"), id.toUpper());
-	url.replace(QLatin1String("$$id8$$"), id.right(8).toLower());
-	url.replace(QLatin1String("$$id16$$"), id.toLower());
-	url.replace(QLatin1String("$$fpr$$"), id.toLower());
+	url.replace(QLatin1String("$$ID8$$"), idUC.right(8));
+	url.replace(QLatin1String("$$ID16$$"), idUC.right(16));
+	url.replace(QLatin1String("$$FPR$$"), idUC);
+	url.replace(QLatin1String("$$id8$$"), idLC.right(8));
+	url.replace(QLatin1String("$$id16$$"), idLC.right(16));
+	url.replace(QLatin1String("$$fpr$$"), idLC);
 
 	new KRun(QUrl(url), this);
 }
