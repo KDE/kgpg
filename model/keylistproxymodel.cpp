@@ -321,11 +321,13 @@ KeyListProxyModelPrivate::nodeLessThan(const KGpgNode *left, const KGpgNode *rig
 	switch (column) {
 	case KEYCOLUMN_NAME:
 		if (left->getType() == ITYPE_SIGN) {
-			if (left->getName().startsWith(QLatin1Char( '[' )) && !right->getName().startsWith(QLatin1Char( '[' )))
+			const bool leftIsId = static_cast<const KGpgSignNode *>(left)->getRefNode() == nullptr;
+			const bool rightIsId = static_cast<const KGpgSignNode *>(right)->getRefNode() == nullptr;
+			if (leftIsId && !rightIsId)
 				return false;
-			else if (!left->getName().startsWith(QLatin1Char( '[' )) && right->getName().startsWith(QLatin1Char( '[' )))
+			else if (!leftIsId && rightIsId)
 				return true;
-			else if (left->getName().startsWith(QLatin1Char( '[' )) && right->getName().startsWith(QLatin1Char( '[' )))
+			else if (leftIsId && rightIsId)
 				return (left->getId() < right->getId());
 		}
 		return (left->getName().compare(right->getName(), Qt::CaseInsensitive) < 0);
