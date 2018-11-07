@@ -128,6 +128,7 @@
   <url type="homepage">https://utils.kde.org/projects/kgpg/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kgpg</url>
   <url type="help">https://docs.kde.org/?application=kgpg</url>
+  <url type="donation">https://www.kde.org/community/donations/?app=kgpg&amp;source=appdata</url>
   <screenshots>
     <screenshot type="default">
       <caption>Key management in KGpg</caption>
