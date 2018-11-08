@@ -133,11 +133,14 @@
     <screenshot type="default">
       <caption>Key management in KGpg</caption>
       <caption xml:lang="ca">Gestió de claus al KGpg</caption>
+      <caption xml:lang="ca-valencia">Gestió de claus al KGpg</caption>
       <caption xml:lang="de">Schlüsselverwaltung mit KGpg</caption>
+      <caption xml:lang="es">Gestión de claves en KGpg</caption>
       <caption xml:lang="gl">Xestión de chaves en KGpg</caption>
       <caption xml:lang="nl">Sleutelbeheer in KGpg</caption>
       <caption xml:lang="nn">Nøkkelhandsaming i KGpg</caption>
       <caption xml:lang="pt">Gestão de chaves no KGpg</caption>
+      <caption xml:lang="pt-BR">Gerenciamento de chaves no KGpg</caption>
       <caption xml:lang="sv">Nyckelhantering i Kgpg</caption>
       <caption xml:lang="uk">Керування ключами у KGpg</caption>
       <caption xml:lang="x-test">xxKey management in KGpgxx</caption>
