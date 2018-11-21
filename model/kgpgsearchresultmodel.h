@@ -112,7 +112,7 @@ class KGpgSearchResultModel : public QSortFilterProxyModel {
 	Q_OBJECT
 public:
 	explicit KGpgSearchResultModel(QObject *parent = nullptr);
-	~KGpgSearchResultModel();
+    ~KGpgSearchResultModel() override;
 
 	bool filterByValidity() const;
 	bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;

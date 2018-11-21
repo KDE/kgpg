@@ -43,7 +43,7 @@ protected:
 public:
 	KGpgGroupNode(KGpgRootNode *parent, const QString &name, const QStringList &members);
 	KGpgGroupNode(KGpgRootNode *parent, const QString &name, const KGpgKeyNode::List &members);
-	virtual ~KGpgGroupNode();
+    ~KGpgGroupNode() override;
 
         KgpgCore::KgpgItemType getType() const override;
 	/**

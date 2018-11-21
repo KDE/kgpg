@@ -51,7 +51,7 @@ KGpgRootNode::readChildren()
 KgpgCore::KgpgItemType
 KGpgRootNode::getType() const
 {
-	return 0;
+    return {};
 }
 
 void
