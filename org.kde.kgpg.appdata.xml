@@ -137,6 +137,7 @@
       <caption xml:lang="ca-valencia">Gestió de claus al KGpg</caption>
       <caption xml:lang="cs">Správa klíčů v KGpg</caption>
       <caption xml:lang="de">Schlüsselverwaltung mit KGpg</caption>
+      <caption xml:lang="en-GB">Key management in KGpg</caption>
       <caption xml:lang="es">Gestión de claves en KGpg</caption>
       <caption xml:lang="fi">Avainten hallinta KGpg:ssä</caption>
       <caption xml:lang="gl">Xestión de chaves en KGpg</caption>
@@ -149,6 +150,7 @@
       <caption xml:lang="sv">Nyckelhantering i Kgpg</caption>
       <caption xml:lang="uk">Керування ключами у KGpg</caption>
       <caption xml:lang="x-test">xxKey management in KGpgxx</caption>
+      <caption xml:lang="zh-TW">在 KGpg 管理金鑰</caption>
       <image>https://kde.org/images/screenshots/kgpg.png</image>
     </screenshot>
   </screenshots>
