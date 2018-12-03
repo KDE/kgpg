@@ -42,7 +42,7 @@
   <name xml:lang="uk">KGpg</name>
   <name xml:lang="x-test">xxKGpgxx</name>
   <name xml:lang="zh-CN">KGpg</name>
-  <name xml:lang="zh-TW">加密工具_KGpg</name>
+  <name xml:lang="zh-TW">KGpg</name>
   <summary>Encryption Tool</summary>
   <summary xml:lang="bs">Kriptografski alat</summary>
   <summary xml:lang="ca">Eina d'encriptatge</summary>
@@ -137,6 +137,7 @@
       <caption xml:lang="ca-valencia">Gestió de claus al KGpg</caption>
       <caption xml:lang="cs">Správa klíčů v KGpg</caption>
       <caption xml:lang="de">Schlüsselverwaltung mit KGpg</caption>
+      <caption xml:lang="en-GB">Key management in KGpg</caption>
       <caption xml:lang="es">Gestión de claves en KGpg</caption>
       <caption xml:lang="fi">Avainten hallinta KGpg:ssä</caption>
       <caption xml:lang="gl">Xestión de chaves en KGpg</caption>
@@ -150,6 +151,7 @@
       <caption xml:lang="uk">Керування ключами у KGpg</caption>
       <caption xml:lang="x-test">xxKey management in KGpgxx</caption>
       <caption xml:lang="zh-CN">在 KGpg 中管理密钥</caption>
+      <caption xml:lang="zh-TW">在 KGpg 管理金鑰</caption>
       <image>https://kde.org/images/screenshots/kgpg.png</image>
     </screenshot>
   </screenshots>
