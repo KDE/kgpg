@@ -43,6 +43,7 @@ protected:
 	 * @brief work with given text
 	 * @param parent parent object
 	 * @param text text to work with
+	 * @param allowChaining whether to allow chaining
 	 */
     explicit KGpgTextOrFileTransaction(QObject *parent = nullptr, const QString &text = QString(), const bool allowChaining = false);
 
@@ -50,6 +51,7 @@ protected:
 	 * @brief work with given file(s)
 	 * @param parent parent object
 	 * @param files list of file locations to work with
+	 * @param allowChaining whether to allow chaining
 	 */
 	KGpgTextOrFileTransaction(QObject *parent, const QList<QUrl> &files, const bool allowChaining = false);
 

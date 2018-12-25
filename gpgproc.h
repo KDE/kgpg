@@ -87,10 +87,11 @@ public:
     int readln(QStringList &l);
 
     /**
-     * Recode a line from GnuPG encoding to UTF8
+     * Recode a line from GnuPG encoding
      *
      * @param a data to recode
      * @param colons recode also colons
+     * @param codec the name of the new encoding. The default encoding is utf8.
      * @return recoded string
      */
     static QString recode(QByteArray a, const bool colons = true, const QByteArray &codec = QByteArray());

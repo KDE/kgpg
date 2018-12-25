@@ -39,7 +39,8 @@ public:
 	 * @brief create a new object to sign and mail key ids
 	 * @param parent parent object
 	 * @param ids list of keys to sign
-	 * @param signids secret key ids to sign @ids with
+	 * @param signids secret key ids to sign @p ids with
+	 * @param checklevel check level, @see carefulCheck
 	 * @param flags control flags
 	 */
 	KGpgCaff(QObject *parent, const KGpgSignableNode::List &ids, const QStringList &signids,

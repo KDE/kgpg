@@ -315,7 +315,7 @@ private:
      * @brief Opens the console when the user want to sign a key manually.
      * @param signer key to sign with
      * @param keyid key to sign
-     * @param checking how carefule the identify was checked
+     * @param checking how careful the identify was checked
      * @param local if signature should be local (not exportable)
      */
     void signKeyOpenConsole(const QString &signer, const QString &keyid, const int checking, const bool local);

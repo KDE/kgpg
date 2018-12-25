@@ -36,7 +36,7 @@ class QUrl;
  * members to set extra arguments for the process.
  *
  * If you want to add a new operation create a child class that implements
- * nextLine(). Ususally you also need a constructor that takes some information
+ * nextLine(). Usually you also need a constructor that takes some information
  * like the id of the key to modify.
  *
  * @author Rolf Eike Beer
@@ -254,9 +254,9 @@ protected:
 	 * @brief called when GnuPG asks for confirmation for overwriting a file
 	 * @param currentFile fill in the current filename for the user dialog
 	 * @return what to answer to GnuPG
-	 * @retval BA_YES file will be overwritten, @currentFile is ignored
-	 * @retval BA_NO file will not be overwritten, if currentFile is given this will automatically be provided as alternative to GnuPG
-	 * @retval BA_UNKNOWN ask the user for a choice or abort, currentFile is provided to the user as a hint about the original filename, if currentFile is empty the transaction is aborted
+	 * @retval BA_YES file will be overwritten, @p currentFile is ignored
+	 * @retval BA_NO file will not be overwritten, if @p currentFile is given this will automatically be provided as alternative to GnuPG
+	 * @retval BA_UNKNOWN ask the user for a choice or abort, @p currentFile is provided to the user as a hint about the original filename, if @p currentFile is empty the transaction is aborted
 	 *
 	 * The default implementation will just return BA_UNKNOWN without setting
 	 * a filename, causing a sequence error.

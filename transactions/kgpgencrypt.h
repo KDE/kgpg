@@ -45,6 +45,7 @@ public:
 	 * @param userIds ids to encrypt to or empty list to use symmetric encryption with passphrase
 	 * @param text text to encrypt
 	 * @param options encryption options
+	 * @param extraOptions extra encryption options
 	 */
 	explicit KGpgEncrypt(QObject *parent, const QStringList &userIds = QStringList(), const QString &text = QString(), const EncryptOptions &options = DefaultEncryption, const QStringList &extraOptions = QStringList());
 
@@ -54,6 +55,7 @@ public:
 	 * @param userIds ids to encrypt to or empty list to use symmetric encryption with passphrase
 	 * @param files list of file locations to encrypt
 	 * @param options encryption options
+	 * @param extraOptions extra encryption options
 	 */
 	KGpgEncrypt(QObject *parent, const QStringList &userIds, const QList<QUrl> &files, const EncryptOptions &options = DefaultEncryption, const QStringList &extraOptions = QStringList());
 

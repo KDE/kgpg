@@ -103,6 +103,7 @@ public:
 	/**
 	 * @brief get detailed summary of import
 	 * @param log import log
+	 * @param model item model, @see KGpgItemModel
 	 * @return message describing which keys changed and how
 	 *
 	 * The log must contain a "IMPORT_RES" line. If this is not present

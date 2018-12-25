@@ -43,6 +43,7 @@ public:
 	 * @param signId the key to use for signing
 	 * @param text text to sign
 	 * @param options signing options
+	 * @param extraOptions extra signing options
 	 */
 	KGpgSignText(QObject *parent, const QString &signId, const QString &text = QString(), const SignOptions &options = AsciiArmored, const QStringList &extraOptions = QStringList());
 
@@ -52,6 +53,7 @@ public:
 	 * @param signId the key to use for signing
 	 * @param files list of file locations to sign (must only be 1 file)
 	 * @param options signing options
+	 * @param extraOptions extra signing options
 	 *
 	 * @warning GnuPG can currently handle only one file per invocation for
 	 * signing, so files may only contain one single file.

@@ -213,6 +213,7 @@ public:
      * @param subtype key capabilities of this subkey
      * @param keytype key capabilities of this and all subkeys combined
      * @param creationDate date of key creation
+     * @param curve GnuPG ECC curve name
      */
     KgpgKeyPrivate(const QString &id, const uint size, const KgpgCore::KgpgKeyTrust trust, const KgpgCore::KgpgKeyAlgo algo,
                    const KgpgCore::KgpgSubKeyType subtype, const KgpgCore::KgpgSubKeyType keytype, const QDateTime &creationDate,
@@ -254,6 +255,7 @@ public:
      * @param subtype key capabilities of this subkey
      * @param keytype key capabilities of this and all subkeys combined
      * @param creationDate date of key creation
+     * @param curve GnuPG ECC curve name
      */
     KgpgKey(const QString &id, const uint size, const KgpgCore::KgpgKeyTrust trust, const KgpgCore::KgpgKeyAlgo algo,
             const KgpgCore::KgpgSubKeyType subtype, const KgpgCore::KgpgSubKeyType keytype, const QDateTime& creationDate,
