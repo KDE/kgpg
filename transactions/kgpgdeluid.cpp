@@ -53,12 +53,6 @@ KGpgDelUid::setUid(const KGpgSignableNode *uid)
 	setUids(uids);
 }
 
-bool
-signNodeGreaterThan(const KGpgSignableNode *s1, const KGpgSignableNode *s2)
-{
-	return *s2 < *s1;
-}
-
 void
 KGpgDelUid::setUids(const KGpgSignableNode::const_List &uids)
 {
@@ -74,8 +68,8 @@ KGpgDelUid::setUids(const KGpgSignableNode::const_List &uids)
 	for (int i = args.count() - m_fixargs - 1; i > 0; i--)
 		args.removeLast();
 
-	// FIXME: can this use qGreater<>()?
-	std::sort(m_uids.begin(), m_uids.end(), signNodeGreaterThan);
+	std::sort(m_uids.begin(), m_uids.end(),
+			[](const KGpgSignableNode *s, const KGpgSignableNode *t) { return *t < *s; });
 
 	const KGpgSignableNode *nd = m_uids.first();
 	const KGpgExpandableNode *parent;
