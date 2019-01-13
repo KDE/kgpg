@@ -397,7 +397,7 @@ KeysManager::KeysManager(QWidget *parent)
 	m_popupout = new QMenu(this);
 	m_popupout->addAction(importKey);
 
-	m_popupsig = new QMenu();
+	m_popupsig = new QMenu(this);
 	m_popupsig->addAction(importSignatureKey);
 	m_popupsig->addAction(delSignKey);
 
