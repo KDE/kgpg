@@ -122,10 +122,10 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	connect(m_page4->changeHome, &QPushButton::clicked, this, &kgpgOptions::slotChangeHome);
 	connect(m_page6->server_add, &QPushButton::clicked, this, &kgpgOptions::slotAddKeyServer);
 	connect(m_page6->server_del, &QPushButton::clicked, this, &kgpgOptions::slotDelKeyServer);
-	connect(m_page6->server_edit, &QPushButton::clicked, this, static_cast<void(kgpgOptions::*)()>(&kgpgOptions::slotEditKeyServer));
+	connect(m_page6->server_edit, &QPushButton::clicked, this, QOverload<>::of(&kgpgOptions::slotEditKeyServer));
 	connect(m_page6->server_default, &QPushButton::clicked, this, &kgpgOptions::slotDefaultKeyServer);
 	connect(m_page6->ServerBox->selectionModel(), &QItemSelectionModel::selectionChanged, this, &kgpgOptions::slotChangeKeyServerButtonEnable);
-	connect(m_page6->ServerBox, &QListView::doubleClicked, this, static_cast<void(kgpgOptions::*)(const QModelIndex &)>(&kgpgOptions::slotEditKeyServer));
+	connect(m_page6->ServerBox, &QListView::doubleClicked, this, QOverload<const QModelIndex &>::of(&kgpgOptions::slotEditKeyServer));
 	connect(m_page7->kcfg_ShowSystray, &QPushButton::clicked, this, &kgpgOptions::slotSystrayEnable);
 
 	keyUltimate = KGpgSettings::colorUltimate();

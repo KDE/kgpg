@@ -61,7 +61,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
     connect(m_kname, &QLineEdit::textChanged, this, &KgpgKeyGenerate::slotEnableOk);
 
     m_keyexp->setMinimumSize(m_keyexp->sizeHint());
-    connect(m_keyexp, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &KgpgKeyGenerate::slotEnableDays);
+    connect(m_keyexp, QOverload<int>::of(&QComboBox::activated), this, &KgpgKeyGenerate::slotEnableDays);
 
     m_keysize->addItem(i18n("1024"));
     m_keysize->addItem(i18n("2048"));
@@ -89,7 +89,7 @@ KgpgKeyGenerate::KgpgKeyGenerate(QWidget *parent)
 
     connect(okButton, &QPushButton::clicked, this, &KgpgKeyGenerate::slotOk);
     connect(user1Button, &QPushButton::clicked, this, &KgpgKeyGenerate::slotUser1);
-    connect(m_keykind, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, &KgpgKeyGenerate::slotEnableCaps);
+    connect(m_keykind, QOverload<int>::of(&QComboBox::activated), this, &KgpgKeyGenerate::slotEnableCaps);
 }
 
 void KgpgKeyGenerate::slotOk()

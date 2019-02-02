@@ -406,7 +406,7 @@ void KgpgEditor::slotFind()
 			m_find->setData(m_editor->toPlainText(), m_editor->textCursor().selectionStart());
 		else
 			m_find->setData(m_editor->toPlainText());
-		connect(m_find, static_cast<void(KFind::*)(const QString&,int, int)>(&KFind::highlight), m_editor, &KgpgTextEdit::slotHighlightText);
+		connect(m_find, QOverload<const QString&, int, int>::of(&KFind::highlight), m_editor, &KgpgTextEdit::slotHighlightText);
 		connect(m_find, &KFind::findNext, this, &KgpgEditor::slotFindText);
 	} else {
 		m_find->setPattern(fd->pattern());

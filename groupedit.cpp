@@ -69,10 +69,10 @@ groupEdit::groupEdit(QWidget *parent, QList<KGpgNode *> *ids, KGpgItemModel *md)
 
 	setMinimumSize(sizeHint());
 
-	connect(buttonAdd, &QPushButton::clicked, this, static_cast<void(groupEdit::*)()>(&groupEdit::groupAdd));
-	connect(buttonRemove, &QPushButton::clicked, this, static_cast<void(groupEdit::*)()>(&groupEdit::groupRemove));
-	connect(availableKeys, &QTableView::doubleClicked, this, static_cast<void(groupEdit::*)(const QModelIndex&)>(&groupEdit::groupAdd));
-	connect(groupKeys, &QTableView::doubleClicked, this, static_cast<void(groupEdit::*)(const QModelIndex&)>(&groupEdit::groupRemove));
+	connect(buttonAdd, &QPushButton::clicked, this, QOverload<>::of(&groupEdit::groupAdd));
+	connect(buttonRemove, &QPushButton::clicked, this, QOverload<>::of(&groupEdit::groupRemove));
+	connect(availableKeys, &QTableView::doubleClicked, this, QOverload<const QModelIndex&>::of(&groupEdit::groupAdd));
+	connect(groupKeys, &QTableView::doubleClicked, this, QOverload<const QModelIndex&>::of(&groupEdit::groupRemove));
 }
 
 groupEdit::~groupEdit()

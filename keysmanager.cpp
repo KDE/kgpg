@@ -328,8 +328,8 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(this, &KeysManager::readAgainOptions, iproxy, &KeyListProxyModel::settingsChanged);
 
 	iview = new KeyTreeView(this, iproxy);
-	connect(iview, &KeyTreeView::doubleClicked, this, static_cast<void(KeysManager::*)(const QModelIndex &)>(&KeysManager::defaultAction));
-	connect(iview, &KeyTreeView::importDrop, this, static_cast<void(KeysManager::*)(const QList<QUrl> &)>(&KeysManager::slotImport));
+	connect(iview, &KeyTreeView::doubleClicked, this, QOverload<const QModelIndex &>::of(&KeysManager::defaultAction));
+	connect(iview, &KeyTreeView::importDrop, this, QOverload<const QList<QUrl> &>::of(&KeysManager::slotImport));
 	iview->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	setCentralWidget(iview);
 	iview->resizeColumnsToContents();
@@ -423,8 +423,8 @@ KeysManager::KeysManager(QWidget *parent)
 	KConfigGroup cg = KConfigGroup(KSharedConfig::openConfig().data(), "KeyView");
 	iview->restoreLayout(cg);
 
-	connect(photoProps, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &KeysManager::slotSetPhotoSize);
-	connect(trustProps, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &KeysManager::slotSetTrustFilter);
+	connect(photoProps, QOverload<int>::of(&KSelectAction::triggered), this, &KeysManager::slotSetPhotoSize);
+	connect(trustProps, QOverload<int>::of(&KSelectAction::triggered), this, &KeysManager::slotSetTrustFilter);
 
 	QLabel *searchLabel = new QLabel(i18n("Search:"), this);
 	m_listviewsearch = new QLineEdit(this);
@@ -442,7 +442,7 @@ KeysManager::KeysManager(QWidget *parent)
 	actionCollection()->addAction(QLatin1String( "search_line" ), searchLineAction);
 	searchLineAction->setDefaultWidget(searchWidget);
 
-	action = actionCollection()->addAction(QLatin1String("search_focus"), m_listviewsearch, static_cast<void (QWidget::*)()>(&QWidget::setFocus));
+	action = actionCollection()->addAction(QLatin1String("search_focus"), m_listviewsearch, QOverload<>::of(&QWidget::setFocus));
 	action->setText(i18nc("Name of the action that gives the focus to the search line", "Focus Search Line"));
 	actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::Key_F6));
 	connect(m_listviewsearch, &QLineEdit::textChanged, iproxy, &KeyListProxyModel::setFilterFixedString);
@@ -1059,7 +1059,7 @@ void KeysManager::slotTip()
 void KeysManager::showKeyServer()
 {
 	QPointer<KeyServer> ks = new KeyServer(this, imodel);
-	connect(ks.data(), &KeyServer::importFinished, imodel, static_cast<void(KGpgItemModel::*)(const QStringList &)>(&KGpgItemModel::refreshKeys));
+	connect(ks.data(), &KeyServer::importFinished, imodel, QOverload<const QStringList &>::of(&KGpgItemModel::refreshKeys));
 	ks->exec();
 
 	delete ks;
@@ -1639,8 +1639,8 @@ KeysManager::showProperties(KGpgNode *n)
 	case ITYPE_PAIR: {
 		KGpgKeyNode *k = n->toKeyNode();
 		QPointer<KgpgKeyInfo> opts = new KgpgKeyInfo(k, imodel, this);
-		connect(opts.data(), &KgpgKeyInfo::keyNeedsRefresh, imodel, static_cast<void(KGpgItemModel::*)(KGpgKeyNode *)>(&KGpgItemModel::refreshKey));
-		connect(opts->keychange, &KGpgChangeKey::keyNeedsRefresh, imodel, static_cast<void(KGpgItemModel::*)(KGpgKeyNode *)>(&KGpgItemModel::refreshKey));
+		connect(opts.data(), &KgpgKeyInfo::keyNeedsRefresh, imodel, QOverload<KGpgKeyNode *>::of(&KGpgItemModel::refreshKey));
+		connect(opts->keychange, &KGpgChangeKey::keyNeedsRefresh, imodel, QOverload<KGpgKeyNode *>::of(&KGpgItemModel::refreshKey));
 		opts->exec();
 		delete opts;
 	}
@@ -1682,7 +1682,7 @@ void KeysManager::keyproperties()
 	}
 
 	QPointer<KgpgKeyInfo> opts = new KgpgKeyInfo(kn, imodel, this);
-	connect(opts.data(), &KgpgKeyInfo::keyNeedsRefresh, imodel, static_cast<void(KGpgItemModel::*)(KGpgKeyNode *)>(&KGpgItemModel::refreshKey));
+	connect(opts.data(), &KgpgKeyInfo::keyNeedsRefresh, imodel, QOverload<KGpgKeyNode *>::of(&KGpgItemModel::refreshKey));
 	opts->exec();
 	delete opts;
 }
@@ -2287,7 +2287,7 @@ void KeysManager::slotedit()
 	terminalkey = nd->toKeyNode();
 	editKey->setEnabled(false);
 
-	connect(kp, static_cast<void (KProcess::*)(int)>(&KProcess::finished), this, &KeysManager::slotEditDone);
+	connect(kp, QOverload<int>::of(&KProcess::finished), this, &KeysManager::slotEditDone);
 	kp->start();
 }
 

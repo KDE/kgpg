@@ -158,7 +158,7 @@ void KGpgExternalActions::encryptFolders(KeysManager *parent, const QList<QUrl> 
 	bGroupHBoxLayout->addWidget(optionbx);
 	optionbx->setModel(new QStringListModel(FolderCompressJob::archiveNames(), bGroup));
 
-	connect(optionbx, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), encActions, &KGpgExternalActions::slotSetCompression);
+	connect(optionbx, QOverload<int>::of(&QComboBox::activated), encActions, &KGpgExternalActions::slotSetCompression);
 	connect(dialog, &KgpgSelectPublicKeyDlg::accepted, encActions, &KGpgExternalActions::startFolderEncode);
 	connect(dialog, &KgpgSelectPublicKeyDlg::rejected, encActions, &KGpgExternalActions::deleteLater);
 	connect(dialog, &KgpgSelectPublicKeyDlg::rejected, dialog, &KgpgSelectPublicKeyDlg::deleteLater);
