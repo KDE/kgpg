@@ -82,7 +82,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 
     m_searchbar = new QWidget(page);
     QHBoxLayout *searchbarHBoxLayout = new QHBoxLayout(m_searchbar);
-    searchbarHBoxLayout->setMargin(0);
+    searchbarHBoxLayout->setContentsMargins(0, 0, 0, 0);
     QLabel *searchlabel = new QLabel(i18n("&Search: "), m_searchbar);
     searchbarHBoxLayout->addWidget(searchlabel);
 
@@ -105,7 +105,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
 
     optionsbox = new QWidget();
     QVBoxLayout *optionsboxVBoxLayout = new QVBoxLayout(optionsbox);
-    optionsboxVBoxLayout->setMargin(0);
+    optionsboxVBoxLayout->setContentsMargins(0, 0, 0, 0);
     optionsbox->hide();
 
     if (m_hideasciioption)
@@ -140,7 +140,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
                                      "to encrypt/decrypt the file"));
 
     QVBoxLayout *dialoglayout = new QVBoxLayout(page);
-    dialoglayout->setMargin(0);
+    dialoglayout->setContentsMargins(0, 0, 0, 0);
     dialoglayout->addWidget(m_searchbar);
     dialoglayout->addWidget(m_keyslist);
     page->setLayout(dialoglayout);
@@ -149,7 +149,7 @@ KgpgSelectPublicKeyDlg::KgpgSelectPublicKeyDlg(QWidget *parent, KGpgItemModel *m
     {
         QWidget *expertbox = new QWidget(page);
         QHBoxLayout *expertboxHBoxLayout = new QHBoxLayout(expertbox);
-        expertboxHBoxLayout->setMargin(0);
+        expertboxHBoxLayout->setContentsMargins(0, 0, 0, 0);
         (void) new QLabel(i18n("Custom option:"), expertbox);
 
         m_customoptions = new QLineEdit(expertbox);

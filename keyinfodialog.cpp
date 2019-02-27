@@ -58,7 +58,7 @@ KgpgTrustLabel::KgpgTrustLabel(QWidget *parent)
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setSpacing(10);
-    layout->setMargin(2);
+    layout->setContentsMargins(2, 2, 2, 2);
     layout->addWidget(m_text_w);
     layout->addWidget(m_color_w);
 

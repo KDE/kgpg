@@ -432,7 +432,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 	QWidget *searchWidget = new QWidget(this);
 	QHBoxLayout *searchLayout = new QHBoxLayout(searchWidget);
-	searchLayout->setMargin(0);
+	searchLayout->setContentsMargins(0, 0, 0, 0);
 	searchLayout->addWidget(searchLabel);
 	searchLayout->addWidget(m_listviewsearch);
 	searchLayout->addStretch();

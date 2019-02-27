@@ -48,7 +48,6 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 	QWidget *page = new QWidget(this);
 	QGridLayout *gridLayout = new QGridLayout(page);
 	gridLayout->setSpacing(6);
-	gridLayout->setMargin(11);
 	gridLayout->setContentsMargins(0, 0, 0, 0);
 
 	QLabel *label = new QLabel(page);
@@ -82,7 +81,6 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	gridLayout = new QGridLayout(page);
 	gridLayout->setSpacing(6);
-	gridLayout->setMargin(11);
 	gridLayout->setContentsMargins(0, 0, 0, 0);
 
 	label = new QLabel(page);
@@ -130,7 +128,6 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	gridLayout = new QGridLayout(page);
 	gridLayout->setSpacing(6);
-	gridLayout->setMargin(11);
 	gridLayout->setContentsMargins(0, 0, 0, 0);
 	text_optionsfound = new QLabel(page);
 	text_optionsfound->setAlignment(Qt::AlignTop);
@@ -176,7 +173,6 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 	page = new QWidget(this);
 	gridLayout = new QGridLayout(page);
 	gridLayout->setSpacing(6);
-	gridLayout->setMargin(11);
 	gridLayout->setContentsMargins(0, 0, 0, 0);
 
 	QHBoxLayout *hboxLayout = new QHBoxLayout();
@@ -207,7 +203,6 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 
 	gridLayout = new QGridLayout(page);
 	gridLayout->setSpacing(6);
-	gridLayout->setMargin(11);
 	gridLayout->setContentsMargins(0, 0, 0, 0);
 
 	binlabel = new QLabel(page);
