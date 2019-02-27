@@ -150,7 +150,7 @@ void KGpgExternalActions::encryptFolders(KeysManager *parent, const QList<QUrl> 
 
 	QWidget *bGroup = new QWidget(dialog->optionsbox);
 	QHBoxLayout *bGroupHBoxLayout = new QHBoxLayout(bGroup);
-	bGroupHBoxLayout->setMargin(0);
+	bGroupHBoxLayout->setContentsMargins(0, 0, 0, 0);
 
 	(void) new QLabel(i18n("Compression method for archive:"), bGroup);
 
