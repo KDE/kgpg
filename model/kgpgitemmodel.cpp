@@ -161,7 +161,7 @@ KGpgItemModel::data(const QModelIndex &index, int role) const
 		}
 
 		switch (role) {
-		case Qt::BackgroundColorRole:
+		case Qt::BackgroundRole:
 			switch (t) {
 			case TRUST_INVALID:
 			case TRUST_DISABLED:

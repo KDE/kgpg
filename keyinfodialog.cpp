@@ -211,7 +211,7 @@ void KgpgKeyInfo::displayKey()
     if (key->valid()) {
         QModelIndex idx = m_model->nodeIndex(m_node, KEYCOLUMN_TRUST);
         trust = m_model->data(idx, Qt::AccessibleTextRole).toString();
-        trustcolor = m_model->data(idx, Qt::BackgroundColorRole).value<QColor>();
+        trustcolor = m_model->data(idx, Qt::BackgroundRole).value<QColor>();
     } else {
         trust = Convert::toString(TRUST_DISABLED);
         trustcolor = KGpgSettings::colorBad();
