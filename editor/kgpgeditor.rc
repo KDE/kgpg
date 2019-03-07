@@ -1,5 +1,5 @@
-<!DOCTYPE kpartgui>
-<kpartgui name="kgpg" version="33">
+<!DOCTYPE gui SYSTEM "kpartgui.dtd">
+<gui name="kgpg" version="33">
 <MenuBar>
     <Menu name="file">
         <Action name="file_new_window"/>
@@ -26,4 +26,4 @@
   <Action name="text_encrypt"/>
   <Action name="text_decrypt"/>
  </ToolBar>
-</kpartgui>
+</gui>

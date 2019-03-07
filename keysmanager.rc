@@ -1,5 +1,5 @@
-<!DOCTYPE kpartgui>
-<kpartgui name="KeysManager" version="35">
+<!DOCTYPE gui SYSTEM "kpartgui.dtd">
+<gui name="KeysManager" version="35">
 
 <MenuBar>
     <Menu name="managekeys">
@@ -152,4 +152,4 @@
   </disable>
 </State>
 
-</kpartgui>
+</gui>
