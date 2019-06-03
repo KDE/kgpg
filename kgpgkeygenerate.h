@@ -22,7 +22,6 @@
 #include <QDialog>
 #include <QPushButton>
 
-class QComboBox;
 
 class KgpgKeyGenerate : public QDialog, public Ui::kgpgKeyGenerate
 {

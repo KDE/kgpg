@@ -22,7 +22,6 @@
 #include <KNewPasswordDialog>
 
 class KGpgTransaction;
-class KGpgSignTransactionHelper;
 
 class KGpgTransactionPrivate : public QObject {
 public:
