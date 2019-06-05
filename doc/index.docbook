@@ -47,7 +47,7 @@
 <abstract>
 <para>
 &kgpg; is a simple graphical interface for GnuPG (<ulink
-url="http://gnupg.org">http://gnupg.org</ulink>).
+url="https://gnupg.org">https://gnupg.org</ulink>).
 </para>
 </abstract>
 
@@ -67,9 +67,9 @@ url="http://gnupg.org">http://gnupg.org</ulink>).
 
 
 <para>&kgpg; is a simple interface for GnuPG, a powerful encryption utility. GnuPG (also known as gpg) is included in most distributions and should be installed on your system. You can get the latest version on <ulink
-url="http://gnupg.org">http://gnupg.org</ulink>.</para>
+url="https://gnupg.org">https://gnupg.org</ulink>.</para>
 
-<para>With &kgpg; you will be able to encrypt and decrypt your files and emails, allowing much more secure communications. A mini howto on encryption with gpg is available on <ulink url="http://www.gnupg.org/documentation/howtos.en.html">GnuPG's web site</ulink>.
+<para>With &kgpg; you will be able to encrypt and decrypt your files and emails, allowing much more secure communications. A mini howto on encryption with gpg is available on <ulink url="https://www.gnupg.org/documentation/howtos.en.html">GnuPG's web site</ulink>.
 </para>
 
 <para>With &kgpg;, you don't need to remember gpg's command lines and options. Almost everything can be done with a few mouse clicks.
