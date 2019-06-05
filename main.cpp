@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     about.addAuthor(xi18nc("@info:credit", "Jimmy Gilles"), QString(), QStringLiteral("jimmygilles@gmail.com"));
     about.addAuthor(xi18nc("@info:credit", "Andrius Štikonas"), i18nc("@info:credit", "KF5 port"), QStringLiteral("andrius@stikonas.eu"));
 
-    about.setHomepage(QLatin1String("http://utils.kde.org/projects/kgpg"));
+    about.setHomepage(QLatin1String("https://utils.kde.org/projects/kgpg"));
 
     about.setOrganizationDomain(QByteArray("kde.org"));
     about.setProductName(QByteArray("kgpg"));

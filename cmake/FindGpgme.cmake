@@ -369,9 +369,9 @@ endif()
 
 
 if ( WIN32 )
-  set( _gpgme_homepage "http://www.gpg4win.org" )
+  set( _gpgme_homepage "https://www.gpg4win.org" )
 else()
-  set( _gpgme_homepage "http://www.gnupg.org/related_software/gpgme" )
+  set( _gpgme_homepage "https://www.gnupg.org/related_software/gpgme" )
 endif()
 
 set_package_properties(Gpgme PROPERTIES
