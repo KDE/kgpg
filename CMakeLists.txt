@@ -296,10 +296,10 @@ ecm_install_icons(ICONS
     THEME hicolor
 )
 
-if (${ECM_VERSION} STRGREATER "5.58.0")
-    install(FILES kgpg.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
+if (ECM_VERSION VERSION_GREATER "5.58.0")
+    install(FILES kgpg.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 else()
-    install(FILES kgpg.categories  DESTINATION ${KDE_INSTALL_CONFDIR})
+    install(FILES kgpg.categories DESTINATION ${KDE_INSTALL_CONFDIR})
 endif()
 
 
