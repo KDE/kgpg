@@ -102,12 +102,11 @@ KGpgTransactionPrivate::slotReadReady()
 			}
 
 		} else if (line.startsWith(getBool)) {
-			static const QString overwrite = QLatin1String("openfile.overwrite.okay");
 			const QString question = line.mid(getBool.length());
 
 			KGpgTransaction::ts_boolanswer answer;
 
-			if (question.startsWith(overwrite)) {
+			if (question.startsWith(QLatin1String("openfile.overwrite.okay"))) {
 				m_overwriteUrl.clear();
 				answer = m_parent->confirmOverwrite(m_overwriteUrl);
 

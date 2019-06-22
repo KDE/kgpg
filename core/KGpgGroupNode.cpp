@@ -83,7 +83,7 @@ KGpgGroupNodePrivate::findGroupEntry(QFile &conffile, QTextStream &stream, QStri
 			// remove "group "
 			parsedLine = parsedLine.remove(0, 6);
 			if (parsedLine.startsWith(m_name)) {
-				if (parsedLine.mid(m_name.length()).simplified().startsWith(QLatin1Char('='))) {
+				if (parsedLine.midRef(m_name.length()).trimmed().startsWith(QLatin1Char('='))) {
 					if (index >= 0) {
 						// multiple definitions of the same group, drop the second one
 						continue;
