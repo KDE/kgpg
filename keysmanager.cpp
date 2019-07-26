@@ -179,7 +179,7 @@ KeysManager::KeysManager(QWidget *parent)
 	infoKey->setText(i18n("K&ey Properties"));
 
 	QAction *openKeyUrl = actionCollection()->addAction(QLatin1String("key_url"), this, &KeysManager::slotOpenKeyUrl);
-	openKeyUrl->setIcon(QIcon::fromTheme(QLatin1String("applications-internet")));
+	openKeyUrl->setIcon(QIcon::fromTheme(QLatin1String("internet-services")));
 	openKeyUrl->setText(i18n("&Open Key URL"));
 
 	editKey = actionCollection()->addAction(QLatin1String("key_edit"), this, &KeysManager::slotedit);
