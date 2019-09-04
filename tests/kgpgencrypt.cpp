@@ -23,7 +23,7 @@ static void checkEncryptedText(const KGpgEncrypt *encryption)
 	QCOMPARE(elines.first(), QStringLiteral("-----BEGIN PGP MESSAGE-----"));
 	QCOMPARE(elines.last(), QStringLiteral("-----END PGP MESSAGE-----"));
 	//Test if encrypted text contains "KGpg"
-	QVERIFY(!elines.contains(QStringLiteral("KGpg")));
+	QVERIFY(!elines.contains(QLatin1String("KGpg")));
 	QVERIFY(KGpgDecrypt::isEncryptedText(encryptedText, nullptr, nullptr));
 	int startPos = -1;
 	QVERIFY(KGpgDecrypt::isEncryptedText(encryptedText, &startPos, nullptr));

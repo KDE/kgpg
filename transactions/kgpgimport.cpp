@@ -174,7 +174,7 @@ beautifyKeyList(const QStringList &keyIds, const KGpgItemModel *model)
 
 	result.append(QLatin1String("\n"));
 	if (model == nullptr) {
-		result.append(QLatin1String(" ") + keyIds.join(QLatin1String("\n ")));
+		result.append(QLatin1Char(' ') + keyIds.join(QLatin1String("\n ")));
 	} else {
 		for (const QString &changed : keyIds) {
 			const KGpgKeyNode *node = model->findKeyNode(changed);
@@ -189,7 +189,7 @@ beautifyKeyList(const QStringList &keyIds, const KGpgItemModel *model)
 					line = xi18nc("@item ID: Name <Email>", "%1: %2 <email>%3</email>", node->getFingerprint(), node->getName(), node->getEmail());
 			}
 
-			result.append(QLatin1String(" ") + line + QLatin1String("\n"));
+			result.append(QLatin1Char(' ') + line + QLatin1String("\n"));
 		}
 	}
 

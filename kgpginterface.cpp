@@ -236,11 +236,11 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 						kmail = kmail.section(QLatin1Char( ')' ), 1);
 
 					kmail = kmail.section(QLatin1Char( '<' ), 1);
-					kmail.truncate(kmail.length() - 1);
+					kmail.chop(1);
 
 					if (kmail.contains(QLatin1Char( '<' ))) {
 						// several email addresses in the same key
-						kmail = kmail.replace(QLatin1Char( '>' ), QLatin1Char( ';' ));
+						kmail.replace(QLatin1Char( '>' ), QLatin1Char( ';' ));
 						kmail.remove(QLatin1Char( '<' ));
 					}
 				}
@@ -267,7 +267,7 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 			}
 		} else if (publickey && ((lsp.at(0) == QLatin1String( "sig" )) || (lsp.at(0) == QLatin1String( "rev" ))) && (items >= 11)) {
 			// there are no strings here that could have a recoded QLatin1Char( ':' ) in them
-			const QString signature = lsp.join(QLatin1String(":"));
+			const QString signature = lsp.join(QLatin1Char(':'));
 
 			if (currentSNode != nullptr)
 				(void) new KGpgSignNode(currentSNode, lsp);
@@ -370,10 +370,10 @@ readSecretKeysProcess(GPGProc &p)
 					kmail = kmail.section(QLatin1Char( ')' ), 1);
 
 				kmail = kmail.section(QLatin1Char( '<' ), 1);
-				kmail.truncate(kmail.length() - 1);
+				kmail.chop(1);
 
 				if (kmail.contains(QLatin1Char( '<' ) )) { // several email addresses in the same key
-					kmail = kmail.replace(QLatin1Char( '>' ), QLatin1Char( ';' ));
+					kmail.replace(QLatin1Char( '>' ), QLatin1Char( ';' ));
 					kmail.remove(QLatin1Char( '<' ));
 				}
 

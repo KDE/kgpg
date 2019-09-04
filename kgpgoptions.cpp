@@ -296,7 +296,7 @@ void kgpgOptions::updateWidgets()
 				QString fileId = fileEncryptionKey.mid(idpos);
 				idpos = fileId.indexOf(QRegExp( QLatin1String( "[^a-fA-F0-9]" )));
 				if (idpos >= 0) {
-					fileId = fileId.left(idpos);
+					fileId.truncate(idpos);
 					fileId.chop(fileId.length() % 8);
 				}
 

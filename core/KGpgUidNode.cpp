@@ -47,11 +47,11 @@ KGpgUidNodePrivate::KGpgUidNodePrivate(const unsigned int index, const QStringLi
 			m_email = m_email.section(QLatin1Char( ')' ), 1);
 
 		m_email = m_email.section(QLatin1Char( '<' ), 1);
-		m_email.truncate(m_email.length() - 1);
+		m_email.chop(1);
 
 		if (m_email.contains(QLatin1Char( '<' ))) {
 			// several email addresses in the same key
-			m_email = m_email.replace(QLatin1Char( '>' ), QLatin1Char( ';' ));
+			m_email.replace(QLatin1Char( '>' ), QLatin1Char( ';' ));
 			m_email.remove(QLatin1Char( '<' ));
 		}
 	}

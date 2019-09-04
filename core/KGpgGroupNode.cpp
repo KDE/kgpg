@@ -81,7 +81,7 @@ KGpgGroupNodePrivate::findGroupEntry(QFile &conffile, QTextStream &stream, QStri
 
 		if (groupPattern().exactMatch(parsedLine)) {
 			// remove "group "
-			parsedLine = parsedLine.remove(0, 6);
+			parsedLine.remove(0, 6);
 			if (parsedLine.startsWith(m_name)) {
 				if (parsedLine.midRef(m_name.length()).trimmed().startsWith(QLatin1Char('='))) {
 					if (index >= 0) {
@@ -223,7 +223,7 @@ KGpgGroupNode::saveMembers()
 		memberIds << getChild(j)->toGroupMemberNode()->getId();
 
 	const QString groupEntry = d->groupTag() + d->m_name + QLatin1String(" = ") +
-			memberIds.join(QLatin1String(" "));
+			memberIds.join(QLatin1Char(' '));
 
 	if (index >= 0)
 		lines[index] = groupEntry;

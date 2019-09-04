@@ -126,7 +126,7 @@ KGpgGenerateKey::postStart()
 			usage << QLatin1String("encrypt");
 		if (m_capabilities & KgpgCore::SKT_SIGNATURE)
 			usage << QLatin1String("sign");
-		keymessage.append(usage.join(QLatin1String(" ")).toLatin1());
+		keymessage.append(usage.join(QLatin1Char(' ')).toLatin1());
 	}
 
 	keymessage.append("\nPassphrase: ");
