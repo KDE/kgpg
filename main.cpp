@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
 
     KCrash::initialize();
 
-    Kdelibs4ConfigMigrator migrate(QLatin1Literal("kgpg"));
-    migrate.setConfigFiles({ QLatin1Literal("kgpgrc") });
+    Kdelibs4ConfigMigrator migrate(QLatin1String("kgpg"));
+    migrate.setConfigFiles({ QLatin1String("kgpgrc") });
     migrate.setUiFiles({ QStringLiteral("keysmanager.rc"), QStringLiteral("kgpgeditor.rc") });
     migrate.migrate();
 

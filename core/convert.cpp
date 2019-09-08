@@ -273,7 +273,7 @@ QDateTime toDateTime(const QString &s)
 		return ret;
 
 	if (s.contains(QLatin1Char('T')))
-		ret = QDateTime::fromString(s, QLatin1Literal("yyyyMMddTHHmmss"));
+		ret = QDateTime::fromString(s, QLatin1String("yyyyMMddTHHmmss"));
 	else
 		ret = QDateTime::fromTime_t(s.toUInt());
 
