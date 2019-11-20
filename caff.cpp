@@ -89,7 +89,7 @@ KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 	m_tempdir.reset(new QTemporaryDir());
 
 	if (m_gpgVersion >= 0x20100) {
-		/* see http://lists.gnupg.org/pipermail/gnupg-devel/2014-December/029296.html */
+		/* see https://lists.gnupg.org/pipermail/gnupg-devel/2014-December/029296.html */
 		QFile seclink(m_secringdir);
 
 		if (!seclink.link(m_tempdir->path() + QLatin1String("private-keys-v1.d"))) {

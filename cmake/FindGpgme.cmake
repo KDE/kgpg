@@ -199,7 +199,7 @@ else() # not WIN32
 
       else()
 
-        message( STATUS "Found gpgme v${GPGME_VERSION}, checking for flavours..." )
+        message( STATUS "Found gpgme v${GPGME_VERSION}, checking for flavors..." )
 
         exec_program( ${_GPGMECONFIG_EXECUTABLE} ARGS                  --libs OUTPUT_VARIABLE _gpgme_config_vanilla_libs RETURN_VALUE _ret )
 	if ( _ret )
@@ -267,11 +267,11 @@ else() # not WIN32
                   find_library( _gpgme_${_name}_lib NAMES ${_name} )
                 endif()
 
-                # if still not found, then the whole flavour isn't found
+                # if still not found, then the whole flavor isn't found
                 if ( NOT _gpgme_${_name}_lib )
                   if ( GPGME_${_FLAVOUR}_FOUND )
                     set( GPGME_${_FLAVOUR}_FOUND false )
-                    set( _not_found_reason "dependant library ${_name} wasn't found" )
+                    set( _not_found_reason "dependent library ${_name} wasn't found" )
                   endif()
                 endif()
 
@@ -280,9 +280,9 @@ else() # not WIN32
 
               #check_c_library_exists_explicit( gpgme         gpgme_check_version "${_GPGME_CFLAGS}" "${GPGME_LIBRARIES}"         GPGME_FOUND         )
               if ( GPGME_${_FLAVOUR}_FOUND )
-                message( STATUS " Found flavour '${_flavour}', checking whether it's usable...yes" )
+                message( STATUS " Found flavor '${_flavour}', checking whether it's usable...yes" )
               else()
-                message( STATUS " Found flavour '${_flavour}', checking whether it's usable...no" )
+                message( STATUS " Found flavor '${_flavour}', checking whether it's usable...no" )
                 message( STATUS "  (${_not_found_reason})" )
               endif()
             endif()
@@ -346,7 +346,7 @@ if ( GPGME_PTH_FOUND )
   set( _gpgme_flavours "${_gpgme_flavours} pth" )
 endif()
 
-# determine the library in one of the found flavours, can be reused e.g. by FindQgpgme.cmake, Alex
+# determine the library in one of the found flavors, can be reused e.g. by FindQgpgme.cmake, Alex
 foreach(_currentFlavour vanilla glib qt pth pthread)
    if(NOT GPGME_LIBRARY_DIR)
       get_filename_component(GPGME_LIBRARY_DIR "${_gpgme_${_currentFlavour}_lib}" PATH)
@@ -356,9 +356,9 @@ endforeach()
 if ( NOT Gpgme_FIND_QUIETLY )
 
   if ( GPGME_FOUND )
-    message( STATUS "Usable gpgme flavours found: ${_gpgme_flavours}" )
+    message( STATUS "Usable gpgme flavors found: ${_gpgme_flavours}" )
   else()
-    message( STATUS "No usable gpgme flavours found." )
+    message( STATUS "No usable gpgme flavors found." )
   endif()
 
 endif()
