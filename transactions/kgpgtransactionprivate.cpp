@@ -118,10 +118,10 @@ KGpgTransactionPrivate::slotReadReady()
 					m_overwriteUrl.clear();
 
 					switch (over->exec()) {
-					case KIO::R_OVERWRITE:
+					case KIO::Result_Overwrite:
 						answer = KGpgTransaction::BA_YES;
 						break;
-					case KIO::R_RENAME:
+					case KIO::Result_Rename:
 						answer = KGpgTransaction::BA_NO;
 						m_overwriteUrl = over->newDestUrl();
 						break;
