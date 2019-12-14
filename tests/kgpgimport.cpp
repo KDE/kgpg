@@ -6,7 +6,7 @@
 #include <QString>
 #include <QStringList>
 #include <QSignalSpy>
-#include <QtTest>
+#include <QTest>
 #include <QTextStream>
 #include <QUrl>
 

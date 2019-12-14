@@ -7,7 +7,7 @@
 #include "common.h"
 
 #include <QSignalSpy>
-#include <QtTest>
+#include <QTest>
 
 void KGpgDelKeyTest::init()
 {

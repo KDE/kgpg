@@ -5,7 +5,7 @@
 
 #include <QString>
 #include <QSignalSpy>
-#include <QtTest>
+#include <QTest>
 
 void KGpgChangeTrustTest::init()
 {

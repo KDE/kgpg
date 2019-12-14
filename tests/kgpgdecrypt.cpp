@@ -3,7 +3,7 @@
 #include "common.h"
 
 #include <QSignalSpy>
-#include <QtTest>
+#include <QTest>
 
 void KGpgDecryptTest::init()
 {

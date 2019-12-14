@@ -7,7 +7,7 @@
 #include <QLatin1String>
 #include <QSignalSpy>
 #include <QString>
-#include <QtTest>
+#include <QTest>
 
 void KGpgAddUidTest::init()
 {

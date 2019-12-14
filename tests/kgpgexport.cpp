@@ -4,7 +4,7 @@
 #include "common.h"
 
 #include <QSignalSpy>
-#include <QtTest>
+#include <QTest>
 #include <QTemporaryFile>
 
 void KGpgExportTest::init()

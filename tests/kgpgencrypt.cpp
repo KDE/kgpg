@@ -8,7 +8,7 @@
 #include <QLatin1String>
 #include <QSignalSpy>
 #include <QStringList>
-#include <QtTest>
+#include <QTest>
 
 void KGpgEncryptTest::init()
 {
