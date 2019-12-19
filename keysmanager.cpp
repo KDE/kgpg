@@ -2130,7 +2130,7 @@ void KeysManager::importallsignkey()
 		return;
 	}
 
-        importRemoteKeys(missingKeys.values());
+	importRemoteKeys(missingKeys.values());
 }
 
 void KeysManager::preimportsignkey()
