@@ -310,7 +310,7 @@ void KeyServer::transferKeyID()
 	for (const QModelIndex &index : indexes)
 		ids << m_resultmodel.idForIndex(index);
 
-	const QStringList idlist(ids.toList());
+        const QStringList idlist(ids.values());
 	m_listpop->qLEID->setText(idlist.join( QLatin1String( " " )));
 }
 
