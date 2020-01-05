@@ -73,7 +73,6 @@
 #include <KMessageBox>
 #include <KMimeTypeTrader>
 #include <KProcess>
-#include <KRecentFilesAction>
 #include <KRun>
 #include <KSelectAction>
 #include <KService>
