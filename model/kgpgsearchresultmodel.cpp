@@ -19,6 +19,7 @@
 
 
 #include <QDateTime>
+#include <QRegularExpression>
 #include <QScopedPointer>
 #include <QString>
 #include <QStringList>
@@ -97,11 +98,12 @@ void
 SearchResult::addUid(const QString &id)
 {
 	Q_ASSERT(m_emails.count() == m_names.count());
-	QRegExp hasmail( QLatin1String( "(.*) <(.*)>" ));
+	const QRegularExpression hasmail(QRegularExpression::anchoredPattern(QStringLiteral("(.*) <(.*)>")));
 
-	if (hasmail.exactMatch(id)) {
-		m_names.append(hasmail.capturedTexts().at(1));
-		m_emails.append(hasmail.capturedTexts().at(2));
+	const QRegularExpressionMatch match = hasmail.match(id);
+	if (match.hasMatch()) {
+		m_names.append(match.captured(1));
+		m_emails.append(match.captured(2));
 	} else {
 		m_names.append(id);
 		m_emails.append(QString());
@@ -178,14 +180,15 @@ KGpgSearchResultModelPrivate::urlDecode(const QString &line)
 		return line;
 
 	QByteArray tmp(line.toLatin1());
-	const QRegExp hex( QLatin1String( "[A-F0-9]{2}" ));	// URL-encoding uses only uppercase
+	const QRegularExpression hex(
+		QRegularExpression::anchoredPattern(QStringLiteral("[A-F0-9]{2}")));	// URL-encoding uses only uppercase
 
 	int pos = -1;	// avoid error if '%' is URL-encoded
 	while ((pos = tmp.indexOf("%", pos + 1)) >= 0) {
 		const QByteArray hexnum(tmp.mid(pos + 1, 2));
 
 		// the input is not properly URL-encoded, so assume it does not need to be decoded at all
-		if (!hex.exactMatch(QLatin1String( hexnum )))
+		if (!hex.match(QLatin1String(hexnum)).hasMatch())
 			return line;
 
 		char n[2];

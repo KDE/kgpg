@@ -19,7 +19,7 @@
 #include <KIO/Job>
 
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QTemporaryFile>
 
 KGpgTextOrFileTransaction::KGpgTextOrFileTransaction(QObject *parent, const QString &text, const bool allowChaining)
@@ -45,7 +45,7 @@ KGpgTextOrFileTransaction::setText(const QString &text)
 	m_text = text;
 	cleanUrls();
 
-	int begin = text.indexOf(QRegExp(QLatin1String("^(.*\n)?-----BEGIN PGP [A-Z ]*-----\r?\n")));
+	int begin = text.indexOf(QRegularExpression(QStringLiteral("^(.*\n)?-----BEGIN PGP [A-Z ]*-----\r?\n")));
 	if (begin < 0)
 		return;
 

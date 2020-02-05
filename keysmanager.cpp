@@ -106,6 +106,7 @@
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QProcess>
+#include <QRegularExpression>
 #include <QStatusBar>
 #include <QUrl>
 #include <QWidget>
@@ -1439,7 +1440,7 @@ void KeysManager::slotexport()
 	sname.prepend(QDir::homePath() + QLatin1Char( '/' ));
 
 	QStringList serverList(KGpgSettings::keyServers());
-	serverList.replaceInStrings(QRegExp(QLatin1String(" .*")), QString()); // Remove kde 3.5 (Default) tag.
+	serverList.replaceInStrings(QRegularExpression(QStringLiteral(" .*")), QString()); // Remove kde 3.5 (Default) tag.
 	if (!serverList.isEmpty()) {
 		QString defaultServer = serverList.takeFirst();
 		std::sort(serverList.begin(), serverList.end());

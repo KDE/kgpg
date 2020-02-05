@@ -22,6 +22,7 @@
 #include "core/kgpgkey.h"
 
 #include <QLocale>
+#include <QRegularExpression>
 
 #include <KLocalizedString>
 
@@ -63,8 +64,8 @@ SelectKeyProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_
 		return false;
 
 	// there is probably a better place to do this
-	QRegExp rx = filterRegExp();
-	rx.setCaseSensitivity(Qt::CaseInsensitive);
+	QRegularExpression rx = filterRegularExpression();
+	rx.setPatternOptions(rx.patternOptions() | QRegularExpression::CaseInsensitiveOption);
 
 	if (l->getName().contains(rx))
 		return true;

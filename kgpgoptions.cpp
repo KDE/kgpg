@@ -39,6 +39,7 @@
 #include <QInputDialog>
 #include <QTextStream>
 #include <QVBoxLayout>
+#include <QRegularExpression>
 #include <QStandardPaths>
 
 using namespace KgpgCore;
@@ -81,7 +82,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 
 	// Remove everything after a whitespace. This will normally be
 	// ' (Default)' from KDE 3.x.x
-	serverList.replaceInStrings(QRegExp( QLatin1String( " .*") ), QString() );
+	serverList.replaceInStrings(QRegularExpression(QStringLiteral(" .*")), QString());
 
 	m_serverModel->setStringList(serverList);
 	// if the server from GnuPG config is set and is not in the list of servers put it there
@@ -291,10 +292,10 @@ void kgpgOptions::updateWidgets()
 	if (!fileEncryptionKey.isEmpty()) {
 		int idpos = m_page1->file_key->findText(fileEncryptionKey);
 		if (idpos == -1) {
-			idpos = fileEncryptionKey.indexOf(QRegExp( QLatin1String( "([0-9A-Fa-F]{8})+" )));
+			idpos = fileEncryptionKey.indexOf(QRegularExpression(QStringLiteral("([0-9A-Fa-f]{8})+")));
 			if (idpos >= 0) {
 				QString fileId = fileEncryptionKey.mid(idpos);
-				idpos = fileId.indexOf(QRegExp( QLatin1String( "[^a-fA-F0-9]" )));
+				idpos = fileId.indexOf(QRegularExpression(QStringLiteral("[^a-fA-F0-9]")));
 				if (idpos >= 0) {
 					fileId.truncate(idpos);
 					fileId.chop(fileId.length() % 8);

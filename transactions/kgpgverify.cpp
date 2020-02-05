@@ -18,6 +18,7 @@
 #include "model/kgpgitemmodel.h"
 
 #include <QLocale>
+#include <QRegularExpression>
 
 #include <KLocalizedString>
 
@@ -106,7 +107,7 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 	// newer versions of GnuPG emit both VALIDSIG and GOODSIG
 	// for a good signature. Since VALIDSIG has more information
 	// we use that.
-	const QRegExp validsig(QLatin1String("^\\[GNUPG:\\] VALIDSIG([ ]+[^ ]+){10,}.*$"));
+	const QRegularExpression validsig(QStringLiteral("^\\[GNUPG:\\] VALIDSIG([ ]+[^ ]+){10,}.*$"));
 	const bool useGoodSig = (model == nullptr) || (log.indexOf(validsig) == -1);
 	QString sigtime;	// timestamp of signature creation
 

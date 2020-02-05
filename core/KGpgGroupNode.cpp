@@ -29,6 +29,7 @@
 
 
 #include <QFile>
+#include <QRegularExpression>
 #include <QStringList>
 #include <QTextStream>
 
@@ -50,7 +51,7 @@ public:
 	 */
 	int findGroupEntry(QFile &conffile, QTextStream &stream, QStringList &lines);
 
-	static const QRegExp &groupPattern();
+	static const QRegularExpression &groupPattern();
 	static const QString &groupTag();
 };
 
@@ -79,7 +80,7 @@ KGpgGroupNodePrivate::findGroupEntry(QFile &conffile, QTextStream &stream, QStri
 		i++;
 		QString parsedLine = rawLine.simplified().section(QLatin1Char('#'), 0, 0);
 
-		if (groupPattern().exactMatch(parsedLine)) {
+		if (groupPattern().match(parsedLine).hasMatch()) {
 			// remove "group "
 			parsedLine.remove(0, 6);
 			if (parsedLine.startsWith(m_name)) {
@@ -102,10 +103,10 @@ KGpgGroupNodePrivate::findGroupEntry(QFile &conffile, QTextStream &stream, QStri
 	return index;
 }
 
-const QRegExp &
+const QRegularExpression &
 KGpgGroupNodePrivate::groupPattern()
 {
-	static const QRegExp groupre(QLatin1String("^group [^ ]+ ?= ?([0-9a-fA-F]{8,} ?)*$"));
+	static const QRegularExpression groupre(QStringLiteral("^group [^ ]+ ?= ?([0-9a-fA-F]{8,} ?)*$"));
 
 	return groupre;
 }

@@ -32,6 +32,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QCursor>
+#include <QRegularExpression>
 
 KeyServer::KeyServer(QWidget *parent, KGpgItemModel *model, const bool autoclose)
 	: QDialog(parent),
@@ -197,7 +198,7 @@ void KeyServer::slotSearch()
 		return;
 
 	m_resultmodel.resetSourceModel();
-	m_resultmodel.setFilterRegExp(QRegExp());
+	m_resultmodel.setFilterRegularExpression(QRegularExpression());
 	m_resultmodel.setFilterByValidity(true);
 
 	m_dialogserver = new QDialog(this);
@@ -340,7 +341,7 @@ QStringList KeyServer::getServerList()
 {
 	QStringList serverList(KGpgSettings::keyServers()); // From kgpg config
 	if (!serverList.isEmpty()) {
-		serverList.replaceInStrings(QRegExp(QLatin1String(" .*")), QString());     // Remove kde 3.5 (Default) tag.
+		serverList.replaceInStrings(QRegularExpression(QStringLiteral(" .*")), QString());     // Remove kde 3.5 (Default) tag.
 		const QString defaultServer(serverList.takeFirst());
 		std::sort(serverList.begin(), serverList.end());
 		serverList.prepend(defaultServer);
@@ -368,7 +369,7 @@ void KeyServer::slotSetKeyserver(const QString &server)
 
 void KeyServer::slotSetFilterString(const QString &expression)
 {
-	m_resultmodel.setFilterRegExp(QRegExp(expression, Qt::CaseInsensitive, QRegExp::RegExp2));
+	m_resultmodel.setFilterRegularExpression(QRegularExpression(expression, QRegularExpression::CaseInsensitiveOption));
 	slotUpdateLabelOnFilterChange();
 }
 
