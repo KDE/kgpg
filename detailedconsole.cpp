@@ -49,5 +49,6 @@ KgpgDetailedInfo::KgpgDetailedInfo(QWidget *parent, const QString &boxLabel, con
 	connect(buttonBox, &QDialogButtonBox::rejected, this, &KgpgDetailedInfo::reject);
 	okButton->setDefault(true);
 	setModal(true);
-	KMessageBox::createKMessageBox(this, buttonBox, QMessageBox::Information, boxLabel, keysList, QString(), nullptr, 0, errormessage);
+	KMessageBox::createKMessageBox(this, buttonBox, QMessageBox::Information, boxLabel, keysList, QString(), nullptr,
+			KMessageBox::Options(), errormessage);
 }

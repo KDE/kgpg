@@ -1016,7 +1016,7 @@ void KeysManager::addToKAB()
 
 void KeysManager::slotAddressbookSearchResult(KJob *job)
 {
-	KGpgNode * const nd = m_addIds.value(job, 0);
+	KGpgNode * const nd = m_addIds.value(job, nullptr);
 
 	if (!nd)
 		return;
@@ -1470,7 +1470,7 @@ void KeysManager::slotexport()
 			expopts << QLatin1String( "--export-options" ) << exportAttr;
 
 		if (page->checkServer->isChecked()) {
-			KeyServer *expServer = new KeyServer(0, imodel);
+			KeyServer *expServer = new KeyServer(nullptr, imodel);
 			expServer->slotSetExportAttribute(exportAttr);
 			expServer->slotSetKeyserver(page->destServer->currentText());
 
