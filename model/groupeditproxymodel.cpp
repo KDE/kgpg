@@ -119,6 +119,7 @@ GroupEditProxyModel::data(const QModelIndex &index, int role) const
 		default:
 			break;
 		}
+		break;
 	case Qt::DecorationRole:
 		if (index.column() != 1)
 			break;
