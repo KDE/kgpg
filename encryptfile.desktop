@@ -74,6 +74,6 @@ Name[wa]=Ecripter fitchî
 Name[x-test]=xxEncrypt Filexx
 Name[zh_CN]=加密文件
 Name[zh_TW]=加密檔案
-Icon=kgpg
+Icon=document-encrypt
 Exec=kgpg -e %F
 
