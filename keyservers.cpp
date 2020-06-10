@@ -158,7 +158,7 @@ void KeyServer::slotExport(const QStringList &keyIds)
 
 	QApplication::setOverrideCursor(QCursor(Qt::BusyCursor));
 
-	KGpgSendKeys *nk = new KGpgSendKeys(this, page->kCBimportks->currentText(), keyIds, expattr, true, page->kLEproxyI->text());
+	KGpgSendKeys *nk = new KGpgSendKeys(this, page->kCBexportks->currentText(), keyIds, expattr, true, page->kLEproxyI->text());
 	connect(nk, &KGpgSendKeys::done, this, &KeyServer::slotUploadKeysFinished);
 
 	nk->start();
