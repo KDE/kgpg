@@ -341,7 +341,6 @@ QStringList KeyServer::getServerList()
 {
 	QStringList serverList(KGpgSettings::keyServers()); // From kgpg config
 	if (!serverList.isEmpty()) {
-		serverList.replaceInStrings(QRegularExpression(QStringLiteral(" .*")), QString());     // Remove kde 3.5 (Default) tag.
 		const QString defaultServer(serverList.takeFirst());
 		std::sort(serverList.begin(), serverList.end());
 		serverList.prepend(defaultServer);
