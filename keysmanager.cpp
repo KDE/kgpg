@@ -71,7 +71,6 @@
 #include <KJobTrackerInterface>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KMimeTypeTrader>
 #include <KProcess>
 #include <KRun>
 #include <KSelectAction>
@@ -1561,22 +1560,13 @@ void KeysManager::showKeyInfo(const QString &keyID)
 
 void KeysManager::slotShowPhoto()
 {
-	const KService::List list = KMimeTypeTrader::self()->query(QLatin1String("image/jpeg"));
-	if (list.isEmpty()) {
-		KMessageBox::sorry(nullptr, i18n("<qt>A viewer for JPEG images is not specified.<br/>Please check your installation.</qt>"),
-				i18n("Show photo"));
-		return;
-	}
 	KGpgNode *nd = iview->selectedNode();
 	KGpgUatNode *und = nd->toUatNode();
 	KGpgKeyNode *parent = und->getParentKeyNode();
-	KService::Ptr ptr = list.first();
 
 	KProcess p;
 	p << KGpgSettings::gpgBinaryPath()
 			<< QLatin1String("--no-tty")
-			<< QLatin1String("--photo-viewer")
-			<< (ptr->desktopEntryName() + QLatin1String( " %i" ))
 			<< QLatin1String("--edit-key")
 			<< parent->getId()
 			<< QLatin1String("uid")
