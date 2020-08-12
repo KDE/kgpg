@@ -68,6 +68,7 @@
 #include <KContacts/AddresseeList>
 // #include <KContacts/Key> TODO
 #include <KIO/Global>
+#include <KIO/ApplicationLauncherJob>
 #include <KJobTrackerInterface>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -82,7 +83,6 @@
 #include <KStatusNotifierItem>
 #include <KTipDialog>
 #include <KToggleAction>
-#include <KToolInvocation>
 
 #include <QApplication>
 #include <QClipboard>
@@ -1046,8 +1046,10 @@ void KeysManager::slotAddressbookSearchResult(KJob *job)
 
 void KeysManager::slotManpage()
 {
-	KToolInvocation::startServiceByDesktopName(QLatin1String("khelpcenter"),
-            QLatin1String("man:/gpg"), nullptr, nullptr, nullptr, QByteArray(), true);
+	const KService::Ptr helpCenter = KService::serviceByDesktopName(QStringLiteral("org.kde.help"));
+	auto job = new KIO::ApplicationLauncherJob(helpCenter);
+	job->setUrls({QUrl(QStringLiteral("man:/gpg"))});
+	job->start();
 }
 
 void KeysManager::slotTip()

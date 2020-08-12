@@ -9,7 +9,7 @@ set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE
 project(kgpg VERSION ${RELEASE_SERVICE_VERSION})
 set(QT_MIN_VERSION "5.9.0")
 
-find_package(ECM 5.21 REQUIRED NO_MODULE)
+find_package(ECM 5.69 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
 include(ECMAddAppIcon)
@@ -31,7 +31,7 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
 )
 
 # Load the frameworks we need
-find_package(KF5 5.28 REQUIRED
+find_package(KF5 5.69 REQUIRED
   Archive
   DocTools
   Codecs
