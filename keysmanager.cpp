@@ -69,11 +69,12 @@
 // #include <KContacts/Key> TODO
 #include <KIO/Global>
 #include <KIO/ApplicationLauncherJob>
+#include <KIO/OpenUrlJob>
+#include <KIO/JobUiDelegate>
 #include <KJobTrackerInterface>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
-#include <KRun>
 #include <KSelectAction>
 #include <KService>
 #include <KSharedConfig>
@@ -2812,7 +2813,9 @@ KeysManager::slotOpenKeyUrl()
 	url.replace(QLatin1String("$$id16$$"), idLC.right(16));
 	url.replace(QLatin1String("$$fpr$$"), idLC);
 
-	new KRun(QUrl(url), this);
+	auto *job = new KIO::OpenUrlJob(QUrl(url));
+	job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+	job->start();
 }
 
 void
