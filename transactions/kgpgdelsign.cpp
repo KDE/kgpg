@@ -120,13 +120,13 @@ KGpgDelSign::boolQuestion(const QString &line)
 		if (signode == nullptr)
 			return KGpgTransaction::BA_NO;
 
-		const QDateTime creation = QDateTime::fromTime_t(parts[5].toUInt());
+		const QDateTime creation = QDateTime::fromSecsSinceEpoch(parts[5].toUInt());
 		if (creation != signode->getCreation())
 			return KGpgTransaction::BA_NO;
 
 		QDateTime sigexp;
 		if (!parts[6].isEmpty() && (parts[6] != QLatin1String("0")))
-			sigexp = QDateTime::fromTime_t(parts[6].toUInt());
+			sigexp = QDateTime::fromSecsSinceEpoch(parts[6].toUInt());
 		if (sigexp != signode->getExpiration())
 			return KGpgTransaction::BA_NO;
 

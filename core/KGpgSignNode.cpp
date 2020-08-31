@@ -39,11 +39,11 @@ KGpgSignNodePrivate::KGpgSignNodePrivate(const QStringList &sl)
 	m_revocation = (sl.at(0) == QLatin1String("rev"));
 	if (sl.count() < 6)
 		return;
-	m_creation = QDateTime::fromTime_t(sl.at(5).toUInt());
+	m_creation = QDateTime::fromSecsSinceEpoch(sl.at(5).toUInt());
 	if (sl.count() < 7)
 		return;
 	if (!sl.at(6).isEmpty())
-		m_expiration = QDateTime::fromTime_t(sl.at(6).toUInt());
+		m_expiration = QDateTime::fromSecsSinceEpoch(sl.at(6).toUInt());
 	if (sl.count() < 11)
 		return;
 	m_local = sl.at(10).endsWith(QLatin1Char( 'l' ));
