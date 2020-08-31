@@ -88,7 +88,7 @@ SearchResult::SearchResult(const QString &line)
 	m_bits = parts.at(3).toUInt();
 	m_creation.setTime_t(parts.at(4).toULongLong());
 	m_expired = !parts.at(5).isEmpty() &&
-			QDateTime::fromSecsSinceEpoch(parts.at(5).toULongLong()) <= QDateTime::currentDateTimeUtc();
+			QDateTime::fromTime_t(parts.at(5).toULongLong()) <= QDateTime::currentDateTimeUtc();
 	m_revoked = (parts.at(6) == QLatin1String( "r" ));
 
 	m_validPub = true;

@@ -47,7 +47,7 @@ KGpgUatNodePrivate::KGpgUatNodePrivate(const KGpgKeyNode *parent, const unsigned
 {
 	if (sl.count() < 6)
 		return;
-	m_creation = QDateTime::fromSecsSinceEpoch(sl.at(5).toUInt());
+	m_creation = QDateTime::fromTime_t(sl.at(5).toUInt());
 }
 
 QPixmap

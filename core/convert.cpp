@@ -275,7 +275,7 @@ QDateTime toDateTime(const QString &s)
 	if (s.contains(QLatin1Char('T')))
 		ret = QDateTime::fromString(s, QLatin1String("yyyyMMddTHHmmss"));
 	else
-		ret = QDateTime::fromSecsSinceEpoch(s.toUInt());
+		ret = QDateTime::fromTime_t(s.toUInt());
 
 	return ret;
 }
