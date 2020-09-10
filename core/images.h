@@ -22,24 +22,24 @@
 #ifndef IMAGES_H
 #define IMAGES_H
 
-#include <QPixmap>
+#include <QIcon>
 
 namespace KgpgCore
 {
 
 namespace Images
 {
-    QPixmap single();
-    QPixmap pair();
-    QPixmap group();
-    QPixmap orphan();
-    QPixmap signature();
-    QPixmap userId();
-    QPixmap photo();
-    QPixmap revoke();
+    QIcon single();
+    QIcon pair();
+    QIcon group();
+    QIcon orphan();
+    QIcon signature();
+    QIcon userId();
+    QIcon photo();
+    QIcon revoke();
 
     /* Desktop image */
-    QPixmap kgpg();
+    QIcon kgpg();
 }
 
 } // namespace KgpgCore

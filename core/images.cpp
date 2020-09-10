@@ -22,7 +22,6 @@
 #include "images.h"
 
 #include <QIcon>
-#include <KIconLoader>
 
 namespace KgpgCore
 {
@@ -30,75 +29,75 @@ namespace KgpgCore
 namespace Images
 {
 
-QPixmap single()
+QIcon single()
 {
-    static QPixmap single;
+    static QIcon single;
     if (single.isNull())
-        single = QIcon::fromTheme(QStringLiteral("key-single")).pixmap(IconSize(KIconLoader::Small));
+        single = QIcon::fromTheme(QStringLiteral("key-single"));
     return single;
 }
 
-QPixmap pair()
+QIcon pair()
 {
-    static QPixmap pair;
+    static QIcon pair;
     if (pair.isNull())
-        pair = QIcon::fromTheme(QStringLiteral("key-pair")).pixmap(IconSize(KIconLoader::Small));
+        pair = QIcon::fromTheme(QStringLiteral("key-pair"));
     return pair;
 }
 
-QPixmap group()
+QIcon group()
 {
-    static QPixmap group;
+    static QIcon group;
     if (group.isNull())
-        group = QIcon::fromTheme(QStringLiteral("key-group")).pixmap(IconSize(KIconLoader::Small));
+        group = QIcon::fromTheme(QStringLiteral("key-group"));
     return group;
 }
 
-QPixmap orphan()
+QIcon orphan()
 {
-    static QPixmap oprpan;
+    static QIcon oprpan;
     if (oprpan.isNull())
-        oprpan = QIcon::fromTheme(QStringLiteral("key-orphan")).pixmap(IconSize(KIconLoader::Small));
+        oprpan = QIcon::fromTheme(QStringLiteral("key-orphan"));
     return oprpan;
 }
 
-QPixmap signature()
+QIcon signature()
 {
-    static QPixmap signature;
+    static QIcon signature;
     if (signature.isNull())
-        signature = QIcon::fromTheme(QStringLiteral("application-pgp-signature")).pixmap(IconSize(KIconLoader::Small));
+        signature = QIcon::fromTheme(QStringLiteral("application-pgp-signature"));
     return signature;
 }
 
-QPixmap userId()
+QIcon userId()
 {
-    static QPixmap userid;
+    static QIcon userid;
     if (userid.isNull())
-        userid = QIcon::fromTheme(QStringLiteral("x-office-contact")).pixmap(IconSize(KIconLoader::Small));
+        userid = QIcon::fromTheme(QStringLiteral("x-office-contact"));
     return userid;
 }
 
-QPixmap photo()
+QIcon photo()
 {
-    static QPixmap photo;
+    static QIcon photo;
     if (photo.isNull())
-        photo = QIcon::fromTheme(QStringLiteral("image-x-generic")).pixmap(IconSize(KIconLoader::Small));
+        photo = QIcon::fromTheme(QStringLiteral("image-x-generic"));
     return photo;
 }
 
-QPixmap revoke()
+QIcon revoke()
 {
-    static QPixmap revoke;
+    static QIcon revoke;
     if (revoke.isNull())
-        revoke = QIcon::fromTheme(QStringLiteral("dialog-error")).pixmap(IconSize(KIconLoader::Small));
+        revoke = QIcon::fromTheme(QStringLiteral("dialog-error"));
     return revoke;
 }
 
-QPixmap kgpg()
+QIcon kgpg()
 {
-    static QPixmap kgpg;
+    static QIcon kgpg;
     if (kgpg.isNull())
-        kgpg = QIcon::fromTheme(QStringLiteral("kgpg")).pixmap(IconSize(KIconLoader::Desktop));
+        kgpg = QIcon::fromTheme(QStringLiteral("kgpg"));
     return kgpg;
 }
 

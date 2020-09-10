@@ -109,8 +109,6 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	m_page3->kcfg_EmailSorting->addItem(i18n("Right to left, FQDN first")); ///< KGpgSettings::EnumEmailSorting::FQDNFirst
 	m_emailSortingIndex = KGpgSettings::emailSorting();
 
-	pixkeySingle = Images::single();
-	pixkeyDouble = Images::pair();
 	addPage(m_page1, i18n("Encryption"), QLatin1String( "document-encrypt" ));
 	addPage(m_page2, i18n("Decryption"), QLatin1String( "document-decrypt") );
 	addPage(m_page3, i18n("Appearance"), QLatin1String( "preferences-desktop-theme" ));

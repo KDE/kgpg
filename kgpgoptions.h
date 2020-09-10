@@ -139,8 +139,6 @@ private:
     QString defaultConfigPath;
     QString defaultHomePath;
     QString defaultBinPath;
-    QPixmap pixkeySingle;
-    QPixmap pixkeyDouble;
     QColor keyUltimate;
     QColor keyGood;
     QColor keyExpired;
