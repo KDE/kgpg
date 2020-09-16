@@ -2731,7 +2731,11 @@ KeysManager::clipEncrypt()
 		QStringList options;
 
 		if (!dialog->getCustomOptions().isEmpty() && KGpgSettings::allowCustomEncryptionOptions())
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
 			options = dialog->getCustomOptions().split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+			options = dialog->getCustomOptions().split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
 
 		if (dialog->getUntrusted())
 			encOptions |= KGpgEncrypt::AllowUntrustedEncryption;
@@ -2822,7 +2826,7 @@ KeysManager::clipDecrypt()
 		return;
 	}
 
-    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, nullptr);
+	KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel,  {});
 	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 	connect(this, &KeysManager::fontChanged, kgpgtxtedit, &KgpgEditor::slotSetFont);
 	kgpgtxtedit->m_editor->setPlainText(cliptext);
@@ -2840,7 +2844,7 @@ KeysManager::clipSign()
 		return;
 	}
 
-    KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, nullptr);
+        KgpgEditor *kgpgtxtedit = new KgpgEditor(this, imodel, {});
 	kgpgtxtedit->setAttribute(Qt::WA_DeleteOnClose);
 	connect(kgpgtxtedit->m_editor, &KgpgTextEdit::verifyFinished, kgpgtxtedit, &KgpgEditor::closeWindow);
 

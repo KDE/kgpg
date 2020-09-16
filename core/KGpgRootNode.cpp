@@ -62,7 +62,11 @@ KGpgRootNode::addGroups(const QStringList &groups)
 		if (parts.count() < 2)
 			continue;
 		const QString groupName = parts.first();
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
 		new KGpgGroupNode(this, groupName, parts.at(1).split(QLatin1Char(';'), QString::SkipEmptyParts));
+#else
+		new KGpgGroupNode(this, groupName, parts.at(1).split(QLatin1Char(';'), Qt::SkipEmptyParts));
+#endif
 	}
 }
 

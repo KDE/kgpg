@@ -122,7 +122,11 @@ KGpgVerify::getReport(const QStringList &log, const KGpgItemModel *model)
 			//   VALIDSIG    <fingerprint in hex> <sig_creation_date> <sig-timestamp>
 			//                <expire-timestamp> <sig-version> <reserved> <pubkey-algo>
 			//                <hash-algo> <sig-class> <primary-key-fpr>
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
 			const QStringList vsig = msg.mid(9).split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+			const QStringList vsig = msg.mid(9).split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
 			Q_ASSERT(vsig.count() >= 10);
 
 			const KGpgKeyNode *node = model->findKeyNode(vsig[9]);

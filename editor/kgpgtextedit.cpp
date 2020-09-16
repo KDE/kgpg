@@ -187,7 +187,11 @@ void KgpgTextEdit::slotEncode()
 		if (KGpgSettings::allowCustomEncryptionOptions()) {
 			const QString customoptions = dialog->getCustomOptions();
 			if (!customoptions.isEmpty())
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
 				options << customoptions.split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+				options << customoptions.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
 		}
 
 		if (KGpgSettings::pgpCompatibility())

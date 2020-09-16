@@ -54,7 +54,11 @@ KGpgDecrypt::command() const
 	if (!m_outFilename.isEmpty())
 		ret << QLatin1String("-o") << m_outFilename;
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
 	ret << KGpgSettings::customDecrypt().simplified().split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+	ret << KGpgSettings::customDecrypt().simplified().split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
 
 	return ret;
 }

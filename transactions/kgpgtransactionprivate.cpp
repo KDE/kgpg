@@ -324,7 +324,11 @@ bool KGpgTransactionPrivate::keyConsidered(const QString& line)
 	if (!line.startsWith(QLatin1String("[GNUPG:] KEY_CONSIDERED ")))
 		return false;
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
 	const QStringList &parts = line.split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+	const QStringList &parts = line.split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
 	if (parts.count() < 3)
 		m_parent->setSuccess(KGpgTransaction::TS_MSG_SEQUENCE);
 	else if (!m_expectedFingerprints.isEmpty() &&
