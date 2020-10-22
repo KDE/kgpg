@@ -26,7 +26,6 @@
 #include "kgpgsettings.h"
 
 #include <QString>
-#include <QStringList>
 
 KGpgRootNode::KGpgRootNode(KGpgItemModel *model)
 	: KGpgExpandableNode(nullptr),

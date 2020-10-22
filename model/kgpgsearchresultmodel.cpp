@@ -22,7 +22,6 @@
 #include <QRegularExpression>
 #include <QScopedPointer>
 #include <QString>
-#include <QStringList>
 #include <QTextCodec>
 
 #include "core/convert.h"

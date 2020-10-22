@@ -29,7 +29,6 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QTableView>
-#include <QVBoxLayout>
 
 #include <KActionCollection>
 #include <KConfigGroup>

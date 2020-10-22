@@ -23,11 +23,9 @@
 
 #include <KLocalizedString>
 
-#include <QDateTime>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
-#include <QPixmap>
 
 class KGpgUatNodePrivate {
 public:

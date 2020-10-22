@@ -21,7 +21,6 @@
 #include "kgpgsettings.h"
 #include "model/keylistproxymodel.h"
 #include "model/kgpgitemmodel.h"
-#include "model/kgpgsearchresultmodel.h"
 #include "transactions/kgpgimport.h"
 #include "transactions/kgpgkeyservergettransaction.h"
 #include "transactions/kgpgkeyserversearchtransaction.h"

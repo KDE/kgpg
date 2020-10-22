@@ -27,7 +27,6 @@
 #include <QDialogButtonBox>
 #include <QIntValidator>
 #include <QHBoxLayout>
-#include <QPushButton>
 #include <QStringList>
 #include <QVBoxLayout>
 #include <QWhatsThis>

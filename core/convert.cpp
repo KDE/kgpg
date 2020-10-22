@@ -23,7 +23,6 @@
 
 
 #include "kgpg_general_debug.h"
-#include <gpgme.h>
 
 #include "kgpgsettings.h"
 

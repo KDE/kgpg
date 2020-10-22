@@ -13,7 +13,6 @@
 
 #include "kgpgsigntransactionhelper.h"
 
-#include "kgpgtransaction.h"
 #include "model/kgpgitemnode.h"
 
 KGpgSignTransactionHelper::KGpgSignTransactionHelper(const QString &signer, const bool local, const carefulCheck checking)

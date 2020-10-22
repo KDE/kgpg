@@ -21,7 +21,6 @@
 #include "model/kgpgitemnode.h"
 #include "kgpgitemmodel.h"
 #include "kgpgsettings.h"
-#include "core/kgpgkey.h"
 #include "core/images.h"
 
 #include <KLocalizedString>

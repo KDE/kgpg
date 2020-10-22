@@ -21,7 +21,6 @@
 
 #include "images.h"
 
-#include <QIcon>
 
 namespace KgpgCore
 {

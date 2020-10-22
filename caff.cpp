@@ -18,7 +18,6 @@
 #include "kgpginterface.h"
 #include "kgpgsettings.h"
 #include "core/KGpgKeyNode.h"
-#include "core/KGpgSignableNode.h"
 #include "transactions/kgpgdeluid.h"
 #include "transactions/kgpgencrypt.h"
 #include "transactions/kgpgexport.h"

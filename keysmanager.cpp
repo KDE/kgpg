@@ -19,7 +19,6 @@
 
 #include "caff.h"
 #include "core/images.h"
-#include "core/kgpgkey.h"
 #include "detailedconsole.h"
 #include "gpgproc.h"
 #include "groupedit.h"
@@ -86,7 +85,6 @@
 #include <KToggleAction>
 
 #include <QApplication>
-#include <QClipboard>
 #include <QDBusConnection>
 
 #include <QDesktopServices>
