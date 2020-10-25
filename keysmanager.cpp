@@ -518,6 +518,8 @@ void KeysManager::slotGenerateKey()
 			else
 				gpg_args += QLatin1String(" --gen-key");
 
+			gpg_args += GPGProc::getGpgHomeArguments(gpgbin).join(QLatin1Char(' '));
+
 			QStringList args;
 			args << QLatin1String( "-e" )
 			     << gpg_args;

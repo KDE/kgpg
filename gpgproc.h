@@ -142,6 +142,13 @@ public:
     static QString getGpgHome(const QString &binary);
 
     /**
+     * @brief get arguments to set the configuration file and home directory
+     * @param binary name or path to GnuPG binary
+     * @return GnuPG argument list
+     */
+    static QStringList getGpgHomeArguments(const QString &binary);
+
+    /**
      * @brief return a list of the public key algorithms GnuPG announces support for
      * @param binary name or path to GnuPG binary
      * @return list of algorithm names

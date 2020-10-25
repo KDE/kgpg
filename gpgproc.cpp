@@ -131,19 +131,7 @@ void GnupgBinary::setBinary(const QString &executable)
 			<< QLatin1String( "--no-tty" )
 			<< QLatin1String("--no-greeting");
 
-	if (!gpgConfigFile.isEmpty()) {
-		m_standardArguments << QLatin1String("--options")
-				<< gpgConfigFile;
-
-		// Check if the config file is in the default home directory
-		// of the binary. If it isn't add --homedir to command line also.
-		QString gpgdir = GPGProc::getGpgHome(executable);
-		gpgdir.chop(1);	// remove trailing '/' as QFileInfo returns string without it
-		QFileInfo confFile(gpgConfigFile);
-		if (confFile.absolutePath() != gpgdir)
-			m_standardArguments << QLatin1String("--homedir")
-					<< confFile.absolutePath();
-	}
+	m_standardArguments << GPGProc::getGpgHomeArguments(executable);
 
 	QStringList debugLevelArguments(QLatin1String("--debug-level"));
 	debugLevelArguments << QLatin1String("none");
@@ -406,4 +394,25 @@ QString GPGProc::getGpgHome(const QString &binary)
 	umask(mask);
 #endif
 	return gpgHome;
+}
+
+QStringList
+GPGProc::getGpgHomeArguments(const QString &binary)
+{
+	const QString gpgConfigFile = KGpgSettings::gpgConfigPath();
+
+	if (gpgConfigFile.isEmpty())
+		return {};
+
+	QStringList options{ QLatin1String("--options"), gpgConfigFile };
+
+	// Check if the config file is in the default home directory
+	// of the binary. If it isn't add --homedir to command line also.
+	QString gpgdir = GPGProc::getGpgHome(binary);
+	gpgdir.chop(1);	// remove trailing '/' as QFileInfo returns string without it
+	QFileInfo confFile(gpgConfigFile);
+	if (confFile.absolutePath() != gpgdir)
+		options << QLatin1String("--homedir") << confFile.absolutePath();
+
+	return options;
 }
