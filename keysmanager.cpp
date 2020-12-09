@@ -141,7 +141,7 @@ KeysManager::KeysManager(QWidget *parent)
 	goToDefaultKey = actionCollection()->addAction(QLatin1String("go_default_key"), this, &KeysManager::slotGotoDefaultKey);
 	goToDefaultKey->setIcon(QIcon::fromTheme( QLatin1String( "go-home" )));
 	goToDefaultKey->setText(i18n("&Go to Default Key"));
-	actionCollection()->setDefaultShortcut(goToDefaultKey, QKeySequence(Qt::CTRL + Qt::Key_Home));
+	actionCollection()->setDefaultShortcut(goToDefaultKey, QKeySequence(Qt::CTRL | Qt::Key_Home));
 
 	s_kgpgEditor = new KgpgEditor(this, imodel, Qt::Dialog);
 	s_kgpgEditor->setAttribute(Qt::WA_DeleteOnClose, false);
@@ -183,7 +183,7 @@ KeysManager::KeysManager(QWidget *parent)
 	editKey = actionCollection()->addAction(QLatin1String("key_edit"), this, &KeysManager::slotedit);
 	editKey->setIcon(QIcon::fromTheme( QLatin1String( "utilities-terminal" )));
 	editKey->setText(i18n("Edit Key in &Terminal"));
-	actionCollection()->setDefaultShortcut(editKey, QKeySequence(Qt::ALT + Qt::Key_Return));
+	actionCollection()->setDefaultShortcut(editKey, QKeySequence(Qt::ALT | Qt::Key_Return));
 
 	QAction *generateKey = actionCollection()->addAction(QLatin1String("key_gener"), this, &KeysManager::slotGenerateKey);
 	generateKey->setIcon(QIcon::fromTheme( QLatin1String( "key-generate-pair" )));
