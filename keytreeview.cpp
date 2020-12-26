@@ -50,7 +50,7 @@ KeyTreeView::selectedNodes(bool *psame, KgpgCore::KgpgItemType *pt) const
 {
 	QModelIndexList selidx = selectedIndexes();
 	std::vector<KGpgNode *> ndlist;
-	KgpgItemType tp = 0;
+	KgpgItemType tp = {};
 	bool sametype = true;
 
 	if (selidx.isEmpty()) {
