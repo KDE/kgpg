@@ -66,6 +66,7 @@
 #include <KActionCollection>
 #include <KContacts/AddresseeList>
 // #include <KContacts/Key> TODO
+#include <kwidgetsaddons_version.h>
 #include <KIO/Global>
 #include <KIO/ApplicationLauncherJob>
 #include <KIO/OpenUrlJob>
@@ -421,8 +422,13 @@ KeysManager::KeysManager(QWidget *parent)
 	KConfigGroup cg = KConfigGroup(KSharedConfig::openConfig().data(), "KeyView");
 	iview->restoreLayout(cg);
 
+#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
 	connect(photoProps, QOverload<int>::of(&KSelectAction::triggered), this, &KeysManager::slotSetPhotoSize);
 	connect(trustProps, QOverload<int>::of(&KSelectAction::triggered), this, &KeysManager::slotSetTrustFilter);
+#else
+	connect(photoProps, &KSelectAction::indexTriggered, this, &KeysManager::slotSetPhotoSize);
+	connect(trustProps, &KSelectAction::indexTriggered, this, &KeysManager::slotSetTrustFilter);
+#endif
 
 	QLabel *searchLabel = new QLabel(i18n("Search:"), this);
 	m_listviewsearch = new QLineEdit(this);
