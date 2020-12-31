@@ -171,9 +171,8 @@ set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transac
    foldercompressjob.cpp
 )
 
-ecm_qt_declare_logging_category(kgpg_SRCS HEADER kgpg_general_debug.h IDENTIFIER KGPG_LOG_GENERAL CATEGORY_NAME org.kde.kgpg_general)
-ecm_qt_declare_logging_category(kgpg_SRCS HEADER kgpg_transactions_debug.h IDENTIFIER KGPG_LOG_TRANSACTIONS CATEGORY_NAME org.kde.kgpg_transactions)
-
+ecm_qt_declare_logging_category(kgpg_SRCS HEADER kgpg_general_debug.h IDENTIFIER KGPG_LOG_GENERAL CATEGORY_NAME org.kde.kgpg_general DESCRIPTION "kgpg (general)" EXPORT KGPG)
+ecm_qt_declare_logging_category(kgpg_SRCS HEADER kgpg_transactions_debug.h IDENTIFIER KGPG_LOG_TRANSACTIONS CATEGORY_NAME org.kde.kgpg_transactions DESCRIPTION "kgpg (transactions)" EXPORT KGPG)
 
 set(kgpg_HDRS
    caff.h
@@ -295,7 +294,6 @@ ecm_install_icons(ICONS
     THEME hicolor
 )
 
-install(FILES kgpg.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
-
+ecm_qt_install_logging_categories(EXPORT KGPG FILE kgpg.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
