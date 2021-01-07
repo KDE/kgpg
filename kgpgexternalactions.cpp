@@ -102,7 +102,7 @@ void KGpgExternalActions::slotEncryptionKeySelected()
 		eopt |= KGpgEncrypt::HideKeyId;
 
 	if (KGpgSettings::allowCustomEncryptionOptions()) {
-		const QString customopts(dialog->getCustomOptions().isEmpty());
+		const QString customopts = dialog->getCustomOptions();
 
 		if (!customopts.isEmpty())
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
