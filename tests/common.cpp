@@ -23,16 +23,17 @@ bool resetGpgConf(QTemporaryDir &basedir)
 	if (!kgpgconf.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
 		return false;
 
+	QDir dir(basedir.filePath(QLatin1String(".gnupg")));
+	QString confPath = dir.filePath(QLatin1String("gpg.conf"));
+
 	kgpgconf.write("[GPG Settings]\n"
-			"gpg_config_path[$e]=" + basedir.path().toUtf8() + "/.gnupg/gpg.conf\n"
+			"gpg_config_path[$e]=" + confPath.toUtf8() + "\n"
 			"[General Options]\n"
 			"first run=false\n"
 			);
 	kgpgconf.close();
 
 	// (re)create the home directory for GnuPG
-	const QString dot_gpg(QLatin1String(".gnupg"));
-	QDir dir(basedir.path() + QLatin1String("/.gnupg"));
 	dir.removeRecursively();
 	if (!dir.mkpath(dir.path()))
 		return false;
@@ -41,7 +42,7 @@ bool resetGpgConf(QTemporaryDir &basedir)
 					   QFileDevice::ExeOwner))
 		return false;
 
-	QFile conf(dir.filePath(QLatin1String("gpg.conf")));
+	QFile conf(confPath);
 	if (!conf.open(QIODevice::WriteOnly))
 		return false;
 
