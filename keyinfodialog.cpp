@@ -388,7 +388,7 @@ void KgpgKeyInfo::slotApplied(int result)
 void KgpgKeyInfo::slotKeyExpanded()
 {
 	// the counting starts at 1 and that is the primary uid which can't be a photo id
-	int i = 2;
+	unsigned int i = 2;
 	const KGpgSignableNode *uat;
 
 	while ((uat = m_node->getUid(i++)) != nullptr) {
