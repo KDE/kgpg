@@ -124,8 +124,6 @@ void GnupgBinary::setBinary(const QString &executable)
 
 	m_useDebugLevel = (m_version > 0x20000);
 
-	const QString gpgConfigFile = KGpgSettings::gpgConfigPath();
-
 	m_standardArguments.clear();
 	m_standardArguments << QLatin1String( "--no-secmem-warning" )
 			<< QLatin1String( "--no-tty" )

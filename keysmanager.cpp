@@ -1961,8 +1961,6 @@ void KeysManager::signLoop(const bool localsign, const int checklevel)
 	Q_ASSERT(keyCount < signList.count());
 
 	KGpgSignableNode *nd = signList.at(keyCount);
-	QString uid;
-	QString keyid;
 	const KGpgSignTransactionHelper::carefulCheck cc = static_cast<KGpgSignTransactionHelper::carefulCheck>(checklevel);
 	KGpgTransaction *sta;
 

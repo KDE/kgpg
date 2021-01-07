@@ -342,7 +342,6 @@ bool KgpgEditor::slotFileSaveAs()
 	if(!url.isEmpty()) {
 		const QString selectedEncoding = saveResult.encoding;
 		if (url.isLocalFile()) {
-			QString filn = url.path();
 			QFile f(url.path());
 			if (f.exists()) {
 				const QString message = i18n("Overwrite existing file %1?", url.fileName());

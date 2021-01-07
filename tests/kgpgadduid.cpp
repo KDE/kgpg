@@ -59,8 +59,6 @@ void KGpgAddUidTest::testAddUid_data()
 
 void KGpgAddUidTest::testAddUidInvalid()
 {
-	QString passphrase = readFile(QLatin1String("keys/kgpgtest_BA7695F3C550DF14.pass"));
-
 	QString keyId = QLatin1String("BA7695F3C550DF14");
 	QString name = QLatin1String("Test name");
 	QString email = QLatin1String("a b"); // intentionally invalid

@@ -266,9 +266,6 @@ readPublicKeysProcess(GPGProc &p, KGpgKeyNode *readNode)
 				}
 			}
 		} else if (publickey && ((lsp.at(0) == QLatin1String( "sig" )) || (lsp.at(0) == QLatin1String( "rev" ))) && (items >= 11)) {
-			// there are no strings here that could have a recoded QLatin1Char( ':' ) in them
-			const QString signature = lsp.join(QLatin1Char(':'));
-
 			if (currentSNode != nullptr)
 				(void) new KGpgSignNode(currentSNode, lsp);
 		} else {

@@ -325,8 +325,6 @@ KGpgKeyNode::getUid(const unsigned int index) const
 	const QString idxstr = QString::number(index);
 
 	for (const KGpgNode *child : children) {
-		KGpgSignNode::List tmp;
-
 		switch (child->getType()) {
 		case KgpgCore::ITYPE_UID:
 		case KgpgCore::ITYPE_UAT:
