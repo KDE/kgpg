@@ -38,7 +38,7 @@ KGpgRootNode::~KGpgRootNode()
 {
 	// clear the parents in all children to signal them not to do any
 	// update signalling
-	for (KGpgNode *child: children)
+	for (KGpgNode *child: qAsConst(children))
 		child->setParent(nullptr);
 }
 
