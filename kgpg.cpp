@@ -91,7 +91,7 @@ bool KGpgApp::newInstance()
 		// The environment variable has been removed in GnuPG 2.1, the agent is started internally by
 		// any program part of GnuPG that needs it, so simply assume everything is fine.
 		if ((gpgver < 0x20100) && KgpgInterface::getGpgBoolSetting(QLatin1String("use-agent"), gpgPath) &&
-				qgetenv("GPG_AGENT_INFO").isEmpty())
+				qEnvironmentVariableIsEmpty("GPG_AGENT_INFO"))
                         KMessageBox::sorry(nullptr, i18n("<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br />"
 				"However, the agent does not seem to be running. This could result in problems with signing/decryption.<br />"
 				"Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>", gpgPath));
