@@ -268,7 +268,7 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
-install(TARGETS kgpg  ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install(TARGETS kgpg  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
