@@ -272,15 +272,15 @@ install(TARGETS kgpg  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
-install( FILES editor/kgpgeditor.rc keysmanager.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kgpg)
-install( FILES tips  DESTINATION ${DATA_INSTALL_DIR}/kgpg)
-install( PROGRAMS org.kde.kgpg.desktop  DESTINATION ${XDG_APPS_INSTALL_DIR})
+install( FILES editor/kgpgeditor.rc keysmanager.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kgpg)
+install( FILES tips  DESTINATION ${KDE_INSTALL_DATADIR}/kgpg)
+install( PROGRAMS org.kde.kgpg.desktop  DESTINATION ${KDE_INSTALL_APPDIR})
 install( FILES org.kde.kgpg.appdata.xml  DESTINATION ${KDE_INSTALL_METAINFODIR})
-install( FILES kgpg.kcfg  DESTINATION ${KCFG_INSTALL_DIR})
-install( FILES org.kde.kgpg.desktop  DESTINATION ${AUTOSTART_INSTALL_DIR} )
+install( FILES kgpg.kcfg  DESTINATION ${KDE_INSTALL_KCFGDIR})
+install( FILES org.kde.kgpg.desktop  DESTINATION ${KDE_INSTALL_AUTOSTARTDIR} )
 install( FILES encryptfile.desktop encryptfolder.desktop viewdecrypted.desktop DESTINATION
-${SERVICES_INSTALL_DIR}/ServiceMenus)
-install( FILES org.kde.kgpg.Key.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
+${KDE_INSTALL_KSERVICES5DIR}/ServiceMenus)
+install( FILES org.kde.kgpg.Key.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR})
 
 ecm_install_icons(ICONS
     16-apps-kgpg.png
