@@ -201,7 +201,7 @@ void KeyServer::slotSearch()
 	m_resultmodel.setFilterByValidity(true);
 
 	m_dialogserver = new QDialog(this);
-	m_dialogserver->setWindowTitle(i18n("Import Key From Keyserver"));
+	m_dialogserver->setWindowTitle(i18nc("Window title", "Import Key From Keyserver"));
 
 	QVBoxLayout *mainLayout = new QVBoxLayout(m_dialogserver);
 	m_dialogserver->setLayout(mainLayout);
