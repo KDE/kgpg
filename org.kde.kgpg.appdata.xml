@@ -28,6 +28,7 @@
   <name xml:lang="nds">KGpg</name>
   <name xml:lang="nl">KGpg</name>
   <name xml:lang="nn">KGpg</name>
+  <name xml:lang="pa">KGpg</name>
   <name xml:lang="pl">KGpg</name>
   <name xml:lang="pt">KGpg</name>
   <name xml:lang="pt-BR">KGpg</name>
@@ -69,6 +70,7 @@
   <summary xml:lang="nds">Verslötel-Warktüüch</summary>
   <summary xml:lang="nl">Hulpmiddel voor versleuteling</summary>
   <summary xml:lang="nn">Krypteringsverktøy</summary>
+  <summary xml:lang="pa">ਇੰਕ੍ਰਿਪਸ਼ਨ ਟੂਲ</summary>
   <summary xml:lang="pl">Narzędzie szyfrowania</summary>
   <summary xml:lang="pt">Ferramenta de Cifra</summary>
   <summary xml:lang="pt-BR">Ferramenta de criptografia</summary>
@@ -155,6 +157,7 @@
       <caption xml:lang="ko">KGpg로 키 관리</caption>
       <caption xml:lang="nl">Sleutelbeheer in KGpg</caption>
       <caption xml:lang="nn">Nøkkelhandsaming i KGpg</caption>
+      <caption xml:lang="pa">KGpg ਵਿੱਚ ਕੁੰਜੀ ਪਰਬੰਧ</caption>
       <caption xml:lang="pl">Zarządzanie kluczami w KGpg</caption>
       <caption xml:lang="pt">Gestão de chaves no KGpg</caption>
       <caption xml:lang="pt-BR">Gerenciamento de chaves no KGpg</caption>
