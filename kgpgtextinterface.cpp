@@ -101,5 +101,5 @@ KGpgTextInterface::slotSignFile()
 void
 KGpgTextInterface::slotSignFinished()
 {
-	emit fileSignFinished();
+	Q_EMIT fileSignFinished();
 }

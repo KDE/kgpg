@@ -58,7 +58,7 @@ void KGpgChangeKey::setOwTrust(const gpgme_validity_t trust)
 bool KGpgChangeKey::apply()
 {
 	if (!wasChanged()) {
-		emit done(0);
+		Q_EMIT done(0);
 		return true;
 	}
 
@@ -144,10 +144,10 @@ void KGpgChangeKey::nextStep(int result)
 			m_failed |= 4;
 		}
 		m_step = 0;
-		emit done(m_failed);
+		Q_EMIT done(m_failed);
 		if (m_autodestroy) {
 			if (m_node)
-				emit keyNeedsRefresh(m_node);
+				Q_EMIT keyNeedsRefresh(m_node);
 			deleteLater();
 		}
 	}

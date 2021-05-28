@@ -501,9 +501,9 @@ KeyListProxyModel::setPreviewSize(const int pixel)
 {
 	Q_D(KeyListProxyModel);
 
-	emit layoutAboutToBeChanged();
+	Q_EMIT layoutAboutToBeChanged();
 	d->m_previewsize = pixel;
-	emit layoutChanged();
+	Q_EMIT layoutChanged();
 }
 
 QVariant

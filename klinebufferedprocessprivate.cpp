@@ -37,7 +37,7 @@ void KLineBufferedProcessPrivate::_k_receivedStdout()
         m_newlineInStdout = ndata.indexOf(m_lineEnd);
         if (m_newlineInStdout >= 0) {
             m_newlineInStdout += oldBufferSize;
-            emit m_parent->lineReadyStandardOutput();
+            Q_EMIT m_parent->lineReadyStandardOutput();
         }
     }
 }
@@ -52,7 +52,7 @@ void KLineBufferedProcessPrivate::_k_receivedStderr()
         m_newlineInStderr = ndata.indexOf(m_lineEnd);
         if (m_newlineInStderr >= 0) {
             m_newlineInStderr += oldBufferSize;
-            emit m_parent->lineReadyStandardError();
+            Q_EMIT m_parent->lineReadyStandardError();
         }
     }
 }

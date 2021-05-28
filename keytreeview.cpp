@@ -172,7 +172,7 @@ KeyTreeView::contentsDropEvent(QDropEvent *o)
 					KGuiItem(i18n("Do Not Import"))) != KMessageBox::Yes)
 			return;
 
-		emit importDrop(uriList);
+		Q_EMIT importDrop(uriList);
 	}
 }
 
@@ -219,7 +219,7 @@ KeyTreeView::keyPressEvent(QKeyEvent *event)
 {
 	if (event->key() == Qt::Key_Return) {
 		if (!event->isAutoRepeat())
-			emit returnPressed();
+			Q_EMIT returnPressed();
 
 		return;
 	}

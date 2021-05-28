@@ -175,7 +175,7 @@ KGpgGenerateKey::nextLine(const QString &line)
 				QString msglong = i18n("The entropy pool ran empty. The key generation process is stalled until enough entropy is present. You can generate entropy e.g. by moving the mouse or typing at the keyboard. The easiest way is by using another application until the key generation continues.");
 			}
 			if (parts.at(3) != QLatin1String( "0" ))
-				emit infoProgress(parts.at(2).toUInt(), parts.at(3).toUInt());
+				Q_EMIT infoProgress(parts.at(2).toUInt(), parts.at(3).toUInt());
 		}
 	} else if (line.contains(QLatin1String( "GOOD_PASSPHRASE" ))) {
 		setSuccess(TS_MSG_SEQUENCE);
@@ -193,7 +193,7 @@ KGpgGenerateKey::nextLine(const QString &line)
 	} else
 		m_errorOutput << line;
 
-	emit statusMessage(msg);
+	Q_EMIT statusMessage(msg);
 
 	return result;
 }
@@ -203,19 +203,19 @@ KGpgGenerateKey::finish()
 {
 	switch (getSuccess()) {
 	case TS_BAD_PASSPHRASE:
-		emit statusMessage(i18n("Bad passphrase. Cannot generate a new key pair."));
+		Q_EMIT statusMessage(i18n("Bad passphrase. Cannot generate a new key pair."));
 		break;
 	case TS_USER_ABORTED:
-		emit statusMessage(i18n("Aborted by the user. Cannot generate a new key pair."));
+		Q_EMIT statusMessage(i18n("Aborted by the user. Cannot generate a new key pair."));
 		break;
 	case TS_INVALID_EMAIL:
-		emit statusMessage(i18n("The email address is not valid. Cannot generate a new key pair."));
+		Q_EMIT statusMessage(i18n("The email address is not valid. Cannot generate a new key pair."));
 		break;
 	case TS_INVALID_NAME:
-		emit statusMessage(i18n("The name is not accepted by gpg. Cannot generate a new key pair."));
+		Q_EMIT statusMessage(i18n("The name is not accepted by gpg. Cannot generate a new key pair."));
 		break;
 	case TS_OK:
-		emit statusMessage(i18n("Key %1 generated", getFingerprint()));
+		Q_EMIT statusMessage(i18n("Key %1 generated", getFingerprint()));
 		break;
 	default:
 		while (getProcess()->hasLineStandardError()) {
@@ -224,7 +224,7 @@ KGpgGenerateKey::finish()
 			m_errorOutput << QString::fromUtf8(b);
 		}
 
-		emit statusMessage(i18n("gpg process did not finish. Cannot generate a new key pair."));
+		Q_EMIT statusMessage(i18n("gpg process did not finish. Cannot generate a new key pair."));
 	}
 }
 

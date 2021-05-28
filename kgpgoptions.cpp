@@ -359,7 +359,7 @@ void kgpgOptions::updateSettings()
 	const QString newConfigFile = m_page4->gpg_home_path->text() + m_page4->gpg_conf_path->text();
 	if (newConfigFile != gpgConfigPath) {
 		KGpgSettings::setGpgConfigPath(newConfigFile);
-		emit homeChanged();
+		Q_EMIT homeChanged();
 
 		gpgConfigPath = newConfigFile;
 	}
@@ -382,7 +382,7 @@ void kgpgOptions::updateSettings()
 
 	KgpgInterface::setGpgSetting(QLatin1String( "encrypt-to" ), alwaysKeyID, KGpgSettings::gpgConfigPath());
 
-	emit changeFont(m_fontchooser->font());
+	Q_EMIT changeFont(m_fontchooser->font());
 
 	// install service menus
 	if (m_page7->kcfg_SignMenu->currentIndex() == KGpgSettings::EnumSignMenu::AllFiles)
@@ -419,30 +419,30 @@ void kgpgOptions::updateSettings()
 	KGpgSettings::setKeyServers(serverList);
 
 	if (keyUltimate != m_page3->kcfg_ColorUltimate->color())
-		emit refreshTrust(TRUST_ULTIMATE, m_page3->kcfg_ColorUltimate->color());
+		Q_EMIT refreshTrust(TRUST_ULTIMATE, m_page3->kcfg_ColorUltimate->color());
 
 	if (keyGood != m_page3->kcfg_ColorGood->color())
-		emit refreshTrust(TRUST_FULL, m_page3->kcfg_ColorGood->color());
+		Q_EMIT refreshTrust(TRUST_FULL, m_page3->kcfg_ColorGood->color());
 
 	if (keyExpired != m_page3->kcfg_ColorExpired->color())
-		emit refreshTrust(TRUST_EXPIRED, m_page3->kcfg_ColorExpired->color());
+		Q_EMIT refreshTrust(TRUST_EXPIRED, m_page3->kcfg_ColorExpired->color());
 
 	if (keyMarginal != m_page3->kcfg_ColorMarginal->color())
-		emit refreshTrust(TRUST_MARGINAL, m_page3->kcfg_ColorMarginal->color());
+		Q_EMIT refreshTrust(TRUST_MARGINAL, m_page3->kcfg_ColorMarginal->color());
 
 	if (keyBad != m_page3->kcfg_ColorBad->color()) {
-		emit refreshTrust(TRUST_INVALID, m_page3->kcfg_ColorBad->color());
-		emit refreshTrust(TRUST_DISABLED, m_page3->kcfg_ColorBad->color());
+		Q_EMIT refreshTrust(TRUST_INVALID, m_page3->kcfg_ColorBad->color());
+		Q_EMIT refreshTrust(TRUST_DISABLED, m_page3->kcfg_ColorBad->color());
 	}
 
 	if (keyUnknown != m_page3->kcfg_ColorUnknown->color()) {
-		emit refreshTrust(TRUST_UNDEFINED, m_page3->kcfg_ColorUnknown->color());
-		emit refreshTrust(TRUST_NONE, m_page3->kcfg_ColorUnknown->color());
-		emit refreshTrust(TRUST_UNKNOWN, m_page3->kcfg_ColorUnknown->color());
+		Q_EMIT refreshTrust(TRUST_UNDEFINED, m_page3->kcfg_ColorUnknown->color());
+		Q_EMIT refreshTrust(TRUST_NONE, m_page3->kcfg_ColorUnknown->color());
+		Q_EMIT refreshTrust(TRUST_UNKNOWN, m_page3->kcfg_ColorUnknown->color());
 	}
 
 	if (keyRev != m_page3->kcfg_ColorRev->color())
-		emit refreshTrust(TRUST_REVOKED, m_page3->kcfg_ColorRev->color());
+		Q_EMIT refreshTrust(TRUST_REVOKED, m_page3->kcfg_ColorRev->color());
 
 	m_showsystray = m_page7->kcfg_ShowSystray->isChecked();
 	KGpgSettings::setShowSystray(m_showsystray);
@@ -462,7 +462,7 @@ void kgpgOptions::updateSettings()
 	KGpgSettings::self()->save();
 	m_config->sync();
 
-	emit settingsUpdated();
+	Q_EMIT settingsUpdated();
 }
 
 void kgpgOptions::listKeys()

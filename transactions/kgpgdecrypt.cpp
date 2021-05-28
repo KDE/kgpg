@@ -123,12 +123,12 @@ KGpgDecrypt::nextLine(const QString& line)
 		decryptSuccess = true;
 	} else if (!inputFiles.isEmpty()) {
 		if (line == QLatin1String("[GNUPG:] BEGIN_DECRYPTION")) {
-			emit statusMessage(i18nc("Status message 'Decrypting <filename>' (operation starts)", "Decrypting %1", inputFiles.at(m_fileIndex).fileName()));
-			emit infoProgress(2 * m_fileIndex + 1, inputFiles.count() * 2);
+			Q_EMIT statusMessage(i18nc("Status message 'Decrypting <filename>' (operation starts)", "Decrypting %1", inputFiles.at(m_fileIndex).fileName()));
+			Q_EMIT infoProgress(2 * m_fileIndex + 1, inputFiles.count() * 2);
 		} else if (line == QLatin1String("[GNUPG:] END_DECRYPTION")) {
-			emit statusMessage(i18nc("Status message 'Decrypted <filename>' (operation was completed)", "Decrypted %1", inputFiles.at(m_fileIndex).fileName()));
+			Q_EMIT statusMessage(i18nc("Status message 'Decrypted <filename>' (operation was completed)", "Decrypted %1", inputFiles.at(m_fileIndex).fileName()));
 			m_fileIndex++;
-			emit infoProgress(2 * m_fileIndex, inputFiles.count() * 2);
+			Q_EMIT infoProgress(2 * m_fileIndex, inputFiles.count() * 2);
 		}
 	} else {
 		if (line.startsWith(QLatin1String("[GNUPG:] PLAINTEXT_LENGTH "))) {

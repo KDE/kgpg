@@ -147,7 +147,7 @@ KGpgCaffPrivate::abortOperation(int result)
 	qCDebug(KGPG_LOG_GENERAL) << "transaction" << sender() << "failed, result" << result;
 	m_tempdir.reset();
 
-	emit q->aborted();
+	Q_EMIT q->aborted();
 }
 
 void
@@ -194,7 +194,7 @@ KGpgCaffPrivate::checkNextLoop()
 					ids.join(QLatin1String("\n")));
 		}
 
-		emit q->done();
+		Q_EMIT q->done();
 	} else {
 		reexportKey(m_allids.first());
 	}

@@ -58,9 +58,9 @@ KGpgTransaction::start()
 		qCDebug(KGPG_LOG_TRANSACTIONS) << this << d->m_process->program();
 #endif /* KGPG_DEBUG_TRANSACTIONS */
 		d->m_process->start();
-		emit infoProgress(0, 1);
+		Q_EMIT infoProgress(0, 1);
 	} else {
-		emit done(d->m_success);
+		Q_EMIT done(d->m_success);
 	}
 }
 
@@ -82,7 +82,7 @@ KGpgTransaction::write(const int i)
 void
 KGpgTransaction::askNewPassphrase(const QString& text)
 {
-	emit statusMessage(i18n("Requesting Passphrase"));
+	Q_EMIT statusMessage(i18n("Requesting Passphrase"));
 
 	d->m_newPasswordDialog = new KNewPasswordDialog(qobject_cast<QWidget *>(parent()));
 	d->m_newPasswordDialog->setPrompt(text);
@@ -274,7 +274,7 @@ KGpgTransaction::addArgumentRef(int *ref)
 bool
 KGpgTransaction::askPassphrase(const QString &message)
 {
-	emit statusMessage(i18n("Requesting Passphrase"));
+	Q_EMIT statusMessage(i18n("Requesting Passphrase"));
 
 	if (d->m_passwordDialog == nullptr) {
 		d->m_passwordDialog = new KPasswordDialog(qobject_cast<QWidget *>(parent()));

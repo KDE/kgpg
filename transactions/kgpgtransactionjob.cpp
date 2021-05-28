@@ -64,7 +64,7 @@ KGpgTransactionJob::slotTransactionDone(int result)
 void
 KGpgTransactionJob::slotStatusMessage(const QString &msg)
 {
-	emit description(this, m_transaction->getDescription(), qMakePair(i18nc("State of operation as in status", "State"), msg));
+	Q_EMIT description(this, m_transaction->getDescription(), qMakePair(i18nc("State of operation as in status", "State"), msg));
 }
 
 void

@@ -44,9 +44,9 @@ GpgServerModel::setDefault(const int row)
 	const int oldRow = m_defaultRow;
 	m_defaultRow = row;
 	if (oldRow >= 0)
-		emit dataChanged(index(oldRow, 0), index(oldRow, 0));
+		Q_EMIT dataChanged(index(oldRow, 0), index(oldRow, 0));
 	if (row >= 0)
-		emit dataChanged(index(row, 0), index(row, 0));
+		Q_EMIT dataChanged(index(row, 0), index(row, 0));
 }
 
 void

@@ -311,7 +311,7 @@ void KgpgTextEdit::slotSignUpdate(int result)
 	const QString content = signt->signedText().join(lf) + lf;
 
     setPlainText(content);
-    emit resetEncoding(false);
+    Q_EMIT resetEncoding(false);
 }
 
 void KgpgTextEdit::slotVerifyDone(int result)
@@ -320,7 +320,7 @@ void KgpgTextEdit::slotVerifyDone(int result)
 	sender()->deleteLater();
 	Q_ASSERT(verify != nullptr);
 
-	emit verifyFinished();
+	Q_EMIT verifyFinished();
 
 	if (result == KGpgVerify::TS_MISSING_KEY) {
 		verifyKeyNeeded(verify->missingId());

@@ -100,7 +100,7 @@ KGpgGenerateRevoke::finish()
 				of.close();
 			}
 		}
-		emit revokeCertificate(m_output);
+		Q_EMIT revokeCertificate(m_output);
 	}
 }
 

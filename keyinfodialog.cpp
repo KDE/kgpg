@@ -366,7 +366,7 @@ void KgpgKeyInfo::applyButtonClicked()
 void KgpgKeyInfo::cancelButtonClicked()
 {
 	if (m_keywaschanged && m_node)
-		emit keyNeedsRefresh(m_node);
+		Q_EMIT keyNeedsRefresh(m_node);
 	reject();
 }
 
@@ -376,7 +376,7 @@ void KgpgKeyInfo::slotApplied(int result)
 		KMessageBox::error(this, i18n("Changing key properties failed."), i18n("Key properties"));
 	} else {
 		m_keywaschanged = true;
-		emit keyNeedsRefresh(m_node);
+		Q_EMIT keyNeedsRefresh(m_node);
 		reloadNode();
 	}
 	setControlEnable(true);

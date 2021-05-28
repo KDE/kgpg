@@ -414,12 +414,12 @@ KGpgItemModel::setDefaultKey(KGpgKeyNode *def)
 	int lastcol = columnCount(QModelIndex()) - 1;
 	if (odefrow >= 0) {
 		KGpgNode *nd = m_root->getChild(odefrow);
-		emit dataChanged(createIndex(odefrow, 0, nd), createIndex(odefrow, lastcol, nd));
+		Q_EMIT dataChanged(createIndex(odefrow, 0, nd), createIndex(odefrow, lastcol, nd));
 	}
 
 	if (def) {
 		m_default = def->getId();
-		emit dataChanged(createIndex(defrow, 0, def), createIndex(defrow, lastcol, def));
+		Q_EMIT dataChanged(createIndex(defrow, 0, def), createIndex(defrow, lastcol, def));
 	} else {
 		m_default.clear();
 	}
@@ -554,7 +554,7 @@ KGpgItemModel::updateNodeTrustColor(KGpgExpandableNode *node, const KgpgCore::Kg
 		KGpgNode *child = node->getChild(i);
 
 		if (child->getTrust() == trust)
-			emit dataChanged(createIndex(i, KEYCOLUMN_TRUST, child), createIndex(i, KEYCOLUMN_TRUST, child));
+			Q_EMIT dataChanged(createIndex(i, KEYCOLUMN_TRUST, child), createIndex(i, KEYCOLUMN_TRUST, child));
 
 		if (!child->hasChildren())
 			continue;

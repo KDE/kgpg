@@ -49,7 +49,7 @@ KGpgKeyserverSearchTransaction::nextLine(const QString &line)
 		m_pageEmpty = false;
 		if (line.startsWith(QLatin1String("pub:"))) {
 			if (!m_keyLines.isEmpty()) {
-				emit newKey(m_keyLines);
+				Q_EMIT newKey(m_keyLines);
 				m_keyLines.clear();
 			}
 			m_keyLines.append(line);
@@ -64,7 +64,7 @@ void
 KGpgKeyserverSearchTransaction::finish()
 {
 	if (!m_keyLines.isEmpty()) {
-		emit newKey(m_keyLines);
+		Q_EMIT newKey(m_keyLines);
 		m_keyLines.clear();
 	}
 }

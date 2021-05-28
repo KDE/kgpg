@@ -122,7 +122,7 @@ KGpgDelUid::setUid(const KGpgKeyNode *keynode, const int uid, const RemoveMode r
 		Q_ASSERT(keynode->wasExpanded());
 		int idx = 0;
 
-		forever {
+        while(1) {
 			idx++;
 			if (idx == -uid)
 				continue;

@@ -87,7 +87,7 @@ KGpgRootNode::addKeys(const QStringList &ids)
 		}
 
 		KGpgKeyNode *nd = new KGpgKeyNode(this, key);
-		emit newKeyNode(nd);
+		Q_EMIT newKeyNode(nd);
 	}
 
 	for (const KgpgCore::KgpgKey &key : qAsConst(secretlist))

@@ -69,7 +69,7 @@ FolderCompressJob::start()
 {
 	Q_D(FolderCompressJob);
 
-	emit description(this, d->m_description, qMakePair(i18nc("State of operation as in status", "State"), i18nc("Job is started up", "Startup")));
+	Q_EMIT description(this, d->m_description, qMakePair(i18nc("State of operation as in status", "State"), i18nc("Job is started up", "Startup")));
 	QMetaObject::invokeMethod(this, "doWork", Qt::QueuedConnection);
 }
 
@@ -120,7 +120,7 @@ FolderCompressJob::doWork()
 
 	d->m_options << QLatin1String("--output") << QDir::toNativeSeparators(outPath.path() + QDir::separator()) + d->m_dest.fileName();
 
-	emit description(this, d->m_description, qMakePair(i18nc("State of operation as in status", "State"),
+	Q_EMIT description(this, d->m_description, qMakePair(i18nc("State of operation as in status", "State"),
 			i18nc("Status message 'Encrypting <filename>' (operation starts)", "Encrypting %1", d->m_dest.path())));
 		
 
@@ -139,9 +139,9 @@ FolderCompressJob::slotEncryptionDone(int result)
 	if ((result != KGpgTransaction::TS_OK) && (result != KGpgTransaction::TS_USER_ABORTED)) {
 		setError(KJob::UserDefinedError + 1);
 		setErrorText(i18n("The encryption failed with error code %1", result));
-		emit description(this, d->m_description, qMakePair(i18nc("State of operation as in status", "State"), i18n("Encryption failed.")));
+		Q_EMIT description(this, d->m_description, qMakePair(i18nc("State of operation as in status", "State"), i18n("Encryption failed.")));
 	} else {
-		emit description(this, d->m_description, qMakePair(i18nc("State of operation as in status", "State"),
+		Q_EMIT description(this, d->m_description, qMakePair(i18nc("State of operation as in status", "State"),
 				i18nc("Status message 'Encrypted <filename>' (operation was completed)", "Encrypted %1", d->m_dest.path())));
 	}
 

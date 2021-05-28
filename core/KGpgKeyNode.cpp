@@ -365,5 +365,5 @@ KGpgKeyNode::expand()
 	if (!wasExpanded())
 		readChildren();
 
-	emit expanded();
+	Q_EMIT expanded();
 }

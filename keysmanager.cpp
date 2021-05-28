@@ -1199,7 +1199,7 @@ void KeysManager::showOptions()
 void KeysManager::readAllOptions()
 {
 	readOptions();
-	emit readAgainOptions();
+	Q_EMIT readAgainOptions();
 }
 
 void KeysManager::slotSetDefKey()

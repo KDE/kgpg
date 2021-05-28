@@ -136,7 +136,7 @@ void KeyServer::slotDownloadKeysFinished(int resultcode)
 	t->deleteLater();
 
 	if (resultcode == KGpgTransaction::TS_USER_ABORTED) {
-		emit importFailed();
+		Q_EMIT importFailed();
 		return;
 	}
 
@@ -144,7 +144,7 @@ void KeyServer::slotDownloadKeysFinished(int resultcode)
 	const QString resultmessage(KGpgImport::getImportMessage(log));
 
 	if (!keys.empty())
-		emit importFinished(keys);
+		Q_EMIT importFinished(keys);
 
 	(void) new KgpgDetailedInfo(this, resultmessage, log.join(QLatin1String("\n")),
 			KGpgImport::getDetailedImportMessage(log).split(QLatin1Char( '\n' )),

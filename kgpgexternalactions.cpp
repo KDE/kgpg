@@ -487,9 +487,9 @@ void KGpgExternalActions::slotSaveOptionsPath()
 	const QString defaultID(m_assistant->getDefaultKey());
 
 	KGpgSettings::self()->save();
-	emit updateDefault(defaultID);
+	Q_EMIT updateDefault(defaultID);
 	if (m_assistant->runKeyGenerate())
-		emit createNewKey();
+		Q_EMIT createNewKey();
 	m_assistant->deleteLater();
 }
 

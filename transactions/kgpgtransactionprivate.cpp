@@ -87,7 +87,7 @@ KGpgTransactionPrivate::slotReadReady()
 				return;
 
 		} else if (line.startsWith(QLatin1String("[GNUPG:] GOOD_PASSPHRASE"))) {
-			emit m_parent->statusMessage(i18n("Got Passphrase"));
+			Q_EMIT m_parent->statusMessage(i18n("Got Passphrase"));
 
 			if (m_passwordDialog != nullptr) {
 				m_passwordDialog->close();
@@ -312,8 +312,8 @@ void
 KGpgTransactionPrivate::processDone()
 {
 	m_parent->finish();
-	emit m_parent->infoProgress(100, 100);
-	emit m_parent->done(m_success);
+	Q_EMIT m_parent->infoProgress(100, 100);
+	Q_EMIT m_parent->done(m_success);
 #ifdef KGPG_DEBUG_TRANSACTIONS
 	qCDebug(KGPG_LOG_TRANSACTIONS) << this << "result:" << m_success;
 #endif /* KGPG_DEBUG_TRANSACTIONS */
