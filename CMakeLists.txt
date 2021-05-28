@@ -61,7 +61,8 @@ find_package(Gpgme REQUIRED)
 
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
 add_definitions(-DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT)
-#add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
+#add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00)
+add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x055300)
 
 add_subdirectory( icons )
 add_subdirectory( doc )

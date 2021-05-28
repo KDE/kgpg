@@ -78,7 +78,7 @@ private:
     void cancelButtonClicked();
 
 private Q_SLOTS:
-    void slotOpenUrl(const QString &url) const;
+    void slotOpenUrl();
 
     void slotChangeDate();
 

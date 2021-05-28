@@ -146,7 +146,7 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
 
     connect(m_owtrust, QOverload<int>::of(&QComboBox::activated), this, &KgpgKeyInfo::slotChangeTrust);
     connect(m_photoid, QOverload<const QString &>::of(&QComboBox::activated), this, &KgpgKeyInfo::slotLoadPhoto);
-    connect(m_email, QOverload<const QString &>::of(&KUrlLabel::leftClickedUrl), this, &KgpgKeyInfo::slotOpenUrl);
+    connect(m_email, &KUrlLabel::leftClickedUrl, this, &KgpgKeyInfo::slotOpenUrl);
     connect(keychange, &KGpgChangeKey::done, this, &KgpgKeyInfo::slotApplied);
     connect(m_disable, &QCheckBox::toggled, this, &KgpgKeyInfo::slotDisableKey);
     connect(m_expirationbtn, &QPushButton::clicked, this, &KgpgKeyInfo::slotChangeDate);
@@ -267,9 +267,9 @@ void KgpgKeyInfo::displayKey()
     m_photoid->clear();
 }
 
-void KgpgKeyInfo::slotOpenUrl(const QString &url) const
+void KgpgKeyInfo::slotOpenUrl()
 {
-    QDesktopServices::openUrl(QUrl(url));
+    QDesktopServices::openUrl(QUrl(m_email->url()));
 }
 
 void KgpgKeyInfo::slotLoadPhoto(const QString &uid)
