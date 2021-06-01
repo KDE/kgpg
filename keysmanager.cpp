@@ -422,13 +422,8 @@ KeysManager::KeysManager(QWidget *parent)
 	KConfigGroup cg = KConfigGroup(KSharedConfig::openConfig().data(), "KeyView");
 	iview->restoreLayout(cg);
 
-#if KWIDGETSADDONS_VERSION < QT_VERSION_CHECK(5, 78, 0)
-	connect(photoProps, QOverload<int>::of(&KSelectAction::triggered), this, &KeysManager::slotSetPhotoSize);
-	connect(trustProps, QOverload<int>::of(&KSelectAction::triggered), this, &KeysManager::slotSetTrustFilter);
-#else
 	connect(photoProps, &KSelectAction::indexTriggered, this, &KeysManager::slotSetPhotoSize);
 	connect(trustProps, &KSelectAction::indexTriggered, this, &KeysManager::slotSetTrustFilter);
-#endif
 
 	QLabel *searchLabel = new QLabel(i18n("Search:"), this);
 	m_listviewsearch = new QLineEdit(this);
@@ -2736,11 +2731,7 @@ KeysManager::clipEncrypt()
 		QStringList options;
 
 		if (!dialog->getCustomOptions().isEmpty() && KGpgSettings::allowCustomEncryptionOptions())
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-			options = dialog->getCustomOptions().split(QLatin1Char(' '), QString::SkipEmptyParts);
-#else
 			options = dialog->getCustomOptions().split(QLatin1Char(' '), Qt::SkipEmptyParts);
-#endif
 
 		if (dialog->getUntrusted())
 			encOptions |= KGpgEncrypt::AllowUntrustedEncryption;
