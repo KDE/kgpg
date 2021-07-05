@@ -1,5 +1,6 @@
-/* SPDX-FileCopyrightText: 2009, 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
-    2016      David Zaslavsky <diazona@ellipsix.net>
+/*
+    SPDX-FileCopyrightText: 2009, 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2016 David Zaslavsky <diazona@ellipsix.net>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */

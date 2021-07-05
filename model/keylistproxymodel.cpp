@@ -1,4 +1,5 @@
-/* SPDX-FileCopyrightText: 2008, 2009, 2010, 2012, 2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+/*
+    SPDX-FileCopyrightText: 2008, 2009, 2010, 2012, 2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-FileCopyrightText: 2013 Thomas Fischer <fischer@unix-ag.uni-kl.de>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL

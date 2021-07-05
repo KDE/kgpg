@@ -1,16 +1,7 @@
 /*
-    sourceselect.h  -  description
-    -------------------
-    begin                : Mo April 30 2007
-    SPDX-FileCopyrightText: 2007 Lukas Kropatschek
-    email                : lukas.krop@gmail.com
-*/
-
-/***************************************************************************
- *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
- *                                                                         *
- ***************************************************************************/
+    SPDX-FileCopyrightText: 2007 Lukas Kropatschek <lukas.krop@gmail.com>
+    SPDX-License-Identifier: GPL-2.0-or-later
+ */
 
 #include "sourceselect.h"
 

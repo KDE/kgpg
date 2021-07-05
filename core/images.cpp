@@ -1,10 +1,8 @@
 /*
     SPDX-FileCopyrightText: 2006 Jimmy Gilles <jimmygilles@gmail.com>
     SPDX-FileCopyrightText: 2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-License-Identifier: GPL-2.0-or-later
 */
-/***************************************************************************
- *   SPDX-License-Identifier: GPL-2.0-or-later
- ***************************************************************************/
 
 #include "images.h"
 

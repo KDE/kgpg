@@ -1,16 +1,7 @@
 /*
-    newkey.h  -  description
-    -------------------
-    begin                : Thu Jul 4 2002
-    SPDX-FileCopyrightText: 2002 Jean-Baptiste Mardelle
-    email                : bj@altern.org
-*/
-
-/***************************************************************************
- *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
- *                                                                         *
- ***************************************************************************/
+    SPDX-FileCopyrightText: 2002 Jean-Baptiste Mardelle <bj@altern.org>
+    SPDX-License-Identifier: GPL-2.0-or-later
+ */
 
 #ifndef NEWKEY_H
 #define NEWKEY_H

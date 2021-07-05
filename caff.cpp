@@ -1,12 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2009, 2010, 2012, 2013, 2014, 2015, 2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
-*/
-
-/***************************************************************************
- *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+ */
 
 #include "caff.h"
 #include "caff_p.h"

@@ -1,12 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2008, 2009, 2012, 2013, 2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
-*/
-
-/***************************************************************************
- *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+ */
 
 #ifndef KGPGGENERATEKEY_H
 #define KGPGGENERATEKEY_H

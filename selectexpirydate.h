@@ -2,13 +2,8 @@
     SPDX-FileCopyrightText: 2002 Jean-Baptiste Mardelle <bj@altern.org>
     SPDX-FileCopyrightText: 2007 Jimmy Gilles <jimmygilles@gmail.com>
     SPDX-FileCopyrightText: 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
-*/
-
-/***************************************************************************
- *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
- *                                                                         *
- ***************************************************************************/
+    SPDX-License-Identifier: GPL-2.0-or-later
+ */
 
 #ifndef SELECTEXPIRYDATE_H
 #define SELECTEXPIRYDATE_H

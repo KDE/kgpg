@@ -1,16 +1,7 @@
 /*
-    kgpgsettings_addons.h  -  description
-    -------------------
-    begin                : Mon Jul 8 2002
-    copyright          : (C) 2003Waldo Bastian
-    email                : bastian@kde.org
-*/
-
-/***************************************************************************
- *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
- *                                                                         *
- ***************************************************************************/
+    SPDX-FileCopyrightText: 2003 Waldo Bastian <bastian@kde.org>
+    SPDX-License-Identifier: GPL-2.0-or-later
+ */
 
 #ifndef KGPGSETTINGS_ADDONS_H
 #define KGPGSETTINGS_ADDONS_H

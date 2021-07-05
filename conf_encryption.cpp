@@ -1,15 +1,7 @@
 /*
-    -------------------
-    begin                : Mon Jul 8 2002
-    SPDX-FileCopyrightText: 2002 Jean-Baptiste Mardelle
-    email                : bj@altern.org
-*/
-
-/***************************************************************************
- *                                                                         *
- *   SPDX-License-Identifier: GPL-2.0-or-later
- *                                                                         *
- ***************************************************************************/
+    SPDX-FileCopyrightText: 2002 Jean-Baptiste Mardelle <bj@altern.org>
+    SPDX-License-Identifier: GPL-2.0-or-later
+ */
 
 #include "conf_encryption.h"
 
