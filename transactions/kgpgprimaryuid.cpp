@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2009, 2012, 2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #include "kgpgprimaryuid.h"
 

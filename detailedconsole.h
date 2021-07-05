@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2002 Jean-Baptiste Mardelle <bj@altern.org>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #ifndef KGPGDETAILEDCONSOLE_H
 #define KGPGDETAILEDCONSOLE_H

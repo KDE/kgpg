@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2002 Jean-Baptiste Mardelle <bj@altern.org>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #ifndef CONF_ENCRYPTION_H
 #define CONF_ENCRYPTION_H

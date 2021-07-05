@@ -1,9 +1,9 @@
 /*
     SPDX-FileCopyrightText: 2002 Jean-Baptiste Mardelle <bj@altern.org>
-    SPDX-FileCopyrightText: 2007,2008,2009,2010,2011,2012,2013,2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-FileCopyrightText: 2016 Andrius Štikonas <andrius@stikonas.eu>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #include "kgpg.h"
 

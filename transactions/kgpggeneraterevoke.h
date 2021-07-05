@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2010, 2012, 2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #ifndef KGPGGENERATEREVOKE_H
 #define KGPGGENERATEREVOKE_H

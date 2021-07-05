@@ -2,7 +2,7 @@
     SPDX-FileCopyrightText: 2009, 2010, 2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-FileCopyrightText: 2016 David Zaslavsky <diazona@ellipsix.net>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #include "kgpgsearchresultmodel.h"
 #include "kgpg_general_debug.h"

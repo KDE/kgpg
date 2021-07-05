@@ -1,8 +1,8 @@
 /*
     SPDX-FileCopyrightText: 2006, 2007 Jimmy Gilles <jimmygilles@gmail.com>
-    SPDX-FileCopyrightText: 2007,2008,2009,2010,2012,2013,2014,2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2012, 2013, 2014, 2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #include "kgpgkey.h"
 

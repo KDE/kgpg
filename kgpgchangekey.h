@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2008, 2012, 2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #ifndef KGPGCHANGEKEY_H
 #define KGPGCHANGEKEY_H

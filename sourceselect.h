@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2007 Lukas Kropatschek <lukas.krop@gmail.com>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #ifndef SOURCESELECT_H
 #define SOURCESELECT_H

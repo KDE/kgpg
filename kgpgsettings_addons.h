@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2003 Waldo Bastian <bastian@kde.org>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #ifndef KGPGSETTINGS_ADDONS_H
 #define KGPGSETTINGS_ADDONS_H

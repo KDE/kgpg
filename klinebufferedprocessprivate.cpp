@@ -2,7 +2,7 @@
     SPDX-FileCopyrightText: 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-FileCopyrightText: 2016 Andrius Štikonas <andrius@stikonas.eu>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #include "klinebufferedprocess.h"
 

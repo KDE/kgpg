@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #include "kgpgtransaction.h"
 #include "kgpg_transactions_debug.h"

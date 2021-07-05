@@ -1,7 +1,7 @@
 /*
     SPDX-FileCopyrightText: 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
- */
+*/
 
 #ifndef KGPGKEYSERVERGETTRANSACTION_H
 #define KGPGKEYSERVERGETTRANSACTION_H
