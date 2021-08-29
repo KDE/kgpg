@@ -6,7 +6,7 @@ target_link_libraries(kgpg_tests_common kgpg_lib)
 
 function(create_test name)
 	add_executable(${name} ${ARGN})
-	target_link_libraries(${name} kgpg_lib kgpg_tests_common Qt5::Test)
+	target_link_libraries(${name} kgpg_lib kgpg_tests_common Qt::Test)
 	add_test(NAME ${name} COMMAND ${name})
 	add_dependencies(${name} test-data)
 endfunction()

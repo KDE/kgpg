@@ -205,9 +205,9 @@ set(kgpg_HDRS
    sourceselect.h
 )
 
-qt5_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)
+qt_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)
 
-qt5_add_dbus_interface(kgpg_SRCS org.kde.kgpg.Key.xml kgpg_interface )
+qt_add_dbus_interface(kgpg_SRCS org.kde.kgpg.Key.xml kgpg_interface )
 
 ki18n_wrap_ui(kgpg_SRCS
     adduid.ui
@@ -262,7 +262,7 @@ target_link_libraries(kgpg_lib
     KF5::XmlGui
     KF5::WidgetsAddons
     KF5::WindowSystem
-    Qt5::PrintSupport
+    Qt::PrintSupport
 )
 
 if(BUILD_TESTING)
