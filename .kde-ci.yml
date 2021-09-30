@@ -23,6 +23,6 @@ Dependencies:
     'frameworks/ktextwidgets': '@stable'
     'frameworks/kwidgetsaddons': '@stable'
     'frameworks/kwindowsystem': '@stable'
-    'kde/pim/akonadi-contacts': '@stable'
+    'kde/pim/akonadi-contacts': '@latest'
     'frameworks/kcontacts': '@stable'
 
