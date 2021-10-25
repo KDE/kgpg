@@ -60,7 +60,7 @@ public:
     /**
      * Destructor
      */
-    ~KLineBufferedProcess();
+    ~KLineBufferedProcess() override;
 
     /**
      * Reads a line of text (excluding '\\n') from stdout.

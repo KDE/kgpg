@@ -33,7 +33,7 @@ class KGpgExternalActions : public QObject
 
 public:
 	KGpgExternalActions(KeysManager *parent, KGpgItemModel *model);
-	~KGpgExternalActions();
+	~KGpgExternalActions() override;
 
 	void showDroppedFile(const QUrl &file);
 	void verifyFile(QUrl url);

@@ -26,7 +26,7 @@ private:
 
 public:
 	explicit KGpgTextInterface(QObject *parent, const QString &keyID, const QStringList &options);
-	~KGpgTextInterface();
+	~KGpgTextInterface() override;
 
 Q_SIGNALS:
     /**

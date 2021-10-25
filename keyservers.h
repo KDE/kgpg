@@ -46,7 +46,7 @@ class KeyServer : public QDialog
 
 public:
 	explicit KeyServer(QWidget *parent = nullptr, KGpgItemModel *model = nullptr, const bool autoclose = false);
-	~KeyServer();
+	~KeyServer() override;
 
 	/**
 	 * Returns the server list.

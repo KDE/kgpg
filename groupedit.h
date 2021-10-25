@@ -38,7 +38,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-	~groupEdit();
+	~groupEdit() override;
 
 private:
 	/**

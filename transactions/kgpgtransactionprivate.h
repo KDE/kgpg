@@ -18,7 +18,7 @@ class KGpgTransaction;
 class KGpgTransactionPrivate : public QObject {
 public:
 	KGpgTransactionPrivate(KGpgTransaction *parent, bool allowChaining);
-	~KGpgTransactionPrivate();
+	~KGpgTransactionPrivate() override;
 
 	KGpgTransaction *m_parent;
 	GPGProc *m_process;

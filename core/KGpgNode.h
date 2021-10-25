@@ -49,7 +49,7 @@ public:
 	/**
 	 * destructor
 	 */
-	virtual ~KGpgNode();
+	~KGpgNode() override;
 
 	/**
 	 * Returns if this node has child nodes

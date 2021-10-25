@@ -42,7 +42,7 @@ public:
     /**
      * Destructor
      */
-    ~GPGProc();
+    ~GPGProc() override;
 
     /**
      *  Starts the process

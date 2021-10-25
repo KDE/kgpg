@@ -37,7 +37,7 @@ class KGpgCaffPrivate : public QObject {
 public:
 	KGpgCaffPrivate(KGpgCaff *parent, const KGpgSignableNode::List &ids, const QStringList &signers,
 			const KGpgCaff::OperationFlags flags, const KGpgSignTransactionHelper::carefulCheck checklevel);
-	~KGpgCaffPrivate();
+	~KGpgCaffPrivate() override;
 
 	KGpgSignableNode::List m_allids;
 	KGpgSignableNode::const_List m_noEncIds;	///< keys without encryption capability that were skipped

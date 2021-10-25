@@ -34,7 +34,7 @@ class KGpgApp : public QApplication
 
 public:
     KGpgApp(int &argc, char **argv);
-    ~KGpgApp();
+    ~KGpgApp() override;
 
 	bool newInstance();
 	QKeySequence goHome;

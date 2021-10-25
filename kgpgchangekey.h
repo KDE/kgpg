@@ -60,7 +60,7 @@ public:
 	/**
 	 * Destroys the object
 	 */
-	~KGpgChangeKey();
+	~KGpgChangeKey() override;
 
 	/**
 	 * Cache new expiration date

@@ -70,7 +70,7 @@ public:
 	* @param proxy http proxy to use
 	*/
 	KGpgReceiveKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress = false, const QString &proxy = QString());
-	virtual ~KGpgReceiveKeys();
+	~KGpgReceiveKeys() override;
 
 protected:
 	QString getGpgCommand() const override;
@@ -92,7 +92,7 @@ public:
 	* @param proxy http proxy to use
 	*/
 	KGpgRefreshKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress = false, const QString &proxy = QString());
-	virtual ~KGpgRefreshKeys();
+	~KGpgRefreshKeys() override;
 
 protected:
 	QString getGpgCommand() const override;

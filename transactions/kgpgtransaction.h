@@ -85,7 +85,7 @@ public:
 	/**
 	 * @brief KGpgTransaction destructor
 	 */
-	virtual ~KGpgTransaction();
+	~KGpgTransaction() override;
 
 	/**
 	 * @brief Start the operation.

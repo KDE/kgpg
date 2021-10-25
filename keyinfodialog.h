@@ -53,7 +53,7 @@ class KgpgKeyInfo : public QDialog, public Ui::kgpgKeyInfo
 	Q_DISABLE_COPY(KgpgKeyInfo)
 public:
 	KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *parent);
-	~KgpgKeyInfo();
+	~KgpgKeyInfo() override;
 
 	KGpgChangeKey *keychange;
 
