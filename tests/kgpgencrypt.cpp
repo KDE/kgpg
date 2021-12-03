@@ -47,7 +47,7 @@ void KGpgEncryptTest::testAsciiArmoredEncryption()
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy(encryption, &KGpgEncrypt::done);
 	encryption->start();
-	QVERIFY(spy.wait(10000));
+	QVERIFY(spy.wait(encryptionTestTimeout));
 
 	checkEncryptedText(encryption);
 	if (QTest::currentTestFailed())
@@ -61,7 +61,7 @@ void KGpgEncryptTest::testAsciiArmoredEncryption()
 	QSignalSpy spy2(decryption, &KGpgDecrypt::done);
 	addPasswordArguments(decryption, passphrase);
 	decryption->start();
-	QVERIFY(spy2.wait());
+	QVERIFY(spy2.wait(decryptionTestTimeout));
 
 	//Check if decrypted text is equal to original text
 	QVERIFY(text.compare(decryption->decryptedText().join(QLatin1Char('\n'))));
@@ -85,7 +85,7 @@ void KGpgEncryptTest::testHideKeyIdEncryption()
 			 [](int result) { QCOMPARE(result, static_cast<int>(KGpgTransaction::TS_OK)); });
 	QSignalSpy spy(encryption, &KGpgEncrypt::done);
 	encryption->start();
-	QVERIFY(spy.wait(10000));
+	QVERIFY(spy.wait(encryptionTestTimeout));
 
 	checkEncryptedText(encryption);
 	if (QTest::currentTestFailed())
@@ -103,7 +103,7 @@ void KGpgEncryptTest::testHideKeyIdEncryption()
 	QSignalSpy spy2(decryption, &KGpgDecrypt::done);
 	addPasswordArguments(decryption, passphrase);
 	decryption->start();
-	QVERIFY(spy2.wait());
+	QVERIFY(spy2.wait(decryptionTestTimeout));
 
 	//Check if decrypted text is equal to original text
 	QVERIFY(text.compare(decryption->decryptedText().join(QLatin1Char('\n'))));
@@ -124,7 +124,7 @@ void KGpgEncryptTest::testSymmetricEncryption()
 	QSignalSpy spy(encryption, &KGpgEncrypt::done);
 	addPasswordArguments(encryption, passphrase);
 	encryption->start();
-	QVERIFY(spy.wait(10000));
+	QVERIFY(spy.wait(encryptionTestTimeout));
 
 	checkEncryptedText(encryption);
 	if (QTest::currentTestFailed())
@@ -138,7 +138,7 @@ void KGpgEncryptTest::testSymmetricEncryption()
 	QSignalSpy spy2(decryption, &KGpgDecrypt::done);
 	addPasswordArguments(decryption, passphrase);
 	decryption->start();
-	QVERIFY(spy2.wait());
+	QVERIFY(spy2.wait(decryptionTestTimeout));
 
 	//Check if decrypted text is equal to original text
 	QVERIFY(text.compare(decryption->decryptedText().join(QLatin1Char('\n'))));

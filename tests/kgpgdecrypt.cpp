@@ -23,7 +23,7 @@ void KGpgDecryptTest::testDecrypt(){
 	QSignalSpy spy(transaction, &KGpgDecrypt::done);
 	addPasswordArguments(transaction, passphrase);
 	transaction->start();
-	QVERIFY(spy.wait(10000));
+	QVERIFY(spy.wait(decryptionTestTimeout));
 	QVERIFY(text.compare(transaction->decryptedText().join(QLatin1Char('\n'))));
 }
 

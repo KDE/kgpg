@@ -3,6 +3,9 @@
 
 #include <QString>
 
+static const unsigned int encryptionTestTimeout = 10000;
+static const unsigned int decryptionTestTimeout = 25000;
+
 class KGpgTransaction;
 class QTemporaryDir;
 
