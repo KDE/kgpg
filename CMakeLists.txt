@@ -8,16 +8,17 @@ set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE
 
 project(kgpg VERSION ${RELEASE_SERVICE_VERSION})
 set(QT_MIN_VERSION "5.15.0")
-set(KF5_MIN_VERSION "5.83.0")
+set(KF5_MIN_VERSION "5.85.0")
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 
-include(ECMAddAppIcon)
-include(ECMInstallIcons)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
-include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
+include(KDECompilerSettings NO_POLICY_SCOPE)
+
+include(ECMAddAppIcon)
+include(ECMInstallIcons)
 include(FeatureSummary)
 include(ECMSetupVersion)
 include(CMakeFindDependencyMacro)
@@ -59,10 +60,12 @@ find_package(KF5 REQUIRED
 # only headers are used
 find_package(Gpgme REQUIRED)
 
-add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
-add_definitions(-DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT)
-#add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00)
-add_definitions(-DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x055200)
+add_definitions(
+    #-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00
+    -DQT_DEPRECATED_WARNINGS_SINCE=0x060000
+    -DKF_DISABLE_DEPRECATED_BEFORE_AND_AT=0x055200
+    -DKF_DEPRECATED_WARNINGS_SINCE=0x060000
+)
 
 add_subdirectory( icons )
 add_subdirectory( doc )
