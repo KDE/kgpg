@@ -53,10 +53,10 @@ void KgpgInterface::setGpgSetting(const QString &name, const QString &value, con
 		const QString temp = name + QLatin1Char(' ');
 		QString texttowrite;
 		bool found = false;
-		QTextStream t(&qfile);
+		QTextStream tin(&qfile);
 
-		while (!t.atEnd()) {
-			QString result = t.readLine();
+		while (!tin.atEnd()) {
+			QString result = tin.readLine();
 			if (result.simplified().startsWith(temp)) {
 				if (!value.isEmpty())
 					result = temp + QLatin1Char( ' ' ) + value;
@@ -73,8 +73,8 @@ void KgpgInterface::setGpgSetting(const QString &name, const QString &value, con
 			texttowrite += QLatin1Char( '\n' ) + temp + QLatin1Char( ' ' ) + value;
 
 		if (qfile.open(QIODevice::WriteOnly)) {
-			QTextStream t(&qfile);
-			t << texttowrite;
+			QTextStream tout(&qfile);
+			tout << texttowrite;
 			qfile.close();
 		}
 	}
@@ -101,10 +101,10 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool enable, co
 	if (qfile.exists() && qfile.open(QIODevice::ReadOnly)) {
 		QString texttowrite;
 		bool found = false;
-		QTextStream t(&qfile);
+		QTextStream tin(&qfile);
 
-		while (!t.atEnd()) {
-			QString result(t.readLine());
+		while (!tin.atEnd()) {
+			QString result(tin.readLine());
 
 			if (result.simplified().startsWith(name)) {
 				if (enable)
@@ -123,8 +123,8 @@ void KgpgInterface::setGpgBoolSetting(const QString &name, const bool enable, co
 			texttowrite += name;
 
 		if (qfile.open(QIODevice::WriteOnly)) {
-			QTextStream t(&qfile);
-			t << texttowrite;
+			QTextStream tout(&qfile);
+			tout << texttowrite;
 			qfile.close();
 		}
 	}

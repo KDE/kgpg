@@ -91,7 +91,7 @@ private:
 	QList<QUrl> m_inpfiles;
 	QString m_text;
 	QStringList m_messages;
-	bool m_closeInput;	///< if input channel of GnuPG should be closed after m_text is written
+	bool m_closeInput = false;	///< if input channel of GnuPG should be closed after m_text is written
 
 	void cleanUrls();
 

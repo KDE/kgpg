@@ -14,6 +14,7 @@
 
 class KGpgTextInterfacePrivate
 {
+	Q_DISABLE_COPY(KGpgTextInterfacePrivate)
 public:
 	KGpgTextInterfacePrivate(QObject *parent, const QString &keyID, const QStringList &options);
 

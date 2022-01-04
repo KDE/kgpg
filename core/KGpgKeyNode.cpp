@@ -144,10 +144,8 @@ KGpgKeyNode::readChildren()
 {
 	KgpgInterface::readSignatures(this);
 
-	m_signs = 0;
-	for (const KGpgNode *n : qAsConst(children))
-		if (n->getType() == ITYPE_SIGN)
-			m_signs++;
+	m_signs = std::count_if(children.cbegin(), children.cend(),
+			[](const KGpgNode *n) { return n->getType() == ITYPE_SIGN; });
 }
 
 QString

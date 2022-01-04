@@ -240,18 +240,15 @@ void KGpgExternalActions::verifyFile(QUrl url)
 	// try to find detached signature.
 	if (!url.fileName().endsWith(QLatin1String(".sig"))) {
 		sigfile = url.path() + QLatin1String( ".sig" );
-		QFile fsig(sigfile);
-		if (!fsig.exists()) {
+		if (!QFile::exists(sigfile)) {
 			sigfile = url.path() + QLatin1String( ".asc" );
-			QFile fsig(sigfile);
 			// if no .asc or .sig signature file included, assume the file is internally signed
-			if (!fsig.exists())
+			if (!QFile::exists(sigfile))
 				sigfile.clear();
 		}
 	} else {
 		sigfile = url.path();
 		sigfile.chop(4);
-		url = QUrl(sigfile);
 	}
 
 	KGpgVerify *kgpv = new KGpgVerify(parent(), QList<QUrl>({QUrl(sigfile)}));

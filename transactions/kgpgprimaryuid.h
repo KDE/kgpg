@@ -36,9 +36,6 @@ public:
 protected:
 	bool nextLine(const QString &line) override;
 	bool passphraseReceived() override;
-
-private:
-	int m_fixargs;
 };
 
 #endif // KGPGPRIMARYUID_H

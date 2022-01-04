@@ -2416,21 +2416,14 @@ void KeysManager::confirmdeletekey()
 		slotDelUid();
 		return;
 	} else if ((pt & ITYPE_GROUP) && !(pt & ~ITYPE_GPAIR)) {
-		bool invalidDelete = false;
-		for (const KGpgNode *nd : ndlist)
-			if (nd->getType() == ITYPE_GROUP) {
-				invalidDelete = true;
-				break;
-			}
+		bool invalidDelete = std::any_of(ndlist.cbegin(), ndlist.cend(),
+				[](const KGpgNode *nd) { return nd->getType() == ITYPE_GROUP; });
 
 		// only allow removing group members if they belong to the same group
 		if (!invalidDelete) {
 			const KGpgNode * const group = ndlist.front()->getParentKeyNode();
-			for (const KGpgNode *nd : ndlist)
-				if (nd->getParentKeyNode() != group) {
-					invalidDelete = true;
-					break;
-				}
+			invalidDelete = std::any_of(ndlist.cbegin(), ndlist.cend(),
+					[group] (const KGpgNode *nd) { return nd->getParentKeyNode() != group; });
 		}
 
 		if (!invalidDelete) {

@@ -656,22 +656,19 @@ void KgpgEditor::slotPreVerifyFile()
 
 void KgpgEditor::slotVerifyFile(const QUrl &url)
 {
-    if (!url.isEmpty())
-    {
-        QString sigfile;
-	if (!url.fileName().endsWith(QLatin1String(".sig")))
-        {
-            sigfile = url.path() + QLatin1String( ".sig" );
-            QFile fsig(sigfile);
-            if (!fsig.exists())
-            {
-                sigfile = url.path() + QLatin1String( ".asc" );
-                QFile fsig(sigfile);
-                // if no .asc or .sig signature file included, assume the file is internally signed
-                if (!fsig.exists())
-                    sigfile.clear();
-            }
-        }
+	if (url.isEmpty())
+		return;
+
+	QString sigfile;
+	if (!url.fileName().endsWith(QLatin1String(".sig"))) {
+		sigfile = url.path() + QLatin1String( ".sig" );
+		if (!QFile::exists(sigfile)) {
+			sigfile = url.path() + QLatin1String( ".asc" );
+			// if no .asc or .sig signature file included, assume the file is internally signed
+			if (!QFile::exists(sigfile))
+				sigfile.clear();
+		}
+	}
 
 	QList<QUrl> chkfiles;
 	if (sigfile.isEmpty())
@@ -682,7 +679,6 @@ void KgpgEditor::slotVerifyFile(const QUrl &url)
 	KGpgVerify *verify = new KGpgVerify(this, chkfiles);
 	connect(verify, &KGpgVerify::done, m_editor, &KgpgTextEdit::slotVerifyDone);
 	verify->start();
-    }
 }
 
 void KgpgEditor::slotCheckMd5()

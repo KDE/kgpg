@@ -64,8 +64,8 @@ KgpgKeySub::KgpgKeySub(const QString &id, const uint size, const KgpgKeyTrust tr
 }
 
 KgpgKeySub::KgpgKeySub(const KgpgKeySub &other)
+	: d(other.d)
 {
-    d = other.d;
 }
 
 void KgpgKeySub::setExpiration(const QDateTime &date)
@@ -195,8 +195,8 @@ KgpgKey::KgpgKey(const QString &id, const uint size, const KgpgKeyTrust trust, c
 }
 
 KgpgKey::KgpgKey(const KgpgKey &other)
+	: d(other.d)
 {
-    d = other.d;
 }
 
 void KgpgKey::setSecret(const bool secret)
@@ -363,9 +363,10 @@ KgpgKeyAlgo KgpgKey::algorithm() const
 KgpgKeyAlgo KgpgKey::encryptionAlgorithm() const
 {
 	// Get the first encryption subkey
-	for (const KgpgKeySub &k : qAsConst(*d->gpgsublist))
-		if (k.type() & SKT_ENCRYPTION)
-			return k.algorithm();
+	auto it = std::find_if(d->gpgsublist->cbegin(), d->gpgsublist->cend(),
+			[](const KgpgKeySub &k) { return k.type() & SKT_ENCRYPTION; });
+	if (it != d->gpgsublist->cend())
+		return it->algorithm();
 
 	return ALGO_UNKNOWN;
 }

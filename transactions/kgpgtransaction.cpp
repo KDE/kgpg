@@ -333,9 +333,9 @@ KGpgTransaction::waitForFinished(const int msecs)
 	int ret = TS_OK;
 
 	if (d->m_inputTransaction != nullptr) {
-		int ret = d->m_inputTransaction->waitForFinished(msecs);
-		if ((ret != TS_OK) && (msecs != -1))
-			return ret;
+		int iret = d->m_inputTransaction->waitForFinished(msecs);
+		if ((iret != TS_OK) && (msecs != -1))
+			return iret;
 	}
 
 	bool b = d->m_process->waitForFinished(msecs);
