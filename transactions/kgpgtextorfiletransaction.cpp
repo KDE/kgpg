@@ -112,10 +112,15 @@ KGpgTextOrFileTransaction::preStart()
 	args << command();
 	// if the input is not stdin set command-fd so GnuPG
 	// can ask if e.g. the file already exists
-	m_closeInput = !args.contains(QLatin1String("--command-fd=0"));
-	if (m_closeInput && (!locfiles.isEmpty() || !m_tempfiles.isEmpty())) {
-		args << QLatin1String("--command-fd=0");
+	bool hasCFd = !args.contains(QLatin1String("--command-fd=0"));
+	if (!locfiles.isEmpty() || !m_tempfiles.isEmpty()) {
+		if (!hasCFd)
+			args << QLatin1String("--command-fd=0");
 		m_closeInput = false;
+	} else if (closeInputAfterText()) {
+		m_closeInput = true;
+	} else {
+		m_closeInput = hasCFd;
 	}
 	if (locfiles.count() + m_tempfiles.count() > 1)
 		args << QLatin1String("--multifile");

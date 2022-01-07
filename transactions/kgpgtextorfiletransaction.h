@@ -85,6 +85,18 @@ protected:
 
 	const QList<QUrl> &getInputFiles() const;
 
+	/**
+	 * @brief if the input channel of GnuPG should be closed when text is written
+	 *
+	 * This only has an effect in text mode (i.e. without urls).
+	 *
+	 * If not given the input channel is closed when "--command-fd" is not used.
+	 */
+	virtual bool closeInputAfterText() const
+	{
+		return false;
+	}
+
 private:
 	QStringList m_tempfiles;
 	QStringList m_locfiles;

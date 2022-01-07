@@ -145,3 +145,10 @@ KGpgDecrypt::finish()
 		KGpgTextOrFileTransaction::finish();
 	}
 }
+
+bool KGpgDecrypt::closeInputAfterText() const
+{
+	// otherwise decryption does never start in GnuPG 2.3,
+	// but doesn't hurt on older versions as well
+	return true;
+}

@@ -68,7 +68,7 @@ protected:
 	QStringList command() const override;
 	bool nextLine(const QString &line) override;
 	void finish() override;
-
+	bool closeInputAfterText() const override;
 
 private:
 	int m_fileIndex;
