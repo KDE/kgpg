@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2002 Jean-Baptiste Mardelle <bj@altern.org>
-    SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2007-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-FileCopyrightText: 2011 Luis Ángel Fernández Fernández <laffdez@gmail.com>
     SPDX-FileCopyrightText: 2016 Andrius Štikonas <andrius@stikonas.eu>
     SPDX-License-Identifier: GPL-2.0-or-later
@@ -506,9 +506,9 @@ void KeysManager::slotGenerateKey()
 			const QString gpgbin = KGpgSettings::gpgBinaryPath();
 			QString gpg_args = gpgbin + QLatin1String(" --expert");
 			if (GPGProc::gpgVersion(GPGProc::gpgVersionString(gpgbin)) > 0x20100)
-				gpg_args += QLatin1String(" --full-gen-key");
+				gpg_args += QLatin1String(" --full-gen-key ");
 			else
-				gpg_args += QLatin1String(" --gen-key");
+				gpg_args += QLatin1String(" --gen-key ");
 
 			gpg_args += GPGProc::getGpgHomeArguments(gpgbin).join(QLatin1Char(' '));
 
