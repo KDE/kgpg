@@ -13,7 +13,9 @@
 #include <KAboutData>
 #include <KCrash>
 #include <KDBusService>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <Kdelibs4ConfigMigrator>
+#endif
 #include <KLocalizedString>
 
 int main(int argc, char *argv[])
@@ -23,11 +25,12 @@ int main(int argc, char *argv[])
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
     KCrash::initialize();
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     Kdelibs4ConfigMigrator migrate(QLatin1String("kgpg"));
     migrate.setConfigFiles({ QLatin1String("kgpgrc") });
     migrate.setUiFiles({ QStringLiteral("keysmanager.rc"), QStringLiteral("kgpgeditor.rc") });
     migrate.migrate();
+#endif
 
     KLocalizedString::setApplicationDomain("kgpg");
 
