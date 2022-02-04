@@ -64,11 +64,10 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	m_combomodel->sort(0);
 
 	// Initialize the default server and the default server list.
-	defaultKeyServer = QLatin1String("hkp://pool.sks-keyservers.net");
+	defaultKeyServer = QLatin1String("hkp://keyserver.ubuntu.com");
 	defaultServerList << defaultKeyServer
+			<< QLatin1String("hkp://keys.openpgp.org")
 			<< QLatin1String("hkp://subkeys.pgp.net")
-			<< QLatin1String("hkp://search.keyserver.net")
-			<< QLatin1String("hkp://pgp.dtype.org")
 			<< QLatin1String("hkp://wwwkeys.pgp.net");
 
 	// Read the default keyserver from the GnuPG settings.
