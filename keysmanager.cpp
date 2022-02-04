@@ -1039,7 +1039,7 @@ void KeysManager::slotAddressbookSearchResult(KJob *job)
 
 void KeysManager::slotManpage()
 {
-	const KService::Ptr helpCenter = KService::serviceByDesktopName(QStringLiteral("org.kde.help"));
+	const KService::Ptr helpCenter = KService::serviceByDesktopName(QStringLiteral("org.kde.khelpcenter"));
 	auto job = new KIO::ApplicationLauncherJob(helpCenter);
 	job->setUrls({QUrl(QStringLiteral("man:/gpg"))});
 	job->start();
