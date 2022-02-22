@@ -50,10 +50,16 @@
 #include "transactions/kgpgtransactionjob.h"
 
 #include <algorithm>
-
+#include <akonadi-contact_version.h>
+#if AKONADICONTACT_VERSION > QT_VERSION_CHECK(5, 19, 40)
+#include <Akonadi/ContactEditor>
+#include <Akonadi/ContactEditorDialog>
+#include <Akonadi/ContactSearchJob>
+#else
 #include <Akonadi/Contact/ContactEditor>
 #include <Akonadi/Contact/ContactEditorDialog>
 #include <Akonadi/Contact/ContactSearchJob>
+#endif
 #include <KActionCollection>
 #include <KContacts/AddresseeList>
 // #include <KContacts/Key> TODO
