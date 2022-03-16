@@ -51,16 +51,20 @@ SelectKeyProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_
 		return false;
 
 	// there is probably a better place to do this
-	QRegularExpression rx = filterRegularExpression();
-	rx.setPatternOptions(rx.patternOptions() | QRegularExpression::CaseInsensitiveOption);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	const QString filter = filterRegularExpression().pattern();
+#else
+	// filterRegularExpression() is not set when filter was set by setFilterFixedString()
+	const QString filter = filterRegExp().pattern();
+#endif
 
-	if (l->getName().contains(rx))
+	if (l->getName().contains(filter, Qt::CaseInsensitive))
 		return true;
 
-	if (l->getEmail().contains(rx))
+	if (l->getEmail().contains(filter, Qt::CaseInsensitive))
 		return true;
 
-	if (l->getId().contains(rx))
+	if (l->getId().contains(filter, Qt::CaseInsensitive))
 		return true;
 
 	return false;
