@@ -415,16 +415,11 @@ KeyListProxyModel::filterAcceptsRow(int source_row, const QModelIndex &source_pa
 			return false;
 	}
 
-	if (l->getName().contains(filterRegExp()))
-		return true;
+	const QString filter = filterRegularExpression().pattern();
 
-	if (l->getEmail().contains(filterRegExp()))
-		return true;
-
-	if (l->getId().contains(filterRegExp()))
-		return true;
-
-	return false;
+	return l->getName().contains(filter, Qt::CaseInsensitive)
+		|| l->getEmail().contains(filter, Qt::CaseInsensitive)
+		|| l->getId().contains(filter, Qt::CaseInsensitive);
 }
 
 void

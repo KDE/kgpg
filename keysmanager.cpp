@@ -441,7 +441,7 @@ KeysManager::KeysManager(QWidget *parent)
 	action = actionCollection()->addAction(QLatin1String("search_focus"), m_listviewsearch, QOverload<>::of(&QWidget::setFocus));
 	action->setText(i18nc("Name of the action that gives the focus to the search line", "Focus Search Line"));
 	actionCollection()->setDefaultShortcut(action, QKeySequence(Qt::Key_F6));
-	connect(m_listviewsearch, &QLineEdit::textChanged, iproxy, &KeyListProxyModel::setFilterFixedString);
+	connect(m_listviewsearch, &QLineEdit::textChanged, iproxy, qOverload<const QString &>(&QSortFilterProxyModel::setFilterRegularExpression));
 
 	setActionDescriptions(1);
 
