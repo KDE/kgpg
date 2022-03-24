@@ -9,8 +9,8 @@
 
 #include <QByteArray>
 #include <QString>
+#include <QStringList>
 
-class QStringList;
 
 /**
  * @brief A interface to GnuPG handling UTF8 recoding correctly

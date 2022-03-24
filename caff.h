@@ -9,8 +9,8 @@
 #include "core/KGpgSignableNode.h"
 
 #include <QObject>
+#include <QStringList>
 
-class QStringList;
 
 class KGpgCaffPrivate;
 

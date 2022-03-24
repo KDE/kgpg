@@ -9,10 +9,8 @@
 #include <QObject>
 
 #include <QUrl>
-
+#include <QStringList>
 #include "kgpgtextorfiletransaction.h"
-
-class QStringList;
 
 /**
  * @brief decrypt the given text or files

@@ -9,10 +9,10 @@
 
 #include <QObject>
 #include <QUrl>
+#include <QStringList>
 
 class KGpgTextInterfacePrivate;
 class QString;
-class QStringList;
 
 class KGpgTextInterface : public QObject
 {

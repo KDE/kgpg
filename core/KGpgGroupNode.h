@@ -9,9 +9,8 @@
 
 #include "KGpgExpandableNode.h"
 #include "KGpgKeyNode.h"
-
+#include <QStringList>
 class QString;
-class QStringList;
 
 class KGpgGroupNodePrivate;
 

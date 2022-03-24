@@ -8,12 +8,12 @@
 
 #include <QObject>
 #include <QString>
+#include <QStringList>
 
 class GPGProc;
 class KGpgSignTransactionHelper;
 class KGpgTransactionPrivate;
 class QByteArray;
-class QStringList;
 class QUrl;
 
 /**

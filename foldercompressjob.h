@@ -8,10 +8,10 @@
 
 #include <KJob>
 #include <QUrl>
+#include <QStringList>
 
 class QTemporaryFile;
 class QString;
-class QStringList;
 
 #include "transactions/kgpgencrypt.h"
 

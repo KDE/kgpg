@@ -14,8 +14,7 @@
 #include <QObject>
 #include <QList>
 #include <QDateTime>
-
-class QStringList;
+#include <QStringList>
 
 namespace KgpgCore
 {
