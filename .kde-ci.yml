@@ -26,3 +26,5 @@ Dependencies:
     'pim/akonadi-contacts': '@same'
     'frameworks/kcontacts': '@stable'
 
+Options:
+  require-passing-tests-on: [ 'Linux', 'FreeBSD']
