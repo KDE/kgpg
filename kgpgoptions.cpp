@@ -48,11 +48,7 @@ kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
 	   m_page6(new ServerConf()),
 	   m_page7(new MiscConf()),
 	   m_serverModel(new GpgServerModel(m_page6)),
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 86, 0)
 	   m_fontchooser(new KFontChooser(KFontChooser::NoDisplayFlags, m_page3->tabWidget3->widget(1))),
-#else
-	   m_fontchooser(new KFontChooser(m_page3->tabWidget3->widget(1), KFontChooser::NoDisplayFlags, QStringList())),
-#endif
 	   m_model(model),
 	   m_combomodel(new KeyListProxyModel(this, KeyListProxyModel::SingleColumnIdFirst))
 {
