@@ -45,7 +45,6 @@
 #include <QPainter>
 #include <QPrintDialog>
 #include <QPrinter>
-#include <QTextCodec>
 #include <QTextStream>
 #include <QVBoxLayout>
 #include <QWidget>

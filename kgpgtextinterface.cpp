@@ -10,7 +10,6 @@
 #include "kgpgsettings.h"
 
 #include <QString>
-#include <QStringList>
 
 class KGpgTextInterfacePrivate
 {

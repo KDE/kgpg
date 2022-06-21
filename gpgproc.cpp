@@ -13,7 +13,6 @@
 
 #include <QDir>
 #include <QFileInfo>
-#include <QStringList>
 #include <QTextCodec>
 
 #ifndef Q_OS_WIN

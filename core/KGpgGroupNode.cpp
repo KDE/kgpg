@@ -15,7 +15,6 @@
 
 #include <QFile>
 #include <QRegularExpression>
-#include <QStringList>
 #include <QTextStream>
 
 class KGpgGroupNodePrivate {

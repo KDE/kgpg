@@ -8,7 +8,6 @@
 
 #include "convert.h"
 
-#include <QStringList>
 
 namespace KgpgCore
 {

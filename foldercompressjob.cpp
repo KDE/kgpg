@@ -12,7 +12,6 @@
 
 #include <QDir>
 #include <QMetaObject>
-#include <QStringList>
 #include <QTemporaryFile>
 
 class FolderCompressJobPrivate {

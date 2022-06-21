@@ -13,7 +13,6 @@
 
 #include <QByteArray>
 
-#include <QStringList>
 #include <QUrl>
 #include <QWidget>
 
