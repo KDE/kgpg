@@ -292,7 +292,11 @@ KGpgFirstAssistant::next()
 
 		if (!defaultID.isEmpty()) {
 			for (int i = 0; i < CBdefault->count(); i++) {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 				if (CBdefault->itemData(i).toString().rightRef(defaultID.length()).compare(defaultID) == 0) {
+#else
+				if (QStringView(CBdefault->itemData(i).toString()).right(defaultID.length()).compare(defaultID) == 0) {
+#endif
 					CBdefault->setCurrentIndex(i);
 					break;
 				}

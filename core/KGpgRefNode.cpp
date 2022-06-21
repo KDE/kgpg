@@ -20,7 +20,11 @@ KGpgRefNode::KGpgRefNode(KGpgExpandableNode *parent, const QString &keyid)
 	KGpgExpandableNode *pnd = parent;
 
 	do {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 		m_selfsig = (pnd->getId().rightRef(keyid.length()).compare(keyid) == 0);
+#else
+		m_selfsig = (QStringView(pnd->getId()).right(keyid.length()).compare(keyid) == 0);
+#endif
 		if (m_selfsig)
 			m_keynode = pnd->toKeyNode();
 		else

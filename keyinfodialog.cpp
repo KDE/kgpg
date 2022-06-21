@@ -137,7 +137,7 @@ KgpgKeyInfo::KgpgKeyInfo(KGpgKeyNode *node, KGpgItemModel *model, QWidget *paren
     mainLayout->addWidget(buttonBox);
 
     connect(m_owtrust, QOverload<int>::of(&QComboBox::activated), this, &KgpgKeyInfo::slotChangeTrust);
-    connect(m_photoid, QOverload<const QString &>::of(&QComboBox::activated), this, &KgpgKeyInfo::slotLoadPhoto);
+    connect(m_photoid, &QComboBox::textActivated, this, &KgpgKeyInfo::slotLoadPhoto);
     connect(m_email, &KUrlLabel::leftClickedUrl, this, &KgpgKeyInfo::slotOpenUrl);
     connect(keychange, &KGpgChangeKey::done, this, &KgpgKeyInfo::slotApplied);
     connect(m_disable, &QCheckBox::toggled, this, &KgpgKeyInfo::slotDisableKey);
