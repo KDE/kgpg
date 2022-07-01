@@ -121,7 +121,7 @@ KGpgDecrypt::nextLine(const QString& line)
 	} else {
 		if (line.startsWith(QLatin1String("[GNUPG:] PLAINTEXT_LENGTH "))) {
 			bool ok;
-			m_plainLength = line.midRef(26).toInt(&ok);
+			m_plainLength = QStringView(line).mid(26).toInt(&ok);
 			if (!ok)
 				m_plainLength = -1;
 		} else if (line == QLatin1String("[GNUPG:] BEGIN_DECRYPTION")) {

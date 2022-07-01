@@ -67,9 +67,9 @@ KGpgImport::getImportedIds(const QStringList &log, const int reason)
 		}
 
 		bool ok;
-		unsigned char code = tmpstr.leftRef(space).toUInt(&ok);
+		unsigned char code = QStringView(tmpstr).left(space).toUInt(&ok);
 		if (!ok) {
-			qCDebug(KGPG_LOG_GENERAL) << __LINE__ << "invalid format:" << str << space << tmpstr.leftRef(space - 1);
+			qCDebug(KGPG_LOG_GENERAL) << __LINE__ << "invalid format:" << str << space << QStringView(tmpstr).left(space - 1);
 			continue;
 		}
 

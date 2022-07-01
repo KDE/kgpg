@@ -21,9 +21,9 @@
 int main(int argc, char *argv[])
 {
     KGpgApp app(argc, argv);
-
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-
+#endif
     KCrash::initialize();
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     Kdelibs4ConfigMigrator migrate(QLatin1String("kgpg"));
