@@ -123,7 +123,7 @@ void KGpgExternalActions::encryptFolders(KeysManager *parent, const QList<QUrl> 
 
 	if (!tmpfolder->open()) {
 		delete tmpfolder;
-		KMessageBox::sorry(parent, i18n("Cannot create temporary file for folder compression."), i18n("Temporary File Creation"));
+		KMessageBox::error(parent, i18n("Cannot create temporary file for folder compression."), i18n("Temporary File Creation"));
 		return;
 	}
 
@@ -225,7 +225,7 @@ void KGpgExternalActions::slotFolderFinished(KJob *job)
 	Q_ASSERT(trayinfo != nullptr);
 
 	if (trayinfo->error())
-		KMessageBox::sorry(m_keysmanager, trayinfo->errorString());
+		KMessageBox::error(m_keysmanager, trayinfo->errorString());
 
 	deleteLater();
 }

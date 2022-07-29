@@ -89,7 +89,7 @@ void KeyServer::slotImport()
 		return;
 
 	if (page->qLEimportid->text().isEmpty()) {
-		KMessageBox::sorry(this, i18n("You must enter a search string."));
+		KMessageBox::error(this, i18n("You must enter a search string."));
 		return;
 	}
 
@@ -101,7 +101,7 @@ void KeyServer::startImport(const QStringList &keys, QString server, const QStri
 	if (server.isEmpty()) {
 		const QStringList kservers = KeyServer::getServerList();
 		if (kservers.isEmpty()) {
-			KMessageBox::sorry(this, i18n("You need to configure keyservers before trying to download keys."),
+			KMessageBox::error(this, i18n("You need to configure keyservers before trying to download keys."),
 					i18n("No keyservers defined"));
 			return;
 		}
@@ -179,7 +179,7 @@ void KeyServer::slotSearch()
 		return;
 
 	if (page->qLEimportid->text().isEmpty()) {
-		KMessageBox::sorry(this, i18n("You must enter a search string."));
+		KMessageBox::error(this, i18n("You must enter a search string."));
 		return;
 	}
 
@@ -309,7 +309,7 @@ void KeyServer::slotPreImport()
 {
 	transferKeyID();
 	if (m_listpop->qLEID->text().isEmpty()) {
-		KMessageBox::sorry(this, i18n("You must choose a key."));
+		KMessageBox::error(this, i18n("You must choose a key."));
 		return;
 	}
 	const QStringList keys = m_listpop->qLEID->text().simplified().split(QLatin1Char(' '));

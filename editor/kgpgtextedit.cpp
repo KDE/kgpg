@@ -94,7 +94,7 @@ void KgpgTextEdit::openDroppedFile(const QUrl &url, const bool probe)
 		KJobWidgets::setWindow(copyJob , this);
 		copyJob->exec();
 		if (copyJob->error()) {
-			KMessageBox::sorry(this, i18n("Could not download file."));
+			KMessageBox::error(this, i18n("Could not download file."));
 			return;
 		}
 		tmpFile.setAutoRemove(false);
@@ -276,7 +276,7 @@ void KgpgTextEdit::slotEncodeUpdate(int result)
 		const QChar lf = QLatin1Char('\n');
 		setPlainText(enc->encryptedText().join(lf) + lf);
 	} else {
-		KMessageBox::sorry(this, i18n("The encryption failed with error code %1", result),
+		KMessageBox::error(this, i18n("The encryption failed with error code %1", result),
 				i18n("Encryption failed."));
 	}
 
@@ -290,7 +290,7 @@ void KgpgTextEdit::slotSignUpdate(int result)
 	Q_ASSERT(signt != nullptr);
 
 	if (result != KGpgTransaction::TS_OK) {
-		KMessageBox::sorry(this, i18n("Signing not possible: bad passphrase or missing key"));
+		KMessageBox::error(this, i18n("Signing not possible: bad passphrase or missing key"));
 		return;
 	}
 

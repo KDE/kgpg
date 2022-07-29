@@ -87,19 +87,19 @@ void KgpgKeyGenerate::slotOk()
 {
     if (m_kname->text().simplified().isEmpty())
     {
-        KMessageBox::sorry(this, i18n("You must give a name."));
+        KMessageBox::error(this, i18n("You must give a name."));
         return;
     }
 
     if (m_kname->text().simplified().length() < 5)
     {
-        KMessageBox::sorry(this, i18n("The name must have at least 5 characters"));
+        KMessageBox::error(this, i18n("The name must have at least 5 characters"));
         return;
     }
 
     if (m_kname->text().simplified().at(0).isDigit())
     {
-        KMessageBox::sorry(this, i18n("The name must not start with a digit"));
+        KMessageBox::error(this, i18n("The name must not start with a digit"));
         return;
     }
 
@@ -113,7 +113,7 @@ void KgpgKeyGenerate::slotOk()
         int pos = 0;
         if (EmailValidator().validate(vmail, pos) == QValidator::Invalid)
         {
-            KMessageBox::sorry(this, i18n("Email address not valid"));
+            KMessageBox::error(this, i18n("Email address not valid"));
             return;
         }
     }

@@ -83,7 +83,7 @@ bool KGpgApp::newInstance()
 		// any program part of GnuPG that needs it, so simply assume everything is fine.
 		if ((gpgver < 0x20100) && KgpgInterface::getGpgBoolSetting(QLatin1String("use-agent"), gpgPath) &&
 				qEnvironmentVariableIsEmpty("GPG_AGENT_INFO"))
-                        KMessageBox::sorry(nullptr, i18n("<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br />"
+                        KMessageBox::error(nullptr, i18n("<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file (%1).<br />"
 				"However, the agent does not seem to be running. This could result in problems with signing/decryption.<br />"
 				"Please disable GnuPG Agent from KGpg settings, or fix the agent.</qt>", gpgPath));
 	}
@@ -120,35 +120,35 @@ void KGpgApp::handleArguments(const QCommandLineParser &parser, const QDir &work
 
         if (parser.isSet(QStringLiteral("e"))) {
 			if (urlList.isEmpty())
-                                KMessageBox::sorry(nullptr, i18n("No files given."));
+                                KMessageBox::error(nullptr, i18n("No files given."));
 			else if (!directoryInside)
 				KGpgExternalActions::encryptFiles(s_keyManager, urlList);
 			else
 				KGpgExternalActions::encryptFolders(s_keyManager, urlList);
         } else if (parser.isSet(QStringLiteral("s"))) {
 			if (urlList.isEmpty())
-                                KMessageBox::sorry(nullptr, i18n("No files given."));
+                                KMessageBox::error(nullptr, i18n("No files given."));
 			else if (!directoryInside)
 				w->showDroppedFile(urlList.first());
 			else
-                                KMessageBox::sorry(nullptr, i18n("Cannot decrypt and show folder."));
+                                KMessageBox::error(nullptr, i18n("Cannot decrypt and show folder."));
         } else if (parser.isSet(QStringLiteral("S"))) {
 			if (urlList.isEmpty())
-                                KMessageBox::sorry(nullptr, i18n("No files given."));
+                                KMessageBox::error(nullptr, i18n("No files given."));
 			else if (!directoryInside)
 				KGpgExternalActions::signFiles(s_keyManager, urlList);
 			else
-                                KMessageBox::sorry(nullptr, i18n("Cannot sign folder."));
+                                KMessageBox::error(nullptr, i18n("Cannot sign folder."));
         } else if (parser.isSet(QStringLiteral("V")) != 0) {
 			if (urlList.isEmpty())
-                                KMessageBox::sorry(nullptr, i18n("No files given."));
+                                KMessageBox::error(nullptr, i18n("No files given."));
 			else if (!directoryInside)
 				w->verifyFile(urlList.first());
 			else
-                                KMessageBox::sorry(nullptr, i18n("Cannot verify folder."));
+                                KMessageBox::error(nullptr, i18n("Cannot verify folder."));
 		} else {
 			if (directoryInside && (urlList.count() > 1)) {
-                                KMessageBox::sorry(nullptr, i18n("Unable to perform requested operation.\nPlease select only one folder, or several files, but do not mix files and folders."));
+                                KMessageBox::error(nullptr, i18n("Unable to perform requested operation.\nPlease select only one folder, or several files, but do not mix files and folders."));
 				return;
 			}
 

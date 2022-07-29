@@ -749,7 +749,7 @@ void KeysManager::refreshKeyFromServer()
 		if (item->getType() & ITYPE_PAIR) {
 			keyIDS << item->getId();
 		} else {
-			KMessageBox::sorry(this, i18n("You can only refresh primary keys. Please check your selection."));
+			KMessageBox::error(this, i18n("You can only refresh primary keys. Please check your selection."));
 			return;
 		}
 	}
@@ -1408,7 +1408,7 @@ void KeysManager::slotExportSecFinished(int result)
 				i18n("<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/><b>Do not</b> leave it in an insecure place.</qt>",
 				exp->getKeyIds().first(), exp->getOutputFile()));
 	} else {
-		KMessageBox::sorry(this, i18n("Your secret key could not be exported.\nCheck the key."));
+		KMessageBox::error(this, i18n("Your secret key could not be exported.\nCheck the key."));
 	}
 }
 
@@ -1514,7 +1514,7 @@ void KeysManager::slotExportFinished(int result)
 						"<qt>The %1 public keys were successfully exported to<br/>%2</qt>",
 						exp->getKeyIds().count(), exp->getOutputFile()));
 	} else {
-		KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
+		KMessageBox::error(this, i18n("Your public key could not be exported\nCheck the key."));
 	}
 
 	exp->deleteLater();
@@ -1529,7 +1529,7 @@ void KeysManager::slotProcessExportMail(int result)
 	if (result == KGpgTransaction::TS_OK) {
 		QDesktopServices::openUrl(QUrl(QLatin1String("mailto:?body=") + QLatin1String(exp->getOutputData())));
 	} else {
-		KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
+		KMessageBox::error(this, i18n("Your public key could not be exported\nCheck the key."));
 	}
 
 	exp->deleteLater();
@@ -1543,7 +1543,7 @@ void KeysManager::slotProcessExportClip(int result)
 	if (result == KGpgTransaction::TS_OK) {
 		qApp->clipboard()->setText(QLatin1String( exp->getOutputData() ), m_clipboardmode);
 	} else {
-		KMessageBox::sorry(this, i18n("Your public key could not be exported\nCheck the key."));
+		KMessageBox::error(this, i18n("Your public key could not be exported\nCheck the key."));
 	}
 
 	exp->deleteLater();
@@ -1715,7 +1715,7 @@ void KeysManager::createNewGroup()
 	if (ndlist.empty())
 		return;
 	if (tp & ~ITYPE_PAIR) {
-		KMessageBox::sorry(this, i18n("<qt>You cannot create a group containing signatures, subkeys or other groups.</qt>"));
+		KMessageBox::error(this, i18n("<qt>You cannot create a group containing signatures, subkeys or other groups.</qt>"));
 		return;
 	}
 
@@ -1746,7 +1746,7 @@ void KeysManager::createNewGroup()
 		iview->selectNode(imodel->addGroup(groupName, keysList));
 		updateStatusCounter();
         } else {
-		KMessageBox::sorry(this,
+		KMessageBox::error(this,
 				i18n("<qt>No valid or trusted key was selected. The group <b>%1</b> will not be created.</qt>",
 				groupName));
 	}
@@ -1795,7 +1795,7 @@ void KeysManager::signkey()
 		return;
 
 	if (tp & ~ITYPE_PAIR) {
-		KMessageBox::sorry(this, i18n("You can only sign primary keys. Please check your selection."));
+		KMessageBox::error(this, i18n("You can only sign primary keys. Please check your selection."));
 		return;
 	}
 
@@ -1874,7 +1874,7 @@ void KeysManager::signuid()
 		return;
 
 	if (tp & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)) {
-		KMessageBox::sorry(this, i18n("You can only sign user ids and photo ids. Please check your selection."));
+		KMessageBox::error(this, i18n("You can only sign user ids and photo ids. Please check your selection."));
 		return;
 	}
 
@@ -1987,11 +1987,11 @@ void KeysManager::signatureResult(int success)
 			refreshList.append(nd);
 		break;
 	case KGpgTransaction::TS_BAD_PASSPHRASE:
-		KMessageBox::sorry(this, i18n("<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>",
+		KMessageBox::error(this, i18n("<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>",
 				nd->getName(), nd->getEmail()));
 		break;
 	case KGpgSignTransactionHelper::TS_ALREADY_SIGNED:
-		KMessageBox::sorry(this, i18n("<qt>The key <b>%1 (%2)</b> is already signed.</qt>",
+		KMessageBox::error(this, i18n("<qt>The key <b>%1 (%2)</b> is already signed.</qt>",
 				nd->getName(), nd->getEmail()));
 		break;
 	default:
@@ -2021,7 +2021,7 @@ void KeysManager::caff()
 		return;
 
 	if (tp & ~(ITYPE_PAIR | ITYPE_UID | ITYPE_UAT)) {
-		KMessageBox::sorry(this, i18n("You can only sign user ids and photo ids. Please check your selection."));
+		KMessageBox::error(this, i18n("You can only sign user ids and photo ids. Please check your selection."));
 		return;
 	}
 
@@ -2204,7 +2204,7 @@ void KeysManager::delsignkey()
 		signMail += QLatin1String( " &lt;" ) + nd->getEmail() + QLatin1String( "&gt;" );
 
 	if (parentKey == signID) {
-		KMessageBox::sorry(this, i18n("Edit key manually to delete a self-signature."));
+		KMessageBox::error(this, i18n("Edit key manually to delete a self-signature."));
 		return;
 	}
 
@@ -2230,7 +2230,7 @@ void KeysManager::delsignatureResult(int success)
 			nd = nd->getParentKeyNode();
 		imodel->refreshKey(nd->toKeyNode());
 	} else {
-		KMessageBox::sorry(this, i18n("Requested operation was unsuccessful, please edit the key manually."));
+		KMessageBox::error(this, i18n("Requested operation was unsuccessful, please edit the key manually."));
 	}
 }
 

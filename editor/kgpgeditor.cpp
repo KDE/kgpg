@@ -279,13 +279,13 @@ bool KgpgEditor::slotFileSave()
     QTextCodec *cod = QTextCodec::codecForName(m_textencoding.toLatin1());
 
     if (cod == nullptr) {
-		KMessageBox::sorry(this, i18n("The document could not been saved, as the selected codec is not supported."));
+		KMessageBox::error(this, i18n("The document could not been saved, as the selected codec is not supported."));
 		return false;
     }
 
     if (!checkEncoding(cod))
     {
-        KMessageBox::sorry(this, i18n("The document could not been saved, as the selected encoding cannot encode every unicode character in it."));
+        KMessageBox::error(this, i18n("The document could not been saved, as the selected encoding cannot encode every unicode character in it."));
         return false;
     }
 
@@ -294,7 +294,7 @@ bool KgpgEditor::slotFileSave()
         QFile f(filn);
         if (!f.open(QIODevice::WriteOnly))
         {
-            KMessageBox::sorry(this, i18n("The document could not be saved, please check your permissions and disk space."));
+            KMessageBox::error(this, i18n("The document could not be saved, please check your permissions and disk space."));
             return false;
         }
 
@@ -310,7 +310,7 @@ bool KgpgEditor::slotFileSave()
         uploadJob->exec();
         if(uploadJob->error())
         {
-            KMessageBox::sorry(this, i18n("The document could not be saved, please check your permissions and disk space."));
+            KMessageBox::error(this, i18n("The document could not be saved, please check your permissions and disk space."));
             return false;
         }
     }

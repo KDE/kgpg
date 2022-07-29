@@ -171,7 +171,7 @@ void kgpgOptions::slotChangeHome()
 				confPath = QLatin1String( "gpg.conf" );
 				QFile confFile(gpgHome + confPath);
 				if (!confFile.open(QIODevice::WriteOnly)) {
-					KMessageBox::sorry(this, i18n("Cannot create configuration file. Please check if destination media is mounted and if you have write access."));
+					KMessageBox::error(this, i18n("Cannot create configuration file. Please check if destination media is mounted and if you have write access."));
 					return;
 				} else {
 					QTextStream stream(&confFile);
@@ -194,12 +194,12 @@ bool kgpgOptions::isValidKeyserver(const QString &server)
 		return false;
 
 	if (server.contains(QLatin1Char( ' ' ))) {
-		KMessageBox::sorry(this, i18n("Key server URLs may not contain whitespace."));
+		KMessageBox::error(this, i18n("Key server URLs may not contain whitespace."));
 		return false;
 	}
 
 	if (serverList.contains(server)) {
-		KMessageBox::sorry(this, i18n("Key server already in the list."));
+		KMessageBox::error(this, i18n("Key server already in the list."));
 		return false;
 	}
 

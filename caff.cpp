@@ -84,7 +84,7 @@ KGpgCaffPrivate::reexportKey(const KGpgSignableNode *key)
 		QFile seclink(m_secringdir);
 
 		if (!seclink.link(m_tempdir->path() + QLatin1String("private-keys-v1.d"))) {
-			KMessageBox::sorry(qobject_cast<QWidget *>(q->parent()),
+			KMessageBox::error(qobject_cast<QWidget *>(q->parent()),
 					i18n("This function is not available on this system. The symbolic link to the private GnuPG keys cannot be created."));
 			return;
 		}

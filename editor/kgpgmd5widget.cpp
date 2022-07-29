@@ -87,7 +87,7 @@ void Md5Widget::slotApply()
     if (!text.isEmpty())
     {
         if (text.length() != m_md5sum.length())
-            KMessageBox::sorry(this, i18n("Clipboard content is not a MD5 sum."));
+            KMessageBox::error(this, i18n("Clipboard content is not a MD5 sum."));
         else
         if (text == m_md5sum)
         {
