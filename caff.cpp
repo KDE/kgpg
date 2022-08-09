@@ -161,7 +161,7 @@ KGpgCaffPrivate::checkNextLoop()
 					ids << i18nc("%1 is the key id, %2 is the name and comment of the key or uid, %3 is the email address of the uid",
 							"%1: %2 &lt;%3&gt;", nd->getId(), nd->getNameComment(), nd->getEmail());
 
-			KMessageBox::detailedSorry(qobject_cast<QWidget *>(q->parent()),
+			KMessageBox::detailedError(qobject_cast<QWidget *>(q->parent()),
 					i18np("No mail was sent for the following user id because it belongs to a key without encryption capability:",
 							"No mail was sent for the following user ids because they belong to keys without encryption capability:",
 							m_noEncIds.count()),
@@ -179,7 +179,7 @@ KGpgCaffPrivate::checkNextLoop()
 					ids << i18nc("%1 is the key id, %2 is the name and comment of the key or uid, %3 is the email address of the uid",
 							"%1: %2 &lt;%3&gt;", nd->getId(), nd->getNameComment(), nd->getEmail());
 
-			KMessageBox::detailedSorry(qobject_cast<QWidget *>(q->parent()),
+			KMessageBox::detailedError(qobject_cast<QWidget *>(q->parent()),
 					i18np("No mail was sent for the following user id because it was already signed:",
 							"No mail was sent for the following user ids because they were already signed:",
 							m_alreadyIds.count()),

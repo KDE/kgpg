@@ -261,7 +261,7 @@ void KgpgTextEdit::slotDecryptDone(int result)
 		// FIXME choose codec
 		setPlainText(decr->decryptedText().join(lf) + lf);
 	} else if (result != KGpgTransaction::TS_USER_ABORTED) {
-		KMessageBox::detailedSorry(this, i18n("Decryption failed."), decr->getMessages().join(lf));
+		KMessageBox::detailedError(this, i18n("Decryption failed."), decr->getMessages().join(lf));
 	}
 
 	decr->deleteLater();

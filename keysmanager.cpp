@@ -1360,7 +1360,7 @@ void KeysManager::slotRevokeGenerated(int result)
 	case KGpgTransaction::TS_USER_ABORTED:
 		break;
 	default:
-		KMessageBox::detailedSorry(this, i18n("Creation of the revocation certificate failed..."), genRev->getOutput());
+		KMessageBox::detailedError(this, i18n("Creation of the revocation certificate failed..."), genRev->getOutput());
 		break;
 	}
 }
@@ -2591,7 +2591,7 @@ void KeysManager::slotImportDone(int result)
 	const QStringList rawmsgs(import->getMessages());
 
 	if (result != 0) {
-		KMessageBox::detailedSorry(this, i18n("Key importing failed. Please see the detailed log for more information."),
+		KMessageBox::detailedError(this, i18n("Key importing failed. Please see the detailed log for more information."),
 				rawmsgs.join(QLatin1String("\n")) , i18n("Key Import"));
 	}
 
