@@ -1,7 +1,6 @@
 [Desktop Entry]
 Type=Service
 MimeType=application/pgp-encrypted;
-X-KDE-ServiceTypes=KonqPopupMenu/Plugin
 Actions=decrypt-view;
 
 [Desktop Action decrypt-view]

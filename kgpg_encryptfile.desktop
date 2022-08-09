@@ -2,7 +2,6 @@
 Type=Service
 # all files inherit from application/octet-stream
 MimeType=application/octet-stream;
-X-KDE-ServiceTypes=KonqPopupMenu/Plugin
 Actions=encrypt;
 
 [Desktop Action encrypt]

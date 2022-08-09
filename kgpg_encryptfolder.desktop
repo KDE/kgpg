@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Service
-X-KDE-ServiceTypes=inode/directory,KonqPopupMenu/Plugin
+X-KDE-ServiceTypes=inode/directory
 Actions=encrypt;
 
 [Desktop Action encrypt]
