@@ -67,7 +67,12 @@
 #include <KIO/Global>
 #include <KIO/ApplicationLauncherJob>
 #include <KIO/OpenUrlJob>
+#include <kio_version.h>
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+#include <KIO/JobUiDelegateFactory>
+#else
 #include <KIO/JobUiDelegate>
+#endif
 #include <KJobTrackerInterface>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -2799,7 +2804,11 @@ KeysManager::slotOpenKeyUrl()
 	url.replace(QLatin1String("$$fpr$$"), idLC);
 
 	auto *job = new KIO::OpenUrlJob(QUrl(url));
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+	job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#else
 	job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#endif
 	job->start();
 }
 
