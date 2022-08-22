@@ -142,7 +142,6 @@ Comment[wa]=Ene eterface po GnuPG
 Comment[x-test]=xxA GnuPG frontendxx
 Comment[zh_CN]=GnuPG 前端
 Comment[zh_TW]=GnuPG 前端軟體
-Terminal=false
 Name=KGpg
 Name[ar]=KGpg
 Name[bg]=KGpg
