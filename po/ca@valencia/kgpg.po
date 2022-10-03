@@ -2068,7 +2068,7 @@ msgstr ""
 #: keysmanager.cpp:594 transactions/kgpggeneratekey.cpp:207
 #, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
-msgstr "El gpg no accepta el nom. No es pot generar un parell nou de claus."
+msgstr "gpg no accepta el nom. No es pot generar un parell nou de claus."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
 #: keysmanager.cpp:600 newkey.ui:14
@@ -4132,7 +4132,7 @@ msgid ""
 "command line option, like: '--armor'"
 msgstr ""
 "<b>Opció a mida</b>: sols per a usuaris experimentats, us permet introduir "
-"una opció en la línia d'ordres del gpg, com: «--armor»"
+"una opció en la línia d'ordres de gpg, com: «--armor»"
 
 #: selectsecretkey.cpp:35
 #, kde-format
