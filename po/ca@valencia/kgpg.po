@@ -720,7 +720,7 @@ msgstr "E&stablix com a predeterminat"
 #: conf_servers.ui:56
 #, kde-format
 msgid "&Add..."
-msgstr "&Afig..."
+msgstr "Afi&g..."
 
 #. i18n: ectx: property (text), widget (QPushButton, server_del)
 #: conf_servers.ui:66
@@ -1074,7 +1074,7 @@ msgstr "&Desencripta fitxer..."
 #: editor/kgpgeditor.cpp:185
 #, kde-format
 msgid "&Open Key Manager"
-msgstr "&Obri el gestor de claus"
+msgstr "O&bri el gestor de claus"
 
 #: editor/kgpgeditor.cpp:188
 #, kde-format
@@ -1222,7 +1222,7 @@ msgstr "No importes"
 #: editor/kgpgeditor.rc:13 keysmanager.rc:25
 #, kde-format
 msgid "&View"
-msgstr "&Visualitza"
+msgstr "Vi&sualitza"
 
 #. i18n: ectx: Menu (signature)
 #: editor/kgpgeditor.rc:18
@@ -1797,7 +1797,7 @@ msgstr "Gestió de claus"
 #: keysmanager.cpp:138
 #, kde-format
 msgid "&Open Editor"
-msgstr "&Obri l'editor"
+msgstr "O&bri l'editor"
 
 #: keysmanager.cpp:141
 #, kde-format
@@ -1822,7 +1822,7 @@ msgstr "Visualitza el manual de GnuPG"
 #: keysmanager.cpp:171
 #, kde-format
 msgid "&Refresh List"
-msgstr "&Actualitza la llista"
+msgstr "Act&ualitza la llista"
 
 #: keysmanager.cpp:175
 #, kde-format
@@ -1837,7 +1837,7 @@ msgstr "Propietats de la c&lau"
 #: keysmanager.cpp:184
 #, kde-format
 msgid "&Open Key URL"
-msgstr "&Obri l'URL de la clau"
+msgstr "O&bri l'URL de la clau"
 
 #: keysmanager.cpp:188
 #, kde-format
@@ -1877,7 +1877,7 @@ msgstr "Sup&rimix el grup"
 #: keysmanager.cpp:224
 #, kde-format
 msgid "&Rename Group"
-msgstr "&Canvia el nom grup"
+msgstr "Ca&nvia el nom grup"
 
 #: keysmanager.cpp:233
 #, kde-format
@@ -1887,12 +1887,12 @@ msgstr "Establix com a clau pre&determinat"
 #: keysmanager.cpp:236
 #, kde-format
 msgid "&Add Photo..."
-msgstr "&Afig una foto..."
+msgstr "Afi&g una foto..."
 
 #: keysmanager.cpp:239
 #, kde-format
 msgid "&Add User Id..."
-msgstr "&Afig l'identificador d'usuari..."
+msgstr "Afi&g l'identificador d'usuari..."
 
 #: keysmanager.cpp:242
 #, kde-format
@@ -1922,7 +1922,7 @@ msgstr "Establix l'identificador d'usuari com a &primari"
 #: keysmanager.cpp:262
 #, kde-format
 msgid "&Open Photo"
-msgstr "&Obri la foto"
+msgstr "O&bri la foto"
 
 #: keysmanager.cpp:266
 #, kde-format
@@ -2204,8 +2204,8 @@ msgstr[1] "E&xporta les claus públiques..."
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
-msgstr[0] "&Actualitza la clau des del servidor de claus"
-msgstr[1] "&Actualitza les claus des del servidor de claus"
+msgstr[0] "Act&ualitza la clau des del servidor de claus"
+msgstr[1] "Act&ualitza les claus des del servidor de claus"
 
 #: keysmanager.cpp:1240
 #, kde-format
