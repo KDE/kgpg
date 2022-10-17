@@ -129,9 +129,9 @@ msgid ""
 "p></qt>"
 msgstr ""
 "<qt><b>Ordre a mida per a desencriptar:</b><br />\n"
-"<p>Esta opció permet a l'usurari especificar una ordre a mida a executar per "
-"GPG quan es faça la desencriptació (només es recomana a usuaris avançats).</"
-"p></qt>"
+"<p>Esta opció permet a l'usurari especificar una ordre a mida que "
+"s'executarà per GPG quan es faça la desencriptació (només es recomana a "
+"usuaris avançats).</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4_2)
 #: conf_decryption.ui:55
@@ -480,9 +480,9 @@ msgstr ""
 "<qt><b>Utilitza la selecció del ratolí en comptes del porta-retalls:</b> "
 "<br />\n"
 "<p>Si està marcada, les operacions del porta-retalls a KGpg utilitzaran la "
-"selecció del porta-retalls, és a dir, es ressaltarà el text a copiar i amb "
-"el botó del mig del ratolí (o els botons dret+esquerre a la vegada) per a "
-"apegar. Si esta opció no està marcada, el porta-retalls funcionarà amb les "
+"selecció del porta-retalls, és a dir, es ressaltarà el text que es copiarà i "
+"amb el botó del mig del ratolí (o els botons dret+esquerre a la vegada) per "
+"a apegar. Si esta opció no està marcada, el porta-retalls funcionarà amb les "
 "dreceres (Ctrl+c, Ctrl+v).</p></qt> "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseMouseSelection)
@@ -1639,8 +1639,8 @@ msgid ""
 "a key (example: searching for 0xED7585F4 would bring up the key associated "
 "with that ID).</p></qt>"
 msgstr ""
-"<qt><b>Text que cal buscar o identificador de la clau que s'importarà:</"
-"b><br />\n"
+"<qt><b>Text que s'ha de buscar o identificador de la clau que s'ha "
+"d'importar:</b><br />\n"
 "<p>Hi ha múltiples maneres de buscar una clau, podeu utilitzar una busca de "
 "text o de text parcial (exemple: en introduir Ernest o Montllor apareixeran "
 "les claus en què isca Ernest o Montllor) o podeu buscar per l'identificador "
@@ -1652,7 +1652,8 @@ msgstr ""
 #: keyserver.ui:70
 #, kde-format
 msgid "Text to search or ID of the key to import:"
-msgstr "Text que cal buscar o identificador de la clau que s'importarà:"
+msgstr ""
+"Text que s'ha de buscar o identificador de la clau que s'ha d'importar:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cBproxyI)
 #. i18n: ectx: property (text), widget (QCheckBox, cBproxyE)
@@ -1681,7 +1682,7 @@ msgid ""
 "<p>This allows the user to specify the key from the drop down list that will "
 "be exported to the key server selected.</p></qt>"
 msgstr ""
-"<qt><b>Clau a exportar:</b><br />\n"
+"<qt><b>Clau que s'ha d'exportar:</b><br />\n"
 "<p>Permet a l'usuari escollir la clau d'una llista de selecció i que serà "
 "exportada al servidor de claus seleccionat.</p></qt>"
 
@@ -1689,7 +1690,7 @@ msgstr ""
 #: keyserver.ui:194
 #, kde-format
 msgid "Key to be exported:"
-msgstr "Clau a exportar:"
+msgstr "Clau que s'ha d'exportar:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, exportAttributes)
 #: keyserver.ui:207
@@ -1722,7 +1723,7 @@ msgstr "Servidor de claus"
 #: keyservers.cpp:92 keyservers.cpp:182
 #, kde-format
 msgid "You must enter a search string."
-msgstr "Heu d'introduir una cadena a buscar."
+msgstr "Heu d'introduir una cadena que calga buscar."
 
 #: keyservers.cpp:104
 #, kde-format
@@ -2815,7 +2816,7 @@ msgstr "Verifica la signatura"
 #: kgpg.cpp:195
 #, kde-format
 msgid "File to open"
-msgstr "Fitxer que s'obrirà"
+msgstr "Fitxer que s'ha d'obrir"
 
 #: kgpg.h:21
 #, kde-format
@@ -4022,7 +4023,7 @@ msgstr "Mostra només les claus vàlides"
 #: searchres.ui:73
 #, kde-format
 msgid "Key to import:"
-msgstr "Clau a importar:"
+msgstr "Clau que s'ha d'importar:"
 
 #: selectexpirydate.cpp:23
 #, kde-format
@@ -4202,7 +4203,7 @@ msgid ""
 "Enter the ids or fingerprints of the keys to import as space separated list."
 msgstr ""
 "Introduïu com a llista separada per espais els identificadors o empremtes "
-"digitals de les claus a importar."
+"digitals de les claus que s'importaran."
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:2
