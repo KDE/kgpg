@@ -22,6 +22,7 @@
   <name xml:lang="ia">KGpg</name>
   <name xml:lang="id">KGpg</name>
   <name xml:lang="it">KGpg</name>
+  <name xml:lang="ka">KGpg</name>
   <name xml:lang="ko">KGpg</name>
   <name xml:lang="lt">KGpg</name>
   <name xml:lang="nb">KGpg</name>
@@ -64,6 +65,7 @@
   <summary xml:lang="ia">Instrumento per cryptar</summary>
   <summary xml:lang="id">Alat Enkripsi</summary>
   <summary xml:lang="it">Strumento di cifratura</summary>
+  <summary xml:lang="ka">დაშიფვრის ხელსაწყო</summary>
   <summary xml:lang="ko">암호화 도구</summary>
   <summary xml:lang="lt">Šifravimo įrankis</summary>
   <summary xml:lang="nb">Krypteringsverktøy</summary>
@@ -109,6 +111,7 @@
     <p xml:lang="ia">Kgpg es un simple interface per GnuPG, un instrumento potente per cryptar. Il pote adjutar te per configurar e gerer tu claves, importar e exportar claves, vider signaturas de clave, le stato de confidentia e le datas de expiration.</p>
     <p xml:lang="id">KGpg adalah antarmuka sederhana untuk GnuPG, utilitas enkripsi yang unggul. Ini bisa membantu kamu menyiapkan dan mengelola kuncimu, mengimpor dan mengekspor kunci, melihat tandatangan kunci, status kepercayaan, dan tanggal kedaluwarsa.</p>
     <p xml:lang="it">KGpg è un'interfaccia semplice per GnuPG, un potente strumento di cifratura. Ti aiuta a configurare e gestire le tue chiavi, importare ed esportare le chiavi, visualizzarne le firme, lo stato di affidabilità e la data di scadenza.</p>
+    <p xml:lang="ka">KGpg მარტივი ინტერფეისია GnuPG-სთვის, შიფრაციის მძლავრი ხელსაწყოსთვის. მას შეუძლია დაგეხმაროთ ააწყოთ და მართოთ, შემოიტანოთ და გაიტანოთ გასაღებები, ნახოთ გასაღების ხელმოწერები, ნდობის მდგომარეობა და ვადის ამოწურვის თარიღები.</p>
     <p xml:lang="ko">KGpg는 강력한 암호화 유틸리티 GnuPG의 GUI 인터페이스입니다. 키를 설정하고 관리할 수 있으며, 키를 내보내고 가져오고, 키 서명, 신뢰 상태, 만료일을 볼 수 있습니다.</p>
     <p xml:lang="nb">KGpg er en enkel brukerflate for GnuPG, et kraftig krypteringsverktøy. Det kan hjelpe til å opprette og håndtere nøkler, importere og eksportere nøkler, vise nøkkelsignaturer, tillitsstatus og utløpsdatoer.</p>
     <p xml:lang="nds">KGpg is en eenfach Böversiet för GnuPGP, en deegt Verslötelwarktüüch. Dat kann Di bi't Opstellen un Plegen vun Dien Slötels hölpen, Slötels im- un exporteren un Slötelünnerschriften, Totroenstatus un Aflooptieden wiesen.</p>
@@ -155,6 +158,7 @@
       <caption xml:lang="ia">Gerente de clave in KGpg</caption>
       <caption xml:lang="id">Pengelolaan kunci di KGpg</caption>
       <caption xml:lang="it">Gestione delle chiavi con KGpg</caption>
+      <caption xml:lang="ka">გასაღებების მართვა KGpg-ში</caption>
       <caption xml:lang="ko">KGpg로 키 관리</caption>
       <caption xml:lang="nl">Sleutelbeheer in KGpg</caption>
       <caption xml:lang="nn">Nøkkelhandsaming i KGpg</caption>
