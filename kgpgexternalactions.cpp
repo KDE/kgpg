@@ -30,6 +30,7 @@
 #include <KHelpClient>
 #include <KMessageBox>
 
+#include <KJobTrackerInterface>
 #include <QComboBox>
 #include <QFont>
 #include <QHBoxLayout>
@@ -38,7 +39,6 @@
 #include <QTemporaryFile>
 #include <kio/global.h>
 #include <kio/renamedialog.h>
-#include <kjobtrackerinterface.h>
 
 KGpgExternalActions::KGpgExternalActions(KeysManager *parent, KGpgItemModel *model)
 	: QObject(parent),
