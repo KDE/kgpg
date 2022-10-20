@@ -3236,7 +3236,8 @@ msgstr "Us donem la benvinguda a l'assistent de KGpg"
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr ""
-"KGpg necessita saber a on està el fitxer executable de GnuPG a utilitzar."
+"KGpg necessita saber a on està el fitxer executable de GnuPG que "
+"s'utilitzarà."
 
 #: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
 #, kde-format
