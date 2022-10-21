@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-21 00:49+0000\n"
-"PO-Revision-Date: 2022-10-08 12:52+0300\n"
+"PO-Revision-Date: 2022-10-20 12:19+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -135,7 +135,7 @@ msgid ""
 msgstr ""
 "<qt><b>Özel Şifre Açma Komutu:</b><br />\n"
 "<p>Bu seçenek kullanıcı şifre açma işlemi sırasında GPG tarafından "
-"çalıştırılacak özel bir komut girmenizi sağlar. (Sadece deneyimli "
+"yürütülecek özel bir komut girmenizi sağlar. (Yalnızca deneyimli "
 "kullanıcılara önerilir).</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4_2)
@@ -201,9 +201,9 @@ msgid ""
 "recommended for experienced users only.</p></qt>"
 msgstr ""
 "<qt><b>Özel şifreleme komutu:</b> <br />\n"
-"<p> Etkinleştirildiği zaman, anahtar seçim ekranında bir girdi alanı "
-"gösterilecek ve şifreleme için buraya özel bir komut girebileceksiniz. Bu "
-"seçenek sadece deneyimli kullanıcılara önerilir.</p></qt>"
+"<p> Etkinleştirildiğinde, anahtar seçim ekranında şifreleme için özel bir "
+"komut girmenizi sağlayan bir girdi alanı gösterilir. Bu seçenek, yalnızca "
+"deneyimli kullanıcılara önerilir.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowCustomEncryptionOptions)
 #: conf_encryption.ui:72
@@ -507,8 +507,8 @@ msgid ""
 "Display warning before creating temporary files\n"
 "(only occurs on remote files operations)"
 msgstr ""
-"Geçici dosyaları oluştururken uyarı göster.\n"
-"(Sadece başka bir sistem üzerindeki işlemlerde olur)"
+"Geçici dosyaları oluşturmadan önce uyarı göster.\n"
+"(Yalnızca başka bir sistem üzerindeki işlemlerde olur)"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabApplet)
 #: conf_misc.ui:97
@@ -662,7 +662,7 @@ msgstr "Her e-posta ile gönder"
 #: conf_misc.ui:330
 #, kde-format
 msgid "Send only with first Email"
-msgstr "Sadece ilk e-posta ile gönder"
+msgstr "Yalnızca ilk e-posta ile gönder"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MailUats)
 #: conf_misc.ui:335
@@ -700,8 +700,8 @@ msgid ""
 "all others will be stored for use by KGpg only."
 msgstr ""
 "<b>AÇIKLAMA</b>:\n"
-"Sadece öntanımlı sunucu GnuPG yapılandırma dosyasına kaydedilecektir,\n"
-" diğerleri KGpg kullanımı için saklanacaktır."
+"Yalnızca öntanımlı sunucu GnuPG yapılandırma dosyasına kaydedilecektir,\n"
+"diğerleri KGpg kullanımı için saklanacaktır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseProxy)
 #: conf_servers.ui:35
@@ -2012,7 +2012,7 @@ msgstr "&Sınırsız"
 #: keysmanager.cpp:347
 #, kde-format
 msgid "&Show Only Secret Keys"
-msgstr "Sadece Gizli Anahtarları &Göster"
+msgstr "Yalnızca Gizli Anahtarları &Göster"
 
 #: keysmanager.cpp:447
 #, kde-format
@@ -2085,7 +2085,8 @@ msgstr "gpg süreci tamamlanmadı. Anahtar çifti oluşturulmadı."
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr ""
-"Sadece birincil anahtarları yenileyebilirsiniz. Lütfen seçiminizi denetleyin."
+"Yalnızca birincil anahtarları yenileyebilirsiniz. Lütfen seçiminizi "
+"denetleyin."
 
 #: keysmanager.cpp:881
 #, kde-format
@@ -2388,7 +2389,8 @@ msgstr "Grup Özellikleri"
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr ""
-"Sadece birincil anahtarları imzalayabilirsiniz. Lütfen seçiminizi denetleyin."
+"Yalnızca birincil anahtarları imzalayabilirsiniz. Lütfen seçiminizi "
+"denetleyin."
 
 #: keysmanager.cpp:1812
 #, kde-format
@@ -2444,8 +2446,8 @@ msgstr ""
 #, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr ""
-"Sadece kullanıcı ids dosyalarını ve fotoğraf ids dosyalarını "
-"imzalayabilirsiniz. Lütfen seçiminizi denetleyin."
+"Yalnızca kullanıcı kimliklerini ve fotoğraf kimlikleri imzalayabilirsiniz. "
+"Lütfen seçiminizi denetleyin."
 
 #: keysmanager.cpp:1896
 #, kde-format
@@ -2770,8 +2772,8 @@ msgid ""
 "folders."
 msgstr ""
 "Üzgünüm, istenilen işlemi gerçekleştiremiyorum.\n"
-"Lütfen sadece bir dizin veya birden fazla dosya seçin, dizin ve dosyaları "
-"birlikte seçmeyin."
+"Lütfen, yalnızca bir klasör veya birden fazla dosya seçin, klasörleri ve "
+"dosyaları birlikte seçmeyin."
 
 #: kgpg.cpp:189
 #, kde-format
@@ -2976,7 +2978,7 @@ msgstr "Anahtar Yöneticisi'nde oluşturulma zamanını göster."
 #: kgpg.kcfg:102
 #, kde-format
 msgid "Show only secret keys in key manager."
-msgstr "Anahtar yöneticisinde sadece gizli anahtarları göster."
+msgstr "Anahtar yöneticisinde yalnızca gizli anahtarları göster."
 
 #. i18n: ectx: label, entry (ShowLongKeyId), group (General Options)
 #: kgpg.kcfg:106
@@ -2989,8 +2991,8 @@ msgstr "Anahtar yöneticisinde uzun anahtar kimliklerini göster."
 #, kde-format
 msgid "Show only keys with at least that trust level in key manager."
 msgstr ""
-"Sadece anahtar yöneticisinde en azından güvenilirlik düzeyi olan anahtarları "
-"göster."
+"Yalnızca anahtar yöneticisinde en azından güvenilirlik düzeyi olan "
+"anahtarları göster."
 
 #. i18n: ectx: label, entry (UseMouseSelection), group (User Interface)
 #: kgpg.kcfg:124
@@ -3185,8 +3187,8 @@ msgid ""
 "KGpg's assistant to fix this problem?</qt>"
 msgstr ""
 "<qt>GnuPG yapılandırma dosyanızın yolunu ayarlamamışsınız.<br />KGpg "
-"programının çalışmasını bozabilir.<br />Bu sorunu düzeltmek için KGpg "
-"Yardımcısını başlatmak ister misiniz?</qt>"
+"programının yürütülmesinde hatalar oluşturabilir.<br />Bu sorunu düzeltmek "
+"için KGpg Yardımcısını başlatmak ister misiniz?</qt>"
 
 #: kgpgexternalactions.cpp:426
 #, kde-format
@@ -4005,7 +4007,7 @@ msgstr "Yazdır"
 #: searchres.ui:48
 #, kde-format
 msgid "Show only valid keys"
-msgstr "Sadece geçerli anahtarları göster"
+msgstr "Yalnızca geçerli anahtarları göster"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: searchres.ui:73
@@ -4105,7 +4107,7 @@ msgid ""
 "to give a password to encrypt/decrypt the file"
 msgstr ""
 "<b>Simetrik Şifreleme</b>: Şifrelemede anahtarlar kullanılmaz; dosyayı "
-"şifrelemek veya şifreyi açmak için sadece bir şifre kullanırsınız"
+"şifrelemek veya şifreyi açmak için yalnızca bir şifre kullanırsınız"
 
 #: selectpublickeydialog.cpp:142
 #, kde-format
@@ -4118,7 +4120,7 @@ msgid ""
 "<b>Custom option</b>: for experienced users only, allows you to enter a gpg "
 "command line option, like: '--armor'"
 msgstr ""
-"<b>Özel seçenek</b>: sadece deneyimli kullanıcılar içindir, gpg için bir "
+"<b>Özel seçenek</b>: Yalnızca deneyimli kullanıcılar içindir, gpg için bir "
 "satır komutu (--armor gibi) girmenizi sağlar"
 
 #: selectsecretkey.cpp:35
