@@ -219,7 +219,7 @@ msgstr ""
 "<qt><b>Encripta sempre amb:</b><br />\n"
 "<p>Açò assegura que tots els fitxers i missatges seran encriptats amb la "
 "clau seleccionada. Malgrat açò, si se selecciona l'opció «Encripta fitxers "
-"amb:», la clau seleccionada passarà per damunt a la indicada a «Encripta "
+"amb:», la clau seleccionada passarà per damunt a la indicada en «Encripta "
 "sempre amb:»</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, encrypt_to_always)
@@ -1158,7 +1158,7 @@ msgstr "Sobreescriure el fitxer %1?"
 #: editor/kgpgeditor.cpp:463
 #, kde-format
 msgid "Open File to Encode"
-msgstr "Obri fitxer a codificar"
+msgstr "Obri un fitxer que s'ha de codificar"
 
 #: editor/kgpgeditor.cpp:463 editor/kgpgeditor.cpp:472
 #: editor/kgpgeditor.cpp:614 editor/kgpgeditor.cpp:652
@@ -1170,7 +1170,7 @@ msgstr "*|Tots els fitxers"
 #: editor/kgpgeditor.cpp:472
 #, kde-format
 msgid "Open File to Decode"
-msgstr "Obri fitxer a descodificar"
+msgstr "Obri un fitxer que s'ha de descodificar"
 
 #: editor/kgpgeditor.cpp:486
 #, kde-format
