@@ -1878,7 +1878,7 @@ msgstr "Sup&rimix el grup"
 #: keysmanager.cpp:224
 #, kde-format
 msgid "&Rename Group"
-msgstr "Ca&nvia el nom grup"
+msgstr "Ca&nvia el nom del grup"
 
 #: keysmanager.cpp:233
 #, kde-format
