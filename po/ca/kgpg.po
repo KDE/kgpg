@@ -4771,13 +4771,3 @@ msgstr "<para>La signatura és vàlida, però la clau no és de confiança</para
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>La signatura és vàlida i la clau és de confiança absoluta</para>"
-
-#~ msgid ""
-#~ "<qt>A viewer for JPEG images is not specified.<br/>Please check your "
-#~ "installation.</qt>"
-#~ msgstr ""
-#~ "<qt>No s'ha especificat cap visor d'imatges JPEG.<br/>Comproveu la "
-#~ "instal·lació.</qt>"
-
-#~ msgid "Show photo"
-#~ msgstr "Mostra la foto"
