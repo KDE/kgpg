@@ -197,7 +197,7 @@ msgid ""
 "recommended for experienced users only.</p></qt>"
 msgstr ""
 "<qt><b>Ordre a mida per a encriptar:</b> <br />\n"
-"<p>Quan estiga activat, es mostrarà un camp d'entrada en el diàleg de "
+"<p>Quan està activada, es mostrarà un camp d'entrada en el diàleg de "
 "selecció de claus que us permetrà introduir una ordre a mida per a "
 "l'encriptació. Sols es recomana als usuaris amb experiència.</p></qt>"
 
@@ -4333,7 +4333,7 @@ msgid ""
 "<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the "
 "key manager.</p>\n"
 msgstr ""
-"<p>Podeu arribar a la vostra clau predeterminada prement &quot;Ctrl"
+"<p>Podeu arribar fins a la vostra clau predeterminada prement &quot;Ctrl"
 "+Inici&quot; en el gestor de claus.</p>\n"
 
 #. i18n: ectx: @info:tipoftheday
