@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-21 00:49+0000\n"
-"PO-Revision-Date: 2022-11-15 05:11+0300\n"
+"PO-Revision-Date: 2022-11-21 22:07+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -731,7 +731,7 @@ msgstr "&Sil"
 #: conf_servers.ui:73
 #, kde-format
 msgid "&Edit..."
-msgstr "&Düzenle..."
+msgstr "Dü&zenle..."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: conf_ui2.ui:32
@@ -1864,7 +1864,7 @@ msgstr "Adres Defterinde Yeni &Kişi Oluştur"
 #: keysmanager.cpp:217
 #, kde-format
 msgid "&Edit Group..."
-msgstr "&Grubu Düzenle..."
+msgstr "Grubu Dü&zenle..."
 
 #: keysmanager.cpp:220
 #, kde-format
