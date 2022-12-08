@@ -143,6 +143,7 @@ set(kgpg_transaction_SRCS
    transactions/kgpgsignuid.cpp
    transactions/kgpgtextorfiletransaction.cpp
    transactions/kgpgverify.cpp
+   transactions/customstyleditemdelegate.cpp
 )
 
 set(kgpg_SRCS ${core_SRCS} ${kgpg_editor_SRCS} ${kgpg_model_SRCS} ${kgpg_transaction_SRCS}
@@ -206,6 +207,7 @@ set(kgpg_HDRS
    selectpublickeydialog.h
    selectsecretkey.h
    sourceselect.h
+   transactions/customstyleditemdelegate.h
 )
 
 qt_add_dbus_adaptor( kgpg_SRCS org.kde.kgpg.Key.xml keysmanager.h KeysManager)

@@ -3,6 +3,7 @@
     SPDX-FileCopyrightText: 2007-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-FileCopyrightText: 2011 Luis Ángel Fernández Fernández <laffdez@gmail.com>
     SPDX-FileCopyrightText: 2016 Andrius Štikonas <andrius@stikonas.eu>
+    SPDX-FileCopyrightText: 2022 Dmitrii Fomchenkov <fomchenkovda@basealt.ru>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -48,6 +49,7 @@
 #include "transactions/kgpgsignkey.h"
 #include "transactions/kgpgsignuid.h"
 #include "transactions/kgpgtransactionjob.h"
+#include "transactions/customstyleditemdelegate.h"
 
 #include <algorithm>
 #include <akonadi-contact_version.h>
@@ -329,6 +331,7 @@ KeysManager::KeysManager(QWidget *parent)
 	connect(this, &KeysManager::readAgainOptions, iproxy, &KeyListProxyModel::settingsChanged);
 
 	iview = new KeyTreeView(this, iproxy);
+	iview->setItemDelegate(new CustomStyledItemDelegate(iview));
 	connect(iview, &KeyTreeView::doubleClicked, this, QOverload<const QModelIndex &>::of(&KeysManager::defaultAction));
 	connect(iview, &KeyTreeView::importDrop, this, QOverload<const QList<QUrl> &>::of(&KeysManager::slotImport));
 	iview->setSelectionMode(QAbstractItemView::ExtendedSelection);
