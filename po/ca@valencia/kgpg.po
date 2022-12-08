@@ -59,7 +59,7 @@ msgid ""
 "private GnuPG keys cannot be created."
 msgstr ""
 "Esta funció no està disponible en este sistema. No s'ha pogut crear l'enllaç "
-"simbòlic a les claus privades de GnuPG."
+"simbòlic cap a les claus privades de GnuPG."
 
 #: caff.cpp:159 caff.cpp:177
 #, kde-format
