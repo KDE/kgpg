@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-21 00:49+0000\n"
-"PO-Revision-Date: 2022-11-24 17:02+0300\n"
+"PO-Revision-Date: 2022-12-11 20:12+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 22.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2026,7 +2026,7 @@ msgid ""
 "Another key generation operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
-"Başka bir anahtar oluşturma işlemi devam ediyor.\n"
+"Başka bir anahtar oluşturma işlemi sürüyor.\n"
 "Lütfen bu işlemin bitmesini bekleyin."
 
 #: keysmanager.cpp:495 keysmanager.cpp:533 keysmanager.cpp:581
@@ -2094,7 +2094,7 @@ msgid ""
 "Another operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
-"Başka bir işlem devam ediyor.\n"
+"Başka bir işlem sürüyor.\n"
 "Lütfen bu işlemin bitmesini bekleyin."
 
 #: keysmanager.cpp:882 keysmanager.cpp:887
@@ -2580,7 +2580,7 @@ msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
-"Bir başka anahtar silme işlemi devam ediyor.\n"
+"Bir başka anahtar silme işlemi sürüyor.\n"
 "Lütfen işlemin bitmesini bekleyin."
 
 #: keysmanager.cpp:2390
@@ -4431,7 +4431,7 @@ msgid ""
 "until the key generation continues."
 msgstr ""
 "Entropi havuzu boşaldı. Yeterli entropi oluşana kadar anahtar üretme süreci "
-"devam etmeyecek. Fareyi hareket ettirerek veya klavyeyi kullanarak entropi "
+"sürmeyecek. Fareyi hareket ettirerek veya klavyeyi kullanarak entropi "
 "havuzunu doldurabilirsiniz."
 
 #: transactions/kgpggeneratekey.cpp:210
