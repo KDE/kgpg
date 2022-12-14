@@ -96,17 +96,14 @@ KGpgDelSign::boolQuestion(const QString &line)
 
 		const QString &sigid = parts[4];
 		const int snlen = sigid.length();
-		KGpgSignNode *signode = nullptr;
 
-		for (KGpgSignNode *snode : qAsConst(m_signids)) {
-			if (snode->getId().rightRef(snlen).compare(sigid) == 0) {
-				signode = snode;
-				break;
-			}
-		}
-
-		if (signode == nullptr)
+		auto it = std::find_if(m_signids.begin(), m_signids.end(),
+			[sigid, snlen](const KGpgSignNode *snode) {
+				return (snode->getId().rightRef(snlen).compare(sigid) == 0);
+			});
+		if (it == m_signids.end())
 			return KGpgTransaction::BA_NO;
+		KGpgSignNode *signode = *it;
 
 		const QDateTime creation = QDateTime::fromSecsSinceEpoch(parts[5].toUInt());
 		if (creation != signode->getCreation())
@@ -118,7 +115,7 @@ KGpgDelSign::boolQuestion(const QString &line)
 		if (sigexp != signode->getExpiration())
 			return KGpgTransaction::BA_NO;
 
-		m_signids.removeOne(signode);
+		m_signids.erase(it);
 		return KGpgTransaction::BA_YES;
 	} else {
 		return KGpgTransaction::boolQuestion(line);
