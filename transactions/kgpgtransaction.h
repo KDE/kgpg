@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009, 2012, 2013, 2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -342,9 +342,11 @@ protected:
 	 * entry the gpg process will be killed and the transaction result will
 	 * be set to TS_USER_ABORTED.
 	 *
+	 * This is virtual so the tests can provide an alternate implementation.
+	 *
 	 * @see askPassphrase
 	 */
-	void askNewPassphrase(const QString &text);
+	virtual void askNewPassphrase(const QString &text);
 
 	/**
 	 * @brief get the success value that will be returned with the done signal

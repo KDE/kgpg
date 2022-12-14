@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009, 2012, 2013, 2016 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -40,7 +40,7 @@ public:
 	 * @param capabilities capabilities for the primary key
 	 */
 	KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
-			 const KgpgCore::KgpgKeyAlgo &algorithm, const uint size, const unsigned int expire = 0,
+			 const KgpgCore::KgpgKeyAlgo algorithm, const uint size, const unsigned int expire = 0,
                         const char expireunit = 'd', const KgpgCore::KgpgSubKeyType capabilities = {});
     ~KGpgGenerateKey() override;
 
