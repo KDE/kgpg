@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -332,9 +332,9 @@ KGpgTransaction::waitForFinished(const int msecs)
 	int ret = TS_OK;
 
 	if (d->m_inputTransaction != nullptr) {
-		int iret = d->m_inputTransaction->waitForFinished(msecs);
-		if ((iret != TS_OK) && (msecs != -1))
-			return iret;
+		ret = d->m_inputTransaction->waitForFinished(msecs);
+		if ((ret != TS_OK) && (msecs != -1))
+			return ret;
 	}
 
 	bool b = d->m_process->waitForFinished(msecs);
