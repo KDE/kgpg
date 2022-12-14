@@ -67,7 +67,7 @@ static QStringList configArguments(const QTemporaryDir &dir)
 	return { QLatin1String("--options"), conf, QLatin1String("--homedir"), gpgHome };
 }
 
-void addGpgKey(QTemporaryDir &dir, const QString &file, const QString &password)
+void addGpgKey(const QTemporaryDir &dir, const QString &file, const QString &password)
 {
 	QString command = QLatin1String("gpg");
 	QStringList args;
@@ -102,7 +102,7 @@ void addPasswordArguments(KGpgTransaction *transaction, const QString &passphras
 	transaction->insertArguments(1, args);
 }
 
-bool hasPhoto(QTemporaryDir &dir, const QString &id)
+bool hasPhoto(const QTemporaryDir &dir, const QString &id)
 {
 	QStringList args{ QLatin1String("--list-keys"), id };
 	QString command = QLatin1String("gpg");

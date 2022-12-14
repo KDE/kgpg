@@ -11,8 +11,8 @@ class QTemporaryDir;
 
 bool resetGpgConf(QTemporaryDir &basedir);
 QString readFile(const QString& filename);
-void addGpgKey(QTemporaryDir &dir, const QString &file, const QString &password = QString());
+void addGpgKey(const QTemporaryDir &dir, const QString &file, const QString &password = QString());
 void addPasswordArguments(KGpgTransaction *transaction, const QString &passphrase);
-bool hasPhoto(QTemporaryDir &dir, const QString &id);
+bool hasPhoto(const QTemporaryDir &dir, const QString &id);
 
 #endif
