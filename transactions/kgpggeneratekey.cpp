@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009, 2010, 2011, 2012, 2013, 2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -12,7 +12,7 @@
 #include <QApplication>
 
 KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
-		const KgpgCore::KgpgKeyAlgo &algorithm, const uint size, const unsigned int expire,
+		const KgpgCore::KgpgKeyAlgo algorithm, const uint size, const unsigned int expire,
 		const char expireunit, const KgpgCore::KgpgSubKeyType capabilities)
 	: KGpgTransaction(parent),
 	m_name(name),
@@ -225,6 +225,7 @@ KGpgGenerateKey::newPassphraseEntered()
 {
 	QApplication::setOverrideCursor(Qt::BusyCursor);
 	write("%commit");
+	getProcess()->closeWriteChannel();
 }
 
 QString
