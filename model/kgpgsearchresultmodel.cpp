@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2009, 2010, 2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2009-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-FileCopyrightText: 2016 David Zaslavsky <diazona@ellipsix.net>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
@@ -25,7 +25,7 @@ private:
 	QStringList m_names;
 
 public:
-	SearchResult(const QString &line);
+	explicit SearchResult(const QString &line);
 
 	bool m_validPub;	// true when the "pub" line passed to constructor was valid
 
