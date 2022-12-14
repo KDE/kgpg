@@ -17,6 +17,7 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 
+include(CheckIncludeFileCXX)
 include(ECMAddAppIcon)
 include(ECMInstallIcons)
 include(FeatureSummary)
@@ -73,8 +74,11 @@ include_directories(  ${KDEPIMLIBS_INCLUDE_DIR} ${GPGME_INCLUDES} )
 
 option(KGPG_DEBUG_TRANSACTIONS "show commands and results of gpg calls in debug log" Off)
 
-
-
+set(CMAKE_REQUIRED_LIBRARIES KF5::AkonadiContact)
+check_include_file_cxx(Akonadi/Contact/ContactEditor HAS_AKONADI_CONTACT_SUBDIR)
+if (HAS_AKONADI_CONTACT_SUBDIR)
+   set_property(SOURCE keysmanager.cpp APPEND PROPERTY COMPILE_DEFINITIONS "HAS_AKONADI_CONTACT_SUBDIR")
+endif ()
 
 set(core_SRCS
    core/convert.cpp

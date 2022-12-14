@@ -52,8 +52,7 @@
 #include "transactions/customstyleditemdelegate.h"
 
 #include <algorithm>
-#include <akonadi-contact_version.h>
-#if AKONADICONTACT_VERSION > QT_VERSION_CHECK(5, 19, 40)
+#ifndef HAS_AKONADI_CONTACT_SUBDIR
 #include <Akonadi/ContactEditor>
 #include <Akonadi/ContactEditorDialog>
 #include <Akonadi/ContactSearchJob>
