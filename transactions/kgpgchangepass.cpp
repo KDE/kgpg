@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009, 2010, 2011, 2012, 2013, 2017, 2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -17,10 +17,6 @@ KGpgChangePass::KGpgChangePass(QObject *parent, const QString &keyid)
 			keyid,
 			QLatin1String("passwd")
 			} );
-}
-
-KGpgChangePass::~KGpgChangePass()
-{
 }
 
 bool

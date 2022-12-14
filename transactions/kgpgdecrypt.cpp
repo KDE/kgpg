@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2010, 2011, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2010-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -29,10 +29,6 @@ KGpgDecrypt::KGpgDecrypt(QObject* parent, const QUrl& infile, const QUrl& outfil
 	m_fileIndex(0),
 	m_plainLength(-1),
 	m_outFilename(outfile.toLocalFile())
-{
-}
-
-KGpgDecrypt::~KGpgDecrypt()
 {
 }
 

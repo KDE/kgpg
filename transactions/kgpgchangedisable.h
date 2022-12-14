@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -20,8 +20,8 @@ class KGpgChangeDisable: public KGpgEditKeyTransaction {
 	KGpgChangeDisable() = delete;
 
 public:
-    explicit KGpgChangeDisable(QObject *parent, const QString &keyid, const bool disable);
-    ~KGpgChangeDisable() override;
+	explicit KGpgChangeDisable(QObject *parent, const QString &keyid, const bool disable);
+	~KGpgChangeDisable() override = default;
 
 	void setDisable(bool disable);
 

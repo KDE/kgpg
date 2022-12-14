@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2009, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2009-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -12,10 +12,6 @@ KGpgKeyserverGetTransaction::KGpgKeyserverGetTransaction(QObject *parent, const 
 {
 	m_cmdpos = addArgument(QString());
 	setKeyIds(keys);
-}
-
-KGpgKeyserverGetTransaction::~KGpgKeyserverGetTransaction()
-{
 }
 
 bool
@@ -64,10 +60,6 @@ KGpgReceiveKeys::KGpgReceiveKeys(QObject *parent, const QString &keyserver, cons
 {
 }
 
-KGpgReceiveKeys::~KGpgReceiveKeys()
-{
-}
-
 QString
 KGpgReceiveKeys::getGpgCommand() const
 {
@@ -76,10 +68,6 @@ KGpgReceiveKeys::getGpgCommand() const
 
 KGpgRefreshKeys::KGpgRefreshKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress, const QString &proxy)
 	: KGpgKeyserverGetTransaction(parent, keyserver, keys, withProgress, proxy)
-{
-}
-
-KGpgRefreshKeys::~KGpgRefreshKeys()
 {
 }
 

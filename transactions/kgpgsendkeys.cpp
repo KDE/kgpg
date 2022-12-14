@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2009, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2009-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -17,10 +17,6 @@ KGpgSendKeys::KGpgSendKeys(QObject *parent, const QString &keyserver, const QStr
 	setKeyIds(keys);
 
 	getProcess()->setOutputChannelMode(KProcess::MergedChannels);
-}
-
-KGpgSendKeys::~KGpgSendKeys()
-{
 }
 
 bool

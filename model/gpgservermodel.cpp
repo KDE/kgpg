@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2014-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
@@ -14,10 +14,6 @@ GpgServerModel::GpgServerModel(QObject *parent)
 	m_defaultRow(-1)
 {
 	connect(this, &GpgServerModel::rowsRemoved, this, &GpgServerModel::slotRowsRemoved);
-}
-
-GpgServerModel::~GpgServerModel()
-{
 }
 
 void

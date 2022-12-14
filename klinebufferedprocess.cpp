@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -11,10 +11,6 @@ KLineBufferedProcess::KLineBufferedProcess(QObject *parent)
 {
     connect(this, &KLineBufferedProcess::readyReadStandardOutput, d, &KLineBufferedProcessPrivate::_k_receivedStdout);
     connect(this, &KLineBufferedProcess::readyReadStandardError, d, &KLineBufferedProcessPrivate::_k_receivedStderr);
-}
-
-KLineBufferedProcess::~KLineBufferedProcess()
-{
 }
 
 bool KLineBufferedProcess::readLineStandardOutput(QByteArray *line)

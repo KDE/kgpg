@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009, 2010, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -20,10 +20,6 @@ KGpgImport::KGpgImport(QObject *parent, const QString &text)
 
 KGpgImport::KGpgImport(QObject *parent, const QList<QUrl> &files)
 	: KGpgTextOrFileTransaction(parent, files, true)
-{
-}
-
-KGpgImport::~KGpgImport()
 {
 }
 

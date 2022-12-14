@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2012, 2013, 2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2012-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -23,10 +23,6 @@ KGpgVerify::KGpgVerify(QObject *parent, const QString &text)
 KGpgVerify::KGpgVerify(QObject *parent, const QList<QUrl> &files)
 	: KGpgTextOrFileTransaction(parent, files),
 	m_fileIndex(0)
-{
-}
-
-KGpgVerify::~KGpgVerify()
 {
 }
 

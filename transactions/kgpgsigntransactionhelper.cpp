@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2009, 2012, 2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2009-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -13,10 +13,6 @@ KGpgSignTransactionHelper::KGpgSignTransactionHelper(const QString &signer, cons
 	m_local(local),
 	m_checking(checking),
 	m_signerPos(-1)
-{
-}
-
-KGpgSignTransactionHelper::~KGpgSignTransactionHelper()
 {
 }
 

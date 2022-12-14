@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2009, 2012, 2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2009-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -12,10 +12,6 @@ KGpgPrimaryUid::KGpgPrimaryUid(QObject *parent, KGpgUidNode *uid)
 {
 	addArgument(QLatin1String("primary"));
 	addArgument(QLatin1String("save"));
-}
-
-KGpgPrimaryUid::~KGpgPrimaryUid()
-{
 }
 
 bool

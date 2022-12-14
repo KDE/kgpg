@@ -101,10 +101,6 @@ KgpgSelectSecretKey::KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, 
 	connect(m_keyslist, &QTableView::doubleClicked, this, &KgpgSelectSecretKey::slotOk);
 }
 
-KgpgSelectSecretKey::~KgpgSelectSecretKey()
-{
-}
-
 QString KgpgSelectSecretKey::getKeyID() const
 {
     if (!m_keyslist->selectionModel()->hasSelection())

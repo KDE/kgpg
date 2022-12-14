@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2009, 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2009-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-FileCopyrightText: 2016 David Zaslavsky <diazona@ellipsix.net>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
@@ -28,7 +28,7 @@ class KGpgSearchResultBackingModel : public QAbstractItemModel {
 	Q_OBJECT
 public:
 	explicit KGpgSearchResultBackingModel(QObject *parent = nullptr);
-    ~KGpgSearchResultBackingModel() override;
+	~KGpgSearchResultBackingModel() override;
 
 	int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 	QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -99,7 +99,7 @@ class KGpgSearchResultModel : public QSortFilterProxyModel {
 	Q_OBJECT
 public:
 	explicit KGpgSearchResultModel(QObject *parent = nullptr);
-    ~KGpgSearchResultModel() override;
+	~KGpgSearchResultModel() override = default;
 
 	bool filterByValidity() const;
 	bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;

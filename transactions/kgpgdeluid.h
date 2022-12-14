@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -58,7 +58,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-    ~KGpgDelUid() override;
+	~KGpgDelUid() override = default;
 
 	/**
 	 * @brief set the user id to be deleted

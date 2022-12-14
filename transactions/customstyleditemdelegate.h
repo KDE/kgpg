@@ -13,6 +13,7 @@ class CustomStyledItemDelegate : public QStyledItemDelegate {
 public:
 	explicit CustomStyledItemDelegate(QWidget *parent = nullptr)
 		: QStyledItemDelegate(parent) {}
+	~CustomStyledItemDelegate() override = default;
 
 	void paint(QPainter *painter, const QStyleOptionViewItem &option,
 			   const QModelIndex &index) const override;

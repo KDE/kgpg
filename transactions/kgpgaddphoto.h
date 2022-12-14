@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -17,8 +17,8 @@ class KGpgAddPhoto: public KGpgEditKeyTransaction {
 
 	Q_DISABLE_COPY(KGpgAddPhoto)
 public:
-    explicit KGpgAddPhoto(QObject *parent, const QString &keyid, const QString &imagepath);
-    ~KGpgAddPhoto() override;
+	explicit KGpgAddPhoto(QObject *parent, const QString &keyid, const QString &imagepath);
+	~KGpgAddPhoto() override = default;
 
 	void setImagePath(const QString &imagepath);
 

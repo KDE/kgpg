@@ -42,7 +42,7 @@ public:
 	KGpgGenerateKey(QObject *parent, const QString &name, const QString &email, const QString &comment,
 			 const KgpgCore::KgpgKeyAlgo algorithm, const uint size, const unsigned int expire = 0,
                         const char expireunit = 'd', const KgpgCore::KgpgSubKeyType capabilities = {});
-    ~KGpgGenerateKey() override;
+	~KGpgGenerateKey() override = default;
 
 	QString getName() const;
 	QString getEmail() const;

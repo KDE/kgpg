@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2009, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2009-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -46,10 +46,6 @@ KGpgExport::KGpgExport(QObject *parent, const QStringList &ids, KGpgTransaction 
 {
 	procSetup(options, secret);
 	outt->setInputTransaction(this);
-}
-
-KGpgExport::~KGpgExport()
-{
 }
 
 void

@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2010, 2012, 2013 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2010-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -33,7 +33,7 @@ public:
 	 * @param description text description for revokation
 	 */
 	KGpgGenerateRevoke(QObject *parent, const QString &keyID, const QUrl &revokeUrl, const int reason, const QString &description);
-    ~KGpgGenerateRevoke() override;
+	~KGpgGenerateRevoke() override = default;
 
 	/**
 	 * @brief returns the revokation certificate

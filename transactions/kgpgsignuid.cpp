@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2009, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2009-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -25,10 +25,6 @@ KGpgSignUid::KGpgSignUid(QObject *parent, const QString &signer, const KGpgSigna
 	setUid(uid);
 
 	setLocal(local);
-}
-
-KGpgSignUid::~KGpgSignUid()
-{
 }
 
 void

@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -30,10 +30,6 @@ KGpgDelUid::KGpgDelUid(QObject *parent, const KGpgKeyNode *keynode, const int ui
 	m_fixargs(addArgument(QLatin1String( "deluid" )))
 {
 	setUid(keynode, uid, removeMode);
-}
-
-KGpgDelUid::~KGpgDelUid()
-{
 }
 
 void

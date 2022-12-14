@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2010 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2010-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -37,7 +37,7 @@ public:
 	 * everything properly
 	 */
 	KGpgKeyserverSearchTransaction(QObject *parent, const QString &keyserver, const QString &pattern, const bool withProgress = false, const QString &proxy = QString());
-    ~KGpgKeyserverSearchTransaction() override;
+	~KGpgKeyserverSearchTransaction() override = default;
 
 	void setPattern(const QString &pattern);
 

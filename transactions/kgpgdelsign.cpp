@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2010, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2010-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -53,10 +53,6 @@ KGpgDelSign::KGpgDelSign(QObject* parent, KGpgSignNode *signid)
 	setSignId(signid);
 }
 
-
-KGpgDelSign::~KGpgDelSign()
-{
-}
 
 KGpgSignNode::List KGpgDelSign::getSignIds(void) const
 {

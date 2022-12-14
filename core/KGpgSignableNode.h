@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
@@ -24,7 +24,7 @@ public:
 	typedef QList<const KGpgSignableNode *> const_List;
 
 	explicit KGpgSignableNode(KGpgExpandableNode *parent = nullptr);
-	~KGpgSignableNode() override;
+	~KGpgSignableNode() override = default;
 
 	KGpgSignNode::List getSignatures(void) const;
 	/**

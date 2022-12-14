@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
@@ -15,9 +15,6 @@ KGpgSubkeyNode::KGpgSubkeyNode(KGpgKeyNode *parent, const KgpgKeySub &k)
 	m_skey(k)
 {
 	Q_ASSERT(parent != nullptr);
-}
-KGpgSubkeyNode::~KGpgSubkeyNode()
-{
 }
 
 void

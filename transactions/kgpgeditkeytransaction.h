@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2009-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -34,7 +34,7 @@ public:
 	/**
 	 * @brief destructor
 	 */
-    ~KGpgEditKeyTransaction() override;
+	~KGpgEditKeyTransaction() override = default;
 
 	/**
 	 * @brief return the id of the key we are editing

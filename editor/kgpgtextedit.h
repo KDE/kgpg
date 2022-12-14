@@ -1,6 +1,6 @@
 /*
     SPDX-FileCopyrightText: 2002 Jean-Baptiste Mardelle <bj@altern.org>
-    SPDX-FileCopyrightText: 2009, 2010, 2011 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2009-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -24,7 +24,7 @@ class KgpgTextEdit : public KTextEdit
 
 public:
     explicit KgpgTextEdit(QWidget *parent, KGpgItemModel *model, KeysManager *manager);
-    ~KgpgTextEdit() override;
+    ~KgpgTextEdit() override = default;
 
     void signVerifyText(const QString &message);
     void openDroppedFile(const QUrl &url, const bool probe);

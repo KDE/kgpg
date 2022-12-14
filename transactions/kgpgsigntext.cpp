@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2012-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -25,10 +25,6 @@ KGpgSignText::KGpgSignText(QObject *parent, const QString &signId, const QList<Q
 {
 	/* GnuPG can only handle one file at a time when signing */
 	Q_ASSERT(files.count() == 1);
-}
-
-KGpgSignText::~KGpgSignText()
-{
 }
 
 QStringList

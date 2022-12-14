@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
@@ -17,10 +17,6 @@ KGpgGroupMemberNode::KGpgGroupMemberNode(KGpgGroupNode *parent, const QString &k
 
 KGpgGroupMemberNode::KGpgGroupMemberNode(KGpgGroupNode *parent, KGpgKeyNode *k)
 	: KGpgRefNode(parent, k)
-{
-}
-
-KGpgGroupMemberNode::~KGpgGroupMemberNode()
 {
 }
 

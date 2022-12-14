@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2010, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2010-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -12,10 +12,6 @@ KGpgKeyserverSearchTransaction::KGpgKeyserverSearchTransaction(QObject *parent, 
 	addArgument(QLatin1String( "--with-colons" ));
 	addArgument(QLatin1String( "--search-keys" ));
 	m_patternPos = addArgument(pattern);
-}
-
-KGpgKeyserverSearchTransaction::~KGpgKeyserverSearchTransaction()
-{
 }
 
 bool

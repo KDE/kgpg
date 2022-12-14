@@ -37,10 +37,6 @@ KGpgGenerateKey::KGpgGenerateKey(QObject *parent, const QString &name, const QSt
 	getProcess()->setOutputChannelMode(KProcess::SeparateChannels);
 }
 
-KGpgGenerateKey::~KGpgGenerateKey()
-{
-}
-
 bool
 KGpgGenerateKey::preStart()
 {

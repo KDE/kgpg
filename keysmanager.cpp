@@ -485,10 +485,6 @@ KeysManager::KeysManager(QWidget *parent)
 	QMetaObject::invokeMethod(this, "refreshkey", Qt::QueuedConnection);
 }
 
-KeysManager::~KeysManager()
-{
-}
-
 void KeysManager::slotGenerateKey()
 {
 	if (m_genkey) {

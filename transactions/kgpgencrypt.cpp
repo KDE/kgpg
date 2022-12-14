@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2011, 2012, 2013, 2016, 2017 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2011-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -41,10 +41,6 @@ KGpgEncrypt::KGpgEncrypt(QObject *parent, const QStringList &userIds, const QLis
 {
 	if ((m_options & AllowUntrustedEncryption) && !m_userIds.isEmpty())
 		m_extraOptions << trustOptions(getProcess()->program().at(0));
-}
-
-KGpgEncrypt::~KGpgEncrypt()
-{
 }
 
 QStringList

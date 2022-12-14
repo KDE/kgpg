@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -19,8 +19,8 @@ class KGpgChangeExpire: public KGpgEditKeyTransaction {
 
 	Q_DISABLE_COPY(KGpgChangeExpire)
 public:
-    explicit KGpgChangeExpire(QObject *parent, const QString &keyid, const QDateTime &date);
-    ~KGpgChangeExpire() override;
+	explicit KGpgChangeExpire(QObject *parent, const QString &keyid, const QDateTime &date);
+	~KGpgChangeExpire() override = default;
 
 	void setDate(const QDateTime &date);
 

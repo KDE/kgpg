@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009, 2012, 2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -10,10 +10,6 @@ KGpgChangeDisable::KGpgChangeDisable(QObject *parent, const QString &keyid, cons
 {
 	setDisable(disable);
 	setExpectedFingerprints( { keyid } );
-}
-
-KGpgChangeDisable::~KGpgChangeDisable()
-{
 }
 
 void

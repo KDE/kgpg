@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -29,7 +29,7 @@ public:
 	 * everything properly
 	 */
 	explicit KGpgUidTransaction(QObject *parent, const QString &keyid = QString(), const QString &uid = QString());
-    ~KGpgUidTransaction() override;
+	~KGpgUidTransaction() override = default;
 
 	/**
 	 * @brief set the key id of the transaction to the given value

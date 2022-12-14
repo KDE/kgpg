@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009, 2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -24,7 +24,7 @@ public:
 	inline KGpgDelKey(QObject *parent, KGpgKeyNode *key)
 		: KGpgDelKey(parent, KGpgKeyNode::List({key})) {}
 	KGpgDelKey(QObject *parent, const KGpgKeyNode::List &keys);
-    ~KGpgDelKey() override;
+	~KGpgDelKey() override = default;
 
 	/**
 	 * @brief the keys that were requested to be removed

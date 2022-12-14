@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2009, 2010, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2009-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -37,7 +37,7 @@ class KGpgCaffPrivate : public QObject {
 public:
 	KGpgCaffPrivate(KGpgCaff *parent, const KGpgSignableNode::List &ids, const QStringList &signers,
 			const KGpgCaff::OperationFlags flags, const KGpgSignTransactionHelper::carefulCheck checklevel);
-	~KGpgCaffPrivate() override;
+	~KGpgCaffPrivate() override = default;
 
 	KGpgSignableNode::List m_allids;
 	KGpgSignableNode::const_List m_noEncIds;	///< keys without encryption capability that were skipped

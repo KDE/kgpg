@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2010, 2012, 2013, 2017, 2018 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2010-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -28,10 +28,6 @@ KGpgGenerateRevoke::KGpgGenerateRevoke(QObject *parent, const QString &keyID, co
 
 	args << QLatin1String("--gen-revoke") << keyID;
 	addArguments(args);
-}
-
-KGpgGenerateRevoke::~KGpgGenerateRevoke()
-{
 }
 
 bool

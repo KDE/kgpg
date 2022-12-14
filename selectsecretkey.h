@@ -32,7 +32,7 @@ public:
      * @param allowTerminal if option to sign keys in terminal should be offered (ignored if countkey > 1)
      */
     KgpgSelectSecretKey(QWidget *parent, KGpgItemModel *model, const int countkey = 0, const bool allowLocal = true, const bool allowTerminal = true);
-    ~KgpgSelectSecretKey() override;
+    ~KgpgSelectSecretKey() override = default;
 
     QString getKeyID() const;
     QString getKeyMail() const;

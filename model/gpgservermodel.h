@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2014 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2014-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
@@ -15,7 +15,7 @@ class GpgServerModel: public QStringListModel {
 	Q_OBJECT
 public:
 	explicit GpgServerModel(QObject *parent = nullptr);
-    ~GpgServerModel() override;
+	~GpgServerModel() override = default;
 
 	void setDefault(const QString &server);
 	void setDefault(const int index);

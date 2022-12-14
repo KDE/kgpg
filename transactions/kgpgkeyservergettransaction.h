@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2009-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 
@@ -37,7 +37,7 @@ public:
 	 * everything properly
 	 */
 	KGpgKeyserverGetTransaction(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress = false, const QString &proxy = QString());
-    ~KGpgKeyserverGetTransaction() override;
+	~KGpgKeyserverGetTransaction() override = default;
 
 	void setKeyIds(const QStringList &keys);
 
@@ -70,7 +70,7 @@ public:
 	* @param proxy http proxy to use
 	*/
 	KGpgReceiveKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress = false, const QString &proxy = QString());
-	~KGpgReceiveKeys() override;
+	~KGpgReceiveKeys() override = default;
 
 protected:
 	QString getGpgCommand() const override;
@@ -92,7 +92,7 @@ public:
 	* @param proxy http proxy to use
 	*/
 	KGpgRefreshKeys(QObject *parent, const QString &keyserver, const QStringList &keys, const bool withProgress = false, const QString &proxy = QString());
-	~KGpgRefreshKeys() override;
+	~KGpgRefreshKeys() override = default;
 
 protected:
 	QString getGpgCommand() const override;

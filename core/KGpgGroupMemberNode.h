@@ -1,5 +1,5 @@
 /*
-    SPDX-FileCopyrightText: 2008, 2009 Rolf Eike Beer <kde@opensource.sf-tec.de>
+    SPDX-FileCopyrightText: 2008-2022 Rolf Eike Beer <kde@opensource.sf-tec.de>
 
     SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
@@ -24,7 +24,7 @@ class KGpgGroupMemberNode : public KGpgRefNode
 public:
 	explicit KGpgGroupMemberNode(KGpgGroupNode *parent, const QString &k);
 	explicit KGpgGroupMemberNode(KGpgGroupNode *parent, KGpgKeyNode *k);
-    ~KGpgGroupMemberNode() override;
+	~KGpgGroupMemberNode() override = default;
 
 	KgpgCore::KgpgKeyTrust getTrust() const override;
 	KgpgCore::KgpgItemType getType() const override;

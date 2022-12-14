@@ -51,7 +51,7 @@ private:
 
 class KGpgSearchResultModelPrivate {
 public:
-	explicit KGpgSearchResultModelPrivate();
+	explicit KGpgSearchResultModelPrivate() = default;
 	~KGpgSearchResultModelPrivate();
 
 	QList<SearchResult *> m_items;
@@ -153,10 +153,6 @@ SearchResult::summary() const
 				m_bits, KgpgCore::Convert::toString(m_algo),
 				m_creation.toString(Qt::SystemLocaleShortDate));
 	}
-}
-
-KGpgSearchResultModelPrivate::KGpgSearchResultModelPrivate()
-{
 }
 
 KGpgSearchResultModelPrivate::~KGpgSearchResultModelPrivate()
@@ -484,10 +480,6 @@ KGpgSearchResultModel::KGpgSearchResultModel(QObject *parent)
 	m_filterByValidity(true)
 {
 	resetSourceModel();
-}
-
-KGpgSearchResultModel::~KGpgSearchResultModel()
-{
 }
 
 bool
