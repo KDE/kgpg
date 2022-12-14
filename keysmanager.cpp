@@ -2177,19 +2177,16 @@ void KeysManager::delsignkey()
 	if (nd == nullptr)
 		return;
 
-	QString uid;
 	QString parentKey;
 
 	KGpgExpandableNode *parent = nd->getParentKeyNode();
 	switch (parent->getType()) {
 	case ITYPE_PAIR:
 	case ITYPE_PUBLIC:
-		uid = QLatin1Char( '1' );
 		parentKey = parent->getId();
 		break;
 	case ITYPE_UID:
 	case ITYPE_UAT:
-		uid = parent->getId();
 		parentKey = parent->getParentKeyNode()->getId();
 		break;
 	default:
